@@ -799,70 +799,84 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
-    if (m->i_at(examx, examy).size() != 0){
-        if (g->debugmon)
-            debugmsg("fvat_empty was not actually empty! Clearing space...");
-        m->i_clear(examx, examy);
-        return;
-    }
-    if ( !p->has_item_with_flag("BREW") ) {
-        g->add_msg(_("You have no booze to ferment."));
-        return;
-    }
-    // Get list of all inv+wielded ferment-able items.
-    std::vector<item*> b_inv = p->inv.all_items_with_flag("BREW");
-    if (g->u.weapon.has_flag("BREW")) //If player is somehow wielding uncontained liquid...
-        b_inv.push_back(&g->u.weapon);
-    else if (g->u.weapon.contains_with_flag("BREW"))
-        b_inv.push_back(&g->u.weapon.contents[0]);
-
-    // Make lists of unique typeids and names for the menu
-    // Code shamelessly stolen from the crop planting function!
-    std::vector<itype_id> b_types;
-    std::vector<std::string> b_names;
-    for (std::vector<item*>::iterator it = b_inv.begin() ; it != b_inv.end(); it++){
-        if (std::find(b_types.begin(), b_types.end(), (*it)->typeId()) == b_types.end()){
-            b_types.push_back((*it)->typeId());
-            b_names.push_back((*it)->name);
+    itype_id brew_type;
+    bool to_deposit = false;
+    bool vat_full = false;
+    int charges_on_ground = 0;
+    if (m->i_at(examx, examy).size() == 0)
+    {
+        if ( !p->has_item_with_flag("BREW") ) {
+            g->add_msg(_("You have no brew to ferment."));
+            return;
         }
+        // Get list of all inv+wielded ferment-able items.
+        std::vector<item*> b_inv = p->inv.all_items_with_flag("BREW");
+        if (g->u.weapon.contains_with_flag("BREW"))
+            b_inv.push_back(&g->u.weapon.contents[0]);
+        // Make lists of unique typeids and names for the menu
+        // Code shamelessly stolen from the crop planting function!
+        std::vector<itype_id> b_types;
+        std::vector<std::string> b_names;
+        for (std::vector<item*>::iterator it = b_inv.begin() ; it != b_inv.end(); it++) {
+            if (std::find(b_types.begin(), b_types.end(), (*it)->typeId()) == b_types.end()) {
+                b_types.push_back((*it)->typeId());
+                b_names.push_back((*it)->name);
+            }
+        }
+        // Choose brew from list
+        int b_index = 0;
+        if (b_types.size() > 1) {
+            b_names.push_back("Cancel");
+            b_index = menu_vec(false, _("Use which brew?"), b_names) - 1;
+            if (b_index == b_names.size() - 1)
+                b_index = -1;
+        } else { //Only one brew type was in inventory, so it's automatically used
+            if (!query_yn(_("Set %s in the vat?"), b_names[0].c_str()))
+                b_index = -1;
+        }
+        if (b_index < 0) {
+            return;
+        }
+        to_deposit = true;
+        brew_type = b_types[b_index];
     }
-
-    // Choose brew from list
-    int f_index = 0;
-    if (b_types.size() > 1) {
-        b_names.push_back("Cancel");
-        f_index = menu_vec(false, _("Ferment what?"), b_names) - 1;
-        if (f_index == b_names.size() - 1)
-            f_index = -1;
-    } else { //Only one brew type was in inventory, so it's automatically used
-        if (!query_yn(_("Set %s to ferment?"), b_names[0].c_str()))
-            f_index = -1;
+    else {
+        //todo: erase are any non-brew items lying here
+        item brew = m->i_at(examx, examy)[0];
+        brew_type = brew.typeId();
+        charges_on_ground = brew.charges;
+        if (p->charges_of(brew_type) > 0)
+            if (query_yn(_("Add %s to the vat?"), brew.name.c_str()))
+                to_deposit = true;
     }
-
-    if (f_index < 0) {
-        return;
+    if (to_deposit) {
+        item brew(itypes[brew_type], 0);
+        int charges_held = p->charges_of(brew_type);
+        brew.charges = charges_on_ground;
+        for (int i=0; i<charges_held && !vat_full; i++) {
+            p->use_charges(brew_type, 1);
+            brew.charges++;
+            if ((brew.count_by_charges()) ? brew.volume(false, true)/1000 :
+                brew.volume(false, true)/1000*brew.charges >= 100)
+                vat_full = true;
+        }
+        g->add_msg(_("Set %s in the vat."), brew.name.c_str());
+        m->add_item_or_charges(examx, examy, brew);
+        p->moves -= 250;
     }
-
-    // Setting the brew in the vat
-    itype_id brew_type = b_types[f_index];
-    int b_used = p->charges_of(brew_type);
-    std::list<item> selected = p->inv.use_charges(brew_type, p->inv.charges_of(brew_type));
-    if (g->u.weapon.contains_with_flag("BREW"))
-        g->u.weapon.contents.erase(g->u.weapon.contents.begin());
-    if (g->u.weapon.has_flag("BREW"))
-        g->u.remove_weapon(); //In case the player is somehow holding the brew without a container (spawning it in)
-    item brew(itypes[brew_type], 0);
-    brew.charges = b_used; //Spawns 1 charge of brew into the vat for each charge of brew removed from the player
-    brew.bday = g->turn;
-    m->add_item_or_charges(examx, examy, brew);
-    m->furn_set(examx, examy, f_fvat_full);
-    p->moves -= 500;
-    g->add_msg(_("Set %s to ferment."), b_names[f_index].c_str());
+    if (vat_full || query_yn(_("Start fermenting cycle?"))) {
+        m->i_at(examx, examy)[0].bday = g->turn;
+        m->furn_set(examx, examy, f_fvat_full);
+        if (vat_full)
+            g->add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
+        else
+            g->add_msg(_("You close the lid and start the fermenting cycle."));
+    }
 }
 
 void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
     item brew_i = m->i_at(examx, examy)[0];
-    if (brew_i.has_flag("BREW")) //Is the booze fermented?
+    if (brew_i.has_flag("BREW")) //Does the vat contain unfermented brew, or already fermented booze?
     {
         int brew_time = brew_i.brewing_time();
         int brewing_stage = 3 * ((float)(g->turn.get_turn() - brew_i.bday) / (brew_time));
@@ -887,7 +901,7 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
 
                 m->i_clear(examx, examy);
                 m->add_item_or_charges(examx, examy, booze);
-                p->moves -= 1500;
+                p->moves -= 500;
 
                 p->practice( g->turn, "cooking", std::min(brew_time/600, 72) ); //low xp: you also get xp from crafting the brew
                 /*if ((cooking<4 && !one_in(cooking)) || (cooking>=4 && !one_in(4))) { //Couldn't figure out how to spawn yeast
@@ -895,16 +909,166 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
                     // add_item(???)                                                   //then decided that yeast culturing was
                 }                                                                      //a better idea. */
                 g->add_msg(_("The %s is now ready for bottling."), booze.name.c_str());
-
             }
         }
     }
-    else {
-        //item* booze = &(m->i_at(examx, examy)[i]);
-        if (g->handle_liquid(brew_i, true, false)) {
+    else { //Booze is done, so bottle it!
+        item* booze = &(m->i_at(examx, examy)[0]);
+        if (g->handle_liquid(*booze, true, false)) {
             m->i_at(examx, examy).erase(m->i_at(examx, examy).begin());
             m->furn_set(examx, examy, f_fvat_empty);
-            g->add_msg(_("You squeeze the last drops of %s from the vat."), brew_i.name.c_str());
+            g->add_msg(_("You squeeze the last drops of %s from the vat."), booze->name.c_str());
+        }
+    }
+}
+
+void iexamine::keg(player *p, map *m, int examx, int examy) {
+    int keg_cap = 600;
+    if ((m->i_at(examx, examy).size() == 0)) {
+        if ( !p->has_drink() ) {
+            g->add_msg(_("You don't have any drinks to fill the %s with."), m->name(examx, examy).c_str());
+            return;
+        }
+        // Get list of all drinks
+        std::vector<item*> drinks_inv = p->inv.all_drinks();
+        if (!g->u.weapon.contents.empty() && g->u.weapon.contents[0].is_drink())
+            drinks_inv.push_back(&g->u.weapon.contents[0]);
+        // Make lists of unique drinks... about third time we do this, maybe we oughta make a function next time
+        std::vector<itype_id> drink_types;
+        std::vector<std::string> drink_names;
+        for (std::vector<item*>::iterator it = drinks_inv.begin() ; it != drinks_inv.end(); it++) {
+            if (std::find(drink_types.begin(), drink_types.end(), (*it)->typeId()) == drink_types.end()) {
+                drink_types.push_back((*it)->typeId());
+                drink_names.push_back((*it)->name);
+            }
+        }
+        // Choose drink to store in keg from list
+        int drink_index = 0;
+        if (drink_types.size() > 1) {
+            drink_names.push_back("Cancel");
+            drink_index = menu_vec(false, _("Store which drink?"), drink_names) - 1;
+            if (drink_index == drink_names.size() - 1)
+                drink_index = -1;
+        } else { //Only one drink type was in inventory, so it's automatically used
+            if (!query_yn(_("Fill the %s with %s?"), m->name(examx, examy).c_str(), drink_names[0].c_str()))
+                drink_index = -1;
+        }
+        if (drink_index < 0)
+            return;
+        //Store liquid chosen in the keg
+        itype_id drink_type = drink_types[drink_index];
+        int charges_held = p->charges_of(drink_type);
+        item drink (itypes[drink_type], 0);
+        drink.charges = 0;
+        for (int i=0; i<charges_held; i++) {
+            g->u.use_charges(drink.typeId(), 1);
+            drink.charges++;
+            int d_vol = (drink.count_by_charges()) ? drink.volume(false, true)/1000
+                : drink.volume(false, true)/1000*drink.charges;
+            if (d_vol >= keg_cap) {
+                g->add_msg(_("You completely fill the %s with %s."), m->name(examx, examy).c_str(),
+                            drink.name.c_str());
+                p->moves -= 250;
+                m->add_item_or_charges(examx, examy, drink);
+                return;
+            }
+        }
+        g->add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
+                drink.name.c_str());
+        p->moves -= 250;
+        m->add_item_or_charges(examx, examy, drink);
+        return;
+    }
+    else {
+        item* drink = &(m->i_at(examx, examy)[0]);
+        std::vector<std::string> menu_items;
+        std::vector<uimenu_entry> options_message;
+        menu_items.push_back(_("Fill a container with %drink"));
+        options_message.push_back(uimenu_entry(_((std::string("Fill a container with ") + drink->name).c_str()), '1'));
+        menu_items.push_back(_("Have a drink"));
+        options_message.push_back(uimenu_entry(_("Have a drink"), '2'));
+        menu_items.push_back(_("Refill"));
+        options_message.push_back(uimenu_entry(_("Refill"), '3'));
+        menu_items.push_back(_("Examine"));
+        options_message.push_back(uimenu_entry(_("Examine"), '4'));
+        menu_items.push_back(_("Cancel"));
+        options_message.push_back(uimenu_entry(_("Cancel"), '5'));
+
+        int choice;
+        if( menu_items.size() == 1 )
+          choice = 0;
+        else {
+          uimenu selectmenu;
+          selectmenu.return_invalid = true;
+          selectmenu.text = _("Select an action");
+          selectmenu.entries = options_message;
+          selectmenu.selected = 0;
+          selectmenu.query();
+          choice = selectmenu.ret; }
+        if(choice<0)
+          return;
+
+        if(menu_items[choice]==_("Fill a container with %drink")){
+            if (g->handle_liquid(*drink, true, false)) {
+                m->i_at(examx, examy).erase(m->i_at(examx, examy).begin());
+                g->add_msg(_("You squeeze the last drops of %s from the %s."), drink->name.c_str(),
+                           m->name(examx, examy).c_str());
+            }
+            return;
+        }
+
+        if(menu_items[choice]==_("Have a drink")){
+            drink->charges--;
+            if (drink->charges == 0) {
+                m->i_at(examx, examy).erase(m->i_at(examx, examy).begin());
+                g->add_msg(_("You squeeze the last drops of %s from the %s."), drink->name.c_str(),
+                           m->name(examx, examy).c_str());
+            }
+            p->eat(drink, dynamic_cast<it_comest*>(drink->type));
+            p->moves -= 250;
+            return;
+        }
+
+        if(menu_items[choice]==_("Refill")){
+            int charges_held = p->charges_of(drink->typeId());
+            int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
+                : drink->volume(false, true)/1000*drink->charges;
+            if (d_vol >= keg_cap){
+                g->add_msg(_("The %s is completely full."), m->name(examx, examy).c_str());
+                return;
+            }
+            if (charges_held < 1) {
+                g->add_msg(_("You don't have any %s to fill the %s with."), drink->name.c_str(),
+                           m->name(examx, examy).c_str());
+                return;
+            }
+            for (int i=0; i<charges_held; i++) {
+                g->u.use_charges(drink->typeId(), 1);
+                drink->charges++;
+                int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
+                    : drink->volume(false, true)/1000*drink->charges;
+                if (d_vol >= keg_cap) {
+                    g->add_msg(_("You completely fill the %s with %s."), m->name(examx, examy).c_str(),
+                               drink->name.c_str());
+                    p->moves -= 250;
+                    return;
+                }
+            }
+            g->add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
+                   drink->name.c_str());
+            p->moves -= 250;
+            return;
+        }
+
+        if(menu_items[choice]==_("Examine")){
+            g->add_msg(_("That is a %s."), m->name(examx, examy).c_str());
+            int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
+                : drink->volume(false, true)/1000*drink->charges;
+            if (d_vol < 1)
+                g->add_msg(_("It has %d portions of %s left."), drink->charges, drink->name.c_str());
+            else
+                g->add_msg(_("%s contained: %d/%d"), drink->name.c_str(), d_vol, keg_cap);
+            return;
         }
     }
 }
@@ -1243,6 +1407,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("fvat_full" == function_name) {
     return &iexamine::fvat_full;
+  }
+  if ("keg" == function_name) {
+    return &iexamine::keg;
   }
   //pick_plant deliberately missing due to different function signature
   if ("tree_apple" == function_name) {

@@ -70,8 +70,8 @@ const std::string legacy_ter_id[174] = {"t_null", "t_hole", "t_dirt", "t_sand", 
     "t_switch_even"
 };
 
-const int num_legacy_furn = 54;
-const std::string legacy_furn_id[54] = {"f_null", "f_hay", "f_bulletin", "f_indoor_plant", "f_bed",
+const int num_legacy_furn = 55;
+const std::string legacy_furn_id[55] = {"f_null", "f_hay", "f_bulletin", "f_indoor_plant", "f_bed",
     "f_toilet", "f_makeshift_bed", "f_sink", "f_oven", "f_woodstove", "f_fireplace", "f_bathtub",
     "f_chair", "f_armchair", "f_sofa", "f_cupboard", "f_trashcan", "f_desk", "f_exercise", "f_bench",
     "f_table", "f_pool_table", "f_counter", "f_fridge", "f_glass_fridge", "f_dresser", "f_locker",
@@ -79,7 +79,7 @@ const std::string legacy_furn_id[54] = {"f_null", "f_hay", "f_bulletin", "f_indo
     "f_crate_o", "f_canvas_wall", "f_canvas_door", "f_canvas_door_o", "f_groundsheet",
     "f_fema_groundsheet", "f_skin_wall", "f_skin_door", "f_skin_door_o", "f_skin_groundsheet",
     "f_mutpoppy", "f_safe_c", "f_safe_l", "f_safe_o", "f_plant_seed", "f_plant_seedling",
-    "f_plant_mature", "f_plant_harvest", "f_fvat_empty", "f_fvat_full"
+    "f_plant_mature", "f_plant_harvest", "f_fvat_empty", "f_fvat_full", "f_wood_keg"
 };
 
 const int num_legacy_trap = 39;

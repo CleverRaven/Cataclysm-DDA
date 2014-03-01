@@ -6672,6 +6672,17 @@ bool player::has_matching_liquid(itype_id it)
     return false;
 }
 
+bool player::has_drink()
+{
+    if (inv.has_drink()) {
+        return true;
+    }
+    if (weapon.is_container() && !weapon.contents.empty()) {
+        return weapon.contents[0].is_drink();
+    }
+    return false;
+}
+
 bool player::has_weapon_or_armor(char let) const
 {
  if (weapon.invlet == let)
