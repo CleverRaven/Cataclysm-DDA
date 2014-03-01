@@ -2483,7 +2483,25 @@ void vehicle::thrust (int thd) {
        thrusting = sgn == thd;
     }
 
-    if (thrusting)
+    int accel = acceleration();
+    int max_vel = max_velocity();
+    int brake = 30 * k_mass();
+    int brk = abs(velocity) * brake / 100;
+    if (brk < accel)
+        brk = accel;
+    if (brk < 10 * 100)
+        brk = 10 * 100;
+    int vel_inc = (thrusting? accel : brk) * thd;
+    if(thd == -1 && thrusting) // reverse accel.
+        vel_inc = .6 * vel_inc;
+
+    // Keep exact cruise control speed
+    if (cruise_on && velocity+vel_inc > cruise_velocity*thd)
+        vel_inc = cruise_velocity - velocity;
+
+    // Ugly hack, use full engine power occasionally when thrusting slightly
+    // up to cruise control speed. Loses some extra power when in reverse.
+    if (thrusting && rng(1, accel) <= vel_inc )
     {
         if (total_power () < 1)
         {
@@ -2558,17 +2576,6 @@ void vehicle::thrust (int thd) {
     if (skidding)
         return;
 
-    int accel = acceleration();
-    int max_vel = max_velocity();
-    int brake = 30 * k_mass();
-    int brk = abs(velocity) * brake / 100;
-    if (brk < accel)
-        brk = accel;
-    if (brk < 10 * 100)
-        brk = 10 * 100;
-    int vel_inc = (thrusting? accel : brk) * thd;
-    if(thd == -1 && thrusting) // reverse accel.
-       vel_inc = .6 * vel_inc;
     if ((velocity > 0 && velocity + vel_inc < 0) ||
         (velocity < 0 && velocity + vel_inc > 0))
         stop ();
@@ -3213,14 +3220,8 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if (player_in_control(&g->u) && cruise_on ) {
-        if( velocity - cruise_velocity >= 10 * 100 ||
-            cruise_velocity - velocity >= acceleration()/3 ||
-            (cruise_velocity != 0 && velocity == 0) ||
-            (cruise_velocity == 0 && velocity != 0)) {
-            thrust (cruise_velocity > velocity? 1 : -1);
-        }
-    }
+    if (player_in_control(&g->u) && cruise_on && cruise_velocity != velocity )
+        thrust (cruise_velocity > velocity? 1 : -1);
 
     // check for smoking parts
     for (int p = 0; p < parts.size(); p++)

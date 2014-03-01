@@ -763,7 +763,10 @@ bool player::can_weapon_block()
 bool player::block_hit(body_part &bp_hit, int &side,
                        damage_instance &dam) {
 
-    if (blocks_left < 1)
+	//Shouldn't block if player is asleep; this only seems to be used by player.
+	//g->u.has_disease("sleep") would work as well from looking at other block functions.
+	
+    if (blocks_left < 1 || this->has_disease("sleep")) 
         return false;
 
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects

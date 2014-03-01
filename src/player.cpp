@@ -4542,6 +4542,11 @@ void player::recalc_hp()
     for (int i = 0; i < num_hp_parts; i++)
     {
         new_max_hp[i] = 60 + str_max * 3;
+        if (has_trait("HUGE")) {
+            // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
+            // so no HP bonus from the ST above/beyond that from Large
+            new_max_hp[i] -= 6;
+        }
         // Only the most extreme applies.
         if (has_trait("TOUGH")) {
             new_max_hp[i] *= 1.2;
@@ -7634,11 +7639,9 @@ hint_rating player::rate_action_wear(item *it)
      (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
   return HINT_IFFY;
  }
- // Checks to see if the player is wearing leather/plastic/etc shoes
+ // Checks to see if the player is wearing shoes
  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
-     (it->made_of("leather") || it->made_of("plastic") ||
-      it->made_of("steel") || it->made_of("kevlar") ||
-      it->made_of("chitin")) && is_wearing_shoes()){
+     (!it->has_flag("SKINTIGHT") && is_wearing_shoes())){
   return HINT_IFFY;
  }
 
@@ -7959,10 +7962,8 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
-            (to_wear->made_of("leather") || to_wear->made_of("plastic") ||
-             to_wear->made_of("steel") || to_wear->made_of("kevlar") ||
-             to_wear->made_of("chitin")) && is_wearing_shoes()) {
-            // Checks to see if the player is wearing leather/plastic etc shoes
+            (!to_wear->has_flag("SKINTIGHT")) && is_wearing_shoes()) {
+            // Checks to see if the player is wearing shoes
             if(interactive){
                 g->add_msg(_("You're already wearing footwear!"));
             }
@@ -8757,7 +8758,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         }
         g->add_msg(_("You attach the %s to your %s."), used->tname().c_str(),
                    gun->tname().c_str());
-        gun->contents.push_back(i_rem(pos));
+        gun->contents.push_back(i_rem(used));
         return;
 
     } else if (used->is_bionic()) {
@@ -9769,9 +9770,7 @@ bool player::is_wearing_shoes() {
         it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
         if (worn_armor->covers & mfb(bp_feet) &&
-            (worn_item->made_of("leather") || worn_item->made_of("plastic") ||
-             worn_item->made_of("steel") || worn_item->made_of("kevlar") ||
-             worn_item->made_of("chitin"))) {
+            (!worn_item->has_flag("SKINTIGHT"))) {
             return true;
         }
     }
@@ -10426,6 +10425,17 @@ bool player::sees(monster *critter, int &t)
         return false;
     }
     return sees(cx, cy, t);
+}
+
+bool player::can_pickup(bool print_msg) const
+{
+    if (weapon.has_flag("NO_PICKUP")) {
+        if (print_msg && const_cast<player*>(this)->is_player()) {
+            g->add_msg(_("You cannot pick up items with your %s!"), const_cast<player*>(this)->weapon.tname().c_str());
+        }
+        return false;
+    }
+    return true;
 }
 
 // --- End ---

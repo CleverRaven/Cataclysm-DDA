@@ -563,7 +563,10 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             vehicle *veh = g->m.veh_at(x, y, vpart);
 
             if (veh) {
+                //Adds faucet to kitchen stuff; may be horribly wrong to do such....
+                //ShouldBreak into own variable
                 const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+                const int faupart = veh->part_with_feature(vpart, "FAUCET");
                 const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
                 const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
                 const int forgepart = veh->part_with_feature(vpart, "FORGE");
@@ -572,6 +575,12 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
 
                 if (cargo >= 0) {
                     *this += std::list<item>(veh->parts[cargo].items.begin(), veh->parts[cargo].items.end());
+                }
+
+                if(faupart >= 0 ){
+                    item water(itypes["water_clean"], 0);
+                    water.charges = veh->fuel_left("water");
+                    add_item(water);
                 }
 
                 if (kpart >= 0) {

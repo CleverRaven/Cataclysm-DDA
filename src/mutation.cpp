@@ -556,12 +556,8 @@ void mutation_effect(player &p, std::string mut)
 
     } else if (mut == "HUGE") {
         p.str_max += 4;
+        // Bad-Huge gets less HP bonus than normal, this is handled in recalc_hp()
         p.recalc_hp();
-        // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
-        // so no HP bonus from the ST above/beyond that from Large
-        for (int i = 0; i < num_hp_parts; i++) {
-            p.hp_max[i] -= 6;
-        }
         // And there goes your clothing; by now you shouldn't need it anymore
         g->add_msg(_("You rip out of your clothing!"));
         destroy = true;

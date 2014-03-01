@@ -2520,7 +2520,8 @@ bool game::handle_action()
                     //TODO: Add weapon range check. This requires weapon to be reloaded.
 
                     act = ACTION_FIRE;
-                } else if (m.close_door(mx, my, !m.is_outside(mx, my), true)) {
+                } else if (std::abs(mx - u.posx) <= 1 && std::abs(my - u.posy) <= 1 && m.close_door(mx, my, !m.is_outside(u.posx, u.posy), true)) {
+                    // Can only close doors when adjacent to it.
                     act = ACTION_CLOSE;
                 } else {
                     int dx = abs(u.posx - mx);
@@ -9073,10 +9074,7 @@ void game::pickup(int posx, int posy, int min)
 
     item_exchanges_since_save += 1; // Keeping this simple.
     write_msg();
-    if ((u.weapon.type->id == "bio_claws_weapon") || (u.weapon.type->id == "bio_blade_weapon")) {
-        if (min != -1) {
-            add_msg(_("You cannot pick up items with your %s!"), u.weapon.tname().c_str());
-        }
+    if (!u.can_pickup(min != -1)) { // no message on autopickup (-1)
         return;
     }
 
@@ -9580,8 +9578,7 @@ and you can't unwield your %s."),
                 if ( selected >= 0 && selected <= here.size()-1 ) {
                     fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  here[selected].info().c_str());
                 }
-                wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                                     LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+                draw_border(w_item_info);
                 mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].display_name().c_str() );
                 wrefresh(w_item_info);
             }
@@ -10583,6 +10580,11 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  int reload_pos = INT_MIN;
  if (!u.weapon.is_gun())
   return;
+ //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
+ //should be fine to place this here, plfire(true,*) only once in code
+ if(burst && !u.weapon.has_flag("MODE_BURST"))
+  return;
+
  vehicle *veh = m.veh_at(u.posx, u.posy);
  if (veh && veh->player_in_control(&u) && u.weapon.is_two_handed(&u)) {
   add_msg (_("You need a free arm to drive!"));
@@ -11838,6 +11840,7 @@ bool game::plmove(int dx, int dy)
                mon_at(fdest.x, fdest.y) == -1 &&
                m.has_flag("FLAT", fdest.x, fdest.y) &&
                !m.has_furn(fdest.x, fdest.y) &&
+               m.veh_at(fdest.x, fdest.y)== NULL && 
                m.tr_at(fdest.x, fdest.y) == tr_null
           );
 

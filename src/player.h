@@ -513,6 +513,10 @@ public:
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
  bool has_weapon();
+ // Check if the player can pickup stuff (fails if wielding
+ // certain bionic weapons).
+ // Print a message if print_msg is true and this isn't a NPC
+ bool can_pickup(bool print_msg) const;
 
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);
