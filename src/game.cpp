@@ -3954,8 +3954,9 @@ void game::debug()
                    _("Spawn Clarivoyance Artifact"), //16
                    _("Map editor"), // 17
                    _("Change weather"),         // 18
+                   _("Remove all monsters"),    // 19
                    #ifdef LUA
-                       _("Lua Command"), // 19
+                       _("Lua Command"), // 20
                    #endif
                    _("Cancel"),
                    NULL);
@@ -4334,8 +4335,16 @@ Current turn: %d; Next spawn %d.\n\
   }
   break;
 
+  case 19: {
+        for(size_t i = 0; i < num_zombies(); i++) {
+            zombie(i).dead = true;
+        }
+        cleanup_dead();
+  }
+  break;
+
   #ifdef LUA
-      case 19: {
+      case 20: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
           call_lua(luacode);
       }
