@@ -803,7 +803,16 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
     bool to_deposit = false;
     bool vat_full = false;
     int charges_on_ground = 0;
-    if (m->i_at(examx, examy).size() == 0)
+    bool brew_present = false;
+    for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+        if (!(m->i_at(examx, examy)[i].has_flag("BREW")) || brew_present) { //Dumb user got unwanted stuff in vat!
+            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i); //Dumb user stuff erased. Now vat is clean.
+            if (g->debugmon)
+                debugmsg("fvat_empty was not actually empty! Clearing space...");
+        }
+        else brew_present = true;
+    }
+    if (!brew_present)
     {
         if ( !p->has_item_with_flag("BREW") ) {
             g->add_msg(_("You have no brew to ferment."));
@@ -841,7 +850,6 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
         brew_type = b_types[b_index];
     }
     else {
-        //todo: erase are any non-brew items lying here
         item brew = m->i_at(examx, examy)[0];
         brew_type = brew.typeId();
         charges_on_ground = brew.charges;
@@ -856,12 +864,13 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
         for (int i=0; i<charges_held && !vat_full; i++) {
             p->use_charges(brew_type, 1);
             brew.charges++;
-            if ((brew.count_by_charges()) ? brew.volume(false, true)/1000 :
-                brew.volume(false, true)/1000*brew.charges >= 100)
-                vat_full = true;
+            if ( ((brew.count_by_charges()) ? brew.volume(false, true)/1000 :
+                brew.volume(false, true)/1000*brew.charges ) >= 100)
+                vat_full = true; //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
         }
         g->add_msg(_("Set %s in the vat."), brew.name.c_str());
-        m->add_item_or_charges(examx, examy, brew);
+        m->i_clear(examx, examy);
+        m->i_at(examx, examy).push_back(brew); //This is needed to bypass NOITEM
         p->moves -= 250;
     }
     if (vat_full || query_yn(_("Start fermenting cycle?"))) {
@@ -900,7 +909,7 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
                 booze.charges = brew_i.charges; booze.bday = brew_i.bday;
 
                 m->i_clear(examx, examy);
-                m->add_item_or_charges(examx, examy, booze);
+                m->i_at(examx, examy).push_back(booze);
                 p->moves -= 500;
 
                 p->practice( g->turn, "cooking", std::min(brew_time/600, 72) ); //low xp: you also get xp from crafting the brew
@@ -969,14 +978,16 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
                 g->add_msg(_("You completely fill the %s with %s."), m->name(examx, examy).c_str(),
                             drink.name.c_str());
                 p->moves -= 250;
-                m->add_item_or_charges(examx, examy, drink);
+                m->i_clear(examx, examy);
+                m->i_at(examx, examy).push_back(drink);
                 return;
             }
         }
         g->add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
                 drink.name.c_str());
         p->moves -= 250;
-        m->add_item_or_charges(examx, examy, drink);
+        m->i_clear(examx, examy);
+        m->i_at(examx, examy).push_back(drink);
         return;
     }
     else {
