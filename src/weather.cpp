@@ -344,7 +344,6 @@ void weather_effect::lightning()
 
 void weather_effect::light_acid()
 {
-    generic_wet(true);
     if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
             g->add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
@@ -359,6 +358,7 @@ void weather_effect::light_acid()
                     g->add_msg(_("The acid rain stings, but is mostly harmless for now..."));
                     if (one_in(10) && (g->u.pain < 10)) {
                         g->u.mod_pain(1);
+                        generic_wet(true);
                     }
                 }
             }
@@ -382,6 +382,7 @@ void weather_effect::acid()
                     g->add_msg(_("The acid rain burns!"));
                     if (one_in(2) && (g->u.pain < 100)) {
                         g->u.mod_pain( rng(1, 5) );
+                        generic_very_wet(true);
                     }
                 }
             }
@@ -395,7 +396,6 @@ void weather_effect::acid()
             }
         }
     }
-    generic_very_wet(true);
 }
 
 
