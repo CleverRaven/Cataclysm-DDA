@@ -243,7 +243,6 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 }
                 nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
                 const char invlet = it.invlet == 0 ? ' ' : it.invlet;
-                const int item_max_width = 42;
                 // Use width of the column minus two for the hotkey and leading space,
                 // and one for a space on the right.
                 const std::string truncated_item_name = std::string(
