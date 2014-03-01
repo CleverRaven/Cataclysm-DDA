@@ -5,13 +5,14 @@ Original author:    Project Manager:    Website/Forum:
 Whales (retired)    KevinGranade        GlyphGryph
 
 Current Main Developers/Github Managers:
-KevinGranade, GalenEvil, i2amroy, AtomicDryad, Ianestrachan,
-Rivet-the-Zombie, KA101
+KevinGranade, i2amroy, Rivet-the-Zombie, KA101, BevapDin
 
 Special thanks to:
-TheDarklingWolf - For creating Cataclysm:DDA as we know it
-Narc - For setting up the automatic Jenkins build-bot
-yobbobanana - For working as liaison between translators and github
+TheDarklingWolf - For creating Cataclysm:DDA as we know it.
+Narc - For setting up the automatic Jenkins build-bot.
+BevapDin - For tireless bugfixing efforts.
+dwarfkoala - For a plethora of bug triage.
+Ill-kun - For countless UI cleanups.
 
 For a full list of contributors please see:
 https://github.com/CleverRaven/Cataclysm-DDA/contributors
