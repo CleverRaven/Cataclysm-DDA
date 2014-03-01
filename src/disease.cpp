@@ -875,7 +875,10 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_BLEED:
-            if (one_in(6 / dis.intensity)) {
+            // Presuming that during the first-aid process you're putting pressure
+            // on the wound or otherwise suppressing the flow. (Kits contain either
+            // quikclot or bandages per the recipe.)
+            if ( (one_in(6 / dis.intensity)) && (!(p.activity.type == ACT_FIRSTAID)) ) {
                 g->add_msg_player_or_npc( &p, _("You lose some blood."),
                                          _("<npcname> loses some blood.") );
                 p.mod_pain(1);
