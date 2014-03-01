@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-24 01:27-0600\n"
+"POT-Creation-Date: 2014-02-28 23:58-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1902,7 +1902,7 @@ msgstr ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A brass-jacketed .40 Smith & Wesson round.  This increases penetration "
-"slightly at the cost of reduced expansion. This one has been hand-reloaded"
+"slightly at the cost of reduced expansion. This one has been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -2165,7 +2165,7 @@ msgstr ""
 msgid ""
 "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round "
 "features a biodegradable sabot and a single, fin-stabilized penetrator. This "
-"one has been hand-reloaded"
+"one has been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -42817,11 +42817,6 @@ msgid "to shoot"
 msgstr ""
 
 #: src/game.cpp
-#, c-format
-msgid "You cannot pick up items with your %s!"
-msgstr ""
-
-#: src/game.cpp
 msgid "Examine vehicle"
 msgstr ""
 
@@ -45629,7 +45624,7 @@ msgid "Three stars... you win $200!"
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "JACKPOT!  You win $5000!"
+msgid "JACKPOT!  You win $3000!"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -45865,11 +45860,6 @@ msgstr ""
 
 #: src/inventory_ui.cpp
 msgid "> More items"
-msgstr ""
-
-#: src/inventory_ui.cpp
-#, c-format
-msgid " %s"
 msgstr ""
 
 #: src/inventory_ui.cpp
@@ -54276,6 +54266,14 @@ msgstr ""
 msgid "Press TAB to switch to %1$s %2$s."
 msgstr ""
 
+#: src/newcharacter.cpp src/player.cpp
+msgid "female"
+msgstr ""
+
+#: src/newcharacter.cpp src/player.cpp
+msgid "male"
+msgstr ""
+
 #: src/newcharacter.cpp
 #, c-format
 msgid "Upgrading %s costs %d point(s)"
@@ -57029,9 +57027,9 @@ msgstr ""
 #, c-format
 msgid ""
 "Trading with %s\n"
-"Tab key to switch lists, letters to pick items, Enter to finalize, Esc to "
-"quit\n"
-"? to get information on an item"
+"TAB key to switch lists, letters to pick items, Enter to finalize, Esc to "
+"quit,\n"
+"? to get information on an item."
 msgstr ""
 
 #: src/npctalk.cpp
@@ -58110,14 +58108,6 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Do you have any last words?"
-msgstr ""
-
-#: src/player.cpp
-msgid "female"
-msgstr ""
-
-#: src/player.cpp
-msgid "male"
 msgstr ""
 
 #: src/player.cpp
@@ -59959,6 +59949,11 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You try to dodge but there's no room!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "You cannot pick up items with your %s!"
 msgstr ""
 
 #: src/player_activity.cpp
