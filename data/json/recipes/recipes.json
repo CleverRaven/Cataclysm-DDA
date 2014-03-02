@@ -6134,26 +6134,11 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "coffeemaker", 2],
-      [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "coffeemaker", -1],
-      [ "rock_pot", -1 ]
-    ]
-  ],
   "components": [
     [
       [ "protein_powder", 1 ]
     ],
     [
-      [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
   ]
@@ -6167,26 +6152,14 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "coffeemaker", 2],
-      [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "coffeemaker", -1],
-      [ "rock_pot", -1 ]
-    ]
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
       [ "protein_powder", 1 ]
     ],
     [
-      [ "water", 1 ],
       [ "water_clean", 1 ]
     ],
     [
