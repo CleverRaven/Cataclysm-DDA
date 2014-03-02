@@ -2706,7 +2706,7 @@
       ["novel_tragedy", 8],
       ["ZSG", 5]
     ]
-
+  },{
     "type" : "item_group",
     "id" : "homebooks",
     "items":[

@@ -114,7 +114,8 @@
                 { "item": "homebooks", "chance": 80, "x": [ 14,18 ], "y": [ 10,10] },
                 { "item": "homebooks", "chance": 80, "x": [ 18,18 ], "y": [ 7,7] },
                 { "item": "alcohol", "chance": 80, "x": [ 21,21 ], "y": [ 5,7] },
-                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }            ],
+                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
+            ],
             "comment": "end of mapgen json definition ---v"
         },
         "comment": "end of mapgen entry ---v"
