@@ -11,6 +11,8 @@
     #define GAMEPAD_ENABLED
 #endif
 
+#define KEY_ESCAPE 27
+
 enum InputEvent {
     Confirm,
     Cancel,
@@ -40,9 +42,13 @@ enum InputEvent {
 InputEvent get_input(int ch = '\0');
 bool is_mouse_enabled();
 void get_direction(int &x, int &y, InputEvent &input);
-std::string get_input_string_from_file(std::string fname="input.txt");
+std::string get_input_string_from_file(std::string fname = "input.txt");
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
+// Simple text input--translates numpad to vikeys
+long input(long ch = -1);
+long get_keypress();
+
+enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
 enum input_event_t {
     CATA_INPUT_ERROR,
@@ -101,7 +107,7 @@ struct input_event {
         if(sequence.size() != other.sequence.size()) {
             return false;
         }
-        for(int i=0; i<sequence.size(); i++) {
+        for(int i = 0; i < sequence.size(); i++) {
             if(sequence[i] != other.sequence[i]) {
                 return false;
             }
@@ -110,7 +116,7 @@ struct input_event {
         if(modifiers.size() != other.modifiers.size()) {
             return false;
         }
-        for(int i=0; i<modifiers.size(); i++) {
+        for(int i = 0; i < modifiers.size(); i++) {
             if(modifiers[i] != other.modifiers[i]) {
                 return false;
             }
@@ -121,8 +127,6 @@ struct input_event {
 };
 
 // Definitions for joystick/gamepad.
-
-
 
 // On the joystick there's a maximum of 256 key states.
 // So for joy axis events, we simply use a number larger

@@ -1,7 +1,6 @@
 #include <vector>
 #include <string>
 #include "game.h"
-#include "keypress.h"
 #include "output.h"
 #include "line.h"
 #include "skill.h"

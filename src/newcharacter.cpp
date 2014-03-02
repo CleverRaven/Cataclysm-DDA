@@ -4,7 +4,6 @@
 #include "input.h"
 #include "output.h"
 #include "rng.h"
-#include "keypress.h"
 #include "game.h"
 #include "options.h"
 #include "catacharset.h"

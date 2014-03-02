@@ -2,7 +2,6 @@
 #include "game.h"
 #include "rng.h"
 #include "input.h"
-#include "keypress.h"
 #include "item.h"
 #include "bionics.h"
 #include "line.h"
