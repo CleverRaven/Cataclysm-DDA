@@ -29980,9 +29980,8 @@
 },{
         "type" : "recipe",
   "result": "atomic_light",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
   "skill_used": "electronics",
   "difficulty": 3,
   "time": 20000,
@@ -30015,9 +30014,8 @@
 },{
         "type" : "recipe",
   "result": "atomic_coffeepot",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "electronics",
   "difficulty": 4,
   "time": 3000,
