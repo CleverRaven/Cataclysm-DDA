@@ -7199,17 +7199,6 @@ bool player::eat(item *eaten, it_comest *comest)
         capacity = -620;
     }
 
-    if ( (has_trait("EATHEALTH")) && ( comest->nutr > 0 && temp_hunger < capacity ) ) {
-        int room = (capacity - temp_hunger);
-        int excess_food = ((comest->nutr) - room);
-        // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
-        if (excess_food <= 5) {
-            healall(1);
-        }
-        // Straight conversion, except it's divided amongst all your body parts.
-        else healall(excess_food /= 5);
-    }
-
     if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
         ( comest->quench > 0 && temp_thirst < capacity ) ) {
         if (spoiled){//rotten get random nutrification
@@ -7217,8 +7206,10 @@ bool player::eat(item *eaten, it_comest *comest)
                 return false;
             }
         } else {
-            if (!query_yn(_("You will not be able to finish it all. Consume it?"))) {
+            if ( ( comest->quench > 0 && temp_thirst < capacity ) || (!(has_trait("EATHEALTH"))) ) {
+                if (!query_yn(_("You will not be able to finish it all. Consume it?"))) {
                 return false;
+                }
             }
         }
     }
@@ -7272,6 +7263,21 @@ bool player::eat(item *eaten, it_comest *comest)
     } else if (comest->comesttype == "FOOD" || eaten->has_flag("USE_EAT_VERB")) {
         g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                   eaten->tname().c_str());
+    }
+    
+    // Moved this later in the process, so you actually eat it before converting to HP
+    if ( (has_trait("EATHEALTH")) && ( comest->nutr > 0 && temp_hunger < capacity ) ) {
+        int room = (capacity - temp_hunger);
+        int excess_food = ((comest->nutr) - room);
+        g->add_msg_player_or_npc( this, _("You feel the %s filling you out."),
+                                 _("<npcname> looks better after eating the %s."),
+                                  eaten->tname().c_str());
+        // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
+        if (excess_food <= 5) {
+            healall(1);
+        }
+        // Straight conversion, except it's divided amongst all your body parts.
+        else healall(excess_food /= 5);
     }
 
     if (itypes[comest->tool]->is_tool()) {

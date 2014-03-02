@@ -184,8 +184,7 @@ void npc::randomize(npc_class type)
  personality.bravery =    rng( -3, 10);
  personality.collector =  rng( -1, 10);
  personality.altruism =   rng(-10, 10);
- //cash = 100 * rng(0, 20) + 10 * rng(0, 30) + rng(0, 50);
- cash = 0;
+ cash = 100000 * rng(0, 10) + 10000 * rng(0, 20) + 100 * rng(0, 30) + + 1 * rng(0, 30), rng(0, 99);
  moves = 100;
  mission = NPC_MISSION_NULL;
  if (one_in(2))
