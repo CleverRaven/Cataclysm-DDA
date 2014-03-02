@@ -337,7 +337,7 @@ void advanced_inv_print_header(advanced_inv_area* squares, advanced_inventory_pa
 void advanced_inv_update_area( advanced_inv_area &area )
 {
     int i = area.id;
-    player u = g->u;
+    const player &u = g->u;
     area.x = g->u.posx + area.offx;
     area.y = g->u.posy + area.offy;
     area.size = 0;
