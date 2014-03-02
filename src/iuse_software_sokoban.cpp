@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 
-#include "keypress.h"
 #include "output.h"
 #include "catacharset.h"
 #include "options.h"

@@ -2,7 +2,6 @@
 #include "auto_pickup.h"
 #include "output.h"
 #include "debug.h"
-#include "keypress.h"
 #include "item_factory.h"
 #include "catacharset.h"
 #include "translations.h"

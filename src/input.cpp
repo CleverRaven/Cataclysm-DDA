@@ -3,12 +3,64 @@
 #include "input.h"
 #include "json.h"
 #include "output.h"
-#include "keypress.h"
 #include "game.h"
 #include <fstream>
+#include <errno.h>
 
 /* TODO Replace the hardcoded values with an abstraction layer.
  * Lower redundancy across the methods. */
+
+long input(long ch)
+{
+    if (ch == -1) {
+        ch = get_keypress();
+    }
+
+    switch (ch) {
+    case KEY_UP:
+        return 'k';
+    case KEY_LEFT:
+        return 'h';
+    case KEY_RIGHT:
+        return 'l';
+    case KEY_DOWN:
+        return 'j';
+    case KEY_NPAGE:
+        return '>';
+    case KEY_PPAGE:
+        return '<';
+    case 459:
+        return '\n';
+    default:
+        return ch;
+    }
+}
+
+long get_keypress()
+{
+    long ch = getch();
+
+    // Our current tiles and Windows code doesn't have ungetch()
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+    if (ch != ERR) {
+        int newch;
+
+        // Clear the buffer of characters that match the one we're going to act on.
+        timeout(0);
+        do {
+            newch = getch();
+        } while( newch != ERR && newch == ch );
+        timeout(-1);
+
+        // If we read a different character than the one we're going to act on, re-queue it.
+        if (newch != ERR && newch != ch) {
+            ungetch(newch);
+        }
+    }
+#endif
+
+    return ch;
+}
 
 InputEvent get_input(int ch)
 {
@@ -17,89 +69,87 @@ InputEvent get_input(int ch)
     }
 
     const action_id act = action_from_key(ch);
-    switch(act)
-    {
-        case ACTION_MOVE_N:
-            return DirectionN;
-        case ACTION_MOVE_NE:
-            return DirectionNE;
-        case ACTION_MOVE_E:
-            return DirectionE;
-        case ACTION_MOVE_SE:
-            return DirectionSE;
-        case ACTION_MOVE_S:
-            return DirectionS;
-        case ACTION_MOVE_SW:
-            return DirectionSW;
-        case ACTION_MOVE_W:
-            return DirectionW;
-        case ACTION_MOVE_NW:
-            return DirectionNW;
-        default:
-            break;
+    switch(act) {
+    case ACTION_MOVE_N:
+        return DirectionN;
+    case ACTION_MOVE_NE:
+        return DirectionNE;
+    case ACTION_MOVE_E:
+        return DirectionE;
+    case ACTION_MOVE_SE:
+        return DirectionSE;
+    case ACTION_MOVE_S:
+        return DirectionS;
+    case ACTION_MOVE_SW:
+        return DirectionSW;
+    case ACTION_MOVE_W:
+        return DirectionW;
+    case ACTION_MOVE_NW:
+        return DirectionNW;
+    default:
+        break;
     }
 
-    switch(ch)
-    {
-        case 'k':
-        case '8':
-        case KEY_UP:
-            return DirectionN;
-        case 'j':
-        case '2':
-        case KEY_DOWN:
-            return DirectionS;
-        case 'l':
-        case '6':
-        case KEY_RIGHT:
-            return DirectionE;
-        case 'h':
-        case '4':
-        case KEY_LEFT:
-            return DirectionW;
-        case 'y':
-        case '7':
-            return DirectionNW;
-        case 'u':
-        case '9':
-            return DirectionNE;
-        case 'b':
-        case '1':
-            return DirectionSW;
-        case 'n':
-        case '3':
-            return DirectionSE;
-        case '.':
-        case '5':
-            return DirectionNone;
-        case '>':
-            return DirectionDown;
-        case '<':
-            return DirectionUp;
+    switch(ch) {
+    case 'k':
+    case '8':
+    case KEY_UP:
+        return DirectionN;
+    case 'j':
+    case '2':
+    case KEY_DOWN:
+        return DirectionS;
+    case 'l':
+    case '6':
+    case KEY_RIGHT:
+        return DirectionE;
+    case 'h':
+    case '4':
+    case KEY_LEFT:
+        return DirectionW;
+    case 'y':
+    case '7':
+        return DirectionNW;
+    case 'u':
+    case '9':
+        return DirectionNE;
+    case 'b':
+    case '1':
+        return DirectionSW;
+    case 'n':
+    case '3':
+        return DirectionSE;
+    case '.':
+    case '5':
+        return DirectionNone;
+    case '>':
+        return DirectionDown;
+    case '<':
+        return DirectionUp;
 
-        case '\n':
-            return Confirm;
-        case ' ':
-            return Close;
-        case 27: /* TODO Fix delay */
-        case 'q':
-            return Cancel;
-        case '\t':
-            return Tab;
-        case '?':
-            return Help;
+    case '\n':
+        return Confirm;
+    case ' ':
+        return Close;
+    case 27: /* TODO Fix delay */
+    case 'q':
+        return Cancel;
+    case '\t':
+        return Tab;
+    case '?':
+        return Help;
 
-        case ',':
-        case 'g':
-            return Pickup;
-        case 'f':
-        case 'F':
-            return Filter;
-        case 'r':
-        case 'R':
-            return Reset;
-        default:
-            return Undefined;
+    case ',':
+    case 'g':
+        return Pickup;
+    case 'f':
+    case 'F':
+        return Filter;
+    case 'r':
+    case 'R':
+        return Reset;
+    default:
+        return Undefined;
     }
 
 }
@@ -119,40 +169,40 @@ void get_direction(int &x, int &y, InputEvent &input)
     y = 0;
 
     switch(input) {
-        case DirectionN:
-            --y;
-            break;
-        case DirectionS:
-            ++y;
-            break;
-        case DirectionE:
-            ++x;
-            break;
-        case DirectionW:
-            --x;
-            break;
-        case DirectionNW:
-            --x;
-            --y;
-            break;
-        case DirectionNE:
-            ++x;
-            --y;
-            break;
-        case DirectionSW:
-            --x;
-            ++y;
-            break;
-        case DirectionSE:
-            ++x;
-            ++y;
-            break;
-        case DirectionNone:
-        case Pickup:
-            break;
-        default:
-            x = -2;
-            y = -2;
+    case DirectionN:
+        --y;
+        break;
+    case DirectionS:
+        ++y;
+        break;
+    case DirectionE:
+        ++x;
+        break;
+    case DirectionW:
+        --x;
+        break;
+    case DirectionNW:
+        --x;
+        --y;
+        break;
+    case DirectionNE:
+        ++x;
+        --y;
+        break;
+    case DirectionSW:
+        --x;
+        ++y;
+        break;
+    case DirectionSE:
+        ++x;
+        ++y;
+        break;
+    case DirectionNone:
+    case Pickup:
+        break;
+    default:
+        x = -2;
+        y = -2;
     }
 }
 
@@ -161,14 +211,14 @@ std::string get_input_string_from_file(std::string fname)
 {
     std::string ret = "";
     std::ifstream fin(fname.c_str());
-    if (fin){
+    if (fin) {
         getline(fin, ret);
         //remove utf8 bmm
-        if(ret.size()>0 && (unsigned char)ret[0]==0xef) {
-            ret.erase(0,3);
+        if(ret.size() > 0 && (unsigned char)ret[0] == 0xef) {
+            ret.erase(0, 3);
         }
-        while(ret.size()>0 && (ret[ret.size()-1]=='\r' ||  ret[ret.size()-1]=='\n')){
-            ret.erase(ret.size()-1,1);
+        while(ret.size() > 0 && (ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n')) {
+            ret.erase(ret.size() - 1, 1);
         }
     }
     return ret;
@@ -176,7 +226,8 @@ std::string get_input_string_from_file(std::string fname)
 
 input_manager inp_mngr;
 
-void input_manager::init() {
+void input_manager::init()
+{
     init_keycode_mapping();
 
     std::ifstream data_file;
@@ -237,22 +288,25 @@ void input_manager::init() {
     }
 
     data_file.close();
-        }
+}
 
-void input_manager::add_keycode_pair(long ch, const std::string& name) {
+void input_manager::add_keycode_pair(long ch, const std::string &name)
+{
     keycode_to_keyname[ch] = name;
     keyname_to_keycode[name] = ch;
 }
 
-void input_manager::add_gamepad_keycode_pair(long ch, const std::string& name) {
+void input_manager::add_gamepad_keycode_pair(long ch, const std::string &name)
+{
     gamepad_keycode_to_keyname[ch] = name;
     keyname_to_keycode[name] = ch;
 }
 
-void input_manager::init_keycode_mapping() {
+void input_manager::init_keycode_mapping()
+{
     // Between space and tilde, all keys more or less map
     // to themselves(see ASCII table)
-    for(char c=' '; c<='~'; c++) {
+    for(char c = ' '; c <= '~'; c++) {
         std::string name(1, c);
         add_keycode_pair(c, name);
     }
@@ -291,11 +345,13 @@ void input_manager::init_keycode_mapping() {
     keyname_to_keycode["MOUSE_MOVE"] = MOUSE_MOVE;
 }
 
-long input_manager::get_keycode(std::string name) {
+long input_manager::get_keycode(std::string name)
+{
     return keyname_to_keycode[name];
 }
 
-std::string input_manager::get_keyname(long ch, input_event_t inp_type) {
+std::string input_manager::get_keyname(long ch, input_event_t inp_type)
+{
     if(inp_type == CATA_INPUT_KEYBOARD) {
         return keycode_to_keyname[ch];
     } else if(inp_type == CATA_INPUT_MOUSE) {
@@ -319,19 +375,26 @@ std::string input_manager::get_keyname(long ch, input_event_t inp_type) {
     }
 }
 
-const std::vector<input_event>& input_manager::get_input_for_action(const std::string& action_descriptor, const std::string context, bool *overwrites_default) {
+const std::vector<input_event> &input_manager::get_input_for_action(const std::string
+        &action_descriptor, const std::string context, bool *overwrites_default)
+{
     // First we check if we have a special override in this particular context.
     if(context != "default" && action_contexts[context].count(action_descriptor)) {
-        if(overwrites_default) *overwrites_default = true;
+        if(overwrites_default) {
+            *overwrites_default = true;
+        }
         return action_contexts[context][action_descriptor];
     }
 
     // If not, we use the default binding.
-    if(overwrites_default) *overwrites_default = false;
+    if(overwrites_default) {
+        *overwrites_default = false;
+    }
     return action_to_input[action_descriptor];
 }
 
-const std::string& input_manager::get_action_name(const std::string& action) {
+const std::string &input_manager::get_action_name(const std::string &action)
+{
     return actionID_to_name[action];
 }
 
@@ -341,13 +404,14 @@ const std::string ANY_INPUT = "ANY_INPUT";
 const std::string COORDINATE = "COORDINATE";
 const std::string TIMEOUT = "TIMEOUT";
 
-const std::string& input_context::input_to_action(input_event& inp) {
-    for(int i=0; i<registered_actions.size(); i++) {
-        const std::string& action = registered_actions[i];
-        const std::vector<input_event>& check_inp = inp_mngr.get_input_for_action(action, category);
+const std::string &input_context::input_to_action(input_event &inp)
+{
+    for(int i = 0; i < registered_actions.size(); i++) {
+        const std::string &action = registered_actions[i];
+        const std::vector<input_event> &check_inp = inp_mngr.get_input_for_action(action, category);
 
         // Does this action have our queried input event in its keybindings?
-        for(int i=0; i<check_inp.size(); i++) {
+        for(int i = 0; i < check_inp.size(); i++) {
             if(check_inp[i] == inp) {
                 return action;
             }
@@ -364,7 +428,8 @@ void input_manager::set_timeout(int delay)
 }
 
 
-void input_context::register_action(const std::string& action_descriptor) {
+void input_context::register_action(const std::string &action_descriptor)
+{
     if(action_descriptor == "ANY_INPUT") {
         registered_any_input = true;
     } else if(action_descriptor == "COORDINATE") {
@@ -374,20 +439,21 @@ void input_context::register_action(const std::string& action_descriptor) {
     registered_actions.push_back(action_descriptor);
 }
 
-const std::string input_context::get_desc(const std::string& action_descriptor) {
+const std::string input_context::get_desc(const std::string &action_descriptor)
+{
     if(action_descriptor == "ANY_INPUT") {
         return "(*)"; // * for wildcard
     }
 
-    const std::vector<input_event>& events = inp_mngr.get_input_for_action(action_descriptor, category);
+    const std::vector<input_event> &events = inp_mngr.get_input_for_action(action_descriptor, category);
 
     if(events.size() == 0) {
         return UNDEFINED;
     }
 
     std::vector<input_event> inputs_to_show;
-    for(int i=0; i<events.size(); i++) {
-        const input_event& event = events[i];
+    for(int i = 0; i < events.size(); i++) {
+        const input_event &event = events[i];
 
         // Only display gamepad buttons if a gamepad is available.
         if(gamepad_available() || event.type != CATA_INPUT_GAMEPAD) {
@@ -396,8 +462,8 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
     }
 
     std::stringstream rval;
-    for(int i=0; i < inputs_to_show.size(); i++) {
-        for(int j=0; j<inputs_to_show[i].sequence.size(); j++) {
+    for(int i = 0; i < inputs_to_show.size(); i++) {
+        for(int j = 0; j < inputs_to_show[i].sequence.size(); j++) {
             rval << inp_mngr.get_keyname(inputs_to_show[i].sequence[j], inputs_to_show[i].type);
         }
 
@@ -411,7 +477,8 @@ const std::string input_context::get_desc(const std::string& action_descriptor) 
     return rval.str();
 }
 
-const std::string& input_context::handle_input() {
+const std::string &input_context::handle_input()
+{
     next_action.type = CATA_INPUT_ERROR;
     while(1) {
         next_action = inp_mngr.get_input_event(NULL);
@@ -419,7 +486,7 @@ const std::string& input_context::handle_input() {
             return TIMEOUT;
         }
 
-        const std::string& action = input_to_action(next_action);
+        const std::string &action = input_to_action(next_action);
 
         // Special help action
         if(action == "HELP_KEYBINDINGS") {
@@ -454,7 +521,8 @@ const std::string& input_context::handle_input() {
     }
 }
 
-void input_context::register_directions() {
+void input_context::register_directions()
+{
     register_cardinal();
     register_action("LEFTUP");
     register_action("LEFTDOWN");
@@ -462,22 +530,26 @@ void input_context::register_directions() {
     register_action("RIGHTDOWN");
 }
 
-void input_context::register_updown() {
+void input_context::register_updown()
+{
     register_action("UP");
     register_action("DOWN");
 }
 
-void input_context::register_leftright() {
+void input_context::register_leftright()
+{
     register_action("LEFT");
     register_action("RIGHT");
 }
 
-void input_context::register_cardinal() {
+void input_context::register_cardinal()
+{
     register_updown();
     register_leftright();
 }
 
-void input_context::get_direction(int& dx, int& dy, const std::string& action) {
+void input_context::get_direction(int &dx, int &dy, const std::string &action)
+{
     if(action == "UP") {
         dx = 0;
         dy = -1;
@@ -508,17 +580,18 @@ void input_context::get_direction(int& dx, int& dy, const std::string& action) {
     }
 }
 
-void input_context::display_help() {
+void input_context::display_help()
+{
     // Shamelessly stolen from help.cpp
-    WINDOW* w_help = newwin(FULL_SCREEN_HEIGHT-2, FULL_SCREEN_WIDTH-2,
-        1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
-        1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
+    WINDOW *w_help = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                            1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
+                            1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
     werase(w_help);
 
     // Draw win header and borders
     draw_border(w_help, c_white);
-    mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings")))/2 - 1,
+    mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
               c_ltred, " %s ", _("Keybindings"));
     mvwprintz(w_help, 1, 51, c_ltred, _("Unbound keys"));
     mvwprintz(w_help, 2, 51, c_ltgreen, _("Keybinding active only"));
@@ -526,15 +599,19 @@ void input_context::display_help() {
     mvwprintz(w_help, 4, 51, c_ltgray, _("Keybinding active globally"));
 
     // Clear the lines. Don't touch borders
-    for (int i = 1; i < FULL_SCREEN_HEIGHT-3; i++)
-    mvwprintz(w_help, i, 1, c_black, "                                               ");
+    for (int i = 1; i < FULL_SCREEN_HEIGHT - 3; i++) {
+        mvwprintz(w_help, i, 1, c_black, "                                               ");
+    }
 
-    for (int i=0; i<registered_actions.size(); i++) {
-        const std::string& action_id = registered_actions[i];
-        if(action_id == "ANY_INPUT") continue;
+    for (int i = 0; i < registered_actions.size(); i++) {
+        const std::string &action_id = registered_actions[i];
+        if(action_id == "ANY_INPUT") {
+            continue;
+        }
 
         bool overwrite_default;
-        const std::vector<input_event>& input_events = inp_mngr.get_input_for_action(action_id, category, &overwrite_default);
+        const std::vector<input_event> &input_events = inp_mngr.get_input_for_action(action_id, category,
+                &overwrite_default);
 
         nc_color col = input_events.size() ? c_white : c_ltred;
         mvwprintz(w_help, i, 3, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
@@ -553,7 +630,9 @@ void input_context::display_help() {
     refresh();
 
     long ch = getch();
-    while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE) { ch = getch(); };
+    while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE) {
+        ch = getch();
+    };
 
     werase(w_help);
     wrefresh(w_help);
@@ -567,7 +646,7 @@ input_event input_context::get_raw_input()
 
 #ifndef TILES
 // If we're using curses, we need to provide get_input_event() here.
-input_event input_manager::get_input_event(WINDOW* win)
+input_event input_manager::get_input_event(WINDOW *win)
 {
     (void)win; // unused
     int key = get_keypress();
@@ -579,7 +658,7 @@ input_event input_manager::get_input_event(WINDOW* win)
             rval.type = CATA_INPUT_ERROR;
         }
 #if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS || defined __CYGWIN__)
-    // ncurses mouse handling
+        // ncurses mouse handling
     } else if (key == KEY_MOUSE) {
         MEVENT event;
         if (getmouse(&event) == OK) {
@@ -617,7 +696,7 @@ bool gamepad_available()
     return false;
 }
 
-bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
+bool input_context::get_coordinates(WINDOW *capture_win, int &x, int &y)
 {
     if (!coordinate_input_received) {
         return false;
@@ -628,12 +707,13 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y)
     int win_right = win_left + view_columns - 1;
     int win_top = getbegy(capture_win) - VIEW_OFFSET_Y;
     int win_bottom = win_top + view_rows - 1;
-    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top ||
+        coordinate_y > win_bottom) {
         return false;
     }
 
-    x = g->ter_view_x - ((view_columns/2) - coordinate_x);
-    y = g->ter_view_y - ((view_rows/2) - coordinate_y);
+    x = g->ter_view_x - ((view_columns / 2) - coordinate_x);
+    y = g->ter_view_y - ((view_rows / 2) - coordinate_y);
 
     return true;
 }

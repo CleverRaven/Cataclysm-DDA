@@ -2,7 +2,6 @@
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
-#include "keypress.h"
 #include "martialarts.h"
 #include <sstream>
 #include <stdlib.h>

@@ -1,6 +1,5 @@
 #include "game.h"
 #include "input.h"
-#include "keypress.h"
 #include "output.h"
 #include "line.h"
 #include "computer.h"

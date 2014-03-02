@@ -1,7 +1,6 @@
 #include "iuse.h"
 #include "game.h"
 #include "mapdata.h"
-#include "keypress.h"
 #include "output.h"
 #include "options.h"
 #include "rng.h"

@@ -2,7 +2,6 @@
 
 #include "game.h"
 #include "output.h"
-#include "keypress.h"
 #include "player.h"
 #include "inventory.h"
 #include "mapdata.h"

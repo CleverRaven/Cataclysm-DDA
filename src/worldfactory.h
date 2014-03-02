@@ -6,7 +6,6 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "keypress.h"
 #include "input.h"
 #include "gamemode.h"
 

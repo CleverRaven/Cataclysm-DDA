@@ -1,6 +1,5 @@
 #include "game.h"
 #include "output.h"
-#include "keypress.h"
 #include "item_factory.h"
 #include <sstream>
 #include "text_snippets.h"

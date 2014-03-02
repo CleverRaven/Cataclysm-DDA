@@ -1,8 +1,10 @@
 #include "mod_manager.h"
+#include "input.h"
 #include "output.h"
-#include "keypress.h"
 #include "debug.h"
 #include <algorithm>
+
+// Note: Functions for drawing of UI are moved to the file worldfactory.cpp.
 
 mod_ui::mod_ui(mod_manager *mman)
 {
@@ -44,12 +46,12 @@ void mod_ui::set_usable_mods()
         MOD_INFORMATION *mod = *a;
 
         switch(mod->_type) {
-            case MT_CORE:
-                available_cores.push_back(mod->ident);
-                break;
-            case MT_SUPPLEMENTAL:
-                available_supplementals.push_back(mod->ident);
-                break;
+        case MT_CORE:
+            available_cores.push_back(mod->ident);
+            break;
+        case MT_SUPPLEMENTAL:
+            available_supplementals.push_back(mod->ident);
+            break;
         }
     }
     std::vector<std::string>::iterator it = ordered_mods.begin();
@@ -58,155 +60,6 @@ void mod_ui::set_usable_mods()
     ordered_mods.insert(it, available_cores.begin(), available_cores.end());
 
     usable_mods = ordered_mods;
-}
-
-int mod_ui::show_layering_ui()
-{
-    DebugLog() << "mod_ui:: now showing layering ui\n";
-
-    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
-    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
-
-    const int header_y = 4;
-    const int list_y = 6;
-    const int shift_y = list_y + 1;
-
-    DebugLog() << "iOffsetX <" << iOffsetX << ">\tiOffsetY <" << iOffsetY << ">\n";
-    DebugLog() << "TERMX, TERMY  <" << TERMX << ", " << TERMY << ">\nFULL_SCREEN_[WIDTH|HEIGHT] <" <<
-               FULL_SCREEN_WIDTH << ", " << FULL_SCREEN_HEIGHT << ">\n";
-
-    std::vector<std::string> available_cores, available_supplementals;
-    std::vector<std::string> ordered_mods, active_mods;
-
-    for(mod_manager::t_mod_map::iterator a = active_manager->mod_map.begin();
-        a != active_manager->mod_map.end(); ++a) {
-        MOD_INFORMATION *mod = a->second;
-
-        switch(mod->_type) {
-            case MT_CORE:
-                available_cores.push_back(mod->ident);
-                break;
-            case MT_SUPPLEMENTAL:
-                available_supplementals.push_back(mod->ident);
-                break;
-        }
-    }
-    std::vector<std::string>::iterator it = ordered_mods.begin();
-    ordered_mods.insert(it, available_supplementals.begin(), available_supplementals.end());
-    it = ordered_mods.begin();
-    ordered_mods.insert(it, available_cores.begin(), available_cores.end());
-
-    // set up windows for display
-    WINDOW *mod_screen;//, *mod_infopanel, *mod_list, *mod_order;
-    mod_screen = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
-    werase(mod_screen);
-
-    std::vector<std::string> headers;
-    headers.push_back(" Mod List ");
-    headers.push_back(" Mod Load Order ");
-
-    int selection[2] = {0, 0};
-    int active_header = 0;
-    do {
-        werase(mod_screen);
-        draw_layering_ui_lines(mod_screen);
-        draw_headers(mod_screen, header_y, headers, active_header);
-        draw_modlist(mod_screen, list_y, 0, ordered_mods, active_header == 0, selection[0]);
-        draw_modlist(mod_screen, list_y, FULL_SCREEN_WIDTH / 2 + 2, active_mods, active_header == 1,
-                     selection[1]);
-
-        if (active_header == 1) {
-            draw_shift_information(mod_screen, shift_y, FULL_SCREEN_WIDTH / 2 - 2, active_mods, selection[1]);
-        }
-        refresh();
-        wrefresh(mod_screen);
-        refresh();
-
-        if (gather_input(active_header, selection[active_header], ordered_mods, active_mods) != 0) {
-            return -1;
-        }
-
-    } while(true);
-}
-
-void mod_ui::draw_layering_ui_lines(WINDOW *win)
-{
-    // make window border
-    wborder(win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    // make appropriate lines
-    mvwhline(win, 3, 1, 0, FULL_SCREEN_WIDTH - 2);
-    mvwhline(win, FULL_SCREEN_HEIGHT - 7, 1, 0, FULL_SCREEN_WIDTH - 2);
-    mvwhline(win, 5, 1, 0, (FULL_SCREEN_WIDTH / 2) - 4);
-    mvwhline(win, 5, (FULL_SCREEN_WIDTH / 2) + 2, 0, (FULL_SCREEN_WIDTH / 2) - 3);
-
-    mvwvline(win, 3, (FULL_SCREEN_WIDTH / 2) - 4, 0, FULL_SCREEN_HEIGHT - 10);
-    mvwvline(win, 3, (FULL_SCREEN_WIDTH / 2) + 2, 0, FULL_SCREEN_HEIGHT - 10);
-    // Add in connective characters
-    mvwaddch(win, 3, 0, LINE_XXXO);
-    mvwaddch(win, 5, 0, LINE_XXXO);
-    mvwaddch(win, FULL_SCREEN_HEIGHT - 7, 0, LINE_XXXO);
-    mvwaddch(win, 5, (FULL_SCREEN_WIDTH / 2) + 2, LINE_XXXO);
-
-    mvwaddch(win, 3, FULL_SCREEN_WIDTH - 1, LINE_XOXX);
-    mvwaddch(win, 5, FULL_SCREEN_WIDTH - 1, LINE_XOXX);
-    mvwaddch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH - 1, LINE_XOXX);
-    mvwaddch(win, 5, (FULL_SCREEN_WIDTH / 2) - 4, LINE_XOXX);
-
-    mvwaddch(win, 3, FULL_SCREEN_WIDTH / 2 - 4, LINE_OXXX);
-    mvwaddch(win, 3, FULL_SCREEN_WIDTH / 2 + 2, LINE_OXXX);
-
-    mvwaddch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 - 4, LINE_XXOX);
-    mvwaddch(win, FULL_SCREEN_HEIGHT - 7, FULL_SCREEN_WIDTH / 2 + 2, LINE_XXOX);
-}
-
-void mod_ui::draw_headers(WINDOW *win, int sy, const std::vector<std::string> headers,
-                          unsigned char selected_header)
-{
-    const int header_space = FULL_SCREEN_WIDTH / headers.size();
-
-    for (int i = 0; i < headers.size(); ++i) {
-        const int header_x = (header_space + 3) * i + ((header_space - 4) - headers[i].size()) / 2;
-        mvwprintz(win, sy, header_x , c_cyan, headers[i].c_str());
-        if (selected_header == i) {
-            mvwputch(win, sy, header_x - 2, c_red, '<');
-            mvwputch(win, sy, header_x + headers[i].size() + 2, c_red, '>');
-        }
-    }
-}
-
-void mod_ui::draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::string> modlist,
-                          bool header_active, int last_selection)
-{
-    // draw the mod list!
-    for (int i = 0; i < modlist.size(); ++i) {
-        bool has_note = !mm_tree->is_available(modlist[i]);
-        std::string note = has_note ? mm_tree->get_node(modlist[i])->s_errors() : "";
-
-        std::string selmarker = (last_selection == i) ? ">> " : "   ";
-        nc_color selcol, namecol;
-        if (header_active) {
-            selcol = (last_selection == i) ? c_yellow : c_white;
-        } else {
-            selcol = (last_selection == i) ? c_cyan : c_white;
-        }
-
-        if (has_note) {
-            namecol = c_red;
-        } else {
-            namecol = c_white;
-        }
-
-        mvwprintz(win, sy + i, sx + 1, selcol, selmarker.c_str());
-        mvwprintz(win, sy + i, sx + 4, namecol, active_manager->mod_map[modlist[i]]->name.c_str());
-    }
-    if (header_active && last_selection < modlist.size()) {
-        MOD_INFORMATION *selmod = active_manager->mod_map[modlist[last_selection]];
-        std::string note = (!mm_tree->is_available(modlist[last_selection])) ? mm_tree->get_node(
-                               modlist[last_selection])->s_errors() : "";
-
-        show_mod_information(win, FULL_SCREEN_WIDTH - 1, selmod, note);
-    }
 }
 
 std::string mod_ui::get_information(MOD_INFORMATION *mod)
@@ -253,141 +106,6 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     }
 
     return info.str();
-}
-
-void mod_ui::show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note)
-{
-    const int infopanel_start_y = FULL_SCREEN_HEIGHT - 6;
-    const int infopanel_start_x = 1;
-
-    std::stringstream info;
-    info.str("");
-    // color the note red!
-    if (note.size() > 0) {
-        std::stringstream newnote;
-        newnote << "<color_red>" << note << "</color>";
-        note = newnote.str();
-    }
-    std::vector<std::string> dependencies = mod->dependencies;
-    std::string dependency_string = "";
-    if (dependencies.size() == 0) {
-        dependency_string = _("[NONE]");
-    } else {
-        for (int i = 0; i < dependencies.size(); ++i) {
-            if (i > 0) {
-                dependency_string += ", ";
-            }
-            dependency_string += "[" + active_manager->mod_map[dependencies[i]]->name + "]";
-        }
-    }
-    info << _("Name: ") << "\"" << mod->name << "\"  " << _("Author(s): ") << mod->author << "\n";
-    info << _("Description: ") << "\"" << mod->description << "\"\n";
-    info << _("Dependencies: ") << dependency_string << "\n";
-    if (mod->_type == MT_SUPPLEMENTAL && note.size() > 0) {
-        info << note;
-    }
-    fold_and_print(win, infopanel_start_y, infopanel_start_x, width, c_white, info.str().c_str());
-}
-
-void mod_ui::draw_shift_information(WINDOW *win, int sy, int sx,
-                                    const std::vector<std::string> mod_list, const int selection)
-{
-    const std::string can_shift_true = "<color_cyan>";
-    const std::string can_shift_false = "<color_magenta>";
-    const std::string can_shift_close = "</color>";
-
-    std::string shift_string = "";
-    if (can_shift_up(selection, mod_list)) {
-        shift_string += can_shift_true;
-    } else {
-        shift_string += can_shift_false;
-    }
-    shift_string += "+" + can_shift_close;
-
-    shift_string += " ";
-
-    if (can_shift_down(selection, mod_list)) {
-        shift_string += can_shift_true;
-    } else {
-        shift_string += can_shift_false;
-    }
-    shift_string += "-" + can_shift_close;
-    fold_and_print(win, sy, sx, 4, c_black, shift_string.c_str());
-}
-
-int mod_ui::gather_input(int &active_header, int &selection, std::vector<std::string> mod_list,
-                         std::vector<std::string> &active_mods_list)
-{
-    char ch = input();
-    const int next_header = (active_header == 1) ? 0 : 1;
-    const int prev_header = (active_header == 0) ? 1 : 0;
-
-    const int input_header = active_header;
-
-    int next_selection = selection + 1;
-    int prev_selection = selection - 1;
-
-    if (active_header == 0) {
-        if (prev_selection < 0) {
-            prev_selection = mod_list.size() - 1;
-        }
-        if (next_selection >= mod_list.size()) {
-            next_selection = 0;
-        }
-    } else if (active_header == 1) {
-        if (prev_selection < 0) {
-            prev_selection = active_mods_list.size() - 1;
-        }
-        if (next_selection >= active_mods_list.size()) {
-            next_selection = 0;
-        }
-    }
-
-
-    switch (ch) {
-        case 'j': // move down
-            selection = next_selection;
-            break;
-        case 'k': // move up
-            selection = prev_selection;
-            break;
-        case 'l': // switch active section
-            active_header = next_header;
-            break;
-        case 'h': // switch active section
-            active_header = prev_header;
-            break;
-        case '\n': // select
-            if (active_header == 0) {
-                try_add(mod_list[selection], active_mods_list);
-            } else if (active_header == 1) {
-                try_rem(selection, active_mods_list);
-            }
-            break;
-        case '+': // move active mod up
-        case '-': // move active mod down
-            if (active_header == 1) {
-                try_shift(ch, selection, active_mods_list);
-            }
-            //try_shift(ch, sel2, active_mods);
-            break;
-        case KEY_ESCAPE: // exit!
-            return -1;
-    }
-
-    if (input_header == 1 && active_header == 1) {
-        if (active_mods_list.size() == 0) {
-            selection = -1;
-        } else {
-            if (selection < 0) {
-                selection = 0;
-            } else if (selection >= active_mods_list.size()) {
-                selection = active_mods_list.size() - 1;
-            }
-        }
-    }
-
-    return 0;
 }
 
 void mod_ui::try_add(const std::string &mod_to_add,
