@@ -4043,11 +4043,11 @@
   },
 
   {
-    "id": "makeshift_halberd",
+    "id": "makeshift_glaive",
     "type": "TOOL",
     "symbol": "/",
     "color": "light_gray",
-    "name": "makeshift halberd",
+    "name": "makeshift glaive",
     "description": "This is large blade attached to a long stick. It could do a considerable amount of damage.",
     "price": 10000,
     "material": "steel",

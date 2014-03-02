@@ -396,7 +396,7 @@ void Item_factory::create_inital_categories() {
     add_category(category_id_drugs,    -14, _("drugs"));
     add_category(category_id_books,    -13, _("books"));
     add_category(category_id_mods,     -12, _("mods"));
-    add_category(category_id_mods,     -11, _("bionics"));
+    add_category(category_id_cbm,      -11, _("bionics"));
     add_category(category_id_other,    -10, _("other"));
 }
 
@@ -1206,8 +1206,11 @@ const std::string &Item_factory::calc_category(itype *it)
     if (it->is_book() ) {
         return category_id_books;
     }
-    if (it->is_gunmod() || it->is_bionic()) {
+    if (it->is_gunmod()) {
         return category_id_mods;
+    }
+    if (it->is_bionic()) {
+        return category_id_cbm;
     }
     if (it->melee_dam > 7 || it->melee_cut > 5) {
         return category_id_weapons;
