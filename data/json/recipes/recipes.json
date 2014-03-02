@@ -28202,6 +28202,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "flask_yeast",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "chemistry_set", 7 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "flask_glass", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "honey_bottled", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "matchbomb",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",

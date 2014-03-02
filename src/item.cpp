@@ -820,6 +820,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
     }
 
+    if (typeId() == "flask_yeast") {
+        int cult_time = brewing_time();
+        dump->push_back(iteminfo("DESCRIPTION", string_format(_("It will take %d hours to culture after it's sealed."), cult_time/600)));
+    }
+
     if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
         if(rotten() || (is_food_container() && contents[0].rotten())) {
             if(g->u.has_bionic("bio_digestion")) {
@@ -1400,8 +1405,10 @@ bool item::rotten()
 
 int item::brewing_time()
 {
-    unsigned int b_time = dynamic_cast<it_comest*>(type)->brewtime;
     float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
+    if (typeId() == "flask_yeast")
+        return 7200 * season_mult;
+    unsigned int b_time = dynamic_cast<it_comest*>(type)->brewtime;
     int ret = b_time * season_mult;
     return ret;
 }

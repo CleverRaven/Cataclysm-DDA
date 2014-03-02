@@ -7309,6 +7309,25 @@ int iuse::dejar(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::flask_yeast(player *p, item *it, bool)
+{
+    int cult_time = it->brewing_time();
+    if (g->turn.get_turn() > (it->bday + cult_time) )
+    {
+        g->add_msg_if_player(p,_("You open the flask and harvest the culture."));
+        itype_id yeast_id = (it->type->id).substr(6);
+        it->make(itypes["flask_glass"]);
+        it->contents.push_back(item(itypes[yeast_id], 0));
+        it->contents[0].charges = 10;
+        return it->type->charges_to_use();
+    }
+    else
+    {
+        g->add_msg_if_player(p,_("The yeast isn't done culturing yet."));
+        return 0;
+    }
+}
+
 int iuse::rad_badge(player *p, item *it, bool)
 {
     g->add_msg_if_player(p,_("You remove the badge from its wrapper, exposing it to ambient radiation."));
