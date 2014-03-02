@@ -2598,7 +2598,7 @@
     "burst": 0,
     "clip_size": 1,
     "reload": 80,
-    "valid_mod_locations": [[ "accessories", 42],[ "grip", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4],[ "grip", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "laser_rifle",
