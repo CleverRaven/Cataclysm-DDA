@@ -25,39 +25,61 @@ void snake_game::print_score(WINDOW *w_snake, int iScore)
     mvwprintz(w_snake, 0, 5, c_white, string_format(_("Score: %d"), iScore).c_str());
 }
 
-void snake_game::print_header(WINDOW *w_snake)
+void snake_game::print_header(WINDOW *w_snake, bool show_shortcut)
 {
     draw_border(w_snake);
-    shortcut_print(w_snake, 0, FULL_SCREEN_WIDTH - 10, c_white, c_ltgreen, _("<q>uit"));
+    if (show_shortcut) {
+        std::string shortcut = _("<q>uit");
+        shortcut_print(w_snake, 0, FULL_SCREEN_WIDTH - utf8_width(shortcut.c_str()) - 2,
+                       c_white, c_ltgreen, shortcut.c_str());
+    }
     center_print(w_snake, 0, c_white, _("S N A K E"));
 }
 
 void snake_game::snake_over(WINDOW *w_snake, int iScore)
 {
     werase(w_snake);
-    print_header(w_snake);
+    print_header(w_snake, false);
+
+    // Body of dead snake
+    size_t body_length = 3;
+    for (size_t i = 1; i <= body_length; i++) {
+        for (size_t j = 0; j <= 1; j++) {
+            mvwprintz(w_snake, i, 4 + j * 65, c_green, "|   |");
+        }
+    }
+
+    // Head of dead snake
+    mvwprintz(w_snake, body_length + 1, 3, c_green, "(     )");
+    mvwprintz(w_snake, body_length + 1, 4, c_dkgray, "x   x");
+    mvwprintz(w_snake, body_length + 2, 3, c_green, " \\___/ ");
+    mvwputch(w_snake, body_length + 3, 6, c_red, '|');
+    mvwputch(w_snake, body_length + 4, 6, c_red, '^');
+
+    // Tail of dead snake
+    mvwprintz(w_snake, body_length + 1, 70, c_green, "\\ /");
+    mvwputch(w_snake, body_length + 2, 71, c_green, 'v');
 
     std::vector<std::string> game_over_text;
-
-    game_over_text.push_back("  ________    _____      _____   ___________        ");
-    game_over_text.push_back(" /  _____/   /  _  \\    /     \\  \\_   _____/     ");
-    game_over_text.push_back("/   \\  ___  /  /_\\  \\  /  \\ /  \\  |    __)_    ");
-    game_over_text.push_back("\\    \\_\\  \\/    |    \\/    Y    \\ |        \\ ");
-    game_over_text.push_back(" \\______  /\\____|__  /\\____|__  //_______  /     ");
-    game_over_text.push_back("        \\/         \\/         \\/         \\/     ");
-    game_over_text.push_back(" ________ ____   _________________________          ");
-    game_over_text.push_back(" \\_____  \\\\   \\ /   /\\_   _____/\\______   \\  ");
-    game_over_text.push_back("  /   |   \\\\   Y   /  |    __)_  |       _/       ");
-    game_over_text.push_back(" /    |    \\\\     /   |        \\ |    |   \\     ");
-    game_over_text.push_back(" \\_______  / \\\\___/   /_______  / |____|_  /     ");
-    game_over_text.push_back("         \\/                   \\/         \\/      ");
+    game_over_text.push_back("  ________    _____      _____   ___________       ");
+    game_over_text.push_back(" /  _____/   /  _  \\    /     \\  \\_   _____/    ");
+    game_over_text.push_back("/   \\  ___  /  /_\\  \\  /  \\ /  \\  |    __)_   ");
+    game_over_text.push_back("\\    \\_\\  \\/    |    \\/    Y    \\ |        \\");
+    game_over_text.push_back(" \\______  /\\____|__  /\\____|__  //_______  /    ");
+    game_over_text.push_back("        \\/         \\/         \\/         \\/    ");
+    game_over_text.push_back(" ________ ____   _________________________         ");
+    game_over_text.push_back(" \\_____  \\\\   \\ /   /\\_   _____/\\______   \\ ");
+    game_over_text.push_back("  /   |   \\\\   Y   /  |    __)_  |       _/      ");
+    game_over_text.push_back(" /    |    \\\\     /   |        \\ |    |   \\    ");
+    game_over_text.push_back(" \\_______  / \\___/   /_______  / |____|_  /      ");
+    game_over_text.push_back("         \\/                  \\/         \\/      ");
 
     for (size_t i = 0; i < game_over_text.size(); i++) {
-        mvwprintz(w_snake, i + 3, 16, c_ltred, game_over_text[i].c_str());
+        mvwprintz(w_snake, i + 3, 17, c_ltred, game_over_text[i].c_str());
     }
 
     center_print(w_snake, 17, c_yellow, string_format( _("TOTAL SCORE: %d"), iScore).c_str());
-    center_print(w_snake, 20, c_white, _("Press 'q' or ESC to exit."));
+    center_print(w_snake, 21, c_white, _("Press 'q' or ESC to exit."));
     wrefresh(w_snake);
     do {
         InputEvent input_event = get_input();
@@ -65,7 +87,6 @@ void snake_game::snake_over(WINDOW *w_snake, int iScore)
             return;
         }
     } while (true);
-
 }
 
 int snake_game::start_game()
