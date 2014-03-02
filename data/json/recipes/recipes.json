@@ -6103,17 +6103,17 @@
   "autolearn": true,
   "tools": [
     [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "coffeemaker", 2],
-      [ "fire", -1 ]
-    ],
-    [
+      [ "pan", -1 ],
       [ "pot", -1 ],
-      [ "coffeemaker", -1],
-      [ "rock_pot", -1 ]
-    ]
+      [ "rock_pot", -1 ],
+      [ "ceramic_cup", -1],
+      [ "ceramic_bowl", -1],
+      [ "glass", -1],
+      [ "glass_bowl", -1],
+      [ "jar_glass", -1],
+      [ "can_food", -1 ],
+      [ "canister_empty", -1 ]
+        ]
   ],
   "components": [
     [
