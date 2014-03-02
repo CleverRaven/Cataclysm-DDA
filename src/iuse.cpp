@@ -4709,6 +4709,7 @@ int iuse::granade(player *p, item *it, bool)
 
 int iuse::granade_act(player *, item *it, bool t)
 {
+    int explosion_radius = 3;
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999) {
         return 0;
@@ -4724,9 +4725,9 @@ int iuse::granade_act(player *, item *it, bool t)
         {
             case 1:
                 g->sound(pos.x, pos.y, 100, _("BUGFIXES!!"));
-                g->draw_explosion(pos.x, pos.y, 10, c_ltcyan);
-                for (int i = -10; i <= 10; i++) {
-                    for (int j = -10; j <= 10; j++) {
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_ltcyan);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int zid = g->mon_at(pos.x + i, pos.y + j);
                         if (zid != -1 &&
                               (g->zombie(zid).type->in_species("INSECT") ||
@@ -4739,9 +4740,9 @@ int iuse::granade_act(player *, item *it, bool t)
 
             case 2:
                 g->sound(pos.x, pos.y, 100, _("BUFFS!!"));
-                g->draw_explosion(pos.x, pos.y, 10, c_green);
-                for (int i = -10; i <= 10; i++) {
-                    for (int j = -10; j <= 10; j++) {
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_green);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed *= 1 + rng(0, 20) * .1;
@@ -4771,9 +4772,9 @@ int iuse::granade_act(player *, item *it, bool t)
 
             case 3:
                 g->sound(pos.x, pos.y, 100, _("NERFS!!"));
-                g->draw_explosion(pos.x, pos.y, 10, c_red);
-                for (int i = -10; i <= 10; i++) {
-                    for (int j = -10; j <= 10; j++) {
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_red);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed = rng(1, g->zombie(mon_hit).speed);
@@ -4802,9 +4803,9 @@ int iuse::granade_act(player *, item *it, bool t)
 
             case 4:
                 g->sound(pos.x, pos.y, 100, _("REVERTS!!"));
-                g->draw_explosion(pos.x, pos.y, 10, c_pink);
-                for (int i = -10; i <= 10; i++) {
-                    for (int j = -10; j <= 10; j++) {
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_pink);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
