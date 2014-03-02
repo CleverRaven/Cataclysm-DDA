@@ -12619,6 +12619,14 @@ void map::add_extra(map_extra type)
             }
 
         }
+        std::string netherspawns[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = netherspawns[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
+        }
         place_spawns("GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
                      0.1f);//0.1 = 1-5
         place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -12657,6 +12665,14 @@ void map::add_extra(map_extra type)
                     }
                 }
             }
+        }
+        std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = spawncreatures[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
         }
         place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     }
@@ -12872,6 +12888,14 @@ void map::add_extra(map_extra type)
                     }
                 }
             }
+        }
+        std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = spawncreatures[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
         }
     }
     break;
