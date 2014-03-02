@@ -1385,15 +1385,8 @@ void game::complete_craft()
     if (newit.made_of(LIQUID)) {
         //while ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ){
         //while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
-        // ^ failed container controls, they don't detect multiple of the same empty container after one of them is filled
-        if (making->result_mult > 1) {
-            bool done = false;
-            while (!done){
-                if (handle_liquid(newit, false, false)){
-            done = true; }
-            }
-        }
-        else handle_liquid(newit, false, false);
+        // ^ failed container controls, they don't detect stacks of the same empty container after only one of them is filled
+        while(!handle_liquid(newit, false, false)) { ; }
     } else {
         // We might not have space for the item
         if (!u.can_pickVolume(newit.volume())) { //Accounts for result_mult
