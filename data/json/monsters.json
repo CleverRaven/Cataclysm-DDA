@@ -4178,7 +4178,7 @@
     "name": "wraith",
     "species":"NETHER",
     "symbol":"S",
-    "color":"white_dkgray",
+    "color":"dkgray",
     "size":"HUGE",
     "material":"null",
     "diff":50,
