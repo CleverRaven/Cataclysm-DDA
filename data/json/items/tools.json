@@ -4043,7 +4043,8 @@
   },
 
   {
-    "id": "makeshift_glaive",
+    "comment": "Name changed to glaive, but changing the id would break e.g. tilesets.",
+    "id": "makeshift_halberd",
     "type": "TOOL",
     "symbol": "/",
     "color": "light_gray",

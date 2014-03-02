@@ -1094,8 +1094,8 @@
     ]
   ]
 },{
-        "type" : "recipe",
-  "result": "makeshift_glaive",
+  "type" : "recipe",
+  "result": "makeshift_halberd",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
