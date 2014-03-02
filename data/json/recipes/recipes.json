@@ -29909,6 +29909,38 @@
     ]
   ]
 },{
+        "type" : "recipe",
+  "result": "grapnel",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["mag_survival", 4] , ["atomic_survival", 3] , ["textbook_survival", 2]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools" : [
+    [
+      ["rock", -1],
+      ["primitive_hammer", -1],
+      ["hammer", -1],
+      ["hatchet", -1],
+      ["toolset", -1]
+    ]
+  ],
+  "components": [
+    [
+      [ "rope_30", 1 ],
+      [ "rope_6", 5 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "mre_ravioli_box",
   "id_suffix": "uncraft",
