@@ -1385,12 +1385,7 @@ void game::complete_craft()
     if (newit.made_of(LIQUID)) {
         //while ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ){
         //while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
-        /*  Unfortunately, no method I tried of detecting whether the player could hold any more liquid would
-            fully work in a loop: stacks of the same empty container are ignored after only one of them is
-            filled and the loop is ran again. The way this works now is that the handle_liquid() screen will
-            continue appearing until the liquid is gone, and if the player runs out of containers, they must
-            say yes to the "Dump x on the ground? Y/N" dialog to continue. Hopefully this isn't too big of
-            an issue, if anyone can help make it more intuitive, please do. */
+        // ^ failed container controls, they don't detect multiple of the same empty container after one of them is filled
         if (making->result_mult > 1) {
             bool done = false;
             while (!done){
