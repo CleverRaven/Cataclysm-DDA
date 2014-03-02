@@ -1083,7 +1083,7 @@ void monster::die()
    for (int i = 0; i < deathfunctions.size(); i++) {
      func = deathfunctions.at(i);
      (md.*func)(this);
-   }//(md.*type->dies)(this);
+   }
  }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;

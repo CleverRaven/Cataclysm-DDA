@@ -10,7 +10,7 @@
 
 void mdeath::normal(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s dies!"), z->name().c_str());
+        g->add_msg(_("The %s dies!"), z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
     if(z->type->difficulty >= 30) {
         // TODO: might not be killed by the player (g->u)!
@@ -60,14 +60,19 @@ void mdeath::normal(monster *z) {
 
 void mdeath::acid(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
+        if(z->type->dies.size() == 1) //If this death function is the only function. The corpse gets dissolved.
+            g->add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
+        else {
+            g->add_msg(_("The %s's body leaks acid."), z->name().c_str());
+        }
     }
     g->m.add_field(z->posx(), z->posy(), fd_acid, 3);
 }
 
 void mdeath::boomer(monster *z) {
     std::string tmp;
-    g->sound(z->posx(), z->posy(), 24, _("a boomer explode!"));
+    std::string explode = string_format(_("a %s explode!"), z->name().c_str());
+    g->sound(z->posx(), z->posy(), 24, explode);
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->m.bash(z->posx() + i, z->posy() + j, 10, tmp);
@@ -229,8 +234,13 @@ void mdeath::disintegrate(monster *z) {
 }
 
 void mdeath::worm(monster *z) {
-    if (g->u_see(z))
-        g->add_msg(_("The %s splits in two!"), z->name().c_str());
+    if (g->u_see(z)) {
+        if(z->type->dies.size() == 1)
+            g->add_msg(_("The %s splits in two!"), z->name().c_str());
+        else {
+            g->add_msg(_("Two worms crawl out of the %s's corpse."), z->name().c_str());
+        }
+    }
 
     std::vector <point> wormspots;
     int wormx, wormy;
@@ -341,7 +351,11 @@ void mdeath::blobsplit(monster *z) {
     // If we're tame, our kids are too
     blob.friendly = z->friendly;
     if (g->u_see(z)) {
-        g->add_msg(_("The %s splits in two!"), z->name().c_str());
+        if(z->type->dies.size() == 1)
+            g->add_msg(_("The %s splits in two!"), z->name().c_str());
+        else {
+            g->add_msg(_("Two small blobs slither out of the corpse."), z->name().c_str());
+        }
     }
     blob.hp = blob.speed;
     std::vector <point> valid;
@@ -458,7 +472,8 @@ void mdeath::darkman(monster *z) {
 
 void mdeath::smokeburst(monster *z) {
     std::string tmp;
-    g->sound(z->posx(), z->posy(), 24, _("a smoker explode!"));
+    std::string explode = string_format(_("a %s explode!"), z->name().c_str());
+    g->sound(z->posx(), z->posy(), 24, explode);
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             g->m.add_field(z->posx() + i, z->posy() + j, fd_smoke, 3);
