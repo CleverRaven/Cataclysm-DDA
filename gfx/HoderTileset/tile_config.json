@@ -14,6 +14,21 @@
             "rotates":true
         },
         {
+            "id":"unknown_monster",
+            "fg":231,
+            "rotates":false
+        },
+        {
+            "id":"unknown_monster_zombie",
+            "fg":231,
+            "rotates":false
+        },
+        {
+            "id":"unknown_item_container",
+            "fg":1153,
+            "rotates":false
+        },
+        {
             "id":"weather_acid_drop",
             "bg":14
         },
