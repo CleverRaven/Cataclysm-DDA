@@ -29982,5 +29982,43 @@
       [ "gum", 4 ]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "p_paint",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 30,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "b_paint", 50 ]
+    ],
+    [
+      [ "r_paint", 50] 
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "g_paint",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 30,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "b_paint", 50 ]
+    ],
+    [
+      [ "y_paint", 50] 
+    ]
+  ]
 }
 ]

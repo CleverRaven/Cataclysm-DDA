@@ -32,6 +32,7 @@ List of known flags, used in both terrain.json and furniture.json
 
 - ```TRANSPARENT``` Players and monsters can see thorugh/past it. Also sets ter_t.transparent.
 - ```FLAT``` Player can build and move furniture on.
+- ```RUG``` Used for carpets so that the player can remove them from the floor.
 - ```BASHABLE``` Players + Monsters can bash this.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
 - ```PLACE_ITEM``` Valid terrain for place_item() to put items on.
@@ -93,6 +94,8 @@ List of known flags, used in both terrain.json and furniture.json
 - ```pedestal_temple``` Opens the temple if you have a petrified eye.
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```flower_poppy``` Pick the mutated poppy.
+- ```flower_bluebell``` Pick the bluebell.
+- ```flower_dahlia``` Pick the dahlia.
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```dirtmound``` Plant seeds and plants.
 - ```aggie_plant``` Harvest plants.

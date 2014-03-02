@@ -959,6 +959,62 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, "poppy_bud");
 }
 
+void iexamine::flower_bluebell(player *p, map *m, int examx, int examy) {
+  if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
+    none(p, m, examx, examy);
+    return;
+  }
+
+  int resist = p->get_env_resist(bp_mouth);
+
+  if (resist < 10) {
+    // Can't smell the flowers with a gas mask on!
+    g->add_msg(_("This flower has a nice aroma"));
+  }
+
+  if (one_in(3) && resist < 5)  {
+    // Should user player::infect, but can't!
+    // player::infect needs to be restructured to return a bool indicating success.
+    g->add_msg(_("You fall asleep..."));
+    p->fall_asleep(1200);
+    g->add_msg(_("Your legs are covered by flower's roots!"));
+    p->hurt(bp_legs, 0, 4);
+    p->moves -=50;
+  }
+
+  m->furn_set(examx, examy, f_null);
+  m->spawn_item(examx, examy, "bluebell_flower");
+  m->spawn_item(examx, examy, "bluebell_bud");
+}
+
+void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
+  if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
+    none(p, m, examx, examy);
+    return;
+  }
+
+  int resist = p->get_env_resist(bp_mouth);
+
+  if (resist < 10) {
+    // Can't smell the flowers with a gas mask on!
+    g->add_msg(_("This flower has a strong aroma"));
+  }
+
+  if (one_in(3) && resist < 5)  {
+    // Should user player::infect, but can't!
+    // player::infect needs to be restructured to return a bool indicating success.
+    g->add_msg(_("You fall asleep..."));
+    p->fall_asleep(1200);
+    g->add_msg(_("Your legs are covered by flower's roots!"));
+    p->hurt(bp_legs, 0, 4);
+    p->moves -=50;
+  }
+
+  m->furn_set(examx, examy, f_null);
+  m->spawn_item(examx, examy, "bluebell_dahlia");
+  m->spawn_item(examx, examy, "dahlia_bud");
+}
+
 void iexamine::fungus(player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
@@ -1447,6 +1503,12 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("flower_poppy" == function_name) {
     return &iexamine::flower_poppy;
+  }
+  if ("flower_bluebell" == function_name) {
+    return &iexamine::flower_bluebell;
+  }
+  if ("flower_dahlia" == function_name) {
+    return &iexamine::flower_dahlia;
   }
   if ("fungus" == function_name) {
     return &iexamine::fungus;

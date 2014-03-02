@@ -726,6 +726,26 @@
         "examine_action": "flower_poppy"
     },{
         "type" : "furniture",
+        "id" : "f_bluebell",
+        "name": "bluebell",
+        "symbol": "f",
+        "color": "blue",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "flower_bluebell"
+    },{
+        "type" : "furniture",
+        "id" : "f_dahlia",
+        "name": "dahlia",
+        "symbol": "f",
+        "color": "magenta",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "flower_dahlia"
+    },{
+        "type" : "furniture",
         "id" : "f_flower_fungal",
         "name": "fungal flower",
         "symbol": "f",
@@ -822,5 +842,41 @@
         "required_str": -1,
         "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
         "examine_action": "aggie_plant"
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_indoor_plant_y",
+        "name": "yellow indoor plant",
+        "symbol": "^",
+        "color": "yellow",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
+        "bash": {
+            "str_min": 2, "str_max": 30,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "withered", "amount": 1, "minamount": 0 }
+            ]
+        }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_statue",
+        "name": "Statue",
+        "symbol": "S",
+        "color": "dkgray",
+        "move_cost_mod": 2,
+        "required_str": 10,
+        "flags": ["BASHABLE","PLACE_ITEM","BLOCKSDOOR"],
+        "bash": {
+            "str_min": 11, "str_max": 30,
+            "sound": "smash!",
+            "sound_fail": "thump.",
+            "items": [
+                { "item": "rock", "amount": 6, "minamount": 1 }
+            ]
+        }
     }
 ]
