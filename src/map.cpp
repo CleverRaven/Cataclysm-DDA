@@ -3479,84 +3479,87 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
                  const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
                  const bool low_light, const bool bright_light)
 {
- bool invert = invert_arg;
- bool show_items = show_items_arg;
- int cx = view_center_x_arg;
- int cy = view_center_y_arg;
- if (!INBOUNDS(x, y))
-  return; // Out of bounds
- if (cx == -1)
-  cx = u.posx;
- if (cy == -1)
-  cy = u.posy;
- const int k = x + getmaxx(w)/2 - cx;
- const int j = y + getmaxy(w)/2 - cy;
- nc_color tercol;
- const ter_id curr_ter = ter(x,y);
- const furn_id curr_furn = furn(x,y);
- const trap_id curr_trap = tr_at(x, y);
- field &curr_field = field_at(x, y);
- const std::vector<item> &curr_items = i_at(x, y);
- long sym;
- bool hi = false;
- bool graf = false;
- bool normal_tercol = false, drew_field = false;
+    bool invert = invert_arg;
+    bool show_items = show_items_arg;
+    int cx = view_center_x_arg;
+    int cy = view_center_y_arg;
+    if (!INBOUNDS(x, y))
+        return; // Out of bounds
+    if (cx == -1)
+        cx = u.posx;
+    if (cy == -1)
+        cy = u.posy;
+    const int k = x + getmaxx(w)/2 - cx;
+    const int j = y + getmaxy(w)/2 - cy;
+    nc_color tercol;
+    const ter_id curr_ter = ter(x,y);
+    const furn_id curr_furn = furn(x,y);
+    const trap_id curr_trap = tr_at(x, y);
+    field &curr_field = field_at(x, y);
+    const std::vector<item> &curr_items = i_at(x, y);
+    long sym;
+    bool hi = false;
+    bool graf = false;
+    bool normal_tercol = false, drew_field = false;
 
 
- if (has_furn(x, y)) {
-  sym = furnlist[curr_furn].sym;
-  tercol = furnlist[curr_furn].color;
- } else {
-  sym = terlist[curr_ter].sym;
-  tercol = terlist[curr_ter].color;
- }
- if (u.has_disease("boomered")) {
-  tercol = c_magenta;
- } else if ( u.has_nv() ) {
-  tercol = (bright_light) ? c_white : c_ltgreen;
- } else if (low_light) {
-  tercol = c_dkgray;
- } else {
-  normal_tercol = true;
- }
- if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
-  show_items = false; // Can only see underwater items if WE are underwater
- }
-// If there's a trap here, and we have sufficient perception, draw that instead
-// todo; test using g->traps, test using global traplist
- if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
-     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
-  tercol = (*traps)[curr_trap]->color;
-  if ((*traps)[curr_trap]->sym == '%') {
-   switch(rng(1, 5)) {
-    case 1: sym = '*'; break;
-    case 2: sym = '0'; break;
-    case 3: sym = '8'; break;
-    case 4: sym = '&'; break;
-    case 5: sym = '+'; break;
-   }
-  } else
-   sym = (*traps)[curr_trap]->sym;
- }
-// If there's a field here, draw that instead (unless its symbol is %)
- if (curr_field.fieldCount() > 0 && curr_field.findField(curr_field.fieldSymbol()) &&
-     fieldlist[curr_field.fieldSymbol()].sym != '&') {
-  tercol = fieldlist[curr_field.fieldSymbol()].color[curr_field.findField(curr_field.fieldSymbol())->getFieldDensity() - 1];
-  drew_field = true;
-  if (fieldlist[curr_field.fieldSymbol()].sym == '*') {
-   switch (rng(1, 5)) {
-    case 1: sym = '*'; break;
-    case 2: sym = '0'; break;
-    case 3: sym = '8'; break;
-    case 4: sym = '&'; break;
-    case 5: sym = '+'; break;
-   }
-  } else if (fieldlist[curr_field.fieldSymbol()].sym != '%' ||
-             curr_items.size() > 0) {
-   sym = fieldlist[curr_field.fieldSymbol()].sym;
-   drew_field = false;
-  }
- }
+    if (has_furn(x, y)) {
+        sym = furnlist[curr_furn].sym;
+        tercol = furnlist[curr_furn].color;
+    } else {
+        sym = terlist[curr_ter].sym;
+        tercol = terlist[curr_ter].color;
+    }
+    if (u.has_disease("boomered")) {
+        tercol = c_magenta;
+    } else if ( u.has_nv() ) {
+        tercol = (bright_light) ? c_white : c_ltgreen;
+    } else if (low_light) {
+        tercol = c_dkgray;
+    } else if (u.has_disease("darkness")) {
+        tercol = c_dkgray;
+    } else {
+        normal_tercol = true;
+    }
+    if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
+        show_items = false; // Can only see underwater items if WE are underwater
+    }
+    // If there's a trap here, and we have sufficient perception, draw that instead
+    // todo; test using g->traps, test using global traplist
+    if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
+                                 u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
+        tercol = (*traps)[curr_trap]->color;
+        if ((*traps)[curr_trap]->sym == '%') {
+            switch(rng(1, 5)) {
+            case 1: sym = '*'; break;
+            case 2: sym = '0'; break;
+            case 3: sym = '8'; break;
+            case 4: sym = '&'; break;
+            case 5: sym = '+'; break;
+            }
+        } else {
+            sym = (*traps)[curr_trap]->sym;
+        }
+    }
+    // If there's a field here, draw that instead (unless its symbol is %)
+    if (curr_field.fieldCount() > 0 && curr_field.findField(curr_field.fieldSymbol()) &&
+        fieldlist[curr_field.fieldSymbol()].sym != '&') {
+        tercol = fieldlist[curr_field.fieldSymbol()].color[curr_field.findField(curr_field.fieldSymbol())->getFieldDensity() - 1];
+        drew_field = true;
+        if (fieldlist[curr_field.fieldSymbol()].sym == '*') {
+            switch (rng(1, 5)) {
+            case 1: sym = '*'; break;
+            case 2: sym = '0'; break;
+            case 3: sym = '8'; break;
+            case 4: sym = '&'; break;
+            case 5: sym = '+'; break;
+            }
+        } else if (fieldlist[curr_field.fieldSymbol()].sym != '%' ||
+                   curr_items.size() > 0) {
+            sym = fieldlist[curr_field.fieldSymbol()].sym;
+            drew_field = false;
+        }
+    }
     // If there's items here, draw those instead
     if (show_items && !drew_field && sees_some_items(x, y, g->u)) {
         if (sym != '.' && sym != '%') {
@@ -3576,29 +3579,32 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         }
     }
 
- int veh_part = 0;
- vehicle *veh = veh_at(x, y, veh_part);
- if (veh) {
-  sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
-  if (normal_tercol)
-   tercol = veh->part_color(veh_part);
- }
- // If there's graffiti here, change background color
- if(graffiti_at(x,y).contents)
-  graf = true;
+    int veh_part = 0;
+    vehicle *veh = veh_at(x, y, veh_part);
+    if (veh) {
+        sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
+        if (normal_tercol)
+            tercol = veh->part_color(veh_part);
+    }
+    // If there's graffiti here, change background color
+    if(graffiti_at(x,y).contents) {
+        graf = true;
+    }
 
- //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
- if(sym == LINE_XOXO || sym == LINE_OXOX)//vertical or horizontal
-  sym = determine_wall_corner(x, y, sym);
+    //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
+    if(sym == LINE_XOXO || sym == LINE_OXOX) { //vertical or horizontal
+        sym = determine_wall_corner(x, y, sym);
+    }
 
- if (invert)
-  mvwputch_inv(w, j, k, tercol, sym);
- else if (hi)
-  mvwputch_hi (w, j, k, tercol, sym);
- else if (graf)
-  mvwputch    (w, j, k, red_background(tercol), sym);
- else
-  mvwputch    (w, j, k, tercol, sym);
+    if (invert) {
+        mvwputch_inv(w, j, k, tercol, sym);
+    } else if (hi) {
+        mvwputch_hi (w, j, k, tercol, sym);
+    } else if (graf) {
+        mvwputch    (w, j, k, red_background(tercol), sym);
+    } else {
+        mvwputch    (w, j, k, tercol, sym);
+    }
 }
 
 /*
