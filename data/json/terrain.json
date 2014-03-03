@@ -2248,7 +2248,6 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT"],
         "examine_action": "fswitch"
-<<<<<<< HEAD
     },
     {
         "type" : "terrain",
@@ -2453,9 +2452,7 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
-   }
-=======
-    },{
+   },{
         "type" : "terrain",
         "id" : "t_rock_wall",
         "name": "stone wall",
@@ -2499,5 +2496,4 @@
         },
         "examine_action": "water_source"
     }
->>>>>>> 0a38713be35c47be1964b3220c77e1b0b65f11f1
 ]
