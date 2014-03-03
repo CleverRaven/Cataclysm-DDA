@@ -131,6 +131,7 @@ struct itype
 
  std::set<std::string> item_tags;
  std::set<std::string> techniques;
+
  unsigned int light_emission;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
  const item_category *category; // category pointer or NULL for automatic selection

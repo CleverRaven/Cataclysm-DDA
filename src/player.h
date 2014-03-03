@@ -255,18 +255,19 @@ public:
  bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint
  bool can_leg_block(); // technique-based defensive ability
  bool can_arm_block(); // technique-based defensive ability, like tec_leg_block
- bool can_block(); // can we block at all
+ bool can_limb_block(); // can we block with our limbs (via techniques as above)
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
- void melee_attack(Creature &p, bool allow_special = true);
+ void melee_attack(Creature &t, bool allow_special, matec_id technique = "");
  double get_weapon_dispersion(item* weapon);
  bool handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_effects );
  void fire_gun(int targetx, int targety, bool burst);
  int  hit_mon(monster *critter, bool allow_grab = true);
  void hit_player(player &p, bool allow_grab = true);
 
- bool block_hit(body_part &bp_hit, int &side,
+ void dodge_hit(Creature *source, int hit_spread);
+ bool block_hit(Creature *source, body_part &bp_hit, int &side,
     damage_instance &dam);
 
  bool armor_absorb(damage_unit& du, item& armor);
@@ -290,9 +291,8 @@ public:
 
  bool has_technique(matec_id tec);
  matec_id pick_technique(Creature &t,
-                             bool crit, bool allowgrab);
- void perform_technique(ma_technique technique, Creature &t,
-                       int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
+                             bool crit, bool dodge_counter, bool block_counter);
+ void perform_technique(ma_technique technique, Creature &t, damage_instance &d, int& move_cost);
 
  void perform_special_attacks(Creature &t);
 

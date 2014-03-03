@@ -53,7 +53,9 @@ enum dis_type_enum {
  // Contact lenses
  DI_CONTACTS,
  // Lack/sleep
- DI_LACKSLEEP
+ DI_LACKSLEEP,
+ // Grabbed (from MA or monster)
+ DI_GRABBED
 };
 
 std::map<std::string, dis_type_enum> disease_type_lookup;
@@ -151,6 +153,7 @@ void game::init_diseases() {
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
     disease_type_lookup["contacts"] = DI_CONTACTS;
     disease_type_lookup["lack_sleep"] = DI_LACKSLEEP;
+    disease_type_lookup["grabbed"] = DI_GRABBED;
 }
 
 void dis_msg(dis_type type_string) {
@@ -243,6 +246,9 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_LACKSLEEP:
         g->add_msg(_("You are too tired to function well."));
+        break;
+    case DI_GRABBED:
+        g->add_msg(_("You have been grabbed."));
         break;
     default:
         break;
@@ -1261,6 +1267,12 @@ void dis_effect(player &p, disease &dis) {
             p.mod_int_bonus(-2);
             p.mod_per_bonus(-2);
             break;
+
+        case DI_GRABBED:
+            p.blocks_left -= dis.intensity;
+            p.dodges_left = 0;
+            p.rem_disease(dis.type);
+            break;
     }
 }
 
@@ -1358,6 +1370,7 @@ int disease_speed_boost(disease dis)
         case DI_METH:       return (dis.duration > 600 ? 50 : -40);
         case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
         case DI_LACKSLEEP:  return -5;
+        case DI_GRABBED:    return -25;
         default:;
    }
     return 0;
@@ -1727,7 +1740,7 @@ std::string dis_name(disease& dis)
           return "Invalid martial arts buff";
 
     case DI_LACKSLEEP: return _("Lacking Sleep");
-
+    case DI_GRABBED: return _("Grabbed");
     default:;
     }
     return "";
@@ -2210,7 +2223,8 @@ condition, and deals massive damage.");
 
     case DI_LACKSLEEP: return _("You haven't slept in a while, and it shows. \n\
     You can't move as quickly and your stats just aren't where they should be.");
-
+    case DI_GRABBED: return _("You have been grabbed by an attacker. \n\
+    You cannot dodge and blocking is very difficult.");
     default:;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
