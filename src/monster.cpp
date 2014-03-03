@@ -635,7 +635,10 @@ bool monster::is_dead_state() {
     return hp <= 0;
 }
 
-bool monster::block_hit(body_part &, int &, damage_instance &) {
+void monster::dodge_hit(Creature *, int) {
+}
+
+bool monster::block_hit(Creature *source, body_part &, int &, damage_instance &) {
     return false;
 }
 
@@ -705,7 +708,7 @@ int monster::hit(Creature &p, body_part &bp_hit) {
 }
 
 
-void monster::melee_attack(Creature &target, bool) {
+void monster::melee_attack(Creature &target, bool, matec_id) {
     mod_moves(-100);
     if (type->melee_dice == 0) { // We don't attack, so just return
         return;
@@ -786,7 +789,10 @@ void monster::melee_attack(Creature &target, bool) {
     */
 
     dealt_damage_instance dealt_dam;
-    int hitspread = target.deal_melee_attack(this, hitroll, false, damage, dealt_dam);
+    int hitspread = target.deal_melee_attack(this, hitroll);
+    if (hitspread >= 0) {
+        target.deal_melee_hit(this, hitspread, false, damage, dealt_dam);
+    }
     bp_hit = dealt_dam.bp_hit;
 
     //Hallucinations always produce messages but never actually deal damage
@@ -882,15 +888,14 @@ void monster::hit_monster(int i)
   g->kill_mon(i, (friendly != 0));
 }
 
-int monster::deal_melee_attack(Creature *source, int hitroll, bool crit,
-                               const damage_instance& d, dealt_damage_instance &dealt_dam)
+int monster::deal_melee_attack(Creature *source, int hitroll)
 {
     mdefense mdf;
     if(!is_hallucination() && source != NULL)
         {
         (mdf.*type->sp_defense)(this);
         }
-    return Creature::deal_melee_attack(source, hitroll, crit, d, dealt_dam);
+    return Creature::deal_melee_attack(source, hitroll);
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
@@ -1083,7 +1088,7 @@ void monster::die()
    for (int i = 0; i < deathfunctions.size(); i++) {
      func = deathfunctions.at(i);
      (md.*func)(this);
-   }//(md.*type->dies)(this);
+   }
  }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;

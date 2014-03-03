@@ -192,6 +192,16 @@
         ]
     },{
         "type" : "terrain",
+        "id" : "t_floor_waxed",
+        "name": "waxed floor",
+        "symbol": ".",
+        "color": "ltred",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
         "id" : "t_dirtfloor",
         "name": "dirt floor",
         "symbol": ".",
@@ -2248,5 +2258,48 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT"],
         "examine_action": "fswitch"
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_wall",
+        "name": "stone wall",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_wall_half",
+        "name": "half-built stone wall",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_covered_well",
+        "name": "covered well",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_water_pump",
+        "name": "water pump",
+        "symbol": "&",
+        "color": "ltgray",
+        "move_cost": 6,
+        "flags": ["TRANSPARENT", "BASHABLE", "DECONSTRUCT" ],
+        "bash": {
+            "str_min": 15, "str_max": 80,
+            "sound": "whack!",
+            "sound_fail": "thunk.",
+            "ter_set": "t_covered_well",
+            "items": [
+                { "item": "well_pump", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "pipe", "amount": 4, "minamount": 0, "chance": 50 }
+            ]
+        },
+        "examine_action": "water_source"
     }
 ]

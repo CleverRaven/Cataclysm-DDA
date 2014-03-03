@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <algorithm>
 #include <iterator>
-#include "keypress.h"
+#include "input.h"
 #include "cursesdef.h"
 #include "uistate.h"
 #include "options.h"

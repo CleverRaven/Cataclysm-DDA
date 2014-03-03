@@ -77,6 +77,7 @@ private:
     int part_at(int dx, int dy);
     void move_cursor(int dx, int dy);
     task_reason cant_do(char mode);
+    bool can_currently_install(vpart_info *vpart);
 
     void do_install(task_reason reason);
     void do_repair(task_reason reason);

@@ -226,8 +226,8 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
             field_entry* tmpfld = m->field_at( x + a, y + b ).findField( curtype );
-            // Candidates are existing non-max-strength fields or navigable tiles with no field.
-            if( ( tmpfld && tmpfld->getFieldDensity() < 3 ) ||
+            // Candidates are existing weaker fields or navigable tiles with no field.
+            if( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
                 ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
@@ -1103,7 +1103,7 @@ void map::step_in_field(int x, int y)
                     adjusted_intensity -= 1;
                 }
             }
-            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
+            if (!g->u.has_active_bionic("bio_heatsink") || !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit prevents ALL fire damage.
                 if (adjusted_intensity == 1) {
                     g->add_msg(_("You burn your legs and feet!"));
                     g->u.hit(NULL, bp_feet, 0, 0, rng(2, 6));
@@ -1192,7 +1192,7 @@ void map::step_in_field(int x, int y)
         case fd_flame_burst:
             //A burst of flame? Only hits the legs and torso.
             if (inside) break; //fireballs can't touch you inside a car.
-            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
+            if (!g->u.has_active_bionic("bio_heatsink") || !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit stops fire.
                 g->add_msg(_("You're torched by flames!"));
                 g->u.hit(NULL, bp_legs, 0, 0,  rng(2, 6));
                 g->u.hit(NULL, bp_legs, 1, 0,  rng(2, 6));

@@ -8,7 +8,7 @@
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
 #else
-#include "SDL/SDL.h"
+#include "SDL2/SDL.h"
 #endif
 #include "SDLMain.h"
 #include <sys/param.h> /* for MAXPATHLEN */

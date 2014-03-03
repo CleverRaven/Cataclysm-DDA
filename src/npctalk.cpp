@@ -4,7 +4,6 @@
 #include "dialogue.h"
 #include "rng.h"
 #include "line.h"
-#include "keypress.h"
 #include "debug.h"
 #include "catacharset.h"
 #include <vector>
@@ -2171,8 +2170,7 @@ talk_topic special_talk(char ch)
  return TALK_NONE;
 }
 
-bool trade(npc *p, int cost, std::string deal)
-{
+bool trade(npc *p, int cost, std::string deal) {
  WINDOW* w_head = newwin(4, FULL_SCREEN_WIDTH,
                          (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                          (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
@@ -2198,31 +2196,31 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
 // Populate the list of what the NPC is willing to buy, and the prices they pay
 // Note that the NPC's barter skill is factored into these prices.
- std::vector<item*> theirs, yours;
- std::vector<int> their_price, your_price;
- p->init_selling(theirs, their_price);
- p->init_buying(g->u.inv, yours, your_price);
- std::vector<bool> getting_theirs, getting_yours;
- getting_theirs.resize(theirs.size());
- getting_yours.resize(yours.size());
+     std::vector<item*> theirs, yours;
+     std::vector<int> their_price, your_price;
+     p->init_selling(theirs, their_price);
+     p->init_buying(g->u.inv, yours, your_price);
+     std::vector<bool> getting_theirs, getting_yours;
+     getting_theirs.resize(theirs.size());
+     getting_yours.resize(yours.size());
 
 // Adjust the prices based on your barter skill.
- for (size_t i = 0; i < their_price.size(); i++) {
-  their_price[i] *= (price_adjustment(g->u.skillLevel("barter")) +
+    for (size_t i = 0; i < their_price.size(); i++) {
+        their_price[i] *= (price_adjustment(g->u.skillLevel("barter")) +
                      (p->int_cur - g->u.int_cur) / 15);
-  getting_theirs[i] = false;
- }
- for (size_t i = 0; i < your_price.size(); i++) {
-  your_price[i] /= (price_adjustment(g->u.skillLevel("barter")) +
+        getting_theirs[i] = false;
+    }
+    for (size_t i = 0; i < your_price.size(); i++) {
+        your_price[i] /= (price_adjustment(g->u.skillLevel("barter")) +
                     (p->int_cur - g->u.int_cur) / 15);
-  getting_yours[i] = false;
- }
+        getting_yours[i] = false;
+    }
 
- long cash = cost;       // How much cash you get in the deal (negative = losing money)
- bool focus_them = true; // Is the focus on them?
- bool update = true;     // Re-draw the screen?
- int  them_off = 0, you_off = 0; // Offset from the start of the list
- signed char ch, help;
+    long cash = cost;       // How much cash you get in the deal (negative = losing money)
+    bool focus_them = true; // Is the focus on them?
+    bool update = true;     // Re-draw the screen?
+    int  them_off = 0, you_off = 0; // Offset from the start of the list
+    signed char ch, help;
 
  do {
   if (update) { // Time to re-draw
@@ -2232,9 +2230,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    werase(w_you);
    for (int i = 1; i < FULL_SCREEN_WIDTH; i++)
     mvwputch(w_head, 3, i, c_white, LINE_OXOX);
-   mvwprintz(w_head, 3, 30,
-             (cash <  0 && g->u.cash >= cash * -1) || (cash >= 0 && p->cash  >= cash) ?
-             c_green : c_red, (cash >= 0 ? _("Profit $%d") : _("Cost $%d")), abs(cash));
+    mvwprintz(w_head, 3, 30,
+             (cash < 0 && g->u.cash >= cash * -1) || (cash >= 0 && p->cash  >= cash) ?
+             c_green : c_red, (cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f")), (double)abs(cash)/100);
 
     if (deal != "") {
         mvwprintz(w_head, 3, 45, (cost < 0 ? c_ltred : c_ltgreen), deal.c_str());
@@ -2243,16 +2241,16 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    draw_border(w_you, (!focus_them ? c_yellow : BORDER_COLOR));
 
    mvwprintz(w_them, 0, 2, (cash < 0 || p->cash >= cash ? c_green : c_red),
-             _("%s: $%d"), p->name.c_str(), p->cash);
+             _("%s: $%.2f"), p->name.c_str(), (double)p->cash/100);
    mvwprintz(w_you,  0, 2, (cash > 0 || g->u.cash>=cash*-1 ? c_green:c_red),
-             _("You: $%d"), g->u.cash);
+             _("You: $%.2f"), (double)g->u.cash/100);
 // Draw their list of items, starting from them_off
    for (int i = them_off; i < theirs.size() && i < (17 + them_off); i++)
     mvwprintz(w_them, i - them_off + 1, 1,
-              (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%d",
+              (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%.2f",
               char((i -them_off) + 'a'), (getting_theirs[i] ? '+' : '-'),
               utf8_substr(theirs[i]->tname(), 0, 25).c_str(),
-              their_price[i]);
+              (double)their_price[i]/100);
    if (them_off > 0)
     mvwprintw(w_them, 19, 1, "< Back");
    if (them_off + 17 < theirs.size())
@@ -2260,10 +2258,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 // Draw your list of items, starting from you_off
    for (int i = you_off; i < yours.size() && (i < (17 + you_off)) ; i++)
     mvwprintz(w_you, i - you_off + 1, 1,
-              (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%d",
+              (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%.2f",
               char((i -you_off) + 'a'), (getting_yours[i] ? '+' : '-'),
               utf8_substr(yours[i]->tname(), 0,25).c_str(),
-              your_price[i]);
+              (double)your_price[i]/100);
    if (you_off > 0)
     mvwprintw(w_you, 19, 1, _("< Back"));
    if (you_off + 17 < yours.size())
@@ -2328,13 +2326,19 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    }
    break;
   case '\n': // Check if we have enough cash...
-   if (cash < 0 && g->u.cash < cash * -1) {
-    popup(_("Not enough cash!  You have $%d, price is $%d."), g->u.cash, cash);
-    update = true;
-    ch = ' ';
-   } else if (cash > 0 && p->cash < cash)
-    p->op_of_u.owed += cash;
-   break;
+  case 'T'://T means the trade was forced.
+    // The player must pay cash, and it should not put the player negative.
+    if(cash < 0 && g->u.cash < cash * -1) {
+        popup(_("Not enough cash!  You have $%.2f, price is $%.2f."), (double)g->u.cash/100, -(double)cash/100);
+        update = true;
+        ch = ' ';
+        //Else the player gets cash, and it should not make the NPC negative.
+    } else if (cash > 0 && p->cash < cash * -1 && ch != 'T') {
+        popup(_("Not enough cash! %s has $%.2f, but the price is $%.2f. Use (T) to force the trade."), p->name.c_str(), (double)p->cash/100, (double)cash/100);
+        update = true;
+        ch = ' ';
+    }
+  break;
   default: // Letters & such
    if (ch >= 'a' && ch <= 'z') {
     ch -= 'a';
@@ -2362,9 +2366,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     ch = 0;
    }
   }
- } while (ch != KEY_ESCAPE && ch != '\n');
+ } while (ch != KEY_ESCAPE && ch != '\n' && ch != 'T');
 
- if (ch == '\n') {
+ if (ch == '\n' || ch == 'T') {
   inventory newinv;
   int practice = 0;
   std::vector<char> removing;
@@ -2398,8 +2402,14 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
   }
   g->u.practice(g->turn, "barter", practice / 2);
   p->inv = newinv;
-  g->u.cash += cash;
-  p->cash   -= cash;
+  if(ch == 'T' && cash > 0) { //Trade was forced, give the NPC's cash to the player.
+    p->op_of_u.owed += (cash - p->cash);
+    g->u.cash += p->cash;
+    p->cash = 0;
+  } else {
+      g->u.cash += cash;
+      p->cash   -= cash;
+  }
  }
  werase(w_head);
  werase(w_you);

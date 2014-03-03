@@ -811,7 +811,6 @@
     <ClInclude Include="..\src\iuse_software_snake.h" />
     <ClInclude Include="..\src\iuse_software_sokoban.h" />
     <ClInclude Include="..\src\json.h" />
-    <ClInclude Include="..\src\keypress.h" />
     <ClInclude Include="..\src\lightmap.h" />
     <ClInclude Include="..\src\line.h" />
     <ClInclude Include="..\src\live_view.h" />
@@ -929,7 +928,6 @@
     <ClCompile Include="..\src\iuse_software_snake.cpp" />
     <ClCompile Include="..\src\iuse_software_sokoban.cpp" />
     <ClCompile Include="..\src\json.cpp" />
-    <ClCompile Include="..\src\keypress.cpp" />
     <ClCompile Include="..\src\lightmap.cpp" />
     <ClCompile Include="..\src\line.cpp" />
     <ClCompile Include="..\src\live_view.cpp" />

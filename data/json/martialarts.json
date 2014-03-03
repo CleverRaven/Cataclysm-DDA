@@ -44,7 +44,8 @@
         "techniques" : [
             "tec_aikido_feint",
             "tec_aikido_disarm",
-            "tec_aikido_throw"
+            "tec_aikido_throw",
+            "tec_aikido_dodgethrow"
         ]
     },{
         "type" : "martial_art",
@@ -255,6 +256,93 @@
         "techniques" : [
             "tec_zuiquan_feint",
             "tec_counter"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_fencing",
+        "name" : "Fencing",
+        "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples. Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.", 
+        "onmove_buffs" : [
+            {
+                "id" : "fencing_move_buff",
+                "name" : "Fencing Footwork",
+                "description" : "+2 stab and +1 acc per stack",
+                "unarmed_allowed" : true,
+                "min_melee" : 2,
+                "buff_duration" : 2,
+                "max_stacks" : 2,
+                "stab" : 2,
+                "hit" : 1
+            }
+        ],
+        "techniques" : [
+            "tec_feint",
+            "tec_fencing_lunge",
+            "tec_fencing_stop_thrust",
+            "tec_fencing_thrust"
+        ],
+        "weapons" : [
+            "rapier",
+            "broadsword",
+            "broadfire_off",
+            "broadfire_on"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_eskrima",
+        "name" : "Eskrima",
+        "description": "Eskrima, also known as Kali, is a Filipino martial art. It emphasises rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
+        "static_buffs" : [
+            {
+                "id" : "eskrima_bash",
+                "name" : "Eskrima Bashing",
+                "melee_allowed" : true,
+                "min_melee" : 1,
+                "bash_mult" : 1.2,
+                "description" : "Increased bashing damage"
+            }
+        ],
+        "onhit_buffs" : [
+            {
+                "id" : "eskrima_hit_buff",
+                "name" : "Eskrima Combination",
+                "description" : "Combination",
+                "melee_allowed" : true,
+                "min_melee" : 2,
+                "buff_duration" : 3,
+                "max_stacks" : 1
+            }
+        ],
+        "techniques" : [
+            "tec_eskrima_round",
+            "tec_eskrima_fan",
+            "tec_eskrima_snap",
+            "tec_eskrima_puno",
+            "tec_eskrima_kick",
+            "tec_eskrima_combination"
+        ],
+        "weapons" : [
+            "screwdriver",
+            "makeshift_knife",
+            "switchblade",
+            "scissors",
+            "machete",
+            "diamond_knife",
+            "diamond_machete",
+            "tanto",
+            "makeshift_machete",
+            "knife_combat",
+            "pool_cue",
+            "punch_dagger",
+            "umbrella",
+            "cu_pipe",
+            "glass_shiv",
+            "stick",
+            "cudgel",
+            "2x4",
+            "pipe",
+            "baton",
+            "cane"
         ]
     },{
         "type" : "martial_art",

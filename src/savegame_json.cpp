@@ -6,7 +6,6 @@
 #include "game.h"
 #include "disease.h"
 #include "addiction.h"
-#include "keypress.h"
 #include "moraledata.h"
 #include "inventory.h"
 #include "artifact.h"
