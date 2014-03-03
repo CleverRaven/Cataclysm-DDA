@@ -516,6 +516,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
         jmapgen_int tmp_x(0,0);
         jmapgen_int tmp_y(0,0);
         jmapgen_int tmp_amt(0,0);
+        std::string tmp_type;
         jmapgen_place_special_op tmpop = JMAPGEN_PLACESPECIAL_NULL;
         JsonObject jsi = parray.next_object();
         if ( jsi.has_string("type") ) {
@@ -542,7 +543,7 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
             jsi.throw_error("  place_specials: invalid value for 'y'");
         }
         load_jmapgen_int(jsi, "amount", tmp_amt.val, tmp_amt.valmax);
-        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt );
+        jmapgen_place_special new_special( tmp_x, tmp_y, tmpop, tmp_amt, tmp_type );
         place_specials.push_back( new_special );
         tmpval = "";
     }
@@ -690,7 +691,7 @@ bool mapgen_function_json::setup() {
                if ( jsi.has_string("item") ) {
                    tmpval = jsi.get_string("item");
                    if( ! item_controller->has_template(tmpval) ) {
-                       jsi.throw_error("  add item: no such item '%s'", tmpval.c_str() );
+                       jsi.throw_error(("  add item: no such item ") + tmpval );
                    }
                } else {
                    parray.throw_error("adding other things is not supported yet"); return false;
@@ -822,7 +823,7 @@ void jmapgen_place_special::apply( map * m ) {
         } break;
         case JMAPGEN_PLACESPECIAL_VENDINGMACHINE: {
             m->furn_set(x.get(), y.get(), f_null);
-            m->place_vending(x.get(), y.get(), charges);
+            m->place_vending(x.get(), y.get(), type);
         } break;
         case JMAPGEN_PLACESPECIAL_NULL:
         default:
@@ -3144,8 +3145,12 @@ C..C..C...|hhh|#########\n\
                     computer *tmpcomp2 = NULL;
                     tmpcomp2 = add_computer(10, 21, _("Barracks Entrance"), 4);
                     tmpcomp2->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 6);
+                    tmpcomp2->add_failure(COMPFAIL_DAMAGE);
+                    tmpcomp2->add_failure(COMPFAIL_SHUTDOWN);
                     tmpcomp = add_computer(15, 12, _("Magazine Entrance"), 6);
                     tmpcomp->add_option(_("UNLOCK ENTRANCE"), COMPACT_UNLOCK, 7);
+                    tmpcomp->add_failure(COMPFAIL_DAMAGE);
+                    tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
                     if (one_in(2)) {
                         add_spawn("mon_zombie_soldier", rng(1, 4), 12, 12);
                     }
@@ -3495,6 +3500,8 @@ C..C..C...|hhh|#########\n\
                         }
                         if (one_in(3)) {
                             add_spawn("mon_crawler", 1, 2, 7);
+                        } else if (one_in(3)) {
+                            add_spawn("mon_shoggoth", 1, 2, 7);
                         }
                         if (one_in(2)) {
                             add_spawn("mon_zombie_scientist", rng(1, 3), 12, 18);
@@ -3516,9 +3523,13 @@ C..C..C...|hhh|#########\n\
                         computer *tmpcomp2 = NULL;
                         tmpcomp2 = add_computer(6, 1, _("Containment Terminal"), 4);
                         tmpcomp2->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
+                        tmpcomp2->add_failure(COMPFAIL_DAMAGE);
+                        tmpcomp2->add_failure(COMPFAIL_SHUTDOWN);
                         tmpcomp = add_computer(12, 16, _("Containment Control"), 4);
                         tmpcomp->add_option(_("EMERGENCY CONTAINMENT UNLOCK"), COMPACT_UNLOCK, 4);
                         tmpcomp->add_option(_("EMERGENCY CLEANSE"), COMPACT_DISCONNECT, 7);
+                        tmpcomp->add_failure(COMPFAIL_DAMAGE);
+                        tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
                     } else if (one_in(3)) { //operations or utility
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
@@ -3695,6 +3706,8 @@ ff.......|....|WWWWWWWW|\n\
                         tmpcomp->add_option(_("Run Decryption Algorithm"), COMPACT_DATA_ANAL, 4);
                         tmpcomp->add_option(_("Upload Data to Melchior"), COMPACT_DISCONNECT, 7);
                         tmpcomp->add_option(_("Access Melchior"), COMPACT_DISCONNECT, 12);
+                        tmpcomp->add_failure(COMPFAIL_DAMAGE);
+                        tmpcomp->add_failure(COMPFAIL_MANHACKS);
                         tmpcomp->add_failure(COMPFAIL_DESTROY_DATA);
                     }
 
@@ -3827,8 +3840,9 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
         }
 
-        switch (rng(1, 3)) {
-        case 1: // Weapons testing
+        switch (rng(1, 7)) {
+        case 1:
+        case 2: // Weapons testing
             add_spawn("mon_secubot", 1,            6,            6);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
             add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
@@ -3838,19 +3852,25 @@ ff.......|....|WWWWWWWW|\n\
             add_trap(SEEX - 2, SEEY + 1, tr_dissector);
             add_trap(SEEX + 1, SEEY + 1, tr_dissector);
             if (!one_in(3)) {
-                rn = dice(4, 3);
-                spawn_item(SEEX - 1, SEEY - 1, "laser_pack", rn);
-                spawn_item(SEEX + 1, SEEY - 1, "UPS_off", rn);
+                spawn_item(SEEX - 1, SEEY - 1, "laser_pack", dice(4, 3));
+                spawn_item(SEEX    , SEEY - 1, "UPS_off");
+                spawn_item(SEEX    , SEEY - 1, "battery", dice(4, 3));
                 spawn_item(SEEX - 1, SEEY    , "v29");
-                spawn_item(SEEX + 1, SEEY    , "ftk93");
-                spawn_item(SEEX + 1, SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX    , SEEY    , "ftk93");
+                spawn_item(SEEX - 1, SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX    , SEEY  -1, "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             } else if (!one_in(3)) {
-                rn = dice(3, 6);
-                spawn_item(SEEX - 1, SEEY - 1, "mininuke", rn);
-                spawn_item(SEEX    , SEEY - 1, "mininuke", rn);
-                spawn_item(SEEX - 1, SEEY    , "mininuke", rn);
-                spawn_item(SEEX    , SEEY    , "mininuke", rn);
-                spawn_item(SEEX + 1, SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX - 1, SEEY - 1, "mininuke", dice(3, 6));
+                spawn_item(SEEX    , SEEY - 1, "mininuke", dice(3, 6));
+                spawn_item(SEEX - 1, SEEY    , "mininuke", dice(3, 6));
+                spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
+                spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
+                spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
+            }  else if (!one_in(3)) {
+                spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
+                spawn_item(SEEX    , SEEY - 1, "plutonium");
+                spawn_item(SEEX - 1, SEEY    , "plutonium");
+                spawn_item(SEEX    , SEEY    , "recipe_caseless");
             } else {
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
                 furn_set(SEEX - 1, SEEY - 1, f_rack);
@@ -3862,14 +3882,18 @@ ff.......|....|WWWWWWWW|\n\
                 furn_set(SEEX + 1, SEEY    , f_rack);
                 place_items("ammo", 96, SEEX - 2, SEEY - 1, SEEX + 1, SEEY - 1, false, 0);
                 place_items("allguns", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
+                spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             }
             break;
-
-        case 2: { // Netherworld access
+        case 3:
+        case 4: { // Netherworld access
+            bool monsters_end = false;
             if (!one_in(4)) { // Trapped netherworld monsters
-                std::string nethercreatures[10] = {"mon_flying_polyp", "mon_hunting_horror", "mon_mi_go", "mon_yugg", "mon_gelatin",
-                                                   "mon_flaming_eye", "mon_kreck", "mon_gracke", "mon_blank", "mon_gozu"
-                                                  };
+                monsters_end = true;
+                std::string nethercreatures[11] = { "mon_flying_polyp", "mon_hunting_horror",
+                                                    "mon_mi_go", "mon_yugg", "mon_gelatin",
+                                                    "mon_flaming_eye", "mon_kreck", "mon_gracke",
+                                                    "mon_blank", "mon_gozu", "mon_shoggoth" };
                 tw = rng(SEEY + 3, SEEY + 5);
                 bw = tw + 4;
                 lw = rng(SEEX - 6, SEEX - 2);
@@ -3887,15 +3911,17 @@ ff.......|....|WWWWWWWW|\n\
                         } else if (j == tw + 2) {
                             ter_set(i, j, t_concrete_h);
                         } else { // Empty space holds monsters!
-                            std::string type = nethercreatures[(rng(0, 9))];
+                            std::string type = nethercreatures[(rng(0, 10))];
                             add_spawn(type, 1, i, j);
                         }
                     }
                 }
             }
             tmpcomp = add_computer(SEEX, 8, _("Sub-prime contact console"), 7);
-            tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
-            tmpcomp->add_option(_("Release Specimens"), COMPACT_RELEASE, 3);
+            if(monsters_end) { //only add these options when there are monsters.
+                tmpcomp->add_option(_("Terminate Specimens"), COMPACT_TERMINATE, 2);
+                tmpcomp->add_option(_("Release Specimens"), COMPACT_RELEASE, 3);
+            }
             tmpcomp->add_option(_("Toggle Portal"), COMPACT_PORTAL, 8);
             tmpcomp->add_option(_("Activate Resonance Cascade"), COMPACT_CASCADE, 10);
             tmpcomp->add_failure(COMPFAIL_MANHACKS);
@@ -3906,8 +3932,8 @@ ff.......|....|WWWWWWWW|\n\
             ter_set(SEEX + 1, 7, t_radio_tower);
         }
         break;
-
-        case 3: // Bionics
+        case 5:
+        case 6: { // Bionics
             add_spawn("mon_secubot", 1,            6,            6);
             add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
             add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
@@ -3931,9 +3957,21 @@ ff.......|....|WWWWWWWW|\n\
             tmpcomp->add_option(_("Open Chambers"), COMPACT_RELEASE, 5);
             tmpcomp->add_failure(COMPFAIL_MANHACKS);
             tmpcomp->add_failure(COMPFAIL_SECUBOTS);
+            }
+        break;
+
+        case 7: // CVD Forge
+            add_spawn("mon_secubot", 1,            6,            6);
+            add_spawn("mon_secubot", 1, SEEX * 2 - 7,            6);
+            add_spawn("mon_secubot", 1,            6, SEEY * 2 - 7);
+            add_spawn("mon_secubot", 1, SEEX * 2 - 7, SEEY * 2 - 7);
+            line(this, t_cvdbody, SEEX - 2, SEEY - 2, SEEX - 2, SEEY + 1);
+            line(this, t_cvdbody, SEEX - 1, SEEY - 2, SEEX - 1, SEEY + 1);
+            line(this, t_cvdbody, SEEX    , SEEY - 1, SEEX    , SEEY + 1);
+            line(this, t_cvdbody, SEEX + 1, SEEY - 2, SEEX + 1, SEEY + 1);
+            ter_set(SEEX   , SEEY - 2, t_cvdmachine);
             break;
         }
-
 
     } else if (terrain_type == "bunker") {
 
@@ -8923,7 +8961,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         \n\
                         \n\
                         \n\
-                        \n\
+                  &     \n\
                         \n\
           %%%       %%% \n\
 ###++### |-w---+-----w-|\n\
@@ -8940,10 +8978,10 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         \n\
 FFFFFFFFFFFFFFFFFFFFFFFF\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n",
-                                       mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d", t_dirt, t_fence_barbed, t_floor,
+                                       mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d &", t_dirt, t_fence_barbed, t_floor,
                                                t_dirtfloor, t_floor,    t_floor,    t_floor,  t_floor, t_floor,  t_floor, t_floor,   t_floor,
                                                t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c, t_wall_h, t_wall_v, t_window_domestic,
-                                               t_floor, t_floor, t_floor, t_floor),
+                                               t_floor, t_floor, t_floor, t_floor, t_water_pump),
                                        mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d", f_null, f_null,         f_null,
                                                f_null,      f_armchair, f_cupboard, f_fridge, f_sink,  f_toilet, f_oven,  f_bathtub, f_locker,
                                                f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,   f_null,
@@ -8973,7 +9011,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                         \n\
                         \n\
                         \n\
-                        \n\
+                  &     \n\
                         \n\
           %%%       %%% \n\
 ###++### |-w---+-----w-|\n\
@@ -8990,10 +9028,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                         \n\
 FFFFFFFFFFFFFFFFFFFFFFFF\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n",
-                                       mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d", t_floor,         t_dirt,
+                                       mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d &", t_floor,         t_dirt,
                                                t_fence_barbed, t_floor, t_dirtfloor, t_floor,    t_floor,    t_floor,  t_floor, t_floor,  t_floor,
                                                t_floor,   t_floor,  t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c, t_wall_h, t_wall_v,
-                                               t_window_domestic, t_floor, t_floor, t_floor, t_floor),
+                                               t_window_domestic, t_floor, t_floor, t_floor, t_floor, t_water_pump),
                                        mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d", f_makeshift_bed, f_null,
                                                f_null,         f_null,  f_null,      f_armchair, f_cupboard, f_fridge, f_sink,  f_toilet, f_oven,
                                                f_bathtub, f_locker, f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,
@@ -9186,9 +9224,17 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         std::random_shuffle(vset.begin(), vset.end());
         for(int a = 0; a < vnum; a++) {
             if (vset[a] < 12) {
-                place_vending(vset[a], 1, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(vset[a], 1, "vending_food");
+                } else {
+                    place_vending(vset[a], 1, "vending_drink");
+                }
             } else {
-                place_vending(vset[a] + 2, 1, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(vset[a] + 2, 1, "vending_food");
+                } else {
+                    place_vending(vset[a] + 2, 1, "vending_drink");
+                }
             }
         }
         vset.clear();
@@ -9381,15 +9427,35 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         std::random_shuffle(vset.begin(), vset.end());
         for(int a = 0; a < vnum; a++) {
             if (vset[a] < 3) {
-                place_vending(5 + vset[a], 7, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(5 + vset[a], 7, "vending_food");
+                } else {
+                    place_vending(5 + vset[a], 7, "vending_drink");
+                }
             } else if (vset[a] < 5) {
-                place_vending(1 + vset[a] - 3, 7, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(1 + vset[a] - 3, 7, "vending_food");
+                } else {
+                    place_vending(1 + vset[a] - 3, 7, "vending_drink");
+                }
             } else if (vset[a] < 8) {
-                place_vending(1, 8 + vset[a] - 5, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(1, 8 + vset[a] - 5, "vending_food");
+                } else {
+                    place_vending(1, 8 + vset[a] - 5, "vending_drink");
+                }
             } else if (vset[a] < 13) {
-                place_vending(10 + vset[a] - 8, 12, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(10 + vset[a] - 8, 12, "vending_food");
+                } else {
+                    place_vending(10 + vset[a] - 8, 12, "vending_drink");
+                }
             } else {
-                place_vending(17 + vset[a] - 13, 12, rng(0,1));
+                if (one_in(2)) {
+                    place_vending(17 + vset[a] - 13, 12, "vending_food");
+                } else {
+                    place_vending(17 + vset[a] - 13, 12, "vending_drink");
+                }
             }
         }
         vset.clear();
@@ -10772,23 +10838,19 @@ void map::place_toilet(int x, int y, int charges)
     furn_set(x, y, f_toilet);
 }
 
-void map::place_vending(int x, int y, bool drinks)
+void map::place_vending(int x, int y, std::string type)
 {
-    const bool broken = x_in_y(2,3);
+    const bool broken = one_in(5);
     if( broken ) {
         furn_set(x, y, f_vending_o);
     } else {
         furn_set(x, y, f_vending_c);
     }
-    if( drinks ) {
-        place_items("vending_drink", broken ? 40 : 99, x, y, x, y, false, 0);
-    } else {
-        place_items("vending_food", broken ? 40 : 99, x, y, x, y, false, 0);
-    }
+    place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
 }
 
 int map::place_items(items_location loc, int chance, int x1, int y1,
-                     int x2, int y2, bool ongrass, int turn)
+                     int x2, int y2, bool ongrass, int turn, bool rand)
 {
     const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
@@ -10821,16 +10883,16 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 py = rng(y1, y2);
                 tries++;
                 // Only place on valid terrain
-            } while (((terlist[ter(px, py)].movecost == 0 &&
-                       !(terlist[ter(px, py)].has_flag("PLACE_ITEM"))) ||
-                      (!ongrass && !terlist[ter(px, py)].has_flag("FLAT") )) &&
+            } while (( (terlist[ter(px, py)].movecost == 0 &&
+                        !(terlist[ter(px, py)].has_flag("PLACE_ITEM")) ) &&
+                       (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
-                spawn_item(px, py, selected_item, 1, 0, turn);
+                spawn_item(px, py, selected_item, 1, 0, turn, 0, rand);
                 item_num++;
                 // Guns in item groups with guns_have_ammo flags are generated with their ammo
                 if ( guns_have_ammo ) {
-                    it_gun *maybe_gun = static_cast<it_gun *> (item_controller->find_template(selected_item));
+                    it_gun *maybe_gun = dynamic_cast<it_gun *> (item_controller->find_template(selected_item));
                     if ( maybe_gun != NULL ) {
                         spawn_item(px, py, default_ammo(maybe_gun->ammo), 1, 0, turn);
                     }
@@ -10842,11 +10904,11 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
 }
 
 void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity,
-                         int charges, int damlevel)
+                         long charges, int damlevel, bool rand)
 {
     for (int i = 0; i < num; i++) {
         Item_tag selected_item = item_controller->id_from(loc);
-        spawn_item(x, y, selected_item, quantity, charges, turn, damlevel);
+        spawn_item(x, y, selected_item, quantity, charges, turn, damlevel, rand);
     }
 }
 
@@ -12562,6 +12624,14 @@ void map::add_extra(map_extra type)
             }
 
         }
+        std::string netherspawns[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = netherspawns[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
+        }
         place_spawns("GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
                      0.1f);//0.1 = 1-5
         place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -12600,6 +12670,14 @@ void map::add_extra(map_extra type)
                     }
                 }
             }
+        }
+        std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = spawncreatures[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
         }
         place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     }
@@ -12815,6 +12893,14 @@ void map::add_extra(map_extra type)
                     }
                 }
             }
+        }
+        std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = spawncreatures[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
         }
     }
     break;

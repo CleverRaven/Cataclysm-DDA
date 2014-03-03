@@ -431,21 +431,21 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                                      iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
     draw_border(w_worlds_border);
-    mvwputch(w_worlds_border, 4, 0, c_dkgray, LINE_XXXO); // |-
-    mvwputch(w_worlds_border, 4, 79, c_dkgray, LINE_XOXX); // -|
+    mvwputch(w_worlds_border, 4, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_worlds_border, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
     for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_worlds_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, c_dkgray, LINE_XXOX); // _|_
+        mvwputch(w_worlds_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, BORDER_COLOR, LINE_XXOX); // _|_
     }
 
-    mvwprintz(w_worlds_border, 0, 31, c_ltred, _(" WORLD SELECTION "));
+    center_print(w_worlds_border, 0, c_ltred, _(" WORLD SELECTION "));
     wrefresh(w_worlds_border);
 
     for (int i = 0; i < 78; i++) {
         if (mapLines[i]) {
-            mvwputch(w_worlds_header, 0, i, c_dkgray, LINE_OXXX);
+            mvwputch(w_worlds_header, 0, i, BORDER_COLOR, LINE_OXXX);
         } else {
-            mvwputch(w_worlds_header, 0, i, c_dkgray, LINE_OXOX); // Draw header line
+            mvwputch(w_worlds_header, 0, i, BORDER_COLOR, LINE_OXOX); // Draw header line
         }
     }
 
@@ -460,7 +460,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
                 if (mapLines[j]) {
-                    mvwputch(w_worlds, i, j, c_dkgray, LINE_XOXO);
+                    mvwputch(w_worlds, i, j, BORDER_COLOR, LINE_XOXO);
                 } else {
                     mvwputch(w_worlds, i, j, c_black, ' ');
                 }
@@ -485,7 +485,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                 wprintz(w_worlds, c_yellow, " ");
             }
 
-            wprintz(w_worlds, c_white, "%s", (world_pages[selpage])[i].c_str());
+            wprintz(w_worlds, c_white, "%s (%i)", (world_pages[selpage])[i].c_str(),
+                    world_generator->all_worlds[((world_pages[selpage])[i])]->world_saves.size());
         }
 
         //Draw Tabs
@@ -497,7 +498,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                 wprintz(w_worlds_header, c_white, "[");
                 wprintz(w_worlds_header, tabcolor, _("Page %d"), i + 1);
                 wprintz(w_worlds_header, c_white, "]");
-                wputch(w_worlds_header, c_dkgray, LINE_OXOX);
+                wputch(w_worlds_header, BORDER_COLOR, LINE_OXOX);
             }
         }
 
@@ -959,10 +960,11 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 break;
             case 's':
             case 'S':
-                mman->set_default_mods(active_mod_order);
-                popup("Saved list of active mods as default");
-                draw_modselection_borders(win);
-                redraw_headers = true;
+                if(mman->set_default_mods(active_mod_order)) {
+                    popup("Saved list of active mods as default");
+                    draw_modselection_borders(win);
+                    redraw_headers = true;
+                }
                 break;
             case '?':{
                 popup(_("\

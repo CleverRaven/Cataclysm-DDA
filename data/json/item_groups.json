@@ -176,6 +176,10 @@
       ["armguard_hard", 20],
       ["legguard_hard", 15],
       ["gloves_wool", 33],
+      ["thermal_socks", 2],
+      ["thermal_gloves", 2],
+      ["thermal_suit", 2],
+      ["thermal_mask", 2],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
@@ -630,6 +634,7 @@
       ["fungicide", 10],
       ["oil_lamp", 10],
       ["lamp_oil", 10],
+      ["grapnel", 1],
       ["charcoal", 20]
     ]
   },{
@@ -796,6 +801,7 @@
       ["holybook_slack", 1],
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
+      ["mouthpiece", 1],
       ["leathersandals", 25]
     ]
   },{
@@ -840,6 +846,7 @@
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
+      ["recoil_stock", 12],
       ["pistol_stock", 6],
       ["clip", 8],
       ["spare_mag", 15],
@@ -905,6 +912,9 @@
       ["m_fishspear", 2],
       ["c_fishspear", 2],
       ["diveknife", 6],
+      ["small_repairkit", 12],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["u_shotgun", 5]
     ]
   },{
@@ -1669,6 +1679,7 @@
       ["boots_hiking", 10],
       ["runner_bag", 5],
       ["hat_hard", 50],
+      ["wearable_light", 10],
       ["ear_plugs", 50],
       ["mask_filter", 30],
       ["glasses_safety", 40],
@@ -1700,6 +1711,8 @@
       ["vac_sealer", 10],
       ["sm_extinguisher", 10],
       ["fungicide", 5],
+      ["miner_hat", 1],
+      ["grapnel", 1],
       ["tool_belt", 30]
     ]
   },{
@@ -1791,6 +1804,7 @@
       ["dive_bag", 5],
       ["diving_watch", 10],
       ["rebreather", 3],
+      ["rebreather_filter", 3],
       ["glowstick", 60],
       ["handflare", 40],
       ["elbow_pads", 40],
@@ -1800,6 +1814,7 @@
       ["airhorn", 40],
       ["boots_hiking", 10],
       ["runner_bag", 5],
+      ["mouthpiece", 15],
       ["leathersandals", 10]
     ]
   },{
@@ -1820,7 +1835,6 @@
       ["tin_plate", 10],
       ["knife_combat", 14],
       ["throwing_knife", 7],
-      ["tanto", 1],
       ["machete", 5],
       ["vest", 15],
       ["backpack", 38],
@@ -1892,6 +1906,7 @@
       ["wetsuit_hood", 10],
       ["dive_bag", 10],
       ["rebreather", 3],
+      ["rebreather_filter", 2],
       ["fishing_waders", 12],
       ["gasoline_lantern", 5],
       ["oil_lamp", 5],
@@ -1914,6 +1929,7 @@
       ["airhorn", 20],
       ["charcoal", 20],
       ["leathersandals", 10],
+      ["grapnel", 1],
       ["razor_blade", 9]
     ]
   },{
@@ -1977,7 +1993,6 @@
       ["hotplate", 10],
       ["knife_combat", 14],
       ["throwing_knife", 7],
-      ["tanto", 1],
       ["machete", 5],
       ["vest", 15],
       ["backpack", 38],
@@ -2045,6 +2060,7 @@
       ["wetsuit_hood", 10],
       ["dive_bag", 10],
       ["rebreather", 2],
+      ["rebreather_filter", 4],
       ["glowstick", 60],
       ["handflare", 40],
       ["folding_bicycle", 1],
@@ -2074,6 +2090,9 @@
       ["c_fishspear", 10],
       ["swim_fins", 20],
       ["diveknife", 12],
+      ["mouthpiece", 15],
+      ["small_repairkit", 2],
+      ["grapnel", 2],
       ["leathersandals", 15]
     ]
   },{
@@ -2268,9 +2287,9 @@
       ["cx4", 15],
       ["browning_blr", 8],
       ["remington_700", 14],
-      ["sks", 6],
       ["ruger_mini", 12],
-      ["savage_111f", 10]
+      ["savage_111f", 10],
+      ["sks", 6]
     ]
   },{
     "type" : "item_group",
@@ -2352,7 +2371,6 @@
       ["cx4", 15],
       ["browning_blr", 8],
       ["remington_700", 14],
-      ["sks", 12],
       ["m14a", 10],
       ["ruger_mini", 12],
       ["savage_111f", 10],
@@ -2376,7 +2394,8 @@
       ["needlegun", 4],
       ["flaregun", 8],
       ["signal_flare", 5],
-      ["blowgun", 5]
+      ["blowgun", 5],
+      ["sks", 12]
     ]
   },{
     "type" : "item_group",
@@ -2386,6 +2405,7 @@
       ["glasses_bal", 20],
       ["mask_bal", 5],
       ["goggles_nv", 1],
+      ["goggles_ir", 1],
       ["holster", 8],
       ["bootstrap", 3],
       ["mag_guns", 20],
@@ -2413,6 +2433,7 @@
       ["grip", 12],
       ["pistol_grip", 12],
       ["adjustable_stock", 12],
+      ["recoil_stock", 12],
       ["pistol_stock", 12],
       ["barrel_big", 10],
       ["barrel_small", 6],
@@ -2420,6 +2441,8 @@
       ["barrel_ported", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["clip", 8],
       ["spare_mag", 15],
       ["clip2", 4],
@@ -2470,6 +2493,9 @@
       ["cu_pipe", 10],
       ["5x50_hull", 8],
       ["waterproof_gunmod", 8],
+      ["gun_crossbow", 4],
+      ["small_repairkit", 15],
+      ["large_repairkit", 1],
       ["improve_sights", 20]
     ]
   },{
@@ -2558,6 +2584,10 @@
       ["gloves_light", 35],
       ["mittens", 30],
       ["gloves_wool", 33],
+      ["thermal_socks", 10],
+      ["thermal_gloves", 10],
+      ["thermal_suit", 10],
+      ["thermal_mask", 10],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
@@ -2658,6 +2688,10 @@
       ["gloves_light", 35],
       ["mittens", 30],
       ["gloves_wool", 33],
+      ["thermal_socks", 2],
+      ["thermal_gloves", 2],
+      ["thermal_suit", 2],
+      ["thermal_mask", 2],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_leather", 45],
@@ -2771,6 +2805,105 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "homebooks",
+    "items":[
+      ["novel_romance", 30],
+      ["novel_spy", 28],
+      ["novel_sports", 22],
+      ["novel_samurai", 22],
+      ["novel_swash", 14],
+      ["novel_western", 22],
+      ["novel_war", 20],
+      ["novel_adventure", 14],
+      ["novel_experimental", 1],
+      ["novel_road", 10],
+      ["novel_buddy", 12],
+      ["novel_scifi", 20],
+      ["novel_drama", 40],
+      ["cookbook_human", 1],
+      ["novel_mystery", 25],
+      ["novel_fantasy", 20],
+      ["poetry_book", 10],
+      ["plays_book", 8],
+      ["tall_tales", 10],
+      ["story_book", 4],
+      ["novel_pulp", 16],
+      ["fairy_tales", 10],
+      ["novel_thriller", 18],
+      ["novel_coa", 10],
+      ["novel_crime", 20],
+      ["novel_horror", 18],
+      ["novel_tragedy", 8],
+      ["holybook_bible1", 2],
+      ["holybook_bible2", 2],
+      ["holybook_quran", 2],
+      ["holybook_hadith", 2],
+      ["holybook_talmud", 2],
+      ["holybook_tanakh", 2],
+      ["holybook_vedas", 2],
+      ["holybook_upanishads", 2],
+      ["holybook_tripitaka", 2],
+      ["holybook_sutras", 2],
+      ["holybook_granth", 2],
+      ["holybook_mormon", 2],
+      ["holybook_kojiki", 2],
+      ["holybook_pastafarian", 2],
+      ["holybook_slack", 2],
+      ["holybook_kallisti", 2],
+      ["holybook_scientology", 2],
+      ["ZSG", 5],
+      ["manual_electronics", 20],
+      ["manual_tailor", 15],
+      ["recipe_bows", 10],
+      ["recipe_arrows", 10],
+      ["manual_mechanics", 25],
+      ["manual_speech", 50],
+      ["manual_business", 40],
+      ["manual_first_aid", 40],
+      ["manual_computers", 20],
+      ["textbook_computer", 4],
+      ["textbook_chemistry", 4],
+      ["textbook_mechanics", 4],
+      ["textbook_fabrication", 4],
+      ["textbook_tailor", 4],
+      ["carpentry_book", 4],
+      ["computer_science", 8],
+      ["book_icef", 8],
+      ["mag_tv", 20],
+      ["mag_dude", 20],
+      ["mag_beauty", 30],
+      ["mag_glam", 30],
+      ["mag_barter", 15],
+      ["mag_computer", 15],
+      ["mag_electronics", 15],
+      ["mag_mechanics", 15],
+      ["mag_pistol", 15],
+      ["mag_rifle", 20],
+      ["mag_shotgun", 20],
+      ["mag_smg", 10],
+      ["mag_news", 35],
+      ["mag_cars", 40],
+      ["mag_cooking", 30],
+      ["recipe_augs", 4],
+      ["textbook_anarch", 1],
+      ["decoy_anarch", 10],
+      ["news_regional", 15],
+      ["mag_carpentry", 30],
+      ["mag_comic", 20],
+      ["mag_guns", 20],
+      ["mag_archery", 20],
+      ["manual_archery", 7],
+      ["book_archery", 12],
+      ["mag_dodge", 20],
+      ["mag_comic", 20],
+      ["mag_throwing", 20],
+      ["mag_gaming", 20],
+      ["mag_swimming", 10],
+      ["mag_fabrication", 30],
+      ["mag_tailor", 25]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "manuals",
     "items":[
       ["manual_brawl", 30],
@@ -2832,9 +2965,6 @@
       ["textbook_gaswarfare", 5],
       ["recipe_bullets", 8],
       ["textbook_tailor", 12],
-      ["textbook_weapwest", 3],
-      ["textbook_weapeast", 3],
-      ["textbook_armwest", 3],
       ["recipe_bows", 4],
       ["recipe_arrows", 4],
       ["textbook_firstaid", 8],
@@ -2846,8 +2976,7 @@
       ["manual_survival", 3],
       ["manual_swimming", 5],
       ["textbook_speech", 12],
-      ["textbook_fireman", 10],
-      ["textbook_armeast", 3]
+      ["textbook_fireman", 10]
     ]
   },{
     "type" : "item_group",
@@ -3001,6 +3130,7 @@
       ["mask_bal", 1],
       ["mask_gas", 15],
       ["goggles_nv", 2],
+      ["goggles_ir", 1],
       ["helmet_riot", 25],
       ["holster", 8],
       ["bootstrap", 3],
@@ -3082,6 +3212,7 @@
       ["clown_suit", 2],
       ["clownshoes", 2],
       ["bondage_suit", 1],
+      ["gold_dental_grill", 1],
       ["knife_trench", 14],
       ["switchblade", 15],
       ["bondage_mask", 1],
@@ -3120,6 +3251,8 @@
       ["pda", 10],
       ["gold_watch", 5],
       ["pocketwatch", 2],
+      ["gold_dental_grill", 2],
+      ["diamond_dental_grill", 1],
       ["picklocks", 4],
       ["chisel", 2],
       ["scissors", 10],
@@ -3153,7 +3286,6 @@
     "guns_with_ammo" : true,
     "items":[
       ["flaregun", 4],
-      ["rifle_flintlock", 4],
       ["m1911", 10],
       ["ruger_redhawk", 9],
       ["deagle_44", 9],
@@ -3172,20 +3304,17 @@
       ["ar15", 15],
       ["m4a1", 9],
       ["m249", 2],
-      ["sks", 7],
-      ["ppsh", 5],
       ["ak47", 7],
       ["saiga_sawn", 5],
       ["arx160", 1],
+      ["small_repairkit", 2],
+      ["large_repairkit", 1],
       ["hk_g3", 10]
     ]
   },{
     "type" : "item_group",
     "id" : "mansion_guns",
     "items":[
-      ["rifle_flintlock", 5],
-      ["pistol_flintlock", 9],
-      ["flintlock_ammo", 7],
       ["shotgun_s", 6],
       ["shotgun_d", 6],
       ["trex_gun", 1],
@@ -3199,10 +3328,11 @@
       ["rm120c", 4],
       ["rm99_pistol", 4],
       ["rm103a_pistol", 4],
-      ["tokarev", 4],
-      ["sks", 6],
-      ["ppsh", 4],
       ["saiga_12", 5],
+      ["small_repairkit", 5],
+      ["large_repairkit", 3],
+      ["tuned_mechanism", 1],
+      ["match_trigger", 2],
       ["RPG", 1]
     ]
   },{
@@ -3657,6 +3787,7 @@
       ["teleumbrella", 2],
       ["football_armor", 5],
       ["helmet_football", 5],
+      ["mouthpiece", 5],
       ["football", 5]
     ]
   },{
@@ -3702,6 +3833,74 @@
       ["pocketwatch", 10]
     ]
   },{
+    "type":"item_group",
+    "id":"survivorweapons",
+    "comment": "Please add only weapons and ammo that are easy to scavenge or create ",
+    "guns_with_ammo" : true,
+    "items":[
+      ["nailbat", 10],
+      ["nailboard", 25],
+      ["makeshift_crowbar", 15],
+      ["crowbar", 7],
+      ["machete", 7],
+      ["ax", 5],
+      ["spear_knife", 15],
+      ["blowgun", 5],
+      ["dart", 5],
+      ["22_lr", 10],
+      ["22_fmj", 1],
+      ["223", 5],
+      ["308", 2],
+      ["3006",2],
+      ["reloaded_9mm", 5],
+      ["9mm", 5],
+      ["9mmfmj", 2],
+      ["45_acp", 5],
+      ["reloaded_45_acp", 5],
+      ["45_jhp", 2],
+      ["rifle_9mm", 20],
+      ["rifle_22", 20],
+      ["smg_9mm", 15],
+      ["smg_45", 15],
+      ["uzi", 10],
+      ["mac_10", 10],
+      ["crossbow", 5],
+      ["sig_mosquito", 5],
+      ["sw_22", 5],
+      ["glock_19", 7],
+      ["usp_9mm", 10],
+      ["cx4", 1],      
+      ["usp_45", 10],
+      ["m1911", 5],
+      ["ar15", 1],
+      ["savage_111f", 2],
+      ["remington_700", 2],      
+      ["ruger_1022", 10],
+      ["marlin_9a", 10],
+      ["remington_870", 8],
+      ["mossberg_500", 2],
+      ["shotgun_sawn", 4],
+      ["shotgun_d", 4],
+      ["ashot", 5],
+      ["suppressor", 15],
+      ["bayonet", 5],
+      ["clip", 8],
+      ["spare_mag", 15],
+      ["pipebomb", 10],
+      ["molotov", 10],
+      ["matchbomb", 10],
+      ["longbow", 5],
+      ["compositebow", 3],
+      ["shortbow", 5],
+      ["arrow_metal", 7],
+      ["bolt_steel", 7],
+      ["laser_sight", 15],
+      ["rail_laser_sight", 10],
+      ["rifle_scope", 17],
+      ["pistol_scope", 14],
+      ["improve_sights", 20]
+    ]
+  },{
     "type" : "item_group",
     "id" : "vault",
     "items":[
@@ -3720,6 +3919,7 @@
       ["bio_probability_travel", 10],
       ["recipe_mil_augs", 3],
       ["power_armor_basic", 5],
+      ["rm13_armor", 5],
       ["power_armor_light", 3],
       ["power_armor_heavy", 3],
       ["modularvesthard", 5],
@@ -3732,49 +3932,11 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "medieval",
-    "items":[
-      ["katana", 2],
-      ["cestus", 2],
-      ["mace", 20],
-      ["morningstar", 10],
-      ["rapier", 3],
-      ["broadsword", 30],
-      ["zweihander", 20],
-      ["battleaxe", 20],
-      ["warhammer", 10],
-      ["pike", 5],
-      ["helmet_plate", 1],
-      ["armor_plate", 2],
-      ["huge_crossbow", 2],
-      ["quiver", 2],
-      ["quiver_large", 1],
-      ["nodachi", 1],
-      ["armor_lightplate", 1],
-      ["armor_samurai", 1],
-      ["helmet_kabuto", 1],
-      ["gloves_plate", 1],
-      ["boots_plate", 1],
-      ["helmet_barbute", 1],
-      ["textbook_weapwest", 5],
-      ["textbook_weapeast", 5],
-      ["textbook_armwest", 5],
-      ["textbook_armeast", 5],
-      ["q_staff", 10],
-      ["i_staff", 5],
-      ["sword_bayonet", 10],
-      ["bagh_nakha", 5],
-      ["apron_leather", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "art",
     "items":[
       ["fur", 0],
-      ["katana", 2],
       ["petrified_eye", 1],
       ["spiral_stone", 20],
-      ["rapier", 3],
       ["cane", 10],
       ["candlestick", 20],
       ["heels", 50],
@@ -3791,18 +3953,16 @@
       ["copper_ear", 1],
       ["brooch", 2],
       ["diamond", 1],
-      ["nodachi", 1],
       ["manual_dodge", 1],
       ["fancy_sunglasses", 2],
       ["pocketwatch", 5],
+      ["well_pump", 1],
       ["sf_watch", 5]
     ]
   },{
     "type" : "item_group",
     "id" : "pawn",
     "items":[
-      ["rifle_flintlock", 1],
-      ["pistol_flintlock", 1],
       ["trex_gun", 1],
       ["700nx", 1],
       ["700nx_casing", 1],
@@ -3811,12 +3971,9 @@
       ["cigar", 5],
       ["television", 10],
       ["microwave", 5],
-      ["katana", 2],
-      ["cestus", 1],
       ["knuckle_brass", 15],
       ["gold", 10],
       ["silver", 20],
-      ["rapier", 3],
       ["cane", 10],
       ["suit", 60],
       ["waistcoat", 30],
@@ -3827,6 +3984,7 @@
       ["mask_gas", 10],
       ["goggles_welding", 70],
       ["goggles_nv", 1],
+      ["goggles_ir", 1],
       ["glasses_monocle", 2],
       ["fancy_sunglasses", 15],
       ["fc_hairpin", 5],
@@ -3845,6 +4003,8 @@
       ["m1911", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["geiger_off", 8],
       ["UPS_off", 5],
       ["tazer", 3],
@@ -3900,7 +4060,6 @@
       ["remington_870", 9],
       ["browning_blr", 8],
       ["remington_700", 14],
-      ["sks", 12],
       ["novel_romance", 30],
       ["novel_spy", 28],
       ["novel_satire", 15],
@@ -3949,12 +4108,6 @@
       ["brooch", 1],
       ["locket", 1],
       ["usb_drive", 5],
-      ["broadsword", 30],
-      ["zweihander", 20],
-      ["battleaxe", 20],
-      ["warhammer", 10],
-      ["morningstar", 10],
-      ["helmet_plate", 1],
       ["cot", 40],
       ["rollmat", 40],
       ["tent_kit", 17],
@@ -3966,6 +4119,7 @@
       ["lawn_dart", 10],
       ["dehydrator", 15],
       ["pickelhaube", 50],
+      ["well_pump", 2],
       ["firehelmet", 10],
       ["bunker_coat", 5],
       ["bunker_pants", 5],
@@ -3986,7 +4140,6 @@
       ["oil_lamp", 5],
       ["lamp_oil", 5],
       ["flotation_vest", 1],
-      ["huge_crossbow", 2],
       ["quiver", 2],
       ["quiver_large", 1],
       ["raging_bull", 1],
@@ -3998,19 +4151,10 @@
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
       ["textbook_tailor", 12],
-      ["nodachi", 1],
-      ["wakizashi", 5],
-      ["tanto", 7],
       ["swage", 2],
       ["forge", 5],
       ["char_forge", 5],
       ["char_kiln", 2],
-      ["armor_lightplate", 1],
-      ["armor_samurai", 1],
-      ["helmet_kabuto", 1],
-      ["gloves_plate", 1],
-      ["boots_plate", 1],
-      ["helmet_barbute", 1],
       ["apron_leather", 5],
       ["boots_combat", 10],
       ["boots_hiking", 10],
@@ -4040,12 +4184,15 @@
       ["m_fishspear", 8],
       ["c_fishspear", 8],
       ["rebreather", 5],
+      ["rebreather_filter", 5],
       ["diveknife", 10],
       ["alarmclock", 5],
       ["bagh_nakha", 2],
       ["leathersandals", 10],
       ["maid_dress", 3],
       ["maid_hat", 3],
+      ["miner_hat", 3],
+      ["grapnel", 1],
       ["razor_blade", 6]
     ]
   },{
@@ -4107,9 +4254,9 @@
       ["helmet_liner", 20],
       ["pur_tablets", 10],
       ["knife_trench", 14],
-      ["tanto", 7],
       ["flaregun", 20],
       ["signal_flare", 25],
+      ["grapnel", 10],
       ["quikclot", 20]
     ]
   },{
@@ -4160,6 +4307,10 @@
       ["sweater", 75],
       ["coat_winter", 50],
       ["gloves_wool", 33],
+      ["thermal_socks", 2],
+      ["thermal_gloves", 2],
+      ["thermal_suit", 2],
+      ["thermal_mask", 2],
       ["gloves_winter", 40],
       ["gloves_liner", 25],
       ["gloves_tactical", 5],
@@ -4272,6 +4423,7 @@
       ["chisel", 10],
       ["cu_pipe", 15],
       ["eyedrops", 5],
+      ["grapnel", 1],
       ["apron_leather", 5]
     ]
   },{
@@ -4418,6 +4570,7 @@
       ["glasses_safety", 40],
       ["goggles_welding", 70],
       ["recipe_lab_elec", 15],
+      ["recipe_lab_cvd", 15],
       ["recipe_mininuke_launch", 5],
       ["teleporter", 10],
       ["usb_drive", 5]
@@ -4751,6 +4904,7 @@
       ["bio_shock", 10],
       ["bio_heat_absorb", 10],
       ["bio_claws", 10],
+      ["bio_blade", 5],
       ["bio_razors", 10],
       ["bio_shockwave", 10],
       ["bio_nanobots", 10],
@@ -4772,6 +4926,11 @@
       ["bio_flashbang", 10],
       ["bio_chain_lightning", 10],
       ["bio_power_armor_interface", 10],
+      ["bio_adrenaline", 10],
+      ["bio_watch", 10],
+      ["bio_leukocyte", 10],
+      ["bio_speed", 5],
+      ["bio_faraday", 10],
       ["bio_power_armor_interface_mkII", 5]
     ]
   },{
@@ -4790,6 +4949,7 @@
       ["bio_metabolics", 10],
       ["bio_ethanol", 10],
       ["bio_furnace", 10],
+      ["bio_watch", 10],
       ["bio_torsionratchet", 10]
     ]
   },{
@@ -4945,6 +5105,7 @@
       ["vest", 15],
       ["mask_gas", 10],
       ["goggles_nv", 1],
+      ["goggles_ir", 1],
       ["optical_cloak", 1],
       ["backpack", 38],
       ["UPS_off", 5],
@@ -4962,6 +5123,7 @@
       ["armguard_hard", 20],
       ["legguard_hard", 15],
       ["power_armor_basic", 5],
+      ["rm13_armor", 3],
       ["power_armor_frame", 4],
       ["helmet_army", 40],
       ["helmet_liner", 10],
@@ -4979,6 +5141,7 @@
       ["mask_gas", 10],
       ["duffelbag", 15],
       ["goggles_nv", 1],
+      ["goggles_ir", 1],
       ["optical_cloak", 1],
       ["backpack", 38],
       ["briefcase", 10],
@@ -4992,6 +5155,7 @@
       ["mask_bal", 5],
       ["e_tool", 10],
       ["waterproof_gunmod", 8],
+      ["grapnel", 3],
       ["glasses_bal", 30]
     ]
   },{
@@ -5011,6 +5175,7 @@
       ["molle_pack", 8],
       ["under_armor", 20],
       ["power_armor_basic", 5],
+      ["rm13_armor", 2],
       ["army_top", 30],
       ["elbow_pads", 20]
     ]
@@ -5134,6 +5299,10 @@
       ["bio_teleport", 10],
       ["bio_probability_travel", 10],
       ["bio_power_armor_interface", 10],
+      ["bio_blade", 2],
+      ["bio_speed", 2],
+      ["bio_adrenaline", 10],
+      ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5]
     ]
   },{
@@ -5148,15 +5317,12 @@
       ["hatchet", 10],
       ["ax", 8],
       ["knife_combat", 14],
-      ["tanto", 7],
       ["throwing_knife", 7],
       ["throwing_axe", 6],
       ["punch_dagger", 6],
       ["pipe", 20],
       ["bat", 60],
       ["machete", 5],
-      ["katana", 2],
-      ["wakizashi", 3],
       ["baton", 8],
       ["tazer", 3],
       ["rapier", 3],
@@ -5166,8 +5332,7 @@
       ["switchblade", 4],
       ["tonfa", 10],
       ["tonfa_wood", 10],
-      ["shocktonfa_off", 5],
-      ["nodachi", 1]
+      ["shocktonfa_off", 5]
     ]
   },{
     "type" : "item_group",
@@ -5281,6 +5446,9 @@
       ["flaregun", 20],
       ["signal_flare", 25],
       ["survivormap", 1],
+      ["gun_crossbow", 1],
+      ["small_repairkit", 8],
+      ["grapnel", 5],
       ["charcoal", 5]
     ]
   },{
@@ -5302,6 +5470,7 @@
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
+      ["wearable_light", 15],
       ["ear_plugs", 50],
       ["extinguisher", 20],
       ["laptop", 20],
@@ -5322,6 +5491,7 @@
       ["tongs", 10],
       ["boots_rubber", 20],
       ["sm_extinguisher", 10],
+      ["grapnel", 1],
       ["apron_leather", 10]
     ]
   },{
@@ -5337,6 +5507,7 @@
       ["mask_filter", 30],
       ["glasses_safety", 40],
       ["hat_hard", 50],
+      ["wearable_light", 5],
       ["ear_plugs", 50],
       ["battery", 50],
       ["flashlight", 40],
@@ -5368,7 +5539,9 @@
       ["glasses_safety", 40],
       ["goggles_welding", 70],
       ["goggles_nv", 1],
+      ["goggles_ir", 2],
       ["hat_hard", 50],
+      ["wearable_light", 20],
       ["ear_plugs", 50],
       ["backpack", 38],
       ["briefcase", 20],
@@ -5393,6 +5566,8 @@
       ["lamp_oil", 5],
       ["shovel", 10],
       ["e_tool", 5],
+      ["miner_hat", 40],
+      ["grapnel", 1],
       ["apron_leather", 10]
     ]
   },{
@@ -5481,6 +5656,7 @@
       ["sm_extinguisher", 10],
       ["55gal_drum", 40],
       ["30gal_drum", 30],
+      ["wearable_light", 10],
       ["apron_leather", 10]
     ]
   },{
@@ -5557,6 +5733,7 @@
       ["matches", 60],
       ["55gal_drum", 10],
       ["30gal_drum", 15],
+      ["grapnel", 1],
       ["apron_leather", 5]
     ]
   },{
@@ -5601,6 +5778,7 @@
       ["vest", 15],
       ["mask_gas", 10],
       ["goggles_nv", 1],
+      ["goggles_ir", 1],
       ["hat_boonie", 10],
       ["helmet_riot", 25],
       ["bolt_steel", 7],
@@ -5622,7 +5800,6 @@
       ["hk_mp5", 12],
       ["TDI", 4],
       ["savage_111f", 10],
-      ["sks", 12],
       ["ak47", 16],
       ["m4a1", 7],
       ["steyr_aug", 6],
@@ -5654,6 +5831,8 @@
       ["survivormap", 5],
       ["halligan", 10],
       ["fire_ax", 5],
+      ["miner_hat", 10],
+      ["grapnel", 2],
       ["pur_tablets", 10]
     ]
   },{
@@ -5702,6 +5881,7 @@
       ["stick", 95],
       ["bio_metabolics", 10],
       ["survivormap", 1],
+      ["miner_hat", 10],
       ["bio_blaster", 10]
     ]
   },{
@@ -5913,6 +6093,7 @@
       ["55gal_drum", 1],
       ["30gal_drum", 2],
       ["optical_cloak", 1],
+      ["grapnel", 1],
       ["briefcase", 5]
     ]
   },{
@@ -5923,6 +6104,7 @@
       ["bipod" , 1],
       ["50bmg" , 3],
       ["50ss" , 2],
+      ["small_repairkit", 10],
       ["50_incendiary" , 2],
       ["water_clean", 90],
       ["knuckle_brass", 15],
@@ -5943,7 +6125,6 @@
       ["chaw", 30],
       ["knife_combat", 14],
       ["throwing_knife", 7],
-      ["tanto", 2],
       ["boots_steel", 50],
       ["boots_combat", 50],
       ["pants_army", 30],
@@ -5963,6 +6144,7 @@
       ["mask_gas", 10],
       ["glasses_safety", 40],
       ["goggles_nv", 1],
+      ["goggles_ir", 1],
       ["hat_boonie", 10],
       ["armguard_hard", 20],
       ["legguard_hard", 15],
@@ -5980,6 +6162,7 @@
       ["holster", 8],
       ["bootstrap", 3],
       ["gobag", 1],
+      ["tent_kit", 10],
       ["bayonet", 10],
       ["pistol_bayonet", 4],
       ["9mm", 8],
@@ -6045,6 +6228,7 @@
       ["molle_pack", 8],
       ["legrig", 10],
       ["power_armor_basic", 5],
+      ["rm13_armor", 2],
       ["power_armor_helmet_basic", 6],
       ["power_armor_frame", 4],
       ["spare_mag", 15],
@@ -6099,6 +6283,9 @@
       ["halligan", 10],
       ["fire_ax", 5],
       ["antiparasitic", 2],
+      ["tuned_mechanism", 1],
+      ["match_trigger", 2],
+      ["grapnel", 1],
       ["bot_laserturret", 1]
     ]
   },{
@@ -6171,6 +6358,9 @@
       ["bio_climate", 10],
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
+      ["bio_watch", 10],
+      ["bio_leukocyte", 10],
+      ["bio_faraday", 10],
       ["software_useless", 10],
       ["canteen", 15],
       ["2lcanteen", 10],
@@ -6197,6 +6387,7 @@
       ["dump_pouch", 10],
       ["electrohack", 3],
       ["processor", 15],
+      ["large_repairkit", 2],
       ["armor_chitin", 1],
       ["plut_cell", 10],
       ["laser_pack", 10],
@@ -6214,6 +6405,7 @@
       ["12mm", 2],
       ["hk_g80", 2],
       ["power_armor_basic", 5],
+      ["rm13_armor", 4],
       ["power_armor_helmet_basic", 6],
       ["power_armor_frame", 4],
       ["power_armor_light", 3],
@@ -6238,6 +6430,8 @@
       ["optical_cloak", 2],
       ["antifungal", 1],
       ["antiparasitic", 2],
+      ["bio_speed", 1],
+      ["bio_blade", 1],
       ["bot_laserturret", 2]
     ]
   },{
@@ -6387,9 +6581,6 @@
       ["punch_dagger", 12],
       ["bat", 60],
       ["machete", 5],
-      ["katana", 1],
-      ["wakizashi", 5],
-      ["tanto", 6],
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["hoodie", 65],
@@ -6441,6 +6632,11 @@
       ["knife_trench", 7],
       ["switchblade", 4],
       ["gold_watch", 5],
+      ["pocketwatch", 2],
+      ["gold_dental_grill", 2],
+      ["diamond_dental_grill", 1],
+      ["tuned_mechanism", 2],
+      ["match_trigger", 3],
       ["pocketwatch", 2]
     ]
   },{
@@ -6515,11 +6711,7 @@
       ["recipe_labchem", 1],
       ["soldering_iron", 70],
       ["solder_wire", 70],
-      ["textbook_weapwest", 2],
-      ["textbook_weapeast", 2],
-      ["textbook_armwest", 2],
-      ["radio_book", 22],
-      ["textbook_armeast", 2]
+      ["radio_book", 22]
     ]
   },{
     "type" : "item_group",
@@ -6582,6 +6774,8 @@
       ["brew_mead", 0],
       ["brew_hb_beer", 0],
       ["brew_moonshine", 0],
+      ["flask_yeast", 0],
+      ["bio_blade_weapon", 0],
       ["testflames", 0]
     ]
   },{
@@ -6665,6 +6859,7 @@
       ["mask_dust", 30],
       ["mask_gas", 20],
       ["mask_filter", 10],
+      ["goggles_ir", 2],
       ["goggles_nv", 1]
     ]
   },{
@@ -6720,6 +6915,8 @@
       ["fireman_belt", 15],
       ["jack", 5],
       ["throw_extinguisher", 10],
+      ["grapnel", 5],
+      ["wearable_light", 5],
       ["smoxygen_tank", 35]
     ]
   },{
@@ -6931,6 +7128,7 @@
       ["glasses_safety", 24],
       ["goggles_ski", 14],
       ["goggles_nv", 2],
+      ["goggles_ir", 1],
       ["chestrig", 22],
       ["legrig", 22],
       ["tool_belt", 16],
@@ -6964,6 +7162,8 @@
       ["fungicide", 10],
       ["antifungal", 1],
       ["throw_extinguisher", 2],
+      ["small_repairkit", 14],
+      ["grapnel", 6],
       ["flamethrower_simple", 2]
     ]
   },{

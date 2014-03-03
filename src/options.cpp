@@ -2,7 +2,6 @@
 #include "options.h"
 #include "output.h"
 #include "debug.h"
-#include "keypress.h"
 #include "translations.h"
 #include "file_finder.h"
 #include "cursesdef.h"
@@ -557,11 +556,6 @@ void initOptions() {
                                              24, 187, 24
                                             );
 
-    OPTIONS["INPUT_DELAY"] =             cOpt("graphics", _("Input delay"),
-                                             _("SDL ONLY: Determines how many times per second an action will be performed by holding down a key. The delay is in milliseconds. Requires restart."),
-                                             1, 500, 60
-                                            );
-
     optionNames["standard"] = _("Standard");
     //~ sidebar style
     optionNames["narrow"] = _("Narrow");
@@ -593,8 +587,8 @@ void initOptions() {
                                              false
                                             );
 
-    OPTIONS["BLACK_ROAD"] =             cOpt("world_default", _("Black Road"),
-                                             _("If true, spawn zombies at shelters."),
+    OPTIONS["BLACK_ROAD"] =             cOpt("world_default", _("Surrounded start"),
+                                             _("If true, spawn zombies at shelters. Makes the starting game a lot harder."),
                                              false
                                             );
 
@@ -680,7 +674,12 @@ void initOptions() {
     OPTIONS["TILES"] =                  cOpt("graphics", _("Choose tileset"),
                                              _("Choose the tileset you want to use. Only applicable on SDL builds."),
                                              tileset_names, "hoder"
-                                            );   // populate the options dynamically
+                                            );
+
+    OPTIONS["FULLSCREEN"] =             cOpt("graphics", _("Fullscreen"),
+                                             _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
+                                             false
+                                            );  // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (unsigned i=0; i < vPages.size(); ++i) {
@@ -969,12 +968,14 @@ void show_options(bool ingame)
         }
     }
 #ifdef SDLTILES
-    if (used_tiles_changed){
-        SDL_FillRect(tilecontext->buffer, NULL, 0x000000);
-        SDL_BlitSurface(tilecontext->buffer, NULL, tilecontext->display_screen, NULL);
-        tilecontext->reinit("gfx");
+    if( used_tiles_changed ) {
+        //try and keep SDL calls limited to source files that deal specifically with them
+        tilecontext->clear_buffer();
+        tilecontext->reinit( "gfx" );
         g->init_ui();
-        g->refresh_all();
+        if( ingame ) {
+            g->refresh_all();
+        }
     }
 #endif // SDLTILES
     delwin(w_options);

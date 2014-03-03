@@ -74,16 +74,6 @@ void setvector(std::vector<m_flag> *vec, ... )
  va_end(ap);
 }
 
-void setvector(std::vector<m_category> *vec, ... )
-{
- va_list ap;
- va_start(ap, vec);
- m_category tmp;
- while ((tmp = (m_category)va_arg(ap, int)))
-  vec->push_back(tmp);
- va_end(ap);
-}
-
 void setvector(std::vector<monster_trigger> *vec, ... )
 {
  va_list ap;

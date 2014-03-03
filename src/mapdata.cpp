@@ -117,6 +117,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         jsonint(j, "str_min_blocked", str_min_blocked );
         jsonint(j, "str_max_blocked", str_max_blocked );
         jsonint(j, "str_min_roll", str_min_roll );
+        jsonint(j, "explosive", explosive );
         jsonint(j, "chance", chance );
         jsonstring(j, "sound", sound );
         jsonstring(j, "sound_fail", sound_fail );
@@ -340,11 +341,12 @@ ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_floor,
+    t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_grate,
     t_slime,
     t_bridge,
+    t_covered_well,
     // Lighting related
     t_skylight, t_emergency_light_flicker, t_emergency_light,
     // Walls
@@ -356,7 +358,7 @@ ter_id t_null,
     t_wall_glass_v_alarm, t_wall_glass_h_alarm,
     t_reinforced_glass_v, t_reinforced_glass_h,
     t_bars,
-    t_door_c, t_door_b, t_door_o, t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
+    t_door_c, t_door_b, t_door_o, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
@@ -364,10 +366,11 @@ ter_id t_null,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
-    t_window_boarded_noglass,
+    t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_enhanced_noglass,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
     t_rock, t_fault,
     t_paper,
+    t_rock_wall, t_rock_wall_half,
     // Tree
     t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
@@ -384,6 +387,7 @@ ter_id t_null,
     // More embellishments than you can shake a stick at.
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
     t_gas_pump, t_gas_pump_smashed,
+    t_atm,
     t_generator_broken,
     t_missile, t_missile_exploded,
     t_radio_tower, t_radio_controls,
@@ -392,6 +396,8 @@ ter_id t_null,
     t_centrifuge,
     t_column,
     t_vat,
+    t_cvdbody, t_cvdmachine,
+    t_water_pump,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -429,6 +435,7 @@ void set_ter_ids() {
     t_sidewalk=terfind("t_sidewalk");
     t_concrete=terfind("t_concrete");
     t_floor=terfind("t_floor");
+    t_floor_waxed=terfind("t_floor_waxed");
     t_dirtfloor=terfind("t_dirtfloor");
     t_grate=terfind("t_grate");
     t_slime=terfind("t_slime");
@@ -463,10 +470,14 @@ void set_ter_ids() {
     t_door_c=terfind("t_door_c");
     t_door_b=terfind("t_door_b");
     t_door_o=terfind("t_door_o");
+    t_rdoor_c=terfind("t_rdoor_c");
+    t_rdoor_b=terfind("t_rdoor_b");
+    t_rdoor_o=terfind("t_rdoor_o");
     t_door_locked_interior=terfind("t_door_locked_interior");
     t_door_locked=terfind("t_door_locked");
     t_door_locked_alarm=terfind("t_door_locked_alarm");
     t_door_frame=terfind("t_door_frame");
+    t_door_frame=terfind("t_mdoor_frame");
     t_chaingate_l=terfind("t_chaingate_l");
     t_fencegate_c=terfind("t_fencegate_c");
     t_fencegate_o=terfind("t_fencegate_o");
@@ -495,12 +506,18 @@ void set_ter_ids() {
     t_window_frame=terfind("t_window_frame");
     t_window_boarded=terfind("t_window_boarded");
     t_window_boarded_noglass=terfind("t_window_boarded_noglass");
+    t_window_reinforced=terfind("t_window_reinforced");
+    t_window_reinforced_noglass=terfind("t_window_reinforced_noglass");
+    t_window_enhanced=terfind("t_window_enhanced");
+    t_window_enhanced_noglass=terfind("t_window_enhanced_noglass");
     t_window_stained_green=terfind("t_window_stained_green");
     t_window_stained_red=terfind("t_window_stained_red");
     t_window_stained_blue=terfind("t_window_stained_blue");
     t_rock=terfind("t_rock");
     t_fault=terfind("t_fault");
     t_paper=terfind("t_paper");
+    t_rock_wall=terfind("t_rock_wall");
+    t_rock_wall_half=terfind("t_rock_wall_half");
     t_tree=terfind("t_tree");
     t_tree_young=terfind("t_tree_young");
     t_tree_apple=terfind("t_tree_apple");
@@ -546,6 +563,7 @@ void set_ter_ids() {
     t_backboard=terfind("t_backboard");
     t_gas_pump=terfind("t_gas_pump");
     t_gas_pump_smashed=terfind("t_gas_pump_smashed");
+    t_atm=terfind("t_atm");
     t_generator_broken=terfind("t_generator_broken");
     t_missile=terfind("t_missile");
     t_missile_exploded=terfind("t_missile_exploded");
@@ -562,6 +580,8 @@ void set_ter_ids() {
     t_centrifuge=terfind("t_centrifuge");
     t_column=terfind("t_column");
     t_vat=terfind("t_vat");
+    t_cvdbody=terfind("t_cvdbody");
+    t_cvdmachine=terfind("t_cvdmachine");
     t_stairs_down=terfind("t_stairs_down");
     t_stairs_up=terfind("t_stairs_up");
     t_manhole=terfind("t_manhole");
@@ -590,6 +610,8 @@ void set_ter_ids() {
     t_switch_gb=terfind("t_switch_gb");
     t_switch_rb=terfind("t_switch_rb");
     t_switch_even=terfind("t_switch_even");
+    t_covered_well=terfind("t_covered_well");
+    t_water_pump=terfind("t_water_pump");
     num_terrain_types = terlist.size();
 };
 
@@ -608,7 +630,7 @@ furn_id f_null,
     f_bed, f_toilet, f_makeshift_bed,
     f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
     f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
-    f_bench, f_table, f_pool_table,
+    f_ball_mach, f_bench, f_lane, f_table, f_pool_table,
     f_counter,
     f_fridge, f_glass_fridge, f_dresser, f_locker,
     f_rack, f_bookcase,
@@ -644,7 +666,9 @@ void set_furn_ids() {
     f_trashcan=furnfind("f_trashcan");
     f_desk=furnfind("f_desk");
     f_exercise=furnfind("f_exercise");
+    f_ball_mach=furnfind("f_ball_mach");
     f_bench=furnfind("f_bench");
+    f_lane=furnfind("f_lane");
     f_table=furnfind("f_table");
     f_pool_table=furnfind("f_pool_table");
     f_counter=furnfind("f_counter");

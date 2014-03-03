@@ -41,36 +41,36 @@ classes = {
             
             str_cur = {
                 type = "int",
-                writable = false
+                writable = true
             },
             dex_cur = {
                 type = "int",
-                writable = false
+                writable = true
             },
             int_cur = {
                 type = "int",
-                writable = false
+                writable = true
             },
             per_cur = {
                 type = "int",
-                writable = false
+                writable = true
             },
             
             str_max = {
                 type = "int",
-                writable = false
+                writable = true
             },
             dex_max = {
                 type = "int",
-                writable = false
+                writable = true
             },
             int_max = {
                 type = "int",
-                writable = false
+                writable = true
             },
             per_max = {
                 type = "int",
-                writable = false
+                writable = true
             },
 
             stim = {

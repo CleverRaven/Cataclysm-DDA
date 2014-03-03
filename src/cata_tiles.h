@@ -12,8 +12,8 @@
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
 #else
-#include "SDL/SDL.h"
-#include "SDL/SDL_ttf.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #endif
 #endif
 
@@ -86,7 +86,7 @@ enum MULTITILE_TYPE
 };
 
 /** Typedefs */
-typedef std::map<int, SDL_Surface*> tile_map;
+typedef std::map<int, SDL_Texture*> tile_map;
 typedef std::map<std::string, tile_type*> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
@@ -130,16 +130,23 @@ class cata_tiles
 {
     public:
         /** Default constructor */
-        cata_tiles();
+        cata_tiles(SDL_Renderer *render);
         /** Default destructor */
         ~cata_tiles();
+
+        /** Reconfigure the tileset at runtime. Assumes that all the tileset variables, including tile_atlas
+         *  have been properly set. */
+        void reload_tileset();
+
+        /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
+         *  float inaccuracies. */
+        void set_draw_scale(int scale);
+
         /** Load tileset */
         void load_tileset(std::string path);
         /** Load tileset config file */
         void load_tilejson(std::string path);
         void load_tilejson_from_file(std::ifstream &f);
-        /* After loading tileset, create additional cache for rotating each tile assuming it is used for rotations */
-        void create_rotation_cache();
         /** Draw to screen */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
 
@@ -148,23 +155,21 @@ class cata_tiles
         int get_tile_width() const;
 
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
+        bool draw_from_id_string(std::string id, std::string category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**
          * Redraws all the tiles that have changed since the last frame.
          */
-        void apply_changes();
+        void clear_buffer();
 
         /** Surface/Sprite rotation specifics */
-        SDL_Surface *rotate_tile(SDL_Surface *src, SDL_Rect *rect, int rota);
-        void put_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
-        Uint32 get_pixel(SDL_Surface *surface, int x, int y);
+        SDL_Surface *create_tile_surface();
+        
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
-
         void get_wall_values(const int x, const int y, const long vertical_wall_symbol, const long horizontal_wall_symbol, int &subtile, int &rotation);
         void get_terrain_orientation(int x, int y, int &rota, int &subtype);
-
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
@@ -209,36 +214,24 @@ class cata_tiles
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
-        /**
-         * Scroll the map widget by (x, y)
-         *
-         * scroll(1, 1) would move the view one to the right and one down.
-         *
-         * Useful for keeping part of the previous "frame" and redrawing
-         * only what changed.
-         */
-        void scroll(int x, int y);
-
         /** Used to properly initialize everything for display */
         void init(std::string json_path, std::string tileset_path);
         /* initialize from an outside file */
         void init(std::string load_file_path);
         /* Reinitializes the tile context using the original screen information */
         void reinit(std::string load_file_path);
-        void set_screen(SDL_Surface *screen);
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
         LIGHTING light_at(int x, int y);
 
         /** Variables */
-        SDL_Surface *buffer, *tile_atlas, *display_screen;
+        SDL_Renderer *renderer;
+        SDL_Surface *tile_atlas, *default_size_tile_atlas;
         tile_map *tile_values;
         tile_id_map *tile_ids;
 
-        std::map<int, std::vector<SDL_Surface*> > rotation_cache;
-
-        int tile_height, tile_width;
+        int tile_height, tile_width, default_tile_width, default_tile_height;
         int screentile_width, screentile_height;
         int terrain_term_x, terrain_term_y;
         float tile_ratiox, tile_ratioy;
@@ -271,8 +264,6 @@ class cata_tiles
         std::string weather_name;
 
         std::queue<point> footsteps;
-        std::map<point, tile_drawing_cache> cache;
-        std::map<point, tile_drawing_cache> tiles_to_draw_this_frame;
 
         // offset values
         int o_x, o_y;

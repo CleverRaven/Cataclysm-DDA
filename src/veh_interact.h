@@ -77,6 +77,7 @@ private:
     int part_at(int dx, int dy);
     void move_cursor(int dx, int dy);
     task_reason cant_do(char mode);
+    bool can_currently_install(vpart_info *vpart);
 
     void do_install(task_reason reason);
     void do_repair(task_reason reason);
@@ -108,7 +109,7 @@ private:
     /** Store the most damaged part's index, or -1 if they're all healthy. */
     int mostDamagedPart;
 
-    /* true if current selected square has part with "FUEL_TANK flag and 
+    /* true if current selected square has part with "FUEL_TANK flag and
      * they are not full. Otherwise will be false.
      */
     bool has_ptank;

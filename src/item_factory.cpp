@@ -31,10 +31,9 @@ static const std::string category_id_other("other");
 
 Item_factory* item_controller = new Item_factory();
 
-extern std::map<std::string, std::queue<std::pair<recipe *, int> > > recipe_booksets;
-
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
+static t_string_set item_whitelist;
 
 bool remove_item(const std::string &itm, std::vector<component>& com) {
     std::vector<component>::iterator a = com.begin();
@@ -67,10 +66,33 @@ void remove_item(const std::string &itm, std::vector<map_bash_item_drop>& vec) {
     }
 }
 
+bool item_is_blacklisted(const std::string &id) {
+    if (item_whitelist.count(id) > 0) {
+        return false;
+    } else if(item_blacklist.count(id) > 0) {
+        return true;
+    }
+    // Empty whitelist: default to enable all,
+    // Non-empty whitelist: default to disable all.
+    return !item_whitelist.empty();
+}
+
 void Item_factory::finialize_item_blacklist() {
-    std::set<recipe*> deleted_recipes;
+    for(t_string_set::const_iterator a = item_whitelist.begin(); a != item_whitelist.end(); ++a) {
+        if (!has_template(*a)) {
+            debugmsg("item on whitelist %s does not exist", a->c_str());
+        }
+    }
     for(t_string_set::const_iterator a = item_blacklist.begin(); a != item_blacklist.end(); ++a) {
-        const std::string &itm = *a;
+        if (!has_template(*a)) {
+            debugmsg("item on blacklist %s does not exist", a->c_str());
+        }
+    }
+    for(std::map<std::string,itype*>::const_iterator a = m_templates.begin(); a != m_templates.end(); ++a) {
+        const std::string &itm = a->first;
+        if (!item_is_blacklisted(itm)) {
+            continue;
+        }
         for(std::map<Item_tag, Item_group*>::iterator b = m_template_groups.begin(); b != m_template_groups.end(); ++b) {
             b->second->remove_item(itm);
         }
@@ -78,7 +100,6 @@ void Item_factory::finialize_item_blacklist() {
             for(size_t c = 0; c < b->second.size(); c++) {
                 recipe *r = b->second[c];
                 if(r->result == itm || remove_item(itm, r->components) || remove_item(itm, r->tools)) {
-                    deleted_recipes.insert(r);
                     delete r;
                     b->second.erase(b->second.begin() + c);
                     c--;
@@ -101,31 +122,23 @@ void Item_factory::finialize_item_blacklist() {
             remove_item(itm, furnlist[i].bash.items);
         }
     }
-    // look through the recipe-to-book mapping and remove any mapping
-    // to recipes that have been removed (and already deleted! - dangling pointers ahead)
-    for (std::map<std::string, std::queue<std::pair<recipe *, int> > >::iterator book_ref_it =
-            recipe_booksets.begin(); book_ref_it != recipe_booksets.end(); ++book_ref_it) {
-        // std::queue doesn't support erase, have to make a copy
-        // without the delete recipes and use that
-        std::queue<std::pair<recipe *, int> > copy;
-        while (!book_ref_it->second.empty()) {
-            std::pair<recipe *, int> rec_pair = book_ref_it->second.front();
-            book_ref_it->second.pop();
-            if (deleted_recipes.count(rec_pair.first) == 0) {
-                copy.push(rec_pair); // not delete, recipe still valid
-            }
-        }
-        // std::queue doesn't even has a swap function, have to use slow copy assignment
-        book_ref_it->second = copy;
-    }
     item_blacklist.clear();
+    item_whitelist.clear();
+}
+
+void add_to_set(t_string_set &s, JsonObject &json, const std::string &name) {
+    JsonArray jarr = json.get_array(name);
+    while(jarr.has_more()) {
+        s.insert(jarr.next_string());
+    }
 }
 
 void Item_factory::load_item_blacklist(JsonObject &json) {
-    JsonArray jarr = json.get_array("items");
-    while(jarr.has_more()) {
-        item_blacklist.insert(jarr.next_string());
-    }
+    add_to_set(item_blacklist, json, "items");
+}
+
+void Item_factory::load_item_whitelist(JsonObject &json) {
+    add_to_set(item_whitelist, json, "items");
 }
 
 //Every item factory comes with a missing item
@@ -347,9 +360,15 @@ void Item_factory::init(){
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
     iuse_function_list["BELL"] = &iuse::bell;
+    iuse_function_list["SEED"] = &iuse::seed;
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
+    iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
+    iuse_function_list["TOOLARMOR_OFF"]  = &iuse::toolarmor_off;
+    iuse_function_list["TOOLARMOR_ON"]  = &iuse::toolarmor_on;
+    iuse_function_list["RM13ARMOR_OFF"]  = &iuse::rm13armor_off;
+    iuse_function_list["RM13ARMOR_ON"]  = &iuse::rm13armor_on;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
@@ -383,7 +402,7 @@ void Item_factory::create_inital_categories() {
     add_category(category_id_drugs,    -14, _("drugs"));
     add_category(category_id_books,    -13, _("books"));
     add_category(category_id_mods,     -12, _("mods"));
-    add_category(category_id_mods,     -11, _("bionics"));
+    add_category(category_id_cbm,      -11, _("bionics"));
     add_category(category_id_other,    -10, _("other"));
 }
 
@@ -572,31 +591,31 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag, bool & with_ammo 
     }
 }
 
-item Item_factory::create(Item_tag id, int created_at){
-    return item(find_template(id), created_at);
+item Item_factory::create(Item_tag id, int created_at, bool rand){
+    return item(find_template(id), created_at, rand);
 }
-Item_list Item_factory::create(Item_tag id, int created_at, int quantity){
+Item_list Item_factory::create(Item_tag id, int created_at, int quantity, bool rand){
     Item_list new_items;
-    item new_item_base = create(id, created_at);
+    item new_item_base = create(id, created_at, rand);
     for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone());
+        new_items.push_back(new_item_base.clone(rand));
     }
     return new_items;
 }
-item Item_factory::create_from(Item_tag group, int created_at){
-    return create(id_from(group), created_at);
+item Item_factory::create_from(Item_tag group, int created_at, bool rand){
+    return create(id_from(group), created_at, rand);
 }
-Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity){
-    return create(id_from(group), created_at, quantity);
+Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity, bool rand){
+    return create(id_from(group), created_at, quantity, rand);
 }
-item Item_factory::create_random(int created_at){
-    return create(random_id(), created_at);
+item Item_factory::create_random(int created_at, bool rand){
+    return create(random_id(), created_at, rand);
 }
-Item_list Item_factory::create_random(int created_at, int quantity){
+Item_list Item_factory::create_random(int created_at, int quantity, bool rand){
     Item_list new_items;
     item new_item_base = create(random_id(), created_at);
     for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone());
+        new_items.push_back(new_item_base.clone(rand));
     }
     return new_items;
 }
@@ -627,6 +646,7 @@ void Item_factory::load_ammo(JsonObject& jo)
     ammo_template->count = jo.get_int("count");
     ammo_template->stack_size = jo.get_int("stack_size", ammo_template->count);
     ammo_template->ammo_effects = jo.get_tags("effects");
+    ammo_template->container = jo.get_string("container", "null");
 
     itype *new_item_template = ammo_template;
     load_basic_info(jo, new_item_template);
@@ -682,14 +702,50 @@ void Item_factory::load_tool(JsonObject& jo)
 {
     it_tool* tool_template = new it_tool();
     tool_template->ammo = jo.get_string("ammo");
-    tool_template->max_charges = jo.get_int("max_charges");
-    tool_template->def_charges = jo.get_int("initial_charges");
+    tool_template->max_charges = jo.get_long("max_charges");
+    tool_template->def_charges = jo.get_long("initial_charges");
+
+    if (jo.has_array("rand_charges")) {
+        JsonArray jarr = jo.get_array("rand_charges");
+        while (jarr.has_more()){
+            tool_template->rand_charges.push_back(jarr.next_long());
+        }
+    } else {
+        tool_template->rand_charges.push_back(tool_template->def_charges);
+    }
+
     tool_template->charges_per_use = jo.get_int("charges_per_use");
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
     tool_template->revert_to = jo.get_string("revert_to");
 
     itype *new_item_template = tool_template;
     load_basic_info(jo, new_item_template);
+}
+
+void Item_factory::load_tool_armor(JsonObject& jo)
+{
+    it_tool_armor* tool_armor_template = new it_tool_armor();
+
+    it_tool *tool_template = tool_armor_template;
+    tool_template->ammo = jo.get_string("ammo");
+    tool_template->max_charges = jo.get_int("max_charges");
+    tool_template->def_charges = jo.get_int("initial_charges");
+    tool_template->charges_per_use = jo.get_int("charges_per_use");
+    tool_template->turns_per_charge = jo.get_int("turns_per_charge");
+    tool_template->revert_to = jo.get_string("revert_to");
+
+    it_armor* armor_template = tool_armor_template;
+    armor_template->encumber = jo.get_int("encumbrance");
+    armor_template->coverage = jo.get_int("coverage");
+    armor_template->thickness = jo.get_int("material_thickness");
+    armor_template->env_resist = jo.get_int("enviromental_protection");
+    armor_template->warmth = jo.get_int("warmth");
+    armor_template->storage = jo.get_int("storage");
+    armor_template->power_armor = jo.get_bool("power_armor", false);
+    armor_template->covers = jo.has_member("covers") ?
+        flags_from_json(jo, "covers", "bodyparts") : 0;
+
+    load_basic_info(jo, tool_armor_template);
 }
 
 void Item_factory::load_book(JsonObject& jo)
@@ -720,9 +776,9 @@ void Item_factory::load_comestible(JsonObject& jo)
     comest_template->spoils = jo.get_int("spoils_in", 0);
     comest_template->brewtime = jo.get_int("brew_time", 0);
     comest_template->addict = jo.get_int("addiction_potential", 0);
-    comest_template->charges = jo.get_int("charges", 0);
+    comest_template->charges = jo.get_long("charges", 0);
     if(jo.has_member("stack_size")) {
-      comest_template->stack_size = jo.get_int("stack_size");
+      comest_template->stack_size = jo.get_long("stack_size");
     } else {
       comest_template->stack_size = comest_template->charges;
     }
@@ -730,6 +786,15 @@ void Item_factory::load_comestible(JsonObject& jo)
     comest_template->healthy = jo.get_int("heal", 0);
     comest_template->fun = jo.get_int("fun", 0);
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
+
+    if (jo.has_array("rand_charges")) {
+        JsonArray jarr = jo.get_array("rand_charges");
+        while (jarr.has_more()){
+            comest_template->rand_charges.push_back(jarr.next_long());
+        }
+    } else {
+        comest_template->rand_charges.push_back(comest_template->charges);
+    }
 
     itype *new_item_template = comest_template;
     load_basic_info(jo, new_item_template);
@@ -857,8 +922,13 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
     STURDY - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
     SWIM_GOGGLES - Allows you to see much further under water.
-    REBREATHER - Works with an active UPS to supply you with oxygen while underwater.
+    REBREATHER - Works to supply you with oxygen while underwater. Requires external limiter like battery power.
     UNRECOVERABLE - Prevents the item from being recovered when deconstructing another item that uses this one.
+    GNV_EFFECT - Green night vision effect. Requires external limiter like battery power.
+    IR_EFFECT - Infrared vision effect. Requires external limiter like battery power.
+    SUN_GLASSES - Protects from sunlight's 'glare' effect.
+    RAD_RESIST - Partially protects from ambient radiation.
+    RAD_PROOF- Fully protects from ambient radiation.
 
     Container-only flags:
     SEALS
@@ -1148,8 +1218,11 @@ const std::string &Item_factory::calc_category(itype *it)
     if (it->is_book() ) {
         return category_id_books;
     }
-    if (it->is_gunmod() || it->is_bionic()) {
+    if (it->is_gunmod()) {
         return category_id_mods;
+    }
+    if (it->is_bionic()) {
+        return category_id_cbm;
     }
     if (it->melee_dam > 7 || it->melee_cut > 5) {
         return category_id_weapons;

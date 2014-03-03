@@ -1,5 +1,7 @@
 #include "catalua.h"
 
+#include <sys/stat.h>
+
 #include "game.h"
 #include "item_factory.h"
 #include "item.h"
@@ -16,6 +18,10 @@ extern "C" {
 }
 
 lua_State *lua_state;
+
+// Keep track of the current mod from which we are executing, so that
+// we know where to load files from.
+std::string lua_file_path = "";
 
 // Helper functions for making working with the lua API more straightforward.
 // --------------------------------------------------------------------------
@@ -239,12 +245,12 @@ static int game_monster_at(lua_State *L) {
     int parameter1 = (int) lua_tonumber(L, 1);
     int parameter2 = (int) lua_tonumber(L, 2);
     int monster_idx = g->mon_at(parameter1, parameter2);
-    
+
     monster& mon_ref = g->zombie(monster_idx);
     monster** monster_userdata = (monster**) lua_newuserdata(L, sizeof(monster*));
     *monster_userdata = &mon_ref;
     luah_setmetatable(L, "monster_metatable");
-    
+
     return 1; // 1 return values
 }
 
@@ -254,19 +260,19 @@ static int game_item_type(lua_State *L) {
     // t["id"] = item.type.id
     // t["name"] = item.type.name
     // then return t
-    
+
     item** item_instance = (item**) lua_touserdata(L, 1);
 
     lua_createtable(L, 0, 2); // Preallocate enough space for all type properties.
-    
+
     lua_pushstring(L, "name");
     lua_pushstring(L, (*item_instance)->type->name.c_str());
     lua_rawset(L, -3);
-    
+
     lua_pushstring(L, "id");
     lua_pushstring(L, (*item_instance)->type->id.c_str());
     lua_rawset(L, -3);
-    
+
     return 1; // 1 return values
 }
 
@@ -320,6 +326,43 @@ static int game_register_iuse(lua_State *L) {
 
 #include "../lua/catabindings.cpp"
 
+// Load the main file of a mod
+void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name) {
+    std::string full_path = base_path + "/" + main_file_name;
+    
+    // Check if file exists first
+    struct stat buffer;   
+    int file_exists = stat(full_path.c_str(), &buffer) == 0;
+    if(file_exists) {
+        lua_file_path = base_path;
+        lua_dofile(L, full_path.c_str());
+        lua_file_path = "";
+    }
+    // debugmsg("Loading from %s", full_path.c_str());
+}
+
+// Load an arbitrary lua file
+void lua_dofile(lua_State *L, const char* path) {
+    int err = luaL_dofile(lua_state, path);
+    if(err) {
+        // Error handling.
+        const char* error = lua_tostring(L, -1);
+        debugmsg("Error in lua module: %s", error);
+    }
+}
+
+// game.dofile(file)
+//
+// Method to load files from lua, later should be made "safe" by
+// ensuring it's being loaded from a valid path etc.
+static int game_dofile(lua_State *L) {
+    const char* path = luaL_checkstring(L, 1);
+    
+    std::string full_path = lua_file_path + "/" + path;
+    lua_dofile(L, full_path.c_str());
+    return 0;
+}
+
 // Registry containing all the game functions exported to lua.
 // -----------------------------------------------------------
 static const struct luaL_Reg global_funcs [] = {
@@ -329,6 +372,7 @@ static const struct luaL_Reg global_funcs [] = {
     {"item_type", game_item_type},
     {"monster_at", game_monster_at},
     {"choose_adjacent", game_choose_adjacent},
+    {"dofile", game_dofile},
     {NULL, NULL}
 };
 
@@ -344,14 +388,6 @@ void game::init_lua() {
 
     // Load lua-side metatables etc.
     luaL_dofile(lua_state, "lua/autoexec.lua");
-
-    // Load main lua mod
-    int err = luaL_dofile(lua_state,"data/main.lua");
-    if(err) {
-        // Error handling.
-        const char* error = lua_tostring(lua_state, -1);
-        debugmsg("Error in lua module: %s", error);
-    }
 }
 #endif // #ifdef LUA
 

@@ -12,7 +12,6 @@
 #include "color.h"
 #include "input.h"
 #include "rng.h"
-#include "keypress.h"
 #include "options.h"
 #include "cursesdef.h"
 #include "catacharset.h"
@@ -29,6 +28,7 @@ int VIEW_OFFSET_X;
 int VIEW_OFFSET_Y;
 int TERRAIN_WINDOW_WIDTH;
 int TERRAIN_WINDOW_HEIGHT;
+int TERRAIN_WINDOW_TERM_WIDTH;
 int FULL_SCREEN_WIDTH;
 int FULL_SCREEN_HEIGHT;
 
@@ -150,8 +150,8 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
         if (begin_y == 0 && caption != "") {
             begin_y = fold_and_print(w, 0, 1, width - 2, c_white, caption.c_str()) + 1;
         }
-        std::vector<std::string> next_paragraph = foldstring(text[i].c_str(), width);
-        if (begin_y + next_paragraph.size() > height) {
+        std::vector<std::string> next_paragraph = foldstring(text[i].c_str(), width - 2);
+        if (begin_y + next_paragraph.size() > height - ((i + 1) < text.size() ? 1 : 0)) {
             // Next page
             i--;
             mvwprintw(w, height - 1, 1, _("Press any key for more..."));
@@ -572,14 +572,6 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                 std::vector<std::string> *hist = uistate.gethistory(identifier);
                 if(hist != NULL) {
                     uimenu hmenu;
-                    hmenu.w_height = 3 + hist->size();
-                    if (w_y - hmenu.w_height < 0 ) {
-                        hmenu.w_y = 0;
-                        hmenu.w_height = ( w_y - hmenu.w_y < 4 ? 4 : w_y - hmenu.w_y );
-                    } else {
-                        hmenu.w_y = w_y - hmenu.w_height;
-                    }
-                    hmenu.w_x = w_x;
                     hmenu.title = _("d: delete history");
                     hmenu.return_invalid = true;
                     for(int h = 0; h < hist->size(); h++) {
@@ -592,6 +584,14 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     } else {
                         hmenu.selected = hist->size() - 1;
                     }
+                    // number of lines that make up the menu window: title,2*border+entries
+                    hmenu.w_height = 3 + hmenu.entries.size();
+                    hmenu.w_y = w_y - hmenu.w_height;
+                    if (hmenu.w_y < 0 ) {
+                        hmenu.w_y = 0;
+                        hmenu.w_height = std::max(w_y, 4);
+                    }
+                    hmenu.w_x = w_x;
 
                     hmenu.query();
                     if ( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret ) {

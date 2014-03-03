@@ -6,7 +6,6 @@
 #include "game.h"
 #include "disease.h"
 #include "addiction.h"
-#include "keypress.h"
 #include "moraledata.h"
 #include "inventory.h"
 #include "artifact.h"
@@ -836,6 +835,8 @@ void monster::deserialize(JsonIn &jsin)
 
     data.read("plans", plans);
 
+    data.read("effects", effects);
+
     data.read("inv", inv);
     if (!data.read("ammo", ammo)) { ammo = 100; }
 }
@@ -870,6 +871,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("plans", plans);
     json.member("ammo", ammo);
 
+    json.member("effects", effects);
 
     if ( save_contents ) {
         json.member("inv");
@@ -1022,7 +1024,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     json.member( "typeid", typeId() );
     json.member( "bday", bday );
 
-    if ( charges != -1 )     json.member( "charges", int(charges) );
+    if ( charges != -1 )     json.member( "charges", long(charges) );
     if ( damage != 0 )       json.member( "damage", int(damage) );
     if ( burnt != 0 )        json.member( "burnt", burnt );
     if ( poison != 0 )       json.member( "poison", poison );

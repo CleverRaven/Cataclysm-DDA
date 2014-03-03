@@ -36,6 +36,6 @@ void mission_end::deposit_box(mission *miss)
     } else if (one_in(3)) {
         itemName = "m4a1";
     }
-    g->u.i_add( item(itypes[itemName], 0) );
+    g->u.i_add( item(itypes[itemName], 0, false) );
     g->add_msg(_("%s gave you an item from the deposit box."), p->name.c_str());
 }

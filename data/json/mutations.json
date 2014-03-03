@@ -6,10 +6,9 @@
         "points" : 3,
         "description" : "You can run more quickly than most, resulting in a 15% speed bonus on sure footing.",
         "starting_trait" : true,
-        "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
         "changes_to" : ["FLEET2"],
         "category" : ["MUTCAT_SPIDER"],
-        "cancels" : ["SLOWRUNNER"]
+        "cancels" : ["SLOWRUNNER", "PONDEROUS1", "PONDEROUS2", "PONDEROUS3"]
     },{
         "type" : "mutation",
         "id" : "GOODHEARING",
@@ -116,12 +115,7 @@
         "description" : "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
         "starting_trait" : true,
         "leads_to" : ["EATPOISON"],
-        "category" : [
-            "MUTCAT_INSECT",
-            "MUTCAT_SLIME",
-            "MUTCAT_SPIDER",
-            "MUTCAT_MEDICAL"
-        ]
+        "category" : ["MUTCAT_INSECT", "MUTCAT_SLIME", "MUTCAT_SPIDER", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "FASTREADER",
@@ -178,18 +172,9 @@
         "category" : ["MUTCAT_LIZARD", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"],
         "cancels" : ["THINSKIN"],
         "wet_protection" : [
-            {
-                "part" : "LEGS",
-                "ignored" : 0,
-                "neutral" : 1,
-                "good" : 0
-            },{
-                "part" : "ARMS",
-                "neutral" : 1
-            },{
-                "part" : "TORSO",
-                "neutral" : 2
-            }
+            { "part" : "LEGS", "neutral" : 1 },
+            { "part" : "ARMS", "neutral" : 1 },
+            { "part" : "TORSO", "neutral" : 2 }
         ]
     },{
         "type" : "mutation",
@@ -349,7 +334,7 @@
         "description" : "Although you still suffer the negative effects of pain, it also brings a unique pleasure to you.",
         "starting_trait" : true,
         "valid" : false,
-        "changes_to" : ["CENOBITE"]
+        "changes_to" : ["PAIN_JUNKIE", "CENOBITE"]
     },{
         "type" : "mutation",
         "id" : "STYLISH",
@@ -1023,6 +1008,7 @@
         "ugliness" : 2,
         "description" : "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
         "cancels" : ["BEAK"],
+        "changes_to" : ["SABER_TEETH"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -1920,7 +1906,7 @@
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE"],
-        "prereqs2" : ["PRED3"],
+        "prereqs2" : ["PRED3", "PRED4"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
     },{

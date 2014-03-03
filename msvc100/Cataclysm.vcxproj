@@ -811,7 +811,6 @@
     <ClInclude Include="..\src\iuse_software_snake.h" />
     <ClInclude Include="..\src\iuse_software_sokoban.h" />
     <ClInclude Include="..\src\json.h" />
-    <ClInclude Include="..\src\keypress.h" />
     <ClInclude Include="..\src\lightmap.h" />
     <ClInclude Include="..\src\line.h" />
     <ClInclude Include="..\src\live_view.h" />
@@ -827,6 +826,7 @@
     <ClInclude Include="..\src\mod_manager.h" />
     <ClInclude Include="..\src\monattack.h" />
     <ClInclude Include="..\src\mondeath.h" />
+    <ClInclude Include="..\src\mondefense.h" />
     <ClInclude Include="..\src\mongroup.h" />
     <ClInclude Include="..\src\monster.h" />
     <ClInclude Include="..\src\monstergenerator.h" />
@@ -928,7 +928,6 @@
     <ClCompile Include="..\src\iuse_software_snake.cpp" />
     <ClCompile Include="..\src\iuse_software_sokoban.cpp" />
     <ClCompile Include="..\src\json.cpp" />
-    <ClCompile Include="..\src\keypress.cpp" />
     <ClCompile Include="..\src\lightmap.cpp" />
     <ClCompile Include="..\src\line.cpp" />
     <ClCompile Include="..\src\live_view.cpp" />
@@ -953,6 +952,7 @@
     <ClCompile Include="..\src\mod_manager_ui.cpp" />
     <ClCompile Include="..\src\monattack.cpp" />
     <ClCompile Include="..\src\mondeath.cpp" />
+    <ClCompile Include="..\src\mondefense.cpp" />
     <ClCompile Include="..\src\mongroupdef.cpp" />
     <ClCompile Include="..\src\monitemsdef.cpp" />
     <ClCompile Include="..\src\monmove.cpp" />

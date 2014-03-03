@@ -1,7 +1,6 @@
 #include "itype.h"
 #include "ammo.h"
 #include "game.h"
-#include "setvector.h"
 #include "monstergenerator.h"
 #include <fstream>
 
@@ -40,6 +39,11 @@ void game::init_itypes ()
 // For smoking drugs
  itypes["apparatus"]=
   new itype("apparatus", 0, _("a smoking device and a source of flame"),
+            "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+// For CVD Forging
+ itypes["cvd_machine"]=
+  new itype("cvd_machine", 0, _("cvd machine"),
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
 

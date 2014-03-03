@@ -99,8 +99,6 @@
             ],
                                         "comment": "specific things ---v",
             "add": [
-                { "item": "pistol_flintlock", "x": 12, "y": 10, "chance": 50 },
-                { "item": "rifle_flintlock", "x": 12, "y": 10, "chance": 50 },
                 { "item": "katana", "x": 12, "y": 10, "chance": 50 },
                 { "item": "spiral_stone", "x": 12, "y": 10, "chance": 4 }
             ],

@@ -274,6 +274,10 @@
             {
                 "level": 1,
                 "name": "swimming"
+            },
+            {
+                "level": 1,
+                "name": "survival"
             }
         ],
         "items": {
@@ -1035,6 +1039,59 @@
         }
     },
     {
+        "type": "profession",
+        "ident": "bio_soldier",
+        "name": "Bionic Soldier",
+        "description": "You are the result of one of the military's latest and final research programs, a prototype cyborg soldier. You're still alive thanks to your augmentations, even after all your comrades fell to the undead. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "points": 5,
+        "CBMs":[
+            "bio_targeting",
+            "bio_purifier",
+            "bio_carbon",
+            "bio_geiger",
+            "bio_adrenaline",
+            "bio_night_vision",
+            "bio_torsionratchet",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "pants_army",
+                "socks",
+                "jacket_army",
+                "boots_combat",
+                "rm51_assault_rifle",
+                "8mm_fmj",
+                "8mm_fmj"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
@@ -1063,8 +1120,54 @@
     },
     {
         "type" : "profession",
+        "ident": "bionic_hitman",
+        "name": "Bionic Assassin",
+        "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently eliminating your target while maintaining an innocuous appearance.",
+        "points": 5,
+        "CBMs":[
+            "bio_blade",
+            "bio_shock",
+            "bio_face_mask",
+            "bio_torsionratchet",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shoes",
+                "dress_shirt",
+                "wristwatch"
+            ],
+            "male": [
+                "briefs",
+                "socks",
+                "pants"
+            ],
+            "female": [
+                "bra",
+                "panties",
+                "stockings",
+                "skirt"
+            ]
+        }
+    },
+    {
+        "type" : "profession",
         "ident": "faulty_bionic",
-        "name": "Failed Android",
+        "name": "Failed Cyborg",
         "description": "Your body is a wreck of bionic parts. You have a large capacity for power, but are filled with broken bionics. At least your ethanol power supply still works.",
         "points": -2,
         "CBMs":[
@@ -1080,7 +1183,8 @@
             "both": [
                 "sneakers",
                 "jeans",
-                "tshirt"
+                "tshirt",
+                "ear_plugs"
             ],
             "male": [
                 "briefs"
@@ -1093,10 +1197,42 @@
     },
     {
         "type" : "profession",
+        "ident": "bionic_customer",
+        "name": "Commercial Cyborg",
+        "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone? Only time will tell if your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
+        "points": 5,
+        "CBMs":[
+            "bio_tools",
+            "bio_flashlight",
+            "bio_storage",
+            "bio_watch",
+            "bio_batteries",
+            "bio_power_storage_mkII"
+        ],
+        "items": {
+            "both": [
+                "sneakers",
+                "tshirt"
+            ],
+            "male": [
+                "briefs",
+                "socks",
+                "pants"
+            ],
+            "female": [
+                "bra",
+                "panties",
+                "stockings",
+                "skirt"
+            ]
+        }
+    },
+    {
+        "type" : "profession",
         "ident" : "hitchhiker",
         "name" : "Hitchhiker",
         "description" : "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
-        "points" : 0,
+        "points" : -1,
         "items" : {
             "both": [
                 "house_coat",
@@ -1179,7 +1315,7 @@
         "ident": "clown",
         "name": "Clown",
         "description": "All you ever wanted was to make people laugh. Dropping out of school and performing at kids' parties was a dream come true until the world ended. There's precious few balloon animals in your future now.",
-        "points": 0,
+        "points": -1,
         "items": {
             "both": [
                 "clown_suit",
@@ -1199,7 +1335,7 @@
         "ident": "lost_sub",
         "name": "Lost Submissive",
         "description": "Early in the rush to safety, you were separated from your master by cruel fate. Now you are on your own with nothing to your name but a suit of really kinky black leather. Unfortunately, there's no safewords in the apocalypse.",
-        "points": 0,
+        "points": -1,
         "items": {
             "both" : [
                 "bondage_suit",
@@ -1238,7 +1374,7 @@
         "ident": "cosplay",
         "name": "Otaku",
         "description": "Late nights with friends watching anime and eating snacks has prepared you for the premier anime convention in the Northeast.  It just had to be the day of the apocalypse.  At least you were ready in case your costume tore.",
-        "points": 4,
+        "points": 1,
         "items": {
             "both": [
                 "shorts",
@@ -1273,6 +1409,7 @@
                 "jersey",
                 "pants",
                 "sneakers",
+                "mouthpiece",
                 "puck"
             ],
             "male": [
@@ -1297,6 +1434,7 @@
                 "dress_shirt",
                 "pants",
                 "cleats",
+                "mouthpiece",
                 "baseball"
             ],
             "male": [
@@ -1321,6 +1459,7 @@
                 "helmet_football",
                 "pants",
                 "cleats",
+                "mouthpiece",
                 "football"
             ],
             "male": [
@@ -1363,7 +1502,7 @@
             "female": "Bride"
         },
         "description": "The cataclysm struck on the big day and you escaped with nothing but your wedding attire. Cold feet? You'd just like to keep your feet attached!",
-        "points": 0,
+        "points": -1,
         "items" : {
             "male": [
                 "tux",
@@ -1546,6 +1685,151 @@
     },
     {
         "type": "profession",
+        "ident": "razorgirl",
+        "name": {
+            "male": "Razor Boy",
+            "female": "Razor Girl"
+        },
+        "description": "Through a series of painful and expensive surgeries you became a walking bionic weapon, your services as a mercenary available to the highest bidder. Now that the world has ended, those bionic enhancements may spell the difference between life and death.",
+        "points": 5,
+        "CBMs":[
+            "bio_razors",
+            "bio_armor_eyes",
+            "bio_sunglasses",
+            "bio_dex_enhancer",
+            "bio_ears",
+            "bio_carbon"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "tank_top",
+                "jacket_leather",
+                "pants_leather",
+                "boots",
+                "gloves_fingerless",
+                "gum"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "cyberjunkie",
+        "name": "Cyberjunkie",
+        "description": "Long ago your lifelong infatuation with bionic enhancement lead you into a shady world of back-alley bionic clinics and self-installed secondhand CBMs. The world has moved on but your posthuman hunger still cries out to be fed; where will you get your bionic fix now?",
+        "points": 0,
+        "CBMs":[
+            "bio_itchy",
+            "bio_shakes",
+            "bio_leaky",
+            "bio_sleepy",
+            "bio_trip",
+            "bio_spasm",
+            "bio_furnace",
+            "bio_power_storage_mkII",
+            "bio_painkiller",
+            "bio_climate"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "electronics"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            },
+            {
+                "level": 1,
+                "name": "mechanics"
+            }
+        ],
+        "items": {
+            "both": [
+                "tank_top",
+                "shorts",
+                "lowtops",
+                "aspirin",
+                "cig",
+                "lighter"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "camisole",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "cykotic",
+        "name": "Bionic Monster",
+        "description": "Completely overtaken by bionic-induced psychosis, you are a deformed posthuman monster who had no place in society. But now, where once you were forced to hide in the shadows, you find in this new desolation a world where even a creature such as yourself might find its niche.",
+        "points": 0,
+        "CBMs":[
+            "bio_deformity",
+            "bio_voice",
+            "bio_thumbs",
+            "bio_leaky",
+            "bio_trip",
+            "bio_noise",
+            "bio_metabolics",
+            "bio_power_storage_mkII",
+            "bio_scent_vision",
+            "bio_claws",
+            "bio_digestion"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "unarmed"
+            },
+            {
+                "level": 1,
+                "name": "survival"
+            }
+        ],
+        "items": {
+            "both": [
+                "tank_top",
+                "shorts_cargo",
+                "footrags",
+                "gloves_wraps",
+                "hat_cotton",
+                "bandana",
+                "hat_noise_cancelling"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "lawyer",
         "name": "Lawyer",
         "description": "Now instead of complaining about your fees, your clients try to eat your brain. You can't tell which one is worse though.",
@@ -1578,6 +1862,100 @@
             "female": [
                 "bra",
                 "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "blackbelt_novice",
+        "name": "Novice Martial Artist",
+        "description": "You were on your way to the dojo for your first lesson when the world ended. And you really wanted to learn how to swim, too.",
+        "points": -1,
+        "items": {
+            "both": [
+                "karate_gi",
+                "judo_belt_white",
+                "mouthpiece",
+                "sneakers"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "blackbelt_intermediate",
+        "name": "Martial Artist",
+        "description": "'Drop the martial arts!', they said. 'Learn a skill for the REAL world!', they said. Well, you're about to show them! SHOW THEM ALL!",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "karate_gi",
+                "judo_belt_orange",
+                "mouthpiece",
+                "sneakers"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "blackbelt",
+        "name": "Blackbelt",
+        "description": "As the world ends, you alone stand against the coming darkness with your fists of steel.",
+        "points": 8,
+        "skills": [
+            {
+                "level": 8,
+                "name": "melee"
+            },
+            {
+                "level": 8,
+                "name": "unarmed"
+            },
+            {
+                "level": 8,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "karate_gi",
+                "judo_belt_black",
+                "mouthpiece",
+                "geta"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
             ]
         }
     }

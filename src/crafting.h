@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <list>
 #include "itype.h"
 #include "skill.h"
 #include "rng.h"
@@ -64,6 +65,9 @@ struct recipe {
   std::vector<std::vector<component> > tools;
   std::vector<quality_requirement> qualities;
   std::vector<std::vector<component> > components;
+  // only used during loading json data: books and the skill needed
+  // to learn this recipe from.
+  std::vector<std::pair<std::string, int> > booksets;
 
   //Create a string list to describe the skill requirements fir this recipe
   // Format: skill_name(amount), skill_name(amount)
@@ -112,6 +116,13 @@ recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat 
 
 typedef std::vector<recipe*> recipe_list;
 typedef std::map<craft_cat, recipe_list> recipe_map;
+
+class item;
+// removes any (removable) ammo from the item and stores it in the
+// players inventory.
+void remove_ammo(item *dis_item);
+// same as above but for each item in the list
+void remove_ammo(std::list<item> &dis_items);
 
 void load_recipe_category(JsonObject &jsobj);
 void reset_recipe_categories();

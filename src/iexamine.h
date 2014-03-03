@@ -21,6 +21,8 @@ public:
  void none (player *p, map *m, int examx, int examy);
 
  void gaspump (player *p, map *m, int examx, int examy);
+ void atm (player *p, map *m, int examx, int examy);
+ void vending (player *p, map *m, int examx, int examy);
  void toilet (player *p, map *m, int examx, int examy);
  void elevator (player *p, map *m, int examx, int examy);
  void controls_gate(player *p, map *m, int examx, int examy);

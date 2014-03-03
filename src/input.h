@@ -11,6 +11,8 @@
     #define GAMEPAD_ENABLED
 #endif
 
+#define KEY_ESCAPE 27
+
 enum InputEvent {
     Confirm,
     Cancel,
@@ -40,9 +42,13 @@ enum InputEvent {
 InputEvent get_input(int ch = '\0');
 bool is_mouse_enabled();
 void get_direction(int &x, int &y, InputEvent &input);
-std::string get_input_string_from_file(std::string fname="input.txt");
+std::string get_input_string_from_file(std::string fname = "input.txt");
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
+// Simple text input--translates numpad to vikeys
+long input(long ch = -1);
+long get_keypress();
+
+enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
 enum input_event_t {
     CATA_INPUT_ERROR,
@@ -101,7 +107,7 @@ struct input_event {
         if(sequence.size() != other.sequence.size()) {
             return false;
         }
-        for(int i=0; i<sequence.size(); i++) {
+        for(int i = 0; i < sequence.size(); i++) {
             if(sequence[i] != other.sequence[i]) {
                 return false;
             }
@@ -110,7 +116,7 @@ struct input_event {
         if(modifiers.size() != other.modifiers.size()) {
             return false;
         }
-        for(int i=0; i<modifiers.size(); i++) {
+        for(int i = 0; i < modifiers.size(); i++) {
             if(modifiers[i] != other.modifiers[i]) {
                 return false;
             }
@@ -121,8 +127,6 @@ struct input_event {
 };
 
 // Definitions for joystick/gamepad.
-
-
 
 // On the joystick there's a maximum of 256 key states.
 // So for joy axis events, we simply use a number larger
@@ -241,11 +245,11 @@ extern input_manager inp_mngr;
  */
 class input_context {
 public:
-    input_context() : registered_any_input(false), category("default"), 
+    input_context() : registered_any_input(false), category("default"),
         handling_coordinate_input(false) {};
     // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
     // outside that window can be ignored
-    input_context(std::string category) : registered_any_input(false), 
+    input_context(std::string category) : registered_any_input(false),
         category(category), handling_coordinate_input(false) {};
 
     /**
@@ -319,7 +323,7 @@ public:
 
     /**
      * Temporary method to retrieve the raw input received, so that input_contexts
-     * can be used in screens where not all possible actions have been defined in 
+     * can be used in screens where not all possible actions have been defined in
      * keybindings.json yet.
      */
     input_event get_raw_input();

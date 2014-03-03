@@ -38,7 +38,7 @@ private:
     void add_item(std::string item, std::string gender);
     void add_addiction(add_type, int);
     void add_CBM(std::string CBM);
-    // Starting skills will boost the players level in those skills by a 
+    // Starting skills will boost the players level in those skills by a
     // given amount.
     void add_skill(const std::string& skill_name, const int level);
 

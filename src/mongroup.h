@@ -88,6 +88,9 @@ struct mongroup {
 class MonsterGroupManager {
     public:
         static void LoadMonsterGroup(JsonObject &jo);
+        static void LoadMonsterBlacklist(JsonObject &jo);
+        static void LoadMonsterWhitelist(JsonObject &jo);
+        static void FinalizeMonsterGroups();
         static MonsterGroupResult GetResultFromGroup(std::string,
                                             int *quantity = 0, int turn = -1);
         static bool IsMonsterInGroup(std::string, std::string);

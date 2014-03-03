@@ -24,7 +24,7 @@ void game::load_trap(JsonObject &jo)
             trap_function_mon_from_string(jo.get_string("monster_action")),
             drops
     );
-    
+
     new_trap->benign = jo.get_bool("benign", false);
     new_trap->funnel_radius_mm = jo.get_int("funnel_radius", 0);
     trapmap[new_trap->id] = new_trap->loadid;
@@ -54,7 +54,7 @@ trap_id trapfind(const std::string id) {
     return g->traps[trapmap[id]]->loadid;
 };
 
-////////////////////////// 
+//////////////////////////
 // convenient int-lookup names for hard-coded functions
 trap_id
  tr_null,

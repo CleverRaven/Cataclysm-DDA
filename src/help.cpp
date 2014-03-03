@@ -3,7 +3,7 @@
 #include "action.h"
 #include "auto_pickup.h"
 #include "catacharset.h"
-#include "keypress.h"
+#include "input.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"

@@ -74,7 +74,10 @@ std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags) {
 
 std::string NameGenerator::getName(uint32_t searchFlags) {
   std::vector<std::string> theseNames = filteredNames(searchFlags);
-  return theseNames[rng(0, theseNames.size()-1)];
+  if( theseNames.size() == 0 ) {
+      return std::string( _("Tom") );
+  }
+  return theseNames[ rng( 0, theseNames.size() - 1 ) ];
 }
 
 std::string NameGenerator::generateName(bool male) {

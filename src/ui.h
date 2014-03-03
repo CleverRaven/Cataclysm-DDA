@@ -114,7 +114,7 @@ class uimenu: public ui_container {
     int max_entry_len;
     std::string title;
     std::vector<uimenu_entry> entries;
-    std::map<int, int> keymap;    
+    std::map<int, int> keymap;
     bool border;
     bool filtering;
     bool filtering_nocase;

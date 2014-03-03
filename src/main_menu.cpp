@@ -1,5 +1,4 @@
 #include "game.h"
-#include "keypress.h"
 #include "debug.h"
 #include "input.h"
 #include "mapbuffer.h"

@@ -40,7 +40,7 @@ material_type::material_type(std::string ident, std::string name,
     _dmg_adj[0] = dmg_adj[0];
     _dmg_adj[1] = dmg_adj[1];
     _dmg_adj[2] = dmg_adj[2];
-    _dmg_adj[3] = dmg_adj[3];        
+    _dmg_adj[3] = dmg_adj[3];
     _acid_resist = acid_resist;
     _elec_resist = elec_resist;
     _fire_resist = fire_resist;
@@ -59,7 +59,7 @@ material_type::material_type(std::string ident)
     _dmg_adj[0] = mat_type->dmg_adj(1);
     _dmg_adj[1] = mat_type->dmg_adj(2);
     _dmg_adj[2] = mat_type->dmg_adj(3);
-    _dmg_adj[3] = mat_type->dmg_adj(4); 
+    _dmg_adj[3] = mat_type->dmg_adj(4);
     _acid_resist = mat_type->acid_resist();
     _elec_resist = mat_type->elec_resist();
     _fire_resist = mat_type->fire_resist();
@@ -187,7 +187,7 @@ std::string material_type::dmg_adj(int dam) const
     // bounds check
     if (tmpdam < 0 || tmpdam >= 4)
         return "";
-    
+
     return _dmg_adj[tmpdam];
 }
 

@@ -11,6 +11,7 @@ MonsterGenerator::MonsterGenerator()
     //ctor
     init_phases();
     init_attack();
+    init_defense();
     init_death();
     init_flags();
     init_trigger();
@@ -128,6 +129,7 @@ void MonsterGenerator::init_death()
     death_map["EXPLODE"] = &mdeath::explode;// Damaging explosion
     death_map["BROKEN"] = &mdeath::broken;// Spawns a broken robot.
     death_map["RATKING"] = &mdeath::ratking;// Cure verminitis
+    death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
     death_map["ZOMBIE"] = &mdeath::zombie;// generate proper clothing for zombies
@@ -187,6 +189,14 @@ void MonsterGenerator::init_attack()
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
     attack_map["PARROT"] = &mattack::parrot;
+    attack_map["DARKMAN"] = &mattack::darkman;
+
+}
+
+void MonsterGenerator::init_defense()
+{
+    defense_map["NONE"] = &mdefense::none; //No special attack-back
+    defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
 }
 
 void MonsterGenerator::init_trigger()
@@ -266,9 +276,12 @@ void MonsterGenerator::init_flags() {
     flag_map["VERMIN"] = MF_VERMIN;
     flag_map["HUNTS_VERMIN"] = MF_HUNTS_VERMIN;
     flag_map["SMALL_BITER"] = MF_SMALL_BITER;
+    flag_map["ABSORBS"] = MF_ABSORBS;
     flag_map["LARVA"] = MF_LARVA;
     flag_map["ARTHROPOD_BLOOD"] = MF_ARTHROPOD_BLOOD;
     flag_map["ACID_BLOOD"] = MF_ACID_BLOOD;
+    flag_map["BILE_BLOOD"] = MF_BILE_BLOOD;
+    flag_map["REGEN_MORALE"] = MF_REGENMORALE;
 }
 
 
@@ -312,10 +325,12 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->item_chance = jo.get_int("item_chance", 0);
         newmon->hp = jo.get_int("hp", 0);
         newmon->sp_freq = jo.get_int("special_freq", 0);
+        newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
         newmon->luminance = jo.get_float("luminance", 0);
 
-        newmon->dies = get_death_function(jo, "death_function");
+        newmon->dies = get_death_functions(jo, "death_function");
         newmon->sp_attack = get_attack_function(jo, "special_attack");
+        newmon->sp_defense = get_defense_function(jo, "special_when_hit");
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig, cats;
         flags = jo.get_tags("flags");
@@ -366,6 +381,10 @@ mtype *MonsterGenerator::get_mtype(std::string mon)
     if (mon == "mon_zombie_fast")
     {
         mon = "mon_zombie_dog";
+    }
+    if (mon == "mon_fungaloid_dormant")
+    {
+        mon = "mon_fungaloid";
     }
 
     if (mon_templates.find(mon) != mon_templates.end())
@@ -425,16 +444,20 @@ mtype *MonsterGenerator::get_valid_hallucination()
     return potentials[rng(0, potentials.size() - 1)];
 }
 
-MonDeathFunction MonsterGenerator::get_death_function(JsonObject& jo, std::string member)
+std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(JsonObject& jo, std::string member)
 {
-    static MonDeathFunction default_death = death_map["NORMAL"];
+    std::vector<void (mdeath::*)(monster*)> deaths;
 
-    if (death_map.find(jo.get_string(member, "")) != death_map.end())
-    {
-        return death_map[jo.get_string(member)];
+    std::set<std::string> death_flags = jo.get_tags(member);
+
+    std::set<std::string>::iterator it = death_flags.begin();
+    for (; it != death_flags.end(); ++it) {
+        deaths.push_back(death_map[*it]);
     }
 
-    return default_death;
+    if (deaths.size() == 0)
+        deaths.push_back(death_map["NORMAL"]);
+    return deaths;
 }
 
 MonAttackFunction MonsterGenerator::get_attack_function(JsonObject& jo, std::string member)
@@ -447,6 +470,18 @@ MonAttackFunction MonsterGenerator::get_attack_function(JsonObject& jo, std::str
     }
 
     return default_attack;
+}
+
+MonDefenseFunction MonsterGenerator::get_defense_function(JsonObject& jo, std::string member)
+{
+    static MonDefenseFunction default_defense = defense_map["NONE"];
+
+    if (defense_map.find(jo.get_string(member, "")) != defense_map.end())
+    {
+        return defense_map[jo.get_string(member)];
+    }
+
+    return default_defense;
 }
 template <typename T>
 std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags, std::map<std::string, T> conversion_map, T fallback)

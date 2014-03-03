@@ -135,6 +135,8 @@ struct itype
 
  const item_category *category; // category pointer or NULL for automatic selection
 
+ virtual std::string get_item_type_string() { return "misc"; }
+
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
  virtual bool is_gun()           { return false; }
@@ -199,13 +201,14 @@ struct itype
 };
 
 // Includes food drink and drugs
-struct it_comest : public itype
+struct it_comest : public virtual itype
 {
     signed int quench;     // Many things make you thirstier!
     unsigned int nutr;     // Nutrition imparted
     unsigned int spoils;   // How long it takes to spoil (hours / 600 turns)
     unsigned int addict;   // Addictiveness potential
-    unsigned int charges;  // Defaults # of charges (drugs, loaf of bread? etc)
+    long charges;  // Defaults # of charges (drugs, loaf of bread? etc)
+    std::vector<long> rand_charges;
     signed int stim;
     signed int healthy;
     unsigned int brewtime; // How long it takes for a brew to ferment.
@@ -217,6 +220,7 @@ struct it_comest : public itype
     itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
 
     virtual bool is_food() { return true; }
+    virtual std::string get_item_type_string() { return "FOOD"; }
 
     virtual bool count_by_charges()
     {
@@ -237,24 +241,25 @@ struct it_comest : public itype
     signed int pm_to_hit,
 
     signed int pquench, unsigned int pnutr, signed int pspoils,
-    signed int pstim, signed int phealthy, unsigned int pbrewt,
-    unsigned int paddict, unsigned int pcharges, signed int pfun,
-    itype_id pcontainer, itype_id ptool, int (iuse::*puse)(player *, item *, bool),
+    signed int pstim, signed int phealthy, unsigned int paddict, unsigned int pbrewt,
+    long pcharges, std::vector<long> prand_charges, signed int pfun, itype_id pcontainer,
+    itype_id ptool, int (iuse::*puse)(player *, item *, bool),
     add_type padd, std::string pcomesttype)
     : itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
     pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), comesttype(pcomesttype), container(pcontainer), tool(ptool)
     {
-        quench     = pquench;
-        nutr       = pnutr;
-        spoils     = pspoils;
-        stim       = pstim;
-        healthy    = phealthy;
-        brewtime   = pbrewt;
-        addict     = paddict;
-        charges    = pcharges;
-        fun        = pfun;
-        use        = puse;
-        add        = padd;
+        quench          = pquench;
+        nutr            = pnutr;
+        spoils          = pspoils;
+        stim            = pstim;
+        healthy         = phealthy;
+        addict          = paddict;
+        brewtime        = pbrewt;
+        charges         = pcharges;
+        rand_charges    = prand_charges;
+        fun             = pfun;
+        use             = puse;
+        add             = padd;
     }
 
     it_comest() : itype()
@@ -273,7 +278,7 @@ struct it_comest : public itype
 };
 
 // v6, v8, wankel, etc.
-struct it_var_veh_part: public itype
+struct it_var_veh_part: public virtual itype
 {
  // TODO? geometric mean: nth root of product
  unsigned int min_bigness; //CC's
@@ -300,10 +305,11 @@ struct it_var_veh_part: public itype
  virtual bool is_var_veh_part(){return true;}
  virtual bool is_wheel()          { return false; }
  virtual bool is_engine() { return engine; }
+ virtual std::string get_item_type_string() { return "VEHICLE_PART"; }
 };
 
 
-struct it_ammo : public itype
+struct it_ammo : public virtual itype
 {
  ammotype type;          // Enum of varieties (e.g. 9mm, shot, etc)
  itype_id casing;        // Casing produced by the ammo, if any
@@ -314,11 +320,14 @@ struct it_ammo : public itype
  unsigned int recoil;   // Recoil; modified by strength
  unsigned int count;    // Default charges
 
+ itype_id container; // The container it comes in
+
  std::set<std::string> ammo_effects;
 
  virtual bool is_ammo() { return true; }
 // virtual bool count_by_charges() { return id != "gasoline"; }
  virtual bool count_by_charges() { return true; }
+ virtual std::string get_item_type_string() { return "AMMO"; }
 
  it_ammo() : itype()
  {
@@ -341,9 +350,9 @@ struct it_ammo : public itype
         ammotype ptype, itype_id pcasing,
         unsigned int pdamage, unsigned int ppierce,
         signed int pdispersion, unsigned int precoil, unsigned int prange,
-        unsigned int pcount)
+        unsigned int pcount, itype_id pcontainer)
 :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), container(pcontainer) {
   type = ptype;
   casing = pcasing;
   damage = pdamage;
@@ -356,7 +365,7 @@ struct it_ammo : public itype
  }
 };
 
-struct it_gun : public itype
+struct it_gun : public virtual itype
 {
  ammotype ammo;
  Skill *skill_used;
@@ -374,6 +383,7 @@ struct it_gun : public itype
  std::map<std::string, int> valid_mod_locations;
 
  virtual bool is_gun() { return true; }
+ virtual std::string get_item_type_string() { return "GUN"; }
 
  it_gun(std::string pid, unsigned int pprice,
         std::string pname, std::string pdes,
@@ -419,7 +429,7 @@ struct it_gun : public itype
  };
 };
 
-struct it_gunmod : public itype
+struct it_gunmod : public virtual itype
 {
  signed int dispersion, damage, loudness, clip, recoil, burst;
  ammotype newtype;
@@ -483,7 +493,7 @@ struct it_gunmod : public itype
  };
 };
 
-struct it_armor : public itype
+struct it_armor : public virtual itype
 {
  unsigned char covers; // Bitfield of enum body_part
  signed char encumber;
@@ -498,6 +508,8 @@ struct it_armor : public itype
  virtual bool is_armor() { return true; }
  virtual bool is_power_armor() { return power_armor; }
  virtual bool is_artifact() { return false; }
+ virtual std::string get_item_type_string() { return "ARMOR"; }
+
  std::string bash_dmg_verb() { return m2 == "null" || !one_in(3) ?
          material_type::find_material(m1)->bash_dmg_verb() :
          material_type::find_material(m2)->bash_dmg_verb();
@@ -544,7 +556,7 @@ struct it_armor : public itype
 
 struct recipe;
 
-struct it_book : public itype
+struct it_book : public virtual itype
 {
  Skill *type;         // Which skill it upgrades
  unsigned char level; // The value it takes the skill to
@@ -556,6 +568,7 @@ struct it_book : public itype
  int chapters; //Fun books have chapters; after all are read, the book is less fun
  std::map<recipe*, int> recipes; //what recipes can be learned from this book
  virtual bool is_book() { return true; }
+ virtual std::string get_item_type_string() { return "BOOK"; }
  it_book() {}
  it_book(std::string pid, unsigned int pprice,
          std::string pname, std::string pdes,
@@ -576,24 +589,27 @@ struct it_book : public itype
  }
 };
 
-struct it_container : public itype
+struct it_container : public virtual itype
 {
  unsigned int contains; // Internal volume
  virtual bool is_container() { return true; }
+ virtual std::string get_item_type_string() { return "CONTAINER"; }
  it_container() : contains(0) {};
 };
 
-struct it_tool : public itype
+struct it_tool : public virtual itype
 {
  ammotype ammo;
- unsigned int max_charges;
- unsigned int def_charges;
+ long max_charges;
+ long def_charges;
+ std::vector<long> rand_charges;
  unsigned char charges_per_use;
  unsigned char turns_per_charge;
  itype_id revert_to;
 
  virtual bool is_tool()          { return true; }
  virtual bool is_artifact()      { return false; }
+ virtual std::string get_item_type_string() { return "TOOL"; }
  int charges_to_use()   { return charges_per_use; }
 
  it_tool() :itype()
@@ -613,7 +629,7 @@ struct it_tool : public itype
          unsigned int pvolume, unsigned int pweight,
          signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit,
 
-         unsigned int pmax_charges, unsigned int pdef_charges,
+         long pmax_charges, long pdef_charges, std::vector<long> prand_charges,
          unsigned char pcharges_per_use, unsigned char pturns_per_charge,
          ammotype pammo, itype_id prevert_to,
          int (iuse::*puse)(player *, item *, bool))
@@ -621,6 +637,7 @@ struct it_tool : public itype
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   max_charges = pmax_charges;
   def_charges = pdef_charges;
+  rand_charges = prand_charges;
   ammo = pammo;
   charges_per_use = pcharges_per_use;
   turns_per_charge = pturns_per_charge;
@@ -629,11 +646,20 @@ struct it_tool : public itype
  }
 };
 
-struct it_bionic : public itype
+struct it_tool_armor : public virtual it_tool, public virtual it_armor {
+    virtual bool is_artifact() { return false; }
+    virtual bool is_armor() { return true; }
+    virtual bool is_power_armor() { return it_armor::is_power_armor(); }
+    virtual int charges_to_use() { return it_tool::charges_to_use(); }
+    virtual std::string get_item_type_string() { return "ARMOR"; }
+};
+
+struct it_bionic : public virtual itype
 {
  int difficulty;
 
  virtual bool is_bionic()    { return true; }
+ virtual std::string get_item_type_string() { return "BIONIC"; }
  it_bionic() { }
  it_bionic(std::string pid, unsigned int pprice,
            std::string pname, std::string pdes,
@@ -648,7 +674,7 @@ struct it_bionic : public itype
  }
 };
 
-struct it_macguffin : public itype
+struct it_macguffin : public virtual itype
 {
  bool readable; // If true, activated with 'R'
 
@@ -670,7 +696,7 @@ struct it_macguffin : public itype
  }
 };
 
-struct it_software : public itype
+struct it_software : public virtual itype
 {
  software_type swtype;
  int power;
@@ -692,7 +718,7 @@ struct it_software : public itype
  }
 };
 
-struct it_stationary : public itype
+struct it_stationary : public virtual itype
 {
  virtual bool is_stationary()         { return true; }
 

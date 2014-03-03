@@ -17,7 +17,7 @@ class overmap;
 
 struct oter_t {
     std::string id;      // definitive identifier
-    int loadid;          // position in termap / terlist 
+    int loadid;          // position in termap / terlist
     std::string name;
     long sym; // This is a long, so we can support curses linedrawing
     nc_color color;

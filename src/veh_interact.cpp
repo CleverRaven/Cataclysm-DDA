@@ -1,7 +1,6 @@
 #include <string>
 #include "veh_interact.h"
 #include "vehicle.h"
-#include "keypress.h"
 #include "game.h"
 #include "output.h"
 #include "catacharset.h"
@@ -205,7 +204,6 @@ void veh_interact::allocate_windows()
     display_grid();
     display_name();
     display_stats();
-    move_cursor(0, 0); // display w_disp & w_parts
 }
 
 void veh_interact::do_main_loop()
@@ -213,10 +211,10 @@ void veh_interact::do_main_loop()
     display_grid();
     display_stats ();
     display_veh   ();
-    move_cursor (0, 0);
+    move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
-        char ch = input(); // See keypress.h
+        char ch = input(); // See input.h
         int dx, dy;
         get_direction(dx, dy, ch);
         if (ch == KEY_ESCAPE || ch == 'q' ) {
@@ -287,33 +285,33 @@ void veh_interact::cache_tool_availability()
 {
     crafting_inv = g->crafting_inventory(&g->u);
 
-    int charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int charges_crude = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
-    has_wrench = crafting_inv.has_amount("wrench", 1) ||
-                 crafting_inv.has_amount("toolset", 1);
-    has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
-                  crafting_inv.has_amount("circsaw_off", 1) ||
+    int charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int charges_crude = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    has_wrench = crafting_inv.has_tools("wrench", 1) ||
+                 crafting_inv.has_tools("toolset", 1);
+    has_hacksaw = crafting_inv.has_tools("hacksaw", 1) ||
+                  crafting_inv.has_tools("circsaw_off", 1) ||
                   crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED) ||
-                  crafting_inv.has_amount("toolset", 1);
-    has_welder = (crafting_inv.has_amount("welder", 1) &&
+                  crafting_inv.has_tools("toolset", 1);
+    has_welder = (crafting_inv.has_tools("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
-                 (crafting_inv.has_amount("welder_crude", 1) &&
+                 (crafting_inv.has_tools("welder_crude", 1) &&
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
-                 (crafting_inv.has_amount("toolset", 1) &&
+                 (crafting_inv.has_tools("toolset", 1) &&
                   crafting_inv.has_charges("toolset", charges / 20));
-    has_goggles = (crafting_inv.has_amount("goggles_welding", 1) ||
+    has_goggles = (crafting_inv.has_tools("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||
-                   g->u.is_wearing("goggles_welding"));
+                   g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on"));
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
-    has_jack = crafting_inv.has_amount("jack", 1);
-    has_siphon = crafting_inv.has_amount("hose", 1);
+    has_jack = crafting_inv.has_tools("jack", 1);
+    has_siphon = crafting_inv.has_tools("hose", 1);
 
-    has_wheel = crafting_inv.has_amount( "wheel", 1 ) ||
-                crafting_inv.has_amount( "wheel_wide", 1 ) ||
-                crafting_inv.has_amount( "wheel_armor", 1 ) ||
-                crafting_inv.has_amount( "wheel_bicycle", 1 ) ||
-                crafting_inv.has_amount( "wheel_motorbike", 1 ) ||
-                crafting_inv.has_amount( "wheel_small", 1 );
+    has_wheel = crafting_inv.has_components( "wheel", 1 ) ||
+                crafting_inv.has_components( "wheel_wide", 1 ) ||
+                crafting_inv.has_components( "wheel_armor", 1 ) ||
+                crafting_inv.has_components( "wheel_bicycle", 1 ) ||
+                crafting_inv.has_components( "wheel_motorbike", 1 ) ||
+                crafting_inv.has_components( "wheel_small", 1 );
 }
 
 
@@ -458,7 +456,7 @@ void veh_interact::do_install(task_reason reason)
         sel_vpart_info = &(can_mount[pos]);
         display_list (pos, can_mount);
         itype_id itm = sel_vpart_info->item;
-        bool has_comps = crafting_inv.has_amount(itm, 1);
+        bool has_comps = crafting_inv.has_components(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= sel_vpart_info->difficulty;
         bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
         bool eng = sel_vpart_info->has_flag("ENGINE");
@@ -492,7 +490,7 @@ void veh_interact::do_install(task_reason reason)
                        sel_vpart_info->difficulty,
                        engine_string.c_str());
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
@@ -587,7 +585,7 @@ void veh_interact::do_repair(task_reason reason)
                        dif);
         if (sel_vehicle_part->hp <= 0) {
             itype_id itm = vehicle_part_types[sel_vehicle_part->id].item;
-            has_comps = crafting_inv.has_amount(itm, 1);
+            has_comps = crafting_inv.has_components(itm, 1);
             fold_and_print(w_msg, 1, 1, msg_width - 2, c_ltgray,
                            _("You also need a <color_%1$s>wrench</color> and <color_%2$s>%3$s</color> to replace broken one."),
                            has_wrench ? "ltgreen" : "red",
@@ -595,7 +593,7 @@ void veh_interact::do_repair(task_reason reason)
                            itypes[itm]->name.c_str());
         }
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') &&
@@ -731,7 +729,7 @@ void veh_interact::do_remove(task_reason reason)
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if (ch == '\n' || ch == ' ') {
@@ -824,11 +822,11 @@ void veh_interact::do_tirechange(task_reason reason)
         bool is_wheel = sel_vpart_info->has_flag("WHEEL");
         display_list (pos, wheel_types);
         itype_id itm = sel_vpart_info->item;
-        bool has_comps = crafting_inv.has_amount(itm, 1);
+        bool has_comps = crafting_inv.has_components(itm, 1);
         bool has_tools = has_jack && has_wrench;
         werase (w_msg);
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && is_wheel) {
@@ -911,6 +909,20 @@ int veh_interact::part_at (int dx, int dy)
 }
 
 /**
+ * Checks to see if you can currently install this part at current position.
+ * Affects coloring in display_list() and is also used to
+ * sort can_mount so installable parts come first.
+ */
+bool veh_interact::can_currently_install(vpart_info *vpart)
+{
+    bool has_comps = crafting_inv.has_components(vpart->item, 1);
+    bool has_skill = g->u.skillLevel("mechanics") >= vpart->difficulty;
+    bool is_wheel = vpart->has_flag("WHEEL");
+    return (has_comps && (has_skill || is_wheel));
+}
+
+
+/**
  * Moves the cursor on the vehicle editing window.
  * @param dx How far to move the cursor on the x-axis.
  * @param dy How far to move the cursor on the y-axis.
@@ -957,12 +969,18 @@ void veh_interact::move_cursor (int dx, int dy)
 
     can_mount.clear();
     if (!obstruct) {
+        int divider_index = 0;
         for (std::map<std::string, vpart_info>::iterator
              part_type_iterator = vehicle_part_types.begin();
              part_type_iterator != vehicle_part_types.end();
              ++part_type_iterator) {
-            if (veh->can_mount (vdx, vdy, part_type_iterator->first)) {
-                can_mount.push_back (part_type_iterator->second);
+            if (veh->can_mount(vdx, vdy, part_type_iterator->first)) {
+                vpart_info *vpi = &part_type_iterator->second;
+                if (can_currently_install(vpi)) {
+                    can_mount.insert( can_mount.begin() + divider_index++, *vpi );
+                } else {
+                    can_mount.push_back( *vpi );
+                }
             }
         }
     }
@@ -1031,14 +1049,14 @@ void veh_interact::display_grid()
         }
         for (int i = (name_h + 1 + disp_h + 1); i < (name_h + 1 + stats_h); i++) {
             mvwputch(w_grid, i, parts_w, BORDER_COLOR, LINE_XOXO); // |
-        }     
-        
+        }
+
         // Two horizontal lines: one after name window, and another after parts window
         for (int i = 0; i < grid_w; i++) {
             mvwputch(w_grid, name_h, i, BORDER_COLOR, LINE_OXOX);
             mvwputch(w_grid, name_h + 1 + stats_h, i, BORDER_COLOR, LINE_OXOX);
         }
-        // Horizontal line between vehicle/parts windows 
+        // Horizontal line between vehicle/parts windows
         for (int i = 0; i < disp_w; i++) {
             mvwputch(w_grid, name_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX);
         }
@@ -1228,8 +1246,8 @@ void veh_interact::display_stats()
     fold_and_print(w_stats, k_mass_y, k_mass_x, k_mass_w, c_ltgray,
                    _("K mass:       <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
-    
-    // "Fuel usage (safe): " is renamed to "Fuel usage: ". 
+
+    // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray,  _("Fuel usage:     "));
     fuel_use_x += utf8_width(_("Fuel usage:     "));
     ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
@@ -1371,11 +1389,7 @@ void veh_interact::display_list(int pos, std::vector<vpart_info> list)
     int page = pos / page_size;
     for (int i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
         int y = i - page * page_size;
-        itype_id itm = list[i].item;
-        bool has_comps = crafting_inv.has_amount(itm, 1);
-        bool has_skill = g->u.skillLevel("mechanics") >= list[i].difficulty;
-        bool is_wheel = list[i].has_flag("WHEEL");
-        nc_color col = has_comps && (has_skill || is_wheel) ? c_white : c_dkgray;
+        nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());
         mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
     }
@@ -1474,10 +1488,10 @@ item consume_vpart_item (std::string vpid)
     inventory map_inv;
     map_inv.form_from_map( point(g->u.posx, g->u.posy), PICKUP_RANGE );
 
-    if( g->u.has_amount( itid, 1) ) {
+    if( g->u.has_amount( itid, 1 ) ) {
         candidates.push_back( true );
     }
-    if( map_inv.has_amount( itid, 1 ) ) {
+    if( map_inv.has_components( itid, 1 ) ) {
         candidates.push_back( false );
     }
 
@@ -1539,29 +1553,22 @@ void complete_vehicle ()
     int type = g->u.activity.values[7];
     std::string part_id = g->u.activity.str_values[0];
     std::vector<component> tools;
-    int welder_charges = static_cast<it_tool *>(itypes["welder"])->charges_per_use;
-    int welder_crude_charges = static_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
+    int welder_charges = dynamic_cast<it_tool *>(itypes["welder"])->charges_per_use;
+    int welder_crude_charges = dynamic_cast<it_tool *>(itypes["welder_crude"])->charges_per_use;
     inventory crafting_inv = g->crafting_inventory(&g->u);
-    const bool has_goggles = crafting_inv.has_amount("goggles_welding", 1) ||
+    const bool has_goggles = crafting_inv.has_tools("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||
-                   g->u.is_wearing("goggles_welding");
+                   g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on");
     int partnum;
     item used_item;
     bool broken;
     int replaced_wheel;
     std::vector<int> parts;
     int dd = 2;
-    int batterycharges; // Charges in a battery
+    long batterycharges; // Charges in a battery
 
     switch (cmd) {
     case 'i':
-        partnum = veh->install_part (dx, dy, part_id);
-        if(partnum < 0) {
-            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
-        }
-        used_item = consume_vpart_item (part_id);
-        batterycharges = used_item.charges;
-        veh->get_part_properties_from_item(partnum, used_item); //transfer damage, etc.
         if (has_goggles) {
             // Need welding goggles to use any of these tools,
             // without the goggles one _must_ use the duct tape
@@ -1571,6 +1578,14 @@ void complete_vehicle ()
         }
         tools.push_back(component("duct_tape", DUCT_TAPE_USED));
         g->consume_tools(&g->u, tools, true);
+
+        partnum = veh->install_part (dx, dy, part_id);
+        if(partnum < 0) {
+            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+        }
+        used_item = consume_vpart_item (part_id);
+        batterycharges = used_item.charges;
+        veh->get_part_properties_from_item(partnum, used_item); //transfer damage, etc.
 
         if ( vehicle_part_types[part_id].has_flag("CONE_LIGHT") ) {
             // Need map-relative coordinates to compare to output of look_around.

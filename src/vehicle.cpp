@@ -209,10 +209,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     //Provide some variety to non-mint vehicles
     if(veh_status != 0) {
 
-        //Leave engine running in some vehicles
+        //Leave engine running in some vehicles, if the engine has not been destroyed
         if(veh_fuel_mult > 0
                 && all_parts_with_feature("ENGINE", true).size() > 0
-                && one_in(8)) {
+                && one_in(8)
+                && !destroyEngine) {
             engine_on = true;
         }
 
@@ -238,7 +239,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if(all_parts_with_feature("FRIDGE").size() > 0) {
             fridge_on = true;
         }
-
     }
 
     // Reactor should always start out activated if present
@@ -324,6 +324,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
           if (part_flag(p, "WHEEL")) {
              parts[p].hp= 0;
           }
+         }
+         if (part_flag(p, "SOLAR_PANEL") && one_in(4)) {//Solar panels have a 1 in four chance of being broken.
+            parts[p].hp= 0;
          }
 
          /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
@@ -1250,6 +1253,11 @@ void vehicle::remove_part (int p)
         }
     }
 
+    const int dx = global_x() + parts[p].precalc_dx[0];
+    const int dy = global_y() + parts[p].precalc_dy[0];
+    for (int i = 0; i < parts[p].items.size(); i++) {
+        g->m.add_item_or_charges(dx + rng(-3, +3), dy + rng(-3, +3), parts[p].items[i]);
+    }
     parts.erase(parts.begin() + p);
     refresh();
 
@@ -2333,8 +2341,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     if(epower > 0) {
         // store epower surplus in battery
         charge_battery(epower_to_power(epower));
-    }
-    else {
+    } else if(epower < 0) {
         // draw epower deficit from battery
         battery_deficit = discharge_battery(abs(epower_to_power(epower)));
     }
@@ -2476,7 +2483,25 @@ void vehicle::thrust (int thd) {
        thrusting = sgn == thd;
     }
 
-    if (thrusting)
+    int accel = acceleration();
+    int max_vel = max_velocity();
+    int brake = 30 * k_mass();
+    int brk = abs(velocity) * brake / 100;
+    if (brk < accel)
+        brk = accel;
+    if (brk < 10 * 100)
+        brk = 10 * 100;
+    int vel_inc = (thrusting? accel : brk) * thd;
+    if(thd == -1 && thrusting) // reverse accel.
+        vel_inc = .6 * vel_inc;
+
+    // Keep exact cruise control speed
+    if (cruise_on && velocity+vel_inc > cruise_velocity*thd)
+        vel_inc = cruise_velocity - velocity;
+
+    // Ugly hack, use full engine power occasionally when thrusting slightly
+    // up to cruise control speed. Loses some extra power when in reverse.
+    if (thrusting && rng(1, accel) <= vel_inc )
     {
         if (total_power () < 1)
         {
@@ -2551,17 +2576,6 @@ void vehicle::thrust (int thd) {
     if (skidding)
         return;
 
-    int accel = acceleration();
-    int max_vel = max_velocity();
-    int brake = 30 * k_mass();
-    int brk = abs(velocity) * brake / 100;
-    if (brk < accel)
-        brk = accel;
-    if (brk < 10 * 100)
-        brk = 10 * 100;
-    int vel_inc = (thrusting? accel : brk) * thd;
-    if(thd == -1 && thrusting) // reverse accel.
-       vel_inc = .6 * vel_inc;
     if ((velocity > 0 && velocity + vel_inc < 0) ||
         (velocity < 0 && velocity + vel_inc > 0))
         stop ();
@@ -3206,14 +3220,8 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if (player_in_control(&g->u) && cruise_on ) {
-        if( velocity - cruise_velocity >= 10 * 100 ||
-            cruise_velocity - velocity >= acceleration()/3 ||
-            (cruise_velocity != 0 && velocity == 0) ||
-            (cruise_velocity == 0 && velocity != 0)) {
-            thrust (cruise_velocity > velocity? 1 : -1);
-        }
-    }
+    if (player_in_control(&g->u) && cruise_on && cruise_velocity != velocity )
+        thrust (cruise_velocity > velocity? 1 : -1);
 
     // check for smoking parts
     for (int p = 0; p < parts.size(); p++)
@@ -3695,7 +3703,7 @@ void vehicle::fire_turret (int p, bool burst)
     if (!gun) {
         return;
     }
-    int charges = burst? gun->burst : 1;
+    long charges = burst? gun->burst : 1;
     std::string whoosh = "";
     if (!charges)
         charges = 1;
@@ -3760,7 +3768,7 @@ void vehicle::fire_turret (int p, bool burst)
     }
 }
 
-bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charges, const std::string &extra_sound)
+bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long charges, const std::string &extra_sound)
 {
     int x = global_x() + parts[p].precalc_dx[0];
     int y = global_y() + parts[p].precalc_dy[0];

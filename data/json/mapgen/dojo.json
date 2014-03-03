@@ -22,6 +22,7 @@
             ["keikogi", 25],
             ["zubon_gi", 25],
             ["hakama_gi", 10],
+            ["mouthpiece", 5],
             ["obi_gi", 10]
         ]
     },
@@ -99,7 +100,6 @@
                     "'": "t_door_c",
                     "T": "t_floor",
                     "S": "t_floor",
-                    "L": "t_floor",
                     "B": "t_floor",
                     "D": "t_floor",
                     "X": "t_floor",

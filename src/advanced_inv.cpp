@@ -1,5 +1,4 @@
 #include "game.h"
-#include "keypress.h"
 #include "output.h"
 #include "map.h"
 #include <map>
@@ -132,10 +131,10 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     if(isinventory) {
         //right align
         int hrightcol = columns -
-            helper::to_string(g->u.convert_weight(g->u.weight_carried())).length() - 3 - //"xxx.y/"
-            helper::to_string(g->u.convert_weight(g->u.weight_capacity())).length() - 3 - //"xxx.y_"
-            helper::to_string(g->u.volume_carried()).length() - 1 - //"xxx/"
-            helper::to_string(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
+            helper::to_string_int(g->u.convert_weight(g->u.weight_carried())).length() - 3 - //"xxx.y/"
+            helper::to_string_int(g->u.convert_weight(g->u.weight_capacity())).length() - 3 - //"xxx.y_"
+            helper::to_string_int(g->u.volume_carried()).length() - 1 - //"xxx/"
+            helper::to_string_int(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if (g->u.weight_carried() > g->u.weight_capacity()) {
             color = c_red;
@@ -337,7 +336,7 @@ void advanced_inv_print_header(advanced_inv_area* squares, advanced_inventory_pa
 void advanced_inv_update_area( advanced_inv_area &area )
 {
     int i = area.id;
-    player u = g->u;
+    const player &u = g->u;
     area.x = g->u.posx + area.offx;
     area.y = g->u.posy + area.offy;
     area.size = 0;
@@ -673,7 +672,7 @@ void advanced_inventory::redraw_pane( int i )
     if ( src == i ) {
         wattron(panes[i].window, c_cyan);
     }
-    wborder(panes[i].window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    draw_border(panes[i].window);
     mvwprintw(panes[i].window, 0, 3, _("< [s]ort: %s >"), sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
     int max = MAX_ITEM_IN_SQUARE;
     if ( panes[i].area == isall ) {
@@ -912,7 +911,7 @@ void advanced_inventory::display(player *pp)
                 const std::list<item> &stack = u.inv.const_stack(item_pos);
                 const item *it = &stack.front();
 
-                int amount = 1;
+                long amount = 1;
                 int volume = it->precise_unit_volume();
                 bool askamount = false;
                 if ( stack.size() > 1) {
@@ -948,7 +947,7 @@ void advanced_inventory::display(player *pp)
                     }
                     // fixme / todo make popup take numbers only (m = accept, q = cancel)
                     amount = helper::to_int(string_input_popup( popupmsg, 20,
-                             helper::to_string(( amount > max ? max : amount )),
+                             helper::to_string_int(( amount > max ? max : amount )),
                              "", "", -1, true)); //input only digits
                 }
                 recalc = true;
@@ -1048,8 +1047,14 @@ void advanced_inventory::display(player *pp)
                     popup(_("You can't pick up a liquid."));
                     continue;
                 } else {// from veh/map
-                    int trycharges = -1;
+                    long trycharges = -1;
                     if ( destarea == isinventory ) { // if destination is inventory
+                        if (!u.can_pickup(true)) {
+                            if (!showmsg) {
+                                redraw = showmsg = true;
+                            }
+                            continue;
+                        }
                         if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
                             popup(_("Too many items."));
                             continue;
@@ -1083,7 +1088,7 @@ void advanced_inventory::display(player *pp)
                                 if ( !moveall ) {
                                     amount = helper::to_int(
                                         string_input_popup( popupmsg, 20,
-                                             helper::to_string(
+                                             helper::to_string_int(
                                                  ( amount > max ? max : amount )
                                              ), "", "", -1, true//input only digits
                                         )
@@ -1222,6 +1227,8 @@ void advanced_inventory::display(player *pp)
             if(panes[src].area == isinventory ) {
                 ret = g->inventory_item_menu( item_pos, colstart + ( src == left ? w_width / 2 : 0 ),
                                               w_width / 2, (src == right ? 1 : -1) );
+                // Might have changed at stack (activated an item)
+                g->u.inv.restack(&g->u);
                 recalc = true;
                 checkshowmsg = true;
             } else {

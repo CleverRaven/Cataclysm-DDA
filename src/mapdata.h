@@ -51,12 +51,13 @@ struct map_bash_info {
     int str_max_blocked;
     int num_tests;        // how many tests must succeed
     int chance;
+    int explosive;        // Explosion on destruction
     std::vector<map_bash_item_drop> items; // list of items: map_bash_item_drop
     std::string sound;    // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
     std::string ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), ter_set(""), furn_set("") {};
+    map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), explosive(0), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -433,6 +434,7 @@ extern ter_id t_null,
     t_grate,
     t_slime,
     t_bridge,
+    t_covered_well,
     // Lighting related
     t_skylight, t_emergency_light_flicker, t_emergency_light,
     // Walls
@@ -444,7 +446,8 @@ extern ter_id t_null,
     t_wall_glass_v_alarm, t_wall_glass_h_alarm,
     t_reinforced_glass_v, t_reinforced_glass_h,
     t_bars,
-    t_door_c, t_door_b, t_door_o, t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
+    t_door_c, t_door_b, t_door_o,
+    t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
@@ -455,6 +458,7 @@ extern ter_id t_null,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
     t_rock, t_fault,
     t_paper,
+    t_rock_wall, t_rock_wall_half,
     // Tree
     t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
@@ -471,6 +475,7 @@ extern ter_id t_null,
     // More embellishments than you can shake a stick at.
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
     t_gas_pump, t_gas_pump_smashed,
+    t_atm,
     t_generator_broken,
     t_missile, t_missile_exploded,
     t_radio_tower, t_radio_controls,
@@ -479,6 +484,8 @@ extern ter_id t_null,
     t_centrifuge,
     t_column,
     t_vat,
+    t_cvdbody, t_cvdmachine,
+    t_water_pump,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,
@@ -490,6 +497,8 @@ extern ter_id t_null,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+    t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
+    t_window_enhanced, t_window_enhanced_noglass,
     num_terrain_types;
 
 
@@ -550,7 +559,8 @@ old_t_wall_glass_v, old_t_wall_glass_h,
 old_t_wall_glass_v_alarm, old_t_wall_glass_h_alarm,
 old_t_reinforced_glass_v, old_t_reinforced_glass_h,
 old_t_bars,
-old_t_door_c, old_t_door_b, old_t_door_o, old_t_door_locked_interior, old_t_door_locked, old_t_door_locked_alarm, old_t_door_frame,
+old_t_door_c, old_t_door_b, old_t_door_o, old_t_rdoor_c,
+old_t_door_locked_interior, old_t_door_locked, old_t_door_locked_alarm, old_t_door_frame,
 old_t_chaingate_l, old_t_fencegate_c, old_t_fencegate_o, old_t_chaingate_c, old_t_chaingate_o, old_t_door_boarded,
 old_t_door_metal_c, old_t_door_metal_o, old_t_door_metal_locked,
 old_t_door_bar_c, old_t_door_bar_o, old_t_door_bar_locked,
@@ -595,6 +605,8 @@ old_t_card_science, old_t_card_military, old_t_card_reader_broken, old_t_slot_ma
 // Temple tiles
 old_t_rock_red, old_t_rock_green, old_t_rock_blue, old_t_floor_red, old_t_floor_green, old_t_floor_blue,
  old_t_switch_rg, old_t_switch_gb, old_t_switch_rb, old_t_switch_even,
+old_t_rdoor_b, old_t_rdoor_o, old_t_mdoor_frame, old_t_window_reinforced, old_t_window_reinforced_noglass,
+ old_t_window_enhanced, old_t_window_enhanced_noglass,
 old_num_terrain_types,
 };
 
