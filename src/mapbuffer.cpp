@@ -409,6 +409,7 @@ void mapbuffer::load(std::string worldname)
             // Write out and clear map data as its read.
             save( true );
         }
+        load_keys( worldname );
     }
 }
 
