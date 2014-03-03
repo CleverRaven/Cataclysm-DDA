@@ -8086,24 +8086,26 @@ bool player::takeoff(int pos, bool autodrop)
 
 void player::sort_armor()
 {
-    int32_t win_x = TERMX/2 - FULL_SCREEN_WIDTH/2;
-    int32_t win_y = TERMY/2 - FULL_SCREEN_HEIGHT/2;
+    const int win_h = FULL_SCREEN_HEIGHT + (TERMY - FULL_SCREEN_HEIGHT) / 3;
+    const int win_w = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 3;
+    const int win_x = TERMX / 2 - win_w / 2;
+    const int win_y = TERMY / 2 - win_h / 2;
 
-    int32_t cont_h   = FULL_SCREEN_HEIGHT - 4;
-    int32_t left_w   = 25;
-    int32_t right_w  = left_w;
-    int32_t middle_w = (FULL_SCREEN_WIDTH-4) - left_w - right_w;
+    int cont_h   = win_h - 4;
+    int left_w   = (win_w - 4) / 3;
+    int right_w  = left_w;
+    int middle_w = (win_w - 4) - left_w - right_w;
 
-    int32_t tabindex = num_bp;
-    int32_t tabcount = num_bp + 1;
+    int tabindex = num_bp;
+    int tabcount = num_bp + 1;
 
-    int32_t leftListSize;
-    int32_t leftListIndex  = 0;
-    int32_t leftListOffset = 0;
-    int32_t selected       = -1;
+    int leftListSize;
+    int leftListIndex  = 0;
+    int leftListOffset = 0;
+    int selected       = -1;
 
-    int32_t rightListSize;
-    int32_t rightListOffset = 0;
+    int rightListSize;
+    int rightListOffset = 0;
 
     item tmp_item;
     std::vector<item*> tmp_worn;
@@ -8111,26 +8113,25 @@ void player::sort_armor()
     it_armor* each_armor = 0;
 
     std::string  armor_cat[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"),
-                                _("Hands"), _("Legs"), _("Feet"), _("All"),};
+                                _("Hands"), _("Legs"), _("Feet"), _("All")};
 
     // Layout window
-    WINDOW *w_sort_armor = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, win_y, win_x);
+    WINDOW *w_sort_armor = newwin(win_h, win_w, win_y, win_x);
     draw_border(w_sort_armor);
-    // TODO: use BORDER_COLOR for drawing grids
-    mvwhline(w_sort_armor, 2, 1, 0, FULL_SCREEN_WIDTH-2);
-    mvwvline(w_sort_armor, 3, left_w + 1, 0, FULL_SCREEN_HEIGHT-4);
-    mvwvline(w_sort_armor, 3, left_w + middle_w + 2, 0, FULL_SCREEN_HEIGHT-4);
+    mvwhline(w_sort_armor, 2, 1, 0, win_w - 2);
+    mvwvline(w_sort_armor, 3, left_w + 1, 0, win_h - 4);
+    mvwvline(w_sort_armor, 3, left_w + middle_w + 2, 0, win_h - 4);
     // intersections
     mvwhline(w_sort_armor, 2, 0, LINE_XXXO, 1);
-    mvwhline(w_sort_armor, 2, FULL_SCREEN_WIDTH-1, LINE_XOXX, 1);
-    mvwvline(w_sort_armor, 2, left_w+1, LINE_OXXX, 1);
-    mvwvline(w_sort_armor, FULL_SCREEN_HEIGHT-1, left_w+1, LINE_XXOX, 1);
+    mvwhline(w_sort_armor, 2, win_w - 1, LINE_XOXX, 1);
+    mvwvline(w_sort_armor, 2, left_w + 1, LINE_OXXX, 1);
+    mvwvline(w_sort_armor, win_h - 1, left_w + 1, LINE_XXOX, 1);
     mvwvline(w_sort_armor, 2, left_w + middle_w + 2, LINE_OXXX, 1);
-    mvwvline(w_sort_armor, FULL_SCREEN_HEIGHT-1, left_w + middle_w + 2, LINE_XXOX, 1);
+    mvwvline(w_sort_armor, win_h - 1, left_w + middle_w + 2, LINE_XXOX, 1);
     wrefresh(w_sort_armor);
 
     // Subwindows (between lines)
-    WINDOW *w_sort_cat    = newwin(1, FULL_SCREEN_WIDTH-4, win_y+1, win_x+2);
+    WINDOW *w_sort_cat    = newwin(1, win_w - 4, win_y + 1, win_x + 2);
     WINDOW *w_sort_left   = newwin(cont_h, left_w,   win_y + 3, win_x + 1);
     WINDOW *w_sort_middle = newwin(cont_h, middle_w, win_y + 3, win_x + left_w + 2);
     WINDOW *w_sort_right  = newwin(cont_h, right_w,  win_y + 3, win_x + left_w + middle_w + 3);
@@ -8147,7 +8148,7 @@ void player::sort_armor()
         wprintz(w_sort_cat, c_white, _("Sort Armor"));
         wprintz(w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str());
         tmp_str = _("Press '?' for help");
-        mvwprintz(w_sort_cat, 0, FULL_SCREEN_WIDTH - utf8_width(tmp_str.c_str()) - 4,
+        mvwprintz(w_sort_cat, 0, win_w - utf8_width(tmp_str.c_str()) - 4,
                   c_white, tmp_str.c_str());
 
         // Create ptr list of items to display
@@ -8163,7 +8164,7 @@ void player::sort_armor()
                     tmp_worn.push_back(&worn[i]);
             }
         }
-        leftListSize = (tmp_worn.size() < cont_h-2) ? tmp_worn.size() : cont_h - 2;
+        leftListSize = (tmp_worn.size() < cont_h - 2) ? tmp_worn.size() : cont_h - 2;
 
         // Left header
         mvwprintz(w_sort_left, 0, 0, c_ltgray, _("(Innermost)"));
@@ -8189,7 +8190,7 @@ void player::sort_armor()
         }
 
         // Left footer
-        mvwprintz(w_sort_left, cont_h-1, 0, c_ltgray, _("(Outermost)"));
+        mvwprintz(w_sort_left, cont_h - 1, 0, c_ltgray, _("(Outermost)"));
         if (leftListSize > tmp_worn.size()) {
             mvwprintz(w_sort_left, cont_h - 1, left_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
         }
@@ -8211,8 +8212,8 @@ void player::sort_armor()
 
             mvwprintz(w_sort_middle, 1, middle_w - 4, c_ltgray, "%d", int(each_armor->coverage));
             mvwprintz(w_sort_middle, 2, middle_w - 4, c_ltgray, "%d",
-                      (tmp_worn[leftListIndex]->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1) : int(each_armor->encumber)
-                     );
+                      (tmp_worn[leftListIndex]->has_flag("FIT")) ?
+                       std::max(0, int(each_armor->encumber) - 1) : int(each_armor->encumber));
             mvwprintz(w_sort_middle, 3, middle_w - 4, c_ltgray, "%d", int(tmp_worn[leftListIndex]->bash_resist()));
             mvwprintz(w_sort_middle, 4, middle_w - 4, c_ltgray, "%d", int(tmp_worn[leftListIndex]->cut_resist()));
             mvwprintz(w_sort_middle, 5, middle_w - 4, c_ltgray, "%d", int(each_armor->warmth));
@@ -8276,7 +8277,7 @@ void player::sort_armor()
             } else {
                 mvwprintz(w_sort_middle, cont_h - 8 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
             }
-            mvwprintz(w_sort_middle, cont_h - 8 + i, middle_w - 16, c_ltgray, "%d+%d = ", armorenc, enc-armorenc);
+            mvwprintz(w_sort_middle, cont_h - 8 + i, middle_w - 16, c_ltgray, "%d+%d = ", armorenc, enc - armorenc);
             wprintz(w_sort_middle, encumb_color(enc), "%d" , enc);
 
             nc_color color = c_ltgray;
@@ -8296,7 +8297,7 @@ void player::sort_armor()
         mvwprintz(w_sort_right, 0, right_w - utf8_width(_("Encumbrance")), c_ltgray, _("Encumbrance"));
 
         // Right list
-        rightListSize     = 0;
+        rightListSize = 0;
         for (int cover = 0, pos = 1; cover < num_bp; cover++){
             if (rightListSize >= rightListOffset && pos <= cont_h-2){
                 if (cover == tabindex)
@@ -8324,8 +8325,8 @@ void player::sort_armor()
 
         // Right footer
         mvwprintz(w_sort_right, cont_h - 1, 0, c_ltgray, _("(Outermost)"));
-        if (rightListSize > cont_h-2) {
-            mvwprintz(w_sort_right, cont_h-1, right_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
+        if (rightListSize > cont_h - 2) {
+            mvwprintz(w_sort_right, cont_h - 1, right_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
         }
         // F5
         wrefresh(w_sort_cat);
@@ -8341,7 +8342,7 @@ void player::sort_armor()
                 break;
             leftListIndex--;
             if (leftListIndex < 0)
-                leftListIndex = tmp_worn.size()-1;
+                leftListIndex = tmp_worn.size() - 1;
 
             // Scrolling logic
             leftListOffset = (leftListIndex < leftListOffset) ? leftListIndex : leftListOffset;
