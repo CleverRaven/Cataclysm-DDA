@@ -357,10 +357,7 @@ void player::die(Creature* nkiller) {
 }
 
 void player::reset_stats()
-{
-    // We can dodge again!
-    blocks_left = get_num_blocks();
-    dodges_left = get_num_dodges();
+{   
 
     // Didn't just pick something up
     last_item = itype_id("null");
@@ -485,6 +482,11 @@ void player::reset_stats()
 
     Creature::reset_stats();
 
+    // We can dodge again! Assuming we can actually move...
+    if (moves > 0) {
+        blocks_left = get_num_blocks();
+        dodges_left = get_num_dodges();
+    }
 }
 
 void player::action_taken()
@@ -4104,19 +4106,15 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             add_disease("bleed", 60, false, 1, 3, 120, 1, bp, -1, true);
         }
 
-        static bool grab = false;
-
-        if ( !grab && source->has_flag(MF_GRABS)) {
+        if ( source->has_flag(MF_GRABS)) {
             g->add_msg(_("%s grabs you!"), source->disp_name().c_str());
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ? dice(get_dex(), 10) : dice(get_str(), 10) > dice(source->get_dex(), 10)) {
                 g->add_msg_player_or_npc(this, _("You break the grab!"),
                                                   _("<npcname> breaks the grab!"));
             } else {
-                grab = true;
-                source->melee_attack(*this, false);
+                add_disease("grabbed", 1, false, 1, 3, 1, 1);
             }
         }
-        grab = false;
     }
 
     return dealt_damage_instance(dealt_dams);

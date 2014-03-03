@@ -4116,6 +4116,8 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_scorpion");
       u.ma_styles.push_back("style_lizard");
       u.ma_styles.push_back("style_toad");
+      u.ma_styles.push_back("style_eskrima");
+      u.ma_styles.push_back("style_fencing");
       add_msg("You now know a lot more than just 10 styles of kung fu.");
    break;
 
