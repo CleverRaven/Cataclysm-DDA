@@ -6377,6 +6377,7 @@
   {
     "id": "switchblade",
     "type": "TOOL",
+    "category" : "weapons",
     "symbol": ";",
     "color": "dark_gray",
     "name": "switchblade",
@@ -6569,6 +6570,7 @@
   {
     "id": "diveknife",
     "type": "TOOL",
+    "category" : "weapons",
     "symbol": ";",
     "color": "yellow",
     "name": "dive knife",
