@@ -4111,7 +4111,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
   for (int x = 0; x < SEEX; x++) {
       for (int y = 0; y < SEEY; y++) {
           int biggest_container_idx = -1;
-          int maxvolume = 0;
+          unsigned int maxvolume = 0;
           bool do_container_check = false;
 
           if ( do_funnels && ! rain_backlog.empty() && rain_backlog.find(point(x,y)) != rain_backlog.end() ) {
@@ -4122,7 +4122,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
               if ( do_container_check == true ) { // cannot link trap to mapitems
-                  if ( it->is_funnel_container(maxvolume) > maxvolume ) {                      // biggest
+                  if ( it->is_funnel_container(maxvolume) ) {                      // biggest
                       biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
                   }
               }

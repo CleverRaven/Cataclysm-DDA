@@ -202,7 +202,7 @@ public:
  bool is_book() const;
  bool is_container() const;
  bool is_watertight_container() const;
- int is_funnel_container(int bigger_than) const;
+ bool is_funnel_container(unsigned int &bigger_than) const;
 
  bool is_tool() const;
  bool is_software() const;
