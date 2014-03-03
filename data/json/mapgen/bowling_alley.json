@@ -85,7 +85,7 @@
             ":": "t_floor",
             "T": "t_floor",
             "l": "t_floor",
-            "S": "t_floor_wax",
+            "S": "t_floor_waxed",
 	    "=": "t_floor",
             "G": "t_floor"
             },

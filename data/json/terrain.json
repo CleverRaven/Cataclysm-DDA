@@ -192,7 +192,7 @@
         ]
     },{
         "type" : "terrain",
-        "id" : "t_floor_wax",
+        "id" : "t_floor_waxed",
         "name": "waxed floor",
         "symbol": ".",
         "color": "ltred",

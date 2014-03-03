@@ -341,7 +341,7 @@ ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
-    t_floor,
+    t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_grate,
     t_slime,
@@ -435,6 +435,7 @@ void set_ter_ids() {
     t_sidewalk=terfind("t_sidewalk");
     t_concrete=terfind("t_concrete");
     t_floor=terfind("t_floor");
+    t_floor_waxed=terfind("t_floor_waxed");
     t_dirtfloor=terfind("t_dirtfloor");
     t_grate=terfind("t_grate");
     t_slime=terfind("t_slime");
@@ -629,7 +630,7 @@ furn_id f_null,
     f_bed, f_toilet, f_makeshift_bed,
     f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
     f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
-    f_bench, f_table, f_pool_table,
+    f_ball_mach, f_bench, f_lane, f_table, f_pool_table,
     f_counter,
     f_fridge, f_glass_fridge, f_dresser, f_locker,
     f_rack, f_bookcase,
@@ -663,7 +664,9 @@ void set_furn_ids() {
     f_trashcan=furnfind("f_trashcan");
     f_desk=furnfind("f_desk");
     f_exercise=furnfind("f_exercise");
+    f_ball_mach=furnfind("f_ball_mach");
     f_bench=furnfind("f_bench");
+    f_lane=furnfind("f_lane");
     f_table=furnfind("f_table");
     f_pool_table=furnfind("f_pool_table");
     f_counter=furnfind("f_counter");
