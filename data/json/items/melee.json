@@ -2211,7 +2211,7 @@
     {
         "type":"GENERIC",
         "id" : "bluebell_flower",
-        "name" : "poppy flower",
+        "name" : "bluebell",
         "description" : "A bluebell stalk with some petals.",
         "weight" : 40,
         "to_hit" : -3,
@@ -2226,7 +2226,7 @@
     {
         "type":"GENERIC",
         "id" : "bluebell_bud",
-        "name" : "a poppy bud",
+        "name" : "a bluebell bud",
         "description" : "Contains some substances commonly produced by a bluebell flower",
         "weight" : 30,
         "to_hit" : -3,
@@ -2256,7 +2256,7 @@
     {
         "type":"GENERIC",
         "id" : "dahlia_bud",
-        "name" : "a poppy bud",
+        "name" : "a dahlia bud",
         "description" : "Contains some substances commonly produced by a dahlia",
         "weight" : 30,
         "to_hit" : -3,

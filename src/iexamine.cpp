@@ -1472,10 +1472,10 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
     return &iexamine::fungus;
   }
   if ("flower_bluebell" == function_name) {
-    return &iexamine::flower_poppy;
+    return &iexamine::flower_blubell;
   }
   if ("flower_dahlia" == function_name) {
-    return &iexamine::flower_poppy;
+    return &iexamine::flower_dahlia;
   }
   if ("dirtmound" == function_name) {
     return &iexamine::dirtmound;
