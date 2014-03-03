@@ -2453,7 +2453,7 @@ int iuse::oil_lamp_on(player *p, item *it, bool t)
 int iuse::light_off(player *p, item *it, bool)
 {
     if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The %ss batteries are dead."), it->tname().c_str());
+        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     } else {
         std::string oname = it->type->id + "_on";
@@ -2485,6 +2485,95 @@ int iuse::light_on(player *p, item *it, bool t)
             return 0;
         }
         g->add_msg_if_player(p,_("The %s flicks off."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::toolarmor_off(player *p, item *it, bool)
+{
+    if (it->charges == 0) {
+        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
+        return 0;
+    } else {
+        std::string oname = it->type->id + "_on";
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("You activate your %s."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = true;
+        return it->type->charges_to_use();
+    }
+}
+
+int iuse::toolarmor_on(player *p, item *it, bool t)
+{
+    if (t) { // Normal use
+    } else { // Turning it off
+        std::string oname = it->type->id;
+        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
+            oname.erase(oname.length() - 3, 3);
+        } else {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("Your %s deactivates."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::rm13armor_off(player *p, item *it, bool)
+{
+    if (it->charges == 0) {
+        g->add_msg_if_player(p,_("The RM13 combat armor's fuel cells are dead."), it->tname().c_str());
+        return 0;
+    } else {
+        std::string oname = it->type->id + "_on";
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("You activate your RM13 combat armor."));
+        g->add_msg_if_player(p,_("Rivtech Model 13 RivOS v2.19:   ONLINE."));
+        g->add_msg_if_player(p,_("CBRN defense system:            ONLINE."));
+        g->add_msg_if_player(p,_("Acoustic dampening system:      ONLINE."));
+        g->add_msg_if_player(p,_("Thermal regulation system:      ONLINE."));
+        g->add_msg_if_player(p,_("Vision enhancement system:      ONLINE."));
+        g->add_msg_if_player(p,_("Electro-reactive armor system:  ONLINE."));
+        g->add_msg_if_player(p,_("All systems nominal."));
+        it->make(item_controller->find_template(oname));
+        it->active = true;
+        return it->type->charges_to_use();
+    }
+}
+
+int iuse::rm13armor_on(player *p, item *it, bool t)
+{
+    if (t) { // Normal use
+    } else { // Turning it off
+        std::string oname = it->type->id;
+        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
+            oname.erase(oname.length() - 3, 3);
+        } else {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("RivOS v2.19 shutdown sequence initiated."));
+        g->add_msg_if_player(p,_("Shutting down."));
+        g->add_msg_if_player(p,_("Your RM13 combat armor turns off."));
         it->make(item_controller->find_template(oname));
         it->active = false;
     }
@@ -5487,8 +5576,6 @@ int iuse::UPS_off(player *p, item *it, bool)
   return 0;
  } else {
   g->add_msg_if_player(p,_("You turn the power supply on."));
-  if (p->is_wearing("goggles_nv"))
-   g->add_msg_if_player(p,_("Your light amp goggles power on."));
   if (p->is_wearing("optical_cloak"))
    g->add_msg_if_player(p,_("Your optical cloak flickers as it becomes transparent."));
   if (p->is_wearing_power_armor())
@@ -5531,9 +5618,6 @@ int iuse::adv_UPS_off(player *p, item *it, bool)
   g->add_msg_if_player(p,_("The power supply has depleted the plutonium."));
  } else {
   g->add_msg_if_player(p,_("You turn the power supply on."));
-  if (p->is_wearing("goggles_nv")) {
-   g->add_msg_if_player(p,_("Your light amp goggles power on."));
-  }
   if (p->is_wearing("optical_cloak")) {
    g->add_msg_if_player(p,_("Your optical cloak becomes transparent."));
   }

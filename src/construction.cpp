@@ -783,6 +783,10 @@ void construct::done_deconstruct(point p)
             g->m.spawn_item(p.x, p.y, "plastic_chunk", rng(10, 12));
             g->m.spawn_item(p.x, p.y, "scrap", rng(6, 8));
             g->m.ter_set(p.x, p.y, t_floor);
+        } else if(ter_here == "t_water_pump") {
+            g->m.spawn_item(p.x, p.y, "well_pump", 1);
+            g->m.spawn_item(p.x, p.y, "pipe", rng(1, 6));
+            g->m.ter_set(p.x, p.y, t_covered_well);
         }
     }
 }
