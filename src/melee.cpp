@@ -612,7 +612,7 @@ matec_id player::pick_technique(Creature &t,
 
         // if crit then select only from crit tecs 
         // dodge and blocks roll again for their attack, so ignore crit state
-        if (!dodge_counter && !block_counter && (crit && !tec.crit_tec) || (!crit && tec.crit_tec)) continue;
+        if (!dodge_counter && !block_counter && ((crit && !tec.crit_tec) || (!crit && tec.crit_tec)) ) continue;
 
         // don't apply downing techniques to someone who's already downed
         if (downed && tec.down_dur > 0) continue;

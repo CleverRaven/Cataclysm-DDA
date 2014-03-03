@@ -242,14 +242,15 @@ bool ma_requirements::is_valid_player(player& u) {
   //to all weapons (such as Ninjutsu sneak attacks or innate weapon techniques like RAPID) 
   //or if the weapon is flagged as being compatible with the style. Some techniques have 
   //further restrictions on required weapon properties (is_valid_weapon).
-  bool valid = ((unarmed_allowed && u.unarmed_attack()) 
-      || (melee_allowed && !u.unarmed_attack() && is_valid_weapon(u.weapon)) 
-      || (u.has_weapon() && martialarts[u.style_selected].has_weapon(u.weapon.type->id) && is_valid_weapon(u.weapon)))
-    && u.skillLevel("melee") >= min_melee
-    && u.skillLevel("unarmed") >= min_unarmed
-    && u.skillLevel("bashing") >= min_bashing
-    && u.skillLevel("cutting") >= min_cutting
-    && u.skillLevel("stabbing") >= min_stabbing;
+  bool valid = ((unarmed_allowed && u.unarmed_attack()) ||
+      (melee_allowed && !u.unarmed_attack() && is_valid_weapon(u.weapon)) ||
+      (u.has_weapon() && martialarts[u.style_selected].has_weapon(u.weapon.type->id) &&
+      is_valid_weapon(u.weapon)) ) &&
+    u.skillLevel("melee") >= min_melee &&
+    u.skillLevel("unarmed") >= min_unarmed &&
+    u.skillLevel("bashing") >= min_bashing &&
+    u.skillLevel("cutting") >= min_cutting &&
+    u.skillLevel("stabbing") >= min_stabbing;
 
   return valid;
 }

@@ -455,7 +455,7 @@
     },{
         "type" : "technique",
         "id" : "tec_eskrima_snap",
-        "name" : "snap strike",
+        "name" : "Snap strike",
         "min_melee" : 0,
         "speed_mult" : 0.8,
         "messages" : [
@@ -465,7 +465,7 @@
     },{
         "type" : "technique",
         "id" : "tec_eskrima_combination",
-        "name" : "combination strike",
+        "name" : "Combination strike",
         "min_melee" : 2,
         "speed_mult" : 0.8,
         "bash_mult" : 1.5,
