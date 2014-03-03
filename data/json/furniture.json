@@ -888,7 +888,7 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "CONTAINER"],
+        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "CONTAINER", "LIQUIDCONT"],
         "examine_action": "keg"
     }
 ]

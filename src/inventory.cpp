@@ -558,6 +558,14 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 }
             }
 
+            // keg-kludge
+            if (furnlist[g->m.furn(x, y)].examine == &iexamine::keg) {
+                std::vector<item> liq_contained = g->m.i_at(x, y);
+                for (int i = 0; i < liq_contained.size(); ++i)
+                    if (liq_contained[i].made_of(LIQUID))
+                        add_item(liq_contained[i]);
+            }
+
             int vpart = -1;
             vehicle *veh = g->m.veh_at(x, y, vpart);
 

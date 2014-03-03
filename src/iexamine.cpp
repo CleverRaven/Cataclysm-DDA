@@ -1208,6 +1208,11 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
+    if (m->i_at(examx, examy).size() == 0) {
+        debugmsg("fvat_full was empty!");
+        m->furn_set(examx, examy, f_fvat_empty);
+        return;
+    }
     item brew_i = m->i_at(examx, examy)[0];
     if (brew_i.has_flag("BREW")) //Does the vat contain unfermented brew, or already fermented booze?
     {
