@@ -1352,7 +1352,7 @@ bool inventory::has_drink() const
     return false;
 }
 
-item& inventory::watertight_container()
+item &inventory::watertight_container()
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         item &it = iter->front();
