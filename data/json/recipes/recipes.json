@@ -30052,8 +30052,8 @@
 },{
         "type" : "recipe",
   "result": "grapnel",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 30000,
@@ -30082,6 +30082,7 @@
     ]
   ]
 },{
+        "type" : "recipe",
   "result": "thermal_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -30278,5 +30279,53 @@
       [ "gum", 4 ]
     ]
   ]
-}
+},
+  {
+    "type" : "recipe",
+    "result": "fishing_rod_basic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ ],
+    "components": [
+      [
+        [ "stick", 1 ]
+      ],
+      [
+        [ "string_36", 6 ]
+      ],
+      [
+        [ "fishing_hook_basic", 1 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "fishing_hook_basic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "rock", -1 ],
+        [ "primitive_hammer", -1 ],
+        [ "hammer", -1 ],
+        [ "hatchet", -1 ],
+        [ "toolset", -1 ]
+      ]
+    ],
+    "components": [
+      [
+        [ "nail", 1 ]
+      ]
+    ]
+  }
 ]
