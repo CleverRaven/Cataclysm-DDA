@@ -2796,6 +2796,22 @@
     "cutting": 1,
     "to_hit": 0
   },
+
+  {
+    "type":"GENERIC",
+    "id": "well_pump",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "mechanical pump",
+    "description": "An old-fashioned mechanical pump of the type used to draw drinking water from a well. It's not good for much of anything on its own.",
+    "price": 2000,
+    "material": ["iron", "null"],
+    "weight": 19400,
+    "volume": 5,
+    "bashing": 7,
+    "cutting": 0,
+    "to_hit": -5
+  },
   {
     "type":"GENERIC",
     "id":"diamond",

@@ -434,6 +434,7 @@ extern ter_id t_null,
     t_grate,
     t_slime,
     t_bridge,
+    t_covered_well,
     // Lighting related
     t_skylight, t_emergency_light_flicker, t_emergency_light,
     // Walls
@@ -484,6 +485,7 @@ extern ter_id t_null,
     t_column,
     t_vat,
     t_cvdbody, t_cvdmachine,
+    t_water_pump,
     // Staircases etc.
     t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
      t_slope_up, t_rope_up,

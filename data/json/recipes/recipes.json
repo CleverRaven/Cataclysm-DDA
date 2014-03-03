@@ -29909,7 +29909,7 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "grapnel",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -29939,6 +29939,47 @@
     [
       [ "scrap", 4 ]
     ]
+   ]
+},{
+  "type": "recipe",
+  "result": "well_pump",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["textbook_fabrication", 5] , ["manual_fabrication", 5], ["manual_carpentry", 5], ["textbook_carpentry", 4]],
+  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
+    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "wrench", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "hacksaw", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 10 ],
+      [ "soldering_iron", 150 ]
+    ] ],
+  "components":
+    [
+     [
+       [ "steel_chunk", 6 ],
+       [ "scrap", 18 ]
+     ],
+     [
+       ["pipe", 2]
+     ]
   ]
 },{
   "type" : "recipe",

@@ -2264,5 +2264,32 @@
         "color": "ltgray",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"]
+    },{
+        "type" : "terrain",
+        "id" : "t_covered_well",
+        "name": "covered well",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_water_pump",
+        "name": "water pump",
+        "symbol": "&",
+        "color": "ltgray",
+        "move_cost": 6,
+        "flags": ["TRANSPARENT", "BASHABLE", "DECONSTRUCT" ],
+        "bash": {
+            "str_min": 15, "str_max": 80,
+            "sound": "whack!",
+            "sound_fail": "thunk.",
+            "ter_set": "t_covered_well",
+            "items": [
+                { "item": "well_pump", "amount": 1, "minamount": 0, "chance": 50 },
+                { "item": "pipe", "amount": 4, "minamount": 0, "chance": 50 }
+            ]
+        },
+        "examine_action": "water_source"
     }
 ]
