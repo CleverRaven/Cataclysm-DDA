@@ -1209,7 +1209,16 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
-    if (m->i_at(examx, examy).size() == 0) {
+    for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+        if (!(m->i_at(examx, examy)[i].made_of("LIQUID")) || liquid_present) {
+            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+            if (g->debugmon)
+                debugmsg("fvat_full contained non-liquid items! Clearing space...");
+            return;
+        }
+        else liquid_present = true;
+    }
+    if (!liquid_present) {
         debugmsg("fvat_full was empty!");
         m->furn_set(examx, examy, f_fvat_empty);
         return;
@@ -1265,8 +1274,8 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
     int keg_cap = 600;
     bool liquid_present = false;
     for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
-        if (!(m->i_at(examx, examy)[i].is_drink()) || liquid_present) {   //Dumb user got unwanted stuff in the keg!
-            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);//Dumb user stuff erased. Now keg is clean.
+        if (!(m->i_at(examx, examy)[i].is_drink()) || liquid_present) {
+            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
             if (g->debugmon)
                 debugmsg("keg contained non-drink items! Clearing space...");
             return;
