@@ -192,6 +192,16 @@
         ]
     },{
         "type" : "terrain",
+        "id" : "t_floor_wax",
+        "name": "waxed floor",
+        "symbol": ".",
+        "color": "ltred",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"
+        ]
+    },{
+        "type" : "terrain",
         "id" : "t_dirtfloor",
         "name": "dirt floor",
         "symbol": ".",
