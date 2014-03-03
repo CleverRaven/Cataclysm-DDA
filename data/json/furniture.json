@@ -868,8 +868,19 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "CONTAINER"],
-        "examine_action": "fvat_empty"
+        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER"],
+        "examine_action": "fvat_empty",
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 8, "minamount": 4},
+                { "item": "nail", "amount": 8, "minamount": 4},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 },
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_fvat_full",
@@ -878,8 +889,19 @@
         "color": "brown_cyan",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "CONTAINER"],
-        "examine_action": "fvat_full"
+        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER"],
+        "examine_action": "fvat_full",
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 8, "minamount": 4},
+                { "item": "nail", "amount": 8, "minamount": 4},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 },
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     },{
         "type" : "furniture",
         "id" : "f_wood_keg",
@@ -888,7 +910,18 @@
         "color": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "CONTAINER", "LIQUIDCONT"],
-        "examine_action": "keg"
+        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
+        "examine_action": "keg",
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 12, "minamount": 6},
+                { "item": "nail", "amount": 8, "minamount": 4},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 },
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
     }
 ]

@@ -1133,6 +1133,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
             m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i); //Dumb user stuff erased. Now vat is clean.
             if (g->debugmon)
                 debugmsg("fvat_empty was not actually empty! Clearing space...");
+            return;
         }
         else brew_present = true;
     }
@@ -1262,7 +1263,17 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
 
 void iexamine::keg(player *p, map *m, int examx, int examy) {
     int keg_cap = 600;
-    if ((m->i_at(examx, examy).size() == 0)) {
+    bool liquid_present = false;
+    for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+        if (!(m->i_at(examx, examy)[i].is_drink()) || liquid_present) {   //Dumb user got unwanted stuff in the keg!
+            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);//Dumb user stuff erased. Now keg is clean.
+            if (g->debugmon)
+                debugmsg("keg contained non-drink items! Clearing space...");
+            return;
+        }
+        else liquid_present = true;
+    }
+    if (!liquid_present) {
         if ( !p->has_drink() ) {
             g->add_msg(_("You don't have any drinks to fill the %s with."), m->name(examx, examy).c_str());
             return;
