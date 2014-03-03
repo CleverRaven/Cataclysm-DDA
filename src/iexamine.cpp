@@ -1209,6 +1209,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
+    bool liquid_present = false;
     for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
         if (!(m->i_at(examx, examy)[i].made_of("LIQUID")) || liquid_present) {
             m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
