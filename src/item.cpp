@@ -1871,24 +1871,25 @@ bool item::is_watertight_container() const
     return ( is_container() != false && has_flag("WATERTIGHT") && has_flag("SEALS") );
 }
 
-int item::is_funnel_container(int bigger_than) const
+bool item::is_funnel_container(unsigned int &bigger_than) const
 {
-    if ( ! is_container() ) {
-        return 0;
+    if ( ! is_watertight_container() ) {
+        return false;
     }
     it_container *ct = dynamic_cast<it_container *>(type);
     // todo; consider linking funnel to item or -making- it an active item
-    if ( (int)ct->contains <= bigger_than ) {
-        return 0; // skip contents check, performance
+    if ( ct->contains <= bigger_than ) {
+        return false; // skip contents check, performance
     }
     if (
         contents.empty() ||
         contents[0].typeId() == "water" ||
         contents[0].typeId() == "water_acid" ||
         contents[0].typeId() == "water_acid_weak") {
-        return (int)ct->contains;
+        bigger_than = ct->contains;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 bool item::is_tool() const
