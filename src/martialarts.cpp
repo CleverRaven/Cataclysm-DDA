@@ -225,12 +225,13 @@ bool ma_requirements::is_valid_player(player& u) {
     mabuff_id buff_id = *it;
     if (!u.has_mabuff(*it)) return false;
   }
+  bool cqb = u.has_active_bionic("bio_cqb");
   bool valid = ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
-    && u.skillLevel("melee") >= min_melee
+    && ((u.skillLevel("melee") >= min_melee
     && u.skillLevel("unarmed") >= min_unarmed
     && u.skillLevel("bashing") >= min_bashing
     && u.skillLevel("cutting") >= min_cutting
-    && u.skillLevel("stabbing") >= min_stabbing;
+    && u.skillLevel("stabbing") >= min_stabbing) || cqb);
   return valid;
 }
 
@@ -515,7 +516,8 @@ bool player::has_grab_break_tec() {
 bool player::can_leg_block() {
   if (martialarts[style_selected].leg_block < 0)
     return false;
-  if (skillLevel("unarmed") >= martialarts[style_selected].leg_block &&
+  int unarmed_skill = has_active_bionic("bio_cqb") ? 4 : (int)skillLevel("unarmed");
+  if (unarmed_skill >= martialarts[style_selected].leg_block &&
       (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0))
     return true;
   else
@@ -525,7 +527,8 @@ bool player::can_leg_block() {
 bool player::can_arm_block() {
   if (martialarts[style_selected].arm_block < 0)
     return false;
-  if (skillLevel("unarmed") >= martialarts[style_selected].arm_block &&
+  int unarmed_skill = has_active_bionic("bio_cqb") ? 4 : (int)skillLevel("unarmed");
+  if (unarmed_skill >= martialarts[style_selected].arm_block &&
       (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0))
     return true;
   else

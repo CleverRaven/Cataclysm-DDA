@@ -56,36 +56,50 @@ int player::get_hit_base()
 {
     int best_bonus = 0;
 
+    int unarmed_skill = skillLevel("unarmed");
+    int bashing_skill = skillLevel("bashing");
+    int cutting_skill = skillLevel("cutting");
+    int stabbing_skill = skillLevel("stabbing");
+    int melee_skill = skillLevel("melee");
+    
+    if (has_active_bionic("bio_cqb")) {
+        unarmed_skill = 4;
+        bashing_skill = 4;
+        cutting_skill = 4;
+        stabbing_skill = 4;
+        melee_skill = 4;
+    }
+
     // Are we unarmed?
     if (unarmed_attack()) {
-        best_bonus = skillLevel("unarmed");
-        if (skillLevel("unarmed") > 4)
-            best_bonus += skillLevel("unarmed") - 4; // Extra bonus for high levels
+        best_bonus = unarmed_skill;
+        if (unarmed_skill > 4)
+            best_bonus += unarmed_skill - 4; // Extra bonus for high levels
     }
 
     // Using a bashing weapon?
     if (weapon.is_bashing_weapon()) {
-        int bash_bonus = int(skillLevel("bashing") / 3);
+        int bash_bonus = int(bashing_skill / 3);
         if (bash_bonus > best_bonus)
             best_bonus = bash_bonus;
     }
 
     // Using a cutting weapon?
     if (weapon.is_cutting_weapon()) {
-        int cut_bonus = int(skillLevel("cutting") / 2);
+        int cut_bonus = int(cutting_skill / 2);
         if (cut_bonus > best_bonus)
             best_bonus = cut_bonus;
     }
 
     // Using a spear?
     if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
-        int stab_bonus = int(skillLevel("stabbing") / 2);
+        int stab_bonus = int(stabbing_skill / 2);
         if (stab_bonus > best_bonus)
             best_bonus = stab_bonus;
     }
 
     // Creature::get_hit_base includes stat calculations already
-    return Creature::get_hit_base() + skillLevel("melee") + best_bonus;
+    return Creature::get_hit_base() + melee_skill + best_bonus;
 }
 
 int player::hit_roll()
@@ -187,7 +201,9 @@ void player::melee_attack(Creature &t, bool allow_special) {
             else
                 g->add_msg(_("You miss."));
         }
-        melee_practice(g->turn, *this, false, unarmed_attack(),
+
+        if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
+            melee_practice(g->turn, *this, false, unarmed_attack(),
                         weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                         (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
         move_cost += stumble_pen;
@@ -208,7 +224,8 @@ void player::melee_attack(Creature &t, bool allow_special) {
         bool cutting = (d.type_damage(DT_CUT) >= 10);
         bool stabbing = (d.type_damage(DT_STAB) >= 10);
 
-        melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
+        if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
+            melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
         if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
             healall( rng(dam / 10, dam / 5) );
@@ -246,10 +263,23 @@ bool player::scored_crit(int target_dodge)
 {
  int num_crits = 0;
 
+ int unarmed_skill = skillLevel("unarmed");
+ int bashing_skill = skillLevel("bashing");
+ int cutting_skill = skillLevel("cutting");
+ int stabbing_skill = skillLevel("stabbing");
+ int melee_skill = skillLevel("melee");
+
+ if (has_active_bionic("bio_cqb")) {
+     unarmed_skill = 4;
+     bashing_skill = 4;
+     cutting_skill = 4;
+     stabbing_skill = 4;
+     melee_skill = 4;
+ }
 // Weapon to-hit roll
  int chance = 25;
  if (unarmed_attack()) { // Unarmed attack: 1/2 of unarmed skill is to-hit
-  for (int i = 1; i <= int(skillLevel("unarmed") * .5); i++)
+  for (int i = 1; i <= int(unarmed_skill * .5); i++)
    chance += (50 / (2 + i));
  }
  if (weapon.type->m_to_hit > 0) {
@@ -284,17 +314,17 @@ bool player::scored_crit(int target_dodge)
 // Skill level roll
  int best_skill = 0;
 
- if (weapon.is_bashing_weapon() && skillLevel("bashing") > best_skill)
-  best_skill = skillLevel("bashing");
- if (weapon.is_cutting_weapon() && skillLevel("cutting") > best_skill)
-  best_skill = skillLevel("cutting");
+ if (weapon.is_bashing_weapon() && bashing_skill > best_skill)
+  best_skill = bashing_skill;
+ if (weapon.is_cutting_weapon() && cutting_skill > best_skill)
+  best_skill = cutting_skill;
  if ((weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) &&
-     skillLevel("stabbing") > best_skill)
-  best_skill = skillLevel("stabbing");
- if (unarmed_attack() && skillLevel("unarmed") > best_skill)
-  best_skill = skillLevel("unarmed");
+     stabbing_skill > best_skill)
+  best_skill = stabbing_skill;
+ if (unarmed_attack() && unarmed_skill > best_skill)
+  best_skill = unarmed_skill;
 
- best_skill += int(skillLevel("melee") / 2.5);
+ best_skill += int(melee_skill / 2.5);
 
  chance = 25;
  if (best_skill > 3) {
@@ -365,156 +395,178 @@ int player::base_damage(bool real_life, int stat)
 
 int player::roll_bash_damage(bool crit)
 {
- int ret = 0;
- int stat = str_cur; // Which stat determines damage?
- int skill = skillLevel("bashing"); // Which skill determines damage?
+    int ret = 0;
+    int stat = str_cur; // Which stat determines damage?
 
- stat += mabuff_bash_bonus();
+    int bashing_skill = skillLevel("bashing");
+    int unarmed_skill = skillLevel("unarmed"); 
 
- if (unarmed_attack())
-  skill = skillLevel("unarmed");
+    if (has_active_bionic("bio_cqb")) {
+        bashing_skill = 4;
+        unarmed_skill = 4;
+    }
 
- ret = base_damage(true, stat);
+    int skill = bashing_skill; // Which skill determines damage?
 
-// Drunken Master damage bonuses
- if (has_trait("DRUNKEN") && has_disease("drunk")) {
-// Remember, a single drink gives 600 levels of "drunk"
-  int mindrunk, maxdrunk;
-  if (unarmed_attack()) {
-   mindrunk = disease_duration("drunk") / 600;
-   maxdrunk = disease_duration("drunk") / 250;
-  } else {
-   mindrunk = disease_duration("drunk") / 900;
-   maxdrunk = disease_duration("drunk") / 400;
-  }
-  ret += rng(mindrunk, maxdrunk);
- }
+    stat += mabuff_bash_bonus();
 
- int bash_dam = int(stat / 2) + weapon.damage_bash(),
-     bash_cap = 5 + stat + skill;
+    if (unarmed_attack())
+        skill = unarmed_skill; 
 
- if (unarmed_attack())
-  bash_dam = rng(0, int(stat / 2) + skillLevel("unarmed"));
- else
-    // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
-    if (skillLevel("bashing") <= 5)
-    ret *= 0.8 + 0.08 * skillLevel("bashing");
+    ret = base_damage(true, stat);
+
+    // Drunken Master damage bonuses
+    if (has_trait("DRUNKEN") && has_disease("drunk")) {
+        // Remember, a single drink gives 600 levels of "drunk"
+        int mindrunk, maxdrunk;
+        if (unarmed_attack()) {
+            mindrunk = disease_duration("drunk") / 600;
+            maxdrunk = disease_duration("drunk") / 250;
+        } else {
+            mindrunk = disease_duration("drunk") / 900;
+            maxdrunk = disease_duration("drunk") / 400;
+        }
+        ret += rng(mindrunk, maxdrunk);
+    }
+
+    int bash_dam = int(stat / 2) + weapon.damage_bash(),
+        bash_cap = 5 + stat + skill;
+
+    if (unarmed_attack()) 
+        bash_dam = rng(0, int(stat / 2) + unarmed_skill); 
     else
-    ret *= 0.92 + 0.04 * skillLevel("bashing");
+        // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
+        if (bashing_skill <= 5)
+            ret *= 0.8 + 0.08 * bashing_skill;
+        else
+            ret *= 0.92 + 0.04 * bashing_skill;
 
+    if (crit) {
+        bash_dam *= 1.5;
+        bash_cap *= 2;
+    }
 
+    if (bash_dam > bash_cap)// Cap for weak characters
+        bash_dam = (bash_cap * 3 + bash_dam) / 4;
 
- if (crit) {
-  bash_dam *= 1.5;
-  bash_cap *= 2;
- }
+    /* TODO: handle this in deal_damage
+    if (z != NULL && z->has_flag(MF_PLASTIC))
+    bash_dam /= rng(2, 4);
+    */
 
- if (bash_dam > bash_cap)// Cap for weak characters
-  bash_dam = (bash_cap * 3 + bash_dam) / 4;
+    int bash_min = bash_dam / 4;
 
- /* TODO: handle this in deal_damage
- if (z != NULL && z->has_flag(MF_PLASTIC))
-  bash_dam /= rng(2, 4);
-  */
+    bash_dam = rng(bash_min, bash_dam);
 
- int bash_min = bash_dam / 4;
+    if (bash_dam < skill + int(stat / 2))
+        bash_dam = rng(bash_dam, skill + int(stat / 2));
 
- bash_dam = rng(bash_min, bash_dam);
+    ret += bash_dam;
 
- if (bash_dam < skill + int(stat / 2))
-  bash_dam = rng(bash_dam, skill + int(stat / 2));
+    ret += disease_intensity("damage_boost");
 
- ret += bash_dam;
+    // Finally, extra crit effects
+    if (crit) {
+        ret += int(stat / 2);
+        ret += skill;
+    }
 
- ret += disease_intensity("damage_boost");
-
-// Finally, extra crit effects
- if (crit) {
-  ret += int(stat / 2);
-  ret += skill;
- }
-
- return (ret < 0 ? 0 : ret);
+    return (ret < 0 ? 0 : ret);
 }
 
 int player::roll_cut_damage(bool crit)
 {
- if (weapon.has_flag("SPEAR"))
-  return 0;  // Stabs, doesn't cut!
+    if (weapon.has_flag("SPEAR"))
+        return 0;  // Stabs, doesn't cut!
 
- double ret = mabuff_cut_bonus() + weapon.damage_cut();
+    double ret = mabuff_cut_bonus() + weapon.damage_cut();
 
- if (unarmed_attack() && !wearing_something_on(bp_hands)) {
-  if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
-   ret += 6;
-  if (has_bionic("bio_razors"))
-   ret += 4;
-  if (has_trait("TALONS"))
-   ret += 6 + ((int)skillLevel("unarmed") > 8 ? 8 : (int)skillLevel("unarmed"));
-  //TODO: add acidproof check back to slime hands (probably move it elsewhere)
-  if (has_trait("SLIME_HANDS"))
-   ret += rng(4, 6);
- }
+    int cutting_skill = skillLevel("cutting");
+    int unarmed_skill = skillLevel("unarmed"); 
 
- if (ret <= 0)
-  return 0; // No negative damage!
+    if (has_active_bionic("bio_cqb"))
+    {
+        cutting_skill = 4;
+        unarmed_skill = 4;
+    }
 
-// 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
- if (skillLevel("cutting") <= 5)
-  ret *= 0.8 + 0.08 * skillLevel("cutting");
- else
-  ret *= 0.92 + 0.04 * skillLevel("cutting");
+    if (unarmed_attack() && !wearing_something_on(bp_hands)) {
+        if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+            ret += 6;
+        if (has_bionic("bio_razors"))
+            ret += 4;
+        if (has_trait("TALONS"))
+            ret += 6 + (unarmed_skill > 8 ? 8 : unarmed_skill);
+        //TODO: add acidproof check back to slime hands (probably move it elsewhere)
+        if (has_trait("SLIME_HANDS"))
+            ret += rng(4, 6);
+    }
 
- if (crit)
-  ret *= 1.0 + (skillLevel("cutting") / 12.0);
+    if (ret <= 0)
+        return 0; // No negative damage!
 
- return ret;
+
+    // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
+    if (cutting_skill <= 5)
+        ret *= 0.8 + 0.08 * cutting_skill;
+    else
+        ret *= 0.92 + 0.04 * cutting_skill;
+
+    if (crit)
+        ret *= 1.0 + (cutting_skill / 12.0);
+
+    return ret;
 }
 
 int player::roll_stab_damage(bool crit)
 {
- double ret = 0;
-  //TODO: armor formula is z->get_armor_cut() - 3 * skillLevel("stabbing")
+    double ret = 0;
+    //TODO: armor formula is z->get_armor_cut() - 3 * skillLevel("stabbing")
 
- if (unarmed_attack() && !wearing_something_on(bp_hands)) {
-  ret = 0;
-  if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
-   ret += 6;
-  if (has_trait("NAILS"))
-   ret++;
-  if (has_bionic("bio_razors"))
-   ret += 4;
-  if (has_trait("THORNS"))
-   ret += 4;
- } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
-  ret = weapon.damage_cut();
- else
-  return 0; // Can't stab at all!
+    if (unarmed_attack() && !wearing_something_on(bp_hands)) {
+        ret = 0;
+        if (has_trait("CLAWS") || has_trait("CLAWS_RETRACT"))
+            ret += 6;
+        if (has_trait("NAILS"))
+            ret++;
+        if (has_bionic("bio_razors"))
+            ret += 4;
+        if (has_trait("THORNS"))
+            ret += 4;
+    } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
+        ret = weapon.damage_cut();
+    else
+        return 0; // Can't stab at all!
 
- /* TODO: add this bonus back in
- if (z != NULL && z->speed > 100) { // Bonus against fast monsters
-  int speed_min = (z->speed - 100) / 10, speed_max = (z->speed - 100) / 5;
-  int speed_dam = rng(speed_min, speed_max);
-  if (speed_dam > ret * 2)
-   speed_dam = ret * 2;
-  if (speed_dam > 0)
-   ret += speed_dam;
- }
- */
+    /* TODO: add this bonus back in
+    if (z != NULL && z->speed > 100) { // Bonus against fast monsters
+    int speed_min = (z->speed - 100) / 10, speed_max = (z->speed - 100) / 5;
+    int speed_dam = rng(speed_min, speed_max);
+    if (speed_dam > ret * 2)
+    speed_dam = ret * 2;
+    if (speed_dam > 0)
+    ret += speed_dam;
+    }
+    */
 
- if (ret <= 0)
-  return 0; // No negative stabbing!
+    if (ret <= 0)
+        return 0; // No negative stabbing!
 
-// 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%, 146%
- if (skillLevel("stabbing") <= 5)
-  ret *= 0.66 + 0.1 * skillLevel("stabbing");
- else
-  ret *= 0.86 + 0.06 * skillLevel("stabbing");
+    int stabbing_skill = skillLevel("stabbing");
 
- if (crit)
-  ret *= 1.0 + (skillLevel("stabbing") / 10.0);
+    if (has_active_bionic("bio_cqb")) 
+        stabbing_skill = 4; 
 
- return ret;
+    // 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%, 146%
+    if (stabbing_skill <= 5)
+        ret *= 0.66 + 0.1 * stabbing_skill;
+    else
+        ret *= 0.86 + 0.06 * stabbing_skill;
+
+    if (crit)
+        ret *= 1.0 + (stabbing_skill / 10.0);
+
+    return ret;
 }
 
 // Chance of a weapon sticking is based on weapon attack type.
@@ -529,7 +581,11 @@ int player::roll_stuck_penalty(bool stabbing)
     // The cost of the weapon getting stuck, in units of move points.
     const int weapon_speed = attack_speed(*this);
     int stuck_cost = weapon_speed;
-    const int attack_skill = stabbing ? skillLevel("stabbing") : skillLevel("cutting");
+    int attack_skill = stabbing ? skillLevel("stabbing") : skillLevel("cutting");
+
+    if (has_active_bionic("bio_cqb"))
+        attack_skill = 4;
+
     const float cut_damage = weapon.damage_cut();
     const float bash_damage = weapon.damage_bash();
     float cut_bash_ratio = 0.0;
@@ -1016,7 +1072,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  } else {
   if (d.total_damage() > 20) { // TODO: change this back to "if it would kill the monster"
    cutting_penalty /= 2;
-   cutting_penalty -= rng(skillLevel("cutting"), skillLevel("cutting") * 2 + 2);
+   int cutting_skill = has_active_bionic("bio_cqb") ? 4 : (int)skillLevel("cutting");
+   cutting_penalty -= rng(cutting_skill, cutting_skill * 2 + 2);
   }
   if (cutting_penalty >= 50/* && !z->is_hallucination()*/) { // TODO: halluc check again
    dump << string_format(_("Your %s gets stuck in %s but you yank it free!"), weapon.tname().c_str(), target.c_str());
@@ -1552,7 +1609,8 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
 int attack_speed(player &u)
 {
  int move_cost = u.weapon.attack_time() / 2;
- int skill_cost = (int)(move_cost / (pow(static_cast<float>(u.skillLevel("melee")), 3.0f)/400 +1));
+ int melee_skill = u.has_active_bionic("bio_cqb") ? 4 : (int)u.skillLevel("melee");
+ int skill_cost = (int)(move_cost / (pow(static_cast<float>(melee_skill), 3.0f)/400 +1));
  int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
 
  move_cost += skill_cost;
