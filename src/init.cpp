@@ -72,7 +72,7 @@ void init_data_mappings()
         legacy_lookup[ legacy_ter_id[i] ] = i;
     }
     reverse_legacy_ter_id.clear();
-    for( int i = 0; i < terlist.size(); i++ ) {
+    for( size_t i = 0; i < terlist.size(); ++i ) {
         if ( legacy_lookup.find(terlist[i].id) != legacy_lookup.end() ) {
             reverse_legacy_ter_id[ i ] = legacy_lookup[ terlist[i].id ];
         } else {
@@ -84,7 +84,7 @@ void init_data_mappings()
         legacy_lookup[ legacy_furn_id[i] ] = i;
     }
     reverse_legacy_furn_id.clear();
-    for( int i = 0; i < furnlist.size(); i++ ) {
+    for( size_t i = 0; i < furnlist.size(); ++i ) {
         if ( legacy_lookup.find(furnlist[i].id) != legacy_lookup.end() ) {
             reverse_legacy_furn_id[ i ] = legacy_lookup[ furnlist[i].id ];
         } else {

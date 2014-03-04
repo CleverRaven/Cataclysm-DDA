@@ -775,7 +775,7 @@ bool player::can_weapon_block()
             weapon.has_technique("WBLOCK_3"));
 }
 
-void player::dodge_hit(Creature *source, int hit_spread) {
+void player::dodge_hit(Creature *source, int) {
     if (dodges_left < 1)
         return;
 

@@ -149,7 +149,7 @@ class wish_mutate_callback: public uimenu_callback
 
             std::vector<std::string> desc = foldstring( traits[vTraits[ entnum ]].description,
                                             menu->pad_right - 1 );
-            for( int j = 0; j < desc.size(); j++ ) {
+            for( size_t j = 0; j < desc.size(); ++j ) {
                 mvwprintz(menu->window, line2, startx, c_ltgray, "%s", desc[j].c_str() );
                 line2++;
             }
@@ -431,7 +431,7 @@ class wish_item_callback: public uimenu_callback
                 mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2,
                           c_cyan, _("%s"), header.c_str());
 
-                for(int i = 0; i < desc.size(); i++ ) {
+                for( size_t i = 0; i < desc.size(); ++i ) {
                     mvwprintw(menu->window, starty + i, startx, "%s", desc[i].c_str() );
                 }
 
