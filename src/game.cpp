@@ -9412,8 +9412,8 @@ and you can't unwield your %s."),
     std::vector<bool> getitem;
     getitem.resize(here.size(), false);
 
-    int maxitems=here.size();
-    maxitems=(maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems : maxitems ));
+    int maxitems = here.size();
+    maxitems = (maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems : maxitems ));
 
     int pickupH = maxitems + pickupBorderRows;
     int pickupW = getmaxx(w_messages);
@@ -9431,9 +9431,9 @@ and you can't unwield your %s."),
     int start = 0, cur_it, iter;
     int new_weight = u.weight_carried(), new_volume = u.volume_carried();
     bool update = true;
-    mvwprintw(w_pickup, 0,  0, _("PICK UP (, = all)"));
-    int selected=0;
-    int last_selected=-1;
+    mvwprintw(w_pickup, 0, 0, _("PICK UP"));
+    int selected = 0;
+    int last_selected = -1;
 
     int itemcount = 0;
     std::map<int, unsigned int> pickup_count; // Count of how many we'll pick up from each stack
@@ -9519,10 +9519,10 @@ and you can't unwield your %s."),
             } else if ( ch == KEY_DOWN ) {
                selected++;
                if ( selected >= here.size() ) {
-                   selected=0;
-                   start=0;
+                   selected = 0;
+                   start = 0;
                } else if ( selected >= start + maxitems ) {
-                   start+=maxitems;
+                   start += maxitems;
                }
             } else if ( selected >= 0 && (
                         ( ch == KEY_RIGHT && !getitem[selected]) ||
@@ -9532,10 +9532,10 @@ and you can't unwield your %s."),
             } else if ( ch == '`' ) {
                std::string ext = string_input_popup(_("Enter 2 letters (case sensitive):"), 2);
                if(ext.size() == 2) {
-                    int p1=pickup_chars.find(ext.at(0));
-                    int p2=pickup_chars.find(ext.at(1));
+                    int p1 = pickup_chars.find(ext.at(0));
+                    int p2 = pickup_chars.find(ext.at(1));
                     if ( p1 != -1 && p2 != -1 ) {
-                         idx=pickup_chars.size() + ( p1 * pickup_chars.size() ) + p2;
+                         idx = pickup_chars.size() + ( p1 * pickup_chars.size() ) + p2;
                     }
                }
             } else {
@@ -9668,7 +9668,9 @@ and you can't unwield your %s."),
 
             if (update) { // Update weight & volume information
                 update = false;
-                mvwprintw(w_pickup, 0,  7, "                           ");
+                for (int i = 9; i < pickupW; ++i) {
+                    mvwaddch(w_pickup, 0, i, ' ');
+                }
                 mvwprintz(w_pickup, 0,  9,
                           (new_weight >= u.weight_capacity() ? c_red : c_white),
                           _("Wgt %.1f"), u.convert_weight(new_weight));
