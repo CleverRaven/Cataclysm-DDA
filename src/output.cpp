@@ -1209,6 +1209,20 @@ std::string vstring_format(const char *pattern, va_list argptr)
     int buffer_size = 1024; // Any number is good
     int returned_length = 0;
     std::vector<char> buffer(buffer_size, '\0');
+#ifdef _MSC_VER
+    // Microsofts vsnprintf does return -1 on buffer overflow, not
+    // the required size of the buffer. So we have to increase the buffer
+    // until we succeed.
+    buffer_size = 1024;
+    while(true) {
+        buffer.resize(buffer_size, '\0');
+        returned_length = _vsnprintf(buffer.data(), buffer_size, pattern, argptr);
+        if (returned_length >= 0) {
+            break;
+        }
+        buffer_size *= 2;
+    }
+#else
     const int required = vsnprintf(buffer.data(), buffer_size, pattern, argptr);
     if (required < 0) {
         debugmsg("invalid input to string_format function!");
@@ -1219,10 +1233,14 @@ std::string vstring_format(const char *pattern, va_list argptr)
         buffer.resize(buffer_size, '\0');
         // Try again one time, this should be save as we know the required
         // buffer size and have allocated that much.
-        returned_length = vsnprintf(buffer.data(), buffer_size, pattern, argptr);
+        vsnprintf(buffer.data(), buffer_size, pattern, argptr);
+        // ignore the result of vsnprintf, because it returns different
+        // things on windows, see above.
+        returned_length = required;
     } else {
         returned_length = required;
     }
+#endif
     //drop contents behind \003, this trick is there to skip certain arguments
     std::vector<char>::iterator a = std::find(buffer.begin(), buffer.end(), '\003');
     if (a != buffer.end()) {
