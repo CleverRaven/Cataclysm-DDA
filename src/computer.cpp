@@ -279,8 +279,9 @@ void computer::activate_function(computer_action action)
 {
     switch (action) {
 
-    case COMPACT_NULL:
-        break; // Why would this be called?
+    case COMPACT_NULL: // Unknown action.
+    case NUM_COMPUTER_ACTIONS: // Suppress compiler warning [-Wswitch]
+        break;
 
     case COMPACT_OPEN:
         g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx, g->u.posy);
@@ -1066,8 +1067,9 @@ void computer::activate_failure(computer_failure fail)
 {
     switch (fail) {
 
-    case COMPFAIL_NULL:
-        break;   // Do nothing.  Why was this even called >:|
+    case COMPFAIL_NULL: // Unknown action.
+    case NUM_COMPUTER_FAILURES: // Suppress compiler warning [-Wswitch]
+        break;
 
     case COMPFAIL_SHUTDOWN:
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
