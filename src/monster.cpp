@@ -638,7 +638,7 @@ bool monster::is_dead_state() {
 void monster::dodge_hit(Creature *, int) {
 }
 
-bool monster::block_hit(Creature *source, body_part &, int &, damage_instance &) {
+bool monster::block_hit(Creature *, body_part &, int &, damage_instance &) {
     return false;
 }
 

@@ -193,7 +193,7 @@ static int game_get_monsters(lua_State *L) {
     lua_createtable(L, g->_z.size(), 0); // Preallocate enough space for all our monsters.
 
     // Iterate over the monster list and insert each monster into our returned table.
-    for(int i=0; i < g->_z.size(); i++) {
+    for( size_t i = 0; i < g->_z.size(); ++i ) {
         // The stack will look like this:
         // 1 - t, table containing monsters
         // 2 - k, index at which the next monster will be inserted
@@ -222,7 +222,7 @@ static int game_items_at(lua_State *L) {
     lua_createtable(L, items.size(), 0); // Preallocate enough space for all our items.
 
     // Iterate over the monster list and insert each monster into our returned table.
-    for(int i=0; i < items.size(); i++) {
+    for( size_t i = 0; i < items.size(); ++i ) {
         // The stack will look like this:
         // 1 - t, table containing item
         // 2 - k, index at which the next item will be inserted
@@ -280,7 +280,7 @@ static int game_item_type(lua_State *L) {
 void game_remove_item(int x, int y, item *it) {
     std::vector<item>& items = g->m.i_at(x, y);
 
-    for(int i=0; i<items.size(); i++) {
+    for( size_t i = 0; i < items.size(); ++i ) {
         if(&(items[i]) == it) {
             items.erase(items.begin() + i);
         }

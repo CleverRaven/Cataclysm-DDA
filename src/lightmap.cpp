@@ -161,7 +161,7 @@ void map::generate_lightmap()
 
     // Apply any vehicle light sources
     VehicleList vehs = g->m.get_vehicles();
-    for(int v = 0; v < vehs.size(); ++v) {
+    for( size_t v = 0; v < vehs.size(); ++v ) {
         if(vehs[v].v->lights_on) {
             int dir = vehs[v].v->face.dir();
             float veh_luminance = 0.0;

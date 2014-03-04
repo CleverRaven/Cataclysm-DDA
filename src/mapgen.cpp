@@ -921,16 +921,16 @@ void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, i
     if ( do_format ) {
         formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
     }
-    for( int i=0; i < spawnitems.size(); i++ ) {
+    for( size_t i = 0; i < spawnitems.size(); ++i ) {
         spawnitems[i].apply( m );
     }
-    for( int i=0; i < place_groups.size(); i++ ) {
+    for( size_t i = 0; i < place_groups.size(); ++i ) {
         place_groups[i].apply( m, d );
     }
-    for( int i=0; i < place_specials.size(); i++ ) {
+    for( size_t i = 0; i < place_specials.size(); ++i ) {
         place_specials[i].apply( m );
     }
-    for( int i=0; i < setmap_points.size(); i++ ) {
+    for( size_t i = 0; i < setmap_points.size(); ++i ) {
         setmap_points[i].apply( m );
     }
 #ifdef LUA
