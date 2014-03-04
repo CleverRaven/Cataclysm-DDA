@@ -706,7 +706,7 @@ void game::cleanup_at_end(){
             for (int i = 0; i < characters.size(); ++i) {
                 message << "\n  " << characters[i];
             }
-            popup(message.str().c_str());
+            popup("%s", message.str().c_str());
         }
         if (gamemode) {
             delete gamemode;
@@ -1633,7 +1633,7 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
             _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
 
     do {
-        ch = popup_getkey(stop_message.c_str());
+        ch = popup_getkey("%s", stop_message.c_str());
     } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
              ch != 'Y' && ch != 'N' && ch != 'I' &&
              (force_uc || (ch != 'y' && ch != 'n' && ch != 'i')));
@@ -3571,7 +3571,7 @@ bool game::save_maps()
     MAPBUFFER.save(); // can throw std::ios::failure
         return true;
     } catch(std::ios::failure &) {
-        popup(_("Failed to maps"));
+        popup(_("Failed to save the maps"));
         return false;
     }
 }

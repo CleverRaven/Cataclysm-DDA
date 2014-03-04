@@ -1250,7 +1250,7 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
         msg = string_format(_("%s is not a valid world name, already exists!"), name.c_str());
     }
     if (!automated) {
-        popup_getkey(msg.c_str());
+        popup_getkey("%s", msg.c_str());
     }
     return false;
 }

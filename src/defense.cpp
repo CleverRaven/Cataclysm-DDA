@@ -89,7 +89,7 @@ bool defense_game::init()
     init_to_style(DEFENSE_EASY);
     setup();
     g->u.cash = initial_cash;
-    popup_nowait(_("Please wait as the map generates [ 0%]"));
+    popup_nowait(_("Please wait as the map generates [ 0%%]"));
     // TODO: support multiple defence games? clean up old defence game
     g->cur_om = &overmap_buffer.get(0, 0);
     init_map();

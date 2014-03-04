@@ -970,7 +970,7 @@ recipe *game::select_crafting_recipe()
             break;
         case Help:
             tmp = item(item_controller->find_template(current[line]->result), g->turn);
-            full_screen_popup(tmp.info(true).c_str());
+            full_screen_popup("%s", tmp.info(true).c_str());
             redraw = true;
             keepline = true;
             break;
