@@ -5947,6 +5947,7 @@ int iuse::portable_game(player *p, item *it, bool)
         as_m.entries.push_back(uimenu_entry(1, true, '1',_("Robot finds Kitten") ));
         as_m.entries.push_back(uimenu_entry(2, true, '2', _("S N A K E") ));
         as_m.entries.push_back(uimenu_entry(3, true, '3', _("Sokoban") ));
+        as_m.entries.push_back(uimenu_entry(4, true, '4', _("Cancel") ));
         as_m.query();
 
         switch (as_m.ret) {
@@ -5959,6 +5960,8 @@ int iuse::portable_game(player *p, item *it, bool)
             case 3:
                 loaded_software = "sokoban_game";
                 break;
+            case 4: //Cancel
+                return 0;
         }
 
         //Play in 15-minute chunks
