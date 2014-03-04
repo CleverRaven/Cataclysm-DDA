@@ -72,11 +72,12 @@ bool player::create(character_type type, std::string tempname)
                 g->u.male = (rng(1, 100) > 50);
                 g->u.pick_name();
             case PLTYPE_RANDOM: {
+                g->u.prof = profession::weighted_random();
                 str_max = rng(6, 12);
                 dex_max = rng(6, 12);
                 int_max = rng(6, 12);
                 per_max = rng(6, 12);
-                points = points - str_max - dex_max - int_max - per_max;
+                points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost();
                 if (str_max > HIGH_STAT) {
                     points -= (str_max - HIGH_STAT);
                 }
@@ -134,19 +135,6 @@ bool player::create(character_type type, std::string tempname)
                                 }
                                 break;
                         }
-                    }
-                }
-                int prof_index = rng(0, profession::count() - 1);
-                for(profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-                    if(prof_index == 0) {
-                        profession *newprof = profession::prof(iter->first);
-                        if(newprof->can_pick(this, points) == "YES") {
-                            points -= newprof->point_cost();
-                            prof = newprof;
-                        }
-                        break;
-                    } else {
-                        prof_index--;
                     }
                 }
                 while (points > 0) {

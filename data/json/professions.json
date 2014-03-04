@@ -1319,7 +1319,8 @@
         "items": {
             "both": [
                 "clown_suit",
-                "clownshoes"
+                "clownshoes",
+                "airhorn"
             ],
             "male": [
                 "briefs"
@@ -1340,7 +1341,10 @@
             "both" : [
                 "bondage_suit",
                 "bondage_mask",
-                "boots"
+                "boots",
+                "leather_belt",
+                "candle",
+                "matches"
             ]
         }
     },
