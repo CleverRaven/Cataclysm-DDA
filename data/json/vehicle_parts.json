@@ -1747,6 +1747,26 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "hdhatch",
+        "name" : "heavy duty hatch",
+        "symbol" : "+",
+        "color" : "dark_gray",
+        "broken_symbol" : "&",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 360,
+        "size" : 150,
+        "item" : "hdframe",
+        "difficulty" : 4,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 4, "max": 6},
+            {"item": "steel_chunk", "min": 4, "max": 6},
+            {"item": "scrap", "min": 4, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "windshield",
         "name" : "windshield",
         "symbol" : "\"",

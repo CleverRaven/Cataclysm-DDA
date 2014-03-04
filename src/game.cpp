@@ -1178,7 +1178,7 @@ void game::rustCheck()
     for (std::vector<Skill*>::iterator aSkill = ++Skill::skills.begin();
          aSkill != Skill::skills.end(); ++aSkill) {
         if (u.rust_rate() <= rng(0, 1000)) continue;
-        bool charged_bio_mem = u.has_bionic("bio_memory") && u.power_level > 0;
+        bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 0;
         int oldSkillLevel = u.skillLevel(*aSkill);
 
         if (u.skillLevel(*aSkill).rust(turn, charged_bio_mem))
