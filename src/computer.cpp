@@ -140,11 +140,12 @@ void computer::use()
     }
 
     // Main computer loop
-    for (bool InUse = true; InUse; ) {
+    while(true) {
         //reset_terminal();
+        size_t options_size = options.size();
         print_newline();
         print_line("%s - %s", name.c_str(), _("Root Menu"));
-        for (unsigned i = 0; i < options.size(); i++) {
+        for (size_t i = 0; i < options_size; i++) {
             print_line("%d - %s", i + 1, options[i].name.c_str());
         }
         print_line("Q - %s", _("Quit and shut down"));
@@ -153,9 +154,9 @@ void computer::use()
         char ch;
         do {
             ch = getch();
-        } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= options.size()));
+        } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= (char)options_size));
         if (ch == 'q' || ch == 'Q') {
-            InUse = false;
+             break; // Exit from main computer loop
         } else { // We selected an option other than quit.
             ch -= '1'; // So '1' -> 0; index in options.size()
             computer_option current = options[ch];
@@ -544,9 +545,9 @@ void computer::activate_function(computer_action action)
         int more = 0;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++) {
+                for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
                     if (g->m.i_at(x, y)[i].is_bionic()) {
-                        if (names.size() < TERMY - 8) {
+                        if ((ssize_t)names.size() < TERMY - 8) {
                             names.push_back(g->m.i_at(x, y)[i].tname());
                         } else {
                             more++;
