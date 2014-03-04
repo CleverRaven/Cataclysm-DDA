@@ -1508,7 +1508,7 @@ item consume_vpart_item (std::string vpid)
     } else {
         // popup menu!?
         std::vector<std::string> options;
-        for(int i = 0; i < candidates.size(); i++) {
+        for( size_t i = 0; i < candidates.size(); ++i ) {
             if( candidates[i] ) {
                 // In inventory.
                 options.push_back(vehicle_part_types[vpid].name);

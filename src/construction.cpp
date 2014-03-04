@@ -247,7 +247,7 @@ void construction_menu()
                 // Print components
                 posx = 33;
                 std::vector<bool> has_component;
-                for( int i = 0; i < current_con->components.size(); i++ ) {
+                for( size_t i = 0; i < current_con->components.size(); ++i ) {
                     has_component.push_back(false);
                     mvwprintz(w_con, posy, posx - 2, c_white, ">");
                     for( unsigned j = 0; j < current_con->components[i].size(); j++ ) {

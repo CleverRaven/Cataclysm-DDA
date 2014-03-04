@@ -106,7 +106,7 @@ struct tile_drawing_cache {
         if(sprites.size() != other.sprites.size()) {
             return false;
         } else {
-            for(int i=0; i<sprites.size(); i++) {
+            for( size_t i = 0; i < sprites.size(); ++i ) {
                 if(sprites[i] != other.sprites[i] || rotations[i] != other.rotations[i]) {
                     return false;
                 }

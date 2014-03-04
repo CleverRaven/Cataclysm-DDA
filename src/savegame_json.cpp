@@ -340,7 +340,7 @@ void player::serialize(JsonOut &json, bool save_contents) const
             json.member( "weapon", weapon ); // also saves contents
         }
 //FIXME: seperate function, better still another file
-  /*      for(int i = 0; i < memorial_log.size(); i++) {
+  /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
             ptmpvect.push_back(pv(memorial_log[i]));
         }
         json.member("memorial",ptmpvect);

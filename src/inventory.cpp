@@ -321,7 +321,7 @@ void inventory::update_cache_with_item(item &newit)
 
         if( newit.typeId() != type) {
             // Erase the used invlet from all caches.
-            for(int ind = 0; ind < preferred_invlets.size(); ind++) {
+            for( size_t ind = 0; ind < preferred_invlets.size(); ++ind ) {
                 if(preferred_invlets[ind] == newit.invlet) {
                     preferred_invlets.erase(preferred_invlets.begin() + ind);
                     ind--;
@@ -344,7 +344,7 @@ char inventory::get_invlet_for_item( std::string item_type )
 
         // Some of our preferred letters might already be used.
         int first_free_invlet = -1;
-        for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
+        for( size_t invlets_index = 0; invlets_index < preferred_invlets.size(); ++invlets_index ) {
             bool invlet_is_used = false; // Check if anything is using this invlet.
             if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
                 continue;
