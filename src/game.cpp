@@ -1662,8 +1662,7 @@ bool game::cancel_activity_query(const char* message, ...)
         }
         return false;
     }
-    std::string stop_message = s + u.activity.get_stop_phrase();
-    if (query_yn(stop_message.c_str())) {
+    if (query_yn("%s%s", s.c_str(), u.activity.get_stop_phrase().c_str())) {
         u.cancel_activity();
         return true;
     }

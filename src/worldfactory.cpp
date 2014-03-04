@@ -547,9 +547,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                     break;
                 case '\n':
                     // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
-                    std::string querystring = string_format(_("Do you want to start the game in world [%s]?"),
-                                                            world_pages[selpage][sel].c_str());
-                    if (query_yn(querystring.c_str())) {
+                    if (query_yn(_("Do you want to start the game in world [%s]?"),
+                                    world_pages[selpage][sel].c_str())) {
                         werase(w_worlds);
                         werase(w_worlds_border);
                         werase(w_worlds_header);
