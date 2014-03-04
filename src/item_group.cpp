@@ -48,7 +48,7 @@ const Item_tag Item_group::get_id(std::vector<Item_tag> &recursion_list){
         for(std::vector<Item_tag>::iterator iter = recursion_list.begin(); iter != recursion_list.end(); ++iter){
             error_message+=*iter;
         }
-        debugmsg(error_message.c_str());
+        debugmsg("%s", error_message.c_str());
         return "MISSING_ITEM";
     }
     //So we don't visit this item group again
