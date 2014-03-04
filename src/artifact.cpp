@@ -96,9 +96,7 @@ int active_effect_cost[NUM_AEAS] = {
 };
 
 std::string mk_artifact_id() {
-    char buff[32];
-    sprintf(buff,"artifact_%zu", artifact_itype_ids.size());
-    return buff;
+    return string_format("artifact_%zu", artifact_itype_ids.size());
 };
 
 //see below, move them so gettext and be applied properly

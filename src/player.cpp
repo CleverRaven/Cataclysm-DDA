@@ -1702,18 +1702,18 @@ void player::memorial( std::ofstream &memorial_file )
 void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
 {
 
-    char buff[1024];
     va_list ap;
 
     va_start(ap, female_msg);
+    std::string msg;
     if(this->male) {
-        vsnprintf(buff, sizeof(buff), male_msg, ap);
+        msg = vstring_format(male_msg, ap);
     } else {
-        vsnprintf(buff, sizeof(buff),female_msg, ap);
+        msg = vstring_format(female_msg, ap);
     }
     va_end(ap);
 
-    if(strlen(buff) == 0) {
+    if(msg.empty()) {
         return;
     }
 
@@ -1726,7 +1726,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
     std::string location = otermap[cur_ter].name;
 
     std::stringstream log_message;
-    log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
+    log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << msg;
 
     memorial_log.push_back(log_message.str());
 
