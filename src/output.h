@@ -111,12 +111,13 @@ int  menu(bool cancelable, const char *mes, ...);
 void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
 typedef enum {
+    PF_NONE        = 0,
     PF_GET_KEY     = 1 <<  0,
     PF_NO_WAIT     = 1 <<  1,
     PF_ON_TOP      = 1 <<  2,
     PF_FULLSCREEN  = 1 <<  3,
 } PopupFlags;
-long popup(const std::string &text, int flags);
+long popup(const std::string &text, PopupFlags flags);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,

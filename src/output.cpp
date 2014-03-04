@@ -738,7 +738,7 @@ void popup_top(const char *mes, ...)
     popup(text, PF_ON_TOP);
 }
 
-long popup(const std::string &text, int flags)
+long popup(const std::string &text, PopupFlags flags)
 {
     int width = 0;
     int height = 2;
@@ -798,7 +798,7 @@ void popup(const char *mes, ...)
     va_start(ap, mes);
     const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    popup(text, 0);
+    popup(text, PF_NONE);
 }
 
 void popup_nowait(const char *mes, ...)

@@ -706,7 +706,7 @@ void game::cleanup_at_end(){
             for (int i = 0; i < characters.size(); ++i) {
                 message << "\n  " << characters[i];
             }
-            popup(message.str(), 0);
+            popup(message.str(), PF_NONE);
         }
         if (gamemode) {
             delete gamemode;
