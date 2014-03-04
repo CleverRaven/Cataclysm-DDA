@@ -295,7 +295,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_taekwondo";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, 0);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -319,7 +319,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_zui_quan";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, 0);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -343,7 +343,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_dragon";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, 0);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -367,7 +367,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_toad";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, 0);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -385,7 +385,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_fencing";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, 0);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);

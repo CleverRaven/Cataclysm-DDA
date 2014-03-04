@@ -2318,11 +2318,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    if (focus_them) {
     help += them_off;
     if (help >= 0 && help < theirs.size())
-     popup("%s", theirs[help]->info().c_str());
+     popup(theirs[help]->info(), 0);
    } else {
     help += you_off;
     if (help >= 0 && help < yours.size())
-     popup("%s", yours[help]->info().c_str());
+     popup(yours[help]->info(), 0);
    }
    break;
   case '\n': // Check if we have enough cash...

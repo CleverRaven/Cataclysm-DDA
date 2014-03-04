@@ -679,39 +679,9 @@ char popup_getkey(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[8192];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
-    height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
-        int cw = utf8_width(folded[i].c_str());
-        if(cw > width) {
-            width = cw;
-        }
-    }
-    width += 2;
-    if (height > FULL_SCREEN_HEIGHT) {
-        height = FULL_SCREEN_HEIGHT;
-    }
-    WINDOW *w = newwin(height + 1, width, (TERMY - (height + 1)) / 2,
-                       (TERMX > width) ? (TERMX - width) / 2 : 0);
-    draw_border(w);
-
-    for(int i = 0; i < folded.size(); i++) {
-        mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
-    }
-
-    wrefresh(w);
-    char ch = getch();;
-    werase(w);
-    wrefresh(w);
-    delwin(w);
-    refresh();
-    return ch;
+    return popup(text, PF_GET_KEY);
 }
 
 int menu_vec(bool cancelable, const char *mes,
@@ -744,13 +714,16 @@ void popup_top(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[4096];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
+    popup(text, PF_ON_TOP);
+}
+
+long popup(const std::string &text, int flags)
+{
     int width = 0;
     int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
+    std::vector<std::string> folded = foldstring(text, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
     for(int i = 0; i < folded.size(); i++) {
         int cw = utf8_width(folded[i].c_str());
@@ -759,7 +732,20 @@ void popup_top(const char *mes, ...)
         }
     }
     width += 2;
-    WINDOW *w = newwin(height, width, 0, (TERMX > width) ? (TERMX - width) / 2 : 0);
+    WINDOW *w;
+    if ((flags & PF_FULLSCREEN) != 0) {
+        w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+    } else if ((flags & PF_ON_TOP) == 0) {
+        if (height > FULL_SCREEN_HEIGHT) {
+            height = FULL_SCREEN_HEIGHT;
+        }
+        w = newwin(height, width, (TERMY - (height + 1)) / 2,
+                       (TERMX > width) ? (TERMX - width) / 2 : 0);
+    } else {
+        w = newwin(height, width, 0, (TERMX > width) ? (TERMX - width) / 2 : 0);
+    }
     draw_border(w);
 
     for(int i = 0; i < folded.size(); i++) {
@@ -767,129 +753,51 @@ void popup_top(const char *mes, ...)
     }
 
     wrefresh(w);
-    char ch;
-    do {
+    long ch = 0;
+    // Don't wait if not required.
+    while((flags & PF_NO_WAIT) == 0) {
         ch = getch();
-    } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+        if ((flags & PF_GET_KEY) != 0) {
+            // return the first key that got pressed.
+            break;
+        }
+        if (ch == ' ' || ch == '\n' || ch == KEY_ESCAPE) {
+            // The usuall "escape menu/window" keys.
+            break;
+        }
+    }
     werase(w);
     wrefresh(w);
     delwin(w);
     refresh();
+    return ch;
 }
 
 void popup(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[4096];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
-    height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
-        int cw = utf8_width(folded[i].c_str());
-        if(cw > width) {
-            width = cw;
-        }
-    }
-    width += 2;
-    if (height > FULL_SCREEN_HEIGHT) {
-        height = FULL_SCREEN_HEIGHT;
-    }
-    WINDOW *w = newwin(height, width, (TERMY - (height + 1)) / 2,
-                       (TERMX > width) ? (TERMX - width) / 2 : 0);
-    draw_border(w);
-
-    for(int i = 0; i < folded.size(); i++) {
-        mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
-    }
-
-    wrefresh(w);
-    char ch;
-    do {
-        ch = getch();
-    } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
-    werase(w);
-    wrefresh(w);
-    delwin(w);
-    refresh();
+    popup(text, 0);
 }
 
 void popup_nowait(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[4096];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
-    height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
-        int cw = utf8_width(folded[i].c_str());
-        if(cw > width) {
-            width = cw;
-        }
-    }
-    width += 2;
-    if (height > FULL_SCREEN_HEIGHT) {
-        height = FULL_SCREEN_HEIGHT;
-    }
-    WINDOW *w = newwin(height, width, (TERMY - (height + 1)) / 2,
-                       (TERMX > width) ? (TERMX - width) / 2 : 0);
-    draw_border(w);
-
-    for(int i = 0; i < folded.size(); i++) {
-        mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
-    }
-    wrefresh(w);
-    delwin(w);
-    refresh();
+    popup(text, PF_NO_WAIT);
 }
 
 void full_screen_popup(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[8192];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 3);
-    height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
-        int cw = utf8_width(folded[i].c_str());
-        if(cw > width) {
-            width = cw;
-        }
-    }
-    width += 2;
-
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    draw_border(w);
-
-    for(int i = 0; i < folded.size(); i++) {
-        mvwprintz(w, i + 1, 2, c_white, folded[i].c_str());
-    }
-
-    wrefresh(w);
-    char ch;
-    do {
-        ch = getch();
-    } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
-    werase(w);
-    wrefresh(w);
-    delwin(w);
-    refresh();
+    popup(text, PF_FULLSCREEN);
 }
 
 //note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things

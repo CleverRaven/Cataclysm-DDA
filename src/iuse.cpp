@@ -6967,7 +6967,7 @@ you can, I need to know you're alright.";
   break;
 
 
-  popup("%s", message.str().c_str());
+  popup(message.str(), 0);
 */
  return 0;
 }
