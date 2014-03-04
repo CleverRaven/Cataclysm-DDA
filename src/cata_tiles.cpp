@@ -259,9 +259,6 @@ void cata_tiles::load_tileset(std::string path)
     /** reinit tile_atlas */
     tile_atlas = IMG_Load(path.c_str());
 
-    // Load as separate image, so it's not released along with tile_atlas
-    default_size_tile_atlas = IMG_Load(path.c_str());
-
     if(!tile_atlas) {
         std::cerr << "Could not locate tileset file at " << path << std::endl;
         DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
