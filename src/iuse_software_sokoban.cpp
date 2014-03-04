@@ -268,7 +268,7 @@ int sokoban_game::start_game()
 
     for (size_t i = 0; i < shortcuts.size(); i++) {
         shortcut_print(w_sokoban, i + 1, FULL_SCREEN_WIDTH - indent,
-                       c_white, c_ltgreen, shortcuts[i].c_str());
+                       c_white, c_ltgreen, shortcuts[i]);
     }
 
     int input = '.';

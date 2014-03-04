@@ -1369,16 +1369,9 @@ std::string rm_prefix(std::string str, char c1, char c2)
 // draw a menu item like strign with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
-size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const char *fmt,
-                      ...)
+size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const std::string &fmt)
 {
-    va_list ap;
-    va_start(ap, fmt);
-    char buff[3000];    //TODO replace Magic Number
-    vsprintf(buff, fmt, ap);
-    va_end(ap);
-
-    std::string tmp = buff;
+    std::string tmp = fmt;
     size_t pos = tmp.find_first_of('<');
     size_t pos2 = tmp.find_first_of('>');
     size_t len = 0;
@@ -1390,22 +1383,16 @@ size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, 
         len = utf8_width(tmp.c_str());
     } else {
         // no shutcut?
-        mvwprintz(w, y, x, color, buff);
-        len = utf8_width(buff);
+        mvwprintz(w, y, x, color, fmt.c_str());
+        len = utf8_width(fmt.c_str());
     }
     return len;
 }
 
 //same as above, from current position
-size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const char *fmt, ...)
+size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt)
 {
-    va_list ap;
-    va_start(ap, fmt);
-    char buff[3000];    //TODO replace Magic Number
-    vsprintf(buff, fmt, ap);
-    va_end(ap);
-
-    std::string tmp = buff;
+    std::string tmp = fmt;
     size_t pos = tmp.find_first_of('<');
     size_t pos2 = tmp.find_first_of('>');
     size_t len = 0;
@@ -1418,8 +1405,8 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const char *fm
         len = utf8_width(tmp.c_str());
     } else {
         // no shutcut?
-        wprintz(w, color, buff);
-        len = utf8_width(buff);
+        wprintz(w, color, fmt.c_str());
+        len = utf8_width(fmt.c_str());
     }
     return len;
 }

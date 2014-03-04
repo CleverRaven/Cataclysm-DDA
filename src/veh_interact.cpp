@@ -1362,7 +1362,7 @@ void veh_interact::display_mode(char mode)
         for (size_t i = 0; i < actions.size(); i++) {
             shortcut_print(w_mode, 0, pos[i] + spacing * i + shift,
                            enabled[i]? c_ltgray : c_dkgray, enabled[i]? c_ltgreen : c_green,
-                           actions[i].c_str());
+                           actions[i]);
         }
     }
     wrefresh (w_mode);
@@ -1372,7 +1372,7 @@ size_t veh_interact::display_esc(WINDOW *win)
 {
     std::string backstr = _("<ESC>-back");
     size_t pos = getmaxx(win) - utf8_width(backstr.c_str()) + 2;    // right text align
-    shortcut_print(win, 0, pos, c_ltgray, c_ltgreen, backstr.c_str());
+    shortcut_print(win, 0, pos, c_ltgray, c_ltgreen, backstr);
     wrefresh(win);
     return pos;
 }
