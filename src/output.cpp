@@ -182,19 +182,18 @@ void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];    //TODO replace Magic Number
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
 
     int window_width = getmaxx(w);
-    int string_width = utf8_width(buff);
+    int string_width = utf8_width(text.c_str());
     int x;
     if (string_width >= window_width) {
         x = 0;
     } else {
         x = (window_width - string_width) / 2;
     }
-    mvwprintz(w, y, x, FG, buff);
+    mvwprintz(w, y, x, FG, text.c_str());
 }
 
 void mvputch(int y, int x, nc_color FG, long ch)
@@ -254,11 +253,10 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
     attron(FG);
-    mvprintw(y, x, "%s", buff);
+    mvprintw(y, x, "%s", text.c_str());
     attroff(FG);
 }
 
@@ -266,11 +264,10 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
     wattron(w, FG);
-    mvwprintw(w, y, x, "%s", buff);
+    mvwprintw(w, y, x, "%s", text.c_str());
     wattroff(w, FG);
 }
 
@@ -278,11 +275,10 @@ void printz(nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
     attron(FG);
-    printw("%s", buff);
+    printw("%s", text.c_str());
     attroff(FG);
 }
 
@@ -290,11 +286,10 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
     wattron(w, FG);
-    wprintw(w, "%s", buff);
+    wprintw(w, "%s", text.c_str());
     wattroff(w, FG);
 }
 
@@ -380,14 +375,12 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[4096];
-    //[1024];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", buff);
+    fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", text.c_str());
     std::ofstream fout;
     fout.open("debug.log", std::ios_base::app | std::ios_base::out);
-    fout << filename << "[" << line << "]: " << buff << "\n";
+    fout << filename << "[" << line << "]: " << text << "\n";
     fout.close();
     while (getch() != ' ') {
         // wait for spacebar
@@ -399,16 +392,15 @@ bool query_yn(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[1024];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
 
     bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
     std::string query;
     if (force_uc) {
-        query = string_format(_("%s (Y/N - Case Sensitive)"), buff);
+        query = string_format(_("%s (Y/N - Case Sensitive)"), text.c_str());
     } else {
-        query = string_format(_("%s (y/n)"), buff);
+        query = string_format(_("%s (y/n)"), text.c_str());
     }
 
     int win_width = utf8_width(query.c_str()) + 2;
@@ -443,11 +435,10 @@ int query_int(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[1024];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
 
-    std::string raw_input = string_input_popup(std::string(buff));
+    std::string raw_input = string_input_popup(text);
 
     //Note that atoi returns 0 for anything it doesn't like.
     return atoi(raw_input.c_str());
@@ -1215,16 +1206,29 @@ std::string from_sentence_case (const std::string &kingston)
 
 std::string vstring_format(const char *pattern, va_list argptr)
 {
-    char buff[3000];    //TODO replace Magic Number
-    vsprintf(buff, pattern, argptr);
-
-    //drop contents behind \003, this trick is there to skip certain arguments
-    char *break_pos = strchr(buff, '\003');
-    if(break_pos) {
-        break_pos[0] = '\0';
+    int buffer_size = 1024; // Any number is good
+    int returned_length = 0;
+    std::vector<char> buffer(buffer_size, '\0');
+    const int required = vsnprintf(buffer.data(), buffer_size, pattern, argptr);
+    if (required < 0) {
+        debugmsg("invalid input to string_format function!");
+        return std::string("invalid input to string_format function!");
+    } else if (required >= buffer_size) {
+        // Did not fit the buffer, retry with better buffer size.
+        buffer_size = required + 1;
+        buffer.resize(buffer_size, '\0');
+        // Try again one time, this should be save as we know the required
+        // buffer size and have allocated that much.
+        returned_length = vsnprintf(buffer.data(), buffer_size, pattern, argptr);
+    } else {
+        returned_length = required;
     }
-
-    return buff;
+    //drop contents behind \003, this trick is there to skip certain arguments
+    std::vector<char>::iterator a = std::find(buffer.begin(), buffer.end(), '\003');
+    if (a != buffer.end()) {
+        return std::string(buffer.data(), a - buffer.begin());
+    }
+    return std::string(buffer.data(), returned_length);
 }
 
 std::string string_format(const char *pattern, ...)
