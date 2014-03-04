@@ -209,10 +209,10 @@ void game::load_data_from_dir(const std::string &path) {
         // Process the lua mod file before the .json files,
         // so that custom IUSE's will be present when the
         // item definitions are parsed.
-        
+
         lua_loadmod(lua_state, path, "main.lua");
     #endif
-    
+
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
     } catch(std::string &err) {
@@ -10948,6 +10948,8 @@ void game::complete_butcher(int index)
   if (corpse->has_flag(MF_POISON)) {
     if (corpse->mat == "flesh") {
      meat = "meat_tainted";
+    } else if (corpse->mat == "iflesh") {
+     meat = "meat_tainted"; //In the future, insects could drop insect flesh rather than plain ol' meat.
     } else {
      meat = "veggy_tainted";
     }
@@ -11854,7 +11856,7 @@ bool game::plmove(int dx, int dy)
                mon_at(fdest.x, fdest.y) == -1 &&
                m.has_flag("FLAT", fdest.x, fdest.y) &&
                !m.has_furn(fdest.x, fdest.y) &&
-               m.veh_at(fdest.x, fdest.y)== NULL && 
+               m.veh_at(fdest.x, fdest.y)== NULL &&
                m.tr_at(fdest.x, fdest.y) == tr_null
           );
 
