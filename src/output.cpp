@@ -1296,13 +1296,10 @@ std::string from_sentence_case (const std::string &kingston)
     return "";
 }
 
-std::string string_format(std::string pattern, ...)
+std::string vstring_format(const char *pattern, va_list argptr)
 {
-    va_list ap;
-    va_start(ap, pattern);
     char buff[3000];    //TODO replace Magic Number
-    vsprintf(buff, pattern.c_str(), ap);
-    va_end(ap);
+    vsprintf(buff, pattern, argptr);
 
     //drop contents behind \003, this trick is there to skip certain arguments
     char *break_pos = strchr(buff, '\003');
@@ -1311,6 +1308,29 @@ std::string string_format(std::string pattern, ...)
     }
 
     return buff;
+}
+
+std::string string_format(const char *pattern, ...)
+{
+    va_list ap;
+    va_start(ap, pattern);
+    const std::string result = vstring_format(pattern, ap);
+    va_end(ap);
+    return result;
+}
+
+std::string vstring_format(const std::string &pattern, va_list argptr)
+{
+    return vstring_format(pattern.c_str(), argptr);
+}
+
+std::string string_format(const std::string &pattern, ...)
+{
+    va_list ap;
+    va_start(ap, pattern);
+    const std::string result = vstring_format(pattern.c_str(), ap);
+    va_end(ap);
+    return result;
 }
 
 //wrap if for i18n
