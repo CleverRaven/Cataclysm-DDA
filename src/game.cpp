@@ -2130,7 +2130,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
 
         wmove(w, 1, 2);
         wprintz(w, c_white, "%s", item_name.c_str());
-        max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+        max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
         if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
           wmove(w, 1, iWidth - 3);
           if(offset_line == 0) {
@@ -2242,7 +2242,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
             }
             wmove(w, 1, 2);
             wprintz(w, c_white, "%s", item_name.c_str());
-            fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+            fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
             draw_border(w);
             wrefresh(w);
         } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == '>' || cMenu == '<');
@@ -4498,7 +4498,7 @@ faction* game::list_factions(std::string title)
           _("Ranking: %s"), fac_ranking_text(valfac[0].likes_u).c_str());
  mvwprintz(w_info, 1, 0, c_white,
           _("Respect: %s"), fac_respect_text(valfac[0].respects_u).c_str());
- fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe().c_str());
+ fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe());
  wrefresh(w_info);
  InputEvent input;
  do {
@@ -4532,7 +4532,7 @@ faction* game::list_factions(std::string title)
             _("Ranking: %s"), fac_ranking_text(valfac[sel].likes_u).c_str());
    mvwprintz(w_info, 1, 0, c_white,
             _("Respect: %s"), fac_respect_text(valfac[sel].respects_u).c_str());
-   fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe().c_str());
+   fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe());
    wrefresh(w_info);
   }
  } while (input != Cancel && input != Confirm && input != Close);
@@ -8755,7 +8755,7 @@ int game::list_items(const int iLastState)
                 wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
                 werase(w_item_info);
-                fold_and_print(w_item_info,1,1,width - 5, c_white, "%s", activeItem.info().c_str());
+                fold_and_print(w_item_info,1,1,width - 5, c_white, activeItem.info());
 
                 //Only redraw trail/terrain if x/y position changed
                 if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {

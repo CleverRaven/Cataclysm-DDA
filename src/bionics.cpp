@@ -64,7 +64,7 @@ void show_bionics_titlebar(WINDOW *window, player *p, bool activating, bool reas
     } else {
         desc = _("Examining. Press <color_yellow>!</color> to activate your implants.\nPress <color_yellow>=</color> to reassign a key.");
     }
-    fold_and_print(window, 0, cap_offset, desc_length, c_white, desc.c_str());
+    fold_and_print(window, 0, cap_offset, desc_length, c_white, desc);
 
     wrefresh(window);
 }
@@ -275,7 +275,7 @@ You can not activate %s!  To read a description of \
                 draw_exam_window(wBio, DESCRIPTION_LINE_Y, true);
                 // Clear the lines first
                 werase(w_description);
-                fold_and_print(w_description, 0, 0, WIDTH - 2, c_ltblue, bio_data.description.c_str());
+                fold_and_print(w_description, 0, 0, WIDTH - 2, c_ltblue, bio_data.description);
                 wrefresh(w_description);
             }
         }

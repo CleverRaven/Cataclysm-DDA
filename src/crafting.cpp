@@ -797,7 +797,7 @@ recipe *game::select_crafting_recipe()
                                                   iter->count, qualities[iter->id].name.c_str(),
                                                   iter->level);
                         ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
-                                               toolcol, qualinfo.str().c_str());
+                                               toolcol, qualinfo.str());
                     }
                     ypos--;
                     // Loop to print the required tools
