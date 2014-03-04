@@ -74,13 +74,18 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];    //TODO replace Magic Number
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
+    return fold_and_print(w, begin_y, begin_x, width, base_color, text);
+}
 
+// returns number of printed lines
+int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
+                   const std::string &text)
+{
     nc_color color = base_color;
     std::vector<std::string> textformatted;
-    textformatted = foldstring(buff, width);
+    textformatted = foldstring(text, width);
     for (int line_num = 0; line_num < textformatted.size(); line_num++) {
         wmove(w, line_num + begin_y, begin_x);
         // split into colourable sections
@@ -95,20 +100,24 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
         }
     }
     return textformatted.size();
-};
+}
 
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color base_color, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];    //TODO replace Magic Number
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
+    return fold_and_print_from(w, begin_y, begin_x, width, begin_line, base_color, text);
+}
 
+int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
+                        nc_color base_color, const std::string &text)
+{
     nc_color color = base_color;
     std::vector<std::string> textformatted;
-    textformatted = foldstring(buff, width);
+    textformatted = foldstring(text, width);
     for (int line_num = 0; line_num < textformatted.size(); line_num++) {
         if (line_num >= begin_line) {
             wmove(w, line_num + begin_y - begin_line, begin_x);
