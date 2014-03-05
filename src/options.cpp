@@ -1046,9 +1046,9 @@ void save_options(bool ingame)
 
     fout << options_header() << std::endl;
 
-    for(int j = 0; j < vPages.size(); j++) {
+    for( size_t j = 0; j < vPages.size(); ++j ) {
         bool update_wopt = (ingame && j == iWorldOptPage );
-        for(int i = 0; i < mPageItems[j].size(); i++) {
+        for( size_t i = 0; i < mPageItems[j].size(); ++i ) {
             fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
             fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
             fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;

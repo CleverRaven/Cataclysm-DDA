@@ -589,7 +589,7 @@ void advanced_inventory::recalc_pane(int i)
                     saweight += it.weight;
                     panes[i].items.push_back(it);
 
-                } // for(int x = 0; x < items.size() ; x++)
+                } // for( size_t x = 0; x < items.size(); ++x )
 
             } // if( panes[idest].area != s && squares[s].canputitems )
             avolume += savolume;

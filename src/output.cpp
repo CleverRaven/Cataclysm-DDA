@@ -484,7 +484,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
     int endx = iPopupWidth - 3;
 
-    for(int i = 0; i < descformatted.size(); i++ ) {
+    for( size_t i = 0; i < descformatted.size(); ++i ) {
         mvwprintz(w, 1 + i, 1, desc_color, "%s", descformatted[i].c_str() );
     }
     mvwprintz(w, starty, 1, title_color, "%s", title.c_str() );
@@ -678,7 +678,7 @@ char popup_getkey(const char *mes, ...)
     int height = 2;
     std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         int cw = utf8_width(folded[i].c_str());
         if(cw > width) {
             width = cw;
@@ -692,7 +692,7 @@ char popup_getkey(const char *mes, ...)
                        (TERMX > width) ? (TERMX - width) / 2 : 0);
     draw_border(w);
 
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
     }
 
@@ -743,7 +743,7 @@ void popup_top(const char *mes, ...)
     int height = 2;
     std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         int cw = utf8_width(folded[i].c_str());
         if(cw > width) {
             width = cw;
@@ -753,7 +753,7 @@ void popup_top(const char *mes, ...)
     WINDOW *w = newwin(height, width, 0, (TERMX > width) ? (TERMX - width) / 2 : 0);
     draw_border(w);
 
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
     }
 
@@ -780,7 +780,7 @@ void popup(const char *mes, ...)
     int height = 2;
     std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         int cw = utf8_width(folded[i].c_str());
         if(cw > width) {
             width = cw;
@@ -794,7 +794,7 @@ void popup(const char *mes, ...)
                        (TERMX > width) ? (TERMX - width) / 2 : 0);
     draw_border(w);
 
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
     }
 
@@ -821,7 +821,7 @@ void popup_nowait(const char *mes, ...)
     int height = 2;
     std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         int cw = utf8_width(folded[i].c_str());
         if(cw > width) {
             width = cw;
@@ -835,7 +835,7 @@ void popup_nowait(const char *mes, ...)
                        (TERMX > width) ? (TERMX - width) / 2 : 0);
     draw_border(w);
 
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
     }
     wrefresh(w);
@@ -855,7 +855,7 @@ void full_screen_popup(const char *mes, ...)
     int height = 2;
     std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 3);
     height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         int cw = utf8_width(folded[i].c_str());
         if(cw > width) {
             width = cw;
@@ -868,7 +868,7 @@ void full_screen_popup(const char *mes, ...)
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
     draw_border(w);
 
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         mvwprintz(w, i + 1, 2, c_white, folded[i].c_str());
     }
 
