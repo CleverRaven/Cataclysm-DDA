@@ -1093,9 +1093,11 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 stack_iter = iter->erase(stack_iter);
                 if (iter->empty()) {
                     iter = items.erase(iter);
-                    --iter;
+                    if (iter != items.begin()) {
+                        --iter;
+                    }
                     break;
-                } else {
+                } else if (stack_iter != iter->begin()) {
                     --stack_iter;
                 }
             }
