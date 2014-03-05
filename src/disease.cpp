@@ -22,7 +22,7 @@ enum dis_type_enum {
  DI_BLISTERS,
 // Diseases
  DI_INFECTION,
- DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS,
+ DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM,
 // Fields - onfire moved to effects
  DI_CRUSHED, DI_BOULDERING,
 // Monsters
@@ -90,6 +90,7 @@ void game::init_diseases() {
     disease_type_lookup["recover"] = DI_RECOVER;
     disease_type_lookup["tapeworm"] = DI_TAPEWORM;
     disease_type_lookup["bloodworms"] = DI_BLOODWORMS;
+    disease_type_lookup["brainworm"] = DI_BRAINWORM;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
@@ -935,17 +936,33 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_TAPEWORM:
-            if(one_in(256)) {
-                p.health--;
+            if(one_in(512)) {
                 p.hunger++;
             }
             break;
 
         case DI_BLOODWORMS:
-            if(one_in(512)) {
+            if(one_in(256)) {
                 p.health--;
-                p.thirst++;
-                p.fatigue += rng(1, 4);
+            }
+            break;
+
+        case DI_BRAINWORM:
+            if((one_in(256)) && (!p.has_trait("NOPAIN"))) {
+                g->add_msg(_("Your head hurts."));
+                p.mod_pain(rng(1, 4));
+            }
+            if(one_in(1024) && !p.has_disease("visuals")) {
+                g->add_msg(_("Your vision is getting fuzzy."));
+                p.add_disease("visuals", rng(10, 600));
+                p.health--;
+                p.hurt(bp_head, -1, rng(0, 1));
+            }
+            if(one_in(4096) && !p.has_effect("blind")) {
+                g->add_msg_if_player(&p,_("You can't see!"));
+                p.add_effect("blind", rng(10, 20));
+                p.health--;
+                p.hurt(bp_head, -1, rng(1, 2));
             }
             break;
 

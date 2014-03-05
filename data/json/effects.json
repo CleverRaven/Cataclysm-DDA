@@ -196,10 +196,6 @@
    },
    {
       "type":"effect_type",
-      "id":"tapeworm"
-   },
-   {
-      "type":"effect_type",
       "id":"speed_boost"
    },
    {

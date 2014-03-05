@@ -977,6 +977,9 @@ bool game::do_turn()
             if( u.has_trait("THIRST3") ) {
                 u.thirst += 2;
             }
+            if( u.has_disease("bloodworms") ) {
+                u.thirst ++;
+            }
         }
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
         if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
