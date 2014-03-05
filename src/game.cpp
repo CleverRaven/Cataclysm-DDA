@@ -10997,9 +10997,16 @@ void game::forage()
   if (veggy_chance < u.skillLevel("survival"))
   {
     if (!one_in(5)) {
-       add_msg(_("You found some wild veggies!"));
-       m.spawn_item(u.activity.placement.x, u.activity.placement.y, "veggy_wild", 1, 0, turn);
-       m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+       if (!one_in(4)) {
+         add_msg(_("You found some wild veggies!"));
+         m.spawn_item(u.activity.placement.x, u.activity.placement.y, "veggy_wild", 1, 0, turn);
+         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+       } else {
+         add_msg(_("You found some wild mushrooms!"));
+         m.put_items_from("mushroom_forest", 1, u.activity.placement.x, u.activity.placement.y, g->turn, 0, 0, 0);
+         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+       }
+
     }
 	else {
 	   add_msg(_("You found a nest with some eggs!"));

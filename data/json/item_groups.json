@@ -7185,5 +7185,13 @@
 	  ["syringe", 1],
 	  ["spike", 1]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "mushroom_forest",
+    "items":[
+      ["mushroom", 4],
+      ["mushroom_poison", 3],
+      ["mushroom_magic", 1]
+    ]
   }
 ]
