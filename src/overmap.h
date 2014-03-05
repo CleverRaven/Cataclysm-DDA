@@ -55,10 +55,10 @@ struct oter_weight_list {
         }
     }
 
-    int pick_ent() {
+    size_t pick_ent() {
         int picked = rng(0, total_weight);
         int accumulated_weight = 0;
-        int i;
+        size_t i;
         for(i=0; i<items.size(); i++) {
             accumulated_weight += items[i].weight;
             if(accumulated_weight >= picked) {

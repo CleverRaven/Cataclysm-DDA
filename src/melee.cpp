@@ -893,7 +893,7 @@ void player::perform_special_attacks(Creature &t)
 
  std::string target = t.disp_name();
 
- for (int i = 0; i < special_attacks.size(); i++) {
+ for (size_t i = 0; i < special_attacks.size(); i++) {
   dealt_damage_instance dealt_dam;
 
   int hit_spread = t.deal_melee_attack(this, hit_roll() * 0.8);
@@ -1011,7 +1011,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
 
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
-  for (int i = 0; i < weapon.contents.size(); i++)
+  for (size_t i = 0; i < weapon.contents.size(); i++)
    g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
    // Take damage
   deal_damage(this, bp_arms, 1,damage_instance::physical(0,rng(0, weapon.volume() * 2),0));
