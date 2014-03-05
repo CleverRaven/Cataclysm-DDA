@@ -123,6 +123,7 @@ int snake_game::start_game()
     //Draw Score
     print_score(w_snake, iScore);
 
+    long ch;
     InputEvent input;
 
     do {
@@ -201,7 +202,8 @@ int snake_game::start_game()
 
         //Check input
         timeout(iGameSpeed);
-        input = get_input();
+        ch = getch();
+        input = get_input(ch);
         timeout(-1);
 
         switch (input) {
