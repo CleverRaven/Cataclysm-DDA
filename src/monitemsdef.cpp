@@ -28,7 +28,7 @@ void game::load_monitem(JsonObject &jo) {
         tmp_items.push_back( items_location_and_chance( ga.get_string(0), ga.get_int(1) ) );
     }
 
-    for( int i = 0; i < tmp_keys.size(); i++ ) {
+    for( size_t i = 0; i < tmp_keys.size(); ++i ) {
         std::map<std::string, std::vector <items_location_and_chance> >::iterator it = monitems.find( tmp_keys[i] );
         if ( it == monitems.end() ) {
             monitems[ tmp_keys[i] ] = tmp_items;

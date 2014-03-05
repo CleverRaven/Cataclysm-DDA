@@ -406,12 +406,12 @@ const std::string TIMEOUT = "TIMEOUT";
 
 const std::string &input_context::input_to_action(input_event &inp)
 {
-    for(int i = 0; i < registered_actions.size(); i++) {
+    for( size_t i = 0; i < registered_actions.size(); ++i ) {
         const std::string &action = registered_actions[i];
         const std::vector<input_event> &check_inp = inp_mngr.get_input_for_action(action, category);
 
         // Does this action have our queried input event in its keybindings?
-        for(int i = 0; i < check_inp.size(); i++) {
+        for( size_t i = 0; i < check_inp.size(); ++i ) {
             if(check_inp[i] == inp) {
                 return action;
             }
@@ -452,7 +452,7 @@ const std::string input_context::get_desc(const std::string &action_descriptor)
     }
 
     std::vector<input_event> inputs_to_show;
-    for(int i = 0; i < events.size(); i++) {
+    for( size_t i = 0; i < events.size(); ++i ) {
         const input_event &event = events[i];
 
         // Only display gamepad buttons if a gamepad is available.
@@ -462,8 +462,8 @@ const std::string input_context::get_desc(const std::string &action_descriptor)
     }
 
     std::stringstream rval;
-    for(int i = 0; i < inputs_to_show.size(); i++) {
-        for(int j = 0; j < inputs_to_show[i].sequence.size(); j++) {
+    for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
+        for( size_t j = 0; j < inputs_to_show[i].sequence.size(); ++j ) {
             rval << inp_mngr.get_keyname(inputs_to_show[i].sequence[j], inputs_to_show[i].type);
         }
 

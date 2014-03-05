@@ -554,7 +554,7 @@ void player::apply_persistent_morale()
         std::string bonus_flag = "SUPER_FANCY";
 
         unsigned char covered = 0; // body parts covered
-        for(int i=0; i<worn.size(); i++) {
+        for( size_t i = 0; i < worn.size(); ++i ) {
             if(worn[i].has_flag(basic_flag) || worn[i].has_flag(bonus_flag) ) {
                 it_armor* item_type = dynamic_cast<it_armor*>(worn[i].type);
                 covered |= item_type->covers;
@@ -1524,7 +1524,7 @@ void player::memorial( std::ofstream &memorial_file )
     //Last 20 messages
     memorial_file << _("Final Messages:") << "\n";
     std::vector<game_message> recent_messages = g->recent_messages(20);
-    for(int i = 0; i < recent_messages.size(); i++) {
+    for( size_t i = 0; i < recent_messages.size(); ++i ) {
       memorial_file << indent << recent_messages[i].turn.print_time() << " " <<
               recent_messages[i].message;
       if(recent_messages[i].count > 1) {
@@ -1580,7 +1580,7 @@ void player::memorial( std::ofstream &memorial_file )
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
     bool had_effect = false;
-    for(int i = 0; i < illness.size(); i++) {
+    for( size_t i = 0; i < illness.size(); ++i ) {
       disease next_illness = illness[i];
       if(dis_name(next_illness).size() > 0) {
         had_effect = true;
@@ -1623,7 +1623,7 @@ void player::memorial( std::ofstream &memorial_file )
     //Bionics
     memorial_file << _("Bionics:") << "\n";
     int total_bionics = 0;
-    for(int i = 0; i < my_bionics.size(); i++) {
+    for( size_t i = 0; i < my_bionics.size(); ++i ) {
       bionic_id next_bionic_id = my_bionics[i].id;
       memorial_file << indent << (i+1) << ": " << bionics[next_bionic_id]->name << "\n";
       total_bionics++;
@@ -1642,7 +1642,7 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << "\n";
 
     memorial_file << _("Equipment:") << "\n";
-    for(int i = 0; i < worn.size(); i++) {
+    for( size_t i = 0; i < worn.size(); ++i ) {
       item next_item = worn[i];
       memorial_file << indent << next_item.invlet << " - " << next_item.tname();
       if(next_item.charges > 0) {
@@ -1660,7 +1660,7 @@ void player::memorial( std::ofstream &memorial_file )
     inv.restack(this);
     inv.sort();
     invslice slice = inv.slice();
-    for(int i = 0; i < slice.size(); i++) {
+    for( size_t i = 0; i < slice.size(); ++i ) {
       item& next_item = slice[i]->front();
       memorial_file << indent << next_item.invlet << " - " << next_item.tname();
       if(slice[i]->size() > 1) {
@@ -1757,7 +1757,7 @@ std::string player::dump_memorial()
 
   std::stringstream output;
 
-  for(int i = 0; i < memorial_log.size(); i++) {
+  for( size_t i = 0; i < memorial_log.size(); ++i ) {
     output << memorial_log[i] << "\n";
   }
 
@@ -3530,7 +3530,7 @@ float player::active_light()
 
     int maxlum = 0;
     const invslice & stacks = inv.slice();
-    for( int x = 0; x < stacks.size(); ++x ) {
+    for( size_t x  = 0; x  < stacks.size(); ++x  ) {
         item &itemit = stacks[x]->front();
         item * stack_iter = &itemit;
         if (stack_iter->active && stack_iter->charges > 0) {
@@ -5908,7 +5908,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
 
 int player::has_morale( morale_type type ) const
 {
-    for( int i = 0; i < morale.size(); i++ ) {
+    for( size_t i = 0; i < morale.size(); ++i ) {
         if( morale[i].type == type ) {
             return morale[i].bonus;
         }

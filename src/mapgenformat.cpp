@@ -140,7 +140,7 @@ void formatted_set_terrain(map* m, const int startx, const int starty, const cha
 internal::format_effect* basic_bind(std::string characters, ...)
 {
  std::string temp;
- for(int i = 0; i < characters.size(); i++)
+ for( size_t i = 0; i < characters.size(); ++i )
   if(characters[i] != ' ')
    temp += characters[i];
  characters = temp;
@@ -148,7 +148,7 @@ internal::format_effect* basic_bind(std::string characters, ...)
  std::vector<internal::determine_terrain*> determiners;
  va_list vl;
  va_start(vl,characters);
- for(int i = 0; i < characters.size(); i++)
+ for( size_t i = 0; i < characters.size(); ++i )
   determiners.push_back( new internal::statically_determine_terrain( (ter_id)va_arg(vl,int) ));
  va_end(vl);
  return new internal::format_effect(characters, determiners);
@@ -157,7 +157,7 @@ internal::format_effect* basic_bind(std::string characters, ...)
 internal::format_effect* ter_str_bind(std::string characters, ...)
 {
  std::string temp;
- for(int i = 0; i < characters.size(); i++)
+ for( size_t i = 0; i < characters.size(); ++i )
   if(characters[i] != ' ')
    temp += characters[i];
  characters = temp;
@@ -165,7 +165,7 @@ internal::format_effect* ter_str_bind(std::string characters, ...)
  std::vector<internal::determine_terrain*> determiners;
  va_list vl;
  va_start(vl,characters);
- for(int i = 0; i < characters.size(); i++) {
+ for( size_t i = 0; i < characters.size(); ++i ) {
     const std::string sid = va_arg(vl,char *);
     const int iid = ( termap.find( sid ) != termap.end() ? termap[ sid ].loadid : 0 );
     determiners.push_back( new internal::statically_determine_terrain( (ter_id)iid ) );
@@ -177,7 +177,7 @@ internal::format_effect* ter_str_bind(std::string characters, ...)
 internal::format_effect* furn_str_bind(std::string characters, ...)
 {
  std::string temp;
- for(int i = 0; i < characters.size(); i++)
+ for( size_t i = 0; i < characters.size(); ++i )
   if(characters[i] != ' ')
    temp += characters[i];
  characters = temp;
@@ -185,7 +185,7 @@ internal::format_effect* furn_str_bind(std::string characters, ...)
  std::vector<internal::determine_terrain*> determiners;
  va_list vl;
  va_start(vl,characters);
- for(int i = 0; i < characters.size(); i++) {
+ for( size_t i = 0; i < characters.size(); ++i ) {
     const std::string sid = va_arg(vl,char *);
     const int iid = ( furnmap.find( sid ) != furnmap.end() ? furnmap[ sid ].loadid : 0 );
     determiners.push_back( new internal::statically_determine_terrain( (ter_id)iid ) );
@@ -199,7 +199,7 @@ internal::format_effect* furn_str_bind(std::string characters, ...)
 internal::format_effect* simple_method_bind(std::string characters, ...)
 {
  std::string temp;
- for(int i = 0; i < characters.size(); i++)
+ for( size_t i = 0; i < characters.size(); ++i )
   if(characters[i] != ' ')
    temp += characters[i];
  characters = temp;
@@ -207,7 +207,7 @@ internal::format_effect* simple_method_bind(std::string characters, ...)
  std::vector<internal::determine_terrain*> determiners;
  va_list vl;
  va_start(vl,characters);
- for(int i = 0; i < characters.size(); i++)
+ for( size_t i = 0; i < characters.size(); ++i )
   determiners.push_back( new internal::determine_terrain_with_simple_method( va_arg(vl, internal::determine_terrain_with_simple_method::ter_id_func ) ));
  va_end(vl);
  return new internal::format_effect(characters, determiners);
@@ -230,7 +230,7 @@ namespace internal
 
  void format_effect::execute(format_data& data)
  {
-  for(int i = 0; i < characters.size(); i++)
+  for( size_t i = 0; i < characters.size(); ++i )
    data.bindings[characters[i]] = determiners[i];
  }
 }
