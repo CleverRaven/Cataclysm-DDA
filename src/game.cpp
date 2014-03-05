@@ -2387,7 +2387,7 @@ input_context game::get_player_input(std::string &action)
         int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
 
         do {
-            for(int i=0; i < wPrint.vdrops.size(); i++) {
+            for( size_t i = 0; i < wPrint.vdrops.size(); ++i ) {
                 m.drawsq(w_terrain, u,
                          //vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
                          wPrint.vdrops[i].first + offset_x,
@@ -3023,7 +3023,7 @@ bool game::handle_action()
   case ACTION_IGNORE_ENEMY:
    if (run_mode == 2) {
     add_msg(_("Ignoring enemy!"));
-    for(int i=0; i < new_seen_mon.size(); i++) {
+    for( size_t i = 0; i < new_seen_mon.size(); ++i ) {
         monster &critter = critter_tracker.find(new_seen_mon[i]);
         critter.ignoring = rl_dist( point(u.posx, u.posy), critter.pos() );
     }
@@ -3744,7 +3744,7 @@ void game::write_memorial_file() {
     timestamp = timestamp.substr(0, end);
 
     //Colons are not usable in paths, so get rid of them
-    for(int index = 0; index < timestamp.size(); index++) {
+    for( size_t index = 0; index < timestamp.size(); ++index ) {
         if(timestamp[index] == ':') {
             timestamp[index] = '-';
         }
@@ -3753,7 +3753,7 @@ void game::write_memorial_file() {
     /* Remove non-ASCII glyphs from character names - unicode symbols are not
      * valid in filenames. */
     std::stringstream player_name;
-    for(int index = 0; index < u.name.size(); index++) {
+    for( size_t index = 0; index < u.name.size(); ++index ) {
         if((unsigned char)u.name[index] <= '~') {
             player_name << u.name[index];
         }
@@ -8410,7 +8410,7 @@ int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::str
 {
     //TODO:optimize if necessary
     std::vector<map_item_stack> tempstack; // temp
-    for(int i = 0 ; i < stack.size() ; i++) {
+    for( size_t i = 0; i < stack.size(); ++i ) {
         std::string name = stack[i].example.tname();
         if(prorities == "" || !list_items_match(stack[i].example,prorities)) {
             tempstack.push_back(stack[i]);
@@ -8420,7 +8420,7 @@ int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::str
     }
 
     int id = stack.size();
-    for(int i = 0 ; i < tempstack.size() ; i++) {
+    for( size_t i = 0; i < tempstack.size(); ++i ) {
         stack.push_back(tempstack[i]);
     }
     return id;
@@ -8439,7 +8439,7 @@ int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start
     }
 
     int id = stack.size();
-    for(int i = 0 ; i < tempstack.size() ; i++) {
+    for( size_t i = 0; i < tempstack.size(); ++i ) {
         stack.push_back(tempstack[i]);
     }
     return id;
@@ -11822,7 +11822,7 @@ bool game::plmove(int dx, int dy)
               int gx = grabbed_vehicle->global_x();
               int gy = grabbed_vehicle->global_y();
               std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature("WHEEL", false);
-              for( int i = 0; i < wheel_indices.size(); i++ ) {
+              for( size_t i = 0; i < wheel_indices.size(); ++i ) {
                   int p = wheel_indices[i];
                   if( one_in(2) ) {
                       grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
@@ -13504,7 +13504,7 @@ void game::nuke(int x, int y)
     om.ter(x, y, 0) = "crater";
     // Kill any npcs on that omap location.
     std::vector<npc*> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
-    for(int a = 0; a < npcs.size(); a++) {
+    for( size_t a = 0; a < npcs.size(); ++a ) {
         npcs[a]->marked_for_death = true;
     }
 }

@@ -79,7 +79,7 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
    if (nonant < 0 || nonant >= my_MAPSIZE * my_MAPSIZE)
     continue; // out of grid
 
-   for(int i = 0; i < grid[nonant]->vehicles.size(); ++i) {
+   for( size_t i = 0; i < grid[nonant]->vehicles.size(); ++i ) {
     wrapped_vehicle w;
     w.v = grid[nonant]->vehicles[i];
     w.x = w.v->posx + cx * SEEX;
@@ -429,7 +429,7 @@ void map::vehmove()
     // give vehicles movement points
     {
         VehicleList vehs = get_vehicles();
-        for(int v = 0; v < vehs.size(); ++v) {
+        for( size_t v = 0; v < vehs.size(); ++v ) {
             vehicle* veh = vehs[v].v;
             veh->gain_moves();
             veh->power_parts();
@@ -453,7 +453,7 @@ bool map::vehproceed(){
     vehicle* veh = NULL;
     float max_of_turn = 0;
     int x; int y;
-    for(int v = 0; v < vehs.size(); ++v) {
+    for( size_t v = 0; v < vehs.size(); ++v ) {
         if(vehs[v].v->of_turn > max_of_turn) {
             veh = vehs[v].v;
             x = vehs[v].x;
@@ -656,7 +656,7 @@ bool map::vehproceed(){
         float dmg_veh2 = dmg * 0.5;
 
         int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
-        for(int i = 0; i < veh_veh_colls.size(); i++) {
+        for( size_t i = 0; i < veh_veh_colls.size(); ++i ) {
             veh_collision tmp_c = veh_veh_colls[i];
             if(veh2 == (vehicle*) tmp_c.target) { coll_parts_cnt++; }
         }
@@ -665,7 +665,7 @@ bool map::vehproceed(){
         float dmg2_part = dmg_veh2 / coll_parts_cnt;
 
         //damage colliding parts (only veh1 and veh2 parts)
-        for(int i = 0; i < veh_veh_colls.size(); i++) {
+        for( size_t i = 0; i < veh_veh_colls.size(); ++i ) {
             veh_collision tmp_c = veh_veh_colls[i];
 
             if(veh2 == (vehicle*) tmp_c.target) {
@@ -4490,7 +4490,7 @@ void map::build_map_cache()
 
  // Cache all the vehicle stuff in one loop
  VehicleList vehs = get_vehicles();
- for(int v = 0; v < vehs.size(); ++v) {
+ for( size_t v = 0; v < vehs.size(); ++v ) {
   for (int part = 0; part < vehs[v].v->parts.size(); part++) {
    int px = vehs[v].x + vehs[v].v->parts[part].precalc_dx[0];
    int py = vehs[v].y + vehs[v].v->parts[part].precalc_dy[0];
