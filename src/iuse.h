@@ -11,6 +11,9 @@ public:
     int none                (player*, item*, bool);
 
 // FOOD AND DRUGS (ADMINISTRATION)
+    int raw_meat            (player*, item*, bool);
+    int raw_fat             (player*, item*, bool);
+    int raw_fish            (player*, item*, bool);
     int sewage              (player*, item*, bool);
     int honeycomb           (player*, item*, bool);
     int royal_jelly         (player*, item*, bool);

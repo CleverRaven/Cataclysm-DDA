@@ -959,6 +959,9 @@ bool game::do_turn()
             if( u.has_trait("HUNGER3") ) {
                 u.hunger += 2;
             }
+            if( u.has_disease("tapeworm") ) {
+                u.hunger ++;
+            }
         }
         if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
             (!u.has_trait("PLANTSKIN") || !one_in(5))) {

@@ -453,6 +453,9 @@ void player::activate_bionic(int b)
         if (has_disease("adrenaline")) {
             good.push_back(_("Adrenaline Spike"));
         }
+        if (has_disease("tapeworm")) {
+            good.push_back(_("Intestinal Parasite"));
+        }
         if (good.empty() && bad.empty()) {
             mvwprintz(w, 1, 1, c_white, _("No effects."));
         } else {

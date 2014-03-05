@@ -671,6 +671,30 @@ int iuse::atomic_caff(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::raw_meat(player *p, item *it, bool)
+{
+    if ((one_in(64)) && (!p->has_disease("tapeworm"))) {
+        p->add_disease("tapeworm", 2560000);
+    } 
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_fat(player *p, item *it, bool)
+{
+    if ((one_in(256)) && (!p->has_disease("tapeworm"))) {
+        p->add_disease("tapeworm", 2560000);
+    } 
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_fish(player *p, item *it, bool)
+{
+    if ((one_in(512)) && (!p->has_disease("tapeworm"))) {
+        p->add_disease("tapeworm", 2560000);
+    } 
+    return it->type->charges_to_use();
+}
+
 int iuse::alcohol(player *p, item *it, bool)
 {
     int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
@@ -853,6 +877,11 @@ int iuse::antiparasitic(player *p, item *it, bool) {
     if (p->has_disease("dermatik")) {
         p->rem_disease("dermatik");
         g->add_msg_if_player(p,_("The itching sensation under your skin fades away."));
+    } if (p->has_disease("tapeworm")) {
+        p->rem_disease("tapeworm");
+        g->add_msg_if_player(p,_("Your bowels spasm painfully as something inside them dies."));
+        p->mod_pain( 10 );
+        p->hunger--;  // You just digested the tapeworm.
     }
     return it->type->charges_to_use();
 }
