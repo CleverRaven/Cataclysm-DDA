@@ -248,7 +248,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
  std::string attitude = "";
 
  get_Attitude(color, attitude);
- wprintz(w, color, attitude.c_str());
+ wprintz(w, color, "%s", attitude.c_str());
 
  if (has_effect("downed"))
   wprintz(w, h_white, _("On ground"));
@@ -277,12 +277,12 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
   damage_info = _("it is nearly dead");
   col = c_red;
  }
- mvwprintz(w, vStart++, column, col, damage_info.c_str());
+ mvwprintz(w, vStart++, column, col, "%s", damage_info.c_str());
 
     std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 1 - column);
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++)
-        mvwprintz(w, vStart++, column, c_white, lines[i].c_str());
+        mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
 
     return vStart;
 }

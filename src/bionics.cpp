@@ -47,12 +47,12 @@ void show_bionics_titlebar(WINDOW *window, player *p, bool activating, bool reas
 
     std::string caption = _("BIONICS -");
     int cap_offset = utf8_width(caption.c_str()) + 1;
-    mvwprintz(window, 0,  0, c_blue, caption.c_str());
+    mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
     pwr << _("Power: ") << int(p->power_level) << _("/") << int(p->max_power_level);
     int pwr_length = utf8_width(pwr.str().c_str()) + 1;
-    mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, pwr.str().c_str());
+    mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, "%s", pwr.str().c_str());
 
     std::string desc;
     int desc_length = getmaxx(window) - cap_offset - pwr_length;
@@ -150,8 +150,7 @@ void player::power_bionics()
                     } else {
                         type = c_cyan;
                     }
-                    mvwputch(wBio, list_start_y + i, 2, type, passive[i]->invlet);
-                    mvwprintz(wBio, list_start_y + i, 4, type, bionics[passive[i]->id]->name.c_str());
+                    mvwprintz(wBio, list_start_y + i, 2, type, "%c %s", passive[i]->invlet, bionics[passive[i]->id]->name.c_str());
                 }
             }
 
@@ -458,9 +457,9 @@ void player::activate_bionic(int b)
         } else {
             for (unsigned line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
                 if (line <= bad.size()) {
-                    mvwprintz(w, line, 1, c_red, bad[line - 1].c_str());
+                    mvwprintz(w, line, 1, c_red, "%s", bad[line - 1].c_str());
                 } else {
-                    mvwprintz(w, line, 1, c_green, good[line - 1 - bad.size()].c_str());
+                    mvwprintz(w, line, 1, c_green, "%s", good[line - 1 - bad.size()].c_str());
                 }
             }
         }

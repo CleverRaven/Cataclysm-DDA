@@ -766,7 +766,7 @@ void advanced_inventory::display(player *pp)
                             col = c_ltgray;
                         }
                         if ( showmsg ) {
-                            mvwprintz(head, line, 2, col, mes.c_str());
+                            mvwprintz(head, line, 2, col, "%s", mes.c_str());
                         }
                         line++;
                     }

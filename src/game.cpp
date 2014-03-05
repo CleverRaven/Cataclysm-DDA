@@ -3373,7 +3373,7 @@ void game::death_screen()
 
     draw_border(w_death);
 
-    mvwprintz(w_death, 2, 3, c_ltred, sText.c_str());
+    mvwprintz(w_death, 2, 3, c_ltred, "%s", sText.c_str());
     wrefresh(w_death);
     refresh();
     InputEvent input;
@@ -4485,10 +4485,10 @@ faction* game::list_factions(std::string title)
  int sel = 0;
 
 // Init w_list content
- mvwprintz(w_list, 1, 1, c_white, title.c_str());
+ mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
  for (int i = 0; i < valfac.size(); i++) {
   nc_color col = (i == 0 ? h_white : c_white);
-  mvwprintz(w_list, i + 2, 1, col, valfac[i].name.c_str());
+  mvwprintz(w_list, i + 2, 1, col, "%s", valfac[i].name.c_str());
  }
  wrefresh(w_list);
 // Init w_info content
@@ -4504,14 +4504,14 @@ faction* game::list_factions(std::string title)
   input = get_input();
   switch ( input ) {
   case DirectionS: // Move selection down
-   mvwprintz(w_list, sel + 2, 1, c_white, valfac[sel].name.c_str());
+   mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
    if (sel == valfac.size() - 1)
     sel = 0; // Wrap around
    else
     sel++;
    break;
   case DirectionN: // Move selection up
-   mvwprintz(w_list, sel + 2, 1, c_white, valfac[sel].name.c_str());
+   mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
    if (sel == 0)
     sel = valfac.size() - 1; // Wrap around
    else
@@ -4523,7 +4523,7 @@ faction* game::list_factions(std::string title)
    break;
   }
   if (input == DirectionS || input == DirectionN) { // Changed our selection... update the windows
-   mvwprintz(w_list, sel + 2, 1, h_white, valfac[sel].name.c_str());
+   mvwprintz(w_list, sel + 2, 1, h_white, "%s", valfac[sel].name.c_str());
    wrefresh(w_list);
    werase(w_info);
 // fac_*_text() is in faction.cpp
@@ -4599,16 +4599,15 @@ void game::list_missions()
                 col = c_ltred;
             }
             if (selection == i) {
-                mvwprintz(w_missions, 3 + i, 1, hilite(col), miss->name().c_str());
+                mvwprintz(w_missions, 3 + i, 1, hilite(col), "%s", miss->name().c_str());
             } else {
-                mvwprintz(w_missions, 3 + i, 1, col, miss->name().c_str());
+                mvwprintz(w_missions, 3 + i, 1, col, "%s", miss->name().c_str());
             }
         }
 
         if (selection >= 0 && selection < umissions.size()) {
             mission *miss = find_mission(umissions[selection]);
-            mvwprintz(w_missions, 4, 31, c_white,
-                      miss->description.c_str());
+            mvwprintz(w_missions, 4, 31, c_white, "%s", miss->description.c_str());
             if (miss->deadline != 0)
                 mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
                           miss->deadline, int(turn));
@@ -4631,7 +4630,7 @@ void game::list_missions()
                 nope = _("You haven't failed any missions!");
                 break;
             }
-            mvwprintz(w_missions, 4, 31, c_ltred, nope.c_str());
+            mvwprintz(w_missions, 4, 31, c_ltred, "%s", nope.c_str());
         }
 
         wrefresh(w_missions);
@@ -4697,7 +4696,7 @@ void game::draw()
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
     if ( (u.has_item_with_flag("WATCH") || u.has_bionic("bio_watch")) ) {
-        wprintz(time_window, c_white, turn.print_time().c_str());
+        wprintz(time_window, c_white, "%s", turn.print_time().c_str());
     } else {
         std::vector<std::pair<char, nc_color> > vGlyphs;
         vGlyphs.push_back(std::make_pair('_', c_red));
@@ -4745,12 +4744,12 @@ void game::draw()
 
     std::string tername = otermap[cur_ter].name;
     werase(w_location);
-    mvwprintz(w_location, 0,  0, otermap[cur_ter].color, utf8_substr(tername, 0, 14).c_str());
+    mvwprintz(w_location, 0,  0, otermap[cur_ter].color, "%s", utf8_substr(tername, 0, 14).c_str());
 
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
-        mvwprintz(w_location, 0, 18, weather_data[weather].color, weather_data[weather].name.c_str());
+        mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
 
     nc_color col_temp = c_blue;
@@ -4767,7 +4766,7 @@ void game::draw()
         col_temp = c_ltblue;
     }
 
-    wprintz(w_location, col_temp, (std::string(" ") + print_temperature((float)display_temp)).c_str());
+    wprintz(w_location, col_temp, "%s", (std::string(" ") + print_temperature((float)display_temp)).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
@@ -4939,7 +4938,7 @@ void game::draw_HP()
         if (u.has_trait("SELFAWARE")) {
             wprintz(w_HP, color, "%3d  ", u.hp_cur[i]);
         } else {
-            wprintz(w_HP, color, health_bar.c_str());
+            wprintz(w_HP, color, "%s", health_bar.c_str());
 
             //Add the trailing symbols for a not-quite-full health bar
             int bar_remainder = 5;
@@ -5684,7 +5683,7 @@ int game::mon_info(WINDOW *w)
                         danger = c_white;
                     else if (GetMType(sbuff)->agro > 0)
                         danger = c_ltgray;
-                    mvwprintz(w, pr.y, pr.x, danger, name.c_str());
+                    mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
                     pr.x += utf8_width(name.c_str()) + namesep;
                 }
             }
@@ -7325,7 +7324,7 @@ bool game::choose_adjacent(std::string message, int &x, int &y)
 {
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
-    mvwprintw(w_terrain, 0, 0, query_text.c_str());
+    mvwprintw(w_terrain, 0, 0, "%s", query_text.c_str());
     wrefresh(w_terrain);
     DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
@@ -8988,15 +8987,15 @@ int game::list_monsters(const int iLastState)
 
                         mvwprintz(w_monsters, 1 + iNum - iStartPos, 2,
                                   ((iNum == iActive) ? c_ltgreen : c_white),
-                                  "%s", (zombie(vMonsters[i]).name()).c_str());
+                                  "%s", zombie(vMonsters[i]).name().c_str());
                         nc_color color = c_white;
                         std::string sText = "";
 
                         zombie(vMonsters[i]).get_HP_Bar(color, sText);
-                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 23, color, sText.c_str());
+                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 23, color, "%s", sText.c_str());
 
                         zombie(vMonsters[i]).get_Attitude(color, sText);
-                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 29, color, sText.c_str());
+                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 29, color, "%s", sText.c_str());
 
                         int numw = iMonsterNum > 9 ? 2 : 1;
                         mvwprintz(w_monsters, 1 + iNum - iStartPos, width - (5 + numw),
@@ -9019,11 +9018,11 @@ int game::list_monsters(const int iLastState)
                 //print monster info
                 zombie(iMonDex).print_info(w_monster_info,1,11);
 
-                mvwprintz(w_monsters, getmaxy(w_monsters)-1, 1, c_ltgreen, press_x(ACTION_LOOK).c_str());
+                mvwprintz(w_monsters, getmaxy(w_monsters)-1, 1, c_ltgreen, "%s", press_x(ACTION_LOOK).c_str());
                 wprintz(w_monsters, c_ltgray, " %s",_("to look around"));
                 if ( rl_dist(point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
                     wprintz(w_monsters, c_ltgray, "%s", " ");
-                    wprintz(w_monsters, c_ltgreen, press_x(ACTION_FIRE).c_str());
+                    wprintz(w_monsters, c_ltgreen, "%s", press_x(ACTION_FIRE).c_str());
                     wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
                 }
 
@@ -9643,7 +9642,7 @@ and you can't unwield your %s."),
                     } else {
                         wprintw(w_pickup, " - ");
                     }
-                    wprintz(w_pickup, icolor, here[cur_it].display_name().c_str());
+                    wprintz(w_pickup, icolor, "%s", here[cur_it].display_name().c_str());
                 }
             }
 
@@ -13347,7 +13346,7 @@ void game::write_msg()
             col = c_ltgray;
         std::vector<std::string> folded = foldstring(mstr, maxlength);
         for (int j = folded.size() - 1; j >= 0 && line >= topline; j--, line--) {
-            mvwprintz(w_messages, line, 0, col, folded[j].c_str());
+            mvwprintz(w_messages, line, 0, col, "%s", folded[j].c_str());
         }
     }
     curmes = int(turn);
@@ -13395,7 +13394,7 @@ void game::msg_buffer()
 // Split the message into many if we must!
     std::vector<std::string> folded = foldstring(mes, FULL_SCREEN_WIDTH-2);
     for(int j=0; j<folded.size() && line <= FULL_SCREEN_HEIGHT-2; j++, line++) {
-     mvwprintz(w, line, 1, c_ltgray, folded[j].c_str());
+     mvwprintz(w, line, 1, c_ltgray, "%s", folded[j].c_str());
     }
    } // if (line <= 23)
   } //for (i = 1; i <= 10 && line <= 23 && offset + i <= messages.size(); i++)
