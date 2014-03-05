@@ -1447,15 +1447,18 @@ void player::memorial( std::ofstream &memorial_file )
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
-    const std::string gender_str = male ? _("male") : _("female");
     const std::string pronoun = male ? _("He") : _("She");
 
     //Avoid saying "a male unemployed" or similar
     std::stringstream profession_name;
     if(prof == prof->generic()) {
-      profession_name << _("an unemployed ") << gender_str;
+        if (male) {
+            profession_name << _("an unemployed male");
+        } else {
+            profession_name << _("an unemployed female");
+        }
     } else {
-      profession_name << _("a ") << gender_str << " " << prof->name();
+        profession_name << _("a ") << prof->gender_appropriate_name(male);
     }
 
     //Figure out the location
@@ -2044,18 +2047,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             gender_prof = string_format(_("%s - Female"), name.c_str());
         }
     } else {
-        const char *format;
-        if (prof->name() == "") {
-            //~ player info: "<name> - <gender specific profession>"
-            format = _("%s - %s");
-        } else if (male) {
-            //~ player info: "<name> - a male <gender unspecific profession>"
-            format = _("%s - a male %s");
-        } else {
-            //~ player info: "<name> - a female <gender unspecific profession>"
-            format = _("%s - a female %s");
-        }
-        gender_prof = string_format(format, name.c_str(), prof->gender_appropriate_name(male).c_str());
+        //~ player info: "<name> - <gender specific profession>"
+        gender_prof = string_format(_("%s - %s"), name.c_str(), prof->gender_appropriate_name(male).c_str());
     }
     mvwprintw(w_tip, 0, 0, gender_prof.c_str());
 
