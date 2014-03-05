@@ -164,8 +164,8 @@ void game::init_npctalk()
     for(int j=0; j<10; j++) {talk_no[j] = tmp_talk_no[j];}
 
     std::string tmp_talk_bad_names[10] = {
-    _("punk"),  _("bitch"), _("dickhead"), _("asshole"), _("fucker"),
-    _("sucker"), _("fuckwad"), _("cocksucker"), _("motherfucker"), _("shithead")};
+    _("punk"),  _("loser"), _("dickhead"), _("asshole"), _("fucker"),
+    _("sucker"), _("fuckwad"), _("jerk"), _("motherfucker"), _("shithead")};
     for(int j=0; j<10; j++) {talk_bad_names[j] = tmp_talk_bad_names[j];}
 
     std::string tmp_talk_good_names[10] = {
@@ -179,8 +179,8 @@ void game::init_npctalk()
     for(int j=0; j<10; j++) {talk_swear[j] = tmp_talk_swear[j];}
 
     std::string tmp_talk_swear_interjection[10] = {
-    _("fuck"), _("damn"), _("damnit"), _("shit"), _("cocksucker"), _("crap"),
-    _("motherfucker"), _("<swear><punc> <swear!>"), _("<very> <swear!>"), _("son of a bitch")};
+    _("fuck"), _("damn"), _("damnit"), _("shit"), _("fuckit"), _("crap"),
+    _("motherfucker"), _("<swear><punc> <swear!>"), _("<very> <swear!>"), _("son of an ass")};
     for(int j=0; j<10; j++) {talk_swear_interjection[j] = tmp_talk_swear_interjection[j];}
 
     std::string tmp_talk_fuck_you[10] = {
