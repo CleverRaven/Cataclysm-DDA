@@ -547,9 +547,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                     break;
                 case '\n':
                     // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
-                    std::string querystring = string_format(_("Do you want to start the game in world [%s]?"),
-                                                            world_pages[selpage][sel].c_str());
-                    if (query_yn(querystring.c_str())) {
+                    if (query_yn(_("Do you want to start the game in world [%s]?"),
+                                    world_pages[selpage][sel].c_str())) {
                         werase(w_worlds);
                         werase(w_worlds_border);
                         werase(w_worlds_header);
@@ -805,7 +804,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 
             if (selmod != NULL) {
                 fold_and_print(w_description, 0, 1, getmaxx(w_description) - 1,
-                               c_white, mman_ui->get_information(selmod).c_str());
+                               c_white, mman_ui->get_information(selmod));
             }
             redraw_description = false;
             wrefresh(w_description);
@@ -832,7 +831,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                     }
                     list_output << mman->mod_map[mman_ui->usable_mods[i]]->name << "\n";
                 }
-                fold_and_print(w_list, 0, 1, getmaxx(w_list) - 1, c_white, list_output.str().c_str());
+                fold_and_print(w_list, 0, 1, getmaxx(w_list) - 1, c_white, list_output.str());
             }
             draw_scrollbar(w_list, cursel[0], getmaxy(w_list), useable_mod_count, 0, 0);
 
@@ -861,7 +860,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                     }
                     list_output << mman->mod_map[active_mod_order[i]]->name << "\n";
                 }
-                fold_and_print(w_active, 0, 1, getmaxx(w_active) - 1, c_white, list_output.str().c_str());
+                fold_and_print(w_active, 0, 1, getmaxx(w_active) - 1, c_white, list_output.str());
             }
 
             draw_scrollbar(w_active, cursel[1], getmaxy(w_active), active_count, 0, 0);
@@ -886,7 +885,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                     }
                     shift_display << "\n";
                 }
-                fold_and_print(w_shift, 2, 1, getmaxx(w_shift), c_white, shift_display.str().c_str());
+                fold_and_print(w_shift, 2, 1, getmaxx(w_shift), c_white, shift_display.str());
             }
             redraw_shift = false;
             wrefresh(w_shift);
@@ -1250,7 +1249,7 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
         msg = string_format(_("%s is not a valid world name, already exists!"), name.c_str());
     }
     if (!automated) {
-        popup_getkey(msg.c_str());
+        popup(msg, PF_GET_KEY);
     }
     return false;
 }

@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
         }
     } catch(std::string &error_message) {
         if(!error_message.empty()) {
-            debugmsg(error_message.c_str());
+            debugmsg("%s", error_message.c_str());
         }
         exit_handler(-999);
     }

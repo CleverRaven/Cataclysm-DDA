@@ -295,7 +295,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_taekwondo";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, PF_NONE);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -319,7 +319,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_zui_quan";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, PF_NONE);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -343,7 +343,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_dragon";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, PF_NONE);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -367,7 +367,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_toad";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, PF_NONE);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -385,7 +385,7 @@ bool player::create(character_type type, std::string tempname)
                 ma_type = "style_fencing";
             }
             if (PLTYPE_NOW != type) {
-                popup(martialarts[ma_type].description.c_str());
+                popup(martialarts[ma_type].description, PF_NONE);
             }
         } while (PLTYPE_NOW != type && !query_yn(_("Use this style?")));
         ma_styles.push_back(ma_type);
@@ -836,8 +836,8 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                                   negativeTrait ? _("earns"):_("costs"),
                                   points);
                         fold_and_print(w_description, 0, 0,
-                                       FULL_SCREEN_WIDTH - 2, col_tr, "%s",
-                                       traits[vStartingTraits[iCurrentPage][i]].description.c_str());
+                                       FULL_SCREEN_WIDTH - 2, col_tr,
+                                       traits[vStartingTraits[iCurrentPage][i]].description);
                     }
 
                     nc_color cLine = col_off_pas;
@@ -1044,7 +1044,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                       pointsForProf, netPointCost);
 
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
-                       _(sorted_profs[cur_id]->description().c_str()));
+                       sorted_profs[cur_id]->description());
 
         calcStartPos(iStartPos, cur_id, iContentHeight, profession::count());
 
@@ -1076,10 +1076,15 @@ int set_profession(WINDOW *w, player *u, int &points)
         werase(w_items);
         mvwprintz(w_items, 0, 0, COL_HEADER, _("Profession items:"));
         for (int i = 0; i < prof_items.size() + prof_gender_items.size(); i++) {
+            const itype *it;
+            if (i < gender_items_offset) {
+                it = itypes[prof_items[i]];
+            } else {
+                it = itypes[prof_gender_items[i - gender_items_offset]];
+            }
             wprintz(w_items, c_ltgray, _("\n"));
             line_offset += fold_and_print(w_items, i + line_offset, 0, getmaxx(w_items), c_ltgray,
-                             i < gender_items_offset ? itypes[prof_items[i]]->name.c_str() :
-                             itypes[prof_gender_items[i - gender_items_offset]]->name.c_str()) - 1;
+                             it->name) - 1;
         }
 
         werase(w_skills);
@@ -1201,7 +1206,7 @@ int set_skills(WINDOW *w, player *u, int &points)
                   _("Upgrading %s costs %d point(s)"),
                   currentSkill->name().c_str(), cost);
         fold_and_print(w_description, 0, 0, getmaxx(w_description), COL_SKILL_USED,
-                       currentSkill->description().c_str());
+                       currentSkill->description());
 
         int first_i, end_i, base_y;
         if (cur_pos < iHalf) {

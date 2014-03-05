@@ -1776,7 +1776,7 @@ void talk_function::give_equipment(npc *p)
  if (chosen == -1)
   chosen = 0;
  item it = p->i_remn(giving[chosen]->invlet);
- popup(string_format(_("%s gives you a %s"), p->name.c_str(), it.tname().c_str()).c_str());
+ popup(_("%s gives you a %s"), p->name.c_str(), it.tname().c_str());
 
  g->u.i_add( it );
  p->op_of_u.owed -= prices[chosen];
@@ -2318,11 +2318,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    if (focus_them) {
     help += them_off;
     if (help >= 0 && help < theirs.size())
-     popup(theirs[help]->info().c_str());
+     popup(theirs[help]->info(), PF_NONE);
    } else {
     help += you_off;
     if (help >= 0 && help < yours.size())
-     popup(yours[help]->info().c_str());
+     popup(yours[help]->info(), PF_NONE);
    }
    break;
   case '\n': // Check if we have enough cash...
