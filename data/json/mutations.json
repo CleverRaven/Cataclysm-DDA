@@ -1418,6 +1418,15 @@
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
+        "id" : "PARAIMMUNE",
+        "name" : "Parasite Immune",
+        "points" : 4,
+        "description" : "Your body is unusually inhospitable to parasitic lifeforms. You will never become infested with internal parasites.",
+        "prereqs" : ["DISRESISTANT"],
+        "prereqs2" : ["INFRESIST"],
+        "category" : ["MUTCAT_ELFA", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL", "MUTCAT_SLIME"]
+    },{
+        "type" : "mutation",
         "id" : "POISONOUS",
         "name" : "Poisonous",
         "points" : 8,

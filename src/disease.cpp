@@ -937,18 +937,27 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_TAPEWORM:
+            if (p.has_trait("PARAIMMUNE")) {
+               p.rem_disease("tapeworm");
+               } else 
             if(one_in(512)) {
                 p.hunger++;
             }
             break;
 
         case DI_BLOODWORMS:
+            if (p.has_trait("PARAIMMUNE")) {
+               p.rem_disease("bloodworms");
+               } else 
             if(one_in(512)) {
                 p.health--;
             }
             break;
 
         case DI_BRAINWORM:
+            if (p.has_trait("PARAIMMUNE")) {
+               p.rem_disease("brainworm");
+               } else 
             if((one_in(512)) && (!p.has_trait("NOPAIN"))) {
                 g->add_msg(_("Your head hurts."));
                 p.mod_pain(rng(2, 8));
@@ -968,6 +977,9 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_PAINCYSTS:
+            if (p.has_trait("PARAIMMUNE")) {
+               p.rem_disease("paincysts");
+               } else 
             if((one_in(256)) && (!p.has_trait("NOPAIN"))) {
                 g->add_msg(_("Your joints ache."));
                 p.mod_pain(rng(1, 4));
@@ -983,7 +995,9 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_DERMATIK:
-            handle_insect_parasites(p, dis);
+            if (p.has_trait("PARAIMMUNE")) {
+               p.rem_disease("dermatik");
+               } else handle_insect_parasites(p, dis);
             break;
 
         case DI_WEBBED:
