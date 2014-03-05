@@ -190,9 +190,7 @@ std::string monster::name_with_armor()
 }
 
 std::string monster::disp_name() {
-    char buffer[256];
-    sprintf(buffer, _("the %s"), name().c_str());
-    return buffer;
+    return string_format(_("the %s"), name().c_str());
 }
 
 std::string monster::skin_name() {
@@ -429,14 +427,11 @@ std::string monster::save_info()
 
 void monster::debug(player &u)
 {
- char buff[2];
  debugmsg("%s has %d steps planned.", name().c_str(), plans.size());
  debugmsg("%s Moves %d Speed %d HP %d",name().c_str(), moves, speed, hp);
  for (int i = 0; i < plans.size(); i++) {
-  sprintf(buff, "%d", i);
-  if (i < 10) mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx,
-                      buff[0]);
-  else mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, buff[1]);
+        const int digit = '0' + (i % 10);
+        mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, digit);
  }
  getch();
 }

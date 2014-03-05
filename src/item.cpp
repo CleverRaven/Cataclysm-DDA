@@ -604,7 +604,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (mod->damage != 0)
    dump->push_back(iteminfo("GUNMOD", _("Damage: "), "", mod->damage, true, ((mod->damage > 0) ? "+" : "")));
   if (mod->clip != 0)
-   dump->push_back(iteminfo("GUNMOD", _("Magazine: "), "<num>%%", mod->clip, true, ((mod->clip > 0) ? "+" : "")));
+   dump->push_back(iteminfo("GUNMOD", _("Magazine: "), "<num>%", mod->clip, true, ((mod->clip > 0) ? "+" : "")));
   if (mod->recoil != 0)
    dump->push_back(iteminfo("GUNMOD", _("Recoil: "), "", mod->recoil, true, ((mod->recoil > 0) ? "+" : ""), true, true));
   if (mod->burst != 0)
@@ -667,7 +667,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    temp1 << _("The feet. ");
 
   dump->push_back(iteminfo("ARMOR", temp1.str()));
-  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%%  ", armor->coverage, true, "", false));
+  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", armor->coverage, true, "", false));
   dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", armor->warmth));
     if (has_flag("FIT")) {
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),

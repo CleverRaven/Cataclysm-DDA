@@ -797,7 +797,7 @@ recipe *game::select_crafting_recipe()
                                                   iter->count, qualities[iter->id].name.c_str(),
                                                   iter->level);
                         ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
-                                               toolcol, qualinfo.str().c_str());
+                                               toolcol, qualinfo.str());
                     }
                     ypos--;
                     // Loop to print the required tools
@@ -970,7 +970,7 @@ recipe *game::select_crafting_recipe()
             break;
         case Help:
             tmp = item(item_controller->find_template(current[line]->result), g->turn);
-            full_screen_popup(tmp.info(true).c_str());
+            full_screen_popup("%s", tmp.info(true).c_str());
             redraw = true;
             keepline = true;
             break;

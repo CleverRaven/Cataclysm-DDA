@@ -1702,18 +1702,18 @@ void player::memorial( std::ofstream &memorial_file )
 void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
 {
 
-    char buff[1024];
     va_list ap;
 
     va_start(ap, female_msg);
+    std::string msg;
     if(this->male) {
-        vsnprintf(buff, sizeof(buff), male_msg, ap);
+        msg = vstring_format(male_msg, ap);
     } else {
-        vsnprintf(buff, sizeof(buff),female_msg, ap);
+        msg = vstring_format(female_msg, ap);
     }
     va_end(ap);
 
-    if(strlen(buff) == 0) {
+    if(msg.empty()) {
         return;
     }
 
@@ -1726,7 +1726,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
     std::string location = otermap[cur_ter].name;
 
     std::stringstream log_message;
-    log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << buff;
+    log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << msg;
 
     memorial_log.push_back(log_message.str());
 
@@ -2603,7 +2603,7 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
                traits[traitslist[i]].name.c_str());
    }
    if (line >= 0 && line < traitslist.size()) {
-     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", traits[traitslist[line]].description.c_str());
+     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, traits[traitslist[line]].description);
    }
    wrefresh(w_traits);
    wrefresh(w_info);
@@ -2667,7 +2667,7 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
      mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, effect_name[i].c_str());
    }
    if (line >= 0 && line < effect_text.size()) {
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", effect_text[line].c_str());
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, effect_text[line]);
    }
    wrefresh(w_effects);
    wrefresh(w_info);
@@ -2751,7 +2751,7 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
 
    werase(w_info);
    if (line >= 0 && line < skillslist.size()) {
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", selectedSkill->description().c_str());
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, selectedSkill->description());
    }
    wrefresh(w_skills);
    wrefresh(w_info);

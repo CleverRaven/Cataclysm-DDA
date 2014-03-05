@@ -194,10 +194,10 @@ void game::draw_weather(weather_printable wPrint)
             // Snowy weathers, uses snowflake tile, fallthrough intended
             case WEATHER_SNOW:
             case WEATHER_SNOWSTORM: weather_name = "weather_snowflake"; break;
-			
-			case WEATHER_FLURRIES:
-			default:
-				break;
+
+            case WEATHER_FLURRIES:
+            default:
+                break;
         }
         /*
         // may have been the culprit of slowdown. Seems to be the same speed now for both weathered and non-weathered display
