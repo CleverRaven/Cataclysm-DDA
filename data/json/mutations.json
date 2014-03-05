@@ -943,6 +943,7 @@
         "points" : 5,
         "description" : "Your eyes have mutated to pick up radiation in the infrared spectrum.",
         "prereqs" : ["NIGHTVISION3"],
+        "cancels" : ["LIZ_IR"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
@@ -962,7 +963,7 @@
         "points" : 5,
         "description" : "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
         "prereqs" : ["LIZ_EYE"],
-        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
+        "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "INFRARED"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
