@@ -22,7 +22,7 @@ enum dis_type_enum {
  DI_BLISTERS,
 // Diseases
  DI_INFECTION,
- DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM,
+ DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS,
 // Fields - onfire moved to effects
  DI_CRUSHED, DI_BOULDERING,
 // Monsters
@@ -89,6 +89,7 @@ void game::init_diseases() {
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
     disease_type_lookup["tapeworm"] = DI_TAPEWORM;
+    disease_type_lookup["bloodworms"] = DI_BLOODWORMS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
@@ -935,10 +936,9 @@ void dis_effect(player &p, disease &dis) {
 
         case DI_TAPEWORM:
             if(one_in(2560)) {
-                g->add_msg_if_player(&p,_("Your insides rumble painfully."));
+                g->add_msg_if_player(&p,_("Your belly rumbles."));
                 p.hunger++;
                 p.health--;
-                p.mod_pain(1);
             }
             break;
 

@@ -879,9 +879,13 @@ int iuse::antiparasitic(player *p, item *it, bool) {
         g->add_msg_if_player(p,_("The itching sensation under your skin fades away."));
     } if (p->has_disease("tapeworm")) {
         p->rem_disease("tapeworm");
-        g->add_msg_if_player(p,_("Your bowels spasm painfully as something inside them dies."));
-        p->mod_pain( 10 );
         p->hunger--;  // You just digested the tapeworm.
+        if (p->has_trait("NOPAIN")) {
+        g->add_msg_if_player(p,_("Your bowels clench as something inside them dies."));
+        } else {
+        g->add_msg_if_player(p,_("Your bowels spasm painfully as something inside them dies."));
+        p->mod_pain( 20 );
+        }
     }
     return it->type->charges_to_use();
 }
