@@ -158,7 +158,9 @@ void Item_factory::init(){
     iuse_function_list["NONE"] = &iuse::none;
     iuse_function_list["RAW_MEAT"] = &iuse::raw_meat;
     iuse_function_list["RAW_FAT"] = &iuse::raw_fat;
+    iuse_function_list["RAW_BONE"] = &iuse::raw_bone;
     iuse_function_list["RAW_FISH"] = &iuse::raw_fish;
+    iuse_function_list["RAW_WILDVEG"] = &iuse::raw_wildveg;
     iuse_function_list["SEWAGE"] = &iuse::sewage;
 
     iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;

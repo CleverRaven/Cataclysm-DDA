@@ -935,10 +935,17 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_TAPEWORM:
-            if(one_in(2560)) {
-                g->add_msg_if_player(&p,_("Your belly rumbles."));
-                p.hunger++;
+            if(one_in(256)) {
                 p.health--;
+                p.hunger++;
+            }
+            break;
+
+        case DI_BLOODWORMS:
+            if(one_in(512)) {
+                p.health--;
+                p.thirst++;
+                p.fatigue += rng(1, 4);
             }
             break;
 

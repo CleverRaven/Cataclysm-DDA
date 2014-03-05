@@ -673,25 +673,47 @@ int iuse::atomic_caff(player *p, item *it, bool)
 
 int iuse::raw_meat(player *p, item *it, bool)
 {
-    if ((one_in(64)) && (!p->has_disease("tapeworm"))) {
+    if ((one_in(32)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion"))) {
         p->add_disease("tapeworm", 2560000);
+    } if ((one_in(64)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion"))) {
+        p->add_disease("bloodworms", 1280000);
     } 
     return it->type->charges_to_use();
 }
 
 int iuse::raw_fat(player *p, item *it, bool)
 {
-    if ((one_in(256)) && (!p->has_disease("tapeworm"))) {
+    if ((one_in(128)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion"))) {
         p->add_disease("tapeworm", 2560000);
+    } if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion"))) {
+        p->add_disease("bloodworms", 1280000);
+    } 
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_bone(player *p, item *it, bool)
+{
+    if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion"))) {
+        p->add_disease("bloodworms", 1280000);
     } 
     return it->type->charges_to_use();
 }
 
 int iuse::raw_fish(player *p, item *it, bool)
 {
-    if ((one_in(512)) && (!p->has_disease("tapeworm"))) {
+    if ((one_in(256)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion"))) {
         p->add_disease("tapeworm", 2560000);
+    } if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion"))) {
+        p->add_disease("bloodworms", 1280000);
     } 
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_wildveg(player *p, item *it, bool)
+{
+    if ((one_in(512)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion"))) {
+        p->add_disease("tapeworm", 2560000);
+    }
     return it->type->charges_to_use();
 }
 
@@ -886,7 +908,10 @@ int iuse::antiparasitic(player *p, item *it, bool) {
         g->add_msg_if_player(p,_("Your bowels spasm painfully as something inside them dies."));
         p->mod_pain( 20 );
         }
-    }
+    } if (p->has_disease("bloodworms")) {
+        p->rem_disease("bloodworms");
+        g->add_msg_if_player(p,_("Your skin prickles and your veins itch for a moment."));
+        }
     return it->type->charges_to_use();
 }
 
