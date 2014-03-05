@@ -247,20 +247,13 @@ void cata_tiles::load_tileset(std::string path)
         SDL_FreeSurface(tile_atlas);
     }
 
-    tile_ratiox = ((float)tile_width/(float)fontwidth);
-    tile_ratioy = ((float)tile_height/(float)fontheight);
-
     terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
     terrain_term_y = OPTIONS["TERMINAL_Y"];
-
-    screentile_width =  (int)(terrain_term_x / tile_ratiox) + 1;
-    screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
+	
+    set_draw_scale(16);
 
     /** reinit tile_atlas */
     tile_atlas = IMG_Load(path.c_str());
-
-    // Load as separate image, so it's not released along with tile_atlas
-    default_size_tile_atlas = IMG_Load(path.c_str());
 
     if(!tile_atlas) {
         std::cerr << "Could not locate tileset file at " << path << std::endl;
