@@ -16,10 +16,6 @@
 #include "helper.h"
 #include "item_factory.h"
 #include "auto_pickup.h"
-#ifdef _MSC_VER
-// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
-#define snprintf _snprintf_s
-#endif
 
 #include "advanced_inv.h"
 
