@@ -4543,6 +4543,14 @@ void player::recalc_hp()
             // so no HP bonus from the ST above/beyond that from Large
             new_max_hp[i] -= 6;
         }
+        // You lose half the HP you'd expect from BENDY mutations.  Your gelatinous
+        // structure can help with that, a bit.
+        if (has_trait("BENDY02")) {
+            new_max_hp[i] += 3;
+        }
+        if (has_trait("BENDY03")) {
+            new_max_hp[i] += 6;
+        }
         // Only the most extreme applies.
         if (has_trait("TOUGH")) {
             new_max_hp[i] *= 1.2;

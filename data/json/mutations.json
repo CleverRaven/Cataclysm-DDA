@@ -1451,6 +1451,35 @@
         ]
     },{
         "type" : "mutation",
+        "id" : "BENDY1",
+        "name" : "Stretchy Limbs",
+        "points" : 1,
+        "description" : "Your limbs seem to have a little more 'give' to them.  +1 Dexterity.",
+        "changes_to" : ["BENDY2"],
+        "threshreq" : ["THRESH_SLIME"],
+        "category" : ["MUTCAT_SLIME"]
+    },{
+        "type" : "mutation",
+        "id" : "BENDY2",
+        "name" : "Rubbery Limbs",
+        "points" : 1,
+        "description" : "Your limbs are significantly more flexible than any pathetic human arm or leg.  +3 Dexterity, -2 Strength.",
+        "prereqs" : ["BENDY1"],
+        "changes_to" : ["BENDY3"],
+        "threshreq" : ["THRESH_SLIME"],
+        "category" : ["MUTCAT_SLIME"]
+    },{
+        "type" : "mutation",
+        "id" : "BENDY3",
+        "name" : "Rubbery Limbs",
+        "points" : 1, "comment": "It's good from the Slime perspective!",
+        "description" : "Your pseudopod-like limbs can fit into anything!  +4 Dexterity, -4 Strength.",
+        "prereqs" : ["BENDY2"],
+        "prereqs2" : ["BENDY2"], "note": "placeholder for Amorphous Body",
+        "threshreq" : ["THRESH_SLIME"],
+        "category" : ["MUTCAT_SLIME"]
+    },{
+        "type" : "mutation",
         "id" : "COMPOUND_EYES",
         "name" : "Compound Eyes",
         "points" : 2,

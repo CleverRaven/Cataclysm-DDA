@@ -618,6 +618,19 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "DEX_UP") {
         p.dex_max ++;
 
+    } else if (mut == "BENDY1") {
+        p.dex_max ++;
+
+    } else if (mut == "BENDY2") {
+        p.dex_max +=3;
+        p.str_max -=2;
+        p.recalc_hp();
+
+    } else if (mut == "BENDY3") {
+        p.dex_max +=4;
+        p.str_max -=4;
+        p.recalc_hp();
+
     } else if (mut == "DEX_UP_2") {
         p.dex_max += 2;
 
@@ -762,6 +775,19 @@ void mutation_loss_effect(player &p, std::string mut)
         p.recalc_hp();
     } else if (mut == "DEX_UP") {
         p.dex_max --;
+
+    } else if (mut == "BENDY01") {
+        p.dex_max --;
+
+    } else if (mut == "BENDY2") {
+        p.dex_max -=3;
+        p.str_max +=2;
+        p.recalc_hp();
+
+    } else if (mut == "BENDY3") {
+        p.dex_max -=4;
+        p.str_max +=4;
+        p.recalc_hp();
 
     } else if (mut == "DEX_UP_2") {
         p.dex_max -= 2;
