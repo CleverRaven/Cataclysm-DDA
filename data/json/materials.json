@@ -629,5 +629,23 @@
         "elec_resist" : 1,
         "fire_resist" : 0,
         "density" : 100
+    },{
+        "type" : "material",
+        "ident" : "egg",
+        "name" : "Egg",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "scratched",
+            "damaged",
+            "smashed",
+            "crushed"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 0,
+        "density" : 3
     }
 ]

@@ -357,7 +357,7 @@ void player::die(Creature* nkiller) {
 }
 
 void player::reset_stats()
-{   
+{
 
     // Didn't just pick something up
     last_item = itype_id("null");
@@ -7260,7 +7260,7 @@ bool player::eat(item *eaten, it_comest *comest)
         g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                   eaten->tname().c_str());
     }
-    
+
     // Moved this later in the process, so you actually eat it before converting to HP
     if ( (has_trait("EATHEALTH")) && ( comest->nutr > 0 && temp_hunger < capacity ) ) {
         int room = (capacity - temp_hunger);
@@ -7328,7 +7328,7 @@ bool player::eat(item *eaten, it_comest *comest)
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
-            eaten->made_of("flesh")) {
+            (eaten->made_of("flesh") || eaten->made_of("egg"))) {
         if (!one_in(3)) {
             vomit();
         }
