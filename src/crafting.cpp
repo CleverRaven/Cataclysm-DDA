@@ -1204,7 +1204,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     {
         search_name = false;
         std::string searchType = filter.substr(0, pos);
-        for(int i = 0 ; i < searchType.size() ; i++)
+        for( size_t i = 0; i < searchType.size(); ++i )
         {
             if(searchType[i] == 'n')
             {

@@ -2076,7 +2076,7 @@ talk_topic dialogue::opt(talk_topic topic)
  curline = 3;
  for (int i = 0; i < options.size(); i++) {
   folded = foldstring(options[i], (FULL_SCREEN_WIDTH / 2) - 4);
-  for(int j=0; j<folded.size(); j++) {
+  for( size_t j = 0; j < folded.size(); ++j ) {
    mvwprintz(win, curline, (FULL_SCREEN_WIDTH / 2) + 2, colors[i],
              ((j == 0 ? "" : "   ") + folded[j]).c_str());
    curline++;
@@ -2112,7 +2112,7 @@ talk_topic dialogue::opt(talk_topic topic)
 
  std::string response_printed = rmp_format("<you say something>You: %s", responses[ch].text.c_str());
  folded = foldstring(response_printed, FULL_SCREEN_WIDTH / 2);
- for(int i=0; i<folded.size(); i++){
+ for( size_t i = 0; i < folded.size(); ++i ){
    history.push_back(folded[i]);
    hilight_lines++;
  }

@@ -655,9 +655,9 @@ void player::activate_bionic(int b)
                 traj.insert(traj.begin(), point(i, j));
                 for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
                     if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")) {
-                        int l = 0;
                         tmp_item = g->m.i_at(i, j)[k];
                         g->m.i_rem(i, j, k);
+                        size_t l = 0;
                         for (l = 0; l < traj.size(); l++) {
                             int index = g->mon_at(traj[l].x, traj[l].y);
                             if (index != -1) {

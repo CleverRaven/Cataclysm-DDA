@@ -1214,7 +1214,7 @@ void splatter( std::vector<point> trajectory, int dam, Creature* target )
 
     std::vector<point> spurt = continue_line( trajectory, distance );
 
-    for( int i = 0; i < spurt.size(); i++ ) {
+    for( size_t i = 0; i < spurt.size(); ++i ) {
         int tarx = spurt[i].x;
         int tary = spurt[i].y;
         g->m.adjust_field_strength( point(tarx, tary), blood, 1 );

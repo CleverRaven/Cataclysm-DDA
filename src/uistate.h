@@ -83,7 +83,7 @@ public:
     using JsonSerializer::serialize;
     void serialize(JsonOut &json) const
     {
-        const int input_history_save_max = 25;
+        const unsigned int input_history_save_max = 25;
         json.start_object();
 
 /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
