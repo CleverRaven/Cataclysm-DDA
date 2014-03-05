@@ -971,10 +971,15 @@ void show_options(bool ingame)
     if( used_tiles_changed ) {
         //try and keep SDL calls limited to source files that deal specifically with them
         tilecontext->clear_buffer();
-        tilecontext->reinit( "gfx" );
-        g->init_ui();
-        if( ingame ) {
-            g->refresh_all();
+        try {
+            tilecontext->reinit( "gfx" );
+            g->init_ui();
+            if( ingame ) {
+                g->refresh_all();
+            }
+        } catch(std::string err) {
+            popup(_("Loading the tileset failed: %s"), err.c_str());
+            use_tiles = false;
         }
     }
 #endif // SDLTILES

@@ -256,9 +256,8 @@ void cata_tiles::load_tileset(std::string path)
     tile_atlas = IMG_Load(path.c_str());
 
     if(!tile_atlas) {
-        std::cerr << "Could not locate tileset file at " << path << std::endl;
-        DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
-        // TODO: run without tileset
+        DebugLog() << "Could not load tileset file " << path << "\nError: " << IMG_GetError() << "\n";
+        throw std::string("failed to open tileset image");
     }
 
     reload_tileset();
@@ -270,17 +269,11 @@ void cata_tiles::load_tilejson(std::string path)
 
     if (!config_file.good()) {
         //throw (std::string)"ERROR: " + path + (std::string)" could not be read.";
-        DebugLog() << (std::string)"ERROR: " + path + (std::string)" could not be read.\n";
-        return;
+        DebugLog() << "ERROR: " << path << " could not be read.\n";
+        throw std::string("failed to open tile info json");
     }
 
-    try {
-        load_tilejson_from_file( config_file );
-    } catch (std::string e) {
-        debugmsg("%s: %s", path.c_str(), e.c_str());
-    }
-
-    config_file.close();
+    load_tilejson_from_file( config_file );
 }
 
 void cata_tiles::load_tilejson_from_file(std::ifstream &f)
