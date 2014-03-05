@@ -7007,11 +7007,11 @@ void game::open()
     vehicle *veh = m.veh_at(openx, openy, vpart);
 
     if (veh) {
-        const vehicle *player_veh = m.veh_at(u.posx, u.posy);
-        bool inside = !player_veh || player_veh != veh;
         int openable = veh->next_part_to_open(vpart);
         if(openable >= 0) {
-            if(inside) {
+            const vehicle *player_veh = m.veh_at(u.posx, u.posy);
+            bool outside = !player_veh || player_veh != veh;
+            if(!outside) {
                 veh->open(openable);
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
