@@ -706,7 +706,7 @@ void game::cleanup_at_end(){
             for (int i = 0; i < characters.size(); ++i) {
                 message << "\n  " << characters[i];
             }
-            popup(message.str().c_str());
+            popup(message.str(), PF_NONE);
         }
         if (gamemode) {
             delete gamemode;
@@ -1633,7 +1633,7 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
             _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
 
     do {
-        ch = popup_getkey(stop_message.c_str());
+        ch = popup(stop_message, PF_GET_KEY);
     } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
              ch != 'Y' && ch != 'N' && ch != 'I' &&
              (force_uc || (ch != 'y' && ch != 'n' && ch != 'i')));
@@ -1662,8 +1662,7 @@ bool game::cancel_activity_query(const char* message, ...)
         }
         return false;
     }
-    std::string stop_message = s + u.activity.get_stop_phrase();
-    if (query_yn(stop_message.c_str())) {
+    if (query_yn("%s%s", s.c_str(), u.activity.get_stop_phrase().c_str())) {
         u.cancel_activity();
         return true;
     }
@@ -2130,7 +2129,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
 
         wmove(w, 1, 2);
         wprintz(w, c_white, "%s", item_name.c_str());
-        max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+        max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
         if(max_line > TERMY-VIEW_OFFSET_Y*2 - 5) {
           wmove(w, 1, iWidth - 3);
           if(offset_line == 0) {
@@ -2242,7 +2241,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
             }
             wmove(w, 1, 2);
             wprintz(w, c_white, "%s", item_name.c_str());
-            fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str.c_str());
+            fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
             draw_border(w);
             wrefresh(w);
         } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == '>' || cMenu == '<');
@@ -3571,7 +3570,7 @@ bool game::save_maps()
     MAPBUFFER.save(); // can throw std::ios::failure
         return true;
     } catch(std::ios::failure &) {
-        popup(_("Failed to maps"));
+        popup(_("Failed to save the maps"));
         return false;
     }
 }
@@ -4498,7 +4497,7 @@ faction* game::list_factions(std::string title)
           _("Ranking: %s"), fac_ranking_text(valfac[0].likes_u).c_str());
  mvwprintz(w_info, 1, 0, c_white,
           _("Respect: %s"), fac_respect_text(valfac[0].respects_u).c_str());
- fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe().c_str());
+ fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe());
  wrefresh(w_info);
  InputEvent input;
  do {
@@ -4532,7 +4531,7 @@ faction* game::list_factions(std::string title)
             _("Ranking: %s"), fac_ranking_text(valfac[sel].likes_u).c_str());
    mvwprintz(w_info, 1, 0, c_white,
             _("Respect: %s"), fac_respect_text(valfac[sel].respects_u).c_str());
-   fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe().c_str());
+   fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe());
    wrefresh(w_info);
   }
  } while (input != Cancel && input != Confirm && input != Close);
@@ -8755,7 +8754,7 @@ int game::list_items(const int iLastState)
                 wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
                 werase(w_item_info);
-                fold_and_print(w_item_info,1,1,width - 5, c_white, "%s", activeItem.info().c_str());
+                fold_and_print(w_item_info,1,1,width - 5, c_white, activeItem.info());
 
                 //Only redraw trail/terrain if x/y position changed
                 if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {

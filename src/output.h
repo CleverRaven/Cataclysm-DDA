@@ -52,8 +52,11 @@ extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 
 std::vector<std::string> foldstring (std::string str, int width);
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
+int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const std::string &text);
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const char *mes, ...);
+int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
+                        nc_color color, const std::string &text);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
 void display_table(WINDOW *w, const std::string &title, int columns,
                    const std::vector<std::string> &data);
@@ -67,9 +70,13 @@ void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, long ch);
 void mvputch_hi(int y, int x, nc_color FG, long ch);
 void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, long ch);
 void mvprintz(int y, int x, nc_color FG, const char *mes, ...);
+void mvprintz(int y, int x, nc_color FG, const std::string &text);
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
+void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const std::string &text);
 void printz(nc_color FG, const char *mes, ...);
+void printz(nc_color FG, const std::string &text);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
+void wprintz(WINDOW *w, nc_color FG, const std::string &text);
 
 void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
 void draw_tabs(WINDOW *w, int active_tab, ...);
@@ -103,6 +110,14 @@ int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options
 int  menu(bool cancelable, const char *mes, ...);
 void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
+typedef enum {
+    PF_NONE        = 0,
+    PF_GET_KEY     = 1 <<  0,
+    PF_NO_WAIT     = 1 <<  1,
+    PF_ON_TOP      = 1 <<  2,
+    PF_FULLSCREEN  = 1 <<  3,
+} PopupFlags;
+long popup(const std::string &text, PopupFlags flags);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
 int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
@@ -115,12 +130,17 @@ long special_symbol (long sym);
 // TODO: move these elsewhere
 // string manipulations.
 std::string from_sentence_case (const std::string &kingston);
-std::string string_format(std::string pattern, ...);
+
+std::string string_format(const char *pattern, ...);
+std::string vstring_format(const char *pattern, va_list argptr);
+std::string string_format(const std::string &pattern, ...);
+std::string vstring_format(const std::string &pattern, va_list argptr);
+
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
-size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const char *fmt, ...);
-size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const char *fmt, ...);
+size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const std::string &fmt);
+size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt);
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);

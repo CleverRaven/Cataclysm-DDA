@@ -1287,7 +1287,7 @@ void veh_interact::display_stats()
     // Write the overall damage
     mvwprintz(w_stats, status_y, status_x, c_ltgray, _("Status:  "));
     status_x += utf8_width(_("Status: ")) + 1;
-    fold_and_print(w_stats, status_y, status_x, status_w, totalDurabilityColor, totalDurabilityText.c_str());
+    fold_and_print(w_stats, status_y, status_x, status_w, totalDurabilityColor, totalDurabilityText);
 
     // Write the most damaged part
     if (mostDamagedPart != -1) {
@@ -1299,7 +1299,7 @@ void veh_interact::display_stats()
         int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = vehicle_part_types[partID].name;
-        fold_and_print(w_stats, dmg_prt_y, dmg_prt_x, dmg_prt_w, damagecolor, "%s", partName.c_str());
+        fold_and_print(w_stats, dmg_prt_y, dmg_prt_x, dmg_prt_w, damagecolor, partName);
     }
 
     wrefresh(w_stats);
@@ -1362,7 +1362,7 @@ void veh_interact::display_mode(char mode)
         for (size_t i = 0; i < actions.size(); i++) {
             shortcut_print(w_mode, 0, pos[i] + spacing * i + shift,
                            enabled[i]? c_ltgray : c_dkgray, enabled[i]? c_ltgreen : c_green,
-                           actions[i].c_str());
+                           actions[i]);
         }
     }
     wrefresh (w_mode);
@@ -1372,7 +1372,7 @@ size_t veh_interact::display_esc(WINDOW *win)
 {
     std::string backstr = _("<ESC>-back");
     size_t pos = getmaxx(win) - utf8_width(backstr.c_str()) + 2;    // right text align
-    shortcut_print(win, 0, pos, c_ltgray, c_ltgreen, backstr.c_str());
+    shortcut_print(win, 0, pos, c_ltgray, c_ltgreen, backstr);
     wrefresh(win);
     return pos;
 }
