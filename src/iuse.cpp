@@ -7475,11 +7475,17 @@ int iuse::boots(player *p, item *it, bool)
 
 int iuse::towel(player *p, item *it, bool)
 {
+    // TODO Wet towel? Crusty towel?
     // check if player is wet
     if( abs(p->has_morale(MORALE_WET)) )
     {
         p->rem_morale(MORALE_WET);
         g->add_msg_if_player(p,_("You use the %s to dry off!"), it->name.c_str());
+    }
+    else if( p->has_disease("slimed"))
+    {
+        p->rem_disease("slimed");
+        g->add_msg_if_player(p,_("You use the %s to clean up the slime!"), it->name.c_str());
     }
     else
     {
