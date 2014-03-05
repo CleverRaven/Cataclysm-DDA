@@ -427,6 +427,29 @@ public:
 // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true);
     int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true);
+
+    /**
+     *  Return the index of the next part to open at `p`'s location
+     *
+     *  The next part to open is the first unopened part in the reversed list of
+     *  parts at part `p`'s coordinates.
+     *
+     *  @param outside If true, give parts that can be opened from outside only
+     *  @return part index or -1 if no part
+     */
+    int next_part_to_open (int p, bool outside = false);
+
+    /**
+     *  Return the index of the next part to close at `p`
+     *
+     *  The next part to open is the first opened part in the list of
+     *  parts at part `p`'s coordinates. Returns -1 for no more to close.
+     *
+     *  @param outside If true, give parts that can be closed from outside only
+     *  @return part index or -1 if no part
+     */
+    int next_part_to_close (int p, bool outside = false);
+
 // returns indices of all parts in the vehicle with the given flag
     std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
     std::vector<int> all_parts_with_feature(const vpart_bitflags &f, bool unbroken = true);
@@ -590,6 +613,14 @@ public:
 // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
 // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
     bool add_item (int part, item itm);
+
+    /**
+     *  Opens everything that can be opened on the same tile as `p`
+     */
+    void open_all_at(int p);
+
+    // upgrades/refilling/etc. see veh_interact.cpp
+    void interact ();
 
 // remove item from part's cargo
     void remove_item (int part, int itemdex);
