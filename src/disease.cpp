@@ -942,15 +942,15 @@ void dis_effect(player &p, disease &dis) {
             break;
 
         case DI_BLOODWORMS:
-            if(one_in(256)) {
+            if(one_in(512)) {
                 p.health--;
             }
             break;
 
         case DI_BRAINWORM:
-            if((one_in(256)) && (!p.has_trait("NOPAIN"))) {
+            if((one_in(512)) && (!p.has_trait("NOPAIN"))) {
                 g->add_msg(_("Your head hurts."));
-                p.mod_pain(rng(1, 4));
+                p.mod_pain(rng(2, 8));
             }
             if(one_in(1024) && !p.has_disease("visuals")) {
                 g->add_msg(_("Your vision is getting fuzzy."));
