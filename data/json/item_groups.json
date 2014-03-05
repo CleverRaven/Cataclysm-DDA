@@ -6740,6 +6740,7 @@
       ["firecracker_act", 5],
       ["mininuke_act", 0],
       ["UPS_on", 0],
+      ["cvd_machine", 0],
       ["mp3_on", 0],
       ["c4armed", 0],
       ["apparatus", 10],
