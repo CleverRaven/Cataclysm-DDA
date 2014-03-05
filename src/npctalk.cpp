@@ -2333,7 +2333,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         update = true;
         ch = ' ';
         //Else the player gets cash, and it should not make the NPC negative.
-    } else if (cash > 0 && p->cash < cash * -1 && ch != 'T') {
+    } else if (cash > 0 && p->cash < cash  && ch != 'T') {
         popup(_("Not enough cash! %s has $%.2f, but the price is $%.2f. Use (T) to force the trade."), p->name.c_str(), (double)p->cash/100, (double)cash/100);
         update = true;
         ch = ' ';
