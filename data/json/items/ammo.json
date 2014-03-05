@@ -2996,7 +2996,7 @@
         "name" : "modified mininuke",
         "symbol" : "*",
         "color" : "green",
-        "description" : "A heavy modified handheld nuclear device. Intended to be fired from a sepcialized launcher, its case has been cut down and it has been rigged to explode on impact. While it is now somewhat lighter than before, it can no longer be triggered manually.",
+        "description" : "A heavy modified handheld nuclear device. Intended to be fired from a specialized launcher, its case has been cut down and it has been rigged to explode on impact. While it is now somewhat lighter than before, it can no longer be triggered manually.",
         "material" : "plastic",
         "flags": ["LEAK_RAD"],
         "volume" : 3,
