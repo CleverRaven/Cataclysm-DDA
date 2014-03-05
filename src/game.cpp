@@ -64,11 +64,6 @@
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
 #endif
 
-#ifdef _MSC_VER
-// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
-#define snprintf _snprintf_s
-#endif
-
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
@@ -1617,19 +1612,20 @@ void game::cancel_activity()
  u.cancel_activity();
 }
 
-bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
-  if(u.activity.type == ACT_NULL) return false;
-  char buff[1024];
-  va_list ap;
-  va_start(ap, reason);
-  vsprintf(buff, reason, ap);
-  va_end(ap);
-  std::string s(buff);
+bool game::cancel_activity_or_ignore_query(const char* reason, ...)
+{
+    if (u.activity.type == ACT_NULL) {
+        return false;
+    }
+    va_list ap;
+    va_start(ap, reason);
+    const std::string text = vstring_format(reason, ap);
+    va_end(ap);
 
   bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
   int ch=(int)' ';
 
-    std::string stop_message = s + u.activity.get_stop_phrase() +
+    std::string stop_message = text + u.activity.get_stop_phrase() +
             _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
 
     do {
@@ -1648,21 +1644,19 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
 
 bool game::cancel_activity_query(const char* message, ...)
 {
- char buff[1024];
- va_list ap;
- va_start(ap, message);
- vsprintf(buff, message, ap);
- va_end(ap);
- std::string s(buff);
+    va_list ap;
+    va_start(ap, message);
+    const std::string text = vstring_format(message, ap);
+    va_end(ap);
 
     if (ACT_NULL == u.activity.type) {
         if (u.has_destination()) {
-            add_msg(_("%s. Auto-move canceled"), s.c_str());
+            add_msg(_("%s. Auto-move canceled"), text.c_str());
             u.clear_destination();
         }
         return false;
     }
-    if (query_yn("%s%s", s.c_str(), u.activity.get_stop_phrase().c_str())) {
+    if (query_yn("%s%s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
         u.cancel_activity();
         return true;
     }
@@ -3801,10 +3795,7 @@ void game::decrease_nextinv()
 
 void game::vadd_msg(const char* msg, va_list ap)
 {
- char buff[1024];
- vsprintf(buff, msg, ap);
- std::string s(buff);
- add_msg_string(s);
+    add_msg_string(vstring_format(msg, ap));
 }
 
 void game::add_msg_string(const std::string &s)
@@ -3825,20 +3816,20 @@ void game::add_msg_string(const std::string &s)
 
 void game::add_msg(const char* msg, ...)
 {
- va_list ap;
- va_start(ap, msg);
- vadd_msg(msg, ap);
- va_end(ap);
+    va_list ap;
+    va_start(ap, msg);
+    add_msg_string(vstring_format(msg, ap));
+    va_end(ap);
 }
 
 void game::add_msg_if_player(Creature *p, const char* msg, ...)
 {
  if (p && p->is_player())
  {
-  va_list ap;
-  va_start(ap, msg);
-  vadd_msg(msg, ap);
-  va_end(ap);
+        va_list ap;
+        va_start(ap, msg);
+        add_msg_string(vstring_format(msg, ap));
+        va_end(ap);
  }
 }
 
@@ -3851,10 +3842,7 @@ void game::add_msg_if_npc(Creature *, const char *, ...)
     }
     va_list ap;
     va_start(ap, msg);
-
-    char buff[1024];
-    vsprintf(buff, msg, ap);
-    std::string processed_npc_string(buff);
+    std::string processed_npc_string = vstring_format(msg, ap);
     // These strings contain the substring <npcname>,
     // if present replace it with the actual npc name.
     size_t offset = processed_npc_string.find("<npcname>");
@@ -3877,9 +3865,7 @@ void game::add_msg_player_or_npc(Creature* t, const char* player_str, const char
     if( t->is_player() ) {
         vadd_msg( player_str, ap );
     } else if( u_see(t) ) {
-        char buff[1024];
-        vsprintf(buff, npc_str, ap);
-        std::string processed_npc_string(buff);
+        std::string processed_npc_string = vstring_format(npc_str, ap);
         // These strings contain the substring <npcname>,
         // if present replace it with the actual npc name.
         size_t offset = processed_npc_string.find("<npcname>");
