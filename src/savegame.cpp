@@ -36,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 15;
+const int savegame_version = 16;
 const int savegame_minver_game = 11;
 //const int savegame_minver_map = 11;
 const int savegame_minver_overmap = 12;
@@ -449,9 +449,8 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             std::string itemdata;
             getline(fin, itemdata);
             if (npcs.empty()) {
-                debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!",
-                         loc.x, loc.y);
-                debugmsg(itemdata.c_str());
+                debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
+                         loc.x, loc.y, itemdata.c_str());
             } else {
                 item tmp(itemdata);
                 npc* last = npcs.back();

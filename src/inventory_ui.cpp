@@ -1,7 +1,6 @@
 #include "game.h"
 #include "output.h"
 #include "uistate.h"
-#include "keypress.h"
 #include "translations.h"
 #include "item_factory.h"
 #include "options.h"
@@ -86,6 +85,8 @@ void print_inv_weight_vol(WINDOW *w_inv, int weight_carried, int vol_carried, in
     wprintw(w_inv, "/%-3d", vol_capacity - 2);
 }
 
+static const int right_column_offset = 45;
+
 // dropped_weapon==0 -> weapon is not dropped
 // dropped_weapon==-1 -> weapon is dropped (whole stack)
 // dropped_weapon>0 -> part of the weapon stack is dropped
@@ -102,22 +103,22 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
 
     // Print our weapon
     int n_items = 0;
-    mvwprintz(w_inv, 2, 45, c_magenta, _("WEAPON:"));
+    mvwprintz(w_inv, 2, right_column_offset, c_magenta, _("WEAPON:"));
     if (g->u.is_armed()) {
         n_items++;
         if (dropped_weapon != 0)
-            mvwprintz(w_inv, 3, 45, c_white, "%c %c %s", g->u.weapon.invlet,
+            mvwprintz(w_inv, 3, right_column_offset, c_white, "%c %c %s", g->u.weapon.invlet,
                       dropped_weapon == -1 ? '+' : '#',
                       g->u.weapname().c_str());
         else
-            mvwprintz(w_inv, 3, 45, g->u.weapon.color_in_inventory(), "%c - %s",
+            mvwprintz(w_inv, 3, right_column_offset, g->u.weapon.color_in_inventory(), "%c - %s",
                       g->u.weapon.invlet, g->u.weapname().c_str());
     } else {
-        mvwprintz(w_inv, 3, 45, c_ltgray, g->u.weapname().c_str());
+        mvwprintz(w_inv, 3, right_column_offset, c_ltgray, g->u.weapname().c_str());
     }
     // Print worn items
     if (g->u.worn.size() > 0) {
-        mvwprintz(w_inv, 5, 45, c_magenta, _("ITEMS WORN:"));
+        mvwprintz(w_inv, 5, right_column_offset, c_magenta, _("ITEMS WORN:"));
     }
     for (int i = 0; i < g->u.worn.size(); i++) {
         n_items++;
@@ -128,11 +129,11 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
             }
         }
         if (dropped_armor)
-            mvwprintz(w_inv, 6 + i, 45, c_white, "%c + %s", g->u.worn[i].invlet,
+            mvwprintz(w_inv, 6 + i, right_column_offset, c_white, "%c + %s", g->u.worn[i].invlet,
                       g->u.worn[i].display_name().c_str());
         else
-            mvwprintz(w_inv, 6 + i, 45, g->u.worn[i].color_in_inventory(), "%c - %s", g->u.worn[i].invlet,
-                      g->u.worn[i].display_name().c_str());
+            mvwprintz( w_inv, 6 + i, right_column_offset, g->u.worn[i].color_in_inventory(),
+                       "%c - %s", g->u.worn[i].invlet, g->u.worn[i].display_name().c_str() );
     }
 
     // Print items carried
@@ -241,9 +242,15 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 }
                 nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
                 const char invlet = it.invlet == 0 ? ' ' : it.invlet;
-                mvwputch(w_inv, cur_line, 0, (cur_it == selected ? selected_line_color : c_white), invlet);
-                mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? selected_line_color : it.color_in_inventory()),
-                          _(" %s"), it.display_name().c_str());
+                // Use width of the column minus two for the hotkey and leading space,
+                // and one for a space on the right.
+                const std::string truncated_item_name = std::string(
+                    _(it.display_name().c_str()) ).substr( 0, right_column_offset - 3 );
+                mvwputch(w_inv, cur_line, 0,
+                         (cur_it == selected ? selected_line_color : c_white), invlet);
+                mvwprintz( w_inv, cur_line, 1,
+                           (cur_it == selected ? selected_line_color : it.color_in_inventory()),
+                           " %s", truncated_item_name.c_str() );
                 if (slice[cur_it].first->size() > 1) {
                     wprintw(w_inv, " x %d", slice[cur_it].first->size());
                 }
@@ -288,7 +295,12 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 selected = start;
             } else {
                 if (inCategoryMode) {
-                    selected < firsts[category_order[category_order.size() - 1]] ? selected = next_category_at : 0;
+                    if( category_order.size() &&
+                        selected < firsts[category_order[category_order.size() - 1]] ) {
+                        selected = next_category_at;
+                    } else {
+                        selected = 0;
+                    }
                 } else {
                     selected++;
                 }

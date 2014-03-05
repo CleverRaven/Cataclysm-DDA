@@ -12,7 +12,6 @@
 #include "color.h"
 #include "input.h"
 #include "rng.h"
-#include "keypress.h"
 #include "options.h"
 #include "cursesdef.h"
 #include "catacharset.h"
@@ -75,13 +74,18 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];    //TODO replace Magic Number
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
+    return fold_and_print(w, begin_y, begin_x, width, base_color, text);
+}
 
+// returns number of printed lines
+int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
+                   const std::string &text)
+{
     nc_color color = base_color;
     std::vector<std::string> textformatted;
-    textformatted = foldstring(buff, width);
+    textformatted = foldstring(text, width);
     for (int line_num = 0; line_num < textformatted.size(); line_num++) {
         wmove(w, line_num + begin_y, begin_x);
         // split into colourable sections
@@ -96,20 +100,24 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
         }
     }
     return textformatted.size();
-};
+}
 
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color base_color, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];    //TODO replace Magic Number
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
+    return fold_and_print_from(w, begin_y, begin_x, width, begin_line, base_color, text);
+}
 
+int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
+                        nc_color base_color, const std::string &text)
+{
     nc_color color = base_color;
     std::vector<std::string> textformatted;
-    textformatted = foldstring(buff, width);
+    textformatted = foldstring(text, width);
     for (int line_num = 0; line_num < textformatted.size(); line_num++) {
         if (line_num >= begin_line) {
             wmove(w, line_num + begin_y - begin_line, begin_x);
@@ -151,8 +159,8 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
         if (begin_y == 0 && caption != "") {
             begin_y = fold_and_print(w, 0, 1, width - 2, c_white, caption.c_str()) + 1;
         }
-        std::vector<std::string> next_paragraph = foldstring(text[i].c_str(), width);
-        if (begin_y + next_paragraph.size() > height) {
+        std::vector<std::string> next_paragraph = foldstring(text[i].c_str(), width - 2);
+        if (begin_y + next_paragraph.size() > height - ((i + 1) < text.size() ? 1 : 0)) {
             // Next page
             i--;
             mvwprintw(w, height - 1, 1, _("Press any key for more..."));
@@ -174,19 +182,18 @@ void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];    //TODO replace Magic Number
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
 
     int window_width = getmaxx(w);
-    int string_width = utf8_width(buff);
+    int string_width = utf8_width(text.c_str());
     int x;
     if (string_width >= window_width) {
         x = 0;
     } else {
         x = (window_width - string_width) / 2;
     }
-    mvwprintz(w, y, x, FG, buff);
+    mvwprintz(w, y, x, FG, text.c_str());
 }
 
 void mvputch(int y, int x, nc_color FG, long ch)
@@ -246,11 +253,17 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
     attron(FG);
-    mvprintw(y, x, "%s", buff);
+    mvprintw(y, x, "%s", text.c_str());
+    attroff(FG);
+}
+
+void mvprintz(int y, int x, nc_color FG, const std::string &text)
+{
+    attron(FG);
+    mvprintw(y, x, "%s", text.c_str());
     attroff(FG);
 }
 
@@ -258,11 +271,17 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
     wattron(w, FG);
-    mvwprintw(w, y, x, "%s", buff);
+    mvwprintw(w, y, x, "%s", text.c_str());
+    wattroff(w, FG);
+}
+
+void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const std::string &text)
+{
+    wattron(w, FG);
+    mvwprintw(w, y, x, "%s", text.c_str());
     wattroff(w, FG);
 }
 
@@ -270,11 +289,17 @@ void printz(nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
     attron(FG);
-    printw("%s", buff);
+    printw("%s", text.c_str());
+    attroff(FG);
+}
+
+void printz(nc_color FG, const std::string &text)
+{
+    attron(FG);
+    printw("%s", text.c_str());
     attroff(FG);
 }
 
@@ -282,11 +307,17 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
     wattron(w, FG);
-    wprintw(w, "%s", buff);
+    wprintw(w, "%s", text.c_str());
+    wattroff(w, FG);
+}
+
+void wprintz(WINDOW *w, nc_color FG, const std::string &text)
+{
+    wattron(w, FG);
+    wprintw(w, "%s", text.c_str());
     wattroff(w, FG);
 }
 
@@ -372,14 +403,12 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[4096];
-    //[1024];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", buff);
+    fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", text.c_str());
     std::ofstream fout;
     fout.open("debug.log", std::ios_base::app | std::ios_base::out);
-    fout << filename << "[" << line << "]: " << buff << "\n";
+    fout << filename << "[" << line << "]: " << text << "\n";
     fout.close();
     while (getch() != ' ') {
         // wait for spacebar
@@ -391,16 +420,15 @@ bool query_yn(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[1024];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
 
     bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
     std::string query;
     if (force_uc) {
-        query = string_format(_("%s (Y/N - Case Sensitive)"), buff);
+        query = string_format(_("%s (Y/N - Case Sensitive)"), text.c_str());
     } else {
-        query = string_format(_("%s (y/n)"), buff);
+        query = string_format(_("%s (y/n)"), text.c_str());
     }
 
     int win_width = utf8_width(query.c_str()) + 2;
@@ -435,11 +463,10 @@ int query_int(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[1024];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
 
-    std::string raw_input = string_input_popup(std::string(buff));
+    std::string raw_input = string_input_popup(text);
 
     //Note that atoi returns 0 for anything it doesn't like.
     return atoi(raw_input.c_str());
@@ -485,7 +512,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
     int endx = iPopupWidth - 3;
 
-    for(int i = 0; i < descformatted.size(); i++ ) {
+    for( size_t i = 0; i < descformatted.size(); ++i ) {
         mvwprintz(w, 1 + i, 1, desc_color, "%s", descformatted[i].c_str() );
     }
     mvwprintz(w, starty, 1, title_color, "%s", title.c_str() );
@@ -671,39 +698,9 @@ char popup_getkey(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[8192];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
-    height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
-        int cw = utf8_width(folded[i].c_str());
-        if(cw > width) {
-            width = cw;
-        }
-    }
-    width += 2;
-    if (height > FULL_SCREEN_HEIGHT) {
-        height = FULL_SCREEN_HEIGHT;
-    }
-    WINDOW *w = newwin(height + 1, width, (TERMY - (height + 1)) / 2,
-                       (TERMX > width) ? (TERMX - width) / 2 : 0);
-    draw_border(w);
-
-    for(int i = 0; i < folded.size(); i++) {
-        mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
-    }
-
-    wrefresh(w);
-    char ch = getch();;
-    werase(w);
-    wrefresh(w);
-    delwin(w);
-    refresh();
-    return ch;
+    return popup(text, PF_GET_KEY);
 }
 
 int menu_vec(bool cancelable, const char *mes,
@@ -736,152 +733,90 @@ void popup_top(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[4096];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
+    popup(text, PF_ON_TOP);
+}
+
+long popup(const std::string &text, PopupFlags flags)
+{
     int width = 0;
     int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
+    std::vector<std::string> folded = foldstring(text, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         int cw = utf8_width(folded[i].c_str());
         if(cw > width) {
             width = cw;
         }
     }
     width += 2;
-    WINDOW *w = newwin(height, width, 0, (TERMX > width) ? (TERMX - width) / 2 : 0);
+    WINDOW *w;
+    if ((flags & PF_FULLSCREEN) != 0) {
+        w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+    } else if ((flags & PF_ON_TOP) == 0) {
+        if (height > FULL_SCREEN_HEIGHT) {
+            height = FULL_SCREEN_HEIGHT;
+        }
+        w = newwin(height, width, (TERMY - (height + 1)) / 2,
+                       (TERMX > width) ? (TERMX - width) / 2 : 0);
+    } else {
+        w = newwin(height, width, 0, (TERMX > width) ? (TERMX - width) / 2 : 0);
+    }
     draw_border(w);
 
-    for(int i = 0; i < folded.size(); i++) {
+    for( size_t i = 0; i < folded.size(); ++i ) {
         mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
     }
 
     wrefresh(w);
-    char ch;
-    do {
+    long ch = 0;
+    // Don't wait if not required.
+    while((flags & PF_NO_WAIT) == 0) {
         ch = getch();
-    } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+        if ((flags & PF_GET_KEY) != 0) {
+            // return the first key that got pressed.
+            break;
+        }
+        if (ch == ' ' || ch == '\n' || ch == KEY_ESCAPE) {
+            // The usuall "escape menu/window" keys.
+            break;
+        }
+    }
     werase(w);
     wrefresh(w);
     delwin(w);
     refresh();
+    return ch;
 }
 
 void popup(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[4096];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
-    height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
-        int cw = utf8_width(folded[i].c_str());
-        if(cw > width) {
-            width = cw;
-        }
-    }
-    width += 2;
-    if (height > FULL_SCREEN_HEIGHT) {
-        height = FULL_SCREEN_HEIGHT;
-    }
-    WINDOW *w = newwin(height, width, (TERMY - (height + 1)) / 2,
-                       (TERMX > width) ? (TERMX - width) / 2 : 0);
-    draw_border(w);
-
-    for(int i = 0; i < folded.size(); i++) {
-        mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
-    }
-
-    wrefresh(w);
-    char ch;
-    do {
-        ch = getch();
-    } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
-    werase(w);
-    wrefresh(w);
-    delwin(w);
-    refresh();
+    popup(text, PF_NONE);
 }
 
 void popup_nowait(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[4096];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 2);
-    height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
-        int cw = utf8_width(folded[i].c_str());
-        if(cw > width) {
-            width = cw;
-        }
-    }
-    width += 2;
-    if (height > FULL_SCREEN_HEIGHT) {
-        height = FULL_SCREEN_HEIGHT;
-    }
-    WINDOW *w = newwin(height, width, (TERMY - (height + 1)) / 2,
-                       (TERMX > width) ? (TERMX - width) / 2 : 0);
-    draw_border(w);
-
-    for(int i = 0; i < folded.size(); i++) {
-        mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
-    }
-    wrefresh(w);
-    delwin(w);
-    refresh();
+    popup(text, PF_NO_WAIT);
 }
 
 void full_screen_popup(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    char buff[8192];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string tmp = buff;
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring(tmp, FULL_SCREEN_WIDTH - 3);
-    height += folded.size();
-    for(int i = 0; i < folded.size(); i++) {
-        int cw = utf8_width(folded[i].c_str());
-        if(cw > width) {
-            width = cw;
-        }
-    }
-    width += 2;
-
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-    draw_border(w);
-
-    for(int i = 0; i < folded.size(); i++) {
-        mvwprintz(w, i + 1, 2, c_white, folded[i].c_str());
-    }
-
-    wrefresh(w);
-    char ch;
-    do {
-        ch = getch();
-    } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
-    werase(w);
-    wrefresh(w);
-    delwin(w);
-    refresh();
+    popup(text, PF_FULLSCREEN);
 }
 
 //note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
@@ -1297,21 +1232,72 @@ std::string from_sentence_case (const std::string &kingston)
     return "";
 }
 
-std::string string_format(std::string pattern, ...)
+std::string vstring_format(const char *pattern, va_list argptr)
+{
+    int buffer_size = 1024; // Any number is good
+    int returned_length = 0;
+    std::vector<char> buffer(buffer_size, '\0');
+#ifdef _MSC_VER
+    // Microsofts vsnprintf does return -1 on buffer overflow, not
+    // the required size of the buffer. So we have to increase the buffer
+    // until we succeed.
+    buffer_size = 1024;
+    while(true) {
+        buffer.resize(buffer_size, '\0');
+        returned_length = _vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+        if (returned_length >= 0) {
+            break;
+        }
+        buffer_size *= 2;
+    }
+#else
+    const int required = vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+    if (required < 0) {
+        debugmsg("invalid input to string_format function!");
+        return std::string("invalid input to string_format function!");
+    } else if (required >= buffer_size) {
+        // Did not fit the buffer, retry with better buffer size.
+        buffer_size = required + 1;
+        buffer.resize(buffer_size, '\0');
+        // Try again one time, this should be save as we know the required
+        // buffer size and have allocated that much.
+        vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+        // ignore the result of vsnprintf, because it returns different
+        // things on windows, see above.
+        returned_length = required;
+    } else {
+        returned_length = required;
+    }
+#endif
+    //drop contents behind \003, this trick is there to skip certain arguments
+    std::vector<char>::iterator a = std::find(buffer.begin(), buffer.end(), '\003');
+    if (a != buffer.end()) {
+        return std::string(&buffer[0], a - buffer.begin());
+    }
+    return std::string(&buffer[0], returned_length);
+}
+
+std::string string_format(const char *pattern, ...)
 {
     va_list ap;
     va_start(ap, pattern);
-    char buff[3000];    //TODO replace Magic Number
-    vsprintf(buff, pattern.c_str(), ap);
+    const std::string result = vstring_format(pattern, ap);
     va_end(ap);
+    return result;
+}
 
-    //drop contents behind \003, this trick is there to skip certain arguments
-    char *break_pos = strchr(buff, '\003');
-    if(break_pos) {
-        break_pos[0] = '\0';
-    }
+std::string vstring_format(const std::string &pattern, va_list argptr)
+{
+    return vstring_format(pattern.c_str(), argptr);
+}
 
-    return buff;
+std::string string_format(const std::string &pattern, ...)
+{
+    va_list ap;
+    va_start(ap, pattern);
+    const std::string result = vstring_format(pattern.c_str(), ap);
+    va_end(ap);
+    return result;
 }
 
 //wrap if for i18n
@@ -1341,16 +1327,9 @@ std::string rm_prefix(std::string str, char c1, char c2)
 // draw a menu item like strign with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
-size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const char *fmt,
-                      ...)
+size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, const std::string &fmt)
 {
-    va_list ap;
-    va_start(ap, fmt);
-    char buff[3000];    //TODO replace Magic Number
-    vsprintf(buff, fmt, ap);
-    va_end(ap);
-
-    std::string tmp = buff;
+    std::string tmp = fmt;
     size_t pos = tmp.find_first_of('<');
     size_t pos2 = tmp.find_first_of('>');
     size_t len = 0;
@@ -1362,22 +1341,16 @@ size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, 
         len = utf8_width(tmp.c_str());
     } else {
         // no shutcut?
-        mvwprintz(w, y, x, color, buff);
-        len = utf8_width(buff);
+        mvwprintz(w, y, x, color, fmt.c_str());
+        len = utf8_width(fmt.c_str());
     }
     return len;
 }
 
 //same as above, from current position
-size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const char *fmt, ...)
+size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt)
 {
-    va_list ap;
-    va_start(ap, fmt);
-    char buff[3000];    //TODO replace Magic Number
-    vsprintf(buff, fmt, ap);
-    va_end(ap);
-
-    std::string tmp = buff;
+    std::string tmp = fmt;
     size_t pos = tmp.find_first_of('<');
     size_t pos2 = tmp.find_first_of('>');
     size_t len = 0;
@@ -1390,8 +1363,8 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const char *fm
         len = utf8_width(tmp.c_str());
     } else {
         // no shutcut?
-        wprintz(w, color, buff);
-        len = utf8_width(buff);
+        wprintz(w, color, fmt.c_str());
+        len = utf8_width(fmt.c_str());
     }
     return len;
 }

@@ -223,7 +223,7 @@ void tutorial_game::add_message(tut_lesson lesson)
  if (tutorials_seen[lesson])
   return;
  tutorials_seen[lesson] = true;
- popup_top(tut_text[lesson].c_str());
+ popup(tut_text[lesson], PF_ON_TOP);
  g->refresh_all();
 }
 

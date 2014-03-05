@@ -1,7 +1,6 @@
 #include <string>
 #include "veh_interact.h"
 #include "vehicle.h"
-#include "keypress.h"
 #include "game.h"
 #include "output.h"
 #include "catacharset.h"
@@ -205,7 +204,6 @@ void veh_interact::allocate_windows()
     display_grid();
     display_name();
     display_stats();
-    move_cursor(0, 0); // display w_disp & w_parts
 }
 
 void veh_interact::do_main_loop()
@@ -213,10 +211,10 @@ void veh_interact::do_main_loop()
     display_grid();
     display_stats ();
     display_veh   ();
-    move_cursor (0, 0);
+    move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
-        char ch = input(); // See keypress.h
+        char ch = input(); // See input.h
         int dx, dy;
         get_direction(dx, dy, ch);
         if (ch == KEY_ESCAPE || ch == 'q' ) {
@@ -303,7 +301,7 @@ void veh_interact::cache_tool_availability()
                   crafting_inv.has_charges("toolset", charges / 20));
     has_goggles = (crafting_inv.has_tools("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||
-                   g->u.is_wearing("goggles_welding"));
+                   g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on"));
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED));
     has_jack = crafting_inv.has_tools("jack", 1);
     has_siphon = crafting_inv.has_tools("hose", 1);
@@ -492,7 +490,7 @@ void veh_interact::do_install(task_reason reason)
                        sel_vpart_info->difficulty,
                        engine_string.c_str());
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
@@ -595,7 +593,7 @@ void veh_interact::do_repair(task_reason reason)
                            itypes[itm]->name.c_str());
         }
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') &&
@@ -731,7 +729,7 @@ void veh_interact::do_remove(task_reason reason)
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if (ch == '\n' || ch == ' ') {
@@ -828,7 +826,7 @@ void veh_interact::do_tirechange(task_reason reason)
         bool has_tools = has_jack && has_wrench;
         werase (w_msg);
         wrefresh (w_msg);
-        char ch = input(); // See keypress.h
+        char ch = input();
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && is_wheel) {
@@ -911,6 +909,20 @@ int veh_interact::part_at (int dx, int dy)
 }
 
 /**
+ * Checks to see if you can currently install this part at current position.
+ * Affects coloring in display_list() and is also used to
+ * sort can_mount so installable parts come first.
+ */
+bool veh_interact::can_currently_install(vpart_info *vpart)
+{
+    bool has_comps = crafting_inv.has_components(vpart->item, 1);
+    bool has_skill = g->u.skillLevel("mechanics") >= vpart->difficulty;
+    bool is_wheel = vpart->has_flag("WHEEL");
+    return (has_comps && (has_skill || is_wheel));
+}
+
+
+/**
  * Moves the cursor on the vehicle editing window.
  * @param dx How far to move the cursor on the x-axis.
  * @param dy How far to move the cursor on the y-axis.
@@ -957,12 +969,18 @@ void veh_interact::move_cursor (int dx, int dy)
 
     can_mount.clear();
     if (!obstruct) {
+        int divider_index = 0;
         for (std::map<std::string, vpart_info>::iterator
              part_type_iterator = vehicle_part_types.begin();
              part_type_iterator != vehicle_part_types.end();
              ++part_type_iterator) {
-            if (veh->can_mount (vdx, vdy, part_type_iterator->first)) {
-                can_mount.push_back (part_type_iterator->second);
+            if (veh->can_mount(vdx, vdy, part_type_iterator->first)) {
+                vpart_info *vpi = &part_type_iterator->second;
+                if (can_currently_install(vpi)) {
+                    can_mount.insert( can_mount.begin() + divider_index++, *vpi );
+                } else {
+                    can_mount.push_back( *vpi );
+                }
             }
         }
     }
@@ -1269,7 +1287,7 @@ void veh_interact::display_stats()
     // Write the overall damage
     mvwprintz(w_stats, status_y, status_x, c_ltgray, _("Status:  "));
     status_x += utf8_width(_("Status: ")) + 1;
-    fold_and_print(w_stats, status_y, status_x, status_w, totalDurabilityColor, totalDurabilityText.c_str());
+    fold_and_print(w_stats, status_y, status_x, status_w, totalDurabilityColor, totalDurabilityText);
 
     // Write the most damaged part
     if (mostDamagedPart != -1) {
@@ -1281,7 +1299,7 @@ void veh_interact::display_stats()
         int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = vehicle_part_types[partID].name;
-        fold_and_print(w_stats, dmg_prt_y, dmg_prt_x, dmg_prt_w, damagecolor, "%s", partName.c_str());
+        fold_and_print(w_stats, dmg_prt_y, dmg_prt_x, dmg_prt_w, damagecolor, partName);
     }
 
     wrefresh(w_stats);
@@ -1344,7 +1362,7 @@ void veh_interact::display_mode(char mode)
         for (size_t i = 0; i < actions.size(); i++) {
             shortcut_print(w_mode, 0, pos[i] + spacing * i + shift,
                            enabled[i]? c_ltgray : c_dkgray, enabled[i]? c_ltgreen : c_green,
-                           actions[i].c_str());
+                           actions[i]);
         }
     }
     wrefresh (w_mode);
@@ -1354,7 +1372,7 @@ size_t veh_interact::display_esc(WINDOW *win)
 {
     std::string backstr = _("<ESC>-back");
     size_t pos = getmaxx(win) - utf8_width(backstr.c_str()) + 2;    // right text align
-    shortcut_print(win, 0, pos, c_ltgray, c_ltgreen, backstr.c_str());
+    shortcut_print(win, 0, pos, c_ltgray, c_ltgreen, backstr);
     wrefresh(win);
     return pos;
 }
@@ -1371,11 +1389,7 @@ void veh_interact::display_list(int pos, std::vector<vpart_info> list)
     int page = pos / page_size;
     for (int i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
         int y = i - page * page_size;
-        itype_id itm = list[i].item;
-        bool has_comps = crafting_inv.has_components(itm, 1);
-        bool has_skill = g->u.skillLevel("mechanics") >= list[i].difficulty;
-        bool is_wheel = list[i].has_flag("WHEEL");
-        nc_color col = has_comps && (has_skill || is_wheel) ? c_white : c_dkgray;
+        nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());
         mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
     }
@@ -1494,7 +1508,7 @@ item consume_vpart_item (std::string vpid)
     } else {
         // popup menu!?
         std::vector<std::string> options;
-        for(int i = 0; i < candidates.size(); i++) {
+        for( size_t i = 0; i < candidates.size(); ++i ) {
             if( candidates[i] ) {
                 // In inventory.
                 options.push_back(vehicle_part_types[vpid].name);
@@ -1544,7 +1558,7 @@ void complete_vehicle ()
     inventory crafting_inv = g->crafting_inventory(&g->u);
     const bool has_goggles = crafting_inv.has_tools("goggles_welding", 1) ||
                    g->u.has_bionic("bio_sunglasses") ||
-                   g->u.is_wearing("goggles_welding");
+                   g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on");
     int partnum;
     item used_item;
     bool broken;

@@ -11,8 +11,7 @@
 
 void weather_effect::glare()
 {
- if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses")
- && !g->u.is_wearing("fancy_sunglasses") && !g->u.has_bionic("bio_sunglasses")) {
+ if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
         if(!g->u.has_effect("glare")) {
             g->u.add_env_effect("glare", bp_eyes, 2, 2);
         } else {
@@ -221,7 +220,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
     std::set<point>::iterator i;
     for (i = funnel_locs.begin(); i != funnel_locs.end(); ++i) {
         item *c = NULL;
-        char maxcontains = 0;
+        unsigned int maxcontains = 0;
         point loc = *i;
         std::vector<item>& items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
@@ -231,8 +230,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
             // impure water and acid.
             for (int j = 0; j < items.size(); j++) {
                 item *it = &(items[j]);
-                int ismax = it->is_funnel_container( maxcontains );
-                if ( ismax > maxcontains ) {
+                if ( it->is_funnel_container( maxcontains ) ) {
                     c = it;
                 }
             }

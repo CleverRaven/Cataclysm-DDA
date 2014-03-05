@@ -9,7 +9,6 @@
 #include "line.h"
 #include "game.h"
 #include "npc.h"
-#include "keypress.h"
 #include <cstring>
 #include <ostream>
 #include "debug.h"
@@ -24,11 +23,6 @@
 #include "mapdata.h"
 #include "mapgen.h"
 #define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
-
-#ifdef _MSC_VER
-// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
-#define snprintf _snprintf_s
-#endif
 
 #define STREETCHANCE 2
 #define NUM_FOREST 250
@@ -3474,7 +3468,7 @@ void overmap::place_mongroups()
 
 void overmap::place_radios()
 {
- char message[200];
+ std::string message;
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
    if (ter(i, j, 0) == "radio_tower") {
@@ -3482,7 +3476,7 @@ void overmap::place_radios()
        switch(choice)
        {
        case 0:
-           snprintf( message, sizeof(message), _("This is emergency broadcast station %d%d.\
+           message = string_format(_("This is emergency broadcast station %d%d.\
   Please proceed quickly and calmly to your designated evacuation point."), i, j);
            radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));
            break;
@@ -3495,11 +3489,11 @@ void overmap::place_radios()
            break;
        }
    } else if (ter(i, j, 0) == "lmoe") {
-    snprintf( message, sizeof(message), _("This is automated emergency shelter beacon %d%d.\
+    message = string_format(_("This is automated emergency shelter beacon %d%d.\
   Supplies, amenities and shelter are stocked."), i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH) / 2, message));
    } else if (ter(i, j, 0) == "fema_entrance") {
-    snprintf( message, sizeof(message), _("This is FEMA camp %d%d.\
+    message = string_format(_("This is FEMA camp %d%d.\
   Supplies are limited, please bring supplemental food, water, and bedding.\
   This is FEMA camp %d%d.  A designated long-term emergency shelter."), i, j, i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));

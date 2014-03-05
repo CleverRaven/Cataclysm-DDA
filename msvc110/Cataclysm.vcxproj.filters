@@ -162,9 +162,6 @@
     <ClCompile Include="..\src\json.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\keypress.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\lightmap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -555,9 +552,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\json.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\keypress.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\lightmap.h">

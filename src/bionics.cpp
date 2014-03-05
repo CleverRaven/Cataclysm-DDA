@@ -2,7 +2,6 @@
 #include "game.h"
 #include "rng.h"
 #include "input.h"
-#include "keypress.h"
 #include "item.h"
 #include "bionics.h"
 #include "line.h"
@@ -65,7 +64,7 @@ void show_bionics_titlebar(WINDOW *window, player *p, bool activating, bool reas
     } else {
         desc = _("Examining. Press <color_yellow>!</color> to activate your implants.\nPress <color_yellow>=</color> to reassign a key.");
     }
-    fold_and_print(window, 0, cap_offset, desc_length, c_white, desc.c_str());
+    fold_and_print(window, 0, cap_offset, desc_length, c_white, desc);
 
     wrefresh(window);
 }
@@ -282,7 +281,7 @@ You can not activate %s!  To read a description of \
                 draw_exam_window(wBio, DESCRIPTION_LINE_Y, true);
                 // Clear the lines first
                 werase(w_description);
-                fold_and_print(w_description, 0, 0, WIDTH - 2, c_ltblue, bio_data.description.c_str());
+                fold_and_print(w_description, 0, 0, WIDTH - 2, c_ltblue, bio_data.description);
                 wrefresh(w_description);
             }
         }
@@ -662,9 +661,9 @@ void player::activate_bionic(int b)
                 traj.insert(traj.begin(), point(i, j));
                 for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
                     if (g->m.i_at(i, j)[k].made_of("iron") || g->m.i_at(i, j)[k].made_of("steel")) {
-                        int l = 0;
                         tmp_item = g->m.i_at(i, j)[k];
                         g->m.i_rem(i, j, k);
+                        size_t l = 0;
                         for (l = 0; l < traj.size(); l++) {
                             int index = g->mon_at(traj[l].x, traj[l].y);
                             if (index != -1) {

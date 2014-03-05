@@ -255,7 +255,7 @@ void monster::move()
         if(!g->m.i_at(posx(), posy()).empty()) {
             g->add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
             std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
-            for(int i = 0 ; i < items_absorbed.size(); i++) {
+            for( size_t i = 0; i < items_absorbed.size(); ++i ) {
                 hp += items_absorbed.at(i).volume(); //Yeah this means it can get more HP than normal.
             }
             g->m.i_clear(posx(), posy());
@@ -671,7 +671,7 @@ int monster::bash_at(int x, int y) {
         int diffx = pos().x - x;
         int diffy = pos().y - y;
         int mo_bash = 0;
-        for( int i = 0; i < bzone.size(); i++ ) {
+        for( size_t i = 0; i < bzone.size(); ++i ) {
            if ( g->mon_at( bzone[i] ) != -1 ) {
               monster & helpermon = g->zombie( g->mon_at( bzone[i] ) );
               // trying for the same door and can bash; put on helper hat

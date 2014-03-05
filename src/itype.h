@@ -131,9 +131,12 @@ struct itype
 
  std::set<std::string> item_tags;
  std::set<std::string> techniques;
+
  unsigned int light_emission;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
  const item_category *category; // category pointer or NULL for automatic selection
+
+ virtual std::string get_item_type_string() { return "misc"; }
 
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
@@ -217,6 +220,7 @@ struct it_comest : public virtual itype
     itype_id tool;      // Tool needed to consume (e.g. lighter for cigarettes)
 
     virtual bool is_food() { return true; }
+    virtual std::string get_item_type_string() { return "FOOD"; }
 
     virtual bool count_by_charges()
     {
@@ -299,6 +303,7 @@ struct it_var_veh_part: public virtual itype
  virtual bool is_var_veh_part(){return true;}
  virtual bool is_wheel()          { return false; }
  virtual bool is_engine() { return engine; }
+ virtual std::string get_item_type_string() { return "VEHICLE_PART"; }
 };
 
 
@@ -320,6 +325,7 @@ struct it_ammo : public virtual itype
  virtual bool is_ammo() { return true; }
 // virtual bool count_by_charges() { return id != "gasoline"; }
  virtual bool count_by_charges() { return true; }
+ virtual std::string get_item_type_string() { return "AMMO"; }
 
  it_ammo() : itype()
  {
@@ -375,6 +381,7 @@ struct it_gun : public virtual itype
  std::map<std::string, int> valid_mod_locations;
 
  virtual bool is_gun() { return true; }
+ virtual std::string get_item_type_string() { return "GUN"; }
 
  it_gun(std::string pid, unsigned int pprice,
         std::string pname, std::string pdes,
@@ -499,6 +506,8 @@ struct it_armor : public virtual itype
  virtual bool is_armor() { return true; }
  virtual bool is_power_armor() { return power_armor; }
  virtual bool is_artifact() { return false; }
+ virtual std::string get_item_type_string() { return "ARMOR"; }
+
  std::string bash_dmg_verb() { return m2 == "null" || !one_in(3) ?
          material_type::find_material(m1)->bash_dmg_verb() :
          material_type::find_material(m2)->bash_dmg_verb();
@@ -557,6 +566,7 @@ struct it_book : public virtual itype
  int chapters; //Fun books have chapters; after all are read, the book is less fun
  std::map<recipe*, int> recipes; //what recipes can be learned from this book
  virtual bool is_book() { return true; }
+ virtual std::string get_item_type_string() { return "BOOK"; }
  it_book() {}
  it_book(std::string pid, unsigned int pprice,
          std::string pname, std::string pdes,
@@ -581,6 +591,7 @@ struct it_container : public virtual itype
 {
  unsigned int contains; // Internal volume
  virtual bool is_container() { return true; }
+ virtual std::string get_item_type_string() { return "CONTAINER"; }
  it_container() : contains(0) {};
 };
 
@@ -596,6 +607,7 @@ struct it_tool : public virtual itype
 
  virtual bool is_tool()          { return true; }
  virtual bool is_artifact()      { return false; }
+ virtual std::string get_item_type_string() { return "TOOL"; }
  int charges_to_use()   { return charges_per_use; }
 
  it_tool() :itype()
@@ -637,6 +649,7 @@ struct it_tool_armor : public virtual it_tool, public virtual it_armor {
     virtual bool is_armor() { return true; }
     virtual bool is_power_armor() { return it_armor::is_power_armor(); }
     virtual int charges_to_use() { return it_tool::charges_to_use(); }
+    virtual std::string get_item_type_string() { return "ARMOR"; }
 };
 
 struct it_bionic : public virtual itype
@@ -644,6 +657,7 @@ struct it_bionic : public virtual itype
  int difficulty;
 
  virtual bool is_bionic()    { return true; }
+ virtual std::string get_item_type_string() { return "BIONIC"; }
  it_bionic() { }
  it_bionic(std::string pid, unsigned int pprice,
            std::string pname, std::string pdes,

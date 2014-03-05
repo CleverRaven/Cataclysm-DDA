@@ -1,7 +1,6 @@
 #include <sstream>
 #include "inventory.h"
 #include "game.h"
-#include "keypress.h"
 #include "mapdata.h"
 #include "item_factory.h"
 
@@ -322,7 +321,7 @@ void inventory::update_cache_with_item(item &newit)
 
         if( newit.typeId() != type) {
             // Erase the used invlet from all caches.
-            for(int ind = 0; ind < preferred_invlets.size(); ind++) {
+            for( size_t ind = 0; ind < preferred_invlets.size(); ++ind ) {
                 if(preferred_invlets[ind] == newit.invlet) {
                     preferred_invlets.erase(preferred_invlets.begin() + ind);
                     ind--;
@@ -345,7 +344,7 @@ char inventory::get_invlet_for_item( std::string item_type )
 
         // Some of our preferred letters might already be used.
         int first_free_invlet = -1;
-        for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
+        for( size_t invlets_index = 0; invlets_index < preferred_invlets.size(); ++invlets_index ) {
             bool invlet_is_used = false; // Check if anything is using this invlet.
             if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
                 continue;
@@ -563,7 +562,10 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             vehicle *veh = g->m.veh_at(x, y, vpart);
 
             if (veh) {
+                //Adds faucet to kitchen stuff; may be horribly wrong to do such....
+                //ShouldBreak into own variable
                 const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+                const int faupart = veh->part_with_feature(vpart, "FAUCET");
                 const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
                 const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
                 const int forgepart = veh->part_with_feature(vpart, "FORGE");
@@ -572,6 +574,12 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
 
                 if (cargo >= 0) {
                     *this += std::list<item>(veh->parts[cargo].items.begin(), veh->parts[cargo].items.end());
+                }
+
+                if(faupart >= 0 ){
+                    item water(itypes["water_clean"], 0);
+                    water.charges = veh->fuel_left("water");
+                    add_item(water);
                 }
 
                 if (kpart >= 0) {

@@ -56,8 +56,10 @@
         "type" : "bionic",
         "id" : "bio_memory",
     "name"       :    "Enhanced Memory Banks",
-    "cost"       :    1,
-    "description":    "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, you have a chance at retaining all knowledge, at the cost of a small amount of power."
+    "active"     :    true,
+    "cost"       :    0,
+    "time"       :    100,
+    "description":    "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power."
     },{
         "type" : "bionic",
         "id" : "bio_ears",

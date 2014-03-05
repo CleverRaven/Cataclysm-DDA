@@ -427,6 +427,32 @@
         "post_terrain" : "t_palisade"
     },{
         "type" : "construction",
+        "description" : "Build Stone Wall",
+        "difficulty" : 6,
+        "time" : 90,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolset" ]
+        ],
+        "components" : [
+            [ [ "rock", 12 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_rock_wall_half"
+    },{
+        "type" : "construction",
+        "description" : "Build Stone Wall",
+        "difficulty" : 6,
+        "time" : 90,
+        "tools" : [
+            [ "hammer", "hammer_sledge", "primitive_hammer", "hatchet", "shovel", "e_tool", "primitive_shovel", "toolset" ]
+        ],
+        "components" : [
+            [ [ "rock", 12 ] ]
+        ],
+        "pre_terrain" : "t_rock_wall_half",
+        "post_terrain" : "t_rock_wall"
+    },{
+        "type" : "construction",
         "description" : "Build Rope & Pulley System",
         "difficulty" : 2,
         "time" : 5,
@@ -906,6 +932,37 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_fireplace"
+    },{
+        "type" : "construction",
+        "description" : "Build Water Well",
+        "difficulty" : 9,
+        "time" : 480,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel" ],
+            [ "hammer", "primitive_hammer", "hatchet", "toolset" ]
+        ],
+        "components" : [
+            [ [ "rock", 40 ] ],
+            [ [ "2x4", 4 ] ],
+            [ [ "nail", 8 ] ]
+        ],
+        "pre_terrain" : "t_pit",
+        "post_terrain" : "t_covered_well"
+    },{
+        "type" : "construction",
+        "description" : "Build Water Well",
+        "difficulty" : 5,
+        "time" : 120,
+        "tools" : [
+            [ "hammer", "primitive_hammer", "hatchet", "toolset" ],
+            [ "wrench" ]
+        ],
+        "components" : [
+            [ [ "well_pump", 1 ] ],
+            [ [ "pipe", 6 ] ]
+        ],
+        "pre_terrain" : "t_covered_well",
+        "post_terrain" : "t_water_pump"
     },{
         "type" : "construction",
         "description" : "Deconstruct Furniture",

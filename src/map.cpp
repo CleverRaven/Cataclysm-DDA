@@ -79,7 +79,7 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
    if (nonant < 0 || nonant >= my_MAPSIZE * my_MAPSIZE)
     continue; // out of grid
 
-   for(int i = 0; i < grid[nonant]->vehicles.size(); ++i) {
+   for( size_t i = 0; i < grid[nonant]->vehicles.size(); ++i ) {
     wrapped_vehicle w;
     w.v = grid[nonant]->vehicles[i];
     w.x = w.v->posx + cx * SEEX;
@@ -429,7 +429,7 @@ void map::vehmove()
     // give vehicles movement points
     {
         VehicleList vehs = get_vehicles();
-        for(int v = 0; v < vehs.size(); ++v) {
+        for( size_t v = 0; v < vehs.size(); ++v ) {
             vehicle* veh = vehs[v].v;
             veh->gain_moves();
             veh->power_parts();
@@ -453,7 +453,7 @@ bool map::vehproceed(){
     vehicle* veh = NULL;
     float max_of_turn = 0;
     int x; int y;
-    for(int v = 0; v < vehs.size(); ++v) {
+    for( size_t v = 0; v < vehs.size(); ++v ) {
         if(vehs[v].v->of_turn > max_of_turn) {
             veh = vehs[v].v;
             x = vehs[v].x;
@@ -656,7 +656,7 @@ bool map::vehproceed(){
         float dmg_veh2 = dmg * 0.5;
 
         int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
-        for(int i = 0; i < veh_veh_colls.size(); i++) {
+        for( size_t i = 0; i < veh_veh_colls.size(); ++i ) {
             veh_collision tmp_c = veh_veh_colls[i];
             if(veh2 == (vehicle*) tmp_c.target) { coll_parts_cnt++; }
         }
@@ -665,7 +665,7 @@ bool map::vehproceed(){
         float dmg2_part = dmg_veh2 / coll_parts_cnt;
 
         //damage colliding parts (only veh1 and veh2 parts)
-        for(int i = 0; i < veh_veh_colls.size(); i++) {
+        for( size_t i = 0; i < veh_veh_colls.size(); ++i ) {
             veh_collision tmp_c = veh_veh_colls[i];
 
             if(veh2 == (vehicle*) tmp_c.target) {
@@ -3479,84 +3479,87 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
                  const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
                  const bool low_light, const bool bright_light)
 {
- bool invert = invert_arg;
- bool show_items = show_items_arg;
- int cx = view_center_x_arg;
- int cy = view_center_y_arg;
- if (!INBOUNDS(x, y))
-  return; // Out of bounds
- if (cx == -1)
-  cx = u.posx;
- if (cy == -1)
-  cy = u.posy;
- const int k = x + getmaxx(w)/2 - cx;
- const int j = y + getmaxy(w)/2 - cy;
- nc_color tercol;
- const ter_id curr_ter = ter(x,y);
- const furn_id curr_furn = furn(x,y);
- const trap_id curr_trap = tr_at(x, y);
- field &curr_field = field_at(x, y);
- const std::vector<item> &curr_items = i_at(x, y);
- long sym;
- bool hi = false;
- bool graf = false;
- bool normal_tercol = false, drew_field = false;
+    bool invert = invert_arg;
+    bool show_items = show_items_arg;
+    int cx = view_center_x_arg;
+    int cy = view_center_y_arg;
+    if (!INBOUNDS(x, y))
+        return; // Out of bounds
+    if (cx == -1)
+        cx = u.posx;
+    if (cy == -1)
+        cy = u.posy;
+    const int k = x + getmaxx(w)/2 - cx;
+    const int j = y + getmaxy(w)/2 - cy;
+    nc_color tercol;
+    const ter_id curr_ter = ter(x,y);
+    const furn_id curr_furn = furn(x,y);
+    const trap_id curr_trap = tr_at(x, y);
+    field &curr_field = field_at(x, y);
+    const std::vector<item> &curr_items = i_at(x, y);
+    long sym;
+    bool hi = false;
+    bool graf = false;
+    bool normal_tercol = false, drew_field = false;
 
 
- if (has_furn(x, y)) {
-  sym = furnlist[curr_furn].sym;
-  tercol = furnlist[curr_furn].color;
- } else {
-  sym = terlist[curr_ter].sym;
-  tercol = terlist[curr_ter].color;
- }
- if (u.has_disease("boomered")) {
-  tercol = c_magenta;
- } else if ( u.has_nv() ) {
-  tercol = (bright_light) ? c_white : c_ltgreen;
- } else if (low_light) {
-  tercol = c_dkgray;
- } else {
-  normal_tercol = true;
- }
- if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
-  show_items = false; // Can only see underwater items if WE are underwater
- }
-// If there's a trap here, and we have sufficient perception, draw that instead
-// todo; test using g->traps, test using global traplist
- if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
-     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
-  tercol = (*traps)[curr_trap]->color;
-  if ((*traps)[curr_trap]->sym == '%') {
-   switch(rng(1, 5)) {
-    case 1: sym = '*'; break;
-    case 2: sym = '0'; break;
-    case 3: sym = '8'; break;
-    case 4: sym = '&'; break;
-    case 5: sym = '+'; break;
-   }
-  } else
-   sym = (*traps)[curr_trap]->sym;
- }
-// If there's a field here, draw that instead (unless its symbol is %)
- if (curr_field.fieldCount() > 0 && curr_field.findField(curr_field.fieldSymbol()) &&
-     fieldlist[curr_field.fieldSymbol()].sym != '&') {
-  tercol = fieldlist[curr_field.fieldSymbol()].color[curr_field.findField(curr_field.fieldSymbol())->getFieldDensity() - 1];
-  drew_field = true;
-  if (fieldlist[curr_field.fieldSymbol()].sym == '*') {
-   switch (rng(1, 5)) {
-    case 1: sym = '*'; break;
-    case 2: sym = '0'; break;
-    case 3: sym = '8'; break;
-    case 4: sym = '&'; break;
-    case 5: sym = '+'; break;
-   }
-  } else if (fieldlist[curr_field.fieldSymbol()].sym != '%' ||
-             curr_items.size() > 0) {
-   sym = fieldlist[curr_field.fieldSymbol()].sym;
-   drew_field = false;
-  }
- }
+    if (has_furn(x, y)) {
+        sym = furnlist[curr_furn].sym;
+        tercol = furnlist[curr_furn].color;
+    } else {
+        sym = terlist[curr_ter].sym;
+        tercol = terlist[curr_ter].color;
+    }
+    if (u.has_disease("boomered")) {
+        tercol = c_magenta;
+    } else if ( u.has_nv() ) {
+        tercol = (bright_light) ? c_white : c_ltgreen;
+    } else if (low_light) {
+        tercol = c_dkgray;
+    } else if (u.has_disease("darkness")) {
+        tercol = c_dkgray;
+    } else {
+        normal_tercol = true;
+    }
+    if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
+        show_items = false; // Can only see underwater items if WE are underwater
+    }
+    // If there's a trap here, and we have sufficient perception, draw that instead
+    // todo; test using g->traps, test using global traplist
+    if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
+                                 u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
+        tercol = (*traps)[curr_trap]->color;
+        if ((*traps)[curr_trap]->sym == '%') {
+            switch(rng(1, 5)) {
+            case 1: sym = '*'; break;
+            case 2: sym = '0'; break;
+            case 3: sym = '8'; break;
+            case 4: sym = '&'; break;
+            case 5: sym = '+'; break;
+            }
+        } else {
+            sym = (*traps)[curr_trap]->sym;
+        }
+    }
+    // If there's a field here, draw that instead (unless its symbol is %)
+    if (curr_field.fieldCount() > 0 && curr_field.findField(curr_field.fieldSymbol()) &&
+        fieldlist[curr_field.fieldSymbol()].sym != '&') {
+        tercol = fieldlist[curr_field.fieldSymbol()].color[curr_field.findField(curr_field.fieldSymbol())->getFieldDensity() - 1];
+        drew_field = true;
+        if (fieldlist[curr_field.fieldSymbol()].sym == '*') {
+            switch (rng(1, 5)) {
+            case 1: sym = '*'; break;
+            case 2: sym = '0'; break;
+            case 3: sym = '8'; break;
+            case 4: sym = '&'; break;
+            case 5: sym = '+'; break;
+            }
+        } else if (fieldlist[curr_field.fieldSymbol()].sym != '%' ||
+                   curr_items.size() > 0) {
+            sym = fieldlist[curr_field.fieldSymbol()].sym;
+            drew_field = false;
+        }
+    }
     // If there's items here, draw those instead
     if (show_items && !drew_field && sees_some_items(x, y, g->u)) {
         if (sym != '.' && sym != '%') {
@@ -3576,29 +3579,32 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         }
     }
 
- int veh_part = 0;
- vehicle *veh = veh_at(x, y, veh_part);
- if (veh) {
-  sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
-  if (normal_tercol)
-   tercol = veh->part_color(veh_part);
- }
- // If there's graffiti here, change background color
- if(graffiti_at(x,y).contents)
-  graf = true;
+    int veh_part = 0;
+    vehicle *veh = veh_at(x, y, veh_part);
+    if (veh) {
+        sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
+        if (normal_tercol)
+            tercol = veh->part_color(veh_part);
+    }
+    // If there's graffiti here, change background color
+    if(graffiti_at(x,y).contents) {
+        graf = true;
+    }
 
- //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
- if(sym == LINE_XOXO || sym == LINE_OXOX)//vertical or horizontal
-  sym = determine_wall_corner(x, y, sym);
+    //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
+    if(sym == LINE_XOXO || sym == LINE_OXOX) { //vertical or horizontal
+        sym = determine_wall_corner(x, y, sym);
+    }
 
- if (invert)
-  mvwputch_inv(w, j, k, tercol, sym);
- else if (hi)
-  mvwputch_hi (w, j, k, tercol, sym);
- else if (graf)
-  mvwputch    (w, j, k, red_background(tercol), sym);
- else
-  mvwputch    (w, j, k, tercol, sym);
+    if (invert) {
+        mvwputch_inv(w, j, k, tercol, sym);
+    } else if (hi) {
+        mvwputch_hi (w, j, k, tercol, sym);
+    } else if (graf) {
+        mvwputch    (w, j, k, red_background(tercol), sym);
+    } else {
+        mvwputch    (w, j, k, tercol, sym);
+    }
 }
 
 /*
@@ -4105,7 +4111,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
   for (int x = 0; x < SEEX; x++) {
       for (int y = 0; y < SEEY; y++) {
           int biggest_container_idx = -1;
-          int maxvolume = 0;
+          unsigned int maxvolume = 0;
           bool do_container_check = false;
 
           if ( do_funnels && ! rain_backlog.empty() && rain_backlog.find(point(x,y)) != rain_backlog.end() ) {
@@ -4116,7 +4122,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
               if ( do_container_check == true ) { // cannot link trap to mapitems
-                  if ( it->is_funnel_container(maxvolume) > maxvolume ) {                      // biggest
+                  if ( it->is_funnel_container(maxvolume) ) {                      // biggest
                       biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
                   }
               }
@@ -4484,7 +4490,7 @@ void map::build_map_cache()
 
  // Cache all the vehicle stuff in one loop
  VehicleList vehs = get_vehicles();
- for(int v = 0; v < vehs.size(); ++v) {
+ for( size_t v = 0; v < vehs.size(); ++v ) {
   for (int part = 0; part < vehs[v].v->parts.size(); part++) {
    int px = vehs[v].x + vehs[v].v->parts[part].precalc_dx[0];
    int py = vehs[v].y + vehs[v].v->parts[part].precalc_dy[0];

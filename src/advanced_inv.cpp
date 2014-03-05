@@ -1,5 +1,4 @@
 #include "game.h"
-#include "keypress.h"
 #include "output.h"
 #include "map.h"
 #include <map>
@@ -117,11 +116,10 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     std::vector<advanced_inv_listitem> &items = pane.items;
     WINDOW* window = pane.window;
     int page = pane.page;
-    int selected_index = pane.index;
+    unsigned selected_index = pane.index;
     bool isinventory = ( pane.area == 0 );
     bool isall = ( pane.area == 10 );
-    int itemsPerPage;
-    itemsPerPage = getmaxy( window ) - ADVINVOFS; // fixme
+    size_t itemsPerPage = getmaxy( window ) - ADVINVOFS; // fixme
     int columns = getmaxx( window );
     int rightcol = columns - 8;
     int amount_column = columns - 15;
@@ -185,7 +183,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         mvwprintz( window, 5, rightcol - 7, c_ltgray, _("    weight vol") );
     }
 
-    for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
+    for(unsigned i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
       if ( items[i].volume == -8 ) { // I'm a header!
         mvwprintz(window,6+x,( columns - items[i].name.size()-6 )/2,c_cyan, "[%s]", items[i].name.c_str() );
       } else {
@@ -337,7 +335,7 @@ void advanced_inv_print_header(advanced_inv_area* squares, advanced_inventory_pa
 void advanced_inv_update_area( advanced_inv_area &area )
 {
     int i = area.id;
-    player u = g->u;
+    const player &u = g->u;
     area.x = g->u.posx + area.offx;
     area.y = g->u.posy + area.offy;
     area.size = 0;
@@ -476,7 +474,7 @@ bool cached_lcmatch(const std::string &str, const std::string &findstr, std::map
         std::string ret = "";
         ret.reserve( str.size() );
         transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
-        bool ismatch = ( ret.find( findstr ) != -1 );
+        bool ismatch = ( ret.find( findstr ) != std::string::npos );
         filtercache[ str ] = ismatch;
         return ismatch;
     } else {
@@ -590,7 +588,7 @@ void advanced_inventory::recalc_pane(int i)
                     saweight += it.weight;
                     panes[i].items.push_back(it);
 
-                } // for(int x = 0; x < items.size() ; x++)
+                } // for( size_t x = 0; x < items.size(); ++x )
 
             } // if( panes[idest].area != s && squares[s].canputitems )
             avolume += savolume;
@@ -644,7 +642,7 @@ void advanced_inventory::redraw_pane( int i )
     panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ? panes[i].max_page - 1 : panes[i].page);
 
     if( panes[i].sortby == SORTBY_CATEGORY && panes[i].items.size() > 0 ) {
-        int lpos = panes[i].index + (panes[i].page * itemsPerPage);
+        unsigned lpos = panes[i].index + (panes[i].page * itemsPerPage);
         if ( lpos < panes[i].items.size() && panes[i].items[lpos].volume == -8 ) {
             panes[i].index += ( panes[i].index + 1 >= itemsPerPage ? -1 : 1 );
         }
@@ -825,7 +823,7 @@ void advanced_inventory::display(player *pp)
         category_index_start.clear();
 
         // Finds the index of the first item in each category.
-        for (int current_item_index = 0; current_item_index < panes[src].items.size();
+        for (unsigned current_item_index = 0; current_item_index < panes[src].items.size();
              ++current_item_index) {
              // Found a category header.
             if (panes[src].items[current_item_index].volume == -8) {
@@ -953,7 +951,7 @@ void advanced_inventory::display(player *pp)
                 }
                 recalc = true;
                 if(stack.size() > 1) { // if the item is stacked
-                    if ( amount != 0 && amount <= stack.size() ) {
+                    if ( amount != 0 && amount <= long( stack.size() ) ) {
                         amount = amount > max ? max : amount;
                         std::list<item> moving_items = u.inv.reduce_stack(item_pos, amount);
                         bool chargeback = false;
@@ -1304,7 +1302,7 @@ void advanced_inventory::display(player *pp)
                   category_index_start.size() > 0 && inCategoryMode) {
                 int prev_cat = 0, next_cat = 0, selected_cat = 0;
 
-                for (int curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {
+                for (unsigned curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {
                     int next_cat_start = curr_cat + 1 < category_index_start.size() ?
                         curr_cat + 1 : panes[src].items.size() - 1;
                     int actual_index = panes[src].index + panes[src].page * itemsPerPage;
@@ -1313,7 +1311,7 @@ void advanced_inventory::display(player *pp)
                         actual_index <= category_index_start[next_cat_start]) {
                         selected_cat = curr_cat;
 
-                        prev_cat = (curr_cat - 1) >= 0 ? curr_cat - 1 :
+                        prev_cat = (int(curr_cat) - 1) >= 0 ? curr_cat - 1 :
                             category_index_start.size() - 1;
                         prev_cat = category_index_start[selected_cat] < actual_index ?
                             selected_cat : prev_cat;
@@ -1352,7 +1350,7 @@ void advanced_inventory::display(player *pp)
                   }
                   panes[src].index = 0;
               }
-              int lpos=panes[src].index + (panes[src].page * itemsPerPage);
+              unsigned lpos = panes[src].index + (panes[src].page * itemsPerPage);
               if ( lpos < panes[src].items.size() && panes[src].items[lpos].volume != -8 ) {
                   l = 0;
               }

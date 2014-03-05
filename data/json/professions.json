@@ -1319,7 +1319,8 @@
         "items": {
             "both": [
                 "clown_suit",
-                "clownshoes"
+                "clownshoes",
+                "airhorn"
             ],
             "male": [
                 "briefs"
@@ -1340,7 +1341,10 @@
             "both" : [
                 "bondage_suit",
                 "bondage_mask",
-                "boots"
+                "boots",
+                "leather_belt",
+                "candle",
+                "matches"
             ]
         }
     },
@@ -1862,6 +1866,100 @@
             "female": [
                 "bra",
                 "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "blackbelt_novice",
+        "name": "Novice Martial Artist",
+        "description": "You were on your way to the dojo for your first lesson when the world ended. And you really wanted to learn how to swim, too.",
+        "points": -1,
+        "items": {
+            "both": [
+                "karate_gi",
+                "judo_belt_white",
+                "mouthpiece",
+                "sneakers"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "blackbelt_intermediate",
+        "name": "Martial Artist",
+        "description": "'Drop the martial arts!', they said. 'Learn a skill for the REAL world!', they said. Well, you're about to show them! SHOW THEM ALL!",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "karate_gi",
+                "judo_belt_orange",
+                "mouthpiece",
+                "sneakers"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "blackbelt",
+        "name": "Blackbelt",
+        "description": "As the world ends, you alone stand against the coming darkness with your fists of steel.",
+        "points": 8,
+        "skills": [
+            {
+                "level": 8,
+                "name": "melee"
+            },
+            {
+                "level": 8,
+                "name": "unarmed"
+            },
+            {
+                "level": 8,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "karate_gi",
+                "judo_belt_black",
+                "mouthpiece",
+                "geta"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
             ]
         }
     }

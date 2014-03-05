@@ -6101,7 +6101,6 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
     {
@@ -6131,7 +6130,6 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
     {
@@ -6161,7 +6159,6 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
     {
@@ -11324,7 +11321,7 @@
         "type" : "COMESTIBLE",
         "id" : "paper",
         "name" : "paper",
-       "category" : "spare_parts",
+        "category" : "spare_parts",
         "weight" : 3,
         "color" : "white",
         "addiction_type" : "none",

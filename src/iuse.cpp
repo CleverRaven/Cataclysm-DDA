@@ -1,7 +1,6 @@
 #include "iuse.h"
 #include "game.h"
 #include "mapdata.h"
-#include "keypress.h"
 #include "output.h"
 #include "options.h"
 #include "rng.h"
@@ -2454,7 +2453,7 @@ int iuse::oil_lamp_on(player *p, item *it, bool t)
 int iuse::light_off(player *p, item *it, bool)
 {
     if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The %ss batteries are dead."), it->tname().c_str());
+        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     } else {
         std::string oname = it->type->id + "_on";
@@ -2486,6 +2485,95 @@ int iuse::light_on(player *p, item *it, bool t)
             return 0;
         }
         g->add_msg_if_player(p,_("The %s flicks off."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::toolarmor_off(player *p, item *it, bool)
+{
+    if (it->charges == 0) {
+        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
+        return 0;
+    } else {
+        std::string oname = it->type->id + "_on";
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("You activate your %s."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = true;
+        return it->type->charges_to_use();
+    }
+}
+
+int iuse::toolarmor_on(player *p, item *it, bool t)
+{
+    if (t) { // Normal use
+    } else { // Turning it off
+        std::string oname = it->type->id;
+        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
+            oname.erase(oname.length() - 3, 3);
+        } else {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("Your %s deactivates."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::rm13armor_off(player *p, item *it, bool)
+{
+    if (it->charges == 0) {
+        g->add_msg_if_player(p,_("The RM13 combat armor's fuel cells are dead."), it->tname().c_str());
+        return 0;
+    } else {
+        std::string oname = it->type->id + "_on";
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("You activate your RM13 combat armor."));
+        g->add_msg_if_player(p,_("Rivtech Model 13 RivOS v2.19:   ONLINE."));
+        g->add_msg_if_player(p,_("CBRN defense system:            ONLINE."));
+        g->add_msg_if_player(p,_("Acoustic dampening system:      ONLINE."));
+        g->add_msg_if_player(p,_("Thermal regulation system:      ONLINE."));
+        g->add_msg_if_player(p,_("Vision enhancement system:      ONLINE."));
+        g->add_msg_if_player(p,_("Electro-reactive armor system:  ONLINE."));
+        g->add_msg_if_player(p,_("All systems nominal."));
+        it->make(item_controller->find_template(oname));
+        it->active = true;
+        return it->type->charges_to_use();
+    }
+}
+
+int iuse::rm13armor_on(player *p, item *it, bool t)
+{
+    if (t) { // Normal use
+    } else { // Turning it off
+        std::string oname = it->type->id;
+        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
+            oname.erase(oname.length() - 3, 3);
+        } else {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        g->add_msg_if_player(p,_("RivOS v2.19 shutdown sequence initiated."));
+        g->add_msg_if_player(p,_("Shutting down."));
+        g->add_msg_if_player(p,_("Your RM13 combat armor turns off."));
         it->make(item_controller->find_template(oname));
         it->active = false;
     }
@@ -4710,6 +4798,7 @@ int iuse::granade(player *p, item *it, bool)
 
 int iuse::granade_act(player *, item *it, bool t)
 {
+    int explosion_radius = 3;
     point pos = g->find_item(it);
     if (pos.x == -999 || pos.y == -999) {
         return 0;
@@ -4725,9 +4814,9 @@ int iuse::granade_act(player *, item *it, bool t)
         {
             case 1:
                 g->sound(pos.x, pos.y, 100, _("BUGFIXES!!"));
-                g->draw_explosion(pos.x, pos.y, 10, c_ltcyan);
-                for (int i = -10; i <= 10; i++) {
-                    for (int j = -10; j <= 10; j++) {
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_ltcyan);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int zid = g->mon_at(pos.x + i, pos.y + j);
                         if (zid != -1 &&
                               (g->zombie(zid).type->in_species("INSECT") ||
@@ -4740,9 +4829,9 @@ int iuse::granade_act(player *, item *it, bool t)
 
             case 2:
                 g->sound(pos.x, pos.y, 100, _("BUFFS!!"));
-                g->draw_explosion(pos.x, pos.y, 10, c_green);
-                for (int i = -10; i <= 10; i++) {
-                    for (int j = -10; j <= 10; j++) {
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_green);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed *= 1 + rng(0, 20) * .1;
@@ -4772,9 +4861,9 @@ int iuse::granade_act(player *, item *it, bool t)
 
             case 3:
                 g->sound(pos.x, pos.y, 100, _("NERFS!!"));
-                g->draw_explosion(pos.x, pos.y, 10, c_red);
-                for (int i = -10; i <= 10; i++) {
-                    for (int j = -10; j <= 10; j++) {
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_red);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed = rng(1, g->zombie(mon_hit).speed);
@@ -4803,9 +4892,9 @@ int iuse::granade_act(player *, item *it, bool t)
 
             case 4:
                 g->sound(pos.x, pos.y, 100, _("REVERTS!!"));
-                g->draw_explosion(pos.x, pos.y, 10, c_pink);
-                for (int i = -10; i <= 10; i++) {
-                    for (int j = -10; j <= 10; j++) {
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_pink);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         const int mon_hit = g->mon_at(pos.x + i, pos.y + j);
                         if (mon_hit != -1) {
                             g->zombie(mon_hit).speed = g->zombie(mon_hit).type->speed;
@@ -5487,8 +5576,6 @@ int iuse::UPS_off(player *p, item *it, bool)
   return 0;
  } else {
   g->add_msg_if_player(p,_("You turn the power supply on."));
-  if (p->is_wearing("goggles_nv"))
-   g->add_msg_if_player(p,_("Your light amp goggles power on."));
   if (p->is_wearing("optical_cloak"))
    g->add_msg_if_player(p,_("Your optical cloak flickers as it becomes transparent."));
   if (p->is_wearing_power_armor())
@@ -5531,9 +5618,6 @@ int iuse::adv_UPS_off(player *p, item *it, bool)
   g->add_msg_if_player(p,_("The power supply has depleted the plutonium."));
  } else {
   g->add_msg_if_player(p,_("You turn the power supply on."));
-  if (p->is_wearing("goggles_nv")) {
-   g->add_msg_if_player(p,_("Your light amp goggles power on."));
-  }
   if (p->is_wearing("optical_cloak")) {
    g->add_msg_if_player(p,_("Your optical cloak becomes transparent."));
   }
@@ -5863,6 +5947,7 @@ int iuse::portable_game(player *p, item *it, bool)
         as_m.entries.push_back(uimenu_entry(1, true, '1',_("Robot finds Kitten") ));
         as_m.entries.push_back(uimenu_entry(2, true, '2', _("S N A K E") ));
         as_m.entries.push_back(uimenu_entry(3, true, '3', _("Sokoban") ));
+        as_m.entries.push_back(uimenu_entry(4, true, '4', _("Cancel") ));
         as_m.query();
 
         switch (as_m.ret) {
@@ -5875,6 +5960,8 @@ int iuse::portable_game(player *p, item *it, bool)
             case 3:
                 loaded_software = "sokoban_game";
                 break;
+            case 4: //Cancel
+                return 0;
         }
 
         //Play in 15-minute chunks
@@ -6883,7 +6970,7 @@ you can, I need to know you're alright.";
   break;
 
 
-  popup(message.str().c_str());
+  popup(message.str(), 0);
 */
  return 0;
 }

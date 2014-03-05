@@ -1,15 +1,7 @@
-//
-//  iexamine.cpp
-//  Cataclysm
-//
-//  Livingstone
-//
-
 #include "item_factory.h"
 #include "iuse.h"
 #include "game.h"
 #include "mapdata.h"
-#include "keypress.h"
 #include "output.h"
 #include "rng.h"
 #include "line.h"
@@ -333,7 +325,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
 
         // Item info
         werase(w_item_info);
-        fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  vend_items[cur_pos].info(true).c_str());
+        fold_and_print(w_item_info,1,2,48-3, c_ltgray, vend_items[cur_pos].info(true));
         wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
         mvwprintw(w_item_info, 0, 2, "< %s >", vend_items[cur_pos].display_name().c_str() );

@@ -118,6 +118,7 @@
   {
     "type":"GENERIC",
     "id": "string_6",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "small string",
@@ -134,6 +135,7 @@
   {
     "type":"GENERIC",
     "id": "string_36",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "long string",
@@ -150,6 +152,7 @@
   {
     "type":"GENERIC",
     "id": "rope_30",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "long rope",
@@ -161,6 +164,24 @@
     "bashing": 1,
     "cutting": 0,
     "to_hit": -10
+  },
+
+  {
+    "type":"GENERIC",
+    "id": "grapnel",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "grappling hook",
+    "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord. Useful for keeping yourself safe from falls.",
+    "techniques" : ["RAPID"],
+    "flags" : ["WRAP"],
+    "price": 25000,
+    "material": ["cotton", "steel"],
+    "weight": 760,
+    "volume": 3,
+    "bashing": 12,
+    "cutting": 6,
+    "to_hit": -2
   },
 
   {
@@ -918,6 +939,21 @@
     "cutting": 0,
     "to_hit": -3
   },
+  {
+    "type":"GENERIC",
+    "id": "bowling_ball",
+    "symbol": "*",
+    "color": "blue",
+    "name": "bowling ball",
+    "description": "A large, heavy ball. Before the apocalypse, its main purpose was to be rolled along waxed floors.",
+    "price": 30,
+    "material": "ceramic",
+    "weight": 2000,
+    "volume": 10,
+    "bashing": 16,
+    "cutting": 0,
+    "to_hit": -2
+  },
 
   {
     "type":"GENERIC",
@@ -1279,6 +1315,7 @@
   {
     "type":"GENERIC",
     "id": "ceramic_armor",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "yellow",
     "name": "ceramic armor plate",
@@ -1506,6 +1543,7 @@
   {
     "type":"GENERIC",
     "id": "clockworks",
+    "category" : "spare_parts",
     "symbol": ";",
     "color": "light_gray",
     "name": "clockworks",
@@ -1712,6 +1750,7 @@
     {
         "type":"GENERIC",
         "id" : "rope_6",
+        "category" : "spare_parts",
         "name" : "short rope",
         "description" : "A six-inch long piece of nylon rope. Too small to be of much use. ",
         "weight" : 216,
@@ -1728,6 +1767,7 @@
     {
         "type":"GENERIC",
         "id" : "chain",
+        "category" : "spare_parts",
         "name" : "steel chain",
         "description" : "A heavy steel chain. Useful as a weapon, or for crafting. It has a chance to wrap around your target, allowing for a bonus unarmed attack.",
         "weight" : 3628,
@@ -1825,6 +1865,23 @@
         "price" : 16000
     },
     {
+        "type":"GENERIC",
+        "id" : "bowling_axe",
+        "name" : "The 7-10 Split",
+        "description" : "A bowling pin with menacing spikes on the large end. Makes a great melee weapon.",
+        "weight" : 1659,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "null"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 7,
+        "bashing" : 15,
+        "cutting" : 15,
+        "flags" : ["STAB"],
+        "price" : 160
+    },
+    {
     "type":"GENERIC",
     "id": "knuckle_nail",
     "symbol" : "]",
@@ -1904,6 +1961,22 @@
         "bashing" : 20,
         "cutting" : 0,
         "price" : 16000
+    },
+    {
+        "type":"GENERIC",
+        "id" : "bowling_pin",
+        "name" : "bowling pin",
+        "description" : "A blunt bowling pin. Makes a decent melee weapon, if somewhat short.",
+        "weight" : 1333,
+        "to_hit" : 1,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "null"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 9,
+        "bashing" : 24,
+        "cutting" : 0,
+        "price" : 160
     },
     {
         "type":"GENERIC",
@@ -2252,6 +2325,7 @@
   {
     "type":"GENERIC",
     "id": "bag_bundle_10",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "10 plastic bags",
@@ -2570,6 +2644,7 @@
   {
     "type":"GENERIC",
     "id": "nomex",
+    "category" : "spare_parts",
     "symbol": ",",
     "color": "light_gray",
     "name": "nomex patch",
@@ -2768,6 +2843,22 @@
     "bashing": 0,
     "cutting": 1,
     "to_hit": 0
+  },
+
+  {
+    "type":"GENERIC",
+    "id": "well_pump",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "mechanical pump",
+    "description": "An old-fashioned mechanical pump of the type used to draw drinking water from a well. It's not good for much of anything on its own.",
+    "price": 2000,
+    "material": ["iron", "null"],
+    "weight": 19400,
+    "volume": 5,
+    "bashing": 7,
+    "cutting": 0,
+    "to_hit": -5
   },
   {
     "type":"GENERIC",

@@ -308,8 +308,8 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
             component &tool = *tool_it;
             itype_id type = tool.type;
             int req = tool.count;
-            if ( (req <= 0 && crafting_inv.has_tools(type, 1)) ||
-                 (req <= 0 && (type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses"))) ||
+            if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
+                 (req <= 0 && ((type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
                  (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
@@ -797,7 +797,7 @@ recipe *game::select_crafting_recipe()
                                                   iter->count, qualities[iter->id].name.c_str(),
                                                   iter->level);
                         ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
-                                               toolcol, qualinfo.str().c_str());
+                                               toolcol, qualinfo.str());
                     }
                     ypos--;
                     // Loop to print the required tools
@@ -817,7 +817,7 @@ recipe *game::select_crafting_recipe()
                                 toolcol = c_green;
                             } else if (charges > 0 && crafting_inv.has_charges(type, charges)) {
                                 toolcol = c_green;
-                            } else if ((type == "goggles_welding") && u.has_bionic("bio_sunglasses")) {
+                            } else if ((type == "goggles_welding") && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on"))) {
                                 toolcol = c_cyan;
                             }
 
@@ -970,7 +970,7 @@ recipe *game::select_crafting_recipe()
             break;
         case Help:
             tmp = item(item_controller->find_template(current[line]->result), g->turn);
-            full_screen_popup(tmp.info(true).c_str());
+            full_screen_popup("%s", tmp.info(true).c_str());
             redraw = true;
             keepline = true;
             break;
@@ -1204,7 +1204,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     {
         search_name = false;
         std::string searchType = filter.substr(0, pos);
-        for(int i = 0 ; i < searchType.size() ; i++)
+        for( size_t i = 0; i < searchType.size(); ++i )
         {
             if(searchType[i] == 'n')
             {
@@ -1863,6 +1863,8 @@ void game::complete_disassemble()
             if (newit.count_by_charges()) {
                 newit.charges = compcount;
                 compcount = 1;
+            } else if (newit.is_tool()) {
+                newit.charges = 0;
             }
             if (newit.made_of(LIQUID)) {
                 handle_liquid(newit, false, false);

@@ -49,16 +49,6 @@ void mod_manager::clear()
     default_mods.clear();
 }
 
-void mod_manager::show_ui()
-{
-    refresh_mod_list();
-
-    mod_ui *UI = new mod_ui(this);
-    UI->show_layering_ui();
-
-    delete UI;
-}
-
 void mod_manager::refresh_mod_list()
 {
     clear();
@@ -123,7 +113,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     }
     std::string m_ident = jo.get_string("ident");
     if (has_mod(m_ident)) {
-        // TODO: change this to make uniqe ident for the mod
+        // TODO: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg("there is already a mod with ident %s", m_ident.c_str());
         return;
