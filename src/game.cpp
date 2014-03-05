@@ -10990,19 +10990,19 @@ void game::forage()
   if (veggy_chance < u.skillLevel("survival"))
   {
     add_msg(_("You found some wild veggies!"));
-    u.practice(turn, "survival", 10);
     m.spawn_item(u.activity.placement.x, u.activity.placement.y, "veggy_wild", 1, 0, turn);
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
   else
   {
     add_msg(_("You didn't find anything."));
-    if (u.skillLevel("survival") < 7)
-        u.practice(turn, "survival", rng(3, 6));
-    else
-        u.practice(turn, "survival", 1);
     if (one_in(2))
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+  }
+  // Award experience for foraging attempt regardless of success, up to maximum survival skill level of 6
+  if (u.skillLevel("survival") < 6)
+  {
+    u.practice(turn, "survival", rng(1, 12 - (u.skillLevel("survival") * 2)));
   }
 }
 
