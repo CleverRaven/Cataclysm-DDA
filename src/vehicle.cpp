@@ -1357,6 +1357,43 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
     return -1;
 }
 
+int vehicle::next_part_to_close(int p, bool outside)
+{
+    std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
+    for(std::vector<int>::iterator part_it = parts_here.begin(); part_it != parts_here.end(); ++part_it)
+    {
+
+        if(part_flag(*part_it, VPFLAG_OPENABLE)
+           && parts[*part_it].hp > 0  // 0 HP parts can't be opened or closed
+           && parts[*part_it].open == 1
+           && (!outside || !part_flag(*part_it, "OPENCLOSE_INSIDE")) )
+        {
+            return *part_it;
+        }
+    }
+    return -1;
+}
+
+int vehicle::next_part_to_open(int p, bool outside)
+{
+    std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
+
+    // We want reverse, since we open the outermost thing first (curtains), and then the innermost thing (door)
+    for(std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
+        part_it != parts_here.rend();
+        ++part_it)
+    {
+        if(part_flag(*part_it, VPFLAG_OPENABLE)
+           && parts[*part_it].hp > 0
+           && parts[*part_it].open == 0
+           && (!outside || !part_flag(*part_it, "OPENCLOSE_INSIDE")) )
+        {
+            return *part_it;
+        }
+    }
+    return -1;
+}
+
 /**
  * Returns all parts in the vehicle with the given flag, optionally checking
  * to only return unbroken parts.
@@ -3865,6 +3902,20 @@ void vehicle::close(int part_index)
   } else {
     open_or_close(part_index, false);
   }
+}
+
+void vehicle::open_all_at(int p)
+{
+    std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
+    for(std::vector<int>::iterator part_it = parts_here.begin();
+        part_it != parts_here.end(); ++part_it) {
+        if(part_flag(*part_it, VPFLAG_OPENABLE)){
+            // Note that this will open mutlisquare and non-multipart parts in the tile. This
+            // means that adjacent open multisquare openables can still have closed stuff
+            // on same tile after this function returns
+            open(*part_it);
+        }
+    }
 }
 
 void vehicle::open_or_close(int part_index, bool opening)
