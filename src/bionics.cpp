@@ -703,7 +703,6 @@ void player::activate_bionic(int b)
             std::string gate_name = rm_prefix (_("<door_name>gate"));
             g->add_msg_if_player(this, _("With a satisfying click, the lock on the %s opens."), gate_name.c_str()); 
         }else if(type == t_door_c){
-           //moves -=20 //Seems like should have a minor penalty to moves for the attempt, even if was in vain.
              g->add_msg(_("That door isn't locked."));
         }else {
             g->add_msg_if_player(this, _("You can't unlock that %s."), g->m.tername(dirx, diry).c_str());
