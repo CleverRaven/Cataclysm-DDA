@@ -1042,6 +1042,12 @@ void monster::die()
  if (!no_extra_death_drops) {
   drop_items_on_death();
  }
+    if (type->difficulty >= 30 && get_killer() != NULL && get_killer()->is_player()) {
+        g->u.add_memorial_log(
+            pgettext("memorial_male", "Killed a %s."),
+            pgettext("memorial_female", "Killed a %s."),
+            name().c_str());
+    }
 
 // If we're a queen, make nearby groups of our type start to die out
  if (has_flag(MF_QUEEN)) {
