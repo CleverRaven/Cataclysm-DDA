@@ -459,8 +459,11 @@ void player::activate_bionic(int b)
         if (has_disease("bloodworms")) {
             good.push_back(_("Hemolytic Parasites"));
         }
-        if (has_disease("brainworm")) {  // This little guy is immune to the blood filter though, as he lives in your brain.
+        if (has_disease("brainworm")) {  // This little guy is immune to the blood filter too, as he lives in your brain.
             good.push_back(_("Intracranial Parasite"));
+        }
+        if (has_disease("paincysts")) {  // These little guys are immune to the blood filter too, as they lives in your muscles.
+            good.push_back(_("Intramuscular Parasites"));
         }
         if (good.empty() && bad.empty()) {
             mvwprintz(w, 1, 1, c_white, _("No effects."));

@@ -679,13 +679,15 @@ int iuse::raw_meat(player *p, item *it, bool)
         p->add_disease("bloodworms", 1280000);
     } if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion"))) {
         p->add_disease("brainworm", 5120000);
+    } if ((one_in(64)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion"))) {
+        p->add_disease("paincysts", 640000);
     }
     return it->type->charges_to_use();
 }
 
 int iuse::raw_fat(player *p, item *it, bool)
 {
-    if ((one_in(256)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion"))) {
+    if ((one_in(64)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion"))) {
         p->add_disease("tapeworm", 2560000);
     } if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion"))) {
         p->add_disease("bloodworms", 1280000);
@@ -697,7 +699,7 @@ int iuse::raw_fat(player *p, item *it, bool)
 
 int iuse::raw_bone(player *p, item *it, bool)
 {
-    if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion"))) {
+    if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion"))) {
         p->add_disease("bloodworms", 1280000);
     }
     return it->type->charges_to_use();
@@ -711,7 +713,9 @@ int iuse::raw_fish(player *p, item *it, bool)
         p->add_disease("bloodworms", 1280000);
     } if ((one_in(256)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion"))) {
         p->add_disease("brainworm", 5120000);
-    } 
+    } if ((one_in(256)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion"))) {
+        p->add_disease("paincysts", 640000);
+    }
     return it->type->charges_to_use();
 }
 
@@ -723,7 +727,9 @@ int iuse::raw_wildveg(player *p, item *it, bool)
         p->add_disease("bloodworms", 1280000);
     } if ((one_in(512)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion"))) {
         p->add_disease("brainworm", 5120000);
-    } 
+    } if ((one_in(128)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion"))) {
+        p->add_disease("paincysts", 640000);
+    }
     return it->type->charges_to_use();
 }
 
@@ -929,7 +935,14 @@ int iuse::antiparasitic(player *p, item *it, bool) {
         g->add_msg_if_player(p,_("Your head pounds like a sore tooth as something inside of it dies."));
         p->mod_pain( rng(8, 24) );
         }
+    } if (p->has_disease("paincysts")) {
+        p->rem_disease("paincysts");
+        if (p->has_trait("NOPAIN")) {
+        g->add_msg_if_player(p,_("The stiffness in your joints goes away."));
+        } else {
+        g->add_msg_if_player(p,_("The pain in your joints goes away."));
     }
+  }
     return it->type->charges_to_use();
 }
 

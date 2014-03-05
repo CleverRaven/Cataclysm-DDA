@@ -22,7 +22,7 @@ enum dis_type_enum {
  DI_BLISTERS,
 // Diseases
  DI_INFECTION,
- DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM,
+ DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
 // Fields - onfire moved to effects
  DI_CRUSHED, DI_BOULDERING,
 // Monsters
@@ -91,6 +91,7 @@ void game::init_diseases() {
     disease_type_lookup["tapeworm"] = DI_TAPEWORM;
     disease_type_lookup["bloodworms"] = DI_BLOODWORMS;
     disease_type_lookup["brainworm"] = DI_BRAINWORM;
+    disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
@@ -963,6 +964,16 @@ void dis_effect(player &p, disease &dis) {
                 p.add_effect("blind", rng(10, 20));
                 p.health--;
                 p.hurt(bp_head, -1, rng(1, 2));
+            }
+            break;
+
+        case DI_PAINCYSTS:
+            if((one_in(256)) && (!p.has_trait("NOPAIN"))) {
+                g->add_msg(_("Your joints ache."));
+                p.mod_pain(rng(1, 4));
+            }
+            if(one_in(256)) {
+                p.fatigue++;
             }
             break;
 
