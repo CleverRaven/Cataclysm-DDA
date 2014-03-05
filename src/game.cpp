@@ -10999,10 +10999,30 @@ void game::forage()
     if (one_in(2))
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
-  // Award experience for foraging attempt regardless of success, up to maximum survival skill level of 6
-  if (u.skillLevel("survival") < 6)
+  //Determinate maximum level of skill attained by foraging using ones intelligence score
+  int max_forage_skill =  0;
+  if (u.int_cur < 4)
   {
-    u.practice(turn, "survival", rng(1, 12 - (u.skillLevel("survival") * 2)));
+    max_forage_skill =  1;
+  } else if (u.int_cur <  6) {
+    max_forage_skill =  2;
+  } else if (u.int_cur <  8) {
+    max_forage_skill =  3;
+  } else if (u.int_cur < 11) {
+    max_forage_skill =  4;
+  } else if (u.int_cur < 15) {
+    max_forage_skill =  5;
+  } else if (u.int_cur < 20) {
+    max_forage_skill =  6;
+  } else if (u.int_cur < 26) {
+    max_forage_skill =  7;
+  } else if (u.int_cur > 25) {
+    max_forage_skill =  8;
+  }
+  //Award experience for foraging attempt regardless of success
+  if (u.skillLevel("survival") < max_forage_skill)
+  {
+    u.practice(turn, "survival", rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)));
   }
 }
 
