@@ -227,7 +227,7 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        SDL_Surface *tile_atlas, *default_size_tile_atlas;
+        SDL_Surface *tile_atlas;
         tile_map *tile_values;
         tile_id_map *tile_ids;
 
