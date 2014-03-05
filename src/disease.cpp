@@ -962,17 +962,21 @@ void dis_effect(player &p, disease &dis) {
                 g->add_msg(_("Your head hurts."));
                 p.mod_pain(rng(2, 8));
             }
-            if(one_in(1024) && !p.has_disease("visuals")) {
-                g->add_msg(_("Your vision is getting fuzzy."));
-                p.add_disease("visuals", rng(10, 600));
+            if(one_in(1024)) {
                 p.health--;
                 p.hurt(bp_head, -1, rng(0, 1));
+                if (!p.has_disease("visuals")) {
+                g->add_msg(_("Your vision is getting fuzzy."));
+                p.add_disease("visuals", rng(10, 600));
+              }
             }
-            if(one_in(4096) && !p.has_effect("blind")) {
-                g->add_msg_if_player(&p,_("You can't see!"));
-                p.add_effect("blind", rng(10, 20));
+            if(one_in(4096)) {
                 p.health--;
                 p.hurt(bp_head, -1, rng(1, 2));
+                if (!p.has_effect("blind")) {
+                g->add_msg_if_player(&p,_("You can't see!"));
+                p.add_effect("blind", rng(5, 20));
+              }
             }
             break;
 
