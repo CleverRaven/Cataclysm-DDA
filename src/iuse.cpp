@@ -920,14 +920,14 @@ int iuse::antiparasitic(player *p, item *it, bool) {
         }
     } if (p->has_disease("bloodworms")) {
         p->rem_disease("bloodworms");
-        g->add_msg_if_player(p,_("Your skin prickles and your veins itch for a moment."));
+        g->add_msg_if_player(p,_("Your skin prickles and your veins itch for a few moments."));
     } if (p->has_disease("brainworm")) {
         p->rem_disease("brainworm");
         if (p->has_trait("NOPAIN")) {
         g->add_msg_if_player(p,_("The pressure inside your head feels better already."));
         } else {
         g->add_msg_if_player(p,_("Your head pounds like a sore tooth as something inside of it dies."));
-        p->mod_pain( rng(16, 48) );
+        p->mod_pain( rng(8, 24) );
         }
     }
     return it->type->charges_to_use();
