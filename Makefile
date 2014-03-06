@@ -74,7 +74,7 @@ BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 LUA_DIR = lua
 LOCALIZE = 1
-
+PREFIX = /usr/local
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
 ODIR = obj
@@ -356,6 +356,23 @@ distclean:
 
 bindist: $(BINDIST)
 
+ifeq ($(TARGETSYSTEM), LINUX)
+DATA_PREFIX=$(PREFIX)/share/cataclysm-dda
+BIN_PREFIX=$(PREFIX)/bin
+install: version $(TARGET)
+	mkdir -p $(DATA_PREFIX)
+	mkdir -p $(BIN_PREFIX)
+	install --mode=755 $(TARGET) $(BIN_PREFIX)
+	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
+                   README.txt LICENSE.txt -t $(DATA_PREFIX)
+endif
+
 $(BINDIST): distclean $(TARGET) $(L10N) $(BINDIST_EXTRAS)
 	mkdir -p $(BINDIST_DIR)
 	cp -R --parents $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
@@ -378,7 +395,7 @@ check: tests
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests
+.PHONY: tests check ctags etags clean-tests install
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
