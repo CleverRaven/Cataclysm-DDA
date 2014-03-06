@@ -953,57 +953,61 @@ void dis_effect(player &p, disease &dis)
         case DI_TAPEWORM:
             if (p.has_trait("PARAIMMUNE")) {
                p.rem_disease("tapeworm");
-               } else 
-            if(one_in(512)) {
-                p.hunger++;
+            } else {
+                if(one_in(512)) {
+                    p.hunger++;
+                }
             }
             break;
 
         case DI_BLOODWORMS:
             if (p.has_trait("PARAIMMUNE")) {
                p.rem_disease("bloodworms");
-               } else 
-            if(one_in(512)) {
-                p.health--;
+            } else {
+                if(one_in(512)) {
+                    p.health--;
+                }
             }
             break;
 
         case DI_BRAINWORM:
             if (p.has_trait("PARAIMMUNE")) {
                p.rem_disease("brainworm");
-               } else 
-            if((one_in(512)) && (!p.has_trait("NOPAIN"))) {
-                g->add_msg(_("Your head hurts."));
-                p.mod_pain(rng(2, 8));
-            }
-            if(one_in(1024)) {
-                p.health--;
-                p.hurt(bp_head, -1, rng(0, 1));
-                if (!p.has_disease("visuals")) {
-                g->add_msg(_("Your vision is getting fuzzy."));
-                p.add_disease("visuals", rng(10, 600));
-              }
-            }
-            if(one_in(4096)) {
-                p.health--;
-                p.hurt(bp_head, -1, rng(1, 2));
-                if (!p.has_effect("blind")) {
-                g->add_msg_if_player(&p,_("You can't see!"));
-                p.add_effect("blind", rng(5, 20));
-              }
+            } else {
+                if((one_in(512)) && (!p.has_trait("NOPAIN"))) {
+                    g->add_msg(_("Your head hurts."));
+                    p.mod_pain(rng(2, 8));
+                }
+                if(one_in(1024)) {
+                    p.health--;
+                    p.hurt(bp_head, -1, rng(0, 1));
+                    if (!p.has_disease("visuals")) {
+                    g->add_msg(_("Your vision is getting fuzzy."));
+                    p.add_disease("visuals", rng(10, 600));
+                  }
+                }
+                if(one_in(4096)) {
+                    p.health--;
+                    p.hurt(bp_head, -1, rng(1, 2));
+                    if (!p.has_effect("blind")) {
+                    g->add_msg_if_player(&p,_("You can't see!"));
+                    p.add_effect("blind", rng(5, 20));
+                  }
+                }
             }
             break;
 
         case DI_PAINCYSTS:
             if (p.has_trait("PARAIMMUNE")) {
                p.rem_disease("paincysts");
-               } else 
-            if((one_in(256)) && (!p.has_trait("NOPAIN"))) {
-                g->add_msg(_("Your joints ache."));
-                p.mod_pain(rng(1, 4));
-            }
-            if(one_in(256)) {
-                p.fatigue++;
+            } else {
+                if((one_in(256)) && (!p.has_trait("NOPAIN"))) {
+                    g->add_msg(_("Your joints ache."));
+                    p.mod_pain(rng(1, 4));
+                }
+                if(one_in(256)) {
+                    p.fatigue++;
+                }
             }
             break;
 
@@ -1015,7 +1019,9 @@ void dis_effect(player &p, disease &dis)
         case DI_DERMATIK:
             if (p.has_trait("PARAIMMUNE")) {
                p.rem_disease("dermatik");
-               } else handle_insect_parasites(p, dis);
+            } else {
+                handle_insect_parasites(p, dis);
+            }
             break;
 
         case DI_WEBBED:
