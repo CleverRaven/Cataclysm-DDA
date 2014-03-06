@@ -2580,6 +2580,55 @@ int iuse::rm13armor_on(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+int iuse::unpack_item(player *p, item *it, bool)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+        std::string oname = it->type->id + "_on";
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        p->moves -= 300;
+        g->add_msg_if_player(p,_("You unpack your %s for use."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+        return 0;
+}
+
+int iuse::pack_item(player *p, item *it, bool t)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    if (t) { // Normal use
+            // Numbers below -1 are reserved for worn items
+    } else if( p->get_item_position( it ) < -1 ) {
+        g->add_msg_if_player(p,_("Take your %s off first."), it->tname().c_str());
+        return 0;
+      } else { // Turning it off
+        std::string oname = it->type->id;
+        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
+            oname.erase(oname.length() - 3, 3);
+        } else {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        p->moves -= 500;
+        g->add_msg_if_player(p,_("You pack your %s for storage."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+    }
+    return 0;
+}
+
 // this function only exists because we need to set it->active = true
 // otherwise crafting would just give you the active version directly
 int iuse::lightstrip(player *p, item *it, bool)

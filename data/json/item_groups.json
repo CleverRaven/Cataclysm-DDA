@@ -170,6 +170,7 @@
       ["wetsuit_hood", 2],
       ["dive_bag", 3],
       ["poncho", 15],
+      ["folding_poncho", 5],
       ["gloves_light", 35],
       ["mittens", 30],
       ["armguard_soft", 40],
@@ -954,6 +955,7 @@
       ["towel", 40],
       ["jacket_leather", 30],
       ["poncho", 15],
+      ["folding_poncho", 5],
       ["trenchcoat", 25],
       ["peacoat", 30],
       ["vest", 15],
@@ -3672,6 +3674,7 @@
       ["coat_rain", 50],
       ["hood_rain", 10],
       ["poncho", 15],
+      ["folding_poncho", 5],
       ["mag_tv", 40],
       ["mag_dude", 40],
       ["mag_glam", 40],
@@ -3821,6 +3824,7 @@
       ["holybook_slack", 1],
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
+      ["folding_poncho", 1],
       ["pocketwatch", 10]
     ]
   },{
@@ -4248,6 +4252,7 @@
       ["flaregun", 20],
       ["signal_flare", 25],
       ["grapnel", 10],
+      ["folding_poncho", 5],
       ["quikclot", 20]
     ]
   },{
