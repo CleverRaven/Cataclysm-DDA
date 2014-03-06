@@ -2818,7 +2818,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         //damage dealt overall
         dmg += abs(d_E / k_mvel);
         //damage for vehicle-part - only if not a hallucination
-        if(z && !z->is_hallucination()) {
+        if(!z || !z->is_hallucination()) {
             part_dmg = dmg * k / 100;
         }
         //damage for object
