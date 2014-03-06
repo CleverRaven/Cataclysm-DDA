@@ -228,7 +228,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
-            for (int j = 0; j < items.size(); j++) {
+            for (size_t j = 0; j < items.size(); j++) {
                 item *it = &(items[j]);
                 if ( it->is_funnel_container( maxcontains ) ) {
                     c = it;
@@ -386,7 +386,7 @@ void weather_effect::acid()
         }
     }
 
-    for (int i = 0; i < g->num_zombies(); i++) {
+    for (size_t i = 0; i < g->num_zombies(); i++) {
         if (g->m.is_outside(g->zombie(i).posx(), g->zombie(i).posy())) {
             if (!g->zombie(i).has_flag(MF_ACIDPROOF)) {
                 g->zombie(i).hurt(1);

@@ -2965,7 +2965,7 @@ _(
   p->moves -= 150;
   std::vector<npc*> in_range;
   std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(30);
-  for (int i = 0; i < npcs.size(); i++) {
+  for (size_t i = 0; i < npcs.size(); i++) {
    if (npcs[i]->op_of_u.value >= 4) {
     in_range.push_back(npcs[i]);
    }
@@ -3005,7 +3005,7 @@ int iuse::radio_off(player *p, item *it, bool)
 static radio_tower *find_radio_station( int frequency )
 {
     radio_tower *tower = NULL;
-    for (int k = 0; k < g->cur_om->radios.size(); k++)
+    for (size_t k = 0; k < g->cur_om->radios.size(); k++)
     {
         tower = &g->cur_om->radios[k];
         if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
@@ -3059,7 +3059,7 @@ int iuse::radio_on(player *p, item *it, bool t)
             int signal_strength = selected_tower->strength -
                 rl_dist(selected_tower->x, selected_tower->y, g->levx, g->levy);
 
-            for (int j = 0; j < message.length(); j++)
+            for (size_t j = 0; j < message.length(); j++)
             {
                 if (dice(10, 100) > dice(10, signal_strength * 3))
                 {
@@ -3097,7 +3097,7 @@ int iuse::radio_on(player *p, item *it, bool t)
             radio_tower *lowest_tower = NULL;
             radio_tower *lowest_larger_tower = NULL;
 
-            for (int k = 0; k < g->cur_om->radios.size(); k++)
+            for (size_t k = 0; k < g->cur_om->radios.size(); k++)
             {
                 tower = &g->cur_om->radios[k];
 
@@ -5680,6 +5680,7 @@ int iuse::tazer(player *p, item *it, bool)
   switch (z->type->size) {
    case MS_TINY:  numdice -= 2; break;
    case MS_SMALL: numdice -= 1; break;
+   case MS_MEDIUM:              break;
    case MS_LARGE: numdice += 2; break;
    case MS_HUGE:  numdice += 4; break;
   }
@@ -5756,6 +5757,9 @@ int iuse::tazer2(player *p, item *it, bool)
 
                 case MS_SMALL:
                     numdice -= 1;
+                    break;
+
+                case MS_MEDIUM:
                     break;
 
                 case MS_LARGE:
@@ -6031,7 +6035,7 @@ int iuse::dog_whistle(player *p, item *it, bool)
         return 0;
     }
  g->add_msg_if_player(p,_("You blow your dog whistle."));
- for (int i = 0; i < g->num_zombies(); i++) {
+ for (size_t i = 0; i < g->num_zombies(); i++) {
   if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
    bool u_see = g->u_see(&(g->zombie(i)));
    if (g->zombie(i).has_effect("docile")) {
@@ -6060,7 +6064,7 @@ int iuse::vacutainer(player *p, item *it, bool)
 
  item blood(itypes["blood"], g->turn);
  bool drew_blood = false;
- for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
+ for (size_t i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
   item *map_it = &(g->m.i_at(p->posx, p->posy)[i]);
   if (map_it->corpse !=NULL && map_it->type->id == "corpse" &&
       query_yn(_("Draw blood from %s?"), map_it->tname().c_str())) {
@@ -6993,12 +6997,12 @@ int iuse::artifact(player *p, item *it, bool)
                        it->name.c_str());
  }
  it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it->type);
- int num_used = rng(1, art->effects_activated.size());
+ size_t num_used = rng(1, art->effects_activated.size());
  if (num_used < art->effects_activated.size())
   num_used += rng(1, art->effects_activated.size() - num_used);
 
  std::vector<art_effect_active> effects = art->effects_activated;
- for (int i = 0; i < num_used; i++) {
+ for (size_t i = 0; i < num_used; i++) {
   int index = rng(0, effects.size() - 1);
   art_effect_active used = effects[index];
   effects.erase(effects.begin() + index);
@@ -7180,7 +7184,7 @@ int iuse::artifact(player *p, item *it, bool)
   } break;
 
   case AEA_HURTALL:
-   for (int j = 0; j < g->num_zombies(); j++)
+   for (size_t j = 0; j < g->num_zombies(); j++)
     g->zombie(j).hurt(rng(0, 5));
    break;
 
@@ -7286,6 +7290,14 @@ int iuse::artifact(player *p, item *it, bool)
     g->add_msg_if_player(p,_("A shadow forms nearby."));
   } break;
 
+  case AEA_SPLIT: // TODO
+   break;
+
+  case AEA_NULL: // BUG
+  case NUM_AEAS:
+  default:
+   debugmsg("iuse::artifact(): wrong artifact type (%d)", used);
+   break;
   }
  }
  return it->type->charges_to_use();
@@ -7505,8 +7517,7 @@ int iuse::unfold_bicycle(player *p, item *it, bool)
             veh_data.str(data);
             if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
                 // starts with a digit -> old format
-                for (int p = 0; p < bicycle->parts.size(); p++)
-                {
+                for (size_t p = 0; p < bicycle->parts.size(); p++) {
                     veh_data >> bicycle->parts[p].hp;
                 }
             } else {

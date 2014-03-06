@@ -33,7 +33,7 @@ class sokoban_game
 
         int iCurrentLevel, iNumLevel, iTotalMoves;
         std::map<int, std::map<int, std::string> > mLevel;
-        std::map<int, std::map<std::string, int> > mLevelInfo;
+        std::map<int, std::map<std::string, size_t> > mLevelInfo;
         std::vector<std::map<int, std::map<int, std::string> > > vLevel;
         std::vector<cUndo> vUndo;
         std::vector<std::vector<std::pair<int, int> > > vLevelDone;
