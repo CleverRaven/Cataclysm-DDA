@@ -2607,7 +2607,7 @@ int iuse::pack_item(player *p, item *it, bool t)
     if (t) { // Normal use
             // Numbers below -1 are reserved for worn items
     } else if( p->get_item_position( it ) < -1 ) {
-        g->add_msg_if_player(p,_("Take your %s off first."), it->tname().c_str());
+        g->add_msg_if_player(p,_("You can't pack your %s until you take it off."), it->tname().c_str());
         return 0;
       } else { // Turning it off
         std::string oname = it->type->id;
