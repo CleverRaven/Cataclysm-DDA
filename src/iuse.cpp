@@ -1113,7 +1113,8 @@ int iuse::oxygen_bottle(player *p, item *it, bool) {
 int iuse::blech(player *p, item *it, bool) {
     // TODO: Add more effects?
     g->add_msg_if_player(p,_("Blech, that burns your throat!"));
-    p->vomit();
+    if(it->type->id != "soap") // soap burns but doesn't make you throw up
+        p->vomit();
     return it->type->charges_to_use();
 }
 

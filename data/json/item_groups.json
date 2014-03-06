@@ -424,7 +424,8 @@
       ["dogfood", 20],
       ["catfood", 20],
       ["salted_fish", 15],
-      ["charcoal", 5]
+      ["charcoal", 5],
+      ["soap", 10]
     ]
   },{
     "type" : "item_group",
