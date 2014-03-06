@@ -10843,7 +10843,7 @@ void map::place_cooler(int x, int y, int charges)
 {
     item water(itypes["water"], 0);
     water.charges = charges;
-    add_item(x, y, water);
+    add_item(x, y, water_clean);
     furn_set(x, y, "f_cooler");
 }
 
