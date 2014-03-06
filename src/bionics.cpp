@@ -452,6 +452,18 @@ void player::activate_bionic(int b)
         if (has_disease("adrenaline")) {
             good.push_back(_("Adrenaline Spike"));
         }
+        if (has_disease("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
+            good.push_back(_("Intestinal Parasite"));
+        }
+        if (has_disease("bloodworms")) {
+            good.push_back(_("Hemolytic Parasites"));
+        }
+        if (has_disease("brainworm")) {  // This little guy is immune to the blood filter too, as he lives in your brain.
+            good.push_back(_("Intracranial Parasite"));
+        }
+        if (has_disease("paincysts")) {  // These little guys are immune to the blood filter too, as they lives in your muscles.
+            good.push_back(_("Intramuscular Parasites"));
+        }
         if (good.empty() && bad.empty()) {
             mvwprintz(w, 1, 1, c_white, _("No effects."));
         } else {
@@ -470,6 +482,7 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_blood_filter") {
         rem_disease("fungus");
         rem_disease("dermatik");
+        rem_disease("bloodworms");
         remove_effect("poison");
         rem_disease("pkill1");
         rem_disease("pkill2");
