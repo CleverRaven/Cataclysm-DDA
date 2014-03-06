@@ -33,14 +33,16 @@ void profession::load_profession(JsonObject &jsobj)
     //otherwise we assume "name" is a string and use its value for prof._name
     if(jsobj.has_object("name")) {
         JsonObject name_obj=jsobj.get_object("name");
-        prof._name_male=name_obj.get_string("male");
-        prof._name_female=name_obj.get_string("female");
-        prof._name="";
+        prof._name_male = _(name_obj.get_string("male").c_str());
+        prof._name_female = _(name_obj.get_string("female").c_str());
+        prof._name = "";
     }
     else {
-        prof._name=jsobj.get_string("name");
-        prof._name_male="";
-        prof._name_female="";
+        prof._name = _(jsobj.get_string("name").c_str());
+        //~ player info: "<name> - a male <gender unspecific profession>"
+        prof._name_male = string_format(_("male %s"), prof._name.c_str());
+        //~ player info: "<name> - a female <gender unspecific profession>"
+        prof._name_female = string_format(_("female %s"), prof._name.c_str());
     }
 
     prof._description = _(jsobj.get_string("description").c_str());
@@ -192,10 +194,7 @@ std::string profession::name() const
 
 std::string profession::gender_appropriate_name(bool male) const
 {
-    if(_name!="") {
-        return _name;
-    }
-    else if(male) {
+    if(male) {
         return _name_male;
     }
     else {

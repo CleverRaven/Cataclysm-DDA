@@ -435,7 +435,7 @@ void computer::activate_function(computer_action action)
             log = lab_notes[(g->levx + g->levy + g->levz + (alerts)) % lab_notes.size()];
         }
 
-        print_text(log.c_str());
+        print_text("%s", log.c_str());
         // One's an anomaly
         if (alerts == 0) {
         query_any(_("Local data-access error logged, alerting helpdesk. Press any key..."));
@@ -564,7 +564,7 @@ void computer::activate_function(computer_action action)
         print_newline();
 
         for (unsigned i = 0; i < names.size(); i++) {
-            print_line(names[i].c_str());
+            print_line("%s", names[i].c_str());
         }
         if (more > 0) {
             print_line(_("%d OTHERS FOUND..."), more);
@@ -1245,17 +1245,11 @@ void computer::activate_failure(computer_failure fail)
 
 bool computer::query_bool(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Append with (Y/N/Q)
-    std::string full_line = buff;
-    full_line += " (Y/N/Q)";
-    // Print the resulting text
-    print_line(full_line.c_str());
+    print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
         ret = getch();
@@ -1266,32 +1260,22 @@ bool computer::query_bool(const char *mes, ...)
 
 bool computer::query_any(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string full_line = buff;
-    // Print the resulting text
-    print_line(full_line.c_str());
+    print_line("%s", text.c_str());
     getch();
     return true;
 }
 
 char computer::query_ynq(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Append with (Y/N/Q)
-    std::string full_line = buff;
-    full_line += " (Y/N/Q)";
-    // Print the resulting text
-    print_line(full_line.c_str());
+    print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
         ret = getch();
@@ -1302,44 +1286,35 @@ char computer::query_ynq(const char *mes, ...)
 
 void computer::print_line(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Print the line.
-    wprintz(w_terminal, c_green, buff);
+    wprintz(w_terminal, c_green, "%s", text.c_str());
     print_newline();
     wrefresh(w_terminal);
 }
 
 void computer::print_error(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Print the line.
-    wprintz(w_terminal, c_red, buff);
+    wprintz(w_terminal, c_red, "%s", text.c_str());
     print_newline();
     wrefresh(w_terminal);
 }
 
 void computer::print_text(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Print the text.
     int y = getcury(w_terminal);
     int w = getmaxx(w_terminal) - 2;
-    fold_and_print(w_terminal, y, 1, w, c_green, buff);
+    fold_and_print(w_terminal, y, 1, w, c_green, text);
     print_newline();
     print_newline();
     wrefresh(w_terminal);
@@ -1364,7 +1339,7 @@ void computer::print_gibberish_line()
             break;
         }
     }
-    wprintz(w_terminal, c_yellow, gibberish.c_str());
+    wprintz(w_terminal, c_yellow, "%s", gibberish.c_str());
     print_newline();
     wrefresh(w_terminal);
 }
