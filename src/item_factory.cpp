@@ -926,6 +926,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     SUN_GLASSES - Protects from sunlight's 'glare' effect.
     RAD_RESIST - Partially protects from ambient radiation.
     RAD_PROOF- Fully protects from ambient radiation.
+    ELECTRIC_IMMUNE- Fully protects from electricity.
 
     Container-only flags:
     SEALS
