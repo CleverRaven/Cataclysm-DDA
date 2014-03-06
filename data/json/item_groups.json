@@ -1417,6 +1417,7 @@
       ["prozac", 10],
       ["antibiotics", 25],
       ["antifungal", 2],
+      ["antiparasitic", 3],
       ["syringe", 8]
     ]
   },{
@@ -3438,6 +3439,7 @@
       ["oxygen_tank", 40],
       ["smoxygen_tank", 10],
       ["antifungal", 5],
+      ["antiparasitic", 10],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -3485,6 +3487,7 @@
       ["vaccine_shot", 5],
       ["blanket", 50],
       ["smoxygen_tank", 10],
+      ["antiparasitic", 3],
       ["recipe_augs", 3],
       ["holybook_bible1", 4],
       ["holybook_bible2", 3],
@@ -4565,6 +4568,7 @@
       ["recipe_lab_cvd", 15],
       ["recipe_mininuke_launch", 5],
       ["teleporter", 10],
+      ["antiparasitic", 5],
       ["usb_drive", 5]
     ]
   },{
@@ -5643,6 +5647,7 @@
       ["55gal_drum", 40],
       ["30gal_drum", 30],
       ["wearable_light", 10],
+      ["antiparasitic", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -7140,6 +7145,7 @@
       ["flamethrower_crude", 6],
       ["fungicide", 10],
       ["antifungal", 1],
+      ["antiparasitic", 5],
       ["throw_extinguisher", 2],
       ["small_repairkit", 14],
       ["grapnel", 6],

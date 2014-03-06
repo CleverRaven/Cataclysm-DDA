@@ -671,6 +671,68 @@ int iuse::atomic_caff(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::raw_meat(player *p, item *it, bool)
+{
+    if ((one_in(32)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("tapeworm", 1, true);
+    } if ((one_in(64)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    } if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("brainworm", 1, true);
+    } if ((one_in(64)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("paincysts", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_fat(player *p, item *it, bool)
+{
+    if ((one_in(64)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("tapeworm", 1, true);
+    } if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    } if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("brainworm", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_bone(player *p, item *it, bool)
+{
+    if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_fish(player *p, item *it, bool)
+{
+    if ((one_in(256)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("tapeworm", 1, true);
+    } if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    } if ((one_in(256)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("brainworm", 1, true);
+    } if ((one_in(256)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("paincysts", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_wildveg(player *p, item *it, bool)
+{
+    if ((one_in(512)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("tapeworm", 1, true);
+    } if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    } if ((one_in(512)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("brainworm", 1, true);
+    } if ((one_in(128)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("paincysts", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::alcohol(player *p, item *it, bool)
 {
     int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
@@ -853,7 +915,34 @@ int iuse::antiparasitic(player *p, item *it, bool) {
     if (p->has_disease("dermatik")) {
         p->rem_disease("dermatik");
         g->add_msg_if_player(p,_("The itching sensation under your skin fades away."));
+    } if (p->has_disease("tapeworm")) {
+        p->rem_disease("tapeworm");
+        p->hunger--;  // You just digested the tapeworm.
+        if (p->has_trait("NOPAIN")) {
+        g->add_msg_if_player(p,_("Your bowels clench as something inside them dies."));
+        } else {
+        g->add_msg_if_player(p,_("Your bowels spasm painfully as something inside them dies."));
+        p->mod_pain( rng(8, 24) );
+        }
+    } if (p->has_disease("bloodworms")) {
+        p->rem_disease("bloodworms");
+        g->add_msg_if_player(p,_("Your skin prickles and your veins itch for a few moments."));
+    } if (p->has_disease("brainworm")) {
+        p->rem_disease("brainworm");
+        if (p->has_trait("NOPAIN")) {
+        g->add_msg_if_player(p,_("The pressure inside your head feels better already."));
+        } else {
+        g->add_msg_if_player(p,_("Your head pounds like a sore tooth as something inside of it dies."));
+        p->mod_pain( rng(8, 24) );
+        }
+    } if (p->has_disease("paincysts")) {
+        p->rem_disease("paincysts");
+        if (p->has_trait("NOPAIN")) {
+        g->add_msg_if_player(p,_("The stiffness in your joints goes away."));
+        } else {
+        g->add_msg_if_player(p,_("The pain in your joints goes away."));
     }
+  }
     return it->type->charges_to_use();
 }
 
