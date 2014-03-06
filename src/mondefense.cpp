@@ -15,7 +15,7 @@ void mdefense::zapback(monster *m)
         {
         return; // Out of range
         }
-    if ((!g->u.has_active_bionic("bio_faraday") && !g->u.is_wearing("rm13_armor_on") && !g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) && 
+    if ((!g->u.has_active_bionic("bio_faraday") && !g->u.worn_with_flag("ELECTRIC_IMMUNE") && !g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) && 
         (g->u.weapon.conductive() || g->u.unarmed_attack()) && (rng(0,100) <= m->def_chance))
         {
         damage_instance shock;
