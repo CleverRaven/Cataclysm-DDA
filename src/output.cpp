@@ -1223,7 +1223,11 @@ std::string vstring_format(const char *pattern, va_list argptr)
         buffer_size *= 2;
     }
 #else
-    const int required = vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+    va_list cur_argptr;
+
+    va_copy(cur_argptr, argptr);
+    const int required = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
+    va_end(cur_argptr);
     if (required < 0) {
         debugmsg("invalid input to string_format function!");
         return std::string("invalid input to string_format function!");
@@ -1233,7 +1237,9 @@ std::string vstring_format(const char *pattern, va_list argptr)
         buffer.resize(buffer_size, '\0');
         // Try again one time, this should be save as we know the required
         // buffer size and have allocated that much.
-        vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+        va_copy(cur_argptr, argptr);
+        vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
+        va_end(cur_argptr);
         // ignore the result of vsnprintf, because it returns different
         // things on windows, see above.
         returned_length = required;
