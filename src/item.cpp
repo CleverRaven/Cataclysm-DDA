@@ -947,7 +947,9 @@ nc_color item::color(player *u) const
 {
     nc_color ret = c_ltgray;
 
-    if (active && !is_food() && !is_food_container()) // Active items show up as yellow
+    if(has_flag("WET"))
+        ret = c_cyan;
+    else if (active && !is_food() && !is_food_container()) // Active items show up as yellow
         ret = c_yellow;
     else if (is_gun()) { // Guns are green if you are carrying ammo for them
         ammotype amtype = ammo_type();
@@ -1099,6 +1101,9 @@ std::string item::tname( bool with_prefix )
 
     if (owned > 0)
         ret << _(" (owned)");
+
+    if(has_flag("WET"))
+       ret << _(" (wet)");
 
     tagtext = ret.str();
 
