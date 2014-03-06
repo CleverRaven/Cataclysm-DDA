@@ -146,7 +146,7 @@ int utf8_width(const char* s)
 //If the cursor is not on the first half of the character,
 //prevpos (which points to the first byte of the cursor located char)
 // should be a different value.
-int cursorx_to_position_with_maxlen(const char* line, int cursorx, int maxlen, int* prevpos)
+int cursorx_to_position(const char* line, int cursorx, int* prevpos, int maxlen)
 {
     int dummy;
     int i=0, c=0, *p=prevpos?prevpos:&dummy;
@@ -160,7 +160,9 @@ int cursorx_to_position_with_maxlen(const char* line, int cursorx, int maxlen, i
         len = ANY_LENGTH-len;
 
         if(len<=0) len=1;
-	if(maxlen < (i + len)) break;
+        if(maxlen >= 0 && maxlen < (i + len)) {
+            break;
+        }
         i+=len;
         if(cw<=0) cw=1;
         c+=cw;
@@ -185,7 +187,9 @@ int erease_utf8_by_cw( char* t, int cw, int clen, int maxlen)
         len = ANY_LENGTH-len;
 
         if(len<=0) len=1;
-	if(maxlen < (i + len)) break;
+        if( maxlen < (i + len) ) {
+            break;
+        }
         i+=len;
         if(cw<=0) cw=1;
         c+=cw;
@@ -216,7 +220,7 @@ std::string utf8_substr(std::string s, int start, int size)
     int len = strlen(s.c_str());
     int pos;
     strcpy(buf, s.c_str());
-    int begin = cursorx_to_position_with_maxlen(buf, start, len,  &pos);
+    int begin = cursorx_to_position( buf, start, &pos, len );
     if(begin!=pos)
     {
         const char* ts = buf+pos;
@@ -228,7 +232,7 @@ std::string utf8_substr(std::string s, int start, int size)
 
     if(size>0)
     {
-      int end = cursorx_to_position_with_maxlen(buf, start+size-1, len, &pos);
+        int end = cursorx_to_position( buf, start + size - 1, &pos, len );
         if(end!=pos)
         {
             const char* ts = buf+pos;
