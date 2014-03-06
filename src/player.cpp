@@ -3978,8 +3978,8 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance&) {
 dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
                                           int side, const damage_instance& d) {
 
-    dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, side, d);
-    int dam = dealt_dams.total_damage();
+    dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, side, d); //damage applied here
+    int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
 
     if (has_disease("sleep")) {
         wake_up(_("You wake up!"));
@@ -4050,14 +4050,20 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             }
             add_effect("blind", rng(minblind, maxblind));
         }
+
+    /*
+        It almost looks like damage may be getting applied twice in some cases.
+     */
     case bp_mouth: // Fall through to head damage
     case bp_head:
         mod_pain(1);
-        hp_cur[hp_head] -= dam;
+        /*
+        hp_cur[hp_head] -= dam; //this looks like an extra damage hit, as is applied in apply_damage from creature: deal_damage()
         if (hp_cur[hp_head] < 0) {
             lifetime_stats()->damage_taken+=hp_cur[hp_head];
             hp_cur[hp_head] = 0;
         }
+         */
         break;
     case bp_torso:
         // getting hit throws off our shooting
@@ -4076,28 +4082,28 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     default:
         debugmsg("Wacky body part hit!");
     }
-
+    //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != NULL ) {
-        if (d.total_damage() > 0 && source->has_flag(MF_VENOM)) {
+        if (dealt_dams.total_damage() > 0 && source->has_flag(MF_VENOM)) {
             g->add_msg_if_player(this, _("You're poisoned!"));
             add_disease("poison", 30, false, 1, 20, 100);
             add_effect("poison", 30);
         }
-        else if (d.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
+        else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
             g->add_msg_if_player(this, _("You feel poison flood your body, wracking you with pain..."));
             add_disease("badpoison", 40, false, 1, 20, 100);
             add_effect("badpoison", 40);
         }
-        else if (d.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
+        else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
             g->add_msg_if_player(this, _("You feel poison enter your body!"));
             add_disease("paralyzepoison", 100, false, 1, 20, 100);
             add_effect("paralyzepoison", 100);
         }
 
-        if (source->has_flag(MF_BLEED) && d.total_damage() > 6 && d.type_damage(DT_CUT) > 0) {
+        if (source->has_flag(MF_BLEED) && dealt_dams.total_damage() > 6 && dealt_dams.type_damage(DT_CUT) > 0) { //maybe should only be if DT_CUT > 6... Balence question
             g->add_msg_if_player(this, _("You're Bleeding!"));
-            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, -1, true);
+            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, -1, true); //only place bleed effect added to player in code
         }
 
         if ( source->has_flag(MF_GRABS)) {
@@ -4113,7 +4119,10 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
 
     return dealt_damage_instance(dealt_dams);
 }
-
+/* 
+    Where damage to player is actually applied to hit body parts 
+    Might be where to put bleed stuff rather than in player::deal_damage()
+ */ 
 void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
     if (is_dead_state()) {
         // don't do any more damage if we're already dead
@@ -9535,9 +9544,12 @@ void player::absorb_hit(body_part bp, int, damage_instance &dam) {
                 worn.erase(worn.begin() + index);
             }
         }
-        if (it->type == DT_BASH) {
+
+        /* Comment out unused test
+        if (it->type == DT_BASH) { //well, these seem like they aren't needed
         } else if (it->type == DT_CUT) {
         }
+        */
     }
 }
 
