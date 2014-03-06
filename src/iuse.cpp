@@ -674,13 +674,13 @@ int iuse::atomic_caff(player *p, item *it, bool)
 int iuse::raw_meat(player *p, item *it, bool)
 {
     if ((one_in(32)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("tapeworm", 2560000);
+        p->add_disease("tapeworm", 1, true);
     } if ((one_in(64)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1280000);
+        p->add_disease("bloodworms", 1, true);
     } if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("brainworm", 5120000);
+        p->add_disease("brainworm", 1, true);
     } if ((one_in(64)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("paincysts", 640000);
+        p->add_disease("paincysts", 1, true);
     }
     return it->type->charges_to_use();
 }
@@ -688,11 +688,11 @@ int iuse::raw_meat(player *p, item *it, bool)
 int iuse::raw_fat(player *p, item *it, bool)
 {
     if ((one_in(64)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("tapeworm", 2560000);
+        p->add_disease("tapeworm", 1, true);
     } if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1280000);
+        p->add_disease("bloodworms", 1, true);
     } if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("brainworm", 5120000);
+        p->add_disease("brainworm", 1, true);
     }
     return it->type->charges_to_use();
 }
@@ -700,7 +700,7 @@ int iuse::raw_fat(player *p, item *it, bool)
 int iuse::raw_bone(player *p, item *it, bool)
 {
     if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1280000);
+        p->add_disease("bloodworms", 1, true);
     }
     return it->type->charges_to_use();
 }
@@ -708,13 +708,13 @@ int iuse::raw_bone(player *p, item *it, bool)
 int iuse::raw_fish(player *p, item *it, bool)
 {
     if ((one_in(256)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("tapeworm", 2560000);
+        p->add_disease("tapeworm", 1, true);
     } if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1280000);
+        p->add_disease("bloodworms", 1, true);
     } if ((one_in(256)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("brainworm", 5120000);
+        p->add_disease("brainworm", 1, true);
     } if ((one_in(256)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("paincysts", 640000);
+        p->add_disease("paincysts", 1, true);
     }
     return it->type->charges_to_use();
 }
@@ -722,13 +722,13 @@ int iuse::raw_fish(player *p, item *it, bool)
 int iuse::raw_wildveg(player *p, item *it, bool)
 {
     if ((one_in(512)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("tapeworm", 2560000);
+        p->add_disease("tapeworm", 1, true);
     } if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("bloodworms", 1280000);
+        p->add_disease("bloodworms", 1, true);
     } if ((one_in(512)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("brainworm", 5120000);
+        p->add_disease("brainworm", 1, true);
     } if ((one_in(128)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
-        p->add_disease("paincysts", 640000);
+        p->add_disease("paincysts", 1, true);
     }
     return it->type->charges_to_use();
 }
