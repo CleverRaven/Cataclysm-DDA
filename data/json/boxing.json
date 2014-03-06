@@ -64,6 +64,8 @@
             ["sports_bra", 25],
             ["jacket_leather", 20],
             ["aspirin", 30],
+            ["water_clean", 30],
+            ["sports_drink", 30],
             ["1st_aid", 20]
         ]
     },
