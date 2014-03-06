@@ -75,7 +75,7 @@ class wish_mutate_callback: public uimenu_callback
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].prereqs.size(); j++) {
                     std::string mstr = mutation_data[vTraits[ entnum ]].prereqs[j];
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), "%s", traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
@@ -85,7 +85,7 @@ class wish_mutate_callback: public uimenu_callback
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].prereqs2.size(); j++) {
                     std::string mstr = mutation_data[vTraits[ entnum ]].prereqs2[j];
-                    mvwprintz(menu->window, line2, startx + 15, mcolor(mstr), traits[ mstr ].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 15, mcolor(mstr), "%s", traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
@@ -95,7 +95,7 @@ class wish_mutate_callback: public uimenu_callback
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].threshreq.size(); j++) {
                     std::string mstr = mutation_data[vTraits[ entnum ]].threshreq[j];
-                    mvwprintz(menu->window, line2, startx + 21, mcolor(mstr), traits[ mstr ].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 21, mcolor(mstr), "%s", traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
@@ -105,7 +105,7 @@ class wish_mutate_callback: public uimenu_callback
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].cancels.size(); j++) {
                     std::string mstr = mutation_data[vTraits[ entnum ]].cancels[j];
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), "%s", traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
@@ -115,7 +115,7 @@ class wish_mutate_callback: public uimenu_callback
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].replacements.size(); j++) {
                     std::string mstr = mutation_data[vTraits[ entnum ]].replacements[j];
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), "%s", traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
@@ -125,7 +125,7 @@ class wish_mutate_callback: public uimenu_callback
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].additions.size(); j++) {
                     std::string mstr = mutation_data[vTraits[ entnum ]].additions[j];
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), traits[ mstr ].name.c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(mstr), "%s", traits[ mstr ].name.c_str());
                     line2++;
                 }
             }
@@ -134,7 +134,7 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].category.size(); j++) {
-                    mvwprintw(menu->window, line2, startx + 11, mutation_data[vTraits[ entnum ]].category[j].c_str());
+                    mvwprintw(menu->window, line2, startx + 11, "%s", mutation_data[vTraits[ entnum ]].category[j].c_str());
                     line2++;
                 }
             }

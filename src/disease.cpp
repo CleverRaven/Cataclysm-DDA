@@ -294,11 +294,15 @@ void dis_remove_memorial(dis_type type_string) {
       g->u.add_memorial_log(pgettext("memorial_male", "Recovered from an infection... this time."),
                             pgettext("memorial_female", "Recovered from an infection... this time."));
       break;
+
+    default:
+        break;
   }
 
 }
 
-void dis_effect(player &p, disease &dis) {
+void dis_effect(player &p, disease &dis)
+{
     bool sleeping = p.has_disease("sleep");
     bool tempMsgTrigger = one_in(400);
     int bonus;
@@ -316,7 +320,7 @@ void dis_effect(player &p, disease &dis) {
                             if (!sleeping && tempMsgTrigger) {
                                 g->add_msg(_("Your thoughts are unclear."));
                             }
-                        case 2 :
+                        case 2:
                             p.mod_int_bonus(-1);
                         default:
                             break;
@@ -404,6 +408,9 @@ void dis_effect(player &p, disease &dis) {
                             break;
                     }
                     break;
+                case bp_eyes:// Eyes are not susceptible by this disease.
+                case num_bp: // Suppress compiler warning [-Wswitch]
+                    break;
             }
             break;
 
@@ -454,6 +461,8 @@ void dis_effect(player &p, disease &dis) {
                             break;
                     }
                     break;
+                default: // Suppress compiler warnings [-Wswitch]
+                    break;
             }
             break;
 
@@ -487,6 +496,8 @@ void dis_effect(player &p, disease &dis) {
                     if (p.pain < 35) {
                         p.mod_pain(1);
                     }
+                    break;
+                default: // Suppress compiler warnings [-Wswitch]
                     break;
             }
             break;
@@ -610,6 +621,9 @@ void dis_effect(player &p, disease &dis) {
                                 g->add_msg(_("Your feet are swelling in the heat."));
                             }
                     }
+                    break;
+                case bp_eyes:// Eyes are not susceptible by this disease.
+                case num_bp: // Suppress compiler warning [-Wswitch]
                     break;
             }
             break;
@@ -1273,6 +1287,8 @@ void dis_effect(player &p, disease &dis) {
             p.dodges_left = 0;
             p.rem_disease(dis.type);
             break;
+        default: // Other diseases don't have any effects. Suppress warning.
+            break;
     }
 }
 
@@ -1353,6 +1369,8 @@ int disease_speed_boost(disease dis)
                         case 2: return -10;
                         case 3: return -15;
                     }
+                default:
+                    return 0;
             }
 
         case DI_PARALYZEPOISON:
@@ -1371,8 +1389,8 @@ int disease_speed_boost(disease dis)
         case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
         case DI_LACKSLEEP:  return -5;
         case DI_GRABBED:    return -25;
-        default:;
-   }
+        default:            break;
+    }
     return 0;
 }
 
@@ -1419,6 +1437,9 @@ std::string dis_name(disease& dis)
                 case 1: return _("Chilly feet");
                 case 2: return _("Cold feet!");
                 case 3: return _("Freezing feet!!");}
+            case bp_eyes: // Eyes are not susceptible by this disease.
+            case num_bp: // Suppress compiler warninig [-Wswitch]
+                break; // function return "" in this case
         }
 
     case DI_FROSTBITE:
@@ -1435,6 +1456,8 @@ std::string dis_name(disease& dis)
                 switch (dis.intensity) {
                 case 1: return _("Frostnip - face");
                 case 2: return _("Frostbite - face");}
+            default: // Suppress compiler warning [-Wswitch]
+                break; // function return "" in this case
         }
 
     case DI_HOT:
@@ -1475,6 +1498,9 @@ std::string dis_name(disease& dis)
                 case 1: return _("Warm feet");
                 case 2: return _("Hot feet!");
                 case 3: return _("Scorching feet!!");}
+            case bp_eyes: // Eyes are not susceptible by this disease.
+            case num_bp: // Suppress compiler warninig [-Wswitch]
+                break; // function return "" in this case
         }
 
     case DI_BLISTERS:
@@ -1491,6 +1517,8 @@ std::string dis_name(disease& dis)
                 return _("Blisters - legs");
             case bp_feet:
                 return _("Blisters - feet");
+            default: // Suppress compiler warning [-Wswitch]
+                break;
         }
 
     case DI_COMMON_COLD: return _("Common Cold");
@@ -1526,6 +1554,8 @@ std::string dis_name(disease& dis)
                 } else if (dis.side == 1) {
                     status += _("Right Leg");
                 }
+                break;
+            default: // Suppress compile warning [-Wswitch]
                 break;
         }
         return status;
@@ -1563,6 +1593,8 @@ std::string dis_name(disease& dis)
                 } else if (dis.side == 1) {
                     status += _("Right Leg");
                 }
+                break;
+            default: // Suppress compiler warning [-Wswitch]
                 break;
         }
         return status;
@@ -1611,6 +1643,8 @@ std::string dis_name(disease& dis)
                 } else if (dis.side == 1) {
                     status += _("Right Leg");
                 }
+                break;
+            default: // Suppress compiler warning [-Wswitch]
                 break;
         }
         return status;
@@ -1686,6 +1720,8 @@ std::string dis_name(disease& dis)
                     status += _("Right Leg");
                 }
                 break;
+            default: // Suppress compiler warning [-Wswitch]
+                break;
         }
         return status;
     }
@@ -1717,6 +1753,8 @@ std::string dis_name(disease& dis)
                     status += _("Right Leg");
                 }
                 break;
+            default: // Suppress compiler warning [-Wswitch]
+                break;
         }
         return status;
     }
@@ -1741,7 +1779,7 @@ std::string dis_name(disease& dis)
 
     case DI_LACKSLEEP: return _("Lacking Sleep");
     case DI_GRABBED: return _("Grabbed");
-    default:;
+    default: break;
     }
     return "";
 }
@@ -1759,6 +1797,8 @@ std::string dis_combined_name(disease& dis)
             return _("Frostbite");
         case DI_HOT:
             return _("Hot");
+        default: // Suppress compiler warnings [-Wswitch]
+            break;
     }
     return "";
 }
@@ -1817,6 +1857,9 @@ std::string dis_description(disease& dis)
                 case 2: return _("Your feet are very exposed to the cold. Your strength is sapped.");
                 case 3: return _("Your feet are dangerously cold. Your strength is sapped.");
                 }
+            case bp_eyes:// Eyes are not susceptible by this disease.
+            case num_bp: // Suppress compiler warning [-Wswitch]
+                break;
         }
 
     case DI_FROSTBITE:
@@ -1852,6 +1895,8 @@ Your arms are frostbitten from prolonged exposure to the cold.");
             case bp_legs:
                 return _("\
 Your legs are frostbitten from prolonged exposure to the cold.");
+            default: // Suppress compiler warning [-Wswitch]
+                break;
           }
         } else {
             switch(dis.bp) {
@@ -1885,6 +1930,8 @@ Your arms are frostbitten from prolonged exposure to the cold. It is extremely p
             case bp_legs:
                 return _("\
 Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.");
+            default: // Suppress compiler warning [-Wswitch]
+                break;
             }
         }
 
@@ -1932,10 +1979,12 @@ Your legs are frostbitten from prolonged exposure to the cold. It is extremely p
                 case 2: return _("Your feet are swollen due to the heat.");
                 case 3: return _("Your feet are swollen due to the heat.");
                 }
+            case bp_eyes:// Eyes are not susceptible by this disease.
+            case num_bp: // Suppress compiler warning [-Wswitch]
+                break;
         }
 
     case DI_BLISTERS:
-
       if (g->u.has_trait("NOPAIN")) {
         switch (dis.bp) {
             case bp_mouth:
@@ -1956,6 +2005,8 @@ Your legs are blistering from the intense heat.");
             case bp_feet:
                 return _("\
 Your feet are blistering from the intense heat.");
+            default: // Suppress compiler warning [-Wswitch]
+                break;
         }
       } else {
           switch (dis.bp) {
@@ -1977,6 +2028,8 @@ Your legs are blistering from the intense heat. It is extremely painful.");
             case bp_feet:
                 return _("\
 Your feet are blistering from the intense heat. It is extremely painful.");
+            default: // Suppress compiler warning [-Wswitch]
+                break;
           }
       }
 
@@ -2225,12 +2278,13 @@ condition, and deals massive damage.");
     You can't move as quickly and your stats just aren't where they should be.");
     case DI_GRABBED: return _("You have been grabbed by an attacker. \n\
     You cannot dodge and blocking is very difficult.");
-    default:;
+    default: break;
     }
     return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
 }
 
-void manage_fungal_infection(player& p, disease& dis) {
+void manage_fungal_infection(player& p, disease& dis)
+{
     int bonus = p.health + (p.has_trait("POISRESIST") ? 100 : 0);
     p.moves -= 10;
     p.mod_str_bonus(-1);
@@ -2307,7 +2361,8 @@ void manage_fungal_infection(player& p, disease& dis) {
     }
 }
 
-void manage_sleep(player& p, disease& dis) {
+void manage_sleep(player& p, disease& dis)
+{
     p.moves = 0;
     // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
     // as a safety catch.  One test subject managed to get two Colds during hibernation;
@@ -2494,7 +2549,8 @@ void manage_sleep(player& p, disease& dis) {
     }
 }
 
-static void handle_alcohol(player& p, disease& dis) {
+static void handle_alcohol(player& p, disease& dis)
+{
     /*  We get 600 turns, or one hour, of DI_DRUNK for each drink we have (on avg).
         Duration of DI_DRUNK is a good indicator of how much alcohol is in our system.
     */
@@ -2516,7 +2572,8 @@ static void handle_alcohol(player& p, disease& dis) {
     }
 }
 
-static void handle_bite_wound(player& p, disease& dis) {
+static void handle_bite_wound(player& p, disease& dis)
+{
     // Recovery chance
     if(int(g->turn) % 10 == 1) {
         int recover_factor = 100;
@@ -2568,7 +2625,8 @@ static void handle_bite_wound(player& p, disease& dis) {
     }
 }
 
-static void handle_infected_wound(player& p, disease& dis) {
+static void handle_infected_wound(player& p, disease& dis)
+{
     // Recovery chance
     if(int(g->turn) % 10 == 1) {
         if(x_in_y(100 + p.health, 864000)) {
@@ -2646,7 +2704,8 @@ static void handle_infected_wound(player& p, disease& dis) {
     }
 }
 
-static void handle_recovery(player& p, disease& dis) {
+static void handle_recovery(player& p, disease& dis)
+{
     if (dis.duration > 52800) {
         if (one_in(100)) {
             if (p.has_disease("sleep")) {
@@ -2707,7 +2766,8 @@ static void handle_recovery(player& p, disease& dis) {
     }
 }
 
-static void handle_cough(player &p, int, int loudness) {
+static void handle_cough(player &p, int, int loudness)
+{
     if (!p.is_npc()) {
         g->add_msg(_("You cough heavily."));
         g->sound(p.posx, p.posy, loudness, "");
@@ -2723,7 +2783,8 @@ static void handle_cough(player &p, int, int loudness) {
     }
 }
 
-static void handle_deliriant(player& p, disease& dis) {
+static void handle_deliriant(player& p, disease& dis)
+{
     // To be redone.
     // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
     static bool puked = false;
@@ -2803,25 +2864,26 @@ static void handle_deliriant(player& p, disease& dis) {
     }
 }
 
-static void handle_evil(player& p, disease& dis) {
+static void handle_evil(player& p, disease& dis)
+{
     bool lesserEvil = false;  // Worn or wielded; diminished effects
     if (p.weapon.is_artifact() && p.weapon.is_tool()) {
         it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(p.weapon.type);
-        for (int i = 0; i < tool->effects_carried.size(); i++) {
+        for (size_t i = 0; i < tool->effects_carried.size(); i++) {
             if (tool->effects_carried[i] == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
-        for (int i = 0; i < tool->effects_wielded.size(); i++) {
+        for (size_t i = 0; i < tool->effects_wielded.size(); i++) {
             if (tool->effects_wielded[i] == AEP_EVIL) {
                 lesserEvil = true;
             }
         }
     }
-    for (int i = 0; !lesserEvil && i < p.worn.size(); i++) {
+    for (size_t i = 0; !lesserEvil && i < p.worn.size(); i++) {
         if (p.worn[i].is_artifact()) {
             it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-            for (int j = 0; j < armor->effects_worn.size(); j++) {
+            for (size_t j = 0; j < armor->effects_worn.size(); j++) {
                 if (armor->effects_worn[j] == AEP_EVIL) {
                     lesserEvil = true;
                 }
@@ -2847,7 +2909,8 @@ static void handle_evil(player& p, disease& dis) {
     }
 }
 
-static void handle_insect_parasites(player& p, disease& dis) {
+static void handle_insect_parasites(player& p, disease& dis)
+{
     int formication_chance = 600;
     if (dis.duration > 12001) {
         formication_chance += 2400 - (14401 - dis.duration);
@@ -2897,7 +2960,8 @@ static void handle_insect_parasites(player& p, disease& dis) {
     }
 }
 
-bool will_vomit(player& p, int chance) {
+bool will_vomit(player& p, int chance)
+{
     bool drunk = p.has_disease("drunk");
     bool antiEmetics = p.has_disease("weed_high");
     bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
