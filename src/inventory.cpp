@@ -1097,9 +1097,13 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                     continue;
                 }
             }
-            ++stack_iter;
+            if (stack_iter != iter->end()) {
+                ++stack_iter;
+            }
         }
-        ++iter;
+        if (iter != items.end()) {
+            ++iter;
+        }
     }
     return ret;
 }
