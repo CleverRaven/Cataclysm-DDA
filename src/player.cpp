@@ -2188,7 +2188,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  const char *title_EFFECTS = _("EFFECTS");
  mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
  for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
-  mvwprintz(w_effects, i+1, 0, c_ltgray, effect_name[i].c_str());
+  mvwprintz(w_effects, i+1, 0, c_ltgray, "%s", effect_name[i].c_str());
  }
  wrefresh(w_effects);
 
@@ -2235,7 +2235,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
    if (line < skill_win_size_y + 1)
    {
-     mvwprintz(w_skills, line, 1, text_color, "%s", ((*aSkill)->name() + ":").c_str());
+     mvwprintz(w_skills, line, 1, text_color, "%s:", (*aSkill)->name().c_str());
      mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", (int)level,
                (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
@@ -2355,7 +2355,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     for (std::map<std::string, int>::iterator it = speed_effects.begin();
           it != speed_effects.end(); ++it) {
         nc_color col = (it->second > 0 ? c_green : c_red);
-        mvwprintz(w_speed, line,  1, col, it->first.c_str());
+        mvwprintz(w_speed, line,  1, col, "%s", it->first.c_str());
         mvwprintz(w_speed, line, 21, col, (it->second > 0 ? "+" : "-"));
         mvwprintz(w_speed, line, (abs(it->second) >= 10 ? 22 : 23), col, "%d%%",
                    abs(it->second));
@@ -2596,10 +2596,10 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
     else
      status = c_yellow;
     if (i == line)
-     mvwprintz(w_traits, 1 + i - min, 1, hilite(status),
+     mvwprintz(w_traits, 1 + i - min, 1, hilite(status), "%s",
                traits[traitslist[i]].name.c_str());
     else
-     mvwprintz(w_traits, 1 + i - min, 1, status,
+     mvwprintz(w_traits, 1 + i - min, 1, status, "%s",
                traits[traitslist[i]].name.c_str());
    }
    if (line >= 0 && line < traitslist.size()) {
@@ -2627,7 +2627,7 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
        status = c_ltred;
       else
        status = c_yellow;
-      mvwprintz(w_traits, i + 1, 1, status, traits[traitslist[i]].name.c_str());
+      mvwprintz(w_traits, i + 1, 1, status, "%s", traits[traitslist[i]].name.c_str());
      }
      wrefresh(w_traits);
      line = 0;
@@ -2662,9 +2662,9 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
 
    for (int i = min; i < max; i++) {
     if (i == line)
-     mvwprintz(w_effects, 1 + i - min, 0, h_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, h_ltgray, "%s", effect_name[i].c_str());
     else
-     mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, "%s", effect_name[i].c_str());
    }
    if (line >= 0 && line < effect_text.size()) {
     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, effect_text[line]);
@@ -2684,7 +2684,7 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
      mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
      mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
      for (int i = 0; i < effect_name.size() && i < 7; i++)
-      mvwprintz(w_effects, i + 1, 0, c_ltgray, effect_name[i].c_str());
+      mvwprintz(w_effects, i + 1, 0, c_ltgray, "%s", effect_name[i].c_str());
      wrefresh(w_effects);
      line = 0;
      curtab = 1;

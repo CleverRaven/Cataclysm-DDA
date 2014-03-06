@@ -70,13 +70,9 @@ void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, long ch);
 void mvputch_hi(int y, int x, nc_color FG, long ch);
 void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, long ch);
 void mvprintz(int y, int x, nc_color FG, const char *mes, ...);
-void mvprintz(int y, int x, nc_color FG, const std::string &text);
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
-void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const std::string &text);
 void printz(nc_color FG, const char *mes, ...);
-void printz(nc_color FG, const std::string &text);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
-void wprintz(WINDOW *w, nc_color FG, const std::string &text);
 
 void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
 void draw_tabs(WINDOW *w, int active_tab, ...);
