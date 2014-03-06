@@ -431,6 +431,11 @@ bool player::create(character_type type, std::string tempname)
             }
             // If wearing an item fails we fail silently.
             wear_item(&tmp, false);
+        // if something is wet, start it as active with some time to dry off
+        } else if(tmp.has_flag("WET")) {
+            tmp.active = true;
+            tmp.item_counter = 450;
+            inv.push_back(tmp);
         } else {
             inv.push_back(tmp);
         }
