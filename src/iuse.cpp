@@ -7640,6 +7640,28 @@ int iuse::jet_injector(player *p, item *it, bool)
   return it->type->charges_to_use();
 }
 
+int iuse::radglove(player *p, item *it, bool)
+{ 
+  if ( p->get_item_position( it ) >= -1 ) {
+    g->add_msg_if_player(p, _("You must wear the radiation biomonitor before you can activate it."));
+    return 0;
+} else if (it->charges == 0) {
+    g->add_msg_if_player(p, _("The radiation biomonitor needs batteries to function."));
+    return 0;
+  } else {
+    g->add_msg_if_player(p,_("You activate your radiation biomonitor."));
+    if (p->radiation >= 1) {
+    g->add_msg_if_player(p,_("You are currently irradiated."));
+    g->add_msg(_("Your radiation level: %d"), p->radiation);
+  } else {
+    g->add_msg_if_player(p,_("You are not currently irradiated."));
+  }
+    g->add_msg_if_player(p,_("Have a nice day!"));
+ }
+  return it->type->charges_to_use();
+}
+
+
 int iuse::contacts(player *p, item *it, bool)
 {
     if (p->is_underwater()) {
