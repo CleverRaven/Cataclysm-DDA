@@ -1984,6 +1984,7 @@ Your legs are frostbitten from prolonged exposure to the cold. It is extremely p
                 break;
         }
 
+    case DI_BLISTERS:
       if (g->u.has_trait("NOPAIN")) {
         switch (dis.bp) {
             case bp_mouth:
