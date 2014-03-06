@@ -33,9 +33,8 @@
 
 void exit_handler(int s);
 void set_standard_filenames(void);
-void
 
-std::map<std::string,std::string> FILENAMES; // create map where we will store the FILENAMES
+std::map<std::string, std::string> FILENAMES; // create map where we will store the FILENAMES
 std::string USERNAME;
 
 #ifdef USE_WINMAIN
