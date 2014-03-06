@@ -1062,10 +1062,10 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
 {
     sort();
     std::list<item> ret;
-    for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter) {
+    for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
-             ++stack_iter) {
+             /* noop */) {
             // First, check contents
             bool used_item_contents = false;
             for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++) {
@@ -1082,10 +1082,9 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 stack_iter = iter->erase(stack_iter);
                 if (iter->empty()) {
                     iter = items.erase(iter);
-                    --iter;
                     break;
                 } else {
-                    --stack_iter;
+                    continue;
                 }
             } else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.size() == 0) {
                 ret.push_back(*stack_iter);
@@ -1093,15 +1092,14 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 stack_iter = iter->erase(stack_iter);
                 if (iter->empty()) {
                     iter = items.erase(iter);
-                    if (iter != items.begin()) {
-                        --iter;
-                    }
                     break;
-                } else if (stack_iter != iter->begin()) {
-                    --stack_iter;
+                } else {
+                    continue;
                 }
             }
+            ++stack_iter;
         }
+        ++iter;
     }
     return ret;
 }
