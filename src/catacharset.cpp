@@ -159,14 +159,20 @@ int cursorx_to_position(const char* line, int cursorx, int* prevpos, int maxlen)
         int cw = mk_wcwidth(ch);
         len = ANY_LENGTH-len;
 
-        if(len<=0) len=1;
+        if( len <= 0 ) {
+            len = 1;
+        }
         if(maxlen >= 0 && maxlen < (i + len)) {
             break;
         }
         i+=len;
-        if(cw<=0) cw=1;
+        if( cw <= 0 ) {
+            cw = 1;
+        }
         c+=cw;
-        if(c<=cursorx) *p = i;
+        if( c <= cursorx ) {
+            *p = i;
+        }
     }
     return i;
 }
@@ -186,7 +192,9 @@ int erease_utf8_by_cw( char* t, int cw, int clen, int maxlen)
         int cw = mk_wcwidth(ch);
         len = ANY_LENGTH-len;
 
-        if(len<=0) len=1;
+        if( len <= 0 ) {
+            len = 1;
+        }
         if( maxlen < (i + len) ) {
             break;
         }
