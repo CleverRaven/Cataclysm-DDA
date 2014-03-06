@@ -2106,12 +2106,12 @@
       ["tequila", 12],
       ["triple_sec", 12],
       ["bum_wine", 20],
-      ["fruit_wine", 4],
+      ["fruit_wine", 12],
       ["brandy", 12],
-      ["drink_boozeberry", 12],
+      ["drink_boozeberry", 8],
       ["drink_rumcola", 12],
       ["drink_screwdriver", 12],
-      ["drink_wild_apple", 12],
+      ["drink_wild_apple", 8],
       ["drink_strawberry_surprise", 8],
       ["long_island", 6],
       ["wine_riesling", 6],
@@ -6712,6 +6712,24 @@
       ["soldering_iron", 70],
       ["solder_wire", 70],
       ["radio_book", 22]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "moonshine_brew",
+    "items":[
+      ["moonshine", 60],
+      ["still", 20],
+      ["brew_moonshine", 5],
+      ["cornbread", 35],
+      ["yeast", 25],
+      ["sugar", 20]      
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "liqstore_brew",
+    "items":[
+      ["yeast", 5],
+      ["hops", 40]
     ]
   },{
     "type" : "item_group",
