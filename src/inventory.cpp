@@ -243,6 +243,19 @@ indexed_invslice inventory::slice_filter_by_category(item_cat cat, const player 
     return stacks;
 }
 
+indexed_invslice inventory::slice_filter_by_flag(const std::string flag)
+{
+    int i = 0;
+    indexed_invslice stacks;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+        if (iter->front().has_flag(flag)) {
+            stacks.push_back(std::make_pair(&*iter, i));
+        }
+        ++i;
+    }
+    return stacks;
+}
+
 indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liquid)
 {
     int i = 0;

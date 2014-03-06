@@ -47,6 +47,7 @@ class inventory
   indexed_invslice slice_filter_by_activation(const player& u);
   indexed_invslice slice_filter_by_category(item_cat cat, const player& u);
   indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
+  indexed_invslice slice_filter_by_flag(const std::string flag);
 
   void unsort(); // flags the inventory as unsorted
   void sort();

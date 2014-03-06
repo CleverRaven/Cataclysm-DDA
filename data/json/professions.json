@@ -911,9 +911,13 @@
         "type": "profession",
         "ident": "svictim",
         "name": "Shower Victim",
-        "description": "You were in the middle of a nice shower when the cataclysm struck! You fled without so much as a towel.",
+        "description": "You were in the middle of a nice, hot shower when the cataclysm struck! You barely managed to escape with some soap and the most massively useful thing ever... a towel.",
         "points": -1,
         "items": {
+            "both": [
+                "soap",
+                "towel_wet"
+            ]
         }
     },
     {
