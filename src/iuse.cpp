@@ -7476,21 +7476,52 @@ int iuse::boots(player *p, item *it, bool)
 
 int iuse::towel(player *p, item *it, bool)
 {
-    // TODO Wet towel? Crusty towel?
-    // check if player is wet
-    if( abs(p->has_morale(MORALE_WET)) )
+    bool towelUsed = false;
+
+    // can't use an already wet towel!
+    if( it->has_flag("WET") )
+    {
+        g->add_msg_if_player(p,_("That %s is too wet to soak up any more liquid!"), it->name.c_str());
+    }
+
+    // dry off from being wet
+    else if( abs(p->has_morale(MORALE_WET)) )
     {
         p->rem_morale(MORALE_WET);
-        g->add_msg_if_player(p,_("You use the %s to dry off!"), it->name.c_str());
+        g->add_msg_if_player(p,_("You use the %s to dry off, saturating it with water!"), it->name.c_str());
+
+        towelUsed = true;
+        it->item_counter = 300;
     }
-    else if( p->has_disease("slimed"))
+
+    // clean off slime
+    else if( p->has_disease("slimed") )
     {
         p->rem_disease("slimed");
-        g->add_msg_if_player(p,_("You use the %s to clean up the slime!"), it->name.c_str());
+        g->add_msg_if_player(p,_("You use the %s to clean yourself off, saturating it with slime!"), it->name.c_str());
+
+        towelUsed = true;
+        it->item_counter = 450; // slime takes a bit longer to dry
     }
+
+    // default message
     else
     {
-        g->add_msg_if_player(p,_("You are already dry, %s has no effect"), it->name.c_str());
+        g->add_msg_if_player(p,_("You are already dry, the %s does nothing."), it->name.c_str());
+    }
+
+    // towel was used
+    if(towelUsed)
+    {
+        p->moves -= 50;
+        // change "towel" to a "towel_wet" (different flavor text/color)
+        if(it->type->id == "towel")
+            it->make(itypes["towel_wet"]);
+
+        // WET, active items have their timer decremented every turn
+        it->item_tags.erase("ABSORBENT");
+        it->item_tags.insert("WET");
+        it->active = true;
     }
     return it->type->charges_to_use();
 }

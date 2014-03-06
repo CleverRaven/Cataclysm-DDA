@@ -357,7 +357,7 @@ void player::die(Creature* nkiller) {
 }
 
 void player::reset_stats()
-{   
+{
 
     // Didn't just pick something up
     last_item = itype_id("null");
@@ -6097,6 +6097,23 @@ bool player::process_single_active_item(item *it)
                 }
             }
         }
+        else if( it->has_flag("WET") )
+        {
+            it->item_counter--;
+            if(it->item_counter == 0)
+            {
+                it->item_counter = 0;
+                g->add_msg_if_player(this,_("Your %s dries off."), it->name.c_str());
+
+                // wet towel becomes a regular towel
+                if(it->type->id == "towel_wet")
+                    it->make(itypes["towel"]);
+
+                it->item_tags.erase("WET");
+                it->item_tags.insert("ABSORBENT");
+                it->active = false;
+            }
+        }
         else if (it->is_tool())
         {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
@@ -7260,7 +7277,7 @@ bool player::eat(item *eaten, it_comest *comest)
         g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                   eaten->tname().c_str());
     }
-    
+
     // Moved this later in the process, so you actually eat it before converting to HP
     if ( (has_trait("EATHEALTH")) && ( comest->nutr > 0 && temp_hunger < capacity ) ) {
         int room = (capacity - temp_hunger);
