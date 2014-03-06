@@ -687,11 +687,24 @@ void player::activate_bionic(int b)
             power_level += bionics["bio_lockpick"]->power_cost;
             return;
         }
-        if (g->m.ter(dirx, diry) == t_door_locked) {
+        ter_id type = g->m.ter(dirx, diry);
+        if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
             moves -= 40;
-            g->add_msg_if_player(this, _("You unlock the door."));
+            std::string door_name = rm_prefix(_("<door_name>door"));
+            g->add_msg_if_player(this, _("With a satisfying click, the lock on the %s opens."),door_name.c_str());
             g->m.ter_set(dirx, diry, t_door_c);
-        } else {
+        } else if(type == t_door_bar_locked){
+            moves -= 40;
+            std::string door_name = rm_prefix(_("<door_name>door"));
+            g->add_msg_if_player(this, _("The %s swings open..."), door_name.c_str()); //Could better copy the messages from lockpick....
+            g->m.ter_set(dirx,diry, t_door_bar_o);
+        }else if(type == t_chaingate_l){
+            moves -=40;
+            std::string gate_name = rm_prefix (_("<door_name>gate"));
+            g->add_msg_if_player(this, _("With a satisfying click, the lock on the %s opens."), gate_name.c_str()); 
+        }else if(type == t_door_c){
+             g->add_msg(_("That door isn't locked."));
+        }else {
             g->add_msg_if_player(this, _("You can't unlock that %s."), g->m.tername(dirx, diry).c_str());
         }
     } else if(bio.id == "bio_flashbang") {
