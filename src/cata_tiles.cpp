@@ -6,6 +6,7 @@
 #include "cata_tiles.h"
 #include "debug.h"
 #include "json.h"
+#include "path_info.h"
 #include <fstream>
 
 // SDL headers end up in different places depending on the OS, sadly
