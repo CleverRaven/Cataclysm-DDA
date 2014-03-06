@@ -460,6 +460,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
   dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
   dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+  dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
   if (corpse != NULL &&
     ( debug == true ||
       ( g != NULL &&
@@ -840,6 +841,24 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
     if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel("survival").level() >= 5) {
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be hallucinogenic.")));
+    }
+
+    if ((is_food() && has_flag("BREW")) || (is_food_container() && contents[0].has_flag("BREW"))) {
+        int btime = ( is_food_container() ) ? contents[0].brewing_time() : brewing_time();
+        if (btime <= 28800)
+            dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d hours."), btime/600)));
+        else {
+            btime = 0.5+btime / 7200; //Round down to 12-hour intervals
+            if (btime % 2 == 1)
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d and a half days."), btime/2)));
+            else
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d days."), btime/2)));
+        }
+    }
+
+    if (typeId() == "flask_yeast") {
+        int cult_time = brewing_time();
+        dump->push_back(iteminfo("DESCRIPTION", string_format(_("It will take %d hours to culture after it's sealed."), cult_time/600)));
     }
 
     if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
@@ -1362,6 +1381,16 @@ bool item::has_flag(std::string f) const
     return ret;
 }
 
+bool item::contains_with_flag(std::string f) const
+{
+    bool ret = false;
+    for (int k = 0; k < contents.size(); k++) {
+        ret = contents[k].has_flag(f);
+        if (ret) return ret;
+    }
+    return ret;
+}
+
 bool item::has_quality(std::string quality_id) const {
     return has_quality(quality_id, 1);
 }
@@ -1420,6 +1449,16 @@ bool item::rotten()
     } else {
       return false;
     }
+}
+
+int item::brewing_time()
+{
+    float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
+    if (typeId() == "flask_yeast")
+        return 7200 * season_mult;
+    unsigned int b_time = dynamic_cast<it_comest*>(type)->brewtime;
+    int ret = b_time * season_mult;
+    return ret;
 }
 
 bool item::ready_to_revive()

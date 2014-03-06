@@ -1775,6 +1775,8 @@
       [ "tequila", 14 ],
       [ "gin", 14 ],
       [ "triple_sec", 14 ],
+      [ "moonshine", 14 ],
+      [ "brandy", 14 ],
       [ "lamp_oil", 400 ],
       [ "gasoline", 600 ]
     ]
@@ -3377,6 +3379,8 @@
       [ "rum", 5 ],
       [ "tequila", 5 ],
       [ "gin", 5 ],
+      [ "moonshine", 5 ],
+      [ "brandy", 5 ],
       [ "triple_sec", 5 ],
       [ "lamp_oil", 100 ],
       [ "gasoline", 200 ]
@@ -8266,6 +8270,9 @@
       [ "flour", 3 ]
     ],
     [
+      [ "yeast", 1 ]
+    ],
+    [
       [ "water", 2 ],
       [ "water_clean", 2 ]
     ]
@@ -11667,6 +11674,8 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
+      [ "moonshine", 7 ],
+      [ "brandy", 7 ],
       [ "bleach", 1 ]
     ],
     [
@@ -11930,6 +11939,7 @@
       [ "purple_drink", 6 ],
       [ "syrup", 4 ],
       [ "coffee_syrup", 5 ],
+      [ "molasses", 1 ],
       [ "bum_wine", 14 ],
       [ "con_milk", 1 ]
     ],
@@ -11974,6 +11984,42 @@
       [ "water_acid_weak", 3 ],
       [ "water_acid", 2 ],
       [ "acid", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sugar",
+  "id_suffix": "from_beets",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "note": "process sugar beets into sugar",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 6] , ["recipe_labchem", 5]],
+  "tools": [
+    [
+      [ "chemistry_set", 40 ],
+      [ "hotplate", 40 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ],
+      [ "still", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sugar_beet", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ],
+    [
+      [ "lye_powder", 20 ]
     ]
   ]
 },{
@@ -19763,6 +19809,8 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
+      [ "moonshine", 7 ],
+      [ "brandy", 7 ],
       [ "tallow", 2 ]
     ],
     [
@@ -19794,6 +19842,8 @@
       [ "single_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
+      [ "moonshine", 7 ],
+      [ "brandy", 7 ],
       [ "triple_sec", 7 ]
     ],
     [
@@ -20760,6 +20810,8 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
+      [ "moonshine", 7 ],
+      [ "brandy", 7 ],
       [ "disinfectant", 1 ],
       [ "saline", 5 ]
     ]
@@ -23017,6 +23069,299 @@
     [ ["fire", -1] ] ],
   "components": [ [ ["meth", 4] ],
     [ ["cola", 2] ] ]
+},{
+        "type" : "recipe",
+  "result": "brandy",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 2] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 8 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "fruit_wine", 21 ], [ "bum_wine", 21 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_whiskey",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 5] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ]
+    ],
+    [
+      [ "sugar", 8 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_vodka",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 6] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "molasses", 2 ], [ "potato_raw", 2 ], [ "potato_irradiated", 2 ], [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], 
+      [ "wheat", 1 ], [ "barley", 1 ], [ "sugar_beet", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_rum",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 4] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "molasses", 2 ], [ "sugar_beet", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_moonshine",
+  "result_mult" : 15,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 1] ],
+  "tools": [ 
+    [ [ "still", -1], [ "v6_combustion", -1], [ "v8_combustion", -1]],
+    [ [ "hotplate", 10 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 15 ], [ "water_clean", 15 ]
+    ],
+    [
+      [ "cornmeal", 12 ]
+    ],
+    [
+      [ "sugar", 8 ]
+    ],
+    [
+      [ "yeast", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_fruit_wine",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 2] ],
+  "tools": [ 
+    [ [ "still", -1], [ "chemistry_set", -1 ]],
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 4 ], [ "water_clean", 4 ]
+    ],
+    [
+      [ "pear", 2 ], [ "irradiated_pear", 2 ], 
+      [ "apple", 2 ], [ "irradiated_apple", 2 ], 
+      [ "peach", 2 ], [ "irradiated_peach", 2 ], 
+      [ "plums", 2 ], [ "irradiated_plums", 2 ], 
+      [ "apricot", 2 ], [ "irradiated_apricot", 2 ], 
+      [ "juice", 1 ]
+    ],
+    [
+      [ "sugar", 2 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_fruit_wine",
+  "id_suffix": "from_berries",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 2] ],
+  "tools": [ 
+    [ [ "still", -1], [ "chemistry_set", -1 ]],
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 4 ], [ "water_clean", 4 ]
+    ],
+    [
+      [ "blueberries", 2 ], [ "raspberries", 2 ], [ "blackberries", 2 ], [ "cranberries", 2 ], [ "strawberries", 2 ]
+    ],
+    [
+      [ "sugar", 3 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_bum_wine",
+  "result_mult" : 15,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 2] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 2 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 15 ], [ "water_clean", 15 ]
+    ],
+    [
+      [ "grapes", 6 ]
+    ],
+    [
+      [ "brandy", 7 ]
+    ],
+    [
+      [ "yeast", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_hb_beer",
+  "result_mult" : 15,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 4] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 15 ], [ "water_clean", 15 ]
+    ],
+    [
+      [ "barley", 3 ]
+    ],
+    [
+      [ "hops", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_mead",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 2] ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "honey_bottled", 10 ], [ "honeycomb", 2]
+    ],
+    [
+      [ "hops", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "bookplate",
@@ -27697,6 +28042,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "flask_yeast",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "chemistry_set", 7 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "flask_glass", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "honey_bottled", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "matchbomb",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -29355,6 +29733,9 @@
   "components": [
     [
       [ "flour", 3 ]
+    ],
+    [
+      [ "yeast", 1 ]
     ],
     [
       [ "milk", 1 ],

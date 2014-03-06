@@ -8987,7 +8987,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                                                f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,   f_null,
                                                f_desk,  f_chair, f_bed,   f_dresser));
             place_items("fridge", 65, 12, 11, 12, 11, false, 0);
-            place_items("kitchen", 70, 10, 11, 14, 3, false, 0);
+            place_items("kitchen", 70, 10, 15, 14, 11, false, 0);
+            place_items("moonshine_brew", 65, 10, 15, 14, 11, false, 0);
             place_items("livingroom", 65, 15, 11, 22, 13, false, 0);
             place_items("dresser", 80, 19, 18, 19, 18, false, 0);
             place_items("dresser", 80, 22, 18, 22, 18, false, 0);

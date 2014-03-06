@@ -934,6 +934,38 @@
         "post_terrain" : "f_fireplace"
     },{
         "type" : "construction",
+        "description" : "Build Fermenting Vat",
+        "difficulty" : 0,
+        "time" : 20,
+        "tools" : [
+            [ "hammer", "primitive_hammer",
+              "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "components" : [
+            [ [ "2x4", 14 ] ],
+            [ [ "nail", 12 ] ],
+            [ [ "water_faucet", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_fvat_empty"
+    },{
+        "type" : "construction",
+        "description" : "Build Wooden Keg",
+        "difficulty" : 0,
+        "time" : 20,
+        "tools" : [
+            [ "hammer", "primitive_hammer",
+              "shovel", "e_tool", "primitive_shovel" ]
+        ],
+        "components" : [
+            [ [ "2x4", 18 ] ],
+            [ [ "nail", 14 ] ],
+            [ [ "water_faucet", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_wood_keg"
+    },{
+        "type" : "construction",
         "description" : "Build Water Well",
         "difficulty" : 9,
         "time" : 480,

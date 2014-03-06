@@ -96,6 +96,7 @@ struct map_bash_info {
  * FIRE_CONTAINER - Stops fire from spreading (brazier, wood stove, etc)
  * SUPPRESS_SMOKE - Prevents smoke from fires, used by ventilated wood stoves etc
  * PLANT - A "furniture" that grows and fruits
+ * LIQUIDCONT - Furniture that contains liquid, allows for contents to be accessed in some checks even if SEALED
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  *
  * Currently only used for Fungal conversions
@@ -137,6 +138,7 @@ enum ter_bitflags {
     TFLAG_DESTROY_ITEM,
     TFLAG_INDOORS,
     TFLAG_PLANT,
+    TFLAG_LIQUIDCONT,
     TFLAG_FIRE_CONTAINER,
     TFLAG_FLAMMABLE_HARD,
     TFLAG_SUPPRESS_SMOKE,
@@ -526,6 +528,8 @@ extern furn_id f_null,
     f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
+    f_fvat_empty, f_fvat_full,
+    f_wood_keg,
     num_furniture_types;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

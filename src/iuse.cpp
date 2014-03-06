@@ -789,6 +789,36 @@ int iuse::alcohol_weak(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::alcohol_strong(player *p, item *it, bool)
+{
+    int duration = 900 - (12 * p->str_max);
+    it_comest *food = dynamic_cast<it_comest*> (it->type);
+    if (p->has_trait("ALCMET")) {
+        duration = 250 - (10 * p->str_max);
+        // Metabolizing the booze improves the nutritional
+        // value; might not be healthy, and still
+        // causes Thirst problems, though
+        p->hunger -= (abs(food->stim));
+        // Metabolizing it cancels out depressant
+        // effects, but doesn't make it any more
+        // stimulating
+        if ((food->stim) < 0) {
+            p->stim += (abs(food->stim));
+        }
+    }
+    else if (p->has_trait("TOLERANCE")) {
+        duration -= 450;
+    }
+    else if (p->has_trait("LIGHTWEIGHT")) {
+        duration += 450;
+    }
+    if (!(p->has_trait("ALCMET"))) {
+        p->pkill += 12;
+    }
+    p->add_disease("drunk", duration);
+    return it->type->charges_to_use();
+}
+
 int iuse::cig(player *p, item *it, bool)
 {
     if (!use_fire(p, it)) return 0;
@@ -7523,6 +7553,25 @@ int iuse::dejar(player *p, item *it, bool)
     it->contents.push_back( item( itypes[ujfood], 0 ) );
     it->contents[0].bday = g->turn + 3600 - (g->turn % 3600);
     return it->type->charges_to_use();
+}
+
+int iuse::flask_yeast(player *p, item *it, bool)
+{
+    int cult_time = it->brewing_time();
+    if (g->turn.get_turn() > (it->bday + cult_time) )
+    {
+        g->add_msg_if_player(p,_("You open the flask and harvest the culture."));
+        itype_id yeast_id = (it->type->id).substr(6);
+        it->make(itypes["flask_glass"]);
+        it->contents.push_back(item(itypes[yeast_id], 0));
+        it->contents[0].charges = 10;
+        return it->type->charges_to_use();
+    }
+    else
+    {
+        g->add_msg_if_player(p,_("The yeast isn't done culturing yet."));
+        return 0;
+    }
 }
 
 int iuse::rad_badge(player *p, item *it, bool)

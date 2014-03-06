@@ -5486,6 +5486,30 @@
   },
 
   {
+    "id": "flask_yeast",
+    "type": "TOOL",
+    "symbol": "%",
+    "color": "white",
+    "name": "sealed yeast culture",
+    "description": "A sealed flask holding sanitized yeast wort. You may harvest the yeast inside when it's done culturing.",
+    "price": 10,
+    "material": ["glass", "powder"],
+    "weight": 52,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 1,
+    "to_hit": 0,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "food",
+    "use_action": "FLASK_YEAST"
+  },
+  
+  {
     "id": "cordless_drill",
     "type": "TOOL",
     "symbol": ";",
