@@ -506,6 +506,29 @@
     "use_action": "MA_MANUAL"
   },
   {
+    "id": "manual_silat",
+    "type": "TOOL",
+    "symbol": "?",
+    "color": "red",
+    "name": "The Indonesian Warrior",
+    "category": "books",
+    "description": "A complete guide to Pentjak Silat.",
+    "price": 20000,
+    "material": "paper",
+    "weight": 150,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "MA_MANUAL"
+  },
+  {
     "type" : "item_group",
     "id"   : "ma_manuals",
     "items":[
@@ -530,7 +553,8 @@
       ["manual_lizard", 5],
       ["manual_venom_snake", 5],
       ["manual_eskrima", 5],
-      ["manual_fencing", 5]
+      ["manual_fencing", 5],
+      ["manual_silat", 5]
     ]
   }
 ]
