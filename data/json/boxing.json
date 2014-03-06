@@ -220,7 +220,8 @@
                     { "item": "boxing_misc", "x": [16, 20], "y": [22, 22], "chance": 60, "repeat": [1, 4] }
                 ],
                 "place_specials": [
-                    { "type": "toilet", "x": 11, "y": 22 }
+                    { "type": "toilet", "x": 11, "y": 22 },
+                    { "type": "vendingmachine", "x": 10, 11, "y": 16 }
                 ]
                 }
             }
