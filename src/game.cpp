@@ -10992,8 +10992,6 @@ void game::forage()
     add_msg(_("You found some trash!"));
     m.put_items_from("trash_forest", 1, u.activity.placement.x, u.activity.placement.y, g->turn, 0, 0, 0);
   }
-
-
   if (veggy_chance < u.skillLevel("survival"))
   {
     if (!one_in(5)) {
