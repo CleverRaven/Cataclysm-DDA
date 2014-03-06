@@ -11008,7 +11008,7 @@ void game::forage()
 	else {
 	   add_msg(_("You found a nest with some eggs!"));
 	   if (!one_in(4)) {
-          m.spawn_item(u.activity.placement.x, u.activity.placement.y, "egg_bird", rng(1, 3), 0, turn);
+          m.spawn_item(u.posx, u.posy, "egg_bird", rng(1, 3), 0, turn);
        } else {
           m.spawn_item(u.posx, u.posy, "egg_reptile", rng(1, 3), 0, turn);
 	   }
