@@ -427,7 +427,7 @@
         "block_counter": true,
         "speed_mult" : 1,
         "cut_mult" : 1.5,
-        "stun_dur" : 1,        
+        "stun_dur" : 1,
         "messages" : [
             "You deliver a perfect stop thrust to %s",
             "<npcname> delivers a perfect stop thrust to %s"
@@ -479,6 +479,19 @@
         ]
     },{
         "type" : "technique",
+        "id" : "tec_eskrima_free",
+        "name" : "free strike",
+        "min_melee" : 4,
+        "speed_mult" : 0,
+        "req_buffs" : [
+            "eskrima_hit_buff"
+        ],
+        "messages" : [
+            "You whip a free strike onto %s",
+            "<npcname> free strikes %s"
+        ]
+    },{
+        "type" : "technique",
         "id" : "tec_eskrima_puno",
         "name" : "puño strike",
         "min_melee" : 3,
@@ -503,6 +516,55 @@
         "messages" : [
             "You deliver a knee strike to %s",
             "<npcname> knees %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_silat_hamstring",
+        "name" : "hamstring",
+        "min_melee" : 2,
+        "crit_tec" : true,
+        "down_dur" : 3,
+        "messages" : [
+            "You ground %s with a low blow!",
+            "<npcname> grounds %s with a low blow"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_silat_precise",
+        "name" : "hamstring",
+        "min_melee" : 4,
+        "crit_tec" : true,
+        "cut_mult" : 1.5,
+        "bash_mult" : 1.5,
+        "messages" : [
+            "You viciously wound %s!",
+            "<npcname> viciously wounds %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_silat_brutal",
+        "name" : "hamstring",
+        "min_melee" : 3,
+        "crit_tec" : true,
+        "stun_dur" : 1,
+        "knockback_dist" : 1,
+        "messages" : [
+            "You send %s reeling backwards!",
+            "<npcname> sends %s reeling!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_silat_dirty",
+        "name" : "hamstring",
+        "min_melee" : 1,
+        "crit_tec" : true,
+        "stun_dur" : 1,
+        "req_buffs" : [
+            "silat_dodge_buff"
+        ],
+        "messages" : [
+            "You hit %s with a dirty blow!",
+            "<npcname> delivers a dirty blow to %s!"
         ]
     },{
         "type" : "technique",

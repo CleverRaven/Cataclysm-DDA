@@ -2949,7 +2949,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     std::string style = "";
     if (is_armed())
     {
-        if (style_selected == "style_none" || !can_melee())
+        //Show normal if no martial style is selected, or if the currently selected style does nothing for your weapon
+        if (style_selected == "style_none" || (!can_melee() && !martialarts[style_selected].has_weapon(weapon.type->id)))
             style = _("Normal");
         else
             style = martialarts[style_selected].name;

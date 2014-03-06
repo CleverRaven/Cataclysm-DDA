@@ -645,7 +645,6 @@ void monster::absorb_hit(body_part, int, damage_instance &dam) {
     }
 }
 
-
 int monster::hit(Creature &p, body_part &bp_hit) {
  int ret = 0;
  int highest_hit = 0;

@@ -259,6 +259,75 @@
         ]
     },{
         "type" : "martial_art",
+        "id" : "style_silat",
+        "name" : "Silat",
+        "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons. Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.", 
+        "static_buffs" : [
+            {
+                "id" : "silat_buff",
+                "name" : "Silat Stance",
+                "description" : "+1 dodge",
+                "unarmed_allowed" : true,
+                "melee_allowed" : true,
+                "bonus_dodges" : 1
+            }
+        ],
+        "ondodge_buffs" : [
+            {
+                "id" : "silat_dodge_buff",
+                "name" : "Silat Counter",
+                "description" : "Extra to-hit after successful dodge",
+                "unarmed_allowed" : true,
+                "melee_allowed" : true,
+                "buff_duration" : 3,
+                "max_stacks": 4,
+                "hit_dex": 0.4
+            }
+        ],
+        "techniques" : [
+            "tec_silat_hamstring",
+            "tec_silat_precise",
+            "tec_silat_brutal",
+            "tec_silat_dirty"
+        ],
+        "weapons" : [
+            "shocktonfa_off",
+            "shocktonfa_on",
+            "machete",
+            "firemachete_off",
+            "firemachete_on",
+            "diamond_knife",
+            "diamond_machete",
+            "tanto",
+            "spear_knife",
+            "makeshift_machete",
+            "knife_combat",
+            "makeshift_knife",
+            "scythe",
+            "scythe_war",
+            "sickle",
+            "shock_staff",
+            "stick",
+            "spear_rebar",
+            "cudgel",
+            "q_staff",
+            "i_staff",
+            "rebar",
+            "pointy_stick",
+            "pipe",
+            "spear_wood",
+            "spear_steel",
+            "baton",
+            "javelin",
+            "javelin_iron",
+            "bio_blade_weapon",
+            "tonfa",
+            "tonfa_wood",
+            "glass_shiv",
+            "kris"
+        ]
+    },{
+        "type" : "martial_art",
         "id" : "style_fencing",
         "name" : "Fencing",
         "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples. Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.", 
@@ -310,7 +379,9 @@
                 "melee_allowed" : true,
                 "min_melee" : 2,
                 "buff_duration" : 3,
-                "max_stacks" : 1
+                "max_stacks" : 1,
+                "bash_mult": 1.1,
+                "cut_mult": 1.1
             }
         ],
         "techniques" : [
@@ -413,7 +484,7 @@
         "type" : "martial_art",
         "id" : "style_leopard",
         "name" : "Leopard Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Inteligence both boost accuracy, and moving further boosts your accuracy.",
+        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Intelligence both boost accuracy, and moving further boosts your accuracy.",
         "static_buffs" : [
             {
                 "id" : "leopard_static",
@@ -493,7 +564,7 @@
         "type" : "martial_art",
         "id" : "style_centipede",
         "name" : "Centipede Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land reduces the cost of attacking by 4.",
+        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increase your speed by 4.",
         "arm_block" : 3,
         "onhit_buffs" : [
             {
@@ -504,7 +575,7 @@
                 "min_unarmed" : 1,
                 "buff_duration" : 3,
                 "max_stacks" : 8,
-                "rapid" : 4
+                "speed" : 4
             }
         ],
         "techniques" : [
