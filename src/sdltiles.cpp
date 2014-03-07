@@ -71,6 +71,11 @@ public:
     virtual void OutputChar(Uint16 t, int x, int y, unsigned char color) = 0;
     void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window(WINDOW *win);
+public:
+    // the width of the font, background is always this size
+    int fontwidth;
+    // the height of the font, background is always this size
+    int fontheight;
 };
 
 /**
@@ -82,7 +87,7 @@ public:
     virtual ~CachedTTFFont();
 
     void clear();
-    void load_font(std::string typeface, int fontsize, int fontheight);
+    void load_font(std::string typeface, int fontsize);
     virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
 protected:
     void cache_glyphs();
@@ -1019,6 +1024,10 @@ WINDOW *curses_init(void)
         }
         fin.close();
     }
+    bitmap_font.fontheight = fontheight;
+    bitmap_font.fontwidth = fontwidth;
+    cached_ttf_font.fontheight = fontheight;
+    cached_ttf_font.fontwidth = fontwidth;
 
     fontblending = (blending=="blended");
 
@@ -1087,7 +1096,7 @@ WINDOW *curses_init(void)
     if (font == NULL) {
         // Not loaded as bitmap font (or it failed), try to load as truetype
         try {
-            cached_ttf_font.load_font(typeface, fontsize, fontheight);
+            cached_ttf_font.load_font(typeface, fontsize);
             // It worked, tell the world to use cached_ttf_font
             font = &cached_ttf_font;
         } catch(std::exception &err) {
@@ -1451,7 +1460,7 @@ void CachedTTFFont::clear()
     }
 }
 
-void CachedTTFFont::load_font(std::string typeface, int fontsize, int fontheight)
+void CachedTTFFont::load_font(std::string typeface, int fontsize)
 {
     clear();
     int faceIndex = 0;
