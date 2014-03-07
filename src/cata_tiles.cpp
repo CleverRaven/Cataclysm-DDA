@@ -6,6 +6,8 @@
 #include "cata_tiles.h"
 #include "debug.h"
 #include "json.h"
+#include "monstergenerator.h"
+#include "item_factory.h"
 #include <fstream>
 
 // SDL headers end up in different places depending on the OS, sadly
@@ -374,7 +376,7 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
             add_ascii_subtile(curr_tile, id, 206 + base_offset, "center");
             add_ascii_subtile(curr_tile, id, 201 + base_offset, "corner");
             add_ascii_subtile(curr_tile, id, 186 + base_offset, "edge");
-            add_ascii_subtile(curr_tile, id, 204 + base_offset, "t_connection");
+            add_ascii_subtile(curr_tile, id, 203 + base_offset, "t_connection");
             add_ascii_subtile(curr_tile, id, 208 + base_offset, "end_piece");
             add_ascii_subtile(curr_tile, id, 219 + base_offset, "unconnected");
         }
@@ -555,6 +557,89 @@ bool cata_tiles::draw_from_id_string(std::string id, std::string category, std::
     }
 
     tile_id_iterator it = tile_ids.find(id);
+
+    if (it == tile_ids.end()) {
+        long sym = -1;
+        nc_color col = c_white;
+        if (category == "furniture") {
+            if (furnmap.count(id) > 0) {
+                const furn_t &f = furnmap[id];
+                sym = f.sym;
+                col = f.color;
+            }
+        } else if (category == "terrain") {
+            if (termap.count(id) > 0) {
+                const ter_t &t = termap[id];
+                sym = t.sym;
+                col = t.color;
+            }
+        } else if (category == "monster") {
+            if (MonsterGenerator::generator().has_mtype(id)) {
+                const mtype *m = MonsterGenerator::generator().get_mtype(id);
+                sym = m->sym;
+                col = m->color;
+            }
+        } else if (category == "field") {
+            for(int i = 0; i < num_fields; i++) {
+                if(field_names[i] == id) {
+                    sym = fieldlist[i].sym;
+                    // TODO: field density?
+                    col = fieldlist[i].color[0];
+                }
+            }
+        } else if (category == "trap") {
+            if (trapmap.count(id) > 0) {
+                const trap *t = g->traps[trapmap[id]];
+                sym = t->sym;
+                col = t->color;
+            }
+        } else if (category == "item") {
+            if (item_controller->has_template(id)) {
+                const itype *i = item_controller->find_template(id);
+                sym = i->sym;
+                col = i->color;
+            }
+        }
+        // Special cases for walls
+        switch(sym) {
+            case LINE_XOXO: sym = LINE_XOXO_C; break;
+            case LINE_OXOX: sym = LINE_OXOX_C; break;
+            case LINE_XXOO: sym = LINE_XXOO_C; break;
+            case LINE_OXXO: sym = LINE_OXXO_C; break;
+            case LINE_OOXX: sym = LINE_OOXX_C; break;
+            case LINE_XOOX: sym = LINE_XOOX_C; break;
+            case LINE_XXXO: sym = LINE_XXXO_C; break;
+            case LINE_XXOX: sym = LINE_XXOX_C; break;
+            case LINE_XOXX: sym = LINE_XOXX_C; break;
+            case LINE_OXXX: sym = LINE_OXXX_C; break;
+            case LINE_XXXX: sym = LINE_XXXX_C; break;
+            default: break; // sym goes unchanged
+        }
+        if (sym != 0 && sym < 256 && sym >= 0) {
+            // see cursesport.cpp, function wattron
+            const int pairNumber = (col & A_COLOR) >> 17;
+            const pairs &colorpair = colorpairs[pairNumber];
+            // What about isBlink?
+            const bool isBold = col & A_BOLD;
+            const int FG = colorpair.FG + (isBold ? 8 : 0);
+//            const int BG = colorpair.BG;
+            // static so it does not need to be allocated every time,
+            // see load_ascii_set for the meaning
+            static std::string generic_id("ASCII_XFG");
+            generic_id[6] = static_cast<char>(sym);
+            generic_id[7] = static_cast<char>(FG);
+            generic_id[8] = static_cast<char>(-1);
+            if (tile_ids.count(generic_id) > 0) {
+                return draw_from_id_string(generic_id, x, y, subtile, rota, is_at_screen_position);
+            }
+            // Try again without color this time (using default color).
+            generic_id[7] = static_cast<char>(-1);
+            generic_id[8] = static_cast<char>(-1);
+            if (tile_ids.count(generic_id) > 0) {
+                return draw_from_id_string(generic_id, x, y, subtile, rota, is_at_screen_position);
+            }
+        }
+    }
 
     // if id is not found, try to find a tile for the category+subcategory combination
     if (it == tile_ids.end()) {
