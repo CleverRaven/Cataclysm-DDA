@@ -30315,7 +30315,8 @@
         [ "fishing_hook_basic", 1 ]
       ]
     ]
-  },{
+  },
+    {
         "type" : "recipe",
   "result": "wearable_rx12",
   "category": "CC_OTHER",
