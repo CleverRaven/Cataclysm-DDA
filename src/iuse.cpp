@@ -7657,7 +7657,7 @@ int iuse::radglove(player *p, item *it, bool)
              g->add_msg_if_player(p,_("You are not currently irradiated."));
              }
   g->add_msg_if_player(p,_("Have a nice day!"));
-  }
+      }
   return it->type->charges_to_use();
 }
 
