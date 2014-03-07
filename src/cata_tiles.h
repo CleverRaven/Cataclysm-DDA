@@ -137,14 +137,14 @@ class cata_tiles
         void clear();
         /** Reconfigure the tileset at runtime. Assumes that all the tileset variables, including tile_atlas
          *  have been properly set. */
-        void reload_tileset();
+        int reload_tileset(SDL_Surface *tile_atlas);
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
         void set_draw_scale(int scale);
     protected:
         /** Load tileset */
-        void load_tileset(std::string path);
+        int load_tileset(std::string path);
         /** Load tileset config file */
         void load_tilejson(std::string path);
         void load_tilejson_from_file(std::ifstream &f);
@@ -238,7 +238,6 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        SDL_Surface *tile_atlas;
         tile_map *tile_values;
         tile_id_map *tile_ids;
 

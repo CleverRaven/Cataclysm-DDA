@@ -28,7 +28,6 @@ extern int fontwidth, fontheight;
 cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
-    tile_atlas = NULL;
     renderer = NULL;
     tile_values = NULL;
     tile_ids = NULL;
@@ -65,10 +64,6 @@ cata_tiles::~cata_tiles()
 
 void cata_tiles::clear()
 {
-    // free surfaces
-    if (tile_atlas) {
-        SDL_FreeSurface(tile_atlas);
-    }
     // release maps
     if (tile_values) {
         for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
@@ -181,9 +176,7 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     }
 }
 
-void cata_tiles::reload_tileset() {
-    /** Check to make sure the tile_atlas loaded correctly, will be NULL if didn't load */
-    if (tile_atlas) {
+int cata_tiles::reload_tileset(SDL_Surface *tile_atlas) {
         /** get dimensions of the atlas image */
         int w = tile_atlas->w;
         int h = tile_atlas->h;
@@ -199,7 +192,8 @@ void cata_tiles::reload_tileset() {
         SDL_Rect dest_rect = {0,0,tile_width,tile_height};
 
         /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
-        int tilecount = 0;
+        int tilecount = tile_values == NULL ? 0 : tile_values->size();
+        const int base_count = tilecount;
         for (int y = 0; y < sy; y += tile_height) {
             for (int x = 0; x < sx; x += tile_width) {
                 source_rect.x = x;
@@ -221,12 +215,10 @@ void cata_tiles::reload_tileset() {
         }
 
         DebugLog() << "Tiles Created: " << tilecount << "\n";
-    }
+        return tilecount - base_count;
 }
 
 void cata_tiles::set_draw_scale(int scale) {
-    /* release tile_atlas from memory if it has already been initialized */
-
     tile_width = default_tile_width * scale / 16;
     tile_height = default_tile_height * scale / 16;
 
@@ -237,28 +229,26 @@ void cata_tiles::set_draw_scale(int scale) {
     screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
 }
 
-void cata_tiles::load_tileset(std::string path)
+int cata_tiles::load_tileset(std::string path)
 {
-    /* release tile_atlas from memory if it has already been initialized */
-    if (tile_atlas) {
-        SDL_FreeSurface(tile_atlas);
-    }
-
     terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
     terrain_term_y = OPTIONS["TERMINAL_Y"];
 	
     set_draw_scale(16);
 
     /** reinit tile_atlas */
-    tile_atlas = IMG_Load(path.c_str());
+    SDL_Surface *tile_atlas = IMG_Load(path.c_str());
 
     if(!tile_atlas) {
         std::cerr << "Could not locate tileset file at " << path << std::endl;
         DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
         // TODO: run without tileset
+        return 0;
     }
 
-    reload_tileset();
+    const int size = reload_tileset(tile_atlas);
+    SDL_FreeSurface(tile_atlas);
+    return size;
 }
 
 void cata_tiles::load_tilejson(std::string path)
