@@ -60,7 +60,11 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
 
 cata_tiles::~cata_tiles()
 {
-    //dtor
+    clear();
+}
+
+void cata_tiles::clear()
+{
     // free surfaces
     if (tile_atlas) {
         SDL_FreeSurface(tile_atlas);
@@ -108,6 +112,7 @@ void cata_tiles::init(std::string load_file_path)
 void cata_tiles::reinit(std::string load_file_path)
 {
     clear_buffer();
+    clear();
     std::string json_path, tileset_path;
     get_tile_information(load_file_path, json_path, tileset_path);
     init(json_path, tileset_path);
@@ -177,15 +182,6 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 }
 
 void cata_tiles::reload_tileset() {
-    /* release stored tiles */
-    if (tile_values) {
-        for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
-            SDL_DestroyTexture(it->second);
-            it->second = NULL;
-        }
-        tile_values->clear();
-    }
-
     /** Check to make sure the tile_atlas loaded correctly, will be NULL if didn't load */
     if (tile_atlas) {
         /** get dimensions of the atlas image */
@@ -289,13 +285,6 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f)
     JsonIn config_json(f);
     // it's all one json object
     JsonObject config = config_json.get_object();
-
-    if (tile_ids) {
-        for (tile_id_iterator it = tile_ids->begin(); it != tile_ids->end(); ++it) {
-            delete it->second;
-        }
-        tile_ids->clear();
-    }
 
     /** 1) Make sure that the loaded file has the "tile_info" section */
     if (!config.has_member("tile_info")) {

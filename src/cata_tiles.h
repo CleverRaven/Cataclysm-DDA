@@ -134,6 +134,7 @@ class cata_tiles
         /** Default destructor */
         ~cata_tiles();
     protected:
+        void clear();
         /** Reconfigure the tileset at runtime. Assumes that all the tileset variables, including tile_atlas
          *  have been properly set. */
         void reload_tileset();
