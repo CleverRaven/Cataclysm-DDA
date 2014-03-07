@@ -161,6 +161,14 @@ class cata_tiles
          * The @ref offset is automatically added to the tile index.
          */
         void load_tilejson_from_file(JsonObject &config, int offset, int size);
+        /**
+         * Create a new tile_type, add it to tile_ids (uusing @ref id).
+         * Set the fg and bg properties of it (loaded from the json object).
+         * Makes sure each is either -1, or in the interval [0,size).
+         * If it's in that interval, adds offset to it, if it's not in the
+         * interval (and not -1), throw an std::string error.
+         */
+        tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size);
     public:
         /** Draw to screen */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);

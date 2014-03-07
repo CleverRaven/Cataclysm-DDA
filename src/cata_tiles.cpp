@@ -285,7 +285,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
     }
 }
 
-void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int)
+void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int size)
 {
     if (!config.has_member("tiles")) {
         throw (std::string)"ERROR: \"tiles\" section missing\n";
@@ -295,10 +295,8 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int)
     while (tiles.has_more()) {
         JsonObject entry = tiles.next_object();
 
-        tile_type *curr_tile = new tile_type();
         std::string t_id = entry.get_string("id");
-        int t_fg = entry.get_int("fg", -1);
-        int t_bg = entry.get_int("bg", -1);
+        tile_type *curr_tile = load_tile(entry, t_id, offset, size);
         bool t_multi = entry.get_bool("multitile", false);
         bool t_rota = entry.get_bool("rotates", t_multi);
         if (t_multi) {
@@ -306,31 +304,45 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int)
             JsonArray subentries = entry.get_array("additional_tiles");
             while (subentries.has_more()) {
                 JsonObject subentry = subentries.next_object();
-
-                tile_type *curr_subtile = new tile_type();
-                std::string s_id = subentry.get_string("id");
-                int s_fg = subentry.get_int("fg", 0);
-                int s_bg = subentry.get_int("bg", 0);
-
-                curr_subtile->fg = s_fg + offset;
-                curr_subtile->bg = s_bg + offset;
+                const std::string s_id = subentry.get_string("id");
+                const std::string m_id = t_id + "_" + s_id;
+                tile_type *curr_subtile = load_tile(subentry, m_id, offset, size);
                 curr_subtile->rotates = true;
-                std::string m_id = t_id + "_" + s_id;
-
-                tile_ids[m_id] = curr_subtile;
                 curr_tile->available_subtiles.push_back(s_id);
             }
         }
 
         // write the information of the base tile to curr_tile
-        curr_tile->bg = t_bg + offset;
-        curr_tile->fg = t_fg + offset;
         curr_tile->multitile = t_multi;
         curr_tile->rotates = t_rota;
-
-        tile_ids[t_id] = curr_tile;
     }
     DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size() << "\n";
+}
+
+tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
+{
+    // TODO: default 0, that correct?
+    int fg = entry.get_int("fg", 0);
+    int bg = entry.get_int("bg", 0);
+    if (fg == -1) {
+        // OK, keep this value, indicates "doesn't have a foreground"
+    } else if (fg < 0 || fg >= size) {
+        entry.throw_error("invalid value for fg (out of range)", "fg");
+    } else {
+        fg += offset;
+    }
+    if (bg == -1) {
+        // OK, keep this value, indicates "doesn't have a background"
+    } else if (bg < 0 || bg >= size) {
+        entry.throw_error("invalid value for bg (out of range)", "bg");
+    } else {
+        bg += offset;
+    }
+    tile_type *curr_subtile = new tile_type();
+    curr_subtile->fg = fg;
+    curr_subtile->bg = bg;
+    tile_ids[id] = curr_subtile;
+    return curr_subtile;
 }
 
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
