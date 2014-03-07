@@ -743,10 +743,10 @@ long popup(const std::string &text, PopupFlags flags)
         mvwprintz(w, i + 1, 1, c_white, "%s", folded[i].c_str());
     }
 
-    wrefresh(w);
     long ch = 0;
     // Don't wait if not required.
     while((flags & PF_NO_WAIT) == 0) {
+        wrefresh(w);
         ch = getch();
         if ((flags & PF_GET_KEY) != 0) {
             // return the first key that got pressed.
@@ -756,8 +756,8 @@ long popup(const std::string &text, PopupFlags flags)
             // The usuall "escape menu/window" keys.
             break;
         }
+        werase(w);
     }
-    werase(w);
     wrefresh(w);
     delwin(w);
     refresh();
@@ -1209,6 +1209,8 @@ std::string vstring_format(const char *pattern, va_list argptr)
     int buffer_size = 1024; // Any number is good
     int returned_length = 0;
     std::vector<char> buffer(buffer_size, '\0');
+    // Call of vsnprintf() makes va_list unusable, so we need a copy.
+    va_list cur_argptr;
 #ifdef _MSC_VER
     // Microsofts vsnprintf does return -1 on buffer overflow, not
     // the required size of the buffer. So we have to increase the buffer
@@ -1216,14 +1218,18 @@ std::string vstring_format(const char *pattern, va_list argptr)
     buffer_size = 1024;
     while(true) {
         buffer.resize(buffer_size, '\0');
-        returned_length = _vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+        va_copy(cur_argptr, argptr);
+        returned_length = _vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
+        va_end(cur_argptr);
         if (returned_length >= 0) {
             break;
         }
         buffer_size *= 2;
     }
 #else
-    const int required = vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+    va_copy(cur_argptr, argptr);
+    const int required = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
+    va_end(cur_argptr);
     if (required < 0) {
         debugmsg("invalid input to string_format function!");
         return std::string("invalid input to string_format function!");
@@ -1233,7 +1239,9 @@ std::string vstring_format(const char *pattern, va_list argptr)
         buffer.resize(buffer_size, '\0');
         // Try again one time, this should be save as we know the required
         // buffer size and have allocated that much.
-        vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+        va_copy(cur_argptr, argptr);
+        vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
+        va_end(cur_argptr);
         // ignore the result of vsnprintf, because it returns different
         // things on windows, see above.
         returned_length = required;

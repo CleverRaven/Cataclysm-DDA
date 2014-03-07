@@ -124,6 +124,11 @@ def extract_professions(item):
         writestr(outfile, item["description"],
          comment="Profession ({0}/{1}) description".format(nm["male"], nm["female"]))
     else:
+        # Add default constructed gender specific names, see profession.cpp
+        # They are optional. If missing, the (trnalsted) gender prefix is used
+        # to construct the name.
+        writestr(outfile, "male {0}".format(nm), comment="Male profession name (optional)")
+        writestr(outfile, "female {0}".format(nm), comment="Female profession name (optional)")
         writestr(outfile, nm, comment="Profession name")
         writestr(outfile, item["description"],
          comment="Profession ({0}) description".format(nm))
