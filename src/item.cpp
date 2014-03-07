@@ -460,6 +460,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
   dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
   dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+  dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
   if (corpse != NULL &&
     ( debug == true ||
       ( g != NULL &&
@@ -842,6 +843,24 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be hallucinogenic.")));
     }
 
+    if ((is_food() && has_flag("BREW")) || (is_food_container() && contents[0].has_flag("BREW"))) {
+        int btime = ( is_food_container() ) ? contents[0].brewing_time() : brewing_time();
+        if (btime <= 28800)
+            dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d hours."), btime/600)));
+        else {
+            btime = 0.5+btime / 7200; //Round down to 12-hour intervals
+            if (btime % 2 == 1)
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d and a half days."), btime/2)));
+            else
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d days."), btime/2)));
+        }
+    }
+
+    if (typeId() == "flask_yeast") {
+        int cult_time = brewing_time();
+        dump->push_back(iteminfo("DESCRIPTION", string_format(_("It will take %d hours to culture after it's sealed."), cult_time/600)));
+    }
+
     if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
         if(rotten() || (is_food_container() && contents[0].rotten())) {
             if(g->u.has_bionic("bio_digestion")) {
@@ -947,7 +966,9 @@ nc_color item::color(player *u) const
 {
     nc_color ret = c_ltgray;
 
-    if (active && !is_food() && !is_food_container()) // Active items show up as yellow
+    if(has_flag("WET"))
+        ret = c_cyan;
+    else if (active && !is_food() && !is_food_container()) // Active items show up as yellow
         ret = c_yellow;
     else if (is_gun()) { // Guns are green if you are carrying ammo for them
         ammotype amtype = ammo_type();
@@ -1100,6 +1121,9 @@ std::string item::tname( bool with_prefix )
     if (owned > 0)
         ret << _(" (owned)");
 
+    if(has_flag("WET"))
+       ret << _(" (wet)");
+
     tagtext = ret.str();
 
     ret.str("");
@@ -1179,7 +1203,8 @@ int item::weight() const
     } else if (type->is_gun() && charges >= 1) {
         ret += curammo->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on" || typeId() == "rm13_armor" || typeId() == "rm13_armor_on") {
+        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on" || has_flag("ATOMIC_AMMO") ||
+            typeId() == "rm13_armor" || typeId() == "rm13_armor_on") {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges / 500;
         } else {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges;
@@ -1357,6 +1382,16 @@ bool item::has_flag(std::string f) const
     return ret;
 }
 
+bool item::contains_with_flag(std::string f) const
+{
+    bool ret = false;
+    for (int k = 0; k < contents.size(); k++) {
+        ret = contents[k].has_flag(f);
+        if (ret) return ret;
+    }
+    return ret;
+}
+
 bool item::has_quality(std::string quality_id) const {
     return has_quality(quality_id, 1);
 }
@@ -1415,6 +1450,16 @@ bool item::rotten()
     } else {
       return false;
     }
+}
+
+int item::brewing_time()
+{
+    float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
+    if (typeId() == "flask_yeast")
+        return 7200 * season_mult;
+    unsigned int b_time = dynamic_cast<it_comest*>(type)->brewtime;
+    int ret = b_time * season_mult;
+    return ret;
 }
 
 bool item::ready_to_revive()
@@ -2338,6 +2383,9 @@ ammotype item::ammo_type() const
         return ret;
     } else if (is_tool()) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
+        if (has_flag("ATOMIC_AMMO")) {
+            return "plutonium";
+        }
         return tool->ammo;
     } else if (is_ammo()) {
         it_ammo* amm = dynamic_cast<it_ammo*>(type);
@@ -2421,26 +2469,38 @@ int item::pick_reload_ammo(player &u, bool interactive)
      amenu.w_y = 0;
      amenu.w_x = 0;
      amenu.w_width = TERMX;
-     int namelen=TERMX-2-40-3;
+     // 40: = 4 * ammo stats colum (10 chars each)
+     // 2: prefix from uimenu: hotkey + space in front of name
+     // 4: borders: 2 char each ("| " and " |")
+     const int namelen = TERMX - 2 - 40 - 4;
      std::string lastreload = "";
 
      if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
          lastreload = uistate.lastreload[ ammo_type() ];
      }
 
-     amenu.text=string_format("Choose ammo type:"+std::string(namelen,' ')).substr(0,namelen) +
-         "   Damage    Pierce    Range     Accuracy";
-     it_ammo* ammo_def;
-     for (size_t i = 0; i < am.size(); i++) {
-         ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
-         amenu.addentry(i, true, i + 'a', "%s | %-7d | %-7d | %-7d | %-7d",
-             std::string(
-                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) +
-                std::string(namelen, ' ')
-             ).substr(0,namelen).c_str(),
-             ammo_def->damage, ammo_def->pierce, ammo_def->range,
-             100 - ammo_def->dispersion
-         );
+        amenu.text = std::string(_("Choose ammo type:"));
+        if (amenu.text.length() < namelen) {
+            amenu.text += std::string(namelen - amenu.text.length(), ' ');
+        } else {
+            amenu.text.erase(namelen, amenu.text.length() - namelen);
+        }
+        // To cover the space in the header that is used by the hotkeys created by uimenu
+        amenu.text.insert(0, "  ");
+        //~ header of table that appears when reloading, each colum must contain exactly 10 characters
+        amenu.text += _("| Damage  | Pierce  | Range   | Accuracy");
+        for (size_t i = 0; i < am.size(); i++) {
+            it_ammo* ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
+            std::string row = am[i]->display_name();
+            if (row.length() < namelen) {
+                row += std::string(namelen - row.length(), ' ');
+            } else {
+                row.erase(namelen, row.length() - namelen);
+            }
+            row += string_format("| %-7d | %-7d | %-7d | %-7d",
+                    ammo_def->damage, ammo_def->pierce, ammo_def->range,
+                    100 - ammo_def->dispersion);
+            amenu.addentry(i, true, i + 'a', row);
          if ( lastreload == am[i]->typeId() ) {
              amenu.selected = i;
          }

@@ -671,6 +671,68 @@ int iuse::atomic_caff(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::raw_meat(player *p, item *it, bool)
+{
+    if ((one_in(32)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("tapeworm", 1, true);
+    } if ((one_in(64)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    } if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("brainworm", 1, true);
+    } if ((one_in(64)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("paincysts", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_fat(player *p, item *it, bool)
+{
+    if ((one_in(64)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("tapeworm", 1, true);
+    } if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    } if ((one_in(128)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("brainworm", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_bone(player *p, item *it, bool)
+{
+    if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_fish(player *p, item *it, bool)
+{
+    if ((one_in(256)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("tapeworm", 1, true);
+    } if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    } if ((one_in(256)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("brainworm", 1, true);
+    } if ((one_in(256)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("paincysts", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::raw_wildveg(player *p, item *it, bool)
+{
+    if ((one_in(512)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("tapeworm", 1, true);
+    } if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("bloodworms", 1, true);
+    } if ((one_in(512)) && !(p->has_disease("brainworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("brainworm", 1, true);
+    } if ((one_in(128)) && !(p->has_disease("paincysts") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+        p->add_disease("paincysts", 1, true);
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::alcohol(player *p, item *it, bool)
 {
     int duration = 680 - (10 * p->str_max); // Weaker characters are cheap drunks
@@ -722,6 +784,36 @@ int iuse::alcohol_weak(player *p, item *it, bool)
     }
     if (!(p->has_trait("ALCMET"))) {
         p->pkill += 4;
+    }
+    p->add_disease("drunk", duration);
+    return it->type->charges_to_use();
+}
+
+int iuse::alcohol_strong(player *p, item *it, bool)
+{
+    int duration = 900 - (12 * p->str_max);
+    it_comest *food = dynamic_cast<it_comest*> (it->type);
+    if (p->has_trait("ALCMET")) {
+        duration = 250 - (10 * p->str_max);
+        // Metabolizing the booze improves the nutritional
+        // value; might not be healthy, and still
+        // causes Thirst problems, though
+        p->hunger -= (abs(food->stim));
+        // Metabolizing it cancels out depressant
+        // effects, but doesn't make it any more
+        // stimulating
+        if ((food->stim) < 0) {
+            p->stim += (abs(food->stim));
+        }
+    }
+    else if (p->has_trait("TOLERANCE")) {
+        duration -= 450;
+    }
+    else if (p->has_trait("LIGHTWEIGHT")) {
+        duration += 450;
+    }
+    if (!(p->has_trait("ALCMET"))) {
+        p->pkill += 12;
     }
     p->add_disease("drunk", duration);
     return it->type->charges_to_use();
@@ -853,7 +945,34 @@ int iuse::antiparasitic(player *p, item *it, bool) {
     if (p->has_disease("dermatik")) {
         p->rem_disease("dermatik");
         g->add_msg_if_player(p,_("The itching sensation under your skin fades away."));
+    } if (p->has_disease("tapeworm")) {
+        p->rem_disease("tapeworm");
+        p->hunger--;  // You just digested the tapeworm.
+        if (p->has_trait("NOPAIN")) {
+        g->add_msg_if_player(p,_("Your bowels clench as something inside them dies."));
+        } else {
+        g->add_msg_if_player(p,_("Your bowels spasm painfully as something inside them dies."));
+        p->mod_pain( rng(8, 24) );
+        }
+    } if (p->has_disease("bloodworms")) {
+        p->rem_disease("bloodworms");
+        g->add_msg_if_player(p,_("Your skin prickles and your veins itch for a few moments."));
+    } if (p->has_disease("brainworm")) {
+        p->rem_disease("brainworm");
+        if (p->has_trait("NOPAIN")) {
+        g->add_msg_if_player(p,_("The pressure inside your head feels better already."));
+        } else {
+        g->add_msg_if_player(p,_("Your head pounds like a sore tooth as something inside of it dies."));
+        p->mod_pain( rng(8, 24) );
+        }
+    } if (p->has_disease("paincysts")) {
+        p->rem_disease("paincysts");
+        if (p->has_trait("NOPAIN")) {
+        g->add_msg_if_player(p,_("The stiffness in your joints goes away."));
+        } else {
+        g->add_msg_if_player(p,_("The pain in your joints goes away."));
     }
+  }
     return it->type->charges_to_use();
 }
 
@@ -1113,7 +1232,8 @@ int iuse::oxygen_bottle(player *p, item *it, bool) {
 int iuse::blech(player *p, item *it, bool) {
     // TODO: Add more effects?
     g->add_msg_if_player(p,_("Blech, that burns your throat!"));
-    p->vomit();
+    if(it->type->id != "soap") // soap burns but doesn't make you throw up
+        p->vomit();
     return it->type->charges_to_use();
 }
 
@@ -2965,7 +3085,7 @@ _(
   p->moves -= 150;
   std::vector<npc*> in_range;
   std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(30);
-  for (int i = 0; i < npcs.size(); i++) {
+  for (size_t i = 0; i < npcs.size(); i++) {
    if (npcs[i]->op_of_u.value >= 4) {
     in_range.push_back(npcs[i]);
    }
@@ -3005,7 +3125,7 @@ int iuse::radio_off(player *p, item *it, bool)
 static radio_tower *find_radio_station( int frequency )
 {
     radio_tower *tower = NULL;
-    for (int k = 0; k < g->cur_om->radios.size(); k++)
+    for (size_t k = 0; k < g->cur_om->radios.size(); k++)
     {
         tower = &g->cur_om->radios[k];
         if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
@@ -3059,7 +3179,7 @@ int iuse::radio_on(player *p, item *it, bool t)
             int signal_strength = selected_tower->strength -
                 rl_dist(selected_tower->x, selected_tower->y, g->levx, g->levy);
 
-            for (int j = 0; j < message.length(); j++)
+            for (size_t j = 0; j < message.length(); j++)
             {
                 if (dice(10, 100) > dice(10, signal_strength * 3))
                 {
@@ -3097,7 +3217,7 @@ int iuse::radio_on(player *p, item *it, bool t)
             radio_tower *lowest_tower = NULL;
             radio_tower *lowest_larger_tower = NULL;
 
-            for (int k = 0; k < g->cur_om->radios.size(); k++)
+            for (size_t k = 0; k < g->cur_om->radios.size(); k++)
             {
                 tower = &g->cur_om->radios[k];
 
@@ -5680,6 +5800,7 @@ int iuse::tazer(player *p, item *it, bool)
   switch (z->type->size) {
    case MS_TINY:  numdice -= 2; break;
    case MS_SMALL: numdice -= 1; break;
+   case MS_MEDIUM:              break;
    case MS_LARGE: numdice += 2; break;
    case MS_HUGE:  numdice += 4; break;
   }
@@ -5756,6 +5877,9 @@ int iuse::tazer2(player *p, item *it, bool)
 
                 case MS_SMALL:
                     numdice -= 1;
+                    break;
+
+                case MS_MEDIUM:
                     break;
 
                 case MS_LARGE:
@@ -6031,7 +6155,7 @@ int iuse::dog_whistle(player *p, item *it, bool)
         return 0;
     }
  g->add_msg_if_player(p,_("You blow your dog whistle."));
- for (int i = 0; i < g->num_zombies(); i++) {
+ for (size_t i = 0; i < g->num_zombies(); i++) {
   if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == "mon_dog") {
    bool u_see = g->u_see(&(g->zombie(i)));
    if (g->zombie(i).has_effect("docile")) {
@@ -6060,7 +6184,7 @@ int iuse::vacutainer(player *p, item *it, bool)
 
  item blood(itypes["blood"], g->turn);
  bool drew_blood = false;
- for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
+ for (size_t i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
   item *map_it = &(g->m.i_at(p->posx, p->posy)[i]);
   if (map_it->corpse !=NULL && map_it->type->id == "corpse" &&
       query_yn(_("Draw blood from %s?"), map_it->tname().c_str())) {
@@ -6993,12 +7117,12 @@ int iuse::artifact(player *p, item *it, bool)
                        it->name.c_str());
  }
  it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it->type);
- int num_used = rng(1, art->effects_activated.size());
+ size_t num_used = rng(1, art->effects_activated.size());
  if (num_used < art->effects_activated.size())
   num_used += rng(1, art->effects_activated.size() - num_used);
 
  std::vector<art_effect_active> effects = art->effects_activated;
- for (int i = 0; i < num_used; i++) {
+ for (size_t i = 0; i < num_used; i++) {
   int index = rng(0, effects.size() - 1);
   art_effect_active used = effects[index];
   effects.erase(effects.begin() + index);
@@ -7180,7 +7304,7 @@ int iuse::artifact(player *p, item *it, bool)
   } break;
 
   case AEA_HURTALL:
-   for (int j = 0; j < g->num_zombies(); j++)
+   for (size_t j = 0; j < g->num_zombies(); j++)
     g->zombie(j).hurt(rng(0, 5));
    break;
 
@@ -7286,6 +7410,14 @@ int iuse::artifact(player *p, item *it, bool)
     g->add_msg_if_player(p,_("A shadow forms nearby."));
   } break;
 
+  case AEA_SPLIT: // TODO
+   break;
+
+  case AEA_NULL: // BUG
+  case NUM_AEAS:
+  default:
+   debugmsg("iuse::artifact(): wrong artifact type (%d)", used);
+   break;
   }
  }
  return it->type->charges_to_use();
@@ -7423,6 +7555,25 @@ int iuse::dejar(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::flask_yeast(player *p, item *it, bool)
+{
+    int cult_time = it->brewing_time();
+    if (g->turn.get_turn() > (it->bday + cult_time) )
+    {
+        g->add_msg_if_player(p,_("You open the flask and harvest the culture."));
+        itype_id yeast_id = (it->type->id).substr(6);
+        it->make(itypes["flask_glass"]);
+        it->contents.push_back(item(itypes[yeast_id], 0));
+        it->contents[0].charges = 10;
+        return it->type->charges_to_use();
+    }
+    else
+    {
+        g->add_msg_if_player(p,_("The yeast isn't done culturing yet."));
+        return 0;
+    }
+}
+
 int iuse::rad_badge(player *p, item *it, bool)
 {
     g->add_msg_if_player(p,_("You remove the badge from its wrapper, exposing it to ambient radiation."));
@@ -7475,15 +7626,52 @@ int iuse::boots(player *p, item *it, bool)
 
 int iuse::towel(player *p, item *it, bool)
 {
-    // check if player is wet
-    if( abs(p->has_morale(MORALE_WET)) )
+    bool towelUsed = false;
+
+    // can't use an already wet towel!
+    if( it->has_flag("WET") )
+    {
+        g->add_msg_if_player(p,_("That %s is too wet to soak up any more liquid!"), it->name.c_str());
+    }
+
+    // dry off from being wet
+    else if( abs(p->has_morale(MORALE_WET)) )
     {
         p->rem_morale(MORALE_WET);
-        g->add_msg_if_player(p,_("You use the %s to dry off!"), it->name.c_str());
+        g->add_msg_if_player(p,_("You use the %s to dry off, saturating it with water!"), it->name.c_str());
+
+        towelUsed = true;
+        it->item_counter = 300;
     }
+
+    // clean off slime
+    else if( p->has_disease("slimed") )
+    {
+        p->rem_disease("slimed");
+        g->add_msg_if_player(p,_("You use the %s to clean yourself off, saturating it with slime!"), it->name.c_str());
+
+        towelUsed = true;
+        it->item_counter = 450; // slime takes a bit longer to dry
+    }
+
+    // default message
     else
     {
-        g->add_msg_if_player(p,_("You are already dry, %s has no effect"), it->name.c_str());
+        g->add_msg_if_player(p,_("You are already dry, the %s does nothing."), it->name.c_str());
+    }
+
+    // towel was used
+    if(towelUsed)
+    {
+        p->moves -= 50;
+        // change "towel" to a "towel_wet" (different flavor text/color)
+        if(it->type->id == "towel")
+            it->make(itypes["towel_wet"]);
+
+        // WET, active items have their timer decremented every turn
+        it->item_tags.erase("ABSORBENT");
+        it->item_tags.insert("WET");
+        it->active = true;
     }
     return it->type->charges_to_use();
 }
@@ -7505,8 +7693,7 @@ int iuse::unfold_bicycle(player *p, item *it, bool)
             veh_data.str(data);
             if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
                 // starts with a digit -> old format
-                for (int p = 0; p < bicycle->parts.size(); p++)
-                {
+                for (size_t p = 0; p < bicycle->parts.size(); p++) {
                     veh_data >> bicycle->parts[p].hp;
                 }
             } else {

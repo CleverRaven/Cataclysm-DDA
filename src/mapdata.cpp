@@ -343,6 +343,7 @@ ter_id t_null,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
+    t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
     t_grate,
     t_slime,
     t_bridge,
@@ -358,6 +359,8 @@ ter_id t_null,
     t_wall_glass_v_alarm, t_wall_glass_h_alarm,
     t_reinforced_glass_v, t_reinforced_glass_h,
     t_bars,
+    t_wall_h_r,t_wall_h_w,t_wall_h_b,t_wall_h_g,t_wall_h_p,t_wall_h_y,
+    t_wall_v_r,t_wall_v_w,t_wall_v_b,t_wall_v_g,t_wall_v_p,t_wall_v_y,
     t_door_c, t_door_b, t_door_o, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
     t_door_metal_c, t_door_metal_o, t_door_metal_locked,
@@ -437,6 +440,10 @@ void set_ter_ids() {
     t_floor=terfind("t_floor");
     t_floor_waxed=terfind("t_floor_waxed");
     t_dirtfloor=terfind("t_dirtfloor");
+    t_carpet_red=terfind("t_carpet_red");
+    t_carpet_yellow=terfind("t_carpet_yellow");
+    t_carpet_purple=terfind("t_carpet_purple");
+    t_carpet_green=terfind("t_carpet_green");
     t_grate=terfind("t_grate");
     t_slime=terfind("t_slime");
     t_bridge=terfind("t_bridge");
@@ -467,6 +474,16 @@ void set_ter_ids() {
     t_reinforced_glass_v=terfind("t_reinforced_glass_v");
     t_reinforced_glass_h=terfind("t_reinforced_glass_h");
     t_bars=terfind("t_bars");
+    t_wall_h_b=terfind("t_wall_h_b");
+    t_wall_h_g=terfind("t_wall_h_g");
+    t_wall_h_p=terfind("t_wall_h_p");
+    t_wall_h_r=terfind("t_wall_h_r");
+    t_wall_h_w=terfind("t_wall_h_w");
+    t_wall_v_b=terfind("t_wall_v_b");
+    t_wall_v_g=terfind("t_wall_v_g");
+    t_wall_v_p=terfind("t_wall_v_p");
+    t_wall_v_r=terfind("t_wall_v_r");
+    t_wall_v_w=terfind("t_wall_v_w");
     t_door_c=terfind("t_door_c");
     t_door_b=terfind("t_door_b");
     t_door_o=terfind("t_door_o");
@@ -626,7 +643,7 @@ furn_id furnfind(const std::string & id) {
 furn_id f_null,
     f_hay,
     f_bulletin,
-    f_indoor_plant,
+    f_indoor_plant,f_indoor_plant_y,
     f_bed, f_toilet, f_makeshift_bed,
     f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
     f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
@@ -639,9 +656,13 @@ furn_id f_null,
     f_crate_c, f_crate_o,
     f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet, f_fema_groundsheet,
     f_skin_wall, f_skin_door, f_skin_door_o,  f_skin_groundsheet,
-    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
+    f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,f_dahlia,f_bluebell,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
+    f_fvat_empty, f_fvat_full,
+    f_wood_keg,
+    f_statue,
+    f_floor_canvas,
     num_furniture_types;
 
 void set_furn_ids() {
@@ -649,6 +670,7 @@ void set_furn_ids() {
     f_hay=furnfind("f_hay");
     f_bulletin=furnfind("f_bulletin");
     f_indoor_plant=furnfind("f_indoor_plant");
+    f_indoor_plant_y=furnfind("f_indoor_plant_y");
     f_bed=furnfind("f_bed");
     f_toilet=furnfind("f_toilet");
     f_makeshift_bed=furnfind("f_makeshift_bed");
@@ -697,6 +719,8 @@ void set_furn_ids() {
     f_fungal_mass=furnfind("f_fungal_mass");
     f_fungal_clump=furnfind("f_fungal_clump");
     f_flower_fungal=furnfind("f_flower_fungal");
+    f_bluebell=furnfind("f_bluebell");
+    f_dahlia=furnfind("f_dahlia");
     f_safe_c=furnfind("f_safe_c");
     f_safe_l=furnfind("f_safe_l");
     f_safe_o=furnfind("f_safe_o");
@@ -704,6 +728,11 @@ void set_furn_ids() {
     f_plant_seedling=furnfind("f_plant_seedling");
     f_plant_mature=furnfind("f_plant_mature");
     f_plant_harvest=furnfind("f_plant_harvest");
+    f_fvat_empty=furnfind("f_fvat_empty");
+    f_fvat_full=furnfind("f_fvat_full");
+    f_wood_keg=furnfind("f_wood_keg");
+    f_statue=furnfind("f_statue");
+    f_floor_canvas=furnfind("f_floor_canvas");
     num_furniture_types = furnlist.size();
 }
 

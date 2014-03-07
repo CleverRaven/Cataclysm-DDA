@@ -64,11 +64,6 @@
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
 #endif
 
-#ifdef _MSC_VER
-// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
-#define snprintf _snprintf_s
-#endif
-
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
@@ -959,6 +954,9 @@ bool game::do_turn()
             if( u.has_trait("HUNGER3") ) {
                 u.hunger += 2;
             }
+            if( u.has_disease("tapeworm") ) {
+                u.hunger ++;
+            }
         }
         if ((!u.has_bionic("bio_recycler") || turn % 100 == 0) &&
             (!u.has_trait("PLANTSKIN") || !one_in(5))) {
@@ -973,6 +971,9 @@ bool game::do_turn()
             }
             if( u.has_trait("THIRST3") ) {
                 u.thirst += 2;
+            }
+            if( u.has_disease("bloodworms") ) {
+                u.thirst ++;
             }
         }
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
@@ -1617,19 +1618,20 @@ void game::cancel_activity()
  u.cancel_activity();
 }
 
-bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
-  if(u.activity.type == ACT_NULL) return false;
-  char buff[1024];
-  va_list ap;
-  va_start(ap, reason);
-  vsprintf(buff, reason, ap);
-  va_end(ap);
-  std::string s(buff);
+bool game::cancel_activity_or_ignore_query(const char* reason, ...)
+{
+    if (u.activity.type == ACT_NULL) {
+        return false;
+    }
+    va_list ap;
+    va_start(ap, reason);
+    const std::string text = vstring_format(reason, ap);
+    va_end(ap);
 
   bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
   int ch=(int)' ';
 
-    std::string stop_message = s + u.activity.get_stop_phrase() +
+    std::string stop_message = text + u.activity.get_stop_phrase() +
             _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
 
     do {
@@ -1648,21 +1650,19 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
 
 bool game::cancel_activity_query(const char* message, ...)
 {
- char buff[1024];
- va_list ap;
- va_start(ap, message);
- vsprintf(buff, message, ap);
- va_end(ap);
- std::string s(buff);
+    va_list ap;
+    va_start(ap, message);
+    const std::string text = vstring_format(message, ap);
+    va_end(ap);
 
     if (ACT_NULL == u.activity.type) {
         if (u.has_destination()) {
-            add_msg(_("%s. Auto-move canceled"), s.c_str());
+            add_msg(_("%s. Auto-move canceled"), text.c_str());
             u.clear_destination();
         }
         return false;
     }
-    if (query_yn("%s%s", s.c_str(), u.activity.get_stop_phrase().c_str())) {
+    if (query_yn("%s%s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
         u.cancel_activity();
         return true;
     }
@@ -3373,7 +3373,7 @@ void game::death_screen()
 
     draw_border(w_death);
 
-    mvwprintz(w_death, 2, 3, c_ltred, sText.c_str());
+    mvwprintz(w_death, 2, 3, c_ltred, "%s", sText.c_str());
     wrefresh(w_death);
     refresh();
     InputEvent input;
@@ -3801,10 +3801,7 @@ void game::decrease_nextinv()
 
 void game::vadd_msg(const char* msg, va_list ap)
 {
- char buff[1024];
- vsprintf(buff, msg, ap);
- std::string s(buff);
- add_msg_string(s);
+    add_msg_string(vstring_format(msg, ap));
 }
 
 void game::add_msg_string(const std::string &s)
@@ -3825,20 +3822,20 @@ void game::add_msg_string(const std::string &s)
 
 void game::add_msg(const char* msg, ...)
 {
- va_list ap;
- va_start(ap, msg);
- vadd_msg(msg, ap);
- va_end(ap);
+    va_list ap;
+    va_start(ap, msg);
+    add_msg_string(vstring_format(msg, ap));
+    va_end(ap);
 }
 
 void game::add_msg_if_player(Creature *p, const char* msg, ...)
 {
  if (p && p->is_player())
  {
-  va_list ap;
-  va_start(ap, msg);
-  vadd_msg(msg, ap);
-  va_end(ap);
+        va_list ap;
+        va_start(ap, msg);
+        add_msg_string(vstring_format(msg, ap));
+        va_end(ap);
  }
 }
 
@@ -3851,10 +3848,7 @@ void game::add_msg_if_npc(Creature *, const char *, ...)
     }
     va_list ap;
     va_start(ap, msg);
-
-    char buff[1024];
-    vsprintf(buff, msg, ap);
-    std::string processed_npc_string(buff);
+    std::string processed_npc_string = vstring_format(msg, ap);
     // These strings contain the substring <npcname>,
     // if present replace it with the actual npc name.
     size_t offset = processed_npc_string.find("<npcname>");
@@ -3877,9 +3871,7 @@ void game::add_msg_player_or_npc(Creature* t, const char* player_str, const char
     if( t->is_player() ) {
         vadd_msg( player_str, ap );
     } else if( u_see(t) ) {
-        char buff[1024];
-        vsprintf(buff, npc_str, ap);
-        std::string processed_npc_string(buff);
+        std::string processed_npc_string = vstring_format(npc_str, ap);
         // These strings contain the substring <npcname>,
         // if present replace it with the actual npc name.
         size_t offset = processed_npc_string.find("<npcname>");
@@ -4117,6 +4109,7 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_toad");
       u.ma_styles.push_back("style_eskrima");
       u.ma_styles.push_back("style_fencing");
+      u.ma_styles.push_back("style_silat");
       add_msg("You now know a lot more than just 10 styles of kung fu.");
    break;
 
@@ -4485,10 +4478,10 @@ faction* game::list_factions(std::string title)
  int sel = 0;
 
 // Init w_list content
- mvwprintz(w_list, 1, 1, c_white, title.c_str());
+ mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
  for (int i = 0; i < valfac.size(); i++) {
   nc_color col = (i == 0 ? h_white : c_white);
-  mvwprintz(w_list, i + 2, 1, col, valfac[i].name.c_str());
+  mvwprintz(w_list, i + 2, 1, col, "%s", valfac[i].name.c_str());
  }
  wrefresh(w_list);
 // Init w_info content
@@ -4504,14 +4497,14 @@ faction* game::list_factions(std::string title)
   input = get_input();
   switch ( input ) {
   case DirectionS: // Move selection down
-   mvwprintz(w_list, sel + 2, 1, c_white, valfac[sel].name.c_str());
+   mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
    if (sel == valfac.size() - 1)
     sel = 0; // Wrap around
    else
     sel++;
    break;
   case DirectionN: // Move selection up
-   mvwprintz(w_list, sel + 2, 1, c_white, valfac[sel].name.c_str());
+   mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
    if (sel == 0)
     sel = valfac.size() - 1; // Wrap around
    else
@@ -4523,7 +4516,7 @@ faction* game::list_factions(std::string title)
    break;
   }
   if (input == DirectionS || input == DirectionN) { // Changed our selection... update the windows
-   mvwprintz(w_list, sel + 2, 1, h_white, valfac[sel].name.c_str());
+   mvwprintz(w_list, sel + 2, 1, h_white, "%s", valfac[sel].name.c_str());
    wrefresh(w_list);
    werase(w_info);
 // fac_*_text() is in faction.cpp
@@ -4599,16 +4592,15 @@ void game::list_missions()
                 col = c_ltred;
             }
             if (selection == i) {
-                mvwprintz(w_missions, 3 + i, 1, hilite(col), miss->name().c_str());
+                mvwprintz(w_missions, 3 + i, 1, hilite(col), "%s", miss->name().c_str());
             } else {
-                mvwprintz(w_missions, 3 + i, 1, col, miss->name().c_str());
+                mvwprintz(w_missions, 3 + i, 1, col, "%s", miss->name().c_str());
             }
         }
 
         if (selection >= 0 && selection < umissions.size()) {
             mission *miss = find_mission(umissions[selection]);
-            mvwprintz(w_missions, 4, 31, c_white,
-                      miss->description.c_str());
+            mvwprintz(w_missions, 4, 31, c_white, "%s", miss->description.c_str());
             if (miss->deadline != 0)
                 mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
                           miss->deadline, int(turn));
@@ -4631,7 +4623,7 @@ void game::list_missions()
                 nope = _("You haven't failed any missions!");
                 break;
             }
-            mvwprintz(w_missions, 4, 31, c_ltred, nope.c_str());
+            mvwprintz(w_missions, 4, 31, c_ltred, "%s", nope.c_str());
         }
 
         wrefresh(w_missions);
@@ -4697,7 +4689,7 @@ void game::draw()
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
     wmove(time_window, sideStyle ? 0 : 1, sideStyle ? 15 : 41);
     if ( (u.has_item_with_flag("WATCH") || u.has_bionic("bio_watch")) ) {
-        wprintz(time_window, c_white, turn.print_time().c_str());
+        wprintz(time_window, c_white, "%s", turn.print_time().c_str());
     } else {
         std::vector<std::pair<char, nc_color> > vGlyphs;
         vGlyphs.push_back(std::make_pair('_', c_red));
@@ -4745,12 +4737,12 @@ void game::draw()
 
     std::string tername = otermap[cur_ter].name;
     werase(w_location);
-    mvwprintz(w_location, 0,  0, otermap[cur_ter].color, utf8_substr(tername, 0, 14).c_str());
+    mvwprintz(w_location, 0,  0, otermap[cur_ter].color, "%s", utf8_substr(tername, 0, 14).c_str());
 
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
     } else {
-        mvwprintz(w_location, 0, 18, weather_data[weather].color, weather_data[weather].name.c_str());
+        mvwprintz(w_location, 0, 18, weather_data[weather].color, "%s", weather_data[weather].name.c_str());
     }
 
     nc_color col_temp = c_blue;
@@ -4767,7 +4759,7 @@ void game::draw()
         col_temp = c_ltblue;
     }
 
-    wprintz(w_location, col_temp, (std::string(" ") + print_temperature((float)display_temp)).c_str());
+    wprintz(w_location, col_temp, "%s", (std::string(" ") + print_temperature((float)display_temp)).c_str());
     wrefresh(w_location);
 
     //Safemode coloring
@@ -4939,7 +4931,7 @@ void game::draw_HP()
         if (u.has_trait("SELFAWARE")) {
             wprintz(w_HP, color, "%3d  ", u.hp_cur[i]);
         } else {
-            wprintz(w_HP, color, health_bar.c_str());
+            wprintz(w_HP, color, "%s", health_bar.c_str());
 
             //Add the trailing symbols for a not-quite-full health bar
             int bar_remainder = 5;
@@ -5684,7 +5676,7 @@ int game::mon_info(WINDOW *w)
                         danger = c_white;
                     else if (GetMType(sbuff)->agro > 0)
                         danger = c_ltgray;
-                    mvwprintz(w, pr.y, pr.x, danger, name.c_str());
+                    mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
                     pr.x += utf8_width(name.c_str()) + namesep;
                 }
             }
@@ -7325,7 +7317,7 @@ bool game::choose_adjacent(std::string message, int &x, int &y)
 {
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
-    mvwprintw(w_terrain, 0, 0, query_text.c_str());
+    mvwprintw(w_terrain, 0, 0, "%s", query_text.c_str());
     wrefresh(w_terrain);
     DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
@@ -8988,15 +8980,15 @@ int game::list_monsters(const int iLastState)
 
                         mvwprintz(w_monsters, 1 + iNum - iStartPos, 2,
                                   ((iNum == iActive) ? c_ltgreen : c_white),
-                                  "%s", (zombie(vMonsters[i]).name()).c_str());
+                                  "%s", zombie(vMonsters[i]).name().c_str());
                         nc_color color = c_white;
                         std::string sText = "";
 
                         zombie(vMonsters[i]).get_HP_Bar(color, sText);
-                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 23, color, sText.c_str());
+                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 23, color, "%s", sText.c_str());
 
                         zombie(vMonsters[i]).get_Attitude(color, sText);
-                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 29, color, sText.c_str());
+                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 29, color, "%s", sText.c_str());
 
                         int numw = iMonsterNum > 9 ? 2 : 1;
                         mvwprintz(w_monsters, 1 + iNum - iStartPos, width - (5 + numw),
@@ -9019,11 +9011,11 @@ int game::list_monsters(const int iLastState)
                 //print monster info
                 zombie(iMonDex).print_info(w_monster_info,1,11);
 
-                mvwprintz(w_monsters, getmaxy(w_monsters)-1, 1, c_ltgreen, press_x(ACTION_LOOK).c_str());
+                mvwprintz(w_monsters, getmaxy(w_monsters)-1, 1, c_ltgreen, "%s", press_x(ACTION_LOOK).c_str());
                 wprintz(w_monsters, c_ltgray, " %s",_("to look around"));
                 if ( rl_dist(point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
                     wprintz(w_monsters, c_ltgray, "%s", " ");
-                    wprintz(w_monsters, c_ltgreen, press_x(ACTION_FIRE).c_str());
+                    wprintz(w_monsters, c_ltgreen, "%s", press_x(ACTION_FIRE).c_str());
                     wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
                 }
 
@@ -9643,7 +9635,7 @@ and you can't unwield your %s."),
                     } else {
                         wprintw(w_pickup, " - ");
                     }
-                    wprintz(w_pickup, icolor, here[cur_it].display_name().c_str());
+                    wprintz(w_pickup, icolor, "%s", here[cur_it].display_name().c_str());
                 }
             }
 
@@ -13389,7 +13381,7 @@ void game::write_msg()
             col = c_ltgray;
         std::vector<std::string> folded = foldstring(mstr, maxlength);
         for (int j = folded.size() - 1; j >= 0 && line >= topline; j--, line--) {
-            mvwprintz(w_messages, line, 0, col, folded[j].c_str());
+            mvwprintz(w_messages, line, 0, col, "%s", folded[j].c_str());
         }
     }
     curmes = int(turn);
@@ -13437,7 +13429,7 @@ void game::msg_buffer()
 // Split the message into many if we must!
     std::vector<std::string> folded = foldstring(mes, FULL_SCREEN_WIDTH-2);
     for(int j=0; j<folded.size() && line <= FULL_SCREEN_HEIGHT-2; j++, line++) {
-     mvwprintz(w, line, 1, c_ltgray, folded[j].c_str());
+     mvwprintz(w, line, 1, c_ltgray, "%s", folded[j].c_str());
     }
    } // if (line <= 23)
   } //for (i = 1; i <= 10 && line <= 23 && offset + i <= messages.size(); i++)

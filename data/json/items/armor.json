@@ -2283,7 +2283,7 @@
         "enviromental_protection" : 20,
         "encumbrance" : 4,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "RAD_PROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "RAD_PROOF","ELECTRIC_IMMUNE"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -2307,7 +2307,7 @@
         "enviromental_protection" : 20,
         "encumbrance" : 5,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "RAD_PROOF"],
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "RAD_PROOF","ELECTRIC_IMMUNE"],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -6963,7 +6963,7 @@
         "warmth" : 90,
         "encumbrance" : 5,
         "bashing" : 1,
-        "flags" : ["WATERPROOF","STURDY"],
+        "flags" : ["WATERPROOF","STURDY","ELECTRIC_IMMUNE"],
         "coverage" : 100,
         "material_thickness" : 11
     },
@@ -7013,7 +7013,7 @@
         "warmth" : 60,
         "encumbrance" : 4,
         "bashing" : 1,
-        "flags" : ["WATERPROOF","STURDY"],
+        "flags" : ["WATERPROOF","STURDY","ELECTRIC_IMMUNE"],
         "coverage" : 100,
         "material_thickness" : 9
     },
@@ -7063,7 +7063,7 @@
         "warmth" : 60,
         "encumbrance" : 5,
         "bashing" : 1,
-        "flags" : ["WATERPROOF","STURDY"],
+        "flags" : ["WATERPROOF","STURDY","ELECTRIC_IMMUNE"],
         "coverage" : 100,
         "material_thickness" : 13
     },
@@ -7557,12 +7557,12 @@
         "material" : ["cotton", "null"],
         "volume" : 1,
         "cutting" : 0,
-        "warmth" : 10,
+        "warmth" : 5,
         "phase" : "solid",
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "OVERSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT", "OVERSIZE"],
         "coverage" : 50,
         "material_thickness" : 1
     },

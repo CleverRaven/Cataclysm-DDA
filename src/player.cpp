@@ -1447,15 +1447,18 @@ void player::memorial( std::ofstream &memorial_file )
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
-    const std::string gender_str = male ? _("male") : _("female");
     const std::string pronoun = male ? _("He") : _("She");
 
     //Avoid saying "a male unemployed" or similar
     std::stringstream profession_name;
     if(prof == prof->generic()) {
-      profession_name << _("an unemployed ") << gender_str;
+        if (male) {
+            profession_name << _("an unemployed male");
+        } else {
+            profession_name << _("an unemployed female");
+        }
     } else {
-      profession_name << _("a ") << gender_str << " " << prof->name();
+        profession_name << _("a ") << prof->gender_appropriate_name(male);
     }
 
     //Figure out the location
@@ -2044,18 +2047,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             gender_prof = string_format(_("%s - Female"), name.c_str());
         }
     } else {
-        const char *format;
-        if (prof->name() == "") {
-            //~ player info: "<name> - <gender specific profession>"
-            format = _("%s - %s");
-        } else if (male) {
-            //~ player info: "<name> - a male <gender unspecific profession>"
-            format = _("%s - a male %s");
-        } else {
-            //~ player info: "<name> - a female <gender unspecific profession>"
-            format = _("%s - a female %s");
-        }
-        gender_prof = string_format(format, name.c_str(), prof->gender_appropriate_name(male).c_str());
+        //~ player info: "<name> - <gender specific profession>"
+        gender_prof = string_format(_("%s - %s"), name.c_str(), prof->gender_appropriate_name(male).c_str());
     }
     mvwprintw(w_tip, 0, 0, gender_prof.c_str());
 
@@ -2188,7 +2181,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  const char *title_EFFECTS = _("EFFECTS");
  mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
  for (int i = 0; i < effect_name.size() && i < effect_win_size_y; i++) {
-  mvwprintz(w_effects, i+1, 0, c_ltgray, effect_name[i].c_str());
+  mvwprintz(w_effects, i+1, 0, c_ltgray, "%s", effect_name[i].c_str());
  }
  wrefresh(w_effects);
 
@@ -2235,7 +2228,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
    if (line < skill_win_size_y + 1)
    {
-     mvwprintz(w_skills, line, 1, text_color, "%s", ((*aSkill)->name() + ":").c_str());
+     mvwprintz(w_skills, line, 1, text_color, "%s:", (*aSkill)->name().c_str());
      mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", (int)level,
                (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
@@ -2355,7 +2348,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     for (std::map<std::string, int>::iterator it = speed_effects.begin();
           it != speed_effects.end(); ++it) {
         nc_color col = (it->second > 0 ? c_green : c_red);
-        mvwprintz(w_speed, line,  1, col, it->first.c_str());
+        mvwprintz(w_speed, line,  1, col, "%s", it->first.c_str());
         mvwprintz(w_speed, line, 21, col, (it->second > 0 ? "+" : "-"));
         mvwprintz(w_speed, line, (abs(it->second) >= 10 ? 22 : 23), col, "%d%%",
                    abs(it->second));
@@ -2596,10 +2589,10 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
     else
      status = c_yellow;
     if (i == line)
-     mvwprintz(w_traits, 1 + i - min, 1, hilite(status),
+     mvwprintz(w_traits, 1 + i - min, 1, hilite(status), "%s",
                traits[traitslist[i]].name.c_str());
     else
-     mvwprintz(w_traits, 1 + i - min, 1, status,
+     mvwprintz(w_traits, 1 + i - min, 1, status, "%s",
                traits[traitslist[i]].name.c_str());
    }
    if (line >= 0 && line < traitslist.size()) {
@@ -2627,7 +2620,7 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
        status = c_ltred;
       else
        status = c_yellow;
-      mvwprintz(w_traits, i + 1, 1, status, traits[traitslist[i]].name.c_str());
+      mvwprintz(w_traits, i + 1, 1, status, "%s", traits[traitslist[i]].name.c_str());
      }
      wrefresh(w_traits);
      line = 0;
@@ -2662,9 +2655,9 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
 
    for (int i = min; i < max; i++) {
     if (i == line)
-     mvwprintz(w_effects, 1 + i - min, 0, h_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, h_ltgray, "%s", effect_name[i].c_str());
     else
-     mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, effect_name[i].c_str());
+     mvwprintz(w_effects, 1 + i - min, 0, c_ltgray, "%s", effect_name[i].c_str());
    }
    if (line >= 0 && line < effect_text.size()) {
     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, effect_text[line]);
@@ -2684,7 +2677,7 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
      mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
      mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
      for (int i = 0; i < effect_name.size() && i < 7; i++)
-      mvwprintz(w_effects, i + 1, 0, c_ltgray, effect_name[i].c_str());
+      mvwprintz(w_effects, i + 1, 0, c_ltgray, "%s", effect_name[i].c_str());
      wrefresh(w_effects);
      line = 0;
      curtab = 1;
@@ -2949,7 +2942,8 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     std::string style = "";
     if (is_armed())
     {
-        if (style_selected == "style_none" || !can_melee())
+        //Show normal if no martial style is selected, or if the currently selected style does nothing for your weapon
+        if (style_selected == "style_none" || (!can_melee() && !martialarts[style_selected].has_weapon(weapon.type->id)))
             style = _("Normal");
         else
             style = martialarts[style_selected].name;
@@ -3984,8 +3978,8 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance&) {
 dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
                                           int side, const damage_instance& d) {
 
-    dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, side, d);
-    int dam = dealt_dams.total_damage();
+    dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, side, d); //damage applied here
+    int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
 
     if (has_disease("sleep")) {
         wake_up(_("You wake up!"));
@@ -4056,14 +4050,20 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             }
             add_effect("blind", rng(minblind, maxblind));
         }
+
+    /*
+        It almost looks like damage may be getting applied twice in some cases.
+     */
     case bp_mouth: // Fall through to head damage
     case bp_head:
         mod_pain(1);
-        hp_cur[hp_head] -= dam;
+        /*
+        hp_cur[hp_head] -= dam; //this looks like an extra damage hit, as is applied in apply_damage from creature: deal_damage()
         if (hp_cur[hp_head] < 0) {
             lifetime_stats()->damage_taken+=hp_cur[hp_head];
             hp_cur[hp_head] = 0;
         }
+         */
         break;
     case bp_torso:
         // getting hit throws off our shooting
@@ -4082,28 +4082,28 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     default:
         debugmsg("Wacky body part hit!");
     }
-
+    //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != NULL ) {
-        if (d.total_damage() > 0 && source->has_flag(MF_VENOM)) {
+        if (dealt_dams.total_damage() > 0 && source->has_flag(MF_VENOM)) {
             g->add_msg_if_player(this, _("You're poisoned!"));
             add_disease("poison", 30, false, 1, 20, 100);
             add_effect("poison", 30);
         }
-        else if (d.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
+        else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
             g->add_msg_if_player(this, _("You feel poison flood your body, wracking you with pain..."));
             add_disease("badpoison", 40, false, 1, 20, 100);
             add_effect("badpoison", 40);
         }
-        else if (d.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
+        else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
             g->add_msg_if_player(this, _("You feel poison enter your body!"));
             add_disease("paralyzepoison", 100, false, 1, 20, 100);
             add_effect("paralyzepoison", 100);
         }
 
-        if (source->has_flag(MF_BLEED) && d.total_damage() > 6 && d.type_damage(DT_CUT) > 0) {
+        if (source->has_flag(MF_BLEED) && dealt_dams.total_damage() > 6 && dealt_dams.type_damage(DT_CUT) > 0) { //maybe should only be if DT_CUT > 6... Balence question
             g->add_msg_if_player(this, _("You're Bleeding!"));
-            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, -1, true);
+            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, -1, true); //only place bleed effect added to player in code
         }
 
         if ( source->has_flag(MF_GRABS)) {
@@ -4119,7 +4119,10 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
 
     return dealt_damage_instance(dealt_dams);
 }
-
+/* 
+    Where damage to player is actually applied to hit body parts 
+    Might be where to put bleed stuff rather than in player::deal_damage()
+ */ 
 void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
     if (is_dead_state()) {
         // don't do any more damage if we're already dead
@@ -6097,6 +6100,23 @@ bool player::process_single_active_item(item *it)
                 }
             }
         }
+        else if( it->has_flag("WET") )
+        {
+            it->item_counter--;
+            if(it->item_counter == 0)
+            {
+                it->item_counter = 0;
+                g->add_msg_if_player(this,_("Your %s dries off."), it->name.c_str());
+
+                // wet towel becomes a regular towel
+                if(it->type->id == "towel_wet")
+                    it->make(itypes["towel"]);
+
+                it->item_tags.erase("WET");
+                it->item_tags.insert("ABSORBENT");
+                it->active = false;
+            }
+        }
         else if (it->is_tool())
         {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
@@ -6793,6 +6813,17 @@ bool player::has_matching_liquid(itype_id it)
     return false;
 }
 
+bool player::has_drink()
+{
+    if (inv.has_drink()) {
+        return true;
+    }
+    if (weapon.is_container() && !weapon.contents.empty()) {
+        return weapon.contents[0].is_drink();
+    }
+    return false;
+}
+
 bool player::has_weapon_or_armor(char let) const
 {
  if (weapon.invlet == let)
@@ -6813,7 +6844,7 @@ bool player::has_item_with_flag( std::string flag ) const
     }
 
     //check weapon for flag
-    if (weapon.has_flag( flag ))
+    if (weapon.has_flag( flag ) || weapon.contains_with_flag( flag ))
     {
         return true;
     }
@@ -7285,6 +7316,9 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak) {
         charge_power(rng(1, 4));
+    }
+    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_strong) {
+        charge_power(rng(3, 12));
     }
 
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {
@@ -9524,9 +9558,12 @@ void player::absorb_hit(body_part bp, int, damage_instance &dam) {
                 worn.erase(worn.begin() + index);
             }
         }
-        if (it->type == DT_BASH) {
+
+        /* Comment out unused test
+        if (it->type == DT_BASH) { //well, these seem like they aren't needed
         } else if (it->type == DT_CUT) {
         }
+        */
     }
 }
 

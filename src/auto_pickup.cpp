@@ -129,7 +129,7 @@ void show_auto_pickup()
 
                     sTemp.str("");
                     sTemp << i + 1;
-                    mvwprintz(w_auto_pickup, i - iStartPos, 0, cLineColor, sTemp.str().c_str());
+                    mvwprintz(w_auto_pickup, i - iStartPos, 0, cLineColor, "%s", sTemp.str().c_str());
                     mvwprintz(w_auto_pickup, i - iStartPos, 4, cLineColor, "");
 
                     if (iCurrentLine == i) {
@@ -353,7 +353,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
     int nmatch = vMatchingItems.size();
     std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
-    mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf.c_str())/2, hilite(c_white), buf.c_str());
+    mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf.c_str())/2, hilite(c_white), "%s", buf.c_str());
 
     mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white), _("Won't display damaged, fits and can/bottle items"));
 
@@ -378,7 +378,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
                 sTemp.str("");
                 sTemp << i + 1;
-                mvwprintz(w_test_rule_content, i - iStartPos, 0, cLineColor, sTemp.str().c_str());
+                mvwprintz(w_test_rule_content, i - iStartPos, 0, cLineColor, "%s", sTemp.str().c_str());
                 mvwprintz(w_test_rule_content, i - iStartPos, 4, cLineColor, "");
 
                 if (iCurrentLine == i) {

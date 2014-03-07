@@ -878,9 +878,11 @@ void mattack::dermatik(monster *z)
     z->moves -= 500; // Successful laying takes a long time
     g->add_msg(_("The %s sinks its ovipositor into your %s!"), z->name().c_str(),
                  body_part_name(targeted, side).c_str());
-    g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
-    g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
-                          pgettext("memorial_female", "Injected with dermatik eggs."));
+    if (!g->u.has_trait("PARAIMMUNE")) {
+        g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
+        g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
+                              pgettext("memorial_female", "Injected with dermatik eggs."));
+        }
 }
 
 void mattack::dermatik_growth(monster *z)

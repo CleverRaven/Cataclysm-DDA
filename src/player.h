@@ -292,7 +292,7 @@ public:
  bool has_technique(matec_id tec);
  matec_id pick_technique(Creature &t,
                              bool crit, bool dodge_counter, bool block_counter);
- void perform_technique(ma_technique technique, Creature &t, damage_instance &d, int& move_cost);
+ void perform_technique(ma_technique technique, Creature &t, int &bash_dam, int &cut_dam, int &stab_dam, int& move_cost);
 
  void perform_special_attacks(Creature &t);
 
@@ -504,6 +504,7 @@ public:
 
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
+ bool has_drink();
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
  bool has_item(char let);  // Has an item with invlet let

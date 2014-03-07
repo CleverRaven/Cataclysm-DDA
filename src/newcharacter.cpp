@@ -377,12 +377,14 @@ bool player::create(character_type type, std::string tempname)
         matype_id ma_type;
         do {
             int choice = (PLTYPE_NOW == type) ? rng(1, 2) :
-                         menu(false, _("Pick your style:"), _("Eskrima"), _("Fencing"),
+                         menu(false, _("Pick your style:"), _("Eskrima"), _("Fencing"), _("Pentjak Silat"),
                               NULL);
             if (choice == 1) {
                 ma_type = "style_eskrima";
             } else if (choice == 2) {
                 ma_type = "style_fencing";
+            } else if (choice == 3) {
+                ma_type = "style_silat";
             }
             if (PLTYPE_NOW != type) {
                 popup(martialarts[ma_type].description, PF_NONE);
@@ -431,6 +433,11 @@ bool player::create(character_type type, std::string tempname)
             }
             // If wearing an item fails we fail silently.
             wear_item(&tmp, false);
+        // if something is wet, start it as active with some time to dry off
+        } else if(tmp.has_flag("WET")) {
+            tmp.active = true;
+            tmp.item_counter = 450;
+            inv.push_back(tmp);
         } else {
             inv.push_back(tmp);
         }
@@ -924,7 +931,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     if(u->prof->can_pick(u, 0) != "YES") {
                         inc_type = 0;
                         popup(_("Your profession of %s prevents you from removing this trait."),
-                              u->prof->name().c_str());
+                              u->prof->gender_appropriate_name(u->male).c_str());
 
                     }
 
@@ -949,7 +956,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                     if(u->prof->can_pick(u, 0) != "YES") {
                         inc_type = 0;
                         popup(_("Your profession of %s prevents you from taking this trait."),
-                              u->prof->name().c_str());
+                              u->prof->gender_appropriate_name(u->male).c_str());
 
                     }
                 }
@@ -1039,7 +1046,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                   pointsForProf *=-1;
         }
         mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, _("Profession %1$s %2$s %3$d points (net: %4$d)"),
-                      _(sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str()),
+                      sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
                       negativeProf ? _("earns"):_("costs"),
                       pointsForProf, netPointCost);
 
@@ -1053,15 +1060,21 @@ int set_profession(WINDOW *w, player *u, int &points)
              profession::count() : iContentHeight); i++) {
             mvwprintz(w, 5 + i - iStartPos, 2, c_ltgray, "\
                                              "); // Clear the line
+            nc_color col;
             if (u->prof != sorted_profs[i]) {
-                mvwprintz(w, 5 + i - iStartPos, 2, (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-                          _(sorted_profs[i]->gender_appropriate_name(u->male).c_str()));
+                col = (sorted_profs[i] == sorted_profs[cur_id] ? h_ltgray : c_ltgray);
             } else {
-                mvwprintz(w, 5 + i - iStartPos, 2,
-                          (sorted_profs[i] == sorted_profs[cur_id] ?
-                           hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                          _(sorted_profs[i]->gender_appropriate_name(u->male).c_str()));
+                col = (sorted_profs[i] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
+            // Use gender neutral name if it has one, prevents cluttering
+            // the list with "female X", "female Y", "female Z", ...
+            std::string name;
+            if (!sorted_profs[i]->name().empty()) {
+                name = sorted_profs[i]->name();
+            } else {
+                name = sorted_profs[i]->gender_appropriate_name(u->male);
+            }
+            mvwprintz(w, 5 + i - iStartPos, 2, col, "%s", name.c_str());
         }
 
         std::vector<std::string> prof_items = sorted_profs[cur_id]->items();
@@ -1116,14 +1129,8 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         werase(w_genderswap);
-        if (sorted_profs[cur_id]->name() == "") {
-            mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s."),
-                      _(sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str()));
-        } else {
-            mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s %2$s."),
-                      u->male ? _("female") : _("male"),
-                      _(sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str()));
-        }
+        mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s."),
+                    sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
         //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profession::count(), 5);
@@ -1455,7 +1462,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
         werase(w_profession);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
-        wprintz (w_profession, c_ltgray, _(u->prof->gender_appropriate_name(u->male).c_str()));
+        wprintz (w_profession, c_ltgray, u->prof->gender_appropriate_name(u->male).c_str());
         wrefresh(w_profession);
 
         ch = input();

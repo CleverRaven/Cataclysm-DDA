@@ -2765,6 +2765,20 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
                     it->active = false;
                 }
             }
+        } else if ( it->has_flag("WET") ) {
+            it->item_counter--;
+            if(it->item_counter <= 0)
+            {
+                g->add_msg(_("A nearby %s dries off."), it->name.c_str());
+
+                // wet towel becomes a regular towel
+                if(it->type->id == "towel_wet")
+                    it->make(itypes["towel"]);
+
+                it->item_tags.erase("WET");
+                it->item_tags.insert("ABSORBENT");
+                it->active = false;
+            }
         } else if (!it->is_tool()) { // It's probably a charger gun
             it->active = false;
             it->charges = 0;
@@ -3742,7 +3756,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
 bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
 {
     int junk = 0;
-    return has_flag("SEALED", Tx, Ty) ||
+    return (has_flag("SEALED", Tx, Ty) && !has_flag("LIQUIDCONT", Tx, Ty)) ||
         ((Fx != Tx || Fy != Ty) &&
          !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }

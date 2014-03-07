@@ -475,7 +475,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         for (unsigned i = 0; i < world_pages[selpage].size(); ++i) {
             sTemp.str("");
             sTemp << i + 1;
-            mvwprintz(w_worlds, i, 0, c_white, sTemp.str().c_str());
+            mvwprintz(w_worlds, i, 0, c_white, "%s", sTemp.str().c_str());
             mvwprintz(w_worlds, i, 4, c_white, "");
 
 
@@ -645,7 +645,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
 
             sTemp.str("");
             sTemp << curoption + 1;
-            mvwprintz(w_options, curoption , 0, c_white, sTemp.str().c_str());
+            mvwprintz(w_options, curoption , 0, c_white, "%s", sTemp.str().c_str());
             mvwprintz(w_options, curoption , 4, c_white, "");
 
             if (sel == curoption) {
@@ -766,7 +766,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             for (int i = 0; i < headers.size(); ++i) {
                 werase(header_windows[i]);
                 const int header_x = (getmaxx(header_windows[i]) - headers[i].size()) / 2;
-                mvwprintz(header_windows[i], 0, header_x , c_cyan, headers[i].c_str());
+                mvwprintz(header_windows[i], 0, header_x , c_cyan, "%s", headers[i].c_str());
 
                 if (active_header == i) {
                     mvwputch(header_windows[i], 0, header_x - 3, c_red, '<');

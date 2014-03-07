@@ -1640,9 +1640,9 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
             left_sym = "-"; right_sym = "-";
         }
 
-        mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, left_sym.c_str());
-        mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, partname.c_str());
-        mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, right_sym.c_str());
+        mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, "%s", left_sym.c_str());
+        mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, "%s", partname.c_str());
+        mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, "%s", right_sym.c_str());
 //         mvwprintz(win, y, 3 + utf8_width(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
 
         if (i == 0 && is_inside(pl[i])) {
@@ -2818,7 +2818,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         //damage dealt overall
         dmg += abs(d_E / k_mvel);
         //damage for vehicle-part - only if not a hallucination
-        if(z && !z->is_hallucination()) {
+        if(!z || !z->is_hallucination()) {
             part_dmg = dmg * k / 100;
         }
         //damage for object

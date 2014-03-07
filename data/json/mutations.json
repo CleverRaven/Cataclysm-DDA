@@ -422,7 +422,7 @@
         "id": "MARTIAL_ARTS5",
         "name": "Melee Weapon Training",
         "points": 3,
-        "description": "You have practiced fighting with weapons. You start with your choice of Eskrima or Fencing.",
+        "description": "You have practiced fighting with weapons. You start with your choice of Eskrima, Fencing, or Pentjak Silat.",
         "starting_trait" : true,
         "valid" : false
     },{
@@ -1416,6 +1416,15 @@
         "prereqs2" : ["INFRESIST"],
         "threshreq" : ["THRESH_MEDICAL"],
         "category" : ["MUTCAT_MEDICAL"]
+    },{
+        "type" : "mutation",
+        "id" : "PARAIMMUNE",
+        "name" : "Parasite Immune",
+        "points" : 4,
+        "description" : "Your body is unusually inhospitable to parasitic lifeforms. You will never become infested with internal parasites.",
+        "prereqs" : ["DISRESISTANT"],
+        "prereqs2" : ["INFRESIST"],
+        "category" : ["MUTCAT_ELFA", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL", "MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "POISONOUS",

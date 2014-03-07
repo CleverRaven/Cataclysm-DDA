@@ -78,6 +78,7 @@ void load_recipe(JsonObject &jsobj)
     std::string skill_used = jsobj.get_string("skill_used", "");
     std::string id_suffix = jsobj.get_string("id_suffix", "");
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
+    int result_mult = jsobj.get_int("result_mult", 1);
 
     std::map<std::string, int> requires_skills;
     jsarr = jsobj.get_array("skills_required");
@@ -110,7 +111,7 @@ void load_recipe(JsonObject &jsobj)
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, time, reversible,
-                             autolearn, learn_by_disassembly);
+                             autolearn, learn_by_disassembly, result_mult);
 
     jsarr = jsobj.get_array("components");
     while (jsarr.has_more()) {
@@ -161,7 +162,7 @@ void load_recipe(JsonObject &jsobj)
 void reset_recipes()
 {
     for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it) {
-        for (int i = 0; i < it->second.size(); ++i) {
+        for (size_t i = 0; i < it->second.size(); ++i) {
             delete it->second[i];
         }
     }
@@ -172,7 +173,7 @@ void reset_recipes()
 void finalize_recipes()
 {
     for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it) {
-        for (int i = 0; i < it->second.size(); ++i) {
+        for (size_t i = 0; i < it->second.size(); ++i) {
             recipe* r = it->second[i];
             for(size_t j = 0; j < r->booksets.size(); j++) {
                 const std::string &book_id = r->booksets[j].first;
@@ -740,8 +741,8 @@ recipe *game::select_crafting_recipe()
                 }
             }
         } else {
-            for (unsigned i = 0; i < current.size() && i < dataHeight + 1; ++i) {
-                if (i == line) {
+            for (size_t i = 0; i < current.size() && i < (size_t)dataHeight + 1; ++i) {
+                if ((ssize_t)i == line) {
                     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
                               item_controller->find_template(current[i]->result)->name.c_str());
                 } else {
@@ -801,12 +802,12 @@ recipe *game::select_crafting_recipe()
                     }
                     ypos--;
                     // Loop to print the required tools
-                    for (int i = 0; i < current[line]->tools.size() && current[line]->tools[i].size() > 0; i++) {
+                    for (size_t i = 0; i < current[line]->tools.size() && current[line]->tools[i].size() > 0; i++) {
                         ypos++;
                         xpos = 32;
                         mvwputch(w_data, ypos, 30, col, '>');
                         bool has_one = any_marked_available(current[line]->tools[i]);
-                        for (unsigned j = 0; j < current[line]->tools[i].size(); j++) {
+                        for (size_t j = 0; j < current[line]->tools[i].size(); j++) {
                             itype_id type = current[line]->tools[i][j].type;
                             long charges = current[line]->tools[i][j].count;
                             nc_color toolcol = has_one ? c_dkgray : c_red;
@@ -893,9 +894,10 @@ recipe *game::select_crafting_recipe()
                 if ( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = item(item_controller->find_template(current[line]->result), g->turn);
+                    tmp.charges *= current[line]->result_mult;
                     folded = foldstring(tmp.info(true), iInfoWidth);
                 }
-                int maxline = folded.size() > dataHeight ? dataHeight : folded.size();
+                int maxline = (ssize_t)folded.size() > dataHeight ? dataHeight : (ssize_t)folded.size();
 
                 for(int i = 0; i < maxline; i++) {
                     mvwprintz(w_data, i, FULL_SCREEN_WIDTH + 1, col, folded[i].c_str() );
@@ -982,11 +984,13 @@ recipe *game::select_crafting_recipe()
             filterstring = "";
             redraw = true;
             break;
+        default: // Ignore other actions. Suppress compiler warning [-Wswitch]
+            break;
 
         }
         if (line < 0) {
             line = current.size() - 1;
-        } else if (line >= current.size()) {
+        } else if (line >= (int)current.size()) {
             line = 0;
         }
     } while (input != Cancel && !done);
@@ -1199,7 +1203,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     bool search_name = true;
     bool search_tool = false;
     bool search_component = false;
-    int pos = filter.find(":");
+    size_t pos = filter.find(":");
     if(pos != std::string::npos)
     {
         search_name = false;
@@ -1446,16 +1450,23 @@ void game::complete_craft()
             newit.item_counter = 600;
         }
     }
+    if (making->result_mult != 1) {
+        newit.charges *= making->result_mult;
+    }
+
     if (!newit.craft_has_charges()) {
         newit.charges = 0;
     }
     u.inv.assign_empty_invlet(newit);
     //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
-        handle_liquid(newit, false, false);
+        //while ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ){
+        //while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
+        // ^ failed container controls, they don't detect stacks of the same empty container after only one of them is filled
+        while(!handle_liquid(newit, false, false)) { ; }
     } else {
         // We might not have space for the item
-        if (!u.can_pickVolume(newit.volume())) {
+        if (!u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
                     newit.tname().c_str());
             m.add_item_or_charges(u.posx, u.posy, newit);
@@ -1554,7 +1565,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         }
 
         // Get the selection via a menu popup
-        int selection = menu_vec(false, _("Use which component?"), options) - 1;
+        size_t selection = menu_vec(false, _("Use which component?"), options) - 1;
         if (selection < map_has.size()) {
             map_use.push_back(map_has[selection]);
         } else if (selection < map_has.size() + player_has.size()) {
@@ -1671,7 +1682,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
         }
 
         // Get selection via a popup menu
-        int selection = menu_vec(false, _("Use which tool?"), options) - 1;
+        size_t selection = menu_vec(false, _("Use which tool?"), options) - 1;
         if (selection < map_has.size())
             m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
                           map_has[selection].type, map_has[selection].count);
