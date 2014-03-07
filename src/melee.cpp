@@ -174,8 +174,8 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         bash_dam *= mabuff_bash_mult();
         cut_dam *= mabuff_cut_mult();
         stab_dam *= mabuff_cut_mult();
-            
-        // Handles effects as well; not done in melee_affect_*
+
+        // Handles effects as well; not done in melee_affect_* 
         if (technique.id != "tec_none")
             perform_technique(technique, t, bash_dam, cut_dam, stab_dam, move_cost);
 
@@ -1023,6 +1023,39 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
   d.add_damage(DT_CUT, rng(0, 5 + int(weapon.volume() * 1.5)));// Hurt the monster extra
   remove_weapon();
  }
+
+//Melee weapon wear and tear
+  if (!weapon.has_flag("DURABLE")) {
+    if ((weapon.damage < 4) && (weapon.made_of("bone") || weapon.made_of("wood") || weapon.made_of("plastic")) &&
+    (one_in( 64 + skillLevel("melee") - str_cur * 8 ))){
+                weapon.damage++;
+                g->add_msg_player_or_npc(this, _("Your %s is cracked by the force of the blow!"),
+                                         _("<npcname>'s %s is cracked by the force of the blow!"),
+                                         weapon.name.c_str());
+    }
+    if ((weapon.damage < 4) && (weapon.made_of("iron") || weapon.made_of("steel") || weapon.made_of("stone")) &&
+    (one_in( 64 + skillLevel("melee") - str_cur * 64 ))){
+                weapon.damage++;
+                g->add_msg_player_or_npc(this, _("Your %s is dented by the force of the blow!"),
+                                         _("<npcname>'s %s is dented by the force of the blow!"),
+                                         weapon.name.c_str());
+    }
+    if ((weapon.damage < 4) && (weapon.made_of("ceramic") || weapon.made_of("superalloy") || weapon.made_of("hardsteel")) &&
+    (one_in( 64 + skillLevel("melee") - str_cur * 128 ))){
+                weapon.damage++;
+                g->add_msg_player_or_npc(this, _("Your %s is splintered by the force of the blow!"),
+                                         _("<npcname>'s %s is splintered by the force of the blow!"),
+                                         weapon.name.c_str());
+    }
+    else if ((weapon.damage < 4) && (one_in( 64 + skillLevel("melee") - str_cur * 2 ))){
+                weapon.damage++;
+                g->add_msg_player_or_npc(this, _("Your %s is damaged by the force of the blow!"),
+                                         _("<npcname>'s %s is damaged by the force of the blow!"),
+                                         weapon.name.c_str());
+    }
+    
+    
+  }
 
 // Getting your weapon stuck
  int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));
