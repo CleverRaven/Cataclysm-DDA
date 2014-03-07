@@ -28,7 +28,6 @@ extern int fontwidth, fontheight;
 cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
-    renderer = NULL;
     renderer = render;
 
     tile_height = 0;
