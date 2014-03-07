@@ -369,6 +369,41 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
         tile_type *curr_tile = new tile_type();
         curr_tile->fg = index_in_image + offset;
         curr_tile->bg = -1;
+        switch(ascii_char) {
+        case LINE_OXOX_C://box bottom/top side (horizontal line)
+            curr_tile->fg = 205 + base_offset;
+            break;
+        case LINE_XOXO_C://box left/right side (vertical line)
+            curr_tile->fg = 186 + base_offset;
+            break;
+        case LINE_OXXO_C://box top left
+            curr_tile->fg = 201 + base_offset;
+            break;
+        case LINE_OOXX_C://box top right
+            curr_tile->fg = 187 + base_offset;
+            break;
+        case LINE_XOOX_C://box bottom right
+            curr_tile->fg = 188 + base_offset;
+            break;
+        case LINE_XXOO_C://box bottom left
+            curr_tile->fg = 200 + base_offset;
+            break;
+        case LINE_XXOX_C://box bottom north T (left, right, up)
+            curr_tile->fg = 202 + base_offset;
+            break;
+        case LINE_XXXO_C://box bottom east T (up, right, down)
+            curr_tile->fg = 208 + base_offset;
+            break;
+        case LINE_OXXX_C://box bottom south T (left, right, down)
+            curr_tile->fg = 203 + base_offset;
+            break;
+        case LINE_XXXX_C://box X (left down up right)
+            curr_tile->fg = 206 + base_offset;
+            break;
+        case LINE_XOXX_C://box bottom east T (left, down, up)
+            curr_tile->fg = 184 + base_offset;
+            break;
+        }
         tile_ids[id] = curr_tile;
         if (ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C) {
             curr_tile->rotates = false;
@@ -578,6 +613,17 @@ bool cata_tiles::draw_from_id_string(std::string id, std::string category, std::
                 const mtype *m = MonsterGenerator::generator().get_mtype(id);
                 sym = m->sym;
                 col = m->color;
+            }
+        } else if (category == "vehicle_part") {
+            if (vehicle_part_types.count(id.substr(3)) > 0) {
+                const vpart_info &v = vehicle_part_types[id.substr(3)];
+                sym = v.sym;
+                if (!subcategory.empty()) {
+                    sym = special_symbol(subcategory[0]);
+                    rota = 0;
+                    subtile = -1;
+                }
+                col = v.color;
             }
         } else if (category == "field") {
             for(int i = 0; i < num_fields; i++) {
@@ -964,6 +1010,8 @@ bool cata_tiles::draw_vpart(int x, int y)
     // get the vpart_id
     char part_mod = 0;
     std::string vpid = veh->part_id_string(veh_part, part_mod);
+    const char sym = veh->face.dir_symbol(veh->part_sym(veh_part));
+    std::string subcategory(1, sym);
 
     // prefix with vp_ ident
     vpid = "vp_" + vpid;
@@ -980,7 +1028,7 @@ bool cata_tiles::draw_vpart(int x, int y)
     }
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
     bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
-    bool ret = draw_from_id_string(vpid, "vehicle_part", "", x, y, subtile, veh_dir);
+    bool ret = draw_from_id_string(vpid, "vehicle_part", subcategory, x, y, subtile, veh_dir);
     if (ret && draw_highlight) {
         draw_item_highlight(x, y);
     }
