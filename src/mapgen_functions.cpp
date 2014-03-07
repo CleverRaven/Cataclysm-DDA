@@ -3214,6 +3214,8 @@ void mapgen_s_liquor(map *m, oter_id terrain_type, mapgendata dat, int, float de
         m->place_items("fridgesnacks", 90, 19,  7, 19, 10, false, 0);
         m->place_items("fridgesnacks", 90, 17, 11, 19, 11, false, 0);
         m->place_items("behindcounter", 80, 17,  3, 19,  4, false, 0);
+        m->place_items("liqstore_brew", 70, 16,  3, 16,  5, false, 0);
+        m->place_items("liqstore_brew", 70, 17,  5, 18,  5, false, 0);
         m->place_items("trash",  30,  5, 14,  7, 14, false, 0);
         m->place_items("trash",  30, 18, 15, 18, 17, false, 0);
 

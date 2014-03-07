@@ -27,6 +27,7 @@ public:
     int atomic_caff         (player*, item*, bool);
     int alcohol             (player*, item*, bool);
     int alcohol_weak        (player*, item*, bool);
+    int alcohol_strong      (player*, item*, bool);
     int pkill               (player*, item*, bool);
     int xanax               (player*, item*, bool);
     int cig                 (player*, item*, bool);
@@ -209,6 +210,7 @@ public:
     int heatpack            (player *, item *, bool);
     int hotplate            (player *, item *, bool);
     int dejar               (player *, item *, bool);
+    int flask_yeast         (player *, item *, bool);
     int rad_badge           (player *, item *, bool);
     int boots               (player *, item *, bool);
     int towel               (player *, item *, bool);

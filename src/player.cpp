@@ -6813,6 +6813,17 @@ bool player::has_matching_liquid(itype_id it)
     return false;
 }
 
+bool player::has_drink()
+{
+    if (inv.has_drink()) {
+        return true;
+    }
+    if (weapon.is_container() && !weapon.contents.empty()) {
+        return weapon.contents[0].is_drink();
+    }
+    return false;
+}
+
 bool player::has_weapon_or_armor(char let) const
 {
  if (weapon.invlet == let)
@@ -6833,7 +6844,7 @@ bool player::has_item_with_flag( std::string flag ) const
     }
 
     //check weapon for flag
-    if (weapon.has_flag( flag ))
+    if (weapon.has_flag( flag ) || weapon.contains_with_flag( flag ))
     {
         return true;
     }
@@ -7305,6 +7316,9 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak) {
         charge_power(rng(1, 4));
+    }
+    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_strong) {
+        charge_power(rng(3, 12));
     }
 
     if (eaten->made_of("hflesh") && !has_trait("SAPIOVORE")) {

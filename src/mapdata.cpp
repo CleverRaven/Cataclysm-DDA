@@ -642,6 +642,8 @@ furn_id f_null,
     f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
+    f_fvat_empty, f_fvat_full,
+    f_wood_keg,
     num_furniture_types;
 
 void set_furn_ids() {
@@ -704,6 +706,9 @@ void set_furn_ids() {
     f_plant_seedling=furnfind("f_plant_seedling");
     f_plant_mature=furnfind("f_plant_mature");
     f_plant_harvest=furnfind("f_plant_harvest");
+    f_fvat_empty=furnfind("f_fvat_empty");
+    f_fvat_full=furnfind("f_fvat_full");
+    f_wood_keg=furnfind("f_wood_keg");
     num_furniture_types = furnlist.size();
 }
 
