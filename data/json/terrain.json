@@ -2258,10 +2258,9 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT"],
         "examine_action": "fswitch"
-    },
-    {
+    },{
         "type" : "terrain",
-        "id" : "r_floor",
+        "id" : "t_carpet_red",
         "name": "red carpet",
         "symbol": ".",
         "color": "red",
@@ -2271,25 +2270,32 @@
    },
    {
         "type" : "terrain",
-        "id" : "y_floor",
+        "id" : "t_carpet_yellow",
         "name": "yellow carpet",
         "symbol": ".",
         "color": "yellow",
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
-   },
-   {
+   },{
         "type" : "terrain",
-        "id" : "p_floor",
+        "id" : "t_carpet_green",
+        "name": "green carpet",
+        "symbol": ".",
+        "color": "green",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
+   },{
+        "type" : "terrain",
+        "id" : "t_carpet_purple",
         "name": "purple carpet",
         "symbol": ".",
         "color": "magenta",
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
-   },
-   {
+   },{
         "type" : "furniture",
         "id" : "f_indoor_plant_y",
         "name": "yellow indoor plant",
@@ -2306,8 +2312,7 @@
                 { "item": "withered", "amount": 1, "minamount": 0 }
             ]
         }
-    },
-    {
+    },{
         "type" : "furniture",
         "id" : "f_statue",
         "name": "Statue",
@@ -2324,8 +2329,7 @@
                 { "item": "rock", "amount": 6, "minamount": 1 }
             ]
         }
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_h_r",
         "name": "red wall",
@@ -2333,8 +2337,7 @@
         "color": "red",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_v_r",
         "name": "red wall",
@@ -2342,8 +2345,7 @@
         "color": "red",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_h_w",
         "name": "white wall",
@@ -2351,8 +2353,7 @@
         "color": "white",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_v_w",
         "name": "white wall",
@@ -2360,8 +2361,7 @@
         "color": "white",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_h_b",
         "name": "blue wall",
@@ -2369,8 +2369,7 @@
         "color": "blue",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_v_b",
         "name": "blue wall",
@@ -2378,8 +2377,7 @@
         "color": "blue",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_h_g",
         "name": "green wall",
@@ -2387,8 +2385,7 @@
         "color": "green",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_v_g",
         "name": "green wall",
@@ -2396,8 +2393,7 @@
         "color": "green",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_h_y",
         "name": "yellow wall",
@@ -2405,8 +2401,7 @@
         "color": "yellow",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_v_y",
         "name": "yellow wall",
@@ -2414,8 +2409,7 @@
         "color": "yellow",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_h_p",
         "name": "purple wall",
@@ -2423,8 +2417,7 @@
         "color": "magenta",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
-    },
-    {
+    },{
         "type" : "terrain",
         "id" : "t_wall_v_p",
         "name": "purple wall",
@@ -2432,36 +2425,6 @@
         "color": "magenta",
         "move_cost": 0,
         "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
-    },
-    {
-        "type" : "terrain",
-        "id" : "r_floor",
-        "name": "red carpet",
-        "symbol": ".",
-        "color": "red",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
-   },
-   {
-        "type" : "terrain",
-        "id" : "y_floor",
-        "name": "yellow carpet",
-        "symbol": ".",
-        "color": "yellow",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
-   },
-   {
-        "type" : "terrain",
-        "id" : "p_floor",
-        "name": "purple carpet",
-        "symbol": ".",
-        "color": "magenta",
-        "move_cost": 2,
-        "flags": [
-            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
    },{
         "type" : "terrain",
         "id" : "t_rock_wall",

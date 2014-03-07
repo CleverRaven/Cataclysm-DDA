@@ -1027,260 +1027,242 @@
         "description" : "Paint horizontal wall red",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "r_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_h",
         "post_terrain" : "t_wall_h_r"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint vertical wall red",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "r_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_v",
         "post_terrain" : "t_wall_v_r"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint horizontal wall blue",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "b_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_h",
         "post_terrain" : "t_wall_h_b"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint vertical wall blue",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "b_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_v",
         "post_terrain" : "t_wall_v_b"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint horizontal wall white",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "w_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_h",
         "post_terrain" : "t_wall_h_w"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint vertical wall white",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+          "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "w_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_v",
         "post_terrain" : "t_wall_v_w"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint horizontal wall green",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "g_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_h",
         "post_terrain" : "t_wall_h_g"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint vertical wall green",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "g_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_v",
         "post_terrain" : "t_wall_v_g"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint horizontal wall purple",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "p_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_h",
         "post_terrain" : "t_wall_h_p"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint vertical wall purple",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "p_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_v",
         "post_terrain" : "t_wall_v_p"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint horizontal wall yellow",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "y_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_h",
         "post_terrain" : "t_wall_h_y"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Paint vertical wall yellow",
         "difficulty" : 0,
         "time" : 40,
-	"tools" : [
+        "tools" : [
             [ "paint_brush"]
-        ],
+          ],
         "components" : [
             [ [ "y_paint", 25 ] ]
-        ],
+          ],
         "pre_terrain" : "t_wall_v",
         "post_terrain" : "t_wall_v_y"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Take paint off vertical wall",
         "difficulty" : 0,
         "time" : 80,
-	"tools" : [
+        "tools" : [
             [ "chipper"]
-        ],
+          ],
         "pre_flags" : "CHIPV",
         "post_terrain" : "t_wall_v"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Take paint off horizontal wall",
         "difficulty" : 0,
         "time" : 80,
-	"tools" : [
+        "tools" : [
             [ "chipper"]
-        ],
+          ],
         "pre_flags" : "CHIPH",
         "post_terrain" : "t_wall_h"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "Rip carpet up",
         "difficulty" : 0,
         "time" : 30,
-	"tools" : [
+        "tools" : [
             [ "hammer"]
-        ],
+          ],
         "pre_flags" : "RUG",
         "post_terrain" : "t_floor"
-    },
-    {
+    },{
         "type" : "construction",
         "description" : "carpet floor red",
         "difficulty" : 0,
         "time" : 30,
-	"tools" : [
+        "tools" : [
             [ "hammer"]
-        ],
-	"components" : [
+          ],
+        "components" : [
             [ [ "nail", 5 ] ],
-	    [ [ "r_carpet", 1 ] ]
-        ],
+            [ [ "r_carpet", 1 ] ]
+          ],
         "pre_terrain" : "t_floor",
-        "post_terrain" : "r_floor"
-    },
-    {
+        "post_terrain" : "t_carpet_red"
+    },{
         "type" : "construction",
         "description" : "carpet floor purple",
         "difficulty" : 0,
         "time" : 30,
-	"tools" : [
+        "tools" : [
             [ "hammer"]
-        ],
-	"components" : [
+          ],
+        "components" : [
             [ [ "nail", 5 ] ],
-	    [ [ "p_carpet", 1 ] ]
-        ],
+            [ [ "p_carpet", 1 ] ]
+          ],
         "pre_terrain" : "t_floor",
-        "post_terrain" : "p_floor"
-    },
-    {
+        "post_terrain" : "t_carpet_purple"
+    },{
         "type" : "construction",
         "description" : "carpet floor yellow",
         "difficulty" : 0,
         "time" : 30,
-	"tools" : [
+        "tools" : [
             [ "hammer"]
-        ],
-	"components" : [
+          ],
+        "components" : [
             [ [ "nail", 5 ] ],
-	    [ [ "y_carpet", 1 ] ]
-        ],
+            [ [ "y_carpet", 1 ] ]
+          ],
         "pre_terrain" : "t_floor",
-        "post_terrain" : "y_floor"
-    },
-    {
+        "post_terrain" : "t_carpet_yellow"
+    },{
         "type" : "construction",
         "description" : "carpet floor green",
         "difficulty" : 0,
         "time" : 30,
-	"tools" : [
+        "tools" : [
             [ "hammer"]
-        ],
-	"components" : [
+          ],
+        "components" : [
             [ [ "nail", 5 ] ],
-  	    [ [ "g_carpet", 1 ] ]
-        ],
+            [ [ "g_carpet", 1 ] ]
+          ],
         "pre_terrain" : "t_floor",
-        "post_terrain" : "g_floor"
+        "post_terrain" : "t_carpet_green"
     }
 ]

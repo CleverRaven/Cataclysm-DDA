@@ -343,7 +343,7 @@ ter_id t_null,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
-    t_r_floor,t_y_floor,t_p_floor,
+    t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
     t_grate,
     t_slime,
     t_bridge,
@@ -440,9 +440,10 @@ void set_ter_ids() {
     t_floor=terfind("t_floor");
     t_floor_waxed=terfind("t_floor_waxed");
     t_dirtfloor=terfind("t_dirtfloor");
-    t_r_floor=terfind("r_floor");
-    t_y_floor=terfind("y_floor");
-    t_p_floor=terfind("p_floor");
+    t_carpet_red=terfind("t_carpet_red");
+    t_carpet_yellow=terfind("t_carpet_yellow");
+    t_carpet_purple=terfind("t_carpet_purple");
+    t_carpet_green=terfind("t_carpet_green");
     t_grate=terfind("t_grate");
     t_slime=terfind("t_slime");
     t_bridge=terfind("t_bridge");
@@ -661,6 +662,7 @@ furn_id f_null,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
     f_statue,
+    f_floor_canvas,
     num_furniture_types;
 
 void set_furn_ids() {
@@ -730,6 +732,7 @@ void set_furn_ids() {
     f_fvat_full=furnfind("f_fvat_full");
     f_wood_keg=furnfind("f_wood_keg");
     f_statue=furnfind("f_statue");
+    f_floor_canvas=furnfind("f_floor_canvas");
     num_furniture_types = furnlist.size();
 }
 
