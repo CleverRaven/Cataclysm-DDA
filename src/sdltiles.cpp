@@ -69,6 +69,8 @@ public:
      * using (curses) color.
      */
     virtual void OutputChar(Uint16 t, int x, int y, unsigned char color) = 0;
+    void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
+    bool draw_window(WINDOW *win);
 };
 
 /**
@@ -469,8 +471,6 @@ void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG)
 
 void curses_drawwindow(WINDOW *win)
 {
-    int i,j,w,drawx,drawy;
-    unsigned tmp;
     bool update = false;
 #ifdef SDLTILES
     const bool use_tilecontext = (g && win == g->w_terrain && use_tiles);
@@ -480,6 +480,30 @@ void curses_drawwindow(WINDOW *win)
     // Don't use the normal drawing function if we are going to
     // override it with cata_tiles anyway.
     if (!use_tilecontext) {
+        update = font->draw_window(win);
+    }
+#ifdef SDLTILES
+    if (use_tilecontext)
+    {
+        tilecontext->draw(
+            win->x * fontwidth,
+            win->y * fontheight,
+            g->ter_view_x,
+            g->ter_view_y,
+            tilecontext->get_terrain_term_x() * fontwidth,
+            tilecontext->get_terrain_term_y() * fontheight);
+    }
+#endif
+    if(update) {
+        needupdate = true;
+    }
+}
+
+bool Font::draw_window(WINDOW *win)
+{
+    int i,j,w,tmp;
+    int drawx,drawy;
+    bool update = false;
     for (j=0; j<win->height; j++){
         if (win->line[j].touched) {
             update = true;
@@ -509,33 +533,16 @@ void curses_drawwindow(WINDOW *win)
                     {
                         i+=len-1;
                     }
-                    if(tmp) font->OutputChar(tmp, drawx,drawy,FG);
+                    if(tmp) OutputChar(tmp, drawx,drawy,FG);
                 } else {
-                    font->draw_ascii_lines((unsigned char)win->line[j].chars[i], drawx, drawy, FG);
+                    draw_ascii_lines((unsigned char)win->line[j].chars[i], drawx, drawy, FG);
                 }//(tmp < 0)
                 }
             };//for (i=0;i<_windows[w].width;i++)
         }
     };// for (j=0;j<_windows[w].height;j++)
-
-    }
     win->draw = false; //We drew the window, mark it as so
-
-#ifdef SDLTILES
-    if (use_tilecontext)
-    {
-        tilecontext->draw(
-            win->x * fontwidth,
-            win->y * fontheight,
-            g->ter_view_x,
-            g->ter_view_y,
-            tilecontext->get_terrain_term_x() * fontwidth,
-            tilecontext->get_terrain_term_y() * fontheight);
-    }
-#endif
-    if(update) {
-        needupdate = true;
-    }
+    return update;
 }
 
 #define ALT_BUFFER_SIZE 8
