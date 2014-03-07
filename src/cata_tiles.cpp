@@ -92,9 +92,7 @@ void cata_tiles::init(std::string json_path, std::string tileset_path)
 {
     // load files
     DebugLog() << "Attempting to Load JSON file\n";
-    load_tilejson(json_path);
-    DebugLog() << "Attempting to Load Tileset file\n";
-    load_tileset(tileset_path);
+    load_tilejson(json_path, tileset_path);
 }
 void cata_tiles::init(std::string load_file_path)
 {
@@ -245,7 +243,7 @@ void cata_tiles::set_draw_scale(int scale) {
     screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
 }
 
-void cata_tiles::load_tilejson(std::string path)
+void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
 {
     std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
@@ -256,7 +254,7 @@ void cata_tiles::load_tilejson(std::string path)
     }
 
     try {
-        load_tilejson_from_file( config_file );
+        load_tilejson_from_file( config_file, image_path );
     } catch (std::string e) {
         debugmsg("%s: %s", path.c_str(), e.c_str());
     }
@@ -264,7 +262,7 @@ void cata_tiles::load_tilejson(std::string path)
     config_file.close();
 }
 
-void cata_tiles::load_tilejson_from_file(std::ifstream &f)
+void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &image_path)
 {
     JsonIn config_json(f);
     // it's all one json object
@@ -286,6 +284,34 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f)
     }
 
     /** 2) Load tile information if available */
+    if (config.has_array("tiles-new")) {
+        // new system, several entries
+        // When loading multiple tileset images this defines where
+        // the tiles from the most recently loaded image start from.
+        int offset = 0;
+        JsonArray tiles_new = config.get_array("tiles-new");
+        while (tiles_new.has_more()) {
+            JsonObject tile_part_def = tiles_new.next_object();
+            const std::string tileset_image_path = tile_part_def.get_string("file");
+            // First load the tileset image to get the number of available tiles.
+            DebugLog() << "Attempting to Load Tileset file\n";
+            const int newsize = load_tileset(tileset_image_path);
+            // Now load the tile definitions for the loaded tileset image.
+            load_tilejson_from_file(tile_part_def, offset, newsize);
+            // Make sure the tile definitions of the next tileset image don't
+            // override the current ones.
+            offset += newsize;
+        }
+    } else {
+        // old system, no tile file path entry, only one array of tiles
+        DebugLog() << "Attempting to Load Tileset file\n";
+        const int newsize = load_tileset(image_path);
+        load_tilejson_from_file(config, 0, newsize);
+    }
+}
+
+void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int)
+{
     if (!config.has_member("tiles")) {
         throw (std::string)"ERROR: \"tiles\" section missing\n";
     }
@@ -311,8 +337,8 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f)
                 int s_fg = subentry.get_int("fg", 0);
                 int s_bg = subentry.get_int("bg", 0);
 
-                curr_subtile->fg = s_fg;
-                curr_subtile->bg = s_bg;
+                curr_subtile->fg = s_fg + offset;
+                curr_subtile->bg = s_bg + offset;
                 curr_subtile->rotates = true;
                 std::string m_id = t_id + "_" + s_id;
 
@@ -325,8 +351,8 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f)
         }
 
         // write the information of the base tile to curr_tile
-        curr_tile->bg = t_bg;
-        curr_tile->fg = t_fg;
+        curr_tile->bg = t_bg + offset;
+        curr_tile->fg = t_fg + offset;
         curr_tile->multitile = t_multi;
         curr_tile->rotates = t_rota;
 

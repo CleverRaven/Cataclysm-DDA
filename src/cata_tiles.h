@@ -24,7 +24,7 @@
 #include "enums.h"
 #include "file_finder.h"
 
-
+class JsonObject;
 
 /** Structures */
 struct tile_type
@@ -142,9 +142,25 @@ class cata_tiles
     protected:
         /** Load tileset */
         int load_tileset(std::string path);
-        /** Load tileset config file */
-        void load_tilejson(std::string path);
-        void load_tilejson_from_file(std::ifstream &f);
+        /**
+         * Load tileset config file (json format).
+         * If the tileset uses the old system (one image per tileset) the image
+         * path @ref imagepath is used to load the tileset image.
+         * Otherwise (the tileset uses the new system) the image pathes
+         * are loaded from the json entries.
+         */
+        void load_tilejson(std::string path, const std::string &imagepath);
+        void load_tilejson_from_file(std::ifstream &f, const std::string &imagepath);
+        /**
+         * Load tiles from json data. This expects a "tiles" array in
+         * @ref config. That array should contain all the tile definition that
+         * should be taken from an tileset image.
+         * Because the function only loads tile definitions for a single tileset
+         * image, only tile inidizes (tile_type::fg/tile_type::bg) in the interval
+         * [0,size).
+         * The @ref offset is automatically added to the tile index.
+         */
+        void load_tilejson_from_file(JsonObject &config, int offset, int size);
     public:
         /** Draw to screen */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
