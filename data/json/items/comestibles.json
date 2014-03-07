@@ -1684,7 +1684,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "drink_screwdriver",
-        "name" : "screwdriver",
+        "name" : "screwdriver (drink)",
         "weight" : 250,
         "color" : "yellow",
         "addiction_type" : "alcohol",
