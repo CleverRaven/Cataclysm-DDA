@@ -169,7 +169,7 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     }
 }
 
-int cata_tiles::load_tileset(std::string path) {
+int cata_tiles::load_tileset(std::string path, int R, int G, int B) {
     /** reinit tile_atlas */
     SDL_Surface *tile_atlas = IMG_Load(path.c_str());
 
@@ -203,6 +203,11 @@ int cata_tiles::load_tileset(std::string path) {
 
                 SDL_Surface *tile_surf = create_tile_surface();
                 SDL_BlitSurface(tile_atlas, &source_rect, tile_surf, &dest_rect);
+                if (R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255) {
+                    Uint32 key = SDL_MapRGB(tile_surf->format, 0,0,0);
+                    SDL_SetColorKey(tile_surf, SDL_TRUE, key);
+                    SDL_SetSurfaceRLE(tile_surf, true);
+                }
 
                 SDL_Texture *tile_tex = SDL_CreateTextureFromSurface(renderer,tile_surf);
 
@@ -285,9 +290,18 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         while (tiles_new.has_more()) {
             JsonObject tile_part_def = tiles_new.next_object();
             const std::string tileset_image_path = tile_part_def.get_string("file");
+            int R = -1;
+            int G = -1;
+            int B = -1;
+            if (tile_part_def.has_object("transparency")) {
+                JsonObject tra = tile_part_def.get_object("transparency");
+                R = tra.get_int("R");
+                G = tra.get_int("G");
+                B = tra.get_int("B");
+            }
             // First load the tileset image to get the number of available tiles.
             DebugLog() << "Attempting to Load Tileset file\n";
-            const int newsize = load_tileset(tileset_image_path);
+            const int newsize = load_tileset(tileset_image_path, R, G, B);
             // Now load the tile definitions for the loaded tileset image.
             load_tilejson_from_file(tile_part_def, offset, newsize);
             if (tile_part_def.has_member("ascii")) {
@@ -300,7 +314,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
     } else {
         // old system, no tile file path entry, only one array of tiles
         DebugLog() << "Attempting to Load Tileset file\n";
-        const int newsize = load_tileset(image_path);
+        const int newsize = load_tileset(image_path, -1, -1, -1);
         load_tilejson_from_file(config, 0, newsize);
     }
 }

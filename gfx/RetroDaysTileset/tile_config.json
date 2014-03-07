@@ -9,6 +9,7 @@
     "tiles-new": [
     {
     "file": "gfx/RetroDaysTileset/retrodaystiles.png",
+    "transparency": { "R": 0, "G": 0, "B": 0 },
     "tiles":
     [
         {

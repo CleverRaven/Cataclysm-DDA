@@ -160,8 +160,8 @@ class cata_tiles
          *  float inaccuracies. */
         void set_draw_scale(int scale);
     protected:
-        /** Load tileset */
-        int load_tileset(std::string path);
+        /** Load tileset, R,G,B, are the color components of the transparent color */
+        int load_tileset(std::string path, int R, int G, int B);
         /**
          * Load tileset config file (json format).
          * If the tileset uses the old system (one image per tileset) the image
