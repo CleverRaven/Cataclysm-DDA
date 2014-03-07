@@ -199,8 +199,8 @@ class cata_tiles
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
-        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
-        bool draw_from_id_string(std::string id, TILE_CATEGORY category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
+        bool draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
+        bool draw_from_id_string(const std::string &id, TILE_CATEGORY category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**

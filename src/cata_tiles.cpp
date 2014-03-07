@@ -588,12 +588,12 @@ void cata_tiles::get_window_tile_counts(const int width, const int height, int &
     rows = ceil((double) height / tile_height);
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position)
+bool cata_tiles::draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota, bool is_at_screen_position)
 {
     return cata_tiles::draw_from_id_string(id, C_NONE, "", x, y, subtile, rota, is_at_screen_position);
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position)
+bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position)
 {
     // For the moment, if the ID string does not produce a drawable tile it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
@@ -743,9 +743,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category, std
         std::vector<std::string> display_subtiles = display_tile->available_subtiles;
         if (std::find(display_subtiles.begin(), display_subtiles.end(), multitile_keys[subtile]) != display_subtiles.end()) {
             // append subtile name to tile and re-find display_tile
-            id += "_" + multitile_keys[subtile];
+            const std::string new_id = id + "_" + multitile_keys[subtile];
             //DebugLog() << "<"<< id << ">\n";
-            return draw_from_id_string(id, x, y, -1, rota);
+            return draw_from_id_string(new_id, x, y, -1, rota);
         }
     }
 
