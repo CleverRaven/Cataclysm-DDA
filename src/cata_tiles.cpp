@@ -29,7 +29,6 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
     renderer = NULL;
-    tile_values = NULL;
     tile_ids = NULL;
     renderer = render;
 
@@ -64,14 +63,11 @@ cata_tiles::~cata_tiles()
 void cata_tiles::clear()
 {
     // release maps
-    if (tile_values) {
-        for (tile_iterator it = tile_values->begin(); it != tile_values->end(); ++it) {
-            SDL_DestroyTexture(it->second);
-            it->second = NULL;
-        }
-        tile_values->clear();
-        tile_values = NULL;
+    for (tile_iterator it = tile_values.begin(); it != tile_values.end(); ++it) {
+        SDL_DestroyTexture(it->second);
+        it->second = NULL;
     }
+    tile_values.clear();
     if (tile_ids) {
         for (tile_id_iterator it = tile_ids->begin(); it != tile_ids->end(); ++it) {
             it->second = NULL;
@@ -198,7 +194,7 @@ int cata_tiles::load_tileset(std::string path) {
         SDL_Rect dest_rect = {0,0,tile_width,tile_height};
 
         /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
-        int tilecount = tile_values == NULL ? 0 : tile_values->size();
+        int tilecount = tile_values.size();
         const int base_count = tilecount;
         for (int y = 0; y < sy; y += tile_height) {
             for (int x = 0; x < sx; x += tile_width) {
@@ -212,11 +208,7 @@ int cata_tiles::load_tileset(std::string path) {
 
                 SDL_FreeSurface(tile_surf);
 
-                if (!tile_values) {
-                    tile_values = new tile_map;
-                }
-
-                (*tile_values)[tilecount++] = tile_tex;
+                tile_values[tilecount++] = tile_tex;
             }
         }
 
@@ -553,20 +545,20 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     destination.h = tile_height;
 
     // blit background first : always non-rotated
-    if (bg >= 0 && bg < tile_values->size()) {
-        SDL_Texture *bg_tex = (*tile_values)[bg];
+    if (bg >= 0 && bg < tile_values.size()) {
+        SDL_Texture *bg_tex = tile_values[bg];
         SDL_RenderCopy(renderer, bg_tex, NULL, &destination);
     }
 
     // blit foreground based on rotation
     if (rota == 0) {
-        if (fg >= 0 && fg < tile_values->size()) {
-            SDL_Texture *fg_tex = (*tile_values)[fg];
+        if (fg >= 0 && fg < tile_values.size()) {
+            SDL_Texture *fg_tex = tile_values[fg];
             SDL_RenderCopy(renderer, fg_tex, NULL, &destination);
         }
     } else {
-        if (fg >= 0 && fg < tile_values->size()) {
-            SDL_Texture *fg_tex = (*tile_values)[fg];
+        if (fg >= 0 && fg < tile_values.size()) {
+            SDL_Texture *fg_tex = tile_values[fg];
 
             if(rota == 1) {
 #if (defined _WIN32 || defined WINDOWS)
@@ -883,14 +875,14 @@ void cata_tiles::create_default_item_highlight()
     const Uint8 highlight_alpha = 127;
 
     std::string key = ITEM_HIGHLIGHT;
-    int index = tile_values->size();
+    int index = tile_values.size();
 
     SDL_Surface *surface = create_tile_surface();
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer,surface);
     SDL_FreeSurface(surface);
 
-    (*tile_values)[index] = texture;
+    tile_values[index] = texture;
     tile_type *type = new tile_type;
     type->fg = index;
     type->bg = -1;

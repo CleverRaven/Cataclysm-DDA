@@ -251,7 +251,7 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        tile_map *tile_values;
+        tile_map tile_values;
         tile_id_map *tile_ids;
 
         int tile_height, tile_width, default_tile_width, default_tile_height;
