@@ -415,6 +415,58 @@ void try_update()
 }
 #endif
 
+// line_id is one of the LINE_*_C constants
+// FG is a curses color
+static void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG)
+{
+    switch (line_id) {
+        case LINE_OXOX_C://box bottom/top side (horizontal line)
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            break;
+        case LINE_XOXO_C://box left/right side (vertical line)
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + fontheight, 2, FG);
+            break;
+        case LINE_OXXO_C://box top left
+            HorzLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawy + fontheight, 2, FG);
+            break;
+        case LINE_OOXX_C://box top right
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + (fontwidth / 2), 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawy + fontheight, 2, FG);
+            break;
+        case LINE_XOOX_C://box bottom right
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + (fontwidth / 2), 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + (fontheight / 2) + 1, 2, FG);
+            break;
+        case LINE_XXOO_C://box bottom left
+            HorzLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + (fontheight / 2) + 1, 2, FG);
+            break;
+        case LINE_XXOX_C://box bottom north T (left, right, up)
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + (fontheight / 2), 2, FG);
+            break;
+        case LINE_XXXO_C://box bottom east T (up, right, down)
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + fontheight, 2, FG);
+            HorzLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            break;
+        case LINE_OXXX_C://box bottom south T (left, right, down)
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawy + fontheight, 2, FG);
+            break;
+        case LINE_XXXX_C://box X (left down up right)
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + fontheight, 2, FG);
+            break;
+        case LINE_XOXX_C://box bottom east T (left, down, up)
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + fontheight, 2, FG);
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + (fontwidth / 2), 1, FG);
+            break;
+        default:
+            break;
+    }
+}
+
 void curses_drawwindow(WINDOW *win)
 {
     int i,j,w,drawx,drawy;
@@ -459,54 +511,9 @@ void curses_drawwindow(WINDOW *win)
                     }
                     if(tmp) font->OutputChar(tmp, drawx,drawy,FG);
                 } else {
-                    switch ((unsigned char)win->line[j].chars[i]) {
-                    case LINE_OXOX_C://box bottom/top side (horizontal line)
-                        HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                        break;
-                    case LINE_XOXO_C://box left/right side (vertical line)
-                        VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_OXXO_C://box top left
-                        HorzLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawy+fontheight,2,FG);
-                        break;
-                    case LINE_OOXX_C://box top right
-                        HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+(fontwidth / 2),1,FG);
-                        VertLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawy+fontheight,2,FG);
-                        break;
-                    case LINE_XOOX_C://box bottom right
-                        HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+(fontwidth / 2),1,FG);
-                        VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+(fontheight / 2)+1,2,FG);
-                        break;
-                    case LINE_XXOO_C://box bottom left
-                        HorzLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+(fontheight / 2)+1,2,FG);
-                        break;
-                    case LINE_XXOX_C://box bottom north T (left, right, up)
-                        HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+(fontheight / 2),2,FG);
-                        break;
-                    case LINE_XXXO_C://box bottom east T (up, right, down)
-                        VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+fontheight,2,FG);
-                        HorzLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                        break;
-                    case LINE_OXXX_C://box bottom south T (left, right, down)
-                        HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawy+fontheight,2,FG);
-                        break;
-                    case LINE_XXXX_C://box X (left down up right)
-                        HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_XOXX_C://box bottom east T (left, down, up)
-                        VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+fontheight,2,FG);
-                        HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+(fontwidth / 2),1,FG);
-                        break;
-                    default:
-                        break;
-                    }
-                    };//switch (tmp)
+                    draw_ascii_lines((unsigned char)win->line[j].chars[i], drawx, drawy, FG);
                 }//(tmp < 0)
+                }
             };//for (i=0;i<_windows[w].width;i++)
         }
     };// for (j=0;j<_windows[w].height;j++)
