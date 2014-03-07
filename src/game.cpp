@@ -10985,17 +10985,17 @@ void game::complete_butcher(int index)
 
 void game::forage()
 {
-  int veggy_chance = rng(1, 20);
+  int veggy_chance = rng(1, 100);
 
-  if (one_in(5))
+  if (one_in(12))
   {
     add_msg(_("You found some trash!"));
     m.put_items_from("trash_forest", 1, u.posx, u.posy, g->turn, 0, 0, 0);
   }
-  if (veggy_chance < u.skillLevel("survival"))
+  if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5))
   {
-    if (!one_in(5)) {
-       if (!one_in(4)) {
+    if (!one_in(6)) {
+       if (!one_in(3)) {
          add_msg(_("You found some wild veggies!"));
          m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, turn);
          m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
@@ -11008,9 +11008,9 @@ void game::forage()
 	else {
 	   add_msg(_("You found a nest with some eggs!"));
 	   if (!one_in(4)) {
-          m.spawn_item(u.posx, u.posy, "egg_bird", rng(1, 3), 0, turn);
+          m.spawn_item(u.posx, u.posy, "egg_bird", rng(1, 5), 0, turn);
        } else {
-          m.spawn_item(u.posx, u.posy, "egg_reptile", rng(1, 3), 0, turn);
+          m.spawn_item(u.posx, u.posy, "egg_reptile", rng(1, 5), 0, turn);
 	   }
     }
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
