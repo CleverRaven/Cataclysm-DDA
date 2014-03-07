@@ -29,7 +29,6 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
     renderer = NULL;
-    tile_ids = NULL;
     renderer = render;
 
     tile_height = 0;
@@ -68,13 +67,10 @@ void cata_tiles::clear()
         it->second = NULL;
     }
     tile_values.clear();
-    if (tile_ids) {
-        for (tile_id_iterator it = tile_ids->begin(); it != tile_ids->end(); ++it) {
-            it->second = NULL;
-        }
-        tile_ids->clear();
-        tile_ids = NULL;
+    for (tile_id_iterator it = tile_ids.begin(); it != tile_ids.end(); ++it) {
+        it->second = NULL;
     }
+    tile_ids.clear();
 }
 
 void cata_tiles::init(std::string json_path, std::string tileset_path)
@@ -327,10 +323,7 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int)
                 curr_subtile->rotates = true;
                 std::string m_id = t_id + "_" + s_id;
 
-                if (!tile_ids) {
-                    tile_ids = new tile_id_map;
-                }
-                (*tile_ids)[m_id] = curr_subtile;
+                tile_ids[m_id] = curr_subtile;
                 curr_tile->available_subtiles.push_back(s_id);
             }
         }
@@ -341,12 +334,9 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int)
         curr_tile->multitile = t_multi;
         curr_tile->rotates = t_rota;
 
-        if (!tile_ids) {
-            tile_ids = new tile_id_map;
-        }
-        (*tile_ids)[t_id] = curr_tile;
+        tile_ids[t_id] = curr_tile;
     }
-    DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids->size() << "\n";
+    DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size() << "\n";
 }
 
 void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width, int height)
@@ -462,29 +452,29 @@ bool cata_tiles::draw_from_id_string(std::string id, std::string category, std::
         return false;
     }
 
-    tile_id_iterator it = tile_ids->find(id);
+    tile_id_iterator it = tile_ids.find(id);
 
     // if id is not found, try to find a tile for the category+subcategory combination
-    if (it == tile_ids->end()) {
+    if (it == tile_ids.end()) {
         if(category != "" && subcategory != "") {
-            it = tile_ids->find("unknown_"+category+"_"+subcategory);
+            it = tile_ids.find("unknown_"+category+"_"+subcategory);
         }
     }
 
     // if at this point we have no tile, try just the category
-    if (it == tile_ids->end()) {
+    if (it == tile_ids.end()) {
         if(category != "") {
-            it = tile_ids->find("unknown_"+category);
+            it = tile_ids.find("unknown_"+category);
         }
     }
 
     // if we still have no tile, we're out of luck, fall back to unknown
-    if (it == tile_ids->end()) {
-        it = tile_ids->find("unknown");
+    if (it == tile_ids.end()) {
+        it = tile_ids.find("unknown");
     }
 
     //  this really shouldn't happen, but the tileset creator might have forgotten to define an unknown tile
-    if (it == tile_ids->end()) {
+    if (it == tile_ids.end()) {
         debugmsg("The tileset you're using has no 'unknown' tile defined!");
     }
 
@@ -851,7 +841,7 @@ bool cata_tiles::draw_entity(int x, int y)
 
 bool cata_tiles::draw_item_highlight(int x, int y)
 {
-    bool item_highlight_available = tile_ids->find(ITEM_HIGHLIGHT) != tile_ids->end();
+    bool item_highlight_available = tile_ids.find(ITEM_HIGHLIGHT) != tile_ids.end();
 
     if (!item_highlight_available) {
         create_default_item_highlight();
@@ -886,7 +876,7 @@ void cata_tiles::create_default_item_highlight()
     tile_type *type = new tile_type;
     type->fg = index;
     type->bg = -1;
-    (*tile_ids)[key] = type;
+    tile_ids[key] = type;
 }
 
 /* Animation Functions */
