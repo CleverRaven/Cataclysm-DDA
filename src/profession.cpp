@@ -38,11 +38,27 @@ void profession::load_profession(JsonObject &jsobj)
         prof._name = "";
     }
     else {
-        prof._name = _(jsobj.get_string("name").c_str());
-        //~ player info: "<name> - a male <gender unspecific profession>"
-        prof._name_male = string_format(_("male %s"), prof._name.c_str());
-        //~ player info: "<name> - a female <gender unspecific profession>"
-        prof._name_female = string_format(_("female %s"), prof._name.c_str());
+        // Json only has a gender neutral name, construct additional
+        // gender specific names using a prefix.
+        // extract_json_strings.py contains code that automatically adds
+        // these constructed strings to the translation table.
+        const std::string name = jsobj.get_string("name");
+        const std::string name_female = std::string("female ") + name;
+        const std::string name_male = std::string("male ") + name;
+        // Now attempt to translate them...
+        prof._name = _(name.c_str());
+        prof._name_female = _(name_female.c_str());
+        prof._name_male = _(name_male.c_str());
+        // ... if it fails, translate the gender prefix and use it to
+        // construct generic specific names:
+        if (prof._name_female == name_female) {
+            //~ player info: "female <gender unspecific profession>"
+            prof._name_female = string_format(_("female %s"), prof._name.c_str());
+        }
+        if (prof._name_male == name_male) {
+            //~ player info: "male <gender unspecific profession>"
+            prof._name_male = string_format(_("male %s"), prof._name.c_str());
+        }
     }
 
     prof._description = _(jsobj.get_string("description").c_str());
