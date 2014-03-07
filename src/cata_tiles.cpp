@@ -397,7 +397,7 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
         id[8] = static_cast<char>(-1);
         tile_type *curr_tile = new tile_type();
         curr_tile->fg = index_in_image + offset;
-        curr_tile->bg = -1;
+        curr_tile->bg = 0;
         switch(ascii_char) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
             curr_tile->fg = 205 + base_offset;
@@ -483,9 +483,8 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
 
 tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
 {
-    // TODO: default 0, that correct?
-    int fg = entry.get_int("fg", 0);
-    int bg = entry.get_int("bg", 0);
+    int fg = entry.get_int("fg", -1);
+    int bg = entry.get_int("bg", -1);
     if (fg == -1) {
         // OK, keep this value, indicates "doesn't have a foreground"
     } else if (fg < 0 || fg >= size) {
