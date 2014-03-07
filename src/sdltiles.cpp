@@ -421,6 +421,10 @@ void curses_drawwindow(WINDOW *win)
     int i,j,w,drawx,drawy;
     unsigned tmp;
     bool update = false;
+    const bool use_tilecontext = (g && win == g->w_terrain && use_tiles);
+    // Don't use the normal drawing function if we are going to
+    // override it with cata_tiles anyway.
+    if (!use_tilecontext) {
     for (j=0; j<win->height; j++){
         if (win->line[j].touched) {
             update = true;
@@ -504,9 +508,10 @@ void curses_drawwindow(WINDOW *win)
         }
     };// for (j=0;j<_windows[w].height;j++)
 
+    }
     win->draw = false; //We drew the window, mark it as so
 
-    if (g && win == g->w_terrain && use_tiles)
+    if (use_tilecontext)
     {
         tilecontext->draw(
             win->x * fontwidth,
