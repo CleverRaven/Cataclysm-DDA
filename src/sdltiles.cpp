@@ -119,6 +119,7 @@ protected:
 };
 
 static Font *font = NULL;
+static Font *map_font = NULL;
 
 static SDL_Color windowsPalette[256];
 static SDL_Window *window = NULL;
@@ -490,6 +491,9 @@ void curses_drawwindow(WINDOW *win)
             tilecontext->get_terrain_term_x() * fontwidth,
             tilecontext->get_terrain_term_y() * fontheight);
         update = true;
+    } else if (g && win == g->w_terrain && map_font != NULL) {
+        // Special font for the terrain window
+        update = map_font->draw_window(win);
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
         update = font->draw_window(win);
@@ -1028,6 +1032,26 @@ WINDOW *curses_init(void)
 
     fontblending = (blending=="blended");
 
+    std::string map_typeface = typeface;
+    int map_fontwidth = fontwidth;
+    int map_fontheight = fontheight;
+    int map_fontsize = fontsize;
+
+    std::ifstream jsonstream("data/fontdata.json", std::ifstream::binary);
+    if (jsonstream.good()) {
+        JsonIn json(jsonstream);
+        JsonObject config = json.get_object();
+        fontblending = config.get_bool("fontblending", fontblending);
+        fontwidth = config.get_int("fontwidth", fontwidth);
+        fontheight = config.get_int("fontheight", fontheight);
+        fontsize = config.get_int("fontsize", fontsize);
+        typeface = config.get_string("typeface", typeface);
+        map_fontwidth = config.get_int("map_fontwidth", fontwidth);
+        map_fontheight = config.get_int("map_fontheight", fontheight);
+        map_fontsize = config.get_int("map_fontsize", fontsize);
+        map_typeface = config.get_string("map_typeface", typeface);
+    }
+
     if(!InitSDL()) {
         DebugLog() << "Failed to initialize SDL: " << SDL_GetError() << "\n";
         return NULL;
@@ -1079,6 +1103,7 @@ WINDOW *curses_init(void)
     if (font == NULL) {
         return NULL;
     }
+    map_font = Font::load_font(map_typeface, map_fontsize, map_fontwidth, map_fontheight);
     mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
@@ -1134,6 +1159,8 @@ int curses_destroy(void)
 {
     delete font;
     font = NULL;
+    delete map_font;
+    map_font = NULL;
     WinDestroy();
     return 1;
 }
