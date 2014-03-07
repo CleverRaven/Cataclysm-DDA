@@ -959,6 +959,26 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, "poppy_bud");
 }
 
+void iexamine::flower_blubell(player *p, map *m, int examx, int examy) {
+  if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
+    none(p, m, examx, examy);
+    return;
+  }
+  m->furn_set(examx, examy, f_null);
+  m->spawn_item(examx, examy, "bluebell_flower");
+  m->spawn_item(examx, examy, "bluebell_bud");
+}
+
+void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
+  if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
+    none(p, m, examx, examy);
+    return;
+  }
+  m->furn_set(examx, examy, f_null);
+  m->spawn_item(examx, examy, "dahlia_flower");
+  m->spawn_item(examx, examy, "dahlia_bud");
+}
+
 void iexamine::fungus(player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
@@ -1762,6 +1782,12 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("fungus" == function_name) {
     return &iexamine::fungus;
+  }
+  if ("flower_bluebell" == function_name) {
+    return &iexamine::flower_blubell;
+  }
+  if ("flower_dahlia" == function_name) {
+    return &iexamine::flower_dahlia;
   }
   if ("dirtmound" == function_name) {
     return &iexamine::dirtmound;
