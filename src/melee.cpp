@@ -1027,27 +1027,27 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
 //Melee weapon wear and tear
   if (!weapon.has_flag("DURABLE")) {
     if ((weapon.damage < 4) && (weapon.made_of("bone") || weapon.made_of("wood") || weapon.made_of("plastic")) &&
-    (one_in( 64 + skillLevel("melee") - str_cur * 8 ))){
+    (one_in( (64 + skillLevel("melee") - str_cur) * 4 ))){
                 weapon.damage++;
                 g->add_msg_player_or_npc(this, _("Your %s is cracked by the force of the blow!"),
                                          _("<npcname>'s %s is cracked by the force of the blow!"),
                                          weapon.name.c_str());
     }
     if ((weapon.damage < 4) && (weapon.made_of("iron") || weapon.made_of("steel") || weapon.made_of("stone")) &&
-    (one_in( 64 + skillLevel("melee") - str_cur * 64 ))){
+    (one_in( (64 + skillLevel("melee") - str_cur) * 64 ))){
                 weapon.damage++;
                 g->add_msg_player_or_npc(this, _("Your %s is dented by the force of the blow!"),
                                          _("<npcname>'s %s is dented by the force of the blow!"),
                                          weapon.name.c_str());
     }
     if ((weapon.damage < 4) && (weapon.made_of("ceramic") || weapon.made_of("superalloy") || weapon.made_of("hardsteel")) &&
-    (one_in( 64 + skillLevel("melee") - str_cur * 128 ))){
+    (one_in( (64 + skillLevel("melee") - str_cur) * 128 ))){
                 weapon.damage++;
                 g->add_msg_player_or_npc(this, _("Your %s is splintered by the force of the blow!"),
                                          _("<npcname>'s %s is splintered by the force of the blow!"),
                                          weapon.name.c_str());
     }
-    else if ((weapon.damage < 4) && (one_in( 64 + skillLevel("melee") - str_cur * 2 ))){
+    else if ((weapon.damage < 4) && (one_in( 64 + skillLevel("melee") - str_cur ))){
                 weapon.damage++;
                 g->add_msg_player_or_npc(this, _("Your %s is damaged by the force of the blow!"),
                                          _("<npcname>'s %s is damaged by the force of the blow!"),
