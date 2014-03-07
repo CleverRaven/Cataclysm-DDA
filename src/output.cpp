@@ -743,10 +743,10 @@ long popup(const std::string &text, PopupFlags flags)
         mvwprintz(w, i + 1, 1, c_white, "%s", folded[i].c_str());
     }
 
-    wrefresh(w);
     long ch = 0;
     // Don't wait if not required.
     while((flags & PF_NO_WAIT) == 0) {
+        wrefresh(w);
         ch = getch();
         if ((flags & PF_GET_KEY) != 0) {
             // return the first key that got pressed.
@@ -756,8 +756,8 @@ long popup(const std::string &text, PopupFlags flags)
             // The usuall "escape menu/window" keys.
             break;
         }
+        werase(w);
     }
-    werase(w);
     wrefresh(w);
     delwin(w);
     refresh();
