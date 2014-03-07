@@ -229,9 +229,6 @@ class cata_tiles
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
-    protected:
-        /** Used to properly initialize everything for display */
-        void init(std::string json_path, std::string tileset_path);
     public:
         /* initialize from an outside file */
         void init(std::string load_file_path);

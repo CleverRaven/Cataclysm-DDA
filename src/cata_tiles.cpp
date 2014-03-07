@@ -72,19 +72,13 @@ void cata_tiles::clear()
     tile_ids.clear();
 }
 
-void cata_tiles::init(std::string json_path, std::string tileset_path)
-{
-    // load files
-    DebugLog() << "Attempting to Load JSON file\n";
-    load_tilejson(json_path, tileset_path);
-}
 void cata_tiles::init(std::string load_file_path)
 {
     std::string json_path, tileset_path;
     // get path information from load_file_path
     get_tile_information(load_file_path, json_path, tileset_path);
     // send this information to old init to avoid redundant code
-    init(json_path, tileset_path);
+    load_tilejson(json_path, tileset_path);
 }
 void cata_tiles::reinit(std::string load_file_path)
 {
@@ -92,7 +86,7 @@ void cata_tiles::reinit(std::string load_file_path)
     clear();
     std::string json_path, tileset_path;
     get_tile_information(load_file_path, json_path, tileset_path);
-    init(json_path, tileset_path);
+    load_tilejson(json_path, tileset_path);
 }
 
 void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
@@ -225,6 +219,7 @@ void cata_tiles::set_draw_scale(int scale) {
 
 void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
 {
+    DebugLog() << "Attempting to Load JSON file\n";
     std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
