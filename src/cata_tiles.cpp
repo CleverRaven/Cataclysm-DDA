@@ -64,8 +64,7 @@ void cata_tiles::clear()
 {
     // release maps
     for (tile_iterator it = tile_values.begin(); it != tile_values.end(); ++it) {
-        SDL_DestroyTexture(it->second);
-        it->second = NULL;
+        SDL_DestroyTexture(*it);
     }
     tile_values.clear();
     for (tile_id_iterator it = tile_ids.begin(); it != tile_ids.end(); ++it) {
@@ -180,8 +179,7 @@ int cata_tiles::load_tileset(std::string path) {
         SDL_Rect dest_rect = {0,0,tile_width,tile_height};
 
         /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
-        int tilecount = tile_values.size();
-        const int base_count = tilecount;
+        int tilecount = 0;
         for (int y = 0; y < sy; y += tile_height) {
             for (int x = 0; x < sx; x += tile_width) {
                 source_rect.x = x;
@@ -194,13 +192,14 @@ int cata_tiles::load_tileset(std::string path) {
 
                 SDL_FreeSurface(tile_surf);
 
-                tile_values[tilecount++] = tile_tex;
+                tile_values.push_back(tile_tex);
+                tilecount++;
             }
         }
 
         DebugLog() << "Tiles Created: " << tilecount << "\n";
         SDL_FreeSurface(tile_atlas);
-        return tilecount - base_count;
+        return tilecount;
 }
 
 void cata_tiles::set_draw_scale(int scale) {
@@ -1107,7 +1106,7 @@ void cata_tiles::create_default_item_highlight()
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer,surface);
     SDL_FreeSurface(surface);
 
-    tile_values[index] = texture;
+    tile_values.push_back(texture);
     tile_type *type = new tile_type;
     type->fg = index;
     type->bg = -1;

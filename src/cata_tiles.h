@@ -24,6 +24,10 @@
 #include "enums.h"
 #include "file_finder.h"
 
+#include <map>
+#include <vector>
+#include <string>
+
 class JsonObject;
 
 /** Structures */
@@ -86,7 +90,7 @@ enum MULTITILE_TYPE
 };
 
 /** Typedefs */
-typedef std::map<int, SDL_Texture*> tile_map;
+typedef std::vector<SDL_Texture*> tile_map;
 typedef std::map<std::string, tile_type*> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
