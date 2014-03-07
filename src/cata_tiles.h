@@ -88,6 +88,22 @@ enum MULTITILE_TYPE
     broken,
     num_multitile_types
 };
+// Make sure to change TILE_CATEGORY_IDS if this changes!
+enum TILE_CATEGORY
+{
+    C_NONE,
+    C_VEHICLE_PART,
+    C_TERRAIN,
+    C_ITEM,
+    C_FURNITURE,
+    C_TRAP,
+    C_FIELD,
+    C_LIGHTING,
+    C_MONSTER,
+    C_BULLET,
+    C_HIT_ENTITY,
+    C_WEATHER,
+};
 
 /** Typedefs */
 typedef std::vector<SDL_Texture*> tile_map;
@@ -184,7 +200,7 @@ class cata_tiles
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
-        bool draw_from_id_string(std::string id, std::string category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
+        bool draw_from_id_string(std::string id, TILE_CATEGORY category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**

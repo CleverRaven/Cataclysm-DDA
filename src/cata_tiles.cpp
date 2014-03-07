@@ -27,6 +27,21 @@ extern game *g;
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
 
+static const std::string TILE_CATEGORY_IDS[] = {
+    "", // C_NONE,
+    "vehicle_part", // C_VEHICLE_PART,
+    "terrain", // C_TERRAIN,
+    "item", // C_ITEM,
+    "furniture", // C_FURNITURE,
+    "trap", // C_TRAP,
+    "field", // C_FIELD,
+    "lighting", // C_LIGHTING,
+    "monster", // C_MONSTER,
+    "bullet", // C_BULLET,
+    "hit_entity", // C_HIT_ENTITY,
+    "weather", // C_WEATHER,
+};
+
 cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
@@ -555,7 +570,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     // check to see if player is located at ter
     else if (g->u.posx + g->u.view_offset_x != g->ter_view_x ||
              g->u.posy + g->u.view_offset_y != g->ter_view_y) {
-        draw_from_id_string("cursor", "misc", "", g->ter_view_x, g->ter_view_y, 0, 0);
+        draw_from_id_string("cursor", C_NONE, "", g->ter_view_x, g->ter_view_y, 0, 0);
     }
 
     SDL_RenderSetClipRect(renderer,NULL);
@@ -575,10 +590,10 @@ void cata_tiles::get_window_tile_counts(const int width, const int height, int &
 
 bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position)
 {
-    return cata_tiles::draw_from_id_string(id, "", "", x, y, subtile, rota, is_at_screen_position);
+    return cata_tiles::draw_from_id_string(id, C_NONE, "", x, y, subtile, rota, is_at_screen_position);
 }
 
-bool cata_tiles::draw_from_id_string(std::string id, std::string category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position)
+bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position)
 {
     // For the moment, if the ID string does not produce a drawable tile it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
@@ -595,25 +610,25 @@ bool cata_tiles::draw_from_id_string(std::string id, std::string category, std::
     if (it == tile_ids.end()) {
         long sym = -1;
         nc_color col = c_white;
-        if (category == "furniture") {
+        if (category == C_FURNITURE) {
             if (furnmap.count(id) > 0) {
                 const furn_t &f = furnmap[id];
                 sym = f.sym;
                 col = f.color;
             }
-        } else if (category == "terrain") {
+        } else if (category == C_TERRAIN) {
             if (termap.count(id) > 0) {
                 const ter_t &t = termap[id];
                 sym = t.sym;
                 col = t.color;
             }
-        } else if (category == "monster") {
+        } else if (category == C_MONSTER) {
             if (MonsterGenerator::generator().has_mtype(id)) {
                 const mtype *m = MonsterGenerator::generator().get_mtype(id);
                 sym = m->sym;
                 col = m->color;
             }
-        } else if (category == "vehicle_part") {
+        } else if (category == C_VEHICLE_PART) {
             if (vehicle_part_types.count(id.substr(3)) > 0) {
                 const vpart_info &v = vehicle_part_types[id.substr(3)];
                 sym = v.sym;
@@ -624,7 +639,7 @@ bool cata_tiles::draw_from_id_string(std::string id, std::string category, std::
                 }
                 col = v.color;
             }
-        } else if (category == "field") {
+        } else if (category == C_FIELD) {
             for(int i = 0; i < num_fields; i++) {
                 if(field_names[i] == id) {
                     sym = fieldlist[i].sym;
@@ -632,13 +647,13 @@ bool cata_tiles::draw_from_id_string(std::string id, std::string category, std::
                     col = fieldlist[i].color[0];
                 }
             }
-        } else if (category == "trap") {
+        } else if (category == C_TRAP) {
             if (trapmap.count(id) > 0) {
                 const trap *t = g->traps[trapmap[id]];
                 sym = t->sym;
                 col = t->color;
             }
-        } else if (category == "item") {
+        } else if (category == C_ITEM) {
             if (item_controller->has_template(id)) {
                 const itype *i = item_controller->find_template(id);
                 sym = i->sym;
@@ -688,15 +703,17 @@ bool cata_tiles::draw_from_id_string(std::string id, std::string category, std::
 
     // if id is not found, try to find a tile for the category+subcategory combination
     if (it == tile_ids.end()) {
-        if(category != "" && subcategory != "") {
-            it = tile_ids.find("unknown_"+category+"_"+subcategory);
+        const std::string &category_id = TILE_CATEGORY_IDS[category];
+        if(!category_id.empty() && !subcategory.empty()) {
+            it = tile_ids.find("unknown_"+category_id+"_"+subcategory);
         }
     }
 
     // if at this point we have no tile, try just the category
     if (it == tile_ids.end()) {
-        if(category != "") {
-            it = tile_ids.find("unknown_"+category);
+        const std::string &category_id = TILE_CATEGORY_IDS[category];
+        if(!category_id.empty()) {
+            it = tile_ids.find("unknown_"+category_id);
         }
     }
 
@@ -827,7 +844,7 @@ bool cata_tiles::draw_lighting(int x, int y, LIGHTING l)
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
-    draw_from_id_string(light_name, "lighting", "", x, y, 0, 0);
+    draw_from_id_string(light_name, C_LIGHTING, "", x, y, 0, 0);
 
     return false;
 }
@@ -862,7 +879,7 @@ bool cata_tiles::draw_terrain(int x, int y)
 
     tname = terlist[t].id;
 
-    return draw_from_id_string(tname, "terrain", "", x, y, subtile, rotation);
+    return draw_from_id_string(tname, C_TERRAIN, "", x, y, subtile, rotation);
 }
 
 bool cata_tiles::draw_furniture(int x, int y)
@@ -888,7 +905,7 @@ bool cata_tiles::draw_furniture(int x, int y)
 
     // get the name of this furniture piece
     std::string f_name = furnlist[f_id].id; // replace with furniture names array access
-    bool ret = draw_from_id_string(f_name, "furniture", "", x, y, subtile, rotation);
+    bool ret = draw_from_id_string(f_name, C_FURNITURE, "", x, y, subtile, rotation);
     if (ret && g->m.sees_some_items(x, y, g->u)) {
         draw_item_highlight(x, y);
     }
@@ -914,7 +931,7 @@ bool cata_tiles::draw_trap(int x, int y)
     int subtile = 0, rotation = 0;
     get_tile_values(tr_id, neighborhood, subtile, rotation);
 
-    return draw_from_id_string(tr_name, "trap", "", x, y, subtile, rotation);
+    return draw_from_id_string(tr_name, C_TRAP, "", x, y, subtile, rotation);
 }
 
 bool cata_tiles::draw_field_or_item(int x, int y)
@@ -971,7 +988,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         int subtile = 0, rotation = 0;
         get_tile_values(f.fieldSymbol(), neighborhood, subtile, rotation);
 
-        ret_draw_field = draw_from_id_string(fd_name, "field", "", x, y, subtile, rotation);
+        ret_draw_field = draw_from_id_string(fd_name, C_FIELD, "", x, y, subtile, rotation);
     }
     if(do_item) {
         if (!g->m.sees_some_items(x, y, g->u)) {
@@ -982,7 +999,7 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         // get the item's name, as that is the key used to find it in the map
         const std::string &it_name = display_item.type->id;
         const std::string it_category = display_item.type->get_item_type_string();
-        ret_draw_item = draw_from_id_string(it_name, "item", it_category, x, y, 0, 0);
+        ret_draw_item = draw_from_id_string(it_name, C_ITEM, it_category, x, y, 0, 0);
         if (ret_draw_item && items.size() > 1) {
             draw_item_highlight(x, y);
         }
@@ -1027,7 +1044,7 @@ bool cata_tiles::draw_vpart(int x, int y)
     }
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
     bool draw_highlight = (cargopart > 0) && (!veh->parts[cargopart].items.empty());
-    bool ret = draw_from_id_string(vpid, "vehicle_part", subcategory, x, y, subtile, veh_dir);
+    bool ret = draw_from_id_string(vpid, C_VEHICLE_PART, subcategory, x, y, subtile, veh_dir);
     if (ret && draw_highlight) {
         draw_item_highlight(x, y);
     }
@@ -1038,7 +1055,7 @@ bool cata_tiles::draw_entity(int x, int y)
 {
     // figure out what entity exists at x,y
     std::string ent_name;
-    std::string ent_category = "";
+    TILE_CATEGORY ent_category = C_NONE;
     std::string ent_subcategory = "";
     bool entity_here = false;
     // check for monster (most common)
@@ -1046,7 +1063,7 @@ bool cata_tiles::draw_entity(int x, int y)
         monster m = g->zombie(g->mon_at(x, y));
         if (!m.dead) {
             ent_name = m.type->id;
-            ent_category = "monster";
+            ent_category = C_MONSTER;
             if(m.type->species.size() >= 1) {
                 ent_subcategory = *(m.type->species.begin());
             }
@@ -1081,7 +1098,7 @@ bool cata_tiles::draw_item_highlight(int x, int y)
         create_default_item_highlight();
         item_highlight_available = true;
     }
-    return draw_from_id_string(ITEM_HIGHLIGHT, "", "", x, y, 0, 0);
+    return draw_from_id_string(ITEM_HIGHLIGHT, C_NONE, "", x, y, 0, 0);
 }
 
 SDL_Surface *cata_tiles::create_tile_surface() {
@@ -1229,14 +1246,14 @@ void cata_tiles::draw_bullet_frame()
 {
     const int mx = bul_pos_x, my = bul_pos_y;
 
-    draw_from_id_string(bul_id, "bullet", "", mx, my, 0, 0);
+    draw_from_id_string(bul_id, C_BULLET, "", mx, my, 0, 0);
 }
 void cata_tiles::draw_hit_frame()
 {
     const int mx = hit_pos_x, my = hit_pos_y;
     std::string hit_overlay = "animation_hit";
 
-    draw_from_id_string(hit_entity_id, "hit_entity", "", mx, my, 0, 0);
+    draw_from_id_string(hit_entity_id, C_HIT_ENTITY, "", mx, my, 0, 0);
     draw_from_id_string(hit_overlay, mx, my, 0, 0);
 }
 void cata_tiles::draw_line()
@@ -1268,7 +1285,7 @@ void cata_tiles::draw_weather_frame()
         x = x + g->ter_view_x - getmaxx(g->w_terrain) / 2;
         y = y + g->ter_view_y - getmaxy(g->w_terrain) / 2;
 
-        draw_from_id_string(weather_name, "weather", "", x, y, 0, 0, false);
+        draw_from_id_string(weather_name, C_WEATHER, "", x, y, 0, 0, false);
     }
 }
 void cata_tiles::draw_footsteps_frame()
