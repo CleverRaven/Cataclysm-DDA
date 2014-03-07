@@ -473,18 +473,9 @@ void curses_drawwindow(WINDOW *win)
 {
     bool update = false;
 #ifdef SDLTILES
-    const bool use_tilecontext = (g && win == g->w_terrain && use_tiles);
-#else
-    static const bool use_tilecontext = false;
-#endif
-    // Don't use the normal drawing function if we are going to
-    // override it with cata_tiles anyway.
-    if (!use_tilecontext) {
-        update = font->draw_window(win);
-    }
-#ifdef SDLTILES
-    if (use_tilecontext)
-    {
+    if (g && win == g->w_terrain && use_tiles) {
+        // game::w_terrain can be drawn by the tilecontext.
+        // skip the normal drawing code for it.
         tilecontext->draw(
             win->x * fontwidth,
             win->y * fontheight,
@@ -492,7 +483,14 @@ void curses_drawwindow(WINDOW *win)
             g->ter_view_y,
             tilecontext->get_terrain_term_x() * fontwidth,
             tilecontext->get_terrain_term_y() * fontheight);
+        update = true;
+    } else {
+        // Either not using tiles (tilecontext) or not the w_terrain window.
+        update = font->draw_window(win);
     }
+#else
+    // Not using sdl tiles anyway
+    update = font->draw_window(win);
 #endif
     if(update) {
         needupdate = true;
