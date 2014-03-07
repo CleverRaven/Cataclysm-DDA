@@ -1,0 +1,144 @@
+[
+
+    {
+    "type" : "item_group",
+    "id" : "paint",
+    "items" : [
+        ["r_paint", 45],
+        ["b_paint", 45],
+	["w_paint", 45],
+	["g_paint", 45],
+	["p_paint", 45],
+	["y_paint", 45],
+	["chipper", 55],
+	["paint_brush", 55]
+        ]
+    },
+    {
+    "type" : "item_group",
+    "id" : "rug",
+    "items" : [
+        ["r_carpet", 45],
+        ["g_carpet", 45],
+	["y_carpet", 45],
+	["p_carpet", 45]
+        ]
+    },
+    {
+        "type": "overmap_terrain",
+        "id" : "home_improvement",
+        "name" : "home improvement store",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "blue",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true,
+        "mapgen": [
+            {
+            "method": "json",
+            "weight": 10000,
+            "object": {
+            "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",----------++---------|,",
+        ",|.@.@.@.@.rr?????????|,",
+        ",O.........rr.........O,",
+        ",|.@.@.@.@.rr?????????|,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",|:::::::::rryyyyyyyyy|,",
+        ",|.........rr.........|,",
+        ",|:::::::::rr^^^^^^^^^|,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",O.........rr.........O,",
+        ",O.........rr.........O,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",|#########rr#########|,",
+        ",O.........rr.........O,",
+        ",|#########rr#########|,",
+        ",O.........rr.........O,",
+        ",|#########rr#########|,",
+        ",---------------------|,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+            ],
+            "terrain": {
+            ".": "t_floor",
+            ",": "t_pavement",
+            "_": "t_pavement_y",
+            " ": "t_floor",
+            "-": "t_wall_h",
+            "|": "t_wall_v",
+            "O": "t_window",
+            "L": "t_door_locked",
+            "+": "t_door_c",
+            "M": "t_door_metal_locked",
+            "w": "t_gates_mech_control",
+            "x": "t_console_broken",
+            "c": "t_floor",
+            "#": "t_floor",
+            "r": "r_floor",
+            "^": "t_floor",
+            "t": "t_floor",
+            "F": "t_floor",
+            "@": "t_floor",
+            ":": "t_floor",
+            "T": "t_floor",
+            "l": "t_floor",
+            "S": "t_floor",
+	    "y": "t_floor",
+	    "?": "t_floor",
+            "G": "t_floor"
+            },
+            "furniture": {
+            ".": "f_null",
+            "_": "f_null",
+            ",": "f_null",
+            " ": "f_null",
+            "-": "f_null",
+            "|": "f_null",
+            "O": "f_null",
+            "L": "f_null",
+            "+": "f_null",
+            "M": "f_null",
+            "w": "f_null",
+            "x": "f_null",
+            "c": "f_chair",
+            "#": "f_counter",
+            "r": "f_null",
+            "^": "f_indoor_plant",
+	    "y": "f_indoor_plant_y",
+            "t": "f_table",
+            "F": "f_fridge",
+            "@": "f_bed",
+            ":": "f_dresser",
+            "T": "f_toilet",
+            "l": "f_locker",
+            "S": "f_sink",
+	    "?": "f_statue",
+            "G": "f_oven"
+            },
+                "place_specials": [
+                    
+                ],
+                "comment": "randomly picked from a group ---v",
+                "place_groups": [
+		 { "item": "paint", "chance": 75, "x": [2,10], "y": 17 },
+		 { "item": "paint", "chance": 75, "x": [2,10], "y": 19 },
+		 { "item": "paint", "chance": 75, "x": [2,10], "y": 21 },
+	
+		 { "item": "rug", "chance": 75, "x": [13,21], "y": 17 },
+		 { "item": "rug", "chance": 75, "x": [13,21], "y": 19 },
+		 { "item": "rug", "chance": 75, "x": [13,21], "y": 21 }
+                ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+    ]
+    }
+]

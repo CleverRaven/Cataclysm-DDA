@@ -860,5 +860,27 @@
         "required_str": -1,
         "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
         "examine_action": "aggie_plant"
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_bluebell",
+        "name": "bluebell",
+        "symbol": "f",
+        "color": "blue",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "flower_bluebell"
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_dahlia",
+        "name": "dahlia",
+        "symbol": "f",
+        "color": "magenta",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "flower_dahlia"
     }
 ]
