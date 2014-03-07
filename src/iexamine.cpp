@@ -1146,14 +1146,16 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
     itype_id brew_type;
     bool to_deposit = false;
     bool vat_full = false;
-    int charges_on_ground = 0;
     bool brew_present = false;
+    int charges_on_ground = 0;
     for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
-        if (!(m->i_at(examx, examy)[i].has_flag("BREW")) || brew_present) { //Dumb user got unwanted stuff in vat!
-            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i); //Dumb user stuff erased. Now vat is clean.
-            if (g->debugmon)
-                debugmsg("fvat_empty was not actually empty! Clearing space...");
-            return;
+        if (!(m->i_at(examx, examy)[i].has_flag("BREW")) || brew_present) {
+            //This isn't a brew or there was already another kind of brew inside, so this has to be moved.
+            m->add_item_or_charges(examx, examy, m->i_at(examx, examy)[i]);
+            //Add_item_or_charges will add items to a space near the vat, because it's flagged as NOITEM.
+            m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+            //Now that a copy of the item was spawned in a nearby square, the original is deleted.
+            i--;
         }
         else brew_present = true;
     }
@@ -1231,16 +1233,15 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
 void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
     bool liquid_present = false;
     for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
-        if (!(m->i_at(examx, examy)[i].made_of("LIQUID")) || liquid_present) {
+        if (!(m->i_at(examx, examy)[i].made_of(LIQUID)) || liquid_present) {
+            m->add_item_or_charges(examx, examy, m->i_at(examx, examy)[i]);
             m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
-            if (g->debugmon)
-                debugmsg("fvat_full contained non-liquid items! Clearing space...");
-            return;
+            i--;
         }
         else liquid_present = true;
     }
     if (!liquid_present) {
-        debugmsg("fvat_full was empty!");
+        debugmsg("fvat_full was empty or contained non-liquids only!");
         m->furn_set(examx, examy, f_fvat_empty);
         return;
     }
@@ -1296,10 +1297,9 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
     bool liquid_present = false;
     for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
         if (!(m->i_at(examx, examy)[i].is_drink()) || liquid_present) {
+            m->add_item_or_charges(examx, examy, m->i_at(examx, examy)[i]);
             m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
-            if (g->debugmon)
-                debugmsg("keg contained non-drink items! Clearing space...");
-            return;
+            i--;
         }
         else liquid_present = true;
     }
@@ -1339,21 +1339,18 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
         int charges_held = p->charges_of(drink_type);
         item drink (itypes[drink_type], 0);
         drink.charges = 0;
-        for (int i=0; i<charges_held; i++) {
+        bool keg_full = false;
+        for (int i=0; i<charges_held && !keg_full; i++) {
             g->u.use_charges(drink.typeId(), 1);
             drink.charges++;
             int d_vol = (drink.count_by_charges()) ? drink.volume(false, true)/1000
                 : drink.volume(false, true)/1000*drink.charges;
-            if (d_vol >= keg_cap) {
-                g->add_msg(_("You completely fill the %s with %s."), m->name(examx, examy).c_str(),
-                            drink.name.c_str());
-                p->moves -= 250;
-                m->i_clear(examx, examy);
-                m->i_at(examx, examy).push_back(drink);
-                return;
-            }
+            if (d_vol >= keg_cap)
+                keg_full = true;
         }
-        g->add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
+        if (keg_full) g->add_msg(_("You completely fill the %s with %s."),
+                m->name(examx, examy).c_str(), drink.name.c_str());
+        else g->add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
                 drink.name.c_str());
         p->moves -= 250;
         m->i_clear(examx, examy);
