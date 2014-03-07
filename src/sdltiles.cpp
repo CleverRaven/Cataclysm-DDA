@@ -413,13 +413,18 @@ void try_update()
         needupdate = true;
     }
 }
+#endif
 
 void curses_drawwindow(WINDOW *win)
 {
     int i,j,w,drawx,drawy;
     unsigned tmp;
     bool update = false;
+#ifdef SDLTILES
     const bool use_tilecontext = (g && win == g->w_terrain && use_tiles);
+#else
+    static const bool use_tilecontext = false;
+#endif
     // Don't use the normal drawing function if we are going to
     // override it with cata_tiles anyway.
     if (!use_tilecontext) {
@@ -441,7 +446,7 @@ void curses_drawwindow(WINDOW *win)
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
                 if ( tmp != UNKNOWN_UNICODE){
-                    int cw = mk_wcwidth(tmp);
+                    int cw = mk_wcwidth((wchar_t)tmp);
                     len = ANY_LENGTH-len;
                     if(cw>1)
                     {
@@ -509,6 +514,7 @@ void curses_drawwindow(WINDOW *win)
     }
     win->draw = false; //We drew the window, mark it as so
 
+#ifdef SDLTILES
     if (use_tilecontext)
     {
         tilecontext->draw(
@@ -519,114 +525,11 @@ void curses_drawwindow(WINDOW *win)
             tilecontext->get_terrain_term_x() * fontwidth,
             tilecontext->get_terrain_term_y() * fontheight);
     }
-
-    if(update) {
-        needupdate = true;
-    }
-}
-#else
-void curses_drawwindow(WINDOW *win)
-{
-    int i,j,w,drawx,drawy;
-    unsigned tmp;
-
-    bool update = false;
-
-    for (j=0; j<win->height; j++)
-    {
-        if (win->line[j].touched)
-        {
-            update = true;
-
-            win->line[j].touched=false;
-
-            for (i=0,w=0; w<win->width; i++,w++)
-            {
-                drawx=((win->x+w)*fontwidth);
-                drawy=((win->y+j)*fontheight);//-j;
-                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight))
-                {
-                    const char* utf8str = win->line[j].chars+i;
-                    int len = ANY_LENGTH;
-                    tmp = UTF8_getch(&utf8str, &len);
-                    int FG = win->line[j].FG[w];
-                    int BG = win->line[j].BG[w];
-                    FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
-
-                    if ( tmp != UNKNOWN_UNICODE){
-                        int cw = mk_wcwidth((wchar_t)tmp);
-                        len = ANY_LENGTH-len;
-                        if(cw>1)
-                        {
-                            FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
-                            w+=cw-1;
-                        }
-                        if(len>1)
-                        {
-                            i+=len-1;
-                        }
-                        if(0!=tmp) {
-                            font->OutputChar(tmp, drawx,drawy,FG);
-                        }
-                    } else {
-                        switch ((unsigned char)win->line[j].chars[i]) {
-                        case LINE_OXOX_C://box bottom/top side (horizontal line)
-                            HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                            break;
-                        case LINE_XOXO_C://box left/right side (vertical line)
-                            VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_OXXO_C://box top left
-                            HorzLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawy+fontheight,2,FG);
-                            break;
-                        case LINE_OOXX_C://box top right
-                            HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+(fontwidth / 2),1,FG);
-                            VertLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawy+fontheight,2,FG);
-                            break;
-                        case LINE_XOOX_C://box bottom right
-                            HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+(fontwidth / 2),1,FG);
-                            VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+(fontheight / 2)+1,2,FG);
-                            break;
-                        case LINE_XXOO_C://box bottom left
-                            HorzLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+(fontheight / 2)+1,2,FG);
-                            break;
-                        case LINE_XXOX_C://box bottom north T (left, right, up)
-                            HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+(fontheight / 2),2,FG);
-                            break;
-                        case LINE_XXXO_C://box bottom east T (up, right, down)
-                            VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+fontheight,2,FG);
-                            HorzLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                            break;
-                        case LINE_OXXX_C://box bottom south T (left, right, down)
-                            HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+(fontwidth / 2),drawy+(fontheight / 2),drawy+fontheight,2,FG);
-                            break;
-                        case LINE_XXXX_C://box X (left down up right)
-                            HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_XOXX_C://box bottom east T (left, down, up)
-                            VertLineDIB(drawx+(fontwidth / 2),drawy,drawy+fontheight,2,FG);
-                            HorzLineDIB(drawx,drawy+(fontheight / 2),drawx+(fontwidth / 2),1,FG);
-                            break;
-                        default:
-                            break;
-                        }//switch (tmp)
-                    }
-                }//(tmp < 0)
-            }//for (i=0;i<_windows[w].width;i++)
-        }
-    }// for (j=0;j<_windows[w].height;j++)
-    win->draw=false; //We drew the window, mark it as so
-
-    if(update) {
-        needupdate = true;
-    }
-}
 #endif
+    if(update) {
+        needupdate = true;
+    }
+}
 
 #define ALT_BUFFER_SIZE 8
 static char alt_buffer[ALT_BUFFER_SIZE];
