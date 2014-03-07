@@ -105,6 +105,7 @@ public:
     virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
 protected:
     SDL_Texture *ascii[16];
+    int tilewidth;
 };
 
 static BitmapFont bitmap_font;
@@ -115,7 +116,6 @@ static SDL_Color windowsPalette[256];
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_PixelFormat *format;
-int tilewidth = 0;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
@@ -1406,10 +1406,7 @@ void BitmapFont::load_font(const std::string &typeface)
         }
         SDL_UnlockSurface(ascii_surf[a]);
     }
-
-    if (fontwidth) {
-        tilewidth = ascii_surf[0]->w / fontwidth;
-    }
+    tilewidth = ascii_surf[0]->w / fontwidth;
 
     //convert ascii_surf to SDL_Texture
     for(int a = 0; a < 16; ++a) {
