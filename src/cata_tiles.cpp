@@ -153,11 +153,6 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 }
 
 int cata_tiles::load_tileset(std::string path) {
-    terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
-    terrain_term_y = OPTIONS["TERMINAL_Y"];
-
-    set_draw_scale(16);
-
     /** reinit tile_atlas */
     SDL_Surface *tile_atlas = IMG_Load(path.c_str());
 
@@ -257,6 +252,11 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         default_tile_width = tile_width;
         default_tile_height = tile_height;
     }
+
+    terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
+    terrain_term_y = OPTIONS["TERMINAL_Y"];
+
+    set_draw_scale(16);
 
     /** 2) Load tile information if available */
     if (config.has_array("tiles-new")) {
