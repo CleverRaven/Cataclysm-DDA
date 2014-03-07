@@ -417,7 +417,7 @@ void try_update()
 
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
-static void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG)
+void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
 {
     switch (line_id) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
@@ -511,7 +511,7 @@ void curses_drawwindow(WINDOW *win)
                     }
                     if(tmp) font->OutputChar(tmp, drawx,drawy,FG);
                 } else {
-                    draw_ascii_lines((unsigned char)win->line[j].chars[i], drawx, drawy, FG);
+                    font->draw_ascii_lines((unsigned char)win->line[j].chars[i], drawx, drawy, FG);
                 }//(tmp < 0)
                 }
             };//for (i=0;i<_windows[w].width;i++)
