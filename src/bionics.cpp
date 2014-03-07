@@ -259,6 +259,14 @@ void player::power_bionics()
                                (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon") ||
                                (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
                         int b = tmp - &my_bionics[0];
+
+                        //this will clear the bionics menu for targeting purposes
+                        werase(wBio);
+                        wrefresh(wBio);
+                        delwin(w_title);
+                        delwin(w_description);
+                        delwin(wBio);
+                        g->draw();
                         activate_bionic(b);
                     }
                     // Action done, leave screen
@@ -279,11 +287,14 @@ You can not activate %s!  To read a description of \
             }
         }
     }
-    werase(wBio);
-    wrefresh(wBio);
-    delwin(w_title);
-    delwin(w_description);
-    delwin(wBio);
+    //if we activated a bionic, already killed the windows
+    if(!activating){
+        werase(wBio);
+        wrefresh(wBio);
+        delwin(w_title);
+        delwin(w_description);
+        delwin(wBio);
+    }
 }
 
 void draw_exam_window(WINDOW *win, int border_line, bool examination)
