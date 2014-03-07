@@ -63,6 +63,7 @@ static bool needupdate = false;
  */
 class Font {
 public:
+    Font(int w, int h) : fontwidth(w), fontheight(h) { }
     virtual ~Font() { }
     /**
      * Draw character t at (x,y) on the screen,
@@ -71,6 +72,8 @@ public:
     virtual void OutputChar(Uint16 t, int x, int y, unsigned char color) = 0;
     void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window(WINDOW *win);
+
+    static Font *load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight);
 public:
     // the width of the font, background is always this size
     int fontwidth;
@@ -83,7 +86,7 @@ public:
  */
 class CachedTTFFont : public Font {
 public:
-    CachedTTFFont();
+    CachedTTFFont(int w, int h);
     virtual ~CachedTTFFont();
 
     void clear();
@@ -104,7 +107,7 @@ protected:
  */
 class BitmapFont : public Font {
 public:
-    BitmapFont();
+    BitmapFont(int w, int h);
     virtual ~BitmapFont();
 
     void clear();
@@ -115,8 +118,6 @@ protected:
     int tilewidth;
 };
 
-static BitmapFont bitmap_font;
-static CachedTTFFont cached_ttf_font;
 static Font *font = NULL;
 
 static SDL_Color windowsPalette[256];
@@ -1024,10 +1025,6 @@ WINDOW *curses_init(void)
         }
         fin.close();
     }
-    bitmap_font.fontheight = fontheight;
-    bitmap_font.fontwidth = fontwidth;
-    cached_ttf_font.fontheight = fontheight;
-    cached_ttf_font.fontwidth = fontwidth;
 
     fontblending = (blending=="blended");
 
@@ -1078,34 +1075,43 @@ WINDOW *curses_init(void)
     init_colors();
 
     // Reset the font pointer
-    font = NULL;
+    font = Font::load_font(typeface, fontsize, fontwidth, fontheight);
+    if (font == NULL) {
+        return NULL;
+    }
+    mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
+    return mainwin;   //create the 'stdscr' window and return its ref
+}
+
+Font *Font::load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight)
+{
     #ifdef SDLTILES
     if (ends_with(typeface, ".bmp") || ends_with(typeface, ".png")) {
         // Seems to be an image file, not a font.
         // Try to load as bitmap font.
+        BitmapFont *bm_font = new BitmapFont(fontwidth, fontheight);
         try {
-            bitmap_font.load_font("data/font/" + typeface);
+            bm_font->load_font("data/font/" + typeface);
             // It worked, tell the world to use bitmap_font.
-            font = &bitmap_font;
+            return bm_font;
         } catch(std::exception &err) {
+            delete bm_font;
             DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
             // Continue to load as truetype font
         }
     }
     #endif // SDLTILES
-    if (font == NULL) {
-        // Not loaded as bitmap font (or it failed), try to load as truetype
-        try {
-            cached_ttf_font.load_font(typeface, fontsize);
-            // It worked, tell the world to use cached_ttf_font
-            font = &cached_ttf_font;
-        } catch(std::exception &err) {
-            DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
-            return NULL;
-        }
+    // Not loaded as bitmap font (or it failed), try to load as truetype
+    CachedTTFFont *ttf_font = new CachedTTFFont(fontwidth, fontheight);
+    try {
+        ttf_font->load_font(typeface, fontsize);
+        // It worked, tell the world to use cached_ttf_font
+        return ttf_font;
+    } catch(std::exception &err) {
+        delete ttf_font;
+        DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
     }
-    mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
-    return mainwin;   //create the 'stdscr' window and return its ref
+    return NULL;
 }
 
 //Ported from windows and copied comments as well
@@ -1126,9 +1132,8 @@ int curses_getch(WINDOW* win)
 //Ends the terminal, destroy everything
 int curses_destroy(void)
 {
+    delete font;
     font = NULL;
-    bitmap_font.clear();
-    cached_ttf_font.clear();
     WinDestroy();
     return 1;
 }
@@ -1363,8 +1368,8 @@ int get_terminal_height() {
     return TERMINAL_HEIGHT;
 }
 
-BitmapFont::BitmapFont()
-: Font()
+BitmapFont::BitmapFont(int w, int h)
+: Font(w, h)
 {
     memset(ascii, 0x00, sizeof(ascii));
 }
@@ -1431,8 +1436,8 @@ void BitmapFont::load_font(const std::string &typeface)
 
 
 
-CachedTTFFont::CachedTTFFont()
-: Font()
+CachedTTFFont::CachedTTFFont(int w, int h)
+: Font(w, h)
 , font(NULL)
 , ttf_height_hack(0)
 {
