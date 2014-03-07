@@ -31,7 +31,6 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     renderer = NULL;
     tile_values = NULL;
     tile_ids = NULL;
-    screen_tiles = NULL;
     renderer = render;
 
     tile_height = 0;
@@ -79,12 +78,6 @@ void cata_tiles::clear()
         }
         tile_ids->clear();
         tile_ids = NULL;
-    }
-    if (screen_tiles) {
-        for (int i = 0; i < num_tiles; ++i) {
-            delete &(screen_tiles[i]);
-        }
-        screen_tiles = NULL;
     }
 }
 

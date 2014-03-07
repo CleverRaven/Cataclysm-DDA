@@ -258,8 +258,6 @@ class cata_tiles
         int screentile_width, screentile_height;
         int terrain_term_x, terrain_term_y;
         float tile_ratiox, tile_ratioy;
-        tile *screen_tiles;
-        int num_tiles;
 
         bool in_animation;
 
