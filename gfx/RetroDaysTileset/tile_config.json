@@ -82,102 +82,25 @@
             "fg":194,
             "rotates":false
         }
-    ]
-    },
-    {
-    "file": "gfx/RetroDaysTileset/retrodaystiles.png",
-    "tiles":
-    [
-        {
-            "id":"highlight_item",
-            "fg":477,
-            "rotates":false
-        },
-        {
-            "id":"footstep",
-            "fg":12,
-            "rotates":false
-        },
-        {
-            "id":"unknown",
-            "fg":55,
-            "rotates":false
-        },
-        {
-            "id":"animation_hit",
-            "bg":30
-        },
-        {
-            "id":"line_target",
-            "fg":48
-        },
-        {
-            "id":"line_trail",
-            "bg":89
-        },
-        {
-            "id":"animation_line",
-            "bg":8
-        },
-        {
-            "id":"cursor",
-            "fg":4
-        },
-        {
-            "id":"lighting_boomered_light",
-            "fg":93,
-            "rotates":false
-        },
-        {
-            "id":"lighting_boomered_dark",
-            "fg":78,
-            "rotates":false
-        },
-        {
-            "id":"lighting_lowlight_light",
-            "fg":75,
-            "rotates":false
-        },
-        {
-            "id":"lighting_lowlight_dark",
-            "fg":15,
-            "rotates":false
-        },
-        {
-            "id":"lighting_hidden",
-            "fg":3,
-            "bg":0,
-            "rotates":false
-        },
-        {
-            "id":"player_male",
-            "fg":44,
-            "rotates":false
-        },
-        {
-            "id":"player_female",
-            "fg":11,
-            "rotates":false
-        }
     ],
     "ascii":
         [
-{ "offset": 1744, "color": "YELLOW" },
-{ "offset": 2000, "color": "WHITE" },
-{ "offset": 2256, "color": "BLACK" },
-{ "offset": 2512, "color": "MAGENTA" },
+{ "offset": 1744, "color": "BLACK" },
+{ "offset": 2000, "bold": true, "color": "WHITE" },
+{ "offset": 2256, "color": "WHITE" },
+{ "offset": 2512, "bold": true, "color": "BLACK" },
 { "offset": 2768, "color": "RED" },
 { "offset": 3024, "color": "GREEN" },
 { "offset": 3280, "color": "BLUE" },
 { "offset": 3536, "color": "CYAN" },
-{ "offset": 3792, "bold": true, "color": "MAGENTA" },
-{ "offset": 4048, "bold": true, "color": "BLACK" },
-{ "offset": 4304, "bold": true, "color": "YELLOW" },
+{ "offset": 3792, "color": "MAGENTA" },
+{ "offset": 4048, "color": "YELLOW" },
+{ "offset": 4304, "bold": true, "color": "RED" },
 { "offset": 4560, "bold": true, "color": "GREEN" },
 { "offset": 4816, "bold": true, "color": "BLUE" },
 { "offset": 5072, "bold": true, "color": "CYAN" },
-{ "offset": 5328, "bold": true, "color": "RED" },
-{ "offset": 5584, "bold": true, "color": "WHITE" }
+{ "offset": 5328, "bold": true, "color": "MAGENTA" },
+{ "offset": 5584, "bold": true, "color": "YELLOW" }
     ]
     }
     ]
