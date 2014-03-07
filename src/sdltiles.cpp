@@ -9,6 +9,7 @@
 #include <vector>
 #include <fstream>
 #include <sys/stat.h>
+#include <stdexcept>
 #include "cata_tiles.h"
 #include "get_version.h"
 #include "init.h"
@@ -57,16 +58,64 @@ static unsigned long interval = 25;
 static bool needupdate = false;
 #endif
 
+/**
+ * A class that draws a single character on screen.
+ */
+class Font {
+public:
+    virtual ~Font() { }
+    /**
+     * Draw character t at (x,y) on the screen,
+     * using (curses) color.
+     */
+    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color) = 0;
+};
+
+/**
+ * Uses a ttf font. Its glyphs are cached.
+ */
+class CachedTTFFont : public Font {
+public:
+    CachedTTFFont();
+    virtual ~CachedTTFFont();
+
+    void clear();
+    void load_font(std::string typeface, int fontsize, int fontheight);
+    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
+protected:
+    void cache_glyphs();
+
+    TTF_Font* font;
+    int ttf_height_hack;
+    int glyph_height[128];
+    SDL_Texture *glyph_cache[128][16];
+};
+
+/**
+ * A font created from a bitmap. Each character is taken from a
+ * specific area of the source bitmap.
+ */
+class BitmapFont : public Font {
+public:
+    BitmapFont();
+    virtual ~BitmapFont();
+
+    void clear();
+    void load_font(const std::string &path);
+    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
+protected:
+    SDL_Texture *ascii[16];
+};
+
+static BitmapFont bitmap_font;
+static CachedTTFFont cached_ttf_font;
+static Font *font = NULL;
+
 static SDL_Color windowsPalette[256];
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_PixelFormat *format;
-static SDL_Texture *glyph_cache[128][16]; //cache ascii characters
-static int glyph_height[128];
-static SDL_Texture *ascii[16];
 int tilewidth = 0;
-TTF_Font* font;
-static int ttf_height_hack = 0;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
@@ -87,7 +136,6 @@ int halfheight;          //half of the font height, used for centering lines
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
 std::map< std::string,std::vector<int> > consolecolors;
-void (*OutputChar)(Uint16 t, int x, int y, unsigned char color);
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -270,11 +318,10 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 
 
 
-static void cache_glyphs()
+void CachedTTFFont::cache_glyphs()
 {
     int top = 999;
     int bottom = -999;
-    start_color();
 
     for(int ch = 0; ch < 128; ch++) {
         for(int color = 0; color < 16; color++) {
@@ -303,7 +350,7 @@ static void cache_glyphs()
     ttf_height_hack =  delta - top;
 }
 
-static void OutputFontChar(Uint16 t, int x, int y, unsigned char color)
+void CachedTTFFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
 
@@ -343,8 +390,7 @@ static void OutputFontChar(Uint16 t, int x, int y, unsigned char color)
     }
 }
 
-#ifdef SDLTILES
-static void OutputImageChar(Uint16 t, int x, int y, unsigned char color)
+void BitmapFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     SDL_Rect src;
     src.x = (t % tilewidth) * fontwidth;
@@ -356,6 +402,7 @@ static void OutputImageChar(Uint16 t, int x, int y, unsigned char color)
     SDL_RenderCopy(renderer,ascii[color],&src,&rect);
 }
 
+#ifdef SDLTILES
 // only update if the set interval has elapsed
 void try_update()
 {
@@ -403,7 +450,7 @@ void curses_drawwindow(WINDOW *win)
                     {
                         i+=len-1;
                     }
-                    if(tmp) OutputChar(tmp, drawx,drawy,FG);
+                    if(tmp) font->OutputChar(tmp, drawx,drawy,FG);
                 } else {
                     switch ((unsigned char)win->line[j].chars[i]) {
                     case LINE_OXOX_C://box bottom/top side (horizontal line)
@@ -516,7 +563,7 @@ void curses_drawwindow(WINDOW *win)
                             i+=len-1;
                         }
                         if(0!=tmp) {
-                            OutputChar(tmp, drawx,drawy,FG);
+                            font->OutputChar(tmp, drawx,drawy,FG);
                         }
                     } else {
                         switch ((unsigned char)win->line[j].chars[i]) {
@@ -999,6 +1046,12 @@ static int test_face_size(std::string f, int size, int faceIndex)
     return faceIndex;
 }
 
+// Check if text ends with suffix
+bool ends_with(const std::string &text, const std::string &suffix) {
+    return text.length() >= suffix.length() &&
+        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
+}
+
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
@@ -1023,7 +1076,6 @@ WINDOW *curses_init(void)
     std::string typeface = "Terminus";
     std::string blending = "solid";
     std::ifstream fin;
-    int faceIndex = 0;
     int fontsize = 0; //actuall size
     fin.open("data/FONTDATA");
     if (!fin.is_open()){
@@ -1099,98 +1151,35 @@ WINDOW *curses_init(void)
     }
     #endif // SDLTILES
 
-    #ifdef SDLTILES
-    while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
-          !strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png")) {
-        DebugLog() << "Loading bitmap font [" + typeface + "].\n" ;
-        typeface = "data/font/" + typeface;
-        SDL_Surface *asciiload = IMG_Load(typeface.c_str());
-        if(!asciiload || asciiload->w*asciiload->h < (fontwidth * fontheight * 256)) {
-            DebugLog() << "Failed to load bitmap font: " << IMG_GetError() << "\n";
-            SDL_FreeSurface(asciiload);
-            break;
-        }
-        Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
-        SDL_SetColorKey(asciiload,SDL_TRUE,key);
-        SDL_Surface *ascii_surf[16];
-        ascii_surf[0] = SDL_ConvertSurface(asciiload,format,0);
-        SDL_SetSurfaceRLE(ascii_surf[0], true);
-        SDL_FreeSurface(asciiload);
-
-        for(int a = 1; a < 16; ++a) {
-            ascii_surf[a] = SDL_ConvertSurface(ascii_surf[0],format,0);
-            SDL_SetSurfaceRLE(ascii_surf[a], true);
-        }
-
-        init_colors();
-        for(int a = 0; a < 15; ++a) {
-            SDL_LockSurface(ascii_surf[a]);
-            int size = ascii_surf[a]->h * ascii_surf[a]->w;
-            Uint32 *pixels = (Uint32 *)ascii_surf[a]->pixels;
-            Uint32 color = (windowsPalette[a].r << 16) | (windowsPalette[a].g << 8) | windowsPalette[a].b;
-            for(int i=0;i<size;i++) {
-                if(pixels[i] == 0xFFFFFF)
-                    pixels[i] = color;
-            }
-            SDL_UnlockSurface(ascii_surf[a]);
-        }
-
-        if(fontwidth)
-            tilewidth = ascii_surf[0]->w / fontwidth;
-
-        OutputChar = &OutputImageChar;
-
-        //convert ascii_surf to SDL_Texture
-        for(int a = 0; a < 16; ++a) {
-            ascii[a] = SDL_CreateTextureFromSurface(renderer,ascii_surf[a]);
-            SDL_FreeSurface(ascii_surf[a]);
-        }
-
-        mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
-        return mainwin;
-    }
-    #endif // SDLTILES
-
-    std::string sysfnt = find_system_font(typeface, faceIndex);
-    if(sysfnt != "") typeface = sysfnt;
-
-    //make fontdata compatible with wincurse
-    if(!fexists(typeface.c_str())) {
-        faceIndex = 0;
-        typeface = "data/font/" + typeface + ".ttf";
-    }
-
-    //different default font with wincurse
-    if(!fexists(typeface.c_str())) {
-        faceIndex = 0;
-        typeface = "data/font/fixedsys.ttf";
-    }
-
-    DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
-
-    if(fontsize <= 0) fontsize = fontheight - 1;
-
-    // SDL_ttf handles bitmap fonts size incorrectly
-    if(0 == strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon"))
-        faceIndex = test_face_size(typeface, fontsize, faceIndex);
-
-    font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
-    if (font == NULL) {
-        DebugLog() << "Failed to load truetype font: " << TTF_GetError() << "\n";
-        return NULL;
-    }
-
-    TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
-
-    // glyph height hack by utunnels
-    // SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
-    // this causes baseline problems for certain fonts
-    // I can only guess by check a certain tall character...
-    cache_glyphs();
     init_colors();
 
-    OutputChar = &OutputFontChar;
-
+    // Reset the font pointer
+    font = NULL;
+    #ifdef SDLTILES
+    if (ends_with(typeface, ".bmp") || ends_with(typeface, ".png")) {
+        // Seems to be an image file, not a font.
+        // Try to load as bitmap font.
+        try {
+            bitmap_font.load_font("data/font/" + typeface);
+            // It worked, tell the world to use bitmap_font.
+            font = &bitmap_font;
+        } catch(std::exception &err) {
+            DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
+            // Continue to load as truetype font
+        }
+    }
+    #endif // SDLTILES
+    if (font == NULL) {
+        // Not loaded as bitmap font (or it failed), try to load as truetype
+        try {
+            cached_ttf_font.load_font(typeface, fontsize, fontheight);
+            // It worked, tell the world to use cached_ttf_font
+            font = &cached_ttf_font;
+        } catch(std::exception &err) {
+            DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
+            return NULL;
+        }
+    }
     mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
@@ -1213,19 +1202,9 @@ int curses_getch(WINDOW* win)
 //Ends the terminal, destroy everything
 int curses_destroy(void)
 {
-    TTF_CloseFont(font);
     font = NULL;
-    for (int i=0; i<128; i++) {
-        for (int j=0; j<16; j++) {
-            if (glyph_cache[i][j]) {
-                SDL_DestroyTexture(glyph_cache[i][j]);
-            }
-            glyph_cache[i][j] = NULL;
-        }
-    }
-    for(int a=0;a<16;a++) {
-        SDL_DestroyTexture(ascii[a]);
-    }
+    bitmap_font.clear();
+    cached_ttf_font.clear();
     WinDestroy();
     return 1;
 }
@@ -1458,6 +1437,144 @@ int get_terminal_width() {
 
 int get_terminal_height() {
     return TERMINAL_HEIGHT;
+}
+
+BitmapFont::BitmapFont()
+: Font()
+{
+    memset(ascii, 0x00, sizeof(ascii));
+}
+
+BitmapFont::~BitmapFont()
+{
+    clear();
+}
+
+void BitmapFont::clear()
+{
+    for (size_t a = 0; a < 16; a++) {
+        if (ascii[a] != NULL) {
+            SDL_DestroyTexture(ascii[a]);
+            ascii[a] = NULL;
+        }
+    }
+}
+
+void BitmapFont::load_font(const std::string &typeface)
+{
+    clear();
+    DebugLog() << "Loading bitmap font [" + typeface + "].\n" ;
+    SDL_Surface *asciiload = IMG_Load(typeface.c_str());
+    if (asciiload == NULL) {
+        throw std::runtime_error(IMG_GetError());
+    }
+    if (asciiload->w * asciiload->h < (fontwidth * fontheight * 256)) {
+        SDL_FreeSurface(asciiload);
+        throw std::runtime_error("bitmap for font is to small");
+    }
+    Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
+    SDL_SetColorKey(asciiload,SDL_TRUE,key);
+    SDL_Surface *ascii_surf[16];
+    ascii_surf[0] = SDL_ConvertSurface(asciiload,format,0);
+    SDL_SetSurfaceRLE(ascii_surf[0], true);
+    SDL_FreeSurface(asciiload);
+
+    for (size_t a = 1; a < 16; ++a) {
+        ascii_surf[a] = SDL_ConvertSurface(ascii_surf[0],format,0);
+        SDL_SetSurfaceRLE(ascii_surf[a], true);
+    }
+
+    for (size_t a = 0; a < 16 - 1; ++a) {
+        SDL_LockSurface(ascii_surf[a]);
+        int size = ascii_surf[a]->h * ascii_surf[a]->w;
+        Uint32 *pixels = (Uint32 *)ascii_surf[a]->pixels;
+        Uint32 color = (windowsPalette[a].r << 16) | (windowsPalette[a].g << 8) | windowsPalette[a].b;
+        for(int i = 0; i < size; i++) {
+            if(pixels[i] == 0xFFFFFF) {
+                pixels[i] = color;
+            }
+        }
+        SDL_UnlockSurface(ascii_surf[a]);
+    }
+
+    if (fontwidth) {
+        tilewidth = ascii_surf[0]->w / fontwidth;
+    }
+
+    //convert ascii_surf to SDL_Texture
+    for(int a = 0; a < 16; ++a) {
+        ascii[a] = SDL_CreateTextureFromSurface(renderer,ascii_surf[a]);
+        SDL_FreeSurface(ascii_surf[a]);
+    }
+}
+
+
+
+CachedTTFFont::CachedTTFFont()
+: Font()
+, font(NULL)
+, ttf_height_hack(0)
+{
+    memset(glyph_cache, 0x00, sizeof(glyph_cache));
+}
+
+CachedTTFFont::~CachedTTFFont()
+{
+    clear();
+}
+
+void CachedTTFFont::clear()
+{
+    if (font != NULL) {
+        TTF_CloseFont(font);
+        font = NULL;
+    }
+    for (size_t i = 0; i < 128; i++) {
+        for (size_t j = 0; j < 16; j++) {
+            if (glyph_cache[i][j] != NULL) {
+                SDL_DestroyTexture(glyph_cache[i][j]);
+                glyph_cache[i][j] = NULL;
+            }
+        }
+    }
+}
+
+void CachedTTFFont::load_font(std::string typeface, int fontsize, int fontheight)
+{
+    clear();
+    int faceIndex = 0;
+    const std::string sysfnt = find_system_font(typeface, faceIndex);
+    if (!sysfnt.empty()) {
+        typeface = sysfnt;
+    }
+    //make fontdata compatible with wincurse
+    if(!fexists(typeface.c_str())) {
+        faceIndex = 0;
+        typeface = "data/font/" + typeface + ".ttf";
+    }
+    //different default font with wincurse
+    if(!fexists(typeface.c_str())) {
+        faceIndex = 0;
+        typeface = "data/font/fixedsys.ttf";
+    }
+    DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
+    if(fontsize <= 0) {
+        fontsize = fontheight - 1;
+    }
+    // SDL_ttf handles bitmap fonts size incorrectly
+    if (typeface.length() > 4 && strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon") == 0) {
+        faceIndex = test_face_size(typeface, fontsize, faceIndex);
+    }
+    font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
+    if (font == NULL) {
+        throw std::runtime_error(TTF_GetError());
+    }
+    TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+    // glyph height hack by utunnels
+    // SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
+    // this causes baseline problems for certain fonts
+    // I can only guess by check a certain tall character...
+    cache_glyphs();
 }
 
 #endif // TILES
