@@ -260,11 +260,11 @@ void game::init_ui(){
 
         #ifdef SDLTILES
         if(OPTIONS["USE_TILES"]) {
-            VIEW_OFFSET_X = ((int)(TERMX/tilecontext->tile_ratiox) - sidebarWidth > 121) ?
-                                (TERMX - sidebarWidth - 121)/2 * tilecontext->tile_ratiox : 0;
-            VIEW_OFFSET_Y = ((int)(TERMY/tilecontext->tile_ratioy) > 121) ? (TERMY - 121)/2 : 0;
-            TERRAIN_WINDOW_WIDTH  = ceil((TERMX - sidebarWidth)/tilecontext->tile_ratiox);
-            TERRAIN_WINDOW_HEIGHT = ceil(TERMY/tilecontext->tile_ratioy);
+            VIEW_OFFSET_X = ((int)(TERMX/tilecontext->get_tile_ratiox()) - sidebarWidth > 121) ?
+                                (TERMX - sidebarWidth - 121)/2 * tilecontext->get_tile_ratiox() : 0;
+            VIEW_OFFSET_Y = ((int)(TERMY/tilecontext->get_tile_ratioy()) > 121) ? (TERMY - 121)/2 : 0;
+            TERRAIN_WINDOW_WIDTH  = ceil((TERMX - sidebarWidth)/tilecontext->get_tile_ratiox());
+            TERRAIN_WINDOW_HEIGHT = ceil(TERMY/tilecontext->get_tile_ratioy());
             TERRAIN_WINDOW_TERM_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
         }
         else

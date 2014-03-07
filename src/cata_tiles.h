@@ -133,26 +133,26 @@ class cata_tiles
         cata_tiles(SDL_Renderer *render);
         /** Default destructor */
         ~cata_tiles();
-
+    protected:
         /** Reconfigure the tileset at runtime. Assumes that all the tileset variables, including tile_atlas
          *  have been properly set. */
         void reload_tileset();
-
+    public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
         void set_draw_scale(int scale);
-
+    protected:
         /** Load tileset */
         void load_tileset(std::string path);
         /** Load tileset config file */
         void load_tilejson(std::string path);
         void load_tilejson_from_file(std::ifstream &f);
+    public:
         /** Draw to screen */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
-
+    protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
-        int get_tile_width() const;
 
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
         bool draw_from_id_string(std::string id, std::string category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
@@ -183,6 +183,7 @@ class cata_tiles
 
         bool draw_item_highlight(int x, int y);
 
+    public:
         // Animation layers
         bool draw_hit(int x, int y);
 
@@ -214,12 +215,21 @@ class cata_tiles
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
+    protected:
         /** Used to properly initialize everything for display */
         void init(std::string json_path, std::string tileset_path);
+    public:
         /* initialize from an outside file */
         void init(std::string load_file_path);
         /* Reinitializes the tile context using the original screen information */
         void reinit(std::string load_file_path);
+        int get_tile_height() const { return tile_height; }
+        int get_tile_width() const { return tile_width; }
+        int get_terrain_term_x() const { return terrain_term_x; }
+        int get_terrain_term_y() const { return terrain_term_y; }
+        float get_tile_ratiox() const { return tile_ratiox; }
+        float get_tile_ratioy() const { return tile_ratioy; }
+    protected:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();

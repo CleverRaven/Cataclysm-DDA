@@ -107,6 +107,7 @@ void cata_tiles::init(std::string load_file_path)
 }
 void cata_tiles::reinit(std::string load_file_path)
 {
+    clear_buffer();
     std::string json_path, tileset_path;
     get_tile_information(load_file_path, json_path, tileset_path);
     init(json_path, tileset_path);
@@ -459,12 +460,6 @@ void cata_tiles::get_window_tile_counts(const int width, const int height, int &
     columns = ceil((double) width / tile_width);
     rows = ceil((double) height / tile_height);
 }
-
-int cata_tiles::get_tile_width() const
-{
-    return tile_width;
-}
-
 
 bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position)
 {
