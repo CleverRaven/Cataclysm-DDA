@@ -135,9 +135,6 @@ class cata_tiles
         ~cata_tiles();
     protected:
         void clear();
-        /** Reconfigure the tileset at runtime. Assumes that all the tileset variables, including tile_atlas
-         *  have been properly set. */
-        int reload_tileset(SDL_Surface *tile_atlas);
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */

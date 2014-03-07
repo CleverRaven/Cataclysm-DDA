@@ -176,7 +176,22 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     }
 }
 
-int cata_tiles::reload_tileset(SDL_Surface *tile_atlas) {
+int cata_tiles::load_tileset(std::string path) {
+    terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
+    terrain_term_y = OPTIONS["TERMINAL_Y"];
+
+    set_draw_scale(16);
+
+    /** reinit tile_atlas */
+    SDL_Surface *tile_atlas = IMG_Load(path.c_str());
+
+    if(!tile_atlas) {
+        std::cerr << "Could not locate tileset file at " << path << std::endl;
+        DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
+        // TODO: run without tileset
+        return 0;
+    }
+
         /** get dimensions of the atlas image */
         int w = tile_atlas->w;
         int h = tile_atlas->h;
@@ -215,6 +230,7 @@ int cata_tiles::reload_tileset(SDL_Surface *tile_atlas) {
         }
 
         DebugLog() << "Tiles Created: " << tilecount << "\n";
+        SDL_FreeSurface(tile_atlas);
         return tilecount - base_count;
 }
 
@@ -227,28 +243,6 @@ void cata_tiles::set_draw_scale(int scale) {
 
     screentile_width =  (int)(terrain_term_x / tile_ratiox) + 1;
     screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
-}
-
-int cata_tiles::load_tileset(std::string path)
-{
-    terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
-    terrain_term_y = OPTIONS["TERMINAL_Y"];
-	
-    set_draw_scale(16);
-
-    /** reinit tile_atlas */
-    SDL_Surface *tile_atlas = IMG_Load(path.c_str());
-
-    if(!tile_atlas) {
-        std::cerr << "Could not locate tileset file at " << path << std::endl;
-        DebugLog() << (std::string)"Could not locate tileset file at " << path.c_str() << "\n";
-        // TODO: run without tileset
-        return 0;
-    }
-
-    const int size = reload_tileset(tile_atlas);
-    SDL_FreeSurface(tile_atlas);
-    return size;
 }
 
 void cata_tiles::load_tilejson(std::string path)
