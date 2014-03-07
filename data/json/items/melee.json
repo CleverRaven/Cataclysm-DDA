@@ -2269,7 +2269,7 @@
         "volume" : 2,
         "bashing" : 8,
         "cutting" : 16,
-        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP"],
+        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "DURABLE"],
         "price" : 0
     },
     {
@@ -2286,7 +2286,7 @@
         "volume" : 3,
         "bashing" : 0,
         "cutting" : 36,
-        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP"],
+        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "DURABLE"],
         "price" : 0
     },
     {
