@@ -169,6 +169,9 @@ class cata_tiles
          * interval (and not -1), throw an std::string error.
          */
         tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size);
+        void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
+        void load_ascii_set(JsonObject &entry, int offset, int size);
+        void add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id);
     public:
         /** Draw to screen */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);

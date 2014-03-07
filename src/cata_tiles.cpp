@@ -273,6 +273,9 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
             const int newsize = load_tileset(tileset_image_path);
             // Now load the tile definitions for the loaded tileset image.
             load_tilejson_from_file(tile_part_def, offset, newsize);
+            if (tile_part_def.has_member("ascii")) {
+                load_ascii_tilejson_from_file(tile_part_def, offset, newsize);
+            }
             // Make sure the tile definitions of the next tileset image don't
             // override the current ones.
             offset += newsize;
@@ -282,6 +285,99 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         DebugLog() << "Attempting to Load Tileset file\n";
         const int newsize = load_tileset(image_path);
         load_tilejson_from_file(config, 0, newsize);
+    }
+}
+
+void cata_tiles::add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id)
+{
+    const std::string m_id = t_id + "_" + s_id;
+    tile_type *curr_subtile = new tile_type();
+    curr_subtile->fg = fg;
+    curr_subtile->bg = -1;
+    curr_subtile->rotates = true;
+    tile_ids[m_id] = curr_subtile;
+    curr_tile->available_subtiles.push_back(s_id);
+}
+
+void cata_tiles::load_ascii_tilejson_from_file(JsonObject &config, int offset, int size)
+{
+    if (!config.has_member("ascii")) {
+        config.throw_error("ERROR: \"ascii\" section missing", "ascii");
+    }
+    JsonArray ascii = config.get_array("ascii");
+    while (ascii.has_more()) {
+        JsonObject entry = ascii.next_object();
+        load_ascii_set(entry, offset, size);
+    }
+}
+
+void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
+{
+    // tile for ASCII char 0 is at `in_image_offset`,
+    // the other ASCII chars follow from there.
+    const int in_image_offset = entry.get_int("offset");
+    if (in_image_offset >= size) {
+        entry.throw_error("invalid offset (out of range)", "offset");
+    }
+    // color, of the ASCII char. Can be -1 to indicate all/default colors.
+    int FG;
+    const std::string scolor = entry.get_string("color", "DEFAULT");
+    if (scolor == "BLACK") {
+        FG = COLOR_BLACK;
+    } else if (scolor == "RED") {
+        FG = COLOR_RED;
+    } else if (scolor == "GREEN") {
+        FG = COLOR_GREEN;
+    } else if (scolor == "YELLOW") {
+        FG = COLOR_YELLOW;
+    } else if (scolor == "BLUE") {
+        FG = COLOR_BLUE;
+    } else if (scolor == "MAGENTA") {
+        FG = COLOR_MAGENTA;
+    } else if (scolor == "CYAN") {
+        FG = COLOR_CYAN;
+    } else if (scolor == "WHITE") {
+        FG = COLOR_WHITE;
+    } else if (scolor == "DEFAULT") {
+        FG = -1;
+    } else {
+        entry.throw_error("invalid color for ascii", "color");
+    }
+    // Add an offset for bold colors (ncrses has this bold attribute,
+    // this mimics it). bold does not apply to default color.
+    if (FG != -1 && entry.get_bool("bold", false)) {
+        FG += 8;
+    }
+    const int base_offset = offset + in_image_offset;
+    // template for the id of the ascii chars:
+    // X is replaced by ascii code (converted to char)
+    // F is replaced by foreground (converted to char)
+    // B is replaced by background (converted to char)
+    std::string id("ASCII_XFB");
+    // Finally load all 256 ascii chars (actually extended ascii)
+    for (int ascii_char = 0; ascii_char < 256; ascii_char++) {
+        const int index_in_image = ascii_char + in_image_offset;
+        if (index_in_image < 0 || index_in_image >= size) {
+            // Out of range is ignored for now.
+            continue;
+        }
+        id[6] = static_cast<char>(ascii_char);
+        id[7] = static_cast<char>(FG);
+        id[8] = static_cast<char>(-1);
+        tile_type *curr_tile = new tile_type();
+        curr_tile->fg = index_in_image + offset;
+        curr_tile->bg = -1;
+        tile_ids[id] = curr_tile;
+        if (ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C) {
+            curr_tile->rotates = false;
+            curr_tile->multitile = true;
+            add_ascii_subtile(curr_tile, id, 206 + base_offset, "center");
+            add_ascii_subtile(curr_tile, id, 201 + base_offset, "corner");
+            add_ascii_subtile(curr_tile, id, 186 + base_offset, "edge");
+            add_ascii_subtile(curr_tile, id, 204 + base_offset, "t_connection");
+            add_ascii_subtile(curr_tile, id, 208 + base_offset, "end_piece");
+            add_ascii_subtile(curr_tile, id, 219 + base_offset, "unconnected");
+        }
     }
 }
 
