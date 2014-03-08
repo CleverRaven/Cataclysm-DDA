@@ -4057,13 +4057,11 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     case bp_mouth: // Fall through to head damage
     case bp_head:
         mod_pain(1);
-        /*
-        hp_cur[hp_head] -= dam; //this looks like an extra damage hit, as is applied in apply_damage from creature: deal_damage()
+        hp_cur[hp_head] -= dam; //this looks like an extra damage hit, as is applied in apply_damage from player::apply_damage()
         if (hp_cur[hp_head] < 0) {
             lifetime_stats()->damage_taken+=hp_cur[hp_head];
             hp_cur[hp_head] = 0;
         }
-         */
         break;
     case bp_torso:
         // getting hit throws off our shooting
