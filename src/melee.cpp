@@ -1025,7 +1025,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  }
 
 //Melee weapon wear and tear
-  if (!weapon.has_flag("DURABLE")) {
+if (!weapon.has_flag("DURABLE")) {
     if ((weapon.damage < 4) && (weapon.made_of("bone") || weapon.made_of("wood") || weapon.made_of("plastic")) &&
     (one_in( (64 + skillLevel("melee") - str_cur) * 4 ))){
                 weapon.damage++;
@@ -1041,7 +1041,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
                                          weapon.name.c_str());
     }
     if ((weapon.damage < 4) && (weapon.made_of("ceramic") || weapon.made_of("superalloy") || weapon.made_of("hardsteel")) &&
-    (one_in( (64 + skillLevel("melee") - str_cur) * 128 ))){
+    (one_in( (64 + skillLevel("melee") - str_cur) * 256 ))){
                 weapon.damage++;
                 g->add_msg_player_or_npc(this, _("Your %s is splintered by the force of the blow!"),
                                          _("<npcname>'s %s is splintered by the force of the blow!"),
@@ -1052,10 +1052,22 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
                 g->add_msg_player_or_npc(this, _("Your %s is damaged by the force of the blow!"),
                                          _("<npcname>'s %s is damaged by the force of the blow!"),
                                          weapon.name.c_str());
-    }
+    } else if ((weapon.damage >= 4) && (one_in( (64 + skillLevel("melee") - str_cur)))){
+        if (is_player()) {
+            dump << string_format(_("Your %s is destroyed!"), weapon.tname().c_str()) << std::endl;
+        } else {
+            g->add_msg_player_or_npc(this, _("Your %s is destroyed!"),
+                                        _("<npcname>'s %s is destroyed!"),
+                                        weapon.tname().c_str());
+          }
+// Dump its contents on the ground
+  for (size_t i = 0; i < weapon.contents.size(); i++)
+   g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
+   remove_weapon();
+      }
     
     
-  }
+}
 
 // Getting your weapon stuck
  int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));
