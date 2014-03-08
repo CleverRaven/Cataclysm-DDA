@@ -1669,8 +1669,19 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 // Display notes in all situations, even when not seen
                 ter_color = c_yellow;
                 const std::string& note_text = overmap_buffer.note(omx, omy, z);
+                if(note_text.length() >= 3 && note_text[2] == ':'){
+                        if(note_text[0] == 'R'){ter_color = c_red;}
+                        if(note_text[0] == 'G'){ter_color = c_green;}
+                        if(note_text[0] == 'B'){ter_color = c_blue;}
+                        if(note_text[0] == 'W'){ter_color = c_white;}
+                }else{
+                        ter_color = c_yellow;
+                }
+
                 if (note_text.length() >= 2 && note_text[1] == ':') {
                     ter_sym = note_text[0];
+                }else if (note_text.length() >= 3 && note_text[2] == ':') {
+                    ter_sym = note_text[1];
                 } else {
                     ter_sym = 'N';
                 }
@@ -1746,11 +1757,15 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     if (note_text.length() >= 2 && note_text[1] == ':') {
         note_text.erase(0, 2);
     }
+    if (note_text.length() >= 3 && note_text[2] == ':') {
+        note_text.erase(0, 3);
+    }
     if (!note_text.empty()) {
         const int length = utf8_width(note_text.c_str());
         for (int i = 0; i <= length; i++) {
             mvwputch(w, 1, i, c_white, LINE_OXOX);
         }
+
         mvwprintz(w, 0, 0, c_yellow, "%s", note_text.c_str());
         mvwputch(w, 1, length, c_white, LINE_XOOX);
         mvwputch(w, 0, length, c_white, LINE_XOXO);

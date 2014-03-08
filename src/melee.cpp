@@ -122,7 +122,7 @@ int player::hit_roll()
  return dice(numdice, sides);
 }
 
-// Melee calculation is in parts. This sets up the attack, then in deal_melee_attack, 
+// Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
 void player::melee_attack(Creature &t, bool allow_special, matec_id force_technique) {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
@@ -133,9 +133,9 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
     std::string target_name = t.disp_name();
 
-    int move_cost = attack_speed(*this);    
+    int move_cost = attack_speed(*this);
 
-    bool critical_hit = scored_crit(t.dodge_roll());    
+    bool critical_hit = scored_crit(t.dodge_roll());
 
     // Pick one or more special attacks
     ma_technique technique;
@@ -145,7 +145,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         technique = ma_techniques[force_technique];
     } else
         technique = ma_techniques["tec_none"];
-    
+
     int hit_spread = t.deal_melee_attack(this, hit_roll());
     if (hit_spread < 0) {
         int stumble_pen = stumble(*this);
@@ -174,7 +174,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         bash_dam *= mabuff_bash_mult();
         cut_dam *= mabuff_cut_mult();
         stab_dam *= mabuff_cut_mult();
-            
+
         // Handles effects as well; not done in melee_affect_*
         if (technique.id != "tec_none")
             perform_technique(technique, t, bash_dam, cut_dam, stab_dam, move_cost);
@@ -193,7 +193,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
             if (critical_hit) // stab criticals have extra extra %arpen
                 d.add_damage(DT_STAB, stab_dam, 0, 0.33);
             else
-                d.add_damage(DT_STAB, stab_dam); 
+                d.add_damage(DT_STAB, stab_dam);
         }
 
         // Handles speed penalties to monster & us, etc
@@ -611,7 +611,7 @@ matec_id player::pick_technique(Creature &t,
         // skip normal techniques if looking for a block counter
         if (block_counter && !tec.block_counter) continue;
 
-        // if crit then select only from crit tecs 
+        // if crit then select only from crit tecs
         // dodge and blocks roll again for their attack, so ignore crit state
         if (!dodge_counter && !block_counter && ((crit && !tec.crit_tec) || (!crit && tec.crit_tec)) ) continue;
 
@@ -631,7 +631,7 @@ matec_id player::pick_technique(Creature &t,
             possible.push_back(tec.id);
 
             //add weighted options into the list extra times, to increase their chance of being selected
-            if (tec.weighting > 1) { 
+            if (tec.weighting > 1) {
                 for (int i = 1; i < tec.weighting; i++)
                     possible.push_back(tec.id);
             }
@@ -694,14 +694,14 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
 
     bash_dam *= technique.bash_mult;
     cut_dam *= technique.cut_mult;
-    stab_dam *= technique.cut_mult;   
-    
+    stab_dam *= technique.cut_mult;
+
     move_cost *= technique.speed_mult;
 
     int tarx = t.xpos(), tary = t.ypos();
 
     (void) tarx;
-    (void) tary;      
+    (void) tary;
 
     if (technique.down_dur > 0) {
         if (t.get_throw_resist() == 0) {
@@ -795,8 +795,8 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
 
 	//Shouldn't block if player is asleep; this only seems to be used by player.
 	//g->u.has_disease("sleep") would work as well from looking at other block functions.
-	
-    if (blocks_left < 1 || this->has_disease("sleep")) 
+
+    if (blocks_left < 1 || this->has_disease("sleep"))
         return false;
 
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
