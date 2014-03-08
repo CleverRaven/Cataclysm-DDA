@@ -1456,26 +1456,30 @@
         "points" : 1,
         "description" : "Your limbs seem to have a little more 'give' to them.  +1 Dexterity.",
         "changes_to" : ["BENDY2"],
-        "threshreq" : ["THRESH_SLIME"],
-        "category" : ["MUTCAT_SLIME"]
+        "threshreq" : ["THRESH_SLIME", "THRESH_ELFA"],
+        "category" : ["MUTCAT_SLIME", "MUTCAT_ELFA"]
     },{
         "type" : "mutation",
         "id" : "BENDY2",
         "name" : "Rubbery Limbs",
         "points" : 1,
         "description" : "Your limbs are significantly more flexible than any pathetic human arm or leg.  +3 Dexterity, -2 Strength.",
+        "purifiable" : false,
         "prereqs" : ["BENDY1"],
         "changes_to" : ["BENDY3"],
         "threshreq" : ["THRESH_SLIME"],
+        "leads_to" : ["AMORPHOUS"],
         "category" : ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "BENDY3",
         "name" : "Rubbery Limbs",
-        "points" : 1, "comment": "It's good from the Slime perspective!",
+        "points" : 0,
         "description" : "Your pseudopod-like limbs can fit into anything!  +4 Dexterity, -4 Strength.",
+        "valid" : false,
+        "purifiable" : false,
         "prereqs" : ["BENDY2"],
-        "prereqs2" : ["BENDY2"], "note": "placeholder for Amorphous Body",
+        "prereqs2" : ["AMORPHOUS"],
         "threshreq" : ["THRESH_SLIME"],
         "category" : ["MUTCAT_SLIME"]
     },{
@@ -2233,7 +2237,7 @@
         "name" : "Smart",
         "points" : 1,
         "description" : "You are a little smarter. Intelligence + 1",
-        "changes_to" : ["INT_UP_2", "INT_ALPHA"],
+        "changes_to" : ["INT_UP_2", "INT_ALPHA", "INT_SLIME"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
@@ -2276,6 +2280,20 @@
         "prereqs" : ["INT_UP"],
         "threshreq" : ["THRESH_ALPHA"],
         "category" : ["MUTCAT_ALPHA"]
+    },{
+        "type" : "mutation",
+        "id" : "INT_SLIME",
+        "name" : "Distributed Neurology",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 10,
+        "description" : "Your brain has evolved beyond human imagination.  You'll show them the REAL meaning of 'gray goo'!",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["INT_UP"],
+        "prereqs2" : ["AMORPHOUS"],
+        "threshreq" : ["THRESH_SLIME"],
+        "category" : ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "PER_UP",
@@ -2323,13 +2341,27 @@
         "category" : ["MUTCAT_ALPHA"]
     },{
         "type" : "mutation",
+        "id" : "PER_SLIME",
+        "name" : "Distributed Senses",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 10,
+        "description" : "You extend and reabsorb sensory organs at will, and can therefore ignore most shocks that would overwhelm lesser beings.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["PER_UP"],
+        "prereqs2" : ["AMORPHOUS"],
+        "threshreq" : ["THRESH_SLIME"],
+        "category" : ["MUTCAT_SLIME"]
+    },{
+        "type" : "mutation",
         "id" : "MUT_JUNKIE",
         "name" : "Metallassomaiphile",
         "note" : "name courtesy of wiktionary's Greek for 'mutate'. Greek-speakers, feel free to correct the term",
         "points" : 0,
         "visibility" : 0,
         "ugliness" : 0,
-        "description" : "Just thinking of mutagen (such a lovely word! 'mutagen'. Perfect!) makes you thirsty. And you so love your new parts... you simply must have more mutagen.",
+        "description" : "Just thinking of mutagen (such a lovely word! 'Mutagen'. Perfect!) makes you thirsty. And you so love your new parts.  You simply must have more mutagen!",
         "threshreq" : ["THRESH_MEDICAL", "THRESH_CHIMERA"],
         "category" : ["MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
     },{
@@ -2801,7 +2833,7 @@
         "visibility" : 7,
         "ugliness" : 6,
         "description" : "Your body is coated with a fine slime, which oozes off of you, leaving a trail. Greatly increases wet benefits.",
-        "leads_to" : ["SLIME_HANDS"],
+        "leads_to" : ["SLIME_HANDS", "VISCOUS"],
         "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "HEAD", "neutral" : 3, "good" : 4 },
@@ -2810,6 +2842,55 @@
             { "part" : "ARMS", "neutral" : 7, "good" : 12 },
             { "part" : "HANDS", "neutral" : 2, "good" : 3 },
             { "part" : "TORSO", "neutral" : 14, "good" : 26 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "VISCOUS",
+        "name" : "Viscous",
+        "points" : 0,
+        "visibility" : 7,
+        "ugliness" : 8,
+        "description" : "Your body's slime output has become somewhat sticky and gel-like. Greatly increases wet benefits.",
+        "leads_to" : ["AMORPHOUS"],
+        "prereqs" : ["SLIMY"],
+        "threshreq" : ["THRESH_SLIME"],
+        "category" : ["MUTCAT_SLIME",],
+        "wet_protection" : [
+            { "part" : "HEAD", "neutral" : 4, "good" : 5 },
+            { "part" : "LEGS", "neutral" : 8, "good" : 15 },
+            { "part" : "FEET", "neutral" : 3, "good" : 5 },
+            { "part" : "ARMS", "neutral" : 8, "good" : 14 },
+            { "part" : "HANDS", "neutral" : 3, "good" : 4 },
+            { "part" : "TORSO", "neutral" : 15, "good" : 27 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "AMORPHOUS",
+        "name" : "Amorphous Body",
+        "points" : -2,
+        "visibility" : 10,
+        "ugliness" : 10,
+        "description" : "Your flesh is a pleasing gel-like consistency. Your bodily functions seem to be moving around; it makes your chest, arm, and leg hurt to think about it, though.",
+        "purifiable" : false,
+        "changes_to" : ["GELATINOUS"],
+        "prereqs" : ["VISCOUS"],
+        "threshreq" : ["THRESH_SLIME"],
+        "category" : ["MUTCAT_SLIME",],
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "GELATINOUS",
+        "name" : "Gelatinous Body",
+        "points" : -4,
+        "visibility" : 10,
+        "ugliness" : 10,
+        "description" : "You've transcended the need for rigid body structures and are now a pile of protoplasmic perfection.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["AMORPHOUS"],
+        "prereqs2" : ["BENDY3"],
+        "threshreq" : ["THRESH_SLIME"],
+        "category" : ["MUTCAT_SLIME",],
         ]
     },{
         "type" : "mutation",
