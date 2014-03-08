@@ -3145,6 +3145,9 @@ void map::disarm_trap(const int x, const int y)
           }
       }
   }
+  if (tr_at(x, y) == tr_shotgun_1 || tr_at(x,y) == tr_shotgun_2) {
+      spawn_item(x,y,"shot_00",1,2);
+  }
   remove_trap(x, y);
   if(diff > 1.25 * skillLevel) // failure might have set off trap
     g->u.practice(g->turn, "traps", 1.5*(diff - skillLevel));
