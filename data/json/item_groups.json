@@ -1035,10 +1035,10 @@
       ["cookies", 80],
       ["choco_coffee_beans", 10],
       ["nachos", 50],
-      ["chips2", 65],
       ["chips3", 65],
       ["fruit_leather", 25],
-      ["kernels", 25],
+      ["popcorn", 25],
+      ["popcorn2", 25],
       ["candycigarette", 20]
     ]
     },{
@@ -1064,7 +1064,6 @@
       ["choc_drink", 30],
       ["rootbeer", 65],
       ["purple_drink", 45],
-      ["milk", 50],
       ["V8", 15]
     ]
     },{
