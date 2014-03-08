@@ -6861,6 +6861,27 @@ bool player::has_item(char let)
  return (has_weapon_or_armor(let) || !inv.item_by_letter(let).is_null());
 }
 
+std::vector<char> player::allocated_invlets() {
+    size_t maxsz = inv_chars.size(), incr = worn.size();
+    std::vector<char> invs = inv.allocated_invlets();
+
+    if (weapon.invlet != 0) {
+        incr++;
+    }
+    if (incr > 0) {
+        invs.resize(maxsz + incr, '\0');
+        if (weapon.invlet != 0) {
+            invs[maxsz] = weapon.invlet;
+            maxsz++;
+        }
+        for (int i = 0; i < worn.size(); i++, maxsz++) {
+            invs[maxsz] = worn[i].invlet;
+        }
+    }
+
+    return invs;
+}
+
 bool player::has_item(int position) {
     return !i_at(position).is_null();
 }
