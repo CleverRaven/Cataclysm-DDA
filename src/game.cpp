@@ -5910,6 +5910,11 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (u.has_bionic("bio_ears")) {
         vol *= 3.5;
     }
+    if (u.has_trait("PER_SLIME")) {
+    // Random hearing :-/
+    // (when it's working at all, see player.cpp)
+        vol *= (rng(0.5, 2));
+    }
     if (u.has_trait("BADHEARING")) {
         vol *= .5;
     }
@@ -6178,7 +6183,15 @@ void game::flashbang(int x, int y, bool player_immune)
         }
         if (m.sees(u.posx, u.posy, x, y, 8, t)) {
             int flash_mod = 0;
-            if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
+            if (u.has_trait("PER_SLIME")) {
+                if (one_in(2)) {
+                    flash_mod = 3; // Yay, you weren't looking!
+                }
+            }
+            else if (u.has_trait("PER_SLIME_OK")) {
+                flash_mod = 8; // Just retract those and extrude fresh eyes
+            }
+            else if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
                 flash_mod = 6;
             }
             u.add_env_effect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);

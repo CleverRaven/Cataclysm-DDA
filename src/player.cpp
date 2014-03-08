@@ -397,7 +397,13 @@ void player::reset_stats()
             mod_dex_bonus(-int((pain - pkill) / 15));
         }
         mod_per_bonus(-int((pain - pkill) / 20));
-        mod_int_bonus(-(1 + int((pain - pkill) / 25)));
+        if (!(has_trait("INT_SLIME"))) {
+            mod_int_bonus(-(1 + int((pain - pkill) / 25)));
+        } else if (has_trait("INT_SLIME")) {
+        // Having one's brain throughout one's body does have its downsides.
+        // Be glad we don't assess permanent damage.
+            mod_int_bonus(-(1 + int(pain - pkill)));
+        }
     }
     // Morale
     if (abs(morale_level()) >= 100) {
@@ -1284,43 +1290,63 @@ int player::run_cost(int base_cost, bool diag)
             movecost = 100;
     }
 
-    if (hp_cur[hp_leg_l] == 0)
+    if (hp_cur[hp_leg_l] == 0) {
         movecost += 50;
-    else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40)
+    }
+    else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40) {
         movecost += 25;
-    if (hp_cur[hp_leg_r] == 0)
+    }
+    if (hp_cur[hp_leg_r] == 0) {
         movecost += 50;
-    else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40)
+    }
+    else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40) {
         movecost += 25;
+    }
 
-    if (has_trait("FLEET") && flatground)
+    if (has_trait("FLEET") && flatground) {
         movecost *= .85f;
-    if (has_trait("FLEET2") && flatground)
+    }
+    if (has_trait("FLEET2") && flatground) {
         movecost *= .7f;
-    if (has_trait("SLOWRUNNER") && flatground)
+    }
+    if (has_trait("SLOWRUNNER") && flatground) {
         movecost *= 1.15f;
-    if (has_trait("PADDED_FEET") && !wearing_something_on(bp_feet))
+    }
+    if (has_trait("PADDED_FEET") && !wearing_something_on(bp_feet)) {
         movecost *= .9f;
-    if (has_trait("LIGHT_BONES"))
+    }
+    if (has_trait("LIGHT_BONES")) {
         movecost *= .9f;
-    if (has_trait("HOLLOW_BONES"))
+    }
+    if (has_trait("HOLLOW_BONES")) {
         movecost *= .8f;
-    if (has_trait("WINGS_INSECT"))
+    }
+    if (has_trait("WINGS_INSECT")) {
         movecost -= 15;
-    if (has_trait("LEG_TENTACLES"))
+    }
+    if (has_trait("LEG_TENTACLES")) {
         movecost += 20;
-    if (has_trait("PONDEROUS1"))
+    }
+    if (has_trait("PONDEROUS1")) {
         movecost *= 1.1f;
-    if (has_trait("PONDEROUS2"))
+    }
+    if (has_trait("PONDEROUS2")) {
         movecost *= 1.2f;
-    if (has_trait("PONDEROUS3"))
+    }
+    if (has_trait("AMORPHOUS")) {
+        movecost *= 1.25f;
+    }
+    if (has_trait("PONDEROUS3")) {
         movecost *= 1.3f;
-    if (is_wearing("swim_fins"))
+    }
+    if (is_wearing("swim_fins")) {
         movecost *= 1.5f;
+    }
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
-    if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES")&& !has_trait("TOUGH_FEET")){
+    if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES") &&
+        !has_trait("TOUGH_FEET")) {
         movecost += 15;
     }
 
@@ -3606,14 +3632,17 @@ void player::recalc_sight_limits()
     if (has_effect("blind")) {
         sight_max = 0;
     } else if (has_disease("in_pit") ||
-            has_disease("boomered") ||
+            (has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
-                !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES"))) {
+                !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
+                (!(has_trait("PER_SLIME_OK"))))) {
         sight_max = 1;
     } else if (has_trait("MYOPIC") && !is_wearing("glasses_eye") &&
             !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal") &&
             !has_disease("contacts")) {
         sight_max = 4;
+    } else if (has_trait("PER_SLIME")) {
+        sight_max = 6;
     }
 
     // Set sight_boost and sight_boost_cap, based on night vision.
@@ -3633,10 +3662,15 @@ void player::recalc_sight_limits()
 int player::unimpaired_range()
 {
  int ret = DAYLIGHT_LEVEL;
- if (has_disease("in_pit"))
-  ret = 1;
- if (has_effect("blind"))
-  ret = 0;
+ if (has_trait("PER_SLIME")) {
+    ret = 6;
+ }
+ if (has_disease("in_pit")) {
+    ret = 1;
+  }
+ if (has_effect("blind")) {
+    ret = 0;
+  }
  return ret;
 }
 
@@ -3676,13 +3710,14 @@ int player::clairvoyance()
 
 bool player::sight_impaired()
 {
- return has_disease("boomered") ||
+ return ((has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
-              && !worn_with_flag("SWIM_GOGGLES")) ||
+              && !worn_with_flag("SWIM_GOGGLES") && !(has_trait("PER_SLIME_OK"))) ||
   (has_trait("MYOPIC") && !is_wearing("glasses_eye")
                         && !is_wearing("glasses_monocle")
                         && !is_wearing("glasses_bifocal")
-                        && !has_disease("contacts"));
+                        && !has_disease("contacts")) ||
+   has_trait("PER_SLIME"));
 }
 
 bool player::has_two_arms() const
@@ -5301,6 +5336,34 @@ void player::suffer()
 
     if (has_trait("SLIMY") && !in_vehicle) {
         g->m.add_field(posx, posy, fd_slime, 1);
+    }
+    
+    if (has_trait("VISCOUS") && !in_vehicle) {
+        if (one_in(3)){
+            g->m.add_field(posx, posy, fd_slime, 1);
+        }
+        else {
+            g->m.add_field(posx, posy, fd_slime, 2);
+        }
+    }
+    
+    // Blind/Deaf for brief periods about once an hour,
+    // and visuals about once every 30 min.
+    if (has_trait("PER_SLIME")) {
+        if (one_in(600) && !(has_disease("deaf"))) {
+            g->add_msg(_("Suddenly, you can't hear anything!"));
+            add_disease("deaf", 20 * rng (2, 6)) ;
+        }
+        if (one_in(600) && !(has_effect("blind"))) {
+            g->add_msg(_("Suddenly, your eyes stop working!"));
+            add_effect("blind", 10 * rng (2, 6)) ;
+        }
+        // Yes, you can be blind and hallucinate at the same time.
+        // Your post-human biology is truly remarkable.
+        if (one_in(300) && !(has_effect("visuals"))) {
+            g->add_msg(_("Your visual centers must be acting up..."));
+            add_effect("visuals", 120 * rng (3, 6)) ;
+        }
     }
 
     if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
@@ -9169,7 +9232,11 @@ std::string player::is_snuggling()
 // 2.5 is enough light for detail work.
 float player::fine_detail_vision_mod()
 {
-    if (has_effect("blind") || has_disease("boomered"))
+    // PER_SLIME_OK implies you can get enough eyes around the bile
+    // that you can generaly see.  There'll still be the haze, but
+    // it's annoying rather than limiting.
+    if (has_effect("blind") || ((has_disease("boomered")) &&
+    !(has_trait("PER_SLIME_OK"))))
     {
         return 5;
     }
@@ -9686,46 +9753,65 @@ void player::absorb(body_part bp, int &dam, int &cut)
         dam -= 3;
         cut -= 3;
     }
-    if (has_trait("THICKSKIN"))
+    if (has_trait("THICKSKIN")) {
         cut--;
-    if (has_trait("THINSKIN"))
+    }
+    if (has_trait("THINSKIN")) {
         cut++;
-    if (has_trait("SCALES"))
+    }
+    if (has_trait("SCALES")) {
         cut -= 2;
-    if (has_trait("THICK_SCALES"))
+    }
+    if (has_trait("THICK_SCALES")) {
         cut -= 4;
-    if (has_trait("SLEEK_SCALES"))
+    }
+    if (has_trait("SLEEK_SCALES")) {
         cut -= 1;
-    if (has_trait("FEATHERS"))
+    }
+    if (has_trait("FEATHERS")) {
         dam--;
-    if (bp == bp_arms && has_trait("ARM_FEATHERS"))
+    }
+    if (has_trait("AMORPHOUS")) {
         dam--;
-    if (has_trait("FUR") || has_trait("LUPINE_FUR"))
+        if (!(has_trait("INT_SLIME"))) {
+            dam -= 3;
+        }
+    }
+    if (bp == bp_arms && has_trait("ARM_FEATHERS")) {
         dam--;
-    if (bp == bp_head && has_trait("LYNX_FUR"))
+    }
+    if (has_trait("FUR") || has_trait("LUPINE_FUR")) {
         dam--;
-    if (has_trait("CHITIN"))
+    }
+    if (bp == bp_head && has_trait("LYNX_FUR")) {
+        dam--;
+    }
+    if (has_trait("CHITIN")) {
         cut -= 2;
-    if (has_trait("CHITIN2"))
-    {
+    }
+    if (has_trait("CHITIN2")) {
         dam--;
         cut -= 4;
     }
-    if (has_trait("CHITIN3"))
-    {
+    if (has_trait("CHITIN3")) {
         dam -= 2;
         cut -= 8;
     }
-    if (has_trait("PLANTSKIN"))
+    if (has_trait("PLANTSKIN")) {
         dam--;
-    if (has_trait("BARK"))
+    }
+    if (has_trait("BARK")) {
         dam -= 2;
-    if (bp == bp_feet && has_trait("HOOVES"))
+    }
+    if (bp == bp_feet && has_trait("HOOVES")) {
         cut--;
-    if (has_trait("LIGHT_BONES"))
+    }
+    if (has_trait("LIGHT_BONES")) {
         dam *= 1.4;
-    if (has_trait("HOLLOW_BONES"))
+    }
+    if (has_trait("HOLLOW_BONES")) {
         dam *= 1.8;
+    }
 
     // apply martial arts armor buffs
     dam -= mabuff_arm_bash_bonus();

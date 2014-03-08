@@ -666,6 +666,9 @@ void mutation_effect(player &p, std::string mut)
         else {
             p.int_max = 15;
         }
+    } else if (mut == "INT_SLIME") {
+        p.int_max *= 2; // Now, can you keep it? :-)
+
     } else if (mut == "PER_UP") {
         p.per_max ++;
 
@@ -685,6 +688,15 @@ void mutation_effect(player &p, std::string mut)
         else {
             p.per_max = 15;
         }
+    } else if (mut == "PER_SLIME") {
+        p.per_max -= 8;
+        if (p.per_max <= 0) {
+            p.per_max = 1;
+        }
+
+    } else if (mut == "PER_SLIME_OK") {
+        p.per_max += 5;
+        
     }
 
     std::string mutation_safe = "OVERSIZE";
@@ -824,6 +836,9 @@ void mutation_loss_effect(player &p, std::string mut)
         else {
             p.int_max = 7;
         }
+    } else if (mut == "INT_SLIME") {
+        p.int_max /= 2; // In case you have a freak accident with the debug menu ;-)
+
     } else if (mut == "PER_UP") {
         p.per_max --;
 
@@ -843,5 +858,11 @@ void mutation_loss_effect(player &p, std::string mut)
         else {
             p.per_max = 7;
         }
+    } else if (mut == "PER_SLIME") {
+        p.per_max += 8;
+
+    } else if (mut == "PER_SLIME_OK") {
+        p.per_max -= 5;
+        
     }
 }
