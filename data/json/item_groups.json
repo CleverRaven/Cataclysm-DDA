@@ -7202,5 +7202,48 @@
     "items":[
       ["glasses_safety", 50]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "trash_forest",
+    "items":[
+      ["rock", 5],
+	  ["stick", 5],
+	  ["flyer", 1],
+	  ["bag_plastic", 3],
+	  ["bottle_plastic", 2],
+	  ["cup_plastic", 3],
+	  ["bottle_glass", 1],
+	  ["can_drink", 2],
+	  ["can_food", 1],
+	  ["box_small", 2],
+	  ["jug_plastic", 1],
+	  ["jar_glass", 2],
+	  ["jar_3l_glass", 1],
+	  ["wrapper", 3],
+	  ["withered", 5],
+	  ["string_6", 1],
+	  ["string_36", 1],
+	  ["steel_lump", 1],
+	  ["steel_chunk", 1],
+	  ["scrap", 2],
+	  ["glass_shard", 3],
+	  ["wire", 1],
+	  ["wire_barbed", 1],
+	  ["splinter", 3],
+	  ["skewer", 3],
+	  ["rag", 2],
+	  ["rag_bloody", 1],
+	  ["bone", 2],
+	  ["syringe", 1],
+	  ["spike", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mushroom_forest",
+    "items":[
+      ["mushroom", 4],
+      ["mushroom_poison", 3],
+      ["mushroom_magic", 1]
+    ]
   }
 ]

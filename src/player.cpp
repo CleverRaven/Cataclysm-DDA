@@ -7360,7 +7360,7 @@ bool player::eat(item *eaten, it_comest *comest)
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
-            eaten->made_of("flesh")) {
+            (eaten->made_of("flesh") || eaten->made_of("egg"))) {
         if (!one_in(3)) {
             vomit();
         }
