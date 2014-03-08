@@ -1331,13 +1331,17 @@ int item::attack_time()
 
 int item::damage_bash()
 {
+    int total = type->melee_dam;
     if( is_null() )
         return 0;
-    return type->melee_dam;
+
+    total -= damage * 2;
+    return total;
 }
 
 int item::damage_cut() const
 {
+    int total = type->melee_cut;
     if (is_gun()) {
         for (size_t i = 0; i < contents.size(); i++) {
             if (contents[i].typeId() == "bayonet" || "pistol_bayonet"|| "sword_bayonet")
@@ -1346,7 +1350,8 @@ int item::damage_cut() const
     }
     if( is_null() )
         return 0;
-    return type->melee_cut;
+    total -= damage * 3;
+    return total;
 }
 
 bool item::has_flag(std::string f) const
