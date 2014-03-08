@@ -309,11 +309,19 @@
             "female": "Maid"
         },
         "description": "You worked in a wealthy household, but after the cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
-        "points": 2,
+        "points": 1,
         "skills": [
             {
                 "level": 1,
                 "name": "cooking"
+            },
+            {
+                "level": 1,
+                "name": "driving"
+            },
+            {
+                "level": 2,
+                "name": "tailor"
             }
         ],
         "items": {
