@@ -768,6 +768,7 @@
   {
     "id": "wearable_rx12",
     "type": "TOOL_ARMOR",
+    "category" : "clothing",
     "symbol": "[",
     "color": "blue",
     "name": "wearable RX12 jet injector",
