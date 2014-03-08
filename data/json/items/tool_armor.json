@@ -69,7 +69,7 @@
   {
     "id": "thermal_socks",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name": "thermal electric socks",
@@ -101,7 +101,7 @@
   {
     "id": "thermal_socks_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name": "thermal electric socks (on)",
@@ -133,7 +133,7 @@
   {
     "id": "thermal_suit",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name": "thermal electric suit",
@@ -165,7 +165,7 @@
   {
     "id": "thermal_suit_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name": "thermal electric suit (on)",
@@ -197,7 +197,7 @@
   {
     "id": "thermal_gloves",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name": "thermal electric gloves",
@@ -229,7 +229,7 @@
   {
     "id": "thermal_gloves_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name": "thermal electric gloves (on)",
@@ -261,7 +261,7 @@
   {
     "id": "thermal_mask",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name": "thermal electric balaclava",
@@ -293,7 +293,7 @@
   {
     "id": "thermal_mask_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name": "thermal electric balaclava (on)",
@@ -325,7 +325,7 @@
   {
     "id": "wearable_light",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "blue",
     "name": "wearable flashlight",
@@ -355,7 +355,7 @@
   {
     "id": "wearable_light_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "blue",
     "name": "wearable flashlight (on)",
@@ -514,7 +514,7 @@
   {
     "id": "rebreather",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name" : "rebreather mask",
@@ -546,7 +546,7 @@
   {
     "id": "rebreather_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name": "rebreather mask (on)",
@@ -578,7 +578,7 @@
   {
     "id": "rebreather_xl",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name" : "XL rebreather mask",
@@ -610,7 +610,7 @@
   {
     "id": "rebreather_xl_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name": "XL rebreather mask (on)",
@@ -642,7 +642,7 @@
   {
     "id": "goggles_nv",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name" : "light amp goggles",
@@ -673,7 +673,7 @@
   {
     "id": "goggles_nv_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name": "light amp goggles (on)",
@@ -705,7 +705,7 @@
   {
     "id": "goggles_ir",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name" : "infrared goggles",
@@ -736,7 +736,7 @@
   {
     "id": "goggles_ir_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name": "infrared goggles (on)",
