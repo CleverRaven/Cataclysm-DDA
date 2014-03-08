@@ -716,11 +716,7 @@ void player::activate_bionic(int b)
             std::string door_name = rm_prefix(_("<door_name>door"));
             g->add_msg_if_player(this, _("With a satisfying click, the lock on the %s opens."),door_name.c_str());
             g->m.ter_set(dirx, diry, t_door_c);
-        } else if (type == t_door_metal_locked ) {  
-            moves -= 40;
-            std::string door_name = rm_prefix(_("<door_name>door"));
-            g->add_msg_if_player(this, _("With a satisfying click, the lock on the %s opens."),door_name.c_str());
-            g->m.ter_set(dirx, diry, t_door_metal_c);
+        // Locked metal doors are the Lab and Bunker entries.  Those need to stay locked.
         } else if(type == t_door_bar_locked){
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
