@@ -55,6 +55,7 @@ void game::init_morale()
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),
+    _("Enjoyed honey"),
     _("Played Video Game"),
     _("Marloss Bliss"),
     _("Mutagenic Anticipation"),
@@ -4119,10 +4120,10 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
 
     return dealt_damage_instance(dealt_dams);
 }
-/* 
-    Where damage to player is actually applied to hit body parts 
+/*
+    Where damage to player is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
- */ 
+ */
 void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
     if (is_dead_state()) {
         // don't do any more damage if we're already dead
@@ -7360,6 +7361,18 @@ bool player::eat(item *eaten, it_comest *comest)
     if (has_trait("ANTIWHEAT") && eaten->made_of("wheat")) {
         g->add_msg_if_player(this,_("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
+    }
+    if ((!crossed_threshold() || has_trait("THRESH_URSINE")) && mutation_category_level["MUTCAT_URSINE"] > 40
+        && eaten->made_of("honey")) {
+        //Need at least 5 bear muts for effect to show, to filter out mutations in common with other mutcats
+        int honey_fun = has_trait("THRESH_URSINE") ?
+            std::min(mutation_category_level["MUTCAT_URSINE"]/8, 20) :
+            mutation_category_level["MUTCAT_URSINE"]/12;
+        if (honey_fun < 10)
+            g->add_msg_if_player(this,_("You find the sweet taste of honey surprisingly palatable."));
+        else
+            g->add_msg_if_player(this,_("You feast upon the sweet honey."));
+        add_morale(MORALE_HONEY, honey_fun, 100);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
             eaten->made_of("flesh")) {
