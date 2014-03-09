@@ -9086,27 +9086,29 @@ void game::pickup(int posx, int posy, int min)
     bool weight_is_okay = (u.weight_carried() <= u.weight_capacity());
     bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
     bool from_veh = false;
-    int veh_part = 0;
+    int veh_root_part = 0;
+
     int k_part = 0;
     int wtr_part = 0;
     int w_part = 0;
     int craft_part = 0;
+    int cargo_part = 0;
     int chempart = 0;
     int ctrl_part = 0;
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
 
-    vehicle *veh = m.veh_at (posx, posy, veh_part);
+    vehicle *veh = m.veh_at (posx, posy, veh_root_part);
     std::vector<item> here_ground = m.i_at(posx, posy);
     if (min != -1 && veh) {
-        k_part = veh->part_with_feature(veh_part, "KITCHEN");
-        wtr_part = veh->part_with_feature(veh_part, "FAUCET");
-        w_part = veh->part_with_feature(veh_part, "WELDRIG");
-        craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
-        chempart = veh->part_with_feature(veh_part, "CHEMLAB");
-        veh_part = veh->part_with_feature(veh_part, "CARGO", false);
-        ctrl_part = veh->part_with_feature(veh_part, "CONTROLS");
-        from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
+        k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
+        wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
+        w_part = veh->part_with_feature(veh_root_part, "WELDRIG");
+        craft_part = veh->part_with_feature(veh_root_part, "CRAFTRIG");
+        chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
+        cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
+        ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
+        from_veh = veh && cargo_part >= 0 && veh->parts[cargo_part].items.size() > 0;
 
         menu_items.push_back(_("Examine vehicle"));
         options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
@@ -9277,7 +9279,7 @@ void game::pickup(int posx, int posy, int min)
     }
 
     // which items are we grabbing?
-    std::vector<item> here = from_veh ? veh->parts[veh_part].items : m.i_at(posx, posy);
+    std::vector<item> here = from_veh ? veh->parts[cargo_part].items : m.i_at(posx, posy);
 
     // Not many items, just grab them
     if (here.size() <= min && min != -1) {
@@ -9310,7 +9312,7 @@ void game::pickup(int posx, int posy, int min)
                                      newit.display_name().c_str())) {
                         if (u.wear_item(&newit)) {
                             if (from_veh) {
-                                veh->remove_item (veh_part, 0);
+                                veh->remove_item (cargo_part, 0);
                             } else {
                                 m.i_clear(posx, posy);
                             }
@@ -9319,7 +9321,7 @@ void game::pickup(int posx, int posy, int min)
                                         u.weapon.display_name().c_str(),
                                         newit.display_name().c_str())) {
                         if (from_veh) {
-                            veh->remove_item (veh_part, 0);
+                            veh->remove_item (cargo_part, 0);
                         } else {
                             m.i_clear(posx, posy);
                         }
@@ -9343,7 +9345,7 @@ and you can't unwield your %s."),
                 u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                 u.wield(u.i_add(newit).invlet);
                 if (from_veh) {
-                    veh->remove_item (veh_part, 0);
+                    veh->remove_item (cargo_part, 0);
                 } else {
                     m.i_clear(posx, posy);
                 }
@@ -9356,7 +9358,7 @@ and you can't unwield your %s."),
                     newit.is_weap() || newit.is_gun())) {
             u.weapon = newit;
             if (from_veh) {
-                veh->remove_item (veh_part, 0);
+                veh->remove_item (cargo_part, 0);
             } else {
                 m.i_clear(posx, posy);
             }
@@ -9365,7 +9367,7 @@ and you can't unwield your %s."),
         } else {
             newit = u.i_add(newit);
             if (from_veh) {
-                veh->remove_item (veh_part, 0);
+                veh->remove_item (cargo_part, 0);
             } else {
                 m.i_clear(posx, posy);
             }
@@ -9778,7 +9780,7 @@ and you can't unwield your %s."),
 
             if (picked_up) {
                 if (from_veh) {
-                    veh->remove_item (veh_part, curmit);
+                    veh->remove_item (cargo_part, curmit);
                 } else {
                     m.i_rem(posx, posy, curmit);
                 }
@@ -9788,7 +9790,7 @@ and you can't unwield your %s."),
                     bool to_map = !from_veh;
 
                     if (from_veh) {
-                        to_map = !veh->add_item( veh_part, temp );
+                        to_map = !veh->add_item( cargo_part, temp );
                     }
                     if (to_map) {
                         m.add_item_or_charges( posx, posy, temp );
