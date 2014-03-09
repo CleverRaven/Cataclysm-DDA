@@ -174,10 +174,10 @@ bool WinCreate()
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     
     if(renderer == NULL) {
-        DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering.\n";
+        DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError() << "\n";
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC);
         if(renderer == NULL) {
-            DebugLog() << "Failed to initialize software renderer!\n";
+            DebugLog() << "Failed to initialize software renderer: " << SDL_GetError() << "\n";
             return false;
         }
     }
@@ -1046,7 +1046,8 @@ WINDOW *curses_init(void)
     halfheight=fontheight / 2;
 
     if(!InitSDL()) {
-        DebugLog() << (std::string)"Failed to initialize SDL!\n";
+        DebugLog() << "Failed to initialize SDL: " << SDL_GetError() << "\n";
+        return NULL;
     }
 
     
@@ -1055,15 +1056,22 @@ WINDOW *curses_init(void)
     WindowWidth *= fontwidth;
     WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
     if(!WinCreate()) {
-        DebugLog() << (std::string)"Failed to create game window!\n";
+        DebugLog() << "Failed to create game window: " << SDL_GetError() << "\n";
         return NULL;
     }
     
     #ifdef SDLTILES
     DebugLog() << "Initializing SDL Tiles context\n";
     tilecontext = new cata_tiles(renderer);
-    tilecontext->init("gfx");
-    DebugLog() << "Tiles initialized successfully.\n";
+    try {
+        tilecontext->init("gfx");
+        DebugLog() << "Tiles initialized successfully.\n";
+    } catch(std::string err) {
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_tiles = false;
+    }
     #endif // SDLTILES
     
     #ifdef SDLTILES
@@ -1073,6 +1081,7 @@ WINDOW *curses_init(void)
         typeface = "data/font/" + typeface;
         SDL_Surface *asciiload = IMG_Load(typeface.c_str());
         if(!asciiload || asciiload->w*asciiload->h < (fontwidth * fontheight * 256)) {
+            DebugLog() << "Failed to load bitmap font: " << IMG_GetError() << "\n";
             SDL_FreeSurface(asciiload);
             break;
         }
@@ -1141,8 +1150,10 @@ WINDOW *curses_init(void)
         faceIndex = test_face_size(typeface, fontsize, faceIndex);
 
     font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
-
-    //if(!font) something went wrong
+    if (font == NULL) {
+        DebugLog() << "Failed to load truetype font: " << TTF_GetError() << "\n";
+        return NULL;
+    }
 
     TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
 
