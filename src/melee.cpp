@@ -45,7 +45,7 @@ bool player::handle_melee_wear() {
     int damage_chance = 8 + dex_cur +  (2 * skillLevel("melee")) + (128 / str_cur);
   // UNBREAKABLE_MELEE items can't be damaged through melee combat usage
   if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
-    // Here we're checking the weapon's material(s) and using only the best one to determine how durable it is
+    // Here we're checking the weapon's material(s) and using the best one to determine how durable it is
     if (weapon.made_of("bone") || weapon.made_of("wood") || weapon.made_of("chitin") || weapon.made_of("leather")) {
                 material_factor = 2;
     }
@@ -55,7 +55,7 @@ bool player::handle_melee_wear() {
     if (weapon.made_of("silver") || weapon.made_of("gold") || weapon.made_of("lead")) {
                 material_factor = 6;
     }
-    if (weapon.made_of("iron") || weapon.made_of("kevlar") || weapon.made_of("nofixkvelar") || weapon.made_of("aluminum")) {
+    if (weapon.made_of("iron") || weapon.made_of("kevlar") || weapon.made_of("nofixkevlar") || weapon.made_of("aluminum")) {
                 material_factor = 8;
     }
     if (weapon.made_of("steel") ) {
@@ -73,9 +73,9 @@ bool player::handle_melee_wear() {
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials
     if (weapon.has_flag("DURABLE_MELEE")) {
-                material_factor *= 8;
+                material_factor *= 4;
     }
-    damage_chance -= weapon.damage * 4;
+    damage_chance -= weapon.damage * 6;
     if (damage_chance < 2) {
                 damage_chance = 2;
     }
