@@ -1670,15 +1670,21 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 ter_color = c_yellow;
                 const std::string& note_text = overmap_buffer.note(omx, omy, z);
                 if(note_text.length() >= 2 && note_text[1] == ';'){
+                        if(note_text[0] == 'r'){ter_color = c_ltred;}
                         if(note_text[0] == 'R'){ter_color = c_red;}
+                        if(note_text[0] == 'g'){ter_color = c_ltgreen;}
                         if(note_text[0] == 'G'){ter_color = c_green;}
+                        if(note_text[0] == 'b'){ter_color = c_ltblue;}
                         if(note_text[0] == 'B'){ter_color = c_blue;}
                         if(note_text[0] == 'W'){ter_color = c_white;}
                         if(note_text[0] == 'C'){ter_color = c_cyan;}
                         if(note_text[0] == 'P'){ter_color = c_pink;}
                 }else if(note_text.length() >= 4 && note_text[3] == ';'){
+                        if(note_text[0] == 'r'){ter_color = c_ltred;}
                         if(note_text[2] == 'R'){ter_color = c_red;}
+                        if(note_text[0] == 'g'){ter_color = c_ltgreen;}
                         if(note_text[2] == 'G'){ter_color = c_green;}
+                        if(note_text[0] == 'b'){ter_color = c_ltblue;}
                         if(note_text[2] == 'B'){ter_color = c_blue;}
                         if(note_text[2] == 'W'){ter_color = c_white;}
                         if(note_text[2] == 'C'){ter_color = c_cyan;}
@@ -1898,7 +1904,7 @@ point overmap::draw_overmap(const tripoint& orig)
             ret = invalid_point;
         } else if (action == "CREATE_NOTE") {
             const std::string old_note = overmap_buffer.note(curs);
-            const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol):"), 45, old_note); // 45 char max
+            const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol, G; for color):"), 45, old_note); // 45 char max
             if(old_note != new_note) {
                 overmap_buffer.add_note(curs, new_note);
             }

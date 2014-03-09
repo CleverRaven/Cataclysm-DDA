@@ -5057,19 +5057,25 @@ void game::draw_minimap()
                     ter_sym = 'N';
                 }
                 if(note.length() >= 2 && note[1] == ';'){
+                        if(note[0] == 'r'){ter_color = c_ltred;}
                         if(note[0] == 'R'){ter_color = c_red;}
+                        if(note[0] == 'g'){ter_color = c_ltgreen;}
                         if(note[0] == 'G'){ter_color = c_green;}
+                        if(note[0] == 'b'){ter_color = c_ltblue;}
                         if(note[0] == 'B'){ter_color = c_blue;}
                         if(note[0] == 'W'){ter_color = c_white;}
                         if(note[0] == 'C'){ter_color = c_cyan;}
                         if(note[0] == 'P'){ter_color = c_pink;}
                 }else if(note.length() >= 4 && note[3] == ';'){
-                        if(note[2] == 'R'){ter_color = c_red;}
-                        if(note[2] == 'G'){ter_color = c_green;}
-                        if(note[2] == 'B'){ter_color = c_blue;}
-                        if(note[2] == 'W'){ter_color = c_white;}
-                        if(note[2] == 'C'){ter_color = c_cyan;}
-                        if(note[2] == 'P'){ter_color = c_pink;}
+                        if(note[0] == 'r'){ter_color = c_ltred;}
+                        if(note[0] == 'R'){ter_color = c_red;}
+                        if(note[0] == 'g'){ter_color = c_ltgreen;}
+                        if(note[0] == 'G'){ter_color = c_green;}
+                        if(note[0] == 'b'){ter_color = c_ltblue;}
+                        if(note[0] == 'B'){ter_color = c_blue;}
+                        if(note[0] == 'W'){ter_color = c_white;}
+                        if(note[0] == 'C'){ter_color = c_cyan;}
+                        if(note[0] == 'P'){ter_color = c_pink;}
                 }else{
                     ter_color = c_yellow;
                 }
