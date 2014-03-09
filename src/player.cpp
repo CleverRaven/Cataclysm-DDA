@@ -55,6 +55,7 @@ void game::init_morale()
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),
+    _("Enjoyed honey"),
     _("Played Video Game"),
     _("Marloss Bliss"),
     _("Mutagenic Anticipation"),
@@ -7358,6 +7359,18 @@ bool player::eat(item *eaten, it_comest *comest)
     if ((has_trait("ANTIWHEAT") || has_trait("CARNIVORE")) && eaten->made_of("wheat")) {
         g->add_msg_if_player(this,_("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
+    }
+    if ((!crossed_threshold() || has_trait("THRESH_URSINE")) && mutation_category_level["MUTCAT_URSINE"] > 40
+        && eaten->made_of("honey")) {
+        //Need at least 5 bear muts for effect to show, to filter out mutations in common with other mutcats
+        int honey_fun = has_trait("THRESH_URSINE") ?
+            std::min(mutation_category_level["MUTCAT_URSINE"]/8, 20) :
+            mutation_category_level["MUTCAT_URSINE"]/12;
+        if (honey_fun < 10)
+            g->add_msg_if_player(this,_("You find the sweet taste of honey surprisingly palatable."));
+        else
+            g->add_msg_if_player(this,_("You feast upon the sweet honey."));
+        add_morale(MORALE_HONEY, honey_fun, 100);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
             (eaten->made_of("flesh") || eaten->made_of("egg"))) {
