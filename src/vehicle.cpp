@@ -2499,8 +2499,13 @@ void vehicle::thrust (int thd) {
     }
 
     // Keep exact cruise control speed
-    if (cruise_on && velocity+vel_inc > cruise_velocity*thd)
-        vel_inc = cruise_velocity - velocity;
+    if( cruise_on ) {
+        if( thd > 0 ) {
+            vel_inc = std::min( vel_inc, cruise_velocity - velocity );
+        } else {
+            vel_inc = std::max( vel_inc, cruise_velocity - velocity );
+        }
+    }
 
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
