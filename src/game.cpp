@@ -5051,10 +5051,34 @@ void game::draw_minimap()
                 const std::string& note = overmap_buffer.note(omx, omy, levz);
                 if (note.length() >= 2 && note[1] == ':') {
                     ter_sym = note[0];
+                }else if (note.length() >= 4 && note[3] == ':') {
+                    ter_sym = note[2];
                 } else {
                     ter_sym = 'N';
                 }
-                ter_color = c_yellow;
+                if(note.length() >= 2 && note[1] == ';'){
+                        if(note[0] == 'r'){ter_color = c_ltred;}
+                        if(note[0] == 'R'){ter_color = c_red;}
+                        if(note[0] == 'g'){ter_color = c_ltgreen;}
+                        if(note[0] == 'G'){ter_color = c_green;}
+                        if(note[0] == 'b'){ter_color = c_ltblue;}
+                        if(note[0] == 'B'){ter_color = c_blue;}
+                        if(note[0] == 'W'){ter_color = c_white;}
+                        if(note[0] == 'C'){ter_color = c_cyan;}
+                        if(note[0] == 'P'){ter_color = c_pink;}
+                }else if(note.length() >= 4 && note[3] == ';'){
+                        if(note[0] == 'r'){ter_color = c_ltred;}
+                        if(note[0] == 'R'){ter_color = c_red;}
+                        if(note[0] == 'g'){ter_color = c_ltgreen;}
+                        if(note[0] == 'G'){ter_color = c_green;}
+                        if(note[0] == 'b'){ter_color = c_ltblue;}
+                        if(note[0] == 'B'){ter_color = c_blue;}
+                        if(note[0] == 'W'){ter_color = c_white;}
+                        if(note[0] == 'C'){ter_color = c_cyan;}
+                        if(note[0] == 'P'){ter_color = c_pink;}
+                }else{
+                    ter_color = c_yellow;
+                }
             } else if (!seen) {
                 ter_sym = ' ';
                 ter_color = c_black;
@@ -9705,7 +9729,7 @@ and you can't unwield your %s."),
         } else if (getitem[i]) {
             bool picked_up = false;
             item temp = here[i].clone();
-            
+
             iter = 0;
             while (iter < inv_chars.size() &&
                    (here[i].invlet == 0 || (u.has_item(here[i].invlet) &&
@@ -13247,7 +13271,7 @@ int game::valid_group(std::string type, int x, int y, int z_coord)
     std::vector <int> semi_valid; // Groups that're ALMOST big enough
     int dist;
     for (size_t i = 0; i < cur_om->zg.size(); i++) {
-        if (cur_om->zg[i].posz != z_coord) { 
+        if (cur_om->zg[i].posz != z_coord) {
             continue;
         }
         dist = trig_dist(x, y, cur_om->zg[i].posx, cur_om->zg[i].posy);
