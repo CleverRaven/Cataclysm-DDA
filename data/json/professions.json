@@ -1054,7 +1054,7 @@
         "type": "profession",
         "ident": "bio_soldier",
         "name": "Bionic Soldier",
-        "description": "You are the result of one of the military's latest and final research programs, a prototype cyborg soldier. You're still alive thanks to your augmentations, even after all your comrades fell to the undead. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "description": "You are the result of one of the military's latest and final research programs, a prototype cyborg soldier. You're still alive thanks to your augmentations, even after all your comrades fell to the undead.",
         "points": 5,
         "CBMs":[
             "bio_targeting",
@@ -1864,6 +1864,7 @@
             "both": [
                 "suit",
                 "skinny_tie",
+                "tieclip",
                 "dress_shoes",
                 "wristwatch",
                 "cell_phone",

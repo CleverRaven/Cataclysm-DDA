@@ -1843,7 +1843,7 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 5,
         "bashing" : 10,
-        "cutting" : 6,
+        "cutting" : 3,
         "flags" : ["STAB"],
         "price" : 8000
     },
@@ -1860,7 +1860,7 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 7,
         "bashing" : 20,
-        "cutting" : 6,
+        "cutting" : 4,
         "flags" : ["STAB"],
         "price" : 16000
     },
@@ -1892,8 +1892,8 @@
     "price": 0,
     "volume": 1,
     "weight": 430,
-    "bashing": 2,
-    "cutting": 8,
+    "bashing": 4,
+    "cutting": 6,
     "flags" : ["UNARMED_WEAPON"],
     "to_hit": 0
     },
@@ -1910,7 +1910,7 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 5,
         "bashing" : 22,
-        "cutting" : 4,
+        "cutting" : 2,
         "flags" : ["STAB"],
         "price" : 8000
     },

@@ -139,9 +139,9 @@ class cata_tiles
          *  float inaccuracies. */
         void set_draw_scale(int scale);
 
-        /** Load tileset */
+        /** Load tileset, throws std::string on errors */
         void load_tileset(std::string path);
-        /** Load tileset config file */
+        /** Load tileset config file, throws std::string on errors  */
         void load_tilejson(std::string path);
         void load_tilejson_from_file(std::ifstream &f);
         /** Draw to screen */
@@ -211,11 +211,11 @@ class cata_tiles
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
-        /** Used to properly initialize everything for display */
+        /** Used to properly initialize everything for display, throws std::string on errors  */
         void init(std::string json_path, std::string tileset_path);
-        /* initialize from an outside file */
+        /* initialize from an outside file, throws std::string on errors  */
         void init(std::string load_file_path);
-        /* Reinitializes the tile context using the original screen information */
+        /* Reinitializes the tile context using the original screen information, throws std::string on errors  */
         void reinit(std::string load_file_path);
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
