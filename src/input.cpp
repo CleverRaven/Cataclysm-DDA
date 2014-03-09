@@ -603,7 +603,7 @@ void input_context::display_help()
         mvwprintz(w_help, i, 1, c_black, "                                               ");
     }
 
-    for (int i = 0; i < registered_actions.size(); i++) {
+    for (size_t i = 0; i < registered_actions.size(); i++) {
         const std::string &action_id = registered_actions[i];
         if(action_id == "ANY_INPUT") {
             continue;

@@ -2,19 +2,16 @@
 #define CATA_TILES_H
 
 // make sure that SDL systems are included: Until testing is available for other systems, keep Windows specific
-#if (defined _WIN32 || defined WINDOWS)
-//#include <windows.h>
-#include "SDL.h"
-#include "SDL_ttf.h"
-#else
+#if !(defined _WIN32 || defined WINDOWS)
 #include <wordexp.h>
+#endif
+
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
 #else
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
-#endif
 #endif
 
 #include "game.h"
