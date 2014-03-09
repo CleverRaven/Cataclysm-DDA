@@ -14548,6 +14548,7 @@
         "nutrition" : 4,
         "description" : "Only the finest whiskey straight from the bung.",
         "price" : 124900,
+        "price_note" : "priced by the 100 liter barrel",
         "material" : "null",
         "tool" : "null",
         "volume" : 2,
