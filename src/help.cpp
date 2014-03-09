@@ -408,6 +408,11 @@ an understanding of chemistry and can make chemical weapons and beneficial elixi
 In addition to the primary crafting skills, other skills may be necessary to create certain \
 items. Traps skill, Marksmanship skill, and First Aid skill are all required for certain items."));
 
+    text.push_back(_("\
+For more information about the current ingame recipes, craftable objects, and how to get all \
+these items, see the crafting browser at http://cdda.estilofusion.com/. Up to date for the latest \
+release, and the latest experimental versions." ));
+
     return text;
 }
 
