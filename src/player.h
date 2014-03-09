@@ -505,6 +505,7 @@ public:
 
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
+ bool has_drink();
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
  bool has_item(char let);  // Has an item with invlet let

@@ -3145,6 +3145,9 @@ void map::disarm_trap(const int x, const int y)
           }
       }
   }
+  if (tr_at(x, y) == tr_shotgun_1 || tr_at(x,y) == tr_shotgun_2) {
+      spawn_item(x,y,"shot_00",1,2);
+  }
   remove_trap(x, y);
   if(diff > 1.25 * skillLevel) // failure might have set off trap
     g->u.practice(g->turn, "traps", 1.5*(diff - skillLevel));
@@ -3756,7 +3759,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
 bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
 {
     int junk = 0;
-    return has_flag("SEALED", Tx, Ty) ||
+    return (has_flag("SEALED", Tx, Ty) && !has_flag("LIQUIDCONT", Tx, Ty)) ||
         ((Fx != Tx || Fy != Ty) &&
          !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }

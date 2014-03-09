@@ -10979,24 +10979,66 @@ void game::complete_butcher(int index)
 
 void game::forage()
 {
-  int veggy_chance = rng(1, 20);
+  int veggy_chance = rng(1, 100);
 
-  if (veggy_chance < u.skillLevel("survival"))
+  if (one_in(12))
   {
-    add_msg(_("You found some wild veggies!"));
-    u.practice(turn, "survival", 10);
-    m.spawn_item(u.activity.placement.x, u.activity.placement.y, "veggy_wild", 1, 0, turn);
+    add_msg(_("You found some trash!"));
+    m.put_items_from("trash_forest", 1, u.posx, u.posy, g->turn, 0, 0, 0);
+  }
+  if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5))
+  {
+    if (!one_in(6)) {
+       if (!one_in(3)) {
+         add_msg(_("You found some wild veggies!"));
+         m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, turn);
+         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+       } else {
+         add_msg(_("You found some wild mushrooms!"));
+         m.put_items_from("mushroom_forest", rng(1, 3), u.posx, u.posy, g->turn, 0, 0, 0);
+         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+       }
+    }
+	else {
+	   add_msg(_("You found a nest with some eggs!"));
+	   if (!one_in(4)) {
+          m.spawn_item(u.posx, u.posy, "egg_bird", rng(1, 5), 0, turn);
+       } else {
+          m.spawn_item(u.posx, u.posy, "egg_reptile", rng(1, 5), 0, turn);
+	   }
+    }
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
   else
   {
     add_msg(_("You didn't find anything."));
-    if (u.skillLevel("survival") < 7)
-        u.practice(turn, "survival", rng(3, 6));
-    else
-        u.practice(turn, "survival", 1);
     if (one_in(2))
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+  }
+  //Determinate maximum level of skill attained by foraging using ones intelligence score
+  int max_forage_skill =  0;
+  if (u.int_cur < 4)
+  {
+    max_forage_skill =  1;
+  } else if (u.int_cur <  6) {
+    max_forage_skill =  2;
+  } else if (u.int_cur <  8) {
+    max_forage_skill =  3;
+  } else if (u.int_cur < 11) {
+    max_forage_skill =  4;
+  } else if (u.int_cur < 15) {
+    max_forage_skill =  5;
+  } else if (u.int_cur < 20) {
+    max_forage_skill =  6;
+  } else if (u.int_cur < 26) {
+    max_forage_skill =  7;
+  } else if (u.int_cur > 25) {
+    max_forage_skill =  8;
+  }
+  //Award experience for foraging attempt regardless of success
+  if (u.skillLevel("survival") < max_forage_skill)
+  {
+    u.practice(turn, "survival", rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)));
   }
 }
 

@@ -259,6 +259,14 @@ void player::power_bionics()
                                (weapon_id == "bio_claws_weapon" && bio_id == "bio_claws_weapon") ||
                                (weapon_id == "bio_blade_weapon" && bio_id == "bio_blade_weapon")) {
                         int b = tmp - &my_bionics[0];
+
+                        //this will clear the bionics menu for targeting purposes
+                        werase(wBio);
+                        wrefresh(wBio);
+                        delwin(w_title);
+                        delwin(w_description);
+                        delwin(wBio);
+                        g->draw();
                         activate_bionic(b);
                     }
                     // Action done, leave screen
@@ -279,11 +287,14 @@ You can not activate %s!  To read a description of \
             }
         }
     }
-    werase(wBio);
-    wrefresh(wBio);
-    delwin(w_title);
-    delwin(w_description);
-    delwin(wBio);
+    //if we activated a bionic, already killed the windows
+    if(!activating){
+        werase(wBio);
+        wrefresh(wBio);
+        delwin(w_title);
+        delwin(w_description);
+        delwin(wBio);
+    }
 }
 
 void draw_exam_window(WINDOW *win, int border_line, bool examination)
@@ -705,11 +716,7 @@ void player::activate_bionic(int b)
             std::string door_name = rm_prefix(_("<door_name>door"));
             g->add_msg_if_player(this, _("With a satisfying click, the lock on the %s opens."),door_name.c_str());
             g->m.ter_set(dirx, diry, t_door_c);
-        } else if (type == t_door_metal_locked ) {  
-            moves -= 40;
-            std::string door_name = rm_prefix(_("<door_name>door"));
-            g->add_msg_if_player(this, _("With a satisfying click, the lock on the %s opens."),door_name.c_str());
-            g->m.ter_set(dirx, diry, t_door_metal_c);
+        // Locked metal doors are the Lab and Bunker entries.  Those need to stay locked.
         } else if(type == t_door_bar_locked){
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));

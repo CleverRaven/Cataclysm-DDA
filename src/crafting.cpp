@@ -78,6 +78,7 @@ void load_recipe(JsonObject &jsobj)
     std::string skill_used = jsobj.get_string("skill_used", "");
     std::string id_suffix = jsobj.get_string("id_suffix", "");
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
+    int result_mult = jsobj.get_int("result_mult", 1);
 
     std::map<std::string, int> requires_skills;
     jsarr = jsobj.get_array("skills_required");
@@ -110,7 +111,7 @@ void load_recipe(JsonObject &jsobj)
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, time, reversible,
-                             autolearn, learn_by_disassembly);
+                             autolearn, learn_by_disassembly, result_mult);
 
     jsarr = jsobj.get_array("components");
     while (jsarr.has_more()) {
@@ -893,6 +894,7 @@ recipe *game::select_crafting_recipe()
                 if ( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = item(item_controller->find_template(current[line]->result), g->turn);
+                    tmp.charges *= current[line]->result_mult;
                     folded = foldstring(tmp.info(true), iInfoWidth);
                 }
                 int maxline = (ssize_t)folded.size() > dataHeight ? dataHeight : (ssize_t)folded.size();
@@ -1448,16 +1450,23 @@ void game::complete_craft()
             newit.item_counter = 600;
         }
     }
+    if (making->result_mult != 1) {
+        newit.charges *= making->result_mult;
+    }
+
     if (!newit.craft_has_charges()) {
         newit.charges = 0;
     }
     u.inv.assign_empty_invlet(newit);
     //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
-        handle_liquid(newit, false, false);
+        //while ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ){
+        //while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
+        // ^ failed container controls, they don't detect stacks of the same empty container after only one of them is filled
+        while(!handle_liquid(newit, false, false)) { ; }
     } else {
         // We might not have space for the item
-        if (!u.can_pickVolume(newit.volume())) {
+        if (!u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
                     newit.tname().c_str());
             m.add_item_or_charges(u.posx, u.posy, newit);
