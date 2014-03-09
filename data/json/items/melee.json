@@ -613,7 +613,7 @@
     "name": "ironshod quarterstaff",
     "description": "A smooth and sturdy staff with a leather-wrapped grip, which has been reinforced with metal bands and caps. Durable and well-balanced, it is surprisingly easy to handle.",
     "price": 8000,
-    "material": [ "wood", "steel" ],
+    "material": [ "wood", "iron" ],
     "techniques" : ["WBLOCK_1", "RAPID"],
     "weight": 2200,
     "volume": 12,
@@ -2269,7 +2269,7 @@
         "volume" : 2,
         "bashing" : 8,
         "cutting" : 16,
-        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "DURABLE"],
+        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
         "price" : 0
     },
     {
@@ -2286,7 +2286,7 @@
         "volume" : 3,
         "bashing" : 0,
         "cutting" : 36,
-        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "DURABLE"],
+        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
         "price" : 0
     },
     {
