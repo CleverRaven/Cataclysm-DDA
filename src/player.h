@@ -183,6 +183,7 @@ public:
  bool has_two_arms() const;
  bool can_wear_boots();
  bool is_armed(); // True if we're wielding something; true for bionics
+ bool handle_melee_wear(); // Melee weapon wear-and-tear through use
  bool unarmed_attack(); // False if we're wielding something; true for bionics
  bool avoid_trap(trap *tr);
 
