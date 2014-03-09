@@ -43,11 +43,11 @@ bool player::handle_melee_wear() {
     std::stringstream dump;
     
   if (!weapon.has_flag("DURABLE")) {
-    if ((weapon.damage < 4) && (weapon.made_of("bone") || weapon.made_of("wood") || weapon.made_of("plastic")) &&
-    (one_in( (64 + skillLevel("melee") - str_cur) * 4 ))){
+    if ((weapon.damage < 4) && (weapon.made_of("ceramic") || weapon.made_of("superalloy") || weapon.made_of("hardsteel")) &&
+    (one_in( (64 + skillLevel("melee") - str_cur) * 256 ))){
                 weapon.damage++;
-                g->add_msg_player_or_npc(this, _("Your %s is cracked by the force of the blow!"),
-                                         _("<npcname>'s %s is cracked by the force of the blow!"),
+                g->add_msg_player_or_npc(this, _("Your %s is splintered by the force of the blow!"),
+                                         _("<npcname>'s %s is splintered by the force of the blow!"),
                                          weapon.name.c_str());
     }
     if ((weapon.damage < 4) && (weapon.made_of("iron") || weapon.made_of("steel") || weapon.made_of("stone")) &&
@@ -57,11 +57,11 @@ bool player::handle_melee_wear() {
                                          _("<npcname>'s %s is dented by the force of the blow!"),
                                          weapon.name.c_str());
     }
-    if ((weapon.damage < 4) && (weapon.made_of("ceramic") || weapon.made_of("superalloy") || weapon.made_of("hardsteel")) &&
-    (one_in( (64 + skillLevel("melee") - str_cur) * 256 ))){
+    if ((weapon.damage < 4) && (weapon.made_of("bone") || weapon.made_of("wood") || weapon.made_of("plastic")) &&
+    (one_in( (64 + skillLevel("melee") - str_cur) * 4 ))){
                 weapon.damage++;
-                g->add_msg_player_or_npc(this, _("Your %s is splintered by the force of the blow!"),
-                                         _("<npcname>'s %s is splintered by the force of the blow!"),
+                g->add_msg_player_or_npc(this, _("Your %s is cracked by the force of the blow!"),
+                                         _("<npcname>'s %s is cracked by the force of the blow!"),
                                          weapon.name.c_str());
     }
     else if ((weapon.damage < 4) && (one_in( 64 + skillLevel("melee") - str_cur ))){
@@ -70,13 +70,9 @@ bool player::handle_melee_wear() {
                                          _("<npcname>'s %s is damaged by the force of the blow!"),
                                          weapon.name.c_str());
     } else if ((weapon.damage >= 4) && (one_in( (64 + skillLevel("melee") - str_cur)))){
-        if (is_player()) {
-            dump << string_format(_("Your %s is destroyed!"), weapon.tname().c_str()) << std::endl;
-        } else {
-            g->add_msg_player_or_npc(this, _("Your %s is destroyed!"),
-                                        _("<npcname>'s %s is destroyed!"),
-                                        weapon.tname().c_str());
-          }
+                g->add_msg_player_or_npc(this, _("Your %s is destroyed by the blow!"),
+                                         _("<npcname>'s %s is destroyed by the blow!"),
+                                         weapon.name.c_str());
 // Dump its contents on the ground
   for (size_t i = 0; i < weapon.contents.size(); i++)
    g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
@@ -859,6 +855,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     if (can_weapon_block()) {
         g->add_msg_player_or_npc( this, _("You block with your %s!"),
             _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
+        handle_melee_wear();
     }
     else if (can_limb_block()) {
         //Choose which body part to block with
