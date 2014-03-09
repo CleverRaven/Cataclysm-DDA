@@ -5084,31 +5084,31 @@ void game::draw_minimap()
                                 ter_color = c_pink;
                         }
                 } else if (note.length() >= 4 && note[3] == ';'){
-                        if (note[0] == 'r'){
+                        if (note[2] == 'r'){
                                 ter_color = c_ltred;
                         }
-                        if (note[0] == 'R'){
+                        if (note[2] == 'R'){
                                 ter_color = c_red;
                         }
-                        if (note[0] == 'g'){
+                        if (note[2] == 'g'){
                                 ter_color = c_ltgreen;
                         }
-                        if (note[0] == 'G'){
+                        if (note[2] == 'G'){
                                 ter_color = c_green;
                         }
-                        if (note[0] == 'b'){
+                        if (note[2] == 'b'){
                                 ter_color = c_ltblue;
                         }
-                        if (note[0] == 'B'){
+                        if (note[2] == 'B'){
                                 ter_color = c_blue;
                         }
-                        if (note[0] == 'W'){
+                        if (note[2] == 'W'){
                                 ter_color = c_white;
                         }
-                        if (note[0] == 'C'){
+                        if (note[2] == 'C'){
                                 ter_color = c_cyan;
                         }
-                        if (note[0] == 'P'){
+                        if (note[2] == 'P'){
                                 ter_color = c_pink;
                         }
                 }else{
