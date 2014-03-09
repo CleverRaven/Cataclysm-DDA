@@ -1704,13 +1704,13 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                         if (note_text[2] == 'R'){
                                 ter_color = c_red;
                         }
-                        if (note_text[0] == 'g'){
+                        if (note_text[2] == 'g'){
                                 ter_color = c_ltgreen;
                         }
                         if (note_text[2] == 'G'){
                                 ter_color = c_green;
                         }
-                        if (note_text[0] == 'b'){
+                        if (note_text[2] == 'b'){
                                 ter_color = c_ltblue;
                         }
                         if (note_text[2] == 'B'){
