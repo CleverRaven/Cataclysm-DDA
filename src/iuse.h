@@ -230,6 +230,9 @@ public:
     int toolarmor_on        (player *, item *, bool);
     int rm13armor_off       (player *, item *, bool);
     int rm13armor_on        (player *, item *, bool);
+    int unpack_item         (player *, item *, bool);
+    int pack_item           (player *, item *, bool);
+    int radglove            (player *, item *, bool);
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
 

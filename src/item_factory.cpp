@@ -374,6 +374,9 @@ void Item_factory::init(){
     iuse_function_list["TOOLARMOR_ON"]  = &iuse::toolarmor_on;
     iuse_function_list["RM13ARMOR_OFF"]  = &iuse::rm13armor_off;
     iuse_function_list["RM13ARMOR_ON"]  = &iuse::rm13armor_on;
+    iuse_function_list["UNPACK_ITEM"]  = &iuse::unpack_item;
+    iuse_function_list["PACK_ITEM"]  = &iuse::pack_item;
+    iuse_function_list["RADGLOVE"]  = &iuse::radglove;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
