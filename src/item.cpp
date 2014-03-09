@@ -1316,8 +1316,12 @@ int item::damage_bash()
     if( is_null() )
         return 0;
 
-    total -= damage * 2;
-    return total;
+    total -= total * (damage * 0.1) ;
+      if (total > 0) {
+      return total;
+      } else {
+         return 0;
+        }
 }
 
 int item::damage_cut() const
@@ -1331,8 +1335,12 @@ int item::damage_cut() const
     }
     if( is_null() )
         return 0;
-    total -= damage * 3;
-    return total;
+    total -= total * (damage * 0.2) ;
+      if (total > 0) {
+      return total;
+      } else {
+         return 0;
+        }
 }
 
 bool item::has_flag(std::string f) const
