@@ -194,7 +194,9 @@
     {
         "type" : "ARMOR",
         "id" : "mouthpiece",
+        "category" : "armor",
         "name" : "protective mouthpiece",
+        "category" : "armor",
         "weight": 20,
         "color": "yellow",
         "covers" : ["MOUTH"],
@@ -218,6 +220,7 @@
     {
         "type" : "ARMOR",
         "id" : "football_armor",
+        "category" : "armor",
         "name" : "football armor",
         "weight" : 2810,
         "color" : "light_gray",
@@ -241,6 +244,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_football",
+        "category" : "armor",
         "name" : "football helmet",
         "weight" : 1360,
         "color" : "yellow",
@@ -365,6 +369,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_combat",
+        "category" : "armor",
         "name" : "combat boots",
         "weight" : 1060,
         "color" : "dark_gray",
@@ -633,6 +638,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_chitin",
+        "category" : "armor",
         "name" : "chitinous boots",
         "weight" : 1620,
         "color" : "green",
@@ -658,6 +664,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_bone",
+        "category" : "armor",
         "name" : "bone armor boots",
         "weight" : 1824,
         "color" : "white",
@@ -683,6 +690,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_larmor",
+        "category" : "armor",
         "name" : "leather armor boots",
         "weight" : 902,
         "color" : "brown",
@@ -1978,6 +1986,7 @@
     {
         "type" : "ARMOR",
         "id" : "armor_chitin",
+        "category" : "armor",
         "name" : "chitinous armor",
         "weight" : 2632,
         "color" : "green",
@@ -2002,6 +2011,7 @@
     {
         "type" : "ARMOR",
         "id" : "armor_bone",
+        "category" : "armor",
         "name" : "bone body armor",
         "weight" : 3332,
         "color" : "white",
@@ -2026,6 +2036,7 @@
     {
         "type" : "ARMOR",
         "id" : "armor_larmor",
+        "category" : "armor",
         "name" : "leather body armor",
         "weight" : 1928,
         "color" : "brown",
@@ -2050,6 +2061,7 @@
     {
         "type" : "ARMOR",
         "id" : "armor_blarmor",
+        "category" : "armor",
         "name" : "boiled leather armor",
         "weight" : 2108,
         "color" : "brown",
@@ -2074,6 +2086,7 @@
     {
         "type" : "ARMOR",
         "id" : "armor_farmor",
+        "category" : "armor",
         "name" : "fur body armor",
         "weight" : 3414,
         "color" : "brown",
@@ -2098,6 +2111,7 @@
     {
         "type" : "ARMOR",
         "id" : "armor_plarmor",
+        "category" : "armor",
         "name" : "plated leather armor",
         "weight" : 4280,
         "color" : "brown",
@@ -2242,6 +2256,7 @@
     {
         "type" : "ARMOR",
         "id" : "aep_suit",
+        "category" : "armor",
         "name" : "AEP suit",
         "weight" : 7200,
         "color" : "light_red",
@@ -2290,6 +2305,7 @@
     {
         "type" : "ARMOR",
         "id" : "anbc_suit",
+        "category" : "armor",
         "name" : "ANBC suit",
         "weight" : 8700,
         "color" : "light_red",
@@ -2314,6 +2330,7 @@
     {
         "type" : "ARMOR",
         "id" : "mask_survivor",
+        "category" : "armor",
         "name" : "survivor mask",
         "weight" : 682,
         "color" : "dark_gray",
@@ -2338,6 +2355,7 @@
     {
         "type" : "ARMOR",
         "id" : "mask_survivorxl",
+        "category" : "armor",
         "name" : "XL survivor mask",
         "weight" : 982,
         "color" : "dark_gray",
@@ -3225,6 +3243,7 @@
     {
         "type" : "ARMOR",
         "id" : "kevlar",
+        "category" : "armor",
         "name" : "kevlar vest",
         "weight" : 2860,
         "color" : "light_gray",
@@ -3249,6 +3268,7 @@
     {
         "type" : "ARMOR",
         "id" : "dragonskin",
+        "category" : "armor",
         "name" : "dragon skin vest",
         "weight" : 2860,
         "color" : "light_red",
@@ -3273,6 +3293,7 @@
     {
         "type" : "ARMOR",
         "id" : "modularvest",
+        "category" : "armor",
         "name" : "MBR vest (empty)",
         "weight" : 2860,
         "color" : "light_gray",
@@ -3297,6 +3318,7 @@
     {
         "type" : "ARMOR",
         "id" : "modularvestsuper",
+        "category" : "armor",
         "name" : "MBR vest (superalloy)",
         "weight" : 8525,
         "color" : "light_cyan",
@@ -3321,6 +3343,7 @@
     {
         "type" : "ARMOR",
         "id" : "modularveststeel",
+        "category" : "armor",
         "name" : "MBR vest (steel plating)",
         "weight" : 10250,
         "color" : "light_cyan",
@@ -3345,6 +3368,7 @@
     {
         "type" : "ARMOR",
         "id" : "modularvestceramic",
+        "category" : "armor",
         "name" : "MBR vest (ceramic plates)",
         "weight" : 5721,
         "color" : "light_gray",
@@ -3369,6 +3393,7 @@
     {
         "type" : "ARMOR",
         "id" : "modularvestkevlar",
+        "category" : "armor",
         "name" : "MBR vest (kevlar plates)",
         "weight" : 5721,
         "color" : "light_gray",
@@ -3393,6 +3418,7 @@
     {
         "type" : "ARMOR",
         "id" : "modularvesthard",
+        "category" : "armor",
         "name" : "MBR vest (hard plates)",
         "weight" : 20850,
         "color" : "light_cyan",
@@ -3609,6 +3635,7 @@
     {
         "type" : "ARMOR",
         "id" : "trenchcoat_survivor",
+        "category" : "armor",
         "name" : "survivor trenchcoat",
         "weight" : 1920,
         "color" : "brown",
@@ -3633,6 +3660,7 @@
     {
         "type" : "ARMOR",
         "id" : "pants_survivor",
+        "category" : "armor",
         "name" : "survivor cargo pants",
         "weight" : 920,
         "color" : "green",
@@ -3920,6 +3948,7 @@
     {
         "type" : "ARMOR",
         "id" : "armguard_chitin",
+        "category" : "armor",
         "name" : "chitin arm guards",
         "weight" : 392,
         "color" : "green",
@@ -4132,6 +4161,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_tactical",
+        "category" : "armor",
         "name" : "tactical gloves",
         "weight" : 220,
         "color" : "dark_gray",
@@ -4277,6 +4307,7 @@
     {
         "type" : "ARMOR",
         "id" : "fire_gauntlets",
+        "category" : "armor",
         "name" : "fire gauntlets",
         "weight" : 572,
         "color" : "dark_gray",
@@ -4301,6 +4332,7 @@
     {
         "type" : "ARMOR",
         "id" : "gauntlets_chitin",
+        "category" : "armor",
         "name" : "chitinous gauntlets",
         "weight" : 760,
         "color" : "green",
@@ -4325,6 +4357,7 @@
     {
         "type" : "ARMOR",
         "id" : "gauntlets_bone",
+        "category" : "armor",
         "name" : "bone armor gauntlets",
         "weight" : 690,
         "color" : "white",
@@ -4349,6 +4382,7 @@
     {
         "type" : "ARMOR",
         "id" : "gauntlets_larmor",
+        "category" : "armor",
         "name" : "leather armor gauntlets",
         "weight" : 350,
         "color" : "brown",
@@ -5085,6 +5119,7 @@
     {
         "type" : "ARMOR",
         "id" : "firehelmet",
+        "category" : "armor",
         "name" : "firefighter helmet",
         "weight" : 820,
         "color" : "yellow",
@@ -5109,6 +5144,7 @@
     {
         "type" : "ARMOR",
         "id" : "bunker_coat",
+        "category" : "armor",
         "name" : "turnout coat",
         "weight" : 1930,
         "color" : "yellow",
@@ -5133,6 +5169,7 @@
     {
         "type" : "ARMOR",
         "id" : "bunker_pants",
+        "category" : "armor",
         "name" : "turnout trousers",
         "weight" : 2290,
         "color" : "dark_gray",
@@ -5157,6 +5194,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_bunker",
+        "category" : "armor",
         "name" : "turnout boots",
         "weight" : 1930,
         "color" : "dark_gray",
@@ -5445,6 +5483,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_army",
+        "category" : "armor",
         "name" : "army helmet",
         "weight" : 1383,
         "color" : "green",
@@ -5470,6 +5509,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_lobster",
+        "category" : "armor",
         "name" : "lobster helmet",
         "weight" : 1383,
         "color" : "light_gray",
@@ -5542,6 +5582,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_riot",
+        "category" : "armor",
         "name" : "riot helmet",
         "weight" : 2260,
         "color" : "dark_gray",
@@ -5567,6 +5608,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_motor",
+        "category" : "armor",
         "name" : "motorcycle helmet",
         "weight" : 1587,
         "color" : "dark_gray",
@@ -5592,6 +5634,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_chitin",
+        "category" : "armor",
         "name" : "chitinous helmet",
         "weight" : 1447,
         "color" : "green",
@@ -5616,6 +5659,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_bone",
+        "category" : "armor",
         "name" : "bone armor helmet",
         "weight" : 1621,
         "color" : "white",
@@ -5640,6 +5684,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_plate",
+        "category" : "armor",
         "name" : "great helm",
         "weight" : 2175,
         "color" : "light_gray",
@@ -6945,6 +6990,7 @@
     {
         "type" : "ARMOR",
         "id" : "power_armor_basic",
+        "category" : "armor",
         "name" : "basic power armor",
         "description" : "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.  The UPS power supply compartment can store other things if you don't mind powering the suit yourself.  Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
         "weight" : 20339,
@@ -6970,6 +7016,7 @@
     {
         "type" : "ARMOR",
         "id" : "power_armor_helmet_basic",
+        "category" : "armor",
         "name" : "basic power armor helmet",
         "description" : "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I. Offers excellent protection from both attacks and environmental hazards. Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
         "weight" : 3628,
@@ -6995,6 +7042,7 @@
     {
         "type" : "ARMOR",
         "id" : "power_armor_light",
+        "category" : "armor",
         "name" : "light power armor",
         "description" : "A suit of DoubleTech Power Armor, Mk. II-L. This model offers several improvements over the Mk. I, most notably the reduced weight. Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
         "weight" : 7670,
@@ -7020,6 +7068,7 @@
     {
         "type" : "ARMOR",
         "id" : "power_armor_helmet_light",
+        "category" : "armor",
         "name" : "light power armor helmet",
         "description" : "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-L. This improved design is lighter and cooler than the Mk. I helmet. Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
         "weight" : 1814,
@@ -7045,6 +7094,7 @@
     {
         "type" : "ARMOR",
         "id" : "power_armor_heavy",
+        "category" : "armor",
         "name" : "heavy power armor",
         "description" : "A suit of DoubleTech Power Armor, Mk. II-H. This model offers several improvements over the Mk. I, most notably the improved environmental protection. Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
         "weight" : 29009,
@@ -7070,6 +7120,7 @@
     {
         "type" : "ARMOR",
         "id" : "power_armor_helmet_heavy",
+        "category" : "armor",
         "name" : "heavy power armor helmet",
         "description" : "A power armor helmet designed for use with the DoubleTech Power Armor, Mk. II-H. This improved design is heavier than the Mk. I helmet, but cooler, and offers better environmental protection. Like all DoubleTech power armor, the control and climate-regulation systems require direct skin contact.",
         "weight" : 5442,
@@ -7095,6 +7146,7 @@
     {
         "type" : "ARMOR",
         "id" : "power_armor_frame",
+        "category" : "armor",
         "name" : "power armor hauling frame",
         "description" : "A heavy duty hauling frame designed to interface with power armor.",
         "weight" : 1640,
@@ -7119,6 +7171,7 @@
     {
         "type" : "ARMOR",
         "id" : "depowered_armor",
+        "category" : "armor",
         "name" : "salvaged power armor",
         "description" : "The DoubleTech Power Armor, Mk. I: A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in. This suit has had its servos and cooling system stripped out, meaning it no longer requires power, but also encumbers you greatly and doesn't provide internal thermal regulation.",
         "weight" : 12214,
@@ -7144,6 +7197,7 @@
     {
         "type" : "ARMOR",
         "id" : "depowered_helmet",
+        "category" : "armor",
         "name" : "salvaged power armor helmet",
         "description" : "A basic helmet, designed for use with the DoubleTech Power Armor, Mk. I. Offers excellent protection from both attacks and environmental hazards. This suit has had its internal computer and cooling system stripped out, meaning it no longer requires power, but it has no internal chronometer and doesn't provide internal thermal regulation.",
         "weight" : 2416,
@@ -7569,6 +7623,7 @@
     {
         "type" : "ARMOR",
         "id" : "lsurvivor_suit",
+        "category" : "armor",
         "name" : "light survivor suit",
         "weight" : 5100,
         "color" : "green",
@@ -7593,6 +7648,7 @@
     {
         "type" : "ARMOR",
         "id" : "survivor_suit",
+        "category" : "armor",
         "name" : "survivor suit",
         "weight" : 6800,
         "color" : "brown",
@@ -7617,6 +7673,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_plate",
+        "category" : "armor",
         "name" : "armored boots",
         "weight" : 1890,
         "color" : "light_gray",
@@ -7642,6 +7699,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_plate",
+        "category" : "armor",
         "name" : "armored gauntlets",
         "weight" : 980,
         "color" : "light_gray",
@@ -7666,6 +7724,7 @@
     {
         "type" : "ARMOR",
         "id" : "hsurvivor_suit",
+        "category" : "armor",
         "name" : "heavy survivor suit",
         "weight" : 8500,
         "color" : "dark_gray",
@@ -7690,6 +7749,7 @@
     {
         "type" : "ARMOR",
         "id" : "wsurvivor_suit",
+        "category" : "armor",
         "name" : "winter survivor suit",
         "weight" : 7800,
         "color" : "light_gray",
@@ -7714,6 +7774,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_wsurvivor",
+        "category" : "armor",
         "name" : "winter survivor boots",
         "weight" : 1760,
         "color" : "light_gray",
@@ -7739,6 +7800,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_wsurvivor",
+        "category" : "armor",
         "name" : "winter survivor gloves",
         "weight" : 300,
         "color" : "light_gray",
@@ -7763,6 +7825,7 @@
     {
         "type" : "ARMOR",
         "id" : "hood_wsurvivor",
+        "category" : "armor",
         "name" : "winter survivor hood",
         "weight" : 870,
         "color" : "light_gray",
@@ -7787,6 +7850,7 @@
     {
         "type" : "ARMOR",
         "id" : "mask_wsurvivor",
+        "category" : "armor",
         "name" : "winter survivor mask",
         "weight" : 682,
         "color" : "light_gray",
@@ -7811,6 +7875,7 @@
     {
         "type" : "ARMOR",
         "id" : "mask_wsurvivorxl",
+        "category" : "armor",
         "name" : "XL winter survivor mask",
         "weight" : 1062,
         "color" : "light_gray",
@@ -7835,6 +7900,7 @@
     {
         "type" : "ARMOR",
         "id" : "fsurvivor_suit",
+        "category" : "armor",
         "name" : "survivor firesuit",
         "weight" : 6800,
         "color" : "light_gray",
@@ -7859,6 +7925,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_fsurvivor",
+        "category" : "armor",
         "name" : "survivor fireboots",
         "weight" : 1980,
         "color" : "light_gray",
@@ -7884,6 +7951,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_fsurvivor",
+        "category" : "armor",
         "name" : "survivor firegloves",
         "weight" : 410,
         "color" : "light_gray",
@@ -7908,6 +7976,7 @@
     {
         "type" : "ARMOR",
         "id" : "hood_fsurvivor",
+        "category" : "armor",
         "name" : "survivor firehood",
         "weight" : 1220,
         "color" : "light_gray",
@@ -7932,6 +8001,7 @@
     {
         "type" : "ARMOR",
         "id" : "mask_fsurvivor",
+        "category" : "armor",
         "name" : "survivor firemask",
         "weight" : 708,
         "color" : "light_gray",
@@ -7956,6 +8026,7 @@
     {
         "type" : "ARMOR",
         "id" : "mask_fsurvivorxl",
+        "category" : "armor",
         "name" : "XL survivor firemask",
         "weight" : 1108,
         "color" : "light_gray",
@@ -7980,6 +8051,7 @@
     {
         "type" : "ARMOR",
         "id" : "h20survivor_suit",
+        "category" : "armor",
         "name" : "survivor wetsuit",
         "weight" : 6400,
         "color" : "dark_gray",
@@ -8004,6 +8076,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_h20survivor",
+        "category" : "armor",
         "name" : "survivor wetsuit boots",
         "weight" : 1180,
         "color" : "dark_gray",
@@ -8029,6 +8102,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_h20survivor",
+        "category" : "armor",
         "name" : "survivor wetsuit gloves",
         "weight" : 390,
         "color" : "dark_gray",
@@ -8053,6 +8127,7 @@
     {
         "type" : "ARMOR",
         "id" : "hood_h20survivor",
+        "category" : "armor",
         "name" : "survivor wetsuit hood",
         "weight" : 860,
         "color" : "dark_gray",
@@ -8077,6 +8152,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_lsurvivor",
+        "category" : "armor",
         "name" : "light survivor boots",
         "weight" : 1120,
         "color" : "green",
@@ -8102,6 +8178,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_survivor",
+        "category" : "armor",
         "name" : "survivor boots",
         "weight" : 1330,
         "color" : "brown",
@@ -8127,6 +8204,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_hsurvivor",
+        "category" : "armor",
         "name" : "heavy survivor boots",
         "weight" : 1610,
         "color" : "dark_gray",
@@ -8152,6 +8230,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_lsurvivor",
+        "category" : "armor",
         "name" : "light survivor gloves",
         "weight" : 190,
         "color" : "green",
@@ -8176,6 +8255,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_survivor",
+        "category" : "armor",
         "name" : "survivor gloves",
         "weight" : 230,
         "color" : "brown",
@@ -8200,6 +8280,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_hsurvivor",
+        "category" : "armor",
         "name" : "heavy survivor gloves",
         "weight" : 380,
         "color" : "dark_gray",
@@ -8224,6 +8305,7 @@
     {
         "type" : "ARMOR",
         "id" : "hood_lsurvivor",
+        "category" : "armor",
         "name" : "light survivor hood",
         "weight" : 628,
         "color" : "green",
@@ -8248,6 +8330,7 @@
     {
         "type" : "ARMOR",
         "id" : "hood_survivor",
+        "category" : "armor",
         "name" : "survivor hood",
         "weight" : 820,
         "color" : "brown",
@@ -8273,6 +8356,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_survivor",
+        "category" : "armor",
         "name" : "survivor helmet",
         "weight" : 1420,
         "color" : "dark_gray",
@@ -8298,6 +8382,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_hsurvivor",
+        "category" : "armor",
         "name" : "heavy survivor helmet",
         "weight" : 1712,
         "color" : "dark_gray",
@@ -8323,6 +8408,7 @@
     {
         "type" : "ARMOR",
         "id" : "swat_armor",
+        "category" : "armor",
         "name" : "SWAT armor",
         "weight" : 7800,
         "color" : "dark_gray",
@@ -8347,6 +8433,7 @@
     {
         "type" : "ARMOR",
         "id" : "tac_helmet",
+        "category" : "armor",
         "name" : "tactical helmet",
         "weight" : 1110,
         "color" : "dark_gray",
@@ -8372,6 +8459,7 @@
     {
         "type" : "ARMOR",
         "id" : "tac_fullhelmet",
+        "category" : "armor",
         "name" : "tactical full helmet",
         "weight" : 1324,
         "color" : "dark_gray",
@@ -8421,6 +8509,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_barbute",
+        "category" : "armor",
         "name" : "barbute helm",
         "weight" : 1175,
         "color" : "light_gray",
@@ -8446,6 +8535,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_larmor",
+        "category" : "armor",
         "name" : "leather armor helmet",
         "weight" : 435,
         "color" : "brown",
@@ -8471,6 +8561,7 @@
     {
         "type" : "ARMOR",
         "id" : "armor_samurai",
+        "category" : "armor",
         "name" : "O-yoroi",
         "weight" : 9220,
         "color" : "dark_gray",
@@ -8496,6 +8587,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_kabuto",
+        "category" : "armor",
         "name" : "kabuto",
         "weight" : 1625,
         "color" : "dark_gray",
@@ -8545,6 +8637,7 @@
     {
         "type" : "ARMOR",
         "id" : "mask_bal",
+        "category" : "armor",
         "name" : "ballistic mask",
         "weight" : 512,
         "color" : "dark_gray",
@@ -8985,6 +9078,7 @@
     {
         "type" : "ARMOR",
         "id" : "xlsurvivor_suit",
+        "category" : "armor",
         "name" : "XL survivor suit",
         "weight" : 12400,
         "color" : "brown",
@@ -9009,6 +9103,7 @@
     {
         "type" : "ARMOR",
         "id" : "gloves_xlsurvivor",
+        "category" : "armor",
         "name" : "XL survivor gloves",
         "weight" : 480,
         "color" : "brown",
@@ -9033,6 +9128,7 @@
     {
         "type" : "ARMOR",
         "id" : "boots_xlsurvivor",
+        "category" : "armor",
         "name" : "XL survivor boots",
         "weight" : 2460,
         "color" : "brown",
@@ -9058,6 +9154,7 @@
     {
         "type" : "ARMOR",
         "id" : "hood_xlsurvivor",
+        "category" : "armor",
         "name" : "XL survivor hood",
         "weight" : 1640,
         "color" : "brown",
@@ -9083,6 +9180,7 @@
     {
         "type" : "ARMOR",
         "id" : "helmet_xlsurvivor",
+        "category" : "armor",
         "name" : "XL survivor helmet",
         "weight" : 3060,
         "color" : "dark_gray",
