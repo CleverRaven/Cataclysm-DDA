@@ -4117,10 +4117,10 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
 
     return dealt_damage_instance(dealt_dams);
 }
-/* 
-    Where damage to player is actually applied to hit body parts 
+/*
+    Where damage to player is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
- */ 
+ */
 void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
     if (is_dead_state()) {
         // don't do any more damage if we're already dead
@@ -7154,7 +7154,7 @@ bool player::eat(item *eaten, it_comest *comest)
       }
     }
 
-    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("milk") || eaten->made_of("wheat")) && comest->nutr > 0) {
+    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit")|| eaten->made_of("wheat")) && comest->nutr > 0) {
         g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
         return false;
     }
