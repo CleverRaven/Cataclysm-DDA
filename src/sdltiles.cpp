@@ -1345,44 +1345,39 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         capture_win = g->w_terrain;
     }
 
-    int view_columns = capture_win->width;
-    int view_rows = capture_win->height;
-    int selected_column, selected_row;
-
-    // Translate mouse coords to map coords based on tile size
+    // this contains the font dimensions of the capture_win,
+    // not necessarily the global standard font dimensions.
+    int fw = fontwidth;
+    int fh = fontheight;
 #ifdef SDLTILES
-    if (use_tiles)
-    {
-        // Check if click is within bounds of the window we care about
-        int win_left = capture_win->x * fontwidth;
-        int win_right = win_left + (capture_win->width * tilecontext->get_tile_width());
-        int win_top = capture_win->y * fontheight;
-        int win_bottom = win_top + (capture_win->height * tilecontext->get_tile_height());
-        if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
-            return false;
-        }
-
-        selected_column = (coordinate_x - win_left) / tilecontext->get_tile_width();
-        selected_row = (coordinate_y - win_top) / tilecontext->get_tile_height();
-    }
-    else
+    // tiles might have different dimensions than standard font
+    if (use_tiles && capture_win == g->w_terrain) {
+        fw = tilecontext->get_tile_width();
+        fh = tilecontext->get_tile_height();
+    } else
 #endif
-    {
-        // Check if click is within bounds of the window we care about
-        int win_left = capture_win->x * fontwidth;
-        int win_right = (capture_win->x + capture_win->width) * fontwidth;
-        int win_top = capture_win->y * fontheight;
-        int win_bottom = (capture_win->y + capture_win->height) * fontheight;
-        if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
-            return false;
-        }
-
-        selected_column = (coordinate_x - win_left) / fontwidth;
-        selected_row = (coordinate_y - win_top) / fontheight;
+    if (map_font != NULL && capture_win == g->w_terrain) {
+        // map font (if any) might differ from standard font
+        fw = map_font->fontwidth;
+        fh = map_font->fontheight;
     }
 
-    x = g->ter_view_x - ((view_columns/2) - selected_column);
-    y = g->ter_view_y - ((view_rows/2) - selected_row);
+    // Translate mouse coords to map coords based on tile size,
+    // the window position is *always* in standard font dimensions!
+    const int win_left = capture_win->x * fontwidth;
+    const int win_top = capture_win->y * fontheight;
+    // But the size of the window is in the font dimensions of the window.
+    const int win_right = win_left + (capture_win->width * fw);
+    const int win_bottom = win_top + (capture_win->height * fh);
+    // Check if click is within bounds of the window we care about
+    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+        return false;
+    }
+    const int selected_column = (coordinate_x - win_left) / fw;
+    const int selected_row = (coordinate_y - win_top) / fh;
+
+    x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
+    y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
 
     return true;
 }
@@ -1528,6 +1523,29 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
     // this causes baseline problems for certain fonts
     // I can only guess by check a certain tall character...
     cache_glyphs();
+}
+
+int map_font_width() {
+#ifdef SDLTILES
+    if (use_tiles && tilecontext != NULL) {
+        return tilecontext->get_tile_width();
+    }
+#endif
+    return (map_font != NULL ? map_font : font)->fontwidth;
+}
+
+int map_font_height() {
+#ifdef SDLTILES
+    if (use_tiles && tilecontext != NULL) {
+        return tilecontext->get_tile_height();
+    }
+#endif
+    return (map_font != NULL ? map_font : font)->fontheight;
+}
+
+void translate_terrain_window_size(int &w, int &h) {
+    w = (w * fontwidth) / map_font_width();
+    h = (h * fontheight) / map_font_height();
 }
 
 #endif // TILES
