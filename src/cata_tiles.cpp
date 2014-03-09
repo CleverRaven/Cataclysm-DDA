@@ -9,10 +9,7 @@
 #include <fstream>
 
 // SDL headers end up in different places depending on the OS, sadly
-#if (defined _WIN32 || defined WINDOWS)
-//this is wrong for my windows machine, but if it works for you...
-#include "SDL_image.h" // Make sure to add this to the other OS inclusions
-#elif (defined OSX_SDL_FW)
+#if (defined OSX_SDL_FW)
 #include "SDL_image/SDL_image.h" // Make sure to add this to the other OS inclusions
 #else
 #include "SDL2/SDL_image.h" // Make sure to add this to the other OS inclusions
