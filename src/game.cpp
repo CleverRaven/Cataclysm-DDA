@@ -760,7 +760,7 @@ void game::calc_driving_offset(vehicle *veh) {
     if(std::abs(velocity) < min_offset_vel) {
         rel_offset = 0;
     } else if(std::abs(velocity) > max_offset_vel) {
-        rel_offset = 1;
+        rel_offset = (velocity > 0) ? 1 : -1;
     } else {
         rel_offset = (velocity - min_offset_vel) / (max_offset_vel - min_offset_vel);
     }
