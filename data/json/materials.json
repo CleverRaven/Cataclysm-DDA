@@ -146,7 +146,7 @@
     },{
         "type" : "material",
         "ident" : "milk",
-        "name" : "Milk",
+        "name" : "Dairy",
         "bash_resist" : 0,
         "cut_resist" : 0,
         "bash_dmg_verb" : "damaged",
