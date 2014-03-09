@@ -19,47 +19,52 @@ void show_auto_pickup()
     save_reset_changes(false);
 
     const int iHeaderHeight = 4;
-    const int iContentHeight = FULL_SCREEN_HEIGHT-2-iHeaderHeight;
+    const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
-    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0;
-    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0;
+    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
+    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
     std::map<int, bool> mapLines;
     mapLines[3] = true;
     mapLines[50] = true;
     mapLines[54] = true;
 
-    const int iTotalCols = mapLines.size()-1;
+    const int iTotalCols = mapLines.size() - 1;
 
-    WINDOW* w_auto_pickup_options = newwin(FULL_SCREEN_HEIGHT/2, FULL_SCREEN_WIDTH/2, iOffsetY + (FULL_SCREEN_HEIGHT/2)/2, iOffsetX + (FULL_SCREEN_WIDTH/2)/2);
-    WINDOW* w_auto_pickup_help = newwin((FULL_SCREEN_HEIGHT/2)-2, FULL_SCREEN_WIDTH * 3/4, 7 + iOffsetY + (FULL_SCREEN_HEIGHT/2)/2, iOffsetX + 19/2);
+    WINDOW *w_auto_pickup_options = newwin(FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2,
+                                           iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + (FULL_SCREEN_WIDTH / 2) / 2);
+    WINDOW *w_auto_pickup_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
+                                        7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
 
-    WINDOW* w_auto_pickup_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
-    WINDOW* w_auto_pickup_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY, 1 + iOffsetX);
-    WINDOW* w_auto_pickup = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY, 1 + iOffsetX);
+    WINDOW *w_auto_pickup_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    WINDOW *w_auto_pickup_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
+                                          1 + iOffsetX);
+    WINDOW *w_auto_pickup = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
+                                   1 + iOffsetX);
 
     draw_border(w_auto_pickup_border);
     mvwputch(w_auto_pickup_border, 3,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(w_auto_pickup_border, 3, 79, c_ltgray, LINE_XOXX); // -|
 
     for (std::map<int, bool>::iterator iter = mapLines.begin(); iter != mapLines.end(); ++iter) {
-        mvwputch(w_auto_pickup_border, FULL_SCREEN_HEIGHT-1, iter->first + 1, c_ltgray, LINE_XXOX); // _|_
+        mvwputch(w_auto_pickup_border, FULL_SCREEN_HEIGHT - 1, iter->first + 1, c_ltgray, LINE_XXOX); // _|_
     }
 
     mvwprintz(w_auto_pickup_border, 0, 29, c_ltred, _(" AUTO PICKUP MANAGER "));
     wrefresh(w_auto_pickup_border);
 
     int tmpx = 0;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<A>dd"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<C>opy"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<E>nable"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<D>isable"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<A>dd")) + 2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove")) + 2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<C>opy")) + 2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<M>ove")) + 2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<E>nable")) + 2;
+    tmpx += shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<D>isable")) + 2;
     shortcut_print(w_auto_pickup_header, 0, tmpx, c_white, c_ltgreen, _("<T>est"));
     tmpx = 0;
-    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<+-> Move up/down"))+2;
-    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<Enter>-Edit"))+2;
+    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen,
+                           _("<+-> Move up/down")) + 2;
+    tmpx += shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
     shortcut_print(w_auto_pickup_header, 1, tmpx, c_white, c_ltgreen, _("<Tab>-Switch Page"));
 
     for (int i = 0; i < 78; i++) {
@@ -88,12 +93,16 @@ void show_auto_pickup()
 
     do {
         int locx = 17;
-        locx += shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 1) ? hilite(c_white) : c_white, _("[<Global>]"))+1;
-        shortcut_print(w_auto_pickup_header, 2, locx, c_white, (iCurrentPage == 2) ? hilite(c_white) : c_white, _("[<Character>]"));
+        locx += shortcut_print(w_auto_pickup_header, 2, locx, c_white,
+                               (iCurrentPage == 1) ? hilite(c_white) : c_white, _("[<Global>]")) + 1;
+        shortcut_print(w_auto_pickup_header, 2, locx, c_white,
+                       (iCurrentPage == 2) ? hilite(c_white) : c_white, _("[<Character>]"));
 
         locx = 55;
         mvwprintz(w_auto_pickup_header, 0, locx, c_white, _("Auto pickup enabled:"));
-        locx += shortcut_print(w_auto_pickup_header, 1, locx, ((OPTIONS["AUTO_PICKUP"]) ? c_ltgreen : c_ltred), c_white, ((OPTIONS["AUTO_PICKUP"]) ? _("True") : _("False")));
+        locx += shortcut_print(w_auto_pickup_header, 1, locx,
+                               ((OPTIONS["AUTO_PICKUP"]) ? c_ltgreen : c_ltred), c_white,
+                               ((OPTIONS["AUTO_PICKUP"]) ? _("True") : _("False")));
         locx += shortcut_print(w_auto_pickup_header, 1, locx, c_white, c_ltgreen, "  ");
         locx += shortcut_print(w_auto_pickup_header, 1, locx, c_white, c_ltgreen, _("<S>witch"));
         shortcut_print(w_auto_pickup_header, 1, locx, c_white, c_ltgreen, "  ");
@@ -118,13 +127,16 @@ void show_auto_pickup()
             }
 
             //Draw Scrollbar
-            draw_scrollbar(w_auto_pickup_border, iCurrentLine, iContentHeight, vAutoPickupRules[iCurrentPage].size(), 5);
+            draw_scrollbar(w_auto_pickup_border, iCurrentLine, iContentHeight,
+                           vAutoPickupRules[iCurrentPage].size(), 5);
 
             calcStartPos(iStartPos, iCurrentLine, iContentHeight, vAutoPickupRules[iCurrentPage].size());
 
             // display auto pickup
             for (int i = iStartPos; i < vAutoPickupRules[iCurrentPage].size(); i++) {
-                if (i >= iStartPos && i < iStartPos + ((iContentHeight > vAutoPickupRules[iCurrentPage].size()) ? vAutoPickupRules[iCurrentPage].size() : iContentHeight)) {
+                if (i >= iStartPos &&
+                    i < iStartPos + ((iContentHeight > vAutoPickupRules[iCurrentPage].size()) ?
+                                     vAutoPickupRules[iCurrentPage].size() : iContentHeight)) {
                     nc_color cLineColor = (vAutoPickupRules[iCurrentPage][i].bActive) ? c_white : c_ltgray;
 
                     sTemp.str("");
@@ -138,9 +150,15 @@ void show_auto_pickup()
                         wprintz(w_auto_pickup, c_yellow, "   ");
                     }
 
-                    wprintz(w_auto_pickup, (iCurrentLine == i && iCurrentCol == 1) ? hilite(cLineColor) : cLineColor, "%s", ((vAutoPickupRules[iCurrentPage][i].sRule == "") ? _("<empty rule>") : vAutoPickupRules[iCurrentPage][i].sRule).c_str());
+                    wprintz(w_auto_pickup, (iCurrentLine == i &&
+                                            iCurrentCol == 1) ? hilite(cLineColor) : cLineColor, "%s",
+                            ((vAutoPickupRules[iCurrentPage][i].sRule == "") ? _("<empty rule>") :
+                             vAutoPickupRules[iCurrentPage][i].sRule).c_str());
 
-                    mvwprintz(w_auto_pickup, i - iStartPos, 52, (iCurrentLine == i && iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s", ((vAutoPickupRules[iCurrentPage][i].bExclude) ? rm_prefix(_("<Exclude>E")).c_str() : rm_prefix(_("<Include>I")).c_str()));
+                    mvwprintz(w_auto_pickup, i - iStartPos, 52, (iCurrentLine == i &&
+                              iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s",
+                              ((vAutoPickupRules[iCurrentPage][i].bExclude) ? rm_prefix(_("<Exclude>E")).c_str() : rm_prefix(
+                                   _("<Include>I")).c_str()));
                 }
             }
 
@@ -159,142 +177,153 @@ void show_auto_pickup()
 
         if (iCurrentPage == 3) {
             switch(ch) {
-                case '\t': //Switch to next Page
-                    iCurrentPage++;
-                    if (iCurrentPage > 3) {
-                        iCurrentPage = 1;
-                        iCurrentLine = 0;
-                    }
-                    break;
+            case '\t': //Switch to next Page
+                iCurrentPage++;
+                if (iCurrentPage > 3) {
+                    iCurrentPage = 1;
+                    iCurrentLine = 0;
+                }
+                break;
             }
         } else if (iCurrentPage == 1 || iCurrentPage == 2) {
             if (iCurrentPage == 2 && g->u.name == "" && ch != '\t') {
                 //Only allow loaded games to use the char sheet
-            } else if (vAutoPickupRules[iCurrentPage].size() > 0 || ch == 'a' || ch == 'A' || ch == 's' || ch == 'S' || ch == '\t') {
+            } else if (vAutoPickupRules[iCurrentPage].size() > 0 || ch == 'a' || ch == 'A' || ch == 's' ||
+                       ch == 'S' || ch == '\t') {
                 switch(ch) {
-                    case 'j': //move down
+                case 'j': //move down
+                    iCurrentLine++;
+                    iCurrentCol = 1;
+                    if (iCurrentLine >= vAutoPickupRules[iCurrentPage].size()) {
+                        iCurrentLine = 0;
+                    }
+                    break;
+                case 'k': //move up
+                    iCurrentLine--;
+                    iCurrentCol = 1;
+                    if (iCurrentLine < 0) {
+                        iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
+                    }
+                    break;
+                case 'a': //add new rule
+                case 'A':
+                    bStuffChanged = true;
+                    vAutoPickupRules[iCurrentPage].push_back(cPickupRules("", true, false));
+                    iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
+                    break;
+                case 'r': //remove rule
+                case 'R':
+                    bStuffChanged = true;
+                    vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
+                    if (iCurrentLine > vAutoPickupRules[iCurrentPage].size() - 1) {
+                        iCurrentLine--;
+                    }
+                    break;
+                case 'c': //copy rule
+                case 'C':
+                    bStuffChanged = true;
+                    vAutoPickupRules[iCurrentPage].push_back(cPickupRules(
+                                vAutoPickupRules[iCurrentPage][iCurrentLine].sRule,
+                                vAutoPickupRules[iCurrentPage][iCurrentLine].bActive,
+                                vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
+                    iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
+                    break;
+                case 'm': //move rule global <-> character
+                case 'M':
+                    if ((iCurrentPage == 1 && g->u.name != "") || iCurrentPage == 2) {
+                        bStuffChanged = true;
+                        //copy over
+                        vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].push_back(cPickupRules(
+                                    vAutoPickupRules[iCurrentPage][iCurrentLine].sRule,
+                                    vAutoPickupRules[iCurrentPage][iCurrentLine].bActive,
+                                    vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
+
+                        //remove old
+                        vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
+                        iCurrentLine = vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].size() - 1;
+                        iCurrentPage = (iCurrentPage == 1) ? 2 : 1;
+                    }
+                    break;
+                case '\t': //Switch to next Page
+                    iCurrentPage++;
+                    if (iCurrentPage > 2) {
+                        iCurrentPage = 1;
+                        iCurrentLine = 0;
+                    }
+                    break;
+                case '\n': //Edit Col in current line
+                    bStuffChanged = true;
+                    if (iCurrentCol == 1) {
+                        fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white,
+                                       _(
+                                           "* is used as a Wildcard. A few Examples:\n"
+                                           "\n"
+                                           "wood arrow    matches the itemname exactly\n"
+                                           "wood ar*      matches items beginning with wood ar\n"
+                                           "*rrow         matches items ending with rrow\n"
+                                           "*avy fle*fi*arrow     multible * are allowed\n"
+                                           "heAVY*woOD*arrOW      case insesitive search\n"
+                                           "")
+                                      );
+
+                        draw_border(w_auto_pickup_help);
+                        wrefresh(w_auto_pickup_help);
+                        vAutoPickupRules[iCurrentPage][iCurrentLine].sRule = trim_rule(string_input_popup(_("Pickup Rule:"),
+                                30, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule));
+                    } else if (iCurrentCol == 2) {
+                        vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude =
+                            !vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude;
+                    }
+                    break;
+                case 'e': //enable rule
+                case 'E':
+                    bStuffChanged = true;
+                    vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = true;
+                    break;
+                case 'd': //disable rule
+                case 'D':
+                    bStuffChanged = true;
+                    vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = false;
+                    break;
+                case 'h': //move left
+                    iCurrentCol--;
+                    if (iCurrentCol < 1) {
+                        iCurrentCol = iTotalCols;
+                    }
+                    break;
+                case 'l': //move right
+                    iCurrentCol++;
+                    if (iCurrentCol > iTotalCols) {
+                        iCurrentCol = 1;
+                    }
+                    break;
+                case '+': //move rule up
+                    bStuffChanged = true;
+                    if (iCurrentLine < vAutoPickupRules[iCurrentPage].size() - 1) {
+                        std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
+                                  vAutoPickupRules[iCurrentPage][iCurrentLine + 1]);
                         iCurrentLine++;
                         iCurrentCol = 1;
-                        if (iCurrentLine >= vAutoPickupRules[iCurrentPage].size()) {
-                            iCurrentLine = 0;
-                        }
-                        break;
-                    case 'k': //move up
+                    }
+                    break;
+                case '-': //move rule down
+                    bStuffChanged = true;
+                    if (iCurrentLine > 0) {
+                        std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
+                                  vAutoPickupRules[iCurrentPage][iCurrentLine - 1]);
                         iCurrentLine--;
                         iCurrentCol = 1;
-                        if (iCurrentLine < 0) {
-                            iCurrentLine = vAutoPickupRules[iCurrentPage].size()-1;
-                        }
-                        break;
-                    case 'a': //add new rule
-                    case 'A':
-                        bStuffChanged = true;
-                        vAutoPickupRules[iCurrentPage].push_back(cPickupRules("", true, false));
-                        iCurrentLine = vAutoPickupRules[iCurrentPage].size()-1;
-                        break;
-                    case 'r': //remove rule
-                    case 'R':
-                        bStuffChanged = true;
-                        vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
-                        if (iCurrentLine > vAutoPickupRules[iCurrentPage].size()-1) {
-                            iCurrentLine--;
-                        }
-                        break;
-                    case 'c': //copy rule
-                    case 'C':
-                        bStuffChanged = true;
-                        vAutoPickupRules[iCurrentPage].push_back(cPickupRules(vAutoPickupRules[iCurrentPage][iCurrentLine].sRule, vAutoPickupRules[iCurrentPage][iCurrentLine].bActive, vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
-                        iCurrentLine = vAutoPickupRules[iCurrentPage].size()-1;
-                        break;
-                    case 'm': //move rule global <-> character
-                    case 'M':
-                        if ((iCurrentPage == 1 && g->u.name != "") || iCurrentPage == 2) {
-                            bStuffChanged = true;
-                            //copy over
-                            vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].push_back(cPickupRules(vAutoPickupRules[iCurrentPage][iCurrentLine].sRule, vAutoPickupRules[iCurrentPage][iCurrentLine].bActive, vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
-
-                            //remove old
-                            vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
-                            iCurrentLine = vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].size()-1;
-                            iCurrentPage = (iCurrentPage == 1) ? 2 : 1;
-                        }
-                        break;
-                    case '\t': //Switch to next Page
-                        iCurrentPage++;
-                        if (iCurrentPage > 2) {
-                            iCurrentPage = 1;
-                            iCurrentLine = 0;
-                        }
-                        break;
-                    case '\n': //Edit Col in current line
-                        bStuffChanged = true;
-                        if (iCurrentCol == 1) {
-                            fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white,
-                                _(
-                                "* is used as a Wildcard. A few Examples:\n"
-                                "\n"
-                                "wood arrow    matches the itemname exactly\n"
-                                "wood ar*      matches items beginning with wood ar\n"
-                                "*rrow         matches items ending with rrow\n"
-                                "*avy fle*fi*arrow     multible * are allowed\n"
-                                "heAVY*woOD*arrOW      case insesitive search\n"
-                                "")
-                            );
-
-                            draw_border(w_auto_pickup_help);
-                            wrefresh(w_auto_pickup_help);
-                            vAutoPickupRules[iCurrentPage][iCurrentLine].sRule = trim_rule(string_input_popup(_("Pickup Rule:"), 30, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule));
-                        } else if (iCurrentCol == 2) {
-                            vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude = !vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude;
-                        }
-                        break;
-                    case 'e': //enable rule
-                    case 'E':
-                        bStuffChanged = true;
-                        vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = true;
-                        break;
-                    case 'd': //disable rule
-                    case 'D':
-                        bStuffChanged = true;
-                        vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = false;
-                        break;
-                    case 'h': //move left
-                        iCurrentCol--;
-                        if (iCurrentCol < 1) {
-                            iCurrentCol = iTotalCols;
-                        }
-                        break;
-                    case 'l': //move right
-                        iCurrentCol++;
-                        if (iCurrentCol > iTotalCols) {
-                            iCurrentCol = 1;
-                        }
-                        break;
-                    case '+': //move rule up
-                        bStuffChanged = true;
-                        if (iCurrentLine < vAutoPickupRules[iCurrentPage].size()-1) {
-                            std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine], vAutoPickupRules[iCurrentPage][iCurrentLine+1]);
-                            iCurrentLine++;
-                            iCurrentCol = 1;
-                        }
-                        break;
-                    case '-': //move rule down
-                        bStuffChanged = true;
-                        if (iCurrentLine > 0) {
-                            std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine], vAutoPickupRules[iCurrentPage][iCurrentLine-1]);
-                            iCurrentLine--;
-                            iCurrentCol = 1;
-                        }
-                        break;
-                    case 't': //test rule
-                    case 'T':
-                        test_pattern(iCurrentPage, iCurrentLine);
-                        break;
-                    case 'S': //Switch auto pickup option (enabled/disabled)
-                    case 's':
-                        OPTIONS["AUTO_PICKUP"].setNext();
-                        save_options((g->u.name != ""));
-                        break;
+                    }
+                    break;
+                case 't': //test rule
+                case 'T':
+                    test_pattern(iCurrentPage, iCurrentLine);
+                    break;
+                case 'S': //Switch auto pickup option (enabled/disabled)
+                case 's':
+                    OPTIONS["AUTO_PICKUP"].setNext();
+                    save_options((g->u.name != ""));
+                    break;
                 }
             }
         }
@@ -332,13 +361,14 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     //TODO: somehow generate damaged, fitting or container items
     for (unsigned i = 0; i < standard_itype_ids.size(); i++) {
         sItemName = item_controller->find_template(standard_itype_ids[i])->name;
-        if (vAutoPickupRules[iCurrentPage][iCurrentLine].bActive && auto_pickup_match(sItemName, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule)) {
+        if (vAutoPickupRules[iCurrentPage][iCurrentLine].bActive &&
+            auto_pickup_match(sItemName, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule)) {
             vMatchingItems.push_back(sItemName);
         }
     }
 
-    const int iOffsetX = 15 + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
-    const int iOffsetY = 5 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0);
+    const int iOffsetX = 15 + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+    const int iOffsetY = 5 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0);
 
     int iStartPos = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 8;
@@ -346,16 +376,19 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     char ch;
     std::stringstream sTemp;
 
-    WINDOW* w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
-    WINDOW* w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
+    WINDOW *w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
+    WINDOW *w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
 
     draw_border(w_test_rule_border);
 
     int nmatch = vMatchingItems.size();
-    std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s", nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
-    mvwprintz(w_test_rule_border, 0, iContentWidth/2 - utf8_width(buf.c_str())/2, hilite(c_white), "%s", buf.c_str());
+    std::string buf = string_format(ngettext("%1$d item matches: %2$s", "%1$d items match: %2$s",
+                                    nmatch), nmatch, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule.c_str());
+    mvwprintz(w_test_rule_border, 0, iContentWidth / 2 - utf8_width(buf.c_str()) / 2, hilite(c_white),
+              "%s", buf.c_str());
 
-    mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white), _("Won't display damaged, fits and can/bottle items"));
+    mvwprintz(w_test_rule_border, iContentHeight + 1, 1, red_background(c_white),
+              _("Won't display damaged, fits and can/bottle items"));
 
     wrefresh(w_test_rule_border);
 
@@ -373,7 +406,9 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
         // display auto pickup
         for (int i = iStartPos; i < vMatchingItems.size(); i++) {
-            if (i >= iStartPos && i < iStartPos + ((iContentHeight > vMatchingItems.size()) ? vMatchingItems.size() : iContentHeight)) {
+            if (i >= iStartPos &&
+                i < iStartPos + ((iContentHeight > vMatchingItems.size()) ? vMatchingItems.size() :
+                                 iContentHeight)) {
                 nc_color cLineColor = c_white;
 
                 sTemp.str("");
@@ -387,7 +422,8 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
                     wprintz(w_test_rule_content, c_yellow, "   ");
                 }
 
-                wprintz(w_test_rule_content, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, vMatchingItems[i].c_str());
+                wprintz(w_test_rule_content, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor,
+                        vMatchingItems[i].c_str());
             }
         }
 
@@ -396,18 +432,18 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
         ch = (char)input();
 
         switch(ch) {
-            case 'j': //move down
-                iCurrentLine++;
-                if (iCurrentLine >= vMatchingItems.size()) {
-                    iCurrentLine = 0;
-                }
-                break;
-            case 'k': //move up
-                iCurrentLine--;
-                if (iCurrentLine < 0) {
-                    iCurrentLine = vMatchingItems.size()-1;
-                }
-                break;
+        case 'j': //move down
+            iCurrentLine++;
+            if (iCurrentLine >= vMatchingItems.size()) {
+                iCurrentLine = 0;
+            }
+            break;
+        case 'k': //move up
+            iCurrentLine--;
+            if (iCurrentLine < 0) {
+                iCurrentLine = vMatchingItems.size() - 1;
+            }
+            break;
         }
     } while(ch == 'j' || ch == 'k');
 
@@ -447,14 +483,7 @@ void load_auto_pickup(bool bCharacter)
             int iNum = std::count(sLine.begin(), sLine.end(), ';');
 
             if(iNum != 2) {
-                /*int iNum = std::count(sLine.begin(), sLine.end(), ' ');
-
-                if(iNum == 1) { //its an option! hurray
-
-                } else {*/
-                    DebugLog() << "Bad Rule: " << sLine << "\n";
-                //}
-
+                DebugLog() << "Bad Rule: " << sLine << "\n";
             } else {
                 std::string sRule = "";
                 bool bActive = true;
@@ -480,7 +509,7 @@ void load_auto_pickup(bool bCharacter)
                     iCol++;
 
                     if (iPos != std::string::npos) {
-                        sLine = sLine.substr(iPos+1, sLine.size());
+                        sLine = sLine.substr(iPos + 1, sLine.size());
                     }
 
                 } while(iPos != std::string::npos);
@@ -491,7 +520,6 @@ void load_auto_pickup(bool bCharacter)
     }
 
     fin.close();
-
     merge_vector();
     createPickupRules();
 }
@@ -503,7 +531,8 @@ void merge_vector()
     for (unsigned i = 1; i <= 2; i++) { //Loop through global 1 and character 2
         for (unsigned j = 0; j < vAutoPickupRules[i].size(); j++) {
             if (vAutoPickupRules[i][j].sRule != "") {
-                vAutoPickupRules[0].push_back(cPickupRules(vAutoPickupRules[i][j].sRule, vAutoPickupRules[i][j].bActive, vAutoPickupRules[i][j].bExclude));
+                vAutoPickupRules[0].push_back(cPickupRules(vAutoPickupRules[i][j].sRule,
+                                              vAutoPickupRules[i][j].bActive, vAutoPickupRules[i][j].bExclude));
             }
         }
     }
@@ -512,11 +541,11 @@ void merge_vector()
 bool hasPickupRule(std::string sRule)
 {
     for (unsigned i = 0; i < vAutoPickupRules[2].size(); i++) {
-        if (sRule.length() == (vAutoPickupRules[2][i].sRule).length() && ci_find_substr(sRule, vAutoPickupRules[2][i].sRule) != -1) {
+        if (sRule.length() == (vAutoPickupRules[2][i].sRule).length() &&
+            ci_find_substr(sRule, vAutoPickupRules[2][i].sRule) != -1) {
             return true;
         }
     }
-
     return false;
 }
 
@@ -526,7 +555,8 @@ void addPickupRule(std::string sRule)
     merge_vector();
     createPickupRules();
 
-    if (!OPTIONS["AUTO_PICKUP"] && query_yn(_("Autopickup is not enabled in the options. Enable it now?")) ) {
+    if (!OPTIONS["AUTO_PICKUP"] &&
+        query_yn(_("Autopickup is not enabled in the options. Enable it now?")) ) {
         OPTIONS["AUTO_PICKUP"].setNext();
         save_options(true);
     }
@@ -535,7 +565,8 @@ void addPickupRule(std::string sRule)
 void removePickupRule(std::string sRule)
 {
     for (unsigned i = 0; i < vAutoPickupRules[2].size(); i++) {
-        if (sRule.length() == (vAutoPickupRules[2][i].sRule).length() && ci_find_substr(sRule, vAutoPickupRules[2][i].sRule) != -1) {
+        if (sRule.length() == (vAutoPickupRules[2][i].sRule).length() &&
+            ci_find_substr(sRule, vAutoPickupRules[2][i].sRule) != -1) {
             vAutoPickupRules[2].erase(vAutoPickupRules[2].begin() + i);
             merge_vector();
             createPickupRules();
@@ -555,7 +586,8 @@ void createPickupRules(const std::string sItemNameIn)
     for (unsigned iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Includes only
         if (!vAutoPickupRules[0][iPattern].bExclude) {
             if (sItemNameIn != "") {
-                if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemNameIn, vAutoPickupRules[0][iPattern].sRule)) {
+                if (vAutoPickupRules[0][iPattern].bActive &&
+                    auto_pickup_match(sItemNameIn, vAutoPickupRules[0][iPattern].sRule)) {
                     mapAutoPickupItems[sItemNameIn] = "true";
                     break;
                 }
@@ -563,7 +595,8 @@ void createPickupRules(const std::string sItemNameIn)
                 //Check include paterns against all itemfactory items
                 for (unsigned i = 0; i < standard_itype_ids.size(); i++) {
                     sItemName = item_controller->find_template(standard_itype_ids[i])->name;
-                    if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemName, vAutoPickupRules[0][iPattern].sRule)) {
+                    if (vAutoPickupRules[0][iPattern].bActive &&
+                        auto_pickup_match(sItemName, vAutoPickupRules[0][iPattern].sRule)) {
                         mapAutoPickupItems[sItemName] = "true";
                     }
                 }
@@ -574,14 +607,17 @@ void createPickupRules(const std::string sItemNameIn)
     for (unsigned iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Excludes only
         if (vAutoPickupRules[0][iPattern].bExclude) {
             if (sItemNameIn != "") {
-                if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(sItemNameIn, vAutoPickupRules[0][iPattern].sRule)) {
+                if (vAutoPickupRules[0][iPattern].bActive &&
+                    auto_pickup_match(sItemNameIn, vAutoPickupRules[0][iPattern].sRule)) {
                     mapAutoPickupItems[sItemNameIn] = "false";
                     return;
                 }
             } else {
                 //Check exclude paterns against all included items
-                for (std::map<std::string, std::string>::iterator iter = mapAutoPickupItems.begin(); iter != mapAutoPickupItems.end(); ++iter) {
-                    if (vAutoPickupRules[0][iPattern].bActive && auto_pickup_match(iter->first, vAutoPickupRules[0][iPattern].sRule)) {
+                for (std::map<std::string, std::string>::iterator iter = mapAutoPickupItems.begin();
+                     iter != mapAutoPickupItems.end(); ++iter) {
+                    if (vAutoPickupRules[0][iPattern].bActive &&
+                        auto_pickup_match(iter->first, vAutoPickupRules[0][iPattern].sRule)) {
                         mapAutoPickupItems[iter->first] = "false";
                     }
                 }
@@ -592,11 +628,14 @@ void createPickupRules(const std::string sItemNameIn)
 
 void save_reset_changes(bool bReset)
 {
-    for (int i=1; i <= 2; i++) { //Loop through global 1 and character 2
-        vAutoPickupRules[i + ((bReset) ? 0: 2)].clear();
-        for (unsigned j=0; j < vAutoPickupRules[i + ((bReset) ? 2: 0)].size(); j++) {
-            if (vAutoPickupRules[i + ((bReset) ? 2: 0)][j].sRule != "") {
-                vAutoPickupRules[i + ((bReset) ? 0: 2)].push_back(cPickupRules(vAutoPickupRules[i + ((bReset) ? 2: 0)][j].sRule, vAutoPickupRules[i + ((bReset) ? 2: 0)][j].bActive, vAutoPickupRules[i + ((bReset) ? 2: 0)][j].bExclude));
+    for (int i = 1; i <= 2; i++) { //Loop through global 1 and character 2
+        vAutoPickupRules[i + ((bReset) ? 0 : 2)].clear();
+        for (unsigned j = 0; j < vAutoPickupRules[i + ((bReset) ? 2 : 0)].size(); j++) {
+            if (vAutoPickupRules[i + ((bReset) ? 2 : 0)][j].sRule != "") {
+                vAutoPickupRules[i + ((bReset) ? 0 : 2)].push_back(cPickupRules(
+                            vAutoPickupRules[i + ((bReset) ? 2 : 0)][j].sRule,
+                            vAutoPickupRules[i + ((bReset) ? 2 : 0)][j].bActive,
+                            vAutoPickupRules[i + ((bReset) ? 2 : 0)][j].bExclude));
             }
         }
     }
@@ -606,7 +645,7 @@ void save_reset_changes(bool bReset)
 
 std::string auto_pickup_header(bool bCharacter)
 {
-    std::string sTemp = (bCharacter) ? "character": "global";
+    std::string sTemp = (bCharacter) ? "character" : "global";
     return "# This is the " + sTemp + " auto pickup rules file. The format is\n\
 # <pickup rule>;<dis/enabled>;<in/exclude>\n\n\
 # <pickup rule> Simple text. No other special characters except spaces and *\n\
@@ -630,7 +669,8 @@ bool save_auto_pickup(bool bCharacter)
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
         std::ifstream fin;
 
-        fin.open((world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".sav").c_str());
+        fin.open((world_generator->active_world->world_path + "/" +
+                  base64_encode(g->u.name) + ".sav").c_str());
         if(!fin.is_open()) {
             return true;
         }
@@ -639,21 +679,21 @@ bool save_auto_pickup(bool bCharacter)
 
     fout.exceptions(std::ios::badbit | std::ios::failbit);
     try {
-    fout.open(sFile.c_str());
+        fout.open(sFile.c_str());
 
-    fout << auto_pickup_header(bCharacter) << std::endl;
-    for (unsigned i = 0; i < vAutoPickupRules[(bCharacter) ? 2 : 1].size(); i++) {
-        fout << vAutoPickupRules[(bCharacter) ? 2 : 1][i].sRule << ";";
-        fout << (vAutoPickupRules[(bCharacter) ? 2 : 1][i].bActive ? "T" : "F") << ";";
-        fout << (vAutoPickupRules[(bCharacter) ? 2 : 1][i].bExclude ? "T" : "F");
-        fout << "\n";
-    }
+        fout << auto_pickup_header(bCharacter) << std::endl;
+        for (unsigned i = 0; i < vAutoPickupRules[(bCharacter) ? 2 : 1].size(); i++) {
+            fout << vAutoPickupRules[(bCharacter) ? 2 : 1][i].sRule << ";";
+            fout << (vAutoPickupRules[(bCharacter) ? 2 : 1][i].bActive ? "T" : "F") << ";";
+            fout << (vAutoPickupRules[(bCharacter) ? 2 : 1][i].bExclude ? "T" : "F");
+            fout << "\n";
+        }
 
-    if (!bCharacter) {
-        merge_vector();
-        createPickupRules();
-    }
-    fout.close();
+        if (!bCharacter) {
+            merge_vector();
+            createPickupRules();
+        }
+        fout.close();
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to write autopickup rules to %s"), sFile.c_str());
@@ -685,7 +725,7 @@ std::string trim_rule(std::string sPattern)
 
     //Remove all double ** in pattern
     while((iPos = sPattern.find("**")) != std::string::npos) {
-        sPattern = sPattern.substr(0, iPos) + sPattern.substr(iPos+1, sPattern.length()-iPos-1);
+        sPattern = sPattern.substr(0, iPos) + sPattern.substr(iPos + 1, sPattern.length() - iPos - 1);
     }
 
     return sPattern;
@@ -730,27 +770,27 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
         return false;
     }
 
-    for (unsigned i=0; i < vPattern.size(); i++) {
-        if (i==0 && vPattern[i] != "") { //beginning: ^vPat[i]
-            if (sText.length() < vPattern[i].length() || ci_find_substr(sText.substr(0, vPattern[i].length()), vPattern[i]) == -1) {
-                //debugmsg(("1: sText: " + sText + " | sPattern: ^" + vPattern[i] + " | no match").c_str());
+    for (unsigned i = 0; i < vPattern.size(); i++) {
+        if (i == 0 && vPattern[i] != "") { //beginning: ^vPat[i]
+            if (sText.length() < vPattern[i].length() ||
+                ci_find_substr(sText.substr(0, vPattern[i].length()), vPattern[i]) == -1) {
                 return false;
             }
 
-            sText = sText.substr(vPattern[i].length(), sText.length()-vPattern[i].length());
-        } else if (i==vPattern.size()-1 && vPattern[i] != "") { //linenend: vPat[i]$
-            if (sText.length() < vPattern[i].length() || ci_find_substr(sText.substr(sText.length()-vPattern[i].length(), vPattern[i].length()), vPattern[i]) == -1) {
-                //debugmsg(("2: sText: " + sText + " | sPattern: " + vPattern[i] + "$ | no match").c_str());
+            sText = sText.substr(vPattern[i].length(), sText.length() - vPattern[i].length());
+        } else if (i == vPattern.size() - 1 && vPattern[i] != "") { //linenend: vPat[i]$
+            if (sText.length() < vPattern[i].length() ||
+                ci_find_substr(sText.substr(sText.length() - vPattern[i].length(), vPattern[i].length()),
+                               vPattern[i]) == -1) {
                 return false;
             }
         } else { //inbetween: vPat[i]
             if (vPattern[i] != "") {
                 if ((iPos = ci_find_substr(sText, vPattern[i])) == -1) {
-                    //debugmsg(("3: sText: " + sText + " | sPattern: " + vPattern[i] + " | no match").c_str());
                     return false;
                 }
 
-                sText = sText.substr(iPos+vPattern[i].length(), sText.length()-iPos);
+                sText = sText.substr(iPos + vPattern[i].length(), sText.length() - iPos);
             }
         }
     }
@@ -758,7 +798,8 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
     return true;
 }
 
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems)
+{
     std::stringstream ss(s);
     std::string item;
     elems.clear();
@@ -766,43 +807,35 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
         elems.push_back(item);
     }
 
-    if ( s.substr(s.length()-1, 1) == "*") {
+    if ( s.substr(s.length() - 1, 1) == "*") {
         elems.push_back("");
     }
 
     return elems;
 }
 
-/*
-    // string test
-    std::string str1 = "FIRST HELLO";
-    std::string str2 = "hello";
-    int f1 = ci_find_substr( str1, str2 );
-
-    // wstring test
-    std::wstring wstr1 = L"ОПЯТЬ ПРИВЕТ";
-    std::wstring wstr2 = L"привет";
-    int f2 = ci_find_substr( wstr1, wstr2 );
-*/
-
 // templated version of my_equal so it could work with both char and wchar_t
 template<typename charT>
 struct my_equal {
     public:
-        my_equal( const std::locale& loc ) : loc_(loc) {}
+        my_equal( const std::locale &loc ) : loc_(loc) {}
 
         bool operator()(charT ch1, charT ch2) {
             return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
         }
     private:
-        const std::locale& loc_;
+        const std::locale &loc_;
 };
 
 // find substring (case insensitive)
 template<typename charT>
-int ci_find_substr( const charT& str1, const charT& str2, const std::locale& loc )
+int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc )
 {
-    typename charT::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(), my_equal<typename charT::value_type>(loc) );
-    if ( it != str1.end() ) return it - str1.begin();
-    else return -1; // not found
+    typename charT::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
+                                        my_equal<typename charT::value_type>(loc) );
+    if ( it != str1.end() ) {
+        return it - str1.begin();
+    } else {
+        return -1;    // not found
+    }
 }
