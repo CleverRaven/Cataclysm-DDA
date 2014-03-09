@@ -5051,10 +5051,28 @@ void game::draw_minimap()
                 const std::string& note = overmap_buffer.note(omx, omy, levz);
                 if (note.length() >= 2 && note[1] == ':') {
                     ter_sym = note[0];
+                }else if (note.length() >= 4 && note[3] == ':') {
+                    ter_sym = note[2];
                 } else {
                     ter_sym = 'N';
                 }
-                ter_color = c_yellow;
+                if(note.length() >= 2 && note[1] == ';'){
+                        if(note[0] == 'R'){ter_color = c_red;}
+                        if(note[0] == 'G'){ter_color = c_green;}
+                        if(note[0] == 'B'){ter_color = c_blue;}
+                        if(note[0] == 'W'){ter_color = c_white;}
+                        if(note[0] == 'C'){ter_color = c_cyan;}
+                        if(note[0] == 'P'){ter_color = c_pink;}
+                }else if(note.length() >= 4 && note[3] == ';'){
+                        if(note[2] == 'R'){ter_color = c_red;}
+                        if(note[2] == 'G'){ter_color = c_green;}
+                        if(note[2] == 'B'){ter_color = c_blue;}
+                        if(note[2] == 'W'){ter_color = c_white;}
+                        if(note[2] == 'C'){ter_color = c_cyan;}
+                        if(note[2] == 'P'){ter_color = c_pink;}
+                }else{
+                    ter_color = c_yellow;
+                }
             } else if (!seen) {
                 ter_sym = ' ';
                 ter_color = c_black;
