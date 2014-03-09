@@ -491,6 +491,7 @@ void player::activate_bionic(int b)
         getch();
         delwin(w);
     } else if(bio.id == "bio_blood_filter") {
+        g->add_msg(_("You activate your blood filtration system."));
         rem_disease("fungus");
         rem_disease("dermatik");
         rem_disease("bloodworms");
