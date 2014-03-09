@@ -1,5 +1,10 @@
 [
-
+  {
+    "type" : "ITEM_CATEGORY",
+    "id" : "armor",
+    "name" : "armor",
+    "sort_rank" : 20
+  },
   {
     "id": "miner_hat",
     "type": "TOOL_ARMOR",

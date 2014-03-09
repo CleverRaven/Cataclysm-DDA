@@ -27,16 +27,12 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
-#include "SDL.h"
-#include "SDL_ttf.h"
-#ifdef SDLTILES
-#include "SDL_image.h" // Make sure to add this to the other OS inclusions
-#endif
 #ifndef strcasecmp
 #define strcasecmp strcmpi
 #endif
 #else
 #include <wordexp.h>
+#endif
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
@@ -50,8 +46,6 @@
 #include "SDL2/SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
 #endif
-#endif
-
 //***********************************
 //Globals                           *
 //***********************************
