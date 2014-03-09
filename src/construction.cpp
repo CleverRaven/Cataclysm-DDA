@@ -128,8 +128,6 @@ void construction_menu()
                 mvwputch(w_con, i, j, c_black, ' ');
             }
         }
-        //Draw Scrollbar
-        draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
         // Determine where in the master list to start printing
         //int offset = select - 11;
         int offset = 0;
@@ -291,8 +289,11 @@ void construction_menu()
                     posx = 33;
                 }
             }
-            wrefresh(w_con);
         } // Finished updating
+
+        //Draw Scrollbar.
+        //Doing it here lets us refresh the entire window all at once.
+        draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
 
         ch = getch();
         switch (ch) {
