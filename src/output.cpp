@@ -750,13 +750,14 @@ long popup(const std::string &text, PopupFlags flags)
         ch = getch();
         if ((flags & PF_GET_KEY) != 0) {
             // return the first key that got pressed.
+            werase(w);
             break;
         }
         if (ch == ' ' || ch == '\n' || ch == KEY_ESCAPE) {
             // The usuall "escape menu/window" keys.
+            werase(w);
             break;
         }
-        werase(w);
     }
     wrefresh(w);
     delwin(w);
