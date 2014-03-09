@@ -146,7 +146,8 @@ void construction_menu()
             }
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
-            mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkeys[current],
+            // If we run out of hotkeys, just stop assigning them.
+            mvwprintz(w_con, 1 + i, 1, col, "%c %s", (current < hotkeys.size()) ? hotkeys[current] : ' ',
                       utf8_substr(available[current].c_str(), 0, 27).c_str());
         }
 

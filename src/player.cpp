@@ -9515,11 +9515,15 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     return armor_damaged;
 }
 void player::absorb_hit(body_part bp, int, damage_instance &dam) {
-    std::vector<int> armor_indices;
-
-    get_armor_on(this,bp,armor_indices);
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
+
+        // Recompute the armor indices for every damage unit because we may have
+        // destroyed armor earlier in the loop.
+        std::vector<int> armor_indices;
+
+        get_armor_on(this,bp,armor_indices);
+
         // CBMs absorb damage first before hitting armour
         if (has_active_bionic("bio_ads")) {
             if (it->amount > 0 && power_level > 1) {
