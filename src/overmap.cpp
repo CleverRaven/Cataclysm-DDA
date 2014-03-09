@@ -2250,116 +2250,80 @@ void overmap::put_buildings(int x, int y, int dir, city town)
  }
 }
 
-void overmap::make_road(int cx, int cy, int cs, int dir, city town)
+void overmap::make_road(int x, int y, int cs, int dir, city town)
 {
-    int x = cx, y = cy;
-    int c = cs, croad = cs;
-    switch (dir) {
+    int c = cs;
+    int croad = cs;
+    int dirx = 0;
+    int diry = 0;
+    std::string road;
+    std::string crossroad;
+    switch( dir ) {
     case 0:
-        while (c > 0 && y > 0 && (ter(x, y-1, 0) == settings.default_oter || c == cs)) {
-            y--;
-            c--;
-            ter(x, y, 0) = "road_ns";
-            for (int i = -1; i <= 0; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    if (abs(j) != abs(i) && (ter(x+j, y+i, 0) == "road_ew" ||
-                                             ter(x+j, y+i, 0) == "road_ns")) {
-                        ter(x, y, 0) = "road_null";
-                        c = -1;
-                    }
-                }
-            }
-            put_buildings(x, y, dir, town);
-            if (c < croad - 1 && c >= 2 && ter(x - 1, y, 0) == settings.default_oter &&
-                                           ter(x + 1, y, 0) == settings.default_oter) {
-                croad = c;
-                make_road(x, y, cs - rng(1, 3), 1, town);
-                make_road(x, y, cs - rng(1, 3), 3, town);
-            }
-        }
-        if (is_road(x, y-2, 0)) {
-            ter(x, y-1, 0) = "road_ns";
-        }
+        dirx = 0;
+        diry = -1;
+        road = "road_ns";
+        crossroad = "road_ew";
         break;
     case 1:
-        while (c > 0 && x < OMAPX-1 && (ter(x+1, y, 0) == settings.default_oter || c == cs)) {
-            x++;
-            c--;
-            ter(x, y, 0) = "road_ew";
-            for (int i = -1; i <= 1; i++) {
-                for (int j = 0; j <= 1; j++) {
-                    if (abs(j) != abs(i) && (ter(x+j, y+i, 0) == "road_ew" ||
-                                             ter(x+j, y+i, 0) == "road_ns")) {
-                        ter(x, y, 0) = "road_null";
-                        c = -1;
-                    }
-                }
-            }
-            put_buildings(x, y, dir, town);
-            if (c < croad-2 && c >= 3 && ter(x, y-1, 0) == settings.default_oter &&
-                                         ter(x, y+1, 0) == settings.default_oter) {
-                croad = c;
-                make_road(x, y, cs - rng(1, 3), 0, town);
-                make_road(x, y, cs - rng(1, 3), 2, town);
-            }
-        }
-        if (is_road(x-2, y, 0)) {
-            ter(x-1, y, 0) = "road_ew";
-        }
+        dirx = 1;
+        diry = 0;
+        road = "road_ew";
+        crossroad = "road_ns";
         break;
     case 2:
-        while (c > 0 && y < OMAPY-1 && (ter(x, y+1, 0) == settings.default_oter || c == cs)) {
-            y++;
-            c--;
-            ter(x, y, 0) = "road_ns";
-            for (int i = 0; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    if (abs(j) != abs(i) && (ter(x+j, y+i, 0) == "road_ew" ||
-                                             ter(x+j, y+i, 0) == "road_ns")) {
-                        ter(x, y, 0) = "road_null";
-                        c = -1;
-                    }
-                }
-            }
-            put_buildings(x, y, dir, town);
-            if (c < croad-2 && ter(x-1, y, 0) == settings.default_oter && ter(x+1, y, 0) == settings.default_oter) {
-                croad = c;
-                make_road(x, y, cs - rng(1, 3), 1, town);
-                make_road(x, y, cs - rng(1, 3), 3, town);
-            }
-        }
-        if (is_road(x, y+2, 0)) {
-            ter(x, y+1, 0) = "road_ns";
-        }
+        dirx = 0;
+        diry = 1;
+        road = "road_ns";
+        crossroad = "road_ew";
         break;
     case 3:
-        while (c > 0 && x > 0 && (ter(x-1, y, 0) == settings.default_oter || c == cs)) {
-            x--;
-            c--;
-            ter(x, y, 0) = "road_ew";
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 0; j++) {
-                    if (abs(j) != abs(i) && (ter(x+j, y+i, 0) == "road_ew" ||
-                                             ter(x+j, y+i, 0) == "road_ns")) {
-                        ter(x, y, 0) = "road_null";
-                        c = -1;
-                    }
-                }
-            }
-            put_buildings(x, y, dir, town);
-            if (c < croad - 2 && c >= 3 && ter(x, y-1, 0) == settings.default_oter &&
-                                           ter(x, y+1, 0) == settings.default_oter) {
-                croad = c;
-                make_road(x, y, cs - rng(1, 3), 0, town);
-                make_road(x, y, cs - rng(1, 3), 2, town);
-            }
-        }
-        if (is_road(x+2, y, 0)) {
-            ter(x+1, y, 0) = "road_ew";
-        }
+        dirx = -1;
+        diry = 0;
+        road = "road_ew";
+        crossroad = "road_ns";
         break;
+    default:
+        // Out-of-range dir value, bail out.
+        return;
     }
 
+    // Grow in the stated direction, sprouting off sub-roads and placing buildings as we go.
+    while( c > 0 && y > 0 && x > 0 && y < OMAPY - 1 && x < OMAPX - 1 &&
+           (ter(x + dirx, y + diry, 0) == settings.default_oter || c == cs) ) {
+        x += dirx;
+        y += diry;
+        c--;
+        ter( x, y, 0 ) = road.c_str();
+        // Look for a crossroad or a road ahead, if we find one,
+        // set current tile to be road_null and c to -1 to prevent further branching.
+        if( ter( x + dirx, y + diry, 0 ) == road.c_str() ||
+            ter( x + dirx, y + diry, 0 ) == crossroad.c_str() ||
+            // This looks left and right of the current motion of travel.
+            ter( x + diry, y + dirx, 0 ) == road.c_str() ||
+            ter( x + diry, y + dirx, 0 ) == crossroad.c_str() ||
+            ter( x - diry, y - dirx, 0 ) == road.c_str() ||
+            ter( x - diry, y - dirx, 0 ) == crossroad.c_str()) {
+            ter(x, y, 0) = "road_null";
+            c = -1;
+
+        }
+        put_buildings(x, y, dir, town);
+        // Look to each side, and branch if the way is clear.
+        if (c < croad - 1 && c >= 2 && ( ter(x + diry, y + dirx, 0) == settings.default_oter &&
+                                         ter(x - diry, y - dirx, 0) == settings.default_oter ) ) {
+            croad = c;
+            make_road(x, y, cs - rng(1, 3), (dir + 1) % 4, town);
+            make_road(x, y, cs - rng(1, 3), (dir + 3) % 4, town);
+        }
+    }
+    // Now we're done growing, if there's a road ahead, add one more road segment to meet it.
+    if (is_road(x + (2 * dirx) , y + (2 * diry), 0)) {
+        ter(x + dirx, y + diry, 0) = "road_ns";
+    }
+
+    // If we're big, make a right turn at the edge of town.
+    // Seems to make little neighborhoods.
     cs -= rng(1, 3);
     if (cs >= 2 && c == 0) {
         int dir2;
