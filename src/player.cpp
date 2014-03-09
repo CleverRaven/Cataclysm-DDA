@@ -7154,7 +7154,7 @@ bool player::eat(item *eaten, it_comest *comest)
       }
     }
 
-    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit")|| eaten->made_of("wheat")) && comest->nutr > 0) {
+    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit")) && comest->nutr > 0) {
         g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
         return false;
     }
@@ -7179,7 +7179,7 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
-    if (has_trait("ANTIFRUIT") && eaten->made_of("fruit") && (!has_bionic("bio_digestion")) && !is_npc() &&
+    if (has_trait("ANTIFRUIT") && eaten->made_of("fruit") && !is_npc() &&
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
@@ -7187,7 +7187,7 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
-    if (has_trait("ANTIWHEAT") && eaten->made_of("wheat") && (!has_bionic("bio_digestion")) && !is_npc() &&
+    if ((has_trait("ANTIWHEAT") || has_trait("CARNIVORE")) && eaten->made_of("wheat") && (!has_bionic("bio_digestion")) && !is_npc() &&
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
@@ -7355,7 +7355,7 @@ bool player::eat(item *eaten, it_comest *comest)
         g->add_msg_if_player(this,_("Yuck! How can anybody eat this stuff?"));
         add_morale(MORALE_ANTIJUNK, -75, -400, 300, 240);
     }
-    if (has_trait("ANTIWHEAT") && eaten->made_of("wheat")) {
+    if ((has_trait("ANTIWHEAT") || has_trait("CARNIVORE")) && eaten->made_of("wheat")) {
         g->add_msg_if_player(this,_("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
     }
