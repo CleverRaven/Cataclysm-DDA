@@ -12004,18 +12004,8 @@ bool game::plmove(int dx, int dy)
 
           if ( src_items > 0 ) {  // and the stuff inside.
               if ( dst_item_ok && src_item_ok ) {
-                  std::vector <item>& miat = m.i_at(fpos.x, fpos.y);
-                  const int arbritrary_item_limit = MAX_ITEM_IN_SQUARE - dst_items; // within reason
-                  for (int i=0; i < src_items; i++) { // ...carefully
-                      if ( i < arbritrary_item_limit &&
-                        miat.size() > 0 &&
-                        m.add_item_or_charges(fdest.x, fdest.y, miat[0], 0) ) {
-                          miat.erase(miat.begin());
-                      } else {
-                          add_msg("Stuff spills from the %s!", furntype.name.c_str() );
-                          break;
-                      }
-                  }
+                  // Assume contents of both cells are legal, so we can just swap contents.
+                  m.i_at( fpos.x, fpos.y).swap( m.i_at(fdest.x, fdest.y) );
               } else {
                   add_msg("Stuff spills from the %s!", furntype.name.c_str() );
               }
