@@ -1354,7 +1354,7 @@ int item::damage_cut() const
     }
     if( is_null() )
         return 0;
-    total -= total * (damage * 0.2) ;
+    total -= total * (damage * 0.15) ;
       if (total > 0) {
       return total;
       } else {
