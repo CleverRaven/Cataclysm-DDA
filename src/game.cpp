@@ -9086,26 +9086,28 @@ void game::pickup(int posx, int posy, int min)
     bool weight_is_okay = (u.weight_carried() <= u.weight_capacity());
     bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
     bool from_veh = false;
-    int veh_part = 0;
+    int veh_root_part = 0;
+
     int k_part = 0;
     int wtr_part = 0;
     int w_part = 0;
     int craft_part = 0;
+    int veh_part = 0;
     int chempart = 0;
     int ctrl_part = 0;
     std::vector<std::string> menu_items;
     std::vector<uimenu_entry> options_message;
 
-    vehicle *veh = m.veh_at (posx, posy, veh_part);
+    vehicle *veh = m.veh_at (posx, posy, veh_root_part);
     std::vector<item> here_ground = m.i_at(posx, posy);
     if (min != -1 && veh) {
-        k_part = veh->part_with_feature(veh_part, "KITCHEN");
-        wtr_part = veh->part_with_feature(veh_part, "FAUCET");
-        w_part = veh->part_with_feature(veh_part, "WELDRIG");
-        craft_part = veh->part_with_feature(veh_part, "CRAFTRIG");
-        chempart = veh->part_with_feature(veh_part, "CHEMLAB");
-        veh_part = veh->part_with_feature(veh_part, "CARGO", false);
-        ctrl_part = veh->part_with_feature(veh_part, "CONTROLS");
+        k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
+        wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
+        w_part = veh->part_with_feature(veh_root_part, "WELDRIG");
+        craft_part = veh->part_with_feature(veh_root_part, "CRAFTRIG");
+        chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
+        veh_part = veh->part_with_feature(veh_root_part, "CARGO", false);
+        ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
         from_veh = veh && veh_part >= 0 && veh->parts[veh_part].items.size() > 0;
 
         menu_items.push_back(_("Examine vehicle"));
