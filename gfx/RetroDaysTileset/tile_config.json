@@ -50,21 +50,25 @@
         {
             "id":"lighting_boomered_light",
             "fg":50,
+            "bg":0,
             "rotates":false
         },
         {
             "id":"lighting_boomered_dark",
             "fg":51,
+            "bg":0,
             "rotates":false
         },
         {
             "id":"lighting_lowlight_light",
             "fg":52,
+            "bg":0,
             "rotates":false
         },
         {
             "id":"lighting_lowlight_dark",
             "fg":53,
+            "bg":0,
             "rotates":false
         },
         {
