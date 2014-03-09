@@ -1789,19 +1789,19 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         int distance = rl_dist(orig.x, orig.y, target.x, target.y);
         mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
     }
-    mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan.  "));
+    mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan."));
     mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
             _(" - Center map on character")).c_str());
     mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
-            _(" - Search                 ")).c_str());
+            _(" - Search")).c_str());
     mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
-            _(" - Add/Edit a note        ")).c_str());
+            _(" - Add/Edit a note")).c_str());
     mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
-            _(" - Delete a note          ")).c_str());
+            _(" - Delete a note")).c_str());
     mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
-            _(" - List notes             ")).c_str());
+            _(" - List notes")).c_str());
     fold_and_print(w, 21, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
-                _(" - Return to game  ")).c_str());
+                _(" - Return to game")).c_str());
     point omt(cursx, cursy);
     const point om = overmapbuffer::omt_to_om_remain(omt);
     mvwprintz(w, getmaxy(w) - 1, om_map_width + 1, c_red,
