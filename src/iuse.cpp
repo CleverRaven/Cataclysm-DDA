@@ -836,6 +836,31 @@ int iuse::cig(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::ecig(player *p, item *it, bool)
+{
+    if (it->type->id == "ecig") {
+        g->add_msg_if_player(p,_("You take a puff from your electronic cigarette."));
+    } else if(it->type->id == "advanced_ecig") {
+        /*inventory crafting_inv;
+        crafting_inv.form_from_map(point(p->posx, p->posy), 1, false);*/
+        if(p->inv.has_components("nicotine_liquid", 1)) {
+            g->add_msg_if_player(p,_("You inhale some vapor from your advanced electronic cigarette."));
+            p->inv.use_charges("nicotine_liquid", 1);
+        } else {
+            g->add_msg_if_player(p,_("You don't have any nicotine liquid!"));
+            return 0;
+        }
+    }
+    
+    p->thirst += 4;
+    p->hunger -= 3;
+    p->add_disease("cig", 100);
+    if (p->disease_duration("cig") > 600) {
+        g->add_msg_if_player(p,_("Ugh, too much nicotine... you feel nasty."));
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::antibiotic(player *p, item *it, bool)
 {
     g->add_msg_if_player(p,_("You take some antibiotics."));

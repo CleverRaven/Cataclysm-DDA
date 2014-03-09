@@ -176,6 +176,7 @@ void Item_factory::init(){
     iuse_function_list["PKILL"] = &iuse::pkill;
     iuse_function_list["XANAX"] = &iuse::xanax;
     iuse_function_list["CIG"] = &iuse::cig;
+    iuse_function_list["ECIG"] = &iuse::ecig;
     iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
     iuse_function_list["EYEDROPS"] = &iuse::eyedrops;
     iuse_function_list["FUNGICIDE"] = &iuse::fungicide;
