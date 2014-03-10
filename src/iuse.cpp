@@ -2823,12 +2823,12 @@ int iuse::solder_weld(player *p, item *it, bool)
     // One does not check for open wounds with a soldering iron.
     if ((p->has_disease("bite") || p->has_disease("bleed")) && !p->is_underwater()) {
         choice = menu(true, ("Using soldering item:"), _("Cauterize wound"),
-                      _("Repair solderable item"), _("Cancel"), NULL);
+                      _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     } else if (p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") ||
                p->has_trait("CENOBITE")) {
         // Masochists might be wounded too, let's not ask twice.
         choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"),
-                      _("Repair solderable item"), _("Cancel"), NULL);
+                      _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
     }
 
     switch (choice)
@@ -2873,7 +2873,7 @@ int iuse::solder_weld(player *p, item *it, bool)
                 repairitem_names.push_back(_("scrap metal"));
             }
             if(repair_items.empty()) {
-                g->add_msg_if_player(p,_("Your %s is not made of a solderable material."),
+                g->add_msg_if_player(p,_("Your %s is not made of plastic, metal, or kevlar."),
                                      fix->tname().c_str());
                 return 0;
             }
@@ -7858,7 +7858,7 @@ int iuse::gun_repair(player *p, item *it, bool)
             }
             if ((fix->damage == 0) && p->skillLevel("mechanics") < 8) {
                 g->add_msg_if_player(p,_("Your %s is already in peak condition."), fix->tname().c_str());
-                g->add_msg_if_player(p, _("With more skill, you might be able to improve it though."));
+                g->add_msg_if_player(p, _("With a higher mechanics skill, you might be able to improve it."));
                 return 0;
             }
             if ((fix->damage == 0) && p->skillLevel("mechanics") >= 8) {
@@ -7880,6 +7880,47 @@ int iuse::gun_repair(player *p, item *it, bool)
                 g->sound(p->posx, p->posy, 8, "");
                 p->moves -= 500 * p->fine_detail_vision_mod();
                 p->practice(g->turn, "mechanics", 10);
+                    fix->damage = 0;
+                }
+    return it->type->charges_to_use();
+}
+
+int iuse::misc_repair(player *p, item *it, bool)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    if (p->skillLevel("fabrication") < 1) {
+        g->add_msg_if_player(p, _("You need a fabrication skill of 1 to use this repair kit."));
+        return 0;
+    }
+            int pos = g->inv(_("Select the item to repair."));
+            item* fix = &(p->i_at(pos));
+            if (fix == NULL || fix->is_null()) {
+                g->add_msg_if_player(p,_("You do not have that item!"));
+                return 0 ;
+            }
+            if (!(fix->made_of("wood") || fix->made_of("plastic") || fix->made_of("bone"))) {
+                g->add_msg_if_player(p,_("That isn't made of wood, bone, or chitin!"));
+                return 0;
+            }
+            if (fix->damage == 0) {
+                g->add_msg_if_player(p,_("You reinforce your %s."), fix->tname().c_str());
+                p->moves -= 1000 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "fabrication", 10);
+                    fix->damage--;
+            }
+                else if (fix->damage >= 2) {
+                    g->add_msg_if_player(p,_("You repair your %s!"), fix->tname().c_str());
+                p->moves -= 500 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "fabrication", 10);
+                    fix->damage--;
+                }
+                else {
+                    g->add_msg_if_player(p,_("You repair your %s completely!"), fix->tname().c_str());
+                p->moves -= 250 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "fabrication", 10);
                     fix->damage = 0;
                 }
     return it->type->charges_to_use();

@@ -370,6 +370,7 @@ void Item_factory::init(){
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
+    iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
     iuse_function_list["TOOLARMOR_OFF"]  = &iuse::toolarmor_off;
     iuse_function_list["TOOLARMOR_ON"]  = &iuse::toolarmor_on;
     iuse_function_list["RM13ARMOR_OFF"]  = &iuse::rm13armor_off;
