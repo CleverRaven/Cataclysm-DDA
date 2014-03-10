@@ -76,6 +76,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```cardreader``` Use the cardreader with a valid card, or attempt to hack.
 - ```rubble``` Clear up the rubble if you have a shovel.
 - ```chainfence``` Hop over the chain fence.
+- ```bars``` Take advantage of AMORPHOUS and slip through the bars.
 - ```tent``` Take down the tent.
 - ```shelter``` Take down the shelter.
 - ```wreckage``` Clear up the wreckage if you have a shovel.

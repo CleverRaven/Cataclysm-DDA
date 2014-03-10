@@ -581,6 +581,7 @@
         "type" : "terrain",
         "id" : "t_bars",
         "name": "metal bars",
+        "examine_action": "bars",
         "symbol": "\"",
         "color": "ltgray",
         "move_cost": 0,

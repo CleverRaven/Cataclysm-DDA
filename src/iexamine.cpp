@@ -560,6 +560,24 @@ void iexamine::chainfence(player *p, map *m, int examx, int examy) {
  }
 }
 
+void iexamine::bars(player *p, map *m, int examx, int examy) {
+ if(!(p->has_trait("AMORPHOUS"))) {
+    return;
+ }
+ if ((p->encumb(bp_torso)) >= 1) {
+    g->add_msg(_("Your amorphous body could slip though the %s, but your cumbersome gear can't."),m->tername(examx, examy).c_str());
+    return;
+ }
+ if (!query_yn(_("Slip through the %s?"),m->tername(examx, examy).c_str())) {
+  none(p, m, examx, examy);
+  return;
+ }
+  p->moves -= 200;
+  g->add_msg(_("You slide right between the bars."));
+  p->posx = examx;
+  p->posy = examy;
+}
+
 void iexamine::tent(player *p, map *m, int examx, int examy) {
  if (!query_yn(_("Take down your tent?"))) {
   none(p, m, examx, examy);
@@ -1396,6 +1414,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("chainfence" == function_name) {
     return &iexamine::chainfence;
+  }
+  if ("bars" == function_name) {
+    return &iexamine::bars;
   }
   if ("tent" == function_name) {
     return &iexamine::tent;
