@@ -2086,7 +2086,9 @@
             {"x": -9, "y": -1, "part": "hdframe_sw"},
             {"x": -9, "y": -1, "part": "wheel_armor"},
             {"x": -9, "y": -1, "part": "hdboard_sw"},
-            {"x": -9, "y": -1, "part": "plating_military"}
+            {"x": -9, "y": -1, "part": "plating_military"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
+            {"x": 1, "y": 4, "part": "wing_mirror"}
         ]
     },{
         "type" : "vehicle",
