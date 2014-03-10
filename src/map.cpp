@@ -4893,18 +4893,20 @@ void map::add_road_vehicles(bool city, int facing)
         if (one_in(40)) {
             int vx = rng(8, 16);
             int vy = rng(8, 16);
-            int car_type = rng(1, 10);
-            if (car_type <= 5) {
+            int car_type = rng(1, 27);
+            if (car_type <= 10) {
                 add_vehicle("car", vx, vy, facing, 0, -1);
-            } else if (car_type <= 7) {
+            } else if (car_type <= 14) {
                 add_vehicle("car_sports", vx, vy, facing, 0, -1);
-            } else if (car_type <= 8) {
+            } else if (car_type <= 16) {
                 add_vehicle("flatbed_truck", vx, vy, facing, 0, -1);
-            } else if (car_type <= 9) {
+            } else if (car_type <= 18) {
                 add_vehicle("semi_truck", vx, vy, facing, 0, -1);
-            } else if (car_type <= 10) {
+            } else if (car_type <= 20) {
                 add_vehicle("humvee", vx, vy, facing, 0, -1);
-            } else if (car_type <= 12) {
+            } else if (car_type <= 24) {
+                add_vehicle("rara_x", vx, vy, facing, 0, -1);
+            } else if (car_type <= 25) {
                 add_vehicle("apc", vx, vy, facing, 0, -1);
             } else {
                 add_vehicle("armored_car", vx, vy, facing, 0, -1);
