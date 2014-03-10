@@ -6,7 +6,8 @@
 #include <locale>
 #include <algorithm>
 
-class cPickupRules {
+class cPickupRules
+{
     public:
         std::string sRule;
         bool bActive;
@@ -47,6 +48,6 @@ void create_default_auto_pickup(bool bCharacter);
 bool auto_pickup_match(std::string sText, std::string sPattern);
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
 template<typename charT>
-int ci_find_substr( const charT& str1, const charT& str2, const std::locale& loc = std::locale() );
+int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc = std::locale() );
 
 #endif
