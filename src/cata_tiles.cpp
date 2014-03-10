@@ -346,7 +346,7 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
         entry.throw_error("invalid offset (out of range)", "offset");
     }
     // color, of the ASCII char. Can be -1 to indicate all/default colors.
-    int FG;
+    int FG = -1;
     const std::string scolor = entry.get_string("color", "DEFAULT");
     if (scolor == "BLACK") {
         FG = COLOR_BLACK;
