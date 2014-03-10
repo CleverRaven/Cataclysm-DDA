@@ -72,6 +72,7 @@ public:
     virtual void OutputChar(Uint16 t, int x, int y, unsigned char color) = 0;
     void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window(WINDOW *win);
+    bool draw_window(WINDOW *win, int offsetx, int offsety);
 
     static Font *load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight);
 public:
@@ -476,6 +477,7 @@ void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG)
     }
 }
 
+extern WINDOW *w_hit_animation;
 void curses_drawwindow(WINDOW *win)
 {
     bool update = false;
@@ -494,6 +496,13 @@ void curses_drawwindow(WINDOW *win)
     } else if (g && win == g->w_terrain && map_font != NULL) {
         // Special font for the terrain window
         update = map_font->draw_window(win);
+    } else if (win == w_hit_animation && map_font != NULL) {
+        // The animation window overlays the terrain window,
+        // it uses the same font, but it's only 1 square in size.
+        // The offset must not use the global font, but the map font
+        int offsetx = win->x * map_font->fontwidth;
+        int offsety = win->y * map_font->fontheight;
+        update = map_font->draw_window(win, offsetx, offsety);
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
         update = font->draw_window(win);
@@ -509,6 +518,13 @@ void curses_drawwindow(WINDOW *win)
 
 bool Font::draw_window(WINDOW *win)
 {
+    // Use global font sizes here to make this independent of the
+    // font used for this window.
+    return draw_window(win, win->x * ::fontwidth, win->y * ::fontheight);
+}
+
+bool Font::draw_window(WINDOW *win, int offsetx, int offsety)
+{
     int i,j,w,tmp;
     int drawx,drawy;
     bool update = false;
@@ -519,8 +535,8 @@ bool Font::draw_window(WINDOW *win)
             win->line[j].touched=false;
 
             for (i=0,w=0; w<win->width; i++,w++) {
-                drawx=((win->x+w)*fontwidth);
-                drawy=((win->y+j)*fontheight);//-j;
+                drawx = offsetx + w * fontwidth;
+                drawy = offsety + j * fontheight;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
                 const char* utf8str = win->line[j].chars+i;
                 int len = ANY_LENGTH;
