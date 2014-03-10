@@ -359,6 +359,7 @@ bindist: $(BINDIST)
 ifeq ($(TARGETSYSTEM), LINUX)
 DATA_PREFIX=$(PREFIX)/share/cataclysm-dda
 BIN_PREFIX=$(PREFIX)/bin
+LOCALE_DIR=$(PREFIX)/share/locale
 install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
@@ -371,6 +372,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
 	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
                    README.txt LICENSE.txt -t $(DATA_PREFIX)
+	# Create translations
+	mkdir -p $(LOCALE_DIR)
+	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh ru;
 endif
 
 $(BINDIST): distclean $(TARGET) $(L10N) $(BINDIST_EXTRAS)
