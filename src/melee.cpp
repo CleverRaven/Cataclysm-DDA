@@ -42,17 +42,23 @@ bool player::handle_melee_wear() {
 // Here is where we handle wear and tear on things we use as melee weapons or shields
     std::stringstream dump;
     int material_factor = 1;
-    int damage_chance = 8 + dex_cur +  (2 * skillLevel("melee")) + (128 / str_cur);
+    int damage_chance = dex_cur + ( 2 * skillLevel("melee") ) + ( 128 / str_cur );
   // UNBREAKABLE_MELEE items can't be damaged through melee combat usage
   if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
     // Here we're checking the weapon's material(s) and using the best one to determine how durable it is
-    if (weapon.made_of("bone") || weapon.made_of("wood") || weapon.made_of("chitin") || weapon.made_of("leather")) {
+    if (weapon.made_of(weapon.made_of("plastic")) {
                 material_factor = 2;
     }
-    if (weapon.made_of("plastic") || weapon.made_of("stone")) {
+    if (weapon.made_of("leather")) {
+                material_factor = 3;
+    }
+    if (weapon.made_of("bone") || weapon.made_of("chitin")) {
                 material_factor = 4;
     }
-    if (weapon.made_of("silver") || weapon.made_of("gold") || weapon.made_of("lead")) {
+    if (weapon.made_of("wood")) {
+                material_factor = 5;
+    }
+    if (weapon.made_of("stone") || weapon.made_of("silver") || weapon.made_of("gold") || weapon.made_of("lead")) {
                 material_factor = 6;
     }
     if (weapon.made_of("iron") || weapon.made_of("kevlar") || weapon.made_of("nofixkevlar") || weapon.made_of("aluminum")) {

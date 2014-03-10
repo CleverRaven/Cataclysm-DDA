@@ -2823,12 +2823,12 @@ int iuse::solder_weld(player *p, item *it, bool)
     // One does not check for open wounds with a soldering iron.
     if ((p->has_disease("bite") || p->has_disease("bleed")) && !p->is_underwater()) {
         choice = menu(true, ("Using soldering item:"), _("Cauterize wound"),
-                      _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+                      _("Repair solderable item"), _("Cancel"), NULL);
     } else if (p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") ||
                p->has_trait("CENOBITE")) {
         // Masochists might be wounded too, let's not ask twice.
         choice = menu(true, ("Using soldering item:"), _("Cauterize yourself for fun"),
-                      _("Repair plastic/metal/kevlar item"), _("Cancel"), NULL);
+                      _("Repair solderable item"), _("Cancel"), NULL);
     }
 
     switch (choice)
@@ -2839,18 +2839,22 @@ int iuse::solder_weld(player *p, item *it, bool)
         case 2:
         {
             if(it->charges <= 0) {
-                g->add_msg_if_player(p,_("Your repair tool does not have enough charges to do that."));
+                g->add_msg_if_player(p,_("Your tool does not have enough charges to do that."));
                 return 0;
             }
 
-            int pos = g->inv_type(_("Repair what?"), IC_ARMOR);
+            int pos = g->inv(_("Repair what?"));
             item* fix = &(p->i_at(pos));
             if (fix == NULL || fix->is_null()) {
                 g->add_msg_if_player(p,_("You do not have that item!"));
                 return 0 ;
             }
-            if (!fix->is_armor()) {
-                g->add_msg_if_player(p,_("That isn't clothing!"));
+            if (fix->is_gun()) {
+                g->add_msg_if_player(p,_("That requires gunsmithing tools."));
+                return 0;
+            }
+            if (fix->is_ammo()) {
+                g->add_msg_if_player(p,_("You cannot repair this type of item."));
                 return 0;
             }
             itype_id repair_item = "none";
@@ -2864,12 +2868,12 @@ int iuse::solder_weld(player *p, item *it, bool)
                 repair_items.push_back("plastic_chunk");
                 repairitem_names.push_back(_("plastic chunks"));
             }
-            if (fix->made_of("iron") || fix->made_of("steel")) {
+            if (fix->made_of("iron") || fix->made_of("steel") || fix->made_of("hardsteel")) {
                 repair_items.push_back("scrap");
                 repairitem_names.push_back(_("scrap metal"));
             }
             if(repair_items.empty()) {
-                g->add_msg_if_player(p,_("Your %s is not made of kevlar, plastic or metal."),
+                g->add_msg_if_player(p,_("Your %s is not made of a solderable material."),
                                      fix->tname().c_str());
                 return 0;
             }
@@ -7852,9 +7856,17 @@ int iuse::gun_repair(player *p, item *it, bool)
                 g->add_msg_if_player(p,_("That isn't a firearm!"));
                 return 0;
             }
-            if (fix->damage < 1) {
+            if ((fix->damage == 0) && p->skillLevel("mechanics") < 8) {
                 g->add_msg_if_player(p,_("Your %s is already in peak condition."), fix->tname().c_str());
+                g->add_msg_if_player(p, _("With more skill, you might be able to improve it though."));
                 return 0;
+            }
+            if ((fix->damage == 0) && p->skillLevel("mechanics") >= 8) {
+                g->add_msg_if_player(p,_("You accurize your %s."), fix->tname().c_str());
+                g->sound(p->posx, p->posy, 6, "");
+                p->moves -= 2000 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "mechanics", 10);
+                    fix->damage--;
             }
                 else if (fix->damage >= 2) {
                     g->add_msg_if_player(p,_("You repair your %s!"), fix->tname().c_str());

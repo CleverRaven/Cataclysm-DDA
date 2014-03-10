@@ -1015,8 +1015,12 @@ std::string item::tname( bool with_prefix )
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
     if (damage != 0 && !is_null() && with_prefix) {
-        if (damage == -1) {
-            damtext = rm_prefix(_("<dam_adj>reinforced "));
+        if (damage == -1)  {
+          if (is_gun())  {
+            damtext = rm_prefix(_("<dam_adj>accurized "));
+          } else {
+              damtext = rm_prefix(_("<dam_adj>reinforced "));
+            }
         } else {
             if (type->id == "corpse") {
                 if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
@@ -2218,7 +2222,7 @@ int item::dispersion()
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
     }
-    ret += damage * 2;
+    ret += damage * 4;
     if (ret < 0) ret = 0;
     return ret;
 }
@@ -2331,6 +2335,7 @@ int item::recoil(bool with_ammo)
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->recoil;
     }
+    ret += damage;
     return ret;
 }
 
