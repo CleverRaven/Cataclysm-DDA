@@ -462,7 +462,7 @@ protected:
  void build_outside_cache();
  void generate_lightmap();
  void build_seen_cache();
- void castLight( int row, float start, float end, int xx, int xy, int yx, int yy );
+ void castLight( int row, float start, float end, int xx, int xy, int yx, int yy, int offsetX, int offsetY, int offsetDistance );
 
  int my_MAPSIZE;
  virtual bool is_tiny() { return false; };
