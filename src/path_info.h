@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+
 extern std::string USERNAME;
 extern std::map<std::string,std::string> FILENAMES;
 

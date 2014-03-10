@@ -52,19 +52,23 @@ int main(int argc, char *argv[])
     int seed = time(NULL);
     bool verifyexit = false;
     bool check_all_mods = false;
+
     // set locale to system default
     setlocale(LC_ALL, "");
 #ifdef LOCALIZE
-    bindtextdomain("cataclysm-dda", "lang/mo");
+#ifdef __linux__
+    const char * locale_dir = FILENAMES["base_path"].c_str();
+#else
+    const char * locale_dir = "lang/mo";
+#endif // __linux__
+
+    bindtextdomain("cataclysm-dda", locale_dir);
     bind_textdomain_codeset("cataclysm-dda", "UTF-8");
     textdomain("cataclysm-dda");
-#endif
+#endif // LOCALIZE
 
-#ifdef __linux__
-char username[21];
-getenv("USER");
-USERNAME = std::string(username);
-#endif // __linux__
+    // Set default file paths
+    set_standard_filenames();
 
     //args
     argc--;
@@ -170,7 +174,6 @@ USERNAME = std::string(username);
         }
     }
 
-    set_standard_filenames();
 
     // ncurses stuff
     initOptions();
