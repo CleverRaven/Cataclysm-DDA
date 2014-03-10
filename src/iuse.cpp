@@ -1304,7 +1304,7 @@ int iuse::mutagen(player *p, item *it, bool) {
         p->mutate_category("MUTCAT_LIZARD");
     } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
         g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
-        p->mutate_category("MUTCAT_TROGLO");
+        p->mutate_category("MUTCAT_TROGLOBITE");
     } else if( it->has_flag("MUTAGEN_ALPHA") ) {
         g->add_msg_if_player(p, _("You feel...better. Somehow."));
         p->mutate_category("MUTCAT_ALPHA");
