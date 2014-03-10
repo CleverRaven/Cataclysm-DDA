@@ -1986,14 +1986,10 @@ int iuse::sew(player *p, item *, bool)
         return 0;
     }
     int thread_used = 1;
-    int pos = g->inv_type(_("Repair what?"), IC_ARMOR);
+    int pos = g->inv(_("Repair what?"));
     item* fix = &(p->i_at(pos));
     if (fix == NULL || fix->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
-        return 0;
-    }
-    if (!fix->is_armor()) {
-        g->add_msg_if_player(p,_("That isn't clothing!"));
         return 0;
     }
     //some items are made from more than one material. we should try to use both items if one type of repair item is missing

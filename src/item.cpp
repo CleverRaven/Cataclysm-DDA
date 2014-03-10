@@ -1014,7 +1014,7 @@ std::string item::tname( bool with_prefix )
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if (damage < 1 && !is_null() && with_prefix) {
+    if (damage != 0 && !is_null() && with_prefix) {
         if (damage == -1)  {
           if (is_gun())  {
             damtext = rm_prefix(_("<dam_adj>accurized "));
