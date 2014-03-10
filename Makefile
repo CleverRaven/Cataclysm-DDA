@@ -74,7 +74,8 @@ BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 LUA_DIR = lua
 LOCALIZE = 1
-PREFIX = /usr/local
+
+
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
 ODIR = obj
@@ -292,6 +293,11 @@ ifdef LANGUAGES
   BINDIST_EXTRAS += lang/mo
 endif
 
+ifeq ($(TARGETSYSTEM), LINUX)
+PREFIX = /usr/local
+DEFINES += -DPREFIX="$(PREFIX)"
+endif
+
 all: version $(TARGET) $(L10N)
 	@
 
@@ -374,7 +380,7 @@ install: version $(TARGET)
                    README.txt LICENSE.txt -t $(DATA_PREFIX)
 	# Create translations
 	mkdir -p $(LOCALE_DIR)
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh ru;
+	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh 2>/dev/null;
 endif
 
 $(BINDIST): distclean $(TARGET) $(L10N) $(BINDIST_EXTRAS)

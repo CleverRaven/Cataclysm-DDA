@@ -32,6 +32,7 @@
 #endif // __linux__
 
 void exit_handler(int s);
+void set_base_path(std::string path);
 void set_standard_filenames(void);
 
 std::map<std::string, std::string> FILENAMES; // create map where we will store the FILENAMES
@@ -53,24 +54,19 @@ int main(int argc, char *argv[])
     bool verifyexit = false;
     bool check_all_mods = false;
 
-    // set locale to system default
-    setlocale(LC_ALL, "");
-#ifdef LOCALIZE
-#ifdef __linux__
-    const char * locale_dir = FILENAMES["base_path"].c_str();
-#else
-    const char * locale_dir = "lang/mo";
-#endif // __linux__
-
-    bindtextdomain("cataclysm-dda", locale_dir);
-    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
-    textdomain("cataclysm-dda");
-#endif // LOCALIZE
-
     // Set default file paths
+#ifdef PREFIX
+#define Q(STR) #STR
+#define QUOTE(STR) Q(STR)
+#define PREFIX /home/heretic/temp/opt
+    set_base_path(std::string(QUOTE(PREFIX)));
+#else
+#define PREFIX /home/heretic/temp/opt
+    set_base_path("");
+#endif
     set_standard_filenames();
 
-    //args
+    // Process CLI arguments
     argc--;
     argv++;
     while (argc) {
@@ -109,6 +105,8 @@ int main(int argc, char *argv[])
             argv++;
             if(argc) {
                 FILENAMES["base_path"] = std::string(argv[0]);
+                set_base_path(std::string(argv[0]));
+                set_standard_filenames();
                 argc--;
                 argv++;
             }
@@ -174,6 +172,19 @@ int main(int argc, char *argv[])
         }
     }
 
+    // set locale to system default
+    setlocale(LC_ALL, "");
+#ifdef LOCALIZE
+#ifdef __linux__
+    const char * locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
+#else
+    const char * locale_dir = "lang/mo";
+#endif // __linux__
+
+    bindtextdomain("cataclysm-dda", locale_dir);
+    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
+    textdomain("cataclysm-dda");
+#endif // LOCALIZE
 
     // ncurses stuff
     initOptions();
@@ -284,12 +295,22 @@ void exit_handler(int s) {
     }
 }
 
+void set_base_path(std::string path)
+{
+    // TODO Unicode support
+    char ch;
+
+    ch = path.at(path.length() - 1);
+    if (ch != '/') {
+        path.push_back('/');
+    }
+
+    FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
+}
+
 void set_standard_filenames(void)
 {
     // setting some standards
-
-    FILENAMES.insert(std::pair<std::string,std::string>("base_path", ""));
-
     FILENAMES.insert(std::pair<std::string,std::string>("datadir", FILENAMES["base_path"] + "data/"));
     FILENAMES.insert(std::pair<std::string,std::string>("savedir", FILENAMES["base_path"] + "save/"));
     FILENAMES.insert(std::pair<std::string,std::string>("memorialdir", FILENAMES["base_path"] + "memorial/"));
