@@ -295,23 +295,72 @@ void map::build_seen_cache()
     memset(seen_cache, false, sizeof(seen_cache));
     seen_cache[g->u.posx][g->u.posy] = true;
 
-    castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0 );
-    castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1 );
+    int offsetX = g->u.posx;
+    int offsetY = g->u.posy;
 
-    castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0 );
-    castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1 );
+    castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, offsetX, offsetY, 0 );
+    castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, offsetX, offsetY, 0 );
 
-    castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0 );
-    castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1 );
+    castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, offsetX, offsetY, 0 );
+    castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, offsetX, offsetY, 0 );
 
-    castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0 );
-    castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1 );
+    castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, offsetX, offsetY, 0 );
+    castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, offsetX, offsetY, 0 );
+
+    castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, offsetX, offsetY, 0 );
+    castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, offsetX, offsetY, 0 );
+
+    if (vehicle *veh = veh_at(offsetX, offsetY)) {
+        // We're inside a vehicle. Do mirror calcs.
+        std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_MIRROR, true);
+        // Do all the sight checks first to prevent fake multiple reflection
+        // from happening due to mirrors becoming visible due to processing order.
+        for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
+            int mirrorX = offsetX + veh->parts[*m_it].precalc_dx[0];
+            int mirrorY = offsetY + veh->parts[*m_it].precalc_dy[0];
+            // We can utilize the current state of the seen cache to determine
+            // if the player can see the mirror from their position.
+            if (!g->u.sees(mirrorX, mirrorY)) {
+                m_it = mirrors.erase(m_it);
+            }
+            else {
+                ++m_it;
+            }
+        }
+
+        for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); ++m_it) {
+            int mirrorX = offsetX + veh->parts[*m_it].precalc_dx[0];
+            int mirrorY = offsetY + veh->parts[*m_it].precalc_dy[0];
+
+            // Determine how far the light has already traveled so mirrors
+            // don't cheat the light distance falloff.
+            int offsetDistance = rl_dist(offsetX, offsetY, mirrorX, mirrorY);
+
+            // @todo: Factor in the mirror facing and only cast in the
+            // directions the player's line of sight reflects to.
+            //
+            // The naive solution of making the mirrors act like a second player
+            // at an offset appears to give reasonable results though.
+
+            castLight( 1, 1.0f, 0.0f, 0, 1, 1, 0, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
+
+            castLight( 1, 1.0f, 0.0f, 0, -1, 1, 0, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, -1, 0, 0, 1, mirrorX, mirrorY, offsetDistance );
+
+            castLight( 1, 1.0f, 0.0f, 0, 1, -1, 0, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, 1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
+
+            castLight( 1, 1.0f, 0.0f, 0, -1, -1, 0, mirrorX, mirrorY, offsetDistance );
+            castLight( 1, 1.0f, 0.0f, -1, 0, 0, -1, mirrorX, mirrorY, offsetDistance );
+        }
+    }
 }
 
-void map::castLight( int row, float start, float end, int xx, int xy, int yx, int yy )
+void map::castLight( int row, float start, float end, int xx, int xy, int yx, int yy , int offsetX, int offsetY, int offsetDistance )
 {
     float newStart = 0.0f;
-    float radius = 60.0f;
+    float radius = 60.0f - offsetDistance;
     if( start < end ) {
         return;
     }
@@ -319,8 +368,8 @@ void map::castLight( int row, float start, float end, int xx, int xy, int yx, in
     for( int distance = row; distance <= radius && !blocked; distance++ ) {
         int deltaY = -distance;
         for( int deltaX = -distance; deltaX <= 0; deltaX++ ) {
-            int currentX = g->u.posx + deltaX * xx + deltaY * xy;
-            int currentY = g->u.posy + deltaX * yx + deltaY * yy;
+            int currentX = offsetX + deltaX * xx + deltaY * xy;
+            int currentY = offsetY + deltaX * yx + deltaY * yy;
             float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
             float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
 
@@ -355,7 +404,7 @@ void map::castLight( int row, float start, float end, int xx, int xy, int yx, in
                     distance < radius ) {
                     //hit a wall within sight line
                     blocked = true;
-                    castLight(distance + 1, start, leftSlope, xx, xy, yx, yy);
+                    castLight(distance + 1, start, leftSlope, xx, xy, yx, yy, offsetX, offsetY, offsetDistance);
                     newStart = rightSlope;
                 }
             }
