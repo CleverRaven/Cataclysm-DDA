@@ -456,8 +456,8 @@ void curses_drawwindow(WINDOW *win)
             win->y * fontheight,
             g->ter_view_x,
             g->ter_view_y,
-            tilecontext->terrain_term_x * fontwidth,
-            tilecontext->terrain_term_y * fontheight);
+            tilecontext->get_terrain_term_x() * fontwidth,
+            tilecontext->get_terrain_term_y() * fontheight);
     }
     
     if(update) {
@@ -1395,15 +1395,15 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     {
         // Check if click is within bounds of the window we care about
         int win_left = capture_win->x * fontwidth;
-        int win_right = win_left + (capture_win->width * tilecontext->tile_width);
+        int win_right = win_left + (capture_win->width * tilecontext->get_tile_width());
         int win_top = capture_win->y * fontheight;
-        int win_bottom = win_top + (capture_win->height * tilecontext->tile_height);
+        int win_bottom = win_top + (capture_win->height * tilecontext->get_tile_height());
         if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
             return false;
         }
 
-        selected_column = (coordinate_x - win_left) / tilecontext->tile_width;
-        selected_row = (coordinate_y - win_top) / tilecontext->tile_height;
+        selected_column = (coordinate_x - win_left) / tilecontext->get_tile_width();
+        selected_row = (coordinate_y - win_top) / tilecontext->get_tile_height();
     }
     else
 #endif

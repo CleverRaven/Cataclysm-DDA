@@ -970,7 +970,6 @@ void show_options(bool ingame)
 #ifdef SDLTILES
     if( used_tiles_changed ) {
         //try and keep SDL calls limited to source files that deal specifically with them
-        tilecontext->clear_buffer();
         try {
             tilecontext->reinit( "gfx" );
             g->init_ui();
