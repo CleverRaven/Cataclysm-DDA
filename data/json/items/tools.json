@@ -6792,6 +6792,28 @@
     "use_action": "GUN_REPAIR"
   },
   {
+    "id": "misc_repairkit",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "basic repair kit",
+    "description": "This is a small portable toolkit. When supplied with duct tape, it serves as a vital tool for fixing items made of wood, bone, or chitin. It requires 100 units of duct tape per use.",
+    "price": 1000,
+    "material": "plastic",
+    "weight": 1040,
+    "volume": 4,
+    "bashing": 2,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 200,
+    "initial_charges": 100,
+    "charges_per_use": 100,
+    "turns_per_charge": 0,
+    "ammo": "tape",
+    "revert_to": "null",
+    "use_action": "MISC_REPAIR"
+  },
+  {
     "id": "battery_atomic",
     "type": "TOOL",
     "symbol": ";",

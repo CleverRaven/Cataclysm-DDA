@@ -30,7 +30,7 @@ std::string melee_message(matec_id tech, player &p, int bash_dam, int cut_dam, i
  *                     Dexterity / 2 + sk_melee
  * int hit_roll() - The player's hit roll, to be compared to a monster's or
  *   player's dodge_roll().  This handles weapon bonuses, weapon-specific
- *   skills, torso encumberment penalties and drunken master bonuses.
+ *   skills, torso encumbrance penalties and drunken master bonuses.
  */
 
 bool player::is_armed()
@@ -39,29 +39,26 @@ bool player::is_armed()
 }
 
 bool player::handle_melee_wear() {
-// Here is where we handle wear and tear on things we use as melee weapons or shields
+// Here is where we handle wear and tear on things we use as melee weapons or shields.
     std::stringstream dump;
     int material_factor = 1;
     int damage_chance = dex_cur + ( 2 * skillLevel("melee") ) + ( 128 / str_cur );
-  // UNBREAKABLE_MELEE items can't be damaged through melee combat usage
+  // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
   if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
-    // Here we're checking the weapon's material(s) and using the best one to determine how durable it is
-    if (weapon.made_of(weapon.made_of("plastic")) {
+    // Here we're checking the weapon's material(s) and using the best one to determine how durable it is.
+    if (weapon.made_of("plastic")) {
                 material_factor = 2;
     }
     if (weapon.made_of("leather")) {
                 material_factor = 3;
     }
-    if (weapon.made_of("bone") || weapon.made_of("chitin")) {
+    if (weapon.made_of("bone") || weapon.made_of("chitin") || weapon.made_of("wood")) {
                 material_factor = 4;
-    }
-    if (weapon.made_of("wood")) {
-                material_factor = 5;
     }
     if (weapon.made_of("stone") || weapon.made_of("silver") || weapon.made_of("gold") || weapon.made_of("lead")) {
                 material_factor = 6;
     }
-    if (weapon.made_of("iron") || weapon.made_of("kevlar") || weapon.made_of("nofixkevlar") || weapon.made_of("aluminum")) {
+    if (weapon.made_of("iron") || weapon.made_of("kevlar") || weapon.made_of("aluminum")) {
                 material_factor = 8;
     }
     if (weapon.made_of("steel") ) {
@@ -71,21 +68,25 @@ bool player::handle_melee_wear() {
                 material_factor = 12;
     }
     if (weapon.made_of("ceramic")) {
-                material_factor = 24;
+                material_factor = 40;
     }
     if (weapon.made_of("superalloy") || weapon.made_of("diamond")){
-                material_factor = 72;
+                material_factor = 100;
     }
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
-    // than other weapons made of the same materials
+    // than other weapons made of the same materials.
     if (weapon.has_flag("DURABLE_MELEE")) {
                 material_factor *= 4;
     }
+    // The weapon's current state of damage can make it more susceptible to further damage.
     damage_chance -= weapon.damage * 6;
+    
     if (damage_chance < 2) {
-                damage_chance = 2;
+        damage_chance = 2;
     }
+    
     damage_chance *= material_factor;
+    
     if (weapon.damage < 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
      weapon.damage++;
      g->add_msg_player_or_npc(this, _("Your %s is damaged by the force of the blow!"),

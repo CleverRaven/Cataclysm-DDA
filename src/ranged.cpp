@@ -196,7 +196,7 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
             // using player-made 'RECYCLED' bullets. Note that not all forms of
             // player-made ammunition have this effect the misfire may cause damage, but never
             // enough to push the weapon beyond 'shattered'.
-        } else if (curammo_effects->count("RECYCLED") && one_in(384)) {
+        } else if (curammo_effects->count("RECYCLED") && one_in(256)) {
             g->add_msg_player_or_npc(this, _("Your %s misfires with a muffled click!"),
                                      _("<npcname>'s %s misfires with a muffled click!"),
                                      weapon.name.c_str());

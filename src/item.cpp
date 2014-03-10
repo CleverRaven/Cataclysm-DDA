@@ -1014,7 +1014,7 @@ std::string item::tname( bool with_prefix )
 
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
-    if (damage != 0 && !is_null() && with_prefix) {
+    if (damage < 1 && !is_null() && with_prefix) {
         if (damage == -1)  {
           if (is_gun())  {
             damtext = rm_prefix(_("<dam_adj>accurized "));
@@ -1030,7 +1030,7 @@ std::string item::tname( bool with_prefix )
             } else {
                 damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
             }
-        }
+            }
     }
 
     std::string vehtext = "";
@@ -1338,8 +1338,7 @@ int item::damage_bash()
     int total = type->melee_dam;
     if( is_null() )
         return 0;
-
-    total -= total * (damage * 0.1) ;
+      total -= total * (damage * 0.1);
       if (total > 0) {
       return total;
       } else {
@@ -1356,9 +1355,9 @@ int item::damage_cut() const
                 return contents[i].type->melee_cut;
         }
     }
-    if( is_null() )
+    if(is_null())
         return 0;
-    total -= total * (damage * 0.15) ;
+    total -= total * (damage * 0.1);
       if (total > 0) {
       return total;
       } else {
