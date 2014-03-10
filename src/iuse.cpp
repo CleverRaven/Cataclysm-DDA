@@ -7914,7 +7914,7 @@ int iuse::gun_repair(player *p, item *it, bool)
         g->add_msg_if_player(p, _("You need a mechanics skill of 2 to use this repair kit."));
         return 0;
     }
-            int pos = g->inv_type(_("Select the firearm to repair."), IC_GUN);
+            int pos = g->inv(_("Select the firearm to repair."));
             item* fix = &(p->i_at(pos));
             if (fix == NULL || fix->is_null()) {
                 g->add_msg_if_player(p,_("You do not have that item!"));
@@ -7922,6 +7922,10 @@ int iuse::gun_repair(player *p, item *it, bool)
             }
             if (!fix->is_gun()) {
                 g->add_msg_if_player(p,_("That isn't a firearm!"));
+                return 0;
+            }
+            if (fix->damage == -1) {
+                g->add_msg_if_player(p,_("You cannot improve your %s any more this way."), fix->tname().c_str());
                 return 0;
             }
             if ((fix->damage == 0) && p->skillLevel("mechanics") < 8) {
