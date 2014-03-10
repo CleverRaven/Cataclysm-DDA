@@ -1669,8 +1669,70 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 // Display notes in all situations, even when not seen
                 ter_color = c_yellow;
                 const std::string& note_text = overmap_buffer.note(omx, omy, z);
+                if (note_text.length() >= 2 && note_text[1] == ';'){
+                        if (note_text[0] == 'r'){
+                                ter_color = c_ltred;
+                        }
+                        if (note_text[0] == 'R'){
+                                ter_color = c_red;
+                        }
+                        if (note_text[0] == 'g'){
+                                ter_color = c_ltgreen;
+                        }
+                        if (note_text[0] == 'G'){
+                                ter_color = c_green;
+                        }
+                        if (note_text[0] == 'b'){
+                                ter_color = c_ltblue;
+                        }
+                        if (note_text[0] == 'B'){
+                                ter_color = c_blue;
+                        }
+                        if (note_text[0] == 'W'){
+                                ter_color = c_white;
+                        }
+                        if (note_text[0] == 'C'){
+                                ter_color = c_cyan;
+                        }
+                        if (note_text[0] == 'P'){
+                                ter_color = c_pink;
+                        }
+                } else if (note_text.length() >= 4 && note_text[3] == ';'){
+                        if (note_text[0] == 'r'){
+                                ter_color = c_ltred;
+                        }
+                        if (note_text[2] == 'R'){
+                                ter_color = c_red;
+                        }
+                        if (note_text[2] == 'g'){
+                                ter_color = c_ltgreen;
+                        }
+                        if (note_text[2] == 'G'){
+                                ter_color = c_green;
+                        }
+                        if (note_text[2] == 'b'){
+                                ter_color = c_ltblue;
+                        }
+                        if (note_text[2] == 'B'){
+                                ter_color = c_blue;
+                        }
+                        if (note_text[2] == 'W'){
+                                ter_color = c_white;
+                        }
+                        if (note_text[2] == 'C'){
+                                ter_color = c_cyan;
+                        }
+                        if (note_text[2] == 'P'){
+                                ter_color = c_pink;
+                        }
+                } else {
+                    ter_color = c_yellow;
+                }
+
                 if (note_text.length() >= 2 && note_text[1] == ':') {
                     ter_sym = note_text[0];
+                }else if (note_text.length() >= 4 && note_text[3] == ':') {
+                    ter_sym = note_text[2];
                 } else {
                     ter_sym = 'N';
                 }
@@ -1743,7 +1805,9 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     }
 
     std::string note_text = overmap_buffer.note(cursx, cursy, z);
-    if (note_text.length() >= 2 && note_text[1] == ':') {
+    if (note_text[3] == ':' || note_text[3] == ';'){
+        note_text.erase(0, 4);
+    } else if ((note_text.length() >= 2 && note_text[1] == ':') || (note_text.length() >= 2 && note_text[1] == ';') ) {
         note_text.erase(0, 2);
     }
     if (!note_text.empty()) {
@@ -1789,19 +1853,19 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         int distance = rl_dist(orig.x, orig.y, target.x, target.y);
         mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
     }
-    mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan.  "));
+    mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan."));
     mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
             _(" - Center map on character")).c_str());
     mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
-            _(" - Search                 ")).c_str());
+            _(" - Search")).c_str());
     mvwprintz(w, 18, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CREATE_NOTE") +
-            _(" - Add/Edit a note        ")).c_str());
+            _(" - Add/Edit a note")).c_str());
     mvwprintz(w, 19, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("DELETE_NOTE") +
-            _(" - Delete a note          ")).c_str());
+            _(" - Delete a note")).c_str());
     mvwprintz(w, 20, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("LIST_NOTES") +
-            _(" - List notes             ")).c_str());
+            _(" - List notes")).c_str());
     fold_and_print(w, 21, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
-                _(" - Return to game  ")).c_str());
+                _(" - Return to game")).c_str());
     point omt(cursx, cursy);
     const point om = overmapbuffer::omt_to_om_remain(omt);
     mvwprintz(w, getmaxy(w) - 1, om_map_width + 1, c_red,
@@ -1875,7 +1939,7 @@ point overmap::draw_overmap(const tripoint& orig)
             ret = invalid_point;
         } else if (action == "CREATE_NOTE") {
             const std::string old_note = overmap_buffer.note(curs);
-            const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol):"), 45, old_note); // 45 char max
+            const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol, G; for color):"), 45, old_note); // 45 char max
             if(old_note != new_note) {
                 overmap_buffer.add_note(curs, new_note);
             }

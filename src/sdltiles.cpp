@@ -27,16 +27,12 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
-#include "SDL.h"
-#include "SDL_ttf.h"
-#ifdef SDLTILES
-#include "SDL_image.h" // Make sure to add this to the other OS inclusions
-#endif
 #ifndef strcasecmp
 #define strcasecmp strcmpi
 #endif
 #else
 #include <wordexp.h>
+#endif
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
@@ -50,8 +46,6 @@
 #include "SDL2/SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
 #endif
-#endif
-
 //***********************************
 //Globals                           *
 //***********************************
@@ -180,10 +174,10 @@ bool WinCreate()
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     
     if(renderer == NULL) {
-        DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering.\n";
+        DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError() << "\n";
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC);
         if(renderer == NULL) {
-            DebugLog() << "Failed to initialize software renderer!\n";
+            DebugLog() << "Failed to initialize software renderer: " << SDL_GetError() << "\n";
             return false;
         }
     }
@@ -462,8 +456,8 @@ void curses_drawwindow(WINDOW *win)
             win->y * fontheight,
             g->ter_view_x,
             g->ter_view_y,
-            tilecontext->terrain_term_x * fontwidth,
-            tilecontext->terrain_term_y * fontheight);
+            tilecontext->get_terrain_term_x() * fontwidth,
+            tilecontext->get_terrain_term_y() * fontheight);
     }
     
     if(update) {
@@ -1052,7 +1046,8 @@ WINDOW *curses_init(void)
     halfheight=fontheight / 2;
 
     if(!InitSDL()) {
-        DebugLog() << (std::string)"Failed to initialize SDL!\n";
+        DebugLog() << "Failed to initialize SDL: " << SDL_GetError() << "\n";
+        return NULL;
     }
 
     
@@ -1061,15 +1056,22 @@ WINDOW *curses_init(void)
     WindowWidth *= fontwidth;
     WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
     if(!WinCreate()) {
-        DebugLog() << (std::string)"Failed to create game window!\n";
+        DebugLog() << "Failed to create game window: " << SDL_GetError() << "\n";
         return NULL;
     }
     
     #ifdef SDLTILES
     DebugLog() << "Initializing SDL Tiles context\n";
     tilecontext = new cata_tiles(renderer);
-    tilecontext->init("gfx");
-    DebugLog() << "Tiles initialized successfully.\n";
+    try {
+        tilecontext->init("gfx");
+        DebugLog() << "Tiles initialized successfully.\n";
+    } catch(std::string err) {
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_tiles = false;
+    }
     #endif // SDLTILES
     
     #ifdef SDLTILES
@@ -1079,6 +1081,7 @@ WINDOW *curses_init(void)
         typeface = "data/font/" + typeface;
         SDL_Surface *asciiload = IMG_Load(typeface.c_str());
         if(!asciiload || asciiload->w*asciiload->h < (fontwidth * fontheight * 256)) {
+            DebugLog() << "Failed to load bitmap font: " << IMG_GetError() << "\n";
             SDL_FreeSurface(asciiload);
             break;
         }
@@ -1147,8 +1150,10 @@ WINDOW *curses_init(void)
         faceIndex = test_face_size(typeface, fontsize, faceIndex);
 
     font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
-
-    //if(!font) something went wrong
+    if (font == NULL) {
+        DebugLog() << "Failed to load truetype font: " << TTF_GetError() << "\n";
+        return NULL;
+    }
 
     TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
 
@@ -1390,15 +1395,15 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     {
         // Check if click is within bounds of the window we care about
         int win_left = capture_win->x * fontwidth;
-        int win_right = win_left + (capture_win->width * tilecontext->tile_width);
+        int win_right = win_left + (capture_win->width * tilecontext->get_tile_width());
         int win_top = capture_win->y * fontheight;
-        int win_bottom = win_top + (capture_win->height * tilecontext->tile_height);
+        int win_bottom = win_top + (capture_win->height * tilecontext->get_tile_height());
         if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
             return false;
         }
 
-        selected_column = (coordinate_x - win_left) / tilecontext->tile_width;
-        selected_row = (coordinate_y - win_top) / tilecontext->tile_height;
+        selected_column = (coordinate_x - win_left) / tilecontext->get_tile_width();
+        selected_row = (coordinate_y - win_top) / tilecontext->get_tile_height();
     }
     else
 #endif

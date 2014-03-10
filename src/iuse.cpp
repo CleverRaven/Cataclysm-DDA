@@ -1304,7 +1304,7 @@ int iuse::mutagen(player *p, item *it, bool) {
         p->mutate_category("MUTCAT_LIZARD");
     } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
         g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
-        p->mutate_category("MUTCAT_TROGLO");
+        p->mutate_category("MUTCAT_TROGLOBITE");
     } else if( it->has_flag("MUTAGEN_ALPHA") ) {
         g->add_msg_if_player(p, _("You feel...better. Somehow."));
         p->mutate_category("MUTCAT_ALPHA");
@@ -2694,6 +2694,56 @@ int iuse::rm13armor_on(player *p, item *it, bool t)
         it->active = false;
     }
     return it->type->charges_to_use();
+}
+
+int iuse::unpack_item(player *p, item *it, bool)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    std::string oname = it->type->id + "_on";
+    if (!item_controller->has_template(oname)) {
+        debugmsg("no item type to turn it into (%s)!", oname.c_str());
+        return 0;
+    }
+    p->moves -= 300;
+    g->add_msg_if_player(p,_("You unpack your %s for use."), it->tname().c_str());
+    it->make(item_controller->find_template(oname));
+    it->active = false;
+    return 0;
+}
+
+int iuse::pack_item(player *p, item *it, bool t)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    if (t) { // Normal use
+        // Numbers below -1 are reserved for worn items
+    } else if( p->get_item_position( it ) < -1 ) {
+        g->add_msg_if_player(p,_("You can't pack your %s until you take it off."),
+                             it->tname().c_str());
+        return 0;
+    } else { // Turning it off
+        std::string oname = it->type->id;
+        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
+            oname.erase(oname.length() - 3, 3);
+        } else {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        if (!item_controller->has_template(oname)) {
+            debugmsg("no item type to turn it into (%s)!", oname.c_str());
+            return 0;
+        }
+        p->moves -= 500;
+        g->add_msg_if_player(p,_("You pack your %s for storage."), it->tname().c_str());
+        it->make(item_controller->find_template(oname));
+        it->active = false;
+    }
+    return 0;
 }
 
 // this function only exists because we need to set it->active = true
@@ -7778,36 +7828,58 @@ int iuse::jet_injector(player *p, item *it, bool)
   return it->type->charges_to_use();
 }
 
+int iuse::radglove(player *p, item *it, bool)
+{
+    if ( p->get_item_position( it ) >= -1 ) {
+        g->add_msg_if_player(p, _("You must wear the radiation biomonitor before you can activate it."));
+        return 0;
+    } else if (it->charges == 0) {
+        g->add_msg_if_player(p, _("The radiation biomonitor needs batteries to function."));
+        return 0;
+    } else {
+        g->add_msg_if_player(p,_("You activate your radiation biomonitor."));
+        if (p->radiation >= 1) {
+            g->add_msg_if_player(p,_("You are currently irradiated."));
+            g->add_msg(_("Your radiation level: %d"), p->radiation);
+        } else {
+            g->add_msg_if_player(p,_("You are not currently irradiated."));
+        }
+        g->add_msg_if_player(p,_("Have a nice day!"));
+    }
+    return it->type->charges_to_use();
+}
+
+
 int iuse::contacts(player *p, item *it, bool)
 {
     if (p->is_underwater()) {
         g->add_msg_if_player(p, _("You can't do that while underwater."));
         return 0;
     }
-  int duration = rng(80640, 120960); // Around 7 days.
-  if(p->has_disease("contacts") ) {
-    if ( query_yn(_("Replace your current lenses?")) ) {
-      p->moves -= 200;
-      g->add_msg_if_player(p, _("You replace your current %s."), it->name.c_str());
-      p->rem_disease("contacts");
-      p->add_disease("contacts", duration);
-      return it->type->charges_to_use();
+    int duration = rng(80640, 120960); // Around 7 days.
+    if(p->has_disease("contacts") ) {
+        if ( query_yn(_("Replace your current lenses?")) ) {
+            p->moves -= 200;
+            g->add_msg_if_player(p, _("You replace your current %s."), it->name.c_str());
+            p->rem_disease("contacts");
+            p->add_disease("contacts", duration);
+            return it->type->charges_to_use();
+        }
+        else {
+            g->add_msg_if_player(p, _("You don't do anything with your %s."), it->name.c_str());
+            return 0;
+        }
+    }
+    else if(p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC")) {
+        p->moves -= 200;
+        g->add_msg_if_player(p, _("You put the %s in your eyes."), it->name.c_str());
+        p->add_disease("contacts", duration);
+        return it->type->charges_to_use();
     }
     else {
-      g->add_msg_if_player(p, _("You don't do anything with your %s."), it->name.c_str());
-      return 0;
+        g->add_msg_if_player(p, _("Your vision is fine already."));
+        return 0;
     }
-  }
-  else if(p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC")) {
-    p->moves -= 200;
-    g->add_msg_if_player(p, _("You put the %s in your eyes."), it->name.c_str());
-    p->add_disease("contacts", duration);
-    return it->type->charges_to_use();
-  }
-  else {
-    g->add_msg_if_player(p, _("Your vision is fine already."));
-    return 0;
-  }
 }
 
 int iuse::talking_doll(player *p, item *it, bool)
@@ -7929,7 +8001,7 @@ int iuse::bell(player *p, item *it, bool)
         if ( ! p->has_disease("deaf") ) {
             const int cow_factor = 1 + ( p->mutation_category_level.find("MUTCAT_CATTLE") == p->mutation_category_level.end() ?
                 0 :
-                p->mutation_category_level.find("MUTCAT_CATTLE")->second
+                (p->mutation_category_level.find("MUTCAT_CATTLE")->second)/8
             );
             if ( x_in_y( cow_factor, 1 + cow_factor ) ) {
                 p->add_morale(MORALE_MUSIC, 1, 15 * (cow_factor > 10 ? 10 : cow_factor) );

@@ -55,6 +55,24 @@
         "density" : 4
     },{
         "type" : "material",
+        "ident" : "honey",
+        "name" : "Honey",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 1,
+        "fire_resist" : 0,
+        "density" : 1
+    },{
+        "type" : "material",
         "ident" : "wheat",
         "name" : "Wheat",
         "bash_resist" : 1,
@@ -146,7 +164,7 @@
     },{
         "type" : "material",
         "ident" : "milk",
-        "name" : "Milk",
+        "name" : "Dairy",
         "bash_resist" : 0,
         "cut_resist" : 0,
         "bash_dmg_verb" : "damaged",

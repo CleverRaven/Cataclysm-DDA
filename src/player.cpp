@@ -55,6 +55,7 @@ void game::init_morale()
     _("Enjoyed %i"),
     _("Enjoyed a hot meal"),
     _("Music"),
+    _("Enjoyed honey"),
     _("Played Video Game"),
     _("Marloss Bliss"),
     _("Mutagenic Anticipation"),
@@ -4117,10 +4118,10 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
 
     return dealt_damage_instance(dealt_dams);
 }
-/* 
-    Where damage to player is actually applied to hit body parts 
+/*
+    Where damage to player is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
- */ 
+ */
 void player::apply_damage(Creature* source, body_part bp, int side, int dam) {
     if (is_dead_state()) {
         // don't do any more damage if we're already dead
@@ -7154,7 +7155,7 @@ bool player::eat(item *eaten, it_comest *comest)
       }
     }
 
-    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit") || eaten->made_of("milk") || eaten->made_of("wheat")) && comest->nutr > 0) {
+    if (has_trait("CARNIVORE") && (eaten->made_of("veggy") || eaten->made_of("fruit")) && comest->nutr > 0) {
         g->add_msg_if_player(this, _("You can't stand the thought of eating veggies."));
         return false;
     }
@@ -7179,7 +7180,7 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
-    if (has_trait("ANTIFRUIT") && eaten->made_of("fruit") && (!has_bionic("bio_digestion")) && !is_npc() &&
+    if (has_trait("ANTIFRUIT") && eaten->made_of("fruit") && !is_npc() &&
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
@@ -7187,7 +7188,7 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
-    if (has_trait("ANTIWHEAT") && eaten->made_of("wheat") && (!has_bionic("bio_digestion")) && !is_npc() &&
+    if ((has_trait("ANTIWHEAT") || has_trait("CARNIVORE")) && eaten->made_of("wheat") && (!has_bionic("bio_digestion")) && !is_npc() &&
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
@@ -7355,9 +7356,21 @@ bool player::eat(item *eaten, it_comest *comest)
         g->add_msg_if_player(this,_("Yuck! How can anybody eat this stuff?"));
         add_morale(MORALE_ANTIJUNK, -75, -400, 300, 240);
     }
-    if (has_trait("ANTIWHEAT") && eaten->made_of("wheat")) {
+    if ((has_trait("ANTIWHEAT") || has_trait("CARNIVORE")) && eaten->made_of("wheat")) {
         g->add_msg_if_player(this,_("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
+    }
+    if ((!crossed_threshold() || has_trait("THRESH_URSINE")) && mutation_category_level["MUTCAT_URSINE"] > 40
+        && eaten->made_of("honey")) {
+        //Need at least 5 bear muts for effect to show, to filter out mutations in common with other mutcats
+        int honey_fun = has_trait("THRESH_URSINE") ?
+            std::min(mutation_category_level["MUTCAT_URSINE"]/8, 20) :
+            mutation_category_level["MUTCAT_URSINE"]/12;
+        if (honey_fun < 10)
+            g->add_msg_if_player(this,_("You find the sweet taste of honey surprisingly palatable."));
+        else
+            g->add_msg_if_player(this,_("You feast upon the sweet honey."));
+        add_morale(MORALE_HONEY, honey_fun, 100);
     }
     if ((has_trait("HERBIVORE") || has_trait("RUMINANT")) &&
             (eaten->made_of("flesh") || eaten->made_of("egg"))) {
@@ -9515,11 +9528,15 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     return armor_damaged;
 }
 void player::absorb_hit(body_part bp, int, damage_instance &dam) {
-    std::vector<int> armor_indices;
-
-    get_armor_on(this,bp,armor_indices);
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
+
+        // Recompute the armor indices for every damage unit because we may have
+        // destroyed armor earlier in the loop.
+        std::vector<int> armor_indices;
+
+        get_armor_on(this,bp,armor_indices);
+
         // CBMs absorb damage first before hitting armour
         if (has_active_bionic("bio_ads")) {
             if (it->amount > 0 && power_level > 1) {
@@ -9914,7 +9931,12 @@ void player::practice (const calendar& turn, Skill *s, int amount)
 
     if (amount > 0 && level.isTraining())
     {
+        int oldLevel = skillLevel(s);
         skillLevel(s).train(amount);
+        int newLevel = skillLevel(s);
+        if (newLevel > oldLevel) {
+            g->add_msg(_("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
+        }
 
         int chance_to_drop = focus_pool;
         focus_pool -= chance_to_drop / 100;

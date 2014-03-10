@@ -2,19 +2,16 @@
 #define CATA_TILES_H
 
 // make sure that SDL systems are included: Until testing is available for other systems, keep Windows specific
-#if (defined _WIN32 || defined WINDOWS)
-//#include <windows.h>
-#include "SDL.h"
-#include "SDL_ttf.h"
-#else
+#if !(defined _WIN32 || defined WINDOWS)
 #include <wordexp.h>
+#endif
+
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
 #else
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
-#endif
 #endif
 
 #include "game.h"
@@ -24,7 +21,11 @@
 #include "enums.h"
 #include "file_finder.h"
 
+#include <map>
+#include <vector>
+#include <string>
 
+class JsonObject;
 
 /** Structures */
 struct tile_type
@@ -84,9 +85,25 @@ enum MULTITILE_TYPE
     broken,
     num_multitile_types
 };
+// Make sure to change TILE_CATEGORY_IDS if this changes!
+enum TILE_CATEGORY
+{
+    C_NONE,
+    C_VEHICLE_PART,
+    C_TERRAIN,
+    C_ITEM,
+    C_FURNITURE,
+    C_TRAP,
+    C_FIELD,
+    C_LIGHTING,
+    C_MONSTER,
+    C_BULLET,
+    C_HIT_ENTITY,
+    C_WEATHER,
+};
 
 /** Typedefs */
-typedef std::map<int, SDL_Texture*> tile_map;
+typedef std::vector<SDL_Texture*> tile_map;
 typedef std::map<std::string, tile_type*> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
@@ -133,29 +150,54 @@ class cata_tiles
         cata_tiles(SDL_Renderer *render);
         /** Default destructor */
         ~cata_tiles();
-
-        /** Reconfigure the tileset at runtime. Assumes that all the tileset variables, including tile_atlas
-         *  have been properly set. */
-        void reload_tileset();
-
+    protected:
+        void clear();
+    public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
         void set_draw_scale(int scale);
-
-        /** Load tileset */
-        void load_tileset(std::string path);
-        /** Load tileset config file */
-        void load_tilejson(std::string path);
-        void load_tilejson_from_file(std::ifstream &f);
+    protected:
+        /** Load tileset, R,G,B, are the color components of the transparent color */
+        int load_tileset(std::string path, int R, int G, int B);
+        /**
+         * Load tileset config file (json format).
+         * If the tileset uses the old system (one image per tileset) the image
+         * path @ref imagepath is used to load the tileset image.
+         * Otherwise (the tileset uses the new system) the image pathes
+         * are loaded from the json entries.
+         */
+        void load_tilejson(std::string path, const std::string &imagepath);
+        void load_tilejson_from_file(std::ifstream &f, const std::string &imagepath);
+        /**
+         * Load tiles from json data. This expects a "tiles" array in
+         * @ref config. That array should contain all the tile definition that
+         * should be taken from an tileset image.
+         * Because the function only loads tile definitions for a single tileset
+         * image, only tile inidizes (tile_type::fg/tile_type::bg) in the interval
+         * [0,size).
+         * The @ref offset is automatically added to the tile index.
+         */
+        void load_tilejson_from_file(JsonObject &config, int offset, int size);
+        /**
+         * Create a new tile_type, add it to tile_ids (uusing @ref id).
+         * Set the fg and bg properties of it (loaded from the json object).
+         * Makes sure each is either -1, or in the interval [0,size).
+         * If it's in that interval, adds offset to it, if it's not in the
+         * interval (and not -1), throw an std::string error.
+         */
+        tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size, int defaultbg);
+        void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
+        void load_ascii_set(JsonObject &entry, int offset, int size);
+        void add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id);
+    public:
         /** Draw to screen */
         void draw(int destx, int desty, int centerx, int centery, int width, int height);
-
+    protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
-        int get_tile_width() const;
 
-        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
-        bool draw_from_id_string(std::string id, std::string category, std::string subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
+        bool draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
+        bool draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**
@@ -165,7 +207,7 @@ class cata_tiles
 
         /** Surface/Sprite rotation specifics */
         SDL_Surface *create_tile_surface();
-        
+
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
         void get_wall_values(const int x, const int y, const long vertical_wall_symbol, const long horizontal_wall_symbol, int &subtile, int &rotation);
@@ -183,6 +225,7 @@ class cata_tiles
 
         bool draw_item_highlight(int x, int y);
 
+    public:
         // Animation layers
         bool draw_hit(int x, int y);
 
@@ -214,12 +257,18 @@ class cata_tiles
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
-        /** Used to properly initialize everything for display */
-        void init(std::string json_path, std::string tileset_path);
+    public:
         /* initialize from an outside file */
         void init(std::string load_file_path);
-        /* Reinitializes the tile context using the original screen information */
+        /* Reinitializes the tile context using the original screen information, throws std::string on errors  */
         void reinit(std::string load_file_path);
+        int get_tile_height() const { return tile_height; }
+        int get_tile_width() const { return tile_width; }
+        int get_terrain_term_x() const { return terrain_term_x; }
+        int get_terrain_term_y() const { return terrain_term_y; }
+        float get_tile_ratiox() const { return tile_ratiox; }
+        float get_tile_ratioy() const { return tile_ratioy; }
+    protected:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         /** Lighting */
         void init_light();
@@ -227,16 +276,13 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        SDL_Surface *tile_atlas;
-        tile_map *tile_values;
-        tile_id_map *tile_ids;
+        tile_map tile_values;
+        tile_id_map tile_ids;
 
         int tile_height, tile_width, default_tile_width, default_tile_height;
         int screentile_width, screentile_height;
         int terrain_term_x, terrain_term_y;
         float tile_ratiox, tile_ratioy;
-        tile *screen_tiles;
-        int num_tiles;
 
         bool in_animation;
 

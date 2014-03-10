@@ -2456,8 +2456,7 @@ void vehicle::idle() {
 }
 
 void vehicle::thrust (int thd) {
-    if (velocity == 0)
-    {
+    if( velocity == 0 ) {
         turn_dir = face.dir();
         move = face;
         of_turn_carry = 0;
@@ -2465,20 +2464,21 @@ void vehicle::thrust (int thd) {
         skidding = false;
     }
 
-    if (!thd)
+    if( !thd ) {
         return;
+    }
 
-    bool pl_ctrl = player_in_control(&g->u);
+    bool pl_ctrl = player_in_control( &g->u );
 
-    if (!valid_wheel_config() && velocity == 0)
-    {
-        if (pl_ctrl)
+    if( !valid_wheel_config() && velocity == 0 ) {
+        if( pl_ctrl ) {
             g->add_msg (_("The %s doesn't have enough wheels to move!"), name.c_str());
+        }
         return;
     }
 
     bool thrusting = true;
-    if(velocity){ //brake?
+    if( velocity ) { //brake?
        int sgn = velocity < 0? -1 : 1;
        thrusting = sgn == thd;
     }
@@ -2487,17 +2487,25 @@ void vehicle::thrust (int thd) {
     int max_vel = max_velocity();
     int brake = 30 * k_mass();
     int brk = abs(velocity) * brake / 100;
-    if (brk < accel)
+    if (brk < accel) {
         brk = accel;
-    if (brk < 10 * 100)
+    }
+    if (brk < 10 * 100) {
         brk = 10 * 100;
+    }
     int vel_inc = (thrusting? accel : brk) * thd;
-    if(thd == -1 && thrusting) // reverse accel.
+    if( thd == -1 && thrusting ) { // reverse accel.
         vel_inc = .6 * vel_inc;
+    }
 
     // Keep exact cruise control speed
-    if (cruise_on && velocity+vel_inc > cruise_velocity*thd)
-        vel_inc = cruise_velocity - velocity;
+    if( cruise_on ) {
+        if( thd > 0 ) {
+            vel_inc = std::min( vel_inc, cruise_velocity - velocity );
+        } else {
+            vel_inc = std::max( vel_inc, cruise_velocity - velocity );
+        }
+    }
 
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
