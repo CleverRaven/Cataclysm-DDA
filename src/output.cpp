@@ -1212,7 +1212,7 @@ std::string vstring_format(const char *pattern, va_list argptr)
     std::vector<char> buffer(buffer_size, '\0');
     // Call of vsnprintf() makes va_list unusable, so we need a copy.
     va_list cur_argptr;
-#ifdef _MSC_VER
+#if (defined _WIN32 || defined WINDOWS)
     // Microsofts vsnprintf does return -1 on buffer overflow, not
     // the required size of the buffer. So we have to increase the buffer
     // until we succeed.
