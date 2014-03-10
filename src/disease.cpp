@@ -1038,7 +1038,7 @@ void dis_effect(player &p, disease &dis)
                     p.mutate_category("MUTCAT_RAT");
                     dis.duration /= 5;
                 } else {
-                    p.mutate_category("MUTCAT_TROGLO");
+                    p.mutate_category("MUTCAT_TROGLOBITE");
                     dis.duration /= 3;
                 }
             } else if (rng(0, 100) < dis.duration / 8) {

@@ -50,7 +50,7 @@
         "points" : 3,
         "description" : "You're just generally quick! You get a 10% bonus to action points.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLOBITE", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "OPTIMISTIC",
@@ -78,7 +78,7 @@
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
         "cancels" : ["HUNGER"],
-        "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
         "id" : "EASYSLEEPER",
@@ -469,7 +469,7 @@
         "points" : -2,
         "description" : "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLO", "MUTCAT_URSINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLOBITE", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "SLOWHEALER",
@@ -825,7 +825,7 @@
         "description" : "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella when going out in the sun.",
         "starting_trait" : true,
         "changes_to" : ["SUNBURN"],
-        "category" : ["MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
         "id" : "FLIMSY",
@@ -886,7 +886,7 @@
         "prereqs" : ["NIGHTVISION2"],
         "leads_to" : ["INFRARED"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
-        "category" : ["MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "ELFAEYES",
@@ -943,7 +943,7 @@
         "points" : 5,
         "description" : "Your eyes have mutated to pick up radiation in the infrared spectrum.",
         "prereqs" : ["NIGHTVISION3"],
-        "category" : ["MUTCAT_INSECT", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_INSECT", "MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "LIZ_EYE",
@@ -982,7 +982,7 @@
         "description" : "Your flesh regenerates from wounds incredibly quickly.",
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER2"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
         "id" : "WAKEFUL2",
@@ -1396,7 +1396,7 @@
         "points" : 6,
         "description" : "Your body is simply immune to diseases. You will never catch an ambient disease.",
         "prereqs" : ["DISRESISTANT"],
-        "category" : ["MUTCAT_PLANT", "MUTCAT_SLIME", "MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_PLANT", "MUTCAT_SLIME", "MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
         "id" : "INFRESIST",
@@ -1405,7 +1405,7 @@
         "description" : "Your immune system is particularly good at resisting infections.",
         "starting_trait" : true,
         "changes_to" : ["INFIMMUNE"],
-        "category" : ["MUTCAT_TROGLO", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "INFIMMUNE",
@@ -1434,7 +1434,7 @@
         "prereqs" : ["POISRESIST"],
         "leads_to" : ["EATPOISON"],
         "changes_to" : ["POISONOUS2"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "POISONOUS2",
@@ -1516,7 +1516,7 @@
         "prereqs2" : ["SAPROVORE", "EATPOISON"],
         "note" : "It's unlikely but possible that a Dwarf would get EATPOISON without ALCMET.  Since EATPOISON's arguably a stronger version, it serves as both prereqs.",
         "threshreq" : ["THRESH_TROGLOBITE"],
-        "category" : ["MUTCAT_TROGLO"],
+        "category" : ["MUTCAT_TROGLOBITE"],
         "valid" : false
     },{
         "type" : "mutation",
@@ -1527,7 +1527,7 @@
         "prereq" : ["PAINRESIST"],
         "prereq2" : ["STOCKY_TROGLO"],
         "threshreq" : ["THRESH_TROGLOBITE"],
-        "category" : ["MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
         "id" : "STOCKY_TROGLO",
@@ -1535,7 +1535,7 @@
         "points" : 0,
         "description" : "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, tradiing muscle mass for mobility.  (+2 Strength, -2 Dexterity)",
         "threshreq" : ["THRESH_TROGLOBITE"],
-        "category" : ["MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
         "id" : "SAPROVORE",
@@ -1544,7 +1544,7 @@
         "description" : "Your digestive system is specialized to allow you to consume decaying material. You can eat rotten food, albeit for less nutrition than usual.",
         "prereqs" : ["CARNIVORE"],
         "cancels" : ["HERBIVORE", "RUMINANT"],
-        "category" : ["MUTCAT_TROGLO", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "RUMINANT",
@@ -1576,7 +1576,7 @@
         "note" : "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
         "prereqs2" : ["SAPROVORE", "TOLERANCE"],
         "threshreq" : ["THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT"],
-        "category" : ["MUTCAT_TROGLO", "MUTCAT_RAPTOR", "MUTCAT_RAT", "MUTCAT_CHIMERA"],
+        "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_RAPTOR", "MUTCAT_RAT", "MUTCAT_CHIMERA"],
         "valid" : false
     },{
         "type" : "mutation",
@@ -2328,7 +2328,7 @@
         "visibility" : 7,
         "ugliness" : 4,
         "description" : "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance. This makes breathing slightly difficult and increases mouth encumbrance by 1.",
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_TROGLOBITE", "MUTCAT_CEPHALOPOD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "FORKED_TONGUE",
@@ -2666,7 +2666,7 @@
         "description" : "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
         "prereqs" : ["ALBINO"],
         "prereqs2" : ["TROGLO2", "TROGLO3"],
-        "category" : ["MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
         "id" : "SORES",
@@ -2704,7 +2704,7 @@
         "description" : "Sunlight makes you extremely uncomfortable, resulting in large penalties to all stats.",
         "cancels" : ["SUNLIGHT_DEPENDENT"],
         "prereqs" : ["TROGLO2"],
-        "category" : ["MUTCAT_TROGLO"]
+        "category" : ["MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
         "id" : "WEBBED",
@@ -2781,7 +2781,7 @@
         "ugliness" : 6,
         "description" : "Your body is coated with a fine slime, which oozes off of you, leaving a trail. Greatly increases wet benefits.",
         "leads_to" : ["SLIME_HANDS"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_TROGLO", "MUTCAT_CEPHALOPOD"],
+        "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_TROGLOBITE", "MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "HEAD", "neutral" : 3, "good" : 4 },
             { "part" : "LEGS", "neutral" : 7, "good" : 14 },

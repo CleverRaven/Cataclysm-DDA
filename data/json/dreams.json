@@ -101,7 +101,7 @@
             "You have a strange dream about living in a cave.",
             "Your dreams give a strange reclusive feeling."
             ],
-        "category" : "MUTCAT_TROGLO",
+        "category" : "MUTCAT_TROGLOBITE",
         "strength" : 1
     },{
         "type" : "dream",
@@ -261,7 +261,7 @@
             "You dream of living deep inside a dark cave.",
             "You dream of being a primitive cave dweller."
             ],
-        "category" : "MUTCAT_TROGLO",
+        "category" : "MUTCAT_TROGLOBITE",
         "strength" : 2
     },{
         "type" : "dream",
@@ -421,7 +421,7 @@
             "Your dream of living in the dark for years is almost real.",
             "You are frightened of the outside after your vivid dream of cave life."
             ],
-        "category" : "MUTCAT_TROGLO",
+        "category" : "MUTCAT_TROGLOBITE",
         "strength" : 3
     },{
         "type" : "dream",
