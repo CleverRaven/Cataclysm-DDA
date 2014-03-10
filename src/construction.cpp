@@ -147,12 +147,6 @@ void construction_menu()
                 offset = 1 + select - iMaxY + 2;
             }
         }
-        
-        /*//int offset = select - 11;
-        int offset = 0;
-        if (select >= iMaxY - 2) {
-            offset = select - iMaxY + 3;
-        }*/
         // Print the constructions between offset and max (or how many will fit)
         for (int i = 0; i < iMaxY - 2 && (i + offset) < available.size(); i++) {
             int current = i + offset;
