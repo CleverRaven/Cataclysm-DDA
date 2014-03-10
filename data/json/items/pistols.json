@@ -51,7 +51,7 @@
     "burst": 1,
     "clip_size": 100,
     "reload": 450
-  }
+  },
   {
     "id": "sig_mosquito",
     "type": "GUN",
