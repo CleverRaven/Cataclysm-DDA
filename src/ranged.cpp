@@ -371,7 +371,6 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         }
 
         // Drop a shell casing if appropriate.
-        //werty
         itype_id casing_type = curammo->casing;
         if ((casing_type != "NULL" && !casing_type.empty()) && !(weapon.has_flag("NO_EJECT"))) {
             item casing;
