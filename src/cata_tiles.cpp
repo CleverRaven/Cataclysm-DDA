@@ -795,14 +795,14 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     // blit background first : always non-rotated
     if (bg >= 0 && bg < tile_values.size()) {
         SDL_Texture *bg_tex = tile_values[bg];
-        SDL_RenderCopy(renderer, bg_tex, NULL, &destination);
+        SDL_RenderCopyEx(renderer, bg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE );
     }
 
     // blit foreground based on rotation
     if (rota == 0) {
         if (fg >= 0 && fg < tile_values.size()) {
             SDL_Texture *fg_tex = tile_values[fg];
-            SDL_RenderCopy(renderer, fg_tex, NULL, &destination);
+            SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE);
         }
     } else {
         if (fg >= 0 && fg < tile_values.size()) {
