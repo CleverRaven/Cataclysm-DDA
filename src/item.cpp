@@ -1015,8 +1015,12 @@ std::string item::tname( bool with_prefix )
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
     if (damage != 0 && !is_null() && with_prefix) {
-        if (damage == -1) {
-            damtext = rm_prefix(_("<dam_adj>reinforced "));
+        if (damage == -1)  {
+          if (is_gun())  {
+            damtext = rm_prefix(_("<dam_adj>accurized "));
+          } else {
+              damtext = rm_prefix(_("<dam_adj>reinforced "));
+            }
         } else {
             if (type->id == "corpse") {
                 if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
@@ -1026,7 +1030,7 @@ std::string item::tname( bool with_prefix )
             } else {
                 damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
             }
-        }
+            }
     }
 
     std::string vehtext = "";
@@ -1331,22 +1335,34 @@ int item::attack_time()
 
 int item::damage_bash()
 {
+    int total = type->melee_dam;
     if( is_null() )
         return 0;
-    return type->melee_dam;
+      total -= total * (damage * 0.1);
+      if (total > 0) {
+      return total;
+      } else {
+         return 0;
+        }
 }
 
 int item::damage_cut() const
 {
+    int total = type->melee_cut;
     if (is_gun()) {
         for (size_t i = 0; i < contents.size(); i++) {
             if (contents[i].typeId() == "bayonet" || "pistol_bayonet"|| "sword_bayonet")
                 return contents[i].type->melee_cut;
         }
     }
-    if( is_null() )
+    if(is_null())
         return 0;
-    return type->melee_cut;
+    total -= total * (damage * 0.1);
+      if (total > 0) {
+      return total;
+      } else {
+         return 0;
+        }
 }
 
 bool item::has_flag(std::string f) const
@@ -2205,7 +2221,7 @@ int item::dispersion()
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
     }
-    ret += damage * 2;
+    ret += damage * 4;
     if (ret < 0) ret = 0;
     return ret;
 }
@@ -2318,6 +2334,7 @@ int item::recoil(bool with_ammo)
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->recoil;
     }
+    ret += damage;
     return ret;
 }
 
