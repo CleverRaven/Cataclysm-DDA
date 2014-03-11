@@ -8988,11 +8988,11 @@ void player::read(int pos)
         } else {
             g->add_msg(_("But you might be able to learn a recipe or two."));
         }
-    } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) { // See morale.h
+    } else if (morale_level() < MIN_MORALE_READ && it->calc_fun(&g->u) <= 0) { // See morale.h
         g->add_msg(_("What's the point of reading?  (Your morale is too low!)"));
         return;
     } else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
-               !query_yn(_(tmp->fun > 0 ?
+               !query_yn(_(it->calc_fun(&g->u) > 0 ?
                            "It would be fun, but your %s skill won't be improved.  Read anyway?"
                            : "Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
@@ -9036,12 +9036,7 @@ void player::read(int pos)
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
     int minutes = time / 1000;
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if ((has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
-      tmp->id == "cookbook_human") {
-          add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, tmp);
-      }
-    else add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, tmp);
+    add_morale(MORALE_BOOK, 0, it->calc_fun(&g->u) * 15, minutes + 30, minutes, false, tmp);
 }
 
 bool player::can_study_recipe(it_book* book)
