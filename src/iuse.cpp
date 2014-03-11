@@ -841,8 +841,6 @@ int iuse::ecig(player *p, item *it, bool)
     if (it->type->id == "ecig") {
         g->add_msg_if_player(p,_("You take a puff from your electronic cigarette."));
     } else if(it->type->id == "advanced_ecig") {
-        /*inventory crafting_inv;
-        crafting_inv.form_from_map(point(p->posx, p->posy), 1, false);*/
         if(p->inv.has_components("nicotine_liquid", 1)) {
             g->add_msg_if_player(p,_("You inhale some vapor from your advanced electronic cigarette."));
             p->inv.use_charges("nicotine_liquid", 1);
