@@ -6821,7 +6821,8 @@
       ["brew_moonshine", 0],
       ["flask_yeast", 0],
       ["bio_blade_weapon", 0],
-      ["testflames", 0]
+      ["testflames", 0],
+      ["bio_blaster_gun", 0]
     ]
   },{
     "type" : "item_group",
