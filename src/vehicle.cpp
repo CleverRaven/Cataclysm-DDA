@@ -759,10 +759,10 @@ void vehicle::honk_horn()
     }
 }
 
-vpart_info& vehicle::part_info (int index, bool include_removed)
+vpart_info& vehicle::part_info (int index)
 {
     if (index >= 0 && index < parts.size()) {
-        if (include_removed || !parts[index].removed) {
+        if (!parts[index].removed) {
             return vehicle_part_int_types[parts[index].iid];
             // slow autovivication // vehicle_part_types[parts[index].id];
         }
@@ -1428,22 +1428,17 @@ std::vector<int> vehicle::all_parts_at_location(const std::string& location)
     return parts_found;
 }
 
-bool vehicle::part_flag (int part, const std::string &flag, bool include_removed)
+bool vehicle::part_flag (int part, const std::string &flag)
 {
-    if (part < 0 || part >= parts.size()) {
+    if (part < 0 || part >= parts.size() || parts[part].removed) {
         return false;
-    } else if (!include_removed && parts[part].removed) {
-        return false;
-    }
-    else {
+    } else {
         return part_info(part).has_flag(flag);
     }
 }
 
-bool vehicle::part_flag( int part, const vpart_bitflags &flag, bool include_removed) {
-   if (part < 0 || part >= parts.size()) {
-        return false;
-    } else if (!include_removed && parts[part].removed) {
+bool vehicle::part_flag( int part, const vpart_bitflags &flag) {
+   if (part < 0 || part >= parts.size() || parts[part].removed) {
         return false;
     } else {
         return part_info(part).has_flag(flag);
