@@ -1207,16 +1207,15 @@ std::string from_sentence_case (const std::string &kingston)
 
 std::string vstring_format(const char *pattern, va_list argptr)
 {
-    int buffer_size = 1024; // Any number is good
+    int buffer_size = 10240; // Any number is good
     int returned_length = 0;
     std::vector<char> buffer(buffer_size, '\0');
     // Call of vsnprintf() makes va_list unusable, so we need a copy.
     va_list cur_argptr;
-#if (defined _WIN32 || defined WINDOWS)
+#if (defined(_WIN32) || defined(WINDOWS) || defined(__WIN32__))
     // Microsofts vsnprintf does return -1 on buffer overflow, not
     // the required size of the buffer. So we have to increase the buffer
     // until we succeed.
-    buffer_size = 1024;
     while(true) {
         buffer.resize(buffer_size, '\0');
         va_copy(cur_argptr, argptr);
