@@ -14749,7 +14749,7 @@
         "heal" : 0,
         "addiction_potential" : 50,
         "nutrition" : 0,
-        "description" : "This battery operated device vaporizes a liquid which contains flavorings and nicotine. A less harmful alternative to traditional cigarette, but still addictive.",
+        "description" : "This battery operated device vaporizes a liquid which contains flavorings and nicotine. A less harmful alternative to traditional cigarette, but still addictive. It can't be reused once it's empty.",
         "price" : 10000,
         "material" : "null",
         "tool" : "null",
