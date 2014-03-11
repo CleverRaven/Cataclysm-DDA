@@ -6811,7 +6811,6 @@
       ["huge_crossbow", 2],
       ["rep_crossbow", 1],
       ["vaccine_shot", 10],
-      ["bio_claws_weapon", 0],
       ["brew_whiskey", 0],
       ["brew_rum", 0],
       ["brew_bum_wine", 0],
@@ -6820,8 +6819,12 @@
       ["brew_hb_beer", 0],
       ["brew_moonshine", 0],
       ["flask_yeast", 0],
+      ["testflames", 0],
+      ["bio_claws_weapon", 0],
       ["bio_blade_weapon", 0],
-      ["testflames", 0]
+      ["bio_laser_gun", 0],
+      ["bio_blaster_gun", 0],
+      ["bio_lightning", 0]
     ]
   },{
     "type" : "item_group",
