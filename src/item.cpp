@@ -698,8 +698,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
 
   dump->push_back(iteminfo("BOOK", "", _("Requires intelligence of <num> to easily read."), book->intel, true, "", true, true));
-  if (book->fun != 0)
-   dump->push_back(iteminfo("BOOK", "", _("Reading this book affects your morale by <num>"), book->fun, true, (book->fun > 0 ? "+" : "")));
+  if (calc_fun(&g->u) != 0)
+   dump->push_back(iteminfo("BOOK", "", _("Reading this book affects your morale by <num>"), calc_fun(&g->u), true, (calc_fun(&g->u) > 0 ? "+" : "")));
 
   dump->push_back(iteminfo("BOOK", "", _("This book takes <num> minutes to read."), book->time, true, "", true, true));
 
@@ -2672,6 +2672,33 @@ bool item::flammable() const
     material_type* cur_mat2 = material_type::find_material(type->m2);
 
     return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
+}
+
+int item::calc_fun(player *u){
+    if ( is_book() ){
+        it_book *reading = dynamic_cast<it_book *>(type);
+        int ret;
+            if(charges == 0) {
+                //Book is out of chapters -> re-reading old book, less fun
+                g->add_msg(_("The %s isn't as much fun now that you've finished it."),
+                        name.c_str());
+                if(one_in(6)) { //Don't nag incessantly, just once in a while
+                    g->add_msg(_("Maybe you should find something new to read..."));
+                }
+                //50% penalty
+                ret = (reading->fun) / 2;
+            } else {
+                ret = reading->fun;
+            }
+            // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+            if ((u->has_trait("CANNIBAL") || u->has_trait("PSYCHOPATH") || u->has_trait("SAPIOVORE")) &&
+                reading->id == "cookbook_human") {
+              ret = 5;
+            }
+        return ret;
+    }
+    //Under construction!
+    return 0;
 }
 
 std::string default_technique_name(technique_id tech)

@@ -1412,29 +1412,10 @@ void game::activity_on_finish_read()
 {
     item *book_item = &(u.i_at(u.activity.position));
     it_book *reading = dynamic_cast<it_book *>(book_item->type);
+    int fun_bonus = 3*(book_item->calc_fun(&u));
 
-    if (reading->fun != 0) {
-        int fun_bonus;
-        if(book_item->charges == 0) {
-            //Book is out of chapters -> re-reading old book, less fun
-            add_msg(_("The %s isn't as much fun now that you've finished it."),
-                    book_item->name.c_str());
-            if(one_in(6)) { //Don't nag incessantly, just once in a while
-                add_msg(_("Maybe you should find something new to read..."));
-            }
-            //50% penalty
-            fun_bonus = (reading->fun * 5) / 2;
-        } else {
-            fun_bonus = reading->fun * 5;
-        }
-        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-        if ((u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH") || u.has_trait("SAPIOVORE")) &&
-      reading->id == "cookbook_human") {
-          fun_bonus = 25;
-            u.add_morale(MORALE_BOOK, fun_bonus, fun_bonus*3, 60, 30, true, reading);
-           } else {
-            u.add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, reading);
-        }
+    if (fun_bonus != 0) {
+        u.add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, reading);
     }
 
     if(book_item->charges > 0) {

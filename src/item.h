@@ -179,6 +179,9 @@ public:
  bool conductive() const; // Electricity
  bool flammable() const;
 
+ int calc_fun(player *u);
+
+
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
  int get_free_mod_locations(const std::string &location) const;
