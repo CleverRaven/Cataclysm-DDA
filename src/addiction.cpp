@@ -173,6 +173,10 @@ void addict_effect(addiction &add)
             g->u.add_morale(MORALE_CRAVING_MUTAGEN, -5, -50);
         }
         break;
+	
+	//for any other unhandled cases
+	default:
+		break;
     }
 }
 

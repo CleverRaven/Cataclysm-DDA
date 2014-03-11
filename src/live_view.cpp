@@ -119,7 +119,7 @@ bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
 void live_view::print_items(std::vector<item> &items, int &line) const
 {
     std::map<std::string, int> item_names;
-    for (int i = 0; i < items.size(); i++) {
+    for (size_t i = 0; i < items.size(); i++) {
         std::string name = items[i].tname();
         if (item_names.find(name) == item_names.end()) {
             item_names[name] = 0;
@@ -128,7 +128,7 @@ void live_view::print_items(std::vector<item> &items, int &line) const
     }
 
     int last_line = height - START_LINE - 1;
-    bool will_overflow = line-1 + item_names.size() > last_line;
+    bool will_overflow = line-1 + (ssize_t)item_names.size() > last_line;
 
     for (std::map<std::string, int>::iterator it = item_names.begin();
          it != item_names.end() && (!will_overflow || line < last_line); it++) {

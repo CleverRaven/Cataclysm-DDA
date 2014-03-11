@@ -54,7 +54,7 @@ std::string dependency_node::s_errors()
     for (std::map<NODE_ERROR_TYPE, std::vector<std::string> >::iterator it = all_errors.begin();
          it != all_errors.end(); ++it) {
         ret << error_keyvals[(unsigned)(it->first)];
-        for (int i = 0; i < it->second.size(); ++i) {
+        for (size_t i = 0; i < it->second.size(); ++i) {
             ret << it->second[i];
             if (i < it->second.size() - 1) {
                 ret << ", ";
@@ -69,7 +69,7 @@ void dependency_node::check_cyclicity()
     std::stack<dependency_node *> nodes_to_check;
     std::set<std::string> nodes_visited;
 
-    for (int i = 0; i < parents.size(); ++i) {
+    for (size_t i = 0; i < parents.size(); ++i) {
         nodes_to_check.push(parents[i]);
     }
     nodes_visited.insert(key);
@@ -87,7 +87,7 @@ void dependency_node::check_cyclicity()
 
         // add check parents, if exist, to stack
         if (check->parents.size() > 0) {
-            for (int i = 0; i < check->parents.size(); ++i) {
+            for (size_t i = 0; i < check->parents.size(); ++i) {
                 nodes_to_check.push(check->parents[i]);
             }
         }
@@ -113,7 +113,7 @@ void dependency_node::inherit_errors()
     std::stack<dependency_node * > nodes_to_check;
     std::set<std::string> nodes_visited;
 
-    for (int i = 0; i < parents.size(); ++i) {
+    for (size_t i = 0; i < parents.size(); ++i) {
         nodes_to_check.push(parents[i]);
     }
     nodes_visited.insert(key);
@@ -130,7 +130,7 @@ void dependency_node::inherit_errors()
                 std::vector<std::string> node_errors = it->second;
                 NODE_ERROR_TYPE error_type = it->first;
                 std::vector<std::string> cur_errors = all_errors[error_type];
-                for (int i = 0; i < node_errors.size(); ++i) {
+                for (size_t i = 0; i < node_errors.size(); ++i) {
                     if (std::find(cur_errors.begin(), cur_errors.end(), node_errors[i]) == cur_errors.end()) {
                         all_errors[it->first].push_back(node_errors[i]);
                     }
@@ -142,7 +142,7 @@ void dependency_node::inherit_errors()
         }
         // add check parents, if exist, to stack
         if (check->parents.size() > 0) {
-            for (int i = 0; i < check->parents.size(); ++i) {
+            for (size_t i = 0; i < check->parents.size(); ++i) {
                 nodes_to_check.push(check->parents[i]);
             }
         }
@@ -156,7 +156,7 @@ std::vector<std::string > dependency_node::get_dependencies_as_strings()
 
     std::vector<dependency_node *> as_nodes = get_dependencies_as_nodes();
 
-    for (int i = 0; i < as_nodes.size(); ++i) {
+    for (size_t i = 0; i < as_nodes.size(); ++i) {
         ret.push_back(as_nodes[i]->key);
     }
 
@@ -171,7 +171,7 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
     std::set<std::string> found;
 
     std::stack<dependency_node *> nodes_to_check;
-    for (int i = 0; i < parents.size(); ++i) {
+    for (size_t i = 0; i < parents.size(); ++i) {
         nodes_to_check.push(parents[i]);
     }
     found.insert(key);
@@ -190,7 +190,7 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
 
         // add parents to check list
         if (check->parents.size() > 0) {
-            for (int i = 0; i < check->parents.size(); ++i) {
+            for (size_t i = 0; i < check->parents.size(); ++i) {
                 nodes_to_check.push(check->parents[i]);
             }
         }
@@ -213,7 +213,7 @@ std::vector<std::string> dependency_node::get_dependents_as_strings()
 
     std::vector<dependency_node *> as_nodes = get_dependents_as_nodes();
 
-    for (int i = 0; i < as_nodes.size(); ++i) {
+    for (size_t i = 0; i < as_nodes.size(); ++i) {
         ret.push_back(as_nodes[i]->key);
     }
 
@@ -227,7 +227,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
     std::set<std::string> found;
 
     std::stack<dependency_node *> nodes_to_check;
-    for (int i = 0; i < children.size(); ++i) {
+    for (size_t i = 0; i < children.size(); ++i) {
         nodes_to_check.push(children[i]);
     }
     found.insert(key);
@@ -243,7 +243,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
         dependents.push_back(check);
 
         if (check->children.size() > 0) {
-            for (int i = 0; i < check->children.size(); ++i) {
+            for (size_t i = 0; i < check->children.size(); ++i) {
                 nodes_to_check.push(check->children[i]);
             }
         }
@@ -251,7 +251,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
     }
 
     // sort from front, keeping only one copy of the node
-    for (int i = 0; i < dependents.size(); ++i) {
+    for (size_t i = 0; i < dependents.size(); ++i) {
         if (std::find(ret.begin(), ret.end(), dependents[i]) == ret.end()) {
             ret.push_back(dependents[i]);
         }
@@ -405,9 +405,9 @@ void dependency_tree::check_for_strongly_connected_components()
 
     // now go through and make a set of these
     std::set<dependency_node *> in_circular_connection;
-    for (int i = 0; i < strongly_connected_components.size(); ++i) {
+    for (size_t i = 0; i < strongly_connected_components.size(); ++i) {
         if (strongly_connected_components[i].size() > 1) {
-            for (int j = 0; j < strongly_connected_components[i].size(); ++j) {
+            for (size_t j = 0; j < strongly_connected_components[i].size(); ++j) {
                 DebugLog() << "--" << strongly_connected_components[i][j]->key << "\n";
                 in_circular_connection.insert(strongly_connected_components[i][j]);
             }
@@ -429,7 +429,7 @@ void dependency_tree::strong_connect(dependency_node *dnode)
     connection_stack.push(dnode);
     dnode->on_stack = true;
 
-    for (int i = 0; i < dnode->parents.size(); ++i) {
+    for (size_t i = 0; i < dnode->parents.size(); ++i) {
         if (dnode->parents[i]->index < 0) {
             strong_connect(dnode->parents[i]);
             dnode->lowlink = std::min(dnode->lowlink, dnode->parents[i]->lowlink);

@@ -241,7 +241,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
     // Reactor should always start out activated if present
     std::vector<int> fuel_tanks = all_parts_with_feature(VPFLAG_FUEL_TANK);
-    for(int p = 0; p < fuel_tanks.size(); p++) {
+    for( size_t p = 0; p < fuel_tanks.size(); ++p ) {
         if(part_info(fuel_tanks[p]).fuel_type == fuel_type_plutonium) {
             reactor_on = true;
             break;
@@ -709,7 +709,7 @@ void vehicle::start_engine()
 {
     bool muscle_powered = false;
     // TODO: Make chance of success based on engine condition.
-    for(int p = 0; p < engines.size(); p++) {
+    for( size_t p = 0; p < engines.size(); ++p ) {
         if(parts[engines[p]].hp > 0) {
             if(part_info(engines[p]).fuel_type == fuel_type_gasoline) {
                 int engine_power = part_power(engines[p]);
@@ -740,6 +740,7 @@ void vehicle::start_engine()
 
 void vehicle::honk_horn ()
 {
+<<<<<<< HEAD
     for (int p = 0; p < parts.size(); p++) {
         if (part_flag( p, "HORN" )) {
             //Get global position of horn
@@ -754,6 +755,20 @@ void vehicle::honk_horn ()
             } else {
                 g->sound( horn_x, horn_y, horn_type.bonus, _("honk.") );
             }
+=======
+    for( size_t h = 0; h < horns.size(); ++h ) {
+        //Get global position of horn
+        const int horn_x = global_x() + parts[horns[h]].precalc_dx[0];
+        const int horn_y = global_y() + parts[horns[h]].precalc_dy[0];
+        //Determine sound
+        vpart_info &horn_type=part_info(horns[h]);
+        if( horn_type.bonus >= 40 ){
+            g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
+        } else if( horn_type.bonus >= 20 ){
+            g->sound( horn_x, horn_y, horn_type.bonus, _("BEEEP!") );
+        } else{
+            g->sound( horn_x, horn_y, horn_type.bonus, _("honk.") );
+>>>>>>> 5eb05e4c98bfbc4e4b7e771af5a935a51d5a5f37
         }
     }
 }
@@ -985,7 +1000,7 @@ bool vehicle::can_unmount (int p)
 
         /* To remove a structural part, there can be only structural parts left
          * in that square (might be more than one in the case of wreckage) */
-        for(int part_index = 0; part_index < parts_in_square.size(); part_index++) {
+        for( size_t part_index = 0; part_index < parts_in_square.size(); ++part_index ) {
             if(part_info(parts_in_square[part_index]).location != part_location_structure) {
                 return false;
             }
@@ -1272,7 +1287,7 @@ void vehicle::remove_part (int p)
     //If we remove the (0, 0) frame, we need to shift things around
     if(part_info(p).location == "structure" && parts[p].mount_dx == 0 && parts[p].mount_dy == 0) {
         //Find a frame, any frame, to shift to
-        for(int next_part = 0; next_part < parts.size(); next_part++) {
+        for( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
             if(next_part != p
                     && part_info(next_part).location == "structure"
                     && !part_info(next_part).has_flag("PROTRUSION")) {
@@ -1306,7 +1321,7 @@ void vehicle::remove_part (int p)
  */
 void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
     std::vector<break_entry> break_info = part_info(p).breaks_into;
-    for(int index = 0; index < break_info.size(); index++) {
+    for( size_t index = 0; index < break_info.size(); ++index ) {
         int quantity = rng(break_info[index].min, break_info[index].max);
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
@@ -1394,7 +1409,7 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
 std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, bool unbroken)
 {
     std::vector<int> parts_found;
-    for(int part_index = 0; part_index < parts.size(); part_index++) {
+    for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
         if(part_info(part_index).has_flag(feature) &&
                 (!unbroken || parts[part_index].hp > 0)) {
             parts_found.push_back(part_index);
@@ -1406,7 +1421,7 @@ std::vector<int> vehicle::all_parts_with_feature(const std::string& feature, boo
 std::vector<int> vehicle::all_parts_with_feature(const vpart_bitflags & feature, bool unbroken)
 {
     std::vector<int> parts_found;
-    for(int part_index = 0; part_index < parts.size(); part_index++) {
+    for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
         if(part_info(part_index).has_flag(feature) &&
                 (!unbroken || parts[part_index].hp > 0)) {
             parts_found.push_back(part_index);
@@ -1424,7 +1439,7 @@ std::vector<int> vehicle::all_parts_with_feature(const vpart_bitflags & feature,
 std::vector<int> vehicle::all_parts_at_location(const std::string& location)
 {
     std::vector<int> parts_found;
-    for(int part_index = 0; part_index < parts.size(); part_index++) {
+    for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
         if(part_info(part_index).location == location) {
             parts_found.push_back(part_index);
         }
@@ -1475,7 +1490,7 @@ int vehicle::global_part_at(int x, int y)
 int vehicle::index_of_part(vehicle_part *part)
 {
   if(part != NULL) {
-    for(int index = 0; index < parts.size(); index++) {
+    for( size_t index = 0; index < parts.size(); ++index ) {
       vehicle_part next_part = parts[index];
       if(part->id == next_part.id &&
               part->mount_dx == next_part.mount_dx &&
@@ -1661,9 +1676,15 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
             left_sym = "-"; right_sym = "-";
         }
 
+<<<<<<< HEAD
         mvwprintz(win, y, 1, int(i) == hl? hilite(c_ltgray) : c_ltgray, left_sym.c_str());
         mvwprintz(win, y, 2, int(i) == hl? hilite(col_cond) : col_cond, partname.c_str());
         mvwprintz(win, y, 2 + utf8_width(partname.c_str()), int(i) == hl? hilite(c_ltgray) : c_ltgray, right_sym.c_str());
+=======
+        mvwprintz(win, y, 1, i == hl? hilite(c_ltgray) : c_ltgray, "%s", left_sym.c_str());
+        mvwprintz(win, y, 2, i == hl? hilite(col_cond) : col_cond, "%s", partname.c_str());
+        mvwprintz(win, y, 2 + utf8_width(partname.c_str()), i == hl? hilite(c_ltgray) : c_ltgray, "%s", right_sym.c_str());
+>>>>>>> 5eb05e4c98bfbc4e4b7e771af5a935a51d5a5f37
 //         mvwprintz(win, y, 3 + utf8_width(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
 
         if (i == 0 && is_inside(pl[i])) {
@@ -1813,7 +1834,7 @@ void vehicle::update_map_y(int y) {
 int vehicle::fuel_left (const ammotype & ftype)
 {
     int fl = 0;
-    for(int p = 0; p < fuel.size(); p++) {
+    for( size_t p = 0; p < fuel.size(); ++p ) {
         if(ftype == part_info(fuel[p]).fuel_type) {
             fl += parts[fuel[p]].amount;
         }
@@ -1824,7 +1845,7 @@ int vehicle::fuel_left (const ammotype & ftype)
 int vehicle::fuel_capacity (const ammotype & ftype)
 {
     int cap = 0;
-    for(int p = 0; p < fuel.size(); p++) {
+    for( size_t p = 0; p < fuel.size(); ++p ) {
         if(ftype == part_info(fuel[p]).fuel_type) {
             cap += part_info(fuel[p]).size;
         }
@@ -1880,7 +1901,7 @@ int vehicle::drain (const ammotype & ftype, int amount) {
 int vehicle::basic_consumption (const ammotype & ftype)
 {
     int fcon = 0;
-    for(int p = 0; p < engines.size(); p++) {
+    for( size_t p = 0; p < engines.size(); ++p ) {
         if(ftype == part_info(engines[p]).fuel_type && parts[engines[p]].hp > 0) {
             if(part_info(engines[p]).fuel_type == fuel_type_battery) {
                 // electric engine - use epower instead
@@ -1898,7 +1919,7 @@ int vehicle::basic_consumption (const ammotype & ftype)
 int vehicle::solar_epower()
 {
     int epower = 0;
-    for(int p = 0; p < solar_panels.size(); p++) {
+    for( size_t p = 0; p < solar_panels.size(); ++p ) {
         if(parts[solar_panels[p]].hp > 0) {
             int part_x = global_x() + parts[solar_panels[p]].precalc_dx[0];
             int part_y = global_y() + parts[solar_panels[p]].precalc_dy[0];
@@ -2130,6 +2151,7 @@ void vehicle::consume_fuel( double load )
 
 void vehicle::charge_battery (int amount)
 {
+<<<<<<< HEAD
     for(int f=0;f<fuel.size() && amount > 0;f++)
     {
         if(part_info(fuel[f]).fuel_type == fuel_type_battery)
@@ -2144,6 +2166,18 @@ void vehicle::charge_battery (int amount)
             {
                 parts[fuel[f]].amount += amount;
                 amount = 0;
+=======
+    int epower = 0;
+
+    // Consumers of epower
+    int gas_epower = 0;
+    if(engine_on) {
+        // Gas engines require epower to run for ignition system, ECU, etc.
+        for( size_t p = 0; p < engines.size(); ++p ) {
+            if(parts[engines[p]].hp > 0 &&
+               part_info(engines[p]).fuel_type == fuel_type_gasoline) {
+                gas_epower += part_info(engines[p]).epower;
+>>>>>>> 5eb05e4c98bfbc4e4b7e771af5a935a51d5a5f37
             }
         }
     }
@@ -2153,6 +2187,7 @@ int vehicle::discharge_battery (int amount)
 {
     int avail_charge;
 
+<<<<<<< HEAD
     for(int f = 0; f < fuel.size() && amount > 0; f++) {
         if(part_info(fuel[f]).fuel_type == fuel_type_battery) {
             avail_charge = parts[fuel[f]].amount;
@@ -2163,10 +2198,20 @@ int vehicle::discharge_battery (int amount)
             else {
                 parts[fuel[f]].amount -= amount;
                 amount = 0;
+=======
+    if(engine_on) {
+        // Plasma engines generate epower if turned on
+        int plasma_epower = 0;
+        for( size_t p = 0; p < engines.size(); ++p ) {
+            if(parts[engines[p]].hp > 0 &&
+               part_info(engines[p]).fuel_type == fuel_type_plasma) {
+                plasma_epower += part_info(engines[p]).epower;
+>>>>>>> 5eb05e4c98bfbc4e4b7e771af5a935a51d5a5f37
             }
         }
     }
 
+<<<<<<< HEAD
     return amount; // non-zero if discharge amount exceeds available battery charge
 }
 
@@ -2194,6 +2239,19 @@ bool vehicle::do_environmental_effects() {
                 g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN) {
             needed = true;
             parts[p].blood--;
+=======
+    int battery_discharge = power_to_epower(fuel_capacity(fuel_type_battery) - fuel_left(fuel_type_battery));
+    if(engine_on && (battery_discharge - epower > 0)) {
+        // Not enough surplus epower to fully charge battery
+        // Produce additional epower from any alternators
+        int alternators_epower = 0;
+        int alternators_power = 0;
+        for( size_t p = 0; p < alternators.size(); ++p ) {
+            if(parts[alternators[p]].hp > 0) {
+                alternators_epower += part_info(alternators[p]).epower;
+                alternators_power += part_power(alternators[p]);
+            }
+>>>>>>> 5eb05e4c98bfbc4e4b7e771af5a935a51d5a5f37
         }
         if (part_flag(p, VPFLAG_ENGINE) && parts[p].hp <= 0 && parts[p].amount > 0) {
             needed = true;
@@ -2234,6 +2292,7 @@ double vehicle::generate_all_power()
         // Produce additional epower from any reactors
         int reactor_output = 0;
         int reactors_fuel_epower = 0;
+<<<<<<< HEAD
         bool reactor_gave_power = false;
         for(int p = 0; p < reactors.size(); p++) {
             if (parts[reactors[p]].hp > 0 && battery_missing - epower > 0) {
@@ -2252,6 +2311,45 @@ double vehicle::generate_all_power()
                 parts[reactors[p]].amount -= plutonium_consumed;
                 epower += reactor_output;
                 reactor_gave_power = true;
+=======
+        for( size_t p = 0; p < reactors.size(); ++p ) {
+            if(parts[reactors[p]].hp > 0) {
+                reactors_epower += part_info(reactors[p]).epower;
+                reactors_fuel_epower += power_to_epower(parts[reactors[p]].amount);
+            }
+        }
+        // check if enough fuel for full reactor output
+        if(reactors_fuel_epower < reactors_epower) {
+            // partial reactor output
+            reactors_epower = reactors_fuel_epower;
+        }
+        if(reactors_epower > 0) {
+            int reactors_output;
+            if (battery_discharge - epower > reactors_epower) {
+                reactors_output = reactors_epower;
+            }
+            else {
+                reactors_output = battery_discharge - epower;
+            }
+            // calculate battery-equivalent fuel consumption
+            int battery_consumed = epower_to_power(reactors_output);
+            // 1 plutonium == 100 battery - divide consumption by 100
+            int plutonium_consumed = battery_consumed / 100;
+            // battery remainder results in chance at additional plutonium consumption
+            if (x_in_y(battery_consumed % 100, 100)) {
+                plutonium_consumed += 1;
+            }
+            for(int p = 0; p < reactors.size() && plutonium_consumed > 0; p++) {
+                int avail_plutonium = parts[reactors[p]].amount;
+                if(avail_plutonium < plutonium_consumed) {
+                    plutonium_consumed -= avail_plutonium;
+                    parts[reactors[p]].amount = 0;
+                }
+                else {
+                    parts[reactors[p]].amount -= plutonium_consumed;
+                    plutonium_consumed = 0;
+                }
+>>>>>>> 5eb05e4c98bfbc4e4b7e771af5a935a51d5a5f37
             }
         }
         if (!reactor_gave_power) {
@@ -3311,8 +3409,8 @@ bool vehicle::apply_damage_from_collision_to_point(int part, veh_collision coll)
         // Damage calculation
         // damage dealt overall
         dmg += abs(d_E / k_mvel);
-        // damage for vehicle-part - only if not a hallucination
-        if (!z || !z->is_hallucination()) {
+        //damage for vehicle-part - only if not a hallucination
+        if(!z || !z->is_hallucination()) {
             part_dmg = dmg * k / 100;
         }
         // damage for object
@@ -4225,7 +4323,7 @@ void vehicle::open_or_close(int part_index, bool opening)
     /* Find all other closed parts with the same ID in adjacent squares.
      * This is a tighter restriction than just looking for other Multisquare
      * Openable parts, and stops trunks from opening side doors and the like. */
-    for(int next_index = 0; next_index < parts.size(); next_index++) {
+    for( size_t next_index = 0; next_index < parts.size(); ++next_index ) {
       //Look for parts 1 square off in any cardinal direction
       int xdiff = parts[next_index].mount_dx - parts[part_index].mount_dx;
       int ydiff = parts[next_index].mount_dy - parts[part_index].mount_dy;

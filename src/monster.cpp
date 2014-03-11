@@ -190,9 +190,7 @@ std::string monster::name_with_armor()
 }
 
 std::string monster::disp_name() {
-    char buffer[256];
-    sprintf(buffer, _("the %s"), name().c_str());
-    return buffer;
+    return string_format(_("the %s"), name().c_str());
 }
 
 std::string monster::skin_name() {
@@ -250,7 +248,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
  std::string attitude = "";
 
  get_Attitude(color, attitude);
- wprintz(w, color, attitude.c_str());
+ wprintz(w, color, "%s", attitude.c_str());
 
  if (has_effect("downed"))
   wprintz(w, h_white, _("On ground"));
@@ -279,12 +277,12 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
   damage_info = _("it is nearly dead");
   col = c_red;
  }
- mvwprintz(w, vStart++, column, col, damage_info.c_str());
+ mvwprintz(w, vStart++, column, col, "%s", damage_info.c_str());
 
     std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 1 - column);
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++)
-        mvwprintz(w, vStart++, column, c_white, lines[i].c_str());
+        mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
 
     return vStart;
 }
@@ -429,14 +427,11 @@ std::string monster::save_info()
 
 void monster::debug(player &u)
 {
- char buff[2];
  debugmsg("%s has %d steps planned.", name().c_str(), plans.size());
  debugmsg("%s Moves %d Speed %d HP %d",name().c_str(), moves, speed, hp);
  for (int i = 0; i < plans.size(); i++) {
-  sprintf(buff, "%d", i);
-  if (i < 10) mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx,
-                      buff[0]);
-  else mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, buff[1]);
+        const int digit = '0' + (i % 10);
+        mvaddch(plans[i].y - SEEY + u.posy, plans[i].x - SEEX + u.posx, digit);
  }
  getch();
 }
@@ -635,7 +630,10 @@ bool monster::is_dead_state() {
     return hp <= 0;
 }
 
-bool monster::block_hit(body_part &, int &, damage_instance &) {
+void monster::dodge_hit(Creature *, int) {
+}
+
+bool monster::block_hit(Creature *, body_part &, int &, damage_instance &) {
     return false;
 }
 
@@ -646,7 +644,6 @@ void monster::absorb_hit(body_part, int, damage_instance &dam) {
                 it->amount);
     }
 }
-
 
 int monster::hit(Creature &p, body_part &bp_hit) {
  int ret = 0;
@@ -705,7 +702,7 @@ int monster::hit(Creature &p, body_part &bp_hit) {
 }
 
 
-void monster::melee_attack(Creature &target, bool) {
+void monster::melee_attack(Creature &target, bool, matec_id) {
     mod_moves(-100);
     if (type->melee_dice == 0) { // We don't attack, so just return
         return;
@@ -786,7 +783,10 @@ void monster::melee_attack(Creature &target, bool) {
     */
 
     dealt_damage_instance dealt_dam;
-    int hitspread = target.deal_melee_attack(this, hitroll, false, damage, dealt_dam);
+    int hitspread = target.deal_melee_attack(this, hitroll);
+    if (hitspread >= 0) {
+        target.deal_melee_hit(this, hitspread, false, damage, dealt_dam);
+    }
     bp_hit = dealt_dam.bp_hit;
 
     //Hallucinations always produce messages but never actually deal damage
@@ -882,15 +882,14 @@ void monster::hit_monster(int i)
   g->kill_mon(i, (friendly != 0));
 }
 
-int monster::deal_melee_attack(Creature *source, int hitroll, bool crit,
-                               const damage_instance& d, dealt_damage_instance &dealt_dam)
+int monster::deal_melee_attack(Creature *source, int hitroll)
 {
     mdefense mdf;
     if(!is_hallucination() && source != NULL)
         {
         (mdf.*type->sp_defense)(this);
         }
-    return Creature::deal_melee_attack(source, hitroll, crit, d, dealt_dam);
+    return Creature::deal_melee_attack(source, hitroll);
 }
 
 int monster::deal_projectile_attack(Creature *source, double missed_by,
@@ -1042,6 +1041,12 @@ void monster::die()
  if (!no_extra_death_drops) {
   drop_items_on_death();
  }
+    if (type->difficulty >= 30 && get_killer() != NULL && get_killer()->is_player()) {
+        g->u.add_memorial_log(
+            pgettext("memorial_male", "Killed a %s."),
+            pgettext("memorial_female", "Killed a %s."),
+            name().c_str());
+    }
 
 // If we're a queen, make nearby groups of our type start to die out
  if (has_flag(MF_QUEEN)) {
@@ -1083,7 +1088,7 @@ void monster::die()
    for (int i = 0; i < deathfunctions.size(); i++) {
      func = deathfunctions.at(i);
      (md.*func)(this);
-   }//(md.*type->dies)(this);
+   }
  }
 // If our species fears seeing one of our own die, process that
  int anger_adjust = 0, morale_adjust = 0;

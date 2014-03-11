@@ -29,25 +29,36 @@ void load_technique(JsonObject &jo)
     tec.reqs.melee_allowed = jo.get_bool("melee_allowed", false);
     tec.reqs.min_melee = jo.get_int("min_melee", 0);
     tec.reqs.min_unarmed = jo.get_int("min_unarmed", 0);
+
+    tec.reqs.min_bashing = jo.get_int("min_bashing", 0);
+    tec.reqs.min_cutting = jo.get_int("min_cutting", 0);
+    tec.reqs.min_stabbing = jo.get_int("min_stabbing", 0);
+
+    tec.reqs.min_bashing_damage = jo.get_int("min_bashing_damage", 0);
+    tec.reqs.min_cutting_damage = jo.get_int("min_cutting_damage", 0);
+
     tec.reqs.req_buffs = jo.get_tags("req_buffs");
+    tec.reqs.req_flags = jo.get_tags("req_flags");    
 
     tec.crit_tec = jo.get_bool("crit_tec", false);
     tec.defensive = jo.get_bool("defensive", false);
     tec.disarms = jo.get_bool("disarms", false);
-    tec.grabs = jo.get_bool("grabs", false);
-    tec.counters = jo.get_bool("counters", false);
+    tec.dodge_counter = jo.get_bool("dodge_counter", false);
+    tec.block_counter = jo.get_bool("block_counter", false);
     tec.miss_recovery = jo.get_bool("miss_recovery", false);
     tec.grab_break = jo.get_bool("grab_break", false);
-    tec.flaming = jo.get_bool("flaming", false);
-    tec.quick = jo.get_bool("quick", false);
+    tec.flaming = jo.get_bool("flaming", false);    
 
     tec.hit = jo.get_int("pain", 0);
     tec.bash = jo.get_int("bash", 0);
     tec.cut = jo.get_int("cut", 0);
     tec.pain = jo.get_int("pain", 0);
 
+    tec.weighting = jo.get_int("weighting", 1);
+
     tec.bash_mult = jo.get_float("bash_mult", 1.0);
     tec.cut_mult = jo.get_float("cut_mult", 1.0);
+    tec.speed_mult = jo.get_float("speed_mult", 1.0);
 
     tec.down_dur = jo.get_int("down_dur", 0);
     tec.stun_dur = jo.get_int("stun_dur", 0);
@@ -205,6 +216,7 @@ void load_martial_art(JsonObject &jo)
     }
 
     ma.techniques = jo.get_tags("techniques");
+    ma.weapons = jo.get_tags("weapons");
 
     ma.leg_block = jo.get_int("leg_block", -1);
     ma.arm_block = jo.get_int("arm_block", -1);
@@ -223,17 +235,37 @@ bool ma_requirements::is_valid_player(player& u) {
   for (std::set<mabuff_id>::iterator it = req_buffs.begin();
       it != req_buffs.end(); ++it) {
     mabuff_id buff_id = *it;
-    if (!u.has_mabuff(*it)) return false;
+    if (!u.has_mabuff(buff_id)) return false;
   }
-  bool valid = ((unarmed_allowed && u.unarmed_attack()) || (melee_allowed && !u.unarmed_attack()))
-    && u.skillLevel("melee") >= min_melee
-    && u.skillLevel("unarmed") >= min_unarmed
-    && u.skillLevel("bashing") >= min_bashing
-    && u.skillLevel("cutting") >= min_cutting
-    && u.skillLevel("stabbing") >= min_stabbing;
+  
+  //A technique is valid if it applies to unarmed strikes, if it applies generally
+  //to all weapons (such as Ninjutsu sneak attacks or innate weapon techniques like RAPID) 
+  //or if the weapon is flagged as being compatible with the style. Some techniques have 
+  //further restrictions on required weapon properties (is_valid_weapon).
+  bool valid = ((unarmed_allowed && u.unarmed_attack()) ||
+      (melee_allowed && !u.unarmed_attack() && is_valid_weapon(u.weapon)) ||
+      (u.has_weapon() && martialarts[u.style_selected].has_weapon(u.weapon.type->id) &&
+      is_valid_weapon(u.weapon)) ) &&
+    u.skillLevel("melee") >= min_melee &&
+    u.skillLevel("unarmed") >= min_unarmed &&
+    u.skillLevel("bashing") >= min_bashing &&
+    u.skillLevel("cutting") >= min_cutting &&
+    u.skillLevel("stabbing") >= min_stabbing;
+
   return valid;
 }
 
+bool ma_requirements::is_valid_weapon(item& i) {  
+  for (std::set<std::string>::iterator it = req_flags.begin();
+      it != req_flags.end(); ++it) {
+    std::string flag = *it;
+    if (!i.has_flag(flag)) return false;
+  }
+  bool valid = i.damage_bash() >= min_bashing_damage 
+      && i.damage_cut() >= min_cutting_damage;
+
+  return valid;
+}
 
 ma_technique::ma_technique() {
 
@@ -247,15 +279,14 @@ ma_technique::ma_technique() {
 
   // offensive
   disarms = false; // like tec_disarm
-  grabs = false; // like tec_grab
-  counters = false; // like tec_counter
+  dodge_counter = false; // like tec_grab
+  block_counter = false; // like tec_counter
 
   miss_recovery = false; // allows free recovery from misses, like tec_feint
   grab_break = false; // allows grab_breaks, like tec_break
 
   flaming = false; // applies fire effects etc
-  quick = false; // moves discount based on attack speed, like tec_rapid
-
+  
   hit = 0; // flat bonus to hit
   bash = 0; // flat bonus to bash
   cut = 0; // flat bonus to cut
@@ -263,7 +294,7 @@ ma_technique::ma_technique() {
 
   bash_mult = 1.0f; // bash damage multiplier
   cut_mult = 1.0f; // cut damage multiplier
-
+  speed_mult = 1.0f; // speed multiplier (fractional is faster, old rapid aka quick = 0.5)
 }
 
 bool ma_technique::is_valid_player(player& u) {
@@ -463,6 +494,11 @@ bool martialart::has_technique(player& u, matec_id tec_id) {
   return false;
 }
 
+bool martialart::has_weapon(itype_id item)
+{
+    return weapons.count(item);
+}
+
 std::string martialart::melee_verb(matec_id tec_id, player& u) {
   for (std::set<matec_id>::iterator it = techniques.begin();
       it != techniques.end(); ++it) {
@@ -476,8 +512,6 @@ std::string martialart::melee_verb(matec_id tec_id, player& u) {
   }
   return std::string("%s is attacked by bugs");
 }
-
-
 
 // Player stuff
 
@@ -532,7 +566,7 @@ bool player::can_arm_block() {
     return false;
 }
 
-bool player::can_block() {
+bool player::can_limb_block() {
   return can_arm_block() || can_leg_block();
 }
 

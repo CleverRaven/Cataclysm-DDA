@@ -88,14 +88,12 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
     mapgen_cfunction_map["lmoe_under"] = &mapgen_lmoe_under;
-
     mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
     mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
     mapgen_cfunction_map["basement_guns"] = &mapgen_basement_guns;
     mapgen_cfunction_map["basement_survivalist"] = &mapgen_basement_survivalist;
     mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
     mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
-
     mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
     mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
@@ -3216,6 +3214,8 @@ void mapgen_s_liquor(map *m, oter_id terrain_type, mapgendata dat, int, float de
         m->place_items("fridgesnacks", 90, 19,  7, 19, 10, false, 0);
         m->place_items("fridgesnacks", 90, 17, 11, 19, 11, false, 0);
         m->place_items("behindcounter", 80, 17,  3, 19,  4, false, 0);
+        m->place_items("liqstore_brew", 70, 16,  3, 16,  5, false, 0);
+        m->place_items("liqstore_brew", 70, 17,  5, 18,  5, false, 0);
         m->place_items("trash",  30,  5, 14,  7, 14, false, 0);
         m->place_items("trash",  30, 18, 15, 18, 17, false, 0);
 

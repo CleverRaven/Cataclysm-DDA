@@ -333,7 +333,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```MUTCAT_CEPHALOPOD``` "Your mind is overcome by images of eldritch horrors...and then they pass."
 - ```MUTCAT_BIRD``` "Your body lightens and you long for the sky."
 - ```MUTCAT_LIZARD``` "For a heartbeat, your body cools down."
-- ```MUTCAT_TROGLO``` "You yearn for a cool, dark place to hide."
+- ```MUTCAT_TROGLOBITE``` "You yearn for a cool, dark place to hide."
 - ```MUTCAT_ALPHA``` "You feel...better. Somehow."
 - ```MUTCAT_MEDICAL``` "Your can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."
 - ```MUTCAT_CHIMERA``` "You need to roar, bask, bite, and flap. NOW."

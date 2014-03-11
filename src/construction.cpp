@@ -2,7 +2,6 @@
 
 #include "game.h"
 #include "output.h"
-#include "keypress.h"
 #include "player.h"
 #include "inventory.h"
 #include "mapdata.h"
@@ -129,8 +128,6 @@ void construction_menu()
                 mvwputch(w_con, i, j, c_black, ' ');
             }
         }
-        //Draw Scrollbar
-        draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
         // Determine where in the master list to start printing
         //int offset = select - 11;
         int offset = 0;
@@ -147,7 +144,8 @@ void construction_menu()
             }
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
-            mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkeys[current],
+            // If we run out of hotkeys, just stop assigning them.
+            mvwprintz(w_con, 1 + i, 1, col, "%c %s", (current < hotkeys.size()) ? hotkeys[current] : ' ',
                       utf8_substr(available[current].c_str(), 0, 27).c_str());
         }
 
@@ -248,7 +246,7 @@ void construction_menu()
                 // Print components
                 posx = 33;
                 std::vector<bool> has_component;
-                for( int i = 0; i < current_con->components.size(); i++ ) {
+                for( size_t i = 0; i < current_con->components.size(); ++i ) {
                     has_component.push_back(false);
                     mvwprintz(w_con, posy, posx - 2, c_white, ">");
                     for( unsigned j = 0; j < current_con->components[i].size(); j++ ) {
@@ -291,8 +289,11 @@ void construction_menu()
                     posx = 33;
                 }
             }
-            wrefresh(w_con);
         } // Finished updating
+
+        //Draw Scrollbar.
+        //Doing it here lets us refresh the entire window all at once.
+        draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
 
         ch = getch();
         switch (ch) {
@@ -784,6 +785,10 @@ void construct::done_deconstruct(point p)
             g->m.spawn_item(p.x, p.y, "plastic_chunk", rng(10, 12));
             g->m.spawn_item(p.x, p.y, "scrap", rng(6, 8));
             g->m.ter_set(p.x, p.y, t_floor);
+        } else if(ter_here == "t_water_pump") {
+            g->m.spawn_item(p.x, p.y, "well_pump", 1);
+            g->m.spawn_item(p.x, p.y, "pipe", rng(1, 6));
+            g->m.ter_set(p.x, p.y, t_covered_well);
         }
     }
 }

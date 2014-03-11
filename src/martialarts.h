@@ -19,7 +19,11 @@ struct ma_requirements {
     int min_cutting; // minimum amount of unarmed to trigger this bonus
     int min_stabbing; // minimum amount of unarmed to trigger this bonus
 
+    int min_bashing_damage; // minimum amount of bashing damage on the weapon
+    int min_cutting_damage; // minimum amount of cutting damage on the weapon
+
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
+    std::set<std::string> req_flags; // any item flags required for this technique
 
     ma_requirements() {
       unarmed_allowed = false; // does this bonus work when unarmed?
@@ -30,10 +34,13 @@ struct ma_requirements {
       min_bashing = 0;
       min_cutting = 0;
       min_stabbing = 0;
+
+      min_bashing_damage = 0;
+      min_cutting_damage = 0;
     }
 
     bool is_valid_player(player& u);
-
+    bool is_valid_weapon(item& i);
 };
 
 class ma_technique {
@@ -65,22 +72,24 @@ class ma_technique {
 
     // offensive
     bool disarms; // like tec_disarm
-    bool grabs; // like tec_grab
-    bool counters; // like tec_counter
+    bool dodge_counter; // counter move activated on a dodge
+    bool block_counter; // counter move activated on a block
 
     bool miss_recovery; // allows free recovery from misses, like tec_feint
     bool grab_break; // allows grab_breaks, like tec_break
 
     bool flaming; // applies fire effects etc
-    bool quick; // moves discount based on attack speed, like tec_rapid
 
     int hit; // flat bonus to hit
     int bash; // flat bonus to bash
     int cut; // flat bonus to cut
     int pain; // attacks cause pain
 
+    int weighting; //how often this technique is used
+
     float bash_mult; // bash damage multiplier
     float cut_mult; // cut damage multiplier
+    float speed_mult; // speed multiplier (fractional is faster)
 
     float bash_str; // bonus damage to add per str point
     float bash_dex; // "" dex point
@@ -215,6 +224,8 @@ class martialart {
 
     // determines if a technique is valid or not for this style
     bool has_technique(player& u, matec_id tech);
+    // determines if a weapon is valid for this style
+    bool has_weapon(itype_id item);
     // gets custom melee string for a technique under this style
     std::string melee_verb(matec_id tech, player& u);
 
@@ -224,6 +235,7 @@ class martialart {
     int arm_block;
     int leg_block;
     std::set<matec_id> techniques; // all available techniques
+    std::set<itype_id> weapons; // all style weapons
     std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
     std::vector<ma_buff> onmove_buffs;
     std::vector<ma_buff> onhit_buffs;

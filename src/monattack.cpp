@@ -878,9 +878,11 @@ void mattack::dermatik(monster *z)
     z->moves -= 500; // Successful laying takes a long time
     g->add_msg(_("The %s sinks its ovipositor into your %s!"), z->name().c_str(),
                  body_part_name(targeted, side).c_str());
-    g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
-    g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
-                          pgettext("memorial_female", "Injected with dermatik eggs."));
+    if (!g->u.has_trait("PARAIMMUNE")) {
+        g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
+        g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
+                              pgettext("memorial_female", "Injected with dermatik eggs."));
+        }
 }
 
 void mattack::dermatik_growth(monster *z)
@@ -1730,3 +1732,41 @@ void mattack::parrot(monster *z)
     }
 }
 
+void mattack::darkman(monster *z)
+{
+    if( rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40 ) {
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    std::vector<point> free;
+    for( int x = z->posx() - 1; x <= z->posx() + 1; x++ ) {
+        for( int y = z->posy() - 1; y <= z->posy() + 1; y++ ) {
+            if( g->is_empty(x, y) )
+                free.push_back(point(x, y));
+        }
+    }
+    int index;
+    monster tmp( GetMType("mon_shadow") );
+    z->moves -= 10;
+    index = rng( 0, -1 );
+    tmp.spawn( free[index].x, free[index].y );
+    g->add_zombie( tmp );
+    if( g->u_see(z->posx(), z->posy()) ) {
+        g->add_msg( _("A shadow splits from the %s!"),
+                    z->name().c_str() );
+    }
+    int linet;
+    if( !g->sees_u(z->posx(), z->posy(), linet) ){
+        return; // Wont do the combat stuff unless it can see you
+    }
+    switch (rng(1, 7)) { // What do we say?
+    case 1: g->add_msg(_("\"Stop it please\"")); break;
+    case 2: g->add_msg(_("\"Let us help you\"")); break;
+    case 3: g->add_msg(_("\" We wish you no harm \"")); break;
+    case 4: g->add_msg(_("\"Do not fear\"")); break;
+    case 5: g->add_msg(_("\"We can help you\"")); break;
+    case 6: g->add_msg(_("\"We are friendly\"")); break;
+    case 7: g->add_msg(_("\"Please dont\"")); break;
+    }
+    g->u.add_disease( "darkness", 10 );
+}

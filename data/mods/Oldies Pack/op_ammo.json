@@ -171,6 +171,7 @@
   {
     "type" : "AMMO",
     "id" : "300_casing",
+    "category" : "spare_parts",
     "price" : 50,
     "name" : ".300 casing",
     "symbol" : "=",
@@ -193,6 +194,7 @@
   {
     "type" : "AMMO",
     "id" : "762R_casing",
+    "category" : "spare_parts",
     "price" : 50,
     "name" : "7.62x54mmR casing",
     "symbol" : "=",
@@ -215,6 +217,7 @@
   {
     "type" : "AMMO",
     "id" : "32_casing",
+    "category" : "spare_parts",
     "price" : 50,
     "name" : ".32 casing",
     "symbol" : "=",

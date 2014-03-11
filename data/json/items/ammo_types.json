@@ -319,6 +319,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "rebreather_filter",
+        "name" : "rebreather filter",
+        "default" : "rebreather_filter"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "fishspear",
         "name" : "speargun spear",
         "default" : "fishspear"

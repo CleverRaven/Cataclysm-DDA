@@ -898,7 +898,7 @@
         "dispersion_modifier" : -6,
         "damage_modifier" : 0,
         "ammo_modifier" : "NULL",
-        "description" : "Adds a holographic sight. Used extensively by military forces, it increases accuracy and weight but is a step up from a red dot sight.",
+        "description" : "Used extensively by military forces, it increases accuracy and weight. This is a step up from a red dot sight.",
         "weight" : 400,
         "to_hit" : -2,
         "color" : "dark_gray",
