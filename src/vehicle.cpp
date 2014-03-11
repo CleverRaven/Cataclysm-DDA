@@ -1300,13 +1300,15 @@ void vehicle::remove_part (int p)
 void vehicle::part_removal_cleanup() {
     bool changed = false;
     // Erase backwards to preserve indices.
-    for ( size_t i = parts.size() - 1; i > 0; --i ) {
-        if ( parts[i].removed ) {
-            changed = true;
-            parts.erase(parts.begin() + i);
-        }
+    if (parts.size() > 0) {
+      for ( size_t i = parts.size() - 1; i > 0; --i ) {
+          if ( parts[i].removed ) {
+              changed = true;
+              parts.erase(parts.begin() + i);
+          }
+      }
     }
-    if (changed) {
+    if (changed || parts.size() == 0) {
         refresh();
         if(parts.size() == 0) {
             g->m.destroy_vehicle(this);
@@ -4489,5 +4491,4 @@ void vehicle::calculate_air_resistance()
     drag_coeff = (float(t_form_drag * t_skin_friction) + (t_skin_friction + 10) * (t_skin_friction + 10) + 500) / 3500; // Use i_skin_friction as area
     downforce = float(t_downforce) / 10;
 }
-
 
