@@ -1132,7 +1132,13 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_DAMAGE:
         g->add_msg(_("The console electrocutes you!"));
+        if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
+            g->add_msg(_("The electricity flows around you."));
+      } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
+            g->add_msg(_("Your armor safely grounds the electrical discharge."));
+        }   else {
         g->u.hurtall(rng(1, 10));
+           }
         break;
 
     case COMPFAIL_PUMP_EXPLODE:
