@@ -290,8 +290,8 @@ void game::init_ui(){
     // but if the tileset is in use or if we use a different sized
     // font for the terrain window this does not match.
     translate_terrain_window_size(TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT);
-    VIEW_OFFSET_X = std::max(TERMX - sidebarWidth - max_view_size, 0) / 2;
-    VIEW_OFFSET_Y = std::max(TERMY - max_view_size, 0) / 2;
+    VIEW_OFFSET_X = std::max(TERRAIN_WINDOW_WIDTH - max_view_size, 0) / 2;
+    VIEW_OFFSET_Y = std::max(TERRAIN_WINDOW_HEIGHT - max_view_size, 0) / 2;
 
     POSX = TERRAIN_WINDOW_WIDTH / 2;
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
