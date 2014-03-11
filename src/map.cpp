@@ -160,6 +160,9 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
  int partid = 0;
  for( std::vector<vehicle_part>::iterator it = parts.begin(),
    end = parts.end(); it != end; ++it, ++partid ) {
+  if (it->removed) {
+      continue;
+  }
   const int px = gx + it->precalc_dx[0];
   const int py = gy + it->precalc_dy[0];
   veh_cached_parts.insert( std::make_pair( std::make_pair(px,py),
@@ -443,6 +446,11 @@ void map::vehmove()
         if (count > 10)
             break;
     }
+    // Process item removal on the vehicles that were modified this turn.
+    for (std::set<vehicle*>::iterator it = dirty_vehicle_list.begin(); it != dirty_vehicle_list.end(); ++it) {
+        (*it)->part_removal_cleanup();
+    }
+    dirty_vehicle_list.clear();
 }
 
 // find veh with the most amt of turn remaining, and move it a bit.

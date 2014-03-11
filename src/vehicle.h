@@ -71,7 +71,7 @@ struct vehicle_prototype
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     vehicle_part() : id("null"), iid(0), mount_dx(0), mount_dy(0), hp(0),
-      blood(0), bigness(0), inside(false), flags(0), passenger_id(0), amount(0)
+      blood(0), bigness(0), inside(false), removed(false), flags(0), passenger_id(0), amount(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -92,6 +92,8 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int blood;              // how much blood covers part (in turns).
     int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
+    bool removed;           // TRUE if this part is removed. The part won't disappear until the end of the turn
+                            // so our indexes can remain consistent.
     int flags;
     int passenger_id;       // carrying passenger
     union
@@ -251,7 +253,7 @@ public:
     void honk_horn();
 
 // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index);
+    vpart_info& part_info (int index, bool include_removed = false);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
@@ -263,6 +265,7 @@ public:
     int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
 
     void remove_part (int p);
+    void part_removal_cleanup ();
 
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
@@ -289,8 +292,8 @@ public:
     std::vector<int> all_parts_at_location(const std::string &location);
 
 // returns true if given flag is present for given part index
-    bool part_flag (int p, const std::string &f);
-    bool part_flag (int p, const vpart_bitflags &f);
+    bool part_flag (int p, const std::string &f, bool include_removed = false);
+    bool part_flag (int p, const vpart_bitflags &f, bool include_removed = false);
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -304,7 +307,7 @@ public:
     int part_displayed_at(int local_x, int local_y);
 
 // Given a part, finds its index in the vehicle
-    int index_of_part(vehicle_part *part);
+    int index_of_part(vehicle_part *part, bool check_removed = false);
 
 // get symbol for map
     char part_sym (int p);
