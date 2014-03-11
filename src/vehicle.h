@@ -341,7 +341,7 @@ public:
     bool player_in_control (player *p);  // check if given player controls this vehicle
 
 // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index, bool include_removed = false);
+    vpart_info& part_info (int index);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
@@ -461,8 +461,8 @@ public:
     std::vector<int> all_parts_at_location(const std::string &location);
 
 // returns true if given flag is present for given part index
-    bool part_flag (int p, const std::string &f, bool include_removed = false);
-    bool part_flag (int p, const vpart_bitflags &f, bool include_removed = false);
+    bool part_flag (int p, const std::string &f);
+    bool part_flag (int p, const vpart_bitflags &f);
 
 // Given a part, finds its index in the vehicle
     int index_of_part(vehicle_part *part, bool check_removed = false);
