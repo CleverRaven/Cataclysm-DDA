@@ -4190,7 +4190,7 @@
     "name": "battle axe",
     "description": "This is a massive axe designed for warfare. Though intended for use as a weapon, it can also be pressed into service as a rather clumsy woodcutting tool.",
     "price": 10500,
-    "material": ["iron", "wood"],
+    "material": ["steel", "wood"],
     "weight": 3102,
     "volume": 13,
     "bashing": 20,
