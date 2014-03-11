@@ -4683,7 +4683,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "safe deposit box",
-    "description": "This is secure combination lock box. Sadly, you don't know the combination. Breaking inside it would destroy anything of value.",
+    "description": "This is a secure combination lock box. Sadly, you don't know the combination. Breaking inside it would destroy anything of value.",
     "price": 80000,
     "material": "steel",
     "flags": ["DURABLE_MELEE"],
