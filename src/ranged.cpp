@@ -177,7 +177,7 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
             g->add_msg_player_or_npc(this, _("Your %s malfunctions!"),
                                      _("<npcname>'s %s malfunctions!"),
                                      weapon.name.c_str());
-            if ((weapon.damage < 4) && one_in(2 * firing->durability)){
+            if ((weapon.damage < 4) && one_in(4 * firing->durability)){
                 weapon.damage++;
                 g->add_msg_player_or_npc(this, _("Your %s is damaged by the mechanical malfunction!"),
                                          _("<npcname>'s %s is damaged by the mechanical malfunction!"),
@@ -187,7 +187,7 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
             // Here we check for a chance for the weapon to suffer a misfire due to
             // using OEM bullets. Note that these misfires cause no damage to the weapon and
             // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
-        } else if (!curammo_effects->count("NEVER_MISFIRES") && one_in(1536)) {
+        } else if (!curammo_effects->count("NEVER_MISFIRES") && one_in(1728)) {
             g->add_msg_player_or_npc(this, _("Your %s misfires with a dry click!"),
                                      _("<npcname>'s %s misfires with a dry click!"),
                                      weapon.name.c_str());
