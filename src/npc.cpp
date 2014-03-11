@@ -1573,6 +1573,7 @@ int npc::value(const item &it)
   it_book* book = dynamic_cast<it_book*>(it.type);
   if (book->intel <= int_cur) {
    ret += book->fun;
+   //TODO: Make NPCs value books depending on their calc_fun()
    if (skillLevel(book->type) < (int)book->level && skillLevel(book->type) >= (int)book->req)
     ret += book->level * 3;
   }

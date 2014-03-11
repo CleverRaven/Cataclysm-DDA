@@ -1412,7 +1412,7 @@ void game::activity_on_finish_read()
 {
     item *book_item = &(u.i_at(u.activity.position));
     it_book *reading = dynamic_cast<it_book *>(book_item->type);
-    int fun_bonus = 3*(book_item->calc_fun(&u));
+    int fun_bonus = 3*(book_item->calc_fun(&u, true));
 
     if (fun_bonus != 0) {
         u.add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, reading);

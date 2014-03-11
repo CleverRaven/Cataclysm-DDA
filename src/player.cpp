@@ -7421,11 +7421,12 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT")) {
         add_morale(MORALE_FOOD_HOT, 5, 10);
     }
+    int comest_fun = eaten->calc_fun(&g->u);
     if (has_trait("GOURMAND")) {
-        if (comest->fun < -2) {
-            add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
-        } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
+        if (comest_fun < -2) {
+            add_morale(MORALE_FOOD_BAD, comest_fun * 2, comest_fun * 4, 60, 30, false, comest);
+        } else if (comest_fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, comest_fun * 3, comest_fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_trait("HIBERNATE"))) {
         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
@@ -7471,10 +7472,10 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             thirst = -620;
         }
     } else {
-        if (comest->fun < 0) {
-            add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, false, comest);
-        } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
+        if (comest_fun < 0) {
+            add_morale(MORALE_FOOD_BAD, comest_fun * 2, comest_fun * 6, 60, 30, false, comest);
+        } else if (comest_fun > 0) {
+            add_morale(MORALE_FOOD_GOOD, comest_fun * 2, comest_fun * 4, 60, 30, false, comest);
         }
         if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
@@ -8906,7 +8907,7 @@ hint_rating player::rate_action_read(item *it)
 
  if (g && g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy)) {
   return HINT_IFFY;
- } else if (morale_level() < MIN_MORALE_READ &&  book->fun <= 0) {
+ } else if (morale_level() < MIN_MORALE_READ &&  it->calc_fun(&g->u) <= 0) {
   return HINT_IFFY; //won't read non-fun books when sad
  } else if (book->intel > 0 && has_trait("ILLITERATE")) {
   return HINT_IFFY;

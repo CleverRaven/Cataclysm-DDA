@@ -459,7 +459,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
   dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
   dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
-  dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+  dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", calc_fun(&g->u)));
   dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
   if (corpse != NULL &&
     ( debug == true ||
@@ -476,7 +476,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
   dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
   dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
-  dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+  dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", contents[0].calc_fun(&g->u)));
   dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(contents[0].charges))));
 
  } else if (is_ammo()) {
@@ -2674,30 +2674,45 @@ bool item::flammable() const
     return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
 }
 
-int item::calc_fun(player *u){
-    if ( is_book() ){
+int item::calc_fun(player *u, bool output_msg){
+    if (is_book()) {
         it_book *reading = dynamic_cast<it_book *>(type);
         int ret;
-            if(charges == 0) {
-                //Book is out of chapters -> re-reading old book, less fun
+        if (charges == 0) {
+            //Book is out of chapters -> re-reading old book, less fun
+            if (output_msg) {
                 g->add_msg(_("The %s isn't as much fun now that you've finished it."),
-                        name.c_str());
+                    name.c_str());
                 if(one_in(6)) { //Don't nag incessantly, just once in a while
                     g->add_msg(_("Maybe you should find something new to read..."));
                 }
-                //50% penalty
-                ret = (reading->fun) / 2;
-            } else {
-                ret = reading->fun;
             }
-            // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-            if ((u->has_trait("CANNIBAL") || u->has_trait("PSYCHOPATH") || u->has_trait("SAPIOVORE")) &&
-                reading->id == "cookbook_human") {
-              ret = 5;
-            }
+            //50% penalty
+            ret = (reading->fun) / 2;
+        } else {
+            ret = reading->fun;
+        }
+        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+        if ((u->has_trait("CANNIBAL") || u->has_trait("PSYCHOPATH") || u->has_trait("SAPIOVORE")) &&
+            reading->id == "cookbook_human") {
+            ret = 5;
+        }
+        // Sapiovores don't recognize themselves as humans, so human erotica doesn't do a lot for them.
+        if (u->has_trait("SAPIOVORE") && reading->id == "mag_porn") {
+            if (output_msg) g->add_msg(_("Humans just aren't as exciting to you as they were before."));
+            ret = 0;
+        }
+
         return ret;
     }
-    //Under construction!
+    if (is_food()) {
+        it_comest* food = dynamic_cast<it_comest*>(type);
+        int ret = food->fun;
+        // Changes made here will show in the item's tooltip.
+        if (u->has_trait("PBUTT_DEBUG") && food->id == "peanutbutter")
+            ret += 35;
+        return ret;
+    }
     return 0;
 }
 
