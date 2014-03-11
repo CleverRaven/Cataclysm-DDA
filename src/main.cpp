@@ -33,6 +33,7 @@
 
 void exit_handler(int s);
 void set_base_path(std::string path);
+void set_user_dir(const char *ud = "");
 void set_standard_filenames(void);
 
 std::map<std::string, std::string> FILENAMES; // create map where we will store the FILENAMES
@@ -58,12 +59,11 @@ int main(int argc, char *argv[])
 #ifdef PREFIX
 #define Q(STR) #STR
 #define QUOTE(STR) Q(STR)
-#define PREFIX /home/heretic/temp/opt
     set_base_path(std::string(QUOTE(PREFIX)));
 #else
-#define PREFIX /home/heretic/temp/opt
     set_base_path("");
 #endif
+    set_user_dir();
     set_standard_filenames();
 
     // Process CLI arguments
@@ -308,42 +308,76 @@ void set_base_path(std::string path)
     FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
 }
 
+void set_user_dir(const char *ud)
+{
+    std::string dir = std::string(ud);
+
+    if (dir.empty()) {
+        const char *user_dir;
+#if (defined _WIN32 || defined WINDOW)
+        user_dir = getenv("LOCALAPPDATA");
+        // On Windows userdir without dot
+        dir = std::string(user_dir) + "/cataclysm-dda/";
+#else
+        user_dir = getenv("HOME");
+        dir = std::string(user_dir) + "/.cataclysm-dda/";
+#endif
+    }
+
+    FILENAMES.insert(std::pair<std::string,std::string>("user_dir", dir));
+}
+
 void set_standard_filenames(void)
 {
-    // setting some standards
-    FILENAMES.insert(std::pair<std::string,std::string>("datadir", FILENAMES["base_path"] + "data/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("savedir", FILENAMES["base_path"] + "save/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("memorialdir", FILENAMES["base_path"] + "memorial/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("luadir", FILENAMES["base_path"] + "lua/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("gfxdir", FILENAMES["base_path"] + "gfx/"));
-
+    const char *share_dir;
+#if !(defined _WIN32 || defined WINDOW)
+    share_dir = "share/cataclysm-dda/";
+#else
+    share_dir = "";
+#endif
+    // Shared directories
+    FILENAMES.insert(std::pair<std::string,std::string>("gfxdir", FILENAMES["base_path"] + share_dir + "gfx/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("luadir", FILENAMES["base_path"] + share_dir + "lua/"));
+    // FIXME temporaly datadir == basedir. Should be removed later.
+    FILENAMES.insert(std::pair<std::string,std::string>("datadir", FILENAMES["base_path"] + share_dir));
+    FILENAMES.insert(std::pair<std::string,std::string>("autoexeclua", FILENAMES["luadir"] + "autoexec.lua"));
     FILENAMES.insert(std::pair<std::string,std::string>("fontdir", FILENAMES["datadir"] + "font/"));
     FILENAMES.insert(std::pair<std::string,std::string>("rawdir", FILENAMES["datadir"] + "raw/"));
     FILENAMES.insert(std::pair<std::string,std::string>("jsondir", FILENAMES["datadir"] + "json/"));
     FILENAMES.insert(std::pair<std::string,std::string>("moddir", FILENAMES["datadir"] + "mods/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("templatedir", FILENAMES["datadir"]));
+    FILENAMES.insert(std::pair<std::string,std::string>("recycledir", FILENAMES["datadir"] + "recycling/"));
     FILENAMES.insert(std::pair<std::string,std::string>("namesdir", FILENAMES["datadir"] + "names/"));
 
-    FILENAMES.insert(std::pair<std::string,std::string>("options", FILENAMES.find("datadir")->second + "options.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("keymap", FILENAMES.find("datadir")->second + "keymap.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("autopickup", FILENAMES.find("datadir")->second + "auto_pickup.txt"));
+    // Shared files
     FILENAMES.insert(std::pair<std::string,std::string>("motd", FILENAMES.find("datadir")->second + "motd"));
     FILENAMES.insert(std::pair<std::string,std::string>("credits", FILENAMES["datadir"] + "credits"));
-    FILENAMES.insert(std::pair<std::string,std::string>("fontlist", FILENAMES["datadir"] + "fontlist.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("fontdata", FILENAMES["datadir"] + "FONTDATA"));
-    FILENAMES.insert(std::pair<std::string,std::string>("debug", FILENAMES["datadir"] + "debug.log"));
-    FILENAMES.insert(std::pair<std::string,std::string>("mainlua", FILENAMES["datadir"] + "main.lua"));
-    FILENAMES.insert(std::pair<std::string,std::string>("typeface", FILENAMES["fontdir"] + "fixedsys.ttf"));
+    // TODO Load localized names
     FILENAMES.insert(std::pair<std::string,std::string>("names", FILENAMES["namesdir"] + "en.json"));
     FILENAMES.insert(std::pair<std::string,std::string>("colors", FILENAMES["rawdir"] + "colors.json"));
     FILENAMES.insert(std::pair<std::string,std::string>("keybindings", FILENAMES["rawdir"] + "keybindings.json"));
     FILENAMES.insert(std::pair<std::string,std::string>("sokoban", FILENAMES["rawdir"] + "sokoban.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("autoexeclua", FILENAMES["luadir"] + "autoexec.lua"));
+
+    // User directories
+    FILENAMES.insert(std::pair<std::string,std::string>("savedir", FILENAMES["user_dir"] + "save/"));
+    FILENAMES.insert(std::pair<std::string,std::string>("memorialdir", FILENAMES["user_dir"] + "memorial/"));
+    // TODO save/load templates from {user-dir}/templates
+    FILENAMES.insert(std::pair<std::string,std::string>("templatedir", FILENAMES["user_dir"] + "templates/"));
+
+    // User files
+    FILENAMES.insert(std::pair<std::string,std::string>("options", FILENAMES["user_dir"] + "options.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("keymap", FILENAMES["user_dir"] + "keymap.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("debug", FILENAMES["user_dir"] + "debug.log"));
+    FILENAMES.insert(std::pair<std::string,std::string>("fontlist", FILENAMES["user_dir"] + "fontlist.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("fontdata", FILENAMES["user_dir"] + "FONTDATA"));
+    FILENAMES.insert(std::pair<std::string,std::string>("autopickup", FILENAMES["user_dir"] + "auto_pickup.txt"));
+    /*
+    FILENAMES.insert(std::pair<std::string,std::string>("mainlua", FILENAMES["datadir"] + "main.lua"));
+    FILENAMES.insert(std::pair<std::string,std::string>("typeface", FILENAMES["fontdir"] + "fixedsys.ttf"));
     FILENAMES.insert(std::pair<std::string,std::string>("defaulttilejson", FILENAMES["gfx"] + "tile_config.json"));
     FILENAMES.insert(std::pair<std::string,std::string>("defaulttilepng", FILENAMES["gfx"] + "tinytile.png"));
 
     FILENAMES.insert(std::pair<std::string,std::string>("modsearchpath", FILENAMES["datadir"]));
     FILENAMES.insert(std::pair<std::string,std::string>("modsearchfile", FILENAMES["modinfo.json"]));
     FILENAMES.insert(std::pair<std::string,std::string>("moddevdefaultpath", FILENAMES["moddir"] + "dev-default-mods.json"));
-    FILENAMES.insert(std::pair<std::string,std::string>("moduserdefaultpath", FILENAMES["moddir"] + "user-defaults-mods.json"));
+    FILENAMES.insert(std::pair<std::string,std::string>("moduserdefaultpath", FILENAMES["moddir"] + "user-defaults-mods.json")); */
 }

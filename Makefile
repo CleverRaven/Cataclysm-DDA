@@ -363,7 +363,7 @@ distclean:
 bindist: $(BINDIST)
 
 ifeq ($(TARGETSYSTEM), LINUX)
-DATA_PREFIX=$(PREFIX)/share/cataclysm-dda
+DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
 BIN_PREFIX=$(PREFIX)/bin
 LOCALE_DIR=$(PREFIX)/share/locale
 install: version $(TARGET)
