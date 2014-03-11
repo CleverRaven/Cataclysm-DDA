@@ -1438,3 +1438,16 @@ void display_table(WINDOW *w, const std::string &title, int columns,
         }
     }
 }
+
+// In non-SDL mode, width/height is just what's specified in the menu
+#if !defined(TILES)
+int get_terminal_width() {
+    int width = OPTIONS["TERMINAL_X"];
+    return width < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : width;
+}
+
+int get_terminal_height() {
+    return OPTIONS["TERMINAL_Y"];
+}
+
+#endif

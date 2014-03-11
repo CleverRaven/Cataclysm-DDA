@@ -270,8 +270,8 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         default_tile_height = tile_height;
     }
 
-    terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
-    terrain_term_y = OPTIONS["TERMINAL_Y"];
+    terrain_term_x = get_terminal_width() - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
+    terrain_term_y = get_terminal_height();
 
     set_draw_scale(16);
 
