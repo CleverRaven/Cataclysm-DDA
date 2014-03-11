@@ -348,7 +348,6 @@ void add_corpse(int x, int y);
  bool is_full(const int x, const int y, const int addvolume = -1, const int addnumber = -1 );
  bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
  void process_active_items();
- void process_vehicles();
 
  std::list<item> use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container);
  std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
@@ -427,6 +426,8 @@ void add_corpse(int x, int y);
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
  bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
  std::set<vehicle*> vehicle_list;
+ std::set<vehicle*> dirty_vehicle_list;
+
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
