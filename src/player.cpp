@@ -9949,7 +9949,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         int oldLevel = skillLevel(s);
         skillLevel(s).train(amount);
         int newLevel = skillLevel(s);
-        if (newLevel > oldLevel) {
+        if (is_player() && newLevel > oldLevel) {
             g->add_msg(_("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
         }
 
