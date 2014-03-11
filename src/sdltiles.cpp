@@ -95,10 +95,9 @@ public:
     virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
 protected:
     void cache_glyphs();
+    SDL_Texture *create_glyph(int t, int color);
 
     TTF_Font* font;
-    int ttf_height_hack;
-    int glyph_height[128];
     SDL_Texture *glyph_cache[128][16];
 };
 
@@ -325,76 +324,105 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 };
 
 
-
-void CachedTTFFont::cache_glyphs()
+SDL_Texture *CachedTTFFont::create_glyph(int ch, int color)
 {
-    int top = 999;
-    int bottom = -999;
-
-    for(int ch = 0; ch < 128; ch++) {
-        for(int color = 0; color < 16; color++) {
-            //I hate this kind of ternary use
-            SDL_Surface * sglyph = (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
-
-            if(sglyph != NULL) {
-                int minx, maxx, miny, maxy, advance;
-                if(color==0 && 0 == TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) ) {
-                    int t = TTF_FontAscent(font)-maxy;
-                    int b = t + sglyph->h;
-                    if(t < top) top = t;
-                    if(b > bottom) bottom = b;
-                }
-                glyph_height[ch] = sglyph->h;
-                glyph_cache[ch][color] = SDL_CreateTextureFromSurface(renderer,sglyph);
-            }
-
-            SDL_FreeSurface(sglyph);
+    SDL_Surface * sglyph = (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
+    if (sglyph == NULL) {
+        if (g != NULL && g->debugmon) {
+            DebugLog() << "Failed to create glyph for " << std::string(1, ch) << ": " << TTF_GetError() << "\n";
+        }
+        return NULL;
+    }
+    int minx = 0, maxx = 0, miny = 0, maxy = 0, advance = 0;
+    if (TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) != 0) {
+        if (g != NULL && g->debugmon) {
+            DebugLog() << "TTF_GlyphMetrics(" << std::string(1, ch) << ") failed: " << TTF_GetError() << "\n";
         }
     }
 
-    int height = bottom - top;
-    int delta = (fontheight - height) / 2;
+    /* SDL interprets each pixel as a 32-bit number, so our masks must depend
+       on the endianness (byte order) of the machine */
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    static const Uint32 rmask = 0xff000000;
+    static const Uint32 gmask = 0x00ff0000;
+    static const Uint32 bmask = 0x0000ff00;
+    static const Uint32 amask = 0x000000ff;
+#else
+    static const Uint32 rmask = 0x000000ff;
+    static const Uint32 gmask = 0x0000ff00;
+    static const Uint32 bmask = 0x00ff0000;
+    static const Uint32 amask = 0xff000000;
+#endif
+    // Note: bits per pixel must be 8 to be synchron with the surface
+    // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
+    SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth, fontheight, 8, rmask, gmask, bmask, amask);
+    if (surface == NULL) {
+        if (g != NULL && g->debugmon) {
+            DebugLog() << "CreateRGBSurface failed: " << SDL_GetError() << "\n";
+        }
+        SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
+        SDL_FreeSurface(sglyph);
+        return glyph;
+    }
+    SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
+    SDL_Rect dst_rect;
+    // Maby we have to scale it down, if the glyph is smaller than fontwidth
+    // or fontheight, x/y will be 0, otherwise it might be > 0
+    dst_rect.x = std::max(fontwidth - sglyph->w, 0) / 2;
+    dst_rect.y = std::max(fontheight - sglyph->h, 0) / 2;
+    // Shrink if src is larger, but do not enlarge
+    dst_rect.w = std::min(fontwidth, sglyph->w);
+    dst_rect.h = std::min(fontheight, sglyph->h);
 
-    ttf_height_hack =  delta - top;
+    // Copy glyph and resize it (if needed) if that fails,
+    // use glyph surface directly.
+    if (SDL_BlitScaled(sglyph, &src_rect, surface, &dst_rect) != 0) {
+        if (g != NULL && g->debugmon) {
+            DebugLog() << SDL_GetError() << "\n";
+        }
+        SDL_FreeSurface(surface);
+    } else {
+        SDL_FreeSurface(sglyph);
+        sglyph = surface;
+    }
+
+    SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
+    SDL_FreeSurface(sglyph);
+    return glyph;
+}
+
+void CachedTTFFont::cache_glyphs()
+{
+    for(int ch = 0; ch < 128; ch++) {
+        for(int color = 0; color < 16; color++) {
+            glyph_cache[ch][color] = create_glyph(ch, color);
+        }
+    }
 }
 
 void CachedTTFFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
 
-    bool created = false;
+    bool created = (t >= 0x80);
     SDL_Texture * glyph;
-    int height = 0;
-    if(t < 0x80) {
-        glyph = glyph_cache[t][color];
-        height = glyph_height[t];
+    if (created) {
+        glyph = create_glyph(t, color);
     } else {
-        //create the texture instead
-        SDL_Surface *sglyph = (fontblending ? TTF_RenderGlyph_Blended
-            : TTF_RenderGlyph_Solid) (font, t, windowsPalette[color]);
-        glyph = SDL_CreateTextureFromSurface(renderer,sglyph);
-        height = sglyph->h;
-        SDL_FreeSurface(sglyph);
-        created = true;
+        glyph = glyph_cache[t][color];
     }
-
-    if(glyph) {
-        int minx = 0, miny = 0, maxy = 0, dx = 0, dy = 0;
-        if( 0 == TTF_GlyphMetrics(font, t, &minx, NULL, &miny, &maxy, NULL))
-        {
-            dx = minx;
-            dy = TTF_FontAscent(font) - maxy + ttf_height_hack;
-            SDL_Rect rect;
-            rect.x = x + dx;
-            rect.y = y + dy;
-            //these are not fontwidth/fontheight...
-            rect.w = fontwidth;
-            rect.h = height;
-            SDL_RenderCopy(renderer,glyph,NULL,&rect);
-        }
-        if(created) {
-            SDL_DestroyTexture(glyph);
-        }
+    if (glyph == NULL) {
+        // Nothing we can do here )-:
+        return;
+    }
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = fontwidth;
+    rect.h = fontheight;
+    SDL_RenderCopy(renderer, glyph, NULL, &rect);
+    if (created) {
+        SDL_DestroyTexture(glyph);
     }
 }
 
@@ -1477,7 +1505,6 @@ void BitmapFont::load_font(const std::string &typeface)
 CachedTTFFont::CachedTTFFont(int w, int h)
 : Font(w, h)
 , font(NULL)
-, ttf_height_hack(0)
 {
     memset(glyph_cache, 0x00, sizeof(glyph_cache));
 }
@@ -1510,16 +1537,19 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
     const std::string sysfnt = find_system_font(typeface, faceIndex);
     if (!sysfnt.empty()) {
         typeface = sysfnt;
+        DebugLog() << "Using font [" + typeface + "].\n" ;
     }
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
         typeface = "data/font/" + typeface + ".ttf";
+        DebugLog() << "Using compatible font [" + typeface + "].\n" ;
     }
     //different default font with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
         typeface = "data/font/fixedsys.ttf";
+        DebugLog() << "Using fallback font [" + typeface + "].\n" ;
     }
     DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
     if(fontsize <= 0) {
