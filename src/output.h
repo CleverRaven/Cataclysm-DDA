@@ -151,4 +151,18 @@ void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);
 
+/** Get the width in font glyphs of the drawing screen.
+ *
+ *  May differ from OPTIONS["TERMINAL_X"], for instance in
+ *  SDL FULLSCREEN mode, the user setting is overridden.
+ */
+int get_terminal_width();
+
+/** Get the height in font glyphs of the drawing screen.
+ *
+ *  May differ from OPTIONS["TERMINAL_Y"], for instance in
+ *  SDL FULLSCREEN mode, the user setting is overridden.
+ */
+int get_terminal_height();
+
 #endif
