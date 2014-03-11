@@ -957,7 +957,7 @@ bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pd
         return false;
 
     // if the player is not carrying a PDA then he cannot see the vehicle.
-    if (require_pda && !g->u.has_amount("pda", 1))
+    if (require_pda && !g->u.has_pda())
         return false;
 
     for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();

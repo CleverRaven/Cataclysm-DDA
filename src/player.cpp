@@ -175,6 +175,7 @@ player::player() : Character(), name("")
   temp_conv[i] = BODYTEMP_NORM;
  }
  nv_cached = false;
+ pda_cached = false;
  volume = 0;
 
  memorial_log.clear();
@@ -302,6 +303,7 @@ player& player::operator= (const player & rhs)
  addictions = rhs.addictions;
 
  nv_cached = false;
+ pda_cached = false;
 
  return (*this);
 }
@@ -477,6 +479,7 @@ void player::reset_stats()
         update_mental_focus();
     }
     nv_cached = false;
+    pda_cached = false;
 
     recalc_sight_limits();
     recalc_speed_bonus();
@@ -493,6 +496,7 @@ void player::reset_stats()
 void player::action_taken()
 {
     nv_cached = false;
+    pda_cached = false;
 }
 
 void player::update_morale()
@@ -3715,6 +3719,17 @@ bool player::has_nv()
     }
 
     return nv;
+}
+
+bool player::has_pda()
+{
+    static bool pda = false;
+    if ( !pda_cached ) {
+      pda_cached = true;
+      pda = has_amount("pda", 1);
+    }
+
+    return pda;
 }
 
 void player::pause()
