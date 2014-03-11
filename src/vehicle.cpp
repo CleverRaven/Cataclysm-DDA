@@ -1271,13 +1271,15 @@ void vehicle::remove_part (int p)
 void vehicle::part_removal_cleanup() {
     bool changed = false;
     // Erase backwards to preserve indices.
-    for ( size_t i = parts.size() - 1; i > 0; --i ) {
-        if ( parts[i].removed ) {
-            changed = true;
-            parts.erase(parts.begin() + i);
-        }
+    if (parts.size() > 0) {
+      for ( size_t i = parts.size() - 1; i > 0; --i ) {
+          if ( parts[i].removed ) {
+              changed = true;
+              parts.erase(parts.begin() + i);
+          }
+      }
     }
-    if (changed) {
+    if (changed || parts.size() == 0) {
         refresh();
         if(parts.size() == 0) {
             g->m.destroy_vehicle(this);
@@ -4016,5 +4018,3 @@ float get_collision_factor(float delta_v)
         return 0.1;
     }
 }
-
-
