@@ -372,8 +372,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
  */
 void vehicle::smash() {
     for (int part_index = 0; part_index < parts.size(); part_index++) {
-        //Skip any parts already mashed up
-        if(parts[part_index].hp == 0) {
+        //Skip any parts already mashed up or removed.
+        if(parts[part_index].hp == 0 || parts[part_index].removed) {
             continue;
         }
 
@@ -762,11 +762,12 @@ void vehicle::honk_horn()
 vpart_info& vehicle::part_info (int index)
 {
     if (index >= 0 && index < parts.size()) {
-        return vehicle_part_int_types[parts[index].iid];
-        // slow autovivication // vehicle_part_types[parts[index].id];
-    } else {
-        return vehicle_part_int_types[0];//"null"];
+        if (!parts[index].removed) {
+            return vehicle_part_int_types[parts[index].iid];
+            // slow autovivication // vehicle_part_types[parts[index].id];
+        }
     }
+    return vehicle_part_int_types[0];//"null"];
 }
 
 // engines & alternators all have power.
@@ -1199,6 +1200,10 @@ void vehicle::remove_part (int p)
         debugmsg("Tried to remove part %d but only %d parts!", p, parts.size());
         return;
     }
+    if (parts[p].removed) {
+        // Part already removed.
+        return;
+    }
     if (part_flag(p, "TRACK")) {
         // disable tracking if there are no other trackers installed.
         if (tracking_on)
@@ -1258,13 +1263,29 @@ void vehicle::remove_part (int p)
     for (int i = 0; i < parts[p].items.size(); i++) {
         g->m.add_item_or_charges(dx + rng(-3, +3), dy + rng(-3, +3), parts[p].items[i]);
     }
-    parts.erase(parts.begin() + p);
+    parts[p].removed = true;
+    g->m.dirty_vehicle_list.insert(this);
     refresh();
+}
 
-    if(parts.size() == 0) {
-        g->m.destroy_vehicle(this);
-    } else {
-        g->m.update_vehicle_cache(this, false);
+void vehicle::part_removal_cleanup() {
+    bool changed = false;
+    // Erase backwards to preserve indices.
+    if (parts.size() > 0) {
+      for ( size_t i = parts.size() - 1; i > 0; --i ) {
+          if ( parts[i].removed ) {
+              changed = true;
+              parts.erase(parts.begin() + i);
+          }
+      }
+    }
+    if (changed || parts.size() == 0) {
+        refresh();
+        if(parts.size() == 0) {
+            g->m.destroy_vehicle(this);
+        } else {
+            g->m.update_vehicle_cache(this, false);
+        }
     }
 }
 
@@ -1308,7 +1329,7 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
     if ( use_cache == false ) {
         std::vector<int> res;
         for (int i = 0; i < parts.size(); i++) {
-            if (parts[i].mount_dx == dx && parts[i].mount_dy == dy) {
+            if (parts[i].mount_dx == dx && parts[i].mount_dy == dy && !parts[i].removed) {
                 res.push_back (i);
             }
         }
@@ -1402,7 +1423,7 @@ std::vector<int> vehicle::all_parts_at_location(const std::string& location)
 {
     std::vector<int> parts_found;
     for( size_t part_index = 0; part_index < parts.size(); ++part_index ) {
-        if(part_info(part_index).location == location) {
+        if(part_info(part_index).location == location && !parts[part_index].removed) {
             parts_found.push_back(part_index);
         }
     }
@@ -1411,7 +1432,7 @@ std::vector<int> vehicle::all_parts_at_location(const std::string& location)
 
 bool vehicle::part_flag (int part, const std::string &flag)
 {
-    if (part < 0 || part >= parts.size()) {
+    if (part < 0 || part >= parts.size() || parts[part].removed) {
         return false;
     } else {
         return part_info(part).has_flag(flag);
@@ -1419,7 +1440,7 @@ bool vehicle::part_flag (int part, const std::string &flag)
 }
 
 bool vehicle::part_flag( int part, const vpart_bitflags &flag) {
-   if (part < 0 || part >= parts.size()) {
+   if (part < 0 || part >= parts.size() || parts[part].removed) {
         return false;
     } else {
         return part_info(part).has_flag(flag);
@@ -1429,7 +1450,7 @@ bool vehicle::part_flag( int part, const vpart_bitflags &flag) {
 int vehicle::part_at(int dx, int dy)
 {
     for (int p = 0; p < parts.size(); p++) {
-        if (parts[p].precalc_dx[0] == dx && parts[p].precalc_dy[0] == dy) {
+        if (parts[p].precalc_dx[0] == dx && parts[p].precalc_dy[0] == dy && !parts[p].removed) {
             return p;
         }
     }
@@ -1450,11 +1471,15 @@ int vehicle::global_part_at(int x, int y)
  * @param part The part to find.
  * @return The part index, -1 if it is not part of this vehicle.
  */
-int vehicle::index_of_part(vehicle_part *part)
+int vehicle::index_of_part(vehicle_part *part, bool check_removed)
 {
   if(part != NULL) {
     for( size_t index = 0; index < parts.size(); ++index ) {
+      // @note Doesn't this have a bunch of copy overhead?
       vehicle_part next_part = parts[index];
+      if (!check_removed && next_part.removed) {
+        continue;
+      }
       if(part->id == next_part.id &&
               part->mount_dx == next_part.mount_dx &&
               part->mount_dy == next_part.mount_dy &&
@@ -1495,7 +1520,7 @@ int vehicle::part_displayed_at(int local_x, int local_y)
 
 char vehicle::part_sym (int p)
 {
-    if (p < 0 || p >= parts.size()) {
+    if (p < 0 || p >= parts.size() || parts[p].removed) {
         return ' ';
     }
 
@@ -1551,6 +1576,9 @@ nc_color vehicle::part_color (int p)
 
         int displayed_part = part_displayed_at(parts[p].mount_dx, parts[p].mount_dy);
 
+        if (displayed_part < 0 || displayed_part >= parts.size()) {
+            return c_black;
+        }
         if (parts[displayed_part].blood > 200) {
             col = c_red;
         } else if (parts[displayed_part].blood > 0) {
@@ -1794,6 +1822,9 @@ int vehicle::total_mass()
     int m = 0;
     for (int i = 0; i < parts.size(); i++)
     {
+        if (parts[i].removed) {
+          continue;
+        }
         m += itypes[part_info(i).item]->weight;
         for (int j = 0; j < parts[i].items.size(); j++) {
             m += parts[i].items[j].type->weight;
@@ -1811,6 +1842,9 @@ void vehicle::center_of_mass(int &x, int &y)
     int m_total = total_mass();
     for (int i = 0; i < parts.size(); i++)
     {
+        if (parts[i].removed) {
+          continue;
+        }
         int m_part = 0;
         m_part += itypes[part_info(i).item]->weight;
         for (int j = 0; j < parts[i].items.size(); j++) {
@@ -1920,7 +1954,7 @@ int vehicle::total_power (bool fueled)
     int part_under_player;
     g->m.veh_at(g->u.posx, g->u.posy, part_under_player);
     bool player_controlling = player_in_control(&(g->u));
-    for (int p = 0; p < parts.size(); p++)
+    for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, VPFLAG_ENGINE) &&
             (fuel_left (part_info(p).fuel_type) || !fueled ||
              ((part_info(p).fuel_type == fuel_type_muscle) && player_controlling &&
@@ -1935,6 +1969,7 @@ int vehicle::total_power (bool fueled)
         {
             pwr += part_power(p); // alternators have negative power
         }
+    }
     if (cnt > 1) {
         pwr = pwr * 4 / (4 + cnt -1);
     }
@@ -1971,7 +2006,7 @@ int vehicle::safe_velocity (bool fueled)
 {
     int pwrs = 0;
     int cnt = 0;
-    for (int p = 0; p < parts.size(); p++)
+    for (int p = 0; p < parts.size(); p++) {
         if (part_flag(p, VPFLAG_ENGINE) &&
             (fuel_left (part_info(p).fuel_type) || !fueled ||
              part_info(p).fuel_type == fuel_type_muscle) &&
@@ -1992,6 +2027,7 @@ int vehicle::safe_velocity (bool fueled)
         {
             pwrs += part_power(p); // alternator parts have negative power
         }
+    }
     if (cnt > 0) {
         pwrs = pwrs * 4 / (4 + cnt -1);
     }
@@ -2166,6 +2202,9 @@ bool vehicle::valid_wheel_config ()
     float wo = 0, w2;
     for (int p = 0; p < parts.size(); p++)
     { // lets find vehicle's center of masses
+        if (parts[p].removed) {
+          continue;
+        }
         w2 = itypes[part_info(p).item]->weight;
         if (w2 < 1)
             continue;
@@ -3234,6 +3273,9 @@ void vehicle::gain_moves()
     // check for smoking parts
     for (int p = 0; p < parts.size(); p++)
     {
+        if (parts[p].removed) {
+          continue;
+        }
         int part_x = global_x() + parts[p].precalc_dx[0];
         int part_y = global_y() + parts[p].precalc_dy[0];
 
@@ -3363,7 +3405,9 @@ void vehicle::find_parts () {
         if ( relative_parts.find(p) == relative_parts.end() ) {
             relative_parts[p].clear();
         }
-        relative_parts[p].push_back(i);
+        if (!parts[i].removed) {
+          relative_parts[p].push_back(i);
+        }
     }
     parts_dirty = false;
 }
@@ -3386,7 +3430,7 @@ void vehicle::find_exhaust ()
     exhaust_dx = parts[en].mount_dx;
     for (int p = 0; p < parts.size(); p++) {
         if (parts[p].mount_dy == exhaust_dy &&
-            parts[p].mount_dx < exhaust_dx) {
+            parts[p].mount_dx < exhaust_dx && !parts[p].removed) {
             exhaust_dx = parts[p].mount_dx;
         }
     }
@@ -3431,6 +3475,9 @@ void vehicle::refresh_insides ()
 {
     insides_dirty = false;
     for (int p = 0; p < parts.size(); p++) {
+        if (parts[p].removed) {
+          continue;
+        }
         /* If there's no roof, or there is a roof but it's broken, it's outside.
          * (Use short-circuiting && so broken frames don't screw this up) */
         if ( !(part_with_feature(p, "ROOF") >= 0 && parts[p].hp > 0) ) {
@@ -3497,6 +3544,10 @@ int vehicle::damage (int p, int dmg, int type, bool aimed)
     }
 
     std::vector<int> pl = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
+    if (pl.empty()) {
+      // We ran out of non removed parts at this location already.
+      return dmg;
+    }
     if (!aimed)
     {
         bool found_obs = false;
@@ -3885,6 +3936,9 @@ void vehicle::open_or_close(int part_index, bool opening)
      * This is a tighter restriction than just looking for other Multisquare
      * Openable parts, and stops trunks from opening side doors and the like. */
     for( size_t next_index = 0; next_index < parts.size(); ++next_index ) {
+      if (parts[next_index].removed) {
+        continue;
+      }
       //Look for parts 1 square off in any cardinal direction
       int xdiff = parts[next_index].mount_dx - parts[part_index].mount_dx;
       int ydiff = parts[next_index].mount_dy - parts[part_index].mount_dy;
@@ -3964,5 +4018,3 @@ float get_collision_factor(float delta_v)
         return 0.1;
     }
 }
-
-
