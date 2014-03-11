@@ -187,6 +187,7 @@ public:
  bool avoid_trap(trap *tr);
 
  bool has_nv();
+ bool has_pda();
 
  /**
   * Check if this creature can see the square at (x,y).
@@ -580,6 +581,7 @@ public:
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;
+ bool pda_cached;
 
  // Drench cache
  std::map<int, std::map<std::string, int> > mMutDrench;
