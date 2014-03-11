@@ -195,13 +195,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -220,13 +218,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -245,13 +241,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -270,13 +264,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -295,13 +287,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -320,13 +310,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -345,13 +333,11 @@
   "time": 600,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -370,13 +356,11 @@
   "time": 600,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -395,13 +379,11 @@
   "time": 600,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -420,13 +402,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -445,13 +425,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -473,13 +451,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -498,13 +474,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -523,13 +497,11 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -1128,16 +1100,9 @@
   "reversible": true,
   "decomp_learn": 1,
   "autolearn": true,
-  "tools": [
-      [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-      ]
-      ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "components": [
     [
       [ "duct_tape", 50 ]
     ],
@@ -1155,13 +1120,9 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "scrap", -1]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "rag", 1 ],
       [ "duct_tape", 50 ],
@@ -1228,13 +1189,9 @@
   "time": 100000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "scrap", -1]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "rebar", 1 ]
     ]
@@ -1394,7 +1351,9 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -1460,14 +1419,9 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-      [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-      ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["hacksaw", -1]
       ],
@@ -1612,16 +1566,9 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "components": [
     [
       [ "2x4", 1 ],
       [ "stick", 1 ]
@@ -1665,7 +1612,9 @@
   "time": 100000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -1701,14 +1650,9 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-      [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-      ],
+  "qualities":[
+  {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       [ "boltcutters", -1 ],
       [ "toolset", -1 ]
@@ -1732,16 +1676,9 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "components": [
     [
       [ "bat", 1 ]
     ],
@@ -1943,18 +1880,12 @@
   "autolearn": false,
   "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1},
+	{"id":"HAMMER","level":1,"amount":2}
   ],
   "tools": [
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -2192,7 +2123,9 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ],
@@ -2204,14 +2137,7 @@
       [ "toolset", -1 ],
       [ "small_repairkit", -1 ],
       [ "large_repairkit", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -2575,16 +2501,11 @@
   "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [["book_icef", 3] , ["textbook_mechanics", 3] , ["textbook_carpentry", 3]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -2807,7 +2728,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "textbook_mechanics", 4 ] , [ "recipe_melee", 5 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
@@ -2817,13 +2740,6 @@
     ],
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -3040,16 +2956,9 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-        ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "rock", 1 ]
     ]
@@ -3143,16 +3052,11 @@
   "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ]],
-  "tools" : [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools" : [
     [
       [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -3174,16 +3078,9 @@
   "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2] , [ "book_archery", 2]],
-  "tools" : [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components" : [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components" : [
     [
       [ "steel_chunk", 1 ],
       [ "scrap", 3 ]
@@ -3250,16 +3147,8 @@
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools" : [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
+    {"id":"CUT","level":1,"amount":1},
+	{"id":"HAMMER","level":1,"amount":1}
   ],
   "components" : [
     [
@@ -3424,18 +3313,13 @@
   "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
-  "tools" : [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools" : [
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -3538,20 +3422,14 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 4 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "tools" : [
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -3614,17 +3492,12 @@
   "reversible" : false,
   "autolearn" : false,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
-  "tools" : [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools" : [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
     ],
     [
       [ "screwdriver", -1 ],
@@ -3801,18 +3674,13 @@
   "decomp_learn": 3,
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "needle_bone", 8 ],
       [ "needle_wood", 8 ],
       [ "sewing_kit", 8 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
     ]
   ],
   "components": [
@@ -3859,17 +3727,12 @@
   "reversible": false,
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
         ["hacksaw", -1],
         ["toolset", -1]
-    ],
-    [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
     ]
   ],
   "components": [
@@ -3925,18 +3788,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools" : [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-        ]
-  ],
-  "components": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
@@ -3957,17 +3811,12 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
         ["hacksaw", -1],
         ["toolset", -1]
-    ],
-    [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
     ]
   ],
   "components": [
@@ -7503,13 +7352,9 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "irradiated_orange", 2 ],
       [ "orange", 2 ]
@@ -7529,13 +7374,9 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "toolset", 1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "irradiated_apple", 3 ],
       [ "apple", 3 ]
@@ -7551,13 +7392,9 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "toolset", 1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "irradiated_lemon", 2 ],
       [ "lemon", 2 ]
@@ -9843,19 +9680,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
     ],
     [
       [ "pot", -1 ],
@@ -12722,16 +12554,11 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hacksaw", -1 ], [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
     ]
   ],
   "components": [
@@ -13475,16 +13302,9 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "scrap", 6 ]
     ],
@@ -14271,18 +14091,15 @@
   "autolearn": false,
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
     ],
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -14312,18 +14129,15 @@
   "autolearn": false,
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
     ],
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -14353,18 +14167,15 @@
   "autolearn": false,
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
     ],
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -14394,18 +14205,15 @@
   "autolearn": false,
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 6 ]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
     ],
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -16571,14 +16379,9 @@
   "time": 24000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "needle_bone", 10 ],
       [ "needle_wood", 10 ],
@@ -16670,16 +16473,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["recipe_melee", 3]],
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "string_36", 1 ],
       [ "string_6", 4 ]
@@ -16700,16 +16496,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_armwest", 4] , ["recipe_melee", 4]],
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "string_36", 4 ],
       [ "string_6", 16 ]
@@ -18247,16 +18036,9 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "stick", 1 ],
       [ "2x4", 1 ]
@@ -18318,16 +18100,9 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
@@ -18432,16 +18207,9 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "rock", 3 ]
     ],
@@ -18463,16 +18231,9 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "stick", 1 ],
       [ "2x4", 1 ]
@@ -18499,16 +18260,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "stick", 1 ],
       [ "2x4", 1 ]
@@ -18892,14 +18646,9 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hacksaw", -1 ],
       [ "toolset", -1 ]
@@ -18927,16 +18676,11 @@
   "reversible": true,
   "decomp_learn": 3,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -19020,16 +18764,11 @@
   "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -19073,16 +18812,11 @@
   "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -19131,14 +18865,9 @@
   "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "wrench", -1 ],
       [ "toolset", -1 ]
@@ -19181,16 +18910,11 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -19229,16 +18953,9 @@
   "reversible": true,
   "decomp_learn": 1,
   "autolearn": true,
-  "tools": [
-      [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-      ]
-      ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "2x4", 6 ]
     ],
@@ -19472,16 +19189,11 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ]
   ],
@@ -19507,14 +19219,9 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "goggles_welding", -1 ]
     ],
@@ -19634,16 +19341,11 @@
   "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 5] , ["textbook_mechanics", 3] , ["manual_mechanics", 3]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -19831,14 +19533,12 @@
   "time": 8000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "boltcutters", -1 ],
       [ "toolset", -1 ]
-    ],
-    [
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ]
     ]
   ],
   "components": [
@@ -19972,16 +19672,9 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "steel_chunk", 2 ],
       [ "scrap", 5 ]
@@ -19996,16 +19689,9 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "broadsword", 1 ],
       [ "machete", 1 ]
@@ -20021,16 +19707,9 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "steel_chunk", 2 ],
       [ "scrap", 6 ]
@@ -20290,16 +19969,9 @@
   "time": 6000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "2x4", 5 ]
     ],
@@ -20451,16 +20123,9 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ]
@@ -20475,16 +20140,9 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "scrap", 1 ]
     ]
@@ -20572,16 +20230,9 @@
   "time": 2500,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "2x4", 3 ]
     ],
@@ -20768,16 +20419,9 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "sheet_metal", 1 ]
     ]
@@ -20792,14 +20436,9 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "goggles_welding", -1 ]
     ],
@@ -20824,14 +20463,9 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "goggles_welding", -1 ]
     ],
@@ -21931,16 +21565,9 @@
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools" : [
-    [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       ["sword_wood", 1]
     ],
@@ -22452,15 +22079,14 @@
   "time": 2000,
   "reversible": true,
   "autolearn": false,
-  "tools": [
-    [
-      ["hammer", -1],
-      ["toolset", -1]
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
+      [
+        ["screwdriver", -1],
+        ["toolset", -1]
+      ]
     ],
-    [
-      ["screwdriver", -1]
-    ]
-  ],
   "components": [
     [
       ["gold_small", 800]
@@ -22476,11 +22102,9 @@
     "time": 2000,
     "reversible": true,
     "autolearn": false,
-    "tools": [
-      [
-        ["hammer", -1],
-        ["toolset", -1]
-      ],
+    "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
       [
         ["screwdriver", -1],
         ["toolset", -1]
@@ -22782,14 +22406,9 @@
   "time": 36000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
-    ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       ["hacksaw", -1], ["toolset", -1]
     ]
@@ -23020,9 +22639,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["atomic_survival", 1] , ["textbook_survival", 1] , ["cookbook", 3]],
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
-  "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6] ] ]
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6] ] ]
 },{
         "type" : "recipe",
   "result": "welder_crude",
@@ -23035,9 +22654,9 @@
   "decomp_learn": 2,
   "autolearn": false,
   "book_learn": [["manual_mechanics", 3] , ["textbook_mechanics", 2] , ["welding_book", 1]],
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
-  "components": [ [ ["element", 3] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [ [ ["element", 3] ],
     [ ["scrap", 2] ],
     [ ["cable", 8] ] ]
 },{
@@ -23085,10 +22704,9 @@
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools": [
-    [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ],
-  "components": [ [ ["pot", 1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [ [ ["pot", 1] ],
     [ ["hose", 2] ],
     [ ["metal_tank", 1] ] ]
 },{
@@ -23516,10 +23134,9 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
-    [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1],
-    ["toolset", -1] ] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [ [ ["hacksaw", -1], ["toolset", -1] ] ],
   "components": [ [ ["rag", 4] ],
     [ ["scrap", 4] ] ]
 },{
@@ -23551,16 +23168,9 @@
 "qualities":[
     {"id":"CUT","level":1,"amount":1}
     ],
-  "tools": [
-    [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "string_36", 4 ]
     ],
@@ -23584,10 +23194,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_melee", 1 ] , ["textbook_weapeast", 7]],
-  "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
-    [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1],
-    ["toolset", -1] ] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [ [ ["hacksaw", -1], ["toolset", -1] ] ],
   "components": [ [ ["leather", 4] ],
     [ ["scrap", 8] ] ]
 },{
@@ -23788,8 +23397,9 @@
   "decomp_learn": 4,
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
       [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -23832,8 +23442,9 @@
   "reversible": true,
   "note": "hacking the anvil back down seems unlikely to teach anything useful",
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
       [
       ["crucible", -1]
       ],
@@ -23856,8 +23467,9 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
       [
       [ "forge", 100],
       [ "char_forge", 20]
@@ -23882,8 +23494,9 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
       [
       ["anvil", -1]
       ],
@@ -23913,8 +23526,9 @@
   "note": "melting the chisel back down seems unlikely to teach anything useful",
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -23946,8 +23560,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -23981,8 +23596,9 @@
   "time": 120000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [ 
       [
       ["tongs", -1]
       ],
@@ -24022,7 +23638,9 @@
   "time": 180000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [ ["tongs", -1]  ],
     [ ["chisel", -1] ],
     [ ["swage", -1]  ],
@@ -24045,7 +23663,9 @@
   "time": 300000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [ 
       [
       ["tongs", -1]
       ],
@@ -24085,7 +23705,9 @@
   "time": 360000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -24128,7 +23750,9 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -24168,7 +23792,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -24208,7 +23834,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -24247,7 +23875,9 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -24282,9 +23912,10 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":2}
+  ], 
+  "tools": [
       [
       ["tongs", -1]
       ],
@@ -24320,8 +23951,9 @@
   "time" : 30000,
   "reversible" : false,
   "autolearn" : true,
-  "tools" : [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools" : [
     [
       ["mold_plastic", -1] ],
     [
@@ -24349,7 +23981,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["chisel", -1]
       ],
@@ -24387,7 +24021,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["chisel", -1]
       ],
@@ -24424,7 +24060,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1] ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["chisel", -1]
       ],
@@ -24460,7 +24098,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -24498,7 +24138,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 6 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -24535,7 +24177,9 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [ ["tongs", -1] ],
       [ ["anvil", -1] ],
       [ ["forge", 100], ["char_forge", 20] ]
@@ -24558,7 +24202,9 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [ ["tongs", -1] ],
       [ ["chisel", -1]],
       [ ["anvil", -1] ],
@@ -24583,7 +24229,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 2 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -24640,11 +24288,9 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-     [
-      ["hammer", -1],
-      ["toolset", -1]
-     ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -24678,7 +24324,9 @@
   "time": 300000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -24715,7 +24363,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["manual_mechanics", 3] , ["manual_fabrication", 3] , ["textbook_fabrication", 4]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -24753,7 +24403,9 @@
   "time": 300000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -24789,7 +24441,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_fireman", 8 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -24825,7 +24479,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["manual_mechanics", 3] , ["manual_fabrication", 3] , ["textbook_fabrication", 4]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -24865,7 +24521,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["manual_mechanics", 4] , ["manual_fabrication", 4] , ["textbook_fabrication", 4]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -24904,7 +24562,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["manual_fabrication", 2] , ["textbook_fabrication", 3]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -24944,7 +24604,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -24983,7 +24645,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -25023,7 +24687,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 4]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -25063,7 +24729,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_fireman", 8 ] , ["textbook_fabrication", 9]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -25103,7 +24771,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -25143,7 +24813,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -25181,7 +24853,9 @@
   "time": 460000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -25219,7 +24893,9 @@
   "time": 520000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -25256,7 +24932,9 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -25313,7 +24991,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 5 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -27829,16 +27509,11 @@
   "decop_learn": 5,
   "autolearn": false,
   "book_learn": [["textbook_mechanics", 5] , ["textbook_carpentry", 5] , ["book_icef", 6]],
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -27879,7 +27554,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_carpentry", 6 ] , [ "textbook_fabrication", 7 ]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -28319,8 +27996,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
      [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -28370,8 +28048,9 @@
   "decomp_learn": 1,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 2] , ["manual_fabrication", 3] , ["cookbook", 3]],
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -28413,8 +28092,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 2] , ["manual_fabrication", 2]],
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -29472,13 +29152,9 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "rock", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
        [ "apple", 2 ],
        [ "blueberries", 2 ],
@@ -29619,15 +29295,12 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
     [
       [ "toolset", -1 ],
       [ "saw", -1 ]
-    ],
-    [
-      [ "toolset", -1 ],
-      [ "hammer", -1 ],
-      [ "primitive_hammer", -1 ]
     ],
     [
       ["goggles_welding", -1]
@@ -29659,7 +29332,9 @@
   "time": 420000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":2}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -30482,16 +30157,9 @@
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools" : [
-    [
-      ["rock", -1],
-      ["primitive_hammer", -1],
-      ["hammer", -1],
-      ["hatchet", -1],
-      ["toolset", -1]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
     [
       [ "rope_30", 1 ],
       [ "rope_6", 5 ]
@@ -30511,8 +30179,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 5] , ["manual_fabrication", 5], ["manual_carpentry", 5], ["textbook_carpentry", 4]],
-  "tools": [ [ ["rock", -1], ["primitive_hammer", -1],
-    ["hammer", -1], ["hatchet", -1], ["toolset", -1] ] ,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -30801,16 +30470,9 @@
     "time": 1000,
     "reversible": true,
     "autolearn": true,
-    "tools": [
-      [
-        [ "rock", -1 ],
-        [ "primitive_hammer", -1 ],
-        [ "hammer", -1 ],
-        [ "hatchet", -1 ],
-        [ "toolset", -1 ]
-      ]
-    ],
-    "components": [
+    "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
       [
         [ "nail", 1 ]
       ]

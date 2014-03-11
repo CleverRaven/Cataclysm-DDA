@@ -3,5 +3,9 @@
         "type" : "tool_quality",
         "id" : "CUT",
         "name" : "cutting quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "HAMMER",
+        "name" : "hammering quality"
     }
 ]

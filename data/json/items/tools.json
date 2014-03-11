@@ -238,7 +238,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "HAMMER"
+    "use_action": "HAMMER",
+	"qualities": [["HAMMER", 2]]
   },
 
   {
@@ -5005,7 +5006,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "HAMMER"
+    "use_action": "HAMMER",
+	"qualities": [["HAMMER", 2]]
   },
 
   {

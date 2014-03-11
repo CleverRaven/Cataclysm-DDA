@@ -656,7 +656,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "category" : "weapons",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["HAMMER", 2]]
   },
 
   {
@@ -1587,9 +1587,7 @@
     "bashing": 7,
     "cutting": 0,
     "to_hit": -2,
-    "tool": [
-        ["HAMMER", 1]
-    ]
+    "qualities": [["HAMMER", 1]]
   },
   {
     "type":"GENERIC",
@@ -1619,10 +1617,7 @@
     "volume": 1,
     "bashing": 7,
     "cutting": 0,
-    "to_hit": 2,
-    "tool": [
-        ["HAMMER", 1]
-    ]
+    "to_hit": 2
   },
   {
     "type":"GENERIC",
@@ -1812,7 +1807,8 @@
         "volume" : 10,
         "bashing" : 36,
         "cutting" : 0,
-        "price" : 12000
+        "price" : 12000,
+		"qualities": [["HAMMER", 2]]
     },
     {
         "type":"GENERIC",
@@ -1828,7 +1824,8 @@
         "volume" : 5,
         "bashing" : 30,
         "cutting" : 0,
-        "price" : 16000
+        "price" : 16000,
+		"qualities": [["HAMMER", 2]]
     },
     {
         "type":"GENERIC",
