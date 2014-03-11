@@ -59,6 +59,7 @@ void game::init_morale()
     _("Marloss Bliss"),
     _("Mutagenic Anticipation"),
     _("Good Feeling"),
+    _("Supported"),
 
     _("Nicotine Craving"),
     _("Caffeine Craving"),
