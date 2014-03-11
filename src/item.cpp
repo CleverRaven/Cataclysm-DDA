@@ -1355,7 +1355,7 @@ int item::damage_cut() const
                 return contents[i].type->melee_cut;
         }
     }
-    if(is_null())
+    if( is_null() )
         return 0;
     total -= total * (damage * 0.1);
       if (total > 0) {
