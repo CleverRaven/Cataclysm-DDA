@@ -2520,7 +2520,8 @@ bool game::handle_action()
                     //TODO: Add weapon range check. This requires weapon to be reloaded.
 
                     act = ACTION_FIRE;
-                } else if (m.close_door(mx, my, !m.is_outside(mx, my), true)) {
+                } else if (std::abs(mx - u.posx) <= 1 && std::abs(my - u.posy) <= 1 && m.close_door(mx, my, !m.is_outside(u.posx, u.posy), true)) {
+                    // Can only close doors when adjacent to it.
                     act = ACTION_CLOSE;
                 } else {
                     int dx = abs(u.posx - mx);
@@ -2893,11 +2894,6 @@ bool game::handle_action()
 
   case ACTION_WAIT:
    wait();
-   if (veh_ctrl) {
-    veh->turret_mode++;
-    if (veh->turret_mode > 1)
-     veh->turret_mode = 0;
-   }
    break;
 
   case ACTION_CRAFT:
@@ -2929,14 +2925,9 @@ bool game::handle_action()
    break;
 
   case ACTION_SLEEP:
-    if (veh_ctrl)
-    {
-        add_msg(_("Vehicle control has moved, %s"),
-        press_x(ACTION_CONTROL_VEHICLE, _("new binding is "), _("new default binding is '^'.")).c_str());
-
-    }
-    else
-    {
+    if (veh_ctrl) {
+        veh->cycle_turret_mode();
+    } else {
         uimenu as_m;
         as_m.text = _("Are you sure you want to sleep?");
         as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS["FORCE_CAPITAL_YN"]?'Y':'y'), _("Yes.")) );
@@ -4870,10 +4861,10 @@ void game::draw_ter(int posx, int posy)
             POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
 
+    wrefresh(w_terrain);
     if(u.controlling_vehicle) {
       draw_veh_dir_indicator();
     }
-    wrefresh(w_terrain);
 
     if (u.has_disease("visuals") || (u.has_disease("hot_head") &&
             u.disease_intensity("hot_head") != 1)) {
@@ -4885,7 +4876,7 @@ void game::draw_veh_dir_indicator(void) {
   if(OPTIONS["VEHICLE_DIR_INDICATOR"]) {
     vehicle *veh = m.veh_at(u.posx, u.posy);
     if(!veh) {
-      debugmsg("game::draw_veh_dir_indicator: no vehicle!");
+      // Can happen when car crashes or player teleports (debug menu)
       return;
     }
     rl_vec2d face = veh->face_vec();
@@ -7436,25 +7427,21 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
   return refill_vehicle_part(veh, &veh.parts[part], test);
 }
 
-void game::handbrake ()
+void game::handbrake()
 {
- vehicle *veh = m.veh_at (u.posx, u.posy);
- if (!veh)
-  return;
- add_msg (_("You pull a handbrake."));
- veh->cruise_velocity = 0;
- if (veh->last_turn != 0 && rng (15, 60) * 100 < abs(veh->velocity)) {
-  veh->skidding = true;
-  add_msg (_("You lose control of %s."), veh->name.c_str());
-  veh->turn (veh->last_turn > 0? 60 : -60);
- } else if (veh->velocity < 0)
-  veh->stop();
- else {
-  veh->velocity = veh->velocity / 2 - 10*100;
-  if (veh->velocity < 0)
-      veh->stop();
- }
- u.moves = 0;
+    vehicle *veh = m.veh_at (u.posx, u.posy);
+    if (!veh)
+        return;
+    add_msg (_("You pull a handbrake."));
+    veh->cruise_velocity = 0;
+    if ( (veh->turn_dir+15) * abs(veh->velocity) > rng(180000, 300000) ) {
+        veh->start_skid(veh->turn_dir > 0? 60 : -60);
+    } else {
+        veh->velocity = veh->velocity * 4 / 5 - 25*100;
+        if (abs(veh->velocity) < 1000)
+            veh->stop();
+    }
+    u.moves = 0;
 }
 
 void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
@@ -11469,29 +11456,12 @@ void game::pldrive(int x, int y) {
         return;
     }
 
-    int thr_amount = 10 * 100;
-    if (veh->cruise_on) {
-        veh->cruise_thrust (-y * thr_amount);
-    } else {
-        veh->thrust (-y);
-    }
-    veh->turn (15 * x);
-    if (veh->skidding && veh->valid_wheel_config()) {
-        if (rng (0, veh->velocity) < u.dex_cur + u.skillLevel("driving") * 2) {
-            add_msg (_("You regain control of the %s."), veh->name.c_str());
-            u.practice(turn, "driving", veh->velocity / 5);
-            veh->velocity = int(veh->forward_velocity());
-            veh->skidding = false;
-            veh->move.init (veh->turn_dir);
-        }
-    }
+    veh->thrust( -y * 100 ); // 100 = 100%
+    veh->turn( 15 * x );
+
     // Don't spend turns to adjust cruise speed.
     if( x != 0 || !veh->cruise_on ) {
         u.moves = 0;
-    }
-
-    if (x != 0 && veh->velocity != 0 && one_in(10)) {
-        u.practice(turn, "driving", 1);
     }
 }
 
@@ -11776,17 +11746,12 @@ bool game::plmove(int dx, int dy)
               grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
               grabbed_vehicle->face = grabbed_vehicle->turn_dir;
               grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
-              int imp = 0;
-              std::vector<veh_collision> veh_veh_colls;
-              std::vector<veh_collision> veh_misc_colls;
-              bool can_move = true;
               // Set player location to illegal value so it can't collide with vehicle.
               int player_prev_x = u.posx;
               int player_prev_y = u.posy;
               u.posx = 0;
               u.posy = 0;
-              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh,
-                                              can_move, imp, true ) ) {
+              if (grabbed_vehicle->collision(dxVeh, dyVeh, true)) {
                   // TODO: figure out what we collided with.
                   add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
                   u.moves -= 10;

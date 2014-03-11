@@ -29,6 +29,7 @@ veh_interact::veh_interact ()
     sel_type = 0;
     sel_vpart_info = NULL;
     sel_vehicle_part = NULL;
+    advanced_driving_stats = false;
 
     totalDurabilityColor = c_green;
     worstDurabilityColor = c_green;
@@ -205,7 +206,6 @@ void veh_interact::allocate_windows()
     display_grid();
     display_name();
     display_stats();
-    move_cursor(0, 0); // display w_disp & w_parts
 }
 
 void veh_interact::do_main_loop()
@@ -213,7 +213,7 @@ void veh_interact::do_main_loop()
     display_grid();
     display_stats ();
     display_veh   ();
-    move_cursor (0, 0);
+    move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
         char ch = input(); // See keypress.h
@@ -251,6 +251,9 @@ void veh_interact::do_main_loop()
                     break;
                 case 'd':
                     do_drain(reason);
+                    break;
+                case 'a':
+                    advanced_driving_stats = !advanced_driving_stats;
                     break;
                 }
                 if (sel_cmd != ' ') {
@@ -472,11 +475,11 @@ void veh_interact::do_install(task_reason reason)
                                 has_skill2 ? "ltgreen" : "red",
                                 dif_eng);
         }
-        if (veh->pedals() && install_pedals) {
+        if (veh->has_pedals && install_pedals) {
             engine_string = string_format(
                                   _(" You can only install and use one set of foot pedals in your vehicle."));
         }
-        if (veh->pedals() && eng) {
+        if (veh->has_pedals && eng) {
           engine_string = string_format(
                                   _(" You can't install an engine in a vehicle that uses foot pedals."));
         }
@@ -496,7 +499,7 @@ void veh_interact::do_install(task_reason reason)
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
-             !(veh->pedals() && eng) && !(veh->pedals() && install_pedals)) {
+             !(veh->has_pedals && eng) && !(veh->has_pedals && install_pedals)) {
             sel_cmd = 'i';
             return;
         } else {
@@ -911,6 +914,20 @@ int veh_interact::part_at (int dx, int dy)
 }
 
 /**
+ * Checks to see if you can currently install this part at current position.
+ * Affects coloring in display_list() and is also used to
+ * sort can_mount so installable parts come first.
+ */
+bool veh_interact::can_currently_install(vpart_info *vpart)
+{
+    bool has_comps = crafting_inv.has_components(vpart->item, 1);
+    bool has_skill = g->u.skillLevel("mechanics") >= vpart->difficulty;
+    bool is_wheel = vpart->has_flag("WHEEL");
+    return (has_comps && (has_skill || is_wheel));
+}
+
+
+/**
  * Moves the cursor on the vehicle editing window.
  * @param dx How far to move the cursor on the x-axis.
  * @param dy How far to move the cursor on the y-axis.
@@ -957,13 +974,19 @@ void veh_interact::move_cursor (int dx, int dy)
 
     can_mount.clear();
     if (!obstruct) {
+        std::vector<vpart_info>::iterator can_mount_divider_iterator = can_mount.begin();
         for (std::map<std::string, vpart_info>::iterator
              part_type_iterator = vehicle_part_types.begin();
              part_type_iterator != vehicle_part_types.end();
              ++part_type_iterator) {
-            if (veh->can_mount (vdx, vdy, part_type_iterator->first)) {
-                can_mount.push_back (part_type_iterator->second);
-            }
+             if (veh->can_mount (vdx, vdy, part_type_iterator->first)) {
+                 vpart_info *vpart = &part_type_iterator->second;
+                 if (can_currently_install(vpart)) {
+                     can_mount.insert (can_mount_divider_iterator++, *vpart);
+                 } else {
+                     can_mount.push_back (*vpart);
+                 }
+             }
         }
     }
 
@@ -986,7 +1009,7 @@ void veh_interact::move_cursor (int dx, int dy)
     wheel = NULL;
     if (cpart >= 0) {
         parts_here = veh->parts_at_relative(veh->parts[cpart].mount_dx, veh->parts[cpart].mount_dy);
-        for (int i = 0; i < parts_here.size(); i++) {
+        for (size_t i = 0; i < parts_here.size(); i++) {
             int p = parts_here[i];
             if (veh->parts[p].hp < veh->part_info(p).durability) {
                 need_repair.push_back (i);
@@ -1063,7 +1086,7 @@ void veh_interact::display_veh ()
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
     int x, y;
-    for (int i = 0; i < structural_parts.size(); i++) {
+    for (size_t i = 0; i < structural_parts.size(); i++) {
         const int p = structural_parts[i];
         long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
@@ -1089,149 +1112,103 @@ void veh_interact::display_veh ()
     wrefresh (w_disp);
 }
 
+
 /**
  * Displays the vehicle's stats at the bottom of the window.
  */
 void veh_interact::display_stats()
 {
     const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
-    int safe_vel_x, safe_vel_y, safe_vel_w;
-    int top_vel_x, top_vel_y, top_vel_w;
-    int acc_x, acc_y, acc_w;
-    int mass_x, mass_y, mass_w;
-    int k_dyn_x, k_dyn_y, k_dyn_w;
-    int k_mass_x, k_mass_y, k_mass_w;
-    int wheels_x, wheels_y, wheels_w;
-    int fuel_use_x, fuel_use_y, fuel_ind_x, fuel_ind_y;
-    int status_x, status_y, status_w;
-    int dmg_prt_x, dmg_prt_y, dmg_prt_w;
+    int x[15], y[15], w[15]; // 3 columns * 5 rows = 15 slots
 
     if (vertical_menu) {
         // Vertical menu
         const int second_column = 34 + (extraw / 4); // 29
         const int third_column = 63 + (extraw / 2);  // 56
-        // Y-coordinates for vertical menu
-        safe_vel_y = 0;
-        top_vel_y  = safe_vel_y + 1;
-        acc_y      = top_vel_y + 1;
-        mass_y     = acc_y + 1;
-        status_y   = mass_y + 1;
-
-        fuel_use_y = 0;
-        k_dyn_y    = fuel_use_y + 1;
-        k_mass_y   = k_dyn_y + 1;
-        dmg_prt_y  = k_mass_y + 1;
-        wheels_y   = dmg_prt_y + 1;
-
-        fuel_ind_y = 0;
-
-        // X-coordinates for vertical menu
-        safe_vel_x = 1;
-        top_vel_x  = 1;
-        acc_x      = 1;
-        mass_x     = 1;
-        status_x   = 1;
-
-        fuel_use_x = second_column;
-        k_dyn_x    = second_column;
-        k_mass_x   = second_column;
-        wheels_x   = second_column;
-        dmg_prt_x  = second_column;
-
-        fuel_ind_x = third_column;
-
-        // Width for vertical menu
-        safe_vel_w = second_column;
-        top_vel_w  = second_column;
-        acc_w      = second_column;
-        mass_w     = second_column;
-        status_w   = second_column;
-
-        k_dyn_w   = third_column - second_column;
-        k_mass_w  = third_column - second_column;
-        wheels_w  = third_column - second_column;
-        dmg_prt_w = third_column - second_column;
+        for (int i = 0; i < 15; i++) {
+            if (i<5) { // First column
+                x[i] = 1;
+                y[i] = i;
+                w[i] = second_column - 2;
+            } else if (i<10) { // Second column
+                x[i] = second_column;
+                y[i] = i-5;
+                w[i] = third_column - second_column - 1;
+            } else { // Third column
+                x[i] = third_column;
+                y[i] = i-10;
+                w[i] = extraw - third_column - 2;
+            }
+        }
     } else {
-        // Y-coordinates for horizontal menu
-        safe_vel_y = 0;
-        top_vel_y  = safe_vel_y + 1;
-        acc_y      = top_vel_y + 1;
-        mass_y     = acc_y + 1;
-        k_mass_y   = mass_y + 1;
-        k_dyn_y    = k_mass_y + 1;
-        wheels_y   = k_dyn_y + 1;
-        status_y   = wheels_y + 1;
-        dmg_prt_y  = status_y + 1;
-
-        fuel_use_y = dmg_prt_y + 1;
-        fuel_ind_y = fuel_use_y + 1;
-
-        // X-coordinates for horizontal menu
-        safe_vel_x = 1;
-        top_vel_x  = 1;
-        acc_x      = 1;
-        mass_x     = 1;
-        k_dyn_x    = 1;
-        k_mass_x   = 1;
-        wheels_x   = 1;
-        fuel_use_x = 1;
-        fuel_ind_x = 1;
-        status_x   = 1;
-        dmg_prt_x  = 1;
-
-        // Width for horizontal menu
-        const int stats_w = getmaxx(w_stats);
-        safe_vel_w = stats_w - 1;
-        top_vel_w  = stats_w - 1;
-        acc_w      = stats_w - 1;
-        mass_w     = stats_w - 1;
-        k_dyn_w    = stats_w - 1;
-        k_mass_w   = stats_w - 1;
-        wheels_w   = stats_w - 1;
-        status_w   = stats_w - 1;
-        dmg_prt_w  = stats_w - 1;
+        for (int i = 0; i < 15; i++) {
+            x[i] = 1;
+            y[i] = i;
+            w[i] = stats_w - 1;
+        }
     }
     bool conf = veh->valid_wheel_config();
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
-    float speed_factor = 0.01f;
+//    float speed_factor = 0.01f;
+    std::string accel_s = "0-60 mph:  ";
+    double target_speed = 60.0 / 2.236; // m/s
     if (speed_units == "km/h") {
-        speed_factor *= 1.61f;
+//        speed_factor /= 1.61f;
+        accel_s = "0-100 km/h:";
+        target_speed = 100.0 / 3.6; // m/s
     }
+
+    vehicle_forces vf;
+    int acc_time_cur = int(1000 * veh->calculate_movement(&vf, 2.0, target_speed));
+    int acc_time_max = int(1000 * veh->calculate_movement(&vf, 3.0, target_speed));
+    int eng_watt_max = veh->power_to_epower(vf.eng_pwr_max);
+    int eng_watt_cur = veh->power_to_epower(vf.eng_pwr_cur);
+
     std::string weight_units = OPTIONS["USE_METRIC_WEIGHTS"].getValue();
     float weight_factor = 1.0f;
-    if (weight_units == "lbs") {
+    if (weight_units == "lbs")
         weight_factor *= 2.2f;
+
+    if (eng_watt_cur == eng_watt_max) {
+        fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
+                       _("Engine:            <color_ltgreen>%5d</color> kW"),
+                       eng_watt_max/1000);
+    } else {
+        fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
+                       _("Engine:     <color_red>%5d</color> /<color_ltgreen>%5d</color> kW"),
+                       eng_watt_cur/1000, eng_watt_max/1000);
     }
-    fold_and_print(w_stats, safe_vel_y, safe_vel_x, safe_vel_w, c_ltgray,
-                   _("Safe speed:   <color_ltgreen>%3d</color> %s"),
-                   int(veh->safe_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, top_vel_y, top_vel_x, top_vel_w, c_ltgray,
-                   _("Top speed:    <color_ltred>%3d</color> %s"),
-                   int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, acc_y, acc_x, acc_w, c_ltgray,
-                   _("Acceleration: <color_ltblue>%3d</color> %s/t"),
-                   int(veh->acceleration(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, mass_y, mass_x, mass_w, c_ltgray,
-                   _("Mass:       <color_ltblue>%5d</color> %s"),
+    if (acc_time_cur == acc_time_max) {
+        fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
+                       _("%s       <color_ltgreen>%5d</color> ms"),
+                       accel_s.c_str(), acc_time_max);
+    } else {
+        fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
+                       _("%s <color_red>%5d</color> /<color_ltgreen>%5d</color> ms"),
+                       accel_s.c_str(), acc_time_cur, acc_time_max);
+    }
+    fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
+                   _("Air drag:           <color_yellow>%4d</color>"),
+                   int(veh->drag_coeff * 1000));
+    fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
+                   _("Mass:              <color_ltblue>%5d</color> %s"),
                    int(veh->total_mass() * weight_factor), weight_units.c_str());
+    // Write the overall damage
+    mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:   "));
+    x[4] += utf8_width(_("Status:   ")) + 1;
+    fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText.c_str());
     if (conf) {
-        fold_and_print(w_stats, wheels_y, wheels_x, wheels_w, c_ltgray,
+        fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
                        _("Wheels:    <color_ltgreen>enough</color>"));
     } else {
-        fold_and_print(w_stats, wheels_y, wheels_x, wheels_w, c_ltgray,
+        fold_and_print(w_stats, y[9], x[9], w[9], c_ltgray,
                        _("Wheels:      <color_ltred>lack</color>"));
     }
 
-    fold_and_print(w_stats, k_dyn_y, k_dyn_x, k_dyn_w, c_ltgray,
-                   _("K dynamics:   <color_ltblue>%3d</color>%%"),
-                   int(veh->k_dynamics() * 100));
-    fold_and_print(w_stats, k_mass_y, k_mass_x, k_mass_w, c_ltgray,
-                   _("K mass:       <color_ltblue>%3d</color>%%"),
-                   int(veh->k_mass() * 100));
 
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
-    mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray,  _("Fuel usage:     "));
-    fuel_use_x += utf8_width(_("Fuel usage:     "));
+    mvwprintz(w_stats, y[5], x[5], c_ltgray,  _("Fuel usage:     "));
+    x[5] += utf8_width(_("Fuel usage:     "));
     ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
     nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
@@ -1245,43 +1222,38 @@ void veh_interact::display_stats()
                 fuel_usage = 1;
             }
             if (!first) {
-                mvwprintz(w_stats, fuel_use_y, fuel_use_x++, c_ltgray, "/");
+                mvwprintz(w_stats, y[5], x[5]++, c_ltgray, "/");
             }
-            mvwprintz(w_stats, fuel_use_y, fuel_use_x++, fuel_colors[i], "%d", fuel_usage);
+            mvwprintz(w_stats, y[5], x[5]++, fuel_colors[i], "%d", fuel_usage);
             if (fuel_usage > 9) {
-                fuel_use_x++;
+                x[5]++;
             }
             if (fuel_usage > 99) {
-                fuel_use_x++;
+                x[5]++;
             }
             first = false;
         }
         if (first) {
-            mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray, "-"); // no engines
+            mvwprintz(w_stats, y[5], x[5], c_ltgray, "-"); // no engines
         }
     }
 
     // Print fuel percentage & type name only if it fits in the window, 13 is width of "E...F 100% - "
-    veh->print_fuel_indicator (w_stats, fuel_ind_y, fuel_ind_x, true,
-                               (fuel_ind_x + 13 < stats_w),
-                               (fuel_ind_x + 13 + fuel_name_length < stats_w));
-
-    // Write the overall damage
-    mvwprintz(w_stats, status_y, status_x, c_ltgray, _("Status:  "));
-    status_x += utf8_width(_("Status: ")) + 1;
-    fold_and_print(w_stats, status_y, status_x, status_w, totalDurabilityColor, totalDurabilityText.c_str());
+    veh->print_fuel_indicator (w_stats, y[10], x[10], true,
+                               (x[10] + 13 < stats_w),
+                               (x[10] + 13 + fuel_name_length < stats_w));
 
     // Write the most damaged part
     if (mostDamagedPart != -1) {
         std::string partName;
-        mvwprintz(w_stats, dmg_prt_y, dmg_prt_x, c_ltgray, _("Most damaged: "));
-        dmg_prt_x += utf8_width(_("Most damaged: ")) + 1;
+        mvwprintz(w_stats, y[8], x[8], c_ltgray, _("Most damaged: "));
+        x[8] += utf8_width(_("Most damaged: ")) + 1;
         std::string partID = veh->parts[mostDamagedPart].id;
         vehicle_part part = veh->parts[mostDamagedPart];
         int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = vehicle_part_types[partID].name;
-        fold_and_print(w_stats, dmg_prt_y, dmg_prt_x, dmg_prt_w, damagecolor, "%s", partName.c_str());
+        fold_and_print(w_stats, y[8], x[8], w[8], damagecolor, "%s", partName.c_str());
     }
 
     wrefresh(w_stats);
@@ -1371,11 +1343,7 @@ void veh_interact::display_list(int pos, std::vector<vpart_info> list)
     int page = pos / page_size;
     for (int i = page * page_size; i < (page + 1) * page_size && i < list.size(); i++) {
         int y = i - page * page_size;
-        itype_id itm = list[i].item;
-        bool has_comps = crafting_inv.has_components(itm, 1);
-        bool has_skill = g->u.skillLevel("mechanics") >= list[i].difficulty;
-        bool is_wheel = list[i].has_flag("WHEEL");
-        nc_color col = has_comps && (has_skill || is_wheel) ? c_white : c_dkgray;
+        nc_color col = can_currently_install(&list[i]) ? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, list[i].name.c_str());
         mvwputch (w_list, y, 1, list[i].color, special_symbol(list[i].sym));
     }
@@ -1566,43 +1534,16 @@ void complete_vehicle ()
         g->consume_tools(&g->u, tools, true);
 
         partnum = veh->install_part (dx, dy, part_id);
-        if(partnum < 0) {
+        if (partnum < 0) {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+            break;  // So we don't use the illegal partnum
         }
         used_item = consume_vpart_item (part_id);
         batterycharges = used_item.charges;
         veh->get_part_properties_from_item(partnum, used_item); //transfer damage, etc.
 
         if ( vehicle_part_types[part_id].has_flag("CONE_LIGHT") ) {
-            // Need map-relative coordinates to compare to output of look_around.
-            int gx, gy;
-            // Need to call coord_translate() directly since it's a new part.
-            veh->coord_translate(dx, dy, gx, gy);
-            // Stash offset and set it to the location of the part so look_around will start there.
-            int px = g->u.view_offset_x;
-            int py = g->u.view_offset_y;
-            g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
-            g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
-            popup(_("Choose a facing direction for the new headlight."));
-            point headlight_target = g->look_around();
-            // Restore previous view offsets.
-            g->u.view_offset_x = px;
-            g->u.view_offset_y = py;
-
-            int delta_x = headlight_target.x - (veh->global_x() + gx);
-            int delta_y = headlight_target.y - (veh->global_y() + gy);
-
-            const double PI = 3.14159265358979f;
-            int dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
-            dir -= veh->face.dir();
-            while(dir < 0) {
-                dir += 360;
-            }
-            while(dir > 360) {
-                dir -= 360;
-            }
-
-            veh->parts[partnum].direction = dir;
+            veh->change_headlight_direction(partnum);
         }
 
         // Add charges if battery.
@@ -1615,7 +1556,6 @@ void complete_vehicle ()
         g->add_msg (_("You install a %s into the %s."),
                     vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
         g->u.practice (g->turn, "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20);
-        veh->find_parts();
         break;
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0) {

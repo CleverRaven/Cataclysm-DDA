@@ -202,7 +202,7 @@ class map
 
  // put player on vehicle at x,y
  void board_vehicle(int x, int y, player *p);
- void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
+ void unboard_vehicle(const int x, const int y, bool warn = true);//remove player from vehicle at x,y
  void update_vehicle_cache(vehicle *, const bool brand_new = false);
  void reset_vehicle_cache();
  void clear_vehicle_cache();
@@ -215,7 +215,7 @@ class map
 // WARNING: not checking collisions!
  bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
  void vehmove();          // Vehicle movement
- bool vehproceed();
+ bool vehproceed( vehicle *veh );
 // move water under wheels. true if moved
  bool displace_water (const int x, const int y);
 

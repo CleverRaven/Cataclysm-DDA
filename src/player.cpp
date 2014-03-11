@@ -3118,10 +3118,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
   veh->print_fuel_indicator(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
   nc_color col_indf1 = c_ltgray;
 
-  float strain = veh->strain();
-  nc_color col_vel = strain <= 0? c_ltblue :
-                     (strain <= 0.2? c_yellow :
-                     (strain <= 0.4? c_ltred : c_red));
+  nc_color col_vel = c_ltblue; // TODO: Add strain again?
 
   bool has_turrets = false;
   for (int p = 0; p < veh->parts.size(); p++) {
@@ -3405,7 +3402,7 @@ bool player::in_climate_control()
         {
             regulated_area=(
                 veh->is_inside(vpart) &&    // Already checks for opened doors
-                veh->total_power(true) > 0  // Out of gas? No AC for you!
+                veh->engine_on > 0  // No engine running? No AC for you!
             );  // TODO: (?) Force player to scrounge together an AC unit
         }
         // TODO: AC check for when building power is implemented
