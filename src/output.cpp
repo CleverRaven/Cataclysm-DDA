@@ -1231,7 +1231,6 @@ std::string vstring_format(const char *pattern, va_list argptr)
     const int required = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
     va_end(cur_argptr);
     if (required < 0) {
-        debugmsg("invalid input to string_format function!");
         return std::string("invalid input to string_format function!");
     } else if (required >= buffer_size) {
         // Did not fit the buffer, retry with better buffer size.
