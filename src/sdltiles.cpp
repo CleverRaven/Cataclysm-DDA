@@ -329,18 +329,9 @@ SDL_Texture *CachedTTFFont::create_glyph(int ch, int color)
 {
     SDL_Surface * sglyph = (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
     if (sglyph == NULL) {
-        if (g != NULL && g->debugmon) {
-            DebugLog() << "Failed to create glyph for " << std::string(1, ch) << ": " << TTF_GetError() << "\n";
-        }
+        DebugLog() << "Failed to create glyph for " << std::string(1, ch) << ": " << TTF_GetError() << "\n";
         return NULL;
     }
-    int minx = 0, maxx = 0, miny = 0, maxy = 0, advance = 0;
-    if (TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) != 0) {
-        if (g != NULL && g->debugmon) {
-            DebugLog() << "TTF_GlyphMetrics(" << std::string(1, ch) << ") failed: " << TTF_GetError() << "\n";
-        }
-    }
-
     /* SDL interprets each pixel as a 32-bit number, so our masks must depend
        on the endianness (byte order) of the machine */
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -356,31 +347,32 @@ SDL_Texture *CachedTTFFont::create_glyph(int ch, int color)
 #endif
     // Note: bits per pixel must be 8 to be synchron with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth, fontheight, 8, rmask, gmask, bmask, amask);
+    SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth, fontheight, 32, rmask, gmask, bmask, amask);
     if (surface == NULL) {
-        if (g != NULL && g->debugmon) {
-            DebugLog() << "CreateRGBSurface failed: " << SDL_GetError() << "\n";
-        }
+        DebugLog() << "CreateRGBSurface failed: " << SDL_GetError() << "\n";
         SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
         SDL_FreeSurface(sglyph);
         return glyph;
     }
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
-    SDL_Rect dst_rect;
-    // Maby we have to scale it down, if the glyph is smaller than fontwidth
-    // or fontheight, x/y will be 0, otherwise it might be > 0
-    dst_rect.x = std::max(fontwidth - sglyph->w, 0) / 2;
-    dst_rect.y = std::max(fontheight - sglyph->h, 0) / 2;
-    // Shrink if src is larger, but do not enlarge
-    dst_rect.w = std::min(fontwidth, sglyph->w);
-    dst_rect.h = std::min(fontheight, sglyph->h);
+    SDL_Rect dst_rect = { 0, 0, fontwidth, fontheight };
+    if (src_rect.w < dst_rect.w) {
+        dst_rect.x = (dst_rect.w - src_rect.w) / 2;
+        dst_rect.w = src_rect.w;
+    } else if (src_rect.w > dst_rect.w) {
+        src_rect.x = (src_rect.w - dst_rect.w) / 2;
+        src_rect.w = dst_rect.w;
+    }
+    if (src_rect.h < dst_rect.h) {
+        dst_rect.y = (dst_rect.h - src_rect.h) / 2;
+        dst_rect.h = src_rect.h;
+    } else if (src_rect.h > dst_rect.h) {
+        src_rect.y = (src_rect.h - dst_rect.h) / 2;
+        src_rect.h = dst_rect.h;
+    }
 
-    // Copy glyph and resize it (if needed) if that fails,
-    // use glyph surface directly.
-    if (SDL_BlitScaled(sglyph, &src_rect, surface, &dst_rect) != 0) {
-        if (g != NULL && g->debugmon) {
-            DebugLog() << SDL_GetError() << "\n";
-        }
+    if (SDL_BlitSurface(sglyph, &src_rect, surface, &dst_rect) != 0) {
+        DebugLog() << SDL_GetError() << "\n";
         SDL_FreeSurface(surface);
     } else {
         SDL_FreeSurface(sglyph);
