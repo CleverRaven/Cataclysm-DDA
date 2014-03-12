@@ -306,6 +306,9 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         num_shots = used_weapon->num_charges();
     }
 
+    firing->casings++;
+
+
     if (num_shots == 0) {
         debugmsg("game::fire() - num_shots = 0!");
     }

@@ -2298,6 +2298,23 @@ int item::burst_size()
     return ret;
 }
 
+int item::get_casings()
+{
+    if (!is_gun())
+        return 0;
+    it_gun* gun = dynamic_cast<it_gun*>(type);
+    int shell = gun->casings;
+    return shell;
+}
+
+void item::remove_casing(){
+    if (is_gun()) {
+        it_gun* gun = dynamic_cast<it_gun*>(type);
+        gun->casings--;
+    }
+
+}
+
 int item::recoil(bool with_ammo)
 {
     if (!is_gun())
@@ -2618,7 +2635,7 @@ bool item::reload(player &u, int pos)
    }
   if (single_load || max_load == 1) { // Only insert one cartridge!
    reload_target->charges++;
-   if (reload_target->has_flag("NO_EJECT")) {
+   if ((reload_target->has_flag("NO_EJECT")) && (reload_target->get_casings() > 0)) {
       int x = 0;
       int y = 0;
       itype_id casing_type = curammo->casing;
@@ -2629,6 +2646,7 @@ bool item::reload(player &u, int pos)
            x = u.posx - 1 + rng(0, 2);
            y = u.posy - 1 + rng(0, 2);
            g->m.add_item_or_charges(x,y,casing);
+           reload_target->remove_casing();
     }
 
    }

@@ -102,6 +102,8 @@ public:
  ammotype ammo_type() const;
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int pos);
+ int get_casings();
+ void remove_casing();
  void next_mode();
 
     using JsonSerializer::serialize;
