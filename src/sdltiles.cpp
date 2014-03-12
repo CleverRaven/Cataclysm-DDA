@@ -99,6 +99,9 @@ protected:
 
     TTF_Font* font;
     SDL_Texture *glyph_cache[128][16];
+    // Maps (character code, color) to SDL_Texture*
+    typedef std::map<std::pair<Uint16, unsigned char>, SDL_Texture *> t_glyph_map;
+    t_glyph_map glyph_cache_map;
 };
 
 /**
@@ -396,11 +399,13 @@ void CachedTTFFont::cache_glyphs()
 void CachedTTFFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
-
-    bool created = (t >= 0x80);
     SDL_Texture * glyph;
-    if (created) {
-        glyph = create_glyph(t, color);
+    if (t >= 0x80) {
+        SDL_Texture *&glyphr = glyph_cache_map[t_glyph_map::key_type(t, color)];
+        if (glyphr == NULL) {
+            glyphr = create_glyph(t, color);
+        }
+        glyph = glyphr;
     } else {
         glyph = glyph_cache[t][color];
     }
@@ -414,9 +419,6 @@ void CachedTTFFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
     rect.w = fontwidth;
     rect.h = fontheight;
     SDL_RenderCopy(renderer, glyph, NULL, &rect);
-    if (created) {
-        SDL_DestroyTexture(glyph);
-    }
 }
 
 void BitmapFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
@@ -1564,6 +1566,12 @@ void CachedTTFFont::clear()
             }
         }
     }
+    for (t_glyph_map::iterator a = glyph_cache_map.begin(); a != glyph_cache_map.end(); ++a) {
+        if (a->second != NULL) {
+            SDL_DestroyTexture(a->second);
+        }
+    }
+    glyph_cache_map.clear();
 }
 
 void CachedTTFFont::load_font(std::string typeface, int fontsize)
