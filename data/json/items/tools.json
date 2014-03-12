@@ -752,7 +752,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "qualities": [["BOIL", 1]]
   },
   {
     "id": "soldering_iron",
@@ -3714,7 +3715,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["COOK", 1]]
   },
 
   {
@@ -6067,10 +6068,9 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE"
-  },
-
-  {
+    "use_action": "NONE",
+    "qualities": [["COOK", 1]]
+    },{
     "id": "chisel",
     "type": "TOOL",
     "symbol": ";",

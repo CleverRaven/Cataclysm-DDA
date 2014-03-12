@@ -122,7 +122,8 @@
         "to_hit": 0,
         "material": "steel",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT"]
+        "flags": ["RIGID", "WATERTIGHT"],
+        "qualities": [["CONTAIN", 1]]
     },
     {
         "id": "box_small",
@@ -374,9 +375,9 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 2,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
-    },
-    {
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"],
+        "qualities": [["CONTAIN", 1]]
+    },{
         "id": "jar_3l_glass",
         "type": "CONTAINER",
         "symbol": ")",
@@ -392,7 +393,8 @@
         "to_hit": -1,
         "material": "glass",
         "contains": 12,
-        "flags": ["RIGID", "SEALS", "WATERTIGHT"]
+        "flags": ["RIGID", "SEALS", "WATERTIGHT"],
+        "qualities": [["CONTAIN", 1]]
     },
     {
         "id": "flask_hip",

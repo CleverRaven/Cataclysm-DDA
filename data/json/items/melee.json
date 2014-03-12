@@ -673,7 +673,8 @@
     "bashing": 6,
     "cutting": 0,
     "category" : "tools",
-    "to_hit": 1
+    "to_hit": 1,
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1]]
   },
 
   {
@@ -690,7 +691,8 @@
     "bashing": 10,
     "cutting": 0,
     "category" : "tools",
-    "to_hit": 2
+    "to_hit": 2,
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]]
   },
 
   {
@@ -740,7 +742,8 @@
     "volume": 2,
     "bashing": 3,
     "cutting": 0,
-    "to_hit": 2
+    "to_hit": 2,
+    "qualities": [["BOIL", 1]]
   },
 
   {
@@ -805,8 +808,9 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 0,
-    "to_hit": -1
-  },
+    "to_hit": -1,
+    "qualities": [["CONTAIN", 1]]
+    },
 
   {
     "type":"GENERIC",
@@ -1097,9 +1101,9 @@
     "volume": 0,
     "bashing": 0,
     "cutting": 0,
-    "to_hit": -10
-  },
-
+    "to_hit": -10,
+    "qualities": [["COOK", 1]]
+    },
   {
     "type":"GENERIC",
     "id": "torch_done",
@@ -1358,8 +1362,9 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 0,
-    "to_hit": 0
-  },
+    "to_hit": 0,
+    "qualities": [["CONTAIN", 1]]
+    },
 
   {
     "type":"GENERIC",
@@ -1374,8 +1379,9 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 0,
-    "to_hit": 0
-  },
+    "to_hit": 0,
+    "qualities": [["CONTAIN", 1]]
+    },
 
   {
     "type":"GENERIC",
@@ -1406,8 +1412,9 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 0,
-    "to_hit": 0
-  },
+    "to_hit": 0,
+    "qualities": [["CONTAIN", 1]]
+    },
 
   {
     "type":"GENERIC",
@@ -1422,8 +1429,9 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 0,
-    "to_hit": 0
-  },
+    "to_hit": 0,
+    "qualities": [["CONTAIN", 1]]
+    },
 
   {
     "type":"GENERIC",
@@ -1570,7 +1578,8 @@
     "volume": 10,
     "bashing": 4,
     "cutting": 0,
-    "to_hit": -1
+    "to_hit": -1,
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1]]
   },
 
   {
@@ -1679,8 +1688,9 @@
     "cutting": 10,
     "to_hit": 1,
     "flags": "SPEAR",
-    "techniques": ["WBLOCK_1"]
-  },
+    "techniques": ["WBLOCK_1"],
+    "qualities": [["COOK", 1]]
+    },
    { "type":"GENERIC",
  "id": "sword_wood",
     "symbol" : "!",
@@ -2022,7 +2032,8 @@
         "bashing" : 4,
         "cutting" : 12,
         "flags" : ["SPEAR"],
-        "price" : 4000
+        "price" : 4000,
+        "qualities": [["COOK", 1]]
     },
     {
         "type":"GENERIC",
@@ -2039,7 +2050,8 @@
         "bashing" : 6,
         "cutting" : 18,
         "flags" : ["SPEAR"],
-        "price" : 8000
+        "price" : 8000,
+        "qualities": [["COOK", 1]]
     },
     {
         "type":"GENERIC",
@@ -2204,7 +2216,8 @@
         "bashing" : 4,
         "cutting" : 9,
         "flags" : ["SPEAR"],
-        "price" : 4000
+        "price" : 4000,
+        "qualities": [["COOK", 1]]
     },
     {
         "type":"GENERIC",
@@ -2221,7 +2234,8 @@
         "bashing" : 5,
         "cutting" : 15,
         "flags" : ["SPEAR"],
-        "price" : 9000
+        "price" : 9000,
+        "qualities": [["COOK", 1]]
     },
     {
         "type":"GENERIC",
@@ -2680,7 +2694,8 @@
     "volume": 3,
     "bashing": 5,
     "cutting": 0,
-    "to_hit": -2
+    "to_hit": -2,
+    "qualities": [["BOIL", 1]]
   },
   {
     "type":"GENERIC",

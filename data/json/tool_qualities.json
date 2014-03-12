@@ -15,5 +15,17 @@
         "type" : "tool_quality",
         "id" : "SAW_M",
         "name" : "metal sawing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "COOK",
+        "name" : "food cooking quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "BOIL",
+        "name" : "liquid boiling quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "CONTAIN",
+        "name" : "containing quality"
     }
 ]
