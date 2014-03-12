@@ -7142,8 +7142,8 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
     }
-    int temp_nutr = comest->nutr;
-    int temp_quench = comest->quench;
+    int temp_nutr = eaten->calc_nutr(&g->u);
+    int temp_quench = eaten->calc_quench(&g->u);
     if (hiberfood && !is_npc() && (((hunger - temp_nutr) < -60) || ((thirst - temp_quench) < -60))){
        if (!query_yn(_("You're adequately fueled. Prepare for hibernation?"))) {
         return false;
@@ -7204,8 +7204,8 @@ bool player::eat(item *eaten, it_comest *comest)
     }
 
     //not working directly in the equation... can't imagine why
-    int temp_hunger = hunger - comest->nutr;
-    int temp_thirst = thirst - comest->quench;
+    int temp_hunger = hunger - eaten->calc_nutr(&g->u);
+    int temp_thirst = thirst - eaten->calc_quench(&g->u);
     int capacity = has_trait("GOURMAND") ? -60 : -20;
     if( has_trait("HIBERNATE") && !is_npc() &&
         // If BOTH hunger and thirst are above the capacity...
@@ -7225,14 +7225,14 @@ bool player::eat(item *eaten, it_comest *comest)
         capacity = -620;
     }
 
-    if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
-        ( comest->quench > 0 && temp_thirst < capacity ) ) {
+    if( ( eaten->calc_nutr(&g->u) > 0 && temp_hunger < capacity ) ||
+        ( eaten->calc_quench(&g->u) > 0 && temp_thirst < capacity ) ) {
         if (spoiled){//rotten get random nutrification
             if (!query_yn(_("You can hardly finish it all. Consume it?"))) {
                 return false;
             }
         } else {
-            if ( ( comest->quench > 0 && temp_thirst < capacity ) || (!(has_trait("EATHEALTH"))) ) {
+            if ( ( eaten->calc_quench(&g->u) > 0 && temp_thirst < capacity ) || (!(has_trait("EATHEALTH"))) ) {
                 if (!query_yn(_("You will not be able to finish it all. Consume it?"))) {
                 return false;
                 }
@@ -7377,11 +7377,11 @@ bool player::eat(item *eaten, it_comest *comest)
         if (!one_in(3)) {
             vomit();
         }
-        if (comest->quench >= 2) {
-            thirst += int(comest->quench / 2);
+        if (eaten->calc_quench(&g->u) >= 2) {
+            thirst += int(calc_quench(&g->u) / 2);
         }
-        if (comest->nutr >= 2) {
-            hunger += int(comest->nutr * .75);
+        if (eaten->calc_nutr(&g->u) >= 2) {
+            hunger += int(calc_nutr(&g->u * .75);
         }
     }
     return true;
@@ -7390,14 +7390,14 @@ bool player::eat(item *eaten, it_comest *comest)
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
     if (rotten) {
-        hunger -= rng(0, comest->nutr);
-        thirst -= comest->quench;
+        hunger -= rng(0, eaten->calc_nutr(&g->u));
+        thirst -= eaten->calc_quench(&g->u);
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
             health -= 3;
         }
     } else {
-        hunger -= comest->nutr;
-        thirst -= comest->quench;
+        hunger -= eaten->calc_nutr(&g->u);
+        thirst -= eaten->calc_quench(&g->u);
         health += comest->healthy;
     }
 
@@ -7429,7 +7429,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
             add_morale(MORALE_FOOD_GOOD, comest_fun * 3, comest_fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_trait("HIBERNATE"))) {
-        if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) {
+        if ((eaten->calc_nutr(&g->u) > 0 && hunger < -60) || (eaten->calc_quench(&g->u) > 0 && thirst < -60)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
         }
         if (hunger < -60) {
@@ -7440,29 +7440,29 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         }
     }
     } if (has_trait("HIBERNATE")) {
-         if ((comest->nutr > 0 && hunger < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
+         if ((eaten->calc_nutr(&g->u) > 0 && hunger < -60) || (eaten->calc_quench(&g->u) > 0 && thirst < -60)) { //Tell the player what's going on
             g->add_msg_if_player(this,_("You gorge yourself, preparing to hibernate."));
             if (one_in(2)) {
-                (fatigue += (comest->nutr)); //50% chance of the food tiring you
+                (fatigue += (eaten->calc_nutr(&g->u))); //50% chance of the food tiring you
             }
         }
-        if ((comest->nutr > 0 && hunger < -200) || (comest->quench > 0 && thirst < -200)) { //Hibernation should cut burn to 60/day
+        if ((eaten->calc_nutr(&g->u) > 0 && hunger < -200) || (eaten->calc_quench(&g->u) > 0 && thirst < -200)) { //Hibernation should cut burn to 60/day
             g->add_msg_if_player(this,_("You feel stocked for a day or two. Got your bed all ready and secured?"));
             if (one_in(2)) {
-                (fatigue += (comest->nutr)); //And another 50%, intended cumulative
+                (fatigue += (eaten->calc_nutr(&g->u))); //And another 50%, intended cumulative
             }
         }
-        if ((comest->nutr > 0 && hunger < -400) || (comest->quench > 0 && thirst < -400)) {
-            g->add_msg_if_player(this,_("Mmm.  You can stil fit some more in...but maybe you should get comfortable and sleep."));
+        if ((eaten->calc_nutr(&g->u) > 0 && hunger < -400) || (eaten->calc_quench(&g->u) > 0 && thirst < -400)) {
+            g->add_msg_if_player(this,_("Mmm.  You can still fit some more in...but maybe you should get comfortable and sleep."));
              if (!(one_in(3))) {
-                (fatigue += (comest->nutr)); //Third check, this one at 66%
+                (fatigue += (eaten->calc_nutr(&g->u))); //Third check, this one at 66%
             }
         }
-        if ((comest->nutr > 0 && hunger < -600) || (comest->quench > 0 && thirst < -600)) {
+        if ((eaten->calc_nutr(&g->u) > 0 && hunger < -600) || (eaten->calc_quench(&g->u) > 0 && thirst < -600)) {
             g->add_msg_if_player(this,_("That filled a hole!  Time for bed..."));
-            fatigue += (comest->nutr); //At this point, you're done.  Schlaf gut.
+            fatigue += (eaten->calc_nutr(&g->u)); //At this point, you're done.  Schlaf gut.
         }
-        if ((comest->nutr > 0 && hunger < -620) || (comest->quench > 0 && thirst < -620)) {
+        if ((eaten->calc_nutr(&g->u) > 0 && hunger < -620) || (eaten->calc_quench(&g->u) > 0 && thirst < -620)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
         }
         if (hunger < -620) {
@@ -7477,7 +7477,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         } else if (comest_fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest_fun * 2, comest_fun * 4, 60, 30, false, comest);
         }
-        if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
+        if ((eaten->calc_nutr(&g->u) > 0 && hunger < -20) || (eaten->calc_quench(&g->u) > 0 && thirst < -20)) {
             g->add_msg_if_player(this,_("You can't finish it all!"));
         }
         if (hunger < -20) {

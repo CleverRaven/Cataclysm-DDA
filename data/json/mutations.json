@@ -3249,9 +3249,8 @@
     },{
         "type" : "mutation",
         "id" : "PBUTT_DEBUG",
-        "name" : "Peanut Butter Lover",
+        "name" : "Peanut Butter Debug",
         "points" : 1,
-        "description" : "For some reason, ever since the Cataclysm struck, you've had an intense, almost sexual love for peanut butter. You just can't get tired of the stuff. In fact, you could go for a whole jar of peanut butter right now...",
-        "starting_trait" : true
+        "description" : "Adds +15 fun, quench, and nutrition to peanut butter. Debug only!"
     }
 ]

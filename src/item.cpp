@@ -455,10 +455,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  }
 
  if (is_food()) {
-  it_comest* food = dynamic_cast<it_comest*>(type);
-
-  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
-  dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
+  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", calc_nutr(&g->u)));
+  dump->push_back(iteminfo("FOOD", _("Quench: "), "", calc_quench(&g->u)));
   dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", calc_fun(&g->u)));
   dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
   if (corpse != NULL &&
@@ -472,10 +470,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
  } else if (is_food_container()) {
  // added charge display for debugging
-  it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
-
-  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
-  dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
+  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", contents[0].calc_nutr(&g->u)));
+  dump->push_back(iteminfo("FOOD", _("Quench: "), "", contents[0].calc_quench(&g->u)));
   dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", contents[0].calc_fun(&g->u)));
   dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(contents[0].charges))));
 
@@ -2714,6 +2710,22 @@ int item::calc_fun(player *u, bool output_msg){
         return ret;
     }
     return 0;
+}
+
+int item::calc_nutr(player *u) {
+    it_comest* food = dynamic_cast<it_comest*>(type);
+    int ret = food->nutr;
+    if (u->has_trait("PBUTT_DEBUG") && food->id == "peanutbutter")
+        ret += 15;
+    return ret;
+}
+
+int item::calc_quench(player *u) {
+    it_comest* food = dynamic_cast<it_comest*>(type);
+    int ret = food->quench;
+    if (u->has_trait("PBUTT_DEBUG") && food->id == "peanutbutter")
+        ret += 15;
+    return ret;
 }
 
 std::string default_technique_name(technique_id tech)

@@ -181,6 +181,8 @@ public:
 
  int calc_fun(player *u, bool output_msg = false);
  // Returns !!FUN!! value of a comestible or book to a certain player or NPC.
+ int calc_nutr (player *u);
+ int calc_quench (player *u);
 
  // umber of mods that can still be installed into the given
  // mod location, for non-guns it returns always 0
