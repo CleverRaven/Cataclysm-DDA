@@ -294,8 +294,8 @@ struct it_var_veh_part: public itype
   bigness_aspect = big_aspect;
   engine = pengine;
  }
- virtual bool is_var_veh_part() {return true;}
- virtual bool is_wheel(){ return false; }
+ virtual bool is_var_veh_part(){return true;}
+ virtual bool is_wheel()          { return false; }
  virtual bool is_engine() { return engine; }
 };
 
