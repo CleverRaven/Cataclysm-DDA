@@ -7052,30 +7052,44 @@ void game::open()
     }
 
     u.moves -= 100;
-    bool didit = false;
 
     int vpart;
     vehicle *veh = m.veh_at(openx, openy, vpart);
+
     if (veh) {
-        int openable = veh->part_with_feature(vpart, "OPENABLE");
+        int openable = veh->next_part_to_open(vpart);
         if(openable >= 0) {
-            const char *name = veh->part_info(openable).name.c_str();
-            if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
-                const vehicle *in_veh = m.veh_at(u.posx, u.posy);
-                if (!in_veh || in_veh != veh) {
+            const vehicle *player_veh = m.veh_at(u.posx, u.posy);
+            bool outside = !player_veh || player_veh != veh;
+            if(!outside) {
+                veh->open(openable);
+            } else {
+                // Outside means we check if there's anything in that tile outside-openable.
+                // If there is, we open everything on tile. This means opening a closed,
+                // curtained door from outside is possible, but it will magically open the
+                // curtains as well.
+                int outside_openable = veh->next_part_to_open(vpart, true);
+                if(outside_openable == -1) {
+                    const char *name = veh->part_info(openable).name.c_str();
                     add_msg(_("That %s can only opened from the inside."), name);
-                    return;
+                    u.moves += 100;
+                } else {
+                    veh->open_all_at(openable);
                 }
             }
-            if (veh->parts[openable].open) {
+        } else {
+            // If there are any OPENABLE parts here, they must be already open
+            int already_open = veh->part_with_feature(vpart, "OPENABLE");
+            if(already_open >= 0) {
+                const char *name = veh->part_info(already_open).name.c_str();
                 add_msg(_("That %s is already open."), name);
-                u.moves += 100;
-            } else {
-                veh->open(openable);
             }
+            u.moves += 100;
         }
         return;
     }
+
+    bool didit = false;
 
     if (m.is_outside(u.posx, u.posy)) {
         didit = m.open_door(openx, openy, false);
@@ -7120,7 +7134,7 @@ void game::close(int closex, int closey)
         monster &critter = critter_tracker.find(zid);
         add_msg(_("There's a %s in the way!"), critter.name().c_str());
     } else if (veh) {
-        int openable = veh->part_with_feature(vpart, "OPENABLE");
+        int openable = veh->next_part_to_close(vpart);
         if(openable >= 0) {
             const char *name = veh->part_info(openable).name.c_str();
             if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
@@ -11757,13 +11771,10 @@ bool game::plmove(int dx, int dy)
      }
  }
  bool veh_closed_door = false;
+ bool outside_vehicle = (!veh0 || veh0 != veh1);
  if (veh1) {
-  dpart = veh1->part_with_feature (vpart1, "OPENABLE");
-  if (veh1->part_info(dpart).has_flag("OPENCLOSE_INSIDE") && (!veh0 || veh0 != veh1)){
-      veh_closed_door = false;
-  } else {
-      veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
-  }
+    dpart = veh1->next_part_to_open(vpart1, outside_vehicle);
+    veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
  }
 
  if (veh0 && abs(veh0->velocity) > 100) {
@@ -12366,11 +12377,15 @@ bool game::plmove(int dx, int dy)
       return false;
   }
 
- } else if (veh_closed_door) { // move_cost <= 0
-   veh1->open(dpart);
-  u.moves -= 100;
-  add_msg (_("You open the %s's %s."), veh1->name.c_str(),
+ } else if (veh_closed_door) {
+    if(outside_vehicle) {
+        veh1->open_all_at(dpart);
+   } else {
+        veh1->open(dpart);
+        add_msg (_("You open the %s's %s."), veh1->name.c_str(),
                                     veh1->part_info(dpart).name.c_str());
+   }
+  u.moves -= 100;
  } else { // Invalid move
   if (u.has_effect("blind") || u.has_effect("stunned")) {
 // Only lose movement if we're blind
