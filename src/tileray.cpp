@@ -43,11 +43,8 @@ void tileray::init (int adir)
     deltax = 0;
     deltay = 0;
     leftover = 0;
-    direction = adir;
-    if (direction <0)
-        direction += 360;
-    if (direction >= 360)
-        direction -= 360;
+    // Clamp adir to the range [0, 359]
+    direction = (adir < 0 ? 360 - ((-adir) % 360) : adir % 360);
     last_dx = 0;
     last_dy = 0;
     deltax = abs((int) (cos ((float) direction * M_PI / 180.0) * 100));

@@ -217,6 +217,8 @@ void game::load_data_from_dir(const std::string &path) {
 
 game::~game()
 {
+ DynamicDataLoader::get_instance().unload_data();
+ MAPBUFFER.reset();
  delete gamemode;
  itypes.clear();
  delwin(w_terrain);

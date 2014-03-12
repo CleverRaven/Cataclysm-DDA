@@ -13,6 +13,18 @@ Item_group::Item_group(const Item_tag id)
 {
 }
 
+Item_group::~Item_group() {
+  for (std::vector<Item_group_group*>::iterator it = m_groups.begin(); it != m_groups.end(); ++it) {
+      delete *it;
+  }
+  m_groups.clear();
+
+  for (std::vector<Item_group_entry*>::iterator it = m_entries.begin(); it != m_entries.end(); ++it) {
+      delete *it;
+  }
+  m_entries.clear();
+}
+
 void Item_group::check_items_exist() const {
     for(std::vector<Item_group_entry*>::const_iterator iter = m_entries.begin(); iter != m_entries.end(); ++iter){
         const Item_tag itag = (*iter)->get();
@@ -101,6 +113,10 @@ const Item_tag Item_group_entry::get() const{
 
 //Item_group_group definitions
 Item_group_group::Item_group_group(Item_group* group, int upper_bound): m_group(group), m_upper_bound(upper_bound){
+}
+
+Item_group_group::~Item_group_group() {
+  delete m_group;
 }
 
 bool Item_group_group::check(int value) const{
