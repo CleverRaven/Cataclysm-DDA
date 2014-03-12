@@ -4067,6 +4067,29 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             g->add_zombie(snake);
         }
     }
+    
+    // And slimespawners too
+    if ((has_trait("SLIMESPAWNER")) && (dam >= 10) && one_in(20 - dam)) {
+        std::vector<point> valid;
+        for (int x = posx - 1; x <= posx + 1; x++) {
+            for (int y = posy - 1; y <= posy + 1; y++) {
+                if (g->is_empty(x, y)) {
+                    valid.push_back( point(x, y) );
+                }
+            }
+        }
+        g->add_msg(_("Slime is torn from you, and moves on its own!"));
+        int numslime = 1;
+        monster slime(GetMType("mon_player_blob"));
+        for (int i = 0; i < numslime; i++) {
+            int index = rng(0, valid.size() - 1);
+            point sp = valid[index];
+            valid.erase(valid.begin() + index);
+            slime.spawn(sp.x, sp.y);
+            slime.friendly = -1;
+            g->add_zombie(slime);
+        }
+    }
 
     if( g->u_see( this->xpos(), this->ypos() ) ) {
         g->draw_hit_player(this);
@@ -7181,7 +7204,7 @@ bool player::eat(item *eaten, it_comest *comest)
     last_item = itype_id(eaten->type->id);
 
     if (overeating && !has_trait("HIBERNATE") && !has_trait("EATHEALTH") && !is_npc() &&
-        !query_yn(_("You're full.  Force yourself to eat?"))) {
+        !has_trait("SLIMESPAWNER") && !query_yn(_("You're full.  Force yourself to eat?"))) {
         return false;
     }
     int temp_nutr = comest->nutr;
@@ -7265,6 +7288,34 @@ bool player::eat(item *eaten, it_comest *comest)
 
     if( has_trait("HIBERNATE") ) {
         capacity = -620;
+    }
+    
+    if( has_trait("SLIMESPAWNER") && !is_npc() ) {
+        capacity -= 40;
+        if ( (temp_hunger < capacity && thirst == capacity) ||
+        (temp_thirst < capacity && hunger == capacity) ) {
+            g->add_msg(_("You feel as though you're going to split open! in a good way??"));
+            mod_pain(20);
+            std::vector<point> valid;
+            for (int x = posx - 1; x <= posx + 1; x++) {
+                for (int y = posy - 1; y <= posy + 1; y++) {
+                    if (g->is_empty(x, y)) {
+                        valid.push_back( point(x, y) );
+                    }
+                }
+            }
+            monster slime(GetMType("mon_player_blob"));
+            int numslime = 1;
+            for (int i = 0; i < numslime; i++) {
+                int index = rng(0, valid.size() - 1);
+                point sp = valid[index];
+                valid.erase(valid.begin() + index);
+                slime.spawn(sp.x, sp.y);
+                slime.friendly = -1;
+                g->add_zombie(slime);
+            }
+            g->add_msg(_("hey, you look like me! let's work together!"));
+        }
     }
 
     if( ( comest->nutr > 0 && temp_hunger < capacity ) ||

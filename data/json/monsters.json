@@ -4848,7 +4848,7 @@
     "type" : "MONSTER",
     "id" : "mon_player_blob",
     "name": "slimespring",
-    "species":"HUMAN",
+    "species":"MUTANT",
     "symbol":"O",
     "color":"ltgreen",
     "size":"MEDIUM",
@@ -4867,11 +4867,11 @@
     "item_chance":0,
     "luminance":0,
     "hp":40,
-    "special_freq":0,
+    "special_freq":15,
     "death_function":"ACID",
-    "special_attack":"NONE",
+    "special_attack":"SLIMESPRING",
     "description":"A familiar-looking blob of goo. It sprouts the occasional eyestalk.",
-    "flags":["SEES", "VIS40", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM"],
+    "flags":["SEES", "VIS40", "HEARS", "SMELLS", "GOODHEARING", "FRIENDLY_SPECIAL", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT"],
     "phase":"LIQUID"
     },{
         "type" : "MONSTER",
