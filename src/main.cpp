@@ -176,10 +176,15 @@ int main(int argc, char *argv[])
     // set locale to system default
     setlocale(LC_ALL, "");
 #ifdef LOCALIZE
+    const char *locale_dir;
 #ifdef __linux__
-    const char * locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
+    if (!FILENAMES["base_path"].empty()) {
+        locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
+    } else {
+        locale_dir = "lang/mo";
+    }
 #else
-    const char * locale_dir = "lang/mo";
+    locale_dir = "lang/mo";
 #endif // __linux__
 
     bindtextdomain("cataclysm-dda", locale_dir);
@@ -304,11 +309,12 @@ void exit_handler(int s) {
 void set_base_path(std::string path)
 {
     // TODO Unicode support
-    char ch;
-
-    ch = path.at(path.length() - 1);
-    if (ch != '/') {
-        path.push_back('/');
+    if (!path.empty()) {
+        char ch;
+        ch = path.at(path.length() - 1);
+        if (ch != '/') {
+            path.push_back('/');
+        }
     }
 
     FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
@@ -337,9 +343,13 @@ void set_standard_filenames(void)
 {
     const char *share_dir;
 #if !(defined _WIN32 || defined WINDOW)
-    share_dir = "share/cataclysm-dda/";
+    if (!FILENAMES["base_path"].empty()) {
+        share_dir = "share/cataclysm-dda/";
+    } else {
+        share_dir = "data/";
+    }
 #else
-    share_dir = "";
+    share_dir = "data/";
 #endif
     // Shared directories
     FILENAMES.insert(std::pair<std::string,std::string>("gfxdir", FILENAMES["base_path"] + share_dir + "gfx/"));
