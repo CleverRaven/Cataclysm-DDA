@@ -7251,6 +7251,7 @@ void game::smash()
             add_msg(extra.c_str());
         }
         sound(smashx, smashy, 18, bashsound);
+        u.handle_melee_wear();
         // TODO: Move this elsewhere, like maybe into the map on-break code
         if (m.has_flag("ALARMED", smashx, smashy) &&
             !event_queued(EVENT_WANTED))
@@ -7340,6 +7341,7 @@ void game::activity_on_turn_pulp()
             // to insure that we eventually smash the target.
             if (x_in_y(pulp_power, it->volume())) {
                 it->damage++;
+                u.handle_melee_wear();
             }
             // Splatter some blood around
             for (int x = smashx - 1; x <= smashx + 1; x++) {
