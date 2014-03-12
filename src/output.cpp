@@ -1207,7 +1207,14 @@ std::string from_sentence_case (const std::string &kingston)
 
 std::string vstring_format(const char *pattern, va_list argptr)
 {
-    int buffer_size = 10240; // Any number is good
+    // If we have no C++11 support, define a hackish way to do va_copy
+    // See http://stackoverflow.com/questions/558223/va-copy-porting-to-visual-c
+    // and http://stackoverflow.com/questions/5047971/how-do-i-check-for-c11-support
+    #if __cplusplus < 201103L && !defined(va_copy)
+        #define va_copy(dest, source) dest = source
+    #endif
+
+    int buffer_size = 1024; // Any number is good
     int returned_length = 0;
     std::vector<char> buffer(buffer_size, '\0');
     // Call of vsnprintf() makes va_list unusable, so we need a copy.
