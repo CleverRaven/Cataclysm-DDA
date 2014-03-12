@@ -7292,10 +7292,10 @@ bool player::eat(item *eaten, it_comest *comest)
     
     if( has_trait("SLIMESPAWNER") && !is_npc() ) {
         capacity -= 40;
-        if ( (temp_hunger < capacity && thirst == capacity) ||
-        (temp_thirst < capacity && hunger == capacity) ) {
+        if ( (temp_hunger < capacity && temp_thirst <= (capacity + 10) ) ||
+        (temp_thirst < capacity && temp_hunger <= (capacity + 10) ) ) {
             g->add_msg(_("You feel as though you're going to split open! in a good way??"));
-            mod_pain(20);
+            mod_pain(5);
             std::vector<point> valid;
             for (int x = posx - 1; x <= posx + 1; x++) {
                 for (int y = posy - 1; y <= posy + 1; y++) {
@@ -7314,6 +7314,8 @@ bool player::eat(item *eaten, it_comest *comest)
                 slime.friendly = -1;
                 g->add_zombie(slime);
             }
+            hunger += 40;
+            thirst += 40;
             g->add_msg(_("hey, you look like me! let's work together!"));
         }
     }
@@ -7325,7 +7327,8 @@ bool player::eat(item *eaten, it_comest *comest)
                 return false;
             }
         } else {
-            if ( ( comest->quench > 0 && temp_thirst < capacity ) || (!(has_trait("EATHEALTH"))) ) {
+            if ( ( comest->quench > 0 && temp_thirst < capacity ) && ( (!(has_trait("EATHEALTH"))) ||
+            (!(has_trait("SLIMESPAWNER"))) ) ) {
                 if (!query_yn(_("You will not be able to finish it all. Consume it?"))) {
                 return false;
                 }
@@ -7363,6 +7366,9 @@ bool player::eat(item *eaten, it_comest *comest)
         mealtime -= 100;
     } if (has_trait("SABER_TEETH")) {
         mealtime += 250; // They get In The Way
+    } if (has_trait("AMORPHOUS")) {
+        mealtime *= 1.1; // Minor speed penalty for having to flow around it
+                          // rather than just grab & munch
     }
         moves -= (mealtime);
 
@@ -7375,8 +7381,11 @@ bool player::eat(item *eaten, it_comest *comest)
     !has_trait("EATDEAD")) {
         add_disease("foodpoison", eaten->poison * 300);
     }
-
-    if (comest->comesttype == "DRINK" && !eaten->has_flag("USE_EAT_VERB")) {
+    
+    if (has_trait("AMORPHOUS")) {
+        g->add_msg_player_or_npc( this, _("You assimilate your %s."), _("<npcname> assimilates a %s."),
+                                  eaten->tname().c_str());
+    } else if (comest->comesttype == "DRINK" && !eaten->has_flag("USE_EAT_VERB")) {
         g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),
                                   eaten->tname().c_str());
     } else if (comest->comesttype == "FOOD" || eaten->has_flag("USE_EAT_VERB")) {

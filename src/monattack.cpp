@@ -1790,18 +1790,28 @@ void mattack::slimespring(monster *z)
             break;
         }
     }
-    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 2) {
-        int side = -1;
-            if ( (g->u.has_disease("bleed", bp_torso, side)) || (g->u.has_disease("bite", bp_torso, side)) ) {
-                g->add_msg(_("\"let me help!\""));
-                if ( (g->u.has_disease("bite")) && (one_in(3)) ) {
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 3) {
+        if ( (g->u.has_disease("bleed")) || (g->u.has_disease("bite")) ) {
+            g->add_msg(_("\"let me help!\""));
+            // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
+            if (g->u.has_disease("bite")) {
+                if (one_in(3)) {
                     g->u.rem_disease("bite");
                     g->add_msg(_("The slime cleans you out!"));
                 }
-                if ( (g->u.has_disease("bleed")) && (one_in(2)) ) {
-                    g->u.rem_disease("bleed");
-                    g->add_msg(_("The slime seals up your bleeding!"));
+                else {
+                    g->add_msg(_("The slime flows over you, but your gouges still ache."));
                 }
             }
+            if (g->u.has_disease("bleed")) {
+                if (one_in(2)) {
+                    g->u.rem_disease("bleed");
+                    g->add_msg(_("The slime seals up your leaks!"));
+                }
+                else {
+                    g->add_msg(_("The slime flows over you, but your fluids are still leaking."));
+                }
+            }
+        }
     }
 }

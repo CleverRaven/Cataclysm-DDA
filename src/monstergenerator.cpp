@@ -190,6 +190,7 @@ void MonsterGenerator::init_attack()
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
     attack_map["PARROT"] = &mattack::parrot;
     attack_map["DARKMAN"] = &mattack::darkman;
+    attack_map["SLIMESPRING"] = &mattack::slimespring;
 
 }
 
