@@ -255,8 +255,8 @@ void game::init_ui(){
     int sidebarWidth = narrow_sidebar ? 45 : 55;
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
-        TERMX = OPTIONS["TERMINAL_X"];
-        TERMY = OPTIONS["TERMINAL_Y"];
+        TERMX = get_terminal_width();
+        TERMY = get_terminal_height();
 
         #ifdef SDLTILES
         if(OPTIONS["USE_TILES"]) {

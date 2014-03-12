@@ -679,6 +679,11 @@ void initOptions() {
     OPTIONS["FULLSCREEN"] =             cOpt("graphics", _("Fullscreen"),
                                              _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
                                              false
+                                            );
+
+    OPTIONS["SOFTWARE_RENDERING"] =     cOpt("graphics", _("Software rendering"),
+                                             _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
+                                             false
                                             );  // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
