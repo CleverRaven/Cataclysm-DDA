@@ -524,9 +524,10 @@ std::vector<std::string> text_combat()
     std::vector<std::string> text;
 
     text.push_back(_("\
-After 30 minutes of warm-up time, monsters will begin to appear. They are \
-represented by letters on your screen; a list of monster names, and their \
-positions relative to you, is displayed on the right side of the screen."));
+With the default Static spawn option, monsters will spawn at the start of the game . \
+They are represented by letters on your screen; a list of monster names, and their \
+positions relative to you, is displayed on the right side of the screen. \
+If the game is set to Dynamic spawn option, monsters will be spawned based on the noise you make."));
 
     text.push_back(_("\
 To attack a monster with a melee weapon, simply move into them. The time it takes to attack \
@@ -549,7 +550,7 @@ Firing continuously, especially in bursts, will severely reduce accuracy."),
                                  press_x(ACTION_SELECT_FIRE_MODE, "", "").c_str()));
 
     text.push_back(_("\
-Unlike most roguelikes, fleeing will often be your best option, especially when \
+Fleeing will often be a solid tactic, especially when \
 overwhelmed by a swarm of zombies. Try to avoid getting cornered inside a building. \
 Ducking down into the subways or sewers is often an excellent escape tactic."));
 
