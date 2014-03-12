@@ -1060,12 +1060,14 @@ void display_help()
                         action_id act = action_id(actch - 'a' + offset);
                         if (remapch == '-' && query_yn(_("Clear keys for %s?"),
                                                        action_name(act).c_str())) {
+                            unbound_keymap.insert(act);
                             clear_bindings(act);
                             changed_keymap = true;
                         } else if (remapch == '+') {
                             char newbind = popup_getkey(_("New key for %s:"), action_name(act).c_str());
                             if (keymap.find(newbind) == keymap.end()) { // It's not in use!  Good.
                                 keymap[ newbind ] = act;
+				unbound_keymap.erase(act);
                                 changed_keymap = true;
                             } else {
                                 popup(_("%c is used for %s."), newbind,
