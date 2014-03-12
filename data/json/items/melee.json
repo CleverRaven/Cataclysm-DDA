@@ -1892,17 +1892,17 @@
         "id" : "bowling_axe",
         "name" : "The 7-10 Split",
         "description" : "A bowling pin with menacing spikes on the large end. Makes a great melee weapon.",
-        "weight" : 1659,
+        "weight" : 1856,
         "to_hit" : 1,
         "color" : "brown",
         "symbol" : "/",
         "material" : ["wood", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 7,
-        "bashing" : 15,
-        "cutting" : 15,
-        "flags" : ["STAB"],
-        "price" : 160
+        "bashing" : 18,
+        "cutting" : 12,
+        "flags" : ["STAB", "DURABLE_MELEE"],
+        "price" : 18000
     },
     {
     "type":"GENERIC",
@@ -1991,16 +1991,17 @@
         "id" : "bowling_pin",
         "name" : "bowling pin",
         "description" : "A blunt bowling pin. Makes a decent melee weapon, if somewhat short.",
-        "weight" : 1333,
+        "weight" : 1530,
         "to_hit" : 1,
         "color" : "brown",
         "symbol" : "/",
         "material" : ["wood", "null"],
         "techniques" : ["WBLOCK_1"],
+        "flags" : ["DURABLE_MELEE"],
         "volume" : 9,
-        "bashing" : 24,
+        "bashing" : 18,
         "cutting" : 0,
-        "price" : 160
+        "price" : 10000
     },
     {
         "type":"GENERIC",
