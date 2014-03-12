@@ -1420,11 +1420,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-      [
-      ["hacksaw", -1]
-      ],
       [
       [ "goggles_welding", -1 ]
       ],
@@ -1728,13 +1726,9 @@
   "time": 750,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ],
@@ -2235,13 +2229,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "manual_launcher", 3 ] , [ "mag_launcher", 4 ]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ],
@@ -2296,11 +2286,9 @@
   "decomp_learn": 5,
   "autolearn": true,
   "book_learn": [["book_icef", 4]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -2457,17 +2445,15 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       ["screwdriver", -1],
       ["toolset", -1]
     ],
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -2729,12 +2715,9 @@
   "autolearn": true,
   "book_learn": [[ "textbook_mechanics", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
     [
       [ "goggles_welding", -1 ]
     ],
@@ -3053,14 +3036,9 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "tools" : [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components" : [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components" : [
     [
       [ "scrap", 6 ],
       [ "steel_chunk", 2 ]
@@ -3314,14 +3292,9 @@
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "tools" : [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components" : [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components" : [
     [
       [ "shaft_metal", 10 ]
     ]
@@ -3423,15 +3396,9 @@
   "book_learn" : [[ "recipe_arrows", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "tools" : [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components" : [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components" : [
     [
       [ "shaft_metal", 10 ]
     ],
@@ -3456,15 +3423,13 @@
   "note": "you just take the warhead off or put it on, rather than making the warhead",
   "autolearn" : false,
   "book_learn" : [[ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
-  "tools" : [
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools" : [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-        ]
+    ]
   ],
   "components" : [
     [
@@ -3728,14 +3693,9 @@
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "tools": [
-    [
-        ["hacksaw", -1],
-        ["toolset", -1]
-    ]
-  ],
-  "components": [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
       [
         ["scrap", 6],
         ["steel_chunk", 2]
@@ -3753,13 +3713,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn" : [[ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
-  "tools": [
-    [
-        ["hacksaw", -1],
-        ["toolset", -1]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
     [
         ["bolt_metal", 1],
         ["bolt_steel", 1]
@@ -3812,14 +3768,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "tools": [
-    [
-        ["hacksaw", -1],
-        ["toolset", -1]
-    ]
-  ],
-  "components": [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
       [
         ["steel_chunk", 3],
         ["scrap", 8]
@@ -12544,13 +12495,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "radio_book", 1 ] , [ "textbook_anarch", 1 ]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
     [
       [ "knife_butter", 2 ]
     ]
@@ -12567,13 +12514,9 @@
   "autolearn": false,
   "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
-  ], "tools": [
-    [
-      [ "hacksaw", -1 ], [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
     [
       [ "amplifier", 1 ]
     ],
@@ -14553,11 +14496,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_mechanics", 3] , ["welding_book", 5]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "goggles_welding", -1 ]
     ],
@@ -14589,11 +14530,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_mechanics", 3] , ["welding_book", 5]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "goggles_welding", -1 ]
     ],
@@ -14624,11 +14563,9 @@
   "time": 20000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "goggles_welding", -1 ]
     ],
@@ -14660,11 +14597,9 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [["textbook_robots", 8]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "goggles_welding", -1 ]
     ],
@@ -18659,14 +18594,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
-  ], "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ]
-  ],
-  "components": [
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ],
@@ -18689,7 +18619,8 @@
   "decomp_learn": 3,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -18702,10 +18633,6 @@
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 5 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
     ]
   ],
   "components": [
@@ -18777,7 +18704,8 @@
   "autolearn": false,
   "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -18790,10 +18718,6 @@
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 5 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
     ]
   ],
   "components": [
@@ -18825,7 +18749,8 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -18838,10 +18763,6 @@
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 5 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
     ]
   ],
   "components": [
@@ -18878,14 +18799,11 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -18923,7 +18841,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -18936,10 +18855,6 @@
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
       [ "toolset", 5 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
     ]
   ],
   "components": [
@@ -19232,7 +19147,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "goggles_welding", -1 ]
@@ -19241,10 +19157,6 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 2 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
     ]
   ],
   "components": [
@@ -19354,7 +19266,8 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 5] , ["textbook_mechanics", 3] , ["manual_mechanics", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -19367,10 +19280,6 @@
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
       [ "toolset", 2 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
     ]
   ],
   "components": [
@@ -21490,14 +21399,12 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "toolset", -1 ],
       [ "screwdriver", -1 ]
-    ],
-    [
-      [ "toolset", -1 ],
-      [ "hacksaw", -1 ]
     ]
   ],
   "components": [
@@ -22423,13 +22330,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "tools": [
-    [
-      ["hacksaw", -1], ["toolset", -1]
-    ]
-  ],
-  "components": [
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [
     [
       ["rebar", 1]
     ]
@@ -23153,10 +23056,13 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "tools": [ [ ["hacksaw", -1], ["toolset", -1] ] ],
-  "components": [ [ ["rag", 4] ],
-    [ ["scrap", 4] ] ]
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": 
+    [
+    [ ["rag", 4] ],
+    [ ["scrap", 4] ] 
+	] 
 },{
         "type" : "recipe",
   "result": "knuckle_katar",
@@ -23169,8 +23075,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_melee", 3 ] , ["textbook_weapeast", 8]],
-  "tools": [ [ ["hacksaw", -1], ["toolset", -1] ],
-    [ ["screwdriver", -1], ["toolset", -1] ] ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [ [ ["screwdriver", -1], ["toolset", -1] ] ],
   "components": [ [ ["2x4", 4], [ "stick", 8 ] ],
     [ ["rebar", 5] ] ]
 },{
@@ -23213,9 +23120,9 @@
   "autolearn": false,
   "book_learn": [[ "recipe_melee", 1 ] , ["textbook_weapeast", 7]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "tools": [ [ ["hacksaw", -1], ["toolset", -1] ] ],
-  "components": [ [ ["leather", 4] ],
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "components": [ [ ["leather", 4] ],
     [ ["scrap", 8] ] ]
 },{
         "type" : "recipe",
@@ -23416,7 +23323,8 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
       [
       [ "screwdriver", -1 ],
@@ -23424,10 +23332,6 @@
       ],
       [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-      ],
-      [
-      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
       ],
       [
@@ -28015,7 +27919,8 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
      [
       [ "screwdriver", -1 ],
@@ -28023,10 +27928,6 @@
      ],
      [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-     ],
-     [
-      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
      ],
      [
@@ -28067,7 +27968,8 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 2] , ["manual_fabrication", 3] , ["cookbook", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
      [
       [ "screwdriver", -1 ],
@@ -28075,10 +27977,6 @@
      ],
      [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-     ],
-     [
-      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
      ],
      [
@@ -28111,7 +28009,8 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 2] , ["manual_fabrication", 2]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -28119,10 +28018,6 @@
     ],
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -28695,17 +28590,15 @@
   "time": 80000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       ["screwdriver", -1],
       ["toolset", -1]
     ],
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -28744,17 +28637,15 @@
   "time": 80000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       ["screwdriver", -1],
       ["toolset", -1]
     ],
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
     ],
     [
@@ -29624,11 +29515,9 @@
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -29659,11 +29548,9 @@
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -29694,11 +29581,9 @@
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
   ],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "screwdriver", -1 ],
       [ "toolset", -1 ]
@@ -30198,7 +30083,8 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 5] , ["manual_fabrication", 5], ["manual_carpentry", 5], ["textbook_carpentry", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -30206,10 +30092,6 @@
     ],
     [
       [ "wrench", -1 ],
-      [ "toolset", -1 ]
-    ],
-    [
-      [ "hacksaw", -1 ],
       [ "toolset", -1 ]
     ],
     [

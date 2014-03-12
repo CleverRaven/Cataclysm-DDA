@@ -4225,7 +4225,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "HACKSAW"
+    "use_action": "HACKSAW",
+	"qualities":[["SAW_M", 1]]
   },
 
   {

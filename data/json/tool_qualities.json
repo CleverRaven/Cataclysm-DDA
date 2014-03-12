@@ -7,5 +7,13 @@
         "type" : "tool_quality",
         "id" : "HAMMER",
         "name" : "hammering quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "SAW_W",
+        "name" : "wood sawing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "SAW_M",
+        "name" : "metal sawing quality"
     }
 ]
