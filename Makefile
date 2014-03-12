@@ -363,7 +363,7 @@ distclean:
 
 bindist: $(BINDIST)
 
-$(BINDIST): distclean $(TARGET) $(L10N) $(BINDIST_EXTRAS)
+$(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS)
 	mkdir -p $(BINDIST_DIR)
 	cp -R --parents $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 	$(BINDIST_CMD)
