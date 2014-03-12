@@ -171,8 +171,12 @@ bool WinCreate()
     format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
 
     DebugLog() << "Attempting to initialize accelerated SDL renderer.\n";
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    
+    if(OPTIONS["SOFTWARE_RENDERING"]) {
+        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+    } else {
+        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    }
+
     if(renderer == NULL) {
         DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError() << "\n";
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC);
