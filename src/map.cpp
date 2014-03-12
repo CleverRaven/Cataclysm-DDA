@@ -431,24 +431,32 @@ void map::vehmove ()
     for(int v = 0; v < vehs.size(); ++v)
         vehs[v].v->do_turn_actions();
 
-    // find veh with the most amt of turn remaining, and move it 1/5th turn
-    // 15 equals 3 >50mph vehicles, or up 15 slow (1 square move) ones
-    for( size_t count = 0; count < 15; count++ ) {
-        float max_of_turn = 0;
-        int max = -1;
-        for( size_t v = 0; v < vehs.size(); ++v ) {
-            if( vehs[v].v->of_turn > max_of_turn ) {
-                max = int(v);
-                max_of_turn = vehs[v].v->of_turn;
-            }
-        }
-        if (max == -1)
+    // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
+    for( int count = 0; count < 15; count++ ) {
+        if( !vehproceed() )
             break;
-        vehproceed( vehs[max].v );
     }
 }
 
-bool map::vehproceed( vehicle* veh ) {
+bool map::vehproceed()
+{
+    VehicleList vehs = get_vehicles();
+    vehicle *veh = NULL;
+    float max_of_turn = 0;
+    int x; int y;
+    for( size_t v = 0; v < vehs.size(); ++v ) {
+        if( vehs[v].v->of_turn > max_of_turn ) {
+            veh = vehs[v].v;
+            x = vehs[v].x;
+            y = vehs[v].y;
+            max_of_turn = veh->of_turn;
+        }
+    }
+    if(!veh) { return false; }
+
+
+
+    // find veh with the most amt of turn remaining and move it 1/5th turn
     int debug = 0;
     // 1 turn = 5 moves = 1-25 (or more!) tiles covered
     // Keep moving through tiles until veh->of_turn < move_until

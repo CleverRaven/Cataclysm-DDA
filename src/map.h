@@ -215,7 +215,7 @@ class map
 // WARNING: not checking collisions!
  bool displace_vehicle (int &x, int &y, const int dx, const int dy, bool test = false);
  void vehmove();          // Vehicle movement
- bool vehproceed( vehicle *veh );
+ bool vehproceed();
 // move water under wheels. true if moved
  bool displace_water (const int x, const int y);
 
