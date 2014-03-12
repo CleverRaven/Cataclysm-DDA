@@ -849,8 +849,9 @@ need to drop your equipment and remove your clothing to swim, making it a last-d
 
     text.push_back(_("\
 Q: How can I cure a fungal infection?\n\
-A: At present time, there is only one cure, royal jelly. \
-You can find royal jelly in the bee hives which dot forests."));
+A: Royal jelly, blood filter bionic and some drugs can cure fungal infection. \
+You can find royal jelly in the bee hives which dot forests. Drugs to cure fungal \
+infection can either be found as random loot or made from other ingredients."));
 
     text.push_back(string_format(_("\
 Q: How do I get into science labs?\n\
