@@ -309,13 +309,13 @@ activities can only take you to a certain level before they grow boring."));
 
     text.push_back(_("\
 There are also lots of ways for your morale to decrease, beyond its natural \
-decay. Eating disgusting food, reading a boring technical book, or going \
-through drug withdrawal are some prominent examples."));
+decay. Eating disgusting food, reading a boring technical book, killing a friendly NPC, \
+or going through drug withdrawal are some prominent examples."));
 
     text.push_back(_("\
 Low morale will make you sluggish and unmotivated. It will also reduce your stats, particularly \
-intelligence. If your morale drops very low, you may even commit suicide. Very high morale fills \
-you with gusto and energy, and you will find yourself moving faster. At extremely high levels, \
+intelligence. If your morale drops very low, you won't be able to perform crafting at all and may even commit suicide. \
+Very high morale fills you with gusto and energy, and you will find yourself moving faster. At extremely high levels, \
 you will receive stat bonuses."));
 
     text.push_back(_("\
