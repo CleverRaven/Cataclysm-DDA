@@ -294,8 +294,9 @@ ifdef LANGUAGES
 endif
 
 ifeq ($(TARGETSYSTEM), LINUX)
-PREFIX = /usr/local
-DEFINES += -DPREFIX="$(PREFIX)"
+  ifneq ($(PREFIX),)
+    DEFINES += -DPREFIX="$(PREFIX)"
+  endif
 endif
 
 all: version $(TARGET) $(L10N)
@@ -378,7 +379,6 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
 	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
                    README.txt LICENSE.txt -t $(DATA_PREFIX)
-	# Create translations
 	mkdir -p $(LOCALE_DIR)
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh 2>/dev/null;
 endif
