@@ -239,7 +239,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
-	"qualities": [["HAMMER", 2]]
+	"qualities": [["HAMMER", 3]]
   },
 
   {

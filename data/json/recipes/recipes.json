@@ -196,7 +196,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -219,7 +219,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -242,7 +242,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -265,7 +265,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -288,7 +288,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -357,7 +357,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -380,7 +380,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -403,7 +403,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -1101,7 +1101,7 @@
   "decomp_learn": 1,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
       [ "duct_tape", 50 ]
@@ -1352,7 +1352,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -1420,7 +1420,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["hacksaw", -1]
@@ -1567,7 +1567,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
       [ "2x4", 1 ],
@@ -1613,7 +1613,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -1651,7 +1651,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-  {"id":"HAMMER","level":1,"amount":2}
+  {"id":"HAMMER","level":1,"amount":1}
   ], "tools": [
       [
       [ "boltcutters", -1 ],
@@ -1677,7 +1677,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
       [ "bat", 1 ]
@@ -3675,7 +3675,7 @@
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "needle_bone", 8 ],
@@ -12272,7 +12272,9 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
-    "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities":[
+    {"id":"HAMMER","level":1,"amount":3}
+    ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -12311,7 +12313,9 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
-    "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities":[
+    {"id":"HAMMER","level":1,"amount":3}
+    ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -12350,7 +12354,9 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities":[
+    {"id":"HAMMER","level":1,"amount":3}
+    ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -12389,7 +12395,9 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities":[
+    {"id":"HAMMER","level":1,"amount":3}
+    ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -12428,7 +12436,9 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [[ "manual_shotgun", 3 ] , ["recipe_bullets" , 2]],
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities":[
+    {"id":"HAMMER","level":1,"amount":3}
+    ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -12496,7 +12506,9 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [[ "manual_shotgun", 2 ] ,[ "manual_rifle", 2 ] ,[ "manual_smg", 2 ] ,[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
-    "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+    "qualities":[
+    {"id":"HAMMER","level":1,"amount":3}
+    ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -12555,7 +12567,7 @@
   "autolearn": false,
   "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "hacksaw", -1 ], [ "toolset", -1 ]
@@ -14092,7 +14104,7 @@
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -14130,7 +14142,7 @@
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -14168,7 +14180,7 @@
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -14206,7 +14218,7 @@
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 6 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -16380,7 +16392,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "needle_bone", 10 ],
@@ -16474,7 +16486,7 @@
   "autolearn": true,
   "book_learn": [["recipe_melee", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "components": [
     [
       [ "string_36", 1 ],
@@ -16497,7 +16509,7 @@
   "autolearn": true,
   "book_learn": [["textbook_armwest", 4] , ["recipe_melee", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "components": [
     [
       [ "string_36", 4 ],
@@ -18647,7 +18659,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "hacksaw", -1 ],
@@ -18677,7 +18689,7 @@
   "decomp_learn": 3,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -18765,7 +18777,7 @@
   "autolearn": false,
   "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -18813,7 +18825,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -18866,7 +18878,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -18911,7 +18923,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -19190,7 +19202,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -19220,7 +19232,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "goggles_welding", -1 ]
@@ -19342,7 +19354,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 5] , ["textbook_mechanics", 3] , ["manual_mechanics", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "wrench", -1 ],
@@ -19500,7 +19512,9 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":3}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -19534,7 +19548,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
     [
       [ "boltcutters", -1 ],
@@ -19708,7 +19722,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "components": [
     [
       [ "steel_chunk", 2 ],
@@ -20420,7 +20434,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "components": [
     [
       [ "sheet_metal", 1 ]
@@ -20437,7 +20451,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "goggles_welding", -1 ]
@@ -20464,7 +20478,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "goggles_welding", -1 ]
@@ -21507,7 +21521,9 @@
   "time": 120000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":3}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -22428,7 +22444,9 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [ [ ["hammer", -1], ["toolset", -1]  ],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":3}
+  ], "tools": [
      [
       ["tongs", -1]
      ],
@@ -22640,7 +22658,7 @@
   "autolearn": true,
   "book_learn": [["atomic_survival", 1] , ["textbook_survival", 1] , ["cookbook", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6] ] ]
 },{
         "type" : "recipe",
@@ -23398,7 +23416,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       [ "screwdriver", -1 ],
@@ -23443,7 +23461,7 @@
   "note": "hacking the anvil back down seems unlikely to teach anything useful",
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["crucible", -1]
@@ -23468,7 +23486,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       [ "forge", 100],
@@ -23495,7 +23513,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["anvil", -1]
@@ -23527,7 +23545,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23561,7 +23579,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23597,7 +23615,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [ 
       [
       ["tongs", -1]
@@ -23664,7 +23682,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [ 
       [
       ["tongs", -1]
@@ -23706,7 +23724,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23751,7 +23769,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23793,7 +23811,7 @@
   "autolearn": false,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23835,7 +23853,7 @@
   "autolearn": false,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23876,7 +23894,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23913,7 +23931,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], 
   "tools": [
       [
@@ -23982,7 +24000,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["chisel", -1]
@@ -24022,7 +24040,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["chisel", -1]
@@ -24061,7 +24079,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["chisel", -1]
@@ -24099,7 +24117,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -24139,7 +24157,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 6 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -24178,7 +24196,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [ ["tongs", -1] ],
       [ ["anvil", -1] ],
@@ -24203,7 +24221,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [ ["tongs", -1] ],
       [ ["chisel", -1]],
@@ -24230,7 +24248,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 2 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
       [
       ["tongs", -1]
@@ -24289,7 +24307,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24325,7 +24343,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24364,7 +24382,7 @@
   "autolearn": true,
   "book_learn": [["manual_mechanics", 3] , ["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24404,7 +24422,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24442,7 +24460,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_fireman", 8 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24480,7 +24498,7 @@
   "autolearn": true,
   "book_learn": [["manual_mechanics", 3] , ["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24522,7 +24540,7 @@
   "autolearn": true,
   "book_learn": [["manual_mechanics", 4] , ["manual_fabrication", 4] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24563,7 +24581,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 2] , ["textbook_fabrication", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24605,7 +24623,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24646,7 +24664,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24688,7 +24706,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24730,7 +24748,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_fireman", 8 ] , ["textbook_fabrication", 9]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24772,7 +24790,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24814,7 +24832,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24854,7 +24872,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24894,7 +24912,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24933,7 +24951,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -24992,7 +25010,7 @@
   "autolearn": false,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -27510,7 +27528,7 @@
   "autolearn": false,
   "book_learn": [["textbook_mechanics", 5] , ["textbook_carpentry", 5] , ["book_icef", 6]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -27555,7 +27573,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_carpentry", 6 ] , [ "textbook_fabrication", 7 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -27997,7 +28015,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       [ "screwdriver", -1 ],
@@ -28049,7 +28067,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 2] , ["manual_fabrication", 3] , ["cookbook", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       [ "screwdriver", -1 ],
@@ -28093,7 +28111,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 2] , ["manual_fabrication", 2]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
@@ -29333,7 +29351,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":1,"amount":3}
   ], "tools": [
      [
       ["tongs", -1]
@@ -30180,7 +30198,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 5] , ["manual_fabrication", 5], ["manual_carpentry", 5], ["textbook_carpentry", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":2}
   ], "tools": [
     [
       [ "screwdriver", -1 ],
