@@ -115,7 +115,7 @@ with a good weapon or a strong character."),
     text.push_back(string_format(_("There may be times when you want to move more quickly \
 by holding down a movement key. However, fast movement in this fashion may lead to the player \
 getting into a dangerous situation or even killed before they have a chance to react. \
-Pressing %s will toggle \"Run Mode\". While this is on, any movement will be ignored if new \
+Pressing %s will toggle \"Safemode\". While this is on, any movement will be ignored if new \
 monsters enter the player's view."),
                                  press_x(ACTION_TOGGLE_SAFEMODE, "", "").c_str()));
 
