@@ -3351,7 +3351,7 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
-        "description" : "A Modular Bullet Resistant Vest. It has pouches for extra armor inserts but without them provides little more protection over a regular vest.",
+        "description" : "A Modular Bullet Resistant Vest. Its armor pouches have Steel Plating in them giving it extra protection but also make the vest much heavier and encumbering.",
         "price" : 120000,
         "material" : ["kevlar", "steel"],
         "volume" : 24,
