@@ -71,7 +71,7 @@ struct vehicle_prototype
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     vehicle_part() : id("null"), iid(0), mount_dx(0), mount_dy(0), hp(0),
-      blood(0), bigness(0), inside(false), flags(0), passenger_id(0), amount(0)
+      blood(0), bigness(0), inside(false), removed(false), flags(0), passenger_id(0), amount(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -92,6 +92,8 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int blood;              // how much blood covers part (in turns).
     int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
+    bool removed;           // TRUE if this part is removed. The part won't disappear until the end of the turn
+                            // so our indexes can remain consistent.
     int flags;
     int passenger_id;       // carrying passenger
     union
@@ -263,6 +265,7 @@ public:
     int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
 
     void remove_part (int p);
+    void part_removal_cleanup ();
 
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
 
@@ -281,6 +284,29 @@ public:
 // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true);
     int part_with_feature (int p, const vpart_bitflags &f, bool unbroken = true);
+
+    /**
+     *  Return the index of the next part to open at `p`'s location
+     *
+     *  The next part to open is the first unopened part in the reversed list of
+     *  parts at part `p`'s coordinates.
+     *
+     *  @param outside If true, give parts that can be opened from outside only
+     *  @return part index or -1 if no part
+     */
+    int next_part_to_open (int p, bool outside = false);
+
+    /**
+     *  Return the index of the next part to close at `p`
+     *
+     *  The next part to open is the first opened part in the list of
+     *  parts at part `p`'s coordinates. Returns -1 for no more to close.
+     *
+     *  @param outside If true, give parts that can be closed from outside only
+     *  @return part index or -1 if no part
+     */
+    int next_part_to_close (int p, bool outside = false);
+
 // returns indices of all parts in the vehicle with the given flag
     std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true);
     std::vector<int> all_parts_with_feature(const vpart_bitflags &f, bool unbroken = true);
@@ -304,7 +330,7 @@ public:
     int part_displayed_at(int local_x, int local_y);
 
 // Given a part, finds its index in the vehicle
-    int index_of_part(vehicle_part *part);
+    int index_of_part(vehicle_part *part, bool check_removed = false);
 
 // get symbol for map
     char part_sym (int p);
@@ -512,6 +538,11 @@ public:
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
+
+    /**
+     *  Opens everything that can be opened on the same tile as `p`
+     */
+    void open_all_at(int p);
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();

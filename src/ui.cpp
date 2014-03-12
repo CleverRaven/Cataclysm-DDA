@@ -694,28 +694,19 @@ void uimenu::addentry(int r, bool e, int k, std::string str) {
 }
 
 void uimenu::addentry(const char *format, ...) {
-   char buf[4096];
    va_list ap;
    va_start(ap, format);
-   int safe=vsnprintf(buf, sizeof(buf), format, ap);
-   if ( safe >= 4096 || safe < 0 ) {
-     popup("BUG: Increase buf[4096] in ui.cpp");
-     return;
-   }
-   entries.push_back(std::string(buf));
+   const std::string text = vstring_format(format, ap);
+   va_end(ap);
+   entries.push_back(uimenu_entry(text));
 }
 
 void uimenu::addentry(int r, bool e, int k, const char *format, ...) {
-   char buf[4096];
-   int rv=r; bool en=e; int ke=k;
    va_list ap;
    va_start(ap, format);
-   int safe=vsnprintf(buf, sizeof(buf), format, ap);
-   if ( safe >= 4096 || safe < 0 ) {
-     popup("BUG: Increase buf[4096] in ui.cpp");
-     return;
-   }
-   entries.push_back(uimenu_entry(rv, en, ke, std::string(buf)));
+   const std::string text = vstring_format(format, ap);
+   va_end(ap);
+   entries.push_back(uimenu_entry(r, e, k, text));
 }
 
 void::uimenu::settext(std::string str) {
@@ -723,13 +714,8 @@ void::uimenu::settext(std::string str) {
 }
 
 void uimenu::settext(const char *format, ...) {
-   char buf[16384];
    va_list ap;
    va_start(ap, format);
-   int safe=vsnprintf(buf, sizeof(buf), format, ap);
-   if ( safe >= 16384 || safe < 0 ) {
-     popup("BUG: Increase buf[16384] in ui.cpp");
-     return;
-   }
-   text = std::string(buf);
+   text = vstring_format(format, ap);
+   va_end(ap);
 }

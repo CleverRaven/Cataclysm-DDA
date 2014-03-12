@@ -212,6 +212,7 @@ struct it_comest : public virtual itype
     std::vector<long> rand_charges;
     signed int stim;
     signed int healthy;
+    unsigned int brewtime; // How long it takes for a brew to ferment.
     std::string comesttype; //FOOD, DRINK, MED
 
     signed int fun;    // How fun its use is
@@ -241,7 +242,7 @@ struct it_comest : public virtual itype
     signed int pm_to_hit,
 
     signed int pquench, unsigned int pnutr, signed int pspoils,
-    signed int pstim, signed int phealthy, unsigned int paddict,
+    signed int pstim, signed int phealthy, unsigned int paddict, unsigned int pbrewt,
     long pcharges, std::vector<long> prand_charges, signed int pfun, itype_id pcontainer,
     itype_id ptool, int (iuse::*puse)(player *, item *, bool),
     add_type padd, std::string pcomesttype)
@@ -254,6 +255,7 @@ struct it_comest : public virtual itype
         stim            = pstim;
         healthy         = phealthy;
         addict          = paddict;
+        brewtime        = pbrewt;
         charges         = pcharges;
         rand_charges    = prand_charges;
         fun             = pfun;
@@ -268,6 +270,7 @@ struct it_comest : public virtual itype
         spoils = 0;
         stim = 0;
         healthy = 0;
+        brewtime = 0;
         addict = 0;
         charges = 0;
         fun = 0;

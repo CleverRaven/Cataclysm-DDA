@@ -31,7 +31,7 @@ void snake_game::print_header(WINDOW *w_snake, bool show_shortcut)
     if (show_shortcut) {
         std::string shortcut = _("<q>uit");
         shortcut_print(w_snake, 0, FULL_SCREEN_WIDTH - utf8_width(shortcut.c_str()) - 2,
-                       c_white, c_ltgreen, shortcut.c_str());
+                       c_white, c_ltgreen, shortcut);
     }
     center_print(w_snake, 0, c_white, _("S N A K E"));
 }
@@ -78,7 +78,7 @@ void snake_game::snake_over(WINDOW *w_snake, int iScore)
         mvwprintz(w_snake, i + 3, 17, c_ltred, game_over_text[i].c_str());
     }
 
-    center_print(w_snake, 17, c_yellow, string_format( _("TOTAL SCORE: %d"), iScore).c_str());
+    center_print(w_snake, 17, c_yellow, _("TOTAL SCORE: %d"), iScore);
     center_print(w_snake, 21, c_white, _("Press 'q' or ESC to exit."));
     wrefresh(w_snake);
     do {
@@ -123,6 +123,7 @@ int snake_game::start_game()
     //Draw Score
     print_score(w_snake, iScore);
 
+    long ch;
     InputEvent input;
 
     do {
@@ -201,7 +202,8 @@ int snake_game::start_game()
 
         //Check input
         timeout(iGameSpeed);
-        input = get_input();
+        ch = getch();
+        input = get_input(ch);
         timeout(-1);
 
         switch (input) {

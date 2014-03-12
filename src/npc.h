@@ -200,7 +200,7 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
   anger = copy.anger;
   owed = copy.owed;
   favors.clear();
-  for (int i = 0; i < copy.favors.size(); i++)
+  for (size_t i = 0; i < copy.favors.size(); i++)
    favors.push_back( copy.favors[i] );
  };
 

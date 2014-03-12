@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <set>
 
 enum action_id {
 ACTION_NULL = 0,
@@ -100,6 +101,7 @@ NUM_ACTIONS
 };
 
 extern std::map<char, action_id> keymap;
+extern std::set<action_id> unbound_keymap;
 
 // Load keybindings from disk
 void load_keyboard_settings();

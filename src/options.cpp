@@ -679,6 +679,11 @@ void initOptions() {
     OPTIONS["FULLSCREEN"] =             cOpt("graphics", _("Fullscreen"),
                                              _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
                                              false
+                                            );
+
+    OPTIONS["SOFTWARE_RENDERING"] =     cOpt("graphics", _("Software rendering"),
+                                             _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
+                                             false
                                             );  // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
@@ -970,11 +975,15 @@ void show_options(bool ingame)
 #ifdef SDLTILES
     if( used_tiles_changed ) {
         //try and keep SDL calls limited to source files that deal specifically with them
-        tilecontext->clear_buffer();
-        tilecontext->reinit( "gfx" );
-        g->init_ui();
-        if( ingame ) {
-            g->refresh_all();
+        try {
+            tilecontext->reinit( "gfx" );
+            g->init_ui();
+            if( ingame ) {
+                g->refresh_all();
+            }
+        } catch(std::string err) {
+            popup(_("Loading the tileset failed: %s"), err.c_str());
+            use_tiles = false;
         }
     }
 #endif // SDLTILES
@@ -1046,9 +1055,9 @@ void save_options(bool ingame)
 
     fout << options_header() << std::endl;
 
-    for(int j = 0; j < vPages.size(); j++) {
+    for( size_t j = 0; j < vPages.size(); ++j ) {
         bool update_wopt = (ingame && j == iWorldOptPage );
-        for(int i = 0; i < mPageItems[j].size(); i++) {
+        for( size_t i = 0; i < mPageItems[j].size(); ++i ) {
             fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
             fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
             fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;

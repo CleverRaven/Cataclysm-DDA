@@ -143,6 +143,7 @@ public:
  // See inventory::amount_of, this does the same for this item (and its content)
  int amount_of(const itype_id &it, bool used_as_tool) const;
  bool has_flag(std::string f) const;
+ bool contains_with_flag (std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
  bool has_technique(std::string t);
@@ -155,6 +156,7 @@ public:
  bool craft_has_charges();
  long num_charges();
  bool rotten();
+ int brewing_time();
  bool ready_to_revive(); // used for corpses
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
@@ -202,7 +204,7 @@ public:
  bool is_book() const;
  bool is_container() const;
  bool is_watertight_container() const;
- int is_funnel_container(int bigger_than) const;
+ bool is_funnel_container(unsigned int &bigger_than) const;
 
  bool is_tool() const;
  bool is_software() const;

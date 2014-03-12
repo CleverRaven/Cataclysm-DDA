@@ -309,11 +309,19 @@
             "female": "Maid"
         },
         "description": "You worked in a wealthy household, but after the cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
-        "points": 2,
+        "points": 1,
         "skills": [
             {
                 "level": 1,
                 "name": "cooking"
+            },
+            {
+                "level": 1,
+                "name": "driving"
+            },
+            {
+                "level": 2,
+                "name": "tailor"
             }
         ],
         "items": {
@@ -911,9 +919,13 @@
         "type": "profession",
         "ident": "svictim",
         "name": "Shower Victim",
-        "description": "You were in the middle of a nice shower when the cataclysm struck! You fled without so much as a towel.",
+        "description": "You were in the middle of a nice, hot shower when the cataclysm struck! You barely managed to escape with some soap and the most massively useful thing ever... a towel.",
         "points": -1,
         "items": {
+            "both": [
+                "soap",
+                "towel_wet"
+            ]
         }
     },
     {
@@ -1042,7 +1054,7 @@
         "type": "profession",
         "ident": "bio_soldier",
         "name": "Bionic Soldier",
-        "description": "You are the result of one of the military's latest and final research programs, a prototype cyborg soldier. You're still alive thanks to your augmentations, even after all your comrades fell to the undead. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "description": "You are the result of one of the military's latest and final research programs, a prototype cyborg soldier. You're still alive thanks to your augmentations, even after all your comrades fell to the undead.",
         "points": 5,
         "CBMs":[
             "bio_targeting",
@@ -1319,7 +1331,8 @@
         "items": {
             "both": [
                 "clown_suit",
-                "clownshoes"
+                "clownshoes",
+                "airhorn"
             ],
             "male": [
                 "briefs"
@@ -1340,7 +1353,10 @@
             "both" : [
                 "bondage_suit",
                 "bondage_mask",
-                "boots"
+                "boots",
+                "leather_belt",
+                "candle",
+                "matches"
             ]
         }
     },
@@ -1848,6 +1864,7 @@
             "both": [
                 "suit",
                 "skinny_tie",
+                "tieclip",
                 "dress_shoes",
                 "wristwatch",
                 "cell_phone",

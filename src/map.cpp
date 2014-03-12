@@ -79,7 +79,7 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
    if (nonant < 0 || nonant >= my_MAPSIZE * my_MAPSIZE)
     continue; // out of grid
 
-   for(int i = 0; i < grid[nonant]->vehicles.size(); ++i) {
+   for( size_t i = 0; i < grid[nonant]->vehicles.size(); ++i ) {
     wrapped_vehicle w;
     w.v = grid[nonant]->vehicles[i];
     w.x = w.v->posx + cx * SEEX;
@@ -160,6 +160,9 @@ void map::update_vehicle_cache(vehicle * veh, const bool brand_new)
  int partid = 0;
  for( std::vector<vehicle_part>::iterator it = parts.begin(),
    end = parts.end(); it != end; ++it, ++partid ) {
+  if (it->removed) {
+      continue;
+  }
   const int px = gx + it->precalc_dx[0];
   const int py = gy + it->precalc_dy[0];
   veh_cached_parts.insert( std::make_pair( std::make_pair(px,py),
@@ -429,7 +432,7 @@ void map::vehmove()
     // give vehicles movement points
     {
         VehicleList vehs = get_vehicles();
-        for(int v = 0; v < vehs.size(); ++v) {
+        for( size_t v = 0; v < vehs.size(); ++v ) {
             vehicle* veh = vehs[v].v;
             veh->gain_moves();
             veh->power_parts();
@@ -437,24 +440,26 @@ void map::vehmove()
         }
     }
 
-    int count = 0;
-    while(vehproceed()) {
-        count++;// lots of movement stuff. maybe 10 is low for collisions.
-        if (count > 10)
+    // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
+    for( int count = 0; count < 15; count++ ) {
+        if( !vehproceed() )
             break;
     }
+    // Process item removal on the vehicles that were modified this turn.
+    for (std::set<vehicle*>::iterator it = dirty_vehicle_list.begin(); it != dirty_vehicle_list.end(); ++it) {
+        (*it)->part_removal_cleanup();
+    }
+    dirty_vehicle_list.clear();
 }
 
-// find veh with the most amt of turn remaining, and move it a bit.
-// proposal:
-//  move it at most, a tenth of a turn, and at least one square.
-bool map::vehproceed(){
+bool map::vehproceed()
+{
     VehicleList vehs = get_vehicles();
     vehicle* veh = NULL;
     float max_of_turn = 0;
     int x; int y;
-    for(int v = 0; v < vehs.size(); ++v) {
-        if(vehs[v].v->of_turn > max_of_turn) {
+    for( size_t v = 0; v < vehs.size(); ++v ) {
+        if( vehs[v].v->of_turn > max_of_turn ) {
             veh = vehs[v].v;
             x = vehs[v].x;
             y = vehs[v].y;
@@ -656,7 +661,7 @@ bool map::vehproceed(){
         float dmg_veh2 = dmg * 0.5;
 
         int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
-        for(int i = 0; i < veh_veh_colls.size(); i++) {
+        for( size_t i = 0; i < veh_veh_colls.size(); ++i ) {
             veh_collision tmp_c = veh_veh_colls[i];
             if(veh2 == (vehicle*) tmp_c.target) { coll_parts_cnt++; }
         }
@@ -665,7 +670,7 @@ bool map::vehproceed(){
         float dmg2_part = dmg_veh2 / coll_parts_cnt;
 
         //damage colliding parts (only veh1 and veh2 parts)
-        for(int i = 0; i < veh_veh_colls.size(); i++) {
+        for( size_t i = 0; i < veh_veh_colls.size(); ++i ) {
             veh_collision tmp_c = veh_veh_colls[i];
 
             if(veh2 == (vehicle*) tmp_c.target) {
@@ -2765,6 +2770,20 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
                     it->active = false;
                 }
             }
+        } else if ( it->has_flag("WET") ) {
+            it->item_counter--;
+            if(it->item_counter <= 0)
+            {
+                g->add_msg(_("A nearby %s dries off."), it->name.c_str());
+
+                // wet towel becomes a regular towel
+                if(it->type->id == "towel_wet")
+                    it->make(itypes["towel"]);
+
+                it->item_tags.erase("WET");
+                it->item_tags.insert("ABSORBENT");
+                it->active = false;
+            }
         } else if (!it->is_tool()) { // It's probably a charger gun
             it->active = false;
             it->charges = 0;
@@ -3130,6 +3149,9 @@ void map::disarm_trap(const int x, const int y)
               }
           }
       }
+  }
+  if (tr_at(x, y) == tr_shotgun_1 || tr_at(x,y) == tr_shotgun_2) {
+      spawn_item(x,y,"shot_00",1,2);
   }
   remove_trap(x, y);
   if(diff > 1.25 * skillLevel) // failure might have set off trap
@@ -3742,7 +3764,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
 bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
 {
     int junk = 0;
-    return has_flag("SEALED", Tx, Ty) ||
+    return (has_flag("SEALED", Tx, Ty) && !has_flag("LIQUIDCONT", Tx, Ty)) ||
         ((Fx != Tx || Fy != Ty) &&
          !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
@@ -4111,7 +4133,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
   for (int x = 0; x < SEEX; x++) {
       for (int y = 0; y < SEEY; y++) {
           int biggest_container_idx = -1;
-          int maxvolume = 0;
+          unsigned int maxvolume = 0;
           bool do_container_check = false;
 
           if ( do_funnels && ! rain_backlog.empty() && rain_backlog.find(point(x,y)) != rain_backlog.end() ) {
@@ -4122,7 +4144,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
           for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
               it != tmpsub->itm[x][y].end();) {
               if ( do_container_check == true ) { // cannot link trap to mapitems
-                  if ( it->is_funnel_container(maxvolume) > maxvolume ) {                      // biggest
+                  if ( it->is_funnel_container(maxvolume) ) {                      // biggest
                       biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
                   }
               }
@@ -4490,7 +4512,7 @@ void map::build_map_cache()
 
  // Cache all the vehicle stuff in one loop
  VehicleList vehs = get_vehicles();
- for(int v = 0; v < vehs.size(); ++v) {
+ for( size_t v = 0; v < vehs.size(); ++v ) {
   for (int part = 0; part < vehs[v].v->parts.size(); part++) {
    int px = vehs[v].x + vehs[v].v->parts[part].precalc_dx[0];
    int py = vehs[v].y + vehs[v].v->parts[part].precalc_dy[0];
@@ -4876,18 +4898,20 @@ void map::add_road_vehicles(bool city, int facing)
         if (one_in(40)) {
             int vx = rng(8, 16);
             int vy = rng(8, 16);
-            int car_type = rng(1, 10);
-            if (car_type <= 5) {
+            int car_type = rng(1, 27);
+            if (car_type <= 10) {
                 add_vehicle("car", vx, vy, facing, 0, -1);
-            } else if (car_type <= 7) {
+            } else if (car_type <= 14) {
                 add_vehicle("car_sports", vx, vy, facing, 0, -1);
-            } else if (car_type <= 8) {
+            } else if (car_type <= 16) {
                 add_vehicle("flatbed_truck", vx, vy, facing, 0, -1);
-            } else if (car_type <= 9) {
+            } else if (car_type <= 18) {
                 add_vehicle("semi_truck", vx, vy, facing, 0, -1);
-            } else if (car_type <= 10) {
+            } else if (car_type <= 20) {
                 add_vehicle("humvee", vx, vy, facing, 0, -1);
-            } else if (car_type <= 12) {
+            } else if (car_type <= 24) {
+                add_vehicle("rara_x", vx, vy, facing, 0, -1);
+            } else if (car_type <= 25) {
                 add_vehicle("apc", vx, vy, facing, 0, -1);
             } else {
                 add_vehicle("armored_car", vx, vy, facing, 0, -1);

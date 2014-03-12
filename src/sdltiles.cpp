@@ -27,16 +27,12 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
-#include "SDL.h"
-#include "SDL_ttf.h"
-#ifdef SDLTILES
-#include "SDL_image.h" // Make sure to add this to the other OS inclusions
-#endif
 #ifndef strcasecmp
 #define strcasecmp strcmpi
 #endif
 #else
 #include <wordexp.h>
+#endif
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
@@ -50,8 +46,6 @@
 #include "SDL2/SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
 #endif
-#endif
-
 //***********************************
 //Globals                           *
 //***********************************
@@ -90,6 +84,8 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
+static int TERMINAL_WIDTH;
+static int TERMINAL_HEIGHT;
 std::map< std::string,std::vector<int> > consolecolors;
 void (*OutputChar)(Uint16 t, int x, int y, unsigned char color);
 
@@ -140,7 +136,7 @@ bool InitSDL()
     #endif // SDLTILES
 
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
-	
+
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
 
@@ -173,27 +169,35 @@ bool WinCreate()
 	//create renderer and convert that to a SDL_Surface?
 
     if (window == NULL) return false;
-    
+
     format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
 
-    DebugLog() << "Attempting to initialize accelerated SDL renderer.\n";
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    
-    if(renderer == NULL) {
-        DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering.\n";
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC);
-        if(renderer == NULL) {
-            DebugLog() << "Failed to initialize software renderer!\n";
+    bool software_renderer = OPTIONS["SOFTWARE_RENDERING"];
+    if( !software_renderer ) {
+        DebugLog() << "Attempting to initialize accelerated SDL renderer.\n";
+
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
+                                       SDL_RENDERER_PRESENTVSYNC );
+        if( renderer == NULL ) {
+            DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError() << "\n";
+            software_renderer = true;
+        }
+    }
+    if( software_renderer ) {
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE );
+        if( renderer == NULL ) {
+            DebugLog() << "Failed to initialize software renderer: " << SDL_GetError() << "\n";
             return false;
         }
     }
 
     ClearScreen();
 
-    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1))
+    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
         SDL_ShowCursor(SDL_DISABLE);
-    else
+    } else {
         SDL_ShowCursor(SDL_ENABLE);
+    }
 
     // Initialize joysticks.
     int numjoy = SDL_NumJoysticks();
@@ -276,7 +280,7 @@ static void cache_glyphs()
         for(int color = 0; color < 16; color++) {
             //I hate this kind of ternary use
             SDL_Surface * sglyph = (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
-            
+
             if(sglyph != NULL) {
                 int minx, maxx, miny, maxy, advance;
                 if(color==0 && 0 == TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) ) {
@@ -288,7 +292,7 @@ static void cache_glyphs()
                 glyph_height[ch] = sglyph->h;
                 glyph_cache[ch][color] = SDL_CreateTextureFromSurface(renderer,sglyph);
             }
-            
+
             SDL_FreeSurface(sglyph);
         }
     }
@@ -302,7 +306,7 @@ static void cache_glyphs()
 static void OutputFontChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
-    
+
     bool created = false;
     SDL_Texture * glyph;
     int height = 0;
@@ -452,7 +456,7 @@ void curses_drawwindow(WINDOW *win)
             };//for (i=0;i<_windows[w].width;i++)
         }
     };// for (j=0;j<_windows[w].height;j++)
-    
+
     win->draw = false; //We drew the window, mark it as so
 
     if (g && win == g->w_terrain && use_tiles)
@@ -462,10 +466,10 @@ void curses_drawwindow(WINDOW *win)
             win->y * fontheight,
             g->ter_view_x,
             g->ter_view_y,
-            tilecontext->terrain_term_x * fontwidth,
-            tilecontext->terrain_term_y * fontheight);
+            tilecontext->get_terrain_term_x() * fontwidth,
+            tilecontext->get_terrain_term_y() * fontheight);
     }
-    
+
     if(update) {
         needupdate = true;
     }
@@ -475,7 +479,7 @@ void curses_drawwindow(WINDOW *win)
 {
     int i,j,w,drawx,drawy;
     unsigned tmp;
-    
+
     bool update = false;
 
     for (j=0; j<win->height; j++)
@@ -813,7 +817,7 @@ void CheckMessages()
                     lastchar = SCROLLWHEEL_DOWN;
                 }
                 break;
-                
+
             case SDL_QUIT:
                 quit = true;
                 break;
@@ -1052,26 +1056,49 @@ WINDOW *curses_init(void)
     halfheight=fontheight / 2;
 
     if(!InitSDL()) {
-        DebugLog() << (std::string)"Failed to initialize SDL!\n";
-    }
-
-    
-    WindowWidth= OPTIONS["TERMINAL_X"];
-    if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
-    WindowWidth *= fontwidth;
-    WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
-    if(!WinCreate()) {
-        DebugLog() << (std::string)"Failed to create game window!\n";
+        DebugLog() << "Failed to initialize SDL: " << SDL_GetError() << "\n";
         return NULL;
     }
-    
+
+    TERMINAL_WIDTH = OPTIONS["TERMINAL_X"];
+    TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
+
+    if(OPTIONS["FULLSCREEN"]) {
+        // Fullscreen mode overrides terminal width/height
+        SDL_DisplayMode display_mode;
+        SDL_GetDesktopDisplayMode(0, &display_mode);
+
+        TERMINAL_WIDTH = display_mode.w / fontwidth;
+        TERMINAL_HEIGHT = display_mode.h / fontheight;
+
+        WindowWidth  = display_mode.w;
+        WindowHeight = display_mode.h;
+    } else {
+        WindowWidth= OPTIONS["TERMINAL_X"];
+        if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
+        WindowWidth *= fontwidth;
+        WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
+    }
+
+    if(!WinCreate()) {
+        DebugLog() << "Failed to create game window: " << SDL_GetError() << "\n";
+        return NULL;
+    }
+
     #ifdef SDLTILES
     DebugLog() << "Initializing SDL Tiles context\n";
     tilecontext = new cata_tiles(renderer);
-    tilecontext->init("gfx");
-    DebugLog() << "Tiles initialized successfully.\n";
+    try {
+        tilecontext->init("gfx");
+        DebugLog() << "Tiles initialized successfully.\n";
+    } catch(std::string err) {
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_tiles = false;
+    }
     #endif // SDLTILES
-    
+
     #ifdef SDLTILES
     while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
           !strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png")) {
@@ -1079,6 +1106,7 @@ WINDOW *curses_init(void)
         typeface = "data/font/" + typeface;
         SDL_Surface *asciiload = IMG_Load(typeface.c_str());
         if(!asciiload || asciiload->w*asciiload->h < (fontwidth * fontheight * 256)) {
+            DebugLog() << "Failed to load bitmap font: " << IMG_GetError() << "\n";
             SDL_FreeSurface(asciiload);
             break;
         }
@@ -1088,7 +1116,7 @@ WINDOW *curses_init(void)
         ascii_surf[0] = SDL_ConvertSurface(asciiload,format,0);
         SDL_SetSurfaceRLE(ascii_surf[0], true);
         SDL_FreeSurface(asciiload);
-        
+
         for(int a = 1; a < 16; ++a) {
             ascii_surf[a] = SDL_ConvertSurface(ascii_surf[0],format,0);
             SDL_SetSurfaceRLE(ascii_surf[a], true);
@@ -1106,19 +1134,19 @@ WINDOW *curses_init(void)
             }
             SDL_UnlockSurface(ascii_surf[a]);
         }
-        
+
         if(fontwidth)
             tilewidth = ascii_surf[0]->w / fontwidth;
-            
+
         OutputChar = &OutputImageChar;
-        
+
         //convert ascii_surf to SDL_Texture
         for(int a = 0; a < 16; ++a) {
             ascii[a] = SDL_CreateTextureFromSurface(renderer,ascii_surf[a]);
             SDL_FreeSurface(ascii_surf[a]);
         }
 
-        mainwin = newwin(OPTIONS["TERMINAL_Y"], OPTIONS["TERMINAL_X"],0,0);
+        mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
         return mainwin;
     }
     #endif // SDLTILES
@@ -1139,7 +1167,7 @@ WINDOW *curses_init(void)
     }
 
     DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
-    
+
     if(fontsize <= 0) fontsize = fontheight - 1;
 
     // SDL_ttf handles bitmap fonts size incorrectly
@@ -1147,8 +1175,10 @@ WINDOW *curses_init(void)
         faceIndex = test_face_size(typeface, fontsize, faceIndex);
 
     font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
-
-    //if(!font) something went wrong
+    if (font == NULL) {
+        DebugLog() << "Failed to load truetype font: " << TTF_GetError() << "\n";
+        return NULL;
+    }
 
     TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
 
@@ -1161,7 +1191,7 @@ WINDOW *curses_init(void)
 
     OutputChar = &OutputFontChar;
 
-    mainwin = newwin(OPTIONS["TERMINAL_Y"], OPTIONS["TERMINAL_X"],0,0);
+    mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -1390,15 +1420,15 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     {
         // Check if click is within bounds of the window we care about
         int win_left = capture_win->x * fontwidth;
-        int win_right = win_left + (capture_win->width * tilecontext->tile_width);
+        int win_right = win_left + (capture_win->width * tilecontext->get_tile_width());
         int win_top = capture_win->y * fontheight;
-        int win_bottom = win_top + (capture_win->height * tilecontext->tile_height);
+        int win_bottom = win_top + (capture_win->height * tilecontext->get_tile_height());
         if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
             return false;
         }
 
-        selected_column = (coordinate_x - win_left) / tilecontext->tile_width;
-        selected_row = (coordinate_y - win_top) / tilecontext->tile_height;
+        selected_column = (coordinate_x - win_left) / tilecontext->get_tile_width();
+        selected_row = (coordinate_y - win_top) / tilecontext->get_tile_height();
     }
     else
 #endif
@@ -1420,6 +1450,14 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     y = g->ter_view_y - ((view_rows/2) - selected_row);
 
     return true;
+}
+
+int get_terminal_width() {
+    return TERMINAL_WIDTH;
+}
+
+int get_terminal_height() {
+    return TERMINAL_HEIGHT;
 }
 
 #endif // TILES

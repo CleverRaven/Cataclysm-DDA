@@ -771,7 +771,7 @@
         "symbol": ":",
         "color": "yellow",
         "name": "CBM: Enhanced Memory Banks",
-        "description": "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, you have a chance at retaining all knowledge, at the cost of a small amount of power.",
+        "description": "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power.",
         "price": 1000000,
         "material": ["steel", "plastic"],
         "weight": 2041,
