@@ -846,6 +846,10 @@ bool game::do_turn()
         cur_om->process_mongroups();
     }
 
+    if (turn.minutes()==0) {
+        cur_om->move_hordes();
+    }
+
     // Check if we've overdosed... in any deadly way.
     if (u.stim > 250) {
         add_msg(_("You have a sudden heart attack!"));

@@ -2052,6 +2052,21 @@ void overmap::process_mongroups()
  }
 }
 
+void overmap::move_hordes()
+{
+    //MOVE ZOMBIE GROUPS
+  for (int i = 0; i < zg.size(); i++) {
+    if (zg[i].horde)
+    {
+      if (zg[i].posx > g->levx) {zg[i].posx--;}
+      if (zg[i].posx < g->levx) {zg[i].posx++;}
+      if (zg[i].posy > g->levy) {zg[i].posy--;}
+      if (zg[i].posy < g->levy) {zg[i].posy++;}
+    }
+  }
+
+}
+
 void grow_forest_oter_id(oter_id & oid, bool swampy)
 {
     if (swampy && ( oid == ot_field || oid == ot_forest ) ) {
@@ -3424,14 +3439,18 @@ void overmap::place_special(overmap_special special, tripoint p)
 
 void overmap::place_mongroups()
 {
- if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"]) {
+ //if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"]) {
   // Cities are full of zombies
   for (unsigned int i = 0; i < cities.size(); i++) {
    if (!one_in(16) || cities[i].s > 5)
     zg.push_back (mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
                            int(cities[i].s * 2.5), cities[i].s * 80));
+    zg.back().horde=true;
+    if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"])
+        zg.push_back (mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
+                           int(cities[i].s * 2.5), cities[i].s * 80));
   }
- }
+ //}
 
  if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
   // Figure out where swamps are, and place swamp monsters

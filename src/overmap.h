@@ -269,6 +269,7 @@ class overmap
   void first_house(int &x, int &y);
 
   void process_mongroups(); // Makes them die out, maybe more
+  void move_hordes();
 
   std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);

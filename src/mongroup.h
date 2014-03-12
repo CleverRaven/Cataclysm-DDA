@@ -67,6 +67,7 @@ struct mongroup {
     unsigned char radius;
     unsigned int population;
     bool dying;
+    bool horde;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
     mongroup(std::string ptype, int pposx, int pposy, int pposz,
                                 unsigned char prad, unsigned int ppop) {
@@ -78,6 +79,7 @@ struct mongroup {
         population = ppop;
         dying = false;
         diffuse = false;
+	horde = false;
     }
     bool is_safe() {
         return (type == "GROUP_NULL" ||
