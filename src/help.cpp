@@ -825,10 +825,11 @@ with the ! key. This ensures that the sudden appearance of a monster won't catch
     text.push_back(_("\
 Q: It seems like everything I eat makes me sick! What's wrong?\n\
 A: Lots of the food found in towns is perishable, and will only last a few days after \
-the start of a new game (July 12). Fruit, milk, and others are the first to go. After \
-the first couple of days, you should switch to canned food, jerky, and hunting. \
-Also unless it's the last resort you shouldn't eat raw meat or drink unboiled water, doing so \
-will risk food poisoning and other food-borne parasites."));
+the start of a new game (early Spring). The electricity went out several days ago \
+so fruit, milk and others are the first to go bad. \
+After the first couple of days, you should switch to canned food, jerky, and hunting. \
+Also, You should make sure to cook/purify any food or water you hunt up \
+as it may contain parasites or otherwise be unsafe."));
 
     text.push_back(_("\
 Q: How can I remove boards from boarded-up windows and doors?\n\
@@ -851,7 +852,7 @@ need to drop your equipment and remove your clothing to swim, making it a last-d
 
     text.push_back(_("\
 Q: How can I cure a fungal infection?\n\
-A: Royal jelly, blood filter bionic and some drugs can cure fungal infection. \
+A: Royal jelly, Blood Filter bionic and some drugs can cure fungal infection. \
 You can find royal jelly in the bee hives which dot forests. Drugs to cure fungal \
 infection can either be found as random loot or made from other ingredients."));
 
