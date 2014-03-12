@@ -9012,8 +9012,8 @@ void player::read(int pos)
                            : "Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
-    } else if (!continuous && !query_yn("Study %s until you learn something? (gain a level)",
-                                                 tmp->type->name().c_str())) {
+    } else if (!continuous && !query_yn(_("Study %s until you learn something? (gain a level)",
+                                                 tmp->type->name().c_str()))) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
