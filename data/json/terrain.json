@@ -38,7 +38,7 @@
         "id" : "t_pit_shallow",
         "name": "shallow pit",
         "symbol": "0",
-        "color": "green",
+        "color": "yellow",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "DIGGABLE"]
     },{
