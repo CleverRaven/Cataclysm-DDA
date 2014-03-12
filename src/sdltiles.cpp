@@ -70,7 +70,7 @@ public:
      * using (curses) color.
      */
     virtual void OutputChar(Uint16 t, int x, int y, unsigned char color) = 0;
-    void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
+    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
     bool draw_window(WINDOW *win);
     bool draw_window(WINDOW *win, int offsetx, int offsety);
 
@@ -113,6 +113,7 @@ public:
     void clear();
     void load_font(const std::string &path);
     virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
+    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
     SDL_Texture *ascii[16];
     int tilewidth;
@@ -1499,6 +1500,49 @@ void BitmapFont::load_font(const std::string &typeface)
         SDL_FreeSurface(ascii_surf[a]);
     }
 }
+
+void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
+{
+    BitmapFont *t = const_cast<BitmapFont*>(this);
+    switch (line_id) {
+        case LINE_OXOX_C://box bottom/top side (horizontal line)
+            t->OutputChar(0xcd, drawx, drawy, FG);
+            break;
+        case LINE_XOXO_C://box left/right side (vertical line)
+            t->OutputChar(0xba, drawx, drawy, FG);
+            break;
+        case LINE_OXXO_C://box top left
+            t->OutputChar(0xc9, drawx, drawy, FG);
+            break;
+        case LINE_OOXX_C://box top right
+            t->OutputChar(0xbb, drawx, drawy, FG);
+            break;
+        case LINE_XOOX_C://box bottom right
+            t->OutputChar(0xbc, drawx, drawy, FG);
+            break;
+        case LINE_XXOO_C://box bottom left
+            t->OutputChar(0xc8, drawx, drawy, FG);
+            break;
+        case LINE_XXOX_C://box bottom north T (left, right, up)
+            t->OutputChar(0xca, drawx, drawy, FG);
+            break;
+        case LINE_XXXO_C://box bottom east T (up, right, down)
+            t->OutputChar(0xcc, drawx, drawy, FG);
+            break;
+        case LINE_OXXX_C://box bottom south T (left, right, down)
+            t->OutputChar(0xcb, drawx, drawy, FG);
+            break;
+        case LINE_XXXX_C://box X (left down up right)
+            t->OutputChar(0xce, drawx, drawy, FG);
+            break;
+        case LINE_XOXX_C://box bottom east T (left, down, up)
+            t->OutputChar(0xb9, drawx, drawy, FG);
+            break;
+        default:
+            break;
+    }
+}
+
 
 
 
