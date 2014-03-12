@@ -357,12 +357,12 @@ and negative effects. Your mutations may change your play style considerably. It
 to find substances that will remove mutations, though these are extremely rare."));
 
     text.push_back(_("\
-Eating questionable food, drinking mutagen or administer mutagenic serum shots are other ways to gain mutations. \
+Consuming questionable food, drinking mutagen or administer mutagenic serum shots are other ways to gain mutations. \
 Be careful though as taking a large amount of mutagen as once will be generally unpleasant with harmful effects \
 and you may even become addicted to it.")); 
 
     text.push_back(_("\
-With enough mutations and certain conditions being met, and you will transcend from your very humanity, to become a wholly \
+With enough mutations and certain conditions being met, you will transcend from your very humanity, to become a wholly \
 different life-form.")); 
     return text;
 }
@@ -374,7 +374,8 @@ std::vector<std::string> text_bionics()
     text.push_back(_("\
 Bionics are biomechanical upgrades to your body. \
 While many are simply 'built-in' versions of items you would otherwise have to carry, \
-some bionics have unique effects that are otherwise unobtainable."));
+some bionics have unique effects that are otherwise unobtainable. Bionics can either be passive, \
+others need to be activated to utilize their uses."));
 
     text.push_back(_("\
 Most bionics require a source of power, and you will need an internal battery \
