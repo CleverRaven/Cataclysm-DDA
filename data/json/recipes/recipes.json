@@ -5234,20 +5234,15 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "coffeemaker", 3],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "coffeemaker", -1],
-      [ "rock_pot", -1 ],
-      [ "teapot", -1 ]
     ]
   ],
   "components": [
@@ -5285,18 +5280,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_firstaid", 2] , ["pocket_firstaid", 3], ["manual_first_aid", 2], ["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4] , ["emergency_book", 3]],
-  "tools": [
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "teapot", -1 ]
     ]
   ],
   "components": [
@@ -5317,17 +5308,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 3 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -5392,26 +5380,15 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "spear_wood", -1 ],
-      [ "spear_steel", -1 ],
-      [ "pointy_stick", -1 ],
-      [ "skewer", -1 ],
-      [ "javelin", -1 ],
-      [ "javelin_iron", -1 ],
-      [ "spear_knife", -1 ],
-      [ "tongs", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -5428,26 +5405,15 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "spear_wood", -1 ],
-      [ "spear_steel", -1 ],
-      [ "pointy_stick", -1 ],
-      [ "skewer", -1 ],
-      [ "javelin", -1 ],
-      [ "javelin_iron", -1 ],
-      [ "spear_knife", -1 ],
-      [ "tongs", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -5465,20 +5431,16 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], 
   "tools": [
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -5500,18 +5462,15 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], 
   "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -5529,21 +5488,9 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "ceramic_cup", -1],
-      [ "ceramic_bowl", -1],
-      [ "glass", -1],
-      [ "glass_bowl", -1],
-      [ "jar_glass", -1],
-      [ "can_food", -1 ],
-      [ "canister_empty", -1 ]
-        ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
     [
       [ "dry_meat", 2 ]
     ],
@@ -5561,21 +5508,9 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "ceramic_cup", -1],
-      [ "ceramic_bowl", -1],
-      [ "glass", -1],
-      [ "glass_bowl", -1],
-      [ "jar_glass", -1],
-      [ "can_food", -1 ],
-      [ "canister_empty", -1 ]
-        ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
     [
       [ "dry_fish", 2 ]
     ],
@@ -5594,21 +5529,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 0 ]],
-  "tools": [
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "ceramic_cup", -1],
-      [ "ceramic_bowl", -1],
-      [ "glass", -1],
-      [ "glass_bowl", -1],
-      [ "jar_glass", -1],
-      [ "can_food", -1 ],
-      [ "canister_empty", -1 ]
-        ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
     [
       [ "dry_hflesh", 2 ]
     ],
@@ -5626,21 +5549,9 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "ceramic_cup", -1],
-      [ "ceramic_bowl", -1],
-      [ "glass", -1],
-      [ "glass_bowl", -1],
-      [ "jar_glass", -1],
-      [ "can_food", -1 ],
-      [ "canister_empty", -1 ]
-        ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
     [
       [ "dry_veggy", 2 ]
     ],
@@ -5658,21 +5569,9 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "ceramic_cup", -1],
-      [ "ceramic_bowl", -1],
-      [ "glass", -1],
-      [ "glass_bowl", -1],
-      [ "jar_glass", -1],
-      [ "can_food", -1 ],
-      [ "canister_empty", -1 ]
-        ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
     [
       [ "dry_fruit", 2 ]
     ],
@@ -5690,21 +5589,9 @@
   "time": 9000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "ceramic_cup", -1],
-      [ "ceramic_bowl", -1],
-      [ "glass", -1],
-      [ "glass_bowl", -1],
-      [ "jar_glass", -1],
-      [ "can_food", -1 ],
-      [ "canister_empty", -1 ]
-        ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
     [
       [ "cooking_oil", 2 ]
     ],
@@ -5865,19 +5752,15 @@
   "autolearn": true,
    "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], 
   "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "pan", -1 ],
-      [ "rock_pot", -1 ]
     ],
     [
       [ "tongs", -1 ],
@@ -6152,26 +6035,15 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 0 ]],
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "spear_wood", -1 ],
-      [ "spear_steel", -1 ],
-      [ "pointy_stick", -1 ],
-      [ "skewer", -1 ],
-      [ "javelin", -1 ],
-      [ "javelin_iron", -1 ],
-      [ "spear_knife", -1 ],
-      [ "tongs", -1 ]
-        ]
+    ]
   ],
   "components": [
     [
@@ -6252,16 +6124,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6289,18 +6159,15 @@
   "reversible": false,
   "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], 
   "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6323,25 +6190,14 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "spear_wood", -1 ],
-      [ "spear_steel", -1 ],
-      [ "pointy_stick", -1 ],
-      [ "skewer", -1 ],
-      [ "javelin", -1 ],
-      [ "javelin_iron", -1 ],
-      [ "spear_knife", -1 ],
-      [ "tongs", -1 ]
     ]
   ],
   "components": [
@@ -6359,17 +6215,14 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6387,16 +6240,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6466,16 +6317,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6503,16 +6352,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6549,16 +6396,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 1 ]],
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6591,17 +6436,14 @@
   "time": 15000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6620,19 +6462,15 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], 
    "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6656,19 +6494,15 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], 
    "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6691,19 +6525,15 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], 
    "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6726,19 +6556,15 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], 
    "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6762,19 +6588,15 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":1}
+  ], 
    "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6803,19 +6625,15 @@
    "autolearn": false,
   "book_learn": [[ "cookbook_human", 0 ]],
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], 
    "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6840,19 +6658,14 @@
    "autolearn": false,
   "book_learn": [[ "cookbook_human", 0 ]],
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 3 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -6909,17 +6722,14 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
       [
         [ "hotplate", 2 ],
         [ "char_smoker", 1 ],
         [ "toolset", 1 ],
         [ "fire", -1 ]
-      ],
-      [
-        [ "pan", -1 ],
-        [ "pot", -1 ],
-        [ "rock_pot", -1 ]
       ]
     ],
   "components": [
@@ -6957,7 +6767,9 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
@@ -6965,13 +6777,6 @@
       [ "atomic_coffeepot", -1 ],
       [ "fire", -1 ],
       [ "coffeemaker", 2]
-    ],
-    [
-      [ "teapot", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "coffeemaker", -1],
-      [ "atomic_coffeepot", -1 ]
     ]
   ],
   "components": [
@@ -6993,16 +6798,14 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -7061,17 +6864,14 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
-    ],
-    [
-      ["pot", -1],
-      ["rock_pot", -1],
-      ["pan", -1]
     ]
   ],
   "components": [
@@ -7089,17 +6889,14 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
-    ],
-    [
-      ["pot", -1],
-      ["rock_pot", -1],
-      ["pan", -1]
     ]
   ],
   "components": [
@@ -7117,17 +6914,14 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
-    ],
-    [
-      ["pot", -1],
-      ["rock_pot", -1],
-      ["pan", -1]
     ]
   ],
   "components": [
@@ -7148,17 +6942,14 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
-    ],
-    [
-      ["pot", -1],
-      ["rock_pot", -1],
-      ["pan", -1]
     ]
   ],
   "components": [
@@ -7179,7 +6970,9 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
@@ -7187,13 +6980,6 @@
       [ "atomic_coffeepot", -1 ],
       [ "coffeemaker", 2],
       [ "fire", -1 ]
-    ],
-    [
-      [ "teapot", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "coffeemaker", -1],
-      [ "atomic_coffeepot", -1 ]
     ]
   ],
   "components": [
@@ -7241,13 +7027,9 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
     [
       [ "milk_powder", 1 ]
     ],
@@ -7265,16 +7047,14 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -7594,19 +7374,14 @@
   "reversible": false,
   "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-  "tools": [
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      ["pot", -1],
-      ["rock_pot", -1],
-      ["pan", -1]
     ]
   ],
   "components": [
@@ -7692,16 +7467,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -7737,16 +7510,14 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -7768,16 +7539,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -7818,16 +7587,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -7860,16 +7627,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -7921,16 +7686,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -7971,16 +7734,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 2 ]],
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -8009,16 +7770,14 @@
   "time": 10000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -8051,16 +7810,14 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -8085,16 +7842,14 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -8116,16 +7871,14 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 16 ],
       [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -8151,16 +7904,14 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -8216,17 +7967,14 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -8248,17 +7996,14 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -8354,17 +8099,14 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -8388,17 +8130,14 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -8836,17 +8575,14 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -8921,17 +8657,14 @@
   "time": 8000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -9112,14 +8845,13 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 8 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ]
     ]
   ],
   "components": [
@@ -9151,14 +8883,13 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 8 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ]
     ]
   ],
   "components": [
@@ -9188,14 +8919,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 2 ]],
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 8 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ]
     ]
   ],
   "components": [
@@ -9231,14 +8961,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 2 ]],
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 8 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ]
     ]
   ],
   "components": [
@@ -9446,18 +9175,14 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -9492,18 +9217,14 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -9538,18 +9259,14 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -9584,18 +9301,14 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 6 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -9630,17 +9343,14 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
   ], "tools": [
     [
       [ "hotplate", 4 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -9673,19 +9383,14 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 7 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -9747,12 +9452,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 4] , ["adv_chemistry", 4] , [ "recipe_labchem", 4]],
-  "tools": [
-    [
-      [ "chemistry_set", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
-    ],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "fire", -1 ],
       [ "hotplate", 8 ],
@@ -9784,12 +9486,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
-  "tools": [
-    [
-      [ "chemistry_set", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
-    ],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
@@ -9817,12 +9516,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
-  "tools": [
-    [
-      [ "chemistry_set", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
-    ],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
@@ -9850,12 +9546,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 2] , ["atomic_survival", 2] , ["textbook_survival", 1] , ["survival_book", 3] , [ "recipe_labchem", 2]],
-  "tools": [
-    [
-      [ "chemistry_set", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
-    ],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "fire", -1 ],
       [ "toolset", 1 ],
@@ -9981,18 +9674,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 7] , ["atomic_survival", 6] , [ "recipe_labchem", 6]],
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 3 ],
       [ "chemistry_set", 3 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ],
-      [ "pan", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -17652,11 +17341,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "tailor_portfolio", 5 ] , ["textbook_survival", 3] , ["trappers_companion", 3] , ["survival_book", 3] , ["textbook_armwest", 6]],
-  "tools": [
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
-    ],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 20 ],
       [ "toolset", 2 ],
@@ -19649,12 +19336,9 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "pan", -1 ]
-    ],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
@@ -19688,14 +19372,9 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_chemistry", 3] , ["adv_chemistry", 3] , ["textbook_mechanics", 5]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "pan", -1 ]
-    ],
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "char_smoker", 1 ],
@@ -20856,18 +20535,14 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -20893,18 +20568,14 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -20931,18 +20602,14 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -20968,18 +20635,14 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -21006,18 +20669,14 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -21062,15 +20721,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "vac_sealer", 10 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -21100,15 +20755,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "vac_sealer", 10 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -21139,15 +20790,11 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "vac_sealer", 10 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -21177,15 +20824,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "vac_sealer", 10 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -21234,15 +20877,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "vac_sealer", 10 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -21699,7 +21338,9 @@
   "time": 30100,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
@@ -21708,10 +21349,6 @@
     ],
     [
       [ "vac_sealer", 10 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -22461,9 +22098,10 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
-  "tools": [
-    [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ],
-    [ [ "chemistry_set", -1 ], [ "pan", -1 ], [ "pot", -1 ], [ "rock_pot", -1 ] ]
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
+    [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
   ],
   "components": [
     [ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -22621,10 +22259,8 @@
   "autolearn": true,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1},
+	{"id":"HAMMER","level":1,"amount":2}
   ], "components": [ [ ["pot", 1] ],
     [ ["hose", 2] ],
     [ ["metal_tank", 1] ] ]
@@ -23149,17 +22785,14 @@
    "reversible": false,
    "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -23194,17 +22827,14 @@
    "reversible": false,
    "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -23237,17 +22867,14 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -23274,17 +22901,14 @@
    "autolearn": false,
    "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -24951,17 +24575,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -24993,17 +24614,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25028,17 +24646,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25063,17 +24678,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25104,17 +24716,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25143,17 +24752,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25179,17 +24785,14 @@
    "autolearn": false,
   "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+     {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25219,17 +24822,14 @@
    "autolearn": false,
   "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25254,17 +24854,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25284,17 +24881,14 @@
    "autolearn": false,
    "book_learn": [[ "cookbook_human", 3 ]],
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
    [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25326,17 +24920,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25365,17 +24956,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25403,17 +24991,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25441,17 +25026,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25550,17 +25132,14 @@
    "autolearn": false,
    "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -25606,17 +25185,14 @@
    "reversible": false,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
-   "tools": [
+     {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ],[ "pot", -1 ],[ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -27539,18 +27115,14 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -27588,18 +27160,14 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -27629,18 +27197,14 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -27671,18 +27235,14 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 6 ]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
- "tools": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 20 ],
       [ "char_smoker", 1 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -27883,17 +27443,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_firstaid", 3] , ["adv_chemistry", 4] , ["emergency_book", 4]],
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":3}
+  ], "tools": [
     [
       [ "hotplate", 18 ],
       [ "chemistry_set", 18 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ],
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ]
     ]
   ],
   "components": [
@@ -28767,17 +28324,14 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       ["hotplate", 2],
       [ "char_smoker", 1 ],
       ["toolset", 1],
       ["fire", -1]
-    ],
-    [
-      ["pot", -1],
-      ["rock_pot", -1],
-      ["pan", -1]
     ]
   ],
   "components": [
@@ -28815,17 +28369,14 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 2 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pot", -1 ],
-      [ "rock_pot", -1 ],
-      [ "pan", -1 ]
     ]
   ],
   "components": [
@@ -29365,15 +28916,14 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"COOK","level":1,"amount":2}
+  ], "tools": [
     [
       [ "hotplate", 8 ],
       [ "char_smoker", 1 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "pan", -1 ]
     ]
   ],
   "components": [
