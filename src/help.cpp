@@ -263,7 +263,7 @@ notice the effects right away, don't start taking more; you may overdose and die
 
     text.push_back(_("\
 Pain will also disappear with time, so if drugs aren't available and you're in a lot of pain, it \
-may be wise to find a safe spot and simply rest for an extended period of time."));
+will be wise to find a safe spot and simply rest for an extended period of time."));
 
     text.push_back(_("\
 Another common class of drugs is stimulants. Stimulants provide you with a temporary rush of \
@@ -283,11 +283,13 @@ std::vector<std::string> text_addiction()
 Many drugs have a potential for addiction. Each time you consume such a drug there is a chance \
 that you will grow dependent on it. Consuming more of that drug will increase your dependence. \
 Effects vary greatly between drugs, but all addictions have only one cure; going cold turkey. \
-The process may last days, and will leave you very weak, so try to do it in a safe area."));
+The process may last for days, and will leave you very weak, so try to do it in a safe area."));
 
     text.push_back(_("\
 If you are suffering from drug withdrawal, taking more of the drug will cause \
-the effects to cease immediately, but may deepen your dependence."));
+the effects to cease immediately, but may deepen your dependence. Depend on the situation, \
+you should decide if you should keep trying to cure the addiction and endure the withdrawal effect, \
+or postpone it for later."));
 
     return text;
 }
