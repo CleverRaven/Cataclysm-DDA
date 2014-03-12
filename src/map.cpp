@@ -440,10 +440,9 @@ void map::vehmove()
         }
     }
 
-    int count = 0;
-    while(vehproceed()) {
-        count++;// lots of movement stuff. maybe 10 is low for collisions.
-        if (count > 10)
+    // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
+    for( int count = 0; count < 15; count++ ) {
+        if( !vehproceed() )
             break;
     }
     // Process item removal on the vehicles that were modified this turn.
@@ -453,16 +452,14 @@ void map::vehmove()
     dirty_vehicle_list.clear();
 }
 
-// find veh with the most amt of turn remaining, and move it a bit.
-// proposal:
-//  move it at most, a tenth of a turn, and at least one square.
-bool map::vehproceed(){
+bool map::vehproceed()
+{
     VehicleList vehs = get_vehicles();
     vehicle* veh = NULL;
     float max_of_turn = 0;
     int x; int y;
     for( size_t v = 0; v < vehs.size(); ++v ) {
-        if(vehs[v].v->of_turn > max_of_turn) {
+        if( vehs[v].v->of_turn > max_of_turn ) {
             veh = vehs[v].v;
             x = vehs[v].x;
             y = vehs[v].y;
