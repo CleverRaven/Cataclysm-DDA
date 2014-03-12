@@ -183,18 +183,21 @@ std::vector<std::string> text_introduction()
     std::vector<std::string> text;
 
     text.push_back(_("\
-Cataclysm is a roguelike with a monster apocalypse setting. \
-You have survived the original onslaught, and are ready to set out in search of safety."));
+Cataclysm is a survival roguelike with a monster apocalypse setting. \
+You have survived the original onslaught, but the future looks pretty grim. \
+You must prepare to face the many hardships to come including dwindling supplies, \
+hostile creatures, harmful weather, even among fellow survivors you must be wary for \
+someone may be plotting behind your back to take your hard-earned loot."));
 
     text.push_back(_("\
-Cataclysm differs from most roguelikes in several ways. Rather than exploring \
+Cataclysm differs from most traditional roguelikes in several ways. Rather than exploring \
 an underground dungeon, with a limited area on each level, you are exploring \
-a truly infinite world, stretching in all four cardinal directions. As in most roguelikes, \
+a truly infinite world, stretching in all four cardinal directions. As a survival roguelike, \
 you will have to find food; you also need to keep yourself hydrated, and sleep periodically."));
 
     text.push_back(_("\
-While Cataclysm has more challenges than many roguelikes, the near-future \
-setting makes some tasks easier. Firearms, medications, and a wide variety \
+While Cataclysm has more tasks to keep track than many other roguelikes, the near-future \
+setting of the game makes some tasks easier. Firearms, medications, and a wide variety \
 of tools are all available to help you survive."));
 
     return text;
@@ -207,8 +210,9 @@ std::vector<std::string> text_viewing()
     text.push_back(string_format(_("\
 The player can often see more than can be displayed on the screen at a time. Pressing %s enters \
 look around mode, which allows you to scroll around using the movement keys and view items on \
-the map. Pressing %s provides a list of nearby visible items, though items shut away in crates, \
-cupboards, refrigerators and the like will not be displayed. Pressing Shift+vikeys will scroll \
+the map as well as monsters and their stance toward the character. Pressing %s provides a list of \
+nearby visible items, though items shut away in crates, cupboards, refrigerators and the like \
+won't be displayed until you are close enough. Pressing Shift+vikeys will scroll \
 the view persistently, allowing you to keep an eye on things as you move around."),
                                  press_x(ACTION_LOOK, "", "").c_str(),
                                  press_x(ACTION_LIST_ITEMS, "", "").c_str()));
@@ -220,14 +224,14 @@ std::vector<std::string> text_hunger()
     std::vector<std::string> text;
 
     text.push_back(string_format(_("\
-As time passes, you will begin to feel hunger and thirst. A status warning at the bottom of the \
-screen will appear. As hunger and thirst reach critical levels, you will begin to suffer movement \
+As time passes, you will begin to feel hunger and thirst. A status warning at the sidebar \
+will appear. As hunger and thirst reach critical levels, you will begin to suffer movement \
 penalties. Thirst is more dangerous than hunger. Finding food in a city is usually easy; outside \
-of a city, you may have to hunt an animal, then stand over its corpse and butcher it into small \
-chunks of meat by %s key. Likewise, outside of a city you may have to drink water from a river or \
-other natural source; stand in shallow water and press %s to pick it up. You'll need a watertight \
-container. Be forewarned that some sources of water aren't trustworthy and may produce diseased \
-water. To be sure it's healthy, run all water you collect through a water filter before drinking."),
+of a city, you may have to hunt an animal or forage wild fruits, stand over an animal's corpse and butcher it into \
+small chunks of meat by %s key. Likewise, outside of a city you may have to drink water from a river or \
+other natural source; stand in shallow water and press %s to collect it. You'll need a watertight \
+container to store it. Be forewarned that some sources of water aren't trustworthy and may produce diseased \
+water. To be sure it's healthy, purify the water by boiling it or using chemical before drinking."),
                                  press_x(ACTION_BUTCHER, "", "").c_str(),
                                  press_x(ACTION_PICKUP, "", "").c_str()));
 
@@ -236,7 +240,7 @@ Every 14 to 20 hours, you'll find yourself growing sleepy. If you do not sleep b
 you'll start suffering stat and movement penalties. You may not always fall asleep right away. \
 Sleeping indoors, especially on a bed, will help; or you can always use sleeping pills. \
 While sleeping, you'll slowly replenish lost hit points. You'll also be vulnerable to attack, \
-so try to find a safe place, or set traps for unwary intruders."),
+so try to find a safe place to sleep, or set traps for unwary intruders."),
                                  press_x(ACTION_SLEEP, "", "").c_str()));
 
     return text;
