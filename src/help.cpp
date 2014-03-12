@@ -820,13 +820,15 @@ std::vector<std::string> text_faq()
 Q: What is Safe Mode, and why does it prevent me from moving?\n\
 A: Safe Mode is a way to guarantee that you won't die by holding a movement key down. \
 When a monster comes into view, your movement will be ignored until Safe Mode is turned off \
-with the ! key. This ensures that the sudden appearence of a monster won't catch you off guard."));
+with the ! key. This ensures that the sudden appearance of a monster won't catch you off guard."));
 
     text.push_back(_("\
 Q: It seems like everything I eat makes me sick! What's wrong?\n\
 A: Lots of the food found in towns is perishable, and will only last a few days after \
 the start of a new game (July 12). Fruit, milk, and others are the first to go. After \
-the first couple of days, you should switch to canned food, jerky, and hunting."));
+the first couple of days, you should switch to canned food, jerky, and hunting. \
+Also unless it's the last resort you shouldn't eat raw meat or drink unboiled water, doing so \
+will risk food poisoning and other food-borne parasites."));
 
     text.push_back(_("\
 Q: How can I remove boards from boarded-up windows and doors?\n\
@@ -885,7 +887,7 @@ it from spreading. Fire extinguishers can put out fires that get out of control.
 
     text.push_back(_("\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
-A: Ask the helpful people on the forum at smf.cataclysmdda.com or irc channel #CataclysmDDA on freenode."));
+A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc channel #CataclysmDDA on freenode."));
 
     return text;
 }
