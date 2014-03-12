@@ -30,9 +30,11 @@
         "type"  : "item_group",
         "id"    : "dojo_manuals",
         "items" : [
-            ["manual_karate", 50],
-            ["manual_judo", 25],
-            ["manual_aikido", 25]
+            ["manual_karate", 20],
+            ["manual_judo", 20],
+            ["manual_aikido", 20],
+            ["manual_taekwondo", 20],
+            ["manual_tai_chi", 20]
         ]
     },
     {
