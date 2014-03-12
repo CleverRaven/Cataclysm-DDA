@@ -358,7 +358,7 @@ to find substances that will remove mutations, though these are extremely rare."
 
     text.push_back(_("\
 Eating questionable food, drinking mutagen or administer mutagenic serum shots are other ways to gain mutations. \
-Be careful though as taking a large amount of mutagen as once will be general unpleasant, may carry harmful effects \
+Be careful though as taking a large amount of mutagen as once will be generally unpleasant with harmful effects \
 and you may even become addicted to it.")); 
 
     text.push_back(_("\
