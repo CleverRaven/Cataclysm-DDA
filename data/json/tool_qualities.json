@@ -39,5 +39,21 @@
         "type" : "tool_quality",
         "id" : "BREW",
         "name" : "brewing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "AXE",
+        "name" : "brewing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "DIG",
+        "name" : "brewing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "WRENCH",
+        "name" : "brewing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "SCREW",
+        "name" : "brewing quality"
     }
 ]

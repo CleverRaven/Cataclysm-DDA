@@ -4535,7 +4535,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE"
+    "use_action": "NONE",
+	"qualities": [["SCREW", 1]]
   },
 
   {
@@ -4558,7 +4559,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE"
+    "use_action": "NONE",
+	"qualities": [["WRENCH", 1]]
   },
 
   {
