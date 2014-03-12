@@ -5794,15 +5794,14 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -9384,7 +9383,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":1,"amount":3}
   ], "tools": [
     [
       [ "hotplate", 7 ],
@@ -9414,17 +9413,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 5] , ["adv_chemistry", 5] , [ "recipe_labchem", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":1}
+  ], "tools": [
     [
       [ "hotplate", 15 ],
       [ "chemistry_set", 15 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ],
-      [ "bottle_glass", 2 ],
-      [ "hose", -1 ]
     ]
   ],
   "components": [
@@ -9453,7 +9449,7 @@
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 4] , ["adv_chemistry", 4] , [ "recipe_labchem", 4]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -9487,7 +9483,7 @@
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -9517,7 +9513,7 @@
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 3] , ["atomic_survival", 2] , ["textbook_survival", 2] , ["survival_book", 3]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -9547,7 +9543,7 @@
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2] , ["pocket_survival", 2] , ["atomic_survival", 2] , ["textbook_survival", 1] , ["survival_book", 3] , [ "recipe_labchem", 2]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -9577,10 +9573,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 5] , ["adv_chemistry", 4] , ["pocket_survival", 5] , ["atomic_survival", 5] , ["textbook_survival", 5] , ["survival_book", 5] , [ "recipe_labchem", 4]],
-  "tools": [
-    [
-      [ "chemistry_set", -1 ]
-    ],
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "fire", -1 ],
       [ "toolset", 2 ],
@@ -9611,10 +9606,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["pocket_survival", 8] , ["atomic_survival", 6] , ["textbook_survival", 6] , ["survival_book", 7] , [ "recipe_labchem", 6]],
-  "tools": [
-    [
-      [ "chemistry_set", -1 ]
-    ],
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "fire", -1 ],
       [ "toolset", 2 ],
@@ -9648,10 +9642,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 6] , ["adv_chemistry", 6] , ["atomic_survival", 4] , ["survival_book", 5] , [ "recipe_labchem", 5]],
-  "tools": [
-    [
-      [ "chemistry_set", -1 ]
-    ]
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
   ],
   "components": [
     [
@@ -9675,7 +9668,7 @@
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 7] , ["atomic_survival", 6] , [ "recipe_labchem", 6]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 3 ],
@@ -9706,15 +9699,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_gaswarfare",  8] , ["recipe_creepy", 8] , ["recipe_animal", 8] , ["recipe_maiar", 7] , ["recipe_serum", 7] , [ "recipe_labchem", 7]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -9747,15 +9739,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_labchem", 9]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -9775,15 +9766,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_creepy", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -9811,15 +9801,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_creepy", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -9839,15 +9828,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_maiar", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -9877,15 +9865,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -9905,15 +9892,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_maiar", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -9940,15 +9926,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -9968,15 +9953,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_maiar", 8 ] , [ "recipe_creepy", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10004,15 +9988,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ] , [ "recipe_creepy", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10032,15 +10015,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10071,15 +10053,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10099,15 +10080,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_creepy", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10134,15 +10114,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_creepy", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10162,15 +10141,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 7 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10197,15 +10175,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10225,15 +10202,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10260,15 +10236,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10288,15 +10263,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10323,15 +10297,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10351,15 +10324,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10386,15 +10358,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10414,15 +10385,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10449,15 +10419,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] ,  [ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10477,15 +10446,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_creepy", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10513,15 +10481,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_creepy", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10541,15 +10508,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10576,15 +10542,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10604,15 +10569,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10639,15 +10603,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10667,15 +10630,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_maiar", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10702,15 +10664,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10730,15 +10691,14 @@
   "reversible": false,
   "book_learn": [[ "recipe_medicalmut", 9 ]],
   "autolearn": false,
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10780,15 +10740,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_medicalmut", 9 ] , [ "recipe_serum", 9 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10833,15 +10792,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_gaswarfare", 9] , ["atomic_survival", 9] , ["record_patient", 9] , ["recipe_maiar", 8] , [ "recipe_labchem", 7]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10870,15 +10828,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 9] , [ "recipe_labchem", 9]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10898,15 +10855,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_alpha", 9 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10935,15 +10891,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_alpha", 9 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10963,15 +10918,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_elfa", 10 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 31 ],
       [ "hotplate", 31 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -10997,15 +10951,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_elfa", 10 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11025,15 +10978,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_chimera", 9]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11062,15 +11014,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_chimera", 8 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11090,15 +11041,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_raptor", 9 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 31 ],
       [ "hotplate", 31 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11124,15 +11074,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_raptor", 9 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 37 ],
       [ "hotplate", 37 ],
       [ "toolset", 4 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11152,15 +11101,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["textbook_firstaid", 3] , ["manual_first_aid", 3] , ["emergency_book", 4] , ["pocket_firstaid", 2] , ["recipe_labchem", 4]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11195,15 +11143,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5] , ["atomic_survival", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11227,15 +11174,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 2] , ["atomic_survival", 3]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11262,15 +11208,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 4] , ["atomic_survival", 4] , ["textbook_survival", 4]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11347,14 +11292,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11402,14 +11346,13 @@
   "time": 24000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 2 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11462,14 +11405,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 8] , ["recipe_labchem", 6]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 2 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11497,15 +11439,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 6] , ["recipe_labchem", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"BREW","level":1,"amount":1}
+  ], "tools": [
     [
       [ "chemistry_set", 40 ],
       [ "hotplate", 40 ],
       [ "toolset", 2 ]
-    ],
-    [
-      [ "chemistry_set", -1 ],
-      [ "still", -1 ]
     ]
   ],
   "components": [
@@ -11531,14 +11471,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 25 ],
       [ "hotplate", 25 ],
       [ "toolset", 2 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11561,15 +11500,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 3] , ["textbook_chemistry", 3] , ["atomic_survival", 4]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 2 ],
       [ "hotplate", 2 ],
       [ "toolset", 1 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ],
     [
       [ "needle_bone", 1 ],
@@ -11601,14 +11539,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ] , [ "manual_pistol", 3 ], [ "adv_chemistry", 3 ] , [ "textbook_chemistry", 3 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 4 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11635,14 +11572,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_anarch", 6 ] , ["recipe_bullets" , 5 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 4 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ]
   ],
   "components": [
@@ -11668,15 +11604,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_pistol", 10 ] , ["manual_rifle", 10 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 4 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -11716,15 +11651,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_pistol", 10 ] , ["manual_rifle", 10 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 4 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -11767,15 +11701,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 4 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -11815,15 +11748,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 4 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ],
     [
       [ "boltcutters", -1 ]
@@ -11861,15 +11793,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":2}
+  ], "tools": [
     [
       [ "chemistry_set", 50 ],
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 4 ]
-    ],
-    [
-      [ "chemistry_set", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -22274,7 +22205,9 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
-  "tools":[ [ ["still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools":[
     [ ["fire", -1] ] ],
   "components": [ [ ["strawberries", 2] ],
     [ ["vodka", 4] ] ]
@@ -22288,7 +22221,9 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
-  "tools":[ [ ["still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools":[
     [ ["fire", -1] ] ],
   "components": [ [ ["blueberries", 2] ],
     [ ["vodka", 4] ] ]
@@ -22302,7 +22237,9 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
-  "tools":[ [ ["still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools":[
     [ ["fire", -1] ] ],
   "components": [ [ ["meth", 4] ],
     [ ["cola", 2] ] ]
@@ -22317,8 +22254,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [ ["brewing_cookbook", 2] ],
-  "tools": [ 
-    [ [ "still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools": [
     [ [ "hotplate", 8 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -22338,8 +22276,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 5] ],
-  "tools": [ 
-    [ [ "still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools": [ 
     [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -22368,8 +22307,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 6] ],
-  "tools": [ 
-    [ [ "still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools": [ 
     [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -22396,8 +22336,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 4] ],
-  "tools": [ 
-    [ [ "still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools": [ 
     [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -22456,8 +22397,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 2] ],
-  "tools": [ 
-    [ [ "still", -1], [ "chemistry_set", -1 ]],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":1}
+  ], "tools": [
     [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -22492,8 +22434,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 2] ],
-  "tools": [ 
-    [ [ "still", -1], [ "chemistry_set", -1 ]],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":1}
+  ], "tools": [
     [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -22522,8 +22465,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [ ["brewing_cookbook", 2] ],
-  "tools": [ 
-    [ [ "still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools": [
     [ [ "hotplate", 2 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -22552,8 +22496,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 4] ],
-  "tools": [ 
-    [ [ "still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools": [ 
     [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -22768,7 +22713,9 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
-  "tools":[ [ ["still", -1] ],
+  "qualities":[
+    {"id":"BREW","level":1,"amount":2}
+  ], "tools":[
     [ ["fire", -1]  ] ],
   "components": [ [ ["meat_tainted", 12] ],
     [ ["vodka", 2] ],

@@ -5862,7 +5862,8 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null"
+    "revert_to": "null",
+	"qualities":[["BREW", 2]]
   },
 
   {
@@ -5907,9 +5908,9 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+	"qualities":[["BREW", 1], ["CHEM", 2]]
   },
-
   {
     "id": "crackpipe",
     "type": "TOOL",
