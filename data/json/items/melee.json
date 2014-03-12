@@ -476,6 +476,22 @@
 
   {
     "type":"GENERIC",
+    "id": "mirror",
+    "symbol": "o",
+    "color": "light_cyan",
+    "name": "hand mirror",
+    "description": "A small hand mirror.",
+    "price": 15000,
+    "material": "glass",
+    "weight": 300,
+    "volume": 3,
+    "bashing": 2,
+    "cutting": 0,
+    "to_hit": -3
+  },
+
+  {
+    "type":"GENERIC",
     "id": "glass_sheet",
     "symbol": "]",
     "color": "light_cyan",
