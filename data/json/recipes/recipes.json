@@ -22367,6 +22367,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "misc_repairkit",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used" : "fabrication",
+  "difficulty" : 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      ["string_36", 1],
+      ["string_6", 6]
+    ],
+    [
+      ["chisel", 1]
+    ],
+    [
+      ["hammer", 1]
+    ],
+    [
+      ["rag", 2],
+      ["leather", 2],
+      ["fur", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "small_repairkit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",

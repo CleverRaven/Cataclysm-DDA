@@ -187,6 +187,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "tape",
+        "name" : "duct tape",
+        "default" : "duct_tape"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "battery",
         "name" : "batteries",
         "default" : "battery"

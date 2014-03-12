@@ -30,12 +30,79 @@ std::string melee_message(matec_id tech, player &p, int bash_dam, int cut_dam, i
  *                     Dexterity / 2 + sk_melee
  * int hit_roll() - The player's hit roll, to be compared to a monster's or
  *   player's dodge_roll().  This handles weapon bonuses, weapon-specific
- *   skills, torso encumberment penalties and drunken master bonuses.
+ *   skills, torso encumbrance penalties and drunken master bonuses.
  */
 
 bool player::is_armed()
 {
  return (weapon.typeId() != "null");
+}
+
+bool player::handle_melee_wear() {
+// Here is where we handle wear and tear on things we use as melee weapons or shields.
+    std::stringstream dump;
+    int material_factor = 1;
+    int damage_chance = dex_cur + ( 2 * skillLevel("melee") ) + ( 128 / str_cur );
+  // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
+  if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
+    // Here we're checking the weapon's material(s) and using the best one to determine how durable it is.
+    if (weapon.made_of("plastic")) {
+                material_factor = 2;
+    }
+    if (weapon.made_of("leather")) {
+                material_factor = 3;
+    }
+    if (weapon.made_of("bone") || weapon.made_of("chitin") || weapon.made_of("wood")) {
+                material_factor = 4;
+    }
+    if (weapon.made_of("stone") || weapon.made_of("silver") || weapon.made_of("gold") || weapon.made_of("lead")) {
+                material_factor = 6;
+    }
+    if (weapon.made_of("iron") || weapon.made_of("kevlar") || weapon.made_of("aluminum")) {
+                material_factor = 8;
+    }
+    if (weapon.made_of("steel") ) {
+                material_factor = 10;
+    }
+    if (weapon.made_of("hardsteel")) {
+                material_factor = 12;
+    }
+    if (weapon.made_of("ceramic")) {
+                material_factor = 40;
+    }
+    if (weapon.made_of("superalloy") || weapon.made_of("diamond")){
+                material_factor = 100;
+    }
+    // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
+    // than other weapons made of the same materials.
+    if (weapon.has_flag("DURABLE_MELEE")) {
+                material_factor *= 4;
+    }
+    // The weapon's current state of damage can make it more susceptible to further damage.
+    damage_chance -= weapon.damage * 6;
+    
+    if (damage_chance < 2) {
+        damage_chance = 2;
+    }
+    
+    damage_chance *= material_factor;
+    
+    if (weapon.damage < 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
+     weapon.damage++;
+     g->add_msg_player_or_npc(this, _("Your %s is damaged by the force of the blow!"),
+                                   _("<npcname>'s %s is damaged by the force of the blow!"),
+                                   weapon.name.c_str());
+    } else if (weapon.damage >= 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
+      g->add_msg_player_or_npc(this, _("Your %s is destroyed by the blow!"),
+      _("<npcname>'s %s is destroyed by the blow!"),
+      weapon.name.c_str());
+  // Dump its contents on the ground
+  for (size_t i = 0; i < weapon.contents.size(); i++)
+   g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
+   remove_weapon();
+      }
+  }
+  return true;
 }
 
 bool player::unarmed_attack() {
@@ -174,8 +241,8 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         bash_dam *= mabuff_bash_mult();
         cut_dam *= mabuff_cut_mult();
         stab_dam *= mabuff_cut_mult();
-            
-        // Handles effects as well; not done in melee_affect_*
+
+        // Handles effects as well; not done in melee_affect_* 
         if (technique.id != "tec_none")
             perform_technique(technique, t, bash_dam, cut_dam, stab_dam, move_cost);
 
@@ -809,6 +876,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     if (can_weapon_block()) {
         g->add_msg_player_or_npc( this, _("You block with your %s!"),
             _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
+        handle_melee_wear();
     }
     else if (can_limb_block()) {
         //Choose which body part to block with
@@ -1023,6 +1091,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
   d.add_damage(DT_CUT, rng(0, 5 + int(weapon.volume() * 1.5)));// Hurt the monster extra
   remove_weapon();
  }
+ 
+ handle_melee_wear();
 
 // Getting your weapon stuck
  int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));

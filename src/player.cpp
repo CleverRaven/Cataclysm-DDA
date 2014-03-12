@@ -9509,7 +9509,7 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
     }
 }
 
-// mutates du, returns true iff armor was damaged
+// mutates du, returns true if armor was damaged
 bool player::armor_absorb(damage_unit& du, item& armor) {
     it_armor* armor_type = dynamic_cast<it_armor*>(armor.type);
 
