@@ -423,6 +423,10 @@ an understanding of chemistry and can make chemical weapons and beneficial elixi
 In addition to the primary crafting skills, other skills may be necessary to create certain \
 items. Traps skill, Marksmanship skill, and First Aid skill are all required for certain items."));
 
+    text.push_back(_("\
+Crafting an item with high difficulty may fall and possibly waste some material. You should prepare spare material \
+for such occasion."));
+
     return text;
 }
 
