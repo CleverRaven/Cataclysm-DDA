@@ -400,16 +400,16 @@ std::vector<std::string> text_crafting()
     text.push_back(_("\
 Many important items can be very hard to find, or will cost a great deal of \
 money to trade for. Fortunately, it is possible to craft a wide variety of \
-goods with the proper tools, materials, and training."));
+goods (if only makeshift ones) with the proper tools, materials, and training."));
 
     text.push_back(_("\
 Some recipes require a set of tools. These are not used up when crafting, so you can keep your \
 tool set. All recipes require one or more ingredients. These ARE used up in crafting."));
 
     text.push_back(string_format(_("\
-To craft items, press %s. There are five categories: \
-Weapons, Food, Electronics, Armor, and Miscellaneous. While a few items require \
-no skill to create, the majority require you to have some knowledge:\n"),
+To craft items, press %s. There are seven categories: \
+Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category are several smaller sub-categories.\
+While a few items require no particular skill to create, the majority require you to have some knowledge:\n"),
                                  press_x(ACTION_CRAFT, "", "").c_str()));
 
     text.push_back(_("\
