@@ -669,7 +669,7 @@ to throw these items by pressing %s, then the letter of the item to throw."),
     text.push_back(string_format(_("\
 ?       Book or magazine\n\
 This can be read for training or entertainment by pressing %s. Most require a basic \
-level of intelligence; some require some base knowledge in the relevant subject. Some may \
+level of intelligence; some require some base knowledge in the relevant subject. Some books may \
 contain useful crafting recipes."),
                                  press_x(ACTION_READ, "", "").c_str()));
 
