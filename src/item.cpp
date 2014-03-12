@@ -2694,10 +2694,10 @@ int item::calc_fun(player *u, bool output_msg){
             ret = 5;
         }
         // Sapiovores don't recognize themselves as humans, so human erotica doesn't do a lot for them.
-        if (u->has_trait("SAPIOVORE") && reading->id == "mag_porn") {
+        /*if (u->has_trait("SAPIOVORE") && reading->id == "mag_porn") {
             if (output_msg) g->add_msg(_("Humans just aren't as exciting to you as they were before."));
             ret = 0;
-        }
+        }*/
 
         return ret;
     }
