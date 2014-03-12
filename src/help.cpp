@@ -230,8 +230,8 @@ penalties. Thirst is more dangerous than hunger. Finding food in a city is usual
 of a city, you may have to hunt an animal or forage wild fruits, stand over an animal's corpse and butcher it into \
 small chunks of meat by %s key. Likewise, outside of a city you may have to drink water from a river or \
 other natural source; stand in shallow water and press %s to collect it. You'll need a watertight \
-container to store it. Be forewarned that some sources of water aren't trustworthy and may produce diseased \
-water. To be sure it's healthy, purify the water by boiling it or using chemical before drinking."),
+container to store it. Be forewarned that some sources of water aren't trustworthy and may produce \
+diseased water. To be sure it's healthy, purify the water by boiling it or using purifier before drinking."),
                                  press_x(ACTION_BUTCHER, "", "").c_str(),
                                  press_x(ACTION_PICKUP, "", "").c_str()));
 
