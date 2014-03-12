@@ -438,6 +438,7 @@ void map::vehmove ()
     }
 }
 
+// find veh with the most amt of turn remaining and move it 1/5th turn
 bool map::vehproceed()
 {
     VehicleList vehs = get_vehicles();
@@ -456,7 +457,6 @@ bool map::vehproceed()
 
 
 
-    // find veh with the most amt of turn remaining and move it 1/5th turn
     int debug = 0;
     // 1 turn = 5 moves = 1-25 (or more!) tiles covered
     // Keep moving through tiles until veh->of_turn < move_until
