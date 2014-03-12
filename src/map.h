@@ -202,7 +202,7 @@ class map
 
  // put player on vehicle at x,y
  void board_vehicle(int x, int y, player *p);
- void unboard_vehicle(const int x, const int y, bool warn = true);//remove player from vehicle at x,y
+ void unboard_vehicle(const int x, const int y);//remove player from vehicle at x,y
  void update_vehicle_cache(vehicle *, const bool brand_new = false);
  void reset_vehicle_cache();
  void clear_vehicle_cache();

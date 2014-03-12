@@ -236,7 +236,7 @@ void map::board_vehicle(int x, int y, player *p)
     }
 }
 
-void map::unboard_vehicle(const int x, const int y, bool warn)
+void map::unboard_vehicle(const int x, const int y)
 {
     int part = 0;
     vehicle *veh = veh_at(x, y, part);
@@ -261,22 +261,20 @@ void map::unboard_vehicle(const int x, const int y, bool warn)
     }
     const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
     if (seat_part < 0) {
-        if (warn)
-            debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-                  veh->part_info(part).name.c_str());
+        debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
+              veh->part_info(part).name.c_str());
         return;
     }
     passenger = veh->get_passenger(seat_part);
     if (!passenger) {
-        if (warn)
-            debugmsg ("map::unboard_vehicle: passenger not found");
+        debugmsg ("map::unboard_vehicle: passenger not found");
         return;
     }
     passenger->in_vehicle = false;
     passenger->driving_recoil = 0;
     passenger->controlling_vehicle = false;
     veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
-    veh->start_skid(0);
+    veh->start_skid( 0 );
 }
 
 void map::destroy_vehicle (vehicle *veh)
