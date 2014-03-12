@@ -277,13 +277,13 @@ std::vector<std::string> text_addiction()
 
     text.push_back(_("\
 Many drugs have a potential for addiction. Each time you consume such a drug there is a chance \
-that you will grow dependent on it. Consuming more of that drug will increase your dependance. \
+that you will grow dependent on it. Consuming more of that drug will increase your dependence. \
 Effects vary greatly between drugs, but all addictions have only one cure; going cold turkey. \
 The process may last days, and will leave you very weak, so try to do it in a safe area."));
 
     text.push_back(_("\
 If you are suffering from drug withdrawal, taking more of the drug will cause \
-the effects to cease immediately, but may deepen your dependance."));
+the effects to cease immediately, but may deepen your dependence."));
 
     return text;
 }
@@ -505,7 +505,7 @@ std::vector<std::string> text_combat()
     std::vector<std::string> text;
 
     text.push_back(_("\
-After 30 minutes of warmup time, monsters will begin to appear. They are \
+After 30 minutes of warm-up time, monsters will begin to appear. They are \
 represented by letters on your screen; a list of monster names, and their \
 positions relative to you, is displayed on the right side of the screen."));
 
@@ -635,7 +635,7 @@ this may leave an empty container."),
 [       Clothing\n\
 This may be worn with the %s key or removed with the %s key. It may cover one or more body parts; \
 you can wear multiple articles of clothing on any given body part, but this will encumber you \
-severely. Each article of clothing may provide storage space, warmth, an encumberment, and a \
+severely. Each article of clothing may provide storage space, warmth, an encumbrance, and a \
 resistance to bashing and/or cutting attacks. Some may protect against environmental effects."),
                                  press_x(ACTION_WEAR, "", "").c_str(),
                                  press_x(ACTION_TAKE_OFF, "", "").c_str()));
@@ -669,7 +669,8 @@ to throw these items by pressing %s, then the letter of the item to throw."),
     text.push_back(string_format(_("\
 ?       Book or magazine\n\
 This can be read for training or entertainment by pressing %s. Most require a basic \
-level of intelligence; some require some base knowledge in the relevant subject."),
+level of intelligence; some require some base knowledge in the relevant subject. Some may \
+contain useful crafting recipes."),
                                  press_x(ACTION_READ, "", "").c_str()));
 
     return text;
