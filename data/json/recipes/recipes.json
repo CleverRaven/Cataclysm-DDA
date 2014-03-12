@@ -1030,11 +1030,9 @@
   "reversible": true,
   "decomp_learn": 3,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
