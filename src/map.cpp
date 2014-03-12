@@ -262,7 +262,7 @@ void map::unboard_vehicle(const int x, const int y)
     const int seat_part = veh->part_with_feature (part, VPFLAG_BOARDABLE, false);
     if (seat_part < 0) {
         debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-              veh->part_info(part).name.c_str());
+                  veh->part_info(part).name.c_str());
         return;
     }
     passenger = veh->get_passenger(seat_part);
@@ -279,22 +279,21 @@ void map::unboard_vehicle(const int x, const int y)
 
 void map::destroy_vehicle (vehicle *veh)
 {
-    if (!veh) {
-        debugmsg("map::destroy_vehicle was passed NULL");
-        return;
-    }
-    unboard_vehicle(veh->global_x(), veh->global_y(), false);
-    const int veh_sm = veh->smx + veh->smy * my_MAPSIZE;
-    for (int i = 0; i < grid[veh_sm]->vehicles.size(); i++) {
-        if (grid[veh_sm]->vehicles[i] == veh) {
-            vehicle_list.erase(veh);
-            reset_vehicle_cache();
-            grid[veh_sm]->vehicles.erase (grid[veh_sm]->vehicles.begin() + i);
-            delete veh;
-            return;
-        }
-    }
-    debugmsg ("destroy_vehicle can't find it! name=%s, sm=%d", veh->name.c_str(), veh_sm);
+ if (!veh) {
+  debugmsg("map::destroy_vehicle was passed NULL");
+  return;
+ }
+ const int veh_sm = veh->smx + veh->smy * my_MAPSIZE;
+ for (int i = 0; i < grid[veh_sm]->vehicles.size(); i++) {
+  if (grid[veh_sm]->vehicles[i] == veh) {
+   vehicle_list.erase(veh);
+   reset_vehicle_cache();
+   grid[veh_sm]->vehicles.erase (grid[veh_sm]->vehicles.begin() + i);
+   delete veh;
+   return;
+  }
+ }
+ debugmsg ("destroy_vehicle can't find it! name=%s, sm=%d", veh->name.c_str(), veh_sm);
 }
 
 bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool test)
