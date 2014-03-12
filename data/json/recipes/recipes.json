@@ -21960,6 +21960,16 @@
   "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
+  "tools": [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["welder", 10],
+      ["welder_crude", 15],
+      ["toolset", 1]
+    ]
+  ],
   "components": [
     [
       ["leather", 5]
