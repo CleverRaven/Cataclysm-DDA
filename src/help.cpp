@@ -356,6 +356,14 @@ mutations will be negative; however, many are beneficial, and others have both p
 and negative effects. Your mutations may change your play style considerably. It is possible \
 to find substances that will remove mutations, though these are extremely rare."));
 
+    text.push_back(_("\
+Eating questionable food, drinking mutagen or administer mutagenic serum shots are other ways to gain mutations. \
+Be careful though as taking a large amount of mutagen as once will be general unpleasant, may carry harmful effects \
+and you may even become addicted to it.")); 
+
+    text.push_back(_("\
+With enough mutations and certain conditions being met, and you will transcend from your very humanity, to become a wholly \
+different life-form.")); 
     return text;
 }
 
