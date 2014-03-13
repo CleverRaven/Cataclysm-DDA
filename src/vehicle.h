@@ -529,6 +529,9 @@ public:
 
     void leak_fuel (int p);
 
+    // Cycle through available turret modes
+    void cycle_turret_mode();
+
     // fire the turret which is part p
     void fire_turret (int p, bool burst = true);
 
