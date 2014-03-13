@@ -350,7 +350,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
     // DEBUG VARS
     int nummg = 0;
     char datatype;
-    int cx, cy, cz, cs, cp, cd, cdying;
+    int cx, cy, cz, cs, cp, cd, cdying, horde, tx, ty, intr;
     std::string cstr;
     city tmp;
     std::list<item> npc_inventory;
