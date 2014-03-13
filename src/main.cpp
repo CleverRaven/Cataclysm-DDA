@@ -293,11 +293,10 @@ void exit_handler(int s) {
 
 void set_base_path(std::string path)
 {
-    // TODO Unicode support
     if (!path.empty()) {
         char ch;
         ch = path.at(path.length() - 1);
-        if (ch != '/') {
+        if (ch != '/' || ch != '\\') {
             path.push_back('/');
         }
     }
