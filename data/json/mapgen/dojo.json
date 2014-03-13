@@ -30,11 +30,15 @@
         "type"  : "item_group",
         "id"    : "dojo_manuals",
         "items" : [
-            ["manual_karate", 20],
-            ["manual_judo", 20],
-            ["manual_aikido", 20],
-            ["manual_taekwondo", 20],
-            ["manual_tai_chi", 20]
+            ["manual_karate", 15],
+            ["manual_judo", 15],
+            ["manual_aikido", 15],
+            ["manual_taekwondo", 15],
+            ["manual_tai_chi", 15],
+            ["mag_melee", 20],
+            ["manual_melee",10],
+            ["mag_unarmed", 20],
+            ["manual_brawl", 10]
         ]
     },
     {
