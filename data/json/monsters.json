@@ -5053,7 +5053,7 @@
     "special_freq":80,
     "death_function":"NORMAL",
     "special_attack":"PARROT",
-    "description":"A robot body with the head of a human. All kinds of electronic wires and devices are implanted in the head. Patches of skin look diseased or rotting. This cyborg moves erratically and has a confused and deranged look in its eyes.",
+    "description":"A robot body with the head of a human. All kinds of electronic wires and devices are implanted in its head. Patches of skin look diseased or rotting. This cyborg moves erratically and has a confused and deranged look in its eyes.",
     "flags":["SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50", "REVIVES", "WARM", "STUMBLES"]
     }
 ]
