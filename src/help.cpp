@@ -314,7 +314,7 @@ or going through drug withdrawal are some prominent examples."));
 
     text.push_back(_("\
 Low morale will make you sluggish and unmotivated. It will also reduce your stats, particularly \
-intelligence. If your morale drops very low, you won't be able to perform crafting at all and may even commit suicide. \
+intelligence. If your morale drops very low, you won't be able to perform crafting at all. \
 Very high morale fills you with gusto and energy, and you will find yourself moving faster. At extremely high levels, \
 you will receive stat bonuses."));
 
