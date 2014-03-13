@@ -372,6 +372,8 @@ void set_standard_filenames(void)
     FILENAMES.insert(std::pair<std::string,std::string>("colors", FILENAMES["rawdir"] + "colors.json"));
     FILENAMES.insert(std::pair<std::string,std::string>("keybindings", FILENAMES["rawdir"] + "keybindings.json"));
     FILENAMES.insert(std::pair<std::string,std::string>("sokoban", FILENAMES["rawdir"] + "sokoban.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("defaulttilejson", FILENAMES["gfx"] + "tile_config.json"));
+    FILENAMES.insert(std::pair<std::string,std::string>("defaulttilepng", FILENAMES["gfx"] + "tinytile.png"));
 
     // User directories
     FILENAMES.insert(std::pair<std::string,std::string>("savedir", FILENAMES["user_dir"] + "save/"));
@@ -389,8 +391,6 @@ void set_standard_filenames(void)
     /*
     FILENAMES.insert(std::pair<std::string,std::string>("mainlua", FILENAMES["datadir"] + "main.lua"));
     FILENAMES.insert(std::pair<std::string,std::string>("typeface", FILENAMES["fontdir"] + "fixedsys.ttf"));
-    FILENAMES.insert(std::pair<std::string,std::string>("defaulttilejson", FILENAMES["gfx"] + "tile_config.json"));
-    FILENAMES.insert(std::pair<std::string,std::string>("defaulttilepng", FILENAMES["gfx"] + "tinytile.png"));
 
     FILENAMES.insert(std::pair<std::string,std::string>("modsearchpath", FILENAMES["datadir"]));
     FILENAMES.insert(std::pair<std::string,std::string>("modsearchfile", FILENAMES["modinfo.json"]));

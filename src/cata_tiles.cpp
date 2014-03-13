@@ -178,7 +178,6 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
             } else if(sOption[0] == '#') { // # indicates a comment
                 getline(fin, sOption);
             } else {
-
                 if (sOption.find("NAME") != std::string::npos) {
                     std::string tileset_name;
                     tileset_name = "";
@@ -191,9 +190,11 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
                     getline(fin, sOption);                              // so we just skip it
                 } else if (sOption.find("JSON") != std::string::npos) {
                     fin >> json_path;
+                    json_path = FILENAMES["datadir"] + json_path;
                     DebugLog() << "\tJSON path set to [" << json_path << "].\n";
                 } else if (sOption.find("TILESET") != std::string::npos) {
                     fin >> tileset_path;
+                    tileset_path = FILENAMES["datadir"] + tileset_path;
                     DebugLog() << "\tTILESET path set to [" << tileset_path << "].\n";
                 }
             }

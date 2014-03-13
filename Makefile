@@ -377,6 +377,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+ifdef TILES
+	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+endif
 	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
                    README.txt LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
