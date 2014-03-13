@@ -1175,7 +1175,6 @@ void vehicle::deserialize(JsonIn &jsin)
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
-    find_horns ();
     find_parts ();
     find_power ();
     find_fuel_tanks ();
