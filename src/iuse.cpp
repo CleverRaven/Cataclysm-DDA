@@ -1235,7 +1235,7 @@ int iuse::blech(player *p, item *it, bool) {
         if ( !query_yn(_("This looks unhealthy, sure you want to drink it?"))) {
             return 0;
         }
-    } else {
+    } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
         if ( !query_yn(_("This looks unhealthy, sure you want to eat it?"))) {
             return 0;
         }
