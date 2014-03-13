@@ -1831,6 +1831,7 @@
         "description" : "You've developed the ability to stockpile calories and then sleep for extended periods of time.",
         "valid" : false,
         "prereqs" : ["HEAVYSLEEPER2"],
+        "threshreq" : ["THRESH_URSINE"],
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
