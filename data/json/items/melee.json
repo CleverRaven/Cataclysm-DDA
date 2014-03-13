@@ -2169,7 +2169,9 @@
         "bashing" : 22,
         "cutting" : 4,
         "flags" : ["SPEAR"],
-        "price" : 120000
+        "price" : 120000,
+		"qualities": [["HAMMER", 1]]
+    },
     },
     {
         "type":"GENERIC",
