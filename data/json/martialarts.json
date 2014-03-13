@@ -355,7 +355,6 @@
             "javelin",
             "javelin_iron",
             "knife_combat",
-            "knife_trench",
             "kris",
             "machete",
             "makeshift_halberd",
@@ -409,11 +408,9 @@
             "tec_fencing_thrust"
         ],
         "weapons" : [
-            "sword_wood",
             "broadsword",
             "broadfire_off",
             "broadfire_on",
-            "sword_crude",
             "sword_forged",
             "rapier"
         ]
@@ -471,7 +468,6 @@
             "glass_shiv",
             "hammer",
             "knife_combat",
-            "knife_trench",
             "machete",
             "makeshift_knife",
             "makeshift_machete",
