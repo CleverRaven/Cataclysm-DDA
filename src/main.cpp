@@ -38,7 +38,6 @@ void set_user_dir(const char *ud = "");
 void set_standard_filenames(void);
 
 std::map<std::string, std::string> FILENAMES; // create map where we will store the FILENAMES
-std::string USERNAME;
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -87,20 +86,6 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             check_all_mods = true;
-        } else if(std::string(argv[0]) == "--home") {
-            argc--;
-            argv++;
-            #ifdef __linux__
-            FILENAMES.insert(std::pair<std::string,std::string>("base_path", std::string(getenv("HOME")) + "/.cataclysm-dda/"));
-            #endif // __linux__
-        } else if(std::string(argv[0]) == "--username") {
-            argc--;
-            argv++;
-            if(argc) {
-                USERNAME = std::string(argv[0]);
-                argc--;
-                argv++;
-            }
         } else if(std::string(argv[0]) == "--basepath") {
             argc--;
             argv++;
