@@ -1818,7 +1818,7 @@
         "bashing" : 36,
         "cutting" : 0,
         "price" : 12000,
-		"qualities": [["HAMMER", 2]]
+		"qualities": [["HAMMER", 1]]
     },
     {
         "type":"GENERIC",
@@ -1835,7 +1835,7 @@
         "bashing" : 30,
         "cutting" : 0,
         "price" : 16000,
-		"qualities": [["HAMMER", 2]]
+		"qualities": [["HAMMER", 1]]
     },
     {
         "type":"GENERIC",
@@ -2150,7 +2150,9 @@
         "volume" : 5,
         "bashing" : 26,
         "cutting" : 0,
-        "price" : 100000
+        "price" : 100000,
+		"qualities": [["HAMMER", 1]]
+    },
     },
     {
         "type":"GENERIC",
