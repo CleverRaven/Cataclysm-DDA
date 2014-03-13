@@ -253,7 +253,7 @@ public:
     void honk_horn();
 
 // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index);
+    vpart_info& part_info (int index, bool include_removed = false);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
@@ -264,7 +264,7 @@ public:
 // install a new part to vehicle (force to skip possibility check)
     int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
 
-    void remove_part (int p);
+    bool remove_part (int p);
     void part_removal_cleanup ();
 
     void break_part_into_pieces (int p, int x, int y, bool scatter = false);
@@ -484,8 +484,6 @@ public:
 // reduces velocity to 0
     void stop ();
 
-    void find_horns ();
-
     void find_power ();
 
     void find_alternators ();
@@ -525,8 +523,12 @@ public:
 
     //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
     void shift_parts(const int dx, const int dy);
+    bool shift_if_needed();
 
     void leak_fuel (int p);
+
+    // Cycle through available turret modes
+    void cycle_turret_mode();
 
     // fire the turret which is part p
     void fire_turret (int p, bool burst = true);
@@ -557,8 +559,8 @@ public:
     std::string name;   // vehicle name
     std::string type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+    int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
-    std::vector<int> horns;            // List of horn part indices
     std::vector<int> lights;           // List of light part indices
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> fuel;             // List of fuel tank indices

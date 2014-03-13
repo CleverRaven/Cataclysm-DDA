@@ -2462,7 +2462,7 @@
         "damage_modifier" : 60,
         "durability" : 145,
         "size" : 15,
-        "item" : "frame",
+        "item" : "v_table",
         "difficulty" : 1,
         "location" : "center",
         "flags" : ["CARGO", "OBSTACLE"],
