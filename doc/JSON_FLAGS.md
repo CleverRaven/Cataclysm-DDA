@@ -231,6 +231,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ACID_BLOOD``` Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
+- ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
