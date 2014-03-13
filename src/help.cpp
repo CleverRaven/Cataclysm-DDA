@@ -362,7 +362,7 @@ Be careful though as taking a large amount of mutagen as once will be generally 
 and you may even become addicted to it.")); 
 
     text.push_back(_("\
-With enough mutations and certain conditions being met, you will transcend from your very humanity, to become a wholly \
+With enough mutations and certain conditions being met, you will permanently transcend your humanity into become a wholly \
 different life-form.")); 
     return text;
 }
