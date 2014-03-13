@@ -6830,6 +6830,17 @@
       ["bio_blade_weapon", 0],
       ["bio_laser_gun", 0],
       ["bio_blaster_gun", 0],
+      ["cents", 0],
+      ["oil_lamp_on", 0],
+      ["gasoline_lantern_on", 0],
+      ["glowstick_dead", 0],
+      ["handflare_dead", 0],
+      ["carver_on", 0],
+      ["trimmer_on", 0],
+      ["circsaw_on", 0],
+      ["geiger_on", 0],
+      ["adv_UPS_on", 0],
+      ["pda_flashlight", 0],
       ["bio_lightning", 0]
     ]
   },{
