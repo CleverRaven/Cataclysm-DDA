@@ -1069,7 +1069,7 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "battery",
     "revert_to": "null",
     "use_action": "RADGLOVE",
     "storage" : 0,
