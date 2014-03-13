@@ -1240,10 +1240,6 @@ bool vehicle::remove_part (int p)
         // Part already removed.
         return false;
     }
-    if (parts[p].removed) {
-        // Part already removed.
-        return;
-    }
     if (part_flag(p, "TRACK")) {
         // disable tracking if there are no other trackers installed.
         if (tracking_on)
@@ -3822,7 +3818,7 @@ void vehicle::refresh()
     // Main loop over all vehicle parts.
     for (int p = 0; p < parts.size(); p++) {
         const vpart_info& vpi = part_info(p);
-        if (parts[i].removed)
+        if (parts[p].removed)
             continue;
         if (vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT)) {
             lights.push_back(p);
@@ -4457,7 +4453,6 @@ float get_collision_factor(float delta_v)
         return 0.1;
     }
 }
-<<<<<<< HEAD
 
 float vehicle::wheels_area (int *cnt)
 {

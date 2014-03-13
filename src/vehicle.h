@@ -273,19 +273,6 @@ public:
     // Calculate and deal damage to a single point from collition
     bool apply_damage_from_collision_to_point(int frame, veh_collision coll);
 
-    // damage types:
-    // 0 - piercing
-    // 1 - bashing (damage applied if it passes certain treshold)
-    // 2 - incendiary
-    // damage individual part. bash means damage
-    // must exceed certain threshold to be substracted from hp
-    // (a lot light collisions will not destroy parts)
-    // returns damage bypassed
-    int damage (int p, int dmg, int type = 1, bool aimed = true);
-
-    // damage all parts (like shake from strong collision), range from dmg1 to dmg2
-    void damage_all (int dmg1, int dmg2, int type, const point &impact);
-
 /****************************************************************************
  *                                  Power                                   *
  ****************************************************************************/
@@ -341,7 +328,7 @@ public:
     bool player_in_control (player *p);  // check if given player controls this vehicle
 
 // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index, bool include_removed = false);
+    vpart_info& part_info (int index);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
@@ -362,8 +349,6 @@ public:
 
 // calculate if it can move using its wheels configuration
     bool valid_wheel_config ();
-
-    bool is_inside( int p );
 
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec();
@@ -411,13 +396,8 @@ public:
 // install a new part to vehicle (force to skip possibility check)
     int install_part(int dx, int dy, std::string id, int hp = -1, bool force = false);
 
-<<<<<<< HEAD
-    void remove_part(int p);
-    void part_removal_cleanup();
-=======
     bool remove_part (int p);
     void part_removal_cleanup ();
->>>>>>> master
 
     void break_part_into_pieces(int p, int x, int y, bool scatter = false);
 
@@ -475,9 +455,6 @@ public:
 // Vehicle parts description
     int print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1);
 
-    //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
-    void shift_parts(const int dx, const int dy);
-
 /****************************************************************************
  *                        Map/Coordinates                                *
  ****************************************************************************/
@@ -493,13 +470,6 @@ public:
 // update map coordinates of the vehicle
     void update_map_x(int x);
     void update_map_y(int y);
-
-// get symbol for map
-    char part_sym (int p);
-    std::string part_id_string(int p, char &part_mod);
-
-// get color for map
-    nc_color part_color (int p);
 
 // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir);
@@ -543,6 +513,12 @@ public:
 // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();
 
+    void refresh_insides ();
+
+    bool is_inside (int p);
+
+    void unboard_all ();
+
 // damages all parts of a vehicle by a random amount
     void smash();
 
@@ -562,18 +538,9 @@ public:
 // Honk the vehicle's horn, if there are any
     void honk_horn();
 
-    // Cycle through available turret modes
-    void cycle_turret_mode();
-
-    // fire the turret which is part p
-    bool fire_turret (int p, bool burst = true);
-
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
-
-    // upgrades/refilling/etc. see veh_interact.cpp
-    void interact ();
 
     // Change the facing direction of a headlight
     bool change_headlight_direction(int p);
@@ -608,8 +575,6 @@ public:
 // reduces velocity to 0
     void stop ();
 
-    void unboard_all ();
-
     // damage types:
     // 0 - piercing
     // 1 - bashing (damage applied if it passes certain treshold)
@@ -636,7 +601,7 @@ public:
     void cycle_turret_mode();
 
     // fire the turret which is part p
-    void fire_turret (int p, bool burst = true);
+    bool fire_turret (int p, bool burst = true);
 
 /****************************************************************************
  *                        Cargo                            *
@@ -655,11 +620,6 @@ public:
      */
     void open_all_at(int p);
 
-    /**
-     *  Opens everything that can be opened on the same tile as `p`
-     */
-    void open_all_at(int p);
-
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
 
@@ -667,7 +627,6 @@ public:
     void remove_item (int part, int itemdex);
 
     // cached values, should in theory be correct, only recalculated occasionally in refresh()
-    bool has_pedals;                // Has foot pedals installed?
     bool has_environmental_effects; // True if it has bloody or smoking parts, set in do_environmental_effects()
     int cached_mass;                // Total mass, becomes inaccurate if player removes cargo, parts fall off etc, in kg
     float drag_coeff;               // Cd * A, includes skin friction, form drag, and interference drag, dimensionless
