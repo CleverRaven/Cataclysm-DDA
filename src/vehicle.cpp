@@ -4128,10 +4128,9 @@ void vehicle::leak_fuel (int p)
 
 void vehicle::cycle_turret_mode()
 {
-    if (++turret_mode > 1) {
+    if( ++turret_mode > 1 )
         turret_mode = 0;
-    }
-    g->add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
+    g->add_msg( (0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode") );
 }
 
 bool vehicle::fire_turret (int p, bool burst)

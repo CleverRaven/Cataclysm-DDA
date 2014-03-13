@@ -2925,8 +2925,9 @@ bool game::handle_action()
    break;
 
   case ACTION_SLEEP:
-    if (veh_ctrl) {
-        veh->cycle_turret_mode();
+    if( veh_ctrl ) {
+        add_msg(_("Vehicle control has moved, %s"),
+        press_x(ACTION_CONTROL_VEHICLE, _("new binding is "), _("new default binding is '^'.")).c_str());
     } else {
         uimenu as_m;
         as_m.text = _("Are you sure you want to sleep?");
