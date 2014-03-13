@@ -524,7 +524,7 @@ bool map::process_fields_in_submap(int gridn)
 
                         veh = veh_at(x, y, part); //Get the part of the vehicle in the fire.
                         if (veh) {
-                            veh->damage (part, cur->getFieldDensity() * 10, false);    //Damage the vehicle in the fire.
+                            veh->damage(part, cur->getFieldDensity() * 10, 2, false);    //Damage the vehicle in the fire.
                         }
                         // If the flames are in a brazier, they're fully contained, so skip consuming terrain
                         if((tr_brazier != tr_at(x, y)) && (has_flag("FIRE_CONTAINER", x, y) != true )) {
