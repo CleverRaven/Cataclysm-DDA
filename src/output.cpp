@@ -1226,7 +1226,7 @@ std::string vstring_format(const char *pattern, va_list argptr)
     while(true) {
         buffer.resize(buffer_size, '\0');
         va_copy(cur_argptr, argptr);
-        returned_length = _vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
+        returned_length = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
         va_end(cur_argptr);
         if (returned_length >= 0) {
             break;
