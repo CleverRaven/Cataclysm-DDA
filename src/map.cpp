@@ -2756,13 +2756,17 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
                     grid[nonant]->active_item_count--;
                 }
             }
-        } else if (it->type->id == "corpse") { // some corpses rez over time
+        } else if (it->type->id == "corpse" && it->corpse != NULL ) { // some corpses rez over time
             if (it->ready_to_revive()) {
                 if (rng(0,it->volume()) > it->burnt) {
                     int mapx = (nonant % my_MAPSIZE) * SEEX + i;
                     int mapy = (nonant / my_MAPSIZE) * SEEY + j;
                     if (g->u_see(mapx, mapy)) {
-                        g->add_msg(_("A nearby corpse rises and moves towards you!"));
+                        if(it->corpse->in_species("ROBOT")) {
+                            g->add_msg(_("A nearby robot has repaired itself and stands up!"));
+                        } else {
+                            g->add_msg(_("A nearby corpse rises and moves towards you!"));
+                        }
                     }
                     g->revive_corpse(mapx, mapy, it);
                     return true;
