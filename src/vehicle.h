@@ -341,7 +341,7 @@ public:
     bool player_in_control (player *p);  // check if given player controls this vehicle
 
 // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index);
+    vpart_info& part_info (int index, bool include_removed = false);
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
@@ -411,8 +411,13 @@ public:
 // install a new part to vehicle (force to skip possibility check)
     int install_part(int dx, int dy, std::string id, int hp = -1, bool force = false);
 
+<<<<<<< HEAD
     void remove_part(int p);
     void part_removal_cleanup();
+=======
+    bool remove_part (int p);
+    void part_removal_cleanup ();
+>>>>>>> master
 
     void break_part_into_pieces(int p, int x, int y, bool scatter = false);
 
@@ -510,6 +515,13 @@ public:
     int global_part_at (int x, int y);
     int part_displayed_at(int local_x, int local_y);
 
+// get symbol for map
+    char part_sym (int p);
+    std::string part_id_string(int p, char &part_mod);
+
+// get color for map
+    nc_color part_color (int p);
+
 /****************************************************************************
  *                              Init/Load/Save                              *
  ****************************************************************************/
@@ -598,7 +610,22 @@ public:
 
     void unboard_all ();
 
-    void refresh_insides ();
+    // damage types:
+    // 0 - piercing
+    // 1 - bashing (damage applied if it passes certain treshold)
+    // 2 - incendiary
+    // damage individual part. bash means damage
+    // must exceed certain threshold to be substracted from hp
+    // (a lot light collisions will not destroy parts)
+    // returns damage bypassed
+    int damage (int p, int dmg, int type = 1, bool aimed = true);
+
+    // damage all parts (like shake from strong collision), range from dmg1 to dmg2
+    void damage_all (int dmg1, int dmg2, int type, const point &impact);
+
+    //Shifts the coordinates of all parts and moves the vehicle in the opposite direction.
+    void shift_parts(const int dx, const int dy);
+    bool shift_if_needed();
 
     void leak_fuel (int p);
 
@@ -616,6 +643,11 @@ public:
 // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
 // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
     bool add_item (int part, item itm);
+
+    /**
+     *  Opens everything that can be opened on the same tile as `p`
+     */
+    void open_all_at(int p);
 
     /**
      *  Opens everything that can be opened on the same tile as `p`

@@ -107,6 +107,8 @@ void vehicle::load (std::ifstream &stin)
     } else {
         load_legacy(stin);
     }
+    refresh(); // part index lists are lost on save??
+    shift_if_needed();
 }
 
 /** Checks all parts to see if frames are missing (as they might be when
@@ -1223,11 +1225,20 @@ void vehicle::give_part_properties_to_item(int partnum, item& i)
     i.damage = dam;
 }
 
-void vehicle::remove_part (int p)
+/**
+ * Mark a part as removed from the vehicle.
+ * @return bool true if the vehicle's 0,0 point shifted.
+ */
+bool vehicle::remove_part (int p)
 {
     if (p >= parts.size()) {
         debugmsg("Tried to remove part %d but only %d parts!", p, parts.size());
-        return;
+        return false;
+    }
+    if (parts[p].removed) {
+        debugmsg("Part already removed!");
+        // Part already removed.
+        return false;
     }
     if (parts[p].removed) {
         // Part already removed.
@@ -1272,42 +1283,40 @@ void vehicle::remove_part (int p)
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(seatbelt);
         }
-    }
-
-    //If we remove the (0, 0) frame, we need to shift things around
-    if(part_info(p).location == "structure" && parts[p].mount_dx == 0 && parts[p].mount_dy == 0) {
-        //Find a frame, any frame, to shift to
-        for( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
-            if(next_part != p
-                    && part_info(next_part).location == "structure"
-                    && !part_info(next_part).has_flag("PROTRUSION")) {
-                shift_parts(parts[next_part].mount_dx, parts[next_part].mount_dy);
-                break;
-            }
+        // Also unboard entity if seat gets removed
+        std::vector<int> bp = boarded_parts();
+        for (size_t i = 0; i < bp.size(); i++) {
+            if( int(i) == p )
+                g->m.unboard_vehicle( global_x() + parts[bp[i]].precalc_dx[0],
+                                      global_y() + parts[bp[i]].precalc_dy[0] );
         }
     }
+
+    parts[p].removed = true;
+    removed_part_count++;
 
     const int dx = global_x() + parts[p].precalc_dx[0];
     const int dy = global_y() + parts[p].precalc_dy[0];
     for (int i = 0; i < parts[p].items.size(); i++) {
         g->m.add_item_or_charges(dx + rng(-3, +3), dy + rng(-3, +3), parts[p].items[i]);
     }
-    parts[p].removed = true;
     g->m.dirty_vehicle_list.insert(this);
     refresh();
+    return shift_if_needed();
 }
 
 void vehicle::part_removal_cleanup() {
     bool changed = false;
-    // Erase backwards to preserve indices.
-    if (parts.size() > 0) {
-      for ( size_t i = parts.size() - 1; i > 0; --i ) {
-          if ( parts[i].removed ) {
-              changed = true;
-              parts.erase(parts.begin() + i);
-          }
-      }
+    for (std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); /* noop */) {
+        if ((*it).removed) {
+            it = parts.erase(it);
+            changed = true;
+        }
+        else {
+            ++it;
+        }
     }
+    removed_part_count = 0;
     if (changed || parts.size() == 0) {
         refresh();
         if(parts.size() == 0) {
@@ -1316,6 +1325,7 @@ void vehicle::part_removal_cleanup() {
             g->m.update_vehicle_cache(this, false);
         }
     }
+    shift_if_needed();
 }
 
 /**
@@ -1800,6 +1810,9 @@ void vehicle::precalc_mounts (int idir, int dir)
         idir = 0;
     for (int p = 0; p < parts.size(); p++)
     {
+        if (parts[p].removed) {
+            continue;
+        }
         int dx, dy;
         coord_translate (dir, parts[p].mount_dx, parts[p].mount_dy, dx, dy);
         parts[p].precalc_dx[idir] = dx;
@@ -4002,6 +4015,28 @@ void vehicle::shift_parts(const int dx, const int dy)
 
 }
 
+/**
+ * Detect if the vehicle is currently missing a 0,0 part, and
+ * adjust if necessary.
+ * @return bool true if the shift was needed.
+ */
+bool vehicle::shift_if_needed() {
+    if (parts_at_relative(0, 0).empty()) {
+        //Find a frame, any frame, to shift to
+        for ( size_t next_part = 0; next_part < parts.size(); ++next_part ) {
+            if ( part_info(next_part).location == "structure"
+                    && !part_info(next_part).has_flag("PROTRUSION")
+                    && !parts[next_part].removed) {
+                shift_parts(parts[next_part].mount_dx, parts[next_part].mount_dy);
+                break;
+            }
+        }
+        refresh();
+        return true;
+    }
+    return false;
+}
+
 int vehicle::damage_direct (int p, int dmg, int type)
 {
     if (parts[p].hp <= 0) {
@@ -4422,6 +4457,7 @@ float get_collision_factor(float delta_v)
         return 0.1;
     }
 }
+<<<<<<< HEAD
 
 float vehicle::wheels_area (int *cnt)
 {

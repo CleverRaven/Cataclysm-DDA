@@ -172,17 +172,20 @@ bool WinCreate()
 
     format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
 
-    DebugLog() << "Attempting to initialize accelerated SDL renderer.\n";
-    if(OPTIONS["SOFTWARE_RENDERING"]) {
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-    } else {
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    }
+    bool software_renderer = OPTIONS["SOFTWARE_RENDERING"];
+    if( !software_renderer ) {
+        DebugLog() << "Attempting to initialize accelerated SDL renderer.\n";
 
-    if(renderer == NULL) {
-        DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError() << "\n";
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_PRESENTVSYNC);
-        if(renderer == NULL) {
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
+                                       SDL_RENDERER_PRESENTVSYNC );
+        if( renderer == NULL ) {
+            DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError() << "\n";
+            software_renderer = true;
+        }
+    }
+    if( software_renderer ) {
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE );
+        if( renderer == NULL ) {
             DebugLog() << "Failed to initialize software renderer: " << SDL_GetError() << "\n";
             return false;
         }
@@ -190,10 +193,11 @@ bool WinCreate()
 
     ClearScreen();
 
-    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1))
+    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
         SDL_ShowCursor(SDL_DISABLE);
-    else
+    } else {
         SDL_ShowCursor(SDL_ENABLE);
+    }
 
     // Initialize joysticks.
     int numjoy = SDL_NumJoysticks();
