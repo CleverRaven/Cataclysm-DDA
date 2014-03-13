@@ -42,18 +42,18 @@
     },{
         "type" : "tool_quality",
         "id" : "AXE",
-        "name" : "brewing quality"
+        "name" : "tree cutting quality"
     },{
         "type" : "tool_quality",
         "id" : "DIG",
-        "name" : "brewing quality"
+        "name" : "digging quality"
     },{
         "type" : "tool_quality",
         "id" : "WRENCH",
-        "name" : "brewing quality"
+        "name" : "bolt screwing quality"
     },{
         "type" : "tool_quality",
         "id" : "SCREW",
-        "name" : "brewing quality"
+        "name" : "screw screwing quality"
     }
 ]
