@@ -2153,7 +2153,6 @@
         "price" : 100000,
 		"qualities": [["HAMMER", 1]]
     },
-    },
     {
         "type":"GENERIC",
         "id" : "morningstar",
@@ -2171,7 +2170,6 @@
         "flags" : ["SPEAR"],
         "price" : 120000,
 		"qualities": [["HAMMER", 1]]
-    },
     },
     {
         "type":"GENERIC",
