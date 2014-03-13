@@ -1175,12 +1175,7 @@ void vehicle::deserialize(JsonIn &jsin)
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
-    find_parts ();
-    find_power ();
-    find_fuel_tanks ();
-    find_exhaust ();
-    insides_dirty = true;
-    precalc_mounts (0, face.dir());
+    refresh();
 
     data.read("tags",tags);
 }
