@@ -1983,11 +1983,11 @@
             "male": "Pizza Delivery Boy",
             "female": "Pizza Delivery Girl"
         },
-        "description": "You were delivering your last pizza of the night to the local cryogenics lab when the cataclysm hit. Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza. And they didn't even leave a tip!",
+        "description": "You were delivering the last pizza of the night to the local cryogenics lab when the cataclysm hit. Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza. And they didn't even leave a tip!",
         "points": 1,
         "skills": [
             {
-                "level": 2,
+                "level": 4,
                 "name": "driving"
             },
             {
