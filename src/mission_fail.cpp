@@ -4,7 +4,7 @@
 
 void mission_fail::kill_npc(mission *miss)
 {
-    for (int i = 0; i < g->active_npc.size(); i++) {
+    for (size_t i = 0; i < g->active_npc.size(); i++) {
         if (g->active_npc[i]->getID() == miss->npc_id) {
             if(!g->active_npc[i]->dead) {
                 g->active_npc[i]->die(false);
