@@ -1403,6 +1403,9 @@ void veh_interact::countDurability()
     double mostDamaged = 1; // durability ratio of the most damaged part
 
     for (int it = 0; it < veh->parts.size(); it++) {
+        if (veh->parts[it].removed) {
+            continue;
+        }
         vehicle_part part = veh->parts[it];
         int part_dur = vehicle_part_types[part.id].durability;
 
