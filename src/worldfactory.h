@@ -74,7 +74,7 @@ class worldfactory
         int show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world);
 
         void draw_modselection_borders(WINDOW *win);
-        void draw_worldgen_tabs(WINDOW *win, int current, std::vector<std::string> tabs);
+        void draw_worldgen_tabs(WINDOW *win, unsigned int current, std::vector<std::string> tabs);
 
         std::map<std::string, cOpt> get_default_world_options();
         std::map<std::string, cOpt> get_world_options(std::string path);
