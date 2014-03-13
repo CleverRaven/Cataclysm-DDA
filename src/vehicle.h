@@ -632,6 +632,12 @@ public:
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
+    // Cycle through available turret modes
+    void cycle_turret_mode();
+
+    // fire the turret which is part p
+    void fire_turret (int p, bool burst = true);
+
 /****************************************************************************
  *                        Cargo                            *
  ****************************************************************************/
@@ -660,79 +666,75 @@ public:
 // remove item from part's cargo
     void remove_item (int part, int itemdex);
 
-/****************************************************************************
- *                        Other                            *
- ****************************************************************************/
-    // Esitmate top speed on sunny day with no wind and on a good road
-    //int est_top_speed( bool fueled = true );
-
-    // Estimate speed at which engines start to strain because of air drag
-    //int est_safe_speed( bool fueled = true );
-
-// forward component of velocity.
-    float forward_velocity ();
-
-
-
-    // config values, everything else derives from these
-    std::string name;               // vehicle name
-    std::string type;               // vehicle type
-    std::vector<vehicle_part> parts;// Parts which occupy different tiles
-    std::vector<vehicle_item_spawn> item_spawns;  //Possible starting items
-    std::set<std::string> tags;     // Properties of the vehicle
-
     // cached values, should in theory be correct, only recalculated occasionally in refresh()
-    std::map<point, std::vector<int> > relative_parts;  // parts_at_relative(x,y) is used alot (to put it mildly)
-    std::vector<int> lights;        // List of light part indices
-    std::vector<int> alternators;   // List of alternator indices
-    std::vector<int> fuel;          // List of fuel tank indices
-    std::vector<int> engines;       // List of engine indices
-    std::vector<int> reactors;      // List of reactor indices
-    std::vector<int> solar_panels;  // List of solar panel indices
     bool has_pedals;                // Has foot pedals installed?
-    int lights_epower;              // total power of components with LIGHT or CONE_LIGHT flag, in pwr (HP/2)
-    int overhead_epower;            // total power of components with CIRCLE_LIGHT flag, in pwr
-    int tracking_epower;            // total power consumed by tracking devices (why would you use more than one?), in pwr
-    int fridge_epower;              // total power consumed by fridges, in pwr
-    int recharger_epower;           // total power consumed by rechargers, in pwr
     bool has_environmental_effects; // True if it has bloody or smoking parts, set in do_environmental_effects()
     int cached_mass;                // Total mass, becomes inaccurate if player removes cargo, parts fall off etc, in kg
     float drag_coeff;               // Cd * A, includes skin friction, form drag, and interference drag, dimensionless
     float downforce;                // Cl * A, in m^2
 
-    // These values are calculated every turn the vehicle is moving and should always be correct
-    int velocity;                   // For backwards compatibility, in mph * 100
-    tileray face;                   // Frame direction
-    tileray move;                   // direction we are moving
-    int turn_dir;                   // Degrees veh is steering/spinning this turn. If f.ex. -720 it will spin ccw 2 times
     double turn_delta_per_tile;     // Used for turning (or spinning out of control). Equals degress to turn every tile.
     double target_turn_delta;       // To keep track of turning within a single game turn.
-    float of_turn;                  // goes from ~1 to ~0 while proceeding every turn, 1 = TURN_TIME_SEC seconds
-    float of_turn_carry;            // leftover from prev. turn
 
-    // These values are controlled by the user
     int player_thrust;              // Direction to go, from -100 to 100 in percentage of max. Can mean either acccelerating or braking
-    bool cruise_on;                 // cruise control on/off. If on, ignore player_thrust
-    int cruise_velocity;            // for backwards compatibility, in mph*100
-    int turret_mode;                // turret firing mode: 0 = off, 1 = burst fire
 
-    // These values are controlled by the user, but vehicle itself can turn them off when damaged/out of power
-    bool reactor_on;                // reactor on/off
-    bool engine_on;                 // engine on/off
-    bool lights_on;                 // lights on/off
-    bool overhead_lights_on;        // circle lights on/off
-    bool tracking_on;               // vehicle tracking on/off
-    bool fridge_on;                 // fridge on/off
-    bool recharger_on;              // recharger on/off
-
-    // Other misc stuff
-    int posx, posy;                 // map coords, updated at init and from map
-    int smx, smy;                   // submap coords. WARNING: must ALWAYS correspond to submap coords in grid, or i'm out
-    int levx, levy;                 // vehicle map coordinates, updated at init and from map
-    int om_id;                      // id of the om_vehicle struct corresponding to this vehicle on the overmap
-    bool insides_dirty;             // if true, then parts' "inside" flags are outdated and need refreshing. Open/close doors, destroy roofs etc
-    bool skidding;                  // skidding mode
     int generation;                 // Every time parts change, add 1
+
+    // config values
+    std::string name;   // vehicle name
+    std::string type;           // vehicle type
+    std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+    int removed_part_count;            // Subtract from parts.size() to get the real part count.
+    std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
+    std::vector<int> lights;           // List of light part indices
+    std::vector<int> alternators;      // List of alternator indices
+    std::vector<int> fuel;             // List of fuel tank indices
+    std::vector<int> engines;          // List of engine indices
+    std::vector<int> reactors;         // List of reactor indices
+    std::vector<int> solar_panels;     // List of solar panel indices
+    std::vector<int> wheelcache;
+    std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
+    std::set<std::string> tags;        // Properties of the vehicle
+    int exhaust_dx;
+    int exhaust_dy;
+
+    // temp values
+    int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
+    bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
+    bool parts_dirty;   //
+    int init_veh_fuel;
+    int init_veh_status;
+    float alternator_load;
+
+    // save values
+    int posx, posy;
+    int levx,levy;       // vehicle map coordinates.
+    tileray face;       // frame direction
+    tileray move;       // direction we are moving
+    int velocity;       // vehicle current velocity, mph * 100
+    int cruise_velocity; // velocity vehicle's cruise control trying to acheive
+    bool cruise_on;     // cruise control on/off
+    bool reactor_on;    // reactor on/off
+    bool engine_on;     // engine on/off
+    bool has_pedals;
+    bool lights_on;     // lights on/off
+    bool tracking_on;        // vehicle tracking on/off
+    int om_id;          // id of the om_vehicle struct corresponding to this vehicle
+    bool overhead_lights_on; //circle lights on/off
+    bool fridge_on;     //fridge on/off
+    bool recharger_on;  //recharger on/off
+    int turn_dir;       // direction, to wich vehicle is turning (player control). will rotate frame on next move
+    bool skidding;      // skidding mode
+    int last_turn;      // amount of last turning (for calculate skidding due to handbrake)
+    //int moves;
+    float of_turn;      // goes from ~1 to ~0 while proceeding every turn
+    float of_turn_carry;// leftover from prev. turn
+    int turret_mode;    // turret firing mode: 0 = off, 1 = burst fire
+    int lights_epower;   // total power of components with LIGHT or CONE_LIGHT flag
+    int overhead_epower;   // total power of components with CIRCLE_LIGHT flag
+    int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
+    int fridge_epower; // total power consumed by fridges
+    int recharger_epower; // total power consumed by rechargers
 };
 
 #endif

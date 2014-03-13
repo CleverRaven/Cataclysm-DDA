@@ -4078,8 +4078,8 @@ Current turn: %d; Next spawn %d.\n\
     break;
 
   case 12:
-      add_msg("Martial arts debug.");
-      add_msg("Your eyes blink rapidly as knowledge floods your brain.");
+      add_msg(_("Martial arts debug."));
+      add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
       u.ma_styles.push_back("style_karate");
       u.ma_styles.push_back("style_judo");
       u.ma_styles.push_back("style_aikido");
@@ -4103,12 +4103,12 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_eskrima");
       u.ma_styles.push_back("style_fencing");
       u.ma_styles.push_back("style_silat");
-      add_msg("You now know a lot more than just 10 styles of kung fu.");
+      add_msg(_("You now know a lot more than just 10 styles of kung fu."));
    break;
 
   case 13: {
-    add_msg("Recipe debug.");
-    add_msg("Your eyes blink rapidly as knowledge floods your brain.");
+    add_msg(_("Recipe debug."));
+    add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
     {
         for (recipe_list::iterator list_iter = cat_iter->second.begin();
@@ -4120,7 +4120,7 @@ Current turn: %d; Next spawn %d.\n\
         }
       }
     }
-    add_msg("You know how to craft that now.");
+    add_msg(_("You know how to craft that now."));
   }
     break;
 

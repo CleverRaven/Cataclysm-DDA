@@ -756,7 +756,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 
     int tab_output = 0;
     int last_active_header = -1;
-    size_t active_header;
+    // Init to an illegal size.
+    size_t active_header = headers.size();
     size_t useable_mod_count = mman_ui->usable_mods.size();
     int startsel[2] = {0, 0};
     int cursel[2] = {0, 0};

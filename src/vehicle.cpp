@@ -742,20 +742,20 @@ void vehicle::start_engine()
 
 void vehicle::honk_horn ()
 {
-    for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag( p, "HORN" )) {
-            //Get global position of horn
-            const int horn_x = global_x() + parts[p].precalc_dx[0];
-            const int horn_y = global_y() + parts[p].precalc_dy[0];
-            //Determine sound
-            vpart_info &horn_type = part_info(p);
-            if (horn_type.bonus >= 40) {
-                g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
-            } else if (horn_type.bonus >= 20) {
-                g->sound( horn_x, horn_y, horn_type.bonus, _("BEEEP!") );
-            } else {
-                g->sound( horn_x, horn_y, horn_type.bonus, _("honk.") );
-            }
+    for( size_t p = 0; p < parts.size(); ++p ) {
+        if( ! part_flag( p, "HORN" ) )
+            continue;
+        //Get global position of horn
+        const int horn_x = global_x() + parts[p].precalc_dx[0];
+        const int horn_y = global_y() + parts[p].precalc_dy[0];
+        //Determine sound
+        vpart_info &horn_type=part_info(p);
+        if( horn_type.bonus >= 40 ){
+            g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
+        } else if( horn_type.bonus >= 20 ){
+            g->sound( horn_x, horn_y, horn_type.bonus, _("BEEEP!") );
+        } else{
+            g->sound( horn_x, horn_y, horn_type.bonus, _("honk.") );
         }
     }
 }
