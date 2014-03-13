@@ -3750,7 +3750,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
     //            debugmsg ("damage check dmg=%d pow=%d", dmg, pow);
                 if (parts[p].hp <= 0)
                     leak_fuel (p);
-                if (type == 2 ||
+                if (type == DT_HEAT ||
                     (one_in (ft == fuel_type_gasoline ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
                     g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
