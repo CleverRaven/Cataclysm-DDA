@@ -184,7 +184,9 @@ std::vector<std::string> text_introduction()
 
     text.push_back(_("\
 Cataclysm is a survival roguelike with a monster apocalypse setting. \
-You have survived the original onslaught, but the future looks pretty grim. \
+You have survived the original onslaught, but the future looks pretty grim."));
+
+    text.push_back(_("\
 You must prepare to face the many hardships to come including dwindling supplies, \
 hostile creatures, harmful weather, even among fellow survivors you must be wary for \
 someone may be plotting behind your back to take your hard-earned loot."));
