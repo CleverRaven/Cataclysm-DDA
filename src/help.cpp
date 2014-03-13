@@ -84,7 +84,7 @@ Press q or ESC to return to the game.")) + 2;
 
     y += half_size + 1;
     for (size_t i = 0; i < headers.size(); i++) {
-        y += fold_and_print(win, y, 1, getmaxx(win) - 2, c_white, headers[i].c_str());
+        y += fold_and_print(win, y, 1, getmaxx(win) - 2, c_white, headers[i]);
     }
     wrefresh(win);
 }
@@ -124,7 +124,7 @@ monsters enter the player's view."),
     std::vector<std::string> remained_text;
     for (size_t i = 0; i < text.size(); i++) {
         if (pos_y < fig_last_line) {
-            pos_y += fold_and_print(win, pos_y, 20, getmaxx(win) - 22, c_white, text[i].c_str()) + 1;
+            pos_y += fold_and_print(win, pos_y, 20, getmaxx(win) - 22, c_white, text[i]) + 1;
         } else {
             remained_text.push_back(text[i].c_str());
         }
@@ -170,7 +170,7 @@ which has options for things you'd do from the driver's seat."),
     std::vector<std::string> remained_text;
     for (size_t i = 0; i < text.size(); i++) {
         if (pos_y < fig_last_line) {
-            pos_y += fold_and_print(win, pos_y, 20, getmaxx(win) - 22, c_white, text[i].c_str()) + 1;
+            pos_y += fold_and_print(win, pos_y, 20, getmaxx(win) - 22, c_white, text[i]) + 1;
         } else {
             remained_text.push_back(text[i].c_str());
         }
@@ -1060,12 +1060,14 @@ void display_help()
                         action_id act = action_id(actch - 'a' + offset);
                         if (remapch == '-' && query_yn(_("Clear keys for %s?"),
                                                        action_name(act).c_str())) {
+                            unbound_keymap.insert(act);
                             clear_bindings(act);
                             changed_keymap = true;
                         } else if (remapch == '+') {
                             char newbind = popup_getkey(_("New key for %s:"), action_name(act).c_str());
                             if (keymap.find(newbind) == keymap.end()) { // It's not in use!  Good.
                                 keymap[ newbind ] = act;
+				unbound_keymap.erase(act);
                                 changed_keymap = true;
                             } else {
                                 popup(_("%c is used for %s."), newbind,

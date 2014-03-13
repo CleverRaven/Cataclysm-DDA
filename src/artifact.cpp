@@ -96,9 +96,7 @@ int active_effect_cost[NUM_AEAS] = {
 };
 
 std::string mk_artifact_id() {
-    char buff[32];
-    sprintf(buff,"artifact_%zu", artifact_itype_ids.size());
-    return buff;
+    return string_format("artifact_%zu", artifact_itype_ids.size());
 };
 
 //see below, move them so gettext and be applied properly
@@ -546,12 +544,12 @@ itype* new_artifact(itypemap &itypes)
    if (info->available_mods[index] != ARMORMOD_NULL) {
     artifact_armor_mod mod = info->available_mods[index];
     artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
-    if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume))
+    if (modinfo->volume >= 0 || art->volume > unsigned(abs(modinfo->volume)))
      art->volume += modinfo->volume;
     else
      art->volume = 1;
 
-    if (modinfo->weight >= 0 || art->weight > abs(modinfo->weight))
+    if (modinfo->weight >= 0 || art->weight > unsigned(abs(modinfo->weight)))
      art->weight += modinfo->weight;
     else
      art->weight = 1;

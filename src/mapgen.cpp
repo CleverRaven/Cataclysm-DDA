@@ -921,16 +921,16 @@ void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, i
     if ( do_format ) {
         formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
     }
-    for( int i=0; i < spawnitems.size(); i++ ) {
+    for( size_t i = 0; i < spawnitems.size(); ++i ) {
         spawnitems[i].apply( m );
     }
-    for( int i=0; i < place_groups.size(); i++ ) {
+    for( size_t i = 0; i < place_groups.size(); ++i ) {
         place_groups[i].apply( m, d );
     }
-    for( int i=0; i < place_specials.size(); i++ ) {
+    for( size_t i = 0; i < place_specials.size(); ++i ) {
         place_specials[i].apply( m );
     }
-    for( int i=0; i < setmap_points.size(); i++ ) {
+    for( size_t i = 0; i < setmap_points.size(); ++i ) {
         setmap_points[i].apply( m );
     }
 #ifdef LUA
@@ -8987,7 +8987,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                                                f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,   f_null,
                                                f_desk,  f_chair, f_bed,   f_dresser));
             place_items("fridge", 65, 12, 11, 12, 11, false, 0);
-            place_items("kitchen", 70, 10, 11, 14, 3, false, 0);
+            place_items("kitchen", 70, 10, 15, 14, 11, false, 0);
+            place_items("moonshine_brew", 65, 10, 15, 14, 11, false, 0);
             place_items("livingroom", 65, 15, 11, 22, 13, false, 0);
             place_items("dresser", 80, 19, 18, 19, 18, false, 0);
             place_items("dresser", 80, 22, 18, 22, 18, false, 0);

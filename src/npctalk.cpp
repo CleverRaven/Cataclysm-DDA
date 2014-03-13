@@ -164,8 +164,8 @@ void game::init_npctalk()
     for(int j=0; j<10; j++) {talk_no[j] = tmp_talk_no[j];}
 
     std::string tmp_talk_bad_names[10] = {
-    _("punk"),  _("bitch"), _("dickhead"), _("asshole"), _("fucker"),
-    _("sucker"), _("fuckwad"), _("cocksucker"), _("motherfucker"), _("shithead")};
+    _("punk"),  _("loser"), _("dickhead"), _("asshole"), _("fucker"),
+    _("sucker"), _("fuckwad"), _("jerk"), _("motherfucker"), _("shithead")};
     for(int j=0; j<10; j++) {talk_bad_names[j] = tmp_talk_bad_names[j];}
 
     std::string tmp_talk_good_names[10] = {
@@ -179,8 +179,8 @@ void game::init_npctalk()
     for(int j=0; j<10; j++) {talk_swear[j] = tmp_talk_swear[j];}
 
     std::string tmp_talk_swear_interjection[10] = {
-    _("fuck"), _("damn"), _("damnit"), _("shit"), _("cocksucker"), _("crap"),
-    _("motherfucker"), _("<swear><punc> <swear!>"), _("<very> <swear!>"), _("son of a bitch")};
+    _("fuck"), _("damn"), _("damnit"), _("shit"), _("fuckit"), _("crap"),
+    _("motherfucker"), _("<swear><punc> <swear!>"), _("<very> <swear!>"), _("son of an ass")};
     for(int j=0; j<10; j++) {talk_swear_interjection[j] = tmp_talk_swear_interjection[j];}
 
     std::string tmp_talk_fuck_you[10] = {
@@ -1776,7 +1776,7 @@ void talk_function::give_equipment(npc *p)
  if (chosen == -1)
   chosen = 0;
  item it = p->i_remn(giving[chosen]->invlet);
- popup(string_format(_("%s gives you a %s"), p->name.c_str(), it.tname().c_str()).c_str());
+ popup(_("%s gives you a %s"), p->name.c_str(), it.tname().c_str());
 
  g->u.i_add( it );
  p->op_of_u.owed -= prices[chosen];
@@ -2076,7 +2076,7 @@ talk_topic dialogue::opt(talk_topic topic)
  curline = 3;
  for (int i = 0; i < options.size(); i++) {
   folded = foldstring(options[i], (FULL_SCREEN_WIDTH / 2) - 4);
-  for(int j=0; j<folded.size(); j++) {
+  for( size_t j = 0; j < folded.size(); ++j ) {
    mvwprintz(win, curline, (FULL_SCREEN_WIDTH / 2) + 2, colors[i],
              ((j == 0 ? "" : "   ") + folded[j]).c_str());
    curline++;
@@ -2112,7 +2112,7 @@ talk_topic dialogue::opt(talk_topic topic)
 
  std::string response_printed = rmp_format("<you say something>You: %s", responses[ch].text.c_str());
  folded = foldstring(response_printed, FULL_SCREEN_WIDTH / 2);
- for(int i=0; i<folded.size(); i++){
+ for( size_t i = 0; i < folded.size(); ++i ){
    history.push_back(folded[i]);
    hilight_lines++;
  }
@@ -2318,11 +2318,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
    if (focus_them) {
     help += them_off;
     if (help >= 0 && help < theirs.size())
-     popup(theirs[help]->info().c_str());
+     popup(theirs[help]->info(), PF_NONE);
    } else {
     help += you_off;
     if (help >= 0 && help < yours.size())
-     popup(yours[help]->info().c_str());
+     popup(yours[help]->info(), PF_NONE);
    }
    break;
   case '\n': // Check if we have enough cash...
@@ -2333,7 +2333,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         update = true;
         ch = ' ';
         //Else the player gets cash, and it should not make the NPC negative.
-    } else if (cash > 0 && p->cash < cash * -1 && ch != 'T') {
+    } else if (cash > 0 && p->cash < cash  && ch != 'T') {
         popup(_("Not enough cash! %s has $%.2f, but the price is $%.2f. Use (T) to force the trade."), p->name.c_str(), (double)p->cash/100, (double)cash/100);
         update = true;
         ch = ' ';

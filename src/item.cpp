@@ -326,7 +326,8 @@ std::string item::save_info() const
 }
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
-    if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
+    size_t pos = item_tag.find('=');
+    if(item_tag.at(0) == ivaresc && pos != std::string::npos && pos >= 2 ) {
         std::string var_name, val_decoded;
         int svarlen, svarsep;
         svarsep = item_tag.find('=');
@@ -459,6 +460,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
   dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
   dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+  dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
   if (corpse != NULL &&
     ( debug == true ||
       ( g != NULL &&
@@ -603,7 +605,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (mod->damage != 0)
    dump->push_back(iteminfo("GUNMOD", _("Damage: "), "", mod->damage, true, ((mod->damage > 0) ? "+" : "")));
   if (mod->clip != 0)
-   dump->push_back(iteminfo("GUNMOD", _("Magazine: "), "<num>%%", mod->clip, true, ((mod->clip > 0) ? "+" : "")));
+   dump->push_back(iteminfo("GUNMOD", _("Magazine: "), "<num>%", mod->clip, true, ((mod->clip > 0) ? "+" : "")));
   if (mod->recoil != 0)
    dump->push_back(iteminfo("GUNMOD", _("Recoil: "), "", mod->recoil, true, ((mod->recoil > 0) ? "+" : ""), true, true));
   if (mod->burst != 0)
@@ -666,7 +668,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    temp1 << _("The feet. ");
 
   dump->push_back(iteminfo("ARMOR", temp1.str()));
-  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%%  ", armor->coverage, true, "", false));
+  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", armor->coverage, true, "", false));
   dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", armor->warmth));
     if (has_flag("FIT")) {
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
@@ -703,7 +705,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
   if (!(book->recipes.empty())) {
    std::string recipes = "";
-   int index = 1;
+   size_t index = 1;
    for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter, ++index) {
      if(g->u.knows_recipe(iter->first)) recipes += "<color_ltgray>";
      recipes += itypes.at(iter->first->result)->name;
@@ -800,7 +802,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     }
     if (is_armor() && type->id == "rad_badge")
     {
-        int i;
+        size_t i;
         for( i = 1; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ )
         {
             if( irridation < rad_dosage_thresholds[i] )
@@ -839,6 +841,24 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
     if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel("survival").level() >= 5) {
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be hallucinogenic.")));
+    }
+
+    if ((is_food() && has_flag("BREW")) || (is_food_container() && contents[0].has_flag("BREW"))) {
+        int btime = ( is_food_container() ) ? contents[0].brewing_time() : brewing_time();
+        if (btime <= 28800)
+            dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d hours."), btime/600)));
+        else {
+            btime = 0.5+btime / 7200; //Round down to 12-hour intervals
+            if (btime % 2 == 1)
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d and a half days."), btime/2)));
+            else
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d days."), btime/2)));
+        }
+    }
+
+    if (typeId() == "flask_yeast") {
+        int cult_time = brewing_time();
+        dump->push_back(iteminfo("DESCRIPTION", string_format(_("It will take %d hours to culture after it's sealed."), cult_time/600)));
     }
 
     if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
@@ -946,7 +966,9 @@ nc_color item::color(player *u) const
 {
     nc_color ret = c_ltgray;
 
-    if (active && !is_food() && !is_food_container()) // Active items show up as yellow
+    if(has_flag("WET"))
+        ret = c_cyan;
+    else if (active && !is_food() && !is_food_container()) // Active items show up as yellow
         ret = c_yellow;
     else if (is_gun()) { // Guns are green if you are carrying ammo for them
         ammotype amtype = ammo_type();
@@ -993,8 +1015,12 @@ std::string item::tname( bool with_prefix )
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
     if (damage != 0 && !is_null() && with_prefix) {
-        if (damage == -1) {
-            damtext = rm_prefix(_("<dam_adj>reinforced "));
+        if (damage == -1)  {
+          if (is_gun())  {
+            damtext = rm_prefix(_("<dam_adj>accurized "));
+          } else {
+              damtext = rm_prefix(_("<dam_adj>reinforced "));
+            }
         } else {
             if (type->id == "corpse") {
                 if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
@@ -1004,7 +1030,7 @@ std::string item::tname( bool with_prefix )
             } else {
                 damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
             }
-        }
+            }
     }
 
     std::string vehtext = "";
@@ -1099,6 +1125,9 @@ std::string item::tname( bool with_prefix )
     if (owned > 0)
         ret << _(" (owned)");
 
+    if(has_flag("WET"))
+       ret << _(" (wet)");
+
     tagtext = ret.str();
 
     ret.str("");
@@ -1178,7 +1207,8 @@ int item::weight() const
     } else if (type->is_gun() && charges >= 1) {
         ret += curammo->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on" || typeId() == "rm13_armor" || typeId() == "rm13_armor_on") {
+        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on" || has_flag("ATOMIC_AMMO") ||
+            typeId() == "rm13_armor" || typeId() == "rm13_armor_on") {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges / 500;
         } else {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges;
@@ -1305,22 +1335,34 @@ int item::attack_time()
 
 int item::damage_bash()
 {
+    int total = type->melee_dam;
     if( is_null() )
         return 0;
-    return type->melee_dam;
+      total -= total * (damage * 0.1);
+      if (total > 0) {
+      return total;
+      } else {
+         return 0;
+        }
 }
 
 int item::damage_cut() const
 {
+    int total = type->melee_cut;
     if (is_gun()) {
-        for (int i = 0; i < contents.size(); i++) {
+        for (size_t i = 0; i < contents.size(); i++) {
             if (contents[i].typeId() == "bayonet" || "pistol_bayonet"|| "sword_bayonet")
                 return contents[i].type->melee_cut;
         }
     }
     if( is_null() )
         return 0;
-    return type->melee_cut;
+    total -= total * (damage * 0.1);
+      if (total > 0) {
+      return total;
+      } else {
+         return 0;
+        }
 }
 
 bool item::has_flag(std::string f) const
@@ -1353,6 +1395,16 @@ bool item::has_flag(std::string f) const
 
     // now check for item specific flags
     ret = item_tags.count(f);
+    return ret;
+}
+
+bool item::contains_with_flag(std::string f) const
+{
+    bool ret = false;
+    for (int k = 0; k < contents.size(); k++) {
+        ret = contents[k].has_flag(f);
+        if (ret) return ret;
+    }
     return ret;
 }
 
@@ -1414,6 +1466,16 @@ bool item::rotten()
     } else {
       return false;
     }
+}
+
+int item::brewing_time()
+{
+    float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
+    if (typeId() == "flask_yeast")
+        return 7200 * season_mult;
+    unsigned int b_time = dynamic_cast<it_comest*>(type)->brewtime;
+    int ret = b_time * season_mult;
+    return ret;
 }
 
 bool item::ready_to_revive()
@@ -2159,7 +2221,7 @@ int item::dispersion()
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
     }
-    ret += damage * 2;
+    ret += damage * 4;
     if (ret < 0) ret = 0;
     return ret;
 }
@@ -2272,6 +2334,7 @@ int item::recoil(bool with_ammo)
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->recoil;
     }
+    ret += damage;
     return ret;
 }
 
@@ -2337,6 +2400,9 @@ ammotype item::ammo_type() const
         return ret;
     } else if (is_tool()) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
+        if (has_flag("ATOMIC_AMMO")) {
+            return "plutonium";
+        }
         return tool->ammo;
     } else if (is_ammo()) {
         it_ammo* amm = dynamic_cast<it_ammo*>(type);
@@ -2420,26 +2486,38 @@ int item::pick_reload_ammo(player &u, bool interactive)
      amenu.w_y = 0;
      amenu.w_x = 0;
      amenu.w_width = TERMX;
-     int namelen=TERMX-2-40-3;
+     // 40: = 4 * ammo stats colum (10 chars each)
+     // 2: prefix from uimenu: hotkey + space in front of name
+     // 4: borders: 2 char each ("| " and " |")
+     const int namelen = TERMX - 2 - 40 - 4;
      std::string lastreload = "";
 
      if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
          lastreload = uistate.lastreload[ ammo_type() ];
      }
 
-     amenu.text=string_format("Choose ammo type:"+std::string(namelen,' ')).substr(0,namelen) +
-         "   Damage    Pierce    Range     Accuracy";
-     it_ammo* ammo_def;
-     for (size_t i = 0; i < am.size(); i++) {
-         ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
-         amenu.addentry(i, true, i + 'a', "%s | %-7d | %-7d | %-7d | %-7d",
-             std::string(
-                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) +
-                std::string(namelen, ' ')
-             ).substr(0,namelen).c_str(),
-             ammo_def->damage, ammo_def->pierce, ammo_def->range,
-             100 - ammo_def->dispersion
-         );
+        amenu.text = std::string(_("Choose ammo type:"));
+        if (amenu.text.length() < namelen) {
+            amenu.text += std::string(namelen - amenu.text.length(), ' ');
+        } else {
+            amenu.text.erase(namelen, amenu.text.length() - namelen);
+        }
+        // To cover the space in the header that is used by the hotkeys created by uimenu
+        amenu.text.insert(0, "  ");
+        //~ header of table that appears when reloading, each colum must contain exactly 10 characters
+        amenu.text += _("| Damage  | Pierce  | Range   | Accuracy");
+        for (size_t i = 0; i < am.size(); i++) {
+            it_ammo* ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
+            std::string row = am[i]->display_name();
+            if (row.length() < namelen) {
+                row += std::string(namelen - row.length(), ' ');
+            } else {
+                row.erase(namelen, row.length() - namelen);
+            }
+            row += string_format("| %-7d | %-7d | %-7d | %-7d",
+                    ammo_def->damage, ammo_def->pierce, ammo_def->range,
+                    100 - ammo_def->dispersion);
+            amenu.addentry(i, true, i + 'a', row);
          if ( lastreload == am[i]->typeId() ) {
              amenu.selected = i;
          }
@@ -2502,7 +2580,7 @@ bool item::reload(player &u, int pos)
    reload_target = &contents[spare_mag];
   // Finally consider other gunmods
   } else {
-   for (size_t i = 0; i < contents.size(); i++) {
+   for (ssize_t i = 0; i < (ssize_t)contents.size(); i++) {
     if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
         contents[i].has_flag("MODE_AUX") && contents[i].ammo_type() == ammo_to_use->ammo_type() &&
         (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||

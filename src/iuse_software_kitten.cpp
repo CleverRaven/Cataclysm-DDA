@@ -307,7 +307,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     instructions(w);
 
     werase(w);
-    mvwprintz (w, 0, 0, c_white, _("robotfindskitten v22July2008"));
+    mvwprintz (w, 0, 0, c_white, _("robotfindskitten v22July2008 - press q to quit."));
     for (int c = 0; c < rfkCOLS; c++) {
         mvwputch (w, 2, c, BORDER_COLOR, '_');
     }
@@ -328,7 +328,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     int input = '.';
     input = getch();
 
-    while (input != 'q') {
+    while (input != 'q' && input != 'Q' && input != 27 /*escape*/) {
         process_input(input, w);
         if(ret == true) {
             break;
@@ -343,8 +343,8 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
             rfkscreen[robot.x][robot.y] = ROBOT;
             old_x = robot.x;
             old_y = robot.y;
-            wrefresh(w);
         }
+        wrefresh(w);
         input = getch();
     }
 }
@@ -365,7 +365,8 @@ ported to CDDA gaming system by a nutcase."));
     pos += 1 + fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray, _("\
 Your job is to find kitten. This task is complicated by the existance of various things \
 which are not kitten. Robot must touch items to determine if they are kitten or not. \
-The game ends when robotfindskitten. Alternatively, you may end the game by hitting 'q'."));
+The game ends when robotfindskitten. Alternatively, you may end the game by hitting \
+'q', 'Q' or the escape key."));
     fold_and_print(w, pos, 1, getmaxx(w) - 4, c_ltgray, _("Press any key to start."));
     wrefresh(w);
     getch();
@@ -381,28 +382,28 @@ void robot_finds_kitten::process_input(int input, WINDOW *w)
     int check_y = robot.y;
 
     switch (input) {
-    case KEY_UP: /* up */
-        check_y--;
-        break;
-    case KEY_DOWN: /* down */
-        check_y++;
-        break;
-    case KEY_LEFT: /* left */
-        check_x--;
-        break;
-    case KEY_RIGHT: /* right */
-        check_x++;
-        break;
-    case 0:
-        break;
-    default: { /* invalid command */
-        for (int c = 0; c < rfkCOLS; c++) {
-            mvwputch (w, 0, c, c_white, ' ');
-            mvwputch (w, 1, c, c_white, ' ');
+        case KEY_UP: /* up */
+            check_y--;
+            break;
+        case KEY_DOWN: /* down */
+            check_y++;
+            break;
+        case KEY_LEFT: /* left */
+            check_x--;
+            break;
+        case KEY_RIGHT: /* right */
+            check_x++;
+            break;
+        case 0:
+            break;
+        default: { /* invalid command */
+            for (int c = 0; c < rfkCOLS; c++) {
+                mvwputch (w, 0, c, c_white, ' ');
+                mvwputch (w, 1, c, c_white, ' ');
+            }
+            mvwprintz (w, 0, 0, c_white, _("Invalid command: Use direction keys or press 'q'."));
+            return;
         }
-        mvwprintz (w, 0, 0, c_white, _("Invalid command: Use direction keys or press 'q'."));
-        return;
-    }
     }
 
     if (check_y < 3 || check_y > rfkLINES - 1 || check_x < 0 || check_x > rfkCOLS - 1) {

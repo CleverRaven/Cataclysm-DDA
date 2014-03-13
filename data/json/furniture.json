@@ -860,5 +860,122 @@
         "required_str": -1,
         "flags": ["PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM"],
         "examine_action": "aggie_plant"
+    },{
+        "type" : "furniture",
+        "id" : "f_fvat_empty",
+        "name": "empty fermenting vat",
+        "symbol": "O",
+        "color": "brown",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER"],
+        "examine_action": "fvat_empty",
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 8, "minamount": 4},
+                { "item": "nail", "amount": 8, "minamount": 4},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 },
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_fvat_full",
+        "name": "full fermenting vat",
+        "symbol": "O",
+        "color": "brown_cyan",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER"],
+        "examine_action": "fvat_full",
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 8, "minamount": 4},
+                { "item": "nail", "amount": 8, "minamount": 4},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 },
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_wood_keg",
+        "name": "wooden keg",
+        "symbol": "H",
+        "color": "brown",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT"],
+        "examine_action": "keg",
+        "bash": {
+            "str_min": 3, "str_max": 45,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "amount": 12, "minamount": 6},
+                { "item": "nail", "amount": 8, "minamount": 4},
+                { "item": "water_faucet", "amount": 1, "minamount": 0 },
+                { "item": "splinter", "amount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_indoor_plant_y",
+        "name": "yellow indoor plant",
+        "symbol": "^",
+        "color": "yellow",
+        "move_cost_mod": 2,
+        "required_str": 5,
+        "flags": ["CONTAINER", "BASHABLE", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC"],
+        "bash": {
+            "str_min": 2, "str_max": 30,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "withered", "amount": 1, "minamount": 0 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_statue",
+        "name": "statue",
+        "symbol": "S",
+        "color": "dkgray",
+        "move_cost_mod": 2,
+        "required_str": 10,
+        "flags": ["BASHABLE","PLACE_ITEM","BLOCKSDOOR"],
+        "bash": {
+            "str_min": 11, "str_max": 30,
+            "sound": "smash!",
+            "sound_fail": "thump.",
+            "items": [
+                { "item": "rock", "amount": 6, "minamount": 1 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_bluebell",
+        "name": "bluebell",
+        "symbol": "f",
+        "color": "blue",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "flower_bluebell"
+    },{
+        "type" : "furniture",
+        "id" : "f_dahlia",
+        "name": "dahlia",
+        "symbol": "f",
+        "color": "magenta",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "examine_action": "flower_dahlia"
     }
 ]
