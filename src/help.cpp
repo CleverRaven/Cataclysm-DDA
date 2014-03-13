@@ -227,11 +227,12 @@ std::vector<std::string> text_hunger()
 As time passes, you will begin to feel hunger and thirst. A status warning at the sidebar \
 will appear. As hunger and thirst reach critical levels, you will begin to suffer movement \
 penalties. Thirst is more dangerous than hunger. Finding food in a city is usually easy; outside \
-of a city, you may have to hunt an animal or forage wild fruits, stand over an animal's corpse and butcher it into \
-small chunks of meat by %s key. Likewise, outside of a city you may have to drink water from a river or \
+of a city, you may have to hunt an animal, stand over an animal's corpse and butcher it into \
+small chunks of meat by %s key. You might also be able to forage for edible fruit or vegetables; \
+find a promising plant and it to check. Likewise, outside of city you may have to drink water from a river or \
 other natural source; stand in shallow water and press %s to collect it. You'll need a watertight \
 container to store it. Be forewarned that some sources of water aren't trustworthy and may produce \
-diseased water. To be sure it's healthy, purify the water by boiling it or using purifier before drinking."),
+diseased water. To be sure it's healthy, purify the water by boiling it or using water purifier before drinking."),
                                  press_x(ACTION_BUTCHER, "", "").c_str(),
                                  press_x(ACTION_PICKUP, "", "").c_str()));
 
@@ -263,7 +264,7 @@ notice the effects right away, don't start taking more; you may overdose and die
 
     text.push_back(_("\
 Pain will also disappear with time, so if drugs aren't available and you're in a lot of pain, it \
-will be wise to find a safe spot and simply rest for an extended period of time."));
+may be wise to find a safe spot and simply rest for an extended period of time."));
 
     text.push_back(_("\
 Another common class of drugs is stimulants. Stimulants provide you with a temporary rush of \
@@ -287,9 +288,7 @@ The process may last for days, and will leave you very weak, so try to do it in 
 
     text.push_back(_("\
 If you are suffering from drug withdrawal, taking more of the drug will cause \
-the effects to cease immediately, but may deepen your dependence. Depend on the situation, \
-you should decide if you should keep trying to cure the addiction and endure the withdrawal effect, \
-or postpone it for later."));
+the effects to cease immediately, but may deepen your dependence."));
 
     return text;
 }
@@ -313,8 +312,8 @@ decay. Eating disgusting food, reading a boring technical book, killing a friend
 or going through drug withdrawal are some prominent examples."));
 
     text.push_back(_("\
-Low morale will make you sluggish and unmotivated. It will also reduce your stats, particularly \
-intelligence. If your morale drops very low, you won't be able to perform crafting at all. \
+Low morale will make you sluggish and unmotivated. If your morale drops very low, you won't be able to perform \
+crafting at all. Depressed enough and you may even take a penalty to intelligence. \
 Very high morale fills you with gusto and energy, and you will find yourself moving faster. At extremely high levels, \
 you will receive stat bonuses."));
 
@@ -357,12 +356,9 @@ and negative effects. Your mutations may change your play style considerably. It
 to find substances that will remove mutations, though these are extremely rare."));
 
     text.push_back(_("\
-Consuming questionable food, drinking mutagen or administer mutagenic serum shots are other ways to gain mutations. \
-Be careful though as taking a large amount of mutagen as once will be generally unpleasant with harmful effects \
-and you may even become addicted to it.")); 
-
-    text.push_back(_("\
-With enough mutations and certain conditions being met, you will permanently transcend your humanity into become a wholly \
+There are various mutagenic substances, and consuming (or injecting) them will grant mutations. \
+However, the process taxes your body significantly, and can be addictive. With enough mutations \
+and certain conditions being met, you will permanently transcend your humanity into become a wholly \
 different life-form.")); 
     return text;
 }
@@ -374,8 +370,8 @@ std::vector<std::string> text_bionics()
     text.push_back(_("\
 Bionics are biomechanical upgrades to your body. \
 While many are simply 'built-in' versions of items you would otherwise have to carry, \
-some bionics have unique effects that are otherwise unobtainable. Bionics can either be passive, \
-others need to be activated to utilize their uses."));
+some bionics have unique effects that are otherwise unobtainable. Some bionics are \
+constantly working, whereas others need to be toggled on and off as needed."));
 
     text.push_back(_("\
 Most bionics require a source of power, and you will need an internal battery \
@@ -400,7 +396,7 @@ std::vector<std::string> text_crafting()
     text.push_back(_("\
 Many important items can be very hard to find, or will cost a great deal of \
 money to trade for. Fortunately, it is possible to craft a wide variety of \
-goods (if only makeshift ones) with the proper tools, materials, and training."));
+goods (as best you can) with the proper tools, materials, and training."));
 
     text.push_back(_("\
 Some recipes require a set of tools. These are not used up when crafting, so you can keep your \
@@ -408,8 +404,9 @@ tool set. All recipes require one or more ingredients. These ARE used up in craf
 
     text.push_back(string_format(_("\
 To craft items, press %s. There are seven categories: \
-Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category are several smaller sub-categories.\
-While a few items require no particular skill to create, the majority require you to have some knowledge:\n"),
+Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category \
+are several smaller sub-categories. While a few items require no particular skill\
+to create the majority require you to have some knowledge:\n"),
                                  press_x(ACTION_CRAFT, "", "").c_str()));
 
     text.push_back(_("\
@@ -424,7 +421,7 @@ In addition to the primary crafting skills, other skills may be necessary to cre
 items. Traps skill, Marksmanship skill, and First Aid skill are all required for certain items."));
 
     text.push_back(_("\
-Crafting an item with high difficulty may fall and possibly waste some material. You should prepare spare material \
+Crafting an item with high difficulty may fall and possibly waste some materials. You should prepare spare material \
 for such occasion."));
 
     return text;
@@ -527,7 +524,8 @@ std::vector<std::string> text_combat()
 With the default Static spawn option, monsters will spawn at the start of the game . \
 They are represented by letters on your screen; a list of monster names, and their \
 positions relative to you, is displayed on the right side of the screen. \
-If the game is set to Dynamic spawn option, monsters will be spawned based on the noise you make."));
+If the game is set to Dynamic spawn option, you will have 90 minutes to prepare yourself, \
+after that monsters will be spawned based on the noise you make."));
 
     text.push_back(_("\
 To attack a monster with a melee weapon, simply move into them. The time it takes to attack \
@@ -655,7 +653,7 @@ this may leave an empty container."),
 [       Clothing\n\
 This may be worn with the %s key or removed with the %s key. It may cover one or more body parts; \
 you can wear multiple articles of clothing on any given body part, but this will encumber you \
-severely. Each article of clothing may provide storage space, warmth, an encumbrance, and a \
+severely. Each article of clothing may provide storage space, warmth, encumbrance, and a \
 resistance to bashing and/or cutting attacks. Some may protect against environmental effects."),
                                  press_x(ACTION_WEAR, "", "").c_str(),
                                  press_x(ACTION_TAKE_OFF, "", "").c_str()));
