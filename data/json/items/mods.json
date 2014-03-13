@@ -660,7 +660,7 @@
         "flags" : ["NON_STUCK", "CHOP"],
         "recoil_modifier" : 7,
         "damage_modifier" : 0,
-        "mod_targets" : ["shotgun", "rifle", "crossbow"],
+        "mod_targets" : ["shotgun", "rifle", "crossbow", "launcher"],
         "bashing" : 0,
         "ammo_modifier" : "NULL"
     },
