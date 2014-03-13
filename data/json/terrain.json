@@ -2260,6 +2260,139 @@
         "examine_action": "fswitch"
     },{
         "type" : "terrain",
+        "id" : "t_carpet_red",
+        "name": "red carpet",
+        "symbol": ".",
+        "color": "red",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
+   },
+   {
+        "type" : "terrain",
+        "id" : "t_carpet_yellow",
+        "name": "yellow carpet",
+        "symbol": ".",
+        "color": "yellow",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
+   },{
+        "type" : "terrain",
+        "id" : "t_carpet_green",
+        "name": "green carpet",
+        "symbol": ".",
+        "color": "green",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
+   },{
+        "type" : "terrain",
+        "id" : "t_carpet_purple",
+        "name": "purple carpet",
+        "symbol": ".",
+        "color": "magenta",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_h_r",
+        "name": "red wall",
+        "symbol": "LINE_OXOX",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_v_r",
+        "name": "red wall",
+        "symbol": "LINE_XOXO",
+        "color": "red",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_h_w",
+        "name": "white wall",
+        "symbol": "LINE_OXOX",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_v_w",
+        "name": "white wall",
+        "symbol": "LINE_XOXO",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_h_b",
+        "name": "blue wall",
+        "symbol": "LINE_OXOX",
+        "color": "blue",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_v_b",
+        "name": "blue wall",
+        "symbol": "LINE_XOXO",
+        "color": "blue",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_h_g",
+        "name": "green wall",
+        "symbol": "LINE_OXOX",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_v_g",
+        "name": "green wall",
+        "symbol": "LINE_XOXO",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_h_y",
+        "name": "yellow wall",
+        "symbol": "LINE_OXOX",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_v_y",
+        "name": "yellow wall",
+        "symbol": "LINE_XOXO",
+        "color": "yellow",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_h_p",
+        "name": "purple wall",
+        "symbol": "LINE_OXOX",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPH"]
+    },{
+        "type" : "terrain",
+        "id" : "t_wall_v_p",
+        "name": "purple wall",
+        "symbol": "LINE_XOXO",
+        "color": "magenta",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL","CHIPV"]
+   },{
+        "type" : "terrain",
         "id" : "t_rock_wall",
         "name": "stone wall",
         "symbol": "#",

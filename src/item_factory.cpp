@@ -156,6 +156,11 @@ Item_factory::Item_factory(){
 void Item_factory::init(){
     //Populate the iuse functions
     iuse_function_list["NONE"] = &iuse::none;
+    iuse_function_list["RAW_MEAT"] = &iuse::raw_meat;
+    iuse_function_list["RAW_FAT"] = &iuse::raw_fat;
+    iuse_function_list["RAW_BONE"] = &iuse::raw_bone;
+    iuse_function_list["RAW_FISH"] = &iuse::raw_fish;
+    iuse_function_list["RAW_WILDVEG"] = &iuse::raw_wildveg;
     iuse_function_list["SEWAGE"] = &iuse::sewage;
 
     iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
@@ -167,6 +172,7 @@ void Item_factory::init(){
     iuse_function_list["ATOMIC_CAFF"] = &iuse::atomic_caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
+    iuse_function_list["ALCOHOL_STRONG"] = &iuse::alcohol_strong;
     iuse_function_list["PKILL"] = &iuse::pkill;
     iuse_function_list["XANAX"] = &iuse::xanax;
     iuse_function_list["CIG"] = &iuse::cig;
@@ -347,9 +353,10 @@ void Item_factory::init(){
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["DEJAR"] = &iuse::dejar;
+    iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
     iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
-    iuse_function_list["ABSORBENT"] = &iuse::towel;
+    iuse_function_list["TOWEL"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
@@ -363,10 +370,14 @@ void Item_factory::init(){
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
+    iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
     iuse_function_list["TOOLARMOR_OFF"]  = &iuse::toolarmor_off;
     iuse_function_list["TOOLARMOR_ON"]  = &iuse::toolarmor_on;
     iuse_function_list["RM13ARMOR_OFF"]  = &iuse::rm13armor_off;
     iuse_function_list["RM13ARMOR_ON"]  = &iuse::rm13armor_on;
+    iuse_function_list["UNPACK_ITEM"]  = &iuse::unpack_item;
+    iuse_function_list["PACK_ITEM"]  = &iuse::pack_item;
+    iuse_function_list["RADGLOVE"]  = &iuse::radglove;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
@@ -772,6 +783,7 @@ void Item_factory::load_comestible(JsonObject& jo)
     comest_template->quench = jo.get_int("quench", 0);
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
+    comest_template->brewtime = jo.get_int("brew_time", 0);
     comest_template->addict = jo.get_int("addiction_potential", 0);
     comest_template->charges = jo.get_long("charges", 0);
     if(jo.has_member("stack_size")) {
@@ -926,6 +938,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     SUN_GLASSES - Protects from sunlight's 'glare' effect.
     RAD_RESIST - Partially protects from ambient radiation.
     RAD_PROOF- Fully protects from ambient radiation.
+    ELECTRIC_IMMUNE- Fully protects from electricity.
 
     Container-only flags:
     SEALS
@@ -944,7 +957,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
         set_qualities_from_json(jo, "qualities", new_item_template);
     }
 
-    new_item_template->techniques = jo.get_tags("techniques");    
+    new_item_template->techniques = jo.get_tags("techniques");
 
     new_item_template->use = (!jo.has_member("use_action") ? &iuse::none :
                               use_from_string(jo.get_string("use_action")));

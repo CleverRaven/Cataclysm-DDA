@@ -170,6 +170,7 @@
       ["wetsuit_hood", 2],
       ["dive_bag", 3],
       ["poncho", 15],
+      ["folding_poncho", 5],
       ["gloves_light", 35],
       ["mittens", 30],
       ["armguard_soft", 40],
@@ -310,7 +311,9 @@
       ["bacon", 25],
       ["bleach", 20],
       ["ammonia", 24],
-      ["flour", 50],
+      ["flour", 60],
+      ["yeast", 50],
+      ["molasses", 15],
       ["milk_powder", 15],
       ["cornmeal", 40],
       ["powder_eggs", 20],
@@ -345,6 +348,7 @@
       ["seasoning_salt", 25],
       ["cookbook_italian", 25],
       ["family_cookbook", 6],
+      ["brewing_cookbook", 4],
       ["chips2", 65],
       ["chips3", 65],
       ["pizza_veggy", 8],
@@ -424,7 +428,8 @@
       ["dogfood", 20],
       ["catfood", 20],
       ["salted_fish", 15],
-      ["charcoal", 5]
+      ["charcoal", 5],
+      ["soap", 10]
     ]
   },{
     "type" : "item_group",
@@ -490,8 +495,12 @@
       ["chili", 10],
       ["syrup", 10],
       ["coffee_syrup", 10],
+      ["yeast", 10],
+      ["molasses", 5],
       ["vodka", 20],
       ["apple_cider", 50],
+      ["fruit_wine", 7],
+      ["brandy", 5],
       ["jihelucake", 1],
       ["beer", 35],
       ["european_pilsner", 25],
@@ -629,6 +638,7 @@
       ["oil_lamp", 10],
       ["lamp_oil", 10],
       ["grapnel", 1],
+      ["misc_repairkit", 15],
       ["charcoal", 20]
     ]
   },{
@@ -954,6 +964,7 @@
       ["towel", 40],
       ["jacket_leather", 30],
       ["poncho", 15],
+      ["folding_poncho", 5],
       ["trenchcoat", 25],
       ["peacoat", 30],
       ["vest", 15],
@@ -1028,10 +1039,10 @@
       ["cookies", 80],
       ["choco_coffee_beans", 10],
       ["nachos", 50],
-      ["chips2", 65],
       ["chips3", 65],
       ["fruit_leather", 25],
-      ["kernels", 25],
+      ["popcorn", 25],
+      ["popcorn2", 25],
       ["candycigarette", 20]
     ]
     },{
@@ -1057,7 +1068,6 @@
       ["choc_drink", 30],
       ["rootbeer", 65],
       ["purple_drink", 45],
-      ["milk", 50],
       ["V8", 15]
     ]
     },{
@@ -1416,6 +1426,7 @@
       ["prozac", 10],
       ["antibiotics", 25],
       ["antifungal", 2],
+      ["antiparasitic", 3],
       ["syringe", 8]
     ]
   },{
@@ -1463,6 +1474,7 @@
       ["toastem3", 35],
       ["toasterpastry", 20],
       ["sugar", 20],
+      ["molasses", 10],
       ["can_cheese", 40],
       ["salt", 20],
       ["pepper", 20],
@@ -1633,6 +1645,7 @@
       ["tongs", 3],
       ["chisel", 2],
       ["swage", 1],
+      ["misc_repairkit", 5],
       ["tool_belt", 5]
     ]
   },{
@@ -1706,6 +1719,7 @@
       ["fungicide", 5],
       ["miner_hat", 1],
       ["grapnel", 1],
+      ["misc_repairkit", 5],
       ["tool_belt", 30]
     ]
   },{
@@ -1748,6 +1762,7 @@
       ["aspirin", 85],
       ["bat", 60],
       ["bismuth", 30],
+      ["boxing_gloves", 35],
       ["bat_metal", 60],
       ["football_armor", 10],
       ["helmet_football", 10],
@@ -1769,6 +1784,7 @@
       ["gloves_fingerless", 20],
       ["mask_hockey", 25],
       ["hockey_stick", 35],
+      ["headgear", 35],
       ["jersey", 30],
       ["puck", 30],
       ["golf_club", 35],
@@ -1816,6 +1832,7 @@
     "items":[
       ["rope_30", 35],
       ["hatchet", 10],
+      ["misc_repairkit", 5],
       ["pot", 25],
       ["bowl_pewter", 25],
       ["teapot", 5],
@@ -1934,6 +1951,7 @@
       ["bat", 60],
       ["bismuth", 30],
       ["bat_metal", 60],
+      ["boxing_gloves", 40],
       ["baseball", 60],
       ["football_armor", 10],
       ["helmet_football", 10],
@@ -1966,6 +1984,7 @@
       ["hat_ball", 30],
       ["helmet_bike", 35],
       ["helmet_ball", 45],
+      ["headgear", 40],
       ["mask_hockey", 25],
       ["hockey_stick", 35],
       ["jersey", 20],
@@ -2099,10 +2118,12 @@
       ["tequila", 12],
       ["triple_sec", 12],
       ["bum_wine", 20],
-      ["drink_boozeberry", 12],
+      ["fruit_wine", 12],
+      ["brandy", 12],
+      ["drink_boozeberry", 8],
       ["drink_rumcola", 12],
       ["drink_screwdriver", 12],
-      ["drink_wild_apple", 12],
+      ["drink_wild_apple", 8],
       ["drink_strawberry_surprise", 8],
       ["long_island", 6],
       ["wine_riesling", 6],
@@ -2858,6 +2879,7 @@
       ["textbook_fabrication", 4],
       ["textbook_tailor", 4],
       ["carpentry_book", 4],
+      ["brewing_cookbook", 4],
       ["computer_science", 8],
       ["book_icef", 8],
       ["mag_tv", 20],
@@ -2943,6 +2965,7 @@
       ["adv_chemistry", 4],
       ["tailor_portfolio", 3],
       ["textbook_chemistry", 11],
+      ["brewing_cookbook", 3],
       ["textbook_carpentry", 6],
       ["SICP", 3],
       ["survival_book", 8],
@@ -3185,6 +3208,7 @@
       ["electrohack", 3],
       ["textbook_gaswarfare", 1],
       ["textbook_anarch", 3],
+      ["brewing_cookbook", 3],      
       ["recipe_bullets", 1],
       ["knife_combat", 14],
       ["tanto", 3],
@@ -3437,6 +3461,7 @@
       ["oxygen_tank", 40],
       ["smoxygen_tank", 10],
       ["antifungal", 5],
+      ["antiparasitic", 10],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -3484,6 +3509,7 @@
       ["vaccine_shot", 5],
       ["blanket", 50],
       ["smoxygen_tank", 10],
+      ["antiparasitic", 3],
       ["recipe_augs", 3],
       ["holybook_bible1", 4],
       ["holybook_bible2", 3],
@@ -3672,6 +3698,7 @@
       ["coat_rain", 50],
       ["hood_rain", 10],
       ["poncho", 15],
+      ["folding_poncho", 5],
       ["mag_tv", 40],
       ["mag_dude", 40],
       ["mag_glam", 40],
@@ -3821,6 +3848,7 @@
       ["holybook_slack", 1],
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
+      ["folding_poncho", 1],
       ["pocketwatch", 10]
     ]
   },{
@@ -3997,6 +4025,7 @@
       ["tuned_mechanism", 2],
       ["match_trigger", 3],
       ["geiger_off", 8],
+      ["rad_monitor", 1],
       ["UPS_off", 5],
       ["tazer", 3],
       ["mp3", 18],
@@ -4233,6 +4262,7 @@
       ["water_purifier", 5],
       ["radio", 20],
       ["geiger_off", 8],
+      ["rad_monitor", 2],
       ["usb_drive", 5],
       ["canteen", 15],
       ["2lcanteen", 10],
@@ -4248,6 +4278,7 @@
       ["flaregun", 20],
       ["signal_flare", 25],
       ["grapnel", 10],
+      ["folding_poncho", 5],
       ["quikclot", 20]
     ]
   },{
@@ -4433,6 +4464,7 @@
       ["ammonia", 12],
       ["mutagen", 1],
       ["purifier", 1],
+      ["yeast", 3],
       ["royal_jelly", 4],
       ["superglue", 30],
       ["bottle_glass", 10],
@@ -4460,6 +4492,7 @@
     "items":[
       ["iodine", 5],
       ["textbook_chemistry", 8],
+      ["brewing_cookbook", 4],
       ["adv_chemistry", 6],
       ["water_clean", 80],
       ["salt_water", 30],
@@ -4467,6 +4500,7 @@
       ["ammonia", 24],
       ["mutagen", 2],
       ["purifier", 2],
+      ["yeast", 2],
       ["royal_jelly", 8],
       ["superglue", 20],
       ["bottle_glass", 10],
@@ -4564,6 +4598,7 @@
       ["recipe_lab_cvd", 15],
       ["recipe_mininuke_launch", 5],
       ["teleporter", 10],
+      ["antiparasitic", 5],
       ["usb_drive", 5]
     ]
   },{
@@ -4629,11 +4664,17 @@
       ["raspberries", 3],
       ["blackberries", 2],
       ["rhubarb", 5],
-      ["wheat", 5],
+      ["wheat", 6],
+      ["barley", 6],
+      ["sugar_beet", 4],
+      ["hops", 4],
       ["seed_wheat", 1],
       ["seed_tomato", 1],
       ["seed_blueberries", 1],
       ["seed_strawberries", 1],
+      ["seed_barley", 1],
+      ["seed_sugar_beet", 1],      
+      ["seed_hops", 1],      
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
@@ -4641,7 +4682,7 @@
       ["corn", 7],
       ["onion", 3],
       ["carrot", 3],
-      ["withered", 70]
+      ["withered", 60]
     ]
   },{
     "type" : "item_group",
@@ -5630,6 +5671,7 @@
       ["extinguisher", 20],
       ["radio", 20],
       ["geiger_off", 8],
+      ["rad_monitor", 4],
       ["UPS_off", 5],
       ["flyer", 10],
       ["bio_purifier", 10],
@@ -5642,6 +5684,8 @@
       ["55gal_drum", 40],
       ["30gal_drum", 30],
       ["wearable_light", 10],
+      ["antiparasitic", 5],
+      ["misc_repairkit", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -5757,6 +5801,7 @@
       ["rope_30", 35],
       ["stick", 95],
       ["hatchet", 10],
+      ["misc_repairkit", 5],
       ["ax", 8],
       ["bee_sting", 5],
       ["chitin_piece", 10],
@@ -5794,6 +5839,7 @@
       ["flashlight", 40],
       ["radio", 20],
       ["geiger_off", 8],
+      ["rad_monitor", 4],
       ["teleporter", 10],
       ["canister_goo", 8],
       ["dynamite", 5],
@@ -6001,12 +6047,12 @@
       ["9mm", 8]
     ]
   },{
-  "type" : "item_group",
-  "id" : "laserturret",
-      "items":[
+    "type" : "item_group",
+    "id" : "laserturret",
+    "items":[
       ["cerberus_laser", 1],
       ["laser_capacitor", 8]
-    ]
+      ]
   },{
     "type" : "item_group",
     "id" : "helicopter",
@@ -6325,6 +6371,7 @@
       ["soldering_iron", 70],
       ["solder_wire", 70],
       ["geiger_off", 8],
+      ["rad_monitor", 2],
       ["teleporter", 10],
       ["canister_goo", 8],
       ["EMPbomb", 2],
@@ -6624,7 +6671,7 @@
       ["match_trigger", 3],
       ["pocketwatch", 2]
     ]
-},{
+  },{
     "type" : "item_group",
     "id" : "methlab",
     "items":[
@@ -6700,6 +6747,24 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "moonshine_brew",
+    "items":[
+      ["moonshine", 60],
+      ["still", 20],
+      ["brew_moonshine", 5],
+      ["cornbread", 35],
+      ["yeast", 25],
+      ["sugar", 20]      
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "liqstore_brew",
+    "items":[
+      ["yeast", 5],
+      ["hops", 40]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "trader_avoid",
     "items":[
       ["null", 10],
@@ -6740,6 +6805,7 @@
       ["firecracker_act", 5],
       ["mininuke_act", 0],
       ["UPS_on", 0],
+      ["cvd_machine", 0],
       ["mp3_on", 0],
       ["c4armed", 0],
       ["apparatus", 10],
@@ -6751,9 +6817,31 @@
       ["huge_crossbow", 2],
       ["rep_crossbow", 1],
       ["vaccine_shot", 10],
+      ["brew_whiskey", 0],
+      ["brew_rum", 0],
+      ["brew_bum_wine", 0],
+      ["brew_fruit_wine", 0],
+      ["brew_mead", 0],
+      ["brew_hb_beer", 0],
+      ["brew_moonshine", 0],
+      ["flask_yeast", 0],
+      ["testflames", 0],
       ["bio_claws_weapon", 0],
       ["bio_blade_weapon", 0],
-      ["testflames", 0]
+      ["bio_laser_gun", 0],
+      ["bio_blaster_gun", 0],
+      ["money", 0],
+      ["oil_lamp_on", 0],
+      ["gasoline_lantern_on", 0],
+      ["glowstick_dead", 0],
+      ["handflare_dead", 0],
+      ["carver_on", 0],
+      ["trimmer_on", 0],
+      ["circsaw_on", 0],
+      ["geiger_on", 0],
+      ["adv_UPS_on", 0],
+      ["pda_flashlight", 0],
+      ["bio_lightning", 0]
     ]
   },{
     "type" : "item_group",
@@ -6937,6 +7025,7 @@
     "items":[
       ["wrapped_rad_badge", 80],
       ["geiger_off", 20],
+      ["rad_monitor", 10],
       ["oxygen_tank", 10],
       ["smoxygen_tank", 15],
       ["adv_UPS_off", 2],
@@ -7138,9 +7227,11 @@
       ["flamethrower_crude", 6],
       ["fungicide", 10],
       ["antifungal", 1],
+      ["antiparasitic", 5],
       ["throw_extinguisher", 2],
       ["small_repairkit", 14],
       ["grapnel", 6],
+      ["misc_repairkit", 8],
       ["flamethrower_simple", 2]
     ]
   },{
@@ -7148,6 +7239,49 @@
     "id" : "hazmat_eyes",
     "items":[
       ["glasses_safety", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "trash_forest",
+    "items":[
+      ["rock", 5],
+	  ["stick", 5],
+	  ["flyer", 1],
+	  ["bag_plastic", 3],
+	  ["bottle_plastic", 2],
+	  ["cup_plastic", 3],
+	  ["bottle_glass", 1],
+	  ["can_drink", 2],
+	  ["can_food", 1],
+	  ["box_small", 2],
+	  ["jug_plastic", 1],
+	  ["jar_glass", 2],
+	  ["jar_3l_glass", 1],
+	  ["wrapper", 3],
+	  ["withered", 5],
+	  ["string_6", 1],
+	  ["string_36", 1],
+	  ["steel_lump", 1],
+	  ["steel_chunk", 1],
+	  ["scrap", 2],
+	  ["glass_shard", 3],
+	  ["wire", 1],
+	  ["wire_barbed", 1],
+	  ["splinter", 3],
+	  ["skewer", 3],
+	  ["rag", 2],
+	  ["rag_bloody", 1],
+	  ["bone", 2],
+	  ["syringe", 1],
+	  ["spike", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mushroom_forest",
+    "items":[
+      ["mushroom", 4],
+      ["mushroom_poison", 3],
+      ["mushroom_magic", 1]
     ]
   }
 ]

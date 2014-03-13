@@ -1471,10 +1471,8 @@ void npc::say(std::string line, ...)
 {
  va_list ap;
  va_start(ap, line);
- char buff[8192];
- vsprintf(buff, line.c_str(), ap);
+ line = vstring_format(line, ap);
  va_end(ap);
- line = buff;
  parse_tags(line, &(g->u), this);
  if (g->u_see(posx, posy)) {
   g->add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());

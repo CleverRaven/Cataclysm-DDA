@@ -49,6 +49,55 @@
         ]
     },{
         "type" : "martial_art",
+        "id" : "style_boxing",
+        "name" : "Boxing",
+        "description" : "Sport of the true Gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
+        "arm_block" : 2,
+           "static_buffs" : [
+            {
+                "id" : "boxing_static",
+                "name" : "Boxing",
+                "description" : "Dex/Per increases unarmed power, Str reduces block damage.",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 0,
+                "max_stacks" : 1,
+                "bash_dex" : 0.15,
+                "bash_per" : 0.15,
+                "block_str" : 0.5
+            }
+        ],
+        "onmove_buffs" : [
+            {
+                "id" : "boxing_move_buff",
+                "name" : "Footwork",
+                "description" : "Gain an extra dodge while moving.",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 4,
+                "buff_duration" : 2,
+                "max_stacks" : 2,
+                "dodges_bonus" : 1
+            }
+        ],
+        "ondodge_buffs" : [
+            {
+                "id" : "boxing_counter",
+                "name" : "Counter Chance",
+                "description" : "They're wide open!",
+                "min_unarmed" : 5,
+                "unarmed_allowed" : true,
+                "max_stacks": 2,
+                "buff_duration" : 3,
+                "bash_mult" : 1.25
+            }
+        ],
+        "techniques" : [
+            "tec_boxing_rapid",
+            "tec_boxing_cross",
+            "tec_boxing_upper",
+            "tec_boxing_counter"
+        ]
+    },{
+        "type" : "martial_art",
         "id" : "style_judo",
         "name" : "Judo",
         "description" : "Judo is a martial art that focuses on grabs and throws, both defensive and offensive. It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
@@ -259,6 +308,83 @@
         ]
     },{
         "type" : "martial_art",
+        "id" : "style_silat",
+        "name" : "Silat",
+        "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons. Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.", 
+        "static_buffs" : [
+            {
+                "id" : "silat_buff",
+                "name" : "Silat Stance",
+                "description" : "+1 dodge",
+                "unarmed_allowed" : true,
+                "melee_allowed" : true,
+                "bonus_dodges" : 1
+            }
+        ],
+        "ondodge_buffs" : [
+            {
+                "id" : "silat_dodge_buff",
+                "name" : "Silat Counter",
+                "description" : "Extra to-hit after successful dodge",
+                "unarmed_allowed" : true,
+                "melee_allowed" : true,
+                "buff_duration" : 3,
+                "max_stacks": 4,
+                "hit_dex": 0.4
+            }
+        ],
+        "techniques" : [
+            "tec_silat_hamstring",
+            "tec_silat_precise",
+            "tec_silat_brutal",
+            "tec_silat_dirty"
+        ],
+        "weapons" : [
+            "baton",
+            "bio_blade_weapon",
+            "bowling_pin",
+            "cudgel",
+            "diamond_knife",
+            "diamond_machete",
+            "diveknife",
+            "firemachete_off",
+            "firemachete_on",
+            "golf_club",
+            "hockey_stick",
+            "i_staff",
+            "javelin",
+            "javelin_iron",
+            "knife_combat",
+            "kris",
+            "machete",
+            "makeshift_halberd",
+            "makeshift_knife",
+            "makeshift_machete",
+            "pipe",
+            "pointy_stick",
+            "pool_cue",
+            "primitive_knife",
+            "q_staff",
+            "rebar",
+            "scythe",
+            "scythe_war",
+            "shock_staff",
+            "shocktonfa_off",
+            "shocktonfa_on",
+            "sickle",
+            "shishkebab_off",
+            "shishkebab_on",
+            "spear_knife",
+            "spear_rebar",
+            "spear_steel",
+            "spear_wood",
+            "stick",
+            "tanto",
+            "tonfa",
+            "tonfa_wood"
+        ]
+    },{
+        "type" : "martial_art",
         "id" : "style_fencing",
         "name" : "Fencing",
         "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples. Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.", 
@@ -282,10 +408,11 @@
             "tec_fencing_thrust"
         ],
         "weapons" : [
-            "rapier",
             "broadsword",
             "broadfire_off",
-            "broadfire_on"
+            "broadfire_on",
+            "sword_forged",
+            "rapier"
         ]
     },{
         "type" : "martial_art",
@@ -310,7 +437,9 @@
                 "melee_allowed" : true,
                 "min_melee" : 2,
                 "buff_duration" : 3,
-                "max_stacks" : 1
+                "max_stacks" : 1,
+                "bash_mult": 1.1,
+                "cut_mult": 1.1
             }
         ],
         "techniques" : [
@@ -322,27 +451,43 @@
             "tec_eskrima_combination"
         ],
         "weapons" : [
-            "screwdriver",
-            "makeshift_knife",
-            "switchblade",
-            "scissors",
-            "machete",
+            "2x4",
+            "baton",
+            "bee_sting",
+            "bio_blade_weapon",
+            "bowling_pin",
+            "cane",
+            "cudgel",
+            "cu_pipe",
             "diamond_knife",
             "diamond_machete",
-            "tanto",
-            "makeshift_machete",
-            "knife_combat",
-            "pool_cue",
-            "punch_dagger",
-            "umbrella",
-            "cu_pipe",
+            "diveknife",
+            "fighter_sting",
+            "firemachete_off",
+            "firemachete_on",
             "glass_shiv",
-            "stick",
-            "cudgel",
-            "2x4",
+            "hammer",
+            "knife_combat",
+            "machete",
+            "makeshift_knife",
+            "makeshift_machete",
             "pipe",
-            "baton",
-            "cane"
+            "pockknife",
+            "pool_cue",
+            "primitive_knife",
+            "primitive_hammer",
+            "punch_dagger",
+            "scissors",
+            "screwdriver",
+            "sharp_toothbrush",
+            "shishkebab_off",
+            "shishkebab_on",
+            "stick",
+            "switchblade",
+            "tanto",
+            "umbrella",
+            "wasp_sting",
+            "wrench"
         ]
     },{
         "type" : "martial_art",
@@ -413,7 +558,7 @@
         "type" : "martial_art",
         "id" : "style_leopard",
         "name" : "Leopard Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Inteligence both boost accuracy, and moving further boosts your accuracy.",
+        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Intelligence both boost accuracy, and moving further boosts your accuracy.",
         "static_buffs" : [
             {
                 "id" : "leopard_static",
@@ -493,7 +638,7 @@
         "type" : "martial_art",
         "id" : "style_centipede",
         "name" : "Centipede Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land reduces the cost of attacking by 4.",
+        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increase your speed by 4.",
         "arm_block" : 3,
         "onhit_buffs" : [
             {
@@ -504,7 +649,7 @@
                 "min_unarmed" : 1,
                 "buff_duration" : 3,
                 "max_stacks" : 8,
-                "rapid" : 4
+                "speed" : 4
             }
         ],
         "techniques" : [

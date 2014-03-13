@@ -679,6 +679,11 @@ void initOptions() {
     OPTIONS["FULLSCREEN"] =             cOpt("graphics", _("Fullscreen"),
                                              _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
                                              false
+                                            );
+
+    OPTIONS["SOFTWARE_RENDERING"] =     cOpt("graphics", _("Software rendering"),
+                                             _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
+                                             false
                                             );  // populate the options dynamically
 
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
@@ -970,11 +975,15 @@ void show_options(bool ingame)
 #ifdef SDLTILES
     if( used_tiles_changed ) {
         //try and keep SDL calls limited to source files that deal specifically with them
-        tilecontext->clear_buffer();
-        tilecontext->reinit( "gfx" );
-        g->init_ui();
-        if( ingame ) {
-            g->refresh_all();
+        try {
+            tilecontext->reinit( "gfx" );
+            g->init_ui();
+            if( ingame ) {
+                g->refresh_all();
+            }
+        } catch(std::string err) {
+            popup(_("Loading the tileset failed: %s"), err.c_str());
+            use_tiles = false;
         }
     }
 #endif // SDLTILES
