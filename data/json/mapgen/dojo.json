@@ -38,7 +38,9 @@
             ["mag_melee", 20],
             ["manual_melee",10],
             ["mag_unarmed", 20],
-            ["manual_brawl", 10]
+            ["manual_brawl", 10],
+            ["mag_cutting", 5],
+            ["textbook_weapeast", 1]
         ]
     },
     {
