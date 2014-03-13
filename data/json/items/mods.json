@@ -941,7 +941,7 @@
         "type" : "GUNMOD",
         "id" : "pistol_scope",
         "name" : "pistol scope",
-        "location": "rail",
+        "location": "sights",
         "clip_size_modifier" : 0,
         "dispersion_modifier" : -6,
         "damage_modifier" : 0,
