@@ -393,8 +393,11 @@ void mapbuffer::load(std::string worldname)
     if( num_submaps == 0 ) {
         return;
     }
-    // We only need to load all the files if we changed versions.
-    if( savegame_loading_version != savegame_version ) {
+    // We only need to load all the files if we changed versions,
+    // use changing numbers of map entities to trigger it as well.
+    if( savegame_loading_version != savegame_version ||
+        num_terrain_types != ter_key.size() || num_furniture_types != furn_key.size() ||
+        trapmap.size() != trap_key.size() ) {
         std::vector<std::string> map_files = file_finder::get_files_from_path(
             ".map", world_map_path.str(), true, true );
         if( map_files.empty() ) {
