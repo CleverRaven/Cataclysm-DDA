@@ -431,6 +431,7 @@ nc_color hilite(nc_color c)
     case c_ltcyan:  return h_ltcyan;
     case c_pink:    return h_pink;
     case c_yellow:  return h_yellow;
+    default:        break;
     }
     return h_white;
 }
@@ -454,6 +455,7 @@ nc_color invert_color(nc_color c)
         case c_pink:    return i_magenta;
         case c_brown:
         case c_yellow:  return i_brown;
+        default:        break;
         }
     }
 
@@ -473,6 +475,7 @@ nc_color invert_color(nc_color c)
     case c_ltblue:  return i_ltblue;
     case c_ltcyan:  return i_ltcyan;
     case c_pink:    return i_pink;
+    default:        break;
     }
 
     return c_pink;
@@ -496,6 +499,7 @@ nc_color red_background(nc_color c)
     case c_ltcyan:  return c_ltcyan_red;
     case c_pink:    return c_pink_red;
     case c_yellow:  return c_yellow_red;
+    default:        break;
     }
     return c_white_red;
 }

@@ -243,8 +243,7 @@ void game::finalize_vehicles()
         next_vehicle = new vehicle(proto->id.c_str());
         next_vehicle->name = _(proto->name.c_str());
 
-        for (int i = 0; i < proto->parts.size(); ++i)
-        {
+        for (size_t i = 0; i < proto->parts.size(); ++i) {
             point p = proto->parts[i].first;
             part_x = p.x;
             part_y = p.y;
@@ -261,7 +260,7 @@ void game::finalize_vehicles()
             }
         }
 
-        for (int i = 0; i < proto->item_spawns.size(); i++) {
+        for (size_t i = 0; i < proto->item_spawns.size(); i++) {
             if (cargo_spots.find(point(proto->item_spawns[i].x, proto->item_spawns[i].y)) == cargo_spots.end()){
                 debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                          proto->name.c_str(), proto->item_spawns[i].x, proto->item_spawns[i].y, proto->item_spawns[i].chance);
@@ -306,4 +305,5 @@ void init_vpart_bitflag_map() {
     vpart_bitflag_map["VPFLAG_TRACK"] = VPFLAG_TRACK;      // find_power -> game::finalize_vehicles
 /*    vpart_bitflag_map["SWIMMABLE"] = VPFLAG_SWIMMABLE; */ // only relevent for cars in water
     vpart_bitflag_map["RECHARGE"] = VPFLAG_RECHARGE;
+    vpart_bitflag_map["MIRROR"] = VPFLAG_MIRROR;
 }

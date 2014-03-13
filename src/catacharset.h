@@ -10,7 +10,7 @@ unsigned UTF8_getch(const char **src, int *srclen);
 // from wcwidth.c, return "cell" width of a unicode char
 int mk_wcwidth(uint32_t ucs);
 // convert cursorx value to byte position
-int cursorx_to_position(const char* line, int cursorx, int* prevppos=NULL);
+int cursorx_to_position(const char* line, int cursorx, int* prevppos=NULL, int maxlen = -1);
 //erease for characters insertion
 int erease_utf8_by_cw( char* t, int cw, int len, int maxlen);
 int utf8_width(const char* s);

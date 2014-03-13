@@ -1,5 +1,4 @@
 #include "game.h"
-#include "keypress.h"
 #include "debug.h"
 #include "input.h"
 #include "mapbuffer.h"
@@ -114,9 +113,9 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     for (int i = 0; i < vItems.size(); i++) {
         wprintz(w_in, c_ltgray, "[");
         if (iSel == i) {
-            shortcut_print(w_in, h_white, h_white, vItems[i].c_str());
+            shortcut_print(w_in, h_white, h_white, vItems[i]);
         } else {
-            shortcut_print(w_in, c_ltgray, c_white, vItems[i].c_str());
+            shortcut_print(w_in, c_ltgray, c_white, vItems[i]);
         }
         wprintz(w_in, c_ltgray, "]");
         for (int j = 0; j < spacing; j++) {

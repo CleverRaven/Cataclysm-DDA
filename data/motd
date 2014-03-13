@@ -1,19 +1,19 @@
 # This message may be 16 lines long at maximum.
 # Max length of a line is 68 characters; the following line is for reference
 ####################################################################
-Major features v0.9 Ma:
-* World Factory: Multiple worlds managed at once.
-* New mutation categories.
-* TsuTiles.
-* Basic mouse support in SDL builds.
-* Vehicle constructon system rework.
-* Backward compatability with 0.8 saves.
-* Unbelievable amount of new content.
+Major features v0.A Kaufman:
+* Mod manager (deactivate and activate various content)
+* Fullscreen mode.
+* Many mutations, more refined mutation progression.
+* Improved view options for driving.
+* Item categories, partial stack pickup, view vehicle contents.
+* Greatly accelerated map saving and loading by chunking up saves.
+* Mouse move and mouselook.
+* Fishing and working refrigerators..
+* Backward compatability with 0.8 and 0.9 saves.
 
 For latest discussions and news on Cataclysm DDA, please visit:
 Homepage: http://www.cataclysmdda.com/
-Forum: http://smf.cataclysmdda.com/
 Wiki: http://wiki.cataclysmdda.com/
-Source: https://github.com/CleverRaven/Cataclysm-DDA
 
 Ingame you can access the options via the help menu (?2).

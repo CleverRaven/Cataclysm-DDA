@@ -11,6 +11,11 @@ public:
     int none                (player*, item*, bool);
 
 // FOOD AND DRUGS (ADMINISTRATION)
+    int raw_meat            (player*, item*, bool);
+    int raw_fat             (player*, item*, bool);
+    int raw_bone            (player*, item*, bool);
+    int raw_fish            (player*, item*, bool);
+    int raw_wildveg         (player*, item*, bool);
     int sewage              (player*, item*, bool);
     int honeycomb           (player*, item*, bool);
     int royal_jelly         (player*, item*, bool);
@@ -22,6 +27,7 @@ public:
     int atomic_caff         (player*, item*, bool);
     int alcohol             (player*, item*, bool);
     int alcohol_weak        (player*, item*, bool);
+    int alcohol_strong      (player*, item*, bool);
     int pkill               (player*, item*, bool);
     int xanax               (player*, item*, bool);
     int cig                 (player*, item*, bool);
@@ -204,6 +210,7 @@ public:
     int heatpack            (player *, item *, bool);
     int hotplate            (player *, item *, bool);
     int dejar               (player *, item *, bool);
+    int flask_yeast         (player *, item *, bool);
     int rad_badge           (player *, item *, bool);
     int boots               (player *, item *, bool);
     int towel               (player *, item *, bool);
@@ -219,6 +226,14 @@ public:
     int atomic_battery      (player *, item *, bool);
     int fishing_rod_basic   (player *, item *, bool);
     int gun_repair          (player *, item *, bool);
+    int misc_repair         (player *, item *, bool);
+    int toolarmor_off       (player *, item *, bool);
+    int toolarmor_on        (player *, item *, bool);
+    int rm13armor_off       (player *, item *, bool);
+    int rm13armor_on        (player *, item *, bool);
+    int unpack_item         (player *, item *, bool);
+    int pack_item           (player *, item *, bool);
+    int radglove            (player *, item *, bool);
 // MACGUFFINS
     int mcg_note            (player *, item *, bool);
 

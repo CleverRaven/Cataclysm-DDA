@@ -60,7 +60,6 @@ class mod_manager
          */
         void refresh_mod_list();
 
-        void show_ui();
         /**
          * Returns the dependency tree for the loaded mods.
          * @returns @ref dependency_tree
@@ -149,7 +148,6 @@ class mod_ui
         mod_ui(mod_manager *modman);
         virtual ~mod_ui();
 
-        int show_layering_ui();
         std::vector<std::string> usable_mods;
         std::string get_information(MOD_INFORMATION *mod);
         mod_manager *active_manager;
@@ -162,20 +160,8 @@ class mod_ui
 
         bool can_shift_up(int selection, std::vector<std::string> active_list);
         bool can_shift_down(int selection, std::vector<std::string> active_list);
+
     private:
-
-        void show_mod_information(WINDOW *win, int width, MOD_INFORMATION *mod, std::string note);
-        void draw_layering_ui_lines(WINDOW *win);
-        void draw_headers(WINDOW *win, int sy, const std::vector<std::string> headers,
-                          unsigned char selected_header);
-        void draw_modlist(WINDOW *win, int sy, int sx, const std::vector<std::string> modlist,
-                          bool header_active, int last_selection);
-        void draw_shift_information(WINDOW *win, int sy, int sx,
-                                    const std::vector<std::string> active_mods_list, const int selection);
-        int gather_input(int &active_header, int &selection, std::vector<std::string> mod_list,
-                         std::vector<std::string> &active_mods_list);
-
-
         void set_usable_mods();
 };
 

@@ -27,16 +27,12 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
-#include "SDL.h"
-#include "SDL_ttf.h"
-#ifdef SDLTILES
-#include "SDL_image.h" // Make sure to add this to the other OS inclusions
-#endif
 #ifndef strcasecmp
 #define strcasecmp strcmpi
 #endif
 #else
 #include <wordexp.h>
+#endif
 #if (defined OSX_SDL_FW)
 #include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
@@ -44,14 +40,12 @@
 #include "SDL_image/SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
 #else
-#include "SDL/SDL.h"
-#include "SDL/SDL_ttf.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
 #ifdef SDLTILES
-#include "SDL/SDL_image.h" // Make sure to add this to the other OS inclusions
+#include "SDL2/SDL_image.h" // Make sure to add this to the other OS inclusions
 #endif
 #endif
-#endif
-
 //***********************************
 //Globals                           *
 //***********************************
@@ -64,9 +58,12 @@ static bool needupdate = false;
 #endif
 
 static SDL_Color windowsPalette[256];
-static SDL_Surface *screen = NULL;
-static SDL_Surface *glyph_cache[128][16]; //cache ascii characters
-static SDL_Surface *ascii[16];
+static SDL_Window *window = NULL;
+static SDL_Renderer* renderer = NULL;
+static SDL_PixelFormat *format;
+static SDL_Texture *glyph_cache[128][16]; //cache ascii characters
+static int glyph_height[128];
+static SDL_Texture *ascii[16];
 int tilewidth = 0;
 TTF_Font* font;
 static int ttf_height_hack = 0;
@@ -87,6 +84,8 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
+static int TERMINAL_WIDTH;
+static int TERMINAL_HEIGHT;
 std::map< std::string,std::vector<int> > consolecolors;
 void (*OutputChar)(Uint16 t, int x, int y, unsigned char color);
 
@@ -110,7 +109,7 @@ void init_interface()
 
 void ClearScreen()
 {
-    SDL_FillRect(screen, NULL, 0);
+    SDL_RenderClear(renderer);
 }
 
 
@@ -138,8 +137,8 @@ bool InitSDL()
 
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
 
-    SDL_EnableUNICODE(1);
-    SDL_EnableKeyRepeat(500, OPTIONS["INPUT_DELAY"]);
+    //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
+    //SDL2 instead uses the OS's Input Delay.
 
     atexit(SDL_Quit);
 
@@ -149,32 +148,56 @@ bool InitSDL()
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
-
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
-    SDL_WM_SetCaption(version.c_str(), NULL);
-
-    char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
-    SDL_putenv(center_string);
 
     //Flags used for setting up SDL VideoMode
-    int screen_flags = SDL_SWSURFACE | SDL_DOUBLEBUF;
+    int window_flags = 0;
 
-    //If FULLSCREEN was selected in options add SDL_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
+    //If FULLSCREEN was selected in options add SDL_WINDOW_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
     if(OPTIONS["FULLSCREEN"]) {
-        screen_flags = screen_flags | SDL_FULLSCREEN;
+        window_flags = window_flags | SDL_WINDOW_FULLSCREEN;
     }
 
-    screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, screen_flags);
-    //SDL_SetColors(screen,windowsPalette,0,256);
+    window = SDL_CreateWindow(version.c_str(),
+            SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED,
+            WindowWidth,
+            WindowHeight,
+            window_flags
+        );
 
-    if (screen == NULL) return false;
+	//create renderer and convert that to a SDL_Surface?
+
+    if (window == NULL) return false;
+
+    format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
+
+    bool software_renderer = OPTIONS["SOFTWARE_RENDERING"];
+    if( !software_renderer ) {
+        DebugLog() << "Attempting to initialize accelerated SDL renderer.\n";
+
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
+                                       SDL_RENDERER_PRESENTVSYNC );
+        if( renderer == NULL ) {
+            DebugLog() << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError() << "\n";
+            software_renderer = true;
+        }
+    }
+    if( software_renderer ) {
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE );
+        if( renderer == NULL ) {
+            DebugLog() << "Failed to initialize software renderer: " << SDL_GetError() << "\n";
+            return false;
+        }
+    }
 
     ClearScreen();
 
-    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1))
+    if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
         SDL_ShowCursor(SDL_DISABLE);
-    else
+    } else {
         SDL_ShowCursor(SDL_ENABLE);
+    }
 
     // Initialize joysticks.
     int numjoy = SDL_NumJoysticks();
@@ -200,10 +223,21 @@ void WinDestroy()
         SDL_JoystickClose(joystick);
         joystick = 0;
     }
-
-    if(screen) SDL_FreeSurface(screen);
-    screen = NULL;
+    if(format)
+        SDL_FreeFormat(format);
+    format = NULL;
+    if(renderer)
+        SDL_DestroyRenderer(renderer);
+    renderer = NULL;
+    if(window)
+        SDL_DestroyWindow(window);
+    window = NULL;
 };
+
+inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
+    SDL_SetRenderDrawColor(renderer, windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, 255);
+    SDL_RenderFillRect(renderer, &rect);
+}
 
 //The following 3 methods use mem functions for fast drawing
 inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color)
@@ -213,7 +247,7 @@ inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color
     rect.y = y;
     rect.w = thickness;
     rect.h = y2-y;
-    SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
+    FillRectDIB(rect, color);
 };
 inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color)
 {
@@ -222,7 +256,7 @@ inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color
     rect.y = y;
     rect.w = x2-x;
     rect.h = thickness;
-    SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
+    FillRectDIB(rect, color);
 };
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
@@ -231,29 +265,35 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     rect.y = y;
     rect.w = width;
     rect.h = height;
-    SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
+    FillRectDIB(rect, color);
 };
+
 
 
 static void cache_glyphs()
 {
-
     int top = 999;
     int bottom = -999;
     start_color();
 
     for(int ch = 0; ch < 128; ch++) {
         for(int color = 0; color < 16; color++) {
-            SDL_Surface * glyph = glyph_cache[ch][color] =
-              (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
-            int minx, maxx, miny, maxy, advance;
-            if(glyph != NULL && color==0 &&
-               0 == TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) ) {
-                int t = TTF_FontAscent(font)-maxy;
-                int b = t + glyph->h;
-                if(t < top) top = t;
-                if(b > bottom) bottom = b;
+            //I hate this kind of ternary use
+            SDL_Surface * sglyph = (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
+
+            if(sglyph != NULL) {
+                int minx, maxx, miny, maxy, advance;
+                if(color==0 && 0 == TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) ) {
+                    int t = TTF_FontAscent(font)-maxy;
+                    int b = t + sglyph->h;
+                    if(t < top) top = t;
+                    if(b > bottom) bottom = b;
+                }
+                glyph_height[ch] = sglyph->h;
+                glyph_cache[ch][color] = SDL_CreateTextureFromSurface(renderer,sglyph);
             }
+
+            SDL_FreeSurface(sglyph);
         }
     }
 
@@ -267,23 +307,39 @@ static void OutputFontChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
 
-    SDL_Surface * glyph = t < 0x80 ? glyph_cache[t][color] :
-      (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid) (font, t, windowsPalette[color]);
+    bool created = false;
+    SDL_Texture * glyph;
+    int height = 0;
+    if(t < 0x80) {
+        glyph = glyph_cache[t][color];
+        height = glyph_height[t];
+    } else {
+        //create the texture instead
+        SDL_Surface *sglyph = (fontblending ? TTF_RenderGlyph_Blended
+            : TTF_RenderGlyph_Solid) (font, t, windowsPalette[color]);
+        glyph = SDL_CreateTextureFromSurface(renderer,sglyph);
+        height = sglyph->h;
+        SDL_FreeSurface(sglyph);
+        created = true;
+    }
 
     if(glyph) {
-        int minx = 0, maxy = 0, dx = 0, dy = 0;
-        if( 0 == TTF_GlyphMetrics(font, t, &minx, NULL, NULL, &maxy, NULL))
+        int minx = 0, miny = 0, maxy = 0, dx = 0, dy = 0;
+        if( 0 == TTF_GlyphMetrics(font, t, &minx, NULL, &miny, &maxy, NULL))
         {
             dx = minx;
             dy = TTF_FontAscent(font) - maxy + ttf_height_hack;
             SDL_Rect rect;
             rect.x = x + dx;
             rect.y = y + dy;
+            //these are not fontwidth/fontheight...
             rect.w = fontwidth;
-            rect.h = fontheight;
-            SDL_BlitSurface(glyph, NULL, screen, &rect);
+            rect.h = height;
+            SDL_RenderCopy(renderer,glyph,NULL,&rect);
         }
-        if(t >= 0x80) SDL_FreeSurface(glyph);
+        if(created) {
+            SDL_DestroyTexture(glyph);
+        }
     }
 }
 
@@ -297,7 +353,7 @@ static void OutputImageChar(Uint16 t, int x, int y, unsigned char color)
     src.h = fontheight;
     SDL_Rect rect;
     rect.x = x; rect.y = y; rect.w = fontwidth; rect.h = fontheight;
-    SDL_BlitSurface(ascii[color], &src, screen, &rect);
+    SDL_RenderCopy(renderer,ascii[color],&src,&rect);
 }
 
 // only update if the set interval has elapsed
@@ -305,7 +361,7 @@ void try_update()
 {
     unsigned long now = SDL_GetTicks();
     if (now - lastupdate >= interval) {
-        SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
+        SDL_RenderPresent(renderer);
         needupdate = false;
         lastupdate = now;
     } else {
@@ -317,30 +373,14 @@ void curses_drawwindow(WINDOW *win)
 {
     int i,j,w,drawx,drawy;
     unsigned tmp;
-
-    SDL_Rect update_rect;
-    update_rect.x = win->x * fontwidth;
-    update_rect.w = win->width * fontwidth;
-    update_rect.y = 9999; // default value
-    update_rect.h = 9999; // default value
-
-    int jr = 0;
-
+    bool update = false;
     for (j=0; j<win->height; j++){
-        if (win->line[j].touched)
-        {
-            if (update_rect.y == 9999)
-            {
-                update_rect.y = (win->y+j)*fontheight;
-                jr=j;
-            }
-            update_rect.h = (j-jr+1)*fontheight;
-
-            needupdate = true;
+        if (win->line[j].touched) {
+            update = true;
 
             win->line[j].touched=false;
 
-            for (i=0,w=0; w<win->width; i++,w++){
+            for (i=0,w=0; w<win->width; i++,w++) {
                 drawx=((win->x+w)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
@@ -416,23 +456,23 @@ void curses_drawwindow(WINDOW *win)
             };//for (i=0;i<_windows[w].width;i++)
         }
     };// for (j=0;j<_windows[w].height;j++)
-    win->draw=false;                //We drew the window, mark it as so
+
+    win->draw = false; //We drew the window, mark it as so
 
     if (g && win == g->w_terrain && use_tiles)
     {
-        update_rect.y = win->y*tilecontext->tile_height;
-        update_rect.h = win->height*tilecontext->tile_height;
-        update_rect.x = win->y*tilecontext->tile_width;
-        update_rect.w = win->width*tilecontext->tile_width;
-        //GfxDraw(thegame, win->x*fontwidth, win->y*fontheight, thegame->terrain_view_x, thegame->terrain_view_y, win->width*fontwidth, win->height*fontheight);
-        tilecontext->draw(win->x * fontwidth, win->y * fontheight, g->ter_view_x, g->ter_view_y, tilecontext->terrain_term_x * fontwidth, tilecontext->terrain_term_y * fontheight);
+        tilecontext->draw(
+            win->x * fontwidth,
+            win->y * fontheight,
+            g->ter_view_x,
+            g->ter_view_y,
+            tilecontext->get_terrain_term_x() * fontwidth,
+            tilecontext->get_terrain_term_y() * fontheight);
     }
-//*/
-    if (update_rect.y != 9999)
-    {
-        SDL_UpdateRect(screen, update_rect.x, update_rect.y, update_rect.w, update_rect.h);
+
+    if(update) {
+        needupdate = true;
     }
-    if (needupdate) try_update();
 }
 #else
 void curses_drawwindow(WINDOW *win)
@@ -440,20 +480,13 @@ void curses_drawwindow(WINDOW *win)
     int i,j,w,drawx,drawy;
     unsigned tmp;
 
-    int miny = 99999;
-    int maxy = -99999;
+    bool update = false;
 
     for (j=0; j<win->height; j++)
     {
         if (win->line[j].touched)
         {
-            if(j<miny) {
-                miny=j;
-            }
-            if(j>maxy) {
-                maxy=j;
-            }
-
+            update = true;
 
             win->line[j].touched=false;
 
@@ -537,19 +570,10 @@ void curses_drawwindow(WINDOW *win)
             }//for (i=0;i<_windows[w].width;i++)
         }
     }// for (j=0;j<_windows[w].height;j++)
-    win->draw=false;                //We drew the window, mark it as so
+    win->draw=false; //We drew the window, mark it as so
 
-    if(maxy>=0)
-    {
-        int tx=win->x, ty=win->y+miny, tw=win->width, th=maxy-miny+1;
-        int maxw=WindowWidth/fontwidth, maxh=WindowHeight/fontheight;
-        if(tw+tx>maxw) {
-            tw= maxw-tx;
-        }
-        if(th+ty>maxh) {
-            th= maxh-ty;
-        }
-        SDL_UpdateRect(screen, tx*fontwidth, ty*fontheight, tw*fontwidth, th*fontheight);
+    if(update) {
+        needupdate = true;
     }
 }
 #endif
@@ -672,32 +696,46 @@ void CheckMessages()
     lastchar_is_mouse = false;
     while(SDL_PollEvent(&ev)) {
         switch(ev.type) {
+            case SDL_WINDOWEVENT:
+                switch(ev.window.event) {
+                case SDL_WINDOWEVENT_SHOWN:
+                case SDL_WINDOWEVENT_EXPOSED:
+                case SDL_WINDOWEVENT_RESTORED:
+                    needupdate = true;
+                    break;
+                default:
+                    break;
+                }
+            break;
             case SDL_KEYDOWN:
             {
                 int lc = 0;
                 //hide mouse cursor on keyboard input
                 if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) { SDL_ShowCursor(SDL_DISABLE); }
-                Uint8 *keystate = SDL_GetKeyState(NULL);
+                const Uint8 *keystate = SDL_GetKeyboardState(NULL);
                 // manually handle Alt+F4 for older SDL lib, no big deal
-                if( ev.key.keysym.sym == SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) ) {
+                if( ev.key.keysym.sym == SDLK_F4
+                && (keystate[SDL_SCANCODE_RALT] || keystate[SDL_SCANCODE_LALT]) ) {
                     quit = true;
                     break;
                 }
-                if( ev.key.keysym.unicode != 0 ) {
-                    lc = ev.key.keysym.unicode;
-                    switch (lc){
-                        case 13:            //Reroute ENTER key for compatilbity purposes
-                            lc=10;
-                            break;
-                        case 8:             //Reroute BACKSPACE key for compatilbity purposes
-                            lc=127;
-                            break;
-                    }
-                }
                 switch (ev.key.keysym.sym) {
-                    case SDLK_RSHIFT||SDLK_LSHIFT||SDLK_RCTRL||SDLK_LCTRL||SDLK_RALT:
-                        lc= 0;
-                        break; // temporary fix for unwanted keys
+                    case SDLK_KP_ENTER:
+                    case SDLK_RETURN:
+                    case SDLK_RETURN2:
+                        lc = 10;
+                        break;
+                    case SDLK_BACKSPACE:
+                    case SDLK_KP_BACKSPACE:
+                        lc = 127;
+                        break;
+                    case SDLK_ESCAPE:
+                        lc = 27;
+                        break;
+                    case SDLK_TAB:
+                        lc = 9;
+                        break;
+                    case SDLK_RALT:
                     case SDLK_LALT:
                         begin_alt_code();
                         break;
@@ -731,11 +769,14 @@ void CheckMessages()
             break;
             case SDL_KEYUP:
             {
-                if( ev.key.keysym.sym == SDLK_LALT ) {
+                if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
                     int code = end_alt_code();
                     if( code ) { lastchar = code; }
                 }
             }
+            break;
+            case SDL_TEXTINPUT:
+                lastchar = *ev.text.text;
             break;
             case SDL_JOYBUTTONDOWN:
                 lastchar = ev.jbutton.button;
@@ -765,23 +806,27 @@ void CheckMessages()
                     case SDL_BUTTON_RIGHT:
                         lastchar = MOUSE_BUTTON_RIGHT;
                         break;
-                    case SDL_BUTTON_WHEELUP:
-                        lastchar = SCROLLWHEEL_UP;
-                        break;
-                    case SDL_BUTTON_WHEELDOWN:
-                        lastchar = SCROLLWHEEL_DOWN;
-                        break;
                     }
+                break;
+
+            case SDL_MOUSEWHEEL:
+                lastchar_is_mouse = true;
+                if(ev.wheel.y > 0) {
+                    lastchar = SCROLLWHEEL_UP;
+                } else if(ev.wheel.y < 0) {
+                    lastchar = SCROLLWHEEL_DOWN;
+                }
                 break;
 
             case SDL_QUIT:
                 quit = true;
                 break;
-
         }
     }
 #ifdef SDLTILES
-    if (needupdate) { try_update(); }
+    if (needupdate) {
+        try_update();
+    }
 #endif
     if(quit) {
         endwin();
@@ -1011,59 +1056,97 @@ WINDOW *curses_init(void)
     halfheight=fontheight / 2;
 
     if(!InitSDL()) {
-        DebugLog() << (std::string)"Failed to initialize SDL!\n";
+        DebugLog() << "Failed to initialize SDL: " << SDL_GetError() << "\n";
+        return NULL;
+    }
+
+    TERMINAL_WIDTH = OPTIONS["TERMINAL_X"];
+    TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
+
+    if(OPTIONS["FULLSCREEN"]) {
+        // Fullscreen mode overrides terminal width/height
+        SDL_DisplayMode display_mode;
+        SDL_GetDesktopDisplayMode(0, &display_mode);
+
+        TERMINAL_WIDTH = display_mode.w / fontwidth;
+        TERMINAL_HEIGHT = display_mode.h / fontheight;
+
+        WindowWidth  = display_mode.w;
+        WindowHeight = display_mode.h;
+    } else {
+        WindowWidth= OPTIONS["TERMINAL_X"];
+        if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
+        WindowWidth *= fontwidth;
+        WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
+    }
+
+    if(!WinCreate()) {
+        DebugLog() << "Failed to create game window: " << SDL_GetError() << "\n";
+        return NULL;
     }
 
     #ifdef SDLTILES
     DebugLog() << "Initializing SDL Tiles context\n";
-    tilecontext = new cata_tiles;
-    tilecontext->init("gfx");
-    #endif // SDLTILES
-    DebugLog() << (std::string)"Tiles initialized successfully.\n";
-    WindowWidth= OPTIONS["TERMINAL_X"];
-    if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
-    WindowWidth *= fontwidth;
-    WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
-    if(!WinCreate()) {
-        DebugLog() << (std::string)"Failed to create game window!\n";
-        return NULL;
+    tilecontext = new cata_tiles(renderer);
+    try {
+        tilecontext->init("gfx");
+        DebugLog() << "Tiles initialized successfully.\n";
+    } catch(std::string err) {
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_tiles = false;
     }
-    #ifdef SDLTILES
-    tilecontext->set_screen(screen);
+    #endif // SDLTILES
 
+    #ifdef SDLTILES
     while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
           !strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png")) {
-        SDL_Surface *asciiload;
+        DebugLog() << "Loading bitmap font [" + typeface + "].\n" ;
         typeface = "data/font/" + typeface;
-        asciiload = IMG_Load(typeface.c_str());
+        SDL_Surface *asciiload = IMG_Load(typeface.c_str());
         if(!asciiload || asciiload->w*asciiload->h < (fontwidth * fontheight * 256)) {
+            DebugLog() << "Failed to load bitmap font: " << IMG_GetError() << "\n";
             SDL_FreeSurface(asciiload);
             break;
         }
         Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
-        SDL_SetColorKey(asciiload,SDL_SRCCOLORKEY,key);
-        ascii[0] = SDL_DisplayFormat(asciiload);
+        SDL_SetColorKey(asciiload,SDL_TRUE,key);
+        SDL_Surface *ascii_surf[16];
+        ascii_surf[0] = SDL_ConvertSurface(asciiload,format,0);
+        SDL_SetSurfaceRLE(ascii_surf[0], true);
         SDL_FreeSurface(asciiload);
-        for(int a = 1; a < 16; a++) {
-            ascii[a]=SDL_ConvertSurface(ascii[0],ascii[0]->format,ascii[0]->flags);
+
+        for(int a = 1; a < 16; ++a) {
+            ascii_surf[a] = SDL_ConvertSurface(ascii_surf[0],format,0);
+            SDL_SetSurfaceRLE(ascii_surf[a], true);
         }
 
         init_colors();
-        for(int a = 0; a < 15; a++) {
-            SDL_LockSurface(ascii[a]);
-            int size = ascii[a]->h * ascii[a]->w;
-            Uint32 *pixels = (Uint32 *)ascii[a]->pixels;
+        for(int a = 0; a < 15; ++a) {
+            SDL_LockSurface(ascii_surf[a]);
+            int size = ascii_surf[a]->h * ascii_surf[a]->w;
+            Uint32 *pixels = (Uint32 *)ascii_surf[a]->pixels;
             Uint32 color = (windowsPalette[a].r << 16) | (windowsPalette[a].g << 8) | windowsPalette[a].b;
             for(int i=0;i<size;i++) {
                 if(pixels[i] == 0xFFFFFF)
                     pixels[i] = color;
             }
-            SDL_UnlockSurface(ascii[a]);
+            SDL_UnlockSurface(ascii_surf[a]);
         }
-        if(fontwidth)tilewidth=ascii[0]->w/fontwidth;
+
+        if(fontwidth)
+            tilewidth = ascii_surf[0]->w / fontwidth;
+
         OutputChar = &OutputImageChar;
 
-        mainwin = newwin(OPTIONS["TERMINAL_Y"], OPTIONS["TERMINAL_X"],0,0);
+        //convert ascii_surf to SDL_Texture
+        for(int a = 0; a < 16; ++a) {
+            ascii[a] = SDL_CreateTextureFromSurface(renderer,ascii_surf[a]);
+            SDL_FreeSurface(ascii_surf[a]);
+        }
+
+        mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
         return mainwin;
     }
     #endif // SDLTILES
@@ -1083,6 +1166,8 @@ WINDOW *curses_init(void)
         typeface = "data/font/fixedsys.ttf";
     }
 
+    DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
+
     if(fontsize <= 0) fontsize = fontheight - 1;
 
     // SDL_ttf handles bitmap fonts size incorrectly
@@ -1090,8 +1175,10 @@ WINDOW *curses_init(void)
         faceIndex = test_face_size(typeface, fontsize, faceIndex);
 
     font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
-
-    //if(!font) something went wrong
+    if (font == NULL) {
+        DebugLog() << "Failed to load truetype font: " << TTF_GetError() << "\n";
+        return NULL;
+    }
 
     TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
 
@@ -1104,7 +1191,7 @@ WINDOW *curses_init(void)
 
     OutputChar = &OutputFontChar;
 
-    mainwin = newwin(OPTIONS["TERMINAL_Y"], OPTIONS["TERMINAL_X"],0,0);
+    mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -1131,12 +1218,14 @@ int curses_destroy(void)
     for (int i=0; i<128; i++) {
         for (int j=0; j<16; j++) {
             if (glyph_cache[i][j]) {
-                SDL_FreeSurface(glyph_cache[i][j]);
+                SDL_DestroyTexture(glyph_cache[i][j]);
             }
             glyph_cache[i][j] = NULL;
         }
     }
-    for(int a=0;a<16;a++)SDL_FreeSurface(ascii[a]);
+    for(int a=0;a<16;a++) {
+        SDL_DestroyTexture(ascii[a]);
+    }
     WinDestroy();
     return 1;
 }
@@ -1308,7 +1397,7 @@ bool gamepad_available() {
 
 void rescale_tileset(int size) {
     #ifdef SDLTILES
-        tilecontext->load_rescaled_tileset(size);
+        tilecontext->set_draw_scale(size);
     #endif
 }
 
@@ -1331,15 +1420,15 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     {
         // Check if click is within bounds of the window we care about
         int win_left = capture_win->x * fontwidth;
-        int win_right = win_left + (capture_win->width * tilecontext->tile_width);
+        int win_right = win_left + (capture_win->width * tilecontext->get_tile_width());
         int win_top = capture_win->y * fontheight;
-        int win_bottom = win_top + (capture_win->height * tilecontext->tile_height);
+        int win_bottom = win_top + (capture_win->height * tilecontext->get_tile_height());
         if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
             return false;
         }
 
-        selected_column = (coordinate_x - win_left) / tilecontext->tile_width;
-        selected_row = (coordinate_y - win_top) / tilecontext->tile_height;
+        selected_column = (coordinate_x - win_left) / tilecontext->get_tile_width();
+        selected_row = (coordinate_y - win_top) / tilecontext->get_tile_height();
     }
     else
 #endif
@@ -1361,6 +1450,14 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     y = g->ter_view_y - ((view_rows/2) - selected_row);
 
     return true;
+}
+
+int get_terminal_width() {
+    return TERMINAL_WIDTH;
+}
+
+int get_terminal_height() {
+    return TERMINAL_HEIGHT;
 }
 
 #endif // TILES

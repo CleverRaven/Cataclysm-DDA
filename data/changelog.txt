@@ -1,5 +1,15 @@
 0.A
 
+Highlights:
+Module manager.
+Fullscreen mode.
+Many mutations, more refined mutation progression.
+Improved view options for driving.
+Improved item handling, including category views, partial stack handling.
+Mouse move and mouselook.
+Fishing.
+Working Refrigerators.
+
 Features:
 View item on mouse hover in SDL.
 Mouse move.
@@ -71,6 +81,7 @@ Large nerf to solar panels.
 Effectively remove cap to starting points option (set to 1,000).
 More interesting gun misfire/jam mechanics, guns can take damage now.
 Varied rate of projectile breakage with a flag, more differentiation between arrow types.
+Ammo with special effects (smoke, teargas, explosions) now go off when burned.
 
 Content:
 Atomic coffee, energy drink and hypospray, lawn darts, MOLLE pack, fingertip razors.
@@ -114,6 +125,10 @@ Fixed issue where exploding items could destroy themselves and cause a segfault.
 Check for errors when attempting to write files and take appropriate action.
 Fixed some lab finale features.
 Fixed vehicle workshops being usable as components in recipes.
+Cruise control is now smooth, even the sportscar is driveable.
+Sinkholes don't turn into pits after you step in them.
+Can no longer block attacks in your sleep.
+Translations build and ship with releases.
 
 Performance:
 Many overmap generation performance improvements.

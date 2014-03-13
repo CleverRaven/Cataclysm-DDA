@@ -184,8 +184,7 @@ void npc::randomize(npc_class type)
  personality.bravery =    rng( -3, 10);
  personality.collector =  rng( -1, 10);
  personality.altruism =   rng(-10, 10);
- //cash = 100 * rng(0, 20) + 10 * rng(0, 30) + rng(0, 50);
- cash = 0;
+ cash = 100000 * rng(0, 10) + 10000 * rng(0, 20) + 100 * rng(0, 30) + + 1 * rng(0, 30), rng(0, 99);
  moves = 100;
  mission = NPC_MISSION_NULL;
  if (one_in(2))
@@ -1472,10 +1471,8 @@ void npc::say(std::string line, ...)
 {
  va_list ap;
  va_start(ap, line);
- char buff[8192];
- vsprintf(buff, line.c_str(), ap);
+ line = vstring_format(line, ap);
  va_end(ap);
- line = buff;
  parse_tags(line, &(g->u), this);
  if (g->u_see(posx, posy)) {
   g->add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
