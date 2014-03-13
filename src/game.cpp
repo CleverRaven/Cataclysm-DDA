@@ -2894,11 +2894,6 @@ bool game::handle_action()
 
   case ACTION_WAIT:
    wait();
-   if (veh_ctrl) {
-    veh->turret_mode++;
-    if (veh->turret_mode > 1)
-     veh->turret_mode = 0;
-   }
    break;
 
   case ACTION_CRAFT:
@@ -2930,14 +2925,10 @@ bool game::handle_action()
    break;
 
   case ACTION_SLEEP:
-    if (veh_ctrl)
-    {
+    if( veh_ctrl ) {
         add_msg(_("Vehicle control has moved, %s"),
         press_x(ACTION_CONTROL_VEHICLE, _("new binding is "), _("new default binding is '^'.")).c_str());
-
-    }
-    else
-    {
+    } else {
         uimenu as_m;
         as_m.text = _("Are you sure you want to sleep?");
         as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS["FORCE_CAPITAL_YN"]?'Y':'y'), _("Yes.")) );

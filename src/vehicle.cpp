@@ -580,10 +580,7 @@ void vehicle::use_controls()
         honk_horn();
         break;
     case toggle_turrets:
-        if (++turret_mode > 1) {
-            turret_mode = 0;
-        }
-        g->add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
+        cycle_turret_mode();
         break;
     case toggle_fridge:
         if( !fridge_on || fuel_left(fuel_type_battery) ) {
@@ -744,12 +741,14 @@ void vehicle::start_engine()
 
 void vehicle::honk_horn()
 {
-    for( size_t h = 0; h < horns.size(); ++h ) {
+    for( size_t p = 0; p < parts.size(); ++p ) {
+        if( ! part_flag( p, "HORN" ) )
+            continue;
         //Get global position of horn
-        const int horn_x = global_x() + parts[horns[h]].precalc_dx[0];
-        const int horn_y = global_y() + parts[horns[h]].precalc_dy[0];
+        const int horn_x = global_x() + parts[p].precalc_dx[0];
+        const int horn_y = global_y() + parts[p].precalc_dy[0];
         //Determine sound
-        vpart_info &horn_type=part_info(horns[h]);
+        vpart_info &horn_type=part_info(p);
         if( horn_type.bonus >= 40 ){
             g->sound( horn_x, horn_y, horn_type.bonus, _("HOOOOORNK!") );
         } else if( horn_type.bonus >= 20 ){
@@ -3346,16 +3345,6 @@ void vehicle::gain_moves()
     }
 }
 
-void vehicle::find_horns ()
-{
-    horns.clear();
-    for (int p = 0; p < parts.size(); p++) {
-        if(part_flag( p,"HORN" )) {
-            horns.push_back(p);
-        }
-    }
-}
-
 void vehicle::find_power ()
 {
     lights.clear();
@@ -3496,7 +3485,6 @@ bool vehicle::pedals() {
  */
 void vehicle::refresh()
 {
-    find_horns ();
     find_power ();
     find_alternators ();
     find_fuel_tanks ();
@@ -3812,6 +3800,13 @@ void vehicle::leak_fuel (int p)
                 }
     }
     parts[p].amount = 0;
+}
+
+void vehicle::cycle_turret_mode()
+{
+    if( ++turret_mode > 1 )
+        turret_mode = 0;
+    g->add_msg( (0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode") );
 }
 
 void vehicle::fire_turret (int p, bool burst)

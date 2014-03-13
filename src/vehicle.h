@@ -484,8 +484,6 @@ public:
 // reduces velocity to 0
     void stop ();
 
-    void find_horns ();
-
     void find_power ();
 
     void find_alternators ();
@@ -529,6 +527,9 @@ public:
 
     void leak_fuel (int p);
 
+    // Cycle through available turret modes
+    void cycle_turret_mode();
+
     // fire the turret which is part p
     void fire_turret (int p, bool burst = true);
 
@@ -560,7 +561,6 @@ public:
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
-    std::vector<int> horns;            // List of horn part indices
     std::vector<int> lights;           // List of light part indices
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> fuel;             // List of fuel tank indices
