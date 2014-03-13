@@ -1231,16 +1231,13 @@ int iuse::oxygen_bottle(player *p, item *it, bool) {
 
 int iuse::blech(player *p, item *it, bool) {
     // TODO: Add more effects?
-    //Only give the player a chance at damage prevetion if he has at least some cooking skill
-    if( g->u.skillLevel("cooking").level() >= 2 ) {
-        if (it->is_drink()) {
-            if ( !query_yn(_("This looks unhealthy, sure you want to drink it?"))) {
-                return 0;
-            }
-        } else {
-            if ( !query_yn(_("This looks unhealthy, sure you want to eat it?"))) {
-                return 0;
-            }
+    if (it->is_drink()) {
+        if ( !query_yn(_("This looks unhealthy, sure you want to drink it?"))) {
+            return 0;
+        }
+    } else {
+        if ( !query_yn(_("This looks unhealthy, sure you want to eat it?"))) {
+            return 0;
         }
     }
     g->add_msg_if_player(p,_("Blech, that burns your throat!"));
