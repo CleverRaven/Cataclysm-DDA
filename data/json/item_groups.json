@@ -6830,7 +6830,7 @@
       ["bio_blade_weapon", 0],
       ["bio_laser_gun", 0],
       ["bio_blaster_gun", 0],
-      ["cents", 0],
+      ["money", 0],
       ["oil_lamp_on", 0],
       ["gasoline_lantern_on", 0],
       ["glowstick_dead", 0],
