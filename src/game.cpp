@@ -6126,7 +6126,7 @@ void game::do_blast( const int x, const int y, const int power, const int radius
             int vpart;
             vehicle *veh = m.veh_at(i, j, vpart);
             if (veh) {
-                veh->damage (vpart, dam, false);
+                veh->damage(vpart, dam, fire ? 2 : 1, false);
             }
 
             if (npc_hit != -1) {
