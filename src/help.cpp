@@ -198,9 +198,9 @@ a truly infinite world, stretching in all four cardinal directions. As a surviva
 you will have to find food; you also need to keep yourself hydrated, and sleep periodically."));
 
     text.push_back(_("\
-While Cataclysm has more tasks to keep track than many other roguelikes, the near-future \
-setting of the game makes some tasks easier. Firearms, medications, and a wide variety \
-of tools are all available to help you survive."));
+While Cataclysm has more tasks to keep track than many other roguelikes, \
+the near-future setting of the game makes some tasks easier. Firearms, medications, \
+and a wide variety of tools are all available to help you survive."));
 
     return text;
 }
