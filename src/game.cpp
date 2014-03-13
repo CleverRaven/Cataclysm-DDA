@@ -2894,11 +2894,6 @@ bool game::handle_action()
 
   case ACTION_WAIT:
    wait();
-   if (veh_ctrl) {
-    veh->turret_mode++;
-    if (veh->turret_mode > 1)
-     veh->turret_mode = 0;
-   }
    break;
 
   case ACTION_CRAFT:
@@ -2930,14 +2925,10 @@ bool game::handle_action()
    break;
 
   case ACTION_SLEEP:
-    if (veh_ctrl)
-    {
+    if( veh_ctrl ) {
         add_msg(_("Vehicle control has moved, %s"),
         press_x(ACTION_CONTROL_VEHICLE, _("new binding is "), _("new default binding is '^'.")).c_str());
-
-    }
-    else
-    {
+    } else {
         uimenu as_m;
         as_m.text = _("Are you sure you want to sleep?");
         as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS["FORCE_CAPITAL_YN"]?'Y':'y'), _("Yes.")) );
@@ -4087,8 +4078,8 @@ Current turn: %d; Next spawn %d.\n\
     break;
 
   case 12:
-      add_msg("Martial arts debug.");
-      add_msg("Your eyes blink rapidly as knowledge floods your brain.");
+      add_msg(_("Martial arts debug."));
+      add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
       u.ma_styles.push_back("style_karate");
       u.ma_styles.push_back("style_judo");
       u.ma_styles.push_back("style_aikido");
@@ -4112,12 +4103,12 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_eskrima");
       u.ma_styles.push_back("style_fencing");
       u.ma_styles.push_back("style_silat");
-      add_msg("You now know a lot more than just 10 styles of kung fu.");
+      add_msg(_("You now know a lot more than just 10 styles of kung fu."));
    break;
 
   case 13: {
-    add_msg("Recipe debug.");
-    add_msg("Your eyes blink rapidly as knowledge floods your brain.");
+    add_msg(_("Recipe debug."));
+    add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
     {
         for (recipe_list::iterator list_iter = cat_iter->second.begin();
@@ -4129,7 +4120,7 @@ Current turn: %d; Next spawn %d.\n\
         }
       }
     }
-    add_msg("You know how to craft that now.");
+    add_msg(_("You know how to craft that now."));
   }
     break;
 
