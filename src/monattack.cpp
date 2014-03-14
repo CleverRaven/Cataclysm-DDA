@@ -802,7 +802,7 @@ void mattack::leap(monster *z)
                 }
             if (!blocked_path) {
                 options.push_back( point(x, y) );
-                best = rl_dist(g->u.posx, g->u.posy, x, y);
+                best = rl_dist(target.x, target.y, x, y);
             }
 
         }
