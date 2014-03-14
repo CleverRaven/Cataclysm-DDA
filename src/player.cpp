@@ -35,6 +35,7 @@
 #include <ctime>
 #include <algorithm>
 #include <numeric>
+#include <string>
 
 nc_color encumb_color(int level);
 static void manage_fire_exposure(player& p, int fireStrength = 1);
@@ -8160,8 +8161,6 @@ bool player::takeoff(int pos, bool autodrop)
 
     return taken_off;
 }
-
-#include <string>
 
 void player::sort_armor()
 {
