@@ -66,13 +66,13 @@ struct mongroup {
     int posx, posy, posz;
     unsigned char radius;
     unsigned int population;
-    int tx,ty; //horde target
+    int tx, ty; //horde target
     int interest; //interest to target in percents
     bool dying;
     bool horde;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
-    mongroup(std::string ptype, int pposx, int pposy, int pposz,
-                                unsigned char prad, unsigned int ppop) {
+    mongroup( std::string ptype, int pposx, int pposy, int pposz,
+              unsigned char prad, unsigned int ppop ) {
         type = ptype;
         posx = pposx;
         posy = pposy;
@@ -81,33 +81,37 @@ struct mongroup {
         population = ppop;
         dying = false;
         diffuse = false;
-	horde = false;
+        horde = false;
     }
     bool is_safe() {
         return (type == "GROUP_NULL" ||
                 type == "GROUP_SAFE" );
     };
-    void set_target(int x,int y)
-    {
-      tx = x;
-      ty = y;
+    void set_target(int x,int y) {
+        tx = x;
+        ty = y;
     }
     void wander();
-    void inc_interest(int inc)
-    {
-      interest+= inc;
-      if (interest > 100) interest = 100;
+    void inc_interest(int inc) {
+        interest += inc;
+        if (interest > 100) {
+            interest = 100;
+        }
     }
-    void dec_interest(int dec)
-    {
-      interest-= dec;
-      if (interest < 15) interest = 15;
+    void dec_interest(int dec) {
+        interest -= dec;
+        if (interest < 15) {
+            interest = 15;
+        }
     }
-    void set_interest(int set)
-    {
-      if (set<15) set = 15;
-      if (set>100) set = 100;
-      interest = set;
+    void set_interest(int set) {
+        if (set < 15) {
+            set = 15;
+        }
+        if (set > 100) {
+            set = 100;
+        }
+        interest = set;
     }
 };
 
