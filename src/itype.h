@@ -379,6 +379,7 @@ struct it_gun : public virtual itype
  unsigned int burst;
  int clip;
  int reload_time;
+ int casings;
 
  std::set<std::string> ammo_effects;
  std::map<std::string, int> valid_mod_locations;
@@ -427,6 +428,7 @@ struct it_gun : public virtual itype
   burst = 0;
   clip = 0;
   reload_time = 0;
+  casings = 0;
  };
 };
 
