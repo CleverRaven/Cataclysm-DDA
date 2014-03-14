@@ -464,7 +464,7 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if (!pedals() && has_engine) {
+    if( !has_pedals && has_engine ) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
             options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
@@ -627,7 +627,7 @@ void vehicle::use_controls()
           if (total_power () < 1) {
               if (total_power (false) < 1) {
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-              } else if(pedals()) {
+              } else if( has_pedals ) {
                   g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
               } else {
                   g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
@@ -894,6 +894,12 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
             return false;
         }
     }
+
+    // Pedals and engines can't both be installed
+    if( part.has_flag("PEDALS") && engines.size() > 0 )
+        return false;
+    if( part.has_flag(VPFLAG_ENGINE) && has_pedals )
+        return false;
 
     // Alternators must be installed on a gas engine
     if(vehicle_part_types[id].has_flag(VPFLAG_ALTERNATOR)) {
@@ -2482,7 +2488,7 @@ void vehicle::idle() {
     int engines_power = 0;
     float idle_rate;
 
-    if (engine_on && total_power() > 0 && !pedals()) {
+    if( engine_on && total_power() > 0 && !has_pedals ) {
         int strn = (int)(strain() * strain() * 100);
         for (int p = 0; p < parts.size(); p++) {
             if (part_flag(p, VPFLAG_ENGINE)) {
@@ -2510,7 +2516,7 @@ void vehicle::idle() {
 
             if (one_in(10)) {
                 int smk = noise(true, true); // Only generate smoke for gas cars.
-                if (smk > 0 && !pedals()) {
+                if( smk > 0 && !has_pedals ) {
                     int rdx = rng(0, 2);
                     int rdy = rng(0, 2);
                     g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
@@ -2588,7 +2594,7 @@ void vehicle::thrust (int thd) {
             {
               if (total_power (false) < 1) {
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-              } else if(pedals()) {
+              } else if( has_pedals ) {
                   g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
               } else {
                   g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
@@ -2597,11 +2603,11 @@ void vehicle::thrust (int thd) {
             cruise_velocity = 0;
             return;
         }
-        else if (!engine_on && !pedals()) {
+        else if( !engine_on && !has_pedals ) {
           g->add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
-        } else if (pedals()) {
+        } else if( has_pedals ) {
             if (g->u.has_bionic("bio_torsionratchet")
                 && g->turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
@@ -2629,14 +2635,14 @@ void vehicle::thrust (int thd) {
         }
         // add sound and smoke
         int smk = noise (true, true);
-        if (smk > 0 && !pedals())
+        if( smk > 0 && !has_pedals )
         {
             int rdx, rdy;
             coord_translate (exhaust_dx, exhaust_dy, rdx, rdy);
             g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
         }
         std::string soundmessage;
-        if (!pedals()) {
+        if( !has_pedals ) {
           if (smk > 80)
             soundmessage = "ROARRR!";
           else if (smk > 60)
@@ -3365,21 +3371,6 @@ void vehicle::find_exhaust ()
     exhaust_dx--;
 }
 
-bool vehicle::pedals() {
-  if (has_pedals) {
-    return true;
-  }
-  else {
-    for (int p = 0; p < parts.size(); p++) {
-      if (part_flag(p, "PEDALS")) {
-        has_pedals = true;
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 /**
  * Refreshes all caches and refinds all parts. Used after the vehicle has had a part added or removed.
  * Makes indices of different part types so they're easy to find. Also calculates power drain.
@@ -3398,6 +3389,7 @@ void vehicle::refresh()
     tracking_epower = 0;
     fridge_epower = 0;
     recharger_epower = 0;
+    has_pedals = false;
 
     // Main loop over all vehicle parts.
     for( size_t p = 0; p < parts.size(); p++ ) {
@@ -3426,6 +3418,8 @@ void vehicle::refresh()
             reactors.push_back( p );
         if( vpi.has_flag(VPFLAG_SOLAR_PANEL) )
             solar_panels.push_back( p );
+        if( vpi.has_flag("PEDALS") )
+            has_pedals = true;
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );
         if( relative_parts.find(pt) == relative_parts.end() )

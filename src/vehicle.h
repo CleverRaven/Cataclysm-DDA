@@ -488,8 +488,6 @@ public:
 
     void refresh_insides ();
 
-    bool pedals();
-
     bool is_inside (int p);
 
     void unboard_all ();

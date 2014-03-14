@@ -462,21 +462,12 @@ void veh_interact::do_install(task_reason reason)
         bool eng = sel_vpart_info->has_flag("ENGINE");
         bool install_pedals = sel_vpart_info->has_flag("PEDALS");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
-        veh->has_pedals = false;
         std::string engine_string = "";
         if (engines && eng) { // already has engine
             engine_string = string_format(
                                 _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
                                 has_skill2 ? "ltgreen" : "red",
                                 dif_eng);
-        }
-        if (veh->pedals() && install_pedals) {
-            engine_string = string_format(
-                                  _(" You can only install and use one set of foot pedals in your vehicle."));
-        }
-        if (veh->pedals() && eng) {
-          engine_string = string_format(
-                                  _(" You can't install an engine in a vehicle that uses foot pedals."));
         }
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
@@ -494,7 +485,7 @@ void veh_interact::do_install(task_reason reason)
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
-             !(veh->pedals() && eng) && !(veh->pedals() && install_pedals)) {
+             !(veh->has_pedals && eng) && !(veh->has_pedals && install_pedals)) {
             sel_cmd = 'i';
             return;
         } else {
