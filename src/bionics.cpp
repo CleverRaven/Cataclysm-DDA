@@ -41,7 +41,7 @@ bionic_id game::random_good_bionic() const
     return random_bionic->first;
 }
 
-void show_bionics_titlebar(WINDOW *window, player *p, bool activating, bool reassigning)
+void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
 {
     werase(window);
 
@@ -57,12 +57,14 @@ void show_bionics_titlebar(WINDOW *window, player *p, bool activating, bool reas
     std::string desc;
     int desc_length = getmaxx(window) - cap_offset - pwr_length;
 
-    if(reassigning) {
+    if(menu_mode == "reassigning") {
         desc = _("Reassigning.\nSelect a bionic to reassign or press SPACE to cancel.");
-    } else if(activating) {
-        desc = _("Activating. Press <color_yellow>!</color> to examine your implants.\nPress <color_yellow>=</color> to reassign a key.");
-    } else {
-        desc = _("Examining. Press <color_yellow>!</color> to activate your implants.\nPress <color_yellow>=</color> to reassign a key.");
+    } else if(menu_mode == "activating") {
+        desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+    } else if(menu_mode == "removing") {
+        desc = _("<color_red>Removing</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+    } else if(menu_mode == "examining") {
+        desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
     }
     fold_and_print(window, 0, cap_offset, desc_length, c_white, desc);
 
@@ -92,8 +94,7 @@ void player::power_bionics()
 
     int scroll_position = 0;
     bool redraw = true;
-    bool reassigning = false;
-    bool activating = true; // examination mode if activating = false and reassigning = false
+    std::string menu_mode = "activating";
 
     std::vector <bionic *> passive;
     std::vector <bionic *> active;
@@ -126,7 +127,7 @@ void player::power_bionics()
             werase(wBio);
             draw_border(wBio);
 
-            draw_exam_window(wBio, DESCRIPTION_LINE_Y, (!reassigning && !activating));
+            draw_exam_window(wBio, DESCRIPTION_LINE_Y, menu_mode == "examining");
             for (int i = 1; i < WIDTH - 1; i++) {
                 mvwputch(wBio, HEADER_LINE_Y, i, BORDER_COLOR, LINE_OXOX); // Draw line under title
             }
@@ -141,7 +142,7 @@ void player::power_bionics()
                 mvwprintz(wBio, list_start_y, 2, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
-                    if (list_start_y + i == ((!activating && !reassigning) ?
+                    if (list_start_y + i == (menu_mode == "examining" ?
                                              DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
@@ -159,7 +160,7 @@ void player::power_bionics()
                 mvwprintz(wBio, list_start_y, second_column, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
-                    if (list_start_y + i == ((!activating && !reassigning) ?
+                    if (list_start_y + i == (menu_mode == "examining" ?
                                              DESCRIPTION_LINE_Y : HEIGHT - 1)) {
                         break;
                     }
@@ -185,16 +186,16 @@ void player::power_bionics()
                 mvwputch(wBio, HEADER_LINE_Y + 2, 0, c_ltgreen, '^');
             }
             if(scroll_position < max_scroll_position && max_scroll_position > 0) {
-                mvwputch(wBio, (!activating && !reassigning) ? ((HEADER_LINE_Y + 2) +
+                mvwputch(wBio, menu_mode == "examining" ? ((HEADER_LINE_Y + 2) +
                          bionic_display_height - 1) : (HEIGHT - 2), 0, c_ltgreen, 'v');
             }
         }
         wrefresh(wBio);
-        show_bionics_titlebar(w_title, this, activating, reassigning);
+        show_bionics_titlebar(w_title, this, menu_mode);
         long ch = getch();
         bionic *tmp = NULL;
-        if (reassigning) {
-            reassigning = false;
+        if (menu_mode == "reassigning") {
+            menu_mode = "activating";
             tmp = bionic_by_invlet(ch);
             if(tmp == 0) {
                 // Selected an non-existing bionic (or escape, or ...)
@@ -232,13 +233,14 @@ void player::power_bionics()
                 redraw = true;
             }
         } else if (ch == '=') {
-            reassigning = true;
-        } else if (ch == '!') {
-            activating = !activating;
-            if (!reassigning && !activating) { // examination mode
-                werase(w_description);
-            }
-            draw_exam_window(wBio, DESCRIPTION_LINE_Y, (!reassigning && !activating));
+            menu_mode = "reassigning";
+        } else if (ch == '!') { // switches between activation and examination
+            menu_mode = menu_mode == "activating" ? "examining" : "activating";
+            werase(w_description);
+            draw_exam_window(wBio, DESCRIPTION_LINE_Y, false);
+            redraw = true;
+        } else if (ch == '-') {
+            menu_mode = "removing";
             redraw = true;
         } else {
             tmp = bionic_by_invlet(ch);
@@ -249,7 +251,11 @@ void player::power_bionics()
             }
             const std::string &bio_id = tmp->id;
             const bionic_data &bio_data = *bionics[bio_id];
-            if (activating) {
+            if (menu_mode == "removing") {
+                uninstall_bionic(bio_id);
+                break;
+            }
+            if (menu_mode == "activating") {
                 if (bio_data.activated) {
                     itype_id weapon_id = weapon.type->id;
                     if (tmp->powered) {
@@ -278,7 +284,8 @@ You can not activate %s!  To read a description of \
                           bio_data.name.c_str(), tmp->invlet);
                     redraw = true;
                 }
-            } else { // Describing bionics, not activating them!
+            }
+            if (menu_mode == "examining") { // Describing bionics, not activating them!
                 draw_exam_window(wBio, DESCRIPTION_LINE_Y, true);
                 // Clear the lines first
                 werase(w_description);
@@ -288,7 +295,7 @@ You can not activate %s!  To read a description of \
         }
     }
     //if we activated a bionic, already killed the windows
-    if(!activating){
+    if(false) {
         werase(wBio);
         wrefresh(wBio);
         delwin(w_title);
@@ -739,6 +746,84 @@ void player::activate_bionic(int b)
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
         g->add_msg_if_player(this, _("You unleash a powerful shockwave!"));
     }
+}
+
+void bionics_uninstall_failure(player *u) {
+    switch (rng(1, 5)) {
+    case 1:
+        g->add_msg(_("You flub the removal."));
+        break;
+    case 2:
+        g->add_msg(_("You mess up the removal."));
+        break;
+    case 3:
+        g->add_msg(_("The removal fails."));
+        break;
+    case 4:
+        g->add_msg(_("The removal is a failure."));
+        break;
+    case 5:
+        g->add_msg(_("You screw up the removal."));
+        break;
+    }
+    g->add_msg(_("Your body is severely damaged!"));
+    u->hurtall(rng(30, 80));
+}
+
+bool player::uninstall_bionic(bionic_id b_id) {
+    it_bionic *type = dynamic_cast<it_bionic*> (itypes[b_id]);
+    // malfunctioning bionics don't have associated items and get a difficulty of 12
+    int difficulty = type == NULL ? 12 : type->difficulty;
+
+    if (bionics.count(b_id) == 0) {
+        popup("invalid / unknown bionic id %s", b_id.c_str());
+        return false;
+    }
+    if (!has_bionic(b_id)) {
+        popup(_("You don't have this bionic installed."));
+        return false;
+    }
+    if (!inv.has_items_with_quality("CUT", 1, 1)) {
+        popup(_("You don't have anything sharp to butcher yourself with!"));
+        return false;
+    }
+    // calculations copied from player::install_bionics
+    int pl_skill = int_cur * 4 +
+                   skillLevel("electronics") * 4 +
+                   skillLevel("firstaid")    * 3 +
+                   skillLevel("mechanics")   * 1;
+    float adjusted_skill = float (pl_skill) - std::min( float (40),
+                           float (pl_skill) - float (pl_skill) / float (10.0));
+    float skill_difficulty_parameter = float(adjusted_skill / (4.0 * difficulty));
+    int chance_of_success = int((100 * skill_difficulty_parameter) /
+                                (skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter)));
+
+    if (!query_yn(_("WARNING: %i percent chance of SEVERE bodily damage! Remove anyway?"),
+                  100 - chance_of_success)) {
+        return false;
+    }
+
+    practice(g->turn, "electronics", int((100 - chance_of_success) * 1.5));
+    practice(g->turn, "firstaid", int((100 - chance_of_success) * 1.0));
+    practice(g->turn, "mechanics", int((100 - chance_of_success) * 0.5));
+
+    int success = chance_of_success - rng(1, 100);
+
+    if (success > 0) {
+        add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
+            pgettext("memorial_female", "Removed bionic: %s."),
+            bionics[b_id]->name.c_str());
+        g->add_msg(_("Successfully removed %s."), bionics[b_id]->name.c_str());
+        remove_bionic(b_id);
+    }
+    else {
+        add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
+            pgettext("memorial_female", "Removed bionic: %s."),
+            bionics[b_id]->name.c_str());
+        bionics_uninstall_failure(this);
+    }
+    g->refresh_all();
+    return true;
 }
 
 bool player::install_bionics(it_bionic *type)

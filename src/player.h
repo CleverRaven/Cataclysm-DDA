@@ -154,6 +154,8 @@ public:
  bool has_active_bionic(const bionic_id & b) const;
  bool has_active_optcloak() const;
  void add_bionic(bionic_id b);
+ void remove_bionic(bionic_id b);
+ bool uninstall_bionic(bionic_id b_id);
  void charge_power(int amount);
  void power_bionics();
  void activate_bionic(int b);
