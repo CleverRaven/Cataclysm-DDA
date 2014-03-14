@@ -2087,19 +2087,16 @@ void overmap::move_hordes()
 */
 void overmap::signal_hordes( const int x, const int y, const int sig_power)
 {
-    int dist = 0;
-    int targ_dist = 0;
-    int d_inter = 0;
     // TODO: Signal adjacent overmaps too. (the 3 nearest ones)
     for( size_t i = 0; i < zg.size(); i++ ) {
         if( zg[i].horde ) {
-            dist = trig_dist(x, y, zg[i].posx, zg[i].posy);
-            targ_dist = trig_dist(x, y, zg[i].tx, zg[i].ty);
+            const int dist = rl_dist( x, y, zg[i].posx, zg[i].posy );
             if( sig_power <= dist ) { continue; }
-            d_inter = (sig_power - dist) * 5;
-            int roll = rng( 0, zg[i].interest );
             // TODO: base this in monster attributes, foremost GOODHEARING.
+            const int d_inter = (sig_power - dist) * 5;
+            const int roll = rng( 0, zg[i].interest );
             if( roll < d_inter ) {
+                const int targ_dist = rl_dist( x, y, zg[i].tx, zg[i].ty );
                 // TODO: Base this on targ_dist:dist ratio.
                 if (targ_dist < 5) {
                     zg[i].set_target( (zg[i].tx + x) / 2, (zg[i].ty + y) / 2 );
