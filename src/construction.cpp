@@ -444,16 +444,6 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
                       ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
                       has_component = true;
                       con->components[j][k].available = 1;
-                      // Gives you the rope so the gear-check at the end can take it away.  Hack,
-                      // but much simpler than mucking about in that vector.
-                      if ((item_controller->find_template(con->components[j][k].type)->id == "rope_30")) {
-                          item rope(itypes["rope_30"], g->turn);
-                          p.i_add(rope);
-                      }
-                      else if ((item_controller->find_template(con->components[j][k].type)->id == "rope_06")) {
-                          item rope(itypes["rope_06"], g->turn);
-                          p.i_add(rope);
-                      }
                 } else {
                     con->components[j][k].available = -1;
                 }
@@ -580,10 +570,8 @@ void complete_construction()
 
     g->u.practice(g->turn, built->skill, std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < built->components.size(); i++) {
-        if ( ((item_controller->find_template(built->components[i].type)->id == "rope_30") ||
-           (item_controller->find_template(built->components[i].type)->id == "rope_6")) &&
-           ((g->u.has_trait("WEB_ROPE")) ) {
-           }
+        // Tried issueing rope for WEB_ROPE here.  Didn't arrive in time for the
+        // gear check.  Ultimately just coded a bypass in crafting.cpp.
         if (!built->components[i].empty()) {
             g->consume_items(&(g->u), built->components[i]);
         }
