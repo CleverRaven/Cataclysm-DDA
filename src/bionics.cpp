@@ -295,7 +295,7 @@ You can not activate %s!  To read a description of \
         }
     }
     //if we activated a bionic, already killed the windows
-    if(menu_mode == "activating") {
+    if(!(menu_mode == "activating")) {
         werase(wBio);
         wrefresh(wBio);
         delwin(w_title);
