@@ -10990,39 +10990,41 @@ void game::complete_butcher(int index)
   }
  }
 
- //Add a chance of CBM recovery. For shocker and cyborg corpses.
- if (corpse->has_flag(MF_CBM)) {
-  //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-  if(skill_shift >= 0){
-   add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
-   //To see if it spawns a battery
-   if(rng(0,1) == 1){ //The battery works
-    m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
-   }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
-   }
-  }
-  if(skill_shift >= 0){
-   //To see if it spawns a random additional CBM
-   if(rng(0,1) == 1){ //The CBM works
-    Item_tag bionic_item = item_controller->id_from("bionics");
-    m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
-   }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
-   }
-  }
- }
+    //Add a chance of CBM recovery. For shocker and cyborg corpses.
+    if( corpse->has_flag(MF_CBM) ) {
+        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+        if( skill_shift >= 0 ) {
+            add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
+            //To see if it spawns a battery
+            if( rng(0, 1) == 1 ) { //The battery works
+                m.spawn_item( u.posx, u.posy, "bio_power_storage", 1, 0, age );
+            } else { //There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+        if( skill_shift >= 0 ) {
+            //To see if it spawns a random additional CBM
+            if( rng(0, 1) == 1 ) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics");
+                m.spawn_item( u.posx, u.posy, bionic_item, 1, 0, age );
+            }else{//There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+    }
 
     //Add a chance of CBM power storage recovery.
-    if (corpse->has_flag(MF_CBM_POWER)) {
+    if( corpse->has_flag(MF_CBM_POWER) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-        if(skill_shift >= 0){
-            add_msg(_("You discover a power storage in the %s!"), corpse->name.c_str());
+        if( skill_shift >= 0 ) {
             //To see if it spawns a battery
             if(one_in(3)){ //The battery works 33% of the time.
+                add_msg(_("You discover a power storage in the %s!"), corpse->name.c_str());
                 m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
             } else {//There is a burnt out CBM
-                m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
+                add_msg(_("You discover a fused lump of bio-circuitry in the %s!"),
+                        corpse->name.c_str());
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
             }
         }
     }
