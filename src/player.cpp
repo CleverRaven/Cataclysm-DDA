@@ -8507,11 +8507,34 @@ void player::sort_armor()
                 selected = leftListIndex;
             break;
 
+        case 'r':
+            {
+                // Start with last armor (the most unimportant one?)
+                int worn_index = worn.size() - 1;
+                int invlet_index = inv_chars.size() - 1;
+                while (invlet_index >= 0 && worn_index >= 0) {
+                    const char invlet = inv_chars[invlet_index];
+                    item &w = worn[worn_index];
+                    if (invlet == w.invlet) {
+                        worn_index--;
+                    } else if (has_item(invlet)) {
+                        invlet_index--;
+                    } else {
+                        w.invlet = invlet;
+                        worn_index--;
+                        invlet_index--;
+                    }
+                }
+            }
+            break;
+
         case '?':{
             popup_getkey(_("\
 Use the arrow- or keypad keys to navigate the left list.\n\
 Press 's' to select highlighted armor for reordering.\n\
-Use PageUp/PageDown to scroll the right list.\n \n\
+Use PageUp/PageDown to scroll the right list.\n\
+Press 'r' to assign special inventory letters to clothing.\n\
+ \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
