@@ -846,6 +846,10 @@ bool game::do_turn()
         cur_om->process_mongroups();
     }
 
+    if (turn % 50 ==0) { //move hordes every 5 min
+        cur_om->move_hordes();
+    }
+
     // Check if we've overdosed... in any deadly way.
     if (u.stim > 250) {
         add_msg(_("You have a sudden heart attack!"));
@@ -3939,8 +3943,9 @@ void game::debug()
                    _("Map editor"), // 17
                    _("Change weather"),         // 18
                    _("Remove all monsters"),    // 19
+                   _("Hordes debug"), //20
                    #ifdef LUA
-                       _("Lua Command"), // 20
+                       _("Lua Command"), // 21
                    #endif
                    _("Cancel"),
                    NULL);
@@ -4329,9 +4334,14 @@ Current turn: %d; Next spawn %d.\n\
         cleanup_dead();
   }
   break;
+  case 20:
+    {
+        groupdebug();
+    }
+    break;
 
   #ifdef LUA
-      case 20: {
+      case 21: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
           call_lua(luacode);
       }
@@ -4365,10 +4375,12 @@ void game::groupdebug()
  for (int i = 0; i < cur_om->zg.size(); i++) {
   if (cur_om->zg[i].posz != levz) { continue; }
   dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-  if (dist <= cur_om->zg[i].radius) {
-   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d",
+  //if (dist <= cur_om->zg[i].radius)
+  if (cur_om->zg[i].horde)
+  {
+   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d",
             i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
-            cur_om->zg[i].population);
+            cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest);
    linenum++;
   }
  }
@@ -5910,6 +5922,12 @@ void game::monmove()
 bool game::sound(int x, int y, int vol, std::string description)
 {
     // --- Monster sound handling here ---
+    // Alert all hordes
+    if (vol>20 && levz==0)
+        {
+            int sig_power= (vol>140 ? 140 : vol) - 20;
+            cur_om->signal_hordes(levx, levy, sig_power);
+        }
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &critter = critter_tracker.find(i);
@@ -6109,7 +6127,7 @@ void game::do_blast( const int x, const int y, const int power, const int radius
             int vpart;
             vehicle *veh = m.veh_at(i, j, vpart);
             if (veh) {
-                veh->damage (vpart, dam, false);
+                veh->damage(vpart, dam, fire ? 2 : 1, false);
             }
 
             if (npc_hit != -1) {
@@ -10973,28 +10991,45 @@ void game::complete_butcher(int index)
   }
  }
 
- //Add a chance of CBM recovery. For shocker and cyborg corpses.
- if (corpse->has_flag(MF_CBM)) {
-  //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-  if(skill_shift >= 0){
-   add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
-   //To see if it spawns a battery
-   if(rng(0,1) == 1){ //The battery works
-    m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
-   }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
-   }
-  }
-  if(skill_shift >= 0){
-   //To see if it spawns a random additional CBM
-   if(rng(0,1) == 1){ //The CBM works
-    Item_tag bionic_item = item_controller->id_from("bionics");
-    m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
-   }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
-   }
-  }
- }
+    //Add a chance of CBM recovery. For shocker and cyborg corpses.
+    if( corpse->has_flag(MF_CBM) ) {
+        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+        if( skill_shift >= 0 ) {
+            add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
+            //To see if it spawns a battery
+            if( rng(0, 1) == 1 ) { //The battery works
+                m.spawn_item( u.posx, u.posy, "bio_power_storage", 1, 0, age );
+            } else { //There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+        if( skill_shift >= 0 ) {
+            //To see if it spawns a random additional CBM
+            if( rng(0, 1) == 1 ) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics");
+                m.spawn_item( u.posx, u.posy, bionic_item, 1, 0, age );
+            }else{//There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+    }
+
+    //Add a chance of CBM power storage recovery.
+    if( corpse->has_flag(MF_CBM_POWER) ) {
+        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+        if( skill_shift >= 0 ) {
+            //To see if it spawns a battery
+            if(one_in(3)){ //The battery works 33% of the time.
+                add_msg(_("You discover a power storage in the %s!"), corpse->name.c_str());
+                m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
+            } else {//There is a burnt out CBM
+                add_msg(_("You discover a fused lump of bio-circuitry in the %s!"),
+                        corpse->name.c_str());
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+    }
+
 
  // Recover hidden items
  for (size_t i = 0; i < contents.size(); i++) {
@@ -13233,6 +13268,7 @@ void game::spawn_mon(int shiftx, int shifty)
  for (size_t i = 0; i < cur_om->zg.size(); i++) { // For each valid group...
   if (cur_om->zg[i].posz != levz) { continue; } // skip other levels - hack
   group = 0;
+  bool horde=cur_om->zg[i].horde;
   if(cur_om->zg[i].diffuse)
    dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
   else
@@ -13246,9 +13282,9 @@ void game::spawn_mon(int shiftx, int shifty)
             long( pop) :
             long((1.0 - double(dist / rad)) * pop) )
           > rng(0, (rad * rad)) &&
-          rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
+          rng(horde ? MAPSIZE*2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
     group++;
-
+   //if (horde) g->add_msg("Spawn horde group: %d zombies",group);
    cur_om->zg[i].population -= group;
    // Reduce group radius proportionally to remaining
    // population to maintain a minimal population density.
@@ -13256,8 +13292,9 @@ void game::spawn_mon(int shiftx, int shifty)
        !cur_om->zg[i].diffuse)
      cur_om->zg[i].radius--;
 
-   if (group > 0) // If we spawned some zombies, advance the timer
+   if (group > 0 && !cur_om->zg[i].horde ) //{ // If we spawned some zombies, advance the timer (exept hordes)
     nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
+    //g->add_msg("Next spawn:%d",nextspawn.get_turn());}
 
    for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
      MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type,

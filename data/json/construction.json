@@ -987,7 +987,7 @@
         "time" : 120,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "toolset" ],
-            [ "wrench" ]
+            [ "wrench", "toolset" ]
         ],
         "components" : [
             [ [ "well_pump", 1 ] ],

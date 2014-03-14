@@ -1194,5 +1194,55 @@
         "speaker" : "mon_shoggoth",
         "sound" : "a slurping sound.",
         "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "\"WHY! WHY, WHYYY!\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "an electronic voice saying \"CONNECTION FAILED. Abort, Retry, Fail?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "\"I was once a man. A MAN!\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "\"What have I become?\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "an electronic voice saying \"KILL ALL HUMANS!\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "\"Have you seen my children?\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "\"What have I become? Why can't I die?\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "\"Please, kill me!\", followed by an electronic voice saying \"SELF PRESERVATION PROTOCOLS ACTIVATED\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "\"Please, take me with you.\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_broken_cyborg",
+        "sound" : "\"Not that way! Go left!\"",
+        "volume" : 10
     }
 ]
