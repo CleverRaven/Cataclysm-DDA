@@ -9,6 +9,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "map.h"
+#include "monstergenerator.h"
 
 #ifdef LUA
 extern "C" {
@@ -212,6 +213,18 @@ static int game_get_monsters(lua_State *L) {
 }
 */
 
+// mtype = game.monster_type(name)
+static int game_monster_type(lua_State *L) {
+    const char* parameter1 = (const char*) lua_tostring(L, 1);
+
+    mtype** monster_type = (mtype**) lua_newuserdata(L, sizeof(mtype*));
+    *monster_type = GetMType(parameter1);
+    luah_setmetatable(L, "mtype_metatable");
+
+    return 1; // 1 return values
+
+}
+
 // items = game.items_at(x, y)
 static int game_items_at(lua_State *L) {
     int x = lua_tointeger(L, 1);
@@ -329,9 +342,9 @@ static int game_register_iuse(lua_State *L) {
 // Load the main file of a mod
 void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name) {
     std::string full_path = base_path + "/" + main_file_name;
-    
+
     // Check if file exists first
-    struct stat buffer;   
+    struct stat buffer;
     int file_exists = stat(full_path.c_str(), &buffer) == 0;
     if(file_exists) {
         lua_file_path = base_path;
@@ -357,7 +370,7 @@ void lua_dofile(lua_State *L, const char* path) {
 // ensuring it's being loaded from a valid path etc.
 static int game_dofile(lua_State *L) {
     const char* path = luaL_checkstring(L, 1);
-    
+
     std::string full_path = lua_file_path + "/" + path;
     lua_dofile(L, full_path.c_str());
     return 0;
@@ -372,6 +385,7 @@ static const struct luaL_Reg global_funcs [] = {
     {"item_type", game_item_type},
     {"monster_at", game_monster_at},
     {"choose_adjacent", game_choose_adjacent},
+    {"monster_type", game_monster_type},
     {"dofile", game_dofile},
     {NULL, NULL}
 };
