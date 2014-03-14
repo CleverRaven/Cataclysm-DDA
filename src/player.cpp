@@ -6368,9 +6368,9 @@ martialart player::get_combat_style()
 std::vector<item *> player::inv_dump()
 {
  std::vector<item *> ret;
- if (std::find(standard_itype_ids.begin(), standard_itype_ids.end(), weapon.type->id) != standard_itype_ids.end()){
-  ret.push_back(&weapon);
- }
+    if (!weapon.has_flag("NO_UNWIELD")) {
+        ret.push_back(&weapon);
+    }
  for (int i = 0; i < worn.size(); i++)
   ret.push_back(&worn[i]);
  inv.dump(ret);
