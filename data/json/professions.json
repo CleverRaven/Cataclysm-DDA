@@ -1975,5 +1975,51 @@
                 "boy_shorts"
             ]
         }
+    },
+	{
+        "type": "profession",
+        "ident": "pizzaboy",
+        "name": {
+            "male": "Pizza Delivery Boy",
+            "female": "Pizza Delivery Girl"
+        },
+        "description": "You were delivering the last pizza of the night to the local cryogenics lab when the cataclysm hit. Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza. And they didn't even leave a tip!",
+        "points": 1,
+        "skills": [
+            {
+                "level": 4,
+                "name": "driving"
+            },
+            {
+                "level": 1,
+                "name": "barter"
+            },
+            {
+                "level": 1,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "hat_ball",
+                "tshirt",
+                "jeans",
+                "jacket_light",
+                "socks",
+                "sneakers",
+                "pizza_veggy",
+                "pizza_meat",
+                "money_bundle",
+                "weed",
+                "mbag"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
     }
 ]

@@ -1231,6 +1231,15 @@ int iuse::oxygen_bottle(player *p, item *it, bool) {
 
 int iuse::blech(player *p, item *it, bool) {
     // TODO: Add more effects?
+    if (it->is_drink()) {
+        if ( !query_yn(_("This looks unhealthy, sure you want to drink it?"))) {
+            return 0;
+        }
+    } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
+        if ( !query_yn(_("This looks unhealthy, sure you want to eat it?"))) {
+            return 0;
+        }
+    }
     g->add_msg_if_player(p,_("Blech, that burns your throat!"));
     if(it->type->id != "soap") // soap burns but doesn't make you throw up
         p->vomit();

@@ -581,6 +581,10 @@ void initOptions() {
                                              _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                              true
                                             );
+    OPTIONS["WANDER_SPAWNS"] =           cOpt("world_default", _("Wander spawns"),
+                                             _("Emulation of zombie hordes. Zombie spawn point wander around cities and may go to noise"),
+                                             false
+                                            );
 
     OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("world_default", _("Classic zombies"),
                                              _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings."),

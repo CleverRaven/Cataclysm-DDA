@@ -846,6 +846,10 @@ bool game::do_turn()
         cur_om->process_mongroups();
     }
 
+    if (turn % 50 ==0) { //move hordes every 5 min
+        cur_om->move_hordes();
+    }
+
     // Check if we've overdosed... in any deadly way.
     if (u.stim > 250) {
         add_msg(_("You have a sudden heart attack!"));
@@ -2894,11 +2898,6 @@ bool game::handle_action()
 
   case ACTION_WAIT:
    wait();
-   if (veh_ctrl) {
-    veh->turret_mode++;
-    if (veh->turret_mode > 1)
-     veh->turret_mode = 0;
-   }
    break;
 
   case ACTION_CRAFT:
@@ -2930,14 +2929,10 @@ bool game::handle_action()
    break;
 
   case ACTION_SLEEP:
-    if (veh_ctrl)
-    {
+    if( veh_ctrl ) {
         add_msg(_("Vehicle control has moved, %s"),
         press_x(ACTION_CONTROL_VEHICLE, _("new binding is "), _("new default binding is '^'.")).c_str());
-
-    }
-    else
-    {
+    } else {
         uimenu as_m;
         as_m.text = _("Are you sure you want to sleep?");
         as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS["FORCE_CAPITAL_YN"]?'Y':'y'), _("Yes.")) );
@@ -3947,8 +3942,9 @@ void game::debug()
                    _("Map editor"), // 17
                    _("Change weather"),         // 18
                    _("Remove all monsters"),    // 19
+                   _("Hordes debug"), //20
                    #ifdef LUA
-                       _("Lua Command"), // 20
+                       _("Lua Command"), // 21
                    #endif
                    _("Cancel"),
                    NULL);
@@ -4087,8 +4083,8 @@ Current turn: %d; Next spawn %d.\n\
     break;
 
   case 12:
-      add_msg("Martial arts debug.");
-      add_msg("Your eyes blink rapidly as knowledge floods your brain.");
+      add_msg(_("Martial arts debug."));
+      add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
       u.ma_styles.push_back("style_karate");
       u.ma_styles.push_back("style_judo");
       u.ma_styles.push_back("style_aikido");
@@ -4112,12 +4108,12 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_eskrima");
       u.ma_styles.push_back("style_fencing");
       u.ma_styles.push_back("style_silat");
-      add_msg("You now know a lot more than just 10 styles of kung fu.");
+      add_msg(_("You now know a lot more than just 10 styles of kung fu."));
    break;
 
   case 13: {
-    add_msg("Recipe debug.");
-    add_msg("Your eyes blink rapidly as knowledge floods your brain.");
+    add_msg(_("Recipe debug."));
+    add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
     {
         for (recipe_list::iterator list_iter = cat_iter->second.begin();
@@ -4129,7 +4125,7 @@ Current turn: %d; Next spawn %d.\n\
         }
       }
     }
-    add_msg("You know how to craft that now.");
+    add_msg(_("You know how to craft that now."));
   }
     break;
 
@@ -4337,9 +4333,14 @@ Current turn: %d; Next spawn %d.\n\
         cleanup_dead();
   }
   break;
+  case 20:
+    {
+        groupdebug();
+    }
+    break;
 
   #ifdef LUA
-      case 20: {
+      case 21: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
           call_lua(luacode);
       }
@@ -4373,10 +4374,12 @@ void game::groupdebug()
  for (int i = 0; i < cur_om->zg.size(); i++) {
   if (cur_om->zg[i].posz != levz) { continue; }
   dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-  if (dist <= cur_om->zg[i].radius) {
-   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d",
+  //if (dist <= cur_om->zg[i].radius)
+  if (cur_om->zg[i].horde)
+  {
+   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d",
             i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
-            cur_om->zg[i].population);
+            cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest);
    linenum++;
   }
  }
@@ -5918,6 +5921,12 @@ void game::monmove()
 bool game::sound(int x, int y, int vol, std::string description)
 {
     // --- Monster sound handling here ---
+    // Alert all hordes
+    if (vol>20 && levz==0)
+        {
+            int sig_power= (vol>140 ? 140 : vol) - 20;
+            cur_om->signal_hordes(levx, levy, sig_power);
+        }
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &critter = critter_tracker.find(i);
@@ -6122,7 +6131,7 @@ void game::do_blast( const int x, const int y, const int power, const int radius
             int vpart;
             vehicle *veh = m.veh_at(i, j, vpart);
             if (veh) {
-                veh->damage (vpart, dam, false);
+                veh->damage(vpart, dam, fire ? 2 : 1, false);
             }
 
             if (npc_hit != -1) {
@@ -13265,6 +13274,7 @@ void game::spawn_mon(int shiftx, int shifty)
  for (size_t i = 0; i < cur_om->zg.size(); i++) { // For each valid group...
   if (cur_om->zg[i].posz != levz) { continue; } // skip other levels - hack
   group = 0;
+  bool horde=cur_om->zg[i].horde;
   if(cur_om->zg[i].diffuse)
    dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
   else
@@ -13278,9 +13288,9 @@ void game::spawn_mon(int shiftx, int shifty)
             long( pop) :
             long((1.0 - double(dist / rad)) * pop) )
           > rng(0, (rad * rad)) &&
-          rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
+          rng(horde ? MAPSIZE*2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
     group++;
-
+   //if (horde) g->add_msg("Spawn horde group: %d zombies",group);
    cur_om->zg[i].population -= group;
    // Reduce group radius proportionally to remaining
    // population to maintain a minimal population density.
@@ -13288,8 +13298,9 @@ void game::spawn_mon(int shiftx, int shifty)
        !cur_om->zg[i].diffuse)
      cur_om->zg[i].radius--;
 
-   if (group > 0) // If we spawned some zombies, advance the timer
+   if (group > 0 && !cur_om->zg[i].horde ) //{ // If we spawned some zombies, advance the timer (exept hordes)
     nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
+    //g->add_msg("Next spawn:%d",nextspawn.get_turn());}
 
    for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
      MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type,

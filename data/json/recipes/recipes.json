@@ -8482,6 +8482,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "molasses", 1 ],
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "honeycomb", 1 ],
@@ -16817,6 +16818,29 @@
   "components": [
     [
       [ "rag", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "balclava",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 3 ],
+      [ "needle_wood", 3 ],
+      [ "sewing_kit", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
     ]
   ]
 },{

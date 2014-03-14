@@ -333,7 +333,7 @@
         "description" : "A belt worn by martial arts practitioners, advertising a master.",
         "weight" : 200,
         "to_hit" : -1,
-        "color" : "black",
+        "color" : "dark_gray",
         "encumbrance" : 0,
         "price" : 90,
         "material" : ["cotton", "null"],
