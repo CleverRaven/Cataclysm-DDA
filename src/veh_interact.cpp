@@ -440,8 +440,7 @@ void veh_interact::do_install(task_reason reason)
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
@@ -559,8 +558,7 @@ void veh_interact::do_repair(task_reason reason)
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to repair:"));
     wrefresh (w_mode);
@@ -635,8 +633,7 @@ void veh_interact::do_refill(task_reason reason)
                                           "you don't have the proper fuel."));
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
 
     if (ptanks.empty()) {
@@ -714,8 +711,7 @@ void veh_interact::do_remove(task_reason reason)
         mvwprintz(w_msg, 0, 1, c_ltred, _("You need level 2 mechanics skill to remove parts."));
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
@@ -787,8 +783,7 @@ void veh_interact::do_siphon(task_reason reason)
                        _("You need a <color_red>hose</color> to siphon fuel."));
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     sel_cmd = 's';
 }
@@ -814,8 +809,7 @@ void veh_interact::do_tirechange(task_reason reason)
                        has_jack ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose wheel to use as replacement:"));
     wrefresh (w_mode);
@@ -873,8 +867,7 @@ void veh_interact::do_drain(task_reason reason)
                        _("You need a <color_red>hose</color> to siphon water.") );
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     sel_cmd = 'd';
 }
