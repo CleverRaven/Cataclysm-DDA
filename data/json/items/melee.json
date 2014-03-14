@@ -2360,7 +2360,8 @@
         "bashing" : 8,
         "cutting" : 16,
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
-        "price" : 0
+        "price" : 0,
+        "qualities": [["CUT", 1]]
     },
     {
         "type":"GENERIC",
@@ -2377,7 +2378,8 @@
         "bashing" : 0,
         "cutting" : 36,
         "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
-        "price" : 0
+        "price" : 0,
+        "qualities": [["CUT", 1]]
     },
     {
         "type":"GENERIC",
@@ -2393,7 +2395,8 @@
         "bashing" : 2,
         "cutting" : 10,
         "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE"],
-        "price" : 10000
+        "price" : 10000,
+        "qualities": [["CUT", 1]]
     },
     {
         "type":"GENERIC",
