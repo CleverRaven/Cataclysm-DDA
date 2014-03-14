@@ -11583,6 +11583,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
             m->place_items("dissection", 80, x2 - 1, y1, x2 - 1, y2, false, 0);
         }
         m->add_trap(int((x1 + x2) / 2), int((y1 + y2) / 2), tr_dissector);
+        if (one_in(10)) {
+            m->add_spawn("mon_broken_cyborg", 1, int(((x1 + x2) / 2)+1), int(((y1 + y2) / 2)+1));
+        }
         break;
 
     case room_bionics:

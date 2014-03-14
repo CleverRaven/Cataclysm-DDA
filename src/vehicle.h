@@ -93,7 +93,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed;           // TRUE if this part is removed. The part won't disappear until the end of the turn
-                            // so our indexes can remain consistent.
+                            // so our indices can remain consistent.
     int flags;
     int passenger_id;       // carrying passenger
     union
@@ -484,25 +484,9 @@ public:
 // reduces velocity to 0
     void stop ();
 
-    void find_power ();
-
-    void find_alternators ();
-
-    void find_fuel_tanks ();
-
-    void find_engines ();
-
-    void find_reactors ();
-
-    void find_solar_panels ();
-
-    void find_parts();
-
     void find_exhaust ();
 
     void refresh_insides ();
-
-    bool pedals();
 
     bool is_inside (int p);
 
@@ -576,7 +560,6 @@ public:
     // temp values
     int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
-    bool parts_dirty;   //
     int init_veh_fuel;
     int init_veh_status;
     float alternator_load;
