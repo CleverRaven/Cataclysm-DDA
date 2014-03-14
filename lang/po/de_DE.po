@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: cdda\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-28 23:58-0600\n"
-"PO-Revision-Date: 2014-03-08 22:36+0000\n"
+"PO-Revision-Date: 2014-03-13 03:03+0000\n"
 "Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-03-09 00:14+0000\n"
-"X-Generator: Launchpad (build 16948)\n"
+"X-Launchpad-Export-Date: 2014-03-13 07:38+0000\n"
+"X-Generator: Launchpad (build 16963)\n"
 "Language: de\n"
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
@@ -13709,7 +13709,7 @@ msgid ""
 "and heavily seasoned."
 msgstr ""
 "Eine Fleischpizza, für alle Fleichfresser da draußen. Knüppelvoll mit "
-"Hackfleisch und stark gewürst."
+"Hackfleisch und stark gewürzt."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "poser pizza"
@@ -13813,7 +13813,7 @@ msgid ""
 "Ground coffee beans. You can boil it into a mediocre stimulant, or swallow "
 "it raw for a lesser stimulative boost."
 msgstr ""
-"Gemahlene Kaffeebohnen. Kann zu einem Aufputschmittel mit mittlerer wirkung "
+"Gemahlene Kaffeebohnen. Kann zu einem Aufputschmittel mit mittlerer Wirkung "
 "gekocht werden. Bei rohem Verzehr fällt die Wirkung jedoch leichter aus."
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -13827,7 +13827,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "coffee syrup"
-msgstr "Coffee Syrup"
+msgstr "Kaffeesirup"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13845,7 +13845,7 @@ msgstr "Kuchen"
 msgid ""
 "Delicious sponge cake with buttercream icing, it says happy birthday on it."
 msgstr ""
-"Ein leckerer Biskuitkuchen mit Buttercreme-Glasur. Darauf steht »Alles gute "
+"Ein leckerer Biskuitkuchen mit Buttercreme-Glasur. Darauf steht »Alles Gute "
 "zum Geburtstag!«."
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -13858,12 +13858,12 @@ msgid ""
 "A cake coated in the thickest icing you've ever seen. Someone has written "
 "guff in quotation marks on it..."
 msgstr ""
-"Ein Kuchen, der die dickste Glasue, die du jemals gesehen hast, hat. Jemand "
+"Ein Kuchen, der die dickste Glasur, die du jemals gesehen hast, hat. Jemand "
 "hat »Furz« in Anführungszeichen draufgeschrieben."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "canned meat"
-msgstr "Konservierungsdose mit Fleisch"
+msgstr "Dosenfleisch"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13876,7 +13876,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "canned veggy"
-msgstr "Konservierungsdose mit Gemüse"
+msgstr "Dosengemüse"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13918,12 +13918,12 @@ msgstr "gesalzene Fleischstücke"
 msgid ""
 "Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch. "
 msgstr ""
-"Fleischstück, die gepökelt und vakuumverpackt wurden. Salzig aber lecker "
+"Fleischstücke, die gepökelt und vakuumverpackt wurden. Salzig aber lecker "
 "(zur Not). "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "salted simpleton slices"
-msgstr "Gesalzene Gimpelstückchen"
+msgstr "gesalzene Gimpelstückchen"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -13982,7 +13982,7 @@ msgstr "Spaghetti al Pesto"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Spaghetti, with a generous helping of pesto on top.  Yum! "
-msgstr "Spaghetti mit einer menge Pesto bedeckt. Lecker! "
+msgstr "Spaghetti, mit einer Menge Pesto bedeckt. Lecker! "
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "lasagne"
@@ -14046,15 +14046,15 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "flu shot"
-msgstr "Grippeimpfung"
+msgstr "Grippeimpfstoff"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "Pharmaceutical flu shot designed for mass vaccinations, still in the "
 "packaging. Purported to provide some kind of immunity."
 msgstr ""
-"Pharmazeutische Grippeimpfung, die für Massenimpfungen gemacht wurde. Sie "
-"ist immer noch in ihrer Verpackung. Soll angeblich etwas Immunität gewähren."
+"Pharmazeutischer Grippeimpfstoff, der für Massenimpfungen gemacht wurde. Er "
+"ist immer noch in seiner Verpackung. Soll angeblich etwas Immunität gewähren."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "adrenaline injector"
@@ -14104,7 +14104,7 @@ msgid ""
 "A habit-forming tranquilizer with a variety of psychoactive side effects. "
 "Used in the treatment of insomnia."
 msgstr ""
-"Ein suchterzeugendes Beruhigungsmittel mit einer Reiher psychoaktiver "
+"Ein suchterzeugendes Beruhigungsmittel mit einer Reihe psychoaktiver "
 "Nebenwirkungen. Wird zur Behandlung von Schlaflosigkeit benutzt."
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -14226,7 +14226,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py src/bionics.cpp
 msgid "Prozac"
-msgstr "Fluctin"
+msgstr "Fluoxetin"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -14304,8 +14304,8 @@ msgid ""
 "enhancing alertness, it is hazardous to health and the risk of an adverse "
 "reaction is great."
 msgstr ""
-"Ein zutiefst süchtig machender und starker Stimulans. Während es extrem "
-"effektiv zur Steigerung der Wahrnehmungsfähigkeit ist, ist es "
+"Ein zutiefst süchtig machender und starker Stimulans. Während er extrem "
+"effektiv zur Steigerung der Wahrnehmungsfähigkeit ist, ist er "
 "gesundheitsschädigend und das Risiko einer Nebenwirkung ist groß."
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -14332,7 +14332,7 @@ msgid ""
 "gentleman's vice, cigars set the civil man apart from the savage."
 msgstr ""
 "Gerolltes, fermentiertes Tabakblatt, suchterzeugend und "
-"gesundheitsschädigend. Als das Laster eines Gentlemans trennen den "
+"gesundheitsschädigend. Als das Laster eines Gentlemans trennt es den "
 "zivilisierten von dem unzivilisieren Menschen."
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -14343,8 +14343,8 @@ msgstr "Antibiotika"
 msgid ""
 "Antibacterial medication designed to prevent or stop the spread of infection."
 msgstr ""
-"Ein antibakterielle Medikament, das für die Verhinderung oder Stoppung der "
-"Ausbreitung einer Infektions ausgelegt ist."
+"Ein antibakterielles Medikament, das für die Verhinderung oder Stoppung der "
+"Ausbreitung einer Infektion ausgelegt ist."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "fungicide"
@@ -14409,7 +14409,7 @@ msgid ""
 msgstr ""
 "Ein wirksames opioides Linderungsmittel, das aus der Verfeinerung der "
 "mutierten Mohnblume gewonnen wurde. Bemerkenswerterweise ist es ohne "
-"euphorisch- oder schläfrigmachenden Wirkungen. Als Opiat kann es immer noch "
+"euphorisch- oder schläfrigmachende Wirkungen. Als Opiat kann es immer noch "
 "süchtig machen."
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -14502,7 +14502,7 @@ msgstr "gebratenes Frühstücksfleisch"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Having been fried, this SPAM is actually pretty tasty."
-msgstr "Gebraten ist dieses Spam tatsächlich ziemlich lecker."
+msgstr "Gebraten ist dieses Frühstücksfleisch tatsächlich ziemlich lecker."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "strawberry surprise"
@@ -14515,7 +14515,7 @@ msgid ""
 "drink it after the first few gulps."
 msgstr ""
 "Erdbeeren, die man mit einigen anderen ausgewählten Zutaten hat gären "
-"lassen, bietet eine überraschend genießbare Mischung; du musst dich kaum "
+"lassen, bieten eine überraschend genießbare Mischung; du musst dich kaum "
 "selbst dazu zwingen, es nach den ersten paar Schlucken auszutrinken."
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -14709,7 +14709,7 @@ msgstr "Streichkäse"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A can of processed cheese spread."
-msgstr "Eine Konserve mit verarbeitetem Streichkäse"
+msgstr "Eine Konserve mit verarbeitetem Streichkäse."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "pink tablets"
@@ -15040,7 +15040,7 @@ msgid ""
 "Raw, refined protein. While quite nutritious, it is difficult to enjoy in "
 "its pure form."
 msgstr ""
-"Roher, raffiniertes Protein. Wobei es recht nahrhaft ist, ist es schwer, es "
+"Rohes, raffiniertes Protein. Wobei es recht nahrhaft ist, ist es schwer, es "
 "in dessen Reinform zu genießen."
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -15229,7 +15229,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated meat"
-msgstr "gedörrtes Fleisch"
+msgstr "dehydriertes Fleisch"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -15277,7 +15277,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated vegetables"
-msgstr "getrocknetes Gemüse"
+msgstr "Trockengemüse"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -15301,7 +15301,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "dehydrated fruit"
-msgstr "getrocknete Früchte"
+msgstr "Trockenobst"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -15342,7 +15342,7 @@ msgstr "Papaya"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A very sweet and soft tropical fruit."
-msgstr "Eine sehr süße und weische Tropenfrucht"
+msgstr "Eine sehr süße und weiche Tropenfrucht."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "kiwi"
@@ -15352,7 +15352,7 @@ msgstr "Kiwi"
 msgid ""
 "A large, brown and fuzzy-skinned berry. It's delicious insides are green."
 msgstr ""
-"Eine große, braune und struppige Beere. Ihr leckeres Inneres ist grün."
+"Eine große braune und struppige Beere. Ihr leckeres Inneres ist grün."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "apricot"
@@ -15360,7 +15360,7 @@ msgstr "Aprikose"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A smooth-skinned fruit, related to the peach."
-msgstr "Eine weichhäutige Frucht, verwandt zur Pfirsich"
+msgstr "Eine weichhäutige Frucht, verwandt zur Pfirsich."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated papaya"
@@ -15526,17 +15526,18 @@ msgstr "kleine Kartonschachtel"
 #: lang/json/CONTAINER_from_json.py
 msgid "A small cardboard box. No bigger than a foot in dimension."
 msgstr ""
-"Eine kleine Kartonschachtel. Nicht kleiner als 1 Fuß in der Ausdehnung."
+"Eine kleine Kartonschachtel. Nicht kleiner als 30 Zentimeter in der "
+"Ausdehnung."
 
 #: lang/json/CONTAINER_from_json.py
 msgid "plastic canteen"
-msgstr "Plastik-Feldflasche"
+msgstr "Plastikfeldflasche"
 
 #: lang/json/CONTAINER_from_json.py
 msgid ""
 "A large military-style water canteen, with a 1.5 liter capacity and strap."
 msgstr ""
-"Eine große Wasser-Feldflasche im Militärstil, mit einer Kapazität von 1,5 "
+"Eine große Wasserfeldflasche im Militärstil, mit einer Kapazität von 1,5 "
 "Litern. Mit Riemen."
 
 #: lang/json/CONTAINER_from_json.py
@@ -15659,8 +15660,8 @@ msgstr "Glasgefäß"
 #: lang/json/CONTAINER_from_json.py
 msgid "A half-litre glass jar with a metal screw top lid, used for canning."
 msgstr ""
-"Ein 0,5-Liter-Glasgefäß mit einer Metallschraubverschlusskappe.\r\n"
-"Sie wird für die Konservierung verwendet."
+"Ein 0,5-Liter-Glasgefäß mit einer Metallschraubverschlusskappe. Sie wird für "
+"die Konservierung verwendet."
 
 #: lang/json/CONTAINER_from_json.py
 msgid "3l glass jar"
@@ -15669,8 +15670,8 @@ msgstr "3l-Glasgefäß"
 #: lang/json/CONTAINER_from_json.py
 msgid "A three-litre glass jar with a metal screw top lid, used for canning."
 msgstr ""
-"Ein Drei-Liter-Glasgefäß mit einer Metallschraubverschlusskappe.\r\n"
-"Sie wird für die Konservierung verwendet."
+"Ein Drei-Liter-Glasgefäß mit einer Metallschraubverschlusskappe. Sie wird "
+"für die Konservierung verwendet."
 
 #: lang/json/CONTAINER_from_json.py
 msgid "hip flask"
@@ -15694,8 +15695,7 @@ msgid ""
 "liquid."
 msgstr ""
 "Eine Plastikschüssel. Sie kann als Behältnis oder als Werkzeug benutzt "
-"werden\r\n"
-"und hat Platz für 250 ml."
+"werden und hat Platz für 250 ml an Flüssigkeit."
 
 #: lang/json/CONTAINER_from_json.py
 msgid "paper wrapper"
@@ -15736,16 +15736,16 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "exploding arrowhead"
-msgstr "explodierender Pfeilkopf"
+msgstr "Explosivpfeilkopf"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "This simple IED is designed to be attached to an arrow and detonate on "
 "impact. Theoretically you could throw it but who would want to do that?"
 msgstr ""
-"Diese einfache IED wurde entwickelt um an einem Pfeil befestigt zu werden. "
-"Bei Aufprall gibt es eine kleine Detonation. Theoretisch könnte man den "
-"Pfeil auch werfen, aber wer würde so etwas nur tun?"
+"Diese einfache USBV wurde entwickelt, um an einem Pfeil befestigt zu werden "
+"und beim Aufprall zu detonieren. Theoretisch könnte man den Pfeil auch "
+"werfen, aber wer würde so etwas nur tun?"
 
 #: lang/json/GENERIC_from_json.py
 msgid "withered plant"
@@ -15754,7 +15754,7 @@ msgstr "verdorrte Pflanze"
 #: lang/json/GENERIC_from_json.py
 msgid "A dead plant. Good for starting fires."
 msgstr ""
-"Eine verdörrte Pflanze. Kann zum Anzünden eines Feuers verwendet werden."
+"Eine verdorrte Pflanze. Kann zum Anzünden eines Feuers verwendet werden."
 
 #: lang/json/GENERIC_from_json.py
 msgid "fur pelt"
@@ -15793,7 +15793,7 @@ msgid ""
 "This ID card once belonged to a scientist of some sort. It has a magnetic "
 "stripe on the back; perhaps it can be used on a control panel."
 msgstr ""
-"Diese Dienstkarte gehörte mal irgendeinem Wissenschaftler. Er hat einen "
+"Diese Dienstkarte gehörte mal irgendeinem Wissenschaftler. Sie hat einen "
 "Magnetstreifen auf der Rückseite; vielleicht kann sie an einem Kartenleser "
 "benutzt werden."
 
@@ -15808,8 +15808,8 @@ msgid ""
 "panel."
 msgstr ""
 "Diese Dienstkarte gehörte mal einem Militäroffizier mit einer hochgradigen "
-"Freigabe. Er hat einen Magnetstreifen auf der Rückseite; vielleicht kann sie "
-"an einem Kartenleser benutzt werden."
+"Freigabe. Sie hat einen Magnetstreifen auf der Rückseite; vielleicht kann "
+"sie an einem Kartenleser benutzt werden."
 
 #: lang/json/GENERIC_from_json.py
 msgid "electrohack"
@@ -15863,8 +15863,8 @@ msgstr "Prozessorplatine"
 #: lang/json/GENERIC_from_json.py
 msgid "A central processor unit, useful in advanced electronics crafting."
 msgstr ""
-"Eine zentrale Prozessoreinheit. Wird für dei Herstellung vortgeschrittener "
-"elektronischer Geräte verwendet."
+"Eine zentrale Verarbeitungseinheit. Wird für dei Herstellung "
+"fortgeschrittener elektronischer Geräte verwendet."
 
 #: lang/json/GENERIC_from_json.py
 msgid "RAM"
@@ -15898,14 +15898,14 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "transponder circuit"
-msgstr "Transponderkreislauf"
+msgstr "Transponderschaltung"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A circuit designed to repeat a signal. Useful for crafting communications "
 "equipment."
 msgstr ""
-"Eine Schaltung um ein Signal verstärkt weiterzuleiten. Wird zur Herstellung "
+"Eine Schaltung, um ein Signal verstärkt weiterzuleiten. Wird zur Herstellung "
 "von Kommunikationsgeräten verwendet."
 
 #: lang/json/GENERIC_from_json.py
@@ -15917,7 +15917,7 @@ msgid ""
 "A module designed to receive many forms of signals. Useful for crafting "
 "communications equipment."
 msgstr ""
-"Ein Modul, gemacht um viele Signalarten zu empfangen. Nützlich, um "
+"Ein Modul, das viele Signalarten zu empfängt. Nützlich, um "
 "Kommunikationsequipment zu fertigen."
 
 #: lang/json/GENERIC_from_json.py
@@ -16007,8 +16007,7 @@ msgstr "Stahlklumpen"
 #: lang/json/GENERIC_from_json.py
 msgid "A misshapen heavy piece of steel. Useful for some crafting recipes."
 msgstr ""
-"Ein verformtes schweres Stahlstück. Nützlich in ein einigen "
-"Fertigungsrezepten."
+"Ein verformtes schweres Stahlstück. Nützlich in einigen Fertigungsrezepten."
 
 #: lang/json/GENERIC_from_json.py src/iuse.cpp
 msgid "scrap metal"
@@ -16072,7 +16071,7 @@ msgstr "Eine kleine, mit Stahldrähten verstärkte Glasscheibe."
 
 #: lang/json/GENERIC_from_json.py lang/json/terrain_from_json.py
 msgid "manhole cover"
-msgstr "Kanaldeckel"
+msgstr "Gullydeckel"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -16160,7 +16159,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "hatchet"
-msgstr "Axt"
+msgstr "Handbeil"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -16226,7 +16225,7 @@ msgstr "Buttermesser"
 
 #: lang/json/GENERIC_from_json.py
 msgid "A dull knife, absolutely worthless in combat."
-msgstr "Ein stumpfes Messer. Komplett nutzlis in einem Gefecht."
+msgstr "Ein stumpfes Messer. Komplett nutzlos in einem Gefecht."
 
 #: lang/json/GENERIC_from_json.py
 msgid "chunk of chitin"
@@ -16338,7 +16337,7 @@ msgstr "USB-Stick"
 
 #: lang/json/GENERIC_from_json.py
 msgid "A USB thumb drive. Useful for holding software."
-msgstr "Ein USB-Stick. Hilfreich zum speichern von Software."
+msgstr "Ein USB-Stick. Hilfreich zum Speichern von Software."
 
 #: lang/json/GENERIC_from_json.py
 msgid "pool ball"
@@ -16346,7 +16345,7 @@ msgstr "Billardkugel"
 
 #: lang/json/GENERIC_from_json.py
 msgid "A colorful, hard ball. Essentially a rock."
-msgstr "Ein schattierter, harter Ball. In erster Linie ein Stein."
+msgstr "Eine farbenprächtige harter Kugel. In erster Linie ein Stein."
 
 #: lang/json/GENERIC_from_json.py
 msgid "candlestick"
@@ -16417,7 +16416,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "log"
-msgstr "Holzklotz"
+msgstr "Holzscheit"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -16598,12 +16597,12 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "ceramic plate"
-msgstr "Keramikplatte"
+msgstr "Keramikteller"
 
 #: lang/json/GENERIC_from_json.py
 msgid "A ceramic dinner plate, you could probably play frisbee with it"
 msgstr ""
-"Ein Teller aus Keramik. Du könntest ihn als Frisbeescheige verwenden."
+"Ein Teller aus Keramik. Du könntest ihn als Frisbeescheibe verwenden."
 
 #: lang/json/GENERIC_from_json.py
 msgid "ceramic bowl"
@@ -16625,7 +16624,7 @@ msgstr "Eine Teetasse aus Keramik. Den kleinen Finger abspreizen!"
 
 #: lang/json/GENERIC_from_json.py
 msgid "glass plate"
-msgstr "Glasplatte"
+msgstr "Glasteller"
 
 #: lang/json/GENERIC_from_json.py
 msgid "A glass dinner plate, you could probably play frisbee with it"
@@ -16774,8 +16773,8 @@ msgid ""
 "An oval made of leather and string, it's easily thrown but does little "
 "damage. You could take it apart into leather if you wanted."
 msgstr ""
-"Ein ovalförmiges Objekt aus Leder und Fäden, es kann leicht geworfen werden "
-"aber richtet geringen Schaden kann. Du könntest es für das Leder "
+"Ein ovalförmiges Objekt aus Leder und Fäden, es kann leicht geworfen werden, "
+"aber richtet geringen Schaden an. Du könntest es für das Leder "
 "auseinandernehmen, wenn du willst."
 
 #: lang/json/GENERIC_from_json.py
@@ -16802,7 +16801,7 @@ msgstr "spitzer Stock"
 
 #: lang/json/GENERIC_from_json.py
 msgid "A simple wood pole with one end sharpened."
-msgstr "Ein einfacher Holzstock, dessen Ende geschärft wurde."
+msgstr "Ein einfacher Holzstock, vom dem sein Ende geschärft wurde."
 
 #: lang/json/GENERIC_from_json.py
 msgid "2-by-sword"
@@ -16839,10 +16838,9 @@ msgid ""
 "over a wooden sword. The added weight is unbalanced, but the jagged edge "
 "offers a good bit of slashing power."
 msgstr ""
-"Diverse Metallschrottstücke, die grob im zu etwas, was wie eine Schneide "
-"eines Holzschwerts aussieht, gehauen wurden. Das zusätzliche Gewicht ist "
-"nicht ausbalanciert, aber die gezackte Schneide macht ein bisschen "
-"Schnittschaden."
+"Diverse Metallschrottstücke, die grob zu etwas, was wie eine Schneide eines "
+"Holzschwerts aussieht, gehauen wurden. Das zusätzliche Gewicht ist nicht "
+"ausbalanciert, aber die gezackte Schneide macht ein bisschen Schnittschaden."
 
 #: lang/json/GENERIC_from_json.py
 msgid "forged sword"
@@ -16922,8 +16920,8 @@ msgid ""
 "A long piece of wood with several nails through one end; essentially a "
 "simple mace. Makes a great melee weapon."
 msgstr ""
-"Ein langes Stück Holz mit einigen Nägeln an einem Ände; im Grunde ein "
-"simpler Streitkolgen. Ist eine großartige Nahkampfwaffe."
+"Ein langes Stück Holz mit einigen Nägeln an einem Ende; im Grunde ein "
+"simpler Streitkolben. Ist eine großartige Nahkampfwaffe."
 
 #: lang/json/GENERIC_from_json.py
 msgid "nail bat"
@@ -16934,8 +16932,8 @@ msgid ""
 "A baseball bat with several nails driven through it, an excellent melee "
 "weapon."
 msgstr ""
-"Ein Baseballschläger dessen Spitze mit Nägeln gespickt ist. Er stellt eine "
-"exzellente Nahkampfwaffe dar."
+"Ein Baseballschläger, von dem seine Spitze mit Nägeln gespickt ist. Er "
+"stellt eine exzellente Nahkampfwaffe dar."
 
 #: lang/json/GENERIC_from_json.py
 msgid "nail knuckles"
@@ -16947,7 +16945,7 @@ msgid ""
 "nails coming through them. Useful in nasty street fights."
 msgstr ""
 "Ein Paar Schlagringe, die aus zwei kleinen Holzstücken, durch die einige "
-"Nägel durchgehen. Nützlich in üblen Straßenkämpfen."
+"Nägel durchgehen, bestehen. Nützlich in üblen Straßenkämpfen."
 
 #: lang/json/GENERIC_from_json.py
 msgid "homewrecker"
@@ -16959,7 +16957,7 @@ msgid ""
 "resulting weapon is unwieldy and slow but very heavy hitting."
 msgstr ""
 "Ein langes Stück Holz, an das einige Stahlklumpen fest angebracht sind. Die "
-"Waffe die sich daraus ergibt, ist unhandlich und langsam, aber schlägt sehr "
+"Waffe, die sich daraus ergibt, ist unhandlich und langsam, aber schlägt sehr "
 "heftig zu."
 
 #: lang/json/GENERIC_from_json.py
@@ -17090,7 +17088,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "mace"
-msgstr "Keule"
+msgstr "Streitkolben"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -17216,7 +17214,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "tiger claws"
-msgstr "Tigerklauen"
+msgstr "Tigerkralle"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -17235,7 +17233,7 @@ msgstr "10 Plastikbeutel"
 msgid ""
 "10 plastic bags, folded smooth and wrapped tightly together with a string."
 msgstr ""
-"10 Plastikbeutel, sauber gefalten und mit einer Schnur zusammengebunden."
+"10 Plastikbeutel, sauber gefaltet und mit einer Schnur zusammengebunden."
 
 #: lang/json/GENERIC_from_json.py
 msgid "money bundle"
@@ -17316,7 +17314,7 @@ msgid ""
 msgstr ""
 "Etwas Metallschrott, was grob in Form geschlagen wurde, mit gefaltenen "
 "Lumpen darunter, um die Fingerknöchel des Trägers zu schützen. Eine gute, "
-"flinke Waffe – aber du mit im Schlagradius stehen, um sie zu benutzen."
+"flinke Waffe – aber du musst im Schlagradius stehen, um sie zu benutzen."
 
 #: lang/json/GENERIC_from_json.py
 msgid "razorbar katar"
@@ -17355,7 +17353,7 @@ msgid ""
 msgstr ""
 "Eine Metallwaffe aus Messing; sie wurde dafür gemacht, um in der "
 "Handinnenseite festgehalten zu werden und Schläge zusätzlichen Schaden "
-"machen zu lassen. Eine gute, flinke Waffe – aber du mit im Schlagradius "
+"machen zu lassen. Eine gute, flinke Waffe – aber du musst im Schlagradius "
 "stehen, um sie zu benutzen."
 
 #: lang/json/GENERIC_from_json.py
@@ -17445,9 +17443,9 @@ msgid ""
 "feel confident that you won't have to worry about depleting its power supply "
 "for at least 160 million years of faithful service."
 msgstr ""
-"Genieße das ruhige Tscherenkow-blaue Glühen des Atomnachtlichts von Rivtech "
+"Genieße das ruhige tscherenkowblaue Glühen des Atomnachtlichts von Rivtech "
 "und sei dir gewiss, dass du dir keine Gedanken über das Aufbrauchen der "
-"Stromreserven für mindestens 160 Millionen Jahre treuem Dienst machen musst."
+"Stromreserven für mindestens 160 Millionen Jahre treuen Dienst machen musst."
 
 #: lang/json/GENERIC_from_json.py
 msgid "atomic coffee maker"
@@ -17495,8 +17493,8 @@ msgid ""
 "disassembled into some useful parts."
 msgstr ""
 "Ein Aufziehwecker. Obwohl der Krach das Aufwachen unangenehm macht, ist es "
-"immer gut, einen frühen Start in deinen Tag zu kriegen. Er kann auch in "
-"seine Einzelteile zerlegt werden, um ein paar nützliche Teile zu erhalten."
+"immer gut, einen frühen Start in deinen Tag zu haben. Er kann auch in seine "
+"Einzelteile zerlegt werden, um ein paar nützliche Teile zu erhalten."
 
 #: lang/json/GENERIC_from_json.py
 msgid "kevlar dog harness"
@@ -17517,7 +17515,7 @@ msgstr "Glasklinge"
 #: lang/json/GENERIC_from_json.py
 msgid "A glass shard with wrapping at one end so it can be safely wielded."
 msgstr ""
-"Eine Glasschere mit einer Umwickelung an einem Ende, damit sie sicher "
+"Eine Glasscherbe mit einer Umwickelung an einem Ende, damit sie sicher "
 "getragen werden kann."
 
 #: lang/json/GENERIC_from_json.py
@@ -17692,7 +17690,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "seat"
-msgstr "Autositz"
+msgstr "Sitz"
 
 #: lang/json/GENERIC_from_json.py
 msgid "A soft car seat covered with leather."
@@ -17718,19 +17716,20 @@ msgstr "Sattel"
 #: lang/json/GENERIC_from_json.py
 msgid "A leather-covered seat designed to be straddled."
 msgstr ""
-"Ein weicher lederbedeckter Autositz, auf dem man sich ausbreiten kann."
+"Ein weicher lederbedeckter Sitz, auf dem man sich im Reitsitz darauf setzen "
+"muss."
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "muffler"
-msgstr "Auspuff"
+msgstr "Pkw-Schalldämfer"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A muffler from a car. Very unwieldy as a weapon. Useful in a few crafting "
 "recipes."
 msgstr ""
-"Ein Auspuss eines Autos. Ziemlich unhandlich als Waffe. Nützlich in ein paar "
-"Fertigungsrezepten."
+"Ein Schalldämfer eines Autos. Ziemlich unhandlich als Waffe. Nützlich in ein "
+"paar Fertigungsrezepten."
 
 #: lang/json/GENERIC_from_json.py
 msgid "vehicle controls"
@@ -17759,7 +17758,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "plasma engine"
-msgstr "Plasmaantrieb"
+msgstr "Plasmamotor"
 
 #: lang/json/GENERIC_from_json.py
 msgid "High technology engine, working on hydrogen fuel."
@@ -17789,7 +17788,7 @@ msgstr "Motorrad-Batterie"
 msgid ""
 "A 12v lead-acid battery used to power smaller vehicles' electrical systems."
 msgstr ""
-"Eine 12V Blei-Säure-Batterie, die benutzt wird, um die elektronischen "
+"Eine 12V-Blei-Säure-Batterie, die benutzt wird, um die elektronischen "
 "Systeme kleinerer Fahrzeuge zu versorgen."
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
@@ -18010,7 +18009,7 @@ msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "spiked plating"
-msgstr "Panzerung mit Stacheln"
+msgstr "Stachelpanzerung"
 
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -18109,13 +18108,13 @@ msgstr ""
 "perfekte Lösung für all Ihre Heim-Kochbedürfnisse« zu sein. Wobei er "
 "überraschend nützlich für das Vakuumverpacken sowie zum dehydrieren von "
 "Nahring ist, verschwieg die heitere Verkaufspräsentation, dass: 1. Wie "
-"unhandlich das verdamte Ding ist, 2. Dass du immer noch eine normale Küche "
-"brauchst und 3. wie es keine Batterien nimmt. Du müsstest es mit einem "
-"Fahrzeug oder etwas ähnlichem mit einer Stromversorgung verschweißen, falls "
-"du es benutzen möchtest. Zusätzlich zu den Kochfunktionen hat es außerdem "
-"ein Wasserreinigungssystem, eine Schublade für das Tragen weiterer Werkzeuge "
-"und aus irgendeinem wahnsinnigem Grund, ein Press-and-die-Satz für das "
-"Handladen von Munition."
+"unhandlich das verdamte Ding ist, 2. dass du immer noch eine normale Küche "
+"brauchst und 3. wie es kommt, dass es keine Batterien nimmt. Du müsstest es "
+"mit einem Fahrzeug oder etwas ähnlichem mit einer Stromversorgung "
+"verschweißen, falls du es benutzen möchtest. Zusätzlich zu den "
+"Kochfunktionen hat es außerdem ein Wasserreinigungssystem, eine Schublade "
+"für das Tragen weiterer Werkzeuge und, aus irgendeinem wahnsinnigem Grund, "
+"eine manuelle Patronenmaschine für das Handladen von Munition."
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "onboard chemistry lab"
@@ -18261,7 +18260,7 @@ msgid ""
 "A grip placed forward on the barrel allows for greater control and accuracy. "
 "Aside from increased weight, there are no drawbacks."
 msgstr ""
-"Ein Griff, der am Lauf platziert wird sorgt für eine bessere Kontrolle und "
+"Ein Griff, der am Lauf platziert wird, sorgt für eine bessere Kontrolle und "
 "Treffergenauigkeit. Außer einem erhöhtem Gewicht gibt es keine Nachteile."
 
 #: lang/json/GUNMOD_from_json.py
@@ -18295,7 +18294,7 @@ msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
 msgid "rifled barrel"
-msgstr "Gewehrlauf"
+msgstr "gezogener Lauf"
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
@@ -18329,11 +18328,11 @@ msgid ""
 "bulk reduces accuracy and increases recoil."
 msgstr ""
 "Verdoppelt die Munitionskapazität deiner Feuerwaffe, aber der zusätzliche "
-"ballast reduziert die Genauigkeit und erhöht den Rückstoß."
+"Ballast reduziert die Genauigkeit und erhöht den Rückstoß."
 
 #: lang/json/GUNMOD_from_json.py
 msgid "spare magazine"
-msgstr "Extramagazin"
+msgstr "Reservemagazin"
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
@@ -18487,7 +18486,7 @@ msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
 msgid "battle rifle conversion"
-msgstr "Sturmgewehrpatronenumwandler"
+msgstr "Kampfgewehrumbausatz"
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
@@ -18502,7 +18501,7 @@ msgstr ""
 
 #: lang/json/GUNMOD_from_json.py
 msgid "sniper conversion"
-msgstr "Scharfschützenpatronenumwandler"
+msgstr "Scharfschützengewehrumbausatz"
 
 #: lang/json/GUNMOD_from_json.py
 msgid ""
@@ -18550,7 +18549,7 @@ msgid ""
 "This is a home built launcher tube that can be attached to almost any rifle. "
 "It allows a single 40mm grenade to be loaded and fired."
 msgstr ""
-"Dies ist ein selbstgemachtes Abschussgerät, die an fast jedem Gewehr "
+"Dies ist ein selbstgemachtes Abschussgerät, das an fast jedes Gewehr "
 "angebracht werden kann. Sie kann eine einzelne 40mm-Granate laden und "
 "abfeuern."
 
@@ -18564,7 +18563,7 @@ msgid ""
 "shotgun, sub-machinegun or rifle, allowing a melee attack to deal piercing "
 "damage. The added length increases recoil slightly."
 msgstr ""
-"Ein Bajonett ist eine Stichwaffe die als Aufsatz an der Spitze einer "
+"Ein Bajonett ist eine Stichwaffe, die als Aufsatz an der Spitze einer "
 "Schrotflinte, einer Maschinenpistole oder einem Gewehr montiert werden kann. "
 "Bei einem Nahkampf wird somit Stichschaden verursacht. Die erhöhte "
 "Waffenlänge steigert den Rückstoß geringfügig."
@@ -18861,8 +18860,8 @@ msgid ""
 "A bow made from a single piece of wood. It is made specifically for the "
 "person using it."
 msgstr ""
-"Ein Bogen aus einem einzelnen Holzstück. Hergestellt speziell für die Person "
-"die ihn verwendet."
+"Ein Bogen aus einem einzelnen Holzstück. Hergestellt speziell für die "
+"Person, die ihn verwendet."
 
 #: lang/json/GUN_from_json.py
 msgid "short bow"
@@ -18874,7 +18873,7 @@ msgid ""
 "sacrifices power. Arrows fired from this weapon have a good chance of "
 "remaining intact for re-use. It requires 8 strength to fire"
 msgstr ""
-"Ein Bogen, der kürzer und einfacher zu ziehen als der Langbogen ist, aber "
+"Ein Bogen, der kürzer und einfacher als der Langbogen zu ziehen ist, aber "
 "dafür Schusskraft einbüßt. Pfeile, die von dieser Waffe geschossen werden, "
 "bleiben wahrscheinlich intakt und können wiederverwendet werden. Er benötigt "
 "eine Stärke von 8 zum Schießen."
@@ -18889,7 +18888,7 @@ msgid ""
 "compound bows more easily. Arrows fired from this weapon have a good chance "
 "of remaining intact for re-use. It requires 8 strength to fire"
 msgstr ""
-"Ein Bogen mit Rollen, der schnelle Bogen schießt. Schwächere Leuten fällt "
+"Ein Bogen mit Rollen, der schnelle Pfeile schießt. Schwächere Leuten fällt "
 "die Benutzung von Compundbögen leichter. Pfeile, die von dieser Waffe "
 "geschossen werden, haben eine gute Wahrscheinlichkeit, für die "
 "Widerverwendung intakt zu bleiben. Der Bogen benötigt eine Stärke von "
@@ -18905,11 +18904,11 @@ msgid ""
 "Arrows fired from this weapon have a good chance of remaining intact for re-"
 "use. It requires 10 strength to fire"
 msgstr ""
-"Ein Bogen hergestellt aus verschiedenen Materialien um mehr kinetische "
-"Abschussenergie zu erzeugen. Pfeile die mit diesem Bogen abgeschossen "
-"werden, haben eine gute Chance, intakt zum erneuten gebrauch, wieder "
-"geborgen werden zu können. Benötigt mindestens 10 Stärke um abgefeuert "
-"werden zu können."
+"Ein Bogen hergestellt aus verschiedenen Materialien, um mehr kinetische "
+"Abschussenergie zu erzeugen. Pfeile, die mit diesem Bogen abgeschossen "
+"werden, haben eine gute Chance, intakt zur Wiederverwendung geborgen werden "
+"zu können. Benötigt mindestens eine Stärke von 10, um abgefeuert werden zu "
+"können."
 
 #: lang/json/GUN_from_json.py
 msgid "recurve bow"
@@ -18939,7 +18938,7 @@ msgstr ""
 "Ein Bogen, der Wurfärme, die sich vom Bogenschützen wegbiegen, hat, was "
 "Treffgenauigkeit für Stärke opfert. Pfeile, die von dieser Waffe gefeuert "
 "werden, bleiben wahrscheinlich für die Wiederverwendung intakt. Es benötigt "
-"eine Stärke von 10 zum schießen."
+"eine Stärke von 10 zum Schießen."
 
 #: lang/json/GUN_from_json.py
 msgid "longbow"
@@ -19017,11 +19016,11 @@ msgstr ""
 "Deutschland. Die Sehne steht unter sehr hohen Zug, sodass nach dem abfeuern "
 "ein beträchtlicher Rückstoß spürbar ist. Ungeübte Schützen werden größere "
 "Schwierigkeiten beim Nachladen der Armbrust feststellen. Abgeschossene "
-"Bolzen haben eine hohe Wahrscheinlichkeit intakt geborgen werden zu können."
+"Bolzen haben eine hohe Wahrscheinlichkeit, intakt geborgen werden zu können."
 
 #: lang/json/GUN_from_json.py
 msgid "repeating crossbow"
-msgstr "Selbstaufziehende Armbrust"
+msgstr "Repetierarmbrust"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -19029,10 +19028,10 @@ msgid ""
 "10 bolts. Single bolt reload. Bolts fired from this weapon have a good "
 "chance of remaining intact for re-use."
 msgstr ""
-"Eine maßgeschneiderte, große mechanische Armbrust. Sie hat ein hölzernes "
-"Magazin welches 10 Bolzen hält. Bolzen müsseln einzeln nachgeladen werden. "
-"Abgefeuerte Bolzen habe eine gut Change intakt, zum erneuten Gebrauch, "
-"geborgen werden zu können."
+"Eine maßgeschneiderte große mechanische Armbrust. Sie hat ein hölzernes "
+"Magazin, welches 10 Bolzen hält. Bolzen müssen einzeln nachgeladen werden. "
+"Abgefeuerte Bolzen bleiben sehr wahrscheinlich intakt, um zum Wiedergebrauch "
+"wieder geborgen werden zu können."
 
 #: lang/json/GUN_from_json.py
 msgid "laser finger"
@@ -19250,7 +19249,7 @@ msgid ""
 "high-quality, durable materials."
 msgstr ""
 "Eine beliebte .38-Pistole. Sie wurde mit zahlreichen Sicherheitsfunktionen "
-"entworfen und von hochqualitativen, langlebigen Materialen gebaut."
+"entworfen und von hochqualitativen langlebigen Materialen gebaut."
 
 #: lang/json/GUN_from_json.py
 msgid "SIG Pro .40"
@@ -19262,7 +19261,7 @@ msgid ""
 "handguns, the Pro .40 is popular among European police forces."
 msgstr ""
 "Ursprünglich vermarktet als eine leichtgewichtige und kompakte Alternativen "
-"zu älteren SIG-Handfeuerwaffen, ist die Pro .40 beliebt unter europäischen "
+"zu älteren SIG-Handfeuerwaffen ist die Pro .40 beliebt unter europäischen "
 "Polizeikräften."
 
 #: lang/json/GUN_from_json.py
@@ -19399,7 +19398,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "sawn-off Saiga 12"
-msgstr "abgesägte Saiga 12"
+msgstr "abgesägte Saiga-12"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -19691,7 +19690,7 @@ msgid ""
 "US Marine snipers. Highly damaging, but perhaps not as accurate as the "
 "competing Browning BLR."
 msgstr ""
-"Eine sehr populäre und haltbares Jagd- oder Scharfschützengewehr. Beliebt "
+"Ein sehr populäres und haltbares Jagd- oder Scharfschützengewehr. Beliebt "
 "unter SWAT- und US-Marine-Scharfschützen. Sie macht einen sehr großen "
 "Schaden aber ist vielleicht nicht so treffsicher wie die konkurrierende "
 "Browning BLW."
@@ -19803,9 +19802,9 @@ msgid ""
 "rifle, but its high fire rate and powerful .308 ammunition have made it one "
 "of the most widely-used battle rifles in the world."
 msgstr ""
-"Ein Sturmgewehr welches in Belgien entwickelt wurde. Die FN FAL ist nicht "
-"sehr Treffsicher für ein Gewehr was ihre hohe Feuerrate und die kraftvolle "
-".308 Munition wieder wettmachen. Deshalb zählt die FN FAL zu einem der "
+"Ein Sturmgewehr, welches in Belgien entwickelt wurde. Die FN FAL ist nicht "
+"sehr treffsicher für ein Gewehr, was ihre hohe Feuerrate und die kraftvolle "
+".308-Munition wieder wettmachen. Deshalb zählt die FN FAL zu einem der "
 "meistverwendetsten Sturmgewehre der Welt."
 
 #: lang/json/GUN_from_json.py
@@ -19945,8 +19944,8 @@ msgid ""
 "unit causes its bolts to be extremely deadly."
 msgstr ""
 "Ein sehr starkes Fusionsgewehr, welches kurz vor dem Einströmen der Monster "
-"entwickelt wurde. Es kann nur zwei Schuss aufeinmal beeinhalten, aber eine "
-"spezielle Superheiz-Einheit sorgt dafür, dass dessen Schüsse extrem tödlich "
+"entwickelt wurde. Es kann nur zwei Schuss auf einmal beeinhalten, aber eine "
+"spezielle Superheizeinheit sorgt dafür, dass dessen Schüsse extrem tödlich "
 "sind."
 
 #: lang/json/GUN_from_json.py
@@ -19961,7 +19960,7 @@ msgid ""
 msgstr ""
 "Ein Mehrzweckgewehr, das für den Gebrauch mit einer Einheitsstromzufuhr – "
 "kurz »Esz.« – entworfen wurde. Es lässt sich nicht auf gewöhnliche Weise "
-"nachladen. Drücke stattdessen die ein mal die Feuertaste, um es von der Esz. "
+"nachladen. Drücke stattdessen ein mal die Feuertaste, um es von der Esz. "
 "aufzuladen, dann erneut, um die Ladung zu entladen."
 
 #: lang/json/GUN_from_json.py
@@ -20070,8 +20069,8 @@ msgid ""
 "A disposable light anti-tank rocket launcher. Once fired, it cannot be "
 "reloaded and must be disposed of."
 msgstr ""
-"Ein leichter panzerbrechener Einmalraketenwerfer. Einmal abgefeuert kann er "
-"nicht wieder nachgeladen werden."
+"Ein leichter Einweg-Panzerabwehrraketenwerfer. Einmal abgefeuert kann er "
+"nicht wieder nachgeladen werden und muss entsorgt werden."
 
 #: lang/json/GUN_from_json.py
 msgid "coilgun"
@@ -20088,7 +20087,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "H&K G80 Railgun"
-msgstr "H&K G80 Railgun"
+msgstr "H&K-G80-Schienengewehr"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -20097,7 +20096,7 @@ msgid ""
 "while still deadly. Powered by UPS."
 msgstr ""
 "Dieses Schienengewehr, was von Heckler & Koch 2033 entwickelt wurde, "
-"beschleunig ein ferromagnetisches Projektil mittels einer Wechselspannung. "
+"beschleunigt ein ferromagnetisches Projektil mittels einer Wechselspannung. "
 "Das macht es lautlos aber immer noch tödlich. Es wird von einer Esz. "
 "angetrieben."
 
@@ -20282,7 +20281,7 @@ msgid ""
 "A powerful handheld spring mortar handcrafted from scrap. Made to launch "
 "modified handheld nuclear weapons, it is an exceedingly powerful weapon."
 msgstr ""
-"Ein starker tragbarer Federwerfer, der aus Schrott zusammengebaut wurde. Mit "
+"Ein starker tragbarer Federmörser, der aus Schrott zusammengebaut wurde. Mit "
 "ihm können tragbare Nuklearwaffen abgefeuert werden. Er ist eine "
 "außerodentlich starke Waffe."
 
@@ -20360,8 +20359,8 @@ msgid ""
 "A massive and deadly four shot 66 millimeter man-portable, reusable, "
 "thermobaric rocket launcher."
 msgstr ""
-"Ein wuchtiger und tödlicher vierschüssiger 66-Millimeter, tragbarer, "
-"wiederverwendbarer Raketenwerver, der Aerosolbomben startet."
+"Ein wuchtiger und tödlicher vierschüssiger tragbarer wiederverwendbarer 66-"
+"Millimeter-Raketenwerver, der Aerosolbomben startet."
 
 #: lang/json/GUN_from_json.py lang/json/ammunition_type_from_json.py
 msgid "RPG-7"
@@ -20403,9 +20402,9 @@ msgid ""
 "A cyborg's fusion blaster arm, cannibalized and converted into a rifle. This "
 "improvised weapon is powered by a standard UPS connection."
 msgstr ""
-"Eine Fusionskanone eines Cyborgs, die ausgeschlachtet und in ein Gewehr "
-"umgewandelt wurde. Diese improvisierte Waffe wird durch eine Esz.-Verbindung "
-"angetrieben."
+"Eine Fusionskanone eines Cyborgs. Sie wurde ausgeschlachtet und in ein "
+"Gewehr umgewandelt. Diese improvisierte Waffe wird durch eine Esz.-"
+"Verbindung angetrieben."
 
 #: lang/json/GUN_from_json.py
 msgid "ferromagnetic rail rifle"
@@ -20418,10 +20417,11 @@ msgid ""
 "point of spontaneous combustion by a Lorentz force generated by "
 "electromagnetic induction, powered by a standard UPS."
 msgstr ""
-"Ein einschüssiges, elektrisch angetriebenes Stahlschienen-Abschussgerät, das "
-"aus Schrott per Hand zusammengebaut wurde. Der Hypergeschwindigkeits-"
-"Stahlspieß, den es abfeuert, wird zu einem Punkt beschleunig, bei dem es "
-"durch einer Lorentzkraft, welche von elektromagnetischer Induktion generiert "
+"Ein einschüssiges elektrisch angetriebenes Stahlschienenabschussgerät, das "
+"aus Schrott per Hand zusammengebaut wurde. Der "
+"Hypergeschwindigkeitsstahlspieß, den es abfeuert, wird zu einem Punkt "
+"beschleunigt, bei dem es durch einer Lorentzkraft, welche von "
+"elektromagnetischer Induktion generiert wird, zur Selbstentzündung gebracht "
 "wird. Das Gewehr wird mit einer Esz. betrieben."
 
 #: lang/json/GUN_from_json.py
@@ -20454,7 +20454,7 @@ msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "RM228 short shotgun"
-msgstr "RM228 kurze Schrotflinte"
+msgstr "RM228-Kurzschrotflinte"
 
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -20475,7 +20475,7 @@ msgid ""
 "A large, shoulder-fired, .50 caliber anti-materiel rifle. Its large size, "
 "recoil, and noise is offset by its damage and range."
 msgstr ""
-"Eine großes, geschultertes Kaliber-.50-Gewehr. Dessen große Größe, hoher "
+"Eine großes geschultertes Kaliber-.50-Gewehr. Dessen große Größe, hoher "
 "Rückschlag und Lärm wird von dem Schaden und der Reichweite wieder "
 "wettgemacht."
 
@@ -20647,9 +20647,9 @@ msgid ""
 "the US market. It's pure semi-automatic, but fires the same powerful "
 "cartridge as the SVS-24."
 msgstr ""
-"Dies ist die Zivilversion der SVS-24. Sie wurde von Clearwater Arms, Georgia "
-"für den US-Markt gemacht. Sie ist rein halbautomatsich, aber feuert die "
-"selbe starke Patrone wie die SVS-24."
+"Dies ist die Zivilversion der SVS-24. Sie wurde von Clearwater Arms aus "
+"Georgia für den US-Markt gemacht. Sie ist rein halbautomatsich, aber feuert "
+"die selbe starke Patrone wie die SVS-24."
 
 #: lang/json/GUN_from_json.py
 msgid "CW-24M"
@@ -20898,7 +20898,7 @@ msgstr "Standard"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "contains all the mods recommended by the developers"
-msgstr "enthält alle die von Entwicklern empfohlnene Mods"
+msgstr "enthält alle die von den Entwicklern empfohlenen Mods"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "DinoMod"
@@ -20932,7 +20932,7 @@ msgstr "Alte Waffen"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Weapons that are old or are no longer in production."
-msgstr "Waffen, die zu alt oder nicht mehr produziert werden."
+msgstr "Waffen, die zu alt sind oder nicht mehr produziert werden."
 
 #: lang/json/MONSTER_from_json.py
 msgid "bat"
@@ -21172,8 +21172,8 @@ msgid ""
 "wily hunter with a combative, suspicious temperament."
 msgstr ""
 "Der Rotfuchs, ein allesfressender Hundeartiger und der Größte der Echten "
-"Füchse. Er ist ein hinterlistiger Jäger mit einem kampflustigem, "
-"verdächtigem Temperament."
+"Füchse. Er ist ein hinterlistiger Jäger mit einem kampflustigen verdächtigen "
+"Temperament."
 
 #: lang/json/MONSTER_from_json.py
 msgid "groundhog"
@@ -21437,7 +21437,8 @@ msgid ""
 "one end is a set of squirming mouth parts."
 msgstr ""
 "Eine pulsierende Wurst aus glitzerndem weißen Fleisch in der Größe einer "
-"großen Katze. An einem Ende ist ein Menge von herauswindenden Mund-Teilen."
+"großen Katze. An einem Ende ist ein Gemenge aus sich herauswindenden Mund-"
+"Teilen."
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant ant"
@@ -21552,7 +21553,7 @@ msgid ""
 "shoulder, with even more surely hiding underground."
 msgstr ""
 "Eine enorme, mutierte Kreatur, die einstmals wohl ein Tauwurm gewesen sein "
-"könnte. Sie besitzt einen großen bezahnter Mund und einen langen schlanken "
+"könnte. Sie besitzt einen großen bezahnten Mund und einen langen schlanken "
 "Körper, der bis zu deinen Schultern reicht und von dem sicherlich noch mehr "
 "unter der Erde verborgen ist."
 
@@ -21613,7 +21614,7 @@ msgid ""
 "Once an athletic human, now a brutal monster. Its facial features are "
 "twisted into an expression of pure rage."
 msgstr ""
-"Ehemals ein athletischer Mensch, nun ein brutales Monster. Desses "
+"Ehemals ein athletischer Mensch, nun ein brutales Monster. Dessen "
 "Gesichtsmerkmale haben sich zu einem Ausdruck reiner Raserei verdreht."
 
 #: lang/json/MONSTER_from_json.py
@@ -21638,7 +21639,7 @@ msgid ""
 "wanders around, unsteadily."
 msgstr ""
 "Dieses Zombies Gesicht und Körper sind völlständig von einem Schutzanzug "
-"bedeckt. Es wandert wackelig umher."
+"bedeckt. Es wandert wackelnd umher."
 
 #: lang/json/MONSTER_from_json.py
 msgid "firefighter zombie"
@@ -21675,7 +21676,7 @@ msgid ""
 "festering wounds and open sores."
 msgstr ""
 "Es ehemals toter menschlicher Körper. Aus dem ganzen Körper stehen geblähte "
-"Muskelun und geschwollene, eiternde Wunden hervor."
+"Muskeln und geschwollene eiternde Wunden hervor."
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie cop"
@@ -21797,7 +21798,7 @@ msgid ""
 "chains of pulsing cysts and slime dribbling ulcers."
 msgstr ""
 "Ein beißender Geruch begleitet diese hündische Leiche. Ihr ganzer Körper ist "
-"mit Ketten pulsierender Zysten und schleim absondernder Geschwüre bedeckt."
+"mit Ketten pulsierender Zysten und Schleim absondernden Geschwüren bedeckt."
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie brute"
@@ -21807,7 +21808,7 @@ msgstr "Rohlingszombie"
 msgid ""
 "Its entire body bulges with distended muscles and swollen, festering wounds."
 msgstr ""
-"Aus dem ganzen Körper stehen geblähte Muskelun und geschwollene, eiternde "
+"Aus dem ganzen Körper stehen geblähte Muskeln und geschwollene eiternde "
 "Wunden hervor."
 
 #: lang/json/MONSTER_from_json.py
@@ -22092,7 +22093,7 @@ msgid ""
 "A drooped, quivering plant with a thick stalk adorned by a purple flower. "
 "Its petals are closed, and pulsate ominously."
 msgstr ""
-"Eine ermattete, zitternde Pflanze, in dem ein dicker Stängel von einer "
+"Eine ermattete zitternde Pflanze, in der ein dicker Stängel von einer "
 "violetten Blume dekoriert wird. Ihre Blütenblätter sind geschlossen und "
 "pulsieren unheilverheißend."
 
@@ -22310,8 +22311,8 @@ msgid ""
 "An enormous mutant mosquito, fluttering erratically, its face dominated by a "
 "long, spear-tipped proboscis."
 msgstr ""
-"Eine riesige Mutantenmoskito, die unberechenbar umherflattert; ihr Gesicht "
-"wird von einem langen, speerspitzigen Rüssel dominiert."
+"Eine riesiger Mutantenmoskito, der unberechenbar umherflattert; sein Gesicht "
+"wird von einem langen speerspitzigen Rüssel dominiert."
 
 #: lang/json/MONSTER_from_json.py
 msgid "dragonfly"
@@ -22683,7 +22684,7 @@ msgid ""
 "fish but for its dire utterance."
 msgstr ""
 "Ein gewundenes Ungetüm, das wie eine riesige Krabbe, überzogen mit "
-"krümmenden Antennen, klauenförmigen Tentakeln und sternförmigen Auswüchsen, "
+"krümmenden Antennen, klauenförmigen Tentakeln und sternförmigen Auswüchsen "
 "wirkt und dessen Kopf dem Inneren eines Fisches, ohne seiner furchtbaren "
 "Äußerung, ähnelt."
 
@@ -22815,7 +22816,7 @@ msgid ""
 msgstr ""
 "Ein gigantischer protoplasmatischer Blob, der sich ständig verformt und "
 "scheinbar willkürlich neue Scheinfüßchen bildet. Über seinen ganzen Körper "
-"sind Augen, die sich formen und wieder verschwinden. Es sieht dich mit Häme "
+"sind Augen, die sich formen und wieder verschwinden. Er sieht dich mit Häme "
 "an."
 
 #: lang/json/MONSTER_from_json.py
@@ -23252,7 +23253,7 @@ msgid ""
 "A bipedal dinosaur about the size of a small cat.  Its teeth and claws look "
 "quite sharp."
 msgstr ""
-"Ein zweibeiniger Dinosaurier von der größe einer kleinen Katze. Seine Kähne "
+"Ein zweibeiniger Dinosaurier von der Größe einer kleinen Katze. Seine Kähne "
 "und Klauen sehen recht scharf aus."
 
 #: lang/json/MONSTER_from_json.py
@@ -23264,7 +23265,7 @@ msgid ""
 "A feathered bipedal dinosaur, standing as tall as a human.  It looks "
 "somewhat like a reptilian ostrich."
 msgstr ""
-"Ein gefiederter zweibeiniger Dinosaurier, der etwas so groß wie ein Mensch "
+"Ein gefiederter zweibeiniger Dinosaurier, der in etwa so groß wie ein Mensch "
 "ist. Er sieht irgendwie wie ein reptilischer Strauß aus."
 
 #: lang/json/MONSTER_from_json.py
@@ -23715,7 +23716,7 @@ msgid ""
 "tailoring skill."
 msgstr ""
 "Dies ist eine Plastikausrüstung mit einer Vielzahl an Nadeln, ein paar "
-"Plastiksspulen für Fäden und ein paar andere nützliche Textilwerkzeuge. "
+"Plastiksspulen für Fäden und ein paar anderen nützlichen Textilwerkzeugen. "
 "Benutze das Nähzeug auf einen Bekleidungsartikel, um zu versuchen, es zu "
 "reparieren oder zu verstärken. Das benutzt deine Schneiderei-Fertigkeit."
 
@@ -23742,7 +23743,9 @@ msgid ""
 "windows. It has myriad other uses as well."
 msgstr ""
 "Die ist ein stahlentmagnetisierter Hammer mit einem Gummigriff. Mit einem "
-"Hammer können"
+"Hammer, Nägeln und Kanthölzern in deinem Inventar könntest du benachbarte "
+"Türen und Fenster verrammeln. Es hat außerdem noch unzählig viele andere "
+"Verwendungszwecke."
 
 #: lang/json/TOOL_from_json.py
 msgid "fire extinguisher"
@@ -23767,9 +23770,9 @@ msgid ""
 "asthma attacks and smoke inhalation and can provide a brief burst of energy."
 msgstr ""
 "Dies ist ein Behälter mit komprimierten medizinischen Sauerstoff mit einem "
-"Regler und Maske. Sie wird üblicherweise in Notsituationen benutzt und "
-"bietet eine sofortige Abhilfe für Asthmaanfälle und Rauchinhalationen und "
-"kann einen kurzen Energieschub bieten."
+"Regler und Maske. Er wird üblicherweise in Notsituationen benutzt und bietet "
+"eine sofortige Abhilfe für Asthmaanfälle und Rauchinhalationen und kann "
+"einen kurzen Energieschub bieten."
 
 #: lang/json/TOOL_from_json.py
 msgid "emergency oxygen pack"
@@ -23783,7 +23786,7 @@ msgid ""
 "of energy."
 msgstr ""
 "Dies ist ein kleiner Behälter mit komprimierten medizinischen Sauerstoff mit "
-"einem Regler und Maske. Sie wird üblicherweise in Notsituationen benutzt und "
+"einem Regler und Maske. Er wird üblicherweise in Notsituationen benutzt und "
 "bietet eine sofortige Abhilfe für Asthmaanfälle und Rauchinhalationen und "
 "kann einen kurzen Energieschub bieten."
 
@@ -23799,7 +23802,7 @@ msgid ""
 msgstr ""
 "Dies ist eine selbstgebauter Batterieeinsatz, der aus "
 "Ersatzelektronikbauteilen gebaut wurde. Mit einer ausreichenden "
-"Elektronikerfahrung könntest du diese Vorrichtung an jedem elektronischem "
+"Elektronikerfahrung könntest du diese Vorrichtung an jedes elektronisches "
 "Werkzeug anbringen, um die Batteriekapazität zu verdoppeln."
 
 #: lang/json/TOOL_from_json.py
@@ -23841,7 +23844,7 @@ msgid ""
 "but it lasts a long time. It is turned on. Use it to turn it off."
 msgstr ""
 "Die ist eine kleine benzinbetriebene Laterne. Sie bietet nicht viel Licht, "
-"aber hält lange. Sie ist an. Benutze sie, um sie anzumachen."
+"aber hält lange. Sie ist an. Sie ist an. Benutze sie, um sie auszumachen."
 
 #: lang/json/TOOL_from_json.py
 msgid "oil lamp (off)"
@@ -23916,11 +23919,11 @@ msgid ""
 "batteries die, you'll need to scrap it to recover the components that are "
 "reusable."
 msgstr ""
-"Dies ist eine Licht-abgebende Schaltung, die direkt mit ein paar Batterien "
-"verkabelt ist. Sobald eingeschaltet, wird etwas schwaches Licht spenden und "
-"sie kann nicht abgeschaltet werden. Sobald die Batterien erschöpft sind, "
+"Dies ist eine Licht abgebende Schaltung, die direkt mit ein paar Batterien "
+"verkabelt ist. Sobald eingeschaltet, wird sie etwas schwaches Licht spenden "
+"und sie kann nicht abgeschaltet werden. Sobald die Batterien erschöpft sind, "
 "musst du den Lichtstreifen demontieren, um die wiederverwertbaren "
-"Komponenzen zurückzuerhalten."
+"Komponenten zurückzuerhalten."
 
 #: lang/json/TOOL_from_json.py
 msgid "lightstrip (active)"
@@ -23932,10 +23935,10 @@ msgid ""
 "provides some weak light and can't be turned off. When the batteries die, "
 "you'll need to scrap it to recover the components that are reusable."
 msgstr ""
-"Dies ist eine Licht-abgebende Schaltung, die direkt mit ein paar Batterien "
+"Dies ist eine Licht abgebende Schaltung, die direkt mit ein paar Batterien "
 "verkabelt ist. Sie spendet etwas schwaches Licht kann nicht abgeschaltet "
 "werden. Sobald die Batterien erschöpft sind, musst du den Lichtstreifen "
-"demontieren, um die wiederverwertbaren Komponenzen zurückzuerhalten."
+"demontieren, um die wiederverwertbaren Komponenten zurückzuerhalten."
 
 #: lang/json/TOOL_from_json.py
 msgid "glowstick"
@@ -24065,7 +24068,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "two-way radio"
-msgstr "Zweiwegeradio"
+msgstr "Funksprechgerät"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -24178,7 +24181,7 @@ msgid ""
 "like hospitals and police stations, it can be used to add points of interest "
 "to your map."
 msgstr ""
-"Dies ist eine Straßenkarte für diese Gegend. Benutze es, um interessante "
+"Dies ist eine Straßenkarte für diese Gegend. Benutze sie, um interessante "
 "Orte wie Krankenhäuser in der Nähe einzutragen."
 
 #: lang/json/TOOL_from_json.py
@@ -24193,8 +24196,8 @@ msgid ""
 msgstr ""
 "Dies ist eine handgemalte Karte der näheren Umgebung. Wer auch immer sie "
 "erstellt hat, auf ihr sind die Positionen naheliegener Vorratsquellen "
-"inklusive Waffengeschäfte und Tankstellen. Benutze sie, um deiner Karte "
-"wichtige Punkte hinzuzufügen."
+"inklusive Waffengeschäfte und Tankstellen markiert. Benutze sie, um deiner "
+"Karte wichtige Punkte hinzuzufügen."
 
 #: lang/json/TOOL_from_json.py
 msgid "military operations map"
@@ -24222,7 +24225,7 @@ msgid ""
 "all the best diners and bars. Using it will add points of interest to your "
 "map."
 msgstr ""
-"Dies ist eine Hochglanzbroschüre, das Speiseeinrichtungen der näheren "
+"Dies ist eine Hochglanzbroschüre, die Speiseeinrichtungen der näheren "
 "Umgebung ausführlich beschreibt. Sie wurde von der Handelskammer gedruckt "
 "und listet die Adressen der besten Restaurants und Kneipen auf. Benutze sie, "
 "um deiner Karte interessante Orte hinzuzufügen."
@@ -24281,9 +24284,9 @@ msgid ""
 "manhole covers. You could also wield it to fight with, in a pinch."
 msgstr ""
 "Dies ist ein Rohr, dessen Enden so verbogen und flachgehämmert worden sind, "
-"dass er einem Brecheisen ähnelt. Benutze es, um abgeschlossene Türen, ohne "
-"sie zu zerstören zu öffnen. Oder, um Gullydeckel hochzuheben. Du könntest es "
-"auch tragen, um damit zur Not zu kämpfen."
+"dass es einem Brecheisen ähnelt. Benutze es, um abgeschlossene Türen, ohne "
+"sie zu zerstören, zu öffnen. Oder, um Gullydeckel hochzuheben. Du könntest "
+"es auch tragen, um damit zur Not zu kämpfen."
 
 #: lang/json/TOOL_from_json.py
 msgid "hoe"
@@ -24339,10 +24342,10 @@ msgid ""
 "with gas, using this item will cause it to turn on, turning it into a very "
 "powerful but unwieldy melee weapon."
 msgstr ""
-"Dies ist ein Abholzwerkzeug, die außerdem auch als Gegenheitswaffe benutzt "
+"Dies ist ein Abholzwerkzeug, das außerdem auch als Gegenheitswaffe benutzt "
 "werden kann. Das Benutzen dieses Gegenstands wird, falls es mit Benzin "
-"gefüllt ist, ihn einschalten, was ihn zu einer sehr starken, aber "
-"unhandlichen Nahkampfwaffe macht."
+"gefüllt ist, es einschalten, was es zu einer sehr starken, aber unhandlichen "
+"Nahkampfwaffe macht."
 
 #: lang/json/TOOL_from_json.py
 msgid "chainsaw (on)"
@@ -24366,7 +24369,7 @@ msgid ""
 msgstr ""
 "Ein elektronischer Tranchierer, der mit Batterien betrieben wird. Zwei "
 "gezackte Klingen, die gemeinsam vibrieren, um praktisch alles von Truthahn "
-"zu Fleisch – sogar Zombies! – zu schneiden."
+"zu Fleisch zu schneiden – sogar von Zombies!"
 
 #: lang/json/TOOL_from_json.py
 msgid "electric carver (on)"
@@ -24391,8 +24394,8 @@ msgid ""
 msgstr ""
 "Ein schnurloser doppelseitiger benzingetriebener Heckenschneider. Eine lange "
 "Folge scharfer Zähne ersteckt sich vom Motor aus; das Einschalten des "
-"Heckenschneiders wird sie heftig vibrieren lassen. Die Kettensäge für Arme, "
-"zumindest, was die Zombies betrifft."
+"Heckenschneiders wird sie heftig vibrieren lassen. Das ist die Kettensäge "
+"für Arme, zumindest, was die Zombies betrifft."
 
 #: lang/json/TOOL_from_json.py
 msgid "hedge trimmer (on)"
@@ -24404,8 +24407,8 @@ msgid ""
 "on, ready to do some zombie topiary; use this item to turn it off."
 msgstr ""
 "Ein schnurloser doppelseitiger benzingetriebener Heckenschneider. Er ist "
-"momentan eingeschaltet und bereit, ein paar Zombies zurechzustutzen; benutze "
-"diesen Gegenstand, um ihn auszuschalten."
+"momentan eingeschaltet und dazu bereit, ein paar Zombies zurechtzustutzen; "
+"benutze diesen Gegenstand, um ihn auszuschalten."
 
 #: lang/json/TOOL_from_json.py
 msgid "circular saw (off)"
@@ -24418,7 +24421,7 @@ msgid ""
 "while effective in combat, is hard to hit with due to its small size."
 msgstr ""
 "Eine leichte tragbare schnurlose Kreissäge. Sie dreht ein Kriessägenblatt, "
-"das schnell genug ist, Holz, Metall, Zombies oder zur Not auch Pizza zu "
+"das schnell genug ist, um Holz, Metall, Zombies oder zur Not auch Pizza zu "
 "schneiden. Das Blatt ist effektiv im Kampf, mit ihm kann man schwer aufgrund "
 "ihrer kleinen Größe treffen."
 
@@ -24432,7 +24435,7 @@ msgid ""
 "blade is spinning; use this item to turn it off."
 msgstr ""
 "Eine leichte tragbare schnurlose Kreissäge. Sie ist momentan eingeschaltet "
-"und das Sägeblatt dreht siech. Benutze diesen Gegenstand, um ihn "
+"und das Sägeblatt dreht sich. Benutze diesen Gegenstand, um ihn "
 "auszuschalten."
 
 #: lang/json/TOOL_from_json.py
@@ -24502,7 +24505,7 @@ msgid ""
 msgstr ""
 "Dies ist ein Bauwerkzeug für das Bohren durch harten Stein oder anderen "
 "Flächen. Es läuft mit Benzin. Benutze es (falls betankt), um ein Loch in ein "
-"benachbartes, festes Gelände zu bohren."
+"benachbartes festes Gelände zu bohren."
 
 #: lang/json/TOOL_from_json.py
 msgid "jacqueshammer"
@@ -24528,7 +24531,7 @@ msgid ""
 msgstr ""
 "Dies ist ein Stück Plastik, das mit luftgefüllten Bläschen überzogen ist. "
 "Benutze es, um es auf den Grund abzulegen, was eine Falle erstellt, die dich "
-"mit Lärm warnt, wenn irgendetwas darauf tritt."
+"mit Lärm warnt, sobald irgendetwas darauf tritt."
 
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "bear trap"
@@ -24585,10 +24588,10 @@ msgid ""
 "purpose is to trip up bypassers, causing them to stumble and possibly hurt "
 "themselves slightly."
 msgstr ""
-"Dies ist ein festes Kabel mit ein paar befestigenden Werkzeugen je Ende. "
-"Eine Stolperdrahtfalle muss in einem Türrahmen oder einer anderen dünnen "
-"Passage platziert werden. Dessen Zweck ist es, unvorsichtige Zeitgenossen "
-"zum Stolpern zu bringen und somit möglicherweise sich ein wenig zu verletzen."
+"Dies ist ein festes Seil mit ein paar befestigenden Werkzeugen je Ende. Eine "
+"Stolperdrahtfalle muss in einem Türrahmen oder einer anderen dünnen Passage "
+"platziert werden. Dessen Zweck ist es, unvorsichtige Zeitgenossen zum "
+"Stolpern zu bringen und somit möglicherweise sich ein wenig zu verletzen."
 
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "crossbow trap"
@@ -24631,7 +24634,7 @@ msgid ""
 "great force. The trap forms a 3x3 area of effect."
 msgstr ""
 "Die ist eine Machete, die seitlich zu einem Motor befestigt wurde, mit einem "
-"Stolperdraht, der ihre Geschwindigkeit kontrolliert. Sobal am Stolperdraht "
+"Stolperdraht, der ihre Geschwindigkeit kontrolliert. Sobald am Stolperdraht "
 "gezogen wird, wird die Klige mit großer Kraft umhergeschwungen. Die Falle "
 "ist in einem Bereich von 3×3 Feldern wirksam."
 
@@ -24815,7 +24818,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "Granade"
-msgstr "Granate"
+msgstr "Granade"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -24826,7 +24829,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "active Granade"
-msgstr "aktive Granate"
+msgstr "aktive Granade"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -24849,7 +24852,8 @@ msgstr ""
 "Dies ist eine miltärische Blendgranate nach Polizeiart. Benutze diesen "
 "Gegenstand, um den Stift zu ziehen und die Zündschnur anzuzünden. Du wirst "
 "dann fünf Züge Zeit haben, bevor sie mit einem grellem Licht und schrillem "
-"Ton, was jeden in der Nähe blendet, betäubt und orientierungslos macht."
+"Ton detoniert, was jeden in der Nähe blendet, betäubt und orientierungslos "
+"macht."
 
 #: lang/json/TOOL_from_json.py
 msgid "active flashbang"
@@ -24862,8 +24866,8 @@ msgid ""
 "idea to throw it!"
 msgstr ""
 "Diese Blendgranate ist aktiviert und wird gleich mit einem grellem Licht und "
-"schrillem Ton, was jeden in der Nähe blendet, betäubt und orientierungslos "
-"macht, detonieren. Es wäre eine gute Idee, sie zu werfen!"
+"schrillem Ton detonieren, was jeden in der Nähe blendet, betäubt und "
+"orientierungslos macht. Es wäre eine gute Idee, sie zu werfen!"
 
 #: lang/json/TOOL_from_json.py
 msgid "EMP grenade"
@@ -24941,9 +24945,9 @@ msgstr ""
 "Dies ist eine Kanistergranate, die mit giftigen Reizerregern gefüllt ist. "
 "Benutze diesen Gegenstand, um den Stift zu ziehen und die Zündschnur "
 "anzuzünden, was ihn in eine aktive Tränengasgranate verwandelt. Nach fünf "
-"Zügen wird es damit anfangen, ein hochgiftiges Gas für einige Zeit "
+"Zügen wird er damit anfangen, ein hochgiftiges Gas für einige Zeit "
 "abzugeben. Das Gas schädigt und verlangsamt die, die es betreten und "
-"vernebel sowohl die Sicht als auch Duftnoten."
+"vernebelt sowohl die Sicht als auch Duftnoten."
 
 #: lang/json/TOOL_from_json.py
 msgid "active tear gas grenade"
@@ -24987,8 +24991,8 @@ msgid ""
 "This smoke bomb has had its pin removed, indicating that it is (or will "
 "shortly be) expelling thick smoke."
 msgstr ""
-"Dieser Rauchgranate wurde der Splint entfernt, was in kürze zur Abgabe von "
-"dickem Rauch führen wird."
+"Dieser Rauchgranate wurde der Splint entfernt, was bedeutet, dass sie jetzt "
+"dicken Rauch abgibt (oder gleich abgeben wird)."
 
 #: lang/json/TOOL_from_json.py
 msgid "flammable arrow"
@@ -25030,10 +25034,10 @@ msgid ""
 msgstr ""
 "Eine Flasche gefüllt mit einer brennbaren Flüssigkeit und mit einem "
 "brennenden Lappen verschlossen. Die Flasche kann jetzt geworfen werden. Beim "
-"Aufprall der Flasche verteilen verteilt sich ihr Inhalt im umliegenden "
-"Gebiet und entflamme dieses. Der angezündete Lappen kann erlischen wenn die "
-"Flasche nicht geworfen wird. Vom Ablegen einer entzündeten Flasche ist aus "
-"sicherheitsgründen abzuraten."
+"Aufprall der Flasche verteilt sich ihr Inhalt im umliegenden Gebiet und "
+"entflammt dieses. Der angezündete Lappen kann erlischen, wenn die Flasche "
+"nicht geworfen wird. Vom Ablegen einer entzündeten Flasche ist aus "
+"Sicherheitsgründen abzuraten."
 
 #: lang/json/TOOL_from_json.py
 msgid "acid bomb"
@@ -25062,7 +25066,7 @@ msgid ""
 "acid."
 msgstr ""
 "Dies ist ein Glasfläschchen mit zwei sich vermischenden Chemikalien. Das "
-"Fläschchen fühlt sich kühler and und ihre Inhalte schäumen. Sobald diese "
+"Fläschchen fühlt sich kühler an und ihre Inhalte schäumen. Sobald diese "
 "Mixtur der Luft ausgesetzt wird (was passieren könnte, wenn du das "
 "Fläschchen wirfst), wird sie einen Säurepfuhl hinterlassen."
 
@@ -25096,7 +25100,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "pack of firecrackers"
-msgstr "Packung Knallfrösche"
+msgstr "Böllerpackung"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -25109,11 +25113,11 @@ msgstr ""
 "Gegenstand, um die Zündschnur anzuzünden. Natürlich brauchst du ein "
 "Feuerzeug oder ein paar Streichhölzer, um das tun zu können. Kurz nachdem du "
 "die Zündschnur angezündet hast, werden sie anfangen, zu explodieren, also "
-"wird sie schnell!"
+"wirf sie schnell!"
 
 #: lang/json/TOOL_from_json.py
 msgid "pack of firecrackers (lit)"
-msgstr "Packung Knallfrösche (angezündet)"
+msgstr "Böllerpackung (angezündet)"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -25125,7 +25129,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "firecracker"
-msgstr "Knallfrosch"
+msgstr "Böller"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -25140,7 +25144,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "firecracker (lit)"
-msgstr "Knallfrosch (angezündet)"
+msgstr "Böller (angezündet)"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -25174,7 +25178,7 @@ msgid ""
 "it will soon explode. You should probably get far, far away from it."
 msgstr ""
 "Bei diesem Atombömbchen blinkt eine Lampe an der Seite, was bedeutet, dass "
-"es gleich explodieren wird. Du solltest vielleicht weit, weit weg davon "
+"sie gleich explodieren wird. Du solltest vielleicht weit, weit weg davon "
 "gehen."
 
 #: lang/json/TOOL_from_json.py
@@ -25216,8 +25220,8 @@ msgid ""
 msgstr ""
 "Dies ist eine inaktive Klingendrohne. Klingendrohnen sind faustgroße "
 "Roboter, welche durch die Luft fliegen. Sie sind überdeckt mit schwirrenden "
-"Klingen und greifen an, in dem sie sich selbst gegen ihr Ziel schleudern. "
-"Benutze dieses Item, um die Klingendrohne zu aktivieren."
+"Klingen und greifen an, indem sie sich selbst gegen ihr Ziel schleudern. "
+"Benutze diesen Gegenstand, um die Klingendrohne zu aktivieren."
 
 #: lang/json/TOOL_from_json.py
 msgid "inactive turret"
@@ -25554,7 +25558,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "rollmat"
-msgstr "Rollmatte"
+msgstr "Isomatte"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -25754,7 +25758,7 @@ msgid ""
 "Use to shut off the gas."
 msgstr ""
 "Dies ist eine Katana, die mit der Wut und Hitze der SONNE glüht! Nunja, "
-"okay, es ist SO heiß, aber damit getroffen zu werden, tut immer noch "
+"okay, es ist nicht SO heiß, aber damit getroffen zu werden, tut immer noch "
 "teuflisch weh. Benutze sie, um die Benzinzufuhr abzuschalten."
 
 #: lang/json/TOOL_from_json.py
@@ -25847,8 +25851,9 @@ msgid ""
 "who's Lord around here."
 msgstr ""
 "Dies ist eine Kombiation zweier mittelalterlicher "
-"Konfliktauflösungsklassiker, das Breitschwert und die Fackel. Benutze es, um "
-"es anzuzünden und zeig diesen Heidenzombies, wer ihr Herr ist."
+"Konfliktauflösungsklassiker, nämlich dem Breitschwert und der Fackel. "
+"Benutze diesen Gegenstand, um die Fackel anzuzünden und zeig diesen "
+"Heidenzombies, wer ihr Herr ist."
 
 #: lang/json/TOOL_from_json.py
 msgid "firebrand (on)"
@@ -25861,8 +25866,8 @@ msgid ""
 "it's heart out. Use to shut it off."
 msgstr ""
 "Dies ist eine Kombiation zweier mittelalterlicher "
-"Konfliktauflösungsklassiker, das Breitschwert und die Fackel. Die Klinge "
-"glüht vor Hitze. Excalibur kann sich verzehren. Benutze es, um es "
+"Konfliktauflösungsklassiker, nämlich dem Breitschwert und der Fackel. Die "
+"Klinge glüht vor Hitze. Excalibur kann sich verzehren. Benutze es, um es "
 "abzuschalten."
 
 #: lang/json/TOOL_from_json.py
@@ -25889,7 +25894,7 @@ msgid ""
 msgstr ""
 "Dies ist eine große Klinge mit einem Treibstoffröhchen an der Seite und "
 "einem kleinen Tank mit Zündvorrichtung, die am isoliertem Griff angebracht "
-"sind. Wenn er mit Benzin gefüllt wurde, kann die Klinge glühend heiß gemacht "
+"ist. Wenn er mit Benzin gefüllt wurde, kann die Klinge glühend heiß gemacht "
 "werden, um Feinde zu versengen und dir den Weg zu leuchten. Benutzen zum "
 "Anzünden."
 
@@ -25905,7 +25910,7 @@ msgid ""
 msgstr ""
 "Dies ist eine große Klinge mit einem Treibstoffröhchen an der Seite und "
 "einem kleinen Tank mit Zündvorrichtung, die am isoliertem Griff angebracht "
-"sind. Die Klinge glüht hell. Benutzen, um die Treibstoffzufuhr abzuschalten."
+"ist. Die Klinge glüht hell. Benutzen, um die Treibstoffzufuhr abzuschalten."
 
 #: lang/json/TOOL_from_json.py
 msgid "makeshift halberd"
@@ -25941,8 +25946,8 @@ msgid ""
 "This is a sharp, heavy knife. It makes a good melee weapon, and is an ideal "
 "item for butchering corpses."
 msgstr ""
-"Dies ist ein scharfes, schweres Messer. Es ist eine gute Nahkampfwaffe und "
-"ist der Ideale Gegenstand fürs Schlachten von Leichen."
+"Dies ist ein scharfes schweres Messer. Es ist eine gute Nahkampfwaffe und "
+"ist der ideale Gegenstand fürs Schlachten von Leichen."
 
 #: lang/json/TOOL_from_json.py
 msgid "combat knife"
@@ -25955,7 +25960,7 @@ msgid ""
 "be used to butcher corpses."
 msgstr ""
 "Dies ist ein miltärisches Kampfmesser für den Nahkampf. Es ist leicht und "
-"sehr schaft und könnte in richtigen Händen tödlich sein. Es könnte zum "
+"sehr scharf und könnte in richtigen Händen tödlich sein. Es könnte zum "
 "Schlachten von Leichen verwendet werden."
 
 #: lang/json/TOOL_from_json.py
@@ -25975,7 +25980,7 @@ msgid ""
 "This is a large, two-handed wood axe. It makes a good melee weapon, but is a "
 "bit slow to recover between swings."
 msgstr ""
-"Dies ist eine große, zweihändige Holzaxt. Sie ist eine gute Nahkampfwaffe "
+"Dies ist eine große, zweihändige Holzaxt. Sie ist eine gute Nahkampfwaffe, "
 "aber es langsam, sich nach einem Schwung wieder aufzuraffen."
 
 #: lang/json/TOOL_from_json.py
@@ -25988,7 +25993,7 @@ msgid ""
 "makes a powerful melee weapon, but is a bit slow to recover between swings."
 msgstr ""
 "Dies ist eine große, zweihändige Feuerwehraxt, die normalerweise von "
-"Feuerwehrleuten benutzt wird. Sie ist eine starke Nahkampfwaffe aber es "
+"Feuerwehrleuten benutzt wird. Sie ist eine starke Nahkampfwaffe, aber es "
 "langsam, sich nach einem Schwung wieder aufzuraffen."
 
 #: lang/json/TOOL_from_json.py
@@ -26061,8 +26066,8 @@ msgid ""
 "lighter or matches to light it."
 msgstr ""
 "Dies ist eins robuster Holzschläger, der in benzingetränkten Lumpen "
-"umwickelt wurde. Zünde es an und das Spiel wird WIRKLICH hitzig. Du brauchst "
-"ein Feuerzeug oder Streichhölzer, um ihn anzuzünden."
+"umwickelt wurde. Zünde ihn an und das Spiel wird WIRKLICH hitzig. Du "
+"brauchst ein Feuerzeug oder Streichhölzer, um ihn anzuzünden."
 
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "Louisville Slaughterer (lit)"
@@ -26140,7 +26145,7 @@ msgid ""
 "This is a small, makeshift funnel used to collect rainwater. Use it outside "
 "and place a container beneath it to collect water when it rains."
 msgstr ""
-"Dies ist ein kleiner, selbstgebauter Trichter zum Sammeln von Regenwasser. "
+"Dies ist ein kleiner selbstgebauter Trichter zum Sammeln von Regenwasser. "
 "Benutze ihn draußen und platziere einen Behälter unter ihn, um Regenwasser "
 "zu sammeln."
 
@@ -26435,9 +26440,9 @@ msgid ""
 "This is a sharpened stone affixed to a stick. It works passably well as an "
 "axe but really can't compare to a proper axe."
 msgstr ""
-"Dies ist ein scharfer Stein, der an einem Stock angebracht wurde. Sie "
-"funktioniert schon ganz gut wie eine Axt aber ist wahrhaft kein Vergleich zu "
-"einer richtigen Axt."
+"Dies ist ein scharfer Stein, der an einem Stock angebracht wurde. Dieses "
+"Werkzeug funktioniert schon ganz gut wie eine Axt aber ist wahrhaft kein "
+"Vergleich zu einer richtigen Axt."
 
 #: lang/json/TOOL_from_json.py
 msgid "stone shovel"
@@ -26448,7 +26453,7 @@ msgid ""
 "This is a flattened stone affixed to a stick. It works passably well as a "
 "shovel but really can't compare to a real shovel."
 msgstr ""
-"Dies ist ein geplätteter Stein, der an einem Stock angebracht wurde. Sie "
+"Dies ist ein geplätteter Stein, der an einem Stock angebracht wurde. Das "
 "funktioniert schon ganz gut als Schaufel, aber ist wahrhaft kein Vergleich "
 "zu einer richtigen Schaufel."
 
@@ -26488,7 +26493,7 @@ msgid ""
 msgstr ""
 "Dies ist ein großer Stock, dessen Ende in eine breite Klinge zum Graben "
 "geschnitzt wurde. Er könnte benutzt werden, um flache Gruben zu graben, aber "
-"keine Tiefen."
+"keine tiefen."
 
 #: lang/json/TOOL_from_json.py
 msgid "shelter kit"
@@ -26536,7 +26541,7 @@ msgid ""
 msgstr ""
 "Dies ist ein thermochemischer Wärmespeicher. Es wird benutzt, um "
 "Sportverletzungen zu behandeln und Nahrung zu erwärmen. Dieser wurde benutzt "
-"und ist chemisch inaktive, was ihn nutzlos macht."
+"und ist chemisch inaktiv, was ihn nutzlos macht."
 
 #: lang/json/TOOL_from_json.py
 msgid "packed M72 LAW"
@@ -26667,8 +26672,8 @@ msgid ""
 "This is sealed glass jar containing pickled human flesh. Use to open. You "
 "might even enjoy it."
 msgstr ""
-"Dies ist ein versiegeltes Einmachglas mit Kompot. Benutze es, um es zu "
-"öffnen. Du könntest es sogar genießen."
+"Dies ist ein versiegeltes Einmachglas mit gepökeltem Menschenfleisch. "
+"Benutze es, um es zu öffnen. Du könntest es sogar genießen."
 
 #: lang/json/TOOL_from_json.py
 msgid "cordless drill"
@@ -26746,7 +26751,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "vacuum-packed fruit slices"
-msgstr "vakuumverpackte Fruchtstückchen"
+msgstr "vakuumverpackte Obststückchen"
 
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -26883,7 +26888,7 @@ msgid ""
 "smoke recreational substances."
 msgstr ""
 "Dies ist eine handgeblasene Glaspfeife. Es ist eine der Art von Pfeifen, die "
-"am meisten für das Rauchen von Partydrogen benutzt werden."
+"am Meisten für das Rauchen von Partydrogen benutzt werden."
 
 #: lang/json/TOOL_from_json.py
 msgid "tobacco pipe"
@@ -26894,8 +26899,8 @@ msgid ""
 "This is a hand-carved wooden smoking pipe. It's designed to facilitate "
 "consumption of fire cured tobacco leaves."
 msgstr ""
-"Ist ist eine handgeschnitzte hölzerne Tabakspfeife. Sie wurde dafür gemacht, "
-"um den Konsum von geräucherten Tabakblättern zu ermöglichen."
+"Dies ist eine handgeschnitzte hölzerne Tabakspfeife. Sie wurde dafür "
+"gemacht, den Konsum von geräucherten Tabakblättern zu ermöglichen."
 
 #: lang/json/TOOL_from_json.py
 msgid "electric forge"
@@ -26948,7 +26953,7 @@ msgid ""
 "These are long, aluminum tongs. They are is commonly used for cooking or in "
 "metalworking fabrication recipes."
 msgstr ""
-"Dies ist eine lange Stahlzange. Sie wird üblicherweise beim Kochen oder "
+"Dies ist eine lange Aluminiumzange. Sie wird üblicherweise beim Kochen oder "
 "Schmieden verwendet."
 
 #: lang/json/TOOL_from_json.py
@@ -27248,9 +27253,9 @@ msgid ""
 "advanced fast-healing chemicals through the skin without using a needle. A "
 "label on the side warns against using more than two doses per hour."
 msgstr ""
-"Die Rictech RX12-Impfpistole ist ein kleines pistolenförmiges Gerät, das "
+"Die Rivtech RX12-Impfpistole ist ein kleines pistolenförmiges Gerät, das "
 "benutzt wird, um fortschrittliche schnellheilende Chemikalien durch die Haut "
-"ohne eine Nadel zu injizieeren. Ein Aufkleber an der Seite warnt davor, mehr "
+"ohne eine Nadel zu injizieren. Ein Aufkleber an der Seite warnt davor, mehr "
 "als zwei Dosen pro Stunde einzunehmen."
 
 #: lang/json/TOOL_from_json.py
@@ -27347,7 +27352,7 @@ msgid ""
 msgstr ""
 "Dies ist ein vollständiger Werkzeugkasten, um beschädigte Feuerwaffen zu "
 "reparieren. Es wird mit Standardbatterien betrieben und ist ein wichtiges "
-"Werkzeug für die langfristige Wartung von Feuerwaffen. Er benötigt 100 "
+"Werkzeug für die langfristige Wartung von Feuerwaffen. Er benötigt 25 "
 "Batterieladungen pro Benutzung."
 
 #: lang/json/TOOL_from_json.py
@@ -27404,7 +27409,7 @@ msgstr "breites Rad"
 
 #: lang/json/VAR_VEH_PART_from_json.py
 msgid "A wide wheel. \\o/ This wide."
-msgstr "Ein breites Rad. \\o/ So breit."
+msgstr "Ein breites Rad. So breit: \\o/"
 
 #: lang/json/VAR_VEH_PART_from_json.py
 #: lang/json/vehicle_part_from_json.py
@@ -27652,7 +27657,7 @@ msgstr "Komponenten"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "dart"
-msgstr "Dartpfeil"
+msgstr "Dart"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "speargun spear"
@@ -27909,8 +27914,8 @@ msgid ""
 " Note that this does not affect your internal temperature."
 msgstr ""
 "Starke Kühlkörper und Supermaterialien sind in dein Fleisch verwoben. "
-"Solange es bestromt ist, wird dieses System Hitzeschaden von bis zu 2000 "
-"Grad Fahrenheit abwenden. Beachte, dass dies nicht deine Innentemperatur "
+"Solange es bestromt ist, wird dieses System Hitzeschaden von bis zu 1111 "
+"Grad Celsius abwenden. Beachte, dass dies nicht deine Innentemperatur "
 "beeinträchtigt."
 
 #: lang/json/bionic_from_json.py
@@ -27934,7 +27939,7 @@ msgid ""
 "Small sensors have been implanted in your heart, allowing you to analyse "
 "your blood.  This will detect many illnesses, drugs, and other conditions."
 msgstr ""
-"Kleine Sensoren wurden in dein Herz implantiert, das ermöglicht dier eine "
+"Kleine Sensoren wurden in dein Herz implantiert, das ermöglicht die eine "
 "Untersuchung deines Blutes. Dies wird viele Erkrankungen, Drogen und andere "
 "Leiden finden."
 
@@ -28063,8 +28068,8 @@ msgid ""
 "A malfunctioning bionic which occasionally discharges electricity through "
 "your body, causing pain and brief paralysis but no damage."
 msgstr ""
-"Ein defekter Bionik, welcher ab und zu Elektrizität durch deinen Körper "
-"entläd, was dir Schmerzen und kurzzeitige Paralyse aber keinen Schaden "
+"Ein defektes Bionik, welcher ab und zu Elektrizität durch deinen Körper "
+"entlädt, was dir Schmerzen und kurzzeitige Paralyse, aber keinen Schaden "
 "bereitet."
 
 #: lang/json/bionic_from_json.py
@@ -28088,7 +28093,7 @@ msgid ""
 "A malfunctioning bionic.  It doesn't perform any useful function, but will "
 "occasionally draw power from your batteries."
 msgstr ""
-"Ein defekter Bionik. Er hat keinerlei brauchbare Funktion, aber wird "
+"Ein defektes Bionik. Es hat keinerlei brauchbare Funktion, aber wird "
 "gelegentlich Strom von deinen Batterien verbrauchen."
 
 #: lang/json/bionic_from_json.py
@@ -28099,7 +28104,7 @@ msgstr "Krachmacher"
 msgid ""
 "A malfunctioning bionic.  It will occasionally emit a loud burst of noise."
 msgstr ""
-"Ein defekter Bionik. Er wird gelegentlich einen lauten Krachstoß machen."
+"Ein defektes Bionik. Es wird gelegentlich einen lauten Krachstoß machen."
 
 #: lang/json/bionic_from_json.py
 msgid "Power Overload"
@@ -28113,7 +28118,7 @@ msgid ""
 "has no effect if you have no internal batteries."
 msgstr ""
 "Beschädigte Stromkreise verursachen Kurzschlüsse in deinen Muskeln, wenn "
-"dein Strompegel ist über 75%%%% der Kapazität, was deine Stärke stark "
+"dein Strompegel über 75%%%% der Kapazität ist, was deine Stärke stark "
 "reduziert. Dies hat keinerlei Auswirkungen, wenn du keine internen Batterien "
 "hast."
 
@@ -28140,7 +28145,7 @@ msgid ""
 "Increases mouth encumbrance by one."
 msgstr ""
 "Du hast keine Ahnung, wie das KBM in deine Nase gelangt ist, aber egal, wie "
-"es dahin gekommen ist, macht dieses furchtbar fehlinstallierte Bionik "
+"es dahin gekommen ist, macht dieses furchtbar fehlinstallierte Bionik es "
 "schwierig zum Atmen. Erhöht die Mundbelastung um 1."
 
 #: lang/json/bionic_from_json.py
@@ -28170,7 +28175,7 @@ msgid ""
 "periodically stuns you for a short duration."
 msgstr ""
 "Nachdem du eine piezoelektrische Spule verkehrt herum eingebaut, zwei Drähte "
-"kreuztest und vier Kondensatoren hast abrauchen lassen, begannst du, zu den "
+"gekreuzt und vier Kondensatoren hast abrauchen lassen, begannst du, zu den "
 "unpassensten Zeiten auf dein Gesicht zu fallen und dich herumzukrümmen. "
 "Dieses fehlkonfigurierte Bionik betäubt dich regelmäßig für einen Augenblick."
 
@@ -28540,7 +28545,7 @@ msgstr ""
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you an oddly medicated feeling."
-msgstr "Deine Träume geben dir ein komisches medizinisches Gefühl."
+msgstr "Deine Träume geben dir ein komisch medizinisches Gefühl."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about birds."
@@ -28616,7 +28621,7 @@ msgstr "Deine Träume geben dir ein seltsames pflanzenartiges Gefühl."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about slime."
-msgstr "Du hast einen seltsamen Träum über Schleim."
+msgstr "Du hast einen seltsamen Traum über Schleim."
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange slimy feeling."
@@ -28722,7 +28727,7 @@ msgstr "Du träumst davon, im offenen Ozean zu schwimmen."
 #: lang/json/dream_from_json.py
 msgid "In your dream, you see a strangely fishlike image of yourself."
 msgstr ""
-"In deinem Traum siehst du eine seltsames fischartiges Bild von dir selbst."
+"In deinem Traum siehst du ein seltsam fischartiges Bild von dir selbst."
 
 #: lang/json/dream_from_json.py
 msgid "You have a vivid dream of hunting in the woods."
@@ -28731,14 +28736,14 @@ msgstr "Du hast einen lebhaften Traum über das Jagen im Wald."
 #: lang/json/dream_from_json.py
 msgid "Whilst dreaming, you see a disturbingly bestial version of yourself."
 msgstr ""
-"Während des Träumenst siehst du eine verstörend bestienartige Variante von "
+"Während des Träumens siehst du eine verstörend bestienartige Variante von "
 "dir Selbst."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of foraging in the woods...mouth-first?"
 msgstr ""
-"Du träumst von der Futtersuche im Wald und davon, wie du … es direkt vom "
-"Boden frisst?"
+"Du träumst von der Futtersuche im Wald und davon, wie du … direkt vom Boden "
+"frisst?"
 
 #: lang/json/dream_from_json.py
 msgid "Your dream-reflection is rather bearish."
@@ -28747,7 +28752,7 @@ msgstr "Im Traum bist du ziemlich bärig."
 #: lang/json/dream_from_json.py
 msgid "You easily bound from the street to a roof..oh, only a dream."
 msgstr ""
-"Mit Leichtigkeit springst du von der Straße auf ein Dack … Moment, das war "
+"Mit Leichtigkeit springst du von der Straße auf ein Dach … Moment, das war "
 "nur ein Traum."
 
 #: lang/json/dream_from_json.py
@@ -28783,7 +28788,7 @@ msgid ""
 "While dreaming you look into a mirror and see a frighteningly insectoid "
 "reflection."
 msgstr ""
-"Beim Träumen blickst du in einem Spiegeln und siehst eine angsteinflößdne "
+"Beim Träumen blickst du in einen Spiegel und siehst eine angsteinflößend "
 "insektenartige Reflektion."
 
 #: lang/json/dream_from_json.py
@@ -28803,7 +28808,7 @@ msgstr "Du hast einen komischen Traum über das Leben im Schlamm."
 #: lang/json/dream_from_json.py
 msgid "In your dream you see an odd, slimy reflection of yourself."
 msgstr ""
-"In einem Traum siehst du eine seltsame, schleimige Reflektion von dir."
+"In einem Traum siehst du eine seltsame schleimige Reflektion von dir."
 
 #: lang/json/dream_from_json.py
 msgid "You dream of living deep inside a dark cave."
@@ -28821,11 +28826,11 @@ msgstr "Du träumst davon, auf den Meeresboden zu leben."
 msgid ""
 "While dreaming, a reflection of yourself appears almost like an octopus."
 msgstr ""
-"Im Traum sieht eine Reflektion von dir aus fast so aus wie ein Oktopus."
+"Im Traum sieht eine Reflektion von dir aus fast so wie ein Oktopus aus."
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream of spinning webs"
-msgstr "Du hast einen seltsamen Traum über das weben von Netzen."
+msgstr "Du hast einen seltsamen Traum über das Spinnen von Netzen."
 
 #: lang/json/dream_from_json.py
 msgid "In your dream you see a very spiderlike version of yourself."
@@ -28910,14 +28915,14 @@ msgid ""
 msgstr ""
 "Du hast einen lebendigen Traum darüber, wie du eine medizinische Anomalie "
 "bist, weil dein Herzschlag sich mit dem stetigen Tropfen eines "
-"Infusionsschauchs synchronisiert."
+"Infusionsschlauchs synchronisiert."
 
 #: lang/json/dream_from_json.py
 msgid ""
 "You have a realistic dream of flying south with your flock for the winter."
 msgstr ""
 "Du hast einen realistischen Traum, in dem du mit deiner Vogelschar für den "
-"Winder nach Süden fliegst."
+"Winter nach Süden fliegst."
 
 #: lang/json/dream_from_json.py
 msgid ""
@@ -28983,19 +28988,19 @@ msgstr "Du träumst, wie du dich über eine frische Beute hermachst."
 #: lang/json/dream_from_json.py
 msgid "You dream of finally finding the perfect place to make your den."
 msgstr ""
-"Du träumst davon, wie du endlich das perfekte Plätchen findest, um deinen "
+"Du träumst davon, wie du endlich das perfekte Plätzchen findest, um deinen "
 "Bau zu machen."
 
 #: lang/json/dream_from_json.py
 msgid "You terrifyingly dream of being led to a slaughterhouse by a farmer."
 msgstr ""
-"Du hast einen führchterlichen Traum, in dem du von einem Bauerm zum "
+"Du hast einen führchterlichen Traum, in dem du von einem Bauern zum "
 "Schlachthaus geführt wirst."
 
 #: lang/json/dream_from_json.py
 msgid "You find it hard to wake from a vivid dream of grazing on a farm."
 msgstr ""
-"Dir fällt es schwer, von einem lebendigen Traum, in dem du in einem "
+"Dir fällt es schwer, aus einem lebendigen Traum, in dem du in einem "
 "Bauernhof grast, aufzuwachen."
 
 #: lang/json/dream_from_json.py
@@ -29071,7 +29076,7 @@ msgstr ""
 #: lang/json/dream_from_json.py
 msgid "You scream in fear while you dream of being chased by a cat"
 msgstr ""
-"Du schreist vor Angst, während du davon Träumst, wie du von einer Katze "
+"Du schreist vor Angst, während du davon träumst, wie du von einer Katze "
 "gejagt wirst."
 
 #: lang/json/dream_from_json.py
@@ -29173,7 +29178,7 @@ msgstr "Ausgepowert"
 msgid ""
 "You're knocked to the ground.  You have to get up before you can move."
 msgstr ""
-"Du wurdest zu Boden geschlagen. Du musst aufstehen bevor du weitergehen "
+"Du wurdest zu Boden geschlagen. Du musst aufstehen, bevor du weitergehen "
 "kannst."
 
 #: lang/json/effects_from_json.py src/disease.cpp
@@ -29194,7 +29199,7 @@ msgstr "Du bist bewegungsunfähig!"
 
 #: lang/json/effects_from_json.py
 msgid "On Fire"
-msgstr "Du Brennst"
+msgstr "In Flammen"
 
 #: lang/json/effects_from_json.py
 msgid ""
@@ -29474,16 +29479,16 @@ msgstr "Fing sich die Grippe ein."
 
 #: lang/json/effects_from_json.py src/disease.cpp
 msgid "You can't look away from the faultline..."
-msgstr "Du kannst nicht vom nahenden Abgrund wegsehen..."
+msgstr "Du kannst nicht von der Bruchlinie wegsehen."
 
 #: lang/json/effects_from_json.py src/disease.cpp
 msgid "You lie down to go to sleep..."
-msgstr "Du legst dich nieder und schläfst ein..."
+msgstr "Du legst dich nieder und schläfst ein."
 
 #: lang/json/effects_from_json.py
 #: src/disease.cpp
 msgid "You are snared."
-msgstr "Du bist verlangsamt."
+msgstr "Du bist gefangen."
 
 #: lang/json/effects_from_json.py src/disease.cpp
 msgid "You can't breathe... asthma attack!"
@@ -29491,7 +29496,7 @@ msgstr "Du kannst nicht atmen … Astmaanfall!"
 
 #: lang/json/effects_from_json.py src/disease.cpp
 msgid "The ceiling collapses on you!"
-msgstr "Die Decke bricht auf die herab!"
+msgstr "Die Decke bricht auf dich herab!"
 
 #: lang/json/effects_from_json.py src/disease.cpp
 msgid "It is excruciating."
@@ -29731,7 +29736,7 @@ msgid ""
 "you'll probably be left with no meat!  Use a BB gun or maybe a .22 rifle."
 msgstr ""
 "Eichhörnchen sind ziemlich lecker, aber wenn du sie mit einem starken Gewehr "
-"wird wahrscheinlich kein Fleisch mehr übrig bleiben! Benutze eine "
+"erschießt, wird wahrscheinlich kein Fleisch mehr übrig bleiben! Benutze eine "
 "Luftpistole oder vielleicht ein .22-Gewehr."
 
 #: lang/json/hint_from_json.py
@@ -29764,7 +29769,7 @@ msgid ""
 msgstr ""
 "Wenn du eine große Horde von Zombies kommen siehst, LAUF! Versuchen, sie "
 "alle zu bekämpfen, ist Selbstmord, außer du hast einen großen taktischen "
-"Vorsprung."
+"Vorteil."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -29788,8 +29793,8 @@ msgid ""
 "it.  Eating up items will help neutralize the acid faster."
 msgstr ""
 "Falls ein Säurepfuhl dir den Weg versperrt, versuch, ein paar nutzlose "
-"Gegenstände reinzu werfen. Das zerfressen von Gegenständen hilft dabei, die "
-"Säure schneller zu neutralisieren."
+"Gegenstände reinzuwerfen. Wenn Gegenstände zerfressen werden, wird die Säure "
+"schneller neutralisiert."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -29834,9 +29839,9 @@ msgid ""
 "Try not to kill a boomer if it's standing right next to you.  They tend to "
 "explode when they die, and that pink goop will get all over you."
 msgstr ""
-"Versuch nicht, einen Boomer zu töten, wenn er direkt neben dir steeht. Sie "
-"tendieren dazu, beim Tod zu explodieren, und die rosane Galle wird dich "
-"komplett überziehen."
+"Versuch nicht, einen Boomer zu töten, wenn er direkt neben dir steht. Sie "
+"neigen dazu, beim Tod zu explodieren, und die rosa Galle würde dich komplett "
+"überziehen."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -29854,7 +29859,7 @@ msgid ""
 "can sneak right past."
 msgstr ""
 "Skelette sind zu empfindlich, um durch Türen oder Fenster zu schlagen. Sie "
-"können dich außerdem nicht riehen, anders als bei Zombies. Wenn du also "
+"können dich außerdem nicht riechen, anders als bei Zombies. Wenn du also "
 "nachts deine Taschenlampe abschaltest, kannst du dich einfach "
 "vorbeischleichen."
 
@@ -29891,16 +29896,16 @@ msgid ""
 "Triffids can't see!  They figure out where you are by your smell, but if you "
 "mask it with smoke or something, you're as good as invisible."
 msgstr ""
-"Triffiden können sehen! Sie finden deine Position durch deinen Geruch, aber "
-"wenn du ihn mit Rauch oder irgendwas überdeckst, bist du so gut wie nicht "
-"auffindbar."
+"Triffiden können nicht sehen! Sie finden deine Position durch deinen Geruch, "
+"aber wenn du ihn mit Rauch oder irgendwas überdeckst, bist du so gut wie "
+"nicht auffindbar."
 
 #: lang/json/hint_from_json.py
 msgid ""
 "I figured out how to take care of those triffids!  Let me just say this: "
 "they're made of wood, and wood and fire don't mix."
 msgstr ""
-"Ich habe herausgefunden, wie man sich um diese Triffiden kümmert. Lass mich "
+"Ich habe herausgefunden, wie man mit diesen Triffiden fertig wird. Lass mich "
 "nur eins sagen: Sie sind aus Holz. Und Holz und Feuer vertragen sich nicht."
 
 #: lang/json/hint_from_json.py
@@ -29919,9 +29924,9 @@ msgid ""
 "walls!  He said it was some kind of huge triffid making it happen..."
 msgstr ""
 "Ich habe einen Kumpel, der in dieser Blockhütte weit fern in den Wäldern "
-"schlafen war, als er plötzlichdavon geweckt wurde, wie Bäumen und Reben, die "
-"durch den Fußboden und die Wände wuchsen. Er sagte, dass irgendein riesiger "
-"Triffid das angestellt hätte …"
+"schlafen war, als er plötzlich davon geweckt wurde, wie Bäumen und Reben, "
+"die durch den Fußboden und die Wände wuchsen. Er sagte, dass irgendein "
+"riesiger Triffid das angestellt hätte …"
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -29937,8 +29942,8 @@ msgid ""
 "There's snakes down in most of the old sewer systems.  They're slow on land, "
 "but boy, those suckers can swim fast!"
 msgstr ""
-"Es gibt Schlangen da unten in den meisten von den alten Abwassersystemen. "
-"Sie sind langsam zu Land, aber Junge, diese Biester können schnell schwimmen!"
+"Es gibt Schlangen da unten in den meisten der alten Abwassersysteme. Sie "
+"sind langsam zu Land, aber Junge, diese Biester können schnell schwimmen!"
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -29990,7 +29995,7 @@ msgid ""
 "crawl through, giving you lots of opportunities to hit them."
 msgstr ""
 "Es ist eine gute Taktik, hinter einem Fenster zu stehen. Zombies brauchen "
-"lange, um durchzuklettert, was die viele Gelegenheiten, sie zu treffen, gibt."
+"lange, um durchzuklettern, was dir viele Gelegenheiten, sie zu treffen, gibt."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -30046,8 +30051,8 @@ msgid ""
 "alcohol on fire.  Then duck out the back door, and watch the zombies run "
 "into a burning building!"
 msgstr ""
-"Hier ist ein Trick, sich um einen großen Zombieschwarm, der dich jagt, zu "
-"kümmern: Geh in einen Spirituosenladen, zerschmettere so viele Flaschen, wie "
+"Hier ist ein Trick, mit einen großen Zombieschwarm, der dich jagt, fertig zu "
+"werden: Geh in einen Spirituosenladen, zerschmettere so viele Flaschen, wie "
 "du kannst, dann zünde den Alkohol an. Dann verschwinde durch die Hintertür "
 "und sieh zu, wie die Zombies in ein abfackelndes Gebäude rennen!"
 
@@ -30103,9 +30108,9 @@ msgid ""
 "retrieve the bolt after shooting it, so running out of ammo is less of a "
 "concern."
 msgstr ""
-"Auf lange Sicht gesehen sind Armbrüste sind großartige Waffen. Meistens "
-"kannst du den Bolzen nach dem Verschießen wieder aufsammeln, somit ist "
-"Munitionsknappheit kein großes Bedenken."
+"Auf lange Sicht gesehen sind Armbrüste großartige Waffen. Meistens kannst du "
+"den Bolzen nach dem Verschießen wieder aufsammeln, somit ist "
+"Munitionsknappheit kein großes Problem."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -30132,7 +30137,7 @@ msgid ""
 "good at short and long range, and you can burst-fire if you need to!"
 msgstr ""
 "Eine gute Maschinenpistole ist unschlagbar. Die meisten von ihnen benutzen "
-"verbreitete Munition, sind gut auf kurzen und langen Distanzen und kannst "
+"verbreitete Munition, sind gut auf kurzen und langen Distanzen und du kannst "
 "bei Bedarf auch Feuerstöße abgeben!"
 
 #: lang/json/hint_from_json.py
@@ -30141,7 +30146,7 @@ msgid ""
 "them don't carry many rounds.  Keep a pistol as a sidearm if you use a rifle."
 msgstr ""
 "Jagdgewehre sind großartig auf langen Entfernungen, aber versagen bei "
-"Kurzen. Außerdem tragen die meisten von ihnen nicht viele Patronen. Nimm "
+"Kurzen. Außerdem tragen die Meisten von ihnen nicht viele Patronen. Nimm "
 "eine Pistole als Seitenwaffe mit, wenn du ein Gewehr benutzt."
 
 #: lang/json/hint_from_json.py
@@ -30203,7 +30208,7 @@ msgid ""
 "eyes.  Perfect for dealing with boomers!"
 msgstr ""
 "Eine Skibrille ist eine ausgezeichnete Wahl, wenn du darüber besorgt bist, "
-"Zeugs in deine Augen zu kriegen. Perekt, um mit Boomern umzugehen."
+"Zeugs in deine Augen zu kriegen. Perfekt, um mit Boomern umzugehen."
 
 #: lang/json/hint_from_json.py
 msgid ""
@@ -30237,7 +30242,7 @@ msgid ""
 "lonely nights, but you can learn a hell of a lot from some of them."
 msgstr ""
 "Unterschätze niemals ein gutes Buch. Es wird dir nicht nur in einsamen "
-"Nächten Gesellschaft leisten, du kannst auch aine Menge aus einigen von "
+"Nächten Gesellschaft leisten, du kannst auch eine Menge aus einigen von "
 "ihnen lernen."
 
 #: lang/json/hint_from_json.py
@@ -30680,7 +30685,7 @@ msgid ""
 "reconfigured for |||||ERROR: FILE CORRUPT|||||"
 msgstr ""
 ":.||||FEHLER||Da XE037 aus der Quarantäne entwich, empfiehlt Dr. Maiar, dass "
-"wir uns auf das Unabänderliche vorbereiden. PE050 kann schnell und billig "
+"wir uns auf das Unabänderliche vorbereiten. PE050 kann schnell und billig "
 "umkonfiguriert werden, um |||||FEHLER: DATEI BESCHÄDIGT|||||"
 
 #: lang/json/lab_note_from_json.py
@@ -30692,7 +30697,7 @@ msgid ""
 msgstr ""
 "Dr. Maiar wurde aufgrung unethischer Forschungen an menschlichen "
 "Testpersonen terminiert. Seine Notizen werden nun zerstört und sämtliches "
-"Personal unter ihm wurde neu zugeordnet. Weitere Diskussionen über oder "
+"Personal unter ihm wurde neu zugeordnet. Weitere Diskussionen darüber oder "
 "Versuche, seine Arbeit fortzuführen, werden Gründe für sofortige "
 "Terminierung sein."
 
@@ -30715,8 +30720,8 @@ msgid ""
 msgstr ""
 "Angesichts der aktuellen Bevölkerungsprognosen ist eine PE065-Verteilung "
 "nicht mehr machbar. Wir haben einfach nicht die Vorräte. Verbleibende "
-"Vermögen der Chemie- und Psychophamakologieabteilungen werden zu Dr. "
-"Sattlers PE070-Projekt zugeteilt."
+"Vermögen der Chemie- und Psychophamakologieabteilungen werden Dr. Sattlers "
+"PE070-Projekt zugeteilt."
 
 #: lang/json/lab_note_from_json.py
 msgid ""
@@ -30741,7 +30746,7 @@ msgid ""
 "future.  Several research teams are already investigating possible "
 "applications."
 msgstr ""
-"Jüngte Feldforschungs- und Gewinnungsbestrebungen resultierten zu einer "
+"Jüngste Feldforschungs- und Gewinnungsbestrebungen resultierten zu einer "
 "Reihe von Mutagenen, die dafür zugeschnitten sind, den Mutationsprozess in "
 "bestimmte Untertypen zu fokussieren. Diese wurden »PE025« bis »PE037« "
 "genannt. Obwohl sie signifikant ressourcen- und zeitintensiver in der "
@@ -30772,7 +30777,7 @@ msgstr ""
 "Dr. Dionnes Team entwickelte einen ambitionierten Mutagencocktail, genannt "
 "»PE065«. Obwohl seine Wirkungen gelinde gesagt stark polymorph und instabil "
 "sind, deutet Dionne an, dass verschiedene Mutanten solcher Art effektiv die "
-"Ausbreitung von reanimierten XE037-Infizierten überprüen könnten. Wir "
+"Ausbreitung von reanimierten XE037-Infizierten überprüfen könnten. Wir "
 "forschen nach einer Implementierungsmethodik."
 
 #: lang/json/lab_note_from_json.py
@@ -30786,7 +30791,7 @@ msgstr ""
 "mit niedriger Stabilität und viel Energie erzeugt, kann man sich in die 4. "
 "Dimension transponieren und sofort zurückkehren, aber um einige Meter "
 "verschoben. Unsere Testpersonen oszillierten so schnell, dass sich niemand "
-"von ihnen bewusst war, dass sie Niedrigfelder besuchten."
+"von ihnen bewusst war, dass sie niedere Ebenen besuchten."
 
 #: lang/json/lab_note_from_json.py
 msgid ""
@@ -30799,9 +30804,9 @@ msgstr ""
 "Die von Dr. Isha geführte Forschungsgruppe hat eine konzentrierte Form eines "
 "Mutagens, das vielverprechende Ergebnisse für die Behandlung vieler "
 "Erkrankungsformen zeigt, entwickelt. Tests zeigen, dass es die "
-"Schmerzempflindlichkeit des Körpers hemmt, während das Immunsystem und "
+"Schmerzempflindlichkeit des Körpers hemmt, während das Immunsystem und die "
 "Regenerationsfähigkeiten gestärkt werden, wobei allerdings von ein paar "
-"wenigen beunruhigenden Nebenwirkungen über das Verhalten berichtet wirde."
+"wenigen beunruhigenden Nebenwirkungen über das Verhalten berichtet wurde."
 
 #: lang/json/lab_note_from_json.py
 msgid ""
@@ -30860,8 +30865,8 @@ msgid ""
 "forces holding one on this plane."
 msgstr ""
 "Testpersonen in der Teleportationsabteilung zeigen alarmierende Symptome. Es "
-"scheint, dass längerfristige Instanttranspositionen an der 4. Dimension die "
-"Kräfte, einen auf dieser Ebene zu halten, schwächt."
+"scheint, dass längerfristige Instanttranspositionen entlang der 4. Dimension "
+"die Kräfte, einen auf dieser Ebene zu halten, schwächt."
 
 #: lang/json/lab_note_from_json.py
 msgid ""
@@ -30883,7 +30888,7 @@ msgid ""
 "is the basis of much of the life we have found."
 msgstr ""
 "Unser Lebensformextraktionsprogramm fährt fort, Proben des Exemplars XE037 "
-"zu produzieren. Es scheint eine Art lebender, teil-empfindungsfähige "
+"zu produzieren. Es scheint eine Art lebender, teil-empfindungsfähiger "
 "primordialer Schlamm zu sein und ist die Basis der meisten Lebensformen, die "
 "wir entdeckt haben."
 
@@ -30942,7 +30947,7 @@ msgstr ""
 "Unserer Klonabteilung gelang es nicht, Ergebnisse hervorzubringen. In den "
 "Klonbottichen, die Stammzellenbehandlungen und XE037 enthielten, und in den "
 "Kontrollbottichen lösten sich die Subjekte einfach auf. Das weist darauf "
-"hin, dass XE037, während es kompatibel mit Unterebenen-Lebensformen ist, nur "
+"hin, dass XE037, während es kompatibel mit Subebenen-Lebensformen ist, nur "
 "zerstörerische Wirkungen auf Hauptebenen-Lebensformen zeigt."
 
 #: lang/json/lab_note_from_json.py
@@ -30987,7 +30992,7 @@ msgid ""
 "contamination experiments."
 msgstr ""
 "Mendelson zeigte einen erschreckenden Mangel an Organisations- und "
-"Sicherheitsbewusstsein auf. Sichere Verwahrung von allem XE037-Proben ist "
+"Sicherheitsbewusstsein auf. Sichere Verwahrung von allen XE037-Proben ist "
 "von entscheidender Wichtigkeit, wie die Kontaminierungsexperimente zeigten."
 
 #: lang/json/lab_note_from_json.py
@@ -31163,7 +31168,7 @@ msgid ""
 "be random. T3D appears to be in immense pain as a result of these changes, "
 "but the lack of an oral opening has rendered him unable to vocalize."
 msgstr ""
-"Wie in den Tests von isolierten XE037-Probem hat die längerfristige "
+"Wie in den Tests von isolierten XE037-Proben hat die längerfristige "
 "Bestrahlung von T3D signifikante strukturelle Veränderungen hervorgerufen. "
 "Diese scheinen nicht zufällig zu sein. T3D scheint als Resultat dieser "
 "Veränderungen unter großen Schmerzen zu leiden, aber das Fehlen einer oralen "
@@ -31259,7 +31264,7 @@ msgstr ""
 "Morphologische Veränderungen nach dem Tode haben extreme Stufen angenommen; "
 "an diesem Morgen wuchs eine Testperson auf fast die doppelte Größe heran und "
 "hatte genug Stärke, um eine Betonwand in Schutt zu verwandeln. Es benötigte "
-"ein sechsköpfiges, schwerbewaffnetes Team, die Testperson erneut zu "
+"ein sechsköpfiges, schwerbewaffnetes Team, um die Testperson erneut zu "
 "terminieren."
 
 #: lang/json/lab_note_from_json.py
@@ -31489,7 +31494,7 @@ msgid ""
 msgstr ""
 "Obwohl Tai-Chi oft als eine Form des geistigen und körperlichen Trainings "
 "gesehen wird, ist es eine legitime Kampfkunst, die auf Selbstverteidigung "
-"spezialisiert ist. Dessen Fähigkeit, die Kraft eines Angriffs zu verringern, "
+"spezialisiert ist. Ihre Fähigkeit, die Kraft eines Angriffs zu verringern, "
 "lässt deine Wahrnehmung den Schaden bei einer Abblockung noch weiter "
 "verringern."
 
@@ -31508,8 +31513,8 @@ msgid ""
 "damage and attacking boosts dodge. These bonuses stack up to three times "
 "each."
 msgstr ""
-"Capoeira ist ein tanzartiger Kampfstil, dessen Wurzeln in der "
-"brasilianischen Sklaverei liegen. Sie spezialisiert sich auf flüssige "
+"Capoeira ist ein tanzartiger Kampfstil, dem seine Wurzeln in der "
+"brasilianischen Sklaverei liegen. Er spezialisiert sich auf flüssige "
 "Bewegungen und schwunghafte Tritte. Die Bewegung um ein Feld wird die "
 "Angriffsstärke, der Angriff die Ausweichfähigkeit erhöhen. Diese Boni "
 "erhöhen sich jeweils bis zu drei mal hintereinander."
@@ -31588,7 +31593,7 @@ msgstr ""
 "Ninjutsu ist eine Kampfkunst und eine Menge an Taktiken, die von Ninjas im "
 "feudalem Japan benutzt wurden. Es konzentriert sich auf schnelle, präzise, "
 "lautlose Schläge. Ninjutsu ist fast vollkommen lautlos. Es bringt außerdem "
-"kleine Kampfboni jedes mal, wenn man sich bewegt."
+"kleine Kampfboni bei jedem Mal, wenn man sich bewegt."
 
 #: lang/json/martial_art_from_json.py
 msgid "Silent melee attacks"
@@ -31651,7 +31656,7 @@ msgid ""
 "moving a tile."
 msgstr ""
 "Einer der fünf tierischen Shaolin-Kampftechniken. Der »Kranich« benutzt "
-"verzwickte Handtechniken und Ausweichssprüngen. Die Geschicklichkeit, nicht "
+"verzwickte Handtechniken und Ausweichssprünge. Die Geschicklichkeit, nicht "
 "die Stärke, bestimmt den Großteil deines Schadens; du erhälst außerdem einen "
 "Ausweichbonus an dem Zug, nachdem du dich um ein Feld bewegt hast."
 
@@ -31771,7 +31776,7 @@ msgid ""
 "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid "
 "strikes.  Each attack you land reduces the cost of attacking by 4."
 msgstr ""
-"Einer der »Fünf Tödlichen Gifte«. Der »Tausendfüßler« verwendet einen Sturm "
+"Eines der »Fünf Tödlichen Gifte«. Der »Tausendfüßler« verwendet einen Sturm "
 "von schnellen Schlägen. Jeder Angriff reduziert die Angriffskosten um 4."
 
 #: lang/json/martial_art_from_json.py
@@ -31792,7 +31797,7 @@ msgid ""
 "uses pincer-like hands and a stinger kick.  Critical hits do massive damage "
 "and knock your target back."
 msgstr ""
-"Einer der »Fünf Tödlichen Gifte«. Der »Skropion« ist eine rätselhafte Kunst, "
+"Eines der »Fünf Tödlichen Gifte«. Der »Skropion« ist eine rätselhafte Kunst, "
 "die scherenähnliche Hände und einen Stacheltritt benutzt. Kritische Treffer "
 "richten massiven Schaden an und werfen dein Ziel zurück."
 
@@ -31814,7 +31819,7 @@ msgid ""
 "against all attacks.  You can meditate by pausing, giving you armor, though "
 "you will lose focus when you move."
 msgstr ""
-"Einer der »Fünf Tödlichen Gifte«. Die Meister des Krötenstils können sich "
+"Eines der »Fünf Tödlichen Gifte«. Die Meister des Krötenstils können sich "
 "selbst gegen alle Angriffe konzentrieren. Du kannst durch Pausieren "
 "meditieren, was dir Panzerung gibt, wobei du Konzentration verlierst, wenn "
 "du dich bewegst."
@@ -31837,7 +31842,7 @@ msgid ""
 "the next save-compatibility breaker. Lizard Style focuses on using walls to "
 "your advantage."
 msgstr ""
-"Einer der »Fünf Tödlichen Gifte«, der wahrscheinlich in der nächsten "
+"Eines der »Fünf Tödlichen Gifte«, das wahrscheinlich in der nächsten "
 "Spielstand-inkompatiblen Version zu einer Mutation umprogrammiert wird. Der "
 "Echsenstil konzentriert sich darauf, Wände zu deinem Vorteil zu verwenden."
 
@@ -32058,7 +32063,7 @@ msgstr "Knochen"
 
 #: lang/json/material_from_json.py src/faction.cpp
 msgid "Stone"
-msgstr "Steins"
+msgstr "Stein"
 
 #: lang/json/material_from_json.py
 msgid "Paper"
@@ -32208,7 +32213,7 @@ msgstr "Schneller Heiler"
 #: lang/json/mutation_from_json.py
 msgid "You heal a little faster than most; sleeping will heal more lost HP."
 msgstr ""
-"Du heilst dich ein bisschen schneller als die meisten; der Schlaf wird mehr "
+"Du heilst dich ein bisschen schneller als die Meisten; der Schlaf wird mehr "
 "verlorene Trefferpunkte wiederherstellen."
 
 #: lang/json/mutation_from_json.py
@@ -32926,7 +32931,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Hates Fruit"
-msgstr "Früchtehasser"
+msgstr "Obsthasser"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -32947,7 +32952,7 @@ msgid ""
 "penalties due to nausea."
 msgstr ""
 "Wie 75 Prozent der Welt kannst du keine Milch oder milchbasierte Produkte "
-"tolerieren. Es ist dir möglich, sie zu konsumieren, aber du wirst "
+"vertragen. Es ist dir möglich, sie zu konsumieren, aber du wirst "
 "Moralstrafen aufgrund von Übelkeit erleiden."
 
 #: lang/json/mutation_from_json.py
@@ -33101,7 +33106,8 @@ msgid ""
 msgstr ""
 "Du wirst periodisch unter Einbildungen leiden, sie reichen von kleineren "
 "Effekten bis zu völlig sichtbaren Halluzinationen. Einige dieser "
-"Auswirkungen können durch das Einnehmen von Thorazine kontrolliert werden."
+"Auswirkungen können durch das Einnehmen von Chlorpromazin kontrolliert "
+"werden."
 
 #: lang/json/mutation_from_json.py
 msgid "Clumsy"
@@ -33221,7 +33227,7 @@ msgid ""
 "Telling lies and otherwise bluffing will be much more difficult for you."
 msgstr ""
 "Wenn du versuchst, zu lügen, errötest du, stotterst und blickst rastlos "
-"umher. Lügen und Bluffen wird für dich viel schwieriger sein."
+"umher. Lügen und Täuschen wird für dich viel schwieriger sein."
 
 #: lang/json/mutation_from_json.py
 msgid "Ugly"
@@ -33297,7 +33303,7 @@ msgstr "Spröde Haut"
 #: lang/json/mutation_from_json.py
 msgid "Your skin is slightly rough. This has no gameplay effect."
 msgstr ""
-"Deine haut ist leicht spröde. Dies hat keine Auswirkungen auf die "
+"Deine Haut ist leicht spröde. Dies hat keine Auswirkungen auf die "
 "Spielmechanik."
 
 #: lang/json/mutation_from_json.py
@@ -33373,7 +33379,7 @@ msgid ""
 "Your optic nerves and brain caught up with your eyes.  Now you can see "
 "pretty well at night."
 msgstr ""
-"Deine Sehnerven und dein Gehirn sind mit deinen Augen gleichgezogen. Nun "
+"Deine Sehnerven und dein Gehirn haben mit deinen Augen gleichgezogen. Nun "
 "kannst du ziemlich gut in der Nacht sehen."
 
 #: lang/json/mutation_from_json.py
@@ -33429,7 +33435,7 @@ msgstr "Dein Fleisch reneriert sich von Wunden unglaublich schnell."
 
 #: lang/json/mutation_from_json.py
 msgid "Very Little Sleep"
-msgstr "Sehr wenig Schlag"
+msgstr "Sehr wenig Schlaf"
 
 #: lang/json/mutation_from_json.py
 msgid "You don't sleep often.  But when you do, you need very little of it."
@@ -33453,7 +33459,7 @@ msgid ""
 "Your teeth have grown into two-inch-long fangs, allowing you to make an "
 "extra attack when conditions favor it."
 msgstr ""
-"Deine Zähne sind zu 5-Zentimeter langen Reißzähnen gewachsen, was dich unter "
+"Deine Zähne sind zu 5 Zentimeter langen Reißzähnen gewachsen, was dich unter "
 "günstigen Bedingungen einen zusätzlichen Angriff starten lässst."
 
 #: lang/json/mutation_from_json.py
@@ -33467,7 +33473,7 @@ msgid ""
 "wet penalties."
 msgstr ""
 "Du hast einen zweiten Satz transparenter Augenlider, die geschlossen sind, "
-"während du unter dem Wasser bist. Das ließe dich durch sie hinausschauen, "
+"während du unter dem Wasser bist. Das lässt dich durch sie hinausschauen, "
 "als ob du eine Schwimmbrille trägst. Es verringert leicht die Moralstrafe "
 "für Nässe."
 
@@ -33492,8 +33498,8 @@ msgid ""
 "A set of flexible green scales has grown to cover your body, acting as "
 "natural armor. Somewhat reduces wet effects."
 msgstr ""
-"Eine Menge an flexibler grüner Schuppen sind als Bedeckung über deinen "
-"Körper gewachsen; sie dienen als natürliche Panzerung. Reduziert etwas die "
+"Eine paar flexible grüne Schuppen sind als Bedeckung über deinen Körper "
+"gewachsen; sie dienen als natürliche Panzerung. Reduziert etwas die "
 "Auswirkungen von Nässe."
 
 #: lang/json/mutation_from_json.py
@@ -33506,7 +33512,7 @@ msgid ""
 "armor. While difficult to penetrate, it also limits your flexibility, "
 "resulting in a -2 penalty to Dexterity. Greatly reduces wet effects."
 msgstr ""
-"Eine Menge an schweren grüner Schuppen sind als Bedeckung über deinen Körper "
+"Eine Menge an schweren grünen Schuppen sind als Bedeckung über deinen Körper "
 "gewachsen; sie dienen als natürliche Panzerung. Sie sind schwer zu "
 "durchdringen, begrenzen aber auch deine Flexibilität, was zu einer Strafe "
 "von −2 im Geschick führt. Reduziert die Auswirkungen von Nässe beträchtlich."
@@ -33577,7 +33583,7 @@ msgid ""
 "protection against attacks, and considerable protection from cold."
 msgstr ""
 "Ein dickes schwarzes Fell ist auf deinem ganzen Körper gewachen und bietet "
-"einen geringfügigen Schutz vor Angriffen und einem Beachtlichem Schutz vor "
+"einen geringfügigen Schutz vor Angriffen und einen beachtlichen Schutz vor "
 "Kälte."
 
 #: lang/json/mutation_from_json.py
@@ -33683,7 +33689,7 @@ msgid ""
 msgstr ""
 "Dein Körper ist mit großen Stacheln überzogen. Sobald ein unbewaffneter "
 "Gegner einen deiner Körperteile, welcher nicht mit Kleidung bedeckt ist, "
-"werden sie beträchtlichen Schaden erleiden."
+"trifft, wird er beträchtlichen Schaden erleiden."
 
 #: lang/json/mutation_from_json.py
 msgid "Phelloderm"
@@ -33725,8 +33731,8 @@ msgid ""
 "receive minor damage. Your punches may also deal extra damage."
 msgstr ""
 "Deine Haut ist von kleinen, hölzernen Dornen überzogen. Wann immer ein "
-"unbewaffneter Gegner eins deiner unbekleideten Körperteile schlägt, werden "
-"sie einen geringfügigen Schaden erleiden. Deine Schläge können außerdem auch "
+"unbewaffneter Gegner eins deiner unbekleideten Körperteile schlägt, würde er "
+"einen geringfügigen Schaden erleiden. Deine Schläge können außerdem auch "
 "zusätzlichen Schaden anrichten."
 
 #: lang/json/mutation_from_json.py
@@ -33766,8 +33772,7 @@ msgid ""
 "your unarmed attacks deal a minor amount of cutting damage."
 msgstr ""
 "An deinen Fingerspitzen hast du Klauen. Falls du keine Handschuhe trägst, "
-"werden deine unbewaffneten Angriffen einen geringen Schnittschaden "
-"verursachen."
+"werden deine unbewaffnete Angriffe einen geringen Schnittschaden verursachen."
 
 #: lang/json/mutation_from_json.py
 msgid "Retractable Claws"
@@ -33780,8 +33785,8 @@ msgid ""
 "cutting damage."
 msgstr ""
 "An deinen Fingerspitzen hast du Klauen und du kannst sie einziehen, wenn du "
-"willst. Falls du keine Handschuhe trägst, werden deine unbewaffneten "
-"Angriffen einen geringen Schnittschaden verursachen."
+"willst. Falls du keine Handschuhe trägst, werden deine unbewaffnete Angriffe "
+"einen geringen Schnittschaden verursachen."
 
 #: lang/json/mutation_from_json.py
 msgid "Tentacle Rakes"
@@ -33820,7 +33825,7 @@ msgid ""
 "heal slowly, converting the radiation into hit points."
 msgstr ""
 "Dein System hat sich der Strahlung angepasst. Während einer Bestrahlung "
-"wirst du dich tatsächlich ein wenig heilen, wobei die Strahlung zu "
+"wirst du dich tatsächlich ein wenig heilen, wodurch die Strahlung zu "
 "Trefferpunkten umgewandelt wird."
 
 #: lang/json/mutation_from_json.py
@@ -33846,7 +33851,7 @@ msgid ""
 "species of insects. Insects will attack you much less."
 msgstr ""
 "Dein Körper produziert schwache Pheromone, die dich als Freund gegenüber "
-"vielen Insektenarten identifiziert. Insekten werden sich deutlich seltener "
+"vielen Insektenarten identifiziert. Insekten werden dich deutlich seltener "
 "angreifen."
 
 #: lang/json/mutation_from_json.py
@@ -33859,7 +33864,7 @@ msgid ""
 "will be less likely to attack or flee from you."
 msgstr ""
 "Dein Körper produziert schwache Pheromone, die Säugetiere beruhigen. Sie "
-"werden sich deutlich seltener angreifen."
+"werden dich deutlich seltener angreifen."
 
 #: lang/json/mutation_from_json.py
 msgid "Disease Immune"
@@ -33896,7 +33901,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py src/faction.cpp
 msgid "Poisonous"
-msgstr "Gift"
+msgstr "Giftig"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -33908,7 +33913,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Venomous"
-msgstr "Giftig"
+msgstr "Hochgiftig"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -33973,7 +33978,7 @@ msgid ""
 "some problems."
 msgstr ""
 "Dir sind große krumme und irre scharfe Krallen anstelle deiner großen Zehen "
-"gewachsen. Glücklicherweise gehen sie dir nicht im Weg beim Gehen. "
+"gewachsen. Glücklicherweise sind sie dir nicht im Weg beim Gehen. "
 "Unglücklicherweise hindern sie dich daran, Fußbekleidung zu tragen, was ein "
 "paar Probleme bringt."
 
@@ -34024,7 +34029,7 @@ msgid ""
 msgstr ""
 "Dein Körperbau passte sich dem Leben in beengten Räumen an. Du scheinst "
 "etwas kürzer und voluminöser zu sein, Muskelmasse wird gegen Mobilität "
-"eingetauscht. (+2 Stärke, −Geschicklichkeit)"
+"eingetauscht. (+2 Stärke, −2 Geschicklichkeit)"
 
 #: lang/json/mutation_from_json.py
 msgid "Saprovore"
@@ -34115,7 +34120,7 @@ msgid ""
 msgstr ""
 "Du verstoffwechselst Nährstoffe so schnell, dass du Nahrung direkt zu "
 "brauchbaren Geweben umwandeln kannst. Überflüssige Nährstoffe werden zu "
-"Trefferpunkten umgewandelt, statt vergeudet zu werden.td"
+"Trefferpunkten umgewandelt, statt vergeudet zu werden."
 
 #: lang/json/mutation_from_json.py
 msgid "Horns"
@@ -34126,7 +34131,7 @@ msgid ""
 "You have a pair of small horns on your head. They allow you to make a weak "
 "piercing headbutt attack."
 msgstr ""
-"Du hast ein paar kleiner Hörner auf deinem Kopf. Mit ihnen kannst du eine "
+"Du hast ein paar kleine Hörner auf deinem Kopf. Mit ihnen kannst du eine "
 "schwach stechende Kopfnuss machen."
 
 #: lang/json/mutation_from_json.py
@@ -34139,9 +34144,9 @@ msgid ""
 "to make a strong bashing headbutt attack, but prevent you from wearing any "
 "headwear."
 msgstr ""
-"Du hast ein paar großer gekringelter Hörner, wie die eines Bocks. Mit ihnen "
-"kannst du eine starke Kopfnuss verpassen, aber hindern dich daran, jegliche "
-"Kopfbekleidung zu tragen."
+"Du hast ein Paar große gekringelte Hörner, wie die eines Bocks. Mit ihnen "
+"kannst du eine starke Kopfnuss verpassen, aber sie hindern dich daran, "
+"jegliche Kopfbekleidung zu tragen."
 
 #: lang/json/mutation_from_json.py
 msgid "Pointed Horns"
@@ -34153,8 +34158,8 @@ msgid ""
 "allow you to make a strong piercing headbutt attack, but prevent you from "
 "wearing any headwear the is not made of fabric."
 msgstr ""
-"Du hast ein Paar langer, spitzer Hörner, wie die einer Antilope. Mit ihnen "
-"kannst du einen stark stechende Kopfnuss verpassen aber hindern dich, "
+"Du hast ein Paar lange spitze Hörner, wie die einer Antilope. Mit ihnen "
+"kannst du einen stark stechende Kopfnuss verpassen aber sie hindern dich, "
 "jegliche Kopfbekleidung, die nicht aus Stoff ist, zu tragen."
 
 #: lang/json/mutation_from_json.py
@@ -34167,8 +34172,8 @@ msgid ""
 "from hearing headwear that is not made of fabric, but provide a weak "
 "headbutt attack."
 msgstr ""
-"Du hast ein großes Geweih, wie bei einem Elch. Sie hindern dich daran, eine "
-"Kopfbedeckung, die nicht aus Stoff ist zu tragen, aber bieten einen "
+"Du hast ein großes Geweih, wie bei einem Elch. Es hindert dich daran, eine "
+"Kopfbedeckung, die nicht aus Stoff ist, zu tragen, aber es bietet einen "
 "schwachen Kopfnuss-Angriff."
 
 #: lang/json/mutation_from_json.py
@@ -34181,10 +34186,10 @@ msgid ""
 "monsters up to a few tiles away, even if you can't see or hear them, but "
 "prevent you from wearing headwear that is not made of fabric."
 msgstr ""
-"Du hast ein Antennenpaar. Mit ihnen kannst du die Anwesenheit von Monstern, "
-"die ein paar Felder weit weg sind, sogar, wenn du sie nicht sehen oder hören "
-"kannst. Aber sie hindern dich daran, Kopfbedeckungen, die nicht aus Stoff "
-"sind, zu tragen."
+"Du hast ein Antennenpaar. Damit kannst du die Anwesenheit von Monstern, die "
+"ein paar Felder weit weg sind, wahrnehmen, sogar, wenn du sie nicht sehen "
+"oder hören kannst. Aber es hindert dich daran, Kopfbedeckungen, die nicht "
+"aus Stoff sind, zu tragen."
 
 #: lang/json/mutation_from_json.py
 msgid "Road-Runner"
@@ -34235,7 +34240,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Cattle Tail"
-msgstr "Rindschwanz"
+msgstr "Rinderschwanz"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -34273,7 +34278,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Raptor Tail"
-msgstr "Raptorschwanz"
+msgstr "Raptorenschwanz"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -34370,7 +34375,7 @@ msgstr "Schmerz-Junkie"
 msgid ""
 "You've developed a serious appetite for pain, and take pride in your scars."
 msgstr ""
-"Du hast einen starke Lust nach Schmerzen entwickelnd und bist auf deine "
+"Du hast einen starke Lust nach Schmerzen entwickelt und bist auf deine "
 "Wunden stolz."
 
 #: lang/json/mutation_from_json.py
@@ -34454,7 +34459,7 @@ msgid ""
 "to fly, but you can use them to slow your descent during a fall, and will "
 "not take falling damage under any circumstances."
 msgstr ""
-"Du hast ein Paar großer, gefederter Flügel. Dein Körper ist zu schwer zum "
+"Du hast ein Paar große gefiederte Flügel. Dein Körper ist zu schwer zum "
 "Fliegen, aber du kannst sie benutzen, um deine Fallgeschwindigkeit im freien "
 "Fall zu verringern und wirst unter keinen Umständen Fallschaden erleiden."
 
@@ -34467,8 +34472,8 @@ msgid ""
 "You have a pair of large, translucent wings. You buzz them as you run, "
 "enabling you to run faster."
 msgstr ""
-"Du hast ein Paar großer, transluzenter Flügel. Du kannst sie beim Rennen "
-"schwirren, was dich schneller rennen lässt."
+"Du hast ein Paar große transluzente Flügel. Du kannst sie beim Rennen "
+"schwirren, wodurch du schneller rennen kannst."
 
 #: lang/json/mutation_from_json.py
 msgid "Mouth Tentacles"
@@ -34479,7 +34484,7 @@ msgid ""
 "A set of tentacles surrounds your mouth. They allow you to eat twice as "
 "fast. Slightly decreases wet penalties."
 msgstr ""
-"Ein paar Tentakeln umrunden deinen Mund. Sie lassen sich doppelt so schnell "
+"Ein paar Tentakeln umrunden deinen Mund. Sie lassen dich doppelt so schnell "
 "essen. Reduzieren die Einbußen bei Nässe ein wenig."
 
 #: lang/json/mutation_from_json.py
@@ -34861,7 +34866,10 @@ msgid ""
 "You have a flattened nose and thin slits for nostrils, giving you a lizard-"
 "like appearance. This makes breathing slightly difficult and increases mouth "
 "encumbrance by 1."
-msgstr "Du hast eine geplättete Nase und dünne Schlitze"
+msgstr ""
+"Du hast eine geplättete Nase und dünne Schlitze als Nasenlöcher, was dir "
+"eine echsenartige Ausstrahlung gibt. Das macht die Atmung etwas schwierig "
+"und erhöht die Mundbelastung um 1."
 
 #: lang/json/mutation_from_json.py
 msgid "Forked Tongue"
@@ -34905,7 +34913,7 @@ msgid ""
 "You have a pair of stubby little wings projecting from your shoulderblades. "
 "They can be wiggled at will, but are useless."
 msgstr ""
-"Du hast ein paar stummeliger kleine Flügel, die aus deinen Schulterblättern "
+"Du hast ein paar stummelige kleine Flügel, die aus deinen Schulterblättern "
 "kommen. Sie können gewackelt werden, sind aber nutzlos."
 
 #: lang/json/mutation_from_json.py
@@ -34918,7 +34926,7 @@ msgid ""
 "they are useless, and in fact put you off balance, reducing your ability to "
 "dodge slightly."
 msgstr ""
-"Du hast ein Paar großer, lederiger Flügel. Du kannst sie etwas Bewegen, aber "
+"Du hast ein Paar große lederige Flügel. Du kannst sie etwas bewegen, aber "
 "sind nutzlos und bringen dich eigentlich sogar aus der Balance, was deine "
 "Ausweichfähigkeit etwas reduziert."
 
@@ -34928,7 +34936,7 @@ msgstr "Blasse Haut"
 
 #: lang/json/mutation_from_json.py
 msgid "Your skin is rather pale."
-msgstr "Deine Haut ist ziemlich blass"
+msgstr "Deine Haut ist ziemlich blass."
 
 #: lang/json/mutation_from_json.py
 msgid "Spots"
@@ -35019,7 +35027,7 @@ msgid ""
 "and will do whatever they can to please you."
 msgstr ""
 "Du bist unbeschreiblich wunderschön. Leute können deinem Charme nicht "
-"widerstehen und werden alles tun, was in ihrer Macht steht, um dir zu "
+"widerstehen und werden alles, was in ihrer Macht steht, tun, um dir zu "
 "gefallen."
 
 #: lang/json/mutation_from_json.py
@@ -35043,8 +35051,8 @@ msgid ""
 "Your face resembles that of a bull, with a significant snout.  It looks "
 "fearsome but prevents you from wearing mouthgear."
 msgstr ""
-"Dein Gesicht ähnelt dem eines Bullen, mit einer deutlichen Schnauze. Sie sie "
-"beängstigend aus, aber hindert dich darn, Mundbekleidung zu tragen."
+"Dein Gesicht ähnelt dem eines Bullen, mit einer deutlichen Schnauze. Sie "
+"sieht beängstigend aus, aber hindert dich daran, Mundbekleidung zu tragen."
 
 #: lang/json/mutation_from_json.py
 msgid "Lupine Muzzle"
@@ -35057,7 +35065,7 @@ msgid ""
 "mouthgear."
 msgstr ""
 "Dein Kiefer und deine Nase sind zu einem wolfsähnlichen Fang herangewachsen. "
-"Es eignet sich zum Beißen im Kampf und sieht beeindruckend aus, aber hindert "
+"Er eignet sich zum Beißen im Kampf und sieht beeindruckend aus, aber hindert "
 "dich daran, Mundbekleidung zu tragen."
 
 #: lang/json/mutation_from_json.py
@@ -35069,13 +35077,13 @@ msgid ""
 "Your jaw and nose have extended into a bearish muzzle.  You could bite with "
 "it, and it looks impressive, but it prevents you from wearing mouthgear."
 msgstr ""
-"Dein Kiefer und deine Nase wuchsen zu einem bärähnlichen Maul heran. Du "
-"könntest damit ihm beißen und es sieht beeindruckend aus, aber es hält dich "
-"vom Tragen von Mundbekleidung ab."
+"Dein Kiefer und deine Nase wuchsen zu ein bärenähnliches Maul heran. Du "
+"könntest damit beißen und es sieht beeindruckend aus, aber es hält dich vom "
+"Tragen von Mundbekleidung ab."
 
 #: lang/json/mutation_from_json.py
 msgid "Reptilian Muzzle"
-msgstr "Reptilmaul"
+msgstr "Reptilienmaul"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -35314,7 +35322,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Paws"
-msgstr "Tatzen"
+msgstr "Pfoten"
 
 #: lang/json/mutation_from_json.py
 msgid ""
@@ -35405,8 +35413,8 @@ msgid ""
 "Your body is coated with a fine slime, which oozes off of you, leaving a "
 "trail. Greatly increases wet benefits."
 msgstr ""
-"Dein Körper ist von einem dünnen Schleim, der von dir abtrieft, was eine "
-"Spur hinterlässt. Das erhöht die Begünstigung bei Nässe stark."
+"Dein Körper ist von einem dünnen Schleim, der von dir abtrieft, bedeckt, was "
+"eine Spur hinterlässt. Das erhöht die Begünstigung bei Nässe stark."
 
 #: lang/json/mutation_from_json.py
 msgid "Herbivore"
@@ -35513,7 +35521,7 @@ msgid ""
 "ones more or less at will."
 msgstr ""
 "Du hast volle Kontrolle über deine Lianen und kannst Neue wachsen lassen und "
-"Alte abtrennen, mehr oder nach Belieben."
+"Alte abtrennen, mehr oder weniger nach Belieben."
 
 #: lang/json/mutation_from_json.py
 msgid "Heat Dependent"
@@ -35698,7 +35706,7 @@ msgid ""
 "anything on your torso. Somewhat reduces wet effects."
 msgstr ""
 "Über deinem Torso wuchs ein dicker Panzer, der dich sehr gut panzert. Er hat "
-"einen Luftraum mit einem Volumen von 16; du kannst es als Lagerplatz "
+"einen Luftraum mit einem Volumen von 16; du kannst ihn als Lagerplatz "
 "benutzen. Du kannst nichts über deinen Torso tragen. Der Panzer reduziert "
 "die Nässewirkungen etwas."
 
@@ -35764,7 +35772,7 @@ msgid ""
 "enjoy. What was that about a surface?"
 msgstr ""
 "Neunzig Prozent des Planeten und es ist dir überlassen, es zu erforschen. "
-"Und zu konolisieren. Und zu genießen. Was was das nochmal über einen Boden?"
+"Und zu kolonisieren. Und zu genießen. Wie war das nochmal über einen Boden?"
 
 #: lang/json/mutation_from_json.py
 msgid "Beast"
@@ -35879,8 +35887,8 @@ msgid ""
 "Strange aeons, true, but Death seems to be slacking and you are doing just "
 "fine."
 msgstr ""
-"Ja, es sind seltsame Zeiten, aber der Tod scheint nachgelassen zu haben und "
-"dir geht es gut."
+"Ja, es sind seltsame Zeiten, aber der Tod scheint eine Auszeit genommen zu "
+"haben und dir geht es gut."
 
 #: lang/json/mutation_from_json.py
 msgid "Arachnid"
@@ -36587,8 +36595,9 @@ msgid ""
 msgstr ""
 "Du bist erfahren mit dem Überleben auf Gelände weit weg von der Zivilisation "
 "und deine Fertigkeiten werden sich ziemlich wahrscheinlich als nützlich "
-"erweisen, wenn man bedenkt, dass die Zivilisation nun voller Monster, die "
-"dich tot haben wollen. Deine Ausrüstung ist grundlegend, aber vielseitig."
+"erweisen, wenn man bedenkt, dass die Zivilisation nun von Monstern, die dich "
+"tot sehen wollen, nur so wimmelt. Deine Ausrüstung ist grundlegend, aber "
+"vielseitig."
 
 #. ~ Profession name
 #: lang/json/professions_from_json.py
@@ -36654,7 +36663,7 @@ msgid ""
 "next hit."
 msgstr ""
 "Du bist dir nicht ganz sicher, was passierte, aber alles ging den Bach "
-"runter und das Einzige, was dir durch den Kopf geht ist die Frage, wo du "
+"runter und das Einzige, was dir durch den Kopf geht ist die Frage, woher du "
 "deinen nächsten Kick bekommst."
 
 #. ~ Profession name
@@ -36726,8 +36735,8 @@ msgid ""
 msgstr ""
 "Du arbeitetest in einem Baumarkt in der Nähe und hast viele "
 "Heimrenovierungen selbst gemacht. Nun schaust du auf den Horizont einer "
-"ruinierten Welt und fragst dich: Sind deine dürftigen Fähigkeiten Vorräte "
-"ausreichend, um beim Wiederaufbau zu helfen?"
+"ruinierten Welt und fragst dich: Sind deine dürftigen Fähigkeiten und "
+"Vorräte ausreichend, um beim Wiederaufbau zu helfen?"
 
 #. ~ Profession name
 #: lang/json/professions_from_json.py
@@ -36872,7 +36881,7 @@ msgstr ""
 #. ~ Profession name
 #: lang/json/professions_from_json.py
 msgid "Bionic Thief"
-msgstr "Bionik-Dieb"
+msgstr "Bionikdieb"
 
 #. ~ Profession (Bionic Thief) description
 #: lang/json/professions_from_json.py
@@ -36888,7 +36897,7 @@ msgstr ""
 #. ~ Profession name
 #: lang/json/professions_from_json.py
 msgid "Bionic Patient"
-msgstr "Bionik-Patient"
+msgstr "Bionikpatient"
 
 #. ~ Profession (Bionic Patient) description
 #: lang/json/professions_from_json.py
@@ -36897,9 +36906,9 @@ msgid ""
 "with bionic muscles and sensors monitoring your blood powered by your own "
 "metabolism. Make the most of your second chance at life."
 msgstr ""
-"Medizinische Fortschritte retteten deinen Körper vor dem sicherem Tod. Du "
+"Medizinische Fortschritte retteten deinen Körper vor dem sicheren Tod. Du "
 "bist mit bionischen Muskeln und Blutsensoren ausgestattet, was von deinem "
-"eigenem Stoffwechsel angetrieben wird. Mach das meiste aus deiner zweiten "
+"eigenem Stoffwechsel angetrieben wird. Mach das Beste aus deiner zweiten "
 "Lebenschance."
 
 #. ~ Profession name
@@ -36916,9 +36925,9 @@ msgid ""
 "you can tell, military command abandoned you in this hellhole when you "
 "missed the emergency evac."
 msgstr ""
-"Du bist das Ergebnis von einem der des Militärs neuesten und letzten "
-"Forschungsprogrammen, ein Prototyp eines Cyborgsoldaten. Du bist dank deiner "
-"Verbesserungen immer noch lebendig, sogar, als all deine Kameraden den "
+"Du bist das Ergebnis von einem der neuesten und letzten Forschungsprogrammen "
+"des Militärs, ein Prototyp eines Cyborgsoldaten. Du bist dank deiner "
+"Verbesserungen immer noch lebendig, sogar, nachdem all deine Kameraden den "
 "Untoten zum Opfer fielen."
 
 #. ~ Profession name
@@ -36969,7 +36978,7 @@ msgid ""
 msgstr ""
 "Dein Körper ist ein Bionik-Wrack. Du hast eine große Stromkapazität aber "
 "bist voller kaputter Bioniken. Wenigstens funktioniert noch deine "
-"Ethanolverbrennung noch."
+"Ethanolverbrennung."
 
 #. ~ Profession name
 #: lang/json/professions_from_json.py
@@ -37068,7 +37077,8 @@ msgid ""
 msgstr ""
 "Früh in der Hetze zur Sicherheit wurdest du von deinem Top durch ein "
 "grausames Schicksal getrennt. Nun bist du alleine mit nichts außer einem "
-"Anzug aus richtig perversem schwarzen Leder. Jetzt gibt es keine Safewords."
+"Anzug aus richtig perversem schwarzen Leder. Leider gibt es keine Safewords "
+"in der Apokalypse."
 
 #. ~ Profession name
 #: lang/json/professions_from_json.py
@@ -37139,7 +37149,7 @@ msgstr ""
 #. ~ Profession name
 #: lang/json/professions_from_json.py
 msgid "Football Player"
-msgstr "Football-Spieler"
+msgstr "Footballspieler"
 
 #. ~ Profession (Football Player) description
 #: lang/json/professions_from_json.py
@@ -37148,7 +37158,7 @@ msgid ""
 "and fans alike. Now they just adore your brain. You've still got your bulky "
 "football gear on."
 msgstr ""
-"Du warst der Starspieler in deinem lokalem American-Football-Team, verehrt "
+"Du warst der Starspieler in deinem lokalen American-Football-Team, verehrt "
 "von den Teammitgliedern und Fans gleichermaßen. Nun verehren Sie nur noch "
 "dein Gehirn. Du hast immer noch dein sperriges Football-Zeug an."
 
@@ -37184,7 +37194,7 @@ msgid ""
 msgstr ""
 "Die Katastrophe schlug am großen Tag zu und du flohst mit nichts außer "
 "deiner Hochzeitstracht. Kalte Füße? Du solltest lieber dafür sorgen, dass "
-"dein Füße dran bleiben!"
+"deine Füße dran bleiben!"
 
 #. ~ Male profession name
 #: lang/json/professions_from_json.py
@@ -37270,8 +37280,8 @@ msgid ""
 "The cataclysm gave you a chance to escape, but freedom comes with a steep "
 "price."
 msgstr ""
-"Die Katastrophe gab dir eine Chance zur Flucht, aber die Freiheit kommt mit "
-"einem hohen Preis."
+"Die Katastrophe gab dir eine Chance zur Flucht, aber die Freiheit verlangt "
+"einen hohen Preis."
 
 #. ~ Male profession name
 #: lang/json/professions_from_json.py
@@ -37293,7 +37303,7 @@ msgid ""
 msgstr ""
 "Durch eine Serie schmerzhafter und teurer Operationen wurdest du zur "
 "laufenden bionischen Waffe, deine Dienste als Sölder an den Meistbietenden "
-"zur Verfügung stellend. Nun nachdem die Welt aufhörte können diese "
+"zur Verfügung stellend. Nun, nachdem die Welt aufhörte, können diese "
 "bionischen Verbesserungen den Unterschied zwischen Leben und Tod entscheiden."
 
 #. ~ Profession name
@@ -37343,7 +37353,7 @@ msgid ""
 "Now instead of complaining about your fees, your clients try to eat your "
 "brain. You can't tell which one is worse though."
 msgstr ""
-"Statt sich jetzt um deine Honorare zu beschweren, versuchen deine Klienten "
+"Statt sich jetzt um deine Honorare zu beschweren, versuchen deine Klienten, "
 "dein Hirn zu fressen. Du kannst nicht sagen, was davon schlimmer ist."
 
 #. ~ Profession name
@@ -37372,7 +37382,7 @@ msgid ""
 "they said. Well, you're about to show them! SHOW THEM ALL!"
 msgstr ""
 "»Lass das mit den Kampfkünsten sein!«, sagten sie. »Lern etwas RICHTIGES!«, "
-"sagten sie. Nun, jetzt bist du dabei, es ihnen zu zeigen. ZEIG ES IHNEN!"
+"sagten sie. Nun, jetzt bist du dabei, es ihnen zu zeigen. ZEIG ES ALLEN!"
 
 #. ~ Profession name
 #: lang/json/professions_from_json.py
@@ -37385,7 +37395,7 @@ msgid ""
 "As the world ends, you alone stand against the coming darkness with your "
 "fists of steel."
 msgstr ""
-"Während die Welt endet stehst du alleine gegen die kommende Finsternis mit "
+"Während die Welt endet, stehst du alleine gegen die kommende Finsternis mit "
 "deinen Fäusten aus Stahl."
 
 #: lang/json/skill_from_json.py
@@ -37635,7 +37645,7 @@ msgid ""
 "fall gracefully, and for other acrobatic feats."
 msgstr ""
 "Deine Fähigkeit, Gefahren auszuweichen, egal, ob es sich um einen Angriff, "
-"einer ausgelösten Falle oder einem fallendem Stein handelt. Sie wird auch "
+"einer ausgelösten Falle oder einen fallenden Stein handelt. Sie wird auch "
 "für das schadensfreie Fallen und anderern Akrobatikkkünsten benutzt."
 
 #: lang/json/skill_from_json.py
@@ -37682,7 +37692,7 @@ msgstr ""
 
 #: lang/json/skill_from_json.py
 msgid "piercing weapons"
-msgstr "Stechwaffen"
+msgstr "Stichwaffen"
 
 #: lang/json/skill_from_json.py
 msgid ""
@@ -37789,7 +37799,7 @@ msgid ""
 msgstr ""
 "Dies ist eine Reklame für das Stoffwechselanschlussstellen-KBM der Marke "
 "Diät-Teufel. Sie zeigt ein Bild eines dicken Teufelchens, der auf der "
-"Schulter einer Frau sitzt. Die Frau starrt absichtlich auf eine gigantische "
+"Schulter einer Frau sitzt. Die Frau starrt gespannt auf eine gigantische "
 "Hochzeitstorte, die mit Speck und Schokoriegeln bedeckt ist. Die Überschrift "
 "lautet: »Brennt, Kalorien! Brennt!«"
 
@@ -37802,7 +37812,7 @@ msgid ""
 msgstr ""
 "Dies ist eine Reklame für das Stoffwechselanschlussstellen-KBM der Marke "
 "Diät-Teufel. Sie zeigt ein Bild eines dicken Teufelchens, der auf der "
-"Schulter eines Mannes sitzt. Der Man ist dabei, in ein glasiertes Baby zu "
+"Schulter eines Mannes sitzt. Der Mann ist dabei, in ein glasiertes Baby zu "
 "beißen. Die Überschrift lautet: »Friss, was du willst, wie du willst und wen "
 "du willst!«"
 
@@ -37829,7 +37839,7 @@ msgstr ""
 "Dies ist eine Werbeanzeige für das KBM: Diamant-Hornhaut der Marke "
 "8undzwanzig. Sie zeigt ein Bild, das zeigt, wie das Bionikmodul von einem "
 "Adler im Flug getragen wird. Die Beschriftungen lauten: »Holen Sie sich das "
-"neue Modell 28.bx Adlerauge!« und »8undzwanzig. Sehen Sie, was sie übersehen "
+"neue Modell 28.bx Adlerauge!« und »8undzwanzig. Sehen Sie, was Sie übersehen "
 "haben.«."
 
 #: lang/json/snippet_from_json.py
@@ -37842,7 +37852,7 @@ msgstr ""
 "Dies ist eine Werbeanzeige für das KBM: Nachtsicht der Marke 8undzwanzig. "
 "Sie zeigt ein Bild, in dem sich eine Eule das Bionikmodul krallt. Die "
 "Beschriftungen lauten: »Holen Sie sich das neue Modell 28.hx Nachteule!« und "
-"»8undzwanzig. Sehen Sie, was sie übersehen haben.«."
+"»8undzwanzig. Sehen Sie, was Sie übersehen haben.«."
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -37854,7 +37864,7 @@ msgstr ""
 "Dies ist eine Werbeanzeige für das KBM: Diamant-Hornhaut der Marke "
 "8undzwanzig. Sie zeigt ein Bild, in dem ein fliegener Habicht das "
 "Bionikmodul im Schnabel trägt. Die Beschriftungen lauten: »Holen Sie sich "
-"das neue Modell 28.xx Habicht-Auge!« und »8undzwanzig. Sehen Sie, was sie "
+"das neue Modell 28.xx Habicht-Auge!« und »8undzwanzig. Sehen Sie, was Sie "
 "übersehen haben.«."
 
 #: lang/json/snippet_from_json.py
@@ -37868,7 +37878,7 @@ msgstr ""
 "8undzwanzig. Sie zeigt ein Bild eines Aasgeiers, der sich auf einen Haufen "
 "voller Totenschädel und Bionikmodule niedergelassen hat. Die Beschriftungen "
 "lauten: »Holen Sie sich das neue Modell 28.vx Geier!« und »8undzwanzig. "
-"Sehen Sie, was sie übersehen haben.«."
+"Sehen Sie, was Sie übersehen haben.«."
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -37879,7 +37889,7 @@ msgstr ""
 "Dies ist eine Anzeige für das KBM: Infrarotsicht der Marke 8undzwanzig. Sie "
 "zeigt ein Bild eines robotischen, in Flammen bedeckten Phoenix. Die "
 "Beschriftungen lauten: »Holen Sie sich das neue Modell 28.tx Phoenix!« und "
-"»8undzwanzig. Sehen Sie, was sie übersehen haben.«."
+"»8undzwanzig. Sehen Sie, was Sie übersehen haben.«."
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -44121,13 +44131,12 @@ msgstr ""
 "  \n"
 "      Ich möchte das Personal daran erinneren: Öffnen oder untersuchen Sie\n"
 "  keine Behälter oberhalb ihrer Sicherheitsfreigabe. Sollten Sie einige\n"
-"  Fragen bezüglich der Sicherheitsprotokolle oder des Transportverfahrens "
-"haben,\n"
-"  kontaktieren Sie bitte ihren SRCF-Verwalter oder das Militärpersonal vor "
-"Ort.\n"
-"  Im Zweifelsfall werden alle Behältnisse als Klasse-A Biogefahr eingestuft\n"
-"  und sind als hochgiftig zu betrachten. Treffen Sie volle "
-"Vorsichtsmaßnahmen!\n"
+"  Fragen bezüglich der Sicherheitsprotokolle oder des Transportverfahrens\n"
+"  haben, kontaktieren Sie bitte ihren SRCF-Verwalter oder das "
+"Militärpersonal\n"
+"  vor Ort. Im Zweifelsfall werden alle Behältnisse als Klasse-A Biogefahr\n"
+"  eingestuft und sind als hochgiftig zu betrachten. Treffen Sie volle\n"
+"  Vorsichtsmaßnahmen!\n"
 "  \n"
 
 #: src/computer.cpp
@@ -44178,10 +44187,9 @@ msgstr ""
 "  An: Sämtliches SRCF-Personal\n"
 "  Von: Constantine Dvorak, Untersekretär der Nuklearsicherheitsbehörde\n"
 "  \n"
-"  Die Gesundheit und Sicherheit unserer Arbeiter hat bei uns höchste "
-"Priorität!\n"
-"  Von daher werden wir wöchtliche Gesundheitsuntersuchungen an allen\n"
-"  SRCF-Angestellten vornehmen. Berichten Sie umgehend ungewöhnliche\n"
+"  Die Gesundheit und Sicherheit unserer Arbeiter hat bei uns höchste\n"
+"  Priorität! Von daher werden wir wöchtliche Gesundheitsuntersuchungen an\n"
+"  allen SRCF-Angestellten vornehmen. Berichten Sie umgehend ungewöhnliche\n"
 "  Symptome oder physische Veränderungen an Ihrem SRCF-Administrator.\n"
 "  "
 
@@ -44292,29 +44300,26 @@ msgstr ""
 "  An: Sämtliches SRCF-Administrations-Personal\n"
 "  Von: Constantine Dvorak, Untersekretär der Nuklearsicherheitsbehörde\n"
 "  \n"
-"  Direktor Grimes hat eine neue Serie von Anschuldungen, welche bald von "
-"einem\n"
-"  Kongressausschuss untersucht wird, veröffentlicht. Anbei ist die "
-"Nachricht, die\n"
-"  er mir schickte.\n"
+"  Direktor Grimes hat eine neue Serie von Anschuldigungen, welche bald von\n"
+"  einem Kongressausschuss untersucht wird, veröffentlicht. Anbei ist die\n"
+"  Nachricht, die er mir schickte.\n"
 "  \n"
 "  --------------------------------------------------------------\n"
 "  Betr.: Untersuchungen des Kongresses\n"
 "  An: Constantine Dvorak, Untersekretär der Nuklearsicherheitsbehörde\n"
 "  Von: Robert Shane, Direktor der Umweltschutzbehörde\n"
 "  \n"
-"      Die Umweltschutzbehörde hat das Security-Restricted-Containment-"
-"Facility-(SRCF)-\n"
-"  Projekt von Anfang an abgelehnt. Wir waren entsetzt darüber, dass diese\n"
-"  Einrichtungen so nahe an bewohnten Gegenden gebaut würden und stimmten\n"
-"  nur unter der Bedingung zu, dass es uns erlaubt sei, die Sarkophagen frei "
-"zu\n"
-"  untersuchen und überwachen. Aber dies ist nicht geschehen. Seit dem hat\n"
-"  das Energieministerium alle Hebel in Bewegung gesetzt, um Mitarbeiter der\n"
-"  Umweltschutzbehörde davon abzuhalten, die SRCFs zu besuchen, indem sie\n"
-"  militärische Verschwiegenheit, Notfallrechte, und abteilungsübergreifende\n"
-"  Maulkorberlasse benutzt, um das Projekt mit in Bürokratie ersticken zu "
-"lassen.\n"
+"      Die Umweltschutzbehörde hat das Security-Restricted-Containment-\n"
+"  Facility-(SRCF)-Projekt von Anfang an abgelehnt. Wir waren entsetzt\n"
+"  darüber, dass diese Einrichtungen so nahe an bewohnten Gegenden gebaut\n"
+"  würden und stimmten nur unter der Bedingung zu, dass es uns erlaubt sei,\n"
+"  die Sarkophagen frei zu untersuchen und überwachen. Aber dies ist nicht\n"
+"  geschehen. Seit dem hat das Energieministerium alle Hebel in Bewegung\n"
+"  gesetzt, um Mitarbeiter der Umweltschutzbehörde davon abzuhalten, die "
+"SRCFs\n"
+"  zu besuchen, indem sie militärische Verschwiegenheit, Notfallrechte, und\n"
+"  abteilungsübergreifende Maulkorberlasse benutzt, um das Projekt mit\n"
+"  Bürokratie ersticken zu lassen.\n"
 
 #: src/computer.cpp
 msgid ""
@@ -48982,7 +48987,7 @@ msgstr "<wheh> Du kriegst wieder Luft."
 #: src/game.cpp
 #, c-format
 msgid "Your skill in %s has reduced to %d!"
-msgstr "Deine Fertigkeit in %s has sich auf %d reduziert!"
+msgstr "Deine Fertigkeit in %s hat sich auf %d reduziert!"
 
 #: src/game.cpp
 #, c-format
@@ -53542,7 +53547,7 @@ msgstr "Du brauchst eine Geldkarte mit Geld, um Dinge zu kaufen."
 
 #: src/iexamine.cpp
 msgid "Insert card for purchases."
-msgstr "Gib eine Karte ein, um etwas zu kaufen."
+msgstr "Karte zum Kaufen eingeben."
 
 #: src/iexamine.cpp
 msgid "You must insert a charged cash card!"
@@ -53551,7 +53556,7 @@ msgstr "Du must eine Geldkarte mit Geld eingeben."
 #: src/iexamine.cpp
 #, c-format
 msgid "Money left:%d Press 'q' to stop."
-msgstr "Verbleibendes Geld:%d Drücke »q« zum Aufhören."
+msgstr "Geld:%d. »q« zum Aufhören."
 
 #: src/iexamine.cpp
 msgid "That item is too expensive!"
@@ -53938,7 +53943,7 @@ msgstr "auf diesem Bildschirm"
 
 #: src/input.cpp
 msgid "Keybinding active globally"
-msgstr "Tastenzuweisung global aktiv"
+msgstr "Zuweisung global aktiv"
 
 #: src/inventory_ui.cpp
 msgid "GROUND:"
@@ -54496,7 +54501,7 @@ msgstr "<veh_adj>%s-Liter "
 #: src/item.cpp
 #, c-format
 msgid "<veh_adj>%d\" "
-msgstr "<veh_adj>%d-Zoll- "
+msgstr "<veh_adj>%d Zoll großes "
 
 #: src/item.cpp
 msgid "<burnt_adj>badly burnt "
@@ -55730,7 +55735,7 @@ msgstr "Du beschädigst deinen %s!"
 #: src/iuse.cpp
 #, c-format
 msgid "You take your %s in, improving the fit."
-msgstr "Du nächst dein %s ab. Es passt dir nun besser."
+msgstr "Du nähst dein %s ab. Es passt dir nun besser."
 
 #: src/iuse.cpp
 #, c-format
@@ -56268,7 +56273,7 @@ msgstr "Du weißt bereits alles, was dir dieses Buch zu bieten hat."
 
 #: src/iuse.cpp
 msgid "You learn what you can, and stow the book for further study."
-msgstr "Du lernst was du kannst und verstaust das Buch für später."
+msgstr "Du lernst, was du kannst und verstaust das Buch für später."
 
 #: src/iuse.cpp
 msgid "Use your pick lock where?"
@@ -62839,11 +62844,11 @@ msgstr "Deine Profession %s verhindert es, diesen Charakterzug zu wählen"
 #: src/newcharacter.cpp
 #, c-format
 msgid "Profession %1$s %2$s %3$d points (net: %4$d)"
-msgstr "Berufung %1$s %2$s %3$d Punkte (Netto: %4$d)"
+msgstr "%1$s %2$s %3$d Punkte. (Netto: %4$d)"
 
 #: src/newcharacter.cpp
 msgid "Profession items:"
-msgstr "Berufungs-Items:"
+msgstr "Berufungsgegenstände:"
 
 #: src/newcharacter.cpp
 msgid "\n"
@@ -67462,7 +67467,7 @@ msgstr "Verhungernd!"
 
 #: src/player.cpp
 msgid "Near starving"
-msgstr "Nahezu verhungert"
+msgstr "Fast verhungert"
 
 #: src/player.cpp
 msgid "Famished"
@@ -67562,7 +67567,7 @@ msgstr "Verdurstend"
 
 #: src/player.cpp
 msgid "Dehydrated"
-msgstr "Verdurstend"
+msgstr "Dehydriert"
 
 #: src/player.cpp
 msgid "Very thirsty"
@@ -69724,7 +69729,7 @@ msgstr "Alle wiederbefüllbaren Teile hier können nicht wiederbefüllt werden."
 #: src/veh_interact.cpp
 msgid "May be all of them is broken or you don't have the proper fuel."
 msgstr ""
-"Vielleicht sind alle von ihnen Kaput oder du hast nicht den passenden "
+"Vielleicht sind alle von ihnen kaputt oder du hast nicht den passenden "
 "Treibstoff."
 
 #: src/veh_interact.cpp
