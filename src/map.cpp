@@ -4431,7 +4431,11 @@ float map::light_transparency(const int x, const int y) const
 
 void map::light_signal(int lum)
 {
-    if (g->turn % 25 == 0) g->cur_om->signal_hordes(g->levx,g->levy,HSIG_LIGHT,lum);
+    if (g->turn % 10 == 0 && last_light_signal_turn != g->turn)
+    {
+        last_light_signal_turn = g->turn;
+        g->cur_om->signal_hordes(g->levx,g->levy,HSIG_LIGHT,lum);
+    }
 }
 
 void map::build_outside_cache()

@@ -2097,6 +2097,7 @@ void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_po
       switch (sig_type) {
         case HSIG_NOICE: d_inter=signal_hordes_noice(x,y,sig_power,zg[i]); break;
         case HSIG_LIGHT: d_inter=signal_hordes_light(x,y,sig_power,zg[i]);
+                         //erase();
                          //mvprintw(0, 0, "Horde #%d receive LIGHT signal. Power: %d ;souce: %d:%d ",i,sig_power,x,y);
                          break;
         //case HSIG_SMOKE: d_inter=signal_hordes_smoke(x,y,sig_power,zg[i]); break;
@@ -2106,9 +2107,8 @@ void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_po
       targ_dist = trig_dist(x, y, zg[i].tx, zg[i].ty);
     //debug
       //erase(); int line=0;
-      //mvprintw(line++, 0, "Horde #%d receive signal. Power: %d ;souce: %d:%d ;distance:%d",
-      //
-      //i,sig_power,x,y,dist);
+      //mvprintw(line++, 0, "Horde #%d receive signal. Power: %d ;souce: %d:%d ",i,sig_power,x,y);
+
 
       int roll=rng(0,zg[i].interest);
       //mvprintw(line++, 0, "Roll 0,%d: %d < %d",zg[i].interest, roll, d_inter);
@@ -2127,8 +2127,7 @@ void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_po
               zg[i].set_interest(d_inter);
               //mvprintw(line++, 0, "Far target");
             }
-          //mvprintw(line++, 0, "Hodre target:%d:%d; inter:%d",
-          //         zg[i].tx,zg[i].ty,zg[i].interest);
+          //mvprintw(line++, 0, "Hodre target:%d:%d; inter:%d",zg[i].tx,zg[i].ty,zg[i].interest);
         }
     }
   }
@@ -2141,10 +2140,6 @@ int overmap::signal_hordes_noice(int x,int y, int sig_power, mongroup zg)
     int dist,d_inter;
     dist = trig_dist(x, y, zg.posx, zg.posy);
     if (g->weather==WEATHER_LIGHTNING || g->weather==WEATHER_LIGHTNING) sig_power-=10;
-    if (g->weather!=WEATHER_SUNNY || g->weather!=WEATHER_CLEAR || g->weather!=WEATHER_CLOUDY
-        || g->weather!=WEATHER_SNOW || g->weather!=WEATHER_FLURRIES)
-        sig_power-=10;
-
     if (sig_power <= dist) return 0; else return (sig_power - dist) *5;
 }
 
@@ -2153,7 +2148,7 @@ int overmap::signal_hordes_light(int x, int y, int sig_power, mongroup zg)
   int dist,ret=0;
   dist = trig_dist(x, y, zg.posx, zg.posy);
 //debug
-  //erase();
+
   int msgline=1;
 
   int near_dist = 5;

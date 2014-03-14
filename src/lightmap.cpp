@@ -52,6 +52,7 @@ void map::generate_lightmap()
     // Apply player light sources
     if (held_luminance > LIGHT_AMBIENT_LOW) {
         apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
+        light_signal((int)held_luminance);
     }
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {

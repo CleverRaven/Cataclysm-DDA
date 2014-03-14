@@ -494,7 +494,6 @@ submap * getsubmap( const int grididx );
  void apply_light_source(int x, int y, float luminance, bool trig_brightcalc);
  // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
  // light rays from causing massive slowdowns, if there's a huge amount of light.
- void light_signal(int lum);
  void add_light_source(int x, int y, float luminance);
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
@@ -519,6 +518,9 @@ submap * getsubmap( const int grididx );
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
  std::map<trap_id, std::set<point> > traplocs;
+ //for hordes
+ void light_signal(int lum);
+ int last_light_signal_turn;
 };
 
 std::vector<point> closest_points_first(int radius, point p);
