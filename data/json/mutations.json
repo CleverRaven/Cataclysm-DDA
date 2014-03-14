@@ -2087,7 +2087,26 @@
         "points" : 5,
         "description" : "You've developed the necessary anatomy and techniques to control your web-generation.  Use the pause function to spin or enhance webs.",
         "prereqs" : ["WEB_SPINNER"],
+        "threshreq" : ["THRESH_SPIDER"],
         "cancels" : ["SLIMY"],
+        "category" : ["MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "WEB_RAPPEL",
+        "name" : "Web Diver",
+        "points" : 2,
+        "description" : "Your webbing is easily strong enough to support your weight. You'll use it to descend down any sheer drops you may encounter.",
+        "prereqs" : ["WEB_WEAVER"],
+        "threshreq" : ["THRESH_SPIDER"],
+        "category" : ["MUTCAT_SPIDER"]
+    },{
+        "type" : "mutation",
+        "id" : "WEB_ROPE",
+        "name" : "Rope Webs",
+        "points" : 10,
+        "description" : "With spinnerets like THESE, who needs rope?! Your natural abilities can handle that part of most construction projects.",
+        "prereqs" : ["WEB_WEAVER"],
+        "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",

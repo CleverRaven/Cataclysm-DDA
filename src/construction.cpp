@@ -272,6 +272,12 @@ void construction_menu()
                             has_component[i] = true;
                             col = c_green;
                         }
+                        if ( ((item_controller->find_template(comp.type)->id == "rope_30") ||
+                          (item_controller->find_template(comp.type)->id == "rope_6")) &&
+                          ((g->u.has_trait("WEB_ROPE")) && (g->u.hunger <= 300)) ) {
+                            has_component[i] = true;
+                            col = c_ltgreen; // Show that WEB_ROPE is on the job!
+                        }
                         int length = utf8_width(item_controller->find_template(comp.type)->name.c_str());
                         if (posx + length > FULL_SCREEN_WIDTH - 1) {
                             posy++;
@@ -425,10 +431,29 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
                       pinv.has_charges(con->components[j][k].type,
                                        con->components[j][k].count)    ) ||
                     (!item_controller->find_template(con->components[j][k].type)->is_ammo() &&
-                     pinv.has_components (con->components[j][k].type,
-                                      con->components[j][k].count)    )) {
+                     (pinv.has_components (con->components[j][k].type,
+                                      con->components[j][k].count)) )) {
                     has_component = true;
                     con->components[j][k].available = 1;
+                    
+                } if // If you've Rope Webs, you can spin up the webbing to replace any amount of
+                      // rope your projects may require.  But you need to be somewhat nourished:
+                      // Famished or worse stops it.
+                      ( ((item_controller->find_template(con->components[j][k].type)->id == "rope_30") ||
+                      (item_controller->find_template(con->components[j][k].type)->id == "rope_6")) &&
+                      ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
+                      has_component = true;
+                      con->components[j][k].available = 1;
+                      // Gives you the rope so the gear-check at the end can take it away.  Hack,
+                      // but much simpler than mucking about in that vector.
+                      if ((item_controller->find_template(con->components[j][k].type)->id == "rope_30")) {
+                          item rope(itypes["rope_30"], g->turn);
+                          p.i_add(rope);
+                      }
+                      else if ((item_controller->find_template(con->components[j][k].type)->id == "rope_06")) {
+                          item rope(itypes["rope_06"], g->turn);
+                          p.i_add(rope);
+                      }
                 } else {
                     con->components[j][k].available = -1;
                 }
@@ -555,6 +580,10 @@ void complete_construction()
 
     g->u.practice(g->turn, built->skill, std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < built->components.size(); i++) {
+        if ( ((item_controller->find_template(built->components[i].type)->id == "rope_30") ||
+           (item_controller->find_template(built->components[i].type)->id == "rope_6")) &&
+           ((g->u.has_trait("WEB_ROPE")) ) {
+           }
         if (!built->components[i].empty()) {
             g->consume_items(&(g->u), built->components[i]);
         }

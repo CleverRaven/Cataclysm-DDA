@@ -12726,7 +12726,18 @@ void game::vertical_move(int movez, bool force) {
     if (tmpmap.move_cost(u.posx, u.posy) == 0) {
      popup(_("Halfway down, the way down becomes blocked off."));
      return;
-    } if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
+    } else if (u.has_trait("WEB_RAPPEL")) {
+     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))){
+        rope_ladder = true;
+        if ( (rng(4,8)) < (u.skillLevel("dodge")) ) {
+            add_msg(_("You attach a web and dive down headfirst, flipping upright and landing on your feet."));
+        }
+        else {
+            add_msg(_("You securely web up and work your way down, lowering yourself safely."));
+        }
+     }
+     else return;
+    } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
         if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))){
             if (u.has_trait("VINES2")) {
                 if (query_yn(_("Detach a vine?  It'll hurt, but you'll be able to climb back up..."))){
