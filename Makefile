@@ -383,7 +383,7 @@ endif
 	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
                    README.txt LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh 2>/dev/null;
+	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif
 
 $(BINDIST): distclean $(TARGET) $(L10N) $(BINDIST_EXTRAS)
