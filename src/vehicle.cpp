@@ -66,7 +66,6 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     reactor_on = false;
     engine_on = false;
     has_pedals = false;
-    parts_dirty = true;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -77,6 +76,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
       }
     }
     precalc_mounts(0, face.dir());
+    refresh();
 }
 
 vehicle::~vehicle()
@@ -464,7 +464,7 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if (!pedals() && has_engine) {
+    if( !has_pedals && has_engine ) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
             options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
@@ -627,7 +627,7 @@ void vehicle::use_controls()
           if (total_power () < 1) {
               if (total_power (false) < 1) {
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-              } else if(pedals()) {
+              } else if( has_pedals ) {
                   g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
               } else {
                   g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
@@ -893,6 +893,14 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
                 !has_structural_part(dx, dy-1)) {
             return false;
         }
+    }
+
+    // Pedals and engines can't both be installed
+    if( part.has_flag("PEDALS") && engines.size() > 0 ) {
+        return false;
+    }
+    if( part.has_flag(VPFLAG_ENGINE) && has_pedals ) {
+        return false;
     }
 
     // Alternators must be installed on a gas engine
@@ -1284,6 +1292,7 @@ void vehicle::part_removal_cleanup() {
         }
     }
     shift_if_needed();
+    refresh(); // Rebuild cached indices
 }
 
 /**
@@ -1332,9 +1341,6 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
         }
         return res;
     } else {
-        if ( parts_dirty == true ) {
-            find_parts();
-        }
         if ( relative_parts.find( point(dx, dy) ) != relative_parts.end() ) {
             return relative_parts[ point(dx, dy) ];
         } else {
@@ -1347,9 +1353,6 @@ const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, b
 int vehicle::part_with_feature (int part, const vpart_bitflags &flag, bool unbroken) {
     if (part_flag(part, flag)) {
         return part;
-    }
-    if ( parts_dirty == true ) {
-        find_parts();
     }
     std::map<point, std::vector<int> >::const_iterator it = relative_parts.find( point( parts[part].mount_dx, parts[part].mount_dy ) );
     if ( it != relative_parts.end() ) {
@@ -2487,7 +2490,7 @@ void vehicle::idle() {
     int engines_power = 0;
     float idle_rate;
 
-    if (engine_on && total_power() > 0 && !pedals()) {
+    if( engine_on && total_power() > 0 && !has_pedals ) {
         int strn = (int)(strain() * strain() * 100);
         for (int p = 0; p < parts.size(); p++) {
             if (part_flag(p, VPFLAG_ENGINE)) {
@@ -2515,7 +2518,7 @@ void vehicle::idle() {
 
             if (one_in(10)) {
                 int smk = noise(true, true); // Only generate smoke for gas cars.
-                if (smk > 0 && !pedals()) {
+                if( smk > 0 && !has_pedals ) {
                     int rdx = rng(0, 2);
                     int rdy = rng(0, 2);
                     g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
@@ -2593,7 +2596,7 @@ void vehicle::thrust (int thd) {
             {
               if (total_power (false) < 1) {
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
-              } else if(pedals()) {
+              } else if( has_pedals ) {
                   g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
               } else {
                   g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
@@ -2602,11 +2605,11 @@ void vehicle::thrust (int thd) {
             cruise_velocity = 0;
             return;
         }
-        else if (!engine_on && !pedals()) {
+        else if( !engine_on && !has_pedals ) {
           g->add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
-        } else if (pedals()) {
+        } else if( has_pedals ) {
             if (g->u.has_bionic("bio_torsionratchet")
                 && g->turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
@@ -2634,14 +2637,14 @@ void vehicle::thrust (int thd) {
         }
         // add sound and smoke
         int smk = noise (true, true);
-        if (smk > 0 && !pedals())
+        if( smk > 0 && !has_pedals )
         {
             int rdx, rdy;
             coord_translate (exhaust_dx, exhaust_dy, rdx, rdy);
             g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
         }
         std::string soundmessage;
-        if (!pedals()) {
+        if( !has_pedals ) {
           if (smk > 80)
             soundmessage = "ROARRR!";
           else if (smk > 60)
@@ -3345,100 +3348,6 @@ void vehicle::gain_moves()
     }
 }
 
-void vehicle::find_power ()
-{
-    lights.clear();
-    lights_epower = 0;
-    overhead_epower = 0;
-    tracking_epower = 0;
-    fridge_epower = 0;
-    recharger_epower = 0;
-    for (int p = 0; p < parts.size(); p++) {
-        const vpart_info& vpi = part_info(p);
-        if (vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT)) {
-            lights.push_back(p);
-            lights_epower += vpi.epower;
-        }
-        if (vpi.has_flag(VPFLAG_CIRCLE_LIGHT)) {
-            overhead_epower += vpi.epower;
-        }
-        if (vpi.has_flag(VPFLAG_TRACK)) {
-            tracking_epower += vpi.epower;
-        }
-        if (vpi.has_flag(VPFLAG_FRIDGE)) {
-            fridge_epower += vpi.epower;
-        }
-        if (vpi.has_flag(VPFLAG_RECHARGE)) {
-            recharger_epower += vpi.epower;
-        }
-    }
-}
-
-void vehicle::find_alternators ()
-{
-    alternators.clear();
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if(part_flag(p, VPFLAG_ALTERNATOR)) {
-            alternators.push_back(p);
-        }
-    }
-}
-
-void vehicle::find_fuel_tanks ()
-{
-    fuel.clear();
-    for (int p = 0; p < parts.size(); p++) {
-        if(part_flag( p,VPFLAG_FUEL_TANK )) {
-            fuel.push_back(p);
-        }
-    }
-}
-
-void vehicle::find_engines ()
-{
-    engines.clear();
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if(part_flag(p, VPFLAG_ENGINE)) {
-            engines.push_back(p);
-        }
-    }
-}
-
-void vehicle::find_reactors ()
-{
-    reactors.clear();
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if(part_flag(p, VPFLAG_FUEL_TANK) &&
-           part_info(p).fuel_type == fuel_type_plutonium) {
-            reactors.push_back(p);
-        }
-    }
-}
-
-void vehicle::find_solar_panels ()
-{
-    solar_panels.clear();
-    for( size_t p = 0; p < parts.size(); ++p ) {
-        if(part_flag(p, VPFLAG_SOLAR_PANEL)) {
-            solar_panels.push_back(p);
-        }
-    }
-}
-
-void vehicle::find_parts () {
-    relative_parts.clear();
-    for (int i = 0; i < parts.size(); i++) {
-        point p(parts[i].mount_dx, parts[i].mount_dy);
-        if ( relative_parts.find(p) == relative_parts.end() ) {
-            relative_parts[p].clear();
-        }
-        if (!parts[i].removed) {
-          relative_parts[p].push_back(i);
-        }
-    }
-    parts_dirty = false;
-}
-
 void vehicle::find_exhaust ()
 {
     int en = -1;
@@ -3464,37 +3373,76 @@ void vehicle::find_exhaust ()
     exhaust_dx--;
 }
 
-bool vehicle::pedals() {
-  if (has_pedals) {
-    return true;
-  }
-  else {
-    for (int p = 0; p < parts.size(); p++) {
-      if (part_flag(p, "PEDALS")) {
-        has_pedals = true;
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 /**
- * Refreshes all caches and refinds all parts, after the vehicle has had a part
- * added or removed.
+ * Refreshes all caches and refinds all parts. Used after the vehicle has had a part added or removed.
+ * Makes indices of different part types so they're easy to find. Also calculates power drain.
  */
 void vehicle::refresh()
 {
-    find_power ();
-    find_alternators ();
-    find_fuel_tanks ();
-    find_engines ();
-    find_reactors ();
-    find_solar_panels ();
-    find_parts ();
-    find_exhaust ();
-    precalc_mounts (0, face.dir());
+    lights.clear();
+    alternators.clear();
+    fuel.clear();
+    engines.clear();
+    reactors.clear();
+    solar_panels.clear();
+    relative_parts.clear();
+    lights_epower = 0;
+    overhead_epower = 0;
+    tracking_epower = 0;
+    fridge_epower = 0;
+    recharger_epower = 0;
+    has_pedals = false;
+
+    // Main loop over all vehicle parts.
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        const vpart_info& vpi = part_info( p );
+        if( parts[p].removed )
+            continue;
+        if( vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT) ) {
+            lights.push_back( p );
+            lights_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_CIRCLE_LIGHT) ) {
+            overhead_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_TRACK) ) {
+            tracking_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_FRIDGE) ) {
+            fridge_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_RECHARGE) ) {
+            recharger_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
+            alternators.push_back( p );
+        }
+        if( vpi.has_flag(VPFLAG_FUEL_TANK) ) {
+            fuel.push_back( p );
+        }
+        if( vpi.has_flag(VPFLAG_ENGINE) ) {
+            engines.push_back( p );
+        }
+        if( vpi.has_flag(VPFLAG_FUEL_TANK) && vpi.fuel_type == fuel_type_plutonium ) {
+            reactors.push_back( p );
+        }
+        if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
+            solar_panels.push_back( p );
+        }
+        if( vpi.has_flag("PEDALS") ) {
+            has_pedals = true;
+        }
+        // Build map of point -> all parts in that point
+        point pt( parts[p].mount_dx, parts[p].mount_dy );
+        if( relative_parts.find(pt) == relative_parts.end() ) {
+            relative_parts[pt].clear();
+        }
+        relative_parts[pt].push_back( p );
+    }
+
+    precalc_mounts( 0, face.dir() );
     insides_dirty = true;
+    find_exhaust();
 }
 
 void vehicle::refresh_insides ()
