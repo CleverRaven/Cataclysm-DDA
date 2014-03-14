@@ -33,9 +33,10 @@
 #endif // __linux__
 
 void exit_handler(int s);
-void set_base_path(std::string path);
-void set_user_dir(const char *ud = "");
+void init_base_path(std::string path);
+void init_user_dir(const char *ud = "");
 void set_standart_filenames(void);
+void update_pathname(std::string name, std::string path);
 
 std::map<std::string, std::string> FILENAMES; // create map where we will store the FILENAMES
 
@@ -59,11 +60,11 @@ int main(int argc, char *argv[])
 #ifdef PREFIX
 #define Q(STR) #STR
 #define QUOTE(STR) Q(STR)
-    set_base_path(std::string(QUOTE(PREFIX)));
+    init_base_path(std::string(QUOTE(PREFIX)));
 #else
-    set_base_path("");
+    init_base_path("");
 #endif
-    set_user_dir();
+    init_user_dir();
     set_standart_filenames();
 
     // Process CLI arguments
@@ -92,7 +93,6 @@ int main(int argc, char *argv[])
             argv++;
             if(argc) {
                 FILENAMES["base_path"] = std::string(argv[0]);
-                set_base_path(std::string(argv[0]));
                 set_standart_filenames();
                 argc--;
                 argv++;
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
         }
     }
     while (saved_argc) {
-        if(std::string(saved_argv[0]) == "--datadir") {
+        if(std::string(saved_argv[0]) == "--datadir") { // TODO NEED THIS?
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
@@ -309,7 +309,7 @@ void exit_handler(int s) {
     }
 }
 
-void set_base_path(std::string path)
+void init_base_path(std::string path)
 {
     if (!path.empty()) {
         char ch;
@@ -322,7 +322,7 @@ void set_base_path(std::string path)
     FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
 }
 
-void set_user_dir(const char *ud)
+void init_user_dir(const char *ud)
 {
     std::string dir = std::string(ud);
 
@@ -341,6 +341,18 @@ void set_user_dir(const char *ud)
     FILENAMES.insert(std::pair<std::string,std::string>("user_dir", dir));
 }
 
+void update_pathname(std::string name, std::string path)
+{
+    std::map<std::string,std::string>::iterator iter;
+
+    iter = FILENAMES.find(name);
+    if (iter != FILENAMES.end()) {
+        FILENAMES[name] = path;
+    } else {
+        FILENAMES.insert(std::pair<std::string, std::string>(name, path));
+    }
+}
+
 void set_standart_filenames(void)
 {
     const char *share_dir;
@@ -354,43 +366,42 @@ void set_standart_filenames(void)
     share_dir = "data/";
 #endif
     // Shared directories
-    FILENAMES.insert(std::pair<std::string,std::string>("gfxdir", FILENAMES["base_path"] + share_dir + "gfx/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("luadir", FILENAMES["base_path"] + share_dir + "lua/"));
-    // FIXME temporaly datadir == basedir. Should be removed later.
-    FILENAMES.insert(std::pair<std::string,std::string>("datadir", FILENAMES["base_path"] + share_dir));
-    FILENAMES.insert(std::pair<std::string,std::string>("autoexeclua", FILENAMES["luadir"] + "autoexec.lua"));
-    FILENAMES.insert(std::pair<std::string,std::string>("fontdir", FILENAMES["datadir"] + "font/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("rawdir", FILENAMES["datadir"] + "raw/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("jsondir", FILENAMES["datadir"] + "json/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("moddir", FILENAMES["datadir"] + "mods/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("recycledir", FILENAMES["datadir"] + "recycling/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("namesdir", FILENAMES["datadir"] + "names/"));
+    update_pathname("gfxdir", FILENAMES["base_path"] + share_dir + "gfx/");
+    update_pathname("luadir", FILENAMES["base_path"] + share_dir + "lua/");
+    update_pathname("datadir", FILENAMES["base_path"] + share_dir);
+    update_pathname("autoexeclua", FILENAMES["luadir"] + "autoexec.lua");
+    update_pathname("fontdir", FILENAMES["datadir"] + "font/");
+    update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
+    update_pathname("jsondir", FILENAMES["datadir"] + "json/");
+    update_pathname("moddir", FILENAMES["datadir"] + "mods/");
+    update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
+    update_pathname("namesdir", FILENAMES["datadir"] + "names/");
 
     // Shared files
-    FILENAMES.insert(std::pair<std::string,std::string>("motd", FILENAMES.find("datadir")->second + "motd"));
-    FILENAMES.insert(std::pair<std::string,std::string>("credits", FILENAMES["datadir"] + "credits"));
+    update_pathname("motd", FILENAMES["datadir"] + "motd");
+    update_pathname("credits", FILENAMES["datadir"] + "credits");
     // TODO Load localized names
-    FILENAMES.insert(std::pair<std::string,std::string>("names", FILENAMES["namesdir"] + "en.json"));
-    FILENAMES.insert(std::pair<std::string,std::string>("colors", FILENAMES["rawdir"] + "colors.json"));
-    FILENAMES.insert(std::pair<std::string,std::string>("keybindings", FILENAMES["rawdir"] + "keybindings.json"));
-    FILENAMES.insert(std::pair<std::string,std::string>("sokoban", FILENAMES["rawdir"] + "sokoban.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("defaulttilejson", FILENAMES["gfx"] + "tile_config.json"));
-    FILENAMES.insert(std::pair<std::string,std::string>("defaulttilepng", FILENAMES["gfx"] + "tinytile.png"));
-    FILENAMES.insert(std::pair<std::string,std::string>("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json"));
+    update_pathname("names", FILENAMES["namesdir"] + "en.json");
+    update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
+    update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
+    update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
+    update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
+    update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
 
     // User directories
-    FILENAMES.insert(std::pair<std::string,std::string>("savedir", FILENAMES["user_dir"] + "save/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("memorialdir", FILENAMES["user_dir"] + "memorial/"));
-    FILENAMES.insert(std::pair<std::string,std::string>("templatedir", FILENAMES["user_dir"] + "templates/"));
+    update_pathname("savedir", FILENAMES["user_dir"] + "save/");
+    update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
+    update_pathname("templatedir", FILENAMES["templatedir"] + "templates/");
 
     // User files
-    FILENAMES.insert(std::pair<std::string,std::string>("options", FILENAMES["user_dir"] + "options.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("keymap", FILENAMES["user_dir"] + "keymap.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("debug", FILENAMES["user_dir"] + "debug.log"));
-    FILENAMES.insert(std::pair<std::string,std::string>("fontlist", FILENAMES["user_dir"] + "fontlist.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("fontdata", FILENAMES["user_dir"] + "FONTDATA"));
-    FILENAMES.insert(std::pair<std::string,std::string>("autopickup", FILENAMES["user_dir"] + "auto_pickup.txt"));
-    FILENAMES.insert(std::pair<std::string,std::string>("mods-user-default", FILENAMES["user_dir"] + "user-default-mods.json"));
+    update_pathname("options", FILENAMES["user_dir"] + "options.txt");
+    update_pathname("keymap", FILENAMES["user_dir"] + "keymap.txt");
+    update_pathname("debug", FILENAMES["user_dir"] + "debug.log");
+    update_pathname("fontlist", FILENAMES["user_dir"] + "fontlist.txt");
+    update_pathname("fontdata", FILENAMES["user_dir"] + "FONTDATA");
+    update_pathname("autopickup", FILENAMES["user_dir"] + "auto_pickup.txt");
+    update_pathname("mods-user-default", FILENAMES["user_dir"] + "user-default-mods.json");
     /*
     FILENAMES.insert(std::pair<std::string,std::string>("mainlua", FILENAMES["datadir"] + "main.lua"));
     FILENAMES.insert(std::pair<std::string,std::string>("typeface", FILENAMES["fontdir"] + "fixedsys.ttf"));
