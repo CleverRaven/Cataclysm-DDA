@@ -66,6 +66,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     recharger_on = false;
     reactor_on = false;
     engine_on = false;
+    has_pedals = false;
 
     refresh();
     //type can be null if the type_id parameter is omitted
@@ -76,6 +77,8 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
         init_state(init_veh_fuel, init_veh_status);
       }
     }
+    precalc_mounts(0, face.dir());
+    refresh();
 }
 
 vehicle::~vehicle()
@@ -463,7 +466,7 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if (!has_pedals && has_engine) {
+    if( !has_pedals && has_engine ) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
             options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
@@ -627,8 +630,8 @@ void vehicle::use_controls()
           pwr = engine_power( &max_pwr );
           if (pwr < 1) {
               if (max_pwr < 1) {
-                  g->add_msg (_("The %s doesn't have an working engine!"), name.c_str());
-              } else if(has_pedals) {
+                  g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
+              } else if( has_pedals ) {
                   g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
               } else {
                   g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
@@ -893,6 +896,14 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
                 !has_structural_part(dx, dy-1)) {
             return false;
         }
+    }
+
+    // Pedals and engines can't both be installed
+    if( part.has_flag("PEDALS") && engines.size() > 0 ) {
+        return false;
+    }
+    if( part.has_flag(VPFLAG_ENGINE) && has_pedals ) {
+        return false;
     }
 
     // Alternators must be installed on a gas engine
@@ -1322,6 +1333,7 @@ void vehicle::part_removal_cleanup() {
         }
     }
     shift_if_needed();
+    refresh(); // Rebuild cached indices
 }
 
 /**
@@ -2827,7 +2839,7 @@ bool vehicle::drive_one_tile()
 
     if (!valid_wheel_config()) {
         // if not enough wheels, mess up the ground a bit.
-        for (int p = 0; p < parts.size(); p++) {
+        for (size_t p = 0; p < parts.size(); p++) {
             const int px = gx + parts[p].precalc_dx[0];
             const int py = gy + parts[p].precalc_dy[0];
             const ter_id &pter = g->m.ter(px, py);
@@ -3816,32 +3828,51 @@ void vehicle::refresh()
     has_pedals = false;
 
     // Main loop over all vehicle parts.
-    for (int p = 0; p < parts.size(); p++) {
-        const vpart_info& vpi = part_info(p);
-        if (parts[p].removed)
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        const vpart_info& vpi = part_info( p );
+        if( parts[p].removed )
             continue;
-        if (vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT)) {
-            lights.push_back(p);
+        if( vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT) ) {
+            lights.push_back( p );
             lights_epower += vpi.epower;
         }
-        if (vpi.has_flag(VPFLAG_CIRCLE_LIGHT)) overhead_epower += vpi.epower;
-        if (vpi.has_flag(VPFLAG_TRACK)) tracking_epower += vpi.epower;
-        if (vpi.has_flag(VPFLAG_FRIDGE)) fridge_epower += vpi.epower;
-        if (vpi.has_flag(VPFLAG_RECHARGE)) recharger_epower += vpi.epower;
-        if (vpi.has_flag(VPFLAG_ALTERNATOR)) alternators.push_back(p);
-        if (vpi.has_flag(VPFLAG_FUEL_TANK)) fuel.push_back(p);
-        if (vpi.has_flag(VPFLAG_ENGINE)) engines.push_back(p);
-        if (vpi.has_flag(VPFLAG_FUEL_TANK) && vpi.fuel_type == fuel_type_plutonium)
-            reactors.push_back(p);
-        if (vpi.has_flag(VPFLAG_SOLAR_PANEL)) solar_panels.push_back(p);
-        if (part_flag(p, "PEDALS")) has_pedals = true;
+        if( vpi.has_flag(VPFLAG_CIRCLE_LIGHT) ) {
+            overhead_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_TRACK) ) {
+            tracking_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_FRIDGE) ) {
+            fridge_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_RECHARGE) ) {
+            recharger_epower += vpi.epower;
+        }
+        if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
+            alternators.push_back( p );
+        }
+        if( vpi.has_flag(VPFLAG_FUEL_TANK) ) {
+            fuel.push_back( p );
+        }
+        if( vpi.has_flag(VPFLAG_ENGINE) ) {
+            engines.push_back( p );
+        }
+        if( vpi.has_flag(VPFLAG_FUEL_TANK) && vpi.fuel_type == fuel_type_plutonium ) {
+            reactors.push_back( p );
+        }
+        if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
+            solar_panels.push_back( p );
+        }
+        if( vpi.has_flag("PEDALS") ) {
+            has_pedals = true;
+        }
         // Build map of point -> all parts in that point
-        point pt(parts[p].mount_dx, parts[p].mount_dy);
-        if (relative_parts.find(pt) == relative_parts.end())
+        point pt( parts[p].mount_dx, parts[p].mount_dy );
+        if( relative_parts.find(pt) == relative_parts.end() ) {
             relative_parts[pt].clear();
-        relative_parts[pt].push_back(p);
+        }
+        relative_parts[pt].push_back( p );
     }
-
     total_mass(); // Mass in kg, takes some effort to find. Puts it in cached_mass
     calculate_air_resistance(); // Updates air_resistance and downforce
 

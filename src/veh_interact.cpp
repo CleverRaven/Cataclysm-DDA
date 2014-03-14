@@ -444,13 +444,15 @@ void veh_interact::do_install(task_reason reason)
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
+    default:
+        return; // Ignore this error silently.
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
     int pos = 0;
     int engines = 0;
     int dif_eng = 0;
-    for (int p = 0; p < veh->parts.size(); p++) {
+    for (size_t p = 0; p < veh->parts.size(); p++) {
         if (veh->part_flag (p, "ENGINE")) {
             engines++;
             dif_eng = dif_eng / 2 + 12;
@@ -466,21 +468,12 @@ void veh_interact::do_install(task_reason reason)
         bool eng = sel_vpart_info->has_flag("ENGINE");
         bool install_pedals = sel_vpart_info->has_flag("PEDALS");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
-        veh->has_pedals = false;
         std::string engine_string = "";
         if (engines && eng) { // already has engine
             engine_string = string_format(
                                 _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
                                 has_skill2 ? "ltgreen" : "red",
                                 dif_eng);
-        }
-        if (veh->has_pedals && install_pedals) {
-            engine_string = string_format(
-                                  _(" You can only install and use one set of foot pedals in your vehicle."));
-        }
-        if (veh->has_pedals && eng) {
-          engine_string = string_format(
-                                  _(" You can't install an engine in a vehicle that uses foot pedals."));
         }
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
@@ -528,7 +521,7 @@ void veh_interact::do_install(task_reason reason)
             pos += dy;
             if (pos < 0) {
                 pos = can_mount.size() - 1;
-            } else if (pos >= can_mount.size()) {
+            } else if (pos >= (ssize_t)can_mount.size()) {
                 pos = 0;
             }
         }
@@ -570,6 +563,8 @@ void veh_interact::do_repair(task_reason reason)
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
+    default:
+        return; // Ignore this error silently.
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to repair:"));
     wrefresh (w_mode);
@@ -577,7 +572,7 @@ void veh_interact::do_repair(task_reason reason)
     while (true) {
         sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
         werase (w_parts);
-        veh->print_part_desc (w_parts, 0, parts_w, cpart, need_repair[pos]);
+        veh->print_part_desc(w_parts, 0, parts_w, cpart, need_repair[pos]);
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
@@ -614,7 +609,7 @@ void veh_interact::do_repair(task_reason reason)
         }
         if (dy == -1 || dy == 1) {
             pos += dy;
-            if(pos >= need_repair.size()) {
+            if(pos >= (ssize_t)need_repair.size()) {
                 pos = 0;
             } else if(pos < 0) {
                 pos = need_repair.size() - 1;
@@ -626,7 +621,7 @@ void veh_interact::do_repair(task_reason reason)
 /**
  * Handles refilling a vehicle's fuel tank.
  * @param reason INVALID_TARGET if there's no fuel tank in the spot,
- *               LACK_TOOLS if the player has nothing to fill the tank with.
+ *               CANT_REFILL All tanks are broken or player has nothing to fill the tank with.
  */
 void veh_interact::do_refill(task_reason reason)
 {
@@ -644,6 +639,8 @@ void veh_interact::do_refill(task_reason reason)
                                           "you don't have the proper fuel."));
         wrefresh (w_msg);
         return;
+    default:
+        return; // Ignore this error silently.
     }
 
     if (ptanks.empty()) {
@@ -654,7 +651,7 @@ void veh_interact::do_refill(task_reason reason)
     // Now at least one of "fuel tank" is can be refilled.
     // If we have more that one tank we need to create choosing menu
     if (ptanks.size() > 1) {
-        int pt_choise;
+        unsigned int pt_choise;
         unsigned int entry_num;
         uimenu fuel_choose;
         fuel_choose.text = _("What to refill:");
@@ -721,6 +718,8 @@ void veh_interact::do_remove(task_reason reason)
         mvwprintz(w_msg, 0, 1, c_ltred, _("You need level 2 mechanics skill to remove parts."));
         wrefresh (w_msg);
         return;
+    default:
+        return; // Ignore this error silently.
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
@@ -766,7 +765,7 @@ void veh_interact::do_remove(task_reason reason)
             pos += dy;
             if (pos < first) {
                 pos = parts_here.size() - 1;
-            } else if (pos >= parts_here.size()) {
+            } else if (pos >= (ssize_t)parts_here.size()) {
                 pos = first;
             }
         }
@@ -792,6 +791,8 @@ void veh_interact::do_siphon(task_reason reason)
                        _("You need a <color_red>hose</color> to siphon fuel."));
         wrefresh (w_msg);
         return;
+    default:
+        return; // Ignore this error silently.
     }
     sel_cmd = 's';
 }
@@ -817,6 +818,8 @@ void veh_interact::do_tirechange(task_reason reason)
                        has_jack ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
+    default:
+        return; // Ignore this error silently.
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose wheel to use as replacement:"));
     wrefresh (w_mode);
@@ -848,7 +851,7 @@ void veh_interact::do_tirechange(task_reason reason)
             pos += dy;
             if (pos < 0) {
                 pos = wheel_types.size() - 1;
-            } else if (pos >= wheel_types.size()) {
+            } else if (pos >= (ssize_t)wheel_types.size()) {
                 pos = 0;
             }
         }
@@ -874,6 +877,8 @@ void veh_interact::do_drain(task_reason reason)
                        _("You need a <color_red>hose</color> to siphon water.") );
         wrefresh (w_msg);
         return;
+    default:
+        return; // Ignore this error silently.
     }
     sel_cmd = 'd';
 }
@@ -1355,7 +1360,7 @@ void veh_interact::countDurability()
     int max = 0; // sum of part max HP, i.e. durability
     double mostDamaged = 1; // durability ratio of the most damaged part
 
-    for (int it = 0; it < veh->parts.size(); it++) {
+    for (size_t it = 0; it < veh->parts.size(); it++) {
         if (veh->parts[it].removed) {
             continue;
         }
@@ -1591,7 +1596,7 @@ void complete_vehicle ()
         tools.push_back(component("circsaw_off", 20));
         g->consume_tools(&g->u, tools, true);
         // Dump contents of part at player's feet, if any.
-        for (int i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
+        for (size_t i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
             g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[vehicle_part].items[i]);
         }
         veh->parts[vehicle_part].items.clear();
