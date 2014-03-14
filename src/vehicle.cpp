@@ -763,10 +763,10 @@ void vehicle::honk_horn ()
     }
 }
 
-vpart_info& vehicle::part_info (int index)
+vpart_info& vehicle::part_info (int index, bool include_removed)
 {
     if (index >= 0 && index < parts.size()) {
-        if (!parts[index].removed) {
+        if (!parts[index].removed || include_removed) {
             return vehicle_part_int_types[parts[index].iid];
             // slow autovivication // vehicle_part_types[parts[index].id];
         }
@@ -2027,6 +2027,11 @@ int vehicle::basic_consumption (const ammotype & ftype)
     return fcon;
 }
 
+/**
+ * r_power_max = mechanical watts if all non-broken engines were on/repaired/had fuel
+ * r_epower is current epower drain (gas) / production (plasma)
+ * r_alt_power is alternator power drain on engine
+ */
 int vehicle::engine_power( int *r_power_max, int *r_epower, int *r_alt_power )
 {
     int power_cur = 0; 
@@ -2372,12 +2377,14 @@ bool vehicle::do_environmental_effects() {
 double vehicle::generate_all_power()
 {
     // Producers of epower
-    int max_power, eng_epower, alt_power, eng_power;
+    int eng_pwr_max, eng_epower, alt_power, eng_power;
     int epower = solar_epower();
-    if (engine_on)
-        eng_power = engine_power(&max_power, &eng_epower, &alt_power);
-    if (engine_on) // Could have died in line above
+    if( engine_on ) {
+        engine_power( &eng_pwr_max, &eng_epower, &alt_power );
+    }
+    if( engine_on ) { // Engine could have died in line above
         epower += eng_epower;
+    }
 
     // These consume epower (negative values). Values cached in refresh()
     if(lights_on) epower += lights_epower;
@@ -2453,7 +2460,7 @@ double vehicle::generate_all_power()
     // Return idle engine load, used if engines are not asked to generate thrust this turn
     double load = 0;
     if (engine_on) {
-        load = alt_power / power_to_epower(max_power);
+        load = alt_power / eng_pwr_max;
         if (load < 0.01)
             load = 0.01; // Assume min 1%
     }
