@@ -1519,7 +1519,7 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
            case 1:
              return npc ? _("<npcname> gouges %s") : _("You gouge %s");
            case 2:
-             return npc ? _("<npcname> runs through %s") : _("You run through %s");
+             return npc ? _("<npcname> runs %s through") : _("You run %s through");
           }
         } else if (bash_dam + stab_dam + cut_dam >= 20) {
             return npc ? _("<npcname> punctures %s") : _("You puncture %s");
