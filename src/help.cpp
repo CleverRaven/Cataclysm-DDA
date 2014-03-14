@@ -909,9 +909,8 @@ it from spreading. Fire extinguishers can put out fires that get out of control.
 
     text.push_back(_("\
 Q: I'm cold and can't sleep at night!\n\
-A: Gather some clothes and put them in the place you use to sleep in, put some extra \
-clothes on before you sleep and take them off when you wake up. Being hungry, thirsty, or wet \
-can also make you feel the cold more, so try to avoid these effects before you go to sleep."));
+A: Gather some clothes and put them in the place you use to sleep in. Being hungry, thirsty, wet \
+or injured can also make you feel the cold more, so try to avoid these effects before you go to sleep."));
 
     text.push_back(_("\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
