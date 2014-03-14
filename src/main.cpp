@@ -35,7 +35,7 @@
 void exit_handler(int s);
 void set_base_path(std::string path);
 void set_user_dir(const char *ud = "");
-void set_standard_filenames(void);
+void set_standart_filenames(void);
 
 std::map<std::string, std::string> FILENAMES; // create map where we will store the FILENAMES
 
@@ -64,11 +64,12 @@ int main(int argc, char *argv[])
     set_base_path("");
 #endif
     set_user_dir();
-    set_standard_filenames();
+    set_standart_filenames();
 
     // Process CLI arguments
-    argc--;
-    argv++;
+    int saved_argc = --argc;
+    char **saved_argv = ++argv;
+
     while (argc) {
         if(std::string(argv[0]) == "--seed") {
             argc--;
@@ -92,58 +93,74 @@ int main(int argc, char *argv[])
             if(argc) {
                 FILENAMES["base_path"] = std::string(argv[0]);
                 set_base_path(std::string(argv[0]));
-                set_standard_filenames();
+                set_standart_filenames();
                 argc--;
                 argv++;
             }
-        } else if(std::string(argv[0]) == "--datadir") {
+        } else if(std::string(argv[0]) == "--userdir") {
             argc--;
             argv++;
-            if(argc) {
-                FILENAMES["datadir"] = std::string(argv[0]);
+            if (argc) {
+                FILENAMES["user_dir"] = std::string(argv[0]);
+                set_standart_filenames();
                 argc--;
                 argv++;
             }
-        } else if(std::string(argv[0]) == "--savedir") {
+        } else { // Skipping other options.
             argc--;
             argv++;
-            if(argc) {
-                FILENAMES["savedir"] = std::string(argv[0]);
-                argc--;
-                argv++;
+        }
+    }
+    while (saved_argc) {
+        if(std::string(saved_argv[0]) == "--datadir") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["datadir"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
             }
-        } else if(std::string(argv[0]) == "--optionfile") {
-            argc--;
-            argv++;
-            if(argc) {
-                FILENAMES["optionfile"] = std::string(argv[0]);
-                argc--;
-                argv++;
+        } else if(std::string(saved_argv[0]) == "--savedir") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["savedir"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
             }
-        } else if(std::string(argv[0]) == "--keymapfile") {
-            argc--;
-            argv++;
-            if(argc) {
-                FILENAMES["keymapfile"] = std::string(argv[0]);
-                argc--;
-                argv++;
+        } else if(std::string(saved_argv[0]) == "--optionfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["optionfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
             }
-        } else if(std::string(argv[0]) == "--autopickupfile") {
-            argc--;
-            argv++;
-            if(argc) {
-                FILENAMES["autopickupfile"] = std::string(argv[0]);
-                argc--;
-                argv++;
+        } else if(std::string(saved_argv[0]) == "--keymapfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["keymapfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
             }
-        } else if(std::string(argv[0]) == "--motdfile") {
-            argc--;
-            argv++;
-            if(argc) {
-                FILENAMES["motdfile"] = std::string(argv[0]);
-                argc--;
-                argv++;
+        } else if(std::string(saved_argv[0]) == "--autopickupfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["autopickupfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
             }
+        } else if(std::string(saved_argv[0]) == "--motdfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["motdfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        /*
         } else if(std::string(argv[0]) == "--typeface") {
             argc--;
             argv++;
@@ -152,9 +169,10 @@ int main(int argc, char *argv[])
                 argc--;
                 argv++;
             }
+        }*/ 
         } else { // ignore unknown args.
-            argc--;
-            argv++;
+            saved_argc--;
+            saved_argv++;
         }
     }
 
@@ -323,7 +341,7 @@ void set_user_dir(const char *ud)
     FILENAMES.insert(std::pair<std::string,std::string>("user_dir", dir));
 }
 
-void set_standard_filenames(void)
+void set_standart_filenames(void)
 {
     const char *share_dir;
 #if !(defined _WIN32 || defined WINDOW)
