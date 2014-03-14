@@ -896,10 +896,12 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     // Pedals and engines can't both be installed
-    if( part.has_flag("PEDALS") && engines.size() > 0 )
+    if( part.has_flag("PEDALS") && engines.size() > 0 ) {
         return false;
-    if( part.has_flag(VPFLAG_ENGINE) && has_pedals )
+    }
+    if( part.has_flag(VPFLAG_ENGINE) && has_pedals ) {
         return false;
+    }
 
     // Alternators must be installed on a gas engine
     if(vehicle_part_types[id].has_flag(VPFLAG_ALTERNATOR)) {
@@ -3400,30 +3402,41 @@ void vehicle::refresh()
             lights.push_back( p );
             lights_epower += vpi.epower;
         }
-        if( vpi.has_flag(VPFLAG_CIRCLE_LIGHT) )
+        if( vpi.has_flag(VPFLAG_CIRCLE_LIGHT) ) {
             overhead_epower += vpi.epower;
-        if( vpi.has_flag(VPFLAG_TRACK) )
+        }
+        if( vpi.has_flag(VPFLAG_TRACK) ) {
             tracking_epower += vpi.epower;
-        if( vpi.has_flag(VPFLAG_FRIDGE) )
+        }
+        if( vpi.has_flag(VPFLAG_FRIDGE) ) {
             fridge_epower += vpi.epower;
-        if( vpi.has_flag(VPFLAG_RECHARGE) )
+        }
+        if( vpi.has_flag(VPFLAG_RECHARGE) ) {
             recharger_epower += vpi.epower;
-        if( vpi.has_flag(VPFLAG_ALTERNATOR) )
+        }
+        if( vpi.has_flag(VPFLAG_ALTERNATOR) ) {
             alternators.push_back( p );
-        if( vpi.has_flag(VPFLAG_FUEL_TANK) )
+        }
+        if( vpi.has_flag(VPFLAG_FUEL_TANK) ) {
             fuel.push_back( p );
-        if( vpi.has_flag(VPFLAG_ENGINE) )
+        }
+        if( vpi.has_flag(VPFLAG_ENGINE) ) {
             engines.push_back( p );
-        if( vpi.has_flag(VPFLAG_FUEL_TANK) && vpi.fuel_type == fuel_type_plutonium )
+        }
+        if( vpi.has_flag(VPFLAG_FUEL_TANK) && vpi.fuel_type == fuel_type_plutonium ) {
             reactors.push_back( p );
-        if( vpi.has_flag(VPFLAG_SOLAR_PANEL) )
+        }
+        if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
             solar_panels.push_back( p );
-        if( vpi.has_flag("PEDALS") )
+        }
+        if( vpi.has_flag("PEDALS") ) {
             has_pedals = true;
+        }
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );
-        if( relative_parts.find(pt) == relative_parts.end() )
+        if( relative_parts.find(pt) == relative_parts.end() ) {
             relative_parts[pt].clear();
+        }
         relative_parts[pt].push_back( p );
     }
 
