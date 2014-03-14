@@ -217,6 +217,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     item* gunmod = weapon.active_gunmod();
     it_ammo *curammo = NULL;
     item *used_weapon = NULL;
+    Skill *skill_used = NULL;
 
     if (weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
         // Charges maxes out at 8.
@@ -248,6 +249,10 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     } else if (gunmod != NULL) {
         used_weapon = gunmod;
         curammo = used_weapon->curammo;
+        const it_gunmod *mod = dynamic_cast<const it_gunmod*>(gunmod->type);
+        if (mod != NULL) {
+            skill_used = mod->skill_used;
+        }
     } else {// Just a normal gun. If we're here, we know curammo is valid.
         curammo = weapon.curammo;
         used_weapon = &weapon;
@@ -291,6 +296,9 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     }
     if (burst && used_weapon->burst_size() < 2) {
         burst = false; // Can't burst fire a semi-auto
+    }
+    if (skill_used == NULL) {
+        skill_used = firing->skill_used;
     }
 
     // Use different amounts of time depending on the type of gun and our skill
@@ -458,14 +466,14 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
         double missed_by = projectile_attack(proj, mtarx, mtary, total_dispersion);
         if (missed_by <= .1) { // TODO: check head existence for headshot
-            practice(g->turn, firing->skill_used, 5);
+            practice(g->turn, skill_used, 5);
             lifetime_stats()->headshots++;
         } else if (missed_by <= .2) {
-            practice(g->turn, firing->skill_used, 3);
+            practice(g->turn, skill_used, 3);
         } else if (missed_by <= .4) {
-            practice(g->turn, firing->skill_used, 2);
+            practice(g->turn, skill_used, 2);
         } else if (missed_by <= .6) {
-            practice(g->turn, firing->skill_used, 1);
+            practice(g->turn, skill_used, 1);
         }
 
     }
