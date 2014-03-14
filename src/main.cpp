@@ -358,11 +358,11 @@ void set_standard_filenames(void)
     FILENAMES.insert(std::pair<std::string,std::string>("sokoban", FILENAMES["rawdir"] + "sokoban.txt"));
     FILENAMES.insert(std::pair<std::string,std::string>("defaulttilejson", FILENAMES["gfx"] + "tile_config.json"));
     FILENAMES.insert(std::pair<std::string,std::string>("defaulttilepng", FILENAMES["gfx"] + "tinytile.png"));
+    FILENAMES.insert(std::pair<std::string,std::string>("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json"));
 
     // User directories
     FILENAMES.insert(std::pair<std::string,std::string>("savedir", FILENAMES["user_dir"] + "save/"));
     FILENAMES.insert(std::pair<std::string,std::string>("memorialdir", FILENAMES["user_dir"] + "memorial/"));
-    // TODO save/load templates from {user-dir}/templates
     FILENAMES.insert(std::pair<std::string,std::string>("templatedir", FILENAMES["user_dir"] + "templates/"));
 
     // User files
@@ -372,12 +372,9 @@ void set_standard_filenames(void)
     FILENAMES.insert(std::pair<std::string,std::string>("fontlist", FILENAMES["user_dir"] + "fontlist.txt"));
     FILENAMES.insert(std::pair<std::string,std::string>("fontdata", FILENAMES["user_dir"] + "FONTDATA"));
     FILENAMES.insert(std::pair<std::string,std::string>("autopickup", FILENAMES["user_dir"] + "auto_pickup.txt"));
+    FILENAMES.insert(std::pair<std::string,std::string>("mods-user-default", FILENAMES["user_dir"] + "user-default-mods.json"));
     /*
     FILENAMES.insert(std::pair<std::string,std::string>("mainlua", FILENAMES["datadir"] + "main.lua"));
     FILENAMES.insert(std::pair<std::string,std::string>("typeface", FILENAMES["fontdir"] + "fixedsys.ttf"));
-
-    FILENAMES.insert(std::pair<std::string,std::string>("modsearchpath", FILENAMES["datadir"]));
-    FILENAMES.insert(std::pair<std::string,std::string>("modsearchfile", FILENAMES["modinfo.json"]));
-    FILENAMES.insert(std::pair<std::string,std::string>("moddevdefaultpath", FILENAMES["moddir"] + "dev-default-mods.json"));
-    FILENAMES.insert(std::pair<std::string,std::string>("moduserdefaultpath", FILENAMES["moddir"] + "user-defaults-mods.json")); */
+    */
 }
