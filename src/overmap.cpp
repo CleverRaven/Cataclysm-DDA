@@ -2075,6 +2075,8 @@ void overmap::move_hordes()
 
             if( zg[i].posx == zg[i].tx && zg[i].posy == zg[i].ty ) {
                 zg[i].wander();
+            } else {
+                zg[i].dec_interest( 1 );
             }
         }
     }
