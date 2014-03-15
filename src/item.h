@@ -127,6 +127,18 @@ public:
  nc_color color() const;
  int price() const;
 
+    /**
+     * Returns true if this item is of the specific type, or
+     * if this functions returns true for any of its contents.
+     */
+    bool is_of_type_or_contains_it(const std::string &type_id) const;
+    /**
+     * Returns true if this item is ammo and has the specifi ammo type,
+     * or if this functions returns true for any of its contents.
+     * This does not check type->id, but it_ammo::type.
+     */
+    bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
+
  bool invlet_is_okay();
  bool stacks_with(item rhs);
  void put_in(item payload);
