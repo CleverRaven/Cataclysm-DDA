@@ -3,6 +3,8 @@
 #include "overmapbuffer.h"
 #include "game.h"
 
+#include <fstream>
+
 overmapbuffer overmap_buffer;
 
 // Cached result of previous call to overmapbuffer::get_existing

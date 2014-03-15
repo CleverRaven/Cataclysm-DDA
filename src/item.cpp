@@ -2921,3 +2921,24 @@ bool item_matches_locator(const item &, int locator_pos, int item_pos) {
 bool item_matches_locator(const item &it, char invlet, int) {
     return it.invlet == invlet;
 }
+
+iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double Value, bool _is_int, std::string Plus, bool NewLine, bool LowerIsBetter, bool DrawName) {
+    sType = Type;
+    sName = Name;
+    sFmt = Fmt;
+    is_int = _is_int;
+    dValue = Value;
+    std::stringstream convert;
+    if (_is_int) {
+        int dIn0i = int(Value);
+        convert << dIn0i;
+    } else {
+        convert.precision(2);
+        convert << std::fixed << Value;
+    }
+    sValue = convert.str();
+    sPlus = Plus;
+    bNewLine = NewLine;
+    bLowerIsBetter = LowerIsBetter;
+    bDrawName = DrawName;
+}

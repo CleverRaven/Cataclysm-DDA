@@ -11,11 +11,9 @@
 #include "rng.h"
 #include "material.h"
 #include "mtype.h"
-#include "json.h"
 
 #include <string>
 #include <vector>
-#include <sstream>
 #include <set>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield

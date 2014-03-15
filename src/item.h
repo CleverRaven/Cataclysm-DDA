@@ -37,26 +37,7 @@ struct iteminfo{
   bool bDrawName; //If false then compares sName, but don't print sName.
 
   //Inputs are: ItemType, main text, text between main text and value, value, if the value should be an int instead of a double, text after number, if there should be a newline after this item, if lower values are better
-  iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999, bool _is_int = true, std::string Plus = "", bool NewLine = true, bool LowerIsBetter = false, bool DrawName = true) {
-    sType = Type;
-    sName = Name;
-    sFmt = Fmt;
-    is_int = _is_int;
-    dValue = Value;
-    std::stringstream convert;
-    if (_is_int) {
-        int dIn0i = int(Value);
-        convert << dIn0i;
-    } else {
-        convert.precision(2);
-        convert << std::fixed << Value;
-    }
-    sValue = convert.str();
-    sPlus = Plus;
-    bNewLine = NewLine;
-    bLowerIsBetter = LowerIsBetter;
-    bDrawName = DrawName;
-  }
+  iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999, bool _is_int = true, std::string Plus = "", bool NewLine = true, bool LowerIsBetter = false, bool DrawName = true);
 };
 
 enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,

@@ -9,6 +9,7 @@
 #include "construction.h"
 #include <string>
 #include <vector>
+#include <ostream>
 #include <sstream>
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
