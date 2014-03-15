@@ -2414,6 +2414,33 @@ ammotype item::ammo_type() const
     return "NULL";
 }
 
+bool item::is_of_type_or_contains_it(const std::string &type_id) const
+{
+    if (type != NULL && type->id == type_id) {
+        return true;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].is_of_type_or_contains_it(type_id)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const
+{
+    const it_ammo *amm = dynamic_cast<const it_ammo *>(type);
+    if (amm != NULL && amm->type == ammo_type_id) {
+        return true;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].ammo_type() == ammo_type_id) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int item::pick_reload_ammo(player &u, bool interactive)
 {
     if( is_null() ) {
