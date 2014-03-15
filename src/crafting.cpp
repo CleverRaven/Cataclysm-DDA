@@ -1420,7 +1420,12 @@ void game::complete_craft()
 
     // Set up the new item, and assign an inventory letter if available
     item newit(item_controller->find_template(making->result), turn, 0, false);
-    newit.components.insert(newit.components.begin(), used.begin(), used.end());
+    if (!newit.count_by_charges()) {
+        // Setting this for items counted by charges gives only problems:
+        // those items are automatically merged everywhere (map/vehicle/inventory),
+        // which would either loose this information or merge it somehow.
+        newit.components.insert(newit.components.begin(), used.begin(), used.end());
+    }
 
     if (newit.is_armor() && newit.has_flag("VARSIZE")) {
         newit.item_tags.insert("FIT");
@@ -1707,6 +1712,17 @@ void game::disassemble(int pos)
             recipe *cur_recipe = *list_iter;
             if (dis_item->type == item_controller->find_template(cur_recipe->result) &&
                 cur_recipe->reversible) {
+                if (dis_item->count_by_charges()) {
+                    // Create a new item to get the default charges
+                    item tmp(dis_item->type, 0);
+                    if (cur_recipe->result_mult != 1) {
+                        tmp.charges *= cur_recipe->result_mult;
+                    }
+                    if (dis_item->charges < tmp.charges) {
+                        popup(_("You need at least %d charges of the that item to disassemble it."), tmp.charges);
+                        return;
+                    }
+                }
                 // ok, a valid recipe exists for the item, and it is reversible
                 // assign the activity
                 // check tools are available
@@ -1819,12 +1835,20 @@ void game::complete_disassemble()
     remove_ammo(&dis_item);
 
     if (dis_item.count_by_charges()) {
+        // Create a new item to get the default charges
+        item tmp(dis_item.type, 0);
+        if (dis->result_mult != 1) {
+            tmp.charges *= dis->result_mult;
+        }
         dis_item.charges -= dis_item.type->stack_size;
-        if (dis_item.charges == 0) {
+        if (dis_item.charges <= 0) {
             u.i_rem(u.activity.values[0]);
+        } else {
+            // dis_item is a copy, need to commit the changed charges value
+            u.i_at(u.activity.values[0]).charges = dis_item.charges;
         }
     } else {
-        u.i_rem(u.activity.values[0]);  // remove the item
+        u.i_rem(u.activity.values[0]);
     }
 
     // consume tool charges
