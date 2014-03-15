@@ -1171,13 +1171,14 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
     }
 }
 
-
+WINDOW *w_hit_animation = NULL;
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {
     WINDOW *w_hit = newwin(1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
     if (w_hit == NULL) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
+    w_hit_animation = w_hit;
 
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
@@ -1189,6 +1190,7 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
     timeout(iTimeout);
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout(-1);
+    w_hit_animation = NULL;
 }
 
 std::string from_sentence_case (const std::string &kingston)

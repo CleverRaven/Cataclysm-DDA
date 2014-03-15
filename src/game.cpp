@@ -74,11 +74,6 @@ extern worldfactory *world_generator;
 
 uistatedata uistate;
 
-#ifdef SDLTILES
-#include "cata_tiles.h"
-extern cata_tiles *tilecontext;
-#endif // SDLTILES
-
 // This is the main game set-up process.
 game::game() :
  uquit(QUIT_NO),
@@ -238,6 +233,14 @@ game::~game()
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
 
+#if (defined TILES)
+// defined in sdltiles.cpp
+void translate_terrain_window_size(int &w, int &h);
+#else
+// unchanged, nothing to be translated without tiles
+void translate_terrain_window_size(int &, int &) { }
+#endif
+
 void game::init_ui(){
     // clear the screen
     static bool first_init = true;
@@ -256,32 +259,10 @@ void game::init_ui(){
 
     int sidebarWidth = narrow_sidebar ? 45 : 55;
 
+    // First get TERMX, TERMY
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = get_terminal_width();
         TERMY = get_terminal_height();
-
-        #ifdef SDLTILES
-        if(OPTIONS["USE_TILES"]) {
-            VIEW_OFFSET_X = ((int)(TERMX/tilecontext->get_tile_ratiox()) - sidebarWidth > 121) ?
-                                (TERMX - sidebarWidth - 121)/2 * tilecontext->get_tile_ratiox() : 0;
-            VIEW_OFFSET_Y = ((int)(TERMY/tilecontext->get_tile_ratioy()) > 121) ? (TERMY - 121)/2 : 0;
-            TERRAIN_WINDOW_WIDTH  = ceil((TERMX - sidebarWidth)/tilecontext->get_tile_ratiox());
-            TERRAIN_WINDOW_HEIGHT = ceil(TERMY/tilecontext->get_tile_ratioy());
-            TERRAIN_WINDOW_TERM_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
-        }
-        else
-        #endif // SDLTILES
-        {
-            VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
-            VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
-            TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
-            TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
-            TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
-        }
-
-        POSX = TERRAIN_WINDOW_WIDTH / 2;
-        POSY = TERRAIN_WINDOW_HEIGHT / 2;
-
     #else
         getmaxyx(stdscr, TERMY, TERMX);
 
@@ -296,19 +277,24 @@ void game::init_ui(){
         // check if sidebar style needs to be overridden
         sidebarWidth = use_narrow_sidebar() ? 45 : 55;
         if(fullscreen) {
-          sidebarWidth = 0;
+            sidebarWidth = 0;
         }
-
-        TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
-        TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
-        TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
-
-        VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
-        VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
-
-        POSX = TERRAIN_WINDOW_WIDTH / 2;
-        POSY = TERRAIN_WINDOW_HEIGHT / 2;
     #endif
+    const int max_view_size = 121;
+    // Now get terrain window size in number of characters (colums/rows)
+    TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > max_view_size) ? max_view_size : TERMX - sidebarWidth;
+    TERRAIN_WINDOW_HEIGHT = (TERMY > max_view_size) ? max_view_size : TERMY;
+    TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
+
+    // Dimensions of terrain window is currently in colums/rows,
+    // but if the tileset is in use or if we use a different sized
+    // font for the terrain window this does not match.
+    translate_terrain_window_size(TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT);
+    VIEW_OFFSET_X = std::max(TERRAIN_WINDOW_WIDTH - max_view_size, 0) / 2;
+    VIEW_OFFSET_Y = std::max(TERRAIN_WINDOW_HEIGHT - max_view_size, 0) / 2;
+
+    POSX = TERRAIN_WINDOW_WIDTH / 2;
+    POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     // Set up the main UI windows.
     w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
