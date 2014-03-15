@@ -5449,7 +5449,8 @@
       [ "pot", -1 ],
       [ "coffeemaker", -1],
       [ "rock_pot", -1 ],
-      [ "teapot", -1 ]
+      [ "teapot", -1 ],
+      [ "can_food", -1]
     ]
   ],
   "components": [
