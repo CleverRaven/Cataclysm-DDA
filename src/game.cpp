@@ -3942,7 +3942,7 @@ void game::debug()
                    _("Map editor"), // 17
                    _("Change weather"),         // 18
                    _("Remove all monsters"),    // 19
-                   _("Hordes debug"), //20
+                   _("Display hordes"), // 20
                    #ifdef LUA
                        _("Lua Command"), // 21
                    #endif
@@ -4333,11 +4333,11 @@ Current turn: %d; Next spawn %d.\n\
         cleanup_dead();
   }
   break;
-  case 20:
-    {
-        groupdebug();
-    }
-    break;
+  case 20: {
+      // display hordes on the map
+      overmap::draw_overmap(g->om_global_location(), true);
+  }
+  break;
 
   #ifdef LUA
       case 21: {
@@ -4363,27 +4363,6 @@ void game::mondebug()
   else
    debugmsg("The %s can't see you...", critter.name().c_str());
  }
-}
-
-void game::groupdebug()
-{
- erase();
- mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx,
-                                           levy);
- int dist, linenum = 1;
- for (int i = 0; i < cur_om->zg.size(); i++) {
-  if (cur_om->zg[i].posz != levz) { continue; }
-  dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-  //if (dist <= cur_om->zg[i].radius)
-  if (cur_om->zg[i].horde)
-  {
-   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d",
-            i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
-            cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest);
-   linenum++;
-  }
- }
- getch();
 }
 
 void game::draw_overmap()
