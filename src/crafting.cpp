@@ -1857,51 +1857,68 @@ void game::complete_disassemble()
     }
 
     for (unsigned j = 0; j < dis->components.size(); j++) {
-        if (dis->components[j].size() != 0) {
-            const std::string &comp = dis->components[j][0].type;
-            itype *itt = item_controller->find_template(comp);
-            if (itt->item_tags.count("UNRECOVERABLE") > 0) {
+        const std::vector<component> &altercomps = dis->components[j];
+        if (altercomps.empty()) {
+            debugmsg("component list %d of recipe %s is empty", j, dis->ident.c_str());
+            continue;
+        }
+        int alter_comp_index = 0;
+        // If there are several (alternative) components, search the
+        // one that was used. If not found, use the first one.
+        // Don't check the first in altercomps, it's the default anyway.
+        for(size_t k = 1; alter_comp_index == 0 && k < altercomps.size(); k++) {
+            for(item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end(); ++a) {
+                if (a->type->id == altercomps[k].type) {
+                    alter_comp_index = k;
+                }
+            }
+        }
+        const component &comp = altercomps[alter_comp_index];
+        itype *itt = item_controller->find_template(comp.type);
+        if (itt->item_tags.count("UNRECOVERABLE") > 0) {
+            continue;
+        }
+
+        int compcount = comp.count;
+        item newit(itt, turn);
+        // Compress liquids and counted-by-charges items into one item,
+        // they are added together on the map anyway and handle_liquid
+        // should only be called once to put it all into a container at once.
+        if (newit.count_by_charges() || newit.made_of(LIQUID)) {
+            newit.charges = compcount;
+            compcount = 1;
+        }
+
+        for( ; compcount > 0; compcount--) {
+            const bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
+            if (dis->difficulty != 0 && !comp_success) {
+                add_msg(_("You fail to recover %s."), newit.tname().c_str());
                 continue;
             }
-
-            int compcount = dis->components[j][0].count;
-            item newit(itt, turn);
-            if (newit.count_by_charges()) {
-                newit.charges = compcount;
-                compcount = 1;
+            const bool dmg_success = component_success_chance > rng_float(0, 1);
+            if (!dmg_success) {
+                // Show reason for failure (damaged item, tname contains the damage adjective)
+                add_msg(_("You fail to recover %s from the %s."), newit.tname().c_str(), dis_item.tname().c_str());
+                continue;
             }
-
-            for( ; compcount > 0; compcount--) {
-                const bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
-                if (dis->difficulty != 0 && !comp_success) {
-                    add_msg(_("You fail to recover %s."), newit.tname().c_str());
-                    continue;
+            // Use item from components list, or (if not contained)
+            // use newit, the default constructed.
+            item act_item = newit;
+            for(item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end(); ++a) {
+                if (a->type == newit.type) {
+                    act_item = *a;
+                    dis_item.components.erase(a);
+                    break;
                 }
-                const bool dmg_success = component_success_chance > rng_float(0, 1);
-                if (!dmg_success) {
-                    // Show reason for failure (damaged item, tname contains the damage adjective)
-                    add_msg(_("You fail to recover %s from the %s."), newit.tname().c_str(), dis_item.tname().c_str());
-                    continue;
+            }
+            if (act_item.made_of(LIQUID)) {
+                while (!handle_liquid(act_item, false, false)) {
+                    // Try again, maybe use another container.
                 }
-                // Use item from components list, or (if not contained)
-                // use newit directly.
-                item act_item = newit;
-                for(item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end(); ++a) {
-                    if (a->type == newit.type) {
-                        act_item = *a;
-                        dis_item.components.erase(a);
-                        break;
-                    }
-                }
-                if (act_item.made_of(LIQUID)) {
-                    while (!handle_liquid(act_item, false, false)) {
-                        // Try again, maybe use another container.
-                    }
-                } else if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, act_item)) {
-                    // add_item did put the items in the vehicle, nothing further to be done
-                } else {
-                    m.add_item_or_charges(u.posx, u.posy, act_item);
-                }
+            } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
+                // add_item did put the items in the vehicle, nothing further to be done
+            } else {
+                m.add_item_or_charges(u.posx, u.posy, act_item);
             }
         }
     }
