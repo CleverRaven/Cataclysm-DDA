@@ -355,6 +355,9 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
             card->charges -= vend_items[cur_pos].price();
             p->i_add_or_drop(vend_items[cur_pos]);
             m->i_rem(examx, examy, cur_pos);
+            if (cur_pos == vend_items.size()) {
+                cur_pos--;
+            }
             used_machine = true;
 
             if (num_items == 1) {
