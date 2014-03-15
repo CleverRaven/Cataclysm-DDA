@@ -4264,6 +4264,9 @@ void map::spawn_monsters()
      tmp.spawnmapy = g->levy + gy;
      tmp.faction_id = grid[n]->spawns[i].faction_id;
      tmp.mission_id = grid[n]->spawns[i].mission_id;
+
+     tmp.set_effects(grid[n]->spawns[i].effects);
+
      if (grid[n]->spawns[i].name != "NONE")
       tmp.unique_name = grid[n]->spawns[i].name;
      if (grid[n]->spawns[i].friendly)

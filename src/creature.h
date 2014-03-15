@@ -139,6 +139,9 @@ class Creature
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id);
 
+        const std::vector<effect>& get_effects() const;
+        void set_effects(std::vector<effect> effs);
+
         virtual void process_effects(); // runs all the effects on the Creature
 
         // not-quite-stats, maybe group these with stats later
