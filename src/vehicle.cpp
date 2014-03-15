@@ -1256,6 +1256,14 @@ bool vehicle::remove_part (int p)
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(seatbelt);
         }
+        // Also unboard entity if seat gets removed
+        std::vector<int> bp = boarded_parts();
+        for( size_t i = 0; i < bp.size(); i++ ) {
+            if( bp[i] == p ) {
+                g->m.unboard_vehicle( global_x() + parts[p].precalc_dx[0],
+                                      global_y() + parts[p].precalc_dy[0] );
+            }
+        }
     }
 
     parts[p].removed = true;
