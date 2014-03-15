@@ -2907,7 +2907,7 @@ std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const it
                         quantity = 0;
                     } else {
                         // remove all charges, destroy the item (perhaps)
-                        quantity = -curit.charges;
+                        quantity -= curit.charges;
                         curit.charges = 0;
                         if (curit.destroyed_at_zero_charges()) {
                             vec.erase(vec.begin() + n);
