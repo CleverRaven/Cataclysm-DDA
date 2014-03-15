@@ -2050,21 +2050,22 @@ int vehicle::safe_velocity (bool fueled)
         if (part_flag(p, VPFLAG_ENGINE) &&
             (fuel_left (part_info(p).fuel_type) || !fueled ||
              part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0)
-        {
+            parts[p].hp > 0) {
             int m2c = 100;
 
-            if( part_info(p).fuel_type == fuel_type_gasoline )    m2c = 60;
-            else if( part_info(p).fuel_type == fuel_type_plasma ) m2c = 75;
-            else if( part_info(p).fuel_type == fuel_type_battery )   m2c = 90;
-            else if( part_info(p).fuel_type == fuel_type_muscle ) m2c = 45;
+            if ( part_info(p).fuel_type == fuel_type_gasoline ) {
+                m2c = 60;
+            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+                m2c = 75;
+            } else if( part_info(p).fuel_type == fuel_type_battery ) {
+                m2c = 90;
+            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+                m2c = 45;
+            }
 
             pwrs += part_power(p) * m2c / 100;
             cnt++;
-        }
-        else if (part_flag(p, VPFLAG_ALTERNATOR) &&
-                 parts[p].hp > 0) // factor in m2c?
-        {
+        } else if (part_flag(p, VPFLAG_ALTERNATOR) && parts[p].hp > 0) { // factor in m2c?
             pwrs += part_power(p); // alternator parts have negative power
         }
     }
@@ -2120,13 +2121,12 @@ float vehicle::wheels_area (int *cnt)
     int count = 0;
     int total_area = 0;
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
-    for (int i = 0; i < wheel_indices.size(); i++)
-    {
+    for (size_t i = 0; i < wheel_indices.size(); ++i) {
         int p = wheel_indices[i];
         int width = part_info(p).wheel_width;
         int bigness = parts[p].bigness;
         // 9 inches, for reference, is about normal for cars.
-        total_area += ((float)width/9) * bigness;
+        total_area += ((float)width / 9) * bigness;
         count++;
     }
     if (cnt) {
@@ -2135,15 +2135,23 @@ float vehicle::wheels_area (int *cnt)
     return total_area;
 }
 
-float vehicle::k_dynamics ()
+float vehicle::k_friction ()
+{
+    // calculate safe speed reduction due to wheel friction
+    float fr0 = 1000.0;
+    float kf = ( fr0 / (fr0 + wheels_area()) );
+    return kf;
+}
+
+float vehicle::k_aerodynamics ()
 {
     const int max_obst = 13;
     int obst[max_obst];
-    for (int o = 0; o < max_obst; o++) {
+    for (int o = 0; o < max_obst; ++o) {
         obst[o] = 0;
     }
     std::vector<int> structure_indices = all_parts_at_location(part_location_structure);
-    for (int i = 0; i < structure_indices.size(); i++)
+    for (size_t i = 0; i < structure_indices.size(); ++i)
     {
         int p = structure_indices[i];
         int frame_size = part_with_feature(p, VPFLAG_OBSTACLE) ? 30 : 10;
@@ -2159,20 +2167,19 @@ float vehicle::k_dynamics ()
         }
     }
     int frame_obst = 0;
-    for (int o = 0; o < max_obst; o++) {
+    for (int o = 0; o < max_obst; ++o) {
         frame_obst += obst[o];
     }
     float ae0 = 200.0;
-    float fr0 = 1000.0;
-    float wa = wheels_area();
 
     // calculate aerodynamic coefficient
-    float ka = ae0 / (ae0 + frame_obst);
+    float ka = ( ae0 / (ae0 + frame_obst) );
+    return ka;
+}
 
-    // calculate safe speed reduction due to wheel friction
-    float kf = fr0 / (fr0 + wa);
-
-    return ka * kf;
+float vehicle::k_dynamics ()
+{
+    return ( k_aerodynamics() * k_friction() );
 }
 
 float vehicle::k_mass ()
@@ -2184,7 +2191,7 @@ float vehicle::k_mass ()
     float ma0 = 50.0;
 
     // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + (total_mass()/8) / (8 * (float) wa));
+    float km = ma0 / (ma0 + (total_mass() / 8) / (8 * (float) wa));
 
     return km;
 }
