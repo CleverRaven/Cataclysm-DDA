@@ -2516,77 +2516,79 @@ int item::pick_reload_ammo(player &u, bool interactive)
         }
     }
 
-    int am_pos = INT_MIN;
+    if (am.empty()) {
+        return INT_MIN;
+    }
+    if (am.size() == 1 || !interactive) {
+        // Either only one valid choice or chosing for a NPC, just return the first.
+        return u.get_item_position(am[0]);
+    }
 
-    if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
-        uimenu amenu;
-        amenu.return_invalid = true;
-        amenu.w_y = 0;
-        amenu.w_x = 0;
-        amenu.w_width = TERMX;
-        // 40: = 4 * ammo stats colum (10 chars each)
-        // 2: prefix from uimenu: hotkey + space in front of name
-        // 4: borders: 2 char each ("| " and " |")
-        const int namelen = TERMX - 2 - 40 - 4;
-        std::string lastreload = "";
+    // More than one option; list 'em and pick
+    uimenu amenu;
+    amenu.return_invalid = true;
+    amenu.w_y = 0;
+    amenu.w_x = 0;
+    amenu.w_width = TERMX;
+    // 40: = 4 * ammo stats colum (10 chars each)
+    // 2: prefix from uimenu: hotkey + space in front of name
+    // 4: borders: 2 char each ("| " and " |")
+    const int namelen = TERMX - 2 - 40 - 4;
+    std::string lastreload = "";
 
-        if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
-            lastreload = uistate.lastreload[ ammo_type() ];
+    if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
+        lastreload = uistate.lastreload[ ammo_type() ];
+    }
+
+    amenu.text = std::string(_("Choose ammo type:"));
+    if (amenu.text.length() < namelen) {
+        amenu.text += std::string(namelen - amenu.text.length(), ' ');
+    } else {
+        amenu.text.erase(namelen, amenu.text.length() - namelen);
+    }
+    // To cover the space in the header that is used by the hotkeys created by uimenu
+    amenu.text.insert(0, "  ");
+    //~ header of table that appears when reloading, each colum must contain exactly 10 characters
+    amenu.text += _("| Damage  | Pierce  | Range   | Accuracy");
+    // Stores the ammo ids (=item type, not ammo type) for the uistate
+    std::vector<std::string> ammo_ids;
+    for (size_t i = 0; i < am.size(); i++) {
+        item &it = *am[i];
+        it_ammo *ammo_def = dynamic_cast<it_ammo *>(it.type);
+        // ammo_def == NULL means the item is a container,
+        // containing the ammo, go through its content to find the ammo
+        for (size_t j = 0; ammo_def == NULL && j < it.contents.size(); j++) {
+            ammo_def = dynamic_cast<it_ammo *>(it.contents[j].type);
         }
-
-        amenu.text = std::string(_("Choose ammo type:"));
-        if (amenu.text.length() < namelen) {
-            amenu.text += std::string(namelen - amenu.text.length(), ' ');
+        if (ammo_def == NULL) {
+            debugmsg("%s: contains no ammo & is no ammo", it.tname().c_str());
+            ammo_ids.push_back("");
+            continue;
+        }
+        ammo_ids.push_back(ammo_def->id);
+        // still show the container name, display_name adds the contents
+        // to the name: "bottle of gasoline"
+        std::string row = it.display_name();
+        if (row.length() < namelen) {
+            row += std::string(namelen - row.length(), ' ');
         } else {
-            amenu.text.erase(namelen, amenu.text.length() - namelen);
+            row.erase(namelen, row.length() - namelen);
         }
-        // To cover the space in the header that is used by the hotkeys created by uimenu
-        amenu.text.insert(0, "  ");
-        //~ header of table that appears when reloading, each colum must contain exactly 10 characters
-        amenu.text += _("| Damage  | Pierce  | Range   | Accuracy");
-        // Stores the ammo ids (=item type, not ammo type) for the uistate
-        std::vector<std::string> ammo_ids;
-        for (size_t i = 0; i < am.size(); i++) {
-            item &it = *am[i];
-            it_ammo *ammo_def = dynamic_cast<it_ammo *>(it.type);
-            // ammo_def == NULL means the item is a container,
-            // containing the ammo, go through its content to find the ammo
-            for (size_t j = 0; ammo_def == NULL && j < it.contents.size(); j++) {
-                ammo_def = dynamic_cast<it_ammo *>(it.contents[j].type);
-            }
-            if (ammo_def == NULL) {
-                debugmsg("%s: contains no ammo & is no ammo", it.tname().c_str());
-                ammo_ids.push_back("");
-                continue;
-            }
-            ammo_ids.push_back(ammo_def->id);
-            // still show the container name, display_name adds the contents
-            // to the name: "bottle of gasoline"
-            std::string row = it.display_name();
-            if (row.length() < namelen) {
-                row += std::string(namelen - row.length(), ' ');
-            } else {
-                row.erase(namelen, row.length() - namelen);
-            }
-            row += string_format("| %-7d | %-7d | %-7d | %-7d",
-                                 ammo_def->damage, ammo_def->pierce, ammo_def->range,
-                                 100 - ammo_def->dispersion);
-            amenu.addentry(i, true, i + 'a', row);
-            if ( lastreload == ammo_def->id ) {
-                amenu.selected = i;
-            }
-        }
-        amenu.query();
-        if ( amenu.ret >= 0 ) {
-            am_pos = u.get_item_position(am[ amenu.ret ]);
-            uistate.lastreload[ ammo_type() ] = ammo_ids[ amenu.ret ];
+        row += string_format("| %-7d | %-7d | %-7d | %-7d",
+                                ammo_def->damage, ammo_def->pierce, ammo_def->range,
+                                100 - ammo_def->dispersion);
+        amenu.addentry(i, true, i + 'a', row);
+        if ( lastreload == ammo_def->id ) {
+            amenu.selected = i;
         }
     }
-    // Either only one valid choice or chosing for a NPC, just return the first.
-    else if (am.size() > 0) {
-        am_pos = u.get_item_position(am[0]);
+    amenu.query();
+    if (amenu.ret < 0 || amenu.ret >= am.size()) {
+        // invalid selection / escaped from the menu
+        return INT_MIN;
     }
-    return am_pos;
+    uistate.lastreload[ ammo_type() ] = ammo_ids[ amenu.ret ];
+    return u.get_item_position(am[ amenu.ret ]);
 }
 
 bool item::reload(player &u, int pos)
