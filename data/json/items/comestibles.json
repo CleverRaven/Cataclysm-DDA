@@ -9482,7 +9482,7 @@
         "charges" : 6,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 2
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -9839,7 +9839,7 @@
         "charges" : 8,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 4
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
