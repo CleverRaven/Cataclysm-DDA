@@ -2501,16 +2501,6 @@ int item::pick_reload_ammo(player &u, bool interactive)
         }
     }
 
-    // Check if the player is wielding ammo
-    if (u.is_armed() && u.weapon.is_ammo()) {
-        // if it is compatible then include it.
-        it_ammo *w_ammo = dynamic_cast<it_ammo *>(u.weapon.type);
-        if (w_ammo->type == ammo_type()) {
-            am.push_back(&u.weapon);
-        }
-    }
-
-
     int am_pos = INT_MIN;
 
     if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
