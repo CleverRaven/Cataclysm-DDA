@@ -10791,20 +10791,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  if (u.weapon.mode == "MODE_BURST")
   burst = true;
 
-// Train up our skill
- it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
- long num_shots = 1;
- if (burst)
-  num_shots = u.weapon.burst_size();
- if (num_shots > u.weapon.num_charges() && !u.weapon.has_flag("NO_AMMO"))
-   num_shots = u.weapon.num_charges();
- if (u.skillLevel(firing->skill_used) == 0 ||
-     (firing->ammo != "BB" && firing->ammo != "nail"))
-     u.practice(turn, firing->skill_used, 4 + (num_shots / 2));
- if (u.skillLevel("gun") == 0 ||
-     (firing->ammo != "BB" && firing->ammo != "nail"))
-     u.practice(turn, "gun", 5);
-
  u.fire_gun(x,y,burst);
  reenter_fullscreen();
  //fire(u, x, y, trajectory, burst);

@@ -342,6 +342,11 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
     int weaponrange = weapon.range();
+    // Only train to level one, with these kind of ammo
+    const bool train_skill = skillLevel(skill_used) == 0 || (curammo->id != "BB" && curammo->id != "nail");
+    if (train_skill) {
+        practice(g->turn, skill_used, 4 + (num_shots / 2));
+    }
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
@@ -466,8 +471,13 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
         double missed_by = projectile_attack(proj, mtarx, mtary, total_dispersion);
         if (missed_by <= .1) { // TODO: check head existence for headshot
-            practice(g->turn, skill_used, 5);
             lifetime_stats()->headshots++;
+        }
+
+        if (!train_skill) {
+            practice(g->turn, skill_used, 0); // practice, but do not train
+        } else if (missed_by <= .1) {
+            practice(g->turn, skill_used, 5);
         } else if (missed_by <= .2) {
             practice(g->turn, skill_used, 3);
         } else if (missed_by <= .4) {
@@ -482,6 +492,11 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         used_weapon->curammo = NULL;
     }
 
+    if (skillLevel("gun") == 0 || (curammo->id != "BB" && curammo->id != "nail")) {
+        practice(g->turn, "gun", 5);
+    } else {
+        practice(g->turn, "gun", 0);
+    }
 }
 
 void game::fire(player &p, int tarx, int tary, std::vector<point> &, bool burst) {
