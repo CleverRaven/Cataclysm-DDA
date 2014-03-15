@@ -14,7 +14,6 @@ int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
 void make_gun_sound_effect(player &p, bool burst, item* weapon);
 double calculate_missed_by(player &p, int trange, item* weapon);
-void shoot_player(player &p, player *h, int &dam, double goodhit);
 
 void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
 
@@ -1144,71 +1143,6 @@ int recoil_add(player &p)
  if (ret > 0)
   return ret;
  return 0;
-}
-
-void shoot_player(player &p, player *h, int &dam, double goodhit)
-{
-    int npcdex = g->npc_at(h->posx, h->posy);
-    // Gunmods don't have a type, so use the player gun type.
-    it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
-    body_part hit = bp_torso;
-    if (goodhit < .003) {
-        hit = bp_eyes;
-        dam = rng(3 * dam, 5 * dam);
-        p.practice(g->turn, firing->skill_used, 5);
-    } else if (goodhit < .066) {
-        if (one_in(25)) {
-            hit = bp_eyes;
-        } else if (one_in(15)) {
-            hit = bp_mouth;
-        } else {
-            hit = bp_head;
-        }
-        dam = rng(2 * dam, 5 * dam);
-        p.practice(g->turn, firing->skill_used, 5);
-    } else if (goodhit < .2) {
-        hit = bp_torso;
-        dam = rng(dam, 2 * dam);
-        p.practice(g->turn, firing->skill_used, 2);
-    } else if (goodhit < .4) {
-        if (one_in(3)) {
-            hit = bp_torso;
-        } else if (one_in(2)) {
-            hit = bp_arms;
-        } else {
-            hit = bp_legs;
-        }
-        dam = rng(int(dam * .9), int(dam * 1.5));
-        p.practice(g->turn, firing->skill_used, rng(0, 1));
-    } else if (goodhit < .5) {
-        if (one_in(2)) {
-            hit = bp_arms;
-        } else {
-            hit = bp_legs;
-        }
-        dam = rng(dam / 2, dam);
-    } else {
-        dam = 0;
-    }
-    if (dam > 0) {
-        int side = random_side(hit);
-        h->moves -= rng(0, dam);
-        if (h == &(g->u)) {
-            g->add_msg(_("%s shoots your %s for %d damage!"), p.name.c_str(),
-                          body_part_name(hit, side).c_str(), dam);
-        } else {
-            if (&p == &(g->u)) {
-                g->add_msg(_("You shoot %s's %s."), h->name.c_str(),
-                               body_part_name(hit, side).c_str());
-                g->active_npc[npcdex]->make_angry();
-            } else if (g->u_see(h->posx, h->posy)) {
-                g->add_msg(_("%s shoots %s's %s."),
-                   (g->u_see(p.posx, p.posy) ? p.name.c_str() : _("Someone")),
-                    h->name.c_str(), body_part_name(hit, side).c_str());
-            }
-        }
-        h->hit(&p, hit, side, 0, dam);
-    }
 }
 
 void splatter( std::vector<point> trajectory, int dam, Creature* target )
