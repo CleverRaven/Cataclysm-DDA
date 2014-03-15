@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <cassert>
 #include <list>
+#include <sstream>
 #include "json.h"
 #ifdef LUA
 #include "catalua.h"

@@ -4,6 +4,7 @@
 // Includes                                                         {{{1
 // ---------------------------------------------------------------------
 
+#include <iosfwd>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -80,6 +81,7 @@ std::ostream & operator<<(std::ostream & out, const std::vector<C,A> & elm)
  return out;
 }
 
+/*
 struct DebugLog
 {
     DebugLog() {
@@ -103,7 +105,11 @@ struct DebugLog
 private:
     std::ofstream fout;
 };
+*/
 
+#ifndef DebugLog
+#define DebugLog dout
+#endif
 
 
 // vim:tw=72:sw=1:fdm=marker:fdl=0:

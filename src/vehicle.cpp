@@ -4,6 +4,7 @@
 #include "game.h"
 #include "item.h"
 #include "item_factory.h"
+#include <fstream>
 #include <sstream>
 #include <stdlib.h>
 #include "cursesdef.h"
