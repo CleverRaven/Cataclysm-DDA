@@ -1491,9 +1491,12 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
     std::vector<component> player_has;
     std::vector<component> map_has;
     std::vector<component> mixed;
-    std::vector<component> player_use;
-    std::vector<component> map_use;
-    std::vector<component> mixed_use;
+    enum {
+        use_from_map = 1,
+        use_from_player = 2,
+        use_from_both = 1 | 2
+    } use_from;
+    component selected_comp("", 0);
     inventory map_inv;
     map_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE);
 
@@ -1537,11 +1540,14 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
 
     if (player_has.size() + map_has.size() + mixed.size() == 1) { // Only 1 choice
         if (player_has.size() == 1) {
-            player_use.push_back(player_has[0]);
+            use_from = use_from_player;
+            selected_comp = player_has[0];
         } else if (map_has.size() == 1) {
-            map_use.push_back(map_has[0]);
+            use_from = use_from_map;
+            selected_comp = map_has[0];
         } else {
-            mixed_use.push_back(mixed[0]);
+            use_from = use_from_both;
+            selected_comp = mixed[0];
         }
     } else { // Let the player pick which component they want to use
         std::vector<std::string> options; // List for the menu_vec below
@@ -1568,67 +1574,56 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         // Get the selection via a menu popup
         size_t selection = menu_vec(false, _("Use which component?"), options) - 1;
         if (selection < map_has.size()) {
-            map_use.push_back(map_has[selection]);
+            use_from = use_from_map;
+            selected_comp = map_has[selection];
         } else if (selection < map_has.size() + player_has.size()) {
             selection -= map_has.size();
-            player_use.push_back(player_has[selection]);
+            use_from = use_from_player;
+            selected_comp = player_has[selection];
         } else {
             selection -= map_has.size() + player_has.size();
-            mixed_use.push_back(mixed[selection]);
+            use_from = use_from_both;
+            selected_comp = mixed[selection];
         }
     }
 
-    for (unsigned i = 0; i < player_use.size(); i++) {
-        if (item_controller->find_template(player_use[i].type)->count_by_charges() &&
-            player_use[i].count > 0) {
-            std::list<item> tmp = p->use_charges(player_use[i].type, player_use[i].count);
+    const point loc(p->posx, p->posy);
+    itype *itt = item_controller->find_template(selected_comp.type);
+    const bool by_charges = (itt->count_by_charges() && selected_comp.count > 0);
+    // Count given to use_amount/use_charges, changed by those functions!
+    int real_count = abs(selected_comp.count);
+    const bool in_container = (selected_comp.count < 0);
+    // First try to get everything from the map, than (remaining amount) from player
+    if (use_from & use_from_map) {
+        if (by_charges) {
+            std::list<item> tmp = m.use_charges(loc, PICKUP_RANGE, selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
         } else {
-            std::list<item> tmp = p->use_amount(player_use[i].type, abs(player_use[i].count),
-                                                (player_use[i].count < 0));
+            std::list<item> tmp = m.use_amount(loc, PICKUP_RANGE, selected_comp.type, real_count, in_container);
             remove_ammo(tmp);
             ret.splice(ret.end(), tmp);
-            u.lastconsumed = player_use[i].type;
         }
     }
-    for (unsigned i = 0; i < map_use.size(); i++) {
-        if (item_controller->find_template(map_use[i].type)->count_by_charges() &&
-            map_use[i].count > 0) {
-            std::list<item> tmp = m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                                                map_use[i].type, map_use[i].count);
+    if (use_from & use_from_player) {
+        if (by_charges) {
+            std::list<item> tmp = p->use_charges(selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
         } else {
-            std::list<item> tmp =  m.use_amount(point(p->posx, p->posy), PICKUP_RANGE,
-                                                map_use[i].type, abs(map_use[i].count),
-                                                (map_use[i].count < 0));
+            std::list<item> tmp = p->use_amount(selected_comp.type, real_count, in_container);
             remove_ammo(tmp);
             ret.splice(ret.end(), tmp);
-            u.lastconsumed =  map_use[i].type;
         }
     }
-    for (unsigned i = 0; i < mixed_use.size(); i++) {
-        if (item_controller->find_template(mixed_use[i].type)->count_by_charges() &&
-            mixed_use[i].count > 0) {
-            int from_map = mixed_use[i].count - p->charges_of(mixed_use[i].type);
-            std::list<item> tmp;
-            tmp = p->use_charges(mixed_use[i].type, p->charges_of(mixed_use[i].type));
-            ret.splice(ret.end(), tmp);
-            tmp = m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                                mixed_use[i].type, from_map);
-            ret.splice(ret.end(), tmp);
-        } else {
-            bool in_container = (mixed_use[i].count < 0);
-            int from_map = abs(mixed_use[i].count) - p->amount_of(mixed_use[i].type);
-            std::list<item> tmp;
-            tmp = p->use_amount(mixed_use[i].type, p->amount_of(mixed_use[i].type),
-                                in_container);
-            ret.splice(ret.end(), tmp);
-            tmp = m.use_amount(point(p->posx, p->posy), PICKUP_RANGE,
-                               mixed_use[i].type, from_map, in_container);
-            ret.splice(ret.end(), tmp);
-            remove_ammo(ret);
+    // condense those items into one
+    if (by_charges && ret.size() > 1) {
+        std::list<item>::iterator b = ret.begin();
+        b++;
+        while(ret.size() > 1) {
+            ret.front().charges += b->charges;
+            b = ret.erase(b);
         }
     }
+    p->lastconsumed = selected_comp.type;
     return ret;
 }
 
