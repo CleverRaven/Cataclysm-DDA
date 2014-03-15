@@ -1654,6 +1654,19 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             }
             //Check if there is an npc.
             const bool npc_here = overmap_buffer.has_npc(omx, omy, z);
+            //Check hordes
+
+            bool horde_here=false;
+            if (g->u.overmap_los(omx, omy))
+            {
+                point mp=overmap_buffer.omt_to_sm_copy(omx, omy);
+                std::vector<mongroup*> hordes = g->cur_om->monsters_at(mp.x, mp.y, z);
+                for (int ih=0; ih < hordes.size(); ih++)
+                  {
+
+                    if (hordes[ih]->horde) horde_here=true;
+                  }
+            }
             // and a vehicle
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
@@ -1745,6 +1758,10 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 // Display NPCs only when player can see the location
                 ter_color = c_pink;
                 ter_sym = '@';
+            } else if (blink && horde_here) {
+                // Display NPCs only when player can see the location
+                ter_color = c_green;
+                ter_sym = 'Z';
             } else if (blink && veh_here) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;
@@ -2085,21 +2102,31 @@ void overmap::move_hordes()
 /**
 * @param sig_power - power of signal or max distantion for reaction of zombies
 */
-void overmap::signal_hordes(int x, int y, int sig_power)
+void overmap::signal_hordes(int x, int y, horde_signal_type sig_type, int sig_power)
 {
-  int dist,targ_dist,d_inter;
+  int d_inter,targ_dist;
+  if (g->levz != 0) return;
   for (int i = 0; i < zg.size(); i++)
   {
+    d_inter=0;
     if (zg[i].horde)
     {
-      dist = trig_dist(x, y, zg[i].posx, zg[i].posy);
+      switch (sig_type) {
+        case HSIG_NOICE: d_inter=signal_hordes_noice(x,y,sig_power,zg[i]); break;
+        case HSIG_LIGHT: d_inter=signal_hordes_light(x,y,sig_power,zg[i]);
+                         //erase();
+                         //mvprintw(0, 0, "Horde #%d receive LIGHT signal. Power: %d ;souce: %d:%d ",i,sig_power,x,y);
+                         break;
+        //case HSIG_SMOKE: d_inter=signal_hordes_smoke(x,y,sig_power,zg[i]); break;
+        }
+    }
+    if (d_inter != 0) {
       targ_dist = trig_dist(x, y, zg[i].tx, zg[i].ty);
-      if (sig_power <= dist) {continue;}
-      //debug
+    //debug
       //erase(); int line=0;
-      //mvprintw(line++, 0, "Horde #%d receive signal. Power: %d ;souce: %d:%d ;distance:%d",
-      //         i,sig_power,x,y,dist);
-      d_inter=(sig_power - dist) *5;
+      //mvprintw(line++, 0, "Horde #%d receive signal. Power: %d ;souce: %d:%d ",i,sig_power,x,y);
+
+
       int roll=rng(0,zg[i].interest);
       //mvprintw(line++, 0, "Roll 0,%d: %d < %d",zg[i].interest, roll, d_inter);
       if (roll < d_inter)
@@ -2117,12 +2144,75 @@ void overmap::signal_hordes(int x, int y, int sig_power)
               zg[i].set_interest(d_inter);
               //mvprintw(line++, 0, "Far target");
             }
-          //mvprintw(line++, 0, "Hodre target:%d:%d; inter:%d",
-          //         zg[i].tx,zg[i].ty,zg[i].interest);
+          //mvprintw(line++, 0, "Hodre target:%d:%d; inter:%d",zg[i].tx,zg[i].ty,zg[i].interest);
         }
-
     }
   }
+
+
+}
+
+int overmap::signal_hordes_noice(int x,int y, int sig_power, mongroup zg)
+{
+    int dist,d_inter;
+    dist = trig_dist(x, y, zg.posx, zg.posy);
+    if (g->weather==WEATHER_LIGHTNING || g->weather==WEATHER_LIGHTNING) sig_power-=10;
+    if (sig_power <= dist) return 0; else return (sig_power - dist) *5;
+}
+
+int overmap::signal_hordes_light(int x, int y, int sig_power, mongroup zg)
+{
+  int dist,ret=0;
+  dist = trig_dist(x, y, zg.posx, zg.posy);
+//debug
+
+  int msgline=1;
+
+  int near_dist = 5;
+  int max_dist = (100-(g->light_level()*2));
+
+  if (g->weather == WEATHER_LIGHTNING) max_dist>20 ? 20: max_dist;
+
+  max_dist = max_dist<10 ? 10: max_dist;
+//
+  //mvprintw(msgline++, 0, "Dist:%d ;Max dist:%d",dist,max_dist);
+  if (dist > max_dist) return 0;
+  std::vector<point> line = line_to(x, y, zg.posx, zg.posy, 0);
+
+  int see_range=0;
+  point test;
+  for (size_t i = 0; i < line.size() && max_dist >= see_range; i++) {
+                test = to_big_overmap_cord(line[i]);
+                const oter_id &ter = overmap_buffer.ter(test.x, test.y, 0);
+                const int cost = otermap[ter].see_cost;
+                see_range += cost;
+                //mvprintw(msgline++, 0, "Point #%d:%d;%d terran_see_cost:%d ;overmap coord:%d;%d",
+                //         i,line[i].x,line[i].y,cost,test.x,test.y);
+
+            }
+  //mvprintw(msgline++, 0, "Total see_range:%d",see_range);
+  if (max_dist >= see_range)
+    {
+      ret = dist < near_dist ? 20 : 10;
+      //mvprintw(msgline++, 0, "Zombies get signal");
+      //getch();
+    }
+
+  return ret;
+
+}
+
+/*int overmap::signal_hordes_smoke(int x, int y, int sig_power, mongroup zg)
+{
+  return 0;
+}*/
+
+point overmap::to_big_overmap_cord(point p)
+{
+    int retx = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().x * OMAPX;
+    int rety = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().y * OMAPY;
+
+    return point(retx,rety);
 }
 
 void grow_forest_oter_id(oter_id & oid, bool swampy)
