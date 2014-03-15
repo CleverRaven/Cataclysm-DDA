@@ -1080,28 +1080,17 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
             // Now check the item itself
             if (use_container && used_item_contents) {
                 stack_iter = iter->erase(stack_iter);
-                if (iter->empty()) {
-                    iter = items.erase(iter);
-                    break;
-                } else {
-                    continue;
-                }
             } else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.size() == 0) {
                 ret.push_back(*stack_iter);
                 quantity--;
                 stack_iter = iter->erase(stack_iter);
-                if (iter->empty()) {
-                    iter = items.erase(iter);
-                    break;
-                } else {
-                    continue;
-                }
-            }
-            if (stack_iter != iter->end()) {
+            } else {
                 ++stack_iter;
             }
         }
-        if (iter != items.end()) {
+        if (iter->empty()) {
+            iter = items.erase(iter);
+        } else if (iter != items.end()) {
             ++iter;
         }
     }
