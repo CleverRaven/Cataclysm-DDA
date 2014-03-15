@@ -177,6 +177,7 @@ public:
  int  sight_range(int light_level) const;
  void recalc_sight_limits();
  int  unimpaired_range();
+ bool overmap_los(int x, int y);
  int  overmap_sight_range(int light_level);
  int  clairvoyance(); // Sight through walls &c
  bool sight_impaired(); // vision impaired between sight_range and max_range

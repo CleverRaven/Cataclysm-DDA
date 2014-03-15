@@ -8193,7 +8193,7 @@ point game::look_around()
   wrefresh(w_look);
   wrefresh(w_terrain);
 
-  DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
+  //DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
 
     input_context ctxt("LOOK");
     ctxt.register_directions();

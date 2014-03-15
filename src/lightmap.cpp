@@ -52,7 +52,7 @@ void map::generate_lightmap()
     // Apply player light sources
     if (held_luminance > LIGHT_AMBIENT_LOW) {
         apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
-        light_signal((int)held_luminance);
+        light_signal(g->u.posx, g->u.posy, (int)held_luminance);
     }
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
@@ -85,10 +85,10 @@ void map::generate_lightmap()
                 if ( itm->getlight(ilum, iwidth, idir ) ) {
                     if ( iwidth > 0 ) {
                         apply_light_arc( sx, sy, idir, ilum, iwidth );
-                        light_signal((int)ilum);
+                        light_signal(sx, sy, (int)ilum);
                     } else {
                         add_light_source(sx, sy, ilum);
-                        light_signal((int)ilum);
+                        light_signal(sx, sy, (int)ilum);
                     }
                 }
             }
@@ -117,13 +117,13 @@ void map::generate_lightmap()
                 case fd_fire:
                     if (3 == cur->getFieldDensity()) {
                         add_light_source(sx, sy, 160);
-                        light_signal(160);
+                        light_signal(sx, sy, 160);
                     } else if (2 == cur->getFieldDensity()) {
                         add_light_source(sx, sy, 60);
-                        light_signal(60);
+                        light_signal(sx, sy, 60);
                     } else {
                         add_light_source(sx, sy, 16);
-                        light_signal(16);
+                        light_signal(sx, sy, 16);
                     }
                     break;
                 case fd_fire_vent:
@@ -185,7 +185,7 @@ void map::generate_lightmap()
                     int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
                         apply_light_arc(px, py, dir + vehs[v].v->parts[*part].direction, veh_luminance, 45);
-                        light_signal((int)veh_luminance);
+                        light_signal(px, py, (int)veh_luminance);
                     }
                 }
             }
@@ -202,7 +202,7 @@ void map::generate_lightmap()
                     int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
                     if(INBOUNDS(px, py)) {
                         add_light_source( px, py, vehs[v].v->part_info(*part).bonus );
-                        light_signal((int)vehs[v].v->part_info(*part).bonus);
+                        light_signal(px, py, (int)vehs[v].v->part_info(*part).bonus);
                     }
                 }
             }
