@@ -37,7 +37,8 @@ BELOWNORTHWEST,
 
 // The "t" value decides WHICH Bresenham line is used.
 std::vector <point> line_to(const int x1, const int y1, const int x2, const int y2, int t);
-std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2);
+// t and t2 decide which Bresenham line is used.
+std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, int t2);
 // sqrt(dX^2 + dY^2)
 int trig_dist(const int x1, const int y1, const int x2, const int y2);
 int trig_dist(const tripoint loc1, const tripoint loc2);

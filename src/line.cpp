@@ -7,53 +7,177 @@
 
 //Trying to pull points out of a tripoint vector is messy and 
 //probably slow, so leaving two full functions for now
-//note that there is not currently a notion of "which" B-line
-//is used anymore, line_to will return the same line every time.
-//90+% of callers default to zero anyways.  Haven't yet tested this.
 std::vector <point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
 {
     std::vector<point> ret;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int j = square_dist(tripoint(x1, y1, 0),tripoint(x2,y2,0)); //j = points in line
-    ret.reserve(j);
-	point cur= (x1,y1);
-    int dx = x2 - x1, dy = y2 - y1;
-    for (int i = 1; i != (j + 1); i++) {
-        double k = i/j; //This is how far along the vector we are
-        cur.x = x1 + (ceil(dx*k) * sgn(dx)); // these operations may be affected by
-        cur.y = y1 + (ceil(dy*k) * sgn(dx)); // floating-point representational errors
-        // (1 != 1 in dbl-land), haven't checked.
-        ret.push_back(cur);
+    const int numCells = square_dist(tripoint(x1, y1, 0),tripoint(x2, y2, 0));
+    ret.reserve(numCells);
+    const int dx = x2 - x1, dy = y2 - y1;
+    // Any ideas why we're multiplying the abs distance by two here?
+    const int ax = abs(dx) * 2, ay = abs(dy) * 2;
+    const int sx = (dx == 0 ? 0 : SGN(dx)), sy = (dy == 0 ? 0 : SGN(dy));
+    point cur; 
+    cur.x = x1;
+    cur.y = y1;
+    // The old version of this algorithm would generate points on the line and check min/max for each point
+    // to determine whether or not to continue generating the line. Since we already know how many points 
+    // we need, this method saves us a half-dozen variables and a few calculations.
+    if (ax == ay) {
+        for (int i = 0; i < numCells; i++) {
+            cur.y += sy;
+            cur.x += sx;
+            ret.push_back(cur);
+        } ;
+    } else if (ax > ay) {
+        for (int i = 0; i < numCells; i++) {
+            if (t > 0) {
+                cur.y += sy;
+                t -= ax;
+            }
+            cur.x += sx;
+            t += ay;
+            ret.push_back(cur);
+        } ;
+    } else {
+        for (int i = 0; i < numCells; i++) {
+            if (t > 0) {
+                cur.x += sx;
+                t -= ay;
+            }
+            cur.y += sy;
+            t += ax;
+            ret.push_back(cur);
+        } ;
     }
     return ret;
 }
 
-std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t)
+std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, int t2)
 {
     std::vector<tripoint> ret;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-	const int j = square_dist(loc1, loc2); //j = points in line
-    ret.reserve(j);
-	tripoint cur= loc1;
-    int dx = loc2.x - loc1.x, dy = loc2.y - loc1.y, dz = loc2.z - loc1.z;
-    for (int i = 1; i != (j + 1); i++) {
-        double k = i/j; //This is how far along the vector we are
-        cur.x = loc1.x + ceil(dx*k) * sgn(dx); // these operations may be affected by
-        cur.y = loc1.y + ceil(dy*k) * sgn(dx); // floating-point representational errors
-        cur.z = loc1.z + ceil(dz*k) * sgn(dx); // (1 != 1 in dbl-land), haven't checked.
-        ret.push_back(cur);
+    const int numCells = square_dist(loc1, loc2);
+    ret.reserve(numCells);
+    tripoint cur;
+    cur = loc1;
+    const int dx = loc2.x - loc1.x, 
+              dy = loc2.y - loc1.y, 
+              dz = loc2.z - loc1.z;
+    // Any ideas why we're multiplying the abs distance by two here?
+    const int ax = abs(dx) * 2,
+              ay = abs(dy) * 2, 
+              az = abs(dz) * 2;
+    const int sx = (dx == 0 ? 0 : SGN(dx)),
+              sy = (dy == 0 ? 0 : SGN(dy)),
+              sz = (dz == 0 ? 0 : SGN(dz));
+    if (az == 0) {
+        if (ax == ay) {
+            for (int i = 0; i < numCells; i++) {
+                cur.y += sy;
+                cur.x += sx;
+                ret.push_back(cur);
+            } ;
+        } else if (ax > ay) {
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.y += sy;
+                    t -= ax;
+                }
+                cur.x += sx;
+                t += ay;
+                ret.push_back(cur);
+            } ;
+        } else {
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.x += sx;
+                    t -= ay;
+                }
+                cur.y += sy;
+                t += ax;
+                ret.push_back(cur);
+            } ;
+        } 
+    } else {
+        if (ax == ay == az) {
+            for (int i = 0; i < numCells; i++) {
+                cur.z += sz;
+                cur.y += sy;
+                cur.x += sx;
+                ret.push_back(cur);
+            } ;
+        } else if ((az > ax) && (az > ay)) { 
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.x += sx;
+                    t -= az; 
+                }
+                if (t2 > 0) {
+                    cur.z += sz;
+                    t2 -= ax; 
+                }
+                cur.z += sz;
+                t += ax;
+                t2 += ay; 
+                ret.push_back(cur);
+            } ;
+        } else if (ax == ay) {
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.z += sz;
+                    t -= ax; // to clarify, ax and az are equivalent in this case
+                }
+                cur.y += sy;
+                cur.x += sx;
+                t += az; 
+                ret.push_back(cur);
+            } ;
+        } else if (ax > ay) {
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.y += sy;
+                    t -= ax;
+                }
+                if (t2 > 0) {
+                    cur.z += sz;
+                    t2 -= ax;
+                }
+                cur.x += sx;
+                t += ay;
+                t2 += az;
+                ret.push_back(cur);
+            } ;
+        } else { //dy > dx >= dz
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.x += sx;
+                    t -= ay;
+                } 
+                if (t2 > 0) {
+                    cur.z += sz;
+                    t2 -= ay;
+                }
+                cur.y += sy;
+                t += ax;
+                t2 += az;
+                ret.push_back(cur);
+            } ;
+        } 
     }
     return ret;
 }
 
 int trig_dist(const int x1, const int y1, const int x2, const int y2)
 {
-    return trig_dist(tripoint(x1,y1,0),tripoint(x2,y2,0));
+    return trig_dist(tripoint(x1, y1, 0),tripoint(x2, y2, 0));
 }
 
 int trig_dist(const tripoint loc1, const tripoint loc2)
 {
-    return int( sqrt( double( pow((loc1.x - loc2.x), 2) + pow((loc1.y - loc2.y), 2) + pow((loc1.z - loc2.z), 2))));
+    return int (sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x))
+                         + ((loc1.y - loc2.y) * (loc1.y - loc2.y))
+                         + ((loc1.z - loc2.z) * (loc1.z - loc2.z))));
 }
 
 int square_dist(const int x1, const int y1, const int x2, const int y2)
@@ -63,14 +187,21 @@ int square_dist(const int x1, const int y1, const int x2, const int y2)
 
 int square_dist(const tripoint loc1, const tripoint loc2)
 {
-    const int dx = abs(loc1.x - loc2.x), dy = abs(loc1.y - loc2.y), dz = abs(loc1.z - loc2.z);
+    const int dx = abs(loc1.x - loc2.x), 
+              dy = abs(loc1.y - loc2.y), 
+              dz = abs(loc1.z - loc2.z);
     int maxDxDy = (dx > dy ? dx : dy); // Sloppy, but should be quick.
     return (maxDxDy > dz ? maxDxDy : dz); // Too bad it doesn't scale.
 }
 
 int rl_dist(const int x1, const int y1, const int x2, const int y2)
 {
-    return rl_dist(tripoint(x1,x2,0), tripoint (x2,y2,0));
+    return rl_dist(tripoint(x1, y1, 0), tripoint (x2, y2, 0));
+}
+
+int rl_dist(const point a, const point b)
+{
+    return rl_dist(tripoint(a.x, a.y, 0),tripoint(b.x, b.y, 0));
 }
 
 int rl_dist(const tripoint loc1, const tripoint loc2)
@@ -79,11 +210,6 @@ int rl_dist(const tripoint loc1, const tripoint loc2)
         return trig_dist(loc1, loc2);
     }
     return square_dist(loc1, loc2);
-}
-
-int rl_dist(point a, point b)
-{
-    return rl_dist(tripoint(a.x,a.y,0),tripoint(b.x, b.y, 0));
 }
 
 double slope_of(const std::vector<point> &line)
@@ -127,12 +253,14 @@ std::vector<point> continue_line(const std::vector<point> &line, const int dista
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)
 {
-    tripoint start = line.back(), end = line.back();
-    std::tuple<double, double, double> slope = slope_of(line);
-    end.x += distance * std::get<0>(slope);
-	end.y += distance * std::get<1>(slope);
-	end.z += distance * std::get<2>(slope);	
-    return line_to(start, end, 0);
+    tripoint start, end;
+    start = end = line.back();
+    std::tuple<double, double, double> slope;
+    slope = slope_of(line);
+    end.x += ceil(distance * std::get<0>(slope));
+	end.y += ceil(distance * std::get<1>(slope));
+	end.z += ceil(distance * std::get<2>(slope));	
+    return line_to(start, end, 0, 0);
 }
 
 direction direction_from(int x1, int y1, int x2, int y2)
@@ -142,41 +270,41 @@ direction direction_from(int x1, int y1, int x2, int y2)
 
 direction direction_from(const tripoint loc1, const tripoint loc2)
 {
-    int dx = loc2.x - loc1.x;
-    int dy = loc2.y - loc1.y;
-	int dz = loc2.z - loc1.z;
-	int offset =  (dz = 0 ? 0 : (12 + 2 * sgn(dz))); // blergh.  one-liner to set us +8 or +16 in the enum
-	direction offsetenum = direction(offset);
+    int dx = loc2.x - loc1.x,
+        dy = loc2.y - loc1.y,
+        dz = loc2.z - loc1.z;
+    // offset returns 0, 8, or 16 to put us in "above" or "below" range
+	int offset =  (dz == 0 ? 0 : (12 + (sgn(dz) * 2))); 
     if (dx < 0) {
         if (abs(dx) / 2 > abs(dy) || dy == 0) {
-            return (WEST);
+            return direction(6 + offset); //West
         } else if (abs(dy) / 2 > abs(dx)) {
             if (dy < 0) {
-                return (NORTH);
+                return direction(0 + offset); //North
             } else {
-                return (SOUTH);
+                return direction(4 + offset); //South
             }
         } else {
             if (dy < 0) {
-                return (NORTHWEST);
+                return direction(7 + offset); //Northwest
             } else {
-                return (SOUTHWEST);
+                return direction(5 + offset); //Southwest
             }
         }
     } else {
         if (dx / 2 > abs(dy) || dy == 0) {
-            return EAST;
+            return direction(2 + offset); //East
         } else if (abs(dy) / 2 > dx || dx == 0) {
             if (dy < 0) {
-                return (NORTH);
+                return direction(6 + offset); //North
             } else {
-                return (SOUTH);
+                return direction(4 + offset); //South
             }
         } else {
             if (dy < 0) {
-                return (NORTHEAST);
+                return direction(1 + offset); //Northeast
             } else {
-                return (SOUTHEAST);
+                return direction(3 + offset); //Southeast
             }
         }
     }
@@ -243,51 +371,51 @@ std::string direction_name_short(direction dir)
     switch (dir) {
         //~ abbreviated direction names
     case NORTH:
-        return _("N ");
+        return _("N    ");
     case NORTHEAST:
-        return _("NE");
+        return _("NE   ");
     case EAST:
-        return _("E ");
+        return _("E    ");
     case SOUTHEAST:
-        return _("SE");
+        return _("SE   ");
     case SOUTH:
-        return _("S ");
+        return _("S    ");
     case SOUTHWEST:
-        return _("SW");
+        return _("SW   ");
     case WEST:
-        return _("W ");
+        return _("W    ");
     case NORTHWEST:
-        return _("NW");
+        return _("NW   ");
     case ABOVENORTH:
-        return _("UP_N");
+        return _("UP_N ");
     case ABOVENORTHEAST:
         return _("UP_NE");
     case ABOVEEAST:
-        return _("UP_E");
+        return _("UP_E ");
     case ABOVESOUTHEAST:
         return _("UP_SE");
     case ABOVESOUTH:
-        return _("UP_S");
+        return _("UP_S ");
     case ABOVESOUTHWEST:
         return _("UP_SW");
     case ABOVEWEST:
-        return _("UP_W");
+        return _("UP_W ");
     case ABOVENORTHWEST:
         return _("DN_NW");
     case BELOWNORTH:
-        return _("DN_N");
+        return _("DN_N ");
     case BELOWNORTHEAST:
         return _("DN_NE");
     case BELOWEAST:
-        return _("DN_E");
+        return _("DN_E ");
     case BELOWSOUTHEAST:
         return _("DN_SE");
     case BELOWSOUTH:
-        return _("DN_S");
+        return _("DN_S ");
     case BELOWSOUTHWEST:
         return _("DN_SW");
     case BELOWWEST:
-        return _("DN_W");
+        return _("DN_W ");
     case BELOWNORTHWEST:
         return _("DN_NW");
     }
