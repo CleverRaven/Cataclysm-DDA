@@ -427,7 +427,15 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
             components_required = true;
             has_component = false;
             for (unsigned k = 0; k < con->components[j].size(); k++) {
-                if (( item_controller->find_template(con->components[j][k].type)->is_ammo() &&
+                if // If you've Rope Webs, you can spin up the webbing to replace any amount of
+                      // rope your projects may require.  But you need to be somewhat nourished:
+                      // Famished or worse stops it.
+                      ( ((item_controller->find_template(con->components[j][k].type)->id == "rope_30") ||
+                      (item_controller->find_template(con->components[j][k].type)->id == "rope_6")) &&
+                      ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
+                      has_component = true;
+                      con->components[j][k].available = 1;
+                } else if (( item_controller->find_template(con->components[j][k].type)->is_ammo() &&
                       pinv.has_charges(con->components[j][k].type,
                                        con->components[j][k].count)    ) ||
                     (!item_controller->find_template(con->components[j][k].type)->is_ammo() &&
@@ -436,14 +444,6 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
                     has_component = true;
                     con->components[j][k].available = 1;
                     
-                } if // If you've Rope Webs, you can spin up the webbing to replace any amount of
-                      // rope your projects may require.  But you need to be somewhat nourished:
-                      // Famished or worse stops it.
-                      ( ((item_controller->find_template(con->components[j][k].type)->id == "rope_30") ||
-                      (item_controller->find_template(con->components[j][k].type)->id == "rope_6")) &&
-                      ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
-                      has_component = true;
-                      con->components[j][k].available = 1;
                 } else {
                     con->components[j][k].available = -1;
                 }
