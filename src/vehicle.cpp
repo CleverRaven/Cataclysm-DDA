@@ -772,32 +772,35 @@ vpart_info& vehicle::part_info (int index, bool include_removed)
 
 // engines & alternators all have power.
 // engines provide, whilst alternators consume.
-int vehicle::part_power (int index){
-   if (!part_flag(index, VPFLAG_ENGINE) &&
-       !part_flag(index, VPFLAG_ALTERNATOR)) {
-      return 0; //not an engine.
-   }
-   if(parts[index].hp <= 0) {
-      return 0; //broken.
-   }
-   if(part_flag (index, VPFLAG_VARIABLE_SIZE)){ // example: 2.42-L V-twin engine
-      return parts[index].bigness;
-   }
-   else // example: foot crank
-   {
-      return part_info(index).power;
-   }
-}
+int vehicle::part_power( int index, bool at_full_hp ) {
+    if( !part_flag(index, VPFLAG_ENGINE) &&
+        !part_flag(index, VPFLAG_ALTERNATOR) ) {
+       return 0; // not an engine.
+    }
+    int pwr;
+    if( part_flag (index, VPFLAG_VARIABLE_SIZE) ) { // example: 2.42-L V-twin engine
+       pwr = parts[index].bigness;
+    } else { // example: foot crank
+       pwr = part_info(index).power;
+    }
+    if( pwr < 0 ) {
+        return pwr; // Consumers always draw full power, even if broken
+    }
+    if( at_full_hp ) {
+        return pwr; // Assume full hp
+    }
+    // The more damaged a part is, the less power it gives
+    return pwr * parts[index].hp / part_info(index).durability;
+ }
 
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
-int vehicle::part_epower (int index) {
-    if(parts[index].hp <= 0) {
-        return 0; //broken.
+int vehicle::part_epower( int index ) {
+    int e = part_info(index).epower;
+    if( e < 0 ) {
+        return e; // Consumers always draw full power, even if broken
     }
-    else {
-        return part_info(index).epower;
-    }
+    return e * parts[index].hp / part_info(index).durability;
 }
 
 int vehicle::epower_to_power (int epower) {
