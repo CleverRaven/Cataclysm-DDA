@@ -71,6 +71,16 @@
         "post_terrain" : "t_dirtmound"
     },{
         "type" : "construction",
+        "description" : "Tamp ground",
+        "difficulty" : 0,
+        "time" : 5,
+        "tools" : [
+            [ "shovel", "e_tool", "primitive_shovel", "digging_stick" ]
+        ],
+        "pre_terrain": "t_dirtmound",
+        "post_terrain" : "t_dirt"
+    },{
+        "type" : "construction",
         "description" : "Chop Down Tree",
         "difficulty" : 0,
         "time" : 10,
