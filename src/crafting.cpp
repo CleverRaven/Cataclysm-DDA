@@ -2006,6 +2006,7 @@ void remove_ammo(item *dis_item) {
         } else {
             g->u.i_add_or_drop(ammodrop, 1);
         }
+        dis_item->charges = 0;
     }
     if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL") {
         item ammodrop;
@@ -2021,5 +2022,6 @@ void remove_ammo(item *dis_item) {
         } else {
             g->u.i_add_or_drop(ammodrop, 1);
         }
+        dis_item->charges = 0;
     }
 }
