@@ -772,11 +772,9 @@ void mattack::leap(monster *z)
     point target = z->move_target();
     int best = rl_dist(z->posx(), z->posy(), target.x, target.y);
 
-    const int vision_range = z->vision_range(x, y);
-    for (int x = z->posx() - 3; x <= z->posx() + 3; x++)
-    {
-        for (int y = z->posy() - 3; y <= z->posy() + 3; y++)
-        {
+    for (int x = z->posx() - 3; x <= z->posx() + 3; x++) {
+        for (int y = z->posy() - 3; y <= z->posy() + 3; y++) {
+            const int vision_range = z->vision_range( x, y );
             if (x == z->posx() && y == z->posy()) {
                 continue;
             }
