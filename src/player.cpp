@@ -6120,7 +6120,6 @@ bool player::process_single_active_item(item *it)
             if(it->item_counter == 0)
             {
                 it->item_counter = 0;
-                g->add_msg_if_player(this,_("Your %s dries off."), it->name.c_str());
 
                 // wet towel becomes a regular towel
                 if(it->type->id == "towel_wet")
