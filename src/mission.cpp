@@ -1,6 +1,9 @@
 #include "mission.h"
 #include "game.h"
 
+#include <fstream>
+#include <sstream>
+
 mission mission_type::create(int npc_id)
 {
     mission ret;

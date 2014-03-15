@@ -8,7 +8,7 @@
 #include "veh_type.h"
 #include <vector>
 #include <string>
-#include <fstream>
+#include <iosfwd>
 
 class map;
 class player;

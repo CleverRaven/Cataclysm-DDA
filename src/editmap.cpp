@@ -19,6 +19,7 @@
 #include "mapdata.h"
 #include "overmapbuffer.h"
 
+#include <fstream>
 #include <sstream>
 #include <map>
 #include <set>

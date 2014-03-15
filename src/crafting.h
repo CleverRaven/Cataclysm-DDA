@@ -71,22 +71,7 @@ struct recipe {
 
   //Create a string list to describe the skill requirements fir this recipe
   // Format: skill_name(amount), skill_name(amount)
-  std::string required_skills_string(){
-      std::ostringstream skills_as_stream;
-      if(!required_skills.empty()){
-          for(std::map<Skill*,int>::iterator iter=required_skills.begin(); iter!=required_skills.end();){
-            skills_as_stream << iter->first->name() << "(" << iter->second << ")";
-            ++iter;
-            if(iter != required_skills.end()){
-              skills_as_stream << ", ";
-            }
-          }
-      }
-      else{
-        skills_as_stream << "N/A";
-      }
-      return skills_as_stream.str();
-  }
+  std::string required_skills_string();
 
   recipe() {
     id = 0;

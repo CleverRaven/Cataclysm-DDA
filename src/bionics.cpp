@@ -8,6 +8,7 @@
 #include "json.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
+#include <sstream>
 
 #define BATTERY_AMOUNT 4 // How much batteries increase your power
 

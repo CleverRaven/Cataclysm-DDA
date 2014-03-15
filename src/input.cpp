@@ -5,6 +5,7 @@
 #include "output.h"
 #include "game.h"
 #include <fstream>
+#include <sstream>
 #include <errno.h>
 
 /* TODO Replace the hardcoded values with an abstraction layer.

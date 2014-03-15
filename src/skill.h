@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <set>
-#include <iostream>
+#include <iosfwd>
 #include <stdint.h>
 #include "calendar.h"
 #include "json.h"

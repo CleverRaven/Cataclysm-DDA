@@ -1,5 +1,6 @@
 #include <map>
 #include <fstream>
+#include <sstream>
 
 #include "json.h"
 #include "name.h"

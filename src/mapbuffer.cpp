@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "translations.h"
 #include <fstream>
+#include <sstream>
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
