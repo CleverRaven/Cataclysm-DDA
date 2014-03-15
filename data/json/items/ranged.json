@@ -1575,7 +1575,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": "FN FAL",
-    "description": "Originally designed during the Cold War, the FN Fall is probably the most successful battle rifle ever designed . Even though often labeled as obsolete, it's high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
+    "description": "Originally designed during the Cold War, the FN FAL is probably the most successful battle rifle ever designed . Even though often labeled as obsolete, it's high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
     "price": 450000,
     "material": ["steel", "wood"],
     "flags": "MODE_BURST",
