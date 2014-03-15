@@ -251,6 +251,8 @@ public:
  int player_id; // Only give a mission to the right player!
  std::map<std::string, std::string> item_vars;
  static itype * nullitem();
+ typedef std::vector<item> t_item_vector;
+ t_item_vector components;
 
  item clone(bool rand = true);
 private:

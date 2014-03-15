@@ -738,6 +738,32 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
  }
 
+    if (!components.empty()) {
+        typedef std::map<std::string, int> t_count_map;
+        t_count_map counts;
+        for(t_item_vector::const_iterator a = components.begin(); a != components.end(); ++a) {
+            const std::string name = const_cast<item&>(*a).display_name();
+            if (counts.count(name) > 0) {
+                counts[name]++;
+            } else {
+                counts[name] = 1;
+            }
+        }
+        std::ostringstream buffer;
+        buffer << _("Made from: ");
+        for(t_count_map::const_iterator a = counts.begin(); a != counts.end(); ++a) {
+            if (a != counts.begin()) {
+                buffer << _(", ");
+            }
+            if (a->second != 1) {
+                buffer << string_format(_("%d x %s"), a->second, a->first.c_str());
+            } else {
+                buffer << a->first;
+            }
+        }
+        dump->push_back(iteminfo("DESCRIPTION", buffer.str()));
+    }
+
  if ( type->qualities.size() > 0){
     for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
         quality != type->qualities.end(); ++quality){

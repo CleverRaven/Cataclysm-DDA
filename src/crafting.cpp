@@ -1420,6 +1420,7 @@ void game::complete_craft()
 
     // Set up the new item, and assign an inventory letter if available
     item newit(item_controller->find_template(making->result), turn, 0, false);
+    newit.components.insert(newit.components.begin(), used.begin(), used.end());
 
     if (newit.is_armor() && newit.has_flag("VARSIZE")) {
         newit.item_tags.insert("FIT");
@@ -1809,8 +1810,8 @@ void game::complete_disassemble()
 {
     // which recipe was it?
     recipe *dis = recipe_by_index(u.activity.index); // Which recipe is it?
-    item *dis_item = &u.i_at(u.activity.values[0]);
-    float component_success_chance = std::min((float)pow(0.8f, dis_item->damage), 1.f);
+    item dis_item = u.i_at(u.activity.values[0]);
+    float component_success_chance = std::min((float)pow(0.8f, dis_item.damage), 1.f);
 
     int veh_part = -1;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
@@ -1818,13 +1819,13 @@ void game::complete_disassemble()
         veh_part = veh->part_with_feature(veh_part, "CARGO");
     }
 
-    add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
+    add_msg(_("You disassemble the %s into its components."), dis_item.name.c_str());
     // remove any batteries or ammo first
-    remove_ammo(dis_item);
+    remove_ammo(&dis_item);
 
-    if (dis_item->count_by_charges()) {
-        dis_item->charges -= dis_item->type->stack_size;
-        if (dis_item->charges == 0) {
+    if (dis_item.count_by_charges()) {
+        dis_item.charges -= dis_item.type->stack_size;
+        if (dis_item.charges == 0) {
             u.i_rem(u.activity.values[0]);
         }
     } else {
@@ -1857,45 +1858,51 @@ void game::complete_disassemble()
 
     for (unsigned j = 0; j < dis->components.size(); j++) {
         if (dis->components[j].size() != 0) {
+            const std::string &comp = dis->components[j][0].type;
+            itype *itt = item_controller->find_template(comp);
+            if (itt->item_tags.count("UNRECOVERABLE") > 0) {
+                continue;
+            }
+
             int compcount = dis->components[j][0].count;
-            bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
-
-            if ((dis->difficulty != 0 && !comp_success)) {
-                add_msg(_("You fail to recover a component."));
-                continue;
-            }
-
-            item newit(item_controller->find_template(dis->components[j][0].type), turn);
-
-            if (newit.has_flag("UNRECOVERABLE")) {
-                continue;
-            }
-
+            item newit(itt, turn);
             if (newit.count_by_charges()) {
                 newit.charges = compcount;
                 compcount = 1;
-            } else if (newit.is_tool()) {
-                newit.charges = 0;
             }
-            if (newit.made_of(LIQUID)) {
-                handle_liquid(newit, false, false);
-                continue;
-            }
-            do {
-                compcount--;
 
-                bool dmg_success = component_success_chance > rng_float(0, 1);
-                if(!dmg_success) {
-                    add_msg(_("You fail to recover a component."));
+            for( ; compcount > 0; compcount--) {
+                const bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
+                if (dis->difficulty != 0 && !comp_success) {
+                    add_msg(_("You fail to recover %s."), newit.tname().c_str());
                     continue;
                 }
-
-                if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, newit)) {
+                const bool dmg_success = component_success_chance > rng_float(0, 1);
+                if (!dmg_success) {
+                    // Show reason for failure (damaged item, tname contains the damage adjective)
+                    add_msg(_("You fail to recover %s from the %s."), newit.tname().c_str(), dis_item.tname().c_str());
+                    continue;
+                }
+                // Use item from components list, or (if not contained)
+                // use newit directly.
+                item act_item = newit;
+                for(item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end(); ++a) {
+                    if (a->type == newit.type) {
+                        act_item = *a;
+                        dis_item.components.erase(a);
+                        break;
+                    }
+                }
+                if (act_item.made_of(LIQUID)) {
+                    while (!handle_liquid(act_item, false, false)) {
+                        // Try again, maybe use another container.
+                    }
+                } else if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, act_item)) {
                     // add_item did put the items in the vehicle, nothing further to be done
                 } else {
-                    m.add_item_or_charges(u.posx, u.posy, newit);
+                    m.add_item_or_charges(u.posx, u.posy, act_item);
                 }
-            } while (compcount > 0);
+            }
         }
     }
 
