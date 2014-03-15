@@ -2275,7 +2275,7 @@
         "type":"GENERIC",
         "id" : "poppy_bud",
         "name" : "poppy bud",
-        "description" : "A poppy bud. Contains some substances commonly produced by mutated poppy flower",
+        "description" : "A poppy bud. Contains some substances commonly produced by a mutated poppy flower",
         "weight" : 30,
         "to_hit" : -3,
         "color" : "red",
