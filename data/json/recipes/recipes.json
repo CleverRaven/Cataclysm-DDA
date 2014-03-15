@@ -5450,7 +5450,8 @@
       [ "coffeemaker", -1],
       [ "rock_pot", -1 ],
       [ "teapot", -1 ],
-      [ "can_food", -1]
+      [ "can_food", -1],
+      [ "can_drink", -1 ]
     ]
   ],
   "components": [
