@@ -2416,85 +2416,91 @@ ammotype item::ammo_type() const
 
 int item::pick_reload_ammo(player &u, bool interactive)
 {
- if( is_null() )
-  return INT_MIN;
+    if( is_null() ) {
+        return INT_MIN;
+    }
 
- if (!type->is_gun() && !type->is_tool()) {
-  debugmsg("RELOADING NON-GUN NON-TOOL");
-  return INT_MIN;
- }
- int has_spare_mag = has_gunmod ("spare_mag");
+    if (!type->is_gun() && !type->is_tool()) {
+        debugmsg("RELOADING NON-GUN NON-TOOL");
+        return INT_MIN;
+    }
+    int has_spare_mag = has_gunmod ("spare_mag");
 
- std::vector<item*> am; // List of valid ammo
+    std::vector<item *> am; // List of valid ammo
 
- if (type->is_gun()) {
-  if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
-   // Special return to use magazine for reloading.
-   return INT_MIN + 1;
-  }
-  it_gun* tmp = dynamic_cast<it_gun*>(type);
+    if (type->is_gun()) {
+        if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
+            // Special return to use magazine for reloading.
+            return INT_MIN + 1;
+        }
+        it_gun *tmp = dynamic_cast<it_gun *>(type);
 
-  // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
-  // If the gun is partially loaded make sure the ammo matches.
-  // If the gun is empty, either the spare mag is empty too and anything goes,
-  // or the spare mag is loaded and we're doing a tactical reload.
-  if (charges < clip_size() ||
-      (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
-        std::vector<item*> tmpammo = u.has_ammo(ammo_type());
-        for (size_t i = 0; i < tmpammo.size(); i++) {
-            if (charges <= 0 || tmpammo[i]->typeId() == curammo->id ) {
-                am.push_back(tmpammo[i]);
-            } else if (tmpammo[i]->is_container() && !tmpammo[i]->contents.empty() &&
-                    tmpammo[i]->contents[0].typeId() == curammo->id) {
-                am.push_back(tmpammo[i]);
+        // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
+        // If the gun is partially loaded make sure the ammo matches.
+        // If the gun is empty, either the spare mag is empty too and anything goes,
+        // or the spare mag is loaded and we're doing a tactical reload.
+        if (charges < clip_size() ||
+            (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
+            std::vector<item *> tmpammo = u.has_ammo(ammo_type());
+            for (size_t i = 0; i < tmpammo.size(); i++) {
+                if (charges <= 0 || tmpammo[i]->typeId() == curammo->id ) {
+                    am.push_back(tmpammo[i]);
+                } else if (tmpammo[i]->is_container() && !tmpammo[i]->contents.empty() &&
+                           tmpammo[i]->contents[0].typeId() == curammo->id) {
+                    am.push_back(tmpammo[i]);
+                }
             }
         }
-  }
 
-  // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
-  // for each attachment, find its associated ammo & append it to the ammo vector
-  for (size_t i = 0; i < contents.size(); i++)
-   if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX") &&
-       contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
-    std::vector<item*> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
-    for(size_t j = 0; j < tmpammo.size(); j++)
-     if (contents[i].charges <= 0 || tmpammo[j]->typeId() == contents[i].curammo->id)
-      am.push_back(tmpammo[j]);
-   }
- } else { //non-gun.
+        // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
+        // for each attachment, find its associated ammo & append it to the ammo vector
+        for (size_t i = 0; i < contents.size(); i++) {
+            if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX") &&
+                contents[i].charges < (dynamic_cast<it_gunmod *>(contents[i].type))->clip) {
+                std::vector<item *> tmpammo = u.has_ammo((dynamic_cast<it_gunmod *>(contents[i].type))->newtype);
+                for(size_t j = 0; j < tmpammo.size(); j++) {
+                    if (contents[i].charges <= 0 || tmpammo[j]->typeId() == contents[i].curammo->id) {
+                        am.push_back(tmpammo[j]);
+                    }
+                }
+            }
+        }
+    } else { //non-gun.
         // this is probably a tool.  Check if it uses atomic power instead of batteries
         if (has_flag("ATOMIC_AMMO")) {
             am = u.has_ammo("plutonium");
-        } else
+        } else {
             am = u.has_ammo(ammo_type());
- }
+        }
+    }
 
- // Check if the player is wielding ammo
- if (u.is_armed() && u.weapon.is_ammo()){
-     // if it is compatible then include it.
-     it_ammo* w_ammo = dynamic_cast<it_ammo*>(u.weapon.type);
-     if (w_ammo->type == ammo_type())
-         am.push_back(&u.weapon);
- }
+    // Check if the player is wielding ammo
+    if (u.is_armed() && u.weapon.is_ammo()) {
+        // if it is compatible then include it.
+        it_ammo *w_ammo = dynamic_cast<it_ammo *>(u.weapon.type);
+        if (w_ammo->type == ammo_type()) {
+            am.push_back(&u.weapon);
+        }
+    }
 
 
- int am_pos = INT_MIN;
+    int am_pos = INT_MIN;
 
- if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
-     uimenu amenu;
-     amenu.return_invalid = true;
-     amenu.w_y = 0;
-     amenu.w_x = 0;
-     amenu.w_width = TERMX;
-     // 40: = 4 * ammo stats colum (10 chars each)
-     // 2: prefix from uimenu: hotkey + space in front of name
-     // 4: borders: 2 char each ("| " and " |")
-     const int namelen = TERMX - 2 - 40 - 4;
-     std::string lastreload = "";
+    if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
+        uimenu amenu;
+        amenu.return_invalid = true;
+        amenu.w_y = 0;
+        amenu.w_x = 0;
+        amenu.w_width = TERMX;
+        // 40: = 4 * ammo stats colum (10 chars each)
+        // 2: prefix from uimenu: hotkey + space in front of name
+        // 4: borders: 2 char each ("| " and " |")
+        const int namelen = TERMX - 2 - 40 - 4;
+        std::string lastreload = "";
 
-     if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
-         lastreload = uistate.lastreload[ ammo_type() ];
-     }
+        if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
+            lastreload = uistate.lastreload[ ammo_type() ];
+        }
 
         amenu.text = std::string(_("Choose ammo type:"));
         if (amenu.text.length() < namelen) {
@@ -2507,7 +2513,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
         //~ header of table that appears when reloading, each colum must contain exactly 10 characters
         amenu.text += _("| Damage  | Pierce  | Range   | Accuracy");
         for (size_t i = 0; i < am.size(); i++) {
-            it_ammo* ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
+            it_ammo *ammo_def = dynamic_cast<it_ammo *>(am[i]->type);
             std::string row = am[i]->display_name();
             if (row.length() < namelen) {
                 row += std::string(namelen - row.length(), ' ');
@@ -2515,24 +2521,24 @@ int item::pick_reload_ammo(player &u, bool interactive)
                 row.erase(namelen, row.length() - namelen);
             }
             row += string_format("| %-7d | %-7d | %-7d | %-7d",
-                    ammo_def->damage, ammo_def->pierce, ammo_def->range,
-                    100 - ammo_def->dispersion);
+                                 ammo_def->damage, ammo_def->pierce, ammo_def->range,
+                                 100 - ammo_def->dispersion);
             amenu.addentry(i, true, i + 'a', row);
-         if ( lastreload == am[i]->typeId() ) {
-             amenu.selected = i;
-         }
-     }
-     amenu.query();
-     if ( amenu.ret >= 0 ) {
-        am_pos = u.get_item_position(am[ amenu.ret ]);
-        uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
-     }
- }
- // Either only one valid choice or chosing for a NPC, just return the first.
- else if (am.size() > 0){
-     am_pos = u.get_item_position(am[0]);
- }
- return am_pos;
+            if ( lastreload == am[i]->typeId() ) {
+                amenu.selected = i;
+            }
+        }
+        amenu.query();
+        if ( amenu.ret >= 0 ) {
+            am_pos = u.get_item_position(am[ amenu.ret ]);
+            uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
+        }
+    }
+    // Either only one valid choice or chosing for a NPC, just return the first.
+    else if (am.size() > 0) {
+        am_pos = u.get_item_position(am[0]);
+    }
+    return am_pos;
 }
 
 bool item::reload(player &u, int pos)
