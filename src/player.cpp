@@ -35,6 +35,7 @@
 #include <ctime>
 #include <algorithm>
 #include <numeric>
+#include <string>
 
 nc_color encumb_color(int level);
 static void manage_fire_exposure(player& p, int fireStrength = 1);
@@ -6365,9 +6366,9 @@ martialart player::get_combat_style()
 std::vector<item *> player::inv_dump()
 {
  std::vector<item *> ret;
- if (std::find(standard_itype_ids.begin(), standard_itype_ids.end(), weapon.type->id) != standard_itype_ids.end()){
-  ret.push_back(&weapon);
- }
+    if (!weapon.has_flag("NO_UNWIELD")) {
+        ret.push_back(&weapon);
+    }
  for (int i = 0; i < worn.size(); i++)
   ret.push_back(&worn[i]);
  inv.dump(ret);
@@ -8158,8 +8159,6 @@ bool player::takeoff(int pos, bool autodrop)
     return taken_off;
 }
 
-#include <string>
-
 void player::sort_armor()
 {
     const int win_h = FULL_SCREEN_HEIGHT + (TERMY - FULL_SCREEN_HEIGHT) / 3;
@@ -8505,11 +8504,34 @@ void player::sort_armor()
                 selected = leftListIndex;
             break;
 
+        case 'r':
+            {
+                // Start with last armor (the most unimportant one?)
+                int worn_index = worn.size() - 1;
+                int invlet_index = inv_chars.size() - 1;
+                while (invlet_index >= 0 && worn_index >= 0) {
+                    const char invlet = inv_chars[invlet_index];
+                    item &w = worn[worn_index];
+                    if (invlet == w.invlet) {
+                        worn_index--;
+                    } else if (has_item(invlet)) {
+                        invlet_index--;
+                    } else {
+                        w.invlet = invlet;
+                        worn_index--;
+                        invlet_index--;
+                    }
+                }
+            }
+            break;
+
         case '?':{
             popup_getkey(_("\
 Use the arrow- or keypad keys to navigate the left list.\n\
 Press 's' to select highlighted armor for reordering.\n\
-Use PageUp/PageDown to scroll the right list.\n \n\
+Use PageUp/PageDown to scroll the right list.\n\
+Press 'r' to assign special inventory letters to clothing.\n\
+ \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
