@@ -231,7 +231,7 @@ will appear. As hunger and thirst reach critical levels, you will begin to suffe
 penalties. Thirst is more dangerous than hunger. Finding food in a city is usually easy; outside \
 of a city, you may have to hunt an animal, stand over an animal's corpse and butcher it into \
 small chunks of meat by %s key. You might also be able to forage for edible fruit or vegetables; \
-find a promising plant and it to check. Likewise, outside of city you may have to drink water from a river or \
+find a promising plant and examine it to check. Likewise, you may have to drink water from a river or \
 other natural source; stand in shallow water and press %s to collect it. You'll need a watertight \
 container to store it. Be forewarned that some sources of water aren't trustworthy and may produce \
 diseased water. To be sure it's healthy, purify the water by boiling it or using water purifier before drinking."),
@@ -315,7 +315,7 @@ or going through drug withdrawal are some prominent examples."));
 
     text.push_back(_("\
 Low morale will make you sluggish and unmotivated. If your morale drops very low, you won't be able to perform \
-crafting at all. Depressed enough and you may even take a penalty to intelligence. \
+crafting at all. If you become sufficently depressed, you will suffer stat penalties. \
 Very high morale fills you with gusto and energy, and you will find yourself moving faster. At extremely high levels, \
 you will receive stat bonuses."));
 
@@ -384,8 +384,8 @@ require the installation of a special bionic just for fuel consumption."));
     text.push_back(_("\
 Bionics come in ready-to-install canisters. Installation of a bionic is best left to a trained \
 professional. However, you may attempt to perform a self-installation. Performing such a task \
-requires high levels of intelligence, first aid, mechanics, and/or electronics, and failure may \
-cripple you! Many bionics canisters are difficult to find, but may be purchased from certain \
+requires high levels of intelligence, first aid, mechanics, and electronics, and failure may \
+cripple you! Many bionic canisters are difficult to find, but may be purchased from certain \
 wandering vagabonds for a very high price."));
 
     return text;
@@ -407,24 +407,24 @@ tool set. All recipes require one or more ingredients. These ARE used up in craf
     text.push_back(string_format(_("\
 To craft items, press %s. There are seven categories: \
 Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category \
-are several smaller sub-categories. While a few items require no particular skill\
-to create the majority require you to have some knowledge:\n"),
+are several smaller sub-categories. While a few items require no particular skill \
+to create, the majority require you to have some knowledge:\n"),
                                  press_x(ACTION_CRAFT, "", "").c_str()));
 
     text.push_back(_("\
--> Mechanic skill is used for weapons, traps, and a few tools.\n\
--> Cooking skill, at low levels, is used for making tasty recipes; at higher levels, you have \
+-> Fabrication is the generic artisan skill, used for a wide variety of gear.\n\
+-> Cooking, at low levels, is used for making tasty recipes; at higher levels, you have \
 an understanding of chemistry and can make chemical weapons and beneficial elixirs.\n\
--> Tailoring skill is used to create basic clothing, and later tough armor.\n\
--> Electronics skill lets you make a wide variety of tools with intricate uses."));
+-> Tailoring is used to create basic clothing, and armor later on.\n\
+-> Electronics lets you make a wide variety of tools with intricate uses."));
 
     text.push_back(_("\
 In addition to the primary crafting skills, other skills may be necessary to create certain \
-items. Traps skill, Marksmanship skill, and First Aid skill are all required for certain items."));
+items. Traps, Marksmanship, and First Aid are all required for certain items."));
 
     text.push_back(_("\
-Crafting an item with high difficulty may fall and possibly waste some materials. You should prepare spare material \
-for such occasion."));
+Crafting an item with high difficulty may fall and possibly waste some materials. You should prepare spare material, \
+just in case."));
 
     return text;
 }
@@ -491,8 +491,8 @@ is a guaranteed increase in damage, but it may be reduced by a monster's natural
                                  press_x(ACTION_INVENTORY, "", "").c_str()));
 
     text.push_back(string_format(_("\
-To wield an item as a weapon, press %s then the proper letter. Pressing '-' in lieu of a letter \
-will make you wield nothing. A wielded weapon will not contribute to your volume carried, so \
+To wield an item as a weapon, press %s then the proper letter. wielding the item you are currently wielding \
+will unwield it, leaving your hands empty. A wielded weapon will not contribute to your volume carried, so \
 holding a large item in your hands may be a good option for travel. When unwielding your weapon, \
 it will go back in your inventory, or will be dropped on the ground if there is no space."),
                                  press_x(ACTION_WIELD, "", "").c_str()));
@@ -523,11 +523,12 @@ std::vector<std::string> text_combat()
     std::vector<std::string> text;
 
     text.push_back(_("\
-With the default Static spawn option, monsters will spawn at the start of the game . \
-They are represented by letters on your screen; a list of monster names, and their \
+With the default Static spawn option, zombies in cities will spawn at the start of the game. \
+All monsters are represented by letters on your screen; a list of monster names, and their \
 positions relative to you, is displayed on the right side of the screen. \
-If the game is set to Dynamic spawn option, you will have 90 minutes to prepare yourself, \
-after that monsters will be spawned based on the noise you make."));
+If the game is set to Dynamic spawn option, you will have 90 minutes to prepare yourself \
+before the spawns start; after that, monsters everywhere will be spawned based on the noise \
+you make."));
 
     text.push_back(_("\
 To attack a monster with a melee weapon, simply move into them. The time it takes to attack \
@@ -564,11 +565,13 @@ std::vector<std::string> text_styles()
     text.push_back(_("\
 For the unarmed fighter, a variety of fighting styles are available. \
 You can start with your choice of a single, commonly-taught style by starting with \
-the Martial Arts Training trait. Many, many more can be taught by wandering masters."));
+the Martial Arts Training trait. Many, many more can be found in their own traits, \
+learned from manuals, or taught by wandering masters."));
 
     text.push_back(string_format(_("\
 To select a fighting style, press %s. If you are already unarmed this will make you start using the style. \
-Otherwise, it will be locked in as your default unarmed style; to start using it, press %s then '-'."),
+Otherwise, it will be locked in as your default unarmed style; to start using it, wield a relevant weapon \
+or empty your hands, by pressing %s, then the key for the item you are currently wielding."),
                                  press_x(ACTION_PICK_STYLE, "", "").c_str(),
                                  press_x(ACTION_WIELD, "", "").c_str()));
 
@@ -591,10 +594,10 @@ std::vector<std::string> text_tips()
     std::vector<std::string> text;
 
     text.push_back(_("\
-The first thing to do is to check your home for useful items. Your initial storage is \
+The first thing to do is to check your shelter for useful items. Your initial storage is \
 limited, and a backpack, trenchcoat, or other storage medium will let you carry a lot \
 more. Finding a weapon is important; frying pans, butcher knives, and more are common \
-in your home; hardware stores may carry others. Unless you plan on concentrating on melee \
+in houses; hardware stores may carry others. Unless you plan on concentrating on melee \
 combat, seek out gun stores as soon as possible and load up on more than one type."));
 
     text.push_back(_("\
@@ -849,7 +852,7 @@ A: Lots of the food found in towns is perishable, and will only last a few days 
 the start of a new game (early Spring). The electricity went out several days ago \
 so fruit, milk and others are the first to go bad. \
 After the first couple of days, you should switch to canned food, jerky, and hunting. \
-Also, You should make sure to cook/purify any food or water you hunt up \
+Also, you should make sure to cook/purify any food or water you hunt up \
 as it may contain parasites or otherwise be unsafe."));
 
     text.push_back(_("\
@@ -873,7 +876,7 @@ need to drop your equipment and remove your clothing to swim, making it a last-d
 
     text.push_back(_("\
 Q: How can I cure a fungal infection?\n\
-A: Royal jelly, Blood Filter bionic and some antifungal chemicals can cure fungal infection. \
+A: Royal jelly, the Blood Filter bionic, and some antifungal chemicals can cure fungal infection. \
 You can find royal jelly in the bee hives which dot forests. Antifungal chemicals to cure the fungal \
 infection can either be found as random loot or made from other ingredients."));
 
@@ -909,7 +912,7 @@ it from spreading. Fire extinguishers can put out fires that get out of control.
 
     text.push_back(_("\
 Q: I'm cold and can't sleep at night!\n\
-A: Gather some clothes and put them in the place you use to sleep in. Being hungry, thirsty, wet \
+A: Gather some clothes and put them in the place you use to sleep in. Being hungry, thirsty, wet, \
 or injured can also make you feel the cold more, so try to avoid these effects before you go to sleep."));
 
     text.push_back(_("\
