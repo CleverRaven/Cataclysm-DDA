@@ -138,8 +138,6 @@ void game::load_static_data() {
 }
 
 void game::check_all_mod_data() {
-    init_ui();
-    popup_nowait("checking all mods");
     mod_manager *mm = world_generator->get_mod_manager();
     dependency_tree &dtree = mm->get_tree();
     if (mm->mod_map.empty()) {
