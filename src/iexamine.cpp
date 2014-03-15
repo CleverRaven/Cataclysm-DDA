@@ -550,9 +550,24 @@ void iexamine::chainfence(player *p, map *m, int examx, int examy) {
   none(p, m, examx, examy);
   return;
  }
+ if ( (p->has_trait("ARACHNID_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
+    g->add_msg(_("Climbing the fence is trivial for one such as you."));
+    p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+    p->posx = examx;
+    p->posy = examy;
+    return;
+ }
+ if ( (p->has_trait("INSECT_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
+    g->add_msg(_("You quickly scale the fence."));
+    p->moves -= 90;
+    p->posx = examx;
+    p->posy = examy;
+    return;
+ }
+ 
  p->moves -= 400;
  if (one_in(p->dex_cur)) {
-  g->add_msg(_("You slip whilst climbing and fall down again"));
+  g->add_msg(_("You slip whilst climbing and fall down again."));
  } else {
   p->moves += p->dex_cur * 10;
   p->posx = examx;
@@ -565,7 +580,8 @@ void iexamine::bars(player *p, map *m, int examx, int examy) {
     none(p, m, examx, examy);
     return;
  }
- if ((p->encumb(bp_torso)) >= 1) {
+ if ( ((p->encumb(bp_torso)) >= 1) && ((p->encumb(bp_head)) >= 1) &&
+    ((p->encumb(bp_feet)) >= 1) ) { // Most likely places for rigid gear that would catch on the bars.
     g->add_msg(_("Your amorphous body could slip though the %s, but your cumbersome gear can't."),m->tername(examx, examy).c_str());
     return;
  }

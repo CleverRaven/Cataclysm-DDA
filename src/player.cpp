@@ -384,15 +384,41 @@ void player::reset_stats()
     }
 
     // Trait / mutation buffs
-    if (has_trait("THICK_SCALES"))
+    if (has_trait("THICK_SCALES")) {
         mod_dex_bonus(-2);
-    if (has_trait("CHITIN2") || has_trait("CHITIN3"))
+    }
+    if (has_trait("CHITIN2") || has_trait("CHITIN3")) {
         mod_dex_bonus(-1);
-    if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes))
+    }
+    if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes)) {
         mod_per_bonus(1);
+    }
+    if (has_trait("INSECT_ARMS")) {
+        mod_dex_bonus(-2);
+    }
+    if (has_trait("INSECT_ARMS_OK")) {
+        if (!wearing_something_on(bp_torso)) {
+            mod_dex_bonus(1);
+        }
+        else {
+            mod_dex_bonus(-1);
+        }
+    }
+    if (has_trait("ARACHNID_ARMS")) {
+        mod_dex_bonus(-4);
+    }
+    if (has_trait("ARACHNID_ARMS_OK")) {
+        if (!wearing_something_on(bp_torso)) {
+            mod_dex_bonus(2);
+        }
+        else {
+            mod_dex_bonus(-2);
+        }
+    }
     if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-            has_trait("ARM_TENTACLES_8"))
+            has_trait("ARM_TENTACLES_8")) {
         mod_dex_bonus(1);
+    }
 
     // Pain
     if (pain > pkill) {
@@ -8160,6 +8186,15 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
+        
+        if (armor->covers & mfb(bp_torso) && ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) )
+        {
+            if(interactive)
+            {
+                g->add_msg(_("Your new limbs are too wriggly to fit under that."));
+            }
+            return false;
+        }
 
         if (armor->covers & mfb(bp_head) &&
             !to_wear->made_of("wool") && !to_wear->made_of("cotton") &&
@@ -9527,17 +9562,23 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
 
     // Bionics and mutation
-    if( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
+    if ( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
         ret += 1;
     }
-    if( has_trait("CHITIN3") && bp != bp_eyes && bp != bp_mouth ) {
+    if ( has_trait("CHITIN3") && bp != bp_eyes && bp != bp_mouth ) {
         ret += 1;
     }
-    if( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
+    if ( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
         ret += 1;
     }
-    if( has_trait("ARM_FEATHERS") && bp == bp_arms ) {
+    if ( has_trait("ARM_FEATHERS") && bp == bp_arms ) {
         ret += 2;
+    }
+    if ( has_trait("INSECT_ARMS") && bp == bp_arms ) {
+        ret += 3;
+    }
+    if ( has_trait("ARACHNID_ARMS") && bp == bp_arms ) {
+        ret += 4;
     }
     if ( has_trait("PAWS") && bp == bp_hands ) {
         ret += 1;

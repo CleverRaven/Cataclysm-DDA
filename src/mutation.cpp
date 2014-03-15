@@ -542,6 +542,10 @@ void mutation_effect(player &p, std::string mut)
         destroy = true;
         bps.push_back(bp_torso);
 
+    } else if ( (mut == "INSECT_ARMS") || (mut == "ARACHNID_ARMS") ) {
+        // Push off torsowear
+        bps.push_back(bp_torso);
+
     } else if (mut == "HORNS_CURLED" || mut == "CHITIN3") {
         // Push off all helmets
         bps.push_back(bp_head);
