@@ -1805,7 +1805,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     }
 
     std::string note_text = overmap_buffer.note(cursx, cursy, z);
-    if (note_text[3] == ':' || note_text[3] == ';'){
+    if ((note_text.length() >= 4 && note_text[3] == ':') || (note_text.length() >= 4 && note_text[3] == ';')){
         note_text.erase(0, 4);
     } else if ((note_text.length() >= 2 && note_text[1] == ':') || (note_text.length() >= 2 && note_text[1] == ';') ) {
         note_text.erase(0, 2);

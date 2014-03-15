@@ -951,7 +951,7 @@ recipe *game::select_crafting_recipe()
             line--;
             break;
         case Confirm:
-            if (!available[line]) {
+            if (available.empty() || !available[line]) {
                 popup(_("You can't do that!"));
             } else {
                 // is player making a liquid? Then need to check for valid container

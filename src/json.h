@@ -297,7 +297,7 @@ public:
     // vector ~> array
     template <typename T> void write(const std::vector<T> &v) {
         start_array();
-        for (int i = 0; i < v.size(); ++i) {
+        for (size_t i = 0; i < v.size(); ++i) {
             write(v[i]);
         }
         end_array();
