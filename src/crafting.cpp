@@ -1906,6 +1906,8 @@ void game::complete_disassemble()
         if (newit.count_by_charges() || newit.made_of(LIQUID)) {
             newit.charges = compcount;
             compcount = 1;
+        } else if (!newit.craft_has_charges() && newit.charges > 0) {
+            newit.charges = 0;
         }
 
         for( ; compcount > 0; compcount--) {
