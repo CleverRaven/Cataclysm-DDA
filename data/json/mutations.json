@@ -2625,10 +2625,22 @@
         "points" : -2,
         "visibility" : 8,
         "ugliness" : 8,
-        "description" : "Your face and jaws, well, are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
+        "description" : "Your face and jaws are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
         "cancels" : ["MUZZLE", "MINOTAUR", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_LIZARD"]
+    },{
+        "type" : "mutation",
+        "id" : "PROBOSCIS",
+        "name" : "Proboscis",
+        "points" : -6,
+        "visibility" : 5,
+        "ugliness" : 7,
+        "description" : "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
+        "cancels" : ["MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR"],
+        "prereqs" : ["EYEBULGE"],
+        "threshreq" : ["THRESH_INSECT"],
+        "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "HOLLOW_BONES",

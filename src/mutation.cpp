@@ -528,7 +528,8 @@ void mutation_effect(player &p, std::string mut)
         destroy = true;
         bps.push_back(bp_mouth);
 
-    } else if (mut == "MINOTAUR" || mut == "MUZZLE" || mut == "MUZZLE_BEAR" || mut == "MUZZLE_LONG") {
+    } else if (mut == "MINOTAUR" || mut == "MUZZLE" || mut == "MUZZLE_BEAR" || mut == "MUZZLE_LONG" ||
+        mut == "PROBOSCIS") {
         // Push off mouthwear
         bps.push_back(bp_mouth);
 

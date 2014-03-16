@@ -7288,6 +7288,12 @@ bool player::eat(item *eaten, it_comest *comest)
         g->add_msg_if_player(this, _("You can't do that while underwater."));
         return false;
     }
+    // Here's why PROBOSCIS is such a negative trait.
+    if ( (has_trait("PROBOSCIS")) && (comest->comesttype == "FOOD" ||
+        eaten->has_flag("USE_EAT_VERB")) ) {
+        g->add_msg_if_player(this, _("Ugh, you can't drink that!"));
+        return false;
+    }
     bool overeating = (!has_trait("GOURMAND") && hunger < 0 &&
                        comest->nutr >= 5);
     bool hiberfood = (has_trait("HIBERNATE") && (hunger > -60 && thirst > -60 ));
@@ -8138,6 +8144,15 @@ bool player::wear_item(item *to_wear, bool interactive)
             if(interactive)
             {
                 g->add_msg(_("Your saber teeth are simply too large for %s to fit."), armor->name.c_str());
+            }
+            return false;
+        }
+        
+        if (armor->covers & mfb(bp_mouth) && has_trait("PROBOSCIS"))
+        {
+            if(interactive)
+            {
+                g->add_msg(_("Your proboscis is simply too large for %s to fit."), armor->name.c_str());
             }
             return false;
         }
