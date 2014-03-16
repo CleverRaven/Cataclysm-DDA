@@ -270,7 +270,7 @@ class overmap
 
   void process_mongroups(); // Makes them die out, maybe more
   void move_hordes();
-  void signal_hordes(int x, int y, int sig_power);
+  void signal_hordes( const int x, const int y, const int sig_power);
 
   std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);

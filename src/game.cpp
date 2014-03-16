@@ -832,7 +832,7 @@ bool game::do_turn()
         cur_om->process_mongroups();
     }
 
-    if (turn % 50 ==0) { //move hordes every 5 min
+    if (turn % 50 == 0) { //move hordes every 5 min
         cur_om->move_hordes();
     }
 
@@ -4319,8 +4319,7 @@ Current turn: %d; Next spawn %d.\n\
         cleanup_dead();
   }
   break;
-  case 20:
-    {
+  case 20: {
         groupdebug();
     }
     break;
@@ -4339,37 +4338,39 @@ Current turn: %d; Next spawn %d.\n\
 
 void game::mondebug()
 {
- int tc;
- for (int i = 0; i < num_zombies(); i++) {
-  monster &critter = critter_tracker.find(i);
-  critter.debug(u);
-  if (critter.has_flag(MF_SEES) &&
-      m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc))
-   debugmsg("The %s can see you.", critter.name().c_str());
-  else
-   debugmsg("The %s can't see you...", critter.name().c_str());
- }
+    int tc = 0;
+    for (int i = 0; i < num_zombies(); i++) {
+        monster &critter = critter_tracker.find(i);
+        critter.debug(u);
+        if (critter.has_flag(MF_SEES) &&
+            m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc)) {
+            debugmsg("The %s can see you.", critter.name().c_str());
+        } else {
+            debugmsg("The %s can't see you...", critter.name().c_str());
+        }
+    }
 }
 
 void game::groupdebug()
 {
- erase();
- mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx,
-                                           levy);
- int dist, linenum = 1;
- for (int i = 0; i < cur_om->zg.size(); i++) {
-  if (cur_om->zg[i].posz != levz) { continue; }
-  dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-  //if (dist <= cur_om->zg[i].radius)
-  if (cur_om->zg[i].horde)
-  {
-   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d",
-            i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
-            cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest);
-   linenum++;
-  }
- }
- getch();
+    erase();
+    mvprintw( 0, 0, "OM %d : %d    M %d : %d",
+              cur_om->pos().x, cur_om->pos().y, levx, levy);
+    int dist = 0;
+    int linenum = 1;
+    for (int i = 0; i < cur_om->zg.size(); i++) {
+        if (cur_om->zg[i].posz != levz) { continue; }
+        dist = trig_dist( levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy );
+        if (cur_om->zg[i].horde) {
+            mvprintw( linenum, 0,
+                      "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d",
+                      i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
+                      cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty,
+                      cur_om->zg[i].interest);
+            linenum++;
+        }
+    }
+    getch();
 }
 
 void game::draw_overmap()
@@ -5908,11 +5909,10 @@ bool game::sound(int x, int y, int vol, std::string description)
 {
     // --- Monster sound handling here ---
     // Alert all hordes
-    if (vol>20 && levz==0)
-        {
-            int sig_power= (vol>140 ? 140 : vol) - 20;
-            cur_om->signal_hordes(levx, levy, sig_power);
-        }
+    if( vol > 20 && levz == 0 ) {
+        int sig_power = ((vol > 140) ? 140 : vol) - 20;
+        cur_om->signal_hordes( levx, levy, sig_power );
+    }
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &critter = critter_tracker.find(i);
@@ -13230,7 +13230,7 @@ void game::spawn_mon(int shiftx, int shifty)
  for (size_t i = 0; i < cur_om->zg.size(); i++) { // For each valid group...
   if (cur_om->zg[i].posz != levz) { continue; } // skip other levels - hack
   group = 0;
-  bool horde=cur_om->zg[i].horde;
+  bool horde = cur_om->zg[i].horde;
   if(cur_om->zg[i].diffuse)
    dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
   else
@@ -13238,25 +13238,24 @@ void game::spawn_mon(int shiftx, int shifty)
   pop = cur_om->zg[i].population;
   rad = cur_om->zg[i].radius;
   if (dist <= rad) {
-// (The area of the group's territory) in (population/square at this range)
-// chance of adding one monster; cap at the population OR 16
-   while ( (cur_om->zg[i].diffuse ?
-            long( pop) :
-            long((1.0 - double(dist / rad)) * pop) )
-          > rng(0, (rad * rad)) &&
-          rng(horde ? MAPSIZE*2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
-    group++;
-   //if (horde) g->add_msg("Spawn horde group: %d zombies",group);
-   cur_om->zg[i].population -= group;
-   // Reduce group radius proportionally to remaining
-   // population to maintain a minimal population density.
-   if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
-       !cur_om->zg[i].diffuse)
-     cur_om->zg[i].radius--;
+      // (The area of the group's territory) in (population/square at this range)
+      // chance of adding one monster; cap at the population OR 16
+      while ( (cur_om->zg[i].diffuse ? long( pop) :
+               long((1.0 - double(dist / rad)) * pop) ) > rng(0, (rad * rad)) &&
+              rng(horde ? MAPSIZE*2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
+          group++;
+      cur_om->zg[i].population -= group;
+      // Reduce group radius proportionally to remaining
+      // population to maintain a minimal population density.
+      if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
+          !cur_om->zg[i].diffuse) {
+          cur_om->zg[i].radius--;
+      }
 
-   if (group > 0 && !cur_om->zg[i].horde ) //{ // If we spawned some zombies, advance the timer (exept hordes)
-    nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
-    //g->add_msg("Next spawn:%d",nextspawn.get_turn());}
+      // If we spawned some zombies, advance the timer (exept hordes)
+      if (group > 0 && !cur_om->zg[i].horde ) {
+          nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
+      }
 
    for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
      MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type,
