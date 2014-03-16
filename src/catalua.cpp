@@ -253,6 +253,29 @@ static int game_items_at(lua_State *L) {
     return 1; // 1 return values
 }
 
+// monster_types = game.get_monster_types()
+static int game_get_monster_types(lua_State *L) {
+    std::vector<std::string> mtypes = MonsterGenerator::generator().get_all_mtype_ids();
+
+    lua_createtable(L, mtypes.size(), 0); // Preallocate enough space for all our monster types.
+
+    // Iterate over the monster list and insert each monster into our returned table.
+    for( size_t i = 0; i < mtypes.size(); ++i ) {
+        // The stack will look like this:
+        // 1 - t, table containing id
+        // 2 - k, index at which the next id will be inserted
+        // 3 - v, next id to insert
+        //
+        // lua_rawset then does t[k] = v and pops v and k from the stack
+
+        lua_pushnumber(L, i + 1);
+        lua_pushstring(L, mtypes[i].c_str());
+        lua_rawset(L, -3);
+    }
+
+    return 1; // 1 return values
+}
+
 // monster = game.monster_at(x, y)
 static int game_monster_at(lua_State *L) {
     int parameter1 = (int) lua_tonumber(L, 1);
@@ -387,6 +410,7 @@ static const struct luaL_Reg global_funcs [] = {
     {"choose_adjacent", game_choose_adjacent},
     {"monster_type", game_monster_type},
     {"dofile", game_dofile},
+    {"get_monster_types", game_get_monster_types},
     {NULL, NULL}
 };
 
