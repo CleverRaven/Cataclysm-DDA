@@ -8363,7 +8363,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
-  "difficulty": 1,
+  "difficulty": 2,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -8397,7 +8397,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
-  "difficulty": 2,
+  "difficulty": 1,
   "time": 14000,
   "reversible": false,
   "autolearn": true,
@@ -8418,8 +8418,8 @@
       [ "tallow", 1 ]
     ],
     [
-      [ "cornmeal", 2 ],
-      [ "flour", 2 ]
+      [ "cornmeal", 1 ],
+      [ "flour", 1 ]
     ]
   ]
 },{
