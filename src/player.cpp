@@ -3491,6 +3491,17 @@ void player::add_bionic(bionic_id b)
  recalc_sight_limits();
 }
 
+void player::remove_bionic(bionic_id b) {
+    std::vector<bionic> new_my_bionics;
+    for(int i = 0; i < my_bionics.size(); i++) {
+        if (!(my_bionics[i].id == b)) {
+            new_my_bionics.push_back(bionic(my_bionics[i].id, my_bionics[i].invlet));
+        }
+    }
+    my_bionics = new_my_bionics;
+    recalc_sight_limits();
+}
+
 int player::num_bionics() const
 {
     return my_bionics.size();
