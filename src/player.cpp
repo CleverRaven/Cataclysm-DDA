@@ -8818,6 +8818,9 @@ void player::use(int pos)
                 g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
                 return;
+        } else if (guntype->valid_mod_locations.count(mod->location) == 0) {
+            g->add_msg(_("Your %s doesn't have a slot for this mod."), gun->tname().c_str());
+            return;
         } else if (gun->get_free_mod_locations(mod->location) <= 0) {
             g->add_msg(_("Your %s doesn't have enough room for another %s mod. To remove the mods, \
 activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
