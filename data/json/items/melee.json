@@ -1891,7 +1891,7 @@
         "type":"GENERIC",
         "id" : "bowling_axe",
         "name" : "The 7-10 Split",
-        "description" : "A bowling pin with menacing spikes on the large end. Makes a great melee weapon.",
+        "description" : "An improvised weapon, made from two spikes attached to either end of a bowling pin.",
         "weight" : 1856,
         "to_hit" : -2,
         "color" : "brown",
@@ -1899,9 +1899,9 @@
         "material" : ["wood", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 7,
-        "bashing" : 18,
-        "cutting" : 8,
-        "flags" : ["STAB", "DURABLE_MELEE"],
+        "bashing" : 11,
+        "cutting" : 2,
+        "flags" : ["STAB"],
         "price" : 18000
     },
     {
