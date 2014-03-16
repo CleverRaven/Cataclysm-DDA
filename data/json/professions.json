@@ -1976,7 +1976,7 @@
             ]
         }
     },
-	{
+    {
         "type": "profession",
         "ident": "pizzaboy",
         "name": {
@@ -2036,13 +2036,13 @@
                 "pockknife",
                 "hoe",
                 "boots",
-				"seed_blueberries",
-				"seed_strawberries",
-				"seed_wheat",
-				"seed_hops",
-				"seed_barley",
-				"seed_sugar_beet",
-				"seed_tomato"
+                "seed_blueberries",
+                "seed_strawberries",
+                "seed_wheat",
+                "seed_hops",
+                "seed_barley",
+                "seed_sugar_beet",
+                "seed_tomato"
             ],
             "male": [
                 "boxer_shorts"
