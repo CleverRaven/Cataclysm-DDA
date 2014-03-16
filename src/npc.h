@@ -9,7 +9,6 @@
 
 #include <vector>
 #include <string>
-#include <sstream>
 
 #define NPC_LOW_VALUE       5
 #define NPC_HI_VALUE        8

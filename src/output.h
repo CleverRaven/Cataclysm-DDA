@@ -70,13 +70,9 @@ void mvwputch_inv(WINDOW *w, int y, int x, nc_color FG, long ch);
 void mvputch_hi(int y, int x, nc_color FG, long ch);
 void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, long ch);
 void mvprintz(int y, int x, nc_color FG, const char *mes, ...);
-void mvprintz(int y, int x, nc_color FG, const std::string &text);
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
-void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const std::string &text);
 void printz(nc_color FG, const char *mes, ...);
-void printz(nc_color FG, const std::string &text);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
-void wprintz(WINDOW *w, nc_color FG, const std::string &text);
 
 void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
 void draw_tabs(WINDOW *w, int active_tab, ...);
@@ -154,5 +150,19 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
 void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);
+
+/** Get the width in font glyphs of the drawing screen.
+ *
+ *  May differ from OPTIONS["TERMINAL_X"], for instance in
+ *  SDL FULLSCREEN mode, the user setting is overridden.
+ */
+int get_terminal_width();
+
+/** Get the height in font glyphs of the drawing screen.
+ *
+ *  May differ from OPTIONS["TERMINAL_Y"], for instance in
+ *  SDL FULLSCREEN mode, the user setting is overridden.
+ */
+int get_terminal_height();
 
 #endif

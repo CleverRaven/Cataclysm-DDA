@@ -157,7 +157,7 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
     */
     for (size_t i = 0; i < text.size(); i++) {
         if (begin_y == 0 && caption != "") {
-            begin_y = fold_and_print(w, 0, 1, width - 2, c_white, caption.c_str()) + 1;
+            begin_y = fold_and_print(w, 0, 1, width - 2, c_white, caption) + 1;
         }
         std::vector<std::string> next_paragraph = foldstring(text[i].c_str(), width - 2);
         if (begin_y + next_paragraph.size() > height - ((i + 1) < text.size() ? 1 : 0)) {
@@ -170,7 +170,7 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
             werase(w);
             begin_y = 0;
         } else {
-            begin_y += fold_and_print(w, begin_y, 1, width - 2, c_white, text[i].c_str()) + 1;
+            begin_y += fold_and_print(w, begin_y, 1, width - 2, c_white, text[i]) + 1;
         }
     }
     wrefresh(w);
@@ -193,7 +193,7 @@ void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
     } else {
         x = (window_width - string_width) / 2;
     }
-    mvwprintz(w, y, x, FG, text.c_str());
+    mvwprintz(w, y, x, FG, "%s", text.c_str());
 }
 
 void mvputch(int y, int x, nc_color FG, long ch)
@@ -260,26 +260,12 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
     attroff(FG);
 }
 
-void mvprintz(int y, int x, nc_color FG, const std::string &text)
-{
-    attron(FG);
-    mvprintw(y, x, "%s", text.c_str());
-    attroff(FG);
-}
-
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
     const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    wattron(w, FG);
-    mvwprintw(w, y, x, "%s", text.c_str());
-    wattroff(w, FG);
-}
-
-void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const std::string &text)
-{
     wattron(w, FG);
     mvwprintw(w, y, x, "%s", text.c_str());
     wattroff(w, FG);
@@ -296,26 +282,12 @@ void printz(nc_color FG, const char *mes, ...)
     attroff(FG);
 }
 
-void printz(nc_color FG, const std::string &text)
-{
-    attron(FG);
-    printw("%s", text.c_str());
-    attroff(FG);
-}
-
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
     const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    wattron(w, FG);
-    wprintw(w, "%s", text.c_str());
-    wattroff(w, FG);
-}
-
-void wprintz(WINDOW *w, nc_color FG, const std::string &text)
-{
     wattron(w, FG);
     wprintw(w, "%s", text.c_str());
     wattroff(w, FG);
@@ -382,7 +354,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
             mvwputch(w, 1, xpos + length + 3, h_white, '>');
             mvwputch(w, 2, xpos, c_white, LINE_XOOX);
             mvwputch(w, 2, xpos + length + 1, c_white, LINE_XXOO);
-            mvwprintz(w, 1, xpos + 1, h_white, labels[i].c_str());
+            mvwprintz(w, 1, xpos + 1, h_white, "%s", labels[i].c_str());
             for (int x = xpos + 1; x <= xpos + length; x++) {
                 mvwputch(w, 0, x, c_white, LINE_OXOX);
                 mvwputch(w, 2, x, c_black, 'x');
@@ -390,7 +362,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
         } else {
             mvwputch(w, 2, xpos, c_white, LINE_XXOX);
             mvwputch(w, 2, xpos + length + 1, c_white, LINE_XXOX);
-            mvwprintz(w, 1, xpos + 1, c_white, labels[i].c_str());
+            mvwprintz(w, 1, xpos + 1, c_white, "%s", labels[i].c_str());
             for (int x = xpos + 1; x <= xpos + length; x++) {
                 mvwputch(w, 0, x, c_white, LINE_OXOX);
             }
@@ -439,7 +411,7 @@ bool query_yn(const char *mes, ...)
     WINDOW *w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
                        (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
 
-    fold_and_print(w, 1, 1, win_width, c_ltred, query.c_str());
+    fold_and_print(w, 1, 1, win_width, c_ltred, query);
 
     draw_border(w);
 
@@ -768,24 +740,25 @@ long popup(const std::string &text, PopupFlags flags)
     draw_border(w);
 
     for( size_t i = 0; i < folded.size(); ++i ) {
-        mvwprintz(w, i + 1, 1, c_white, folded[i].c_str());
+        mvwprintz(w, i + 1, 1, c_white, "%s", folded[i].c_str());
     }
 
-    wrefresh(w);
     long ch = 0;
     // Don't wait if not required.
     while((flags & PF_NO_WAIT) == 0) {
+        wrefresh(w);
         ch = getch();
         if ((flags & PF_GET_KEY) != 0) {
             // return the first key that got pressed.
+            werase(w);
             break;
         }
         if (ch == ' ' || ch == '\n' || ch == KEY_ESCAPE) {
             // The usuall "escape menu/window" keys.
+            werase(w);
             break;
         }
     }
-    werase(w);
     wrefresh(w);
     delwin(w);
     refresh();
@@ -831,7 +804,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
 {
     WINDOW *w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
-    mvwprintz(w, 1, 2, c_white, sItemName.c_str());
+    mvwprintz(w, 1, 2, c_white, "%s", sItemName.c_str());
     int line_num = 3;
     int iStartX = 0;
     bool bStartNewLine = true;
@@ -859,14 +832,14 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
                     selected_ret = (int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
                 }
                 mvwprintz(w, line_num, 1, bgColor, "%s", spaces.c_str() );
-                shortcut_print(w, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt.c_str());
+                shortcut_print(w, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt);
                 line_num++;
             }
         } else if (vItemDisplay[i].sType == "DESCRIPTION") {
             line_num++;
             if (vItemDisplay[i].bDrawName) {
-                line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white, "%s",
-                                           vItemDisplay[i].sName.c_str());
+                line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white,
+                                           vItemDisplay[i].sName);
             }
         } else {
             if (bStartNewLine) {
@@ -876,7 +849,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
                 bStartNewLine = false;
             } else {
                 if (vItemDisplay[i].bDrawName) {
-                    wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                    wprintz(w, c_white, "%s", vItemDisplay[i].sName.c_str());
                 }
             }
 
@@ -888,10 +861,10 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
             //A bit tricky, find %d and split the string
             size_t pos = sFmt.find("<num>");
             if(pos != std::string::npos) {
-                wprintz(w, c_white, sFmt.substr(0, pos).c_str());
+                wprintz(w, c_white, "%s", sFmt.substr(0, pos).c_str());
                 sPost = sFmt.substr(pos + 5);
             } else {
-                wprintz(w, c_white, sFmt.c_str());
+                wprintz(w, c_white, "%s", sFmt.c_str());
             }
 
             if (vItemDisplay[i].sValue != "-999") {
@@ -925,7 +898,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
                     wprintz(w, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
                 }
             }
-            wprintz(w, c_white, sPost.c_str());
+            wprintz(w, c_white, "%s", sPost.c_str());
 
             if (vItemDisplay[i].bNewLine) {
                 line_num++;
@@ -1093,7 +1066,7 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
     mvwputch(w, 1, iOffsetX,      c_ltgray, LINE_XOXO); // |
     mvwputch(w, 1, iOffsetXRight, c_ltgray, LINE_XOXO); // |
 
-    mvwprintz(w, 1, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, sText.c_str());
+    mvwprintz(w, 1, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
 
     for (int i = iOffsetX + 1; i < iOffsetXRight; i++) {
         mvwputch(w, 0, i, c_ltgray, LINE_OXOX);    // -
@@ -1120,7 +1093,7 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 {
     int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
 
-    mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, sText.c_str());
+    mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
 
     if (bSelected) {
         mvwputch(w, 0, iOffsetX - 1,      h_ltgray, '<');
@@ -1198,13 +1171,14 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
     }
 }
 
-
+WINDOW *w_hit_animation = NULL;
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {
     WINDOW *w_hit = newwin(1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
     if (w_hit == NULL) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
+    w_hit_animation = w_hit;
 
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
@@ -1216,6 +1190,7 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
     timeout(iTimeout);
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout(-1);
+    w_hit_animation = NULL;
 }
 
 std::string from_sentence_case (const std::string &kingston)
@@ -1234,26 +1209,37 @@ std::string from_sentence_case (const std::string &kingston)
 
 std::string vstring_format(const char *pattern, va_list argptr)
 {
+    // If we have no C++11 support, define a hackish way to do va_copy
+    // See http://stackoverflow.com/questions/558223/va-copy-porting-to-visual-c
+    // and http://stackoverflow.com/questions/5047971/how-do-i-check-for-c11-support
+    #if __cplusplus < 201103L && !defined(va_copy)
+        #define va_copy(dest, source) dest = source
+    #endif
+
     int buffer_size = 1024; // Any number is good
     int returned_length = 0;
     std::vector<char> buffer(buffer_size, '\0');
-#ifdef _MSC_VER
+    // Call of vsnprintf() makes va_list unusable, so we need a copy.
+    va_list cur_argptr;
+#if (defined(_WIN32) || defined(WINDOWS) || defined(__WIN32__))
     // Microsofts vsnprintf does return -1 on buffer overflow, not
     // the required size of the buffer. So we have to increase the buffer
     // until we succeed.
-    buffer_size = 1024;
     while(true) {
         buffer.resize(buffer_size, '\0');
-        returned_length = _vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+        va_copy(cur_argptr, argptr);
+        returned_length = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
+        va_end(cur_argptr);
         if (returned_length >= 0) {
             break;
         }
         buffer_size *= 2;
     }
 #else
-    const int required = vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+    va_copy(cur_argptr, argptr);
+    const int required = vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
+    va_end(cur_argptr);
     if (required < 0) {
-        debugmsg("invalid input to string_format function!");
         return std::string("invalid input to string_format function!");
     } else if (required >= buffer_size) {
         // Did not fit the buffer, retry with better buffer size.
@@ -1261,7 +1247,9 @@ std::string vstring_format(const char *pattern, va_list argptr)
         buffer.resize(buffer_size, '\0');
         // Try again one time, this should be save as we know the required
         // buffer size and have allocated that much.
-        vsnprintf(&buffer[0], buffer_size, pattern, argptr);
+        va_copy(cur_argptr, argptr);
+        vsnprintf(&buffer[0], buffer_size, pattern, cur_argptr);
+        va_end(cur_argptr);
         // ignore the result of vsnprintf, because it returns different
         // things on windows, see above.
         returned_length = required;
@@ -1336,12 +1324,12 @@ size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, 
     if(pos2 != std::string::npos && pos < pos2) {
         tmp.erase(pos, 1);
         tmp.erase(pos2 - 1, 1);
-        mvwprintz(w, y, x, color, tmp.c_str());
+        mvwprintz(w, y, x, color, "%s", tmp.c_str());
         mvwprintz(w, y, x + pos, colork, "%s", tmp.substr(pos, pos2 - pos - 1).c_str());
         len = utf8_width(tmp.c_str());
     } else {
         // no shutcut?
-        mvwprintz(w, y, x, color, fmt.c_str());
+        mvwprintz(w, y, x, color, "%s", fmt.c_str());
         len = utf8_width(fmt.c_str());
     }
     return len;
@@ -1357,13 +1345,13 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::str
     if(pos2 != std::string::npos && pos < pos2) {
         tmp.erase(pos, 1);
         tmp.erase(pos2 - 1, 1);
-        wprintz(w, color, tmp.substr(0, pos).c_str());
+        wprintz(w, color, "%s", tmp.substr(0, pos).c_str());
         wprintz(w, colork, "%s", tmp.substr(pos, pos2 - pos - 1).c_str());
-        wprintz(w, color, tmp.substr(pos2 - 1).c_str());
+        wprintz(w, color, "%s", tmp.substr(pos2 - 1).c_str());
         len = utf8_width(tmp.c_str());
     } else {
         // no shutcut?
-        wprintz(w, color, fmt.c_str());
+        wprintz(w, color, "%s", fmt.c_str());
         len = utf8_width(fmt.c_str());
     }
     return len;
@@ -1431,14 +1419,14 @@ void display_table(WINDOW *w, const std::string &title, int columns,
     while(true) {
         werase(w);
         draw_border(w);
-        mvwprintz(w, 1, (width - title_length) / 2, c_white, title.c_str());
+        mvwprintz(w, 1, (width - title_length) / 2, c_white, "%s", title.c_str());
         for(int i = 0; i < rows * columns; i++) {
             if(i + offset * columns >= data.size()) {
                 break;
             }
             const int x = 2 + (i % columns) * col_width;
             const int y = (i / columns) + 2;
-            fold_and_print_from(w, y, x, col_width, 0, c_white, "%s", data[i + offset * columns].c_str());
+            fold_and_print_from(w, y, x, col_width, 0, c_white, data[i + offset * columns]);
         }
         draw_scrollbar(w, offset, rows, data.size() / 3, 2, 0);
         wrefresh(w);
@@ -1452,3 +1440,16 @@ void display_table(WINDOW *w, const std::string &title, int columns,
         }
     }
 }
+
+// In non-SDL mode, width/height is just what's specified in the menu
+#if !defined(TILES)
+int get_terminal_width() {
+    int width = OPTIONS["TERMINAL_X"];
+    return width < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : width;
+}
+
+int get_terminal_height() {
+    return OPTIONS["TERMINAL_Y"];
+}
+
+#endif

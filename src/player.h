@@ -184,10 +184,12 @@ public:
  bool has_two_arms() const;
  bool can_wear_boots();
  bool is_armed(); // True if we're wielding something; true for bionics
+ bool handle_melee_wear(); // Melee weapon wear-and-tear through use
  bool unarmed_attack(); // False if we're wielding something; true for bionics
  bool avoid_trap(trap *tr);
 
  bool has_nv();
+ bool has_pda();
 
  /**
   * Check if this creature can see the square at (x,y).
@@ -293,7 +295,7 @@ public:
  bool has_technique(matec_id tec);
  matec_id pick_technique(Creature &t,
                              bool crit, bool dodge_counter, bool block_counter);
- void perform_technique(ma_technique technique, Creature &t, damage_instance &d, int& move_cost);
+ void perform_technique(ma_technique technique, Creature &t, int &bash_dam, int &cut_dam, int &stab_dam, int& move_cost);
 
  void perform_special_attacks(Creature &t);
 
@@ -505,11 +507,13 @@ public:
 
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
+ bool has_drink();
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
  bool has_item(char let);  // Has an item with invlet let
  bool has_item(int position);
  bool has_item(item *it);  // Has a specific item
+ std::vector<char> allocated_invlets();
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
@@ -580,6 +584,7 @@ public:
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;
+ bool pda_cached;
 
  // Drench cache
  std::map<int, std::map<std::string, int> > mMutDrench;

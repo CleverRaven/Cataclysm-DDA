@@ -581,6 +581,10 @@ void initOptions() {
                                              _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                              true
                                             );
+    OPTIONS["WANDER_SPAWNS"] =           cOpt("world_default", _("Wander spawns"),
+                                             _("Emulation of zombie hordes. Zombie spawn point wander around cities and may go to noise"),
+                                             false
+                                            );
 
     OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("world_default", _("Classic zombies"),
                                              _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings."),
@@ -678,6 +682,11 @@ void initOptions() {
 
     OPTIONS["FULLSCREEN"] =             cOpt("graphics", _("Fullscreen"),
                                              _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
+                                             false
+                                            );
+
+    OPTIONS["SOFTWARE_RENDERING"] =     cOpt("graphics", _("Software rendering"),
+                                             _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
                                              false
                                             );  // populate the options dynamically
 
@@ -970,11 +979,15 @@ void show_options(bool ingame)
 #ifdef SDLTILES
     if( used_tiles_changed ) {
         //try and keep SDL calls limited to source files that deal specifically with them
-        tilecontext->clear_buffer();
-        tilecontext->reinit( "gfx" );
-        g->init_ui();
-        if( ingame ) {
-            g->refresh_all();
+        try {
+            tilecontext->reinit( "gfx" );
+            g->init_ui();
+            if( ingame ) {
+                g->refresh_all();
+            }
+        } catch(std::string err) {
+            popup(_("Loading the tileset failed: %s"), err.c_str());
+            use_tiles = false;
         }
     }
 #endif // SDLTILES

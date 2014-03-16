@@ -7,6 +7,7 @@
 #include "get_version.h"
 #include <cstdlib>
 #include <fstream>
+#include <sstream>
 #include "init.h"
 
 //***********************************

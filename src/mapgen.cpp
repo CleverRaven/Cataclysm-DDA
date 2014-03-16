@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <cassert>
 #include <list>
+#include <sstream>
 #include "json.h"
 #ifdef LUA
 #include "catalua.h"
@@ -8987,7 +8988,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                                                f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,   f_null,
                                                f_desk,  f_chair, f_bed,   f_dresser));
             place_items("fridge", 65, 12, 11, 12, 11, false, 0);
-            place_items("kitchen", 70, 10, 11, 14, 3, false, 0);
+            place_items("kitchen", 70, 10, 15, 14, 11, false, 0);
+            place_items("moonshine_brew", 65, 10, 15, 14, 11, false, 0);
             place_items("livingroom", 65, 15, 11, 22, 13, false, 0);
             place_items("dresser", 80, 19, 18, 19, 18, false, 0);
             place_items("dresser", 80, 22, 18, 22, 18, false, 0);
@@ -11582,6 +11584,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
             m->place_items("dissection", 80, x2 - 1, y1, x2 - 1, y2, false, 0);
         }
         m->add_trap(int((x1 + x2) / 2), int((y1 + y2) / 2), tr_dissector);
+        if (one_in(10)) {
+            m->add_spawn("mon_broken_cyborg", 1, int(((x1 + x2) / 2)+1), int(((y1 + y2) / 2)+1));
+        }
         break;
 
     case room_bionics:

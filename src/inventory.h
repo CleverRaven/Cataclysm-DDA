@@ -47,6 +47,7 @@ class inventory
   indexed_invslice slice_filter_by_activation(const player& u);
   indexed_invslice slice_filter_by_category(item_cat cat, const player& u);
   indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
+  indexed_invslice slice_filter_by_flag(const std::string flag);
 
   void unsort(); // flags the inventory as unsorted
   void sort();
@@ -94,7 +95,8 @@ class inventory
   int position_by_letter(char ch);
 
   std::vector<std::pair<item*, int> > all_items_by_type(itype_id type);
-  std::vector<item*> all_ammo(ammotype type);
+  std::vector<item*> all_ammo(const ammotype &type);
+  std::vector<item*> all_drinks();
   std::vector<item*> all_items_with_flag( const std::string flag );
 
 // Below, "amount" refers to quantity
@@ -123,6 +125,7 @@ class inventory
   int butcher_factor() const;
   bool has_artifact_with(art_effect_passive effect) const;
   bool has_liquid(itype_id type) const;
+  bool has_drink() const;
   item& watertight_container();
 
   // NPC/AI functions
@@ -157,6 +160,8 @@ class inventory
   // Assigns an invlet if any remain.  If none do, will assign ` if force is
   // true, empty (invlet = 0) otherwise.
   void assign_empty_invlet(item &it, bool force = false);
+
+  std::vector<char> allocated_invlets();
  private:
   // For each item ID, store a set of "favorite" inventory letters.
   std::map<std::string, std::vector<char> > invlet_cache;

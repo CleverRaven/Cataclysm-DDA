@@ -1775,6 +1775,8 @@
       [ "tequila", 14 ],
       [ "gin", 14 ],
       [ "triple_sec", 14 ],
+      [ "moonshine", 14 ],
+      [ "brandy", 14 ],
       [ "lamp_oil", 400 ],
       [ "gasoline", 600 ]
     ]
@@ -2839,7 +2841,7 @@
       [ "chainsaw_off", 1 ]
     ],
     [
-      [ "metal_tank", 1 ]
+      [ "metal_tank_small", 1 ]
     ],
     [
       [ "steel_chunk", 3 ],
@@ -3377,6 +3379,8 @@
       [ "rum", 5 ],
       [ "tequila", 5 ],
       [ "gin", 5 ],
+      [ "moonshine", 5 ],
+      [ "brandy", 5 ],
       [ "triple_sec", 5 ],
       [ "lamp_oil", 100 ],
       [ "gasoline", 200 ]
@@ -5445,7 +5449,9 @@
       [ "pot", -1 ],
       [ "coffeemaker", -1],
       [ "rock_pot", -1 ],
-      [ "teapot", -1 ]
+      [ "teapot", -1 ],
+      [ "can_food", -1],
+      [ "can_drink", -1 ]
     ]
   ],
   "components": [
@@ -5907,7 +5913,9 @@
       [ "cooking_oil", 2 ]
     ],
     [
-      [ "powder_eggs", 5 ]
+      [ "powder_eggs", 5 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "lemon", 1 ],
@@ -7930,6 +7938,8 @@
       [ "seasoning_salt", 15 ],
       [ "pepper", 20 ],
       [ "powder_eggs", 5 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ],
       [ "dry_veggy", 1 ]
     ]
   ]
@@ -7996,7 +8006,9 @@
       [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
-      [ "powder_eggs", 5 ]
+      [ "powder_eggs", 5 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "irradiated_tomato", 2 ],
@@ -8045,7 +8057,9 @@
       [ "noodles_fast", 1],
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
-      [ "powder_eggs", 5 ]
+      [ "powder_eggs", 5 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "meat", 2 ],
@@ -8099,7 +8113,9 @@
       [ "cornmeal", 1 ],
       [ "milk_powder", 1 ],
       [ "crackers", 2 ],
-      [ "powder_eggs", 5 ]
+      [ "powder_eggs", 5 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "fish", 2 ],
@@ -8149,7 +8165,9 @@
       [ "rehydrated_fish", 1 ],
       [ "sausage", 1 ],
       [ "bacon", 1 ],
-      [ "powder_eggs", 10 ]
+      [ "powder_eggs", 10 ],
+	  [ "egg_bird", 2 ],
+	  [ "egg_reptile", 2 ]
     ],
     [
       [ "veggy_wild", 1 ],
@@ -8266,6 +8284,9 @@
       [ "flour", 3 ]
     ],
     [
+      [ "yeast", 1 ]
+    ],
+    [
       [ "water", 2 ],
       [ "water_clean", 2 ]
     ]
@@ -8342,7 +8363,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
-  "difficulty": 1,
+  "difficulty": 2,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -8376,7 +8397,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
-  "difficulty": 2,
+  "difficulty": 1,
   "time": 14000,
   "reversible": false,
   "autolearn": true,
@@ -8397,8 +8418,8 @@
       [ "tallow", 1 ]
     ],
     [
-      [ "cornmeal", 2 ],
-      [ "flour", 2 ]
+      [ "cornmeal", 1 ],
+      [ "flour", 1 ]
     ]
   ]
 },{
@@ -8463,6 +8484,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "molasses", 1 ],
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "honeycomb", 1 ],
@@ -8564,7 +8586,9 @@
   ],
   "components": [
     [
-      [ "powder_eggs", 10 ]
+      [ "powder_eggs", 10 ],
+	  [ "egg_bird", 2 ],
+	  [ "egg_reptile", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -8596,7 +8620,9 @@
   ],
   "components": [
     [
-      [ "powder_eggs", 10 ]
+      [ "powder_eggs", 10 ],
+	  [ "egg_bird", 2 ],
+	  [ "egg_reptile", 2 ]
     ],
     [
       [ "bacon", 1 ],
@@ -8653,7 +8679,9 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "powder_eggs", 5 ]
+      [ "powder_eggs", 5 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8696,7 +8724,9 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "powder_eggs", 5 ]
+      [ "powder_eggs", 5 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8755,7 +8785,9 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "powder_eggs", 5 ]
+      [ "powder_eggs", 5 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8802,7 +8834,9 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "powder_eggs", 2 ]
+      [ "powder_eggs", 2 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8848,7 +8882,9 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "powder_eggs", 2 ]
+      [ "powder_eggs", 2 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8911,7 +8947,9 @@
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
-      [ "powder_eggs", 2 ]
+      [ "powder_eggs", 2 ],
+	  [ "egg_bird", 1 ],
+	  [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8991,7 +9029,6 @@
       [ "pomegranate", 1 ],
       [ "irradiated_mango", 1],
       [ "mango", 1 ],
-      [ "irradiated_mango", 1],
       [ "papaya", 1 ],
       [ "irradiated_apricot", 1 ],
       [ "apricot", 1 ],
@@ -11052,7 +11089,7 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat", 3 ]
+      [ "egg_bird", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -11115,7 +11152,7 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "meat", 3 ]
+      [ "egg_reptile", 3 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -11667,6 +11704,8 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
+      [ "moonshine", 7 ],
+      [ "brandy", 7 ],
       [ "bleach", 1 ]
     ],
     [
@@ -11930,6 +11969,7 @@
       [ "purple_drink", 6 ],
       [ "syrup", 4 ],
       [ "coffee_syrup", 5 ],
+      [ "molasses", 1 ],
       [ "bum_wine", 14 ],
       [ "con_milk", 1 ]
     ],
@@ -11974,6 +12014,42 @@
       [ "water_acid_weak", 3 ],
       [ "water_acid", 2 ],
       [ "acid", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "sugar",
+  "id_suffix": "from_beets",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "note": "process sugar beets into sugar",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 6] , ["recipe_labchem", 5]],
+  "tools": [
+    [
+      [ "chemistry_set", 40 ],
+      [ "hotplate", 40 ],
+      [ "toolset", 2 ]
+    ],
+    [
+      [ "chemistry_set", -1 ],
+      [ "still", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sugar_beet", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ],
+    [
+      [ "lye_powder", 20 ]
     ]
   ]
 },{
@@ -13698,6 +13774,42 @@
     ],
     [
       [ "cable", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rad_monitor",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "electronics",
+  "difficulty": 7,
+  "time": 35000,
+  "reversible": true,
+  "decomp_learn": 7,
+  "autolearn": false,
+  "book_learn": [["advanced_electronics", 6] , ["textbook_electronics", 6] , ["atomic_survival", 5]],
+  "tools": [
+    [
+      [ "screwdriver", -1 ],
+      [ "toolset", -1 ]
+    ],
+    [
+      [ "soldering_iron", 14 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "processor", 1 ]
+    ],
+    [
+      [ "e_scrap", 1 ]
+    ],
+    [
+      [ "amplifier", 1 ]
+    ],
+    [
+      [ "plastic_chunk", 1 ]
     ]
   ]
 },{
@@ -16711,6 +16823,29 @@
   ]
 },{
         "type" : "recipe",
+  "result": "balclava",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 3 ],
+      [ "needle_wood", 3 ],
+      [ "sewing_kit", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "scarf_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -18778,8 +18913,8 @@
   "category": "CC_OTHER",
   "skill_used": "fabrication",
   "skills_required": [ "mechanics", 1 ],
-  "difficulty": 1,
-  "time": 5000,
+  "difficulty": 2,
+  "time": 7000,
   "reversible": false,
   "autolearn": true,
   "tools": [
@@ -19763,6 +19898,8 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
+      [ "moonshine", 7 ],
+      [ "brandy", 7 ],
       [ "tallow", 2 ]
     ],
     [
@@ -19794,6 +19931,8 @@
       [ "single_malt_whiskey", 7 ],
       [ "tequila", 7 ],
       [ "gin", 7 ],
+      [ "moonshine", 7 ],
+      [ "brandy", 7 ],
       [ "triple_sec", 7 ]
     ],
     [
@@ -20760,6 +20899,8 @@
       [ "tequila", 7 ],
       [ "gin", 7 ],
       [ "triple_sec", 7 ],
+      [ "moonshine", 7 ],
+      [ "brandy", 7 ],
       [ "disinfectant", 1 ],
       [ "saline", 5 ]
     ]
@@ -22251,6 +22392,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "misc_repairkit",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used" : "fabrication",
+  "difficulty" : 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      ["string_36", 1],
+      ["string_6", 6]
+    ],
+    [
+      ["chisel", 1]
+    ],
+    [
+      ["hammer", 1]
+    ],
+    [
+      ["rag", 2],
+      ["leather", 2],
+      ["fur", 2]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "small_repairkit",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -23017,6 +23185,299 @@
     [ ["fire", -1] ] ],
   "components": [ [ ["meth", 4] ],
     [ ["cola", 2] ] ]
+},{
+        "type" : "recipe",
+  "result": "brandy",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 2] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 8 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "fruit_wine", 21 ], [ "bum_wine", 21 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_whiskey",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 5] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ]
+    ],
+    [
+      [ "sugar", 8 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_vodka",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 6] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "molasses", 2 ], [ "potato_raw", 2 ], [ "potato_irradiated", 2 ], [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], 
+      [ "wheat", 1 ], [ "barley", 1 ], [ "sugar_beet", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_rum",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 4] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "molasses", 2 ], [ "sugar_beet", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_moonshine",
+  "result_mult" : 15,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 1] ],
+  "tools": [ 
+    [ [ "still", -1], [ "v6_combustion", -1], [ "v8_combustion", -1]],
+    [ [ "hotplate", 10 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 15 ], [ "water_clean", 15 ]
+    ],
+    [
+      [ "cornmeal", 12 ]
+    ],
+    [
+      [ "sugar", 8 ]
+    ],
+    [
+      [ "yeast", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_fruit_wine",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 2] ],
+  "tools": [ 
+    [ [ "still", -1], [ "chemistry_set", -1 ]],
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 4 ], [ "water_clean", 4 ]
+    ],
+    [
+      [ "pear", 2 ], [ "irradiated_pear", 2 ], 
+      [ "apple", 2 ], [ "irradiated_apple", 2 ], 
+      [ "peach", 2 ], [ "irradiated_peach", 2 ], 
+      [ "plums", 2 ], [ "irradiated_plums", 2 ], 
+      [ "apricot", 2 ], [ "irradiated_apricot", 2 ], 
+      [ "juice", 1 ]
+    ],
+    [
+      [ "sugar", 2 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_fruit_wine",
+  "id_suffix": "from_berries",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 2] ],
+  "tools": [ 
+    [ [ "still", -1], [ "chemistry_set", -1 ]],
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "chemistry_set", 6 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 4 ], [ "water_clean", 4 ]
+    ],
+    [
+      [ "blueberries", 2 ], [ "raspberries", 2 ], [ "blackberries", 2 ], [ "cranberries", 2 ], [ "strawberries", 2 ]
+    ],
+    [
+      [ "sugar", 3 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_bum_wine",
+  "result_mult" : 15,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 2] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 2 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 15 ], [ "water_clean", 15 ]
+    ],
+    [
+      [ "grapes", 6 ]
+    ],
+    [
+      [ "brandy", 7 ]
+    ],
+    [
+      [ "yeast", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_hb_beer",
+  "result_mult" : 15,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["brewing_cookbook", 4] ],
+  "tools": [ 
+    [ [ "still", -1] ],
+    [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
+    ],
+  "components": [
+    [
+      [ "water", 15 ], [ "water_clean", 15 ]
+    ],
+    [
+      [ "barley", 3 ]
+    ],
+    [
+      [ "hops", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brew_mead",
+  "result_mult" : 3,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [ ["brewing_cookbook", 2] ],
+  "components": [
+    [
+      [ "water", 3 ], [ "water_clean", 3 ]
+    ],
+    [
+      [ "honey_bottled", 10 ], [ "honeycomb", 2]
+    ],
+    [
+      [ "hops", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ]
+  ]
 },{
         "type" : "recipe",
   "result": "bookplate",
@@ -27697,6 +28158,39 @@
   ]
 },{
         "type" : "recipe",
+  "result": "flask_yeast",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "chemistry_set", 7 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "flask_glass", 1 ]
+    ],
+    [
+      [ "yeast", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "honey_bottled", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "matchbomb",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -29357,12 +29851,17 @@
       [ "flour", 3 ]
     ],
     [
+      [ "yeast", 1 ]
+    ],
+    [
       [ "milk", 1 ],
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ]
     ],
     [
-      [ "powder_eggs", 15 ]
+      [ "powder_eggs", 15 ],
+	  [ "egg_bird", 2 ],
+	  [ "egg_reptile", 2 ]
     ],
     [
       [ "sugar", 1 ]
@@ -30316,6 +30815,34 @@
       ]
     ]
   },
+    {
+        "type" : "recipe",
+  "result": "wearable_rx12",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "book_learn": [[ "recipe_caseless", 5 ]],
+  "components": [
+    [
+      [ "rx12_injector", 1 ]
+    ],
+    [
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "string_6", 6 ],
+      [ "string_36", 1 ],
+      [ "duct_tape", 10 ],
+      [ "medical_tape", 20 ]
+    ]
+  ]
+},
   {
     "type" : "recipe",
     "result": "fishing_hook_basic",

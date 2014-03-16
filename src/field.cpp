@@ -524,7 +524,7 @@ bool map::process_fields_in_submap(int gridn)
 
                         veh = veh_at(x, y, part); //Get the part of the vehicle in the fire.
                         if (veh) {
-                            veh->damage (part, cur->getFieldDensity() * 10, false);    //Damage the vehicle in the fire.
+                            veh->damage(part, cur->getFieldDensity() * 10, 2, false);    //Damage the vehicle in the fire.
                         }
                         // If the flames are in a brazier, they're fully contained, so skip consuming terrain
                         if((tr_brazier != tr_at(x, y)) && (has_flag("FIRE_CONTAINER", x, y) != true )) {
@@ -1204,6 +1204,8 @@ void map::step_in_field(int x, int y)
         case fd_electricity:
             if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) //Artifact or bionic stops electricity.
                 g->add_msg(_("The electricity flows around you."));
+            else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) //Artifact or bionic stops electricity.
+                g->add_msg(_("Your armor safely grounds the electrical discharge."));
             else {
                 g->add_msg(_("You're electrocuted!"));
                 //small universal damage based on density.

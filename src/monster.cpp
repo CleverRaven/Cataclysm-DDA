@@ -248,7 +248,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
  std::string attitude = "";
 
  get_Attitude(color, attitude);
- wprintz(w, color, attitude.c_str());
+ wprintz(w, color, "%s", attitude.c_str());
 
  if (has_effect("downed"))
   wprintz(w, h_white, _("On ground"));
@@ -277,12 +277,12 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
   damage_info = _("it is nearly dead");
   col = c_red;
  }
- mvwprintz(w, vStart++, column, col, damage_info.c_str());
+ mvwprintz(w, vStart++, column, col, "%s", damage_info.c_str());
 
     std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 1 - column);
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++)
-        mvwprintz(w, vStart++, column, c_white, lines[i].c_str());
+        mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
 
     return vStart;
 }
@@ -644,7 +644,6 @@ void monster::absorb_hit(body_part, int, damage_instance &dam) {
                 it->amount);
     }
 }
-
 
 int monster::hit(Creature &p, body_part &bp_hit) {
  int ret = 0;
@@ -1042,6 +1041,12 @@ void monster::die()
  if (!no_extra_death_drops) {
   drop_items_on_death();
  }
+    if (type->difficulty >= 30 && get_killer() != NULL && get_killer()->is_player()) {
+        g->u.add_memorial_log(
+            pgettext("memorial_male", "Killed a %s."),
+            pgettext("memorial_female", "Killed a %s."),
+            name().c_str());
+    }
 
 // If we're a queen, make nearby groups of our type start to die out
  if (has_flag(MF_QUEEN)) {

@@ -16,10 +16,6 @@
 #include "helper.h"
 #include "item_factory.h"
 #include "auto_pickup.h"
-#ifdef _MSC_VER
-// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
-#define snprintf _snprintf_s
-#endif
 
 #include "advanced_inv.h"
 
@@ -610,11 +606,11 @@ void advanced_inventory::recalc_pane(int i)
     switch(panes[i].sortby) {
         case SORTBY_NONE:
             if ( i != isinventory ) {
-                std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
+                std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
             }
             break;
         default:
-            std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
+            std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
             break;
     }
 
@@ -766,7 +762,7 @@ void advanced_inventory::display(player *pp)
                             col = c_ltgray;
                         }
                         if ( showmsg ) {
-                            mvwprintz(head, line, 2, col, mes.c_str());
+                            mvwprintz(head, line, 2, col, "%s", mes.c_str());
                         }
                         line++;
                     }

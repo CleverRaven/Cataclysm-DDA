@@ -1,6 +1,9 @@
 #include "mission.h"
 #include "game.h"
 
+#include <fstream>
+#include <sstream>
+
 mission mission_type::create(int npc_id)
 {
     mission ret;
@@ -109,6 +112,8 @@ There's a town nearby.  Check pharmacies; it'll be behind the counter.");
             return _("What?!  You're lying, I can tell!  Ugh, forget it!");
         case TALK_MISSION_FAILURE:
             return _("How am I not dead already?!");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -133,6 +138,8 @@ Thanks!  Just pull the data onto this USB drive and bring it to me.");
             return _("What?!  You liar!");
         case TALK_MISSION_FAILURE:
             return _("Wow, you failed?  All that work, down the drain...");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -164,6 +171,8 @@ computers before completing that part.");
             return _("Wait, you couldn't possibly have the data!  Liar!");
         case TALK_MISSION_FAILURE:
             return _("What a shame, that data could have proved invaluable...");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -203,6 +212,8 @@ Thank you so much for finding him!");
         case TALK_MISSION_FAILURE:
             return _("Oh no!  My poor puppy...");
 
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -228,6 +239,8 @@ of those things now.  Can you put her out of her misery for me?");
             return _("What?!  You're lying, I can tell!  Ugh, forget it!");
         case TALK_MISSION_FAILURE:
             return _("Really... that's too bad.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -255,6 +268,8 @@ Hell ya!  Find me one of those big ol' American flags.");
         case TALK_MISSION_FAILURE:
             return _("You give up?  This country fell apart because no one could find a\
 good man to rely on... might as well give up, I guess.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -286,6 +301,8 @@ Fuck ya, America!");
             return _("What?!  I out'ta whip you're ass.");
         case TALK_MISSION_FAILURE:
             return _("Damn, I'll have to find'er myself.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -319,6 +336,8 @@ Fuck ya, America!");
             return _("What?!  I out'ta whip you're ass.");
         case TALK_MISSION_FAILURE:
             return _("Damn, I maybe we can find an egg-head to crack the terminal.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -351,6 +370,8 @@ bird coming to pick them up.");
             return _("What?!  I out'ta whip your ass.");
         case TALK_MISSION_FAILURE:
             return _("Damn, we were so close.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -379,6 +400,8 @@ I wish you the best of luck, may whatever god you please guide your path.");
             return _("What good does this do us?");
         case TALK_MISSION_FAILURE:
             return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -411,6 +434,8 @@ within his own home.");
             return _("What good does this do us?");
         case TALK_MISSION_FAILURE:
             return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -448,6 +473,8 @@ known if they are responsible for the outbreak but they certainly know more abou
             return _("What good does this do us?");
         case TALK_MISSION_FAILURE:
             return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -482,6 +509,8 @@ their cells.  Either way, navigating the building will pose its own difficulties
             return _("What good does this do us?");
         case TALK_MISSION_FAILURE:
             return _("It was a lost cause anyways...");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -510,6 +539,8 @@ Thanks so much, you may save both of us yet.");
             return _("This isn't what we need.");
         case TALK_MISSION_FAILURE:
             return _("If only we could find a great valley or something.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -536,6 +567,8 @@ Thank you, I suppose it wont change what has already happened but it will bring 
             return _("Thanks for trying... I guess.");
         case TALK_MISSION_FAILURE:
             return _("I bet some of them are still out there...");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -564,6 +597,8 @@ Thank you, just bring me to the camp... I just want to see.");
             return _("Thanks for trying... I guess.");
         case TALK_MISSION_FAILURE:
             return _("I bet some of them are still out there...");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -594,6 +629,8 @@ ought to be safe for now.  You'll always be welcome here.");
             return _("Thanks for trying... I guess.");
         case TALK_MISSION_FAILURE:
             return _("I guess it was just a pipe dream.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -623,6 +660,8 @@ will prove their guilt if we get an expert to examine it.");
             return _("Thanks for trying... I guess.");
         case TALK_MISSION_FAILURE:
             return _("The day of reckoning will come for the corporations if it hasn't already.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -652,6 +691,8 @@ we take measure to stop those who seek to rule over us.");
             return _("Thanks for trying... I guess.");
         case TALK_MISSION_FAILURE:
             return _("The day of reckoning will come for the corporations if it hasn't already.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -679,6 +720,8 @@ I'd check the police station.");
             return _("Thanks for trying... I guess.");
         case TALK_MISSION_FAILURE:
             return _("The day of reckoning will come for the criminals if it hasn't already.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -707,6 +750,8 @@ Thanks, make sure you're ready for whatever the beast is.");
             return _("Something in the shadows still seems to stare at me when I look at the woods.");
         case TALK_MISSION_FAILURE:
             return _("I'm glad you came back alive... I wasn't sure if I had sent you to your death.");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -738,6 +783,8 @@ our little neck of the world if you keep this up.");
             return _("I don't think that was quite a hundred dead zeds.");
         case TALK_MISSION_FAILURE:
             return _("Quitting already?");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -767,6 +814,8 @@ alive under the rubble and ash.");
             return _("I don't think we got it yet.");
         case TALK_MISSION_FAILURE:
             return _("Quitting already?");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -801,6 +850,8 @@ target.");
             return _("I don't think so...");
         case TALK_MISSION_FAILURE:
             return _("Quitting already?");
+        default: // It's a bug.
+            return "";
         }
         break;
 
@@ -828,6 +879,8 @@ Before we get into a major fight just make sure we have the gear we need, boss."
             return _("I don't think so...");
         case TALK_MISSION_FAILURE:
             return _("Quitting already?");
+        default: // It's a bug.
+            return "";
         }
         break;
 

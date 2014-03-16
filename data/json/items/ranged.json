@@ -1908,7 +1908,7 @@
     "price": 160000,
     "material": ["steel", "plastic"],
     "flags": ["FIRE_100", "NEVER_JAMS"],
-    "skill": "shotgun",
+    "skill": "launcher",
     "ammo": "gasoline",
     "weight": 907,
     "volume": 20,
@@ -1934,7 +1934,7 @@
     "price": 380000,
     "material": "steel",
     "flags": ["FIRE_100", "NEVER_JAMS"],
-    "skill": "shotgun",
+    "skill": "launcher",
     "ammo": "gasoline",
     "weight": 1587,
     "volume": 16,
@@ -2003,7 +2003,7 @@
     "burst": 0,
     "clip_size": 1,
     "reload": 250,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "m320",
@@ -2110,8 +2110,7 @@
     "durability": 9,
     "burst": 0,
     "clip_size": 1,
-    "reload": 150,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ]]
+    "reload": 150
   },
   {
     "id": "coilgun",
@@ -2639,7 +2638,7 @@
     "price": 38000,
     "material": "steel",
     "flags": ["FIRE_50", "NEVER_JAMS"],
-    "skill": "pistol",
+    "skill": "launcher",
     "ammo": "gasoline",
     "weight": 451,
     "volume": 2,
@@ -2680,7 +2679,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 300,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
     "id": "m202_flash",
@@ -2707,7 +2706,7 @@
     "burst": 4,
     "clip_size": 4,
     "reload": 600,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
     "id": "RPG",
@@ -2734,7 +2733,7 @@
     "burst": 0,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
     "id": "needlegun",
@@ -2817,7 +2816,7 @@
     "burst": 0,
     "clip_size": 1,
     "reload": 200,
-    "valid_mod_locations": [[ "grip", 1 ],[ "stock", 1 ]]
+    "valid_mod_locations": [[ "grip", 1 ],[ "stock", 1 ],[ "sights", 1 ]]
   },
   {
     "id": "rm20",

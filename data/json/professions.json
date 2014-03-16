@@ -309,11 +309,19 @@
             "female": "Maid"
         },
         "description": "You worked in a wealthy household, but after the cataclysm they took a family vacation to an unknown place, leaving you to fend for yourself.",
-        "points": 2,
+        "points": 1,
         "skills": [
             {
                 "level": 1,
                 "name": "cooking"
+            },
+            {
+                "level": 1,
+                "name": "driving"
+            },
+            {
+                "level": 2,
+                "name": "tailor"
             }
         ],
         "items": {
@@ -911,9 +919,13 @@
         "type": "profession",
         "ident": "svictim",
         "name": "Shower Victim",
-        "description": "You were in the middle of a nice shower when the cataclysm struck! You fled without so much as a towel.",
+        "description": "You were in the middle of a nice, hot shower when the cataclysm struck! You barely managed to escape with some soap and the most massively useful thing ever... a towel.",
         "points": -1,
         "items": {
+            "both": [
+                "soap",
+                "towel_wet"
+            ]
         }
     },
     {
@@ -1042,7 +1054,7 @@
         "type": "profession",
         "ident": "bio_soldier",
         "name": "Bionic Soldier",
-        "description": "You are the result of one of the military's latest and final research programs, a prototype cyborg soldier. You're still alive thanks to your augmentations, even after all your comrades fell to the undead. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
+        "description": "You are the result of one of the military's latest and final research programs, a prototype cyborg soldier. You're still alive thanks to your augmentations, even after all your comrades fell to the undead.",
         "points": 5,
         "CBMs":[
             "bio_targeting",
@@ -1852,6 +1864,7 @@
             "both": [
                 "suit",
                 "skinny_tie",
+                "tieclip",
                 "dress_shoes",
                 "wristwatch",
                 "cell_phone",
@@ -1960,6 +1973,83 @@
             "female": [
                 "sports_bra",
                 "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "pizzaboy",
+        "name": {
+            "male": "Pizza Delivery Boy",
+            "female": "Pizza Delivery Girl"
+        },
+        "description": "You were delivering the last pizza of the night to the local cryogenics lab when the cataclysm hit. Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza. And they didn't even leave a tip!",
+        "points": 1,
+        "skills": [
+            {
+                "level": 4,
+                "name": "driving"
+            },
+            {
+                "level": 1,
+                "name": "barter"
+            },
+            {
+                "level": 1,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "hat_ball",
+                "tshirt",
+                "jeans",
+                "jacket_light",
+                "socks",
+                "sneakers",
+                "pizza_veggy",
+                "pizza_meat",
+                "money_bundle",
+                "weed",
+                "mbag"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "farmer",
+        "name": "Farmer",
+        "description": "You were making a living by raising crops, when the cataclysm struck.  Now, with your trusty hoe and and some seeds it's time to rebuild the Earth, one plant at a time.",
+        "points": 1,
+        "items": {
+            "both": [
+                "jeans",
+                "tshirt",
+                "backpack",
+                "pockknife",
+                "hoe",
+                "boots",
+                "seed_blueberries",
+                "seed_strawberries",
+                "seed_wheat",
+                "seed_hops",
+                "seed_barley",
+                "seed_sugar_beet",
+                "seed_tomato"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
             ]
         }
     }

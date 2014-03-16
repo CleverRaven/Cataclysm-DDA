@@ -15,14 +15,18 @@
           "other": {                        "//": "% of plants that aren't default_ter",
               "t_shrub_blueberry": 0.4166,
               "t_shrub_strawberry": 0.4166,
-              "f_mutpoppy": 8.3333
+              "f_mutpoppy": 8.3333,
+	      "f_bluebell": 8.3333,
+	      "f_dahlia": 8.3333
           },
           "boost_chance": 0.833,            "//": "% of fields with boosted plant growth",
           "boosted_percent_coverage": 2.5,  "//": "for the above: total percent coverage jumps to this amount",
           "boosted_other": {                "//": "...and the first non-default picked from this list...",
-              "t_shrub_blueberry": 45.0,
-              "t_shrub_strawberry": 45.0,
-              "f_mutpoppy": 10.0
+              "t_shrub_blueberry": 40.0,
+              "t_shrub_strawberry": 40.0,
+              "f_mutpoppy": 6.6,
+	      "f_bluebell": 6.6,
+	      "f_dahlia": 6.6
           },
           "boosted_other_percent": 50.0,    "//": "...accounts for this % of total coverage"
       },
@@ -46,7 +50,8 @@
               "s_grocery": 15,
               "s_hardware": 5,
               "s_sports": 5,
-              "dojo": 3,
+              "dojo": 2,
+              "gym": 2,
               "s_liquor": 5,
               "s_gun": 5,
               "s_clothes": 5,
@@ -70,6 +75,7 @@
               "abstorefront": 2,
               "police": 1,
               "fire_station": 2,
+	      "home_improvement": 2,
               "s_lot": 4
           }
       }

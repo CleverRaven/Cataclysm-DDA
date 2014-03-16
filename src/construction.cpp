@@ -116,6 +116,7 @@ void construction_menu()
     bool update_info = true;
     int select = 0;
     int chosen = 0;
+    int offset = 0;
     long ch;
     bool exit = false;
 
@@ -128,13 +129,23 @@ void construction_menu()
                 mvwputch(w_con, i, j, c_black, ' ');
             }
         }
-        //Draw Scrollbar
-        draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
         // Determine where in the master list to start printing
-        //int offset = select - 11;
-        int offset = 0;
-        if (select >= iMaxY - 2) {
-            offset = select - iMaxY + 3;
+        if( OPTIONS["MENU_SCROLL"] ) {
+            if (available.size() > iMaxY) {
+                offset = select - (iMaxY - 1) / 2;
+
+                if (offset < 0) {
+                    offset = 0;
+                } else if (offset + iMaxY -2   > available.size()) {
+                    offset = available.size() - iMaxY + 2;
+                }
+             }
+        } else {
+            if( select < offset ) {
+                offset = select;
+            } else if( select >= offset + iMaxY -2 ) {
+                offset = 1 + select - iMaxY + 2;
+            }
         }
         // Print the constructions between offset and max (or how many will fit)
         for (int i = 0; i < iMaxY - 2 && (i + offset) < available.size(); i++) {
@@ -146,7 +157,8 @@ void construction_menu()
             }
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
-            mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkeys[current],
+            // If we run out of hotkeys, just stop assigning them.
+            mvwprintz(w_con, 1 + i, 1, col, "%c %s", (current < hotkeys.size()) ? hotkeys[current] : ' ',
                       utf8_substr(available[current].c_str(), 0, 27).c_str());
         }
 
@@ -290,8 +302,11 @@ void construction_menu()
                     posx = 33;
                 }
             }
-            wrefresh(w_con);
         } // Finished updating
+
+        //Draw Scrollbar.
+        //Doing it here lets us refresh the entire window all at once.
+        draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
 
         ch = getch();
         switch (ch) {

@@ -970,6 +970,7 @@ void item::deserialize(JsonObject &data)
     data.read( "damage", damtmp );
     damage = damtmp; // todo: check why this is done after make(), using a tmp variable
     data.read( "active", active );
+    data.read( "item_counter" , item_counter );
     data.read( "fridge", fridge );
     data.read( "rot", rot );
     data.read( "last_rot_check", last_rot_check );
@@ -1031,6 +1032,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( ammotmp != "null" ) json.member( "curammo", ammotmp );
     if ( mode != "NULL" )    json.member( "mode", mode );
     if ( active == true )    json.member( "active", true );
+    if ( item_counter != 0)  json.member( "item_counter", item_counter );
     // bug? // if ( fridge == true )    json.member( "fridge", true );
     if ( fridge != 0 )       json.member( "fridge", fridge );
     if ( rot != 0 )          json.member( "rot", rot );
@@ -1173,13 +1175,7 @@ void vehicle::deserialize(JsonIn &jsin)
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
-    find_horns ();
-    find_parts ();
-    find_power ();
-    find_fuel_tanks ();
-    find_exhaust ();
-    insides_dirty = true;
-    precalc_mounts (0, face.dir());
+    refresh();
 
     data.read("tags",tags);
 }

@@ -1,9 +1,9 @@
 #ifndef _ADDICTION_H_
 #define _ADDICTION_H_
 
-#include "rng.h"
+#include <string>
+#include "pldata.h"
 #include "morale.h"
-#include <sstream>
 
 #define MIN_ADDICTION_LEVEL 3 // Minimum intensity before effects are seen
 

@@ -12,6 +12,8 @@
 #include "worldfactory.h"
 #include "file_wrapper.h"
 
+#include <fstream>
+
 #include <sys/stat.h>
 #ifdef _MSC_VER
 #include "wdirent.h"
