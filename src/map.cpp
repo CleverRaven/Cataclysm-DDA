@@ -2786,8 +2786,6 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
             it->item_counter--;
             if(it->item_counter <= 0)
             {
-                g->add_msg(_("A nearby %s dries off."), it->name.c_str());
-
                 // wet towel becomes a regular towel
                 if(it->type->id == "towel_wet")
                     it->make(itypes["towel"]);
