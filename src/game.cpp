@@ -7249,16 +7249,7 @@ void game::smash()
         }
         sound(smashx, smashy, 18, bashsound);
         u.handle_melee_wear();
-        // TODO: Move this elsewhere, like maybe into the map on-break code
-        if (m.has_flag("ALARMED", smashx, smashy) &&
-            !event_queued(EVENT_WANTED))
-        {
-            sound(smashx, smashy, 40, _("An alarm sounds!"));
-            u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                               pgettext("memorial_female", "Set off an alarm."));
-            add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
-        }
-        u.moves -= move_cost;
+       u.moves -= move_cost;
         if (u.skillLevel("melee") == 0)
         {
             u.practice(turn, "melee", rng(0, 1) * rng(0, 1));
