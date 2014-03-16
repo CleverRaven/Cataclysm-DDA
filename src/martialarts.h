@@ -25,8 +25,6 @@ struct ma_requirements {
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
     std::set<std::string> req_flags; // any item flags required for this technique
 
-    bool active_bionic;
-
     ma_requirements() {
       unarmed_allowed = false; // does this bonus work when unarmed?
       melee_allowed = false; // what about with a melee weapon?

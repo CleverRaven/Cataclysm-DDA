@@ -38,8 +38,7 @@ void load_technique(JsonObject &jo)
     tec.reqs.min_cutting_damage = jo.get_int("min_cutting_damage", 0);
 
     tec.reqs.req_buffs = jo.get_tags("req_buffs");
-    tec.reqs.req_flags = jo.get_tags("req_flags");  
-    tec.reqs.active_bionic = jo.get_bool("req_active_bionic", false);    
+    tec.reqs.req_flags = jo.get_tags("req_flags");
 
     tec.crit_tec = jo.get_bool("crit_tec", false);
     tec.defensive = jo.get_bool("defensive", false);
