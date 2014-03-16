@@ -1621,7 +1621,8 @@ int overmap::dist_from_city(point p)
 
 void overmap::draw(WINDOW *w, const tripoint &center,
             const tripoint &orig, bool blink,
-                   input_context* inp_ctxt)
+            input_context* inp_ctxt,
+            bool debug_monstergroups)
 {
     const int z = center.z;
     const int cursx = center.x;
@@ -1643,6 +1644,30 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     oter_id cur_ter = ot_null;
     nc_color ter_color;
     long ter_sym;
+
+    // If we're debugging monster groups, find the monster group we've selected
+    const mongroup *mgroup = NULL;
+    if(debug_monstergroups) {
+        // Get the monster group at the current cursor position
+        const overmap *omap = overmap_buffer.get_existing_om_global(point(cursx, cursy));
+        if(omap) {
+            const std::vector<mongroup>& zg = omap->zg;
+            for(int i=0; i<zg.size(); i++) if(zg[i].horde && zg[i].posz == z) {
+                // we need to multiply coordinates by 2, because we're using overmap coordinates
+                // whereas mongroups are using submap coordinates(levx/levy)
+                int x = cursx;
+                int y = cursy;
+                overmap_buffer.omt_to_sm(x, y);
+
+                int distance = zg[i].diffuse ? square_dist(x, y, zg[i].posx, zg[i].posy) : trig_dist(x, y, zg[i].posx, zg[i].posy);
+                if(distance <= zg[i].radius) {
+                    mgroup = &zg[i];
+                    break;
+                }
+            }
+        }
+    }
+
     for (int i = 0; i < om_map_width; i++) {
         for (int j = 0; j < om_map_height; j++) {
             const int omx = cursx + i -(om_map_width / 2);
@@ -1760,6 +1785,37 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                     ter_sym = otermap[cur_ter].sym;
                 }
             }
+
+            // Are we debugging monster groups?
+            if(blink && debug_monstergroups) {
+                // Check if this tile is the target of the currently selected group
+                if(mgroup && mgroup->tx/2 == omx && mgroup->ty/2 == omy) {
+                    ter_color = c_red;
+                    ter_sym = 'x';
+                } else {
+                    const overmap *omap = overmap_buffer.get_existing_om_global(point(omx, omy));
+                    if(omap) {
+                        const std::vector<mongroup>& zg = omap->zg;
+                        for(int i=0; i<zg.size(); i++) if(zg[i].horde && zg[i].posz == z) {
+                            // we need to multiply coordinates by 2, because we're using overmap coordinates
+                            // whereas mongroups are using submap coordinates(levx/levy)
+                            int x = omx;
+                            int y = omy;
+                            overmap_buffer.omt_to_sm(x, y);
+
+                            int distance = zg[i].diffuse ? square_dist(x, y, zg[i].posx, zg[i].posy) : trig_dist(x, y, zg[i].posx, zg[i].posy);
+                            if(distance == 0) {
+                                ter_color = c_red;
+                                ter_sym = '+';
+                            } else if(distance <= zg[i].radius) {
+                                ter_color = c_blue;
+                                ter_sym = '-';
+                            }
+                        }
+                    }
+                }
+            }
+
             if (omx == cursx && omy == cursy) {
                 csee = see;
                 ccur_ter = cur_ter;
@@ -1838,11 +1894,19 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         }
     }
 
+    // Draw text describing the overmap tile at the cursor position.
     if (csee) {
-        mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
-        std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
-        for (int i = 0; i < name.size(); i++) {
-            mvwprintz(w, i + 1, om_map_width + 3, otermap[ccur_ter].color, "%s", name[i].c_str());
+        if(mgroup) {
+            mvwprintz(w, 1, om_map_width + 3, c_blue, "# monsters: %d", mgroup->population);
+            mvwprintz(w, 2, om_map_width + 3, c_blue, "  Interest: %d", mgroup->interest);
+            mvwprintz(w, 3, om_map_width + 3, c_blue, "  Target: %d, %d", mgroup->tx, mgroup->ty);
+            mvwprintz(w, 3, om_map_width + 3, c_red, "x");
+        } else {
+            mvwputch(w, 1, om_map_width + 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
+            std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
+            for (int i = 0; i < name.size(); i++) {
+                mvwprintz(w, i + 1, om_map_width + 3, otermap[ccur_ter].color, "%s", name[i].c_str());
+            }
         }
     } else {
         mvwprintz(w, 1, om_map_width + 1, c_dkgray, _("# Unexplored"));
@@ -1887,7 +1951,7 @@ point overmap::draw_overmap(int z)
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-point overmap::draw_overmap(const tripoint& orig)
+point overmap::draw_overmap(const tripoint& orig, bool debug_mongroup)
 {
     WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
     timeout(BLINK_SPEED); // Enable blinking!
@@ -1915,7 +1979,7 @@ point overmap::draw_overmap(const tripoint& orig)
     std::string action;
     do {
         timeout(BLINK_SPEED); // Enable blinking!
-        draw(w_map, curs, orig, blink, &ictxt);
+        draw(w_map, curs, orig, blink, &ictxt, debug_mongroup);
         action = ictxt.handle_input();
         timeout(-1);
 
