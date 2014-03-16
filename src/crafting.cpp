@@ -1820,8 +1820,9 @@ void game::disassemble(int pos)
 void game::complete_disassemble()
 {
     // which recipe was it?
+    const int item_pos = u.activity.values[0];
     recipe *dis = recipe_by_index(u.activity.index); // Which recipe is it?
-    item dis_item = u.i_at(u.activity.values[0]);
+    item dis_item = u.i_at(item_pos);
     float component_success_chance = std::min((float)pow(0.8f, dis_item.damage), 1.f);
 
     int veh_part = -1;
@@ -1840,15 +1841,15 @@ void game::complete_disassemble()
         if (dis->result_mult != 1) {
             tmp.charges *= dis->result_mult;
         }
-        dis_item.charges -= dis_item.type->stack_size;
+        dis_item.charges -= tmp.charges;
         if (dis_item.charges <= 0) {
-            u.i_rem(u.activity.values[0]);
+            u.i_rem(item_pos);
         } else {
             // dis_item is a copy, need to commit the changed charges value
-            u.i_at(u.activity.values[0]).charges = dis_item.charges;
+            u.i_at(item_pos).charges = dis_item.charges;
         }
     } else {
-        u.i_rem(u.activity.values[0]);
+        u.i_rem(item_pos);
     }
 
     // consume tool charges
@@ -1907,6 +1908,8 @@ void game::complete_disassemble()
             newit.charges = compcount;
             compcount = 1;
         } else if (!newit.craft_has_charges() && newit.charges > 0) {
+            // tools that can be unloaded should be created unloaded,
+            // tools that can't be unloaded will keep their default charges.
             newit.charges = 0;
         }
 
