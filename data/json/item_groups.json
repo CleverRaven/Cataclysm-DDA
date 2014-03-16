@@ -2451,6 +2451,7 @@
       ["barrel_small", 6],
       ["barrel_rifled", 5],
       ["barrel_ported", 5],
+      ["muzzle_brake", 2],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
       ["tuned_mechanism", 2],
