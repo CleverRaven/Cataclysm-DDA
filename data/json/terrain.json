@@ -738,7 +738,6 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "ALARMED", "NOITEM", "SUPPORTS_ROOF", "BARRICADABLE_DOOR", "REDUCE_SCENT"],
-        "open": "t_door_o",
         "bash": {
             "str_min": 10, "str_max": 40, "str_min_blocked": 15, "str_max_blocked": 50,
             "sound": "smash!",
