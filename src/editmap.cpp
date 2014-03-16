@@ -106,7 +106,7 @@ void edit_json( SAVEOBJ *it )
             fs2.clear();
         } else if (tmret == 1) {
             std::string ret = string_input_popup("test", 50240, save1,"", "jsonedit");
-            if ( ret.size() > 0 ) {
+            if ( !ret.empty() ) {
                 fs1 = fld_string(save1, TERMX-10);
                 save1 = ret;
                 tmret=-2;
@@ -482,7 +482,7 @@ void editmap::update_view(bool update_info)
 
     // custom hilight. todo; optimize
     for(std::map<std::string, editmap_hilight>::iterator mit = hilights.begin(); mit != hilights.end(); ++mit ) {
-        if ( mit->second.points.size() > 0 ) {
+        if ( !mit->second.points.empty() ) {
             mit->second.draw(this);
         }
     }
@@ -1794,7 +1794,7 @@ int editmap::edit_mapgen()
                 special += " clas";
             }
         }
-        if ( special.size() > 0 ) {
+        if ( !special.empty() ) {
             gmenu.entries[i].txt += " (" + special + " )";
         }
         gmenu.entries[i].extratxt.left = 1;

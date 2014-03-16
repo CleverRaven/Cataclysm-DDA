@@ -2461,7 +2461,7 @@ bool game::handle_action()
 
             if (action == "SELECT") {
                 bool new_destination = true;
-                if (destination_preview.size() > 0) {
+                if (!destination_preview.empty()) {
                     point final_destination = destination_preview.back();
                     if (final_destination.x == mx && final_destination.y == my) {
                         // Second click
@@ -2484,7 +2484,7 @@ bool game::handle_action()
             } else {
                 // Right mouse button
 
-                bool had_destination_to_clear = destination_preview.size() > 0;
+                bool had_destination_to_clear = !destination_preview.empty();
                 u.clear_destination();
                 destination_preview.clear();
 
@@ -4855,7 +4855,7 @@ void game::draw_ter(int posx, int posy)
         }
     }
 
-    if (destination_preview.size() > 0) {
+    if (!destination_preview.empty()) {
         // Draw auto-move preview trail
         point final_destination = destination_preview.back();
         point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
@@ -5274,7 +5274,7 @@ faction* game::random_good_faction()
   if (factions[i].good >= 5)
    valid.push_back(i);
  }
- if (valid.size() > 0) {
+ if (!valid.empty()) {
   int index = valid[rng(0, valid.size() - 1)];
   return &(factions[index]);
  }
@@ -5295,7 +5295,7 @@ faction* game::random_evil_faction()
   if (factions[i].good <= -5)
    valid.push_back(i);
  }
- if (valid.size() > 0) {
+ if (!valid.empty()) {
   int index = valid[rng(0, valid.size() - 1)];
   return &(factions[index]);
  }
@@ -5595,7 +5595,7 @@ int game::mon_info(WINDOW *w)
 
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
-            if(new_seen_mon.size() > 0) {
+            if(!new_seen_mon.empty()) {
                 monster &critter = critter_tracker.find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
             } else {
@@ -7100,7 +7100,7 @@ void game::open()
             if ( terid.find("_locked") != std::string::npos ) {
                 add_msg(_("The door is locked!"));
                 return;
-            } else if ( termap[ terid ].close.size() > 0 && termap[ terid ].close != "t_null" ) {
+            } else if ( !termap[terid].close.empty() && termap[ terid ].close != "t_null" ) {
                 // if the following message appears unexpectedly, the prior check was for t_door_o
                 add_msg(_("That door is already open."));
                 u.moves += 100;
@@ -7171,7 +7171,7 @@ void game::close(int closex, int closey)
         }
     } else {
         // Scoot up to 10 volume of items out of the way, only counting items that are vol >= 1.
-        if (m.furn(closex, closey) != f_safe_o && items_in_way.size() > 0) {
+        if (m.furn(closex, closey) != f_safe_o && !items_in_way.empty()) {
             int total_item_volume = 0;
             if( items_in_way.size() > 10 ) {
                 add_msg(_("Too many items to push out of the way!"));
@@ -7430,7 +7430,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
 
   std::string ftype = part_info.fuel_type;
   itype_id itid = default_ammo(ftype);
-  if (u.weapon.is_container() && u.weapon.contents.size() > 0 &&
+  if (u.weapon.is_container() && !u.weapon.contents.empty() &&
           u.weapon.contents[0].type->id == itid) {
     it = &u.weapon;
     p_itm = &u.weapon.contents[0];
@@ -7890,9 +7890,9 @@ void game::examine(int examx, int examy)
         int vpchemlab = veh->part_with_feature(veh_part, "CHEMLAB", true);
         int vpcontrols = veh->part_with_feature(veh_part, "CONTROLS", true);
         std::vector<item> here_ground = m.i_at(examx, examy);
-        if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0)
+        if ((vpcargo >= 0 && !veh->parts[vpcargo].items.empty())
                 || vpkitchen >= 0 || vpfaucet >= 0 ||vpweldrig >=0 || vpcraftrig >=0 || vpchemlab >=0 || vpcontrols >=0
-                || here_ground.size() > 0) {
+                || !here_ground.empty()) {
             pickup(examx, examy, 0);
         } else if (u.controlling_vehicle) {
             add_msg (_("You can't do that while driving."));
@@ -8623,7 +8623,7 @@ int game::list_items(const int iLastState)
     int iPage = 0;
 
     do {
-        if (ground_items.size() > 0 || iLastState == 1) {
+        if (!ground_items.empty() || iLastState == 1) {
             if (ch == 'I' || ch == 'c' || ch == 'C') {
                 compare(iActiveX, iActiveY);
                 reset = true;
@@ -8946,7 +8946,7 @@ int game::list_monsters(const int iLastState)
     wprintz(w_monsters, c_white, _("Monsters"));
 
     do {
-        if (vMonsters.size() > 0 || iLastState == 1) {
+        if (!vMonsters.empty() || iLastState == 1) {
             // we're switching on input here, whereas above it was if/else clauses on a char
             switch(input) {
                 case DirectionN:
@@ -9180,7 +9180,7 @@ void game::pickup(int posx, int posy, int min)
         chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
         cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
         ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
-        from_veh = veh && cargo_part >= 0 && veh->parts[cargo_part].items.size() > 0;
+        from_veh = veh && cargo_part >= 0 && !veh->parts[cargo_part].items.empty();
 
         menu_items.push_back(_("Examine vehicle"));
         options_message.push_back(uimenu_entry(_("Examine vehicle"), 'e'));
@@ -9194,7 +9194,7 @@ void game::pickup(int posx, int posy, int min)
             options_message.push_back(uimenu_entry(_("Get items"), 'g'));
         }
 
-        if(here_ground.size() > 0) {
+        if(!here_ground.empty()) {
             menu_items.push_back(_("Get items on the ground"));
             options_message.push_back(uimenu_entry(_("Get items on the ground"), 'i'));
         }
@@ -11357,7 +11357,7 @@ void game::unload(item& it)
         // Unloading a container!
         u.moves -= 40 * it.contents.size();
         std::vector<item> new_contents; // In case we put stuff back
-        while (it.contents.size() > 0)
+        while (!it.contents.empty())
         {
             item content = it.contents[0];
             size_t iter = 0;

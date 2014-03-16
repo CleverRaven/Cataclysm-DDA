@@ -489,7 +489,7 @@ std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags, std:
 {
     std::set<T> ret;
 
-    if (tags.size() > 0){
+    if (!tags.empty()){
         for (std::set<std::string>::iterator it = tags.begin(); it != tags.end(); ++it){
             if (conversion_map.find(*it) != conversion_map.end()){
                 ret.insert(conversion_map[*it]);

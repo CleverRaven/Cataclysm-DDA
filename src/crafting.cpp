@@ -82,7 +82,7 @@ void load_recipe(JsonObject &jsobj)
 
     std::map<std::string, int> requires_skills;
     jsarr = jsobj.get_array("skills_required");
-    if (jsarr.size() > 0) {
+    if (!jsarr.empty()) {
         // could be a single requirement, or multiple
         try {
             // try to parse as single requirement
@@ -802,7 +802,7 @@ recipe *game::select_crafting_recipe()
                     }
                     ypos--;
                     // Loop to print the required tools
-                    for (size_t i = 0; i < current[line]->tools.size() && current[line]->tools[i].size() > 0; i++) {
+                    for (size_t i = 0; i < current[line]->tools.size() && !current[line]->tools[i].empty(); i++) {
                         ypos++;
                         xpos = 32;
                         mvwputch(w_data, ypos, 30, col, '>');
@@ -851,7 +851,7 @@ recipe *game::select_crafting_recipe()
             // Loop to print the required components
             mvwprintz(w_data, ypos, 30, col, _("Components required:"));
             for (unsigned i = 0; i < current[line]->components.size(); i++) {
-                if (current[line]->components[i].size() > 0) {
+                if (!current[line]->components[i].empty()) {
                     ypos++;
                     mvwputch(w_data, ypos, 30, col, '>');
                 }
@@ -1382,13 +1382,13 @@ void game::complete_craft()
         add_msg(_("You fail to make the %s, and waste some materials."),
                 item_controller->find_template(making->result)->name.c_str());
         for (unsigned i = 0; i < making->components.size(); i++) {
-            if (making->components[i].size() > 0) {
+            if (!making->components[i].empty()) {
                 consume_items(&u, making->components[i]);
             }
         }
 
         for (unsigned i = 0; i < making->tools.size(); i++) {
-            if (making->tools[i].size() > 0) {
+            if (!making->tools[i].empty()) {
                 consume_tools(&u, making->tools[i], false);
             }
         }
@@ -1407,13 +1407,13 @@ void game::complete_craft()
     // Use up the components and tools
     std::list<item> used;
     for (unsigned i = 0; i < making->components.size(); i++) {
-        if (making->components[i].size() > 0) {
+        if (!making->components[i].empty()) {
             std::list<item> tmp = consume_items(&u, making->components[i]);
             used.splice(used.end(), tmp);
         }
     }
     for (unsigned i = 0; i < making->tools.size(); i++) {
-        if (making->tools[i].size() > 0) {
+        if (!making->tools[i].empty()) {
             consume_tools(&u, making->tools[i], false);
         }
     }
@@ -1833,7 +1833,7 @@ void game::complete_disassemble()
 
     // consume tool charges
     for (unsigned j = 0; j < dis->tools.size(); j++) {
-        if (dis->tools[j].size() > 0) {
+        if (!dis->tools[j].empty()) {
             consume_tools(&u, dis->tools[j], false);
         }
     }

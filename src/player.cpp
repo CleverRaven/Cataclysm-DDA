@@ -3247,7 +3247,7 @@ bool player::has_conflicting_trait(const std::string &flag) const
 
 bool player::has_opposite_trait(const std::string &flag) const
 {
-    if (mutation_data[flag].cancels.size() > 0) {
+    if (!mutation_data[flag].cancels.empty()) {
         std::vector<std::string> cancels = mutation_data[flag].cancels;
         for (int i = 0; i < cancels.size(); i++) {
             if (has_trait(cancels[i])) {
@@ -3260,7 +3260,7 @@ bool player::has_opposite_trait(const std::string &flag) const
 
 bool player::has_lower_trait(const std::string &flag) const
 {
-    if (mutation_data[flag].prereqs.size() > 0) {
+    if (!mutation_data[flag].prereqs.empty()) {
         std::vector<std::string> prereqs = mutation_data[flag].prereqs;
         for (int i = 0; i < prereqs.size(); i++) {
             if (has_trait(prereqs[i]) || has_lower_trait(prereqs[i])) {
@@ -3273,7 +3273,7 @@ bool player::has_lower_trait(const std::string &flag) const
 
 bool player::has_higher_trait(const std::string &flag) const
 {
-    if (mutation_data[flag].replacements.size() > 0) {
+    if (!mutation_data[flag].replacements.empty()) {
         std::vector<std::string> replacements = mutation_data[flag].replacements;
         for (int i = 0; i < replacements.size(); i++) {
             if (has_trait(replacements[i]) || has_higher_trait(replacements[i])) {
@@ -6091,7 +6091,7 @@ void player::process_active_items()
 bool player::process_single_active_item(item *it)
 {
     if (it->active ||
-        (it->is_container() && it->contents.size() > 0 && it->contents[0].active))
+        (it->is_container() && !it->contents.empty() && it->contents[0].active))
     {
         if (it->is_food())
         {
@@ -8814,7 +8814,7 @@ void player::use(int pos)
             g->add_msg(_("That %s cannot be attached to a launcher."),
                        used->tname().c_str());
             return;
-        } else if ( mod->acceptible_ammo_types.size() > 0 &&
+        } else if ( !mod->acceptible_ammo_types.empty() &&
                     mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
                 g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
@@ -10365,7 +10365,7 @@ void player::clear_destination()
 
 bool player::has_destination() const
 {
-    return auto_move_route.size() > 0;
+    return !auto_move_route.empty();
 }
 
 std::vector<point> &player::get_auto_move_route()

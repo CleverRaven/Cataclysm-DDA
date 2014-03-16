@@ -920,7 +920,7 @@ item &inventory::item_or_container(itype_id type)
              stack_iter != iter->end(); ++stack_iter) {
             if (stack_iter->type->id == type) {
                 return *stack_iter;
-            } else if (stack_iter->is_container() && stack_iter->contents.size() > 0) {
+            } else if (stack_iter->is_container() && !stack_iter->contents.empty()) {
                 if (stack_iter->contents[0].type->id == type) {
                     return *stack_iter;
                 }
@@ -1532,7 +1532,7 @@ std::vector<item *> inventory::active_items()
              ++stack_iter) {
             if ( (stack_iter->is_artifact() && stack_iter->is_tool()) ||
                  stack_iter->active ||
-                 (stack_iter->is_container() && stack_iter->contents.size() > 0 && stack_iter->contents[0].active)) {
+                 (stack_iter->is_container() && !stack_iter->contents.empty() && stack_iter->contents[0].active)) {
                 ret.push_back(&*stack_iter);
             }
         }

@@ -43,7 +43,7 @@ void mattack::antqueen(monster *z)
   }
  }
 
- if (ants.size() > 0) {
+ if (!ants.empty()) {
   z->moves -= 100; // It takes a while
   int mondex = ants[ rng(0, ants.size() - 1) ];
   monster *ant = &(g->zombie(mondex));

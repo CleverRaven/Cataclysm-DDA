@@ -429,7 +429,7 @@ bool game::opening_screen()
 
                 // only show reset / destroy world if there is at least one valid world existing!
 
-                int world_subs_to_display = (world_generator->all_worldnames.size() > 0)? vWorldSubItems.size(): 1;
+                int world_subs_to_display = (!world_generator->all_worldnames.empty())? vWorldSubItems.size(): 1;
                 std::vector<std::string> world_subs;
                 int xoffset = 25 + iMenuOffsetX + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;

@@ -1151,7 +1151,7 @@ void overmap::generate(overmap* north, overmap* east, overmap* south,
  }
 
 // Now actually place those rivers.
- if (river_start.size() > river_end.size() && river_end.size() > 0) {
+ if (river_start.size() > river_end.size() && !river_end.empty()) {
   std::vector<point> river_end_copy = river_end;
   while (!river_start.empty()) {
    int index = rng(0, river_start.size() - 1);
@@ -1163,7 +1163,7 @@ void overmap::generate(overmap* north, overmap* east, overmap* south,
                 river_end_copy[rng(0, river_end_copy.size() - 1)]);
    river_start.erase(river_start.begin() + index);
   }
- } else if (river_end.size() > river_start.size() && river_start.size() > 0) {
+ } else if (river_end.size() > river_start.size() && !river_start.empty()) {
   std::vector<point> river_start_copy = river_start;
   while (!river_end.empty()) {
    int index = rng(0, river_end.size() - 1);
@@ -1175,7 +1175,7 @@ void overmap::generate(overmap* north, overmap* east, overmap* south,
                 river_end[index]);
    river_end.erase(river_end.begin() + index);
   }
- } else if (river_end.size() > 0) {
+ } else if (!river_end.empty()) {
   if (river_start.size() != river_end.size())
    river_start.push_back( point(rng(OMAPX * .25, OMAPX * .75),
                                 rng(OMAPY * .25, OMAPY * .75)));
@@ -2439,7 +2439,7 @@ bool overmap::build_lab(int x, int y, int z, int s)
             generate_stairs = false;
         }
     }
-    if (generate_stairs && generated_lab.size() > 0) {
+    if (generate_stairs && !generated_lab.empty()) {
         int v = rng(0,generated_lab.size()-1);
         point p = generated_lab[v];
         ter(p.x, p.y, z+1) = "lab_stairs";
@@ -2505,7 +2505,7 @@ bool overmap::build_ice_lab(int x, int y, int z, int s)
             generate_stairs = false;
         }
     }
-    if (generate_stairs && generated_ice_lab.size() > 0) {
+    if (generate_stairs && !generated_ice_lab.empty()) {
         int v = rng(0,generated_ice_lab.size() - 1);
         point p = generated_ice_lab[v];
         ter(p.x, p.y, z + 1) = "ice_lab_stairs";

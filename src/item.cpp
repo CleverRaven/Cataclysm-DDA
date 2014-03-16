@@ -738,7 +738,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
  }
 
- if ( type->qualities.size() > 0){
+ if ( !type->qualities.empty()){
     for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
         quality != type->qualities.end(); ++quality){
         dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has %s of level %d."),
@@ -890,7 +890,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
         dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
     }
-    if (contents.size() > 0) {
+    if (!contents.empty()) {
         if (is_gun()) {//Mods description
             for (size_t i = 0; i < contents.size(); i++) {
                 it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
@@ -1070,7 +1070,7 @@ std::string item::tname( bool with_prefix )
         else
             maintext = rmp_format(_("<item_name>%s blood"), corpse->name.c_str());
     }
-    else if (is_gun() && contents.size() > 0 ) {
+    else if (is_gun() && !contents.empty() ) {
         ret.str("");
         ret << type->name;
         for (size_t i = 0; i < contents.size(); i++) {
@@ -1082,7 +1082,7 @@ std::string item::tname( bool with_prefix )
                               _("<item_name>%s of %s"):("<item_name>%s with %s"),
                               type->name.c_str(), contents[0].tname().c_str());
     }
-    else if (contents.size() > 0) {
+    else if (!contents.empty()) {
         maintext = rmp_format(_("<item_name>%s, full"), type->name.c_str());
     } else {
         maintext = type->name;
@@ -1417,7 +1417,7 @@ bool item::has_quality(std::string quality_id, int quality_value) const {
     (void)quality_id; (void)quality_value; //unused grrr
     bool ret = false;
 
-    if(type->qualities.size() > 0){
+    if(!type->qualities.empty()){
       ret = true;
     }
     return ret;
@@ -2063,8 +2063,8 @@ bool item::operator<(const item& other) const
     if(cat_a != cat_b) {
         return cat_a < cat_b;
     } else {
-        const item *me = is_container() && contents.size() > 0 ? &contents[0] : this;
-        const item *rhs = other.is_container() && other.contents.size() > 0 ? &other.contents[0] : &other;
+        const item *me = is_container() && !contents.empty() ? &contents[0] : this;
+        const item *rhs = other.is_container() && !other.contents.empty() ? &other.contents[0] : &other;
 
         if (me->type->id == rhs->type->id)
         {

@@ -76,7 +76,7 @@ static bool item_inscription( player *p, item *cut, std::string verb, std::strin
                                  (hasnote ? cut->item_vars["item_note"] : message ),
                                  messageprefix, "inscribe_item", 128 );
 
-    if( message.size() > 0 ) {
+    if( !message.empty() ) {
         if ( hasnote && message == "." ) {
             cut->item_vars.erase("item_note");
             cut->item_vars.erase("item_note_type");
@@ -1744,7 +1744,7 @@ int iuse::purifier(player *p, item *it, bool)
     if (num_cured > 4) {
         num_cured = 4;
     }
-    for (int i = 0; i < num_cured && valid.size() > 0; i++) {
+    for (int i = 0; i < num_cured && !valid.empty(); i++) {
         int index = rng(0, valid.size() - 1);
         if (p->purifiable(valid[index])) {
             p->remove_mutation(valid[index]);
@@ -1777,7 +1777,7 @@ int iuse::purify_iv(player *p, item *it, bool)
     if (num_cured > 8) {
         num_cured = 8;
     }
-    for (int i = 0; i < num_cured && valid.size() > 0; i++) {
+    for (int i = 0; i < num_cured && !valid.empty(); i++) {
         int index = rng(0, valid.size() - 1);
         if (p->purifiable(valid[index])) {
             p->remove_mutation(valid[index]);
@@ -3149,7 +3149,7 @@ _(
     in_range.push_back(npcs[i]);
    }
   }
-  if (in_range.size() > 0) {
+  if (!in_range.empty()) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
    popup(_("A reply!  %s says, \"I'm on my way; give me %d minutes!\""),
          coming->name.c_str(), coming->minutes_to_u());

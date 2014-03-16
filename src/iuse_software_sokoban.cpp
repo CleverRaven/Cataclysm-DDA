@@ -340,7 +340,7 @@ int sokoban_game::start_game()
             int iPlayerXNew = 0;
             bool bUndoSkip = false;
             //undo move
-            if (vUndo.size() > 0) {
+            if (!vUndo.empty()) {
                 //reset last player pos
                 mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == "+") ? "." : " ";
                 iPlayerYNew = vUndo[vUndo.size() - 1].iOldY;
@@ -352,7 +352,7 @@ int sokoban_game::start_game()
                 bUndoSkip = true;
             }
 
-            if (bUndoSkip && vUndo.size() > 0) {
+            if (bUndoSkip && !vUndo.empty()) {
                 iDirY = vUndo[vUndo.size() - 1].iOldY;
                 iDirX = vUndo[vUndo.size() - 1].iOldX;
 

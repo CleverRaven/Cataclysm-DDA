@@ -1002,7 +1002,7 @@ void npc::starting_weapon()
         possible_items.push_back(selected_item);
     }
 
-    if (possible_items.size() > 0)
+    if (!possible_items.empty())
     {
         std::list<itype_id>::iterator chosen = possible_items.begin();
         std::advance(chosen, rng(0, possible_items.size() - 1));

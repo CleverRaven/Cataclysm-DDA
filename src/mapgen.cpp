@@ -278,7 +278,7 @@ void load_mapgen( JsonObject &jo ) {
         while( ja.has_more() ) {
             mapgenid_list.push_back( ja.next_string() );
         }
-        if ( mapgenid_list.size() > 0 ) {
+        if ( !mapgenid_list.empty() ) {
             std::string mapgenid = mapgenid_list[0];
             mapgen_function * mgfunc = load_mapgen_function(jo, mapgenid, -1);
             if ( mgfunc != NULL ) {
@@ -1033,7 +1033,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     const std::string function_key = terrain_type.t().id_mapgen;
 
     std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( function_key );
-    if ( fmapit != oter_mapgen.end() && fmapit->second.size() > 0 ) {
+    if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
         // int fidx = rng(0, fmapit->second.size() - 1); // simple unwieghted list
         std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
         const int rlast = weightit->second.rbegin()->first;
