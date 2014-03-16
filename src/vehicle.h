@@ -203,8 +203,8 @@ private:
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
 
-    // get vpart powerinfo for part number, accounting for variable-sized parts.
-    int part_power (int index);
+    // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
+    int part_power( int index, bool at_full_hp = false );
 
     // get vpart epowerinfo for part number.
     int part_epower (int index);
@@ -424,6 +424,10 @@ public:
 // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
 // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
     float k_dynamics ();
+
+// Components of the dynamic coefficient
+    float k_friction ();
+    float k_aerodynamics ();
 
 // Coefficient of mass, 0-1.0.
 // 1.0 means mass won't slow vehicle at all, 0 - it won't move
