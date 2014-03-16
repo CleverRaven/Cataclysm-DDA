@@ -62,9 +62,9 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     } else if(menu_mode == "activating") {
         desc = _("<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
     } else if(menu_mode == "removing") {
-        desc = _("<color_red>Removing</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+        desc = _("<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
     } else if(menu_mode == "examining") {
-        desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
+        desc = _("<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign.");
     }
     fold_and_print(window, 0, cap_offset, desc_length, c_white, desc);
 
@@ -770,6 +770,30 @@ void bionics_uninstall_failure(player *u) {
     u->hurtall(rng(30, 80));
 }
 
+// bionic manipulation chance of success
+int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechanics, int bionic_difficulty) {
+    int pl_skill = p_int * 4 +
+                   s_electronics * 4 +
+                   s_firstaid    * 3 +
+                   s_mechanics   * 1;
+
+    // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
+    float adjusted_skill = float (pl_skill) - std::min( float (40),
+                           float (pl_skill) - float (pl_skill) / float (10.0));
+
+    // we will base chance_of_success on a ratio of skill and difficulty
+    // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
+    float skill_difficulty_parameter = float(adjusted_skill / (4.0 * bionic_difficulty));
+
+    // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
+    // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
+    // curve flattens out just above 80%
+    int chance_of_success = int((100 * skill_difficulty_parameter) /
+                                (skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter)));
+
+    return chance_of_success;
+}
+
 bool player::uninstall_bionic(bionic_id b_id) {
     it_bionic *type = dynamic_cast<it_bionic*> (itypes[b_id]);
     // malfunctioning bionics don't have associated items and get a difficulty of 12
@@ -783,25 +807,24 @@ bool player::uninstall_bionic(bionic_id b_id) {
         popup(_("You don't have this bionic installed."));
         return false;
     }
-    if (!inv.has_items_with_quality("CUT", 1, 1)) {
-        popup(_("You don't have anything sharp to butcher yourself with!"));
+    if (!(inv.has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1))) {
+        popup(_("Removing bionics requires a cutting tool and a first aid kit."));
         return false;
     }
-    // calculations copied from player::install_bionics
-    int pl_skill = int_cur * 4 +
-                   skillLevel("electronics") * 4 +
-                   skillLevel("firstaid")    * 3 +
-                   skillLevel("mechanics")   * 1;
-    float adjusted_skill = float (pl_skill) - std::min( float (40),
-                           float (pl_skill) - float (pl_skill) / float (10.0));
-    float skill_difficulty_parameter = float(adjusted_skill / (4.0 * difficulty));
-    int chance_of_success = int((100 * skill_difficulty_parameter) /
-                                (skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter)));
+
+    // removal of bionics adds +2 difficulty over installation
+    int chance_of_success = bionic_manip_cos(int_cur,
+                                             skillLevel("electronics"),
+                                             skillLevel("firstaid"),
+                                             skillLevel("mechanics"),
+                                             difficulty + 2);
 
     if (!query_yn(_("WARNING: %i percent chance of SEVERE bodily damage! Remove anyway?"),
                   100 - chance_of_success)) {
         return false;
     }
+
+    use_charges("1st_aid", 1);
 
     practice(g->turn, "electronics", int((100 - chance_of_success) * 1.5));
     practice(g->turn, "firstaid", int((100 - chance_of_success) * 1.0));
@@ -813,6 +836,8 @@ bool player::uninstall_bionic(bionic_id b_id) {
         add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
             pgettext("memorial_female", "Removed bionic: %s."),
             bionics[b_id]->name.c_str());
+        // until bionics can be flagged as non-removable
+        g->add_msg(_("You jiggle your parts back into their familiar places."));
         g->add_msg(_("Successfully removed %s."), bionics[b_id]->name.c_str());
         remove_bionic(b_id);
     }
@@ -843,25 +868,11 @@ bool player::install_bionics(it_bionic *type)
             return false;
         }
     }
-
-    int pl_skill = int_cur * 4 +
-                   skillLevel("electronics") * 4 +
-                   skillLevel("firstaid")    * 3 +
-                   skillLevel("mechanics")   * 1;
-
-    // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = float (pl_skill) - std::min( float (40),
-                           float (pl_skill) - float (pl_skill) / float (10.0));
-
-    // we will base chance_of_success on a ratio of skill and difficulty
-    // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
-    float skill_difficulty_parameter = float(adjusted_skill / (4.0 * type->difficulty));
-
-    // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
-    // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
-    // curve flattens out just above 80%
-    int chance_of_success = int((100 * skill_difficulty_parameter) /
-                                (skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter)));
+    int chance_of_success = bionic_manip_cos(int_cur,
+                                             skillLevel("electronics"),
+                                             skillLevel("firstaid"),
+                                             skillLevel("mechanics"),
+                                             type->difficulty);
 
     if (!query_yn(_("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?"),
                   100 - chance_of_success)) {
