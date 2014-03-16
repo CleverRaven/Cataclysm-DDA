@@ -8,12 +8,12 @@
 #include "debug.h"
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include <sys/stat.h>
 #include <stdexcept>
 #include "cata_tiles.h"
 #include "get_version.h"
 #include "init.h"
-//
 
 #ifdef _MSC_VER
 #include "wdirent.h"
