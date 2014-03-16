@@ -493,6 +493,11 @@ void initOptions() {
                                              "vanilla,capped,int,intcap,off", "vanilla"
                                             );
 
+    OPTIONS["SAVESCUMMING"] =           cOpt("debug", _("Savescumming queries"),
+                                             _("If true, additional queries will be enabled to ease the process of savescumming. Note that this is CHEATING."),
+                                             false
+                                            );
+
     optionNames["no"] = _("No");
     optionNames["yes"] = _("Yes");
     optionNames["query"] = _("Query");
