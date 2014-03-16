@@ -35,6 +35,9 @@
 #include <ctime>
 #include <algorithm>
 #include <numeric>
+#include <string>
+
+#include <fstream>
 
 nc_color encumb_color(int level);
 static void manage_fire_exposure(player& p, int fireStrength = 1);
@@ -6120,7 +6123,6 @@ bool player::process_single_active_item(item *it)
             if(it->item_counter == 0)
             {
                 it->item_counter = 0;
-                g->add_msg_if_player(this,_("Your %s dries off."), it->name.c_str());
 
                 // wet towel becomes a regular towel
                 if(it->type->id == "towel_wet")
@@ -6368,9 +6370,9 @@ martialart player::get_combat_style()
 std::vector<item *> player::inv_dump()
 {
  std::vector<item *> ret;
- if (std::find(standard_itype_ids.begin(), standard_itype_ids.end(), weapon.type->id) != standard_itype_ids.end()){
-  ret.push_back(&weapon);
- }
+    if (!weapon.has_flag("NO_UNWIELD")) {
+        ret.push_back(&weapon);
+    }
  for (int i = 0; i < worn.size(); i++)
   ret.push_back(&worn[i]);
  inv.dump(ret);
@@ -6875,6 +6877,27 @@ bool player::has_item_with_flag( std::string flag ) const
 bool player::has_item(char let)
 {
  return (has_weapon_or_armor(let) || !inv.item_by_letter(let).is_null());
+}
+
+std::vector<char> player::allocated_invlets() {
+    size_t maxsz = inv_chars.size(), incr = worn.size();
+    std::vector<char> invs = inv.allocated_invlets();
+
+    if (weapon.invlet != 0) {
+        incr++;
+    }
+    if (incr > 0) {
+        invs.resize(maxsz + incr, '\0');
+        if (weapon.invlet != 0) {
+            invs[maxsz] = weapon.invlet;
+            maxsz++;
+        }
+        for (int i = 0; i < worn.size(); i++, maxsz++) {
+            invs[maxsz] = worn[i].invlet;
+        }
+    }
+
+    return invs;
 }
 
 bool player::has_item(int position) {
@@ -8140,8 +8163,6 @@ bool player::takeoff(int pos, bool autodrop)
     return taken_off;
 }
 
-#include <string>
-
 void player::sort_armor()
 {
     const int win_h = FULL_SCREEN_HEIGHT + (TERMY - FULL_SCREEN_HEIGHT) / 3;
@@ -8487,11 +8508,34 @@ void player::sort_armor()
                 selected = leftListIndex;
             break;
 
+        case 'r':
+            {
+                // Start with last armor (the most unimportant one?)
+                int worn_index = worn.size() - 1;
+                int invlet_index = inv_chars.size() - 1;
+                while (invlet_index >= 0 && worn_index >= 0) {
+                    const char invlet = inv_chars[invlet_index];
+                    item &w = worn[worn_index];
+                    if (invlet == w.invlet) {
+                        worn_index--;
+                    } else if (has_item(invlet)) {
+                        invlet_index--;
+                    } else {
+                        w.invlet = invlet;
+                        worn_index--;
+                        invlet_index--;
+                    }
+                }
+            }
+            break;
+
         case '?':{
             popup_getkey(_("\
 Use the arrow- or keypad keys to navigate the left list.\n\
 Press 's' to select highlighted armor for reordering.\n\
-Use PageUp/PageDown to scroll the right list.\n \n\
+Use PageUp/PageDown to scroll the right list.\n\
+Press 'r' to assign special inventory letters to clothing.\n\
+ \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
@@ -9012,7 +9056,7 @@ void player::read(int pos)
                            : "Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
-    } else if (!continuous && !query_yn("Study %s until you learn something? (gain a level)",
+    } else if (!continuous && !query_yn(_("Study %s until you learn something? (gain a level)"),
                                                  tmp->type->name().c_str())) {
         study = false;
     } else {
@@ -9509,7 +9553,7 @@ void get_armor_on(player* p, body_part bp, std::vector<int>& armor_indices) {
     }
 }
 
-// mutates du, returns true iff armor was damaged
+// mutates du, returns true if armor was damaged
 bool player::armor_absorb(damage_unit& du, item& armor) {
     it_armor* armor_type = dynamic_cast<it_armor*>(armor.type);
 
@@ -9949,7 +9993,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         int oldLevel = skillLevel(s);
         skillLevel(s).train(amount);
         int newLevel = skillLevel(s);
-        if (newLevel > oldLevel) {
+        if (is_player() && newLevel > oldLevel) {
             g->add_msg(_("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
         }
 
@@ -10044,7 +10088,16 @@ void player::cancel_activity()
 
 std::vector<item*> player::has_ammo(ammotype at)
 {
-    return inv.all_ammo(at);
+    std::vector<item*> result = inv.all_ammo(at);
+    if (weapon.is_of_ammo_type_or_contains_it(at)) {
+        result.push_back(&weapon);
+    }
+    for (size_t i = 0; i < worn.size(); i++) {
+        if (worn[i].is_of_ammo_type_or_contains_it(at)) {
+            result.push_back(&worn[i]);
+        }
+    }
+    return result;
 }
 
 std::string player::weapname(bool charges)

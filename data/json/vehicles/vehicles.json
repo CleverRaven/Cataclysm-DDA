@@ -1771,6 +1771,7 @@
             {"x": -2, "y": 2, "part": "roof"},
             {"x": -2, "y": 3, "part": "frame_vertical_2"},
             {"x": -2, "y": 3, "part": "door"},
+			{"x": -2, "y": 3, "part": "v_curtain"},
             {"x": -3, "y": -1, "part": "frame_vertical"},
             {"x": -3, "y": -1, "part": "windshield"},
             {"x": -3, "y": -1, "part": "v_curtain"},
@@ -2085,7 +2086,9 @@
             {"x": -9, "y": -1, "part": "hdframe_sw"},
             {"x": -9, "y": -1, "part": "wheel_armor"},
             {"x": -9, "y": -1, "part": "hdboard_sw"},
-            {"x": -9, "y": -1, "part": "plating_military"}
+            {"x": -9, "y": -1, "part": "plating_military"},
+            {"x": 1, "y": -2, "part": "wing_mirror"},
+            {"x": 1, "y": 4, "part": "wing_mirror"}
         ]
     },{
         "type" : "vehicle",
@@ -2341,6 +2344,7 @@
             {"x": -2, "y": 0, "part": "roof"},
             {"x": -2, "y": 3, "part": "frame_vertical"},
             {"x": -2, "y": 3, "part": "door"},
+			{"x": -2, "y": 3, "part": "v_curtain"},
             {"x": -2, "y": 3, "part": "roof"},
             {"x": -2, "y": -1, "part": "frame_vertical"},
             {"x": -2, "y": -1, "part": "board_vertical"},
@@ -2498,6 +2502,7 @@
             {"x": -2, "y": 0, "part": "roof"},
             {"x": -2, "y": 3, "part": "frame_vertical"},
             {"x": -2, "y": 3, "part": "door"},
+			{"x": -2, "y": 3, "part": "v_curtain"},
             {"x": -2, "y": 3, "part": "roof"},
             {"x": -2, "y": -1, "part": "frame_vertical"},
             {"x": -2, "y": -1, "part": "board_vertical"},

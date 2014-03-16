@@ -350,7 +350,7 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
     // DEBUG VARS
     int nummg = 0;
     char datatype;
-    int cx, cy, cz, cs, cp, cd, cdying;
+    int cx, cy, cz, cs, cp, cd, cdying, horde, tx, ty, intr;
     std::string cstr;
     city tmp;
     std::list<item> npc_inventory;
@@ -401,10 +401,22 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 debugmsg("Loaded z level out of range (z: %d)", z);
             }
         } else if (datatype == 'Z') { // Monster group
-            fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
+            // save compatiblity hack: read the line, initialze new members to 0,
+            // "parse" line,
+            std::string tmp;
+            getline(fin, tmp);
+            std::istringstream buffer(tmp);
+            horde = 0;
+            tx = 0;
+            ty = 0;
+            intr = 0;
+            buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
             zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
             zg.back().diffuse = cd;
             zg.back().dying = cdying;
+            zg.back().horde = horde;
+            zg.back().set_target(tx,ty);
+            zg.back().interest=intr;
             nummg++;
         } else if (datatype == 't') { // City
             fin >> cx >> cy >> cs;
@@ -638,7 +650,8 @@ void overmap::save()
     for (int i = 0; i < zg.size(); i++)
         fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " <<
             zg[i].posz << " " << int(zg[i].radius) << " " << zg[i].population << " " <<
-            zg[i].diffuse << " " << zg[i].dying << std::endl;
+            zg[i].diffuse << " " << zg[i].dying << " " <<
+            zg[i].horde << " " << zg[i].tx << " " << zg[i].ty << " " << zg[i].interest << std::endl;
     for (int i = 0; i < cities.size(); i++)
         fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s << std::endl;
     for (int i = 0; i < roads_out.size(); i++)

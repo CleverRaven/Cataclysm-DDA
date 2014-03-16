@@ -49,6 +49,7 @@ enum vpart_bitflags {
     VPFLAG_VARIABLE_SIZE,
     VPFLAG_TRACK,
     VPFLAG_RECHARGE,
+    VPFLAG_MIRROR
 
 };
 /* Flag info:

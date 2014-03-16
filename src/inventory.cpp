@@ -969,23 +969,15 @@ std::vector<item *> inventory::all_items_with_flag( const std::string flag )
 }
 
 
-std::vector<item *> inventory::all_ammo(ammotype type)
+std::vector<item *> inventory::all_ammo(const ammotype &type)
 {
     std::vector<item *> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter) {
-            if (stack_iter->is_ammo() && dynamic_cast<it_ammo *>(stack_iter->type)->type == type) {
+            if (stack_iter->is_of_ammo_type_or_contains_it(type)) {
                 ret.push_back(&*stack_iter);
-
-            }
-            // Handle gasoline nested in containers
-            else if (type == "gasoline" && stack_iter->is_container() &&
-                     !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
-                     dynamic_cast<it_ammo *>(stack_iter->contents[0].type)->type == type) {
-                ret.push_back(&*stack_iter);
-                return ret;
             }
         }
     }
@@ -1551,9 +1543,10 @@ std::vector<item *> inventory::active_items()
 void inventory::assign_empty_invlet(item &it, bool force)
 {
     player *p = &(g->u);
+    std::vector<char> cur_inv = p->allocated_invlets();
     for (std::string::const_iterator newinvlet = inv_chars.begin();
          newinvlet != inv_chars.end(); newinvlet++) {
-        if (!p->has_item(*newinvlet)) {
+        if (std::find(cur_inv.begin(), cur_inv.end(), *newinvlet) == cur_inv.end()) {
             it.invlet = *newinvlet;
             return;
         }
@@ -1572,4 +1565,24 @@ void inventory::assign_empty_invlet(item &it, bool force)
         }
     }
     debugmsg("could not find a hotkey for %s", it.tname().c_str());
+}
+
+std::vector<char> inventory::allocated_invlets() {
+    char ch;
+    size_t idx = 0, maxsz = inv_chars.size();
+    std::vector<char> invs(maxsz, '\0');
+
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
+        ch = iter->begin()->invlet;
+        if (ch != 0) {
+            if (idx >= maxsz) {
+                maxsz += 8; // Increment chosen semi-randomly
+                invs.resize(maxsz, '\0');
+            }
+            invs[idx] = ch;
+            idx++;
+        }
+    }
+
+    return invs;
 }

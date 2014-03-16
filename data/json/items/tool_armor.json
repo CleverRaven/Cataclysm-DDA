@@ -960,7 +960,7 @@
   {
     "id": "folding_poncho_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "yellow",
     "name" : "unfolded poncho",
@@ -1021,7 +1021,7 @@
   {
     "id": "emer_blanket_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name" : "emergency blanket",
@@ -1053,7 +1053,7 @@
   {
     "id": "rad_monitor",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name" : "radiation biomonitor",
@@ -1069,7 +1069,7 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "battery",
     "revert_to": "null",
     "use_action": "RADGLOVE",
     "storage" : 0,
@@ -1078,6 +1078,36 @@
     "encumbrance" : 0,
     "coverage" : 0,
     "material_thickness" : 1
+  },
+
+  {
+    "id": "hairpin",
+    "type": "TOOL_ARMOR",
+    "category" : "clothing",
+    "symbol": "[",
+    "color": "brown",
+    "name" : "hairpin",
+    "description": "A plain hairpin to keep your hair in place.",
+    "price": 50,
+    "material": ["iron", "null"],
+    "weight" : 2,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit" : -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "PICKLOCK",
+    "storage" : 0,
+    "warmth" : 0,
+    "enviromental_protection" : 0,
+    "encumbrance" : 0,
+    "coverage" : 0,
+    "material_thickness" : 0
   }
   
 ]

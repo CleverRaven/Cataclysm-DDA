@@ -2,7 +2,7 @@
 #include "rng.h"
 #include "output.h"
 #include <map>
-#include <iostream>
+#include <sstream>
 
 std::map<std::string, effect_type> effect_types;
 

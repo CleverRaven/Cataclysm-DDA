@@ -270,8 +270,8 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         default_tile_height = tile_height;
     }
 
-    terrain_term_x = OPTIONS["TERMINAL_X"] - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
-    terrain_term_y = OPTIONS["TERMINAL_Y"];
+    terrain_term_x = get_terminal_width() - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
+    terrain_term_y = get_terminal_height();
 
     set_draw_scale(16);
 
@@ -795,14 +795,14 @@ bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota)
     // blit background first : always non-rotated
     if (bg >= 0 && bg < tile_values.size()) {
         SDL_Texture *bg_tex = tile_values[bg];
-        SDL_RenderCopy(renderer, bg_tex, NULL, &destination);
+        SDL_RenderCopyEx(renderer, bg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE );
     }
 
     // blit foreground based on rotation
     if (rota == 0) {
         if (fg >= 0 && fg < tile_values.size()) {
             SDL_Texture *fg_tex = tile_values[fg];
-            SDL_RenderCopy(renderer, fg_tex, NULL, &destination);
+            SDL_RenderCopyEx(renderer, fg_tex, NULL, &destination, 0, NULL, SDL_FLIP_NONE);
         }
     } else {
         if (fg >= 0 && fg < tile_values.size()) {

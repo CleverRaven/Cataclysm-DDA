@@ -226,6 +226,7 @@ public:
     int atomic_battery      (player *, item *, bool);
     int fishing_rod_basic   (player *, item *, bool);
     int gun_repair          (player *, item *, bool);
+    int misc_repair         (player *, item *, bool);
     int toolarmor_off       (player *, item *, bool);
     int toolarmor_on        (player *, item *, bool);
     int rm13armor_off       (player *, item *, bool);

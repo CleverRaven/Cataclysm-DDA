@@ -1,6 +1,8 @@
 #include <string>
 #include <iostream>
 #include <iterator>
+#include <sstream>
+#include <fstream>
 #include <map>
 #include <vector>
 

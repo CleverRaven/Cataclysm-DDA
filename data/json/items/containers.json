@@ -86,7 +86,8 @@
         "to_hit": 0,
         "material": "aluminum",
         "contains": 1,
-        "flags": ["RIGID", "WATERTIGHT"]
+        "flags": ["RIGID", "WATERTIGHT"],
+		"qualities": [["CONTAIN", 1]]
     },
     {
         "id":"bowl_pewter",

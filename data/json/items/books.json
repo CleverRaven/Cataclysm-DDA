@@ -3711,7 +3711,7 @@
     {
         "type" : "BOOK",
         "id" : "holybook_quran",
-        "name" : "The Quran",
+        "name" : "Quran",
         "max_level" : 0,
         "description" : "An English translation of the Muslim book of holy scriptures, with explanatory notes and commentaries to aid in understanding.",
         "weight" : 412,

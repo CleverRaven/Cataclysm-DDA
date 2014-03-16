@@ -1,7 +1,6 @@
 #ifndef _BUILDING_GENERATION_H_
 #define _BUILDING_GENERATION_H_
 #include "overmap.h"
-//#include "omdata.h"
 #include "map.h"
 
 struct mapgendata

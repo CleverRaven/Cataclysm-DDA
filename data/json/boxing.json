@@ -78,7 +78,10 @@
             ["mag_melee", 25],
             ["mag_bashing", 10],
             ["manual_melee", 15],
-            ["recipe_melee", 10]
+            ["recipe_melee", 10],
+            ["manual_taekwondo", 10],
+            ["manual_karate", 10],
+            ["manual_muay_thai", 2]
         ]
     },
     {

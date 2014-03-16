@@ -2,7 +2,6 @@
 #define _OPTIONS_H_
 
 #include <string>
-#include <sstream>
 #include <map>
 #include <vector>
 #include <algorithm> //atoi

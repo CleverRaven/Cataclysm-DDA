@@ -606,11 +606,11 @@ void advanced_inventory::recalc_pane(int i)
     switch(panes[i].sortby) {
         case SORTBY_NONE:
             if ( i != isinventory ) {
-                std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
+                std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
             }
             break;
         default:
-            std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
+            std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
             break;
     }
 

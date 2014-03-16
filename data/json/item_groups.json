@@ -638,6 +638,7 @@
       ["oil_lamp", 10],
       ["lamp_oil", 10],
       ["grapnel", 1],
+      ["misc_repairkit", 15],
       ["charcoal", 20]
     ]
   },{
@@ -1644,6 +1645,7 @@
       ["tongs", 3],
       ["chisel", 2],
       ["swage", 1],
+      ["misc_repairkit", 5],
       ["tool_belt", 5]
     ]
   },{
@@ -1717,6 +1719,7 @@
       ["fungicide", 5],
       ["miner_hat", 1],
       ["grapnel", 1],
+      ["misc_repairkit", 5],
       ["tool_belt", 30]
     ]
   },{
@@ -1829,6 +1832,7 @@
     "items":[
       ["rope_30", 35],
       ["hatchet", 10],
+      ["misc_repairkit", 5],
       ["pot", 25],
       ["bowl_pewter", 25],
       ["teapot", 5],
@@ -5681,6 +5685,7 @@
       ["30gal_drum", 30],
       ["wearable_light", 10],
       ["antiparasitic", 5],
+      ["misc_repairkit", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -5796,6 +5801,7 @@
       ["rope_30", 35],
       ["stick", 95],
       ["hatchet", 10],
+      ["misc_repairkit", 5],
       ["ax", 8],
       ["bee_sting", 5],
       ["chitin_piece", 10],
@@ -6811,7 +6817,6 @@
       ["huge_crossbow", 2],
       ["rep_crossbow", 1],
       ["vaccine_shot", 10],
-      ["bio_claws_weapon", 0],
       ["brew_whiskey", 0],
       ["brew_rum", 0],
       ["brew_bum_wine", 0],
@@ -6820,8 +6825,23 @@
       ["brew_hb_beer", 0],
       ["brew_moonshine", 0],
       ["flask_yeast", 0],
+      ["testflames", 0],
+      ["bio_claws_weapon", 0],
       ["bio_blade_weapon", 0],
-      ["testflames", 0]
+      ["bio_laser_gun", 0],
+      ["bio_blaster_gun", 0],
+      ["money", 0],
+      ["oil_lamp_on", 0],
+      ["gasoline_lantern_on", 0],
+      ["glowstick_dead", 0],
+      ["handflare_dead", 0],
+      ["carver_on", 0],
+      ["trimmer_on", 0],
+      ["circsaw_on", 0],
+      ["geiger_on", 0],
+      ["adv_UPS_on", 0],
+      ["pda_flashlight", 0],
+      ["bio_lightning", 0]
     ]
   },{
     "type" : "item_group",
@@ -7211,6 +7231,7 @@
       ["throw_extinguisher", 2],
       ["small_repairkit", 14],
       ["grapnel", 6],
+      ["misc_repairkit", 8],
       ["flamethrower_simple", 2]
     ]
   },{

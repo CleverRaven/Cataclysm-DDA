@@ -1231,6 +1231,15 @@ int iuse::oxygen_bottle(player *p, item *it, bool) {
 
 int iuse::blech(player *p, item *it, bool) {
     // TODO: Add more effects?
+    if (it->is_drink()) {
+        if ( !query_yn(_("This looks unhealthy, sure you want to drink it?"))) {
+            return 0;
+        }
+    } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
+        if ( !query_yn(_("This looks unhealthy, sure you want to eat it?"))) {
+            return 0;
+        }
+    }
     g->add_msg_if_player(p,_("Blech, that burns your throat!"));
     if(it->type->id != "soap") // soap burns but doesn't make you throw up
         p->vomit();
@@ -1986,14 +1995,10 @@ int iuse::sew(player *p, item *, bool)
         return 0;
     }
     int thread_used = 1;
-    int pos = g->inv_type(_("Repair what?"), IC_ARMOR);
+    int pos = g->inv(_("Repair what?"));
     item* fix = &(p->i_at(pos));
     if (fix == NULL || fix->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
-        return 0;
-    }
-    if (!fix->is_armor()) {
-        g->add_msg_if_player(p,_("That isn't clothing!"));
         return 0;
     }
     //some items are made from more than one material. we should try to use both items if one type of repair item is missing
@@ -2889,18 +2894,22 @@ int iuse::solder_weld(player *p, item *it, bool)
         case 2:
         {
             if(it->charges <= 0) {
-                g->add_msg_if_player(p,_("Your repair tool does not have enough charges to do that."));
+                g->add_msg_if_player(p,_("Your tool does not have enough charges to do that."));
                 return 0;
             }
 
-            int pos = g->inv_type(_("Repair what?"), IC_ARMOR);
+            int pos = g->inv(_("Repair what?"));
             item* fix = &(p->i_at(pos));
             if (fix == NULL || fix->is_null()) {
                 g->add_msg_if_player(p,_("You do not have that item!"));
                 return 0 ;
             }
-            if (!fix->is_armor()) {
-                g->add_msg_if_player(p,_("That isn't clothing!"));
+            if (fix->is_gun()) {
+                g->add_msg_if_player(p,_("That requires gunsmithing tools."));
+                return 0;
+            }
+            if (fix->is_ammo()) {
+                g->add_msg_if_player(p,_("You cannot repair this type of item."));
                 return 0;
             }
             itype_id repair_item = "none";
@@ -2914,12 +2923,12 @@ int iuse::solder_weld(player *p, item *it, bool)
                 repair_items.push_back("plastic_chunk");
                 repairitem_names.push_back(_("plastic chunks"));
             }
-            if (fix->made_of("iron") || fix->made_of("steel")) {
+            if (fix->made_of("iron") || fix->made_of("steel") || fix->made_of("hardsteel")) {
                 repair_items.push_back("scrap");
                 repairitem_names.push_back(_("scrap metal"));
             }
             if(repair_items.empty()) {
-                g->add_msg_if_player(p,_("Your %s is not made of kevlar, plastic or metal."),
+                g->add_msg_if_player(p,_("Your %s is not made of plastic, metal, or kevlar."),
                                      fix->tname().c_str());
                 return 0;
             }
@@ -3551,7 +3560,7 @@ int iuse::picklock(player *p, item *it, bool)
  if( it->typeId() == "picklocks" ) {
      pick_quality = 5;
  }
- else if( it->typeId() == "crude_picklock" ) {
+ else if( it->typeId() == "crude_picklock" || "hairpin" ) {
      pick_quality = 3;
  }
 
@@ -7914,7 +7923,7 @@ int iuse::gun_repair(player *p, item *it, bool)
         g->add_msg_if_player(p, _("You need a mechanics skill of 2 to use this repair kit."));
         return 0;
     }
-            int pos = g->inv_type(_("Select the firearm to repair."), IC_GUN);
+            int pos = g->inv(_("Select the firearm to repair."));
             item* fix = &(p->i_at(pos));
             if (fix == NULL || fix->is_null()) {
                 g->add_msg_if_player(p,_("You do not have that item!"));
@@ -7924,9 +7933,21 @@ int iuse::gun_repair(player *p, item *it, bool)
                 g->add_msg_if_player(p,_("That isn't a firearm!"));
                 return 0;
             }
-            if (fix->damage < 1) {
-                g->add_msg_if_player(p,_("Your %s is already in peak condition."), fix->tname().c_str());
+            if (fix->damage == -1) {
+                g->add_msg_if_player(p,_("You cannot improve your %s any more this way."), fix->tname().c_str());
                 return 0;
+            }
+            if ((fix->damage == 0) && p->skillLevel("mechanics") < 8) {
+                g->add_msg_if_player(p,_("Your %s is already in peak condition."), fix->tname().c_str());
+                g->add_msg_if_player(p, _("With a higher mechanics skill, you might be able to improve it."));
+                return 0;
+            }
+            if ((fix->damage == 0) && p->skillLevel("mechanics") >= 8) {
+                g->add_msg_if_player(p,_("You accurize your %s."), fix->tname().c_str());
+                g->sound(p->posx, p->posy, 6, "");
+                p->moves -= 2000 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "mechanics", 10);
+                    fix->damage--;
             }
                 else if (fix->damage >= 2) {
                     g->add_msg_if_player(p,_("You repair your %s!"), fix->tname().c_str());
@@ -7940,6 +7961,51 @@ int iuse::gun_repair(player *p, item *it, bool)
                 g->sound(p->posx, p->posy, 8, "");
                 p->moves -= 500 * p->fine_detail_vision_mod();
                 p->practice(g->turn, "mechanics", 10);
+                    fix->damage = 0;
+                }
+    return it->type->charges_to_use();
+}
+
+int iuse::misc_repair(player *p, item *it, bool)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    if (p->skillLevel("fabrication") < 1) {
+        g->add_msg_if_player(p, _("You need a fabrication skill of 1 to use this repair kit."));
+        return 0;
+    }
+            int pos = g->inv(_("Select the item to repair."));
+            item* fix = &(p->i_at(pos));
+            if (fix == NULL || fix->is_null()) {
+                g->add_msg_if_player(p,_("You do not have that item!"));
+                return 0 ;
+            }
+            if (!(fix->made_of("wood") || fix->made_of("plastic") || fix->made_of("bone"))) {
+                g->add_msg_if_player(p,_("That isn't made of wood, bone, or chitin!"));
+                return 0;
+            }
+            if (fix->damage == -1) {
+                g->add_msg_if_player(p,_("You cannot improve your %s any more this way."), fix->tname().c_str());
+                return 0;
+            }
+            if (fix->damage == 0) {
+                g->add_msg_if_player(p,_("You reinforce your %s."), fix->tname().c_str());
+                p->moves -= 1000 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "fabrication", 10);
+                    fix->damage--;
+            }
+                else if (fix->damage >= 2) {
+                    g->add_msg_if_player(p,_("You repair your %s!"), fix->tname().c_str());
+                p->moves -= 500 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "fabrication", 10);
+                    fix->damage--;
+                }
+                else {
+                    g->add_msg_if_player(p,_("You repair your %s completely!"), fix->tname().c_str());
+                p->moves -= 250 * p->fine_detail_vision_mod();
+                p->practice(g->turn, "fabrication", 10);
                     fix->damage = 0;
                 }
     return it->type->charges_to_use();

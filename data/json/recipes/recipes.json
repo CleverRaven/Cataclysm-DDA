@@ -7663,7 +7663,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
-  "difficulty": 1,
+  "difficulty": 2,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -7695,7 +7695,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
-  "difficulty": 2,
+  "difficulty": 1,
   "time": 14000,
   "reversible": false,
   "autolearn": true,
@@ -7716,8 +7716,8 @@
       [ "tallow", 1 ]
     ],
     [
-      [ "cornmeal", 2 ],
-      [ "flour", 2 ]
+      [ "cornmeal", 1 ],
+      [ "flour", 1 ]
     ]
   ]
 },{
@@ -7776,6 +7776,7 @@
     [
       [ "sugar", 1 ],
       [ "syrup", 1 ],
+      [ "molasses", 1 ],
       [ "coffee_syrup", 1 ],
       [ "con_milk", 1 ],
       [ "honeycomb", 1 ],
@@ -8314,7 +8315,6 @@
       [ "pomegranate", 1 ],
       [ "irradiated_mango", 1],
       [ "mango", 1 ],
-      [ "irradiated_mango", 1],
       [ "papaya", 1 ],
       [ "irradiated_apricot", 1 ],
       [ "apricot", 1 ],
@@ -15805,6 +15805,29 @@
   ]
 },{
         "type" : "recipe",
+  "result": "balclava",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 3 ],
+      [ "needle_wood", 3 ],
+      [ "sewing_kit", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 4 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "scarf_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -21021,6 +21044,33 @@
       ["backpack_leather", 1],
       ["rucksack", 1],
       ["duffelbag", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "misc_repairkit",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used" : "fabrication",
+  "difficulty" : 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      ["string_36", 1],
+      ["string_6", 6]
+    ],
+    [
+      ["chisel", 1]
+    ],
+    [
+      ["hammer", 1]
+    ],
+    [
+      ["rag", 2],
+      ["leather", 2],
+      ["fur", 2]
     ]
   ]
 },{
