@@ -2026,8 +2026,8 @@
         "type": "profession",
         "ident": "farmer",
         "name": "Farmer",
-        "description": "You were making a living by raising crops, when the cataclysm struck.  Now, with your trusty hoe and and some seeds it's time to rebuild the Earth, one plant at a time",
-        "points.": 1,
+        "description": "You were making a living by raising crops, when the cataclysm struck.  Now, with your trusty hoe and and some seeds it's time to rebuild the Earth, one plant at a time.",
+        "points": 1,
         "items": {
             "both": [
                 "jeans",
