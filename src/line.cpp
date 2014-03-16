@@ -13,9 +13,11 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
     // Preallocate the number of cells we need instead of allocating them piecewise.
     const int numCells = square_dist(tripoint(x1, y1, 0),tripoint(x2, y2, 0));
     ret.reserve(numCells);
-    const int dx = x2 - x1, dy = y2 - y1;
+    const int dx = x2 - x1;
+    const int dy = y2 - y1;
     // Any ideas why we're multiplying the abs distance by two here?
-    const int ax = abs(dx) * 2, ay = abs(dy) * 2;
+    const int ax = abs(dx) << 1; // bitshift one place, functional *2
+    const int ay = abs(dy) << 1;
     const int sx = (dx == 0 ? 0 : SGN(dx)), sy = (dy == 0 ? 0 : SGN(dy));
     point cur; 
     cur.x = x1;
@@ -61,16 +63,16 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
     ret.reserve(numCells);
     tripoint cur;
     cur = loc1;
-    const int dx = loc2.x - loc1.x, 
-              dy = loc2.y - loc1.y, 
-              dz = loc2.z - loc1.z;
+    const int dx = loc2.x - loc1.x; 
+    const int dy = loc2.y - loc1.y; 
+    const int dz = loc2.z - loc1.z;
     // Any ideas why we're multiplying the abs distance by two here?
-    const int ax = abs(dx) * 2,
-              ay = abs(dy) * 2, 
-              az = abs(dz) * 2;
-    const int sx = (dx == 0 ? 0 : SGN(dx)),
-              sy = (dy == 0 ? 0 : SGN(dy)),
-              sz = (dz == 0 ? 0 : SGN(dz));
+    const int ax = abs(dx) << 1; // bitshift one place, functional *2
+    const int ay = abs(dy) << 1; 
+    const int az = abs(dz) << 1;
+    const int sx = (dx == 0 ? 0 : SGN(dx));
+    const int sy = (dy == 0 ? 0 : SGN(dy));
+    const int sz = (dz == 0 ? 0 : SGN(dz));
     if (az == 0) {
         if (ax == ay) {
             for (int i = 0; i < numCells; i++) {
@@ -175,9 +177,9 @@ int trig_dist(const int x1, const int y1, const int x2, const int y2)
 
 int trig_dist(const tripoint loc1, const tripoint loc2)
 {
-    return int (sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x))
-                         + ((loc1.y - loc2.y) * (loc1.y - loc2.y))
-                         + ((loc1.z - loc2.z) * (loc1.z - loc2.z))));
+    return int (sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
+                           ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
+                           ((loc1.z - loc2.z) * (loc1.z - loc2.z))));
 }
 
 int square_dist(const int x1, const int y1, const int x2, const int y2)
@@ -187,9 +189,9 @@ int square_dist(const int x1, const int y1, const int x2, const int y2)
 
 int square_dist(const tripoint loc1, const tripoint loc2)
 {
-    const int dx = abs(loc1.x - loc2.x), 
-              dy = abs(loc1.y - loc2.y), 
-              dz = abs(loc1.z - loc2.z);
+    const int dx = abs(loc1.x - loc2.x);
+    const int dy = abs(loc1.y - loc2.y);
+    const int dz = abs(loc1.z - loc2.z);
     int maxDxDy = (dx > dy ? dx : dy); // Sloppy, but should be quick.
     return (maxDxDy > dz ? maxDxDy : dz); // Too bad it doesn't scale.
 }
@@ -214,8 +216,8 @@ int rl_dist(const tripoint loc1, const tripoint loc2)
 
 double slope_of(const std::vector<point> &line)
 {
-	double dX = line.back().x - line.front().x,
-           dY = line.back().y - line.front().y;
+    double dX = line.back().x - line.front().x;
+    double dY = line.back().y - line.front().y;
     return (dX == 0 ? SLOPE_VERTICAL : (dY / dX));
 }
 
@@ -223,10 +225,10 @@ double slope_of(const std::vector<point> &line)
 std::tuple<double, double, double> slope_of(const std::vector<tripoint> &line)
 {
     int len = line.size();
-	double normDx = (line.back().x - line.front().x) / len,
-           normDy = (line.back().y - line.front().y) / len,
-           normDz = (line.back().z - line.front().z) / len;	
-	auto ret = std::make_tuple(normDx, normDy, normDz); // slope in x, y, z
+    double normDx = (line.back().x - line.front().x) / len;
+    double normDy = (line.back().y - line.front().y) / len;
+    double normDz = (line.back().z - line.front().z) / len;
+    auto ret = std::make_tuple(normDx, normDy, normDz); // slope in x, y, z
     return ret;
 }
 
@@ -234,8 +236,8 @@ std::vector<point> continue_line(const std::vector<point> &line, const int dista
 {
     point start = line.back(), end = line.back();
     double slope = slope_of(line);
-    int sX = (line.front().x < line.back().x ? 1 : -1),
-        sY = (line.front().y < line.back().y ? 1 : -1);
+    int sX = (line.front().x < line.back().x ? 1 : -1);
+    int sY = (line.front().y < line.back().y ? 1 : -1);
     if (abs(slope) == 1) {
         end.x += distance * sX;
         end.y += distance * sY;
@@ -258,8 +260,8 @@ std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int
     std::tuple<double, double, double> slope;
     slope = slope_of(line);
     end.x += ceil(distance * std::get<0>(slope));
-	end.y += ceil(distance * std::get<1>(slope));
-	end.z += ceil(distance * std::get<2>(slope));	
+    end.y += ceil(distance * std::get<1>(slope));
+    end.z += ceil(distance * std::get<2>(slope));
     return line_to(start, end, 0, 0);
 }
 
@@ -270,11 +272,11 @@ direction direction_from(int x1, int y1, int x2, int y2)
 
 direction direction_from(const tripoint loc1, const tripoint loc2)
 {
-    int dx = loc2.x - loc1.x,
-        dy = loc2.y - loc1.y,
-        dz = loc2.z - loc1.z;
+    int dx = loc2.x - loc1.x;
+    int dy = loc2.y - loc1.y;
+    int dz = loc2.z - loc1.z;
     // offset returns 0, 8, or 16 to put us in "above" or "below" range
-	int offset =  (dz == 0 ? 0 : (12 + (sgn(dz) * 2))); 
+    int offset =  (dz == 0 ? 0 : (12 + (sgn(dz) * 2))); 
     if (dx < 0) {
         if (abs(dx) / 2 > abs(dy) || dy == 0) {
             return direction(6 + offset); //West
@@ -330,7 +332,7 @@ std::string direction_name(direction dir)
         return _("west");
     case NORTHWEST:
         return _("northwest");
-	case ABOVENORTH:
+    case ABOVENORTH:
         return _("north and above");
     case ABOVENORTHEAST:
         return _("northeast and above");
@@ -346,7 +348,7 @@ std::string direction_name(direction dir)
         return _("west and above");
     case ABOVENORTHWEST:
         return _("northwest and above");
-	case BELOWNORTH:
+    case BELOWNORTH:
         return _("north and below");
     case BELOWNORTHEAST:
         return _("northeast and below");
@@ -456,7 +458,7 @@ rl_vec3d rl_vec3d::normalized()
     float n = norm();
     ret.x = x / n;
     ret.y = y / n;
-	ret.z = z / n;
+    ret.z = z / n;
     return ret;
 }
 
@@ -473,7 +475,7 @@ rl_vec3d rl_vec3d::get_vertical()
     rl_vec3d ret;
     ret.x = -y;
     ret.y = x;
-	ret.z = z;
+    ret.z = z;
     return ret;
 }
 
@@ -513,7 +515,7 @@ rl_vec3d rl_vec3d::operator* (const float rhs)
     rl_vec3d ret;
     ret.x = x * rhs;
     ret.y = y * rhs;
-	ret.z = z * rhs;
+    ret.z = z * rhs;
     return ret;
 }
 
@@ -531,7 +533,7 @@ rl_vec3d rl_vec3d::operator- (const rl_vec3d &rhs)
     rl_vec3d ret;
     ret.x = x - rhs.x;
     ret.y = y - rhs.y;
-	ret.z = z - rhs.z;
+    ret.z = z - rhs.z;
     return ret;
 }
 
@@ -549,7 +551,7 @@ rl_vec3d rl_vec3d::operator- ()
     rl_vec3d ret;
     ret.x = -x;
     ret.y = -y;
-	ret.z = -z;
+    ret.z = -z;
     return ret;
 }
 
