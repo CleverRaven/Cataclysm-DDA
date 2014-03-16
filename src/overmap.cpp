@@ -3624,6 +3624,22 @@ void overmap::place_mongroups()
  zg.back().diffuse = true;
 }
 
+int overmap::get_top_border() {
+    return loc.y * OMAPY;
+}
+
+int overmap::get_left_border() {
+    return loc.x * OMAPX;
+}
+
+int overmap::get_bottom_border() {
+    return get_top_border() + OMAPY;
+}
+
+int overmap::get_right_border() {
+    return get_left_border() + OMAPX;
+}
+
 void overmap::place_radios()
 {
  std::string message;
