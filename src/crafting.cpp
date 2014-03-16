@@ -914,6 +914,8 @@ recipe *game::select_crafting_recipe()
         int ch = (int)getch();
         if(ch == 'e' || ch == 'E') { // get_input is inflexible
             ch = (int)'?';
+        } else if(ch == '/') {
+            ch = 'F';
         } else if(ch == KEY_PPAGE) {
             ch = (int)'<';
         } else if(ch == KEY_NPAGE || ch == '\t' ) {
