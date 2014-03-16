@@ -1801,6 +1801,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                             // whereas mongroups are using submap coordinates(levx/levy)
                             int x = omx;
                             int y = omy;
+                            overmap_buffer.omt_to_om_remain(x, y);
                             overmap_buffer.omt_to_sm(x, y);
 
                             int distance = zg[i].diffuse ? square_dist(x, y, zg[i].posx, zg[i].posy) : trig_dist(x, y, zg[i].posx, zg[i].posy);
