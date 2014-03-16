@@ -5325,6 +5325,7 @@
       ["bio_teleport", 10],
       ["bio_probability_travel", 10],
       ["bio_power_armor_interface", 10],
+      ["bio_cqb", 5],
       ["bio_blade", 2],
       ["bio_speed", 2],
       ["bio_adrenaline", 10],
