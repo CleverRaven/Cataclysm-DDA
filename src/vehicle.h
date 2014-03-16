@@ -425,6 +425,10 @@ public:
 // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
     float k_dynamics ();
 
+// Components of the dynamic coefficient
+    float k_friction ();
+    float k_aerodynamics ();
+
 // Coefficient of mass, 0-1.0.
 // 1.0 means mass won't slow vehicle at all, 0 - it won't move
     float k_mass ();
