@@ -386,6 +386,20 @@
         "down_dur" : 2
     },{
         "type" : "technique",
+        "id" : "tec_biojutsu_blaster",
+        "name" : "fusion blaster",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "req_bionics" : [ "bio_blaster" ],
+        "attack_as_weapon" : "bio_blaster_gun",
+        "power_cost" : 2,
+        "messages" : [
+            "You fire your fusion blaster point-blank at %s",
+            "<npcname> fire their fusion blaster point-blank at %s"
+        ]
+    },{
+        "type" : "technique",
         "id" : "tec_zuiquan_feint",
         "name" : "Drunk feint",
         "min_unarmed" : 3,

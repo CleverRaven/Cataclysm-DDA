@@ -10,6 +10,11 @@
 #include <string>
 #include <sstream>
 
+#ifdef _MSC_VER
+// MSVC doesn't have ssize_t, so use int instead
+#define ssize_t int
+#endif
+
 std::vector<std::string> computer::lab_notes;
 int alerts = 0;
 

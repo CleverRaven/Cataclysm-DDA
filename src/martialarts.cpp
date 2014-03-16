@@ -38,7 +38,9 @@ void load_technique(JsonObject &jo)
     tec.reqs.min_cutting_damage = jo.get_int("min_cutting_damage", 0);
 
     tec.reqs.req_buffs = jo.get_tags("req_buffs");
-    tec.reqs.req_flags = jo.get_tags("req_flags");    
+    tec.reqs.req_flags = jo.get_tags("req_flags");  
+    tec.reqs.req_bionics = jo.get_tags("req_bionics");
+    tec.reqs.active_bionic = jo.get_bool("req_active_bionic", false);    
 
     tec.crit_tec = jo.get_bool("crit_tec", false);
     tec.defensive = jo.get_bool("defensive", false);
@@ -53,6 +55,7 @@ void load_technique(JsonObject &jo)
     tec.bash = jo.get_int("bash", 0);
     tec.cut = jo.get_int("cut", 0);
     tec.pain = jo.get_int("pain", 0);
+    tec.power_cost = jo.get_int("power_cost", 0);
 
     tec.weighting = jo.get_int("weighting", 1);
 
@@ -67,6 +70,8 @@ void load_technique(JsonObject &jo)
 
     tec.aoe = jo.get_string("aoe", "");
     tec.flags = jo.get_tags("flags");
+
+    tec.attack_as_weapon = jo.get_string("attack_as_weapon" ,"");
 
     ma_techniques[tec.id] = tec;
 }
@@ -237,6 +242,13 @@ bool ma_requirements::is_valid_player(player& u) {
     mabuff_id buff_id = *it;
     if (!u.has_mabuff(buff_id)) return false;
   }
+
+  for (std::set<bionic_id>::iterator it = req_bionics.begin();
+      it != req_bionics.end(); ++it) {
+    bionic_id bio_id = *it;
+    if ((active_bionic && !u.has_active_bionic(bio_id)) || (!active_bionic && !u.has_bionic(bio_id)))
+        return false;
+  }
   
   //A technique is valid if it applies to unarmed strikes, if it applies generally
   //to all weapons (such as Ninjutsu sneak attacks or innate weapon techniques like RAPID) 
@@ -244,9 +256,9 @@ bool ma_requirements::is_valid_player(player& u) {
   //further restrictions on required weapon properties (is_valid_weapon).
   bool cqb = u.has_active_bionic("bio_cqb");
   bool valid = ((unarmed_allowed && u.unarmed_attack()) ||
-      (melee_allowed && !u.unarmed_attack() && is_valid_weapon(u.weapon)) ||
+      (melee_allowed && !u.unarmed_attack() && is_valid_weapon(u.weapon)) || 
       (u.has_weapon() && martialarts[u.style_selected].has_weapon(u.weapon.type->id) &&
-      is_valid_weapon(u.weapon)) ) &&
+      is_valid_weapon(u.weapon))) &&
     ((u.skillLevel("melee") >= min_melee &&
     u.skillLevel("unarmed") >= min_unarmed &&
     u.skillLevel("bashing") >= min_bashing &&
@@ -550,7 +562,7 @@ bool player::has_grab_break_tec() {
 bool player::can_leg_block() {
   if (martialarts[style_selected].leg_block < 0)
     return false;
-  int unarmed_skill = has_active_bionic("bio_cqb") ? 4 : (int)skillLevel("unarmed");
+  int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
   if (unarmed_skill >= martialarts[style_selected].leg_block &&
       (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0))
     return true;
@@ -561,7 +573,7 @@ bool player::can_leg_block() {
 bool player::can_arm_block() {
   if (martialarts[style_selected].arm_block < 0)
     return false;
-  int unarmed_skill = has_active_bionic("bio_cqb") ? 4 : (int)skillLevel("unarmed");
+  int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
   if (unarmed_skill >= martialarts[style_selected].arm_block &&
       (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0))
     return true;

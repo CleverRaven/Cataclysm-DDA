@@ -7548,6 +7548,8 @@ void player::pick_style() // Style selection menu
             kmenu.addentry( 2, true, -1, martialarts["style_judo"].name );
         if (martialarts.find("style_muay_thai") != martialarts.end())
             kmenu.addentry( 3, true, -1, martialarts["style_muay_thai"].name );
+        if (martialarts.find("style_biojutsu") != martialarts.end())
+            kmenu.addentry( 3, true, -1, martialarts["style_biojutsu"].name );
 
         kmenu.query();
         int selection = kmenu.ret;
@@ -7555,6 +7557,7 @@ void player::pick_style() // Style selection menu
             case 1: style_selected = "style_karate"; break;
             case 2: style_selected = "style_judo"; break;
             case 3: style_selected = "style_muay_thai"; break;
+            case 4: style_selected = "style_biojutsu"; break;
         }
     }
     else {

@@ -62,11 +62,11 @@ int player::get_hit_base()
     int melee_skill = skillLevel("melee");
     
     if (has_active_bionic("bio_cqb")) {
-        unarmed_skill = 4;
-        bashing_skill = 4;
-        cutting_skill = 4;
-        stabbing_skill = 4;
-        melee_skill = 4;
+        unarmed_skill = 5;
+        bashing_skill = 5;
+        cutting_skill = 5;
+        stabbing_skill = 5;
+        melee_skill = 5;
     }
 
     // Are we unarmed?
@@ -275,11 +275,11 @@ bool player::scored_crit(int target_dodge)
  int melee_skill = skillLevel("melee");
 
  if (has_active_bionic("bio_cqb")) {
-     unarmed_skill = 4;
-     bashing_skill = 4;
-     cutting_skill = 4;
-     stabbing_skill = 4;
-     melee_skill = 4;
+     unarmed_skill = 5;
+     bashing_skill = 5;
+     cutting_skill = 5;
+     stabbing_skill = 5;
+     melee_skill = 5;
  }
 // Weapon to-hit roll
  int chance = 25;
@@ -405,8 +405,8 @@ int player::roll_bash_damage(bool crit)
     int unarmed_skill = skillLevel("unarmed"); 
 
     if (has_active_bionic("bio_cqb")) {
-        bashing_skill = 4;
-        unarmed_skill = 4;
+        bashing_skill = 5;
+        unarmed_skill = 5;
     }
 
     int skill = bashing_skill; // Which skill determines damage?
@@ -489,8 +489,8 @@ int player::roll_cut_damage(bool crit)
 
     if (has_active_bionic("bio_cqb"))
     {
-        cutting_skill = 4;
-        unarmed_skill = 4;
+        cutting_skill = 5;
+        unarmed_skill = 5;
     }
 
     if (unarmed_attack() && !wearing_something_on(bp_hands)) {
@@ -558,7 +558,7 @@ int player::roll_stab_damage(bool crit)
     int stabbing_skill = skillLevel("stabbing");
 
     if (has_active_bionic("bio_cqb")) 
-        stabbing_skill = 4; 
+        stabbing_skill = 5; 
 
     // 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%, 146%
     if (stabbing_skill <= 5)
@@ -587,7 +587,7 @@ int player::roll_stuck_penalty(bool stabbing)
     int attack_skill = stabbing ? skillLevel("stabbing") : skillLevel("cutting");
 
     if (has_active_bionic("bio_cqb"))
-        attack_skill = 4;
+        attack_skill = 5;
 
     const float cut_damage = weapon.damage_cut();
     const float bash_damage = weapon.damage_bash();
@@ -679,6 +679,9 @@ matec_id player::pick_technique(Creature &t,
         // dice(p->dex_cur + p->skillLevel("melee"),   10))
         if (tec.disarms && !t.has_weapon()) continue;
 
+        // don't allow techniques that would use more power than we have
+        if (tec.power_cost > 0 && power_level < tec.power_cost) continue;
+
         // ignore aoe tecs for a bit
         if (tec.aoe.length() > 0) continue;
 
@@ -747,9 +750,29 @@ void player::perform_technique(ma_technique technique, Creature &t, damage_insta
         d.add_damage(DT_STAB, technique.cut);
     }
 
+    if (technique.attack_as_weapon != "") {
+        d = damage_instance(); //reset damage and replace
+
+        if (itypes[technique.attack_as_weapon]->is_gun())
+        {
+            item tmp_item = weapon;
+            weapon = item(itypes[technique.attack_as_weapon], 0);
+            fire_gun(t.xpos(), t.ypos(), false);
+            weapon = tmp_item;
+        }
+        else {
+            item tmp_item = weapon;
+            weapon = item(itypes[technique.attack_as_weapon], 0);
+            d.add_damage(DT_BASH, roll_bash_damage(technique.crit_tec));
+            d.add_damage(DT_CUT, roll_cut_damage(technique.crit_tec));
+            d.add_damage(DT_STAB, roll_stab_damage(technique.crit_tec)); 
+            weapon = tmp_item;
+        }
+    }
+
     d.add_damage(DT_BASH, d.type_damage(DT_BASH) * (technique.bash_mult - 1));
     d.add_damage(DT_CUT, d.type_damage(DT_CUT) * (technique.cut_mult - 1));
-    d.add_damage(DT_STAB, d.type_damage(DT_STAB) * (technique.cut_mult - 1));    
+    d.add_damage(DT_STAB, d.type_damage(DT_STAB) * (technique.cut_mult - 1));      
     
     move_cost *= technique.speed_mult;
 
@@ -780,6 +803,9 @@ void player::perform_technique(ma_technique technique, Creature &t, damage_insta
     if (technique.pain > 0) {
         t.pain += rng(technique.pain/2, technique.pain);
     }
+
+    if (technique.power_cost > 0)
+        power_level -= technique.power_cost;
 
     /* TODO: put all this in when disease/effects merging is done
     if (technique.disarms) {
@@ -1115,7 +1141,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  } else {
   if (d.total_damage() > 20) { // TODO: change this back to "if it would kill the monster"
    cutting_penalty /= 2;
-   int cutting_skill = has_active_bionic("bio_cqb") ? 4 : (int)skillLevel("cutting");
+   int cutting_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("cutting");
    cutting_penalty -= rng(cutting_skill, cutting_skill * 2 + 2);
   }
   if (cutting_penalty >= 50/* && !z->is_hallucination()*/) { // TODO: halluc check again
@@ -1652,7 +1678,7 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
 int attack_speed(player &u)
 {
  int move_cost = u.weapon.attack_time() / 2;
- int melee_skill = u.has_active_bionic("bio_cqb") ? 4 : (int)u.skillLevel("melee");
+ int melee_skill = u.has_active_bionic("bio_cqb") ? 5 : (int)u.skillLevel("melee");
  int skill_cost = (int)(move_cost / (pow(static_cast<float>(melee_skill), 3.0f)/400 +1));
  int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
 

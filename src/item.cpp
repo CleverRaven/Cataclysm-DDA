@@ -19,6 +19,11 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+#ifdef _MSC_VER
+// MSVC doesn't have ssize_t, so use int instead
+#define ssize_t int
+#endif
+
 std::string default_technique_name(technique_id tech);
 
 light_emission nolight={0,0,0};

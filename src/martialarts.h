@@ -24,6 +24,9 @@ struct ma_requirements {
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
     std::set<std::string> req_flags; // any item flags required for this technique
+    std::set<bionic_id> req_bionics; // any bionics required for this technique
+
+    bool active_bionic;
 
     ma_requirements() {
       unarmed_allowed = false; // does this bonus work when unarmed?
@@ -60,7 +63,7 @@ class ma_technique {
     std::vector<std::string> messages;
 
     bool defensive;
-    bool crit_tec;
+    bool crit_tec;    
 
     ma_requirements reqs;
 
@@ -69,6 +72,9 @@ class ma_technique {
     int knockback_dist;
     float knockback_spread; // adding randomness to knockback, like tec_throw
     std::string aoe; // corresponds to an aoe shape, defaults to just the target
+    int power_cost;
+
+    itype_id attack_as_weapon; // instead of the usual weapon, attack as this instead
 
     // offensive
     bool disarms; // like tec_disarm
