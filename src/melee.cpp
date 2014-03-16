@@ -746,10 +746,7 @@ matec_id player::pick_technique(Creature &t,
         // dice(   dex_cur +    skillLevel("unarmed"),  8) >
         // dice(p->dex_cur + p->skillLevel("melee"),   10))
         if (tec.disarms && !t.has_weapon()) continue;
-
-        // don't allow techniques that would use more power than we have
-        if (tec.power_cost > 0 && power_level < tec.power_cost) continue;
-
+        
         // ignore aoe tecs for a bit
         if (tec.aoe.length() > 0) continue;
 
@@ -811,28 +808,6 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
 {
     std::string target = t.disp_name();
     
-    if (technique.attack_as_weapon != "") {
-        bash_dam = 0; //reset damage
-        cut_dam = 0;
-        stab_dam = 0;
-
-        if (itypes[technique.attack_as_weapon]->is_gun())
-        {
-            item tmp_item = weapon;
-            weapon = item(itypes[technique.attack_as_weapon], 0);
-            fire_gun(t.xpos(), t.ypos(), false);
-            weapon = tmp_item;
-        }
-        else {
-            item tmp_item = weapon;
-            weapon = item(itypes[technique.attack_as_weapon], 0);
-            bash_dam += roll_bash_damage(technique.crit_tec);
-            cut_dam += roll_cut_damage(technique.crit_tec);
-            stab_dam += roll_stab_damage(technique.crit_tec); 
-            weapon = tmp_item;
-        }
-    }
-
     bash_dam += technique.bash;
     if (cut_dam > stab_dam) { // cut affects stab damage too since only one of cut/stab is used
         cut_dam += technique.cut;
@@ -874,9 +849,6 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
         t.pain += rng(technique.pain/2, technique.pain);
     }
 
-    if (technique.power_cost > 0)
-        power_level -= technique.power_cost;
-
     /* TODO: put all this in when disease/effects merging is done
     if (technique.disarms) {
         g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
@@ -914,6 +886,14 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
         }
         }
         g->add_msg_if_player(&t, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
+    }
+
+    //player has a very small chance, based on their intelligence, to learn a style whilst using the cqb bionic
+    if (has_active_bionic("bio_cqb") && !has_martialart(style_selected)){
+        if (one_in(1400 - (get_int() * 50))) {
+            ma_styles.push_back(style_selected);
+            g->add_msg(_("You have learnt %s from extensive practice with the CQB Bionic."), martialarts[style_selected].name.c_str());
+        }
     }
 }
 

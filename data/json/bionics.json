@@ -395,7 +395,7 @@
     "name"       :    "Close Quarters Battle",
     "active"     :    true,
     "cost"       :    1,
-    "time"       :    15,
+    "time"       :    20,
     "description":    "Bionic processors and databanks, loaded with martial arts combat programs, are integrated into your nervous system. Whilst active, the CQB module will improve your hand to hand combat skills."
     },{
         "type" : "bionic",

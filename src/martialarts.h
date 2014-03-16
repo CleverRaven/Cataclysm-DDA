@@ -24,7 +24,6 @@ struct ma_requirements {
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
     std::set<std::string> req_flags; // any item flags required for this technique
-    std::set<bionic_id> req_bionics; // any bionics required for this technique
 
     bool active_bionic;
 
@@ -72,9 +71,6 @@ class ma_technique {
     int knockback_dist;
     float knockback_spread; // adding randomness to knockback, like tec_throw
     std::string aoe; // corresponds to an aoe shape, defaults to just the target
-    int power_cost;
-
-    itype_id attack_as_weapon; // instead of the usual weapon, attack as this instead
 
     // offensive
     bool disarms; // like tec_disarm
@@ -240,6 +236,8 @@ class martialart {
     std::string description;
     int arm_block;
     int leg_block;
+    bool arm_block_with_bio_armor_arms;
+    bool leg_block_with_bio_armor_legs;
     std::set<matec_id> techniques; // all available techniques
     std::set<itype_id> weapons; // all style weapons
     std::vector<ma_buff> static_buffs; // all buffs triggered by each condition

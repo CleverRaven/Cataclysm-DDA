@@ -235,6 +235,7 @@ public:
  void ma_ongethit_effects(); // fires all get hit-triggered martial arts events
 
  bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
+ bool has_martialart(const matype_id &ma_id) const; // checks if a player has any martial arts buffs attached
 
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
  int mabuff_dodge_bonus(); // martial arts dodge bonus

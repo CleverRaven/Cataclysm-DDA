@@ -2234,11 +2234,22 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
        text_color = c_red;
    }
 
+   int level_num = (int)level;
+   int exercise = level.exercise();
+
+   if (has_active_bionic("bio_cqb") && 
+        ((*aSkill)->ident() == "melee" || (*aSkill)->ident() == "unarmed" ||
+         (*aSkill)->ident() == "cutting" || (*aSkill)->ident() == "bashing" ||
+         (*aSkill)->ident() == "stabbing")) {
+    level_num = 5;
+    exercise = 0;
+    text_color = c_yellow;
+   }
    if (line < skill_win_size_y + 1)
    {
      mvwprintz(w_skills, line, 1, text_color, "%s:", (*aSkill)->name().c_str());
-     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", (int)level,
-               (level.exercise() <  0 ? 0 : level.exercise()));
+     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", level_num,
+               (exercise <  0 ? 0 : exercise));
      line++;
    }
  }
@@ -7632,7 +7643,7 @@ void player::pick_style() // Style selection menu
         if (martialarts.find("style_muay_thai") != martialarts.end())
             kmenu.addentry( 3, true, -1, martialarts["style_muay_thai"].name );
         if (martialarts.find("style_biojutsu") != martialarts.end())
-            kmenu.addentry( 3, true, -1, martialarts["style_biojutsu"].name );
+            kmenu.addentry( 4, true, -1, martialarts["style_biojutsu"].name );
 
         kmenu.query();
         int selection = kmenu.ret;
