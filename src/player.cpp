@@ -3460,7 +3460,7 @@ void player::add_bionic(bionic_id b)
    return; // No duplicates!
  }
  char newinv;
- if (my_bionics.size() == 0)
+ if (my_bionics.empty())
   newinv = 'a';
  else if (my_bionics.size() == 26)
   newinv = 'A';
@@ -6401,7 +6401,7 @@ std::list<item> player::use_amount(itype_id it, int quantity, bool use_container
  if (use_container && used_weapon_contents)
   remove_weapon();
 
- if (weapon.type->id == it && weapon.contents.size() == 0) {
+ if (weapon.type->id == it && weapon.contents.empty()) {
   quantity--;
   ret.push_back(remove_weapon());
  }
@@ -8628,7 +8628,7 @@ hint_rating player::rate_action_unload(item *it) {
       (has_shotgun2 == -1 || it->contents[has_shotgun2].charges <= 0) &&
       (has_shotgun3 == -1 || it->contents[has_shotgun3].charges <= 0) &&
       (has_auxflamer == -1 || it->contents[has_auxflamer].charges <= 0) )) {
-  if (it->contents.size() == 0) {
+  if (it->contents.empty()) {
    return HINT_IFFY;
   }
  }
@@ -8655,7 +8655,7 @@ hint_rating player::rate_action_disassemble(item *it) {
                 for (int j = 0; j < cur_recipe->tools.size(); j++)
                 {
                     bool have_tool = false;
-                    if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
+                    if (cur_recipe->tools[j].empty()) // no tools required, may change this
                     {
                         have_tool = true;
                     }
@@ -9233,7 +9233,7 @@ std::string player::is_snuggling()
     int ticker = 0;
 
     // If there are no items on the floor, return nothing
-    if ( floor_item.size() == 0 ) {
+    if ( floor_item.empty() ) {
         return "nothing";
     }
 

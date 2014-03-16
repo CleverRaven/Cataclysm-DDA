@@ -1284,9 +1284,9 @@ void vehicle::part_removal_cleanup() {
         }
     }
     removed_part_count = 0;
-    if (changed || parts.size() == 0) {
+    if (changed || parts.empty()) {
         refresh();
-        if(parts.size() == 0) {
+        if(parts.empty()) {
             g->m.destroy_vehicle(this);
         } else {
             g->m.update_vehicle_cache(this, false);
@@ -2207,7 +2207,7 @@ bool vehicle::valid_wheel_config ()
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
-    if(wheel_indices.size() == 0) {
+    if(wheel_indices.empty()) {
         //No wheels!
         return false;
     } else if(wheel_indices.size() == 1) {

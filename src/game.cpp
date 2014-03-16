@@ -4451,7 +4451,7 @@ faction* game::list_factions(std::string title)
   if (factions[i].known_by_u)
    valfac.push_back(factions[i]);
  }
- if (valfac.size() == 0) { // We don't know of any factions!
+ if (valfac.empty()) { // We don't know of any factions!
   popup(_("You don't know of any factions.  Press Spacebar..."));
   return NULL;
  }
@@ -7150,7 +7150,7 @@ void game::close(int closex, int closey)
         }
     } else if (closex == u.posx && closey == u.posy) {
         add_msg(_("There's some buffoon in the way!"));
-    } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.size() == 0 ) {
+    } else if (m.has_furn(closex, closey) && m.furn_at(closex, closey).close.empty() ) {
         add_msg(_("There's a %s in the way!"), m.furnname(closex, closey).c_str());
     } else if (!m.close_door(closex, closey, inside, true)) {
         // ^^ That checks if the PC could close something there, it
@@ -7924,7 +7924,7 @@ void game::examine(int examx, int examy)
    if (none) add_msg(_("The %s is firmly sealed."), m.name(examx, examy).c_str());
  } else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
-  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag("CONTAINER", examx, examy) && none)
+  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).empty() && m.has_flag("CONTAINER", examx, examy) && none)
    add_msg(_("It is empty."));
   else
    if (!veh)pickup(examx, examy, 0);
@@ -8741,7 +8741,7 @@ int game::list_items(const int iLastState)
                 break;
             }
 
-            if (ground_items.size() == 0 && iLastState == 1) {
+            if (ground_items.empty() && iLastState == 1) {
                 mvwprintz(w_items, 10, 2, c_white, _("You dont see any items around you!"));
             } else {
                 //Draw Scrollbar
@@ -9015,7 +9015,7 @@ int game::list_monsters(const int iLastState)
                 break;
             }
 
-            if (vMonsters.size() == 0 && iLastState == 1) {
+            if (vMonsters.empty() && iLastState == 1) {
                 mvwprintz(w_monsters, 10, 2, c_white, _("You dont see any monsters around you!"));
             } else {
                 //Draw Scrollbar
@@ -9334,7 +9334,7 @@ void game::pickup(int posx, int posy, int min)
     }
 
     if (!from_veh) {
-        bool isEmpty = (m.i_at(posx, posy).size() == 0);
+        bool isEmpty = (m.i_at(posx, posy).empty());
 
         // Hide the pickup window if this is a toilet and there's nothing here
         // but water.
@@ -10544,7 +10544,7 @@ void game::plthrow(int pos)
 
     // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
     std::vector <point> trajectory = pl_target_ui(x, y, range, &thrown);
- if (trajectory.size() == 0)
+ if (trajectory.empty())
   return;
 
  // Throw a single charge of a stacking object.
@@ -10636,7 +10636,7 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                                             u.posx + range, u.posy + range,
                                             mon_targets, passtarget, relevant);
 
-    if (trajectory.size() == 0) {
+    if (trajectory.empty()) {
         return trajectory;
     }
     if (passtarget != -1) { // We picked a real live target
@@ -10763,7 +10763,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  std::vector<point> trajectory = pl_target_ui(x, y, range, &u.weapon, default_target_x, default_target_y);
 
  draw_ter(); // Recenter our view
- if (trajectory.size() == 0) {
+ if (trajectory.empty()) {
   if(u.weapon.has_flag("RELOAD_AND_SHOOT"))
   {
       u.moves += u.weapon.reload_time(u);
@@ -10794,7 +10794,7 @@ void game::butcher()
   if (m.i_at(u.posx, u.posy)[i].type->id == "corpse")
    corpses.push_back(i);
  }
- if (corpses.size() == 0) {
+ if (corpses.empty()) {
   add_msg(_("There are no corpses here to butcher."));
   return;
  }
@@ -11310,7 +11310,7 @@ void game::unload(int pos)
 
 void game::unload(item& it)
 {
-    if ( !it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL"))
+    if ( !it.is_gun() && it.contents.empty() && (!it.is_tool() || it.ammo_type() == "NULL"))
     {
         add_msg(_("You can't unload a %s!"), it.tname().c_str());
         return;
@@ -11341,7 +11341,7 @@ void game::unload(item& it)
          (has_shotgun3 == -1 || it.contents[has_shotgun3].charges <= 0) &&
          (has_auxflamer == -1 || it.contents[has_auxflamer].charges <= 0) ))
     {
-        if (it.contents.size() == 0)
+        if (it.contents.empty())
         {
             if (it.is_gun())
             {
@@ -11529,7 +11529,7 @@ void game::chat()
         return;
     }
 
-    if (active_npc.size() == 0)
+    if (active_npc.empty())
     {
         add_msg(_("You talk to yourself for a moment."));
         return;
@@ -11544,7 +11544,7 @@ void game::chat()
         }
     }
 
-    if (available.size() == 0) {
+    if (available.empty()) {
         add_msg(_("There's no-one close enough to talk to."));
         return;
     }
@@ -13331,8 +13331,8 @@ int game::valid_group(std::string type, int x, int y, int z_coord)
             }
         }
     }
-    if (valid_groups.size() == 0) {
-        if (semi_valid.size() == 0) {
+    if (valid_groups.empty()) {
+        if (semi_valid.empty()) {
             return -1;
         }
         else {

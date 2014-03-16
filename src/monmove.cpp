@@ -394,7 +394,7 @@ void monster::move()
     }
 
     // If we're close to our target, we get focused and don't stumble
-    if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.size() == 0)) ||
+    if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.empty())) ||
           !moved) {
         stumble(moved);
     }
@@ -891,7 +891,7 @@ void monster::stumble(bool moved)
    }
   }
  }
- if (valid_stumbles.size() == 0) //nowhere to stumble?
+ if (valid_stumbles.empty()) //nowhere to stumble?
  {
      return;
  }
@@ -1017,7 +1017,7 @@ bool monster::will_reach(int x, int y)
   return false;
 
  std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
- if (path.size() == 0)
+ if (path.empty())
    return false;
 
  if (has_flag(MF_SMELLS) && g->scent(posx(), posy()) > 0 &&
@@ -1038,7 +1038,7 @@ bool monster::will_reach(int x, int y)
 int monster::turns_to_reach(int x, int y)
 {
  std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
- if (path.size() == 0)
+ if (path.empty())
   return 999;
 
  double turns = 0.;

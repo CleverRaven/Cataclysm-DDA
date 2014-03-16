@@ -1486,7 +1486,7 @@ item consume_vpart_item (std::string vpid)
     }
 
     // bug?
-    if(candidates.size() == 0) {
+    if(candidates.empty()) {
         debugmsg("Part not found!");
         return item();
     }

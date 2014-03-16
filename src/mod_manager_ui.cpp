@@ -81,7 +81,7 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     }
     std::vector<std::string> dependencies = mod->dependencies;
     std::string dependency_string = "";
-    if (dependencies.size() == 0) {
+    if (dependencies.empty()) {
         dependency_string = _("[NONE]");
     } else {
         DebugLog() << mod->name << " Dependencies --";

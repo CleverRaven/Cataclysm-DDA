@@ -558,7 +558,7 @@ bool game::opening_screen()
                 wrefresh(w_open);
                 refresh();
                 input = get_input();
-                if (savegames.size() == 0 && (input == DirectionS || input == Confirm)) {
+                if (savegames.empty() && (input == DirectionS || input == Confirm)) {
                     layer = 2;
                 } else if (input == DirectionS) {
                     if (sel3 > 0) {
@@ -654,7 +654,7 @@ bool game::opening_screen()
                                 // clear out everything but worldoptions from this world
                                 world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.clear();
                             }
-                            if (world_generator->all_worldnames.size() == 0) {
+                            if (world_generator->all_worldnames.empty()) {
                                 sel2 = 0; // reset to create world selection
                             }
                         } else {
@@ -665,7 +665,7 @@ bool game::opening_screen()
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 }
             } else { // Character Templates
-                if (templates.size() == 0) {
+                if (templates.empty()) {
                     mvwprintz(w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                               c_red, _("No templates found!"));
                 } else {
@@ -684,7 +684,7 @@ bool game::opening_screen()
                     } else {
                         sel3 = templates.size() - 1;
                     }
-                } else if (templates.size() == 0 && (input == DirectionN || input == Confirm)) {
+                } else if (templates.empty() && (input == DirectionN || input == Confirm)) {
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
@@ -694,7 +694,7 @@ bool game::opening_screen()
                     } else {
                         sel3 = 0;
                     }
-                } else if (input == DirectionW  || input == Cancel || templates.size() == 0) {
+                } else if (input == DirectionW  || input == Cancel || templates.empty()) {
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);

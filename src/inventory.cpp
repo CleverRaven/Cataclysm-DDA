@@ -1028,7 +1028,7 @@ long inventory::charges_of(itype_id it) const
              stack_iter != iter->end(); ++stack_iter) {
             if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
                 // If we're specifically looking for a container, only say we have it if it's empty.
-                if( stack_iter->contents.size() == 0 ) {
+                if( stack_iter->contents.empty() ) {
                     if (stack_iter->charges < 0) {
                         count++;
                     } else {
@@ -1078,7 +1078,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 } else {
                     continue;
                 }
-            } else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.size() == 0) {
+            } else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.empty()) {
                 ret.push_back(*stack_iter);
                 quantity--;
                 stack_iter = iter->erase(stack_iter);

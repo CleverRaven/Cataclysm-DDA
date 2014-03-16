@@ -1382,7 +1382,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
             std::set<std::string> current_traits = u->get_traits();
-            if (current_traits.size() == 0) {
+            if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
                 for (std::set<std::string>::iterator i = current_traits.begin();
@@ -1476,7 +1476,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                        !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
                 redraw = true;
                 continue;
-            } else if (u->name.size() == 0) {
+            } else if (u->name.empty()) {
                 mvwprintz(w_name, 0, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!______"));
                 wrefresh(w_name);
                 if (!query_yn(_("Are you SURE you're finished? Your name will be randomly generated."))) {

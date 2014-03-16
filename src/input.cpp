@@ -448,7 +448,7 @@ const std::string input_context::get_desc(const std::string &action_descriptor)
 
     const std::vector<input_event> &events = inp_mngr.get_input_for_action(action_descriptor, category);
 
-    if(events.size() == 0) {
+    if(events.empty()) {
         return UNDEFINED;
     }
 

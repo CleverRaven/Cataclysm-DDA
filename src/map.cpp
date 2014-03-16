@@ -2834,7 +2834,7 @@ std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id
     if (use_container && used_contents) {
       vec.erase(vec.begin() + n);
       n--;
-    } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
+    } else if (curit->type->id == type && quantity > 0 && curit->contents.empty()) {
       ret.push_back(*curit);
       quantity--;
       vec.erase(vec.begin() + n);

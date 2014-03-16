@@ -1924,7 +1924,7 @@ void npc::look_for_player(player &sought)
     possibilities.push_back(point(x, y));
   }
  }
- if (possibilities.size() == 0) { // We see all the spots we'd like to check!
+ if (possibilities.empty()) { // We see all the spots we'd like to check!
   say("<wait>");
   move_pause();
  } else {

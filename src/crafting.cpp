@@ -779,7 +779,7 @@ recipe *game::select_crafting_recipe()
             }
             if(display_mode == 0 || display_mode == 1) {
                 mvwprintz(w_data, ypos++, 30, col, _("Tools required:"));
-                if (current[line]->tools.size() == 0 && current[line]->qualities.size() == 0) {
+                if (current[line]->tools.empty() && current[line]->qualities.empty()) {
                     mvwputch(w_data, ypos, 30, col, '>');
                     mvwprintz(w_data, ypos, 32, c_green, _("NONE"));
                 } else {
@@ -1718,7 +1718,7 @@ void game::disassemble(int pos)
                 inventory crafting_inv = crafting_inventory(&u);
                 bool have_all_tools = true;
                 for (unsigned j = 0; j < cur_recipe->tools.size(); j++) {
-                    if (cur_recipe->tools[j].size() == 0) { // no tools required, may change this
+                    if (cur_recipe->tools[j].empty()) { // no tools required, may change this
                         continue;
                     }
                     bool have_this_tool = false;

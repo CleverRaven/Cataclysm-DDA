@@ -577,7 +577,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     for(int h = 0; h < hist->size(); h++) {
                         hmenu.addentry(h, true, -2, (*hist)[h].c_str());
                     }
-                    if ( ret.size() > 0 && ( hmenu.entries.size() == 0 ||
+                    if ( ret.size() > 0 && ( hmenu.entries.empty() ||
                                              hmenu.entries[hist->size() - 1].txt != ret ) ) {
                         hmenu.addentry(hist->size(), true, -2, ret);
                         hmenu.selected = hist->size();

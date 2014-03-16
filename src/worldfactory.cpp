@@ -537,7 +537,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                         if (selpage >= world_pages.size()) {
                             selpage = 0;
                         }
-                    } while(world_pages[selpage].size() == 0);
+                    } while(world_pages[selpage].empty());
 
                     break;
                 case '<':
@@ -548,7 +548,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                         } else {
                             selpage = world_pages.size() - 1;
                         }
-                    } while(world_pages[selpage].size() == 0);
+                    } while(world_pages[selpage].empty());
                     break;
                 case '\n':
                     // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
@@ -607,7 +607,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     mapLines[3] = true;
     mapLines[60] = true;
     // only populate once
-    if (world->world_options.size() == 0) {
+    if (world->world_options.empty()) {
         for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
             if (it->second.getPage() == "world_default") {
                 world->world_options[it->first] = it->second;
@@ -1016,13 +1016,13 @@ Press 's' for saving list of active mods (mods listed in right part of the scree
             }
             redraw_description = true;
         }
-        if (active_mod_order.size() == 0) {
+        if (active_mod_order.empty()) {
             redraw_active = true;
             cursel[1] = -1;
         }
 
         if (active_header == 1) {
-            if (active_mod_order.size() == 0) {
+            if (active_mod_order.empty()) {
                 cursel[1] = -1;
             } else {
                 if (cursel[1] < 0) {
@@ -1094,7 +1094,7 @@ to continue, or <color_yellow><</color> to go back and review your world."));
         }
 
         if (ch == '>' || ch == '\t') {
-            if (worldname.size() == 0) {
+            if (worldname.empty()) {
                 mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
                 noname = true;
                 wrefresh(w_confirmation);

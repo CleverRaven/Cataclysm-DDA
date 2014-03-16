@@ -422,7 +422,7 @@ std::map<std::string, mtype*> MonsterGenerator::get_all_mtypes() const
 std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 {
     static std::vector<std::string> hold;
-    if (hold.size() == 0){
+    if (hold.empty()){
         for (std::map<std::string, mtype*>::const_iterator mon = mon_templates.begin(); mon != mon_templates.end(); ++mon){
             hold.push_back(mon->first);
         }
@@ -434,7 +434,7 @@ std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 mtype *MonsterGenerator::get_valid_hallucination()
 {
     static std::vector<mtype*> potentials;
-    if (potentials.size() == 0){
+    if (potentials.empty()){
         for (std::map<std::string, mtype*>::iterator mon = mon_templates.begin(); mon != mon_templates.end(); ++mon){
             if (mon->first != "mon_null" && mon->first != "mon_generator"){
                 potentials.push_back(mon->second);
@@ -456,7 +456,7 @@ std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(Js
         deaths.push_back(death_map[*it]);
     }
 
-    if (deaths.size() == 0)
+    if (deaths.empty())
         deaths.push_back(death_map["NORMAL"]);
     return deaths;
 }
@@ -496,7 +496,7 @@ std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags, std:
             }
         }
     }
-    if (ret.size() == 0){
+    if (ret.empty()){
         ret.insert(fallback);
     }
 

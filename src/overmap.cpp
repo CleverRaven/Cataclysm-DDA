@@ -1058,7 +1058,7 @@ void overmap::generate(overmap* north, overmap* east, overmap* south,
    if (north->ter(i,     OMAPY - 1, 0) == river_center &&
        north->ter(i - 1, OMAPY - 1, 0) == river_center &&
        north->ter(i + 1, OMAPY - 1, 0) == river_center) {
-    if (river_start.size() == 0 ||
+    if (river_start.empty() ||
         river_start[river_start.size() - 1].x < i - 6)
      river_start.push_back(point(i, 0));
    }
@@ -1093,7 +1093,7 @@ void overmap::generate(overmap* north, overmap* east, overmap* south,
    if (south->ter(i,     0, 0) == river_center &&
        south->ter(i - 1, 0, 0) == river_center &&
        south->ter(i + 1, 0, 0) == river_center) {
-    if (river_end.size() == 0 ||
+    if (river_end.empty() ||
         river_end[river_end.size() - 1].x < i - 6)
      river_end.push_back(point(i, OMAPY - 1));
    }
@@ -1971,7 +1971,7 @@ point overmap::draw_overmap(const tripoint& orig)
             // it would contain way to many entries
             overmap &om = overmap_buffer.get_om_global(point(curs.x, curs.y));
             terlist = om.find_terrain(term, curs.z);
-            if (terlist.size() == 0) {
+            if (terlist.empty()) {
                 continue;
             }
             int i = 0;
@@ -2031,7 +2031,7 @@ void overmap::first_house(int &x, int &y)
             }
         }
     }
-    if (valid.size() == 0) {
+    if (valid.empty()) {
         debugmsg("Couldn't find a shelter!");
         x = 1;
         y = 1;

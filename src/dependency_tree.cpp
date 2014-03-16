@@ -41,7 +41,7 @@ void dependency_node::add_child(dependency_node *child)
 
 bool dependency_node::is_available()
 {
-    return all_errors.size() == 0;
+    return all_errors.empty();
 }
 
 std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors()
@@ -79,7 +79,7 @@ void dependency_node::check_cyclicity()
         nodes_to_check.pop();
 
         if (nodes_visited.find(check->key) != nodes_visited.end()) {
-            if (all_errors[CYCLIC].size() == 0) {
+            if (all_errors[CYCLIC].empty()) {
                 all_errors[CYCLIC].push_back("Error: Circular Dependency Circuit Found!");
             }
             continue;
