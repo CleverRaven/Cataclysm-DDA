@@ -2054,75 +2054,60 @@ void overmap::process_mongroups()
 
 void mongroup::wander()
 {
-  tx += rng(-10,10);
-  ty += rng(-10,10);
-  interest = 30;
+    // TODO: More interesting stuff possible, like looking for nearby shelter.
+    // What a monster thinks of as shelter is another matter...
+    tx += rng( -10, 10 );
+    ty += rng( -10, 10 );
+    interest = 30;
 }
 
 void overmap::move_hordes()
 {
     //MOVE ZOMBIE GROUPS
-    //debug:
-    //erase(); int line=0;
+    for( size_t i = 0; i < zg.size(); i++ ) {
+        if( zg[i].horde && rng(0,100) < zg[i].interest ) {
+            // TODO: Adjust for monster speed.
+            // TODO: Handle moving to adjacent overmaps.
+            if( zg[i].posx > zg[i].tx) {zg[i].posx--;}
+            if( zg[i].posx < zg[i].tx) {zg[i].posx++;}
+            if( zg[i].posy > zg[i].ty) {zg[i].posy--;}
+            if( zg[i].posy < zg[i].ty) {zg[i].posy++;}
 
-  for (int i = 0; i < zg.size(); i++) {
-    if (zg[i].horde && rng(0,100) < zg[i].interest)
-    {
-      if (zg[i].posx > zg[i].tx) {zg[i].posx--;}
-      if (zg[i].posx < zg[i].tx) {zg[i].posx++;}
-      if (zg[i].posy > zg[i].ty) {zg[i].posy--;}
-      if (zg[i].posy < zg[i].ty) {zg[i].posy++;}
-
-      if (zg[i].posx == zg[i].tx && zg[i].posy == zg[i].ty) zg[i].wander();
-      //debug:
-      //mvprintw(line++, 0, "zg #%d move to %d:%d", i, zg[i].posx, zg[i].posy);
+            if( zg[i].posx == zg[i].tx && zg[i].posy == zg[i].ty ) {
+                zg[i].wander();
+            } else {
+                zg[i].dec_interest( 1 );
+            }
+        }
     }
-  }
-  //debug:
-  //getch();
-
 }
+
 /**
 * @param sig_power - power of signal or max distantion for reaction of zombies
 */
-void overmap::signal_hordes(int x, int y, int sig_power)
+void overmap::signal_hordes( const int x, const int y, const int sig_power)
 {
-  int dist,targ_dist,d_inter;
-  for (int i = 0; i < zg.size(); i++)
-  {
-    if (zg[i].horde)
-    {
-      dist = trig_dist(x, y, zg[i].posx, zg[i].posy);
-      targ_dist = trig_dist(x, y, zg[i].tx, zg[i].ty);
-      if (sig_power <= dist) {continue;}
-      //debug
-      //erase(); int line=0;
-      //mvprintw(line++, 0, "Horde #%d receive signal. Power: %d ;souce: %d:%d ;distance:%d",
-      //         i,sig_power,x,y,dist);
-      d_inter=(sig_power - dist) *5;
-      int roll=rng(0,zg[i].interest);
-      //mvprintw(line++, 0, "Roll 0,%d: %d < %d",zg[i].interest, roll, d_inter);
-      if (roll < d_inter)
-        {
-          //mvprintw(line++, 0, "Roll!");
-          if (targ_dist < 5)
-            {
-              zg[i].set_target((zg[i].tx + x)/2, (zg[i].ty + y)/2) ;
-              zg[i].inc_interest(d_inter);
-              //mvprintw(line++, 0, "Near target");
+    // TODO: Signal adjacent overmaps too. (the 3 nearest ones)
+    for( size_t i = 0; i < zg.size(); i++ ) {
+        if( zg[i].horde ) {
+            const int dist = rl_dist( x, y, zg[i].posx, zg[i].posy );
+            if( sig_power <= dist ) { continue; }
+            // TODO: base this in monster attributes, foremost GOODHEARING.
+            const int d_inter = (sig_power - dist) * 5;
+            const int roll = rng( 0, zg[i].interest );
+            if( roll < d_inter ) {
+                const int targ_dist = rl_dist( x, y, zg[i].tx, zg[i].ty );
+                // TODO: Base this on targ_dist:dist ratio.
+                if (targ_dist < 5) {
+                    zg[i].set_target( (zg[i].tx + x) / 2, (zg[i].ty + y) / 2 );
+                    zg[i].inc_interest( d_inter );
+                } else {
+                    zg[i].set_target( x, y );
+                    zg[i].set_interest( d_inter );
+                }
             }
-            else
-            {
-              zg[i].set_target(x, y);
-              zg[i].set_interest(d_inter);
-              //mvprintw(line++, 0, "Far target");
-            }
-          //mvprintw(line++, 0, "Hodre target:%d:%d; inter:%d",
-          //         zg[i].tx,zg[i].ty,zg[i].interest);
         }
-
     }
-  }
 }
 
 void grow_forest_oter_id(oter_id & oid, bool swampy)
@@ -3497,21 +3482,22 @@ void overmap::place_special(overmap_special special, tripoint p)
 
 void overmap::place_mongroups()
 {
- //if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"]) {
-  // Cities are full of zombies
-  for (unsigned int i = 0; i < cities.size(); i++) {
-   if (!one_in(16) || cities[i].s > 5 )
-     if (ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"])
-        zg.push_back (mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
-                               int(cities[i].s * 2.5), cities[i].s * 80));
-        zg.back().set_target(zg.back().posx,zg.back().posy);
-        zg.back().horde=true;
+    // Cities are full of zombies
+    for( size_t i = 0; i < cities.size(); i++ ) {
+        if( !one_in(16) || cities[i].s > 5 ) {
+            if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
+                zg.push_back (mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
+                                       int(cities[i].s * 2.5), cities[i].s * 80));
+            }
+        }
+        zg.back().set_target( zg.back().posx, zg.back().posy );
+        zg.back().horde = true;
         zg.back().wander();
-     if (!ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"])
-        zg.push_back (mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
-                           int(cities[i].s * 2.5), cities[i].s * 80));
-  }
- //}
+        if( !ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] ) {
+            zg.push_back( mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
+                                   int(cities[i].s * 2.5), cities[i].s * 80) );
+        }
+    }
 
  if (!ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
   // Figure out where swamps are, and place swamp monsters
