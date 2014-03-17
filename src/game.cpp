@@ -4845,10 +4845,10 @@ void game::draw_ter(int posx, int posy)
             POSX + (final_destination.x - (u.posx + u.view_offset_x)), c_white, 'X');
     }
 
-    wrefresh(w_terrain);
     if(u.controlling_vehicle) {
       draw_veh_dir_indicator();
     }
+    wrefresh(w_terrain);
 
     if (u.has_disease("visuals") || (u.has_disease("hot_head") &&
             u.disease_intensity("hot_head") != 1)) {
@@ -4860,7 +4860,7 @@ void game::draw_veh_dir_indicator(void) {
   if(OPTIONS["VEHICLE_DIR_INDICATOR"]) {
     vehicle *veh = m.veh_at(u.posx, u.posy);
     if(!veh) {
-      // Can happen when car crashes or player teleports (debug menu)
+      debugmsg("game::draw_veh_dir_indicator: no vehicle!");
       return;
     }
     rl_vec2d face = veh->face_vec();

@@ -329,12 +329,6 @@ public:
 // check if certain part can be unmounted
     bool can_unmount (int p);
 
-    // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
-    rl_vec2d velo_vec();
-    //normalized vectors, from tilerays face & move
-    rl_vec2d face_vec();
-    rl_vec2d move_vec();
-
 // install a new part to vehicle (force to skip possibility check)
     int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
 
@@ -599,6 +593,12 @@ public:
 
     // upgrades/refilling/etc. see veh_interact.cpp
     void interact ();
+
+    // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
+    rl_vec2d velo_vec();
+    //normalized vectors, from tilerays face & move
+    rl_vec2d face_vec();
+    rl_vec2d move_vec();
 
     // cached values, should in theory be correct, only recalculated occasionally in refresh()
     bool has_environmental_effects; // True if it has bloody or smoking parts, set in do_environmental_effects()
