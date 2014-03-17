@@ -2274,8 +2274,8 @@
     {
         "type":"GENERIC",
         "id" : "poppy_bud",
-        "name" : "a poppy bud",
-        "description" : "Contains some substances commonly produced by mutated poppy flower",
+        "name" : "poppy bud",
+        "description" : "A poppy bud. Contains some substances commonly produced by a mutated poppy flower.",
         "weight" : 30,
         "to_hit" : -3,
         "color" : "red",
@@ -2304,8 +2304,8 @@
     {
         "type":"GENERIC",
         "id" : "bluebell_bud",
-        "name" : "a bluebell bud",
-        "description" : "Contains some substances commonly produced by a bluebell flower",
+        "name" : "bluebell bud",
+        "description" : "A bluebell bud. Contains some substances commonly produced by a bluebell flower.",
         "weight" : 30,
         "to_hit" : -3,
         "color" : "blue",
@@ -2334,8 +2334,8 @@
     {
         "type":"GENERIC",
         "id" : "dahlia_bud",
-        "name" : "a dahlia bud",
-        "description" : "Contains some substances commonly produced by a dahlia",
+        "name" : "dahlia bud",
+        "description" : "A dahlia bud. Contains some substances commonly produced by a dahlia.",
         "weight" : 30,
         "to_hit" : -3,
         "color" : "magenta",
@@ -2360,13 +2360,14 @@
         "bashing" : 8,
         "cutting" : 16,
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
-        "price" : 0
+        "price" : 0,
+        "qualities": [["CUT", 1]]
     },
     {
         "type":"GENERIC",
         "id" : "bio_blade_weapon",
         "name" : "monomolecular blade",
-        "description" : "A foot-long blade made from high tech alloy and edged with bonded nanocrystals.",
+        "description" : "A foot-long blade made from high-tech alloy and edged with bonded nanocrystals.",
         "weight" : 100,
         "to_hit" : 3,
         "color" : "dark_gray",
@@ -2377,7 +2378,8 @@
         "bashing" : 0,
         "cutting" : 36,
         "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
-        "price" : 0
+        "price" : 0,
+        "qualities": [["CUT", 1]]
     },
     {
         "type":"GENERIC",
@@ -2393,7 +2395,8 @@
         "bashing" : 2,
         "cutting" : 10,
         "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE"],
-        "price" : 10000
+        "price" : 10000,
+        "qualities": [["CUT", 1]]
     },
     {
         "type":"GENERIC",

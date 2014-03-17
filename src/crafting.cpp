@@ -914,6 +914,8 @@ recipe *game::select_crafting_recipe()
         int ch = (int)getch();
         if(ch == 'e' || ch == 'E') { // get_input is inflexible
             ch = (int)'?';
+        } else if(ch == '/') {
+            ch = 'F';
         } else if(ch == KEY_PPAGE) {
             ch = (int)'<';
         } else if(ch == KEY_NPAGE || ch == '\t' ) {
@@ -951,7 +953,7 @@ recipe *game::select_crafting_recipe()
             line--;
             break;
         case Confirm:
-            if (!available[line]) {
+            if (available.empty() || !available[line]) {
                 popup(_("You can't do that!"));
             } else {
                 // is player making a liquid? Then need to check for valid container
@@ -2005,4 +2007,21 @@ void remove_ammo(item *dis_item) {
             g->u.i_add_or_drop(ammodrop, 1);
         }
     }
+}
+
+std::string recipe::required_skills_string() {
+    std::ostringstream skills_as_stream;
+    if(!required_skills.empty()){
+        for(std::map<Skill*,int>::iterator iter=required_skills.begin(); iter!=required_skills.end();){
+            skills_as_stream << iter->first->name() << "(" << iter->second << ")";
+            ++iter;
+            if(iter != required_skills.end()){
+                skills_as_stream << ", ";
+            }
+        }
+    }
+    else{
+        skills_as_stream << "N/A";
+    }
+    return skills_as_stream.str();
 }

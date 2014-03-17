@@ -8031,6 +8031,10 @@ int iuse::misc_repair(player *p, item *it, bool)
                 g->add_msg_if_player(p,_("That isn't made of wood, bone, or chitin!"));
                 return 0;
             }
+            if (fix->damage == -1) {
+                g->add_msg_if_player(p,_("You cannot improve your %s any more this way."), fix->tname().c_str());
+                return 0;
+            }
             if (fix->damage == 0) {
                 g->add_msg_if_player(p,_("You reinforce your %s."), fix->tname().c_str());
                 p->moves -= 1000 * p->fine_detail_vision_mod();

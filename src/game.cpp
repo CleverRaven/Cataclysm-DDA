@@ -74,11 +74,6 @@ extern worldfactory *world_generator;
 
 uistatedata uistate;
 
-#ifdef SDLTILES
-#include "cata_tiles.h"
-extern cata_tiles *tilecontext;
-#endif // SDLTILES
-
 // This is the main game set-up process.
 game::game() :
  uquit(QUIT_NO),
@@ -238,6 +233,14 @@ game::~game()
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
 
+#if (defined TILES)
+// defined in sdltiles.cpp
+void translate_terrain_window_size(int &w, int &h);
+#else
+// unchanged, nothing to be translated without tiles
+void translate_terrain_window_size(int &, int &) { }
+#endif
+
 void game::init_ui(){
     // clear the screen
     static bool first_init = true;
@@ -256,32 +259,10 @@ void game::init_ui(){
 
     int sidebarWidth = narrow_sidebar ? 45 : 55;
 
+    // First get TERMX, TERMY
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = get_terminal_width();
         TERMY = get_terminal_height();
-
-        #ifdef SDLTILES
-        if(OPTIONS["USE_TILES"]) {
-            VIEW_OFFSET_X = ((int)(TERMX/tilecontext->get_tile_ratiox()) - sidebarWidth > 121) ?
-                                (TERMX - sidebarWidth - 121)/2 * tilecontext->get_tile_ratiox() : 0;
-            VIEW_OFFSET_Y = ((int)(TERMY/tilecontext->get_tile_ratioy()) > 121) ? (TERMY - 121)/2 : 0;
-            TERRAIN_WINDOW_WIDTH  = ceil((TERMX - sidebarWidth)/tilecontext->get_tile_ratiox());
-            TERRAIN_WINDOW_HEIGHT = ceil(TERMY/tilecontext->get_tile_ratioy());
-            TERRAIN_WINDOW_TERM_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
-        }
-        else
-        #endif // SDLTILES
-        {
-            VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
-            VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
-            TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
-            TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
-            TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
-        }
-
-        POSX = TERRAIN_WINDOW_WIDTH / 2;
-        POSY = TERRAIN_WINDOW_HEIGHT / 2;
-
     #else
         getmaxyx(stdscr, TERMY, TERMX);
 
@@ -296,19 +277,24 @@ void game::init_ui(){
         // check if sidebar style needs to be overridden
         sidebarWidth = use_narrow_sidebar() ? 45 : 55;
         if(fullscreen) {
-          sidebarWidth = 0;
+            sidebarWidth = 0;
         }
-
-        TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > 121) ? 121 : TERMX - sidebarWidth;
-        TERRAIN_WINDOW_HEIGHT = (TERMY > 121) ? 121 : TERMY;
-        TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
-
-        VIEW_OFFSET_X = (TERMX - sidebarWidth > 121) ? (TERMX - sidebarWidth - 121)/2 : 0;
-        VIEW_OFFSET_Y = (TERMY > 121) ? (TERMY - 121)/2 : 0;
-
-        POSX = TERRAIN_WINDOW_WIDTH / 2;
-        POSY = TERRAIN_WINDOW_HEIGHT / 2;
     #endif
+    const int max_view_size = 121;
+    // Now get terrain window size in number of characters (colums/rows)
+    TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > max_view_size) ? max_view_size : TERMX - sidebarWidth;
+    TERRAIN_WINDOW_HEIGHT = (TERMY > max_view_size) ? max_view_size : TERMY;
+    TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
+
+    // Dimensions of terrain window is currently in colums/rows,
+    // but if the tileset is in use or if we use a different sized
+    // font for the terrain window this does not match.
+    translate_terrain_window_size(TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT);
+    VIEW_OFFSET_X = std::max(TERRAIN_WINDOW_WIDTH - max_view_size, 0) / 2;
+    VIEW_OFFSET_Y = std::max(TERRAIN_WINDOW_HEIGHT - max_view_size, 0) / 2;
+
+    POSX = TERRAIN_WINDOW_WIDTH / 2;
+    POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     // Set up the main UI windows.
     w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
@@ -846,7 +832,7 @@ bool game::do_turn()
         cur_om->process_mongroups();
     }
 
-    if (turn % 50 ==0) { //move hordes every 5 min
+    if (turn % 50 == 0) { //move hordes every 5 min
         cur_om->move_hordes();
     }
 
@@ -3942,7 +3928,7 @@ void game::debug()
                    _("Map editor"), // 17
                    _("Change weather"),         // 18
                    _("Remove all monsters"),    // 19
-                   _("Hordes debug"), //20
+                   _("Display hordes"), // 20
                    #ifdef LUA
                        _("Lua Command"), // 21
                    #endif
@@ -4107,6 +4093,7 @@ Current turn: %d; Next spawn %d.\n\
       u.ma_styles.push_back("style_toad");
       u.ma_styles.push_back("style_eskrima");
       u.ma_styles.push_back("style_fencing");
+      u.ma_styles.push_back("style_biojutsu");
       u.ma_styles.push_back("style_silat");
       add_msg(_("You now know a lot more than just 10 styles of kung fu."));
    break;
@@ -4333,11 +4320,11 @@ Current turn: %d; Next spawn %d.\n\
         cleanup_dead();
   }
   break;
-  case 20:
-    {
-        groupdebug();
-    }
-    break;
+  case 20: {
+      // display hordes on the map
+      overmap::draw_overmap(g->om_global_location(), true);
+  }
+  break;
 
   #ifdef LUA
       case 21: {
@@ -4353,37 +4340,17 @@ Current turn: %d; Next spawn %d.\n\
 
 void game::mondebug()
 {
- int tc;
- for (int i = 0; i < num_zombies(); i++) {
-  monster &critter = critter_tracker.find(i);
-  critter.debug(u);
-  if (critter.has_flag(MF_SEES) &&
-      m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc))
-   debugmsg("The %s can see you.", critter.name().c_str());
-  else
-   debugmsg("The %s can't see you...", critter.name().c_str());
- }
-}
-
-void game::groupdebug()
-{
- erase();
- mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx,
-                                           levy);
- int dist, linenum = 1;
- for (int i = 0; i < cur_om->zg.size(); i++) {
-  if (cur_om->zg[i].posz != levz) { continue; }
-  dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
-  //if (dist <= cur_om->zg[i].radius)
-  if (cur_om->zg[i].horde)
-  {
-   mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d, dist: %d, target: %d:%d, interest: %d",
-            i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
-            cur_om->zg[i].population,dist, cur_om->zg[i].tx, cur_om->zg[i].ty, cur_om->zg[i].interest);
-   linenum++;
-  }
- }
- getch();
+    int tc = 0;
+    for (int i = 0; i < num_zombies(); i++) {
+        monster &critter = critter_tracker.find(i);
+        critter.debug(u);
+        if (critter.has_flag(MF_SEES) &&
+            m.sees(critter.posx(), critter.posy(), u.posx, u.posy, -1, tc)) {
+            debugmsg("The %s can see you.", critter.name().c_str());
+        } else {
+            debugmsg("The %s can't see you...", critter.name().c_str());
+        }
+    }
 }
 
 void game::draw_overmap()
@@ -5922,11 +5889,10 @@ bool game::sound(int x, int y, int vol, std::string description)
 {
     // --- Monster sound handling here ---
     // Alert all hordes
-    if (vol>20 && levz==0)
-        {
-            int sig_power= (vol>140 ? 140 : vol) - 20;
-            cur_om->signal_hordes(levx, levy, sig_power);
-        }
+    if( vol > 20 && levz == 0 ) {
+        int sig_power = ((vol > 140) ? 140 : vol) - 20;
+        cur_om->signal_hordes( levx + (MAPSIZE / 2), levy + (MAPSIZE / 2), sig_power );
+    }
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &critter = critter_tracker.find(i);
@@ -7276,16 +7242,7 @@ void game::smash()
         }
         sound(smashx, smashy, 18, bashsound);
         u.handle_melee_wear();
-        // TODO: Move this elsewhere, like maybe into the map on-break code
-        if (m.has_flag("ALARMED", smashx, smashy) &&
-            !event_queued(EVENT_WANTED))
-        {
-            sound(smashx, smashy, 40, _("An alarm sounds!"));
-            u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                               pgettext("memorial_female", "Set off an alarm."));
-            add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
-        }
-        u.moves -= move_cost;
+       u.moves -= move_cost;
         if (u.skillLevel("melee") == 0)
         {
             u.practice(turn, "melee", rng(0, 1) * rng(0, 1));
@@ -10804,20 +10761,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  if (u.weapon.mode == "MODE_BURST")
   burst = true;
 
-// Train up our skill
- it_gun* firing = dynamic_cast<it_gun*>(u.weapon.type);
- long num_shots = 1;
- if (burst)
-  num_shots = u.weapon.burst_size();
- if (num_shots > u.weapon.num_charges() && !u.weapon.has_flag("NO_AMMO"))
-   num_shots = u.weapon.num_charges();
- if (u.skillLevel(firing->skill_used) == 0 ||
-     (firing->ammo != "BB" && firing->ammo != "nail"))
-     u.practice(turn, firing->skill_used, 4 + (num_shots / 2));
- if (u.skillLevel("gun") == 0 ||
-     (firing->ammo != "BB" && firing->ammo != "nail"))
-     u.practice(turn, "gun", 5);
-
  u.fire_gun(x,y,burst);
  reenter_fullscreen();
  //fire(u, x, y, trajectory, burst);
@@ -11003,28 +10946,45 @@ void game::complete_butcher(int index)
   }
  }
 
- //Add a chance of CBM recovery. For shocker and cyborg corpses.
- if (corpse->has_flag(MF_CBM)) {
-  //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
-  if(skill_shift >= 0){
-   add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
-   //To see if it spawns a battery
-   if(rng(0,1) == 1){ //The battery works
-    m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
-   }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
-   }
-  }
-  if(skill_shift >= 0){
-   //To see if it spawns a random additional CBM
-   if(rng(0,1) == 1){ //The CBM works
-    Item_tag bionic_item = item_controller->id_from("bionics");
-    m.spawn_item(u.posx, u.posy, bionic_item, 1, 0, age);
-   }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", 1, 0, age);
-   }
-  }
- }
+    //Add a chance of CBM recovery. For shocker and cyborg corpses.
+    if( corpse->has_flag(MF_CBM) ) {
+        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+        if( skill_shift >= 0 ) {
+            add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
+            //To see if it spawns a battery
+            if( rng(0, 1) == 1 ) { //The battery works
+                m.spawn_item( u.posx, u.posy, "bio_power_storage", 1, 0, age );
+            } else { //There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+        if( skill_shift >= 0 ) {
+            //To see if it spawns a random additional CBM
+            if( rng(0, 1) == 1 ) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics");
+                m.spawn_item( u.posx, u.posy, bionic_item, 1, 0, age );
+            }else{//There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+    }
+
+    //Add a chance of CBM power storage recovery.
+    if( corpse->has_flag(MF_CBM_POWER) ) {
+        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+        if( skill_shift >= 0 ) {
+            //To see if it spawns a battery
+            if(one_in(3)){ //The battery works 33% of the time.
+                add_msg(_("You discover a power storage in the %s!"), corpse->name.c_str());
+                m.spawn_item(u.posx, u.posy, "bio_power_storage", 1, 0, age);
+            } else {//There is a burnt out CBM
+                add_msg(_("You discover a fused lump of bio-circuitry in the %s!"),
+                        corpse->name.c_str());
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+    }
+
 
  // Recover hidden items
  for (size_t i = 0; i < contents.size(); i++) {
@@ -13274,7 +13234,7 @@ void game::spawn_mon(int shiftx, int shifty)
  for (size_t i = 0; i < cur_om->zg.size(); i++) { // For each valid group...
   if (cur_om->zg[i].posz != levz) { continue; } // skip other levels - hack
   group = 0;
-  bool horde=cur_om->zg[i].horde;
+  bool horde = cur_om->zg[i].horde;
   if(cur_om->zg[i].diffuse)
    dist = square_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
   else
@@ -13282,25 +13242,24 @@ void game::spawn_mon(int shiftx, int shifty)
   pop = cur_om->zg[i].population;
   rad = cur_om->zg[i].radius;
   if (dist <= rad) {
-// (The area of the group's territory) in (population/square at this range)
-// chance of adding one monster; cap at the population OR 16
-   while ( (cur_om->zg[i].diffuse ?
-            long( pop) :
-            long((1.0 - double(dist / rad)) * pop) )
-          > rng(0, (rad * rad)) &&
-          rng(horde ? MAPSIZE*2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
-    group++;
-   //if (horde) g->add_msg("Spawn horde group: %d zombies",group);
-   cur_om->zg[i].population -= group;
-   // Reduce group radius proportionally to remaining
-   // population to maintain a minimal population density.
-   if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
-       !cur_om->zg[i].diffuse)
-     cur_om->zg[i].radius--;
+      // (The area of the group's territory) in (population/square at this range)
+      // chance of adding one monster; cap at the population OR 16
+      while ( (cur_om->zg[i].diffuse ? long( pop) :
+               long((1.0 - double(dist / rad)) * pop) ) > rng(0, (rad * rad)) &&
+              rng(horde ? MAPSIZE*2 : 0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
+          group++;
+      cur_om->zg[i].population -= group;
+      // Reduce group radius proportionally to remaining
+      // population to maintain a minimal population density.
+      if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
+          !cur_om->zg[i].diffuse) {
+          cur_om->zg[i].radius--;
+      }
 
-   if (group > 0 && !cur_om->zg[i].horde ) //{ // If we spawned some zombies, advance the timer (exept hordes)
-    nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
-    //g->add_msg("Next spawn:%d",nextspawn.get_turn());}
+      // If we spawned some zombies, advance the timer (exept hordes)
+      if (group > 0 && !cur_om->zg[i].horde ) {
+          nextspawn += rng(group * 4 + num_zombies() * 4, group * 10 + num_zombies() * 10);
+      }
 
    for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
      MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type,

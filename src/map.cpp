@@ -1500,7 +1500,15 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
         bash = &(ter_at(x,y).bash);
         jster = true;
     }
-
+    if (g->m.has_flag("ALARMED", x, y) &&
+        !g->event_queued(EVENT_WANTED))
+    {
+        g->sound(x, y, 40, _("An alarm sounds!"));
+        g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
+                           pgettext("memorial_female", "Set off an alarm."));
+       g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+    }
+ 
     if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
         bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
         if ( success == true ) {
@@ -2756,13 +2764,17 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
                     grid[nonant]->active_item_count--;
                 }
             }
-        } else if (it->type->id == "corpse") { // some corpses rez over time
+        } else if (it->type->id == "corpse" && it->corpse != NULL ) { // some corpses rez over time
             if (it->ready_to_revive()) {
                 if (rng(0,it->volume()) > it->burnt) {
                     int mapx = (nonant % my_MAPSIZE) * SEEX + i;
                     int mapy = (nonant / my_MAPSIZE) * SEEY + j;
                     if (g->u_see(mapx, mapy)) {
-                        g->add_msg(_("A nearby corpse rises and moves towards you!"));
+                        if(it->corpse->in_species("ROBOT")) {
+                            g->add_msg(_("A nearby robot has repaired itself and stands up!"));
+                        } else {
+                            g->add_msg(_("A nearby corpse rises and moves towards you!"));
+                        }
                     }
                     g->revive_corpse(mapx, mapy, it);
                     return true;
@@ -2774,8 +2786,6 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
             it->item_counter--;
             if(it->item_counter <= 0)
             {
-                g->add_msg(_("A nearby %s dries off."), it->name.c_str());
-
                 // wet towel becomes a regular towel
                 if(it->type->id == "towel_wet")
                     it->make(itypes["towel"]);

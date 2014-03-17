@@ -8,6 +8,7 @@
 
 #include <stdlib.h>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <locale>
 

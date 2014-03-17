@@ -8,8 +8,6 @@
 #ifndef __Cataclysmic__iexamine__
 #define __Cataclysmic__iexamine__
 
- //#include <iostream>
-
 class game;
 class item;
 class player;

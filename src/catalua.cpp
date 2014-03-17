@@ -9,6 +9,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "map.h"
+#include "monstergenerator.h"
 
 #ifdef LUA
 extern "C" {
@@ -212,6 +213,18 @@ static int game_get_monsters(lua_State *L) {
 }
 */
 
+// mtype = game.monster_type(name)
+static int game_monster_type(lua_State *L) {
+    const char* parameter1 = (const char*) lua_tostring(L, 1);
+
+    mtype** monster_type = (mtype**) lua_newuserdata(L, sizeof(mtype*));
+    *monster_type = GetMType(parameter1);
+    luah_setmetatable(L, "mtype_metatable");
+
+    return 1; // 1 return values
+
+}
+
 // items = game.items_at(x, y)
 static int game_items_at(lua_State *L) {
     int x = lua_tointeger(L, 1);
@@ -234,6 +247,29 @@ static int game_items_at(lua_State *L) {
         item** item_userdata = (item**) lua_newuserdata(L, sizeof(item*));
         *item_userdata = &(items[i]);
         luah_setmetatable(L, "item_metatable");
+        lua_rawset(L, -3);
+    }
+
+    return 1; // 1 return values
+}
+
+// monster_types = game.get_monster_types()
+static int game_get_monster_types(lua_State *L) {
+    std::vector<std::string> mtypes = MonsterGenerator::generator().get_all_mtype_ids();
+
+    lua_createtable(L, mtypes.size(), 0); // Preallocate enough space for all our monster types.
+
+    // Iterate over the monster list and insert each monster into our returned table.
+    for( size_t i = 0; i < mtypes.size(); ++i ) {
+        // The stack will look like this:
+        // 1 - t, table containing id
+        // 2 - k, index at which the next id will be inserted
+        // 3 - v, next id to insert
+        //
+        // lua_rawset then does t[k] = v and pops v and k from the stack
+
+        lua_pushnumber(L, i + 1);
+        lua_pushstring(L, mtypes[i].c_str());
         lua_rawset(L, -3);
     }
 
@@ -329,9 +365,9 @@ static int game_register_iuse(lua_State *L) {
 // Load the main file of a mod
 void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name) {
     std::string full_path = base_path + "/" + main_file_name;
-    
+
     // Check if file exists first
-    struct stat buffer;   
+    struct stat buffer;
     int file_exists = stat(full_path.c_str(), &buffer) == 0;
     if(file_exists) {
         lua_file_path = base_path;
@@ -357,7 +393,7 @@ void lua_dofile(lua_State *L, const char* path) {
 // ensuring it's being loaded from a valid path etc.
 static int game_dofile(lua_State *L) {
     const char* path = luaL_checkstring(L, 1);
-    
+
     std::string full_path = lua_file_path + "/" + path;
     lua_dofile(L, full_path.c_str());
     return 0;
@@ -372,7 +408,9 @@ static const struct luaL_Reg global_funcs [] = {
     {"item_type", game_item_type},
     {"monster_at", game_monster_at},
     {"choose_adjacent", game_choose_adjacent},
+    {"monster_type", game_monster_type},
     {"dofile", game_dofile},
+    {"get_monster_types", game_get_monster_types},
     {NULL, NULL}
 };
 

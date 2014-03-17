@@ -1,4 +1,5 @@
 #include "addiction.h"
+#include "rng.h"
 #include "game.h"
 
 void addict_effect(addiction &add)

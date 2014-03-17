@@ -8,7 +8,7 @@
 #include "veh_type.h"
 #include <vector>
 #include <string>
-#include <fstream>
+#include <iosfwd>
 
 class map;
 class player;
@@ -93,7 +93,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed;           // TRUE if this part is removed. The part won't disappear until the end of the turn
-                            // so our indexes can remain consistent.
+                            // so our indices can remain consistent.
     int flags;
     int passenger_id;       // carrying passenger
     union
@@ -203,8 +203,8 @@ private:
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
 
-    // get vpart powerinfo for part number, accounting for variable-sized parts.
-    int part_power (int index);
+    // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
+    int part_power( int index, bool at_full_hp = false );
 
     // get vpart epowerinfo for part number.
     int part_epower (int index);
@@ -425,6 +425,10 @@ public:
 // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
     float k_dynamics ();
 
+// Components of the dynamic coefficient
+    float k_friction ();
+    float k_aerodynamics ();
+
 // Coefficient of mass, 0-1.0.
 // 1.0 means mass won't slow vehicle at all, 0 - it won't move
     float k_mass ();
@@ -484,25 +488,9 @@ public:
 // reduces velocity to 0
     void stop ();
 
-    void find_power ();
-
-    void find_alternators ();
-
-    void find_fuel_tanks ();
-
-    void find_engines ();
-
-    void find_reactors ();
-
-    void find_solar_panels ();
-
-    void find_parts();
-
     void find_exhaust ();
 
     void refresh_insides ();
-
-    bool pedals();
 
     bool is_inside (int p);
 
@@ -576,7 +564,6 @@ public:
     // temp values
     int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
-    bool parts_dirty;   //
     int init_veh_fuel;
     int init_veh_status;
     float alternator_load;
