@@ -640,7 +640,7 @@ void trapfunc::pit_spikes(int x, int y)
             g->m.add_trap(x, y, tr_pit);
             for (int i = 0; i < 4; i++) { // 4 spears to a pit
                 if (one_in(3)) {
-                    g->m.spawn_item(x, y, "spear_wood");
+                    g->m.spawn_item(x, y, "pointy_stick");
                 }
             }
         }
@@ -672,7 +672,7 @@ void trapfuncm::pit_spikes(monster *z, int x, int y)
         g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 4; i++) { // 4 spears to a pit
             if (one_in(3)) {
-                g->m.spawn_item(x, y, "spear_wood");
+                g->m.spawn_item(x, y, "pointy_stick");
             }
         }
     }
