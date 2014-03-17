@@ -12771,7 +12771,7 @@ void game::vertical_move(int movez, bool force) {
             }
             const oter_id &ter = overmap_buffer.ter(cursx, cursy, levz);
             const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_coord);
-            if(OPTIONS["AUTO_NOTES"]){
+            if(OPTIONS["AUTO_NOTES"] == true){
                 if(movez == +1 && otermap[ter].known_up && !otermap[ter2].known_down) {
                 overmap_buffer.set_seen(cursx, cursy, z_coord, true);
                 overmap_buffer.add_note(cursx, cursy, z_coord, _("D:AUTO: goes down"));
