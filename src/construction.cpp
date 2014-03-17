@@ -365,13 +365,8 @@ void construction_menu()
         }
     } while (!exit);
 
-    for (int i = iMaxY - FULL_SCREEN_HEIGHT; i <= iMaxY; ++i) {
-        for (int j = TERRAIN_WINDOW_WIDTH; j <= FULL_SCREEN_WIDTH; ++j) {
-            mvwputch(w_con, i, j, c_black, ' ');
-        }
-    }
-
     wrefresh(w_con);
+    delwin(w_con);
     g->refresh_all();
 }
 
