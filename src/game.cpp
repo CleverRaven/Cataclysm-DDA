@@ -74,6 +74,10 @@ extern worldfactory *world_generator;
 
 uistatedata uistate;
 
+bool is_valid_in_w_terrain(int x, int y) {
+    return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
+}
+
 // This is the main game set-up process.
 game::game() :
  uquit(QUIT_NO),
@@ -4810,13 +4814,11 @@ void game::draw_ter(int posx, int posy)
         monster &critter = critter_tracker.find(i);
         my = POSY + (critter.posy() - posy);
         mx = POSX + (critter.posx() - posx);
-        if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH
-                && my < TERRAIN_WINDOW_HEIGHT && u_see(&critter)) {
+        if (is_valid_in_w_terrain(mx, my) && u_see(&critter)) {
             critter.draw(w_terrain, posx, posy, false);
             mapRain[my][mx] = false;
         } else if (critter.has_flag(MF_WARM)
-                   && mx >= 0 && my >= 0
-                   && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT
+                   && is_valid_in_w_terrain(mx, my)
                    && (u.has_active_bionic("bio_infrared")
                        || u.has_trait("INFRARED")
                        || u.has_trait("LIZ_IR")
@@ -4831,8 +4833,7 @@ void game::draw_ter(int posx, int posy)
     for (int i = 0; i < active_npc.size(); i++) {
         my = POSY + (active_npc[i]->posy - posy);
         mx = POSX + (active_npc[i]->posx - posx);
-        if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH
-                && my < TERRAIN_WINDOW_HEIGHT
+        if (is_valid_in_w_terrain(mx, my)
                 && u_see(active_npc[i]->posx, active_npc[i]->posy)) {
             active_npc[i]->draw(w_terrain, posx, posy, false);
             mapRain[my][mx] = false;
@@ -5536,7 +5537,7 @@ int game::mon_info(WINDOW *w)
             int index;
             int mx = POSX + (critter.posx() - viewx);
             int my = POSY + (critter.posy() - viewy);
-            if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT) {
+            if (is_valid_in_w_terrain(mx, my)) {
                 index = 8;
             } else {
                 index = dir_to_mon;
@@ -5586,7 +5587,7 @@ int game::mon_info(WINDOW *w)
             int index;
             int mx = POSX + (npcp.x - viewx);
             int my = POSY + (npcp.y - viewy);
-            if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT) {
+            if (is_valid_in_w_terrain(mx, my)) {
                 index = 8;
             } else {
                 index = dir_to_npc;
@@ -8510,8 +8511,7 @@ void centerlistview(int iActiveX, int iActiveY)
         if (OPTIONS["SHIFT_LIST_ITEM_VIEW"] == "centered") {
             int xOffset = TERRAIN_WINDOW_WIDTH / 2;
             int yOffset = TERRAIN_WINDOW_HEIGHT / 2;
-            if ( xpos < 0 || xpos >= TERRAIN_WINDOW_WIDTH ||
-                 ypos < 0 || ypos >= TERRAIN_WINDOW_HEIGHT ) {
+            if (!is_valid_in_w_terrain(xpos, ypos)) {
                 if (xpos < 0) {
                     u.view_offset_x = xpos - xOffset;
                 } else {
