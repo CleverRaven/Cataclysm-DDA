@@ -14,10 +14,10 @@ void mdeath::normal(monster *z) {
     }
 
     m_size monSize = (z->type->size);
-    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN)) && !z->is_hallucination();
+    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
 
     // leave some blood if we have to
-    if (leaveCorpse) {
+    if (!z->has_flag(MF_VERMIN)) {
        field_id type_blood = z->monBloodType();
        if (type_blood != fd_null)
         g->m.add_field(z->posx(), z->posy(), type_blood, 1);
