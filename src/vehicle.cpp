@@ -4,6 +4,7 @@
 #include "game.h"
 #include "item.h"
 #include "item_factory.h"
+#include <fstream>
 #include <sstream>
 #include <stdlib.h>
 #include "cursesdef.h"
@@ -777,30 +778,34 @@ vpart_info& vehicle::part_info (int index, bool include_removed)
 // engines & alternators all have power.
 // engines provide, whilst alternators consume.
 int vehicle::part_power( int index, bool at_full_hp ) {
-    if (!part_flag(index, VPFLAG_ENGINE) &&
-        !part_flag(index, VPFLAG_ALTERNATOR)) {
-       return 0; //not an engine.
+    if( !part_flag(index, VPFLAG_ENGINE) &&
+        !part_flag(index, VPFLAG_ALTERNATOR) ) {
+       return 0; // not an engine.
     }
-    int p;
-    if (part_flag (index, VPFLAG_VARIABLE_SIZE)) { // example: 2.42-L V-twin engine
-       p = parts[index].bigness;
+    int pwr;
+    if( part_flag (index, VPFLAG_VARIABLE_SIZE) ) { // example: 2.42-L V-twin engine
+       pwr = parts[index].bigness;
     } else { // example: foot crank
-       p = part_info(index).power;
+       pwr = part_info(index).power;
     }
-    if (p < 0)
-        return p; // Consumers always draw full power, even if broken
-    if (at_full_hp)
-        return p; // Assume full hp
-    return (p * parts[index].hp / part_info(index).durability);
-}
+    if( pwr < 0 ) {
+        return pwr; // Consumers always draw full power, even if broken
+    }
+    if( at_full_hp ) {
+        return pwr; // Assume full hp
+    }
+    // The more damaged a part is, the less power it gives
+    return pwr * parts[index].hp / part_info(index).durability;
+ }
 
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
 int vehicle::part_epower( int index ) {
     int e = part_info(index).epower;
-    if (e < 0)
+    if( e < 0 ) {
         return e; // Consumers always draw full power, even if broken
-    return (e * parts[index].hp / part_info(index).durability);
+    }
+    return e * parts[index].hp / part_info(index).durability;
 }
 
 int vehicle::epower_to_power (int epower) {
@@ -1292,10 +1297,11 @@ bool vehicle::remove_part (int p)
         }
         // Also unboard entity if seat gets removed
         std::vector<int> bp = boarded_parts();
-        for (size_t i = 0; i < bp.size(); i++) {
-            if( int(i) == p )
-                g->m.unboard_vehicle( global_x() + parts[bp[i]].precalc_dx[0],
-                                      global_y() + parts[bp[i]].precalc_dy[0] );
+        for( size_t i = 0; i < bp.size(); i++ ) {
+            if( bp[i] == p ) {
+                g->m.unboard_vehicle( global_x() + parts[p].precalc_dx[0],
+                                      global_y() + parts[p].precalc_dy[0] );
+            }
         }
     }
 

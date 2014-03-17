@@ -1,5 +1,6 @@
 #include "player_activity.h"
 #include "translations.h"
+#include "platform.h"
 
 player_activity::player_activity(activity_type t, int turns, int Index, int pos, std::string name_in)
 : JsonSerializer(), JsonDeserializer()

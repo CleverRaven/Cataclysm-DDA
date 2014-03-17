@@ -1,6 +1,7 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+#include "platform.h"
 #include "mtype.h"
 #include "monster.h"
 #include "map.h"

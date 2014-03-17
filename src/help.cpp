@@ -115,7 +115,7 @@ with a good weapon or a strong character."),
     text.push_back(string_format(_("There may be times when you want to move more quickly \
 by holding down a movement key. However, fast movement in this fashion may lead to the player \
 getting into a dangerous situation or even killed before they have a chance to react. \
-Pressing %s will toggle \"Safemode\". While this is on, any movement will be ignored if new \
+Pressing %s will toggle \"Safe Mode\". While this is on, any movement will be ignored if new \
 monsters enter the player's view."),
                                  press_x(ACTION_TOGGLE_SAFEMODE, "", "").c_str()));
 
@@ -315,7 +315,7 @@ or going through drug withdrawal are some prominent examples."));
 
     text.push_back(_("\
 Low morale will make you sluggish and unmotivated. If your morale drops very low, you won't be able to perform \
-crafting at all. If you become sufficently depressed, you will suffer stat penalties. \
+crafting at all. If you become sufficiently depressed, you will suffer stat penalties. \
 Very high morale fills you with gusto and energy, and you will find yourself moving faster. At extremely high levels, \
 you will receive stat bonuses."));
 
@@ -360,7 +360,7 @@ to find substances that will remove mutations, though these are extremely rare."
     text.push_back(_("\
 There are various mutagenic substances, and consuming (or injecting) them will grant mutations. \
 However, the process taxes your body significantly, and can be addictive. With enough mutations \
-and certain conditions being met, you will permanently transcend your humanity into become a wholly \
+and certain conditions being met, you will permanently transcend your humanity into a wholly \
 different life-form.")); 
     return text;
 }

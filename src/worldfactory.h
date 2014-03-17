@@ -3,7 +3,6 @@
 
 #include "options.h"
 #include "output.h"
-#include "debug.h"
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "input.h"
@@ -13,7 +12,6 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include <sstream>
 
 extern std::map<std::string, cOpt> OPTIONS;
 extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;

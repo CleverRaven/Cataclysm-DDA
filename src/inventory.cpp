@@ -969,23 +969,15 @@ std::vector<item *> inventory::all_items_with_flag( const std::string flag )
 }
 
 
-std::vector<item *> inventory::all_ammo(ammotype type)
+std::vector<item *> inventory::all_ammo(const ammotype &type)
 {
     std::vector<item *> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter) {
-            if (stack_iter->is_ammo() && dynamic_cast<it_ammo *>(stack_iter->type)->type == type) {
+            if (stack_iter->is_of_ammo_type_or_contains_it(type)) {
                 ret.push_back(&*stack_iter);
-
-            }
-            // Handle gasoline nested in containers
-            else if (type == "gasoline" && stack_iter->is_container() &&
-                     !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
-                     dynamic_cast<it_ammo *>(stack_iter->contents[0].type)->type == type) {
-                ret.push_back(&*stack_iter);
-                return ret;
             }
         }
     }

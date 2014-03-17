@@ -606,11 +606,11 @@ void advanced_inventory::recalc_pane(int i)
     switch(panes[i].sortby) {
         case SORTBY_NONE:
             if ( i != isinventory ) {
-                std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
+                std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
             }
             break;
         default:
-            std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
+            std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
             break;
     }
 
@@ -836,10 +836,19 @@ void advanced_inventory::display(player *pp)
             if(panes[left].area == changeSquare || panes[right].area == changeSquare ||
                isDirectionalDragged(panes[left].area, changeSquare) ||
                isDirectionalDragged(panes[right].area, changeSquare)) {
-                lastCh = (int)popup_getkey(_("same square!"));
-                if (lastCh == 'q' || lastCh == KEY_ESCAPE || lastCh == ' ' ) {
-                    lastCh = 0;
-                }
+                // store the old values temporarily
+                int lArea = panes[left].area;
+                int lPage = panes[left].page;
+                int lIndex = panes[left].index;
+
+                // Switch left and right pane.
+                panes[left].area = panes[right].area;
+                panes[left].page = panes[right].page;
+                panes[left].index = panes[right].index;
+                panes[right].area = lArea;
+                panes[right].page = lPage;
+                panes[right].index = lIndex;
+
             } else if(squares[changeSquare].canputitems) {
                 panes[src].area = changeSquare;
                 panes[src].page = 0;

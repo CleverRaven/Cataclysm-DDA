@@ -14,7 +14,6 @@ int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
 void make_gun_sound_effect(player &p, bool burst, item* weapon);
 double calculate_missed_by(player &p, int trange, item* weapon);
-void shoot_player(player &p, player *h, int &dam, double goodhit);
 
 void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
 
@@ -217,6 +216,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     item* gunmod = weapon.active_gunmod();
     it_ammo *curammo = NULL;
     item *used_weapon = NULL;
+    Skill *skill_used = NULL;
 
     if (weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
         // Charges maxes out at 8.
@@ -248,6 +248,10 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     } else if (gunmod != NULL) {
         used_weapon = gunmod;
         curammo = used_weapon->curammo;
+        const it_gunmod *mod = dynamic_cast<const it_gunmod*>(gunmod->type);
+        if (mod != NULL) {
+            skill_used = mod->skill_used;
+        }
     } else {// Just a normal gun. If we're here, we know curammo is valid.
         curammo = weapon.curammo;
         used_weapon = &weapon;
@@ -292,6 +296,9 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     if (burst && used_weapon->burst_size() < 2) {
         burst = false; // Can't burst fire a semi-auto
     }
+    if (skill_used == NULL) {
+        skill_used = firing->skill_used;
+    }
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire(*this, firing);
@@ -334,6 +341,11 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
     int weaponrange = weapon.range();
+    // Only train to level one, with these kind of ammo
+    const bool train_skill = skillLevel(skill_used) == 0 || (curammo->id != "BB" && curammo->id != "nail");
+    if (train_skill) {
+        practice(g->turn, skill_used, 4 + (num_shots / 2));
+    }
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
@@ -458,14 +470,19 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
         double missed_by = projectile_attack(proj, mtarx, mtary, total_dispersion);
         if (missed_by <= .1) { // TODO: check head existence for headshot
-            practice(g->turn, firing->skill_used, 5);
             lifetime_stats()->headshots++;
+        }
+
+        if (!train_skill) {
+            practice(g->turn, skill_used, 0); // practice, but do not train
+        } else if (missed_by <= .1) {
+            practice(g->turn, skill_used, 5);
         } else if (missed_by <= .2) {
-            practice(g->turn, firing->skill_used, 3);
+            practice(g->turn, skill_used, 3);
         } else if (missed_by <= .4) {
-            practice(g->turn, firing->skill_used, 2);
+            practice(g->turn, skill_used, 2);
         } else if (missed_by <= .6) {
-            practice(g->turn, firing->skill_used, 1);
+            practice(g->turn, skill_used, 1);
         }
 
     }
@@ -474,6 +491,11 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         used_weapon->curammo = NULL;
     }
 
+    if (skillLevel("gun") == 0 || (curammo->id != "BB" && curammo->id != "nail")) {
+        practice(g->turn, "gun", 5);
+    } else {
+        practice(g->turn, "gun", 0);
+    }
 }
 
 void game::fire(player &p, int tarx, int tary, std::vector<point> &, bool burst) {
@@ -1121,71 +1143,6 @@ int recoil_add(player &p)
  if (ret > 0)
   return ret;
  return 0;
-}
-
-void shoot_player(player &p, player *h, int &dam, double goodhit)
-{
-    int npcdex = g->npc_at(h->posx, h->posy);
-    // Gunmods don't have a type, so use the player gun type.
-    it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
-    body_part hit = bp_torso;
-    if (goodhit < .003) {
-        hit = bp_eyes;
-        dam = rng(3 * dam, 5 * dam);
-        p.practice(g->turn, firing->skill_used, 5);
-    } else if (goodhit < .066) {
-        if (one_in(25)) {
-            hit = bp_eyes;
-        } else if (one_in(15)) {
-            hit = bp_mouth;
-        } else {
-            hit = bp_head;
-        }
-        dam = rng(2 * dam, 5 * dam);
-        p.practice(g->turn, firing->skill_used, 5);
-    } else if (goodhit < .2) {
-        hit = bp_torso;
-        dam = rng(dam, 2 * dam);
-        p.practice(g->turn, firing->skill_used, 2);
-    } else if (goodhit < .4) {
-        if (one_in(3)) {
-            hit = bp_torso;
-        } else if (one_in(2)) {
-            hit = bp_arms;
-        } else {
-            hit = bp_legs;
-        }
-        dam = rng(int(dam * .9), int(dam * 1.5));
-        p.practice(g->turn, firing->skill_used, rng(0, 1));
-    } else if (goodhit < .5) {
-        if (one_in(2)) {
-            hit = bp_arms;
-        } else {
-            hit = bp_legs;
-        }
-        dam = rng(dam / 2, dam);
-    } else {
-        dam = 0;
-    }
-    if (dam > 0) {
-        int side = random_side(hit);
-        h->moves -= rng(0, dam);
-        if (h == &(g->u)) {
-            g->add_msg(_("%s shoots your %s for %d damage!"), p.name.c_str(),
-                          body_part_name(hit, side).c_str(), dam);
-        } else {
-            if (&p == &(g->u)) {
-                g->add_msg(_("You shoot %s's %s."), h->name.c_str(),
-                               body_part_name(hit, side).c_str());
-                g->active_npc[npcdex]->make_angry();
-            } else if (g->u_see(h->posx, h->posy)) {
-                g->add_msg(_("%s shoots %s's %s."),
-                   (g->u_see(p.posx, p.posy) ? p.name.c_str() : _("Someone")),
-                    h->name.c_str(), body_part_name(hit, side).c_str());
-            }
-        }
-        h->hit(&p, hit, side, 0, dam);
-    }
 }
 
 void splatter( std::vector<point> trajectory, int dam, Creature* target )

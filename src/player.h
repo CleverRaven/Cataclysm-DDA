@@ -154,9 +154,12 @@ public:
  bool has_active_bionic(const bionic_id & b) const;
  bool has_active_optcloak() const;
  void add_bionic(bionic_id b);
+ void remove_bionic(bionic_id b);
+ bool uninstall_bionic(bionic_id b_id);
  void charge_power(int amount);
  void power_bionics();
  void activate_bionic(int b);
+ void deactivate_bionic(int b);
  bool remove_random_bionic();
  int num_bionics() const;
  bionic& bionic_at_index(int i);
@@ -234,6 +237,7 @@ public:
  void ma_ongethit_effects(); // fires all get hit-triggered martial arts events
 
  bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
+ bool has_martialart(const matype_id &ma_id) const; // checks if a player has any martial arts buffs attached
 
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
  int mabuff_dodge_bonus(); // martial arts dodge bonus

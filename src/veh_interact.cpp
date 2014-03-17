@@ -318,7 +318,6 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_small", 1 );
 }
 
-
 /**
  * Checks if the player is able to perform some command, and returns a nonzero
  * error code if they are unable to perform it. The return from this function
@@ -890,9 +889,9 @@ void veh_interact::do_rename(task_reason reason)
             g->cur_om->vehicles[veh->om_id].name = name;
         }
     }
+    display_grid();
     display_name();
     display_stats();
-    display_grid();
     // refresh w_disp & w_part windows:
     move_cursor(0, 0);
 }
@@ -922,7 +921,6 @@ bool veh_interact::can_currently_install(vpart_info *vpart)
     bool is_wheel = vpart->has_flag("WHEEL");
     return (has_comps && (has_skill || is_wheel));
 }
-
 
 /**
  * Moves the cursor on the vehicle editing window.
@@ -1030,12 +1028,12 @@ void veh_interact::display_grid()
     const int grid_w = getmaxx(w_grid);
     if (vertical_menu) {
         // Two lines dividing the three middle sections.
-        for (int i = 1 + mode_h + msg_h; i < (1 + mode_h + msg_h + disp_h); i++) {
+        for (int i = 1 + mode_h + msg_h; i < (1 + mode_h + msg_h + disp_h); ++i) {
             mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
             mvwputch(w_grid, i, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XOXO); // |
         }
         // Two lines dividing the vertical menu sections.
-        for (int i = 0; i < grid_w; i++) {
+        for (int i = 0; i < grid_w; ++i) {
             mvwputch( w_grid, mode_h + msg_h, i, BORDER_COLOR, LINE_OXOX ); // -
             mvwputch( w_grid, mode_h + msg_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX ); // -
         }
@@ -1046,22 +1044,13 @@ void veh_interact::display_grid()
         mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XXOX); // _|_
     } else {
         // Vertical lines
-        for (int i = name_h + 1; i < (name_h + 1 + disp_h + 1 + parts_h); i++) {
-            mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
-        }
-        for (int i = (name_h + 1 + disp_h + 1); i < (name_h + 1 + stats_h); i++) {
-            mvwputch(w_grid, i, parts_w, BORDER_COLOR, LINE_XOXO); // |
-        }
-
+        mvwvline(w_grid, name_h + 1, disp_w, LINE_XOXO, disp_h + 1 + parts_h);
+        mvwvline(w_grid, name_h + 1 + disp_h + 1, parts_w, LINE_XOXO, (stats_h - disp_h - 1));
         // Two horizontal lines: one after name window, and another after parts window
-        for (int i = 0; i < grid_w; i++) {
-            mvwputch(w_grid, name_h, i, BORDER_COLOR, LINE_OXOX);
-            mvwputch(w_grid, name_h + 1 + stats_h, i, BORDER_COLOR, LINE_OXOX);
-        }
+        mvwhline(w_grid, name_h, 0, LINE_OXOX, grid_w);
+        mvwhline(w_grid, name_h + 1 + stats_h, 0, LINE_OXOX, grid_w);
         // Horizontal line between vehicle/parts windows
-        for (int i = 0; i < disp_w; i++) {
-            mvwputch(w_grid, name_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX);
-        }
+        mvwhline(w_grid, name_h + 1 + disp_h, 0, LINE_OXOX, disp_w);
         // Fix up the line intersections.
         mvwputch(w_grid, name_h, disp_w, BORDER_COLOR, LINE_OXXX);
         mvwputch(w_grid, name_h + 1 + disp_h, parts_w, BORDER_COLOR, LINE_OXXX);
@@ -1677,4 +1666,3 @@ void complete_vehicle ()
         break;
     }
 }
-

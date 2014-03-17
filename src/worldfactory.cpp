@@ -3,8 +3,12 @@
 #include "char_validity_check.h"
 #include "mod_manager.h"
 #include "file_wrapper.h"
+#include "debug.h"
+#include "platform.h"
 
 #include "name.h"
+
+#include <fstream>
 
 // FILE I/O
 #include <sys/stat.h>

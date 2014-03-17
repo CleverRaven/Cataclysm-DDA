@@ -8,7 +8,7 @@
 #include "veh_type.h"
 #include <vector>
 #include <string>
-#include <fstream>
+#include <iosfwd>
 
 class map;
 class player;
@@ -255,7 +255,7 @@ private:
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
 
-    // get vpart powerinfo for part number, accounting for variable-sized parts
+    // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
     int part_power( int index, bool at_full_hp = false );
 
     // get vpart epowerinfo for part number, in watts

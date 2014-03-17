@@ -60,7 +60,7 @@ class ma_technique {
     std::vector<std::string> messages;
 
     bool defensive;
-    bool crit_tec;
+    bool crit_tec;    
 
     ma_requirements reqs;
 
@@ -234,6 +234,8 @@ class martialart {
     std::string description;
     int arm_block;
     int leg_block;
+    bool arm_block_with_bio_armor_arms;
+    bool leg_block_with_bio_armor_legs;
     std::set<matec_id> techniques; // all available techniques
     std::set<itype_id> weapons; // all style weapons
     std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
