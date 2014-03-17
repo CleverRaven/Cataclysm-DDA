@@ -9982,9 +9982,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             add_msg(_("You can't pour there!"));
             return false;
         }
-        if (!m.has_flag("SWIMMABLE", dirx, diry)) {
-            m.add_item_or_charges(dirx, diry, liquid, 1);
-        }
+        m.add_item_or_charges(dirx, diry, liquid, 1);
         return true;
     }
 
@@ -10004,9 +10002,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
                     add_msg(_("You can't pour there!"));
                     return false;
                 }
-                if (!m.has_flag("SWIMMABLE", dirx, diry)) {
-                    m.add_item_or_charges(dirx, diry, liquid, 1);
-                }
+                m.add_item_or_charges(dirx, diry, liquid, 1);
                 return true;
             }
             add_msg(_("Never mind."));
