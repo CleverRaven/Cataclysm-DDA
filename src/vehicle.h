@@ -218,6 +218,9 @@ private:
     //Refresh all caches and re-locate all parts
     void refresh();
 
+    // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
+    bool do_environmental_effects();
+
 public:
     vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
@@ -597,6 +600,7 @@ public:
     int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower; // total power consumed by fridges
     int recharger_epower; // total power consumed by rechargers
+    bool check_environmental_effects; // True if it has bloody or smoking parts
 };
 
 #endif

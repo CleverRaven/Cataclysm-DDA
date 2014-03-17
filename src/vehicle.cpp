@@ -2054,6 +2054,38 @@ int vehicle::max_velocity (bool fueled)
     return total_power (fueled) * 80;
 }
 
+bool vehicle::do_environmental_effects()
+{
+    bool needed = false;
+    // check for smoking parts
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        int part_x = global_x() + parts[p].precalc_dx[0];
+        int part_y = global_y() + parts[p].precalc_dy[0];
+
+        /* Only lower blood level if:
+         * - The part is outside.
+         * - The weather is any effect that would cause the player to be wet. */
+        if( parts[p].blood > 0 && g->m.is_outside(part_x, part_y) && g->levz >= 0 ) {
+            needed = true;
+            if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
+                parts[p].blood--;
+            }
+        }
+        if( part_flag(p, VPFLAG_ENGINE) && parts[p].hp <= 0 && parts[p].amount > 0 ) {
+            needed = true;
+            parts[p].amount--;
+            for( int ix = -1; ix <= 1; ix++ ) {
+                for( int iy = -1; iy <= 1; iy++ ) {
+                    if( !rng(0, 2) ) {
+                        g->m.add_field( part_x + ix, part_y + iy, fd_smoke, rng(2, 4) );
+                    }
+                }
+            }
+        }
+    }
+    return needed;
+}
+
 int vehicle::safe_velocity (bool fueled)
 {
     int pwrs = 0;
@@ -2977,6 +3009,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 } else if (dam > rng (10, 30)) {
                     parts[part].blood += (10 + dam / 2) * 5;
                 }
+                check_environmental_effects = true;
             }
 
             turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
@@ -3329,35 +3362,8 @@ void vehicle::gain_moves()
     if (player_in_control(&g->u) && cruise_on && cruise_velocity != velocity )
         thrust (cruise_velocity > velocity? 1 : -1);
 
-    // check for smoking parts
-    for (int p = 0; p < parts.size(); p++)
-    {
-        if (parts[p].removed) {
-          continue;
-        }
-        int part_x = global_x() + parts[p].precalc_dx[0];
-        int part_y = global_y() + parts[p].precalc_dy[0];
-
-        /* Only lower blood level if:
-         * - The part is outside.
-         * - The weather is any effect that would cause the player to be wet. */
-        if (parts[p].blood > 0 &&
-                g->m.is_outside(part_x, part_y) && g->levz >= 0 &&
-                g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN) {
-            parts[p].blood--;
-        }
-        int p_eng = part_with_feature (p, VPFLAG_ENGINE, false);
-        if (p_eng < 0 || parts[p_eng].hp > 0 || parts[p_eng].amount < 1) {
-            continue;
-        }
-        parts[p_eng].amount--;
-        for (int ix = -1; ix <= 1; ix++) {
-            for (int iy = -1; iy <= 1; iy++) {
-                if (!rng(0, 2)) {
-                    g->m.add_field(part_x + ix, part_y + iy, fd_smoke, rng(2, 4));
-                }
-            }
-        }
+    if( check_environmental_effects ) {
+        check_environmental_effects = do_environmental_effects();
     }
 
     if (turret_mode) { // handle turrets
@@ -3460,6 +3466,7 @@ void vehicle::refresh()
     }
 
     precalc_mounts( 0, face.dir() );
+    check_environmental_effects = true;
     insides_dirty = true;
     find_exhaust();
 }
