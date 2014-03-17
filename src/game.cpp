@@ -9790,7 +9790,7 @@ and you can't unwield your %s."),
                                 m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                                 u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                                 u.wield(u.i_add(here[i]).invlet);
-                                mapPickup[here[i].tname()]++;
+                                mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                                 add_msg(_("Wielding %c - %s"), u.weapon.invlet,
                                         u.weapon.display_name().c_str());
                             }
@@ -9807,7 +9807,7 @@ and you can't unwield your %s."),
                 } else {
                     u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                     u.wield(u.i_add(here[i]).invlet);
-                    mapPickup[here[i].tname()]++;
+                    mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                     picked_up = true;
                 }
             } else if (!u.is_armed() &&
@@ -9817,7 +9817,7 @@ and you can't unwield your %s."),
                 picked_up = true;
             } else {
                 u.i_add(here[i]);
-                mapPickup[here[i].tname()]++;
+                mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                 picked_up = true;
             }
 
