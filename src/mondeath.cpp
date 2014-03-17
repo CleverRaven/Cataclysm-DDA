@@ -262,7 +262,9 @@ void mdeath::worm(monster *z) {
 }
 
 void mdeath::disappear(monster *z) {
-    g->add_msg(_("The %s disappears."), z->name().c_str());
+    if (g->u_see(z)) {
+        g->add_msg(_("The %s disappears."), z->name().c_str());
+    }
 }
 
 void mdeath::guilt(monster *z) {

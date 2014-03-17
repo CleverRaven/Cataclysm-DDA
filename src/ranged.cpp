@@ -1147,8 +1147,14 @@ int recoil_add(player &p)
 
 void splatter( std::vector<point> trajectory, int dam, Creature* target )
 {
-    if( dam <= 0 ) {
+    if( dam <= 0) {
         return;
+    }
+    if(!target->is_npc() && !target->is_player()) { //Check if the creature isn't an NPC or the player (so the cast works)
+        monster *mon = dynamic_cast<monster*>(target);
+        if (mon->is_hallucination()) {//if it is a hallucanation, don't splatter the blood.
+            return;
+        }
     }
     field_id blood = fd_blood;
     if( target != NULL ) {
