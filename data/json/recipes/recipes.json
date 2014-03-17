@@ -6059,6 +6059,31 @@
   ]
 },{
         "type" : "recipe",
+  "result": "powder_eggs",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+	    [ "egg_bird", 12 ],
+	    [ "egg_reptile", 12 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "fish_fried",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7938,8 +7963,8 @@
       [ "seasoning_salt", 15 ],
       [ "pepper", 20 ],
       [ "powder_eggs", 5 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ],
+	    [ "egg_bird", 1 ],
+	    [ "egg_reptile", 1 ],
       [ "dry_veggy", 1 ]
     ]
   ]
