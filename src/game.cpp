@@ -9971,14 +9971,13 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     }
 
     // Ask to pour rotten liquid (milk!) from the get-go
+    int dirx, diry;
+    std::stringstream liqstr;
+    refresh_all();
+    liqstr << _("Pour ") << liquid.tname() << (" where?");
     if (!from_ground && liquid.rotten() &&
-            query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-        refresh_all();
-        int dirx, diry;
-        if (!choose_adjacent(_("Pour where?"), dirx, diry)) {
-            add_msg(_("Never mind."));
-            return false;
-        }
+        choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
+
         if (!m.can_put_items(dirx, diry)) {
             add_msg(_("You can't pour there!"));
             return false;
@@ -9999,13 +9998,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
-                query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-                refresh_all();
-                int dirx, diry;
-                if (!choose_adjacent(_("Pour where?"), dirx, diry)) {
-                    add_msg(_("Never mind."));
-                    return false;
-                }
+                choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
+
                 if (!m.can_put_items(dirx, diry)) {
                     add_msg(_("You can't pour there!"));
                     return false;
