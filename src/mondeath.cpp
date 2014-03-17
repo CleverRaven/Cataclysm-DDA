@@ -14,10 +14,10 @@ void mdeath::normal(monster *z) {
     }
 
     m_size monSize = (z->type->size);
-    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN));
+    bool leaveCorpse = !(z->type->has_flag(MF_VERMIN)) && !z->is_hallucination();
 
     // leave some blood if we have to
-    if (!z->has_flag(MF_VERMIN)) {
+    if (leaveCorpse) {
        field_id type_blood = z->monBloodType();
        if (type_blood != fd_null)
         g->m.add_field(z->posx(), z->posy(), type_blood, 1);
@@ -262,7 +262,9 @@ void mdeath::worm(monster *z) {
 }
 
 void mdeath::disappear(monster *z) {
-    g->add_msg(_("The %s disappears."), z->name().c_str());
+    if (g->u_see(z)) {
+        g->add_msg(_("The %s disappears."), z->name().c_str());
+    }
 }
 
 void mdeath::guilt(monster *z) {
