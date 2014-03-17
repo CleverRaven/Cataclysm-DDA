@@ -601,7 +601,6 @@ public:
     rl_vec2d move_vec();
 
     // cached values, should in theory be correct, only recalculated occasionally in refresh()
-    bool has_environmental_effects; // True if it has bloody or smoking parts, set in do_environmental_effects()
     int cached_mass;                // Total mass, becomes inaccurate if player removes cargo, parts fall off etc, in kg
     float drag_coeff;               // Cd * A, includes skin friction, form drag, and interference drag, dimensionless
     float downforce;                // Cl * A, in m^2
@@ -667,6 +666,7 @@ public:
     int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower; // total power consumed by fridges
     int recharger_epower; // total power consumed by rechargers
+    bool check_environmental_effects; // True if it has bloody or smoking parts
 };
 
 #endif

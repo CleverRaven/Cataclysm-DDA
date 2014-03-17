@@ -2124,6 +2124,37 @@ void vehicle::spew_smoke( double joules, int part ) {
     int rdx, rdy;
     coord_translate (p.x, p.y, rdx, rdy);
     g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, smoke);
+
+bool vehicle::do_environmental_effects()
+{
+    bool needed = false;
+    // check for smoking parts
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        int part_x = global_x() + parts[p].precalc_dx[0];
+        int part_y = global_y() + parts[p].precalc_dy[0];
+
+        /* Only lower blood level if:
+         * - The part is outside.
+         * - The weather is any effect that would cause the player to be wet. */
+        if( parts[p].blood > 0 && g->m.is_outside(part_x, part_y) && g->levz >= 0 ) {
+            needed = true;
+            if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
+                parts[p].blood--;
+            }
+        }
+        if( part_flag(p, VPFLAG_ENGINE) && parts[p].hp <= 0 && parts[p].amount > 0 ) {
+            needed = true;
+            parts[p].amount--;
+            for( int ix = -1; ix <= 1; ix++ ) {
+                for( int iy = -1; iy <= 1; iy++ ) {
+                    if( !rng(0, 2) ) {
+                        g->m.add_field( part_x + ix, part_y + iy, fd_smoke, rng(2, 4) );
+                    }
+                }
+            }
+        }
+    }
+    return needed;
 }
 
 /**
@@ -3481,6 +3512,7 @@ bool vehicle::apply_damage_from_collision_to_point(int part, veh_collision coll)
                 } else if (dam > rng (10, 30)) {
                     parts[part].blood += (10 + dam / 2) * 5;
                 }
+                check_environmental_effects = true;
             }
 
             turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
@@ -3889,9 +3921,9 @@ void vehicle::refresh()
     total_mass(); // Mass in kg, takes some effort to find. Puts it in cached_mass
     calculate_air_resistance(); // Updates air_resistance and downforce
 
-    precalc_mounts(0, face.dir());
+    precalc_mounts( 0, face.dir() );
+    check_environmental_effects = true;
     insides_dirty = true;
-    has_environmental_effects = true; // Doesn't hurt (much) to check an extra time for these
     generation++; // So that it's possible for other functions to abort if parts change
 }
 
