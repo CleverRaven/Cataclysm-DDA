@@ -7838,6 +7838,7 @@ void game::examine(int examx, int examy)
 {
     int veh_part = 0;
     vehicle *veh = NULL;
+    const bool curz = g->levz;
 
     if (examx == -1) {
         // if we are driving a vehicle, examine the
@@ -7886,6 +7887,11 @@ void game::examine(int examx, int examy)
    (xmine.*xfurn_t->examine)(&u,&m,examx,examy);
  else
    (xmine.*xter_t->examine)(&u,&m,examx,examy);
+
+    if (curz != g->levz) {
+        // triggered an elevator
+        return;
+    }
 
  bool none = true;
  if (xter_t->examine != &iexamine::none || xfurn_t->examine != &iexamine::none)
