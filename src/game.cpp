@@ -9973,21 +9973,19 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     // Ask to pour rotten liquid (milk!) from the get-go
     if (!from_ground && liquid.rotten() &&
             query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-
+        refresh_all();
         int dirx, diry;
         if (!choose_adjacent(_("Pour where?"), dirx, diry)) {
-            return true;
+            add_msg(_("Never mind."));
+            return false;
         }
-
         if (!m.can_put_items(dirx, diry)) {
             add_msg(_("You can't pour there!"));
             return false;
-                }
-
+        }
         if (!m.has_flag("SWIMMABLE", dirx, diry)) {
             m.add_item_or_charges(dirx, diry, liquid, 1);
         }
-
         return true;
     }
 
@@ -10002,17 +10000,16 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
                 query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-
+                refresh_all();
                 int dirx, diry;
-                if (!choose_adjacent(_("Pour the %s where?"), dirx, diry)) {
-                    return true;
+                if (!choose_adjacent(_("Pour where?"), dirx, diry)) {
+                    add_msg(_("Never mind."));
+                    return false;
                 }
-
                 if (!m.can_put_items(dirx, diry)) {
                     add_msg(_("You can't pour there!"));
                     return false;
                 }
-
                 if (!m.has_flag("SWIMMABLE", dirx, diry)) {
                     m.add_item_or_charges(dirx, diry, liquid, 1);
                 }
