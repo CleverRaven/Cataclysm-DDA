@@ -12823,8 +12823,9 @@ void game::vertical_move(int movez, bool force) {
  m.spawn_monsters();
 
  if (force) { // Basically, we fell.
-  if (u.has_trait("WINGS_BIRD"))
-   add_msg(_("You flap your wings and flutter down gracefully."));
+  if ( (u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (u.has_trait("WINGS_BUTTERFLY"))) ) {
+      add_msg(_("You flap your wings and flutter down gracefully."));
+  }
   else {
    int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);//The bigger they are
    dam -= rng(u.get_dodge(), u.get_dodge() * 3);

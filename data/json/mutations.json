@@ -1970,7 +1970,7 @@
         "ugliness" : 2,
         "description" : "You have a pair of large, feathered wings. Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
         "prereqs" : ["WINGS_STUB"],
-        "cancels" : ["WINGS_BAT", "WINGS_INSECT"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY"],
         "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
@@ -1981,7 +1981,7 @@
         "ugliness" : 4,
         "description" : "You have a pair of large, translucent wings. You buzz them as you run, enabling you to run faster.",
         "prereqs" : ["WINGS_STUB"],
-        "cancels" : ["WINGS_BIRD", "WINGS_BAT"],
+        "cancels" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_BUTTERFLY"],
         "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
@@ -2465,7 +2465,7 @@
         "visibility" : 2,
         "ugliness" : 2,
         "description" : "You have a pair of stubby little wings projecting from your shoulderblades. They can be wiggled at will, but are useless.",
-        "changes_to" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT"]
+        "changes_to" : ["WINGS_BIRD", "WINGS_BAT", "WINGS_INSECT", "WINGS_BUTTERFLY"]
     },{
         "type" : "mutation",
         "id" : "WINGS_BAT",
@@ -2475,7 +2475,21 @@
         "ugliness" : 4,
         "description" : "You have a pair of large, leathery wings. You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
         "prereqs" : ["WINGS_STUB"],
-        "cancels" : ["WINGS_BIRD", "WINGS_INSECT"]
+        "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BUTTERFLY"]
+    },{
+        "type" : "mutation",
+        "id" : "WINGS_BUTTERFLY",
+        "name" : "Butterfly Wings",
+        "points" : -1,
+        "visibility" : 10,
+        "ugliness" : -1,
+        "description" : "You have a very large and very beautiful pair of brightly-colored wings. They can't seem to lift you, and you find yourself having balance problems from time to time, but they certainly catch air and attention!",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["WINGS_STUB"],
+        "threshreq" : ["THRESH_INSECT"],
+        "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BAT"],
+        "category" : ["MUTCAT_INSECT"]
     },{
         "type" : "mutation",
         "id" : "PALE",
@@ -2637,6 +2651,8 @@
         "visibility" : 5,
         "ugliness" : 7,
         "description" : "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
+        "valid" : false,
+        "purifiable" : false,
         "cancels" : ["MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR"],
         "prereqs" : ["EYEBULGE"],
         "threshreq" : ["THRESH_INSECT"],
@@ -3012,7 +3028,7 @@
         "ugliness" : 5,
         "description" : "You have developed several vines sprouting from your shoulder area.  They're bulky and get in the way.",
         "prereqs" : ["PLANTSKIN", "BARK"],
-        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
         "changes_to" : ["VINES2"],
         "category" : ["MUTCAT_PLANT"]
     },{
@@ -3026,7 +3042,7 @@
         "prereqs" : ["PLANTSKIN", "BARK"],
         "prereqs2" : ["VINES1"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
         "changes_to" : ["VINES3"],
         "category" : ["MUTCAT_PLANT"]
     },{
@@ -3040,7 +3056,7 @@
         "prereqs" : ["PLANTSKIN", "BARK"],
         "prereqs2" : ["VINES2"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB"],
+        "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
         "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",

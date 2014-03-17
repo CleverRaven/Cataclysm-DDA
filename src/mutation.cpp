@@ -543,7 +543,7 @@ void mutation_effect(player &p, std::string mut)
         destroy = true;
         bps.push_back(bp_torso);
 
-    } else if ( (mut == "INSECT_ARMS") || (mut == "ARACHNID_ARMS") ) {
+    } else if ( (mut == "INSECT_ARMS") || (mut == "ARACHNID_ARMS") || (mut == "WINGS_BUTTERFLY") ) {
         // Push off torsowear
         bps.push_back(bp_torso);
 

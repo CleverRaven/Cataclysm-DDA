@@ -470,14 +470,33 @@ void player::reset_stats()
             - encumb(bp_legs)/2
             - encumb(bp_torso)
         );
-    if (has_trait("TAIL_LONG")) {mod_dodge_bonus(2);}
-    if (has_trait("TAIL_CATTLE")) {mod_dodge_bonus(1);}
-    if (has_trait("TAIL_RAT")) {mod_dodge_bonus(2);}
-    if (has_trait("TAIL_THICK")) {mod_dodge_bonus(1);}
-    if (has_trait("TAIL_RAPTOR")) {mod_dodge_bonus(3);}
-    if (has_trait("TAIL_FLUFFY")) {mod_dodge_bonus(4);}
-    if (has_trait("WHISKERS")) {mod_dodge_bonus(1);}
-    if (has_trait("WINGS_BAT")) {mod_dodge_bonus(-3);}
+    if (has_trait("TAIL_LONG")) {
+        mod_dodge_bonus(2);
+    }
+    if (has_trait("TAIL_CATTLE")) {
+        mod_dodge_bonus(1);
+    }
+    if (has_trait("TAIL_RAT")) {
+        mod_dodge_bonus(2);
+    }
+    if (has_trait("TAIL_THICK")) {
+        mod_dodge_bonus(1);
+    }
+    if (has_trait("TAIL_RAPTOR")) {
+        mod_dodge_bonus(3);
+    }
+    if (has_trait("TAIL_FLUFFY")) {
+        mod_dodge_bonus(4);
+    }
+    if (has_trait("WHISKERS")) {
+        mod_dodge_bonus(1);
+    }
+    if (has_trait("WINGS_BAT")) {
+        mod_dodge_bonus(-3);
+    }
+    if (has_trait("WINGS_BUTTERFLY")) {
+        mod_dodge_bonus(-4);
+    }
 
     if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
@@ -1358,6 +1377,9 @@ int player::run_cost(int base_cost, bool diag)
     }
     if (has_trait("WINGS_INSECT")) {
         movecost -= 15;
+    }
+    if (has_trait("WINGS_BUTTERFLY")) {
+        movecost -= 10; // You can't fly, but you can make life easier on your legs
     }
     if (has_trait("LEG_TENTACLES")) {
         movecost += 20;
@@ -9669,6 +9691,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         ret += 1;
     }
     if ( has_trait("LARGE") && (bp == bp_arms || bp == bp_torso )) {
+        ret += 1;
+    }
+    if ( has_trait("WINGS_BUTTERFLY") && (bp == bp_torso )) {
         ret += 1;
     }
     if (bp == bp_hands &&
