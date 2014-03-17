@@ -994,7 +994,7 @@
         "dispersion_modifier" : 1,
         "damage_modifier" : 0,
         "ammo_modifier" : "NULL",
-        "description" : "A muzzle brake redirects exhaust gases to compensate for muzzle climb, improves recoil but increases bulk, noise, and reduces accuracy slightly.",
+        "description" : "A muzzle brake redirects exhaust gases to compensate for muzzle climb, improving recoil but increasing bulk, noise, and reducing accuracy slightly.",
         "weight" : 380,
         "to_hit" : -1,
         "color" : "light_gray",
