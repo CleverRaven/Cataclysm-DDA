@@ -3930,6 +3930,7 @@ void map::save(overmap *om, unsigned const int turn, const int x, const int y, c
 
 void map::load(const int wx, const int wy, const int wz, const bool update_vehicle, overmap *om)
 {
+    traplocs.clear();
  for (int gridx = 0; gridx < my_MAPSIZE; gridx++) {
   for (int gridy = 0; gridy < my_MAPSIZE; gridy++) {
    if (!loadn(wx, wy, wz, gridx, gridy, update_vehicle, om))
