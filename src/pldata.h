@@ -5,7 +5,6 @@
 #include "json.h"
 #include "translations.h"
 #include "bodypart.h"
-#include <sstream>
 #include <vector>
 #include <map>
 #include <climits>

@@ -19,6 +19,11 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+#ifdef _MSC_VER
+// MSVC doesn't have ssize_t, so use int instead
+#define ssize_t int
+#endif
+
 std::string default_technique_name(technique_id tech);
 
 light_emission nolight={0,0,0};
@@ -2414,125 +2419,181 @@ ammotype item::ammo_type() const
     return "NULL";
 }
 
+bool item::is_of_type_or_contains_it(const std::string &type_id) const
+{
+    if (type != NULL && type->id == type_id) {
+        return true;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].is_of_type_or_contains_it(type_id)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const
+{
+    const it_ammo *amm = dynamic_cast<const it_ammo *>(type);
+    if (amm != NULL && amm->type == ammo_type_id) {
+        return true;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].ammo_type() == ammo_type_id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void remove_non_matching_types(std::vector<item*> &vec, const std::string &type)
+{
+    for (std::vector<item*>::iterator it = vec.begin(); it != vec.end(); ) {
+        if ((*it)->is_of_type_or_contains_it(type)) {
+            ++it;
+        } else {
+            it = vec.erase(it);
+        }
+    }
+}
+
 int item::pick_reload_ammo(player &u, bool interactive)
 {
- if( is_null() )
-  return INT_MIN;
+    if( is_null() ) {
+        return INT_MIN;
+    }
 
- if (!type->is_gun() && !type->is_tool()) {
-  debugmsg("RELOADING NON-GUN NON-TOOL");
-  return INT_MIN;
- }
- int has_spare_mag = has_gunmod ("spare_mag");
+    if (!type->is_gun() && !type->is_tool()) {
+        debugmsg("RELOADING NON-GUN NON-TOOL");
+        return INT_MIN;
+    }
+    int has_spare_mag = has_gunmod ("spare_mag");
 
- std::vector<item*> am; // List of valid ammo
+    std::vector<item *> am; // List of valid ammo
 
- if (type->is_gun()) {
-  if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
-   // Special return to use magazine for reloading.
-   return INT_MIN + 1;
-  }
-  it_gun* tmp = dynamic_cast<it_gun*>(type);
-
-  // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
-  // If the gun is partially loaded make sure the ammo matches.
-  // If the gun is empty, either the spare mag is empty too and anything goes,
-  // or the spare mag is loaded and we're doing a tactical reload.
-  if (charges < clip_size() ||
-      (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
-        std::vector<item*> tmpammo = u.has_ammo(ammo_type());
-        for (size_t i = 0; i < tmpammo.size(); i++) {
-            if (charges <= 0 || tmpammo[i]->typeId() == curammo->id ) {
-                am.push_back(tmpammo[i]);
-            } else if (tmpammo[i]->is_container() && !tmpammo[i]->contents.empty() &&
-                    tmpammo[i]->contents[0].typeId() == curammo->id) {
-                am.push_back(tmpammo[i]);
-            }
+    if (type->is_gun()) {
+        if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
+            // Special return to use magazine for reloading.
+            return INT_MIN + 1;
         }
-  }
+        it_gun *tmp = dynamic_cast<it_gun *>(type);
 
-  // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
-  // for each attachment, find its associated ammo & append it to the ammo vector
-  for (size_t i = 0; i < contents.size(); i++)
-   if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX") &&
-       contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
-    std::vector<item*> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
-    for(size_t j = 0; j < tmpammo.size(); j++)
-     if (contents[i].charges <= 0 || tmpammo[j]->typeId() == contents[i].curammo->id)
-      am.push_back(tmpammo[j]);
-   }
- } else { //non-gun.
+        // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
+        // If the gun is partially loaded make sure the ammo matches.
+        // If the gun is empty, either the spare mag is empty too and anything goes,
+        // or the spare mag is loaded and we're doing a tactical reload.
+        if (charges < clip_size() ||
+            (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
+            std::vector<item *> tmpammo = u.has_ammo(ammo_type());
+            if (charges > 0) {
+                // partially loaded, accept only ammo of the exact same type
+                remove_non_matching_types(tmpammo, curammo->id);
+            }
+            am.insert(am.end(), tmpammo.begin(), tmpammo.end());
+        }
+
+        // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
+        // for each attachment, find its associated ammo & append it to the ammo vector
+        for (size_t i = 0; i < contents.size(); i++) {
+            item &cont = contents[i];
+            const it_gunmod *mod = dynamic_cast<it_gunmod *>(cont.type);
+            if (mod == NULL || !cont.has_flag("MODE_AUX")) {
+                // not a gunmod, or has no separate firing mode and can not be load
+                continue;
+            }
+            if (cont.charges >= mod->clip) {
+                // already fully loaded
+                continue;
+            }
+            std::vector<item *> tmpammo = u.has_ammo(mod->newtype);
+            if (cont.charges > 0) {
+                // partially loaded, accept only ammo of the exact same type
+                remove_non_matching_types(tmpammo, cont.curammo->id);
+            }
+            am.insert(am.end(), tmpammo.begin(), tmpammo.end());
+        }
+    } else { //non-gun.
         // this is probably a tool.  Check if it uses atomic power instead of batteries
         if (has_flag("ATOMIC_AMMO")) {
             am = u.has_ammo("plutonium");
-        } else
-            am = u.has_ammo(ammo_type());
- }
-
- // Check if the player is wielding ammo
- if (u.is_armed() && u.weapon.is_ammo()){
-     // if it is compatible then include it.
-     it_ammo* w_ammo = dynamic_cast<it_ammo*>(u.weapon.type);
-     if (w_ammo->type == ammo_type())
-         am.push_back(&u.weapon);
- }
-
-
- int am_pos = INT_MIN;
-
- if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
-     uimenu amenu;
-     amenu.return_invalid = true;
-     amenu.w_y = 0;
-     amenu.w_x = 0;
-     amenu.w_width = TERMX;
-     // 40: = 4 * ammo stats colum (10 chars each)
-     // 2: prefix from uimenu: hotkey + space in front of name
-     // 4: borders: 2 char each ("| " and " |")
-     const int namelen = TERMX - 2 - 40 - 4;
-     std::string lastreload = "";
-
-     if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
-         lastreload = uistate.lastreload[ ammo_type() ];
-     }
-
-        amenu.text = std::string(_("Choose ammo type:"));
-        if (amenu.text.length() < namelen) {
-            amenu.text += std::string(namelen - amenu.text.length(), ' ');
         } else {
-            amenu.text.erase(namelen, amenu.text.length() - namelen);
+            am = u.has_ammo(ammo_type());
         }
-        // To cover the space in the header that is used by the hotkeys created by uimenu
-        amenu.text.insert(0, "  ");
-        //~ header of table that appears when reloading, each colum must contain exactly 10 characters
-        amenu.text += _("| Damage  | Pierce  | Range   | Accuracy");
-        for (size_t i = 0; i < am.size(); i++) {
-            it_ammo* ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
-            std::string row = am[i]->display_name();
-            if (row.length() < namelen) {
-                row += std::string(namelen - row.length(), ' ');
-            } else {
-                row.erase(namelen, row.length() - namelen);
-            }
-            row += string_format("| %-7d | %-7d | %-7d | %-7d",
-                    ammo_def->damage, ammo_def->pierce, ammo_def->range,
-                    100 - ammo_def->dispersion);
-            amenu.addentry(i, true, i + 'a', row);
-         if ( lastreload == am[i]->typeId() ) {
-             amenu.selected = i;
-         }
-     }
-     amenu.query();
-     if ( amenu.ret >= 0 ) {
-        am_pos = u.get_item_position(am[ amenu.ret ]);
-        uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
-     }
- }
- // Either only one valid choice or chosing for a NPC, just return the first.
- else if (am.size() > 0){
-     am_pos = u.get_item_position(am[0]);
- }
- return am_pos;
+    }
+
+    if (am.empty()) {
+        return INT_MIN;
+    }
+    if (am.size() == 1 || !interactive) {
+        // Either only one valid choice or chosing for a NPC, just return the first.
+        return u.get_item_position(am[0]);
+    }
+
+    // More than one option; list 'em and pick
+    uimenu amenu;
+    amenu.return_invalid = true;
+    amenu.w_y = 0;
+    amenu.w_x = 0;
+    amenu.w_width = TERMX;
+    // 40: = 4 * ammo stats colum (10 chars each)
+    // 2: prefix from uimenu: hotkey + space in front of name
+    // 4: borders: 2 char each ("| " and " |")
+    const int namelen = TERMX - 2 - 40 - 4;
+    std::string lastreload = "";
+
+    if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
+        lastreload = uistate.lastreload[ ammo_type() ];
+    }
+
+    amenu.text = std::string(_("Choose ammo type:"));
+    if (amenu.text.length() < namelen) {
+        amenu.text += std::string(namelen - amenu.text.length(), ' ');
+    } else {
+        amenu.text.erase(namelen, amenu.text.length() - namelen);
+    }
+    // To cover the space in the header that is used by the hotkeys created by uimenu
+    amenu.text.insert(0, "  ");
+    //~ header of table that appears when reloading, each colum must contain exactly 10 characters
+    amenu.text += _("| Damage  | Pierce  | Range   | Accuracy");
+    // Stores the ammo ids (=item type, not ammo type) for the uistate
+    std::vector<std::string> ammo_ids;
+    for (size_t i = 0; i < am.size(); i++) {
+        item &it = *am[i];
+        it_ammo *ammo_def = dynamic_cast<it_ammo *>(it.type);
+        // ammo_def == NULL means the item is a container,
+        // containing the ammo, go through its content to find the ammo
+        for (size_t j = 0; ammo_def == NULL && j < it.contents.size(); j++) {
+            ammo_def = dynamic_cast<it_ammo *>(it.contents[j].type);
+        }
+        if (ammo_def == NULL) {
+            debugmsg("%s: contains no ammo & is no ammo", it.tname().c_str());
+            ammo_ids.push_back("");
+            continue;
+        }
+        ammo_ids.push_back(ammo_def->id);
+        // still show the container name, display_name adds the contents
+        // to the name: "bottle of gasoline"
+        std::string row = it.display_name();
+        if (row.length() < namelen) {
+            row += std::string(namelen - row.length(), ' ');
+        } else {
+            row.erase(namelen, row.length() - namelen);
+        }
+        row += string_format("| %-7d | %-7d | %-7d | %-7d",
+                                ammo_def->damage, ammo_def->pierce, ammo_def->range,
+                                100 - ammo_def->dispersion);
+        amenu.addentry(i, true, i + 'a', row);
+        if ( lastreload == ammo_def->id ) {
+            amenu.selected = i;
+        }
+    }
+    amenu.query();
+    if (amenu.ret < 0 || amenu.ret >= am.size()) {
+        // invalid selection / escaped from the menu
+        return INT_MIN;
+    }
+    uistate.lastreload[ ammo_type() ] = ammo_ids[ amenu.ret ];
+    return u.get_item_position(am[ amenu.ret ]);
 }
 
 bool item::reload(player &u, int pos)
@@ -2920,4 +2981,25 @@ bool item_matches_locator(const item &, int locator_pos, int item_pos) {
 }
 bool item_matches_locator(const item &it, char invlet, int) {
     return it.invlet == invlet;
+}
+
+iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double Value, bool _is_int, std::string Plus, bool NewLine, bool LowerIsBetter, bool DrawName) {
+    sType = Type;
+    sName = Name;
+    sFmt = Fmt;
+    is_int = _is_int;
+    dValue = Value;
+    std::stringstream convert;
+    if (_is_int) {
+        int dIn0i = int(Value);
+        convert << dIn0i;
+    } else {
+        convert.precision(2);
+        convert << std::fixed << Value;
+    }
+    sValue = convert.str();
+    sPlus = Plus;
+    bNewLine = NewLine;
+    bLowerIsBetter = LowerIsBetter;
+    bDrawName = DrawName;
 }

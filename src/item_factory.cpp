@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <stdio.h>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield

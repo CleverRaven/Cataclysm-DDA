@@ -37,6 +37,8 @@
 #include <numeric>
 #include <string>
 
+#include <fstream>
+
 nc_color encumb_color(int level);
 static void manage_fire_exposure(player& p, int fireStrength = 1);
 static void handle_cough(player& p, int intensity = 1, int volume = 12);
@@ -2232,11 +2234,22 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
        text_color = c_red;
    }
 
+   int level_num = (int)level;
+   int exercise = level.exercise();
+
+   if (has_active_bionic("bio_cqb") && 
+        ((*aSkill)->ident() == "melee" || (*aSkill)->ident() == "unarmed" ||
+         (*aSkill)->ident() == "cutting" || (*aSkill)->ident() == "bashing" ||
+         (*aSkill)->ident() == "stabbing")) {
+    level_num = 5;
+    exercise = 0;
+    text_color = c_yellow;
+   }
    if (line < skill_win_size_y + 1)
    {
      mvwprintz(w_skills, line, 1, text_color, "%s:", (*aSkill)->name().c_str());
-     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", (int)level,
-               (level.exercise() <  0 ? 0 : level.exercise()));
+     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%)", level_num,
+               (exercise <  0 ? 0 : exercise));
      line++;
    }
  }
@@ -3476,6 +3489,17 @@ void player::add_bionic(bionic_id b)
   newinv = my_bionics[my_bionics.size() - 1].invlet + 1;
  my_bionics.push_back(bionic(b, newinv));
  recalc_sight_limits();
+}
+
+void player::remove_bionic(bionic_id b) {
+    std::vector<bionic> new_my_bionics;
+    for(int i = 0; i < my_bionics.size(); i++) {
+        if (!(my_bionics[i].id == b)) {
+            new_my_bionics.push_back(bionic(my_bionics[i].id, my_bionics[i].invlet));
+        }
+    }
+    my_bionics = new_my_bionics;
+    recalc_sight_limits();
 }
 
 int player::num_bionics() const
@@ -6121,7 +6145,6 @@ bool player::process_single_active_item(item *it)
             if(it->item_counter == 0)
             {
                 it->item_counter = 0;
-                g->add_msg_if_player(this,_("Your %s dries off."), it->name.c_str());
 
                 // wet towel becomes a regular towel
                 if(it->type->id == "towel_wet")
@@ -7607,49 +7630,71 @@ bool player::wield(signed char ch, bool autodrop)
 
 void player::pick_style() // Style selection menu
 {
-//Create menu
-// Entries:
-// 0: Cancel
-// 1: No style
-// x: dynamic list of selectable styles
+    //Create menu
+    // Entries:
+    // 0: Cancel
+    // 1: No style
+    // x: dynamic list of selectable styles
 
-//If there are style already, cursor starts there
-// if no selected styles, cursor starts from no-style
+    //If there are style already, cursor starts there
+    // if no selected styles, cursor starts from no-style
 
-// Any other keys quit the menu
-// No matter how menu is cancelled, style_selected is not changed.
+    // Any other keys quit the menu
+    // No matter how menu is cancelled, style_selected is not changed.
 
- uimenu kmenu;
- kmenu.text = _("Select a style");
+    uimenu kmenu;
+    kmenu.text = _("Select a style");
 
- kmenu.addentry( 0, true, 'c', _("Cancel") );
- kmenu.addentry( 1, true, 'n', _("No style") );
- kmenu.selected = 1;
- kmenu.return_invalid = true; //cancel with any other keys
+    if (has_active_bionic("bio_cqb")) {
+        kmenu.addentry( 0, true, 'c', _("Cancel") );
+        if (martialarts.find("style_karate") != martialarts.end())
+            kmenu.addentry( 1, true, -1, martialarts["style_karate"].name );
+        if (martialarts.find("style_judo") != martialarts.end())
+            kmenu.addentry( 2, true, -1, martialarts["style_judo"].name );
+        if (martialarts.find("style_muay_thai") != martialarts.end())
+            kmenu.addentry( 3, true, -1, martialarts["style_muay_thai"].name );
+        if (martialarts.find("style_biojutsu") != martialarts.end())
+            kmenu.addentry( 4, true, -1, martialarts["style_biojutsu"].name );
 
- for (int i = 0; i < ma_styles.size(); i++) {
-  if(martialarts.find(ma_styles[i]) == martialarts.end()) {
-   debugmsg ("Bad hand to hand style: %s",ma_styles[i].c_str());
-  } else {
+        kmenu.query();
+        int selection = kmenu.ret;
+        switch (selection) {
+            case 1: style_selected = "style_karate"; break;
+            case 2: style_selected = "style_judo"; break;
+            case 3: style_selected = "style_muay_thai"; break;
+            case 4: style_selected = "style_biojutsu"; break;
+        }
+    }
+    else {
+        kmenu.addentry( 0, true, 'c', _("Cancel") );
+        kmenu.addentry( 1, true, 'n', _("No style") );
+        kmenu.selected = 1;
+        kmenu.return_invalid = true; //cancel with any other keys
 
-   //Check if this style is currently selected
-   if (strcmp(martialarts[ma_styles[i]].id.c_str(),style_selected.c_str())==0) {
-    kmenu.selected =i+2; //+2 because there are "cancel" and "no style" first in the list
-   }
-   kmenu.addentry( i+2, true, -1, martialarts[ma_styles[i]].name );
-  }
- }
- kmenu.query();
- int selection = kmenu.ret;
+        for (int i = 0; i < ma_styles.size(); i++) {
+            if(martialarts.find(ma_styles[i]) == martialarts.end()) {
+                debugmsg ("Bad hand to hand style: %s",ma_styles[i].c_str());
+            } else {
+                //Check if this style is currently selected
+                if (strcmp(martialarts[ma_styles[i]].id.c_str(),style_selected.c_str())==0) {
+                    kmenu.selected =i+2; //+2 because there are "cancel" and "no style" first in the list
+                }
+                kmenu.addentry( i+2, true, -1, martialarts[ma_styles[i]].name );
+            }
+        }
 
-//debugmsg("selected %d",choice);
- if (selection >= 2)
-  style_selected = ma_styles[selection - 2];
- else if (selection == 1)
-  style_selected = "style_none";
+        kmenu.query();
+        int selection = kmenu.ret;
 
- //else
- //all other means -> don't change, keep current.
+        //debugmsg("selected %d",choice);
+        if (selection >= 2)
+            style_selected = ma_styles[selection - 2];
+        else if (selection == 1)
+            style_selected = "style_none";
+
+        //else
+        //all other means -> don't change, keep current.
+    }
 }
 
 hint_rating player::rate_action_wear(item *it)
@@ -8817,6 +8862,9 @@ void player::use(int pos)
                 g->add_msg(_("That %s cannot be used on a %s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
                 return;
+        } else if (guntype->valid_mod_locations.count(mod->location) == 0) {
+            g->add_msg(_("Your %s doesn't have a slot for this mod."), gun->tname().c_str());
+            return;
         } else if (gun->get_free_mod_locations(mod->location) <= 0) {
             g->add_msg(_("Your %s doesn't have enough room for another %s mod. To remove the mods, \
 activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
@@ -10087,7 +10135,16 @@ void player::cancel_activity()
 
 std::vector<item*> player::has_ammo(ammotype at)
 {
-    return inv.all_ammo(at);
+    std::vector<item*> result = inv.all_ammo(at);
+    if (weapon.is_of_ammo_type_or_contains_it(at)) {
+        result.push_back(&weapon);
+    }
+    for (size_t i = 0; i < worn.size(); i++) {
+        if (worn[i].is_of_ammo_type_or_contains_it(at)) {
+            result.push_back(&worn[i]);
+        }
+    }
+    return result;
 }
 
 std::string player::weapname(bool charges)

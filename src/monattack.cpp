@@ -772,30 +772,35 @@ void mattack::leap(monster *z)
     point target = z->move_target();
     int best = rl_dist(z->posx(), z->posy(), target.x, target.y);
 
-    for (int x = z->posx() - 3; x <= z->posx() + 3; x++)
-    {
-        for (int y = z->posy() - 3; y <= z->posy() + 3; y++)
-        {
+    for (int x = z->posx() - 3; x <= z->posx() + 3; x++) {
+        for (int y = z->posy() - 3; y <= z->posy() + 3; y++) {
+            const int vision_range = z->vision_range( x, y );
             if (x == z->posx() && y == z->posy()) {
+                continue;
+            }
+            if (!g->m.sees(z->posx(), z->posy(), x, y, vision_range, linet)) {
+                continue;
+            }
+            if (!g->is_empty(x, y)) {
+                continue;
+            }
+            if (rl_dist(target.x, target.y, x, y) > best) {
                 continue;
             }
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
-            if (g->m.sees(z->posx(), z->posy(), x, y, z->vision_range(x, y), linet)) {
                 std::vector<point> line = line_to(z->posx(), z->posy(), x, y, linet);
                 for (int i = 0; i < line.size(); i++)
                 {
                     if (g->m.move_cost(line[i].x, line[i].y) == 0)
                     {
                         blocked_path = true;
+                        break;
                     }
                 }
-            }
-            if (!blocked_path && g->is_empty(x, y) &&
-                  g->m.sees(z->posx(), z->posy(), x, y, g->light_level(), linet) &&
-                  rl_dist(target.x, target.y, x, y) <= best) {
+            if (!blocked_path) {
                 options.push_back( point(x, y) );
-                best = rl_dist(g->u.posx, g->u.posy, x, y);
+                best = rl_dist(target.x, target.y, x, y);
             }
 
         }

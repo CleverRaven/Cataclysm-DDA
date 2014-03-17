@@ -8,11 +8,12 @@
 #include "debug.h"
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include <sys/stat.h>
+#include <stdexcept>
 #include "cata_tiles.h"
 #include "get_version.h"
 #include "init.h"
-//
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -57,16 +58,77 @@ static unsigned long interval = 25;
 static bool needupdate = false;
 #endif
 
+/**
+ * A class that draws a single character on screen.
+ */
+class Font {
+public:
+    Font(int w, int h) : fontwidth(w), fontheight(h) { }
+    virtual ~Font() { }
+    /**
+     * Draw character t at (x,y) on the screen,
+     * using (curses) color.
+     */
+    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color) = 0;
+    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
+    bool draw_window(WINDOW *win);
+    bool draw_window(WINDOW *win, int offsetx, int offsety);
+
+    static Font *load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight);
+public:
+    // the width of the font, background is always this size
+    int fontwidth;
+    // the height of the font, background is always this size
+    int fontheight;
+};
+
+/**
+ * Uses a ttf font. Its glyphs are cached.
+ */
+class CachedTTFFont : public Font {
+public:
+    CachedTTFFont(int w, int h);
+    virtual ~CachedTTFFont();
+
+    void clear();
+    void load_font(std::string typeface, int fontsize);
+    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
+protected:
+    void cache_glyphs();
+    SDL_Texture *create_glyph(int t, int color);
+
+    TTF_Font* font;
+    SDL_Texture *glyph_cache[128][16];
+    // Maps (character code, color) to SDL_Texture*
+    typedef std::map<std::pair<Uint16, unsigned char>, SDL_Texture *> t_glyph_map;
+    t_glyph_map glyph_cache_map;
+};
+
+/**
+ * A font created from a bitmap. Each character is taken from a
+ * specific area of the source bitmap.
+ */
+class BitmapFont : public Font {
+public:
+    BitmapFont(int w, int h);
+    virtual ~BitmapFont();
+
+    void clear();
+    void load_font(const std::string &path);
+    virtual void OutputChar(Uint16 t, int x, int y, unsigned char color);
+    virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
+protected:
+    SDL_Texture *ascii[16];
+    int tilewidth;
+};
+
+static Font *font = NULL;
+static Font *map_font = NULL;
+
 static SDL_Color windowsPalette[256];
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_PixelFormat *format;
-static SDL_Texture *glyph_cache[128][16]; //cache ascii characters
-static int glyph_height[128];
-static SDL_Texture *ascii[16];
-int tilewidth = 0;
-TTF_Font* font;
-static int ttf_height_hack = 0;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
@@ -82,12 +144,9 @@ int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 //int WindowCount;        //The number of curses windows currently in use
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
-int halfwidth;          //half of the font width, used for centering lines
-int halfheight;          //half of the font height, used for centering lines
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
 std::map< std::string,std::vector<int> > consolecolors;
-void (*OutputChar)(Uint16 t, int x, int y, unsigned char color);
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -269,82 +328,100 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 };
 
 
-
-static void cache_glyphs()
+SDL_Texture *CachedTTFFont::create_glyph(int ch, int color)
 {
-    int top = 999;
-    int bottom = -999;
-    start_color();
+    SDL_Surface * sglyph = (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
+    if (sglyph == NULL) {
+        DebugLog() << "Failed to create glyph for " << std::string(1, ch) << ": " << TTF_GetError() << "\n";
+        return NULL;
+    }
+    /* SDL interprets each pixel as a 32-bit number, so our masks must depend
+       on the endianness (byte order) of the machine */
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    static const Uint32 rmask = 0xff000000;
+    static const Uint32 gmask = 0x00ff0000;
+    static const Uint32 bmask = 0x0000ff00;
+    static const Uint32 amask = 0x000000ff;
+#else
+    static const Uint32 rmask = 0x000000ff;
+    static const Uint32 gmask = 0x0000ff00;
+    static const Uint32 bmask = 0x00ff0000;
+    static const Uint32 amask = 0xff000000;
+#endif
+    // Note: bits per pixel must be 8 to be synchron with the surface
+    // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
+    SDL_Surface *surface = SDL_CreateRGBSurface(0, fontwidth, fontheight, 32, rmask, gmask, bmask, amask);
+    if (surface == NULL) {
+        DebugLog() << "CreateRGBSurface failed: " << SDL_GetError() << "\n";
+        SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
+        SDL_FreeSurface(sglyph);
+        return glyph;
+    }
+    SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
+    SDL_Rect dst_rect = { 0, 0, fontwidth, fontheight };
+    if (src_rect.w < dst_rect.w) {
+        dst_rect.x = (dst_rect.w - src_rect.w) / 2;
+        dst_rect.w = src_rect.w;
+    } else if (src_rect.w > dst_rect.w) {
+        src_rect.x = (src_rect.w - dst_rect.w) / 2;
+        src_rect.w = dst_rect.w;
+    }
+    if (src_rect.h < dst_rect.h) {
+        dst_rect.y = (dst_rect.h - src_rect.h) / 2;
+        dst_rect.h = src_rect.h;
+    } else if (src_rect.h > dst_rect.h) {
+        src_rect.y = (src_rect.h - dst_rect.h) / 2;
+        src_rect.h = dst_rect.h;
+    }
 
+    if (SDL_BlitSurface(sglyph, &src_rect, surface, &dst_rect) != 0) {
+        DebugLog() << SDL_GetError() << "\n";
+        SDL_FreeSurface(surface);
+    } else {
+        SDL_FreeSurface(sglyph);
+        sglyph = surface;
+    }
+
+    SDL_Texture *glyph = SDL_CreateTextureFromSurface(renderer, sglyph);
+    SDL_FreeSurface(sglyph);
+    return glyph;
+}
+
+void CachedTTFFont::cache_glyphs()
+{
     for(int ch = 0; ch < 128; ch++) {
         for(int color = 0; color < 16; color++) {
-            //I hate this kind of ternary use
-            SDL_Surface * sglyph = (fontblending ? TTF_RenderGlyph_Blended : TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
-
-            if(sglyph != NULL) {
-                int minx, maxx, miny, maxy, advance;
-                if(color==0 && 0 == TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) ) {
-                    int t = TTF_FontAscent(font)-maxy;
-                    int b = t + sglyph->h;
-                    if(t < top) top = t;
-                    if(b > bottom) bottom = b;
-                }
-                glyph_height[ch] = sglyph->h;
-                glyph_cache[ch][color] = SDL_CreateTextureFromSurface(renderer,sglyph);
-            }
-
-            SDL_FreeSurface(sglyph);
+            glyph_cache[ch][color] = create_glyph(ch, color);
         }
     }
-
-    int height = bottom - top;
-    int delta = (fontheight - height) / 2;
-
-    ttf_height_hack =  delta - top;
 }
 
-static void OutputFontChar(Uint16 t, int x, int y, unsigned char color)
+void CachedTTFFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
-
-    bool created = false;
     SDL_Texture * glyph;
-    int height = 0;
-    if(t < 0x80) {
-        glyph = glyph_cache[t][color];
-        height = glyph_height[t];
+    if (t >= 0x80) {
+        SDL_Texture *&glyphr = glyph_cache_map[t_glyph_map::key_type(t, color)];
+        if (glyphr == NULL) {
+            glyphr = create_glyph(t, color);
+        }
+        glyph = glyphr;
     } else {
-        //create the texture instead
-        SDL_Surface *sglyph = (fontblending ? TTF_RenderGlyph_Blended
-            : TTF_RenderGlyph_Solid) (font, t, windowsPalette[color]);
-        glyph = SDL_CreateTextureFromSurface(renderer,sglyph);
-        height = sglyph->h;
-        SDL_FreeSurface(sglyph);
-        created = true;
+        glyph = glyph_cache[t][color];
     }
-
-    if(glyph) {
-        int minx = 0, miny = 0, maxy = 0, dx = 0, dy = 0;
-        if( 0 == TTF_GlyphMetrics(font, t, &minx, NULL, &miny, &maxy, NULL))
-        {
-            dx = minx;
-            dy = TTF_FontAscent(font) - maxy + ttf_height_hack;
-            SDL_Rect rect;
-            rect.x = x + dx;
-            rect.y = y + dy;
-            //these are not fontwidth/fontheight...
-            rect.w = fontwidth;
-            rect.h = height;
-            SDL_RenderCopy(renderer,glyph,NULL,&rect);
-        }
-        if(created) {
-            SDL_DestroyTexture(glyph);
-        }
+    if (glyph == NULL) {
+        // Nothing we can do here )-:
+        return;
     }
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = fontwidth;
+    rect.h = fontheight;
+    SDL_RenderCopy(renderer, glyph, NULL, &rect);
 }
 
-#ifdef SDLTILES
-static void OutputImageChar(Uint16 t, int x, int y, unsigned char color)
+void BitmapFont::OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     SDL_Rect src;
     src.x = (t % tilewidth) * fontwidth;
@@ -356,6 +433,7 @@ static void OutputImageChar(Uint16 t, int x, int y, unsigned char color)
     SDL_RenderCopy(renderer,ascii[color],&src,&rect);
 }
 
+#ifdef SDLTILES
 // only update if the set interval has elapsed
 void try_update()
 {
@@ -368,11 +446,110 @@ void try_update()
         needupdate = true;
     }
 }
+#endif
 
+// line_id is one of the LINE_*_C constants
+// FG is a curses color
+void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
+{
+    switch (line_id) {
+        case LINE_OXOX_C://box bottom/top side (horizontal line)
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            break;
+        case LINE_XOXO_C://box left/right side (vertical line)
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + fontheight, 2, FG);
+            break;
+        case LINE_OXXO_C://box top left
+            HorzLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawy + fontheight, 2, FG);
+            break;
+        case LINE_OOXX_C://box top right
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + (fontwidth / 2), 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawy + fontheight, 2, FG);
+            break;
+        case LINE_XOOX_C://box bottom right
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + (fontwidth / 2), 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + (fontheight / 2) + 1, 2, FG);
+            break;
+        case LINE_XXOO_C://box bottom left
+            HorzLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + (fontheight / 2) + 1, 2, FG);
+            break;
+        case LINE_XXOX_C://box bottom north T (left, right, up)
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + (fontheight / 2), 2, FG);
+            break;
+        case LINE_XXXO_C://box bottom east T (up, right, down)
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + fontheight, 2, FG);
+            HorzLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            break;
+        case LINE_OXXX_C://box bottom south T (left, right, down)
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy + (fontheight / 2), drawy + fontheight, 2, FG);
+            break;
+        case LINE_XXXX_C://box X (left down up right)
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + fontwidth, 1, FG);
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + fontheight, 2, FG);
+            break;
+        case LINE_XOXX_C://box bottom east T (left, down, up)
+            VertLineDIB(drawx + (fontwidth / 2), drawy, drawy + fontheight, 2, FG);
+            HorzLineDIB(drawx, drawy + (fontheight / 2), drawx + (fontwidth / 2), 1, FG);
+            break;
+        default:
+            break;
+    }
+}
+
+extern WINDOW *w_hit_animation;
 void curses_drawwindow(WINDOW *win)
 {
-    int i,j,w,drawx,drawy;
-    unsigned tmp;
+    bool update = false;
+#ifdef SDLTILES
+    if (g && win == g->w_terrain && use_tiles) {
+        // game::w_terrain can be drawn by the tilecontext.
+        // skip the normal drawing code for it.
+        tilecontext->draw(
+            win->x * fontwidth,
+            win->y * fontheight,
+            g->ter_view_x,
+            g->ter_view_y,
+            tilecontext->get_terrain_term_x() * fontwidth,
+            tilecontext->get_terrain_term_y() * fontheight);
+        update = true;
+    } else if (g && win == g->w_terrain && map_font != NULL) {
+        // Special font for the terrain window
+        update = map_font->draw_window(win);
+    } else if (win == w_hit_animation && map_font != NULL) {
+        // The animation window overlays the terrain window,
+        // it uses the same font, but it's only 1 square in size.
+        // The offset must not use the global font, but the map font
+        int offsetx = win->x * map_font->fontwidth;
+        int offsety = win->y * map_font->fontheight;
+        update = map_font->draw_window(win, offsetx, offsety);
+    } else {
+        // Either not using tiles (tilecontext) or not the w_terrain window.
+        update = font->draw_window(win);
+    }
+#else
+    // Not using sdl tiles anyway
+    update = font->draw_window(win);
+#endif
+    if(update) {
+        needupdate = true;
+    }
+}
+
+bool Font::draw_window(WINDOW *win)
+{
+    // Use global font sizes here to make this independent of the
+    // font used for this window.
+    return draw_window(win, win->x * ::fontwidth, win->y * ::fontheight);
+}
+
+bool Font::draw_window(WINDOW *win, int offsetx, int offsety)
+{
+    int i,j,w,tmp;
+    int drawx,drawy;
     bool update = false;
     for (j=0; j<win->height; j++){
         if (win->line[j].touched) {
@@ -381,8 +558,8 @@ void curses_drawwindow(WINDOW *win)
             win->line[j].touched=false;
 
             for (i=0,w=0; w<win->width; i++,w++) {
-                drawx=((win->x+w)*fontwidth);
-                drawy=((win->y+j)*fontheight);//-j;
+                drawx = offsetx + w * fontwidth;
+                drawy = offsety + j * fontheight;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
                 const char* utf8str = win->line[j].chars+i;
                 int len = ANY_LENGTH;
@@ -392,7 +569,7 @@ void curses_drawwindow(WINDOW *win)
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
                 if ( tmp != UNKNOWN_UNICODE){
-                    int cw = mk_wcwidth(tmp);
+                    int cw = mk_wcwidth((wchar_t)tmp);
                     len = ANY_LENGTH-len;
                     if(cw>1)
                     {
@@ -405,178 +582,15 @@ void curses_drawwindow(WINDOW *win)
                     }
                     if(tmp) OutputChar(tmp, drawx,drawy,FG);
                 } else {
-                    switch ((unsigned char)win->line[j].chars[i]) {
-                    case LINE_OXOX_C://box bottom/top side (horizontal line)
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                        break;
-                    case LINE_XOXO_C://box left/right side (vertical line)
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_OXXO_C://box top left
-                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_OOXX_C://box top right
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_XOOX_C://box bottom right
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                        break;
-                    case LINE_XXOO_C://box bottom left
-                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                        break;
-                    case LINE_XXOX_C://box bottom north T (left, right, up)
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight,2,FG);
-                        break;
-                    case LINE_XXXO_C://box bottom east T (up, right, down)
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                        HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                        break;
-                    case LINE_OXXX_C://box bottom south T (left, right, down)
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_XXXX_C://box X (left down up right)
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                        break;
-                    case LINE_XOXX_C://box bottom east T (left, down, up)
-                        VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                        HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                        break;
-                    default:
-                        break;
-                    }
-                    };//switch (tmp)
+                    draw_ascii_lines((unsigned char)win->line[j].chars[i], drawx, drawy, FG);
                 }//(tmp < 0)
+                }
             };//for (i=0;i<_windows[w].width;i++)
         }
     };// for (j=0;j<_windows[w].height;j++)
-
     win->draw = false; //We drew the window, mark it as so
-
-    if (g && win == g->w_terrain && use_tiles)
-    {
-        tilecontext->draw(
-            win->x * fontwidth,
-            win->y * fontheight,
-            g->ter_view_x,
-            g->ter_view_y,
-            tilecontext->get_terrain_term_x() * fontwidth,
-            tilecontext->get_terrain_term_y() * fontheight);
-    }
-
-    if(update) {
-        needupdate = true;
-    }
+    return update;
 }
-#else
-void curses_drawwindow(WINDOW *win)
-{
-    int i,j,w,drawx,drawy;
-    unsigned tmp;
-
-    bool update = false;
-
-    for (j=0; j<win->height; j++)
-    {
-        if (win->line[j].touched)
-        {
-            update = true;
-
-            win->line[j].touched=false;
-
-            for (i=0,w=0; w<win->width; i++,w++)
-            {
-                drawx=((win->x+w)*fontwidth);
-                drawy=((win->y+j)*fontheight);//-j;
-                if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight))
-                {
-                    const char* utf8str = win->line[j].chars+i;
-                    int len = ANY_LENGTH;
-                    tmp = UTF8_getch(&utf8str, &len);
-                    int FG = win->line[j].FG[w];
-                    int BG = win->line[j].BG[w];
-                    FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
-
-                    if ( tmp != UNKNOWN_UNICODE){
-                        int cw = mk_wcwidth((wchar_t)tmp);
-                        len = ANY_LENGTH-len;
-                        if(cw>1)
-                        {
-                            FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
-                            w+=cw-1;
-                        }
-                        if(len>1)
-                        {
-                            i+=len-1;
-                        }
-                        if(0!=tmp) {
-                            OutputChar(tmp, drawx,drawy,FG);
-                        }
-                    } else {
-                        switch ((unsigned char)win->line[j].chars[i]) {
-                        case LINE_OXOX_C://box bottom/top side (horizontal line)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            break;
-                        case LINE_XOXO_C://box left/right side (vertical line)
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_OXXO_C://box top left
-                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_OOXX_C://box top right
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_XOOX_C://box bottom right
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                            break;
-                        case LINE_XXOO_C://box bottom left
-                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight+1,2,FG);
-                            break;
-                        case LINE_XXOX_C://box bottom north T (left, right, up)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+halfheight,2,FG);
-                            break;
-                        case LINE_XXXO_C://box bottom east T (up, right, down)
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            HorzLineDIB(drawx+halfwidth,drawy+halfheight,drawx+fontwidth,1,FG);
-                            break;
-                        case LINE_OXXX_C://box bottom south T (left, right, down)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy+halfheight,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_XXXX_C://box X (left down up right)
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+fontwidth,1,FG);
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            break;
-                        case LINE_XOXX_C://box bottom east T (left, down, up)
-                            VertLineDIB(drawx+halfwidth,drawy,drawy+fontheight,2,FG);
-                            HorzLineDIB(drawx,drawy+halfheight,drawx+halfwidth,1,FG);
-                            break;
-                        default:
-                            break;
-                        }//switch (tmp)
-                    }
-                }//(tmp < 0)
-            }//for (i=0;i<_windows[w].width;i++)
-        }
-    }// for (j=0;j<_windows[w].height;j++)
-    win->draw=false; //We drew the window, mark it as so
-
-    if(update) {
-        needupdate = true;
-    }
-}
-#endif
 
 #define ALT_BUFFER_SIZE 8
 static char alt_buffer[ALT_BUFFER_SIZE];
@@ -999,6 +1013,12 @@ static int test_face_size(std::string f, int size, int faceIndex)
     return faceIndex;
 }
 
+// Check if text ends with suffix
+bool ends_with(const std::string &text, const std::string &suffix) {
+    return text.length() >= suffix.length() &&
+        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
+}
+
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
@@ -1023,7 +1043,6 @@ WINDOW *curses_init(void)
     std::string typeface = "Terminus";
     std::string blending = "solid";
     std::ifstream fin;
-    int faceIndex = 0;
     int fontsize = 0; //actuall size
     fin.open("data/FONTDATA");
     if (!fin.is_open()){
@@ -1052,8 +1071,25 @@ WINDOW *curses_init(void)
 
     fontblending = (blending=="blended");
 
-    halfwidth=fontwidth / 2;
-    halfheight=fontheight / 2;
+    std::string map_typeface = typeface;
+    int map_fontwidth = fontwidth;
+    int map_fontheight = fontheight;
+    int map_fontsize = fontsize;
+
+    std::ifstream jsonstream("data/fontdata.json", std::ifstream::binary);
+    if (jsonstream.good()) {
+        JsonIn json(jsonstream);
+        JsonObject config = json.get_object();
+        fontblending = config.get_bool("fontblending", fontblending);
+        fontwidth = config.get_int("fontwidth", fontwidth);
+        fontheight = config.get_int("fontheight", fontheight);
+        fontsize = config.get_int("fontsize", fontsize);
+        typeface = config.get_string("typeface", typeface);
+        map_fontwidth = config.get_int("map_fontwidth", fontwidth);
+        map_fontheight = config.get_int("map_fontheight", fontheight);
+        map_fontsize = config.get_int("map_fontsize", fontsize);
+        map_typeface = config.get_string("map_typeface", typeface);
+    }
 
     if(!InitSDL()) {
         DebugLog() << "Failed to initialize SDL: " << SDL_GetError() << "\n";
@@ -1099,100 +1135,47 @@ WINDOW *curses_init(void)
     }
     #endif // SDLTILES
 
-    #ifdef SDLTILES
-    while(!strcasecmp(typeface.substr(typeface.length()-4).c_str(),".bmp") ||
-          !strcasecmp(typeface.substr(typeface.length()-4).c_str(),".png")) {
-        DebugLog() << "Loading bitmap font [" + typeface + "].\n" ;
-        typeface = "data/font/" + typeface;
-        SDL_Surface *asciiload = IMG_Load(typeface.c_str());
-        if(!asciiload || asciiload->w*asciiload->h < (fontwidth * fontheight * 256)) {
-            DebugLog() << "Failed to load bitmap font: " << IMG_GetError() << "\n";
-            SDL_FreeSurface(asciiload);
-            break;
-        }
-        Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
-        SDL_SetColorKey(asciiload,SDL_TRUE,key);
-        SDL_Surface *ascii_surf[16];
-        ascii_surf[0] = SDL_ConvertSurface(asciiload,format,0);
-        SDL_SetSurfaceRLE(ascii_surf[0], true);
-        SDL_FreeSurface(asciiload);
-
-        for(int a = 1; a < 16; ++a) {
-            ascii_surf[a] = SDL_ConvertSurface(ascii_surf[0],format,0);
-            SDL_SetSurfaceRLE(ascii_surf[a], true);
-        }
-
-        init_colors();
-        for(int a = 0; a < 15; ++a) {
-            SDL_LockSurface(ascii_surf[a]);
-            int size = ascii_surf[a]->h * ascii_surf[a]->w;
-            Uint32 *pixels = (Uint32 *)ascii_surf[a]->pixels;
-            Uint32 color = (windowsPalette[a].r << 16) | (windowsPalette[a].g << 8) | windowsPalette[a].b;
-            for(int i=0;i<size;i++) {
-                if(pixels[i] == 0xFFFFFF)
-                    pixels[i] = color;
-            }
-            SDL_UnlockSurface(ascii_surf[a]);
-        }
-
-        if(fontwidth)
-            tilewidth = ascii_surf[0]->w / fontwidth;
-
-        OutputChar = &OutputImageChar;
-
-        //convert ascii_surf to SDL_Texture
-        for(int a = 0; a < 16; ++a) {
-            ascii[a] = SDL_CreateTextureFromSurface(renderer,ascii_surf[a]);
-            SDL_FreeSurface(ascii_surf[a]);
-        }
-
-        mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
-        return mainwin;
-    }
-    #endif // SDLTILES
-
-    std::string sysfnt = find_system_font(typeface, faceIndex);
-    if(sysfnt != "") typeface = sysfnt;
-
-    //make fontdata compatible with wincurse
-    if(!fexists(typeface.c_str())) {
-        faceIndex = 0;
-        typeface = "data/font/" + typeface + ".ttf";
-    }
-
-    //different default font with wincurse
-    if(!fexists(typeface.c_str())) {
-        faceIndex = 0;
-        typeface = "data/font/fixedsys.ttf";
-    }
-
-    DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
-
-    if(fontsize <= 0) fontsize = fontheight - 1;
-
-    // SDL_ttf handles bitmap fonts size incorrectly
-    if(0 == strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon"))
-        faceIndex = test_face_size(typeface, fontsize, faceIndex);
-
-    font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
-    if (font == NULL) {
-        DebugLog() << "Failed to load truetype font: " << TTF_GetError() << "\n";
-        return NULL;
-    }
-
-    TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
-
-    // glyph height hack by utunnels
-    // SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
-    // this causes baseline problems for certain fonts
-    // I can only guess by check a certain tall character...
-    cache_glyphs();
     init_colors();
 
-    OutputChar = &OutputFontChar;
-
+    // Reset the font pointer
+    font = Font::load_font(typeface, fontsize, fontwidth, fontheight);
+    if (font == NULL) {
+        return NULL;
+    }
+    map_font = Font::load_font(map_typeface, map_fontsize, map_fontwidth, map_fontheight);
     mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
+}
+
+Font *Font::load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight)
+{
+    #ifdef SDLTILES
+    if (ends_with(typeface, ".bmp") || ends_with(typeface, ".png")) {
+        // Seems to be an image file, not a font.
+        // Try to load as bitmap font.
+        BitmapFont *bm_font = new BitmapFont(fontwidth, fontheight);
+        try {
+            bm_font->load_font("data/font/" + typeface);
+            // It worked, tell the world to use bitmap_font.
+            return bm_font;
+        } catch(std::exception &err) {
+            delete bm_font;
+            DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
+            // Continue to load as truetype font
+        }
+    }
+    #endif // SDLTILES
+    // Not loaded as bitmap font (or it failed), try to load as truetype
+    CachedTTFFont *ttf_font = new CachedTTFFont(fontwidth, fontheight);
+    try {
+        ttf_font->load_font(typeface, fontsize);
+        // It worked, tell the world to use cached_ttf_font
+        return ttf_font;
+    } catch(std::exception &err) {
+        delete ttf_font;
+        DebugLog() << "Failed to load " << typeface << ": " << err.what() << "\n";
+    }
+    return NULL;
 }
 
 //Ported from windows and copied comments as well
@@ -1213,19 +1196,10 @@ int curses_getch(WINDOW* win)
 //Ends the terminal, destroy everything
 int curses_destroy(void)
 {
-    TTF_CloseFont(font);
+    delete font;
     font = NULL;
-    for (int i=0; i<128; i++) {
-        for (int j=0; j<16; j++) {
-            if (glyph_cache[i][j]) {
-                SDL_DestroyTexture(glyph_cache[i][j]);
-            }
-            glyph_cache[i][j] = NULL;
-        }
-    }
-    for(int a=0;a<16;a++) {
-        SDL_DestroyTexture(ascii[a]);
-    }
+    delete map_font;
+    map_font = NULL;
     WinDestroy();
     return 1;
 }
@@ -1410,44 +1384,39 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         capture_win = g->w_terrain;
     }
 
-    int view_columns = capture_win->width;
-    int view_rows = capture_win->height;
-    int selected_column, selected_row;
-
-    // Translate mouse coords to map coords based on tile size
+    // this contains the font dimensions of the capture_win,
+    // not necessarily the global standard font dimensions.
+    int fw = fontwidth;
+    int fh = fontheight;
 #ifdef SDLTILES
-    if (use_tiles)
-    {
-        // Check if click is within bounds of the window we care about
-        int win_left = capture_win->x * fontwidth;
-        int win_right = win_left + (capture_win->width * tilecontext->get_tile_width());
-        int win_top = capture_win->y * fontheight;
-        int win_bottom = win_top + (capture_win->height * tilecontext->get_tile_height());
-        if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
-            return false;
-        }
-
-        selected_column = (coordinate_x - win_left) / tilecontext->get_tile_width();
-        selected_row = (coordinate_y - win_top) / tilecontext->get_tile_height();
-    }
-    else
+    // tiles might have different dimensions than standard font
+    if (use_tiles && capture_win == g->w_terrain) {
+        fw = tilecontext->get_tile_width();
+        fh = tilecontext->get_tile_height();
+    } else
 #endif
-    {
-        // Check if click is within bounds of the window we care about
-        int win_left = capture_win->x * fontwidth;
-        int win_right = (capture_win->x + capture_win->width) * fontwidth;
-        int win_top = capture_win->y * fontheight;
-        int win_bottom = (capture_win->y + capture_win->height) * fontheight;
-        if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
-            return false;
-        }
-
-        selected_column = (coordinate_x - win_left) / fontwidth;
-        selected_row = (coordinate_y - win_top) / fontheight;
+    if (map_font != NULL && capture_win == g->w_terrain) {
+        // map font (if any) might differ from standard font
+        fw = map_font->fontwidth;
+        fh = map_font->fontheight;
     }
 
-    x = g->ter_view_x - ((view_columns/2) - selected_column);
-    y = g->ter_view_y - ((view_rows/2) - selected_row);
+    // Translate mouse coords to map coords based on tile size,
+    // the window position is *always* in standard font dimensions!
+    const int win_left = capture_win->x * fontwidth;
+    const int win_top = capture_win->y * fontheight;
+    // But the size of the window is in the font dimensions of the window.
+    const int win_right = win_left + (capture_win->width * fw);
+    const int win_bottom = win_top + (capture_win->height * fh);
+    // Check if click is within bounds of the window we care about
+    if (coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top || coordinate_y > win_bottom) {
+        return false;
+    }
+    const int selected_column = (coordinate_x - win_left) / fw;
+    const int selected_row = (coordinate_y - win_top) / fh;
+
+    x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
+    y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
 
     return true;
 }
@@ -1458,6 +1427,215 @@ int get_terminal_width() {
 
 int get_terminal_height() {
     return TERMINAL_HEIGHT;
+}
+
+BitmapFont::BitmapFont(int w, int h)
+: Font(w, h)
+{
+    memset(ascii, 0x00, sizeof(ascii));
+}
+
+BitmapFont::~BitmapFont()
+{
+    clear();
+}
+
+void BitmapFont::clear()
+{
+    for (size_t a = 0; a < 16; a++) {
+        if (ascii[a] != NULL) {
+            SDL_DestroyTexture(ascii[a]);
+            ascii[a] = NULL;
+        }
+    }
+}
+
+void BitmapFont::load_font(const std::string &typeface)
+{
+    clear();
+    DebugLog() << "Loading bitmap font [" + typeface + "].\n" ;
+    SDL_Surface *asciiload = IMG_Load(typeface.c_str());
+    if (asciiload == NULL) {
+        throw std::runtime_error(IMG_GetError());
+    }
+    if (asciiload->w * asciiload->h < (fontwidth * fontheight * 256)) {
+        SDL_FreeSurface(asciiload);
+        throw std::runtime_error("bitmap for font is to small");
+    }
+    Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
+    SDL_SetColorKey(asciiload,SDL_TRUE,key);
+    SDL_Surface *ascii_surf[16];
+    ascii_surf[0] = SDL_ConvertSurface(asciiload,format,0);
+    SDL_SetSurfaceRLE(ascii_surf[0], true);
+    SDL_FreeSurface(asciiload);
+
+    for (size_t a = 1; a < 16; ++a) {
+        ascii_surf[a] = SDL_ConvertSurface(ascii_surf[0],format,0);
+        SDL_SetSurfaceRLE(ascii_surf[a], true);
+    }
+
+    for (size_t a = 0; a < 16 - 1; ++a) {
+        SDL_LockSurface(ascii_surf[a]);
+        int size = ascii_surf[a]->h * ascii_surf[a]->w;
+        Uint32 *pixels = (Uint32 *)ascii_surf[a]->pixels;
+        Uint32 color = (windowsPalette[a].r << 16) | (windowsPalette[a].g << 8) | windowsPalette[a].b;
+        for(int i = 0; i < size; i++) {
+            if(pixels[i] == 0xFFFFFF) {
+                pixels[i] = color;
+            }
+        }
+        SDL_UnlockSurface(ascii_surf[a]);
+    }
+    tilewidth = ascii_surf[0]->w / fontwidth;
+
+    //convert ascii_surf to SDL_Texture
+    for(int a = 0; a < 16; ++a) {
+        ascii[a] = SDL_CreateTextureFromSurface(renderer,ascii_surf[a]);
+        SDL_FreeSurface(ascii_surf[a]);
+    }
+}
+
+void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
+{
+    BitmapFont *t = const_cast<BitmapFont*>(this);
+    switch (line_id) {
+        case LINE_OXOX_C://box bottom/top side (horizontal line)
+            t->OutputChar(0xcd, drawx, drawy, FG);
+            break;
+        case LINE_XOXO_C://box left/right side (vertical line)
+            t->OutputChar(0xba, drawx, drawy, FG);
+            break;
+        case LINE_OXXO_C://box top left
+            t->OutputChar(0xc9, drawx, drawy, FG);
+            break;
+        case LINE_OOXX_C://box top right
+            t->OutputChar(0xbb, drawx, drawy, FG);
+            break;
+        case LINE_XOOX_C://box bottom right
+            t->OutputChar(0xbc, drawx, drawy, FG);
+            break;
+        case LINE_XXOO_C://box bottom left
+            t->OutputChar(0xc8, drawx, drawy, FG);
+            break;
+        case LINE_XXOX_C://box bottom north T (left, right, up)
+            t->OutputChar(0xca, drawx, drawy, FG);
+            break;
+        case LINE_XXXO_C://box bottom east T (up, right, down)
+            t->OutputChar(0xcc, drawx, drawy, FG);
+            break;
+        case LINE_OXXX_C://box bottom south T (left, right, down)
+            t->OutputChar(0xcb, drawx, drawy, FG);
+            break;
+        case LINE_XXXX_C://box X (left down up right)
+            t->OutputChar(0xce, drawx, drawy, FG);
+            break;
+        case LINE_XOXX_C://box bottom east T (left, down, up)
+            t->OutputChar(0xb9, drawx, drawy, FG);
+            break;
+        default:
+            break;
+    }
+}
+
+
+
+
+CachedTTFFont::CachedTTFFont(int w, int h)
+: Font(w, h)
+, font(NULL)
+{
+    memset(glyph_cache, 0x00, sizeof(glyph_cache));
+}
+
+CachedTTFFont::~CachedTTFFont()
+{
+    clear();
+}
+
+void CachedTTFFont::clear()
+{
+    if (font != NULL) {
+        TTF_CloseFont(font);
+        font = NULL;
+    }
+    for (size_t i = 0; i < 128; i++) {
+        for (size_t j = 0; j < 16; j++) {
+            if (glyph_cache[i][j] != NULL) {
+                SDL_DestroyTexture(glyph_cache[i][j]);
+                glyph_cache[i][j] = NULL;
+            }
+        }
+    }
+    for (t_glyph_map::iterator a = glyph_cache_map.begin(); a != glyph_cache_map.end(); ++a) {
+        if (a->second != NULL) {
+            SDL_DestroyTexture(a->second);
+        }
+    }
+    glyph_cache_map.clear();
+}
+
+void CachedTTFFont::load_font(std::string typeface, int fontsize)
+{
+    clear();
+    int faceIndex = 0;
+    const std::string sysfnt = find_system_font(typeface, faceIndex);
+    if (!sysfnt.empty()) {
+        typeface = sysfnt;
+        DebugLog() << "Using font [" + typeface + "].\n" ;
+    }
+    //make fontdata compatible with wincurse
+    if(!fexists(typeface.c_str())) {
+        faceIndex = 0;
+        typeface = "data/font/" + typeface + ".ttf";
+        DebugLog() << "Using compatible font [" + typeface + "].\n" ;
+    }
+    //different default font with wincurse
+    if(!fexists(typeface.c_str())) {
+        faceIndex = 0;
+        typeface = "data/font/fixedsys.ttf";
+        DebugLog() << "Using fallback font [" + typeface + "].\n" ;
+    }
+    DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
+    if(fontsize <= 0) {
+        fontsize = fontheight - 1;
+    }
+    // SDL_ttf handles bitmap fonts size incorrectly
+    if (typeface.length() > 4 && strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon") == 0) {
+        faceIndex = test_face_size(typeface, fontsize, faceIndex);
+    }
+    font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
+    if (font == NULL) {
+        throw std::runtime_error(TTF_GetError());
+    }
+    TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+    // glyph height hack by utunnels
+    // SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
+    // this causes baseline problems for certain fonts
+    // I can only guess by check a certain tall character...
+    cache_glyphs();
+}
+
+int map_font_width() {
+#ifdef SDLTILES
+    if (use_tiles && tilecontext != NULL) {
+        return tilecontext->get_tile_width();
+    }
+#endif
+    return (map_font != NULL ? map_font : font)->fontwidth;
+}
+
+int map_font_height() {
+#ifdef SDLTILES
+    if (use_tiles && tilecontext != NULL) {
+        return tilecontext->get_tile_height();
+    }
+#endif
+    return (map_font != NULL ? map_font : font)->fontheight;
+}
+
+void translate_terrain_window_size(int &w, int &h) {
+    w = (w * fontwidth) / map_font_width();
+    h = (h * fontheight) / map_font_height();
 }
 
 #endif // TILES

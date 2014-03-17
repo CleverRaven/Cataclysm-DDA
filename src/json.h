@@ -1,11 +1,9 @@
 #ifndef _JSON_H_
 #define _JSON_H_
 
-#include <istream>
+#include <iosfwd>
 #include <map>
-#include <ostream>
 #include <set>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -297,7 +295,7 @@ public:
     // vector ~> array
     template <typename T> void write(const std::vector<T> &v) {
         start_array();
-        for (int i = 0; i < v.size(); ++i) {
+        for (size_t i = 0; i < v.size(); ++i) {
             write(v[i]);
         }
         end_array();
@@ -649,15 +647,8 @@ class JsonSerializer {
 public:
     virtual ~JsonSerializer() {}
     virtual void serialize(JsonOut &jsout) const = 0;
-    std::string serialize() const {
-        std::ostringstream s;
-        serialize(s);
-        return s.str();
-    }
-    void serialize(std::ostream &o) const {
-        JsonOut jout(o);
-        serialize(jout);
-    }
+    std::string serialize() const;
+    void serialize(std::ostream &o) const;
 };
 
 /* JsonDeserializer
@@ -689,14 +680,8 @@ class JsonDeserializer {
 public:
     virtual ~JsonDeserializer() {}
     virtual void deserialize(JsonIn &jsin) = 0;
-    void deserialize(const std::string &json_string) {
-        std::istringstream s(json_string);
-        deserialize(s);
-    }
-    void deserialize(std::istream &i) {
-        JsonIn jin(i);
-        deserialize(jin);
-    }
+    void deserialize(const std::string &json_string);
+    void deserialize(std::istream &i);
 };
 
 #endif // _JSON_H_
