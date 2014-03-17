@@ -573,7 +573,7 @@
         "color": "ltcyan",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "SEALED", "DECONSTRUCT", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR"],
+        "flags": ["BASHABLE", "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR"],
         "examine_action": "vending",
         "bash": {
             "str_min": 4, "str_max": 30,
@@ -589,7 +589,7 @@
         "color": "dkgray",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "DECONSTRUCT", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
+        "flags": ["BASHABLE", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR"],
         "bash": {
             "str_min": 5, "str_max": 45,
             "sound": "metal screeching!",
