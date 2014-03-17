@@ -1248,6 +1248,7 @@ field_id monster::monBloodType() {
         return fd_blood;
     return fd_null; //Please update the corpse blood type code at activity_on_turn_pulp() in game.cpp when modifying these rules!
                     //And splatter() in ranged.cpp
+                    //And check the MESSY code in melee.cpp
 }
 field_id monster::monGibType() {
     if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))

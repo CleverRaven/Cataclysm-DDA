@@ -127,7 +127,7 @@ int player::get_hit_base()
     int cutting_skill = skillLevel("cutting");
     int stabbing_skill = skillLevel("stabbing");
     int melee_skill = skillLevel("melee");
-    
+
     if (has_active_bionic("bio_cqb")) {
         unarmed_skill = 5;
         bashing_skill = 5;
@@ -470,7 +470,7 @@ int player::roll_bash_damage(bool crit)
     int stat = str_cur; // Which stat determines damage?
 
     int bashing_skill = skillLevel("bashing");
-    int unarmed_skill = skillLevel("unarmed"); 
+    int unarmed_skill = skillLevel("unarmed");
 
     if (has_active_bionic("bio_cqb")) {
         bashing_skill = 5;
@@ -482,7 +482,7 @@ int player::roll_bash_damage(bool crit)
     stat += mabuff_bash_bonus();
 
     if (unarmed_attack())
-        skill = unarmed_skill; 
+        skill = unarmed_skill;
 
     ret = base_damage(true, stat);
 
@@ -503,8 +503,8 @@ int player::roll_bash_damage(bool crit)
     int bash_dam = int(stat / 2) + weapon.damage_bash(),
         bash_cap = 5 + stat + skill;
 
-    if (unarmed_attack()) 
-        bash_dam = rng(0, int(stat / 2) + unarmed_skill); 
+    if (unarmed_attack())
+        bash_dam = rng(0, int(stat / 2) + unarmed_skill);
     else
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
         if (bashing_skill <= 5)
@@ -553,7 +553,7 @@ int player::roll_cut_damage(bool crit)
     double ret = mabuff_cut_bonus() + weapon.damage_cut();
 
     int cutting_skill = skillLevel("cutting");
-    int unarmed_skill = skillLevel("unarmed"); 
+    int unarmed_skill = skillLevel("unarmed");
 
     if (has_active_bionic("bio_cqb"))
     {
@@ -625,8 +625,8 @@ int player::roll_stab_damage(bool crit)
 
     int stabbing_skill = skillLevel("stabbing");
 
-    if (has_active_bionic("bio_cqb")) 
-        stabbing_skill = 5; 
+    if (has_active_bionic("bio_cqb"))
+        stabbing_skill = 5;
 
     // 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%, 146%
     if (stabbing_skill <= 5)
@@ -746,7 +746,7 @@ matec_id player::pick_technique(Creature &t,
         // dice(   dex_cur +    skillLevel("unarmed"),  8) >
         // dice(p->dex_cur + p->skillLevel("melee"),   10))
         if (tec.disarms && !t.has_weapon()) continue;
-        
+
         // ignore aoe tecs for a bit
         if (tec.aoe.length() > 0) continue;
 
@@ -807,7 +807,7 @@ bool player::has_technique(matec_id id) {
 void player::perform_technique(ma_technique technique, Creature &t, int &bash_dam, int &cut_dam, int &stab_dam, int& move_cost)
 {
     std::string target = t.disp_name();
-    
+
     bash_dam += technique.bash;
     if (cut_dam > stab_dam) { // cut affects stab damage too since only one of cut/stab is used
         cut_dam += technique.cut;
@@ -1162,18 +1162,32 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));
  if (weapon.has_flag("MESSY")) { // e.g. chainsaws
   cutting_penalty /= 6; // Harder to get stuck
+  //Get blood type.
+  field_id type_blood = fd_blood;
   if (monster *m = dynamic_cast<monster*>(&t)) {
    if(!m->is_hallucination()){
-    field_id type_blood = m->monBloodType();
-    for (int x = tarposx - 1; x <= tarposx + 1; x++) {
-     for (int y = tarposy - 1; y <= tarposy + 1; y++) {
-      if (!one_in(3) && type_blood != fd_null) {
-       g->m.add_field(x, y, type_blood, 1);
-      }
-     } //it all
-    } //comes
-   } //tumbling down
-  } //tumbling down
+    type_blood = m->monBloodType();
+   } else {
+    type_blood = fd_null;
+   }
+  } else {
+   if( t.get_material() != "flesh" || t.has_flag(MF_VERMIN) ) {
+    type_blood = fd_null;
+   } else if( t.has_flag(MF_BILE_BLOOD) ) {
+    type_blood = fd_bile;
+   } else if( t.has_flag(MF_ACID_BLOOD) ) {
+    type_blood = fd_acid;
+   }
+  }
+  if(type_blood != fd_null) {
+   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
+    for (int y = tarposy - 1; y <= tarposy + 1; y++) {
+     if (!one_in(3)) {
+      g->m.add_field(x, y, type_blood, 1);
+     }
+    }
+   } //it all
+  } //comes
  } //tumbling down
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) /* && TODO: put is_halluc check back in
          !z->is_hallucination()*/) {
