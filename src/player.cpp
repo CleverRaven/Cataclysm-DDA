@@ -9609,6 +9609,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     bool armor_damaged = false;
 
     std::string pre_damage_name = armor.tname();
+    std::string pre_damage_adj = armor_type->dmg_adj(armor.damage);
 
     if (rng(0,100) < armor_type->coverage) {
         if (armor_type->is_power_armor()) { // TODO: add some check for power armor
@@ -9627,7 +9628,12 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
             std::string damage_verb = du.type == DT_BASH
                 ? armor_type->bash_dmg_verb()
                 : armor_type->cut_dmg_verb();
-            g->add_msg_if_player(this, _("Your %s is %s!"), pre_damage_name.c_str(),
+
+            // add "further" if the damage adjective and verb are the same
+            std::string format_string = pre_damage_adj == damage_verb
+                ? _("Your %s is %s further!")
+                : _("Your %s is %s!");
+            g->add_msg_if_player(this, format_string.c_str(), pre_damage_name.c_str(),
                                     damage_verb.c_str());
         }
     }
