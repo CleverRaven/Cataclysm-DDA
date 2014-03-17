@@ -1638,4 +1638,9 @@ void translate_terrain_window_size(int &w, int &h) {
     h = (h * fontheight) / map_font_height();
 }
 
+void translate_terrain_window_size_back(int &w, int &h) {
+    w = (w * map_font_width()) / fontwidth;
+    h = (h * map_font_height()) / fontheight;
+}
+
 #endif // TILES

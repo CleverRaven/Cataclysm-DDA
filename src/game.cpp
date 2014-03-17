@@ -236,9 +236,11 @@ game::~game()
 #if (defined TILES)
 // defined in sdltiles.cpp
 void translate_terrain_window_size(int &w, int &h);
+void translate_terrain_window_size_back(int &w, int &h);
 #else
 // unchanged, nothing to be translated without tiles
 void translate_terrain_window_size(int &, int &) { }
+void translate_terrain_window_size_back(int &, int &) { }
 #endif
 
 void game::init_ui(){
@@ -280,19 +282,39 @@ void game::init_ui(){
             sidebarWidth = 0;
         }
     #endif
-    const int max_view_size = 121;
-    // Now get terrain window size in number of characters (colums/rows)
-    TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > max_view_size) ? max_view_size : TERMX - sidebarWidth;
-    TERRAIN_WINDOW_HEIGHT = (TERMY > max_view_size) ? max_view_size : TERMY;
+    // remove some space for the sidebar, this is the maximal space
+    // (using standard font) that the terrain window can have
+    TERRAIN_WINDOW_HEIGHT = TERMY;
+    TERRAIN_WINDOW_WIDTH = TERMX - sidebarWidth;
     TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
 
-    // Dimensions of terrain window is currently in colums/rows,
+    // Dimensions of terrain window is currently in colums/rows of the standard font,
     // but if the tileset is in use or if we use a different sized
     // font for the terrain window this does not match.
     translate_terrain_window_size(TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT);
-    VIEW_OFFSET_X = std::max(TERRAIN_WINDOW_WIDTH - max_view_size, 0) / 2;
-    VIEW_OFFSET_Y = std::max(TERRAIN_WINDOW_HEIGHT - max_view_size, 0) / 2;
 
+    // Adjust for the maximal viewing area. It's useless to make the
+    // terrain window larger, as the area outside of the maximal
+    // view range would never be displayed.
+    // Also set offset to move everything into the middle of the screen.
+    static const int max_view_size = DAYLIGHT_LEVEL * 2 + 1;
+    if (TERRAIN_WINDOW_WIDTH > max_view_size) {
+        VIEW_OFFSET_X = (TERRAIN_WINDOW_WIDTH - max_view_size) / 2;
+        TERRAIN_WINDOW_WIDTH = max_view_size;
+    } else {
+        VIEW_OFFSET_X = 0;
+    }
+    if (TERRAIN_WINDOW_HEIGHT > max_view_size) {
+        VIEW_OFFSET_Y = (TERRAIN_WINDOW_HEIGHT - max_view_size) / 2;
+        TERRAIN_WINDOW_HEIGHT = max_view_size;
+    } else {
+        VIEW_OFFSET_Y = 0;
+    }
+    // View offset is the position of the terrain window, the position
+    // of every window is always measured in the standard font.
+    translate_terrain_window_size_back(VIEW_OFFSET_X, VIEW_OFFSET_Y);
+
+    // Position of the player in the terrain window, it is always in the center
     POSX = TERRAIN_WINDOW_WIDTH / 2;
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
