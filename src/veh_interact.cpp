@@ -1557,6 +1557,12 @@ void complete_vehicle ()
     int dd = 2;
     long batterycharges; // Charges in a battery
 
+    // For siphoning from adjacent vehicles
+    int posx = 0;
+    int posy = 0;
+    std::map<point, vehicle*> foundv;
+    vehicle * fillv = NULL;
+
     switch (cmd) {
     case 'i':
         if (has_goggles) {
@@ -1706,7 +1712,52 @@ void complete_vehicle ()
         }
         break;
     case 's':
-        g->u.siphon( veh, "gasoline" );
+
+        for (int x = g->u.posx-1; x < g->u.posx+2; x++) {
+          for (int y = g->u.posy-1; y < g->u.posy+2; y++) {
+            fillv = g->m.veh_at(x, y);
+            if ( fillv != NULL &&
+              fillv != veh &&
+              foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
+              fillv->fuel_capacity("gasoline") > 0 ) {
+                foundv[point(fillv->posx, fillv->posy)] = fillv;
+            }
+          }
+        }
+        fillv=NULL;
+        if ( ! foundv.empty() ) {
+            uimenu fmenu;
+            fmenu.text = _("Fill what?");
+            fmenu.addentry("Nearby vehicle (%d)",foundv.size());
+            fmenu.addentry("Container");
+            fmenu.addentry("Never mind");
+            fmenu.query();
+            if ( fmenu.ret == 0 ) {
+                if ( foundv.size() > 1 ) {
+                    if(g->choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
+                        fillv = g->m.veh_at(posx, posy);
+                    } else {
+                        break;
+                    }
+                } else {
+                    fillv = foundv.begin()->second;
+
+                }
+            } else if ( fmenu.ret != 1 ) {
+                break;
+            }
+        }
+        if ( fillv != NULL ) {
+            int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
+            int got = veh->drain("gasoline", want);
+            int amt=fillv->refill("gasoline",got);
+            g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
+               "gasoline", veh->name.c_str(), fillv->name.c_str(),
+               (amt > 0 ? "." : ", draining the tank completely.") );
+            g->u.moves -= 200;
+        } else {
+            g->u.siphon( veh, "gasoline" );
+        }
         break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
