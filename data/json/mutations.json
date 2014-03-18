@@ -3246,5 +3246,11 @@
         "valid": false,
         "purifiable": false,
         "threshold": true
+    },{
+        "type" : "mutation",
+        "id" : "PBUTT_DEBUG",
+        "name" : "Peanut Butter Debug",
+        "points" : 1,
+        "description" : "Adds +15 fun, quench, and nutrition to peanut butter. Debug only!"
     }
 ]

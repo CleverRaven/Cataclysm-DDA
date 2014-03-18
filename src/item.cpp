@@ -460,11 +460,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  }
 
  if (is_food()) {
-  it_comest* food = dynamic_cast<it_comest*>(type);
-
-  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
-  dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
-  dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", calc_nutr(&g->u)));
+  dump->push_back(iteminfo("FOOD", _("Quench: "), "", calc_quench(&g->u)));
+  dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", calc_fun(&g->u)));
   dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
   if (corpse != NULL &&
     ( debug == true ||
@@ -477,11 +475,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
  } else if (is_food_container()) {
  // added charge display for debugging
-  it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
-
-  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
-  dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
-  dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", contents[0].calc_nutr(&g->u)));
+  dump->push_back(iteminfo("FOOD", _("Quench: "), "", contents[0].calc_quench(&g->u)));
+  dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", contents[0].calc_fun(&g->u)));
   dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(contents[0].charges))));
 
  } else if (is_ammo()) {
@@ -703,8 +699,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
 
   dump->push_back(iteminfo("BOOK", "", _("Requires intelligence of <num> to easily read."), book->intel, true, "", true, true));
-  if (book->fun != 0)
-   dump->push_back(iteminfo("BOOK", "", _("Reading this book affects your morale by <num>"), book->fun, true, (book->fun > 0 ? "+" : "")));
+  if (calc_fun(&g->u) != 0)
+   dump->push_back(iteminfo("BOOK", "", _("Reading this book affects your morale by <num>"), calc_fun(&g->u), true, (calc_fun(&g->u) > 0 ? "+" : "")));
 
   dump->push_back(iteminfo("BOOK", "", _("This book takes <num> minutes to read."), book->time, true, "", true, true));
 
@@ -2776,6 +2772,64 @@ bool item::flammable() const
     material_type* cur_mat2 = material_type::find_material(type->m2);
 
     return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
+}
+
+int item::calc_fun(player *u, bool output_msg){
+    if (is_book()) {
+        it_book *reading = dynamic_cast<it_book *>(type);
+        int ret;
+        if (charges == 0) {
+            //Book is out of chapters -> re-reading old book, less fun
+            if (output_msg) {
+                g->add_msg(_("The %s isn't as much fun now that you've finished it."),
+                    name.c_str());
+                if(one_in(6)) { //Don't nag incessantly, just once in a while
+                    g->add_msg(_("Maybe you should find something new to read..."));
+                }
+            }
+            //50% penalty
+            ret = (reading->fun) / 2;
+        } else {
+            ret = reading->fun;
+        }
+        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+        if ((u->has_trait("CANNIBAL") || u->has_trait("PSYCHOPATH") || u->has_trait("SAPIOVORE")) &&
+            reading->id == "cookbook_human") {
+            ret = 5;
+        }
+        // Sapiovores don't recognize themselves as humans, so human erotica doesn't do a lot for them.
+        /*if (u->has_trait("SAPIOVORE") && reading->id == "mag_porn") {
+            if (output_msg) g->add_msg(_("Humans just aren't as exciting to you as they were before."));
+            ret = 0;
+        }*/
+
+        return ret;
+    }
+    if (is_food()) {
+        it_comest* food = dynamic_cast<it_comest*>(type);
+        int ret = food->fun;
+        // Changes made here will show in the item's tooltip.
+        if (u->has_trait("PBUTT_DEBUG") && food->id == "peanutbutter")
+            ret += 35;
+        return ret;
+    }
+    return 0;
+}
+
+int item::calc_nutr(player *u) {
+    it_comest* food = dynamic_cast<it_comest*>(type);
+    int ret = food->nutr;
+    if (u->has_trait("PBUTT_DEBUG") && food->id == "peanutbutter")
+        ret += 15;
+    return ret;
+}
+
+int item::calc_quench(player *u) {
+    it_comest* food = dynamic_cast<it_comest*>(type);
+    int ret = food->quench;
+    if (u->has_trait("PBUTT_DEBUG") && food->id == "peanutbutter")
+        ret += 15;
+    return ret;
 }
 
 std::string default_technique_name(technique_id tech)
