@@ -12774,11 +12774,11 @@ void game::vertical_move(int movez, bool force) {
             if(OPTIONS["AUTO_NOTES"] == true){
                 if(movez == +1 && otermap[ter].known_up && !otermap[ter2].known_down) {
                 overmap_buffer.set_seen(cursx, cursy, z_coord, true);
-                overmap_buffer.add_note(cursx, cursy, z_coord, _("D:AUTO: goes down"));
+                overmap_buffer.add_note(cursx, cursy, z_coord, _(">:W;AUTO: goes down"));
                 }
                 if(movez == -1 && otermap[ter].known_down && !otermap[ter2].known_up) {
                 overmap_buffer.set_seen(cursx, cursy, z_coord, true);
-                overmap_buffer.add_note(cursx, cursy, z_coord, _("U:AUTO: goes up"));
+                overmap_buffer.add_note(cursx, cursy, z_coord, _("<:W;AUTO: goes up"));
                 }
             }
         }
