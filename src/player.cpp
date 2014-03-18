@@ -396,6 +396,9 @@ void player::reset_stats()
     if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes)) {
         mod_per_bonus(1);
     }
+    if (has_trait("BIRD_EYE")) {
+        mod_per_bonus(4);
+    }
     if (has_trait("INSECT_ARMS")) {
         mod_dex_bonus(-2);
     }
@@ -1041,6 +1044,12 @@ void player::update_bodytemp()
         if (has_trait("FELINE_FUR"))
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 1000);
+        }
+        // Down; lets heat out more easily if needed but not as Warm
+        // as full-blown fur.  So less miserable in Summer.
+        if (has_trait("DOWN"))
+        {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 300 : 800);
         }
         // Disintegration
         if (has_trait("ROT1")) { temp_conv[i] -= 250;}
@@ -3722,13 +3731,30 @@ void player::recalc_sight_limits()
     // (A player will never have more than one night vision trait.)
     sight_boost_cap = 12;
     if (has_nv() || has_trait("NIGHTVISION3") || has_trait("ELFA_FNV") || is_wearing("rm13_armor_on")) {
+        // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
+        // BIRD_EYE represents excellent fine-detail vision so I think it works.
+        if (has_trait("BIRD_EYE")) {
+            sight_boost = 13;
+        }
+        else {
         sight_boost = sight_boost_cap;
-    }else if (has_trait("ELFA_NV")) {
-        sight_boost = 6;
+        }
+    } else if (has_trait("ELFA_NV")) {
+        sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
     } else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) {
-        sight_boost = 4;
+        if (has_trait("BIRD_EYE")) {
+            sight_boost = 5;
+        }
+         else {
+            sight_boost = 4;
+         }
     } else if (has_trait("NIGHTVISION")) {
-        sight_boost = 1;
+        if (has_trait("BIRD_EYE")) {
+            sight_boost = 2;
+        }
+        else {
+            sight_boost = 1;
+        }
     }
 }
 
@@ -3758,15 +3784,24 @@ int player::overmap_sight_range(int light_level)
     }
     if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
         -1 != weapon.has_gunmod("rifle_scope") ) && !has_trait("EAGLEEYED"))  {
+        if (has_trait("BIRD_EYE")) {
+            return 25;
+        }
         return 20;
     }
     else if (!(has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
         -1 != weapon.has_gunmod("rifle_scope") ) && has_trait("EAGLEEYED"))  {
+        if (has_trait("BIRD_EYE")) {
+            return 25;
+        }
         return 20;
     }
     else if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
         -1 != weapon.has_gunmod("rifle_scope") ) && has_trait("EAGLEEYED"))  {
-        return 30;
+        if (has_trait("BIRD_EYE")) {
+            return 30;
+        }
+        return 25;
     }
 
     return 10;
@@ -7430,8 +7465,11 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if( has_trait("HIBERNATE") ) {
+    if ( has_trait("HIBERNATE") ) {
         capacity = -620;
+    }
+    if ( has_trait("GIZZARD") ) {
+        capacity = 0;
     }
     
     if( has_trait("SLIMESPAWNER") && !is_npc() ) {
@@ -7460,6 +7498,8 @@ bool player::eat(item *eaten, it_comest *comest)
             }
             hunger += 40;
             thirst += 40;
+            //~slimespawns have *small voices* which may be the Nice equivalent
+            //~of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
             g->add_msg(_("hey, you look like me! let's work together!"));
         }
     }
@@ -7508,6 +7548,9 @@ bool player::eat(item *eaten, it_comest *comest)
         mealtime /= 2;
     } if (has_trait("GOURMAND")) {
         mealtime -= 100;
+    } if ((has_trait("BEAK_HUM")) &&
+      (comest->comesttype == "FOOD" || eaten->has_flag("USE_EAT_VERB")) ) {
+        mealtime += 200; // Much better than PROBOSCIS but still optimized for fluids
     } if (has_trait("SABER_TEETH")) {
         mealtime += 250; // They get In The Way
     } if (has_trait("AMORPHOUS")) {
@@ -7641,6 +7684,11 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
             health -= 3;
         }
+    } if (has_trait("GIZZARD")) {
+        // Shorter GI tract, so less nutrients captured.
+        hunger -= ((comest->nutr) *= 0.66);
+        thirst -= ((comest->quench) *= 0.66);
+        health += ((comest->healthy) *= 0.66);
     } else {
         hunger -= comest->nutr;
         thirst -= comest->quench;
@@ -7929,11 +7977,12 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->covers & mfb(bp_hands) && has_trait("TALONS")) {
   return HINT_IFFY;
  }
- if ( armor->covers & mfb(bp_hands) && (has_trait("ARM_TENTACLES")
-        || has_trait("ARM_TENTACLES_4") || has_trait("ARM_TENTACLES_8")) ) {
+ if ( armor->covers & mfb(bp_hands) && (has_trait("ARM_TENTACLES") ||
+        has_trait("ARM_TENTACLES_4") || has_trait("ARM_TENTACLES_8")) ) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_mouth) && has_trait("BEAK")) {
+ if (armor->covers & mfb(bp_mouth) && (has_trait("BEAK") ||
+    has_trait("BEAK_PECK") || has_trait("BEAK_HUM")) ) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_feet) && has_trait("HOOVES")) {
@@ -8179,7 +8228,8 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_mouth) && has_trait("BEAK"))
+        if (armor->covers & mfb(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
+        has_trait("BEAK_HUM")) )
         {
             if(interactive)
             {

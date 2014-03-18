@@ -523,7 +523,7 @@ void mutation_effect(player &p, std::string mut)
         destroy = true;
         bps.push_back(bp_hands);
 
-    } else if (mut == "BEAK" || mut == "MANDIBLES" || mut == "SABER_TEETH") {
+    } else if (mut == "BEAK" || mut == "BEAK_PECK" || mut == "BEAK_HUM" || mut == "MANDIBLES" || mut == "SABER_TEETH") {
         // Destroy mouthwear
         destroy = true;
         bps.push_back(bp_mouth);

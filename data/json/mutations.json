@@ -78,6 +78,7 @@
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
         "cancels" : ["HUNGER"],
+        "changes_to" : ["GIZZARD"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
@@ -362,10 +363,11 @@
         "category" : ["MUTCAT_SLIME", "MUTCAT_ALPHA", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
-        "id" : "EAGLEEYED",
-        "name" : "Eagle Eyed",
+        "id" : "EAGLEEYED", "note" : "Can't change the ID as that breaks save-compatibility.",
+        "name" : "Scout",
         "points" : 1,
-        "description" : "You have exceptional long-distance eyesight and your ability to spot far away landmarks is unmatched. Your sight radius on the overmap extends beyond the normal range.",
+        "description" : "You're an excellent navigator and your ability to spot distant landmarks is unmatched. Your sight radius on the overmap extends beyond the normal range.",
+        "valid" : false,
         "starting_trait" : true,
         "cancels" : ["MYOPIC"]
     },{
@@ -895,7 +897,7 @@
         "description" : "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
         "leads_to" : ["ELFA_NV"],
         "valid" : false,
-        "cancels" : ["LIZ_EYE", "FEL_EYE"],
+        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE"],
         "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -925,7 +927,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
         "leads_to" : ["FEL_NV"],
-        "cancels" : ["ELFAEYES", "LIZ_EYE"],
+        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE"],
         "category" : ["MUTCAT_FELINE", "MUTCAT_BEAST"]
     },{
         "type" : "mutation",
@@ -936,6 +938,18 @@
         "prereqs" : ["FEL_EYE"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
+        "id" : "BIRD_EYE",
+        "name" : "Avian Eyes",
+        "points" : 5,
+        "visibility" : 1,
+        "ugliness" : 0,
+        "description" : "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
+        "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE"],
+        "prereqs" : ["PER_UP"],
+        "threshreq" : ["THRESH_BIRD"],
+        "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
         "id" : "INFRARED",
@@ -1016,7 +1030,7 @@
         "visibility" : 2,
         "ugliness" : 2,
         "description" : "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
-        "cancels" : ["BEAK"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK"],
         "changes_to" : ["SABER_TEETH"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_CHIMERA"]
     },{
@@ -1115,8 +1129,20 @@
         "visibility" : 10,
         "ugliness" : 3,
         "description" : "Iridescent feathers have grown to cover your entire body, providing a marginal protection against attacks and minor protection from cold. They also provide a natural waterproofing.",
+        "leads_to" : ["DOWN"],
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["THICK_SCALES", "SLEEK_SCALES"],
+        "category" : ["MUTCAT_BIRD"]
+    },{
+        "type" : "mutation",
+        "id" : "DOWN",
+        "name" : "Down",
+        "points" : 0,
+        "visibility" : 4,
+        "ugliness" : 1,
+        "description" : "You shan't need to migrate south with your layer of down. It's even better with no apes around to kill you for it!",
+        "prereqs" : ["FEATHERS"],
+        "threshreq": ["THRESH_BIRD"],
         "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
@@ -1581,6 +1607,19 @@
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
+        "id" : "GIZZARD",
+        "name" : "Gizzard",
+        "points" : -5,
+        "description" : "You seem to get full faster now, and food goes through you more rapidly as well.",
+        "valid" : false,
+        "purifiable" : false,
+        "prereqs" : ["BEAK", "BEAK_PECK", "BEAK_HUM"],
+        "prereqs2" : ["LIGHTEATER"],
+        "threshreq" : ["THRESH_BIRD"],
+        "cancels" : ["GOURMAND"],
+        "category" : ["MUTCAT_BIRD"]
+    },{
+        "type" : "mutation",
         "id" : "RUMINANT",
         "name" : "Ruminant",
         "points" : 5,
@@ -1632,7 +1671,7 @@
         "description" : "Your fangs have grown extremely large and incredibly sharp.  They make it impossible to wear mouthgear and difficult to eat... but leave nasty wounds when you bite.",
         "prereqs" : ["FANGS"],
         "threshreq" : ["THRESH_FELINE", "THRESH_CHIMERA"],
-        "cancels" : ["BEAK", "MANDIBLES", "MUZZLE_LONG", "MUZZLE", "MINOTAUR"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MANDIBLES", "MUZZLE_LONG", "MUZZLE", "MINOTAUR"],
         "category" : ["MUTCAT_FELINE", "MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
@@ -2006,7 +2045,7 @@
         "ugliness" : 6,
         "description" : "A set of insect-like mandibles have grown around your mouth. They allow you to eat faster and provide a slicing unarmed attack, but prevent you from wearing mouthwear. Slightly reduces wet effects.",
         "prereqs" : ["MOUTH_FLAPS"],
-        "cancels" : ["BEAK", "FANGS", "MOUTH_TENTACLES"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "FANGS", "MUZZLE_LONG", "MOUTH_TENTACLES"],
         "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
@@ -2069,7 +2108,8 @@
         "name" : "Web Walker",
         "points" : 3,
         "description" : "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs. Walking through webs does not affect you at all.",
-        "leads_to" : ["WEB_WEAVER"]
+        "leads_to" : ["WEB_WEAVER"],
+        "category" : ["MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "WEB_SPINNER",
@@ -2331,6 +2371,7 @@
         "points" : 1,
         "description" : "Your senses are a little keener. Perception + 1",
         "changes_to" : ["PER_UP_2"]
+        "leads_to" : ["BIRD_EYE"],
     },{
         "type" : "mutation",
         "id" : "PER_UP_2",
@@ -2482,8 +2523,8 @@
         "name" : "Butterfly Wings",
         "points" : -1,
         "visibility" : 10,
-        "ugliness" : -1,
-        "description" : "You have a very large and very beautiful pair of brightly-colored wings. They can't seem to lift you, and you find yourself having balance problems from time to time, but they certainly catch air and attention!",
+        "ugliness" : -2,
+        "description" : "You have a very large and very beautiful pair of brightly-colored wings. They can't lift you, and they make balancing tricky, but they certainly catch air and attention!",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["WINGS_STUB"],
@@ -2597,7 +2638,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "description" : "Your face and jaw have begun...changing. Masks and such fit OK, but you're noticeably mutated.",
-        "changes_to" : ["MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
+        "changes_to" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
@@ -2607,7 +2648,7 @@
         "visibility" : 5,
         "ugliness" : 6,
         "description" : "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "MUZZLE_LONG", "MUZZLE_BEAR"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MUZZLE", "MUZZLE_LONG", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_CATTLE"]
     },{
@@ -2618,7 +2659,7 @@
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "MUZZLE_LONG", "MUZZLE_BEAR"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_LONG", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
     },{
@@ -2629,7 +2670,7 @@
         "visibility" : 5,
         "ugliness" : 4,
         "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents you from wearing mouthgear.",
-        "cancels" : ["MINOTAUR", "MUZZLE_LONG", "MUZZLE"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_LONG", "MUZZLE"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_URSINE"]
     },{
@@ -2640,7 +2681,7 @@
         "visibility" : 8,
         "ugliness" : 8,
         "description" : "Your face and jaws are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
-        "cancels" : ["MUZZLE", "MINOTAUR", "MUZZLE_BEAR"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MUZZLE", "MINOTAUR", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
         "category" : ["MUTCAT_LIZARD"]
     },{
@@ -2653,7 +2694,7 @@
         "description" : "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
         "valid" : false,
         "purifiable" : false,
-        "cancels" : ["MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR"],
+        "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR"],
         "prereqs" : ["EYEBULGE"],
         "threshreq" : ["THRESH_INSECT"],
         "category" : ["MUTCAT_INSECT"]
@@ -2863,10 +2904,45 @@
         "visibility" : 8,
         "ugliness" : 4,
         "description" : "You have a beak for a mouth. You can occasionally use it to peck at your enemies, but it is impossible for you to wear mouthgear. Slightly reduces wet effects.",
-        "cancels" : ["FANGS", "MANDIBLES"],
+        "cancels" : ["FANGS", "MANDIBLES", "SABER_TEETH"],
+        "changes_to" : ["BEAK_HUM", "BEAK_PECK"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "BEAK_PECK",
+        "name" : "Woodpecker Beak",
+        "points" : -2,
+        "visibility" : 10,
+        "ugliness" : 5,
+        "description" : "Pecking at prey is part of your daily routine now. Slightly reduces wet effects.",
+        "valid" : false,
+        "purifiable" : false,
+        "cancels" : ["FANGS", "MANDIBLES", "BEAK_HUM", "SABER_TEETH"],
+        "prereqs" : ["BEAK"],
+        "threshreq" : ["THRESH_BIRD"],
+        "category" : ["MUTCAT_BIRD"],
+        "wet_protection" : [
+            { "part" : "MOUTH", "ignored" : 2 }
+        ]
+    },{
+        "type" : "mutation",
+        "id" : "BEAK_HUM",
+        "name" : "Hummingbird Beak",
+        "points" : -2,
+        "visibility" : 10,
+        "ugliness" : 5,
+        "description" : "Though your beak's not suitable for pecking, those flowers out there are a good source of energy. Examine them to feed.",
+        "valid" : false,
+        "purifiable" : false,
+        "cancels" : ["FANGS", "MANDIBLES", "SABER_TEETH", "BEAK_PECK"],
+        "prereqs" : ["BEAK"],
+        "threshreq" : ["THRESH_BIRD"],
+        "category" : ["MUTCAT_BIRD"],
+        "wet_protection" : [
+            { "part" : "MOUTH", "ignored" : 2 }
         ]
     },{
         "type" : "mutation",

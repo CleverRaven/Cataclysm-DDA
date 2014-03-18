@@ -970,7 +970,7 @@ void iexamine::fswitch(player *p, map *m, int examx, int examy)
 }
 
 void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
-  if ( (p->has_trait("PROBOSCIS")) && ((p->hunger) > 0) &&
+  if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) && ((p->hunger) > 0) &&
       (!(p->wearing_something_on(bp_mouth))) ) {
       if (!query_yn(_("You feel woozy as you explore the %s. Drink?"),m->furnname(examx, examy).c_str())) {
           return;
@@ -1013,8 +1013,8 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_blubell(player *p, map *m, int examx, int examy) {
-  if ( (p->has_trait("PROBOSCIS")) && ((p->hunger) > 0) &&
-      (!(p->wearing_something_on(bp_mouth))) ) {
+  if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+      ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
       p->moves -= 50; // Takes 30 seconds
       g->add_msg(_("You drink some nectar."));
       p->hunger -= 15;
@@ -1029,8 +1029,8 @@ void iexamine::flower_blubell(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
-  if ( (p->has_trait("PROBOSCIS")) && ((p->hunger) > 0) &&
-      (!(p->wearing_something_on(bp_mouth))) ) {
+  if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+      ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
       p->moves -= 50; // Takes 30 seconds
       g->add_msg(_("You drink some nectar."));
       p->hunger -= 15;
@@ -1542,8 +1542,8 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy, std::string i
 }
 
 void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
-  if ( (p->has_trait("PROBOSCIS")) && ((p->hunger) > 0) &&
-      (!(p->wearing_something_on(bp_mouth))) ) {
+  if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+      ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
       p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
       g->add_msg(_("You find a flower and drink some nectar."));
       p->hunger -= 15;
