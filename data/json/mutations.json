@@ -2370,8 +2370,8 @@
         "name" : "Perceptive",
         "points" : 1,
         "description" : "Your senses are a little keener. Perception + 1",
-        "changes_to" : ["PER_UP_2"]
-        "leads_to" : ["BIRD_EYE"],
+        "changes_to" : ["PER_UP_2"],
+        "leads_to" : ["BIRD_EYE"]
     },{
         "type" : "mutation",
         "id" : "PER_UP_2",
