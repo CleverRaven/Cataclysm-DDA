@@ -691,7 +691,7 @@ void initOptions() {
                                             );  // populate the options dynamically
 
     OPTIONS["AUTO_NOTES"] =     cOpt("general", _("Auto notes"),
-                                             _("If true automaticly sets notes on places that have stairs that go up or down"),
+                                             _("If true automatically sets notes on places that have stairs that go up or down"),
                                              true
                                             );
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
