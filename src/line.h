@@ -6,8 +6,6 @@
 #include "enums.h"
 #include <math.h>
 
-#define SLOPE_VERTICAL 999999
-
 enum direction {
 NORTH = 0,
 NORTHEAST,
@@ -48,8 +46,8 @@ int square_dist(const tripoint loc1, const tripoint loc2);
 int rl_dist(const int x1, const int y1, const int x2, const int y2);
 int rl_dist(const tripoint loc1, const tripoint loc2);
 int rl_dist(point a, point b);
-double slope_of(const std::vector<point> & line);
-std::tuple<double, double, double> slope_of(const std::vector<tripoint> & line);
+std::pair<double,double> slope_of(const std::vector<point> & line);
+std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> & line);
 std::vector<point> continue_line(const std::vector<point> & line, const int distance);
 std::vector<tripoint> continue_line(const std::vector<tripoint> & line, const int distance);
 direction direction_from(const int x1, const int y1, const int x2, const int y2);

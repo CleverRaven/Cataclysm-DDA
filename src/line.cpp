@@ -1,7 +1,6 @@
 #include "line.h"
 #include "game.h"
 #include <stdlib.h>
-#include <tuple>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
@@ -214,54 +213,60 @@ int rl_dist(const tripoint loc1, const tripoint loc2)
     return square_dist(loc1, loc2);
 }
 
-double slope_of(const std::vector<point> &line)
+// returns normalized dx and dy for the current line vector.
+std::pair<double,double> slope_of(const std::vector<point> &line)
 {
-    double dX = line.back().x - line.front().x;
-    double dY = line.back().y - line.front().y;
-    return (dX == 0 ? SLOPE_VERTICAL : (dY / dX));
+    int len = line.size();
+    double normDx = (line.back().x - line.front().x) / len;
+    double normDy = (line.back().y - line.front().y) / len;
+    auto ret = std::make_pair(normDx, normDy); // slope of x, y
+    return ret; 
 }
 
-// returns the normalized dx, dy, dz for the current line vector
-std::tuple<double, double, double> slope_of(const std::vector<tripoint> &line)
+// returns the normalized dx, dy, dz for the current line vector. 
+// ret.second contains z and can be ignored if unused.
+std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
 {
     int len = line.size();
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     double normDz = (line.back().z - line.front().z) / len;
-    auto ret = std::make_tuple(normDx, normDy, normDz); // slope in x, y, z
+    auto retXY = std::make_pair(normDx, normDy);
+    auto ret = std::make_pair(retXY, normDz); // slope of <x, y> z
     return ret;
 }
 
 std::vector<point> continue_line(const std::vector<point> &line, const int distance)
 {
     point start = line.back(), end = line.back();
-    double slope = slope_of(line);
-    int sX = (line.front().x < line.back().x ? 1 : -1);
-    int sY = (line.front().y < line.back().y ? 1 : -1);
-    if (abs(slope) == 1) {
-        end.x += distance * sX;
-        end.y += distance * sY;
-    } else if (abs(slope) < 1) {
-        end.x += distance * sX;
-        end.y += int(distance * abs(slope) * sY);
-    } else {
-        end.y += distance * sY;
-        if (slope != SLOPE_VERTICAL) {
-            end.x += int(distance / abs(slope)) * sX;
-        }
+    // slope <x,y> ( slope.first = x, slope.second = y)
+    std::pair<double, double> slope;
+    slope = slope_of(line);
+    if (abs(slope.first) == abs(slope.second) == 1) {  // dx = dy
+        end.x += distance * sgn(slope.first);
+        end.y += distance * sgn(slope.second);
+    } else if (abs(slope.first) > abs(slope.second)) { // X > Y implies abs(x) = 1
+        end.x += distance * sgn(slope.first);
+        end.y += int(distance * slope.second); 
+    } else {                                           // else abs(y) = 1 
+        end.x += int(distance * slope.first);  
+        end.y += distance * sgn(slope.second);
     }
     return line_to(start.x, start.y, end.x, end.y, 0);
 } 
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)
-{
-    tripoint start, end;
+{ // May want to optimize this, but it's called fairly infrequently as part of specific attack
+  // routines, erring on the side of readability. 
+    tripoint start;
+    tripoint end;
     start = end = line.back();
-    std::tuple<double, double, double> slope;
-    slope = slope_of(line);
-    end.x += ceil(distance * std::get<0>(slope));
-    end.y += ceil(distance * std::get<1>(slope));
-    end.z += ceil(distance * std::get<2>(slope));
+    // slope <<x,y>,z> 
+    std::pair<std::pair<double, double>, double> slope;
+    slope = slope_of(line); 
+    end.x += int(distance * slope.first.first);
+    end.y += int(distance * slope.first.second);
+    end.z += int(distance * slope.second);
     return line_to(start, end, 0, 0);
 }
 
