@@ -513,8 +513,8 @@ void curses_drawwindow(WINDOW *win)
             win->y * fontheight,
             g->ter_view_x,
             g->ter_view_y,
-            tilecontext->get_terrain_term_x() * fontwidth,
-            tilecontext->get_terrain_term_y() * fontheight);
+            win->width * tilecontext->get_tile_width(),
+            win->height * tilecontext->get_tile_height());
         update = true;
     } else if (g && win == g->w_terrain && map_font != NULL) {
         // Special font for the terrain window

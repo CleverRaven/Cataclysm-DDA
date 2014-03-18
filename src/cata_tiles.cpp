@@ -47,8 +47,6 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
 
     tile_height = 0;
     tile_width = 0;
-    screentile_height = 0;
-    screentile_width = 0;
     tile_ratiox = 0;
     tile_ratioy = 0;
 
@@ -226,9 +224,6 @@ void cata_tiles::set_draw_scale(int scale) {
 
     tile_ratiox = ((float)tile_width/(float)fontwidth);
     tile_ratioy = ((float)tile_height/(float)fontheight);
-
-    screentile_width =  (int)(terrain_term_x / tile_ratiox) + 1;
-    screentile_height = (int)(terrain_term_y / tile_ratioy) + 1;
 }
 
 void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
@@ -269,9 +264,6 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         default_tile_width = tile_width;
         default_tile_height = tile_height;
     }
-
-    terrain_term_x = get_terminal_width() - ((OPTIONS["SIDEBAR_STYLE"] == "narrow") ? 45 : 55);
-    terrain_term_y = get_terminal_height();
 
     set_draw_scale(16);
 
@@ -526,6 +518,9 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
     o_x = posx - POSX;
     o_y = posy - POSY;
+    // Rounding up to include incomplete tiles at the bottom/right edges
+    screentile_width = (width + tile_width - 1) / tile_width;
+    screentile_height = (height + tile_height - 1) / tile_height;
 
     for (int my = 0; my < sy; ++my) {
         for (int mx = 0; mx < sx; ++mx) {
