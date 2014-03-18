@@ -1896,11 +1896,11 @@
         "to_hit" : -1,
         "color" : "brown",
         "symbol" : "/",
-        "material" : ["wood", "null"],
+        "material" : ["wood", "steel"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 7,
         "bashing" : 11,
-        "cutting" : 6,
+        "cutting" : 8,
         "flags" : ["STAB"],
         "price" : 18000
     },
