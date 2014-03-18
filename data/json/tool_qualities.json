@@ -10,7 +10,7 @@
     },{
         "type" : "tool_quality",
         "id" : "HAMMER_G",
-        "name" : "hammering (gun working) quality"
+        "name" : "gunsmithing (hammering) quality"
     },{
         "type" : "tool_quality",
         "id" : "SAW_W",
@@ -22,7 +22,7 @@
     },{
         "type" : "tool_quality",
         "id" : "SAW_M_G",
-        "name" : "metal sawing (gun working) quality"
+        "name" : "gunsmithing (metal sawing) quality"
     },{
         "type" : "tool_quality",
         "id" : "COOK",
@@ -57,8 +57,8 @@
         "name" : "bolt screwing quality"
     },{
         "type" : "tool_quality",
-        "id" : "WRENCH",
-        "name" : "bolt screwing (gun working) quality"
+        "id" : "WRENCH_G",
+        "name" : "gunsmithing (bolt screwing) quality"
     },{
         "type" : "tool_quality",
         "id" : "SCREW",
@@ -66,6 +66,6 @@
     },{
         "type" : "tool_quality",
         "id" : "SCREW_G",
-        "name" : "screw screwing (gun working) quality"
+        "name" : "gunsmithing (screw screwing) quality"
     }
 ]
