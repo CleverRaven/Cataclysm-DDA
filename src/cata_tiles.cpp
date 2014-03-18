@@ -594,20 +594,18 @@ void cata_tiles::get_window_tile_counts(const int width, const int height, int &
     rows = ceil((double) height / tile_height);
 }
 
-bool cata_tiles::draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota, bool is_at_screen_position)
+bool cata_tiles::draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota)
 {
-    return cata_tiles::draw_from_id_string(id, C_NONE, empty_string, x, y, subtile, rota, is_at_screen_position);
+    return cata_tiles::draw_from_id_string(id, C_NONE, empty_string, x, y, subtile, rota);
 }
 
-bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position)
+bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota)
 {
     // For the moment, if the ID string does not produce a drawable tile it will revert to the "unknown" tile.
     // The "unknown" tile is one that is highly visible so you kinda can't miss it :D
 
     // check to make sure that we are drawing within a valid area [0->width|height / tile_width|height]
-    if (is_at_screen_position && (x < 0 || x > screentile_width || y < 0 || y > screentile_height)) {
-        return false;
-    } else if (!is_at_screen_position && ((x - o_x) < 0 || (x - o_x) > screentile_width || (y - o_y) < 0 || (y - o_y) > screentile_height)) {
+    if (x - o_x < 0 || x - o_x >= screentile_width || y - o_y < 0 || y - o_y >= screentile_height) {
         return false;
     }
 
@@ -696,13 +694,13 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
             generic_id[7] = static_cast<char>(FG);
             generic_id[8] = static_cast<char>(-1);
             if (tile_ids.count(generic_id) > 0) {
-                return draw_from_id_string(generic_id, x, y, subtile, rota, is_at_screen_position);
+                return draw_from_id_string(generic_id, x, y, subtile, rota);
             }
             // Try again without color this time (using default color).
             generic_id[7] = static_cast<char>(-1);
             generic_id[8] = static_cast<char>(-1);
             if (tile_ids.count(generic_id) > 0) {
-                return draw_from_id_string(generic_id, x, y, subtile, rota, is_at_screen_position);
+                return draw_from_id_string(generic_id, x, y, subtile, rota);
             }
         }
     }
@@ -736,12 +734,12 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
     tile_type *display_tile = it->second;
     // if found id does not have a valid tile_type then return unknown tile
     if (!display_tile) {
-        return draw_from_id_string("unknown", x, y, subtile, rota, is_at_screen_position);
+        return draw_from_id_string("unknown", x, y, subtile, rota);
     }
 
     // if both bg and fg are -1 then return unknown tile
     if (display_tile->bg == -1 && display_tile->fg == -1) {
-        return draw_from_id_string("unknown", x, y, subtile, rota, is_at_screen_position);
+        return draw_from_id_string("unknown", x, y, subtile, rota);
     }
 
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
@@ -761,15 +759,8 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
     }
 
     // translate from player-relative to screen relative tile position
-    int screen_x;// = (x - o_x) * tile_width;
-    int screen_y;// = (y - o_y) * tile_height;
-    if (!is_at_screen_position) {
-        screen_x = (x - o_x) * tile_width + op_x;
-        screen_y = (y - o_y) * tile_height + op_y;
-    } else {
-        screen_x = x * tile_width;
-        screen_y = y * tile_width;
-    }
+    const int screen_x = (x - o_x) * tile_width + op_x;
+    const int screen_y = (y - o_y) * tile_height + op_y;
 
     //draw it!
     draw_tile_at(display_tile,screen_x,screen_y,rota);
@@ -1291,7 +1282,7 @@ void cata_tiles::draw_weather_frame()
         x = x + g->ter_view_x - getmaxx(g->w_terrain) / 2;
         y = y + g->ter_view_y - getmaxy(g->w_terrain) / 2;
 
-        draw_from_id_string(weather_name, C_WEATHER, empty_string, x, y, 0, 0, false);
+        draw_from_id_string(weather_name, C_WEATHER, empty_string, x, y, 0, 0);
     }
 }
 void cata_tiles::draw_footsteps_frame()
@@ -1304,7 +1295,7 @@ void cata_tiles::draw_footsteps_frame()
         int x = p.x;
         int y = p.y;
 
-        draw_from_id_string(footstep_tilestring, x, y, 0, 0, false);
+        draw_from_id_string(footstep_tilestring, x, y, 0, 0);
     }
 }
 /* END OF ANIMATION FUNCTIONS */
