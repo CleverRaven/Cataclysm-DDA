@@ -1532,12 +1532,14 @@ std::vector<item *> inventory::active_items()
 void inventory::assign_empty_invlet(item &it, bool force)
 {
     player *p = &(g->u);
-    std::vector<char> cur_inv = p->allocated_invlets();
-    for (std::string::const_iterator newinvlet = inv_chars.begin();
-         newinvlet != inv_chars.end(); newinvlet++) {
-        if (std::find(cur_inv.begin(), cur_inv.end(), *newinvlet) == cur_inv.end()) {
-            it.invlet = *newinvlet;
-            return;
+    std::set<char> cur_inv = p->allocated_invlets();
+    if (cur_inv.size() < inv_chars.size()) {
+        for (std::string::const_iterator newinvlet = inv_chars.begin();
+            newinvlet != inv_chars.end(); newinvlet++) {
+            if (cur_inv.find(*newinvlet) == cur_inv.end()) {
+                it.invlet = *newinvlet;
+                return;
+            }
         }
     }
     if (!force) {
@@ -1556,22 +1558,16 @@ void inventory::assign_empty_invlet(item &it, bool force)
     debugmsg("could not find a hotkey for %s", it.tname().c_str());
 }
 
-std::vector<char> inventory::allocated_invlets() {
+std::set<char> inventory::allocated_invlets() {
     char ch;
-    size_t idx = 0, maxsz = inv_chars.size();
-    std::vector<char> invs(maxsz, '\0');
+    std::set<char> invlets;
 
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         ch = iter->begin()->invlet;
         if (ch != 0) {
-            if (idx >= maxsz) {
-                maxsz += 8; // Increment chosen semi-randomly
-                invs.resize(maxsz, '\0');
-            }
-            invs[idx] = ch;
-            idx++;
+            invlets.insert(ch);
         }
     }
 
-    return invs;
+    return invlets;
 }

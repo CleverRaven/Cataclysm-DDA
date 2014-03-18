@@ -185,7 +185,7 @@ class cata_tiles
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
-        tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size, int defaultbg);
+        tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size);
         void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
         void load_ascii_set(JsonObject &entry, int offset, int size);
         void add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id);

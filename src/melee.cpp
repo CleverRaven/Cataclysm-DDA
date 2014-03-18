@@ -42,7 +42,7 @@ bool player::handle_melee_wear() {
 // Here is where we handle wear and tear on things we use as melee weapons or shields.
     std::stringstream dump;
     int material_factor = 1;
-    int damage_chance = dex_cur + ( 2 * skillLevel("melee") ) + ( 128 / str_cur );
+    int damage_chance = dex_cur + ( 2 * skillLevel("melee") ) + ( 128 / std::max(str_cur,1) );
   // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
   if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
     // Here we're checking the weapon's material(s) and using the best one to determine how durable it is.
