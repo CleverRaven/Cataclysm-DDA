@@ -293,7 +293,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
     qualifiers.push_back(WORLD_OPTION_FILE);
     qualifiers.push_back(SAVE_MASTER);
 
-    if (all_worlds.size() > 0) {
+    if (!all_worlds.empty()) {
         for (std::map<std::string, WORLDPTR>::iterator it = all_worlds.begin(); it != all_worlds.end();
              ++it) {
             delete it->second;
@@ -305,7 +305,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
     std::vector<std::string> world_dirs = file_finder::get_directories_with(qualifiers, SAVE_DIR, true);
 
     // check to see if there are >0 world directories found
-    if (world_dirs.size() > 0) {
+    if (!world_dirs.empty()) {
         // worlds exist by having an option file
         // create worlds
         for (unsigned i = 0; i < world_dirs.size(); ++i) {
@@ -498,7 +498,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         for (size_t i = 0; i < num_pages; ++i) {
             nc_color tabcolor = (selpage == i) ? hilite(c_white) : c_white;
-            if (world_pages[i].size() > 0) { //skip empty pages
+            if (!world_pages[i].empty()) { //skip empty pages
                 wprintz(w_worlds_header, c_white, "[");
                 wprintz(w_worlds_header, tabcolor, _("Page %d"), i + 1);
                 wprintz(w_worlds_header, c_white, "]");
@@ -515,7 +515,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         ch = input();
 
-        if (world_pages[selpage].size() > 0 || ch == '\t') {
+        if (!world_pages[selpage].empty() || ch == '\t') {
             switch(ch) {
                 case 'j': //move down
                     sel++;
@@ -538,7 +538,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                         if (selpage >= world_pages.size()) {
                             selpage = 0;
                         }
-                    } while(world_pages[selpage].size() == 0);
+                    } while(world_pages[selpage].empty());
 
                     break;
                 case '<':
@@ -549,7 +549,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                         } else {
                             selpage = world_pages.size() - 1;
                         }
-                    } while(world_pages[selpage].size() == 0);
+                    } while(world_pages[selpage].empty());
                     break;
                 case '\n':
                     // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
@@ -608,7 +608,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     mapLines[3] = true;
     mapLines[60] = true;
     // only populate once
-    if (world->world_options.size() == 0) {
+    if (world->world_options.empty()) {
         for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
             if (it->second.getPage() == "world_default") {
                 world->world_options[it->first] = it->second;
@@ -675,7 +675,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         refresh();
 
         ch = get_input();
-        if (world->world_options.size() > 0 || ch == Tab) {
+        if (!world->world_options.empty() || ch == Tab) {
             switch(ch) {
                 case DirectionS: //move down
                     sel++;
@@ -810,7 +810,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 // Do nothing, leave selmod == NULL
             } else if (active_header == 0) {
                 selmod = mman->mod_map[mman_ui->usable_mods[cursel[0]]];
-            } else if (active_mod_order.size() > 0) {
+            } else if (!active_mod_order.empty()) {
                 selmod = mman->mod_map[active_mod_order[cursel[1]]];
             }
 
@@ -937,12 +937,12 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 active_header = prev_header;
                 break;
             case '\n':
-                if (active_header == 0 && mman_ui->usable_mods.size() > 0) {
+                if (active_header == 0 && !mman_ui->usable_mods.empty()) {
                     // try-add
                     mman_ui->try_add(mman_ui->usable_mods[cursel[0]], active_mod_order);
                     redraw_active = true;
                     redraw_shift = true;
-                } else if (active_header == 1 && active_mod_order.size() > 0) {
+                } else if (active_header == 1 && !active_mod_order.empty()) {
                     // try-rem
                     mman_ui->try_rem(cursel[1], active_mod_order);
                     redraw_active = true;
@@ -1017,13 +1017,13 @@ Press 's' for saving list of active mods (mods listed in right part of the scree
             }
             redraw_description = true;
         }
-        if (active_mod_order.size() == 0) {
+        if (active_mod_order.empty()) {
             redraw_active = true;
             cursel[1] = -1;
         }
 
         if (active_header == 1) {
-            if (active_mod_order.size() == 0) {
+            if (active_mod_order.empty()) {
                 cursel[1] = -1;
             } else {
                 if (cursel[1] < 0) {
@@ -1095,7 +1095,7 @@ to continue, or <color_yellow><</color> to go back and review your world."));
         }
 
         if (ch == '>' || ch == '\t') {
-            if (worldname.size() == 0) {
+            if (worldname.empty()) {
                 mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
                 noname = true;
                 wrefresh(w_confirmation);
@@ -1133,9 +1133,9 @@ to continue, or <color_yellow><</color> to go back and review your world."));
             switch (line) {
                 case 1:
                     if (ch == KEY_BACKSPACE || ch == 127) {
-                        if (worldname.size() > 0) {
+                        if (!worldname.empty()) {
                             //erase utf8 character TODO: make a function
-                            while(worldname.size() > 0 &&
+                            while(!worldname.empty() &&
                                   ((unsigned char)worldname[worldname.size() - 1]) >= 128 &&
                                   ((unsigned char)worldname[(int)worldname.size() - 1]) <= 191) {
                                 worldname.erase(worldname.size() - 1);

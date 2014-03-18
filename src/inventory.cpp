@@ -920,7 +920,7 @@ item &inventory::item_or_container(itype_id type)
              stack_iter != iter->end(); ++stack_iter) {
             if (stack_iter->type->id == type) {
                 return *stack_iter;
-            } else if (stack_iter->is_container() && stack_iter->contents.size() > 0) {
+            } else if (stack_iter->is_container() && !stack_iter->contents.empty()) {
                 if (stack_iter->contents[0].type->id == type) {
                     return *stack_iter;
                 }
@@ -1028,7 +1028,7 @@ long inventory::charges_of(itype_id it) const
              stack_iter != iter->end(); ++stack_iter) {
             if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
                 // If we're specifically looking for a container, only say we have it if it's empty.
-                if( stack_iter->contents.size() == 0 ) {
+                if( stack_iter->contents.empty() ) {
                     if (stack_iter->charges < 0) {
                         count++;
                     } else {
@@ -1072,7 +1072,13 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
             // Now check the item itself
             if (use_container && used_item_contents) {
                 stack_iter = iter->erase(stack_iter);
-            } else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.size() == 0) {
+                if (iter->empty()) {
+                    iter = items.erase(iter);
+                    break;
+                } else {
+                    continue;
+                }
+            } else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.empty()) {
                 ret.push_back(*stack_iter);
                 quantity--;
                 stack_iter = iter->erase(stack_iter);
@@ -1521,7 +1527,7 @@ std::vector<item *> inventory::active_items()
              ++stack_iter) {
             if ( (stack_iter->is_artifact() && stack_iter->is_tool()) ||
                  stack_iter->active ||
-                 (stack_iter->is_container() && stack_iter->contents.size() > 0 && stack_iter->contents[0].active)) {
+                 (stack_iter->is_container() && !stack_iter->contents.empty() && stack_iter->contents[0].active)) {
                 ret.push_back(&*stack_iter);
             }
         }

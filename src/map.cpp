@@ -1549,13 +1549,13 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
             int bday=int(g->turn);
             sound += _(bash->sound.c_str());
             if ( jsfurn == true ) {
-                if ( bash->furn_set.size() > 0 ) {
+                if ( !bash->furn_set.empty() ) {
                     furn_set( x, y, bash->furn_set );
                 } else {
                     furn_set( x, y, f_null );
                 }
             }
-            if ( bash->ter_set.size() > 0 ) {
+            if ( !bash->ter_set.empty() ) {
                 ter_set( x, y, bash->ter_set );
             } else if ( jster == true ) {
                 debugmsg("data/json/terrain.json does not have %s.bash.ter_set set!",ter_at(x,y).id.c_str());
@@ -2157,7 +2157,7 @@ bool map::open_door(const int x, const int y, const bool inside)
 {
  const std::string terid = get_ter(x,y);
  const std::string furnid = furnlist[furn(x,y)].id;
- if ( termap[ terid ].open.size() > 0 && termap[ terid ].open != "t_null" ) {
+ if ( !termap[terid].open.empty() && termap[ terid ].open != "t_null" ) {
      if ( termap.find( termap[ terid ].open ) == termap.end() ) {
          debugmsg("terrain %s.open == non existant terrain '%s'\n", termap[ terid ].id.c_str(), termap[ terid ].open.c_str() );
          return false;
@@ -2167,7 +2167,7 @@ bool map::open_door(const int x, const int y, const bool inside)
      }
      ter_set(x, y, termap[ terid ].open );
      return true;
- } else if ( furnmap[ furnid ].open.size() > 0 && furnmap[ furnid ].open != "t_null" ) {
+ } else if ( !furnmap[furnid].open.empty() && furnmap[ furnid ].open != "t_null" ) {
      if ( furnmap.find( furnmap[ furnid ].open ) == furnmap.end() ) {
          debugmsg("terrain %s.open == non existant furniture '%s'\n", furnmap[ furnid ].id.c_str(), furnmap[ furnid ].open.c_str() );
          return false;
@@ -2220,7 +2220,7 @@ bool map::close_door(const int x, const int y, const bool inside, const bool che
 {
  const std::string terid = get_ter(x,y);
  const std::string furnid = furnlist[furn(x,y)].id;
- if ( termap[ terid ].close.size() > 0 && termap[ terid ].close != "t_null" ) {
+ if ( !termap[terid].close.empty() && termap[ terid ].close != "t_null" ) {
      if ( termap.find( termap[ terid ].close ) == termap.end() ) {
          debugmsg("terrain %s.close == non existant terrain '%s'\n", termap[ terid ].id.c_str(), termap[ terid ].close.c_str() );
          return false;
@@ -2232,7 +2232,7 @@ bool map::close_door(const int x, const int y, const bool inside, const bool che
         ter_set(x, y, termap[ terid ].close );
      }
      return true;
- } else if ( furnmap[ furnid ].close.size() > 0 && furnmap[ furnid ].close != "t_null" ) {
+ } else if ( !furnmap[furnid].close.empty() && furnmap[ furnid ].close != "t_null" ) {
      if ( furnmap.find( furnmap[ furnid ].close ) == furnmap.end() ) {
          debugmsg("terrain %s.close == non existant furniture '%s'\n", furnmap[ furnid ].id.c_str(), furnmap[ furnid ].close.c_str() );
          return false;
@@ -2580,7 +2580,7 @@ void map::process_active_items()
             if (grid[nonant]->active_item_count > 0) {
                 process_active_items_in_submap(nonant);
             }
-            if (grid[nonant]->vehicles.size() > 0) {
+            if (!grid[nonant]->vehicles.empty()) {
                 process_active_items_in_vehicles(nonant);
             }
         }
@@ -2743,7 +2743,7 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
  */
 bool map::process_active_item(item *it, const int nonant, const int i, const int j) {
     if (it->active ||
-        (it->is_container() && it->contents.size() > 0 &&
+        (it->is_container() && !it->contents.empty() &&
          it->contents[0].active))
     {
         if (it->is_food()) { // food items
@@ -2840,7 +2840,7 @@ std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id
     if (use_container && used_contents) {
       vec.erase(vec.begin() + n);
       n--;
-    } else if (curit->type->id == type && quantity > 0 && curit->contents.size() == 0) {
+    } else if (curit->type->id == type && quantity > 0 && curit->contents.empty()) {
       ret.push_back(*curit);
       quantity--;
       vec.erase(vec.begin() + n);
@@ -3587,7 +3587,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             case 5: sym = '+'; break;
             }
         } else if (fieldlist[curr_field.fieldSymbol()].sym != '%' ||
-                   curr_items.size() > 0) {
+                   !curr_items.empty()) {
             sym = fieldlist[curr_field.fieldSymbol()].sym;
             drew_field = false;
         }
@@ -3889,7 +3889,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
   }
   list[open[index].x][open[index].y] = ASL_CLOSED;
   open.erase(open.begin() + index);
- } while (!done && open.size() > 0);
+ } while (!done && !open.empty());
 
  std::vector<point> tmp;
  std::vector<point> ret;
@@ -4121,7 +4121,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
 
     // check traps
     std::map<point, trap_id> rain_backlog;
-    bool do_funnels = ( worldz >= 0 && g->weather_log.size() > 0 ); // empty if just loaded a save here
+    bool do_funnels = ( worldz >= 0 && !g->weather_log.empty() ); // empty if just loaded a save here
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
             const trap_id t = tmpsub->trp[x][y];

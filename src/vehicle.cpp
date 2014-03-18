@@ -889,7 +889,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     //All parts after the first must be installed on or next to an existing part
-    if(parts.size() > 0) {
+    if(!parts.empty()) {
         if(!has_structural_part(dx, dy) &&
                 !has_structural_part(dx+1, dy) &&
                 !has_structural_part(dx, dy+1) &&
@@ -900,7 +900,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     // Pedals and engines can't both be installed
-    if( part.has_flag("PEDALS") && engines.size() > 0 ) {
+    if( part.has_flag("PEDALS") && !engines.empty() ) {
         return false;
     }
     if( part.has_flag(VPFLAG_ENGINE) && has_pedals ) {
@@ -1023,7 +1023,7 @@ bool vehicle::can_unmount (int p)
                 int next_y = i < 2 ? 0 : (i == 2 ? -1 : 1);
                 std::vector<int> parts_over_there = parts_at_relative(dx + next_x, dy + next_y, false);
                 //Ignore empty squares
-                if(parts_over_there.size() > 0) {
+                if(!parts_over_there.empty()) {
                     //Just need one part from the square to track the x/y
                     connected_parts.push_back(parts[parts_over_there[0]]);
                 }
@@ -1295,9 +1295,9 @@ void vehicle::part_removal_cleanup() {
         }
     }
     removed_part_count = 0;
-    if (changed || parts.size() == 0) {
+    if (changed || parts.empty()) {
         refresh();
-        if(parts.size() == 0) {
+        if(parts.empty()) {
             g->m.destroy_vehicle(this);
         } else {
             g->m.update_vehicle_cache(this, false);
@@ -2257,7 +2257,7 @@ bool vehicle::valid_wheel_config ()
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
-    if(wheel_indices.size() == 0) {
+    if(wheel_indices.empty()) {
         //No wheels!
         return false;
     } else if(wheel_indices.size() == 1) {
@@ -3192,7 +3192,7 @@ void vehicle::handle_trap (int x, int y, int part)
                 t == tr_temple_toggle ) {
         msg.clear();
     }
-    if (msg.size() > 0 && g->u_see(x, y)) {
+    if (!msg.empty() && g->u_see(x, y)) {
         g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
     }
     if (noise > 0) {
@@ -3836,7 +3836,7 @@ void vehicle::fire_turret (int p, bool burst)
             }
         }
     } else {
-        if (parts[p].items.size() > 0) {
+        if (!parts[p].items.empty()) {
             it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items[0].type);
             if (!ammo || ammo->type != amt || parts[p].items[0].charges < 1) {
                 return;

@@ -235,7 +235,7 @@ void game::finalize_vehicles()
 
     std::map<point, bool> cargo_spots;
 
-    while (vehprototypes.size() > 0){
+    while (!vehprototypes.empty()){
         cargo_spots.clear();
         vehicle_prototype *proto = vehprototypes.front();
         vehprototypes.pop();

@@ -1065,7 +1065,7 @@ void item::serialize(JsonOut &json, bool save_contents) const
         }
     }
 
-    if ( save_contents && contents.size() > 0 ) {
+    if ( save_contents && !contents.empty() ) {
         json.member("contents");
         json.start_array();
         for (int k = 0; k < contents.size(); k++) {

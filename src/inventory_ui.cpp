@@ -115,7 +115,7 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
         mvwprintz(w_inv, 3, right_column_offset, c_ltgray, g->u.weapname().c_str());
     }
     // Print worn items
-    if (g->u.worn.size() > 0) {
+    if (!g->u.worn.empty()) {
         mvwprintz(w_inv, 5, right_column_offset, c_magenta, _("ITEMS WORN:"));
     }
     for (size_t i = 0; i < g->u.worn.size(); i++) {
@@ -495,7 +495,7 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
         }
         // Print worn items to be dropped
         bool dropping_a = false;
-        if (u.worn.size() > 0) {
+        if (!u.worn.empty()) {
             for (size_t k = 0; k < u.worn.size(); k++) {
                 bool dropping_w = false;
                 for (size_t j = 0; j < dropped_armor.size() && !dropping_w; j++) {
