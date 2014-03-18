@@ -1227,7 +1227,7 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
             ++stack_iter) {
             std::map<std::string, int> qualities = stack_iter->type->qualities;
             std::map<std::string, int>::const_iterator quality_iter = qualities.find(id);
-            if(quality_iter != qualities.end() && level >= quality_iter->second) {
+            if(quality_iter != qualities.end() && level <= quality_iter->second) {
                 found++;
             }
         }
