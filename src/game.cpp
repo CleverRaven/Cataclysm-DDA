@@ -5940,6 +5940,11 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (u.has_bionic("bio_ears")) {
         vol *= 3.5;
     }
+    if (u.has_trait("PER_SLIME")) {
+    // Random hearing :-/
+    // (when it's working at all, see player.cpp)
+        vol *= (rng(0.5, 2));
+    }
     if (u.has_trait("BADHEARING")) {
         vol *= .5;
     }
@@ -6208,7 +6213,15 @@ void game::flashbang(int x, int y, bool player_immune)
         }
         if (m.sees(u.posx, u.posy, x, y, 8, t)) {
             int flash_mod = 0;
-            if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
+            if (u.has_trait("PER_SLIME")) {
+                if (one_in(2)) {
+                    flash_mod = 3; // Yay, you weren't looking!
+                }
+            }
+            else if (u.has_trait("PER_SLIME_OK")) {
+                flash_mod = 8; // Just retract those and extrude fresh eyes
+            }
+            else if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
                 flash_mod = 6;
             }
             u.add_env_effect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);
@@ -12700,7 +12713,18 @@ void game::vertical_move(int movez, bool force) {
     if (tmpmap.move_cost(u.posx, u.posy) == 0) {
      popup(_("Halfway down, the way down becomes blocked off."));
      return;
-    } if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
+    } else if (u.has_trait("WEB_RAPPEL")) {
+     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))){
+        rope_ladder = true;
+        if ( (rng(4,8)) < (u.skillLevel("dodge")) ) {
+            add_msg(_("You attach a web and dive down headfirst, flipping upright and landing on your feet."));
+        }
+        else {
+            add_msg(_("You securely web up and work your way down, lowering yourself safely."));
+        }
+     }
+     else return;
+    } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
         if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))){
             if (u.has_trait("VINES2")) {
                 if (query_yn(_("Detach a vine?  It'll hurt, but you'll be able to climb back up..."))){
@@ -12819,8 +12843,9 @@ void game::vertical_move(int movez, bool force) {
  m.spawn_monsters();
 
  if (force) { // Basically, we fell.
-  if (u.has_trait("WINGS_BIRD"))
-   add_msg(_("You flap your wings and flutter down gracefully."));
+  if ( (u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (u.has_trait("WINGS_BUTTERFLY"))) ) {
+      add_msg(_("You flap your wings and flutter down gracefully."));
+  }
   else {
    int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);//The bigger they are
    dam -= rng(u.get_dodge(), u.get_dodge() * 3);

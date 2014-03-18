@@ -1574,7 +1574,9 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
 
         // unlike with tools, it's a bad thing if there aren't any components available
         if (options.empty()) {
+            if (!(p->has_trait("WEB_ROPE"))) {
             debugmsg("Attempted a recipe with no available components!");
+            }
             return ret;
         }
 

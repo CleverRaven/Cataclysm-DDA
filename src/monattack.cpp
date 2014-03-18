@@ -1775,3 +1775,50 @@ void mattack::darkman(monster *z)
     }
     g->u.add_disease( "darkness", 10 );
 }
+
+void mattack::slimespring(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 30) {
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq;    // Reset timer
+    
+    if (g->u.morale_level() <= 1) {
+        switch (rng(1, 3)) { //~ Your slimes try to cheer you up!
+        //~ Lowercase is intended: they're small voices.
+            case 1: g->add_msg(_("\"hey, it's gonna be all right!\""));
+            g->u.add_morale(MORALE_SUPPORT, 10, 50);
+            break;
+            case 2: g->add_msg(_("\"we'll get through this!\""));
+            g->u.add_morale(MORALE_SUPPORT, 10, 50);
+            break;
+            case 3: g->add_msg(_("\"i'm here for you!\""));
+            g->u.add_morale(MORALE_SUPPORT, 10, 50);
+            break;
+        }
+    }
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 3) {
+        if ( (g->u.has_disease("bleed")) || (g->u.has_disease("bite")) ) {
+            g->add_msg(_("\"let me help!\""));
+            // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
+            if (g->u.has_disease("bite")) {
+                if (one_in(3)) {
+                    g->u.rem_disease("bite");
+                    g->add_msg(_("The slime cleans you out!"));
+                }
+                else {
+                    g->add_msg(_("The slime flows over you, but your gouges still ache."));
+                }
+            }
+            if (g->u.has_disease("bleed")) {
+                if (one_in(2)) {
+                    g->u.rem_disease("bleed");
+                    g->add_msg(_("The slime seals up your leaks!"));
+                }
+                else {
+                    g->add_msg(_("The slime flows over you, but your fluids are still leaking."));
+                }
+            }
+        }
+    }
+}
