@@ -20,6 +20,7 @@ class game;
 struct trap;
 class mission;
 class profession;
+nc_color encumb_color(int level);
 
 struct special_attack
 {
@@ -516,7 +517,7 @@ public:
  bool has_item(char let);  // Has an item with invlet let
  bool has_item(int position);
  bool has_item(item *it);  // Has a specific item
- std::vector<char> allocated_invlets();
+ std::set<char> allocated_invlets();
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 

@@ -889,7 +889,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     //All parts after the first must be installed on or next to an existing part
-    if(parts.size() > 0) {
+    if(!parts.empty()) {
         if(!has_structural_part(dx, dy) &&
                 !has_structural_part(dx+1, dy) &&
                 !has_structural_part(dx, dy+1) &&
@@ -900,7 +900,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     }
 
     // Pedals and engines can't both be installed
-    if( part.has_flag("PEDALS") && engines.size() > 0 ) {
+    if( part.has_flag("PEDALS") && !engines.empty() ) {
         return false;
     }
     if( part.has_flag(VPFLAG_ENGINE) && has_pedals ) {
@@ -1023,7 +1023,7 @@ bool vehicle::can_unmount (int p)
                 int next_y = i < 2 ? 0 : (i == 2 ? -1 : 1);
                 std::vector<int> parts_over_there = parts_at_relative(dx + next_x, dy + next_y, false);
                 //Ignore empty squares
-                if(parts_over_there.size() > 0) {
+                if(!parts_over_there.empty()) {
                     //Just need one part from the square to track the x/y
                     connected_parts.push_back(parts[parts_over_there[0]]);
                 }
@@ -1295,9 +1295,9 @@ void vehicle::part_removal_cleanup() {
         }
     }
     removed_part_count = 0;
-    if (changed || parts.size() == 0) {
+    if (changed || parts.empty()) {
         refresh();
-        if(parts.size() == 0) {
+        if(parts.empty()) {
             g->m.destroy_vehicle(this);
         } else {
             g->m.update_vehicle_cache(this, false);
@@ -2054,6 +2054,38 @@ int vehicle::max_velocity (bool fueled)
     return total_power (fueled) * 80;
 }
 
+bool vehicle::do_environmental_effects()
+{
+    bool needed = false;
+    // check for smoking parts
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        int part_x = global_x() + parts[p].precalc_dx[0];
+        int part_y = global_y() + parts[p].precalc_dy[0];
+
+        /* Only lower blood level if:
+         * - The part is outside.
+         * - The weather is any effect that would cause the player to be wet. */
+        if( parts[p].blood > 0 && g->m.is_outside(part_x, part_y) && g->levz >= 0 ) {
+            needed = true;
+            if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
+                parts[p].blood--;
+            }
+        }
+        if( part_flag(p, VPFLAG_ENGINE) && parts[p].hp <= 0 && parts[p].amount > 0 ) {
+            needed = true;
+            parts[p].amount--;
+            for( int ix = -1; ix <= 1; ix++ ) {
+                for( int iy = -1; iy <= 1; iy++ ) {
+                    if( !rng(0, 2) ) {
+                        g->m.add_field( part_x + ix, part_y + iy, fd_smoke, rng(2, 4) );
+                    }
+                }
+            }
+        }
+    }
+    return needed;
+}
+
 int vehicle::safe_velocity (bool fueled)
 {
     int pwrs = 0;
@@ -2087,45 +2119,86 @@ int vehicle::safe_velocity (bool fueled)
     return (int) (pwrs * k_dynamics() * k_mass()) * 80;
 }
 
-int vehicle::noise (bool fueled, bool gas_only)
+void vehicle::spew_smoke( double joules, int part )
 {
-    int pwrs = 0;
-    int muffle = 100;
-    for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, "MUFFLER") && parts[p].hp > 0 && part_info(p).bonus < muffle) {
-            muffle = part_info(p).bonus;
+    if( rng(1, 100000) > joules ) {
+        return;
+    }
+    point p( parts[part].mount_dx, parts[part].mount_dy );
+    int smoke = int(std::max(joules / 10000 , 1.0));
+    // Move back from engine/muffler til we find an open space
+    while( relative_parts.find(p) != relative_parts.end() ) {
+        p.x += ( velocity < 0 ? 1 : -1 );
+    }
+    int rdx, rdy;
+    coord_translate( p.x, p.y, rdx, rdy );
+    g->m.add_field( global_x() + rdx, global_y() + rdy, fd_smoke, smoke );
+}
+
+/**
+ * Generate noise or smoke from a vehicle with engines turned on
+ * load = how hard the engines are working, from 0.0 til 1.0
+ * time = how many seconds to generated smoke for
+ */
+void vehicle::noise_and_smoke( double load, double time )
+{
+    const int sound_levels[] = { 0, 15, 30, 60, 100, 140, 180, INT_MAX };
+    const char *sound_msgs[] = { "", "hummm!", "whirrr!", "vroom!", "roarrr!", "ROARRR!",
+                                 "BRRROARRR!!", "BRUMBRUMBRUMBRUM!!!" };
+    double noise = 0.0;
+    double mufflesmoke = 0.0;
+    double muffle = 1.0, m;
+    int exhaust_part = -1;
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        if( part_flag(p, "MUFFLER") ) {
+            m = 1.0 - (1.0 - part_info(p).bonus / 100.0) * parts[p].hp / part_info(p).durability;
+            if( m < muffle ) {
+                muffle = m;
+                exhaust_part = int(p);
+            }
         }
     }
 
-    for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, "ENGINE") &&
-            (fuel_left (part_info(p).fuel_type) || !fueled ||
-             part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0)  {
-            int nc = 10;
+    for( size_t e = 0; e < engines.size(); e++ ) {
+        int p = engines[e];
+        if( parts[p].hp > 0 &&
+                (fuel_left (part_info(p).fuel_type) ||
+                 part_info(p).fuel_type == fuel_type_muscle) ) {
+            double pwr = 10.0; // Default noise if nothing else found, shouldn't happen
+            double max_pwr = double(power_to_epower(part_power(p, true)))/40000;
+            double cur_pwr = load * max_pwr;
 
             if( part_info(p).fuel_type == fuel_type_gasoline ) {
-                nc = 25;
-            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
-                nc = 10;
-            } else if( part_info(p).fuel_type == fuel_type_battery ) {
-                nc = 3;
-            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
-                nc = 5;
-            }
-
-            if (!gas_only || part_info(p).fuel_type == fuel_type_gasoline) {
-                int pwr = part_power(p) * nc / 100;
-                if (muffle < 100 && (part_info(p).fuel_type == fuel_type_gasoline ||
-                                     part_info(p).fuel_type == fuel_type_plasma)) {
-                    pwr = pwr * muffle / 100;
+                double j = power_to_epower(part_power(p, true)) * load * time * muffle;
+                if( exhaust_part == -1 ) {
+                    spew_smoke( j, p );
+                } else {
+                    mufflesmoke += j;
                 }
-                // Only the loudest engine counts.
-                pwrs = std::max(pwrs, pwr);
+                pwr = (cur_pwr*15 + max_pwr*3 + 5) * muffle;
+            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
+                pwr = (cur_pwr*9 + 1) * muffle;
+            } else if( part_info(p).fuel_type == fuel_type_battery ) {
+                pwr = cur_pwr*3;
+            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
+                pwr = cur_pwr*5;
             }
+            noise = std::max(noise, pwr); // Only the loudest engine counts.
         }
     }
-    return pwrs;
+
+    if( exhaust_part != -1 ) {
+        spew_smoke( mufflesmoke, exhaust_part );
+    }
+    // Even a car with engines off will make noise traveling at high speeds
+    noise = std::max( noise, double(fabs(velocity/500.0)) );
+    int lvl = 0;
+    if( !has_pedals && one_in(4) && rng(0, 30) < noise ) {
+       while( noise > sound_levels[lvl] ) {
+           lvl++;
+       }
+    }
+    g->sound( global_x(), global_y(), noise, sound_msgs[lvl] );
 }
 
 float vehicle::wheels_area (int *cnt)
@@ -2225,7 +2298,7 @@ bool vehicle::valid_wheel_config ()
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
-    if(wheel_indices.size() == 0) {
+    if(wheel_indices.empty()) {
         //No wheels!
         return false;
     } else if(wheel_indices.size() == 1) {
@@ -2530,20 +2603,7 @@ void vehicle::idle() {
         idle_rate = (float)alternator_load / (float)engines_power;
         if (idle_rate < 0.01) idle_rate = 0.01; // minimum idle is 1% of full throttle
         consume_fuel(idle_rate);
-
-        if (one_in(6)) {
-            int sound = noise() / 10 + 2;
-            g->sound(global_x(), global_y(), sound, "hummm.");
-
-            if (one_in(10)) {
-                int smk = noise(true, true); // Only generate smoke for gas cars.
-                if( smk > 0 && !has_pedals ) {
-                    int rdx = rng(0, 2);
-                    int rdy = rng(0, 2);
-                    g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (sound / 50) + 1);
-                }
-            }
-        }
+        noise_and_smoke( idle_rate );
     }
     else {
         if (g->u_see(global_x(), global_y()) && engine_on) {
@@ -2605,6 +2665,16 @@ void vehicle::thrust (int thd) {
         }
     }
 
+    double load;
+    if( cruise_on ) {
+        load = abs(vel_inc) / (thrusting ? accel : brk);
+    } else {
+        load = (thrusting ? 1.0 : 0.0);
+    }
+    if( load < 0.01 ) {
+        load = 0.01;
+    }
+    noise_and_smoke( load );
     // Ugly hack, use full engine power occasionally when thrusting slightly
     // up to cruise control speed. Loses some extra power when in reverse.
     if (thrusting && rng(1, accel) <= vel_inc )
@@ -2653,29 +2723,6 @@ void vehicle::thrust (int thd) {
                      g->add_msg(_("Your engine emits a loud grinding sound."));
                 }
             }
-        }
-        // add sound and smoke
-        int smk = noise (true, true);
-        if( smk > 0 && !has_pedals )
-        {
-            int rdx, rdy;
-            coord_translate (exhaust_dx, exhaust_dy, rdx, rdy);
-            g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, (smk / 50) + 1);
-        }
-        std::string soundmessage;
-        if( !has_pedals ) {
-          if (smk > 80)
-            soundmessage = "ROARRR!";
-          else if (smk > 60)
-            soundmessage = "roarrr!";
-          else if (smk > 30)
-            soundmessage = "vroom!";
-          else
-            soundmessage = "whirrr!";
-          g->sound(global_x(), global_y(), noise(), soundmessage.c_str());
-        }
-        else {
-          g->sound(global_x(), global_y(), noise(), "");
         }
     }
 
@@ -2977,6 +3024,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
                 } else if (dam > rng (10, 30)) {
                     parts[part].blood += (10 + dam / 2) * 5;
                 }
+                check_environmental_effects = true;
             }
 
             turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
@@ -3159,7 +3207,7 @@ void vehicle::handle_trap (int x, int y, int part)
                 t == tr_temple_toggle ) {
         msg.clear();
     }
-    if (msg.size() > 0 && g->u_see(x, y)) {
+    if (!msg.empty() && g->u_see(x, y)) {
         g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
     }
     if (noise > 0) {
@@ -3329,35 +3377,8 @@ void vehicle::gain_moves()
     if (player_in_control(&g->u) && cruise_on && cruise_velocity != velocity )
         thrust (cruise_velocity > velocity? 1 : -1);
 
-    // check for smoking parts
-    for (int p = 0; p < parts.size(); p++)
-    {
-        if (parts[p].removed) {
-          continue;
-        }
-        int part_x = global_x() + parts[p].precalc_dx[0];
-        int part_y = global_y() + parts[p].precalc_dy[0];
-
-        /* Only lower blood level if:
-         * - The part is outside.
-         * - The weather is any effect that would cause the player to be wet. */
-        if (parts[p].blood > 0 &&
-                g->m.is_outside(part_x, part_y) && g->levz >= 0 &&
-                g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN) {
-            parts[p].blood--;
-        }
-        int p_eng = part_with_feature (p, VPFLAG_ENGINE, false);
-        if (p_eng < 0 || parts[p_eng].hp > 0 || parts[p_eng].amount < 1) {
-            continue;
-        }
-        parts[p_eng].amount--;
-        for (int ix = -1; ix <= 1; ix++) {
-            for (int iy = -1; iy <= 1; iy++) {
-                if (!rng(0, 2)) {
-                    g->m.add_field(part_x + ix, part_y + iy, fd_smoke, rng(2, 4));
-                }
-            }
-        }
+    if( check_environmental_effects ) {
+        check_environmental_effects = do_environmental_effects();
     }
 
     if (turret_mode) { // handle turrets
@@ -3365,31 +3386,6 @@ void vehicle::gain_moves()
             fire_turret (p);
         }
     }
-}
-
-void vehicle::find_exhaust ()
-{
-    int en = -1;
-    for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) && part_info(p).fuel_type == fuel_type_gasoline) {
-            en = p;
-            break;
-        }
-    }
-    if (en < 0) {
-        exhaust_dy = 0;
-        exhaust_dx = 0;
-        return;
-    }
-    exhaust_dy = parts[en].mount_dy;
-    exhaust_dx = parts[en].mount_dx;
-    for (int p = 0; p < parts.size(); p++) {
-        if (parts[p].mount_dy == exhaust_dy &&
-            parts[p].mount_dx < exhaust_dx && !parts[p].removed) {
-            exhaust_dx = parts[p].mount_dx;
-        }
-    }
-    exhaust_dx--;
 }
 
 /**
@@ -3460,8 +3456,8 @@ void vehicle::refresh()
     }
 
     precalc_mounts( 0, face.dir() );
+    check_environmental_effects = true;
     insides_dirty = true;
-    find_exhaust();
 }
 
 void vehicle::refresh_insides ()
@@ -3829,7 +3825,7 @@ void vehicle::fire_turret (int p, bool burst)
             }
         }
     } else {
-        if (parts[p].items.size() > 0) {
+        if (!parts[p].items.empty()) {
             it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items[0].type);
             if (!ammo || ammo->type != amt || parts[p].items[0].charges < 1) {
                 return;

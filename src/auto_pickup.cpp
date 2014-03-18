@@ -189,7 +189,7 @@ void show_auto_pickup()
         } else if (iCurrentPage == 1 || iCurrentPage == 2) {
             if (iCurrentPage == 2 && g->u.name == "" && ch != '\t') {
                 //Only allow loaded games to use the char sheet
-            } else if (vAutoPickupRules[iCurrentPage].size() > 0 || ch == 'a' || ch == 'A' || ch == 's' ||
+            } else if (!vAutoPickupRules[iCurrentPage].empty() || ch == 'a' || ch == 'A' || ch == 's' ||
                        ch == 'S' || ch == '\t') {
                 switch(ch) {
                 case 'j': //move down

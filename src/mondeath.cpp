@@ -249,7 +249,7 @@ void mdeath::worm(monster *z) {
         }
     }
     int worms = 0;
-    while(worms < 2 && wormspots.size() > 0) {
+    while(worms < 2 && !wormspots.empty()) {
         monster worm(GetMType("mon_halfworm"));
         int rn = rng(0, wormspots.size() - 1);
         if(-1 == g->mon_at(wormspots[rn])) {
@@ -262,7 +262,9 @@ void mdeath::worm(monster *z) {
 }
 
 void mdeath::disappear(monster *z) {
-    g->add_msg(_("The %s disappears."), z->name().c_str());
+    if (g->u_see(z)) {
+        g->add_msg(_("The %s disappears."), z->name().c_str());
+    }
 }
 
 void mdeath::guilt(monster *z) {
@@ -366,7 +368,7 @@ void mdeath::blobsplit(monster *z) {
     }
 
     int rn;
-    for (int s = 0; s < 2 && valid.size() > 0; s++) {
+    for (int s = 0; s < 2 && !valid.empty(); s++) {
         rn = rng(0, valid.size() - 1);
         blob.spawn(valid[rn].x, valid[rn].y);
         g->add_zombie(blob);
@@ -450,7 +452,7 @@ void mdeath::ratking(monster *z) {
     }
     int rn;
     monster rat(GetMType("mon_sewer_rat"));
-    for (int rats = 0; rats < 7 && ratspots.size() > 0; rats++) {
+    for (int rats = 0; rats < 7 && !ratspots.empty(); rats++) {
         rn = rng(0, ratspots.size() - 1);
         rat.spawn(ratspots[rn].x, ratspots[rn].y);
         g->add_zombie(rat);

@@ -1122,7 +1122,7 @@ void monster::drop_items_on_death()
     int total_chance = 0, cur_chance, selected_location;
     bool animal_done = false;
     std::vector<items_location_and_chance> it = g->monitems[type->id];
-    if (type->item_chance != 0 && it.size() == 0)
+    if (type->item_chance != 0 && it.empty())
     {
         debugmsg("Type %s has item_chance %d but no items assigned!",
                  type->name.c_str(), type->item_chance);

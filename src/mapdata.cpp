@@ -130,7 +130,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
 
         if ( j.has_array("items") ) {
            JsonArray ja = j.get_array("items");
-           if (ja.size() > 0) {
+           if (!ja.empty()) {
                int c=0;
                while ( ja.has_more() ) {
                    if ( ja.has_object(c) ) {

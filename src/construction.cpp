@@ -399,7 +399,7 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
     bool components_required = false;
 
     for (int j = 0; j < con->tools.size(); j++) {
-        if (con->tools[j].size() > 0) {
+        if (!con->tools[j].empty()) {
             tools_required = true;
             has_tool = false;
             for (unsigned k = 0; k < con->tools[j].size(); k++) {
@@ -417,7 +417,7 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
     }
 
     for (int j = 0; j < con->components.size(); ++j) {
-        if (con->components[j].size() > 0) {
+        if (!con->components[j].empty()) {
             components_required = true;
             has_component = false;
             for (unsigned k = 0; k < con->components[j].size(); k++) {

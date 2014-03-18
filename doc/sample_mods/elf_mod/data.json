@@ -1,0 +1,39 @@
+[
+    {
+        "type" : "MONSTER",
+        "id" : "mon_elf",
+        "name": "elf",
+        "species":"ZOMBIE",
+        "symbol":"E",
+        "color":"white",
+        "size":"MEDIUM",
+        "material":"flesh",
+        "diff":0,
+        "aggression":50,
+        "morale":100,
+        "speed":120,
+        "melee_skill":10,
+        "melee_dice":4,
+        "melee_dice_sides":6,
+        "melee_cut":12,
+        "dodge":10,
+        "armor_bash":2,
+        "armor_cut":2,
+        "item_chance":0,
+        "luminance":0,
+        "hp":50,
+        "special_freq":0,
+        "death_function":"NORMAL",
+        "special_attack":"NONE",
+        "description":"This is an elf. Nobody knows what an elf is doing in the cataclysm.",
+        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "VIS40"],
+        "anger_triggers":["PLAYER_CLOSE", "HURT"]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_ELF",
+    "default" : "mon_elf",
+    "monsters" : [
+      { "monster" : "mon_elf", "freq" : 300, "cost_multiplier" : 0 }
+    ]
+  }
+]

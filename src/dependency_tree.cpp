@@ -41,7 +41,7 @@ void dependency_node::add_child(dependency_node *child)
 
 bool dependency_node::is_available()
 {
-    return all_errors.size() == 0;
+    return all_errors.empty();
 }
 
 std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors()
@@ -74,19 +74,19 @@ void dependency_node::check_cyclicity()
     }
     nodes_visited.insert(key);
 
-    while (nodes_to_check.size() > 0) {
+    while (!nodes_to_check.empty()) {
         dependency_node *check = nodes_to_check.top();
         nodes_to_check.pop();
 
         if (nodes_visited.find(check->key) != nodes_visited.end()) {
-            if (all_errors[CYCLIC].size() == 0) {
+            if (all_errors[CYCLIC].empty()) {
                 all_errors[CYCLIC].push_back("Error: Circular Dependency Circuit Found!");
             }
             continue;
         }
 
         // add check parents, if exist, to stack
-        if (check->parents.size() > 0) {
+        if (!check->parents.empty()) {
             for (size_t i = 0; i < check->parents.size(); ++i) {
                 nodes_to_check.push(check->parents[i]);
             }
@@ -100,7 +100,7 @@ bool dependency_node::has_errors()
     bool ret = false;
     for (std::map<NODE_ERROR_TYPE, std::vector<std::string> >::iterator it = all_errors.begin();
          it != all_errors.end(); ++it) {
-        if (it->second.size() > 0) {
+        if (!it->second.empty()) {
             ret = true;
             break;
         }
@@ -118,7 +118,7 @@ void dependency_node::inherit_errors()
     }
     nodes_visited.insert(key);
 
-    while (nodes_to_check.size() > 0) {
+    while (!nodes_to_check.empty()) {
         dependency_node *check = nodes_to_check.top();
         nodes_to_check.pop();
 
@@ -141,7 +141,7 @@ void dependency_node::inherit_errors()
             continue;
         }
         // add check parents, if exist, to stack
-        if (check->parents.size() > 0) {
+        if (!check->parents.empty()) {
             for (size_t i = 0; i < check->parents.size(); ++i) {
                 nodes_to_check.push(check->parents[i]);
             }
@@ -176,7 +176,7 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
     }
     found.insert(key);
 
-    while (nodes_to_check.size() > 0) {
+    while (!nodes_to_check.empty()) {
         dependency_node *check = nodes_to_check.top();
         nodes_to_check.pop();
 
@@ -189,7 +189,7 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
         dependencies.push_back(check);
 
         // add parents to check list
-        if (check->parents.size() > 0) {
+        if (!check->parents.empty()) {
             for (size_t i = 0; i < check->parents.size(); ++i) {
                 nodes_to_check.push(check->parents[i]);
             }
@@ -232,7 +232,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
     }
     found.insert(key);
 
-    while (nodes_to_check.size() > 0) {
+    while (!nodes_to_check.empty()) {
         dependency_node *check = nodes_to_check.top();
         nodes_to_check.pop();
 
@@ -242,7 +242,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
         }
         dependents.push_back(check);
 
-        if (check->children.size() > 0) {
+        if (!check->children.empty()) {
             for (size_t i = 0; i < check->children.size(); ++i) {
                 nodes_to_check.push(check->children[i]);
             }
@@ -371,7 +371,7 @@ bool dependency_tree::is_available(std::string key)
 void dependency_tree::clear()
 {
     // remove all keys and nodes from the master_node_map
-    if (master_node_map.size() > 0) {
+    if (!master_node_map.empty()) {
         for (std::map<std::string, dependency_node *>::iterator it = master_node_map.begin();
              it != master_node_map.end(); ++it) {
             delete it->second;

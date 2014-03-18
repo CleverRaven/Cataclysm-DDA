@@ -42,7 +42,7 @@ bool player::handle_melee_wear() {
 // Here is where we handle wear and tear on things we use as melee weapons or shields.
     std::stringstream dump;
     int material_factor = 1;
-    int damage_chance = dex_cur + ( 2 * skillLevel("melee") ) + ( 128 / str_cur );
+    int damage_chance = dex_cur + ( 2 * skillLevel("melee") ) + ( 128 / std::max(str_cur,1) );
   // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
   if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
     // Here we're checking the weapon's material(s) and using the best one to determine how durable it is.
@@ -1158,6 +1158,11 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
 
  handle_melee_wear();
 
+ bool is_hallucination = false; //Check if the target is an hallucination.
+ if(monster *m = dynamic_cast<monster*>(&t)) {
+   is_hallucination = m->is_hallucination();
+ }
+
 // Getting your weapon stuck
  int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));
  if (weapon.has_flag("MESSY")) { // e.g. chainsaws
@@ -1189,8 +1194,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
    } //it all
   } //comes
  } //tumbling down
- if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) /* && TODO: put is_halluc check back in
-         !z->is_hallucination()*/) {
+
+ if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !is_hallucination) {
     dump << string_format(_("Your %s gets stuck in %s, pulling it out of your hands!"), weapon.tname().c_str(), target.c_str());
   // TODO: better speed debuffs for target, possibly through effects
   if (monster *m = dynamic_cast<monster*>(&t)) {
@@ -1213,7 +1218,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
    int cutting_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("cutting");
    cutting_penalty -= rng(cutting_skill, cutting_skill * 2 + 2);
   }
-  if (cutting_penalty >= 50/* && !z->is_hallucination()*/) { // TODO: halluc check again
+  if (cutting_penalty >= 50 && !is_hallucination) {
    dump << string_format(_("Your %s gets stuck in %s but you yank it free!"), weapon.tname().c_str(), target.c_str());
   }
   if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
