@@ -3439,7 +3439,7 @@
         "type" : "BOOK",
         "id" : "recipe_lab_cvd",
         "name" : "lab journal-Gustav",
-        "description" : "This paper notebook is mostly full of boring logs, experimental observations and notes. Mixed in, however, are musings on how to use the lab's vapor deposition machine to grow enormous diamonds.",
+        "description" : "This paper notebook is mostly full of boring logs, experimental observations and notes. Mixed in, however, are musings on how to use the lab's vapor deposition machine to deposit amorphous carbon in a diamond-like form onto common metals. The author's intended goal was a better non-stick frying pan, but you can think of a couple of better uses for it.",
         "weight" : 2000,
         "volume" : 2,
         "price" : 500,
