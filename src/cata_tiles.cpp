@@ -239,6 +239,9 @@ void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
 
     try {
         load_tilejson_from_file( config_file, image_path );
+        if (tile_ids.count("unknown") == 0) {
+            debugmsg("The tileset you're using has no 'unknown' tile defined!");
+        }
     } catch (std::string e) {
         debugmsg("%s: %s", path.c_str(), e.c_str());
     }
@@ -728,7 +731,7 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
 
     //  this really shouldn't happen, but the tileset creator might have forgotten to define an unknown tile
     if (it == tile_ids.end()) {
-        debugmsg("The tileset you're using has no 'unknown' tile defined!");
+        return false;
     }
 
     tile_type *display_tile = it->second;
