@@ -43,7 +43,6 @@ enum vehicle_controls {
 
 vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): type(type_id)
 {
-    generation = 0;
     posx = 0;
     posy = 0;
     velocity = 0;
@@ -2111,20 +2110,6 @@ int vehicle::solar_epower()
     return epower;
 }
 
-void vehicle::spew_smoke( double joules, int part ) {
-    if (joules < 50000 && rng(0, 50000) > joules )
-        return;
-    point p( parts[part].mount_dx, parts[part].mount_dy );
-    int smoke = joules / 50 + 1;
-    int dir = 1;
-    if ( velocity < 0 )
-        dir = -1;
-    // Move back from engine/muffler til we find an open space
-    while (relative_parts.find(p) != relative_parts.end()) p.x-=dir;
-    int rdx, rdy;
-    coord_translate (p.x, p.y, rdx, rdy);
-    g->m.add_field(global_x() + rdx, global_y() + rdy, fd_smoke, smoke);
-
 bool vehicle::do_environmental_effects()
 {
     bool needed = false;
@@ -2155,39 +2140,6 @@ bool vehicle::do_environmental_effects()
         }
     }
     return needed;
-}
-
-int vehicle::safe_velocity (bool fueled)
-{
-    int pwrs = 0;
-    int cnt = 0;
-    for (int p = 0; p < parts.size(); p++) {
-        if (part_flag(p, VPFLAG_ENGINE) &&
-            (fuel_left (part_info(p).fuel_type) || !fueled ||
-             part_info(p).fuel_type == fuel_type_muscle) &&
-            parts[p].hp > 0) {
-            int m2c = 100;
-
-            if ( part_info(p).fuel_type == fuel_type_gasoline ) {
-                m2c = 60;
-            } else if( part_info(p).fuel_type == fuel_type_plasma ) {
-                m2c = 75;
-            } else if( part_info(p).fuel_type == fuel_type_battery ) {
-                m2c = 90;
-            } else if( part_info(p).fuel_type == fuel_type_muscle ) {
-                m2c = 45;
-            }
-
-            pwrs += part_power(p) * m2c / 100;
-            cnt++;
-        } else if (part_flag(p, VPFLAG_ALTERNATOR) && parts[p].hp > 0) { // factor in m2c?
-            pwrs += part_power(p); // alternator parts have negative power
-        }
-    }
-    if (cnt > 0) {
-        pwrs = pwrs * 4 / (4 + cnt -1);
-    }
-    return (int) (pwrs * k_dynamics() * k_mass()) * 80;
 }
 
 void vehicle::spew_smoke( double joules, int part )
@@ -2289,79 +2241,6 @@ float vehicle::wheels_area (int *cnt)
         *cnt = count;
     }
     return total_area;
-}
-
-float vehicle::k_friction ()
-{
-    // calculate safe speed reduction due to wheel friction
-    float fr0 = 1000.0;
-    float kf = ( fr0 / (fr0 + wheels_area()) );
-    return kf;
-}
-
-float vehicle::k_aerodynamics ()
-{
-    const int max_obst = 13;
-    int obst[max_obst];
-    for (int o = 0; o < max_obst; ++o) {
-        obst[o] = 0;
-    }
-    std::vector<int> structure_indices = all_parts_at_location(part_location_structure);
-    for (size_t i = 0; i < structure_indices.size(); ++i)
-    {
-        int p = structure_indices[i];
-        int frame_size = part_with_feature(p, VPFLAG_OBSTACLE) ? 30 : 10;
-        int pos = parts[p].mount_dy + max_obst / 2;
-        if (pos < 0) {
-            pos = 0;
-        }
-        if (pos >= max_obst) {
-            pos = max_obst -1;
-        }
-        if (obst[pos] < frame_size) {
-            obst[pos] = frame_size;
-        }
-    }
-    int frame_obst = 0;
-    for (int o = 0; o < max_obst; ++o) {
-        frame_obst += obst[o];
-    }
-    float ae0 = 200.0;
-
-    // calculate aerodynamic coefficient
-    float ka = ( ae0 / (ae0 + frame_obst) );
-    return ka;
-}
-
-float vehicle::k_dynamics ()
-{
-    return ( k_aerodynamics() * k_friction() );
-}
-
-float vehicle::k_mass ()
-{
-    float wa = wheels_area();
-    if (wa <= 0)
-       return 0;
-
-    float ma0 = 50.0;
-
-    // calculate safe speed reduction due to mass
-    float km = ma0 / (ma0 + (total_mass() / 8) / (8 * (float) wa));
-
-    return km;
-}
-
-float vehicle::strain ()
-{
-    int mv = max_velocity();
-    int sv = safe_velocity();
-    if (mv <= sv)
-        mv = sv + 1;
-    if (velocity < safe_velocity())
-        return 0;
-    else
-        return (float) (velocity - sv) / (float) (mv - sv);
 }
 
 bool vehicle::valid_wheel_config ()
@@ -2513,38 +2392,6 @@ void vehicle::thrust(int percent) {
   }
 }
 
-bool vehicle::do_environmental_effects() {
-    bool needed = false;
-    // check for smoking parts
-    for (int p = 0; p < parts.size(); p++)
-    {
-        int part_x = global_x() + parts[p].precalc_dx[0];
-        int part_y = global_y() + parts[p].precalc_dy[0];
-
-        /* Only lower blood level if:
-         * - The part is outside.
-         * - The weather is any effect that would cause the player to be wet. */
-        if (parts[p].blood > 0 &&
-                g->m.is_outside(part_x, part_y) && g->levz >= 0 &&
-                g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN) {
-            needed = true;
-            parts[p].blood--;
-        }
-        if (part_flag(p, VPFLAG_ENGINE) && parts[p].hp <= 0 && parts[p].amount > 0) {
-            needed = true;
-            parts[p].amount--;
-            for (int ix = -1; ix <= 1; ix++) {
-                for (int iy = -1; iy <= 1; iy++) {
-                    if (!rng(0, 2)) {
-                        g->m.add_field(part_x + ix, part_y + iy, fd_smoke, rng(2, 4));
-                    }
-                }
-            }
-        }
-    }
-    return needed;
-}
-
 double vehicle::generate_all_power()
 {
     // Producers of epower
@@ -2649,8 +2496,9 @@ void vehicle::do_turn_actions()
         of_turn = 0;
     }
 
-    if (has_environmental_effects)
-        has_environmental_effects = do_environmental_effects();
+    if( check_environmental_effects ) {
+        check_environmental_effects = do_environmental_effects();
+    }
 
     if (turret_mode) { // handle turrets
         bool turret_active = false;
@@ -2981,31 +2829,26 @@ bool vehicle::drive_one_tile()
 
     // Handle wheels. Sink in water, mess up ground, set off traps.
     int curgen, num_wheels, submerged_wheels;
-    do {
-        std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL, false);
-        num_wheels = wheel_indices.size();
-        submerged_wheels = 0;
-        curgen = generation;
-        for (int w = 0; w < num_wheels; w++) {
-            const int p = wheel_indices[w];
-            const int px = gx + parts[p].precalc_dx[0];
-            const int py = gy + parts[p].precalc_dy[0];
-            // deep water
-            if (g->m.ter_at(px, py).has_flag(TFLAG_DEEP_WATER))
-                submerged_wheels++;
-    
-            if (one_in(2)) {
-                if (g->m.displace_water(gx + parts[p].precalc_dx[0],
-                                        gy + parts[p].precalc_dy[0]) && pl_ctrl)
-                    g->add_msg(_("You hear a splash!"));
-            }
+    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL, false);
+    num_wheels = wheel_indices.size();
+    submerged_wheels = 0;
+    for (int w = 0; w < num_wheels; w++) {
+        const int p = wheel_indices[w];
+        const int px = gx + parts[p].precalc_dx[0];
+        const int py = gy + parts[p].precalc_dy[0];
+        // deep water
+        if (g->m.ter_at(px, py).has_flag(TFLAG_DEEP_WATER))
+            submerged_wheels++;
 
-            // now we're gonna handle traps we're standing on
-            handle_trap( gx + parts[p].precalc_dx[0], gy + parts[p].precalc_dy[0], p );
-            if (curgen != generation)
-                break; // Parts have changed
+        if (one_in(2)) {
+            if (g->m.displace_water(gx + parts[p].precalc_dx[0],
+                                    gy + parts[p].precalc_dy[0]) && pl_ctrl)
+                g->add_msg(_("You hear a splash!"));
         }
-    } while (curgen != generation); // Redo if parts changed
+
+        // now we're gonna handle traps we're standing on
+        handle_trap( gx + parts[p].precalc_dx[0], gy + parts[p].precalc_dy[0], p );
+    }
 
     // submerged wheels threshold is 2/3.
     if (num_wheels && (float)submerged_wheels / num_wheels > .666) {
@@ -4661,26 +4504,6 @@ float get_collision_factor(float delta_v)
     } else {
         return 0.1;
     }
-}
-
-float vehicle::wheels_area (int *cnt)
-{
-    int count = 0;
-    int total_area = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
-    for (int i = 0; i < wheel_indices.size(); i++)
-    {
-        int p = wheel_indices[i];
-        int width = part_info(p).wheel_width;
-        int bigness = parts[p].bigness;
-        // 9 inches, for reference, is about normal for cars.
-        total_area += ((float)width/9) * bigness;
-        count++;
-    }
-    if (cnt) {
-        *cnt = count;
-    }
-    return total_area;
 }
 
 void vehicle::calculate_air_resistance()
