@@ -102,10 +102,8 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
                          calc_volume_capacity(dropped_items));
 
     // Print our weapon
-    int n_items = 0;
     mvwprintz(w_inv, 2, right_column_offset, c_magenta, _("WEAPON:"));
     if (g->u.is_armed()) {
-        n_items++;
         if (dropped_weapon != 0)
             mvwprintz(w_inv, 3, right_column_offset, c_white, "%c %c %s", g->u.weapon.invlet,
                       dropped_weapon == -1 ? '+' : '#',
@@ -121,7 +119,6 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
         mvwprintz(w_inv, 5, right_column_offset, c_magenta, _("ITEMS WORN:"));
     }
     for (size_t i = 0; i < g->u.worn.size(); i++) {
-        n_items++;
         bool dropped_armor = false;
         for (size_t j = 0; j < dropped_items.size() && !dropped_armor; j++) {
             if (dropped_items[j] == g->u.worn[i].invlet) {
@@ -136,12 +133,7 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
                        "%c - %s", g->u.worn[i].invlet, g->u.worn[i].display_name().c_str() );
     }
 
-    // Print items carried
-    for (std::string::const_iterator invlet = inv_chars.begin();
-         invlet != inv_chars.end(); ++invlet) {
-        n_items += ((g->u.inv.item_by_letter(*invlet).is_null()) ? 0 : 1);
-    }
-    mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "), n_items, inv_chars.size());
+    mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "), g->u.allocated_invlets().size(), inv_chars.size());
 }
 
 int game::display_slice(indexed_invslice &slice, const std::string &title)

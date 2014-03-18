@@ -161,7 +161,7 @@ class inventory
   // true, empty (invlet = 0) otherwise.
   void assign_empty_invlet(item &it, bool force = false);
 
-  std::vector<char> allocated_invlets();
+  std::set<char> allocated_invlets();
  private:
   // For each item ID, store a set of "favorite" inventory letters.
   std::map<std::string, std::vector<char> > invlet_cache;
