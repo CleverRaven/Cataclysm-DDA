@@ -5935,8 +5935,8 @@
     ],
     [
       [ "powder_eggs", 5 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "lemon", 1 ],
@@ -8053,8 +8053,8 @@
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "irradiated_tomato", 2 ],
@@ -8104,8 +8104,8 @@
       [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "powder_eggs", 5 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "meat", 2 ],
@@ -8160,8 +8160,8 @@
       [ "milk_powder", 1 ],
       [ "crackers", 2 ],
       [ "powder_eggs", 5 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "fish", 2 ],
@@ -8212,8 +8212,8 @@
       [ "sausage", 1 ],
       [ "bacon", 1 ],
       [ "powder_eggs", 10 ],
-	  [ "egg_bird", 2 ],
-	  [ "egg_reptile", 2 ]
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
     ],
     [
       [ "veggy_wild", 1 ],
@@ -8633,8 +8633,8 @@
   "components": [
     [
       [ "powder_eggs", 10 ],
-	  [ "egg_bird", 2 ],
-	  [ "egg_reptile", 2 ]
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -8667,8 +8667,8 @@
   "components": [
     [
       [ "powder_eggs", 10 ],
-	  [ "egg_bird", 2 ],
-	  [ "egg_reptile", 2 ]
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
     ],
     [
       [ "bacon", 1 ],
@@ -8726,8 +8726,8 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "powder_eggs", 5 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8771,8 +8771,8 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "powder_eggs", 5 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8832,8 +8832,8 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "powder_eggs", 5 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8881,8 +8881,8 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "powder_eggs", 2 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8929,8 +8929,8 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "powder_eggs", 2 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -8994,8 +8994,8 @@
       [ "con_milk", 1 ],
       [ "can_coconut", 1 ],
       [ "powder_eggs", 2 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ]
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "syrup", 1 ]
@@ -29906,8 +29906,8 @@
     ],
     [
       [ "powder_eggs", 15 ],
-	  [ "egg_bird", 2 ],
-	  [ "egg_reptile", 2 ]
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
     ],
     [
       [ "sugar", 1 ]
