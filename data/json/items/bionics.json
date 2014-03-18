@@ -257,6 +257,23 @@
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",
+        "id": "bio_cqb",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "CBM: Close Quarters Battle",
+        "description": "Databanks and processors loaded with extensive martial arts combat programs are integrated directly into your spinal column. Whilst active, you become deadly in hand-to-hand.",
+        "price": 220000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 8
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_climate",
         "symbol": ":",
         "color": "yellow",

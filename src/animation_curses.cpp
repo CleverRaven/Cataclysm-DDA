@@ -126,7 +126,7 @@ void game::draw_footsteps()
                 }
             }
 
-            if (unseen_points.size() > 0) {
+            if (!unseen_points.empty()) {
                 point selected = unseen_points[ rng(0, unseen_points.size() - 1) ];
 
                 mvwputch(w_terrain,

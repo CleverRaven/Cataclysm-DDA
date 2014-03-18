@@ -453,7 +453,7 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
         JsonObject entry = tiles.next_object();
 
         std::string t_id = entry.get_string("id");
-        tile_type *curr_tile = load_tile(entry, t_id, offset, size, -1);
+        tile_type *curr_tile = load_tile(entry, t_id, offset, size);
         bool t_multi = entry.get_bool("multitile", false);
         bool t_rota = entry.get_bool("rotates", t_multi);
         if (t_multi) {
@@ -463,7 +463,7 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
                 JsonObject subentry = subentries.next_object();
                 const std::string s_id = subentry.get_string("id");
                 const std::string m_id = t_id + "_" + s_id;
-                tile_type *curr_subtile = load_tile(subentry, m_id, offset, size, 0);
+                tile_type *curr_subtile = load_tile(subentry, m_id, offset, size);
                 curr_subtile->rotates = true;
                 curr_tile->available_subtiles.push_back(s_id);
             }
@@ -476,10 +476,10 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
     DebugLog() << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size() << "\n";
 }
 
-tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size, int defaultbg)
+tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
 {
     int fg = entry.get_int("fg", -1);
-    int bg = entry.get_int("bg", defaultbg);
+    int bg = entry.get_int("bg", -1);
     if (fg == -1) {
         // OK, keep this value, indicates "doesn't have a foreground"
     } else if (fg < 0 || fg >= size) {

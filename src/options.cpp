@@ -690,6 +690,10 @@ void initOptions() {
                                              false
                                             );  // populate the options dynamically
 
+    OPTIONS["AUTO_NOTES"] =     cOpt("general", _("Auto notes"),
+                                             _("If true automatically sets notes on places that have stairs that go up or down"),
+                                             true
+                                            );
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (unsigned i=0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
@@ -814,7 +818,7 @@ void show_options(bool ingame)
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
         for (unsigned i = 0; i < vPages.size(); i++) {
-            if (mPageItems[i].size() > 0) { //skip empty pages
+            if (!mPageItems[i].empty()) { //skip empty pages
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
                    wprintz(w_options_header,
@@ -877,7 +881,7 @@ void show_options(bool ingame)
 
         ch = input();
 
-        if (mPageItems[iCurrentPage].size() > 0 || ch == '\t') {
+        if (!mPageItems[iCurrentPage].empty() || ch == '\t') {
             cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
             bool bChangedSomething = false;
             switch(ch) {

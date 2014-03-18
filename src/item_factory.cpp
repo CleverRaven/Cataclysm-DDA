@@ -947,7 +947,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     WATERTIGHT
     */
     new_item_template->item_tags = jo.get_tags("flags");
-    if ( new_item_template->item_tags.size() > 0 ) {
+    if ( !new_item_template->item_tags.empty() ) {
         for( std::set<std::string>::const_iterator it = new_item_template->item_tags.begin();
         it != new_item_template->item_tags.end(); ++it ) {
             set_intvar(std::string(*it), new_item_template->light_emission, 1, 10000);

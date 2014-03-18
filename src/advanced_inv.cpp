@@ -481,7 +481,7 @@ bool cached_lcmatch(const std::string &str, const std::string &findstr, std::map
 void advanced_inventory::recalc_pane(int i)
 {
     panes[i].recalc = false;
-    bool filtering = ( panes[i].filter.size() > 0 );
+    bool filtering = ( !panes[i].filter.empty() );
     player &u = *p;
     map &m = g->m;
     int idest = (i == left ? right : left);
@@ -637,7 +637,7 @@ void advanced_inventory::redraw_pane( int i )
 
     panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ? panes[i].max_page - 1 : panes[i].page);
 
-    if( panes[i].sortby == SORTBY_CATEGORY && panes[i].items.size() > 0 ) {
+    if( panes[i].sortby == SORTBY_CATEGORY && !panes[i].items.empty() ) {
         unsigned lpos = panes[i].index + (panes[i].page * itemsPerPage);
         if ( lpos < panes[i].items.size() && panes[i].items[lpos].volume == -8 ) {
             panes[i].index += ( panes[i].index + 1 >= itemsPerPage ? -1 : 1 );
@@ -677,7 +677,7 @@ void advanced_inventory::redraw_pane( int i )
     mvwprintw(panes[i].window, 0 , (w_width / 2) - fmtw, "< %d/%d >", panes[i].size, max );
     const char * fprefix = _("[F]ilter");
     if ( ! filter_edit ) {
-        if ( panes[i].filter.size() > 0 ) {
+        if ( !panes[i].filter.empty() ) {
             mvwprintw(panes[i].window, getmaxy(panes[i].window) - 1, 2, "< %s: %s >", fprefix, panes[i].filter.c_str() );
         } else {
             mvwprintw(panes[i].window, getmaxy(panes[i].window) - 1, 2, "< %s >", fprefix );
@@ -686,7 +686,7 @@ void advanced_inventory::redraw_pane( int i )
     if ( src == i ) {
         wattroff(panes[i].window, c_white);
     }
-    if ( ! filter_edit && panes[i].filter.size() > 0 ) {
+    if ( ! filter_edit && !panes[i].filter.empty() ) {
         mvwprintz(panes[i].window, getmaxy(panes[i].window) - 1, 6 + strlen(fprefix), c_white, "%s", panes[i].filter.c_str() );
     }
 
@@ -836,10 +836,19 @@ void advanced_inventory::display(player *pp)
             if(panes[left].area == changeSquare || panes[right].area == changeSquare ||
                isDirectionalDragged(panes[left].area, changeSquare) ||
                isDirectionalDragged(panes[right].area, changeSquare)) {
-                lastCh = (int)popup_getkey(_("same square!"));
-                if (lastCh == 'q' || lastCh == KEY_ESCAPE || lastCh == ' ' ) {
-                    lastCh = 0;
-                }
+                // store the old values temporarily
+                int lArea = panes[left].area;
+                int lPage = panes[left].page;
+                int lIndex = panes[left].index;
+
+                // Switch left and right pane.
+                panes[left].area = panes[right].area;
+                panes[left].page = panes[right].page;
+                panes[left].index = panes[right].index;
+                panes[right].area = lArea;
+                panes[right].page = lPage;
+                panes[right].index = lIndex;
+
             } else if(squares[changeSquare].canputitems) {
                 panes[src].area = changeSquare;
                 panes[src].page = 0;
@@ -1295,7 +1304,7 @@ void advanced_inventory::display(player *pp)
               int new_index = panes[src].index;
 
               if (panes[src].sortby == SORTBY_CATEGORY &&
-                  category_index_start.size() > 0 && inCategoryMode) {
+                  !category_index_start.empty() && inCategoryMode) {
                 int prev_cat = 0, next_cat = 0, selected_cat = 0;
 
                 for (unsigned curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {

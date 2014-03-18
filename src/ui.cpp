@@ -256,7 +256,7 @@ void uimenu::setup() {
 
     if ( w_auto ) {
         w_width = 4;
-        if ( title.size() > 0 ) w_width = title.size() + 5;
+        if ( !title.empty() ) w_width = title.size() + 5;
     }
 
     bool h_auto = (w_height == -1);
@@ -318,7 +318,7 @@ void uimenu::setup() {
         w_width = TERMX;
     }
 
-    if(text.size() > 0 ) {
+    if(!text.empty() ) {
         int twidth = utf8_width(text.c_str());
         bool formattxt=true;
         int realtextwidth = 0;
@@ -391,7 +391,7 @@ void uimenu::setup() {
 
     werase(window);
     draw_border(window, border_color);
-    if( title.size() > 0 ) {
+    if( !title.empty() ) {
         mvwprintz(window, 0, 1, border_color, "< ");
         wprintz(window, title_color, "%s", title.c_str() );
         wprintz(window, border_color, " >");
@@ -508,7 +508,7 @@ void uimenu::show() {
                mvwprintz(window, estart + si, pad_left + 2, ( ei == selected ? hilight_color : hotkey_color ) , "%c", entries[ ei ].hotkey);
             }
             mvwprintz(window, estart + si, pad_left + 4, co, "%s", entries[ ei ].txt.c_str() );
-            if ( entries[ ei ].extratxt.txt.size() > 0 ) {
+            if ( !entries[ei].extratxt.txt.empty() ) {
                 mvwprintz(window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left, entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
             }
             if ( callback != NULL && ei == selected ) {
@@ -519,7 +519,7 @@ void uimenu::show() {
         }
     }
 
-    if ( filter.size() > 0 ) {
+    if ( !filter.empty() ) {
         mvwprintz(window,w_height-1,2,border_color,"< %s >",filter.c_str() );
         mvwprintz(window,w_height-1,4,text_color,"%s",filter.c_str());
     }
@@ -543,12 +543,12 @@ void uimenu::refresh( bool refresh_callback ) {
  */
 void uimenu::redraw( bool redraw_callback ) {
     draw_border(window, border_color);
-    if( title.size() > 0 ) {
+    if( !title.empty() ) {
         mvwprintz(window, 0, 1, border_color, "< ");
         wprintz(window, title_color, "%s", title.c_str() );
         wprintz(window, border_color, " >");
     }
-    if ( filter.size() > 0 ) {
+    if ( !filter.empty() ) {
         mvwprintz(window,w_height-1,2,border_color,"< %s >",filter.c_str() );
         mvwprintz(window,w_height-1,4,text_color,"%s",filter.c_str());
     }

@@ -76,7 +76,7 @@ static bool item_inscription( player *p, item *cut, std::string verb, std::strin
                                  (hasnote ? cut->item_vars["item_note"] : message ),
                                  messageprefix, "inscribe_item", 128 );
 
-    if( message.size() > 0 ) {
+    if( !message.empty() ) {
         if ( hasnote && message == "." ) {
             cut->item_vars.erase("item_note");
             cut->item_vars.erase("item_note_type");
@@ -1736,7 +1736,7 @@ int iuse::purifier(player *p, item *it, bool)
             valid.push_back(iter->first);
         }
     }
-    if (valid.size() == 0) {
+    if (valid.empty()) {
         g->add_msg_if_player(p,_("You feel cleansed."));
         return it->type->charges_to_use();
     }
@@ -1744,7 +1744,7 @@ int iuse::purifier(player *p, item *it, bool)
     if (num_cured > 4) {
         num_cured = 4;
     }
-    for (int i = 0; i < num_cured && valid.size() > 0; i++) {
+    for (int i = 0; i < num_cured && !valid.empty(); i++) {
         int index = rng(0, valid.size() - 1);
         if (p->purifiable(valid[index])) {
             p->remove_mutation(valid[index]);
@@ -1769,7 +1769,7 @@ int iuse::purify_iv(player *p, item *it, bool)
             valid.push_back(iter->first);
         }
     }
-    if (valid.size() == 0) {
+    if (valid.empty()) {
         g->add_msg_if_player(p,_("You feel cleansed."));
         return it->type->charges_to_use();
     }
@@ -1777,7 +1777,7 @@ int iuse::purify_iv(player *p, item *it, bool)
     if (num_cured > 8) {
         num_cured = 8;
     }
-    for (int i = 0; i < num_cured && valid.size() > 0; i++) {
+    for (int i = 0; i < num_cured && !valid.empty(); i++) {
         int index = rng(0, valid.size() - 1);
         if (p->purifiable(valid[index])) {
             p->remove_mutation(valid[index]);
@@ -3066,7 +3066,7 @@ int iuse::water_purifier(player *p, item *it, bool)
   g->add_msg_if_player(p,_("You do not have that item!"));
   return 0;
  }
- if (p->i_at(pos).contents.size() == 0) {
+ if (p->i_at(pos).contents.empty()) {
   g->add_msg_if_player(p,_("You can only purify water."));
   return 0;
  }
@@ -3149,7 +3149,7 @@ _(
     in_range.push_back(npcs[i]);
    }
   }
-  if (in_range.size() > 0) {
+  if (!in_range.empty()) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
    popup(_("A reply!  %s says, \"I'm on my way; give me %d minutes!\""),
          coming->name.c_str(), coming->minutes_to_u());
@@ -5662,7 +5662,7 @@ int iuse::manhack(player *p, item *, bool)
    }
   }
  }
- if (valid.size() == 0) { // No valid points!
+ if (valid.empty()) { // No valid points!
   g->add_msg_if_player(p,_("There is no adjacent square to release the manhack in!"));
   return 0;
  }
@@ -7643,7 +7643,7 @@ int iuse::rad_badge(player *p, item *it, bool)
 int iuse::boots(player *p, item *it, bool)
 {
  int choice = -1;
- if (it->contents.size() == 0)
+ if (it->contents.empty())
   choice = menu(true, _("Using boots:"), _("Put a knife in the boot"), _("Cancel"), NULL);
  else if (it->contents.size() == 1)
   choice = menu(true, _("Take what:"), it->contents[0].tname().c_str(), _("Put a knife in the boot"), _("Cancel"), NULL);
@@ -7660,7 +7660,7 @@ int iuse::boots(player *p, item *it, bool)
    p->wield(knife.invlet);
    it->contents.erase(it->contents.begin() + choice - 1);
   }
- } else if ((it->contents.size() == 0 && choice == 1) || // Put 1st
+ } else if ((it->contents.empty() && choice == 1) || // Put 1st
             (it->contents.size() == 1 && choice == 2)) { // Put 2st
   int pos = g->inv_type(_("Put what?"), IC_TOOL);
   item* put = &(p->i_at(pos));

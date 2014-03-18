@@ -106,7 +106,7 @@ void edit_json( SAVEOBJ *it )
             fs2.clear();
         } else if (tmret == 1) {
             std::string ret = string_input_popup("test", 50240, save1,"", "jsonedit");
-            if ( ret.size() > 0 ) {
+            if ( !ret.empty() ) {
                 fs1 = fld_string(save1, TERMX-10);
                 save1 = ret;
                 tmret=-2;
@@ -482,7 +482,7 @@ void editmap::update_view(bool update_info)
 
     // custom hilight. todo; optimize
     for(std::map<std::string, editmap_hilight>::iterator mit = hilights.begin(); mit != hilights.end(); ++mit ) {
-        if ( mit->second.points.size() > 0 ) {
+        if ( !mit->second.points.empty() ) {
             mit->second.draw(this);
         }
     }
@@ -927,7 +927,7 @@ void editmap::update_fmenu_entry(uimenu *fmenu, field *field, int idx)
     if ( fld != NULL ) {
         fdens = fld->getFieldDensity();
     }
-    fmenu->entries[idx].txt = ( ftype.name[fdens-1].size() == 0 ? fids[idx] : ftype.name[fdens-1] );
+    fmenu->entries[idx].txt = ( ftype.name[fdens-1].empty() ? fids[idx] : ftype.name[fdens-1] );
     if ( fld != NULL ) {
         fmenu->entries[idx].txt += " " + std::string(fdens, '*');
     }
@@ -942,7 +942,7 @@ void editmap::setup_fmenu(uimenu *fmenu)
     for ( int i = 0; i < num_fields; i++ ) {
         field_t ftype = fieldlist[i];
         int fdens = 1;
-        fname = ( ftype.name[fdens-1].size() == 0 ? fids[i] : ftype.name[fdens-1] );
+        fname = ( ftype.name[fdens-1].empty() ? fids[i] : ftype.name[fdens-1] );
         fmenu->addentry(i, true, -2, "%s", fname.c_str());
         fmenu->entries[i].extratxt.left = 1;
         fmenu->entries[i].extratxt.txt = string_format("%c", ftype.sym);
@@ -989,12 +989,12 @@ int editmap::edit_fld()
                 femenu.return_invalid = true;
                 field_t ftype = fieldlist[idx];
                 int fidens = ( fdens == 0 ? 0 : fdens - 1 );
-                femenu.text = ( ftype.name[fidens].size() == 0 ? fids[idx] : ftype.name[fidens] );
+                femenu.text = ( ftype.name[fidens].empty() ? fids[idx] : ftype.name[fidens] );
                 femenu.addentry("-clear-");
 
-                femenu.addentry("1: %s", ( ftype.name[0].size() == 0 ? fids[idx].c_str() : ftype.name[0].c_str() ));
-                femenu.addentry("2: %s", ( ftype.name[1].size() == 0 ? fids[idx].c_str() : ftype.name[1].c_str() ));
-                femenu.addentry("3: %s", ( ftype.name[2].size() == 0 ? fids[idx].c_str() : ftype.name[2].c_str() ));
+                femenu.addentry("1: %s", ( ftype.name[0].empty() ? fids[idx].c_str() : ftype.name[0].c_str() ));
+                femenu.addentry("2: %s", ( ftype.name[1].empty() ? fids[idx].c_str() : ftype.name[1].c_str() ));
+                femenu.addentry("3: %s", ( ftype.name[2].empty() ? fids[idx].c_str() : ftype.name[2].c_str() ));
                 femenu.entries[fdens].text_color = c_cyan;
                 femenu.selected = ( sel_fdensity > 0 ? sel_fdensity : fdens );
 
@@ -1095,7 +1095,6 @@ int editmap::edit_trp()
         for ( int t = tshift; t <= tshift + tmax; t++ ) {
             mvwprintz(w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str());
             if ( t < num_trap_types ) {
-                //tnam = ( g->traps[t]->name.size() == 0 ? trids[t] : g->traps[t]->name );
                 tnam = t == 0 ? _("-clear-") : g->traps[t]->id;
                 mvwputch(w_picktrap, t + 1 - tshift, 2, g->traps[t]->color, g->traps[t]->sym);
                 mvwprintz(w_picktrap, t + 1 - tshift, 4, (trsel == t ? h_white : ( cur_trap == t ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
@@ -1795,7 +1794,7 @@ int editmap::edit_mapgen()
                 special += " clas";
             }
         }
-        if ( special.size() > 0 ) {
+        if ( !special.empty() ) {
             gmenu.entries[i].txt += " (" + special + " )";
         }
         gmenu.entries[i].extratxt.left = 1;

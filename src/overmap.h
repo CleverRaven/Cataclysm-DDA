@@ -326,6 +326,18 @@ class overmap
   void remove_vehicle(int id);
   int add_vehicle(vehicle *veh);
 
+  /** Get the x coordinate of the left border of this overmap. */
+  int get_left_border();
+
+  /** Get the x coordinate of the right border of this overmap. */
+  int get_right_border();
+
+  /** Get the y coordinate of the top border of this overmap. */
+  int get_top_border();
+
+  /** Get the y coordinate of the bottom border of this overmap. */
+  int get_bottom_border();
+
   regional_settings settings;
   const regional_settings& get_settings(const int x, const int y, const int z) {
      (void)x;

@@ -101,7 +101,7 @@ void player::mutate()
 
     // Preliminary round to either upgrade or remove existing mutations
     if(one_in(2)) {
-        if (upgrades.size() > 0) {
+        if (!upgrades.empty()) {
             // (upgrade count) chances to pick an upgrade, 4 chances to pick something else.
             size_t roll = rng(0, upgrades.size() + 4);
             if (roll < upgrades.size()) {
@@ -112,7 +112,7 @@ void player::mutate()
         }
     } else {
       // Remove existing mutations that don't fit into our category
-      if (downgrades.size() > 0 && cat != "") {
+      if (!downgrades.empty() && cat != "") {
           size_t roll = rng(0, downgrades.size() + 4);
           if (roll < downgrades.size()) {
               remove_mutation(downgrades[roll]);
@@ -382,7 +382,7 @@ void player::remove_mutation(std::string mut)
         }
     }
 
-    if (dependant.size() > 0) {
+    if (!dependant.empty()) {
         remove_mutation(dependant[rng(0, dependant.size()-1)]);
         return;
     }

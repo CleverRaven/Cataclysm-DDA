@@ -341,12 +341,12 @@ task_reason veh_interact::cant_do (char mode)
     switch (mode) {
     case 'i': // install mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
-        valid_target = can_mount.size() > 0 && 0 == veh->tags.count("convertible");
+        valid_target = !can_mount.empty() && 0 == veh->tags.count("convertible");
         has_tools = has_wrench && ((has_welder && has_goggles) || has_duct_tape);
         break;
     case 'r': // repair mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
-        valid_target = need_repair.size() > 0 && cpart >= 0;
+        valid_target = !need_repair.empty() && cpart >= 0;
         has_tools = (has_welder && has_goggles) || has_duct_tape;
         break;
     case 'f': // refill mode
@@ -1486,7 +1486,7 @@ item consume_vpart_item (std::string vpid)
     }
 
     // bug?
-    if(candidates.size() == 0) {
+    if(candidates.empty()) {
         debugmsg("Part not found!");
         return item();
     }
@@ -1556,6 +1556,12 @@ void complete_vehicle ()
     std::vector<int> parts;
     int dd = 2;
     long batterycharges; // Charges in a battery
+
+    // For siphoning from adjacent vehicles
+    int posx = 0;
+    int posy = 0;
+    std::map<point, vehicle*> foundv;
+    vehicle * fillv = NULL;
 
     switch (cmd) {
     case 'i':
@@ -1706,7 +1712,52 @@ void complete_vehicle ()
         }
         break;
     case 's':
-        g->u.siphon( veh, "gasoline" );
+
+        for (int x = g->u.posx-1; x < g->u.posx+2; x++) {
+          for (int y = g->u.posy-1; y < g->u.posy+2; y++) {
+            fillv = g->m.veh_at(x, y);
+            if ( fillv != NULL &&
+              fillv != veh &&
+              foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
+              fillv->fuel_capacity("gasoline") > 0 ) {
+                foundv[point(fillv->posx, fillv->posy)] = fillv;
+            }
+          }
+        }
+        fillv=NULL;
+        if ( ! foundv.empty() ) {
+            uimenu fmenu;
+            fmenu.text = _("Fill what?");
+            fmenu.addentry("Nearby vehicle (%d)",foundv.size());
+            fmenu.addentry("Container");
+            fmenu.addentry("Never mind");
+            fmenu.query();
+            if ( fmenu.ret == 0 ) {
+                if ( foundv.size() > 1 ) {
+                    if(g->choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
+                        fillv = g->m.veh_at(posx, posy);
+                    } else {
+                        break;
+                    }
+                } else {
+                    fillv = foundv.begin()->second;
+
+                }
+            } else if ( fmenu.ret != 1 ) {
+                break;
+            }
+        }
+        if ( fillv != NULL ) {
+            int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
+            int got = veh->drain("gasoline", want);
+            int amt=fillv->refill("gasoline",got);
+            g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
+               "gasoline", veh->name.c_str(), fillv->name.c_str(),
+               (amt > 0 ? "." : ", draining the tank completely.") );
+            g->u.moves -= 200;
+        } else {
+            g->u.siphon( veh, "gasoline" );
+        }
         break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
