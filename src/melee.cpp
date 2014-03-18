@@ -1347,6 +1347,48 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         }
         ret.push_back(tmp);
     }
+    
+    if (has_trait("BEAK_PECK") && one_in(15 - dex_cur - skillLevel("unarmed")) &&
+            (!wearing_something_on(bp_mouth))) {
+            // method open to improvement, please feel free to suggest
+            // a better way to simulate target's anti-peck efforts
+        int num_hits = (dex_cur + skillLevel("unarmed") - rng(4,10));
+        if (num_hits <= 0) {
+            num_hits = 1;
+        }
+        // Yeah, arbitrary balance cap of Unfunness. :-(
+        // Though this is a 6-second turn, so only so much
+        // time to peck your target.
+        if (num_hits >= 5) {
+            num_hits = 5;
+        }
+        special_attack tmp;
+        tmp.stab = (num_hits *= 10 );
+        if (num_hits == 1) {
+            if (is_player()) {
+                tmp.text = string_format(_("You peck %s!"),
+                                        target.c_str());
+            } else {
+                tmp.text = string_format(_("%s pecks %s!"),
+                                        name.c_str(), target.c_str());
+            }
+        }
+        //~"jackhammering" with the beak is metaphor for the rapid-peck
+        //~commonly employed by a woodpecker drilling into wood
+        else {
+            if (is_player()) {
+                tmp.text = string_format(_("You jackhammer into %s with your beak!"),
+                                        target.c_str());
+            } else if (male) {
+                tmp.text = string_format(_("%s jackhammers into %s with his beak!"),
+                                        name.c_str(), target.c_str());
+            } else {
+                tmp.text = string_format(_("%s jackhammers into %s with her beak!"),
+                                        name.c_str(), target.c_str());
+            }
+        }
+        ret.push_back(tmp);
+    }
 
     if (has_trait("HOOVES") && one_in(25 - dex_cur - 2 * skillLevel("unarmed"))) {
         special_attack tmp;

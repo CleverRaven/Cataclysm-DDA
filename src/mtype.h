@@ -76,7 +76,7 @@ enum mon_id {
     // Hallucinations
     mon_hallu_mom,
     // Special monsters
-    mon_generator,
+    mon_generator, mon_player_blob,
     // 0.8 -> 0.9
     mon_turkey, mon_raccoon, mon_opossum, mon_rattlesnake,
     mon_giant_crayfish, mon_fungal_fighter,

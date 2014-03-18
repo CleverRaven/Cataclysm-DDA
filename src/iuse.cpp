@@ -1261,77 +1261,122 @@ int iuse::mutagen(player *p, item *it, bool) {
       g->add_msg_if_player(p, _("You quiver with anticipation..."));
       p->add_morale(MORALE_MUTAGEN, 5, 50);
     }
+    std::string mutation_category;
+    // Generic "mutagen".
     if( it->has_flag("MUTAGEN_STRONG") ) {
-         p->mutate();
-         if (!one_in(3)) {
-             p->mutate();
-         }
-         if (one_in(2)) {
-             p->mutate();
-         }
-    } else if( it->has_flag("MUTAGEN_PLANT") ) {
-        g->add_msg_if_player(p, _("You feel much closer to nature."));
-        p->mutate_category("MUTCAT_PLANT");
-    } else if( it->has_flag("MUTAGEN_INSECT") ) {
-        g->add_msg_if_player(p, _("You hear buzzing, and feel your body harden."));
-        p->mutate_category("MUTCAT_INSECT");
-    } else if( it->has_flag("MUTAGEN_SPIDER") ) {
-        g->add_msg_if_player(p, _("You feel insidious."));
-        p->mutate_category("MUTCAT_SPIDER");
-    } else if( it->has_flag("MUTAGEN_SLIME") ) {
-        g->add_msg_if_player(p, _("Your body loses all rigidity for a moment."));
-        p->mutate_category("MUTCAT_SLIME");
-    } else if( it->has_flag("MUTAGEN_FISH") ) {
-        g->add_msg_if_player(p, _("You are overcome by an overwhelming longing for the ocean."));
-        p->mutate_category("MUTCAT_FISH");
-    } else if( it->has_flag("MUTAGEN_RAT") ) {
-        g->add_msg_if_player(p, _("You feel a momentary nausea."));
-        p->mutate_category("MUTCAT_RAT");
-    } else if( it->has_flag("MUTAGEN_BEAST") ) {
-        g->add_msg_if_player(p, _("Your heart races and you see blood for a moment."));
-        p->mutate_category("MUTCAT_BEAST");
-    } else if( it->has_flag("MUTAGEN_URSINE") ) {
-        g->add_msg_if_player(p, _("You feel an urge to...patrol? the forests?"));
-        p->mutate_category("MUTCAT_URSINE");
-    } else if( it->has_flag("MUTAGEN_FELINE") ) {
-        g->add_msg_if_player(p, _("As you lap up the last of the mutagen, you wonder why..."));
-        p->mutate_category("MUTCAT_FELINE");
-    } else if( it->has_flag("MUTAGEN_LUPINE") ) {
-        g->add_msg_if_player(p, _("You feel an urge to mark your territory. But then it passes."));
-        p->mutate_category("MUTCAT_LUPINE");
-    } else if( it->has_flag("MUTAGEN_CATTLE") ) {
-        g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
-        p->mutate_category("MUTCAT_CATTLE");
-    } else if( it->has_flag("MUTAGEN_CEPHALOPOD") ) {
-        g->add_msg_if_player(p, _("Your mind is overcome by images of eldritch horrors...and then they pass."));
-        p->mutate_category("MUTCAT_CEPHALOPOD");
-    } else if( it->has_flag("MUTAGEN_BIRD") ) {
-        g->add_msg_if_player(p, _("Your body lightens and you long for the sky."));
-        p->mutate_category("MUTCAT_BIRD");
-    } else if( it->has_flag("MUTAGEN_LIZARD") ) {
-        g->add_msg_if_player(p, _("For a heartbeat, your body cools down."));
-        p->mutate_category("MUTCAT_LIZARD");
-    } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
-        g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
-        p->mutate_category("MUTCAT_TROGLOBITE");
-    } else if( it->has_flag("MUTAGEN_ALPHA") ) {
-        g->add_msg_if_player(p, _("You feel...better. Somehow."));
-        p->mutate_category("MUTCAT_ALPHA");
-    } else if( it->has_flag("MUTAGEN_MEDICAL") ) {
-        g->add_msg_if_player(p, _("You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."));
-        p->mutate_category("MUTCAT_MEDICAL");
-    } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
-        g->add_msg_if_player(p, _("You need to roar, bask, bite, and flap.  NOW."));
-        p->mutate_category("MUTCAT_CHIMERA");
-    } else if( it->has_flag("MUTAGEN_ELFA") ) {
-        g->add_msg_if_player(p, _("Nature is becoming one with you..."));
-        p->mutate_category("MUTCAT_ELFA");
-    } else if( it->has_flag("MUTAGEN_RAPTOR") ) {
-        g->add_msg_if_player(p, _("Mmm...sweet, bloody flavor...tastes like victory."));
-        p->mutate_category("MUTCAT_RAPTOR");
-    } else {
+        mutation_category = "";
+        p->mutate();
+        p->mod_pain( 2 * rng(1, 5) );
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
         if (!one_in(3)) {
             p->mutate();
+            p->mod_pain( 2 * rng(1, 5) );
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            if (one_in(4)) {
+                g->add_msg_if_player(p, _("You suddenly feel dizzy, and collapse to the ground."));
+                p->add_disease("downed", 1);
+            }
+        }
+        if (one_in(2)) {
+            p->mutate();
+            p->mod_pain( 2 * rng(1, 5) );
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            g->add_msg_if_player(p, _("Oops.  You must've blacked out for a minute there."));
+            //Should be about 3 min, less 6 sec/IN point.
+            p->fall_asleep((30 - p->int_cur ));
+        }
+    }
+    if( it->has_flag("MUTAGEN_WEAK")) {
+        mutation_category = "";
+        // Stuff like the limbs, the tainted tornado, etc.
+        if ( !one_in(3)) {
+            p->mutate();
+            p->mod_pain( 2 * rng(1, 5) );
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            if (one_in(4)) {
+              g->add_msg_if_player(p, _("You suddenly feel dizzy, and collapse to the ground."));
+              p->add_disease("downed", 1);
+            }
+        }
+    } else {
+    // Categorized/targeted mutagens go here.
+        if( it->has_flag("MUTAGEN_PLANT") ) {
+        g->add_msg_if_player(p, _("You feel much closer to nature."));
+        mutation_category = "MUTCAT_PLANT";
+    } else if( it->has_flag("MUTAGEN_INSECT") ) {
+        g->add_msg_if_player(p, _("You hear buzzing, and feel your body harden."));
+        mutation_category = "MUTCAT_INSECT";
+    } else if( it->has_flag("MUTAGEN_SPIDER") ) {
+        g->add_msg_if_player(p, _("You feel insidious."));
+        mutation_category = "MUTCAT_SPIDER";
+    } else if( it->has_flag("MUTAGEN_SLIME") ) {
+        g->add_msg_if_player(p, _("Your body loses all rigidity for a moment."));
+        mutation_category = "MUTCAT_SLIME";
+    } else if( it->has_flag("MUTAGEN_FISH") ) {
+        g->add_msg_if_player(p, _("You are overcome by an overwhelming longing for the ocean."));
+        mutation_category = "MUTCAT_FISH";
+    } else if( it->has_flag("MUTAGEN_RAT") ) {
+        g->add_msg_if_player(p, _("You feel a momentary nausea."));
+        mutation_category = "MUTCAT_RAT";
+    } else if( it->has_flag("MUTAGEN_BEAST") ) {
+        g->add_msg_if_player(p, _("Your heart races and you see blood for a moment."));
+        mutation_category = "MUTCAT_BEAST";
+    } else if( it->has_flag("MUTAGEN_URSINE") ) {
+        g->add_msg_if_player(p, _("You feel an urge to...patrol? the forests?"));
+        mutation_category = "MUTCAT_URSINE";
+    } else if( it->has_flag("MUTAGEN_FELINE") ) {
+        g->add_msg_if_player(p, _("As you lap up the last of the mutagen, you wonder why..."));
+        mutation_category = "MUTCAT_FELINE";
+    } else if( it->has_flag("MUTAGEN_LUPINE") ) {
+        g->add_msg_if_player(p, _("You feel an urge to mark your territory. But then it passes."));
+        mutation_category = "MUTCAT_LUPINE";
+    } else if( it->has_flag("MUTAGEN_CATTLE") ) {
+        g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
+        mutation_category = "MUTCAT_CATTLE";
+    } else if( it->has_flag("MUTAGEN_CEPHALOPOD") ) {
+        g->add_msg_if_player(p, _("Your mind is overcome by images of eldritch horrors...and then they pass."));
+        mutation_category = "MUTCAT_CEPHALOPOD";
+    } else if( it->has_flag("MUTAGEN_BIRD") ) {
+        g->add_msg_if_player(p, _("Your body lightens and you long for the sky."));
+        mutation_category = "MUTCAT_BIRD";
+    } else if( it->has_flag("MUTAGEN_LIZARD") ) {
+        g->add_msg_if_player(p, _("For a heartbeat, your body cools down."));
+        mutation_category = "MUTCAT_LIZARD";
+    } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
+        g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
+        mutation_category = "MUTCAT_TROGLOBITE";
+    } else if( it->has_flag("MUTAGEN_ALPHA") ) {
+        g->add_msg_if_player(p, _("You feel...better. Somehow."));
+        mutation_category = "MUTCAT_ALPHA";
+    } else if( it->has_flag("MUTAGEN_MEDICAL") ) {
+        g->add_msg_if_player(p, _("You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."));
+        mutation_category = "MUTCAT_MEDICAL";
+    } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
+        g->add_msg_if_player(p, _("You need to roar, bask, bite, and flap.  NOW."));
+        mutation_category = "MUTCAT_CHIMERA";
+    } else if( it->has_flag("MUTAGEN_ELFA") ) {
+        g->add_msg_if_player(p, _("Nature is becoming one with you..."));
+        mutation_category = "MUTCAT_ELFA";
+    } else if( it->has_flag("MUTAGEN_RAPTOR") ) {
+        g->add_msg_if_player(p, _("Mmm...sweet, bloody flavor...tastes like victory."));
+        mutation_category = "MUTCAT_RAPTOR";
+    }  // Yep, orals take a bit out of you too
+        p->mutate_category(mutation_category);
+        p->mod_pain( 2 * rng(1, 5) );
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
+        if (one_in(4)) {
+            g->add_msg_if_player(p, _("You suddenly feel dizzy, and collapse to the ground."));
+            p->add_disease("downed", 1);
         }
     }
     return it->type->charges_to_use();
