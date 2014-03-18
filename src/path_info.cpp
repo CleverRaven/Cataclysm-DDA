@@ -88,7 +88,7 @@ void set_standart_filenames(void)
     // User directories
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
-    update_pathname("templatedir", FILENAMES["templatedir"] + "templates/");
+    update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
 
     // User files
     update_pathname("options", FILENAMES["user_dir"] + "options.txt");
