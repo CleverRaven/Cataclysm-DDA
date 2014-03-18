@@ -98,7 +98,7 @@ int call_lua(std::string tocall) {
 }
 
 
-void lua_callback(lua_State *L, const char* callback_name) {
+void lua_callback(lua_State *, const char* callback_name) {
     call_lua(std::string("mod_callback(\"")+std::string(callback_name)+"\")");
 }
 
@@ -270,7 +270,6 @@ static int game_items_at(lua_State *L) {
 // monstergroups = game.monstergroups(overmap)
 static int game_monstergroups(lua_State *L) {
     overmap **userdata = (overmap**) lua_touserdata(L, 1);
-    int y = lua_tointeger(L, 2);
 
     std::vector<mongroup>& mongroups = (*userdata)->zg;
 

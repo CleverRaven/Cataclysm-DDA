@@ -830,7 +830,9 @@ bool game::do_turn()
     process_missions();
     if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) { // Midnight!
         cur_om->process_mongroups();
+        #ifdef LUA
         lua_callback(lua_state, "on_day_passed");
+        #endif
     }
 
     if (turn % 50 == 0) { //move hordes every 5 min
