@@ -524,8 +524,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
     int x, y;
     LIGHTING l;
 
-    o_x = posx - sx / 2;
-    o_y = posy - sy / 2;
+    o_x = posx - POSX;
+    o_y = posy - POSY;
 
     for (int my = 0; my < sy; ++my) {
         for (int mx = 0; mx < sx; ++mx) {
