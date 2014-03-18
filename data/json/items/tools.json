@@ -6903,5 +6903,27 @@
     "bashing" : -3,
     "cutting" : 3,
     "to_hit" : 0
+  },{
+    "id": "toolset",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "integrated toolset",
+    "description": "Dummy item. If you see this, then something went wrong.",
+    "price": 7000,
+    "material": ["steel", "wood"],
+    "weight": 0,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 10000,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "HAMMER",
+	"qualities": [["HAMMER", 3], ["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1]]
   }
 ]

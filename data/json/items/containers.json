@@ -87,7 +87,7 @@
         "material": "aluminum",
         "contains": 1,
         "flags": ["RIGID", "WATERTIGHT"],
-		"qualities": [["CONTAIN", 1]]
+		"qualities": [["CONTAIN", 1], ["BOIL", 2]]
     },
     {
         "id":"bowl_pewter",
@@ -124,7 +124,7 @@
         "material": "steel",
         "contains": 1,
         "flags": ["RIGID", "WATERTIGHT"],
-        "qualities": [["CONTAIN", 1]]
+        "qualities": [["CONTAIN", 1], ["BOIL", 2]]
     },
     {
         "id": "box_small",

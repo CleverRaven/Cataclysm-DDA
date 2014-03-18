@@ -33,10 +33,6 @@
         "name" : "chemical making quality"
     },{
         "type" : "tool_quality",
-        "id" : "GUN",
-        "name" : "gun working quality"
-    },{
-        "type" : "tool_quality",
         "id" : "BREW",
         "name" : "brewing quality"
     },{
