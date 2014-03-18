@@ -1635,15 +1635,9 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "shotgun_d", 1 ],
       [ "remington_870", 1 ],
@@ -1662,13 +1656,9 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_shotgun", 2 ] , [ "manual_pistol", 2 ]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1}
+  ], "tools": [
     [
       [ "goggles_welding", -1 ]
     ],
@@ -1695,15 +1685,9 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "saiga_12", 1 ]
     ]
@@ -1780,21 +1764,10 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ],
@@ -1813,21 +1786,10 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-        ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ],
@@ -1845,15 +1807,9 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe_shotgun", 1 ]
     ]
@@ -1869,21 +1825,10 @@
   "time": 14000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ],
@@ -1903,30 +1848,11 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      [ "rock", -1 ],
-      [ "primitive_hammer", -1 ],
-      [ "hammer", -1 ],
-      [ "hatchet", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1},
+	{"id":"HAMMER_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ],
@@ -1950,22 +1876,10 @@
   "autolearn": false,
   "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
-  ], "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1},
+	{"id":"HAMMER_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ],
@@ -1987,21 +1901,10 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "pilot_light", 2 ]
     ],
@@ -2028,15 +1931,9 @@
   "time": 6000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 1 ]
     ],
@@ -2086,15 +1983,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "manual_shotgun", 4 ] , [ "mag_shotgun", 5 ]],
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "pipe", 2 ]
     ],
@@ -2620,13 +2511,9 @@
   "decomp_learn": 9,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 5 ]],
-  "tools": [
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1}
+  ], "tools": [
     [
       [ "soldering_iron", 6 ],
       [ "toolset", 1 ],
@@ -12325,13 +12212,9 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [[ "advanced_electronics", 3 ] , [ "textbook_electronics", 3 ] , [ "textbook_anarch", 4 ]],
-  "tools": [
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1}
+  ], "tools": [
     [
       [ "soldering_iron", 10 ],
       [ "toolset", 1 ],
@@ -19698,15 +19581,9 @@
   "time": 650,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hacksaw", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1}
+  ], "components": [
     [
       [ "muffler", 1 ],
       [ "rag", 4 ]
@@ -21124,21 +21001,10 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
-  "tools": [
-    [
-      ["hacksaw", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["screwdriver", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ]
-  ],
-  "components": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1}
+  ], "components": [
     [
       ["pipe", 1]
     ],
@@ -21197,27 +21063,13 @@
   "time": 16000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1},
+	{"id":"WRENCH_G","level":1,"amount":1}
+  ], "tools": [
     [
       ["goggles_welding", -1]
-    ],
-    [
-      ["hacksaw", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["screwdriver", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["wrench", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 150], ["welder_crude", 225], ["toolset", 6]
@@ -21254,27 +21106,13 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1},
+	{"id":"WRENCH_G","level":1,"amount":1}
+  ], "tools": [
     [
       ["goggles_welding", -1]
-    ],
-    [
-      ["hacksaw", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["screwdriver", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["wrench", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 300], ["welder_crude", 450], ["toolset", 12]
@@ -21312,27 +21150,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["recipe_mininuke_launch", 5]],
-  "tools": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1},
+	{"id":"WRENCH_G","level":1,"amount":1}
+  ], "tools": [
     [
       ["goggles_welding", -1]
-    ],
-    [
-      ["hacksaw", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["screwdriver", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["wrench", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 200], ["welder_crude", 300], ["toolset", 8]
@@ -21370,27 +21194,13 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 2]],
-  "tools": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1},
+	{"id":"WRENCH_G","level":1,"amount":1}
+  ], "tools": [
     [
       ["goggles_welding", -1]
-    ],
-    [
-      ["hacksaw", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["screwdriver", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["wrench", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 100], ["welder_crude", 150], ["toolset", 4]
@@ -21419,27 +21229,13 @@
   "time": 36000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1},
+	{"id":"WRENCH_G","level":1,"amount":1}
+  ], "tools": [
     [
       ["goggles_welding", -1]
-    ],
-    [
-      ["hacksaw", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["screwdriver", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
-    [
-      ["wrench", -1],
-      ["toolset", -1],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
     ],
     [
       ["welder", 300], ["welder_crude", 450], ["toolset", 12]
@@ -27419,13 +27215,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 5]],
-  "tools": [
-    [
-      [ "screwdriver", -1 ],
-      [ "toolset", -1 ],
-      [ "small_repairkit", -1 ],
-      [ "large_repairkit", -1 ]
-    ],
+  "qualities":[
+    {"id":"SCREW_G","level":1,"amount":1}
+  ], "tools": [
     [
       [ "soldering_iron", 20 ],
       [ "toolset", 2 ],

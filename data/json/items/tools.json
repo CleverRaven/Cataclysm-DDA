@@ -239,7 +239,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
-	"qualities": [["HAMMER", 3]]
+	"qualities": [["HAMMER", 3], ["HAMMER_G", 1]]
   },
 
   {
@@ -4231,10 +4231,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HACKSAW",
-	"qualities":[["SAW_M", 1]]
-  },
-
-  {
+	"qualities":[["SAW_M", 1], ["SAW_M_G", 1]]
+  },{
     "id": "tent_kit",
     "type": "TOOL",
     "symbol": ";",
@@ -4540,7 +4538,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "NONE",
-	"qualities": [["SCREW", 1]]
+	"qualities": [["SCREW", 1], ["SCREW_G", 1]]
   },
 
   {
@@ -4564,7 +4562,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "NONE",
-	"qualities": [["WRENCH", 1]]
+	"qualities": [["WRENCH", 1], ["WRENCH_G", 1]]
   },
 
   {
@@ -5017,7 +5015,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
-	"qualities": [["HAMMER", 2]]
+	"qualities": [["HAMMER", 2], ["HAMMER_G", 1]]
   },
 
   {
@@ -6773,7 +6771,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+	"qualities": [["HAMMER_G", 1], ["SAW_M_G", 1], ["WRENCH_G", 1], ["SCREW_G", 1]]
   },
   {
     "id": "large_repairkit",
@@ -6795,7 +6794,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+	"qualities": [["HAMMER_G", 1], ["SAW_M_G", 1], ["WRENCH_G", 1], ["SCREW_G", 1]]
   },
   {
     "id": "misc_repairkit",
@@ -6924,6 +6924,6 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
-	"qualities": [["HAMMER", 3], ["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1]]
+	"qualities": [["HAMMER", 3], ["HAMMER_G", 1], ["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SAW_M_G", 1], ["WRENCH", 1], ["WRENCH_G", 1], ["SCREW", 1], ["SCREW_G", 1]]
   }
 ]

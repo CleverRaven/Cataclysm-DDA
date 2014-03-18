@@ -678,7 +678,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["HAMMER", 2]]
+    "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_G", 1]]
   },
 
   {
