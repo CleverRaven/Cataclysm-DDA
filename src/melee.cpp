@@ -1159,7 +1159,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  handle_melee_wear();
 
  bool is_hallucination = false; //Check if the target is an hallucination.
- if(monster *m = dynamic_cast<monster*>(&t)) {
+ if(monster *m = dynamic_cast<monster*>(&t)) { //Cast fails if the t is an NPC or the player.
    is_hallucination = m->is_hallucination();
  }
 
@@ -1170,7 +1170,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
   //Get blood type.
   field_id type_blood = fd_blood;
   if (monster *m = dynamic_cast<monster*>(&t)) {
-   if(!m->is_hallucination()){
+   if(!is_hallucination){
     type_blood = m->monBloodType();
    } else {
     type_blood = fd_null;
