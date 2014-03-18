@@ -1000,6 +1000,7 @@ void item::deserialize(JsonObject &data)
     }
 
     data.read("contents", contents);
+    data.read("components", components);
 }
 
 void item::serialize(JsonOut &json, bool save_contents) const
@@ -1072,6 +1073,8 @@ void item::serialize(JsonOut &json, bool save_contents) const
         }
         json.end_array();
     }
+
+    json.member( "components", components );
 
     json.end_object();
 }
