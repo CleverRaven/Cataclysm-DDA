@@ -393,7 +393,7 @@ I wish you the best of luck, may whatever god you please guide your path.");
         case TALK_MISSION_ADVICE:
             return _("I suppose a large church or cathedral may have something.");
         case TALK_MISSION_INQUIRE:
-            return _("Any luck?");
+            return _("Any luck? Please find me a small relic. Any relic will do.");
         case TALK_MISSION_SUCCESS:
             return _("Thank you, I need some time alone now...");
         case TALK_MISSION_SUCCESS_LIE:
