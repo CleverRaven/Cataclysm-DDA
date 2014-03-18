@@ -264,12 +264,6 @@ private:
     //Refresh all caches and re-locate all parts
     void refresh();
 
-    // Generate smoke from a part, either at front or back of vehicle depending on velocity.
-    void spew_smoke( double joules, int part );
-
-    // Loop through engines and generate noise and smoke for each one
-    void noise_and_smoke( double load, double time );
-
     // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
     bool do_environmental_effects();
 
@@ -488,6 +482,12 @@ public:
     // Also used by veh_interact to display stuff
     double calculate_movement( vehicle_forces *vf, double engine_output, double target_speed = 0.0, int tile_move_cost = 2 );
 
+    // Generate smoke from a part, either at front or back of vehicle depending on velocity.
+    void spew_smoke( double joules, int part );
+
+    // Loop through engines and generate noise and smoke for each one
+    void noise_and_smoke( double load, double time = 6.0 );
+
 // Calculate area covered by wheels and, optionally count number of wheels
     float wheels_area (int *cnt = 0);
 
@@ -610,8 +610,6 @@ public:
 
     int player_thrust;              // Direction to go, from -100 to 100 in percentage of max. Can mean either acccelerating or braking
 
-    int generation;                 // Every time parts change, add 1
-
     // config values
     std::string name;   // vehicle name
     std::string type;           // vehicle type
@@ -627,8 +625,6 @@ public:
     std::vector<int> wheelcache;
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
-    int exhaust_dx;
-    int exhaust_dy;
 
     // temp values
     int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
