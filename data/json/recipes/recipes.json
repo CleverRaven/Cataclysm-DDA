@@ -1750,6 +1750,27 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "bowling_axe",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bowling_pin", 1 ]
+    ],
+    [
+      [ "spike", 2 ]
+    ],
+    [
+      [ "duct_tape", 100]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "molotov",
   "category": "CC_WEAPON",
