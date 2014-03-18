@@ -212,7 +212,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
 bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
                                     const std::string &output_base_path)
 {
-    if (mods_to_copy.size() == 0) {
+    if (mods_to_copy.empty()) {
         // nothing to copy, so technically we succeeded already!
         return true;
     }
@@ -250,7 +250,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
             }
         }
 
-        if (input_files.size() == 0) {
+        if (input_files.empty()) {
             continue;
         }
 

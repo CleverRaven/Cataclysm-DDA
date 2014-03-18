@@ -43,7 +43,7 @@ void mattack::antqueen(monster *z)
   }
  }
 
- if (ants.size() > 0) {
+ if (!ants.empty()) {
   z->moves -= 100; // It takes a while
   int mondex = ants[ rng(0, ants.size() - 1) ];
   monster *ant = &(g->zombie(mondex));
@@ -54,7 +54,7 @@ void mattack::antqueen(monster *z)
    ant->poly(GetMType("mon_ant"));
   else
    ant->poly(GetMType("mon_ant_soldier"));
- } else if (egg_points.size() == 0) { // There's no eggs nearby--lay one.
+ } else if (egg_points.empty()) { // There's no eggs nearby--lay one.
   if (g->u_see(z->posx(), z->posy()))
    g->add_msg(_("The %s lays an egg!"), z->name().c_str());
   g->m.spawn_item(z->posx(), z->posy(), "ant_egg", 1, 0, g->turn);
@@ -253,7 +253,7 @@ void mattack::resurrect(monster *z)
    }
   }
  }
- if (corpses.size() == 0) // No nearby corpses
+ if (corpses.empty()) // No nearby corpses
   return;
  z->speed = (z->speed - rng(0, 10)) * .8;
  bool sees_necromancer = (g->u_see(z));
@@ -817,7 +817,7 @@ void mattack::leap(monster *z)
         }
     }
 
-    if (options.size() == 0)
+    if (options.empty())
         return; // Nowhere to leap!
 
     z->moves -= 150;

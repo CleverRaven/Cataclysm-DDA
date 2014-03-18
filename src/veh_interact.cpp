@@ -341,12 +341,12 @@ task_reason veh_interact::cant_do (char mode)
     switch (mode) {
     case 'i': // install mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
-        valid_target = can_mount.size() > 0 && 0 == veh->tags.count("convertible");
+        valid_target = !can_mount.empty() && 0 == veh->tags.count("convertible");
         has_tools = has_wrench && ((has_welder && has_goggles) || has_duct_tape);
         break;
     case 'r': // repair mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
-        valid_target = need_repair.size() > 0 && cpart >= 0;
+        valid_target = !need_repair.empty() && cpart >= 0;
         has_tools = (has_welder && has_goggles) || has_duct_tape;
         break;
     case 'f': // refill mode
@@ -1486,7 +1486,7 @@ item consume_vpart_item (std::string vpid)
     }
 
     // bug?
-    if(candidates.size() == 0) {
+    if(candidates.empty()) {
         debugmsg("Part not found!");
         return item();
     }

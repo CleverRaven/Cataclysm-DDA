@@ -294,7 +294,7 @@ void npc::execute_action(npc_action action, int target)
   update_path(g->u.posx, g->u.posy);
   if (path.size() == 1) // We're adjacent to u, and thus can heal u
    heal_player(g->u);
-  else if (path.size() > 0)
+  else if (!path.empty())
    move_to_next();
   else
    move_pause();
@@ -304,7 +304,7 @@ void npc::execute_action(npc_action action, int target)
   update_path(g->u.posx, g->u.posy);
   if (path.size() <= follow_distance()) // We're close enough to u.
    move_pause();
-  else if (path.size() > 0)
+  else if (!path.empty())
    move_to_next();
   else
    move_pause();
@@ -352,7 +352,7 @@ void npc::execute_action(npc_action action, int target)
   update_path(g->u.posx, g->u.posy);
   if (path.size() == 1) // We're adjacent to u, and thus can mug u
    mug_player(g->u);
-  else if (path.size() > 0)
+  else if (!path.empty())
    move_to_next();
   else
    move_pause();
@@ -1924,7 +1924,7 @@ void npc::look_for_player(player &sought)
     possibilities.push_back(point(x, y));
   }
  }
- if (possibilities.size() == 0) { // We see all the spots we'd like to check!
+ if (possibilities.empty()) { // We see all the spots we'd like to check!
   say("<wait>");
   move_pause();
  } else {

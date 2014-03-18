@@ -326,14 +326,14 @@ void monster::move()
 
     bool moved = false;
     point next;
-    int mondex = (plans.size() > 0 ? g->mon_at(plans[0].x, plans[0].y) : -1);
+    int mondex = (!plans.empty() ? g->mon_at(plans[0].x, plans[0].y) : -1);
 
     monster_attitude current_attitude = attitude();
     if (friendly == 0) {
         current_attitude = attitude(&(g->u));
     }
     // If our plans end in a player, set our attitude to consider that player
-    if (plans.size() > 0) {
+    if (!plans.empty()) {
         if (plans.back().x == g->u.posx && plans.back().y == g->u.posy) {
             current_attitude = attitude(&(g->u));
         } else {
@@ -353,7 +353,7 @@ void monster::move()
         return;
     }
 
-    if (plans.size() > 0 &&
+    if (!plans.empty() &&
          (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
          (can_move_to(plans[0].x, plans[0].y) ||
          (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
@@ -394,7 +394,7 @@ void monster::move()
     }
 
     // If we're close to our target, we get focused and don't stumble
-    if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.size() == 0)) ||
+    if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.empty())) ||
           !moved) {
         stumble(moved);
     }
@@ -442,7 +442,7 @@ void monster::friendly_move()
     point next;
     bool moved = false;
     //If we sucessfully calculated a plan in the generic monster movement function, begin executing it.
-    if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
+    if (!plans.empty() && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
             (can_move_to(plans[0].x, plans[0].y) ||
              (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))) {
         next = plans[0];
@@ -509,7 +509,7 @@ point monster::scent_move()
    }
   }
  }
- if (smoves.size() > 0) {
+ if (!smoves.empty()) {
   int nextsq = rng(0, smoves.size() - 1);
   next = smoves[nextsq];
  }
@@ -766,7 +766,7 @@ int monster::move_to(int x, int y, bool force)
         return 0;
     }
 
-    if (plans.size() > 0) {
+    if (!plans.empty()) {
         plans.erase(plans.begin());
     }
 
@@ -891,7 +891,7 @@ void monster::stumble(bool moved)
    }
   }
  }
- if (valid_stumbles.size() == 0) //nowhere to stumble?
+ if (valid_stumbles.empty()) //nowhere to stumble?
  {
      return;
  }
@@ -907,7 +907,7 @@ void monster::stumble(bool moved)
  // acquiring a new path to the previous target.
  // target == either end of current plan, or the player.
  int tc;
- if (plans.size() > 0) {
+ if (!plans.empty()) {
   if (g->m.sees(posx(), posy(), plans.back().x, plans.back().y, -1, tc))
    set_dest(plans.back().x, plans.back().y, tc);
   else if (sees_player( tc ))
@@ -1017,7 +1017,7 @@ bool monster::will_reach(int x, int y)
   return false;
 
  std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
- if (path.size() == 0)
+ if (path.empty())
    return false;
 
  if (has_flag(MF_SMELLS) && g->scent(posx(), posy()) > 0 &&
@@ -1038,7 +1038,7 @@ bool monster::will_reach(int x, int y)
 int monster::turns_to_reach(int x, int y)
 {
  std::vector<point> path = g->m.route(posx(), posy(), x, y, has_flag(MF_BASHES));
- if (path.size() == 0)
+ if (path.empty())
   return 999;
 
  double turns = 0.;
