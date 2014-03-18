@@ -9977,12 +9977,18 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     }
 
     // Ask to pour rotten liquid (milk!) from the get-go
+    int dirx, diry;
+    std::stringstream liqstr;
+    refresh_all();
+    liqstr << _("Pour ") << liquid.tname() << (" where?");
     if (!from_ground && liquid.rotten() &&
-            query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-        if (!m.has_flag("SWIMMABLE", u.posx, u.posy)) {
-            m.add_item_or_charges(u.posx, u.posy, liquid, 1);
-        }
+        choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
 
+        if (!m.can_put_items(dirx, diry)) {
+            add_msg(_("You can't pour there!"));
+            return false;
+        }
+        m.add_item_or_charges(dirx, diry, liquid, 1);
         return true;
     }
 
@@ -9996,11 +10002,14 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
-                query_yn(_("Pour %s on the ground?"), liquid.tname().c_str())) {
-                    if (!m.has_flag("SWIMMABLE", u.posx, u.posy)) {
-                        m.add_item_or_charges(u.posx, u.posy, liquid, 1);
-                    }
-                    return true;
+                choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
+
+                if (!m.can_put_items(dirx, diry)) {
+                    add_msg(_("You can't pour there!"));
+                    return false;
+                }
+                m.add_item_or_charges(dirx, diry, liquid, 1);
+                return true;
             }
             add_msg(_("Never mind."));
             return false;
