@@ -7841,7 +7841,7 @@ void game::examine(int examx, int examy)
 {
     int veh_part = 0;
     vehicle *veh = NULL;
-    const bool curz = g->levz;
+    const int curz = g->levz;
 
     if (examx == -1) {
         // if we are driving a vehicle, examine the
