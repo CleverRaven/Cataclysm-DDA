@@ -215,10 +215,10 @@ std::string get_input_string_from_file(std::string fname)
     if (fin) {
         getline(fin, ret);
         //remove utf8 bmm
-        if(ret.size() > 0 && (unsigned char)ret[0] == 0xef) {
+        if(!ret.empty() && (unsigned char)ret[0] == 0xef) {
             ret.erase(0, 3);
         }
-        while(ret.size() > 0 && (ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n')) {
+        while(!ret.empty() && (ret[ret.size() - 1] == '\r' ||  ret[ret.size() - 1] == '\n')) {
             ret.erase(ret.size() - 1, 1);
         }
     }
@@ -448,7 +448,7 @@ const std::string input_context::get_desc(const std::string &action_descriptor)
 
     const std::vector<input_event> &events = inp_mngr.get_input_for_action(action_descriptor, category);
 
-    if(events.size() == 0) {
+    if(events.empty()) {
         return UNDEFINED;
     }
 

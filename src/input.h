@@ -86,7 +86,7 @@ struct input_event {
 
     long get_first_input() const
     {
-        if (sequence.size() == 0) {
+        if (sequence.empty()) {
             return 0;
         }
 
