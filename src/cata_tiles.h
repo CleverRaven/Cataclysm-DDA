@@ -310,8 +310,10 @@ class cata_tiles
 
         std::queue<point> footsteps;
 
-        // offset values
+        // offset values, in tile coordinates, not pixels
         int o_x, o_y;
+        // offset for drawing, in pixels.
+        int op_x, op_y;
 
     protected:
     private:

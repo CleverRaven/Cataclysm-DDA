@@ -518,6 +518,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
     o_x = posx - POSX;
     o_y = posy - POSY;
+    op_x = destx;
+    op_y = desty;
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
@@ -762,8 +764,8 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
     int screen_x;// = (x - o_x) * tile_width;
     int screen_y;// = (y - o_y) * tile_height;
     if (!is_at_screen_position) {
-        screen_x = (x - o_x) * tile_width;
-        screen_y = (y - o_y) * tile_height;
+        screen_x = (x - o_x) * tile_width + op_x;
+        screen_y = (y - o_y) * tile_height + op_y;
     } else {
         screen_x = x * tile_width;
         screen_y = y * tile_width;
