@@ -2195,6 +2195,11 @@ int iuse::rechargeable_battery(player *p, item *, bool)
         return 0;
     }
 
+    if (modded->has_flag("ATOMIC_AMMO")) {
+        g->add_msg_if_player(p,_("You can't install a rechargeable battery pack on an item powered by plutonium cells!"));
+        return 0;
+    }
+
     modded->item_tags.insert("RECHARGE");
     modded->item_tags.insert("NO_UNLOAD");
     g->add_msg_if_player(p,_("You insert the rechargeable battery pack into your %s!"), tool->name.c_str());
