@@ -51,20 +51,24 @@ static void update_pathname(std::string name, std::string path)
 
 void set_standart_filenames(void)
 {
-    const char *share_dir;
+    // Special: data_dir
 #if !(defined _WIN32 || defined WINDOW)
     if (!FILENAMES["base_path"].empty()) {
-        share_dir = "share/cataclysm-dda/";
+        update_pathname("datadir", FILENAMES["base_path"] + "share/cataclysm-dda/");
     } else {
-        share_dir = "data/";
+        update_pathname("datadir", FILENAMES["base_path"] + "data/");
     }
 #else
-    share_dir = "data/";
+    update_pathname("datadir", FILENAMES["base_path"] + "data/");
 #endif
     // Shared directories
-    update_pathname("gfxdir", FILENAMES["base_path"] + share_dir + "gfx/");
-    update_pathname("luadir", FILENAMES["base_path"] + share_dir + "lua/");
-    update_pathname("datadir", FILENAMES["base_path"] + share_dir);
+    if (FILENAMES["base_path"].empty()) {
+        update_pathname("gfxdir", "gfx/");
+        update_pathname("luadir", "lua/");
+    } else {
+        update_pathname("gfxdir", FILENAMES["base_path"] + "gfx/");
+        update_pathname("luadir", FILENAMES["base_path"] + "lua/");
+    }
     update_pathname("autoexeclua", FILENAMES["luadir"] + "autoexec.lua");
     update_pathname("fontdir", FILENAMES["datadir"] + "font/");
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
