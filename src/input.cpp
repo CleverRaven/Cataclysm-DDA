@@ -733,12 +733,15 @@ void input_context::display_help()
     static const nc_color global_key = c_ltgray;
     static const nc_color local_key = c_ltgreen;
     static const nc_color unbound_key = c_ltred;
+    int offset = 0;
+    int display_height = FULL_SCREEN_HEIGHT - 2 - 2; // -2 for the border
 
     do {
     werase(w_help);
 
     // Draw win header and borders
-    draw_border(w_help, c_white);
+    draw_border(w_help);
+    draw_scrollbar(w_help, offset, display_height, org_registered_actions.size(), 1);
     mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
               c_ltred, " %s ", _("Keybindings"));
     std::ostringstream legend;
@@ -749,8 +752,8 @@ void input_context::display_help()
     const int legwidth = FULL_SCREEN_WIDTH - 51 - 2;
     fold_and_print(w_help, 1, 51, legwidth, c_white, legend.str());
 
-    for (size_t i = 0; i < org_registered_actions.size(); i++) {
-        const std::string &action_id = org_registered_actions[i];
+    for (size_t i = 0; i + offset < org_registered_actions.size() && i < display_height; i++) {
+        const std::string &action_id = org_registered_actions[i + offset];
 
         bool overwrite_default;
         const std::vector<input_event> &input_events = inp_mngr.get_input_for_action(action_id, category,
@@ -785,9 +788,9 @@ void input_context::display_help()
         status = s_add;
     } else if (ch == '-') {
         status = s_remove;
-    } else if (status != s_show && ch >= 'a' && ch <= 'a' + org_registered_actions.size()) {
-        const int i = ch - 'a';
-        const std::string &action_id = org_registered_actions[i];
+    } else if (status != s_show && ch >= 'a' && ch - 'a' + offset < org_registered_actions.size()) {
+        const int action = ch - 'a' + offset;
+        const std::string &action_id = org_registered_actions[action];
         const std::string name = inp_mngr.get_action_name(action_id);
         if (status == s_remove && query_yn(_("Clear keys for %s?"), name.c_str())) {
             inp_mngr.remove_input_for_action(action_id, category);
@@ -803,6 +806,14 @@ void input_context::display_help()
         // Pressed some key that is not mapped to an action to edit
         status = s_show;
         ch = 0;
+    } else if (ch == KEY_DOWN) {
+        if (offset + 1 < org_registered_actions.size()) {
+            offset++;
+        }
+    } else if (ch == KEY_UP) {
+        if (offset > 0) {
+            offset--;
+        }
     }
     } while (status != s_show || (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE));
 
