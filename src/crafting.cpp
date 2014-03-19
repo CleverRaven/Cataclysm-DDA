@@ -1191,7 +1191,8 @@ inventory game::crafting_inventory(player *p)
     crafting_inv += p->inv;
     crafting_inv += p->weapon;
     if (p->has_bionic("bio_tools")) {
-        item tools(item_controller->find_template("toolset"), turn);
+        //item tools(item_controller->find_template("toolset"), turn);
+        item tools(itypes["toolset"], turn);
         tools.charges = p->power_level;
         crafting_inv += tools;
     }
