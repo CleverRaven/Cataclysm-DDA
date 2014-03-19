@@ -213,7 +213,6 @@ public:
     void set_timeout(int delay);
 
 private:
-    std::map<std::string, std::vector<input_event> > action_to_input;
     std::map<std::string, std::map<std::string,std::vector<input_event> > > action_contexts;
     std::map<std::string, std::string> actionID_to_name;
 

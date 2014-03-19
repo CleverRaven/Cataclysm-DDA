@@ -8,6 +8,8 @@
 #include <sstream>
 #include <errno.h>
 
+static const std::string default_context_id("default");
+
 /* TODO Replace the hardcoded values with an abstraction layer.
  * Lower redundancy across the methods. */
 
@@ -250,11 +252,10 @@ void input_manager::init()
 
         const std::string action_id = action.get_string("id");
         actionID_to_name[action_id] = action.get_string("name", action_id);
-        const std::string context = action.get_string("category", "default");
+        const std::string context = action.get_string("category", default_context_id);
 
         // Iterate over the bindings JSON array
         JsonArray bindings = action.get_array("bindings");
-        const bool defaultcontext = (context == "default");
         while (bindings.has_more()) {
             JsonObject keybinding = bindings.next_object();
             std::string input_method = keybinding.get_string("input_method");
@@ -280,11 +281,7 @@ void input_manager::init()
                 );
             }
 
-            if (defaultcontext) {
-                action_to_input[action_id].push_back(new_event);
-            } else {
-                action_contexts[context][action_id].push_back(new_event);
-            }
+            action_contexts[context][action_id].push_back(new_event);
         }
     }
 
@@ -380,7 +377,7 @@ const std::vector<input_event> &input_manager::get_input_for_action(const std::s
         &action_descriptor, const std::string context, bool *overwrites_default)
 {
     // First we check if we have a special override in this particular context.
-    if(context != "default" && action_contexts[context].count(action_descriptor)) {
+    if(context != default_context_id && action_contexts[context].count(action_descriptor)) {
         if(overwrites_default) {
             *overwrites_default = true;
         }
@@ -391,7 +388,7 @@ const std::vector<input_event> &input_manager::get_input_for_action(const std::s
     if(overwrites_default) {
         *overwrites_default = false;
     }
-    return action_to_input[action_descriptor];
+    return action_contexts[default_context_id][action_descriptor];
 }
 
 const std::string &input_manager::get_action_name(const std::string &action)
