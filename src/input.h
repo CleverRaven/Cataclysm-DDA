@@ -207,7 +207,7 @@ public:
     /**
      * Get the human-readable name for an action.
      */
-    const std::string& get_action_name(const std::string& action);
+    const std::string& get_action_name(const std::string& action) const;
 
     /**
      * curses getch() replacement.
@@ -233,7 +233,8 @@ private:
     typedef std::map<std::string, t_input_event_list> t_keybinding_map;
     typedef std::map<std::string, t_keybinding_map> t_action_contexts;
     t_action_contexts action_contexts;
-    std::map<std::string, std::string> actionID_to_name;
+    typedef std::map<std::string, std::string> t_string_string_map;
+    t_string_string_map actionID_to_name;
 
     typedef std::map<long, std::string> t_key_to_name_map;
     t_key_to_name_map keycode_to_keyname;
@@ -252,6 +253,11 @@ private:
     t_input_event_list &get_event_list(const std::string &action_descriptor, const std::string &context);
     void remove_input_for_action(const std::string &action_descriptor, const std::string &context);
     void add_input_for_action(const std::string &action_descriptor, const std::string &context, const input_event &event);
+    /**
+     * Return a user presentable list of actions that conflict with the
+     * proposed keybinding. Returns an empty string if nothing conflicts.
+     */
+    std::string get_conflicts(const std::string &context, const input_event &event) const;
 };
 
 // Singleton for our input manager.

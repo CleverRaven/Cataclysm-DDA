@@ -525,9 +525,39 @@ void input_manager::add_input_for_action(
     events.push_back(event);
 }
 
-const std::string &input_manager::get_action_name(const std::string &action)
+std::string input_manager::get_conflicts(const std::string &context, const input_event &event) const
 {
-    return actionID_to_name[action];
+    std::ostringstream buffer;
+    if (context != default_context_id) {
+        // also include the default context all the time
+        buffer << get_conflicts(default_context_id, event);
+    }
+    t_action_contexts::const_iterator a = action_contexts.find(context);
+    if (a == action_contexts.end()) {
+        return "";
+    }
+    const t_keybinding_map &keys = a->second;
+    for (t_keybinding_map::const_iterator b = keys.begin(); b != keys.end(); ++b) {
+        const std::string &action_id = b->first;
+        const t_input_event_list &events = b->second;
+        if (std::find(events.begin(), events.end(), event) != events.end()) {
+            if (!buffer.str().empty()) {
+                buffer << ", ";
+            }
+            buffer << get_action_name(action_id);
+        }
+    }
+    return buffer.str();
+}
+
+const std::string &input_manager::get_action_name(const std::string &action) const
+{
+    t_string_string_map::const_iterator a = actionID_to_name.find(action);
+    if (a != actionID_to_name.end()) {
+        return a->second;
+    }
+    // default: return the action id
+    return action;
 }
 
 const std::string CATA_ERROR = "ERROR";
@@ -798,10 +828,15 @@ void input_context::display_help()
                 inp_mngr.remove_input_for_action(action_id, category);
                 changed = true;
             } else if (status == s_add) {
-                long newbind = popup_getkey(_("New key for %s:"), name.c_str());
-                // TODO: check conflicts
-                inp_mngr.add_input_for_action(action_id, category, input_event(newbind, CATA_INPUT_KEYBOARD));
-                changed = true;
+                const long newbind = popup_getkey(_("New key for %s:"), name.c_str());
+                const input_event new_event(newbind, CATA_INPUT_KEYBOARD);
+                const std::string conflicts = inp_mngr.get_conflicts(category, new_event);
+                if (!conflicts.empty()) {
+                    popup(_("This key conflicts with %s"), conflicts.c_str());
+                } else {
+                    inp_mngr.add_input_for_action(action_id, category, new_event);
+                    changed = true;
+                }
             }
             status = s_show;
         } else if (status != s_show) {
