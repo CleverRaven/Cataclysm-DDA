@@ -74,6 +74,10 @@ extern worldfactory *world_generator;
 
 uistatedata uistate;
 
+bool is_valid_in_w_terrain(int x, int y) {
+    return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
+}
+
 // This is the main game set-up process.
 game::game() :
  uquit(QUIT_NO),
@@ -138,8 +142,6 @@ void game::load_static_data() {
 }
 
 void game::check_all_mod_data() {
-    init_ui();
-    popup_nowait("checking all mods");
     mod_manager *mm = world_generator->get_mod_manager();
     dependency_tree &dtree = mm->get_tree();
     if (mm->mod_map.empty()) {
@@ -236,9 +238,11 @@ game::~game()
 #if (defined TILES)
 // defined in sdltiles.cpp
 void translate_terrain_window_size(int &w, int &h);
+void translate_terrain_window_size_back(int &w, int &h);
 #else
 // unchanged, nothing to be translated without tiles
 void translate_terrain_window_size(int &, int &) { }
+void translate_terrain_window_size_back(int &, int &) { }
 #endif
 
 void game::init_ui(){
@@ -280,19 +284,39 @@ void game::init_ui(){
             sidebarWidth = 0;
         }
     #endif
-    const int max_view_size = 121;
-    // Now get terrain window size in number of characters (colums/rows)
-    TERRAIN_WINDOW_WIDTH = (TERMX - sidebarWidth > max_view_size) ? max_view_size : TERMX - sidebarWidth;
-    TERRAIN_WINDOW_HEIGHT = (TERMY > max_view_size) ? max_view_size : TERMY;
+    // remove some space for the sidebar, this is the maximal space
+    // (using standard font) that the terrain window can have
+    TERRAIN_WINDOW_HEIGHT = TERMY;
+    TERRAIN_WINDOW_WIDTH = TERMX - sidebarWidth;
     TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
 
-    // Dimensions of terrain window is currently in colums/rows,
+    // Dimensions of terrain window is currently in colums/rows of the standard font,
     // but if the tileset is in use or if we use a different sized
     // font for the terrain window this does not match.
     translate_terrain_window_size(TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT);
-    VIEW_OFFSET_X = std::max(TERRAIN_WINDOW_WIDTH - max_view_size, 0) / 2;
-    VIEW_OFFSET_Y = std::max(TERRAIN_WINDOW_HEIGHT - max_view_size, 0) / 2;
 
+    // Adjust for the maximal viewing area. It's useless to make the
+    // terrain window larger, as the area outside of the maximal
+    // view range would never be displayed.
+    // Also set offset to move everything into the middle of the screen.
+    static const int max_view_size = DAYLIGHT_LEVEL * 2 + 1;
+    if (TERRAIN_WINDOW_WIDTH > max_view_size) {
+        VIEW_OFFSET_X = (TERRAIN_WINDOW_WIDTH - max_view_size) / 2;
+        TERRAIN_WINDOW_WIDTH = max_view_size;
+    } else {
+        VIEW_OFFSET_X = 0;
+    }
+    if (TERRAIN_WINDOW_HEIGHT > max_view_size) {
+        VIEW_OFFSET_Y = (TERRAIN_WINDOW_HEIGHT - max_view_size) / 2;
+        TERRAIN_WINDOW_HEIGHT = max_view_size;
+    } else {
+        VIEW_OFFSET_Y = 0;
+    }
+    // View offset is the position of the terrain window, the position
+    // of every window is always measured in the standard font.
+    translate_terrain_window_size_back(VIEW_OFFSET_X, VIEW_OFFSET_Y);
+
+    // Position of the player in the terrain window, it is always in the center
     POSX = TERRAIN_WINDOW_WIDTH / 2;
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
@@ -4791,13 +4815,11 @@ void game::draw_ter(int posx, int posy)
         monster &critter = critter_tracker.find(i);
         my = POSY + (critter.posy() - posy);
         mx = POSX + (critter.posx() - posx);
-        if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH
-                && my < TERRAIN_WINDOW_HEIGHT && u_see(&critter)) {
+        if (is_valid_in_w_terrain(mx, my) && u_see(&critter)) {
             critter.draw(w_terrain, posx, posy, false);
             mapRain[my][mx] = false;
         } else if (critter.has_flag(MF_WARM)
-                   && mx >= 0 && my >= 0
-                   && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT
+                   && is_valid_in_w_terrain(mx, my)
                    && (u.has_active_bionic("bio_infrared")
                        || u.has_trait("INFRARED")
                        || u.has_trait("LIZ_IR")
@@ -4812,8 +4834,7 @@ void game::draw_ter(int posx, int posy)
     for (int i = 0; i < active_npc.size(); i++) {
         my = POSY + (active_npc[i]->posy - posy);
         mx = POSX + (active_npc[i]->posx - posx);
-        if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH
-                && my < TERRAIN_WINDOW_HEIGHT
+        if (is_valid_in_w_terrain(mx, my)
                 && u_see(active_npc[i]->posx, active_npc[i]->posy)) {
             active_npc[i]->draw(w_terrain, posx, posy, false);
             mapRain[my][mx] = false;
@@ -4870,8 +4891,8 @@ void game::draw_veh_dir_indicator(void) {
     float r = 10.0;
     int x = static_cast<int>(r * face.x);
     int y = static_cast<int>(r * face.y);
-    int centerx = TERRAIN_WINDOW_WIDTH / 2;
-    int centery = TERRAIN_WINDOW_HEIGHT / 2;
+    int centerx = POSX;
+    int centery = POSY;
     mvwputch(w_terrain, centery + y , centerx + x, c_white, 'X');
   }
 }
@@ -5517,7 +5538,7 @@ int game::mon_info(WINDOW *w)
             int index;
             int mx = POSX + (critter.posx() - viewx);
             int my = POSY + (critter.posy() - viewy);
-            if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT) {
+            if (is_valid_in_w_terrain(mx, my)) {
                 index = 8;
             } else {
                 index = dir_to_mon;
@@ -5567,7 +5588,7 @@ int game::mon_info(WINDOW *w)
             int index;
             int mx = POSX + (npcp.x - viewx);
             int my = POSY + (npcp.y - viewy);
-            if (mx >= 0 && my >= 0 && mx < TERRAIN_WINDOW_WIDTH && my < TERRAIN_WINDOW_HEIGHT) {
+            if (is_valid_in_w_terrain(mx, my)) {
                 index = 8;
             } else {
                 index = dir_to_npc;
@@ -5940,6 +5961,11 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (u.has_bionic("bio_ears")) {
         vol *= 3.5;
     }
+    if (u.has_trait("PER_SLIME")) {
+    // Random hearing :-/
+    // (when it's working at all, see player.cpp)
+        vol *= (rng(1, 2)); // changed from 0.5 to fix Mac compiling error
+    }
     if (u.has_trait("BADHEARING")) {
         vol *= .5;
     }
@@ -6208,7 +6234,15 @@ void game::flashbang(int x, int y, bool player_immune)
         }
         if (m.sees(u.posx, u.posy, x, y, 8, t)) {
             int flash_mod = 0;
-            if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
+            if (u.has_trait("PER_SLIME")) {
+                if (one_in(2)) {
+                    flash_mod = 3; // Yay, you weren't looking!
+                }
+            }
+            else if (u.has_trait("PER_SLIME_OK")) {
+                flash_mod = 8; // Just retract those and extrude fresh eyes
+            }
+            else if (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")) {
                 flash_mod = 6;
             }
             u.add_env_effect("blind", bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist);
@@ -8486,8 +8520,7 @@ void centerlistview(int iActiveX, int iActiveY)
         if (OPTIONS["SHIFT_LIST_ITEM_VIEW"] == "centered") {
             int xOffset = TERRAIN_WINDOW_WIDTH / 2;
             int yOffset = TERRAIN_WINDOW_HEIGHT / 2;
-            if ( xpos < 0 || xpos >= TERRAIN_WINDOW_WIDTH ||
-                 ypos < 0 || ypos >= TERRAIN_WINDOW_HEIGHT ) {
+            if (!is_valid_in_w_terrain(xpos, ypos)) {
                 if (xpos < 0) {
                     u.view_offset_x = xpos - xOffset;
                 } else {
@@ -12689,7 +12722,18 @@ void game::vertical_move(int movez, bool force) {
     if (tmpmap.move_cost(u.posx, u.posy) == 0) {
      popup(_("Halfway down, the way down becomes blocked off."));
      return;
-    } if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
+    } else if (u.has_trait("WEB_RAPPEL")) {
+     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))){
+        rope_ladder = true;
+        if ( (rng(4,8)) < (u.skillLevel("dodge")) ) {
+            add_msg(_("You attach a web and dive down headfirst, flipping upright and landing on your feet."));
+        }
+        else {
+            add_msg(_("You securely web up and work your way down, lowering yourself safely."));
+        }
+     }
+     else return;
+    } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
         if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))){
             if (u.has_trait("VINES2")) {
                 if (query_yn(_("Detach a vine?  It'll hurt, but you'll be able to climb back up..."))){
@@ -12808,8 +12852,9 @@ void game::vertical_move(int movez, bool force) {
  m.spawn_monsters();
 
  if (force) { // Basically, we fell.
-  if (u.has_trait("WINGS_BIRD"))
-   add_msg(_("You flap your wings and flutter down gracefully."));
+  if ( (u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (u.has_trait("WINGS_BUTTERFLY"))) ) {
+      add_msg(_("You flap your wings and flutter down gracefully."));
+  }
   else {
    int dam = int((u.str_max / 4) + rng(5, 10)) * rng(1, 3);//The bigger they are
    dam -= rng(u.get_dodge(), u.get_dodge() * 3);

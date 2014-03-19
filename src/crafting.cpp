@@ -1191,7 +1191,8 @@ inventory game::crafting_inventory(player *p)
     crafting_inv += p->inv;
     crafting_inv += p->weapon;
     if (p->has_bionic("bio_tools")) {
-        item tools(item_controller->find_template("toolset"), turn);
+        //item tools(item_controller->find_template("toolset"), turn);
+        item tools(itypes["toolset"], turn);
         tools.charges = p->power_level;
         crafting_inv += tools;
     }
@@ -1574,7 +1575,9 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
 
         // unlike with tools, it's a bad thing if there aren't any components available
         if (options.empty()) {
+            if (!(p->has_trait("WEB_ROPE"))) {
             debugmsg("Attempted a recipe with no available components!");
+            }
             return ret;
         }
 

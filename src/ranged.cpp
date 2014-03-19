@@ -14,6 +14,7 @@ int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
 void make_gun_sound_effect(player &p, bool burst, item* weapon);
 double calculate_missed_by(player &p, int trange, item* weapon);
+extern bool is_valid_in_w_terrain(int,int);
 
 void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
 
@@ -802,7 +803,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
    // Draw the player
    int atx = POSX + u.posx - center.x, aty = POSY + u.posy - center.y;
-   if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
+   if (is_valid_in_w_terrain(atx, aty))
     mvwputch(w_terrain, aty, atx, u.color(), '@');
 
    // Only draw a highlighted trajectory if we can see the endpoint.

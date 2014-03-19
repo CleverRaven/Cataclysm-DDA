@@ -196,8 +196,8 @@ class cata_tiles
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
-        bool draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
-        bool draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota, bool is_at_screen_position = false);
+        bool draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**
@@ -264,8 +264,6 @@ class cata_tiles
         void reinit(std::string load_file_path);
         int get_tile_height() const { return tile_height; }
         int get_tile_width() const { return tile_width; }
-        int get_terrain_term_x() const { return terrain_term_x; }
-        int get_terrain_term_y() const { return terrain_term_y; }
         float get_tile_ratiox() const { return tile_ratiox; }
         float get_tile_ratioy() const { return tile_ratioy; }
     protected:
@@ -280,8 +278,9 @@ class cata_tiles
         tile_id_map tile_ids;
 
         int tile_height, tile_width, default_tile_width, default_tile_height;
+        // The width and height of the area we can draw in,
+        // measured in map coordinates, *not* in pixels.
         int screentile_width, screentile_height;
-        int terrain_term_x, terrain_term_y;
         float tile_ratiox, tile_ratioy;
 
         bool in_animation;
@@ -311,8 +310,10 @@ class cata_tiles
 
         std::queue<point> footsteps;
 
-        // offset values
+        // offset values, in tile coordinates, not pixels
         int o_x, o_y;
+        // offset for drawing, in pixels.
+        int op_x, op_y;
 
     protected:
     private:
