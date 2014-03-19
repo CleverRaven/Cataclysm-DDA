@@ -1,6 +1,0 @@
-#!/bin/bash
-mkdir -p ~/.cataclysm-dda/
-cp -r ./data ~/.cataclysm-dda/
-cp -r ./gfx ~/.cataclysm-dda/
-cp -r ./lang ~/.cataclysm-dda/
-cp -r ./lua ~/.cataclysm-dda/

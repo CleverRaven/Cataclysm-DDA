@@ -177,6 +177,10 @@ bool game::opening_screen()
         return false;
     }
 
+    if (!assure_dir_exist(FILENAMES["templatedir"].c_str())) {
+        popup(_("Unable to make templates directory. Check permissions."));
+        return false;
+    }
     dir = opendir(FILENAMES["templatedir"].c_str());
     while ((dp = readdir(dir))) {
         std::string tmp = dp->d_name;

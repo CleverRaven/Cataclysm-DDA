@@ -893,14 +893,14 @@ static void save_font_list()
 static std::string find_system_font(std::string name, int& faceIndex)
 {
     struct stat stat_buf;
-    int rc = stat(FILENAMES["fontlist"], &stat_buf);
+    int rc = stat(FILENAMES["fontlist"].c_str(), &stat_buf);
     if( rc == 0 ? stat_buf.st_size == 0 : true) {
       DebugLog() << "Generating fontlist\n";
       save_font_list();
     }
 
 
-    std::ifstream fin(FILENAMES["fontlist"]);
+    std::ifstream fin(FILENAMES["fontlist"].c_str());
     if (fin) {
         std::string fname;
         std::string fpath;
@@ -1173,7 +1173,7 @@ int curses_start_color(void)
 {
     colorpairs = new pairs[100];
     //Load the console colors from colors.json
-    std::ifstream colorfile(FILENAMES["colors"], std::ifstream::in | std::ifstream::binary);
+    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
         char ch;
