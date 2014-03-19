@@ -730,6 +730,10 @@ void input_context::display_help()
         org_registered_actions.erase(any_input);
     }
 
+    static const nc_color global_key = c_ltgray;
+    static const nc_color local_key = c_ltgreen;
+    static const nc_color unbound_key = c_ltred;
+
     do {
     werase(w_help);
 
@@ -737,12 +741,13 @@ void input_context::display_help()
     draw_border(w_help, c_white);
     mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
               c_ltred, " %s ", _("Keybindings"));
-    mvwprintz(w_help, 1, 51, c_ltred, _("Unbound keys"));
-    mvwprintz(w_help, 2, 51, c_ltgreen, _("Keybinding active only"));
-    mvwprintz(w_help, 3, 51, c_ltgreen, _("on this screen"));
-    mvwprintz(w_help, 4, 51, c_ltgray, _("Keybinding active globally"));
-    mvwprintz(w_help, 5, 51, c_white, _("Press - to remove keybinding"));
-    mvwprintz(w_help, 6, 51, c_white, _("Press + to add keybinding"));
+    std::ostringstream legend;
+    legend << "<color_" << string_from_color(unbound_key) << ">" << _("Unbound keys") << "</color>\n";
+    legend << "<color_" << string_from_color(local_key) << ">" << _("Keybinding active only on this screen") << "</color>\n";
+    legend << "<color_" << string_from_color(global_key) << ">" << _("Keybinding active globally") << "</color>\n";
+    legend << _("Press - to remove keybinding or press + to add keybinding");
+    const int legwidth = FULL_SCREEN_WIDTH - 51 - 2;
+    fold_and_print(w_help, 1, 51, legwidth, c_white, legend.str());
 
     for (size_t i = 0; i < org_registered_actions.size(); i++) {
         const std::string &action_id = org_registered_actions[i];
@@ -759,15 +764,15 @@ void input_context::display_help()
         } else {
             mvwprintz(w_help, i + 1, 2, c_blue, "  ");
         }
-        nc_color col = input_events.empty() ? c_ltred : c_white;
+        nc_color col = input_events.empty() ? unbound_key : c_white;
         mvwprintz(w_help, i + 1, 4, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
 
         if (input_events.empty()) {
-            mvwprintz(w_help, i + 1, 30, c_ltred, _("Unbound!"));
+            mvwprintz(w_help, i + 1, 30, unbound_key, _("Unbound!"));
         } else {
             // The color depends on whether this input draws from context-local or from
             // default settings. Default will be ltgray, overwrite will be ltgreen.
-            col = overwrite_default ? c_ltgreen : c_ltgray;
+            col = overwrite_default ? local_key : global_key;
 
             mvwprintz(w_help, i + 1, 30, col, "%s", get_desc(action_id).c_str());
         }
