@@ -531,7 +531,6 @@ const std::string &input_manager::get_action_name(const std::string &action)
 }
 
 const std::string CATA_ERROR = "ERROR";
-const std::string UNDEFINED = "UNDEFINED";
 const std::string ANY_INPUT = "ANY_INPUT";
 const std::string COORDINATE = "COORDINATE";
 const std::string TIMEOUT = "TIMEOUT";
@@ -580,7 +579,7 @@ const std::string input_context::get_desc(const std::string &action_descriptor)
     const std::vector<input_event> &events = inp_mngr.get_input_for_action(action_descriptor, category);
 
     if(events.empty()) {
-        return UNDEFINED;
+        return _("Unbound!");
     }
 
     std::vector<input_event> inputs_to_show;
@@ -720,36 +719,42 @@ void input_context::display_help()
                             1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
     long ch;
+    // has the user changed something?
     bool changed = false;
+    // keybindings before the user changed anything.
     input_manager::t_action_contexts old_action_contexts(inp_mngr.action_contexts);
+    // current status: adding/removing/showing keybindings
     enum { s_remove, s_add, s_show } status = s_show;
+    // copy of registered_actions, but without the ANY_INPUT, which should not be shown
     std::vector<std::string> org_registered_actions(registered_actions);
-    // Don't show the any input action
     std::vector<std::string>::iterator any_input = std::find(org_registered_actions.begin(), org_registered_actions.end(), "ANY_INPUT");
     if (any_input != org_registered_actions.end()) {
         org_registered_actions.erase(any_input);
     }
 
+    // colors of the keybindings
     static const nc_color global_key = c_ltgray;
     static const nc_color local_key = c_ltgreen;
     static const nc_color unbound_key = c_ltred;
+    // (vertical) scroll offset
     int offset = 0;
+    // height of the area usable for display of keybindings, excludes headers & borders
     int display_height = FULL_SCREEN_HEIGHT - 2 - 2; // -2 for the border
+    // width of the legend
+    const int legwidth = FULL_SCREEN_WIDTH - 51 - 2;
+    // keybindings help
+    std::ostringstream legend;
+    legend << "<color_" << string_from_color(unbound_key) << ">" << _("Unbound keys") << "</color>\n";
+    legend << "<color_" << string_from_color(local_key) << ">" << _("Keybinding active only on this screen") << "</color>\n";
+    legend << "<color_" << string_from_color(global_key) << ">" << _("Keybinding active globally") << "</color>\n";
+    legend << _("Press - to remove keybinding or press + to add keybinding");
 
     do {
         werase(w_help);
-
-        // Draw win header and borders
         draw_border(w_help);
         draw_scrollbar(w_help, offset, display_height, org_registered_actions.size(), 1);
         mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
                 c_ltred, " %s ", _("Keybindings"));
-        std::ostringstream legend;
-        legend << "<color_" << string_from_color(unbound_key) << ">" << _("Unbound keys") << "</color>\n";
-        legend << "<color_" << string_from_color(local_key) << ">" << _("Keybinding active only on this screen") << "</color>\n";
-        legend << "<color_" << string_from_color(global_key) << ">" << _("Keybinding active globally") << "</color>\n";
-        legend << _("Press - to remove keybinding or press + to add keybinding");
-        const int legwidth = FULL_SCREEN_WIDTH - 51 - 2;
         fold_and_print(w_help, 1, 51, legwidth, c_white, legend.str());
 
         for (size_t i = 0; i + offset < org_registered_actions.size() && i < display_height; i++) {
@@ -767,18 +772,16 @@ void input_context::display_help()
             } else {
                 mvwprintz(w_help, i + 1, 2, c_blue, "  ");
             }
-            nc_color col = input_events.empty() ? unbound_key : c_white;
-            mvwprintz(w_help, i + 1, 4, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
-
+            nc_color col;
             if (input_events.empty()) {
-                mvwprintz(w_help, i + 1, 30, unbound_key, _("Unbound!"));
+                col = unbound_key;
+            } else if (overwrite_default) {
+                col = local_key;
             } else {
-                // The color depends on whether this input draws from context-local or from
-                // default settings. Default will be ltgray, overwrite will be ltgreen.
-                col = overwrite_default ? local_key : global_key;
-
-                mvwprintz(w_help, i + 1, 30, col, "%s", get_desc(action_id).c_str());
+                col = global_key;
             }
+            mvwprintz(w_help, i + 1, 4, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
+            mvwprintz(w_help, i + 1, 30, col, "%s", get_desc(action_id).c_str());
         }
         wrefresh(w_help);
         refresh();
