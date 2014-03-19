@@ -177,6 +177,11 @@ public:
      * Initializes the input manager, aka loads the input mapping configuration JSON.
      */
     void init();
+    /**
+     * Opposite of @ref init, save the data that has been loaded by @ref init,
+     * and possibly been modified.
+     */
+    void save();
 
     /**
      * Get the keycode associated with the given key name.
@@ -213,7 +218,10 @@ public:
     void set_timeout(int delay);
 
 private:
-    std::map<std::string, std::map<std::string,std::vector<input_event> > > action_contexts;
+    typedef std::vector<input_event> t_input_event_list;
+    typedef std::map<std::string, t_input_event_list> t_keybinding_map;
+    typedef std::map<std::string, t_keybinding_map> t_action_contexts;
+    t_action_contexts action_contexts;
     std::map<std::string, std::string> actionID_to_name;
 
     std::map<long, std::string> keycode_to_keyname;

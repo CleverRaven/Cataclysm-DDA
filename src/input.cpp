@@ -6,6 +6,7 @@
 #include "game.h"
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 #include <errno.h>
 
 static const std::string default_context_id("default");
@@ -286,6 +287,65 @@ void input_manager::init()
     }
 
     data_file.close();
+}
+
+void input_manager::save() {
+    std::ofstream data_file;
+
+    std::string file_name = "data/raw/keybindings.json";
+    std::string file_name_tmp = file_name + ".tmp";
+    data_file.open(file_name_tmp.c_str(), std::ifstream::binary);
+
+    if(!data_file.good()) {
+        throw std::runtime_error(file_name_tmp + ": could not write");
+    }
+    data_file.exceptions(std::ios::badbit | std::ios::failbit);
+    JsonOut jsout(data_file, true);
+
+    jsout.start_array();
+    for (t_action_contexts::const_iterator a = action_contexts.begin(); a != action_contexts.end(); ++a) {
+        const t_keybinding_map &maping = a->second;
+        for (t_keybinding_map::const_iterator b = maping.begin(); b != maping.end(); ++b) {
+            const t_input_event_list &events = b->second;
+            jsout.start_object();
+
+            jsout.member("id", b->first);
+            jsout.member("name", actionID_to_name[b->first]);
+            jsout.member("category", a->first);
+            jsout.member("bindings");
+            jsout.start_array();
+            for(t_input_event_list::const_iterator c = events.begin(); c != events.end(); ++c) {
+                jsout.start_object();
+                switch(c->type) {
+                    case CATA_INPUT_KEYBOARD:
+                        jsout.member("input_method", "keyboard");
+                        break;
+                    case CATA_INPUT_GAMEPAD:
+                        jsout.member("input_method", "gamepad");
+                        break;
+                    case CATA_INPUT_MOUSE:
+                        jsout.member("input_method", "mouse");
+                        break;
+                    default:
+                        throw std::runtime_error("unknown input_event_t");
+                }
+                jsout.member("key");
+                jsout.start_array();
+                for(size_t i = 0; i < c->sequence.size(); i++) {
+                    jsout.write(get_keyname(c->sequence[i], c->type));
+                }
+                jsout.end_array();
+                jsout.end_object();
+            }
+            jsout.end_array();
+
+            jsout.end_object();
+        }
+    }
+    jsout.end_array();
+
+    data_file.close();
+    rename(file_name_tmp.c_str(), file_name.c_str());
 }
 
 void input_manager::add_keycode_pair(long ch, const std::string &name)
@@ -585,6 +645,8 @@ void input_context::display_help()
                             1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
+    long ch;
+    do {
     werase(w_help);
 
     // Draw win header and borders
@@ -595,6 +657,8 @@ void input_context::display_help()
     mvwprintz(w_help, 2, 51, c_ltgreen, _("Keybinding active only"));
     mvwprintz(w_help, 3, 51, c_ltgreen, _("on this screen"));
     mvwprintz(w_help, 4, 51, c_ltgray, _("Keybinding active globally"));
+    mvwprintz(w_help, 5, 51, c_white, _("Press - to remove keybinding"));
+    mvwprintz(w_help, 6, 51, c_white, _("Press + to add keybinding"));
 
     // Clear the lines. Don't touch borders
     for (int i = 1; i < FULL_SCREEN_HEIGHT - 3; i++) {
@@ -627,10 +691,11 @@ void input_context::display_help()
     wrefresh(w_help);
     refresh();
 
-    long ch = getch();
-    while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE) {
-        ch = getch();
-    };
+    ch = getch();
+    if (ch == '-' || ch == '+') {
+        ch = 0;
+    }
+    } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
     werase(w_help);
     wrefresh(w_help);
