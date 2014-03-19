@@ -823,6 +823,15 @@ void construct::done_deconstruct(point p)
     }
 }
 
+void construct::done_trunk_log(point p)
+{
+ map tmpmap(&traps);
+ tmpmap.load(levx, levy, levz - 1, false);
+ 
+ 
+ g->m.ter_set(p.x, p.y, t_stairs_down);
+}
+
 void load_construction(JsonObject &jo)
 {
     construction *con = new construction;
