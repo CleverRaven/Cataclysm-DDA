@@ -94,8 +94,8 @@ enum mon_id {
     mon_weasel,
     // 0.9 -> 0.A
     mon_dog_skeleton, mon_dog_zombie_cop, mon_dog_zombie_rot,
-	// 0.A -> 0.B
-	mon_broken_cyborg, mon_zoose, mon_zomwolf, mon_zomcougar,
+    // 0.A -> 0.B
+    mon_broken_cyborg, mon_zoose, mon_zomwolf, mon_zomcougar,
     num_monsters
 };
 
