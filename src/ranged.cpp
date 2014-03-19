@@ -1153,20 +1153,16 @@ void splatter( std::vector<point> trajectory, int dam, Creature* target )
     }
     if(!target->is_npc() && !target->is_player()) { //Check if the creature isn't an NPC or the player (so the cast works)
         monster *mon = dynamic_cast<monster*>(target);
-        if (mon->is_hallucination()) {//if it is a hallucanation, don't splatter the blood.
+        if (mon->is_hallucination() || mon->get_material() != "flesh" || mon->has_flag(MF_VERMIN)) {//if it is a hallucanation, not made of flesh, or a vermin creature, don't splatter the blood.
             return;
         }
     }
     field_id blood = fd_blood;
     if( target != NULL ) {
-        if( target->get_material() != "flesh" || target->has_flag(MF_VERMIN) ) {
-            return;
-        }
-        if( target->has_flag(MF_BILE_BLOOD) ) {
-            blood = fd_bile;
-        } else if( target->has_flag(MF_ACID_BLOOD) ) {
-            blood = fd_acid;
-        }
+        blood = target->bloodType();
+    }
+    if (blood == fd_null) { //If there is no blood to splatter, return.
+        return;
     }
 
     int distance = 1;

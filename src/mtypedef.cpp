@@ -56,3 +56,29 @@ bool mtype::in_category(std::string category) const {
 bool mtype::in_species(std::string spec) const {
     return (species.find(spec) != species.end());
 }
+
+field_id mtype::bloodType() {
+    if (has_flag(MF_ACID_BLOOD))
+        //A monster that has the death effect "ACID" does not need to have acid blood.
+        return fd_acid;
+    if (has_flag(MF_BILE_BLOOD))
+        return fd_bile;
+    if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD))
+        return fd_blood_invertebrate;
+    if (mat == "veggy")
+        return fd_blood_veggy;
+    if (mat == "iflesh")
+        return fd_blood_insect;
+    if (has_flag(MF_WARM))
+        return fd_blood;
+    return fd_null; //Please update the monster blood type code at bloodType() in monster.cpp when modifying these rules!
+}
+field_id mtype::gibType() {
+    if (has_flag(MF_LARVA) || in_species("MOLLUSK"))
+        return fd_gibs_invertebrate;
+    if (mat == "veggy")
+        return fd_gibs_veggy;
+    if (mat == "iflesh")
+        return fd_gibs_insect;
+    return fd_gibs_flesh; //Please update the monster blood type code at gibType() in monster.cpp when modifying these rules!
+}

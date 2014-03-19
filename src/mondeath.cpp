@@ -18,9 +18,9 @@ void mdeath::normal(monster *z) {
 
     // leave some blood if we have to
     if (!z->has_flag(MF_VERMIN)) {
-       field_id type_blood = z->monBloodType();
-       if (type_blood != fd_null)
-        g->m.add_field(z->posx(), z->posy(), type_blood, 1);
+        field_id type_blood = z->bloodType();
+        if (type_blood != fd_null)
+            g->m.add_field(z->posx(), z->posy(), type_blood, 1);
     }
 
     int maxHP = z->type->hp;
@@ -651,7 +651,8 @@ void make_gibs(monster* z, int amount) {
     }
     const int zposx = z->posx();
     const int zposy = z->posy();
-    field_id type_blood = z->monBloodType();
+    field_id type_blood = z->bloodType();
+
     for (int i = 0; i < amount; i++) {
         // leave gibs, if there are any
         const int gibX = zposx + rng(0,6) - 3;
@@ -660,7 +661,7 @@ void make_gibs(monster* z, int amount) {
         int junk;
         if( g->m.clear_path( zposx, zposy, gibX, gibY, 3, 1, 100, junk ) ) {
             // Only place gib if there's a clear path for it to get there.
-            g->m.add_field(gibX, gibY, z->monGibType(), gibDensity);
+            g->m.add_field(gibX, gibY, z->gibType(), gibDensity);
         }
         if( type_blood != fd_null ) {
             const int bloodX = zposx + (rng(0,2) - 1);

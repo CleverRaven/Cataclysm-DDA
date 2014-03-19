@@ -8,8 +8,8 @@
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"
-#include "color.h"
 #include "mtype.h"
+#include "output.h"
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -190,6 +190,8 @@ class Creature
         virtual m_size get_size() = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
         virtual std::string get_material() { return "flesh"; };
+        virtual field_id bloodType () { debugmsg("creature:bloodType: not a valid monster/npc/player, returned fd_null"); return fd_null; };
+        virtual field_id gibType () { debugmsg("creature:gibType: not a valid monster/npc/player, returned fd_gibs_flesh"); return fd_gibs_flesh; };
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const { return false; };
 
@@ -270,8 +272,6 @@ class Creature
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
         std::vector<effect> effects;
-
-
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
