@@ -1476,7 +1476,7 @@ void game::activity_on_finish_read()
 
         u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
 
-        add_msg(_("You learn a little about %s! (%d%%%%)"), reading->type->name().c_str(),
+        add_msg(_("You learn a little about %s! (%d%%)"), reading->type->name().c_str(),
                 u.skillLevel(reading->type).exercise());
 
         if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.get_value(0) == 1) {
