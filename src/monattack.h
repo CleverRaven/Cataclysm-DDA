@@ -51,6 +51,7 @@ public:
     void flesh_golem        (monster *z);
     void parrot             (monster *z);
     void darkman            (monster *z);
+    void slimespring        (monster *z);
 };
 
 #endif

@@ -1569,72 +1569,108 @@ int trial_chance(talk_response response, player *u, npc *p)
  switch (trial) {
   case TALK_TRIAL_LIE:
    chance += u->talk_skill() - p->talk_skill() + p->op_of_u.trust * 3;
-   if (u->has_trait("TRUTHTELLER"))
-    chance -= 40;
-   if (u->has_trait("TAIL_FLUFFY"))
-    chance -= 20;
-   else if (u->has_trait("LIAR"))
-    chance += 40;
-   if (u->has_trait("ELFAEYES"))
-    chance += 10;
-   if (u->has_bionic("bio_voice")) //come on, who would suspect a robot of lying?
-    chance += 10;
-   if (u->has_bionic("bio_face_mask"))
-    chance += 20;
+   if (u->has_trait("TRUTHTELLER")) {
+      chance -= 40;
+   }
+   if (u->has_trait("TAIL_FLUFFY")) {
+      chance -= 20;
+   }
+   else if (u->has_trait("LIAR")) {
+      chance += 40;
+   }
+   if (u->has_trait("ELFAEYES")) {
+      chance += 10;
+   }
+   if (u->has_trait("WINGS_BUTTERFLY")) {
+      chance += 10;
+   }
+   if (u->has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
+      chance += 10;
+   }
+   if (u->has_bionic("bio_face_mask")) {
+   chance += 20;
+   }
    break;
 
   case TALK_TRIAL_PERSUADE:
    chance += u->talk_skill() - int(p->talk_skill() / 2) +
            p->op_of_u.trust * 2 + p->op_of_u.value;
-   if (u->has_trait("ELFAEYES"))
-    chance += 20;
-   if (u->has_trait("TAIL_FLUFFY"))
-    chance += 10;
-   if (u->has_bionic("bio_face_mask"))
-    chance += 10;
-   if (u->has_trait("GROWL"))
-    chance -= 25;
-   if (u->has_trait("HISS"))
-    chance -= 25;
-   if (u->has_trait("SNARL"))
-    chance -= 60;
-   if (u->has_bionic("bio_deformity"))
-    chance -= 50;
-   if (u->has_bionic("bio_voice"))
-    chance -= 20;
+   if (u->has_trait("ELFAEYES")) {
+      chance += 20;
+   }
+   if (u->has_trait("TAIL_FLUFFY")) {
+      chance += 10;
+   }
+   if (u->has_trait("WINGS_BUTTERFLY")) {
+      chance += 15; // Flutter your wings at 'em
+   }
+   if (u->has_bionic("bio_face_mask")) {
+      chance += 10;
+   }
+   if (u->has_trait("GROWL")) {
+      chance -= 25;
+   }
+   if (u->has_trait("HISS")) {
+      chance -= 25;
+   }
+   if (u->has_trait("SNARL")) {
+      chance -= 60;
+   }
+   if (u->has_bionic("bio_deformity")) {
+      chance -= 50;
+   }
+   if (u->has_bionic("bio_voice")) {
+      chance -= 20;
+   }
    break;
 
   case TALK_TRIAL_INTIMIDATE:
    chance += u->intimidation() - p->intimidation() + p->op_of_u.fear * 2 -
            p->personality.bravery * 2;
-   if (u->has_trait("MINOTAUR"))
-    chance += 15;
-   if (u->has_trait("MUZZLE"))
-    chance += 6;
-   if (u->has_trait("MUZZLE_LONG"))
-    chance += 20;
-   if (u->has_trait("SABER_TEETH"))
-    chance += 15;
-   if (u->has_trait("TERRIFYING"))
-    chance += 15;
-   if (u->has_trait("ELFAEYES"))
-    chance += 10;
+   if (u->has_trait("MINOTAUR")) {
+      chance += 15;
+   }
+   if (u->has_trait("MUZZLE")) {
+      chance += 6;
+   }
+   if (u->has_trait("MUZZLE_LONG")) {
+      chance += 20;
+   }
+   if (u->has_trait("SABER_TEETH")) {
+      chance += 15;
+   }
+   if (u->has_trait("TERRIFYING")) {
+      chance += 15;
+   }
+   if (u->has_trait("ELFAEYES")) {
+      chance += 10;
+   }
  //if (p->has_trait("TERRIFYING")) // This appears to do nothing, since NPCs don't seem to actually check for it.
  // chance -= 15;
-   if (u->has_trait("GROWL"))
-    chance += 15;
-   if (u->has_trait("HISS"))
-    chance += 15;
-   if (u->has_trait("SNARL"))
-    chance += 30;
-   if (u->has_bionic("bio_face_mask"))
-    chance += 10;
-   if (u->has_bionic("bio_armor_eyes"))
-    chance += 10;
-   if (u->has_bionic("bio_deformity"))
-    chance += 20;
-   if (u->has_bionic("bio_voice"))
-    chance += 20;
+   if (u->has_trait("GROWL")) {
+      chance += 15;
+   }
+   if (u->has_trait("HISS")) {
+      chance += 15;
+   }
+   if (u->has_trait("SNARL")) {
+      chance += 30;
+   }
+   if (u->has_trait("WINGS_BUTTERFLY")) {
+      chance -= 20; // Butterflies are not terribly threatening.  :-(
+   }
+   if (u->has_bionic("bio_face_mask")) {
+      chance += 10;
+   }
+   if (u->has_bionic("bio_armor_eyes")) {
+      chance += 10;
+   }
+   if (u->has_bionic("bio_deformity")) {
+      chance += 20;
+   }
+   if (u->has_bionic("bio_voice")) {
+      chance += 20;
+   }
    break;
 
  }

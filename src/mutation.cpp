@@ -523,12 +523,13 @@ void mutation_effect(player &p, std::string mut)
         destroy = true;
         bps.push_back(bp_hands);
 
-    } else if (mut == "BEAK" || mut == "MANDIBLES" || mut == "SABER_TEETH") {
+    } else if (mut == "BEAK" || mut == "BEAK_PECK" || mut == "BEAK_HUM" || mut == "MANDIBLES" || mut == "SABER_TEETH") {
         // Destroy mouthwear
         destroy = true;
         bps.push_back(bp_mouth);
 
-    } else if (mut == "MINOTAUR" || mut == "MUZZLE" || mut == "MUZZLE_BEAR" || mut == "MUZZLE_LONG") {
+    } else if (mut == "MINOTAUR" || mut == "MUZZLE" || mut == "MUZZLE_BEAR" || mut == "MUZZLE_LONG" ||
+        mut == "PROBOSCIS") {
         // Push off mouthwear
         bps.push_back(bp_mouth);
 
@@ -540,6 +541,10 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "SHELL") {
         // Destroy torsowear
         destroy = true;
+        bps.push_back(bp_torso);
+
+    } else if ( (mut == "INSECT_ARMS") || (mut == "ARACHNID_ARMS") || (mut == "WINGS_BUTTERFLY") ) {
+        // Push off torsowear
         bps.push_back(bp_torso);
 
     } else if (mut == "HORNS_CURLED" || mut == "CHITIN3") {
@@ -618,6 +623,19 @@ void mutation_effect(player &p, std::string mut)
     } else if (mut == "DEX_UP") {
         p.dex_max ++;
 
+    } else if (mut == "BENDY1") {
+        p.dex_max ++;
+
+    } else if (mut == "BENDY2") {
+        p.dex_max +=3;
+        p.str_max -=2;
+        p.recalc_hp();
+
+    } else if (mut == "BENDY3") {
+        p.dex_max +=4;
+        p.str_max -=4;
+        p.recalc_hp();
+
     } else if (mut == "DEX_UP_2") {
         p.dex_max += 2;
 
@@ -653,6 +671,9 @@ void mutation_effect(player &p, std::string mut)
         else {
             p.int_max = 15;
         }
+    } else if (mut == "INT_SLIME") {
+        p.int_max *= 2; // Now, can you keep it? :-)
+
     } else if (mut == "PER_UP") {
         p.per_max ++;
 
@@ -672,6 +693,15 @@ void mutation_effect(player &p, std::string mut)
         else {
             p.per_max = 15;
         }
+    } else if (mut == "PER_SLIME") {
+        p.per_max -= 8;
+        if (p.per_max <= 0) {
+            p.per_max = 1;
+        }
+
+    } else if (mut == "PER_SLIME_OK") {
+        p.per_max += 5;
+        
     }
 
     std::string mutation_safe = "OVERSIZE";
@@ -763,6 +793,19 @@ void mutation_loss_effect(player &p, std::string mut)
     } else if (mut == "DEX_UP") {
         p.dex_max --;
 
+    } else if (mut == "BENDY01") {
+        p.dex_max --;
+
+    } else if (mut == "BENDY2") {
+        p.dex_max -=3;
+        p.str_max +=2;
+        p.recalc_hp();
+
+    } else if (mut == "BENDY3") {
+        p.dex_max -=4;
+        p.str_max +=4;
+        p.recalc_hp();
+
     } else if (mut == "DEX_UP_2") {
         p.dex_max -= 2;
 
@@ -798,6 +841,9 @@ void mutation_loss_effect(player &p, std::string mut)
         else {
             p.int_max = 7;
         }
+    } else if (mut == "INT_SLIME") {
+        p.int_max /= 2; // In case you have a freak accident with the debug menu ;-)
+
     } else if (mut == "PER_UP") {
         p.per_max --;
 
@@ -817,5 +863,11 @@ void mutation_loss_effect(player &p, std::string mut)
         else {
             p.per_max = 7;
         }
+    } else if (mut == "PER_SLIME") {
+        p.per_max += 8;
+
+    } else if (mut == "PER_SLIME_OK") {
+        p.per_max -= 5;
+        
     }
 }
