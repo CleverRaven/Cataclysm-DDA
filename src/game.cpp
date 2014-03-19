@@ -5892,9 +5892,9 @@ bool game::sound(int x, int y, int vol, std::string description)
 {
     // --- Monster sound handling here ---
     // Alert all hordes
-    if (vol>10 && levz == 0)
+    if (vol > 10 && levz == 0)
         {
-            int sig_power = ( (vol > 140 ? 140) : vol) - 10;
+            int sig_power = ( (vol > 140) ? 140 : vol - 10 );
             cur_om->signal_hordes(levx, levy, HSIG_NOICE, sig_power);
         }
     // Alert all monsters (that can hear) to the sound.
