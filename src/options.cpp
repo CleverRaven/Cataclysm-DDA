@@ -586,6 +586,11 @@ void initOptions() {
                                              false
                                             );
 
+    OPTIONS["VANISHING_WILDLIFE"] =     cOpt("world_default", _("Vanishing wildlife"),
+                                             _("If true, wildlife will become rarer over time."),
+                                             false
+                                            );
+
     OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("world_default", _("Classic zombies"),
                                              _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings."),
                                              false

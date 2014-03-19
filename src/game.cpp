@@ -13240,6 +13240,18 @@ void game::spawn_mon(int shiftx, int shifty)
    for (int j = 0; j < group; j++) { // For each monster in the group get some spawn details
      MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( cur_om->zg[i].type,
                                                              &group, (int)turn );
+
+     if(ACTIVE_WORLD_OPTIONS["VANISHING_WILDLIFE"] && cur_om->zg[i].type == "GROUP_FOREST") {
+         int days_since_beginning = turn.get_turn() / 14400;
+
+         // 100% in first few days, then decays, capping out at 10% on day 31 and forward
+         double wildlife_chance = days_since_beginning > 30 ? 10.0 : exp(days_since_beginning * 14400 * 0.0000053);
+
+         if(!one_in(static_cast<int>(round(wildlife_chance)))) {
+             break;
+         }
+     }
+
      zom = monster(GetMType(spawn_details.name));
      for (int kk = 0; kk < spawn_details.pack_size; kk++){
        iter = 0;
