@@ -615,6 +615,10 @@ npc_action npc::address_player()
  int linet;
  if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
      g->sees_u(posx, posy, linet)) {
+  if (g->u.has_disease("sleep")) {
+    // Leave sleeping characters alone.
+    return npc_undecided;
+  }
   if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 6)
    return npc_talk_to_player; // Close enough to talk to you
   else {

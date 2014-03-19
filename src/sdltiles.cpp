@@ -513,8 +513,8 @@ void curses_drawwindow(WINDOW *win)
             win->y * fontheight,
             g->ter_view_x,
             g->ter_view_y,
-            tilecontext->get_terrain_term_x() * fontwidth,
-            tilecontext->get_terrain_term_y() * fontheight);
+            win->width * tilecontext->get_tile_width(),
+            win->height * tilecontext->get_tile_height());
         update = true;
     } else if (g && win == g->w_terrain && map_font != NULL) {
         // Special font for the terrain window
@@ -1372,6 +1372,7 @@ bool gamepad_available() {
 void rescale_tileset(int size) {
     #ifdef SDLTILES
         tilecontext->set_draw_scale(size);
+        g->init_ui();
     #endif
 }
 
@@ -1636,6 +1637,11 @@ int map_font_height() {
 void translate_terrain_window_size(int &w, int &h) {
     w = (w * fontwidth) / map_font_width();
     h = (h * fontheight) / map_font_height();
+}
+
+void translate_terrain_window_size_back(int &w, int &h) {
+    w = (w * map_font_width()) / fontwidth;
+    h = (h * map_font_height()) / fontheight;
 }
 
 #endif // TILES
