@@ -10840,7 +10840,7 @@
         "nutrition" : 0,
         "description" : "Essential dietary nutrients conveniently packaged in pill form.  Take frequently to help regulate your body's health and immune functions.",
         "price" : 4500,
-        "material" : "plastic",
+        "material" : "null",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
