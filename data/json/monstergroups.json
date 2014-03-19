@@ -32,7 +32,7 @@
       { "monster" : "mon_zomwolf", "freq" : 1, "cost_multiplier" : 10, "starts" :  672 },
       { "monster" : "mon_zomwolf", "freq" : 1, "cost_multiplier" : 10, "starts" : 2160 },
 	  
-	  { "monster" : "mon_zomcougar", "freq" : 1, "cost_multiplier" : 10, "starts" :   72 },
+      { "monster" : "mon_zomcougar", "freq" : 1, "cost_multiplier" : 10, "starts" :   72 },
       { "monster" : "mon_zomcougar", "freq" : 1, "cost_multiplier" : 10, "starts" :  168 },
       { "monster" : "mon_zomcougar", "freq" : 1, "cost_multiplier" : 10, "starts" :  672 },
       { "monster" : "mon_zomcougar", "freq" : 1, "cost_multiplier" : 10, "starts" : 2160 },
