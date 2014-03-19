@@ -11,6 +11,23 @@
 
 static const std::string default_context_id("default");
 
+static long str_to_long(const std::string &number) {
+    // ensure user's locale doesn't interfere with number format
+    std::istringstream buffer(number);
+    buffer.imbue(std::locale::classic());
+    long result;
+    buffer >> result;
+    return result;
+}
+
+static std::string long_to_str(long number) {
+    // ensure user's locale doesn't interfere with number format
+    std::ostringstream buffer;
+    buffer.imbue(std::locale::classic());
+    buffer << number;
+    return buffer.str();
+}
+
 /* TODO Replace the hardcoded values with an abstraction layer.
  * Lower redundancy across the methods. */
 
@@ -332,7 +349,7 @@ void input_manager::save() {
                 jsout.member("key");
                 jsout.start_array();
                 for(size_t i = 0; i < c->sequence.size(); i++) {
-                    jsout.write(get_keyname(c->sequence[i], c->type));
+                    jsout.write(get_keyname(c->sequence[i], c->type, true));
                 }
                 jsout.end_array();
                 jsout.end_object();
@@ -412,19 +429,26 @@ void input_manager::init_keycode_mapping()
     keyname_to_keycode["MOUSE_MOVE"] = MOUSE_MOVE;
 }
 
-long input_manager::get_keycode(std::string name)
+long input_manager::get_keycode(const std::string &name) const
 {
-    return keyname_to_keycode[name];
+    const t_name_to_key_map::const_iterator a = keyname_to_keycode.find(name);
+    if (a != keyname_to_keycode.end()) {
+        return a->second;
+    }
+    // Not found in map, try to parse as long
+    if (name.compare(0, 8, "UNKNOWN_") == 0) {
+        return str_to_long(name.substr(8));
+    }
+    return 0;
 }
 
-std::string input_manager::get_keyname(long ch, input_event_t inp_type)
+std::string input_manager::get_keyname(long ch, input_event_t inp_type, bool portable) const
 {
     if(inp_type == CATA_INPUT_KEYBOARD) {
         const t_key_to_name_map::const_iterator a = keycode_to_keyname.find(ch);
         if (a != keycode_to_keyname.end()) {
             return a->second;
         }
-        return string_format(_("unknown key %ld"), ch);
     } else if(inp_type == CATA_INPUT_MOUSE) {
         if(ch == MOUSE_BUTTON_LEFT) {
             return "MOUSE_LEFT";
@@ -436,14 +460,19 @@ std::string input_manager::get_keyname(long ch, input_event_t inp_type)
             return "SCROLL_DOWN";
         } else if(ch == MOUSE_MOVE) {
             return "MOUSE_MOVE";
-        } else {
-            return "MOUSE_UNKNOWN";
         }
     } else if (inp_type == CATA_INPUT_GAMEPAD) {
-        return gamepad_keycode_to_keyname[ch];
+        const t_key_to_name_map::const_iterator a = gamepad_keycode_to_keyname.find(ch);
+        if (a != gamepad_keycode_to_keyname.end()) {
+            return a->second;
+        }
     } else {
         return "UNKNOWN";
     }
+    if (portable) {
+        return std::string("UNKNOWN_") + long_to_str(ch);
+    }
+    return string_format(_("unknown key %ld"), ch);
 }
 
 const std::vector<input_event> &input_manager::get_input_for_action(const std::string

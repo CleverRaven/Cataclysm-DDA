@@ -192,14 +192,17 @@ public:
     /**
      * Get the keycode associated with the given key name.
      */
-    long get_keycode(std::string name);
+    long get_keycode(const std::string &name) const;
 
     /**
      * Get the key name associated with the given keyboard keycode.
      *
      * @param input_type Whether the keycode is a gamepad or a keyboard code.
+     * @param portable If true, return a language independent and portable name
+     * of the key. This acts as the inverse to get_keyname:
+     * <code>get_keyname(get_keycode(a), , true) == a</code>
      */
-    std::string get_keyname(long ch, input_event_t input_type);
+    std::string get_keyname(long ch, input_event_t input_type, bool portable = false) const;
 
     /**
      * Get the human-readable name for an action.
@@ -234,8 +237,9 @@ private:
 
     typedef std::map<long, std::string> t_key_to_name_map;
     t_key_to_name_map keycode_to_keyname;
-    std::map<long, std::string> gamepad_keycode_to_keyname;
-    std::map<std::string, long> keyname_to_keycode;
+    t_key_to_name_map gamepad_keycode_to_keyname;
+    typedef std::map<std::string, long> t_name_to_key_map;
+    t_name_to_key_map keyname_to_keycode;
 
     // Maps the key names we see in keybindings.json and in-game to
     // the keycode integers.
