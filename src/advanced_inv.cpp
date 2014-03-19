@@ -1230,7 +1230,7 @@ void advanced_inventory::display(player *pp)
             int ret = 0;
             if(panes[src].area == isinventory ) {
                 ret = g->inventory_item_menu( item_pos, colstart + ( src == left ? w_width / 2 : 0 ),
-                                              w_width / 2, (src == right ? 1 : -1) );
+                                              w_width / 2, (src == right ? 0 : -1) );
                 // Might have changed at stack (activated an item)
                 g->u.inv.restack(&g->u);
                 recalc = true;
