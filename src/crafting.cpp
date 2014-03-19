@@ -132,7 +132,7 @@ void load_recipe(JsonObject &jsobj)
         std::string ident = quality_data.get_string("id");
         int level = quality_data.get_int("level", 1);
         int amount = quality_data.get_int("amount", 1);
-        rec->qualities.push_back(quality_requirement(ident, level, amount));
+        rec->qualities.push_back(quality_requirement(ident, amount, level));
     }
 
     jsarr = jsobj.get_array("tools");
