@@ -1232,7 +1232,7 @@ bool monster::is_hallucination()
   return hallucination;
 }
 
-field_id monster::monBloodType() {
+field_id monster::bloodType() {
     if (has_flag(MF_ACID_BLOOD))
         //A monster that has the death effect "ACID" does not need to have acid blood.
         return fd_acid;
@@ -1246,17 +1246,16 @@ field_id monster::monBloodType() {
         return fd_blood_insect;
     if (has_flag(MF_WARM))
         return fd_blood;
-    return fd_null; //Please update the corpse blood type code at activity_on_turn_pulp() in game.cpp when modifying these rules!
-                    //And splatter() in ranged.cpp
+    return fd_null; //Please update the corpse blood type code at mtypedef.cpp modifying these rules!
 }
-field_id monster::monGibType() {
+field_id monster::gibType() {
     if (has_flag(MF_LARVA) || type->in_species("MOLLUSK"))
         return fd_gibs_invertebrate;
     if (made_of("veggy"))
         return fd_gibs_veggy;
     if (made_of("iflesh"))
         return fd_gibs_insect;
-    return fd_gibs_flesh;
+    return fd_gibs_flesh; //Please update the corpse gib type code at mtypedef.cpp modifying these rules!
 }
 
 bool monster::getkeep()

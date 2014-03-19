@@ -6,8 +6,8 @@
 #include "json.h"
 
 
-class Creature;
 class effect_type;
+class Creature;
 
 extern std::map<std::string, effect_type> effect_types;
 
