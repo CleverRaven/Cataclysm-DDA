@@ -451,6 +451,38 @@ const std::vector<input_event> &input_manager::get_input_for_action(const std::s
     return action_contexts[default_context_id][action_descriptor];
 }
 
+input_manager::t_input_event_list &input_manager::get_event_list(
+    const std::string &action_descriptor, const std::string &context)
+{
+    t_action_contexts::iterator a = action_contexts.find(context);
+    if (a != action_contexts.end()) {
+        t_keybinding_map::iterator b = a->second.find(action_descriptor);
+        if (b != a->second.end()) {
+            return b->second;
+        }
+    }
+    static t_input_event_list empty;
+    return empty;
+}
+
+void input_manager::remove_input_for_action(
+    const std::string &action_descriptor, const std::string &context)
+{
+    get_event_list(action_descriptor, context).clear();
+}
+
+void input_manager::add_input_for_action(
+    const std::string &action_descriptor, const std::string &context, const input_event &event)
+{
+    t_input_event_list &events = get_event_list(action_descriptor, context);
+    for (t_input_event_list::iterator a = events.begin(); a != events.end(); ++a) {
+        if (*a == event) {
+            return;
+        }
+    }
+    events.push_back(event);
+}
+
 const std::string &input_manager::get_action_name(const std::string &action)
 {
     return actionID_to_name[action];
@@ -646,6 +678,16 @@ void input_context::display_help()
                             1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
     long ch;
+    bool changed = false;
+    input_manager::t_action_contexts old_action_contexts(inp_mngr.action_contexts);
+    enum { s_remove, s_add, s_show } status = s_show;
+    std::vector<std::string> org_registered_actions(registered_actions);
+    // Don't show the any input action
+    std::vector<std::string>::iterator any_input = std::find(org_registered_actions.begin(), org_registered_actions.end(), "ANY_INPUT");
+    if (any_input != org_registered_actions.end()) {
+        org_registered_actions.erase(any_input);
+    }
+
     do {
     werase(w_help);
 
@@ -660,43 +702,74 @@ void input_context::display_help()
     mvwprintz(w_help, 5, 51, c_white, _("Press - to remove keybinding"));
     mvwprintz(w_help, 6, 51, c_white, _("Press + to add keybinding"));
 
-    // Clear the lines. Don't touch borders
-    for (int i = 1; i < FULL_SCREEN_HEIGHT - 3; i++) {
-        mvwprintz(w_help, i, 1, c_black, "                                               ");
-    }
-
-    for (size_t i = 0; i < registered_actions.size(); i++) {
-        const std::string &action_id = registered_actions[i];
-        if(action_id == "ANY_INPUT") {
-            continue;
-        }
+    for (size_t i = 0; i < org_registered_actions.size(); i++) {
+        const std::string &action_id = org_registered_actions[i];
 
         bool overwrite_default;
         const std::vector<input_event> &input_events = inp_mngr.get_input_for_action(action_id, category,
                 &overwrite_default);
 
-        nc_color col = input_events.size() ? c_white : c_ltred;
-        mvwprintz(w_help, i, 3, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
+        const char invlet = i + 'a';
+        if (status == s_add) {
+            mvwprintz(w_help, i + 1, 2, c_blue, "%c ", invlet);
+        } else if(status == s_remove) {
+            mvwprintz(w_help, i + 1, 2, c_blue, "%c ", invlet);
+        } else {
+            mvwprintz(w_help, i + 1, 2, c_blue, "  ");
+        }
+        nc_color col = input_events.empty() ? c_ltred : c_white;
+        mvwprintz(w_help, i + 1, 4, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
 
-        if (!input_events.size()) {
-            mvwprintz(w_help, i, 30, c_ltred, _("Unbound!"));
+        if (input_events.empty()) {
+            mvwprintz(w_help, i + 1, 30, c_ltred, _("Unbound!"));
         } else {
             // The color depends on whether this input draws from context-local or from
             // default settings. Default will be ltgray, overwrite will be ltgreen.
             col = overwrite_default ? c_ltgreen : c_ltgray;
 
-            mvwprintz(w_help, i, 30, col, "%s", get_desc(action_id).c_str());
+            mvwprintz(w_help, i + 1, 30, col, "%s", get_desc(action_id).c_str());
         }
     }
     wrefresh(w_help);
     refresh();
 
     ch = getch();
-    if (ch == '-' || ch == '+') {
+    if (ch == '+') {
+        status = s_add;
+    } else if (ch == '-') {
+        status = s_remove;
+    } else if (status != s_show && ch >= 'a' && ch <= 'a' + org_registered_actions.size()) {
+        const int i = ch - 'a';
+        const std::string &action_id = org_registered_actions[i];
+        const std::string name = inp_mngr.get_action_name(action_id);
+        if (status == s_remove && query_yn(_("Clear keys for %s?"), name.c_str())) {
+            inp_mngr.remove_input_for_action(action_id, category);
+            changed = true;
+        } else if (status == s_add) {
+            long newbind = popup_getkey(_("New key for %s:"), name.c_str());
+            // TODO: check conflicts
+            inp_mngr.add_input_for_action(action_id, category, input_event(newbind, CATA_INPUT_KEYBOARD));
+            changed = true;
+        }
+        status = s_show;
+    } else if (status != s_show) {
+        // Pressed some key that is not mapped to an action to edit
+        status = s_show;
         ch = 0;
     }
-    } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+    } while (status != s_show || (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE));
 
+    if (changed && query_yn(_("Save changes?"))) {
+        try {
+            inp_mngr.save();
+        } catch(std::exception &err) {
+            popup(_("saving keybindings failed: %s"), err.what());
+        } catch(std::string &err) {
+            popup(_("saving keybindings failed: %s"), err.c_str());
+        }
+     } else if(changed) {
+        inp_mngr.action_contexts.swap(old_action_contexts);
+    }
     werase(w_help);
     wrefresh(w_help);
     delwin(w_help);

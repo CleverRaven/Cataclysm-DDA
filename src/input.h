@@ -83,6 +83,12 @@ struct input_event {
         mouse_x = mouse_y = 0;
         type = CATA_INPUT_ERROR;
     }
+    input_event(long s, input_event_t t)
+    : type(t)
+    {
+        mouse_x = mouse_y = 0;
+        sequence.push_back(s);
+    }
 
     long get_first_input() const
     {
@@ -218,6 +224,8 @@ public:
     void set_timeout(int delay);
 
 private:
+    friend class input_context;
+
     typedef std::vector<input_event> t_input_event_list;
     typedef std::map<std::string, t_input_event_list> t_keybinding_map;
     typedef std::map<std::string, t_keybinding_map> t_action_contexts;
@@ -235,6 +243,10 @@ private:
     void add_gamepad_keycode_pair(long ch, const std::string& name);
 
     int input_timeout;
+
+    t_input_event_list &get_event_list(const std::string &action_descriptor, const std::string &context);
+    void remove_input_for_action(const std::string &action_descriptor, const std::string &context);
+    void add_input_for_action(const std::string &action_descriptor, const std::string &context, const input_event &event);
 };
 
 // Singleton for our input manager.
