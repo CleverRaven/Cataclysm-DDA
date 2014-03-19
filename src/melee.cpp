@@ -259,7 +259,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         stab_dam *= mabuff_cut_mult();
 
         // Handles effects as well; not done in melee_affect_*
-        if (technique.id != "tec_none")
+        if (technique.id != "tec_none" && technique.id != "")
             perform_technique(technique, t, bash_dam, cut_dam, stab_dam, move_cost);
 
         damage_instance d;
@@ -778,7 +778,7 @@ bool player::valid_aoe_technique(Creature &t, ma_technique &tec){
         int adj_x = tec.aoe == "wide" ? posx : t.xpos() + (t.xpos() - posx);
         int adj_y = tec.aoe == "wide" ? posy : t.ypos() + (t.ypos() - posy);
         for (int x = t.xpos() - 1; x <= t.xpos() + 1; x++) {
-            for (int y = t.ypos() - 1; x <= t.ypos() + 1; y++) {
+            for (int y = t.ypos() - 1; y <= t.ypos() + 1; y++) {
                 int mondex = g->mon_at(x, y);
                 if (mondex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->zombie(mondex).friendly == 0) {
                     enemy_count++;                    
@@ -797,13 +797,13 @@ bool player::valid_aoe_technique(Creature &t, ma_technique &tec){
     //circle hits anyone adjacent to the attacker
     if (tec.aoe == "circle"){
         for (int x = posx - 1; x <= posx + 1; x++) {
-            for (int y = posy - 1; x <= posy + 1; y++) {
+            for (int y = posy - 1; y <= posy + 1; y++) {
                 int mondex = g->mon_at(x, y);
-                if (g->zombie(mondex).friendly == 0) {
+                if (mondex != -1 && g->zombie(mondex).friendly == 0) {
                     enemy_count++;                    
                 }
                 int npcdex = g->npc_at(x, y);
-                if (g->active_npc[npcdex]->attitude == NPCATT_KILL) {
+                if (npcdex != -1 && g->active_npc[npcdex]->attitude == NPCATT_KILL) {
                     enemy_count++;
                 }
             }
@@ -889,13 +889,14 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
             int adj_x = technique.aoe == "wide" ? posx : t.xpos() + (t.xpos() - posx);
             int adj_y = technique.aoe == "wide" ? posy : t.ypos() + (t.ypos() - posy);
             for (int x = t.xpos() - 1; x <= t.xpos() + 1; x++) {
-                for (int y = t.ypos() - 1; x <= t.ypos() + 1; y++) {
+                for (int y = t.ypos() - 1; y <= t.ypos() + 1; y++) {
+                    if (x == t.xpos() && y == t.ypos()) continue;
                     int mondex = g->mon_at(x, y);
-                    if (x != t.xpos() && y != t.ypos() && mondex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->zombie(mondex).friendly == 0) {
+                    if (mondex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->zombie(mondex).friendly == 0) {
                         mon_targets.push_back(mondex);                    
                     }
                     int npcdex = g->npc_at(x, y);
-                    if (x != t.xpos() && y != t.ypos() && npcdex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->active_npc[npcdex]->attitude == NPCATT_KILL) {
+                    if (npcdex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->active_npc[npcdex]->attitude == NPCATT_KILL) {
                         npc_targets.push_back(npcdex);
                     }
                 }
@@ -903,13 +904,14 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
         }
         else if (technique.aoe == "circle") {
             for (int x = posx - 1; x <= posx + 1; x++) {
-                for (int y = posy - 1; x <= posy + 1; y++) {
+                for (int y = posy - 1; y <= posy + 1; y++) {
+                    if (x == t.xpos() && y == t.ypos()) continue;
                     int mondex = g->mon_at(x, y);
-                    if (x != t.xpos() && y != t.ypos() && g->zombie(mondex).friendly == 0) {
+                    if (mondex != -1 && g->zombie(mondex).friendly == 0) {
                         mon_targets.push_back(mondex);                    
                     }
                     int npcdex = g->npc_at(x, y);
-                    if (x != t.xpos() && y != t.ypos() && g->active_npc[npcdex]->attitude == NPCATT_KILL) {
+                    if (npcdex != -1 && g->active_npc[npcdex]->attitude == NPCATT_KILL) {
                         npc_targets.push_back(npcdex);
                     }
                 }
@@ -919,7 +921,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
         //hit only one valid target (pierce through doesn't spread out)
         if (technique.aoe == "deep")
         {
-            int victim = rng(0, mon_targets.size() + npc_targets.size());
+            int victim = rng(0, mon_targets.size() + npc_targets.size() - 1);
             if (victim > mon_targets.size())
             {
                 victim -= mon_targets.size();
