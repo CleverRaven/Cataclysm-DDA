@@ -2360,7 +2360,7 @@ bool vehicle::valid_wheel_config ()
  * Battery sizes are 1k, 12k, 30k, 50k, and 100k. present day = 53kWh(200MJ) for 450kg
  * Efficiency tank to wheel is roughly 15% for gas, 85% for electric
  */
-void vehicle::consume_fuel( double load )
+void vehicle::consume_fuel( double load = 1.0 )
 {
     ammotype ftypes[3] = { fuel_type_gasoline, fuel_type_battery, fuel_type_plasma };
     int ftype_coeff[3] = {                100,                 1,              100 };
