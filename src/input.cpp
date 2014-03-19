@@ -718,7 +718,6 @@ void input_context::display_help()
                             1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
-    long ch;
     // has the user changed something?
     bool changed = false;
     // keybindings before the user changed anything.
@@ -749,7 +748,7 @@ void input_context::display_help()
     legend << "<color_" << string_from_color(global_key) << ">" << _("Keybinding active globally") << "</color>\n";
     legend << _("Press - to remove keybinding or press + to add keybinding");
 
-    do {
+    while(true) {
         werase(w_help);
         draw_border(w_help);
         draw_scrollbar(w_help, offset, display_height, org_registered_actions.size(), 1);
@@ -786,7 +785,7 @@ void input_context::display_help()
         wrefresh(w_help);
         refresh();
 
-        ch = getch();
+        const long ch = getch();
         if (ch == '+') {
             status = s_add;
         } else if (ch == '-') {
@@ -808,17 +807,14 @@ void input_context::display_help()
         } else if (status != s_show) {
             // Pressed some key that is not mapped to an action to edit
             status = s_show;
-            ch = 0;
-        } else if (ch == KEY_DOWN) {
-            if (offset + 1 < org_registered_actions.size()) {
-                offset++;
-            }
-        } else if (ch == KEY_UP) {
-            if (offset > 0) {
-                offset--;
-            }
+        } else if (ch == KEY_DOWN && offset + 1 < org_registered_actions.size()) {
+            offset++;
+        } else if (ch == KEY_UP && offset > 0) {
+            offset--;
+        } else if (ch == 'q' || ch == 'Q' || ch == KEY_ESCAPE) {
+            break;
         }
-    } while (status != s_show || (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE));
+    }
 
     if (changed && query_yn(_("Save changes?"))) {
         try {
