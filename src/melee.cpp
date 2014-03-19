@@ -1162,38 +1162,31 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  if(monster *m = dynamic_cast<monster*>(&t)) { //Cast fails if the t is an NPC or the player.
    is_hallucination = m->is_hallucination();
  }
-
-// Getting your weapon stuck
+ // Getting your weapon stuck
  int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));
- if (weapon.has_flag("MESSY")) { // e.g. chainsaws
-  cutting_penalty /= 6; // Harder to get stuck
-  //Get blood type.
-  field_id type_blood = fd_blood;
-  if (monster *m = dynamic_cast<monster*>(&t)) {
-   if(!is_hallucination){
-    type_blood = m->monBloodType();
+
+ //Some weapons splatter a lot of blood around.
+ if (d.total_damage() > 10) { //Check if you do non minor damage TODO: this function shows total damage done by this attack, not final damage inflicted.
+  if (weapon.has_flag("MESSY")) { // e.g. chainsaws
+   cutting_penalty /= 6; // Harder to get stuck
+   //Get blood type.
+   field_id type_blood = fd_blood;
+   if(!is_hallucination || t.has_flag(MF_VERMIN)){
+    type_blood = t.bloodType();
    } else {
     type_blood = fd_null;
    }
-  } else {
-   if( t.get_material() != "flesh" || t.has_flag(MF_VERMIN) ) {
-    type_blood = fd_null;
-   } else if( t.has_flag(MF_BILE_BLOOD) ) {
-    type_blood = fd_bile;
-   } else if( t.has_flag(MF_ACID_BLOOD) ) {
-    type_blood = fd_acid;
-   }
-  }
-  if(type_blood != fd_null) {
-   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
-    for (int y = tarposy - 1; y <= tarposy + 1; y++) {
-     if (!one_in(3)) {
-      g->m.add_field(x, y, type_blood, 1);
+   if(type_blood != fd_null) {
+    for (int x = tarposx - 1; x <= tarposx + 1; x++) {
+     for (int y = tarposy - 1; y <= tarposy + 1; y++) {
+      if (!one_in(3)) {
+       g->m.add_field(x, y, type_blood, 1);
+      }
      }
-    }
-   } //it all
-  } //comes
- } //tumbling down
+    } //it all
+   } //comes
+  } //tumbling down
+ }
 
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !is_hallucination) {
     dump << string_format(_("Your %s gets stuck in %s, pulling it out of your hands!"), weapon.tname().c_str(), target.c_str());
