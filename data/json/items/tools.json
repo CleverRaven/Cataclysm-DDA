@@ -4619,7 +4619,7 @@
     "name": "mop",
     "description": "This is an unwieldy mop. Good for cleaning up spills. Use to mop up any 'mess' you may have made.",
     "price": 2400,
-    "material": "aluminum",
+    "material": "wood",
     "techniques": "WBLOCK_1",
     "weight": 929,
     "volume": 7,
