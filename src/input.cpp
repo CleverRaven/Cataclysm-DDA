@@ -376,7 +376,16 @@ void input_manager::init_keycode_mapping()
     add_keycode_pair(KEY_NPAGE,     "NPAGE");
     add_keycode_pair(KEY_PPAGE,     "PPAGE");
     add_keycode_pair(KEY_ESCAPE,    "ESC");
+    add_keycode_pair(KEY_BACKSPACE, "BACKSPACE");
+    add_keycode_pair(KEY_HOME,      "HOME");
+    add_keycode_pair(KEY_BREAK,     "BREAK");
+    add_keycode_pair(KEY_END,       "END");
     add_keycode_pair('\n',          "RETURN");
+
+    // function keys, as defined by ncurses
+    for(int i = 0; i <= 63; i++) {
+        add_keycode_pair(KEY_F(i), string_format("F%d", i));
+    }
 
     add_gamepad_keycode_pair(JOY_LEFT,      "JOY_LEFT");
     add_gamepad_keycode_pair(JOY_RIGHT,     "JOY_RIGHT");
@@ -411,7 +420,11 @@ long input_manager::get_keycode(std::string name)
 std::string input_manager::get_keyname(long ch, input_event_t inp_type)
 {
     if(inp_type == CATA_INPUT_KEYBOARD) {
-        return keycode_to_keyname[ch];
+        const t_key_to_name_map::const_iterator a = keycode_to_keyname.find(ch);
+        if (a != keycode_to_keyname.end()) {
+            return a->second;
+        }
+        return string_format(_("unknown key %ld"), ch);
     } else if(inp_type == CATA_INPUT_MOUSE) {
         if(ch == MOUSE_BUTTON_LEFT) {
             return "MOUSE_LEFT";

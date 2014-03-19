@@ -232,7 +232,8 @@ private:
     t_action_contexts action_contexts;
     std::map<std::string, std::string> actionID_to_name;
 
-    std::map<long, std::string> keycode_to_keyname;
+    typedef std::map<long, std::string> t_key_to_name_map;
+    t_key_to_name_map keycode_to_keyname;
     std::map<long, std::string> gamepad_keycode_to_keyname;
     std::map<std::string, long> keyname_to_keycode;
 
