@@ -95,7 +95,7 @@ void mattack::howl(monster *z)
   return; // Out of range
  z->moves -= 200;   // It takes a while
  z->sp_timeout = z->type->sp_freq; // Reset timer
- g->sound(z->posx(), z->posy(), 30, _("an ear-piercing howl!"));
+ g->sound(z->posx(), z->posy(), 35, _("an ear-piercing howl!"));
 }
 
 void mattack::rattle(monster *z)
