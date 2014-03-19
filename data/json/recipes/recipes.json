@@ -1200,7 +1200,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -1268,7 +1268,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
       [
@@ -1459,7 +1459,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -1728,7 +1728,7 @@
   "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":2},
+	{"id":"HAMMER","level":2,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "components": [
@@ -2209,7 +2209,7 @@
   "autolearn": false,
   "book_learn": [["book_icef", 3] , ["textbook_mechanics", 3] , ["textbook_carpentry", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -2424,7 +2424,7 @@
   "autolearn": true,
   "book_learn": [[ "textbook_mechanics", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
@@ -3314,7 +3314,7 @@
   "autolearn": true,
   "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
     [
       [ "needle_bone", 8 ],
@@ -4985,7 +4985,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BOIL","level":1,"amount":2}
+    {"id":"BOIL","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 3 ],
@@ -5104,7 +5104,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], 
   "tools": [
     [
@@ -5135,7 +5135,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], 
   "tools": [
     [
@@ -5450,7 +5450,7 @@
    "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], 
   "tools": [
     [
@@ -5492,7 +5492,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -5821,7 +5821,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 6 ],
@@ -5856,7 +5856,7 @@
   "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], 
   "tools": [
     [
@@ -5912,7 +5912,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -5937,7 +5937,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 4 ],
@@ -6014,7 +6014,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 4 ],
@@ -6049,7 +6049,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 4 ],
@@ -6093,7 +6093,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 1 ]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 4 ],
@@ -6159,7 +6159,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], 
    "tools": [
     [
@@ -6191,7 +6191,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], 
    "tools": [
     [
@@ -6222,7 +6222,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], 
    "tools": [
     [
@@ -6253,7 +6253,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], 
    "tools": [
     [
@@ -6285,7 +6285,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], 
    "tools": [
     [
@@ -6322,7 +6322,7 @@
   "book_learn": [[ "cookbook_human", 0 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], 
    "tools": [
     [
@@ -6355,7 +6355,7 @@
   "book_learn": [[ "cookbook_human", 0 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 3 ],
@@ -6419,7 +6419,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
       [
         [ "hotplate", 2 ],
@@ -6495,7 +6495,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -6561,7 +6561,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       ["hotplate", 2],
@@ -6586,7 +6586,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       ["hotplate", 2],
@@ -6611,7 +6611,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       ["hotplate", 2],
@@ -6639,7 +6639,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       ["hotplate", 2],
@@ -6744,7 +6744,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -7071,7 +7071,7 @@
   "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -7164,7 +7164,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -7207,7 +7207,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 6 ],
@@ -7236,7 +7236,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -7284,7 +7284,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -7324,7 +7324,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -7383,7 +7383,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -7431,7 +7431,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -7467,7 +7467,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -7507,7 +7507,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 8 ],
@@ -7539,7 +7539,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 8 ],
@@ -7568,7 +7568,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 16 ],
@@ -7601,7 +7601,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 8 ],
@@ -7664,7 +7664,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -7693,7 +7693,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -7797,7 +7797,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -7828,7 +7828,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -8272,7 +8272,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 8 ],
@@ -8354,7 +8354,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -8542,7 +8542,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 8 ],
@@ -8580,7 +8580,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 8 ],
@@ -8616,7 +8616,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 8 ],
@@ -8658,7 +8658,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 8 ],
@@ -8872,7 +8872,7 @@
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 6 ],
@@ -8914,7 +8914,7 @@
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 6 ],
@@ -8956,7 +8956,7 @@
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 6 ],
@@ -8998,7 +8998,7 @@
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 6 ],
@@ -9040,7 +9040,7 @@
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 4 ],
@@ -9080,7 +9080,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 7 ],
@@ -9271,7 +9271,7 @@
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 5] , ["adv_chemistry", 4] , ["pocket_survival", 5] , ["atomic_survival", 5] , ["textbook_survival", 5] , ["survival_book", 5] , [ "recipe_labchem", 4]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -9304,7 +9304,7 @@
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 6] , ["pocket_survival", 8] , ["atomic_survival", 6] , ["textbook_survival", 6] , ["survival_book", 7] , [ "recipe_labchem", 6]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "fire", -1 ],
@@ -9340,7 +9340,7 @@
   "autolearn": false,
   "book_learn": [["textbook_chemistry", 6] , ["adv_chemistry", 6] , ["atomic_survival", 4] , ["survival_book", 5] , [ "recipe_labchem", 5]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
   ],
   "components": [
@@ -9397,7 +9397,7 @@
   "autolearn": false,
   "book_learn": [["textbook_gaswarfare",  8] , ["recipe_creepy", 8] , ["recipe_animal", 8] , ["recipe_maiar", 7] , ["recipe_serum", 7] , [ "recipe_labchem", 7]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9437,7 +9437,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_labchem", 9]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -9464,7 +9464,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9499,7 +9499,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -9526,7 +9526,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9563,7 +9563,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -9590,7 +9590,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9624,7 +9624,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -9651,7 +9651,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_maiar", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9686,7 +9686,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -9713,7 +9713,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9751,7 +9751,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -9778,7 +9778,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9812,7 +9812,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -9839,7 +9839,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 7 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9873,7 +9873,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -9900,7 +9900,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9934,7 +9934,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -9961,7 +9961,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -9995,7 +9995,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10022,7 +10022,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10056,7 +10056,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10083,7 +10083,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10117,7 +10117,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] ,  [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10144,7 +10144,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10179,7 +10179,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_creepy", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10206,7 +10206,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10240,7 +10240,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10267,7 +10267,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10301,7 +10301,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_animal", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10328,7 +10328,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10362,7 +10362,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 8 ] , [ "recipe_maiar", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10389,7 +10389,7 @@
   "book_learn": [[ "recipe_medicalmut", 9 ]],
   "autolearn": false,
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10438,7 +10438,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_medicalmut", 9 ] , [ "recipe_serum", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10486,7 +10486,7 @@
   "autolearn": false,
   "book_learn": [["textbook_gaswarfare", 9] , ["atomic_survival", 9] , ["record_patient", 9] , ["recipe_maiar", 8] , [ "recipe_labchem", 7]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10522,7 +10522,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_serum", 9] , [ "recipe_labchem", 9]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10549,7 +10549,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_alpha", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10585,7 +10585,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_alpha", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10612,7 +10612,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_elfa", 10 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 31 ],
@@ -10645,7 +10645,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_elfa", 10 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10672,7 +10672,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_chimera", 9]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10708,7 +10708,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_chimera", 8 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10735,7 +10735,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_raptor", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 31 ],
@@ -10768,7 +10768,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_raptor", 9 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 37 ],
@@ -10795,7 +10795,7 @@
   "autolearn": false,
   "book_learn": [["textbook_firstaid", 3] , ["manual_first_aid", 3] , ["emergency_book", 4] , ["pocket_firstaid", 2] , ["recipe_labchem", 4]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10837,7 +10837,7 @@
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5] , ["atomic_survival", 5]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10868,7 +10868,7 @@
   "autolearn": false,
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 2] , ["atomic_survival", 3]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10902,7 +10902,7 @@
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 4] , ["atomic_survival", 4] , ["textbook_survival", 4]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -10986,7 +10986,7 @@
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -11040,7 +11040,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11099,7 +11099,7 @@
   "autolearn": false,
   "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 8] , ["recipe_labchem", 6]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11165,7 +11165,7 @@
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 25 ],
@@ -11194,7 +11194,7 @@
   "autolearn": false,
   "book_learn": [["adv_chemistry", 3] , ["textbook_chemistry", 3] , ["atomic_survival", 4]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 2 ],
@@ -11233,7 +11233,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ] , [ "manual_pistol", 3 ], [ "adv_chemistry", 3 ] , [ "textbook_chemistry", 3 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11266,7 +11266,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_anarch", 6 ] , ["recipe_bullets" , 5 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11298,7 +11298,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_pistol", 10 ] , ["manual_rifle", 10 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11345,7 +11345,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_pistol", 10 ] , ["manual_rifle", 10 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11395,7 +11395,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11442,7 +11442,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11487,7 +11487,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_caseless", 5 ] , ["recipe_bullets" , 9 ] , ["manual_shotgun", 10 ]],
   "qualities":[
-    {"id":"CHEM","level":1,"amount":2}
+    {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
       [ "chemistry_set", 50 ],
@@ -11535,7 +11535,7 @@
     "autolearn": false,
     "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
       ["tongs", -1]
@@ -11576,7 +11576,7 @@
     "autolearn": false,
     "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
       ["tongs", -1]
@@ -11617,7 +11617,7 @@
     "autolearn": false,
     "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
       ["tongs", -1]
@@ -11658,7 +11658,7 @@
     "autolearn": false,
     "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
       ["tongs", -1]
@@ -11699,7 +11699,7 @@
     "autolearn": false,
     "book_learn": [[ "manual_shotgun", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
       ["tongs", -1]
@@ -11769,7 +11769,7 @@
     "autolearn": false,
     "book_learn": [[ "manual_shotgun", 2 ] ,[ "manual_rifle", 2 ] ,[ "manual_smg", 2 ] ,[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
     "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
     ], "tools": [
      [
       ["tongs", -1]
@@ -11825,7 +11825,7 @@
   "autolearn": false,
   "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
     [
@@ -13278,7 +13278,7 @@
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -13310,7 +13310,7 @@
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -13342,7 +13342,7 @@
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -13374,7 +13374,7 @@
   "decomp_learn": 5,
   "book_learn": [[ "recipe_lab_elec", 6 ] , [ "recipe_mil_augs", 6 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -15504,7 +15504,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
     [
       [ "needle_bone", 10 ],
@@ -15598,7 +15598,7 @@
   "autolearn": true,
   "book_learn": [["recipe_melee", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "components": [
     [
       [ "string_36", 1 ],
@@ -15621,7 +15621,7 @@
   "autolearn": true,
   "book_learn": [["textbook_armwest", 4] , ["recipe_melee", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "components": [
     [
       [ "string_36", 4 ],
@@ -16831,7 +16831,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "tailor_portfolio", 5 ] , ["textbook_survival", 3] , ["trappers_companion", 3] , ["survival_book", 3] , ["textbook_armwest", 6]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 20 ],
@@ -17768,7 +17768,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
     [
@@ -17793,7 +17793,7 @@
   "decomp_learn": 3,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -17873,7 +17873,7 @@
   "autolearn": false,
   "book_learn": [["textbook_mechanics", 6] , ["textbook_electronics", 8] , ["textbook_fabrication", 8] , ["welding_book", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -17915,7 +17915,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -17962,7 +17962,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["manual_fabrication", 3] , ["manual_electronics", 3] , ["manual_mechanics", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -18001,7 +18001,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -18266,7 +18266,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "components": [
     [
@@ -18291,7 +18291,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "tools": [
     [
@@ -18410,7 +18410,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 5] , ["textbook_mechanics", 3] , ["manual_mechanics", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -18561,7 +18561,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -18596,7 +18596,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
     [
       [ "boltcutters", -1 ],
@@ -18770,7 +18770,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "components": [
     [
       [ "steel_chunk", 2 ],
@@ -18791,7 +18791,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -18827,7 +18827,7 @@
   "book_learn": [["textbook_fabrication", 3] , ["textbook_chemistry", 3] , ["adv_chemistry", 3] , ["textbook_mechanics", 5]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
@@ -19462,7 +19462,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "components": [
     [
       [ "sheet_metal", 1 ]
@@ -19479,7 +19479,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
     [
       [ "goggles_welding", -1 ]
@@ -19506,7 +19506,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
     [
       [ "goggles_welding", -1 ]
@@ -19960,7 +19960,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -19993,7 +19993,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -20027,7 +20027,7 @@
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -20060,7 +20060,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -20094,7 +20094,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -20146,7 +20146,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "vac_sealer", 10 ]
@@ -20180,7 +20180,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "vac_sealer", 10 ]
@@ -20215,7 +20215,7 @@
   "book_learn": [[ "cookbook_human", 4 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "vac_sealer", 10 ]
@@ -20249,7 +20249,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "vac_sealer", 10 ]
@@ -20302,7 +20302,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "vac_sealer", 10 ]
@@ -20485,7 +20485,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -20758,7 +20758,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -21338,7 +21338,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -21454,7 +21454,7 @@
   "autolearn": true,
   "book_learn": [["adv_chemistry", 2] , ["textbook_chemistry", 2] , ["recipe_labchem", 3] , ["atomic_survival", 2]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
   ],
@@ -21552,7 +21552,7 @@
   "autolearn": true,
   "book_learn": [["atomic_survival", 1] , ["textbook_survival", 1] , ["cookbook", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "components": [ [ ["stick", 2], [ "2x4", 1 ] ], [ ["rock", 6] ] ]
 },{
         "type" : "recipe",
@@ -21615,7 +21615,7 @@
   "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-	{"id":"HAMMER","level":1,"amount":2}
+	{"id":"HAMMER","level":2,"amount":1}
   ], "components": [ [ ["pot", 1] ],
     [ ["hose", 2] ],
     [ ["metal_tank", 1] ] ]
@@ -21630,7 +21630,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools":[
     [ ["fire", -1] ] ],
   "components": [ [ ["strawberries", 2] ],
@@ -21646,7 +21646,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools":[
     [ ["fire", -1] ] ],
   "components": [ [ ["blueberries", 2] ],
@@ -21662,7 +21662,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools":[
     [ ["fire", -1] ] ],
   "components": [ [ ["meth", 4] ],
@@ -21679,7 +21679,7 @@
   "autolearn": true,
   "book_learn": [ ["brewing_cookbook", 2] ],
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools": [
     [ [ "hotplate", 8 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
     ],
@@ -21701,7 +21701,7 @@
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 5] ],
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools": [ 
     [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
@@ -21732,7 +21732,7 @@
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 6] ],
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools": [ 
     [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
@@ -21761,7 +21761,7 @@
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 4] ],
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools": [ 
     [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
@@ -21890,7 +21890,7 @@
   "autolearn": true,
   "book_learn": [ ["brewing_cookbook", 2] ],
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools": [
     [ [ "hotplate", 2 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
@@ -21921,7 +21921,7 @@
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 4] ],
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools": [ 
     [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
     ],
@@ -22138,7 +22138,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BREW","level":1,"amount":2}
+    {"id":"BREW","level":2,"amount":1}
   ], "tools":[
     [ ["fire", -1]  ] ],
   "components": [ [ ["meat_tainted", 12] ],
@@ -22157,7 +22157,7 @@
    "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -22199,7 +22199,7 @@
    "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -22239,7 +22239,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -22273,7 +22273,7 @@
    "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -22316,7 +22316,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
@@ -22352,7 +22352,7 @@
   "note": "hacking the anvil back down seems unlikely to teach anything useful",
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["crucible", -1]
@@ -22377,7 +22377,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       [ "forge", 100],
@@ -22404,7 +22404,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["anvil", -1]
@@ -22436,7 +22436,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -22470,7 +22470,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -22506,7 +22506,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [ 
       [
       ["tongs", -1]
@@ -22548,7 +22548,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
     [ ["tongs", -1]  ],
     [ ["chisel", -1] ],
@@ -22573,7 +22573,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [ 
       [
       ["tongs", -1]
@@ -22615,7 +22615,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -22660,7 +22660,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -22702,7 +22702,7 @@
   "autolearn": false,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -22744,7 +22744,7 @@
   "autolearn": false,
   "book_learn": [[ "manual_knives", 4 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -22785,7 +22785,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -22822,7 +22822,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], 
   "tools": [
       [
@@ -22891,7 +22891,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["chisel", -1]
@@ -22931,7 +22931,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["chisel", -1]
@@ -22970,7 +22970,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_cvd", 9 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["chisel", -1]
@@ -23008,7 +23008,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23048,7 +23048,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 5 ] , [ "recipe_melee", 6 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23087,7 +23087,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [ ["tongs", -1] ],
       [ ["anvil", -1] ],
@@ -23112,7 +23112,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [ ["tongs", -1] ],
       [ ["chisel", -1]],
@@ -23139,7 +23139,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 2 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
       [
       ["tongs", -1]
@@ -23198,7 +23198,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23234,7 +23234,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23273,7 +23273,7 @@
   "autolearn": true,
   "book_learn": [["manual_mechanics", 3] , ["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23313,7 +23313,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23351,7 +23351,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_fireman", 8 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23389,7 +23389,7 @@
   "autolearn": true,
   "book_learn": [["manual_mechanics", 3] , ["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23431,7 +23431,7 @@
   "autolearn": true,
   "book_learn": [["manual_mechanics", 4] , ["manual_fabrication", 4] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23472,7 +23472,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 2] , ["textbook_fabrication", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23514,7 +23514,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23555,7 +23555,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23597,7 +23597,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23639,7 +23639,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_fireman", 8 ] , ["textbook_fabrication", 9]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23681,7 +23681,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23723,7 +23723,7 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23763,7 +23763,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23803,7 +23803,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23842,7 +23842,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23901,7 +23901,7 @@
   "autolearn": false,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -23941,7 +23941,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -23980,7 +23980,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -24012,7 +24012,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -24044,7 +24044,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -24082,7 +24082,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -24118,7 +24118,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -24151,7 +24151,7 @@
   "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-     {"id":"COOK","level":1,"amount":2}
+     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -24188,7 +24188,7 @@
   "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -24220,7 +24220,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -24247,7 +24247,7 @@
    "book_learn": [[ "cookbook_human", 3 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
    [
       [ "hotplate", 10 ],
@@ -24286,7 +24286,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -24322,7 +24322,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -24357,7 +24357,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -24392,7 +24392,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -24498,7 +24498,7 @@
    "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -24551,7 +24551,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 10 ],
@@ -26371,7 +26371,7 @@
   "autolearn": false,
   "book_learn": [["textbook_mechanics", 5] , ["textbook_carpentry", 5] , ["book_icef", 6]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
   ], "tools": [
@@ -26410,7 +26410,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_carpentry", 6 ] , [ "textbook_fabrication", 7 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -26475,7 +26475,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 20 ],
@@ -26520,7 +26520,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 20 ],
@@ -26557,7 +26557,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 20 ],
@@ -26595,7 +26595,7 @@
   "book_learn": [[ "cookbook_human", 6 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 20 ],
@@ -26799,7 +26799,7 @@
   "autolearn": false,
   "book_learn": [["textbook_firstaid", 3] , ["adv_chemistry", 4] , ["emergency_book", 4]],
   "qualities":[
-    {"id":"COOK","level":1,"amount":3}
+    {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 18 ],
@@ -26829,7 +26829,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
@@ -26872,7 +26872,7 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 2] , ["manual_fabrication", 3] , ["cookbook", 3]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
@@ -26907,7 +26907,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 2] , ["manual_fabrication", 2]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3},
+    {"id":"HAMMER","level":3,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
@@ -27644,7 +27644,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       ["hotplate", 2],
@@ -27689,7 +27689,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 2 ],
@@ -28063,7 +28063,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2}
+    {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
     [
       [ "toolset", -1 ],
@@ -28100,7 +28100,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":3}
+    {"id":"HAMMER","level":3,"amount":1}
   ], "tools": [
      [
       ["tongs", -1]
@@ -28226,7 +28226,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"COOK","level":1,"amount":2}
+    {"id":"COOK","level":2,"amount":1}
   ], "tools": [
     [
       [ "hotplate", 8 ],
@@ -28925,7 +28925,7 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 5] , ["manual_fabrication", 5], ["manual_carpentry", 5], ["textbook_carpentry", 4]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":2},
+    {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
