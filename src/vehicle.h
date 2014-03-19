@@ -524,7 +524,7 @@ public:
     void cycle_turret_mode();
 
     // fire the turret which is part p
-    void fire_turret (int p, bool burst = true);
+    bool fire_turret( int p, bool burst = true );
 
     // internal procedure of turret firing
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long charges,

@@ -3379,9 +3379,18 @@ void vehicle::gain_moves()
         check_environmental_effects = do_environmental_effects();
     }
 
-    if (turret_mode) { // handle turrets
-        for (int p = 0; p < parts.size(); p++) {
-            fire_turret (p);
+    if( turret_mode ) { // handle turrets
+        bool can_fire = false;
+        for( int p = 0; p < parts.size(); p++ ) {
+            if( fire_turret (p) ) {
+                can_fire = true;
+            }
+        }
+        if( !can_fire ) {
+            if( player_in_control(&g->u) || g->u_see(global_x(), global_y()) ) {
+                g->add_msg( _("The %s's turrets run out of ammo and switch off."), name.c_str() );
+            }
+           turret_mode = 0;
         }
     }
 }
@@ -3765,18 +3774,28 @@ void vehicle::leak_fuel (int p)
 
 void vehicle::cycle_turret_mode()
 {
-    if( ++turret_mode > 1 )
+    if( ++turret_mode > 1 ) {
         turret_mode = 0;
+    }
     g->add_msg( (0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode") );
 }
 
-void vehicle::fire_turret (int p, bool burst)
+bool vehicle::fire_turret (int p, bool burst)
 {
     if (!part_flag (p, "TURRET"))
-        return;
+        return false;
     it_gun *gun = dynamic_cast<it_gun*> (itypes[part_info(p).item]);
     if (!gun) {
-        return;
+        return false;
+    }
+    // Check for available power for turrets that use it.
+    const int power = fuel_left(fuel_type_battery);
+    if( gun->item_tags.count( "USE_UPS" ) && power < 5 ) {
+        return false;
+    } else if( gun->item_tags.count( "USE_UPS_20" ) && power < 20 ) {
+        return false;
+    } else if( gun->item_tags.count( "USE_UPS_40" ) && power < 40 ) {
+        return false;
     }
     long charges = burst? gun->burst : 1;
     std::string whoosh = "";
@@ -3798,11 +3817,11 @@ void vehicle::fire_turret (int p, bool burst)
         }
         int fleft = fuel_left (amt);
         if (fleft < 1) {
-            return;
+            return false;
         }
         it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt]);
         if (!ammo) {
-            return;
+            return false;
         }
         if (fire_turret_internal (p, *gun, *ammo, charges, whoosh)) {
             // consume fuel
@@ -3811,7 +3830,7 @@ void vehicle::fire_turret (int p, bool burst)
             } else if (amt == fuel_type_battery) {
                 charges *= charges * 5;
             }
-            for (int p = 0; p < parts.size(); p++) {
+            for( size_t p = 0; p < parts.size(); p++ ) {
                 if (part_flag(p, "FUEL_TANK") &&
                         part_info(p).fuel_type == amt &&
                         parts[p].amount > 0) {
@@ -3823,24 +3842,26 @@ void vehicle::fire_turret (int p, bool burst)
             }
         }
     } else {
-        if (!parts[p].items.empty()) {
-            it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items[0].type);
-            if (!ammo || ammo->type != amt || parts[p].items[0].charges < 1) {
-                return;
-            }
-            if (charges > parts[p].items[0].charges) {
-                charges = parts[p].items[0].charges;
-            }
-            if (fire_turret_internal (p, *gun, *ammo, charges)) {
-                // consume ammo
-                if (charges >= parts[p].items[0].charges) {
-                    parts[p].items.erase (parts[p].items.begin());
-                } else {
-                    parts[p].items[0].charges -= charges;
-                }
+        if( parts[p].items.empty() ) {
+            return false;
+        }
+        it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items[0].type);
+        if( !ammo || ammo->type != amt || parts[p].items[0].charges < 1 ) {
+            return false;
+        }
+        if( charges > parts[p].items[0].charges ) {
+            charges = parts[p].items[0].charges;
+        }
+        if( fire_turret_internal (p, *gun, *ammo, charges) ) {
+            // consume ammo
+            if( charges >= parts[p].items[0].charges ) {
+                parts[p].items.erase( parts[p].items.begin() );
+            } else {
+                parts[p].items[0].charges -= charges;
             }
         }
     }
+    return true;
 }
 
 bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long charges, const std::string &extra_sound)
@@ -3850,15 +3871,6 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     // code copied form mattack::smg, mattack::flamethrower
     int range = ammo.type == fuel_type_gasoline ? 5 : 12;
 
-    // Check for available power for turrets that use it.
-    const int power = fuel_left(fuel_type_battery);
-    if( gun.item_tags.count( "USE_UPS" ) ) {
-        if( power < 5 ) { return false; }
-    } else if( gun.item_tags.count( "USE_UPS_20" ) ) {
-        if( power < 20 ) { return false; }
-    } else if( gun.item_tags.count( "USE_UPS_40" ) ) {
-        if( power < 40 ) { return false; }
-    }
     npc tmp;
     tmp.set_fake( true );
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
