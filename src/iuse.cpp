@@ -2212,6 +2212,8 @@ int iuse::extra_battery(player *p, item *, bool)
                              tool->name.c_str() );
         g->m.spawn_item(p->posx, p->posy, "battery_atomic", 1);
         modded->item_tags.erase("ATOMIC_AMMO");
+        g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
+        modded->charges = 0;
     }
 
 
@@ -2248,6 +2250,9 @@ int iuse::rechargeable_battery(player *p, item *, bool)
         g->add_msg_if_player(p,_("That item already has a rechargeable battery pack."));
         return 0;
     }
+
+    g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
+    modded->charges = 0;
 
     if (modded->has_flag("ATOMIC_AMMO")) {
         g->add_msg_if_player( p,
