@@ -3,6 +3,7 @@
 
 // Includes                                                         {{{1
 // ---------------------------------------------------------------------
+#include "path_info.h"
 
 #include <iostream>
 #include <vector>
@@ -83,7 +84,7 @@ std::ostream & operator<<(std::ostream & out, const std::vector<C,A> & elm)
 struct DebugLog
 {
     DebugLog() {
-        fout.open("logg.txt", std::ios_base::app | std::ios_base::out);
+        fout.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
     }
     ~DebugLog() {
         fout.close();
