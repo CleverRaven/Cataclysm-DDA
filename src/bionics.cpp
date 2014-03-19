@@ -107,6 +107,14 @@ void player::power_bionics()
         }
     }
 
+    input_context ctxt("BIONICS");
+    ctxt.register_updown();
+    ctxt.register_action("ANY_INPUT");
+    ctxt.register_action("TOOGLE_EXAMINE");
+    ctxt.register_action("REASSIGN");
+    ctxt.register_action("REMOVE");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
     int HEADER_LINE_Y = TITLE_START_Y + TITLE_HEIGHT; // + lines with text in titlebar
     int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1;
 
@@ -193,7 +201,8 @@ void player::power_bionics()
         }
         wrefresh(wBio);
         show_bionics_titlebar(w_title, this, menu_mode);
-        long ch = getch();
+        const std::string action = ctxt.handle_input();
+        const long ch = ctxt.get_raw_input().get_first_input();
         bionic *tmp = NULL;
         if (menu_mode == "reassigning") {
             menu_mode = "activating";
@@ -223,24 +232,24 @@ void player::power_bionics()
                 tmp->invlet = newch;
             }
             // TODO: show a message like when reassigning a key to an item?
-        } else if (ch == KEY_DOWN) {
+        } else if (action == "DOWN") {
             if(scroll_position < max_scroll_position) {
                 scroll_position++;
                 redraw = true;
             }
-        } else if (ch == KEY_UP) {
+        } else if (action == "UP") {
             if(scroll_position > 0) {
                 scroll_position--;
                 redraw = true;
             }
-        } else if (ch == '=') {
+        } else if (action == "REASSIGN") {
             menu_mode = "reassigning";
-        } else if (ch == '!') { // switches between activation and examination
+        } else if (action == "TOOGLE_EXAMINE") { // switches between activation and examination
             menu_mode = menu_mode == "activating" ? "examining" : "activating";
             werase(w_description);
             draw_exam_window(wBio, DESCRIPTION_LINE_Y, false);
             redraw = true;
-        } else if (ch == '-') {
+        } else if (action == "REMOVE") {
             menu_mode = "removing";
             redraw = true;
         } else {
