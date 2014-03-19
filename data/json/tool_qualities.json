@@ -3,5 +3,69 @@
         "type" : "tool_quality",
         "id" : "CUT",
         "name" : "cutting quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "HAMMER",
+        "name" : "hammering quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "HAMMER_G",
+        "name" : "gunsmithing (hammering) quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "SAW_W",
+        "name" : "wood sawing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "SAW_M",
+        "name" : "metal sawing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "SAW_M_G",
+        "name" : "gunsmithing (metal sawing) quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "COOK",
+        "name" : "food cooking quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "BOIL",
+        "name" : "liquid boiling quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "CONTAIN",
+        "name" : "containing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "CHEM",
+        "name" : "chemical making quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "BREW",
+        "name" : "brewing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "AXE",
+        "name" : "tree cutting quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "DIG",
+        "name" : "digging quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "WRENCH",
+        "name" : "bolt screwing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "WRENCH_G",
+        "name" : "gunsmithing (bolt screwing) quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "SCREW",
+        "name" : "screw screwing quality"
+    },{
+        "type" : "tool_quality",
+        "id" : "SCREW_G",
+        "name" : "gunsmithing (screw screwing) quality"
     }
 ]
