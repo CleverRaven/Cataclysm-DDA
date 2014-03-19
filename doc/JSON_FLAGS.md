@@ -240,6 +240,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```NONE``` No special attack.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
 - ```SHRIEK``` "a terrible shriek!"
+- ```HOWL``` "an ear-piercing howl!"
 - ```RATTLE``` "a sibilant rattling sound!"
 - ```ACID``` Spit acid.
 - ```SHOCKSTORM``` Shoots bolts of lightning.
