@@ -5964,7 +5964,7 @@ bool game::sound(int x, int y, int vol, std::string description)
     if (u.has_trait("PER_SLIME")) {
     // Random hearing :-/
     // (when it's working at all, see player.cpp)
-        vol *= (rng(0.5, 2));
+        vol *= (rng(1, 2)); // changed from 0.5 to fix Mac compiling error
     }
     if (u.has_trait("BADHEARING")) {
         vol *= .5;
