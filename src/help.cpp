@@ -781,7 +781,7 @@ Crossbows can be very difficult to find; however, it is possible to craft one gi
 Mechanics skill. Likewise, it is possible to make wooden bolts from any number of wooden objects, \
 though these are much less effective than steel bolts. Crossbows use the handgun skill."));
 
-    text.push_back(_("<color_green>( Bows</color>\n\
+    text.push_back(_("<color_yellow>( Bows</color>\n\
 Silent, deadly, easy to make and, reusable arrows. Bows have been used forever. Bows are two handed \
 and require the user to have a certain strength level. If you do not have enough strength to draw \
 the string back, you will fire at reduced effectiveness. This reduces reload and fire speeds \
