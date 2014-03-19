@@ -70,7 +70,7 @@ class wish_mutate_callback: public uimenu_callback
                       mutation_data[vTraits[ entnum ]].valid ? _("Valid") : _("Nonvalid"));
             int line2 = 2;
 
-            if ( mutation_data[vTraits[ entnum ]].prereqs.size() > 0 ) {
+            if ( !mutation_data[vTraits[entnum]].prereqs.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].prereqs.size(); j++) {
@@ -80,7 +80,7 @@ class wish_mutate_callback: public uimenu_callback
                 }
             }
 
-            if ( mutation_data[vTraits[ entnum ]].prereqs2.size() > 0 ) {
+            if ( !mutation_data[vTraits[entnum]].prereqs2.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].prereqs2.size(); j++) {
@@ -90,7 +90,7 @@ class wish_mutate_callback: public uimenu_callback
                 }
             }
 
-            if ( mutation_data[vTraits[ entnum ]].threshreq.size() > 0 ) {
+            if ( !mutation_data[vTraits[entnum]].threshreq.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].threshreq.size(); j++) {
@@ -100,7 +100,7 @@ class wish_mutate_callback: public uimenu_callback
                 }
             }
 
-            if ( mutation_data[vTraits[ entnum ]].cancels.size() > 0 ) {
+            if ( !mutation_data[vTraits[entnum]].cancels.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].cancels.size(); j++) {
@@ -110,7 +110,7 @@ class wish_mutate_callback: public uimenu_callback
                 }
             }
 
-            if ( mutation_data[vTraits[ entnum ]].replacements.size() > 0 ) {
+            if ( !mutation_data[vTraits[entnum]].replacements.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].replacements.size(); j++) {
@@ -120,7 +120,7 @@ class wish_mutate_callback: public uimenu_callback
                 }
             }
 
-            if ( mutation_data[vTraits[ entnum ]].additions.size() > 0 ) {
+            if ( !mutation_data[vTraits[entnum]].additions.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].additions.size(); j++) {
@@ -130,7 +130,7 @@ class wish_mutate_callback: public uimenu_callback
                 }
             }
 
-            if ( mutation_data[vTraits[ entnum ]].category.size() > 0 ) {
+            if ( !mutation_data[vTraits[entnum]].category.empty() ) {
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
                 for (int j = 0; j < mutation_data[vTraits[ entnum ]].category.size(); j++) {
@@ -141,9 +141,9 @@ class wish_mutate_callback: public uimenu_callback
             line2 += 2;
 
             mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
-                      traits[vTraits[ entnum ]].points,
-                      traits[vTraits[ entnum ]].visibility,
-                      traits[vTraits[ entnum ]].ugliness
+                      traits[vTraits[entnum]].points,
+                      traits[vTraits[entnum]].visibility,
+                      traits[vTraits[entnum]].ugliness
                      );
             line2 += 2;
 

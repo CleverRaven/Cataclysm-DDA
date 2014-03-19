@@ -115,7 +115,7 @@ with a good weapon or a strong character."),
     text.push_back(string_format(_("There may be times when you want to move more quickly \
 by holding down a movement key. However, fast movement in this fashion may lead to the player \
 getting into a dangerous situation or even killed before they have a chance to react. \
-Pressing %s will toggle \"Run Mode\". While this is on, any movement will be ignored if new \
+Pressing %s will toggle \"Safe Mode\". While this is on, any movement will be ignored if new \
 monsters enter the player's view."),
                                  press_x(ACTION_TOGGLE_SAFEMODE, "", "").c_str()));
 
@@ -183,19 +183,24 @@ std::vector<std::string> text_introduction()
     std::vector<std::string> text;
 
     text.push_back(_("\
-Cataclysm is a roguelike with a monster apocalypse setting. \
-You have survived the original onslaught, and are ready to set out in search of safety."));
+Cataclysm is a survival roguelike with a monster apocalypse setting. \
+You have survived the original onslaught, but the future looks pretty grim."));
 
     text.push_back(_("\
-Cataclysm differs from most roguelikes in several ways. Rather than exploring \
+You must prepare to face the many hardships to come including dwindling supplies, \
+hostile creatures, harmful weather, even among fellow survivors you must be wary for \
+someone may be plotting behind your back to take your hard-earned loot."));
+
+    text.push_back(_("\
+Cataclysm differs from most traditional roguelikes in several ways. Rather than exploring \
 an underground dungeon, with a limited area on each level, you are exploring \
-a truly infinite world, stretching in all four cardinal directions. As in most roguelikes, \
+a truly infinite world, stretching in all four cardinal directions. As a survival roguelike, \
 you will have to find food; you also need to keep yourself hydrated, and sleep periodically."));
 
     text.push_back(_("\
-While Cataclysm has more challenges than many roguelikes, the near-future \
-setting makes some tasks easier. Firearms, medications, and a wide variety \
-of tools are all available to help you survive."));
+While Cataclysm has more tasks to keep track than many other roguelikes, \
+the near-future setting of the game makes some tasks easier. Firearms, medications, \
+and a wide variety of tools are all available to help you survive."));
 
     return text;
 }
@@ -207,8 +212,9 @@ std::vector<std::string> text_viewing()
     text.push_back(string_format(_("\
 The player can often see more than can be displayed on the screen at a time. Pressing %s enters \
 look around mode, which allows you to scroll around using the movement keys and view items on \
-the map. Pressing %s provides a list of nearby visible items, though items shut away in crates, \
-cupboards, refrigerators and the like will not be displayed. Pressing Shift+vikeys will scroll \
+the map as well as monsters and their stance toward the character. Pressing %s provides a list of \
+nearby visible items, though items shut away in crates, cupboards, refrigerators and the like \
+won't be displayed until you are close enough. Pressing Shift+vikeys will scroll \
 the view persistently, allowing you to keep an eye on things as you move around."),
                                  press_x(ACTION_LOOK, "", "").c_str(),
                                  press_x(ACTION_LIST_ITEMS, "", "").c_str()));
@@ -220,14 +226,15 @@ std::vector<std::string> text_hunger()
     std::vector<std::string> text;
 
     text.push_back(string_format(_("\
-As time passes, you will begin to feel hunger and thirst. A status warning at the bottom of the \
-screen will appear. As hunger and thirst reach critical levels, you will begin to suffer movement \
+As time passes, you will begin to feel hunger and thirst. A status warning at the sidebar \
+will appear. As hunger and thirst reach critical levels, you will begin to suffer movement \
 penalties. Thirst is more dangerous than hunger. Finding food in a city is usually easy; outside \
-of a city, you may have to hunt an animal, then stand over its corpse and butcher it into small \
-chunks of meat by %s key. Likewise, outside of a city you may have to drink water from a river or \
-other natural source; stand in shallow water and press %s to pick it up. You'll need a watertight \
-container. Be forewarned that some sources of water aren't trustworthy and may produce diseased \
-water. To be sure it's healthy, run all water you collect through a water filter before drinking."),
+of a city, you may have to hunt an animal, stand over an animal's corpse and butcher it into \
+small chunks of meat by %s key. You might also be able to forage for edible fruit or vegetables; \
+find a promising plant and examine it to check. Likewise, you may have to drink water from a river or \
+other natural source; stand in shallow water and press %s to collect it. You'll need a watertight \
+container to store it. Be forewarned that some sources of water aren't trustworthy and may produce \
+diseased water. To be sure it's healthy, purify the water by boiling it or using water purifier before drinking."),
                                  press_x(ACTION_BUTCHER, "", "").c_str(),
                                  press_x(ACTION_PICKUP, "", "").c_str()));
 
@@ -236,7 +243,7 @@ Every 14 to 20 hours, you'll find yourself growing sleepy. If you do not sleep b
 you'll start suffering stat and movement penalties. You may not always fall asleep right away. \
 Sleeping indoors, especially on a bed, will help; or you can always use sleeping pills. \
 While sleeping, you'll slowly replenish lost hit points. You'll also be vulnerable to attack, \
-so try to find a safe place, or set traps for unwary intruders."),
+so try to find a safe place to sleep, or set traps for unwary intruders."),
                                  press_x(ACTION_SLEEP, "", "").c_str()));
 
     return text;
@@ -277,13 +284,13 @@ std::vector<std::string> text_addiction()
 
     text.push_back(_("\
 Many drugs have a potential for addiction. Each time you consume such a drug there is a chance \
-that you will grow dependent on it. Consuming more of that drug will increase your dependance. \
+that you will grow dependent on it. Consuming more of that drug will increase your dependence. \
 Effects vary greatly between drugs, but all addictions have only one cure; going cold turkey. \
-The process may last days, and will leave you very weak, so try to do it in a safe area."));
+The process may last for days, and will leave you very weak, so try to do it in a safe area."));
 
     text.push_back(_("\
 If you are suffering from drug withdrawal, taking more of the drug will cause \
-the effects to cease immediately, but may deepen your dependance."));
+the effects to cease immediately, but may deepen your dependence."));
 
     return text;
 }
@@ -303,13 +310,13 @@ activities can only take you to a certain level before they grow boring."));
 
     text.push_back(_("\
 There are also lots of ways for your morale to decrease, beyond its natural \
-decay. Eating disgusting food, reading a boring technical book, or going \
-through drug withdrawal are some prominent examples."));
+decay. Eating disgusting food, reading a boring technical book, killing a friendly NPC, \
+or going through drug withdrawal are some prominent examples."));
 
     text.push_back(_("\
-Low morale will make you sluggish and unmotivated. It will also reduce your stats, particularly \
-intelligence. If your morale drops very low, you may even commit suicide. Very high morale fills \
-you with gusto and energy, and you will find yourself moving faster. At extremely high levels, \
+Low morale will make you sluggish and unmotivated. If your morale drops very low, you won't be able to perform \
+crafting at all. If you become sufficiently depressed, you will suffer stat penalties. \
+Very high morale fills you with gusto and energy, and you will find yourself moving faster. At extremely high levels, \
 you will receive stat bonuses."));
 
     text.push_back(_("\
@@ -350,6 +357,11 @@ mutations will be negative; however, many are beneficial, and others have both p
 and negative effects. Your mutations may change your play style considerably. It is possible \
 to find substances that will remove mutations, though these are extremely rare."));
 
+    text.push_back(_("\
+There are various mutagenic substances, and consuming (or injecting) them will grant mutations. \
+However, the process taxes your body significantly, and can be addictive. With enough mutations \
+and certain conditions being met, you will permanently transcend your humanity into a wholly \
+different life-form.")); 
     return text;
 }
 
@@ -360,7 +372,8 @@ std::vector<std::string> text_bionics()
     text.push_back(_("\
 Bionics are biomechanical upgrades to your body. \
 While many are simply 'built-in' versions of items you would otherwise have to carry, \
-some bionics have unique effects that are otherwise unobtainable."));
+some bionics have unique effects that are otherwise unobtainable. Some bionics are \
+constantly working, whereas others need to be toggled on and off as needed."));
 
     text.push_back(_("\
 Most bionics require a source of power, and you will need an internal battery \
@@ -371,8 +384,8 @@ require the installation of a special bionic just for fuel consumption."));
     text.push_back(_("\
 Bionics come in ready-to-install canisters. Installation of a bionic is best left to a trained \
 professional. However, you may attempt to perform a self-installation. Performing such a task \
-requires high levels of intelligence, first aid, mechanics, and/or electronics, and failure may \
-cripple you! Many bionics canisters are difficult to find, but may be purchased from certain \
+requires high levels of intelligence, first aid, mechanics, and electronics, and failure may \
+cripple you! Many bionic canisters are difficult to find, but may be purchased from certain \
 wandering vagabonds for a very high price."));
 
     return text;
@@ -385,28 +398,33 @@ std::vector<std::string> text_crafting()
     text.push_back(_("\
 Many important items can be very hard to find, or will cost a great deal of \
 money to trade for. Fortunately, it is possible to craft a wide variety of \
-goods with the proper tools, materials, and training."));
+goods (as best you can) with the proper tools, materials, and training."));
 
     text.push_back(_("\
 Some recipes require a set of tools. These are not used up when crafting, so you can keep your \
 tool set. All recipes require one or more ingredients. These ARE used up in crafting."));
 
     text.push_back(string_format(_("\
-To craft items, press %s. There are five categories: \
-Weapons, Food, Electronics, Armor, and Miscellaneous. While a few items require \
-no skill to create, the majority require you to have some knowledge:\n"),
+To craft items, press %s. There are seven categories: \
+Weapons, Ammo, Food, Chemicals, Electronics, Armor, and Other. In each major category \
+are several smaller sub-categories. While a few items require no particular skill \
+to create, the majority require you to have some knowledge:\n"),
                                  press_x(ACTION_CRAFT, "", "").c_str()));
 
     text.push_back(_("\
--> Mechanic skill is used for weapons, traps, and a few tools.\n\
--> Cooking skill, at low levels, is used for making tasty recipes; at higher levels, you have \
+-> Fabrication is the generic artisan skill, used for a wide variety of gear.\n\
+-> Cooking, at low levels, is used for making tasty recipes; at higher levels, you have \
 an understanding of chemistry and can make chemical weapons and beneficial elixirs.\n\
--> Tailoring skill is used to create basic clothing, and later tough armor.\n\
--> Electronics skill lets you make a wide variety of tools with intricate uses."));
+-> Tailoring is used to create basic clothing, and armor later on.\n\
+-> Electronics lets you make a wide variety of tools with intricate uses."));
 
     text.push_back(_("\
 In addition to the primary crafting skills, other skills may be necessary to create certain \
-items. Traps skill, Marksmanship skill, and First Aid skill are all required for certain items."));
+items. Traps, Marksmanship, and First Aid are all required for certain items."));
+
+    text.push_back(_("\
+Crafting an item with high difficulty may fall and possibly waste some materials. You should prepare spare material, \
+just in case."));
 
     return text;
 }
@@ -473,8 +491,8 @@ is a guaranteed increase in damage, but it may be reduced by a monster's natural
                                  press_x(ACTION_INVENTORY, "", "").c_str()));
 
     text.push_back(string_format(_("\
-To wield an item as a weapon, press %s then the proper letter. Pressing '-' in lieu of a letter \
-will make you wield nothing. A wielded weapon will not contribute to your volume carried, so \
+To wield an item as a weapon, press %s then the proper letter. wielding the item you are currently wielding \
+will unwield it, leaving your hands empty. A wielded weapon will not contribute to your volume carried, so \
 holding a large item in your hands may be a good option for travel. When unwielding your weapon, \
 it will go back in your inventory, or will be dropped on the ground if there is no space."),
                                  press_x(ACTION_WIELD, "", "").c_str()));
@@ -505,9 +523,12 @@ std::vector<std::string> text_combat()
     std::vector<std::string> text;
 
     text.push_back(_("\
-After 30 minutes of warmup time, monsters will begin to appear. They are \
-represented by letters on your screen; a list of monster names, and their \
-positions relative to you, is displayed on the right side of the screen."));
+With the default Static spawn option, zombies in cities will spawn at the start of the game. \
+All monsters are represented by letters on your screen; a list of monster names, and their \
+positions relative to you, is displayed on the right side of the screen. \
+If the game is set to Dynamic spawn option, you will have 90 minutes to prepare yourself \
+before the spawns start; after that, monsters everywhere will be spawned based on the noise \
+you make."));
 
     text.push_back(_("\
 To attack a monster with a melee weapon, simply move into them. The time it takes to attack \
@@ -530,7 +551,7 @@ Firing continuously, especially in bursts, will severely reduce accuracy."),
                                  press_x(ACTION_SELECT_FIRE_MODE, "", "").c_str()));
 
     text.push_back(_("\
-Unlike most roguelikes, fleeing will often be your best option, especially when \
+Fleeing will often be a solid tactic, especially when \
 overwhelmed by a swarm of zombies. Try to avoid getting cornered inside a building. \
 Ducking down into the subways or sewers is often an excellent escape tactic."));
 
@@ -544,11 +565,13 @@ std::vector<std::string> text_styles()
     text.push_back(_("\
 For the unarmed fighter, a variety of fighting styles are available. \
 You can start with your choice of a single, commonly-taught style by starting with \
-the Martial Arts Training trait. Many, many more can be taught by wandering masters."));
+the Martial Arts Training trait. Many, many more can be found in their own traits, \
+learned from manuals, or taught by wandering masters."));
 
     text.push_back(string_format(_("\
 To select a fighting style, press %s. If you are already unarmed this will make you start using the style. \
-Otherwise, it will be locked in as your default unarmed style; to start using it, press %s then '-'."),
+Otherwise, it will be locked in as your default unarmed style; to start using it, wield a relevant weapon \
+or empty your hands, by pressing %s, then the key for the item you are currently wielding."),
                                  press_x(ACTION_PICK_STYLE, "", "").c_str(),
                                  press_x(ACTION_WIELD, "", "").c_str()));
 
@@ -571,10 +594,10 @@ std::vector<std::string> text_tips()
     std::vector<std::string> text;
 
     text.push_back(_("\
-The first thing to do is to check your home for useful items. Your initial storage is \
+The first thing to do is to check your shelter for useful items. Your initial storage is \
 limited, and a backpack, trenchcoat, or other storage medium will let you carry a lot \
 more. Finding a weapon is important; frying pans, butcher knives, and more are common \
-in your home; hardware stores may carry others. Unless you plan on concentrating on melee \
+in houses; hardware stores may carry others. Unless you plan on concentrating on melee \
 combat, seek out gun stores as soon as possible and load up on more than one type."));
 
     text.push_back(_("\
@@ -635,7 +658,7 @@ this may leave an empty container."),
 [       Clothing\n\
 This may be worn with the %s key or removed with the %s key. It may cover one or more body parts; \
 you can wear multiple articles of clothing on any given body part, but this will encumber you \
-severely. Each article of clothing may provide storage space, warmth, an encumberment, and a \
+severely. Each article of clothing may provide storage space, warmth, encumbrance, and a \
 resistance to bashing and/or cutting attacks. Some may protect against environmental effects."),
                                  press_x(ACTION_WEAR, "", "").c_str(),
                                  press_x(ACTION_TAKE_OFF, "", "").c_str()));
@@ -669,7 +692,8 @@ to throw these items by pressing %s, then the letter of the item to throw."),
     text.push_back(string_format(_("\
 ?       Book or magazine\n\
 This can be read for training or entertainment by pressing %s. Most require a basic \
-level of intelligence; some require some base knowledge in the relevant subject."),
+level of intelligence; some require some base knowledge in the relevant subject. Some books may \
+contain useful crafting recipes."),
                                  press_x(ACTION_READ, "", "").c_str()));
 
     return text;
@@ -820,13 +844,16 @@ std::vector<std::string> text_faq()
 Q: What is Safe Mode, and why does it prevent me from moving?\n\
 A: Safe Mode is a way to guarantee that you won't die by holding a movement key down. \
 When a monster comes into view, your movement will be ignored until Safe Mode is turned off \
-with the ! key. This ensures that the sudden appearence of a monster won't catch you off guard."));
+with the ! key. This ensures that the sudden appearance of a monster won't catch you off guard."));
 
     text.push_back(_("\
 Q: It seems like everything I eat makes me sick! What's wrong?\n\
 A: Lots of the food found in towns is perishable, and will only last a few days after \
-the start of a new game (July 12). Fruit, milk, and others are the first to go. After \
-the first couple of days, you should switch to canned food, jerky, and hunting."));
+the start of a new game (early Spring). The electricity went out several days ago \
+so fruit, milk and others are the first to go bad. \
+After the first couple of days, you should switch to canned food, jerky, and hunting. \
+Also, you should make sure to cook/purify any food or water you hunt up \
+as it may contain parasites or otherwise be unsafe."));
 
     text.push_back(_("\
 Q: How can I remove boards from boarded-up windows and doors?\n\
@@ -849,8 +876,9 @@ need to drop your equipment and remove your clothing to swim, making it a last-d
 
     text.push_back(_("\
 Q: How can I cure a fungal infection?\n\
-A: At present time, there is only one cure, royal jelly. \
-You can find royal jelly in the bee hives which dot forests."));
+A: Royal jelly, the Blood Filter bionic, and some antifungal chemicals can cure fungal infection. \
+You can find royal jelly in the bee hives which dot forests. Antifungal chemicals to cure the fungal \
+infection can either be found as random loot or made from other ingredients."));
 
     text.push_back(string_format(_("\
 Q: How do I get into science labs?\n\
@@ -883,9 +911,13 @@ stop fire in a set-up brazier, wood stove, stone fireplace, or pit will \
 it from spreading. Fire extinguishers can put out fires that get out of control."));
 
     text.push_back(_("\
+Q: I'm cold and can't sleep at night!\n\
+A: Gather some clothes and put them in the place you use to sleep in. Being hungry, thirsty, wet, \
+or injured can also make you feel the cold more, so try to avoid these effects before you go to sleep."));
+
+    text.push_back(_("\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
-A: Ask the helpful people on the forum at smf.cataclysmdda.com or email your question to \
-TheDarklingWolf@Gmail.com."));
+A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc channel #CataclysmDDA on freenode."));
 
     return text;
 }

@@ -391,6 +391,14 @@
     "description":    "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered."
     },{
         "type" : "bionic",
+        "id" : "bio_cqb",
+    "name"       :    "Close Quarters Battle",
+    "active"     :    true,
+    "cost"       :    1,
+    "time"       :    20,
+    "description":    "Bionic processors and databanks, loaded with martial arts combat programs, are integrated into your nervous system. Whilst active, the CQB module will improve your hand to hand combat skills."
+    },{
+        "type" : "bionic",
         "id" : "bio_blade",
     "name"       :    "Monomolecular Blade",
     "active"     :    true,

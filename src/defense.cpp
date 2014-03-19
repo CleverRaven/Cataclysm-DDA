@@ -9,6 +9,7 @@
 #include "construction.h"
 #include <string>
 #include <vector>
+#include <ostream>
 #include <sstream>
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
@@ -991,7 +992,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
                                    &(item_count[category_selected]), offset,
                                    item_selected);
                 draw_caravan_borders(w, current_window);
-            } else if (items[category_selected].size() > 0) { // Items
+            } else if (!items[category_selected].empty()) { // Items
                 if (item_selected < items[category_selected].size() - 1) {
                     item_selected++;
                 } else {
@@ -1025,7 +1026,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
                                    &(item_count[category_selected]), offset,
                                    item_selected);
                 draw_caravan_borders(w, current_window);
-            } else if (items[category_selected].size() > 0) { // Items
+            } else if (!items[category_selected].empty()) { // Items
                 if (item_selected > 0) {
                     item_selected--;
                 } else {
@@ -1047,7 +1048,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
 
         case '+':
         case 'l':
-            if (current_window == 1 && items[category_selected].size() > 0) {
+            if (current_window == 1 && !items[category_selected].empty()) {
                 item_count[category_selected][item_selected]++;
                 itype_id tmp_itm = items[category_selected][item_selected];
                 total_price += caravan_price(g->u, itypes[tmp_itm]->price);
@@ -1081,7 +1082,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
 
         case '-':
         case 'h':
-            if (current_window == 1 && items[category_selected].size() > 0 &&
+            if (current_window == 1 && !items[category_selected].empty() &&
                 item_count[category_selected][item_selected] > 0) {
                 item_count[category_selected][item_selected]--;
                 itype_id tmp_itm = items[category_selected][item_selected];

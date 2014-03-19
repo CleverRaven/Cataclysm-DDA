@@ -960,7 +960,7 @@
   {
     "id": "folding_poncho_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "yellow",
     "name" : "unfolded poncho",
@@ -1021,7 +1021,7 @@
   {
     "id": "emer_blanket_on",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "light_gray",
     "name" : "emergency blanket",
@@ -1053,7 +1053,7 @@
   {
     "id": "rad_monitor",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "dark_gray",
     "name" : "radiation biomonitor",
@@ -1083,7 +1083,7 @@
   {
     "id": "hairpin",
     "type": "TOOL_ARMOR",
-    "category" : "armor",
+    "category" : "clothing",
     "symbol": "[",
     "color": "brown",
     "name" : "hairpin",

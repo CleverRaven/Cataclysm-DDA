@@ -34,7 +34,7 @@ void reset_speech()
 const SpeechBubble& get_speech( const std::string label ) {
     const std::map<std::string, std::vector<SpeechBubble> >::iterator speech_type = speech.find( label );
 
-    if( speech_type == speech.end() || speech_type->second.size() == 0 ) {
+    if( speech_type == speech.end() || speech_type->second.empty() ) {
         // Bad lookup, return a fake sound, also warn?
         return nullSpeech;
     }

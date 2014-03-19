@@ -271,7 +271,7 @@ classes = {
         }
     },
     monster = {
-        parent = "creature",
+        parent = "Creature",
         attributes = {
             hp = {
                 type = "int",
@@ -309,7 +309,6 @@ classes = {
             }
         }
     },
-
     mtype = {
         attributes = {
             speed = {
@@ -375,6 +374,94 @@ classes = {
                 rval = "bool"
             }
         }
+    },
+    mongroup = {
+        attributes = {
+            type = {
+                type = "string",
+                writable = true
+            },
+            posx = {
+                type = "int",
+                writable = true
+            },
+            posy = {
+                type = "int",
+                writable = true
+            },
+            posz = {
+                type = "int",
+                writable = true
+            },
+            tx = {
+                type = "int",
+                writable = false
+            },
+            ty = {
+                type = "int",
+                writable = false
+            },
+            dying = {
+                type = "bool",
+                writable = true
+            },
+            horde = {
+                type = "bool",
+                writable = true
+            },
+            diffuse = {
+                type = "bool",
+                writable = true
+            },
+            radius = {
+                type = "int",
+                writable = true
+            },
+            population = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+            set_target = {
+                args = {"int", "int"},
+                rval = nil
+            },
+            inc_interest = {
+                args = {"int"},
+                rval = nil
+            },
+            dec_interest = {
+                args = {"int"},
+                rval = nil
+            },
+            set_interest = {
+                args = {"int"},
+                rval = nil
+            }
+        }
+    },
+    overmap = {
+        attributes = {
+        },
+        functions = {
+            get_bottom_border = {
+                args = {},
+                rval = "int"
+            },
+            get_top_border = {
+                args = {},
+                rval = "int"
+            },
+            get_left_border = {
+                args = {},
+                rval = "int"
+            },
+            get_right_border = {
+                args = {},
+                rval = "int"
+            },
+        }
     }
 }
 
@@ -433,5 +520,15 @@ global_functions = {
         cpp_name = "game_remove_item",
         args = {"int", "int", "item"},
         rval = nil
+    },
+    get_current_overmap = {
+        cpp_name = "get_current_overmap",
+        args = { },
+        rval = "overmap"
+    },
+    create_monster_group = {
+        cpp_name = "create_monster_group",
+        args = {"overmap", "string", "int", "int", "int", "int", "int"},
+        rval = "mongroup"
     }
 }

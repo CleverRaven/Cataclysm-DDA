@@ -1750,6 +1750,27 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "bowling_axe",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bowling_pin", 1 ]
+    ],
+    [
+      [ "spike", 2 ]
+    ],
+    [
+      [ "duct_tape", 100]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "molotov",
   "category": "CC_WEAPON",
@@ -5449,7 +5470,9 @@
       [ "pot", -1 ],
       [ "coffeemaker", -1],
       [ "rock_pot", -1 ],
-      [ "teapot", -1 ]
+      [ "teapot", -1 ],
+      [ "can_food", -1],
+      [ "can_drink", -1 ]
     ]
   ],
   "components": [
@@ -6053,6 +6076,31 @@
   "components": [
     [
       [ "human_flesh", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "powder_eggs",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+	    [ "egg_bird", 12 ],
+	    [ "egg_reptile", 12 ]
     ]
   ]
 },{
@@ -7936,8 +7984,8 @@
       [ "seasoning_salt", 15 ],
       [ "pepper", 20 ],
       [ "powder_eggs", 5 ],
-	  [ "egg_bird", 1 ],
-	  [ "egg_reptile", 1 ],
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ],
       [ "dry_veggy", 1 ]
     ]
   ]
@@ -8361,7 +8409,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
-  "difficulty": 1,
+  "difficulty": 2,
   "time": 20000,
   "reversible": false,
   "autolearn": true,
@@ -8395,7 +8443,7 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
   "skill_used": "cooking",
-  "difficulty": 2,
+  "difficulty": 1,
   "time": 14000,
   "reversible": false,
   "autolearn": true,
@@ -8416,8 +8464,8 @@
       [ "tallow", 1 ]
     ],
     [
-      [ "cornmeal", 2 ],
-      [ "flour", 2 ]
+      [ "cornmeal", 1 ],
+      [ "flour", 1 ]
     ]
   ]
 },{
@@ -9027,7 +9075,6 @@
       [ "pomegranate", 1 ],
       [ "irradiated_mango", 1],
       [ "mango", 1 ],
-      [ "irradiated_mango", 1],
       [ "papaya", 1 ],
       [ "irradiated_apricot", 1 ],
       [ "apricot", 1 ],
@@ -30627,7 +30674,7 @@
       [ "element", 12 ]
     ],
     [
-      [ "wire", 60 ]
+      [ "cable", 20 ]
     ]
   ]
 },{
@@ -30666,7 +30713,7 @@
       [ "element", 2 ]
     ],
     [
-      [ "wire", 4 ]
+      [ "cable", 4 ]
     ]
   ]
 },{
@@ -30705,7 +30752,7 @@
       [ "element", 2 ]
     ],
     [
-      [ "wire", 2 ]
+      [ "cable", 2 ]
     ]
   ]
 },{
@@ -30745,7 +30792,7 @@
       [ "element", 2 ]
     ],
     [
-      [ "wire", 6 ]
+      [ "cable", 6 ]
     ]
   ]
 },{

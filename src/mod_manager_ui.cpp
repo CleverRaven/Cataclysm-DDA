@@ -74,14 +74,14 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     std::stringstream info;
 
     // color the note red!
-    if (note.size() > 0) {
+    if (!note.empty()) {
         std::stringstream newnote;
         newnote << "<color_red>" << note << "</color>";
         note = newnote.str();
     }
     std::vector<std::string> dependencies = mod->dependencies;
     std::string dependency_string = "";
-    if (dependencies.size() == 0) {
+    if (dependencies.empty()) {
         dependency_string = _("[NONE]");
     } else {
         DebugLog() << mod->name << " Dependencies --";
@@ -101,7 +101,7 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
     info << _("Author(s): ") << mod->author << "\n";
     info << _("Description: ") << mod->description << "\n";
     info << _("Dependencies: ") << dependency_string << "\n";
-    if (mod->_type == MT_SUPPLEMENTAL && note.size() > 0) {
+    if (mod->_type == MT_SUPPLEMENTAL && !note.empty()) {
         info << note;
     }
 
@@ -137,7 +137,7 @@ void mod_ui::try_add(const std::string &mod_to_add,
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
     if (mod._type == MT_CORE) {
         //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
-        if ((active_list.size() > 0) && (active_manager->mod_map[active_list[0]]->_type == MT_CORE) &&
+        if ((!active_list.empty()) && (active_manager->mod_map[active_list[0]]->_type == MT_CORE) &&
             (active_list[0] != mod_to_add)) {
             // remove existing core
             try_rem(0, active_list);
@@ -160,7 +160,7 @@ void mod_ui::try_add(const std::string &mod_to_add,
             }
         }
 
-        if (new_core && active_list.size() > 0) {
+        if (new_core && !active_list.empty()) {
             try_rem(0, active_list);
             active_list.insert(active_list.begin(), mods_to_add[0]);
             mods_to_add.erase(mods_to_add.begin());
@@ -188,7 +188,7 @@ void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
     std::vector<std::string> dependents = mm_tree->get_dependents_of_X_as_strings(mod.ident);
 
     // search through the rest of the active list for mods that depend on this one
-    if (dependents.size() > 0) {
+    if (!dependents.empty()) {
         for (int i = 0; i < dependents.size(); ++i) {
             std::vector<std::string>::iterator rem = std::find(active_list.begin(), active_list.end(),
                     dependents[i]);

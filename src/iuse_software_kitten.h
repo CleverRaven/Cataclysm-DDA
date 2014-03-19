@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <iostream>
+#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <vector>
