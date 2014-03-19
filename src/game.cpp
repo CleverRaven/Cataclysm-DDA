@@ -7325,7 +7325,6 @@ void game::activity_on_turn_pulp()
         }
         int damage = pulp_power / it->volume();
         //Determine corpse's blood type.
-        //TODO: See if it's possible to use the bloodType() function rather than this spaghetti code.
         field_id type_blood = it->corpse->bloodType();
         do {
             moves += move_cost;
