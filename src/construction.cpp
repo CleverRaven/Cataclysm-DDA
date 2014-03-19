@@ -823,8 +823,10 @@ void construct::done_deconstruct(point p)
     }
 }
 
-void construct::done_trunk_log(point p)
+void construct::done_dig_stair(point p)
 {
+ stairu.x = p.x;
+ stairu.y = p.y;
  map tmpmap(&traps);
  tmpmap.load(levx, levy, levz - 1, false);
  
