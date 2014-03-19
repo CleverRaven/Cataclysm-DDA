@@ -6,6 +6,8 @@
 
 void player::sort_armor()
 {
+    it_armor *each_armor = 0;
+
     /* Define required height of the window:
     * Right window is the most critical, so calc is based on the config of this window.
     * worn.size() - count of worn items;
@@ -15,9 +17,16 @@ void player::sort_armor()
     * + 8 - sub-categories (torso, head, eyes, etc.);
     * + 1 - just a gap;
     * + 1 - unknown :-[
-    * Note that items without category (like belt) excessively extends the height of the window.
     */
     int req_h = worn.size() + 3 + 1 + 2 + 8 + 1 + 1;
+
+    for (size_t i = 0; i < worn.size(); ++i) {
+        each_armor = dynamic_cast<it_armor *>(worn[i].type);
+        if (!each_armor->covers) { // no category defined?
+            req_h--;               // decrease number of required lines!
+        }
+    }
+
     const int win_h = std::min(TERMY, req_h > FULL_SCREEN_HEIGHT ? req_h : FULL_SCREEN_HEIGHT);
     const int win_w = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 3;
     const int win_x = TERMX / 2 - win_w / 2;
@@ -42,7 +51,6 @@ void player::sort_armor()
     item tmp_item;
     std::vector<item *> tmp_worn;
     std::string tmp_str;
-    it_armor *each_armor = 0;
 
     std::string  armor_cat[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"),
                                 _("Hands"), _("Legs"), _("Feet"), _("All")
