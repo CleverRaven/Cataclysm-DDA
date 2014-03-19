@@ -386,7 +386,7 @@ public:
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const ammotype & ftype);
 
-    void consume_fuel (float rate);
+    void consume_fuel( double load );
 
     void power_parts ();
 

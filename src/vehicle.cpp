@@ -2351,37 +2351,35 @@ bool vehicle::valid_wheel_config ()
     return true;
 }
 
-void vehicle::consume_fuel (float rate = 1.0)
+/**
+ * Power for batteries are in W, but usage for rest is in 0.5*HP, so coeff is 373
+ * This does not seem to match up for consumption, as old coeff is 100
+ * Keeping coeff of 100, but should probably be adjusted later
+ * http://en.wikipedia.org/wiki/Energy_density -> 46MJ/kg, 36MJ/l for gas
+ * Gas tanks are 6000 and 30000, assuming that's in milliliters, so 36000J/ml
+ * Battery sizes are 1k, 12k, 30k, 50k, and 100k. present day = 53kWh(200MJ) for 450kg
+ * Efficiency tank to wheel is roughly 15% for gas, 85% for electric
+ */
+void vehicle::consume_fuel( double load )
 {
     ammotype ftypes[3] = { fuel_type_gasoline, fuel_type_battery, fuel_type_plasma };
-    for (int ft = 0; ft < 3; ft++)
-    {
-        int base_amnt = basic_consumption(ftypes[ft]);
-        if (!base_amnt)
-            continue; // no consumption for engines of that type
+    int ftype_coeff[3] = {                100,                 1,              100 };
+    for( int ft = 0; ft < 3; ft++ ) {
+        double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
         float st = strain() * 10;
-        int amnt_precise = (int)(base_amnt * (1.0 + st * st) * rate);
-        if (amnt_precise < 1) amnt_precise = 1;
-        int amnt;
-        if (ftypes[ft] == fuel_type_battery) {
-            amnt = amnt_precise;
+        amnt_precise *= load * (1.0 + st * st);
+        int amnt = int(amnt_precise);
+        // consumption remainder results in chance at additional fuel consumption
+        if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
+            amnt += 1;
         }
-        else {
-            // engine not electric - divide consumption by 100
-            amnt = amnt_precise / 100;
-            // consumption remainder results in chance at additional fuel consumption
-            if (x_in_y(amnt_precise % 100, 100)) {
-                amnt += 1;
-            }
-        }
-        for (int p = 0; p < fuel.size(); p++) {
-            if(part_info(fuel[p]).fuel_type == ftypes[ft]) {
-                if (parts[fuel[p]].amount >= amnt) {
+        for( size_t p = 0; p < fuel.size(); p++ ) {
+            if( part_info(fuel[p]).fuel_type == ftypes[ft] ) {
+                if( parts[fuel[p]].amount >= amnt ) {
                     // enough fuel located in this part
                     parts[fuel[p]].amount -= amnt;
                     break;
-                }
-                else {
+                } else {
                     amnt -= parts[fuel[p]].amount;
                     parts[fuel[p]].amount = 0;
                 }
