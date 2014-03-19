@@ -297,8 +297,8 @@ public:
  std::vector<matec_id> get_all_techniques();
 
  bool has_technique(matec_id tec);
- matec_id pick_technique(Creature &t,
-                             bool crit, bool dodge_counter, bool block_counter);
+ matec_id pick_technique(Creature &t, bool crit, bool dodge_counter, bool block_counter);
+ bool valid_aoe_technique(Creature &t, ma_technique &tec);
  void perform_technique(ma_technique technique, Creature &t, int &bash_dam, int &cut_dam, int &stab_dam, int& move_cost);
 
  void perform_special_attacks(Creature &t);

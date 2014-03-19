@@ -747,8 +747,8 @@ matec_id player::pick_technique(Creature &t,
         // dice(p->dex_cur + p->skillLevel("melee"),   10))
         if (tec.disarms && !t.has_weapon()) continue;
 
-        // ignore aoe tecs for a bit
-        if (tec.aoe.length() > 0) continue;
+        // if aoe, check if there are valid targets
+        if (tec.aoe.length() > 0 && !valid_aoe_technique(t, tec)) continue;
 
         if (tec.is_valid_player(*this)) {
             possible.push_back(tec.id);
@@ -761,42 +761,59 @@ matec_id player::pick_technique(Creature &t,
         }
     }
 
-  // now add aoe tecs (since they depend on if we have other tecs or not)
-  for (std::vector<matec_id>::const_iterator it = all.begin();
-      it != all.end(); ++it) {
-    ma_technique tec = ma_techniques[*it];
-
-    // don't use aoe tecs if there's only one target
-    if (tec.aoe.length() > 0) {
-      int enemy_count = 0;
-      for (int x = posx - 1; x <= posx + 1; x++) {
-        for (int y = posy - 1; y <= posy + 1; y++) {
-          int mondex = g->mon_at(x, y);
-          if (mondex != -1) {
-            if (g->zombie(mondex).friendly == 0)
-            enemy_count++;
-            else
-            enemy_count -= 2;
-          }
-          int npcdex = g->npc_at(x, y);
-          if (npcdex != -1) {
-            if (g->active_npc[npcdex]->attitude == NPCATT_KILL)
-            enemy_count++;
-            else
-            enemy_count -= 2;
-          }
-        }
-      }
-      if (tec.is_valid_player(*this) &&
-          enemy_count >= (possible.empty() ? 1 : 2)) {
-        possible.push_back(tec.id);
-      }
-    }
-  }
-
   if (possible.empty()) return "tec_none";
 
   return possible[ rng(0, possible.size() - 1) ];
+}
+
+bool player::valid_aoe_technique(Creature &t, ma_technique &tec){
+    if (tec.aoe.length() == 0)
+        return false;
+
+    int enemy_count = 0;
+    //wide hits the target and anyone adjacent to both them and the attacker
+    //deep hits the target and a single target behind them - we're just checking if such a target exists, perform_technique will select the victim
+    if (tec.aoe == "wide" || tec.aoe == "deep"){
+        //we check adjacency either to the attacker (for wide) or the square BEHIND the target in the direction of attack if deep
+        int adj_x = tec.aoe == "wide" ? posx : t.xpos() + (t.xpos() - posx);
+        int adj_y = tec.aoe == "wide" ? posy : t.ypos() + (t.ypos() - posy);
+        for (int x = t.xpos() - 1; x <= t.xpos() + 1; x++) {
+            for (int y = t.ypos() - 1; x <= t.ypos() + 1; y++) {
+                int mondex = g->mon_at(x, y);
+                if (mondex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->zombie(mondex).friendly == 0) {
+                    enemy_count++;                    
+                }
+                int npcdex = g->npc_at(x, y);
+                if (npcdex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->active_npc[npcdex]->attitude == NPCATT_KILL) {
+                    enemy_count++;
+                }
+            }
+        }    
+
+        if (enemy_count > 1)
+            return true;
+    }
+
+    //circle hits anyone adjacent to the attacker
+    if (tec.aoe == "circle"){
+        for (int x = posx - 1; x <= posx + 1; x++) {
+            for (int y = posy - 1; x <= posy + 1; y++) {
+                int mondex = g->mon_at(x, y);
+                if (g->zombie(mondex).friendly == 0) {
+                    enemy_count++;                    
+                }
+                int npcdex = g->npc_at(x, y);
+                if (g->active_npc[npcdex]->attitude == NPCATT_KILL) {
+                    enemy_count++;
+                }
+            }
+        }
+
+        if (enemy_count > 3) //don't trigger circle for fewer than 4 targets
+            return true;
+    }
+
+    return false;
 }
 
 bool player::has_technique(matec_id id) {
@@ -862,29 +879,87 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
     }
     */
 
+    //AOE attacks, feel free to skip over this lump
     if (technique.aoe.length() > 0) {
-        int count_hit = 0;
-        for (int x = posx - 1; x <= posx + 1; x++) {
-        for (int y = posy - 1; y <= posy + 1; y++) {
-            if (x != tarx || y != tary) { // Don't double-hit our target
-            int mondex = g->mon_at(x, y);
-            if (mondex != -1 && hit_roll() >= rng(0, 5) + g->zombie(mondex).dodge_roll()) {
-                count_hit++;
-                melee_attack(g->zombie(mondex),false);
+        std::vector<int> mon_targets = std::vector<int>();
+        std::vector<int> npc_targets = std::vector<int>();
+        //wide hits all targets adjacent to the attacker and the target
+        if (technique.aoe == "wide" || technique.aoe == "deep")
+        {
+            int adj_x = technique.aoe == "wide" ? posx : t.xpos() + (t.xpos() - posx);
+            int adj_y = technique.aoe == "wide" ? posy : t.ypos() + (t.ypos() - posy);
+            for (int x = t.xpos() - 1; x <= t.xpos() + 1; x++) {
+                for (int y = t.ypos() - 1; x <= t.ypos() + 1; y++) {
+                    int mondex = g->mon_at(x, y);
+                    if (x != t.xpos() && y != t.ypos() && mondex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->zombie(mondex).friendly == 0) {
+                        mon_targets.push_back(mondex);                    
+                    }
+                    int npcdex = g->npc_at(x, y);
+                    if (x != t.xpos() && y != t.ypos() && npcdex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->active_npc[npcdex]->attitude == NPCATT_KILL) {
+                        npc_targets.push_back(npcdex);
+                    }
+                }
+            }
+        }
+        else if (technique.aoe == "circle") {
+            for (int x = posx - 1; x <= posx + 1; x++) {
+                for (int y = posy - 1; x <= posy + 1; y++) {
+                    int mondex = g->mon_at(x, y);
+                    if (x != t.xpos() && y != t.ypos() && g->zombie(mondex).friendly == 0) {
+                        mon_targets.push_back(mondex);                    
+                    }
+                    int npcdex = g->npc_at(x, y);
+                    if (x != t.xpos() && y != t.ypos() && g->active_npc[npcdex]->attitude == NPCATT_KILL) {
+                        npc_targets.push_back(npcdex);
+                    }
+                }
+            }
+        }
 
-                std::string temp_target = string_format(_("the %s"), g->zombie(mondex).name().c_str());
+        //hit only one valid target (pierce through doesn't spread out)
+        if (technique.aoe == "deep")
+        {
+            int victim = rng(0, mon_targets.size() + npc_targets.size());
+            if (victim > mon_targets.size())
+            {
+                victim -= mon_targets.size();
+                mon_targets.clear();
+                int npc_id = npc_targets[victim];
+                npc_targets.clear();
+                npc_targets.push_back(npc_id);
+            }
+            else {
+                npc_targets.clear();
+                int mon_id = mon_targets[victim];
+                mon_targets.clear();
+                mon_targets.push_back(mon_id);
+            }
+        }
+
+        //hit the targets in the lists (all candidates if wide or burst, or just the unlucky sod if deep)
+        int count_hit = 0;
+        for (int i = 0; i < mon_targets.size(); i++)
+        {
+            if (hit_roll() >= rng(0, 5) + g->zombie(mon_targets[i]).dodge_roll())
+            {
+                count_hit++;
+                melee_attack(g->zombie(mon_targets[i]),false);
+
+                std::string temp_target = string_format(_("the %s"), g->zombie(mon_targets[i]).name().c_str());
                 g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
             }
-            int npcdex = g->npc_at(x, y);
-            if (npcdex != -1 &&
-                    hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll()) {
+        }
+        for (int i = 0; i < npc_targets.size(); i++)
+        {
+            if (hit_roll() >= rng(0, 5) + g->active_npc[npc_targets[i]]->dodge_roll())
+            {
                 count_hit++;
-                melee_attack(*g->active_npc[npcdex],false);
-                g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), g->active_npc[npcdex]->name.c_str() );
-            }
+                melee_attack(*g->active_npc[npc_targets[i]],false);
+
+                g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), g->active_npc[npc_targets[i]]->name.c_str() );
             }
         }
-        }
+        
         g->add_msg_if_player(&t, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
     }
 
