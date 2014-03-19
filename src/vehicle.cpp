@@ -2665,7 +2665,7 @@ void vehicle::thrust (int thd) {
 
     double load;
     if( cruise_on ) {
-        load = abs(vel_inc) / (thrusting ? accel : brk);
+        load = abs(vel_inc) / std::max((thrusting ? accel : brk),1);
     } else {
         load = (thrusting ? 1.0 : 0.0);
     }
