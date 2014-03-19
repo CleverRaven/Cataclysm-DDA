@@ -380,6 +380,11 @@ install: version $(TARGET)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
+ifdef LUA
+	mkdir -p $(DATA_PREFIX)/lua
+	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
+	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
+endif
 	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
                    README.txt LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)

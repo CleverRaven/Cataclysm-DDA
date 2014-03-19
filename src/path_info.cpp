@@ -102,8 +102,4 @@ void set_standart_filenames(void)
     update_pathname("fontdata", FILENAMES["user_dir"] + "FONTDATA");
     update_pathname("autopickup", FILENAMES["user_dir"] + "auto_pickup.txt");
     update_pathname("mods-user-default", FILENAMES["user_dir"] + "user-default-mods.json");
-    /*
-    FILENAMES.insert(std::pair<std::string,std::string>("mainlua", FILENAMES["datadir"] + "main.lua"));
-    FILENAMES.insert(std::pair<std::string,std::string>("typeface", FILENAMES["fontdir"] + "fixedsys.ttf"));
-    */
 }
