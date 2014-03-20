@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <stdio.h>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
@@ -156,6 +157,11 @@ Item_factory::Item_factory(){
 void Item_factory::init(){
     //Populate the iuse functions
     iuse_function_list["NONE"] = &iuse::none;
+    iuse_function_list["RAW_MEAT"] = &iuse::raw_meat;
+    iuse_function_list["RAW_FAT"] = &iuse::raw_fat;
+    iuse_function_list["RAW_BONE"] = &iuse::raw_bone;
+    iuse_function_list["RAW_FISH"] = &iuse::raw_fish;
+    iuse_function_list["RAW_WILDVEG"] = &iuse::raw_wildveg;
     iuse_function_list["SEWAGE"] = &iuse::sewage;
 
     iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
@@ -167,6 +173,7 @@ void Item_factory::init(){
     iuse_function_list["ATOMIC_CAFF"] = &iuse::atomic_caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
+    iuse_function_list["ALCOHOL_STRONG"] = &iuse::alcohol_strong;
     iuse_function_list["PKILL"] = &iuse::pkill;
     iuse_function_list["XANAX"] = &iuse::xanax;
     iuse_function_list["CIG"] = &iuse::cig;
@@ -347,9 +354,10 @@ void Item_factory::init(){
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["DEJAR"] = &iuse::dejar;
+    iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
     iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
-    iuse_function_list["ABSORBENT"] = &iuse::towel;
+    iuse_function_list["TOWEL"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
@@ -363,6 +371,14 @@ void Item_factory::init(){
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
+    iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
+    iuse_function_list["TOOLARMOR_OFF"]  = &iuse::toolarmor_off;
+    iuse_function_list["TOOLARMOR_ON"]  = &iuse::toolarmor_on;
+    iuse_function_list["RM13ARMOR_OFF"]  = &iuse::rm13armor_off;
+    iuse_function_list["RM13ARMOR_ON"]  = &iuse::rm13armor_on;
+    iuse_function_list["UNPACK_ITEM"]  = &iuse::unpack_item;
+    iuse_function_list["PACK_ITEM"]  = &iuse::pack_item;
+    iuse_function_list["RADGLOVE"]  = &iuse::radglove;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
@@ -396,7 +412,7 @@ void Item_factory::create_inital_categories() {
     add_category(category_id_drugs,    -14, _("drugs"));
     add_category(category_id_books,    -13, _("books"));
     add_category(category_id_mods,     -12, _("mods"));
-    add_category(category_id_mods,     -11, _("bionics"));
+    add_category(category_id_cbm,      -11, _("bionics"));
     add_category(category_id_other,    -10, _("other"));
 }
 
@@ -768,6 +784,7 @@ void Item_factory::load_comestible(JsonObject& jo)
     comest_template->quench = jo.get_int("quench", 0);
     comest_template->nutr = jo.get_int("nutrition", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
+    comest_template->brewtime = jo.get_int("brew_time", 0);
     comest_template->addict = jo.get_int("addiction_potential", 0);
     comest_template->charges = jo.get_long("charges", 0);
     if(jo.has_member("stack_size")) {
@@ -915,8 +932,14 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
     STURDY - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
     SWIM_GOGGLES - Allows you to see much further under water.
-    REBREATHER - Works with an active UPS to supply you with oxygen while underwater.
+    REBREATHER - Works to supply you with oxygen while underwater. Requires external limiter like battery power.
     UNRECOVERABLE - Prevents the item from being recovered when deconstructing another item that uses this one.
+    GNV_EFFECT - Green night vision effect. Requires external limiter like battery power.
+    IR_EFFECT - Infrared vision effect. Requires external limiter like battery power.
+    SUN_GLASSES - Protects from sunlight's 'glare' effect.
+    RAD_RESIST - Partially protects from ambient radiation.
+    RAD_PROOF- Fully protects from ambient radiation.
+    ELECTRIC_IMMUNE- Fully protects from electricity.
 
     Container-only flags:
     SEALS
@@ -924,7 +947,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     WATERTIGHT
     */
     new_item_template->item_tags = jo.get_tags("flags");
-    if ( new_item_template->item_tags.size() > 0 ) {
+    if ( !new_item_template->item_tags.empty() ) {
         for( std::set<std::string>::const_iterator it = new_item_template->item_tags.begin();
         it != new_item_template->item_tags.end(); ++it ) {
             set_intvar(std::string(*it), new_item_template->light_emission, 1, 10000);
@@ -1206,8 +1229,11 @@ const std::string &Item_factory::calc_category(itype *it)
     if (it->is_book() ) {
         return category_id_books;
     }
-    if (it->is_gunmod() || it->is_bionic()) {
+    if (it->is_gunmod()) {
         return category_id_mods;
+    }
+    if (it->is_bionic()) {
+        return category_id_cbm;
     }
     if (it->melee_dam > 7 || it->melee_cut > 5) {
         return category_id_weapons;

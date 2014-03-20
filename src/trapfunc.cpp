@@ -7,7 +7,7 @@
 float pit_effectiveness(int x, int y)
 {
     int corpse_volume = 0;
-    for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+    for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
         item &j = g->m.i_at(x, y)[i];
         if (j.type->id == "corpse") {
             corpse_volume += j.volume();
@@ -571,7 +571,7 @@ void trapfunc::pit(int x, int y)
     g->add_msg(_("You fall in a pit!"));
     g->u.add_memorial_log(pgettext("memorial_male", "Fell in a pit."),
                           pgettext("memorial_female", "Fell in a pit."));
-    if (g->u.has_trait("WINGS_BIRD")) {
+    if ( (g->u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (g->u.has_trait("WINGS_BUTTERFLY"))) ) {
         g->add_msg(_("You flap your wings and flutter down gracefully."));
     } else {
         float eff = pit_effectiveness(x, y);
@@ -613,7 +613,7 @@ void trapfunc::pit_spikes(int x, int y)
                           pgettext("memorial_female", "Fell into a spiked pit."));
     int dodge = g->u.get_dodge();
     int damage = pit_effectiveness(x, y) * rng(20, 50);
-    if (g->u.has_trait("WINGS_BIRD")) {
+    if ( (g->u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (g->u.has_trait("WINGS_BUTTERFLY"))) ) {
         g->add_msg(_("You flap your wings and flutter down gracefully."));
     } else if (0 == damage || rng(5, 30) < dodge) {
         g->add_msg(_("You avoid the spikes within."));
@@ -640,7 +640,7 @@ void trapfunc::pit_spikes(int x, int y)
             g->m.add_trap(x, y, tr_pit);
             for (int i = 0; i < 4; i++) { // 4 spears to a pit
                 if (one_in(3)) {
-                    g->m.spawn_item(x, y, "spear_wood");
+                    g->m.spawn_item(x, y, "pointy_stick");
                 }
             }
         }
@@ -672,7 +672,7 @@ void trapfuncm::pit_spikes(monster *z, int x, int y)
         g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 4; i++) { // 4 spears to a pit
             if (one_in(3)) {
-                g->m.spawn_item(x, y, "spear_wood");
+                g->m.spawn_item(x, y, "pointy_stick");
             }
         }
     }
@@ -739,7 +739,54 @@ void trapfunc::sinkhole(int x, int y)
  g->add_msg(_("You step into a sinkhole, and start to sink down!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Stepped into a sinkhole."),
                        pgettext("memorial_female", "Stepped into a sinkhole."));
- if (g->u.has_amount("rope_30", 1) &&
+ if (g->u.has_amount("grapnel", 1) &&
+     query_yn(_("There is a sinkhole here. Throw your grappling hook out to try to catch something?"))) {
+  int throwroll = rng(g->u.skillLevel("throw"),
+                      g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
+  if (throwroll >= 6) {
+   g->add_msg(_("The grappling hook catches something!"));
+   if (rng(g->u.skillLevel("unarmed"),
+           g->u.skillLevel("unarmed") + g->u.str_cur) > 4) {
+// Determine safe places for the character to get pulled to
+    std::vector<point> safe;
+    for (int i = g->u.posx - 1; i <= g->u.posx + 1; i++) {
+     for (int j = g->u.posy - 1; j <= g->u.posy + 1; j++) {
+      if (g->m.move_cost(i, j) > 0 && g->m.tr_at(i, j) != tr_pit)
+       safe.push_back(point(i, j));
+     }
+    }
+    if (safe.empty()) {
+     g->add_msg(_("There's nowhere to pull yourself to, and you sink!"));
+     g->u.use_amount("grapnel", 1);
+     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+     g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+     g->vertical_move(-1, true);
+    } else {
+     g->add_msg(_("You pull yourself to safety!  The sinkhole collapses."));
+     int index = rng(0, safe.size() - 1);
+     g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+     g->u.posx = safe[index].x;
+     g->u.posy = safe[index].y;
+     g->update_map(g->u.posx, g->u.posy);
+    }
+   } else {
+    g->add_msg(_("You're not strong enough to pull yourself out..."));
+    g->u.moves -= 100;
+    g->u.use_amount("grapnel", 1);
+    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+    g->vertical_move(-1, true);
+   }
+  } else {
+   g->add_msg(_("Your throw misses completely, and you sink!"));
+   if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
+    g->u.use_amount("grapnel", 1);
+    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+   }
+   g->m.ter_set(g->u.posx, g->u.posy, t_hole);
+   g->vertical_move(-1, true);
+  }
+ } else if (g->u.has_amount("rope_30", 1) &&
      query_yn(_("There is a sinkhole here. Throw your rope out to try to catch something?"))) {
   int throwroll = rng(g->u.skillLevel("throw"),
                       g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
@@ -759,21 +806,22 @@ void trapfunc::sinkhole(int x, int y)
      g->add_msg(_("There's nowhere to pull yourself to, and you sink!"));
      g->u.use_amount("rope_30", 1);
      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
-     g->m.add_trap(g->u.posx, g->u.posy, tr_pit);
+     g->m.ter_set(g->u.posx, g->u.posy, t_hole);
      g->vertical_move(-1, true);
     } else {
      g->add_msg(_("You pull yourself to safety!  The sinkhole collapses."));
      int index = rng(0, safe.size() - 1);
+     g->m.ter_set(g->u.posx, g->u.posy, t_hole);
      g->u.posx = safe[index].x;
      g->u.posy = safe[index].y;
      g->update_map(g->u.posx, g->u.posy);
-     g->m.add_trap(g->u.posx, g->u.posy, tr_pit);
     }
    } else {
     g->add_msg(_("You're not strong enough to pull yourself out..."));
     g->u.moves -= 100;
     g->u.use_amount("rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+    g->m.ter_set(g->u.posx, g->u.posy, t_hole);
     g->vertical_move(-1, true);
    }
   } else {
@@ -782,11 +830,12 @@ void trapfunc::sinkhole(int x, int y)
     g->u.use_amount("rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
    }
-   g->m.add_trap(g->u.posx, g->u.posy, tr_pit);
+   g->m.ter_set(g->u.posx, g->u.posy, t_hole);
    g->vertical_move(-1, true);
   }
  } else {
   g->add_msg(_("You sink into the sinkhole!"));
+  g->m.ter_set(g->u.posx, g->u.posy, t_hole);
   g->vertical_move(-1, true);
  }
 }

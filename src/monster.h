@@ -3,10 +3,7 @@
 
 #include "creature.h"
 #include "player.h"
-#include "mtype.h"
 #include "enums.h"
-#include "bodypart.h"
-#include "field.h"
 #include <vector>
 
 class map;
@@ -201,11 +198,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     void absorb_hit(body_part bp, int side,
             damage_instance &dam);
-    bool block_hit(body_part &bp_hit, int &side,
+    void dodge_hit(Creature *source, int hit_spread);
+    bool block_hit(Creature *source, body_part &bp_hit, int &side,
         damage_instance &d);
-    void melee_attack(Creature &p, bool allow_special = true);
-    virtual int deal_melee_attack(Creature* source, int hitroll, bool crit,
-            const damage_instance& d, dealt_damage_instance &dealt_dam);
+    void melee_attack(Creature &p, bool allow_special = true, matec_id force_technique = "");
+    virtual int deal_melee_attack(Creature* source, int hitroll);
     virtual int deal_projectile_attack(Creature* source, double missed_by,
             const projectile& proj, dealt_damage_instance &dealt_dam);
     // TODO: this hit is not the same as the one from Creature, it hits other
@@ -240,8 +237,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     bool is_hallucination();    // true if the monster isn't actually real
 
-    field_id monBloodType();
-    field_id monGibType();
+    field_id bloodType();
+    field_id gibType();
 
 // TEMP VALUES
  int wandx, wandy; // Wander destination - Just try to move in that direction

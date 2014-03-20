@@ -140,11 +140,12 @@ void computer::use()
     }
 
     // Main computer loop
-    for (bool InUse = true; InUse; ) {
+    while(true) {
         //reset_terminal();
+        size_t options_size = options.size();
         print_newline();
         print_line("%s - %s", name.c_str(), _("Root Menu"));
-        for (unsigned i = 0; i < options.size(); i++) {
+        for (size_t i = 0; i < options_size; i++) {
             print_line("%d - %s", i + 1, options[i].name.c_str());
         }
         print_line("Q - %s", _("Quit and shut down"));
@@ -153,9 +154,9 @@ void computer::use()
         char ch;
         do {
             ch = getch();
-        } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= options.size()));
+        } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= (char)options_size));
         if (ch == 'q' || ch == 'Q') {
-            InUse = false;
+             break; // Exit from main computer loop
         } else { // We selected an option other than quit.
             ch -= '1'; // So '1' -> 0; index in options.size()
             computer_option current = options[ch];
@@ -279,8 +280,9 @@ void computer::activate_function(computer_action action)
 {
     switch (action) {
 
-    case COMPACT_NULL:
-        break; // Why would this be called?
+    case COMPACT_NULL: // Unknown action.
+    case NUM_COMPUTER_ACTIONS: // Suppress compiler warning [-Wswitch]
+        break;
 
     case COMPACT_OPEN:
         g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.posx, g->u.posy);
@@ -433,7 +435,7 @@ void computer::activate_function(computer_action action)
             log = lab_notes[(g->levx + g->levy + g->levz + (alerts)) % lab_notes.size()];
         }
 
-        print_text(log.c_str());
+        print_text("%s", log.c_str());
         // One's an anomaly
         if (alerts == 0) {
         query_any(_("Local data-access error logged, alerting helpdesk. Press any key..."));
@@ -543,9 +545,9 @@ void computer::activate_function(computer_action action)
         int more = 0;
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
-                for (unsigned i = 0; i < g->m.i_at(x, y).size(); i++) {
+                for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
                     if (g->m.i_at(x, y)[i].is_bionic()) {
-                        if (names.size() < TERMY - 8) {
+                        if ((ssize_t)names.size() < TERMY - 8) {
                             names.push_back(g->m.i_at(x, y)[i].tname());
                         } else {
                             more++;
@@ -562,7 +564,7 @@ void computer::activate_function(computer_action action)
         print_newline();
 
         for (unsigned i = 0; i < names.size(); i++) {
-            print_line(names[i].c_str());
+            print_line("%s", names[i].c_str());
         }
         if (more > 0) {
             print_line(_("%d OTHERS FOUND..."), more);
@@ -1066,8 +1068,9 @@ void computer::activate_failure(computer_failure fail)
 {
     switch (fail) {
 
-    case COMPFAIL_NULL:
-        break;   // Do nothing.  Why was this even called >:|
+    case COMPFAIL_NULL: // Unknown action.
+    case NUM_COMPUTER_FAILURES: // Suppress compiler warning [-Wswitch]
+        break;
 
     case COMPFAIL_SHUTDOWN:
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
@@ -1129,7 +1132,13 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_DAMAGE:
         g->add_msg(_("The console electrocutes you!"));
+        if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
+            g->add_msg(_("The electricity flows around you."));
+      } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
+            g->add_msg(_("Your armor safely grounds the electrical discharge."));
+        }   else {
         g->u.hurtall(rng(1, 10));
+           }
         break;
 
     case COMPFAIL_PUMP_EXPLODE:
@@ -1242,17 +1251,11 @@ void computer::activate_failure(computer_failure fail)
 
 bool computer::query_bool(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Append with (Y/N/Q)
-    std::string full_line = buff;
-    full_line += " (Y/N/Q)";
-    // Print the resulting text
-    print_line(full_line.c_str());
+    print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
         ret = getch();
@@ -1263,32 +1266,22 @@ bool computer::query_bool(const char *mes, ...)
 
 bool computer::query_any(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    std::string full_line = buff;
-    // Print the resulting text
-    print_line(full_line.c_str());
+    print_line("%s", text.c_str());
     getch();
     return true;
 }
 
 char computer::query_ynq(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Append with (Y/N/Q)
-    std::string full_line = buff;
-    full_line += " (Y/N/Q)";
-    // Print the resulting text
-    print_line(full_line.c_str());
+    print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
         ret = getch();
@@ -1299,44 +1292,35 @@ char computer::query_ynq(const char *mes, ...)
 
 void computer::print_line(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Print the line.
-    wprintz(w_terminal, c_green, buff);
+    wprintz(w_terminal, c_green, "%s", text.c_str());
     print_newline();
     wrefresh(w_terminal);
 }
 
 void computer::print_error(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Print the line.
-    wprintz(w_terminal, c_red, buff);
+    wprintz(w_terminal, c_red, "%s", text.c_str());
     print_newline();
     wrefresh(w_terminal);
 }
 
 void computer::print_text(const char *mes, ...)
 {
-    // Translate the printf flags
     va_list ap;
     va_start(ap, mes);
-    char buff[6000];
-    vsprintf(buff, mes, ap);
+    const std::string text = vstring_format(mes, ap);
     va_end(ap);
-    // Print the text.
     int y = getcury(w_terminal);
     int w = getmaxx(w_terminal) - 2;
-    fold_and_print(w_terminal, y, 1, w, c_green, buff);
+    fold_and_print(w_terminal, y, 1, w, c_green, text);
     print_newline();
     print_newline();
     wrefresh(w_terminal);
@@ -1361,7 +1345,7 @@ void computer::print_gibberish_line()
             break;
         }
     }
-    wprintz(w_terminal, c_yellow, gibberish.c_str());
+    wprintz(w_terminal, c_yellow, "%s", gibberish.c_str());
     print_newline();
     wrefresh(w_terminal);
 }

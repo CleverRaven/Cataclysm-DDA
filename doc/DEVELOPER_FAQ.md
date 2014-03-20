@@ -18,11 +18,12 @@
     array for your monster type with all the map item groups it may carry, and a
     chance value for each.
 5. Your monster may have a special attack, a monattack::function reference.
-    Edit monattack.h and include the function in the class definition; then
-    edit monattack.cpp and define your function.  Functions may be shared among
-    different monster types.  Be aware that the function should contain a
-    statement that the monster uses to decide whether or not to use the attack,
-    and if they do, should reset the monster's attack timer.
+    Edit monattack.h and include the function in the class definition; edit
+    monstergenerator.cpp and add the translation, then edit monattack.cpp
+    and define your function.  Functions may be shared among different monster
+    types.  Be aware that the function should contain a statement that the
+    monster uses to decide whether or not to use the attack, and if they do,
+    should reset the monster's attack timer.
 6. Just like attacks, some monsters may have a special function called when
     they die.  This works the same as attacks, but the relevant files are
     mondeath.h and mondeath.cpp.

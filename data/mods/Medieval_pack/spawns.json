@@ -15,6 +15,7 @@
       ["rapier", 3],
       ["wakizashi", 5],
       ["tanto", 7],
+      ["kris", 5],
       ["armor_lightplate", 1],
       ["armor_samurai", 1],
       ["helmet_kabuto", 1],
@@ -65,6 +66,7 @@
       ["i_staff", 5],
       ["sword_bayonet", 10],
       ["bagh_nakha", 5],
+      ["kris", 5],
       ["apron_leather", 1]
     ]
   },{

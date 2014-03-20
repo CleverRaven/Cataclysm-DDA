@@ -19,6 +19,11 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
+#ifdef _MSC_VER
+// MSVC doesn't have ssize_t, so use int instead
+#define ssize_t int
+#endif
+
 std::string default_technique_name(technique_id tech);
 
 light_emission nolight={0,0,0};
@@ -326,7 +331,8 @@ std::string item::save_info() const
 }
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
-    if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
+    size_t pos = item_tag.find('=');
+    if(item_tag.at(0) == ivaresc && pos != std::string::npos && pos >= 2 ) {
         std::string var_name, val_decoded;
         int svarlen, svarsep;
         svarsep = item_tag.find('=');
@@ -459,6 +465,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
   dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
   dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+  dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
   if (corpse != NULL &&
     ( debug == true ||
       ( g != NULL &&
@@ -603,7 +610,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (mod->damage != 0)
    dump->push_back(iteminfo("GUNMOD", _("Damage: "), "", mod->damage, true, ((mod->damage > 0) ? "+" : "")));
   if (mod->clip != 0)
-   dump->push_back(iteminfo("GUNMOD", _("Magazine: "), "<num>%%", mod->clip, true, ((mod->clip > 0) ? "+" : "")));
+   dump->push_back(iteminfo("GUNMOD", _("Magazine: "), "<num>%", mod->clip, true, ((mod->clip > 0) ? "+" : "")));
   if (mod->recoil != 0)
    dump->push_back(iteminfo("GUNMOD", _("Recoil: "), "", mod->recoil, true, ((mod->recoil > 0) ? "+" : ""), true, true));
   if (mod->burst != 0)
@@ -666,7 +673,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
    temp1 << _("The feet. ");
 
   dump->push_back(iteminfo("ARMOR", temp1.str()));
-  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%%  ", armor->coverage, true, "", false));
+  dump->push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%  ", armor->coverage, true, "", false));
   dump->push_back(iteminfo("ARMOR", _("Warmth: "), "", armor->warmth));
     if (has_flag("FIT")) {
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
@@ -703,7 +710,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
   if (!(book->recipes.empty())) {
    std::string recipes = "";
-   int index = 1;
+   size_t index = 1;
    for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter, ++index) {
      if(g->u.knows_recipe(iter->first)) recipes += "<color_ltgray>";
      recipes += itypes.at(iter->first->result)->name;
@@ -736,7 +743,33 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
  }
 
- if ( type->qualities.size() > 0){
+    if (!components.empty()) {
+        typedef std::map<std::string, int> t_count_map;
+        t_count_map counts;
+        for(t_item_vector::const_iterator a = components.begin(); a != components.end(); ++a) {
+            const std::string name = const_cast<item&>(*a).display_name();
+            if (counts.count(name) > 0) {
+                counts[name]++;
+            } else {
+                counts[name] = 1;
+            }
+        }
+        std::ostringstream buffer;
+        buffer << _("Made from: ");
+        for(t_count_map::const_iterator a = counts.begin(); a != counts.end(); ++a) {
+            if (a != counts.begin()) {
+                buffer << _(", ");
+            }
+            if (a->second != 1) {
+                buffer << string_format(_("%d x %s"), a->second, a->first.c_str());
+            } else {
+                buffer << a->first;
+            }
+        }
+        dump->push_back(iteminfo("DESCRIPTION", buffer.str()));
+    }
+
+ if ( !type->qualities.empty()){
     for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
         quality != type->qualities.end(); ++quality){
         dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has %s of level %d."),
@@ -800,7 +833,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     }
     if (is_armor() && type->id == "rad_badge")
     {
-        int i;
+        size_t i;
         for( i = 1; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ )
         {
             if( irridation < rad_dosage_thresholds[i] )
@@ -841,6 +874,24 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", _("On closer inspection, this appears to be hallucinogenic.")));
     }
 
+    if ((is_food() && has_flag("BREW")) || (is_food_container() && contents[0].has_flag("BREW"))) {
+        int btime = ( is_food_container() ) ? contents[0].brewing_time() : brewing_time();
+        if (btime <= 28800)
+            dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d hours."), btime/600)));
+        else {
+            btime = 0.5+btime / 7200; //Round down to 12-hour intervals
+            if (btime % 2 == 1)
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d and a half days."), btime/2)));
+            else
+                dump->push_back(iteminfo("DESCRIPTION", string_format(_("Once set in a vat, this will ferment in around %d days."), btime/2)));
+        }
+    }
+
+    if (typeId() == "flask_yeast") {
+        int cult_time = brewing_time();
+        dump->push_back(iteminfo("DESCRIPTION", string_format(_("It will take %d hours to culture after it's sealed."), cult_time/600)));
+    }
+
     if ((is_food() && goes_bad()) || (is_food_container() && contents[0].goes_bad())) {
         if(rotten() || (is_food_container() && contents[0].rotten())) {
             if(g->u.has_bionic("bio_digestion")) {
@@ -870,7 +921,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
         dump->push_back(iteminfo("DESCRIPTION", ntext + item_note->second ));
     }
-    if (contents.size() > 0) {
+    if (!contents.empty()) {
         if (is_gun()) {//Mods description
             for (size_t i = 0; i < contents.size(); i++) {
                 it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
@@ -946,7 +997,9 @@ nc_color item::color(player *u) const
 {
     nc_color ret = c_ltgray;
 
-    if (active && !is_food() && !is_food_container()) // Active items show up as yellow
+    if(has_flag("WET"))
+        ret = c_cyan;
+    else if (active && !is_food() && !is_food_container()) // Active items show up as yellow
         ret = c_yellow;
     else if (is_gun()) { // Guns are green if you are carrying ammo for them
         ammotype amtype = ammo_type();
@@ -993,8 +1046,12 @@ std::string item::tname( bool with_prefix )
 // MATERIALS-TODO: put this in json
     std::string damtext = "";
     if (damage != 0 && !is_null() && with_prefix) {
-        if (damage == -1) {
-            damtext = rm_prefix(_("<dam_adj>reinforced "));
+        if (damage == -1)  {
+          if (is_gun())  {
+            damtext = rm_prefix(_("<dam_adj>accurized "));
+          } else {
+              damtext = rm_prefix(_("<dam_adj>reinforced "));
+            }
         } else {
             if (type->id == "corpse") {
                 if (damage == 1) damtext = rm_prefix(_("<dam_adj>bruised "));
@@ -1004,7 +1061,7 @@ std::string item::tname( bool with_prefix )
             } else {
                 damtext = rmp_format("%s ", type->dmg_adj(damage).c_str());
             }
-        }
+            }
     }
 
     std::string vehtext = "";
@@ -1044,7 +1101,7 @@ std::string item::tname( bool with_prefix )
         else
             maintext = rmp_format(_("<item_name>%s blood"), corpse->name.c_str());
     }
-    else if (is_gun() && contents.size() > 0 ) {
+    else if (is_gun() && !contents.empty() ) {
         ret.str("");
         ret << type->name;
         for (size_t i = 0; i < contents.size(); i++) {
@@ -1056,7 +1113,7 @@ std::string item::tname( bool with_prefix )
                               _("<item_name>%s of %s"):("<item_name>%s with %s"),
                               type->name.c_str(), contents[0].tname().c_str());
     }
-    else if (contents.size() > 0) {
+    else if (!contents.empty()) {
         maintext = rmp_format(_("<item_name>%s, full"), type->name.c_str());
     } else {
         maintext = type->name;
@@ -1098,6 +1155,9 @@ std::string item::tname( bool with_prefix )
 
     if (owned > 0)
         ret << _(" (owned)");
+
+    if(has_flag("WET"))
+       ret << _(" (wet)");
 
     tagtext = ret.str();
 
@@ -1178,7 +1238,8 @@ int item::weight() const
     } else if (type->is_gun() && charges >= 1) {
         ret += curammo->weight * charges;
     } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on") {
+        if (typeId() == "adv_UPS_off" || typeId() == "adv_UPS_on" || has_flag("ATOMIC_AMMO") ||
+            typeId() == "rm13_armor" || typeId() == "rm13_armor_on") {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges / 500;
         } else {
             ret += item_controller->find_template(default_ammo(this->ammo_type()))->weight * charges;
@@ -1305,22 +1366,34 @@ int item::attack_time()
 
 int item::damage_bash()
 {
+    int total = type->melee_dam;
     if( is_null() )
         return 0;
-    return type->melee_dam;
+      total -= total * (damage * 0.1);
+      if (total > 0) {
+      return total;
+      } else {
+         return 0;
+        }
 }
 
 int item::damage_cut() const
 {
+    int total = type->melee_cut;
     if (is_gun()) {
-        for (int i = 0; i < contents.size(); i++) {
+        for (size_t i = 0; i < contents.size(); i++) {
             if (contents[i].typeId() == "bayonet" || "pistol_bayonet"|| "sword_bayonet")
                 return contents[i].type->melee_cut;
         }
     }
     if( is_null() )
         return 0;
-    return type->melee_cut;
+    total -= total * (damage * 0.1);
+      if (total > 0) {
+      return total;
+      } else {
+         return 0;
+        }
 }
 
 bool item::has_flag(std::string f) const
@@ -1356,6 +1429,16 @@ bool item::has_flag(std::string f) const
     return ret;
 }
 
+bool item::contains_with_flag(std::string f) const
+{
+    bool ret = false;
+    for (int k = 0; k < contents.size(); k++) {
+        ret = contents[k].has_flag(f);
+        if (ret) return ret;
+    }
+    return ret;
+}
+
 bool item::has_quality(std::string quality_id) const {
     return has_quality(quality_id, 1);
 }
@@ -1365,7 +1448,7 @@ bool item::has_quality(std::string quality_id, int quality_value) const {
     (void)quality_id; (void)quality_value; //unused grrr
     bool ret = false;
 
-    if(type->qualities.size() > 0){
+    if(!type->qualities.empty()){
       ret = true;
     }
     return ret;
@@ -1414,6 +1497,16 @@ bool item::rotten()
     } else {
       return false;
     }
+}
+
+int item::brewing_time()
+{
+    float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
+    if (typeId() == "flask_yeast")
+        return 7200 * season_mult;
+    unsigned int b_time = dynamic_cast<it_comest*>(type)->brewtime;
+    int ret = b_time * season_mult;
+    return ret;
 }
 
 bool item::ready_to_revive()
@@ -1692,7 +1785,9 @@ bool item::conductive() const
     material_type* cur_mat1 = material_type::find_material(type->m1);
     material_type* cur_mat2 = material_type::find_material(type->m2);
 
-    return (cur_mat1->elec_resist() <= 0 || cur_mat2->elec_resist() <= 0);
+	//Looks ugly, but prevents "null" 2nd material from making weapon conductive
+	//Unsure if there is a better way to determine 2nd material is "null"
+	return (cur_mat1->elec_resist() <= 0 || (!(cur_mat2->ident() == "null") && cur_mat2->elec_resist() <= 0));
 }
 
 bool item::destroyed_at_zero_charges()
@@ -1869,24 +1964,25 @@ bool item::is_watertight_container() const
     return ( is_container() != false && has_flag("WATERTIGHT") && has_flag("SEALS") );
 }
 
-int item::is_funnel_container(int bigger_than) const
+bool item::is_funnel_container(unsigned int &bigger_than) const
 {
-    if ( ! is_container() ) {
-        return 0;
+    if ( ! is_watertight_container() ) {
+        return false;
     }
     it_container *ct = dynamic_cast<it_container *>(type);
     // todo; consider linking funnel to item or -making- it an active item
-    if ( (int)ct->contains <= bigger_than ) {
-        return 0; // skip contents check, performance
+    if ( ct->contains <= bigger_than ) {
+        return false; // skip contents check, performance
     }
     if (
         contents.empty() ||
         contents[0].typeId() == "water" ||
         contents[0].typeId() == "water_acid" ||
         contents[0].typeId() == "water_acid_weak") {
-        return (int)ct->contains;
+        bigger_than = ct->contains;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 bool item::is_tool() const
@@ -1998,8 +2094,8 @@ bool item::operator<(const item& other) const
     if(cat_a != cat_b) {
         return cat_a < cat_b;
     } else {
-        const item *me = is_container() && contents.size() > 0 ? &contents[0] : this;
-        const item *rhs = other.is_container() && other.contents.size() > 0 ? &other.contents[0] : &other;
+        const item *me = is_container() && !contents.empty() ? &contents[0] : this;
+        const item *rhs = other.is_container() && !other.contents.empty() ? &other.contents[0] : &other;
 
         if (me->type->id == rhs->type->id)
         {
@@ -2156,7 +2252,7 @@ int item::dispersion()
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
     }
-    ret += damage * 2;
+    ret += damage * 4;
     if (ret < 0) ret = 0;
     return ret;
 }
@@ -2269,6 +2365,7 @@ int item::recoil(bool with_ammo)
         if (contents[i].is_gunmod())
             ret += (dynamic_cast<it_gunmod*>(contents[i].type))->recoil;
     }
+    ret += damage;
     return ret;
 }
 
@@ -2334,6 +2431,9 @@ ammotype item::ammo_type() const
         return ret;
     } else if (is_tool()) {
         it_tool* tool = dynamic_cast<it_tool*>(type);
+        if (has_flag("ATOMIC_AMMO")) {
+            return "plutonium";
+        }
         return tool->ammo;
     } else if (is_ammo()) {
         it_ammo* amm = dynamic_cast<it_ammo*>(type);
@@ -2345,113 +2445,181 @@ ammotype item::ammo_type() const
     return "NULL";
 }
 
+bool item::is_of_type_or_contains_it(const std::string &type_id) const
+{
+    if (type != NULL && type->id == type_id) {
+        return true;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].is_of_type_or_contains_it(type_id)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item::is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const
+{
+    const it_ammo *amm = dynamic_cast<const it_ammo *>(type);
+    if (amm != NULL && amm->type == ammo_type_id) {
+        return true;
+    }
+    for (size_t i = 0; i < contents.size(); i++) {
+        if (contents[i].ammo_type() == ammo_type_id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void remove_non_matching_types(std::vector<item*> &vec, const std::string &type)
+{
+    for (std::vector<item*>::iterator it = vec.begin(); it != vec.end(); ) {
+        if ((*it)->is_of_type_or_contains_it(type)) {
+            ++it;
+        } else {
+            it = vec.erase(it);
+        }
+    }
+}
+
 int item::pick_reload_ammo(player &u, bool interactive)
 {
- if( is_null() )
-  return INT_MIN;
+    if( is_null() ) {
+        return INT_MIN;
+    }
 
- if (!type->is_gun() && !type->is_tool()) {
-  debugmsg("RELOADING NON-GUN NON-TOOL");
-  return INT_MIN;
- }
- int has_spare_mag = has_gunmod ("spare_mag");
+    if (!type->is_gun() && !type->is_tool()) {
+        debugmsg("RELOADING NON-GUN NON-TOOL");
+        return INT_MIN;
+    }
+    int has_spare_mag = has_gunmod ("spare_mag");
 
- std::vector<item*> am; // List of valid ammo
+    std::vector<item *> am; // List of valid ammo
 
- if (type->is_gun()) {
-  if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
-   // Special return to use magazine for reloading.
-   return INT_MIN + 1;
-  }
-  it_gun* tmp = dynamic_cast<it_gun*>(type);
-
-  // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
-  // If the gun is partially loaded make sure the ammo matches.
-  // If the gun is empty, either the spare mag is empty too and anything goes,
-  // or the spare mag is loaded and we're doing a tactical reload.
-  if (charges < clip_size() ||
-      (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
-        std::vector<item*> tmpammo = u.has_ammo(ammo_type());
-        for (size_t i = 0; i < tmpammo.size(); i++) {
-            if (charges <= 0 || tmpammo[i]->typeId() == curammo->id ) {
-                am.push_back(tmpammo[i]);
-            } else if (tmpammo[i]->is_container() && !tmpammo[i]->contents.empty() &&
-                    tmpammo[i]->contents[0].typeId() == curammo->id) {
-                am.push_back(tmpammo[i]);
-            }
+    if (type->is_gun()) {
+        if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
+            // Special return to use magazine for reloading.
+            return INT_MIN + 1;
         }
-  }
+        it_gun *tmp = dynamic_cast<it_gun *>(type);
 
-  // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
-  // for each attachment, find its associated ammo & append it to the ammo vector
-  for (size_t i = 0; i < contents.size(); i++)
-   if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX") &&
-       contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
-    std::vector<item*> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
-    for(size_t j = 0; j < tmpammo.size(); j++)
-     if (contents[i].charges <= 0 || tmpammo[j]->typeId() == contents[i].curammo->id)
-      am.push_back(tmpammo[j]);
-   }
- } else { //non-gun.
+        // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
+        // If the gun is partially loaded make sure the ammo matches.
+        // If the gun is empty, either the spare mag is empty too and anything goes,
+        // or the spare mag is loaded and we're doing a tactical reload.
+        if (charges < clip_size() ||
+            (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
+            std::vector<item *> tmpammo = u.has_ammo(ammo_type());
+            if (charges > 0) {
+                // partially loaded, accept only ammo of the exact same type
+                remove_non_matching_types(tmpammo, curammo->id);
+            }
+            am.insert(am.end(), tmpammo.begin(), tmpammo.end());
+        }
+
+        // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
+        // for each attachment, find its associated ammo & append it to the ammo vector
+        for (size_t i = 0; i < contents.size(); i++) {
+            item &cont = contents[i];
+            const it_gunmod *mod = dynamic_cast<it_gunmod *>(cont.type);
+            if (mod == NULL || !cont.has_flag("MODE_AUX")) {
+                // not a gunmod, or has no separate firing mode and can not be load
+                continue;
+            }
+            if (cont.charges >= mod->clip) {
+                // already fully loaded
+                continue;
+            }
+            std::vector<item *> tmpammo = u.has_ammo(mod->newtype);
+            if (cont.charges > 0) {
+                // partially loaded, accept only ammo of the exact same type
+                remove_non_matching_types(tmpammo, cont.curammo->id);
+            }
+            am.insert(am.end(), tmpammo.begin(), tmpammo.end());
+        }
+    } else { //non-gun.
         // this is probably a tool.  Check if it uses atomic power instead of batteries
         if (has_flag("ATOMIC_AMMO")) {
             am = u.has_ammo("plutonium");
-        } else
+        } else {
             am = u.has_ammo(ammo_type());
- }
+        }
+    }
 
- // Check if the player is wielding ammo
- if (u.is_armed() && u.weapon.is_ammo()){
-     // if it is compatible then include it.
-     it_ammo* w_ammo = dynamic_cast<it_ammo*>(u.weapon.type);
-     if (w_ammo->type == ammo_type())
-         am.push_back(&u.weapon);
- }
+    if (am.empty()) {
+        return INT_MIN;
+    }
+    if (am.size() == 1 || !interactive) {
+        // Either only one valid choice or chosing for a NPC, just return the first.
+        return u.get_item_position(am[0]);
+    }
 
+    // More than one option; list 'em and pick
+    uimenu amenu;
+    amenu.return_invalid = true;
+    amenu.w_y = 0;
+    amenu.w_x = 0;
+    amenu.w_width = TERMX;
+    // 40: = 4 * ammo stats colum (10 chars each)
+    // 2: prefix from uimenu: hotkey + space in front of name
+    // 4: borders: 2 char each ("| " and " |")
+    const int namelen = TERMX - 2 - 40 - 4;
+    std::string lastreload = "";
 
- int am_pos = INT_MIN;
+    if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
+        lastreload = uistate.lastreload[ ammo_type() ];
+    }
 
- if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
-     uimenu amenu;
-     amenu.return_invalid = true;
-     amenu.w_y = 0;
-     amenu.w_x = 0;
-     amenu.w_width = TERMX;
-     int namelen=TERMX-2-40-3;
-     std::string lastreload = "";
-
-     if ( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
-         lastreload = uistate.lastreload[ ammo_type() ];
-     }
-
-     amenu.text=string_format("Choose ammo type:"+std::string(namelen,' ')).substr(0,namelen) +
-         "   Damage    Pierce    Range     Accuracy";
-     it_ammo* ammo_def;
-     for (size_t i = 0; i < am.size(); i++) {
-         ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
-         amenu.addentry(i, true, i + 'a', "%s | %-7d | %-7d | %-7d | %-7d",
-             std::string(
-                string_format("%s (%d)", am[i]->tname().c_str(), am[i]->charges ) +
-                std::string(namelen, ' ')
-             ).substr(0,namelen).c_str(),
-             ammo_def->damage, ammo_def->pierce, ammo_def->range,
-             100 - ammo_def->dispersion
-         );
-         if ( lastreload == am[i]->typeId() ) {
-             amenu.selected = i;
-         }
-     }
-     amenu.query();
-     if ( amenu.ret >= 0 ) {
-        am_pos = u.get_item_position(am[ amenu.ret ]);
-        uistate.lastreload[ ammo_type() ] = am[ amenu.ret ]->typeId();
-     }
- }
- // Either only one valid choice or chosing for a NPC, just return the first.
- else if (am.size() > 0){
-     am_pos = u.get_item_position(am[0]);
- }
- return am_pos;
+    amenu.text = std::string(_("Choose ammo type:"));
+    if (amenu.text.length() < namelen) {
+        amenu.text += std::string(namelen - amenu.text.length(), ' ');
+    } else {
+        amenu.text.erase(namelen, amenu.text.length() - namelen);
+    }
+    // To cover the space in the header that is used by the hotkeys created by uimenu
+    amenu.text.insert(0, "  ");
+    //~ header of table that appears when reloading, each colum must contain exactly 10 characters
+    amenu.text += _("| Damage  | Pierce  | Range   | Accuracy");
+    // Stores the ammo ids (=item type, not ammo type) for the uistate
+    std::vector<std::string> ammo_ids;
+    for (size_t i = 0; i < am.size(); i++) {
+        item &it = *am[i];
+        it_ammo *ammo_def = dynamic_cast<it_ammo *>(it.type);
+        // ammo_def == NULL means the item is a container,
+        // containing the ammo, go through its content to find the ammo
+        for (size_t j = 0; ammo_def == NULL && j < it.contents.size(); j++) {
+            ammo_def = dynamic_cast<it_ammo *>(it.contents[j].type);
+        }
+        if (ammo_def == NULL) {
+            debugmsg("%s: contains no ammo & is no ammo", it.tname().c_str());
+            ammo_ids.push_back("");
+            continue;
+        }
+        ammo_ids.push_back(ammo_def->id);
+        // still show the container name, display_name adds the contents
+        // to the name: "bottle of gasoline"
+        std::string row = it.display_name();
+        if (row.length() < namelen) {
+            row += std::string(namelen - row.length(), ' ');
+        } else {
+            row.erase(namelen, row.length() - namelen);
+        }
+        row += string_format("| %-7d | %-7d | %-7d | %-7d",
+                                ammo_def->damage, ammo_def->pierce, ammo_def->range,
+                                100 - ammo_def->dispersion);
+        amenu.addentry(i, true, i + 'a', row);
+        if ( lastreload == ammo_def->id ) {
+            amenu.selected = i;
+        }
+    }
+    amenu.query();
+    if (amenu.ret < 0 || amenu.ret >= am.size()) {
+        // invalid selection / escaped from the menu
+        return INT_MIN;
+    }
+    uistate.lastreload[ ammo_type() ] = ammo_ids[ amenu.ret ];
+    return u.get_item_position(am[ amenu.ret ]);
 }
 
 bool item::reload(player &u, int pos)
@@ -2499,7 +2667,7 @@ bool item::reload(player &u, int pos)
    reload_target = &contents[spare_mag];
   // Finally consider other gunmods
   } else {
-   for (size_t i = 0; i < contents.size(); i++) {
+   for (ssize_t i = 0; i < (ssize_t)contents.size(); i++) {
     if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
         contents[i].has_flag("MODE_AUX") && contents[i].ammo_type() == ammo_to_use->ammo_type() &&
         (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
@@ -2557,10 +2725,11 @@ bool item::reload(player &u, int pos)
    reload_target->charges++;
    ammo_to_use->charges--;
   }
-  else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO")) {
-      long charges_per_plut = 500;
-      long max_plut = (long)floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
-      long charges_used = std::min(ammo_to_use->charges, max_plut);
+  else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO") ||
+           reload_target->typeId() == "rm13_armor" || reload_target->typeId() == "rm13_armor_on") {
+      int charges_per_plut = 500;
+      long max_plut = floor( static_cast<float>((max_load - reload_target->charges) / charges_per_plut) );
+      int charges_used = std::min(ammo_to_use->charges, max_plut);
       reload_target->charges += (charges_used * charges_per_plut);
       ammo_to_use->charges -= charges_used;
   } else {
@@ -2838,4 +3007,25 @@ bool item_matches_locator(const item &, int locator_pos, int item_pos) {
 }
 bool item_matches_locator(const item &it, char invlet, int) {
     return it.invlet == invlet;
+}
+
+iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double Value, bool _is_int, std::string Plus, bool NewLine, bool LowerIsBetter, bool DrawName) {
+    sType = Type;
+    sName = Name;
+    sFmt = Fmt;
+    is_int = _is_int;
+    dValue = Value;
+    std::stringstream convert;
+    if (_is_int) {
+        int dIn0i = int(Value);
+        convert << dIn0i;
+    } else {
+        convert.precision(2);
+        convert << std::fixed << Value;
+    }
+    sValue = convert.str();
+    sPlus = Plus;
+    bNewLine = NewLine;
+    bLowerIsBetter = LowerIsBetter;
+    bDrawName = DrawName;
 }

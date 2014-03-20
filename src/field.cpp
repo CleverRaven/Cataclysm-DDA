@@ -226,8 +226,8 @@ static void spread_gas( map *m, field_entry *cur, int x, int y, field_id curtype
             // Current field not a candidate.
             if( !(a || b) ) { continue; }
             field_entry* tmpfld = m->field_at( x + a, y + b ).findField( curtype );
-            // Candidates are existing non-max-strength fields or navigable tiles with no field.
-            if( ( tmpfld && tmpfld->getFieldDensity() < 3 ) ||
+            // Candidates are existing weaker fields or navigable tiles with no field.
+            if( ( tmpfld && tmpfld->getFieldDensity() < cur->getFieldDensity() ) ||
                 ( !tmpfld && m->move_cost( x + a, y + b ) > 0 ) ) {
                 spread.push_back( point( x + a, y + b ) );
             }
@@ -389,30 +389,45 @@ bool map::process_fields_in_submap(int gridn)
                                 ammo_type = dynamic_cast<it_ammo *>(it->type);
                             }
                             //Flame type ammo removed so gasoline isn't explosive, it just burns.
-                            if(ammo_type != NULL &&
-                               (ammo_type->ammo_effects.count("INCENDIARY") ||
-                                ammo_type->ammo_effects.count("EXPLOSIVE") ||
-                                ammo_type->ammo_effects.count("FRAG") ||
-                                ammo_type->ammo_effects.count("NAPALM") ||
-                                ammo_type->ammo_effects.count("NAPALM_BIG") ||
-                                ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
-                                ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
-                                ammo_type->ammo_effects.count("TEARGAS") ||
-                                ammo_type->ammo_effects.count("SMOKE") ||
-                                ammo_type->ammo_effects.count("SMOKE_BIG") ||
-                                ammo_type->ammo_effects.count("FLASHBANG") ||
-                                ammo_type->ammo_effects.count("COOKOFF"))) {
-                                //Any kind of explosive ammo (IE: not arrows and pebbles and such)
-                                const long rounds_exploded = rng(1, it->charges);
-                                // TODO: Vary the effect based on the ammo flag instead of just exploding them all.
-                                // cook off ammo instead of just burning it.
-                                for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
-                                    //Blow up with half the ammos damage in force, for each bullet.
-                                    g->explosion(x, y, ammo_type->damage / 2, true, false, false);
+                            if( ammo_type != NULL ) {
+                                bool cookoff = false;
+                                bool special = false;
+                                // Types with special effects.
+                                if( ammo_type->ammo_effects.count("FRAG") ||
+                                    ammo_type->ammo_effects.count("NAPALM") ||
+                                    ammo_type->ammo_effects.count("NAPALM_BIG") ||
+                                    ammo_type->ammo_effects.count("EXPLOSIVE") ||
+                                    ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
+                                    ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
+                                    ammo_type->ammo_effects.count("TEARGAS") ||
+                                    ammo_type->ammo_effects.count("SMOKE") ||
+                                    ammo_type->ammo_effects.count("SMOKE_BIG") ||
+                                    ammo_type->ammo_effects.count("FLASHBANG") ) {
+                                    special = true;
+                                } else if( ammo_type->ammo_effects.count("INCENDIARY") ||
+                                           ammo_type->ammo_effects.count("COOKOFF") ) {
+                                    cookoff = true;
                                 }
-                                it->charges -= rounds_exploded; //Get rid of the spent ammo.
-                                if(it->charges == 0) {
-                                    destroyed = true;    //No more ammo, item should be removed.
+                                if( special || cookoff ) {
+                                    const long rounds_exploded = rng( 1, it->charges );
+                                    // cook off ammo instead of just burning it.
+                                    for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
+                                        if( cookoff ) {
+                                            // Ammo that cooks off, but doesn't have a
+                                            // large intrinsic effect blows up with half
+                                            // the ammos damage in force, for each bullet,
+                                            // just creating shrapnel.
+                                            g->explosion( x, y, ammo_type->damage / 2,
+                                                          true, false, false );
+                                        } else if( special ) {
+                                            // If it has a special effect just trigger it.
+                                            ammo_effects( x, y, ammo_type->ammo_effects );
+                                        }
+                                    }
+                                    it->charges -= rounds_exploded; //Get rid of the spent ammo.
+                                    if( it->charges == 0 ) {
+                                        destroyed = true;    //No more ammo, item should be removed.
+                                    }
                                 }
                             } else if (it->made_of("paper")) {
                                 //paper items feed the fire moderatly.
@@ -509,7 +524,7 @@ bool map::process_fields_in_submap(int gridn)
 
                         veh = veh_at(x, y, part); //Get the part of the vehicle in the fire.
                         if (veh) {
-                            veh->damage (part, cur->getFieldDensity() * 10, false);    //Damage the vehicle in the fire.
+                            veh->damage(part, cur->getFieldDensity() * 10, 2, false);    //Damage the vehicle in the fire.
                         }
                         // If the flames are in a brazier, they're fully contained, so skip consuming terrain
                         if((tr_brazier != tr_at(x, y)) && (has_flag("FIRE_CONTAINER", x, y) != true )) {
@@ -1088,7 +1103,7 @@ void map::step_in_field(int x, int y)
                     adjusted_intensity -= 1;
                 }
             }
-            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
+            if (!g->u.has_active_bionic("bio_heatsink") && !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit prevents ALL fire damage.
                 if (adjusted_intensity == 1) {
                     g->add_msg(_("You burn your legs and feet!"));
                     g->u.hit(NULL, bp_feet, 0, 0, rng(2, 6));
@@ -1177,7 +1192,7 @@ void map::step_in_field(int x, int y)
         case fd_flame_burst:
             //A burst of flame? Only hits the legs and torso.
             if (inside) break; //fireballs can't touch you inside a car.
-            if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
+            if (!g->u.has_active_bionic("bio_heatsink") || !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit stops fire.
                 g->add_msg(_("You're torched by flames!"));
                 g->u.hit(NULL, bp_legs, 0, 0,  rng(2, 6));
                 g->u.hit(NULL, bp_legs, 1, 0,  rng(2, 6));
@@ -1189,6 +1204,8 @@ void map::step_in_field(int x, int y)
         case fd_electricity:
             if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) //Artifact or bionic stops electricity.
                 g->add_msg(_("The electricity flows around you."));
+            else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) //Artifact or bionic stops electricity.
+                g->add_msg(_("Your armor safely grounds the electrical discharge."));
             else {
                 g->add_msg(_("You're electrocuted!"));
                 //small universal damage based on density.

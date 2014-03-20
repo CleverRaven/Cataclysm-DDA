@@ -2,7 +2,6 @@
 #define _UI_H_
 
 #include "output.h"
-#include <sstream>
 #include <stdlib.h>
 #include "cursesdef.h"
 ////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +72,7 @@ class ui_container {
  *   }
  * }
  * uimenu monmenu;
- * for(int i=0; i < z.size(); i++ ) {
+ * for( size_t i = 0; i < z.size(); ++i ) {
  *   monmenu.addentry("%s", z[i].name.c_str() );
  * }
  * monmenu_cb * cb;

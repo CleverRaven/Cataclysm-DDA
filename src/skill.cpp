@@ -1,3 +1,4 @@
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <algorithm>    // std::min
@@ -88,7 +89,7 @@ Skill* Skill::random_skill_with_tag(std::string tag) {
             valid.push_back(*aSkill);
         }
     }
-    if (valid.size() == 0)
+    if (valid.empty())
     {
         return NULL;
     }

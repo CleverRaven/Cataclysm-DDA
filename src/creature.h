@@ -8,8 +8,8 @@
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"
-#include "color.h"
 #include "mtype.h"
+#include "output.h"
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -50,7 +50,7 @@ class Creature
         virtual int dodge_roll() = 0;
 
         // makes a single melee attack, with the currently equipped weapon
-        virtual void melee_attack(Creature &t, bool allow_special) = 0; // Returns a damage
+        virtual void melee_attack(Creature &t, bool allow_special, matec_id technique) = 0; // Returns a damage
 
         // fires a projectile at target point from source point, with total_dispersion
         // dispersion. returns the rolled dispersion of the shot.
@@ -69,9 +69,11 @@ class Creature
         virtual int hit(Creature *source, body_part bphurt, int side,
                         int dam, int cut);
 
+        // handles dodges and misses, allowing triggering of martial arts counter
+        virtual void dodge_hit(Creature *source, int hit_spread) = 0;
 
         // handles blocking of damage instance. mutates &dam
-        virtual bool block_hit(body_part &bp_hit, int &side,
+        virtual bool block_hit(Creature *source, body_part &bp_hit, int &side,
                                damage_instance &dam) = 0;
 
         // handles armor absorption (including clothing damage etc)
@@ -85,10 +87,13 @@ class Creature
         // TODO: remove this function in favor of deal/apply_damage
         virtual void hurt(body_part bp, int side, int dam) = 0;
 
-        // makes a melee attack against the creature
-        // dealt_dam is overwritten with the values of the damage dealt
+        // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
-        virtual int deal_melee_attack(Creature *source, int hitroll, bool crit,
+        virtual int deal_melee_attack(Creature *source, int hitroll);
+
+        // completes a melee attack against the creature
+        // dealt_dam is overwritten with the values of the damage dealt
+        virtual void deal_melee_hit(Creature *source, int hit_spread, bool crit,
                                       const damage_instance &d, dealt_damage_instance &dealt_dam);
 
         // makes a ranged projectile attack against the creature
@@ -185,6 +190,8 @@ class Creature
         virtual m_size get_size() = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
         virtual std::string get_material() { return "flesh"; };
+        virtual field_id bloodType () { debugmsg("creature:bloodType: not a valid monster/npc/player, returned fd_null"); return fd_null; };
+        virtual field_id gibType () { debugmsg("creature:gibType: not a valid monster/npc/player, returned fd_gibs_flesh"); return fd_gibs_flesh; };
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const { return false; };
 
@@ -265,8 +272,6 @@ class Creature
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
         std::vector<effect> effects;
-
-
 
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately

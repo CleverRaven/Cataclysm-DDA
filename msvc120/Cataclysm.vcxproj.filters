@@ -36,6 +36,9 @@
     <ClCompile Include="..\src\animation_tiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\armor_layers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\artifact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -181,9 +184,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\json.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\keypress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\lightmap.cpp">
@@ -573,9 +573,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\json.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\keypress.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\lightmap.h">

@@ -11,7 +11,7 @@ classes = {
                 type = "int",
                 writable = false
             },
-        
+
             hunger = {
                 type = "int",
                 writable = true
@@ -28,17 +28,17 @@ classes = {
                 type = "int",
                 writable = false
             },
-            
+
             name = {
                 type = "string",
                 writable = false
             },
-            
+
             male = {
                 type = "bool",
                 writable = false
             },
-            
+
             str_cur = {
                 type = "int",
                 writable = true
@@ -55,7 +55,7 @@ classes = {
                 type = "int",
                 writable = true
             },
-            
+
             str_max = {
                 type = "int",
                 writable = true
@@ -259,7 +259,19 @@ classes = {
         functions = {
         }
     },
+    Creature = {
+        attributes = {
+
+        },
+        functions = {
+            get_speed = {
+                args = {},
+                rval = "int"
+            }
+        }
+    },
     monster = {
+        parent = "Creature",
         attributes = {
             hp = {
                 type = "int",
@@ -296,8 +308,161 @@ classes = {
                 rval = "int"
             }
         }
+    },
+    mtype = {
+        attributes = {
+            speed = {
+                type = "int",
+                writable = true
+            },
+            melee_skill = {
+                type = "int",
+                writable = true
+            },
+            melee_dice = {
+                type = "int",
+                writable = true
+            },
+            melee_sides = {
+                type = "int",
+                writable = true
+            },
+            melee_cut = {
+                type = "int",
+                writable = true
+            },
+            sk_dodge = {
+                type = "int",
+                writable = true
+            },
+            armor_bash = {
+                type = "int",
+                writable = true
+            },
+            armor_cut = {
+                type = "int",
+                writable = true
+            },
+            item_chance = {
+                type = "int",
+                writable = true
+            },
+            sk_dodge = {
+                type = "int",
+                writable = true
+            },
+            difficulty = {
+                type = "int",
+                writable = true
+            },
+            agro = {
+                type = "int",
+                writable = true
+            },
+            morale = {
+                type = "int",
+                writable = true
+            },
+        },
+        functions = {
+            in_category = {
+                args = {"string"},
+                rval = "bool"
+            },
+            in_species = {
+                args = {"string"},
+                rval = "bool"
+            }
+        }
+    },
+    mongroup = {
+        attributes = {
+            type = {
+                type = "string",
+                writable = true
+            },
+            posx = {
+                type = "int",
+                writable = true
+            },
+            posy = {
+                type = "int",
+                writable = true
+            },
+            posz = {
+                type = "int",
+                writable = true
+            },
+            tx = {
+                type = "int",
+                writable = false
+            },
+            ty = {
+                type = "int",
+                writable = false
+            },
+            dying = {
+                type = "bool",
+                writable = true
+            },
+            horde = {
+                type = "bool",
+                writable = true
+            },
+            diffuse = {
+                type = "bool",
+                writable = true
+            },
+            radius = {
+                type = "int",
+                writable = true
+            },
+            population = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+            set_target = {
+                args = {"int", "int"},
+                rval = nil
+            },
+            inc_interest = {
+                args = {"int"},
+                rval = nil
+            },
+            dec_interest = {
+                args = {"int"},
+                rval = nil
+            },
+            set_interest = {
+                args = {"int"},
+                rval = nil
+            }
+        }
+    },
+    overmap = {
+        attributes = {
+        },
+        functions = {
+            get_bottom_border = {
+                args = {},
+                rval = "int"
+            },
+            get_top_border = {
+                args = {},
+                rval = "int"
+            },
+            get_left_border = {
+                args = {},
+                rval = "int"
+            },
+            get_right_border = {
+                args = {},
+                rval = "int"
+            },
+        }
     }
-        
 }
 
 global_functions = {
@@ -355,5 +520,15 @@ global_functions = {
         cpp_name = "game_remove_item",
         args = {"int", "int", "item"},
         rval = nil
+    },
+    get_current_overmap = {
+        cpp_name = "get_current_overmap",
+        args = { },
+        rval = "overmap"
+    },
+    create_monster_group = {
+        cpp_name = "create_monster_group",
+        args = {"overmap", "string", "int", "int", "int", "int", "int"},
+        rval = "mongroup"
     }
 }

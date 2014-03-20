@@ -1,7 +1,6 @@
 #ifndef _ADVANCED_INV_H_
 #define _ADVANCED_INV_H_
 #include "output.h"
-#include "game.h"
 #include <string>
 struct advanced_inv_area {
     int id;

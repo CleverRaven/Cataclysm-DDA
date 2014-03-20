@@ -33,14 +33,32 @@ void profession::load_profession(JsonObject &jsobj)
     //otherwise we assume "name" is a string and use its value for prof._name
     if(jsobj.has_object("name")) {
         JsonObject name_obj=jsobj.get_object("name");
-        prof._name_male=name_obj.get_string("male");
-        prof._name_female=name_obj.get_string("female");
-        prof._name="";
+        prof._name_male = _(name_obj.get_string("male").c_str());
+        prof._name_female = _(name_obj.get_string("female").c_str());
+        prof._name = "";
     }
     else {
-        prof._name=jsobj.get_string("name");
-        prof._name_male="";
-        prof._name_female="";
+        // Json only has a gender neutral name, construct additional
+        // gender specific names using a prefix.
+        // extract_json_strings.py contains code that automatically adds
+        // these constructed strings to the translation table.
+        const std::string name = jsobj.get_string("name");
+        const std::string name_female = std::string("female ") + name;
+        const std::string name_male = std::string("male ") + name;
+        // Now attempt to translate them...
+        prof._name = _(name.c_str());
+        prof._name_female = _(name_female.c_str());
+        prof._name_male = _(name_male.c_str());
+        // ... if it fails, translate the gender prefix and use it to
+        // construct generic specific names:
+        if (prof._name_female == name_female) {
+            //~ player info: "female <gender unspecific profession>"
+            prof._name_female = string_format(_("female %s"), prof._name.c_str());
+        }
+        if (prof._name_male == name_male) {
+            //~ player info: "male <gender unspecific profession>"
+            prof._name_male = string_format(_("male %s"), prof._name.c_str());
+        }
     }
 
     prof._description = _(jsobj.get_string("description").c_str());
@@ -93,6 +111,27 @@ profession* profession::prof(std::string ident)
 profession* profession::generic()
 {
     return profession::prof("unemployed");
+}
+
+// Strategy: a third of the time, return the generic profession.  Otherwise, return a profession,
+// weighting 0 cost professions more likely--the weight of a profession with cost n is 2/(|n|+2),
+// e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
+profession* profession::weighted_random() {
+    if (one_in(3)) {
+        return generic();
+    } else {
+        profession* retval = 0;
+        while(retval == 0) {
+            profmap::iterator iter = _all_profs.begin();
+            for (int i = rng(0, _all_profs.size() - 1); i > 0; --i) {
+                ++iter;
+            }
+            if (x_in_y(2, abs(iter->second.point_cost()) + 2)) {
+                retval = &(iter->second);
+            }  // else reroll in the while loop.
+        }
+        return retval;
+    }
 }
 
 bool profession::exists(std::string ident)
@@ -171,10 +210,7 @@ std::string profession::name() const
 
 std::string profession::gender_appropriate_name(bool male) const
 {
-    if(_name!="") {
-        return _name;
-    }
-    else if(male) {
+    if(male) {
         return _name_male;
     }
     else {

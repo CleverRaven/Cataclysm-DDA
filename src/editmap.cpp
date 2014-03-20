@@ -1,6 +1,5 @@
 #include "game.h"
 #include "input.h"
-#include "keypress.h"
 #include "output.h"
 #include "line.h"
 #include "computer.h"
@@ -20,6 +19,7 @@
 #include "mapdata.h"
 #include "overmapbuffer.h"
 
+#include <fstream>
 #include <sstream>
 #include <map>
 #include <set>
@@ -85,7 +85,7 @@ void edit_json( SAVEOBJ *it )
     do {
         uimenu tm;
 
-        for(int s = 0; s < fs1.size(); s++) {
+        for( size_t s = 0; s < fs1.size(); ++s ) {
             tm.addentry(-1, true, -2, "%s", fs1[s].c_str() );
         }
         if(tmret == 0) {
@@ -96,7 +96,7 @@ void edit_json( SAVEOBJ *it )
             fs2 = fld_string(save2, TERMX-10);
 
             tm.addentry(-1, true, -2, "== Reloaded: =====================" );
-            for(int s = 0; s < fs2.size(); s++) {
+            for( size_t s = 0; s < fs2.size(); ++s ) {
                 tm.addentry(-1, true, -2, "%s", fs2[s].c_str() );
                 if ( s < fs1.size() && fs2[s] != fs1[s] ) {
                     tm.entries[ tm.entries.size()-1 ].text_color = c_ltgreen;
@@ -106,7 +106,7 @@ void edit_json( SAVEOBJ *it )
             fs2.clear();
         } else if (tmret == 1) {
             std::string ret = string_input_popup("test", 50240, save1,"", "jsonedit");
-            if ( ret.size() > 0 ) {
+            if ( !ret.empty() ) {
                 fs1 = fld_string(save1, TERMX-10);
                 save1 = ret;
                 tmret=-2;
@@ -385,7 +385,7 @@ void editmap::uber_draw_ter( WINDOW *w, map *m )
                         g->zombie(mon_idx).draw(w, center.x, center.y, false);
                         monster & mon=g->zombie(mon_idx);
                         if ( refresh_mplans == true ) {
-                            for(int i=0; i< mon.plans.size(); i++) {
+                            for( size_t i = 0; i < mon.plans.size(); ++i ) {
                                 hilights["mplan"].points[mon.plans[i]] = 1;
                             }
                         }
@@ -482,7 +482,7 @@ void editmap::update_view(bool update_info)
 
     // custom hilight. todo; optimize
     for(std::map<std::string, editmap_hilight>::iterator mit = hilights.begin(); mit != hilights.end(); ++mit ) {
-        if ( mit->second.points.size() > 0 ) {
+        if ( !mit->second.points.empty() ) {
             mit->second.draw(this);
         }
     }
@@ -847,7 +847,7 @@ int editmap::edit_ter()
                     }
                 }
 
-                for(int t = 0; t < target_list.size(); t++ ) {
+                for( size_t t = 0; t < target_list.size(); ++t ) {
                     int wter=sel_ter;
                     if ( doalt ) {
                         if ( isvert && ( target_list[t].y == alta || target_list[t].y == altb ) ) {
@@ -888,7 +888,7 @@ int editmap::edit_ter()
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
             } else if( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) {
-                for(int t = 0; t < target_list.size(); t++ ) {
+                for( size_t t = 0; t < target_list.size(); ++t ) {
                     g->m.furn_set(target_list[t].x, target_list[t].y, (furn_id)sel_frn);
                 }
                 if ( subch == 'g' ) {
@@ -927,7 +927,7 @@ void editmap::update_fmenu_entry(uimenu *fmenu, field *field, int idx)
     if ( fld != NULL ) {
         fdens = fld->getFieldDensity();
     }
-    fmenu->entries[idx].txt = ( ftype.name[fdens-1].size() == 0 ? fids[idx] : ftype.name[fdens-1] );
+    fmenu->entries[idx].txt = ( ftype.name[fdens-1].empty() ? fids[idx] : ftype.name[fdens-1] );
     if ( fld != NULL ) {
         fmenu->entries[idx].txt += " " + std::string(fdens, '*');
     }
@@ -942,7 +942,7 @@ void editmap::setup_fmenu(uimenu *fmenu)
     for ( int i = 0; i < num_fields; i++ ) {
         field_t ftype = fieldlist[i];
         int fdens = 1;
-        fname = ( ftype.name[fdens-1].size() == 0 ? fids[i] : ftype.name[fdens-1] );
+        fname = ( ftype.name[fdens-1].empty() ? fids[i] : ftype.name[fdens-1] );
         fmenu->addentry(i, true, -2, "%s", fname.c_str());
         fmenu->entries[i].extratxt.left = 1;
         fmenu->entries[i].extratxt.txt = string_format("%c", ftype.sym);
@@ -989,12 +989,12 @@ int editmap::edit_fld()
                 femenu.return_invalid = true;
                 field_t ftype = fieldlist[idx];
                 int fidens = ( fdens == 0 ? 0 : fdens - 1 );
-                femenu.text = ( ftype.name[fidens].size() == 0 ? fids[idx] : ftype.name[fidens] );
+                femenu.text = ( ftype.name[fidens].empty() ? fids[idx] : ftype.name[fidens] );
                 femenu.addentry("-clear-");
 
-                femenu.addentry("1: %s", ( ftype.name[0].size() == 0 ? fids[idx].c_str() : ftype.name[0].c_str() ));
-                femenu.addentry("2: %s", ( ftype.name[1].size() == 0 ? fids[idx].c_str() : ftype.name[1].c_str() ));
-                femenu.addentry("3: %s", ( ftype.name[2].size() == 0 ? fids[idx].c_str() : ftype.name[2].c_str() ));
+                femenu.addentry("1: %s", ( ftype.name[0].empty() ? fids[idx].c_str() : ftype.name[0].c_str() ));
+                femenu.addentry("2: %s", ( ftype.name[1].empty() ? fids[idx].c_str() : ftype.name[1].c_str() ));
+                femenu.addentry("3: %s", ( ftype.name[2].empty() ? fids[idx].c_str() : ftype.name[2].c_str() ));
                 femenu.entries[fdens].text_color = c_cyan;
                 femenu.selected = ( sel_fdensity > 0 ? sel_fdensity : fdens );
 
@@ -1008,7 +1008,7 @@ int editmap::edit_fld()
                 fsel_dens--;
             }
             if ( fdens != fsel_dens || target_list.size() > 1 ) {
-                for(int t = 0; t < target_list.size(); t++ ) {
+                for( size_t t = 0; t < target_list.size(); ++t ) {
                     field *t_field = &g->m.field_at(target_list[t].x, target_list[t].y);
                     field_entry *t_fld = t_field->findField((field_id)idx);
                     int t_dens = 0;
@@ -1033,7 +1033,7 @@ int editmap::edit_fld()
                 sel_fdensity = fsel_dens;
             }
         } else if ( fmenu.selected == 0 && fmenu.keypress == '\n' ) {
-            for(int t = 0; t < target_list.size(); t++ ) {
+            for( size_t t = 0; t < target_list.size(); ++t ) {
                 field *t_field = &g->m.field_at(target_list[t].x, target_list[t].y);
                 if ( t_field->fieldCount() > 0 ) {
                     for ( std::map<field_id, field_entry *>::iterator field_list_it = t_field->getFieldStart();
@@ -1095,7 +1095,6 @@ int editmap::edit_trp()
         for ( int t = tshift; t <= tshift + tmax; t++ ) {
             mvwprintz(w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str());
             if ( t < num_trap_types ) {
-                //tnam = ( g->traps[t]->name.size() == 0 ? trids[t] : g->traps[t]->name );
                 tnam = t == 0 ? _("-clear-") : g->traps[t]->id;
                 mvwputch(w_picktrap, t + 1 - tshift, 2, g->traps[t]->color, g->traps[t]->sym);
                 mvwprintz(w_picktrap, t + 1 - tshift, 4, (trsel == t ? h_white : ( cur_trap == t ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
@@ -1112,7 +1111,7 @@ int editmap::edit_trp()
             if ( trsel < num_trap_types && trsel >= 0 ) {
                 trset = trsel;
             }
-            for(int t = 0; t < target_list.size(); t++ ) {
+            for( size_t t = 0; t < target_list.size(); ++t ) {
                 g->m.add_trap(target_list[t].x, target_list[t].y, trap_id(trset));
             }
             if ( subch == 't' ) {
@@ -1165,7 +1164,7 @@ int editmap::edit_itm()
     ilmenu.w_height = TERMY - infoHeight - 1;
     ilmenu.return_invalid = true;
     std::vector<item>& items = g->m.i_at(target.x , target.y );
-    for(int i = 0; i < items.size(); i++) {
+    for( size_t i = 0; i < items.size(); ++i ) {
         ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
@@ -1253,7 +1252,7 @@ int editmap::edit_itm()
             ilmenu.ret = UIMENU_INVALID;
             g->wishitem(NULL,target.x, target.y);
             ilmenu.entries.clear();
-            for(int i = 0; i < items.size(); i++) {
+            for( size_t i = 0; i < items.size(); ++i ) {
                ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
             }
             ilmenu.addentry(-5, true, 'a', "Add item");
@@ -1795,7 +1794,7 @@ int editmap::edit_mapgen()
                 special += " clas";
             }
         }
-        if ( special.size() > 0 ) {
+        if ( !special.empty() ) {
             gmenu.entries[i].txt += " (" + special + " )";
         }
         gmenu.entries[i].extratxt.left = 1;

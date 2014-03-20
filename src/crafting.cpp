@@ -78,10 +78,11 @@ void load_recipe(JsonObject &jsobj)
     std::string skill_used = jsobj.get_string("skill_used", "");
     std::string id_suffix = jsobj.get_string("id_suffix", "");
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
+    int result_mult = jsobj.get_int("result_mult", 1);
 
     std::map<std::string, int> requires_skills;
     jsarr = jsobj.get_array("skills_required");
-    if (jsarr.size() > 0) {
+    if (!jsarr.empty()) {
         // could be a single requirement, or multiple
         try {
             // try to parse as single requirement
@@ -110,7 +111,7 @@ void load_recipe(JsonObject &jsobj)
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, time, reversible,
-                             autolearn, learn_by_disassembly);
+                             autolearn, learn_by_disassembly, result_mult);
 
     jsarr = jsobj.get_array("components");
     while (jsarr.has_more()) {
@@ -131,7 +132,7 @@ void load_recipe(JsonObject &jsobj)
         std::string ident = quality_data.get_string("id");
         int level = quality_data.get_int("level", 1);
         int amount = quality_data.get_int("amount", 1);
-        rec->qualities.push_back(quality_requirement(ident, level, amount));
+        rec->qualities.push_back(quality_requirement(ident, amount, level));
     }
 
     jsarr = jsobj.get_array("tools");
@@ -161,7 +162,7 @@ void load_recipe(JsonObject &jsobj)
 void reset_recipes()
 {
     for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it) {
-        for (int i = 0; i < it->second.size(); ++i) {
+        for (size_t i = 0; i < it->second.size(); ++i) {
             delete it->second[i];
         }
     }
@@ -172,7 +173,7 @@ void reset_recipes()
 void finalize_recipes()
 {
     for (recipe_map::iterator it = recipes.begin(); it != recipes.end(); ++it) {
-        for (int i = 0; i < it->second.size(); ++i) {
+        for (size_t i = 0; i < it->second.size(); ++i) {
             recipe* r = it->second[i];
             for(size_t j = 0; j < r->booksets.size(); j++) {
                 const std::string &book_id = r->booksets[j].first;
@@ -308,8 +309,8 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
             component &tool = *tool_it;
             itype_id type = tool.type;
             int req = tool.count;
-            if ( (req <= 0 && crafting_inv.has_tools(type, 1)) ||
-                 (req <= 0 && (type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses"))) ||
+            if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
+                 (req <= 0 && ((type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
                  (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
@@ -740,8 +741,8 @@ recipe *game::select_crafting_recipe()
                 }
             }
         } else {
-            for (unsigned i = 0; i < current.size() && i < dataHeight + 1; ++i) {
-                if (i == line) {
+            for (size_t i = 0; i < current.size() && i < (size_t)dataHeight + 1; ++i) {
+                if ((ssize_t)i == line) {
                     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
                               item_controller->find_template(current[i]->result)->name.c_str());
                 } else {
@@ -778,7 +779,7 @@ recipe *game::select_crafting_recipe()
             }
             if(display_mode == 0 || display_mode == 1) {
                 mvwprintz(w_data, ypos++, 30, col, _("Tools required:"));
-                if (current[line]->tools.size() == 0 && current[line]->qualities.size() == 0) {
+                if (current[line]->tools.empty() && current[line]->qualities.empty()) {
                     mvwputch(w_data, ypos, 30, col, '>');
                     mvwprintz(w_data, ypos, 32, c_green, _("NONE"));
                 } else {
@@ -797,16 +798,16 @@ recipe *game::select_crafting_recipe()
                                                   iter->count, qualities[iter->id].name.c_str(),
                                                   iter->level);
                         ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
-                                               toolcol, qualinfo.str().c_str());
+                                               toolcol, qualinfo.str());
                     }
                     ypos--;
                     // Loop to print the required tools
-                    for (int i = 0; i < current[line]->tools.size() && current[line]->tools[i].size() > 0; i++) {
+                    for (size_t i = 0; i < current[line]->tools.size() && !current[line]->tools[i].empty(); i++) {
                         ypos++;
                         xpos = 32;
                         mvwputch(w_data, ypos, 30, col, '>');
                         bool has_one = any_marked_available(current[line]->tools[i]);
-                        for (unsigned j = 0; j < current[line]->tools[i].size(); j++) {
+                        for (size_t j = 0; j < current[line]->tools[i].size(); j++) {
                             itype_id type = current[line]->tools[i][j].type;
                             long charges = current[line]->tools[i][j].count;
                             nc_color toolcol = has_one ? c_dkgray : c_red;
@@ -817,7 +818,7 @@ recipe *game::select_crafting_recipe()
                                 toolcol = c_green;
                             } else if (charges > 0 && crafting_inv.has_charges(type, charges)) {
                                 toolcol = c_green;
-                            } else if ((type == "goggles_welding") && u.has_bionic("bio_sunglasses")) {
+                            } else if ((type == "goggles_welding") && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on"))) {
                                 toolcol = c_cyan;
                             }
 
@@ -850,7 +851,7 @@ recipe *game::select_crafting_recipe()
             // Loop to print the required components
             mvwprintz(w_data, ypos, 30, col, _("Components required:"));
             for (unsigned i = 0; i < current[line]->components.size(); i++) {
-                if (current[line]->components[i].size() > 0) {
+                if (!current[line]->components[i].empty()) {
                     ypos++;
                     mvwputch(w_data, ypos, 30, col, '>');
                 }
@@ -893,12 +894,13 @@ recipe *game::select_crafting_recipe()
                 if ( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = item(item_controller->find_template(current[line]->result), g->turn);
+                    tmp.charges *= current[line]->result_mult;
                     folded = foldstring(tmp.info(true), iInfoWidth);
                 }
-                int maxline = folded.size() > dataHeight ? dataHeight : folded.size();
+                int maxline = (ssize_t)folded.size() > dataHeight ? dataHeight : (ssize_t)folded.size();
 
                 for(int i = 0; i < maxline; i++) {
-                    mvwprintz(w_data, i, FULL_SCREEN_WIDTH + 1, col, folded[i].c_str() );
+                    mvwprintz(w_data, i, FULL_SCREEN_WIDTH + 1, col, "%s", folded[i].c_str() );
                 }
 
             }
@@ -912,6 +914,8 @@ recipe *game::select_crafting_recipe()
         int ch = (int)getch();
         if(ch == 'e' || ch == 'E') { // get_input is inflexible
             ch = (int)'?';
+        } else if(ch == '/') {
+            ch = 'F';
         } else if(ch == KEY_PPAGE) {
             ch = (int)'<';
         } else if(ch == KEY_NPAGE || ch == '\t' ) {
@@ -949,7 +953,7 @@ recipe *game::select_crafting_recipe()
             line--;
             break;
         case Confirm:
-            if (!available[line]) {
+            if (available.empty() || !available[line]) {
                 popup(_("You can't do that!"));
             } else {
                 // is player making a liquid? Then need to check for valid container
@@ -970,7 +974,7 @@ recipe *game::select_crafting_recipe()
             break;
         case Help:
             tmp = item(item_controller->find_template(current[line]->result), g->turn);
-            full_screen_popup(tmp.info(true).c_str());
+            full_screen_popup("%s", tmp.info(true).c_str());
             redraw = true;
             keepline = true;
             break;
@@ -982,11 +986,13 @@ recipe *game::select_crafting_recipe()
             filterstring = "";
             redraw = true;
             break;
+        default: // Ignore other actions. Suppress compiler warning [-Wswitch]
+            break;
 
         }
         if (line < 0) {
             line = current.size() - 1;
-        } else if (line >= current.size()) {
+        } else if (line >= (int)current.size()) {
             line = 0;
         }
     } while (input != Cancel && !done);
@@ -1185,7 +1191,8 @@ inventory game::crafting_inventory(player *p)
     crafting_inv += p->inv;
     crafting_inv += p->weapon;
     if (p->has_bionic("bio_tools")) {
-        item tools(item_controller->find_template("toolset"), turn);
+        //item tools(item_controller->find_template("toolset"), turn);
+        item tools(itypes["toolset"], turn);
         tools.charges = p->power_level;
         crafting_inv += tools;
     }
@@ -1199,12 +1206,12 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     bool search_name = true;
     bool search_tool = false;
     bool search_component = false;
-    int pos = filter.find(":");
+    size_t pos = filter.find(":");
     if(pos != std::string::npos)
     {
         search_name = false;
         std::string searchType = filter.substr(0, pos);
-        for(int i = 0 ; i < searchType.size() ; i++)
+        for( size_t i = 0; i < searchType.size(); ++i )
         {
             if(searchType[i] == 'n')
             {
@@ -1378,13 +1385,13 @@ void game::complete_craft()
         add_msg(_("You fail to make the %s, and waste some materials."),
                 item_controller->find_template(making->result)->name.c_str());
         for (unsigned i = 0; i < making->components.size(); i++) {
-            if (making->components[i].size() > 0) {
+            if (!making->components[i].empty()) {
                 consume_items(&u, making->components[i]);
             }
         }
 
         for (unsigned i = 0; i < making->tools.size(); i++) {
-            if (making->tools[i].size() > 0) {
+            if (!making->tools[i].empty()) {
                 consume_tools(&u, making->tools[i], false);
             }
         }
@@ -1403,19 +1410,25 @@ void game::complete_craft()
     // Use up the components and tools
     std::list<item> used;
     for (unsigned i = 0; i < making->components.size(); i++) {
-        if (making->components[i].size() > 0) {
+        if (!making->components[i].empty()) {
             std::list<item> tmp = consume_items(&u, making->components[i]);
             used.splice(used.end(), tmp);
         }
     }
     for (unsigned i = 0; i < making->tools.size(); i++) {
-        if (making->tools[i].size() > 0) {
+        if (!making->tools[i].empty()) {
             consume_tools(&u, making->tools[i], false);
         }
     }
 
     // Set up the new item, and assign an inventory letter if available
     item newit(item_controller->find_template(making->result), turn, 0, false);
+    if (!newit.count_by_charges()) {
+        // Setting this for items counted by charges gives only problems:
+        // those items are automatically merged everywhere (map/vehicle/inventory),
+        // which would either loose this information or merge it somehow.
+        newit.components.insert(newit.components.begin(), used.begin(), used.end());
+    }
 
     if (newit.is_armor() && newit.has_flag("VARSIZE")) {
         newit.item_tags.insert("FIT");
@@ -1446,16 +1459,23 @@ void game::complete_craft()
             newit.item_counter = 600;
         }
     }
+    if (making->result_mult != 1) {
+        newit.charges *= making->result_mult;
+    }
+
     if (!newit.craft_has_charges()) {
         newit.charges = 0;
     }
     u.inv.assign_empty_invlet(newit);
     //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
-        handle_liquid(newit, false, false);
+        //while ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ){
+        //while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
+        // ^ failed container controls, they don't detect stacks of the same empty container after only one of them is filled
+        while(!handle_liquid(newit, false, false)) { ; }
     } else {
         // We might not have space for the item
-        if (!u.can_pickVolume(newit.volume())) {
+        if (!u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
                     newit.tname().c_str());
             m.add_item_or_charges(u.posx, u.posy, newit);
@@ -1479,9 +1499,12 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
     std::vector<component> player_has;
     std::vector<component> map_has;
     std::vector<component> mixed;
-    std::vector<component> player_use;
-    std::vector<component> map_use;
-    std::vector<component> mixed_use;
+    enum {
+        use_from_map = 1,
+        use_from_player = 2,
+        use_from_both = 1 | 2
+    } use_from;
+    component selected_comp("", 0);
     inventory map_inv;
     map_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE);
 
@@ -1525,11 +1548,14 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
 
     if (player_has.size() + map_has.size() + mixed.size() == 1) { // Only 1 choice
         if (player_has.size() == 1) {
-            player_use.push_back(player_has[0]);
+            use_from = use_from_player;
+            selected_comp = player_has[0];
         } else if (map_has.size() == 1) {
-            map_use.push_back(map_has[0]);
+            use_from = use_from_map;
+            selected_comp = map_has[0];
         } else {
-            mixed_use.push_back(mixed[0]);
+            use_from = use_from_both;
+            selected_comp = mixed[0];
         }
     } else { // Let the player pick which component they want to use
         std::vector<std::string> options; // List for the menu_vec below
@@ -1549,74 +1575,65 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
 
         // unlike with tools, it's a bad thing if there aren't any components available
         if (options.empty()) {
+            if (!(p->has_trait("WEB_ROPE"))) {
             debugmsg("Attempted a recipe with no available components!");
+            }
             return ret;
         }
 
         // Get the selection via a menu popup
-        int selection = menu_vec(false, _("Use which component?"), options) - 1;
+        size_t selection = menu_vec(false, _("Use which component?"), options) - 1;
         if (selection < map_has.size()) {
-            map_use.push_back(map_has[selection]);
+            use_from = use_from_map;
+            selected_comp = map_has[selection];
         } else if (selection < map_has.size() + player_has.size()) {
             selection -= map_has.size();
-            player_use.push_back(player_has[selection]);
+            use_from = use_from_player;
+            selected_comp = player_has[selection];
         } else {
             selection -= map_has.size() + player_has.size();
-            mixed_use.push_back(mixed[selection]);
+            use_from = use_from_both;
+            selected_comp = mixed[selection];
         }
     }
 
-    for (unsigned i = 0; i < player_use.size(); i++) {
-        if (item_controller->find_template(player_use[i].type)->count_by_charges() &&
-            player_use[i].count > 0) {
-            std::list<item> tmp = p->use_charges(player_use[i].type, player_use[i].count);
+    const point loc(p->posx, p->posy);
+    itype *itt = item_controller->find_template(selected_comp.type);
+    const bool by_charges = (itt->count_by_charges() && selected_comp.count > 0);
+    // Count given to use_amount/use_charges, changed by those functions!
+    int real_count = abs(selected_comp.count);
+    const bool in_container = (selected_comp.count < 0);
+    // First try to get everything from the map, than (remaining amount) from player
+    if (use_from & use_from_map) {
+        if (by_charges) {
+            std::list<item> tmp = m.use_charges(loc, PICKUP_RANGE, selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
         } else {
-            std::list<item> tmp = p->use_amount(player_use[i].type, abs(player_use[i].count),
-                                                (player_use[i].count < 0));
+            std::list<item> tmp = m.use_amount(loc, PICKUP_RANGE, selected_comp.type, real_count, in_container);
             remove_ammo(tmp);
             ret.splice(ret.end(), tmp);
-            u.lastconsumed = player_use[i].type;
         }
     }
-    for (unsigned i = 0; i < map_use.size(); i++) {
-        if (item_controller->find_template(map_use[i].type)->count_by_charges() &&
-            map_use[i].count > 0) {
-            std::list<item> tmp = m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                                                map_use[i].type, map_use[i].count);
+    if (use_from & use_from_player) {
+        if (by_charges) {
+            std::list<item> tmp = p->use_charges(selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
         } else {
-            std::list<item> tmp =  m.use_amount(point(p->posx, p->posy), PICKUP_RANGE,
-                                                map_use[i].type, abs(map_use[i].count),
-                                                (map_use[i].count < 0));
+            std::list<item> tmp = p->use_amount(selected_comp.type, real_count, in_container);
             remove_ammo(tmp);
             ret.splice(ret.end(), tmp);
-            u.lastconsumed =  map_use[i].type;
         }
     }
-    for (unsigned i = 0; i < mixed_use.size(); i++) {
-        if (item_controller->find_template(mixed_use[i].type)->count_by_charges() &&
-            mixed_use[i].count > 0) {
-            int from_map = mixed_use[i].count - p->charges_of(mixed_use[i].type);
-            std::list<item> tmp;
-            tmp = p->use_charges(mixed_use[i].type, p->charges_of(mixed_use[i].type));
-            ret.splice(ret.end(), tmp);
-            tmp = m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
-                                mixed_use[i].type, from_map);
-            ret.splice(ret.end(), tmp);
-        } else {
-            bool in_container = (mixed_use[i].count < 0);
-            int from_map = abs(mixed_use[i].count) - p->amount_of(mixed_use[i].type);
-            std::list<item> tmp;
-            tmp = p->use_amount(mixed_use[i].type, p->amount_of(mixed_use[i].type),
-                                in_container);
-            ret.splice(ret.end(), tmp);
-            tmp = m.use_amount(point(p->posx, p->posy), PICKUP_RANGE,
-                               mixed_use[i].type, from_map, in_container);
-            ret.splice(ret.end(), tmp);
-            remove_ammo(ret);
+    // condense those items into one
+    if (by_charges && ret.size() > 1) {
+        std::list<item>::iterator b = ret.begin();
+        b++;
+        while(ret.size() > 1) {
+            ret.front().charges += b->charges;
+            b = ret.erase(b);
         }
     }
+    p->lastconsumed = selected_comp.type;
     return ret;
 }
 
@@ -1671,7 +1688,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
         }
 
         // Get selection via a popup menu
-        int selection = menu_vec(false, _("Use which tool?"), options) - 1;
+        size_t selection = menu_vec(false, _("Use which tool?"), options) - 1;
         if (selection < map_has.size())
             m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
                           map_has[selection].type, map_has[selection].count);
@@ -1700,6 +1717,17 @@ void game::disassemble(int pos)
             recipe *cur_recipe = *list_iter;
             if (dis_item->type == item_controller->find_template(cur_recipe->result) &&
                 cur_recipe->reversible) {
+                if (dis_item->count_by_charges()) {
+                    // Create a new item to get the default charges
+                    item tmp(dis_item->type, 0);
+                    if (cur_recipe->result_mult != 1) {
+                        tmp.charges *= cur_recipe->result_mult;
+                    }
+                    if (dis_item->charges < tmp.charges) {
+                        popup(_("You need at least %d charges of the that item to disassemble it."), tmp.charges);
+                        return;
+                    }
+                }
                 // ok, a valid recipe exists for the item, and it is reversible
                 // assign the activity
                 // check tools are available
@@ -1707,7 +1735,7 @@ void game::disassemble(int pos)
                 inventory crafting_inv = crafting_inventory(&u);
                 bool have_all_tools = true;
                 for (unsigned j = 0; j < cur_recipe->tools.size(); j++) {
-                    if (cur_recipe->tools[j].size() == 0) { // no tools required, may change this
+                    if (cur_recipe->tools[j].empty()) { // no tools required, may change this
                         continue;
                     }
                     bool have_this_tool = false;
@@ -1797,9 +1825,10 @@ void game::disassemble(int pos)
 void game::complete_disassemble()
 {
     // which recipe was it?
+    const int item_pos = u.activity.values[0];
     recipe *dis = recipe_by_index(u.activity.index); // Which recipe is it?
-    item *dis_item = &u.i_at(u.activity.values[0]);
-    float component_success_chance = std::min((float)pow(0.8f, dis_item->damage), 1.f);
+    item dis_item = u.i_at(item_pos);
+    float component_success_chance = std::min((float)pow(0.8f, dis_item.damage), 1.f);
 
     int veh_part = -1;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
@@ -1807,22 +1836,30 @@ void game::complete_disassemble()
         veh_part = veh->part_with_feature(veh_part, "CARGO");
     }
 
-    add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
+    add_msg(_("You disassemble the %s into its components."), dis_item.name.c_str());
     // remove any batteries or ammo first
-    remove_ammo(dis_item);
+    remove_ammo(&dis_item);
 
-    if (dis_item->count_by_charges()) {
-        dis_item->charges -= dis_item->type->stack_size;
-        if (dis_item->charges == 0) {
-            u.i_rem(u.activity.values[0]);
+    if (dis_item.count_by_charges()) {
+        // Create a new item to get the default charges
+        item tmp(dis_item.type, 0);
+        if (dis->result_mult != 1) {
+            tmp.charges *= dis->result_mult;
+        }
+        dis_item.charges -= tmp.charges;
+        if (dis_item.charges <= 0) {
+            u.i_rem(item_pos);
+        } else {
+            // dis_item is a copy, need to commit the changed charges value
+            u.i_at(item_pos).charges = dis_item.charges;
         }
     } else {
-        u.i_rem(u.activity.values[0]);  // remove the item
+        u.i_rem(item_pos);
     }
 
     // consume tool charges
     for (unsigned j = 0; j < dis->tools.size(); j++) {
-        if (dis->tools[j].size() > 0) {
+        if (!dis->tools[j].empty()) {
             consume_tools(&u, dis->tools[j], false);
         }
     }
@@ -1845,44 +1882,73 @@ void game::complete_disassemble()
     }
 
     for (unsigned j = 0; j < dis->components.size(); j++) {
-        if (dis->components[j].size() != 0) {
-            int compcount = dis->components[j][0].count;
-            bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
-
-            if ((dis->difficulty != 0 && !comp_success)) {
-                add_msg(_("You fail to recover a component."));
-                continue;
-            }
-
-            item newit(item_controller->find_template(dis->components[j][0].type), turn);
-
-            if (newit.has_flag("UNRECOVERABLE")) {
-                continue;
-            }
-
-            if (newit.count_by_charges()) {
-                newit.charges = compcount;
-                compcount = 1;
-            }
-            if (newit.made_of(LIQUID)) {
-                handle_liquid(newit, false, false);
-                continue;
-            }
-            do {
-                compcount--;
-
-                bool dmg_success = component_success_chance > rng_float(0, 1);
-                if(!dmg_success) {
-                    add_msg(_("You fail to recover a component."));
-                    continue;
+        const std::vector<component> &altercomps = dis->components[j];
+        if (altercomps.empty()) {
+            debugmsg("component list %d of recipe %s is empty", j, dis->ident.c_str());
+            continue;
+        }
+        int alter_comp_index = 0;
+        // If there are several (alternative) components, search the
+        // one that was used. If not found, use the first one.
+        // Don't check the first in altercomps, it's the default anyway.
+        for(size_t k = 1; alter_comp_index == 0 && k < altercomps.size(); k++) {
+            for(item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end(); ++a) {
+                if (a->type->id == altercomps[k].type) {
+                    alter_comp_index = k;
                 }
+            }
+        }
+        const component &comp = altercomps[alter_comp_index];
+        itype *itt = item_controller->find_template(comp.type);
+        if (itt->item_tags.count("UNRECOVERABLE") > 0) {
+            continue;
+        }
 
-                if (veh != 0 && veh_part > -1 && veh->add_item(veh_part, newit)) {
-                    // add_item did put the items in the vehicle, nothing further to be done
-                } else {
-                    m.add_item_or_charges(u.posx, u.posy, newit);
+        int compcount = comp.count;
+        item newit(itt, turn);
+        // Compress liquids and counted-by-charges items into one item,
+        // they are added together on the map anyway and handle_liquid
+        // should only be called once to put it all into a container at once.
+        if (newit.count_by_charges() || newit.made_of(LIQUID)) {
+            newit.charges = compcount;
+            compcount = 1;
+        } else if (!newit.craft_has_charges() && newit.charges > 0) {
+            // tools that can be unloaded should be created unloaded,
+            // tools that can't be unloaded will keep their default charges.
+            newit.charges = 0;
+        }
+
+        for( ; compcount > 0; compcount--) {
+            const bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
+            if (dis->difficulty != 0 && !comp_success) {
+                add_msg(_("You fail to recover %s."), newit.tname().c_str());
+                continue;
+            }
+            const bool dmg_success = component_success_chance > rng_float(0, 1);
+            if (!dmg_success) {
+                // Show reason for failure (damaged item, tname contains the damage adjective)
+                add_msg(_("You fail to recover %s from the %s."), newit.tname().c_str(), dis_item.tname().c_str());
+                continue;
+            }
+            // Use item from components list, or (if not contained)
+            // use newit, the default constructed.
+            item act_item = newit;
+            for(item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end(); ++a) {
+                if (a->type == newit.type) {
+                    act_item = *a;
+                    dis_item.components.erase(a);
+                    break;
                 }
-            } while (compcount > 0);
+            }
+            if (act_item.made_of(LIQUID)) {
+                while (!handle_liquid(act_item, false, false)) {
+                    // Try again, maybe use another container.
+                }
+            } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
+                // add_item did put the items in the vehicle, nothing further to be done
+            } else {
+                m.add_item_or_charges(u.posx, u.posy, act_item);
+            }
         }
     }
 
@@ -1974,6 +2040,7 @@ void remove_ammo(item *dis_item) {
         } else {
             g->u.i_add_or_drop(ammodrop, 1);
         }
+        dis_item->charges = 0;
     }
     if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL") {
         item ammodrop;
@@ -1989,5 +2056,23 @@ void remove_ammo(item *dis_item) {
         } else {
             g->u.i_add_or_drop(ammodrop, 1);
         }
+        dis_item->charges = 0;
     }
+}
+
+std::string recipe::required_skills_string() {
+    std::ostringstream skills_as_stream;
+    if(!required_skills.empty()){
+        for(std::map<Skill*,int>::iterator iter=required_skills.begin(); iter!=required_skills.end();){
+            skills_as_stream << iter->first->name() << "(" << iter->second << ")";
+            ++iter;
+            if(iter != required_skills.end()){
+                skills_as_stream << ", ";
+            }
+        }
+    }
+    else{
+        skills_as_stream << "N/A";
+    }
+    return skills_as_stream.str();
 }

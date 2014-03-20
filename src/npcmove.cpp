@@ -294,7 +294,7 @@ void npc::execute_action(npc_action action, int target)
   update_path(g->u.posx, g->u.posy);
   if (path.size() == 1) // We're adjacent to u, and thus can heal u
    heal_player(g->u);
-  else if (path.size() > 0)
+  else if (!path.empty())
    move_to_next();
   else
    move_pause();
@@ -304,7 +304,7 @@ void npc::execute_action(npc_action action, int target)
   update_path(g->u.posx, g->u.posy);
   if (path.size() <= follow_distance()) // We're close enough to u.
    move_pause();
-  else if (path.size() > 0)
+  else if (!path.empty())
    move_to_next();
   else
    move_pause();
@@ -352,7 +352,7 @@ void npc::execute_action(npc_action action, int target)
   update_path(g->u.posx, g->u.posy);
   if (path.size() == 1) // We're adjacent to u, and thus can mug u
    mug_player(g->u);
-  else if (path.size() > 0)
+  else if (!path.empty())
    move_to_next();
   else
    move_pause();
@@ -615,6 +615,10 @@ npc_action npc::address_player()
  int linet;
  if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
      g->sees_u(posx, posy, linet)) {
+  if (g->u.has_disease("sleep")) {
+    // Leave sleeping characters alone.
+    return npc_undecided;
+  }
   if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 6)
    return npc_talk_to_player; // Close enough to talk to you
   else {
@@ -1924,7 +1928,7 @@ void npc::look_for_player(player &sought)
     possibilities.push_back(point(x, y));
   }
  }
- if (possibilities.size() == 0) { // We see all the spots we'd like to check!
+ if (possibilities.empty()) { // We see all the spots we'd like to check!
   say("<wait>");
   move_pause();
  } else {

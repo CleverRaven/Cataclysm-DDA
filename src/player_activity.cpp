@@ -1,5 +1,6 @@
 #include "player_activity.h"
 #include "translations.h"
+#include "platform.h"
 
 player_activity::player_activity(activity_type t, int turns, int Index, int pos, std::string name_in)
 : JsonSerializer(), JsonDeserializer()
@@ -77,9 +78,9 @@ bool player_activity::is_suspendable() const {
 
 
 int player_activity::get_value(int index, int def) const {
-    return (index < values.size()) ? values[index] : def;
+    return (index < (ssize_t)values.size()) ? values[index] : def;
 }
 
 std::string player_activity::get_str_value(int index, std::string def) const {
-    return (index < str_values.size()) ? str_values[index] : def;
+    return (index < (ssize_t)str_values.size()) ? str_values[index] : def;
 }

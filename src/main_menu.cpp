@@ -1,5 +1,4 @@
 #include "game.h"
-#include "keypress.h"
 #include "debug.h"
 #include "input.h"
 #include "mapbuffer.h"
@@ -13,6 +12,8 @@
 #include "worldfactory.h"
 #include "file_wrapper.h"
 #include "path_info.h"
+
+#include <fstream>
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -115,9 +116,9 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
     for (int i = 0; i < vItems.size(); i++) {
         wprintz(w_in, c_ltgray, "[");
         if (iSel == i) {
-            shortcut_print(w_in, h_white, h_white, vItems[i].c_str());
+            shortcut_print(w_in, h_white, h_white, vItems[i]);
         } else {
-            shortcut_print(w_in, c_ltgray, c_white, vItems[i].c_str());
+            shortcut_print(w_in, c_ltgray, c_white, vItems[i]);
         }
         wprintz(w_in, c_ltgray, "]");
         for (int j = 0; j < spacing; j++) {
@@ -434,7 +435,7 @@ bool game::opening_screen()
 
                 // only show reset / destroy world if there is at least one valid world existing!
 
-                int world_subs_to_display = (world_generator->all_worldnames.size() > 0)? vWorldSubItems.size(): 1;
+                int world_subs_to_display = (!world_generator->all_worldnames.empty())? vWorldSubItems.size(): 1;
                 std::vector<std::string> world_subs;
                 int xoffset = 25 + iMenuOffsetX + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
@@ -563,7 +564,7 @@ bool game::opening_screen()
                 wrefresh(w_open);
                 refresh();
                 input = get_input();
-                if (savegames.size() == 0 && (input == DirectionS || input == Confirm)) {
+                if (savegames.empty() && (input == DirectionS || input == Confirm)) {
                     layer = 2;
                 } else if (input == DirectionS) {
                     if (sel3 > 0) {
@@ -659,7 +660,7 @@ bool game::opening_screen()
                                 // clear out everything but worldoptions from this world
                                 world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.clear();
                             }
-                            if (world_generator->all_worldnames.size() == 0) {
+                            if (world_generator->all_worldnames.empty()) {
                                 sel2 = 0; // reset to create world selection
                             }
                         } else {
@@ -670,7 +671,7 @@ bool game::opening_screen()
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 }
             } else { // Character Templates
-                if (templates.size() == 0) {
+                if (templates.empty()) {
                     mvwprintz(w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                               c_red, _("No templates found!"));
                 } else {
@@ -689,7 +690,7 @@ bool game::opening_screen()
                     } else {
                         sel3 = templates.size() - 1;
                     }
-                } else if (templates.size() == 0 && (input == DirectionN || input == Confirm)) {
+                } else if (templates.empty() && (input == DirectionN || input == Confirm)) {
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
@@ -699,7 +700,7 @@ bool game::opening_screen()
                     } else {
                         sel3 = 0;
                     }
-                } else if (input == DirectionW  || input == Cancel || templates.size() == 0) {
+                } else if (input == DirectionW  || input == Cancel || templates.empty()) {
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);

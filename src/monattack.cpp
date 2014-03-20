@@ -43,7 +43,7 @@ void mattack::antqueen(monster *z)
   }
  }
 
- if (ants.size() > 0) {
+ if (!ants.empty()) {
   z->moves -= 100; // It takes a while
   int mondex = ants[ rng(0, ants.size() - 1) ];
   monster *ant = &(g->zombie(mondex));
@@ -54,7 +54,7 @@ void mattack::antqueen(monster *z)
    ant->poly(GetMType("mon_ant"));
   else
    ant->poly(GetMType("mon_ant_soldier"));
- } else if (egg_points.size() == 0) { // There's no eggs nearby--lay one.
+ } else if (egg_points.empty()) { // There's no eggs nearby--lay one.
   if (g->u_see(z->posx(), z->posy()))
    g->add_msg(_("The %s lays an egg!"), z->name().c_str());
   g->m.spawn_item(z->posx(), z->posy(), "ant_egg", 1, 0, g->turn);
@@ -253,7 +253,7 @@ void mattack::resurrect(monster *z)
    }
   }
  }
- if (corpses.size() == 0) // No nearby corpses
+ if (corpses.empty()) // No nearby corpses
   return;
  z->speed = (z->speed - rng(0, 10)) * .8;
  bool sees_necromancer = (g->u_see(z));
@@ -772,30 +772,35 @@ void mattack::leap(monster *z)
     point target = z->move_target();
     int best = rl_dist(z->posx(), z->posy(), target.x, target.y);
 
-    for (int x = z->posx() - 3; x <= z->posx() + 3; x++)
-    {
-        for (int y = z->posy() - 3; y <= z->posy() + 3; y++)
-        {
+    for (int x = z->posx() - 3; x <= z->posx() + 3; x++) {
+        for (int y = z->posy() - 3; y <= z->posy() + 3; y++) {
+            const int vision_range = z->vision_range( x, y );
             if (x == z->posx() && y == z->posy()) {
+                continue;
+            }
+            if (!g->m.sees(z->posx(), z->posy(), x, y, vision_range, linet)) {
+                continue;
+            }
+            if (!g->is_empty(x, y)) {
+                continue;
+            }
+            if (rl_dist(target.x, target.y, x, y) > best) {
                 continue;
             }
             bool blocked_path = false;
             // check if monster has a clear path to the proposed point
-            if (g->m.sees(z->posx(), z->posy(), x, y, z->vision_range(x, y), linet)) {
                 std::vector<point> line = line_to(z->posx(), z->posy(), x, y, linet);
                 for (int i = 0; i < line.size(); i++)
                 {
                     if (g->m.move_cost(line[i].x, line[i].y) == 0)
                     {
                         blocked_path = true;
+                        break;
                     }
                 }
-            }
-            if (!blocked_path && g->is_empty(x, y) &&
-                  g->m.sees(z->posx(), z->posy(), x, y, g->light_level(), linet) &&
-                  rl_dist(target.x, target.y, x, y) <= best) {
+            if (!blocked_path) {
                 options.push_back( point(x, y) );
-                best = rl_dist(g->u.posx, g->u.posy, x, y);
+                best = rl_dist(target.x, target.y, x, y);
             }
 
         }
@@ -812,7 +817,7 @@ void mattack::leap(monster *z)
         }
     }
 
-    if (options.size() == 0)
+    if (options.empty())
         return; // Nowhere to leap!
 
     z->moves -= 150;
@@ -878,9 +883,11 @@ void mattack::dermatik(monster *z)
     z->moves -= 500; // Successful laying takes a long time
     g->add_msg(_("The %s sinks its ovipositor into your %s!"), z->name().c_str(),
                  body_part_name(targeted, side).c_str());
-    g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
-    g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
-                          pgettext("memorial_female", "Injected with dermatik eggs."));
+    if (!g->u.has_trait("PARAIMMUNE")) {
+        g->u.add_disease("dermatik", 14401, false, 1, 1, 0, 0, targeted, side, true);
+        g->u.add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
+                              pgettext("memorial_female", "Injected with dermatik eggs."));
+        }
 }
 
 void mattack::dermatik_growth(monster *z)
@@ -1730,3 +1737,88 @@ void mattack::parrot(monster *z)
     }
 }
 
+void mattack::darkman(monster *z)
+{
+    if( rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 40 ) {
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    std::vector<point> free;
+    for( int x = z->posx() - 1; x <= z->posx() + 1; x++ ) {
+        for( int y = z->posy() - 1; y <= z->posy() + 1; y++ ) {
+            if( g->is_empty(x, y) )
+                free.push_back(point(x, y));
+        }
+    }
+    int index;
+    monster tmp( GetMType("mon_shadow") );
+    z->moves -= 10;
+    index = rng( 0, -1 );
+    tmp.spawn( free[index].x, free[index].y );
+    g->add_zombie( tmp );
+    if( g->u_see(z->posx(), z->posy()) ) {
+        g->add_msg( _("A shadow splits from the %s!"),
+                    z->name().c_str() );
+    }
+    int linet;
+    if( !g->sees_u(z->posx(), z->posy(), linet) ){
+        return; // Wont do the combat stuff unless it can see you
+    }
+    switch (rng(1, 7)) { // What do we say?
+    case 1: g->add_msg(_("\"Stop it please\"")); break;
+    case 2: g->add_msg(_("\"Let us help you\"")); break;
+    case 3: g->add_msg(_("\" We wish you no harm \"")); break;
+    case 4: g->add_msg(_("\"Do not fear\"")); break;
+    case 5: g->add_msg(_("\"We can help you\"")); break;
+    case 6: g->add_msg(_("\"We are friendly\"")); break;
+    case 7: g->add_msg(_("\"Please dont\"")); break;
+    }
+    g->u.add_disease( "darkness", 10 );
+}
+
+void mattack::slimespring(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 30) {
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq;    // Reset timer
+    
+    if (g->u.morale_level() <= 1) {
+        switch (rng(1, 3)) { //~ Your slimes try to cheer you up!
+        //~ Lowercase is intended: they're small voices.
+            case 1: g->add_msg(_("\"hey, it's gonna be all right!\""));
+            g->u.add_morale(MORALE_SUPPORT, 10, 50);
+            break;
+            case 2: g->add_msg(_("\"we'll get through this!\""));
+            g->u.add_morale(MORALE_SUPPORT, 10, 50);
+            break;
+            case 3: g->add_msg(_("\"i'm here for you!\""));
+            g->u.add_morale(MORALE_SUPPORT, 10, 50);
+            break;
+        }
+    }
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 3) {
+        if ( (g->u.has_disease("bleed")) || (g->u.has_disease("bite")) ) {
+            g->add_msg(_("\"let me help!\""));
+            // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
+            if (g->u.has_disease("bite")) {
+                if (one_in(3)) {
+                    g->u.rem_disease("bite");
+                    g->add_msg(_("The slime cleans you out!"));
+                }
+                else {
+                    g->add_msg(_("The slime flows over you, but your gouges still ache."));
+                }
+            }
+            if (g->u.has_disease("bleed")) {
+                if (one_in(2)) {
+                    g->u.rem_disease("bleed");
+                    g->add_msg(_("The slime seals up your leaks!"));
+                }
+                else {
+                    g->add_msg(_("The slime flows over you, but your fluids are still leaking."));
+                }
+            }
+        }
+    }
+}

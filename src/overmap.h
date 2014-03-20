@@ -42,7 +42,7 @@ struct oter_weight_list {
     }
 
     void setup() { // populate iid's for faster generation and sanity check.
-        for( int i=0; i < items.size(); i++ ) {
+        for( size_t i = 0; i < items.size(); ++i ) {
             if ( items[i].ot_iid == -1 ) {
                 std::map<std::string, oter_t>::const_iterator it = obasetermap.find(items[i].ot_sid);
                 if ( it == obasetermap.end() ) {
@@ -55,10 +55,10 @@ struct oter_weight_list {
         }
     }
 
-    int pick_ent() {
+    size_t pick_ent() {
         int picked = rng(0, total_weight);
         int accumulated_weight = 0;
-        int i;
+        size_t i;
         for(i=0; i<items.size(); i++) {
             accumulated_weight += items[i].weight;
             if(accumulated_weight >= picked) {
@@ -269,6 +269,8 @@ class overmap
   void first_house(int &x, int &y);
 
   void process_mongroups(); // Makes them die out, maybe more
+  void move_hordes();
+  void signal_hordes( const int x, const int y, const int sig_power);
 
   std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);
@@ -315,7 +317,7 @@ class overmap
      * Same as @ref draw_overmap() but starts at center
      * instead of players location.
      */
-    static point draw_overmap(const tripoint& center);
+    static point draw_overmap(const tripoint& center, bool debug_mongroup = false);
     /**
      * Same as above but start at z-level z instead of players
      * current z-level, x and y are taken from the players position.
@@ -323,6 +325,18 @@ class overmap
     static point draw_overmap(int z);
   void remove_vehicle(int id);
   int add_vehicle(vehicle *veh);
+
+  /** Get the x coordinate of the left border of this overmap. */
+  int get_left_border();
+
+  /** Get the x coordinate of the right border of this overmap. */
+  int get_right_border();
+
+  /** Get the y coordinate of the top border of this overmap. */
+  int get_top_border();
+
+  /** Get the y coordinate of the bottom border of this overmap. */
+  int get_bottom_border();
 
   regional_settings settings;
   const regional_settings& get_settings(const int x, const int y, const int z) {
@@ -373,10 +387,11 @@ class overmap
    * of the view. The z-component is used to determine the z-level.
    * @param orig The global overmap terrain coordinates of the player.
    * It will be marked specially.
+   * @param debug_monstergroups Displays monster groups on the overmap.
    */
   static void draw(WINDOW *w, const tripoint &center,
             const tripoint &orig, bool blink,
-            input_context* inp_ctxt);
+            input_context* inp_ctxt, bool debug_monstergroups = false);
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();

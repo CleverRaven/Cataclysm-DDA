@@ -129,6 +129,7 @@ void MonsterGenerator::init_death()
     death_map["EXPLODE"] = &mdeath::explode;// Damaging explosion
     death_map["BROKEN"] = &mdeath::broken;// Spawns a broken robot.
     death_map["RATKING"] = &mdeath::ratking;// Cure verminitis
+    death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
     death_map["ZOMBIE"] = &mdeath::zombie;// generate proper clothing for zombies
@@ -188,6 +189,9 @@ void MonsterGenerator::init_attack()
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
     attack_map["PARROT"] = &mattack::parrot;
+    attack_map["DARKMAN"] = &mattack::darkman;
+    attack_map["SLIMESPRING"] = &mattack::slimespring;
+
 }
 
 void MonsterGenerator::init_defense()
@@ -279,6 +283,7 @@ void MonsterGenerator::init_flags() {
     flag_map["ACID_BLOOD"] = MF_ACID_BLOOD;
     flag_map["BILE_BLOOD"] = MF_BILE_BLOOD;
     flag_map["REGEN_MORALE"] = MF_REGENMORALE;
+    flag_map["CBM_POWER"] = MF_CBM_POWER;
 }
 
 
@@ -418,7 +423,7 @@ std::map<std::string, mtype*> MonsterGenerator::get_all_mtypes() const
 std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 {
     static std::vector<std::string> hold;
-    if (hold.size() == 0){
+    if (hold.empty()){
         for (std::map<std::string, mtype*>::const_iterator mon = mon_templates.begin(); mon != mon_templates.end(); ++mon){
             hold.push_back(mon->first);
         }
@@ -430,7 +435,7 @@ std::vector<std::string> MonsterGenerator::get_all_mtype_ids() const
 mtype *MonsterGenerator::get_valid_hallucination()
 {
     static std::vector<mtype*> potentials;
-    if (potentials.size() == 0){
+    if (potentials.empty()){
         for (std::map<std::string, mtype*>::iterator mon = mon_templates.begin(); mon != mon_templates.end(); ++mon){
             if (mon->first != "mon_null" && mon->first != "mon_generator"){
                 potentials.push_back(mon->second);
@@ -452,7 +457,7 @@ std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(Js
         deaths.push_back(death_map[*it]);
     }
 
-    if (deaths.size() == 0)
+    if (deaths.empty())
         deaths.push_back(death_map["NORMAL"]);
     return deaths;
 }
@@ -485,14 +490,14 @@ std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags, std:
 {
     std::set<T> ret;
 
-    if (tags.size() > 0){
+    if (!tags.empty()){
         for (std::set<std::string>::iterator it = tags.begin(); it != tags.end(); ++it){
             if (conversion_map.find(*it) != conversion_map.end()){
                 ret.insert(conversion_map[*it]);
             }
         }
     }
-    if (ret.size() == 0){
+    if (ret.empty()){
         ret.insert(fallback);
     }
 

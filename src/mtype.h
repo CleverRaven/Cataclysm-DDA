@@ -14,6 +14,7 @@
 #include "material.h"
 #include "enums.h"
 #include "color.h"
+#include "field.h"
 
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
@@ -67,7 +68,7 @@ enum mon_id {
     // Subspace monsters
     mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
     mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
-    mon_breather, mon_shadow_snake, mon_shoggoth,
+    mon_darkman, mon_breather, mon_shadow_snake, mon_shoggoth,
     // Cult, lobotomized creatures that are human/undead hybrids
     mon_dementia, mon_homunculus, mon_blood_sacrifice, mon_flesh_angel,
     // Robots
@@ -76,7 +77,7 @@ enum mon_id {
     // Hallucinations
     mon_hallu_mom,
     // Special monsters
-    mon_generator,
+    mon_generator, mon_player_blob,
     // 0.8 -> 0.9
     mon_turkey, mon_raccoon, mon_opossum, mon_rattlesnake,
     mon_giant_crayfish, mon_fungal_fighter,
@@ -195,6 +196,7 @@ enum m_flag {
     MF_BILE_BLOOD,          // Makes monster bleed bile.
     MF_ABSORBS,             // Consumes objects it moves over.
     MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
+    MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -243,6 +245,9 @@ struct mtype {
     bool has_placate_trigger(monster_trigger trigger) const;
     bool in_category(std::string category) const;
     bool in_species(std::string _species) const;
+    //Used for corpses.
+    field_id bloodType ();
+    field_id gibType ();
 };
 
 #endif

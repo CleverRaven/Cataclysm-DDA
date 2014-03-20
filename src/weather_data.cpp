@@ -103,7 +103,7 @@ void game::init_weather()
     _("Spring"), _("Summer"), _("Autumn"), _("Winter")
     };
     for(int i=0; i<4; i++) {season_name[i]=tmp_season_name[i];}
-
+// Nm, UICol, {Temp by season}, RangedPEN, SightPEN, light_mod, MinTIME, MaxTIME(to recalc)
     weather_datum tmp_weather_data[] = {
     {"NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta,
      {0, 0, 0, 0}, 0, 0, 0, 0, 0, false,
@@ -129,6 +129,7 @@ void game::init_weather()
     {_("Lightning Storm"), c_yellow,
      {45, 52, 42, 32}, 4, 8, -50, 10, 30, true,
      &weather_effect::lightning},
+     // Nm, UICol, Temp, RangedPEN, SightPEN, light_mod, MinTIME, MaxTIME(to recalc)
     {_("Acidic Drizzle"), c_ltgreen,
      {45, 70, 45, 35}, 2, 3, -30, 10, 30, true,
      &weather_effect::light_acid},

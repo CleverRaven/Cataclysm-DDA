@@ -13,7 +13,7 @@ bindist/
 cataclysmdda-*
 objwin/
 src/version.h
-lua/catabindings.cpp
+src/lua/catabindings.cpp
 CataclysmWin.cscope_file_list
 CataclysmWin.depend
 CataclysmWin.layout

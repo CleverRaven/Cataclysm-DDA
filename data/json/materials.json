@@ -55,6 +55,24 @@
         "density" : 4
     },{
         "type" : "material",
+        "ident" : "honey",
+        "name" : "Honey",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 1,
+        "fire_resist" : 0,
+        "density" : 1
+    },{
+        "type" : "material",
         "ident" : "wheat",
         "name" : "Wheat",
         "bash_resist" : 1,
@@ -146,7 +164,7 @@
     },{
         "type" : "material",
         "ident" : "milk",
-        "name" : "Milk",
+        "name" : "Dairy",
         "bash_resist" : 0,
         "cut_resist" : 0,
         "bash_dmg_verb" : "damaged",
@@ -254,24 +272,6 @@
     },{
         "type" : "material",
         "ident" : "kevlar",
-        "name" : "Kevlar",
-        "bash_resist" : 2,
-        "cut_resist" : 4,
-        "bash_dmg_verb" : "ripped",
-        "cut_dmg_verb" : "cut",
-        "dmg_adj" : [
-            "marked",
-            "dented",
-            "scarred",
-            "broken"
-        ],
-        "acid_resist" : 2,
-        "elec_resist" : 2,
-        "fire_resist" : 1,
-        "density" : 10
-    },{
-        "type" : "material",
-        "ident" : "nofixkevlar",
         "name" : "Kevlar",
         "bash_resist" : 2,
         "cut_resist" : 4,
@@ -629,5 +629,23 @@
         "elec_resist" : 1,
         "fire_resist" : 0,
         "density" : 100
+    },{
+        "type" : "material",
+        "ident" : "egg",
+        "name" : "Egg",
+        "bash_resist" : 0,
+        "cut_resist" : 0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "scratched",
+            "damaged",
+            "smashed",
+            "crushed"
+        ],
+        "acid_resist" : 0,
+        "elec_resist" : 0,
+        "fire_resist" : 0,
+        "density" : 3
     }
 ]

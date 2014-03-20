@@ -37,7 +37,7 @@
 # we don't check in code with new warnings, but we also have to disable some classes of warnings
 # for now as we get rid of them.  In non-release builds we want to show all the warnings,
 # even the ones we're allowing in release builds so they're visible to developers.
-RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-narrowing
+RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
 #WARNINGS = -w
@@ -61,7 +61,7 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.9
+VERSION = 0.A
 
 
 TARGET = cataclysm
@@ -73,6 +73,7 @@ BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 LUA_DIR = lua
+LUASRC_DIR = src/lua
 LOCALIZE = 1
 
 
@@ -104,7 +105,7 @@ endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
-BINDIST_EXTRAS = README.md data
+BINDIST_EXTRAS += README.md data
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
@@ -165,7 +166,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 -lwinmm
+  LDFLAGS += -static
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl -liconv
   endif
@@ -188,9 +189,8 @@ ifdef LUA
   endif
 
   CXXFLAGS += -DLUA
-  LUA_DEPENDENCIES = $(LUA_DIR)/catabindings.cpp
-  BINDIST_EXTRAS  += $(LUA_DIR)/autoexec.lua
-  BINDIST_EXTRAS  += $(LUA_DIR)/class_definitions.lua
+  LUA_DEPENDENCIES = $(LUASRC_DIR)/catabindings.cpp
+  BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
 ifdef TILES
@@ -204,30 +204,30 @@ ifdef SDL
       DEFINES += -DOSX_SDL_FW
       OSX_INC = -F/Library/Frameworks \
 		-F$(HOME)/Library/Frameworks \
-		-I/Library/Frameworks/SDL.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL.framework/Headers \
-		-I/Library/Frameworks/SDL_image.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL_image.framework/Headers \
-		-I/Library/Frameworks/SDL_ttf.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
+		-I/Library/Frameworks/SDL2.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL2.framework/Headers \
+		-I/Library/Frameworks/SDL2_image.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL2_image.framework/Headers \
+		-I/Library/Frameworks/SDL2_ttf.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL2_ttf.framework/Headers
       LDFLAGS += -F/Library/Frameworks \
 		 -F$(HOME)/Library/Frameworks \
-		 -framework SDL -framework SDL_image -framework SDL_ttf -framework Cocoa
+		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
-      DEFINES += -DOSX_SDL_LIBS
-      # handle #include "SDL/SDL.h" and "SDL.h"
+      DEFINES += -DOSX_SDL2_LIBS
+      # handle #include "SDL2/SDL.h" and "SDL.h"
       CXXFLAGS += $(shell sdl-config --cflags) \
 		  -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
-      LDFLAGS += $(shell sdl-config --libs) -lSDL_ttf
+      LDFLAGS += $(shell sdl-config --libs) -lSDL2_ttf
       ifdef TILES
-	LDFLAGS += -lSDL_image
+	LDFLAGS += -lSDL2_image
       endif
     endif
   else # not osx
-    LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+    LDFLAGS += -lSDL2 -lSDL2_ttf
     ifdef TILES
-      LDFLAGS += -lSDL_image
+      LDFLAGS += -lSDL2_image
     endif
   endif
   ifdef TILES
@@ -235,7 +235,7 @@ ifdef SDL
   endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lgdi32 -ldxguid -lwinmm -ljpeg -lpng
+    LDFLAGS += -lfreetype -lpng -lz
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
@@ -265,6 +265,11 @@ else
   endif
 endif
 
+# Global settings for Windows targets (at end)
+ifeq ($(TARGETSYSTEM),WINDOWS)
+    LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
+endif
+
 ifeq ($(LOCALIZE),1)
   DEFINES += -DLOCALIZE
 endif
@@ -290,7 +295,6 @@ endif
 
 ifdef LANGUAGES
   L10N = localization
-  BINDIST_EXTRAS += lang/mo
 endif
 
 ifeq ($(TARGETSYSTEM), LINUX)
@@ -309,7 +313,7 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 .PHONY: version
 version:
 	@( VERSION_STRING=$(VERSION) ; \
-            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9]*.[0-9]*" ) && VERSION_STRING=$$GITVERSION ; \
+            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee $(SRC_DIR)/version.h ; fi \
          )
@@ -331,8 +335,8 @@ $(ODIR)/SDLMain.o: $(SRC_DIR)/SDLMain.m
 
 version.cpp: version
 
-$(LUA_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUA_DIR)/generate_bindings.lua
-	cd $(LUA_DIR) && lua generate_bindings.lua
+$(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
+	cd $(LUASRC_DIR) && lua generate_bindings.lua
 
 $(SRC_DIR)/catalua.cpp: $(LUA_DEPENDENCIES)
 
@@ -349,7 +353,7 @@ clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
-	rm -f $(SRC_DIR)/version.h $(LUA_DIR)/catabindings.cpp
+	rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
 	rm -f $(CHKJSON_BIN)
 
 distclean:
@@ -391,9 +395,13 @@ endif
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif
 
-$(BINDIST): distclean $(TARGET) $(L10N) $(BINDIST_EXTRAS)
+
+$(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)
-	cp -R --parents $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+ifdef LANGUAGES
+	cp -R --parents lang/mo $(BINDIST_DIR)
+endif
 	$(BINDIST_CMD)
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
