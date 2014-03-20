@@ -443,7 +443,7 @@ class overmap
   int signal_hordes_noice(int x,int y, int sig_power, mongroup zg);
   int signal_hordes_light(int x,int y, int sig_power, mongroup zg);
   //int signal_hordes_smoke(int x,int y, int sig_power, mongroup zg);
-  point to_big_overmap_cord(point p);
+  point to_big_overmap_coord(point p);
 };
 
 // TODO: readd the stream operators

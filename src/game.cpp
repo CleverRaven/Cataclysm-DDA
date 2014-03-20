@@ -836,7 +836,7 @@ bool game::do_turn()
     }
 
     if (turn % 50 == 0) { //move hordes every 5 min
-        cur_om->move_hordes();
+        overmap_buffer.move_hordes();
     }
 
     // Check if we've overdosed... in any deadly way.
@@ -8173,7 +8173,7 @@ point game::look_around()
   wrefresh(w_look);
   wrefresh(w_terrain);
 
-  //DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
+  DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
 
     input_context ctxt("LOOK");
     ctxt.register_directions();

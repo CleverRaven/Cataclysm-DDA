@@ -1684,12 +1684,10 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             bool horde_here=false;
             if (g->u.overmap_los(omx, omy))
             {
-                point mp=overmap_buffer.omt_to_sm_copy(omx, omy);
-                std::vector<mongroup*> hordes = g->cur_om->monsters_at(mp.x, mp.y, z);
-                for (int ih=0; ih < hordes.size(); ih++)
+                std::vector<mongroup*> hordes = overmap_buffer.monsters_at(omx, omy, z);
+                for (int ih = 0; ih < hordes.size(); ih++)
                   {
-
-                    if (hordes[ih]->horde) horde_here=true;
+                    if (hordes[ih]->horde) {horde_here = true;}
                   }
             }
             // and a vehicle
@@ -2231,7 +2229,7 @@ int overmap::signal_hordes_light(int x, int y, int sig_power, mongroup zg)
   int see_range=0;
   point test;
   for (size_t i = 0; i < line.size() && max_dist >= see_range; i++) {
-                test = to_big_overmap_cord( line[i] );
+                test = to_big_overmap_coord( line[i] );
                 const oter_id &ter = overmap_buffer.ter(test.x, test.y, 0);
                 const int cost = otermap[ter].see_cost;
                 see_range += cost;
@@ -2241,7 +2239,7 @@ int overmap::signal_hordes_light(int x, int y, int sig_power, mongroup zg)
   return ret;
 }
 
-point overmap::to_big_overmap_cord(point p)
+point overmap::to_big_overmap_coord(point p)
 {
     int retx = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().x * OMAPX;
     int rety = (p.x + int(MAPSIZE / 2)) / 2 + g->cur_om->pos().y * OMAPY;
