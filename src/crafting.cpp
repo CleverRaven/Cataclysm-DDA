@@ -243,17 +243,17 @@ bool game::making_would_work(recipe *making)
         return false;
     }
 
-    if(can_make(making)) {
-        if (!u.has_container_for(item(item_controller->find_template(making->result), 0))) {
-            popup(_("You don't have anything to store that liquid in!"));
-        } else {
-            return true;
-        }
-    } else {
+    if(!can_make(making)) {
         popup(_("You can no longer make that craft!"));
+        return false;
     }
 
-    return false;
+    if (!u.has_container_for(making->create_result())) {
+        popup(_("You don't have anything to store that liquid in!"));
+        return false;
+    }
+
+    return true;
 }
 
 bool game::can_make(recipe *r)
@@ -950,14 +950,11 @@ recipe *game::select_crafting_recipe()
         case Confirm:
             if (available.empty() || !available[line]) {
                 popup(_("You can't do that!"));
+            } else if (!u.has_container_for(current[line]->create_result())) {
+                popup(_("You don't have anything to store that liquid in!"));
             } else {
-                // is player making a liquid? Then need to check for valid container
-                if (!u.has_container_for(item(item_controller->find_template(current[line]->result), 0))) {
-                    popup(_("You don't have anything to store that liquid in!"));
-                } else {
-                    chosen = current[line];
-                    done = true;
-                }
+                chosen = current[line];
+                done = true;
             }
             break;
         case Help:
@@ -1321,6 +1318,18 @@ void game::make_all_craft(recipe *making)
     u.lastrecipe = making;
 }
 
+item recipe::create_result() const
+{
+    item newit(item_controller->find_template(result), g->turn, 0, false);
+    if (result_mult != 1) {
+        newit.charges *= result_mult;
+    }
+    if (!newit.craft_has_charges()) {
+        newit.charges = 0;
+    }
+    return newit;
+}
+
 void game::complete_craft()
 {
     recipe *making = recipe_by_index(u.activity.index); // Which recipe is it?
@@ -1410,7 +1419,7 @@ void game::complete_craft()
     }
 
     // Set up the new item, and assign an inventory letter if available
-    item newit(item_controller->find_template(making->result), turn, 0, false);
+    item newit = making->create_result();
     if (!newit.count_by_charges()) {
         // Setting this for items counted by charges gives only problems:
         // those items are automatically merged everywhere (map/vehicle/inventory),
@@ -1447,13 +1456,7 @@ void game::complete_craft()
             newit.item_counter = 600;
         }
     }
-    if (making->result_mult != 1) {
-        newit.charges *= making->result_mult;
-    }
 
-    if (!newit.craft_has_charges()) {
-        newit.charges = 0;
-    }
     u.inv.assign_empty_invlet(newit);
     //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
