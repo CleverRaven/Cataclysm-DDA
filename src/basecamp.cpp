@@ -8,7 +8,7 @@ basecamp::basecamp()
 {
 }
 
-basecamp::basecamp(std::string const& name_, int const posx_, int const posy_)
+basecamp::basecamp(std::string const &name_, int const posx_, int const posy_)
     : name(name_), posx(posx_), posy(posy_)
 {
 }
@@ -31,7 +31,7 @@ std::string basecamp::save_data() const
     return data.str();
 }
 
-void basecamp::load_data(std::string const& data)
+void basecamp::load_data(std::string const &data)
 {
     std::stringstream stream(data);
     stream >> name >> posx >> posy;
