@@ -1274,12 +1274,12 @@ std::string string_format(const char *pattern, ...)
     return result;
 }
 
-std::string vstring_format(const std::string &pattern, va_list argptr)
+std::string vstring_format(const std::string pattern, va_list argptr)
 {
     return vstring_format(pattern.c_str(), argptr);
 }
 
-std::string string_format(const std::string &pattern, ...)
+std::string string_format(const std::string pattern, ...)
 {
     va_list ap;
     va_start(ap, pattern);
