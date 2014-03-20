@@ -865,6 +865,7 @@ bool player::uninstall_bionic(bionic_id b_id) {
         g->add_msg(_("You jiggle your parts back into their familiar places."));
         g->add_msg(_("Successfully removed %s."), bionics[b_id]->name.c_str());
         remove_bionic(b_id);
+        g->m.spawn_item(posx, posy, "burnt_out_bionic", 1);
     }
     else {
         add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
