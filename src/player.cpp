@@ -10509,9 +10509,16 @@ bool player::has_container_for(const item &newit)
         // Currently only liquids need a container
         return true;
     }
-    if (has_watertight_container() || has_matching_liquid(newit.type->id)) {
-        return true;
+    int charges = newit.charges;
+    LIQUID_FILL_ERROR tmperr;
+    charges -= weapon.get_remaining_capacity_for_liquid(newit, tmperr);
+    for (size_t i = 0; i < worn.size() && charges > 0; i++) {
+        charges -= worn[i].get_remaining_capacity_for_liquid(newit, tmperr);
     }
-    // TODO: check for actuall amount
-    return false;
+    for (size_t i = 0; i < inv.size() && charges > 0; i++) {
+        const std::list<item>&items = inv.const_stack(i);
+        // Assume that each item in the stack has the same remaining capacity
+        charges -= items.front().get_remaining_capacity_for_liquid(newit, tmperr) * items.size();
+    }
+    return charges <= 0;
 }
