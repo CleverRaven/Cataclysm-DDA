@@ -1547,8 +1547,8 @@ void game::activity_on_finish_train()
         //~ %s is martial art
         u.add_memorial_log(pgettext("memorial_male", "Learned %s."),
                            pgettext("memorial_female", "Learned %s."),
-                           martialarts[u.activity.name].name.c_str()),
-                                       u.ma_styles.push_back(u.activity.name);
+                           martialarts[u.activity.name].name.c_str());
+        u.add_martialart(u.activity.name);
     } else {
         int new_skill_level = u.skillLevel(skill) + 1;
         u.skillLevel(skill).level(new_skill_level);
