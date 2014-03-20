@@ -60,7 +60,7 @@ bool sokoban_game::parse_level()
     fin.open(std::string(FILENAMES["sokoban"]).c_str());
     if(!fin.is_open()) {
         fin.close();
-        debugmsg("Could not read ./data/raw/sokoban.txt");
+        debugmsg("Could not read \"%s\".", FILENAMES["sokoban"].c_str());
         return false;
     }
 

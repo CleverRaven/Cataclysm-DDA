@@ -142,7 +142,7 @@ void DynamicDataLoader::initialize()
     type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
     type_function_map["ammunition_type"] = new StaticFunctionAccessor(&ammunition_type::load_ammunition_type);
 
-    //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
+    // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET,
             &snippet_library::load_snippet);

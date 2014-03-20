@@ -1077,7 +1077,7 @@ WINDOW *curses_init(void)
     int map_fontheight = fontheight;
     int map_fontsize = fontsize;
 
-    std::ifstream jsonstream("data/fontdata.json", std::ifstream::binary);
+    std::ifstream jsonstream(FILENAMES["second_fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
         JsonIn json(jsonstream);
         JsonObject config = json.get_object();
@@ -1126,7 +1126,7 @@ WINDOW *curses_init(void)
     DebugLog() << "Initializing SDL Tiles context\n";
     tilecontext = new cata_tiles(renderer);
     try {
-        tilecontext->init("gfx");
+        tilecontext->init(FILENAMES["gfxdir"]);
         DebugLog() << "Tiles initialized successfully.\n";
     } catch(std::string err) {
         // use_tiles is the cached value of the USE_TILES option.
@@ -1156,7 +1156,7 @@ Font *Font::load_font(const std::string &typeface, int fontsize, int fontwidth, 
         // Try to load as bitmap font.
         BitmapFont *bm_font = new BitmapFont(fontwidth, fontheight);
         try {
-            bm_font->load_font("data/font/" + typeface);
+            bm_font->load_font(FILENAMES["fontdir"] + typeface);
             // It worked, tell the world to use bitmap_font.
             return bm_font;
         } catch(std::exception &err) {
@@ -1588,13 +1588,13 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
-        typeface = "data/font/" + typeface + ".ttf";
+        typeface = FILENAMES["fontdir"] + typeface + ".ttf";
         DebugLog() << "Using compatible font [" + typeface + "].\n" ;
     }
     //different default font with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
-        typeface = "data/font/fixedsys.ttf";
+        typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
         DebugLog() << "Using fallback font [" + typeface + "].\n" ;
     }
     DebugLog() << "Loading truetype font [" + typeface + "].\n" ;

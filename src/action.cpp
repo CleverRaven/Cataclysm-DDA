@@ -74,8 +74,8 @@ void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, boo
             action_id act = look_up_action(id);
             if (act == ACTION_NULL)
                 debugmsg("\
-Warning! data/keymap.txt contains an unknown action, \"%s\"\n\
-Fix data/keymap.txt at your next chance!", id.c_str());
+Warning! keymap.txt contains an unknown action, \"%s\"\n\
+Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str());
             else {
                 while (!keymap_txt.eof()) {
                     char ch;
@@ -87,7 +87,7 @@ Fix data/keymap.txt at your next chance!", id.c_str());
                             debugmsg("\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
-Fix data/keymap.txt at your next chance!", ch, id.c_str());
+Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str());
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -105,7 +105,7 @@ void save_keymap()
     std::ofstream fout;
     fout.open(FILENAMES["keymap"].c_str());
     if (!fout) { // It doesn't exist
-        debugmsg("Can't open data/keymap.txt.");
+        debugmsg("Can't open \"%s\".", FILENAMES["keymap"].c_str());
         fout.close();
         return;
     }

@@ -310,7 +310,7 @@ void input_manager::init()
 void input_manager::save() {
     std::ofstream data_file;
 
-    std::string file_name = "data/raw/keybindings.json";
+    std::string file_name = FILENAMES["keybindings"];
     std::string file_name_tmp = file_name + ".tmp";
     data_file.open(file_name_tmp.c_str(), std::ifstream::binary);
 
