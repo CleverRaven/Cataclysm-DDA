@@ -1500,7 +1500,7 @@ void game::activity_on_finish_read()
 
         u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
 
-        add_msg(_("You learn a little about %s! (%d%%%%)"), reading->type->name().c_str(),
+        add_msg(_("You learn a little about %s! (%d%%)"), reading->type->name().c_str(),
                 u.skillLevel(reading->type).exercise());
 
         if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.get_value(0) == 1) {
@@ -6990,13 +6990,13 @@ void game::explode_mon(int index)
     std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
 
     bool done = false;
-    field_id type_blood = critter.monBloodType();
+    field_id type_blood = critter.bloodType();
     for (int j = 0; j < traj.size() && !done; j++) {
      tarx = traj[j].x;
      tary = traj[j].y;
      if (type_blood != fd_null)
         m.add_field(tarx, tary, type_blood, 1);
-     m.add_field(tarx+rng(-1, 1), tary+rng(-1, 1), critter.monGibType(), rng(1, j+1));
+     m.add_field(tarx+rng(-1, 1), tary+rng(-1, 1), critter.gibType(), rng(1, j+1));
 
      if (m.move_cost(tarx, tary) == 0) {
       std::string tmp = "";
@@ -7325,21 +7325,7 @@ void game::activity_on_turn_pulp()
         }
         int damage = pulp_power / it->volume();
         //Determine corpse's blood type.
-        //TODO: See if it's possible to use the monBloodType() function rather than this spaghetti code.
-        field_id type_blood;
-        if (it->corpse->flags.count(MF_ACID_BLOOD) != 0)
-            type_blood = fd_acid; //Be wary that a corpse with ACID_BLOOD would be very hazardous to smash!
-        else if (it->corpse->flags.count(MF_BILE_BLOOD) != 0)
-            type_blood = fd_bile;
-        else if (it->corpse->flags.count(MF_LARVA) != 0 || it->corpse->flags.count(MF_ARTHROPOD_BLOOD) != 0)
-            type_blood = fd_blood_invertebrate;
-        else if (it->corpse->mat == "veggy")
-            type_blood = fd_blood_veggy;
-        else if (it->corpse->mat == "iflesh")
-            type_blood = fd_blood_insect;
-        else if (it->corpse->flags.count(MF_WARM) != 0)
-            type_blood = fd_blood;
-        else type_blood = fd_null;
+        field_id type_blood = it->corpse->bloodType();
         do {
             moves += move_cost;
             // Increase damage as we keep smashing,
@@ -7349,10 +7335,12 @@ void game::activity_on_turn_pulp()
                 u.handle_melee_wear();
             }
             // Splatter some blood around
-            for (int x = smashx - 1; x <= smashx + 1; x++) {
-                for (int y = smashy - 1; y <= smashy + 1; y++) {
-                    if (!one_in(damage+1) && type_blood != fd_null) {
-                        m.add_field(x, y, type_blood, 1);
+            if(type_blood != fd_null) {
+                for (int x = smashx - 1; x <= smashx + 1; x++) {
+                    for (int y = smashy - 1; y <= smashy + 1; y++) {
+                        if (!one_in(damage+1) && type_blood != fd_null) {
+                            m.add_field(x, y, type_blood, 1);
+                        }
                     }
                 }
             }

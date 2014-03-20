@@ -3,16 +3,6 @@
 
 #include <vector>
 #include <string>
-#include "color.h"
-#include "item.h"
-#include "trap.h"
-#include "monster.h"
-#include "enums.h"
-#include "computer.h"
-#include "vehicle.h"
-#include "graffiti.h"
-#include "basecamp.h"
-#include "iexamine.h"
 #include <iosfwd>
 
 /*

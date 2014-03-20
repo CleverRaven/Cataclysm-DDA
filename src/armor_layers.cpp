@@ -6,7 +6,28 @@
 
 void player::sort_armor()
 {
-    const int win_h = FULL_SCREEN_HEIGHT + (TERMY - FULL_SCREEN_HEIGHT) / 3;
+    it_armor *each_armor = 0;
+
+    /* Define required height of the window:
+    * Right window is the most critical, so calc is based on the config of this window.
+    * worn.size() - count of worn items;
+    * + 3 - horizontal lines;
+    * + 1 - caption line;
+    * + 2 - innermost/outermost string lines;
+    * + 8 - sub-categories (torso, head, eyes, etc.);
+    * + 1 - just a gap;
+    * + 1 - unknown :-[
+    */
+    int req_h = worn.size() + 3 + 1 + 2 + 8 + 1 + 1;
+
+    for (size_t i = 0; i < worn.size(); ++i) {
+        each_armor = dynamic_cast<it_armor *>(worn[i].type);
+        if (!each_armor->covers) { // no category defined?
+            req_h--;               // decrease number of required lines!
+        }
+    }
+
+    const int win_h = std::min(TERMY, req_h > FULL_SCREEN_HEIGHT ? req_h : FULL_SCREEN_HEIGHT);
     const int win_w = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 3;
     const int win_x = TERMX / 2 - win_w / 2;
     const int win_y = TERMY / 2 - win_h / 2;
@@ -30,7 +51,6 @@ void player::sort_armor()
     item tmp_item;
     std::vector<item *> tmp_worn;
     std::string tmp_str;
-    it_armor *each_armor = 0;
 
     std::string  armor_cat[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("Arms"),
                                 _("Hands"), _("Legs"), _("Feet"), _("All")
@@ -406,6 +426,7 @@ Press 'r' to assign special inventory letters to clothing.\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart."));
+            //TODO: refresh the window properly. Current method erases the intersection symbols
             draw_border(w_sort_armor); // hack to mark whole window for redrawing
             wrefresh(w_sort_armor);
             break;

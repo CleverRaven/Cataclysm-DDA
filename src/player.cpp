@@ -2320,7 +2320,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
    int level_num = (int)level;
    int exercise = level.exercise();
 
-   if (has_active_bionic("bio_cqb") && 
+   if (has_active_bionic("bio_cqb") &&
         ((*aSkill)->ident() == "melee" || (*aSkill)->ident() == "unarmed" ||
          (*aSkill)->ident() == "cutting" || (*aSkill)->ident() == "bashing" ||
          (*aSkill)->ident() == "stabbing")) {
@@ -4184,7 +4184,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             g->add_zombie(snake);
         }
     }
-    
+
     // And slimespawners too
     if ((has_trait("SLIMESPAWNER")) && (dam >= 10) && one_in(20 - dam)) {
         std::vector<point> valid;
@@ -4287,7 +4287,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         }
 
         if ( source->has_flag(MF_GRABS)) {
-            g->add_msg(_("%s grabs you!"), source->disp_name().c_str());
+            g->add_msg_player_or_npc(this, _("%s grabs you!"), _("%s grabs <npcname>!"), source->disp_name().c_str());
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ? dice(get_dex(), 10) : dice(get_str(), 10) > dice(source->get_dex(), 10)) {
                 g->add_msg_player_or_npc(this, _("You break the grab!"),
                                                   _("<npcname> breaks the grab!"));
@@ -5485,7 +5485,7 @@ void player::suffer()
     if (has_trait("SLIMY") && !in_vehicle) {
         g->m.add_field(posx, posy, fd_slime, 1);
     }
-    
+
     if (has_trait("VISCOUS") && !in_vehicle) {
         if (one_in(3)){
             g->m.add_field(posx, posy, fd_slime, 1);
@@ -5494,7 +5494,7 @@ void player::suffer()
             g->m.add_field(posx, posy, fd_slime, 2);
         }
     }
-    
+
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if (has_trait("PER_SLIME")) {
@@ -7462,7 +7462,7 @@ bool player::eat(item *eaten, it_comest *comest)
     if ( has_trait("GIZZARD") ) {
         capacity = 0;
     }
-    
+
     if( has_trait("SLIMESPAWNER") && !is_npc() ) {
         capacity -= 40;
         if ( (temp_hunger < capacity && temp_thirst <= (capacity + 10) ) ||
@@ -7559,7 +7559,7 @@ bool player::eat(item *eaten, it_comest *comest)
     !has_trait("EATDEAD")) {
         add_disease("foodpoison", eaten->poison * 300);
     }
-    
+
     if (has_trait("AMORPHOUS")) {
         g->add_msg_player_or_npc( this, _("You assimilate your %s."), _("<npcname> assimilates a %s."),
                                   eaten->tname().c_str());
@@ -8256,7 +8256,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_mouth) && has_trait("PROBOSCIS"))
         {
             if(interactive)
@@ -8310,7 +8310,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_torso) && ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) )
         {
             if(interactive)

@@ -129,8 +129,8 @@ std::string from_sentence_case (const std::string &kingston);
 
 std::string string_format(const char *pattern, ...);
 std::string vstring_format(const char *pattern, va_list argptr);
-std::string string_format(const std::string &pattern, ...);
-std::string vstring_format(const std::string &pattern, va_list argptr);
+std::string string_format(const std::string pattern, ...);
+std::string vstring_format(const std::string pattern, va_list argptr);
 
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');

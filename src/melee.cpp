@@ -1274,8 +1274,10 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
     if(monster *m = dynamic_cast<monster *>(&t)) {
         is_hallucination = m->is_hallucination();
     }
+ // Getting your weapon stuck
+ int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));
 
-    // Getting your weapon stuck
+    
     int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT), tec);
     if (weapon.has_flag("MESSY")) { // e.g. chainsaws
         cutting_penalty /= 6; // Harder to get stuck
@@ -1292,7 +1294,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
             } //tumbling down
         } //tumbling down
     } //tumbling down
-
+// Getting your weapon stuck
     if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !is_hallucination) {
         dump << string_format(_("Your %s gets stuck in %s, pulling it out of your hands!"),
                               weapon.tname().c_str(), target.c_str());
