@@ -119,13 +119,21 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         return;
     }
     std::string t_type = jo.get_string("mod-type", "SUPPLEMENTAL");
-    std::string m_author = jo.get_string("author", "Unknown Author");
+    std::string m_author = jo.get_string("author", _("Unknown Author"));
     std::string m_name = jo.get_string("name", "");
     if (m_name.empty()) {
         // "No name" gets confusing if many mods have no name
-        m_name = "No name (" + m_ident + ")";
+        //~ name of a mod that has no name entry, (%s is the mods identifier)
+        m_name = string_format("No name (%s)", m_ident.c_str());
+    } else {
+        m_name = _(m_name.c_str());
     }
-    std::string m_desc = jo.get_string("description", "No Description");
+    std::string m_desc = jo.get_string("description", "");
+    if (m_desc.empty()) {
+        m_desc = _("No Description");
+    } else {
+        m_desc = _(m_desc.c_str());
+    }
     std::string m_path;
     if (jo.has_string("path")) {
         m_path = jo.get_string("path");
