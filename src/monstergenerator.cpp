@@ -137,7 +137,7 @@ void MonsterGenerator::init_death()
 
     /* Currently Unimplemented */
     //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
-    //death_map["HOWL"] = &mdeath::shriek;// Wolf's howling
+    //death_map["HOWL"] = &mdeath::howl;// Wolf's howling
     //death_map["RATTLE"] = &mdeath::rattle;// Rattles like a rattlesnake
 }
 
