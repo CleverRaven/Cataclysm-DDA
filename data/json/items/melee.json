@@ -2072,7 +2072,7 @@
         "color" : "light_gray",
         "symbol" : "/",
         "material" : ["steel", "null"],
-        "techniques" : ["WBLOCK_1", "RAPID", "PIERCE"],
+        "techniques" : ["WBLOCK_1", "RAPID", "IMPALE"],
         "volume" : 5,
         "bashing" : 6,
         "cutting" : 18,

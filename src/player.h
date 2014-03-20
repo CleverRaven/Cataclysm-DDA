@@ -292,7 +292,7 @@ public:
  int roll_bash_damage(bool crit);
  int roll_cut_damage(bool crit);
  int roll_stab_damage(bool crit);
- int roll_stuck_penalty(bool stabbing);
+ int roll_stuck_penalty(bool stabbing, ma_technique &tec);
 
  std::vector<matec_id> get_all_techniques();
 
@@ -304,7 +304,7 @@ public:
  void perform_special_attacks(Creature &t);
 
  std::vector<special_attack> mutation_attacks(Creature &t);
- std::string melee_special_effects(Creature &t, damage_instance& d);
+ std::string melee_special_effects(Creature &t, damage_instance& d, ma_technique &tec);
 
  int get_dodge_base();   // Returns the players's dodge, modded by clothing etc
  int get_dodge();

@@ -11,7 +11,7 @@
             "You swing through %s and everyone nearby",
             "<npcname> swings through %s and everyone nearby"
         ],
-        "aoe" : "circle"
+        "aoe" : "spin"
     },{
         "type" : "technique",
         "id" : "WIDE",
@@ -27,8 +27,8 @@
         "aoe" : "wide"
     },{
         "type" : "technique",
-        "id" : "PIERCE",
-        "name" : "Piercing Strike",
+        "id" : "IMPALE",
+        "name" : "Impaling Strike",
         "unarmed_allowed" : true,
         "melee_allowed" : true,
         "min_melee" : 4,
@@ -37,7 +37,7 @@
             "You pierce straight through %s",
             "<npcname> pierces through %s"
         ],
-        "aoe" : "deep"
+        "aoe" : "impale"
     },{
         "type" : "technique",
         "id" : "BRUTAL",
