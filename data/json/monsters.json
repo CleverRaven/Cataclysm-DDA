@@ -5140,7 +5140,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"HOWL",
-    "description":"A zombified wolf (NEED BETTER DESCRIPTION)!.",
+    "description":"A zombified wolf. Its mouth oozes with a black substance, coating the vicious-looking white fangs.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR"]
     },{
         "type" : "MONSTER",
@@ -5168,7 +5168,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"LEAP",
-    "description":"A zombified cougar (NEED BETTER DESCRIPTION)!.",
+    "description":"An otherwise normal-looking cougar, except that its hind legs are swollen and its eyes bulged with black goo.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR"]
     }
 ]
