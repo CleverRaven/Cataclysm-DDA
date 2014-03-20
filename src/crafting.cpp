@@ -21,6 +21,7 @@ std::vector<std::string> recipe_names;
 recipe_map recipes;
 std::map<std::string, quality> qualities;
 
+bool any_marked_available(const std::vector<component> &comps);
 static void draw_recipe_tabs(WINDOW *w, craft_cat tab, bool filtered = false);
 static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab,
                                 bool filtered = false);
@@ -232,7 +233,49 @@ void game::recraft()
     }
 }
 
-//TODO clean up this function to give better status messages (e.g., "no fire available")
+std::string print_missing_objs(const std::vector< std::vector <component> > &objs, bool is_tools) {
+    std::ostringstream buffer;
+    for(size_t i = 0; i < objs.size(); i++) {
+        const std::vector<component> &list = objs[i];
+        if (any_marked_available(list)) {
+            continue;
+        }
+        if (!buffer.str().empty()) {
+            buffer << _("\nand ");
+        }
+        for(size_t j = 0; j < list.size(); j++) {
+            const component &comp = list[j];
+            const itype *itt = item_controller->find_template(comp.type);
+            if (j > 0) {
+                buffer << _(" or ");
+            }
+            if (!is_tools) {
+                //~ <item-count> x <item-name>
+                buffer << string_format(_("%d x %s"), abs(comp.count), itt->name.c_str());
+            } else if (comp.count > 0) {
+                //~ <tool-name> (<numer-of-charges> charges)
+                buffer << string_format(_("%s (%d charges)"), itt->name.c_str(), comp.count);
+            } else {
+                buffer << itt->name;
+            }
+        }
+    }
+    return buffer.str();
+}
+
+std::string print_missing_objs(const std::vector< quality_requirement > &objs) {
+    std::ostringstream buffer;
+    for(size_t i = 0; i < objs.size(); i++) {
+        const quality_requirement &req = objs[i];
+        if (i > 0) {
+            buffer << _("\nand ");
+        }
+        buffer << string_format(_("%d tools with %s of %d or more"),
+                req.count, qualities[req.id].name.c_str(), req.level);
+    }
+    return buffer.str();
+}
+
 bool game::making_would_work(recipe *making)
 {
     if (!crafting_allowed()) {
@@ -244,7 +287,24 @@ bool game::making_would_work(recipe *making)
     }
 
     if(!can_make(making)) {
-        popup(_("You can no longer make that craft!"));
+        std::ostringstream buffer;
+        buffer << _("You can no longer make that craft!");
+        const std::string missing_tools = print_missing_objs(making->tools, true);
+        if (!missing_tools.empty()) {
+            buffer << _("\nThose tools are missing:\n") << missing_tools;
+        }
+        const std::string missing_quali = print_missing_objs(making->qualities);
+        if (!missing_quali.empty()) {
+            if (missing_tools.empty()) {
+                buffer << _("\nThose tools are missing:");
+            }
+            buffer << "\n" << missing_quali;
+        }
+        const std::string missing_comps = print_missing_objs(making->components, false);
+        if (!missing_comps.empty()) {
+            buffer << _("\nThose components are missing:\n") << missing_comps;
+        }
+        popup(buffer.str(), PF_NONE);
         return false;
     }
 
