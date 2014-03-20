@@ -888,8 +888,7 @@ recipe *game::select_crafting_recipe()
             if ( isWide ) {
                 if ( lastid != current[line]->id ) {
                     lastid = current[line]->id;
-                    tmp = item(item_controller->find_template(current[line]->result), g->turn);
-                    tmp.charges *= current[line]->result_mult;
+                    tmp = current[line]->create_result();
                     folded = foldstring(tmp.info(true), iInfoWidth);
                 }
                 int maxline = (ssize_t)folded.size() > dataHeight ? dataHeight : (ssize_t)folded.size();
@@ -958,7 +957,7 @@ recipe *game::select_crafting_recipe()
             }
             break;
         case Help:
-            tmp = item(item_controller->find_template(current[line]->result), g->turn);
+            tmp = current[line]->create_result();
             full_screen_popup("%s", tmp.info(true).c_str());
             redraw = true;
             keepline = true;
