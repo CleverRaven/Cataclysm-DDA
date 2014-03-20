@@ -94,7 +94,7 @@ bool mod_manager::has_mod(const std::string &ident) const
 void mod_manager::load_mods_from(std::string path)
 {
     std::vector<std::string> mod_files = file_finder::get_files_from_path(MOD_SEARCH_FILE, path, true);
-    for (int i = 0; i < mod_files.size(); ++i) {
+    for (size_t i = 0; i < mod_files.size(); ++i) {
         load_mod_info(mod_files[i]);
     }
     if (file_exist(MOD_DEV_DEFAULT_PATH)) {
@@ -235,7 +235,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
     }
 
     std::ostringstream number_stream;
-    for (int i = 0; i < mods_to_copy.size(); ++i) {
+    for (size_t i = 0; i < mods_to_copy.size(); ++i) {
         number_stream.str(std::string());
         number_stream.width(5);
         number_stream.fill('0');
@@ -268,7 +268,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
         std::queue<std::string> dir_to_make;
         dir_to_make.push(cur_mod_dir.str());
-        for (int j = 0; j < input_dirs.size(); ++j) {
+        for (size_t j = 0; j < input_dirs.size(); ++j) {
             dir_to_make.push(cur_mod_dir.str() + "/" + input_dirs[j].substr(start_index));
         }
 
@@ -283,7 +283,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
         std::ofstream fout;
         // trim file paths from full length down to just /data forward
-        for (int j = 0; j < input_files.size(); ++j) {
+        for (size_t j = 0; j < input_files.size(); ++j) {
             std::string output_path = input_files[j];
             output_path = cur_mod_dir.str() + output_path.substr(start_index);
 
