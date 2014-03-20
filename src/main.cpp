@@ -181,7 +181,10 @@ int main(int argc, char *argv[])
     // ncurses stuff
     initOptions();
     load_options(); // For getting size options
-    initscr(); // Initialize ncurses
+    if (initscr() == NULL) { // Initialize ncurses
+        DebugLog() << "initscr failed!\n";
+        return 1;
+    }
     init_interface();
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
@@ -214,6 +217,8 @@ int main(int argc, char *argv[])
         if (check_all_mods) {
             // Here we load all the mods and check their
             // consistency (both is done in check_all_mod_data).
+            g->init_ui();
+            popup_nowait("checking all mods");
             g->check_all_mod_data();
             if(g->game_error()) {
                 exit_handler(-999);
@@ -225,7 +230,7 @@ int main(int argc, char *argv[])
         }
     } catch(std::string &error_message) {
         if(!error_message.empty()) {
-            debugmsg(error_message.c_str());
+            debugmsg("%s", error_message.c_str());
         }
         exit_handler(-999);
     }

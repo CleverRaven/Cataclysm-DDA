@@ -1,7 +1,6 @@
 #include "gamemode.h"
 #include "game.h"
 #include "setvector.h"
-#include "keypress.h"
 #include "itype.h"
 #include "mtype.h"
 #include "overmapbuffer.h"
@@ -10,6 +9,7 @@
 #include "construction.h"
 #include <string>
 #include <vector>
+#include <ostream>
 #include <sstream>
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
@@ -90,7 +90,7 @@ bool defense_game::init()
     init_to_style(DEFENSE_EASY);
     setup();
     g->u.cash = initial_cash;
-    popup_nowait(_("Please wait as the map generates [ 0%]"));
+    popup_nowait(_("Please wait as the map generates [ 0%%]"));
     // TODO: support multiple defence games? clean up old defence game
     g->cur_om = &overmap_buffer.get(0, 0);
     init_map();
@@ -992,7 +992,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
                                    &(item_count[category_selected]), offset,
                                    item_selected);
                 draw_caravan_borders(w, current_window);
-            } else if (items[category_selected].size() > 0) { // Items
+            } else if (!items[category_selected].empty()) { // Items
                 if (item_selected < items[category_selected].size() - 1) {
                     item_selected++;
                 } else {
@@ -1026,7 +1026,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
                                    &(item_count[category_selected]), offset,
                                    item_selected);
                 draw_caravan_borders(w, current_window);
-            } else if (items[category_selected].size() > 0) { // Items
+            } else if (!items[category_selected].empty()) { // Items
                 if (item_selected > 0) {
                     item_selected--;
                 } else {
@@ -1048,7 +1048,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
 
         case '+':
         case 'l':
-            if (current_window == 1 && items[category_selected].size() > 0) {
+            if (current_window == 1 && !items[category_selected].empty()) {
                 item_count[category_selected][item_selected]++;
                 itype_id tmp_itm = items[category_selected][item_selected];
                 total_price += caravan_price(g->u, itypes[tmp_itm]->price);
@@ -1082,7 +1082,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
 
         case '-':
         case 'h':
-            if (current_window == 1 && items[category_selected].size() > 0 &&
+            if (current_window == 1 && !items[category_selected].empty() &&
                 item_count[category_selected][item_selected] > 0) {
                 item_count[category_selected][item_selected]--;
                 itype_id tmp_itm = items[category_selected][item_selected];
@@ -1339,7 +1339,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
     // THEN print it--if item_selected is valid
     if (item_selected < items->size()) {
         item tmp(itypes[ (*items)[item_selected] ], 0); // Dummy item to get info
-        fold_and_print(w, 12, 1, 38, c_white, tmp.info().c_str());
+        fold_and_print(w, 12, 1, 38, c_white, tmp.info());
     }
     // Next, clear the item list on the right
     for (int i = 1; i <= FULL_SCREEN_HEIGHT - 2; i++) {

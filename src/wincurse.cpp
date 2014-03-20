@@ -7,6 +7,7 @@
 #include "get_version.h"
 #include <cstdlib>
 #include <fstream>
+#include <sstream>
 #include "init.h"
 #include "path_info.h"
 
@@ -428,7 +429,7 @@ WINDOW *curses_init(void)
     std::string typeface = "Terminus";
     char * typeface_c = 0;
     std::ifstream fin;
-    fin.open("data/FONTDATA");
+    fin.open(FILENAMES["fontdata"].c_str());
     if (!fin.is_open()){
         typeface_c = (char*) "Terminus";
         fontwidth = 8;

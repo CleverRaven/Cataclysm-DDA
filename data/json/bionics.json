@@ -56,8 +56,10 @@
         "type" : "bionic",
         "id" : "bio_memory",
     "name"       :    "Enhanced Memory Banks",
-    "cost"       :    1,
-    "description":    "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, you have a chance at retaining all knowledge, at the cost of a small amount of power."
+    "active"     :    true,
+    "cost"       :    0,
+    "time"       :    100,
+    "description":    "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power."
     },{
         "type" : "bionic",
         "id" : "bio_ears",
@@ -387,6 +389,14 @@
         "id" : "bio_razors",
     "name"       :    "Fingertip Razors",
     "description":    "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered."
+    },{
+        "type" : "bionic",
+        "id" : "bio_cqb",
+    "name"       :    "Close Quarters Battle",
+    "active"     :    true,
+    "cost"       :    1,
+    "time"       :    20,
+    "description":    "Bionic processors and databanks, loaded with martial arts combat programs, are integrated into your nervous system. Whilst active, the CQB module will improve your hand to hand combat skills."
     },{
         "type" : "bionic",
         "id" : "bio_blade",

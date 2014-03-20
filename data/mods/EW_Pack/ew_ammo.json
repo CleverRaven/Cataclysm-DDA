@@ -98,6 +98,7 @@
     {
         "type" : "AMMO",
         "id" : "654_casing",
+        "category" : "spare_parts",
         "price" : 5000,
         "name" : "6.54x42mm casing",
         "symbol" : "=",
@@ -120,6 +121,7 @@
     {
         "type" : "AMMO",
         "id" : "545_casing",
+        "category" : "spare_parts",
         "price" : 5000,
         "name" : "5.45x39mm casing",
         "symbol" : "=",

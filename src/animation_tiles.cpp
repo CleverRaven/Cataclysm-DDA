@@ -135,7 +135,7 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
 {
     if (u_see( x, y))
     {
-        for (int i = 0; i < ret.size(); i++)
+        for (size_t i = 0; i < ret.size(); i++)
         {
             int mondex = mon_at(ret[i].x, ret[i].y),
             npcdex = npc_at(ret[i].x, ret[i].y);
@@ -160,7 +160,7 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
 
 void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 {
-    for (int i = 1; i < vPoint.size(); i++)
+    for (size_t i = 1; i < vPoint.size(); i++)
     {
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
     }
@@ -194,6 +194,10 @@ void game::draw_weather(weather_printable wPrint)
             // Snowy weathers, uses snowflake tile, fallthrough intended
             case WEATHER_SNOW:
             case WEATHER_SNOWSTORM: weather_name = "weather_snowflake"; break;
+
+            case WEATHER_FLURRIES:
+            default:
+                break;
         }
         /*
         // may have been the culprit of slowdown. Seems to be the same speed now for both weathered and non-weathered display
@@ -222,10 +226,10 @@ void game::draw_weather(weather_printable wPrint)
 void game::draw_footsteps()
 {
     std::queue<point> step_tiles;
-    for (int i = 0; i < footsteps.size(); i++) {
+    for (size_t i = 0; i < footsteps.size(); i++) {
         if (!u_see(footsteps_source[i]->posx(),footsteps_source[i]->posy())){
             std::vector<point> unseen_points;
-            for (int j = 0; j < footsteps[i].size(); j++){
+            for (size_t j = 0; j < footsteps[i].size(); j++){
                 if (!u_see(footsteps[i][j].x,footsteps[i][j].y)){
                     unseen_points.push_back(point(footsteps[i][j].x,
                                                footsteps[i][j].y));

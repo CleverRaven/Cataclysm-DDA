@@ -12,9 +12,11 @@ TESTS = $(TEST_SOURCES:.cpp=)
 # Brute force solution, relative paths to EVERY .o file
 SOURCE_OBJS = $(patsubst %,../$(ODIR)/%,$(filter-out main.o,$(_OBJS)))
 
-LDFLAGS += -L. -ltap -lpthread
+ODIR := obj
 
-CXXFLAGS += -I..
+LDFLAGS += -L. -ltap++ -lboost_regex -lpthread
+
+CXXFLAGS += -I../src
 
 LD := $(CROSS)g++
 

@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "translations.h"
 #include <fstream>
+#include <sstream>
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -145,21 +146,21 @@ void mapbuffer::save( bool delete_after_save )
     // including a rosetta stone.
     jsout.member("terrain_key");
     jsout.start_array();
-    for (int i = 0; i < terlist.size(); i++) {
+    for (size_t i = 0; i < terlist.size(); i++) {
         jsout.write(terlist[i].id);
     }
     jsout.end_array();
 
     jsout.member("furniture_key");
     jsout.start_array();
-    for (int i = 0; i < furnlist.size(); i++) {
+    for (size_t i = 0; i < furnlist.size(); i++) {
         jsout.write(furnlist[i].id);
     }
     jsout.end_array();
 
     jsout.member("trap_key");
     jsout.start_array();
-    for (int i = 0; i < g->traps.size(); i++) {
+    for (size_t i = 0; i < g->traps.size(); i++) {
         jsout.write(g->traps[i]->id);
     }
     jsout.end_array();
@@ -276,11 +277,11 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
 
                 // Save items
                 item tmp;
-                for (int k = 0; k < sm->itm[i][j].size(); k++) {
+                for (size_t k = 0; k < sm->itm[i][j].size(); k++) {
                     tmp = sm->itm[i][j][k];
                     itemout << "I " << i << " " << j << std::endl;
                     itemout << tmp.save_info() << std::endl;
-                    for (int l = 0; l < tmp.contents.size(); l++) {
+                    for (size_t l = 0; l < tmp.contents.size(); l++) {
                         itemout << "C " << std::endl << tmp.contents[l].save_info() << std::endl;
                     }
                 }
@@ -317,7 +318,7 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
 
         // Output the spawn points
         spawn_point tmpsp;
-        for (int i = 0; i < sm->spawns.size(); i++) {
+        for (size_t i = 0; i < sm->spawns.size(); i++) {
             tmpsp = sm->spawns[i];
             fout << "S " << (tmpsp.type) << " " << tmpsp.count << " " << tmpsp.posx <<
                  " " << tmpsp.posy << " " << tmpsp.faction_id << " " <<
@@ -325,7 +326,7 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
                  tmpsp.name << std::endl;
         }
         // Output the vehicles
-        for (int i = 0; i < sm->vehicles.size(); i++) {
+        for (size_t i = 0; i < sm->vehicles.size(); i++) {
             fout << "V ";
             sm->vehicles[i]->save (fout);
         }
@@ -393,8 +394,11 @@ void mapbuffer::load(std::string worldname)
     if( num_submaps == 0 ) {
         return;
     }
-    // We only need to load all the files if we changed versions.
-    if( savegame_loading_version != savegame_version ) {
+    // We only need to load all the files if we changed versions,
+    // use changing numbers of map entities to trigger it as well.
+    if( savegame_loading_version != savegame_version ||
+        num_terrain_types != ter_key.size() || num_furniture_types != furn_key.size() ||
+        trapmap.size() != trap_key.size() ) {
         std::vector<std::string> map_files = file_finder::get_files_from_path(
             ".map", world_map_path.str(), true, true );
         if( map_files.empty() ) {
@@ -409,6 +413,7 @@ void mapbuffer::load(std::string worldname)
             // Write out and clear map data as its read.
             save( true );
         }
+        load_keys( worldname );
     }
 }
 

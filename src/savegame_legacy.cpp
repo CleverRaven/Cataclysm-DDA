@@ -937,9 +937,8 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                     std::string itemdata;
                     getline(fin, itemdata);
                     if (npcs.empty()) {
-                        debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!",
-                                 loc.x, loc.y);
-                        debugmsg(itemdata.c_str());
+                        debugmsg("Overmap %d:%d:%d tried to load object data, without an NPC!\n%s",
+                                 loc.x, loc.y, itemdata.c_str());
                     } else {
                         item tmp(itemdata);
                         npc* last = npcs.back();
@@ -1710,9 +1709,7 @@ void vehicle::load_legacy(std::ifstream &stin) {
     /* After loading, check if the vehicle is from the old rules and is missing
      * frames. */
     add_missing_frames();
-    find_exhaust ();
-    insides_dirty = true;
-    precalc_mounts (0, face.dir());
+    refresh();
 
     stin >> tag_count;
     for( int i = 0; i < tag_count; ++i )

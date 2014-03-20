@@ -51,24 +51,18 @@ static void update_pathname(std::string name, std::string path)
 
 void set_standart_filenames(void)
 {
-    // Special: data_dir
-#if !(defined _WIN32 || defined WINDOW)
+    // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {
         update_pathname("datadir", FILENAMES["base_path"] + "share/cataclysm-dda/");
+        update_pathname("gfxdir", FILENAMES["datadir"] + "gfx/");
+        update_pathname("luadir", FILENAMES["datadir"] + "lua/");
     } else {
-        update_pathname("datadir", FILENAMES["base_path"] + "data/");
-    }
-#else
-    update_pathname("datadir", FILENAMES["base_path"] + "data/");
-#endif
-    // Shared directories
-    if (FILENAMES["base_path"].empty()) {
+        update_pathname("datadir", "data/");
         update_pathname("gfxdir", "gfx/");
         update_pathname("luadir", "lua/");
-    } else {
-        update_pathname("gfxdir", FILENAMES["base_path"] + "gfx/");
-        update_pathname("luadir", FILENAMES["base_path"] + "lua/");
     }
+
+    // Shared dirs
     update_pathname("autoexeclua", FILENAMES["luadir"] + "autoexec.lua");
     update_pathname("fontdir", FILENAMES["datadir"] + "font/");
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
@@ -84,6 +78,7 @@ void set_standart_filenames(void)
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    update_pathname("second_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");

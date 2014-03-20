@@ -9,7 +9,6 @@
 #include <map>
 #include <vector>
 
-#include "keypress.h"
 #include "game.h"
 #include "output.h"
 #include "catacharset.h"

@@ -37,26 +37,7 @@ struct iteminfo{
   bool bDrawName; //If false then compares sName, but don't print sName.
 
   //Inputs are: ItemType, main text, text between main text and value, value, if the value should be an int instead of a double, text after number, if there should be a newline after this item, if lower values are better
-  iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999, bool _is_int = true, std::string Plus = "", bool NewLine = true, bool LowerIsBetter = false, bool DrawName = true) {
-    sType = Type;
-    sName = Name;
-    sFmt = Fmt;
-    is_int = _is_int;
-    dValue = Value;
-    std::stringstream convert;
-    if (_is_int) {
-        int dIn0i = int(Value);
-        convert << dIn0i;
-    } else {
-        convert.precision(2);
-        convert << std::fixed << Value;
-    }
-    sValue = convert.str();
-    sPlus = Plus;
-    bNewLine = NewLine;
-    bLowerIsBetter = LowerIsBetter;
-    bDrawName = DrawName;
-  }
+  iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999, bool _is_int = true, std::string Plus = "", bool NewLine = true, bool LowerIsBetter = false, bool DrawName = true);
 };
 
 enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
@@ -127,6 +108,18 @@ public:
  nc_color color() const;
  int price() const;
 
+    /**
+     * Returns true if this item is of the specific type, or
+     * if this functions returns true for any of its contents.
+     */
+    bool is_of_type_or_contains_it(const std::string &type_id) const;
+    /**
+     * Returns true if this item is ammo and has the specifi ammo type,
+     * or if this functions returns true for any of its contents.
+     * This does not check type->id, but it_ammo::type.
+     */
+    bool is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const;
+
  bool invlet_is_okay();
  bool stacks_with(item rhs);
  void put_in(item payload);
@@ -143,6 +136,7 @@ public:
  // See inventory::amount_of, this does the same for this item (and its content)
  int amount_of(const itype_id &it, bool used_as_tool) const;
  bool has_flag(std::string f) const;
+ bool contains_with_flag (std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
  bool has_technique(std::string t);
@@ -155,6 +149,7 @@ public:
  bool craft_has_charges();
  long num_charges();
  bool rotten();
+ int brewing_time();
  bool ready_to_revive(); // used for corpses
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
@@ -202,7 +197,7 @@ public:
  bool is_book() const;
  bool is_container() const;
  bool is_watertight_container() const;
- int is_funnel_container(int bigger_than) const;
+ bool is_funnel_container(unsigned int &bigger_than) const;
 
  bool is_tool() const;
  bool is_software() const;
@@ -249,6 +244,8 @@ public:
  int player_id; // Only give a mission to the right player!
  std::map<std::string, std::string> item_vars;
  static itype * nullitem();
+ typedef std::vector<item> t_item_vector;
+ t_item_vector components;
 
  item clone(bool rand = true);
 private:

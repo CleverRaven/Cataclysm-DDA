@@ -188,6 +188,7 @@
 		<Unit filename="src/ammo.h" />
 		<Unit filename="src/animation_curses.cpp" />
 		<Unit filename="src/animation_tiles.cpp" />
+		<Unit filename="src/armor_layers.cpp" />
 		<Unit filename="src/artifact.cpp" />
 		<Unit filename="src/artifact.h" />
 		<Unit filename="src/auto_pickup.cpp" />
@@ -292,8 +293,6 @@
 		<Unit filename="src/iuse_software_sokoban.h" />
 		<Unit filename="src/json.cpp" />
 		<Unit filename="src/json.h" />
-		<Unit filename="src/keypress.cpp" />
-		<Unit filename="src/keypress.h" />
 		<Unit filename="src/lightmap.cpp" />
 		<Unit filename="src/lightmap.h" />
 		<Unit filename="src/line.cpp" />

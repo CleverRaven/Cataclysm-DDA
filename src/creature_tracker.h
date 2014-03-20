@@ -10,6 +10,7 @@ class Creature_tracker
 {
     public:
         Creature_tracker();
+        ~Creature_tracker();
         monster &find(int index);
         int mon_at(point coords) const;
         int mon_at(int x_pos, int y_pos) const;
@@ -22,7 +23,7 @@ class Creature_tracker
         const std::vector<monster>& list() const;
 
     private:
-        std::vector<monster> _old_monsters_list;
+        std::vector<monster*> _old_monsters_list;
         std::map<point, int> _old_monsters_by_location;
         // Same as mon_at, but only returns id of dead critters.
         int dead_mon_at(point coords) const;

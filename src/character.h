@@ -12,6 +12,9 @@ class Character : public Creature
         Character();
         Character(const Creature &rhs);
         Character &operator= (const Character &rhs);
+
+        field_id bloodType();
+        field_id gibType();
 };
 
 #endif

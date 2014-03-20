@@ -9,7 +9,6 @@
 
 #include <vector>
 #include <string>
-#include <sstream>
 
 #define NPC_LOW_VALUE       5
 #define NPC_HI_VALUE        8
@@ -200,7 +199,7 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
   anger = copy.anger;
   owed = copy.owed;
   favors.clear();
-  for (int i = 0; i < copy.favors.size(); i++)
+  for (size_t i = 0; i < copy.favors.size(); i++)
    favors.push_back( copy.favors[i] );
  };
 

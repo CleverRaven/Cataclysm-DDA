@@ -82,6 +82,7 @@
       ["barrel_small", 12],
       ["barrel_rifled", 10],
       ["barrel_ported", 10],
+      ["muzzle_brake", 5],
       ["conversion_battle", 1],
       ["conversion_sniper", 1],
       ["clip", 16],

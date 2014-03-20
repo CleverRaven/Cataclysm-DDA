@@ -162,9 +162,6 @@
     <ClCompile Include="..\src\json.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\keypress.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\lightmap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -405,6 +402,9 @@
     <ClCompile Include="..\src\mondefense.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\armor_layers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\action.h">
@@ -555,9 +555,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\json.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\keypress.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\lightmap.h">
@@ -750,6 +747,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\mondefense.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\platform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

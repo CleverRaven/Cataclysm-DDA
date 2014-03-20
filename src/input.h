@@ -11,6 +11,8 @@
     #define GAMEPAD_ENABLED
 #endif
 
+#define KEY_ESCAPE 27
+
 enum InputEvent {
     Confirm,
     Cancel,
@@ -40,9 +42,13 @@ enum InputEvent {
 InputEvent get_input(int ch = '\0');
 bool is_mouse_enabled();
 void get_direction(int &x, int &y, InputEvent &input);
-std::string get_input_string_from_file(std::string fname="input.txt");
+std::string get_input_string_from_file(std::string fname = "input.txt");
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT=1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
+// Simple text input--translates numpad to vikeys
+long input(long ch = -1);
+long get_keypress();
+
+enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
 enum input_event_t {
     CATA_INPUT_ERROR,
@@ -77,10 +83,16 @@ struct input_event {
         mouse_x = mouse_y = 0;
         type = CATA_INPUT_ERROR;
     }
+    input_event(long s, input_event_t t)
+    : type(t)
+    {
+        mouse_x = mouse_y = 0;
+        sequence.push_back(s);
+    }
 
     long get_first_input() const
     {
-        if (sequence.size() == 0) {
+        if (sequence.empty()) {
             return 0;
         }
 
@@ -101,7 +113,7 @@ struct input_event {
         if(sequence.size() != other.sequence.size()) {
             return false;
         }
-        for(int i=0; i<sequence.size(); i++) {
+        for( size_t i = 0; i < sequence.size(); ++i ) {
             if(sequence[i] != other.sequence[i]) {
                 return false;
             }
@@ -110,7 +122,7 @@ struct input_event {
         if(modifiers.size() != other.modifiers.size()) {
             return false;
         }
-        for(int i=0; i<modifiers.size(); i++) {
+        for( size_t i = 0; i < modifiers.size(); ++i ) {
             if(modifiers[i] != other.modifiers[i]) {
                 return false;
             }
@@ -121,8 +133,6 @@ struct input_event {
 };
 
 // Definitions for joystick/gamepad.
-
-
 
 // On the joystick there's a maximum of 256 key states.
 // So for joy axis events, we simply use a number larger
@@ -173,23 +183,31 @@ public:
      * Initializes the input manager, aka loads the input mapping configuration JSON.
      */
     void init();
+    /**
+     * Opposite of @ref init, save the data that has been loaded by @ref init,
+     * and possibly been modified.
+     */
+    void save();
 
     /**
      * Get the keycode associated with the given key name.
      */
-    long get_keycode(std::string name);
+    long get_keycode(const std::string &name) const;
 
     /**
      * Get the key name associated with the given keyboard keycode.
      *
      * @param input_type Whether the keycode is a gamepad or a keyboard code.
+     * @param portable If true, return a language independent and portable name
+     * of the key. This acts as the inverse to get_keyname:
+     * <code>get_keyname(get_keycode(a), , true) == a</code>
      */
-    std::string get_keyname(long ch, input_event_t input_type);
+    std::string get_keyname(long ch, input_event_t input_type, bool portable = false) const;
 
     /**
      * Get the human-readable name for an action.
      */
-    const std::string& get_action_name(const std::string& action);
+    const std::string& get_action_name(const std::string& action) const;
 
     /**
      * curses getch() replacement.
@@ -209,13 +227,20 @@ public:
     void set_timeout(int delay);
 
 private:
-    std::map<std::string, std::vector<input_event> > action_to_input;
-    std::map<std::string, std::map<std::string,std::vector<input_event> > > action_contexts;
-    std::map<std::string, std::string> actionID_to_name;
+    friend class input_context;
 
-    std::map<long, std::string> keycode_to_keyname;
-    std::map<long, std::string> gamepad_keycode_to_keyname;
-    std::map<std::string, long> keyname_to_keycode;
+    typedef std::vector<input_event> t_input_event_list;
+    typedef std::map<std::string, t_input_event_list> t_keybinding_map;
+    typedef std::map<std::string, t_keybinding_map> t_action_contexts;
+    t_action_contexts action_contexts;
+    typedef std::map<std::string, std::string> t_string_string_map;
+    t_string_string_map actionID_to_name;
+
+    typedef std::map<long, std::string> t_key_to_name_map;
+    t_key_to_name_map keycode_to_keyname;
+    t_key_to_name_map gamepad_keycode_to_keyname;
+    typedef std::map<std::string, long> t_name_to_key_map;
+    t_name_to_key_map keyname_to_keycode;
 
     // Maps the key names we see in keybindings.json and in-game to
     // the keycode integers.
@@ -224,6 +249,15 @@ private:
     void add_gamepad_keycode_pair(long ch, const std::string& name);
 
     int input_timeout;
+
+    t_input_event_list &get_event_list(const std::string &action_descriptor, const std::string &context);
+    void remove_input_for_action(const std::string &action_descriptor, const std::string &context);
+    void add_input_for_action(const std::string &action_descriptor, const std::string &context, const input_event &event);
+    /**
+     * Return a user presentable list of actions that conflict with the
+     * proposed keybinding. Returns an empty string if nothing conflicts.
+     */
+    std::string get_conflicts(const std::string &context, const input_event &event) const;
 };
 
 // Singleton for our input manager.

@@ -1,5 +1,4 @@
 #include "action.h"
-#include "keypress.h"
 #include "output.h"
 #include "path_info.h"
 #include <istream>
@@ -8,8 +7,9 @@
 
 std::map<char, action_id> keymap;
 std::map<char, action_id> default_keymap;
+std::set<action_id> unbound_keymap;
 
-void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap);
+void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, bool enable_unbound = false);
 
 void load_keyboard_settings()
 {
@@ -33,13 +33,16 @@ void load_keyboard_settings()
         keymap = default_keymap;
         return;
     } else {
-        parse_keymap(fin, keymap);
+        parse_keymap(fin, keymap, true);
     }
 
     // Check for new defaults, and automatically bind them if possible
     std::map<char, action_id>::iterator d_it;
     for (d_it = default_keymap.begin(); d_it != default_keymap.end(); ++d_it) {
         bool found = false;
+        if (unbound_keymap.find(d_it->second) != unbound_keymap.end()) {
+            break;
+        }
         std::map<char, action_id>::iterator k_it;
         for (k_it = keymap.begin(); k_it != keymap.end(); ++k_it) {
             if (d_it->second == k_it->second) {
@@ -53,19 +56,26 @@ void load_keyboard_settings()
     }
 }
 
-void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap)
+void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, bool enable_unbound)
 {
     while (!keymap_txt.eof()) {
         std::string id;
         keymap_txt >> id;
         if (id == "") {
             getline(keymap_txt, id);    // Empty line, chomp it
+        } else if (id == "unbind") {
+            keymap_txt >> id;
+            action_id act = look_up_action(id);
+            if (act != ACTION_NULL && enable_unbound) {
+                unbound_keymap.insert(act);
+            }
+            break;
         } else if (id[0] != '#') {
             action_id act = look_up_action(id);
             if (act == ACTION_NULL)
                 debugmsg("\
-Warning! data/keymap.txt contains an unknown action, \"%s\"\n\
-Fix data/keymap.txt at your next chance!", id.c_str());
+Warning! keymap.txt contains an unknown action, \"%s\"\n\
+Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str());
             else {
                 while (!keymap_txt.eof()) {
                     char ch;
@@ -77,7 +87,7 @@ Fix data/keymap.txt at your next chance!", id.c_str());
                             debugmsg("\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
-Fix data/keymap.txt at your next chance!", ch, id.c_str());
+Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str());
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -95,13 +105,15 @@ void save_keymap()
     std::ofstream fout;
     fout.open(FILENAMES["keymap"].c_str());
     if (!fout) { // It doesn't exist
-        debugmsg("Can't open data/keymap.txt.");
+        debugmsg("Can't open \"%s\".", FILENAMES["keymap"].c_str());
         fout.close();
         return;
     }
-    std::map<char, action_id>::iterator it;
-    for (it = keymap.begin(); it != keymap.end(); ++it) {
+    for (std::map<char, action_id>::iterator it = keymap.begin(); it != keymap.end(); ++it) {
         fout << action_ident( (*it).second ) << " " << (*it).first << std::endl;
+    }
+    for (std::set<action_id>::iterator it = unbound_keymap.begin(); it != unbound_keymap.end(); ++it) {
+        fout << "unbind" << " " << action_ident(*it) << std::endl;
     }
 
     fout.close();

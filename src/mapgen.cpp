@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <cassert>
 #include <list>
+#include <sstream>
 #include "json.h"
 #ifdef LUA
 #include "catalua.h"
@@ -277,7 +278,7 @@ void load_mapgen( JsonObject &jo ) {
         while( ja.has_more() ) {
             mapgenid_list.push_back( ja.next_string() );
         }
-        if ( mapgenid_list.size() > 0 ) {
+        if ( !mapgenid_list.empty() ) {
             std::string mapgenid = mapgenid_list[0];
             mapgen_function * mgfunc = load_mapgen_function(jo, mapgenid, -1);
             if ( mgfunc != NULL ) {
@@ -921,16 +922,16 @@ void mapgen_function_json::apply( map *m, oter_id terrain_type, mapgendata md, i
     if ( do_format ) {
         formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
     }
-    for( int i=0; i < spawnitems.size(); i++ ) {
+    for( size_t i = 0; i < spawnitems.size(); ++i ) {
         spawnitems[i].apply( m );
     }
-    for( int i=0; i < place_groups.size(); i++ ) {
+    for( size_t i = 0; i < place_groups.size(); ++i ) {
         place_groups[i].apply( m, d );
     }
-    for( int i=0; i < place_specials.size(); i++ ) {
+    for( size_t i = 0; i < place_specials.size(); ++i ) {
         place_specials[i].apply( m );
     }
-    for( int i=0; i < setmap_points.size(); i++ ) {
+    for( size_t i = 0; i < setmap_points.size(); ++i ) {
         setmap_points[i].apply( m );
     }
 #ifdef LUA
@@ -1032,7 +1033,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     const std::string function_key = terrain_type.t().id_mapgen;
 
     std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( function_key );
-    if ( fmapit != oter_mapgen.end() && fmapit->second.size() > 0 ) {
+    if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
         // int fidx = rng(0, fmapit->second.size() - 1); // simple unwieghted list
         std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
         const int rlast = weightit->second.rbegin()->first;
@@ -3866,6 +3867,11 @@ ff.......|....|WWWWWWWW|\n\
                 spawn_item(SEEX    , SEEY    , "mininuke", dice(3, 6));
                 spawn_item(SEEX    , SEEY    , "recipe_atomic_battery");
                 spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
+            }  else if (!one_in(3)) {
+                spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
+                spawn_item(SEEX    , SEEY - 1, "plutonium");
+                spawn_item(SEEX - 1, SEEY    , "plutonium");
+                spawn_item(SEEX    , SEEY    , "recipe_caseless");
             } else {
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
                 furn_set(SEEX - 1, SEEY - 1, f_rack);
@@ -8956,7 +8962,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         \n\
                         \n\
                         \n\
-                        \n\
+                  &     \n\
                         \n\
           %%%       %%% \n\
 ###++### |-w---+-----w-|\n\
@@ -8973,16 +8979,17 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         \n\
 FFFFFFFFFFFFFFFFFFFFFFFF\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n",
-                                       mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d", t_dirt, t_fence_barbed, t_floor,
+                                       mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d &", t_dirt, t_fence_barbed, t_floor,
                                                t_dirtfloor, t_floor,    t_floor,    t_floor,  t_floor, t_floor,  t_floor, t_floor,   t_floor,
                                                t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c, t_wall_h, t_wall_v, t_window_domestic,
-                                               t_floor, t_floor, t_floor, t_floor),
+                                               t_floor, t_floor, t_floor, t_floor, t_water_pump),
                                        mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d", f_null, f_null,         f_null,
                                                f_null,      f_armchair, f_cupboard, f_fridge, f_sink,  f_toilet, f_oven,  f_bathtub, f_locker,
                                                f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,   f_null,
                                                f_desk,  f_chair, f_bed,   f_dresser));
             place_items("fridge", 65, 12, 11, 12, 11, false, 0);
-            place_items("kitchen", 70, 10, 11, 14, 3, false, 0);
+            place_items("kitchen", 70, 10, 15, 14, 11, false, 0);
+            place_items("moonshine_brew", 65, 10, 15, 14, 11, false, 0);
             place_items("livingroom", 65, 15, 11, 22, 13, false, 0);
             place_items("dresser", 80, 19, 18, 19, 18, false, 0);
             place_items("dresser", 80, 22, 18, 22, 18, false, 0);
@@ -9006,7 +9013,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                         \n\
                         \n\
                         \n\
-                        \n\
+                  &     \n\
                         \n\
           %%%       %%% \n\
 ###++### |-w---+-----w-|\n\
@@ -9023,10 +9030,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                         \n\
 FFFFFFFFFFFFFFFFFFFFFFFF\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n",
-                                       mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d", t_floor,         t_dirt,
+                                       mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d &", t_floor,         t_dirt,
                                                t_fence_barbed, t_floor, t_dirtfloor, t_floor,    t_floor,    t_floor,  t_floor, t_floor,  t_floor,
                                                t_floor,   t_floor,  t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c, t_wall_h, t_wall_v,
-                                               t_window_domestic, t_floor, t_floor, t_floor, t_floor),
+                                               t_window_domestic, t_floor, t_floor, t_floor, t_floor, t_water_pump),
                                        mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d", f_makeshift_bed, f_null,
                                                f_null,         f_null,  f_null,      f_armchair, f_cupboard, f_fridge, f_sink,  f_toilet, f_oven,
                                                f_bathtub, f_locker, f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,
@@ -11577,6 +11584,9 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
             m->place_items("dissection", 80, x2 - 1, y1, x2 - 1, y2, false, 0);
         }
         m->add_trap(int((x1 + x2) / 2), int((y1 + y2) / 2), tr_dissector);
+        if (one_in(10)) {
+            m->add_spawn("mon_broken_cyborg", 1, int(((x1 + x2) / 2)+1), int(((y1 + y2) / 2)+1));
+        }
         break;
 
     case room_bionics:
@@ -12619,6 +12629,14 @@ void map::add_extra(map_extra type)
             }
 
         }
+        std::string netherspawns[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = netherspawns[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
+        }
         place_spawns("GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1,
                      0.1f);//0.1 = 1-5
         place_items("rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
@@ -12657,6 +12675,14 @@ void map::add_extra(map_extra type)
                     }
                 }
             }
+        }
+        std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = spawncreatures[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
         }
         place_items("rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     }
@@ -12872,6 +12898,14 @@ void map::add_extra(map_extra type)
                     }
                 }
             }
+        }
+        std::string spawncreatures[4] = {"mon_gelatin", "mon_mi_go",
+                                         "mon_kreck", "mon_gracke"};
+        int num_monsters = rng(0, 3);
+        for (int i = 0; i < num_monsters; i++) {
+            std::string type = spawncreatures[( rng(0, 3) )];
+            int mx = rng(1, SEEX * 2 - 2), my = rng(1, SEEY * 2 - 2);
+            add_spawn(type, 1, mx, my);
         }
     }
     break;

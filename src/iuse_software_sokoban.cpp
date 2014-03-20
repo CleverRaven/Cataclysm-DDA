@@ -1,10 +1,11 @@
 #include <string>
 #include <iostream>
 #include <iterator>
+#include <sstream>
+#include <fstream>
 #include <map>
 #include <vector>
 
-#include "keypress.h"
 #include "output.h"
 #include "catacharset.h"
 #include "options.h"
@@ -59,7 +60,7 @@ bool sokoban_game::parse_level()
     fin.open(std::string(FILENAMES["sokoban"]).c_str());
     if(!fin.is_open()) {
         fin.close();
-        debugmsg("Could not read ./data/raw/sokoban.txt");
+        debugmsg("Could not read \"%s\".", FILENAMES["sokoban"].c_str());
         return false;
     }
 
@@ -89,7 +90,7 @@ bool sokoban_game::parse_level()
             mLevelInfo[iNumLevel]["MaxLevelX"] = sLine.length();
         }
 
-        for (int i = 0; i < sLine.length(); i++) {
+        for (size_t i = 0; i < sLine.length(); i++) {
             if ( sLine[i] == '@' ) {
                 if (mLevelInfo[iNumLevel]["PlayerY"] == 0 && mLevelInfo[iNumLevel]["PlayerX"] == 0) {
                     mLevelInfo[iNumLevel]["PlayerY"] = mLevelInfo[iNumLevel]["MaxLevelY"];
@@ -181,8 +182,8 @@ void sokoban_game::clear_level(WINDOW *w_sokoban)
     const int iOffsetX = (FULL_SCREEN_WIDTH - 2 - mLevelInfo[iCurrentLevel]["MaxLevelX"]) / 2;
     const int iOffsetY = (FULL_SCREEN_HEIGHT - 2 - mLevelInfo[iCurrentLevel]["MaxLevelY"]) / 2;
 
-    for (int iY = 0; iY < mLevelInfo[iCurrentLevel]["MaxLevelY"]; iY++) {
-        for (int iX = 0; iX < mLevelInfo[iCurrentLevel]["MaxLevelX"]; iX++) {
+    for (size_t iY = 0; iY < mLevelInfo[iCurrentLevel]["MaxLevelY"]; iY++) {
+        for (size_t iX = 0; iX < mLevelInfo[iCurrentLevel]["MaxLevelX"]; iX++) {
             mvwputch(w_sokoban, iOffsetY + iY, iOffsetX + iX, c_black, ' ');
         }
     }
@@ -230,7 +231,7 @@ void sokoban_game::draw_level(WINDOW *w_sokoban)
 
 bool sokoban_game::check_win()
 {
-    for (int i = 0; i < vLevelDone[iCurrentLevel].size(); i++) {
+    for (size_t i = 0; i < vLevelDone[iCurrentLevel].size(); i++) {
         if (mLevel[vLevelDone[iCurrentLevel][i].first][vLevelDone[iCurrentLevel][i].second] != "*") {
             return false;
         }
@@ -270,7 +271,7 @@ int sokoban_game::start_game()
 
     for (size_t i = 0; i < shortcuts.size(); i++) {
         shortcut_print(w_sokoban, i + 1, FULL_SCREEN_WIDTH - indent,
-                       c_white, c_ltgreen, shortcuts[i].c_str());
+                       c_white, c_ltgreen, shortcuts[i]);
     }
 
     int input = '.';
@@ -340,7 +341,7 @@ int sokoban_game::start_game()
             int iPlayerXNew = 0;
             bool bUndoSkip = false;
             //undo move
-            if (vUndo.size() > 0) {
+            if (!vUndo.empty()) {
                 //reset last player pos
                 mLevel[iPlayerY][iPlayerX] = (mLevel[iPlayerY][iPlayerX] == "+") ? "." : " ";
                 iPlayerYNew = vUndo[vUndo.size() - 1].iOldY;
@@ -352,7 +353,7 @@ int sokoban_game::start_game()
                 bUndoSkip = true;
             }
 
-            if (bUndoSkip && vUndo.size() > 0) {
+            if (bUndoSkip && !vUndo.empty()) {
                 iDirY = vUndo[vUndo.size() - 1].iOldY;
                 iDirX = vUndo[vUndo.size() - 1].iOldX;
 

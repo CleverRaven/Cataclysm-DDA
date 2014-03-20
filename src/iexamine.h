@@ -8,8 +8,6 @@
 #ifndef __Cataclysmic__iexamine__
 #define __Cataclysmic__iexamine__
 
- //#include <iostream>
-
 class game;
 class item;
 class player;
@@ -29,6 +27,7 @@ public:
  void cardreader (player *p, map *m, int examx, int examy);
  void rubble (player *p, map *m, int examx, int examy);
  void chainfence (player *p, map *m, int examx, int examy);
+ void bars(player *p, map *m, int examx, int examy);
  void tent (player *p, map *m, int examx, int examy);
  void shelter (player *p, map *m, int examx, int examy);
  void wreckage (player *p, map *m, int examx, int examy);
@@ -46,6 +45,8 @@ public:
  void pedestal_temple (player *p, map *m, int examx, int examy);
  void fswitch (player *p, map *m, int examx, int examy);
  void flower_poppy (player *p, map *m, int examx, int examy);
+ void flower_blubell (player *p, map *m, int examx, int examy);
+ void flower_dahlia (player *p, map *m, int examx, int examy);
  void fungus (player *p, map *m, int examx, int examy);
  void dirtmound (player *p, map *m, int examx, int examy);
  void aggie_plant (player *p, map *m, int examx, int examy);
@@ -59,6 +60,9 @@ public:
  void trap(player *p, map *m, int examx, int examy);
  void water_source (player *p, map *m, const int examx, const int examy);
  void acid_source (player *p, map *m, const int examx, const int examy);
+ void fvat_empty (player *p, map *m, const int examx, const int examy);
+ void fvat_full (player *p, map *m, const int examx, const int examy);
+ void keg (player *p, map *m, const int examx, const int examy);
 };
 
 typedef void (iexamine::*iexamine_function)(player*, map*, int, int);

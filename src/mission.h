@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include <sstream>
 #include "omdata.h"
 #include "itype.h"
 #include "npc.h"

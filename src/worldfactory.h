@@ -3,10 +3,8 @@
 
 #include "options.h"
 #include "output.h"
-#include "debug.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "keypress.h"
 #include "input.h"
 #include "gamemode.h"
 
@@ -14,7 +12,6 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include <sstream>
 
 extern std::map<std::string, cOpt> OPTIONS;
 extern std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
@@ -75,7 +72,7 @@ class worldfactory
         int show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world);
 
         void draw_modselection_borders(WINDOW *win);
-        void draw_worldgen_tabs(WINDOW *win, int current, std::vector<std::string> tabs);
+        void draw_worldgen_tabs(WINDOW *win, unsigned int current, std::vector<std::string> tabs);
 
         std::map<std::string, cOpt> get_default_world_options();
         std::map<std::string, cOpt> get_world_options(std::string path);

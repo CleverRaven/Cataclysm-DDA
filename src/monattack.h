@@ -38,7 +38,7 @@ public:
     void photograph         (monster *z);
     void tazer              (monster *z);
     void smg                (monster *z);
-    void laser     (monster *z);
+    void laser              (monster *z);
     void flamethrower       (monster *z);
     void copbot             (monster *z);
     void multi_robot        (monster *z); // Pick from tazer, smg, flame
@@ -50,6 +50,8 @@ public:
     void brandish           (monster *z);
     void flesh_golem        (monster *z);
     void parrot             (monster *z);
+    void darkman            (monster *z);
+    void slimespring        (monster *z);
 };
 
 #endif

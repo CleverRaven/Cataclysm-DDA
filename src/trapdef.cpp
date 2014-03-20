@@ -14,7 +14,7 @@ void game::load_trap(JsonObject &jo)
     trap *new_trap = new trap(
             jo.get_string("id"), // "tr_beartrap"
             g->traps.size(),     // tr_beartrap
-            jo.get_string("name"), // "bear trap"
+            _(jo.get_string("name").c_str()), // "bear trap"
             color_from_string(jo.get_string("color")),
             jo.get_string("symbol").at(0),
             jo.get_int("visibility"),

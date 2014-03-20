@@ -1,7 +1,7 @@
 Stat system scaling:
 Minimum stat: 0 (should only happen due to penalties, instant failure in most scenarios)
 Nominal stat: 8 ("average" person)
-Very high stat: ? (realistic world class human)
+Very high stat: 14 (realistic world class human, maximum cost-effective in chargen)
 Maximal stat: 20 (higher may be achievable, but we're not worried about balancing at that point.)
 
 Skill system scaling:
@@ -9,10 +9,11 @@ Minimum skill: 0 (no training)
 Maximum skill: 10 (requires regular training to maintain, "professional" level)
 
 Monster melee skill scaling:
-Minimum skill: 0 (no combat potential)
-Nominal skill: 8 (average Zed)
-Very high stat: 16 (skilled in combat)
-Maximal stat: 20 (highest for balance purposes)
+Minimum skill: 0 (no melee potential; turret, fungal wall)
+Nominal skill: 4 (average critter; most zeds & giant insects)
+Notable skill: 6 (competent/carnivore; bear, wolf, police/survivor zeds)
+Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
+Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
 Dodge System assumptions:
 Dodge chance is based on attacker's melee skill and target's dex stat and dodge skill.

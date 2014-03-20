@@ -1,5 +1,4 @@
 #include "game.h"
-#include "keypress.h"
 #include "output.h"
 #include "map.h"
 #include <map>
@@ -17,10 +16,6 @@
 #include "helper.h"
 #include "item_factory.h"
 #include "auto_pickup.h"
-#ifdef _MSC_VER
-// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
-#define snprintf _snprintf_s
-#endif
 
 #include "advanced_inv.h"
 
@@ -117,11 +112,10 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     std::vector<advanced_inv_listitem> &items = pane.items;
     WINDOW* window = pane.window;
     int page = pane.page;
-    int selected_index = pane.index;
+    unsigned selected_index = pane.index;
     bool isinventory = ( pane.area == 0 );
     bool isall = ( pane.area == 10 );
-    int itemsPerPage;
-    itemsPerPage = getmaxy( window ) - ADVINVOFS; // fixme
+    size_t itemsPerPage = getmaxy( window ) - ADVINVOFS; // fixme
     int columns = getmaxx( window );
     int rightcol = columns - 8;
     int amount_column = columns - 15;
@@ -185,7 +179,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         mvwprintz( window, 5, rightcol - 7, c_ltgray, _("    weight vol") );
     }
 
-    for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
+    for(unsigned i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
       if ( items[i].volume == -8 ) { // I'm a header!
         mvwprintz(window,6+x,( columns - items[i].name.size()-6 )/2,c_cyan, "[%s]", items[i].name.c_str() );
       } else {
@@ -337,7 +331,7 @@ void advanced_inv_print_header(advanced_inv_area* squares, advanced_inventory_pa
 void advanced_inv_update_area( advanced_inv_area &area )
 {
     int i = area.id;
-    player u = g->u;
+    const player &u = g->u;
     area.x = g->u.posx + area.offx;
     area.y = g->u.posy + area.offy;
     area.size = 0;
@@ -476,7 +470,7 @@ bool cached_lcmatch(const std::string &str, const std::string &findstr, std::map
         std::string ret = "";
         ret.reserve( str.size() );
         transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
-        bool ismatch = ( ret.find( findstr ) != -1 );
+        bool ismatch = ( ret.find( findstr ) != std::string::npos );
         filtercache[ str ] = ismatch;
         return ismatch;
     } else {
@@ -487,7 +481,7 @@ bool cached_lcmatch(const std::string &str, const std::string &findstr, std::map
 void advanced_inventory::recalc_pane(int i)
 {
     panes[i].recalc = false;
-    bool filtering = ( panes[i].filter.size() > 0 );
+    bool filtering = ( !panes[i].filter.empty() );
     player &u = *p;
     map &m = g->m;
     int idest = (i == left ? right : left);
@@ -590,7 +584,7 @@ void advanced_inventory::recalc_pane(int i)
                     saweight += it.weight;
                     panes[i].items.push_back(it);
 
-                } // for(int x = 0; x < items.size() ; x++)
+                } // for( size_t x = 0; x < items.size(); ++x )
 
             } // if( panes[idest].area != s && squares[s].canputitems )
             avolume += savolume;
@@ -612,11 +606,11 @@ void advanced_inventory::recalc_pane(int i)
     switch(panes[i].sortby) {
         case SORTBY_NONE:
             if ( i != isinventory ) {
-                std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
+                std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
             }
             break;
         default:
-            std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
+            std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
             break;
     }
 
@@ -643,8 +637,8 @@ void advanced_inventory::redraw_pane( int i )
 
     panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ? panes[i].max_page - 1 : panes[i].page);
 
-    if( panes[i].sortby == SORTBY_CATEGORY && panes[i].items.size() > 0 ) {
-        int lpos = panes[i].index + (panes[i].page * itemsPerPage);
+    if( panes[i].sortby == SORTBY_CATEGORY && !panes[i].items.empty() ) {
+        unsigned lpos = panes[i].index + (panes[i].page * itemsPerPage);
         if ( lpos < panes[i].items.size() && panes[i].items[lpos].volume == -8 ) {
             panes[i].index += ( panes[i].index + 1 >= itemsPerPage ? -1 : 1 );
         }
@@ -673,7 +667,7 @@ void advanced_inventory::redraw_pane( int i )
     if ( src == i ) {
         wattron(panes[i].window, c_cyan);
     }
-    wborder(panes[i].window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+    draw_border(panes[i].window);
     mvwprintw(panes[i].window, 0, 3, _("< [s]ort: %s >"), sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
     int max = MAX_ITEM_IN_SQUARE;
     if ( panes[i].area == isall ) {
@@ -683,7 +677,7 @@ void advanced_inventory::redraw_pane( int i )
     mvwprintw(panes[i].window, 0 , (w_width / 2) - fmtw, "< %d/%d >", panes[i].size, max );
     const char * fprefix = _("[F]ilter");
     if ( ! filter_edit ) {
-        if ( panes[i].filter.size() > 0 ) {
+        if ( !panes[i].filter.empty() ) {
             mvwprintw(panes[i].window, getmaxy(panes[i].window) - 1, 2, "< %s: %s >", fprefix, panes[i].filter.c_str() );
         } else {
             mvwprintw(panes[i].window, getmaxy(panes[i].window) - 1, 2, "< %s >", fprefix );
@@ -692,7 +686,7 @@ void advanced_inventory::redraw_pane( int i )
     if ( src == i ) {
         wattroff(panes[i].window, c_white);
     }
-    if ( ! filter_edit && panes[i].filter.size() > 0 ) {
+    if ( ! filter_edit && !panes[i].filter.empty() ) {
         mvwprintz(panes[i].window, getmaxy(panes[i].window) - 1, 6 + strlen(fprefix), c_white, "%s", panes[i].filter.c_str() );
     }
 
@@ -768,7 +762,7 @@ void advanced_inventory::display(player *pp)
                             col = c_ltgray;
                         }
                         if ( showmsg ) {
-                            mvwprintz(head, line, 2, col, mes.c_str());
+                            mvwprintz(head, line, 2, col, "%s", mes.c_str());
                         }
                         line++;
                     }
@@ -825,7 +819,7 @@ void advanced_inventory::display(player *pp)
         category_index_start.clear();
 
         // Finds the index of the first item in each category.
-        for (int current_item_index = 0; current_item_index < panes[src].items.size();
+        for (unsigned current_item_index = 0; current_item_index < panes[src].items.size();
              ++current_item_index) {
              // Found a category header.
             if (panes[src].items[current_item_index].volume == -8) {
@@ -842,10 +836,19 @@ void advanced_inventory::display(player *pp)
             if(panes[left].area == changeSquare || panes[right].area == changeSquare ||
                isDirectionalDragged(panes[left].area, changeSquare) ||
                isDirectionalDragged(panes[right].area, changeSquare)) {
-                lastCh = (int)popup_getkey(_("same square!"));
-                if (lastCh == 'q' || lastCh == KEY_ESCAPE || lastCh == ' ' ) {
-                    lastCh = 0;
-                }
+                // store the old values temporarily
+                int lArea = panes[left].area;
+                int lPage = panes[left].page;
+                int lIndex = panes[left].index;
+
+                // Switch left and right pane.
+                panes[left].area = panes[right].area;
+                panes[left].page = panes[right].page;
+                panes[left].index = panes[right].index;
+                panes[right].area = lArea;
+                panes[right].page = lPage;
+                panes[right].index = lIndex;
+
             } else if(squares[changeSquare].canputitems) {
                 panes[src].area = changeSquare;
                 panes[src].page = 0;
@@ -953,7 +956,7 @@ void advanced_inventory::display(player *pp)
                 }
                 recalc = true;
                 if(stack.size() > 1) { // if the item is stacked
-                    if ( amount != 0 && amount <= stack.size() ) {
+                    if ( amount != 0 && amount <= long( stack.size() ) ) {
                         amount = amount > max ? max : amount;
                         std::list<item> moving_items = u.inv.reduce_stack(item_pos, amount);
                         bool chargeback = false;
@@ -1050,6 +1053,12 @@ void advanced_inventory::display(player *pp)
                 } else {// from veh/map
                     long trycharges = -1;
                     if ( destarea == isinventory ) { // if destination is inventory
+                        if (!u.can_pickup(true)) {
+                            if (!showmsg) {
+                                redraw = showmsg = true;
+                            }
+                            continue;
+                        }
                         if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
                             popup(_("Too many items."));
                             continue;
@@ -1221,7 +1230,7 @@ void advanced_inventory::display(player *pp)
             int ret = 0;
             if(panes[src].area == isinventory ) {
                 ret = g->inventory_item_menu( item_pos, colstart + ( src == left ? w_width / 2 : 0 ),
-                                              w_width / 2, (src == right ? 1 : -1) );
+                                              w_width / 2, (src == right ? 0 : -1) );
                 // Might have changed at stack (activated an item)
                 g->u.inv.restack(&g->u);
                 recalc = true;
@@ -1295,10 +1304,10 @@ void advanced_inventory::display(player *pp)
               int new_index = panes[src].index;
 
               if (panes[src].sortby == SORTBY_CATEGORY &&
-                  category_index_start.size() > 0 && inCategoryMode) {
+                  !category_index_start.empty() && inCategoryMode) {
                 int prev_cat = 0, next_cat = 0, selected_cat = 0;
 
-                for (int curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {
+                for (unsigned curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {
                     int next_cat_start = curr_cat + 1 < category_index_start.size() ?
                         curr_cat + 1 : panes[src].items.size() - 1;
                     int actual_index = panes[src].index + panes[src].page * itemsPerPage;
@@ -1307,7 +1316,7 @@ void advanced_inventory::display(player *pp)
                         actual_index <= category_index_start[next_cat_start]) {
                         selected_cat = curr_cat;
 
-                        prev_cat = (curr_cat - 1) >= 0 ? curr_cat - 1 :
+                        prev_cat = (int(curr_cat) - 1) >= 0 ? curr_cat - 1 :
                             category_index_start.size() - 1;
                         prev_cat = category_index_start[selected_cat] < actual_index ?
                             selected_cat : prev_cat;
@@ -1346,7 +1355,7 @@ void advanced_inventory::display(player *pp)
                   }
                   panes[src].index = 0;
               }
-              int lpos=panes[src].index + (panes[src].page * itemsPerPage);
+              unsigned lpos = panes[src].index + (panes[src].page * itemsPerPage);
               if ( lpos < panes[src].items.size() && panes[src].items[lpos].volume != -8 ) {
                   l = 0;
               }

@@ -30,7 +30,7 @@
         "min_unarmed" : 0,
         "unarmed_allowed" : true,
         "melee_allowed" : true,
-        "quick" : true,
+        "speed_mult" : 0.5,
         "messages" : [
             "You quickly strike %s",
             "<npcname> quickly strikes %s"
@@ -57,6 +57,19 @@
             "You sweep %s",
             "<npcname> sweeps %s"
         ]
+    },{
+        "type" : "technique",
+        "id" : "PRECISE",
+        "name" : "Precise Strike",
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "crit_tec" : true,
+        "messages" : [
+            "You precisely hit %s",
+            "<npcname> precisely hits %s"
+        ],
+        "stun_dur" : 2
     },{
         "type" : "technique",
         "id" : "tec_feint",
@@ -88,6 +101,61 @@
         "stun_dur" : 2
     },{
         "type" : "technique",
+        "id" : "tec_boxing_cross",
+        "name" : "Cross",
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "messages" : [
+            "You throw a heavy cross at %s",
+            "<npcname> throws a cross at %s"
+        ],
+        "bash_mult" : 1.2
+    },{
+        "type" : "technique",
+        "id" : "tec_boxing_rapid",
+        "name" : "Jab",
+        "min_unarmed" : 3,
+        "unarmed_allowed" : true,
+        "messages" : [
+            "You quickly jab %s",
+            "<npcname> quickly jabs at %s"
+        ],
+        "quick" : true,
+        "bash_mult" : 0.75
+
+    },{
+        "type" : "technique",
+        "id" : "tec_boxing_upper",
+        "name" : "Uppercut",
+        "min_unarmed" : 4,
+        "unarmed_allowed" : true,
+        "messages" : [
+            "You uppercut %s",
+            "<npcname> uppercuts %s"
+        ],
+        "bash_mult" : 1.25,
+        "stun_dur" : 2
+    },{
+        "type" : "technique",
+        "id" : "tec_boxing_counter",
+        "name" : "Cross Counter",
+        "min_unarmed" : 5,
+        "unarmed_allowed" : true,
+        "crit_tec" : true,
+        "knockback_dist" : 1,
+        "knockback_spread" : 1,
+        "req_buffs" : [
+            "boxing_counter"
+            ],
+        "messages" : [
+            "You Cross-Counter %s",
+            "<npcname> throws a perfect counter at %s"
+        ],
+        "bash_mult" : 1.5,
+        "quick" : true,
+        "stun_dur" : 2
+    },{
+        "type" : "technique",
         "id" : "tec_karate_rapid",
         "name" : "quick punch",
         "min_unarmed" : 0,
@@ -96,7 +164,7 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "quick" : true
+        "speed_mult" : 0.5
     },{
         "type" : "technique",
         "id" : "tec_karate_precise",
@@ -121,6 +189,21 @@
         "messages" : [
             "You throw %s",
             "<npcname> throws %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_aikido_dodgethrow",
+        "name" : "dodge throw",
+        "min_unarmed" : 6,
+        "unarmed_allowed" : true,
+        "dodge_counter": true,
+        "down_dur" : 1,
+        "knockback_dist" : 1,
+        "knockback_spread" : 1,
+        "speed_mult" : 0.33,
+        "messages" : [
+            "You smoothly throw %s",
+            "<npcname> smoothly throws %s"
         ]
     },{
         "type" : "technique",
@@ -214,7 +297,7 @@
             "You elbow %s",
             "<npcname> elbows %s"
         ],
-        "quick" : true,
+        "speed_mult" : 0.5,
         "stun_dur" : 1
     },{
         "type" : "technique",
@@ -249,7 +332,7 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "quick" : true
+        "speed_mult" : 0.5
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_feint",
@@ -358,6 +441,74 @@
         "down_dur" : 2
     },{
         "type" : "technique",
+        "id" : "tec_biojutsu_counter",
+        "name" : "biojutsu counter",
+        "min_melee" : 4,
+        "unarmed_allowed" : true,
+        "block_counter": true,
+        "speed_mult" : 0.5,
+        "messages" : [
+            "You block and counter-attack %s",
+            "<npcname> blocks and counter-attacks %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_biojutsu_rapid_unarmed",
+        "name" : "quick punch",
+        "min_melee" : 0,
+        "unarmed_allowed" : true,
+        "messages" : [
+            "You quickly punch %s",
+            "<npcname> quickly punches %s"
+        ],
+        "speed_mult" : 0.5
+    },{
+        "type" : "technique",
+        "id" : "tec_biojutsu_rapid_armed",
+        "name" : "quick slash",
+        "min_melee" : 0,
+        "messages" : [
+            "You quickly slash %s",
+            "<npcname> quickly slashes %s"
+        ],
+        "speed_mult" : 0.5
+    },{
+        "type" : "technique",
+        "id" : "tec_biojutsu_impale",
+        "name" : "biojutsu impale",
+        "min_melee" : 3,
+        "crit_tec" : true,
+        "cut_mult" : 1.5,
+        "bash_mult" : 1.5,
+        "messages" : [
+            "You brutally impale %s",
+            "<npcname> brutally impales %s"
+        ],
+        "stun_dur" : 1
+    },{
+        "type" : "technique",
+        "id" : "tec_biojutsu_sweep",
+        "name" : "sweep kick",
+        "min_melee" : 3,
+        "unarmed_allowed" : true,
+        "messages" : [
+            "You sweep-kick %s",
+            "<npcname> sweep-kicks %s"
+        ],
+        "down_dur" : 2
+    },{
+        "type" : "technique",
+        "id" : "tec_biojutsu_wide",
+        "min_melee" : 8,
+        "crit_tec" : true,
+        "name" : "wide strike",
+        "messages" : [
+            "You cleave through %s",
+            "<npcname> cleave through %s"
+        ],
+        "aoe" : "wide"
+    },{
+        "type" : "technique",
         "id" : "tec_zuiquan_feint",
         "name" : "Drunk feint",
         "min_unarmed" : 3,
@@ -367,6 +518,176 @@
         "messages" : [
             "You stumble and leer at %s",
             "<npcname> stumbles and leers at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_fencing_lunge",
+        "name" : "Fencing lunge",
+        "min_melee" : 2,
+        "speed_mult" : 0.5,
+        "weighting" : 2,
+        "messages" : [
+            "You lunge at %s",
+            "<npcname> lunges at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_fencing_thrust",
+        "name" : "Fencing thrust",
+        "min_melee" : 1,
+        "speed_mult" : 0.75,
+        "weighting" : 2,
+        "cut_mult" : 1.25,
+        "messages" : [
+            "You thrust at %s",
+            "<npcname> thrust at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_fencing_stop_thrust",
+        "name" : "Fencing stop thrust",
+        "min_melee" : 3,
+        "block_counter": true,
+        "speed_mult" : 1,
+        "cut_mult" : 1.5,
+        "stun_dur" : 1,
+        "messages" : [
+            "You deliver a perfect stop thrust to %s",
+            "<npcname> delivers a perfect stop thrust to %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_eskrima_round",
+        "name" : "Round strike",
+        "min_melee" : 4,
+        "speed_mult" : 0.6,
+        "messages" : [
+            "You round strike %s",
+            "<npcname> round strikes %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_eskrima_fan",
+        "name" : "Fan strike",
+        "min_melee" : 2,
+        "speed_mult" : 0.75,
+        "messages" : [
+            "You fan strike %s",
+            "<npcname> fan strikes %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_eskrima_snap",
+        "name" : "Snap strike",
+        "min_melee" : 0,
+        "speed_mult" : 0.8,
+        "messages" : [
+            "You snap out at %s",
+            "<npcname> snaps quickly at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_eskrima_combination",
+        "name" : "Combination strike",
+        "min_melee" : 2,
+        "speed_mult" : 0.8,
+        "bash_mult" : 1.5,
+        "cut_mult" : 1.5,
+        "req_buffs" : [
+            "eskrima_hit_buff"
+        ],
+        "messages" : [
+            "You combination strike %s",
+            "<npcname> combination strikes %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_eskrima_free",
+        "name" : "free strike",
+        "min_melee" : 4,
+        "speed_mult" : 0,
+        "req_buffs" : [
+            "eskrima_hit_buff"
+        ],
+        "messages" : [
+            "You whip a free strike onto %s",
+            "<npcname> free strikes %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_eskrima_puno",
+        "name" : "puño strike",
+        "min_melee" : 3,
+        "min_bashing_damage": 2,
+        "bash": 1,
+        "bashing_mult": 4,
+        "cutting_mult": 0,
+        "stabbing_mult": 0,
+        "crit_tec" : true,
+        "stun_dur" : 1,
+        "messages" : [
+            "You deliver a puño to %s",
+            "<npcname> haftstrikes %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_eskrima_kick",
+        "name" : "knee strike",
+        "min_unarmed" : 3,
+        "crit_tec" : true,
+        "down_dur" : 2,
+        "messages" : [
+            "You deliver a knee strike to %s",
+            "<npcname> knees %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_silat_hamstring",
+        "name" : "hamstring",
+        "min_melee" : 2,
+        "crit_tec" : true,
+        "down_dur" : 3,
+        "messages" : [
+            "You ground %s with a low blow!",
+            "<npcname> grounds %s with a low blow"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_silat_precise",
+        "name" : "Vicious Precision",
+        "min_melee" : 4,
+        "crit_tec" : true,
+        "cut_mult" : 1.5,
+        "bash_mult" : 1.5,
+        "messages" : [
+            "You viciously wound %s!",
+            "<npcname> viciously wounds %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_silat_brutal",
+        "name" : "Silat Brutality",
+        "min_melee" : 3,
+        "crit_tec" : true,
+        "stun_dur" : 1,
+        "knockback_dist" : 1,
+        "messages" : [
+            "You send %s reeling backwards!",
+            "<npcname> sends %s reeling!"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_silat_dirty",
+        "name" : "Dirty Hit",
+        "min_melee" : 1,
+        "crit_tec" : true,
+        "stun_dur" : 1,
+        "req_buffs" : [
+            "silat_dodge_buff"
+        ],
+        "messages" : [
+            "You hit %s with a dirty blow!",
+            "<npcname> delivers a dirty blow to %s!"
         ]
     },{
         "type" : "technique",
@@ -386,7 +707,7 @@
         "name" : "Viper Fist",
         "min_unarmed" : 3,
         "unarmed_allowed" : true,
-        "quick" : true,
+        "speed_mult" : 0.5,
         "messages" : [
             "You quickly chop %s",
             "<npcname> quickly chops %s"
@@ -456,7 +777,7 @@
         "name" : "Toad's Tongue",
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
-        "quick" : true,
+        "speed_mult" : 0.5,
         "down_dur" : 1,
         "messages" : [
             "You snatch and slug %s",
@@ -468,7 +789,7 @@
         "name" : "Rapid Strike",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
-        "quick" : true,
+        "speed_mult" : 0.5,
         "messages" : [
             "You swiftly hit %s",
             "<npcname> swiftly hits %s"
@@ -479,7 +800,7 @@
         "name" : "Snake Snap",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
-        "quick" : true,
+        "speed_mult" : 0.5,
         "messages" : [
             "You swiftly jab %s",
             "<npcname> swiftly jabs %s"
@@ -549,7 +870,7 @@
         "name" : "Leopard Swipe",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
-        "quick" : true,
+        "speed_mult" : 0.5,
         "messages" : [
             "You quickly swipe at %s",
             "<npcname> quickly swipes at %s"

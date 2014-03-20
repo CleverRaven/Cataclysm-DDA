@@ -15,6 +15,7 @@ class Item_group
 friend class Item_factory;
 public:
     Item_group(Item_tag id);
+    ~Item_group();
 
     const Item_tag get_id(std::vector<Item_tag> &recursion_list);
     const Item_tag get_id();
@@ -59,6 +60,7 @@ class Item_group_group
 friend class Item_group;
 public:
     Item_group_group(Item_group* group, int upper_bound);
+    ~Item_group_group();
 
     bool check(int value) const;
     const Item_tag get(std::vector<Item_tag> &recursion_list);

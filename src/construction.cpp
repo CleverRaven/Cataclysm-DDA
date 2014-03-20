@@ -2,7 +2,6 @@
 
 #include "game.h"
 #include "output.h"
-#include "keypress.h"
 #include "player.h"
 #include "inventory.h"
 #include "mapdata.h"
@@ -117,6 +116,7 @@ void construction_menu()
     bool update_info = true;
     int select = 0;
     int chosen = 0;
+    int offset = 0;
     long ch;
     bool exit = false;
 
@@ -129,13 +129,23 @@ void construction_menu()
                 mvwputch(w_con, i, j, c_black, ' ');
             }
         }
-        //Draw Scrollbar
-        draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
         // Determine where in the master list to start printing
-        //int offset = select - 11;
-        int offset = 0;
-        if (select >= iMaxY - 2) {
-            offset = select - iMaxY + 3;
+        if( OPTIONS["MENU_SCROLL"] ) {
+            if (available.size() > iMaxY) {
+                offset = select - (iMaxY - 1) / 2;
+
+                if (offset < 0) {
+                    offset = 0;
+                } else if (offset + iMaxY -2   > available.size()) {
+                    offset = available.size() - iMaxY + 2;
+                }
+             }
+        } else {
+            if( select < offset ) {
+                offset = select;
+            } else if( select >= offset + iMaxY -2 ) {
+                offset = 1 + select - iMaxY + 2;
+            }
         }
         // Print the constructions between offset and max (or how many will fit)
         for (int i = 0; i < iMaxY - 2 && (i + offset) < available.size(); i++) {
@@ -147,7 +157,8 @@ void construction_menu()
             }
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
-            mvwprintz(w_con, 1 + i, 1, col, "%c %s", hotkeys[current],
+            // If we run out of hotkeys, just stop assigning them.
+            mvwprintz(w_con, 1 + i, 1, col, "%c %s", (current < hotkeys.size()) ? hotkeys[current] : ' ',
                       utf8_substr(available[current].c_str(), 0, 27).c_str());
         }
 
@@ -248,7 +259,7 @@ void construction_menu()
                 // Print components
                 posx = 33;
                 std::vector<bool> has_component;
-                for( int i = 0; i < current_con->components.size(); i++ ) {
+                for( size_t i = 0; i < current_con->components.size(); ++i ) {
                     has_component.push_back(false);
                     mvwprintz(w_con, posy, posx - 2, c_white, ">");
                     for( unsigned j = 0; j < current_con->components[i].size(); j++ ) {
@@ -260,6 +271,12 @@ void construction_menu()
                              total_inv.has_components(comp.type, comp.count)) ) {
                             has_component[i] = true;
                             col = c_green;
+                        }
+                        if ( ((item_controller->find_template(comp.type)->id == "rope_30") ||
+                          (item_controller->find_template(comp.type)->id == "rope_6")) &&
+                          ((g->u.has_trait("WEB_ROPE")) && (g->u.hunger <= 300)) ) {
+                            has_component[i] = true;
+                            col = c_ltgreen; // Show that WEB_ROPE is on the job!
                         }
                         int length = utf8_width(item_controller->find_template(comp.type)->name.c_str());
                         if (posx + length > FULL_SCREEN_WIDTH - 1) {
@@ -291,8 +308,11 @@ void construction_menu()
                     posx = 33;
                 }
             }
-            wrefresh(w_con);
         } // Finished updating
+
+        //Draw Scrollbar.
+        //Doing it here lets us refresh the entire window all at once.
+        draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
 
         ch = getch();
         switch (ch) {
@@ -351,13 +371,8 @@ void construction_menu()
         }
     } while (!exit);
 
-    for (int i = iMaxY - FULL_SCREEN_HEIGHT; i <= iMaxY; ++i) {
-        for (int j = TERRAIN_WINDOW_WIDTH; j <= FULL_SCREEN_WIDTH; ++j) {
-            mvwputch(w_con, i, j, c_black, ' ');
-        }
-    }
-
     wrefresh(w_con);
+    delwin(w_con);
     g->refresh_all();
 }
 
@@ -385,7 +400,7 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
     bool components_required = false;
 
     for (int j = 0; j < con->tools.size(); j++) {
-        if (con->tools[j].size() > 0) {
+        if (!con->tools[j].empty()) {
             tools_required = true;
             has_tool = false;
             for (unsigned k = 0; k < con->tools[j].size(); k++) {
@@ -403,18 +418,27 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
     }
 
     for (int j = 0; j < con->components.size(); ++j) {
-        if (con->components[j].size() > 0) {
+        if (!con->components[j].empty()) {
             components_required = true;
             has_component = false;
             for (unsigned k = 0; k < con->components[j].size(); k++) {
-                if (( item_controller->find_template(con->components[j][k].type)->is_ammo() &&
+                if // If you've Rope Webs, you can spin up the webbing to replace any amount of
+                      // rope your projects may require.  But you need to be somewhat nourished:
+                      // Famished or worse stops it.
+                      ( ((item_controller->find_template(con->components[j][k].type)->id == "rope_30") ||
+                      (item_controller->find_template(con->components[j][k].type)->id == "rope_6")) &&
+                      ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
+                      has_component = true;
+                      con->components[j][k].available = 1;
+                } else if (( item_controller->find_template(con->components[j][k].type)->is_ammo() &&
                       pinv.has_charges(con->components[j][k].type,
                                        con->components[j][k].count)    ) ||
                     (!item_controller->find_template(con->components[j][k].type)->is_ammo() &&
-                     pinv.has_components (con->components[j][k].type,
-                                      con->components[j][k].count)    )) {
+                     (pinv.has_components (con->components[j][k].type,
+                                      con->components[j][k].count)) )) {
                     has_component = true;
                     con->components[j][k].available = 1;
+                    
                 } else {
                     con->components[j][k].available = -1;
                 }
@@ -541,6 +565,8 @@ void complete_construction()
 
     g->u.practice(g->turn, built->skill, std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < built->components.size(); i++) {
+        // Tried issueing rope for WEB_ROPE here.  Didn't arrive in time for the
+        // gear check.  Ultimately just coded a bypass in crafting.cpp.
         if (!built->components[i].empty()) {
             g->consume_items(&(g->u), built->components[i]);
         }
@@ -784,6 +810,10 @@ void construct::done_deconstruct(point p)
             g->m.spawn_item(p.x, p.y, "plastic_chunk", rng(10, 12));
             g->m.spawn_item(p.x, p.y, "scrap", rng(6, 8));
             g->m.ter_set(p.x, p.y, t_floor);
+        } else if(ter_here == "t_water_pump") {
+            g->m.spawn_item(p.x, p.y, "well_pump", 1);
+            g->m.spawn_item(p.x, p.y, "pipe", rng(1, 6));
+            g->m.ter_set(p.x, p.y, t_covered_well);
         }
     }
 }

@@ -13,13 +13,14 @@
 #include "vehicle.h"
 #include "martialarts.h"
 #include "player_activity.h"
-#include "field.h"
+//#include "field.h"
 
 class monster;
 class game;
 struct trap;
 class mission;
 class profession;
+nc_color encumb_color(int level);
 
 struct special_attack
 {
@@ -154,9 +155,12 @@ public:
  bool has_active_bionic(const bionic_id & b) const;
  bool has_active_optcloak() const;
  void add_bionic(bionic_id b);
+ void remove_bionic(bionic_id b);
+ bool uninstall_bionic(bionic_id b_id);
  void charge_power(int amount);
  void power_bionics();
  void activate_bionic(int b);
+ void deactivate_bionic(int b);
  bool remove_random_bionic();
  int num_bionics() const;
  bionic& bionic_at_index(int i);
@@ -183,10 +187,12 @@ public:
  bool has_two_arms() const;
  bool can_wear_boots();
  bool is_armed(); // True if we're wielding something; true for bionics
+ bool handle_melee_wear(); // Melee weapon wear-and-tear through use
  bool unarmed_attack(); // False if we're wielding something; true for bionics
  bool avoid_trap(trap *tr);
 
  bool has_nv();
+ bool has_pda();
 
  /**
   * Check if this creature can see the square at (x,y).
@@ -232,6 +238,7 @@ public:
  void ma_ongethit_effects(); // fires all get hit-triggered martial arts events
 
  bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
+ bool has_martialart(const matype_id &ma_id) const; // checks if a player has any martial arts buffs attached
 
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
  int mabuff_dodge_bonus(); // martial arts dodge bonus
@@ -255,18 +262,19 @@ public:
  bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint
  bool can_leg_block(); // technique-based defensive ability
  bool can_arm_block(); // technique-based defensive ability, like tec_leg_block
- bool can_block(); // can we block at all
+ bool can_limb_block(); // can we block with our limbs (via techniques as above)
 
 // melee.cpp
  bool can_weapon_block(); //gear-based defensive ability
- void melee_attack(Creature &p, bool allow_special = true);
+ void melee_attack(Creature &t, bool allow_special, matec_id technique = "");
  double get_weapon_dispersion(item* weapon);
  bool handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_effects );
  void fire_gun(int targetx, int targety, bool burst);
  int  hit_mon(monster *critter, bool allow_grab = true);
  void hit_player(player &p, bool allow_grab = true);
 
- bool block_hit(body_part &bp_hit, int &side,
+ void dodge_hit(Creature *source, int hit_spread);
+ bool block_hit(Creature *source, body_part &bp_hit, int &side,
     damage_instance &dam);
 
  bool armor_absorb(damage_unit& du, item& armor);
@@ -290,9 +298,8 @@ public:
 
  bool has_technique(matec_id tec);
  matec_id pick_technique(Creature &t,
-                             bool crit, bool allowgrab);
- void perform_technique(ma_technique technique, Creature &t,
-                       int &bash_dam, int &cut_dam, int &pierce_dam, int &pain);
+                             bool crit, bool dodge_counter, bool block_counter);
+ void perform_technique(ma_technique technique, Creature &t, int &bash_dam, int &cut_dam, int &stab_dam, int& move_cost);
 
  void perform_special_attacks(Creature &t);
 
@@ -504,15 +511,21 @@ public:
 
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
+ bool has_drink();
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
  bool has_item(char let);  // Has an item with invlet let
  bool has_item(int position);
  bool has_item(item *it);  // Has a specific item
+ std::set<char> allocated_invlets();
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
  bool has_weapon();
+ // Check if the player can pickup stuff (fails if wielding
+ // certain bionic weapons).
+ // Print a message if print_msg is true and this isn't a NPC
+ bool can_pickup(bool print_msg) const;
 
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);
@@ -575,6 +588,7 @@ public:
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
  bool nv_cached;
+ bool pda_cached;
 
  // Drench cache
  std::map<int, std::map<std::string, int> > mMutDrench;

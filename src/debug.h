@@ -5,6 +5,7 @@
 // ---------------------------------------------------------------------
 #include "path_info.h"
 
+#include <iosfwd>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -81,30 +82,9 @@ std::ostream & operator<<(std::ostream & out, const std::vector<C,A> & elm)
  return out;
 }
 
-struct DebugLog
-{
-    DebugLog() {
-        fout.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
-    }
-    ~DebugLog() {
-        fout.close();
-    }
-
-    template <class T>
-    DebugLog& operator<<(T& t) {
-        fout << t;
-        return *this;
-    }
-    template <class T>
-    DebugLog& operator<<(const T& t){
-        fout << t;
-        return *this;
-    }
-
-private:
-    std::ofstream fout;
-};
-
+#ifndef DebugLog
+#define DebugLog dout
+#endif
 
 
 // vim:tw=72:sw=1:fdm=marker:fdl=0:

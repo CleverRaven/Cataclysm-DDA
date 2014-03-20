@@ -2,7 +2,6 @@
 #include "options.h"
 #include "output.h"
 #include "debug.h"
-#include "keypress.h"
 #include "translations.h"
 #include "file_finder.h"
 #include "cursesdef.h"
@@ -558,11 +557,6 @@ void initOptions() {
                                              24, 187, 24
                                             );
 
-    OPTIONS["INPUT_DELAY"] =             cOpt("graphics", _("Input delay"),
-                                             _("SDL ONLY: Determines how many times per second an action will be performed by holding down a key. The delay is in milliseconds. Requires restart."),
-                                             1, 500, 60
-                                            );
-
     optionNames["standard"] = _("Standard");
     //~ sidebar style
     optionNames["narrow"] = _("Narrow");
@@ -587,6 +581,10 @@ void initOptions() {
     OPTIONS["STATIC_SPAWN"] =           cOpt("world_default", _("Static spawn"),
                                              _("Spawn zombies at game start instead of during game. Must reset world directory after changing for it to take effect."),
                                              true
+                                            );
+    OPTIONS["WANDER_SPAWNS"] =           cOpt("world_default", _("Wander spawns"),
+                                             _("Emulation of zombie hordes. Zombie spawn point wander around cities and may go to noise"),
+                                             false
                                             );
 
     OPTIONS["CLASSIC_ZOMBIES"] =        cOpt("world_default", _("Classic zombies"),
@@ -686,8 +684,17 @@ void initOptions() {
     OPTIONS["FULLSCREEN"] =             cOpt("graphics", _("Fullscreen"),
                                              _("SDL ONLY: Starts Cataclysm in fullscreen-mode. Requires Restart."),
                                              false
+                                            );
+
+    OPTIONS["SOFTWARE_RENDERING"] =     cOpt("graphics", _("Software rendering"),
+                                             _("SDL ONLY: Use software renderer instead of graphics card acceleration."),
+                                             false
                                             );  // populate the options dynamically
 
+    OPTIONS["AUTO_NOTES"] =     cOpt("general", _("Auto notes"),
+                                             _("If true automatically sets notes on places that have stairs that go up or down"),
+                                             true
+                                            );
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (unsigned i=0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
@@ -812,7 +819,7 @@ void show_options(bool ingame)
         //Draw Tabs
         mvwprintz(w_options_header, 0, 7, c_white, "");
         for (unsigned i = 0; i < vPages.size(); i++) {
-            if (mPageItems[i].size() > 0) { //skip empty pages
+            if (!mPageItems[i].empty()) { //skip empty pages
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
                    wprintz(w_options_header,
@@ -875,7 +882,7 @@ void show_options(bool ingame)
 
         ch = input();
 
-        if (mPageItems[iCurrentPage].size() > 0 || ch == '\t') {
+        if (!mPageItems[iCurrentPage].empty() || ch == '\t') {
             cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
             bool bChangedSomething = false;
             switch(ch) {
@@ -975,12 +982,18 @@ void show_options(bool ingame)
         }
     }
 #ifdef SDLTILES
-    if (used_tiles_changed){
-        SDL_FillRect(tilecontext->buffer, NULL, 0x000000);
-        SDL_BlitSurface(tilecontext->buffer, NULL, tilecontext->display_screen, NULL);
-        tilecontext->reinit(FILENAMES["gfxdir"]);
-        g->init_ui();
-        g->refresh_all();
+    if( used_tiles_changed ) {
+        //try and keep SDL calls limited to source files that deal specifically with them
+        try {
+            tilecontext->reinit( "gfx" );
+            g->init_ui();
+            if( ingame ) {
+                g->refresh_all();
+            }
+        } catch(std::string err) {
+            popup(_("Loading the tileset failed: %s"), err.c_str());
+            use_tiles = false;
+        }
     }
 #endif // SDLTILES
     delwin(w_options);
@@ -997,7 +1010,6 @@ void load_options()
         fin.close();
         save_options();
         fin.open(FILENAMES["options"].c_str());
-        DebugLog() << "options=" << FILENAMES["options"].c_str() << "\n";
         if(!fin.is_open()) {
             DebugLog() << "Could neither read nor create" << FILENAMES["options"].c_str() << "\n";
             return;
@@ -1052,9 +1064,9 @@ void save_options(bool ingame)
 
     fout << options_header() << std::endl;
 
-    for(int j = 0; j < vPages.size(); j++) {
+    for( size_t j = 0; j < vPages.size(); ++j ) {
         bool update_wopt = (ingame && j == iWorldOptPage );
-        for(int i = 0; i < mPageItems[j].size(); i++) {
+        for( size_t i = 0; i < mPageItems[j].size(); ++i ) {
             fout << "#" << OPTIONS[mPageItems[j][i]].getTooltip() << std::endl;
             fout << "#" << OPTIONS[mPageItems[j][i]].getDefaultText() << std::endl;
             fout << mPageItems[j][i] << " " << OPTIONS[mPageItems[j][i]].getValue() << std::endl << std::endl;

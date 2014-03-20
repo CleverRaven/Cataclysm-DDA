@@ -464,5 +464,41 @@
                 "key":"*"
             }
         ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"TOOGLE_EXAMINE",
+        "category":"BIONICS",
+        "name":"Toogle activate/examine",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"!"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"REASSIGN",
+        "category":"BIONICS",
+        "name":"reassign invlet",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"="
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"REMOVE",
+        "category":"BIONICS",
+        "name":"remove bionic",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
     }
 ]

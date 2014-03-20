@@ -169,6 +169,9 @@ class mapgen_function_json : public virtual mapgen_function {
         is_ready = false;
         do_format = false;
     }
+    ~mapgen_function_json() {
+        delete[] format;
+    }
 
     std::string jdata;
     int mapgensize;
