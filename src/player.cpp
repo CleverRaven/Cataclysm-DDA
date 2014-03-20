@@ -10502,3 +10502,16 @@ bool player::can_pickup(bool print_msg) const
     }
     return true;
 }
+
+bool player::has_container_for(const item &newit)
+{
+    if (!newit.made_of(LIQUID)) {
+        // Currently only liquids need a container
+        return true;
+    }
+    if (has_watertight_container() || has_matching_liquid(newit.type->id)) {
+        return true;
+    }
+    // TODO: check for actuall amount
+    return false;
+}

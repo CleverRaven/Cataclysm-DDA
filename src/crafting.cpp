@@ -244,13 +244,8 @@ bool game::making_would_work(recipe *making)
     }
 
     if(can_make(making)) {
-        if (item_controller->find_template((making->result))->phase == LIQUID) {
-            if (u.has_watertight_container() ||
-                u.has_matching_liquid(item_controller->find_template(making->result)->id)) {
-                return true;
-            } else {
-                popup(_("You don't have anything to store that liquid in!"));
-            }
+        if (!u.has_container_for(item(item_controller->find_template(making->result), 0))) {
+            popup(_("You don't have anything to store that liquid in!"));
         } else {
             return true;
         }
@@ -957,15 +952,8 @@ recipe *game::select_crafting_recipe()
                 popup(_("You can't do that!"));
             } else {
                 // is player making a liquid? Then need to check for valid container
-                if (item_controller->find_template(current[line]->result)->phase == LIQUID) {
-                    if (u.has_watertight_container() ||
-                        u.has_matching_liquid(item_controller->find_template(current[line]->result)->id)) {
-                        chosen = current[line];
-                        done = true;
-                        break;
-                    } else {
-                        popup(_("You don't have anything to store that liquid in!"));
-                    }
+                if (!u.has_container_for(item(item_controller->find_template(current[line]->result), 0))) {
+                    popup(_("You don't have anything to store that liquid in!"));
                 } else {
                     chosen = current[line];
                     done = true;
