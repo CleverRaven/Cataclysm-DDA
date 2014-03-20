@@ -7001,33 +7001,6 @@ int  player::leak_level( std::string flag ) const
     return leak_level;
 }
 
-bool player::has_watertight_container()
-{
- if (!inv.watertight_container().is_null()) {
-  return true;
- }
- if (weapon.is_container() && weapon.contents.empty()) {
-   if (weapon.has_flag("WATERTIGHT") && weapon.has_flag("SEALS"))
-    return true;
- }
-
- return false;
-}
-
-bool player::has_matching_liquid(itype_id it)
-{
-    if (inv.has_liquid(it)) {
-        return true;
-    }
-    if (weapon.is_container() && !weapon.contents.empty())
-    {
-        // has_capacity_for_liquid needs an item, not an item type
-        const item liquid(itypes[it], g->turn);
-        return inventory::has_capacity_for_liquid(weapon, liquid);
-    }
-    return false;
-}
-
 bool player::has_drink()
 {
     if (inv.has_drink()) {

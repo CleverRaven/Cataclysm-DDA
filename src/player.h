@@ -509,8 +509,6 @@ public:
 
  int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
- bool has_watertight_container();
- bool has_matching_liquid(itype_id it);
  // Check for free container space for the whole liquid item
  bool has_container_for(const item &liquid);
  bool has_drink();

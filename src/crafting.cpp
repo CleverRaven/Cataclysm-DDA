@@ -1519,7 +1519,6 @@ void game::complete_craft()
     u.inv.assign_empty_invlet(newit);
     //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
-        //while ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ){
         //while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
         // ^ failed container controls, they don't detect stacks of the same empty container after only one of them is filled
         while(!handle_liquid(newit, false, false)) { ; }
