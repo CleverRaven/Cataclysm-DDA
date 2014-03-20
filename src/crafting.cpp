@@ -1765,7 +1765,7 @@ void game::disassemble(int pos)
         for (recipe_list::iterator list_iter = cat_iter->second.begin();
              list_iter != cat_iter->second.end(); ++list_iter) {
             recipe *cur_recipe = *list_iter;
-            if (dis_item->type == item_controller->find_template(cur_recipe->result) &&
+            if (dis_item->type->id == cur_recipe->result &&
                 cur_recipe->reversible) {
                 if (dis_item->count_by_charges()) {
                     // Create a new item to get the default charges
@@ -1795,11 +1795,11 @@ void game::disassemble(int pos)
 
                         if ((req <= 0 && crafting_inv.has_tools (type, 1)) ||
                             // No welding, no goggles needed.
-                            (req <= 0 && type == ("goggles_welding")) ||
-                            (req <= 0 && (type == ("crucible")) &&
-                             (!((cur_recipe->result) == ("anvil")))) ||
+                            (req <= 0 && type == "goggles_welding") ||
+                            (req <= 0 && type == "crucible" &&
+                             cur_recipe->result != "anvil") ||
                             // No mold needed for disassembly.
-                            (req <= 0 && (type == "mold_plastic")) ||
+                            (req <= 0 && type == "mold_plastic") ||
                             (req >  0 && crafting_inv.has_charges(type, req))) {
                             have_this_tool = true;
                             k = cur_recipe->tools[j].size();
