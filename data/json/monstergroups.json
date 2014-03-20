@@ -27,10 +27,10 @@
       { "monster" : "mon_zoose", "freq" : 1, "cost_multiplier" : 10, "starts" :  672 },
       { "monster" : "mon_zoose", "freq" : 1, "cost_multiplier" : 10, "starts" : 2160 },
 	  
-      { "monster" : "mon_zomwolf", "freq" : 2, "cost_multiplier" : 10, "starts" :   72 }, "pack_size" : [2,4],
-      { "monster" : "mon_zomwolf", "freq" : 2, "cost_multiplier" : 10, "starts" :  168 }, "pack_size" : [2,4],
-      { "monster" : "mon_zomwolf", "freq" : 2, "cost_multiplier" : 10, "starts" :  672 }, "pack_size" : [2,4],
-      { "monster" : "mon_zomwolf", "freq" : 2, "cost_multiplier" : 10, "starts" : 2160 }, "pack_size" : [2,4],
+      { "monster" : "mon_zomwolf", "freq" : 2, "cost_multiplier" : 10, "starts" :   72, "pack_size" : [2,4] },
+      { "monster" : "mon_zomwolf", "freq" : 2, "cost_multiplier" : 10, "starts" :  168}, "pack_size" : [2,4] },
+      { "monster" : "mon_zomwolf", "freq" : 2, "cost_multiplier" : 10, "starts" :  672}, "pack_size" : [2,4] },
+      { "monster" : "mon_zomwolf", "freq" : 2, "cost_multiplier" : 10, "starts" : 2160}, "pack_size" : [2,4] },
 	  
       { "monster" : "mon_zomcougar", "freq" : 1, "cost_multiplier" : 10, "starts" :   72 },
       { "monster" : "mon_zomcougar", "freq" : 1, "cost_multiplier" : 10, "starts" :  168 },
