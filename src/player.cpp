@@ -1657,19 +1657,37 @@ void player::memorial( std::ofstream &memorial_file )
     }
     memorial_file << "\n";
 
+    //Martial Art Styles
+    if(ma_styles.size() > 0) {
+        memorial_file << _("Known martial arts:") << "\n";
+        for (int i = 0; i < ma_styles.size(); i++) {
+            if(martialarts.find(ma_styles[i]) == martialarts.end()) {
+                memorial_file << indent << _("Bad hand to hand style: %s") << ma_styles[i] << "\n";
+            } else {
+                memorial_file << indent << martialarts[ma_styles[i]].name << "\n";
+            }
+        }
+        memorial_file << "\n";
+    }
+
     //Traits
-    memorial_file << _("Traits:") << "\n";
+    //Check if there is a trait
     bool had_trait = false;
     for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
         if(has_trait(iter->first)) {
             had_trait = true;
-            memorial_file << indent << traits[iter->first].name << "\n";
+            iter = traits.end();
         }
     }
-    if(!had_trait) {
-        memorial_file << indent << _("(None)") << "\n";
+    if(had_trait) {
+        memorial_file << _("Traits:") << "\n";
+        for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+            if(has_trait(iter->first)) {
+                memorial_file << indent << traits[iter->first].name << "\n";
+            }
+        }
+        memorial_file << "\n";
     }
-    memorial_file << "\n";
 
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
@@ -1805,7 +1823,7 @@ void player::memorial( std::ofstream &memorial_file )
         memorial_file << _("World Options:") << "\n";
         for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
             if (it->second.getPage() == "world_default") {
-                memorial_file << it->second.getMenuText() << ": " << world->world_options[it->first].getValue() << "\n";
+                memorial_file << indent << it->second.getMenuText() << ": " << world->world_options[it->first].getValue() << "\n";
             }
         }
         memorial_file << "\n";
@@ -1815,7 +1833,7 @@ void player::memorial( std::ofstream &memorial_file )
         memorial_file << _("Active Mods:") << "\n";
         std::vector<std::string> mods = world->active_mod_order;
         for(size_t i = 0; i < mods.size(); ++i ) {
-            memorial_file << mods[i] << "\n";
+            memorial_file << indent << mods[i] << "\n";
         }
     }
 }
