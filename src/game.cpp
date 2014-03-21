@@ -14,7 +14,6 @@
 #include "editmap.h"
 #include "bodypart.h"
 #include "map.h"
-#include "output.h"
 #include "uistate.h"
 #include "item_factory.h"
 #include "helper.h"
