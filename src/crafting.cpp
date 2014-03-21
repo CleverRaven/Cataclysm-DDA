@@ -1748,6 +1748,21 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
     }
 }
 
+recipe *game::get_disassemble_recipe(const itype_id &type)
+{
+    for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter) {
+        for (recipe_list::iterator list_iter = cat_iter->second.begin();
+             list_iter != cat_iter->second.end(); ++list_iter) {
+            recipe *cur_recipe = *list_iter;
+            if (type == cur_recipe->result && cur_recipe->reversible) {
+                return cur_recipe;
+            }
+        }
+    }
+    // no matching disassemble recipe found.
+    return NULL;
+}
+
 void game::disassemble(int pos)
 {
     if (pos == INT_MAX) {
@@ -1759,13 +1774,8 @@ void game::disassemble(int pos)
     }
 
     item *dis_item = &u.i_at(pos);
-
-    for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter) {
-        for (recipe_list::iterator list_iter = cat_iter->second.begin();
-             list_iter != cat_iter->second.end(); ++list_iter) {
-            recipe *cur_recipe = *list_iter;
-            if (dis_item->type->id == cur_recipe->result &&
-                cur_recipe->reversible) {
+    recipe *cur_recipe = get_disassemble_recipe(dis_item->type->id);
+    if (cur_recipe != NULL) {
                 if (dis_item->count_by_charges()) {
                     // Create a new item to get the default charges
                     item tmp(dis_item->type, 0);
@@ -1849,10 +1859,7 @@ void game::disassemble(int pos)
                     u.activity.values.push_back(pos);
                 }
                 return; // recipe exists, but no tools, so do not start disassembly
-            }
-        }
     }
-
     //if we're trying to disassemble a book or magazine
     if(dis_item->is_book()) {
         if (OPTIONS["QUERY_DISASSEMBLE"] &&
