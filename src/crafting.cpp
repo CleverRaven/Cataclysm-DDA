@@ -1877,21 +1877,24 @@ void game::complete_disassemble()
     const int item_pos = u.activity.values[0];
     const bool from_ground = u.activity.values.size() > 1 && u.activity.values[1] == 1;
     recipe *dis = recipe_by_index(u.activity.index); // Which recipe is it?
-    item dis_item;
+    item *org_item;
     std::vector<item>& items_on_ground = m.i_at(u.posx, u.posy);
     if (from_ground) {
         if (item_pos >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
             return;
         }
-        dis_item = items_on_ground[item_pos];
-        if (dis_item.type->id != dis->result) {
+        org_item = &items_on_ground[item_pos];
+        if (org_item->type->id != dis->result) {
             add_msg(_("The item might be gone, at least it is not at the expected position anymore."));
             return;
         }
     } else {
-        dis_item = u.i_at(item_pos);
+        org_item = &u.i_at(item_pos);
     }
+    // Make a copy to keep its data (damage/components) even after it
+    // has been removed.
+    item dis_item = *org_item;
 
     float component_success_chance = std::min((float)pow(0.8f, dis_item.damage), 1.f);
 
@@ -1906,24 +1909,11 @@ void game::complete_disassemble()
     remove_ammo(&dis_item);
 
     if (dis_item.count_by_charges()) {
-        // Create a new item to get the default charges
-        const item tmp = dis->create_result();
-        dis_item.charges -= tmp.charges;
-        if (dis_item.charges <= 0) {
-            if (from_ground) {
-                items_on_ground.erase(items_on_ground.begin() + item_pos);
-            } else {
-                u.i_rem(item_pos);
-            }
-        } else {
-            // dis_item is a copy, need to commit the changed charges value
-            if (from_ground) {
-                items_on_ground[item_pos].charges = dis_item.charges;
-            } else {
-                u.i_at(item_pos).charges = dis_item.charges;
-            }
-        }
-    } else {
+        // remove the charges that one would get from crafting it
+        org_item->charges -= dis->create_result().charges;
+    }
+    // remove the item, except when it's counted by charges and still has some
+    if (!org_item->count_by_charges() || org_item->charges <= 0) {
         if (from_ground) {
             items_on_ground.erase(items_on_ground.begin() + item_pos);
         } else {
@@ -1952,7 +1942,7 @@ void game::complete_disassemble()
 
     // disassembly only nets a bit of practice
     if (dis->skill_used) {
-        u.practice(turn, dis->skill_used, (dis->difficulty) * 2);
+        u.practice(turn, dis->skill_used, dis->difficulty * 2);
     }
 
     for (unsigned j = 0; j < dis->components.size(); j++) {
