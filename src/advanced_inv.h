@@ -38,37 +38,48 @@ struct advanced_inv_listitem {
     const item_category *cat;
 };
 
-class advanced_inventory_pane {
-  public:
-    int pos;
-    int area, offx, offy, size, vstor;  // quick lookup later
-    int index, max_page, max_index, page;
-    std::string area_string;
-    int sortby;
-    int issrc;
-    vehicle *veh;
-    WINDOW *window;
-    std::vector<advanced_inv_listitem> items;
-    int numcats;
-    std::string filter;
-    bool recalc;
-    bool redraw;
-    std::map<std::string, bool> filtercache;
-    advanced_inventory_pane() {
-        offx = 0; offy = 0; size = 0; vstor = -1;
-        index = 0; max_page = 0; max_index = 0; page = 0;
-        area_string =  _("Initializing...");
-        sortby = 1; issrc = 0; veh = NULL; window = NULL;
-        items.clear();
-        numcats = 0; filter="";
-        filtercache.clear();
-    }
+class advanced_inventory_pane
+{
+    public:
+        int pos;
+        int area, offx, offy, size, vstor;  // quick lookup later
+        int index, max_page, max_index, page;
+        std::string area_string;
+        int sortby;
+        int issrc;
+        vehicle *veh;
+        WINDOW *window;
+        std::vector<advanced_inv_listitem> items;
+        int numcats;
+        std::string filter;
+        bool recalc;
+        bool redraw;
+        std::map<std::string, bool> filtercache;
+        advanced_inventory_pane() {
+            offx = 0;
+            offy = 0;
+            size = 0;
+            vstor = -1;
+            index = 0;
+            max_page = 0;
+            max_index = 0;
+            page = 0;
+            area_string =  _("Initializing...");
+            sortby = 1;
+            issrc = 0;
+            veh = NULL;
+            window = NULL;
+            items.clear();
+            numcats = 0;
+            filter = "";
+            filtercache.clear();
+        }
 };
 
 class advanced_inventory
 {
     public:
-        player * p;
+        player *p;
 
         const int head_height;
         const int min_w_height;
@@ -80,28 +91,28 @@ class advanced_inventory
         const int isall;
         const int isdrag;
 
-    bool checkshowmsg;
-    bool showmsg;
-    bool inCategoryMode;
+        bool checkshowmsg;
+        bool showmsg;
+        bool inCategoryMode;
 
-    int itemsPerPage;
-    int w_height;
-    int w_width;
+        int itemsPerPage;
+        int w_height;
+        int w_width;
 
-    int headstart;
-    int colstart;
+        int headstart;
+        int colstart;
 
-//    itemsPerPage=getmaxy(left_window)-ADVINVOFS;
-    // todo: awaiting ui::menu // last_tmpdest=-1;
-    bool exit;// = false;
-    bool redraw;// = true;
-    bool recalc;// = true;
-    int lastCh;// = 0;
+        //    itemsPerPage=getmaxy(left_window)-ADVINVOFS;
+        // todo: awaiting ui::menu // last_tmpdest=-1;
+        bool exit;// = false;
+        bool redraw;// = true;
+        bool recalc;// = true;
+        int lastCh;// = 0;
 
-    int src;// = left; // the active screen , 0 for left , 1 for right.
-    int dest;// = right;
-    bool examineScroll;// = false;
-    bool filter_edit;
+        int src;// = left; // the active screen , 0 for left , 1 for right.
+        int dest;// = right;
+        bool examineScroll;// = false;
+        bool filter_edit;
 
         advanced_inventory_pane panes[2];
         advanced_inv_area squares[12];
