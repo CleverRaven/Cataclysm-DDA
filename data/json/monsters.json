@@ -5116,8 +5116,8 @@
     "fear_triggers":["FIRE"]
     },{
         "type" : "MONSTER",
-        "id" : "mon_zomwolf",
-    "name": "zomwolf",
+        "id" : "mon_zolf",
+    "name": "zolf",
     "species":"ZOMBIE",
     "symbol":"d",
     "color":"green",
@@ -5146,8 +5146,8 @@
     "fear_triggers":["FIRE"]
     },{
         "type" : "MONSTER",
-        "id" : "mon_zomcougar",
-    "name": "zomcougar",
+        "id" : "mon_zougar",
+    "name": "zougar",
     "species":"ZOMBIE",
     "symbol":"C",
     "color":"green",
