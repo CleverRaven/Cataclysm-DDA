@@ -1856,7 +1856,7 @@ void game::complete_disassemble()
     item *org_item;
     std::vector<item>& items_on_ground = m.i_at(u.posx, u.posy);
     if (from_ground) {
-        if (item_pos >= items_on_ground.size()) {
+        if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
             return;
         }
