@@ -163,7 +163,7 @@ public:
   void decrease_nextinv(); // Decrement the next inventory letter
   void vadd_msg(const char* msg, va_list ap );
   void add_msg_string(const std::string &s);
-    void add_msg(const char* msg, ...);
+  void add_msg(const char* msg, ...);
   void add_msg_if_player(Creature *t, const char* msg, ...);
   void add_msg_if_npc(Creature* p, const char* msg, ...);
   void add_msg_player_or_npc(Creature* p, const char* player_str, const char* npc_str, ...);

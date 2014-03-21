@@ -590,8 +590,8 @@ void game::start_game(std::string worldname)
  MAPBUFFER.set_dirty();
 
  //~ %s is player name
- u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
-                    pgettext("memorial_female", "%s began their journey into the Cataclysm."),
+ u.add_memorial_log(pgettext("memorial_male", "%s began his journey into the Cataclysm."),
+                    pgettext("memorial_female", "%s began her journey into the Cataclysm."),
                     u.name.c_str());
 }
 

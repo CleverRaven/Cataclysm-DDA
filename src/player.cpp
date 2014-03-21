@@ -1797,8 +1797,27 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << dump_memorial();
 
     //World statistics
-    memorial_file << _("World Information") << "\n";
-    memorial_file << dump_memorial();
+    memorial_file << "\n" << _("World Information") << "\n";
+    WORLDPTR world = world_generator->active_world;
+    memorial_file << _("World name: ") << world->world_name << "\n\n";
+
+    if (!world->world_options.empty()) {
+        memorial_file << _("World Options:") << "\n";
+        for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
+            if (it->second.getPage() == "world_default") {
+                memorial_file << it->second.getMenuText() << ": " << world->world_options[it->first].getValue() << "\n";
+            }
+        }
+        memorial_file << "\n";
+    }
+
+    if(world->active_mod_order.size() > 0) {
+        memorial_file << _("Active Mods:") << "\n";
+        std::vector<std::string> mods = world->active_mod_order;
+        for(size_t i = 0; i < mods.size(); ++i ) {
+            memorial_file << mods[i] << "\n";
+        }
+    }
 }
 
 /**
