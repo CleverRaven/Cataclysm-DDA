@@ -143,7 +143,7 @@ public:
  int has_gunmod(itype_id type);
  item* active_gunmod();
  item const* inspect_active_gunmod() const;
- bool goes_bad();
+ bool goes_bad() const;
  bool count_by_charges() const;
  long max_charges() const;
  bool craft_has_charges();
@@ -222,9 +222,6 @@ public:
  char invlet;           // Inventory letter
  long charges;
  bool active;           // If true, it has active effects to be processed
- int fridge;            // The turn we entered a fridge.
- int rot;               // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
- int last_rot_check;    // last turn we calculated rot
  signed char damage;    // How much damage it's sustained; generally, max is 5
  int burnt;             // How badly we're burnt
  int bday;              // The turn on which it was created
