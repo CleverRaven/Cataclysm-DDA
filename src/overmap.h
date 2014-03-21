@@ -270,7 +270,7 @@ class overmap
 
   void process_mongroups(); // Makes them die out, maybe more
   void move_hordes();
-  void signal_hordes(int x, int y, int sig_power);
+  void signal_hordes( const int x, const int y, const int sig_power);
 
   std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);
@@ -317,7 +317,7 @@ class overmap
      * Same as @ref draw_overmap() but starts at center
      * instead of players location.
      */
-    static point draw_overmap(const tripoint& center);
+    static point draw_overmap(const tripoint& center, bool debug_mongroup = false);
     /**
      * Same as above but start at z-level z instead of players
      * current z-level, x and y are taken from the players position.
@@ -325,6 +325,18 @@ class overmap
     static point draw_overmap(int z);
   void remove_vehicle(int id);
   int add_vehicle(vehicle *veh);
+
+  /** Get the x coordinate of the left border of this overmap. */
+  int get_left_border();
+
+  /** Get the x coordinate of the right border of this overmap. */
+  int get_right_border();
+
+  /** Get the y coordinate of the top border of this overmap. */
+  int get_top_border();
+
+  /** Get the y coordinate of the bottom border of this overmap. */
+  int get_bottom_border();
 
   regional_settings settings;
   const regional_settings& get_settings(const int x, const int y, const int z) {
@@ -375,10 +387,11 @@ class overmap
    * of the view. The z-component is used to determine the z-level.
    * @param orig The global overmap terrain coordinates of the player.
    * It will be marked specially.
+   * @param debug_monstergroups Displays monster groups on the overmap.
    */
   static void draw(WINDOW *w, const tripoint &center,
             const tripoint &orig, bool blink,
-            input_context* inp_ctxt);
+            input_context* inp_ctxt, bool debug_monstergroups = false);
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();

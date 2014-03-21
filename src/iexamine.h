@@ -8,8 +8,6 @@
 #ifndef __Cataclysmic__iexamine__
 #define __Cataclysmic__iexamine__
 
- //#include <iostream>
-
 class game;
 class item;
 class player;
@@ -29,6 +27,7 @@ public:
  void cardreader (player *p, map *m, int examx, int examy);
  void rubble (player *p, map *m, int examx, int examy);
  void chainfence (player *p, map *m, int examx, int examy);
+ void bars(player *p, map *m, int examx, int examy);
  void tent (player *p, map *m, int examx, int examy);
  void shelter (player *p, map *m, int examx, int examy);
  void wreckage (player *p, map *m, int examx, int examy);

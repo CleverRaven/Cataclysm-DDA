@@ -89,6 +89,7 @@
     <ClCompile Include="..\src\ammo.cpp" />
     <ClCompile Include="..\src\animation_curses.cpp" />
     <ClCompile Include="..\src\animation_tiles.cpp" />
+    <ClCompile Include="..\src\armor_layers.cpp" />
     <ClCompile Include="..\src\artifact.cpp" />
     <ClCompile Include="..\src\auto_pickup.cpp" />
     <ClCompile Include="..\src\basecamp.cpp" />
@@ -303,6 +304,7 @@
     <ClInclude Include="..\src\output.h" />
     <ClInclude Include="..\src\overmap.h" />
     <ClInclude Include="..\src\overmapbuffer.h" />
+    <ClInclude Include="..\src\platform.h" />
     <ClInclude Include="..\src\player.h" />
     <ClInclude Include="..\src\player_activity.h" />
     <ClInclude Include="..\src\pldata.h" />

@@ -8,7 +8,7 @@
 #include "veh_type.h"
 #include <vector>
 #include <string>
-#include <fstream>
+#include <iosfwd>
 
 class map;
 class player;
@@ -203,8 +203,8 @@ private:
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
 
-    // get vpart powerinfo for part number, accounting for variable-sized parts.
-    int part_power (int index);
+    // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
+    int part_power( int index, bool at_full_hp = false );
 
     // get vpart epowerinfo for part number.
     int part_epower (int index);
@@ -217,6 +217,9 @@ private:
 
     //Refresh all caches and re-locate all parts
     void refresh();
+
+    // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
+    bool do_environmental_effects();
 
 public:
     vehicle (std::string type_id = "null", int veh_init_fuel = -1, int veh_init_status = -1);
@@ -383,7 +386,7 @@ public:
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const ammotype & ftype);
 
-    void consume_fuel (float rate);
+    void consume_fuel( double load );
 
     void power_parts ();
 
@@ -416,7 +419,11 @@ public:
 // vehicle have fuel for are accounted
     int safe_velocity (bool fueled = true);
 
-    int noise (bool fueled = true, bool gas_only = false);
+    // Generate smoke from a part, either at front or back of vehicle depending on velocity.
+    void spew_smoke( double joules, int part );
+
+    // Loop through engines and generate noise and smoke for each one
+    void noise_and_smoke( double load, double time = 6.0 );
 
 // Calculate area covered by wheels and, optionally count number of wheels
     float wheels_area (int *cnt = 0);
@@ -424,6 +431,10 @@ public:
 // Combined coefficient of aerodynamic and wheel friction resistance of vehicle, 0-1.0.
 // 1.0 means it's ideal form and have no resistance at all. 0 -- it won't move
     float k_dynamics ();
+
+// Components of the dynamic coefficient
+    float k_friction ();
+    float k_aerodynamics ();
 
 // Coefficient of mass, 0-1.0.
 // 1.0 means mass won't slow vehicle at all, 0 - it won't move
@@ -484,8 +495,6 @@ public:
 // reduces velocity to 0
     void stop ();
 
-    void find_exhaust ();
-
     void refresh_insides ();
 
     bool is_inside (int p);
@@ -515,7 +524,7 @@ public:
     void cycle_turret_mode();
 
     // fire the turret which is part p
-    void fire_turret (int p, bool burst = true);
+    bool fire_turret( int p, bool burst = true );
 
     // internal procedure of turret firing
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long charges,
@@ -554,8 +563,6 @@ public:
     std::vector<int> wheelcache;
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
-    int exhaust_dx;
-    int exhaust_dy;
 
     // temp values
     int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
@@ -593,6 +600,7 @@ public:
     int tracking_epower; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower; // total power consumed by fridges
     int recharger_epower; // total power consumed by rechargers
+    bool check_environmental_effects; // True if it has bloody or smoking parts
 };
 
 #endif

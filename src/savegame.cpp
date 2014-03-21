@@ -1,4 +1,3 @@
-
 #include "game.h"
 #include "output.h"
 #include "skill.h"
@@ -38,8 +37,6 @@
  */
 const int savegame_version = 17;
 const int savegame_minver_game = 11;
-//const int savegame_minver_map = 11;
-const int savegame_minver_overmap = 12;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -401,7 +398,16 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
                 debugmsg("Loaded z level out of range (z: %d)", z);
             }
         } else if (datatype == 'Z') { // Monster group
-            fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
+            // save compatiblity hack: read the line, initialze new members to 0,
+            // "parse" line,
+            std::string tmp;
+            getline(fin, tmp);
+            std::istringstream buffer(tmp);
+            horde = 0;
+            tx = 0;
+            ty = 0;
+            intr = 0;
+            buffer >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying >> horde >> tx >> ty >>intr;
             zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
             zg.back().diffuse = cd;
             zg.back().dying = cdying;

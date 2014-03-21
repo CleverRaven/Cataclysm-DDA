@@ -1103,7 +1103,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         werase(w_skills);
         profession::StartingSkillList prof_skills = sorted_profs[cur_id]->skills();
         mvwprintz(w_skills, 0, 0, COL_HEADER, _("Profession skills:\n"));
-        if (prof_skills.size() > 0) {
+        if (!prof_skills.empty()) {
             for (int i = 0; i < prof_skills.size(); i++) {
                 Skill *skill = Skill::skill(prof_skills[i].first);
                 if (skill == NULL) {
@@ -1118,7 +1118,7 @@ int set_profession(WINDOW *w, player *u, int &points)
 
         werase(w_addictions);
         std::vector<addiction> prof_addictions = sorted_profs[cur_id]->addictions();
-        if (prof_addictions.size() > 0) {
+        if (!prof_addictions.empty()) {
             mvwprintz(w_addictions, 0, 0, COL_HEADER, _("Addictions:"));
             int add_y = 1;
             for (size_t i = 0; i < prof_addictions.size(); i++) {
@@ -1382,7 +1382,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
             std::set<std::string> current_traits = u->get_traits();
-            if (current_traits.size() == 0) {
+            if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
                 for (std::set<std::string>::iterator i = current_traits.begin();
@@ -1476,7 +1476,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                        !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
                 redraw = true;
                 continue;
-            } else if (u->name.size() == 0) {
+            } else if (u->name.empty()) {
                 mvwprintz(w_name, 0, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!______"));
                 wrefresh(w_name);
                 if (!query_yn(_("Are you SURE you're finished? Your name will be randomly generated."))) {
@@ -1526,9 +1526,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         } else if (ch == '?') {
             u->pick_name();
         } else if (ch == KEY_BACKSPACE || ch == 127) {
-            if (u->name.size() > 0) {
+            if (!u->name.empty()) {
                 //erase utf8 character TODO: make a function
-                while(u->name.size() > 0 && ((unsigned char)u->name[u->name.size() - 1]) >= 128 &&
+                while(!u->name.empty() && ((unsigned char)u->name[u->name.size() - 1]) >= 128 &&
                       ((unsigned char)u->name[(int)u->name.size() - 1]) <= 191) {
                     u->name.erase(u->name.size() - 1);
                 }

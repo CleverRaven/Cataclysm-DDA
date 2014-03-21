@@ -571,7 +571,7 @@ void trapfunc::pit(int x, int y)
     g->add_msg(_("You fall in a pit!"));
     g->u.add_memorial_log(pgettext("memorial_male", "Fell in a pit."),
                           pgettext("memorial_female", "Fell in a pit."));
-    if (g->u.has_trait("WINGS_BIRD")) {
+    if ( (g->u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (g->u.has_trait("WINGS_BUTTERFLY"))) ) {
         g->add_msg(_("You flap your wings and flutter down gracefully."));
     } else {
         float eff = pit_effectiveness(x, y);
@@ -613,7 +613,7 @@ void trapfunc::pit_spikes(int x, int y)
                           pgettext("memorial_female", "Fell into a spiked pit."));
     int dodge = g->u.get_dodge();
     int damage = pit_effectiveness(x, y) * rng(20, 50);
-    if (g->u.has_trait("WINGS_BIRD")) {
+    if ( (g->u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (g->u.has_trait("WINGS_BUTTERFLY"))) ) {
         g->add_msg(_("You flap your wings and flutter down gracefully."));
     } else if (0 == damage || rng(5, 30) < dodge) {
         g->add_msg(_("You avoid the spikes within."));
@@ -640,7 +640,7 @@ void trapfunc::pit_spikes(int x, int y)
             g->m.add_trap(x, y, tr_pit);
             for (int i = 0; i < 4; i++) { // 4 spears to a pit
                 if (one_in(3)) {
-                    g->m.spawn_item(x, y, "spear_wood");
+                    g->m.spawn_item(x, y, "pointy_stick");
                 }
             }
         }
@@ -672,7 +672,7 @@ void trapfuncm::pit_spikes(monster *z, int x, int y)
         g->m.add_trap(x, y, tr_pit);
         for (int i = 0; i < 4; i++) { // 4 spears to a pit
             if (one_in(3)) {
-                g->m.spawn_item(x, y, "spear_wood");
+                g->m.spawn_item(x, y, "pointy_stick");
             }
         }
     }

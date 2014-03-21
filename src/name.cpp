@@ -1,5 +1,6 @@
 #include <map>
 #include <fstream>
+#include <sstream>
 
 #include "json.h"
 #include "name.h"
@@ -74,7 +75,7 @@ std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags) {
 
 std::string NameGenerator::getName(uint32_t searchFlags) {
   std::vector<std::string> theseNames = filteredNames(searchFlags);
-  if( theseNames.size() == 0 ) {
+  if( theseNames.empty() ) {
       return std::string( _("Tom") );
   }
   return theseNames[ rng( 0, theseNames.size() - 1 ) ];

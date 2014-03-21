@@ -13,13 +13,13 @@
 #include "vehicle.h"
 #include "martialarts.h"
 #include "player_activity.h"
-#include "field.h"
 
 class monster;
 class game;
 struct trap;
 class mission;
 class profession;
+nc_color encumb_color(int level);
 
 struct special_attack
 {
@@ -154,9 +154,12 @@ public:
  bool has_active_bionic(const bionic_id & b) const;
  bool has_active_optcloak() const;
  void add_bionic(bionic_id b);
+ void remove_bionic(bionic_id b);
+ bool uninstall_bionic(bionic_id b_id);
  void charge_power(int amount);
  void power_bionics();
  void activate_bionic(int b);
+ void deactivate_bionic(int b);
  bool remove_random_bionic();
  int num_bionics() const;
  bionic& bionic_at_index(int i);
@@ -234,6 +237,9 @@ public:
  void ma_ongethit_effects(); // fires all get hit-triggered martial arts events
 
  bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
+ bool has_martialart(const matype_id &ma_id) const; // checks if a player has any martial arts buffs attached
+
+ void add_martialart(const matype_id &ma_id);
 
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
  int mabuff_dodge_bonus(); // martial arts dodge bonus
@@ -504,15 +510,15 @@ public:
 
  int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
- bool has_watertight_container();
- bool has_matching_liquid(itype_id it);
+ // Check for free container space for the whole liquid item
+ bool has_container_for(const item &liquid);
  bool has_drink();
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
  bool has_item(char let);  // Has an item with invlet let
  bool has_item(int position);
  bool has_item(item *it);  // Has a specific item
- std::vector<char> allocated_invlets();
+ std::set<char> allocated_invlets();
  bool has_mission_item(int mission_id); // Has item with mission_id
  std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 

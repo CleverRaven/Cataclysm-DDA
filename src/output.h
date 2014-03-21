@@ -100,7 +100,7 @@ std::string string_input_win (WINDOW *w, std::string input, int max_length, int 
                               std::string identifier = "", int w_x = -1, int w_y = -1,
                               bool dorefresh = true, bool only_digits = false);
 
-char popup_getkey(const char *mes, ...);
+long popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options);
 int  menu(bool cancelable, const char *mes, ...);
@@ -129,8 +129,8 @@ std::string from_sentence_case (const std::string &kingston);
 
 std::string string_format(const char *pattern, ...);
 std::string vstring_format(const char *pattern, va_list argptr);
-std::string string_format(const std::string &pattern, ...);
-std::string vstring_format(const std::string &pattern, va_list argptr);
+std::string string_format(const std::string pattern, ...);
+std::string vstring_format(const std::string pattern, va_list argptr);
 
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');

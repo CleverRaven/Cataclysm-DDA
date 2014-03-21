@@ -314,7 +314,6 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_small", 1 );
 }
 
-
 /**
  * Checks if the player is able to perform some command, and returns a nonzero
  * error code if they are unable to perform it. The return from this function
@@ -342,12 +341,12 @@ task_reason veh_interact::cant_do (char mode)
     switch (mode) {
     case 'i': // install mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
-        valid_target = can_mount.size() > 0 && 0 == veh->tags.count("convertible");
+        valid_target = !can_mount.empty() && 0 == veh->tags.count("convertible");
         has_tools = has_wrench && ((has_welder && has_goggles) || has_duct_tape);
         break;
     case 'r': // repair mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
-        valid_target = need_repair.size() > 0 && cpart >= 0;
+        valid_target = !need_repair.empty() && cpart >= 0;
         has_tools = (has_welder && has_goggles) || has_duct_tape;
         break;
     case 'f': // refill mode
@@ -440,8 +439,7 @@ void veh_interact::do_install(task_reason reason)
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose new part to install here:"));
     wrefresh (w_mode);
@@ -559,8 +557,7 @@ void veh_interact::do_repair(task_reason reason)
                        has_duct_tape ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to repair:"));
     wrefresh (w_mode);
@@ -626,17 +623,16 @@ void veh_interact::do_refill(task_reason reason)
 
     switch (reason) {
     case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("There's no refillable parts here."));
+        mvwprintz(w_msg, 0, 1, c_ltred, _("There's no refillable part here."));
         wrefresh (w_msg);
         return;
     case CANT_REFILL:
-        mvwprintz(w_msg, 1, 1, c_ltred, _("All refillable parts here can't be refilled."));
-        mvwprintz(w_msg, 2, 1, c_white, _("May be all of them is broken or "
-                                          "you don't have the proper fuel."));
+        mvwprintz(w_msg, 1, 1, c_ltred, _("There is no refillable part here."));
+        mvwprintz(w_msg, 2, 1, c_white, _("The part is broken, or you don't have the "
+                                          "proper fuel."));
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
 
     if (ptanks.empty()) {
@@ -714,8 +710,7 @@ void veh_interact::do_remove(task_reason reason)
         mvwprintz(w_msg, 0, 1, c_ltred, _("You need level 2 mechanics skill to remove parts."));
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
@@ -787,8 +782,7 @@ void veh_interact::do_siphon(task_reason reason)
                        _("You need a <color_red>hose</color> to siphon fuel."));
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     sel_cmd = 's';
 }
@@ -814,8 +808,7 @@ void veh_interact::do_tirechange(task_reason reason)
                        has_jack ? "ltgreen" : "red");
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose wheel to use as replacement:"));
     wrefresh (w_mode);
@@ -873,8 +866,7 @@ void veh_interact::do_drain(task_reason reason)
                        _("You need a <color_red>hose</color> to siphon water.") );
         wrefresh (w_msg);
         return;
-    default:
-        return; // Ignore this error silently.
+    default: break; // no reason, all is well
     }
     sel_cmd = 'd';
 }
@@ -893,9 +885,9 @@ void veh_interact::do_rename(task_reason reason)
             g->cur_om->vehicles[veh->om_id].name = name;
         }
     }
+    display_grid();
     display_name();
     display_stats();
-    display_grid();
     // refresh w_disp & w_part windows:
     move_cursor(0, 0);
 }
@@ -925,7 +917,6 @@ bool veh_interact::can_currently_install(vpart_info *vpart)
     bool is_wheel = vpart->has_flag("WHEEL");
     return (has_comps && (has_skill || is_wheel));
 }
-
 
 /**
  * Moves the cursor on the vehicle editing window.
@@ -1033,12 +1024,12 @@ void veh_interact::display_grid()
     const int grid_w = getmaxx(w_grid);
     if (vertical_menu) {
         // Two lines dividing the three middle sections.
-        for (int i = 1 + mode_h + msg_h; i < (1 + mode_h + msg_h + disp_h); i++) {
+        for (int i = 1 + mode_h + msg_h; i < (1 + mode_h + msg_h + disp_h); ++i) {
             mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
             mvwputch(w_grid, i, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XOXO); // |
         }
         // Two lines dividing the vertical menu sections.
-        for (int i = 0; i < grid_w; i++) {
+        for (int i = 0; i < grid_w; ++i) {
             mvwputch( w_grid, mode_h + msg_h, i, BORDER_COLOR, LINE_OXOX ); // -
             mvwputch( w_grid, mode_h + msg_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX ); // -
         }
@@ -1049,22 +1040,13 @@ void veh_interact::display_grid()
         mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XXOX); // _|_
     } else {
         // Vertical lines
-        for (int i = name_h + 1; i < (name_h + 1 + disp_h + 1 + parts_h); i++) {
-            mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
-        }
-        for (int i = (name_h + 1 + disp_h + 1); i < (name_h + 1 + stats_h); i++) {
-            mvwputch(w_grid, i, parts_w, BORDER_COLOR, LINE_XOXO); // |
-        }
-
+        mvwvline(w_grid, name_h + 1, disp_w, LINE_XOXO, disp_h + 1 + parts_h);
+        mvwvline(w_grid, name_h + 1 + disp_h + 1, parts_w, LINE_XOXO, (stats_h - disp_h - 1));
         // Two horizontal lines: one after name window, and another after parts window
-        for (int i = 0; i < grid_w; i++) {
-            mvwputch(w_grid, name_h, i, BORDER_COLOR, LINE_OXOX);
-            mvwputch(w_grid, name_h + 1 + stats_h, i, BORDER_COLOR, LINE_OXOX);
-        }
+        mvwhline(w_grid, name_h, 0, LINE_OXOX, grid_w);
+        mvwhline(w_grid, name_h + 1 + stats_h, 0, LINE_OXOX, grid_w);
         // Horizontal line between vehicle/parts windows
-        for (int i = 0; i < disp_w; i++) {
-            mvwputch(w_grid, name_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX);
-        }
+        mvwhline(w_grid, name_h + 1 + disp_h, 0, LINE_OXOX, disp_w);
         // Fix up the line intersections.
         mvwputch(w_grid, name_h, disp_w, BORDER_COLOR, LINE_OXXX);
         mvwputch(w_grid, name_h + 1 + disp_h, parts_w, BORDER_COLOR, LINE_OXXX);
@@ -1504,7 +1486,7 @@ item consume_vpart_item (std::string vpid)
     }
 
     // bug?
-    if(candidates.size() == 0) {
+    if(candidates.empty()) {
         debugmsg("Part not found!");
         return item();
     }
@@ -1574,6 +1556,12 @@ void complete_vehicle ()
     std::vector<int> parts;
     int dd = 2;
     long batterycharges; // Charges in a battery
+
+    // For siphoning from adjacent vehicles
+    int posx = 0;
+    int posy = 0;
+    std::map<point, vehicle*> foundv;
+    vehicle * fillv = NULL;
 
     switch (cmd) {
     case 'i':
@@ -1724,7 +1712,52 @@ void complete_vehicle ()
         }
         break;
     case 's':
-        g->u.siphon( veh, "gasoline" );
+
+        for (int x = g->u.posx-1; x < g->u.posx+2; x++) {
+          for (int y = g->u.posy-1; y < g->u.posy+2; y++) {
+            fillv = g->m.veh_at(x, y);
+            if ( fillv != NULL &&
+              fillv != veh &&
+              foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
+              fillv->fuel_capacity("gasoline") > 0 ) {
+                foundv[point(fillv->posx, fillv->posy)] = fillv;
+            }
+          }
+        }
+        fillv=NULL;
+        if ( ! foundv.empty() ) {
+            uimenu fmenu;
+            fmenu.text = _("Fill what?");
+            fmenu.addentry("Nearby vehicle (%d)",foundv.size());
+            fmenu.addentry("Container");
+            fmenu.addentry("Never mind");
+            fmenu.query();
+            if ( fmenu.ret == 0 ) {
+                if ( foundv.size() > 1 ) {
+                    if(g->choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
+                        fillv = g->m.veh_at(posx, posy);
+                    } else {
+                        break;
+                    }
+                } else {
+                    fillv = foundv.begin()->second;
+
+                }
+            } else if ( fmenu.ret != 1 ) {
+                break;
+            }
+        }
+        if ( fillv != NULL ) {
+            int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
+            int got = veh->drain("gasoline", want);
+            int amt=fillv->refill("gasoline",got);
+            g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
+               "gasoline", veh->name.c_str(), fillv->name.c_str(),
+               (amt > 0 ? "." : ", draining the tank completely.") );
+            g->u.moves -= 200;
+        } else {
+            g->u.siphon( veh, "gasoline" );
+        }
         break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
@@ -1758,4 +1791,3 @@ void complete_vehicle ()
         break;
     }
 }
-

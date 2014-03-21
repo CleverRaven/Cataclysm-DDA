@@ -76,7 +76,7 @@ static bool item_inscription( player *p, item *cut, std::string verb, std::strin
                                  (hasnote ? cut->item_vars["item_note"] : message ),
                                  messageprefix, "inscribe_item", 128 );
 
-    if( message.size() > 0 ) {
+    if( !message.empty() ) {
         if ( hasnote && message == "." ) {
             cut->item_vars.erase("item_note");
             cut->item_vars.erase("item_note_type");
@@ -1261,77 +1261,122 @@ int iuse::mutagen(player *p, item *it, bool) {
       g->add_msg_if_player(p, _("You quiver with anticipation..."));
       p->add_morale(MORALE_MUTAGEN, 5, 50);
     }
+    std::string mutation_category;
+    // Generic "mutagen".
     if( it->has_flag("MUTAGEN_STRONG") ) {
-         p->mutate();
-         if (!one_in(3)) {
-             p->mutate();
-         }
-         if (one_in(2)) {
-             p->mutate();
-         }
-    } else if( it->has_flag("MUTAGEN_PLANT") ) {
-        g->add_msg_if_player(p, _("You feel much closer to nature."));
-        p->mutate_category("MUTCAT_PLANT");
-    } else if( it->has_flag("MUTAGEN_INSECT") ) {
-        g->add_msg_if_player(p, _("You hear buzzing, and feel your body harden."));
-        p->mutate_category("MUTCAT_INSECT");
-    } else if( it->has_flag("MUTAGEN_SPIDER") ) {
-        g->add_msg_if_player(p, _("You feel insidious."));
-        p->mutate_category("MUTCAT_SPIDER");
-    } else if( it->has_flag("MUTAGEN_SLIME") ) {
-        g->add_msg_if_player(p, _("Your body loses all rigidity for a moment."));
-        p->mutate_category("MUTCAT_SLIME");
-    } else if( it->has_flag("MUTAGEN_FISH") ) {
-        g->add_msg_if_player(p, _("You are overcome by an overwhelming longing for the ocean."));
-        p->mutate_category("MUTCAT_FISH");
-    } else if( it->has_flag("MUTAGEN_RAT") ) {
-        g->add_msg_if_player(p, _("You feel a momentary nausea."));
-        p->mutate_category("MUTCAT_RAT");
-    } else if( it->has_flag("MUTAGEN_BEAST") ) {
-        g->add_msg_if_player(p, _("Your heart races and you see blood for a moment."));
-        p->mutate_category("MUTCAT_BEAST");
-    } else if( it->has_flag("MUTAGEN_URSINE") ) {
-        g->add_msg_if_player(p, _("You feel an urge to...patrol? the forests?"));
-        p->mutate_category("MUTCAT_URSINE");
-    } else if( it->has_flag("MUTAGEN_FELINE") ) {
-        g->add_msg_if_player(p, _("As you lap up the last of the mutagen, you wonder why..."));
-        p->mutate_category("MUTCAT_FELINE");
-    } else if( it->has_flag("MUTAGEN_LUPINE") ) {
-        g->add_msg_if_player(p, _("You feel an urge to mark your territory. But then it passes."));
-        p->mutate_category("MUTCAT_LUPINE");
-    } else if( it->has_flag("MUTAGEN_CATTLE") ) {
-        g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
-        p->mutate_category("MUTCAT_CATTLE");
-    } else if( it->has_flag("MUTAGEN_CEPHALOPOD") ) {
-        g->add_msg_if_player(p, _("Your mind is overcome by images of eldritch horrors...and then they pass."));
-        p->mutate_category("MUTCAT_CEPHALOPOD");
-    } else if( it->has_flag("MUTAGEN_BIRD") ) {
-        g->add_msg_if_player(p, _("Your body lightens and you long for the sky."));
-        p->mutate_category("MUTCAT_BIRD");
-    } else if( it->has_flag("MUTAGEN_LIZARD") ) {
-        g->add_msg_if_player(p, _("For a heartbeat, your body cools down."));
-        p->mutate_category("MUTCAT_LIZARD");
-    } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
-        g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
-        p->mutate_category("MUTCAT_TROGLOBITE");
-    } else if( it->has_flag("MUTAGEN_ALPHA") ) {
-        g->add_msg_if_player(p, _("You feel...better. Somehow."));
-        p->mutate_category("MUTCAT_ALPHA");
-    } else if( it->has_flag("MUTAGEN_MEDICAL") ) {
-        g->add_msg_if_player(p, _("You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."));
-        p->mutate_category("MUTCAT_MEDICAL");
-    } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
-        g->add_msg_if_player(p, _("You need to roar, bask, bite, and flap.  NOW."));
-        p->mutate_category("MUTCAT_CHIMERA");
-    } else if( it->has_flag("MUTAGEN_ELFA") ) {
-        g->add_msg_if_player(p, _("Nature is becoming one with you..."));
-        p->mutate_category("MUTCAT_ELFA");
-    } else if( it->has_flag("MUTAGEN_RAPTOR") ) {
-        g->add_msg_if_player(p, _("Mmm...sweet, bloody flavor...tastes like victory."));
-        p->mutate_category("MUTCAT_RAPTOR");
-    } else {
+        mutation_category = "";
+        p->mutate();
+        p->mod_pain( 2 * rng(1, 5) );
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
         if (!one_in(3)) {
             p->mutate();
+            p->mod_pain( 2 * rng(1, 5) );
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            if (one_in(4)) {
+                g->add_msg_if_player(p, _("You suddenly feel dizzy, and collapse to the ground."));
+                p->add_disease("downed", 1);
+            }
+        }
+        if (one_in(2)) {
+            p->mutate();
+            p->mod_pain( 2 * rng(1, 5) );
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            g->add_msg_if_player(p, _("Oops.  You must've blacked out for a minute there."));
+            //Should be about 3 min, less 6 sec/IN point.
+            p->fall_asleep((30 - p->int_cur ));
+        }
+    }
+    if( it->has_flag("MUTAGEN_WEAK")) {
+        mutation_category = "";
+        // Stuff like the limbs, the tainted tornado, etc.
+        if ( !one_in(3)) {
+            p->mutate();
+            p->mod_pain( 2 * rng(1, 5) );
+            p->hunger += 10;
+            p->fatigue += 5;
+            p->thirst += 10;
+            if (one_in(4)) {
+              g->add_msg_if_player(p, _("You suddenly feel dizzy, and collapse to the ground."));
+              p->add_disease("downed", 1);
+            }
+        }
+    } else {
+    // Categorized/targeted mutagens go here.
+        if( it->has_flag("MUTAGEN_PLANT") ) {
+        g->add_msg_if_player(p, _("You feel much closer to nature."));
+        mutation_category = "MUTCAT_PLANT";
+    } else if( it->has_flag("MUTAGEN_INSECT") ) {
+        g->add_msg_if_player(p, _("You hear buzzing, and feel your body harden."));
+        mutation_category = "MUTCAT_INSECT";
+    } else if( it->has_flag("MUTAGEN_SPIDER") ) {
+        g->add_msg_if_player(p, _("You feel insidious."));
+        mutation_category = "MUTCAT_SPIDER";
+    } else if( it->has_flag("MUTAGEN_SLIME") ) {
+        g->add_msg_if_player(p, _("Your body loses all rigidity for a moment."));
+        mutation_category = "MUTCAT_SLIME";
+    } else if( it->has_flag("MUTAGEN_FISH") ) {
+        g->add_msg_if_player(p, _("You are overcome by an overwhelming longing for the ocean."));
+        mutation_category = "MUTCAT_FISH";
+    } else if( it->has_flag("MUTAGEN_RAT") ) {
+        g->add_msg_if_player(p, _("You feel a momentary nausea."));
+        mutation_category = "MUTCAT_RAT";
+    } else if( it->has_flag("MUTAGEN_BEAST") ) {
+        g->add_msg_if_player(p, _("Your heart races and you see blood for a moment."));
+        mutation_category = "MUTCAT_BEAST";
+    } else if( it->has_flag("MUTAGEN_URSINE") ) {
+        g->add_msg_if_player(p, _("You feel an urge to...patrol? the forests?"));
+        mutation_category = "MUTCAT_URSINE";
+    } else if( it->has_flag("MUTAGEN_FELINE") ) {
+        g->add_msg_if_player(p, _("As you lap up the last of the mutagen, you wonder why..."));
+        mutation_category = "MUTCAT_FELINE";
+    } else if( it->has_flag("MUTAGEN_LUPINE") ) {
+        g->add_msg_if_player(p, _("You feel an urge to mark your territory. But then it passes."));
+        mutation_category = "MUTCAT_LUPINE";
+    } else if( it->has_flag("MUTAGEN_CATTLE") ) {
+        g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
+        mutation_category = "MUTCAT_CATTLE";
+    } else if( it->has_flag("MUTAGEN_CEPHALOPOD") ) {
+        g->add_msg_if_player(p, _("Your mind is overcome by images of eldritch horrors...and then they pass."));
+        mutation_category = "MUTCAT_CEPHALOPOD";
+    } else if( it->has_flag("MUTAGEN_BIRD") ) {
+        g->add_msg_if_player(p, _("Your body lightens and you long for the sky."));
+        mutation_category = "MUTCAT_BIRD";
+    } else if( it->has_flag("MUTAGEN_LIZARD") ) {
+        g->add_msg_if_player(p, _("For a heartbeat, your body cools down."));
+        mutation_category = "MUTCAT_LIZARD";
+    } else if( it->has_flag("MUTAGEN_TROGLOBITE") ) {
+        g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
+        mutation_category = "MUTCAT_TROGLOBITE";
+    } else if( it->has_flag("MUTAGEN_ALPHA") ) {
+        g->add_msg_if_player(p, _("You feel...better. Somehow."));
+        mutation_category = "MUTCAT_ALPHA";
+    } else if( it->has_flag("MUTAGEN_MEDICAL") ) {
+        g->add_msg_if_player(p, _("You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."));
+        mutation_category = "MUTCAT_MEDICAL";
+    } else if( it->has_flag("MUTAGEN_CHIMERA") ) {
+        g->add_msg_if_player(p, _("You need to roar, bask, bite, and flap.  NOW."));
+        mutation_category = "MUTCAT_CHIMERA";
+    } else if( it->has_flag("MUTAGEN_ELFA") ) {
+        g->add_msg_if_player(p, _("Nature is becoming one with you..."));
+        mutation_category = "MUTCAT_ELFA";
+    } else if( it->has_flag("MUTAGEN_RAPTOR") ) {
+        g->add_msg_if_player(p, _("Mmm...sweet, bloody flavor...tastes like victory."));
+        mutation_category = "MUTCAT_RAPTOR";
+    }  // Yep, orals take a bit out of you too
+        p->mutate_category(mutation_category);
+        p->mod_pain( 2 * rng(1, 5) );
+        p->hunger += 10;
+        p->fatigue += 5;
+        p->thirst += 10;
+        if (one_in(4)) {
+            g->add_msg_if_player(p, _("You suddenly feel dizzy, and collapse to the ground."));
+            p->add_disease("downed", 1);
         }
     }
     return it->type->charges_to_use();
@@ -1736,7 +1781,7 @@ int iuse::purifier(player *p, item *it, bool)
             valid.push_back(iter->first);
         }
     }
-    if (valid.size() == 0) {
+    if (valid.empty()) {
         g->add_msg_if_player(p,_("You feel cleansed."));
         return it->type->charges_to_use();
     }
@@ -1744,7 +1789,7 @@ int iuse::purifier(player *p, item *it, bool)
     if (num_cured > 4) {
         num_cured = 4;
     }
-    for (int i = 0; i < num_cured && valid.size() > 0; i++) {
+    for (int i = 0; i < num_cured && !valid.empty(); i++) {
         int index = rng(0, valid.size() - 1);
         if (p->purifiable(valid[index])) {
             p->remove_mutation(valid[index]);
@@ -1769,7 +1814,7 @@ int iuse::purify_iv(player *p, item *it, bool)
             valid.push_back(iter->first);
         }
     }
-    if (valid.size() == 0) {
+    if (valid.empty()) {
         g->add_msg_if_player(p,_("You feel cleansed."));
         return it->type->charges_to_use();
     }
@@ -1777,7 +1822,7 @@ int iuse::purify_iv(player *p, item *it, bool)
     if (num_cured > 8) {
         num_cured = 8;
     }
-    for (int i = 0; i < num_cured && valid.size() > 0; i++) {
+    for (int i = 0; i < num_cured && !valid.empty(); i++) {
         int index = rng(0, valid.size() - 1);
         if (p->purifiable(valid[index])) {
             p->remove_mutation(valid[index]);
@@ -2192,6 +2237,11 @@ int iuse::rechargeable_battery(player *p, item *, bool)
     if (modded->has_flag("RECHARGE"))
     {
         g->add_msg_if_player(p,_("That item already has a rechargeable battery pack."));
+        return 0;
+    }
+
+    if (modded->has_flag("ATOMIC_AMMO")) {
+        g->add_msg_if_player(p,_("You can't install a rechargeable battery pack on an item powered by plutonium cells!"));
         return 0;
     }
 
@@ -3066,7 +3116,7 @@ int iuse::water_purifier(player *p, item *it, bool)
   g->add_msg_if_player(p,_("You do not have that item!"));
   return 0;
  }
- if (p->i_at(pos).contents.size() == 0) {
+ if (p->i_at(pos).contents.empty()) {
   g->add_msg_if_player(p,_("You can only purify water."));
   return 0;
  }
@@ -3149,7 +3199,7 @@ _(
     in_range.push_back(npcs[i]);
    }
   }
-  if (in_range.size() > 0) {
+  if (!in_range.empty()) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
    popup(_("A reply!  %s says, \"I'm on my way; give me %d minutes!\""),
          coming->name.c_str(), coming->minutes_to_u());
@@ -5662,7 +5712,7 @@ int iuse::manhack(player *p, item *, bool)
    }
   }
  }
- if (valid.size() == 0) { // No valid points!
+ if (valid.empty()) { // No valid points!
   g->add_msg_if_player(p,_("There is no adjacent square to release the manhack in!"));
   return 0;
  }
@@ -7643,7 +7693,7 @@ int iuse::rad_badge(player *p, item *it, bool)
 int iuse::boots(player *p, item *it, bool)
 {
  int choice = -1;
- if (it->contents.size() == 0)
+ if (it->contents.empty())
   choice = menu(true, _("Using boots:"), _("Put a knife in the boot"), _("Cancel"), NULL);
  else if (it->contents.size() == 1)
   choice = menu(true, _("Take what:"), it->contents[0].tname().c_str(), _("Put a knife in the boot"), _("Cancel"), NULL);
@@ -7660,7 +7710,7 @@ int iuse::boots(player *p, item *it, bool)
    p->wield(knife.invlet);
    it->contents.erase(it->contents.begin() + choice - 1);
   }
- } else if ((it->contents.size() == 0 && choice == 1) || // Put 1st
+ } else if ((it->contents.empty() && choice == 1) || // Put 1st
             (it->contents.size() == 1 && choice == 2)) { // Put 2st
   int pos = g->inv_type(_("Put what?"), IC_TOOL);
   item* put = &(p->i_at(pos));
@@ -7984,6 +8034,10 @@ int iuse::misc_repair(player *p, item *it, bool)
             }
             if (!(fix->made_of("wood") || fix->made_of("plastic") || fix->made_of("bone"))) {
                 g->add_msg_if_player(p,_("That isn't made of wood, bone, or chitin!"));
+                return 0;
+            }
+            if (fix->damage == -1) {
+                g->add_msg_if_player(p,_("You cannot improve your %s any more this way."), fix->tname().c_str());
                 return 0;
             }
             if (fix->damage == 0) {

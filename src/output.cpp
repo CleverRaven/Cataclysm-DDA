@@ -462,7 +462,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
     if (iPopupWidth > FULL_SCREEN_WIDTH) {
         iPopupWidth = FULL_SCREEN_WIDTH;
     }
-    if ( desc.size() > 0 ) {
+    if ( !desc.empty() ) {
         int twidth = utf8_width(desc.c_str());
         if ( twidth > iPopupWidth - 4 ) {
             twidth = iPopupWidth - 4;
@@ -568,7 +568,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         } else if (ch == '\n') {
             return_key = true;
         } else if (ch == KEY_UP ) {
-            if(identifier.size() > 0) {
+            if(!identifier.empty()) {
                 std::vector<std::string> *hist = uistate.gethistory(identifier);
                 if(hist != NULL) {
                     uimenu hmenu;
@@ -577,7 +577,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                     for(int h = 0; h < hist->size(); h++) {
                         hmenu.addentry(h, true, -2, (*hist)[h].c_str());
                     }
-                    if ( ret.size() > 0 && ( hmenu.entries.size() == 0 ||
+                    if ( !ret.empty() && ( hmenu.entries.empty() ||
                                              hmenu.entries[hist->size() - 1].txt != ret ) ) {
                         hmenu.addentry(hist->size(), true, -2, ret);
                         hmenu.selected = hist->size();
@@ -651,7 +651,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         }
         if (return_key) {//"/n" return code
             {
-                if(identifier.size() > 0 && ret.size() > 0 ) {
+                if(!identifier.empty() && !ret.empty() ) {
                     std::vector<std::string> *hist = uistate.gethistory(identifier);
                     if( hist != NULL ) {
                         if ( hist->size() == 0 || (*hist)[hist->size() - 1] != ret ) {
@@ -666,7 +666,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
     return ret;
 }
 
-char popup_getkey(const char *mes, ...)
+long popup_getkey(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -1161,9 +1161,13 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
             } else if (iStartPos + iContentHeight > iNumEntries) {
                 iStartPos = iNumEntries - iContentHeight;
             }
+        } else {
+            iStartPos = 0;
         }
     } else {
-        if( iCurrentLine < iStartPos ) {
+        if (iNumEntries <= iContentHeight) {
+            iStartPos = 0;
+        } else if( iCurrentLine < iStartPos ) {
             iStartPos = iCurrentLine;
         } else if( iCurrentLine >= iStartPos + iContentHeight ) {
             iStartPos = 1 + iCurrentLine - iContentHeight;
@@ -1171,13 +1175,14 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
     }
 }
 
-
+WINDOW *w_hit_animation = NULL;
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {
     WINDOW *w_hit = newwin(1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
     if (w_hit == NULL) {
         return; //we passed in negative values (semi-expected), so let's not segfault
     }
+    w_hit_animation = w_hit;
 
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
@@ -1189,11 +1194,12 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
     timeout(iTimeout);
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout(-1);
+    w_hit_animation = NULL;
 }
 
 std::string from_sentence_case (const std::string &kingston)
 {
-    if (kingston.size() > 0) {
+    if (!kingston.empty()) {
         std::string montreal = kingston;
         if(montreal.empty()) {
             return "";
@@ -1272,12 +1278,12 @@ std::string string_format(const char *pattern, ...)
     return result;
 }
 
-std::string vstring_format(const std::string &pattern, va_list argptr)
+std::string vstring_format(const std::string pattern, va_list argptr)
 {
     return vstring_format(pattern.c_str(), argptr);
 }
 
-std::string string_format(const std::string &pattern, ...)
+std::string string_format(const std::string pattern, ...)
 {
     va_list ap;
     va_start(ap, pattern);
@@ -1301,7 +1307,7 @@ std::string &capitalize_letter(std::string &str, size_t n)
 //remove prefix of a strng, between c1 and c2, ie, "<prefix>remove it"
 std::string rm_prefix(std::string str, char c1, char c2)
 {
-    if(str.size() > 0 && str[0] == c1) {
+    if(!str.empty() && str[0] == c1) {
         size_t pos = str.find_first_of(c2);
         if(pos != std::string::npos) {
             str = str.substr(pos + 1);

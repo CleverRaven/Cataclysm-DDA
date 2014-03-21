@@ -102,10 +102,8 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
                          calc_volume_capacity(dropped_items));
 
     // Print our weapon
-    int n_items = 0;
     mvwprintz(w_inv, 2, right_column_offset, c_magenta, _("WEAPON:"));
     if (g->u.is_armed()) {
-        n_items++;
         if (dropped_weapon != 0)
             mvwprintz(w_inv, 3, right_column_offset, c_white, "%c %c %s", g->u.weapon.invlet,
                       dropped_weapon == -1 ? '+' : '#',
@@ -117,11 +115,10 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
         mvwprintz(w_inv, 3, right_column_offset, c_ltgray, g->u.weapname().c_str());
     }
     // Print worn items
-    if (g->u.worn.size() > 0) {
+    if (!g->u.worn.empty()) {
         mvwprintz(w_inv, 5, right_column_offset, c_magenta, _("ITEMS WORN:"));
     }
     for (size_t i = 0; i < g->u.worn.size(); i++) {
-        n_items++;
         bool dropped_armor = false;
         for (size_t j = 0; j < dropped_items.size() && !dropped_armor; j++) {
             if (dropped_items[j] == g->u.worn[i].invlet) {
@@ -136,12 +133,7 @@ void print_inv_statics(WINDOW *w_inv, std::string title,
                        "%c - %s", g->u.worn[i].invlet, g->u.worn[i].display_name().c_str() );
     }
 
-    // Print items carried
-    for (std::string::const_iterator invlet = inv_chars.begin();
-         invlet != inv_chars.end(); ++invlet) {
-        n_items += ((g->u.inv.item_by_letter(*invlet).is_null()) ? 0 : 1);
-    }
-    mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "), n_items, inv_chars.size());
+    mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "), g->u.allocated_invlets().size(), inv_chars.size());
 }
 
 int game::display_slice(indexed_invslice &slice, const std::string &title)
@@ -503,7 +495,7 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
         }
         // Print worn items to be dropped
         bool dropping_a = false;
-        if (u.worn.size() > 0) {
+        if (!u.worn.empty()) {
             for (size_t k = 0; k < u.worn.size(); k++) {
                 bool dropping_w = false;
                 for (size_t j = 0; j < dropped_armor.size() && !dropping_w; j++) {
@@ -853,7 +845,7 @@ void game::compare(int iCompareX, int iCompareY)
                            VIEW_OFFSET_Y, VIEW_OFFSET_X);
     int maxitems = TERMY - 5 - VIEW_OFFSET_Y * 2; // Number of items to show at one time.
     std::vector<int> compare_list; // Count of how many we'll drop from each stack
-    bool bFirst = false; // First Item selected
+    bool bFirst = false; // First Item is selected
     bool bShowCompare = false;
     char cLastCh = 0;
     compare_list.resize(u.inv.size() + groundsize, 0);
@@ -948,35 +940,53 @@ void game::compare(int iCompareX, int iCompareY)
             mvwprintw(w_inv, maxitems + 4, utf8_width(str_back.c_str()) + 2, str_more.c_str());
         }
         wrefresh(w_inv);
+
         ch = getch();
         if (u.has_item((char)ch)) {
             item &it = u.inv.item_by_letter((char)ch);
             if (it.is_null()) { // Not from inventory
-                bool found = false;
-                for (size_t i = 0; i < dropped_armor.size() && !found; i++) {
-                    if (dropped_armor[i] == ch) {
-                        dropped_armor.erase(dropped_armor.begin() + i);
-                        found = true;
+                if (ch == u.weapon.invlet) { //It's our weapon
+                    if (dropped_weapon == -1) {
+                        dropped_weapon = 0;
                         bFirst = false;
-                        print_inv_statics(w_inv, _("Compare:"), dropped_armor, dropped_weapon);
-                    }
-                }
-                if (!found && dropped_weapon == -1 && ch == u.weapon.invlet) {
-                    found = true;
-                    bFirst = false;
-                    dropped_weapon = 0;
-                    print_inv_statics(w_inv, _("Compare:"), dropped_armor, dropped_weapon);
-                }
-                if (!found) {
-                    if (!bFirst) {
-                        dropped_weapon = -1;
-                        print_inv_statics(w_inv, _("Compare:"), dropped_armor, dropped_weapon);
-                        bFirst = true;
-                        cLastCh = ch;
                     } else {
-                        bShowCompare = true;
+                        if (!bFirst) {
+                            dropped_weapon = -1;
+                            cLastCh = ch;
+                            bFirst = true;
+                        } else {
+                            bShowCompare = true;
+                        }
+                    }
+                } else { //It's maybe armor
+                    for (size_t i = 0; i < g->u.worn.size(); i++) {
+                        if (u.worn[i].invlet == ch) {
+                            bool bFound = false;
+
+                            for (size_t j = 0; j < dropped_armor.size(); j++) {
+                                if (dropped_armor[j] == ch) {
+                                    dropped_armor.erase(dropped_armor.begin() + j);
+                                    bFound = true;
+                                    bFirst = false;
+                                }
+                            }
+
+                            if (!bFound) {
+                                if (!bFirst) {
+                                    dropped_armor.push_back(ch);
+                                    cLastCh = ch;
+                                    bFirst = true;
+                                } else {
+                                    bShowCompare = true;
+                                }
+                            }
+
+                            break;
+                        }
                     }
                 }
+
+                print_inv_statics(w_inv, _("Compare:"), dropped_armor, dropped_weapon);
             } else {
                 int index = -1;
                 for (size_t i = 0; i < stacks.size(); ++i) {

@@ -73,6 +73,7 @@ BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 LUA_DIR = lua
+LUASRC_DIR = src/lua
 LOCALIZE = 1
 
 # tiles object directories are because gcc gets confused
@@ -103,7 +104,7 @@ endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
-BINDIST_EXTRAS = README.md data
+BINDIST_EXTRAS += README.md data
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
@@ -187,9 +188,8 @@ ifdef LUA
   endif
 
   CXXFLAGS += -DLUA
-  LUA_DEPENDENCIES = $(LUA_DIR)/catabindings.cpp
-  BINDIST_EXTRAS  += $(LUA_DIR)/autoexec.lua
-  BINDIST_EXTRAS  += $(LUA_DIR)/class_definitions.lua
+  LUA_DEPENDENCIES = $(LUASRC_DIR)/catabindings.cpp
+  BINDIST_EXTRAS  += $(LUA_DIR)
 endif
 
 ifdef TILES
@@ -294,7 +294,6 @@ endif
 
 ifdef LANGUAGES
   L10N = localization
-  BINDIST_EXTRAS += lang/mo
 endif
 
 
@@ -331,8 +330,8 @@ $(ODIR)/SDLMain.o: $(SRC_DIR)/SDLMain.m
 
 version.cpp: version
 
-$(LUA_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUA_DIR)/generate_bindings.lua
-	cd $(LUA_DIR) && lua generate_bindings.lua
+$(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
+	cd $(LUASRC_DIR) && lua generate_bindings.lua
 
 $(SRC_DIR)/catalua.cpp: $(LUA_DEPENDENCIES)
 
@@ -349,7 +348,7 @@ clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
 	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
-	rm -f $(SRC_DIR)/version.h $(LUA_DIR)/catabindings.cpp
+	rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
 	rm -f $(CHKJSON_BIN)
 
 distclean:
@@ -363,9 +362,12 @@ distclean:
 
 bindist: $(BINDIST)
 
-$(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS)
+$(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)
-	cp -R --parents $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+ifdef LANGUAGES
+	cp -R --parents lang/mo $(BINDIST_DIR)
+endif
 	$(BINDIST_CMD)
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
