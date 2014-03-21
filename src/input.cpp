@@ -321,8 +321,8 @@ void input_manager::save() {
 
     jsout.start_array();
     for (t_action_contexts::const_iterator a = action_contexts.begin(); a != action_contexts.end(); ++a) {
-        const t_keybinding_map &maping = a->second;
-        for (t_keybinding_map::const_iterator b = maping.begin(); b != maping.end(); ++b) {
+        const t_keybinding_map &mapping = a->second;
+        for (t_keybinding_map::const_iterator b = mapping.begin(); b != mapping.end(); ++b) {
             const t_input_event_list &events = b->second;
             jsout.start_object();
 
@@ -479,7 +479,7 @@ const std::vector<input_event> &input_manager::get_input_for_action(const std::s
         &action_descriptor, const std::string context, bool *overwrites_default)
 {
     // First we check if we have a special override in this particular context.
-    if(context != default_context_id && action_contexts[context].count(action_descriptor)) {
+    if(context != default_context_id && action_contexts[context][action_descriptor].size()) {
         if(overwrites_default) {
             *overwrites_default = true;
         }
@@ -498,10 +498,8 @@ input_manager::t_input_event_list &input_manager::get_event_list(
 {
     t_action_contexts::iterator a = action_contexts.find(context);
     if (a != action_contexts.end()) {
-        t_keybinding_map::iterator b = a->second.find(action_descriptor);
-        if (b != a->second.end()) {
-            return b->second;
-        }
+        // Create a new empty list for this action if nothing exists.
+        return a->second[action_descriptor];
     }
     static t_input_event_list empty;
     return empty;
@@ -753,7 +751,7 @@ void input_context::display_help()
     // keybindings before the user changed anything.
     input_manager::t_action_contexts old_action_contexts(inp_mngr.action_contexts);
     // current status: adding/removing/showing keybindings
-    enum { s_remove, s_add, s_show } status = s_show;
+    enum { s_remove, s_add, s_add_global, s_show } status = s_show;
     // copy of registered_actions, but without the ANY_INPUT, which should not be shown
     std::vector<std::string> org_registered_actions(registered_actions);
     std::vector<std::string>::iterator any_input = std::find(org_registered_actions.begin(), org_registered_actions.end(), "ANY_INPUT");
@@ -767,6 +765,8 @@ void input_context::display_help()
     static const nc_color unbound_key = c_ltred;
     // (vertical) scroll offset
     int offset = 0;
+    // Whether to access global or local keybindings
+    bool do_access_global_keybindings = false;
     // height of the area usable for display of keybindings, excludes headers & borders
     int display_height = FULL_SCREEN_HEIGHT - 2 - 2; // -2 for the border
     // width of the legend
@@ -776,7 +776,7 @@ void input_context::display_help()
     legend << "<color_" << string_from_color(unbound_key) << ">" << _("Unbound keys") << "</color>\n";
     legend << "<color_" << string_from_color(local_key) << ">" << _("Keybinding active only on this screen") << "</color>\n";
     legend << "<color_" << string_from_color(global_key) << ">" << _("Keybinding active globally") << "</color>\n";
-    legend << _("Press - to remove keybinding or press + to add keybinding");
+    legend << _("Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n");
 
     while(true) {
         werase(w_help);
@@ -784,6 +784,7 @@ void input_context::display_help()
         draw_scrollbar(w_help, offset, display_height, org_registered_actions.size(), 1);
         mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
                 c_ltred, " %s ", _("Keybindings"));
+
         fold_and_print(w_help, 1, 51, legwidth, c_white, legend.str());
 
         for (size_t i = 0; i + offset < org_registered_actions.size() && i < display_height; i++) {
@@ -794,9 +795,13 @@ void input_context::display_help()
                     &overwrite_default);
 
             const char invlet = i + 'a';
-            if (status == s_add) {
+            if (status == s_add_global && overwrite_default) {
+                // We're trying to add a global, but this action has a local
+                // defined, so gray out the invlet.
+                mvwprintz(w_help, i + 1, 2, c_dkgray, "%c ", invlet);
+            } else if (status == s_add || status == s_add_global) {
                 mvwprintz(w_help, i + 1, 2, c_blue, "%c ", invlet);
-            } else if(status == s_remove) {
+            } else if (status == s_remove) {
                 mvwprintz(w_help, i + 1, 2, c_blue, "%c ", invlet);
             } else {
                 mvwprintz(w_help, i + 1, 2, c_blue, "  ");
@@ -818,23 +823,46 @@ void input_context::display_help()
         const long ch = getch();
         if (ch == '+') {
             status = s_add;
+        } else if (ch == '=') {
+            status = s_add_global;
         } else if (ch == '-') {
             status = s_remove;
         } else if (status != s_show && ch >= 'a' && ch <= 'a' + org_registered_actions.size()) {
             const int action = ch - 'a' + offset;
             const std::string &action_id = org_registered_actions[action];
             const std::string name = inp_mngr.get_action_name(action_id);
+
+            // Check if this entry is local or global.
+            bool is_local = false;
+            inp_mngr.get_input_for_action(action_id, category, &is_local);
+
             if (status == s_remove && query_yn(_("Clear keys for %s?"), name.c_str())) {
-                inp_mngr.remove_input_for_action(action_id, category);
+
+                // If it's global, reset the global actions.
+                std::string category_to_access = category;
+                if (!is_local) {
+                    category_to_access = default_context_id;
+                }
+
+                inp_mngr.remove_input_for_action(action_id, category_to_access);
                 changed = true;
-            } else if (status == s_add) {
+            } else if (status == s_add_global && is_local) {
+                // Disallow adding global actions to an action that already has a local defined.
+                popup(_("There are already local keybindings defined for this action, please remove them first."));
+            } else if (status == s_add || status == s_add_global) {
                 const long newbind = popup_getkey(_("New key for %s:"), name.c_str());
                 const input_event new_event(newbind, CATA_INPUT_KEYBOARD);
                 const std::string conflicts = inp_mngr.get_conflicts(category, new_event);
                 if (!conflicts.empty()) {
                     popup(_("This key conflicts with %s"), conflicts.c_str());
                 } else {
-                    inp_mngr.add_input_for_action(action_id, category, new_event);
+                    // We might be adding a local or global action.
+                    std::string category_to_access = category;
+                    if (status == s_add_global) {
+                        category_to_access = default_context_id;
+                    }
+
+                    inp_mngr.add_input_for_action(action_id, category_to_access, new_event);
                     changed = true;
                 }
             }

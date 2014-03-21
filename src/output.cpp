@@ -666,7 +666,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
     return ret;
 }
 
-char popup_getkey(const char *mes, ...)
+long popup_getkey(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
