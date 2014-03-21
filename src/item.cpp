@@ -1444,12 +1444,14 @@ bool item::has_quality(std::string quality_id) const {
 }
 
 bool item::has_quality(std::string quality_id, int quality_value) const {
-    // TODO: actually implement this >:(
-    (void)quality_id; (void)quality_value; //unused grrr
     bool ret = false;
-
-    if(!type->qualities.empty()){
-      ret = true;
+    if ( !type->qualities.empty()){
+        for(std::map<std::string, int>::const_iterator quality = type->qualities.begin(); quality != type->qualities.end(); ++quality){
+            if(quality->first == quality_id && quality->second >= quality_value) {
+                ret = true;
+                break;
+            }
+        }
     }
     return ret;
 }

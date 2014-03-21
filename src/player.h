@@ -13,7 +13,6 @@
 #include "vehicle.h"
 #include "martialarts.h"
 #include "player_activity.h"
-//#include "field.h"
 
 class monster;
 class game;
