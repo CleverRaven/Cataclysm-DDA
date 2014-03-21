@@ -652,7 +652,7 @@ public:
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"
   void gameover();         // Ends the game
   void write_msg();        // Prints the messages in the messages list
-  void msg_buffer();       // Opens a window with old messages in it
+  void msg_buffer(bool show_return_message = true);       // Opens a window with old messages in it
   void draw_minimap();     // Draw the 5x5 minimap
   void draw_HP();          // Draws the player's HP and Power level
 

@@ -13489,7 +13489,7 @@ void game::write_msg()
     wrefresh(w_messages);
 }
 
-void game::msg_buffer(bool show_return_message = true)
+void game::msg_buffer(bool show_return_message)
 {
     WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                      (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
