@@ -511,8 +511,8 @@ public:
 
  int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
- bool has_watertight_container();
- bool has_matching_liquid(itype_id it);
+ // Check for free container space for the whole liquid item
+ bool has_container_for(const item &liquid);
  bool has_drink();
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag

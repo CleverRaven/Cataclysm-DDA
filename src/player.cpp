@@ -7001,33 +7001,6 @@ int  player::leak_level( std::string flag ) const
     return leak_level;
 }
 
-bool player::has_watertight_container()
-{
- if (!inv.watertight_container().is_null()) {
-  return true;
- }
- if (weapon.is_container() && weapon.contents.empty()) {
-   if (weapon.has_flag("WATERTIGHT") && weapon.has_flag("SEALS"))
-    return true;
- }
-
- return false;
-}
-
-bool player::has_matching_liquid(itype_id it)
-{
-    if (inv.has_liquid(it)) {
-        return true;
-    }
-    if (weapon.is_container() && !weapon.contents.empty())
-    {
-        // has_capacity_for_liquid needs an item, not an item type
-        const item liquid(itypes[it], g->turn);
-        return inventory::has_capacity_for_liquid(weapon, liquid);
-    }
-    return false;
-}
-
 bool player::has_drink()
 {
     if (inv.has_drink()) {
@@ -10501,4 +10474,24 @@ bool player::can_pickup(bool print_msg) const
         return false;
     }
     return true;
+}
+
+bool player::has_container_for(const item &newit)
+{
+    if (!newit.made_of(LIQUID)) {
+        // Currently only liquids need a container
+        return true;
+    }
+    int charges = newit.charges;
+    LIQUID_FILL_ERROR tmperr;
+    charges -= weapon.get_remaining_capacity_for_liquid(newit, tmperr);
+    for (size_t i = 0; i < worn.size() && charges > 0; i++) {
+        charges -= worn[i].get_remaining_capacity_for_liquid(newit, tmperr);
+    }
+    for (size_t i = 0; i < inv.size() && charges > 0; i++) {
+        const std::list<item>&items = inv.const_stack(i);
+        // Assume that each item in the stack has the same remaining capacity
+        charges -= items.front().get_remaining_capacity_for_liquid(newit, tmperr) * items.size();
+    }
+    return charges <= 0;
 }
