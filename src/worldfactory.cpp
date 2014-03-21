@@ -971,7 +971,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             case 's':
             case 'S':
                 if(mman->set_default_mods(active_mod_order)) {
-                    popup("Saved list of active mods as default");
+                    popup(_("Saved list of active mods as default"));
                     draw_modselection_borders(win);
                     redraw_headers = true;
                 }

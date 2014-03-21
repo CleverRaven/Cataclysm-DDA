@@ -240,6 +240,10 @@ def extract(item):
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
             wrote = True
+    if "valid_mod_locations" in item:
+        for mod_loc in item["valid_mod_locations"]:
+            writestr(outfile, mod_loc[0], **kwargs)
+            wrote = True
     if not wrote:
         print("WARNING: %s: nothing translatable found in item: %r" % (infilename, item))
 
