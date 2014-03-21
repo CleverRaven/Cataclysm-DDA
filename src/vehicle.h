@@ -487,6 +487,9 @@ public:
 // remove item from part's cargo
     void remove_item (int part, int itemdex);
 
+// remove item from part's cargo, using item pointer
+    void remove_item(int part, item *it);
+
 // Generates starting items in the car, should only be called when placed on the map
     void place_spawn_items();
 
