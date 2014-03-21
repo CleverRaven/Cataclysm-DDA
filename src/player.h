@@ -240,6 +240,8 @@ public:
  bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
  bool has_martialart(const matype_id &ma_id) const; // checks if a player has any martial arts buffs attached
 
+ void add_martialart(const matype_id &ma_id);
+
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
  int mabuff_dodge_bonus(); // martial arts dodge bonus
  int mabuff_block_bonus(); // martial arts block bonus
