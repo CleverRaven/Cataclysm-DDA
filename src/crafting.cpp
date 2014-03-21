@@ -1778,10 +1778,7 @@ void game::disassemble(int pos)
     if (cur_recipe != NULL) {
                 if (dis_item->count_by_charges()) {
                     // Create a new item to get the default charges
-                    item tmp(dis_item->type, 0);
-                    if (cur_recipe->result_mult != 1) {
-                        tmp.charges *= cur_recipe->result_mult;
-                    }
+                    const item tmp = cur_recipe->create_result();
                     if (dis_item->charges < tmp.charges) {
                         popup(_("You need at least %d charges of the that item to disassemble it."), tmp.charges);
                         return;
@@ -1838,19 +1835,6 @@ void game::disassemble(int pos)
                 }
                 // all tools present, so assign the activity
                 if (have_all_tools) {
-                    // check to see if it's even possible to disassemble if it happens to be a count_by_charge item
-                    // (num_charges / charges_required) > 0
-                    // done before query because it doesn't make sense to query and then say "woops, can't do that!"
-                    if (dis_item->count_by_charges()) {
-                        // required number of item in inventory for disassembly to succeed
-                        int num_disassemblies_available = dis_item->charges / dis_item->type->stack_size;;
-
-                        if (num_disassemblies_available == 0) {
-                            add_msg(_("You cannot disassemble the %s into its components, too few items."),
-                                    dis_item->name.c_str());
-                            return;
-                        }
-                    }
                     if (OPTIONS["QUERY_DISASSEMBLE"] &&
                         !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str()))) {
                         return;
@@ -1898,10 +1882,7 @@ void game::complete_disassemble()
 
     if (dis_item.count_by_charges()) {
         // Create a new item to get the default charges
-        item tmp(dis_item.type, 0);
-        if (dis->result_mult != 1) {
-            tmp.charges *= dis->result_mult;
-        }
+        const item tmp = dis->create_result();
         dis_item.charges -= tmp.charges;
         if (dis_item.charges <= 0) {
             u.i_rem(item_pos);
