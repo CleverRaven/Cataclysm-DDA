@@ -462,6 +462,99 @@ classes = {
                 rval = "int"
             },
         }
+    },
+    itype = {
+        attributes = {
+            name = {
+                type = "string",
+                writable = true
+            },
+            description = {
+                type = "string",
+                writable = true
+            },
+            m1 = {
+                type = "string",
+                writable = true
+            },
+            m2 = {
+                type = "string",
+                writable = true
+            },
+            volume = {
+                type = "int",
+                writable = true
+            },
+            stack_size = {
+                type = "int",
+                writable = true
+            },
+            weight = {
+                type = "int",
+                writable = true
+            },
+            melee_dam = {
+                type = "int",
+                writable = true
+            },
+            melee_cut = {
+                type = "int",
+                writable = true
+            },
+            m_to_hit = {
+                type = "int",
+                writable = true
+            },
+            price = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    it_comest = {
+        parent = "itype",
+        attributes = {
+            quench = {
+                type = "int",
+                writable = true
+            },
+            nutr = {
+                type = "int",
+                writable = true
+            },
+            spoils = {
+                type = "int",
+                writable = true
+            },
+            addict = {
+                type = "int",
+                writable = true
+            },
+            charges = {
+                type = "int",
+                writable = true
+            },
+            stim = {
+                type = "int",
+                writable = true
+            },
+            healthy = {
+                type = "int",
+                writable = true
+            },
+            brewtime = {
+                type = "int",
+                writable = true
+            },
+            fun = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
     }
 }
 
@@ -530,5 +623,10 @@ global_functions = {
         cpp_name = "create_monster_group",
         args = {"overmap", "string", "int", "int", "int", "int", "int"},
         rval = "mongroup"
+    },
+    get_comestible_type = {
+        cpp_name = "get_comestible_type",
+        args = { "string" },
+        rval = "it_comest"
     }
 }
