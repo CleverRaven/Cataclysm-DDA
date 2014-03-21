@@ -8406,7 +8406,7 @@ bool player::takeoff(int pos, bool autodrop)
 
             // Handle power armor.
             if (w.type->is_power_armor() &&
-                    ((reinterpret_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
+                    (dynamic_cast<it_armor*>(w.type)->covers & mfb(bp_torso))) {
                 // We're trying to take off power armor, but cannot do that if we have a power armor component on!
                 for (int j = worn.size() - 1; j >= 0; j--) {
                     if (worn[j].type->is_power_armor() &&
@@ -8429,7 +8429,7 @@ bool player::takeoff(int pos, bool autodrop)
                 }
             }
 
-            if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage > volume_carried() + w.type->volume) {
+            if (autodrop || volume_capacity() - dynamic_cast<it_armor*>(w.type)->storage > volume_carried() + w.type->volume) {
                 inv.add_item_keep_invlet(w);
                 g->add_msg(_("You take off your your %s."), w.tname().c_str());
                 worn.erase(worn.begin() + worn_index);
