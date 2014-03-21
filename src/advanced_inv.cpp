@@ -692,6 +692,108 @@ void advanced_inventory::redraw_pane( int i )
 
 }
 
+bool advanced_inventory::move_all_items()
+{
+    player &u = *p;
+    map &m = g->m;
+
+    //u.inv.sort();
+    //u.inv.restack((&g->u));
+
+    //debugmsg("Src is %d, dest is %d", src, dest);
+    //debugmsg("Left is %d, right is %d", left, right);
+    // If the active screen has no item.
+    if( panes[src].size == 0 ) {
+        return;
+    }
+
+    //update the dest variable
+    dest = (src == left ? right : left);
+    bool moveall = true;
+    int destarea = panes[dest].area;
+    if ( panes[dest].area == isall ) {
+        popup(_("You have to choose a destination area."));
+        return false;
+    }
+
+    if ( panes[src].area == isall) {
+        popup(_("You have to choose a source area."))
+        return false;
+    }
+
+    // is this panel not the player inventory?
+    if (panes[src].area == isinventory) {
+
+            // Handle moving from inventory
+
+    } else {
+        for (int i = panes[src].items.size()-1; i >= 0; i--)
+        {
+            item *it = panes[src].items[i].it;
+            g->add_msg("Item %s", it->name.c_str());
+            // Don't even try.
+            if (it->made_of(LIQUID)) {
+                continue;
+            } else {
+                // Picking up to inventory?
+                if (destarea == isinventory) {
+                    if (!u.can_pickup(true)) {
+                        return true;
+                    }
+                    if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
+                        g->add_msg(_("You are carrying too many items."));
+                        return true;
+                    }
+                    // Ok, let's see. What is the volume and weight?
+                    int tryvolume = it->volume();   // this is the volume we're going to check
+                    int tryweight = it->weight();   // this is the weight we're going to check
+                    int amount = 1;                 // this is the amount of items we're moving
+                    // does this item have charges, and do we count by that?
+                    if (it->count_by_charges() && it->charges > 1) {
+                        amount = it->charges;
+                        int unitvolume = it->precise_unit_volume(); // get the exact volume per unit
+                        int unitweight = ( tryweight * 1000 ) / it->charges; // and the unit weight
+
+                        int max_vol = (u.volume_capacity() - u.volume_carried()) * 1000; // how much can we carry (volume)
+                        int max_weight = (( u.weight_capacity() * 4 ) - u.weight_carried()) * 1000; // how much can we carry (weight)
+
+
+                    }
+
+
+
+                    // We've already checked if we're trying to pick up a stack
+                    if(!u.can_pickVolume(tryvolume)) {
+                        g->add_msg(_("There's no room in your inventory for %s."),it->name.c_str());
+                        continue;
+                    } else if (!u.can_pickWeight(tryweight, false)) {
+                        g->add_msg(_("%s is too heavy."),it->name.c_str());
+                        continue;
+                    }
+
+                // destination is a square
+                } else {
+
+                }
+            }
+
+
+        }
+    }
+    /*for (std::vector<advanced_inv_listitem>::iterator ait = panes[src].items.begin(); ait != panes[src].items.end(); ++ait)
+
+    {
+        int item_pos = panes[src].size > 0 ? ait->idx : 0;
+        g->add_msg("Item %s", ait->it->name.c_str());
+
+
+    }
+*/
+
+    return true; // passed, so let's continue
+
+}
+
 void advanced_inventory::display(player *pp)
 {
     init(pp);
@@ -1158,6 +1260,11 @@ void advanced_inventory::display(player *pp)
                     }
                 }
             }
+        } else if (',' == c) {
+            if (move_all_items()) {
+                exit = true;
+            }
+            redraw = true;
         } else if ('?' == c) {
             showmsg = (!showmsg);
             checkshowmsg = false;
