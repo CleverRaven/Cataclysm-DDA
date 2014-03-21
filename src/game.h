@@ -550,6 +550,14 @@ public:
    * Returns NULL if there is no recipe to disassemble the item type.
    */
   recipe* get_disassemble_recipe(const itype_id &ype);
+  /**
+   * Check if the player can disassemble the item dis_item with the recipe
+   * cur_recipe and the inventory crafting_inv.
+   * Checks for example tools (and charges), enough input charges
+   * (if disassembled item is counted by charges).
+   * If print_msg is true show a message about missing tools/charges.
+   */
+  bool can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg);
 
   // Forcefully close a door at (x, y).
   // The function checks for creatures/items/vehicles at that point and

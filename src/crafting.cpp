@@ -1763,32 +1763,22 @@ recipe *game::get_disassemble_recipe(const itype_id &type)
     return NULL;
 }
 
-void game::disassemble(int pos)
+bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg)
 {
-    if (pos == INT_MAX) {
-        pos = inv(_("Disassemble item:"));
-    }
-    if (!u.has_item(pos)) {
-        add_msg(_("You don't have that item!"), pos);
-        return;
-    }
-
-    item *dis_item = &u.i_at(pos);
-    recipe *cur_recipe = get_disassemble_recipe(dis_item->type->id);
-    if (cur_recipe != NULL) {
                 if (dis_item->count_by_charges()) {
                     // Create a new item to get the default charges
                     const item tmp = cur_recipe->create_result();
                     if (dis_item->charges < tmp.charges) {
+                        if (print_msg) {
                         popup(_("You need at least %d charges of the that item to disassemble it."), tmp.charges);
-                        return;
+                        }
+                        return false;
                     }
                 }
                 // ok, a valid recipe exists for the item, and it is reversible
                 // assign the activity
                 // check tools are available
                 // loop over the tools and see what's required...again
-                inventory crafting_inv = crafting_inventory(&u);
                 bool have_all_tools = true;
                 for (unsigned j = 0; j < cur_recipe->tools.size(); j++) {
                     if (cur_recipe->tools[j].empty()) { // no tools required, may change this
@@ -1819,6 +1809,7 @@ void game::disassemble(int pos)
                     }
                     if (!have_this_tool) {
                         have_all_tools = false;
+                        if (print_msg) {
                         int req = cur_recipe->tools[j][0].count;
                         if (cur_recipe->tools[j][0].type == "welder") {
                             add_msg(_("You need a hacksaw to disassemble this."));
@@ -1831,10 +1822,28 @@ void game::disassemble(int pos)
                                         item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
                             }
                         }
+                        }
                     }
                 }
                 // all tools present, so assign the activity
-                if (have_all_tools) {
+                return have_all_tools;
+}
+
+void game::disassemble(int pos)
+{
+    if (pos == INT_MAX) {
+        pos = inv(_("Disassemble item:"));
+    }
+    if (!u.has_item(pos)) {
+        add_msg(_("You don't have that item!"), pos);
+        return;
+    }
+
+    item *dis_item = &u.i_at(pos);
+    recipe *cur_recipe = get_disassemble_recipe(dis_item->type->id);
+    if (cur_recipe != NULL) {
+                inventory crafting_inv = crafting_inventory(&u);
+                if (can_disassemble(dis_item, cur_recipe, crafting_inv, true)) {
                     if (OPTIONS["QUERY_DISASSEMBLE"] &&
                         !(query_yn(_("Really disassemble your %s?"), dis_item->tname().c_str()))) {
                         return;
