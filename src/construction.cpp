@@ -29,6 +29,7 @@ struct construct // Construction functions.
     void done_trunk_plank(point);
     void done_vehicle(point);
     void done_deconstruct(point);
+    void done_dig_stair(point);
 };
 
 // Keys available for use as hotkeys.  Excludes vi direction keys and Q for quit.
@@ -825,20 +826,18 @@ void construct::done_deconstruct(point p)
 
 void construct::done_dig_stair(point p)
 {
- stairu.x = p.x;
- stairu.y = p.y;
- map tmpmap(&traps);
- tmpmap.load(levx, levy, levz - 1, false);
+ map tmpmap(&g->traps);
+ tmpmap.load(p.x, p.y, g->levz - 1, false);
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
-    real_coords rc( m.getabs(p.x, p.y) );
+    real_coords rc( g->m.getabs(p.x, p.y) );
 
     point omtile_align_start(
-        m.getlocal( rc.begin_om_pos() )
+        g->m.getlocal( rc.begin_om_pos() )
     );
     // Smart and perceptive folks can pick up on Bad Stuff Below farther out
-    int prox = ( ((g->u.int_cur) + (g->u.per_cur)) /= 2 - 6);
+    int prox = ( (((g->u.int_cur) + (g->u.per_cur)) / 2) - 6 );
     if (prox <= 0) {
         prox = 1;
     }
@@ -847,7 +846,8 @@ void construct::done_dig_stair(point p)
           if (rl_dist(p.x, p.y, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
               danger_lava = true;
           }
-          if (rl_dist(p.x, p.y, i, j) <= prox && (tmpmap.ter(i, j) == t_rock_floor)) {
+          // This ought to catch anything that's open-space
+          if (rl_dist(p.x, p.y, i, j) <= prox && (tmpmap.move_cost(i, j) >= 100 )) {
               danger_open = true; // You might not know what's down there!
           }
       }
@@ -856,109 +856,44 @@ void construct::done_dig_stair(point p)
       g->m.ter_set(p.x, p.y, t_pit); // You dug down a bit before detecting the problem
       if (danger_lava) {
           if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
-              break;
+              return;
           }
       }
       if (danger_open) {
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-              break;
+              return;
           }
       }
   }
   if (tmpmap.move_cost(p.x, p.y) == 0) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           g->add_msg(_("You strike deeply into the earth."));
-          p->hunger += 15;
-          p->fatigue += 20;
-          p->thirst += 15;
+          g->u.hunger += 15;
+          g->u.fatigue += 20;
+          g->u.thirst += 15;
       }
       else {
-          g->add_msg(_("Using everything you've got, you carve out a stairway."));
-          p->hunger += 25;
-          p->fatigue += 30;
-          p->thirst += 25;
+          g->add_msg(_("You dig a stairway, adding sturdy timbers and a rope for safety."));
+          g->u.hunger += 25;
+          g->u.fatigue += 30;
+          g->u.thirst += 25;
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
-      // Now I'm gonna duplicate a pile of game::vertical move.  I don't like it either.
-      // But just calling it will likely get blocked off halfway down.
-      // ----
-      // Make sure monsters are saved!
-      for (unsigned int i = 0; i < g->num_zombies(); i++) {
-          monster &critter = zombie(i);
-          int turns = critter.turns_to_reach(u.posx, u.posy);
-          if (turns < 10 && coming_to_stairs.size() < 8 &&
-          critter.will_reach(p.x, p.y) && !slippedpast) {
-              critter.onstairs = true;
-              critter.staircount = 10 + turns;
-              coming_to_stairs.push_back(critter);
-              //remove_zombie(i);
-          } else {
-              force_save_monster(critter);
-          }
-      }
-      despawn_monsters();
-      clear_zombies();
-
-      // Clear current scents.
-      for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
-          for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-              grscent[x][y] = 0;
-          }
-      }
-
-      // Figure out where we know there are up/down connectors
-      // Fill in all the tiles we know about (e.g. subway stations)
-      static const int REVEAL_RADIUS = 40;
-      const tripoint gpos = om_global_location();
-      int z_coord = levz + movez;
-      for (int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++) {
-          for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
-              const int cursx = gpos.x + x;
-              const int cursy = gpos.y + y;
-              if(!overmap_buffer.seen(cursx, cursy, levz)) {
-                  continue;
-              }
-              if(overmap_buffer.has_note(cursx, cursy, z_coord)) {
-                  // Already has a note -> never add an AUTO-note
-                  continue;
-              }
-              const oter_id &ter = overmap_buffer.ter(cursx, cursy, levz);
-              const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_coord);
-              if(OPTIONS["AUTO_NOTES"] == true){
-                  if(movez == +1 && otermap[ter].known_up && !otermap[ter2].known_down) {
-                  overmap_buffer.set_seen(cursx, cursy, z_coord, true);
-                  overmap_buffer.add_note(cursx, cursy, z_coord, _(">:W;AUTO: goes down"));
-                  }
-                  if(movez == -1 && otermap[ter].known_down && !otermap[ter2].known_up) {
-                  overmap_buffer.set_seen(cursx, cursy, z_coord, true);
-                  overmap_buffer.add_note(cursx, cursy, z_coord, _("<:W;AUTO: goes up"));
-                  }
-              }
-          }
-      }
-
-  levz -= 1;
-  // Moves are handled in the construction time!
-  g->m.clear_vehicle_cache();
-  g->m.vehicle_list.clear();
-  g->m.load(levx, levy, levz);
-  g->u.posx = p.x;
-  g->u.posy = p.y;
-  g->m.ter_set(u.posx, u.posy, t_stairs_up); // And there's the bottom half.
-      
+      tmpmap.ter_set(p.x, p.y, t_stairs_up); // and there's the bottom half.
+      tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, -1); // Save z-1.
    }
-   if (tmpmap.ter(p.x, p.y) == t_lava) { // Oooooops
+   else if (tmpmap.ter(p.x, p.y) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           g->add_msg(_("You strike deeply--above a magma flow!"));
-          p->hunger += 15;
-          p->fatigue += 20;
-          p->thirst += 15;
+          g->u.hunger += 15;
+          g->u.fatigue += 20;
+          g->u.thirst += 15;
       }
       else {
           g->add_msg(_("You just tunneled into lava!"));
-          p->hunger += 25;
-          p->fatigue += 30;
-          p->thirst += 25;
+          g->u.hunger += 25;
+          g->u.fatigue += 30;
+          g->u.thirst += 25;
       }
       g->u.add_memorial_log(pgettext("memorial_male", "Dug a shaft into lava."),
                        pgettext("memorial_female", "Dug a shaft into lava."));
@@ -967,16 +902,18 @@ void construct::done_dig_stair(point p)
       if ( ((g->u.skillLevel("carpentry")) + (g->u.per_cur)) > ((g->u.str_cur) +
           (rng(1,10))) ) {
               g->add_msg(_("You avoid collapsing the rock underneath you."));
+              g->add_msg(_("Lashing your lumber together, you make a stable platform."));
+              g->m.ter_set(p.x, p.y, t_pit);
           }
       else {
-          g->m.ter_set(p.x, p.y, t_hole); // ooops!
-          g->add_msg(_("You flail for a handhold as the rock gives way!"));
-          if (g->u.has_amount("grapnel", 1) {
-              g->add_msg(_("You despearately throw your grapnel!"));
+          g->m.ter_set(p.x, p.y, t_hole); // Collapse handled here.
+          g->add_msg(_("The rock gives way beneath you!"));
+          if (g->u.has_amount("grapnel", 1)) {
+              g->add_msg(_("You despearately throw your grappling hook!"));
               int throwroll = rng(g->u.skillLevel("throw"),
                       g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
               if (throwroll >= 9) { // Little tougher here than in a sinkhole
-              g->add_msg(_("The grapnel catches something!"));
+              g->add_msg(_("The grappling hook catches something!"));
               if (rng(g->u.skillLevel("unarmed"),
                       g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
               // Determine safe places for the character to get pulled to
@@ -1015,9 +952,26 @@ void construct::done_dig_stair(point p)
                   }
                 g->vertical_move(-1, true);
               }
+          }
+      }
    }
- 
- g->m.ter_set(p.x, p.y, t_stairs_down);
+   else if (tmpmap.move_cost(p.x, p.y) >= 100) { // Empty non-lava terrain.
+      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+          g->add_msg(_("You strike deeply into the earth, and break into open space."));
+          g->u.hunger += 10; // Less heavy work, but making the ladder's still fatiguing
+          g->u.fatigue += 20;
+          g->u.thirst += 10;
+      }
+      else {
+          g->add_msg(_("You dig into a preexsting space, and improvise a ladder."));
+          g->u.hunger += 20;
+          g->u.fatigue += 30;
+          g->u.thirst += 20;
+      }
+      g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
+      tmpmap.ter_set(p.x, p.y, t_ladder_up); // and there's the bottom half.
+      tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, -1); // Save z-1.
+   }
 }
 
 void load_construction(JsonObject &jo)
