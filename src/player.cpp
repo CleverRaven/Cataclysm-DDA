@@ -1683,7 +1683,11 @@ void player::memorial( std::ofstream &memorial_file )
         memorial_file << _("Traits:") << "\n";
         for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
             if(has_trait(iter->first)) {
-                memorial_file << indent << traits[iter->first].name << "\n";
+                memorial_file << indent << traits[iter->first].name;
+                if(has_base_trait(iter->first)) {
+                    memorial_file << " (Starting Trait)";
+                }
+                memorial_file << "\n";
             }
         }
         memorial_file << "\n";
