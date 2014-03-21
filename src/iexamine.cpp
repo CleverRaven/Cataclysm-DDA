@@ -567,7 +567,7 @@ void iexamine::chainfence(player *p, map *m, int examx, int examy) {
     p->posy = examy;
     return;
  }
- 
+
  p->moves -= 400;
  if (one_in(p->dex_cur)) {
   g->add_msg(_("You slip whilst climbing and fall down again."));
@@ -1195,7 +1195,8 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy) {
         }
     } else if (m->furn(examx,examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1 &&
                  p->charges_of("fertilizer_liquid") && query_yn(_("Fertilize plant"))) {
-        unsigned int fertilizerEpoch = 14400 * 2;
+        //Reduce the amount of time it takes until the next stage of the plant by 3 days.
+        unsigned int fertilizerEpoch = 14400 * 3;
 
         if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
             m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
