@@ -56,6 +56,22 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
+void load_obj_list(JsonArray &jsarr, std::vector< std::vector<component> > &objs) {
+    while (jsarr.has_more()) {
+        std::vector<component> choices;
+        JsonArray ja = jsarr.next_array();
+        while (ja.has_more()) {
+            JsonArray comp = ja.next_array();
+            std::string name = comp.get_string(0);
+            int quant = comp.get_int(1);
+            choices.push_back(component(name, quant));
+        }
+        if (!choices.empty()) {
+            objs.push_back(choices);
+        }
+    }
+}
+
 void load_recipe(JsonObject &jsobj)
 {
     JsonArray jsarr;
@@ -115,17 +131,7 @@ void load_recipe(JsonObject &jsobj)
                              autolearn, learn_by_disassembly, result_mult);
 
     jsarr = jsobj.get_array("components");
-    while (jsarr.has_more()) {
-        std::vector<component> component_choices;
-        JsonArray ja = jsarr.next_array();
-        while (ja.has_more()) {
-            JsonArray comp = ja.next_array();
-            std::string name = comp.get_string(0);
-            int quant = comp.get_int(1);
-            component_choices.push_back(component(name, quant));
-        }
-        rec->components.push_back(component_choices);
-    }
+    load_obj_list(jsarr, rec->components);
 
     jsarr = jsobj.get_array("qualities");
     while(jsarr.has_more()) {
@@ -137,17 +143,7 @@ void load_recipe(JsonObject &jsobj)
     }
 
     jsarr = jsobj.get_array("tools");
-    while (jsarr.has_more()) {
-        std::vector<component> tool_choices;
-        JsonArray ja = jsarr.next_array();
-        while (ja.has_more()) {
-            JsonArray comp = ja.next_array();
-            std::string name = comp.get_string(0);
-            int quant = comp.get_int(1);
-            tool_choices.push_back(component(name, quant));
-        }
-        rec->tools.push_back(tool_choices);
-    }
+    load_obj_list(jsarr, rec->tools);
 
     jsarr = jsobj.get_array("book_learn");
     while (jsarr.has_more()) {
@@ -354,10 +350,6 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
     std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
     while (tool_set_it != tools.end()) {
         std::vector<component> &set_of_tools = *tool_set_it;
-        // if current tool is null(size 0), assume that there is no more after it.
-        if (set_of_tools.empty()) {
-            break;
-        }
         bool has_tool_in_set = false;
         std::vector<component>::iterator tool_it = set_of_tools.begin();
         while (tool_it != set_of_tools.end()) {
@@ -384,9 +376,6 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
     std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
     while (comp_set_it != components.end()) {
         std::vector<component> &component_choices = *comp_set_it;
-        if (component_choices.empty()) {
-            break;
-        }
         bool has_comp_in_set = false;
         std::vector<component>::iterator comp_it = component_choices.begin();
         while (comp_it != component_choices.end()) {
@@ -857,7 +846,7 @@ recipe *game::select_crafting_recipe()
                     }
                     ypos--;
                     // Loop to print the required tools
-                    for (size_t i = 0; i < current[line]->tools.size() && !current[line]->tools[i].empty(); i++) {
+                    for (size_t i = 0; i < current[line]->tools.size(); i++) {
                         ypos++;
                         xpos = 32;
                         mvwputch(w_data, ypos, 30, col, '>');
@@ -906,10 +895,8 @@ recipe *game::select_crafting_recipe()
             // Loop to print the required components
             mvwprintz(w_data, ypos, 30, col, _("Components required:"));
             for (unsigned i = 0; i < current[line]->components.size(); i++) {
-                if (!current[line]->components[i].empty()) {
-                    ypos++;
-                    mvwputch(w_data, ypos, 30, col, '>');
-                }
+                ypos++;
+                mvwputch(w_data, ypos, 30, col, '>');
                 xpos = 32;
                 bool has_one = any_marked_available(current[line]->components[i]);
                 for (unsigned j = 0; j < current[line]->components[i].size(); j++) {
@@ -1441,15 +1428,11 @@ void game::complete_craft()
         add_msg(_("You fail to make the %s, and waste some materials."),
                 item_controller->find_template(making->result)->name.c_str());
         for (unsigned i = 0; i < making->components.size(); i++) {
-            if (!making->components[i].empty()) {
-                consume_items(&u, making->components[i]);
-            }
+            consume_items(&u, making->components[i]);
         }
 
         for (unsigned i = 0; i < making->tools.size(); i++) {
-            if (!making->tools[i].empty()) {
-                consume_tools(&u, making->tools[i], false);
-            }
+            consume_tools(&u, making->tools[i], false);
         }
         u.activity.type = ACT_NULL;
         return;
@@ -1466,15 +1449,11 @@ void game::complete_craft()
     // Use up the components and tools
     std::list<item> used;
     for (unsigned i = 0; i < making->components.size(); i++) {
-        if (!making->components[i].empty()) {
-            std::list<item> tmp = consume_items(&u, making->components[i]);
-            used.splice(used.end(), tmp);
-        }
+        std::list<item> tmp = consume_items(&u, making->components[i]);
+        used.splice(used.end(), tmp);
     }
     for (unsigned i = 0; i < making->tools.size(); i++) {
-        if (!making->tools[i].empty()) {
-            consume_tools(&u, making->tools[i], false);
-        }
+        consume_tools(&u, making->tools[i], false);
     }
 
     // Set up the new item, and assign an inventory letter if available
@@ -1781,9 +1760,6 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
                 // loop over the tools and see what's required...again
                 bool have_all_tools = true;
                 for (unsigned j = 0; j < cur_recipe->tools.size(); j++) {
-                    if (cur_recipe->tools[j].empty()) { // no tools required, may change this
-                        continue;
-                    }
                     bool have_this_tool = false;
                     for (unsigned k = 0; k < cur_recipe->tools[j].size(); k++) {
                         itype_id type = cur_recipe->tools[j][k].type;
@@ -1923,9 +1899,7 @@ void game::complete_disassemble()
 
     // consume tool charges
     for (unsigned j = 0; j < dis->tools.size(); j++) {
-        if (!dis->tools[j].empty()) {
-            consume_tools(&u, dis->tools[j], false);
-        }
+        consume_tools(&u, dis->tools[j], false);
     }
 
     // add the components to the map
@@ -1947,10 +1921,6 @@ void game::complete_disassemble()
 
     for (unsigned j = 0; j < dis->components.size(); j++) {
         const std::vector<component> &altercomps = dis->components[j];
-        if (altercomps.empty()) {
-            debugmsg("component list %d of recipe %s is empty", j, dis->ident.c_str());
-            continue;
-        }
         int alter_comp_index = 0;
         // If there are several (alternative) components, search the
         // one that was used. If not found, use the first one.
