@@ -1494,8 +1494,9 @@ void game::complete_craft()
     for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter) {
         if (iter->goes_bad()) {
             iter->rotten();
-            used_age_tally += iter->rot /
-                              (float)(dynamic_cast<it_comest *>(iter->type)->spoils);
+            const it_comest * food = dynamic_cast<it_comest*>(iter->type);
+            used_age_tally += food->rot /
+                              (float)food->spoils;
             ++used_age_count;
         }
     }

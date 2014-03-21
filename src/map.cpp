@@ -2560,8 +2560,10 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
 // date to current time, and also check contents.
 static void apply_in_fridge(item &it)
 {
-    if (it.is_food() && it.fridge == 0) {
-        it.fridge = (int) g->turn;
+    if (it.is_food()) {
+        // @todo Use static_cast here for speed?
+        it_comest* food = dynamic_cast<it_comest*>(it.type);
+        food->fridge = (int) g->turn;
         // cool down of the HOT flag, is unsigned, don't go below 1
         if (it.item_counter > 10) {
             it.item_counter -= 10;
@@ -4164,7 +4166,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
                   it->rotten();
-                  if(it->rot >= (food->spoils * 600)*2) {
+                  if(food->rot >= (food->spoils * 600)*2) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
               } else { ++it; intidx++; }

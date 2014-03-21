@@ -971,9 +971,12 @@ void item::deserialize(JsonObject &data)
     damage = damtmp; // todo: check why this is done after make(), using a tmp variable
     data.read( "active", active );
     data.read( "item_counter" , item_counter );
-    data.read( "fridge", fridge );
-    data.read( "rot", rot );
-    data.read( "last_rot_check", last_rot_check );
+    if (type->is_food()) {
+        it_comest* food = dynamic_cast<it_comest*>(type);
+        data.read( "fridge", food->fridge );
+        data.read( "rot", food->rot );
+        data.read( "last_rot_check", food->last_rot_check );
+    }
 
     data.read( "curammo", ammotmp );
     if ( ammotmp != "null" ) {
@@ -1034,10 +1037,12 @@ void item::serialize(JsonOut &json, bool save_contents) const
     if ( mode != "NULL" )    json.member( "mode", mode );
     if ( active == true )    json.member( "active", true );
     if ( item_counter != 0)  json.member( "item_counter", item_counter );
-    // bug? // if ( fridge == true )    json.member( "fridge", true );
-    if ( fridge != 0 )       json.member( "fridge", fridge );
-    if ( rot != 0 )          json.member( "rot", rot );
-    if ( last_rot_check != 0 )    json.member( "last_rot_check", last_rot_check );
+    if ( type->is_food() ) {
+        it_comest* food = dynamic_cast<it_comest*>(type);
+        if ( food->fridge != 0 )       json.member( "fridge", food->fridge );
+        if ( food->rot != 0 )          json.member( "rot", food->rot );
+        if ( food->last_rot_check != 0 )    json.member( "last_rot_check", food->last_rot_check );
+    }
 
     if ( corpse != NULL )    json.member( "corpse", corpse->id );
 

@@ -207,9 +207,6 @@ void item::init() {
     mission_id = -1;
     player_id = -1;
     light = nolight;
-    fridge = 0;
-    rot = 0;
-    last_rot_check = 0;
 }
 
 void item::make(itype* it)
@@ -447,11 +444,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
       }
       if ( food != NULL && maxrot != 0 ) {
+        it_comest *c = dynamic_cast<it_comest*>(type);
         dump->push_back(iteminfo("BASE", _("bday rot: "), "",  (int(g->turn) - food->bday), true, "", true, true));
-        dump->push_back(iteminfo("BASE", _("temp rot: "), "",  (int)food->rot, true, "", true, true));
+        dump->push_back(iteminfo("BASE", _("temp rot: "), "",  (int)c->rot, true, "", true, true));
         dump->push_back(iteminfo("BASE", _(" max rot: "), "",  (int)maxrot, true, "", true, true));
-        dump->push_back(iteminfo("BASE", _("  fridge: "), "",  (int)food->fridge, true, "", true, true));
-        dump->push_back(iteminfo("BASE", _("last rot: "), "",  (int)food->last_rot_check, true, "", true, true));
+        dump->push_back(iteminfo("BASE", _("  fridge: "), "",  (int)c->fridge, true, "", true, true));
+        dump->push_back(iteminfo("BASE", _("last rot: "), "",  (int)c->last_rot_check, true, "", true, true));
       }
 
     }
@@ -1133,7 +1131,7 @@ std::string item::tname( bool with_prefix )
         {
             if(food->rotten()) {
                 ret << _(" (rotten)");
-            } else if ( rot < 100 ) {
+            } else if ( food_type->rot < 100 ) {
                 ret << _(" (fresh)");
             }
         }
@@ -1476,24 +1474,24 @@ bool item::rotten()
     it_comest* food = dynamic_cast<it_comest*>(type);
     if (food->spoils != 0) {
       const int now = g->turn;
-      if ( last_rot_check+10 < now ) {
-          const int since = ( last_rot_check == 0 ? bday : last_rot_check );
-          const int until = ( fridge > 0 ? fridge : now );
+      if ( food->last_rot_check+10 < now ) {
+          const int since = ( food->last_rot_check == 0 ? bday : food->last_rot_check );
+          const int until = ( food->fridge > 0 ? food->fridge : now );
           if ( since < until ) {
               // rot (outside of fridge) from bday/last_rot_check until fridge/now
-              int old = rot;
-              rot += get_rot_since( since, until );
-              if (g->debugmon) g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
+              int old = food->rot;
+              food->rot += get_rot_since( since, until );
+              if (g->debugmon) g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, food->rot );
           }
-          last_rot_check = now;
+          food->last_rot_check = now;
 
-          if (fridge > 0) {
+          if (food->fridge > 0) {
             // Flat 20%, rot from time of putting it into fridge up to now
-            rot += (now - fridge) * 0.2;
-            fridge = 0;
+            food->rot += (now - food->fridge) * 0.2;
+            food->fridge = 0;
           }
       }
-      return (rot > (signed int)food->spoils * 600);
+      return (food->rot > (signed int)food->spoils * 600);
     } else {
       return false;
     }
@@ -1529,11 +1527,11 @@ bool item::ready_to_revive()
     return false;
 }
 
-bool item::goes_bad()
+bool item::goes_bad() const
 {
     if (!is_food())
         return false;
-    it_comest* food = dynamic_cast<it_comest*>(type);
+    const it_comest* food = dynamic_cast<it_comest*>(type);
     return (food->spoils != 0);
 }
 

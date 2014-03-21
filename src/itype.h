@@ -207,6 +207,9 @@ struct it_comest : public virtual itype
     unsigned int spoils;   // How long it takes to spoil (hours / 600 turns)
     unsigned int addict;   // Addictiveness potential
     long charges;  // Defaults # of charges (drugs, loaf of bread? etc)
+    int fridge;            // The turn we entered a fridge.
+    signed int rot;               // decay; same as turn-bday at 65 degrees, but doubles/halves every 18 degrees. can be negative (start game fridges)
+    int last_rot_check;    // last turn we calculated rot
     std::vector<long> rand_charges;
     signed int stim;
     signed int healthy;
@@ -243,9 +246,10 @@ struct it_comest : public virtual itype
     signed int pstim, signed int phealthy, unsigned int paddict, unsigned int pbrewt,
     long pcharges, std::vector<long> prand_charges, signed int pfun, itype_id pcontainer,
     itype_id ptool, int (iuse::*puse)(player *, item *, bool),
-    add_type padd, std::string pcomesttype)
+    add_type padd, std::string pcomesttype, int pfridge, signed int prot, int plast_rot_check)
     : itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
-    pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), comesttype(pcomesttype), container(pcontainer), tool(ptool)
+    pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), fridge(pfridge), rot(prot), last_rot_check(plast_rot_check),
+    comesttype(pcomesttype), container(pcontainer), tool(ptool)
     {
         quench          = pquench;
         nutr            = pnutr;
@@ -272,6 +276,9 @@ struct it_comest : public virtual itype
         addict = 0;
         charges = 0;
         fun = 0;
+        fridge = 0;
+        rot = 0;
+        last_rot_check = 0;
         add = ADD_NULL;
     };
 };
