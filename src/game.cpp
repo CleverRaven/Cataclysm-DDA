@@ -1547,8 +1547,8 @@ void game::activity_on_finish_train()
         //~ %s is martial art
         u.add_memorial_log(pgettext("memorial_male", "Learned %s."),
                            pgettext("memorial_female", "Learned %s."),
-                           martialarts[u.activity.name].name.c_str()),
-                                       u.ma_styles.push_back(u.activity.name);
+                           martialarts[u.activity.name].name.c_str());
+        u.add_martialart(u.activity.name);
     } else {
         int new_skill_level = u.skillLevel(skill) + 1;
         u.skillLevel(skill).level(new_skill_level);
@@ -4098,30 +4098,30 @@ Current turn: %d; Next spawn %d.\n\
   case 12:
       add_msg(_("Martial arts debug."));
       add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-      u.ma_styles.push_back("style_karate");
-      u.ma_styles.push_back("style_judo");
-      u.ma_styles.push_back("style_aikido");
-      u.ma_styles.push_back("style_tai_chi");
-      u.ma_styles.push_back("style_taekwondo");
-      u.ma_styles.push_back("style_krav_maga");
-      u.ma_styles.push_back("style_muay_thai");
-      u.ma_styles.push_back("style_ninjutsu");
-      u.ma_styles.push_back("style_capoeira");
-      u.ma_styles.push_back("style_zui_quan");
-      u.ma_styles.push_back("style_tiger");
-      u.ma_styles.push_back("style_crane");
-      u.ma_styles.push_back("style_leopard");
-      u.ma_styles.push_back("style_snake");
-      u.ma_styles.push_back("style_dragon");
-      u.ma_styles.push_back("style_centipede");
-      u.ma_styles.push_back("style_venom_snake");
-      u.ma_styles.push_back("style_scorpion");
-      u.ma_styles.push_back("style_lizard");
-      u.ma_styles.push_back("style_toad");
-      u.ma_styles.push_back("style_eskrima");
-      u.ma_styles.push_back("style_fencing");
-      u.ma_styles.push_back("style_biojutsu");
-      u.ma_styles.push_back("style_silat");
+      u.add_martialart("style_karate");
+      u.add_martialart("style_judo");
+      u.add_martialart("style_aikido");
+      u.add_martialart("style_tai_chi");
+      u.add_martialart("style_taekwondo");
+      u.add_martialart("style_krav_maga");
+      u.add_martialart("style_muay_thai");
+      u.add_martialart("style_ninjutsu");
+      u.add_martialart("style_capoeira");
+      u.add_martialart("style_zui_quan");
+      u.add_martialart("style_tiger");
+      u.add_martialart("style_crane");
+      u.add_martialart("style_leopard");
+      u.add_martialart("style_snake");
+      u.add_martialart("style_dragon");
+      u.add_martialart("style_centipede");
+      u.add_martialart("style_venom_snake");
+      u.add_martialart("style_scorpion");
+      u.add_martialart("style_lizard");
+      u.add_martialart("style_toad");
+      u.add_martialart("style_eskrima");
+      u.add_martialart("style_fencing");
+      u.add_martialart("style_biojutsu");
+      u.add_martialart("style_silat");
       add_msg(_("You now know a lot more than just 10 styles of kung fu."));
    break;
 
