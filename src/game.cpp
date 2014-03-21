@@ -50,6 +50,7 @@
 #include <sys/stat.h>
 #include "debug.h"
 #include "catalua.h"
+#include <cassert>
 
 #if (defined _WIN32 || defined __WIN32__)
 #ifndef NOMINMAX
@@ -10798,19 +10799,38 @@ void game::butcher()
         return;
     }
 
+    const int factor = u.butcher_factor();
+    bool has_corpse = false;
+    bool has_item = false;
+    // indices of corpses / items that can be disassembled
     std::vector<int> corpses;
-    for (int i = 0; i < m.i_at(u.posx, u.posy).size(); i++) {
-        if (m.i_at(u.posx, u.posy)[i].type->id == "corpse") {
-            corpses.push_back(i);
+    std::vector<item>& items = m.i_at(u.posx, u.posy);
+    inventory crafting_inv = crafting_inventory(&u);
+    // get corpses first
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
+            if (factor == 999) {
+                if (!has_corpse) {
+                    add_msg(_("You don't have a sharp item to butcher with."));
+                }
+            } else {
+                corpses.push_back(i);
+            }
+            has_corpse = true;
         }
     }
-    if (corpses.size() == 0) {
-        add_msg(_("There are no corpses here to butcher."));
-        return;
+    // than get items to disassemble
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
+            recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+            if (cur_recipe != NULL && can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+                corpses.push_back(i);
+                has_item = true;
+            }
+        }
     }
-    int factor = u.butcher_factor();
-    if (factor == 999) {
-        add_msg(_("You don't have a sharp item to butcher with."));
+    if (corpses.empty()) {
+        add_msg(_("There are no corpses here to butcher."));
         return;
     }
 
@@ -10822,12 +10842,20 @@ void game::butcher()
     int butcher_corpse_index = 0;
     if (corpses.size() > 1) {
         uimenu kmenu;
-        kmenu.text = _("Choose corpse to butcher");
+        if (has_item && has_corpse) {
+            kmenu.text = _("Choose corpse to butcher / item to disassemble");
+        } else if (has_corpse) {
+            kmenu.text = _("Choose corpse to butcher");
+        } else {
+            kmenu.text = _("Choose item to disassemble");
+        }
         kmenu.selected = 0;
         for (size_t i = 0; i < corpses.size(); i++) {
-            mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
+            item &it = items[corpses[i]];
+            mtype *corpse = it.corpse;
             int hotkey = -1;
-            if (i == 0) {
+            // corpses are list first, see above
+            if (it.type->id == "corpse" && i == 0) {
                 for (std::map<char, action_id>::iterator it = keymap.begin(); it != keymap.end(); it++) {
                     if (it->second == ACTION_BUTCHER) {
                         hotkey = (it->first == 'q') ? -1 : it->first;
@@ -10835,7 +10863,11 @@ void game::butcher()
                     }
                 }
             }
-            kmenu.addentry(i, true, hotkey, corpse->name.c_str());
+            if (it.corpse != NULL) {
+                kmenu.addentry(i, true, hotkey, corpse->name.c_str());
+            } else {
+                kmenu.addentry(i, true, hotkey, it.tname().c_str());
+            }
         }
         kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
         kmenu.query();
@@ -10845,7 +10877,20 @@ void game::butcher()
         butcher_corpse_index = kmenu.ret;
     }
 
-    mtype *corpse = m.i_at(u.posx, u.posy)[corpses[butcher_corpse_index]].corpse;
+    item &dis_item = items[corpses[butcher_corpse_index]];
+    if (dis_item.corpse == NULL) {
+        recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
+        assert(cur_recipe != NULL); // tested above
+        if (OPTIONS["QUERY_DISASSEMBLE"] &&
+            !(query_yn(_("Really disassemble the %s?"), dis_item.tname().c_str()))) {
+            return;
+        }
+        u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
+        u.activity.values.push_back(corpses[butcher_corpse_index]);
+        u.activity.values.push_back(1);
+        return;
+    }
+    mtype *corpse = dis_item.corpse;
     int time_to_cut = 0;
     switch (corpse->size) { // Time in turns to cut up te corpse
         case MS_TINY:
