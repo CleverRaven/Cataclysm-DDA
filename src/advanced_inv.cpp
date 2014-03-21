@@ -730,14 +730,14 @@ bool advanced_inventory::move_all_items()
         int part = panes[src].vstor;
         vehicle *veh = panes[src].veh;
         // by default, we want to iterate the items at a location
-        std::vector<item> &items_to_iterate = m.i_at(p_x,p_y);
+        std::vector<item> *items_to_iterate = &m.i_at(p_x,p_y);
 
         // but if it's a vehicle, we'll want the items in the vehicle
         if (panes[src].vstor >= 0) {
-            items_to_iterate = veh->parts[part].items;
+            items_to_iterate = &veh->parts[part].items;
         }
 
-        for (std::vector<item>::iterator it = items_to_iterate.begin(); it != items_to_iterate.end(); /* noop */)
+        for (std::vector<item>::iterator it = items_to_iterate->begin(); it != items_to_iterate->end(); /* noop */)
         {
             // if we're filtering, check if this item is in the filter. If it isn't, continue
             if ( filtering && ! cached_lcmatch(it->name, panes[src].filter, panes[src].filtercache ) ) {
@@ -853,15 +853,9 @@ bool advanced_inventory::move_all_items()
                     it->charges -= trycharges;
                     ++it;
                     continue;
-                } else {
-                    // we'll need to remove the item here.
-                    if (panes[src].vstor >= 0) {
-                        // we need to erase the item from the vehicle part
-                        veh->remove_item(part, &*it);
-                    } else {
-                        items_to_iterate.erase(it);
-                    }
                 }
+
+                items_to_iterate->erase(it);
             }
         }
     }
