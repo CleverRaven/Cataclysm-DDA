@@ -765,8 +765,6 @@ void input_context::display_help()
     static const nc_color unbound_key = c_ltred;
     // (vertical) scroll offset
     int offset = 0;
-    // Whether to access global or local keybindings
-    bool do_access_global_keybindings = false;
     // height of the area usable for display of keybindings, excludes headers & borders
     int display_height = FULL_SCREEN_HEIGHT - 2 - 2; // -2 for the border
     // width of the legend
