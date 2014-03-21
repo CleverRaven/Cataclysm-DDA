@@ -555,6 +555,115 @@ classes = {
         },
         functions = {
         }
+    },
+    it_gun = {
+        parent = "itype",
+        attributes = {
+            ammo = {
+                type = "string",
+                writable = true
+            },
+            dmg_bonus = {
+                type = "int",
+                writable = true
+            },
+            pierce = {
+                type = "int",
+                writable = true
+            },
+            range = {
+                type = "int",
+                writable = true
+            },
+            dispersion = {
+                type = "int",
+                writable = true
+            },
+            recoil = {
+                type = "int",
+                writable = true
+            },
+            durability = {
+                type = "int",
+                writable = true
+            },
+            burst = {
+                type = "int",
+                writable = true
+            },
+            clip = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    it_gunmod = {
+        parent = "itype",
+        attributes = {
+            dispersion = {
+                type = "int",
+                writable = true
+            },
+            damage = {
+                type = "int",
+                writable = true
+            },
+            loudness = {
+                type = "int",
+                writable = true
+            },
+            clip = {
+                type = "int",
+                writable = true
+            },
+            recoil = {
+                type = "int",
+                writable = true
+            },
+            burst = {
+                type = "int",
+                writable = true
+            },
+            newtype = {
+                type = "string",
+                writable = true
+            },
+            location = {
+                type = "string",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    it_tool = {
+        parent = "itype",
+        attributes = {
+            ammo = {
+                type = "string",
+                writable = true
+            },
+            max_charges = {
+                type = "int",
+                writable = true
+            },
+            def_charges = {
+                type = "int",
+                writable = true
+            },
+            charges_per_use = {
+                type = "int",
+                writable = true
+            },
+            turns_per_charge = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
     }
 }
 
@@ -628,5 +737,20 @@ global_functions = {
         cpp_name = "get_comestible_type",
         args = { "string" },
         rval = "it_comest"
+    },
+    get_gun_type = {
+        cpp_name = "get_gun_type",
+        args = { "string" },
+        rval = "it_gun"
+    },
+    get_gunmod_type = {
+        cpp_name = "get_gunmod_type",
+        args = { "string" },
+        rval = "it_gunmod"
+    },
+    get_tool_type = {
+        cpp_name = "get_tool_type",
+        args = { "string" },
+        rval = "it_tool"
     }
 }
