@@ -2425,11 +2425,11 @@ void manage_fungal_infection(player& p, disease& dis)
         if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_l] <= 0) {
             if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_l] <= 0) {
                 g->add_msg_player_or_npc(&p,
-                _("The flesh on your broken arms bulges. Fungus stalks burst through. It hurts!"),
+                _("The flesh on your broken arms bulges. Fungus stalks burst through!"),
                 _("<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!"));
             } else {
                 g->add_msg_player_or_npc(&p,
-                _("The flesh on your broken arm bulges, your unbroken arm also bulges. Fungus stalks burst through. It hurts!"),
+                _("The flesh on your broken arm bulges, your unbroken arm also bulges. Fungus stalks burst through!"),
                 _("<npcname>'s arms bulge. Fungus stalks burst out of the bulges!"));
             }
         } else {
