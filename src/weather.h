@@ -43,16 +43,14 @@ enum weather_type {
     NUM_WEATHER_TYPES
 };
 // used for drawing weather bits to the screen
-struct weather_printable
-{
+struct weather_printable {
     weather_type wtype;
     std::vector<std::pair<int, int> > vdrops;
     nc_color colGlyph;
     char cGlyph;
     int startx, starty, endx, endy;
 };
-struct weather_effect
-{
+struct weather_effect {
     void none       () {};
     void glare      ();
     void wet        ();
@@ -67,24 +65,22 @@ struct weather_effect
 };
 
 // All the weather conditions at some time
-struct weather_segment
-{
+struct weather_segment {
     signed char temperature;
     weather_type weather;
     calendar deadline;
 };
 
-struct weather_datum
-{
- std::string name;
- nc_color color;
- int avg_temperature[4]; // Spring, Summer, Winter, Fall
- int ranged_penalty;
- int sight_penalty; // Penalty to max sight range
- int light_modifier; // Modification to ambient light
- int mintime, maxtime; // min/max time it lasts, in minutes
- bool dangerous; // If true, our activity gets interrupted
- void (weather_effect::*effect)();
+struct weather_datum {
+    std::string name;
+    nc_color color;
+    int avg_temperature[4]; // Spring, Summer, Winter, Fall
+    int ranged_penalty;
+    int sight_penalty; // Penalty to max sight range
+    int light_modifier; // Modification to ambient light
+    int mintime, maxtime; // min/max time it lasts, in minutes
+    bool dangerous; // If true, our activity gets interrupted
+    void (weather_effect::*effect)();
 };
 
 extern std::string season_name[4];
@@ -104,6 +100,6 @@ std::string print_temperature(float fahrenheit, int decimals = 0);
 void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn );
 
 extern const std::vector<int> rot_chart;
-int get_hourly_rotpoints_at_temp (const int & temp);
+int get_hourly_rotpoints_at_temp (const int &temp);
 int get_rot_since( const int since, const int endturn );
 #endif // _WEATHER_H_

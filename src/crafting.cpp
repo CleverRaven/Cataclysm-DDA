@@ -21,6 +21,7 @@ std::vector<std::string> recipe_names;
 recipe_map recipes;
 std::map<std::string, quality> qualities;
 
+bool any_marked_available(const std::vector<component> &comps);
 static void draw_recipe_tabs(WINDOW *w, craft_cat tab, bool filtered = false);
 static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab,
                                 bool filtered = false);
@@ -132,7 +133,7 @@ void load_recipe(JsonObject &jsobj)
         std::string ident = quality_data.get_string("id");
         int level = quality_data.get_int("level", 1);
         int amount = quality_data.get_int("amount", 1);
-        rec->qualities.push_back(quality_requirement(ident, level, amount));
+        rec->qualities.push_back(quality_requirement(ident, amount, level));
     }
 
     jsarr = jsobj.get_array("tools");
@@ -232,7 +233,49 @@ void game::recraft()
     }
 }
 
-//TODO clean up this function to give better status messages (e.g., "no fire available")
+std::string print_missing_objs(const std::vector< std::vector <component> > &objs, bool is_tools) {
+    std::ostringstream buffer;
+    for(size_t i = 0; i < objs.size(); i++) {
+        const std::vector<component> &list = objs[i];
+        if (any_marked_available(list)) {
+            continue;
+        }
+        if (!buffer.str().empty()) {
+            buffer << _("\nand ");
+        }
+        for(size_t j = 0; j < list.size(); j++) {
+            const component &comp = list[j];
+            const itype *itt = item_controller->find_template(comp.type);
+            if (j > 0) {
+                buffer << _(" or ");
+            }
+            if (!is_tools) {
+                //~ <item-count> x <item-name>
+                buffer << string_format(_("%d x %s"), abs(comp.count), itt->name.c_str());
+            } else if (comp.count > 0) {
+                //~ <tool-name> (<numer-of-charges> charges)
+                buffer << string_format(_("%s (%d charges)"), itt->name.c_str(), comp.count);
+            } else {
+                buffer << itt->name;
+            }
+        }
+    }
+    return buffer.str();
+}
+
+std::string print_missing_objs(const std::vector< quality_requirement > &objs) {
+    std::ostringstream buffer;
+    for(size_t i = 0; i < objs.size(); i++) {
+        const quality_requirement &req = objs[i];
+        if (i > 0) {
+            buffer << _("\nand ");
+        }
+        buffer << string_format(_("%d tools with %s of %d or more"),
+                req.count, qualities[req.id].name.c_str(), req.level);
+    }
+    return buffer.str();
+}
+
 bool game::making_would_work(recipe *making)
 {
     if (!crafting_allowed()) {
@@ -243,22 +286,34 @@ bool game::making_would_work(recipe *making)
         return false;
     }
 
-    if(can_make(making)) {
-        if (item_controller->find_template((making->result))->phase == LIQUID) {
-            if (u.has_watertight_container() ||
-                u.has_matching_liquid(item_controller->find_template(making->result)->id)) {
-                return true;
-            } else {
-                popup(_("You don't have anything to store that liquid in!"));
-            }
-        } else {
-            return true;
+    if(!can_make(making)) {
+        std::ostringstream buffer;
+        buffer << _("You can no longer make that craft!");
+        const std::string missing_tools = print_missing_objs(making->tools, true);
+        if (!missing_tools.empty()) {
+            buffer << _("\nThose tools are missing:\n") << missing_tools;
         }
-    } else {
-        popup(_("You can no longer make that craft!"));
+        const std::string missing_quali = print_missing_objs(making->qualities);
+        if (!missing_quali.empty()) {
+            if (missing_tools.empty()) {
+                buffer << _("\nThose tools are missing:");
+            }
+            buffer << "\n" << missing_quali;
+        }
+        const std::string missing_comps = print_missing_objs(making->components, false);
+        if (!missing_comps.empty()) {
+            buffer << _("\nThose components are missing:\n") << missing_comps;
+        }
+        popup(buffer.str(), PF_NONE);
+        return false;
     }
 
-    return false;
+    if (!u.has_container_for(making->create_result())) {
+        popup(_("You don't have anything to store that liquid in!"));
+        return false;
+    }
+
+    return true;
 }
 
 bool game::can_make(recipe *r)
@@ -893,8 +948,7 @@ recipe *game::select_crafting_recipe()
             if ( isWide ) {
                 if ( lastid != current[line]->id ) {
                     lastid = current[line]->id;
-                    tmp = item(item_controller->find_template(current[line]->result), g->turn);
-                    tmp.charges *= current[line]->result_mult;
+                    tmp = current[line]->create_result();
                     folded = foldstring(tmp.info(true), iInfoWidth);
                 }
                 int maxline = (ssize_t)folded.size() > dataHeight ? dataHeight : (ssize_t)folded.size();
@@ -955,25 +1009,15 @@ recipe *game::select_crafting_recipe()
         case Confirm:
             if (available.empty() || !available[line]) {
                 popup(_("You can't do that!"));
+            } else if (!u.has_container_for(current[line]->create_result())) {
+                popup(_("You don't have anything to store that liquid in!"));
             } else {
-                // is player making a liquid? Then need to check for valid container
-                if (item_controller->find_template(current[line]->result)->phase == LIQUID) {
-                    if (u.has_watertight_container() ||
-                        u.has_matching_liquid(item_controller->find_template(current[line]->result)->id)) {
-                        chosen = current[line];
-                        done = true;
-                        break;
-                    } else {
-                        popup(_("You don't have anything to store that liquid in!"));
-                    }
-                } else {
-                    chosen = current[line];
-                    done = true;
-                }
+                chosen = current[line];
+                done = true;
             }
             break;
         case Help:
-            tmp = item(item_controller->find_template(current[line]->result), g->turn);
+            tmp = current[line]->create_result();
             full_screen_popup("%s", tmp.info(true).c_str());
             redraw = true;
             keepline = true;
@@ -1191,7 +1235,8 @@ inventory game::crafting_inventory(player *p)
     crafting_inv += p->inv;
     crafting_inv += p->weapon;
     if (p->has_bionic("bio_tools")) {
-        item tools(item_controller->find_template("toolset"), turn);
+        //item tools(item_controller->find_template("toolset"), turn);
+        item tools(itypes["toolset"], turn);
         tools.charges = p->power_level;
         crafting_inv += tools;
     }
@@ -1332,6 +1377,18 @@ void game::make_all_craft(recipe *making)
     u.lastrecipe = making;
 }
 
+item recipe::create_result() const
+{
+    item newit(item_controller->find_template(result), g->turn, 0, false);
+    if (result_mult != 1) {
+        newit.charges *= result_mult;
+    }
+    if (!newit.craft_has_charges()) {
+        newit.charges = 0;
+    }
+    return newit;
+}
+
 void game::complete_craft()
 {
     recipe *making = recipe_by_index(u.activity.index); // Which recipe is it?
@@ -1421,7 +1478,7 @@ void game::complete_craft()
     }
 
     // Set up the new item, and assign an inventory letter if available
-    item newit(item_controller->find_template(making->result), turn, 0, false);
+    item newit = making->create_result();
     if (!newit.count_by_charges()) {
         // Setting this for items counted by charges gives only problems:
         // those items are automatically merged everywhere (map/vehicle/inventory),
@@ -1458,17 +1515,10 @@ void game::complete_craft()
             newit.item_counter = 600;
         }
     }
-    if (making->result_mult != 1) {
-        newit.charges *= making->result_mult;
-    }
 
-    if (!newit.craft_has_charges()) {
-        newit.charges = 0;
-    }
     u.inv.assign_empty_invlet(newit);
     //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
-        //while ( u.has_watertight_container() || u.has_matching_liquid(newit.typeId()) ){
         //while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
         // ^ failed container controls, they don't detect stacks of the same empty container after only one of them is filled
         while(!handle_liquid(newit, false, false)) { ; }
@@ -1714,7 +1764,7 @@ void game::disassemble(int pos)
         for (recipe_list::iterator list_iter = cat_iter->second.begin();
              list_iter != cat_iter->second.end(); ++list_iter) {
             recipe *cur_recipe = *list_iter;
-            if (dis_item->type == item_controller->find_template(cur_recipe->result) &&
+            if (dis_item->type->id == cur_recipe->result &&
                 cur_recipe->reversible) {
                 if (dis_item->count_by_charges()) {
                     // Create a new item to get the default charges
@@ -1744,11 +1794,11 @@ void game::disassemble(int pos)
 
                         if ((req <= 0 && crafting_inv.has_tools (type, 1)) ||
                             // No welding, no goggles needed.
-                            (req <= 0 && type == ("goggles_welding")) ||
-                            (req <= 0 && (type == ("crucible")) &&
-                             (!((cur_recipe->result) == ("anvil")))) ||
+                            (req <= 0 && type == "goggles_welding") ||
+                            (req <= 0 && type == "crucible" &&
+                             cur_recipe->result != "anvil") ||
                             // No mold needed for disassembly.
-                            (req <= 0 && (type == "mold_plastic")) ||
+                            (req <= 0 && type == "mold_plastic") ||
                             (req >  0 && crafting_inv.has_charges(type, req))) {
                             have_this_tool = true;
                             k = cur_recipe->tools[j].size();

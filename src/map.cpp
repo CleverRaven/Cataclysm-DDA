@@ -14,6 +14,8 @@
 #include "debug.h"
 #include "item_factory.h"
 
+extern bool is_valid_in_w_terrain(int,int);
+
 #include "overmapbuffer.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
@@ -3501,7 +3503,7 @@ void map::draw(WINDOW* w, const point center)
   }
  }
  int atx = getmaxx(w)/2 + g->u.posx - center.x, aty = getmaxy(w)/2 + g->u.posy - center.y;
- if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT) {
+ if (is_valid_in_w_terrain(atx, aty)) {
   mvwputch(w, aty, atx, g->u.color(), '@');
   g->mapRain[aty][atx] = false;
  }

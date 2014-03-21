@@ -953,7 +953,7 @@ point overmap::display_notes(int z)
 bool overmap::has_vehicle(int const x, int const y, int const z, bool require_pda) const
 {
     // vehicles only spawn at z level 0 (for now)
-    if (!z == 0)
+    if (!(z==0))
         return false;
 
     // if the player is not carrying a PDA then he cannot see the vehicle.
@@ -1003,7 +1003,7 @@ void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
 
 void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z) const
 {
-    if (!z==0) // vehicles only exist on zlevel 0
+    if (!(z==0)) // vehicles only exist on zlevel 0
         return;
     int i = 0, maxnamelength = 0;
     //Check the max namelength of the vehicles in the target

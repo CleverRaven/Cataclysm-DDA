@@ -5,6 +5,7 @@
 #include "translations.h"
 #include <map>
 #include <string>
+#include <algorithm>
 
 std::map<matype_id, martialart> martialarts;
 std::map<mabuff_id, ma_buff> ma_buffs;
@@ -762,9 +763,13 @@ bool player::has_mabuff(mabuff_id id) {
 
 bool player::has_martialart(const matype_id &ma) const
 {
-    for (int i = 0; i < ma_styles.size(); i++) {
-        if (ma_styles[i] == ma)
-    return true;
+    return std::find(ma_styles.begin(), ma_styles.end(), ma) != ma_styles.end();
+}
+
+void player::add_martialart(const matype_id &ma_id)
+{
+    if (has_martialart(ma_id)) {
+        return;
     }
-    return false;
+    ma_styles.push_back(ma_id);
 }

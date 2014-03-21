@@ -40,6 +40,7 @@ float damage_instance::type_damage(damage_type dt) const
     }
     return ret;
 }
+//This returns the damage from this damage_instance. The damage done to the target will be reduced by their armor.
 float damage_instance::total_damage() const
 {
     float ret = 0;

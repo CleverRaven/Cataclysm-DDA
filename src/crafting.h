@@ -97,6 +97,10 @@ recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, craft_subcat 
         }
     }
   }
+
+  // Create an item instance as if the recipe was just finished,
+  // Contain charges multiplier
+  item create_result() const;
 };
 
 typedef std::vector<recipe*> recipe_list;

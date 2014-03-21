@@ -759,9 +759,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     header_windows.push_back(w_header2);
 
     int tab_output = 0;
-    int last_active_header = -1;
-    // Init to an illegal size.
-    size_t active_header = headers.size();
+    int last_active_header = 0;
+    size_t active_header = 0;
     size_t useable_mod_count = mman_ui->usable_mods.size();
     int startsel[2] = {0, 0};
     int cursel[2] = {0, 0};
@@ -972,7 +971,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             case 's':
             case 'S':
                 if(mman->set_default_mods(active_mod_order)) {
-                    popup("Saved list of active mods as default");
+                    popup(_("Saved list of active mods as default"));
                     draw_modselection_borders(win);
                     redraw_headers = true;
                 }
@@ -1019,12 +1018,12 @@ Press 's' for saving list of active mods (mods listed in right part of the scree
         }
         if (active_mod_order.empty()) {
             redraw_active = true;
-            cursel[1] = -1;
+            cursel[1] = 0;
         }
 
         if (active_header == 1) {
             if (active_mod_order.empty()) {
-                cursel[1] = -1;
+                cursel[1] = 0;
             } else {
                 if (cursel[1] < 0) {
                     cursel[1] = 0;
