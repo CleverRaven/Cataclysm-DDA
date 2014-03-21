@@ -1161,9 +1161,13 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
             } else if (iStartPos + iContentHeight > iNumEntries) {
                 iStartPos = iNumEntries - iContentHeight;
             }
+        } else {
+            iStartPos = 0;
         }
     } else {
-        if( iCurrentLine < iStartPos ) {
+        if (iNumEntries <= iContentHeight) {
+            iStartPos = 0;
+        } else if( iCurrentLine < iStartPos ) {
             iStartPos = iCurrentLine;
         } else if( iCurrentLine >= iStartPos + iContentHeight ) {
             iStartPos = 1 + iCurrentLine - iContentHeight;
