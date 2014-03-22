@@ -219,8 +219,8 @@ std::pair<double,double> slope_of(const std::vector<point> &line)
     int len = line.size();
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
-    auto ret = std::make_pair(normDx, normDy); // slope of x, y
-    return ret; 
+    std::pair<double, double> ret = std::make_pair(normDx, normDy); // slope of x, y
+    return ret;
 }
 
 // returns the normalized dx, dy, dz for the current line vector. 
@@ -231,8 +231,9 @@ std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     double normDz = (line.back().z - line.front().z) / len;
-    auto retXY = std::make_pair(normDx, normDy);
-    auto ret = std::make_pair(retXY, normDz); // slope of <x, y> z
+    std::pair<double, double> retXY = std::make_pair(normDx, normDy);
+    // slope of <x, y> z
+    std::pair<std::pair<double, double>, double> ret = std::make_pair(retXY, normDz);
     return ret;
 }
 
