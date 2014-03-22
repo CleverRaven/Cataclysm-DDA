@@ -9838,7 +9838,7 @@ int player::adjust_for_focus(int amount)
     return ret;
 }
 
-void player::practice (const calendar& turn, Skill *s, int amount)
+void player::practice (const calendar& turn, Skill *s, int amount, int cap)
 {
     SkillLevel& level = skillLevel(s);
     // Double amount, but only if level.exercise isn't a small negative number?
@@ -9893,6 +9893,11 @@ void player::practice (const calendar& turn, Skill *s, int amount)
     if (isSavant && s != savantSkill)
     {
         amount /= 2;
+    }
+
+    if (skillLevel(s) > cap) //blunt grinding cap implementation for crafting
+    {
+        amount = 0;
     }
 
     if (amount > 0 && level.isTraining())

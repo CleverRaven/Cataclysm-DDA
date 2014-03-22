@@ -291,12 +291,12 @@ bool game::making_would_work(recipe *making)
         buffer << _("You can no longer make that craft!");
         const std::string missing_tools = print_missing_objs(making->tools, true);
         if (!missing_tools.empty()) {
-            buffer << _("\nThose tools are missing:\n") << missing_tools;
+            buffer << _("\nThese tools are missing:\n") << missing_tools;
         }
         const std::string missing_quali = print_missing_objs(making->qualities);
         if (!missing_quali.empty()) {
             if (missing_tools.empty()) {
-                buffer << _("\nThose tools are missing:");
+                buffer << _("\nThese tools are missing:");
             }
             buffer << "\n" << missing_quali;
         }
@@ -1433,7 +1433,7 @@ void game::complete_craft()
     int diff_roll  = dice(diff_dice,  diff_sides);
 
     if (making->skill_used) {
-        u.practice(turn, making->skill_used, making->difficulty * 5 + 20);
+        u.practice(turn, making->skill_used, making->difficulty * 5 + 20, making->difficulty);
     }
 
     // Messed up badly; waste some components.
@@ -1927,7 +1927,7 @@ void game::complete_disassemble()
 
     // disassembly only nets a bit of practice
     if (dis->skill_used) {
-        u.practice(turn, dis->skill_used, (dis->difficulty) * 2);
+        u.practice(turn, dis->skill_used, (dis->difficulty) * 2, dis->difficulty);
     }
 
     for (unsigned j = 0; j < dis->components.size(); j++) {
