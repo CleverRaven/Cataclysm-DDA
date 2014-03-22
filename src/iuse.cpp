@@ -2182,31 +2182,27 @@ int iuse::extra_battery(player *p, item *, bool)
     int pos = g->inv_type(_("Modify what?"), IC_TOOL);
     item* modded = &(p->i_at(pos));
 
-    if (modded == NULL || modded->is_null())
-    {
+    if (modded == NULL || modded->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool())
-    {
+    if (!modded->is_tool()) {
         g->add_msg_if_player(p,_("This mod can only be used on tools."));
         return 0;
     }
 
     it_tool *tool = dynamic_cast<it_tool*>(modded->type);
-    if (tool->ammo != "battery")
-    {
+    if (tool->ammo != "battery") {
         g->add_msg_if_player(p,_("That item does not use batteries!"));
         return 0;
     }
 
-    if (modded->has_flag("DOUBLE_AMMO"))
-    {
+    if (modded->has_flag("DOUBLE_AMMO")) {
         g->add_msg_if_player(p,_("That item has already had its battery capacity doubled."));
         return 0;
     }
 
-    if (modded->has_flag("ATOMIC_AMMO")) {
+    if( modded->has_flag("ATOMIC_AMMO") ) {
         g->add_msg_if_player( p,
             _("You replace the plutonium cells in your %s with a double capacity battery compartment!"),
                               tool->name.c_str() );
@@ -2220,7 +2216,7 @@ int iuse::extra_battery(player *p, item *, bool)
         modded->item_tags.erase( "LEAK_DAM" );
         modded->item_tags.erase( "NO_UNLOAD" );
         modded->charges = 0;
-    } else if(modded->has_flag("RECHARGE")) {
+    } else if( modded->has_flag( "RECHARGE" ) ) {
         g->add_msg_if_player(p,
             _("You replace the rechargeable battery pack of your %s with a double-capacity battery compartment!"),
                              tool->name.c_str());
@@ -2231,8 +2227,6 @@ int iuse::extra_battery(player *p, item *, bool)
     } else {
         g->add_msg_if_player(p,_("You double the battery capacity of your %s!"), tool->name.c_str());
     }
-
-
     modded->item_tags.insert("DOUBLE_AMMO");
     return 1;
 }
@@ -2242,26 +2236,22 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
     int pos = g->inv_type(_("Modify what?"), IC_TOOL);
     item* modded = &(p->i_at(pos));
 
-    if (modded == NULL || modded->is_null())
-    {
+    if (modded == NULL || modded->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool())
-    {
+    if (!modded->is_tool()) {
         g->add_msg_if_player(p,_("This mod can only be used on tools."));
         return 0;
     }
 
     it_tool *tool = dynamic_cast<it_tool*>(modded->type);
-    if (tool->ammo != "battery")
-    {
+    if (tool->ammo != "battery") {
         g->add_msg_if_player(p,_("That item does not use batteries!"));
         return 0;
     }
 
-    if (modded->has_flag("RECHARGE"))
-    {
+    if (modded->has_flag("RECHARGE")) {
         g->add_msg_if_player(p,_("That item already has a rechargeable battery pack."));
         return 0;
     }
@@ -2301,26 +2291,22 @@ int iuse::atomic_battery(player *p, item *it, bool)
     int pos = g->inv_type(_("Modify what?"), IC_TOOL);
     item* modded = &(p->i_at(pos));
 
-    if (modded == NULL || modded->is_null())
-    {
+    if (modded == NULL || modded->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool())
-    {
+    if (!modded->is_tool()) {
         g->add_msg_if_player(p,_("This mod can only be used on tools."));
         return 0;
     }
 
     it_tool *tool = dynamic_cast<it_tool*>(modded->type);
-    if (tool->ammo != "battery")
-    {
+    if (tool->ammo != "battery") {
         g->add_msg_if_player(p,_("That item does not use batteries!"));
         return 0;
     }
 
-    if (modded->has_flag("ATOMIC_AMMO"))
-    {
+    if (modded->has_flag("ATOMIC_AMMO")) {
         g->add_msg_if_player(p,_("That item has already had its battery modded to accept plutonium cells."));
         return 0;
     }
