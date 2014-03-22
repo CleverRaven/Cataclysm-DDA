@@ -265,9 +265,7 @@ void uimenu::setup() {
     }
     max_entry_len = 0;
     std::vector<int> autoassign;
-    std::vector<int> usedKeys; //Do not reuse keys.
     autoassign.clear();
-    usedKeys.clear();
     int pad = pad_left + pad_right + 2;
     for ( int i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width(entries[ i ].txt.c_str());
@@ -277,7 +275,6 @@ void uimenu::setup() {
         if(entries[ i ].enabled) {
             if( entries[ i ].hotkey > 0 ) {
                 keymap[ entries[ i ].hotkey ] = i;
-                usedKeys.push_back(i);
             } else if ( entries[ i ].hotkey == -1 && i < 100 ) {
                 autoassign.push_back(i);
             }
