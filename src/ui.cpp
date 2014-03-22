@@ -265,7 +265,9 @@ void uimenu::setup() {
     }
     max_entry_len = 0;
     std::vector<int> autoassign;
+    std::vector<int> usedKeys; //Do not reuse keys.
     autoassign.clear();
+    usedKeys.clear();
     int pad = pad_left + pad_right + 2;
     for ( int i = 0; i < entries.size(); i++ ) {
         int txtwidth = utf8_width(entries[ i ].txt.c_str());
@@ -275,6 +277,7 @@ void uimenu::setup() {
         if(entries[ i ].enabled) {
             if( entries[ i ].hotkey > 0 ) {
                 keymap[ entries[ i ].hotkey ] = i;
+                usedKeys.push_back(i);
             } else if ( entries[ i ].hotkey == -1 && i < 100 ) {
                 autoassign.push_back(i);
             }
@@ -295,21 +298,25 @@ void uimenu::setup() {
         fentries.push_back( i );
     }
     if ( !autoassign.empty() ) {
-        for ( int a = 0; a < autoassign.size(); a++ ) {
+        int modifier = 0; //Increase this by one if assignment fails (the key is already used then).
+        for ( int a = 0; a < autoassign.size(); ) {
             int setkey=-1;
-            if ( a < 9 ) {
-                setkey = a + 49; // 1-9;
-            } else if ( a == 9 ) {
-                setkey = a + 39; // 0;
-            } else if ( a < 36 ) {
-                setkey = a + 87; // a-z
-            } else if ( a < 61 ) {
-                setkey = a + 29; // A-Z
+            if ( (a + modifier) < 9 ) {
+                setkey = (a + modifier) + 49; // 1-9;
+            } else if ( (a + modifier) == 9 ) {
+                setkey = (a + modifier) + 39; // 0;
+            } else if ( (a + modifier) < 36 ) {
+                setkey = (a + modifier) + 87; // a-z
+            } else if ( (a + modifier) < 61 ) {
+                setkey = (a + modifier) + 29; // A-Z
             }
-            if ( setkey != -1 && keymap.find(setkey) == keymap.end() ) {
+            if ( setkey != -1 && keymap.count(setkey) <= 0 ) {
                 int palloc = autoassign[ a ];
                 entries[ palloc ].hotkey = setkey;
                 keymap[ setkey ] = palloc;
+                a++;
+            } else {
+                modifier++; //Keymap.count was not <= 0
             }
         }
     }
