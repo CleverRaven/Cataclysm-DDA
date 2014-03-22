@@ -1715,7 +1715,7 @@ void player::memorial( std::ofstream &memorial_file )
     }
     if(pain - pkill > 0) {
         had_effect = true;
-        memorial_file << indent << _("Pain") << " (" << (pain - pkill) << ")";
+        memorial_file << indent << _("Pain") << " (" << (pain - pkill) << ")\n" ;
     }
     if(stim > 0) {
         had_effect = true;
