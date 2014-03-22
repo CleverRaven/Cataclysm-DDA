@@ -2351,37 +2351,35 @@ bool vehicle::valid_wheel_config ()
     return true;
 }
 
-void vehicle::consume_fuel (float rate = 1.0)
+/**
+ * Power for batteries are in W, but usage for rest is in 0.5*HP, so coeff is 373
+ * This does not seem to match up for consumption, as old coeff is 100
+ * Keeping coeff of 100, but should probably be adjusted later
+ * http://en.wikipedia.org/wiki/Energy_density -> 46MJ/kg, 36MJ/l for gas
+ * Gas tanks are 6000 and 30000, assuming that's in milliliters, so 36000J/ml
+ * Battery sizes are 1k, 12k, 30k, 50k, and 100k. present day = 53kWh(200MJ) for 450kg
+ * Efficiency tank to wheel is roughly 15% for gas, 85% for electric
+ */
+void vehicle::consume_fuel( double load = 1.0 )
 {
     ammotype ftypes[3] = { fuel_type_gasoline, fuel_type_battery, fuel_type_plasma };
-    for (int ft = 0; ft < 3; ft++)
-    {
-        int base_amnt = basic_consumption(ftypes[ft]);
-        if (!base_amnt)
-            continue; // no consumption for engines of that type
+    int ftype_coeff[3] = {                100,                 1,              100 };
+    for( int ft = 0; ft < 3; ft++ ) {
+        double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
         float st = strain() * 10;
-        int amnt_precise = (int)(base_amnt * (1.0 + st * st) * rate);
-        if (amnt_precise < 1) amnt_precise = 1;
-        int amnt;
-        if (ftypes[ft] == fuel_type_battery) {
-            amnt = amnt_precise;
+        amnt_precise *= load * (1.0 + st * st);
+        int amnt = int(amnt_precise);
+        // consumption remainder results in chance at additional fuel consumption
+        if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
+            amnt += 1;
         }
-        else {
-            // engine not electric - divide consumption by 100
-            amnt = amnt_precise / 100;
-            // consumption remainder results in chance at additional fuel consumption
-            if (x_in_y(amnt_precise % 100, 100)) {
-                amnt += 1;
-            }
-        }
-        for (int p = 0; p < fuel.size(); p++) {
-            if(part_info(fuel[p]).fuel_type == ftypes[ft]) {
-                if (parts[fuel[p]].amount >= amnt) {
+        for( size_t p = 0; p < fuel.size(); p++ ) {
+            if( part_info(fuel[p]).fuel_type == ftypes[ft] ) {
+                if( parts[fuel[p]].amount >= amnt ) {
                     // enough fuel located in this part
                     parts[fuel[p]].amount -= amnt;
                     break;
-                }
-                else {
+                } else {
                     amnt -= parts[fuel[p]].amount;
                     parts[fuel[p]].amount = 0;
                 }
@@ -2667,7 +2665,7 @@ void vehicle::thrust (int thd) {
 
     double load;
     if( cruise_on ) {
-        load = abs(vel_inc) / (thrusting ? accel : brk);
+        load = abs(vel_inc) / std::max((thrusting ? accel : brk),1);
     } else {
         load = (thrusting ? 1.0 : 0.0);
     }
@@ -3381,9 +3379,18 @@ void vehicle::gain_moves()
         check_environmental_effects = do_environmental_effects();
     }
 
-    if (turret_mode) { // handle turrets
-        for (int p = 0; p < parts.size(); p++) {
-            fire_turret (p);
+    if( turret_mode ) { // handle turrets
+        bool can_fire = false;
+        for( int p = 0; p < parts.size(); p++ ) {
+            if( fire_turret (p) ) {
+                can_fire = true;
+            }
+        }
+        if( !can_fire ) {
+            if( player_in_control(&g->u) || g->u_see(global_x(), global_y()) ) {
+                g->add_msg( _("The %s's turrets run out of ammo and switch off."), name.c_str() );
+            }
+           turret_mode = 0;
         }
     }
 }
@@ -3767,18 +3774,28 @@ void vehicle::leak_fuel (int p)
 
 void vehicle::cycle_turret_mode()
 {
-    if( ++turret_mode > 1 )
+    if( ++turret_mode > 1 ) {
         turret_mode = 0;
+    }
     g->add_msg( (0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode") );
 }
 
-void vehicle::fire_turret (int p, bool burst)
+bool vehicle::fire_turret (int p, bool burst)
 {
     if (!part_flag (p, "TURRET"))
-        return;
+        return false;
     it_gun *gun = dynamic_cast<it_gun*> (itypes[part_info(p).item]);
     if (!gun) {
-        return;
+        return false;
+    }
+    // Check for available power for turrets that use it.
+    const int power = fuel_left(fuel_type_battery);
+    if( gun->item_tags.count( "USE_UPS" ) && power < 5 ) {
+        return false;
+    } else if( gun->item_tags.count( "USE_UPS_20" ) && power < 20 ) {
+        return false;
+    } else if( gun->item_tags.count( "USE_UPS_40" ) && power < 40 ) {
+        return false;
     }
     long charges = burst? gun->burst : 1;
     std::string whoosh = "";
@@ -3800,11 +3817,11 @@ void vehicle::fire_turret (int p, bool burst)
         }
         int fleft = fuel_left (amt);
         if (fleft < 1) {
-            return;
+            return false;
         }
         it_ammo *ammo = dynamic_cast<it_ammo*>(itypes[amt]);
         if (!ammo) {
-            return;
+            return false;
         }
         if (fire_turret_internal (p, *gun, *ammo, charges, whoosh)) {
             // consume fuel
@@ -3813,7 +3830,7 @@ void vehicle::fire_turret (int p, bool burst)
             } else if (amt == fuel_type_battery) {
                 charges *= charges * 5;
             }
-            for (int p = 0; p < parts.size(); p++) {
+            for( size_t p = 0; p < parts.size(); p++ ) {
                 if (part_flag(p, "FUEL_TANK") &&
                         part_info(p).fuel_type == amt &&
                         parts[p].amount > 0) {
@@ -3825,24 +3842,26 @@ void vehicle::fire_turret (int p, bool burst)
             }
         }
     } else {
-        if (!parts[p].items.empty()) {
-            it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items[0].type);
-            if (!ammo || ammo->type != amt || parts[p].items[0].charges < 1) {
-                return;
-            }
-            if (charges > parts[p].items[0].charges) {
-                charges = parts[p].items[0].charges;
-            }
-            if (fire_turret_internal (p, *gun, *ammo, charges)) {
-                // consume ammo
-                if (charges >= parts[p].items[0].charges) {
-                    parts[p].items.erase (parts[p].items.begin());
-                } else {
-                    parts[p].items[0].charges -= charges;
-                }
+        if( parts[p].items.empty() ) {
+            return false;
+        }
+        it_ammo *ammo = dynamic_cast<it_ammo*> (parts[p].items[0].type);
+        if( !ammo || ammo->type != amt || parts[p].items[0].charges < 1 ) {
+            return false;
+        }
+        if( charges > parts[p].items[0].charges ) {
+            charges = parts[p].items[0].charges;
+        }
+        if( fire_turret_internal (p, *gun, *ammo, charges) ) {
+            // consume ammo
+            if( charges >= parts[p].items[0].charges ) {
+                parts[p].items.erase( parts[p].items.begin() );
+            } else {
+                parts[p].items[0].charges -= charges;
             }
         }
     }
+    return true;
 }
 
 bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long charges, const std::string &extra_sound)
@@ -3852,15 +3871,6 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     // code copied form mattack::smg, mattack::flamethrower
     int range = ammo.type == fuel_type_gasoline ? 5 : 12;
 
-    // Check for available power for turrets that use it.
-    const int power = fuel_left(fuel_type_battery);
-    if( gun.item_tags.count( "USE_UPS" ) ) {
-        if( power < 5 ) { return false; }
-    } else if( gun.item_tags.count( "USE_UPS_20" ) ) {
-        if( power < 20 ) { return false; }
-    } else if( gun.item_tags.count( "USE_UPS_40" ) ) {
-        if( power < 40 ) { return false; }
-    }
     npc tmp;
     tmp.set_fake( true );
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());

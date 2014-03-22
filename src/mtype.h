@@ -14,6 +14,7 @@
 #include "material.h"
 #include "enums.h"
 #include "color.h"
+#include "field.h"
 
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
@@ -244,6 +245,9 @@ struct mtype {
     bool has_placate_trigger(monster_trigger trigger) const;
     bool in_category(std::string category) const;
     bool in_species(std::string _species) const;
+    //Used for corpses.
+    field_id bloodType ();
+    field_id gibType ();
 };
 
 #endif

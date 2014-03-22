@@ -21,6 +21,11 @@
       { "monster" : "mon_zombear", "freq" : 4, "cost_multiplier" : 10, "starts" :  168 },
       { "monster" : "mon_zombear", "freq" : 4, "cost_multiplier" : 10, "starts" :  672 },
       { "monster" : "mon_zombear", "freq" : 4, "cost_multiplier" : 10, "starts" : 2160 },
+      
+      { "monster" : "mon_zoose", "freq" : 1, "cost_multiplier" : 10, "starts" :   72 },
+      { "monster" : "mon_zoose", "freq" : 1, "cost_multiplier" : 10, "starts" :  168 },
+      { "monster" : "mon_zoose", "freq" : 1, "cost_multiplier" : 10, "starts" :  672 },
+      { "monster" : "mon_zoose", "freq" : 1, "cost_multiplier" : 10, "starts" : 2160 },
 
       { "monster" : "mon_bobcat", "freq" :  7, "cost_multiplier" : 2                              },
       { "monster" : "mon_bobcat", "freq" : 13, "cost_multiplier" : 2, "conditions" : ["DAWN", "DUSK"] },

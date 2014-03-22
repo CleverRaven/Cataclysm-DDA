@@ -361,7 +361,7 @@ to find substances that will remove mutations, though these are extremely rare."
 There are various mutagenic substances, and consuming (or injecting) them will grant mutations. \
 However, the process taxes your body significantly, and can be addictive. With enough mutations \
 and certain conditions being met, you will permanently transcend your humanity into a wholly \
-different life-form.")); 
+different life-form."));
     return text;
 }
 
@@ -780,6 +780,15 @@ For this reason, it is advisable to carry a few loaded crossbows. \
 Crossbows can be very difficult to find; however, it is possible to craft one given enough \
 Mechanics skill. Likewise, it is possible to make wooden bolts from any number of wooden objects, \
 though these are much less effective than steel bolts. Crossbows use the handgun skill."));
+
+    text.push_back(_("<color_yellow>( Bows</color>\n\
+Silent, deadly, easy to make and, reusable arrows. Bows have been used forever. Bows are two handed \
+and require the user to have a certain strength level. If you do not have enough strength to draw \
+the string back, you will fire at reduced effectiveness. This reduces reload and fire speeds \
+and decreases the range of the arrows fired. \
+\n\
+Most normal bows require a least a strength of 8, others require an above average strength \
+of 10, or a significant strength of 12. Bows use the archery skill."));
 
     text.push_back(_("<color_red>( Shotguns</color>\n\
 Shotguns are one of the most powerful weapons in the game, capable of taking \

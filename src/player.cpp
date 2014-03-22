@@ -2320,7 +2320,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
    int level_num = (int)level;
    int exercise = level.exercise();
 
-   if (has_active_bionic("bio_cqb") && 
+   if (has_active_bionic("bio_cqb") &&
         ((*aSkill)->ident() == "melee" || (*aSkill)->ident() == "unarmed" ||
          (*aSkill)->ident() == "cutting" || (*aSkill)->ident() == "bashing" ||
          (*aSkill)->ident() == "stabbing")) {
@@ -4184,7 +4184,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             g->add_zombie(snake);
         }
     }
-    
+
     // And slimespawners too
     if ((has_trait("SLIMESPAWNER")) && (dam >= 10) && one_in(20 - dam)) {
         std::vector<point> valid;
@@ -4287,7 +4287,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         }
 
         if ( source->has_flag(MF_GRABS)) {
-            g->add_msg(_("%s grabs you!"), source->disp_name().c_str());
+            g->add_msg_player_or_npc(this, _("%s grabs you!"), _("%s grabs <npcname>!"), source->disp_name().c_str());
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ? dice(get_dex(), 10) : dice(get_str(), 10) > dice(source->get_dex(), 10)) {
                 g->add_msg_player_or_npc(this, _("You break the grab!"),
                                                   _("<npcname> breaks the grab!"));
@@ -5485,7 +5485,7 @@ void player::suffer()
     if (has_trait("SLIMY") && !in_vehicle) {
         g->m.add_field(posx, posy, fd_slime, 1);
     }
-    
+
     if (has_trait("VISCOUS") && !in_vehicle) {
         if (one_in(3)){
             g->m.add_field(posx, posy, fd_slime, 1);
@@ -5494,7 +5494,7 @@ void player::suffer()
             g->m.add_field(posx, posy, fd_slime, 2);
         }
     }
-    
+
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if (has_trait("PER_SLIME")) {
@@ -7001,33 +7001,6 @@ int  player::leak_level( std::string flag ) const
     return leak_level;
 }
 
-bool player::has_watertight_container()
-{
- if (!inv.watertight_container().is_null()) {
-  return true;
- }
- if (weapon.is_container() && weapon.contents.empty()) {
-   if (weapon.has_flag("WATERTIGHT") && weapon.has_flag("SEALS"))
-    return true;
- }
-
- return false;
-}
-
-bool player::has_matching_liquid(itype_id it)
-{
-    if (inv.has_liquid(it)) {
-        return true;
-    }
-    if (weapon.is_container() && !weapon.contents.empty())
-    {
-        // has_capacity_for_liquid needs an item, not an item type
-        const item liquid(itypes[it], g->turn);
-        return inventory::has_capacity_for_liquid(weapon, liquid);
-    }
-    return false;
-}
-
 bool player::has_drink()
 {
     if (inv.has_drink()) {
@@ -7462,7 +7435,7 @@ bool player::eat(item *eaten, it_comest *comest)
     if ( has_trait("GIZZARD") ) {
         capacity = 0;
     }
-    
+
     if( has_trait("SLIMESPAWNER") && !is_npc() ) {
         capacity -= 40;
         if ( (temp_hunger < capacity && temp_thirst <= (capacity + 10) ) ||
@@ -7559,7 +7532,7 @@ bool player::eat(item *eaten, it_comest *comest)
     !has_trait("EATDEAD")) {
         add_disease("foodpoison", eaten->poison * 300);
     }
-    
+
     if (has_trait("AMORPHOUS")) {
         g->add_msg_player_or_npc( this, _("You assimilate your %s."), _("<npcname> assimilates a %s."),
                                   eaten->tname().c_str());
@@ -8256,7 +8229,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_mouth) && has_trait("PROBOSCIS"))
         {
             if(interactive)
@@ -8310,7 +8283,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_torso) && ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) )
         {
             if(interactive)
@@ -8406,7 +8379,7 @@ bool player::takeoff(int pos, bool autodrop)
 
             // Handle power armor.
             if (w.type->is_power_armor() &&
-                    ((reinterpret_cast<it_armor*>(w.type))->covers & mfb(bp_torso))) {
+                    (dynamic_cast<it_armor*>(w.type)->covers & mfb(bp_torso))) {
                 // We're trying to take off power armor, but cannot do that if we have a power armor component on!
                 for (int j = worn.size() - 1; j >= 0; j--) {
                     if (worn[j].type->is_power_armor() &&
@@ -8429,7 +8402,7 @@ bool player::takeoff(int pos, bool autodrop)
                 }
             }
 
-            if (autodrop || volume_capacity() - (reinterpret_cast<it_armor*>(w.type))->storage > volume_carried() + w.type->volume) {
+            if (autodrop || volume_capacity() - dynamic_cast<it_armor*>(w.type)->storage > volume_carried() + w.type->volume) {
                 inv.add_item_keep_invlet(w);
                 g->add_msg(_("You take off your your %s."), w.tname().c_str());
                 worn.erase(worn.begin() + worn_index);
@@ -10501,4 +10474,24 @@ bool player::can_pickup(bool print_msg) const
         return false;
     }
     return true;
+}
+
+bool player::has_container_for(const item &newit)
+{
+    if (!newit.made_of(LIQUID)) {
+        // Currently only liquids need a container
+        return true;
+    }
+    int charges = newit.charges;
+    LIQUID_FILL_ERROR tmperr;
+    charges -= weapon.get_remaining_capacity_for_liquid(newit, tmperr);
+    for (size_t i = 0; i < worn.size() && charges > 0; i++) {
+        charges -= worn[i].get_remaining_capacity_for_liquid(newit, tmperr);
+    }
+    for (size_t i = 0; i < inv.size() && charges > 0; i++) {
+        const std::list<item>&items = inv.const_stack(i);
+        // Assume that each item in the stack has the same remaining capacity
+        charges -= items.front().get_remaining_capacity_for_liquid(newit, tmperr) * items.size();
+    }
+    return charges <= 0;
 }

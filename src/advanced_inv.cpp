@@ -30,21 +30,29 @@ enum advanced_inv_sortby {
 bool advanced_inventory::isDirectionalDragged(int area1, int area2)
 {
 
-    if(!(area1 == isdrag || area2 == isdrag)) { return false; }
+    if(!(area1 == isdrag || area2 == isdrag)) {
+        return false;
+    }
     // one of the areas is drag square
     advanced_inv_area other = (area1 == isdrag ? squares[area2] : squares[area1]);
 
     // the player is not grabbing anything.
-    if(p->grab_point.x == 0 && p->grab_point.y == 0) { return false; }
-    if(other.offx == p->grab_point.x && other.offy == p->grab_point.y) { return true; }
+    if(p->grab_point.x == 0 && p->grab_point.y == 0) {
+        return false;
+    }
+    if(other.offx == p->grab_point.x && other.offy == p->grab_point.y) {
+        return true;
+    }
     return false;
 }
 
 int getsquare(int c, int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares)
 {
-    int ret =- 1;
-    if (!( c >= 0 && c <= 11 )) return ret;
-    ret=c;
+    int ret = - 1;
+    if (!( c >= 0 && c <= 11 )) {
+        return ret;
+    }
+    ret = c;
     off_x = squares[ret].offx;
     off_y = squares[ret].offy;
     areastring = squares[ret].name;
@@ -53,56 +61,56 @@ int getsquare(int c, int &off_x, int &off_y, std::string &areastring, advanced_i
 
 int getsquare(char c , int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares)
 {
-    int ret =- 1;
+    int ret = - 1;
     switch(c) {
-        case '0':
-        case 'I':
-            ret = 0;
-            break;
-        case '1':
-        case 'B':
-            ret = 1;
-            break;
-        case '2':
-        case 'J':
-            ret = 2;
-            break;
-        case '3':
-        case 'N':
-            ret = 3;
-            break;
-        case '4':
-        case 'H':
-            ret = 4;
-            break;
-        case '5':
-        case 'G':
-            ret = 5;
-            break;
-        case '6':
-        case 'L':
-            ret = 6;
-            break;
-        case '7':
-        case 'Y':
-            ret = 7;
-            break;
-        case '8':
-        case 'K':
-            ret = 8;
-            break;
-        case '9':
-        case 'U':
-            ret = 9;
-            break;
-        case 'a':
-            ret = 10;
-            break;
-        case 'D':
-            ret = 11;
-            break;
-        default :
-            return -1;
+    case '0':
+    case 'I':
+        ret = 0;
+        break;
+    case '1':
+    case 'B':
+        ret = 1;
+        break;
+    case '2':
+    case 'J':
+        ret = 2;
+        break;
+    case '3':
+    case 'N':
+        ret = 3;
+        break;
+    case '4':
+    case 'H':
+        ret = 4;
+        break;
+    case '5':
+    case 'G':
+        ret = 5;
+        break;
+    case '6':
+    case 'L':
+        ret = 6;
+        break;
+    case '7':
+    case 'Y':
+        ret = 7;
+        break;
+    case '8':
+    case 'K':
+        ret = 8;
+        break;
+    case '9':
+    case 'U':
+        ret = 9;
+        break;
+    case 'a':
+        ret = 10;
+        break;
+    case 'D':
+        ret = 11;
+        break;
+    default :
+        return -1;
     }
     return getsquare(ret, off_x, off_y, areastring, squares);
 }
@@ -110,7 +118,7 @@ int getsquare(char c , int &off_x, int &off_y, std::string &areastring, advanced
 void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 {
     std::vector<advanced_inv_listitem> &items = pane.items;
-    WINDOW* window = pane.window;
+    WINDOW *window = pane.window;
     int page = pane.page;
     unsigned selected_index = pane.index;
     bool isinventory = ( pane.area == 0 );
@@ -126,10 +134,10 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     if(isinventory) {
         //right align
         int hrightcol = columns -
-            helper::to_string_int(g->u.convert_weight(g->u.weight_carried())).length() - 3 - //"xxx.y/"
-            helper::to_string_int(g->u.convert_weight(g->u.weight_capacity())).length() - 3 - //"xxx.y_"
-            helper::to_string_int(g->u.volume_carried()).length() - 1 - //"xxx/"
-            helper::to_string_int(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
+                        helper::to_string_int(g->u.convert_weight(g->u.weight_carried())).length() - 3 - //"xxx.y/"
+                        helper::to_string_int(g->u.convert_weight(g->u.weight_capacity())).length() - 3 - //"xxx.y_"
+                        helper::to_string_int(g->u.volume_carried()).length() - 1 - //"xxx/"
+                        helper::to_string_int(g->u.volume_capacity() - 2).length() - 1;//"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if (g->u.weight_carried() > g->u.weight_capacity()) {
             color = c_red;
@@ -144,27 +152,30 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         wprintz(window, color, "%d", g->u.volume_carried() );
         wprintz(window, c_ltgray, "/%d ", g->u.volume_capacity() - 2 );
     } else {
-        int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
+        int hrightcol =
+            rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
         if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
-          hrightcol--;
-          if (g->u.convert_weight(squares[pane.area].weight) > 99.9 ) { // not uncommon
             hrightcol--;
-            if (g->u.convert_weight(squares[pane.area].weight) > 999.9 ) {
-              hrightcol--;
-              if (g->u.convert_weight(squares[pane.area].weight) > 9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
+            if (g->u.convert_weight(squares[pane.area].weight) > 99.9 ) { // not uncommon
                 hrightcol--;
-              }
+                if (g->u.convert_weight(squares[pane.area].weight) > 999.9 ) {
+                    hrightcol--;
+                    if (g->u.convert_weight(squares[pane.area].weight) >
+                        9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
+                        hrightcol--;
+                    }
+                }
             }
-          }
         }
         if ( squares[pane.area].volume > 999 ) { // pile 'o dead bears
-          hrightcol--;
-          if ( squares[pane.area].volume > 9999 ) { // theoretical limit; 1024*9
             hrightcol--;
-          }
+            if ( squares[pane.area].volume > 9999 ) { // theoretical limit; 1024*9
+                hrightcol--;
+            }
         }
 
-        mvwprintz( window, 4, hrightcol, norm, "%3.1f %3d", g->u.convert_weight(squares[pane.area].weight), squares[pane.area].volume);
+        mvwprintz( window, 4, hrightcol, norm, "%3.1f %3d", g->u.convert_weight(squares[pane.area].weight),
+                   squares[pane.area].volume);
     }
 
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
@@ -179,65 +190,69 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         mvwprintz( window, 5, rightcol - 7, c_ltgray, _("    weight vol") );
     }
 
-    for(unsigned i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
-      if ( items[i].volume == -8 ) { // I'm a header!
-        mvwprintz(window,6+x,( columns - items[i].name.size()-6 )/2,c_cyan, "[%s]", items[i].name.c_str() );
-      } else {
-        nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
-        nc_color thiscolordark = c_dkgray;
+    for(unsigned i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ , x++) {
+        if ( items[i].volume == -8 ) { // I'm a header!
+            mvwprintz(window, 6 + x, ( columns - items[i].name.size() - 6 ) / 2, c_cyan, "[%s]",
+                      items[i].name.c_str() );
+        } else {
+            nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
+            nc_color thiscolordark = c_dkgray;
 
-        if(active && selected_index == x)
-        {
-            thiscolor = (inCategoryMode && panes[src].sortby == SORTBY_CATEGORY) ? c_white_red : hilite(thiscolor);
-            thiscolordark = hilite(thiscolordark);
-            if ( compact ) {
-                mvwprintz(window,6+x,1,thiscolor, "  %s", spaces.c_str());
-            } else {
-                mvwprintz(window,6+x,1,thiscolor, ">>%s", spaces.c_str());
+            if(active && selected_index == x) {
+                thiscolor = (inCategoryMode &&
+                             panes[src].sortby == SORTBY_CATEGORY) ? c_white_red : hilite(thiscolor);
+                thiscolordark = hilite(thiscolordark);
+                if ( compact ) {
+                    mvwprintz(window, 6 + x, 1, thiscolor, "  %s", spaces.c_str());
+                } else {
+                    mvwprintz(window, 6 + x, 1, thiscolor, ">>%s", spaces.c_str());
+                }
+
+            }
+            mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname().c_str() );
+
+            if(items[i].it->charges > 0) {
+                wprintz(window, thiscolor, " (%d)", items[i].it->charges);
+            } else if(items[i].it->contents.size() == 1 && items[i].it->contents[0].charges > 0) {
+                wprintz(window, thiscolor, " (%d)", items[i].it->contents[0].charges);
             }
 
-        }
-        mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname().c_str() );
-
-        if(items[i].it->charges > 0) {
-            wprintz(window, thiscolor, " (%d)",items[i].it->charges);
-        } else if(items[i].it->contents.size() == 1 && items[i].it->contents[0].charges > 0) {
-            wprintz(window, thiscolor, " (%d)",items[i].it->contents[0].charges);
-        }
-
-        if( isinventory && items[i].stacks > 1 ) {
-            mvwprintz(window, 6 + x, amount_column, thiscolor, "x %d", items[i].stacks);
-        } else if ( isall ) {
-            mvwprintz(window, 6 + x, amount_column, thiscolor, "%s", squares[items[i].area].shortname.c_str());
-        }
-        int xrightcol=rightcol;
-        if (g->u.convert_weight(items[i].weight) > 9.9 ) {
-          xrightcol--;
-          if (g->u.convert_weight(items[i].weight) > 99.9 ) {
-            xrightcol--;
-            if (g->u.convert_weight(items[i].weight) > 999.9 ) { // anything beyond this is excessive. Enjoy your clear plastic bottle of neutronium
-              xrightcol--;
+            if( isinventory && items[i].stacks > 1 ) {
+                mvwprintz(window, 6 + x, amount_column, thiscolor, "x %d", items[i].stacks);
+            } else if ( isall ) {
+                mvwprintz(window, 6 + x, amount_column, thiscolor, "%s", squares[items[i].area].shortname.c_str());
             }
-          }
-        }
-        if ( items[i].volume > 999 ) { // does not exist, but can fit in 1024 tile limit
-          xrightcol--;
-          if ( items[i].volume > 9999 ) { // oh hey what about z levels. best give up now
-            xrightcol--;
-          }
-        }
-        mvwprintz(window, 6 + x, xrightcol, (g->u.convert_weight(items[i].weight) > 0 ? thiscolor : thiscolordark),
-            "%3.1f", g->u.convert_weight(items[i].weight) );
+            int xrightcol = rightcol;
+            if (g->u.convert_weight(items[i].weight) > 9.9 ) {
+                xrightcol--;
+                if (g->u.convert_weight(items[i].weight) > 99.9 ) {
+                    xrightcol--;
+                    if (g->u.convert_weight(items[i].weight) >
+                        999.9 ) { // anything beyond this is excessive. Enjoy your clear plastic bottle of neutronium
+                        xrightcol--;
+                    }
+                }
+            }
+            if ( items[i].volume > 999 ) { // does not exist, but can fit in 1024 tile limit
+                xrightcol--;
+                if ( items[i].volume > 9999 ) { // oh hey what about z levels. best give up now
+                    xrightcol--;
+                }
+            }
+            mvwprintz(window, 6 + x, xrightcol,
+                      (g->u.convert_weight(items[i].weight) > 0 ? thiscolor : thiscolordark),
+                      "%3.1f", g->u.convert_weight(items[i].weight) );
 
-        wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
-        if(active && items[i].autopickup==true) {
-          mvwprintz(window,6+x,1, magenta_background(items[i].it->color(&g->u)),"%s",(compact?items[i].it->tname().substr(0,1):">").c_str());
+            wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
+            if(active && items[i].autopickup == true) {
+                mvwprintz(window, 6 + x, 1, magenta_background(items[i].it->color(&g->u)), "%s",
+                          (compact ? items[i].it->tname().substr(0, 1) : ">").c_str());
+            }
         }
-      }
     }
 }
 
-struct advanced_inv_sort_case_insensitive_less : public std::binary_function< char,char,bool > {
+struct advanced_inv_sort_case_insensitive_less : public std::binary_function< char, char, bool > {
     bool operator () (char x, char y) const {
         return toupper( static_cast< unsigned char >(x)) < toupper( static_cast< unsigned char >(y));
     }
@@ -245,39 +260,50 @@ struct advanced_inv_sort_case_insensitive_less : public std::binary_function< ch
 
 struct advanced_inv_sorter {
     int sortby;
-    advanced_inv_sorter(int sort) { sortby=sort; };
-    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
+    advanced_inv_sorter(int sort) {
+        sortby = sort;
+    };
+    bool operator()(const advanced_inv_listitem &d1, const advanced_inv_listitem &d2) {
         if ( sortby != SORTBY_NAME ) {
             switch(sortby) {
-                case SORTBY_WEIGHT: {
-                    if ( d1.weight != d2.weight ) return d1.weight > d2.weight;
-                    break;
+            case SORTBY_WEIGHT: {
+                if ( d1.weight != d2.weight ) {
+                    return d1.weight > d2.weight;
                 }
-                case SORTBY_VOLUME: {
-                    if ( d1.volume != d2.volume ) return d1.volume > d2.volume;
-                    break;
+                break;
+            }
+            case SORTBY_VOLUME: {
+                if ( d1.volume != d2.volume ) {
+                    return d1.volume > d2.volume;
                 }
-                case SORTBY_CHARGES: {
-                    if ( d1.it->charges != d2.it->charges ) return d1.it->charges > d2.it->charges;
-                    break;
+                break;
+            }
+            case SORTBY_CHARGES: {
+                if ( d1.it->charges != d2.it->charges ) {
+                    return d1.it->charges > d2.it->charges;
                 }
-                case SORTBY_CATEGORY: {
-                    if ( d1.cat != d2.cat ) {
-                      return *d1.cat < *d2.cat;
-                    } else if ( d1.volume == -8 ) {
-                      return true;
-                    } else if ( d2.volume == -8 ) {
-                      return false;
-                    }
-                    break;
+                break;
+            }
+            case SORTBY_CATEGORY: {
+                if ( d1.cat != d2.cat ) {
+                    return *d1.cat < *d2.cat;
+                } else if ( d1.volume == -8 ) {
+                    return true;
+                } else if ( d2.volume == -8 ) {
+                    return false;
                 }
-                default: return d1.idx > d2.idx; break;
+                break;
+            }
+            default:
+                return d1.idx > d2.idx;
+                break;
             };
         }
         // secondary sort by name
         std::string n1;
         std::string n2;
-        if (d1.name_without_prefix == d2.name_without_prefix){//if names without prefix equal, compare full name
+        if (d1.name_without_prefix ==
+            d2.name_without_prefix) { //if names without prefix equal, compare full name
             n1 = d1.name;
             n2 = d2.name;
         } else {//else compare name without prefix
@@ -285,7 +311,7 @@ struct advanced_inv_sorter {
             n2 = d2.name_without_prefix;
         }
         return std::lexicographical_compare( n1.begin(), n1.end(),
-                n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
+                                             n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
     };
 };
 
@@ -294,12 +320,12 @@ void advanced_inv_menu_square(advanced_inv_area *squares, uimenu *menu )
     int ofs = -25 - 4;
     int sel = menu->selected + 1;
     for ( int i = 1; i < 10; i++ ) {
-        char key=(char)(i + 48);
+        char key = (char)(i + 48);
         char bracket[3] = "[]";
         if ( squares[i].vstor >= 0 ) {
-            strcpy(bracket,"<>");
+            strcpy(bracket, "<>");
         }
-        bool canputitems = ( squares[i].canputitems && menu->entries[i-1].enabled ? true : false);
+        bool canputitems = ( squares[i].canputitems && menu->entries[i - 1].enabled ? true : false);
         nc_color bcolor = ( canputitems ? ( sel == i ? h_cyan : c_cyan ) : c_dkgray );
         nc_color kcolor = ( canputitems ? ( sel == i ? h_ltgreen : c_ltgreen ) : c_dkgray );
         mvwprintz(menu->window, squares[i].hscreenx + 5, squares[i].hscreeny + ofs, bcolor, "%c", bracket[0]);
@@ -320,9 +346,11 @@ void advanced_inv_print_header(advanced_inv_area* squares, advanced_inventory_pa
         if ( squares[i].vstor >= 0 ) {
             strcpy(bracket, "<>");
         }
-        nc_color bcolor = ( squares[i].canputitems ? ( area == i || ( area == 10 && i != 0 ) ? c_cyan : c_ltgray ) : c_red );
-        nc_color kcolor = ( squares[i].canputitems ? ( area == i ? c_ltgreen : ( i == sel ? c_cyan : c_ltgray ) ) : c_red );
-        mvwprintz(window,squares[i].hscreenx,squares[i].hscreeny + ofs, bcolor, "%c", bracket[0]);
+        nc_color bcolor = ( squares[i].canputitems ? ( area == i || ( area == 10 &&
+                            i != 0 ) ? c_cyan : c_ltgray ) : c_red );
+        nc_color kcolor = ( squares[i].canputitems ? ( area == i ? c_ltgreen :
+                            ( i == sel ? c_cyan : c_ltgray ) ) : c_red );
+        mvwprintz(window, squares[i].hscreenx, squares[i].hscreeny + ofs, bcolor, "%c", bracket[0]);
         wprintz(window, kcolor, "%c", key);
         wprintz(window, bcolor, "%c", bracket[1]);
     }
@@ -428,7 +456,8 @@ void advanced_inventory::init(player *pp)
     panes[right].sortby = uistate.adv_inv_rightsort;
     panes[left].area = uistate.adv_inv_leftarea;
     panes[right].area = uistate.adv_inv_rightarea;
-    bool moved = ( uistate.adv_inv_last_coords.x != p->posx || uistate.adv_inv_last_coords.y != p->posy );
+    bool moved = ( uistate.adv_inv_last_coords.x != p->posx ||
+                   uistate.adv_inv_last_coords.y != p->posy );
     if ( !moved || panes[left].area == isinventory ) {
         panes[left].index = uistate.adv_inv_leftindex;
         panes[left].page = uistate.adv_inv_leftpage;
@@ -464,7 +493,8 @@ void advanced_inventory::init(player *pp)
     filter_edit = false;
 }
 
-bool cached_lcmatch(const std::string &str, const std::string &findstr, std::map<std::string, bool> &filtercache)
+bool cached_lcmatch(const std::string &str, const std::string &findstr,
+                    std::map<std::string, bool> &filtercache)
 {
     if ( filtercache.find(str) == filtercache.end() ) {
         std::string ret = "";
@@ -492,7 +522,7 @@ void advanced_inventory::recalc_pane(int i)
     int aweight = 0;
 
     if(panes[i].area == isinventory) {
-       const invslice & stacks = u.inv.slice();
+        const invslice &stacks = u.inv.slice();
         for (unsigned x = 0; x < stacks.size(); ++x ) {
             item &item = stacks[x]->front();
             advanced_inv_listitem it;
@@ -544,8 +574,9 @@ void advanced_inventory::recalc_pane(int i)
             int saweight = 0;
             advanced_inv_update_area(squares[s]);
 
-            if ( panes[idest].area != s && squares[s].canputitems && !isDirectionalDragged(s, panes[idest].area)) {
-                std::vector<item>& items = squares[s].vstor >= 0 ?
+            if ( panes[idest].area != s && squares[s].canputitems &&
+                 !isDirectionalDragged(s, panes[idest].area)) {
+                std::vector<item> &items = squares[s].vstor >= 0 ?
                                            squares[s].veh->parts[squares[s].vstor].items :
                                            m.i_at(squares[s].x , squares[s].y );
                 for (unsigned x = 0; x < items.size(); x++) {
@@ -604,14 +635,15 @@ void advanced_inventory::recalc_pane(int i)
 
     // sort the stuff
     switch(panes[i].sortby) {
-        case SORTBY_NONE:
-            if ( i != isinventory ) {
-                std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
-            }
-            break;
-        default:
-            std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
-            break;
+    case SORTBY_NONE:
+        if ( i != isinventory ) {
+            std::stable_sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
+        }
+        break;
+    default:
+        std::stable_sort( panes[i].items.begin(), panes[i].items.end(),
+                          advanced_inv_sorter( panes[i].sortby ) );
+        break;
     }
 
 
@@ -620,7 +652,8 @@ void advanced_inventory::recalc_pane(int i)
 void advanced_inventory::redraw_pane( int i )
 {
     std::string sortnames[8] = { "-none-", _("none"), _("name"), _("weight"), _("volume"),
-                                 _("charges"), _("category"), "-" };
+                                 _("charges"), _("category"), "-"
+                               };
     // calculate the offset.
     getsquare(panes[i].area, panes[i].offx, panes[i].offy, panes[i].area_string, squares);
 
@@ -629,13 +662,16 @@ void advanced_inventory::redraw_pane( int i )
     }
     panes[i].redraw = false;
     // paginate (not sure why)
-    panes[i].max_page = (int)ceil(panes[i].size / (itemsPerPage + 0.0)); //(int)ceil(panes[i].size/20.0);
-    panes[i].max_index = panes[i].page == (-1 + panes[i].max_page) ? ((panes[i].size % itemsPerPage) == 0 ? itemsPerPage : panes[i].size % itemsPerPage) : itemsPerPage;
+    panes[i].max_page = (int)ceil(panes[i].size / (itemsPerPage +
+                                  0.0)); //(int)ceil(panes[i].size/20.0);
+    panes[i].max_index = panes[i].page == (-1 + panes[i].max_page) ? ((panes[i].size % itemsPerPage) ==
+                         0 ? itemsPerPage : panes[i].size % itemsPerPage) : itemsPerPage;
     // check if things are out of bound
     panes[i].index = (panes[i].index >= panes[i].max_index) ? panes[i].max_index - 1 : panes[i].index;
 
 
-    panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ? panes[i].max_page - 1 : panes[i].page);
+    panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ?
+                    panes[i].max_page - 1 : panes[i].page);
 
     if( panes[i].sortby == SORTBY_CATEGORY && !panes[i].items.empty() ) {
         unsigned lpos = panes[i].index + (panes[i].page * itemsPerPage);
@@ -656,11 +692,13 @@ void advanced_inventory::redraw_pane( int i )
     advanced_inv_print_header(squares, panes[i], sel );
     // todo move --v to --^
     mvwprintz(panes[i].window, 1, 2, src == i ? c_cyan : c_ltgray, "%s", panes[i].area_string.c_str());
-    mvwprintz(panes[i].window, 2, 2, src == i ? c_green : c_dkgray , "%s", squares[panes[i].area].desc.c_str() );
+    mvwprintz(panes[i].window, 2, 2, src == i ? c_green : c_dkgray , "%s",
+              squares[panes[i].area].desc.c_str() );
 
     if ( i == src ) {
         if(panes[src].max_page > 1 ) {
-            mvwprintz(panes[src].window, 4, 2, c_ltblue, _("[<] page %d of %d [>]"), panes[src].page + 1, panes[src].max_page);
+            mvwprintz(panes[src].window, 4, 2, c_ltblue, _("[<] page %d of %d [>]"), panes[src].page + 1,
+                      panes[src].max_page);
         }
     }
     ////////////
@@ -668,17 +706,20 @@ void advanced_inventory::redraw_pane( int i )
         wattron(panes[i].window, c_cyan);
     }
     draw_border(panes[i].window);
-    mvwprintw(panes[i].window, 0, 3, _("< [s]ort: %s >"), sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
+    mvwprintw(panes[i].window, 0, 3, _("< [s]ort: %s >"),
+              sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
     int max = MAX_ITEM_IN_SQUARE;
     if ( panes[i].area == isall ) {
         max *= 9;
     }
-    int fmtw = 7 + ( panes[i].size > 99 ? 3 : panes[i].size > 9 ? 2 : 1 ) + ( max > 99 ? 3 : max > 9 ? 2 : 1 );
+    int fmtw = 7 + ( panes[i].size > 99 ? 3 : panes[i].size > 9 ? 2 : 1 ) +
+               ( max > 99 ? 3 : max > 9 ? 2 : 1 );
     mvwprintw(panes[i].window, 0 , (w_width / 2) - fmtw, "< %d/%d >", panes[i].size, max );
-    const char * fprefix = _("[F]ilter");
+    const char *fprefix = _("[F]ilter");
     if ( ! filter_edit ) {
         if ( !panes[i].filter.empty() ) {
-            mvwprintw(panes[i].window, getmaxy(panes[i].window) - 1, 2, "< %s: %s >", fprefix, panes[i].filter.c_str() );
+            mvwprintw(panes[i].window, getmaxy(panes[i].window) - 1, 2, "< %s: %s >", fprefix,
+                      panes[i].filter.c_str() );
         } else {
             mvwprintw(panes[i].window, getmaxy(panes[i].window) - 1, 2, "< %s >", fprefix );
         }
@@ -687,7 +728,8 @@ void advanced_inventory::redraw_pane( int i )
         wattroff(panes[i].window, c_white);
     }
     if ( ! filter_edit && !panes[i].filter.empty() ) {
-        mvwprintz(panes[i].window, getmaxy(panes[i].window) - 1, 6 + strlen(fprefix), c_white, "%s", panes[i].filter.c_str() );
+        mvwprintz(panes[i].window, getmaxy(panes[i].window) - 1, 6 + strlen(fprefix), c_white, "%s",
+                  panes[i].filter.c_str() );
     }
 
 }
@@ -703,7 +745,8 @@ void advanced_inventory::display(player *pp)
     u.inv.restack((&g->u));
 
     std::string sortnames[8] = { "-none-", _("none"), _("name"), _("weight"), _("volume"),
-                                 _("charges"), _("category"), "-" };
+                                 _("charges"), _("category"), "-"
+                               };
 
     WINDOW *head = newwin(head_height, w_width, headstart, colstart);
     WINDOW *left_window = newwin(w_height, w_width / 2, headstart + head_height, colstart);
@@ -726,7 +769,9 @@ void advanced_inventory::display(player *pp)
             redraw = true;
         }
         for (int i = 0; i < 2; i++) {
-            if ( panes[i].recalc ) panes[i].redraw = true;
+            if ( panes[i].recalc ) {
+                panes[i].redraw = true;
+            }
         }
 
         if ( recalc ) {
@@ -757,7 +802,7 @@ void advanced_inventory::display(player *pp)
                         nc_color col = c_dkgray;
                         if (int(g->messages[i].turn) >= g->curmes) {
                             col = c_ltred;
-                            showmsg=true;
+                            showmsg = true;
                         } else {
                             col = c_ltgray;
                         }
@@ -778,7 +823,8 @@ void advanced_inventory::display(player *pp)
                               _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit."));
                     if (panes[src].sortby == SORTBY_CATEGORY) {
                         nc_color highlight_color = inCategoryMode ? c_white_red : h_ltgray;
-                        mvwprintz(head, 3, 3 + utf8_width(_("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit.")),
+                        mvwprintz(head, 3, 3 + utf8_width(
+                                      _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit.")),
                                   highlight_color, _("[space] toggles selection modes."));
                     }
                 } else {
@@ -821,7 +867,7 @@ void advanced_inventory::display(player *pp)
         // Finds the index of the first item in each category.
         for (unsigned current_item_index = 0; current_item_index < panes[src].items.size();
              ++current_item_index) {
-             // Found a category header.
+            // Found a category header.
             if (panes[src].items[current_item_index].volume == -8) {
                 category_index_start.push_back(current_item_index + 1);
             }
@@ -830,9 +876,8 @@ void advanced_inventory::display(player *pp)
         if (' ' == c) {
             inCategoryMode = !inCategoryMode;
             redraw = true; // We redraw to force the color change of the highlighted line and header text.
-        }
-        else if(changeSquare != -1) {
-             // do nthing
+        } else if(changeSquare != -1) {
+            // do nthing
             if(panes[left].area == changeSquare || panes[right].area == changeSquare ||
                isDirectionalDragged(panes[left].area, changeSquare) ||
                isDirectionalDragged(panes[right].area, changeSquare)) {
@@ -874,17 +919,17 @@ void advanced_inventory::display(player *pp)
 
                 for(int i = 1; i < 10; i++) {
                     std::string prefix = string_format("%2d/%d",
-                            squares[i].size, MAX_ITEM_IN_SQUARE);
+                                                       squares[i].size, MAX_ITEM_IN_SQUARE);
                     if (squares[i].size >= MAX_ITEM_IN_SQUARE) {
                         prefix += _(" (FULL)");
                     }
                     m.entries.push_back( uimenu_entry( /* std::vector<uimenu_entry> */
-                        i, /* return value */
-                        (squares[i].canputitems && i != panes[src].area), /* enabled */
-                        i + 48, /* hotkey */
-                        prefix + " " + squares[i].name + " " +
-                          ( squares[i].vstor >= 0 ? squares[i].veh->name : "" ) /* entry text */
-                    ) );
+                                             i, /* return value */
+                                             (squares[i].canputitems && i != panes[src].area), /* enabled */
+                                             i + 48, /* hotkey */
+                                             prefix + " " + squares[i].name + " " +
+                                             ( squares[i].vstor >= 0 ? squares[i].veh->name : "" ) /* entry text */
+                                         ) );
                 }
 
                 m.selected = uistate.adv_inv_last_popup_dest - 1; // selected keyed to uimenu.entries, which starts at 0;
@@ -904,7 +949,9 @@ void advanced_inventory::display(player *pp)
                         uistate.adv_inv_last_popup_dest = m.ret;
                     }
                 }
-                if ( ! valid ) continue;
+                if ( ! valid ) {
+                    continue;
+                }
             }
             // from inventory
             if(panes[src].area == isinventory) {
@@ -951,8 +998,8 @@ void advanced_inventory::display(player *pp)
                     }
                     // fixme / todo make popup take numbers only (m = accept, q = cancel)
                     amount = helper::to_int(string_input_popup( popupmsg, 20,
-                             helper::to_string_int(( amount > max ? max : amount )),
-                             "", "", -1, true)); //input only digits
+                                            helper::to_string_int(( amount > max ? max : amount )),
+                                            "", "", -1, true)); //input only digits
                 }
                 recalc = true;
                 if(stack.size() > 1) { // if the item is stacked
@@ -962,27 +1009,29 @@ void advanced_inventory::display(player *pp)
                         bool chargeback = false;
                         int moved = 0;
                         for (std::list<item>::iterator iter = moving_items.begin();
-                            iter != moving_items.end(); ++iter) {
-                          if ( chargeback == true ) {
+                             iter != moving_items.end(); ++iter) {
+                            if ( chargeback == true ) {
                                 u.i_add(*iter);
-                          } else {
-                            if(squares[destarea].vstor >= 0) {
-                                if(squares[destarea].veh->add_item(squares[destarea].vstor, *iter) == false) {
-                                    // testme
-                                    u.i_add(*iter);
-                                    popup(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
-                                    chargeback = true;
-                                }
                             } else {
-                                if(m.add_item_or_charges(squares[destarea].x, squares[destarea].y, *iter, 0) == false) {
-                                    // testme
-                                    u.i_add(*iter);
-                                    popup(_("Destination full. %d / %d moved. Please report a bug if items have vanished."),moved,amount);
-                                    chargeback = true;
+                                if(squares[destarea].vstor >= 0) {
+                                    if(squares[destarea].veh->add_item(squares[destarea].vstor, *iter) == false) {
+                                        // testme
+                                        u.i_add(*iter);
+                                        popup(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved,
+                                              amount);
+                                        chargeback = true;
+                                    }
+                                } else {
+                                    if(m.add_item_or_charges(squares[destarea].x, squares[destarea].y, *iter, 0) == false) {
+                                        // testme
+                                        u.i_add(*iter);
+                                        popup(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved,
+                                              amount);
+                                        chargeback = true;
+                                    }
                                 }
+                                moved++;
                             }
-                            moved++;
-                          }
                         }
                         if ( moved != 0 ) {
                             u.moves -= 100;
@@ -1012,22 +1061,22 @@ void advanced_inventory::display(player *pp)
                     item moving_item = u.inv.remove_item(item_pos);
                     if(squares[destarea].vstor >= 0) {
                         if(squares[destarea].veh->add_item(squares[destarea].vstor, moving_item) == false) {
-                           // fixme add item back (test)
-                           u.i_add(moving_item);
-                           popup(_("Destination full. Please report a bug if items have vanished."));
-                           continue;
+                            // fixme add item back (test)
+                            u.i_add(moving_item);
+                            popup(_("Destination full. Please report a bug if items have vanished."));
+                            continue;
                         }
                     } else {
                         if(m.add_item_or_charges(squares[destarea].x, squares[destarea].y, moving_item) == false) {
-                           // fixme add item back (test)
-                           u.i_add(moving_item);
-                           popup(_("Destination full. Please report a bug if items have vanished."));
-                           continue;
+                            // fixme add item back (test)
+                            u.i_add(moving_item);
+                            popup(_("Destination full. Please report a bug if items have vanished."));
+                            continue;
                         }
                     }
                     u.moves -= 100;
                 }
-// from map / vstor
+                // from map / vstor
             } else {
                 int s;
                 if(panes[src].area == isall) {
@@ -1067,22 +1116,22 @@ void advanced_inventory::display(player *pp)
                         int tryweight = it->weight();
                         int amount = 1;
                         if ( it->count_by_charges() && it->charges > 1 ) {
-                           amount = it->charges;
-                           int unitvolume = it->precise_unit_volume();
-                           int unitweight = ( tryweight * 1000 ) / it->charges;
-                           int max_vol = u.volume_capacity() - u.volume_carried();
-                           int max_weight = ( u.weight_capacity() * 4 ) - u.weight_carried();
-                           max_vol *= 1000;
-                           max_weight *= 1000;
-                           int max = amount;
-                           if ( unitvolume > 0 && unitvolume * amount > max_vol ) {
-                              max = int( max_vol / unitvolume );
-                           }
-                           if ( unitweight > 0 && unitweight * amount > max_weight ) {
-                              max = int( max_weight / unitweight );
-                           }
-                           // popup("uvol: %d amt: %d mvol: %d mamt: %d", unitvolume, amount, max_vol, max);
-                           if ( max != 0 ) {
+                            amount = it->charges;
+                            int unitvolume = it->precise_unit_volume();
+                            int unitweight = ( tryweight * 1000 ) / it->charges;
+                            int max_vol = u.volume_capacity() - u.volume_carried();
+                            int max_weight = ( u.weight_capacity() * 4 ) - u.weight_carried();
+                            max_vol *= 1000;
+                            max_weight *= 1000;
+                            int max = amount;
+                            if ( unitvolume > 0 && unitvolume * amount > max_vol ) {
+                                max = int( max_vol / unitvolume );
+                            }
+                            if ( unitweight > 0 && unitweight * amount > max_weight ) {
+                                max = int( max_weight / unitweight );
+                            }
+                            // popup("uvol: %d amt: %d mvol: %d mamt: %d", unitvolume, amount, max_vol, max);
+                            if ( max != 0 ) {
                                 std::string popupmsg = _("How many do you want to move? (0 to cancel)");
                                 if(amount > max) {
                                     popupmsg = string_format(_("Destination can only hold %d! Move how many? (0 to cancel) "), max);
@@ -1091,12 +1140,12 @@ void advanced_inventory::display(player *pp)
                                 // fixme / todo make popup take numbers only (m = accept, q = cancel)
                                 if ( !moveall ) {
                                     amount = helper::to_int(
-                                        string_input_popup( popupmsg, 20,
-                                             helper::to_string_int(
-                                                 ( amount > max ? max : amount )
-                                             ), "", "", -1, true//input only digits
-                                        )
-                                    );
+                                                 string_input_popup( popupmsg, 20,
+                                                                     helper::to_string_int(
+                                                                         ( amount > max ? max : amount )
+                                                                     ), "", "", -1, true//input only digits
+                                                                   )
+                                             );
                                     if ( amount > max ) {
                                         amount = max;
                                     }
@@ -1230,7 +1279,7 @@ void advanced_inventory::display(player *pp)
             int ret = 0;
             if(panes[src].area == isinventory ) {
                 ret = g->inventory_item_menu( item_pos, colstart + ( src == left ? w_width / 2 : 0 ),
-                                              w_width / 2, (src == right ? 1 : -1) );
+                                              w_width / 2, (src == right ? 0 : -1) );
                 // Might have changed at stack (activated an item)
                 g->u.inv.restack(&g->u);
                 recalc = true;
@@ -1242,21 +1291,22 @@ void advanced_inventory::display(player *pp)
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"), "\n"));
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"),
                                              center_text(_("[up / page up] previous"),
-                                                         rightWidth - 4)));
+                                                     rightWidth - 4)));
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"),
                                              center_text(_("[down / page down] next"),
-                                                         rightWidth - 4)));
+                                                     rightWidth - 4)));
                 ret = compare_split_screen_popup(colstart + ( src == left ? w_width / 2 : 0 ),
                                                  rightWidth, 0, it->tname(), vThisItem, vDummy );
             }
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 changey += 1;
-                lastCh='e';
+                lastCh = 'e';
             } else if ( ret == KEY_PPAGE || ret == KEY_UP ) {
                 changey += -1;
-                lastCh='e';
+                lastCh = 'e';
             } else {
-                lastCh = 0; redraw = true;
+                lastCh = 0;
+                redraw = true;
             };
         } else if( 'q' == c || KEY_ESCAPE == c) {
             exit = true;
@@ -1274,99 +1324,99 @@ void advanced_inventory::display(player *pp)
             redraw = true;
         } else {
             switch(c) {
-                case 'j':
-                case KEY_DOWN:
-                    changey = 1;
-                    break;
-                case 'k':
-                case KEY_UP:
-                    changey = -1;
-                    break;
-                case 'h':
-                case KEY_LEFT:
-                    changex = 0;
-                    break;
-                case 'l':
-                case KEY_RIGHT:
-                    changex = 1;
-                    break;
-                case '\t':
-                    changex = dest;
-                    break;
-                default :
-                    donothing = true;
-                    break;
+            case 'j':
+            case KEY_DOWN:
+                changey = 1;
+                break;
+            case 'k':
+            case KEY_UP:
+                changey = -1;
+                break;
+            case 'h':
+            case KEY_LEFT:
+                changex = 0;
+                break;
+            case 'l':
+            case KEY_RIGHT:
+                changex = 1;
+                break;
+            case '\t':
+                changex = dest;
+                break;
+            default :
+                donothing = true;
+                break;
             }
         }
         if(!donothing) {
-          if ( changey != 0 ) {
-            for ( int l = 2; l > 0; l-- ) {
-              int new_index = panes[src].index;
+            if ( changey != 0 ) {
+                for ( int l = 2; l > 0; l-- ) {
+                    int new_index = panes[src].index;
 
-              if (panes[src].sortby == SORTBY_CATEGORY &&
-                  !category_index_start.empty() && inCategoryMode) {
-                int prev_cat = 0, next_cat = 0, selected_cat = 0;
+                    if (panes[src].sortby == SORTBY_CATEGORY &&
+                        !category_index_start.empty() && inCategoryMode) {
+                        int prev_cat = 0, next_cat = 0, selected_cat = 0;
 
-                for (unsigned curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {
-                    int next_cat_start = curr_cat + 1 < category_index_start.size() ?
-                        curr_cat + 1 : panes[src].items.size() - 1;
-                    int actual_index = panes[src].index + panes[src].page * itemsPerPage;
+                        for (unsigned curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {
+                            int next_cat_start = curr_cat + 1 < category_index_start.size() ?
+                                                 curr_cat + 1 : panes[src].items.size() - 1;
+                            int actual_index = panes[src].index + panes[src].page * itemsPerPage;
 
-                    if (actual_index >= category_index_start[curr_cat] &&
-                        actual_index <= category_index_start[next_cat_start]) {
-                        selected_cat = curr_cat;
+                            if (actual_index >= category_index_start[curr_cat] &&
+                                actual_index <= category_index_start[next_cat_start]) {
+                                selected_cat = curr_cat;
 
-                        prev_cat = (int(curr_cat) - 1) >= 0 ? curr_cat - 1 :
-                            category_index_start.size() - 1;
-                        prev_cat = category_index_start[selected_cat] < actual_index ?
-                            selected_cat : prev_cat;
+                                prev_cat = (int(curr_cat) - 1) >= 0 ? curr_cat - 1 :
+                                           category_index_start.size() - 1;
+                                prev_cat = category_index_start[selected_cat] < actual_index ?
+                                           selected_cat : prev_cat;
 
-                        next_cat = (curr_cat + 1) < category_index_start.size() ? curr_cat + 1 : 0;
+                                next_cat = (curr_cat + 1) < category_index_start.size() ? curr_cat + 1 : 0;
+                            }
+                        }
+
+                        if (changey > 0) {
+                            panes[src].page = category_index_start[next_cat] / itemsPerPage;
+                            new_index = category_index_start[next_cat] % itemsPerPage;
+                        } else {
+                            panes[src].page = category_index_start[prev_cat] / itemsPerPage;
+                            new_index = category_index_start[prev_cat] % itemsPerPage;
+
+                            panes[src].max_index = panes[src].page < panes[src].max_page - 1 ?
+                                                   itemsPerPage : panes[src].items.size() % itemsPerPage;
+                        }
+                    } else {
+                        new_index = panes[src].index + changey;
                     }
+
+                    panes[src].index = new_index;
+                    if ( panes[src].index < 0 ) {
+                        panes[src].page--;
+                        if( panes[src].page < 0 ) {
+                            panes[src].page = panes[src].max_page - 1;
+                            panes[src].index = panes[src].items.size() - 1 - ( panes[src].page * itemsPerPage );
+                        } else {
+                            panes[src].index = itemsPerPage; // corrected at the start of next iteration
+                        }
+                    } else if ( panes[src].index >= panes[src].max_index ) {
+                        panes[src].page++;
+                        if( panes[src].page >= panes[src].max_page ) {
+                            panes[src].page = 0;
+                        }
+                        panes[src].index = 0;
+                    }
+                    unsigned lpos = panes[src].index + (panes[src].page * itemsPerPage);
+                    if ( lpos < panes[src].items.size() && panes[src].items[lpos].volume != -8 ) {
+                        l = 0;
+                    }
+
                 }
-
-                if (changey > 0) {
-                    panes[src].page = category_index_start[next_cat] / itemsPerPage;
-                    new_index = category_index_start[next_cat] % itemsPerPage;
-                } else {
-                    panes[src].page = category_index_start[prev_cat] / itemsPerPage;
-                    new_index = category_index_start[prev_cat] % itemsPerPage;
-
-                    panes[src].max_index = panes[src].page < panes[src].max_page - 1 ?
-                        itemsPerPage : panes[src].items.size() % itemsPerPage;
-                }
-              } else {
-                  new_index = panes[src].index + changey;
-              }
-
-              panes[src].index = new_index;
-              if ( panes[src].index < 0 ) {
-                  panes[src].page--;
-                  if( panes[src].page < 0 ) {
-                    panes[src].page = panes[src].max_page - 1;
-                    panes[src].index = panes[src].items.size() - 1 - ( panes[src].page * itemsPerPage );
-                  } else {
-                    panes[src].index = itemsPerPage; // corrected at the start of next iteration
-                  }
-              } else if ( panes[src].index >= panes[src].max_index ) {
-                  panes[src].page++;
-                  if( panes[src].page >= panes[src].max_page ) {
-                    panes[src].page = 0;
-                  }
-                  panes[src].index = 0;
-              }
-              unsigned lpos = panes[src].index + (panes[src].page * itemsPerPage);
-              if ( lpos < panes[src].items.size() && panes[src].items[lpos].volume != -8 ) {
-                  l = 0;
-              }
-
+                panes[src].redraw = true;
             }
-            panes[src].redraw = true;
-          }
-          if ( changex >= 0 ) {
-            src = changex;
-            redraw = true;
-          }
+            if ( changex >= 0 ) {
+                src = changex;
+                redraw = true;
+            }
         }
     }
 

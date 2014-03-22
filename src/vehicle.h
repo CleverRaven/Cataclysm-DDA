@@ -386,7 +386,7 @@ public:
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const ammotype & ftype);
 
-    void consume_fuel (float rate);
+    void consume_fuel( double load );
 
     void power_parts ();
 
@@ -524,7 +524,7 @@ public:
     void cycle_turret_mode();
 
     // fire the turret which is part p
-    void fire_turret (int p, bool burst = true);
+    bool fire_turret( int p, bool burst = true );
 
     // internal procedure of turret firing
     bool fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long charges,

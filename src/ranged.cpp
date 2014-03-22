@@ -14,6 +14,7 @@ int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
 void make_gun_sound_effect(player &p, bool burst, item* weapon);
 double calculate_missed_by(player &p, int trange, item* weapon);
+extern bool is_valid_in_w_terrain(int,int);
 
 void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
 
@@ -802,7 +803,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
    // Draw the player
    int atx = POSX + u.posx - center.x, aty = POSY + u.posy - center.y;
-   if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
+   if (is_valid_in_w_terrain(atx, aty))
     mvwputch(w_terrain, aty, atx, u.color(), '@');
 
    // Only draw a highlighted trajectory if we can see the endpoint.
@@ -1152,20 +1153,16 @@ void splatter( std::vector<point> trajectory, int dam, Creature* target )
     }
     if(!target->is_npc() && !target->is_player()) { //Check if the creature isn't an NPC or the player (so the cast works)
         monster *mon = dynamic_cast<monster*>(target);
-        if (mon->is_hallucination()) {//if it is a hallucanation, don't splatter the blood.
+        if (mon->is_hallucination() || mon->get_material() != "flesh" || mon->has_flag(MF_VERMIN)) {//if it is a hallucanation, not made of flesh, or a vermin creature, don't splatter the blood.
             return;
         }
     }
     field_id blood = fd_blood;
     if( target != NULL ) {
-        if( target->get_material() != "flesh" || target->has_flag(MF_VERMIN) ) {
-            return;
-        }
-        if( target->has_flag(MF_BILE_BLOOD) ) {
-            blood = fd_bile;
-        } else if( target->has_flag(MF_ACID_BLOOD) ) {
-            blood = fd_acid;
-        }
+        blood = target->bloodType();
+    }
+    if (blood == fd_null) { //If there is no blood to splatter, return.
+        return;
     }
 
     int distance = 1;

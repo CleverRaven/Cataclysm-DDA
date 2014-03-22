@@ -3,10 +3,7 @@
 
 #include "creature.h"
 #include "player.h"
-#include "mtype.h"
 #include "enums.h"
-#include "bodypart.h"
-#include "field.h"
 #include <vector>
 
 class map;
@@ -240,8 +237,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     bool is_hallucination();    // true if the monster isn't actually real
 
-    field_id monBloodType();
-    field_id monGibType();
+    field_id bloodType();
+    field_id gibType();
 
 // TEMP VALUES
  int wandx, wandy; // Wander destination - Just try to move in that direction

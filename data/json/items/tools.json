@@ -238,7 +238,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "HAMMER"
+    "use_action": "HAMMER",
+	"qualities": [["HAMMER", 3], ["HAMMER_G", 1]]
   },
 
   {
@@ -751,7 +752,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+    "qualities": [["BOIL", 1]]
   },
   {
     "id": "soldering_iron",
@@ -3716,7 +3718,7 @@
     "revert_to": "null",
     "category": "weapons",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1], ["COOK", 1]]
   },
 
   {
@@ -4130,7 +4132,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LUMBER"
+    "use_action": "LUMBER",
+	"qualities":[["SAW_W", 1]]
   },
 
   {
@@ -4227,10 +4230,9 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "HACKSAW"
-  },
-
-  {
+    "use_action": "HACKSAW",
+	"qualities":[["SAW_M", 1], ["SAW_M_G", 1]]
+  },{
     "id": "tent_kit",
     "type": "TOOL",
     "symbol": ";",
@@ -4535,7 +4537,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE"
+    "use_action": "NONE",
+	"qualities": [["SCREW", 1], ["SCREW_G", 1]]
   },
 
   {
@@ -4558,7 +4561,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE"
+    "use_action": "NONE",
+	"qualities": [["WRENCH", 1], ["WRENCH_G", 1]]
   },
 
   {
@@ -4615,7 +4619,7 @@
     "name": "mop",
     "description": "This is an unwieldy mop. Good for cleaning up spills. Use to mop up any 'mess' you may have made.",
     "price": 2400,
-    "material": "aluminum",
+    "material": "wood",
     "techniques": "WBLOCK_1",
     "weight": 929,
     "volume": 7,
@@ -5010,7 +5014,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "HAMMER"
+    "use_action": "HAMMER",
+	"qualities": [["HAMMER", 2], ["HAMMER_G", 1]]
   },
 
   {
@@ -5862,7 +5867,8 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null"
+    "revert_to": "null",
+	"qualities":[["BREW", 2]]
   },
 
   {
@@ -5907,9 +5913,9 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "HOTPLATE"
+    "use_action": "HOTPLATE",
+	"qualities":[["BREW", 1], ["CHEM", 2]]
   },
-
   {
     "id": "crackpipe",
     "type": "TOOL",
@@ -6069,10 +6075,9 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE"
-  },
-
-  {
+    "use_action": "NONE",
+    "qualities": [["COOK", 1]]
+    },{
     "id": "chisel",
     "type": "TOOL",
     "symbol": ";",
@@ -6766,7 +6771,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+	"qualities": [["HAMMER_G", 1], ["SAW_M_G", 1], ["WRENCH_G", 1], ["SCREW_G", 1]]
   },
   {
     "id": "large_repairkit",
@@ -6788,7 +6794,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "GUN_REPAIR"
+    "use_action": "GUN_REPAIR",
+	"qualities": [["HAMMER_G", 1], ["SAW_M_G", 1], ["WRENCH_G", 1], ["SCREW_G", 1]]
   },
   {
     "id": "misc_repairkit",
@@ -6896,5 +6903,27 @@
     "bashing" : -3,
     "cutting" : 3,
     "to_hit" : 0
+  },{
+    "id": "toolset",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "integrated toolset",
+    "description": "Dummy item. If you see this, then something went wrong.",
+    "price": 7000,
+    "material": ["steel", "wood"],
+    "weight": 0,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 10000,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "HAMMER",
+	"qualities": [["HAMMER", 3], ["HAMMER_G", 1], ["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SAW_M_G", 1], ["WRENCH", 1], ["WRENCH_G", 1], ["SCREW", 1], ["SCREW_G", 1]]
   }
 ]
