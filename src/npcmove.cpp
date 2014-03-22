@@ -1268,14 +1268,6 @@ void npc::pick_up_item()
             total_weight += wgt;
         }
     }
-    /*
- if (total_volume + volume_carried() > volume_capacity() ||
-     total_weight + weight_carried() > weight_capacity()) {
-  int wgt_to_drop = weight_carried() + total_weight - weight_capacity();
-  int vol_to_drop = volume_carried() + total_volume - volume_capacity();
-  drop_items(wgt_to_drop, vol_to_drop);
- }
-*/
 // Describe the pickup to the player
  bool u_see_me = g->u_see(posx, posy), u_see_items = g->u_see(itx, ity);
  if (u_see_me) {
