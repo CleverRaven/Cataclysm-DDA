@@ -8,7 +8,7 @@
         "covers" : ["HANDS"],
         "to_hit" : 1,
         "storage" : 0,
-        "symbol" : "G",
+        "symbol" : "[",
         "description" : "A pair of big, red, 8 oz. Boxing gloves. They make dexterous tasks near impossible, but provide ample protection.",
         "price" : 4000,
         "material" : ["leather", "null"],
@@ -132,7 +132,7 @@
     {
         "type" : "overmap_terrain",
         "id" : "gym",
-        "name" : "Boxing gym",
+        "name" : "boxing gym",
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
         "color" : "ltcyan",
