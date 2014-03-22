@@ -295,21 +295,25 @@ void uimenu::setup() {
         fentries.push_back( i );
     }
     if ( !autoassign.empty() ) {
-        for ( int a = 0; a < autoassign.size(); a++ ) {
+        int modifier = 0; //Increase this by one if assignment fails (the key is already used then).
+        for ( int a = 0; a < autoassign.size(); ) {
             int setkey=-1;
-            if ( a < 9 ) {
-                setkey = a + 49; // 1-9;
-            } else if ( a == 9 ) {
-                setkey = a + 39; // 0;
-            } else if ( a < 36 ) {
-                setkey = a + 87; // a-z
-            } else if ( a < 61 ) {
-                setkey = a + 29; // A-Z
+            if ( (a + modifier) < 9 ) {
+                setkey = (a + modifier) + 49; // 1-9;
+            } else if ( (a + modifier) == 9 ) {
+                setkey = (a + modifier) + 39; // 0;
+            } else if ( (a + modifier) < 36 ) {
+                setkey = (a + modifier) + 87; // a-z
+            } else if ( (a + modifier) < 61 ) {
+                setkey = (a + modifier) + 29; // A-Z
             }
-            if ( setkey != -1 && keymap.find(setkey) == keymap.end() ) {
+            if ( setkey != -1 && keymap.count(setkey) <= 0 ) {
                 int palloc = autoassign[ a ];
                 entries[ palloc ].hotkey = setkey;
                 keymap[ setkey ] = palloc;
+                a++;
+            } else {
+                modifier++; //Keymap.count was not <= 0
             }
         }
     }
