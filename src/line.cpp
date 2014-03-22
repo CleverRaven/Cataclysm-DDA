@@ -4,7 +4,7 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
-//Trying to pull points out of a tripoint vector is messy and 
+//Trying to pull points out of a tripoint vector is messy and
 //probably slow, so leaving two full functions for now
 std::vector <point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
 {
@@ -18,11 +18,11 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
     const int ax = abs(dx) << 1; // bitshift one place, functional *2
     const int ay = abs(dy) << 1;
     const int sx = (dx == 0 ? 0 : SGN(dx)), sy = (dy == 0 ? 0 : SGN(dy));
-    point cur; 
+    point cur;
     cur.x = x1;
     cur.y = y1;
     // The old version of this algorithm would generate points on the line and check min/max for each point
-    // to determine whether or not to continue generating the line. Since we already know how many points 
+    // to determine whether or not to continue generating the line. Since we already know how many points
     // we need, this method saves us a half-dozen variables and a few calculations.
     if (ax == ay) {
         for (int i = 0; i < numCells; i++) {
@@ -62,12 +62,12 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
     ret.reserve(numCells);
     tripoint cur;
     cur = loc1;
-    const int dx = loc2.x - loc1.x; 
-    const int dy = loc2.y - loc1.y; 
+    const int dx = loc2.x - loc1.x;
+    const int dy = loc2.y - loc1.y;
     const int dz = loc2.z - loc1.z;
     // Any ideas why we're multiplying the abs distance by two here?
     const int ax = abs(dx) << 1; // bitshift one place, functional *2
-    const int ay = abs(dy) << 1; 
+    const int ay = abs(dy) << 1;
     const int az = abs(dz) << 1;
     const int sx = (dx == 0 ? 0 : SGN(dx));
     const int sy = (dy == 0 ? 0 : SGN(dy));
@@ -99,7 +99,7 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
                 t += ax;
                 ret.push_back(cur);
             } ;
-        } 
+        }
     } else {
         if (ax == ay && ay == az) {
             for (int i = 0; i < numCells; i++) {
@@ -108,19 +108,19 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
                 cur.x += sx;
                 ret.push_back(cur);
             } ;
-        } else if ((az > ax) && (az > ay)) { 
+        } else if ((az > ax) && (az > ay)) {
             for (int i = 0; i < numCells; i++) {
                 if (t > 0) {
                     cur.x += sx;
-                    t -= az; 
+                    t -= az;
                 }
                 if (t2 > 0) {
                     cur.z += sz;
-                    t2 -= ax; 
+                    t2 -= ax;
                 }
                 cur.z += sz;
                 t += ax;
-                t2 += ay; 
+                t2 += ay;
                 ret.push_back(cur);
             } ;
         } else if (ax == ay) {
@@ -131,7 +131,7 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
                 }
                 cur.y += sy;
                 cur.x += sx;
-                t += az; 
+                t += az;
                 ret.push_back(cur);
             } ;
         } else if (ax > ay) {
@@ -154,7 +154,7 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
                 if (t > 0) {
                     cur.x += sx;
                     t -= ay;
-                } 
+                }
                 if (t2 > 0) {
                     cur.z += sz;
                     t2 -= ay;
@@ -164,7 +164,7 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
                 t2 += az;
                 ret.push_back(cur);
             } ;
-        } 
+        }
     }
     return ret;
 }
@@ -223,7 +223,7 @@ std::pair<double,double> slope_of(const std::vector<point> &line)
     return ret;
 }
 
-// returns the normalized dx, dy, dz for the current line vector. 
+// returns the normalized dx, dy, dz for the current line vector.
 // ret.second contains z and can be ignored if unused.
 std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
 {
@@ -243,28 +243,28 @@ std::vector<point> continue_line(const std::vector<point> &line, const int dista
     // slope <x,y> ( slope.first = x, slope.second = y)
     std::pair<double, double> slope;
     slope = slope_of(line);
-    if (abs(slope.first) == abs(slope.second) == 1) {  // dx = dy
+    if (abs(slope.first) == 1 && abs(slope.second) == 1) {  // dx = dy
         end.x += distance * sgn(slope.first);
         end.y += distance * sgn(slope.second);
     } else if (abs(slope.first) > abs(slope.second)) { // X > Y implies abs(x) = 1
         end.x += distance * sgn(slope.first);
-        end.y += int(distance * slope.second); 
-    } else {                                           // else abs(y) = 1 
-        end.x += int(distance * slope.first);  
+        end.y += int(distance * slope.second);
+    } else {                                           // else abs(y) = 1
+        end.x += int(distance * slope.first);
         end.y += distance * sgn(slope.second);
     }
     return line_to(start.x, start.y, end.x, end.y, 0);
-} 
+}
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)
 { // May want to optimize this, but it's called fairly infrequently as part of specific attack
-  // routines, erring on the side of readability. 
+  // routines, erring on the side of readability.
     tripoint start;
     tripoint end;
     start = end = line.back();
-    // slope <<x,y>,z> 
+    // slope <<x,y>,z>
     std::pair<std::pair<double, double>, double> slope;
-    slope = slope_of(line); 
+    slope = slope_of(line);
     end.x += int(distance * slope.first.first);
     end.y += int(distance * slope.first.second);
     end.z += int(distance * slope.second);
@@ -282,7 +282,7 @@ direction direction_from(const tripoint loc1, const tripoint loc2)
     int dy = loc2.y - loc1.y;
     int dz = loc2.z - loc1.z;
     // offset returns 0, 8, or 16 to put us in "above" or "below" range
-    int offset =  (dz == 0 ? 0 : (12 + (sgn(dz) * 2))); 
+    int offset =  (dz == 0 ? 0 : (12 + (sgn(dz) * 2)));
     if (dx < 0) {
         if (abs(dx) / 2 > abs(dy) || dy == 0) {
             return direction(6 + offset); //West
