@@ -6203,8 +6203,7 @@
   ],
   "components": [
     [
-      [ "potato_raw", 1 ],
-      [ "potato_irradiated", 1]
+      [ "cornmeal", 1 ],
     ],
     [
       [ "salt", 2 ]
