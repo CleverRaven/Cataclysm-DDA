@@ -3312,18 +3312,6 @@ void vehicle::remove_item (int part, int itemdex)
     parts[part].items.erase (parts[part].items.begin() + itemdex);
 }
 
-void vehicle::remove_item(int part, item *it)
-{
-    for (std::vector<item>::iterator iter = parts[part].items.begin(); iter != parts[part].items.end(); iter++) {
-        if (it == &*iter) {
-            parts[part].items.erase(iter);
-            return;
-        }
-    }
-
-    //debugmsg("Tried to remove item not in vehicle part %d inventory (name: %s)", part, it->type->name.c_str());
-}
-
 void vehicle::place_spawn_items()
 {
     for(std::vector<vehicle_item_spawn>::iterator next_spawn = item_spawns.begin();
