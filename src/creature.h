@@ -281,6 +281,12 @@ class Creature
         int per_bonus;
         int int_bonus;
 
+        //Starting stats - Should not be changed after creation. Currently only used for the player memorial file.
+        int str_start;
+        int dex_start;
+        int per_start;
+        int int_start;
+
         int num_blocks; // base number of blocks/dodges per turn
         int num_dodges;
         int num_blocks_bonus; // bonus ""

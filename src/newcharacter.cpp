@@ -502,6 +502,12 @@ bool player::create(character_type type, std::string tempname)
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
     apply_persistent_morale();
+
+    //Set the starting stats.
+    str_start = str_max;
+    dex_start = dex_max;
+    per_start = per_max;
+    int_start = int_max;
     return true;
 }
 

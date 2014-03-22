@@ -121,6 +121,7 @@ player::player() : Character(), name("")
  int_max = 8;
  per_cur = 8;
  per_max = 8;
+
  underwater = false;
  dodges_left = 1;
  blocks_left = 1;
@@ -1818,10 +1819,32 @@ void player::memorial( std::ofstream &memorial_file )
     memorial_file << _("Game History") << "\n";
     memorial_file << dump_memorial();
 
+    memorial_file << "\n" << _("Starting Stats") << "\n";
+    memorial_file << indent << _("Str ") << str_start << indent << _("Dex ") << dex_start << indent
+                  << _("Int ") << int_start << indent << _("Per ") << per_start << "\n";
+    memorial_file << "\n";
+    //Starting Traits
+    had_trait = false;
+    for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+        if(has_base_trait(iter->first)) {
+            had_trait = true;
+            iter = traits.end();
+        }
+    }
+    if(had_trait) {
+        memorial_file << _("Base Traits:") << "\n";
+        for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+            if(has_base_trait(iter->first)) {
+                memorial_file << indent << traits[iter->first].name << "\n";
+            }
+        }
+        memorial_file << "\n";
+    }
+
     //World statistics
-    memorial_file << "\n" << _("World Information") << "\n";
+    memorial_file << _("World Information") << "\n";
     WORLDPTR world = world_generator->active_world;
-    memorial_file << _("World name: ") << world->world_name << "\n\n";
+    memorial_file << indent << _("World name: ") << world->world_name << "\n\n";
 
     if (!world->world_options.empty()) {
         memorial_file << _("World Options:") << "\n";

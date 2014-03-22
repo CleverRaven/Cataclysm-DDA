@@ -125,10 +125,10 @@ void player::json_load_common_variables(JsonObject & data)
          debugmsg("BAD PLAYER/NPC JSON: no 'posx'?");
     }
     data.read("posy",posy);
-    data.read("str_cur",str_cur);      data.read("str_max",str_max);
-    data.read("dex_cur",dex_cur);      data.read("dex_max",dex_max);
-    data.read("int_cur",int_cur);      data.read("int_max",int_max);
-    data.read("per_cur",per_cur);      data.read("per_max",per_max);
+    data.read("str_cur",str_cur);      data.read("str_max",str_max);    data.read("str_start", str_start);
+    data.read("dex_cur",dex_cur);      data.read("dex_max",dex_max);    data.read("dex_start", dex_start);
+    data.read("int_cur",int_cur);      data.read("int_max",int_max);    data.read("int_start", int_start);
+    data.read("per_cur",per_cur);      data.read("per_max",per_max);    data.read("per_start", per_start);
     data.read("hunger",hunger);        data.read("thirst",thirst);
     data.read("fatigue",fatigue);      data.read("stim",stim);
     data.read("pain",pain);            data.read("pkill",pkill);
@@ -194,10 +194,10 @@ void player::json_save_common_variables(JsonOut &json) const
     json.member( "posx", posx );            json.member( "posy", posy );
 
     // attributes, current / max levels
-    json.member( "str_cur", str_cur );      json.member( "str_max", str_max );
-    json.member( "dex_cur", dex_cur );      json.member( "dex_max", dex_max );
-    json.member( "int_cur", int_cur );      json.member( "int_max", int_max );
-    json.member( "per_cur", per_cur );      json.member( "per_max", per_max );
+    json.member( "str_cur", str_cur );      json.member( "str_max", str_max );  json.member("str_start", str_start);
+    json.member( "dex_cur", dex_cur );      json.member( "dex_max", dex_max );  json.member("dex_start", dex_start);
+    json.member( "int_cur", int_cur );      json.member( "int_max", int_max );  json.member("int_start", int_start);
+    json.member( "per_cur", per_cur );      json.member( "per_max", per_max );  json.member("per_start", per_start);
 
     // om-noms or lack thereof
     json.member( "hunger", hunger );        json.member( "thirst", thirst );

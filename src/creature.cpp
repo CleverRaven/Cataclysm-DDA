@@ -18,6 +18,11 @@ Creature::Creature()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+     //Starting stats
+    str_start = 0;
+    dex_start = 0;
+    per_start = 0;
+    int_start = 0;
     moves = 0;
     pain = 0;
     killer = NULL;
@@ -38,6 +43,11 @@ Creature::Creature(const Creature &rhs)
     dex_cur = rhs.dex_cur;
     per_cur = rhs.per_cur;
     int_cur = rhs.int_cur;
+     //Starting stats
+    str_start = rhs.str_start;
+    dex_start = rhs.dex_start;
+    per_start = rhs.per_start;
+    int_start = rhs.int_start;
     moves = rhs.moves;
     pain = rhs.pain;
     killer = rhs.killer;
@@ -171,11 +181,11 @@ int Creature::hit(Creature *source, body_part bphurt, int side,
 }
 
 int Creature::deal_melee_attack(Creature *source, int hitroll)
-{    
+{
     int dodgeroll = dodge_roll();
     int hit_spread = hitroll - dodgeroll;
     bool missed = hit_spread <= 0;
-    
+
     if (missed) {
         dodge_hit(source, hit_spread);
         return hit_spread;
@@ -186,7 +196,7 @@ int Creature::deal_melee_attack(Creature *source, int hitroll)
 
 void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
                                 const damage_instance &dam, dealt_damage_instance &dealt_dam)
-{    
+{
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part(source, hit_spread);
