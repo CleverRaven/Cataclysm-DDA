@@ -101,7 +101,7 @@ std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, 
             } ;
         } 
     } else {
-        if (ax == ay == az) {
+        if (ax == ay && ay == az) {
             for (int i = 0; i < numCells; i++) {
                 cur.z += sz;
                 cur.y += sy;
