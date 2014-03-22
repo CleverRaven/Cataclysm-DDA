@@ -890,7 +890,6 @@ bool advanced_inventory::move_all_items()
                 continue;
             }
 
-            g->add_msg("Item %s", it->name.c_str());
             // Don't even try.
             if (it->made_of(LIQUID)) {
                 ++it;
@@ -1101,7 +1100,7 @@ void advanced_inventory::display(player *pp)
                     mvwprintz(head, 2, 2, c_white,
                               _("1-9 to select square for active tab, 0 for inventory, D for dragged item,")); // 1-9 or GHJKLYUBNID
                     mvwprintz(head, 3, 2, c_white,
-                              _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit."));
+                              _("[e]xamine, [s]ort, toggle auto[p]ickup, [q]uit, [,] to move all items"));
                     if (panes[src].sortby == SORTBY_CATEGORY) {
                         nc_color highlight_color = inCategoryMode ? c_white_red : h_ltgray;
                         mvwprintz(head, 3, 3 + utf8_width(_("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit.")),
