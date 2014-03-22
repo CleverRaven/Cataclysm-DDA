@@ -706,7 +706,6 @@ bool advanced_inventory::move_all_items()
 
     //update the dest variable
     dest = (src == left ? right : left);
-    bool moveall = true;
     int destarea = panes[dest].area;
     if ( panes[dest].area == isall ) {
         popup(_("You have to choose a destination area."));
@@ -732,6 +731,12 @@ bool advanced_inventory::move_all_items()
             for (int ip = u.inv.size()-1; ip >= 0; /* noop */ ) {
                 const std::list<item> &stack = u.inv.const_stack(ip); // get the stack at index ip
                 const item *it = &stack.front();                      // get the first item in that stack
+
+                // if we're filtering, check if this item is in the filter. If it isn't, continue
+                if ( filtering && ! cached_lcmatch(it->name, panes[src].filter, panes[src].filtercache ) ) {
+                    --ip;
+                    continue;
+                }
 
                 // max items in the destination area
                 int max_items = (squares[destarea].max_size - squares[destarea].size);
@@ -817,8 +822,6 @@ bool advanced_inventory::move_all_items()
                         }
                     }
                 } else if (it->count_by_charges()) {
-                    bool chargeback = false;
-                    long all_charges = it->charges;
                     amount = amount > max_items ? max_items : amount;
                     if (amount != 0 && amount <= it->charges) {
                         item moving_item = u.inv.reduce_charges(ip, amount);
@@ -826,13 +829,11 @@ bool advanced_inventory::move_all_items()
                             if (veh->add_item(part, moving_item) == false) {
                                 u.i_add(moving_item);
                                 g->add_msg(_("Destination full. Please report a bug if items have vanished."));
-                                chargeback = true;
                             }
                         } else {
                             if (m.add_item_or_charges(d_x, d_y, moving_item, 0) == false) {
                                 u.i_add(moving_item);
                                 g->add_msg(_("Destination full. Please report a bug if items have vanished."));
-                                chargeback = true;
                             }
                         }
 
@@ -1484,9 +1485,10 @@ void advanced_inventory::display(player *pp)
                 }
             }
         } else if (',' == c) {
-            if (move_all_items()) {
+            if (move_all_items() && OPTIONS["CLOSE_ADV_INV"] == true) {
                 exit = true;
             }
+            recalc = true;
             redraw = true;
         } else if ('?' == c) {
             showmsg = (!showmsg);
