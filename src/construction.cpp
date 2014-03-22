@@ -272,6 +272,12 @@ void construction_menu()
                             has_component[i] = true;
                             col = c_green;
                         }
+                        if ( ((item_controller->find_template(comp.type)->id == "rope_30") ||
+                          (item_controller->find_template(comp.type)->id == "rope_6")) &&
+                          ((g->u.has_trait("WEB_ROPE")) && (g->u.hunger <= 300)) ) {
+                            has_component[i] = true;
+                            col = c_ltgreen; // Show that WEB_ROPE is on the job!
+                        }
                         int length = utf8_width(item_controller->find_template(comp.type)->name.c_str());
                         if (posx + length > FULL_SCREEN_WIDTH - 1) {
                             posy++;
@@ -365,13 +371,8 @@ void construction_menu()
         }
     } while (!exit);
 
-    for (int i = iMaxY - FULL_SCREEN_HEIGHT; i <= iMaxY; ++i) {
-        for (int j = TERRAIN_WINDOW_WIDTH; j <= FULL_SCREEN_WIDTH; ++j) {
-            mvwputch(w_con, i, j, c_black, ' ');
-        }
-    }
-
     wrefresh(w_con);
+    delwin(w_con);
     g->refresh_all();
 }
 
@@ -421,14 +422,23 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
             components_required = true;
             has_component = false;
             for (unsigned k = 0; k < con->components[j].size(); k++) {
-                if (( item_controller->find_template(con->components[j][k].type)->is_ammo() &&
+                if // If you've Rope Webs, you can spin up the webbing to replace any amount of
+                      // rope your projects may require.  But you need to be somewhat nourished:
+                      // Famished or worse stops it.
+                      ( ((item_controller->find_template(con->components[j][k].type)->id == "rope_30") ||
+                      (item_controller->find_template(con->components[j][k].type)->id == "rope_6")) &&
+                      ((p.has_trait("WEB_ROPE")) && (p.hunger <= 300)) ) {
+                      has_component = true;
+                      con->components[j][k].available = 1;
+                } else if (( item_controller->find_template(con->components[j][k].type)->is_ammo() &&
                       pinv.has_charges(con->components[j][k].type,
                                        con->components[j][k].count)    ) ||
                     (!item_controller->find_template(con->components[j][k].type)->is_ammo() &&
-                     pinv.has_components (con->components[j][k].type,
-                                      con->components[j][k].count)    )) {
+                     (pinv.has_components (con->components[j][k].type,
+                                      con->components[j][k].count)) )) {
                     has_component = true;
                     con->components[j][k].available = 1;
+                    
                 } else {
                     con->components[j][k].available = -1;
                 }
@@ -555,6 +565,8 @@ void complete_construction()
 
     g->u.practice(g->turn, built->skill, std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < built->components.size(); i++) {
+        // Tried issueing rope for WEB_ROPE here.  Didn't arrive in time for the
+        // gear check.  Ultimately just coded a bypass in crafting.cpp.
         if (!built->components[i].empty()) {
             g->consume_items(&(g->u), built->components[i]);
         }

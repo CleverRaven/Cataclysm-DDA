@@ -666,7 +666,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
     return ret;
 }
 
-char popup_getkey(const char *mes, ...)
+long popup_getkey(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
@@ -1161,9 +1161,13 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
             } else if (iStartPos + iContentHeight > iNumEntries) {
                 iStartPos = iNumEntries - iContentHeight;
             }
+        } else {
+            iStartPos = 0;
         }
     } else {
-        if( iCurrentLine < iStartPos ) {
+        if (iNumEntries <= iContentHeight) {
+            iStartPos = 0;
+        } else if( iCurrentLine < iStartPos ) {
             iStartPos = iCurrentLine;
         } else if( iCurrentLine >= iStartPos + iContentHeight ) {
             iStartPos = 1 + iCurrentLine - iContentHeight;
@@ -1274,12 +1278,12 @@ std::string string_format(const char *pattern, ...)
     return result;
 }
 
-std::string vstring_format(const std::string &pattern, va_list argptr)
+std::string vstring_format(const std::string pattern, va_list argptr)
 {
     return vstring_format(pattern.c_str(), argptr);
 }
 
-std::string string_format(const std::string &pattern, ...)
+std::string string_format(const std::string pattern, ...)
 {
     va_list ap;
     va_start(ap, pattern);

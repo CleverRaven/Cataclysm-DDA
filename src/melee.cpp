@@ -1159,27 +1159,34 @@ std::string player::melee_special_effects(Creature &t, damage_instance& d)
  handle_melee_wear();
 
  bool is_hallucination = false; //Check if the target is an hallucination.
- if(monster *m = dynamic_cast<monster*>(&t)) {
+ if(monster *m = dynamic_cast<monster*>(&t)) { //Cast fails if the t is an NPC or the player.
    is_hallucination = m->is_hallucination();
  }
-
-// Getting your weapon stuck
+ // Getting your weapon stuck
  int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT));
- if (weapon.has_flag("MESSY")) { // e.g. chainsaws
-  cutting_penalty /= 6; // Harder to get stuck
-  if (monster *m = dynamic_cast<monster*>(&t)) { //Does not work on NPC's or player.
-   if(!is_hallucination){
-    field_id type_blood = m->monBloodType();
+
+ //Some weapons splatter a lot of blood around.
+ if (d.total_damage() > 10) { //Check if you do non minor damage TODO: this function shows total damage done by this attack, not final damage inflicted.
+  if (weapon.has_flag("MESSY")) { // e.g. chainsaws
+   cutting_penalty /= 6; // Harder to get stuck
+   //Get blood type.
+   field_id type_blood = fd_blood;
+   if(!is_hallucination || t.has_flag(MF_VERMIN)){
+    type_blood = t.bloodType();
+   } else {
+    type_blood = fd_null;
+   }
+   if(type_blood != fd_null) {
     for (int x = tarposx - 1; x <= tarposx + 1; x++) {
      for (int y = tarposy - 1; y <= tarposy + 1; y++) {
-      if (!one_in(3) && type_blood != fd_null) {
+      if (!one_in(3)) {
        g->m.add_field(x, y, type_blood, 1);
       }
-     } //it all
-    } //comes
-   } //tumbling down
+     }
+    } //it all
+   } //comes
   } //tumbling down
- } //tumbling down
+ }
 
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !is_hallucination) {
     dump << string_format(_("Your %s gets stuck in %s, pulling it out of your hands!"), weapon.tname().c_str(), target.c_str());
@@ -1344,6 +1351,48 @@ std::vector<special_attack> player::mutation_attacks(Creature &t)
         } else {
             tmp.text = string_format(_("%s pecks %s!"),
                                      name.c_str(), target.c_str());
+        }
+        ret.push_back(tmp);
+    }
+    
+    if (has_trait("BEAK_PECK") && one_in(15 - dex_cur - skillLevel("unarmed")) &&
+            (!wearing_something_on(bp_mouth))) {
+            // method open to improvement, please feel free to suggest
+            // a better way to simulate target's anti-peck efforts
+        int num_hits = (dex_cur + skillLevel("unarmed") - rng(4,10));
+        if (num_hits <= 0) {
+            num_hits = 1;
+        }
+        // Yeah, arbitrary balance cap of Unfunness. :-(
+        // Though this is a 6-second turn, so only so much
+        // time to peck your target.
+        if (num_hits >= 5) {
+            num_hits = 5;
+        }
+        special_attack tmp;
+        tmp.stab = (num_hits *= 10 );
+        if (num_hits == 1) {
+            if (is_player()) {
+                tmp.text = string_format(_("You peck %s!"),
+                                        target.c_str());
+            } else {
+                tmp.text = string_format(_("%s pecks %s!"),
+                                        name.c_str(), target.c_str());
+            }
+        }
+        //~"jackhammering" with the beak is metaphor for the rapid-peck
+        //~commonly employed by a woodpecker drilling into wood
+        else {
+            if (is_player()) {
+                tmp.text = string_format(_("You jackhammer into %s with your beak!"),
+                                        target.c_str());
+            } else if (male) {
+                tmp.text = string_format(_("%s jackhammers into %s with his beak!"),
+                                        name.c_str(), target.c_str());
+            } else {
+                tmp.text = string_format(_("%s jackhammers into %s with her beak!"),
+                                        name.c_str(), target.c_str());
+            }
         }
         ret.push_back(tmp);
     }

@@ -32,10 +32,10 @@ void ammunition_type::load_ammunition_type(JsonObject &jsobj)
     _all_ammunition_type[amtype._ident] = amtype;
 }
 
-ammunition_type* ammunition_type::find_ammunition_type(std::string ident)
+ammunition_type *ammunition_type::find_ammunition_type(std::string ident)
 {
     ammunition_type_map::iterator found = _all_ammunition_type.find(ident);
-    if(found != _all_ammunition_type.end()){
+    if(found != _all_ammunition_type.end()) {
         return &(found->second);
     } else {
         debugmsg("Tried to get invalid ammunition: %s", ident.c_str());

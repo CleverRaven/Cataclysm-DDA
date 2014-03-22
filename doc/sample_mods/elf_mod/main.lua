@@ -7,9 +7,7 @@ function MOD.on_day_passed()
 
     -- spawn monster group in top left corner
     local overmap = game.get_current_overmap()
-    local top = overmap:get_top_border()
-    local left = overmap:get_left_border()
-    local newgroup = game.create_monster_group(overmap, "GROUP_ELF", left + 5, top + 5, 0, 10, 2000)
+    local newgroup = game.create_monster_group(overmap, "GROUP_ELF", 5, 5, 0, 10, 2000)
     newgroup.horde = true
 
     -- Elves multiply

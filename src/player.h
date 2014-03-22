@@ -13,7 +13,6 @@
 #include "vehicle.h"
 #include "martialarts.h"
 #include "player_activity.h"
-#include "field.h"
 
 class monster;
 class game;
@@ -239,6 +238,8 @@ public:
 
  bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
  bool has_martialart(const matype_id &ma_id) const; // checks if a player has any martial arts buffs attached
+
+ void add_martialart(const matype_id &ma_id);
 
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
  int mabuff_dodge_bonus(); // martial arts dodge bonus
@@ -509,8 +510,8 @@ public:
 
  int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
- bool has_watertight_container();
- bool has_matching_liquid(itype_id it);
+ // Check for free container space for the whole liquid item
+ bool has_container_for(const item &liquid);
  bool has_drink();
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag

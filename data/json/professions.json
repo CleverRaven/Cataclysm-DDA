@@ -207,6 +207,42 @@
     },
     {
         "type": "profession",
+        "ident": "cyclist",
+        "name": "Professional Cyclist",
+        "description": "You were a promising young cyclist with a bright career in front of you before this all happened. Perhaps you'll never get to participate in the grand tours now, but as the saying goes: Life is like riding a bicycle, you got to keep moving.",
+        "points": 3,
+        "skills": [
+            {
+                "level": 3,
+                "name": "driving"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "helmet_bike",
+                "folding_bicycle",
+                "under_armor_shorts",
+                "under_armor",
+                "sneakers",
+                "sports_drink",
+                "fanny",
+                "fancy_sunglasses"               
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "panties",
+                "sports_bra"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "soldier",
         "name": "Military Recruit",
         "description": "You were a high school drop-out with one goal in mind: to join the military. You finally got in, just in time for your training to get interrupted by a national emergency. As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",

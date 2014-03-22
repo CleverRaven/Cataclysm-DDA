@@ -316,8 +316,8 @@ void map::build_seen_cache()
         // Do all the sight checks first to prevent fake multiple reflection
         // from happening due to mirrors becoming visible due to processing order.
         for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
-            const int mirrorX = offsetX + veh->parts[*m_it].precalc_dx[0];
-            const int mirrorY = offsetY + veh->parts[*m_it].precalc_dy[0];
+            const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc_dx[0];
+            const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc_dy[0];
             // We can utilize the current state of the seen cache to determine
             // if the player can see the mirror from their position.
             if (!g->u.sees(mirrorX, mirrorY)) {
@@ -328,8 +328,8 @@ void map::build_seen_cache()
         }
 
         for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); ++m_it) {
-            const int mirrorX = offsetX + veh->parts[*m_it].precalc_dx[0];
-            const int mirrorY = offsetY + veh->parts[*m_it].precalc_dy[0];
+            const int mirrorX = veh->global_x() + veh->parts[*m_it].precalc_dx[0];
+            const int mirrorY = veh->global_y() + veh->parts[*m_it].precalc_dy[0];
 
             // Determine how far the light has already traveled so mirrors
             // don't cheat the light distance falloff.

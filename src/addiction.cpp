@@ -160,24 +160,23 @@ void addict_effect(addiction &add)
         if (g->u.has_trait("MUT_JUNKIE")) {
             if (one_in(600 - 50 * in)) {
                 g->add_msg(rng(0, 6) < in ? _("You so miss the exquisite rainbow of post-humanity.") :
-                       _("Your body is SOO booorrrring. Just a little sip to liven things up?"));
+                           _("Your body is SOO booorrrring. Just a little sip to liven things up?"));
                 g->u.add_morale(MORALE_CRAVING_MUTAGEN, -20, -200);
             }
             if (g->u.focus_pool > 40 && one_in(800 - 20 * in)) {
                 g->u.focus_pool -= (in);
                 g->add_msg(_("You daydream what it'd be like if you were *different*. Different is good."));
             }
-        }
-        else if (in > 5 || one_in((500 - 15 * in))) {
+        } else if (in > 5 || one_in((500 - 15 * in))) {
             g->add_msg(rng(0, 6) < in ? _("You haven't had any mutagen lately.") :
                        _("You could use some new parts..."));
             g->u.add_morale(MORALE_CRAVING_MUTAGEN, -5, -50);
         }
         break;
-	
-	//for any other unhandled cases
-	default:
-		break;
+
+        //for any other unhandled cases
+    default:
+        break;
     }
 }
 
@@ -308,17 +307,16 @@ Risk of delirium tremens");
         return _("You may find it difficult to sleep without medication.");
 
     case ADD_PKILLER: {
-    if (g->u.has_trait("NOPAIN")) {
-        return string_format(_(
-                                 "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
-                                 "Depression.  Frequent cravings.  Vomiting."), strpen);
+        if (g->u.has_trait("NOPAIN")) {
+            return string_format(_(
+                                     "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
+                                     "Depression.  Frequent cravings.  Vomiting."), strpen);
+        } else {
+            return string_format(_(
+                                     "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
+                                     "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
+        }
     }
-    else {
-        return string_format(_(
-                             "Strength - %d;   Perception - 1;   Dexterity - 1;\n"
-                             "Depression and physical pain to some degree.  Frequent cravings.  Vomiting."), strpen);
-    }
-  }
 
     case ADD_SPEED:
         return _("Strength - 1;   Intelligence - 1;\n\

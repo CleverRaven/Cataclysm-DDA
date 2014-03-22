@@ -553,14 +553,49 @@ void iexamine::chainfence(player *p, map *m, int examx, int examy) {
   none(p, m, examx, examy);
   return;
  }
+ if ( (p->has_trait("ARACHNID_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
+    g->add_msg(_("Climbing the fence is trivial for one such as you."));
+    p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
+    p->posx = examx;
+    p->posy = examy;
+    return;
+ }
+ if ( (p->has_trait("INSECT_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
+    g->add_msg(_("You quickly scale the fence."));
+    p->moves -= 90;
+    p->posx = examx;
+    p->posy = examy;
+    return;
+ }
+ 
  p->moves -= 400;
  if (one_in(p->dex_cur)) {
-  g->add_msg(_("You slip whilst climbing and fall down again"));
+  g->add_msg(_("You slip whilst climbing and fall down again."));
  } else {
   p->moves += p->dex_cur * 10;
   p->posx = examx;
   p->posy = examy;
  }
+}
+
+void iexamine::bars(player *p, map *m, int examx, int examy) {
+ if(!(p->has_trait("AMORPHOUS"))) {
+    none(p, m, examx, examy);
+    return;
+ }
+ if ( ((p->encumb(bp_torso)) >= 1) && ((p->encumb(bp_head)) >= 1) &&
+    ((p->encumb(bp_feet)) >= 1) ) { // Most likely places for rigid gear that would catch on the bars.
+    g->add_msg(_("Your amorphous body could slip though the %s, but your cumbersome gear can't."),m->tername(examx, examy).c_str());
+    return;
+ }
+ if (!query_yn(_("Slip through the %s?"),m->tername(examx, examy).c_str())) {
+  none(p, m, examx, examy);
+  return;
+ }
+  p->moves -= 200;
+  g->add_msg(_("You slide right between the bars."));
+  p->posx = examx;
+  p->posy = examy;
 }
 
 void iexamine::tent(player *p, map *m, int examx, int examy) {
@@ -935,6 +970,21 @@ void iexamine::fswitch(player *p, map *m, int examx, int examy)
 }
 
 void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
+  if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) && ((p->hunger) > 0) &&
+      (!(p->wearing_something_on(bp_mouth))) ) {
+      if (!query_yn(_("You feel woozy as you explore the %s. Drink?"),m->furnname(examx, examy).c_str())) {
+          return;
+      }
+      p->moves -= 150; // You take your time...
+      g->add_msg(_("You slowly suck up the nectar."));
+      p->hunger -= 25;
+      p->add_disease("pkill2", 70);
+      p->fatigue += 20;
+      // Please drink poppy nectar responsibly.
+      if (one_in(20)) {
+          p->add_addiction(ADD_PKILLER, 1);
+      }
+  }
   if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
     none(p, m, examx, examy);
     return;
@@ -944,7 +994,7 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
 
   if (resist < 10) {
     // Can't smell the flowers with a gas mask on!
-    g->add_msg(_("This flower has a heady aroma"));
+    g->add_msg(_("This flower has a heady aroma."));
   }
 
   if (one_in(3) && resist < 5)  {
@@ -952,7 +1002,7 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
     // player::infect needs to be restructured to return a bool indicating success.
     g->add_msg(_("You fall asleep..."));
     p->fall_asleep(1200);
-    g->add_msg(_("Your legs are covered by flower's roots!"));
+    g->add_msg(_("Your legs are covered in the poppy's roots!"));
     p->hurt(bp_legs, 0, 4);
     p->moves -=50;
   }
@@ -963,6 +1013,12 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_blubell(player *p, map *m, int examx, int examy) {
+  if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+      ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+      p->moves -= 50; // Takes 30 seconds
+      g->add_msg(_("You drink some nectar."));
+      p->hunger -= 15;
+  }
   if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
     none(p, m, examx, examy);
     return;
@@ -973,6 +1029,12 @@ void iexamine::flower_blubell(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
+  if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+      ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+      p->moves -= 50; // Takes 30 seconds
+      g->add_msg(_("You drink some nectar."));
+      p->hunger -= 15;
+  }
   if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
     none(p, m, examx, examy);
     return;
@@ -1480,6 +1542,16 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy, std::string i
 }
 
 void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
+  if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
+      ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+      p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
+      g->add_msg(_("You find a flower and drink some nectar."));
+      p->hunger -= 15;
+  }
+  if(!query_yn(_("Harvest from the %s?"),m->tername(examx, examy).c_str())) {
+    none(p, m, examx, examy);
+    return;
+  }
   pick_plant(p, m, examx, examy, "apple", t_tree);
 }
 
@@ -1728,6 +1800,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("chainfence" == function_name) {
     return &iexamine::chainfence;
+  }
+  if ("bars" == function_name) {
+    return &iexamine::bars;
   }
   if ("tent" == function_name) {
     return &iexamine::tent;
