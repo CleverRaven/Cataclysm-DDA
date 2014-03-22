@@ -4,44 +4,34 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
+//Trying to pull points out of a tripoint vector is messy and 
+//probably slow, so leaving two full functions for now
 std::vector <point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
 {
     std::vector<point> ret;
     // Preallocate the number of cells we need instead of allocating them piecewise.
-    ret.reserve( square_dist( x1, y1, x2, y2 ) );
-    int dx = x2 - x1;
-    int dy = y2 - y1;
-    int ax = abs(dx) << 1;
-    int ay = abs(dy) << 1;
-    int sx = SGN(dx);
-    int sy = SGN(dy);
-    if (dy == 0) {
-        sy = 0;
-    }
-    if (dx == 0) {
-        sx = 0;
-    }
-    point cur;
+    const int numCells = square_dist(tripoint(x1, y1, 0),tripoint(x2, y2, 0));
+    ret.reserve(numCells);
+    const int dx = x2 - x1;
+    const int dy = y2 - y1;
+    // Any ideas why we're multiplying the abs distance by two here?
+    const int ax = abs(dx) << 1; // bitshift one place, functional *2
+    const int ay = abs(dy) << 1;
+    const int sx = (dx == 0 ? 0 : SGN(dx)), sy = (dy == 0 ? 0 : SGN(dy));
+    point cur; 
     cur.x = x1;
     cur.y = y1;
-
-    int xmin = (x1 < x2 ? x1 : x2), ymin = (y1 < y2 ? y1 : y2),
-        xmax = (x1 > x2 ? x1 : x2), ymax = (y1 > y2 ? y1 : y2);
-
-    xmin -= abs(dx);
-    ymin -= abs(dy);
-    xmax += abs(dx);
-    ymax += abs(dy);
-
+    // The old version of this algorithm would generate points on the line and check min/max for each point
+    // to determine whether or not to continue generating the line. Since we already know how many points 
+    // we need, this method saves us a half-dozen variables and a few calculations.
     if (ax == ay) {
-        do {
+        for (int i = 0; i < numCells; i++) {
             cur.y += sy;
             cur.x += sx;
             ret.push_back(cur);
-        } while ((cur.x != x2 || cur.y != y2) &&
-                 (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
+        } ;
     } else if (ax > ay) {
-        do {
+        for (int i = 0; i < numCells; i++) {
             if (t > 0) {
                 cur.y += sy;
                 t -= ax;
@@ -49,10 +39,9 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
             cur.x += sx;
             t += ay;
             ret.push_back(cur);
-        } while ((cur.x != x2 || cur.y != y2) &&
-                 (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
+        } ;
     } else {
-        do {
+        for (int i = 0; i < numCells; i++) {
             if (t > 0) {
                 cur.x += sx;
                 t -= ay;
@@ -60,100 +49,269 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
             cur.y += sy;
             t += ax;
             ret.push_back(cur);
-        } while ((cur.x != x2 || cur.y != y2) &&
-                 (cur.x >= xmin && cur.x <= xmax && cur.y >= ymin && cur.y <= ymax));
+        } ;
+    }
+    return ret;
+}
+
+std::vector <tripoint> line_to(const tripoint loc1, const tripoint loc2, int t, int t2)
+{
+    std::vector<tripoint> ret;
+    // Preallocate the number of cells we need instead of allocating them piecewise.
+    const int numCells = square_dist(loc1, loc2);
+    ret.reserve(numCells);
+    tripoint cur;
+    cur = loc1;
+    const int dx = loc2.x - loc1.x; 
+    const int dy = loc2.y - loc1.y; 
+    const int dz = loc2.z - loc1.z;
+    // Any ideas why we're multiplying the abs distance by two here?
+    const int ax = abs(dx) << 1; // bitshift one place, functional *2
+    const int ay = abs(dy) << 1; 
+    const int az = abs(dz) << 1;
+    const int sx = (dx == 0 ? 0 : SGN(dx));
+    const int sy = (dy == 0 ? 0 : SGN(dy));
+    const int sz = (dz == 0 ? 0 : SGN(dz));
+    if (az == 0) {
+        if (ax == ay) {
+            for (int i = 0; i < numCells; i++) {
+                cur.y += sy;
+                cur.x += sx;
+                ret.push_back(cur);
+            } ;
+        } else if (ax > ay) {
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.y += sy;
+                    t -= ax;
+                }
+                cur.x += sx;
+                t += ay;
+                ret.push_back(cur);
+            } ;
+        } else {
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.x += sx;
+                    t -= ay;
+                }
+                cur.y += sy;
+                t += ax;
+                ret.push_back(cur);
+            } ;
+        } 
+    } else {
+        if (ax == ay == az) {
+            for (int i = 0; i < numCells; i++) {
+                cur.z += sz;
+                cur.y += sy;
+                cur.x += sx;
+                ret.push_back(cur);
+            } ;
+        } else if ((az > ax) && (az > ay)) { 
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.x += sx;
+                    t -= az; 
+                }
+                if (t2 > 0) {
+                    cur.z += sz;
+                    t2 -= ax; 
+                }
+                cur.z += sz;
+                t += ax;
+                t2 += ay; 
+                ret.push_back(cur);
+            } ;
+        } else if (ax == ay) {
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.z += sz;
+                    t -= ax; // to clarify, ax and az are equivalent in this case
+                }
+                cur.y += sy;
+                cur.x += sx;
+                t += az; 
+                ret.push_back(cur);
+            } ;
+        } else if (ax > ay) {
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.y += sy;
+                    t -= ax;
+                }
+                if (t2 > 0) {
+                    cur.z += sz;
+                    t2 -= ax;
+                }
+                cur.x += sx;
+                t += ay;
+                t2 += az;
+                ret.push_back(cur);
+            } ;
+        } else { //dy > dx >= dz
+            for (int i = 0; i < numCells; i++) {
+                if (t > 0) {
+                    cur.x += sx;
+                    t -= ay;
+                } 
+                if (t2 > 0) {
+                    cur.z += sz;
+                    t2 -= ay;
+                }
+                cur.y += sy;
+                t += ax;
+                t2 += az;
+                ret.push_back(cur);
+            } ;
+        } 
     }
     return ret;
 }
 
 int trig_dist(const int x1, const int y1, const int x2, const int y2)
 {
-    return int( sqrt( double( (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) ) ) );
+    return trig_dist(tripoint(x1, y1, 0),tripoint(x2, y2, 0));
+}
+
+int trig_dist(const tripoint loc1, const tripoint loc2)
+{
+    return int (sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
+                           ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
+                           ((loc1.z - loc2.z) * (loc1.z - loc2.z))));
 }
 
 int square_dist(const int x1, const int y1, const int x2, const int y2)
 {
-    const int dx = abs(x1 - x2), dy = abs(y1 - y2);
-    return ( dx > dy ? dx : dy );
+    return square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
+}
+
+int square_dist(const tripoint loc1, const tripoint loc2)
+{
+    const int dx = abs(loc1.x - loc2.x);
+    const int dy = abs(loc1.y - loc2.y);
+    const int dz = abs(loc1.z - loc2.z);
+    int maxDxDy = (dx > dy ? dx : dy); // Sloppy, but should be quick.
+    return (maxDxDy > dz ? maxDxDy : dz); // Too bad it doesn't scale.
 }
 
 int rl_dist(const int x1, const int y1, const int x2, const int y2)
 {
+    return rl_dist(tripoint(x1, y1, 0), tripoint (x2, y2, 0));
+}
+
+int rl_dist(const point a, const point b)
+{
+    return rl_dist(tripoint(a.x, a.y, 0),tripoint(b.x, b.y, 0));
+}
+
+int rl_dist(const tripoint loc1, const tripoint loc2)
+{
     if(trigdist) {
-        return trig_dist( x1, y1, x2, y2 );
+        return trig_dist(loc1, loc2);
     }
-    return square_dist( x1, y1, x2, y2 );
+    return square_dist(loc1, loc2);
 }
 
-int rl_dist(point a, point b)
+// returns normalized dx and dy for the current line vector.
+std::pair<double,double> slope_of(const std::vector<point> &line)
 {
-    return rl_dist(a.x, a.y, b.x, b.y);
+    int len = line.size();
+    double normDx = (line.back().x - line.front().x) / len;
+    double normDy = (line.back().y - line.front().y) / len;
+    auto ret = std::make_pair(normDx, normDy); // slope of x, y
+    return ret; 
 }
 
-double slope_of(const std::vector<point> &line)
+// returns the normalized dx, dy, dz for the current line vector. 
+// ret.second contains z and can be ignored if unused.
+std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
 {
-    double dX = line.back().x - line.front().x, dY = line.back().y - line.front().y;
-    if (dX == 0) {
-        return SLOPE_VERTICAL;
-    }
-    return (dY / dX);
+    int len = line.size();
+    double normDx = (line.back().x - line.front().x) / len;
+    double normDy = (line.back().y - line.front().y) / len;
+    double normDz = (line.back().z - line.front().z) / len;
+    auto retXY = std::make_pair(normDx, normDy);
+    auto ret = std::make_pair(retXY, normDz); // slope of <x, y> z
+    return ret;
 }
 
 std::vector<point> continue_line(const std::vector<point> &line, const int distance)
 {
     point start = line.back(), end = line.back();
-    double slope = slope_of(line);
-    int sX = (line.front().x < line.back().x ? 1 : -1),
-        sY = (line.front().y < line.back().y ? 1 : -1);
-    if (abs(slope) == 1) {
-        end.x += distance * sX;
-        end.y += distance * sY;
-    } else if (abs(slope) < 1) {
-        end.x += distance * sX;
-        end.y += int(distance * abs(slope) * sY);
-    } else {
-        end.y += distance * sY;
-        if (slope != SLOPE_VERTICAL) {
-            end.x += int(distance / abs(slope)) * sX;
-        }
+    // slope <x,y> ( slope.first = x, slope.second = y)
+    std::pair<double, double> slope;
+    slope = slope_of(line);
+    if (abs(slope.first) == abs(slope.second) == 1) {  // dx = dy
+        end.x += distance * sgn(slope.first);
+        end.y += distance * sgn(slope.second);
+    } else if (abs(slope.first) > abs(slope.second)) { // X > Y implies abs(x) = 1
+        end.x += distance * sgn(slope.first);
+        end.y += int(distance * slope.second); 
+    } else {                                           // else abs(y) = 1 
+        end.x += int(distance * slope.first);  
+        end.y += distance * sgn(slope.second);
     }
     return line_to(start.x, start.y, end.x, end.y, 0);
+} 
+
+std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)
+{ // May want to optimize this, but it's called fairly infrequently as part of specific attack
+  // routines, erring on the side of readability. 
+    tripoint start;
+    tripoint end;
+    start = end = line.back();
+    // slope <<x,y>,z> 
+    std::pair<std::pair<double, double>, double> slope;
+    slope = slope_of(line); 
+    end.x += int(distance * slope.first.first);
+    end.y += int(distance * slope.first.second);
+    end.z += int(distance * slope.second);
+    return line_to(start, end, 0, 0);
 }
 
 direction direction_from(int x1, int y1, int x2, int y2)
 {
-    int dx = x2 - x1;
-    int dy = y2 - y1;
+    return direction_from(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
+}
+
+direction direction_from(const tripoint loc1, const tripoint loc2)
+{
+    int dx = loc2.x - loc1.x;
+    int dy = loc2.y - loc1.y;
+    int dz = loc2.z - loc1.z;
+    // offset returns 0, 8, or 16 to put us in "above" or "below" range
+    int offset =  (dz == 0 ? 0 : (12 + (sgn(dz) * 2))); 
     if (dx < 0) {
         if (abs(dx) / 2 > abs(dy) || dy == 0) {
-            return WEST;
+            return direction(6 + offset); //West
         } else if (abs(dy) / 2 > abs(dx)) {
             if (dy < 0) {
-                return NORTH;
+                return direction(0 + offset); //North
             } else {
-                return SOUTH;
+                return direction(4 + offset); //South
             }
         } else {
             if (dy < 0) {
-                return NORTHWEST;
+                return direction(7 + offset); //Northwest
             } else {
-                return SOUTHWEST;
+                return direction(5 + offset); //Southwest
             }
         }
     } else {
         if (dx / 2 > abs(dy) || dy == 0) {
-            return EAST;
+            return direction(2 + offset); //East
         } else if (abs(dy) / 2 > dx || dx == 0) {
             if (dy < 0) {
-                return NORTH;
+                return direction(6 + offset); //North
             } else {
-                return SOUTH;
+                return direction(4 + offset); //South
             }
         } else {
             if (dy < 0) {
-                return NORTHEAST;
+                return direction(1 + offset); //Northeast
             } else {
-                return SOUTHEAST;
+                return direction(3 + offset); //Southeast
             }
         }
     }
@@ -179,6 +337,38 @@ std::string direction_name(direction dir)
         return _("west");
     case NORTHWEST:
         return _("northwest");
+    case ABOVENORTH:
+        return _("north and above");
+    case ABOVENORTHEAST:
+        return _("northeast and above");
+    case ABOVEEAST:
+        return _("east and above");
+    case ABOVESOUTHEAST:
+        return _("southeast and above");
+    case ABOVESOUTH:
+        return _("south and above");
+    case ABOVESOUTHWEST:
+        return _("southwest and above");
+    case ABOVEWEST:
+        return _("west and above");
+    case ABOVENORTHWEST:
+        return _("northwest and above");
+    case BELOWNORTH:
+        return _("north and below");
+    case BELOWNORTHEAST:
+        return _("northeast and below");
+    case BELOWEAST:
+        return _("east and below");
+    case BELOWSOUTHEAST:
+        return _("southeast and below");
+    case BELOWSOUTH:
+        return _("south and below");
+    case BELOWSOUTHWEST:
+        return _("southwest and below");
+    case BELOWWEST:
+        return _("west and below");
+    case BELOWNORTHWEST:
+        return _("northwest and below");
     }
     return "BUG. (line.cpp:direction_name)";
 }
@@ -188,21 +378,53 @@ std::string direction_name_short(direction dir)
     switch (dir) {
         //~ abbreviated direction names
     case NORTH:
-        return _("N ");
+        return _("N    ");
     case NORTHEAST:
-        return _("NE");
+        return _("NE   ");
     case EAST:
-        return _("E ");
+        return _("E    ");
     case SOUTHEAST:
-        return _("SE");
+        return _("SE   ");
     case SOUTH:
-        return _("S ");
+        return _("S    ");
     case SOUTHWEST:
-        return _("SW");
+        return _("SW   ");
     case WEST:
-        return _("W ");
+        return _("W    ");
     case NORTHWEST:
-        return _("NW");
+        return _("NW   ");
+    case ABOVENORTH:
+        return _("UP_N ");
+    case ABOVENORTHEAST:
+        return _("UP_NE");
+    case ABOVEEAST:
+        return _("UP_E ");
+    case ABOVESOUTHEAST:
+        return _("UP_SE");
+    case ABOVESOUTH:
+        return _("UP_S ");
+    case ABOVESOUTHWEST:
+        return _("UP_SW");
+    case ABOVEWEST:
+        return _("UP_W ");
+    case ABOVENORTHWEST:
+        return _("DN_NW");
+    case BELOWNORTH:
+        return _("DN_N ");
+    case BELOWNORTHEAST:
+        return _("DN_NE");
+    case BELOWEAST:
+        return _("DN_E ");
+    case BELOWSOUTHEAST:
+        return _("DN_SE");
+    case BELOWSOUTH:
+        return _("DN_S ");
+    case BELOWSOUTHWEST:
+        return _("DN_SW");
+    case BELOWWEST:
+        return _("DN_W ");
+    case BELOWNORTHWEST:
+        return _("DN_NW");
     }
     return "Bug. (line.cpp:direction_name_short)";
 }
@@ -211,6 +433,11 @@ std::string direction_name_short(direction dir)
 float rl_vec2d::norm()
 {
     return sqrt(x * x + y * y);
+}
+
+float rl_vec3d::norm()
+{
+    return sqrt(x * x + y * y + z * z);
 }
 
 rl_vec2d rl_vec2d::normalized()
@@ -226,6 +453,20 @@ rl_vec2d rl_vec2d::normalized()
     return ret;
 }
 
+rl_vec3d rl_vec3d::normalized()
+{
+    rl_vec3d ret;
+    if (is_null()) { // shouldn't happen?
+        ret.x = ret.y = ret.z = 1;
+        return ret;
+    }
+    float n = norm();
+    ret.x = x / n;
+    ret.y = y / n;
+    ret.z = z / n;
+    return ret;
+}
+
 rl_vec2d rl_vec2d::get_vertical()
 {
     rl_vec2d ret;
@@ -233,15 +474,38 @@ rl_vec2d rl_vec2d::get_vertical()
     ret.y = x;
     return ret;
 }
+
+rl_vec3d rl_vec3d::get_vertical()
+{
+    rl_vec3d ret;
+    ret.x = -y;
+    ret.y = x;
+    ret.z = z;
+    return ret;
+}
+
 float rl_vec2d::dot_product (rl_vec2d &v)
 {
     float dot = x * v.x + y * v.y;
     return dot;
 }
+
+float rl_vec3d::dot_product (rl_vec3d &v)
+{
+    float dot = x * v.x + y * v.y + y * v.z;
+    return dot;
+}
+
 bool rl_vec2d::is_null()
 {
     return !(x || y);
 }
+
+bool rl_vec3d::is_null()
+{
+    return !(x || y || z);
+}
+
 // scale.
 rl_vec2d rl_vec2d::operator* (const float rhs)
 {
@@ -250,6 +514,16 @@ rl_vec2d rl_vec2d::operator* (const float rhs)
     ret.y = y * rhs;
     return ret;
 }
+
+rl_vec3d rl_vec3d::operator* (const float rhs)
+{
+    rl_vec3d ret;
+    ret.x = x * rhs;
+    ret.y = y * rhs;
+    ret.z = z * rhs;
+    return ret;
+}
+
 // subtract
 rl_vec2d rl_vec2d::operator- (const rl_vec2d &rhs)
 {
@@ -258,6 +532,16 @@ rl_vec2d rl_vec2d::operator- (const rl_vec2d &rhs)
     ret.y = y - rhs.y;
     return ret;
 }
+
+rl_vec3d rl_vec3d::operator- (const rl_vec3d &rhs)
+{
+    rl_vec3d ret;
+    ret.x = x - rhs.x;
+    ret.y = y - rhs.y;
+    ret.z = z - rhs.z;
+    return ret;
+}
+
 // unary negation
 rl_vec2d rl_vec2d::operator- ()
 {
@@ -266,6 +550,16 @@ rl_vec2d rl_vec2d::operator- ()
     ret.y = -y;
     return ret;
 }
+
+rl_vec3d rl_vec3d::operator- ()
+{
+    rl_vec3d ret;
+    ret.x = -x;
+    ret.y = -y;
+    ret.z = -z;
+    return ret;
+}
+
 rl_vec2d rl_vec2d::operator+ (const rl_vec2d &rhs)
 {
     rl_vec2d ret;
@@ -273,10 +567,29 @@ rl_vec2d rl_vec2d::operator+ (const rl_vec2d &rhs)
     ret.y = y + rhs.y;
     return ret;
 }
+
+rl_vec3d rl_vec3d::operator+ (const rl_vec3d &rhs)
+{
+    rl_vec3d ret;
+    ret.x = x + rhs.x;
+    ret.y = y + rhs.y;
+    ret.z = z + rhs.z;
+    return ret;
+}
+
 rl_vec2d rl_vec2d::operator/ (const float rhs)
 {
     rl_vec2d ret;
     ret.x = x / rhs;
     ret.y = y / rhs;
+    return ret;
+}
+
+rl_vec3d rl_vec3d::operator/ (const float rhs)
+{
+    rl_vec3d ret;
+    ret.x = x / rhs;
+    ret.y = y / rhs;
+    ret.z = z / rhs;
     return ret;
 }
