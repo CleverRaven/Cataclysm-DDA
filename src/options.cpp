@@ -470,6 +470,11 @@ void initOptions() {
                                              true
                                             );
 
+    OPTIONS["CLOSE_ADV_INV"] =          cOpt("interface", _("Close advanced inventory on move all"),
+                                             _("If true, will close the advanced inventory when the move all items command is used."),
+                                             false
+                                             );
+
     optionNames["no"] = _("No");
     //~ containers
     optionNames["watertight"] = _("Watertight");
