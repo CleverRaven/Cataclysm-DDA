@@ -718,11 +718,18 @@ bool advanced_inventory::move_all_items()
         return false;
     }
 
-    // is this panel not the player inventory?
+    // is this panel the player inventory?
     if (panes[src].area == isinventory) {
+        // Handle moving from inventory
+        if(query_yn(_("Really move everything from your inventory?"))) {
 
-            // Handle moving from inventory
 
+        } else {
+            return false;
+        }
+
+
+    // Otherwise, we have a normal square to work with
     } else {
 
         int p_x = u.posx + panes[src].offx;
