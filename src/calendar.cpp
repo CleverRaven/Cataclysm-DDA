@@ -372,14 +372,14 @@ std::string calendar::print_time(bool just_hour) const
 
     if (OPTIONS["24_HOUR"] == "military") {
         hour_param = hour % 24;
-        time_string << string_format("%02d%02d", hour_param, minute);
+        time_string << string_format("%02d%02d.%02d", hour_param, minute, second);
     } else if (OPTIONS["24_HOUR"] == "24h") {
         hour_param = hour % 24;
         if (just_hour) {
             time_string << hour_param;
         } else {
             //~ hour:minute (24hr time display)
-            time_string << string_format(_("%02d:%02d"), hour_param, minute);
+            time_string << string_format(_("%02d:%02d:%02d"), hour_param, minute, second);
         }
     } else {
         hour_param = hour % 12;
@@ -391,9 +391,9 @@ std::string calendar::print_time(bool just_hour) const
         } else if (just_hour) {
             time_string << string_format(_("%d PM"), hour_param);
         } else if (hour < 12) {
-            time_string << string_format(_("%d:%02d AM"), hour_param, minute);
+            time_string << string_format(_("%d:%02d:%02d AM"), hour_param, minute, second);
         } else {
-            time_string << string_format(_("%d:%02d PM"), hour_param, minute);
+            time_string << string_format(_("%d:%02d:%02d PM"), hour_param, minute, second);
         }
     }
 
