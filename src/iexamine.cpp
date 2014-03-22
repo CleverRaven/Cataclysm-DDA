@@ -296,7 +296,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
         vend_items = m->i_at(examx, examy);
         num_items = vend_items.size();
 
-        mvwprintz(w, 1, 2, c_ltgray, _("Money left:%d Press 'q' to stop."), card->charges);
+        mvwprintz(w, 1, 2, c_ltgray, _("Money left:%d Press 'q' or ESC to stop."), card->charges);
 
         int first_i, end_i;
         if (cur_pos < iHalf || num_items <= iContentHeight) {
@@ -370,6 +370,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
             break;
         }
         case 'q':
+        case KEY_ESCAPE:
             if (used_machine) {
                 p->moves -= 250;
             }
