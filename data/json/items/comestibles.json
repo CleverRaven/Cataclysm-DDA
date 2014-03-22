@@ -9297,7 +9297,7 @@
         "heal" : -1,
         "addiction_potential" : 0,
         "nutrition" : 62,
-        "description" : "A thick slab of salty cured bacon.",
+        "description" : "A thick slab of salty cured bacon. Shelf stable and ready-to-eat, it still tastes better when eaten hot.",
         "price" : 19000,
         "material" : "flesh",
         "tool" : "null",
