@@ -44,8 +44,7 @@
 RELEASE_FLAGS = -Werror -Wno-switch -Wno-sign-compare
 WARNINGS = -Wall -Wextra
 # Uncomment below to disable warnings
-WARNINGS = -w
-#TILES=1
+#WARNINGS = -w
 DEBUG = -g
 #PROFILE = -pg
 #OTHERS = -O3

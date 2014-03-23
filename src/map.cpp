@@ -430,7 +430,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
  return (src_na != dst_na) || was_update;
 }
 
-void map::vehmove ()
+void map::vehmove()
 {
     VehicleList vehs = get_vehicles();
     // give vehicles movement points, accelerate, turn, spend fuel etc
@@ -453,7 +453,7 @@ void map::vehmove ()
 bool map::vehproceed()
 {
     VehicleList vehs = get_vehicles();
-    vehicle *veh = NULL;
+    vehicle* veh = NULL;
     float max_of_turn = 0;
     int x; int y;
     for( size_t v = 0; v < vehs.size(); ++v ) {
@@ -515,7 +515,6 @@ bool map::vehproceed()
     g->draw();
     return true;
 }
-
 
 bool map::displace_water (const int x, const int y)
 {

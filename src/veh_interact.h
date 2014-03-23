@@ -39,7 +39,6 @@ private:
     int cpart;
     int page_size;
     bool vertical_menu;
-    bool advanced_driving_stats;
     WINDOW *w_grid;
     WINDOW *w_mode;
     WINDOW *w_msg;

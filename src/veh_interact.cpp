@@ -29,7 +29,6 @@ veh_interact::veh_interact ()
     sel_type = 0;
     sel_vpart_info = NULL;
     sel_vehicle_part = NULL;
-    advanced_driving_stats = false;
 
     totalDurabilityColor = c_green;
     worstDurabilityColor = c_green;
@@ -251,9 +250,6 @@ void veh_interact::do_main_loop()
                     break;
                 case 'd':
                     do_drain(reason);
-                    break;
-                case 'a':
-                    advanced_driving_stats = !advanced_driving_stats;
                     break;
                 }
                 if (sel_cmd != ' ') {
@@ -1098,7 +1094,6 @@ void veh_interact::display_veh ()
     }
     wrefresh (w_disp);
 }
-
 
 /**
  * Displays the vehicle's stats at the bottom of the window.
