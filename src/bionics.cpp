@@ -233,16 +233,6 @@ void player::power_bionics()
                 tmp->invlet = newch;
             }
             // TODO: show a message like when reassigning a key to an item?
-        } else if (action == "DOWN") {
-            if(scroll_position < max_scroll_position) {
-                scroll_position++;
-                redraw = true;
-            }
-        } else if (action == "UP") {
-            if(scroll_position > 0) {
-                scroll_position--;
-                redraw = true;
-            }
         } else if (action == "REASSIGN") {
             menu_mode = "reassigning";
         } else if (action == "TOOGLE_EXAMINE") { // switches between activation and examination
