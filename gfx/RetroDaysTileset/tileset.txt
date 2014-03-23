@@ -4,6 +4,6 @@ NAME: retrodays
 #Viewing (Option) name of the tileset
 VIEW: RetroDays
 #JSON Path - Default of gfx/tile_config.json
-JSON: gfx/RetroDaysTileset/tile_config.json
+JSON: RetroDaysTileset/tile_config.json
 #Tileset Path - Default of gfx/tinytile.png
-TILESET: gfx/RetroDaysTileset/retrodaystiles.png
+TILESET: RetroDaysTileset/retrodaystiles.png
