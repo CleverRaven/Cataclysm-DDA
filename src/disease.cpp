@@ -2383,7 +2383,7 @@ void manage_fungal_infection(player& p, disease& dis)
                 p.moves = -200;
                 p.hunger += awfulness;
                 p.thirst += awfulness;
-                p.hurt(bp_torso, -1, awfulness / p.str_cur);  // can't be healthy
+                p.hurt(bp_torso, -1, awfulness / std::max(p.str_cur, 1)); // can't be healthy
             }
         } else {
             p.add_disease("fungus", 1, true, 1, 1, 0, -1);
