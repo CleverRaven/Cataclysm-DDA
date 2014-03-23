@@ -424,12 +424,17 @@ void mdeath::explode(monster *z) {
 }
 
 void mdeath::broken(monster *z) {
-  if (z->type->id == "mon_manhack") {
-    g->m.spawn_item(z->posx(), z->posy(), "broken_manhack", 1, 0, g->turn);
-  }
-  else {
-    debugmsg("Tried to create a broken %s but it does not exist.", z->type->name.c_str());
-  }
+    std::string item_id = z->type->id;
+    if (item_id.compare(0, 4, "mon_") == 0) {
+        item_id.erase(0, 4);
+    }
+    // make "broken_manhack", or "broken_eyebot", ...
+    item_id.insert(0, "broken_");
+    if (item_controller->has_template(item_id)) {
+        g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, g->turn);
+    } else {
+        debugmsg("Tried to create a broken %s but %s does not exist.", z->type->name.c_str(), item_id.c_str());
+    }
 }
 
 void mdeath::ratking(monster *z) {
