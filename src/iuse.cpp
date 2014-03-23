@@ -2210,6 +2210,10 @@ int iuse::extra_battery(player *p, item *, bool)
         g->add_msg_if_player( p,
             _("You replace the plutonium cells in your %s with a double capacity battery compartment!"),
                               tool->name.c_str() );
+        if( modded->charges >= 2500 ) {
+            g->m.spawn_item( p->posx, p->posy, "plut_cell", modded->charges / 2500 );
+            modded->charges %= 2500;
+        }
         g->m.spawn_item( p->posx, p->posy, "battery_atomic", 1, modded->charges );
         modded->item_tags.erase( "ATOMIC_AMMO" );
         modded->item_tags.erase( "RADIOACTIVE" );
@@ -2266,6 +2270,10 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
         g->add_msg_if_player( p,
             _("You replace the plutonium cells in your %s with a rechargeable battery pack!"),
                              tool->name.c_str() );
+        if( modded->charges >= 2500 ) {
+            g->m.spawn_item( p->posx, p->posy, "plut_cell", modded->charges / 2500 );
+            modded->charges %= 2500;
+        }
         g->m.spawn_item( p->posx, p->posy, "battery_atomic", 1, modded->charges );
         modded->item_tags.erase("ATOMIC_AMMO");
         modded->item_tags.erase("RADIOACTIVE");
