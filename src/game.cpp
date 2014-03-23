@@ -52,6 +52,7 @@
 #include <sys/stat.h>
 #include "debug.h"
 #include "catalua.h"
+#include <cassert>
 
 #if (defined _WIN32 || defined __WIN32__)
 #ifndef NOMINMAX
@@ -4173,11 +4174,27 @@ Current turn: %d; Next spawn %d.\n\
             int(p->personality.altruism) << std::endl << " " << std::endl;
     nmenu.text=data.str();
     nmenu.addentry(0,true,'s',"%s",_("Edit [s]kills"));
-    nmenu.addentry(1,true,'q',"%s",_("[q]uit"));
+    nmenu.addentry(1,true,'i',"%s",_("Grant [i]tems"));
+    nmenu.addentry(2,true,'h',"%s",_("Cause [h]urt (to torso)"));
+    nmenu.addentry(3,true,'p',"%s",_("Cause [p]ain"));
+    nmenu.addentry(4,true,'q',"%s",_("[q]uit"));
     nmenu.selected = 0;
     nmenu.query();
-    if (nmenu.ret == 0 ) {
-      wishskill(p);
+    switch (nmenu.ret) {
+        case 0:
+            wishskill(p);
+            break;
+        case 1:
+            wishitem(p);
+            break;
+        case 2:
+            p->hurt(bp_torso, -1, 20);
+            break;
+        case 3:
+            p->mod_pain(20);
+            break;
+        default:
+            break;
     }
    }
   } break;
@@ -8408,8 +8425,13 @@ void game::draw_trail_to_square(int x, int y, bool bDrawX)
 
     draw_line(u.posx + x, u.posy + y, center, vPoint);
     if (bDrawX) {
-        mvwputch(w_terrain, POSY + (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y)),
-                            POSX + (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x)), c_white, 'X');
+        if(vPoint.empty()) {
+            mvwputch(w_terrain, POSY, POSX, c_white, 'X');
+        } else {
+            mvwputch(w_terrain, POSY + (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y)),
+                                POSX + (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x)),
+                                c_white, 'X');
+        }
     }
 
     wrefresh(w_terrain);
@@ -9400,7 +9422,7 @@ void game::pickup(int posx, int posy, int min)
                         }
                         m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                         u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-                        u.wield(u.i_add(newit).invlet);
+                        u.wield(&(u.i_add(newit)));
                         u.moves -= 100;
                         add_msg(_("Wielding %c - %s"), newit.invlet,
                                 newit.display_name().c_str());
@@ -9416,7 +9438,7 @@ and you can't unwield your %s."),
                 }
             } else {
                 u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-                u.wield(u.i_add(newit).invlet);
+                u.wield(&(u.i_add(newit)));
                 if (from_veh) {
                     veh->remove_item (cargo_part, 0);
                 } else {
@@ -9819,7 +9841,7 @@ and you can't unwield your %s."),
                                 picked_up = true;
                                 m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                                 u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
-                                u.wield(u.i_add(here[i]).invlet);
+                                u.wield(&(u.i_add(here[i])));
                                 mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                                 add_msg(_("Wielding %c - %s"), u.weapon.invlet,
                                         u.weapon.display_name().c_str());
@@ -9836,7 +9858,7 @@ and you can't unwield your %s."),
                     }
                 } else {
                     u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
-                    u.wield(u.i_add(here[i]).invlet);
+                    u.wield(&(u.i_add(here[i])));
                     mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                     picked_up = true;
                 }
@@ -10799,67 +10821,123 @@ void game::butcher()
         return;
     }
 
- std::vector<int> corpses;
- for (int i = 0; i < m.i_at(u.posx, u.posy).size(); i++) {
-  if (m.i_at(u.posx, u.posy)[i].type->id == "corpse")
-   corpses.push_back(i);
- }
- if (corpses.empty()) {
-  add_msg(_("There are no corpses here to butcher."));
-  return;
- }
- int factor = u.butcher_factor();
- if (factor == 999) {
-  add_msg(_("You don't have a sharp item to butcher with."));
-  return;
- }
+    const int factor = u.butcher_factor();
+    bool has_corpse = false;
+    bool has_item = false;
+    // indices of corpses / items that can be disassembled
+    std::vector<int> corpses;
+    std::vector<item>& items = m.i_at(u.posx, u.posy);
+    inventory crafting_inv = crafting_inventory(&u);
+    // get corpses first
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
+            if (factor == 999) {
+                if (!has_corpse) {
+                    add_msg(_("You don't have a sharp item to butcher with."));
+                }
+            } else {
+                corpses.push_back(i);
+            }
+            has_corpse = true;
+        }
+    }
+    // than get items to disassemble
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
+            recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+            if (cur_recipe != NULL && can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+                corpses.push_back(i);
+                has_item = true;
+            }
+        }
+    }
+    if (corpses.empty()) {
+        add_msg(_("There are no corpses here to butcher."));
+        return;
+    }
 
- if (is_hostile_nearby() &&
-     !query_yn(_("Hostiles are nearby! Start Butchering anyway?")))
- {
-     return;
- }
+    if (is_hostile_nearby() &&
+        !query_yn(_("Hostiles are nearby! Start Butchering anyway?"))) {
+        return;
+    }
 
- int butcher_corpse_index = 0;
- if (corpses.size() > 1) {
-     uimenu kmenu;
-     kmenu.text = _("Choose corpse to butcher");
-     kmenu.selected = 0;
-     for (size_t i = 0; i < corpses.size(); i++) {
-         mtype *corpse = m.i_at(u.posx, u.posy)[corpses[i]].corpse;
-         int hotkey = -1;
-         if (i == 0) {
-             for (std::map<char, action_id>::iterator it = keymap.begin(); it != keymap.end(); it++) {
-                 if (it->second == ACTION_BUTCHER) {
-                     hotkey = (it->first == 'q') ? -1 : it->first;
-                     break;
-                 }
-             }
-         }
-         kmenu.addentry(i, true, hotkey, corpse->name.c_str());
-     }
-     kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
-     kmenu.query();
-     if (kmenu.ret == corpses.size()) {
-         return;
-     }
-     butcher_corpse_index = kmenu.ret;
- }
+    int butcher_corpse_index = 0;
+    if (corpses.size() > 1) {
+        uimenu kmenu;
+        if (has_item && has_corpse) {
+            kmenu.text = _("Choose corpse to butcher / item to disassemble");
+        } else if (has_corpse) {
+            kmenu.text = _("Choose corpse to butcher");
+        } else {
+            kmenu.text = _("Choose item to disassemble");
+        }
+        kmenu.selected = 0;
+        for( size_t i = 0; i < corpses.size(); i++ ) {
+            item &it = items[corpses[i]];
+            mtype *corpse = it.corpse;
+            int hotkey = -1;
+            // First entry gets a hotkey matching the butcher command.
+            if( i == 0 ) {
+                for (std::map<char, action_id>::iterator it = keymap.begin();
+                     it != keymap.end(); it++) {
+                    if (it->second == ACTION_BUTCHER) {
+                        hotkey = (it->first == 'q') ? -1 : it->first;
+                        break;
+                    }
+                }
+            }
+            if (it.corpse != NULL) {
+                kmenu.addentry(i, true, hotkey, corpse->name.c_str());
+            } else {
+                kmenu.addentry(i, true, hotkey, it.tname().c_str());
+            }
+        }
+        kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
+        kmenu.query();
+        if (kmenu.ret == corpses.size()) {
+            return;
+        }
+        butcher_corpse_index = kmenu.ret;
+    }
 
- mtype *corpse = m.i_at(u.posx, u.posy)[corpses[butcher_corpse_index]].corpse;
- int time_to_cut = 0;
- switch (corpse->size) { // Time in turns to cut up te corpse
-  case MS_TINY:   time_to_cut =  2; break;
-  case MS_SMALL:  time_to_cut =  5; break;
-  case MS_MEDIUM: time_to_cut = 10; break;
-  case MS_LARGE:  time_to_cut = 18; break;
-  case MS_HUGE:   time_to_cut = 40; break;
- }
- time_to_cut *= 100; // Convert to movement points
- time_to_cut += factor * 5; // Penalty for poor tool
- if (time_to_cut < 250)
-  time_to_cut = 250;
- u.assign_activity(ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
+    item &dis_item = items[corpses[butcher_corpse_index]];
+    if (dis_item.corpse == NULL) {
+        recipe *cur_recipe = get_disassemble_recipe(dis_item.type->id);
+        assert(cur_recipe != NULL); // tested above
+        if (OPTIONS["QUERY_DISASSEMBLE"] &&
+            !(query_yn(_("Really disassemble the %s?"), dis_item.tname().c_str()))) {
+            return;
+        }
+        u.assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
+        u.activity.values.push_back(corpses[butcher_corpse_index]);
+        u.activity.values.push_back(1);
+        return;
+    }
+    mtype *corpse = dis_item.corpse;
+    int time_to_cut = 0;
+    switch (corpse->size) { // Time in turns to cut up te corpse
+        case MS_TINY:
+            time_to_cut =  2;
+            break;
+        case MS_SMALL:
+            time_to_cut =  5;
+            break;
+        case MS_MEDIUM:
+            time_to_cut = 10;
+            break;
+        case MS_LARGE:
+            time_to_cut = 18;
+            break;
+        case MS_HUGE:
+            time_to_cut = 40;
+            break;
+    }
+    time_to_cut *= 100; // Convert to movement points
+    time_to_cut += factor * 5; // Penalty for poor tool
+    if (time_to_cut < 250) {
+        time_to_cut = 250;
+    }
+    u.assign_activity(ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
 }
 
 void game::complete_butcher(int index)
@@ -11511,9 +11589,9 @@ void game::wield(int pos)
 
  bool success = false;
  if (pos == -1)
-  success = u.wield(-3);
+  success = u.wield(NULL);
  else
-  success = u.wield(u.lookup_item(u.position_to_invlet(pos)));
+  success = u.wield(&(u.i_at(pos)));
 
  if (success)
   u.recoil = 5;

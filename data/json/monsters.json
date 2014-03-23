@@ -4448,7 +4448,7 @@
     "luminance":0,
     "hp":20,
     "special_freq":30,
-    "death_function":"NORMAL",
+    "death_function":"BROKEN",
     "special_attack":"PHOTOGRAPH",
     "description":"A fusion-driven UAV largely comprised of a high-resolution camera lens, this spheroid robot hovers above the ground, silent witness to the carnage and mayhem around it.",
     "flags":["SEES", "FLIES", "ELECTRONIC", "NO_BREATHE", "NOHEAD"]
@@ -4504,7 +4504,7 @@
     "luminance":0,
     "hp":40,
     "special_freq":5,
-    "death_function":"NORMAL",
+    "death_function":"BROKEN",
     "special_attack":"TAZER",
     "description":"A insectoid robot the size of a small dog, designed for home security. Armed with two close-range tazers, it can skate across the ground with great speed.",
     "flags":["SEES", "HEARS", "GOODHEARING", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50"]
@@ -4588,7 +4588,7 @@
     "luminance":0,
     "hp":80,
     "special_freq":3,
-    "death_function":"NORMAL",
+    "death_function":"BROKEN",
     "special_attack":"COPBOT",
     "description":"One of the many models of armored law enforcement robots employed shortly before the collapse of civilization. Solar powered like many other robots, it maintains its programmed pursuit of law and order, propelled on a trio of omni wheels.",
     "flags":["SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE", "VIS50"]
@@ -4616,7 +4616,7 @@
     "luminance":0,
     "hp":80,
     "special_freq":0,
-    "death_function":"NORMAL",
+    "death_function":"BROKEN",
     "special_attack":"NONE",
     "description":"A snake-like, segmented robot built to tunnel into the ground and detonate landmines.",
     "flags":["HEARS", "GOODHEARING", "DIGS", "NO_BREATHE", "ELECTRONIC"]
@@ -4644,7 +4644,7 @@
     "luminance":0,
     "hp":80,
     "special_freq":10,
-    "death_function":"NORMAL",
+    "death_function":"BROKEN",
     "special_attack":"FLAMETHROWER",
     "description":"The Honda Regnal, a tall robot walking on three spidery legs. For weapons, it has a trio of spiked retractable cables and a flamethrower mounted on its head.",
     "flags":["SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC"]
@@ -4700,7 +4700,7 @@
     "luminance":0,
     "hp":240,
     "special_freq":4,
-    "death_function":"NORMAL",
+    "death_function":"BROKEN",
     "special_attack":"MULTI_ROBOT",
     "description":"The Northrop Emancipator is the first and only model of automated tank, made shortly after the split-up of Northrup Grumman. Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
     "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC"]
