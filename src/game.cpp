@@ -6840,7 +6840,7 @@ monster& game::zombie(const int idx)
     return critter_tracker.find(idx);
 }
 
-bool game::update_zombie_pos(const monster &critter, const int newx, const int newy)
+bool game::update_zombie_pos(monster &critter, const int newx, const int newy)
 {
     return critter_tracker.update_pos(critter, newx, newy);
 }

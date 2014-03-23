@@ -4094,7 +4094,7 @@ int player::intimidation()
     return ret;
 }
 
-bool player::is_dead_state() {
+bool player::is_dead_state() const {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 

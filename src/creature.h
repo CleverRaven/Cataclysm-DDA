@@ -123,12 +123,12 @@ class Creature
         virtual bool is_warm(); // is this creature warm, for IR vision, heat drain, etc
         virtual bool has_weapon() = 0;
         // returns true iff health is zero or otherwise should be dead
-        virtual bool is_dead_state() = 0;
+        virtual bool is_dead_state() const = 0;
 
         // xpos and ypos, because posx/posy are used as public variables in
         // player.cpp and therefore referenced everywhere
-        virtual int xpos() = 0;
-        virtual int ypos() = 0;
+        virtual int xpos() const = 0;
+        virtual int ypos() const = 0;
 
         // should replace both player.add_disease and monster.add_effect
         // these are nonvirtual since otherwise they can't be accessed with

@@ -626,7 +626,7 @@ bool monster::is_warm() {
     return has_flag(MF_WARM);
 }
 
-bool monster::is_dead_state() {
+bool monster::is_dead_state() const {
     return hp <= 0;
 }
 
