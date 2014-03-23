@@ -47,6 +47,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #endif
+
 #include <sys/stat.h>
 #include "debug.h"
 #include "catalua.h"

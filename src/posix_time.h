@@ -15,11 +15,14 @@ enum { BILLION = 1000 * 1000 * 1000 };
 extern "C" {
 #   endif
 
+#ifndef _TIMESPEC_DEFINED
+#define _TIMESPEC_DEFINED
 struct timespec
 {
   time_t tv_sec;
   long int tv_nsec;
 };
+#endif
 
 #   ifdef __cplusplus
 }
