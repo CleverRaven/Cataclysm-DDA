@@ -1433,7 +1433,7 @@ void game::complete_craft()
     int diff_roll  = dice(diff_dice,  diff_sides);
 
     if (making->skill_used) {
-        u.practice(turn, making->skill_used, making->difficulty * 5 + 20, making->difficulty);
+        u.practice(turn, making->skill_used, making->difficulty * 5 + 20, (int)making->difficulty * 1.25);
     }
 
     // Messed up badly; waste some components.
