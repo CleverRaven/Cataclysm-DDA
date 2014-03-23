@@ -354,6 +354,27 @@ void initOptions() {
     std::string tileset_names;
     tileset_names = get_tileset_names(FILENAMES["gfxdir"]);      //get the tileset names and set the optionNames
 
+    optionNames["system_lang"] = _("System language");
+    optionNames["cs"] = _("Czech");
+    optionNames["en"] = _("English");
+    optionNames["fr"] = _("French");
+    optionNames["de"] = _("German");
+    optionNames["it"] = _("Italian");
+    optionNames["ja"] = _("Japanese");
+    optionNames["ko"] = _("Korean");
+    optionNames["pl"] = _("Polish");
+    optionNames["pt"] = _("Portuguese");
+    optionNames["ru"] = _("Russian");
+    optionNames["sr"] = _("Serbian");
+    optionNames["vi"] = _("Vietnamese");
+    optionNames["zh_CN"] = _("Simplified Chinese");
+    optionNames["zh_TW"] = _("Traditional Chinese");
+    OPTIONS["USE_LANG"] =               cOpt("interface", _("Language"), 
+                                             _("Switch Language. Requires restart."),
+                                             "system_lang,cs,en,fr,de,it,ja,ko,pl,pt,ru,sr,vi,zh_CN,zh_TW", 
+                                             "system_lang"
+                                            ); 
+    
     optionNames["fahrenheit"] = _("Fahrenheit");
     optionNames["celsius"] = _("Celsius");
     OPTIONS["USE_CELSIUS"] =            cOpt("interface", _("Temperature units"),
