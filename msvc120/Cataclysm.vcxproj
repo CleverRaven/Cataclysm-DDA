@@ -183,6 +183,7 @@
     <ClCompile Include="..\src\output.cpp" />
     <ClCompile Include="..\src\overmap.cpp" />
     <ClCompile Include="..\src\overmapbuffer.cpp" />
+    <ClCompile Include="..\src\path_info.cpp" />
     <ClCompile Include="..\src\player.cpp" />
     <ClCompile Include="..\src\player_activity.cpp" />
     <ClCompile Include="..\src\posix_time.cpp" />
@@ -303,6 +304,7 @@
     <ClInclude Include="..\src\output.h" />
     <ClInclude Include="..\src\overmap.h" />
     <ClInclude Include="..\src\overmapbuffer.h" />
+    <ClInclude Include="..\src\path_info.h" />
     <ClInclude Include="..\src\player.h" />
     <ClInclude Include="..\src\player_activity.h" />
     <ClInclude Include="..\src\pldata.h" />

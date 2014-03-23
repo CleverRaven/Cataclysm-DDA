@@ -5,7 +5,6 @@
  */
 
 #include "cursesdef.h"
-#include <ctime>
 #include "game.h"
 #include "color.h"
 #include "options.h"
@@ -13,8 +12,11 @@
 #include "debug.h"
 #include "item_factory.h"
 #include "monstergenerator.h"
+#include "file_wrapper.h"
+#include "path_info.h"
+
+#include <ctime>
 #include <sys/stat.h>
-#include <cstdlib>
 #include <signal.h>
 #ifdef LOCALIZE
 #include <libintl.h>
@@ -27,6 +29,9 @@
 #endif
 
 void exit_handler(int s);
+
+// create map where we will store the FILENAMES
+std::map<std::string, std::string> FILENAMES;
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -43,17 +48,22 @@ int main(int argc, char *argv[])
     int seed = time(NULL);
     bool verifyexit = false;
     bool check_all_mods = false;
-    // set locale to system default
-    setlocale(LC_ALL, "");
-#ifdef LOCALIZE
-    bindtextdomain("cataclysm-dda", "lang/mo");
-    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
-    textdomain("cataclysm-dda");
-#endif
 
-    //args: world seeding only.
-    argc--;
-    argv++;
+    // Set default file paths
+#ifdef PREFIX
+#define Q(STR) #STR
+#define QUOTE(STR) Q(STR)
+    init_base_path(std::string(QUOTE(PREFIX)));
+#else
+    init_base_path("");
+#endif
+    init_user_dir();
+    set_standart_filenames();
+
+    // Process CLI arguments
+    int saved_argc = --argc;
+    char **saved_argv = ++argv;
+
     while (argc) {
         if(std::string(argv[0]) == "--seed") {
             argc--;
@@ -65,15 +75,108 @@ int main(int argc, char *argv[])
             }
         } else if(std::string(argv[0]) == "--jsonverify") {
             argc--;
+            argv++;
             verifyexit = true;
         } else if(std::string(argv[0]) == "--check-mods") {
             argc--;
+            argv++;
             check_all_mods = true;
-        } else { // ignore unknown args.
+        } else if(std::string(argv[0]) == "--basepath") {
             argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["base_path"] = std::string(argv[0]);
+                set_standart_filenames();
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--userdir") {
+            argc--;
+            argv++;
+            if (argc) {
+                FILENAMES["user_dir"] = std::string(argv[0]);
+                set_standart_filenames();
+                argc--;
+                argv++;
+            }
+        } else { // Skipping other options.
+            argc--;
+            argv++;
         }
-        argv++;
     }
+    while (saved_argc) {
+        if(std::string(saved_argv[0]) == "--datadir") { // TODO NEED THIS?
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["datadir"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--savedir") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["savedir"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--optionfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["optionfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--keymapfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["keymapfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--autopickupfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["autopickupfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--motdfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["motdfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else { // ignore unknown args.
+            saved_argc--;
+            saved_argv++;
+        }
+    }
+
+    // set locale to system default
+    setlocale(LC_ALL, "");
+#ifdef LOCALIZE
+    const char *locale_dir;
+#ifdef __linux__
+    if (!FILENAMES["base_path"].empty()) {
+        locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
+    } else {
+        locale_dir = "lang/mo";
+    }
+#else
+    locale_dir = "lang/mo";
+#endif // __linux__
+
+    bindtextdomain("cataclysm-dda", locale_dir);
+    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
+    textdomain("cataclysm-dda");
+#endif // LOCALIZE
 
     // ncurses stuff
     initOptions();
@@ -99,6 +202,11 @@ int main(int argc, char *argv[])
     // First load and initialize everything that does not
     // depend on the mods.
     try {
+        if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
+            debugmsg("Can't open or create %s. Check permissions.",
+                     FILENAMES["user_dir"].c_str());
+            exit_handler(-999);
+        }
         g->load_static_data();
         if (verifyexit) {
             if(g->game_error()) {

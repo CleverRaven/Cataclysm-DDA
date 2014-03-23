@@ -9,6 +9,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "map.h"
+#include "path_info.h"
 #include "monstergenerator.h"
 
 #ifdef LUA
@@ -481,7 +482,7 @@ void game::init_lua() {
     luaL_register(lua_state, "game", global_funcs);
 
     // Load lua-side metatables etc.
-    luaL_dofile(lua_state, "lua/autoexec.lua");
+    luaL_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
 }
 #endif // #ifdef LUA
 

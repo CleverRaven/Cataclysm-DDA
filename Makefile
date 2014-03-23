@@ -76,6 +76,7 @@ LUA_DIR = lua
 LUASRC_DIR = src/lua
 LOCALIZE = 1
 
+
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
 ODIR = obj
@@ -296,7 +297,11 @@ ifdef LANGUAGES
   L10N = localization
 endif
 
-
+ifeq ($(TARGETSYSTEM), LINUX)
+  ifneq ($(PREFIX),)
+    DEFINES += -DPREFIX="$(PREFIX)"
+  endif
+endif
 
 all: version $(TARGET) $(L10N)
 	@
@@ -362,6 +367,35 @@ distclean:
 
 bindist: $(BINDIST)
 
+ifeq ($(TARGETSYSTEM), LINUX)
+DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
+BIN_PREFIX=$(PREFIX)/bin
+LOCALE_DIR=$(PREFIX)/share/locale
+install: version $(TARGET)
+	mkdir -p $(DATA_PREFIX)
+	mkdir -p $(BIN_PREFIX)
+	install --mode=755 $(TARGET) $(BIN_PREFIX)
+	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
+	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+ifdef TILES
+	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+endif
+ifdef LUA
+	mkdir -p $(DATA_PREFIX)/lua
+	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
+	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
+endif
+	install --mode=644 data/changelog.txt data/credits data/motd data/cataicon.ico \
+                   README.txt LICENSE.txt -t $(DATA_PREFIX)
+	mkdir -p $(LOCALE_DIR)
+	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
+endif
+
+
 $(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)
 	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
@@ -387,7 +421,7 @@ check: tests
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests
+.PHONY: tests check ctags etags clean-tests install
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
