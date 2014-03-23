@@ -3,6 +3,7 @@
 
 // Includes                                                         {{{1
 // ---------------------------------------------------------------------
+#include "path_info.h"
 
 #include <iosfwd>
 #include <iostream>

@@ -11,6 +11,7 @@
 #include "options.h"
 #include "worldfactory.h"
 #include "file_wrapper.h"
+#include "path_info.h"
 
 #include <fstream>
 
@@ -160,6 +161,7 @@ bool game::opening_screen()
     vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
 
+
     std::vector<std::string> vWorldSubItems;
     vWorldSubItems.push_back(pgettext("Main Menu|World", "<C>reate World"));
     vWorldSubItems.push_back(pgettext("Main Menu|World", "<D>elete World"));
@@ -171,12 +173,16 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    if (!assure_dir_exist("save")) {
+    if (!assure_dir_exist(FILENAMES["savedir"])) {
         popup(_("Unable to make save directory. Check permissions."));
         return false;
     }
 
-    dir = opendir("data");
+    if (!assure_dir_exist(FILENAMES["templatedir"].c_str())) {
+        popup(_("Unable to make templates directory. Check permissions."));
+        return false;
+    }
+    dir = opendir(FILENAMES["templatedir"].c_str());
     while ((dp = readdir(dir))) {
         std::string tmp = dp->d_name;
         if (tmp.find(".template") != std::string::npos) {
@@ -195,7 +201,7 @@ bool game::opening_screen()
     static std::vector<std::string> motd;
     if (motd.empty()) {
         std::ifstream motd_file;
-        motd_file.open("data/motd");
+        motd_file.open(FILENAMES["motd"].c_str());
         if (!motd_file.is_open()) {
             motd.push_back(_("No message today."));
         } else {
@@ -214,7 +220,7 @@ bool game::opening_screen()
     static std::vector<std::string> credits;
     if (credits.empty()) {
         std::ifstream credits_file;
-        credits_file.open("data/credits");
+        credits_file.open(FILENAMES["credits"].c_str());
         if (!credits_file.is_open()) {
             credits.push_back(_("No message today."));
         } else {

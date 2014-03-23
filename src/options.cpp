@@ -5,6 +5,7 @@
 #include "translations.h"
 #include "file_finder.h"
 #include "cursesdef.h"
+#include "path_info.h"
 #ifdef SDLTILES
 #include "cata_tiles.h"
 #endif // SDLTILES
@@ -351,7 +352,7 @@ void initOptions() {
     OPTIONS.clear();
 
     std::string tileset_names;
-    tileset_names = get_tileset_names("gfx");      //get the tileset names and set the optionNames
+    tileset_names = get_tileset_names(FILENAMES["gfxdir"]);      //get the tileset names and set the optionNames
 
     optionNames["fahrenheit"] = _("Fahrenheit");
     optionNames["celsius"] = _("Celsius");
@@ -1009,13 +1010,13 @@ void show_options(bool ingame)
 void load_options()
 {
     std::ifstream fin;
-    fin.open("data/options.txt");
+    fin.open(FILENAMES["options"].c_str());
     if(!fin.is_open()) {
         fin.close();
         save_options();
-        fin.open("data/options.txt");
+        fin.open(FILENAMES["options"].c_str());
         if(!fin.is_open()) {
-            DebugLog() << "Could neither read nor create ./data/options.txt\n";
+            DebugLog() << "Could neither read nor create" << FILENAMES["options"].c_str() << "\n";
             return;
         }
     }
@@ -1061,7 +1062,7 @@ std::string options_header()
 void save_options(bool ingame)
 {
     std::ofstream fout;
-    fout.open("data/options.txt");
+    fout.open(FILENAMES["options"].c_str());
     if(!fout.is_open()) {
         return;
     }
