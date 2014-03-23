@@ -613,6 +613,7 @@
       ["recipe_bows", 10],
       ["recipe_arrows", 10],
       ["hammer", 35],
+      ["saw", 35],
       ["flashlight", 40],
       ["soldering_iron", 30],
       ["solder_wire", 30],
