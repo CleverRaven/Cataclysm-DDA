@@ -83,18 +83,18 @@ void set_standart_filenames(void)
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
+    update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
 
     // User directories
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
 
-    // User files
-    update_pathname("options", FILENAMES["user_dir"] + "options.txt");
-    update_pathname("keymap", FILENAMES["user_dir"] + "keymap.txt");
-    update_pathname("debug", FILENAMES["user_dir"] + "debug.log");
-    update_pathname("fontlist", FILENAMES["user_dir"] + "fontlist.txt");
-    update_pathname("fontdata", FILENAMES["user_dir"] + "FONTDATA");
-    update_pathname("autopickup", FILENAMES["user_dir"] + "auto_pickup.txt");
-    update_pathname("mods-user-default", FILENAMES["user_dir"] + "user-default-mods.json");
+    // User files, need to be migrated from data/ to a user directory.
+    update_pathname("options", FILENAMES["datadir"] + "options.txt");
+    update_pathname("keymap", FILENAMES["datadir"] + "keymap.txt");
+    update_pathname("debug", FILENAMES["datadir"] + "debug.log");
+    update_pathname("fontlist", FILENAMES["datadir"] + "fontlist.txt");
+    update_pathname("fontdata", FILENAMES["datadir"] + "FONTDATA");
+    update_pathname("autopickup", FILENAMES["datadir"] + "auto_pickup.txt");
 }
