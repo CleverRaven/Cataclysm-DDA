@@ -794,7 +794,7 @@ int vehicle::part_power( int index, bool at_full_hp ) {
         return pwr; // Assume full hp
     }
     // The more damaged a part is, the less power it gives
-    return pwr * parts[index].hp / part_info(index).durability;
+    return pwr * part_health(index);
  }
 
 // alternators, solar panels, reactors, and accessories all have epower.
@@ -804,7 +804,14 @@ int vehicle::part_epower( int index ) {
     if( e < 0 ) {
         return e; // Consumers always draw full power, even if broken
     }
-    return e * parts[index].hp / part_info(index).durability;
+    return e * part_health(index);
+}
+
+double vehicle::part_health( int index ) {
+    if( parts[index].removed ) {
+        return 0.0;
+    }
+    return double(parts[index].hp) / std::max( part_info(index).durability, 1);
 }
 
 int vehicle::epower_to_power (int epower) {
@@ -1233,8 +1240,7 @@ void vehicle::give_part_properties_to_item(int partnum, item& i)
     // max damage is 4, min damage 0.
     // this is very lossy.
     int dam;
-    float hpofdur = (float)parts[partnum].hp / part_info(partnum).durability;
-    dam = (1 - hpofdur) * 5;
+    dam = (1 - part_health(partnum)) * 5;
     if (dam > 4) dam = 4;
     if (dam < 0) dam = 0;
     i.damage = dam;
@@ -1708,10 +1714,9 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
     int y = y1;
     for (int i = 0; i < pl.size(); i++)
     {
-        int dur = part_info (pl[i]).durability;
-        int per_cond = parts[pl[i]].hp * 100 / (dur < 1? 1 : dur);
+        int per_cond = int(part_health(pl[i]) * 100);
         nc_color col_cond;
-        if (parts[pl[i]].hp >= dur) {
+        if (parts[pl[i]].hp >= 95) {
             col_cond = c_green;
         } else if (per_cond >= 80) {
             col_cond = c_ltgreen;
@@ -1920,10 +1925,10 @@ int vehicle::total_mass()
     }
     m = std::max(1, m/1000); // Convert to kg, avoid zero values
     cached_mass = m;
-    return m/1000;
+    return m;
 }
 
-void vehicle::center_of_mass(int &x, int &y)
+void vehicle::calculate_center_of_mass()
 {
     float xf = 0, yf = 0;
     int m_total = total_mass();
@@ -1944,8 +1949,8 @@ void vehicle::center_of_mass(int &x, int &y)
     }
     xf /= m_total;
     yf /= m_total;
-    x = int(xf + 0.5); //round to nearest
-    y = int(yf + 0.5);
+    center_of_mass_x = int(xf + 0.5); //round to nearest
+    center_of_mass_y = int(yf + 0.5);
 }
 
 int vehicle::fuel_left (const ammotype & ftype)
@@ -2174,7 +2179,7 @@ void vehicle::noise_and_smoke( double load, double time )
     int exhaust_part = -1;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if( part_flag(p, "MUFFLER") ) {
-            m = 1.0 - (1.0 - part_info(p).bonus / 100.0) * parts[p].hp / part_info(p).durability;
+            m = 1.0 - (1.0 - part_info(p).bonus / 100.0) * part_health(p);
             if( m < muffle ) {
                 muffle = m;
                 exhaust_part = int(p);
@@ -2228,9 +2233,8 @@ float vehicle::wheels_area (int *cnt)
 {
     int count = 0;
     int total_area = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
-    for (size_t i = 0; i < wheel_indices.size(); ++i) {
-        int p = wheel_indices[i];
+    for (size_t i = 0; i < wheels.size(); ++i) {
+        int p = wheels[i];
         int width = part_info(p).wheel_width;
         int bigness = parts[p].bigness;
         // 9 inches, for reference, is about normal for cars.
@@ -2247,21 +2251,20 @@ bool vehicle::valid_wheel_config ()
 {
     int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     int count = 0;
-    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
-    if(wheel_indices.empty()) {
+    if(wheels.empty()) {
         //No wheels!
         return false;
-    } else if(wheel_indices.size() == 1) {
+    } else if( wheels.size() == 1 ) {
         //Has to be a stable wheel
-        if(part_info(wheel_indices[0]).has_flag("STABLE")) {
+        if( part_info(wheels[0]).has_flag("STABLE") ) {
             //Valid only if the vehicle is 1 square in size (1 structural part)
             return (all_parts_at_location(part_location_structure).size() == 1);
         } else {
             return false;
         }
     }
-    for (int w = 0; w < wheel_indices.size(); w++) {
-        int p = wheel_indices[w];
+    for( size_t w = 0; w < wheels.size(); w++ ) {
+        int p = wheels[w];
         if (!count) {
             x1 = x2 = parts[p].mount_dx;
             y1 = y2 = parts[p].mount_dy;
@@ -2316,8 +2319,7 @@ void vehicle::consume_fuel( double load = 1.0 )
     int ftype_coeff[3] = {                100,                 1,              100 };
     for( int ft = 0; ft < 3; ft++ ) {
         double amnt_precise = double(basic_consumption(ftypes[ft])) / ftype_coeff[ft];
-        float st = strain() * 10;
-        amnt_precise *= load * (1.0 + st * st);
+        amnt_precise *= load * 1.5;
         int amnt = int(amnt_precise);
         // consumption remainder results in chance at additional fuel consumption
         if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
@@ -2534,8 +2536,8 @@ void vehicle::do_turn_actions()
     if (of_turn == 0) {
         // Consume fuel etc here, since we're ending the vehicles turn now
         // Otherwise handle this while generating thrust in pass_through_current_maptile()
-        consume_fuel( load * 6.0 );
-        noise_and_smoke( load, 6.0 );
+        consume_fuel( load * TURN_TIME_S );
+        noise_and_smoke( load, TURN_TIME_S );
     }
     if( rng(0, 500) == 0 )
         total_mass(); // Update cached_mass occasionally since we're spending fuel
@@ -2580,1106 +2582,6 @@ bool vehicle::slow_down( int vel_dec )
         velocity -= (velocity>0 ? vel_dec : -vel_dec);
     }
     return (velocity == 0);
-}
-
-double vehicle::calculate_forces( vehicle_forces *vf, double v, double fdir ) {
-    bool debug = 0;
-    if (debug>=1) g->add_msg("calc_forces %d", int(v*1000));
-    // http://en.wikipedia.org/wiki/Density#Air
-    double air_density = 1.204; // in kg/m^3  TODO: Vary it based on altitude/temperature
-    // http://en.wikipedia.org/wiki/Gravitation
-    double gravity = 9.80665;
-    // Slow down vehicle due to air resistance.
-    // Don't need to consider grip here, since the force acts on car chassis and not tires
-    // http://en.wikipedia.org/wiki/Drag_%28physics%29 -> Fd = 1/2 p v^2 Cd A
-    // kg*m/s^2 = kg/m^3 * m/s * m/s * m^2 
-    vf->drag_newton = air_density * v * v * drag_coeff;
-    if (debug>=4) g->add_msg("drag_N = %d", int(vf->drag_newton));
-
-    // http://en.wikipedia.org/wiki/Downforce
-    // kg*m/s^2 = kg/m^3 * m/s * m/s * m^2
-    vf->downforce_newton = 0.5 * air_density * v * v * downforce;
-    if (debug>=5) g->add_msg("downF_N = %d", int(vf->downforce_newton));
-    // Add gravity to downforce
-    // kg*m/s^2 = 9.81 m/s^2(earth gravity) * kg
-    vf->downforce_newton += (cached_mass * gravity);
-
-    vf->wheel_newton_max = vf->tire_friction_coeff * vf->downforce_newton;
-    if (debug>=5) g->add_msg("max_wheel_N = %d", int(vf->wheel_newton_max));
-    // Allow more slowdown than wheels can handle, could be terrain or car frame slowing down
-    vf->ground_res_newton = vf->ground_res_coeff * vf->downforce_newton;
-    if (debug>=4) g->add_msg("groundres_N = %d", int(vf->ground_res_newton));
-
-    // Find max force tires can handle. Don't make it go negative from rres
-    vf->wheel_newton_available = std::max( vf->wheel_newton_max - vf->ground_res_newton, 0.0 );
-    if (debug>=5) g->add_msg("avail_wheel_N = %d", int(vf->wheel_newton_available));
-
-    if( velocity < 0 )
-        vf->engine_newton_max *= 0.6; // Less power available in reverse;
-    vf->is_thrusting = ( velocity == 0 ||
-                ( velocity > 0 ^ fdir < 0 ) ); // XOR operator
-    if( vf->is_thrusting ) {
-        vf->engine_newton = std::min(vf->engine_newton_max * fdir, vf->wheel_newton_available);
-        vf->user_applied_newton = vf->engine_newton;
-    } else {
-        vf->engine_newton = 0.0;
-        vf->user_applied_newton = vf->wheel_newton_available * fdir;
-    }
-    if( !vf->valid_wheel_config )
-        vf->user_applied_newton = 0.0;
-    if (debug>=3) g->add_msg("applied_N = %d", int(vf->user_applied_newton));
-
-    // Subtract drag/ground res if driving forwards, add them if driving backwards
-    vf->newton_total = vf->user_applied_newton + (vf->ground_res_newton + vf->drag_newton) * (velocity > 0 ? -1 : 1);
-    if (debug>=2) g->add_msg("total_N = %d", int(vf->newton_total));
-
-    return vf->newton_total;
-}
-
-double vehicle::calculate_time_to_move_one_tile( vehicle_forces *vf, double fdir ) {
-    int debug = 0;
-    if (debug>=1) g->add_msg("calc_time_ %d", int(fdir*1000));
-    double v = velocity/2.236/100; // Convert to m/s
-    vf->velocity_start = v;
-    vf->distance_traveled = TILE_SIZE_M;
-    double t = TURN_TIME_S;
-
-    int nr_calcs = 0;
-    do {
-        vf->time_taken = t;
-        // TODO: engine_newton_max should depend on speed (and lots of other stuff)
-        vf->engine_newton_max = std::max(0.0, vf->engine_watt_max * t / TILE_SIZE_M);
-        if( debug>=5 ) g->add_msg("eng_N = %d", int(vf->engine_newton_max));
-        // Get forces at initial speed (start of tile)
-        double newton_start = calculate_forces( vf, v, fdir );
-        // note, newton, kinetic, and velocity can all be negative
-        // joules = kg*m^2/s^2 = kg * m/s * m/s;
-        vf->kinetic_start = 0.5 * cached_mass * v * v * ( v < 0 ? -1 : 1 );
-        // Calculate speed at end if drag etc at start of tile were kept constant
-        double kin_end = vf->kinetic_start + newton_start * TILE_SIZE_M;
-        double v_end = sqrt( 2 * fabs(kin_end) / cached_mass );
-        if( kin_end < 0 )
-            v_end *= -1;
-        // Now we can calculate drag etc using v_end (end of tile)
-        double newton_end = calculate_forces( vf, v_end, fdir );
-        // Get the average force working on the vehicle through the tile
-        vf->newton_average = ( newton_start + newton_end ) / 2;
-        // Calculate the correct kinetic value, using average force from tile start til tile end
-        vf->kinetic_end = vf->kinetic_start + vf->newton_average * TILE_SIZE_M;
-        // And there we have an estimate of the speed
-        vf->velocity_end = sqrt( 2 * fabs(vf->kinetic_end) / cached_mass );
-        if (vf->kinetic_end < 0.0)
-            vf->velocity_end *= -1;
-        if ( vf->velocity_start != 0.0 &&
-                !(vf->velocity_start > 0.0 ^ vf->velocity_end < 0.0) ) { // XAND
-            // Don't go from forward to reverse
-            vf->kinetic_end = 0.0;
-            vf->velocity_end = 0.0;
-        }
-        // Update some other values as well now that we know speed etc
-        vf->velocity_average = (v + vf->velocity_end) / 2;
-        vf->engine_watt_average = vf->newton_average * vf->velocity_average;
-        vf->distance_traveled = fabs(vf->velocity_average * t); // No negatives
-        // More closely match t to actual time taken, for use in next iteration
-        t = t * TILE_SIZE_M / vf->distance_traveled;
-        if( fabs(vf->velocity_end) < 0.1 )
-            vf->velocity_end = 0.0;
-        if( vf->distance_traveled < 0.001 || t >= TURN_TIME_S || t <= 0.001 || vf->velocity_end == 0.0 ) {
-            vf->time_taken = TURN_TIME_S;
-            break; // For gameplay purposes you can always travel 1 tile in a turn
-        }
-    } while( fabs( vf->distance_traveled - TILE_SIZE_M ) > 0.0001 && nr_calcs++ < 999);
-    if( nr_calcs >= 1000 )
-        debugmsg( "Nr of calcs in calculate_time_ more than 1000!" );
-    if( vf->time_taken > TURN_TIME_S )
-        vf->time_taken = TURN_TIME_S;
-    return vf->time_taken;
-}
-
-double vehicle::calculate_movement( vehicle_forces *vf, double engine_output, double target_speed, int tile_move_cost )
-{
-    int debug = 0;
-    // tile_move_cost is from 2 (road, dirt) -> 10
-    // TODO: Remove tile_move_cost as a parameter and calculate individually for each wheel 
-    if (debug>=1) g->add_msg("calc_forces eo=%d ts=%d", int(engine_output*100), int(target_speed));
-    int unused1;
-    vf->eng_pwr_cur = engine_power(&vf->eng_pwr_max, &unused1, &vf->eng_alt_pwr);
-    // TODO: Add gearboxes, vary engine power based on speed/gear
-    vf->engine_watt_max = engine_on ? double(power_to_epower(vf->eng_pwr_cur)) : 0.0;
-    vf->valid_wheel_config = valid_wheel_config(); // Cache this
-
-    // http://hyperphysics.phy-astr.gsu.edu/hbase/mechanics/frictire.html
-    // http://mfes.com/friction.html
-    // http://atlasf1.autosport.com/99/san/preview/soerensen.html
-    // http://hpwizard.com/tire-friction-coefficient.html
-    // http://books.google.no/books?id=5pIpV1LY5HMC&pg=PA358&source=gbs_toc_r&cad=4
-    // http://www.datsuns.com/Tech/tech_tires-2.htm
-    vf->tire_friction_coeff = std::max(0.1, 0.9 - tile_move_cost/10.0);
-    if (debug>=5) g->add_msg("tire_f_coeff*k=%d", int(vf->tire_friction_coeff*1000));
-    // TODO: Less available brake/accel force when wheels are damaged?
-
-    // TODO: Add deformation friction, make rolling friction scale with v instead of downforce
-    // Slow down vehcile due to ground friction
-    // http://en.wikipedia.org/wiki/Rolling_resistance
-    // http://www.engineeringtoolbox.com/rolling-friction-resistance-d_1303.html
-    // TODO: Calculate rolling res properly
-    vf->rolling_res_coeff = wheels_area() < 30 ? 0.0035 : 0.01; // Assume bicycle tires if < 30
-    // Riding on the car frame gives lower rres than tires, which are made for max friction
-    if (!vf->valid_wheel_config) {
-        vf->rolling_res_coeff = 0.4;
-    } else if (skidding) {
-        vf->rolling_res_coeff = 0.7;
-    }
-    // TODO: Differentiate between grass/road etc 
-    if (debug>=5) g->add_msg("rres_coeff = %d", int(vf->rolling_res_coeff*1000));
-    // In difficult terrain you roll a lot worse, plus, debris
-    // Just add resistance from rolling res/debris hitting car body here
-    vf->ground_res_coeff = vf->rolling_res_coeff + 0.01 * pow(tile_move_cost, 3) / 8 - 0.01;
-    if (debug>=5) g->add_msg("gres_coeff = %d", int(vf->ground_res_coeff*1000));
-
-
-    char buf[100];
-    if( engine_output > 1.5 ) { // Special acceleration mode
-        vf->engine_watt_max = double(power_to_epower(vf->eng_pwr_cur));
-        sprintf( buf, "engine_watt_max = %f", vf->engine_watt_max );
-//        debugmsg(buf);
-        if( engine_output > 2.5 )
-            vf->engine_watt_max = double(power_to_epower(vf->eng_pwr_max));
-        sprintf( buf, "engine_watt_max = %f", vf->engine_watt_max );
-//        debugmsg(buf);
-        if (vf->engine_watt_max < 1)
-            return 0.0;
-        double total_time = 0.0, tile_time;
-        int nr_calcs = 0;
-        int old_velocity = velocity;
-        velocity = 0;
-        do {
-            tile_time = calculate_time_to_move_one_tile( vf, 1.0 );
-            velocity = int( vf->velocity_end * 223.6 + 0.5 );
-            if( velocity == 0 ) {
-                velocity = old_velocity;
-                return 0.0;
-            }
-            total_time += tile_time;
-            sprintf(buf, "Took %f time for one tile, speed is now %f.", tile_time, vf->velocity_end);
-//            debugmsg(buf);
-        } while ( nr_calcs++ < 999 && vf->velocity_end < target_speed );
-        // Subtract time used for velocity above target_speed
-        total_time += -tile_time + tile_time *
-                      (target_speed - vf->velocity_start) /
-                      (vf->velocity_end - vf->velocity_start);
-        velocity = old_velocity;
-        return ( nr_calcs < 999 ? total_time : 0.0 );
-    }
-    if( engine_output >= -1.0 ) { // Normal thrusting mode, no cruise control
-        return calculate_time_to_move_one_tile( vf, engine_output );
-    }
-    double eng_est = -1.0, eng_step = 2.0;
-    int nr_calcs = 0;
-    bool last_vel_too_high = false;
-    do { // -2.0 engine_output, cruise control mode
-        calculate_time_to_move_one_tile( vf, eng_est );
-        sprintf(buf, "Power %f got speed %f, want %f. step = %f", eng_est, vf->velocity_end, target_speed, eng_step);
-//        debugmsg(buf);
-        if( vf->velocity_end > target_speed ) {
-            if( eng_est <= -1.0 )
-                break; // Max engine power is not enough
-            if( !last_vel_too_high ) {
-                last_vel_too_high = true;
-                eng_step = eng_step / 4;
-            }
-            eng_est = std::max( eng_est - eng_step, -1.0 );
-        } else {
-            if( eng_est >= 1.0 )
-                break; // Max engine power is not enough
-            if( last_vel_too_high ) {
-                last_vel_too_high = false;
-                eng_step = eng_step / 4;
-            }
-            eng_est = std::min( eng_est + eng_step, 1.0 );
-        }
-    } while( nr_calcs++ < 999 && fabs(vf->velocity_end - target_speed) > 0.01 );
-//    debugmsg( "Exiting function calc_move" );
-    if( nr_calcs >= 999 )
-        debugmsg("More than 1000 speed calculations trying to cruise control!");
-    return vf->time_taken;
-}
-
-/**
- * Called to process vehicle actions that occur while it's moving through the tile it's currently in.
- * If it return false, it was unable to move and did not perform any actions.
- * We can afford to do some heavy calcs here, since this routine is only called on moving vehicles
- */
-bool vehicle::drive_one_tile()
-{
-    int debug = 0;
-    const bool pl_ctrl = player_in_control(&g->u);
-    const int gx = global_x();
-    const int gy = global_y();
-    if (!g->m.inbounds(gx, gy)) {
-        if (g->debugmon) { debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)", gx, gy); }
-        stop();
-        of_turn = 0;
-        return false;
-    }
-
-    // Handle wheels. Sink in water, mess up ground, set off traps.
-    int curgen, num_wheels, submerged_wheels;
-    std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL, false);
-    num_wheels = wheel_indices.size();
-    submerged_wheels = 0;
-    for (int w = 0; w < num_wheels; w++) {
-        const int p = wheel_indices[w];
-        const int px = gx + parts[p].precalc_dx[0];
-        const int py = gy + parts[p].precalc_dy[0];
-        // deep water
-        if (g->m.ter_at(px, py).has_flag(TFLAG_DEEP_WATER))
-            submerged_wheels++;
-
-        if (one_in(2)) {
-            if (g->m.displace_water(gx + parts[p].precalc_dx[0],
-                                    gy + parts[p].precalc_dy[0]) && pl_ctrl)
-                g->add_msg(_("You hear a splash!"));
-        }
-
-        // now we're gonna handle traps we're standing on
-        handle_trap( gx + parts[p].precalc_dx[0], gy + parts[p].precalc_dy[0], p );
-    }
-
-    // submerged wheels threshold is 2/3.
-    if (num_wheels && (float)submerged_wheels / num_wheels > .666) {
-        g->add_msg(_("Your %s sank."), name.c_str());
-        // destroy vehicle (sank to nowhere)
-        g->m.destroy_vehicle(this);
-        return false;
-    }
-
-    if (!valid_wheel_config()) {
-        // if not enough wheels, mess up the ground a bit.
-        for (size_t p = 0; p < parts.size(); p++) {
-            const int px = gx + parts[p].precalc_dx[0];
-            const int py = gy + parts[p].precalc_dy[0];
-            const ter_id &pter = g->m.ter(px, py);
-            if (pter == t_dirt || pter == t_grass) {
-                g->m.ter_set(px, py, t_dirtmound);
-            }
-        }
-    }
-
-    // Eventually send vehicle skidding if no-one is controlling it
-    if (!boarded_parts().size() && one_in (10)) {
-        start_skid(0);
-    }
-
-    if (pl_ctrl) {
-        int ds = g->u.skillLevel("driving");
-        if (skidding) {
-            if (one_in(4)) { // Might turn uncontrollably while skidding
-                turn(rng(-2, 2) * 15);
-            }
-            g->u.practice( g->turn, "driving", 1 );
-        } else if (pl_ctrl && dice(3, ds*20+25)+ds*20 < velocity/100) {
-            g->add_msg(_("You fumble with the %s's controls."), name.c_str());
-            int r;
-            // TODO: Add somthing that changes velocity for r == 0
-            do { r= dice(3, 3) - 6; } while( r == 0 );
-            turn(r * 15);
-        }
-        if( velocity > one_in(ds*ds*20000+40000) ) {
-            g->u.practice( g->turn, "driving", 1 );
-        }
-    } else {
-        // cruise control TODO: enable for NPC?
-        cruise_on = false;
-    }
-
-    // TODO: Maybe add engine strain again
-    vehicle_forces vf;
-    // TODO: Remove ter cost from these two
-    if (skidding) {
-        calculate_movement( &vf, 0.0, 0.0, g->m.move_cost_ter_furn(gx, gy));
-    } else if (cruise_on) {
-        calculate_movement( &vf, -2.0, cruise_velocity / 223.6, g->m.move_cost_ter_furn(gx, gy));
-    } else {
-        calculate_movement( &vf, player_thrust / 223.6, 0.0, g->m.move_cost_ter_furn(gx, gy));
-    }
-    velocity = int(vf.velocity_end * 223.6 + 0.5); // m/s to 100*mph
-
-    // Less fuel use/noise if not running at full engine output
-    double load = (fabs(vf.engine_watt_average) + power_to_epower(vf.eng_alt_pwr)) /
-                           power_to_epower(vf.eng_pwr_max);
-    // Assume engine is always running at min 1%
-    if( load < 0.01 )
-        load = 0.01;
-
-    if( has_pedals && g->u.has_bionic("bio_torsionratchet") ) {
-        // Charge one power for every 60 turns pedaling all out
-        if( g->turn.get_turn() % 60 == 0 && load * vf.time_taken * 100 > rng(0, 100) )
-            g->u.charge_power(1);
-    }
-
-    consume_fuel( load * vf.time_taken ); // Consume fuel
-    noise_and_smoke( load, vf.time_taken ); // Make smoke and noise
-
-    if( !vf.valid_wheel_config && ( cruise_on || player_thrust ) ) {
-        if( pl_ctrl ) {
-            if (velocity) {
-                g->add_msg(_("The %s tries to change speed, but doesn't have enough wheels!"), name.c_str());
-            } else {
-                g->add_msg (_("The %s doesn't have enough wheels to move!"), name.c_str());
-            }
-        }
-    }
-
-    if (debug>=1) g->add_msg("New velocity = %d", int(vf.velocity_end));
-    velocity = int(vf.velocity_end * 223.6 + 0.5);
-
-    if (!skidding && fabs(turn_delta_per_tile) > 0.1) {
-        int ds = g->u.skillLevel("driving");
-        // c_n = kg * v^2 / r = kg * v^2 * tdpt / ( 180 * tilesize )
-        double centrifugal_newton = cached_mass * velocity / 223.6 * velocity / 223.6 * turn_delta_per_tile / 180 / TILE_SIZE_M;
-        double grip = ( vf.wheel_newton_max / 4 + vf.wheel_newton_available ) * TILE_SIZE_M;
-        if (centrifugal_newton > grip) {
-            if( dice(3, ds*5+5) > int(centrifugal_newton / grip * 100)) {
-                g->add_msg(_("The %s's wheels lose their grip momentarily, but you quickly adjust the steering to compensate."), name.c_str());
-                turn_delta_per_tile = 0;
-            } else {
-                start_skid( 0 );
-            }
-        } else {
-            int td = int(turn_delta_per_tile + rng_float(0.0, 1.0) );
-            if (abs(td) >= abs(turn_dir))
-                td = turn_dir; // We've turned as much as we wanted to, so stop here
-            turn_dir -= td;
-            face.init( face.dir() + td );
-            if (debug>=3) g->add_msg("M] Turned %d to %d.", int(td), face.dir());
-            if ( abs(face.dir() - move.dir()) > 10 )
-                move = face;
-        }
-    } else if (skidding && fabs(turn_delta_per_tile) > 0.1) {
-        // We're skidding, absorb turning energy. Estimate moments of inertia 1000-8000 from:
-        // http://www.nhtsa.gov/Research/Vehicle+Research+&+Testing+%28VRTC%29/ci.Crash+Avoidance+Data.print
-        double moi = cached_mass * cached_mass / 600; // inaccurate, kg*m^2
-        double grip = ( vf.wheel_newton_max / 40 + vf.wheel_newton_available ) * TILE_SIZE_M; // J
-        double angular_momentum = turn_dir / 360.0 / TURN_TIME_S; // rad/s
-        // kg*m^2/s^2 = kg*m^2 * rad/s * rad/s
-        double kin_rot = 0.5 * moi * angular_momentum * angular_momentum;
-        if (grip > kin_rot) {
-            kin_rot = 0.0;
-        } else {
-            kin_rot -= grip;
-        }
-        angular_momentum = sqrt( 2 * kin_rot / moi );
-        if (debug>=1) g->add_msg("Skidding! Pre-skid: f=%d m=%d t=%d td=%d", face.dir(), move.dir(), turn_dir, int(turn_delta_per_tile));
-        turn_dir = int ( angular_momentum * 360 * TURN_TIME_S ) * ( turn_dir < 0 ? -1 : 1 );
-        turn_delta_per_tile = turn_dir / (TURN_TIME_S * velocity / 223.6 / TILE_SIZE_M);
-    }
-    if (debug>=3) g->add_msg("f=%d m=%d t=%d td=%d", face.dir(), move.dir(), turn_dir, int(turn_delta_per_tile));
-
-    return true;
-}
-
-
-// Helper sort function for vehicle::collision
-bool _compare_veh_collisions_mass (const veh_collision& first, const veh_collision& second) {
-    return (first.mass < second.mass);
-}
-
-/**
- * Calculate all the collisions a vehicle is involved in at once.
- * Called from map. If just_detect==true, return true the moment it finds any collition.
- * Otherwise stores all collisions in two vectors, one for vehicles and one for the rest.
- * Then starts processing non-vehicles in order from least mass til most until it's done
- * them all, runs out of velocity, or is destroyed.
- * Vehicles are then processed, which can add velocity to this vehicle again.
- * After all that it returns true, and map will look at its new heading/velocity and
- * move it into the right tile if needed. This repeats until no collisions occur or
- * vehicle loses all velocity and stops (or vehicle is destroyed).
- * Uses precalc_dx/y which shows the positions the car parts would be
- * in if they were allowed to move as expected.
- */
-bool vehicle::collision (int dx, int dy, bool just_detect)
-{
-    std::list<veh_collision> veh_veh_colls;
-    std::list<veh_collision> veh_misc_colls;
-    std::vector<int> structural_indices = all_parts_at_location(part_location_structure);
-    for (int i = 0; i < structural_indices.size(); i++)
-    {
-        const int p = structural_indices[i];
-        // coords of where part will go due to movement (dx/dy)
-        // and turning (precalc_dx/dy [1])
-        const int x = parts[p].precalc_dx[1];
-        const int y = parts[p].precalc_dy[1];
-        const int dsx = global_x() + dx + parts[p].precalc_dx[1];
-        const int dsy = global_y() + dy + parts[p].precalc_dy[1];
-        veh_collision coll = get_point_collision(dsx, dsy);  // TODO: Unsafe, fix
-        coll.precalc_x = x;
-        coll.precalc_y = y;
-        if( coll.type != veh_coll_nothing && just_detect ) {
-            return true;
-        } else if (coll.type == veh_coll_veh) {
-            veh_veh_colls.push_back(coll);
-        } else if (coll.type != veh_coll_nothing) { //run over someone?
-            veh_misc_colls.push_back(coll);
-        }
-    }
-    if (veh_veh_colls.empty() && veh_misc_colls.empty())
-        return false;
-    veh_misc_colls.sort(_compare_veh_collisions_mass);
-    for (std::list<veh_collision>::iterator i = veh_misc_colls.begin(); i != veh_misc_colls.end(); i++) {
-        process_collision(*i);
-    }
-    
-    return false;
-}
-
-veh_collision vehicle::get_point_collision (int x, int y)
-{
-    veh_collision ret;
-    ret.x = x;
-    ret.y = y;
-    ret.target_name = g->m.name(x, y).c_str();
-    int target_part; // Not used here
-    vehicle *oveh = g->m.veh_at(x, y, target_part);
-
-    // Is it a vehicle collision?
-    if (oveh && (oveh->posx != posx || oveh->posy != posy))
-    {
-       ret.type = veh_coll_veh;
-       ret.target = oveh;
-       ret.target_name = oveh->name.c_str();
-       return ret;
-    }
-
-    // Is it a monster collision?
-    int mondex = g->mon_at(x, y);
-    if (mondex >= 0)
-    {
-        ret.type = veh_coll_body; // body
-        monster *z = &g->zombie(mondex);
-        ret.target = z;
-//        ret.target_name = z->name().c_str();
-        ret.elasticity = 0.30f;
-        ret.density = 15;
-        switch (z->type->size)
-        {
-            case MS_TINY:    // Rodent
-                ret.mass = 1;
-                break;
-            case MS_SMALL:   // Half human
-                ret.mass = 41;
-                break;
-            default:
-            case MS_MEDIUM:  // Human
-                ret.mass = 82;
-                break;
-            case MS_LARGE:   // Cow
-                ret.mass = 120;
-                break;
-            case MS_HUGE:     // TAAAANK
-                ret.mass = 200;
-                break;
-            return ret;
-        }
-    }
-
-    // Is it a player/npc collision?
-    int npcind = g->npc_at(x, y);
-    bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
-    player *ph = (npcind >= 0 ? g->active_npc[npcind] : (u_here ? &g->u : 0));
-    // if player is in a vehicle at this point (s)he's inside the vehicle we're checking for collisions
-    if (ph && !ph->in_vehicle)
-    {
-        ret.type = veh_coll_body; // body
-        ret.target = ph;
-        ret.target_name = ph->name;
-        ret.elasticity = 0.30f;
-        ret.density = 15;
-        ret.mass = 82; // player or NPC
-        return ret;
-    }
-
-    // In order, starting with the worst thing to collide with
-    ret.type = veh_coll_nothing;
-    if (g->m.has_flag_ter_or_furn ("TREE", x, y)) {
-        ret.type = veh_coll_destructable;
-        ret.mass = std::max(dice(2, 9)-7, 2) * std::max(dice(2, 9)-7, 2) * std::max(dice(2, 9)-7, 2) * 100;
-        ret.elasticity = 0.40f;
-        ret.density = 60;
-    } else if (g->m.move_cost_ter_furn(x, y) == 0) {
-        if(g->m.is_destructable_ter_furn(x, y)) {
-            ret.type = veh_coll_destructable; // destructible (wall)
-            ret.mass = 200;
-            ret.elasticity = 0.30f;
-            ret.density = 60;
-        } else {
-            ret.type = veh_coll_other; // not destructible
-            ret.mass = 1000;
-            ret.elasticity = 0.10f;
-            ret.density = 80;
-        }
-    } else if (g->m.has_flag_ter_or_furn ("YOUNG", x, y)) {
-        ret.type = veh_coll_bashable;
-        ret.mass = (dice(3, 7)-1) * 40;
-        ret.elasticity = 0.60f;
-        ret.density = 40;
-    } else if (g->m.has_flag_ter_or_furn ("THIN_OBSTACLE", x, y)) {
-        // if all above fails, go for terrain which might obstruct moving
-        ret.type = veh_coll_thin_obstacle; // some fence
-        ret.mass = 10;
-        ret.elasticity = 0.30f;
-        ret.density = 20;
-    } else if (g->m.has_flag_ter_or_furn("BASHABLE", x, y)) {
-        ret.type = veh_coll_bashable; // (door, window)
-        ret.mass = 50;
-        ret.elasticity = 0.30f;
-        ret.density = 20;
-    }
-    return ret;
-}
-
-/*
-        bool veh_veh_coll_flag = false;
-        // Used to calculate the epicenter of the collision.
-        point epicenter1(0, 0);
-        point epicenter2(0, 0);
-    
-        if (veh_veh_colls.size()) { // we have dynamic crap!
-            // effects of colliding with another vehicle:
-            // transfers of momentum, skidding,
-            // parts are damaged/broken on both sides,
-            // remaining times are normalized,
-            veh_veh_coll_flag = true;
-            veh_collision c = veh_veh_colls[0]; // TODO: Should not ignore collision with any vehicle other than the one in veh_veh_colls[0]
-            vehicle* veh2 = (vehicle*) c.target;
-            g->add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
-                       veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
-                       veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
-    
-            // for reference, a cargo truck weighs ~25300, a bicycle 690,
-            //  and 38mph is 3800 'velocity'
-            rl_vec2d velo_veh1 = veh->velo_vec();
-            rl_vec2d velo_veh2 = veh2->velo_vec();
-            float m1 = veh->total_mass();
-            float m2 = veh2->total_mass();
-            //Energy of vehicle1 annd vehicle2 before collision
-            float E = 0.5 * m1 * velo_veh1.norm() * velo_veh1.norm() +
-                0.5 * m2 * velo_veh2.norm() * velo_veh2.norm();
-    
-            //collision_axis
-            int x_cof1 = 0, y_cof1 = 0, x_cof2 = 0, y_cof2 = 0;
-            veh ->center_of_mass(x_cof1, y_cof1);
-            veh2->center_of_mass(x_cof2, y_cof2);
-            rl_vec2d collision_axis_y;
-    
-            collision_axis_y.x = ( veh->global_x() + x_cof1 ) -  ( veh2->global_x() + x_cof2 );
-            collision_axis_y.y = ( veh->global_y() + y_cof1 ) -  ( veh2->global_y() + y_cof2 );
-            collision_axis_y = collision_axis_y.normalized();
-            rl_vec2d collision_axis_x = collision_axis_y.get_vertical();
-            // imp? & delta? & final? reworked:
-            // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
-            // as per http://en.wikipedia.org/wiki/Elastic_collision
-            //velocity of veh1 before collision in the direction of collision_axis_y
-            float vel1_y = collision_axis_y.dot_product(velo_veh1);
-            float vel1_x = collision_axis_x.dot_product(velo_veh1);
-            //velocity of veh2 before collision in the direction of collision_axis_y
-            float vel2_y = collision_axis_y.dot_product(velo_veh2);
-            float vel2_x = collision_axis_x.dot_product(velo_veh2);
-            // e = 0 -> inelastic collision
-            // e = 1 -> elastic collision
-            float e = get_collision_factor(vel1_y/100 - vel2_y/100);
-    
-            //velocity after collision
-            float vel1_x_a = vel1_x;
-            // vel1_x_a = vel1_x, because in x-direction we have no transmission of force
-            float vel2_x_a = vel2_x;
-            //transmission of force only in direction of collision_axix_y
-            //equation: partially elastic collision
-            float vel1_y_a = ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e) ) / ( m1 + m2);
-            //equation: partially elastic collision
-            float vel2_y_a = ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e) ) / ( m1 + m2);
-            //add both components; Note: collision_axis is normalized
-            rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
-            //add both components; Note: collision_axis is normalized
-            rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
-    
-            //Energy after collision
-            float E_a = 0.5 * m1 * final1.norm() * final1.norm() +
-                0.5 * m2 * final2.norm() * final2.norm();
-            float d_E = E - E_a;  //Lost energy at collision -> deformation energy
-            float dmg = abs( d_E / 1000 / 2000 );  //adjust to balance damage
-            float dmg_veh1 = dmg * 0.5;
-            float dmg_veh2 = dmg * 0.5;
-    
-            int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
-            for(int i = 0; i < veh_veh_colls.size(); i++) {
-                veh_collision tmp_c = veh_veh_colls[i];
-                if(veh2 == (vehicle*) tmp_c.target) { coll_parts_cnt++; }
-            }
-    
-            float dmg1_part = dmg_veh1 / coll_parts_cnt;
-            float dmg2_part = dmg_veh2 / coll_parts_cnt;
-    
-            //damage colliding parts (only veh1 and veh2 parts)
-            for(int i = 0; i < veh_veh_colls.size(); i++) {
-                veh_collision tmp_c = veh_veh_colls[i];
-    
-                if (veh2 == (vehicle*) tmp_c.target) { // Ignore all but the first colliding vehicle
-                    
-                    int parm1 = veh->part_with_feature (tmp_c.part, VPFLAG_ARMOR);
-                    if (parm1 < 0) {
-                        parm1 = tmp_c.part;
-                    }
-                    int parm2 = veh2->part_with_feature (tmp_c.target_part, VPFLAG_ARMOR);
-                    if (parm2 < 0) {
-                        parm2 = tmp_c.target_part;
-                    }
-                    epicenter1.x += veh->parts[parm1].mount_dx;
-                    epicenter1.y += veh->parts[parm1].mount_dy;
-                    veh->damage(parm1, dmg1_part, 1);
-    
-                    epicenter2.x += veh2->parts[parm2].mount_dx;
-                    epicenter2.y += veh2->parts[parm2].mount_dy;
-                    veh2->damage(parm2, dmg2_part, 1);
-                }
-            }
-            epicenter1.x /= coll_parts_cnt;
-            epicenter1.y /= coll_parts_cnt;
-            epicenter2.x /= coll_parts_cnt;
-            epicenter2.y /= coll_parts_cnt;
-    
-    
-            if (dmg2_part > 100) {
-                // shake veh because of collision
-                veh2->damage_all(dmg2_part / 2, dmg2_part, 1, epicenter2);
-            }
-    
-            dmg_1 += dmg1_part;
-    
-            veh->move.init (final1.x, final1.y);
-            veh->velocity = final1.norm();
-            // shrug it off if the change is less than 8mph.
-            if(dmg_veh1 > 800) {
-                veh->start_skid(0);
-            }
-            veh2->move.init(final2.x, final2.y);
-            veh2->velocity = final2.norm();
-            if(dmg_veh2 > 800) {
-                veh2->start_skid(0);
-            }
-            //give veh2 the initiative to proceed next before veh1
-            float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
-            if(avg_of_turn < .1f)
-                avg_of_turn = .1f;
-            veh->of_turn = avg_of_turn * .9;
-            veh2->of_turn = avg_of_turn * 1.1;
-        }
-    
-    
-        int coll_turn = 0;
-        if (dmg_1 > 0) {
-            int vel1_a = veh->velocity / 100; //velocity of car after collision
-            int d_vel = abs(vel1 - vel1_a);
-    
-            std::vector<int> ppl = veh->boarded_parts();
-    
-            for (int ps = 0; ps < ppl.size(); ps++) {
-                player *psg = veh->get_passenger (ppl[ps]);
-                if (!psg) {
-                    debugmsg ("throw passenger: empty passenger at part %d", ppl[ps]);
-                    continue;
-                }
-    
-                bool throw_from_seat = 0;
-                if (veh->part_with_feature (ppl[ps], VPFLAG_SEATBELT) == -1) {
-                    throw_from_seat = d_vel * rng(80, 120) / 100 > (psg->str_cur * 1.5 + 5);
-                }
-    
-                //damage passengers if d_vel is too high
-                if(d_vel > 60* rng(50,100)/100 && !throw_from_seat) {
-                    int dmg = d_vel/4*rng(70,100)/100;
-                    psg->hurtall(dmg);
-                    if (psg == &g->u) {
-                        g->add_msg(_("You take %d damage by the power of the impact!"), dmg);
-                    } else if (psg->name.length()) {
-                        g->add_msg(_("%s takes %d damage by the power of the impact!"),
-                                   psg->name.c_str(), dmg);
-                    }
-                }
-    
-                if (throw_from_seat) {
-                    if (psg == &g->u) {
-                        g->add_msg(_("You are hurled from the %s's seat by the power of the impact!"),
-                                   veh->name.c_str());
-                    } else if (psg->name.length()) {
-                        g->add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
-                                   psg->name.c_str(), veh->name.c_str());
-                    }
-                    unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
-                                         y + veh->parts[ppl[ps]].precalc_dy[0]);
-                    g->fling_player_or_monster(psg, 0, mdir.dir() + rng(0, 60) - 30,
-                                               (vel1 - psg->str_cur < 10 ? 10 :
-                                                vel1 - psg->str_cur));
-                } else if (veh->part_with_feature (ppl[ps], "CONTROLS") >= 0) {
-                    // FIXME: should actually check if passenger is in control,
-                    // not just if there are controls there.
-                    const int lose_ctrl_roll = rng (0, dmg_1);
-                    if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3) {
-                        if (psg == &g->u) {
-                            g->add_msg(_("You lose control of the %s."), veh->name.c_str());
-                        } else if (psg->name.length()) {
-                            g->add_msg(_("%s loses control of the %s."), psg->name.c_str());
-                        }
-                        int turn_amount = (rng (1, 3) * sqrt((double)vel1_a) / 2) / 15;
-                        if (turn_amount < 1) {
-                            turn_amount = 1;
-                        }
-                        turn_amount *= 15;
-                        if (turn_amount > 120) {
-                            turn_amount = 120;
-                        }
-                        coll_turn = one_in (2)? turn_amount : -turn_amount;
-                    }
-                }
-            }
-        }
-        if (coll_turn) {
-            veh->start_skid(coll_turn);
-        }
-        if (veh_veh_coll_flag) return true;
-    
-    
-*/
-void vehicle::process_collision (veh_collision coll)
-{
-    std::vector<int> structural_indices = all_parts_at_location(part_location_structure);
-    for (int i = 0; i < structural_indices.size(); i++)
-    {
-        const int p = structural_indices[i];
-        if (coll.precalc_x == parts[p].precalc_dx[1] && coll.precalc_y == parts[p].precalc_dy[1]) {
-            while (parts[p].hp > 0 && apply_damage_from_collision_to_point(p, coll));
-        }
-    }
-}
-
-bool vehicle::apply_damage_from_collision_to_point(int part, veh_collision coll)
-{
-    int mondex = g->mon_at(coll.x, coll.y);
-    int npcind = g->npc_at(coll.x, coll.y);
-    bool u_here = coll.x == g->u.posx && coll.y == g->u.posy && !g->u.in_vehicle;
-    monster *z = mondex >= 0 ? &g->zombie(mondex) : NULL;
-    player *ph = (npcind >= 0 ? g->active_npc[npcind] : (u_here? &g->u : 0));
-                        
-    float e = coll.elasticity;
-    int x = coll.x, y = coll.y;
-    bool pl_ctrl = player_in_control (&g->u);
-
-    // Damage armor before damaging any other parts
-    int parm = part_with_feature (part, VPFLAG_ARMOR);
-    if (parm < 0)
-        parm = part; // No armor found, use frame instead
-    
-    int dmg_mod = part_info(part).dmg_mod;
-    float mass = total_mass();
-    int degree = rng (70, 100);
-
-    // Calculate damage resulting from d_E
-    material_type* vpart_item_mat1 = material_type::find_material(itypes[part_info(parm).item]->m1);
-    material_type* vpart_item_mat2 = material_type::find_material(itypes[part_info(parm).item]->m2);
-    int vpart_dens;
-    if (vpart_item_mat2->ident() == "null") {
-        vpart_dens = vpart_item_mat1->density();
-    } else {
-        vpart_dens = (vpart_item_mat1->density() + vpart_item_mat2->density())/2; //average
-    }
-
-    // k=100 -> 100% damage on part, k=0 -> 100% damage on obj
-    float material_factor = (coll.density - vpart_dens)*0.5;
-    if (material_factor >= 25) material_factor = 25; //saturation
-    if (material_factor < -25) material_factor = -25;
-    float weight_factor;
-    // factor = -25 if mass is much greater than coll.mass
-    if (mass >= coll.mass) weight_factor = -25 * ( log(mass) - log(coll.mass) ) / log(mass);
-    // factor = +25 if coll.mass is much greater than mass
-    else weight_factor = 25 * ( log(coll.mass) - log(mass) ) / log(coll.mass) ;
-
-    float k = 50 + material_factor + weight_factor;
-    if (k > 90) k = 90;  // saturation
-    if (k < 10) k = 10;
-
-    bool smashed = true;
-    std::string snd;
-    float part_dmg = 0.0;
-    float dmg = 0.0;
-    //Calculate Impulse of car
-    const float prev_velocity = velocity / 100;
-    int turns_stunned = 0;
-
-    do {
-        // Impulse of object
-        const float vel1 = velocity / 100;
-
-        // Assumption: velocitiy of hit object = 0 mph
-        const float vel2 = 0;
-        // lost energy at collision -> deformation energy -> damage
-        const float d_E = ((mass*coll.mass)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*coll.mass);
-        // velocity of car after collision
-        const float vel1_a = (coll.mass*vel2*(1+e) + vel1*(mass - e*coll.mass)) / (mass + coll.mass);
-        // velocity of object after collision
-        const float vel2_a = (mass*vel1*(1+e) + vel2*(coll.mass - e*mass)) / (mass + coll.mass);
-
-        // Damage calculation
-        // damage dealt overall
-        dmg += abs(d_E / k_mvel);
-        //damage for vehicle-part - only if not a hallucination
-        if(!z || !z->is_hallucination()) {
-            part_dmg = dmg * k / 100;
-        }
-        // damage for object
-        const float obj_dmg  = dmg * (100-k)/100;
-
-        if (coll.type == veh_coll_bashable) {
-            // something bashable -- use map::bash to determine outcome
-            int absorb = -1;
-            g->m.bash(x, y, obj_dmg, snd, &absorb);
-            smashed = obj_dmg > absorb;
-        } else if (coll.type >= veh_coll_thin_obstacle) {
-            // some other terrain
-            smashed = obj_dmg > coll.mass;
-            if (smashed) {
-                // destroy obstacle
-                switch (coll.type) {
-                case veh_coll_thin_obstacle:
-                    if (g->m.has_furn(x, y)) {
-                        g->m.furn_set(x, y, f_null);
-                    } else {
-                        g->m.ter_set(x, y, t_dirt);
-                    }
-                    break;
-                case veh_coll_destructable:
-                    g->m.destroy(x, y, false);
-                    snd = _("crash!");
-                    break;
-                case veh_coll_other:
-                    smashed = false;
-                    break;
-                default:;
-                }
-            }
-        }
-        if (coll.type == veh_coll_body) {
-            int dam = obj_dmg*dmg_mod/100;
-            if (z) {
-                int z_armor = part_flag(part, "SHARP")? z->type->armor_cut : z->type->armor_bash;
-                if (z_armor < 0) {
-                    z_armor = 0;
-                }
-                dam -= z_armor;
-            }
-            if (dam < 0) { dam = 0; }
-
-            // No blood from hallucinations
-            if (z && !z->is_hallucination()) {
-                if (part_flag(part, "SHARP")) {
-                    parts[part].blood += (20 + dam) * 5;
-                } else if (dam > rng (10, 30)) {
-                    parts[part].blood += (10 + dam / 2) * 5;
-                }
-                check_environmental_effects = true;
-            }
-
-            turns_stunned = rng (0, dam) > 10? rng (1, 2) + (dam > 40? rng (1, 2) : 0) : 0;
-            if (part_flag(part, "SHARP")) {
-                turns_stunned = 0;
-            }
-            if (turns_stunned > 6) {
-                turns_stunned = 6;
-            }
-            if (turns_stunned > 0 && z) {
-                z->add_effect("stunned", turns_stunned);
-            }
-
-            int angle = (100 - degree) * 2 * (one_in(2)? 1 : -1);
-            if (z) {
-                z->hurt(dam);
-
-                if (vel2_a > rng (10, 20)) {
-                    g->fling_player_or_monster (0, z, move.dir() + angle, vel2_a);
-                }
-                if (z->hp < 1 || z->is_hallucination()) {
-                    g->kill_mon (mondex, pl_ctrl);
-                }
-            } else {
-                ph->hitall (dam, 40);
-                if (vel2_a > rng (10, 20)) {
-                    g->fling_player_or_monster (ph, 0, move.dir() + angle, vel2_a);
-                }
-            }
-        }
-
-        if (vel1_a*100 != velocity) {
-            velocity = vel1_a*100;
-        } else {
-            velocity = 0;
-        }
-
-    } while (!smashed && velocity != 0);
-
-    // Apply special effects from collision.
-    if (!(coll.type == veh_coll_body)) {
-        if (pl_ctrl) {
-            if (snd.length() > 0) {
-                g->add_msg (_("Your %s's %s rams into a %s with a %s"), name.c_str(),
-                            part_info(part).name.c_str(), coll.target_name.c_str(), snd.c_str());
-            } else {
-                g->add_msg (_("Your %s's %s rams into a %s."), name.c_str(),
-                            part_info(part).name.c_str(), coll.target_name.c_str());
-            }
-        } else if (snd.length() > 0) {
-            g->add_msg (_("You hear a %s"), snd.c_str());
-        }
-        g->sound(x, y, smashed? 80 : 50, "");
-    } else {
-        std::string dname;
-        if (z) {
-            dname = z->name().c_str();
-        } else {
-            dname = ph->name;
-        }
-        if (pl_ctrl) {
-            g->add_msg (_("Your %s's %s rams into %s%s!"),
-                        name.c_str(), part_info(part).name.c_str(), dname.c_str(),
-                        turns_stunned > 0 && z? _(" and stuns it") : "");
-        }
-
-        if (part_flag(part, "SHARP")) {
-            g->m.adjust_field_strength(point(x, y), fd_blood, 1 );
-        } else {
-            g->sound(x, y, 20, "");
-        }
-    }
-
-    if (smashed) {
-        int turn_amount = rng (1, 3) * sqrt ((double)dmg);
-        turn_amount /= 15;
-        if (turn_amount < 1) {
-            turn_amount = 1;
-        }
-        turn_amount *= 15;
-        if (turn_amount > 120) {
-            turn_amount = 120;
-        }
-        int turn_roll = rng (0, 100);
-        //probability of skidding increases with higher delta_v
-        if (turn_roll < abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
-            //delta_v = vel1 - vel1_a
-            //delta_v = 50 mph -> 100% probability of skidding
-            //delta_v = 25 mph -> 50% probability of skidding
-            start_skid(one_in (2)? turn_amount : -turn_amount);
-        }
-    }
-    damage (parm, part_dmg, 1);
-    point collision_point(parts[part].mount_dx, parts[part].mount_dy);
-    // Shock damage
-    damage_all(part_dmg / 2, part_dmg, 1, collision_point);
-    return false;
-}
-
-void vehicle::handle_trap (int x, int y, int part)
-{
-    int pwh = part_with_feature (part, VPFLAG_WHEEL);
-    if (pwh < 0) {
-        return;
-    }
-    trap_id t = g->m.tr_at(x, y);
-    if (t == tr_null) {
-        return;
-    }
-    int noise = 0;
-    int chance = 100;
-    int expl = 0;
-    int shrap = 0;
-    bool wreckit = false;
-    std::string msg (_("The %s's %s runs over %s."));
-    std::string snd;
-    // todo; make trapfuncv?
-
-    if ( t == tr_bubblewrap ) {
-        noise = 18;
-        snd = _("Pop!");
-    } else if ( t == tr_beartrap ||
-                t == tr_beartrap_buried ) {
-        noise = 8;
-        snd = _("SNAP!");
-        wreckit = true;
-        g->m.remove_trap(x, y);
-        g->m.spawn_item(x, y, "beartrap");
-    } else if ( t == tr_nailboard ) {
-        wreckit = true;
-    } else if ( t == tr_blade ) {
-        noise = 1;
-        snd = _("Swinnng!");
-        wreckit = true;
-    } else if ( t == tr_crossbow ) {
-        chance = 30;
-        noise = 1;
-        snd = _("Clank!");
-        wreckit = true;
-        g->m.remove_trap(x, y);
-        g->m.spawn_item(x, y, "crossbow");
-        g->m.spawn_item(x, y, "string_6");
-        if (!one_in(10)) {
-            g->m.spawn_item(x, y, "bolt_steel");
-        }
-    } else if ( t == tr_shotgun_2 ||
-                t == tr_shotgun_1 ) {
-        noise = 60;
-        snd = _("Bang!");
-        chance = 70;
-        wreckit = true;
-        if (t == tr_shotgun_2) {
-            g->m.add_trap(x, y, tr_shotgun_1);
-        } else {
-            g->m.remove_trap(x, y);
-            g->m.spawn_item(x, y, "shotgun_sawn");
-            g->m.spawn_item(x, y, "string_6");
-        }
-    } else if ( t == tr_landmine_buried ||
-                t == tr_landmine ) {
-        expl = 10;
-        shrap = 8;
-        g->m.remove_trap(x, y);
-    } else if ( t == tr_boobytrap ) {
-        expl = 18;
-        shrap = 12;
-    } else if ( t == tr_dissector ) {
-        noise = 10;
-        snd = _("BRZZZAP!");
-        wreckit = true;
-    } else if ( t == tr_sinkhole ||
-                t == tr_pit ||
-                t == tr_spike_pit ||
-                t == tr_ledge ) {
-        wreckit = true;
-    } else if ( t == tr_goo ||
-                t == tr_portal ||
-                t == tr_telepad ||
-                t == tr_temple_flood ||
-                t == tr_temple_toggle ) {
-        msg.clear();
-    }
-    if (!msg.empty() && g->u_see(x, y)) {
-        g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
-    }
-    if (noise > 0) {
-        g->sound(x, y, noise, snd);
-    }
-    if (wreckit && chance >= rng (1, 100)) {
-        damage (part, 500);
-    }
-    if (expl > 0) {
-        g->explosion(x, y, expl, shrap, false);
-    }
 }
 
 // total volume of all the things
@@ -3838,6 +2740,7 @@ void vehicle::refresh()
     reactors.clear();
     solar_panels.clear();
     relative_parts.clear();
+    wheels.clear();
     lights_epower = 0;
     overhead_epower = 0;
     tracking_epower = 0;
@@ -3881,6 +2784,9 @@ void vehicle::refresh()
         if( vpi.has_flag(VPFLAG_SOLAR_PANEL) ) {
             solar_panels.push_back( p );
         }
+        if( vpi.has_flag(VPFLAG_WHEEL) ) {
+            wheels.push_back( p );
+        }
         if( vpi.has_flag("PEDALS") ) {
             has_pedals = true;
         }
@@ -3893,6 +2799,7 @@ void vehicle::refresh()
     }
     total_mass(); // Mass in kg, takes some effort to find. Puts it in cached_mass
     calculate_air_resistance(); // Updates air_resistance and downforce
+    calculate_center_of_mass(); // Updates coordinates for center of mass
 
     precalc_mounts( 0, face.dir() );
     check_environmental_effects = true;
@@ -4548,6 +3455,7 @@ void vehicle::calculate_air_resistance()
     // Aim for roughly these Cd * A values:
     // http://en.wikipedia.org/wiki/Automobile_drag_coefficient
     // http://www.rapid-racer.com/aerodynamics.php
+    // http://www.engineeringtoolbox.com/drag-coefficient-d_627.html
     drag_coeff = (float(t_form_drag * t_skin_friction) + (t_skin_friction + 10) * (t_skin_friction + 10) + 500) / 3500; // Use i_skin_friction as area
     downforce = float(t_downforce) / 10;
 }

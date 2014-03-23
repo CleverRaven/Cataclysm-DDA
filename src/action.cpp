@@ -1,5 +1,6 @@
 #include "action.h"
 #include "output.h"
+#include "translations.h"
 #include <istream>
 #include <sstream>
 #include <fstream>

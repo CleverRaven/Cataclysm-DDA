@@ -7,6 +7,7 @@
 #include "options.h"
 #include "mapbuffer.h"
 #include "translations.h"
+#include "veh_physics.h"
 #include "monstergenerator.h"
 #include <cmath>
 #include <stdlib.h>
@@ -465,8 +466,6 @@ bool map::vehproceed()
     }
     if(!veh) { return false; }
 
-
-
     int debug = 0;
     // 1 turn = 5 moves = 1-25 (or more!) tiles covered
     // Keep moving through tiles until veh->of_turn < move_until
@@ -474,28 +473,25 @@ bool map::vehproceed()
     if( veh->of_turn > 1.0f ) move_until -= 0.2f;
     if( move_until < 0.0f ) move_until = 0.0f;
 
-    int old_v = abs(veh->velocity);
+    veh_physics vp;
+    vp.init(veh);
     bool had_collision = false;
     do { // Repeats for every tile we go through in this move.
-        if (!veh->drive_one_tile())
+        if( !vp.drive_one_tile() ) {
+            veh->of_turn = 0;
             return true; // Vehicle is unable to move now for some reason
-
-        // Get average speed while driving through tile. Calc secs it takes to drive the length
-        // of a single time. Divide by secs in a turn to get how much of a turn this tile took.
-        // time = mm / ((mph*100 + mph*100)/200*2.236) / msec = mm / ((m/s+m/s)/2) / msec
-        float move_cost = TILE_SIZE_MM / (float(old_v + abs(veh->velocity))/200/2.236f) / TURN_TIME_MSEC;
-        if (debug>=2) g->add_msg("ov=%5d, v=%5d, mc=%5d", int(old_v), int(veh->velocity), int(move_cost*100));
-        old_v = abs(veh->velocity);
-
+        }
+        float move_cost = vp.time_taken / TURN_TIME_S;
+        tileray old_move = veh->move;
         veh->move.advance(veh->velocity < 0? -1 : 1);
-
         // calculate parts' mount points @ next turn (put them into precalc[1])
-        veh->precalc_mounts(1, veh->face.dir());
-        
+        veh->precalc_mounts(1, veh->face.dir());        
         // find collisions, apply damage, change velocity, print messages
-        had_collision = veh->collision(veh->move.dx(), veh->move.dy(), false);
+        had_collision = vp.collision(veh->move.dx(), veh->move.dy(), false);
         
-        if (!had_collision) {
+        if( had_collision ) {
+            veh->move = old_move; // Undo advancement
+        } else {
             // accept new position
             // if submap changed, we need to process grid from the beginning.
             int x = veh->global_x(), y = veh->global_y();
@@ -504,7 +500,7 @@ bool map::vehproceed()
             if (debug>=3) g->add_msg("of=%3d, move_until %3d", int(veh->of_turn*100), int(move_until*100));
         }
         // If we had a collision, exit now so that collision is drawn
-    } while (!had_collision && veh->of_turn > move_until);
+    } while( !had_collision && veh->of_turn > move_until );
 
     if( veh->of_turn < 0 ) { // Subtract some movement from next turn
         veh->of_turn_carry = veh->of_turn;

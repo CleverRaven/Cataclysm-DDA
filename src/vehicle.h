@@ -28,33 +28,6 @@ class player;
 extern const ammotype fuel_types[num_fuel_types];
 #define k_mvel 200 //adjust this to balance collision damage
 
-// 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
-// 3 - thin_obstacle, 4 - bashable, 5 - destructible, 6 - other
-enum veh_coll_type {
- veh_coll_nothing = 0,
- veh_coll_body,
- veh_coll_veh,
- veh_coll_thin_obstacle,
- veh_coll_bashable,
- veh_coll_destructable,
- veh_coll_other,
-
- num_veh_coll_types
-};
-
-struct veh_collision
-{
-    veh_coll_type type;       // What we're colliding with
-    int x, y;                 // Coordinates of impact point
-    int precalc_x, precalc_y; // Coordinates of vehicle part impacted
-    float mass;               // For non-vehicles
-    float elasticity;         // For non-vehicles
-    int density;              // For non-vehicles
-    void* target;             // Pointer to vehicle, mon, or npc
-    std::string target_name;
-    veh_collision() : type(veh_coll_nothing), x(0), y(0), mass(0.0f), elasticity(0.3f), density(15), target(NULL), target_name("") {};
-};
-
 struct vehicle_item_spawn
 {
     int x, y;
@@ -69,38 +42,6 @@ struct vehicle_prototype
     std::vector<std::pair<point, std::string> > parts;
     std::vector<vehicle_item_spawn> item_spawns;
 };
-
-// Used in calculate_forces and div physical properties resulting from generating thrust
-// These values are used when accelerating/braking and in the examine screen
-struct vehicle_forces
-{
-    int eng_pwr_cur, eng_pwr_max, eng_alt_pwr;
-    bool is_thrusting;               // If engine is used to provide thrust
-    bool valid_wheel_config;         // Cached, if it has enough wheels to acc/brake
-    double distance_traveled;        // How far the vehicle traveled
-    double downforce_newton;         // Force pushing vehicle towards the ground 
-    double drag_newton;              // Force slowing vehicle from wind res
-    double engine_newton;            // Force used to actually drive wheels
-    double engine_newton_max;        // How much the engine can work
-    double engine_watt_max;          // Available power
-    double engine_watt_average;      // How much power engine actually used
-    double ground_res_coeff;         // Rolling resistance and debris
-    double ground_res_newton;        // Force slowing vehicle from rolling/debris
-    double kinetic_end;              // Initial kinetic energy
-    double kinetic_start;            // Kinetic energy after calculations
-    double newton_total;             // Sum of all the forces working on the vehicle
-    double newton_average;           // Average sum of all the forces
-    double rolling_res_coeff;        // Wheel resistance
-    double time_taken;               // Time it took to move
-    double tire_friction_coeff;      // How well the tires grip the ground
-    double user_applied_newton;      // Force actually driving wheels
-    double velocity_average;
-    double velocity_end;
-    double velocity_start;
-    double wheel_newton_available;   // Grip available for thrust/steering
-    double wheel_newton_max;         // Total grip
-};
-
 
 /**
  * Structure, describing vehicle part (ie, wheel, seat)
@@ -241,16 +182,6 @@ private:
     bool is_connected(vehicle_part &to, vehicle_part &from, vehicle_part &excluded);
     void add_missing_frames();
 
-    // Finds a single collision with vehicle, monster/NPC/player or terrain obstacle.
-    // Return veh_collision, which has type, mass, and target.
-    veh_collision get_point_collision (int x, int y);
-
-    // Processes a single veh_collision, assigning damage and changing velocity/dir.
-    void process_collision (veh_collision coll);
-
-    // Calculate and deal damage to a single point from collition
-    bool apply_damage_from_collision_to_point(int frame, veh_collision coll);
-
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
     int damage_direct (int p, int dmg, int type = 1);
@@ -301,6 +232,9 @@ public:
 
     // convert power to epower (watts).
     int power_to_epower (int power);
+
+    // get health index, from 0.0 (broken) till 1.0 (full hp)
+    double part_health( int index );
 
     // Calculates combined power of all engines, returns current power as if engines were on
     int engine_power( int *r_power_max = 0, int *r_epower = 0, int *r_alt_power = 0 );
@@ -398,7 +332,6 @@ public:
     char part_sym (int p);
     std::string part_id_string(int p, char &part_mod);
 
-
 // Vehicle parts description
     int print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1);
 
@@ -455,32 +388,17 @@ public:
 // get the total mass of vehicle, including cargo and passengers
     int total_mass ();
 
-// get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
-    void center_of_mass(int &x, int &y);
+    // get center of mass of vehicle; coordinates are precalc_dx[0] and precalc_dy[0]
+    void calculate_center_of_mass();
+
+    // Calculates air_resistance and downforce
+    void calculate_air_resistance();
 
 // Get combined epower of solar panels
     int solar_epower ();
 
     // Change the facing direction of a headlight
     bool change_headlight_direction(int p);
-
-    // Calculates air_resistance and downforce
-    void calculate_air_resistance();
-
-    // Calculate the forces currently acting on the vehicle and store them in struct vf
-    // v is velocity to calculate at. returns net force of newtons acting on vehicle
-    double calculate_forces( vehicle_forces *vf, double v, double fdir );
-
-    // Sum up the forces working over a single tile where fdir=engine thrust/braking,
-    // reiterate with different time values until the correct time is found,
-    // store them in vf, and return calculated vehicle velocity
-    double calculate_time_to_move_one_tile( vehicle_forces *vf, double fdir );
-
-    // Calculate factors and coefficiencies from current tiles/temperature/grip etc,
-    // store them in vf, and then figure out what parameters (time/thrust) to use
-    // in order to move exactly 1 tile length and end up at the desired velocity.
-    // Also used by veh_interact to display stuff
-    double calculate_movement( vehicle_forces *vf, double engine_output, double target_speed = 0.0, int tile_move_cost = 2 );
 
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
     void spew_smoke( double joules, int part );
@@ -496,6 +414,7 @@ public:
 
 // Vehicle loses control and starts to skid
     void start_skid (int turn_deg = 0);
+
 // idle fuel consumption
     void idle ();
 
@@ -514,20 +433,11 @@ public:
 // turn vehicle left (negative) or right (positive), degrees
     void turn (int deg);
 
-    // Handles all collisions between this vehicle and other stuff at the given delta.
-    bool collision (int dx, int dy, bool just_detect);
-
 // Slow down vehicle, returns true if vehicle stopped completely
     bool slow_down (int vel_dec);
 
 // Accelerate, spend fuel, turn etc. But don't move, map does that for us.
     void do_turn_actions();
-
-// Move through current maptile. Handle friction/wheel damage etc. Called by map. Return false if failed.
-    bool drive_one_tile ();
-
-// Process the trap beneath
-    void handle_trap (int x, int y, int part);
 
     int max_volume(int part); // stub for per-vpart limit
     int free_volume(int part);
@@ -622,7 +532,7 @@ public:
     std::vector<int> engines;          // List of engine indices
     std::vector<int> reactors;         // List of reactor indices
     std::vector<int> solar_panels;     // List of solar panel indices
-    std::vector<int> wheelcache;
+    std::vector<int> wheels;           // List of wheels
     std::vector<vehicle_item_spawn> item_spawns; //Possible starting items
     std::set<std::string> tags;        // Properties of the vehicle
 
@@ -663,6 +573,8 @@ public:
     int fridge_epower; // total power consumed by fridges
     int recharger_epower; // total power consumed by rechargers
     bool check_environmental_effects; // True if it has bloody or smoking parts
+    int center_of_mass_x; // Cached value, updated in refresh()
+    int center_of_mass_y; // Cached value, updated in refresh()
 };
 
 #endif

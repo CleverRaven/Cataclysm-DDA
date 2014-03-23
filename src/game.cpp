@@ -6,6 +6,7 @@
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
+#include "veh_physics.h"
 #include "advanced_inv.h"
 #include "options.h"
 #include "auto_pickup.h"
@@ -11845,8 +11846,12 @@ bool game::plmove(int dx, int dy)
               add_msg(_("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
               return false;
           }
-          drag_multiplier += (float)(grabbed_vehicle->total_mass() * 1000) /
-              (float)(u.weight_capacity() * 5);
+          veh_physics vp;
+          vp.init( grabbed_vehicle );
+          drag_multiplier += float(vp.mass * 1000) / float(u.weight_capacity() * 5);
+          if( !vp.valid_wheel_config ) {
+              drag_multiplier *= 2;
+          }
           if( drag_multiplier > 2.0 ) {
               add_msg(_("The %s is too heavy for you to budge!"), grabbed_vehicle->name.c_str());
               return false;
@@ -11884,13 +11889,13 @@ bool game::plmove(int dx, int dy)
               grabbed_vehicle->face = grabbed_vehicle->turn_dir;
               grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
               // Set player location to illegal value so it can't collide with vehicle.
-              int player_prev_x = u.posx;
-              int player_prev_y = u.posy;
+              const int player_prev_x = u.posx;
+              const int player_prev_y = u.posy;
               u.posx = 0;
               u.posy = 0;
-              if (grabbed_vehicle->collision(dxVeh, dyVeh, true)) {
-                  // TODO: figure out what we collided with.
-                  add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
+              if( vp.collision(dxVeh, dyVeh, true) ) {
+                  add_msg( _("The %s collides with %s."), grabbed_vehicle->name.c_str(),
+                                                          vp.first_collision_name.c_str() );
                   u.moves -= 10;
                   u.posx = player_prev_x;
                   u.posy = player_prev_y;
@@ -11903,15 +11908,8 @@ bool game::plmove(int dx, int dy)
 
               int gx = grabbed_vehicle->global_x();
               int gy = grabbed_vehicle->global_y();
-              std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature("WHEEL", false);
-              for( size_t i = 0; i < wheel_indices.size(); ++i ) {
-                  int p = wheel_indices[i];
-                  if( one_in(2) ) {
-                      grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
-                                                    gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
-                  }
-              }
               m.displace_vehicle( gx, gy, dxVeh, dyVeh );
+              vp.drive_one_tile(); // Handle sinking, traps, messsing up ground
           } else {
               //We are moving around the veh
               u.grab_point.x = (dx + dxVeh) * (-1);
