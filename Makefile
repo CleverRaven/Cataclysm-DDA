@@ -27,8 +27,12 @@
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+# Install to system directories.
+#  make install
 # Enable lua debug support
 #  make LUA=1
+# Use user's home directory for save files.
+#  make USE_HOME_DIR=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -301,6 +305,10 @@ ifeq ($(TARGETSYSTEM), LINUX)
   ifneq ($(PREFIX),)
     DEFINES += -DPREFIX="$(PREFIX)"
   endif
+endif
+
+ifeq ($(USE_HOME_DIR),1)
+  DEFINES += -DUSE_HOME_DIR
 endif
 
 all: version $(TARGET) $(L10N)

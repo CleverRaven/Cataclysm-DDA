@@ -57,7 +57,12 @@ int main(int argc, char *argv[])
 #else
     init_base_path("");
 #endif
+
+#ifdef USE_HOME_DIR
     init_user_dir();
+#else
+    init_user_dir("./");
+#endif
     set_standart_filenames();
 
     // Process CLI arguments
@@ -94,7 +99,7 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             if (argc) {
-                FILENAMES["user_dir"] = std::string(argv[0]);
+                init_user_dir( argv[0] );
                 set_standart_filenames();
                 argc--;
                 argv++;
