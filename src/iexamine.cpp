@@ -1196,8 +1196,12 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy) {
         }
     } else if (m->furn(examx,examy) != f_plant_harvest && m->i_at(examx, examy).size() == 1 &&
                  p->charges_of("fertilizer_liquid") && query_yn(_("Fertilize plant"))) {
-        //Reduce the amount of time it takes until the next stage of the plant by 3 days.
-        unsigned int fertilizerEpoch = 14400 * 3;
+        //Reduce the amount of time it takes until the next stage of the plant by 20% of a seasons length. (default 2.8 days).
+        WORLDPTR world = world_generator->active_world;
+        unsigned int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
+        if (!world->world_options.empty()) {
+            fertilizerEpoch = 14400 * (world->world_options["SEASON_LENGTH"] * 0.2) ;
+        }
 
         if (m->i_at(examx, examy)[0].bday > fertilizerEpoch) {
             m->i_at(examx, examy)[0].bday -= fertilizerEpoch;
