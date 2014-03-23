@@ -2,70 +2,86 @@
     {
         "type" : "tool_quality",
         "id" : "CUT",
-        "name" : "cutting quality"
+        "name" : "cutting tool",
+		"plural" : "cutting tools",
+		"quality" : "sharpness"
     },{
         "type" : "tool_quality",
         "id" : "HAMMER",
-        "name" : "hammering quality"
-    },{
-        "type" : "tool_quality",
-        "id" : "HAMMER_G",
-        "name" : "gunsmithing (hammering) quality"
+        "name" : "bashing tool",
+		"plural" : "bashing tools",
+		"quality" : "precision"
     },{
         "type" : "tool_quality",
         "id" : "SAW_W",
-        "name" : "wood sawing quality"
+        "name" : "woodworking saw",
+		"plural" : "woodworking saws",
+		"quality" : "precision"
     },{
         "type" : "tool_quality",
         "id" : "SAW_M",
-        "name" : "metal sawing quality"
-    },{
-        "type" : "tool_quality",
-        "id" : "SAW_M_G",
-        "name" : "gunsmithing (metal sawing) quality"
+        "name" : "metalworking saw",
+		"plural" : "metalworking saws",
+		"quality" : "precision"
     },{
         "type" : "tool_quality",
         "id" : "COOK",
-        "name" : "food cooking quality"
+        "name" : "cookware item",
+		"plural" : "cookware items",
+		"quality" : "quality"
     },{
         "type" : "tool_quality",
         "id" : "BOIL",
-        "name" : "liquid boiling quality"
+        "name" : "cooking container",
+		"plural" : "cooking containers",
+		"quality" : "durability"
     },{
         "type" : "tool_quality",
         "id" : "CONTAIN",
-        "name" : "containing quality"
+        "name" : "liquid container",
+		"plural" : "liquid containers",
+		"quality" : "quality"
     },{
         "type" : "tool_quality",
         "id" : "CHEM",
-        "name" : "chemical making quality"
+        "name" : "set of chemistry tools",
+		"plural" : "sets of chemistry tools",
+		"quality" : "complexity"
     },{
         "type" : "tool_quality",
         "id" : "BREW",
-        "name" : "brewing quality"
+        "name" : "distilling apparatus",
+		"plural" : "distilling apparatuses",
+		"quality" : "efficiency"
     },{
         "type" : "tool_quality",
         "id" : "AXE",
-        "name" : "tree cutting quality"
+        "name" : "lumberjacking tool",
+		"plural" : "lumberjacking tools",
+		"quality" : "effectiveness"
     },{
         "type" : "tool_quality",
         "id" : "DIG",
-        "name" : "digging quality"
+        "name" : "digging implement",
+		"plural" : "digging implements",
+		"quality" : "durability"
     },{
         "type" : "tool_quality",
         "id" : "WRENCH",
-        "name" : "bolt screwing quality"
-    },{
-        "type" : "tool_quality",
-        "id" : "WRENCH_G",
-        "name" : "gunsmithing (bolt screwing) quality"
+        "name" : "bolt-fastening tool",
+		"plural" : "bolt-fastening tools",
+		"quality" : "precision"
     },{
         "type" : "tool_quality",
         "id" : "SCREW",
-        "name" : "screw screwing quality"
+        "name" : "screw-driving tool",
+		"plural" : "screw-driving tools",
+		"quality" : "precision"
     },{
         "type" : "tool_quality",
-        "id" : "SCREW_G",
-        "name" : "gunsmithing (screw screwing) quality"
+        "id" : "GUNSMITH",
+        "name" : "set of gunsmith tools",
+		"plural" : "sets of gunsmith tools",
+		"quality" : "quality"
     }
 ]

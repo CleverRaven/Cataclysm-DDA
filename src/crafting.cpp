@@ -202,6 +202,8 @@ void load_quality(JsonObject &jo)
     quality qual;
     qual.id = jo.get_string("id");
     qual.name = _(jo.get_string("name").c_str());
+    qual.plural = _(jo.get_string("plural").c_str());
+    qual.quality = _(jo.get_string("quality").c_str());
     qualities[qual.id] = qual;
 }
 
@@ -270,8 +272,8 @@ std::string print_missing_objs(const std::vector< quality_requirement > &objs) {
         if (i > 0) {
             buffer << _("\nand ");
         }
-        buffer << string_format(_("%d tools with %s of %d or more"),
-                req.count, qualities[req.id].name.c_str(), req.level);
+        buffer << string_format(_("%d %s with %s of %d or more"),
+                req.count, (req.count ==1) ? qualities[req.id].name.c_str() : qualities[req.id].plural.c_str(), qualities[req.id].quality.c_str(),req.level);
     }
     return buffer.str();
 }
@@ -849,9 +851,9 @@ recipe *game::select_crafting_recipe()
                         }
 
                         std::stringstream qualinfo;
-                        qualinfo << string_format(_("Requires %d tools with %s of %d or more."),
-                                                  iter->count, qualities[iter->id].name.c_str(),
-                                                  iter->level);
+                        qualinfo << string_format(_("Requires %d %s with %s of %d or more."),
+                                                  iter->count, (iter->count == 1) ? qualities[iter->id].name.c_str() : qualities[iter->id].plural.c_str(),
+                                                  qualities[iter->id].quality.c_str(), iter->level);
                         ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
                                                toolcol, qualinfo.str());
                     }

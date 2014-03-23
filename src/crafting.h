@@ -45,6 +45,8 @@ struct quality
 {
     std::string id;
     std::string name;
+    std::string plural;
+    std::string quality;
 };
 
 struct recipe {
