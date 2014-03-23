@@ -8402,6 +8402,10 @@ void game::draw_trail_to_square(int x, int y, bool bDrawX)
     //Reset terrain
     draw_ter();
 
+    if(x == 0 && y == 0) {
+        return;
+    }
+
     //Draw trail
     point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
     std::vector<point> vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
