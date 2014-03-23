@@ -4173,11 +4173,27 @@ Current turn: %d; Next spawn %d.\n\
             int(p->personality.altruism) << std::endl << " " << std::endl;
     nmenu.text=data.str();
     nmenu.addentry(0,true,'s',"%s",_("Edit [s]kills"));
-    nmenu.addentry(1,true,'q',"%s",_("[q]uit"));
+    nmenu.addentry(1,true,'i',"%s",_("Grant [i]tems"));
+    nmenu.addentry(2,true,'h',"%s",_("Cause [h]urt (to torso)"));
+    nmenu.addentry(3,true,'p',"%s",_("Cause [p]ain"));
+    nmenu.addentry(4,true,'q',"%s",_("[q]uit"));
     nmenu.selected = 0;
     nmenu.query();
-    if (nmenu.ret == 0 ) {
-      wishskill(p);
+    switch (nmenu.ret) {
+        case 0:
+            wishskill(p);
+            break;
+        case 1:
+            wishitem(p);
+            break;
+        case 2:
+            p->hurt(bp_torso, -1, 20);
+            break;
+        case 3:
+            p->mod_pain(20);
+            break;
+        default:
+            break;
     }
    }
   } break;
@@ -9400,7 +9416,7 @@ void game::pickup(int posx, int posy, int min)
                         }
                         m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                         u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-                        u.wield(u.i_add(newit).invlet);
+                        u.wield(&(u.i_add(newit)));
                         u.moves -= 100;
                         add_msg(_("Wielding %c - %s"), newit.invlet,
                                 newit.display_name().c_str());
@@ -9416,7 +9432,7 @@ and you can't unwield your %s."),
                 }
             } else {
                 u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-                u.wield(u.i_add(newit).invlet);
+                u.wield(&(u.i_add(newit)));
                 if (from_veh) {
                     veh->remove_item (cargo_part, 0);
                 } else {
@@ -9819,7 +9835,7 @@ and you can't unwield your %s."),
                                 picked_up = true;
                                 m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                                 u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
-                                u.wield(u.i_add(here[i]).invlet);
+                                u.wield(&(u.i_add(here[i])));
                                 mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                                 add_msg(_("Wielding %c - %s"), u.weapon.invlet,
                                         u.weapon.display_name().c_str());
@@ -9836,7 +9852,7 @@ and you can't unwield your %s."),
                     }
                 } else {
                     u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
-                    u.wield(u.i_add(here[i]).invlet);
+                    u.wield(&(u.i_add(here[i])));
                     mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                     picked_up = true;
                 }
@@ -11511,9 +11527,9 @@ void game::wield(int pos)
 
  bool success = false;
  if (pos == -1)
-  success = u.wield(-3);
+  success = u.wield(NULL);
  else
-  success = u.wield(u.lookup_item(u.position_to_invlet(pos)));
+  success = u.wield(&(u.i_at(pos)));
 
  if (success)
   u.recoil = 5;

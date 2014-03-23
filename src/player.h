@@ -396,7 +396,7 @@ public:
  bool consume(int pos);
  bool eat(item *eat, it_comest *comest);
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
- virtual bool wield(signed char invlet, bool autodrop = false);// Wield item; returns false on fail
+ virtual bool wield(item* it, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(); // Pick a style
  bool wear(int pos, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool wear_item(item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.

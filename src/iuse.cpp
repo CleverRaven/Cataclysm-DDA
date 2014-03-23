@@ -7703,11 +7703,10 @@ int iuse::boots(player *p, item *it, bool)
  if ((it->contents.size() > 0 && choice == 1) || // Pull 1st
      (it->contents.size() > 1 && choice == 2)) {  // Pull 2nd
   p->moves -= 15;
-  item knife = it->contents[choice - 1];
-  if (!p->is_armed() || p->wield(-3)) {
+  item& knife = it->contents[choice - 1];
+  if (!p->is_armed() || p->wield(NULL)) {
    p->inv.assign_empty_invlet(knife, true);  // force getting an invlet.
-   p->i_add(knife);
-   p->wield(knife.invlet);
+   p->wield(&(p->i_add(knife)));
    it->contents.erase(it->contents.begin() + choice - 1);
   }
  } else if ((it->contents.empty() && choice == 1) || // Put 1st
