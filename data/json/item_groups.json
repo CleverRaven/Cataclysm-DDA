@@ -6864,7 +6864,10 @@
       ["combatsaw_on", 0],
       ["noise_emitter_on", 0],
       ["pda_flashlight", 0],
-      ["bio_lightning", 0]
+      ["bio_lightning", 0],
+      ["bio_claws_weapon", 0],
+      ["bio_blade_weapon", 0],
+      ["v_table", 0]
     ]
   },{
     "type" : "item_group",
