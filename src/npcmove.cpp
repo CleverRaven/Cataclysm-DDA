@@ -202,12 +202,12 @@ void npc::execute_action(npc_action action, int target)
 
  case npc_wield_loaded_gun:
  {
-  item& it = inv.most_loaded_gun();
-  if (it.is_null()) {
+  item* it = inv.most_loaded_gun();
+  if (it->is_null()) {
    debugmsg("NPC tried to wield a loaded gun, but has none!");
    move_pause();
   } else
-   wield(it.invlet);
+   wield(it);
  } break;
 
  case npc_wield_empty_gun:
@@ -228,7 +228,7 @@ void npc::execute_action(npc_action action, int target)
    debugmsg("NPC tried to wield a gun, but has none!");
    move_pause();
   } else
-   wield(slice[index]->front().invlet);
+   wield(&(slice[index]->front()));
  } break;
 
  case npc_heal:
@@ -1455,13 +1455,13 @@ void npc::melee_player(player &foe)
 
 void npc::wield_best_melee()
 {
- item& it = inv.best_for_melee(this);
- if (it.is_null()) {
+ item* it = inv.best_for_melee(this);
+ if (it->is_null()) {
   debugmsg("npc::wield_best_melee failed to find a melee weapon.");
   move_pause();
   return;
  }
- wield(it.invlet);
+ wield(it);
 }
 
 void npc::alt_attack(int target)
@@ -1760,16 +1760,19 @@ void npc::heal_self()
 
 void npc::use_painkiller()
 {
-// First, find the best painkiller for our pain level
- item& it = inv.most_appropriate_painkiller(pain);
+    // First, find the best painkiller for our pain level
+    item* it = inv.most_appropriate_painkiller(pain);
 
- if (it.is_null()) {
-  debugmsg("NPC tried to use painkillers, but has none!");
-  move_pause();
- } else {
-  consume(inv.position_by_item(&it));
-  moves = 0;
- }
+    if (it->is_null()) {
+        debugmsg("NPC tried to use painkillers, but has none!");
+        move_pause();
+    } else {
+        if (g->u_see(posx, posy)) {
+            g->add_msg(_("%s takes some %s."), name.c_str(), it->name.c_str());
+        }
+        consume(inv.position_by_item(it));
+        moves = 0;
+    }
 }
 
 void npc::pick_and_eat()

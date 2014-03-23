@@ -160,13 +160,18 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
 
 void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 {
+    int crx = POSX, cry = POSY;
+
+    if(!vPoint.empty()) {
+        crx += (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x));
+        cry += (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y));
+    }
     for (size_t i = 1; i < vPoint.size(); i++)
     {
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
     }
 
-    mvwputch(w_terrain, POSY + (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y)),
-                        POSX + (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x)), c_white, 'X');
+    mvwputch(w_terrain, cry, crx, c_white, 'X');
 
     tilecontext->init_draw_line(x,y,vPoint,"line_trail", false);
 }
