@@ -4809,12 +4809,14 @@ void game::draw_ter(int posx, int posy)
  m.build_map_cache();
  m.draw(w_terrain, point(posx, posy));
 
-    // Draw monsters
+    // Draw creatures
     int mx, my;
-    for (int i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        my = POSY + (critter.posy() - posy);
-        mx = POSX + (critter.posx() - posx);
+    std::set<Creature*> creatures = critter_tracker.creature_set();
+    std::set<Creature*>::iterator it;
+    for (it = creatures.begin(); it != creatures.end(); it++) {
+        Creature &critter = **it;
+        my = POSY + (critter.xpos() - posy);
+        mx = POSX + (critter.ypos() - posx);
         if (is_valid_in_w_terrain(mx, my) && u_see(&critter)) {
             critter.draw(w_terrain, posx, posy, false);
             mapRain[my][mx] = false;
@@ -4824,7 +4826,7 @@ void game::draw_ter(int posx, int posy)
                        || u.has_trait("INFRARED")
                        || u.has_trait("LIZ_IR")
                        || u.worn_with_flag("IR_EFFECT"))
-                   && m.pl_sees(u.posx,u.posy,critter.posx(),critter.posy(),
+                   && m.pl_sees(u.posx,u.posy,critter.xpos(),critter.ypos(),
                                 u.sight_range(DAYLIGHT_LEVEL))) {
             mvwputch(w_terrain, my, mx, c_red, '?');
         }
