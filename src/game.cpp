@@ -8402,18 +8402,19 @@ void game::draw_trail_to_square(int x, int y, bool bDrawX)
     //Reset terrain
     draw_ter();
 
-    if(x == 0 && y == 0) {
-        return;
-    }
-
     //Draw trail
     point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
     std::vector<point> vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
 
     draw_line(u.posx + x, u.posy + y, center, vPoint);
     if (bDrawX) {
-        mvwputch(w_terrain, POSY + (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y)),
-                            POSX + (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x)), c_white, 'X');
+        if(vPoint.empty()) {
+            mvwputch(w_terrain, POSY, POSX, c_white, 'X');
+        } else {
+            mvwputch(w_terrain, POSY + (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y)),
+                                POSX + (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x)),
+                                c_white, 'X');
+        }
     }
 
     wrefresh(w_terrain);
