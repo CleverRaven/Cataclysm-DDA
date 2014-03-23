@@ -62,33 +62,38 @@ size_t Creature_tracker::size() const
     return _old_monsters_list.size();
 }
 
-bool Creature_tracker::update_pos(const monster &critter, const int new_x_pos, const int new_y_pos)
+bool Creature_tracker::update_pos(Creature &critter, const int new_x_pos, const int new_y_pos)
 {
-    if (critter.posx() == new_x_pos && critter.posy() == new_y_pos) {
+    if (critter.xpos() == new_x_pos && critter.ypos() == new_y_pos) {
         return true; // success?
     }
     bool success = false;
-    const int dead_critter_id = dead_mon_at(point(critter.posx(), critter.posy()));
-    const int live_critter_id = mon_at(point(critter.posx(), critter.posy()));
-    const int critter_id = critter.dead ? dead_critter_id : live_critter_id;
+    point current_location(critter.xpos(), critter.ypos());
+    const int dead_critter_id = dead_mon_at(current_location);
+    const int live_critter_id = mon_at(current_location);
+    const int critter_id = critter.is_dead_state() ? dead_critter_id : live_critter_id;
     const int new_critter_id = mon_at(new_x_pos, new_y_pos);
     if (new_critter_id >= 0 && !_old_monsters_list[new_critter_id]->dead) {
         debugmsg("update_zombie_pos: new location %d,%d already has zombie %d",
                  new_x_pos, new_y_pos, new_critter_id);
     } else if (critter_id >= 0) {
         if (&critter == _old_monsters_list[critter_id]) {
-            _old_monsters_by_location.erase(point(critter.posx(), critter.posy()));
+            _old_monsters_by_location.erase(current_location);
             _old_monsters_by_location[point(new_x_pos, new_y_pos)] = critter_id;
             success = true;
         } else {
             debugmsg("update_zombie_pos: old location %d,%d had zombie %d instead",
-                     critter.posx(), critter.posy(), critter_id);
+                     critter.xpos(), critter.xpos(), critter_id);
         }
+    } else if(_creatures_by_location.find(current_location) != _creatures_by_location.end()) {
+        // There's a non-monster creature at the specified position.
+        _creatures_by_location.erase(current_location);
+        _creatures_by_location[point(new_x_pos, new_y_pos)] = &critter;
     } else {
         // We're changing the x/y coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update _old_monsters_by_location for us.
         debugmsg("update_zombie_pos: no such zombie at %d,%d (moving to %d,%d)",
-                 critter.posx(), critter.posy(), new_x_pos, new_y_pos);
+                 critter.xpos(), critter.ypos(), new_x_pos, new_y_pos);
     }
     return success;
 }
@@ -129,7 +134,14 @@ void Creature_tracker::rebuild_cache()
     _old_monsters_by_location.clear();
     for (int ii = 0, max_ii = size(); ii < max_ii; ii++) {
         monster &critter = *_old_monsters_list[ii];
-        _old_monsters_by_location[point(critter.posx(), critter.posy())] = ii;
+        _old_monsters_by_location[point(critter.xpos(), critter.ypos())] = ii;
+    }
+
+    _creatures_by_location.clear();
+    std::set<Creature*>::iterator creature_it;
+    for (creature_it = _creature_set.begin(); creature_it != _creature_set.end(); creature_it++) {
+        Creature *critter = *creature_it;
+        _creatures_by_location[point(critter->xpos(), critter->ypos())] = critter;
     }
 }
 
@@ -141,4 +153,45 @@ const std::vector<monster>& Creature_tracker::list() const
         for_now.push_back(*_old_monsters_list[i]);
     }
     return for_now;
+}
+
+Creature *Creature_tracker::creature_at(point coords) const {
+    int monster_index = mon_at(coords);
+    if (monster_index != -1) {
+        return _old_monsters_list[monster_index];
+    }
+
+    std::map<point, Creature*>::const_iterator it = _creatures_by_location.find(coords);
+    if (it != _creatures_by_location.end()) {
+        return it->second;
+    }
+
+    return NULL;
+}
+
+bool Creature_tracker::add_creature(Creature *creature) {
+    point location(creature->xpos(), creature->ypos());
+    if (creature_at(location)) {
+        return false;
+    }
+
+    _creature_set.insert(creature);
+
+    _creatures_by_location[location] = creature;
+
+    return true;
+}
+
+void Creature_tracker::remove_creature(Creature *creature) {
+    point location(creature->xpos(), creature->ypos());
+    _creatures_by_location.erase(location);
+    _creature_set.erase(creature);
+}
+
+std::set<Creature*> Creature_tracker::creature_set() const {
+    std::set<Creature*> return_copy(_creature_set);
+    for (size_t i = 0; i < _old_monsters_list.size(); i++) {
+        return_copy.insert(_old_monsters_list[i]);
+    }
+    return return_copy;
 }
