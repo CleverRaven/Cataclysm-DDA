@@ -190,7 +190,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 bool mod_manager::set_default_mods(const t_mod_list &mods)
 {
     default_mods = mods;
-    std::ofstream stream(FILENAMES["mods-user-defaults"].c_str(), std::ios::out | std::ios::binary);
+    std::ofstream stream(FILENAMES["mods-user-default"].c_str(), std::ios::out | std::ios::binary);
     if(!stream) {
         popup(_("Can not open %s for writing"), FILENAMES["mods-user-defaults"].c_str());
         return false;

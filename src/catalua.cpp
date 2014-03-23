@@ -482,6 +482,7 @@ void game::init_lua() {
     luaL_register(lua_state, "game", global_funcs);
 
     // Load lua-side metatables etc.
+    luaL_dofile(lua_state, FILENAMES["class_defslua"].c_str());
     luaL_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
 }
 #endif // #ifdef LUA
