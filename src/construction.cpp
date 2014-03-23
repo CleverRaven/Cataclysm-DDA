@@ -566,7 +566,7 @@ void complete_construction()
 
     g->u.practice(g->turn, built->skill, std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < built->components.size(); i++) {
-        // Tried issueing rope for WEB_ROPE here.  Didn't arrive in time for the
+        // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
         if (!built->components[i].empty()) {
             g->consume_items(&(g->u), built->components[i]);
@@ -821,8 +821,8 @@ void construct::done_deconstruct(point p)
 
 void construct::done_dig_stair(point p)
 {
- map tmpmap(&g->traps);
- tmpmap.load(p.x, p.y, g->levz - 1, false);
+ tinymap tmpmap(&g->traps);
+ tmpmap.load(g->levx, g->levy, g->levz - 1, false);
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -860,7 +860,7 @@ void construct::done_dig_stair(point p)
           }
       }
   }
-  if (tmpmap.move_cost(p.x, p.y) == 0) { // Solid rock or a wall.  Safe enough.
+  if (tmpmap.move_cost(g->levx, g->levy) == 0) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           g->add_msg(_("You strike deeply into the earth."));
           g->u.hunger += 15;
@@ -874,8 +874,8 @@ void construct::done_dig_stair(point p)
           g->u.thirst += 25;
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
-      tmpmap.ter_set(p.x, p.y, t_stairs_up); // and there's the bottom half.
-      tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, -1); // Save z-1.
+      tmpmap.ter_set(p.x - rc.begin_sub()x, p.y - rc.begin_sub()y, t_stairs_up); // and there's the bottom half.
+      tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, g->levz - 1); // Save z-1.
    }
    else if (tmpmap.ter(p.x, p.y) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
@@ -965,7 +965,7 @@ void construct::done_dig_stair(point p)
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       tmpmap.ter_set(p.x, p.y, t_ladder_up); // and there's the bottom half.
-      tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, -1); // Save z-1.
+      tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, g->levz - 1); // Save z-1.
    }
 }
 
@@ -1044,6 +1044,8 @@ void load_construction(JsonObject &jo)
         con->post_special = &construct::done_vehicle;
     } else if (postfunc == "done_deconstruct") {
         con->post_special = &construct::done_deconstruct;
+    } else if (postfunc == "done_dig_stair") {
+        con->post_special = &construct::done_dig_stair;
     } else {
         // ditto, should probably warn here
         con->post_special = &construct::done_nothing;
