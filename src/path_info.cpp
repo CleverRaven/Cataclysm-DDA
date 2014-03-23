@@ -64,6 +64,7 @@ void set_standart_filenames(void)
 
     // Shared dirs
     update_pathname("autoexeclua", FILENAMES["luadir"] + "autoexec.lua");
+    update_pathname("class_defslua", FILENAMES["luadir"] + "class_definitions.lua");
     update_pathname("fontdir", FILENAMES["datadir"] + "font/");
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
     update_pathname("jsondir", FILENAMES["datadir"] + "json/");
