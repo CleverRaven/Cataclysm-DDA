@@ -128,6 +128,7 @@ class advanced_inventory
             isall(10),
             isdrag(11) {
         }
+        bool move_all_items();
         void display(player *pp);
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(int i);

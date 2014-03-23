@@ -734,6 +734,332 @@ void advanced_inventory::redraw_pane( int i )
 
 }
 
+bool advanced_inventory::move_all_items()
+{
+    player &u = *p;
+    map &m = g->m;
+
+    bool filtering = ( !panes[src].filter.empty() );
+
+    // If the active screen has no item.
+    if( panes[src].size == 0 ) {
+        return false;
+    }
+
+    //update the dest variable
+    dest = (src == left ? right : left);
+    int destarea = panes[dest].area;
+    if ( panes[dest].area == isall ) {
+        popup(_("You have to choose a destination area."));
+        return false;
+    }
+
+    if ( panes[src].area == isall) {
+        popup(_("You have to choose a source area."));
+        return false;
+    }
+
+    // is this panel the player inventory?
+    if (panes[src].area == isinventory) {
+        // Handle moving from inventory
+        if(query_yn(_("Really move everything from your inventory?"))) {
+
+            int part = panes[dest].vstor;
+            vehicle *veh = panes[dest].veh;
+            int d_x = u.posx + panes[dest].offx;
+            int d_y = u.posy + panes[dest].offy;
+            // Ok, we're go to (try) and move everything from the player inventory.
+            // First, we'll want to iterate backwards
+            for (int ip = u.inv.size()-1; ip >= 0; /* noop */ ) {
+                const std::list<item> &stack = u.inv.const_stack(ip); // get the stack at index ip
+                const item *it = &stack.front();                      // get the first item in that stack
+
+                // if we're filtering, check if this item is in the filter. If it isn't, continue
+                if ( filtering && ! cached_lcmatch(it->name, panes[src].filter, panes[src].filtercache ) ) {
+                    --ip;
+                    continue;
+                }
+
+                // max items in the destination area
+                int max_items = (squares[destarea].max_size - squares[destarea].size);
+                // get the free volume in the destination area
+                int free_volume = 1000 * ( panes[dest].vstor >= 0 ? veh->free_volume(part) : m.free_volume( d_x, d_y ));
+
+                long amount = 1; // the amount to move from the stack
+                int volume = it->precise_unit_volume(); // exact volume
+
+                // we'll want to get the maximum amount depending on charges or stack size
+                if (stack.size() > 1) {
+                    amount = stack.size();
+                } else if (it->count_by_charges()) {
+                    amount = it->charges;
+                }
+
+                if (volume > 0 && volume * amount > free_volume) {
+                    // how many items can we fit?
+                    int volmax = int( free_volume / volume );
+                    // can't fit this itme, let's check another
+                    if (volmax == 0) {
+                        g->add_msg(_("Unable to move item, the destination is too full."));
+                        --ip;
+                        continue;
+                    }
+
+                    // we'll want to move as many as possible
+                    if (stack.size() > 1) {
+                        max_items = ( volmax < max_items ? volmax : max_items);
+                    } else if ( it->count_by_charges()) {
+                        max_items = volmax;
+                    }
+                } else if ( it->count_by_charges()) {
+                    // not over the volume maximum, so just use as much as possible
+                    max_items = amount;
+                }
+
+                // no items? no move.
+                if (max_items == 0) {
+                    g->add_msg(_("Unable to move item, the destination is too full."));
+                    --ip;
+                    continue;
+                }
+
+
+                if (stack.size() > 1) {     // we have a stacked item
+                    if ( amount != 0 && amount <= long( stack.size() )) {
+                        long all_items = long(stack.size());
+                        amount = amount > max_items ? max_items : amount;
+                        std::list<item> moving_items = u.inv.reduce_stack(ip, amount); // reduce our inventory by amount of item at ip
+                        bool chargeback = false; // in case we need to give back items.
+                        int moved = 0;
+                        // loop over the items we're trying to move, add them one by one to the destination
+                        for (std::list<item>::iterator iter = moving_items.begin(); iter != moving_items.end(); ++iter) {
+                            if (chargeback == true) {
+                                u.i_add(*iter); // we give back the rest of the item
+                            } else {
+                                // in theory, none of the below should evaluate to false, or we've done something weird calculating above, i think
+                                if (panes[dest].vstor >= 0) {
+                                    if (veh->add_item(part, *iter) == false) {
+                                        u.i_add(*iter);
+                                        g->add_msg(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
+                                        chargeback = true;
+                                    }
+                                } else {
+                                    if (m.add_item_or_charges(d_x, d_y, *iter, 0) == false) {
+                                        u.i_add(*iter);
+                                        g->add_msg(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
+                                        chargeback = true;
+                                    }
+                                }
+                            }
+                            moved++;
+                        }
+
+                        if (moved != 0) {
+                            u.moves -= 100;
+                        }
+                        // only move the iterator if we didn't move everything from the stack
+                        if (amount != all_items || chargeback == true) {
+                            --ip;
+                            continue;
+                        }
+                    }
+                } else if (it->count_by_charges()) {
+                    amount = amount > max_items ? max_items : amount;
+                    if (amount != 0 && amount <= it->charges) {
+                        item moving_item = u.inv.reduce_charges(ip, amount);
+                        if (panes[dest].vstor >= 0) {
+                            if (veh->add_item(part, moving_item) == false) {
+                                u.i_add(moving_item);
+                                g->add_msg(_("Destination full. Please report a bug if items have vanished."));
+                            }
+                        } else {
+                            if (m.add_item_or_charges(d_x, d_y, moving_item, 0) == false) {
+                                u.i_add(moving_item);
+                                g->add_msg(_("Destination full. Please report a bug if items have vanished."));
+                            }
+                        }
+
+                        u.moves -= 100;
+                    }
+                } else {
+                    bool chargeback = false;
+                    item moving_item = u.inv.remove_item(ip);
+                    if (panes[dest].vstor >= 0) {
+                        if (veh->add_item(part, moving_item) == false) {
+                            u.i_add(moving_item);
+                            g->add_msg(_("Destination full. Please report a bug if items have vanished."));
+                            chargeback = true;
+                        }
+                    } else {
+                        if (m.add_item_or_charges(d_x, d_y, moving_item) == false) {
+                            u.i_add(moving_item);
+                            g->add_msg(_("Destination full. Please report a bug if items have vanished."));
+                            chargeback = true;
+                        }
+                    }
+                    if (chargeback == false) {
+                        u.moves -= 100;
+                    }
+                }
+
+                //aaaaaaand iterate
+                --ip;
+            }
+
+        } else {
+            return false;
+        }
+
+    // Otherwise, we have a normal square to work with
+    } else {
+
+        int p_x = u.posx + panes[src].offx;
+        int p_y = u.posy + panes[src].offy;
+        int part = panes[src].vstor;
+        vehicle *veh = panes[src].veh;
+        // by default, we want to iterate the items at a location
+        std::vector<item> *items_to_iterate = &m.i_at(p_x,p_y);
+
+        // but if it's a vehicle, we'll want the items in the vehicle
+        if (panes[src].vstor >= 0) {
+            items_to_iterate = &veh->parts[part].items;
+        }
+
+        for (std::vector<item>::iterator it = items_to_iterate->begin(); it != items_to_iterate->end(); /* noop */)
+        {
+            // if we're filtering, check if this item is in the filter. If it isn't, continue
+            if ( filtering && ! cached_lcmatch(it->name, panes[src].filter, panes[src].filtercache ) ) {
+                ++it;
+                continue;
+            }
+
+            // Don't even try.
+            if (it->made_of(LIQUID)) {
+                ++it;
+                continue;
+            } else {
+                // if the item has charges, how many should we move?
+                long trycharges = -1;
+                // Picking up to inventory?
+                if (destarea == isinventory) {
+                    if (!u.can_pickup(true)) {
+                        return true;
+                    }
+                    if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
+                        g->add_msg(_("You are carrying too many items."));
+                        return true;
+                    }
+                    // Ok, let's see. What is the volume and weight?
+
+                    int tryvolume = it->volume();   // this is the volume we're going to check
+                    int tryweight = it->weight();   // this is the weight we're going to check
+                    int amount = 1;                 // this is the amount of items we're moving
+                    // does this item have charges, and do we count by that?
+                    if (it->count_by_charges() && it->charges > 1) {
+                        amount = it->charges;
+                        int unitvolume = it->precise_unit_volume(); // get the exact volume per unit
+                        int unitweight = ( tryweight * 1000 ) / it->charges; // and the unit weight
+
+                        int max_vol = (u.volume_capacity() - u.volume_carried()) * 1000; // how much more can we carry (volume)
+                        int max_weight = (( u.weight_capacity() * 4 ) - u.weight_carried()) * 1000; // how much more can we carry (weight)
+                        int max = amount; // the max is the maximum we can pick up
+
+                        // we'll check and see how many items we can pick up in total, if the volume is above the max_vol
+                        if ( unitvolume > 0 && unitvolume * amount > max_vol ) {
+                            max = int( max_vol / unitvolume );
+                        }
+                        // we'll check and see how many items we can pick up in total, if the weight is above the max_weight
+                        if ( unitweight > 0 && unitweight * amount > max_weight ) {
+                            max = int( max_weight / unitweight );
+                        }
+
+                        // Can we pick this up at all?
+                        if (max != 0) {
+                            if ( amount != it->charges ) {
+                                tryvolume = ( unitvolume * amount ) / 1000;
+                                tryweight = ( unitweight * amount ) / 1000;
+                                trycharges = amount;
+                            }
+                            if ( trycharges == 0 ) {
+                                g->add_msg(_("Unable to pick up %s."),it->name.c_str());
+                                ++it;
+                                continue;
+                            }
+                        } else {
+                            g->add_msg(_("Unable to pick up %s."),it->name.c_str());
+                            ++it;
+                            continue;
+                        }
+                    }
+
+                    // We've already checked if we're trying to pick up a stack
+                    if(!u.can_pickVolume(tryvolume)) {
+                        g->add_msg(_("There's no room in your inventory for %s."),it->name.c_str());
+                        ++it;
+                        continue;
+                    } else if (!u.can_pickWeight(tryweight, false)) {
+                        g->add_msg(_("%s is too heavy."),it->name.c_str());
+                        ++it;
+                        continue;
+                    }
+                }
+                // We can move it!
+                item new_item = (*it);
+
+                // So, if there's are charges, we'll set the new item to this.
+                if ( trycharges > 0 ) {
+                    new_item.charges = trycharges;
+                }
+
+                // if it's an inventory, we'll have to let time pass, and move the item
+                // we also know that we can pick it up, we've calculated that above!
+                if(destarea == isinventory) {
+                    u.inv.assign_empty_invlet(new_item);
+                    u.i_add(new_item);
+                    u.moves -= 100;
+
+                // if it is a vehicle storage, try to move it there. If not, let's just continue
+                } else if (squares[destarea].vstor >= 0) {
+                    if( squares[destarea].veh->add_item( squares[destarea].vstor, new_item ) == false) {
+                        g->add_msg(_("Unable to move item, the destination is too full."));
+                        ++it;
+                        continue;
+                    }
+
+                // if it's a normal square, try to move it there. If not, just continue
+                } else {
+                    if ( m.add_item_or_charges(squares[destarea].x, squares[destarea].y, new_item, 0 ) == false ) {
+                        g->add_msg(_("Unable to move item, the destination is too full."));
+                        ++it;
+                        continue;
+                    }
+                }
+
+                // OK! Item is moved. Now deduct charges, or remove the item completely
+                if ( trycharges > 0 ) {
+                    it->charges -= trycharges;
+                    ++it;
+                    continue;
+                }
+
+                items_to_iterate->erase(it);
+            }
+        }
+    }
+    /*for (std::vector<advanced_inv_listitem>::iterator ait = panes[src].items.begin(); ait != panes[src].items.end(); ++ait)
+
+    {
+        int item_pos = panes[src].size > 0 ? ait->idx : 0;
+        g->add_msg("Item %s", ait->it->name.c_str());
+
+
+    }
+*/
+
+    return true; // passed, so let's continue
+
+}
+
 void advanced_inventory::display(player *pp)
 {
     init(pp);
@@ -820,11 +1146,10 @@ void advanced_inventory::display(player *pp)
                     mvwprintz(head, 2, 2, c_white,
                               _("1-9 to select square for active tab, 0 for inventory, D for dragged item,")); // 1-9 or GHJKLYUBNID
                     mvwprintz(head, 3, 2, c_white,
-                              _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit."));
+                              _("[e]xamine, [s]ort, toggle auto[p]ickup, [,] to move all items, [q]uit."));
                     if (panes[src].sortby == SORTBY_CATEGORY) {
                         nc_color highlight_color = inCategoryMode ? c_white_red : h_ltgray;
-                        mvwprintz(head, 3, 3 + utf8_width(
-                                      _("[e]xamine item, [s]ort display, toggle auto[p]ickup, [q]uit.")),
+                        mvwprintz(head, 3, 3 + utf8_width(_("[e]xamine, [s]ort, toggle auto[p]ickup, [,] to move all items, [q]uit.")),
                                   highlight_color, _("[space] toggles selection modes."));
                     }
                 } else {
@@ -1207,6 +1532,12 @@ void advanced_inventory::display(player *pp)
                     }
                 }
             }
+        } else if (',' == c) {
+            if (move_all_items() && OPTIONS["CLOSE_ADV_INV"] == true) {
+                exit = true;
+            }
+            recalc = true;
+            redraw = true;
         } else if ('?' == c) {
             showmsg = (!showmsg);
             checkshowmsg = false;

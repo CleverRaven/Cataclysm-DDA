@@ -1106,7 +1106,7 @@ void veh_interact::display_veh ()
 void veh_interact::display_stats()
 {
     const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
-    int x[15], y[15], w[15]; // 3 columns * 5 rows = 15 slots
+    int x[15], y[15], w[15]; // 3 columns * 5 rows = 15 slots max
 
     if (vertical_menu) {
         // Vertical menu
@@ -1206,7 +1206,6 @@ void veh_interact::display_stats()
         partName = vehicle_part_types[partID].name;
         fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, "%s", partName.c_str());
     }
-
 
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[9], x[9], c_ltgray,  _("Fuel usage:     "));

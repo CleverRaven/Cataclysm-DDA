@@ -2267,7 +2267,7 @@
         "volume" : 2,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 1,
+        "charges" : 4,
         "bashing" : 0,
         "category" : "chems",
         "fun" : -30

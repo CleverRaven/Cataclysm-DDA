@@ -202,12 +202,12 @@ void npc::execute_action(npc_action action, int target)
 
  case npc_wield_loaded_gun:
  {
-  item& it = inv.most_loaded_gun();
-  if (it.is_null()) {
+  item* it = inv.most_loaded_gun();
+  if (it->is_null()) {
    debugmsg("NPC tried to wield a loaded gun, but has none!");
    move_pause();
   } else
-   wield(it.invlet);
+   wield(it);
  } break;
 
  case npc_wield_empty_gun:
@@ -228,7 +228,7 @@ void npc::execute_action(npc_action action, int target)
    debugmsg("NPC tried to wield a gun, but has none!");
    move_pause();
   } else
-   wield(slice[index]->front().invlet);
+   wield(&(slice[index]->front()));
  } break;
 
  case npc_heal:
@@ -1254,25 +1254,20 @@ void npc::pick_up_item()
  int total_volume = 0, total_weight = 0; // How much the items will add
  std::vector<int> pickup; // Indices of items we want
 
- for (int i = 0; i < items->size(); i++) {
-  int itval = value((*items)[i]), vol = (*items)[i].volume(),
-      wgt = (*items)[i].weight();
-  if (itval >= minimum_item_value() &&// (itval >= worst_item_value ||
-      (can_pickVolume(total_volume + vol) &&
-       can_pickWeight(total_weight + wgt))) {
-   pickup.push_back(i);
-   total_volume += vol;
-   total_weight += wgt;
-  }
- }
-/*
- if (total_volume + volume_carried() > volume_capacity() ||
-     total_weight + weight_carried() > weight_capacity()) {
-  int wgt_to_drop = weight_carried() + total_weight - weight_capacity();
-  int vol_to_drop = volume_carried() + total_volume - volume_capacity();
-  drop_items(wgt_to_drop, vol_to_drop);
- }
-*/
+    for ( int i = 0; i < items->size(); i++ ) {
+        const item &item = ( *items ) [i];
+        int itval = value( item ), vol = item.volume(),
+            wgt = item.weight();
+        if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
+             ( can_pickVolume( total_volume + vol ) &&
+               can_pickWeight( total_weight + wgt ) ) &&
+             !item.made_of( LIQUID )
+           ) {
+            pickup.push_back( i );
+            total_volume += vol;
+            total_weight += wgt;
+        }
+    }
 // Describe the pickup to the player
  bool u_see_me = g->u_see(posx, posy), u_see_items = g->u_see(itx, ity);
  if (u_see_me) {
@@ -1460,13 +1455,13 @@ void npc::melee_player(player &foe)
 
 void npc::wield_best_melee()
 {
- item& it = inv.best_for_melee(this);
- if (it.is_null()) {
+ item* it = inv.best_for_melee(this);
+ if (it->is_null()) {
   debugmsg("npc::wield_best_melee failed to find a melee weapon.");
   move_pause();
   return;
  }
- wield(it.invlet);
+ wield(it);
 }
 
 void npc::alt_attack(int target)
@@ -1765,16 +1760,19 @@ void npc::heal_self()
 
 void npc::use_painkiller()
 {
-// First, find the best painkiller for our pain level
- item& it = inv.most_appropriate_painkiller(pain);
+    // First, find the best painkiller for our pain level
+    item* it = inv.most_appropriate_painkiller(pain);
 
- if (it.is_null()) {
-  debugmsg("NPC tried to use painkillers, but has none!");
-  move_pause();
- } else {
-  consume(inv.position_by_item(&it));
-  moves = 0;
- }
+    if (it->is_null()) {
+        debugmsg("NPC tried to use painkillers, but has none!");
+        move_pause();
+    } else {
+        if (g->u_see(posx, posy)) {
+            g->add_msg(_("%s takes some %s."), name.c_str(), it->name.c_str());
+        }
+        consume(inv.position_by_item(it));
+        moves = 0;
+    }
 }
 
 void npc::pick_and_eat()

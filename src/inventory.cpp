@@ -1408,10 +1408,10 @@ bool inventory::has_enough_painkiller(int pain) const
     return false;
 }
 
-item &inventory::most_appropriate_painkiller(int pain)
+item* inventory::most_appropriate_painkiller(int pain)
 {
     int difference = 9999;
-    item &ret = nullitem;
+    item *ret = &nullitem;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         int diff = 9999;
         itype_id type = iter->front().type->id;
@@ -1429,34 +1429,34 @@ item &inventory::most_appropriate_painkiller(int pain)
 
         if (diff < difference) {
             difference = diff;
-            ret = iter->front();
+            ret = &(iter->front());
         }
     }
     return ret;
 }
 
-item &inventory::best_for_melee(player *p)
+item* inventory::best_for_melee(player *p)
 {
-    item &ret = nullitem;
+    item* ret = &nullitem;
     int best = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         int score = iter->front().melee_value(p);
         if (score > best) {
             best = score;
-            ret = iter->front();
+            ret = &(iter->front());
         }
     }
     return ret;
 }
 
-item &inventory::most_loaded_gun()
+item* inventory::most_loaded_gun()
 {
-    item &ret = nullitem;
+    item *ret = &nullitem;
     int max = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
         if (iter->front().is_gun() && iter->front().charges > max) {
-            ret = iter->front();
-            max = ret.charges;
+            ret = &(iter->front());
+            max = ret->charges;
         }
     }
     return ret;

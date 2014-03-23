@@ -9,6 +9,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "map.h"
+#include "path_info.h"
 #include "monstergenerator.h"
 
 #ifdef LUA
@@ -193,6 +194,20 @@ mongroup *create_monster_group(overmap *map, std::string type, int overmap_x, in
     map->zg.push_back(mongroup(type, overmap_x * 2, overmap_y * 2, z, radius, population));
     return &(map->zg.back());
 }
+
+it_comest *get_comestible_type(std::string name) {
+    return dynamic_cast<it_comest*>(item_controller->find_template(name));
+}
+it_tool *get_tool_type(std::string name) {
+    return dynamic_cast<it_tool*>(item_controller->find_template(name));
+}
+it_gun *get_gun_type(std::string name) {
+    return dynamic_cast<it_gun*>(item_controller->find_template(name));
+}
+it_gunmod *get_gunmod_type(std::string name) {
+    return dynamic_cast<it_gunmod*>(item_controller->find_template(name));
+}
+
 
 // Manually implemented lua functions
 //
@@ -467,7 +482,8 @@ void game::init_lua() {
     luaL_register(lua_state, "game", global_funcs);
 
     // Load lua-side metatables etc.
-    luaL_dofile(lua_state, "lua/autoexec.lua");
+    luaL_dofile(lua_state, FILENAMES["class_defslua"].c_str());
+    luaL_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
 }
 #endif // #ifdef LUA
 
