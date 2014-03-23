@@ -12,6 +12,7 @@
 #include "worldfactory.h"
 #include "file_wrapper.h"
 #include "path_info.h"
+#include "mapsharing.h"
 
 #include <fstream>
 
@@ -159,7 +160,8 @@ bool game::opening_screen()
     vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
-    vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
+    if(!MAP_SHARING::isSharing()) // "Play Now" function doesn't play well together with shared maps
+        vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
 
 
     std::vector<std::string> vWorldSubItems;
@@ -326,6 +328,12 @@ bool game::opening_screen()
             }
         } else if (layer == 2) {
             if (sel1 == 1) { // New Character
+                if (MAP_SHARING::isSharing() && world_generator->all_worlds.empty()) { //don't show anything when there are no worlds (will not work if there are special maps)
+                    layer = 1;
+                    sel1 = 1;
+                    continue;
+                }
+
                 print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY - 2, iMenuOffsetX);
                 wrefresh(w_open);
                 refresh();
@@ -435,6 +443,12 @@ bool game::opening_screen()
 
                 // only show reset / destroy world if there is at least one valid world existing!
 
+                if(MAP_SHARING::isSharing() && MAP_SHARING::getUsername() != "admin") {
+                layer = 1;
+                popup(_("Only the admin can change worlds."));
+                continue;
+                }
+
                 int world_subs_to_display = (!world_generator->all_worldnames.empty())? vWorldSubItems.size(): 1;
                 std::vector<std::string> world_subs;
                 int xoffset = 25 + iMenuOffsetX + extra_w / 2;
@@ -496,6 +510,12 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 4) { // Special game
+                if(MAP_SHARING::isSharing()) { // Thee can't save special games, therefore thee can't share them
+                    layer = 1;
+                    popup(_("Special games don't work with shared maps."));
+                    continue;
+                }
+
                 std::vector<std::string> special_names;
                 int xoffset = 32 + iMenuOffsetX  + extra_w / 2;
                 int yoffset = iMenuOffsetY - 2;
@@ -548,6 +568,7 @@ bool game::opening_screen()
                 }
             }
         } else if (layer == 3) {
+            bool available = false;
             if (sel1 == 2) { // Load Game
                 savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
                 if (savegames.empty()) {
@@ -555,16 +576,25 @@ bool game::opening_screen()
                               c_red, _("No save games found!"));
                 } else {
                     for (int i = 0; i < savegames.size(); i++) {
+                        std::string savename = base64_decode(savegames[i]);
+                        if(MAP_SHARING::isSharing() && savename != MAP_SHARING::getUsername()) {
+                            continue;
+                        } else {
+                        available = true;
                         int line = iMenuOffsetY - 2 - i;
                         mvwprintz(w_open, line, 19 + 19 + iMenuOffsetX + extra_w / 2,
                                   (sel3 == i ? h_white : c_white),
                                   base64_decode(savegames[i]).c_str());
+                        }
                     }
+                    if (!available)
+                        mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
+                                c_red, _("No save games found!"));
                 }
                 wrefresh(w_open);
                 refresh();
                 input = get_input();
-                if (savegames.empty() && (input == DirectionS || input == Confirm)) {
+                if (available && (input == DirectionS || input == Confirm)) {
                     layer = 2;
                 } else if (input == DirectionS) {
                     if (sel3 > 0) {
@@ -584,7 +614,7 @@ bool game::opening_screen()
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
                 }
                 if (input == DirectionE || input == Confirm) {
-                    if (sel3 >= 0 && sel3 < savegames.size()) {
+                    if (available && sel3 >= 0 && sel3 < savegames.size()) {
                         werase(w_background);
                         wrefresh(w_background);
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];

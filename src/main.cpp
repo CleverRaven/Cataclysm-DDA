@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "file_wrapper.h"
 #include "path_info.h"
+#include "mapsharing.h"
 
 #include <ctime>
 #include <sys/stat.h>
@@ -32,6 +33,9 @@ void exit_handler(int s);
 
 // create map where we will store the FILENAMES
 std::map<std::string, std::string> FILENAMES;
+
+bool MAP_SHARING::sharing;
+std::string MAP_SHARING::username;
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -99,6 +103,20 @@ int main(int argc, char *argv[])
                 argc--;
                 argv++;
             }
+        } else if(std::string(argv[0]) == "--username") {
+            argc--;
+            argv++;
+            if (argc) {
+                MAP_SHARING::setUsername(std::string(argv[0]));
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--shared") {
+            argc--;
+            argv++;
+            MAP_SHARING::sharing = true;
+            if(MAP_SHARING::getUsername().empty() && getenv("USER"))
+                MAP_SHARING::setUsername(getenv("USER"));
         } else { // Skipping other options.
             argc--;
             argv++;
