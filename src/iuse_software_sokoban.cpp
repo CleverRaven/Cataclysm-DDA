@@ -11,6 +11,7 @@
 #include "options.h"
 #include "debug.h"
 #include "iuse_software_sokoban.h"
+#include "path_info.h"
 
 sokoban_game::sokoban_game()
 {
@@ -56,10 +57,10 @@ bool sokoban_game::parse_level()
     vLevelDone.clear();
 
     std::ifstream fin;
-    fin.open("data/raw/sokoban.txt");
+    fin.open(std::string(FILENAMES["sokoban"]).c_str());
     if(!fin.is_open()) {
         fin.close();
-        debugmsg("Could not read ./data/raw/sokoban.txt");
+        debugmsg("Could not read \"%s\".", FILENAMES["sokoban"].c_str());
         return false;
     }
 

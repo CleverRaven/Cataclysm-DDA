@@ -1,4 +1,4 @@
-dofile("lua/class_definitions.lua")
+--dofile("./class_definitions.lua")
 
 function generate_metatable(name)
     return {
@@ -6,7 +6,7 @@ function generate_metatable(name)
             -- iterate over the class inheritance hierarchy
             local current_name = name
             while current_name do
-                local class = classes[name]
+                local class = classes[current_name]
                 local attribute = class.attributes[key]
                 if attribute then
                     return game[name.."_get_"..key](userdata)
@@ -23,7 +23,7 @@ function generate_metatable(name)
             -- iterate over the class inheritance hierarchy
             local current_name = name
             while current_name do
-                local class = classes[name]
+                local class = classes[current_name]
                 local attribute = class.attributes[key]
                 if attribute then
                     if not attribute.writable then

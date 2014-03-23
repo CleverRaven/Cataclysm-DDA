@@ -4,6 +4,7 @@
 #include "output.h"
 #include "file_wrapper.h"
 #include "worldfactory.h"
+#include "path_info.h"
 
 #include <math.h>
 #include <queue>
@@ -20,10 +21,7 @@
 #include <dirent.h>
 #endif
 
-#define MOD_SEARCH_PATH "./data"
 #define MOD_SEARCH_FILE "modinfo.json"
-#define MOD_DEV_DEFAULT_PATH "data/mods/dev-default-mods.json"
-#define MOD_USER_DEFAULT_PATH "data/mods/user-default-mods.json"
 
 mod_manager::mod_manager()
 {
@@ -54,7 +52,7 @@ void mod_manager::refresh_mod_list()
     clear();
 
     std::map<std::string, std::vector<std::string> > mod_dependency_map;
-    load_mods_from(MOD_SEARCH_PATH);
+    load_mods_from(FILENAMES["moddir"]);
     if (set_default_mods("user:default")) {
     } else if(set_default_mods("dev:default")) {
     }
@@ -97,11 +95,11 @@ void mod_manager::load_mods_from(std::string path)
     for (size_t i = 0; i < mod_files.size(); ++i) {
         load_mod_info(mod_files[i]);
     }
-    if (file_exist(MOD_DEV_DEFAULT_PATH)) {
-        load_mod_info(MOD_DEV_DEFAULT_PATH);
+    if (file_exist(FILENAMES["mods-dev-default"])) {
+        load_mod_info(FILENAMES["mods-dev-default"]);
     }
-    if (file_exist(MOD_USER_DEFAULT_PATH)) {
-        load_mod_info(MOD_USER_DEFAULT_PATH);
+    if (file_exist(FILENAMES["mods-user-defaults"])) {
+        load_mod_info(FILENAMES["mods-user-defaults"]);
     }
 }
 
@@ -192,9 +190,9 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 bool mod_manager::set_default_mods(const t_mod_list &mods)
 {
     default_mods = mods;
-    std::ofstream stream(MOD_USER_DEFAULT_PATH, std::ios::out | std::ios::binary);
+    std::ofstream stream(FILENAMES["mods-user-default"].c_str(), std::ios::out | std::ios::binary);
     if(!stream) {
-        popup(_("Can not open %s for writing"), MOD_USER_DEFAULT_PATH);
+        popup(_("Can not open %s for writing"), FILENAMES["mods-user-defaults"].c_str());
         return false;
     }
     try {
@@ -209,7 +207,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
         return true;
     } catch(std::ios::failure &) {
         // this might happen and indicates an I/O-error
-        popup(_("Failed to write default mods to %s"), MOD_USER_DEFAULT_PATH);
+        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-defaults"].c_str());
     } catch(std::string e) {
         // this should not happen, it comes from json-serialization
         debugmsg("%s", e.c_str());

@@ -389,7 +389,7 @@ bool map::process_fields_in_submap(int gridn)
                                 ammo_type = dynamic_cast<it_ammo *>(it->type);
                             }
                             //Flame type ammo removed so gasoline isn't explosive, it just burns.
-                            if( ammo_type != NULL ) {
+                            if( ammo_type != NULL && ammo_type->id != "gasoline") {
                                 bool cookoff = false;
                                 bool special = false;
                                 // Types with special effects.

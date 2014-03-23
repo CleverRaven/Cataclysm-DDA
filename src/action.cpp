@@ -1,5 +1,6 @@
 #include "action.h"
 #include "output.h"
+#include "path_info.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -19,16 +20,16 @@ void load_keyboard_settings()
 
     // Load the player's actual keymap
     std::ifstream fin;
-    fin.open("data/keymap.txt");
+    fin.open(FILENAMES["keymap"].c_str());
     if (!fin) { // It doesn't exist
         std::ofstream fout;
-        fout.open("data/keymap.txt");
+        fout.open(FILENAMES["keymap"].c_str());
         fout << default_keymap_txt();
         fout.close();
-        fin.open("data/keymap.txt");
+        fin.open(FILENAMES["keymap"].c_str());
     }
     if (!fin) { // Still can't open it--probably bad permissions
-        debugmsg("Can't open data/keymap.txt.  This may be a permissions issue.");
+        debugmsg(std::string("Can't open " + FILENAMES["keymap"] + " This may be a permissions issue.").c_str());
         keymap = default_keymap;
         return;
     } else {
@@ -73,8 +74,8 @@ void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, boo
             action_id act = look_up_action(id);
             if (act == ACTION_NULL)
                 debugmsg("\
-Warning!  data/keymap.txt contains an unknown action, \"%s\"\n\
-Fix data/keymap.txt at your next chance!", id.c_str());
+Warning! keymap.txt contains an unknown action, \"%s\"\n\
+Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str());
             else {
                 while (!keymap_txt.eof()) {
                     char ch;
@@ -86,7 +87,7 @@ Fix data/keymap.txt at your next chance!", id.c_str());
                             debugmsg("\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
-Fix data/keymap.txt at your next chance!", ch, id.c_str());
+Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str());
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -102,9 +103,9 @@ Fix data/keymap.txt at your next chance!", ch, id.c_str());
 void save_keymap()
 {
     std::ofstream fout;
-    fout.open("data/keymap.txt");
+    fout.open(FILENAMES["keymap"].c_str());
     if (!fout) { // It doesn't exist
-        debugmsg("Can't open data/keymap.txt.");
+        debugmsg("Can't open \"%s\".", FILENAMES["keymap"].c_str());
         fout.close();
         return;
     }
