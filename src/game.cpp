@@ -10872,13 +10872,14 @@ void game::butcher()
             kmenu.text = _("Choose item to disassemble");
         }
         kmenu.selected = 0;
-        for (size_t i = 0; i < corpses.size(); i++) {
+        for( size_t i = 0; i < corpses.size(); i++ ) {
             item &it = items[corpses[i]];
             mtype *corpse = it.corpse;
             int hotkey = -1;
-            // corpses are list first, see above
-            if (it.type->id == "corpse" && i == 0) {
-                for (std::map<char, action_id>::iterator it = keymap.begin(); it != keymap.end(); it++) {
+            // First entry gets a hotkey matching the butcher command.
+            if( i == 0 ) {
+                for (std::map<char, action_id>::iterator it = keymap.begin();
+                     it != keymap.end(); it++) {
                     if (it->second == ACTION_BUTCHER) {
                         hotkey = (it->first == 'q') ? -1 : it->first;
                         break;
