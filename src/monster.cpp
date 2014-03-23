@@ -627,7 +627,7 @@ bool monster::is_warm() {
 }
 
 bool monster::is_dead_state() const {
-    return hp <= 0;
+    return dead;
 }
 
 void monster::dodge_hit(Creature *, int) {
