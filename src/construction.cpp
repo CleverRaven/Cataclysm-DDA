@@ -874,7 +874,7 @@ void construct::done_dig_stair(point p)
           g->u.thirst += 25;
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
-      tmpmap.ter_set(p.x - rc.begin_sub()x, p.y - rc.begin_sub()y, t_stairs_up); // and there's the bottom half.
+      tmpmap.ter_set(p.x - rc.begin_sub().x, p.y - rc.begin_sub().y, t_stairs_up); // and there's the bottom half.
       tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, g->levz - 1); // Save z-1.
    }
    else if (tmpmap.ter(p.x, p.y) == t_lava) { // Oooooops
