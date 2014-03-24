@@ -33,6 +33,7 @@
 #include "file_finder.h"
 #include "mod_manager.h"
 #include "path_info.h"
+#include "mapsharing.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -3101,6 +3102,8 @@ bool game::handle_action()
    break;
 
   case ACTION_DEBUG:
+   if(MAP_SHARING::isSharing())
+       break; //don't do anything when sharing
    debug();
    refresh_all();
    break;
@@ -3114,10 +3117,14 @@ bool game::handle_action()
    break;
 
   case ACTION_DISPLAY_SCENT:
+   if(MAP_SHARING::isSharing())
+       break; //don't do anything when sharing
    display_scent();
    break;
 
   case ACTION_TOGGLE_DEBUGMON:
+   if(MAP_SHARING::isSharing())
+       break; //don't do anything when sharing
    debugmon = !debugmon;
    if (debugmon) {
     add_msg(_("Debug messages ON!"));
