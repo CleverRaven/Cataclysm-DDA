@@ -588,9 +588,10 @@ bool game::opening_screen()
                                   base64_decode(savegames[i]).c_str());
                         }
                     }
-                    if (!available)
+                    if (!available) {
                         mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                                 c_red, _("No save games found!"));
+                    }
                 }
                 wrefresh(w_open);
                 refresh();
