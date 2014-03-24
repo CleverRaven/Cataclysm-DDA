@@ -1278,7 +1278,7 @@
         "type" : "construction",
         "description" : "Dig Downstair",
         "difficulty" : 5,
-        "time" : 400,
+        "time" : 420,
         "tools" : [
             [ "pickaxe" ],
             [ "shovel", "e_tool" ],
