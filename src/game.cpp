@@ -3041,12 +3041,28 @@ bool game::handle_action()
    }
    break;
 
-  case ACTION_SAVE:
-   if (query_yn(_("Save and quit?"))) {
-    if(save()) {
-     u.moves = 0;
-     uquit = QUIT_SAVED;
-     MAPBUFFER.make_volatile();
+  case ACTION_SAVE: {
+    bool do_save = true;
+    if (OPTIONS["SAVESCUMMING"]) {
+        if (!query_yn(_("Save before quitting?"))) {
+            do_save = false;
+        }
+    }
+    if (do_save) {
+        if (query_yn(_("Save and quit?"))) {
+            if(save()) {
+                u.moves = 0;
+                uquit = QUIT_SAVED;
+                MAPBUFFER.make_volatile();
+            }
+        }
+    } else {
+        if (query_yn(_("Really quit without saving?"))) {
+            // Not entirely accurate, but it doesn't look like QUIT_SAVED
+            // is actually queried anywhere in the source code, maybe
+            // just replace it with a generic QUIT flag?
+            uquit = QUIT_SAVED;
+        }
     }
    }
    break;
@@ -3287,16 +3303,30 @@ bool game::is_game_over()
     }
     for (int i = 0; i <= hp_torso; i++){
         if (u.hp_cur[i] < 1) {
-            if (u.in_vehicle)
-                g->m.unboard_vehicle(u.posx, u.posy);
-            place_corpse();
-            std::stringstream playerfile;
-            playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
-            DebugLog() << "Unlinking player file: <"<< playerfile.str() << "> -- ";
-            bool ok = (unlink(playerfile.str().c_str()) == 0);
-            DebugLog() << (ok?"SUCCESS":"FAIL") << "\n";
-            uquit = QUIT_DIED;
-            return true;
+            bool delete_character = true;
+            if (OPTIONS["SAVESCUMMING"]) {
+                if (!query_yn(_("You have died, save and delete character?"))) {
+                    delete_character = false;
+                }
+            }
+
+            if(delete_character) {
+                if (u.in_vehicle)
+                    g->m.unboard_vehicle(u.posx, u.posy);
+                place_corpse();
+                std::stringstream playerfile;
+                playerfile << world_generator->active_world->world_path << "/" << base64_encode(u.name) << ".sav";
+                DebugLog() << "Unlinking player file: <"<< playerfile.str() << "> -- ";
+                bool ok = (unlink(playerfile.str().c_str()) == 0);
+                DebugLog() << (ok?"SUCCESS":"FAIL") << "\n";
+                uquit = QUIT_DIED;
+                return true;
+            } else {
+                // Just exit the game normally without saving
+                // (Seriously, need to rename that QUIT_SAVED option)
+                uquit = QUIT_SAVED;
+                return false;
+            }
         }
     }
     return false;
