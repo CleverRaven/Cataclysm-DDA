@@ -7448,8 +7448,11 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1 ],
-      [ "potato_raw", 1 ]
+      [ "potato_irradiated", 1],
+      [ "potato_raw", 1 ],
+      [ "powder_eggs", 5 ],
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "human_flesh", 2 ]
