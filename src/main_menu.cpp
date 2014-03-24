@@ -160,8 +160,9 @@ bool game::opening_screen()
     vSubItems.push_back(pgettext("Main Menu|New Game", "<C>ustom Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<P>reset Character"));
     vSubItems.push_back(pgettext("Main Menu|New Game", "<R>andom Character"));
-    if(!MAP_SHARING::isSharing()) // "Play Now" function doesn't play well together with shared maps
+    if(!MAP_SHARING::isSharing()) { // "Play Now" function doesn't play well together with shared maps
         vSubItems.push_back(pgettext("Main Menu|New Game", "Play <N>ow!"));
+    }
 
 
     std::vector<std::string> vWorldSubItems;

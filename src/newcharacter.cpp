@@ -73,10 +73,11 @@ bool player::create(character_type type, std::string tempname)
             case PLTYPE_NOW:
                 g->u.male = (rng(1, 100) > 50);
 
-                if(!MAP_SHARING::isSharing())
+                if(!MAP_SHARING::isSharing()) {
                     g->u.pick_name();
-                else
+                } else {
                     g->u.name = MAP_SHARING::getUsername();
+                }
             case PLTYPE_RANDOM: {
                 g->u.prof = profession::weighted_random();
                 str_max = rng(6, 12);
@@ -216,8 +217,9 @@ bool player::create(character_type type, std::string tempname)
                 load_info(data);
                 points = 0;
 
-                if(MAP_SHARING::isSharing())
+                if(MAP_SHARING::isSharing()) {
                     name = MAP_SHARING::getUsername(); //just to make sure we have the right name
+                }
             }
             break;
         }
@@ -1463,8 +1465,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
-        if(!MAP_SHARING::isSharing()) // no random names when sharing maps
+        if(!MAP_SHARING::isSharing()) { // no random names when sharing maps
             mvwprintz(w_name, 1, 0, c_ltgray, _("Press ? to pick a random name."));
+        }
         wrefresh(w_name);
 
         mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
@@ -1537,8 +1540,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             redraw = true;
             wrefresh(w);
         } else if (ch == '?') {
-            if(!MAP_SHARING::isSharing()) // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
+            if(!MAP_SHARING::isSharing()){ // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
                 u->pick_name();
+            }
         } else if (ch == KEY_BACKSPACE || ch == 127) {
             if (!u->name.empty() && !MAP_SHARING::isSharing()) { // Don't remove characters if name is empty or when sharing maps
                 //erase utf8 character TODO: make a function
