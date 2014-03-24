@@ -6203,8 +6203,7 @@
   ],
   "components": [
     [
-      [ "potato_raw", 1 ],
-      [ "potato_irradiated", 1]
+      [ "cornmeal", 1 ]
     ],
     [
       [ "salt", 2 ]
@@ -7449,8 +7448,11 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1 ],
-      [ "potato_raw", 1 ]
+      [ "potato_irradiated", 1],
+      [ "potato_raw", 1 ],
+      [ "powder_eggs", 5 ],
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "human_flesh", 2 ]
@@ -12222,7 +12224,7 @@
   "skills_required": [ "fabrication", 6 ],
   "difficulty": 6,
   "time": 60000,
-  "reversible": true,
+  "reversible": false,
   "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "recipe_atomic_battery", 6 ]],
@@ -21459,7 +21461,7 @@
     [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
   ],
   "components": [
-    [ [ "water", 1 ], [ "water_clean", 1 ] ],
+    [ [ "water", 4 ], [ "water_clean", 4 ] ],
     [ [ "meal_bone", 2 ] ],
     [ [ "meal_chitin_piece", 1 ] ],
     [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]

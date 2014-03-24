@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include "init.h"
+#include "path_info.h"
 
 //***********************************
 //Globals                           *
@@ -428,7 +429,7 @@ WINDOW *curses_init(void)
     std::string typeface = "Terminus";
     char * typeface_c = 0;
     std::ifstream fin;
-    fin.open("data/FONTDATA");
+    fin.open(FILENAMES["fontdata"].c_str());
     if (!fin.is_open()){
         typeface_c = (char*) "Terminus";
         fontwidth = 8;
@@ -600,7 +601,7 @@ int curses_start_color(void)
     windowsPalette = new RGBQUAD[16];
 
     //Load the console colors from colors.json
-    std::ifstream colorfile("data/raw/colors.json", std::ifstream::in | std::ifstream::binary);
+    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
         char ch;
@@ -633,7 +634,7 @@ int curses_start_color(void)
         }
     }
     catch(std::string e){
-        throw "data/raw/colors.json: " + e;
+        throw FILENAMES["colors"] + ": " + e;
     }
 
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);

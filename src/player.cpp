@@ -7160,7 +7160,7 @@ bool player::consume(int pos)
     int which = -3; // Helps us know how to delete the item which got eaten
 
     if(pos == INT_MIN) {
-        g->add_msg(_("You do not have that item."));
+        g->add_msg_if_player(this, _("You do not have that item."));
         return false;
     } if (is_underwater()) {
         g->add_msg_if_player(this, _("You can't do that while underwater."));
@@ -7760,14 +7760,14 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     }
 }
 
-bool player::wield(signed char ch, bool autodrop)
+bool player::wield(item* it, bool autodrop)
 {
  if (weapon.has_flag("NO_UNWIELD")) {
   g->add_msg(_("You cannot unwield your %s!  Withdraw them with 'p'."),
              weapon.tname().c_str());
   return false;
  }
- if (ch == -3) {
+ if (it == NULL || it->is_null()) {
   if(weapon.is_null()) {
    return false;
   }
@@ -7785,22 +7785,21 @@ bool player::wield(signed char ch, bool autodrop)
   } else
    return false;
  }
- if (ch == 0) {
+ if (&weapon == it) {
   g->add_msg(_("You're already wielding that!"));
   return false;
- } else if (ch == -2) {
+ } else if (it == NULL || it->is_null()) {
   g->add_msg(_("You don't have that item."));
   return false;
  }
 
- item& it = inv.item_by_letter(ch);
- if (it.is_two_handed(this) && !has_two_arms()) {
+ if (it->is_two_handed(this) && !has_two_arms()) {
   g->add_msg(_("You cannot wield a %s with only one arm."),
-             it.tname().c_str());
+             it->tname().c_str());
   return false;
  }
  if (!is_armed()) {
-  weapon = inv.remove_item((char)ch);
+  weapon = inv.remove_item(it);
   if (weapon.is_artifact() && weapon.is_tool()) {
    it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
    g->add_artifact_messages(art->effects_wielded);
@@ -7808,10 +7807,10 @@ bool player::wield(signed char ch, bool autodrop)
   moves -= 30;
   last_item = itype_id(weapon.type->id);
   return true;
- } else if (volume_carried() + weapon.volume() - it.volume() <
+ } else if (volume_carried() + weapon.volume() - it->volume() <
             volume_capacity()) {
   item tmpweap = remove_weapon();
-  weapon = inv.remove_item((char)ch);
+  weapon = inv.remove_item(it);
   inv.add_item_keep_invlet(tmpweap);
   inv.unsort();
   moves -= 45;
@@ -7824,7 +7823,7 @@ bool player::wield(signed char ch, bool autodrop)
  } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                      weapon.tname().c_str())) {
   g->m.add_item_or_charges(posx, posy, remove_weapon());
-  weapon = it;
+  weapon = *it;
   inv.remove_item(weapon.invlet);
   inv.unsort();
   moves -= 30;
@@ -8385,7 +8384,7 @@ bool player::takeoff(int pos, bool autodrop)
 {
     bool taken_off = false;
     if (pos == -1) {
-        taken_off = wield(-3, autodrop);
+        taken_off = wield(NULL, autodrop);
     } else {
         int worn_index = worn_position_to_index(pos);
         if (worn_index >=0 && worn_index < worn.size()) {
@@ -9852,7 +9851,7 @@ int player::adjust_for_focus(int amount)
     return ret;
 }
 
-void player::practice (const calendar& turn, Skill *s, int amount)
+void player::practice (const calendar& turn, Skill *s, int amount, int cap)
 {
     SkillLevel& level = skillLevel(s);
     // Double amount, but only if level.exercise isn't a small negative number?
@@ -9909,6 +9908,15 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         amount /= 2;
     }
 
+    if (skillLevel(s) > cap) //blunt grinding cap implementation for crafting
+    {
+        amount = 0;
+        int curLevel = skillLevel(s);
+        if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
+            g->add_msg(_("This task is too simple to train your %s beyond %d."), s->name().c_str(), curLevel);
+        }
+    }
+
     if (amount > 0 && level.isTraining())
     {
         int oldLevel = skillLevel(s);
@@ -9916,6 +9924,9 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         int newLevel = skillLevel(s);
         if (is_player() && newLevel > oldLevel) {
             g->add_msg(_("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
+        }
+        if(is_player() && newLevel > cap) { //inform player immediately that the current recipe can't be used to train further
+            g->add_msg(_("You feel that %s tasks of this level are becoming trivial."), s->name().c_str());
         }
 
         int chance_to_drop = focus_pool;

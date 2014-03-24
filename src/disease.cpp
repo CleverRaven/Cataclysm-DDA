@@ -2383,7 +2383,7 @@ void manage_fungal_infection(player& p, disease& dis)
                 p.moves = -200;
                 p.hunger += awfulness;
                 p.thirst += awfulness;
-                p.hurt(bp_torso, -1, awfulness / p.str_cur);  // can't be healthy
+                p.hurt(bp_torso, -1, awfulness / std::max(p.str_cur, 1)); // can't be healthy
             }
         } else {
             p.add_disease("fungus", 1, true, 1, 1, 0, -1);
@@ -2422,9 +2422,21 @@ void manage_fungal_infection(player& p, disease& dis)
         }
     // we're fucked
     } else if (one_in(6000 + bonus * 20)) {
-        g->add_msg_player_or_npc(&p,
-            _("Your hands bulge. Fungus stalks burst through the bulge!"),
-            _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
+        if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_l] <= 0) {
+            if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_l] <= 0) {
+                g->add_msg_player_or_npc(&p,
+                _("The flesh on your broken arms bulges. Fungus stalks burst through!"),
+                _("<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!"));
+            } else {
+                g->add_msg_player_or_npc(&p,
+                _("The flesh on your broken arm bulges, your unbroken arm also bulges. Fungus stalks burst through!"),
+                _("<npcname>'s arms bulge. Fungus stalks burst out of the bulges!"));
+            }
+        } else {
+            g->add_msg_player_or_npc(&p,
+                _("Your hands bulge. Fungus stalks burst through the bulge!"),
+                _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
+        }
         p.hurt(bp_arms, 0, 999);
         p.hurt(bp_arms, 1, 999);
     }

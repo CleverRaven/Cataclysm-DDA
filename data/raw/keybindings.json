@@ -500,5 +500,45 @@
                 "key":"-"
             }
         ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"UP",
+        "category":"BIONICS",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"8"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category":"BIONICS",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"2"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_DOWN"
+            }
+        ]
     }
 ]

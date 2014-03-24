@@ -259,11 +259,17 @@ function generate_class_function_wrappers(functions, class)
 end
 
 for name, value in pairs(classes) do
-    generate_accessors(value.attributes, name)
+    while value do
+        generate_accessors(value.attributes, name)
+        value = classes[value.parent]
+    end
 end
 
 for name, value in pairs(classes) do
-    generate_class_function_wrappers(value.functions, name)
+    while value do
+        generate_class_function_wrappers(value.functions, name)
+        value = classes[value.parent]
+    end
 end
 
 for name, func in pairs(global_functions) do
@@ -292,7 +298,10 @@ function generate_registry(class, name)
 end
 
 for name, value in pairs(classes) do
-    generate_registry(value, name)
+    while value do
+        generate_registry(value, name)
+        value = classes[value.parent]
+    end
 end
 
 for name, func in pairs(global_functions) do
