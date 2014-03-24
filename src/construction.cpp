@@ -822,7 +822,9 @@ void construct::done_deconstruct(point p)
 void construct::done_dig_stair(point p)
 {
  tinymap tmpmap(&g->traps);
- tmpmap.load(g->levx, g->levy, g->levz - 1, false);
+ // Upper left corner of the current active map (levx/levy) plus half active map width.
+ // The player is always in the center tile of that 11x11 square.
+ tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false);
  bool danger_lava = false;
  bool danger_open = false;
  const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
@@ -874,8 +876,10 @@ void construct::done_dig_stair(point p)
           g->u.thirst += 25;
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
-      tmpmap.ter_set(p.x - rc.begin_sub().x, p.y - rc.begin_sub().y, t_stairs_up); // and there's the bottom half.
-      tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, g->levz - 1); // Save z-1.
+      // We need to write to submap-local coordinates.
+      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
+      tmpmap.save(g->cur_om, g->turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
+                  g->levz - 1); // Save z-1.
    }
    else if (tmpmap.ter(p.x, p.y) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
@@ -964,8 +968,11 @@ void construct::done_dig_stair(point p)
           g->u.thirst += 20;
       }
       g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
-      tmpmap.ter_set(p.x, p.y, t_ladder_up); // and there's the bottom half.
-      tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, g->levz - 1); // Save z-1.
+      // Again, need to use submap-local coordinates.
+      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
+      // And save to the center coordinate of the current active map.
+      tmpmap.save(g->cur_om, g->turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
+                  , g->levz - 1); // Save z-1.
    }
 }
 
