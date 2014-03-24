@@ -65,8 +65,8 @@ int main(int argc, char *argv[])
     set_standart_filenames();
 
     // Process CLI arguments
-    int saved_argc = --argc;
-    char **saved_argv = ++argv;
+    --argc; // skip program name
+    ++argv;
 
     while (argc) {
         if(std::string(argv[0]) == "--seed") {
@@ -128,52 +128,6 @@ int main(int argc, char *argv[])
         } else { // Skipping other options.
             argc--;
             argv++;
-        }
-    }
-    while (saved_argc) {
-        if(std::string(saved_argv[0]) == "--datadir") { // We probably won't need those anymore, but we should keep them until map sharing is fully implemented
-            saved_argc--;
-            saved_argv++;
-            if(saved_argc) {
-                FILENAMES["datadir"] = std::string(saved_argv[0]);
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--optionfile") {
-            saved_argc--;
-            saved_argv++;
-            if(saved_argc) {
-                FILENAMES["optionfile"] = std::string(saved_argv[0]);
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--keymapfile") {
-            saved_argc--;
-            saved_argv++;
-            if(saved_argc) {
-                FILENAMES["keymapfile"] = std::string(saved_argv[0]);
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--autopickupfile") {
-            saved_argc--;
-            saved_argv++;
-            if(saved_argc) {
-                FILENAMES["autopickupfile"] = std::string(saved_argv[0]);
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--motdfile") {
-            saved_argc--;
-            saved_argv++;
-            if(saved_argc) {
-                FILENAMES["motdfile"] = std::string(saved_argv[0]);
-                saved_argc--;
-                saved_argv++;
-            }
-        } else { // ignore unknown args.
-            saved_argc--;
-            saved_argv++;
         }
     }
 
