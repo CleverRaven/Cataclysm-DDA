@@ -2277,7 +2277,9 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
             g->m.spawn_item(p->posx, p->posy, "battery_compartment", 1);
             modded->item_tags.erase( "DOUBLE_AMMO" );
         }
-        g->m.spawn_item( p->posx, p->posy, "battery", 1, modded->charges );
+        if (modded->charges > 0) {
+          g->m.spawn_item( p->posx, p->posy, "battery", 1, modded->charges );
+        }
     }
     modded->charges = it->charges;
 
