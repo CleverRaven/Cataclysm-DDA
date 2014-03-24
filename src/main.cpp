@@ -103,6 +103,22 @@ int main(int argc, char *argv[])
                 argc--;
                 argv++;
             }
+        } else if(std::string(argv[0]) == "--motdfile") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["motdfile"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--optionfile") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["optionfile"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
         } else if(std::string(argv[0]) == "--savedir") {
             argc--;
             argv++;
