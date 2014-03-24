@@ -1109,7 +1109,7 @@
         "id" : "mon_wolf",
     "name": "wolf",
     "species":"MAMMAL",
-    "symbol":"d",
+    "symbol":"w",
     "color":"ltgray",
     "size":"MEDIUM",
     "material":"flesh",
