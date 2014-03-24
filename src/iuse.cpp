@@ -2315,10 +2315,10 @@ int iuse::atomic_battery(player *p, item *it, bool)
 
     // remove any existing battery mods
     if( modded->has_flag("DOUBLE_AMMO") || modded->has_flag("RECHARGE") ) {
-        g->add_msg_if_player( p,
+        if( modded->has_flag("DOUBLE_AMMO") ) {
+            g->add_msg_if_player( p,
             _("You replace the conventional batteries in your %s with plutonium cells!"),
                              tool->name.c_str() );
-        if( modded->has_flag("DOUBLE_AMMO") ) {
             g->m.spawn_item( p->posx, p->posy, "battery_compartment", 1 );
             modded->item_tags.erase("DOUBLE_AMMO");
             if (modded->charges > 0) {
@@ -2326,6 +2326,9 @@ int iuse::atomic_battery(player *p, item *it, bool)
             }
         }
         if( modded->has_flag("RECHARGE") ) {
+            g->add_msg_if_player( p,
+            _("You replace the rechargeable powerpack in your %s with plutonium cells!"),
+                             tool->name.c_str() );
             g->m.spawn_item( p->posx, p->posy, "rechargeable_battery", 1, modded->charges );
             modded->item_tags.erase("RECHARGE");
             modded->item_tags.erase("NO_UNLOAD");
