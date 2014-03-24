@@ -342,10 +342,17 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
     int weaponrange = weapon.range();
-    // Only train to level one, with these kind of ammo
-    const bool train_skill = skillLevel(skill_used) == 0 || (curammo->id != "BB" && curammo->id != "nail");
-    if (train_skill) {
+
+    // If the dispersion from the weapon is greater than the dispersion from your skill,
+    // you can't tell if you need to correct or the gun messed you up, so you can't learn.
+    const int weapon_dispersion = used_weapon->curammo->dispersion + used_weapon->dispersion();
+    const int player_dispersion = skill_dispersion( this, used_weapon, false );
+    // High perception allows you to pick out details better, low perception interferes.
+    const bool train_skill = weapon_dispersion < player_dispersion - rng(0, get_per());
+    if( train_skill ) {
         practice(g->turn, skill_used, 4 + (num_shots / 2));
+    } else if( one_in(50) ) {
+        g->add_msg_if_player(this,_("You can't get any better shooting such a crappy gun."));
     }
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
@@ -492,7 +499,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         used_weapon->curammo = NULL;
     }
 
-    if (skillLevel("gun") == 0 || (curammo->id != "BB" && curammo->id != "nail")) {
+    if( train_skill ) {
         practice(g->turn, "gun", 5);
     } else {
         practice(g->turn, "gun", 0);
