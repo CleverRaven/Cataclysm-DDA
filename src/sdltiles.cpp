@@ -878,46 +878,49 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 font_folder_list( fout, f );
                 continue;
             }
+
             TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
-            long nfaces = 0;
-            if(fnt != NULL) {
-                nfaces = TTF_FontFaces(fnt);
-                TTF_CloseFont(fnt);
-                fnt = NULL;
+            if (fnt == NULL) {
+                continue;
             }
+            long nfaces = 0;
+            nfaces = TTF_FontFaces(fnt);
+            TTF_CloseFont(fnt);
+            fnt = NULL;
+
             for(long i = 0; i < nfaces; i++) {
                 fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
-                if(fnt != NULL) {
-                    char *fami = TTF_FontFaceFamilyName(fnt);
-                    char *style = TTF_FontFaceStyleName(fnt);
-                    bool isbitmap = (0 == strcasecmp(".fon", f.substr(f.length() - 4).c_str()) );
-                    if(fami != NULL && (!isbitmap || i == 0) ) {
-                        fout << fami << std::endl;
+                if (fnt == NULL) {
+                    continue;
+                }
+                char *fami = TTF_FontFaceFamilyName(fnt);
+                char *style = TTF_FontFaceStyleName(fnt);
+                bool isbitmap = (0 == strcasecmp(".fon", f.substr(f.length() - 4).c_str()) );
+                if(fami != NULL && (!isbitmap || i == 0) ) {
+                    fout << fami << std::endl;
+                    fout << f << std::endl;
+                    fout << i << std::endl;
+                }
+                if(fami != NULL && style != NULL && 0 != strcasecmp(style, "Regular")) {
+                    if(!isbitmap) {
+                        fout << fami << " " << style << std::endl;
                         fout << f << std::endl;
                         fout << i << std::endl;
                     }
-                    if(fami != NULL && style != NULL && 0 != strcasecmp(style, "Regular")) {
-                        if(!isbitmap) {
-                            fout << fami << " " << style << std::endl;
-                            fout << f << std::endl;
-                            fout << i << std::endl;
-                        }
-                    }
-                    TTF_CloseFont(fnt);
-                    fnt = NULL;
                 }
+                TTF_CloseFont(fnt);
+                fnt = NULL;
             }
         }
         closedir (dir);
     }
-
 }
 
 static void save_font_list()
 {
     std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
 
-    font_folder_list(fout, FILENAMES["datadir"]);
+//    font_folder_list(fout, FILENAMES["datadir"]);
     font_folder_list(fout, FILENAMES["fontdir"]);
 
 #if (defined _WIN32 || defined WINDOWS)
