@@ -103,6 +103,14 @@ int main(int argc, char *argv[])
                 argc--;
                 argv++;
             }
+        } else if(std::string(argv[0]) == "--savedir") {
+            argc--;
+            argv++;
+            if(argc) {
+                FILENAMES["savedir"] = std::string(argv[0]);
+                argc--;
+                argv++;
+            }
         } else if(std::string(argv[0]) == "--username") {
             argc--;
             argv++;
@@ -123,19 +131,11 @@ int main(int argc, char *argv[])
         }
     }
     while (saved_argc) {
-        if(std::string(saved_argv[0]) == "--datadir") { // TODO NEED THIS?
+        if(std::string(saved_argv[0]) == "--datadir") { // We probably won't need those anymore, but we should keep them until map sharing is fully implemented
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
                 FILENAMES["datadir"] = std::string(saved_argv[0]);
-                saved_argc--;
-                saved_argv++;
-            }
-        } else if(std::string(saved_argv[0]) == "--savedir") {
-            saved_argc--;
-            saved_argv++;
-            if(saved_argc) {
-                FILENAMES["savedir"] = std::string(saved_argv[0]);
                 saved_argc--;
                 saved_argv++;
             }
