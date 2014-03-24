@@ -1,6 +1,7 @@
 #!/bin/bash
-git clone https://github.com/CleverRaven/Cataclysm-DDA
-cd Cataclysm-DDA
+#git clone https://github.com/CleverRaven/Cataclysm-DDA // you should already have that
+#cd Cataclysm-DDA
+cd ..
 make
 
 cd ..
