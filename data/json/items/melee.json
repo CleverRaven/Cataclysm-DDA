@@ -764,6 +764,7 @@
     "volume": 2,
     "bashing": 3,
     "cutting": 0,
+    "category" : "tools",
     "to_hit": 2,
     "qualities": [["BOIL", 1]]
   },
