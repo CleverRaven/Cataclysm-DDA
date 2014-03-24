@@ -13,7 +13,7 @@
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
 void make_gun_sound_effect(player &p, bool burst, item* weapon);
-double calculate_missed_by(player &p, int trange, item* weapon);
+int skill_dispersion( player *p, item *weapon, bool random );
 extern bool is_valid_in_w_terrain(int,int);
 
 void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
@@ -1087,25 +1087,42 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 
-// utility functions for projectile_attack
-double player::get_weapon_dispersion(item *weapon) {
+int skill_dispersion( player *p, item *weapon, bool random ) {
     int weapon_skill_level = 0;
     if(weapon->is_gunmod()) {
       it_gunmod* firing = dynamic_cast<it_gunmod *>(weapon->type);
-      weapon_skill_level = skillLevel(firing->skill_used);
+      weapon_skill_level = p->skillLevel(firing->skill_used);
     } else {
       it_gun* firing = dynamic_cast<it_gun *>(weapon->type);
-      weapon_skill_level = skillLevel(firing->skill_used);
+      weapon_skill_level = p->skillLevel(firing->skill_used);
     }
-    double dispersion = 0.; // Measured in quarter-degrees.
+    int dispersion = 0; // Measured in quarter-degrees.
     // Up to 0.75 degrees for each skill point < 8.
     if (weapon_skill_level < 8) {
-        dispersion += rng(0, 3 * (8 - weapon_skill_level));
+        int max_dispersion = 3 * (8 - weapon_skill_level);
+        if( random ) {
+            dispersion += rng(0, max_dispersion);
+        } else {
+            dispersion += max_dispersion;
+        }
     }
     // Up to 0.25 deg per each skill point < 9.
-    if (skillLevel("gun") < 9) {
-        dispersion += rng(0, 9 - skillLevel("gun"));
+    if (p->skillLevel("gun") < 9) {
+        int max_dispersion = 9 - p->skillLevel("gun");
+        if( random ) {
+            dispersion += rng(0, max_dispersion);
+        } else {
+            dispersion += max_dispersion;
+        }
     }
+    return dispersion;
+}
+
+
+// utility functions for projectile_attack
+double player::get_weapon_dispersion(item *weapon) {
+    double dispersion = 0.; // Measured in quarter-degrees.
+    dispersion += skill_dispersion( this, weapon, true );
 
     dispersion += rng(0, ranged_dex_mod());
     dispersion += rng(0, ranged_per_mod());
