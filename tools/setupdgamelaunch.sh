@@ -1,7 +1,13 @@
 #!/bin/bash
-#git clone https://github.com/CleverRaven/Cataclysm-DDA // you should already have that
-#cd Cataclysm-DDA
+
+if (pwd | grep "Cataclysm-DDA/tools")
+then
 cd ..
+else
+git clone https://github.com/CleverRaven/Cataclysm-DDA
+cd Cataclysm-DDA
+fi
+
 make
 
 cd ..
@@ -11,4 +17,4 @@ cd dgamelaunch
 
 ./autogen.sh --enable-sqlite --enable-shmem --with-config-file=/opt/dgamelaunch/cdda/etc/dgamelaunch.conf
 make
-./dgl-create-chroot
+sudo ./dgl-create-chroot
