@@ -893,23 +893,35 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 if (fnt == NULL) {
                     continue;
                 }
+
+                // Add font family
                 char *fami = TTF_FontFaceFamilyName(fnt);
+                if (fami != NULL) {
+                    fout << fami;
+                } else {
+                    TTF_CloseFont(fnt);
+                    continue;
+                }
+
+                // Add font style
                 char *style = TTF_FontFaceStyleName(fnt);
-                bool isbitmap = (0 == strcasecmp(".fon", f.substr(f.length() - 4).c_str()) );
-                if(fami != NULL && (!isbitmap || i == 0) ) {
-                    fout << fami << std::endl;
-                    fout << f << std::endl;
-                    fout << i << std::endl;
+                bool isbitmap = (strcasecmp(".fon", f.substr(f.length() - 4).c_str()) == 0 );
+                if (style != NULL && !isbitmap && strcasecmp(style, "Regular") != 0) {
+                    fout << " " << style;
                 }
-                if(fami != NULL && style != NULL && 0 != strcasecmp(style, "Regular")) {
-                    if(!isbitmap) {
-                        fout << fami << " " << style << std::endl;
-                        fout << f << std::endl;
-                        fout << i << std::endl;
-                    }
-                }
+                fout << std::endl;
+
+                // Add filename and font index
+                fout << f << std::endl;
+                fout << i << std::endl;
+
                 TTF_CloseFont(fnt);
                 fnt = NULL;
+
+                // We use only 1 style in bitmap fonts.
+                if (isbitmap) {
+                    break;
+                }
             }
         }
         closedir (dir);
