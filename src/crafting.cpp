@@ -287,12 +287,12 @@ bool game::making_would_work(recipe *making)
         buffer << _("You can no longer make that craft!");
         const std::string missing_tools = print_missing_objs(making->tools, true);
         if (!missing_tools.empty()) {
-            buffer << _("\nThose tools are missing:\n") << missing_tools;
+            buffer << _("\nThese tools are missing:\n") << missing_tools;
         }
         const std::string missing_quali = print_missing_objs(making->qualities);
         if (!missing_quali.empty()) {
             if (missing_tools.empty()) {
-                buffer << _("\nThose tools are missing:");
+                buffer << _("\nThese tools are missing:");
             }
             buffer << "\n" << missing_quali;
         }
@@ -1420,7 +1420,7 @@ void game::complete_craft()
     int diff_roll  = dice(diff_dice,  diff_sides);
 
     if (making->skill_used) {
-        u.practice(turn, making->skill_used, making->difficulty * 5 + 20);
+        u.practice(turn, making->skill_used, making->difficulty * 5 + 20, (int)making->difficulty * 1.25);
     }
 
     // Messed up badly; waste some components.
@@ -1916,7 +1916,7 @@ void game::complete_disassemble()
 
     // disassembly only nets a bit of practice
     if (dis->skill_used) {
-        u.practice(turn, dis->skill_used, dis->difficulty * 2);
+        u.practice(turn, dis->skill_used, (dis->difficulty) * 2, dis->difficulty);
     }
 
     for (unsigned j = 0; j < dis->components.size(); j++) {
@@ -1926,7 +1926,8 @@ void game::complete_disassemble()
         // one that was used. If not found, use the first one.
         // Don't check the first in altercomps, it's the default anyway.
         for(size_t k = 1; alter_comp_index == 0 && k < altercomps.size(); k++) {
-            for(item::t_item_vector::iterator a = dis_item.components.begin(); a != dis_item.components.end(); ++a) {
+            for( item::t_item_vector::iterator a = dis_item.components.begin();
+                 a != dis_item.components.end(); ++a ) {
                 if (a->type->id == altercomps[k].type) {
                     alter_comp_index = k;
                 }

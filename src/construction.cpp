@@ -706,7 +706,6 @@ void construct::done_deconstruct(point p)
             g->m.spawn_item(p.x, p.y, "pipe", rng(6, 12));
             g->m.furn_set(p.x, p.y, f_null);
         } else if(furn_here == "f_oven") {
-            g->m.spawn_item(p.x, p.y, "sheet_metal", rng(2, 6));
             g->m.spawn_item(p.x, p.y, "scrap",       rng(2, 6));
             g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2, 3));
             g->m.spawn_item(p.x, p.y, "element",     rng(1, 4));

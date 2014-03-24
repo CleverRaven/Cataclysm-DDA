@@ -9837,7 +9837,7 @@ int player::adjust_for_focus(int amount)
     return ret;
 }
 
-void player::practice (const calendar& turn, Skill *s, int amount)
+void player::practice (const calendar& turn, Skill *s, int amount, int cap)
 {
     SkillLevel& level = skillLevel(s);
     // Double amount, but only if level.exercise isn't a small negative number?
@@ -9894,6 +9894,15 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         amount /= 2;
     }
 
+    if (skillLevel(s) > cap) //blunt grinding cap implementation for crafting
+    {
+        amount = 0;
+        int curLevel = skillLevel(s);
+        if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
+            g->add_msg(_("This task is too simple to train your %s beyond %d."), s->name().c_str(), curLevel);
+        }
+    }
+
     if (amount > 0 && level.isTraining())
     {
         int oldLevel = skillLevel(s);
@@ -9901,6 +9910,9 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         int newLevel = skillLevel(s);
         if (is_player() && newLevel > oldLevel) {
             g->add_msg(_("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
+        }
+        if(is_player() && newLevel > cap) { //inform player immediately that the current recipe can't be used to train further
+            g->add_msg(_("You feel that %s tasks of this level are becoming trivial."), s->name().c_str());
         }
 
         int chance_to_drop = focus_pool;
