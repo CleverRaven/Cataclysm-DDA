@@ -296,7 +296,7 @@
         "type" : "construction",
         "description" : "Reinforce Boarded Up Empty Window",
         "difficulty" : 5,
-        "time" : 30,
+        "time" : 10,
         "tools" : [
             [ "hammer", "primitive_hammer", "hatchet", "hammer_sledge", "toolset" ]
         ],
@@ -324,7 +324,7 @@
         "type" : "construction",
         "description" : "Armor Reinforced Boarded Up Empty Window",
         "difficulty" : 7,
-        "time" : 10,
+        "time" : 30,
         "tools" : [
             [ "hammer", "hammer_sledge", "primitive_hammer",
               "hatchet", "nailgun", "toolset" ]
