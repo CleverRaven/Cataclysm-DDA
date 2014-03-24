@@ -6,6 +6,7 @@
 #include "file_finder.h"
 #include "cursesdef.h"
 #include "path_info.h"
+#include "mapsharing.h"
 #ifdef SDLTILES
 #include "cata_tiles.h"
 #endif // SDLTILES
@@ -345,9 +346,11 @@ void initOptions() {
     vPages.push_back(std::make_pair("general", _("General")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("graphics", _("Graphics")));
-    vPages.push_back(std::make_pair("debug", _("Debug")));
+    if(!MAP_SHARING::isSharing() || MAP_SHARING::getUsername() == "admin") // when sharing maps only admin is allowed to change these
+        vPages.push_back(std::make_pair("debug", _("Debug")));
     iWorldOptPage = vPages.size();
-    vPages.push_back(std::make_pair("world_default", _("World Defaults")));
+    if(!MAP_SHARING::isSharing() || MAP_SHARING::getUsername() == "admin") // when sharing maps only admin is allowed to change these
+        vPages.push_back(std::make_pair("world_default", _("World Defaults")));
 
     OPTIONS.clear();
 
