@@ -29,6 +29,7 @@ struct construct // Construction functions.
     void done_trunk_plank(point);
     void done_vehicle(point);
     void done_deconstruct(point);
+    void done_dig_stair(point);
 };
 
 // Keys available for use as hotkeys.  Excludes vi direction keys and Q for quit.
@@ -565,7 +566,7 @@ void complete_construction()
 
     g->u.practice(g->turn, built->skill, std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < built->components.size(); i++) {
-        // Tried issueing rope for WEB_ROPE here.  Didn't arrive in time for the
+        // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
         if (!built->components[i].empty()) {
             g->consume_items(&(g->u), built->components[i]);
@@ -819,6 +820,280 @@ void construct::done_deconstruct(point p)
     }
 }
 
+void construct::done_dig_stair(point p)
+{
+ tinymap tmpmap(&g->traps);
+ // Upper left corner of the current active map (levx/levy) plus half active map width.
+ // The player is always in the center tile of that 11x11 square.
+ tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false);
+ bool danger_lava = false;
+ bool danger_open = false;
+ const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
+    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY) );
+
+    point omtile_align_start(
+        g->m.getlocal( rc.begin_om_pos() )
+    );
+    // Smart and perceptive folks can pick up on Bad Stuff Below farther out
+    int prox = ( (((g->u.int_cur) + (g->u.per_cur)) / 2) - 8 );
+    if (prox <= 0) {
+        prox = 1;
+    }
+  for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
+      for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
+          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
+              danger_lava = true;
+          }
+          // This ought to catch anything that's open-space
+          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
+              danger_open = true; // You might not know what's down there!
+          }
+      }
+  }
+  if (danger_lava || danger_open) { // Bad Stuff detected.  Are you sure?
+      g->m.ter_set(p.x, p.y, t_pit); // You dug down a bit before detecting the problem
+      if (danger_lava) {
+          if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
+              // refund components!
+              if (!(g->u.has_trait("WEB_ROPE"))) {
+                  item rope(itypes["rope_30"], 0);
+                  g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+              }
+              // presuming 2x4 to conserve lumber.
+              item two_by_four(itypes["2x4"], 0);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              return;
+          }
+      }
+      if (danger_open) {
+          if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
+              // refund components!
+              if (!(g->u.has_trait("WEB_ROPE"))) {
+                  item rope(itypes["rope_30"], 0);
+                  g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+              }
+              // presuming 2x4 to conserve lumber.
+              item two_by_four(itypes["2x4"], 0);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              return;
+          }
+      }
+  }
+  if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
+      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+          g->add_msg(_("You strike deeply into the earth."));
+          g->u.hunger += 15;
+          g->u.fatigue += 20;
+          g->u.thirst += 15;
+      }
+      else {
+          g->add_msg(_("You dig a stairway, adding sturdy timbers and a rope for safety."));
+          g->u.hunger += 25;
+          g->u.fatigue += 30;
+          g->u.thirst += 25;
+      }
+      g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
+      // We need to write to submap-local coordinates.
+      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
+      tmpmap.save(g->cur_om, g->turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
+                  g->levz - 1); // Save z-1.
+   }
+   else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
+      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+          g->add_msg(_("You strike deeply--above a magma flow!"));
+          g->u.hunger += 15;
+          g->u.fatigue += 20;
+          g->u.thirst += 15;
+      }
+      else {
+          g->add_msg(_("You just tunneled into lava!"));
+          g->u.hunger += 25;
+          g->u.fatigue += 30;
+          g->u.thirst += 25;
+      }
+      g->u.add_memorial_log(pgettext("memorial_male", "Dug a shaft into lava."),
+                       pgettext("memorial_female", "Dug a shaft into lava."));
+      g->m.ter_set(p.x, p.y, t_stairs_down); // Those stairs you wanted?
+      // Now to see if you go swimming.  Same idea as the sinkhole.
+      if ( ((g->u.skillLevel("carpentry")) + (g->u.per_cur)) > ((g->u.str_cur) +
+          (rng(5,10))) ) {
+              g->add_msg(_("You avoid collapsing the rock underneath you."));
+              g->add_msg(_("Lashing your lumber together, you make a stable platform."));
+              g->m.ter_set(p.x, p.y, t_pit);
+          }
+      else {
+          g->m.ter_set(p.x, p.y, t_hole); // Collapse handled here.
+          g->add_msg(_("The rock gives way beneath you!"));
+          g->add_msg(_("Your timbers plummet into the lava!"));
+          if (g->u.has_amount("grapnel", 1)) {
+              g->add_msg(_("You desperately throw your grappling hook!"));
+              int throwroll = rng(g->u.skillLevel("throw"),
+                      g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
+              if (throwroll >= 9) { // Little tougher here than in a sinkhole
+              g->add_msg(_("The grappling hook catches something!"));
+              if (rng(g->u.skillLevel("unarmed"),
+                      g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
+              // Determine safe places for the character to get pulled to
+              std::vector<point> safe;
+                  for (int i = p.x - 1; i <= p.x + 1; i++) {
+                    for (int j = p.y - 1; j <= p.y + 1; j++) {
+                      if (g->m.move_cost(i, j) > 0) {
+                          safe.push_back(point(i, j));
+                      }
+                    }
+                  }
+                  if (safe.empty()) {
+                      g->add_msg(_("There's nowhere to pull yourself to, and you fall!"));
+                      g->u.use_amount("grapnel", 1);
+                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                      g->vertical_move(-1, true);
+                  } else {
+                      g->add_msg(_("You pull yourself to safety!"));
+                      int index = rng(0, safe.size() - 1);
+                      g->u.posx = safe[index].x;
+                      g->u.posy = safe[index].y;
+                      g->update_map(g->u.posx, g->u.posy);
+                  }
+              } else {
+                    g->add_msg(_("You're not strong enough to pull yourself out..."));
+                    g->u.moves -= 100;
+                    g->u.use_amount("grapnel", 1);
+                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                    g->vertical_move(-1, true);
+                }
+              } else {
+                  g->add_msg(_("Your throw misses completely, and you fall into the lava!"));
+                  if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
+                      g->u.use_amount("grapnel", 1);
+                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
+                  }
+                g->vertical_move(-1, true);
+              }
+          } else if (g->u.has_trait("WEB_ROPE")) {
+              // There are downsides to using one's own product...
+              int webroll = rng(g->u.skillLevel("carpentry"),
+                      g->u.skillLevel("carpentry") + g->u.per_cur + g->u.int_cur);
+              if (webroll >= 11) {
+                  g->add_msg(_("Luckily, you'd attached a web..."));
+                  // Bigger you are, the larger the strain
+                  int stickroll = rng(g->u.skillLevel("carpentry"),
+                      g->u.skillLevel("carpentry") + g->u.dex_cur - g->u.str_cur);
+                  if (stickroll >= 8) {
+                      g->add_msg(_("Your web holds firm!"));
+                      if (rng(g->u.skillLevel("unarmed"),
+                          g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
+                          // Determine safe places for the character to get pulled to
+                          std::vector<point> safe;
+                          for (int i = p.x - 1; i <= p.x + 1; i++) {
+                            for (int j = p.y - 1; j <= p.y + 1; j++) {
+                              if (g->m.move_cost(i, j) > 0) {
+                                  safe.push_back(point(i, j));
+                              }
+                            }
+                          }
+                          if (safe.empty()) {
+                              g->add_msg(_("There's nowhere to pull yourself to, and you fall!"));
+                              g->vertical_move(-1, true);
+                          } else {
+                              g->add_msg(_("You pull yourself to safety!"));
+                              int index = rng(0, safe.size() - 1);
+                              g->u.posx = safe[index].x;
+                              g->u.posy = safe[index].y;
+                              g->update_map(g->u.posx, g->u.posy);
+                          }
+                      } else {
+                            g->add_msg(_("You're not strong enough to pull yourself out..."));
+                            g->u.moves -= 100;
+                            g->vertical_move(-1, true);
+                        }
+                      } else {
+                          g->add_msg(_("The sudden strain pulls your web free, and you fall into the lava!"));
+                          g->vertical_move(-1, true);
+                      }
+                  }
+          } else {
+          // You have a rope because you needed one to construct
+          // (You aren't charged it here because you lose it at end/construction)
+          g->add_msg(_("You desperately throw your rope!"));
+              int throwroll = rng(g->u.skillLevel("throw"),
+                      g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
+              if (throwroll >= 11) { // No hook, so good luck with that
+              g->add_msg(_("The rope snags and holds!"));
+              if (rng(g->u.skillLevel("unarmed"),
+                      g->u.skillLevel("unarmed") + g->u.str_cur) > 7) {
+              // Determine safe places for the character to get pulled to
+              std::vector<point> safe;
+                  for (int i = p.x - 1; i <= p.x + 1; i++) {
+                    for (int j = p.y - 1; j <= p.y + 1; j++) {
+                      if (g->m.move_cost(i, j) > 0) {
+                          safe.push_back(point(i, j));
+                      }
+                    }
+                  }
+                  if (safe.empty()) {
+                      g->add_msg(_("There's nowhere to pull yourself to, and you fall!"));
+                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                      g->vertical_move(-1, true);
+                  } else {
+                      g->add_msg(_("You pull yourself to safety!"));
+                      g->add_msg(_("The rope gives way and plummets, just as you escape."));
+                      int index = rng(0, safe.size() - 1);
+                      g->u.posx = safe[index].x;
+                      g->u.posy = safe[index].y;
+                      g->update_map(g->u.posx, g->u.posy);
+                  }
+              } else {
+                    g->add_msg(_("You're not strong enough to pull yourself out..."));
+                    g->u.moves -= 100;
+                    g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                    g->vertical_move(-1, true);
+                }
+              } else {
+                  g->add_msg(_("Your throw misses completely, and you fall into the lava!"));
+                  if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
+                      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
+                  }
+                g->vertical_move(-1, true);
+              }
+          }
+      }
+   }
+   else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
+      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+          g->add_msg(_("You strike deeply into the earth, and break into open space."));
+          g->u.hunger += 10; // Less heavy work, but making the ladder's still fatiguing
+          g->u.fatigue += 20;
+          g->u.thirst += 10;
+      }
+      else {
+          g->add_msg(_("You dig into a preexsting space, and improvise a ladder."));
+          g->u.hunger += 20;
+          g->u.fatigue += 30;
+          g->u.thirst += 20;
+      }
+      g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
+      // Again, need to use submap-local coordinates.
+      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
+      // And save to the center coordinate of the current active map.
+      tmpmap.save(g->cur_om, g->turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
+                  , g->levz - 1); // Save z-1.
+   }
+}
+
 void load_construction(JsonObject &jo)
 {
     construction *con = new construction;
@@ -894,6 +1169,8 @@ void load_construction(JsonObject &jo)
         con->post_special = &construct::done_vehicle;
     } else if (postfunc == "done_deconstruct") {
         con->post_special = &construct::done_deconstruct;
+    } else if (postfunc == "done_dig_stair") {
+        con->post_special = &construct::done_dig_stair;
     } else {
         // ditto, should probably warn here
         con->post_special = &construct::done_nothing;
