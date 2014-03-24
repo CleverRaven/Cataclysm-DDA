@@ -1290,7 +1290,6 @@
             [ [ "rope_30", 1 ] ]
         ],
         "pre_flags" : "DIGGABLE",
-        "post_terrain" : "t_dirt",
         "post_special" : "done_dig_stair"
     }
 ]
