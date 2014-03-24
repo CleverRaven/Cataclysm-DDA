@@ -64,9 +64,13 @@ int main(int argc, char *argv[])
     init_user_dir();
     set_standart_filenames();
 
+    if(MAP_SHARING::getUsername().empty() && getenv("USER")) {
+        MAP_SHARING::setUsername(getenv("USER"));
+    }
+
     // Process CLI arguments
-    --argc; // skip program name
-    ++argv;
+    int saved_argc = --argc; // skip program name
+    char **saved_argv = ++argv;
 
     while (argc) {
         if(std::string(argv[0]) == "--seed") {
@@ -103,30 +107,6 @@ int main(int argc, char *argv[])
                 argc--;
                 argv++;
             }
-        } else if(std::string(argv[0]) == "--motdfile") {
-            argc--;
-            argv++;
-            if(argc) {
-                FILENAMES["motdfile"] = std::string(argv[0]);
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--optionfile") {
-            argc--;
-            argv++;
-            if(argc) {
-                FILENAMES["optionfile"] = std::string(argv[0]);
-                argc--;
-                argv++;
-            }
-        } else if(std::string(argv[0]) == "--savedir") {
-            argc--;
-            argv++;
-            if(argc) {
-                FILENAMES["savedir"] = std::string(argv[0]);
-                argc--;
-                argv++;
-            }
         } else if(std::string(argv[0]) == "--username") {
             argc--;
             argv++;
@@ -138,14 +118,68 @@ int main(int argc, char *argv[])
         } else if(std::string(argv[0]) == "--shared") {
             argc--;
             argv++;
-            MAP_SHARING::sharing = true;
-            if(MAP_SHARING::getUsername().empty() && getenv("USER"))
-                MAP_SHARING::setUsername(getenv("USER"));
+            MAP_SHARING::setSharing(true);
         } else { // Skipping other options.
             argc--;
             argv++;
         }
     }
+    while (saved_argc) {
+        if(std::string(saved_argv[0]) == "--datadir") { // TODO NEED THIS?
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["datadir"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--savedir") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["savedir"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--optionfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["optionfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--keymapfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["keymapfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--autopickupfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["autopickupfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--motdfile") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["motdfile"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
+        } else { // ignore unknown args.
+            saved_argc--;
+            saved_argv++;
+        }
+    }
+
+
 
     // set locale to system default
     setlocale(LC_ALL, "");
