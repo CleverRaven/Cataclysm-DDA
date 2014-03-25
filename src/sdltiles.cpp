@@ -1388,6 +1388,7 @@ void rescale_tileset(int size) {
     #ifdef SDLTILES
         tilecontext->set_draw_scale(size);
         g->init_ui();
+        ClearScreen();
     #endif
 }
 
