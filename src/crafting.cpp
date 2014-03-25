@@ -838,7 +838,7 @@ recipe *game::select_crafting_recipe()
                         }
 
                         std::stringstream qualinfo;
-                        qualinfo << string_format(_("Requires %d tools with %s of %d or more."),
+                        qualinfo << string_format(_("Requires %d tools with %s quality of %d or more."),
                                                   iter->count, qualities[iter->id].name.c_str(),
                                                   iter->level);
                         ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
