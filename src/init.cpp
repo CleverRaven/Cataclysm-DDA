@@ -413,4 +413,5 @@ void DynamicDataLoader::check_consistency() {
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();
+    check_furniture_and_terrain();
 }

@@ -107,7 +107,7 @@
         "color": "dkgray",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "DECONSTRUCT", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
+        "flags": ["BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
         "bash": {
             "str_min": 15, "str_max": 20,
             "sound": "whack!",

@@ -1014,7 +1014,7 @@
             [ "hammer", "primitive_hammer", "hatchet", "toolset" ],
             [ "screwdriver", "toolset" ]
         ],
-        "pre_flags" : "DECONSTRUCT",
+        "pre_special" : "check_deconstruct",
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
