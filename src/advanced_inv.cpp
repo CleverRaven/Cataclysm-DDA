@@ -1042,7 +1042,7 @@ bool advanced_inventory::move_all_items()
                     continue;
                 }
 
-                items_to_iterate->erase(it);
+                it = items_to_iterate->erase(it);
             }
         }
     }
