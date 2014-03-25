@@ -21,6 +21,7 @@ struct construct // Construction functions.
     bool check_nothing(point) { return true; }
     bool check_empty(point); // tile is empty
     bool check_support(point); // at least two orthogonal supports
+    bool check_deconstruct(point); // either terrain or furniture must be deconstructable
 
     // Special actions to be run post-terrain-mod
     void done_nothing(point) {}
@@ -620,6 +621,15 @@ bool construct::check_support(point p)
     return num_supports >= 2;
 }
 
+bool construct::check_deconstruct(point p)
+{
+    if (g->m.has_furn(p.x, p.y)) {
+        return g->m.furn_at(p.x, p.y).deconstruct.can_do;
+    }
+    // terrain can only be deconstructed when there is no furniture in the way
+    return g->m.ter_at(p.x, p.y).deconstruct.can_do;
+}
+
 void construct::done_tree(point p)
 {
     mvprintz(0, 0, c_red, _("Press a direction for the tree to fall in:"));
@@ -685,138 +695,27 @@ void construct::done_vehicle(point p)
 void construct::done_deconstruct(point p)
 {
     if (g->m.has_furn(p.x, p.y)) {
-        std::string furn_here = g->m.get_furn(p.x, p.y);
-        g->add_msg(_("You disassemble the %s."), g->m.furnname(p.x, p.y).c_str());
-        if(furn_here == "f_makeshift_bed" || furn_here == "f_bed" || furn_here == "f_armchair" ||
-           furn_here == "f_sofa") {
-            g->m.spawn_item(p.x, p.y, "2x4", 10);
-            g->m.spawn_item(p.x, p.y, "rag", rng(10, 15));
-            g->m.spawn_item(p.x, p.y, "nail", 0, rng(6, 8));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_bench" || furn_here == "f_crate_o" || furn_here == "f_crate_c" ||
-                  furn_here == "f_chair" || furn_here == "f_cupboard" || furn_here == "f_desk" ||
-                  furn_here == "f_bulletin") {
-            g->m.spawn_item(p.x, p.y, "2x4", 4);
-            g->m.spawn_item(p.x, p.y, "nail", 0, rng(6, 10));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_locker") {
-            g->m.spawn_item(p.x, p.y, "sheet_metal", rng(1, 2));
-            g->m.spawn_item(p.x, p.y, "pipe", rng(4, 8));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_rack") {
-            g->m.spawn_item(p.x, p.y, "pipe", rng(6, 12));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_oven") {
-            g->m.spawn_item(p.x, p.y, "sheet_metal", rng(2, 6));
-            g->m.spawn_item(p.x, p.y, "scrap",       rng(2, 6));
-            g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2, 3));
-            g->m.spawn_item(p.x, p.y, "element",     rng(1, 4));
-            g->m.spawn_item(p.x, p.y, "pilot_light", 1);
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_fridge") {
-            g->m.spawn_item(p.x, p.y, "scrap", rng(2, 8));
-            g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2, 3));
-            g->m.spawn_item(p.x, p.y, "hose", 1);
-            g->m.spawn_item(p.x, p.y, "cu_pipe", rng(2, 5));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_glass_fridge") {
-            g->m.spawn_item(p.x, p.y, "scrap", rng(2, 6));
-            g->m.spawn_item(p.x, p.y, "steel_chunk", rng(2, 3));
-            g->m.spawn_item(p.x, p.y, "hose", 1);
-            g->m.spawn_item(p.x, p.y, "glass_sheet", 1);
-            g->m.spawn_item(p.x, p.y, "cu_pipe", rng(3, 6));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_counter" || furn_here == "f_dresser" || furn_here == "f_table") {
-            g->m.spawn_item(p.x, p.y, "2x4", 6);
-            g->m.spawn_item(p.x, p.y, "nail", 0, rng(6, 8));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_pool_table") {
-            g->m.spawn_item(p.x, p.y, "2x4", 4);
-            g->m.spawn_item(p.x, p.y, "rag", 4);
-            g->m.spawn_item(p.x, p.y, "nail", 0, rng(6, 10));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_bookcase") {
-            g->m.spawn_item(p.x, p.y, "2x4", 12);
-            g->m.spawn_item(p.x, p.y, "nail", 0, rng(12, 16));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_washer") {
-            g->m.spawn_item(p.x, p.y, "pipe", 1);
-            g->m.spawn_item(p.x, p.y, "scrap",       rng(2, 6));
-            g->m.spawn_item(p.x, p.y, "steel_chunk",       rng(1, 3));
-            g->m.spawn_item(p.x, p.y, "sheet_metal",       rng(2, 6));
-            g->m.spawn_item(p.x, p.y, "cable",       rng(1, 15));
-            g->m.spawn_item(p.x, p.y, "cu_pipe",       rng(2, 5));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_dryer") {
-            g->m.spawn_item(p.x, p.y, "scrap",       rng(2, 6));
-            g->m.spawn_item(p.x, p.y, "steel_chunk",       rng(1, 3));
-            g->m.spawn_item(p.x, p.y, "sheet_metal",       rng(2, 6));
-            g->m.spawn_item(p.x, p.y, "cable",       rng(1, 15));
-            g->m.spawn_item(p.x, p.y, "element",       rng(1, 3));
-            g->m.furn_set(p.x, p.y, f_null);
-        } else if(furn_here == "f_exercise") {
-            g->m.spawn_item(p.x, p.y, "pipe", 1);
-            g->m.spawn_item(p.x, p.y, "steel_chunk", 1);
-            g->m.spawn_item(p.x, p.y, "scrap",       rng(2, 6));
+        furn_t &f = g->m.furn_at(p.x, p.y);
+        if (!f.deconstruct.can_do) {
+            g->add_msg(_("That %s can not be disassembled!"), f.name.c_str());
+            return;
+        }
+        if (f.deconstruct.furn_set.empty()) {
             g->m.furn_set(p.x, p.y, f_null);
         } else {
-            g->add_msg(_("You have to push away %s first."), g->m.furnname(p.x, p.y).c_str());
+            g->m.furn_set(p.x, p.y, f.deconstruct.furn_set);
         }
-
+        g->add_msg(_("You disassemble the %s."), f.name.c_str());
+        g->m.spawn_item_list(f.deconstruct.items, p.x, p.y);
     } else {
-        g->add_msg(_("You disassemble the %s."), g->m.tername(p.x, p.y).c_str());
-        std::string ter_here = g->m.get_ter(p.x, p.y);
-        if(ter_here == "t_door_c" || ter_here == "t_door_o") {
-            g->m.spawn_item(p.x, p.y, "2x4", 4);
-            g->m.spawn_item(p.x, p.y, "nail", 0, rng(6, 12));
-            g->m.ter_set(p.x, p.y, t_door_frame);
-        } else if(ter_here == "t_rdoor_c" || ter_here == "t_rdoor_o") {
-            g->m.spawn_item(p.x, p.y, "2x4", 24);
-            g->m.spawn_item(p.x, p.y, "nail", 0, rng(36, 48));
-            g->m.ter_set(p.x, p.y, t_door_c);
-        } else if(ter_here == "t_curtains" || ter_here == "t_window_domestic") {
-            g->m.spawn_item(g->u.posx, g->u.posy, "stick");
-            g->m.spawn_item(g->u.posx, g->u.posy, "sheet", 2);
-            g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet");
-            g->m.spawn_item(g->u.posx, g->u.posy, "nail", 0, rng(3, 4));
-            g->m.spawn_item(g->u.posx, g->u.posy, "string_36", 0, 1);
-            g->m.ter_set(p.x, p.y, t_window_empty);
-        } else if(ter_here == "t_window") {
-            g->m.spawn_item(p.x, p.y, "glass_sheet");
-            g->m.ter_set(p.x, p.y, t_window_empty);
-        } else if(ter_here == "t_backboard") {
-            g->m.spawn_item(p.x, p.y, "2x4", 4);
-            g->m.spawn_item(p.x, p.y, "nail", 0, rng(6, 10));
-            g->m.ter_set(p.x, p.y, t_pavement);
-        } else if(ter_here == "t_sandbox") {
-            g->m.spawn_item(p.x, p.y, "2x4", 4);
-            g->m.spawn_item(p.x, p.y, "nail", 0, rng(6, 10));
-            g->m.ter_set(p.x, p.y, t_floor);
-        } else if(ter_here == "t_slide") {
-            g->m.spawn_item(p.x, p.y, "sheet_metal");
-            g->m.spawn_item(p.x, p.y, "pipe", rng(4, 8));
-            g->m.ter_set(p.x, p.y, t_grass);
-        } else if(ter_here == "t_monkey_bars") {
-            g->m.spawn_item(p.x, p.y, "pipe", rng(6, 12));
-            g->m.ter_set(p.x, p.y, t_grass);
-        } else if(ter_here == "t_radio_controls" || ter_here == "t_console" ||
-                  ter_here == "t_console_broken") {
-            g->m.spawn_item(p.x, p.y, "processor", rng(1, 2));
-            g->m.spawn_item(p.x, p.y, "RAM", rng(4, 8));
-            g->m.spawn_item(p.x, p.y, "cable", rng(4, 6));
-            g->m.spawn_item(p.x, p.y, "small_lcd_screen", rng(1, 2));
-            g->m.spawn_item(p.x, p.y, "e_scrap", rng(10, 16));
-            g->m.spawn_item(p.x, p.y, "circuit", rng(6, 10));
-            g->m.spawn_item(p.x, p.y, "power_supply", rng(2, 4));
-            g->m.spawn_item(p.x, p.y, "amplifier", rng(2, 4));
-            g->m.spawn_item(p.x, p.y, "plastic_chunk", rng(10, 12));
-            g->m.spawn_item(p.x, p.y, "scrap", rng(6, 8));
-            g->m.ter_set(p.x, p.y, t_floor);
-        } else if(ter_here == "t_water_pump") {
-            g->m.spawn_item(p.x, p.y, "well_pump", 1);
-            g->m.spawn_item(p.x, p.y, "pipe", rng(1, 6));
-            g->m.ter_set(p.x, p.y, t_covered_well);
+        ter_t &t = g->m.ter_at(p.x, p.y);
+        if (!t.deconstruct.can_do) {
+            g->add_msg(_("That %s can not be disassembled!"), t.name.c_str());
+            return;
         }
+        g->m.ter_set(p.x, p.y, t.deconstruct.ter_set);
+        g->add_msg(_("You disassemble the %s."), t.name.c_str());
+        g->m.spawn_item_list(t.deconstruct.items, p.x, p.y);
     }
 }
 
@@ -1153,8 +1052,12 @@ void load_construction(JsonObject &jo)
         con->pre_special = &construct::check_empty;
     } else if (prefunc == "check_support") {
         con->pre_special = &construct::check_support;
+    } else if (prefunc == "check_deconstruct") {
+        con->pre_special = &construct::check_deconstruct;
     } else {
-        // should probably print warning if not ""
+        if (prefunc != "") {
+            debugmsg("Unknown pre_special function: %s", prefunc.c_str());
+        }
         con->pre_special = &construct::check_nothing;
     }
 
@@ -1172,7 +1075,9 @@ void load_construction(JsonObject &jo)
     } else if (postfunc == "done_dig_stair") {
         con->post_special = &construct::done_dig_stair;
     } else {
-        // ditto, should probably warn here
+        if (postfunc != "") {
+            debugmsg("Unknown post_special function: %s", postfunc.c_str());
+        }
         con->post_special = &construct::done_nothing;
     }
 
