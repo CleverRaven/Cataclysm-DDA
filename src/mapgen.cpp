@@ -12247,10 +12247,10 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                         m->spawn_item(x1 + 1, y, "katana");
                     } else if (one_in(3)) {
                         m->spawn_item(x1 + 1, y, "katana");
-                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "wakizashi");
                     } else if (one_in(6)) {
                         m->spawn_item(x1 + 1, y, "katana");
-                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "wakizashi");
                         m->spawn_item(x1 + 1, y, "tanto");
                     } else if (one_in(6)) {
                         m->spawn_item(x1 + 1, y, "nodachi");
@@ -12262,10 +12262,10 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                         m->spawn_item(x2 - 1, y, "katana");
                     } else if (one_in(3)) {
                         m->spawn_item(x2 - 1, y, "katana");
-                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "wakizashi");
                     } else if (one_in(6)) {
                         m->spawn_item(x2 - 1, y, "katana");
-                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "wakizashi");
                         m->spawn_item(x1 + 1, y, "tanto");
                     } else if (one_in(6)) {
                         m->spawn_item(x2 - 1, y, "nodachi");
