@@ -1,6 +1,7 @@
 #include "mapdata.h"
 #include "color.h"
 #include "init.h"
+#include "item_factory.h"
 #include <ostream>
 
 std::vector<ter_t> terlist;
@@ -753,3 +754,60 @@ ter_furn_id::ter_furn_id() {
     furn = (short)t_null;
 }
 */
+
+void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_terrain)
+{
+    for(size_t i = 0; i < mbi.items.size(); i++) {
+        const std::string &it = mbi.items[i].itemtype;
+        if (!item_controller->has_template(it)) {
+            debugmsg("%s: bash result item %s does not exist", id.c_str(), it.c_str());
+        }
+    }
+    if (mbi.str_max != -1) {
+        if (is_terrain && mbi.ter_set.empty()) {
+            debugmsg("bash result terrain of %s is undefined/empty", id.c_str());
+        }
+        if (!mbi.ter_set.empty() && termap.count(mbi.ter_set) == 0) {
+            debugmsg("bash result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
+        }
+        if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
+            debugmsg("bash result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
+        }
+    }
+}
+
+void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, bool is_terrain)
+{
+    if (!mbi.can_do) {
+        return;
+    }
+    for(size_t i = 0; i < mbi.items.size(); i++) {
+        const std::string &it = mbi.items[i].itemtype;
+        if (!item_controller->has_template(it)) {
+            debugmsg("%s: deconstruct result item %s does not exist", id.c_str(), it.c_str());
+        }
+    }
+    if (is_terrain && mbi.ter_set.empty()) {
+        debugmsg("deconstruct result terrain of %s is undefined/empty", id.c_str());
+    }
+    if (!mbi.ter_set.empty() && termap.count(mbi.ter_set) == 0) {
+        debugmsg("deconstruct result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
+    }
+    if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
+        debugmsg("deconstruct result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
+    }
+}
+
+void check_furniture_and_terrain()
+{
+    for(std::vector<furn_t>::const_iterator a = furnlist.begin(); a != furnlist.end(); ++a) {
+        const furn_t &f = *a;
+        check_bash_items(f.bash, f.id, false);
+        check_decon_items(f.deconstruct, f.id, false);
+    }
+    for(std::vector<ter_t>::const_iterator a = terlist.begin(); a != terlist.end(); ++a) {
+        const ter_t &t = *a;
+        check_bash_items(t.bash, t.id, true);
+        check_decon_items(t.deconstruct, t.id, true);
+    }
+}

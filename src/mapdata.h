@@ -646,5 +646,7 @@ old_f_plant_seed, old_f_plant_seedling, old_f_plant_mature, old_f_plant_harvest,
 old_num_furniture_types
 };
 
+// consistency checking of terlist & furnlist.
+void check_furniture_and_terrain();
 
 #endif
