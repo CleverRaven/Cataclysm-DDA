@@ -45,7 +45,7 @@ end
 
 -- define load_definition handlers
 local load_definition = {}
-local item_types = { "BOOK", "TOOL", "GUN", "GUNMOD", "TOOL_ARMOR", "ARMOR", "BIONIC_ITEM", "GENERIC", "AMMO", "CONTAINER", "COMESTIBLE" }
+local item_types = { "BOOK", "TOOL", "GUN", "GUNMOD", "TOOL_ARMOR", "ARMOR", "BIONIC_ITEM", "GENERIC", "AMMO", "CONTAINER", "COMESTIBLE", "VAR_VEH_PART" }
 for _, item_type in ipairs(item_types) do
     load_definition[item_type] = load_item_definition
 end
@@ -82,6 +82,13 @@ verify_handler.recipe = function(entry, filename)
     for _, alternatives in ipairs(entry.components) do
         for _, item in ipairs(alternatives) do
             ensure_definition(item[1], filename, entry.result)
+        end
+    end
+    if entry.tools then
+        for _, alternatives in ipairs(entry.tools) do
+            for _, item in ipairs(alternatives) do
+                ensure_definition(item[1], filename, entry.result)
+            end
         end
     end
 end
@@ -136,6 +143,13 @@ end
 
 -- first load all item definitions
 load_all_jsons(load_definition)
+
+-- some hardcoded item definitions
+definitions["cvd_machine"] = true
+definitions["corpse"] = true
+definitions["apparatus"] = true
+definitions["toolset"] = true
+definitions["fire"] = true
 
 -- then verify recipes
 load_all_jsons(verify_handler)
