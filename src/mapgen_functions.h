@@ -59,8 +59,15 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
 void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_rail_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_rail_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_rail_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_rail_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_rail_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_rail_and_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_bridge_rail(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
