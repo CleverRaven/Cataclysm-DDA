@@ -407,7 +407,7 @@
     },{
         "type" : "furniture",
         "id" : "f_lane",
-        "name": "lane gaurd",
+        "name": "lane guard",
         "symbol": "#",
         "color": "brown",
         "move_cost_mod": 1,
