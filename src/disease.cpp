@@ -312,8 +312,18 @@ void dis_effect(player &p, disease &dis)
     int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
-    bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100)) ||
-                                (p.has_trait("POISRESIST") && one_in(500));
+    int BMB = 0; // Body Mass Bonus
+    if (p.has_trait("FAT")) {
+        BMB += 25;
+    }
+    if (p.has_trait("LARGE") || p.has_trait("LARGE_OK")) {
+        BMB += 100;
+    }
+    if (p.has_trait("HUGE") || p.has_trait("HUGE_OK")) {
+        BMB += 200;
+    }
+    bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100 + BMB)) ||
+                                (p.has_trait("POISRESIST") && one_in(500 + BMB));
     switch(disType) {
         case DI_COLD:
             switch(dis.bp) {

@@ -1362,7 +1362,7 @@
         "prereqs" : ["NAILS"],
         "changes_to" : ["CLAWS_RETRACT"],
         "cancels" : ["TALONS"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_RAPTOR", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "CLAWS_RETRACT",
@@ -1882,6 +1882,7 @@
         "description" : "You've developed the ability to stockpile calories and then sleep for extended periods of time.",
         "valid" : false,
         "prereqs" : ["HEAVYSLEEPER2"],
+        "prereqs2" : ["FAT"],
         "threshreq" : ["THRESH_URSINE"],
         "category" : ["MUTCAT_URSINE"]
     },{
@@ -2169,6 +2170,17 @@
         "ugliness" : 1,
         "description" : "You have a set of prominent rodent-like whiskers around your mouth. These make you more aware of vibrations in the air, and improve your ability to dodge very slightly.",
         "category" : ["MUTCAT_RAT", "MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
+        "id" : "FAT",
+        "name" : "Fat Deposits",
+        "points" : 1,
+        "visibility" : 1,
+        "ugliness" : 1,
+        "description" : "You've put on some additional weight around your body.  It slows you down a little, but helps your swimming and warmth.",
+        "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
+        "leads_to" : ["HIBERNATE"],
+        "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "LARGE",

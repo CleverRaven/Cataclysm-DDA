@@ -286,10 +286,9 @@ void player::mutate_towards(std::string mut)
     }
 
     // No crossing The Threshold by simply not having it
-    // Reroll mutation, uncategorized (prevents looping)
+    // Rerolling proved more trouble than it was worth, so deleted
     if (!has_threshreq && !threshreq.empty()) {
         g->add_msg(_("You feel something straining deep inside you, yearning to be free..."));
-        mutate();
         return;
     }
 
