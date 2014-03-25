@@ -849,6 +849,12 @@ void CheckMessages()
     }
 }
 
+// Check if text ends with suffix
+static bool ends_with(const std::string &text, const std::string &suffix) {
+    return text.length() >= suffix.length() &&
+        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
+}
+
 //***********************************
 //Psuedo-Curses Functions           *
 //***********************************
@@ -905,7 +911,7 @@ static void font_folder_list(std::ofstream& fout, std::string path)
 
                 // Add font style
                 char *style = TTF_FontFaceStyleName(fnt);
-                bool isbitmap = (strcasecmp(".fon", f.substr(f.length() - 4).c_str()) == 0 );
+                bool isbitmap = ends_with(f, ".fon");
                 if (style != NULL && !isbitmap && strcasecmp(style, "Regular") != 0) {
                     fout << " " << style;
                 }
@@ -932,7 +938,6 @@ static void save_font_list()
 {
     std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
 
-//    font_folder_list(fout, FILENAMES["datadir"]);
     font_folder_list(fout, FILENAMES["fontdir"]);
 
 #if (defined _WIN32 || defined WINDOWS)
@@ -1027,12 +1032,6 @@ static int test_face_size(std::string f, int size, int faceIndex)
     }
 
     return faceIndex;
-}
-
-// Check if text ends with suffix
-bool ends_with(const std::string &text, const std::string &suffix) {
-    return text.length() >= suffix.length() &&
-        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
 }
 
 // Calculates the new width of the window, given the number of columns.
