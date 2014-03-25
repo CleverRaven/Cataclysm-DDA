@@ -1165,8 +1165,20 @@
         "ugliness" : 3,
         "description" : "Thick black fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR"],
+        "changes_to" : ["URSINE_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER", "MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
+        "id" : "URSINE_FUR",
+        "name" : "Shaggy Fur",
+        "points" : 4,
+        "visibility" : 10,
+        "ugliness" : 3,
+        "description" : "Your thick fur has grown out, providing noticeable protection from attacks in addition to its considerable insulation.",
+        "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR"],
+        "prereqs" : ["FUR"],
+        "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "LUPINE_FUR",

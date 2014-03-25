@@ -1034,8 +1034,8 @@ void player::update_bodytemp()
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
         }
-        // Furry or Lupine Fur
-        if (has_trait("FUR") || has_trait("LUPINE_FUR"))
+        // Furry or Lupine/Ursine Fur
+        if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR"))
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
         }
@@ -5856,6 +5856,11 @@ void player::drench(int saturation, int flags)
             dur /= 5;
             d_start /= 5;
         }
+        // Shaggy fur holds water longer.  :-/
+        if (has_trait("URSINE_FUR")) {
+            dur /= 3;
+            d_start /= 3;
+        }
     } else {
         if (has_trait("SLIMY")) {
             dur *= 1.2;
@@ -9357,26 +9362,39 @@ int player::get_armor_bash_base(body_part bp)
   if (armor->covers & mfb(bp))
    ret += worn[i].bash_resist();
  }
- if (has_bionic("bio_carbon"))
-  ret += 2;
- if (bp == bp_head && has_bionic("bio_armor_head"))
-  ret += 3;
- else if (bp == bp_arms && has_bionic("bio_armor_arms"))
-  ret += 3;
- else if (bp == bp_torso && has_bionic("bio_armor_torso"))
-  ret += 3;
- else if (bp == bp_legs && has_bionic("bio_armor_legs"))
-  ret += 3;
-  else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
-  ret += 3;
- if (has_trait("FUR") || has_trait("LUPINE_FUR"))
-  ret++;
- if (bp == bp_head && has_trait("LYNX_FUR"))
-  ret++;
- if (has_trait("CHITIN"))
-  ret += 2;
- if (has_trait("SHELL") && bp == bp_torso)
-  ret += 6;
+ if (has_bionic("bio_carbon")) {
+    ret += 2;
+ }
+ if (bp == bp_head && has_bionic("bio_armor_head")) {
+    ret += 3;
+ }
+ if (bp == bp_arms && has_bionic("bio_armor_arms")) {
+    ret += 3;
+ }
+ if (bp == bp_torso && has_bionic("bio_armor_torso")) {
+    ret += 3;
+ }
+ if (bp == bp_legs && has_bionic("bio_armor_legs")) {
+    ret += 3;
+ }
+ if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
+    ret += 3;
+ }
+ if (has_trait("FUR") || has_trait("LUPINE_FUR")) {
+    ret++;
+ }
+ if (bp == bp_head && has_trait("LYNX_FUR")) {
+    ret++;
+ }
+ if (has_trait("URSINE_FUR")) {
+    ret += 2;
+ }
+ if (has_trait("CHITIN")) {
+    ret += 2;
+ }
+ if (has_trait("SHELL") && bp == bp_torso) {
+    ret += 6;
+ }
  ret += rng(0, disease_intensity("armor_boost"));
  return ret;
 }
@@ -9708,6 +9726,10 @@ void player::absorb(body_part bp, int &dam, int &cut)
     }
     if (bp == bp_head && has_trait("LYNX_FUR")) {
         dam--;
+    }
+    if has_trait("URSINE_FUR") {
+        dam --;
+        cut --;
     }
     if (has_trait("CHITIN")) {
         cut -= 2;
