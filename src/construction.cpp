@@ -623,9 +623,10 @@ bool construct::check_support(point p)
 
 bool construct::check_deconstruct(point p)
 {
-    if (g->m.has_furn(p.x, p.y) && g->m.furn_at(p.x, p.y).deconstruct.can_do) {
-        return true;
+    if (g->m.has_furn(p.x, p.y)) {
+        return g->m.furn_at(p.x, p.y).deconstruct.can_do;
     }
+    // terrain can only be deconstructed when there is no furniture in the way
     return g->m.ter_at(p.x, p.y).deconstruct.can_do;
 }
 
@@ -693,35 +694,28 @@ void construct::done_vehicle(point p)
 
 void construct::done_deconstruct(point p)
 {
-    map_deconstruct_info *decon = NULL;
     if (g->m.has_furn(p.x, p.y)) {
         furn_t &f = g->m.furn_at(p.x, p.y);
-        if (f.deconstruct.can_do) {
-            decon = &f.deconstruct;
-            if (decon->furn_set.empty()) {
-                g->m.furn_set(p.x, p.y, f_null);
-            } else {
-                g->m.furn_set(p.x, p.y, decon->furn_set);
-            }
-            g->add_msg(_("You disassemble the %s."), f.name.c_str());
+        if (!f.deconstruct.can_do) {
+            g->add_msg(_("That %s can not be disassembled!"), f.name.c_str());
+            return;
         }
+        if (f.deconstruct.furn_set.empty()) {
+            g->m.furn_set(p.x, p.y, f_null);
+        } else {
+            g->m.furn_set(p.x, p.y, f.deconstruct.furn_set);
+        }
+        g->add_msg(_("You disassemble the %s."), f.name.c_str());
+        g->m.spawn_item_list(f.deconstruct.items, p.x, p.y);
     } else {
         ter_t &t = g->m.ter_at(p.x, p.y);
-        if (t.deconstruct.can_do) {
-            decon = &t.deconstruct;
-            g->m.ter_set(p.x, p.y, decon->ter_set);
-            g->add_msg(_("You disassemble the %s."), t.name.c_str());
+        if (!t.deconstruct.can_do) {
+            g->add_msg(_("That %s can not be disassembled!"), t.name.c_str());
+            return;
         }
-    }
-    if (decon != NULL) {
-        g->m.spawn_item_list(decon->items, p.x, p.y);
-        return;
-    }
-
-    if (g->m.has_furn(p.x, p.y)) {
-        g->add_msg(_("You have to push away %s first."), g->m.furnname(p.x, p.y).c_str());
-    } else {
-        g->add_msg(_("You disassemble the %s."), g->m.tername(p.x, p.y).c_str());
+        g->m.ter_set(p.x, p.y, t.deconstruct.ter_set);
+        g->add_msg(_("You disassemble the %s."), t.name.c_str());
+        g->m.spawn_item_list(t.deconstruct.items, p.x, p.y);
     }
 }
 
