@@ -351,8 +351,8 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     const bool train_skill = weapon_dispersion < player_dispersion - rng(0, get_per());
     if( train_skill ) {
         practice(g->turn, skill_used, 4 + (num_shots / 2));
-    } else if( one_in(50) ) {
-        g->add_msg_if_player(this,_("You can't get any better shooting such a crappy gun."));
+    } else if( one_in(30) ) {
+        g->add_msg_if_player(this,_("You'll need a more accurate gun to keep improving your aim."));
     }
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
