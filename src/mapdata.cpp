@@ -422,6 +422,8 @@ ter_id t_null,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
      t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
+    // Railroad
+    t_railroad_track, t_buffer_stop_h, t_buffer_stop_v, t_railroad_tie_h, t_railroad_tie_v, t_railroad_tie_d1, t_railroad_tie_d2,
     num_terrain_types;
 
 void set_ter_ids() {
