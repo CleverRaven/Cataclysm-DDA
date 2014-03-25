@@ -233,6 +233,7 @@ void map::generate_lightmap()
             }
         }
     }
+    last_light_signal_turn = g->turn;
 }
 
 void map::add_light_source(int x, int y, float luminance )
