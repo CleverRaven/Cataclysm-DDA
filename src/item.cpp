@@ -2467,7 +2467,7 @@ bool item::is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const
         return true;
     }
     for (size_t i = 0; i < contents.size(); i++) {
-        if (contents[i].ammo_type() == ammo_type_id) {
+        if (contents[i].is_of_ammo_type_or_contains_it(ammo_type_id)) {
             return true;
         }
     }
