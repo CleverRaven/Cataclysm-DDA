@@ -21,6 +21,7 @@ struct construct // Construction functions.
     bool check_nothing(point) { return true; }
     bool check_empty(point); // tile is empty
     bool check_support(point); // at least two orthogonal supports
+    bool check_deconstruct(point); // either terrain or furniture must be deconstructable
 
     // Special actions to be run post-terrain-mod
     void done_nothing(point) {}
@@ -620,6 +621,14 @@ bool construct::check_support(point p)
     return num_supports >= 2;
 }
 
+bool construct::check_deconstruct(point p)
+{
+    if (g->m.has_furn(p.x, p.y) && g->m.furn_at(p.x, p.y).deconstruct.can_do) {
+        return true;
+    }
+    return g->m.ter_at(p.x, p.y).deconstruct.can_do;
+}
+
 void construct::done_tree(point p)
 {
     mvprintz(0, 0, c_red, _("Press a direction for the tree to fall in:"));
@@ -1178,8 +1187,12 @@ void load_construction(JsonObject &jo)
         con->pre_special = &construct::check_empty;
     } else if (prefunc == "check_support") {
         con->pre_special = &construct::check_support;
+    } else if (prefunc == "check_deconstruct") {
+        con->pre_special = &construct::check_deconstruct;
     } else {
-        // should probably print warning if not ""
+        if (prefunc != "") {
+            debugmsg("Unknown pre_special function: %s", prefunc.c_str());
+        }
         con->pre_special = &construct::check_nothing;
     }
 
@@ -1197,7 +1210,9 @@ void load_construction(JsonObject &jo)
     } else if (postfunc == "done_dig_stair") {
         con->post_special = &construct::done_dig_stair;
     } else {
-        // ditto, should probably warn here
+        if (postfunc != "") {
+            debugmsg("Unknown post_special function: %s", postfunc.c_str());
+        }
         con->post_special = &construct::done_nothing;
     }
 

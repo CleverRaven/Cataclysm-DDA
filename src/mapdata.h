@@ -101,7 +101,6 @@ struct map_deconstruct_info {
  * THIN_OBSTACLE - Passable by players and monsters, vehicles destroy it
  * COLLAPSES - Has a roof that can collapse
  * FLAMMABLE_ASH - Burns to ash rather than rubble.
- * DECONSTRUCT - Can be deconstructed
  * REDUCE_SCENT - Reduces scent even more, only works if also bashable
  * FIRE_CONTAINER - Stops fire from spreading (brazier, wood stove, etc)
  * SUPPRESS_SMOKE - Prevents smoke from fires, used by ventilated wood stoves etc
