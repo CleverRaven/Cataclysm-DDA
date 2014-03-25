@@ -951,7 +951,7 @@ void dis_effect(player &p, disease &dis)
             break;
 
         case DI_TAPEWORM:
-            if (p.has_trait("PARAIMMUNE")) {
+            if (p.has_trait("PARAIMMUNE") || p.has_trait("EATHEALTH")) {
                p.rem_disease("tapeworm");
             } else {
                 if(one_in(512)) {
