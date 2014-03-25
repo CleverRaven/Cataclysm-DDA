@@ -5,7 +5,8 @@ then
 cd ..
 else
 if (ls Cataclysm-DDA)
-then;
+then
+echo "Cataclysm-DDA already exists"
 else
 git clone https://github.com/CleverRaven/Cataclysm-DDA
 fi
@@ -17,7 +18,8 @@ make
 cd ..
 
 if (ls dgamelaunch)
-then;
+then
+echo "dgamelaunch already exists"
 else
 git clone https://github.com/C0DEHERO/dgamelaunch
 fi
