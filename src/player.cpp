@@ -1034,8 +1034,8 @@ void player::update_bodytemp()
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
         }
-        // Furry or Lupine Fur
-        if (has_trait("FUR") || has_trait("LUPINE_FUR"))
+        // Furry or Lupine/Ursine Fur
+        if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR"))
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
         }
@@ -1049,6 +1049,11 @@ void player::update_bodytemp()
         if (has_trait("DOWN"))
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 300 : 800);
+        }
+        // Fat deposits don't hold in much heat, but don't shift for temp
+        if (has_trait("DOWN"))
+        {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 200 : 200);
         }
         // Disintegration
         if (has_trait("ROT1")) { temp_conv[i] -= 250;}
@@ -1392,6 +1397,9 @@ int player::run_cost(int base_cost, bool diag)
     if (has_trait("LEG_TENTACLES")) {
         movecost += 20;
     }
+    if (has_trait("FAT")) {
+        movecost *= 1.05f;
+    }
     if (has_trait("PONDEROUS1")) {
         movecost *= 1.1f;
     }
@@ -1424,18 +1432,27 @@ int player::run_cost(int base_cost, bool diag)
 int player::swim_speed()
 {
   int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
- if (has_trait("PAWS"))
-  ret -= 15 + str_cur * 4;
- if (is_wearing("swim_fins"))
-  ret -= (10 * str_cur) * 1.5;
- if (has_trait("WEBBED"))
-  ret -= 60 + str_cur * 5;
- if (has_trait("TAIL_FIN"))
-  ret -= 100 + str_cur * 10;
- if (has_trait("SLEEK_SCALES"))
-  ret -= 100;
- if (has_trait("LEG_TENTACLES"))
-  ret -= 60;
+  if (has_trait("PAWS")) {
+      ret -= 15 + str_cur * 4;
+  }
+  if (is_wearing("swim_fins")) {
+      ret -= (10 * str_cur) * 1.5;
+  }
+  if (has_trait("WEBBED")) {
+      ret -= 60 + str_cur * 5;
+  }
+  if (has_trait("TAIL_FIN")) {
+      ret -= 100 + str_cur * 10;
+  }
+  if (has_trait("SLEEK_SCALES")) {
+      ret -= 100;
+  }
+  if (has_trait("LEG_TENTACLES")) {
+      ret -= 60;
+  }
+  if (has_trait("FAT")) {
+      ret -= 30;
+  }
  ret += (50 - skillLevel("swimming") * 2) * encumb(bp_legs);
  ret += (80 - skillLevel("swimming") * 3) * encumb(bp_torso);
  if (skillLevel("swimming") < 10) {
@@ -5105,6 +5122,16 @@ void player::process_effects() {
                 mod_str_bonus(-2);
                 mod_per_bonus(-1);
             }
+            // Increased body mass means poison's less effective
+            if (has_trait("FAT")) {
+                psnChance *= 1.5;
+            }
+            if (has_trait("LARGE") || has_trait("LARGE_OK")) {
+                psnChance *= 2;
+            }
+            if (has_trait("HUGE") || has_trait("HUGE_OK")) {
+                psnChance *= 3;
+            }
             if ((one_in(psnChance)) && (!(has_trait("NOPAIN")))) {
                 g->add_msg_if_player(this,_("You're suddenly wracked with pain!"));
                 mod_pain(1);
@@ -5855,6 +5882,11 @@ void player::drench(int saturation, int flags)
         if (has_trait("LIGHTFUR") || has_trait("FUR") || has_trait("FELINE_FUR") || has_trait("LUPINE_FUR")) {
             dur /= 5;
             d_start /= 5;
+        }
+        // Shaggy fur holds water longer.  :-/
+        if (has_trait("URSINE_FUR")) {
+            dur /= 3;
+            d_start /= 3;
         }
     } else {
         if (has_trait("SLIMY")) {
@@ -7475,8 +7507,9 @@ bool player::eat(item *eaten, it_comest *comest)
                 return false;
             }
         } else {
-            if ( ( comest->quench > 0 && temp_thirst < capacity ) && ( (!(has_trait("EATHEALTH"))) ||
-            (!(has_trait("SLIMESPAWNER"))) ) ) {
+            if ( (( comest->nutr > 0 && temp_hunger < capacity ) ||
+              ( comest->quench > 0 && temp_thirst < capacity )) &&
+              ( (!(has_trait("EATHEALTH"))) || (!(has_trait("SLIMESPAWNER"))) ) ) {
                 if (!query_yn(_("You will not be able to finish it all. Consume it?"))) {
                 return false;
                 }
@@ -9357,26 +9390,39 @@ int player::get_armor_bash_base(body_part bp)
   if (armor->covers & mfb(bp))
    ret += worn[i].bash_resist();
  }
- if (has_bionic("bio_carbon"))
-  ret += 2;
- if (bp == bp_head && has_bionic("bio_armor_head"))
-  ret += 3;
- else if (bp == bp_arms && has_bionic("bio_armor_arms"))
-  ret += 3;
- else if (bp == bp_torso && has_bionic("bio_armor_torso"))
-  ret += 3;
- else if (bp == bp_legs && has_bionic("bio_armor_legs"))
-  ret += 3;
-  else if (bp == bp_eyes && has_bionic("bio_armor_eyes"))
-  ret += 3;
- if (has_trait("FUR") || has_trait("LUPINE_FUR"))
-  ret++;
- if (bp == bp_head && has_trait("LYNX_FUR"))
-  ret++;
- if (has_trait("CHITIN"))
-  ret += 2;
- if (has_trait("SHELL") && bp == bp_torso)
-  ret += 6;
+ if (has_bionic("bio_carbon")) {
+    ret += 2;
+ }
+ if (bp == bp_head && has_bionic("bio_armor_head")) {
+    ret += 3;
+ }
+ if (bp == bp_arms && has_bionic("bio_armor_arms")) {
+    ret += 3;
+ }
+ if (bp == bp_torso && has_bionic("bio_armor_torso")) {
+    ret += 3;
+ }
+ if (bp == bp_legs && has_bionic("bio_armor_legs")) {
+    ret += 3;
+ }
+ if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
+    ret += 3;
+ }
+ if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
+    ret++;
+ }
+ if (bp == bp_head && has_trait("LYNX_FUR")) {
+    ret++;
+ }
+ if (has_trait("FAT")) {
+    ret ++;
+ }
+ if (has_trait("CHITIN")) {
+    ret += 2;
+ }
+ if (has_trait("SHELL") && bp == bp_torso) {
+    ret += 6;
+ }
  ret += rng(0, disease_intensity("armor_boost"));
  return ret;
 }
@@ -9703,11 +9749,14 @@ void player::absorb(body_part bp, int &dam, int &cut)
     if (bp == bp_arms && has_trait("ARM_FEATHERS")) {
         dam--;
     }
-    if (has_trait("FUR") || has_trait("LUPINE_FUR")) {
+    if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
         dam--;
     }
     if (bp == bp_head && has_trait("LYNX_FUR")) {
         dam--;
+    }
+    if (has_trait("FAT")) {
+        cut --;
     }
     if (has_trait("CHITIN")) {
         cut -= 2;
