@@ -225,6 +225,13 @@
         "symbol": "~",
         "color": "green",
         "move_cost": 6,
+        "deconstruct": {
+            "ter_set": "t_grass",
+            "items": [
+                { "item": "sheet_metal", "amount": 1 },
+                { "item": "pipe", "amount": 8, "minamount": 4 }
+            ]
+        },
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM"]
     },{
         "type" : "terrain",
@@ -595,9 +602,16 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM",
-            "SUPPORTS_ROOF", "BARRICADABLE_DOOR","DECONSTRUCT"
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
         ],
         "open": "t_door_o",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "amount": 4 },
+                { "item": "nail", "amount": 12, "minamount": 6 }
+            ]
+        },
         "bash": {
             "str_min": 10, "str_max": 40, "str_min_blocked": 15, "str_max_blocked": 50,
             "sound": "smash!",
@@ -635,8 +649,15 @@
         "move_cost": 2,
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
-            "FLAT", "BARRICADABLE_DOOR", "DECONSTRUCT"
+            "FLAT", "BARRICADABLE_DOOR"
         ],
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "amount": 4 },
+                { "item": "nail", "amount": 12, "minamount": 6 }
+            ]
+        },
         "close": "t_door_c"
     },{
         "type" : "terrain",
@@ -647,9 +668,16 @@
         "move_cost": 0,
         "flags": [
             "BASHABLE", "FLAMMABLE_ASH", "DOOR", "NOITEM",
-            "SUPPORTS_ROOF", "BARRICADABLE_DOOR", "DECONSTRUCT"
+            "SUPPORTS_ROOF", "BARRICADABLE_DOOR"
         ],
         "open": "t_rdoor_o",
+        "deconstruct": {
+            "ter_set": "t_door_c",
+            "items": [
+                { "item": "2x4", "amount": 24 },
+                { "item": "nail", "amount": 48, "minamount": 36 }
+            ]
+        },
         "bash": {
             "str_min": 20, "str_max": 50, "str_min_blocked": 30, "str_max_blocked": 60,
             "sound": "smash!",
@@ -687,8 +715,15 @@
         "move_cost": 2,
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT", "SUPPORTS_ROOF",
-            "FLAT", "BARRICADABLE_DOOR", "DECONSTRUCT"
+            "FLAT", "BARRICADABLE_DOOR"
         ],
+        "deconstruct": {
+            "ter_set": "t_door_c",
+            "items": [
+                { "item": "2x4", "amount": 24 },
+                { "item": "nail", "amount": 48, "minamount": 36 }
+            ]
+        },
         "close": "t_rdoor_c"
     },{
         "type" : "terrain",
@@ -963,8 +998,14 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
-            "DECONSTRUCT", "REDUCE_SCENT", "BARRICADABLE_WINDOW"
+            "REDUCE_SCENT", "BARRICADABLE_WINDOW"
         ],
+        "deconstruct": {
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "glass_sheet", "amount": 1 }
+            ]
+        },
         "bash": {
             "str_min": 1, "str_max": 6,
             "sound": "glass breaking!",
@@ -1002,10 +1043,20 @@
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
-            "DECONSTRUCT", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT"
+            "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT"
         ],
         "close": "t_curtains",
         "open": "t_window_open",
+        "deconstruct": {
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "stick", "amount": 1 },
+                { "item": "sheet", "amount": 2 },
+                { "item": "glass_sheet", "amount": 1 },
+                { "item": "nail", "amount": 4, "minamount": 3 },
+                { "item": "string_36", "amount": 1, "minamount": 0 }
+            ]
+        },
         "bash": {
             "str_min": 1, "str_max": 6,
             "sound": "glass breaking!",
@@ -1058,8 +1109,18 @@
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "DECONSTRUCT", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
+            "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
         "open": "t_window_domestic",
+        "deconstruct": {
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "stick", "amount": 1 },
+                { "item": "sheet", "amount": 2 },
+                { "item": "glass_sheet", "amount": 1 },
+                { "item": "nail", "amount": 4, "minamount": 3 },
+                { "item": "string_36", "amount": 1, "minamount": 0 }
+            ]
+        },
         "bash": {
             "str_min": 1, "str_max": 6,
             "sound": "glass breaking!",
@@ -1725,7 +1786,14 @@
         "symbol": "#",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "DECONSTRUCT"]
+        "deconstruct": {
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "amount": 4 },
+                { "item": "nail", "amount": 10, "minamount": 6 }
+            ]
+        },
+        "flags": ["TRANSPARENT"]
     },{
         "type" : "terrain",
         "id" : "t_slide",
@@ -1733,7 +1801,7 @@
         "symbol": "#",
         "color": "ltcyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "DECONSTRUCT", "MOUNTABLE"]
+        "flags": ["TRANSPARENT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_monkey_bars",
@@ -1741,7 +1809,13 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 4,
-        "flags": ["TRANSPARENT", "DECONSTRUCT", "MOUNTABLE"]
+        "deconstruct": {
+            "ter_set": "t_grass",
+            "items": [
+                { "item": "pipe", "amount": 12, "minamount": 6 }
+            ]
+        },
+        "flags": ["TRANSPARENT", "MOUNTABLE"]
     },{
         "type" : "terrain",
         "id" : "t_backboard",
@@ -1749,7 +1823,14 @@
         "symbol": "7",
         "color": "red",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "DECONSTRUCT", "WALL"]
+        "deconstruct": {
+            "ter_set": "t_pavement",
+            "items": [
+                { "item": "2x4", "amount": 4 },
+                { "item": "nail", "amount": 10, "minamount": 6 }
+            ]
+        },
+        "flags": ["TRANSPARENT", "WALL"]
     },{
         "type" : "terrain",
         "id" : "t_gas_pump",
@@ -1826,7 +1907,22 @@
         "symbol": "6",
         "color": "green",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "DECONSTRUCT", "NOITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM"],
+        "deconstruct": {
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "processor", "amount": 2, "minamount": 1 },
+                { "item": "RAM", "amount": 8, "minamount": 4 },
+                { "item": "cable", "amount": 6, "minamount": 4 },
+                { "item": "small_lcd_screen", "amount": 2, "minamount": 1 },
+                { "item": "e_scrap", "amount": 16, "minamount": 10 },
+                { "item": "circuit", "amount": 10, "minamount": 6 },
+                { "item": "power_supply", "amount": 4, "minamount": 2 },
+                { "item": "amplifier", "amount": 4, "minamount": 2 },
+                { "item": "plastic_chunk", "amount": 12, "minamount": 10 },
+                { "item": "scrap", "amount": 8, "minamount": 6 }
+            ]
+        },
         "bash": {
             "str_min": 6, "str_max": 80, "num_tests": 2,
             "sound": "crunch!",
@@ -1851,7 +1947,22 @@
         "symbol": "6",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "BASHABLE", "DECONSTRUCT", "INDOORS"],
+        "flags": ["TRANSPARENT", "NOITEM", "BASHABLE", "INDOORS"],
+        "deconstruct": {
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "processor", "amount": 2, "minamount": 1 },
+                { "item": "RAM", "amount": 8, "minamount": 4 },
+                { "item": "cable", "amount": 6, "minamount": 4 },
+                { "item": "small_lcd_screen", "amount": 2, "minamount": 1 },
+                { "item": "e_scrap", "amount": 16, "minamount": 10 },
+                { "item": "circuit", "amount": 10, "minamount": 6 },
+                { "item": "power_supply", "amount": 4, "minamount": 2 },
+                { "item": "amplifier", "amount": 4, "minamount": 2 },
+                { "item": "plastic_chunk", "amount": 12, "minamount": 10 },
+                { "item": "scrap", "amount": 8, "minamount": 6 }
+            ]
+        },
         "bash": {
             "str_min": 6, "str_max": 80, "num_tests": 2,
             "sound": "crunch!",
@@ -1877,7 +1988,22 @@
         "symbol": "6",
         "color": "blue",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "BASHABLE", "DECONSTRUCT", "INDOORS"],
+        "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "BASHABLE", "INDOORS"],
+        "deconstruct": {
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "processor", "amount": 2, "minamount": 1 },
+                { "item": "RAM", "amount": 8, "minamount": 4 },
+                { "item": "cable", "amount": 6, "minamount": 4 },
+                { "item": "small_lcd_screen", "amount": 2, "minamount": 1 },
+                { "item": "e_scrap", "amount": 16, "minamount": 10 },
+                { "item": "circuit", "amount": 10, "minamount": 6 },
+                { "item": "power_supply", "amount": 4, "minamount": 2 },
+                { "item": "amplifier", "amount": 4, "minamount": 2 },
+                { "item": "plastic_chunk", "amount": 12, "minamount": 10 },
+                { "item": "scrap", "amount": 8, "minamount": 6 }
+            ]
+        },
         "bash": {
             "str_min": 8, "str_max": 80, "num_tests": 2,
             "sound": "crunch!",
@@ -1982,7 +2108,7 @@
         "symbol": "&",
         "color": "cyan",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "BASHABLE", "DECONSTRUCT", "NOITEM"],
+        "flags": ["TRANSPARENT", "BASHABLE", "NOITEM"],
         "bash": {
             "str_min": 6, "str_max": 80, "num_tests": 2,
             "sound": "crunch!",
@@ -2422,7 +2548,14 @@
         "symbol": "&",
         "color": "ltgray",
         "move_cost": 6,
-        "flags": ["TRANSPARENT", "BASHABLE", "DECONSTRUCT" ],
+        "flags": ["TRANSPARENT", "BASHABLE" ],
+        "deconstruct": {
+            "ter_set": "t_covered_well",
+            "items": [
+                { "item": "well_pump", "amount": 1 },
+                { "item": "pipe", "amount": 6, "minamount": 1 }
+            ]
+        },
         "bash": {
             "str_min": 15, "str_max": 80,
             "sound": "whack!",
