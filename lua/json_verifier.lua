@@ -37,6 +37,7 @@ function parse_cata_json(filename, handler)
 end
 
 local definitions = {}
+local material_definitions = {}
 function load_item_definition(entry, filename)
     -- store that this item was defined
     definitions[entry.id] = true
@@ -44,19 +45,19 @@ end
 
 -- define load_definition handlers
 local load_definition = {}
-load_definition.BOOK        = load_item_definition
-load_definition.TOOL        = load_item_definition
-load_definition.GUN         = load_item_definition
-load_definition.GUNMOD      = load_item_definition
-load_definition.TOOL_ARMOR  = load_item_definition
-load_definition.ARMOR       = load_item_definition
-load_definition.BIONIC_ITEM = load_item_definition
-load_definition.GENERIC     = load_item_definition
-load_definition.AMMO        = load_item_definition
-load_definition.CONTAINER   = load_item_definition
-load_definition.COMESTIBLE  = load_item_definition
+local item_types = { "BOOK", "TOOL", "GUN", "GUNMOD", "TOOL_ARMOR", "ARMOR", "BIONIC_ITEM", "GENERIC", "AMMO", "CONTAINER", "COMESTIBLE" }
+for _, item_type in ipairs(item_types) do
+    load_definition[item_type] = load_item_definition
+end
 
-local recipe_handler = {}
+-- load definition handler for materials
+function load_material_definition(entry, filename)
+    -- store that this material was defined
+    material_definitions[entry.ident] = true
+end
+load_definition.material = load_material_definition
+
+local verify_handler = {}
 
 function ensure_definition(id, filename, parent_id)
     if not definitions[id] then
@@ -67,7 +68,16 @@ function ensure_definition(id, filename, parent_id)
     end
 end
 
-recipe_handler.recipe = function(entry, filename)
+function ensure_material_definition(id, filename, parent_id)
+    if not material_definitions[id] then
+        -- signify that something went wrong
+        exit_code = 1
+
+        print("Trying to access non-existent material id ", id, " in ", filename, "(", parent_id, ")")
+    end
+end
+
+verify_handler.recipe = function(entry, filename)
     ensure_definition(entry.result, filename, entry.result)
     for _, alternatives in ipairs(entry.components) do
         for _, item in ipairs(alternatives) do
@@ -75,6 +85,29 @@ recipe_handler.recipe = function(entry, filename)
         end
     end
 end
+
+function verify_item_definition(entry, filename)
+    local materials
+    if not entry.material or entry.material == "" then
+        return
+    elseif type(entry.material) == "string" then
+        materials = { entry.material }
+    elseif type(entry.material == "table") then
+        materials = entry.material
+    else
+        exit_code = 1
+        print("Invalid material for ", entry.id, " in ", filename)
+    end
+
+    for _, material in ipairs(materials) do
+        ensure_material_definition(material, filename, entry.id)
+    end
+end
+
+for _, item_type in ipairs(item_types) do
+    verify_handler[item_type] = verify_item_definition
+end
+
 
 function string.endswith(mystr, myend)
    return myend=="" or string.sub(mystr,string.len(mystr)-string.len(myend)+1)==myend
@@ -105,6 +138,6 @@ end
 load_all_jsons(load_definition)
 
 -- then verify recipes
-load_all_jsons(recipe_handler)
+load_all_jsons(verify_handler)
 
 os.exit(exit_code)
