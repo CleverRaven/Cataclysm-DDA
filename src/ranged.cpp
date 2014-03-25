@@ -1094,13 +1094,49 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 
+/* Current dispersion ranges per skill.
+ * if these drift significantly might need to adjust the values here.
+ * Keep in mind these include factoring in the best/worst ammo and the best mods,
+ * but outliers like pipe guns and the self bow were ignored.
+ * pistol 6-30
+ * rifle 0-22
+ * smg 0-32
+ * shotgun 0-40
+ * launcher 2-10
+ * archery 10-50
+ * throwing 21 (sling)
+ * As a simple tweak, we're shifting the ranges so they match,
+ * so if you acquire the best of a weapon type you can reach max skill with it.
+ */
+int ranged_skill_offset( std::string skill ) {
+    if( skill == "pistol" ) {
+        return 10;
+    } else if( skill == "rifle" ) {
+        return 0;
+    } else if( skill == "smg" ) {
+        return 0;
+    } else if( skill == "shotgun" ) {
+        return 0;
+    } else if( skill == "launcher" ) {
+        return 2;
+    } else if( skill == "archery" ) {
+        return 10;
+    } else if( skill == "throwing" ) {
+        return 21;
+    }
+    return 0;
+}
+
 int skill_dispersion( player *p, item *weapon, bool random ) {
     int weapon_skill_level = 0;
+    std::string skill_used;
     if(weapon->is_gunmod()) {
       it_gunmod* firing = dynamic_cast<it_gunmod *>(weapon->type);
+      skill_used = firing->skill_used->ident();
       weapon_skill_level = p->skillLevel(firing->skill_used);
     } else {
       it_gun* firing = dynamic_cast<it_gun *>(weapon->type);
+      skill_used = firing->skill_used->ident();
       weapon_skill_level = p->skillLevel(firing->skill_used);
     }
     int dispersion = 0; // Measured in quarter-degrees.
@@ -1121,6 +1157,9 @@ int skill_dispersion( player *p, item *weapon, bool random ) {
         } else {
             dispersion += max_dispersion;
         }
+    }
+    if( !random ) {
+        dispersion += ranged_skill_offset( skill_used );
     }
     return dispersion;
 }
