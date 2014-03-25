@@ -7480,8 +7480,9 @@ bool player::eat(item *eaten, it_comest *comest)
                 return false;
             }
         } else {
-            if ( ( comest->quench > 0 && temp_thirst < capacity ) && ( (!(has_trait("EATHEALTH"))) ||
-            (!(has_trait("SLIMESPAWNER"))) ) ) {
+            if ( (( comest->nutr > 0 && temp_hunger < capacity ) ||
+              ( comest->quench > 0 && temp_thirst < capacity )) &&
+              ( (!(has_trait("EATHEALTH"))) || (!(has_trait("SLIMESPAWNER"))) ) ) {
                 if (!query_yn(_("You will not be able to finish it all. Consume it?"))) {
                 return false;
                 }
