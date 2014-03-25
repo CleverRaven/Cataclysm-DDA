@@ -11,11 +11,20 @@ function read_file(filename)
     return content
 end
 
+decode_cache = {}
+
 -- parse the JSON of an entire cataclysm file
 function parse_cata_json(filename, handler)
-    local content = read_file(filename)
+    local root, pos, err
+    if not decode_cache[filename] then
+        local content = read_file(filename)
 
-    local root, pos, err = json.decode(content, 1, nil)
+        root, pos, err = json.decode(content, 1, nil)
+        decode_cache[filename] = root
+    else
+        root = decode_cache[filename]
+    end
+
     if err then
         print("Error in ", filename ,":", err)
         os.exit(1)
