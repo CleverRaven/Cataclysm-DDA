@@ -684,6 +684,52 @@ void construct::done_vehicle(point p)
 
 void construct::done_deconstruct(point p)
 {
+    map_deconstruct_info *decon = NULL;
+    if (g->m.has_furn(p.x, p.y)) {
+        furn_t &f = g->m.furn_at(p.x, p.y);
+        if (f.deconstruct.can_do) {
+            decon = &f.deconstruct;
+            if (decon->furn_set.empty()) {
+                g->m.furn_set(p.x, p.y, f_null);
+            } else {
+                g->m.furn_set(p.x, p.y, decon->furn_set);
+            }
+            g->add_msg(_("You disassemble the %s."), f.name.c_str());
+        }
+    } else {
+        ter_t &t = g->m.ter_at(p.x, p.y);
+        if (t.deconstruct.can_do) {
+            decon = &t.deconstruct;
+            g->m.ter_set(p.x, p.y, decon->ter_set);
+            g->add_msg(_("You disassemble the %s."), t.name.c_str());
+        }
+    }
+    if (decon != NULL) {
+        for (int i = 0; i < decon->items.size(); i++) {
+            map_bash_item_drop &drop = decon->items[i];
+            int chance = drop.chance;
+            if ( chance == -1 || rng(0, 100) >= chance ) {
+                int numitems = drop.amount;
+
+                if ( drop.minamount != -1 ) {
+                    numitems = rng( drop.minamount, drop.amount );
+                }
+                if ( numitems > 0 ) {
+                    // spawn_item(x,y, drop.itemtype, numitems); // doesn't abstract amount || charges
+                    item new_item = item_controller->create(drop.itemtype, g->turn);
+                    if ( new_item.count_by_charges() ) {
+                        new_item.charges = numitems;
+                        numitems = 1;
+                    }
+                    for(int a = 0; a < numitems; a++ ) {
+                        g->m.add_item_or_charges(p.x, p.y, new_item);
+                    }
+                }
+            }
+        }
+        return;
+    }
+
     if (g->m.has_furn(p.x, p.y)) {
         std::string furn_here = g->m.get_furn(p.x, p.y);
         g->add_msg(_("You disassemble the %s."), g->m.furnname(p.x, p.y).c_str());

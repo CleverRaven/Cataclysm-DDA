@@ -163,6 +163,34 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
   }
 }
 
+bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
+{
+    if (!jsobj.has_object(member)) {
+        return false;
+    }
+    JsonObject j = jsobj.get_object(member);
+    jsonstring(j, "furn_set", furn_set );
+    if (!isfurniture) {
+        ter_set = j.get_string("ter_set");
+    }
+    can_do = true;
+
+    JsonArray ja = j.get_array("items");
+    while ( ja.has_more() ) {
+        JsonObject jio = ja.next_object();
+        if ( jio.has_int("minamount") ) {
+            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
+            jsonint(jio, "chance", drop.chance);
+            items.push_back(drop);
+        } else {
+            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
+            jsonint(jio, "chance", drop.chance);
+            items.push_back(drop);
+        }
+    }
+    return true;
+}
+
 furn_t null_furniture_t() {
   furn_t new_furniture;
   new_furniture.id = "f_null";
@@ -254,6 +282,7 @@ void load_furniture(JsonObject &jsobj)
       new_furniture.close = jsobj.get_string("close");
   }
   new_furniture.bash.load(jsobj, "bash", true);
+  new_furniture.deconstruct.load(jsobj, "deconstruct", true);
 
   new_furniture.loadid = furnlist.size();
   furnmap[new_furniture.id] = new_furniture;
@@ -318,6 +347,7 @@ void load_terrain(JsonObject &jsobj)
       new_terrain.close = jsobj.get_string("close");
   }
   new_terrain.bash.load(jsobj, "bash", false);
+  new_terrain.deconstruct.load(jsobj, "deconstruct", false);
   new_terrain.loadid=terlist.size();
   termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
