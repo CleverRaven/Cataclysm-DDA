@@ -705,28 +705,7 @@ void construct::done_deconstruct(point p)
         }
     }
     if (decon != NULL) {
-        for (int i = 0; i < decon->items.size(); i++) {
-            map_bash_item_drop &drop = decon->items[i];
-            int chance = drop.chance;
-            if ( chance == -1 || rng(0, 100) >= chance ) {
-                int numitems = drop.amount;
-
-                if ( drop.minamount != -1 ) {
-                    numitems = rng( drop.minamount, drop.amount );
-                }
-                if ( numitems > 0 ) {
-                    // spawn_item(x,y, drop.itemtype, numitems); // doesn't abstract amount || charges
-                    item new_item = item_controller->create(drop.itemtype, g->turn);
-                    if ( new_item.count_by_charges() ) {
-                        new_item.charges = numitems;
-                        numitems = 1;
-                    }
-                    for(int a = 0; a < numitems; a++ ) {
-                        g->m.add_item_or_charges(p.x, p.y, new_item);
-                    }
-                }
-            }
-        }
+        g->m.spawn_item_list(decon->items, p.x, p.y);
         return;
     }
 

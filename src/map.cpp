@@ -1548,7 +1548,6 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
             }
         }
         if ( success == true ) {
-            int bday=int(g->turn);
             sound += _(bash->sound.c_str());
             if ( jsfurn == true ) {
                 if ( !bash->furn_set.empty() ) {
@@ -1562,27 +1561,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
             } else if ( jster == true ) {
                 debugmsg("data/json/terrain.json does not have %s.bash.ter_set set!",ter_at(x,y).id.c_str());
             }
-            for (int i = 0; i < bash->items.size(); i++) {
-                int chance = bash->items[i].chance;
-                if ( chance == -1 || rng(0, 100) >= chance ) {
-                    int numitems = bash->items[i].amount;
-
-                    if ( bash->items[i].minamount != -1 ) {
-                        numitems = rng( bash->items[i].minamount, bash->items[i].amount );
-                    }
-                    if ( numitems > 0 ) {
-                        // spawn_item(x,y, bash->items[i].itemtype, numitems); // doesn't abstract amount || charges
-                        item new_item = item_controller->create(bash->items[i].itemtype, bday);
-                        if ( new_item.count_by_charges() ) {
-                            new_item.charges = numitems;
-                            numitems = 1;
-                        }
-                        for(int a = 0; a < numitems; a++ ) {
-                            add_item_or_charges(x, y, new_item);
-                        }
-                    }
-                }
-            }
+            spawn_item_list(bash->items, x, y);
             if (bash->explosive > 0) {
                 g->explosion(x, y, bash->explosive, 0, false);
             }
@@ -1648,6 +1627,31 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
         return true;
     }
     return smashed_web;// If we kick empty space, the action is cancelled
+}
+
+void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y) {
+    for (size_t i = 0; i < items.size(); i++) {
+        const map_bash_item_drop &drop = items[i];
+        int chance = drop.chance;
+        if ( chance == -1 || rng(0, 100) >= chance ) {
+            int numitems = drop.amount;
+
+            if ( drop.minamount != -1 ) {
+                numitems = rng( drop.minamount, drop.amount );
+            }
+            if ( numitems > 0 ) {
+                // spawn_item(x,y, drop.itemtype, numitems); // doesn't abstract amount || charges
+                item new_item = item_controller->create(drop.itemtype, g->turn);
+                if ( new_item.count_by_charges() ) {
+                    new_item.charges = numitems;
+                    numitems = 1;
+                }
+                for(int a = 0; a < numitems; a++ ) {
+                    add_item_or_charges(x, y, new_item);
+                }
+            }
+        }
+    }
 }
 
 // map::destroy is only called (?) if the terrain is NOT bashable.
