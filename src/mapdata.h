@@ -513,6 +513,9 @@ extern ter_id t_null,
     t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
     t_window_enhanced, t_window_enhanced_noglass,
     num_terrain_types;
+    // railroad
+    t_railroad_track, t_buffer_stop_h, t_buffer_stop_v, t_ra    ilroad_tie_h, t_railroad_tie_v, t_railroad_tie_d1, t_railroad_tie_d2,
+
 
 
 /*

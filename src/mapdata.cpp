@@ -639,6 +639,13 @@ void set_ter_ids() {
     t_switch_even=terfind("t_switch_even");
     t_covered_well=terfind("t_covered_well");
     t_water_pump=terfind("t_water_pump");
+    t_railroad_track=terfind("t_railroad_track");
+    t_buffer_stop_h=terfind("t_buffer_stop_h");
+    t_buffer_stop_v=terfind("t_buffer_stop_v");
+    t_railroad_tie_h=terfind("t_railroad_tie_h");
+    t_railroad_tie_v=terfind("t_railroad_tie_v");
+    t_railroad_tie_d1=terfind("t_railroad_tie_d1");
+    t_railroad_tie_d2=terfind("t_railroad_tie_d2");
     num_terrain_types = terlist.size();
 };
 

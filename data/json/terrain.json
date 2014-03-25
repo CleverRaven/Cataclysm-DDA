@@ -2567,5 +2567,83 @@
             ]
         },
         "examine_action": "water_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_railroad_track",
+        "name" : "railroad track",
+        "symbol" : "x",
+        "color" : "ltgray",
+        "move_cost" : 2,
+        "flags" : ["TRANSPARENT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_buffer_stop_h",
+        "name" : "buffer stop",
+        "symbol": "S",
+        "color" : "brown",
+        "move_cost" : 3,
+        "flags" : ["BASHABLE", "TRANSPARENT", "NOITEM", "MOUNTABLE"],
+        "bash": {
+            "str_min": 4, "str_max": 12,
+            "sound": "crack.",
+            "sound_fail": "whump.",
+            "ter_set": "t_railroad_tie_h",
+            "items": [
+                { "item": "2x4", "amount": 5, "minamount": 2},
+                { "item": "nail", "amount": 8, "minamount": 3},
+                { "item": "splinter", "amount": 2 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_buffer_stop_v",
+        "name" : "buffer stop",
+        "symbol": "S",
+        "color" : "brown",
+        "move_cost" : 3,
+        "flags" : ["BASHABLE", "TRANSPARENT", "NOITEM", "MOUNTABLE"],
+        "bash": {
+            "str_min": 4, "str_max": 12,
+            "sound": "crack.",
+            "sound_fail": "whump.",
+            "ter_set": "t_railroad_tie_v",
+            "items": [
+                { "item": "2x4", "amount": 5, "minamount": 2},
+                { "item": "nail", "amount": 8, "minamount": 3},
+                { "item": "splinter", "amount": 2}
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_railroad_tie_h",
+        "name" : "railroad tie",
+        "symbol" : "-",
+        "color" : "brown",
+        "move_cost" : 2,
+        "flags" : ["TRANSPARENT","FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_railroad_tie_v",
+        "name" : "railroad tie",
+        "symbol" : "|",
+        "color" : "brown",
+        "move_cost" : 2,
+        "flags" : ["TRANSPARENT","FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_railroad_tie_d1",
+        "name" : "railroad tie",
+        "symbol" : "/",
+        "color" : "brown",
+        "move_cost" : 2,
+        "flags" : ["TRANSPARENT","FLAT"]
+    },{
+        "type" : "terrain",
+        "id" : "t_railroad_tie_d2",
+        "name" : "railroad tie",
+        "symbol" : "\\",
+        "color" : "brown",
+        "move_cost" : 2,
+        "flags" : ["TRANSPARENT","FLAT"]
     }
 ]
