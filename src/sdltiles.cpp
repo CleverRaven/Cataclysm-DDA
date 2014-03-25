@@ -849,6 +849,12 @@ void CheckMessages()
     }
 }
 
+// Check if text ends with suffix
+static bool ends_with(const std::string &text, const std::string &suffix) {
+    return text.length() >= suffix.length() &&
+        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
+}
+
 //***********************************
 //Psuedo-Curses Functions           *
 //***********************************
@@ -878,46 +884,60 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 font_folder_list( fout, f );
                 continue;
             }
+
             TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
-            long nfaces = 0;
-            if(fnt != NULL) {
-                nfaces = TTF_FontFaces(fnt);
-                TTF_CloseFont(fnt);
-                fnt = NULL;
+            if (fnt == NULL) {
+                continue;
             }
+            long nfaces = 0;
+            nfaces = TTF_FontFaces(fnt);
+            TTF_CloseFont(fnt);
+            fnt = NULL;
+
             for(long i = 0; i < nfaces; i++) {
                 fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
-                if(fnt != NULL) {
-                    char *fami = TTF_FontFaceFamilyName(fnt);
-                    char *style = TTF_FontFaceStyleName(fnt);
-                    bool isbitmap = (0 == strcasecmp(".fon", f.substr(f.length() - 4).c_str()) );
-                    if(fami != NULL && (!isbitmap || i == 0) ) {
-                        fout << fami << std::endl;
-                        fout << f << std::endl;
-                        fout << i << std::endl;
-                    }
-                    if(fami != NULL && style != NULL && 0 != strcasecmp(style, "Regular")) {
-                        if(!isbitmap) {
-                            fout << fami << " " << style << std::endl;
-                            fout << f << std::endl;
-                            fout << i << std::endl;
-                        }
-                    }
+                if (fnt == NULL) {
+                    continue;
+                }
+
+                // Add font family
+                char *fami = TTF_FontFaceFamilyName(fnt);
+                if (fami != NULL) {
+                    fout << fami;
+                } else {
                     TTF_CloseFont(fnt);
-                    fnt = NULL;
+                    continue;
+                }
+
+                // Add font style
+                char *style = TTF_FontFaceStyleName(fnt);
+                bool isbitmap = ends_with(f, ".fon");
+                if (style != NULL && !isbitmap && strcasecmp(style, "Regular") != 0) {
+                    fout << " " << style;
+                }
+                fout << std::endl;
+
+                // Add filename and font index
+                fout << f << std::endl;
+                fout << i << std::endl;
+
+                TTF_CloseFont(fnt);
+                fnt = NULL;
+
+                // We use only 1 style in bitmap fonts.
+                if (isbitmap) {
+                    break;
                 }
             }
         }
         closedir (dir);
     }
-
 }
 
 static void save_font_list()
 {
     std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
 
-    font_folder_list(fout, FILENAMES["datadir"]);
     font_folder_list(fout, FILENAMES["fontdir"]);
 
 #if (defined _WIN32 || defined WINDOWS)
@@ -1012,12 +1032,6 @@ static int test_face_size(std::string f, int size, int faceIndex)
     }
 
     return faceIndex;
-}
-
-// Check if text ends with suffix
-bool ends_with(const std::string &text, const std::string &suffix) {
-    return text.length() >= suffix.length() &&
-        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
 }
 
 // Calculates the new width of the window, given the number of columns.
