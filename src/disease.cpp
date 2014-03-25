@@ -2116,13 +2116,13 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return _(
         "Increased thirst;   Frequent coughing\n"
         "Strength - 3;   Dexterity - 1;   Intelligence - 2;   Perception - 1\n"
-        "Symptoms alleviated by medication (Dayquil or Nyquil).");
+        "Symptoms alleviated by medication (cough syrup).");
 
     case DI_FLU:
         return _(
         "Increased thirst;   Frequent coughing;   Occasional vomiting\n"
         "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
-        "Symptoms alleviated by medication (Dayquil or Nyquil).");
+        "Symptoms alleviated by medication (cough syrup).");
 
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
