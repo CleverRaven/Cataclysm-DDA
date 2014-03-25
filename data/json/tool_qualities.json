@@ -2,70 +2,70 @@
     {
         "type" : "tool_quality",
         "id" : "CUT",
-        "name" : "cutting quality"
+        "name" : "cutting"
     },{
         "type" : "tool_quality",
         "id" : "HAMMER",
-        "name" : "hammering quality"
+        "name" : "hammering"
     },{
         "type" : "tool_quality",
         "id" : "HAMMER_G",
-        "name" : "gunsmithing (hammering) quality"
+        "name" : "gunsmithing (hammering)"
     },{
         "type" : "tool_quality",
         "id" : "SAW_W",
-        "name" : "wood sawing quality"
+        "name" : "wood sawing"
     },{
         "type" : "tool_quality",
         "id" : "SAW_M",
-        "name" : "metal sawing quality"
+        "name" : "metal sawing"
     },{
         "type" : "tool_quality",
         "id" : "SAW_M_G",
-        "name" : "gunsmithing (metal sawing) quality"
+        "name" : "gunsmithing (metal sawing)"
     },{
         "type" : "tool_quality",
         "id" : "COOK",
-        "name" : "food cooking quality"
+        "name" : "food cooking"
     },{
         "type" : "tool_quality",
         "id" : "BOIL",
-        "name" : "liquid boiling quality"
+        "name" : "liquid boiling"
     },{
         "type" : "tool_quality",
         "id" : "CONTAIN",
-        "name" : "containing quality"
+        "name" : "containing"
     },{
         "type" : "tool_quality",
         "id" : "CHEM",
-        "name" : "chemical making quality"
+        "name" : "chemical making"
     },{
         "type" : "tool_quality",
         "id" : "BREW",
-        "name" : "brewing quality"
+        "name" : "brewing"
     },{
         "type" : "tool_quality",
         "id" : "AXE",
-        "name" : "tree cutting quality"
+        "name" : "tree cutting"
     },{
         "type" : "tool_quality",
         "id" : "DIG",
-        "name" : "digging quality"
+        "name" : "digging"
     },{
         "type" : "tool_quality",
         "id" : "WRENCH",
-        "name" : "bolt screwing quality"
+        "name" : "bolt screwing"
     },{
         "type" : "tool_quality",
         "id" : "WRENCH_G",
-        "name" : "gunsmithing (bolt screwing) quality"
+        "name" : "gunsmithing (bolt screwing)"
     },{
         "type" : "tool_quality",
         "id" : "SCREW",
-        "name" : "screw screwing quality"
+        "name" : "screw screwing"
     },{
         "type" : "tool_quality",
         "id" : "SCREW_G",
-        "name" : "gunsmithing (screw screwing) quality"
+        "name" : "gunsmithing (screw screwing)"
     }
 ]

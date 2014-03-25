@@ -772,7 +772,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  if ( !type->qualities.empty()){
     for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
         quality != type->qualities.end(); ++quality){
-        dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has %s of level %d."),
+        dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has %s quality of level %d."),
                                  qualities[quality->first].name.c_str(), quality->second)));
     }
  }
