@@ -101,6 +101,21 @@ bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
     return false;
 }
 
+void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
+    while ( ja.has_more() ) {
+        JsonObject jio = ja.next_object();
+        if ( jio.has_int("minamount") ) {
+            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
+            jsonint(jio, "chance", drop.chance);
+            items.push_back(drop);
+        } else {
+            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
+            jsonint(jio, "chance", drop.chance);
+            items.push_back(drop);
+        }
+    }
+}
+
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
@@ -129,31 +144,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         }
 
         if ( j.has_array("items") ) {
-           JsonArray ja = j.get_array("items");
-           if (!ja.empty()) {
-               int c=0;
-               while ( ja.has_more() ) {
-                   if ( ja.has_object(c) ) {
-                       JsonObject jio = ja.next_object();
-                       if ( jio.has_string("item") && jio.has_int("amount") ) {
-                           if ( jio.has_int("minamount") ) {
-                               map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
-                               jsonint(jio, "chance", drop.chance);
-                               items.push_back(drop);
-                           } else {
-                               map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
-                               jsonint(jio, "chance", drop.chance);
-                               items.push_back(drop);
-                           }
-                       } else {
-                           debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
-                       }
-                   } else {
-                       debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
-                   }
-                   c++;
-               }
-           }
+            load_map_bash_item_drop_list(j.get_array("items"), items);
         }
 
 //debugmsg("%d/%d %s %s/%s %d",str_min,str_max, ter_set.c_str(), sound.c_str(), sound_fail.c_str(), items.size() );
@@ -175,19 +166,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
     }
     can_do = true;
 
-    JsonArray ja = j.get_array("items");
-    while ( ja.has_more() ) {
-        JsonObject jio = ja.next_object();
-        if ( jio.has_int("minamount") ) {
-            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
-            jsonint(jio, "chance", drop.chance);
-            items.push_back(drop);
-        } else {
-            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
-            jsonint(jio, "chance", drop.chance);
-            items.push_back(drop);
-        }
-    }
+    load_map_bash_item_drop_list(j.get_array("items"), items);
     return true;
 }
 
