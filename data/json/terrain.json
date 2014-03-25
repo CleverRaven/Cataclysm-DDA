@@ -225,13 +225,6 @@
         "symbol": "~",
         "color": "green",
         "move_cost": 6,
-        "deconstruct": {
-            "ter_set": "t_grass",
-            "items": [
-                { "item": "sheet_metal", "amount": 1 },
-                { "item": "pipe", "amount": 8, "minamount": 4 }
-            ]
-        },
         "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM"]
     },{
         "type" : "terrain",
@@ -1801,6 +1794,13 @@
         "symbol": "#",
         "color": "ltcyan",
         "move_cost": 4,
+        "deconstruct": {
+            "ter_set": "t_grass",
+            "items": [
+                { "item": "sheet_metal", "amount": 1 },
+                { "item": "pipe", "amount": 8, "minamount": 4 }
+            ]
+        },
         "flags": ["TRANSPARENT", "MOUNTABLE"]
     },{
         "type" : "terrain",
