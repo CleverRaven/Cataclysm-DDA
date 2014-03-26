@@ -1279,7 +1279,7 @@
         "type" : "profession",
         "ident" : "hitchhiker",
         "name" : "Hitchhiker",
-        "description" : "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
+        "description": "Your house has been demolished and your planet destroyed, but at least you still have your towel.",
         "points" : -1,
         "items" : {
             "both": [
