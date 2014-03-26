@@ -3102,7 +3102,7 @@ bool game::handle_action()
    break;
 
   case ACTION_DEBUG:
-   if(MAP_SHARING::isSharing())
+   if(MAP_SHARING::isCompetitive() && MAP_SHARING::getUsername() != "admin")
        break; //don't do anything when sharing
    debug();
    refresh_all();
@@ -3117,13 +3117,13 @@ bool game::handle_action()
    break;
 
   case ACTION_DISPLAY_SCENT:
-   if(MAP_SHARING::isSharing())
+   if(MAP_SHARING::isCompetitive() && MAP_SHARING::getUsername() != "admin")
        break; //don't do anything when sharing
    display_scent();
    break;
 
   case ACTION_TOGGLE_DEBUGMON:
-   if(MAP_SHARING::isSharing())
+   if(MAP_SHARING::isCompetitive() && MAP_SHARING::getUsername() != "admin")
        break; //don't do anything when sharing
    debugmon = !debugmon;
    if (debugmon) {
@@ -3540,9 +3540,23 @@ bool game::save_factions_missions_npcs ()
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
 
+    int masterfilelock = -1;
+
+    if(MAP_SHARING::isSharing()) {
+        masterfilelock = MAP_SHARING::getLock( (masterfile + ".lock").c_str() );
+        if(masterfilelock != -1) {
+                fout.open(masterfile.c_str());
+        } else {
+            return true; // I don't know what the game would do if this would be false, but I'm sure it'll ignore a true value.
+        }
+    } else {
     fout.open(masterfile.c_str());
+    }
     serialize_master(fout);
     fout.close();
+    if(MAP_SHARING::isSharing()) {
+        MAP_SHARING::releaseLock(masterfilelock, (masterfile + ".lock").c_str() );
+    }
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save factions to %s"), masterfile.c_str());
@@ -3552,11 +3566,21 @@ bool game::save_factions_missions_npcs ()
 
 bool game::save_artifacts()
 {
+    int artifactlock = -1;
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
     try {
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
+    if(MAP_SHARING::isSharing()) {
+        artifactlock = MAP_SHARING::getLock( (artfilename + ".lock").c_str() );
+        if(artifactlock != -1) {
+            fout.open(artfilename.c_str(), std::ofstream::trunc);
+        } else {
+            return true;
+        }
+    } else {
     fout.open(artfilename.c_str(), std::ofstream::trunc);
+    }
     JsonOut json(fout);
     json.start_array();
     for ( std::vector<std::string>::iterator it =
@@ -3572,6 +3596,9 @@ bool game::save_artifacts()
     }
     json.end_array();
     fout.close();
+    if(MAP_SHARING::isSharing()) {
+        MAP_SHARING::releaseLock(artifactlock, (artfilename + ".lock").c_str() );
+    }
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save artifacts to %s"), artfilename.c_str());
@@ -3593,13 +3620,26 @@ bool game::save_maps()
 }
 
 bool game::save_uistate() {
+    int uistatelock = -1;
     std::string savefile = world_generator->active_world->world_path + "/uistate.json";
     try {
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
-    fout.open(savefile.c_str());
+    if(MAP_SHARING::isSharing()) {
+        uistatelock = MAP_SHARING::getLock( (savefile + ".lock").c_str() );
+        if(uistatelock != -1) {
+            fout.open(savefile.c_str());
+        } else {
+            return true;
+        }
+    } else {
+        fout.open(savefile.c_str());
+    }
     fout << uistate.serialize();
     fout.close();
+    if(MAP_SHARING::isSharing()) {
+        MAP_SHARING::releaseLock(uistatelock, (savefile + ".lock").c_str() );
+    }
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save uistate to %s"), savefile.c_str());

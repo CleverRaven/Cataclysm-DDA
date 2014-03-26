@@ -131,7 +131,7 @@ void mapbuffer::save( bool delete_after_save )
     mapfile << map_directory.str() << "/map.key";
 
     std::ofstream fout;
-    int mapkeylock;  // -1 is false; everything else is true
+    int mapkeylock = -1;  // -1 is false; everything else is true
 
 
     if( MAP_SHARING::isSharing()) { // if not sharing getLock will not be called
@@ -198,6 +198,7 @@ void mapbuffer::save( bool delete_after_save )
     fout.close();
     if(MAP_SHARING::isSharing()) {
         MAP_SHARING::releaseLock(mapkeylock, (mapfile.str()+".lock").c_str());
+        mapkeylock = -1;
     }
 
     int num_saved_submaps = 0;
@@ -259,6 +260,7 @@ void mapbuffer::save( bool delete_after_save )
 
         if(MAP_SHARING::isSharing()) {
             MAP_SHARING::releaseLock(mapkeylock ,(quad_path.str()+".lock").c_str());
+            mapkeylock = -1;
         }
     }
 }

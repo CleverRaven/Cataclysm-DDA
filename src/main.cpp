@@ -37,6 +37,8 @@ std::map<std::string, std::string> FILENAMES;
 bool MAP_SHARING::sharing;
 std::string MAP_SHARING::username;
 
+bool MAP_SHARING::competitive;
+
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -64,9 +66,7 @@ int main(int argc, char *argv[])
     init_user_dir();
     set_standart_filenames();
 
-    if(MAP_SHARING::getUsername().empty() && getenv("USER")) {
-        MAP_SHARING::setUsername(getenv("USER"));
-    }
+    MAP_SHARING::setDefaults();
 
     // Process CLI arguments
     int saved_argc = --argc; // skip program name
@@ -119,6 +119,11 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             MAP_SHARING::setSharing(true);
+            MAP_SHARING::setCompetitive(true);
+        } else if(std::string(argv[0]) == "--competitive") {
+            argc--;
+            argv++;
+            MAP_SHARING::setCompetitive(true);
         } else { // Skipping other options.
             argc--;
             argv++;
