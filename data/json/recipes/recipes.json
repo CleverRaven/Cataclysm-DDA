@@ -29215,5 +29215,37 @@
         [ "nail", 1 ]
       ]
     ]
+  },
+  {
+    "type" : "recipe",
+    "result": "scabbard",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": false,
+	"book_learn": [ ["textbook_weapwest", 5], ["textbook_weapeast", 5], ["textbook_armwest", 5], ["textbook_armeast", 5] ],
+	"qualities":[
+      {"id":"HAMMER","level":1,"amount":1},
+	  {"id":"CUT","level":1,"amount":1}
+	],
+    "tools": [
+      [
+        ["superglue", 1]
+      ]
+    ],
+    "components": [
+      [
+        [ "leather", 10 ]
+      ],
+      [
+        ["2x4", 2]
+      ],
+      [
+        ["nail", 5]
+      ]
+    ]
   }
 ]

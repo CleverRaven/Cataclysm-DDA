@@ -4215,7 +4215,8 @@
       ["maid_hat", 3],
       ["miner_hat", 3],
       ["grapnel", 1],
-      ["razor_blade", 6]
+      ["razor_blade", 6],
+      ["scabbard", 3]
     ]
   },{
     "type" : "item_group",

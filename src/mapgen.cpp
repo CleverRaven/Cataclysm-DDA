@@ -12237,6 +12237,12 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                 } else if (one_in(6)) {
                     m->spawn_item(x2 - 1, y, "morningstar");
                 }
+
+                if(one_in(2)) {
+                    m->spawn_item(x2 - 1, y, "scabbard");
+                } else if (one_in(2)) {
+                    m->spawn_item(x1 + 1, y, "scabbard");
+                }
             }
           }
             else {int start = y1 + rng(2, 4), end = y2 - rng(0, 4), step = rng(3, 6);
@@ -12269,6 +12275,12 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                         m->spawn_item(x1 + 1, y, "tanto");
                     } else if (one_in(6)) {
                         m->spawn_item(x2 - 1, y, "nodachi");
+                    }
+
+                    if(one_in(2)) {
+                        m->spawn_item(x2 - 1, y, "scabbard");
+                    } else if (one_in(2)) {
+                        m->spawn_item(x1 + 1, y, "scabbard");
                     }
             }
           }
