@@ -1216,10 +1216,10 @@ void mapgen_rail_and_road(map *m, oter_id terrain_type, mapgendata dat, int turn
 
     mapf::formatted_set_simple(m, 0, 0,
 "\
-..-x-----x-..-x-----x-..\n\
 ..^x^^^^^x^..^x^^^^^x^..\n\
 ..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^.1\n\
+..^x^^^^^x^..^x^^^^^x^..\n\
+..-x-----x-..-x-----x-.1\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
@@ -1236,10 +1236,10 @@ yyyxyyyyyxyyyyxyyyyyxyyy\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
-1.-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
+1.^x^^^^^x^..^x^^^^^x^..\n\
 ..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n",
+..^x^^^^^x^..^x^^^^^x^..\n\
+..-x-----x-..-x-----x-..\n",
     /* 
     ".", "^" and "-" become a sidewalk tile near cities
     otherwise, "." is the ground, "^" is rubble and
