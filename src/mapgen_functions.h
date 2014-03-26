@@ -61,8 +61,6 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rail_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rail_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_rail_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_rail_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rail_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rail_and_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

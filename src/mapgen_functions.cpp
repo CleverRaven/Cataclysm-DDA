@@ -55,8 +55,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["road_four_way"]    = &mapgen_road_four_way;
     mapgen_cfunction_map["rail_straight"]    = &mapgen_rail_straight;
     mapgen_cfunction_map["rail_curved"]      = &mapgen_rail_curved;
-    mapgen_cfunction_map["rail_tee"]         = &mapgen_rail_tee;
-    mapgen_cfunction_map["rail_four_way"]    = &mapgen_rail_four_way;
     mapgen_cfunction_map["rail_end"]         = &mapgen_rail_end;
     mapgen_cfunction_map["rail_and_road"]    = &mapgen_rail_and_road;
     mapgen_cfunction_map["road_and_rail"]    = &mapgen_rail_and_road;
@@ -1326,83 +1324,6 @@ void mapgen_rail_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
         m->rotate(3); //looks like that the code above paints rail_ne
     }
     
-}
-
-/* This is a dummy and should be removed if possible. */
-void mapgen_rail_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    bool sidewalks = false;
-    for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
-            sidewalks = true;
-        }
-    }
-
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (i < 4 || (i >= SEEX * 2 - 4 && (j < 4 || j >= SEEY * 2 - 4))) {
-                if (sidewalks) {
-                    m->ter_set(i, j, t_sidewalk);
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            } else {
-                if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0) ||
-                     ((j == SEEY - 1 || j == SEEY) && i % 4 != 0 && i > SEEX)) {
-                    m->ter_set(i, j, t_pavement_y);
-                } else {
-                    m->ter_set(i, j, t_pavement);
-                }
-            }
-        }
-    }
-    if (terrain_type == "rail_esw") {
-        m->rotate(1);
-    }
-    if (terrain_type == "rail_nsw") {
-        m->rotate(2);
-    }
-    if (terrain_type == "rail_new") {
-        m->rotate(3);
-    }
-}
-
-/* This is a dummy and should be removed if possible. */
-void mapgen_rail_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    bool plaza = false;
-    for (int i = 0; i < 4; i++) {
-        if (dat.t_nesw[i] == "rail_nesw") {
-            plaza = true;
-        }
-    }
-    bool sidewalks = false;
-    for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].sidewalk) {
-            sidewalks = true;
-        }
-    }
-
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (plaza) {
-                m->ter_set(i, j, t_sidewalk);
-            } else if ((i < 4 || i >= SEEX * 2 - 4) && (j < 4 || j >= SEEY * 2 - 4)) {
-                if (sidewalks) {
-                    m->ter_set(i, j, t_sidewalk);
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            } else {
-                if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0) ||
-                      ((j == SEEY - 1 || j == SEEY) && i % 4 != 0)) {
-                    m->ter_set(i, j, t_pavement_y);
-                } else {
-                    m->ter_set(i, j, t_pavement);
-                }
-            }
-        }
-    }
 }
 
 /* End piece of a railroad with buffer stop */

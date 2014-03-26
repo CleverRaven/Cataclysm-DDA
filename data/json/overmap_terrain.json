@@ -1745,7 +1745,14 @@
         "name" : "railroad",
         "line_drawing" : true,
         "color" : "light_gray",
-        "see_cost" : 2
+        "see_cost" : 2,
+        "mapgen_straight": [
+            { "method": "builtin", "name": "rail_straight" }
+        ],
+        "mapgen_curved": [
+            { "method": "builtin", "name": "rail_curved" }
+        ]
+
     },{
         "type" : "overmap_terrain",
         "id" : "rail_and_road",

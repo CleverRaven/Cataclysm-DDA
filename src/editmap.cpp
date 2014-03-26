@@ -1768,6 +1768,11 @@ int editmap::edit_mapgen()
     broken_oter_blacklist["nuke_plant_entrance"] = true;
     broken_oter_blacklist["nuke_plant"] = true;
     broken_oter_blacklist["temple_core"] = true;
+    broken_oter_blacklist["rail_nes"] = true;
+    broken_oter_blacklist["rail_new"] = true;
+    broken_oter_blacklist["rail_nsw"] = true;
+    broken_oter_blacklist["rail_esw"] = true;
+    broken_oter_blacklist["rail_nesw"] = true;
 
     for (int i = 0; i < oterlist.size(); i++) {
         oter_id id = oter_id(i);
