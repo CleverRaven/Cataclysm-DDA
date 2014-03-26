@@ -7752,6 +7752,11 @@ int iuse::sheath_sword(player *p, item *it, bool)
             return 0;
         }
 
+        if(!put->has_flag("SHEATHABLE")) {
+            g->add_msg_if_player(p, _("You can't sheathe your %s!"), put->tname().c_str());
+            return 0;
+        }
+
         // sheathe at different speed based on cutting skill level
         int lvl = p->skillLevel("cutting");
         if(lvl < 2) {
@@ -7785,8 +7790,9 @@ int iuse::sheath_sword(player *p, item *it, bool)
             }
 
             // diamond swords glimmer in the sunlight
-            if(g->is_in_sunlight(p->posx, p->posy) && sword.made_of("diamond"))
+            if(g->is_in_sunlight(p->posx, p->posy) && sword.made_of("diamond")) {
                 g->add_msg_if_player(p, _("Your %s glimmers magnificently in the sunlight."), sword.tname().c_str());
+            }
 
             p->inv.assign_empty_invlet(sword, true);  // force getting an invlet
             p->wield(&(p->i_add(sword)));
