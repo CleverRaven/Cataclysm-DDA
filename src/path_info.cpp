@@ -79,6 +79,7 @@ void set_standart_filenames(void)
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    // TODO fontdata.json is user related file
     update_pathname("second_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
@@ -86,16 +87,25 @@ void set_standart_filenames(void)
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
 
-    // User directories
+#ifdef USE_HOME_DIR
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
-
-    // User files, need to be migrated from data/ to a user directory.
+    update_pathname("options", FILENAMES["user_dir"] + "options.txt");
+    update_pathname("keymap", FILENAMES["user_dir"] + "keymap.txt");
+    update_pathname("debug", FILENAMES["user_dir"] + "debug.log");
+    update_pathname("fontlist", FILENAMES["user_dir"] + "fontlist.txt");
+    update_pathname("fontdata", FILENAMES["user_dir"] + "FONTDATA");
+    update_pathname("autopickup", FILENAMES["user_dir"] + "auto_pickup.txt");
+#else
+    update_pathname("savedir", FILENAMES["datadir"] + "save/");
+    update_pathname("memorialdir", FILENAMES["datadir"] + "memorial/");
+    update_pathname("templatedir", FILENAMES["datadir"] + "templates/");
     update_pathname("options", FILENAMES["datadir"] + "options.txt");
     update_pathname("keymap", FILENAMES["datadir"] + "keymap.txt");
     update_pathname("debug", FILENAMES["datadir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["datadir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["datadir"] + "FONTDATA");
     update_pathname("autopickup", FILENAMES["datadir"] + "auto_pickup.txt");
+#endif
 }
