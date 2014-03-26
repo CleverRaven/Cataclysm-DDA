@@ -7741,6 +7741,35 @@ int iuse::rad_badge(player *p, item *it, bool)
     return 0;
 }
 
+int iuse::sheath_sword(player *p, item *it, bool)
+{
+    // if sheath is empty, pull up menu asking what to sheathe
+    if(it->contents.empty()) {
+        int pos = g->inv_for_flag("SHEATHABLE", "Sheathe what?", false); // only show SHEATHABLE items
+        item* put = &(p->i_at(pos));
+        if (put == NULL || put->is_null()) {
+            g->add_msg_if_player(p, _("You do not have that item!"));
+            return 0;
+        }
+
+        p->moves -= 30;
+        g->add_msg_if_player(p, _("You sheathe your %s. Shhhckt!"), put->tname().c_str());
+        it->put_in(p->i_rem(pos));
+
+    // else unsheathe a sheathed weapon and have the player wield it
+    } else {
+        item& sword = it->contents[0];
+        if (!p->is_armed() || p->wield(NULL)) {
+            p->moves -= 15;
+            g->add_msg_if_player(p, _("You unsheathe your %s. Schiiing!"), sword.tname().c_str());
+            p->inv.assign_empty_invlet(sword, true);  // force getting an invlet
+            p->wield(&(p->i_add(sword)));
+            it->contents.erase(it->contents.begin());
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::boots(player *p, item *it, bool)
 {
  int choice = -1;

@@ -655,6 +655,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```SHEATHABLE``` Item can be sheathed in a scabbard
 
 ## Guns
 

@@ -1823,6 +1823,7 @@
     "bashing": 12,
     "cutting": 1,
     "to_hit": 1,
+    "flags": ["SHEATHABLE"],
     "techniques": ["WBLOCK_1"]
   },
    { "type":"GENERIC",
@@ -1838,7 +1839,7 @@
     "bashing": 12,
     "cutting": 4,
     "to_hit": 0,
-    "flags" : ["CHOP"],
+    "flags" : ["CHOP", "SHEATHABLE"],
     "techniques": ["WBLOCK_1"]
   },
   { "type":"GENERIC",
@@ -1854,6 +1855,7 @@
     "bashing": 6,
     "cutting": 14,
     "to_hit": -1,
+    "flgas": ["SHEATABLE"],
     "techniques": ["WBLOCK_1"]
   },
    { "type":"GENERIC",
@@ -1869,6 +1871,7 @@
     "bashing": 4,
     "cutting": 14,
     "to_hit": 2,
+    "flags": ["SHEATHABLE"],
     "techniques": ["WBLOCK_2"]
   },
     {
@@ -2603,7 +2606,7 @@
     "bashing": 6,
     "cutting": 4,
     "to_hit": 1,
-    "flags": ["STAB","RAIN_PROTECT"],
+    "flags": ["STAB","RAIN_PROTECT","SHEATHABLE"],
     "techniques": ["WBLOCK_1"]
   },
   {
