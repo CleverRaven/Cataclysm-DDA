@@ -4130,7 +4130,7 @@ int iuse::shishkebab_off(player *p, item *it, bool)
             it->make(itypes["shishkebab_on"]);
             it->active = true;
         } else {
-            g->add_msg_if_player(p,_("Aw, dangit."));
+            g->add_msg_if_player(p,_("Aw, dangit. No fuel!"));
         }
         return it->type->charges_to_use();
     }
@@ -7752,16 +7752,42 @@ int iuse::sheath_sword(player *p, item *it, bool)
             return 0;
         }
 
-        p->moves -= 30;
-        g->add_msg_if_player(p, _("You sheathe your %s. Shhhckt!"), put->tname().c_str());
+        // sheathe at different speed based on cutting skill level
+        int lvl = p->skillLevel("cutting");
+        if(lvl < 2) {
+            p->moves -= 100;
+            g->add_msg_if_player(p, _("You clumsily sheathe your %s."), put->tname().c_str());
+        } else if(lvl < 5) {
+            p->moves -= 50;
+            g->add_msg_if_player(p, _("You sheathe your %s."), put->tname().c_str());
+        } else {
+            p->moves -= 30;
+            g->add_msg_if_player(p, _("You deftly sheathe your %s. Shhhckt!"), put->tname().c_str());
+        }
+
         it->put_in(p->i_rem(pos));
 
     // else unsheathe a sheathed weapon and have the player wield it
     } else {
         item& sword = it->contents[0];
         if (!p->is_armed() || p->wield(NULL)) {
-            p->moves -= 15;
-            g->add_msg_if_player(p, _("You unsheathe your %s. Schiiing!"), sword.tname().c_str());
+            // unsheathe at different speed based on cutting skill level
+            int lvl = p->skillLevel("cutting");
+            if(lvl < 2) {
+                p->moves -= 75;
+                g->add_msg_if_player(p, _("You clumsily unsheathe your %s."), sword.tname().c_str());
+            } else if(lvl < 5) {
+                p->moves -= 30;
+                g->add_msg_if_player(p, _("You unsheathe your %s."), sword.tname().c_str());
+            } else {
+                p->moves -= 15;
+                g->add_msg_if_player(p, _("You masterfully unsheathe your %s. Shhhhiing!"), sword.tname().c_str());
+            }
+
+            // diamond swords glimmer in the sunlight
+            if(g->is_in_sunlight(p->posx, p->posy) && sword.made_of("diamond"))
+                g->add_msg_if_player(p, _("Your %s glimmers magnificently in the sunlight."), sword.tname().c_str());
+
             p->inv.assign_empty_invlet(sword, true);  // force getting an invlet
             p->wield(&(p->i_add(sword)));
             it->contents.erase(it->contents.begin());

@@ -3968,7 +3968,7 @@
     "description": "This is a large blade with a fuel pipe on the side, and a small tank and igniter built into the insulated hilt.  When filled with gasoline, the blade can be made scorching hot to singe enemies and light your way. Use to ignite.",
     "price": 10000,
     "material": ["steel", "plastic"],
-    "flags": ["FIRE", "CHOP"],
+    "flags": ["FIRE", "CHOP", "SHEATHABLE"],
     "weight": 1701,
     "volume": 10,
     "bashing": 4,
