@@ -192,6 +192,7 @@
     "color": "brown",
     "name": "slingshot",
     "description": "A wooden slingshot, easy to use and accurate. It uses pebbles as ammunition.",
+    "price": 5000,
     "material": "wood",
     "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS"],
     "skill": "archery",
