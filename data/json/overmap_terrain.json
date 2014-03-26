@@ -1751,14 +1751,14 @@
         "id" : "rail_and_road",
         "name" : "railroad and road",
         "sym" : 4194414,
-        "color" : "i_ltgray",
+        "color" : "white",
         "see_cost" : 2
     },{
         "type" : "overmap_terrain",
         "id" : "road_and_rail",
         "name" : "railroad and road",
         "sym" : 4194414,
-        "color" : "i_ltgray",
+        "color" : "white",
         "see_cost" : 2
     },{
         "type" : "overmap_terrain",
