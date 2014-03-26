@@ -241,7 +241,7 @@
         "name" : "pebbles",
         "symbol" : "=",
         "color" : "light_gray",
-        "description" : "A handful of pebbles, useful as ammunition for slings.",
+        "description" : "A handful of pebbles, useful as ammunition for slings or slingshots.",
         "material" : "stone",
         "volume" : 1,
         "weight" : 5,
