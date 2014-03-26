@@ -1173,7 +1173,7 @@ void mapgen_rail_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
     }    
 }
 
-/* Railroad crosses road */
+/* Railroad crossing */
 void mapgen_rail_and_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     bool sidewalks = false;
@@ -1182,19 +1182,44 @@ void mapgen_rail_and_road(map *m, oter_id terrain_type, mapgendata dat, int turn
             sidewalks = true;
         }
     }
-	
+
+
+
     // draw ground
     for (int i=0; i< SEEX * 2; i++) {
         for (int j=0; j< SEEY*2; j++) {
             m->ter_set(i,j, dat.groundcover());
         }
     }
+
+    ter_id tsignal = t_railroad_crossing_signal;
+    /* determine wheather the railroad crossing has a signal or just a
+    crossbuck. The chance for a crossbuck is much higher when there is no sidewalk */
+    if(sidewalks == true) {
+       if(rng(1,30) == 1) {
+          if(rng(1,8) == 1) {
+              tsignal = t_crossbuck_wood;
+          } else {
+              tsignal = t_crossbuck_metal;
+          }
+       }
+    } else {
+       if(rng(1,4) == 1) {
+          if(rng(1,2) == 1) {
+              tsignal = t_crossbuck_wood;
+          } else {
+              tsignal = t_crossbuck_metal;
+          }
+       }
+    }
+	
+
     mapf::formatted_set_simple(m, 0, 0,
 "\
 ..-x-----x-..-x-----x-..\n\
 ..^x^^^^^x^..^x^^^^^x^..\n\
 ..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
+..^x^^^^^x^..^x^^^^^x^.1\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
@@ -1211,7 +1236,7 @@ yyyxyyyyyxyyyyxyyyyyxyyy\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
 ,,,x,,,,,x,,,,x,,,,,x,,,\n\
-..-x-----x-..-x-----x-..\n\
+1.-x-----x-..-x-----x-..\n\
 ..^x^^^^^x^..^x^^^^^x^..\n\
 ..-x-----x-..-x-----x-..\n\
 ..^x^^^^^x^..^x^^^^^x^..\n",
@@ -1220,8 +1245,8 @@ yyyxyyyyyxyyyyxyyyyyxyyy\n\
     otherwise, "." is the ground, "^" is rubble and
     "-" is a railroad tie.
     */
-    mapf::basic_bind(". , y ^ x -", sidewalks ? t_sidewalk : t_null, t_pavement, t_pavement_y, sidewalks ? t_sidewalk : t_rubble, t_railroad_track, sidewalks ? t_sidewalk : ((terrain_type == "rail_and_road") ? t_railroad_tie_h : t_railroad_tie_v)),
-    mapf::basic_bind(". , y ^ x -", f_null, f_null, f_null, f_null, f_null, f_null, f_null));
+    mapf::basic_bind(". , y ^ x - 1", sidewalks ? t_sidewalk : t_null, t_pavement, t_pavement_y, sidewalks ? t_sidewalk : t_rubble, t_railroad_track, sidewalks ? t_sidewalk : ((terrain_type == "rail_and_road") ? t_railroad_tie_h : t_railroad_tie_v), tsignal),
+    mapf::basic_bind(". , y ^ x - 1", f_null, f_null, f_null, f_null, f_null, f_null, f_null, f_null));
 
     if(terrain_type == "road_and_rail") {
         m->rotate(1);
