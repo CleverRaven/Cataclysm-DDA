@@ -12220,6 +12220,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                     m->spawn_item(x1 + 1, y, "pike");
                 } else if (one_in(3)) {
                     m->spawn_item(x1 + 1, y, "broadsword");
+                    m->spawn_item(x1 + 1, y, "scabbard");
                 } else if (one_in(6)) {
                     m->spawn_item(x1 + 1, y, "mace");
                 } else if (one_in(6)) {
@@ -12232,16 +12233,11 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                     m->spawn_item(x2 - 1, y, "pike");
                 } else if (one_in(3)) {
                     m->spawn_item(x2 - 1, y, "broadsword");
+                    m->spawn_item(x2 - 1, y, "scabbard");
                 } else if (one_in(6)) {
                     m->spawn_item(x2 - 1, y, "mace");
                 } else if (one_in(6)) {
                     m->spawn_item(x2 - 1, y, "morningstar");
-                }
-
-                if(one_in(2)) {
-                    m->spawn_item(x2 - 1, y, "scabbard");
-                } else if (one_in(2)) {
-                    m->spawn_item(x1 + 1, y, "scabbard");
                 }
             }
           }
@@ -12279,7 +12275,7 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
 
                     if(one_in(2)) {
                         m->spawn_item(x2 - 1, y, "scabbard");
-                    } else if (one_in(2)) {
+                    if (one_in(2)) {
                         m->spawn_item(x1 + 1, y, "scabbard");
                     }
             }
