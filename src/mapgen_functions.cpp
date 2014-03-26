@@ -1417,12 +1417,14 @@ void mapgen_rail_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 
     int start = 2 * rng(0,9);
 
+/*
     mapf::internal::format_effect* mapbind;
     mapf::internal::format_effect* furnbind;
     mapbind = mapf::basic_bind(". ^ x - S", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_buffer_stop_h : t_buffer_stop_v);
     furnbind = mapf::basic_bind(". ^ x - S", f_null, f_null, f_null, f_null, f_null, f_null);
-
-    mapf::formatted_set_simple(m, 0, start,
+*/
+    if(terrain_type == "rail_end_north" || terrain_type == "rail_end_east") {
+        mapf::formatted_set_simple(m, 0, start,
 "\
 ........................\n\
 ..^^^^^^^^^..^^^^^^^^^..\n\
@@ -1430,16 +1432,40 @@ void mapgen_rail_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 ..-x-----x-..-x-----x-..\n\
 ..^x^^^^^x^..^x^^^^^x^..\n\
 ..SSSSSSSSS..SSSSSSSSS..\n",
-    mapf::basic_bind(". ^ x - S", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_buffer_stop_h : t_buffer_stop_v),
-    mapf::basic_bind(". ^ x - S", f_null, f_null, f_null, f_null, f_null, f_null));
+        mapf::basic_bind(". ^ x - S", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_buffer_stop_h : t_buffer_stop_v),
+        mapf::basic_bind(". ^ x - S", f_null, f_null, f_null, f_null, f_null, f_null));
 
-    for (int i=start+6; i <= SEEX * 2 - 2; i=i+2) {
-        mapf::formatted_set_simple(m, 0, i,
+
+        for (int i=start+6; i <= SEEX * 2 - 2; i=i+2) {
+            mapf::formatted_set_simple(m, 0, i,
 "\
 ..^x^^^^^x^..^x^^^^^x^..\n\
 ..-x-----x-..-x-----x-..\n",
+            mapf::basic_bind(". ^ x -", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v),
+            mapf::basic_bind(". ^ x -", f_null, f_null, f_null, f_null, f_null));
+
+
+        }
+    } else {
+        mapf::formatted_set_simple(m, 0, start,
+"\
+..^^^^^^^^^..^^^^^^^^^..\n\
+..^x^^^^^x^..^x^^^^^x^..\n\
+..-x-----x-..-x-----x-..\n\
+..^x^^^^^x^..^x^^^^^x^..\n\
+..SSSSSSSSS..SSSSSSSSS..\n\
+..^x^^^^^x^..^x^^^^^x^..\n",
         mapf::basic_bind(". ^ x - S", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_buffer_stop_h : t_buffer_stop_v),
         mapf::basic_bind(". ^ x - S", f_null, f_null, f_null, f_null, f_null, f_null));
+
+        for (int i=start+6; i <= SEEX * 2 - 2; i=i+2) {
+            mapf::formatted_set_simple(m, 0, i,
+"\
+..-x-----x-..-x-----x-..\n\
+..^x^^^^^x^..^x^^^^^x^..\n",
+            mapf::basic_bind(". ^ x -", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v),
+            mapf::basic_bind(". ^ x -", f_null, f_null, f_null, f_null, f_null));
+        }
     }
 
 
