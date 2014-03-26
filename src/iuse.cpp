@@ -4124,13 +4124,14 @@ int iuse::shishkebab_off(player *p, item *it, bool)
     case 1:
     {
         p->moves -= 10;
-        if (rng(0, 10) - it->damage > 5 && it->charges > 0 && !p->is_underwater()) {
-            g->sound(p->posx, p->posy, 10,
-                     _("Let's dance Zeds!"));
+        if(it->charges <= 0) {
+            g->add_msg_if_player(p,_("This thing needs some fuel!"));
+        } else if (rng(0, 10) - it->damage > 5 && !p->is_underwater()) {
+            g->sound(p->posx, p->posy, 10,_("Let's dance, Zeds!"));
             it->make(itypes["shishkebab_on"]);
             it->active = true;
         } else {
-            g->add_msg_if_player(p,_("Aw, dangit. No fuel!"));
+            g->add_msg_if_player(p,_("Aw, dangit. It fails to start!"));
         }
         return it->type->charges_to_use();
     }
@@ -4159,14 +4160,14 @@ int iuse::shishkebab_on(player *p, item *it, bool t)
 
         if (one_in(75))
         {
-            g->add_msg_if_player(p,_("Bummer man, wipeout!")),
+            g->add_msg_if_player(p,_("Bummer, man! Your shishkebab's flame flickers and dies out.")),
               it->make(itypes["shishkebab_off"]),
               it->active = false;
         }
     }
     else if (it->charges == 0)
     {
-        g->add_msg_if_player(p,_("Uncool, outta gas."));
+        g->add_msg_if_player(p,_("Uncool, outta gas! Your shishkebab's flame goes out."));
         it->make(itypes["shishkebab_off"]);
         it->active = false;
     }
@@ -4178,7 +4179,7 @@ int iuse::shishkebab_on(player *p, item *it, bool t)
         {
         case 1:
         {
-            g->add_msg_if_player(p,_("Peace out."));
+            g->add_msg_if_player(p,_("Peace out. Your shishkebab's flame dies."));
             it->make(itypes["shishkebab_off"]);
             it->active = false;
         }
@@ -7767,7 +7768,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
             g->add_msg_if_player(p, _("You sheathe your %s."), put->tname().c_str());
         } else {
             p->moves -= 30;
-            g->add_msg_if_player(p, _("You deftly sheathe your %s. Shhhckt!"), put->tname().c_str());
+            g->add_msg_if_player(p, _("You deftly sheathe your %s."), put->tname().c_str());
         }
 
         it->put_in(p->i_rem(pos));
@@ -7786,7 +7787,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
                 g->add_msg_if_player(p, _("You unsheathe your %s."), sword.tname().c_str());
             } else {
                 p->moves -= 15;
-                g->add_msg_if_player(p, _("You masterfully unsheathe your %s. Shhhhiing!"), sword.tname().c_str());
+                g->add_msg_if_player(p, _("You masterfully unsheathe your %s."), sword.tname().c_str());
             }
 
             // diamond swords glimmer in the sunlight

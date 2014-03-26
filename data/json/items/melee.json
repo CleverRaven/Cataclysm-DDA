@@ -1855,7 +1855,7 @@
     "bashing": 6,
     "cutting": 14,
     "to_hit": -1,
-    "flgas": ["SHEATABLE"],
+    "flags": ["SHEATHABLE"],
     "techniques": ["WBLOCK_1"]
   },
    { "type":"GENERIC",
