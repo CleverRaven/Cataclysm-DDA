@@ -304,7 +304,7 @@ direction direction_from(const tripoint loc1, const tripoint loc2)
             return direction(2 + offset); //East
         } else if (abs(dy) / 2 > dx || dx == 0) {
             if (dy < 0) {
-                return direction(6 + offset); //North
+                return direction(0 + offset); //North
             } else {
                 return direction(4 + offset); //South
             }
