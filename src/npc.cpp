@@ -1056,25 +1056,27 @@ bool npc::wear_if_wanted(item it)
  return false;
 }
 //to placate clang++
-bool npc::wield(signed char invlet, bool autodrop)
+bool npc::wield(item* it, bool)
 {
-    (void)autodrop; // ignored
-    return this->wield(invlet);
+    return this->wield(it);
 }
 
-bool npc::wield(signed char invlet)
+bool npc::wield(item* it)
 {
- if (volume_carried() + weapon.volume() <= volume_capacity()) {
-  i_add(remove_weapon());
-  moves -= 15;
- } else // No room for weapon, so we drop it
-  g->m.add_item_or_charges(posx, posy, remove_weapon());
- moves -= 15;
- weapon = inv.item_by_letter(invlet);
- i_remn(invlet);
- if (g->u_see(posx, posy))
-  g->add_msg(_("%1$s wields a %2$s."), name.c_str(), weapon.tname().c_str());
- return true;
+    if ( !weapon.is_null() ) {
+        if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
+            i_add( remove_weapon() );
+            moves -= 15;
+        } else { // No room for weapon, so we drop it
+            g->m.add_item_or_charges( posx, posy, remove_weapon() );
+        }
+    }
+    moves -= 15;
+    weapon = inv.remove_item(it);
+    if ( g->u_see( posx, posy ) ) {
+        g->add_msg( _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
+    }
+    return true;
 }
 
 void npc::perform_mission()

@@ -673,7 +673,9 @@ int iuse::atomic_caff(player *p, item *it, bool)
 
 int iuse::raw_meat(player *p, item *it, bool)
 {
-    if ((one_in(32)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+    if ((one_in(32)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE") ||
+    // Hyper-Metabolism digests the thing before it can set up shop.
+    p->has_trait("EATHEALTH"))) {
         p->add_disease("tapeworm", 1, true);
     } if ((one_in(64)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
         p->add_disease("bloodworms", 1, true);
@@ -687,7 +689,8 @@ int iuse::raw_meat(player *p, item *it, bool)
 
 int iuse::raw_fat(player *p, item *it, bool)
 {
-    if ((one_in(64)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+    if ((one_in(64)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE") ||
+    p->has_trait("EATHEALTH"))) {
         p->add_disease("tapeworm", 1, true);
     } if ((one_in(128)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
         p->add_disease("bloodworms", 1, true);
@@ -707,7 +710,8 @@ int iuse::raw_bone(player *p, item *it, bool)
 
 int iuse::raw_fish(player *p, item *it, bool)
 {
-    if ((one_in(256)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+    if ((one_in(256)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE") ||
+    p->has_trait("EATHEALTH"))) {
         p->add_disease("tapeworm", 1, true);
     } if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
         p->add_disease("bloodworms", 1, true);
@@ -721,7 +725,8 @@ int iuse::raw_fish(player *p, item *it, bool)
 
 int iuse::raw_wildveg(player *p, item *it, bool)
 {
-    if ((one_in(512)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
+    if ((one_in(512)) && !(p->has_disease("tapeworm") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE") ||
+    p->has_trait("EATHEALTH"))) {
         p->add_disease("tapeworm", 1, true);
     } if ((one_in(256)) && !(p->has_disease("bloodworms") || p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE"))) {
         p->add_disease("bloodworms", 1, true);
@@ -2182,124 +2187,170 @@ int iuse::extra_battery(player *p, item *, bool)
     int pos = g->inv_type(_("Modify what?"), IC_TOOL);
     item* modded = &(p->i_at(pos));
 
-    if (modded == NULL || modded->is_null())
-    {
+    if (modded == NULL || modded->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool())
-    {
+    if (!modded->is_tool()) {
         g->add_msg_if_player(p,_("This mod can only be used on tools."));
         return 0;
     }
 
     it_tool *tool = dynamic_cast<it_tool*>(modded->type);
-    if (tool->ammo != "battery")
-    {
+    if (tool->ammo != "battery") {
         g->add_msg_if_player(p,_("That item does not use batteries!"));
         return 0;
     }
 
-    if (modded->has_flag("DOUBLE_AMMO"))
-    {
+    if (modded->has_flag("DOUBLE_AMMO")) {
         g->add_msg_if_player(p,_("That item has already had its battery capacity doubled."));
         return 0;
     }
 
+    if( modded->has_flag("ATOMIC_AMMO") ) {
+        g->add_msg_if_player( p,
+            _("You replace the plutonium cells in your %s with a double capacity battery compartment!"),
+                              tool->name.c_str() );
+        if( modded->charges >= 2500 ) {
+            g->m.spawn_item( p->posx, p->posy, "plut_cell", modded->charges / 2500 );
+            modded->charges %= 2500;
+        }
+        g->m.spawn_item( p->posx, p->posy, "battery_atomic", 1, modded->charges );
+        modded->item_tags.erase( "ATOMIC_AMMO" );
+        modded->item_tags.erase( "RADIOACTIVE" );
+        modded->item_tags.erase( "LEAK_DAM" );
+        modded->item_tags.erase( "NO_UNLOAD" );
+        modded->charges = 0;
+    } else if( modded->has_flag( "RECHARGE" ) ) {
+        g->add_msg_if_player(p,
+            _("You replace the rechargeable battery pack of your %s with a double-capacity battery compartment!"),
+                             tool->name.c_str());
+        g->m.spawn_item( p->posx, p->posy, "rechargeable_battery", 1, modded->charges );
+        modded->charges = 0;
+        modded->item_tags.erase( "RECHARGE" );
+        modded->item_tags.erase( "NO_UNLOAD" );
+    } else {
+        g->add_msg_if_player(p,_("You double the battery capacity of your %s!"), tool->name.c_str());
+    }
     modded->item_tags.insert("DOUBLE_AMMO");
-    g->add_msg_if_player(p,_("You double the battery capacity of your %s!"), tool->name.c_str());
     return 1;
 }
 
-int iuse::rechargeable_battery(player *p, item *, bool)
+int iuse::rechargeable_battery(player *p, item *it, bool)
 {
     int pos = g->inv_type(_("Modify what?"), IC_TOOL);
     item* modded = &(p->i_at(pos));
 
-    if (modded == NULL || modded->is_null())
-    {
+    if (modded == NULL || modded->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool())
-    {
+    if (!modded->is_tool()) {
         g->add_msg_if_player(p,_("This mod can only be used on tools."));
         return 0;
     }
 
     it_tool *tool = dynamic_cast<it_tool*>(modded->type);
-    if (tool->ammo != "battery")
-    {
+    if (tool->ammo != "battery") {
         g->add_msg_if_player(p,_("That item does not use batteries!"));
         return 0;
     }
 
-    if (modded->has_flag("RECHARGE"))
-    {
+    if (modded->has_flag("RECHARGE")) {
         g->add_msg_if_player(p,_("That item already has a rechargeable battery pack."));
         return 0;
     }
 
     if (modded->has_flag("ATOMIC_AMMO")) {
-        g->add_msg_if_player(p,_("You can't install a rechargeable battery pack on an item powered by plutonium cells!"));
-        return 0;
+        g->add_msg_if_player( p,
+            _("You replace the plutonium cells in your %s with a rechargeable battery pack!"),
+                             tool->name.c_str() );
+        if( modded->charges >= 2500 ) {
+            g->m.spawn_item( p->posx, p->posy, "plut_cell", modded->charges / 2500 );
+            modded->charges %= 2500;
+        }
+        g->m.spawn_item( p->posx, p->posy, "battery_atomic", 1, modded->charges );
+        modded->item_tags.erase("ATOMIC_AMMO");
+        modded->item_tags.erase("RADIOACTIVE");
+        modded->item_tags.erase("LEAK_DAM");
+        modded->item_tags.erase("NO_UNLOAD");
+    } else {
+        g->add_msg_if_player( p,
+            _("You replace the battery compartment of your %s with a rechargeable battery pack!"),
+                             tool->name.c_str() );
+        if ( modded->has_flag("DOUBLE_AMMO") ){
+            g->m.spawn_item(p->posx, p->posy, "battery_compartment", 1);
+            modded->item_tags.erase( "DOUBLE_AMMO" );
+        }
+        if (modded->charges > 0) {
+          g->m.spawn_item( p->posx, p->posy, "battery", 1, modded->charges );
+        }
     }
+    modded->charges = it->charges;
 
     modded->item_tags.insert("RECHARGE");
     modded->item_tags.insert("NO_UNLOAD");
-    g->add_msg_if_player(p,_("You insert the rechargeable battery pack into your %s!"), tool->name.c_str());
     return 1;
 }
 
-int iuse::atomic_battery(player *p, item *, bool)
+int iuse::atomic_battery(player *p, item *it, bool)
 {
     int pos = g->inv_type(_("Modify what?"), IC_TOOL);
     item* modded = &(p->i_at(pos));
 
-    if (modded == NULL || modded->is_null())
-    {
+    if (modded == NULL || modded->is_null()) {
         g->add_msg_if_player(p,_("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool())
-    {
+    if (!modded->is_tool()) {
         g->add_msg_if_player(p,_("This mod can only be used on tools."));
         return 0;
     }
 
     it_tool *tool = dynamic_cast<it_tool*>(modded->type);
-    if (tool->ammo != "battery")
-    {
+    if (tool->ammo != "battery") {
         g->add_msg_if_player(p,_("That item does not use batteries!"));
         return 0;
     }
 
-    if (modded->has_flag("ATOMIC_AMMO"))
-    {
+    if (modded->has_flag("ATOMIC_AMMO")) {
         g->add_msg_if_player(p,_("That item has already had its battery modded to accept plutonium cells."));
         return 0;
     }
 
-// remove any existing battery mods
-    if (modded->has_flag("DOUBLE_AMMO"))
-    {
-        g->m.spawn_item(p->posx, p->posy, "battery_compartment", 1);
-        modded->item_tags.erase("DOUBLE_AMMO");
-    }
-
-    if (modded->has_flag("RECHARGE"))
-    {
-        g->m.spawn_item(p->posx, p->posy, "rechargeable_battery", 1);
-        modded->item_tags.erase("RECHARGE");
+    // remove any existing battery mods
+    if( modded->has_flag("DOUBLE_AMMO") || modded->has_flag("RECHARGE") ) {
+        if( modded->has_flag("DOUBLE_AMMO") ) {
+            g->add_msg_if_player( p,
+            _("You replace the conventional batteries in your %s with plutonium cells!"),
+                             tool->name.c_str() );
+            g->m.spawn_item( p->posx, p->posy, "battery_compartment", 1 );
+            modded->item_tags.erase("DOUBLE_AMMO");
+            if (modded->charges > 0) {
+                g->m.spawn_item( p->posx, p->posy, "battery", 1, modded->charges );
+            }
+        }
+        if( modded->has_flag("RECHARGE") ) {
+            g->add_msg_if_player( p,
+            _("You replace the rechargeable powerpack in your %s with plutonium cells!"),
+                             tool->name.c_str() );
+            g->m.spawn_item( p->posx, p->posy, "rechargeable_battery", 1, modded->charges );
+            modded->item_tags.erase("RECHARGE");
+            modded->item_tags.erase("NO_UNLOAD");
+        }
+    } else {
+        g->add_msg_if_player(p,_("You modify your %s to run off plutonium cells!"),
+                             tool->name.c_str());
+        if (modded->charges > 0) {
+            g->m.spawn_item( p->posx, p->posy, "battery", 1, modded->charges );
+        }
     }
 
     modded->item_tags.insert("ATOMIC_AMMO");
     modded->item_tags.insert("RADIOACTIVE");
     modded->item_tags.insert("LEAK_DAM");
     modded->item_tags.insert("NO_UNLOAD");
-    g->m.spawn_item(p->posx, p->posy, "battery", 1, modded->charges);
-    modded->charges = 500;
-    g->add_msg_if_player(p,_("You modify your %s to run off plutonium cells!"), tool->name.c_str());
+    modded->charges = it->charges;
     return 1;
 }
 
@@ -7703,11 +7754,10 @@ int iuse::boots(player *p, item *it, bool)
  if ((it->contents.size() > 0 && choice == 1) || // Pull 1st
      (it->contents.size() > 1 && choice == 2)) {  // Pull 2nd
   p->moves -= 15;
-  item knife = it->contents[choice - 1];
-  if (!p->is_armed() || p->wield(-3)) {
+  item& knife = it->contents[choice - 1];
+  if (!p->is_armed() || p->wield(NULL)) {
    p->inv.assign_empty_invlet(knife, true);  // force getting an invlet.
-   p->i_add(knife);
-   p->wield(knife.invlet);
+   p->wield(&(p->i_add(knife)));
    it->contents.erase(it->contents.begin() + choice - 1);
   }
  } else if ((it->contents.empty() && choice == 1) || // Put 1st

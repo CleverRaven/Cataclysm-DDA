@@ -1100,101 +1100,33 @@ void veh_interact::display_veh ()
 void veh_interact::display_stats()
 {
     const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
-    int safe_vel_x, safe_vel_y, safe_vel_w;
-    int top_vel_x, top_vel_y, top_vel_w;
-    int acc_x, acc_y, acc_w;
-    int mass_x, mass_y, mass_w;
-    int k_dyn_x, k_dyn_y, k_dyn_w;
-    int k_mass_x, k_mass_y, k_mass_w;
-    int wheels_x, wheels_y, wheels_w;
-    int fuel_use_x, fuel_use_y, fuel_ind_x, fuel_ind_y;
-    int status_x, status_y, status_w;
-    int dmg_prt_x, dmg_prt_y, dmg_prt_w;
+    int x[15], y[15], w[15]; // 3 columns * 5 rows = 15 slots max
 
     if (vertical_menu) {
         // Vertical menu
         const int second_column = 34 + (extraw / 4); // 29
         const int third_column = 63 + (extraw / 2);  // 56
-        // Y-coordinates for vertical menu
-        safe_vel_y = 0;
-        top_vel_y  = safe_vel_y + 1;
-        acc_y      = top_vel_y + 1;
-        mass_y     = acc_y + 1;
-        status_y   = mass_y + 1;
-
-        fuel_use_y = 0;
-        k_dyn_y    = fuel_use_y + 1;
-        k_mass_y   = k_dyn_y + 1;
-        dmg_prt_y  = k_mass_y + 1;
-        wheels_y   = dmg_prt_y + 1;
-
-        fuel_ind_y = 0;
-
-        // X-coordinates for vertical menu
-        safe_vel_x = 1;
-        top_vel_x  = 1;
-        acc_x      = 1;
-        mass_x     = 1;
-        status_x   = 1;
-
-        fuel_use_x = second_column;
-        k_dyn_x    = second_column;
-        k_mass_x   = second_column;
-        wheels_x   = second_column;
-        dmg_prt_x  = second_column;
-
-        fuel_ind_x = third_column;
-
-        // Width for vertical menu
-        safe_vel_w = second_column;
-        top_vel_w  = second_column;
-        acc_w      = second_column;
-        mass_w     = second_column;
-        status_w   = second_column;
-
-        k_dyn_w   = third_column - second_column;
-        k_mass_w  = third_column - second_column;
-        wheels_w  = third_column - second_column;
-        dmg_prt_w = third_column - second_column;
+        for (int i = 0; i < 15; i++) {
+            if (i<5) { // First column
+                x[i] = 1;
+                y[i] = i;
+                w[i] = second_column - 2;
+            } else if (i<10) { // Second column
+                x[i] = second_column;
+                y[i] = i-5;
+                w[i] = third_column - second_column - 1;
+            } else { // Third column
+                x[i] = third_column;
+                y[i] = i-10;
+                w[i] = extraw - third_column - 2;
+            }
+        }
     } else {
-        // Y-coordinates for horizontal menu
-        safe_vel_y = 0;
-        top_vel_y  = safe_vel_y + 1;
-        acc_y      = top_vel_y + 1;
-        mass_y     = acc_y + 1;
-        k_mass_y   = mass_y + 1;
-        k_dyn_y    = k_mass_y + 1;
-        wheels_y   = k_dyn_y + 1;
-        status_y   = wheels_y + 1;
-        dmg_prt_y  = status_y + 1;
-
-        fuel_use_y = dmg_prt_y + 1;
-        fuel_ind_y = fuel_use_y + 1;
-
-        // X-coordinates for horizontal menu
-        safe_vel_x = 1;
-        top_vel_x  = 1;
-        acc_x      = 1;
-        mass_x     = 1;
-        k_dyn_x    = 1;
-        k_mass_x   = 1;
-        wheels_x   = 1;
-        fuel_use_x = 1;
-        fuel_ind_x = 1;
-        status_x   = 1;
-        dmg_prt_x  = 1;
-
-        // Width for horizontal menu
-        const int stats_w = getmaxx(w_stats);
-        safe_vel_w = stats_w - 1;
-        top_vel_w  = stats_w - 1;
-        acc_w      = stats_w - 1;
-        mass_w     = stats_w - 1;
-        k_dyn_w    = stats_w - 1;
-        k_mass_w   = stats_w - 1;
-        wheels_w   = stats_w - 1;
-        status_w   = stats_w - 1;
-        dmg_prt_w  = stats_w - 1;
+        for (int i = 0; i < 15; i++) {
+            x[i] = 1;
+            y[i] = i;
+            w[i] = stats_w - 1;
+        }
     }
     bool conf = veh->valid_wheel_config();
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
@@ -1207,36 +1139,55 @@ void veh_interact::display_stats()
     if (weight_units == "lbs") {
         weight_factor *= 2.2f;
     }
-    fold_and_print(w_stats, safe_vel_y, safe_vel_x, safe_vel_w, c_ltgray,
+    fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
                    _("Safe speed:   <color_ltgreen>%3d</color> %s"),
                    int(veh->safe_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, top_vel_y, top_vel_x, top_vel_w, c_ltgray,
+    fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
                    _("Top speed:    <color_ltred>%3d</color> %s"),
                    int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, acc_y, acc_x, acc_w, c_ltgray,
+    fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
                    _("Acceleration: <color_ltblue>%3d</color> %s/t"),
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, mass_y, mass_x, mass_w, c_ltgray,
+    fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
                    _("Mass:       <color_ltblue>%5d</color> %s"),
                    int(veh->total_mass() * weight_factor), weight_units.c_str());
+
+    // Write the overall damage
+    mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:  "));
+    x[4] += utf8_width(_("Status: ")) + 1;
+    fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
+
     if (conf) {
-        fold_and_print(w_stats, wheels_y, wheels_x, wheels_w, c_ltgray,
+        fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                        _("Wheels:    <color_ltgreen>enough</color>"));
     } else {
-        fold_and_print(w_stats, wheels_y, wheels_x, wheels_w, c_ltgray,
+        fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                        _("Wheels:      <color_ltred>lack</color>"));
     }
 
-    fold_and_print(w_stats, k_dyn_y, k_dyn_x, k_dyn_w, c_ltgray,
+    // Write the most damaged part
+    if (mostDamagedPart != -1) {
+        std::string partName;
+        mvwprintz(w_stats, y[6], x[6], c_ltgray, _("Most damaged: "));
+        x[6] += utf8_width(_("Most damaged: ")) + 1;
+        std::string partID = veh->parts[mostDamagedPart].id;
+        vehicle_part part = veh->parts[mostDamagedPart];
+        int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
+        nc_color damagecolor = getDurabilityColor(damagepercent);
+        partName = vehicle_part_types[partID].name;
+        fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
+    }
+
+    fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
                    _("K dynamics:   <color_ltblue>%3d</color>%%"),
                    int(veh->k_dynamics() * 100));
-    fold_and_print(w_stats, k_mass_y, k_mass_x, k_mass_w, c_ltgray,
+    fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
                    _("K mass:       <color_ltblue>%3d</color>%%"),
                    int(veh->k_mass() * 100));
 
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
-    mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray,  _("Fuel usage:     "));
-    fuel_use_x += utf8_width(_("Fuel usage:     "));
+    mvwprintz(w_stats, y[9], x[9], c_ltgray,  _("Fuel usage:     "));
+    x[9] += utf8_width(_("Fuel usage:     "));
     ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
     nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
@@ -1250,44 +1201,26 @@ void veh_interact::display_stats()
                 fuel_usage = 1;
             }
             if (!first) {
-                mvwprintz(w_stats, fuel_use_y, fuel_use_x++, c_ltgray, "/");
+                mvwprintz(w_stats, y[9], x[9]++, c_ltgray, "/");
             }
-            mvwprintz(w_stats, fuel_use_y, fuel_use_x++, fuel_colors[i], "%d", fuel_usage);
+            mvwprintz(w_stats, y[9], x[9]++, fuel_colors[i], "%d", fuel_usage);
             if (fuel_usage > 9) {
-                fuel_use_x++;
+                x[9]++;
             }
             if (fuel_usage > 99) {
-                fuel_use_x++;
+                x[9]++;
             }
             first = false;
         }
         if (first) {
-            mvwprintz(w_stats, fuel_use_y, fuel_use_x, c_ltgray, "-"); // no engines
+            mvwprintz(w_stats, y[9], x[9], c_ltgray, "-"); // no engines
         }
     }
 
     // Print fuel percentage & type name only if it fits in the window, 13 is width of "E...F 100% - "
-    veh->print_fuel_indicator (w_stats, fuel_ind_y, fuel_ind_x, true,
-                               (fuel_ind_x + 13 < stats_w),
-                               (fuel_ind_x + 13 + fuel_name_length < stats_w));
-
-    // Write the overall damage
-    mvwprintz(w_stats, status_y, status_x, c_ltgray, _("Status:  "));
-    status_x += utf8_width(_("Status: ")) + 1;
-    fold_and_print(w_stats, status_y, status_x, status_w, totalDurabilityColor, totalDurabilityText);
-
-    // Write the most damaged part
-    if (mostDamagedPart != -1) {
-        std::string partName;
-        mvwprintz(w_stats, dmg_prt_y, dmg_prt_x, c_ltgray, _("Most damaged: "));
-        dmg_prt_x += utf8_width(_("Most damaged: ")) + 1;
-        std::string partID = veh->parts[mostDamagedPart].id;
-        vehicle_part part = veh->parts[mostDamagedPart];
-        int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
-        nc_color damagecolor = getDurabilityColor(damagepercent);
-        partName = vehicle_part_types[partID].name;
-        fold_and_print(w_stats, dmg_prt_y, dmg_prt_x, dmg_prt_w, damagecolor, partName);
-    }
+    veh->print_fuel_indicator (w_stats, y[10], x[10], true,
+                               (x[10] + 13 < stats_w),
+                               (x[10] + 13 + fuel_name_length < stats_w));
 
     wrefresh(w_stats);
 }

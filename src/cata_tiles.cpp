@@ -6,6 +6,7 @@
 #include "cata_tiles.h"
 #include "debug.h"
 #include "json.h"
+#include "path_info.h"
 #include "monstergenerator.h"
 #include "item_factory.h"
 #include <fstream>
@@ -105,8 +106,8 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
 {
     DebugLog() << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]\n";
     const std::string filename = "tileset.txt";                 // tileset-information-file
-    const std::string default_json = "gfx/tile_config.json";    // defaults
-    const std::string default_tileset = "gfx/tinytile.png";
+    const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
+    const std::string default_tileset = FILENAMES["defaulttilepng"];
 
     std::vector<std::string> files;
     files = file_finder::get_files_from_path(filename, dir_path, true);     // search for the files (tileset.txt)
@@ -131,7 +132,6 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
             } else if(sOption[0] == '#') { // # indicates a comment
                 getline(fin, sOption);
             } else {
-
                 if (sOption.find("NAME") != std::string::npos) {
                     std::string tileset_name;
                     tileset_name = "";
@@ -144,9 +144,11 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
                     getline(fin, sOption);                              // so we just skip it
                 } else if (sOption.find("JSON") != std::string::npos) {
                     fin >> json_path;
+                    json_path = FILENAMES["gfxdir"] + json_path;
                     DebugLog() << "\tJSON path set to [" << json_path << "].\n";
                 } else if (sOption.find("TILESET") != std::string::npos) {
                     fin >> tileset_path;
+                    tileset_path = FILENAMES["gfxdir"] + tileset_path;
                     DebugLog() << "\tTILESET path set to [" << tileset_path << "].\n";
                 }
             }

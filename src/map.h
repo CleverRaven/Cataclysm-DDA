@@ -315,6 +315,8 @@ void add_corpse(int x, int y);
  bool open_door(const int x, const int y, const bool inside);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
  bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);
+ // spawn items from the list, see map_bash_item_drop
+ void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
  void destroy(const int x, const int y, const bool makesound);
  void shoot(const int x, const int y, int &dam, const bool hit_items,
             const std::set<std::string>& ammo_effects);

@@ -28,6 +28,8 @@
 #include "name.h"
 #include "ammo.h"
 #include "debug.h"
+#include "path_info.h"
+
 
 #include <string>
 #include <vector>
@@ -140,7 +142,7 @@ void DynamicDataLoader::initialize()
     type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
     type_function_map["ammunition_type"] = new StaticFunctionAccessor(&ammunition_type::load_ammunition_type);
 
-    //data/json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
+    // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access
     type_function_map["snippet"] = new ClassFunctionAccessor<snippet_library>(&SNIPPET,
             &snippet_library::load_snippet);
@@ -327,11 +329,11 @@ void init_names()
         loc_name = loc_name.substr(0, dotpos);
     }
     // test if a local version exists
-    std::string filename = "data/names/" + loc_name + ".json";
+    std::string filename = FILENAMES["namesdir"] + loc_name + ".json";
     std::ifstream fin(filename.c_str(), std::ifstream::in | std::ifstream::binary);
     if (!fin.good()) {
         // if not, use "en.json"
-        filename = "data/names/en.json";
+        filename = FILENAMES["names"];
     }
     fin.close();
 
@@ -340,7 +342,7 @@ void init_names()
 #else
 void init_names()
 {
-    load_names_from_file("data/names/en.json");
+    load_names_from_file(FILENAMES["names"]);
 }
 #endif
 
@@ -411,4 +413,5 @@ void DynamicDataLoader::check_consistency() {
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();
+    check_furniture_and_terrain();
 }

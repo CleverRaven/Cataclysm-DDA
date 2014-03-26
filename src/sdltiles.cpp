@@ -14,6 +14,7 @@
 #include "cata_tiles.h"
 #include "get_version.h"
 #include "init.h"
+#include "path_info.h"
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -848,6 +849,12 @@ void CheckMessages()
     }
 }
 
+// Check if text ends with suffix
+static bool ends_with(const std::string &text, const std::string &suffix) {
+    return text.length() >= suffix.length() &&
+        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
+}
+
 //***********************************
 //Psuedo-Curses Functions           *
 //***********************************
@@ -877,47 +884,61 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 font_folder_list( fout, f );
                 continue;
             }
+
             TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
-            long nfaces = 0;
-            if(fnt != NULL) {
-                nfaces = TTF_FontFaces(fnt);
-                TTF_CloseFont(fnt);
-                fnt = NULL;
+            if (fnt == NULL) {
+                continue;
             }
+            long nfaces = 0;
+            nfaces = TTF_FontFaces(fnt);
+            TTF_CloseFont(fnt);
+            fnt = NULL;
+
             for(long i = 0; i < nfaces; i++) {
                 fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
-                if(fnt != NULL) {
-                    char *fami = TTF_FontFaceFamilyName(fnt);
-                    char *style = TTF_FontFaceStyleName(fnt);
-                    bool isbitmap = (0 == strcasecmp(".fon", f.substr(f.length() - 4).c_str()) );
-                    if(fami != NULL && (!isbitmap || i == 0) ) {
-                        fout << fami << std::endl;
-                        fout << f << std::endl;
-                        fout << i << std::endl;
-                    }
-                    if(fami != NULL && style != NULL && 0 != strcasecmp(style, "Regular")) {
-                        if(!isbitmap) {
-                            fout << fami << " " << style << std::endl;
-                            fout << f << std::endl;
-                            fout << i << std::endl;
-                        }
-                    }
+                if (fnt == NULL) {
+                    continue;
+                }
+
+                // Add font family
+                char *fami = TTF_FontFaceFamilyName(fnt);
+                if (fami != NULL) {
+                    fout << fami;
+                } else {
                     TTF_CloseFont(fnt);
-                    fnt = NULL;
+                    continue;
+                }
+
+                // Add font style
+                char *style = TTF_FontFaceStyleName(fnt);
+                bool isbitmap = ends_with(f, ".fon");
+                if (style != NULL && !isbitmap && strcasecmp(style, "Regular") != 0) {
+                    fout << " " << style;
+                }
+                fout << std::endl;
+
+                // Add filename and font index
+                fout << f << std::endl;
+                fout << i << std::endl;
+
+                TTF_CloseFont(fnt);
+                fnt = NULL;
+
+                // We use only 1 style in bitmap fonts.
+                if (isbitmap) {
+                    break;
                 }
             }
         }
         closedir (dir);
     }
-
 }
 
 static void save_font_list()
 {
-    std::ofstream fout("data/fontlist.txt", std::ios_base::trunc);
+    std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
 
-    font_folder_list(fout, "data");
-    font_folder_list(fout, "data/font");
+    font_folder_list(fout, FILENAMES["fontdir"]);
 
 #if (defined _WIN32 || defined WINDOWS)
     char buf[256];
@@ -952,14 +973,14 @@ static void save_font_list()
 static std::string find_system_font(std::string name, int& faceIndex)
 {
     struct stat stat_buf;
-    int rc = stat("data/fontlist.txt", &stat_buf);
+    int rc = stat(FILENAMES["fontlist"].c_str(), &stat_buf);
     if( rc == 0 ? stat_buf.st_size == 0 : true) {
       DebugLog() << "Generating fontlist\n";
       save_font_list();
     }
 
 
-    std::ifstream fin("data/fontlist.txt");
+    std::ifstream fin(FILENAMES["fontlist"].c_str());
     if (fin) {
         std::string fname;
         std::string fpath;
@@ -1013,12 +1034,6 @@ static int test_face_size(std::string f, int size, int faceIndex)
     return faceIndex;
 }
 
-// Check if text ends with suffix
-bool ends_with(const std::string &text, const std::string &suffix) {
-    return text.length() >= suffix.length() &&
-        strcasecmp(text.c_str() + text.length() - suffix.length(), suffix.c_str()) == 0;
-}
-
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
@@ -1044,12 +1059,12 @@ WINDOW *curses_init(void)
     std::string blending = "solid";
     std::ifstream fin;
     int fontsize = 0; //actuall size
-    fin.open("data/FONTDATA");
+    fin.open(FILENAMES["fontdata"].c_str());
     if (!fin.is_open()){
         fontwidth = 8;
         fontheight = 16;
-        std::ofstream fout;//create data/FONDATA file
-        fout.open("data/FONTDATA");
+        std::ofstream fout;//create FONDATA file
+        fout.open(FILENAMES["fontdata"].c_str());
         if(fout.is_open()) {
             fout << typeface << "\n";
             fout << fontwidth << "\n";
@@ -1076,7 +1091,7 @@ WINDOW *curses_init(void)
     int map_fontheight = fontheight;
     int map_fontsize = fontsize;
 
-    std::ifstream jsonstream("data/fontdata.json", std::ifstream::binary);
+    std::ifstream jsonstream(FILENAMES["second_fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
         JsonIn json(jsonstream);
         JsonObject config = json.get_object();
@@ -1125,7 +1140,7 @@ WINDOW *curses_init(void)
     DebugLog() << "Initializing SDL Tiles context\n";
     tilecontext = new cata_tiles(renderer);
     try {
-        tilecontext->init("gfx");
+        tilecontext->init(FILENAMES["gfxdir"]);
         DebugLog() << "Tiles initialized successfully.\n";
     } catch(std::string err) {
         // use_tiles is the cached value of the USE_TILES option.
@@ -1155,7 +1170,7 @@ Font *Font::load_font(const std::string &typeface, int fontsize, int fontwidth, 
         // Try to load as bitmap font.
         BitmapFont *bm_font = new BitmapFont(fontwidth, fontheight);
         try {
-            bm_font->load_font("data/font/" + typeface);
+            bm_font->load_font(FILENAMES["fontdir"] + typeface);
             // It worked, tell the world to use bitmap_font.
             return bm_font;
         } catch(std::exception &err) {
@@ -1236,7 +1251,7 @@ int curses_start_color(void)
 {
     colorpairs = new pairs[100];
     //Load the console colors from colors.json
-    std::ifstream colorfile("data/raw/colors.json", std::ifstream::in | std::ifstream::binary);
+    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
         char ch;
@@ -1269,7 +1284,7 @@ int curses_start_color(void)
         }
     }
     catch(std::string e){
-        throw "data/raw/colors.json: " + e;
+        throw FILENAMES["colors"] + ": " + e;
     }
     if(consolecolors.empty())return 0;
     windowsPalette[0]  = BGR(ccolor("BLACK"));
@@ -1373,6 +1388,7 @@ void rescale_tileset(int size) {
     #ifdef SDLTILES
         tilecontext->set_draw_scale(size);
         g->init_ui();
+        ClearScreen();
     #endif
 }
 
@@ -1587,13 +1603,13 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
-        typeface = "data/font/" + typeface + ".ttf";
+        typeface = FILENAMES["fontdir"] + typeface + ".ttf";
         DebugLog() << "Using compatible font [" + typeface + "].\n" ;
     }
     //different default font with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
-        typeface = "data/font/fixedsys.ttf";
+        typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
         DebugLog() << "Using fallback font [" + typeface + "].\n" ;
     }
     DebugLog() << "Loading truetype font [" + typeface + "].\n" ;

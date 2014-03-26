@@ -18,6 +18,7 @@
 #include "debug.h"
 #include "uistate.h"
 #include "translations.h"
+#include "path_info.h"
 
 // Display data
 int TERMX;
@@ -379,7 +380,7 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
     va_end(ap);
     fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "DEBUG: %s\n  Press spacebar...", text.c_str());
     std::ofstream fout;
-    fout.open("debug.log", std::ios_base::app | std::ios_base::out);
+    fout.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
     fout << filename << "[" << line << "]: " << text << "\n";
     fout.close();
     while (getch() != ' ') {

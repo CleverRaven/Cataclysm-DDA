@@ -1,6 +1,7 @@
 #include "mapdata.h"
 #include "color.h"
 #include "init.h"
+#include "item_factory.h"
 #include <ostream>
 
 std::vector<ter_t> terlist;
@@ -101,6 +102,21 @@ bool jsonstring(JsonObject &jsobj, std::string key, std::string & var) {
     return false;
 }
 
+void load_map_bash_item_drop_list(JsonArray ja, std::vector<map_bash_item_drop> &items) {
+    while ( ja.has_more() ) {
+        JsonObject jio = ja.next_object();
+        if ( jio.has_int("minamount") ) {
+            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
+            jsonint(jio, "chance", drop.chance);
+            items.push_back(drop);
+        } else {
+            map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
+            jsonint(jio, "chance", drop.chance);
+            items.push_back(drop);
+        }
+    }
+}
+
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
@@ -129,31 +145,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         }
 
         if ( j.has_array("items") ) {
-           JsonArray ja = j.get_array("items");
-           if (!ja.empty()) {
-               int c=0;
-               while ( ja.has_more() ) {
-                   if ( ja.has_object(c) ) {
-                       JsonObject jio = ja.next_object();
-                       if ( jio.has_string("item") && jio.has_int("amount") ) {
-                           if ( jio.has_int("minamount") ) {
-                               map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount") );
-                               jsonint(jio, "chance", drop.chance);
-                               items.push_back(drop);
-                           } else {
-                               map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount") );
-                               jsonint(jio, "chance", drop.chance);
-                               items.push_back(drop);
-                           }
-                       } else {
-                           debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
-                       }
-                   } else {
-                       debugmsg("terrain[\"%s\"].bash.items[%d]: invalid entry",jsobj.get_string("id").c_str(),c);
-                   }
-                   c++;
-               }
-           }
+            load_map_bash_item_drop_list(j.get_array("items"), items);
         }
 
 //debugmsg("%d/%d %s %s/%s %d",str_min,str_max, ter_set.c_str(), sound.c_str(), sound_fail.c_str(), items.size() );
@@ -161,6 +153,22 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
   } else {
     return false;
   }
+}
+
+bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
+{
+    if (!jsobj.has_object(member)) {
+        return false;
+    }
+    JsonObject j = jsobj.get_object(member);
+    jsonstring(j, "furn_set", furn_set );
+    if (!isfurniture) {
+        ter_set = j.get_string("ter_set");
+    }
+    can_do = true;
+
+    load_map_bash_item_drop_list(j.get_array("items"), items);
+    return true;
 }
 
 furn_t null_furniture_t() {
@@ -254,6 +262,7 @@ void load_furniture(JsonObject &jsobj)
       new_furniture.close = jsobj.get_string("close");
   }
   new_furniture.bash.load(jsobj, "bash", true);
+  new_furniture.deconstruct.load(jsobj, "deconstruct", true);
 
   new_furniture.loadid = furnlist.size();
   furnmap[new_furniture.id] = new_furniture;
@@ -318,6 +327,7 @@ void load_terrain(JsonObject &jsobj)
       new_terrain.close = jsobj.get_string("close");
   }
   new_terrain.bash.load(jsobj, "bash", false);
+  new_terrain.deconstruct.load(jsobj, "deconstruct", false);
   new_terrain.loadid=terlist.size();
   termap[new_terrain.id]=new_terrain;
   terlist.push_back(new_terrain);
@@ -363,7 +373,7 @@ ter_id t_null,
     t_wall_v_r,t_wall_v_w,t_wall_v_b,t_wall_v_g,t_wall_v_p,t_wall_v_y,
     t_door_c, t_door_b, t_door_o, t_rdoor_c, t_rdoor_b, t_rdoor_o,t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
     t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
-    t_door_metal_c, t_door_metal_o, t_door_metal_locked,
+    t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_mdoor_frame,
     t_door_bar_c, t_door_bar_o, t_door_bar_locked,
     t_door_glass_c, t_door_glass_o,
     t_portcullis,
@@ -494,7 +504,7 @@ void set_ter_ids() {
     t_door_locked=terfind("t_door_locked");
     t_door_locked_alarm=terfind("t_door_locked_alarm");
     t_door_frame=terfind("t_door_frame");
-    t_door_frame=terfind("t_mdoor_frame");
+    t_mdoor_frame=terfind("t_mdoor_frame");
     t_chaingate_l=terfind("t_chaingate_l");
     t_fencegate_c=terfind("t_fencegate_c");
     t_fencegate_o=terfind("t_fencegate_o");
@@ -744,3 +754,60 @@ ter_furn_id::ter_furn_id() {
     furn = (short)t_null;
 }
 */
+
+void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_terrain)
+{
+    for(size_t i = 0; i < mbi.items.size(); i++) {
+        const std::string &it = mbi.items[i].itemtype;
+        if (!item_controller->has_template(it)) {
+            debugmsg("%s: bash result item %s does not exist", id.c_str(), it.c_str());
+        }
+    }
+    if (mbi.str_max != -1) {
+        if (is_terrain && mbi.ter_set.empty()) {
+            debugmsg("bash result terrain of %s is undefined/empty", id.c_str());
+        }
+        if (!mbi.ter_set.empty() && termap.count(mbi.ter_set) == 0) {
+            debugmsg("bash result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
+        }
+        if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
+            debugmsg("bash result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
+        }
+    }
+}
+
+void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, bool is_terrain)
+{
+    if (!mbi.can_do) {
+        return;
+    }
+    for(size_t i = 0; i < mbi.items.size(); i++) {
+        const std::string &it = mbi.items[i].itemtype;
+        if (!item_controller->has_template(it)) {
+            debugmsg("%s: deconstruct result item %s does not exist", id.c_str(), it.c_str());
+        }
+    }
+    if (is_terrain && mbi.ter_set.empty()) {
+        debugmsg("deconstruct result terrain of %s is undefined/empty", id.c_str());
+    }
+    if (!mbi.ter_set.empty() && termap.count(mbi.ter_set) == 0) {
+        debugmsg("deconstruct result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
+    }
+    if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
+        debugmsg("deconstruct result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
+    }
+}
+
+void check_furniture_and_terrain()
+{
+    for(std::vector<furn_t>::const_iterator a = furnlist.begin(); a != furnlist.end(); ++a) {
+        const furn_t &f = *a;
+        check_bash_items(f.bash, f.id, false);
+        check_decon_items(f.deconstruct, f.id, false);
+    }
+    for(std::vector<ter_t>::const_iterator a = terlist.begin(); a != terlist.end(); ++a) {
+        const ter_t &t = *a;
+        check_bash_items(t.bash, t.id, true);
+        check_decon_items(t.deconstruct, t.id, true);
+    }
+}

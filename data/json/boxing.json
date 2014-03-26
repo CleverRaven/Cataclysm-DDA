@@ -8,8 +8,8 @@
         "covers" : ["HANDS"],
         "to_hit" : 1,
         "storage" : 0,
-        "symbol" : "G",
-        "description" : "A pair of big, red, 8 oz. Boxing gloves. They make dexterous tasks near impossible, but provide ample protection.",
+        "symbol" : "[",
+        "description" : "A pair of big, red, 8 oz. boxing gloves. They make dexterous tasks near impossible, but provide ample protection.",
         "price" : 4000,
         "material" : ["leather", "null"],
         "volume" : 4,
@@ -102,12 +102,12 @@
     {
         "type" : "furniture",
         "id" : "f_floor_canvas",
-        "name": "Heavy Punching Bag",
+        "name": "heavy punching bag",
         "symbol": "0",
         "color": "dkgray",
         "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["BASHABLE", "DECONSTRUCT", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
+        "flags": ["BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC"],
         "bash": {
             "str_min": 15, "str_max": 20,
             "sound": "whack!",
@@ -122,7 +122,7 @@
     {
         "type" : "furniture",
         "id" : "f_canvas_floor",
-        "name": "Canvas floor",
+        "name": "canvas floor",
         "symbol": "#",
         "color": "white",
         "move_cost_mod": 0,
@@ -132,7 +132,7 @@
     {
         "type" : "overmap_terrain",
         "id" : "gym",
-        "name" : "Boxing gym",
+        "name" : "boxing gym",
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
         "color" : "ltcyan",

@@ -9,6 +9,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "char_validity_check.h"
+#include "path_info.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -199,7 +200,7 @@ bool player::create(character_type type, std::string tempname)
             case PLTYPE_TEMPLATE: {
                 std::ifstream fin;
                 std::stringstream filename;
-                filename << "data/" << tempname << ".template";
+                filename << FILENAMES["templatedir"] << tempname << ".template";
                 fin.open(filename.str().c_str());
                 if (!fin.is_open()) {
                     debugmsg("Couldn't open %s!", filename.str().c_str());
@@ -924,7 +925,9 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 int inc_type = 0;
                 std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
                 if (u->has_trait(cur_trait)) {
+
                     inc_type = -1;
+
 
                     // If turning off the trait violates a profession condition,
                     // turn it back on.
@@ -971,7 +974,6 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         num_bad += traits[cur_trait].points * inc_type;
                     }
                 }
-
                 break;
             }
             case '<':
@@ -1610,7 +1612,8 @@ void save_template(player *u)
     if (name.length() == 0) {
         return;
     }
-    std::string playerfile = std::string("data/") + name + ".template";
+    std::string playerfile = FILENAMES["templatedir"] + name + ".template";
+
     std::ofstream fout;
     fout.open(playerfile.c_str());
     fout << u->save_info();
