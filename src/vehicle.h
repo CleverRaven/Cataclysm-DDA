@@ -108,6 +108,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
         int open;           // door is open
         int direction;      // direction the part is facing
     };
+    point target;           // coordinates for some kind of target; jumper cables use this
     std::vector<item> items;// inventory
 
     bool setid(const std::string str) {

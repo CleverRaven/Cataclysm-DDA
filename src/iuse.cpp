@@ -10380,3 +10380,22 @@ int iuse::multicooker(player *p, item *it, bool t)
 
     return 0;
 }
+
+int iuse::cable_attach(player *p, item *, bool)
+{
+    int posx, posy;
+    if(!choose_adjacent(_("Attach cable to vehicle where?"),posx,posy)) {
+        return 0;
+    }
+    vehicle* veh = g->m.veh_at(posx, posy);
+    if (veh == NULL) {
+        p->add_msg_if_player(_("There's no vehicle there."));
+        return 0;
+    }
+    else {
+        point abspos = g->m.getabs(posx, posy);
+        debugmsg("Found vehicle at %d,%d (%d,%d)", posx, posy, abspos.x, abspos.y);
+    }
+    p->moves -= 15;
+    return 0;
+}

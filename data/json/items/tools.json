@@ -1442,6 +1442,29 @@
         "revert_to": "null",
         "use_action": "SIPHON"
     },
+    {
+        "type":"TOOL",
+        "id": "jumper_cable",
+        "name": "large-gauge cable",
+        "description": "A heavy-duty cable, with two thick wires, twenty meters long. Looks like you could use it to jump-start a car.",
+        "weight": 750,
+        "to_hit": 1,
+        "color": "light_blue",
+        "symbol": "&",
+        "material": ["steel", "plastic"],
+        "volume": 6,
+        "bashing": 2,
+        "cutting": 0,
+        "category" : "veh_parts",
+        "price": 1,
+        "max_charges": 0,
+        "initial_charges": 0,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "NULL",
+        "revert_to": "null",
+        "use_action": "CABLE_ATTACH"
+    },
 
   {
     "id": "chainsaw_off",
