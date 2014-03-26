@@ -1278,7 +1278,7 @@
         "type" : "construction",
         "description" : "Dig Downstair",
         "difficulty" : 5,
-        "time" : 420,
+        "time" : 42,
         "tools" : [
             [ "pickaxe" ],
             [ "shovel", "e_tool" ],
@@ -1291,5 +1291,48 @@
         ],
         "pre_flags" : "DIGGABLE",
         "post_special" : "done_dig_stair"
+    },{
+        "type" : "construction",
+        "description" : "Mine Downstair",
+        "difficulty" : 6,
+        "time" : 48,
+        "tools" : [
+            [ "jackhammer", "jacqueshammer" ],
+            [ "shovel", "e_tool" ],
+            [ "crowbar", "halligan"],
+            [ "hatchet", "ax" ],
+            [ "hammer", "hammer_sledge" ]
+        ],
+        "components" : [
+            [ [ "2x4", 12 ] , [ "log", 12 ] ],
+            [ [ "rope_30", 1 ] ],
+            [ [ "gasoline", 30 ]]
+        ],
+        "pre_special" : "check_down_OK",
+        "pre_terrain" : "t_rock_floor",
+        "post_special" : "done_mine_downstair"
+    },{
+        "type" : "construction",
+        "description" : "Mine Upstair",
+        "difficulty" : 6,
+        "time" : 48,
+        "tools" : [
+            [ "jackhammer", "jacqueshammer" ],
+            [ "shovel", "e_tool" ],
+            [ "crowbar", "halligan"],
+            [ "hatchet", "ax" ],
+            [ "hammer", "hammer_sledge" ],
+            [ "miner_hat", "hat_hard", "firehelmet", "helmet_ball",
+            "helmet_army", "helmet_lobster", "helmet_riot"]
+        ],
+        "note" : "Helmets are essential because you're digging up and things may fall on you.",
+        "components" : [
+            [ [ "2x4", 12 ] , [ "log", 12 ] ],
+            [ [ "rope_30", 1 ] ],
+            [ [ "gasoline", 30 ]]
+        ],
+        "pre_special" : "check_up_OK",
+        "pre_terrain" : "t_rock",
+        "post_special" : "done_mine_upstair"
     }
 ]
