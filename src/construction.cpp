@@ -22,6 +22,8 @@ struct construct // Construction functions.
     bool check_empty(point); // tile is empty
     bool check_support(point); // at least two orthogonal supports
     bool check_deconstruct(point); // either terrain or furniture must be deconstructable
+    bool check_up_OK(point); // tile is empty and you're not on the surface
+    bool check_down_OK(point); // tile is empty and you're not on z-10 already
 
     // Special actions to be run post-terrain-mod
     void done_nothing(point) {}
@@ -31,7 +33,8 @@ struct construct // Construction functions.
     void done_vehicle(point);
     void done_deconstruct(point);
     void done_dig_stair(point);
-    void done_mine_stair(point);
+    void done_mine_downstair(point);
+    void done_mine_upstair(point);
 };
 
 // Keys available for use as hotkeys.  Excludes vi direction keys and Q for quit.
@@ -631,6 +634,18 @@ bool construct::check_deconstruct(point p)
     return g->m.ter_at(p.x, p.y).deconstruct.can_do;
 }
 
+bool construct::check_up_OK(point p)
+{
+    // You're not going to z+1.
+    return (g->levz < 0);
+}
+
+bool construct::check_down_OK(point p)
+{
+    // You're not going to z-11.
+    return (g->levz > -10);
+}
+
 void construct::done_tree(point p)
 {
     mvprintz(0, 0, c_red, _("Press a direction for the tree to fall in:"));
@@ -1007,7 +1022,7 @@ void construct::done_dig_stair(point p)
    }
 }
 
-void construct::done_mine_stair(point p)
+void construct::done_mine_downstair(point p)
 {
  tinymap tmpmap(&g->traps);
  // Upper left corner of the current active map (levx/levy) plus half active map width.
@@ -1057,6 +1072,10 @@ void construct::done_mine_stair(point p)
               g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
               g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
               g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
               return;
           }
       }
@@ -1069,6 +1088,10 @@ void construct::done_mine_stair(point p)
               }
               // presuming 2x4 to conserve lumber.
               item two_by_four(itypes["2x4"], 0);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
               g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
               g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
               g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
@@ -1099,9 +1122,9 @@ void construct::done_mine_stair(point p)
               g->u.mod_pain(10); // Backbreaking work, mining!
           }
       }
-      g->m.ter_set(p.x, p.y, t_slope_down); // There's the top half
+      g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // We need to write to submap-local coordinates.
-      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_slope_up); // and there's the bottom half.
+      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_up); // and there's the bottom half.
       tmpmap.save(g->cur_om, g->turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
                   g->levz - 1); // Save z-1.
    }
@@ -1286,12 +1309,174 @@ void construct::done_mine_stair(point p)
               g->u.mod_pain(4);
           }
       }
-      g->m.ter_set(p.x, p.y, t_slope_down); // There's the top half
+      g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
       // Again, need to use submap-local coordinates.
       tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_ladder_up); // and there's the bottom half.
       // And save to the center coordinate of the current active map.
       tmpmap.save(g->cur_om, g->turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
                   , g->levz - 1); // Save z-1.
+   }
+}
+
+void construct::done_mine_upstair(point p)
+{
+ tinymap tmpmap(&g->traps);
+ // Upper left corner of the current active map (levx/levy) plus half active map width.
+ // The player is always in the center tile of that 11x11 square.
+ tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz + 1, false);
+ bool danger_lava = false;
+ bool danger_open = false;
+ bool danger_liquid = false;
+ const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
+    real_coords rc( g->m.getabs(p.x % SEEX, p.y % SEEY) );
+
+    point omtile_align_start(
+        g->m.getlocal( rc.begin_om_pos() )
+    );
+    // Smart and perceptive folks can pick up on Bad Stuff Above farther out
+    // Tougher with the noisy J-Hammer though
+    int prox = ( (((g->u.int_cur) + (g->u.per_cur)) / 2) - 10 );
+    if (prox <= 0) {
+        prox = 1;
+    }
+  for (int i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++) {
+      for (int j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++) {
+          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
+              danger_lava = true;
+          }
+          // This ought to catch anything that's open-space
+          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
+              danger_open = true; // You might not know what's up there!
+          }
+          // Coming up into a river or sewer line could ruin your whole day!
+          if (rl_dist(p.x % SEEX, p.y % SEEY, i, j) <= prox && ( (tmpmap.ter(i, j) == t_water_sh) ||
+          (tmpmap.ter(i, j) == t_sewage) || (tmpmap.ter(i, j) == t_water_dp) ||
+          (tmpmap.ter(i, j) == t_water_pool) ) ) {
+              danger_liquid = true;
+          }
+      }
+  }
+  if (danger_lava || danger_open || danger_liquid) { // Bad Stuff detected.  Are you sure?
+      g->m.ter_set(p.x, p.y, t_rock_floor); // You dug a bit before discovering the problem
+      if (danger_lava) {
+          g->add_msg(_("The rock overhead feels hot.  You decide *not* to mine magma."));
+          // refund components!
+          if (!(g->u.has_trait("WEB_ROPE"))) {
+              item rope(itypes["rope_30"], 0);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+          }
+          // presuming 2x4 to conserve lumber.
+          item two_by_four(itypes["2x4"], 0);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          return;
+      }
+      if (danger_open) {
+          if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
+              // refund components!
+              if (!(g->u.has_trait("WEB_ROPE"))) {
+                  item rope(itypes["rope_30"], 0);
+                  g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+              }
+              // presuming 2x4 to conserve lumber.
+              item two_by_four(itypes["2x4"], 0);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              return;
+          }
+      }
+      if (danger_liquid) {
+          g->add_msg(_("The rock above is rather damp.  You decide *not* to mine water."));
+          // refund components!
+          if (!(g->u.has_trait("WEB_ROPE"))) {
+              item rope(itypes["rope_30"], 0);
+              g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
+          }
+          // presuming 2x4 to conserve lumber.
+          item two_by_four(itypes["2x4"], 0);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          return;
+      }
+  }
+  if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
+      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+          g->add_msg(_("You carve upward and breach open a space."));
+          g->u.hunger += 35;
+          g->u.fatigue += 40;
+          g->u.thirst += 35;
+          g->u.mod_pain(15); // NOPAIN is a THRESH_MEDICAL trait so shouldn't be present here
+      }
+      else {
+          g->add_msg(_("You drill out a passage, heading for the surface."));
+          g->u.hunger += 45;
+          g->u.fatigue += 50;
+          g->u.thirst += 45;
+          if (!(g->u.has_trait("NOPAIN"))) {
+              g->add_msg(_("You're quite sore from all that work."));
+              g->u.mod_pain(15); // Backbreaking work, mining!
+          }
+      }
+      g->m.ter_set(p.x, p.y, t_stairs_up); // There's the bottom half
+      // We need to write to submap-local coordinates.
+      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
+      tmpmap.save(g->cur_om, g->turn, g->levx + (MAPSIZE/2), g->levy + (MAPSIZE/2),
+                  g->levz + 1); // Save z+1.
+   }
+   else if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) >= 2) { // Empty non-lava terrain.
+      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
+          g->add_msg(_("You carve upward, and break into open space."));
+          g->u.hunger += 30; // Tougher to go up than down.
+          g->u.fatigue += 40;
+          g->u.thirst += 30;
+          g->u.mod_pain(5);
+      }
+      else {
+          g->add_msg(_("You drill up into a preexsting space."));
+          g->u.hunger += 40;
+          g->u.fatigue += 50;
+          g->u.thirst += 40;
+          if (!(g->u.has_trait("NOPAIN"))) {
+              g->add_msg(_("You're quite sore from all that work."));
+              g->u.mod_pain(5);
+          }
+      }
+      g->m.ter_set(p.x, p.y, t_stairs_up); // There's the bottom half
+      // Again, need to use submap-local coordinates.
+      tmpmap.ter_set(p.x % SEEX, p.y % SEEY, t_stairs_down); // and there's the top half.
+      // And save to the center coordinate of the current active map.
+      tmpmap.save(g->cur_om, g->turn, g->levx + (MAPSIZE / 2), g->levy + (MAPSIZE / 2)
+                  , g->levz + 1); // Save z+1.
    }
 }
 
@@ -1356,6 +1541,10 @@ void load_construction(JsonObject &jo)
         con->pre_special = &construct::check_support;
     } else if (prefunc == "check_deconstruct") {
         con->pre_special = &construct::check_deconstruct;
+    } else if (prefunc == "check_up_OK") {
+        con->pre_special = &construct::check_up_OK;
+    } else if (prefunc == "check_down_OK") {
+        con->pre_special = &construct::check_down_OK;
     } else {
         if (prefunc != "") {
             debugmsg("Unknown pre_special function: %s", prefunc.c_str());
@@ -1376,9 +1565,11 @@ void load_construction(JsonObject &jo)
         con->post_special = &construct::done_deconstruct;
     } else if (postfunc == "done_dig_stair") {
         con->post_special = &construct::done_dig_stair;
-    } else if (postfunc == "done_mine_stair") {
-        con->post_special = &construct::done_mine_stair;
-    }else {
+    } else if (postfunc == "done_mine_downstair") {
+        con->post_special = &construct::done_mine_downstair;
+    } else if (postfunc == "done_mine_upstair") {
+        con->post_special = &construct::done_mine_upstair;
+    } else {
         if (postfunc != "") {
             debugmsg("Unknown post_special function: %s", postfunc.c_str());
         }
