@@ -1,9 +1,3 @@
-/* Main Loop for cataclysm
- * Linux only I guess
- * But maybe not
- * Who knows
- */
-
 #include "cursesdef.h"
 #include "game.h"
 #include "color.h"
@@ -61,7 +55,7 @@ int main(int argc, char *argv[])
 #ifdef USE_HOME_DIR
     init_user_dir();
 #else
-    init_user_dir("./");
+    init_user_dir("config/");
 #endif
     set_standart_filenames();
 
