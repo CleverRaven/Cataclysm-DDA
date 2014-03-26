@@ -1139,30 +1139,32 @@ void mapgen_rail_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
     // map tile
     mapf::formatted_set_simple(m, 0, 0,
 "\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n",
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n",
+
+
         mapf::basic_bind(". ^ x -", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_ew") ? t_railroad_tie_v : t_railroad_tie_h),
         mapf::basic_bind(". ^ x -", f_null, f_null, f_null, f_null, f_null));
 
@@ -1214,30 +1216,30 @@ void mapgen_rail_and_road(map *m, oter_id terrain_type, mapgendata dat, int turn
 
     mapf::formatted_set_simple(m, 0, 0,
 "\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-.1\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-yyyxyyyyyxyyyyxyyyyyxyyy\n\
-yyyxyyyyyxyyyyxyyyyyxyyy\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-,,,x,,,,,x,,,,x,,,,,x,,,\n\
-1.^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n",
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^..1\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+yyyyyxyyyxyyyyxyyyxyyyyy\n\
+yyyyyxyyyxyyyyxyyyxyyyyy\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+,,,,,x,,,x,,,,x,,,x,,,,,\n\
+1..^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n",
     /* 
     ".", "^" and "-" become a sidewalk tile near cities
     otherwise, "." is the ground, "^" is rubble and
@@ -1254,28 +1256,117 @@ yyyxyyyyyxyyyyxyyyyyxyyy\n\
 /* Railroad takes a 90 degree curve */
 void mapgen_rail_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
-
-
-    ter_id tie_h;
-    ter_id tie_v;
     ter_id tie_d;
+    const char* terrain;
 
     if(terrain_type == "rail_ne") {
-       tie_h = t_railroad_tie_h;
-       tie_v = t_railroad_tie_v;
        tie_d = t_railroad_tie_d1;
+       terrain = "\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^^^^\n\
+...^^x^^^x^^.^-x^^^xd^|^\n\
+...^-x---x-^..^^x--dxxxx\n\
+...^^x^^^x^^..^^x^d^|^|^\n\
+...^-x---x-^...^^x^^|^|^\n\
+...^^x^^^x^^....d^xx|^|^\n\
+...^-x---x-^......^^xxxx\n\
+...^^x^^^x^^.......^|^|^\n\
+...^-x---x-^........^^^^\n\
+...^^x^^^x^^^^^^^^^^^^^^\n\
+...^-x---xd^|^|^|^|^|^|^\n\
+....^^x^^dxxxxxxxxxxxxxx\n\
+....^^x^d^|^|^|^|^|^|^|^\n\
+.....^^x^^|^|^|^|^|^|^|^\n\
+......d^xx|^|^|^|^|^|^|^\n\
+.......^^^xxxxxxxxxxxxxx\n\
+.........^|^|^|^|^|^|^|^\n\
+..........^^^^^^^^^^^^^^\n\
+........................\n\
+........................\n\
+........................\n";
     } else if(terrain_type == "rail_es") {
-       tie_h = t_railroad_tie_v;
-       tie_v = t_railroad_tie_h;
        tie_d = t_railroad_tie_d2;
+       terrain = "\
+........................\n\
+........................\n\
+........................\n\
+..........^^^^^^^^^^^^^^\n\
+.........^|^|^|^|^|^|^|^\n\
+.......^^^xxxxxxxxxxxxxx\n\
+......d^xx|^|^|^|^|^|^|^\n\
+.....^^x^^|^|^|^|^|^|^|^\n\
+....^^x^d^|^|^|^|^|^|^|^\n\
+....^^x^^dxxxxxxxxxxxxxx\n\
+...^^x^^^xd^|^|^|^|^|^|^\n\
+...^-x---x-^^^^^^^^^^^^^\n\
+...^^x^^^x^^........^^^^\n\
+...^-x---x-^.......^|^|^\n\
+...^^x^^^x^^......^^xxxx\n\
+...^-x---x-^....d^xx|^|^\n\
+...^^x^^^x^^...^^x^^|^|^\n\
+...^-x---x-^..^^x^d^|^|^\n\
+...^^x^^^x^^..^^x^^dxxxx\n\
+...^-x---x-^.^-x---xd^|^\n\
+...^^x^^^x^^^^x^^^x^^^^^\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n";
     } else if(terrain_type == "rail_sw") {
-       tie_h = t_railroad_tie_h;
-       tie_v = t_railroad_tie_v;
        tie_d = t_railroad_tie_d1;
+       terrain = "\
+........................\n\
+........................\n\
+........................\n\
+^^^^^^^^^^^^^^..........\n\
+|^|^|^|^|^|^|^^.........\n\
+xxxxxxxxxxxxxx^^^.......\n\
+|^|^|^|^|^|^|^xx^d......\n\
+|^|^|^|^|^|^|^^^x^^.....\n\
+|^|^|^|^|^|^|^^d^x^^....\n\
+xxxxxxxxxxxxxxd--x-^....\n\
+|^|^|^|^|^|^|dx^^^x^^...\n\
+^^^^^^^^^^^^^-x---x-^...\n\
+^^^^........^^x^^^x^^...\n\
+|^|^^.......^-x---x-^...\n\
+xxxx^^......^^x^^^x^^...\n\
+|^|^xx^d....^-x---x-^...\n\
+|^|^^^x^^...^^x^^^x^^...\n\
+|^|^^d^x^^..^-x---x-^...\n\
+xxxxd^^x^^..^^x^^^x^^...\n\
+|^|dx---x-^.^-x---x-^...\n\
+^^^^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n";
     } else if(terrain_type == "rail_wn") {
-       tie_h = t_railroad_tie_v;
-       tie_v = t_railroad_tie_h;
        tie_d = t_railroad_tie_d2;
+       terrain = "\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+^^^^-x---x-^^-x---x-^...\n\
+|^|dx^^^x^^.^^x^^^x^^...\n\
+xxxxd--x-^..^-x---x-^...\n\
+|^|^^d^x^^..^^x^^^x^^...\n\
+|^|^^^x^^...^-x---x-^...\n\
+|^|^xx^d....^^x^^^x^^...\n\
+xxxx^^......^-x---x-^...\n\
+|^|^^.......^^x^^^x^^...\n\
+^^^^........^-x---x-^...\n\
+^^^^^^^^^^^^^^x^^^x^^...\n\
+|^|^|^|^|^|^|dx---x-^...\n\
+xxxxxxxxxxxxxxd^^x^^....\n\
+|^|^|^|^|^|^|^^d^x^^....\n\
+|^|^|^|^|^|^|^^^x^^.....\n\
+|^|^|^|^|^|^|^xx^d......\n\
+xxxxxxxxxxxxxx^^^.......\n\
+|^|^|^|^|^|^|^^.........\n\
+^^^^^^^^^^^^^^..........\n\
+........................\n\
+........................\n\
+........................\n";
     }
 
     // draw ground
@@ -1284,46 +1375,11 @@ void mapgen_rail_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, 
             m->ter_set(i,j, dat.groundcover());
         }
     }
-    mapf::formatted_set_simple(m, 0, 0,
-"\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x-|^\n\
-..-x-----x-..^x^^^^--xxx\n\
-..^x^^^^^x^..^x^^--d|^|^\n\
-..-x-----x-...-x-^d|^^|^\n\
-..^x^^^^^x^...^x^d^|^^|^\n\
-..-x-----x-....^x^|^^^|^\n\
-..^x^^^^^x^....d^xx^^^|^\n\
-..-x-----x-......^|xxxxx\n\
-..^x^^^^^x^........^^^|^\n\
-..-x-----x-.............\n\
-..^x^^^^^x^.............\n\
-..-x-----x|^|^|^|^|^|^|^\n\
-..^x^^^^-dxxxxxxxxxxxxxx\n\
-..^x^^--d||^|^|^|^|^|^|^\n\
-...-x-^d|^|^|^|^|^|^|^|^\n\
-...^x^d^|^|^|^|^|^|^|^|^\n\
-....^x^|^^|^|^|^|^|^|^|^\n\
-....d^xx^^|^|^|^|^|^|^|^\n\
-......^|xxxxxxxxxxxxxxxx\n\
-........^^|^|^|^|^|^|^|^\n\
-........................\n\
-........................\n",
-
-    mapf::basic_bind(". ^ x d - |", t_null, t_rubble, t_railroad_track, tie_d, tie_h, tie_v),
-    mapf::basic_bind(". ^ x d - |", f_null, f_null, f_null, f_null, f_null, f_null));
-
-    if (terrain_type == "rail_es") {
-        m->rotate(1);
-    }
-    if (terrain_type == "rail_sw") {
-        m->rotate(2);
-    }
-    if (terrain_type == "rail_wn") {
-        m->rotate(3); //looks like that the code above paints rail_ne
-    }
-    
+    mapf::formatted_set_simple(m, 0, 0, terrain, 
+        mapf::basic_bind(". ^ x d - |", t_null, t_rubble, t_railroad_track, tie_d, t_railroad_tie_h, t_railroad_tie_v),
+        mapf::basic_bind(". ^ x d - |", f_null, f_null, f_null, f_null, f_null, f_null)
+    );
+   
 }
 
 /* End piece of a railroad with buffer stop */
@@ -1348,11 +1404,11 @@ void mapgen_rail_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         mapf::formatted_set_simple(m, 0, start,
 "\
 ........................\n\
-..^^^^^^^^^..^^^^^^^^^..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..SSSSSSSSS..SSSSSSSSS..\n",
+...^^^^^^^^^^^^^^^^^^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^SSSSSSS^^SSSSSSS^...\n",
         mapf::basic_bind(". ^ x - S", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_buffer_stop_h : t_buffer_stop_v),
         mapf::basic_bind(". ^ x - S", f_null, f_null, f_null, f_null, f_null, f_null));
 
@@ -1360,8 +1416,9 @@ void mapgen_rail_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         for (int i=start+6; i <= SEEX * 2 - 2; i=i+2) {
             mapf::formatted_set_simple(m, 0, i,
 "\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n",
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n",
+
             mapf::basic_bind(". ^ x -", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v),
             mapf::basic_bind(". ^ x -", f_null, f_null, f_null, f_null, f_null));
 
@@ -1370,20 +1427,20 @@ void mapgen_rail_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
     } else {
         mapf::formatted_set_simple(m, 0, start,
 "\
-..^^^^^^^^^..^^^^^^^^^..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n\
-..SSSSSSSSS..SSSSSSSSS..\n\
-..^x^^^^^x^..^x^^^^^x^..\n",
+...^^^^^^^^^^^^^^^^^^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n\
+...^SSSSSSS^^SSSSSSS^...\n\
+...^^x^^^x^^^^x^^^x^^...\n",
         mapf::basic_bind(". ^ x - S", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_buffer_stop_h : t_buffer_stop_v),
         mapf::basic_bind(". ^ x - S", f_null, f_null, f_null, f_null, f_null, f_null));
 
         for (int i=start+6; i <= SEEX * 2 - 2; i=i+2) {
             mapf::formatted_set_simple(m, 0, i,
 "\
-..-x-----x-..-x-----x-..\n\
-..^x^^^^^x^..^x^^^^^x^..\n",
+...^-x---x-^^-x---x-^...\n\
+...^^x^^^x^^^^x^^^x^^...\n",
             mapf::basic_bind(". ^ x -", t_null, t_rubble, t_railroad_track, (terrain_type == "rail_end_south" || terrain_type == "rail_end_north") ? t_railroad_tie_h : t_railroad_tie_v),
             mapf::basic_bind(". ^ x -", f_null, f_null, f_null, f_null, f_null));
         }
@@ -1708,30 +1765,30 @@ void mapgen_bridge_rail(map *m, oter_id terrain_type, mapgendata dat, int turn, 
     /* make bridge */
     mapf::formatted_set_simple(m, 0, 0,
 "\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n\
-~##x#####x####x#####x##~\n\
-~#-x-----x-##-x-----x-#~\n",
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n\
+~~~##x###x####x###x##~~~\n\
+~~~#-x---x-##-x---x-#~~~\n",
 /* all "#" are either concrete or grate */
     mapf::basic_bind("~ # x -", t_water_dp, support_material, t_railroad_track, (terrain_type == "bridge_rail_concrete_ns" || terrain_type == "bridge_rail_grates_ns") ? t_railroad_tie_h : t_railroad_tie_v),
     mapf::basic_bind("~ # x -", f_null, f_null, f_null, f_null));
