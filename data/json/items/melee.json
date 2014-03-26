@@ -1839,7 +1839,7 @@
     "bashing": 12,
     "cutting": 4,
     "to_hit": 0,
-    "flags" : ["CHOP", "SHEATHABLE"],
+    "flags" : ["CHOP"],
     "techniques": ["WBLOCK_1"]
   },
   { "type":"GENERIC",
