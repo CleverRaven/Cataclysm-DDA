@@ -1749,14 +1749,14 @@
     },{
         "type" : "overmap_terrain",
         "id" : "rail_and_road",
-        "name" : "railroad and road",
+        "name" : "railroad crossing",
         "sym" : 4194414,
         "color" : "white",
         "see_cost" : 2
     },{
         "type" : "overmap_terrain",
         "id" : "road_and_rail",
-        "name" : "railroad and road",
+        "name" : "railroad crossing",
         "sym" : 4194414,
         "color" : "white",
         "see_cost" : 2
