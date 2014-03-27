@@ -207,6 +207,9 @@ it_gun *get_gun_type(std::string name) {
 it_gunmod *get_gunmod_type(std::string name) {
     return dynamic_cast<it_gunmod*>(item_controller->find_template(name));
 }
+it_armor *get_armor_type(std::string name) {
+    return dynamic_cast<it_armor*>(item_controller->find_template(name));
+}
 
 
 // Manually implemented lua functions
