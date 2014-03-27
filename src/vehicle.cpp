@@ -3413,6 +3413,7 @@ void vehicle::refresh()
     tracking_epower = 0;
     fridge_epower = 0;
     recharger_epower = 0;
+    alternator_load = 0;
     has_pedals = false;
 
     // Main loop over all vehicle parts.

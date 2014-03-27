@@ -772,8 +772,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  if ( !type->qualities.empty()){
     for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
         quality != type->qualities.end(); ++quality){
-        dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has %s of level %d."),
-                                 qualities[quality->first].name.c_str(), quality->second)));
+        dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has level %d %s quality."),
+                                 quality->second,
+                                 qualities[quality->first].name.c_str())));
     }
  }
 
@@ -1444,12 +1445,14 @@ bool item::has_quality(std::string quality_id) const {
 }
 
 bool item::has_quality(std::string quality_id, int quality_value) const {
-    // TODO: actually implement this >:(
-    (void)quality_id; (void)quality_value; //unused grrr
     bool ret = false;
-
-    if(!type->qualities.empty()){
-      ret = true;
+    if ( !type->qualities.empty()){
+        for(std::map<std::string, int>::const_iterator quality = type->qualities.begin(); quality != type->qualities.end(); ++quality){
+            if(quality->first == quality_id && quality->second >= quality_value) {
+                ret = true;
+                break;
+            }
+        }
     }
     return ret;
 }
@@ -2465,7 +2468,7 @@ bool item::is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const
         return true;
     }
     for (size_t i = 0; i < contents.size(); i++) {
-        if (contents[i].ammo_type() == ammo_type_id) {
+        if (contents[i].is_of_ammo_type_or_contains_it(ammo_type_id)) {
             return true;
         }
     }

@@ -156,7 +156,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```AMIGARA``` Removes hypnosis if the last one.
 - ```THING``` Turn into a full thing.
 - ```EXPLODE``` Damaging explosion.
-- ```BROKEN``` Spawns a broken robot.
+- ```BROKEN``` Spawns a broken robot item, its id calculated like this: the prefix "mon_" is removed from the monster id, than the prefix "broken_" is added. Example: mon_eyebot -> broken_eyebot
 - ```RATKING``` Cure verminitis.
 - ```KILL_BREATHERS``` All breathers die.
 - ```SMOKEBURST``` Explode like a huge smoke bomb.
@@ -240,6 +240,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```NONE``` No special attack.
 - ```ANTQUEEN``` Hatches/grows: `egg > ant > soldier`.
 - ```SHRIEK``` "a terrible shriek!"
+- ```HOWL``` "an ear-piercing howl!"
 - ```RATTLE``` "a sibilant rattling sound!"
 - ```ACID``` Spit acid.
 - ```SHOCKSTORM``` Shoots bolts of lightning.

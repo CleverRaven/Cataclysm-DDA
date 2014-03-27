@@ -57,10 +57,10 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     it_ammo *curammo = proj.ammo;
 
     // Trace the trajectory, doing damage in order
-    int tx = trajectory[0].x;
-    int ty = trajectory[0].y;
-    int px = trajectory[0].x;
-    int py = trajectory[0].y;
+    int tx = sourcex;
+    int ty = sourcey;
+    int px = sourcex;
+    int py = sourcey;
 
     // if this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle* in_veh = is_fake() ? g->m.veh_at(xpos(), ypos()) : NULL;

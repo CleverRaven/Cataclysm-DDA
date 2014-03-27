@@ -462,6 +462,208 @@ classes = {
                 rval = "int"
             },
         }
+    },
+    itype = {
+        attributes = {
+            name = {
+                type = "string",
+                writable = true
+            },
+            description = {
+                type = "string",
+                writable = true
+            },
+            m1 = {
+                type = "string",
+                writable = true
+            },
+            m2 = {
+                type = "string",
+                writable = true
+            },
+            volume = {
+                type = "int",
+                writable = true
+            },
+            stack_size = {
+                type = "int",
+                writable = true
+            },
+            weight = {
+                type = "int",
+                writable = true
+            },
+            melee_dam = {
+                type = "int",
+                writable = true
+            },
+            melee_cut = {
+                type = "int",
+                writable = true
+            },
+            m_to_hit = {
+                type = "int",
+                writable = true
+            },
+            price = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    it_comest = {
+        parent = "itype",
+        attributes = {
+            quench = {
+                type = "int",
+                writable = true
+            },
+            nutr = {
+                type = "int",
+                writable = true
+            },
+            spoils = {
+                type = "int",
+                writable = true
+            },
+            addict = {
+                type = "int",
+                writable = true
+            },
+            charges = {
+                type = "int",
+                writable = true
+            },
+            stim = {
+                type = "int",
+                writable = true
+            },
+            healthy = {
+                type = "int",
+                writable = true
+            },
+            brewtime = {
+                type = "int",
+                writable = true
+            },
+            fun = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    it_gun = {
+        parent = "itype",
+        attributes = {
+            ammo = {
+                type = "string",
+                writable = true
+            },
+            dmg_bonus = {
+                type = "int",
+                writable = true
+            },
+            pierce = {
+                type = "int",
+                writable = true
+            },
+            range = {
+                type = "int",
+                writable = true
+            },
+            dispersion = {
+                type = "int",
+                writable = true
+            },
+            recoil = {
+                type = "int",
+                writable = true
+            },
+            durability = {
+                type = "int",
+                writable = true
+            },
+            burst = {
+                type = "int",
+                writable = true
+            },
+            clip = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    it_gunmod = {
+        parent = "itype",
+        attributes = {
+            dispersion = {
+                type = "int",
+                writable = true
+            },
+            damage = {
+                type = "int",
+                writable = true
+            },
+            loudness = {
+                type = "int",
+                writable = true
+            },
+            clip = {
+                type = "int",
+                writable = true
+            },
+            recoil = {
+                type = "int",
+                writable = true
+            },
+            burst = {
+                type = "int",
+                writable = true
+            },
+            newtype = {
+                type = "string",
+                writable = true
+            },
+            location = {
+                type = "string",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    it_tool = {
+        parent = "itype",
+        attributes = {
+            ammo = {
+                type = "string",
+                writable = true
+            },
+            max_charges = {
+                type = "int",
+                writable = true
+            },
+            def_charges = {
+                type = "int",
+                writable = true
+            },
+            charges_per_use = {
+                type = "int",
+                writable = true
+            },
+            turns_per_charge = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
     }
 }
 
@@ -530,5 +732,25 @@ global_functions = {
         cpp_name = "create_monster_group",
         args = {"overmap", "string", "int", "int", "int", "int", "int"},
         rval = "mongroup"
+    },
+    get_comestible_type = {
+        cpp_name = "get_comestible_type",
+        args = { "string" },
+        rval = "it_comest"
+    },
+    get_gun_type = {
+        cpp_name = "get_gun_type",
+        args = { "string" },
+        rval = "it_gun"
+    },
+    get_gunmod_type = {
+        cpp_name = "get_gunmod_type",
+        args = { "string" },
+        rval = "it_gunmod"
+    },
+    get_tool_type = {
+        cpp_name = "get_tool_type",
+        args = { "string" },
+        rval = "it_tool"
     }
 }

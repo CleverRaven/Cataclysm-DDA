@@ -24,7 +24,7 @@ body_part random_body_part(bool main_parts_only = false);
 int random_side(body_part);
 
 void init_body_parts();
-extern std::map<std::string,body_part> body_parts;
+extern std::map<std::string, body_part> body_parts;
 std::string get_body_part_id(body_part bp);
 
 #endif

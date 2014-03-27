@@ -13,7 +13,6 @@
 #include "vehicle.h"
 #include "martialarts.h"
 #include "player_activity.h"
-//#include "field.h"
 
 class monster;
 class game;
@@ -240,6 +239,8 @@ public:
  bool has_mabuff(mabuff_id buff_id); // checks if a player has any martial arts buffs attached
  bool has_martialart(const matype_id &ma_id) const; // checks if a player has any martial arts buffs attached
 
+ void add_martialart(const matype_id &ma_id);
+
  int mabuff_tohit_bonus(); // martial arts to-hit bonus
  int mabuff_dodge_bonus(); // martial arts dodge bonus
  int mabuff_block_bonus(); // martial arts block bonus
@@ -395,7 +396,7 @@ public:
  bool consume(int pos);
  bool eat(item *eat, it_comest *comest);
  void consume_effects(item *eaten, it_comest *comest, bool rotten = false);
- virtual bool wield(signed char invlet, bool autodrop = false);// Wield item; returns false on fail
+ virtual bool wield(item* it, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(); // Pick a style
  bool wear(int pos, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool wear_item(item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
@@ -436,7 +437,7 @@ public:
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
  int adjust_for_focus(int amount);
- void practice(const calendar& turn, Skill *s, int amount);
+ void practice(const calendar& turn, Skill *s, int amount, int cap = 99);
  void practice(const calendar& turn, std::string s, int amount);
 
  void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
@@ -509,8 +510,8 @@ public:
 
  int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
- bool has_watertight_container();
- bool has_matching_liquid(itype_id it);
+ // Check for free container space for the whole liquid item
+ bool has_container_for(const item &liquid);
  bool has_drink();
  bool has_weapon_or_armor(char let) const; // Has an item with invlet let
  bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag

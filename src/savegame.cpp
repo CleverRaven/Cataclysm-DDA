@@ -1,4 +1,3 @@
-
 #include "game.h"
 #include "output.h"
 #include "skill.h"
@@ -38,8 +37,6 @@
  */
 const int savegame_version = 17;
 const int savegame_minver_game = 11;
-//const int savegame_minver_map = 11;
-const int savegame_minver_overmap = 12;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.

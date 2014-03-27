@@ -312,8 +312,18 @@ void dis_effect(player &p, disease &dis)
     int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
-    bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100)) ||
-                                (p.has_trait("POISRESIST") && one_in(500));
+    int BMB = 0; // Body Mass Bonus
+    if (p.has_trait("FAT")) {
+        BMB += 25;
+    }
+    if (p.has_trait("LARGE") || p.has_trait("LARGE_OK")) {
+        BMB += 100;
+    }
+    if (p.has_trait("HUGE") || p.has_trait("HUGE_OK")) {
+        BMB += 200;
+    }
+    bool inflictBadPsnPain = (!p.has_trait("POISRESIST") && one_in(100 + BMB)) ||
+                                (p.has_trait("POISRESIST") && one_in(500 + BMB));
     switch(disType) {
         case DI_COLD:
             switch(dis.bp) {
@@ -951,7 +961,7 @@ void dis_effect(player &p, disease &dis)
             break;
 
         case DI_TAPEWORM:
-            if (p.has_trait("PARAIMMUNE")) {
+            if (p.has_trait("PARAIMMUNE") || p.has_trait("EATHEALTH")) {
                p.rem_disease("tapeworm");
             } else {
                 if(one_in(512)) {
@@ -2106,13 +2116,13 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return _(
         "Increased thirst;   Frequent coughing\n"
         "Strength - 3;   Dexterity - 1;   Intelligence - 2;   Perception - 1\n"
-        "Symptoms alleviated by medication (Dayquil or Nyquil).");
+        "Symptoms alleviated by medication (cough syrup).");
 
     case DI_FLU:
         return _(
         "Increased thirst;   Frequent coughing;   Occasional vomiting\n"
         "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
-        "Symptoms alleviated by medication (Dayquil or Nyquil).");
+        "Symptoms alleviated by medication (cough syrup).");
 
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
@@ -2383,7 +2393,7 @@ void manage_fungal_infection(player& p, disease& dis)
                 p.moves = -200;
                 p.hunger += awfulness;
                 p.thirst += awfulness;
-                p.hurt(bp_torso, -1, awfulness / p.str_cur);  // can't be healthy
+                p.hurt(bp_torso, -1, awfulness / std::max(p.str_cur, 1)); // can't be healthy
             }
         } else {
             p.add_disease("fungus", 1, true, 1, 1, 0, -1);
@@ -2422,9 +2432,21 @@ void manage_fungal_infection(player& p, disease& dis)
         }
     // we're fucked
     } else if (one_in(6000 + bonus * 20)) {
-        g->add_msg_player_or_npc(&p,
-            _("Your hands bulge. Fungus stalks burst through the bulge!"),
-            _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
+        if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_l] <= 0) {
+            if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_l] <= 0) {
+                g->add_msg_player_or_npc(&p,
+                _("The flesh on your broken arms bulges. Fungus stalks burst through!"),
+                _("<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!"));
+            } else {
+                g->add_msg_player_or_npc(&p,
+                _("The flesh on your broken arm bulges, your unbroken arm also bulges. Fungus stalks burst through!"),
+                _("<npcname>'s arms bulge. Fungus stalks burst out of the bulges!"));
+            }
+        } else {
+            g->add_msg_player_or_npc(&p,
+                _("Your hands bulge. Fungus stalks burst through the bulge!"),
+                _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!"));
+        }
         p.hurt(bp_arms, 0, 999);
         p.hurt(bp_arms, 1, 999);
     }

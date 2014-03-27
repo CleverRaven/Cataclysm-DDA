@@ -137,6 +137,7 @@ void MonsterGenerator::init_death()
 
     /* Currently Unimplemented */
     //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
+    //death_map["HOWL"] = &mdeath::howl;// Wolf's howling
     //death_map["RATTLE"] = &mdeath::rattle;// Rattles like a rattlesnake
 }
 
@@ -146,6 +147,7 @@ void MonsterGenerator::init_attack()
     attack_map["ANTQUEEN"] = &mattack::antqueen;
     attack_map["SHRIEK"] = &mattack::shriek;
     attack_map["RATTLE"] = &mattack::rattle;
+    attack_map["HOWL"] = &mattack::howl;
     attack_map["ACID"] = &mattack::acid;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
