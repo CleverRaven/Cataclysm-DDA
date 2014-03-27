@@ -4618,6 +4618,9 @@ void map::build_transparency_cache()
     if (!transparency_cache_dirty) {
         return;
     }
+    portal_cache.clear();
+    portal_seen = false;
+    memset( portal_map, 0, sizeof(portal_map) );
     for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
         for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
 
@@ -4659,6 +4662,8 @@ void map::build_transparency_cache()
                         case fd_nuke_gas:
                             transparency_cache[x][y] *= 0.5;
                             break;
+                        case fd_portal:
+                            portal_cache.insert(point(x, y));
                         default:
                             transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
                             break;
@@ -4672,12 +4677,53 @@ void map::build_transparency_cache()
     transparency_cache_dirty = false;
 }
 
+void map::load_portal_destination()
+{
+    // Todo: manage the lifetime here, don't need to delete and recreate every turn.
+    if( portal_destination ) {
+        // TODO: stash or calculate the coordinates and save any changes.
+        // portal_destination->save();
+        // TODO: don't leak memory like a sieve lol.
+        // delete portal_destination;
+        portal_destination = NULL;
+    }
+    if( !portal_cache.empty() ) {
+        // grab coordinates from first portal found, should be consistent-ish across turns.
+        point portal_location = *(portal_cache.begin());
+        int portal_value = get_field_age( portal_location, fd_portal );
+        // Extract low order 5 bits for level, but mod 10.
+        int z = -(portal_value % 10);
+        portal_value /= 1 << 5;
+
+        // Temporary measure, pick a random point on the current overmap.
+        int x = portal_value % 180;
+        portal_value /= 180;
+        int y = portal_value % 180;
+/*
+        // TODO: pick a random very wide offset, calculate what overmap it ends up in,
+        // and load the map there.
+        // Extract next 13 bits for x, subtract 2^13 to shift the result into the range -2^12, 2^12.
+        int x = (portal_value % (2 << 13)) - (2 << 13);
+        portal_value /= 2 << 13;
+        // And last 13 bits for y, discard the highest bit.
+        int y = (portal_value % (2 << 13)) - (2 << 13);
+*/
+
+        portal_destination = new map();
+        // Does this need to be update_vehicles = false?
+        portal_destination->load( x, y, z, false);
+        portal_destination->build_outside_cache();
+        portal_destination->build_transparency_cache();
+    }
+}
+
 void map::build_map_cache()
 {
     build_outside_cache();
 
     build_transparency_cache();
 
+    load_portal_destination();
     // Cache all the vehicle stuff in one loop
     VehicleList vehs = get_vehicles();
     for( size_t v = 0; v < vehs.size(); ++v ) {
