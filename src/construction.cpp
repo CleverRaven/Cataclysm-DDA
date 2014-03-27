@@ -634,13 +634,13 @@ bool construct::check_deconstruct(point p)
     return g->m.ter_at(p.x, p.y).deconstruct.can_do;
 }
 
-bool construct::check_up_OK(point p)
+bool construct::check_up_OK(point)
 {
     // You're not going to z+1.
     return (g->levz < 0);
 }
 
-bool construct::check_down_OK(point p)
+bool construct::check_down_OK(point)
 {
     // You're not going to z-11.
     return (g->levz > -10);
