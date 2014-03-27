@@ -1247,17 +1247,9 @@ int item::weight() const
         }
     }
     for (size_t i = 0; i < contents.size(); i++) {
+        ret += contents[i].weight();
         if (contents[i].is_gunmod() && contents[i].charges >= 1) {
-            ret += contents[i].weight();
             ret += contents[i].curammo->weight * contents[i].charges;
-        } else if (contents[i].charges <= 0) {
-            ret += contents[i].weight();
-        } else {
-            if (contents[i].count_by_charges()) {
-                ret += contents[i].weight();
-            } else {
-                ret += contents[i].weight() * contents[i].charges;
-            }
         }
     }
 

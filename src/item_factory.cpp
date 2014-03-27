@@ -358,6 +358,7 @@ void Item_factory::init(){
     iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
+    iuse_function_list["HOLSTER_PISTOL"] = &iuse::holster_pistol;
     iuse_function_list["TOWEL"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;

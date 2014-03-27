@@ -7742,6 +7742,75 @@ int iuse::rad_badge(player *p, item *it, bool)
     return 0;
 }
 
+int iuse::holster_pistol(player *p, item *it, bool)
+{
+    // if holster is empty, pull up menu asking what to holster
+    if(it->contents.empty()) {
+        int pos = g->inv_type(_("Holster what?"), IC_GUN); // only show guns
+        item* put = &(p->i_at(pos));
+        if (put == NULL || put->is_null()) {
+            g->add_msg_if_player(p, _("You do not have that item!"));
+            return 0;
+        }
+
+        // make sure we're holstering a pistol
+        if(put->type->is_gun()) {
+            it_gun* gun = dynamic_cast<it_gun*>(put->type);
+            if(!(gun->skill_used == Skill::skill("pistol"))) {
+                g->add_msg_if_player(p, _("The %s isn't a pistol!"), put->tname().c_str());
+                return 0;
+            }
+        } else {
+            g->add_msg_if_player(p, _("That isn't a gun!"), put->tname().c_str());
+            return 0;
+        }
+
+        int maxvol = 5;
+        if(it->type->id == "bootstrap") { // bootstrap can't hold as much as holster
+            maxvol = 3;
+        }
+
+        // only allow guns smaller than a certain size
+        if(put->volume() > maxvol) {
+            g->add_msg_if_player(p, _("That holster is too small to hold your %s!"), put->tname().c_str());
+            return 0;
+        }
+
+        int lvl = p->skillLevel("pistol");
+        std::string adj;
+        if(lvl < 2) {
+            adj = _(" clumsily");
+        } else if(lvl >= 7) {
+            adj = _(" deftly");
+        }
+
+        g->add_msg_if_player(p, _("You%s holster your %s."), adj.c_str(), put->tname().c_str());
+        p->moves -= (lvl == 0) ? 205 : (200 / lvl);
+        it->put_in(p->i_rem(pos));
+
+    // else draw the holstered pistol and have the player wield it
+    } else {
+        if (!p->is_armed() || p->wield(NULL)) {
+            item& gun = it->contents[0];
+            int lvl = p->skillLevel("pistol");
+            std::string adj;
+            if(lvl < 2) {
+                adj = _(" clumsily");
+            } else if(lvl >= 7) {
+                adj = _(" quickly");
+            }
+
+            g->add_msg_if_player(p, _("You%s draw your %s."), adj.c_str(), gun.tname().c_str());
+            p->moves -= (lvl == 0) ? 180 : 175 / lvl;
+
+            p->inv.assign_empty_invlet(gun, true);  // force getting an invlet
+            p->wield(&(p->i_add(gun)));
+            it->contents.erase(it->contents.begin());
+        }
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::sheath_sword(player *p, item *it, bool)
 {
     // if sheath is empty, pull up menu asking what to sheathe
@@ -7762,7 +7831,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
         std::string adj;
         if(lvl < 2) {
             adj = _(" clumsily");
-        } else if(lvl >= 5) {
+        } else if(lvl >= 7) {
             adj = _(" deftly");
         }
 
@@ -7778,7 +7847,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
             std::string adj;
             if(lvl < 2) {
                 adj = _(" clumsily");
-            } else if(lvl >= 5) {
+            } else if(lvl >= 7) {
                 adj = _(" masterfully");
             }
 
