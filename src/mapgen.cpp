@@ -3872,8 +3872,8 @@ ff.......|....|WWWWWWWW|\n\
                 spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             }  else if (!one_in(3)) {
                 spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
-                spawn_item(SEEX    , SEEY - 1, "plutonium");
-                spawn_item(SEEX - 1, SEEY    , "plutonium");
+                spawn_item(SEEX    , SEEY - 1, "plut_cell");
+                spawn_item(SEEX - 1, SEEY    , "plut_cell");
                 spawn_item(SEEX    , SEEY    , "recipe_caseless");
             } else {
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
