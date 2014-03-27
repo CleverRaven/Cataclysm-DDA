@@ -4562,7 +4562,7 @@
     "special_freq":3,
     "death_function":"EXPLODE",
     "special_attack":"NONE",
-    "description":"The Ford Sanitron, an utility robot designed for cleaning up waste material in hazardous conditions.",
+    "description":"The Ford Sanitron, a utility robot designed for cleaning up waste material in hazardous conditions.",
     "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "VIS50"]
     },{
         "type" : "MONSTER",
