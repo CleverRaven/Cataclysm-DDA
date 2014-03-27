@@ -669,7 +669,7 @@ int player::roll_stuck_penalty(bool stabbing, ma_technique &tec)
     stuck_cost *= cut_bash_ratio;
 
     if (tec.aoe == "impale") {
-        // Impaling attacks should always almost stick
+        // Impaling attacks should almost always stick
         stuck_cost *= 5.00;
     }
     else if( weapon.has_flag("SLICE") )
@@ -798,27 +798,86 @@ bool player::valid_aoe_technique(Creature &t, ma_technique &tec)
     }
 
     int enemy_count = 0;
-    //wide hits the target and anyone adjacent to both them and the attacker
-    //deep hits the target and a single target behind them - we're just checking if such a target exists, perform_technique will select the victim
-    if (tec.aoe == "wide" || tec.aoe == "impale") {
-        //we check adjacency either to the attacker (for wide) or the square BEHIND the target in the direction of attack if deep
-        int adj_x = tec.aoe == "wide" ? posx : t.xpos() + (t.xpos() - posx);
-        int adj_y = tec.aoe == "wide" ? posy : t.ypos() + (t.ypos() - posy);
-        for (int x = t.xpos() - 1; x <= t.xpos() + 1; x++) {
-            for (int y = t.ypos() - 1; y <= t.ypos() + 1; y++) {
-                int mondex = g->mon_at(x, y);
-                if (mondex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->zombie(mondex).friendly == 0) {
-                    enemy_count++;
-                }
-                int npcdex = g->npc_at(x, y);
-                if (npcdex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 &&
-                    g->active_npc[npcdex]->attitude == NPCATT_KILL) {
-                    enemy_count++;
-                }
-            }
+    //wide hits the target and anyone adjacent to both them and the attacker    
+    if (tec.aoe == "wide") {
+        //check if either (or both) of the squares next to our target contain a possible victim
+        //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
+        int offset_a[] = {0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 };
+        int offset_b[] = {-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 };
+
+        int lookup = t.ypos() - posy + 1 + (3 * (t.xpos() - posx + 1));
+        
+        int left_x = posx + offset_a[lookup];
+        int left_y = posy + offset_b[lookup];
+        int right_x = posx + offset_b[lookup];
+        int right_y = posy - offset_a[lookup];
+
+        int mondex_l = g->mon_at(left_x, left_y);
+        int mondex_r = g->mon_at(right_x, right_y);
+        if (mondex_l != -1 && g->zombie(mondex_l).friendly == 0) {
+            enemy_count++;
+        }
+        if (mondex_r != -1 && g->zombie(mondex_r).friendly == 0) {
+            enemy_count++;
         }
 
-        if (enemy_count > 1) {
+        int npcdex_l = g->npc_at(left_x, left_y);
+        int npcdex_r = g->npc_at(right_x, right_y);
+        if (npcdex_l != -1 && g->active_npc[npcdex_l]->attitude == NPCATT_KILL) {
+            enemy_count++;
+        }
+        if (npcdex_r != -1 && g->active_npc[npcdex_r]->attitude == NPCATT_KILL) {
+            enemy_count++;
+        }
+
+        if (enemy_count >= 1) {
+            return true;
+        }
+    }
+
+    //impale hits the target and a single target behind them - we're just checking if such a target exists, perform_technique will select the victim
+    if (tec.aoe == "impale") {
+        //check if the square cardinally behind our target, or to the left / right, contains a possible target
+        //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
+        int offset_a[] = {0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 };
+        int offset_b[] = {-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 };
+
+        int lookup = t.ypos() - posy + 1 + (3 * (t.xpos() - posx + 1));
+        
+        int left_x = t.xpos() + offset_a[lookup];
+        int left_y = t.ypos() + offset_b[lookup];
+        int target_x = t.xpos() + (t.xpos() - posx);
+        int target_y = t.ypos() + (t.ypos() - posy);
+        int right_x = t.xpos() + offset_b[lookup];
+        int right_y = t.ypos() - offset_a[lookup];
+
+        int mondex_l = g->mon_at(left_x, left_y);
+        int mondex_t = g->mon_at(target_x, target_y);
+        int mondex_r = g->mon_at(right_x, right_y);
+        if (mondex_l != -1 && g->zombie(mondex_l).friendly == 0) {
+            enemy_count++;
+        }
+        if (mondex_t != -1 && g->zombie(mondex_t).friendly == 0) {
+            enemy_count++;
+        }
+        if (mondex_r != -1 && g->zombie(mondex_r).friendly == 0) {
+            enemy_count++;
+        }
+
+        int npcdex_l = g->npc_at(left_x, left_y);
+        int npcdex_t = g->npc_at(target_x, target_y);
+        int npcdex_r = g->npc_at(right_x, right_y);
+        if (npcdex_l != -1 && g->active_npc[npcdex_l]->attitude == NPCATT_KILL) {
+            enemy_count++;
+        }
+        if (npcdex_t != -1 && g->active_npc[npcdex_t]->attitude == NPCATT_KILL) {
+            enemy_count++;
+        }
+        if (npcdex_r != -1 && g->active_npc[npcdex_r]->attitude == NPCATT_KILL) {
+            enemy_count++;
+        }
+
+        if (enemy_count >= 1) {
             return true;
         }
     }
@@ -916,25 +975,80 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
 
         std::vector<int> mon_targets = std::vector<int>();
         std::vector<int> npc_targets = std::vector<int>();
+
         //wide hits all targets adjacent to the attacker and the target
-        if (technique.aoe == "wide" || technique.aoe == "impale") {
-            int adj_x = technique.aoe == "wide" ? posx : t.xpos() + (t.xpos() - posx);
-            int adj_y = technique.aoe == "wide" ? posy : t.ypos() + (t.ypos() - posy);
-            for (int x = t.xpos() - 1; x <= t.xpos() + 1; x++) {
-                for (int y = t.ypos() - 1; y <= t.ypos() + 1; y++) {
-                    if (x == t.xpos() && y == t.ypos()) {
-                        continue;
-                    }
-                    int mondex = g->mon_at(x, y);
-                    if (mondex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 && g->zombie(mondex).friendly == 0) {
-                        mon_targets.push_back(mondex);
-                    }
-                    int npcdex = g->npc_at(x, y);
-                    if (npcdex != -1 && abs(x - adj_x) <= 1 && abs(y - adj_y) <= 1 &&
-                        g->active_npc[npcdex]->attitude == NPCATT_KILL) {
-                        npc_targets.push_back(npcdex);
-                    }
-                }
+        if (technique.aoe == "wide") {
+            //check if either (or both) of the squares next to our target contain a possible victim
+            //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
+            int offset_a[] = {0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 };
+            int offset_b[] = {-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 };
+
+            int lookup = t.ypos() - posy + 1 + (3 * (t.xpos() - posx + 1));
+        
+            int left_x = posx + offset_a[lookup];
+            int left_y = posy + offset_b[lookup];
+            int right_x = posx + offset_b[lookup];
+            int right_y = posy - offset_a[lookup];
+
+            int mondex_l = g->mon_at(left_x, left_y);
+            int mondex_r = g->mon_at(right_x, right_y);
+            if (mondex_l != -1 && g->zombie(mondex_l).friendly == 0) {
+                mon_targets.push_back(mondex_l);
+            }
+            if (mondex_r != -1 && g->zombie(mondex_r).friendly == 0) {
+                mon_targets.push_back(mondex_r);
+            }
+
+            int npcdex_l = g->npc_at(left_x, left_y);
+            int npcdex_r = g->npc_at(right_x, right_y);
+            if (npcdex_l != -1 && g->active_npc[npcdex_l]->attitude == NPCATT_KILL) {
+                npc_targets.push_back(npcdex_l);
+            }
+            if (npcdex_r != -1 && g->active_npc[npcdex_r]->attitude == NPCATT_KILL) {
+                npc_targets.push_back(npcdex_r);
+            }
+        }
+        //impale hits the target and a single target behind them
+        else if (technique.aoe == "impale")
+        {
+            //check if the square cardinally behind our target, or to the left / right, contains a possible target
+            //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
+            int offset_a[] = {0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 };
+            int offset_b[] = {-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 };
+
+            int lookup = t.ypos() - posy + 1 + (3 * (t.xpos() - posx + 1));
+        
+            int left_x = t.xpos() + offset_a[lookup];
+            int left_y = t.ypos() + offset_b[lookup];
+            int target_x = t.xpos() + (t.xpos() - posx);
+            int target_y = t.ypos() + (t.ypos() - posy);
+            int right_x = t.xpos() + offset_b[lookup];
+            int right_y = t.ypos() - offset_a[lookup];
+
+            int mondex_l = g->mon_at(left_x, left_y);
+            int mondex_t = g->mon_at(target_x, target_y);
+            int mondex_r = g->mon_at(right_x, right_y);
+            if (mondex_l != -1 && g->zombie(mondex_l).friendly == 0) {
+                mon_targets.push_back(mondex_l);
+            }
+            if (mondex_t != -1 && g->zombie(mondex_t).friendly == 0) {
+                mon_targets.push_back(mondex_t);
+            }
+            if (mondex_r != -1 && g->zombie(mondex_r).friendly == 0) {
+                mon_targets.push_back(mondex_r);
+            }
+
+            int npcdex_l = g->npc_at(left_x, left_y);
+            int npcdex_t = g->npc_at(target_x, target_y);
+            int npcdex_r = g->npc_at(right_x, right_y);
+            if (npcdex_l != -1 && g->active_npc[npcdex_l]->attitude == NPCATT_KILL) {
+                npc_targets.push_back(npcdex_l);
+            }
+            if (npcdex_t != -1 && g->active_npc[npcdex_t]->attitude == NPCATT_KILL) {
+                npc_targets.push_back(npcdex_t);
+            }
+            if (npcdex_r != -1 && g->active_npc[npcdex_r]->attitude == NPCATT_KILL) {
+                npc_targets.push_back(npcdex_r);
             }
         } else if (technique.aoe == "spin") {
             for (int x = posx - 1; x <= posx + 1; x++) {
@@ -1271,7 +1385,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
     handle_melee_wear();
 
     bool is_hallucination = false; //Check if the target is an hallucination.
-    if(monster *m = dynamic_cast<monster *>(&t)) {
+    if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
         is_hallucination = m->is_hallucination();
     }
 

@@ -29,7 +29,6 @@
         "type" : "technique",
         "id" : "IMPALE",
         "name" : "Impaling Strike",
-        "unarmed_allowed" : true,
         "melee_allowed" : true,
         "min_melee" : 4,
         "crit_tec" : true,
