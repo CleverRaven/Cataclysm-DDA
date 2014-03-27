@@ -218,6 +218,11 @@ void game::init_fields()
             {_("some bees"), _("swarm of bees"), _("angry swarm of bees")}, '8', 8,
             {c_white, c_ltgray, c_dkgray}, {true, true, true},{true, true, true},  1000,
             {0,0,0}
+        },
+        {
+            {_("tenuous portal"), _("wavering portal"), _("steady portal")}, '0', 8,
+            {c_blue, c_ltblue, c_white}, {false, false, false}, {true, true, true}, 0,
+            {0,0,0}
         }
     };
     for(int i = 0; i < num_fields; i++) {
@@ -1130,6 +1135,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             } else {
                                 spread_gas( this, cur, x, y, curtype, 5, 0 );
                             }
+                        }
+                        break;
+                    case fd_portal:
+                        // Update to point the other end at a random location.
+                        if( one_in( 20 ) ) {
+                            cur->setFieldAge( rng( -INT_MAX, INT_MAX ) );
                         }
                         break;
                 } // switch (curtype)
