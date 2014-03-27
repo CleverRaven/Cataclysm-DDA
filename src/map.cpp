@@ -3633,25 +3633,30 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     const int k = x + getmaxx(w)/2 - cx;
     const int j = y + getmaxy(w)/2 - cy;
     nc_color tercol;
-    const ter_id curr_ter = ter(x,y);
-    const furn_id curr_furn = furn(x,y);
-    const trap_id curr_trap = tr_at(x, y);
-    field &curr_field = field_at(x, y);
-    const std::vector<item> &curr_items = i_at(x, y);
+    map *here_or_there = this;
+    if( portal_seen && portal_map[x][y] ) {
+        here_or_there = portal_destination;
+    }
+    const ter_id curr_ter = here_or_there->ter(x,y);
+    const furn_id curr_furn = here_or_there->furn(x,y);
+    const trap_id curr_trap = here_or_there->tr_at(x, y);
+    field &curr_field = here_or_there->field_at(x, y);
+    const std::vector<item> &curr_items = here_or_there->i_at(x, y);
     long sym;
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
 
 
-    if (has_furn(x, y)) {
+    if (here_or_there->has_furn(x, y)) {
         sym = furnlist[curr_furn].sym;
         tercol = furnlist[curr_furn].color;
     } else {
         sym = terlist[curr_ter].sym;
         tercol = terlist[curr_ter].color;
     }
-    if (has_flag(TFLAG_SWIMMABLE, x, y) && has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
+    if (here_or_there->has_flag(TFLAG_SWIMMABLE, x, y) &&
+        here_or_there->has_flag(TFLAG_DEEP_WATER, x, y) && !u.is_underwater()) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
@@ -3706,7 +3711,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     // If there are items here, draw those instead
-    if (show_items && sees_some_items(x, y, g->u)) {
+    if (show_items && here_or_there->sees_some_items(x, y, g->u)) {
         // if there's furniture/terrain/trap/fields (sym!='.')
         // and we should not override it, then only highlight the square
         if (sym != '.' && sym != '%' && !draw_item_sym) {
@@ -3724,19 +3729,19 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
 
     int veh_part = 0;
-    vehicle *veh = veh_at(x, y, veh_part);
+    vehicle *veh = NULL; //here_or_there->veh_at(x, y, veh_part);
     if (veh) {
         sym = special_symbol (veh->face.dir_symbol(veh->part_sym(veh_part)));
         tercol = veh->part_color(veh_part);
     }
     // If there's graffiti here, change background color
-    if(graffiti_at(x,y).contents) {
+    if(here_or_there->graffiti_at(x,y).contents) {
         graf = true;
     }
 
     //suprise, we're not done, if it's a wall adjacent to an other, put the right glyph
     if(sym == LINE_XOXO || sym == LINE_OXOX) { //vertical or horizontal
-        sym = determine_wall_corner(x, y, sym);
+        sym = here_or_there->determine_wall_corner(x, y, sym);
     }
 
     if (u.has_disease("boomered")) {
