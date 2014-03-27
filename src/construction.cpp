@@ -775,15 +775,7 @@ void construct::done_dig_stair(point p)
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
-              item two_by_four(itypes["2x4"], 0);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 8);
               return;
           }
       }
@@ -795,15 +787,7 @@ void construct::done_dig_stair(point p)
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
-              item two_by_four(itypes["2x4"], 0);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 8);
               return;
           }
       }
@@ -1063,19 +1047,7 @@ void construct::done_mine_downstair(point p)
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
-              item two_by_four(itypes["2x4"], 0);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
               return;
           }
       }
@@ -1087,19 +1059,7 @@ void construct::done_mine_downstair(point p)
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
-              item two_by_four(itypes["2x4"], 0);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
               return;
           }
       }
@@ -1366,19 +1326,7 @@ void construct::done_mine_upstair(point p)
               g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
           }
           // presuming 2x4 to conserve lumber.
-          item two_by_four(itypes["2x4"], 0);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
           return;
       }
       if (danger_open) {
@@ -1389,19 +1337,7 @@ void construct::done_mine_upstair(point p)
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
-              item two_by_four(itypes["2x4"], 0);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-              g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+              g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
               return;
           }
       }
@@ -1413,19 +1349,7 @@ void construct::done_mine_upstair(point p)
               g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
           }
           // presuming 2x4 to conserve lumber.
-          item two_by_four(itypes["2x4"], 0);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
-          g->m.add_item_or_charges(g->u.posx, g->u.posy, two_by_four);
+          g->m.spawn_item(g->u.posx, g->u.posy,"2x4", 12);
           return;
       }
   }
