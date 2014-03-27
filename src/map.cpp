@@ -4615,91 +4615,91 @@ void map::build_outside_cache()
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache()
 {
- if (!transparency_cache_dirty) {
-     return;
- }
- for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
-  for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
-
-   // Default to fully transparent.
-   transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
-
-   if ( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
-    transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-    continue;
-   }
-
-   //Quoted to see if this works!
-   field &curfield = field_at(x,y);
-   if(curfield.fieldCount() > 0){
-    field_entry *cur = NULL;
-    for(std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
-     cur = field_list_it->second;
-     if(cur == NULL) continue;
-
-     if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
-      // Fields are either transparent or not, however we want some to be translucent
-      switch(cur->getFieldType()) {
-      case fd_cigsmoke:
-      case fd_weedsmoke:
-      case fd_cracksmoke:
-      case fd_methsmoke:
-          transparency_cache[x][y] *= 0.7;
-          break;
-      case fd_smoke:
-      case fd_toxic_gas:
-      case fd_tear_gas:
-       if(cur->getFieldDensity() == 3)
-        transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       if(cur->getFieldDensity() == 2)
-        transparency_cache[x][y] *= 0.5;
-       break;
-      case fd_nuke_gas:
-       transparency_cache[x][y] *= 0.5;
-       break;
-      default:
-       transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       break;
-      }
-     }
-
-     // TODO: [lightmap] Have glass reduce light as well
+    if (!transparency_cache_dirty) {
+        return;
     }
-   }
-  }
- }
+    for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
+        for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
 
- transparency_cache_dirty = false;
+            // Default to fully transparent.
+            transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
+
+            if ( !terlist[ter(x, y)].transparent || !furnlist[furn(x, y)].transparent ) {
+                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                continue;
+            }
+
+            //Quoted to see if this works!
+            field &curfield = field_at(x,y);
+            if(curfield.fieldCount() > 0){
+                field_entry *cur = NULL;
+                for( std::map<field_id, field_entry*>::iterator field_list_it = curfield.getFieldStart();
+                     field_list_it != curfield.getFieldEnd(); ++field_list_it ){
+                    cur = field_list_it->second;
+                    if(cur == NULL) continue;
+
+                    if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+                        // Fields are either transparent or not, however we want some to be translucent
+                        switch(cur->getFieldType()) {
+                        case fd_cigsmoke:
+                        case fd_weedsmoke:
+                        case fd_cracksmoke:
+                        case fd_methsmoke:
+                            transparency_cache[x][y] *= 0.7;
+                            break;
+                        case fd_smoke:
+                        case fd_toxic_gas:
+                        case fd_tear_gas:
+                            if( cur->getFieldDensity() == 3 ) {
+                                transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                            } else if( cur->getFieldDensity() == 2 ) {
+                                transparency_cache[x][y] *= 0.5;
+                            }
+                            break;
+                        case fd_nuke_gas:
+                            transparency_cache[x][y] *= 0.5;
+                            break;
+                        default:
+                            transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+                            break;
+                        }
+                    }
+                    // TODO: [lightmap] Have glass reduce light as well
+                }
+            }
+        }
+    }
+    transparency_cache_dirty = false;
 }
 
 void map::build_map_cache()
 {
- build_outside_cache();
+    build_outside_cache();
 
- build_transparency_cache();
+    build_transparency_cache();
 
- // Cache all the vehicle stuff in one loop
- VehicleList vehs = get_vehicles();
- for( size_t v = 0; v < vehs.size(); ++v ) {
-  for (int part = 0; part < vehs[v].v->parts.size(); part++) {
-   int px = vehs[v].x + vehs[v].v->parts[part].precalc_dx[0];
-   int py = vehs[v].y + vehs[v].v->parts[part].precalc_dy[0];
-   if(INBOUNDS(px, py)) {
-    if (vehs[v].v->is_inside(part)) {
-     outside_cache[px][py] = false;
+    // Cache all the vehicle stuff in one loop
+    VehicleList vehs = get_vehicles();
+    for( size_t v = 0; v < vehs.size(); ++v ) {
+        for (int part = 0; part < vehs[v].v->parts.size(); part++) {
+            int px = vehs[v].x + vehs[v].v->parts[part].precalc_dx[0];
+            int py = vehs[v].y + vehs[v].v->parts[part].precalc_dy[0];
+            if(INBOUNDS(px, py)) {
+                if (vehs[v].v->is_inside(part)) {
+                    outside_cache[px][py] = false;
+                }
+                if (vehs[v].v->part_flag(part, VPFLAG_OPAQUE) && vehs[v].v->parts[part].hp > 0) {
+                    int dpart = vehs[v].v->part_with_feature(part , VPFLAG_OPENABLE);
+                    if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
+                        transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
+                    }
+                }
+            }
+        }
     }
-    if (vehs[v].v->part_flag(part, VPFLAG_OPAQUE) && vehs[v].v->parts[part].hp > 0) {
-     int dpart = vehs[v].v->part_with_feature(part , VPFLAG_OPENABLE);
-     if (dpart < 0 || !vehs[v].v->parts[dpart].open) {
-      transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
-     }
-    }
-   }
-  }
- }
 
- build_seen_cache();
- generate_lightmap();
+    build_seen_cache();
+    generate_lightmap();
 }
 
 std::vector<point> closest_points_first(int radius, point p)

@@ -383,8 +383,8 @@ void map::castLight( int row, float start, float end, int xx, int xy, int yx, in
             //check if it's within the visible area and mark visible if so
             if( rl_dist(0, 0, deltaX, deltaY) <= radius ) {
                 /*
-                float bright = (float) (1 - (rStrat.radius(deltaX, deltaY) / radius));
-                lightMap[currentX][currentY] = bright;
+                  float bright = (float) (1 - (rStrat.radius(deltaX, deltaY) / radius));
+                  lightMap[currentX][currentY] = bright;
                 */
                 seen_cache[currentX][currentY] = true;
             }
