@@ -858,7 +858,7 @@ with the ! key. This ensures that the sudden appearance of a monster won't catch
     text.push_back(_("\
 Q: It seems like everything I eat makes me sick! What's wrong?\n\
 A: Lots of the food found in towns is perishable, and will only last a few days after \
-the start of a new game (early Spring). The electricity went out several days ago \
+the start of a new game. The electricity went out several days ago \
 so fruit, milk and others are the first to go bad. \
 After the first couple of days, you should switch to canned food, jerky, and hunting. \
 Also, you should make sure to cook/purify any food or water you hunt up \

@@ -1278,7 +1278,7 @@
         "type" : "construction",
         "description" : "Dig Downstair",
         "difficulty" : 5,
-        "time" : 42,
+        "time" : 420,
         "tools" : [
             [ "pickaxe" ],
             [ "shovel", "e_tool" ],
@@ -1295,7 +1295,7 @@
         "type" : "construction",
         "description" : "Mine Downstair",
         "difficulty" : 6,
-        "time" : 48,
+        "time" : 480,
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
             [ "shovel", "e_tool" ],
@@ -1315,7 +1315,7 @@
         "type" : "construction",
         "description" : "Mine Upstair",
         "difficulty" : 6,
-        "time" : 48,
+        "time" : 480,
         "tools" : [
             [ "jackhammer", "jacqueshammer" ],
             [ "shovel", "e_tool" ],
