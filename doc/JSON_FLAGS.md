@@ -210,7 +210,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```LEATHER``` May produce leather when butchered.
 - ```FEATHER``` May produce feathers when butchered.
 - ```FAT``` May produce fat when butchered.
-- ```CBM``` May produce a cbm or two when butchered.
+- ```CBM_CIV``` May produce a common cbm or two when butchered.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
 - ```FRIENDLY_SPECIAL``` Use our special attack, even if friendly.
@@ -233,6 +233,8 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
+- ```CBM_SCI``` May produce a cbm or two from bionics_sci when butchered.
+- ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.

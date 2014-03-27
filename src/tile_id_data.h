@@ -243,7 +243,8 @@ const std::string monster_names[num_monsters] =
     toString(mon_broken_cyborg),
     toString(mon_zoose),
     toString(mon_zomwolf),
-    toString(mon_zomcougar)
+    toString(mon_zomcougar),
+    toString(mon_zombie_bio_op)
 
 };
 const std::string multitile_keys[] =

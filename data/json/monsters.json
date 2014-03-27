@@ -1822,7 +1822,7 @@
     "special_attack":"SHOCKSTORM",
     "special_when_hit":"ZAPBACK",
     "description":"A human body with pale blue flesh, crackling with electrical energy.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ELECTRIC", "CBM", "NO_BREATHE",  "VIS40", "REVIVES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "ELECTRIC", "CBM_CIV", "NO_BREATHE",  "VIS40", "REVIVES"]
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_smoker",
@@ -2216,7 +2216,7 @@
     "death_function":["NORMAL", "ZOMBIE"],
     "special_attack":"SCIENCE",
     "description":"Apart from the jet black eyes it would be easy to believe this scientist was still alive. Clad in a tattered lab coat, it looks to have some measure of situational awareness and resourcefulness.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM", "ACIDPROOF", "NO_BREATHE", "VIS50", "REVIVES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM_SCI", "ACIDPROOF", "NO_BREATHE", "VIS50", "REVIVES"]
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_soldier",
@@ -5174,5 +5174,35 @@
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "GOODHEARING", "BASHES", "POISON", "NO_BREATHE", "VIS50", "REVIVES", "FUR"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_bio_op",
+    "name": "zombie bio-operator",
+    "species":"ZOMBIE",
+    "symbol":"Z",
+    "color":"ltgreen_cyan",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":25,
+    "aggression":100,
+    "morale":100,
+    "speed":95,
+    "melee_skill":7,
+    "melee_dice":3,
+    "melee_dice_sides":6,
+    "melee_cut":2,
+    "dodge":3,
+    "armor_bash":10,
+    "armor_cut":18,
+    "item_chance":80,
+    "luminance":1,
+    "hp":120,
+    "special_freq":20,
+    "death_function":["NORMAL", "ZOMBIE"],
+    "special_when_hit_freq":75,
+    "special_attack":"BIO_OP_TAKEDOWN",
+    "special_when_hit":"ZAPBACK",
+    "description":"This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "BLEED", "CBM_OP", "ACIDPROOF", "NO_BREATHE", "VIS50", "REVIVES"]
     }
 ]
