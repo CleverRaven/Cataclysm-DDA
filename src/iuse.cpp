@@ -7758,46 +7758,69 @@ int iuse::sheath_sword(player *p, item *it, bool)
             return 0;
         }
 
-        // sheathe at different speed based on cutting skill level
         int lvl = p->skillLevel("cutting");
+        std::string adj;
         if(lvl < 2) {
-            p->moves -= 100;
-            g->add_msg_if_player(p, _("You clumsily sheathe your %s."), put->tname().c_str());
-        } else if(lvl < 5) {
-            p->moves -= 50;
-            g->add_msg_if_player(p, _("You sheathe your %s."), put->tname().c_str());
-        } else {
-            p->moves -= 30;
-            g->add_msg_if_player(p, _("You deftly sheathe your %s."), put->tname().c_str());
+            adj = _(" clumsily");
+        } else if(lvl >= 5) {
+            adj = _(" deftly");
         }
 
+        g->add_msg_if_player(p, _("You%s sheathe your %s."), adj.c_str(), put->tname().c_str());
+        p->moves -= (lvl == 0) ? 205 : (200 / lvl);
         it->put_in(p->i_rem(pos));
 
     // else unsheathe a sheathed weapon and have the player wield it
     } else {
-        item& sword = it->contents[0];
         if (!p->is_armed() || p->wield(NULL)) {
-            // unsheathe at different speed based on cutting skill level
+            item& sword = it->contents[0];
             int lvl = p->skillLevel("cutting");
+            std::string adj;
             if(lvl < 2) {
-                p->moves -= 75;
-                g->add_msg_if_player(p, _("You clumsily unsheathe your %s."), sword.tname().c_str());
-            } else if(lvl < 5) {
-                p->moves -= 30;
-                g->add_msg_if_player(p, _("You unsheathe your %s."), sword.tname().c_str());
-            } else {
-                p->moves -= 15;
-                g->add_msg_if_player(p, _("You masterfully unsheathe your %s."), sword.tname().c_str());
+                adj = _(" clumsily");
+            } else if(lvl >= 5) {
+                adj = _(" masterfully");
+            }
+
+            g->add_msg_if_player(p, _("You%s draw your %s."), adj.c_str(), sword.tname().c_str());
+            p->moves -= (lvl == 0) ? 180 : 175 / lvl;
+
+            p->inv.assign_empty_invlet(sword, true);  // force getting an invlet
+            p->wield(&(p->i_add(sword)));
+            it->contents.erase(it->contents.begin());
+
+            // iaijutsu! slash an enemy as you draw your sword
+            if(lvl >= 7 && one_in(12 - lvl)){
+                // check for adjacent enemies before asking to slash
+                int mon_num = -1;
+                for(int i = -1; i <= 1; i++) {
+                    for(int j = -1; j <= 1; j++) {
+                        mon_num = g->mon_at(p->posx + i, p->posy + j);
+                        if(mon_num != -1)
+                            break;
+                    }
+                    if(mon_num != -1)
+                        break;
+                }
+
+                // if there's an adjacent enemy, ask which one to slash
+                // if a spot without an enemy is chosen, defaults to the first enemy found above
+                if(mon_num != -1) {
+                    int slashx, slashy;
+                    if(g->choose_adjacent("Slash where?", slashx, slashy)) {
+                        const int mon_hit = g->mon_at(slashx, slashy);
+                        if(mon_hit != -1)
+                            mon_num = mon_hit;
+                    }
+                    g->add_msg_if_player(p, _("The %s swishes through the air as you draw it."), sword.tname().c_str());
+                    p->melee_attack(g->zombie(mon_num), true);
+                }
             }
 
             // diamond swords glimmer in the sunlight
             if(g->is_in_sunlight(p->posx, p->posy) && sword.made_of("diamond")) {
                 g->add_msg_if_player(p, _("Your %s glimmers magnificently in the sunlight."), sword.tname().c_str());
             }
-
-            p->inv.assign_empty_invlet(sword, true);  // force getting an invlet
-            p->wield(&(p->i_add(sword)));
-            it->contents.erase(it->contents.begin());
         }
     }
     return it->type->charges_to_use();
