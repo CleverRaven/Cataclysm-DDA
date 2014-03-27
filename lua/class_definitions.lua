@@ -5,11 +5,13 @@ classes = {
         attributes = {
             posx = {
                 type = "int",
-                writable = false
+                writable = false,
+                desc = "The x position of the player in the reality bubble."
             },
             posy = {
                 type = "int",
-                writable = false
+                writable = false,
+                desc = "The y position of the player in the reality bubble."
             },
 
             hunger = {
@@ -670,13 +672,17 @@ classes = {
 global_functions = {
     add_msg = {
         cpp_name = "g->add_msg",
-        args = { "cstring" },
-        rval = nil
+        args     = { "cstring" },
+        argnames = { "message" },
+        rval = nil,
+        desc = "Write a message to the game's standard message window."
     },
     revive_corpse = {
         cpp_name = "g->revive_corpse",
-        args = { "int", "int", "int" },
-        rval = nil
+        args     = { "int", "int", "int" },
+        argnames = { "x", "y", "index" },
+        rval = nil,
+        desc = "Revive the corpse at the specified location. The index parameter specifies the index within the item stack that the corpse is located at."
     },
     popup = {
         cpp_name = "popup",
