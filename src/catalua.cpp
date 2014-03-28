@@ -11,6 +11,7 @@
 #include "map.h"
 #include "path_info.h"
 #include "monstergenerator.h"
+#include "debug.h"
 
 #ifdef LUA
 extern "C" {
@@ -459,14 +460,35 @@ void lua_loadmod(lua_State *L, std::string base_path, std::string main_file_name
     // debugmsg("Loading from %s", full_path.c_str());
 }
 
+// Custom error handler
+static int traceback(lua_State *L) {
+    // Get the error message
+    const char* error = lua_tostring(L, -1);
+
+    // Get the lua stack trace
+    lua_getfield(L, LUA_GLOBALSINDEX, "debug");
+    lua_getfield(L, -1, "traceback");
+    lua_pushvalue(L, 1);
+    lua_pushinteger(L, 2);
+    lua_call(L, 2, 1);
+
+    const char* stacktrace = lua_tostring(L, -1);
+
+    // Print a debug message.
+    debugmsg("Error in lua module: %s", error);
+
+    // Print the stack trace to our debug log.
+    std::ofstream debug_out;
+    debug_out.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
+    debug_out << stacktrace << "\n";
+    debug_out.close();
+    return 1;
+}
+
 // Load an arbitrary lua file
 void lua_dofile(lua_State *L, const char* path) {
-    int err = luaL_dofile(lua_state, path);
-    if(err) {
-        // Error handling.
-        const char* error = lua_tostring(L, -1);
-        debugmsg("Error in lua module: %s", error);
-    }
+    lua_pushcfunction(L, &traceback);
+    int err = luaL_loadfile(L, path) || lua_pcall(L, 0, LUA_MULTRET, -2);
 }
 
 // game.dofile(file)
