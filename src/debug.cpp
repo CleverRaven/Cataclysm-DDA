@@ -22,6 +22,79 @@ static int debugClass = DC_ALL;
 // Normal functions                                                 {{{1
 // ---------------------------------------------------------------------
 
+void limitDebugLevel( int i )
+{
+ dout() << "Set debug level to: " << (DebugLevel)i;
+ debugLevel = i;
+}
+
+void limitDebugClass( int i )
+{
+ dout() << "Set debug class to: " << (DebugClass)i;
+ debugClass = i;
+}
+
+// Debug only                                                       {{{1
+// ---------------------------------------------------------------------
+
+#ifdef ENABLE_LOGGING
+
+#define TRACE_SIZE 20
+
+void* tracePtrs[TRACE_SIZE];
+
+// Debug Includes                                                   {{{2
+// ---------------------------------------------------------------------
+
+#include <fstream>
+#include <streambuf>
+
+// Null OStream                                                     {{{2
+// ---------------------------------------------------------------------
+
+struct NullBuf : public std::streambuf
+{
+ NullBuf() {}
+ int overflow(int c) { return c; }
+};
+
+struct DebugFile
+{
+ DebugFile();
+ ~DebugFile();
+ void init(std::string filename);
+
+ std::ofstream & currentTime();
+ std::ofstream file;
+};
+
+static NullBuf nullBuf;
+static std::ostream nullStream(&nullBuf);
+
+// DebugFile OStream Wrapper                                        {{{2
+// ---------------------------------------------------------------------
+
+static DebugFile debugFile;
+
+DebugFile::DebugFile()
+{
+}
+
+DebugFile::~DebugFile()
+{
+ file << "\n";
+ currentTime() << " : Log shutdown.\n";
+ file << "-----------------------------------------\n\n";
+ file.close();
+}
+
+void DebugFile::init(std::string filename)
+{
+ file.open(filename.c_str(), std::ios::out | std::ios::app );
+ file << "\n\n-----------------------------------------\n";
+ currentTime() << " : Starting log.";
+}
+
 void setupDebug()
 {
  int level = 0;
@@ -65,74 +138,8 @@ void setupDebug()
 
  if( cl != 0 )
   limitDebugClass(cl);
-}
 
-void limitDebugLevel( int i )
-{
- dout() << "Set debug level to: " << (DebugLevel)i;
- debugLevel = i;
-}
-
-void limitDebugClass( int i )
-{
- dout() << "Set debug class to: " << (DebugClass)i;
- debugClass = i;
-}
-
-// Debug only                                                       {{{1
-// ---------------------------------------------------------------------
-
-#ifdef ENABLE_LOGGING
-
-#define TRACE_SIZE 20
-
-void* tracePtrs[TRACE_SIZE];
-
-// Debug Includes                                                   {{{2
-// ---------------------------------------------------------------------
-
-#include <fstream>
-#include <streambuf>
-
-// Null OStream                                                     {{{2
-// ---------------------------------------------------------------------
-
-struct NullBuf : public std::streambuf
-{
- NullBuf() {}
- int overflow(int c) { return c; }
-};
-
-struct DebugFile
-{
- DebugFile();
- ~DebugFile();
-
- std::ofstream & currentTime();
- std::ofstream file;
-};
-
-static NullBuf nullBuf;
-static std::ostream nullStream(&nullBuf);
-
-// DebugFile OStream Wrapper                                        {{{2
-// ---------------------------------------------------------------------
-
-static DebugFile debugFile;
-
-DebugFile::DebugFile()
-{
- file.open(FILENAMES["debug"].c_str(), std::ios::out | std::ios::app );
- file << "\n\n-----------------------------------------\n";
- currentTime() << " : Starting log.";
-}
-
-DebugFile::~DebugFile()
-{
- file << "\n";
- currentTime() << " : Log shutdown.\n";
- file << "-----------------------------------------\n\n";
- file.close();
+ debugFile.init(FILENAMES["debug"]);
 }
 
 // OStream Operators                                                {{{2
