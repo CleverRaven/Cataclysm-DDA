@@ -752,5 +752,10 @@ global_functions = {
         cpp_name = "get_tool_type",
         args = { "string" },
         rval = "it_tool"
+    },
+    add_item_to_group = {
+        cpp_name = "item_controller->add_item_to_group",
+        args = { "string", "string", "int" },
+        rval = "bool"
     }
 }
