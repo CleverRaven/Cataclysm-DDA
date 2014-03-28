@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "char_validity_check.h"
 #include "path_info.h"
+#include "mapsharing.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -71,7 +72,12 @@ bool player::create(character_type type, std::string tempname)
         switch (type) {
             case PLTYPE_NOW:
                 g->u.male = (rng(1, 100) > 50);
-                g->u.pick_name();
+
+                if(!MAP_SHARING::isSharing()) {
+                    g->u.pick_name();
+                } else {
+                    g->u.name = MAP_SHARING::getUsername();
+                }
             case PLTYPE_RANDOM: {
                 g->u.prof = profession::weighted_random();
                 str_max = rng(6, 12);
@@ -210,6 +216,10 @@ bool player::create(character_type type, std::string tempname)
                 getline(fin, data);
                 load_info(data);
                 points = 0;
+
+                if(MAP_SHARING::isSharing()) {
+                    name = MAP_SHARING::getUsername(); //just to make sure we have the right name
+                }
             }
             break;
         }
@@ -1351,6 +1361,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
     long ch;
 
+    u->name = MAP_SHARING::getUsername();  // set the current username as default character name (good feature even if not sharing maps, i guess)
+
     do {
         if (redraw) {
             //Draw the line between editable and non-editable stuff.
@@ -1453,7 +1465,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
-        mvwprintz(w_name, 1, 0, c_ltgray, _("Press ? to pick a random name."));
+        if(!MAP_SHARING::isSharing()) { // no random names when sharing maps
+            mvwprintz(w_name, 1, 0, c_ltgray, _("Press ? to pick a random name."));
+        }
         wrefresh(w_name);
 
         mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
@@ -1526,9 +1540,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             redraw = true;
             wrefresh(w);
         } else if (ch == '?') {
-            u->pick_name();
+            if(!MAP_SHARING::isSharing()){ // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
+                u->pick_name();
+            }
         } else if (ch == KEY_BACKSPACE || ch == 127) {
-            if (!u->name.empty()) {
+            if (!u->name.empty() && !MAP_SHARING::isSharing()) { // Don't remove characters if name is empty or when sharing maps
                 //erase utf8 character TODO: make a function
                 while(!u->name.empty() && ((unsigned char)u->name[u->name.size() - 1]) >= 128 &&
                       ((unsigned char)u->name[(int)u->name.size() - 1]) <= 191) {
@@ -1538,7 +1554,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
         } else if (ch == '\t') {
             u->male = !u->male;
-        } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30) {
+        } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30 && !MAP_SHARING::isSharing()) { // Don't edit name when sharing
             u->name.push_back(ch);
         } else if(ch == KEY_F(2)) {
             std::string tmp = get_input_string_from_file();
@@ -1551,7 +1567,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         else if(ch > 127) {
             std::string tmp = utf32_to_utf8(ch);
             int tmplen = utf8_width(tmp.c_str());
-            if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
+            if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30 && !MAP_SHARING::isSharing()) { //Don't edit name when sharing
                 u->name.append(tmp);
             }
         }

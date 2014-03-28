@@ -12,6 +12,7 @@
 #include "file_finder.h"
 #include "overmapbuffer.h"
 #include "mapbuffer.h"
+#include "mapsharing.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 const int savegame_minver_map = 11;
@@ -128,7 +129,33 @@ void mapbuffer::save( bool delete_after_save )
 
     std::stringstream mapfile;
     mapfile << map_directory.str() << "/map.key";
-    std::ofstream fout(mapfile.str().c_str());
+
+    std::ofstream fout;
+    int mapkeylock = -1;  // -1 is false; everything else is true
+
+
+    if( MAP_SHARING::isSharing()) { // if not sharing getLock will not be called
+        mapkeylock = MAP_SHARING::getLock((mapfile.str()+".lock").c_str());
+        if(mapkeylock != -1) {
+            fout.open(mapfile.str().c_str());
+        } else {
+            //popup("Save file is locked right now. Try again later.");
+            //return;
+            for(int i = 0; i < 2 && mapkeylock == -1; i++) { // loop two times or until mapkeylock is true. whichever comes first
+                sleep(1);
+                mapkeylock = MAP_SHARING::getLock((mapfile.str()+".lock").c_str());
+            }
+            if(mapkeylock == -1) {
+                popup("Save file is locked right now. Try again later.");
+                return;
+            } else {
+                fout.open(mapfile.str().c_str());
+            }
+        }
+    } else {
+    fout.open(mapfile.str().c_str()); // else create the file like always
+    }
+
     if( !fout.is_open() ) {
         debugmsg( "Can't open %s.", mapfile.str().c_str() );
         return;
@@ -169,6 +196,10 @@ void mapbuffer::save( bool delete_after_save )
 
     fout << std::endl;
     fout.close();
+    if(MAP_SHARING::isSharing()) {
+        MAP_SHARING::releaseLock(mapkeylock, (mapfile.str()+".lock").c_str());
+        mapkeylock = -1;
+    }
 
     int num_saved_submaps = 0;
     int num_total_submaps = submap_list.size();
@@ -185,7 +216,7 @@ void mapbuffer::save( bool delete_after_save )
         // Whatever the coordinates of the current submap are,
         // we're saving a 2x2 quad of submaps at a time.
         // Submaps are generated in quads, so we know if we have one member of a quad,
-        // we have the rest of it, if that assumtion is broken we have REAL problems.
+        // we have the rest of it, if that assumption is broken we have REAL problems.
         const tripoint om_addr = overmapbuffer::sm_to_omt_copy( it->first );
         if( saved_submaps.count( om_addr ) != 0 ) {
             if( delete_after_save ) {
@@ -210,11 +241,27 @@ void mapbuffer::save( bool delete_after_save )
         std::stringstream quad_path;
         quad_path << segment_path.str() << "/" << om_addr.x << "." <<
             om_addr.y << "." << om_addr.z << ".map";
-        fout.open( quad_path.str().c_str() );
+
+
+        if(MAP_SHARING::isSharing()) {
+            mapkeylock = MAP_SHARING::getLock((quad_path.str()+".lock").c_str());
+            if(mapkeylock != -1) {
+                fout.open( quad_path.str().c_str() );
+            } else {
+                continue;
+            }
+        } else {
+            fout.open( quad_path.str().c_str() ); // like always
+        }
 
         save_quad( fout, om_addr, delete_after_save );
         num_saved_submaps += 4;
         fout.close();
+
+        if(MAP_SHARING::isSharing()) {
+            MAP_SHARING::releaseLock(mapkeylock ,(quad_path.str()+".lock").c_str());
+            mapkeylock = -1;
+        }
     }
 }
 
