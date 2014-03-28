@@ -11222,9 +11222,11 @@ void game::forage()
 	else {
 	   add_msg(_("You found a nest with some eggs!"));
 	   if (!one_in(4)) {
-          m.spawn_item(u.posx, u.posy, "egg_bird", rng(1, 5), 0, turn);
+          m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, turn);
        } else {
-          m.spawn_item(u.posx, u.posy, "egg_reptile", rng(1, 5), 0, turn);
+          // ~15% & 3.8% chance to find these, assuming you make your veggy roll
+          // So maybe we can give more than 1.
+          m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, turn);
 	   }
     }
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
