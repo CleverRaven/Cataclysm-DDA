@@ -100,7 +100,7 @@ end
 ]]
 
 -- Generates a getter function for a specific class and member variable.
-function generate_getter(class, member_name, member_type)
+function generate_getter(class, member_name, member_type, cpp_name)
     local function_name = class.."_get_"..member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
@@ -110,7 +110,7 @@ function generate_getter(class, member_name, member_type)
     text = text .. tab .. tab .. 'return luaL_error(L, "First argument to '..function_name..' is not a '..class..'");'..br
     text = text .. tab .. "}" .. br
 
-    text = text .. tab .. push_lua_value("(*"..class.."_instance"..")->"..member_name, member_type)..br
+    text = text .. tab .. push_lua_value("(*"..class.."_instance"..")->"..cpp_name, member_type)..br
 
     text = text .. tab .. "return 1;  // 1 return value"..br
     text = text .. "}" .. br
@@ -119,7 +119,7 @@ function generate_getter(class, member_name, member_type)
 end
 
 -- Generates a setter function for a specific class and member variable.
-function generate_setter(class, member_name, member_type)
+function generate_setter(class, member_name, member_type, cpp_name)
     local function_name = class.."_set_"..member_name
     
     local text = "static int "..function_name.."(lua_State *L) {"..br
@@ -134,7 +134,7 @@ function generate_setter(class, member_name, member_type)
 
     text = text .. tab .. retrieve_lua_value("value", member_type, 2) ..br
 
-    text = text .. tab .. "(*"..class.."_instance)->"..member_name.." = value;"..br
+    text = text .. tab .. "(*"..class.."_instance)->"..cpp_name.." = value;"..br
 
     text = text .. tab .. "return 0;  // 0 return values"..br
     text = text .. "}" .. br
@@ -240,9 +240,9 @@ dofile "../../lua/class_definitions.lua"
 function generate_accessors(class, name)
     -- Generate getters and setters for our player attributes.
     for key, attribute in pairs(class) do
-        cpp_output = cpp_output .. generate_getter(name, key, attribute.type)
+        cpp_output = cpp_output .. generate_getter(name, key, attribute.type, attribute.cpp_name or key)
         if attribute.writable then
-            cpp_output = cpp_output .. generate_setter(name, key, attribute.type)
+            cpp_output = cpp_output .. generate_setter(name, key, attribute.type, attribute.cpp_name or key)
         end
     end
 end
