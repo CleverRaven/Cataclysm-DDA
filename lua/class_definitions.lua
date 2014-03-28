@@ -473,12 +473,14 @@ classes = {
                 type = "string",
                 writable = true
             },
-            m1 = {
+            material1 = {
                 type = "string",
+                cpp_name = "m1",
                 writable = true
             },
-            m2 = {
+            material2 = {
                 type = "string",
+                cpp_name = "m2",
                 writable = true
             },
             volume = {
@@ -493,16 +495,19 @@ classes = {
                 type = "int",
                 writable = true
             },
-            melee_dam = {
+            bashing = {
                 type = "int",
+                cpp_name = "melee_dam",
                 writable = true
             },
-            melee_cut = {
+            cutting = {
                 type = "int",
+                cpp_name = "melee_cut",
                 writable = true
             },
-            m_to_hit = {
+            to_hit = {
                 type = "int",
+                cpp_name = "m_to_hit",
                 writable = true
             },
             price = {
@@ -520,16 +525,19 @@ classes = {
                 type = "int",
                 writable = true
             },
-            nutr = {
+            nutrition = {
                 type = "int",
+                cpp_name = "nutr",
                 writable = true
             },
-            spoils = {
+            spoils_in = {
                 type = "int",
+                cpp_name = "spoils",
                 writable = true
             },
-            addict = {
+            addiction_potential = {
                 type = "int",
+                cpp_name = "addict",
                 writable = true
             },
             charges = {
@@ -551,6 +559,19 @@ classes = {
             fun = {
                 type = "int",
                 writable = true
+            },
+            container = {
+                type = "string",
+                writable = true
+            },
+            tool = {
+                type = "string",
+                writable = true
+            },
+            comestible_type = {
+                type = "string",
+                cpp_name = "comesttype",
+                writable = true
             }
         },
         functions = {
@@ -563,8 +584,9 @@ classes = {
                 type = "string",
                 writable = true
             },
-            dmg_bonus = {
+            ranged_damage = {
                 type = "int",
+                cpp_name = "dmg_bonus",
                 writable = true
             },
             pierce = {
@@ -593,6 +615,11 @@ classes = {
             },
             clip = {
                 type = "int",
+                writable = true
+            },
+            reload = {
+                type = "int",
+                cpp_name = "reload_time",
                 writable = true
             }
         },
@@ -658,6 +685,40 @@ classes = {
                 writable = true
             },
             turns_per_charge = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
+    },
+    it_armor = {
+        parent = "itype",
+        attributes = {
+            encumberance = {
+                type = "int",
+                cpp_name = "encumber",
+                writable = true
+            },
+            coverage = {
+                type = "int",
+                writable = true
+            },
+            material_thickness = {
+                type = "int",
+                cpp_name = "thickness",
+                writable = true
+            },
+            envirnomental_protection = {
+                type = "int",
+                cpp_name = "env_resist",
+                writable = true
+            },
+            warmth = {
+                type = "int",
+                writable = true
+            },
+            storage = {
                 type = "int",
                 writable = true
             }
@@ -752,5 +813,10 @@ global_functions = {
         cpp_name = "get_tool_type",
         args = { "string" },
         rval = "it_tool"
+    },
+    get_armor_type = {
+        cpp_name = "get_armor_type",
+        args = { "string" },
+        rval = "it_armor"
     }
 }
