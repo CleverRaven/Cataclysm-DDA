@@ -3843,7 +3843,7 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
     //makes a square of randomly thrown around furniture and places stuff.
     for (int i = 1; i <= 23; i++) {
             for (int j = 1; j <= 23; j++) {
-                if (one_in(800)) {
+                if (one_in(1600)) {
                     m->furn_set(i, j, f_safe_l);
                     if (one_in(2)){
                         m->spawn_item(i, j, "9mm", 2);
