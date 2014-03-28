@@ -2274,7 +2274,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
  std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
  for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-  if (traits[traitslist[i]].points > 0)
+  if (traits[traitslist[i]].mixed_effect == true)
+   status = c_magenta;
+  else if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
   else if (traits[traitslist[i]].points < 0)
    status = c_ltred;
