@@ -562,12 +562,12 @@ void initOptions() {
                                              24, 187, 24
                                             );
 
-    optionNames["standard"] = _("Standard");
+    optionNames["taller"] = _("Taller");
     //~ sidebar style
     optionNames["narrow"] = _("Narrow");
     OPTIONS["SIDEBAR_STYLE"] =          cOpt("interface", _("Sidebar style"),
                                              _("Switch between the standard or a narrower and taller sidebar. Requires restart."),
-                                             "standard,narrow", "narrow"
+                                             "taller,narrow", "narrow"
                                             );
     //~ style of vehicle interaction menu; vertical is old one.
     optionNames["vertical"] = _("Vertical");
