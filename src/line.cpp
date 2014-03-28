@@ -22,6 +22,8 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
     // Draw point
     if (dx==0 && dy==0) {
       ret.push_back(cur);
+      // Should exit here
+      return ret;
     }
 
     // Any ideas why we're multiplying the abs distance by two here?
