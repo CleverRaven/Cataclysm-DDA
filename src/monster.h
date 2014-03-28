@@ -194,7 +194,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     bool is_on_ground();
     bool is_warm();
     bool has_weapon();
-    bool is_dead_state(); // check if we should be dead or not
+    bool is_dead_state() const; // check if we should be dead or not
 
     void absorb_hit(body_part bp, int side,
             damage_instance &dam);
@@ -273,8 +273,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  // the creature base class uses xpos/ypos to prevent conflict with
  // player.xpos and player.ypos which are public ints that are literally used
  // in every single file.
- int xpos() { return _posx; }
- int ypos() { return _posy; }
+ int xpos() const { return _posx; }
+ int ypos() const { return _posy; }
 
  short ignoring;
 

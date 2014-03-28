@@ -257,7 +257,7 @@ public:
  bool can_melee();
  bool digging();      // always false, because players can't dig
  bool is_on_ground(); // all body parts are available to ground level damage sources
- bool is_dead_state(); // check if we should be dead or not
+ bool is_dead_state() const; // check if we should be dead or not
 
  bool has_miss_recovery_tec(); // technique-based miss recovery, like tec_feint
  bool has_grab_break_tec(); // technique-based miss recovery, like tec_feint
@@ -550,8 +550,8 @@ public:
 
 // ---------------VALUES-----------------
  int posx, posy;
- inline int xpos() { return posx; }
- inline int ypos() { return posy; }
+ inline int xpos() const { return posx; }
+ inline int ypos() const { return posy; }
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
  bool controlling_vehicle;  // Is currently in control of a vehicle

@@ -203,7 +203,7 @@ public:
   bool add_zombie(monster& critter);
   size_t num_zombies() const;
   monster& zombie(const int idx);
-  bool update_zombie_pos(const monster &critter, const int newx, const int newy);
+  bool update_zombie_pos(monster &critter, const int newx, const int newy);
   void remove_zombie(const int idx);
   void clear_zombies();
   bool spawn_hallucination(); //Spawns a hallucination close to the player
