@@ -14,13 +14,21 @@ std::vector <point> line_to(const int x1, const int y1, const int x2, const int 
     ret.reserve(numCells);
     const int dx = x2 - x1;
     const int dy = y2 - y1;
+
+    point cur;
+    cur.x = x1;
+    cur.y = y1;
+
+    // Draw point
+    if (dx==0 && dy==0) {
+      ret.push_back(cur);
+    }
+
     // Any ideas why we're multiplying the abs distance by two here?
     const int ax = abs(dx) << 1; // bitshift one place, functional *2
     const int ay = abs(dy) << 1;
     const int sx = (dx == 0 ? 0 : SGN(dx)), sy = (dy == 0 ? 0 : SGN(dy));
-    point cur;
-    cur.x = x1;
-    cur.y = y1;
+
     // The old version of this algorithm would generate points on the line and check min/max for each point
     // to determine whether or not to continue generating the line. Since we already know how many points
     // we need, this method saves us a half-dozen variables and a few calculations.
