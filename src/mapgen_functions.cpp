@@ -94,6 +94,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["basement_survivalist"] = &mapgen_basement_survivalist;
     mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
     mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
+    mapgen_cfunction_map["basement_game"] = &mapgen_basement_game;
     mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
     mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
@@ -3922,6 +3923,75 @@ void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+}
+
+void mapgen_basement_game(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+
+        dat.fill_groundcover();
+        mapf::formatted_set_simple(m, 0, 0,
+                                   "\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+#...i###################\n\
+#....###################\n\
+#&...###################\n\
+#....###################\n\
+###+####################\n\
+#............fffrrrrrrc#\n\
+#......................#\n\
+#...........ccccccccccc#\n\
+#......................#\n\
+#..ssssssc............a#\n\
+#........s.......pp....#\n\
+#c...tt..s.......pp....#\n\
+#c...tt..s.......pp...a#\n\
+#........s.............#\n\
+#......................#\n\
+#......................#\n\
+#.........#++#.........#\n\
+#.........#..#.........#\n\
+#.........#<<#.........#\n\
+########################\n",
+                                  mapf::basic_bind(". # < + p t c s a r f & i", t_rock_floor, t_rock, t_stairs_up, t_door_c, t_rock_floor,
+                                                    t_rock_floor, t_rock_floor, t_rock_floor,t_rock_floor, t_rock_floor, t_rock_floor,
+                                                    t_rock_floor, t_rock_floor),
+                                  mapf::basic_bind(". # < + p t c s a r f & i", f_null, f_null, f_null, f_null, f_pool_table,
+                                                    f_table, f_counter, f_sofa,f_armchair, f_rack, f_fridge, f_sink, f_toilet));
+        //place diferent furniture sets
+        if (one_in(2)){
+            line_furn(m, f_bookcase, 1, 22, 9, 22);
+            line_furn(m, f_bookcase, 1, 19, 1, 22);
+            m->furn_set(  7, 19, f_armchair);
+            m->furn_set(  6, 19, f_table);
+            m->place_items("homebooks", 70,  1,  22, 9, 22, false, 0);
+            m->place_items("homebooks", 70,  1,  19, 1, 22, false, 0);
+            m->place_items("magazines", 30,  7, 19, 6, 19, false, 0);
+        } else {
+            line_furn(m, f_sofa, 3, 22, 8, 22);
+            line_furn(m, f_table, 3, 20, 7, 20);
+            m->furn_set(2, 22, f_counter);
+            m->furn_set(8, 22, f_counter);
+        }
+        if (one_in(2)){
+            line(m, t_rock, 14, 20, 21, 20);
+            line_furn(m, f_sofa, 15, 19, 20, 19);
+            m->ter_set(22, 20, t_door_c);
+            line_furn(m, f_counter, 14, 22, 21, 22);
+            m->furn_set(18, 22, f_washer);
+            m->furn_set(22, 22, f_dryer);
+            m->place_items("dresser", 80, 18, 22, 18, 22, false, 0);
+            m->place_items("dresser", 80, 22, 22, 22, 22, false, 0);
+            m->place_items("cleaning",80, 14, 22, 18, 22, false, 0);
+        }
+        //place items that are outside the furniture sets
+        m->place_items("alcohol", 96,  16, 9, 20, 9, false, 0);
+        m->place_items("fridgesnacks", 80,  13, 9, 15, 9, false, 0);
+        m->place_items("pool_table", 90,  17, 14, 18, 16, false, 0);
+        m->place_items("livingroom", 60, 9, 1, 23, 19, false, 0);
+        m->place_spawns("GROUP_ZOMBIE", 2, 9, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////

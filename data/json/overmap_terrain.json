@@ -1642,6 +1642,7 @@
             { "method": "builtin", "name": "basement_guns" },
             { "method": "builtin", "name": "basement_survivalist" },
             { "method": "builtin", "name": "basement_chemlab" },
+            { "method": "builtin", "name": "basement_game" },
             { "method": "builtin", "name": "basement_weed" }
         ]
     },{
