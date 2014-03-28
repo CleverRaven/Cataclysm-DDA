@@ -8420,9 +8420,15 @@ void game::draw_trail_to_square(int x, int y, bool bDrawX)
     //Reset terrain
     draw_ter();
 
-    //Draw trail
+    std::vector<point> vPoint;
     point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
-    std::vector<point> vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+    if ( x!=0 || y!=0 ) {
+      //Draw trail
+      vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+    } else {
+      //Draw point
+      vPoint.push_back( point(u.posx, u.posy) );
+    }
 
     draw_line(u.posx + x, u.posy + y, center, vPoint);
     if (bDrawX) {
@@ -8604,7 +8610,7 @@ void game::zoom_out() {
 
 int game::list_items(const int iLastState)
 {
-    int iInfoHeight = 12;
+    int iInfoHeight = std::min(25,TERMY/2);
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW* w_items = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1);
     WINDOW* w_items_border = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
@@ -9490,7 +9496,7 @@ and you can't unwield your %s."),
     // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
     int maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
 
-    int itemsH = 12;
+    int itemsH = std::min(25,TERMY/2);
     int pickupBorderRows = 3;
 
     // The pickup list may consume the entire terminal, minus space needed for its
@@ -11054,7 +11060,7 @@ void game::complete_butcher(int index)
  }
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.
-    if( corpse->has_flag(MF_CBM) ) {
+    if( corpse->has_flag(MF_CBM_CIV) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
         if( skill_shift >= 0 ) {
             add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
@@ -11068,7 +11074,53 @@ void game::complete_butcher(int index)
         if( skill_shift >= 0 ) {
             //To see if it spawns a random additional CBM
             if( rng(0, 1) == 1 ) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics");
+                Item_tag bionic_item = item_controller->id_from("bionics_common");
+                m.spawn_item( u.posx, u.posy, bionic_item, 1, 0, age );
+            } else {//There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+    }
+    
+    // Zombie scientist bionics
+    if( corpse->has_flag(MF_CBM_SCI) ) {
+        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+        if( skill_shift >= 0 ) {
+            add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
+            //To see if it spawns a battery
+            if( rng(0, 1) == 1 ) { //The battery works
+                m.spawn_item( u.posx, u.posy, "bio_power_storage", 1, 0, age );
+            } else { //There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+        if( skill_shift >= 0 ) {
+            //To see if it spawns a random additional CBM
+            if( rng(0, 1) == 1 ) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics_sci");
+                m.spawn_item( u.posx, u.posy, bionic_item, 1, 0, age );
+            }else{//There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+    }
+    
+    // Payoff for butchering the zombie bio-op
+    if( corpse->has_flag(MF_CBM_OP) ) {
+        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+        if( skill_shift >= 0 ) {
+            add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
+            //To see if it spawns a battery
+            if( rng(0, 1) == 1 ) { //The battery works
+                m.spawn_item( u.posx, u.posy, "bio_power_storage_mkII", 1, 0, age );
+            } else { //There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+        if( skill_shift >= 0 ) {
+            //To see if it spawns a random additional CBM
+            if( rng(0, 1) == 1 ) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics_op");
                 m.spawn_item( u.posx, u.posy, bionic_item, 1, 0, age );
             }else{//There is a burnt out CBM
                 m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
@@ -11170,9 +11222,11 @@ void game::forage()
 	else {
 	   add_msg(_("You found a nest with some eggs!"));
 	   if (!one_in(4)) {
-          m.spawn_item(u.posx, u.posy, "egg_bird", rng(1, 5), 0, turn);
+          m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, turn);
        } else {
-          m.spawn_item(u.posx, u.posy, "egg_reptile", rng(1, 5), 0, turn);
+          // ~15% & 3.8% chance to find these, assuming you make your veggy roll
+          // So maybe we can give more than 1.
+          m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, turn);
 	   }
     }
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);

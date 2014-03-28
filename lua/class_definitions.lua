@@ -5,11 +5,13 @@ classes = {
         attributes = {
             posx = {
                 type = "int",
-                writable = false
+                writable = false,
+                desc = "The x position of the player in the reality bubble."
             },
             posy = {
                 type = "int",
-                writable = false
+                writable = false,
+                desc = "The y position of the player in the reality bubble."
             },
 
             hunger = {
@@ -473,12 +475,14 @@ classes = {
                 type = "string",
                 writable = true
             },
-            m1 = {
+            material1 = {
                 type = "string",
+                cpp_name = "m1",
                 writable = true
             },
-            m2 = {
+            material2 = {
                 type = "string",
+                cpp_name = "m2",
                 writable = true
             },
             volume = {
@@ -493,16 +497,19 @@ classes = {
                 type = "int",
                 writable = true
             },
-            melee_dam = {
+            bashing = {
                 type = "int",
+                cpp_name = "melee_dam",
                 writable = true
             },
-            melee_cut = {
+            cutting = {
                 type = "int",
+                cpp_name = "melee_cut",
                 writable = true
             },
-            m_to_hit = {
+            to_hit = {
                 type = "int",
+                cpp_name = "m_to_hit",
                 writable = true
             },
             price = {
@@ -520,16 +527,19 @@ classes = {
                 type = "int",
                 writable = true
             },
-            nutr = {
+            nutrition = {
                 type = "int",
+                cpp_name = "nutr",
                 writable = true
             },
-            spoils = {
+            spoils_in = {
                 type = "int",
+                cpp_name = "spoils",
                 writable = true
             },
-            addict = {
+            addiction_potential = {
                 type = "int",
+                cpp_name = "addict",
                 writable = true
             },
             charges = {
@@ -551,6 +561,19 @@ classes = {
             fun = {
                 type = "int",
                 writable = true
+            },
+            container = {
+                type = "string",
+                writable = true
+            },
+            tool = {
+                type = "string",
+                writable = true
+            },
+            comestible_type = {
+                type = "string",
+                cpp_name = "comesttype",
+                writable = true
             }
         },
         functions = {
@@ -563,8 +586,9 @@ classes = {
                 type = "string",
                 writable = true
             },
-            dmg_bonus = {
+            ranged_damage = {
                 type = "int",
+                cpp_name = "dmg_bonus",
                 writable = true
             },
             pierce = {
@@ -593,6 +617,11 @@ classes = {
             },
             clip = {
                 type = "int",
+                writable = true
+            },
+            reload = {
+                type = "int",
+                cpp_name = "reload_time",
                 writable = true
             }
         },
@@ -664,19 +693,57 @@ classes = {
         },
         functions = {
         }
+    },
+    it_armor = {
+        parent = "itype",
+        attributes = {
+            encumberance = {
+                type = "int",
+                cpp_name = "encumber",
+                writable = true
+            },
+            coverage = {
+                type = "int",
+                writable = true
+            },
+            material_thickness = {
+                type = "int",
+                cpp_name = "thickness",
+                writable = true
+            },
+            envirnomental_protection = {
+                type = "int",
+                cpp_name = "env_resist",
+                writable = true
+            },
+            warmth = {
+                type = "int",
+                writable = true
+            },
+            storage = {
+                type = "int",
+                writable = true
+            }
+        },
+        functions = {
+        }
     }
 }
 
 global_functions = {
     add_msg = {
         cpp_name = "g->add_msg",
-        args = { "cstring" },
-        rval = nil
+        args     = { "cstring" },
+        argnames = { "message" },
+        rval = nil,
+        desc = "Write a message to the game's standard message window."
     },
     revive_corpse = {
         cpp_name = "g->revive_corpse",
-        args = { "int", "int", "int" },
-        rval = nil
+        args     = { "int", "int", "int" },
+        argnames = { "x", "y", "index" },
+        rval = nil,
+        desc = "Revive the corpse at the specified location. The index parameter specifies the index within the item stack that the corpse is located at."
     },
     popup = {
         cpp_name = "popup",
@@ -733,6 +800,11 @@ global_functions = {
         args = {"overmap", "string", "int", "int", "int", "int", "int"},
         rval = "mongroup"
     },
+    add_item_to_group = {
+        cpp_name = "item_controller->add_item_to_group",
+        args = { "string", "string", "int" },
+        rval = "bool"
+    },
     get_comestible_type = {
         cpp_name = "get_comestible_type",
         args = { "string" },
@@ -752,5 +824,10 @@ global_functions = {
         cpp_name = "get_tool_type",
         args = { "string" },
         rval = "it_tool"
+    },
+    get_armor_type = {
+        cpp_name = "get_armor_type",
+        args = { "string" },
+        rval = "it_armor"
     }
 }

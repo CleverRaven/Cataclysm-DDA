@@ -96,7 +96,8 @@ enum mon_id {
     // 0.9 -> 0.A
     mon_dog_skeleton, mon_dog_zombie_cop, mon_dog_zombie_rot,
     // 0.A -> 0.B
-    mon_broken_cyborg, mon_zoose, mon_zomwolf, mon_zomcougar,
+    mon_broken_cyborg, mon_zoose, mon_zolf, mon_zougar,
+    mon_zombie_bio_op,
     num_monsters
 };
 
@@ -175,7 +176,7 @@ enum m_flag {
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
     MF_FEATHER,             // May produce feather when butchered
-    MF_CBM,                 // May produce a cbm or two when butchered
+    MF_CBM_CIV,             // May produce a common cbm or two when butchered
     MF_BONES,               // May produce bones and sinews when butchered
     MF_FAT,                 // May produce fat when butchered
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
@@ -198,7 +199,9 @@ enum m_flag {
     MF_BILE_BLOOD,          // Makes monster bleed bile.
     MF_ABSORBS,             // Consumes objects it moves over.
     MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
-    MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM.
+    MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
+    MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
+    MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

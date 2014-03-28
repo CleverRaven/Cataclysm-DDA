@@ -1804,7 +1804,7 @@
     "volume": 5,
     "weight": 900,
     "bashing": 4,
-    "cutting": 10,
+    "cutting": 8,
     "to_hit": 1,
     "flags": "SPEAR",
     "techniques": ["WBLOCK_1"],
@@ -2743,7 +2743,7 @@
     "material" : ["cotton", "stone"],
     "weight": 1007,
     "volume": 2,
-    "bashing": 12,
+    "bashing": 8,
     "cutting": 0,
     "to_hit": 1
   },

@@ -808,7 +808,8 @@
       { "monster" : "mon_skitterbot", "freq" : 85, "cost_multiplier" : 0 },
       { "monster" : "mon_skitterbot", "freq" : 85, "cost_multiplier" : 0, "pack_size" : [2,3] },
       { "monster" : "mon_skitterbot", "freq" : 1, "cost_multiplier" : 0, "pack_size" : [8,12] },
-      { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0}
+      { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
+      { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5}
     ]
   },{
     "type":"monstergroup",
@@ -820,7 +821,8 @@
       { "monster" : "mon_manhack", "freq" : 45, "cost_multiplier" : 0, "pack_size" : [2,3] },
       { "monster" : "mon_skitterbot", "freq" : 100, "cost_multiplier" : 0 },
       { "monster" : "mon_skitterbot", "freq" : 145, "cost_multiplier" : 0, "pack_size" : [2,3] },
-      { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0}
+      { "monster" : "mon_zombie_hazmat", "freq" : 100, "cost_multiplier" : 0},
+      { "monster" : "mon_zombie_bio_op", "freq" : 50, "cost_multiplier" : 5}
 
     ]
   },{
