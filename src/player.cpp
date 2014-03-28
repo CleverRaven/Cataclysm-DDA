@@ -2275,7 +2275,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
  for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
   if (traits[traitslist[i]].mixed_effect == true)
-   status = c_magenta;
+   status = c_pink;
   else if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
   else if (traits[traitslist[i]].points < 0)
@@ -2703,6 +2703,8 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
     mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
     if (i > traits.size())
      status = c_ltblue;
+    else if (traits[traitslist[i]].mixed_effect == true)
+     status = c_pink;
     else if (traits[traitslist[i]].points > 0)
      status = c_ltgreen;
     else if (traits[traitslist[i]].points < 0)
@@ -2735,7 +2737,9 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
      mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
      for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
       mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
-      if (traits[traitslist[i]].points > 0)
+      if (traits[traitslist[i]].mixed_effect == true)
+       status = c_pink;
+      else if (traits[traitslist[i]].points > 0)
        status = c_ltgreen;
       else if (traits[traitslist[i]].points < 0)
        status = c_ltred;
