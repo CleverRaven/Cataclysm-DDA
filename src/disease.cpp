@@ -2857,7 +2857,7 @@ static void handle_cough(player &p, int, int loudness, bool harmful)
     if (harmful && !one_in(4)) {
         p.hurt(bp_torso, -1, 1);
     }
-    if (p.has_disease("sleep") && (harmful || one_in(5))) {
+    if (p.has_disease("sleep") && (harmful || one_in(10))) {
         p.wake_up(_("You wake up coughing."));
     }
 }
