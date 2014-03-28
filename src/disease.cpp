@@ -69,7 +69,7 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_cough(player& p, int intensity = 1, int volume = 12, bool harmful = false);
+static void handle_cough(player& p, int intensity = 1, int volume = 4, bool harmful = false);
 static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
@@ -2359,7 +2359,7 @@ void manage_fungal_infection(player& p, disease& dis)
     if (!dis.permanent) {
         if (dis.duration > 3001) { // First hour symptoms
             if (one_in(160 + bonus)) {
-                handle_cough(p, 12, true);
+                handle_cough(p, 5, true);
             }
             if (one_in(100 + bonus)) {
                 g->add_msg_if_player(&p,_("You feel nauseous."));
@@ -2857,7 +2857,7 @@ static void handle_cough(player &p, int, int loudness, bool harmful)
     if (harmful && !one_in(4)) {
         p.hurt(bp_torso, -1, 1);
     }
-    if (p.has_disease("sleep") && (harmful || one_in(10))) {
+    if (p.has_disease("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
         p.wake_up(_("You wake up coughing."));
     }
 }
