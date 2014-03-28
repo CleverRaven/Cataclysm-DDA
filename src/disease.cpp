@@ -69,7 +69,7 @@ static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
-static void handle_cough(player& p, int intensity = 1, int volume = 12);
+static void handle_cough(player& p, int intensity = 1, int volume = 12, bool harmful = false);
 static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
@@ -659,13 +659,7 @@ void dis_effect(player &p, disease &dis)
             }
 
             if (one_in(300)) {
-                p.moves -= 80;
-                if (!p.is_npc()) {
-                    g->add_msg(_("You cough noisily."));
-                    g->sound(p.posx, p.posy, 12, "");
-                } else {
-                    g->sound(p.posx, p.posy, 12, _("loud coughing."));
-                }
+                handle_cough(p);
             }
             break;
 
@@ -689,13 +683,7 @@ void dis_effect(player &p, disease &dis)
                     }
                 }
             if (one_in(300)) {
-                p.moves -= 80;
-                if (!p.is_npc()) {
-                g->add_msg(_("You cough noisily."));
-                g->sound(p.posx, p.posy, 12, "");
-                } else {
-                    g->sound(p.posx, p.posy, 12, _("loud coughing."));
-                }
+                handle_cough(p);
             }
             if (!p.has_disease("took_flumed") || one_in(2)) {
                 if (one_in(3600) || will_vomit(p)) {
@@ -2371,7 +2359,7 @@ void manage_fungal_infection(player& p, disease& dis)
     if (!dis.permanent) {
         if (dis.duration > 3001) { // First hour symptoms
             if (one_in(160 + bonus)) {
-                handle_cough(p);
+                handle_cough(p, 12, true);
             }
             if (one_in(100 + bonus)) {
                 g->add_msg_if_player(&p,_("You feel nauseous."));
@@ -2857,7 +2845,7 @@ static void handle_recovery(player& p, disease& dis)
     }
 }
 
-static void handle_cough(player &p, int, int loudness)
+static void handle_cough(player &p, int, int loudness, bool harmful)
 {
     if (!p.is_npc()) {
         g->add_msg(_("You cough heavily."));
@@ -2866,10 +2854,10 @@ static void handle_cough(player &p, int, int loudness)
         g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
     }
     p.moves -= 80;
-    if (!one_in(4)) {
+    if (harmful && !one_in(4)) {
         p.hurt(bp_torso, -1, 1);
     }
-    if (p.has_disease("sleep")) {
+    if (p.has_disease("sleep") && (harmful || one_in(5)) {
         p.wake_up(_("You wake up coughing."));
     }
 }
