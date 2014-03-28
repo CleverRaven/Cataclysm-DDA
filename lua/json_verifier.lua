@@ -1,3 +1,12 @@
+-- script to verify CDDA JSON(verifies all mods)
+-- run this script with: lua lua/json_verifier.lua
+--
+-- requires luafilesystem to scan for files, installation instructions:
+--  arch linux:   pacman -S lua-filesystem
+--  debian linux: aptitude install liblua5.1-filesystem0
+--  other linux distributions: search for "lua file system" in the
+--                             package manager of your choice
+
 local json = require("lua/dkjson")
 local lfs = require("lfs")
 
