@@ -199,11 +199,11 @@ void game::load_core_data() {
 
 void game::load_data_from_dir(const std::string &path) {
     #ifdef LUA
-        // Process the lua mod file before the .json files,
-        // so that custom IUSE's will be present when the
-        // item definitions are parsed.
+        // Process a preload file before the .json files,
+        // so that custom IUSE's can be defined before
+        // the items that need them are parsed
 
-        lua_loadmod(lua_state, path, "main.lua");
+        lua_loadmod(lua_state, path, "preload.lua");
     #endif
 
     try {
@@ -211,6 +211,13 @@ void game::load_data_from_dir(const std::string &path) {
     } catch(std::string &err) {
         debugmsg("Error loading data from json: %s", err.c_str());
     }
+
+    #ifdef LUA
+        // main.lua will be executed after JSON, allowing to
+        // work with items defined by mod's JSON
+
+        lua_loadmod(lua_state, path, "main.lua");
+    #endif
 }
 
 game::~game()
@@ -11081,7 +11088,7 @@ void game::complete_butcher(int index)
             }
         }
     }
-    
+
     // Zombie scientist bionics
     if( corpse->has_flag(MF_CBM_SCI) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
@@ -11104,7 +11111,7 @@ void game::complete_butcher(int index)
             }
         }
     }
-    
+
     // Payoff for butchering the zombie bio-op
     if( corpse->has_flag(MF_CBM_OP) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
