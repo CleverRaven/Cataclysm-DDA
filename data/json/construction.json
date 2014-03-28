@@ -94,7 +94,7 @@
                 "combatsaw_on"
             ]
         ],
-        "pre_terrain" : "t_tree",
+        "pre_flags" : "TREE",
         "post_terrain" : "t_dirt",
         "post_special" : "done_tree"
     },{
