@@ -42,9 +42,6 @@ int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 int main(int argc, char *argv[])
 {
 #endif
-#ifdef ENABLE_LOGGING
-    setupDebug();
-#endif
     int seed = time(NULL);
     bool verifyexit = false;
     bool check_all_mods = false;
@@ -164,6 +161,10 @@ int main(int argc, char *argv[])
         }
     }
 
+    // setup debug loggind
+#ifdef ENABLE_LOGGING
+    setupDebug();
+#endif
     // set locale to system default
     setlocale(LC_ALL, "");
 #ifdef LOCALIZE
