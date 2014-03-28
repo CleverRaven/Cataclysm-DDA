@@ -1389,7 +1389,6 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
         is_hallucination = m->is_hallucination();
     }
 
-    // Getting your weapon stuck
     int cutting_penalty = roll_stuck_penalty(d.type_damage(DT_STAB) > d.type_damage(DT_CUT), tec);
     // Some weapons splatter a lot of blood around.
     // TODO: this function shows total damage done by this attack, not final damage inflicted.
