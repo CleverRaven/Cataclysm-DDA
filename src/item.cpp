@@ -248,9 +248,6 @@ item item::in_its_container(std::map<std::string, itype*> *itypes)
         it_comest *food = dynamic_cast<it_comest*>(type);
         item ret((*itypes)[food->container], bday);
 
-        if (dynamic_cast<it_comest*>(type)->container == "can_food")
-            food->spoils = 0;
-
         if (made_of(LIQUID))
         {
             it_container* container = dynamic_cast<it_container*>(ret.type);
