@@ -7749,7 +7749,7 @@ int iuse::holster_pistol(player *p, item *it, bool)
         int pos = g->inv_type(_("Holster what?"), IC_GUN); // only show guns
         item* put = &(p->i_at(pos));
         if (put == NULL || put->is_null()) {
-            g->add_msg_if_player(p, _("You do not have that item!"));
+            g->add_msg_if_player(p, _("Never mind."));
             return 0;
         }
 
@@ -7785,7 +7785,7 @@ int iuse::holster_pistol(player *p, item *it, bool)
         }
 
         g->add_msg_if_player(p, _("You%s holster your %s."), adj.c_str(), put->tname().c_str());
-        p->moves -= (lvl == 0) ? 205 : (200 / lvl);
+        p->moves -= (lvl == 0) ? (15 * put->volume()) : (14 * put->volume()) / lvl;
         it->put_in(p->i_rem(pos));
 
     // else draw the holstered pistol and have the player wield it
@@ -7800,8 +7800,8 @@ int iuse::holster_pistol(player *p, item *it, bool)
                 adj = _(" quickly");
             }
 
-            g->add_msg_if_player(p, _("You%s draw your %s."), adj.c_str(), gun.tname().c_str());
-            p->moves -= (lvl == 0) ? 180 : 175 / lvl;
+            g->add_msg_if_player(p, _("You%s draw your %s from the %s."), adj.c_str(), gun.tname().c_str(), it->name.c_str());
+            p->moves -= (lvl == 0) ? (14 * gun.volume()) : (13 * gun.volume()) / lvl;
 
             p->inv.assign_empty_invlet(gun, true);  // force getting an invlet
             p->wield(&(p->i_add(gun)));
@@ -7811,30 +7811,6 @@ int iuse::holster_pistol(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::holster_ankle(player *p, item *it, bool b)
-{
-    int choice = -1;
-    // ask whether to store a knife or a pistol
-    if (it->contents.empty()) {
-        choice = menu(true, _("Using ankle holster:"), _("Holster a small gun"), _("Sheathe a knife"), _("Cancel"), NULL);
-        if(choice == 1) {
-            holster_pistol(p, it, b);
-        } else if(choice == 2) {
-            sheath_knife(p, it, b);
-        }
-    // unsheathe knife or draw pistol
-    } else if (it->contents.size() == 1) {
-        if (!p->is_armed() || p->wield(NULL)) {
-            item& stored = it->contents[0];
-            if(stored.has_flag("SHEATH_KNIFE")) {
-                sheath_knife(p, it, b);
-            } else {
-                holster_pistol(p, it, b);
-            }
-        }
-    }
-}
-
 int iuse::sheath_knife(player *p, item *it, bool)
 {
     // if sheath is empty, pull up menu asking what to sheathe
@@ -7842,7 +7818,7 @@ int iuse::sheath_knife(player *p, item *it, bool)
         int pos = g->inv_for_flag("SHEATH_KNIFE", "Sheathe what?", false); // only show SHEATH_KNIFE items
         item* put = &(p->i_at(pos));
         if (put == NULL || put->is_null()) {
-            g->add_msg_if_player(p, _("You do not have that item!"));
+            g->add_msg_if_player(p, _("Never mind."));
             return 0;
         }
 
@@ -7863,7 +7839,7 @@ int iuse::sheath_knife(player *p, item *it, bool)
             adj = _(" deftly");
         }
 
-        g->add_msg_if_player(p, _("You%s sheathe your %s."), adj.c_str(), put->tname().c_str());
+        g->add_msg_if_player(p, _("You%s put your %s into the %s."), adj.c_str(), put->tname().c_str(), it->name.c_str());
         p->moves -= (lvl == 0) ? (15 * put->volume()) : (14 * put->volume()) / lvl;
         it->put_in(p->i_rem(pos));
 
@@ -7871,13 +7847,13 @@ int iuse::sheath_knife(player *p, item *it, bool)
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
             int lvl = p->skillLevel("cutting");
-            item& sword = it->contents[0];
+            item& knife = it->contents[0];
 
             // bigger swords take longer to draw
-            p->moves -= (lvl == 0) ? (14 * sword.volume()) : (13 * sword.volume()) / lvl;
+            p->moves -= (lvl == 0) ? (14 * knife.volume()) : (13 * knife.volume()) / lvl;
 
-            p->inv.assign_empty_invlet(sword, true);  // force getting an invlet
-            p->wield(&(p->i_add(sword)));
+            p->inv.assign_empty_invlet(knife, true);  // force getting an invlet
+            p->wield(&(p->i_add(knife)));
             it->contents.erase(it->contents.begin());
 
             std::string adj;
@@ -7887,11 +7863,11 @@ int iuse::sheath_knife(player *p, item *it, bool)
                 adj = _(" swiftly");
             }
 
-            g->add_msg_if_player(p, _("You%s draw your %s."), adj.c_str(), sword.tname().c_str());
+            g->add_msg_if_player(p, _("You%s draw your %s from the %s."), adj.c_str(), knife.tname().c_str(), it->name.c_str());
 
             // diamond swords glimmer in the sunlight
-            if(g->is_in_sunlight(p->posx, p->posy) && sword.made_of("diamond")) {
-                g->add_msg_if_player(p, _("Your %s glimmers magnificently in the sunlight."), sword.tname().c_str());
+            if(g->is_in_sunlight(p->posx, p->posy) && knife.made_of("diamond")) {
+                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), knife.tname().c_str());
             }
         }
     }
@@ -7905,7 +7881,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
         int pos = g->inv_for_flag("SHEATH_SWORD", "Sheathe what?", false); // only show SHEATHABLE items
         item* put = &(p->i_at(pos));
         if (put == NULL || put->is_null()) {
-            g->add_msg_if_player(p, _("You do not have that item!"));
+            g->add_msg_if_player(p, _("Never mind."));
             return 0;
         }
 
@@ -8002,11 +7978,35 @@ int iuse::sheath_sword(player *p, item *it, bool)
 
             // diamond swords glimmer in the sunlight
             if(g->is_in_sunlight(p->posx, p->posy) && sword.made_of("diamond")) {
-                g->add_msg_if_player(p, _("Your %s glimmers magnificently in the sunlight."), sword.tname().c_str());
+                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), sword.tname().c_str());
             }
         }
     }
     return it->type->charges_to_use();
+}
+
+int iuse::holster_ankle(player *p, item *it, bool b)
+{
+    int choice = -1;
+    // ask whether to store a knife or a pistol
+    if (it->contents.empty()) {
+        choice = menu(true, _("Using ankle holster:"), _("Holster a pistol"), _("Sheathe a knife"), _("Cancel"), NULL);
+        if(choice == 1) {
+            holster_pistol(p, it, b);
+        } else if(choice == 2) {
+            sheath_knife(p, it, b);
+        }
+    // unsheathe knife or draw pistol
+    } else {
+        if (!p->is_armed() || p->wield(NULL)) {
+            item& stored = it->contents[0];
+            if(stored.has_flag("SHEATH_KNIFE")) {
+                sheath_knife(p, it, b);
+            } else {
+                holster_pistol(p, it, b);
+            }
+        }
+    }
 }
 
 int iuse::boots(player *p, item *it, bool)
