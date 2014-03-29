@@ -522,11 +522,25 @@ void inventory::restack(player *p)
     }
 }
 
+extern long count_charges_in_list(const itype *type, const std::vector<item> &items);
 void inventory::form_from_map(point origin, int range, bool assign_invlet)
 {
     items.clear();
     for (int x = origin.x - range; x <= origin.x + range; x++) {
         for (int y = origin.y - range; y <= origin.y + range; y++) {
+            if (g->m.has_furn(x, y) && g->m.accessable_furniture(origin.x, origin.y, x, y, range)) {
+                const furn_t &f = g->m.furn_at(x, y);
+                itype *type = f.crafting_pseudo_item_type();
+                if (type != NULL) {
+                    item furn_item(type, 0);
+                    const itype *ammo = f.crafting_ammo_item_type();
+                    if (ammo != NULL) {
+                        furn_item.charges = count_charges_in_list(ammo, g->m.i_at(x, y));
+                    }
+                    furn_item.item_tags.insert("PSEUDO");
+                    add_item(furn_item);
+                }
+            }
             if(g->m.accessable_items(origin.x, origin.y, x, y, range)) {
                 continue;
             }

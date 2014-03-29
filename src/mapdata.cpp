@@ -238,6 +238,8 @@ void load_furniture(JsonObject &jsobj)
   new_furniture.movecost = jsobj.get_int("move_cost_mod");
   new_furniture.move_str_req = jsobj.get_int("required_str");
 
+  new_furniture.crafting_pseudo_item = jsobj.get_string("crafting_pseudo_item", "");
+
   new_furniture.transparent = false;
   new_furniture.bitflags = 0;
   JsonArray flags = jsobj.get_array("flags");

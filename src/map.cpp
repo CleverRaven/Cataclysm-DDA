@@ -2937,6 +2937,24 @@ std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const it
     return ret;
 }
 
+extern long remove_charges_in_list(const itype *type, std::vector<item> &items, long quantity);
+void use_charges_from_furn(const furn_t &f, const itype_id &type, int &quantity, std::vector<item> &items, std::list<item> &ret)
+{
+    itype *itt = f.crafting_pseudo_item_type();
+    if (itt == NULL || itt->id != type) {
+        return;
+    }
+    const itype *ammo = f.crafting_ammo_item_type();
+    if (ammo != NULL) {
+        item furn_item(itt, 0);
+        furn_item.charges = remove_charges_in_list(ammo, items, quantity);
+        if (furn_item.charges > 0) {
+            ret.push_back(furn_item);
+            quantity -= furn_item.charges;
+        }
+    }
+}
+
 std::list<item> map::use_charges(const point origin, const int range,
                                  const itype_id type, const int amount)
 {
@@ -2945,6 +2963,12 @@ std::list<item> map::use_charges(const point origin, const int range,
     for (int radius = 0; radius <= range && quantity > 0; radius++) {
         for (int x = origin.x - radius; x <= origin.x + radius; x++) {
             for (int y = origin.y - radius; y <= origin.y + radius; y++) {
+                if (has_furn(x, y) && accessable_furniture(origin.x, origin.y, x, y, range)) {
+                    use_charges_from_furn(furn_at(x, y), type, quantity, i_at(x, y), ret);
+                    if (quantity <= 0) {
+                        return ret;
+                    }
+                }
                 if(accessable_items( origin.x, origin.y, x, y, range) ) {
                     continue;
                 }
@@ -3783,6 +3807,13 @@ bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int T
     return (has_flag("SEALED", Tx, Ty) && !has_flag("LIQUIDCONT", Tx, Ty)) ||
         ((Fx != Tx || Fy != Ty) &&
          !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
+}
+
+bool map::accessable_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
+{
+    int junk = 0;
+    return ((Fx != Tx || Fy != Ty) &&
+           !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
 
 // Bash defaults to true.

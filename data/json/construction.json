@@ -1334,5 +1334,15 @@
         "pre_special" : "check_up_OK",
         "pre_terrain" : "t_rock",
         "post_special" : "done_mine_upstair"
+    },{
+        "type" : "construction",
+        "description" : "Place anvil",
+        "difficulty" : 0,
+        "time" : 1,
+        "components" : [
+            [ [ "anvil", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_anvil"
     }
 ]
