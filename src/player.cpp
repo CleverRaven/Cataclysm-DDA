@@ -6388,14 +6388,13 @@ bool player::process_single_active_item(item *it)
         }
         else if (it->type->id == "corpse")
         {
-            if (it->ready_to_revive())
+            if (it->ready_to_revive() && g->revive_corpse(posx, posy, it))
             {
                 //~ %s is corpse name
                 add_memorial_log(pgettext("memorial_male", "Had a %s revive while carrying it."),
                                  pgettext("memorial_female", "Had a %s revive while carrying it."),
                                  it->name.c_str());
                 g->add_msg_if_player(this, _("Oh dear god, a corpse you're carrying has started moving!"));
-                g->revive_corpse(posx, posy, it);
                 return false;
             }
         }
