@@ -1993,6 +1993,25 @@
     ]
   ]
 },{
+  "type": "recipe",
+  "result": "m320",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "launcher",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "decomp_learn": 0,
+  "components": [
+    [
+      [ "m320_mod", 1 ]
+    ],
+    [
+      [ "ugl_buttstock", 1 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "u_shotgun",
   "category": "CC_WEAPON",
@@ -29217,3 +29236,4 @@
     ]
   }
 ]
+
