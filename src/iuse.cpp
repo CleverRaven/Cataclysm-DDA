@@ -7832,14 +7832,14 @@ int iuse::sheath_knife(player *p, item *it, bool)
         }
 
         int lvl = p->skillLevel("cutting");
-        std::string adj;
+        std::string adj = " put";
         if(lvl < 2) {
-            adj = _(" clumsily");
+            adj = _(" clumsily shove");
         } else if(lvl >= 5) {
-            adj = _(" deftly");
+            adj = _(" deftly insert");
         }
 
-        g->add_msg_if_player(p, _("You%s put your %s into the %s."), adj.c_str(), put->tname().c_str(), it->name.c_str());
+        g->add_msg_if_player(p, _("You%s your %s into the %s."), adj.c_str(), put->tname().c_str(), it->name.c_str());
         p->moves -= (lvl == 0) ? (15 * put->volume()) : (14 * put->volume()) / lvl;
         it->put_in(p->i_rem(pos));
 

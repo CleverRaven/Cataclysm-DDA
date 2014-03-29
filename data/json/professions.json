@@ -72,7 +72,8 @@
                 "hat_chef",
                 "jacket_chef",
                 "pants_checkered",
-                "dress_shoes"
+                "dress_shoes",
+                "sheath"
             ],
             "male": [
                 "briefs"
@@ -269,7 +270,8 @@
                 "m4a1",
                 "223",
                 "knife_combat",
-                "binoculars"
+                "binoculars",
+                "sheath"
             ],
             "male": [
                 "boxer_shorts"
@@ -454,7 +456,8 @@
                 "switchblade",
                 "lighter",
                 "mag_porn",
-                "sunglasses"
+                "sunglasses",
+                "holster"
             ],
             "male": [
                 "boxer_shorts"
@@ -539,7 +542,8 @@
                 "knife_combat",
                 "lighter",
                 "rope_30",
-                "canteen"
+                "canteen",
+                "sheath"
             ],
             "male": [
                 "boxer_shorts"
