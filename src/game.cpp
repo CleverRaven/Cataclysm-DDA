@@ -10701,6 +10701,51 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
 
 void game::plfire(bool burst, int default_target_x, int default_target_y)
 {
+ // draw pistol from a holster if unarmed
+ if(!u.is_armed()) {
+    // get a list of holsters from worn items
+    std::vector<item*> holsters;
+    for(std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++){
+        item& worn = *it;
+        if((worn.type->use == &iuse::holster_pistol || worn.type->use == &iuse::holster_ankle) &&
+            (!worn.contents.empty() && worn.contents[0].is_gun())) { // ankle holster can have knives
+                holsters.push_back(&worn);
+        }
+    }
+    if(!holsters.empty()) {
+        int choice = -1;
+        // only one holster found, choose it
+        if(holsters.size() == 1) {
+            choice = 0;
+        // ask player which holster to draw from
+        } else {
+            std::vector<std::string> choices;
+            for(std::vector<item*>::iterator it = holsters.begin(); it != holsters.end(); it++) {
+                choices.push_back((*it)->contents[0].name + " from "  + (*it)->name);
+            }
+            choice = (uimenu(false, "Draw what?", choices)) - 1;
+        }
+
+        if(choice != -1) {
+            item* worn = holsters[choice];
+            item& gun = worn->contents[0];
+
+            // same as in iuse::holster_pistol
+            int lvl = u.skillLevel("pistol");
+            u.moves -= (lvl == 0) ? (14 * gun.volume()) : (13 * gun.volume()) / lvl;
+            add_msg_if_player(&u, _("You pull your %s from its %s and ready it to fire."), gun.name.c_str(), worn->name.c_str());
+            if(gun.charges <= 0) {
+                add_msg_if_player(&u, _("... but it's empty!"));
+                return;
+            }
+
+            u.inv.assign_empty_invlet(gun, true);  // force getting an invlet
+            u.wield(&(u.i_add(gun)));
+            worn->contents.erase(worn->contents.begin());
+        }
+    }
+ }
+
  int reload_pos = INT_MIN;
  if (!u.weapon.is_gun())
   return;
@@ -11081,7 +11126,7 @@ void game::complete_butcher(int index)
             }
         }
     }
-    
+
     // Zombie scientist bionics
     if( corpse->has_flag(MF_CBM_SCI) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
@@ -11104,7 +11149,7 @@ void game::complete_butcher(int index)
             }
         }
     }
-    
+
     // Payoff for butchering the zombie bio-op
     if( corpse->has_flag(MF_CBM_OP) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
