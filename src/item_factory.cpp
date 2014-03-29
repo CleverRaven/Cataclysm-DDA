@@ -156,7 +156,7 @@ Item_factory::Item_factory(){
 
 void Item_factory::init(){
     //Populate the iuse functions
-    iuse_function_list["NONE"] = &iuse::none;
+    iuse_function_list["NONE"] = use_function();
     iuse_function_list["RAW_MEAT"] = &iuse::raw_meat;
     iuse_function_list["RAW_FAT"] = &iuse::raw_fat;
     iuse_function_list["RAW_BONE"] = &iuse::raw_bone;
@@ -960,8 +960,9 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
     new_item_template->techniques = jo.get_tags("techniques");
 
-    new_item_template->use = (!jo.has_member("use_action") ? &iuse::none :
-                              use_from_string(jo.get_string("use_action")));
+    if (jo.has_member("use_action")) {
+        new_item_template->use = use_from_string(jo.get_string("use_action"));
+    }
 
     if(jo.has_member("category")) {
         new_item_template->category = get_category(jo.get_string("category"));
@@ -1130,7 +1131,7 @@ use_function Item_factory::use_from_string(std::string function_name){
     } else {
         //Otherwise, return a hardcoded function we know exists (hopefully)
         debugmsg("Received unrecognized iuse function %s, using iuse::none instead", function_name.c_str());
-        return &iuse::none;
+        return use_function();
     }
 }
 

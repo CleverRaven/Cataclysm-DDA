@@ -7252,7 +7252,7 @@ bool player::consume(int pos)
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
             }
-            if (comest->use != &iuse::none) {
+            if (!comest->use.is_none()) {
                 //Check special use
                 amount_used = comest->use.call(this, to_eat, false);
                 if( amount_used == 0 ) {
@@ -7517,7 +7517,7 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if (comest->use != &iuse::none) {
+    if (!comest->use.is_none()) {
         to_eat = comest->use.call(this, eaten, false);
         if( to_eat == 0 ) {
             return false;

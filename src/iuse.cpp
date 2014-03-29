@@ -137,13 +137,6 @@ std::vector<point> points_for_gas_cloud(const point &center, int radius)
     return result;
 }
 
-int iuse::none(player *, item *it, bool)
-{
-  g->add_msg(_("You can't do anything interesting with your %s."),
-             it->tname().c_str());
-  return it->type->charges_to_use();
-}
-
 /* iuse methods return the number of charges expended, which is usually it->charges_to_use().
  * Some items that don't normally use charges return 1 to indicate they're used up.
  * Regardless, returning 0 indicates the item has not been used up,

@@ -8,8 +8,6 @@ class player;
 class iuse
 {
 public:
-    int none                (player*, item*, bool);
-
 // FOOD AND DRUGS (ADMINISTRATION)
     int raw_meat            (player*, item*, bool);
     int raw_fat             (player*, item*, bool);
@@ -247,33 +245,61 @@ public:
 
 typedef int (iuse::*use_function_pointer)(player*,item*,bool);
 
-enum use_function_t {
-    USE_FUNCTION_CPP,
-    USE_FUNCTION_LUA
+class iuse_actor {
+protected:
+    iuse_actor() { }
+public:
+    virtual ~iuse_actor() { }
+    virtual long use(player*, item*, bool) const = 0;
+    virtual iuse_actor *clone() const = 0;
 };
 
 struct use_function {
+protected:
+    enum use_function_t {
+        USE_FUNCTION_NONE,
+        USE_FUNCTION_CPP,
+        USE_FUNCTION_ACTOR_PTR,
+        USE_FUNCTION_LUA
+    };
+
     use_function_t function_type;
 
     union {
         use_function_pointer cpp_function;
         int lua_function;
+        iuse_actor *actor_ptr;
     };
 
-    use_function() : function_type(USE_FUNCTION_CPP) {};
+public:
+    use_function()
+        : function_type(USE_FUNCTION_NONE)
+    { }
 
     use_function(use_function_pointer f)
         : function_type(USE_FUNCTION_CPP), cpp_function(f)
-    { };
+    { }
 
     use_function(int f)
         : function_type(USE_FUNCTION_LUA), lua_function(f)
-    { };
+    { }
+
+    use_function(iuse_actor *f)
+        : function_type(USE_FUNCTION_ACTOR_PTR), actor_ptr(f)
+    { }
+
+    use_function(const use_function &other);
+
+    ~use_function();
 
     int call(player*,item*,bool);
 
-    void operator=(use_function_pointer f) {
-        cpp_function = f;
+    void operator=(use_function_pointer f);
+    void operator=(iuse_actor *f);
+    void operator=(const use_function &other);
+
+    bool is_none() const {
+        return function_type == USE_FUNCTION_NONE;
     }
 
     bool operator==(use_function_pointer f) const {

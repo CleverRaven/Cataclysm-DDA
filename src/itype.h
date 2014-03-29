@@ -183,7 +183,7 @@ struct itype
         , techniques()
         , light_emission()
         , category(NULL)
-        , use(&iuse::none)
+        , use()
     {
     }
 
@@ -214,7 +214,7 @@ struct itype
         , techniques()
         , light_emission()
         , category(NULL)
-        , use(&iuse::none)
+        , use()
     {
     }
     virtual ~itype() {}
