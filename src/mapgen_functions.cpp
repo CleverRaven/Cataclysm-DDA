@@ -51,6 +51,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["fungal_bloom"]     = &mapgen_fungal_bloom;
     mapgen_cfunction_map["road_straight"]    = &mapgen_road_straight;
     mapgen_cfunction_map["road_curved"]      = &mapgen_road_curved;
+    mapgen_cfunction_map["road_end"]         = &mapgen_road_end;
     mapgen_cfunction_map["road_tee"]         = &mapgen_road_tee;
     mapgen_cfunction_map["road_four_way"]    = &mapgen_road_four_way;
     mapgen_cfunction_map["field"]            = &mapgen_field;
@@ -890,6 +891,104 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
     if (terrain_type == "road_ew") {
         m->rotate(1);
+    }
+    if(sidewalks) {
+        m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+    }
+    m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+}
+
+void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    bool sidewalks = false;
+    for (int i = 0; i < 8; i++) {
+        if (otermap[dat.t_nesw[i]].sidewalk) {
+            sidewalks = true;
+        }
+    }
+
+    int veh_spawn_heading;
+    if (terrain_type == "road_end_north" || terrain_type == "road_end_south") {
+        veh_spawn_heading = (one_in(2)? 0 : 180);
+    } else {
+        veh_spawn_heading = (one_in(2)? 270 : 90);
+    }
+
+    m->add_road_vehicles(sidewalks, veh_spawn_heading);
+
+    bool turning_cycle;
+    if (sidewalks) {
+        if (one_in(3)) {
+            turning_cycle = true;
+        } else {
+            turning_cycle = false;
+        }
+
+    } else {
+            turning_cycle = false;
+    }
+
+    ter_id sidewalk_or_null;
+    if (turning_cycle) {
+        if (sidewalks) {
+            sidewalk_or_null = t_sidewalk;
+        } else {
+            sidewalk_or_null = t_null;
+        }
+        mapf::formatted_set_simple(m, 0, 0,
+"\
+ssssssssssssssssssssssss\n\
+ssssssssssssssssssssssss\n\
+ssss................ssss\n\
+sss..................sss\n\
+ss....................ss\n\
+ss....................ss\n\
+ss....................ss\n\
+ss....................ss\n\
+ss....................ss\n\
+ss....................ss\n\
+ss....................ss\n\
+ss....................ss\n\
+ss....................ss\n\
+ss....................ss\n\
+ss....................ss\n\
+sss..................sss\n\
+ssss................ssss\n\
+ssss.......yy.......ssss\n\
+ssss.......yy.......ssss\n\
+ssss.......yy.......ssss\n\
+ssss................ssss\n\
+ssss.......yy.......ssss\n\
+ssss.......yy.......ssss\n\
+ssss.......yy.......ssss\n",
+        mapf::basic_bind(". , y s", t_pavement, t_null, t_pavement_y, sidewalk_or_null),
+        mapf::basic_bind(". , y s", f_null, f_null, f_null, t_null, f_null));
+
+
+
+    } else {
+        for (int i = 0; i < SEEX * 2; i++) {
+            for (int j = 0; j < SEEY * 2; j++) {
+                if (i < 4 || i >= SEEX * 2 - 4 || j < 4) {
+                    if (sidewalks) {
+                        m->ter_set(i, j, t_sidewalk);
+                    } else {
+                        m->ter_set(i, j, dat.groundcover());
+                    }
+                } else {
+                    m->ter_set(i, j, t_pavement);
+                }
+            }
+        }
+    }
+
+    
+    if (terrain_type == "road_end_east") {
+        m->rotate(1);
+    } else if (terrain_type == "road_end_south") {
+        m->rotate(2);
+    } else if (terrain_type == "road_end_west") {
+        m->rotate(3);
     }
     if(sidewalks) {
         m->place_spawns("GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
