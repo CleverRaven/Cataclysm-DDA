@@ -7836,30 +7836,37 @@ int iuse::sheath_sword(player *p, item *it, bool)
         }
 
         g->add_msg_if_player(p, _("You%s sheathe your %s."), adj.c_str(), put->tname().c_str());
-        p->moves -= (lvl == 0) ? 205 : (200 / lvl);
+        p->moves -= (lvl == 0) ? (15 * put->volume()) : (14 * put->volume()) / lvl;
         it->put_in(p->i_rem(pos));
 
     // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
-            item& sword = it->contents[0];
             int lvl = p->skillLevel("cutting");
-            std::string adj;
-            if(lvl < 2) {
-                adj = _(" clumsily");
-            } else if(lvl >= 7) {
-                adj = _(" masterfully");
-            }
+            item& sword = it->contents[0];
 
-            g->add_msg_if_player(p, _("You%s draw your %s."), adj.c_str(), sword.tname().c_str());
-            p->moves -= (lvl == 0) ? 180 : 175 / lvl;
+            // bigger swords take longer to draw
+            p->moves -= (lvl == 0) ? (14 * sword.volume()) : (13 * sword.volume()) / lvl;
 
             p->inv.assign_empty_invlet(sword, true);  // force getting an invlet
             p->wield(&(p->i_add(sword)));
             it->contents.erase(it->contents.begin());
 
+            // in order to perform iaijutsu, have to pass a roll based on level
+            // some swords are too large to perform it with
+            bool iaijutsu =
+                lvl >= 7
+                && one_in(12 - lvl)
+                && !(sword.type->id == "rapier")
+                && !(sword.type->id == "zweihander")
+                && !(sword.type->id == "zweifire_off")
+                && !(sword.type->id == "nodachi")
+                && !(sword.type->id == "sword_wood")
+                && !(sword.type->id == "sword_crude")
+                && !(sword.type->id == "sword_forged");
+
             // iaijutsu! slash an enemy as you draw your sword
-            if(lvl >= 7 && one_in(12 - lvl)){
+            if(iaijutsu) {
                 // check for adjacent enemies before asking to slash
                 int mon_num = -1;
                 for(int i = -1; i <= 1; i++) {
@@ -7881,9 +7888,25 @@ int iuse::sheath_sword(player *p, item *it, bool)
                         if(mon_hit != -1)
                             mon_num = mon_hit;
                     }
-                    g->add_msg_if_player(p, _("The %s swishes through the air as you draw it."), sword.tname().c_str());
-                    p->melee_attack(g->zombie(mon_num), true);
+                    monster& zed = g->zombie(mon_num);
+                    g->add_msg_if_player(p, _("You slash at the %s as you draw your %s."), zed.name().c_str(), sword.tname().c_str());
+                    p->melee_attack(zed, true);
+                } else {
+                    // no adjacent monsters, draw sword normally
+                    iaijutsu = false;
                 }
+            }
+
+            // draw sword normally
+            else {
+                std::string adj;
+                if(lvl < 2) {
+                    adj = _(" clumsily");
+                } else if(lvl >= 7) {
+                    adj = _(" masterfully");
+                }
+
+                g->add_msg_if_player(p, _("You%s draw your %s."), adj.c_str(), sword.tname().c_str());
             }
 
             // diamond swords glimmer in the sunlight
