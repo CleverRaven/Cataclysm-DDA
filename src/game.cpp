@@ -10721,7 +10721,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         } else {
             std::vector<std::string> choices;
             for(std::vector<item*>::iterator it = holsters.begin(); it != holsters.end(); it++) {
-                choices.push_back((*it)->contents[0].name + " from "  + (*it)->name);
+                std::ostringstream ss;
+                ss << (*it)->contents[0].name << " from " << (*it)->name
+                   << " (" << (*it)->contents[0].charges << ")";
+                choices.push_back(ss.str());
             }
             choice = (uimenu(false, "Draw what?", choices)) - 1;
         }

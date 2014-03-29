@@ -6137,7 +6137,7 @@
         "price" : 8000,
         "symbol" : "[",
         "color" : "brown",
-        "description" : "A small holster worn on the ankle. Activate to holster/draw a small pistol or knife",
+        "description" : "A small holster worn on the ankle. Activate to sheathe/draw a small pistol or knife",
         "to_hit" : -1,
         "storage" : 0,
         "material" : ["leather", "null"],
