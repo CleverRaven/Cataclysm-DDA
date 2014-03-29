@@ -661,7 +661,7 @@ furn_id f_null,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
-    f_statue,
+    f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     f_floor_canvas,
     num_furniture_types;
 
@@ -732,6 +732,9 @@ void set_furn_ids() {
     f_fvat_full=furnfind("f_fvat_full");
     f_wood_keg=furnfind("f_wood_keg");
     f_statue=furnfind("f_statue");
+    f_egg_sackbw=furnfind("f_egg_sackbw");
+    f_egg_sackws=furnfind("f_egg_sackws");
+    f_egg_sacke=furnfind("f_egg_sacke");
     f_floor_canvas=furnfind("f_floor_canvas");
     num_furniture_types = furnlist.size();
 }

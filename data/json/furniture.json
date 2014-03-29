@@ -799,7 +799,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE"],
-        "open": "f_safe"
+        "open": "f_safe_o"
     },{
         "type" : "furniture",
         "id" : "f_safe_l",
@@ -819,7 +819,7 @@
         "move_cost_mod": -1,
         "required_str": 14,
         "flags": ["TRANSPARENT", "BASHABLE", "CONTAINER", "PLACE_ITEM", "MOUNTABLE"],
-        "close": "f_safe"
+        "close": "f_safe_c"
     },{
         "type" : "furniture",
         "id" : "f_plant_seed",
@@ -977,5 +977,35 @@
         "required_str": -1,
         "flags": ["TRANSPARENT"],
         "examine_action": "flower_dahlia"
+    
+    },{
+        "type" : "furniture",
+        "id" : "f_egg_sackbw",
+        "name": "spider egg sack",
+        "symbol": "O",
+        "color": "white",
+        "move_cost_mod": 3,
+        "required_str": 6,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+	  "examine_action": "egg_sackbw"
+    },{
+        "type" : "furniture",
+        "id" : "f_egg_sackws",
+        "name": "spider egg sack",
+        "symbol": "O",
+        "color": "yellow",
+        "move_cost_mod": 3,
+        "required_str": 6,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+	  "examine_action": "egg_sackws"
+   },{
+        "type" : "furniture",
+        "id" : "f_egg_sacke",
+        "name": "ruptured egg sack",
+        "symbol": "0",
+        "color": "white",
+        "move_cost_mod": 3,
+        "required_str": 6,
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"]
     }
 ]

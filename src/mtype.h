@@ -59,7 +59,7 @@ enum mon_id {
     mon_dermatik_larva, mon_dermatik,
     // SPIDERS
     mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_trapdoor,
-    mon_spider_widow,
+    mon_spider_widow, mon_spider_widow_giant_s, mon_spider_web_s,
     // Unearthed Horrors
     mon_dark_wyrm, mon_amigara_horror, mon_dog_thing, mon_headless_dog_thing,
     mon_thing,
