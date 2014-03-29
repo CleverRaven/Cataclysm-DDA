@@ -9569,12 +9569,6 @@ void player::absorb_hit(body_part bp, int, damage_instance &dam) {
                 worn.erase(worn.begin() + index);
             }
         }
-
-        /* Comment out unused test
-        if (it->type == DT_BASH) { //well, these seem like they aren't needed
-        } else if (it->type == DT_CUT) {
-        }
-        */
     }
 }
 
