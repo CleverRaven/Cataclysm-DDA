@@ -94,6 +94,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["basement_survivalist"] = &mapgen_basement_survivalist;
     mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
     mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
+    mapgen_cfunction_map["basement_spiders"] = &mapgen_basement_spiders;
     mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
     mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
@@ -626,6 +627,8 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 }
             }
         }
+        m->furn_set(12, 12, f_egg_sackws);
+        m->remove_field(12, 12, fd_web);
         m->add_spawn("mon_spider_web", rng(1, 2), SEEX, SEEY);
     }
 }
@@ -2566,6 +2569,10 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                             for (int y = j - 1; y <= j + 1; y++) {
                                 if (m->ter(x, y) == t_floor) {
                                     m->add_field(x, y, fd_web, rng(2, 3));
+                                    if (one_in(4)){
+                                     m->furn_set(i, j, f_egg_sackbw);
+                                     m->remove_field(i, j, fd_web);
+                                    }
                                 }
                             }
                         }
@@ -3986,6 +3993,25 @@ void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+}
+
+void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+{
+    // Oh no! A spider nest!
+    mapgen_basement_junk(m, terrain_type, dat, turn, density);
+    for (int i = 0; i < 23; i++) {
+        for (int j = 0; j < 23; j++) {
+                if (!(one_in(3))){
+                m->add_field(i, j, fd_web, rng(1, 3));
+                }
+                if (one_in(30)){
+                    m->furn_set(i, j, f_egg_sackbw);
+                    m->add_spawn("mon_spider_widow_giant", rng(3, 6), i, j); //hope you like'em spiders
+                    m->remove_field(i, j, fd_web);
+                }
+            }
+        }
+        m->place_items("rare", 70, 1, 1, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////

@@ -8798,7 +8798,7 @@
         "quench" : 10,
         "heal" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 200,
+        "nutrition" : 20,
         "description" : "A fist sized egg from from a giant spider. Incredibly gross.",
         "price" : 8000,
         "material" : "egg",

@@ -3490,7 +3490,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A still immature giant grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
+    "description":"A still immature giant grass spider. Too young to be venomous, or to walk proficently for that matter",
     "flags":["SMELLS", "HEARS", "WEBWALK", "CHITIN"]
     },{
         "type" : "MONSTER",
