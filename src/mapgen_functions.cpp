@@ -3841,6 +3841,70 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
 {
     // Junk!
     mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
+    //makes a square of randomly thrown around furniture and places stuff.
+    for (int i = 1; i <= 23; i++) {
+            for (int j = 1; j <= 23; j++) {
+                if (one_in(1600)) {
+                    m->furn_set(i, j, f_safe_l);
+                    if (one_in(2)){
+                        m->spawn_item(i, j, "9mm", 2);
+                        m->spawn_item(i, j, "usp_9mm");
+                        m->spawn_item(i, j, "suppressor");
+                        m->spawn_item(i, j, "cash_card", 2);
+                    } else {
+                        m->place_items("ammo", 96,  i,  j, i,  j, false, 0);
+                        m->place_items("lmoe_guns", 90,  i,  j, i,  j, false, 0);
+                    }
+                }
+                if (one_in(20)){
+                    int rn = (rng(1, 8));
+                    if (rn == 1){
+                        m->furn_set(i, j, f_dresser);
+                        m->place_items("dresser", 30,  i,  j, i,  j, false, 0);
+                        m->place_items("trash_forest", 60,  i,  j, i,  j, false, 0);
+                    } else if (rn ==2){
+                        m->furn_set(i, j, f_chair);
+                    } else if (rn ==3){
+                        m->furn_set(i, j, f_cupboard);
+                        m->place_items("trash", 60,  i,  j, i,  j, false, 0);
+                        m->place_items("dining", 40,  i,  j, i,  j, false, 0);
+                    }else if (rn ==4){
+                        int rs = (rng(0,4));
+                        square_furn(m, f_bookcase, i, j, i+rs, j);
+                        m->place_items("novels", 60,  i,  j, i+rs,  j, false, 0);
+                        m->place_items("magazines", 20,  i,  j, i+rs,  j, false, 0);
+                    }else if (rn ==5){
+                        int rs = (rng(0,4));
+                        square_furn(m, f_bookcase, i, j, i, j+rs);
+                        m->place_items("novels", 60,  i,  j, i,  j+rs, false, 0);
+                        m->place_items("magazines", 20,  i,  j, i,  j+rs, false, 0);
+                    }else if (rn ==6){
+                        int rs = (rng(0,2));
+                        square_furn(m, f_locker, i, j, i+rs, j);
+                        m->place_items("trash", 60, i, j, i+rs,  j, false, 0);
+                        m->place_items("home_hw", 20, i, j, i+rs, j, false, 0);
+                    }else if (rn ==7){
+                        int rs = (rng(0,2));
+                        square_furn(m, f_locker, i, j, i, j+rs);
+                        m->place_items("trash", 60, i,  j, i, j+rs, false, 0);
+                        m->place_items("home_hw", 20, i, j, i, j+rs, false, 0);
+                    }else{
+                        int rs = (rng(0,2));
+                        square_furn(m, f_table, i, j, i+rs, j+rs);
+                    }
+                }//remove furniture if the tile is a wall
+                if (i == 23 || j == 23){
+                    m->furn_set(i, j, f_null);
+                }
+                //remove furniture if the tile is part of the anteroom
+                if (i >= 10 && i <= 13) {
+                    if (j >= 20 && j <= 23) {
+                        m->furn_set(i, j, f_null);
+                    }
+                }
+
+        }
+    }
     m->place_items("bedroom", 60, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
     m->place_items("home_hw", 80, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
     m->place_items("homeguns", 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
