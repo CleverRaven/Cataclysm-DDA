@@ -7866,7 +7866,7 @@ int iuse::sheath_knife(player *p, item *it, bool)
             g->add_msg_if_player(p, _("You%s draw your %s from the %s."), adj.c_str(), knife.tname().c_str(), it->name.c_str());
 
             // diamond swords glimmer in the sunlight
-            if(g->is_in_sunlight(p->posx, p->posy) && knife.made_of("diamond")) {
+            if(g->is_in_sunlight(p->posx, p->posy) && knife.made_of("diamond") || knife.type->id == "foon" || knife.type->id == "spork") {
                 g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), knife.tname().c_str());
             }
         }
@@ -7878,7 +7878,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
 {
     // if sheath is empty, pull up menu asking what to sheathe
     if(it->contents.empty()) {
-        int pos = g->inv_for_flag("SHEATH_SWORD", "Sheathe what?", false); // only show SHEATHABLE items
+        int pos = g->inv_for_flag("SHEATH_SWORD", "Sheathe what?", false); // only show SHEATH_SWORD items
         item* put = &(p->i_at(pos));
         if (put == NULL || put->is_null()) {
             g->add_msg_if_player(p, _("Never mind."));

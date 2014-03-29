@@ -1339,7 +1339,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "CARVER_OFF"
+    "use_action": "CARVER_OFF",
+    "flags": ["SHEATH_SWORD"]
   },{
     "id": "carver_on",
     "type": "TOOL",
@@ -2902,7 +2903,8 @@
      "ammo" : "battery",
      "revert_to" : "null",
      "category": "weapons",
-     "use_action" : "TAZER"
+     "use_action" : "TAZER",
+     "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -3024,7 +3026,8 @@
      "turns_per_charge": 0,
      "ammo": "battery",
      "revert_to": "null",
-     "use_action": "PORTABLE_GAME"
+     "use_action": "PORTABLE_GAME",
+     "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -3473,7 +3476,7 @@
     "volume": 3,
     "bashing": 0,
     "cutting": 22,
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4058,7 +4061,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -4083,7 +4087,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -4943,7 +4948,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["SHEATH_KNIFE"]
    },
 
    {
@@ -5087,7 +5093,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+	"flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -6679,7 +6686,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["SHEATH_KNIFE"]
   },
 
   {

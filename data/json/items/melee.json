@@ -782,7 +782,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 1,
-    "flags" : ["STAB"],
+    "flags" : ["STAB", "SHEATH_KNIFE"],
     "to_hit": -2
   },
 
@@ -1581,7 +1581,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 1,
-    "flags" : ["STAB"],
+    "flags" : ["STAB", "SHEATH_KNIFE"],
     "to_hit": -2
   },
 
@@ -1598,7 +1598,8 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 0,
-    "to_hit": -2
+    "to_hit": -2,
+    "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -1614,7 +1615,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 1,
-    "flags" : ["STAB"],
+    "flags" : ["STAB", "SHEATH_KNIFE"],
     "to_hit": -2
   },
 
@@ -1631,7 +1632,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 1,
-    "flags" : ["STAB"],
+    "flags" : ["STAB", "SHEATH_KNIFE"],
     "to_hit": -2
   },
 
@@ -2228,7 +2229,7 @@
         "volume" : 1,
         "bashing" : 0,
         "cutting" : 8,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "SHEATH_KNIFE"],
         "price" : 7000
     },
     {
@@ -2245,7 +2246,7 @@
         "volume" : 1,
         "bashing" : 0,
         "cutting" : 8,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "SHEATH_KNIFE"],
         "price" : 9000
     },
     {
@@ -2507,7 +2508,7 @@
         "volume" : 1,
         "bashing" : 2,
         "cutting" : 10,
-        "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE"],
+        "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE"],
         "price" : 10000,
         "qualities": [["CUT", 1]]
     },
@@ -2910,7 +2911,8 @@
     "volume": 1,
     "bashing": 0,
     "cutting": 6,
-    "to_hit": 0
+    "to_hit": 0,
+    "flags": ["SHEATH_KNIFE"]
   },
   {
     "id": "mre_beef_box",
@@ -3020,7 +3022,7 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 1,
-    "flags" : ["STAB"],
+    "flags" : ["STAB", "SHEATH_KNIFE"],
     "to_hit": 0
   },
   {
