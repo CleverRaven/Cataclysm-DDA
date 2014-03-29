@@ -105,6 +105,14 @@ public:
     // stays valid.
     const item_category *get_category(const std::string &id);
 
+    // The below functions are meant to be accessed at startup by lua to
+    // do mod-related modifications of groups.
+    std::vector<std::string> get_all_group_names();
+
+    // Sets the chance of the specified item in the group. weight 0 will allow you to remove
+    // the item from the group. Returns false if the group doesn't exist.
+    bool add_item_to_group(const std::string group_id, const std::string item_id, int weight);
+
 private:
     std::map<Item_tag, itype*> m_templates;
     itype*  m_missing_item;

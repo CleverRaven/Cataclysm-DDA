@@ -60,6 +60,16 @@ struct map_bash_info {
     map_bash_info() : str_min(-1), str_max(-1), str_min_roll(-1), str_min_blocked(-1), str_max_blocked(-1), num_tests(-1), chance(-1), explosive(0), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
+struct map_deconstruct_info {
+    // Only if true, the terrain/furniture can be deconstructed
+    bool can_do;
+    // items you get when deconstructing.
+    std::vector<map_bash_item_drop> items;
+    std::string ter_set;    // terrain to set (REQUIRED for terrain))
+    std::string furn_set;    // furniture to set (only used by furniture, not terrain)
+    map_deconstruct_info() : can_do(false), items(), ter_set(), furn_set() { }
+    bool load(JsonObject &jsobj, std::string member, bool is_furniture);
+};
 
 /*
  * List of known flags, used in both terrain.json and furniture.json.
@@ -91,7 +101,6 @@ struct map_bash_info {
  * THIN_OBSTACLE - Passable by players and monsters, vehicles destroy it
  * COLLAPSES - Has a roof that can collapse
  * FLAMMABLE_ASH - Burns to ash rather than rubble.
- * DECONSTRUCT - Can be deconstructed
  * REDUCE_SCENT - Reduces scent even more, only works if also bashable
  * FIRE_CONTAINER - Stops fire from spreading (brazier, wood stove, etc)
  * SUPPRESS_SMOKE - Prevents smoke from fires, used by ventilated wood stoves etc
@@ -180,6 +189,7 @@ struct ter_t {
  std::string close;         // close action: transform into terrain with matching id
 
  map_bash_info bash;
+ map_deconstruct_info deconstruct;
 
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
@@ -228,6 +238,7 @@ struct furn_t {
  std::string close;
 
  map_bash_info bash;
+ map_deconstruct_info deconstruct;
 
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
@@ -635,5 +646,7 @@ old_f_plant_seed, old_f_plant_seedling, old_f_plant_mature, old_f_plant_harvest,
 old_num_furniture_types
 };
 
+// consistency checking of terlist & furnlist.
+void check_furniture_and_terrain();
 
 #endif

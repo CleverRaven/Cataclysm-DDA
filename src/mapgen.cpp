@@ -3155,6 +3155,9 @@ C..C..C...|hhh|#########\n\
                     if (one_in(2)) {
                         add_spawn("mon_zombie_soldier", rng(1, 4), 12, 12);
                     }
+                    else if (one_in(5)) {
+                        add_spawn("mon_zombie_bio_op", rng(1, 2), 12, 12);
+                    }
                 } else { //human containment
                     mapf::formatted_set_simple(this, 0, 0,
                                                "\
@@ -3869,8 +3872,8 @@ ff.......|....|WWWWWWWW|\n\
                 spawn_item(SEEX    , SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             }  else if (!one_in(3)) {
                 spawn_item(SEEX - 1, SEEY - 1, "rm13_armor");
-                spawn_item(SEEX    , SEEY - 1, "plutonium");
-                spawn_item(SEEX - 1, SEEY    , "plutonium");
+                spawn_item(SEEX    , SEEY - 1, "plut_cell");
+                spawn_item(SEEX - 1, SEEY    , "plut_cell");
                 spawn_item(SEEX    , SEEY    , "recipe_caseless");
             } else {
                 furn_set(SEEX - 2, SEEY - 1, f_rack);
@@ -4293,6 +4296,8 @@ ff.......|....|WWWWWWWW|\n\
                     place_items("mil_armor",  70, rnx, rny, rnx, rny, true, 0);
                     place_items("mil_food",   40, rnx, rny, rnx, rny, true, 0);
                     spawn_item(rnx, rny, "id_military");
+                } else if (one_in(4)) { // Bionic Op zombie!
+                    add_spawn("mon_zombie_bio_op", 1, rnx, rny);
                 } else if (one_in(20)) {
                     rough_circle(this, t_rubble, rnx, rny, rng(3, 6));
                 }
@@ -12247,10 +12252,10 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                         m->spawn_item(x1 + 1, y, "katana");
                     } else if (one_in(3)) {
                         m->spawn_item(x1 + 1, y, "katana");
-                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "wakizashi");
                     } else if (one_in(6)) {
                         m->spawn_item(x1 + 1, y, "katana");
-                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "wakizashi");
                         m->spawn_item(x1 + 1, y, "tanto");
                     } else if (one_in(6)) {
                         m->spawn_item(x1 + 1, y, "nodachi");
@@ -12262,10 +12267,10 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2, 
                         m->spawn_item(x2 - 1, y, "katana");
                     } else if (one_in(3)) {
                         m->spawn_item(x2 - 1, y, "katana");
-                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "wakizashi");
                     } else if (one_in(6)) {
                         m->spawn_item(x2 - 1, y, "katana");
-                        m->spawn_item(x1 + 1, y, "wakazashi");
+                        m->spawn_item(x1 + 1, y, "wakizashi");
                         m->spawn_item(x1 + 1, y, "tanto");
                     } else if (one_in(6)) {
                         m->spawn_item(x2 - 1, y, "nodachi");
@@ -12608,6 +12613,8 @@ void map::add_extra(map_extra type)
             if (tries < 10) { // We found a valid spot!
                 if (one_in(10)) {
                     add_spawn("mon_zombie_soldier", 1, x, y);
+                } else if (one_in(25)) {
+                    add_spawn("mon_zombie_bio_op", 1, x, y);
                 } else {
                     add_item(x, y, body);
                     spawn_item(x, y, "pants_army");

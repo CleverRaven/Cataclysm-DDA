@@ -400,13 +400,14 @@ std::string item::info(bool showtext)
 std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 {
  std::stringstream temp1, temp2;
+ std::string space="   ";
  if ( g != NULL && debug == false &&
    ( g->debugmon == true || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
  ) debug=true;
  if( !is_null() )
  {
   dump->push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
-  dump->push_back(iteminfo("BASE", _("   Weight: "), string_format(_("<num> %s"),
+  dump->push_back(iteminfo("BASE", space + _("Weight: "), string_format(_("<num> %s"),
                            OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("lbs") : _("kg")),
                            g->u.convert_weight(weight()), false, "", true, true));
   dump->push_back(iteminfo("BASE", _("Bash: "), "", damage_bash(), true, "", false));
@@ -462,8 +463,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  if (is_food()) {
   it_comest* food = dynamic_cast<it_comest*>(type);
 
-  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
-  dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
+  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr, true, "", false, true));
+  dump->push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
   dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
   dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(charges))));
   if (corpse != NULL &&
@@ -479,8 +480,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  // added charge display for debugging
   it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
 
-  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr));
-  dump->push_back(iteminfo("FOOD", _("Quench: "), "", food->quench));
+  dump->push_back(iteminfo("FOOD", _("Nutrition: "), "", food->nutr, true, "", false, true));
+  dump->push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
   dump->push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
   dump->push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(contents[0].charges))));
 
@@ -491,10 +492,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   if (ammo->type != "NULL") {
     dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
   }
-  dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
-  dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
-  dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
+  dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, true));
+  dump->push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "", ammo->pierce, true, "", true, true));
+  dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range, true, "", false, true));
+  dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", ammo->count));
 
@@ -502,10 +503,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   it_ammo* ammo = dynamic_cast<it_ammo*>(contents[0].type);
 
   dump->push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
-  dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage));
-  dump->push_back(iteminfo("AMMO", _("Armor-pierce: "), "", ammo->pierce));
-  dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range));
-  dump->push_back(iteminfo("AMMO", _("Dispersion: "), "", ammo->dispersion, true, "", true, true));
+  dump->push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, true));
+  dump->push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "", ammo->pierce, true, "", true, true));
+  dump->push_back(iteminfo("AMMO", _("Range: "), "", ammo->range, true, "", false, true));
+  dump->push_back(iteminfo("AMMO", space + _("Dispersion: "), "", ammo->dispersion, true, "", false, true));
   dump->push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
   dump->push_back(iteminfo("AMMO", _("Count: "), "", contents[0].charges));
 
@@ -524,16 +525,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(_("<num> rounds of %s"), ammo_name(ammo_type()).c_str()), clip_size(), true));
 
   //damage of gun
-  dump->push_back(iteminfo("GUN", _("Damage: "), "", gun_damage(false), true, "", !has_ammo, false));
+  dump->push_back(iteminfo("GUN", _("Damage: "), "", gun_damage(false), true, "", false, false));
   if (has_ammo) {
       temp1.str("");
       temp1 << (ammo_dam >= 0 ? "+" : "" );//ammo_damage and sum_of_damage don't need to translate
       dump->push_back(iteminfo("GUN", "ammo_damage", "", ammo_dam, true, temp1.str(), false, false, false));
-      dump->push_back(iteminfo("GUN", "sum_of_damage", _(" = <num>"), gun_damage(), true, "", true, false, false));
+      dump->push_back(iteminfo("GUN", "sum_of_damage", _(" = <num>"), gun_damage(), true, "", false, false, false));
   }
 
   //armor-pierce of gun
-  dump->push_back(iteminfo("GUN", _("Armor-pierce: "), "", gun_pierce(false), true, "", !has_ammo, false));
+  dump->push_back(iteminfo("GUN", space + _("Armor-pierce: "), "", gun_pierce(false), true, "", !has_ammo, false));
   if (has_ammo) {
       temp1.str("");
       temp1 << (ammo_pierce >= 0 ? "+" : "" );//ammo_armor_pierce and sum_of_armor_pierce don't need to translate
@@ -542,26 +543,26 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
   }
 
   //range of gun
-  dump->push_back(iteminfo("GUN", _("Range: "), "", gun->range, true, "", !has_ammo, false));
+  dump->push_back(iteminfo("GUN", _("Range: "), "", gun->range, true, "", false, false));
   if (has_ammo) {
       temp1.str("");
       temp1 << (ammo_range >= 0 ? "+" : "" );//ammo_range and sum_of_rangev don't need to translate
       dump->push_back(iteminfo("GUN", "ammo_range", "", ammo_range, true, temp1.str(), false, false, false));
-      dump->push_back(iteminfo("GUN", "sum_of_range", _(" = <num>"), range(NULL), true, "", true, false, false));
+      dump->push_back(iteminfo("GUN", "sum_of_range", _(" = <num>"), range(NULL), true, "", false, false, false));
   }
 
-  dump->push_back(iteminfo("GUN", _("Dispersion: "), "", dispersion(), true, "", true, true));
+  dump->push_back(iteminfo("GUN", space + _("Dispersion: "), "", dispersion(), true, "", true, true));
 
   //recoil of gun
-  dump->push_back(iteminfo("GUN", _("Recoil: "), "", recoil(false), true, "", !has_ammo, true));
+  dump->push_back(iteminfo("GUN", _("Recoil: "), "", recoil(false), true, "", false, true));
   if (has_ammo) {
       temp1.str("");
       temp1 << (ammo_recoil >= 0 ? "+" : "" );//ammo_recoil and sum_of_recoil don't need to translate
       dump->push_back(iteminfo("GUN", "ammo_recoil", "", ammo_recoil, true, temp1.str(), false, true, false));
-      dump->push_back(iteminfo("GUN", "sum_of_recoil", _(" = <num>"), recoil(), true, "", true, true, false));
+      dump->push_back(iteminfo("GUN", "sum_of_recoil", _(" = <num>"), recoil(), true, "", false, true, false));
   }
 
-  dump->push_back(iteminfo("GUN", _("Reload time: "), ((has_flag("RELOAD_ONE")) ? _("<num> per round") : ""), gun->reload_time, true, "", true, true));
+  dump->push_back(iteminfo("GUN", space + _("Reload time: "), ((has_flag("RELOAD_ONE")) ? _("<num> per round") : ""), gun->reload_time, true, "", true, true));
 
   if (burst_size() == 0) {
     if (gun->skill_used == Skill::skill("pistol") && has_flag("RELOAD_ONE")) {
@@ -682,9 +683,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("ARMOR", _("Encumberment: "), "", armor->encumber, true, "", true, true));
     }
   dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
-  dump->push_back(iteminfo("ARMOR", _("   Cut: "), "", cut_resist(), true, "", true));
-  dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "", armor->env_resist));
-  dump->push_back(iteminfo("ARMOR", _("Storage: "), "", armor->storage));
+  dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
+  dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "", armor->env_resist, true, "", false));
+  dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", armor->storage));
 
 } else if (is_book()) {
 
@@ -772,8 +773,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
  if ( !type->qualities.empty()){
     for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
         quality != type->qualities.end(); ++quality){
-        dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has %s of level %d."),
-                                 qualities[quality->first].name.c_str(), quality->second)));
+        dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has level %d %s quality."),
+                                 quality->second,
+                                 qualities[quality->first].name.c_str())));
     }
  }
 
@@ -2163,29 +2165,13 @@ item const* item::inspect_active_gunmod() const
 
 void item::next_mode()
 {
-    if( mode == "NULL" )
+    if( mode == "NULL" && has_flag("MODE_BURST") )
     {
-        if( has_flag("MODE_BURST") )
-        {
-            mode = "MODE_BURST";
-        }
-        else
-        {
-            // Enable the first mod with an AUX firing mode.
-            for (size_t i = 0; i < contents.size(); i++)
-            {
-                if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX"))
-                {
-                    mode = "MODE_AUX";
-                    contents[i].mode = "MODE_AUX";
-                    break;
-                }
-            }
-        }
-        // Doesn't have another mode.
+        mode = "MODE_BURST";
     }
-    else if( mode ==  "MODE_BURST" )
+    else if( mode == "NULL" || mode == "MODE_BURST" )
     {
+        // mode is MODE_BURST, or item has no MODE_BURST flag and mode is NULL
         // Enable the first mod with an AUX firing mode.
         for (size_t i = 0; i < contents.size(); i++)
         {
@@ -2193,11 +2179,10 @@ void item::next_mode()
             {
                 mode = "MODE_AUX";
                 contents[i].mode = "MODE_AUX";
-                break;
+                return;
             }
         }
-        if (mode == "MODE_BURST")
-            mode = "NULL";
+        mode = "NULL";
     }
     else if( mode == "MODE_AUX")
     {
@@ -2467,7 +2452,7 @@ bool item::is_of_ammo_type_or_contains_it(const ammotype &ammo_type_id) const
         return true;
     }
     for (size_t i = 0; i < contents.size(); i++) {
-        if (contents[i].ammo_type() == ammo_type_id) {
+        if (contents[i].is_of_ammo_type_or_contains_it(ammo_type_id)) {
             return true;
         }
     }

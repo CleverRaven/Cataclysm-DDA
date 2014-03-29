@@ -2814,6 +2814,7 @@ bool game::handle_action()
         refresh_all();
         plfire(false);
     }
+    refresh_all();
     reenter_fullscreen();
   } break;
 
@@ -8419,9 +8420,15 @@ void game::draw_trail_to_square(int x, int y, bool bDrawX)
     //Reset terrain
     draw_ter();
 
-    //Draw trail
+    std::vector<point> vPoint;
     point center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
-    std::vector<point> vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+    if ( x!=0 || y!=0 ) {
+      //Draw trail
+      vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+    } else {
+      //Draw point
+      vPoint.push_back( point(u.posx, u.posy) );
+    }
 
     draw_line(u.posx + x, u.posy + y, center, vPoint);
     if (bDrawX) {
@@ -8603,9 +8610,10 @@ void game::zoom_out() {
 
 int game::list_items(const int iLastState)
 {
-    int iInfoHeight = 12;
+    int iInfoHeight = std::min(25,TERMY/2);
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
+    WINDOW* w_items = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1);
+    WINDOW* w_items_border = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
     WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1);
     WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width);
 
@@ -8697,7 +8705,7 @@ int game::list_items(const int iLastState)
             }
 
             if (reset) {
-                reset_item_list_state(w_items, iInfoHeight);
+                reset_item_list_state(w_items_border, iInfoHeight);
                 reset = false;
             }
 
@@ -8736,9 +8744,11 @@ int game::list_items(const int iLastState)
                     u.view_offset_y = iStoreViewOffsetY;
 
                     werase(w_items);
+                    werase(w_items_border);
                     werase(w_item_info);
                     werase(w_item_info_border);
                     delwin(w_items);
+                    delwin(w_items_border);
                     delwin(w_item_info);
                     delwin(w_item_info_border);
                     return 1;
@@ -8765,18 +8775,12 @@ int game::list_items(const int iLastState)
             }
 
             if (ground_items.empty() && iLastState == 1) {
+                werase(w_items_border);
                 mvwprintz(w_items, 10, 2, c_white, _("You dont see any items around you!"));
             } else {
-                //Draw Scrollbar
-                draw_scrollbar(w_items, iActive, iMaxRows, iItemNum - iFilter, 1);
+                werase(w_items);
 
                 calcStartPos(iStartPos, iActive, iMaxRows, iItemNum - iFilter);
-
-                for (int i = 0; i < iMaxRows; i++) {
-                    wmove(w_items, i + 1, 1);
-                    for (int i = 1; i < width - 1; i++)
-                        wprintz(w_items, c_black, " ");
-                }
 
                 int iNum = 0;
                 iFilter = ground_items.size() - filtered_items.size();
@@ -8823,11 +8827,11 @@ int game::list_items(const int iLastState)
                             sText << " [" << iter->vIG[iThisPage].count << "]";
                         }
 
-                        mvwprintz(w_items, 1 + iNum - iStartPos, 2,
+                        mvwprintz(w_items, iNum - iStartPos, 1,
                                   ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
                                   "%s", (sText.str()).c_str());
                         int numw = iItemNum > 9 ? 2 : 1;
-                        mvwprintz(w_items, 1 + iNum - iStartPos, width - (5 + numw),
+                        mvwprintz(w_items, iNum - iStartPos, width - (5 + numw),
                                   ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
                                   numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
                                   direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
@@ -8836,9 +8840,9 @@ int game::list_items(const int iLastState)
                      iNum++;
                 }
 
-                mvwprintz(w_items, 0, (width - 9) / 2 + ((iItemNum - iFilter > 9) ? 0 : 1),
+                mvwprintz(w_items_border, 0, (width - 9) / 2 + ((iItemNum - iFilter > 9) ? 0 : 1),
                           c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
-                wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
+                wprintz(w_items_border, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
                 werase(w_item_info);
                 fold_and_print(w_item_info,1,1,width - 5, c_white, activeItem.info());
@@ -8850,6 +8854,8 @@ int game::list_items(const int iLastState)
                     centerlistview(iActiveX, iActiveY);
                     draw_trail_to_square(iActiveX, iActiveY, true);
                 }
+                //Draw Scrollbar
+                draw_scrollbar(w_items_border, iActive, iMaxRows, iItemNum - iFilter, 1);
             }
 
             for (int j=0; j < iInfoHeight-1; j++) {
@@ -8885,12 +8891,13 @@ int game::list_items(const int iLastState)
     u.view_offset_y = iStoreViewOffsetY;
 
     werase(w_items);
+    werase(w_items_border);
     werase(w_item_info);
     werase(w_item_info_border);
     delwin(w_items);
+    delwin(w_items_border);
     delwin(w_item_info);
     delwin(w_item_info_border);
-    refresh_all(); // TODO - figure out what precisely needs refreshing, rather than the whole screen
 
     return iReturn;
 }
@@ -8914,7 +8921,8 @@ int game::list_monsters(const int iLastState)
 {
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW* w_monsters = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
+    WINDOW* w_monsters = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1);
+    WINDOW* w_monsters_border = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
     WINDOW* w_monster_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1);
     WINDOW* w_monster_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width);
 
@@ -8949,24 +8957,24 @@ int game::list_monsters(const int iLastState)
 
     for (int i = 1; i < TERMX; i++) {
         if (i < width) {
-            mvwputch(w_monsters, 0, i, c_ltgray, LINE_OXOX); // -
-            mvwputch(w_monsters, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(w_monsters_border, 0, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(w_monsters_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
         }
 
         if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
-            mvwputch(w_monsters, i, 0, c_ltgray, LINE_XOXO); // |
-            mvwputch(w_monsters, i, width - 1, c_ltgray, LINE_XOXO); // |
+            mvwputch(w_monsters_border, i, 0, c_ltgray, LINE_XOXO); // |
+            mvwputch(w_monsters_border, i, width - 1, c_ltgray, LINE_XOXO); // |
         }
     }
 
-    mvwputch(w_monsters, 0, 0,         c_ltgray, LINE_OXXO); // |^
-    mvwputch(w_monsters, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+    mvwputch(w_monsters_border, 0, 0,         c_ltgray, LINE_OXXO); // |^
+    mvwputch(w_monsters_border, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
 
-    mvwputch(w_monsters, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_monsters, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_monsters_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_monsters_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
 
-    mvwprintz(w_monsters, 0, 2, c_ltgreen, "<Tab> ");
-    wprintz(w_monsters, c_white, _("Monsters"));
+    mvwprintz(w_monsters_border, 0, 2, c_ltgreen, "<Tab> ");
+    wprintz(w_monsters_border, c_white, _("Monsters"));
 
     do {
         if (!vMonsters.empty() || iLastState == 1) {
@@ -8991,9 +8999,11 @@ int game::list_monsters(const int iLastState)
                     u.view_offset_y = iStoreViewOffsetY;
 
                     werase(w_monsters);
+                    werase(w_monsters_border);
                     werase(w_monster_info);
                     werase(w_monster_info_border);
                     delwin(w_monsters);
+                    delwin(w_monsters_border);
                     delwin(w_monster_info);
                     delwin(w_monster_info_border);
                     return 1;
@@ -9012,9 +9022,11 @@ int game::list_monsters(const int iLastState)
                                 u.view_offset_x = iStoreViewOffsetX;
                                 u.view_offset_y = iStoreViewOffsetY;
                                 werase(w_monsters);
+                                werase(w_monsters_border);
                                 werase(w_monster_info);
                                 werase(w_monster_info_border);
                                 delwin(w_monsters);
+                                delwin(w_monsters_border);
                                 delwin(w_monster_info);
                                 delwin(w_monster_info_border);
                                 return 2;
@@ -9039,18 +9051,12 @@ int game::list_monsters(const int iLastState)
             }
 
             if (vMonsters.empty() && iLastState == 1) {
+                werase(w_monsters_border);
                 mvwprintz(w_monsters, 10, 2, c_white, _("You dont see any monsters around you!"));
             } else {
-                //Draw Scrollbar
-                draw_scrollbar(w_monsters, iActive, iMaxRows, iMonsterNum, 1);
+                werase(w_monsters);
 
                 calcStartPos(iStartPos, iActive, iMaxRows, iMonsterNum);
-
-                for (int i = 0; i < iMaxRows; i++) {
-                    wmove(w_monsters, i + 1, 1);
-                    for (int i = 1; i < width - 1; i++)
-                        wprintz(w_monsters, c_black, " ");
-                }
 
                 int iNum = 0;
                 iActiveX = 0;
@@ -9070,23 +9076,23 @@ int game::list_monsters(const int iLastState)
 
                         int iDummy;
                         if (sees_u(zombie(vMonsters[i]).posx(), zombie(vMonsters[i]).posy(), iDummy)) {
-                            mvwprintz(w_monsters, 1 + iNum - iStartPos, 1, c_yellow, "!");
+                            mvwprintz(w_monsters, iNum - iStartPos, 0, c_yellow, "!");
                         }
 
-                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 2,
+                        mvwprintz(w_monsters, iNum - iStartPos, 1,
                                   ((iNum == iActive) ? c_ltgreen : c_white),
                                   "%s", zombie(vMonsters[i]).name().c_str());
                         nc_color color = c_white;
                         std::string sText = "";
 
                         zombie(vMonsters[i]).get_HP_Bar(color, sText);
-                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 23, color, "%s", sText.c_str());
+                        mvwprintz(w_monsters, iNum - iStartPos, 22, color, "%s", sText.c_str());
 
                         zombie(vMonsters[i]).get_Attitude(color, sText);
-                        mvwprintz(w_monsters, 1 + iNum - iStartPos, 29, color, "%s", sText.c_str());
+                        mvwprintz(w_monsters, iNum - iStartPos, 28, color, "%s", sText.c_str());
 
                         int numw = iMonsterNum > 9 ? 2 : 1;
-                        mvwprintz(w_monsters, 1 + iNum - iStartPos, width - (5 + numw),
+                        mvwprintz(w_monsters, iNum - iStartPos, width - (6 + numw),
                                   ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
                                   numw, trig_dist(0, 0, zombie(vMonsters[i]).posx() - u.posx,
                                                   zombie(vMonsters[i]).posy() - u.posy),
@@ -9097,9 +9103,9 @@ int game::list_monsters(const int iLastState)
                      iNum++;
                 }
 
-                mvwprintz(w_monsters, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
+                mvwprintz(w_monsters_border, 0, (width - 9) / 2 + ((iMonsterNum > 9) ? 0 : 1),
                           c_ltgreen, " %*d", ((iMonsterNum > 9) ? 2 : 1), iActive+1);
-                wprintz(w_monsters, c_white, " / %*d ", ((iMonsterNum > 9) ? 2 : 1), iMonsterNum);
+                wprintz(w_monsters_border, c_white, " / %*d ", ((iMonsterNum > 9) ? 2 : 1), iMonsterNum);
 
                 werase(w_monster_info);
 
@@ -9121,6 +9127,8 @@ int game::list_monsters(const int iLastState)
                     centerlistview(iActiveX, iActiveY);
                     draw_trail_to_square(iActiveX, iActiveY, false);
                 }
+                //Draw Scrollbar
+                draw_scrollbar(w_monsters_border, iActive, iMaxRows, iMonsterNum, 1);
             }
 
             for (int j=0; j < iInfoHeight-1; j++) {
@@ -9153,12 +9161,13 @@ int game::list_monsters(const int iLastState)
     u.view_offset_y = iStoreViewOffsetY;
 
     werase(w_monsters);
+    werase(w_monsters_border);
     werase(w_monster_info);
     werase(w_monster_info_border);
     delwin(w_monsters);
+    delwin(w_monsters_border);
     delwin(w_monster_info);
     delwin(w_monster_info_border);
-    refresh_all(); // TODO - figure out what precisely needs refreshing, rather than the whole screen
 
     return iReturn;
 }
@@ -9487,7 +9496,7 @@ and you can't unwield your %s."),
     // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
     int maxmaxitems = sideStyle ? TERMY : getmaxy(w_messages) - 3;
 
-    int itemsH = 12;
+    int itemsH = std::min(25,TERMY/2);
     int pickupBorderRows = 3;
 
     // The pickup list may consume the entire terminal, minus space needed for its
@@ -11051,7 +11060,7 @@ void game::complete_butcher(int index)
  }
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.
-    if( corpse->has_flag(MF_CBM) ) {
+    if( corpse->has_flag(MF_CBM_CIV) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
         if( skill_shift >= 0 ) {
             add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
@@ -11065,7 +11074,53 @@ void game::complete_butcher(int index)
         if( skill_shift >= 0 ) {
             //To see if it spawns a random additional CBM
             if( rng(0, 1) == 1 ) { //The CBM works
-                Item_tag bionic_item = item_controller->id_from("bionics");
+                Item_tag bionic_item = item_controller->id_from("bionics_common");
+                m.spawn_item( u.posx, u.posy, bionic_item, 1, 0, age );
+            } else {//There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+    }
+    
+    // Zombie scientist bionics
+    if( corpse->has_flag(MF_CBM_SCI) ) {
+        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+        if( skill_shift >= 0 ) {
+            add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
+            //To see if it spawns a battery
+            if( rng(0, 1) == 1 ) { //The battery works
+                m.spawn_item( u.posx, u.posy, "bio_power_storage", 1, 0, age );
+            } else { //There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+        if( skill_shift >= 0 ) {
+            //To see if it spawns a random additional CBM
+            if( rng(0, 1) == 1 ) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics_sci");
+                m.spawn_item( u.posx, u.posy, bionic_item, 1, 0, age );
+            }else{//There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+    }
+    
+    // Payoff for butchering the zombie bio-op
+    if( corpse->has_flag(MF_CBM_OP) ) {
+        //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
+        if( skill_shift >= 0 ) {
+            add_msg(_("You discover a CBM in the %s!"), corpse->name.c_str());
+            //To see if it spawns a battery
+            if( rng(0, 1) == 1 ) { //The battery works
+                m.spawn_item( u.posx, u.posy, "bio_power_storage_mkII", 1, 0, age );
+            } else { //There is a burnt out CBM
+                m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
+            }
+        }
+        if( skill_shift >= 0 ) {
+            //To see if it spawns a random additional CBM
+            if( rng(0, 1) == 1 ) { //The CBM works
+                Item_tag bionic_item = item_controller->id_from("bionics_op");
                 m.spawn_item( u.posx, u.posy, bionic_item, 1, 0, age );
             }else{//There is a burnt out CBM
                 m.spawn_item( u.posx, u.posy, "burnt_out_bionic", 1, 0, age );
@@ -11167,9 +11222,11 @@ void game::forage()
 	else {
 	   add_msg(_("You found a nest with some eggs!"));
 	   if (!one_in(4)) {
-          m.spawn_item(u.posx, u.posy, "egg_bird", rng(1, 5), 0, turn);
+          m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, turn);
        } else {
-          m.spawn_item(u.posx, u.posy, "egg_reptile", rng(1, 5), 0, turn);
+          // ~15% & 3.8% chance to find these, assuming you make your veggy roll
+          // So maybe we can give more than 1.
+          m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, turn);
 	   }
     }
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
@@ -11448,20 +11505,18 @@ void game::unload(item& it)
         while (!it.contents.empty())
         {
             item content = it.contents[0];
-            size_t iter = 0;
-// Pick an inventory item for the contents
-            while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < inv_chars.size()) {
-                content.invlet = nextinv;
-                advance_nextinv();
-                iter++;
+            if (content.invlet == 0 || u.has_item(content.invlet)) {
+                u.inv.assign_empty_invlet(content);
+            }
+            if (content.is_gunmod() && content.mode == "MODE_AUX") {
+                it.next_mode();
             }
             if (content.made_of(LIQUID)) {
                 if (!handle_liquid(content, false, false, &it)) {
                     new_contents.push_back(content);// Put it back in (we canceled)
                 }
             } else {
-                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-                    iter < inv_chars.size())
+                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS["DANGEROUS_PICKUPS"]))
                 {
                     add_msg(_("You put the %s in your inventory."), content.tname().c_str());
                     u.i_add(content);

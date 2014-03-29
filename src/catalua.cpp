@@ -207,6 +207,9 @@ it_gun *get_gun_type(std::string name) {
 it_gunmod *get_gunmod_type(std::string name) {
     return dynamic_cast<it_gunmod*>(item_controller->find_template(name));
 }
+it_armor *get_armor_type(std::string name) {
+    return dynamic_cast<it_armor*>(item_controller->find_template(name));
+}
 
 
 // Manually implemented lua functions
@@ -276,6 +279,29 @@ static int game_items_at(lua_State *L) {
         item** item_userdata = (item**) lua_newuserdata(L, sizeof(item*));
         *item_userdata = &(items[i]);
         luah_setmetatable(L, "item_metatable");
+        lua_rawset(L, -3);
+    }
+
+    return 1; // 1 return values
+}
+
+// item_groups = game.get_item_groups()
+static int game_get_item_groups(lua_State *L) {
+    std::vector<std::string> items = item_controller->get_all_group_names();
+
+    lua_createtable(L, items.size(), 0); // Preallocate enough space for all our items.
+
+    // Iterate over the monster list and insert each monster into our returned table.
+    for( size_t i = 0; i < items.size(); ++i ) {
+        // The stack will look like this:
+        // 1 - t, table containing item
+        // 2 - k, index at which the next item will be inserted
+        // 3 - v, next item to insert
+        //
+        // lua_rawset then does t[k] = v and pops v and k from the stack
+
+        lua_pushnumber(L, i + 1);
+        lua_pushstring(L, items[i].c_str());
         lua_rawset(L, -3);
     }
 
@@ -468,6 +494,7 @@ static const struct luaL_Reg global_funcs [] = {
     {"dofile", game_dofile},
     {"get_monster_types", game_get_monster_types},
     {"monstergroups", game_monstergroups},
+    {"get_item_groups", game_get_item_groups},
     {NULL, NULL}
 };
 
