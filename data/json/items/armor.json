@@ -6113,7 +6113,7 @@
         "price" : 9000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A holster worn over the shoulder. Activate to holster/draw a pistol.",
+        "description" : "A strap worn over the shoulder for holding pistols. Activate to holster/draw a weapon.",
         "to_hit" : -1,
         "storage" : 0,
         "material" : ["leather", "null"],
