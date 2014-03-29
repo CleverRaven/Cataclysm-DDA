@@ -7683,31 +7683,6 @@ int iuse::hotplate(player *p, item *it, bool)
   return 0;
 }
 
-int iuse::dejar(player *p, item *it, bool)
-{
-    if( (it->type->id).substr(0,4) == "jar_" ) {
-        g->add_msg_if_player(p,_("You open the jar, exposing it to the atmosphere."));
-    } else if( (it->type->id).substr(0,4) == "bag_" ) {
-        g->add_msg_if_player(p,_("You open the vacuum pack, exposing it to the atmosphere."));
-    } else {
-        // No matching substring, bail out.
-        return 0;
-    }
-
-    // Strips off "jar_" or "bag_" from the id to get the content type.
-    itype_id ujfood = (it->type->id).substr(4);
-    // temp create item to discover container
-    item ujitem( itypes[ujfood], 0 );
-    //discovering container
-    itype_id ujcont = (dynamic_cast<it_comest*>(ujitem.type))->container;
-    //turning "sealed jar of xxx" into container for "xxx"
-    it->make( itypes[ujcont] );
-    //shoving the "xxx" into the container
-    it->contents.push_back( item( itypes[ujfood], 0 ) );
-    it->contents[0].bday = g->turn + 3600 - (g->turn % 3600);
-    return it->type->charges_to_use();
-}
-
 int iuse::flask_yeast(player *p, item *it, bool)
 {
     int cult_time = it->brewing_time();

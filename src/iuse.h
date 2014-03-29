@@ -207,7 +207,6 @@ public:
     int LAW                 (player *, item *, bool);
     int heatpack            (player *, item *, bool);
     int hotplate            (player *, item *, bool);
-    int dejar               (player *, item *, bool);
     int flask_yeast         (player *, item *, bool);
     int rad_badge           (player *, item *, bool);
     int boots               (player *, item *, bool);

@@ -5275,7 +5275,12 @@
     "ammo": "NULL",
     "category": "food",
     "revert_to": "null",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "meat_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5299,7 +5304,12 @@
     "ammo": "NULL",
     "category": "food",
     "revert_to": "null",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "fish_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5324,7 +5334,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "kompot_canned",
+        "container": "jar_3l_glass"
+    }
   },
 
   {
@@ -5348,7 +5363,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "human_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5372,7 +5392,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "veggy_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5396,7 +5421,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "apple_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5420,7 +5450,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "veggy_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5444,7 +5479,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "meat_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5468,7 +5508,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "fish_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5492,7 +5537,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "human_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5587,7 +5637,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "meat_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5611,7 +5666,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "fish_vac",
+        "container": "bag_plastic"
+    }
   },
 
    {
@@ -5635,7 +5695,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "hflesh_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5659,7 +5724,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "veggy_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5683,7 +5753,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "apple_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {

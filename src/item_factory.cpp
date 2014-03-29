@@ -6,6 +6,7 @@
 #include "translations.h"
 #include "bodypart.h"
 #include "crafting.h"
+#include "iuse_actor.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -353,7 +354,6 @@ void Item_factory::init(){
     iuse_function_list["PDA_FLASHLIGHT"] = &iuse::pda_flashlight;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
-    iuse_function_list["DEJAR"] = &iuse::dejar;
     iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
     iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
@@ -960,8 +960,10 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
     new_item_template->techniques = jo.get_tags("techniques");
 
-    if (jo.has_member("use_action")) {
+    if (jo.has_string("use_action")) {
         new_item_template->use = use_from_string(jo.get_string("use_action"));
+    } else if (jo.has_object("use_action")) {
+        new_item_template->use = use_from_object(jo.get_object("use_action"));
     }
 
     if(jo.has_member("category")) {
@@ -1119,6 +1121,21 @@ void Item_factory::load_item_group(JsonObject &jsobj)
             m_template_groups[name] = new Item_group(name);
         }
         current_group->add_group(m_template_groups[name], frequency);
+    }
+}
+
+use_function Item_factory::use_from_object(JsonObject obj) {
+    const std::string type = obj.get_string("type");
+    if (type == "transform") {
+        const std::string msg = obj.get_string("msg");
+        const bool active = obj.get_bool("active", false);
+        const std::string target = obj.get_string("target");
+        const std::string container = obj.get_string("container", "");
+        iuse_transform *actor = new iuse_transform(msg, target, container, active);
+        return use_function(actor);
+    } else {
+        debugmsg("unknown use_action type %s", type.c_str());
+        return use_function();
     }
 }
 
