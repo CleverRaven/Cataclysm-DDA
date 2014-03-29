@@ -11505,20 +11505,18 @@ void game::unload(item& it)
         while (!it.contents.empty())
         {
             item content = it.contents[0];
-            size_t iter = 0;
-// Pick an inventory item for the contents
-            while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < inv_chars.size()) {
-                content.invlet = nextinv;
-                advance_nextinv();
-                iter++;
+            if (content.invlet == 0 || u.has_item(content.invlet)) {
+                u.inv.assign_empty_invlet(content);
+            }
+            if (content.is_gunmod() && content.mode == "MODE_AUX") {
+                it.next_mode();
             }
             if (content.made_of(LIQUID)) {
                 if (!handle_liquid(content, false, false, &it)) {
                     new_contents.push_back(content);// Put it back in (we canceled)
                 }
             } else {
-                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-                    iter < inv_chars.size())
+                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS["DANGEROUS_PICKUPS"]))
                 {
                     add_msg(_("You put the %s in your inventory."), content.tname().c_str());
                     u.i_add(content);
