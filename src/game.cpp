@@ -7044,24 +7044,30 @@ void game::explode_mon(int index)
    last_target--;
 }
 
-void game::revive_corpse(int x, int y, int n)
+bool game::revive_corpse(int x, int y, int n)
 {
     if (m.i_at(x, y).size() <= n)
     {
         debugmsg("Tried to revive a non-existent corpse! (%d, %d), #%d of %d", x, y, n, m.i_at(x, y).size());
-        return;
+        return false;
     }
-    item* it = &m.i_at(x, y)[n];
-    revive_corpse(x, y, it);
+    if (!revive_corpse(x, y, &m.i_at(x, y)[n])) {
+        return false;
+    }
     m.i_rem(x, y, n);
+    return true;
 }
 
-void game::revive_corpse(int x, int y, item *it)
+bool game::revive_corpse(int x, int y, item *it)
 {
-    if (it->type->id != "corpse" || it->corpse == NULL)
+    if (it == NULL || it->typeId() != "corpse" || it->corpse == NULL)
     {
         debugmsg("Tried to revive a non-corpse.");
-        return;
+        return false;
+    }
+    if (critter_at(x, y) != NULL) {
+        // Someone is in the way, try again later
+        return false;
     }
     int burnt_penalty = it->burnt;
     monster critter(it->corpse, x, y);
@@ -7074,6 +7080,7 @@ void game::revive_corpse(int x, int y, item *it)
     }
     critter.no_extra_death_drops = true;
     add_zombie(critter);
+    return true;
 }
 
 void game::open()

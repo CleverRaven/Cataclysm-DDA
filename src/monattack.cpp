@@ -278,9 +278,11 @@ void mattack::resurrect(monster *z)
   int x = corpses[i].x, y = corpses[i].y;
   for (int n = 0; n < g->m.i_at(x, y).size(); n++) {
    if (g->m.i_at(x, y)[n].type->id == "corpse" && one_in(2)) {
+    if (!g->revive_corpse(x, y, n)) {
+        continue;
+    }
     if (g->u_see(x, y))
      raised++;
-    g->revive_corpse(x, y, n);
     n = g->m.i_at(x, y).size(); // Only one body raised per tile
    }
   }
