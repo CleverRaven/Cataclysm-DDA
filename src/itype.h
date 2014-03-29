@@ -160,43 +160,64 @@ struct itype
 
  use_function use;// Special effects of use
 
- itype() : id("null"), name("none"), m1("null"), m2("null"), category(0) {
-  price = 0;
-  sym = '#';
-  color = c_white;
-  phase = SOLID;
-  volume = 0;
-  weight = 0;
-  bigness_aspect = BIGNESS_ENGINE_NULL;
-  corpse = NULL;
-  melee_dam = 0;
-  melee_cut = 0;
-  m_to_hit = 0;
-  light_emission = 0;
-  use = &iuse::none;
- }
+    itype()
+        : id("null")
+        , price(0)
+        , name("none")
+        , description()
+        , sym('#')
+        , color(c_white)
+        , m1("null")
+        , m2("null")
+        , phase(SOLID)
+        , volume(0)
+        , stack_size(0)
+        , weight(0)
+        , bigness_aspect(BIGNESS_ENGINE_NULL)
+        , qualities()
+        , corpse(NULL)
+        , melee_dam(0)
+        , melee_cut(0)
+        , m_to_hit(0)
+        , item_tags()
+        , techniques()
+        , light_emission()
+        , category(NULL)
+        , use(&iuse::none)
+    {
+    }
 
- itype(std::string pid, unsigned int pprice,
+    itype(std::string pid, unsigned int pprice,
        std::string pname, std::string pdes,
        char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
        unsigned int pvolume, unsigned int pweight,
-       signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit) :
-    id(pid), name(pname), description(pdes), m1(pm1), m2(pm2), category(0) {
-  price       = pprice;
-  sym         = psym;
-  color       = pcolor;
-  phase       = pphase;
-  volume      = pvolume;
-  weight      = pweight;
-  bigness_aspect = BIGNESS_ENGINE_NULL;
-  corpse      = NULL;
-  melee_dam   = pmelee_dam;
-  melee_cut   = pmelee_cut;
-  m_to_hit    = pm_to_hit;
-  light_emission = 0;
-  use         = &iuse::none;
- }
- virtual ~itype() {}
+       signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit)
+        : id(pid)
+        , price(pprice)
+        , name(pname)
+        , description(pdes)
+        , sym(psym)
+        , color(pcolor)
+        , m1(pm1)
+        , m2(pm2)
+        , phase(pphase)
+        , volume(pvolume)
+        , stack_size(0)
+        , weight(pweight)
+        , bigness_aspect(BIGNESS_ENGINE_NULL)
+        , qualities()
+        , corpse(NULL)
+        , melee_dam(pmelee_dam)
+        , melee_cut(pmelee_cut)
+        , m_to_hit(pm_to_hit)
+        , item_tags()
+        , techniques()
+        , light_emission()
+        , category(NULL)
+        , use(&iuse::none)
+    {
+    }
+    virtual ~itype() {}
 };
 
 // Includes food drink and drugs
@@ -232,48 +253,21 @@ struct it_comest : public virtual itype
 
     add_type add; // Effects of addiction
 
-    it_comest(std::string pid, unsigned int pprice,
-    std::string pname, std::string pdes,
-    char psym, nc_color pcolor, std::string pm1, phase_id pphase,
-    unsigned int pvolume, unsigned int pweight,
-    signed int pmelee_dam, signed int pmelee_cut,
-    signed int pm_to_hit,
-
-    signed int pquench, unsigned int pnutr, signed int pspoils,
-    signed int pstim, signed int phealthy, unsigned int paddict, unsigned int pbrewt,
-    long pcharges, std::vector<long> prand_charges, signed int pfun, itype_id pcontainer,
-    itype_id ptool, int (iuse::*puse)(player *, item *, bool),
-    add_type padd, std::string pcomesttype)
-    : itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
-    pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), comesttype(pcomesttype), container(pcontainer), tool(ptool)
+    it_comest()
+    : itype()
+    , quench(0)
+    , nutr(0)
+    , charges(0)
+    , rand_charges()
+    , stim(0)
+    , healthy(0)
+    , brewtime(0)
+    , comesttype()
+    , fun(0)
+    , container()
+    , tool()
     {
-        quench          = pquench;
-        nutr            = pnutr;
-        spoils          = pspoils;
-        stim            = pstim;
-        healthy         = phealthy;
-        addict          = paddict;
-        brewtime        = pbrewt;
-        charges         = pcharges;
-        rand_charges    = prand_charges;
-        fun             = pfun;
-        use             = puse;
-        add             = padd;
     }
-
-    it_comest() : itype()
-    {
-        quench = 0;
-        nutr = 0;
-        spoils = 0;
-        stim = 0;
-        healthy = 0;
-        brewtime = 0;
-        addict = 0;
-        charges = 0;
-        fun = 0;
-        add = ADD_NULL;
-    };
 };
 
 // v6, v8, wankel, etc.
@@ -284,23 +278,14 @@ struct it_var_veh_part: public virtual itype
  unsigned int max_bigness;
  bool engine;
 
- it_var_veh_part() { }
- it_var_veh_part(std::string pid, unsigned int pprice,
-        std::string pname, std::string pdes,
-        char psym, nc_color pcolor, std::string pm1, std::string pm2,
-        unsigned int pvolume, unsigned int pweight,
-        signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit,
+    it_var_veh_part()
+    : itype()
+    , min_bigness(0)
+    , max_bigness(0)
+    , engine(false)
+    {
+    }
 
-        unsigned int big_min,
-        unsigned int big_max,
-        bigness_property_aspect big_aspect, bool pengine)
-:itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  min_bigness = big_min;
-  max_bigness = big_max;
-  bigness_aspect = big_aspect;
-  engine = pengine;
- }
  virtual bool is_var_veh_part(){return true;}
  virtual bool is_wheel()          { return false; }
  virtual bool is_engine() { return engine; }
@@ -323,45 +308,25 @@ struct it_ammo : public virtual itype
 
  std::set<std::string> ammo_effects;
 
+    it_ammo()
+    : itype()
+    , type()
+    , casing()
+    , damage(0)
+    , pierce(0)
+    , range(0)
+    , dispersion(0)
+    , recoil(0)
+    , count(0)
+    , container()
+    , ammo_effects()
+    {
+    }
+
  virtual bool is_ammo() { return true; }
 // virtual bool count_by_charges() { return id != "gasoline"; }
  virtual bool count_by_charges() { return true; }
  virtual std::string get_item_type_string() { return "AMMO"; }
-
- it_ammo() : itype()
- {
-     type = "NULL";
-     casing = "NULL";
-     damage = 0;
-     pierce = 0;
-     range = 0;
-     dispersion = 0;
-     recoil = 0;
-     count = 0;
- }
-
- it_ammo(std::string pid, unsigned int pprice,
-        std::string pname, std::string pdes,
-        char psym, nc_color pcolor, std::string pm1, phase_id pphase,
-        unsigned int pvolume, unsigned int pweight,
-        signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit,
-        std::set<std::string> effects,
-        ammotype ptype, itype_id pcasing,
-        unsigned int pdamage, unsigned int ppierce,
-        signed int pdispersion, unsigned int precoil, unsigned int prange,
-        unsigned int pcount, itype_id pcontainer)
-:itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit), container(pcontainer) {
-  type = ptype;
-  casing = pcasing;
-  damage = pdamage;
-  pierce = ppierce;
-  range = prange;
-  dispersion = pdispersion;
-  recoil = precoil;
-  count = pcount;
-  ammo_effects = effects;
- }
 };
 
 struct it_gun : public virtual itype
@@ -384,48 +349,22 @@ struct it_gun : public virtual itype
  virtual bool is_gun() { return true; }
  virtual std::string get_item_type_string() { return "GUN"; }
 
- it_gun(std::string pid, unsigned int pprice,
-        std::string pname, std::string pdes,
-        char psym, nc_color pcolor, std::string pm1, std::string pm2,
-        unsigned int pvolume, unsigned int pweight,
-        signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit,
-        signed int ppierce,
-        std::set<std::string> flags,
-        std::set<std::string> effects,
-        const char *pskill_used, ammotype pammo,
-        signed int pdmg_bonus, signed int prange,
-        signed int pdispersion, signed int precoil, unsigned int pdurability,
-        unsigned int pburst, int pclip, int preload_time)
-:itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  skill_used = pskill_used?Skill::skill(pskill_used):NULL;
-  ammo = pammo;
-  dmg_bonus = pdmg_bonus;
-  pierce = ppierce;
-  range = prange;
-  dispersion = pdispersion;
-  recoil = precoil;
-  durability = pdurability;
-  burst = pburst;
-  clip = pclip;
-  reload_time = preload_time;
-  ammo_effects = effects;
-  item_tags = flags;
- }
-
- it_gun() :itype() {
-  ammo = "";
-  skill_used = NULL;
-  dmg_bonus = 0;
-  pierce = 0;
-  range = 0;
-  dispersion = 0;
-  recoil = 0;
-  durability = 0;
-  burst = 0;
-  clip = 0;
-  reload_time = 0;
- };
+    it_gun()
+    : itype()
+    , skill_used(NULL)
+    , dmg_bonus(0)
+    , pierce(0)
+    , range(0)
+    , dispersion(0)
+    , recoil(0)
+    , durability(0)
+    , burst(0)
+    , clip(0)
+    , reload_time(0)
+    , ammo_effects()
+    , valid_mod_locations()
+    {
+    }
 };
 
 struct it_gunmod : public virtual itype
@@ -445,51 +384,27 @@ struct it_gunmod : public virtual itype
 
  virtual bool is_gunmod() { return true; }
 
- it_gunmod(std::string pid, unsigned int pprice,
-           std::string pname, std::string pdes,
-           char psym, nc_color pcolor, std::string pm1, std::string pm2,
-           unsigned int pvolume, unsigned int pweight,
-           signed int pmelee_dam, signed int pmelee_cut,
-           signed int pm_to_hit,
-
-           signed int pdispersion, signed int pdamage, signed int ploudness,
-           signed int pclip, signed int precoil, signed int pburst,
-           ammotype pnewtype, std::set<std::string> a_a_t, bool pistol,
-           bool shotgun, bool smg, bool rifle, char *pskill_used)
-
- :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-
-  dispersion = pdispersion;
-  damage = pdamage;
-  loudness = ploudness;
-  clip = pclip;
-  recoil = precoil;
-  burst = pburst;
-  newtype = pnewtype;
-  acceptible_ammo_types = a_a_t;
-  used_on_pistol = pistol;
-  used_on_shotgun = shotgun;
-  used_on_smg = smg;
-  used_on_rifle = rifle;
-  skill_used = pskill_used?Skill::skill(pskill_used):NULL;
- }
-
- it_gunmod() :itype() {
-  dispersion = 0;
-  damage = 0;
-  loudness = 0;
-  clip = 0;
-  recoil = 0;
-  burst = 0;
-  newtype = "";
-  used_on_pistol = false;
-  used_on_shotgun = false;
-  used_on_smg = false;
-  used_on_rifle = false;
-  location = "";
-  skill_used = NULL;
- };
+    it_gunmod()
+    : itype()
+    , dispersion(0)
+    , damage(0)
+    , loudness(0)
+    , clip(0)
+    , recoil(0)
+    , burst(0)
+    , newtype()
+    , acceptible_ammo_types()
+    , used_on_pistol(false)
+    , used_on_shotgun(false)
+    , used_on_smg(false)
+    , used_on_rifle(false)
+    , used_on_bow(false)
+    , used_on_crossbow(false)
+    , used_on_launcher(false)
+    , skill_used(NULL)
+    , location()
+    {
+    }
 };
 
 struct it_armor : public virtual itype
@@ -504,6 +419,19 @@ struct it_armor : public virtual itype
 
  bool power_armor;
 
+    it_armor()
+    : itype()
+    , covers(0)
+    , encumber(0)
+    , coverage(0)
+    , thickness(0)
+    , env_resist(0)
+    , warmth(0)
+    , storage()
+    , power_armor(false)
+    {
+    }
+
  virtual bool is_armor() { return true; }
  virtual bool is_power_armor() { return power_armor; }
  virtual bool is_artifact() { return false; }
@@ -516,40 +444,6 @@ struct it_armor : public virtual itype
  std::string cut_dmg_verb() { return m2 == "null" || !one_in(3) ?
          material_type::find_material(m1)->cut_dmg_verb() :
          material_type::find_material(m2)->cut_dmg_verb();
- }
-
- it_armor() : itype()
- {
-  covers = 0;
-  encumber = 0;
-  coverage = 0;
-  thickness = 0;
-  env_resist = 0;
-  warmth = 0;
-  storage = 0;
-  power_armor = false;
- }
-
- it_armor(itype_id pid, unsigned int pprice,
-          std::string pname, std::string pdes,
-          char psym, nc_color pcolor, std::string pm1, std::string pm2,
-          unsigned int pvolume, unsigned int pweight,
-          signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit,
-
-          unsigned char pcovers, signed char pencumber,
-          unsigned char pcoverage, unsigned char pthickness,
-          unsigned char penv_resist, signed char pwarmth,
-          unsigned char pstorage, bool ppower_armor = false)
-:itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  covers = pcovers;
-  encumber = pencumber;
-  coverage = pcoverage;
-  thickness = pthickness;
-  env_resist = penv_resist;
-  warmth = pwarmth;
-  storage = pstorage;
-  power_armor = ppower_armor;
  }
 };
 
@@ -568,24 +462,19 @@ struct it_book : public virtual itype
  std::map<recipe*, int> recipes; //what recipes can be learned from this book
  virtual bool is_book() { return true; }
  virtual std::string get_item_type_string() { return "BOOK"; }
- it_book() {}
- it_book(std::string pid, unsigned int pprice,
-         std::string pname, std::string pdes,
-         char psym, nc_color pcolor, std::string pm1, std::string pm2,
-         unsigned int pvolume, unsigned int pweight,
-         signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit,
 
-         const char *ptype, unsigned char plevel, unsigned char preq,
-         signed char pfun, unsigned char pintel, unsigned int ptime)
-:itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  type = ptype?Skill::skill(ptype):NULL;
-  level = plevel;
-  req = preq;
-  fun = pfun;
-  intel = pintel;
-  time = ptime;
- }
+    it_book()
+    : itype()
+    , type(NULL)
+    , level(0)
+    , req(0)
+    , fun(0)
+    , intel(0)
+    , time(0)
+    , chapters()
+    , recipes()
+    {
+    }
 };
 
 struct it_container : public virtual itype
@@ -593,7 +482,11 @@ struct it_container : public virtual itype
  unsigned int contains; // Internal volume
  virtual bool is_container() { return true; }
  virtual std::string get_item_type_string() { return "CONTAINER"; }
- it_container() : contains(0) {};
+    it_container()
+    : itype()
+    , contains(0)
+    {
+    }
 };
 
 struct it_tool : public virtual itype
@@ -611,38 +504,17 @@ struct it_tool : public virtual itype
  virtual std::string get_item_type_string() { return "TOOL"; }
  int charges_to_use()   { return charges_per_use; }
 
- it_tool() :itype()
- {
-  ammo = "NULL";
-  max_charges = 0;
-  def_charges = 0;
-  charges_per_use = 0;
-  turns_per_charge = 0;
-  revert_to = "null";
-  use = &iuse::none;
- }
-
- it_tool(std::string pid, unsigned int pprice,
-         std::string pname, std::string pdes,
-         char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
-         unsigned int pvolume, unsigned int pweight,
-         signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit,
-
-         long pmax_charges, long pdef_charges, std::vector<long> prand_charges,
-         unsigned char pcharges_per_use, unsigned char pturns_per_charge,
-         ammotype pammo, itype_id prevert_to,
-         int (iuse::*puse)(player *, item *, bool))
-:itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, pphase,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  max_charges = pmax_charges;
-  def_charges = pdef_charges;
-  rand_charges = prand_charges;
-  ammo = pammo;
-  charges_per_use = pcharges_per_use;
-  turns_per_charge = pturns_per_charge;
-  revert_to = prevert_to;
-  use = puse;
- }
+    it_tool()
+    : itype()
+    , ammo()
+    , max_charges(0)
+    , def_charges(0)
+    , rand_charges()
+    , charges_per_use(0)
+    , turns_per_charge(0)
+    , revert_to()
+    {
+    }
 };
 
 struct it_tool_armor : public virtual it_tool, public virtual it_armor {
@@ -657,20 +529,14 @@ struct it_bionic : public virtual itype
 {
  int difficulty;
 
+    it_bionic()
+    : itype()
+    , difficulty(0)
+    {
+    }
+
  virtual bool is_bionic()    { return true; }
  virtual std::string get_item_type_string() { return "BIONIC"; }
- it_bionic() { }
- it_bionic(std::string pid, unsigned int pprice,
-           std::string pname, std::string pdes,
-           char psym, nc_color pcolor, std::string pm1, std::string pm2,
-           unsigned int pvolume, unsigned int pweight,
-           signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit,
-           int pdifficulty)
- :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-   difficulty = pdifficulty;
- }
 };
 
 struct it_macguffin : public virtual itype
@@ -678,7 +544,6 @@ struct it_macguffin : public virtual itype
  bool readable; // If true, activated with 'R'
 
  virtual bool is_macguffin() { return true; }
-
  it_macguffin(std::string pid, unsigned int pprice,
               std::string pname, std::string pdes,
               char psym, nc_color pcolor, std::string pm1, std::string pm2,
