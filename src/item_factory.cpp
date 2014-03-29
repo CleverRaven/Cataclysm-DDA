@@ -1242,3 +1242,29 @@ const std::string &Item_factory::calc_category(itype *it)
     }
     return category_id_other;
 }
+
+std::vector<std::string> Item_factory::get_all_group_names() {
+    std::vector<std::string> rval;
+    std::map<Item_tag, Item_group*>::iterator it;
+    for(it = m_template_groups.begin(); it != m_template_groups.end(); it++) {
+        rval.push_back(it->first);
+    }
+    return rval;
+}
+
+bool Item_factory::add_item_to_group(const std::string group_id, const std::string item_id, int chance) {
+    if(m_template_groups.find(group_id) == m_template_groups.end()) {
+        return false;
+    }
+    Item_group *group_to_access = m_template_groups[group_id];
+    if(group_to_access->has_item(item_id)) {
+        group_to_access->remove_item(item_id);
+    }
+
+    if(chance != 0) {
+        // Only re-add if chance != 0
+        group_to_access->add_entry(item_id, chance);
+    }
+
+    return true;
+}

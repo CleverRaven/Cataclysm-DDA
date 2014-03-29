@@ -79,6 +79,22 @@
     },
     {
         "type": "monitems",
+        "id": "mon_zombie_bio_op",
+        "item_groups": [
+            [ "ammo", 15 ],
+            [ "pistols", 5 ],
+            [ "shotguns", 4 ],
+            [ "smg", 5 ],
+            [ "bots", 1 ],
+            [ "mil_rifles", 10 ],
+            [ "grenades", 5 ],
+            [ "mil_accessories", 10 ],
+            [ "mil_food", 5 ],
+            [ "bionics_mil", 1 ]
+        ]
+    },
+    {
+        "type": "monitems",
         "id": "mon_biollante",
         "item_groups": [
             [ "biollante", 1 ]

@@ -475,6 +475,7 @@ void init_translation() {
     monStr2monId["mon_zombie_child"] = mon_zombie_child;
     monStr2monId["mon_zombie_fireman"] = mon_zombie_fireman;
     monStr2monId["mon_zombie_survivor"] = mon_zombie_survivor;
+    monStr2monId["mon_zombie_bio_op"] = mon_zombie_bio_op;
 }
 
 void MonsterGroupManager::check_group_definitions()

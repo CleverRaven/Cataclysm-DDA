@@ -4982,6 +4982,74 @@
       ["bio_torsionratchet", 10]
     ]
   },{
+      "type" : "item_group",
+    "id" : "bionics_sci",
+    "note" : "High-tech bionics, handy for the harried researcher. They get access to classified toys too.",
+    "items":[
+      ["bio_solar", 5],
+      ["bio_batteries", 20],
+      ["bio_metabolics", 15],
+      ["bio_ethanol", 5],
+      ["bio_furnace", 5],
+      ["bio_torsionratchet", 20],
+      ["bio_tools", 15],
+      ["bio_storage", 10],
+      ["bio_flashlight", 20],
+      ["bio_lighter", 10],
+      ["bio_magnet", 10],
+      ["bio_memory", 20],
+      ["bio_painkiller", 10],
+      ["bio_alarm", 10],
+      ["bio_ears", 10],
+      ["bio_sunglasses", 10],
+      ["bio_eye_enhancer", 5],
+      ["bio_dex_enhancer", 10],
+      ["bio_str_enhancer", 10],
+      ["bio_int_enhancer", 20],
+      ["bio_night_vision", 10],
+      ["bio_infrared", 10],
+      ["bio_scent_vision", 5],
+      ["bio_ground_sonar", 5],
+      ["bio_membrane", 5],
+      ["bio_gills", 5],
+      ["bio_purifier", 20],
+      ["bio_climate", 15],
+      ["bio_heatsink", 10],
+      ["bio_blood_filter", 20],
+      ["bio_recycler", 15],
+      ["bio_digestion", 15],
+      ["bio_water_extractor", 10],
+      ["bio_scent_mask", 5],
+      ["bio_cloak", 2],
+      ["bio_fingerhack", 2],
+      ["bio_lockpick", 2],
+      ["bio_armor_head", 5],
+      ["bio_armor_torso", 5],
+      ["bio_armor_arms", 5],
+      ["bio_armor_legs", 5],
+      ["bio_armor_eyes", 10],
+      ["bio_shock", 5],
+      ["bio_razors", 5],
+      ["bio_nanobots", 15],
+      ["bio_blood_anal", 20],
+      ["bio_geiger", 25],
+      ["bio_radscrubber", 15],
+      ["bio_uncanny_dodge", 10],
+      ["bio_hydraulics", 10],
+      ["bio_time_freeze", 2],
+      ["bio_teleport", 2],
+      ["bio_probability_travel", 2],
+      ["bio_laser", 2],
+      ["bio_emp", 2],
+      ["bio_railgun", 2],
+      ["bio_chain_lightning", 1],
+      ["bio_adrenaline", 10],
+      ["bio_watch", 20],
+      ["bio_leukocyte", 20],
+      ["bio_speed", 5],
+      ["bio_faraday", 15]
+    ]
+  },{
     "type" : "item_group",
     "id" : "bots",
     "items":[
@@ -5332,6 +5400,66 @@
       ["bio_blade", 2],
       ["bio_speed", 2],
       ["bio_adrenaline", 10],
+      ["bio_watch", 10],
+      ["bio_power_armor_interface_mkII", 5]
+    ]
+  },{
+      "type" : "item_group",
+    "id" : "bionics_op",
+    "note" : "What the commandos get.",
+    "items":[
+      ["bio_power_storage_mkII", 10],
+      ["bio_solar", 15],
+      ["bio_batteries", 10],
+      ["bio_metabolics", 20],
+      ["bio_furnace", 15],
+      ["bio_torsionratchet", 20],
+      ["bio_ears", 10],
+      ["bio_sunglasses", 10],
+      ["bio_eye_enhancer", 10],
+      ["bio_dex_enhancer", 10],
+      ["bio_str_enhancer", 10],
+      ["bio_night_vision", 15],
+      ["bio_infrared", 15],
+      ["bio_scent_vision", 5],
+      ["bio_recycler", 20],
+      ["bio_digestion", 15],
+      ["bio_evap", 15],
+      ["bio_water_extractor", 10],
+      ["bio_armor_head", 10],
+      ["bio_armor_torso", 10],
+      ["bio_armor_arms", 10],
+      ["bio_armor_legs", 10],
+      ["bio_armor_eyes", 10],
+      ["bio_targeting", 20],
+      ["bio_ground_sonar", 10],
+      ["bio_face_mask", 10],
+      ["bio_scent_mask", 10],
+      ["bio_cloak", 10],
+      ["bio_fingerhack", 15],
+      ["bio_lockpick", 20],
+      ["bio_night", 5],
+      ["bio_nanobots", 20],
+      ["bio_blood_anal", 10],
+      ["bio_geiger", 10],
+      ["bio_radscrubber", 15],
+      ["bio_ads", 10],
+      ["bio_ods", 10],
+      ["bio_uncanny_dodge", 10],
+      ["bio_blaster", 5],
+      ["bio_laser", 15],
+      ["bio_emp", 10],
+      ["bio_railgun", 10],
+      ["bio_flashbang", 15],
+      ["bio_chain_lightning", 10],
+      ["bio_time_freeze", 5],
+      ["bio_teleport", 5],
+      ["bio_probability_travel", 5],
+      ["bio_power_armor_interface", 10],
+      ["bio_cqb", 5],
+      ["bio_blade", 5],
+      ["bio_speed", 5],
+      ["bio_adrenaline", 15],
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5]
     ]
@@ -7264,9 +7392,34 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "hazmat_eyes",
+    "id" : "bio_op_face",
     "items":[
-      ["glasses_safety", 50]
+      ["glasses_bal", 40],
+      ["mask_filter", 30],
+      ["mask_bal", 30],
+      ["mask_gas", 40]
+    ]
+  },{
+     "type" : "item_group",
+    "id" : "bio_op_torso",
+    "items":[
+      ["dragonskin", 50],
+      ["army_top", 10],
+      ["modularvestceramic", 40],
+      ["modularvestkevlar", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bio_op_boots",
+    "items":[
+      ["boots_combat", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bio_op_gloves",
+    "items":[
+      ["gloves_tactical", 60],
+      ["gloves_fingerless", 40]
     ]
   },{
     "type" : "item_group",
