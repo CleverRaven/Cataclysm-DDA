@@ -511,8 +511,7 @@
         "burst_modifier" : 4,
         "recoil_modifier" : 4,
         "price" : 68000,
-        "loudness_modifier" : 4,
-        "flags" : ["MODE_BURST"]
+        "loudness_modifier" : 4
     },
     {
         "type" : "GUNMOD",
