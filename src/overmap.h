@@ -413,6 +413,7 @@ class overmap
   void building_on_hiway(int x, int y, int dir);
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z);
+  bool check_ot_type_road(const std::string &otype, int x, int y, int z);
   bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");
   void good_road(const std::string &base, int x, int y, int z);
