@@ -1611,6 +1611,10 @@ void advanced_inventory::display(player *pp)
             if(panes[src].area == isinventory ) {
                 ret = g->inventory_item_menu( item_pos, colstart + ( src == left ? w_width / 2 : 0 ),
                                               w_width / 2, (src == right ? 0 : -1) );
+                // if player has started an activaity, leave the screen and process it
+                if (!g->u.has_activity(ACT_NULL)) {
+                    exit = true;
+                }
                 // Might have changed at stack (activated an item)
                 g->u.inv.restack(&g->u);
                 recalc = true;

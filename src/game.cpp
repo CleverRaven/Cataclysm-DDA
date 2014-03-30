@@ -7044,24 +7044,30 @@ void game::explode_mon(int index)
    last_target--;
 }
 
-void game::revive_corpse(int x, int y, int n)
+bool game::revive_corpse(int x, int y, int n)
 {
     if (m.i_at(x, y).size() <= n)
     {
         debugmsg("Tried to revive a non-existent corpse! (%d, %d), #%d of %d", x, y, n, m.i_at(x, y).size());
-        return;
+        return false;
     }
-    item* it = &m.i_at(x, y)[n];
-    revive_corpse(x, y, it);
+    if (!revive_corpse(x, y, &m.i_at(x, y)[n])) {
+        return false;
+    }
     m.i_rem(x, y, n);
+    return true;
 }
 
-void game::revive_corpse(int x, int y, item *it)
+bool game::revive_corpse(int x, int y, item *it)
 {
-    if (it->type->id != "corpse" || it->corpse == NULL)
+    if (it == NULL || it->typeId() != "corpse" || it->corpse == NULL)
     {
         debugmsg("Tried to revive a non-corpse.");
-        return;
+        return false;
+    }
+    if (critter_at(x, y) != NULL) {
+        // Someone is in the way, try again later
+        return false;
     }
     int burnt_penalty = it->burnt;
     monster critter(it->corpse, x, y);
@@ -7074,6 +7080,7 @@ void game::revive_corpse(int x, int y, item *it)
     }
     critter.no_extra_death_drops = true;
     add_zombie(critter);
+    return true;
 }
 
 void game::open()
@@ -11505,20 +11512,18 @@ void game::unload(item& it)
         while (!it.contents.empty())
         {
             item content = it.contents[0];
-            size_t iter = 0;
-// Pick an inventory item for the contents
-            while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < inv_chars.size()) {
-                content.invlet = nextinv;
-                advance_nextinv();
-                iter++;
+            if (content.invlet == 0 || u.has_item(content.invlet)) {
+                u.inv.assign_empty_invlet(content);
+            }
+            if (content.is_gunmod() && content.mode == "MODE_AUX") {
+                it.next_mode();
             }
             if (content.made_of(LIQUID)) {
                 if (!handle_liquid(content, false, false, &it)) {
                     new_contents.push_back(content);// Put it back in (we canceled)
                 }
             } else {
-                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-                    iter < inv_chars.size())
+                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS["DANGEROUS_PICKUPS"]))
                 {
                     add_msg(_("You put the %s in your inventory."), content.tname().c_str());
                     u.i_add(content);

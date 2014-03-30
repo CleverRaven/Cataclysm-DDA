@@ -1210,7 +1210,7 @@ void npc::find_item()
 
  for (int x = minx; x <= maxx; x++) {
   for (int y = miny; y <= maxy; y++) {
-   if (g->m.sees(posx, posy, x, y, range, linet)) {
+   if (g->m.sees(posx, posy, x, y, range, linet) && g->m.sees_some_items(x, y, *this)) {
     for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
      int itval = value(g->m.i_at(x, y)[i]);
      int wgt = g->m.i_at(x, y)[i].weight(), vol = g->m.i_at(x, y)[i].volume();
