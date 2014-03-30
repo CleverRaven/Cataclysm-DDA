@@ -10074,7 +10074,7 @@ std::string player::weapname(bool charges)
   std::stringstream dump;
   int spare_mag = weapon.has_gunmod("spare_mag");
   dump << weapon.tname().c_str();
-  if (!weapon.has_flag("NO_AMMO")) {
+  if (!(weapon.has_flag("NO_AMMO") || weapon.has_flag("RELOAD_AND_SHOOT"))) {
    dump << " (" << weapon.charges;
    if( -1 != spare_mag )
    dump << "+" << weapon.contents[spare_mag].charges;
