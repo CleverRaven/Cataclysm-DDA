@@ -7817,7 +7817,7 @@ int iuse::quiver(player *p, item *it, bool)
             it->contents[0].charges -= toomany;
             item clone = it->contents[0].clone();
             clone.charges = toomany;
-            p->inv.assign_empty_invlet(p->i_add(clone), false);
+            p->i_add(clone);
         }
     } else {
         g->add_msg_if_player(p, _("Never mind."));
@@ -7899,7 +7899,7 @@ int iuse::sheath_knife(player *p, item *it, bool)
 {
     // if sheath is empty, pull up menu asking what to sheathe
     if(it->contents.empty()) {
-        int pos = g->inv_for_flag("SHEATH_KNIFE", "Sheathe what?", false); // only show SHEATH_KNIFE items
+        int pos = g->inv_for_flag("SHEATH_KNIFE", _("Sheathe what?"), false); // only show SHEATH_KNIFE items
         item* put = &(p->i_at(pos));
         if (put == NULL || put->is_null()) {
             g->add_msg_if_player(p, _("Never mind."));
@@ -7915,8 +7915,19 @@ int iuse::sheath_knife(player *p, item *it, bool)
             return 0;
         }
 
+        int maxvol = 5;
+        if(it->type->id == "bootstrap") { // bootstrap can't hold as much as sheath
+            maxvol = 3;
+        }
+
+        // only allow knives smaller than a certain size
+        if(put->volume() > maxvol) {
+            g->add_msg_if_player(p, _("That sheath is too small to hold your %s!"), put->tname().c_str());
+            return 0;
+        }
+
         int lvl = p->skillLevel("cutting");
-        std::string adj = " put";
+        std::string adj = _(" put");
         if(lvl < 2) {
             adj = _(" clumsily shove");
         } else if(lvl >= 5) {
@@ -7962,7 +7973,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
 {
     // if sheath is empty, pull up menu asking what to sheathe
     if(it->contents.empty()) {
-        int pos = g->inv_for_flag("SHEATH_SWORD", "Sheathe what?", false); // only show SHEATH_SWORD items
+        int pos = g->inv_for_flag("SHEATH_SWORD", _("Sheathe what?"), false); // only show SHEATH_SWORD items
         item* put = &(p->i_at(pos));
         if (put == NULL || put->is_null()) {
             g->add_msg_if_player(p, _("Never mind."));
@@ -8006,15 +8017,16 @@ int iuse::sheath_sword(player *p, item *it, bool)
             // in order to perform iaijutsu, have to pass a roll based on level
             bool iaijutsu =
                 lvl >= 7
-                && one_in(12 - lvl)
+                && one_in(12 - lvl) &&
                 // some swords are too small/large to perform iaijutsu with
-                && !(sword.type->id == "rapier")
-                && !(sword.type->id == "zweihander")
-                && !(sword.type->id == "zweifire_off")
-                && !(sword.type->id == "nodachi")
-                && !(sword.type->id == "sword_wood")
-                && !(sword.type->id == "sword_crude")
-                && !(sword.type->id == "sword_forged");
+                !(sword.type->id == "rapier"
+                || sword.type->id == "zweihander"
+                || sword.type->id == "zweifire_off"
+                || sword.type->id == "nodachi"
+                || sword.type->id == "sword_wood"
+                || sword.type->id == "sword_crude"
+                || sword.type->id == "sword_forged"
+                || sword.type->id == "carver_off");
 
             // iaijutsu! slash an enemy as you draw your sword
             if(iaijutsu) {
@@ -8034,7 +8046,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
                 // if a spot without an enemy is chosen, defaults to the first enemy found above
                 if(mon_num != -1) {
                     int slashx, slashy;
-                    if(g->choose_adjacent("Slash where?", slashx, slashy)) {
+                    if(g->choose_adjacent(_("Slash where?"), slashx, slashy)) {
                         const int mon_hit = g->mon_at(slashx, slashy);
                         if(mon_hit != -1)
                             mon_num = mon_hit;
@@ -8115,7 +8127,7 @@ int iuse::boots(player *p, item *it, bool)
   }
  } else if ((it->contents.empty() && choice == 1) || // Put 1st
             (it->contents.size() == 1 && choice == 2)) { // Put 2st
-  int pos = g->inv_for_flag("SHEATH_KNIFE", "Put what?", false);
+  int pos = g->inv_for_flag("SHEATH_KNIFE", _("Put what?"), false);
   item* put = &(p->i_at(pos));
   if (put == NULL || put->is_null()) {
    g->add_msg_if_player(p, _("You do not have that item!"));

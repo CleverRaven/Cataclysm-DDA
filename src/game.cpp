@@ -10723,11 +10723,11 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             for(std::vector<item*>::iterator it = holsters.begin(); it != holsters.end(); it++) {
                 item *i = *it;
                 std::ostringstream ss;
-                ss << i->contents[0].name << " from " << i->name
-                   << " (" << i->contents[0].charges << ")";
+                ss << i->contents[0].name << _(" from ") << i->name
+                   << _(" (") << i->contents[0].charges << _(")");
                 choices.push_back(ss.str());
             }
-            choice = (uimenu(false, "Draw what?", choices)) - 1;
+            choice = (uimenu(false, _("Draw what?"), choices)) - 1;
         }
 
         if(choice != -1) {
@@ -10813,11 +10813,11 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             for(std::vector<item*>::iterator it = quivers.begin(); it != quivers.end(); it++) {
                 item *i = *it;
                 std::ostringstream ss;
-                ss <<  i->contents[0].name << " from " << i->name
-                << " (" << i->contents[0].charges << ")";
+                ss <<  i->contents[0].name << _(" from ") << i->name
+                << _(" (") << i->contents[0].charges << _(")");
                 choices.push_back(ss.str());
             }
-            choice = (uimenu(true, "Draw from which quiver?", choices)) - 1;
+            choice = (uimenu(false, _("Draw from which quiver?"), choices)) - 1;
         }
 
         // draw arrow from quiver
