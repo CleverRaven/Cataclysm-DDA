@@ -22350,8 +22350,7 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 240000,
-  "reversible": true,
-  "note": "hacking the anvil back down seems unlikely to teach anything useful",
+  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1}

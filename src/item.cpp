@@ -248,9 +248,6 @@ item item::in_its_container(std::map<std::string, itype*> *itypes)
         it_comest *food = dynamic_cast<it_comest*>(type);
         item ret((*itypes)[food->container], bday);
 
-        if (dynamic_cast<it_comest*>(type)->container == "can_food")
-            food->spoils = 0;
-
         if (made_of(LIQUID))
         {
             it_container* container = dynamic_cast<it_container*>(ret.type);
@@ -2157,29 +2154,13 @@ item const* item::inspect_active_gunmod() const
 
 void item::next_mode()
 {
-    if( mode == "NULL" )
+    if( mode == "NULL" && has_flag("MODE_BURST") )
     {
-        if( has_flag("MODE_BURST") )
-        {
-            mode = "MODE_BURST";
-        }
-        else
-        {
-            // Enable the first mod with an AUX firing mode.
-            for (size_t i = 0; i < contents.size(); i++)
-            {
-                if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX"))
-                {
-                    mode = "MODE_AUX";
-                    contents[i].mode = "MODE_AUX";
-                    break;
-                }
-            }
-        }
-        // Doesn't have another mode.
+        mode = "MODE_BURST";
     }
-    else if( mode ==  "MODE_BURST" )
+    else if( mode == "NULL" || mode == "MODE_BURST" )
     {
+        // mode is MODE_BURST, or item has no MODE_BURST flag and mode is NULL
         // Enable the first mod with an AUX firing mode.
         for (size_t i = 0; i < contents.size(); i++)
         {
@@ -2187,11 +2168,10 @@ void item::next_mode()
             {
                 mode = "MODE_AUX";
                 contents[i].mode = "MODE_AUX";
-                break;
+                return;
             }
         }
-        if (mode == "MODE_BURST")
-            mode = "NULL";
+        mode = "NULL";
     }
     else if( mode == "MODE_AUX")
     {
