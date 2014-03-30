@@ -121,6 +121,16 @@
         ]
     },{
         "type" : "overmap_terrain",
+        "id" : "road_end",
+        "name" : "road",
+        "color" : "dark_gray",
+        "see_cost" : 2,
+        "extras" : "road",
+        "allow_road" : true,
+        "rotate" : true,
+        "sym" : [4194424, 4194417, 4194424, 4194417]
+    },{
+        "type" : "overmap_terrain",
         "id" : "road_nesw_manhole",
         "name" : "road, manhole",
         "sym" : 4194414,

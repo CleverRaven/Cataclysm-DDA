@@ -977,11 +977,16 @@ ssss.......yy.......ssss\n",
                     }
                 } else {
                     m->ter_set(i, j, t_pavement);
+
+                    if ((i == SEEX - 1 || i == SEEX) && (j % 4 != 0) && (j > 12)) {
+                        m->ter_set(i, j, t_pavement_y);
+                    } else {
+                        m->ter_set(i, j, t_pavement);
+                    }
                 }
             }
         }
     }
-
     
     if (terrain_type == "road_end_east") {
         m->rotate(1);
