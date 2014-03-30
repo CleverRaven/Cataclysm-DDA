@@ -3045,7 +3045,11 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                 if (check_ot_type(base, x-1, y, z)) {
                     ter(x, y, z) = base + "_wn";
                 } else {
-                    ter(x, y, z) = base + "_ns";
+                    if(base == "road") {
+                        ter(x, y, z) = base + "_end_south";
+                    } else {
+                        ter(x, y, z) = base + "_ns";
+                    }
                 }
             }
         }
@@ -3058,18 +3062,34 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                     ter(x, y, z) = base + "_es";
                 }
             } else {
-                ter(x, y, z) = base + "_ew";
+                if( check_ot_type(base, x-1, y, z)) {
+                    ter(x, y, z) = base + "_ew";
+                } else {
+                    if(base == "road") {
+                        ter(x, y, z) = base + "_end_west";
+                    } else {
+                        ter(x, y, z) = base + "_ew";
+                    }
+                }
             }
         } else {
             if (check_ot_type(base, x, y+1, z)) {
                 if (check_ot_type(base, x-1, y, z)) {
                     ter(x, y, z) = base + "_sw";
                 } else {
-                    ter(x, y, z) = base + "_ns";
+                    if(base == "road") {
+                        ter(x, y, z) = base + "_end_north";
+                    } else {
+                        ter(x, y, z) = base + "_ns";
+                    }
                 }
             } else {
                 if (check_ot_type(base, x-1, y, z)) {
-                    ter(x, y, z) = base + "_ew";
+                    if(base == "road") {
+                        ter(x, y, z) = base + "_end_east";
+                    } else {
+                        ter(x, y, z) = base + "_ew";
+                    }
                 } else {
                     // No adjoining roads/etc.
                     // Happens occasionally, esp. with sewers.
