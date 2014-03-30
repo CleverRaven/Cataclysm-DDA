@@ -1410,8 +1410,13 @@ void game::activity_on_finish_reload()
     }
     if (reloadable->reload(u, u.activity.position)) {
         if (reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE")) {
-            add_msg(_("You insert a cartridge into your %s."),
+            if(reloadable->ammo_type() == "bolt") {
+                add_msg(_("You insert a bolt into your %s."),
                     reloadable->tname().c_str());
+            } else {
+                add_msg(_("You insert a cartridge into your %s."),
+                    reloadable->tname().c_str());
+            }
             if (u.recoil < 8) {
                 u.recoil = 8;
             }
