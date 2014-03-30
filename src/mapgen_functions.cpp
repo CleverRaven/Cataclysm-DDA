@@ -4063,6 +4063,7 @@ void mapgen_basement_game(map *m, oter_id terrain_type, mapgendata dat, int turn
         m->place_items("pool_table", 90,  17, 14, 18, 16, false, 0);
         m->place_items("livingroom", 60, 9, 1, 23, 19, false, 0);
         m->place_spawns("GROUP_ZOMBIE", 2, 9, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+}
 
 void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
