@@ -660,6 +660,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_UNWIELD``` Cannot unwield this item.
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
+- ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 
 ## Guns
 

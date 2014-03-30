@@ -2626,8 +2626,8 @@ bool item::reload(player &u, int pos)
  item *ammo_to_use = &u.i_at(pos);
  item *ammo_container = NULL;
 
-    // Handle ammo in containers, currently only gasoline
-    if (ammo_to_use->is_container() && !ammo_to_use->contents.empty()) {
+    // Handle ammo in containers, currently only gasoline and quivers
+    if (!ammo_to_use->contents.empty() && (ammo_to_use->is_container() || ammo_to_use->type->use == &iuse::quiver)) {
         ammo_container = ammo_to_use;
         ammo_to_use = &ammo_to_use->contents[0];
     }

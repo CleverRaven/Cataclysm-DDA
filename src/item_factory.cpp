@@ -357,6 +357,7 @@ void Item_factory::init(){
     iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
     iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
+    iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
     iuse_function_list["SHEATH_KNIFE"] = &iuse::sheath_knife;
     iuse_function_list["HOLSTER_PISTOL"] = &iuse::holster_pistol;

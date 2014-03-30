@@ -6183,10 +6183,11 @@
         "name" : "quiver",
         "weight" : 260,
         "color" : "brown",
+        "covers" : ["TORSO"],
         "to_hit" : 0,
-        "storage" : 2,
+        "storage" : 0,
         "symbol" : "[",
-        "description" : "A leather quiver worn on the back or at the hip that can hold 20 arrows. Its small size won't encumber you.",
+        "description" : "A leather quiver worn on the back that can hold 20 arrows. Its small size won't encumber you. Activate to store arrows.",
         "price" : 8000,
         "material" : ["leather", "null"],
         "volume" : 2,
@@ -6197,7 +6198,9 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 5,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "flags" : ["QUIVER_20"],
+        "use_action" : "QUIVER"
     },
     {
         "type" : "ARMOR",
@@ -6207,12 +6210,12 @@
         "color" : "brown",
         "covers" : ["TORSO"],
         "to_hit" : 0,
-        "storage" : 8,
+        "storage" : 0,
         "symbol" : "[",
-        "description" : "A large leather quiver trimmed with metal, worn on the back, that can hold 80 arrows.\nHistorically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.",
+        "description" : "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows.\nHistorically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies. Activate to store arrows.",
         "price" : 31000,
         "material" : ["leather", "steel"],
-        "volume" : 8,
+        "volume" : 6,
         "cutting" : -4,
         "bashing" : 4,
         "warmth" : 0,
@@ -6220,7 +6223,9 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 15,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "flags" : ["QUIVER_60"],
+        "use_action" : "QUIVER"
     },
     {
         "type" : "ARMOR",

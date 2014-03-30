@@ -212,6 +212,7 @@ public:
     int dejar               (player *, item *, bool);
     int flask_yeast         (player *, item *, bool);
     int rad_badge           (player *, item *, bool);
+    int quiver              (player *, item *, bool);
     int boots               (player *, item *, bool);
     int sheath_sword        (player *, item *, bool);
     int sheath_knife        (player *, item *, bool);

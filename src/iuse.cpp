@@ -7742,6 +7742,90 @@ int iuse::rad_badge(player *p, item *it, bool)
     return 0;
 }
 
+int iuse::quiver(player *p, item *it, bool)
+{
+    int choice = -1;
+    if(!(it->contents.empty()) && it->contents[0].charges > 0) {
+        choice = menu(true, _("Do what with quiver?"), _("Store more arrows"), _("Empty quiver"), _("Cancel"), NULL);
+
+        // empty quiver
+        if(choice == 2) {
+            item& arrows = it->contents[0];
+            g->add_msg_if_player(p, _("You remove the %ss from the %s and put them back in your inventory."), arrows.name.c_str(), it->name.c_str());
+            p->inv.assign_empty_invlet(arrows, false);  // force getting an invlet
+            p->i_add(arrows);
+            it->contents.erase(it->contents.begin());
+            return it->type->charges_to_use();
+        }
+    }
+
+    // if quiver is empty or storing more arrows, pull up menu asking what to store
+    if(it->contents.empty() || choice == 1) {
+        int pos = g->inv_type(_("Store which arrows?"), IC_AMMO);
+        item* put = &(p->i_at(pos));
+        if(put == NULL || put->is_null()) {
+            g->add_msg_if_player(p, _("Never mind."));
+            return 0;
+        }
+
+        if(!(put->type->is_ammo() && put->ammo_type() == "arrow")) {
+            g->add_msg_if_player(p, _("Those aren't arrows!"));
+            return 0;
+        }
+
+        int maxArrows = 0;
+        // find QUIVER_n tag and grab n
+        for(std::set<std::string>::iterator iter = it->type->item_tags.begin(); iter != it->type->item_tags.end(); iter++) {
+            std::string flag = *iter;
+            if(flag.substr(0, 6) == "QUIVER") {
+                std::stringstream ss(flag.substr(7, flag.size()));
+                if(!(ss >> maxArrows)) {
+                    debugmsg("Error parsing QUIVER_n tag (iuse::quiver)");
+                    return 0;
+                }
+                break;
+            }
+        }
+        if(maxArrows == 0) {
+            debugmsg("Tried storing arrows in quiver without a QUIVER_n tag (iuse::quiver)");
+            return 0;
+        }
+
+        // not empty so adding more arrows
+        if(!(it->contents.empty()) && it->contents[0].charges > 0) {
+            if(it->contents[0].type->id != put->type->id) {
+                g->add_msg_if_player(p, _("Those aren't the same arrows!"));
+                return 0;
+            }
+            if(it->contents[0].charges >= maxArrows) {
+                g->add_msg_if_player(p, _("That %s is already full!"), it->name.c_str());
+                return 0;
+            }
+            it->contents[0].charges += put->charges;
+            p->i_rem(put);
+
+        // empty, putting in new arrows
+        } else {
+            it->put_in(p->i_rem(put));
+        }
+
+        g->add_msg_if_player(p, _("You store some %ss in your %s."), it->contents[0].name.c_str(), it->name.c_str());
+
+        // handle overflow
+        if(it->contents[0].charges > maxArrows) {
+            int toomany = it->contents[0].charges - maxArrows;
+            it->contents[0].charges -= toomany;
+            item clone = it->contents[0].clone();
+            clone.charges = toomany;
+            p->inv.assign_empty_invlet(p->i_add(clone), false);
+        }
+    } else {
+        g->add_msg_if_player(p, _("Never mind."));
+        return 0;
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::holster_pistol(player *p, item *it, bool)
 {
     // if holster is empty, pull up menu asking what to holster
@@ -8007,6 +8091,7 @@ int iuse::holster_ankle(player *p, item *it, bool b)
             }
         }
     }
+    return it->type->charges_to_use();
 }
 
 int iuse::boots(player *p, item *it, bool)

@@ -8667,7 +8667,8 @@ void player::use(int pos)
             || used->type->use == &iuse::sheath_sword
             || used->type->use == &iuse::sheath_knife
             || used->type->use == &iuse::holster_pistol
-            || used->type->use == &iuse::holster_ankle) {
+            || used->type->use == &iuse::holster_ankle
+            || used->type->use == &iuse::quiver) {
         used->type->use.call(this, used, false);
         return;
     } else if (used->is_gunmod()) {

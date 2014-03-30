@@ -10708,7 +10708,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     for(std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++){
         item& worn = *it;
         if((worn.type->use == &iuse::holster_pistol || worn.type->use == &iuse::holster_ankle) &&
-            (!worn.contents.empty() && worn.contents[0].is_gun())) { // ankle holster can have knives
+            (!worn.contents.empty() && worn.contents[0].is_gun())) {
                 holsters.push_back(&worn);
         }
     }
@@ -10721,9 +10721,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         } else {
             std::vector<std::string> choices;
             for(std::vector<item*>::iterator it = holsters.begin(); it != holsters.end(); it++) {
+                item *i = *it;
                 std::ostringstream ss;
-                ss << (*it)->contents[0].name << " from " << (*it)->name
-                   << " (" << (*it)->contents[0].charges << ")";
+                ss << i->contents[0].name << " from " << i->name
+                   << " (" << i->contents[0].charges << ")";
                 choices.push_back(ss.str());
             }
             choice = (uimenu(false, "Draw what?", choices)) - 1;
@@ -10733,6 +10734,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             item* worn = holsters[choice];
             item& gun = worn->contents[0];
 
+            u.inv.assign_empty_invlet(gun, true);  // force getting an invlet
+            u.wield(&(u.i_add(gun)));
+            worn->contents.erase(worn->contents.begin());
+
             // same as in iuse::holster_pistol
             int lvl = u.skillLevel("pistol");
             u.moves -= (lvl == 0) ? (14 * gun.volume()) : (13 * gun.volume()) / lvl;
@@ -10741,10 +10746,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
                 add_msg_if_player(&u, _("... but it's empty!"));
                 return;
             }
-
-            u.inv.assign_empty_invlet(gun, true);  // force getting an invlet
-            u.wield(&(u.i_add(gun)));
-            worn->contents.erase(worn->contents.begin());
         }
     }
  }
@@ -10790,7 +10791,53 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
 
  if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
-  reload_pos = u.weapon.pick_reload_ammo(u, true);
+  // draw an arrow from a worn quiver
+  if(u.weapon.ammo_type() == "arrow") {
+    // find worn quivers
+    std::vector<item*> quivers;
+    for(std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++) {
+        item& worn = *it;
+        if(worn.type->use == &iuse::quiver &&
+           !worn.contents.empty() && worn.contents[0].is_ammo() && worn.contents[0].charges > 0) {
+             quivers.push_back(&worn);
+           }
+    }
+    // ask which quiver to draw from
+    if(!quivers.empty()) {
+        int choice = -1;
+        //only one quiver found, choose it
+        if(quivers.size() == 1) {
+            choice = 0;
+        } else {
+            std::vector<std::string> choices;
+            for(std::vector<item*>::iterator it = quivers.begin(); it != quivers.end(); it++) {
+                item *i = *it;
+                std::ostringstream ss;
+                ss <<  i->contents[0].name << " from " << i->name
+                << " (" << i->contents[0].charges << ")";
+                choices.push_back(ss.str());
+            }
+            choice = (uimenu(true, "Draw from which quiver?", choices)) - 1;
+        }
+
+        // draw arrow from quiver
+        if(choice != -1) {
+            item* worn = quivers[choice];
+            item& arrows = worn->contents[0];
+            // chance to fail pulling an arrow at lower levels
+            int archery = u.skillLevel("archery");
+            if(archery <= 2 && one_in(10)) {
+                u.moves -= 30;
+                add_msg_if_player(&u, _("You try to pull a %s from your %s, but fail!"), arrows.name.c_str(), worn->name.c_str());
+                return;
+            }
+            add_msg_if_player(&u, _("You pull a %s from your %s and nock it."), arrows.name.c_str(), worn->name.c_str());
+            reload_pos = u.get_item_position(worn);
+        }
+    }
+  }
+  if(reload_pos == INT_MIN)
+   reload_pos = u.weapon.pick_reload_ammo(u, true);
   if (reload_pos == INT_MIN) {
    add_msg(_("Out of ammo!"));
    return;
