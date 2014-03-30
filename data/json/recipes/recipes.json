@@ -9606,7 +9606,8 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "spider_egg", 3 ]
+      [ "spider_egg", 1 ],
+      [ "chitin_piece", 4 ]
     ],
     [
       [ "ammonia", 1 ],

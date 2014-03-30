@@ -3491,7 +3491,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A still immature giant grass spider. Too young to be venomous, or to walk proficently for that matter",
-    "flags":["SMELLS", "HEARS", "WEBWALK", "CHITIN"]
+    "flags":["SMELLS", "HEARS", "WEBWALK", "STUMBLES",  "CHITIN"]
     },{
         "type" : "MONSTER",
         "id" : "mon_spider_jumping",
@@ -3689,7 +3689,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"The horrid spawn of giant black widow spider. Even as a newborn, this foul creature knows only how to kill.",
+    "description":"The horrid spawn of a giant black widow spider. Even as a newborn, this foul creature knows only how to kill.",
     "flags":["SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
