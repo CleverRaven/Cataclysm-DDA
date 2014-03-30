@@ -1607,7 +1607,7 @@
         "id" : "STOCKY_TROGLO",
         "name" : "Subterranean Build",
         "points" : 0,
-        "description" : "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, tradiing muscle mass for mobility.  (+2 Strength, -2 Dexterity)",
+        "description" : "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, trading muscle mass for mobility.  (+2 Strength, -2 Dexterity)",
         "threshreq" : ["THRESH_TROGLOBITE"],
         "category" : ["MUTCAT_TROGLOBITE"]
     },{
