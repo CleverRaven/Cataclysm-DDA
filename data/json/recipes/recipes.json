@@ -1820,6 +1820,28 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pipe_double_shotgun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pipe_shotgunsawn",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
