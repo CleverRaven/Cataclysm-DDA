@@ -14,6 +14,7 @@
 #include "speech.h"
 #include "item_factory.h"
 #include "overmapbuffer.h"
+#include "json.h"
 #include <sstream>
 #include <algorithm>
 
@@ -6878,6 +6879,25 @@ int iuse::candle_lit(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+iuse::bullet_pulling_t iuse::bullet_pulling_recipes;
+
+void iuse::reset_bullet_pulling()
+{
+    bullet_pulling_recipes.clear();
+}
+
+void iuse::load_bullet_pulling(JsonObject &jo)
+{
+    const std::string type = jo.get_string("bullet");
+    result_list_t &recipe = bullet_pulling_recipes[type];
+    // Allow mods that are later loaded to override previously loaded recipes
+    recipe.clear();
+    JsonArray ja = jo.get_array("items");
+    while(ja.has_more()) {
+        JsonArray itm = ja.next_array();
+        recipe.push_back(result_t(itm.get_string(0), itm.get_int(1)));
+    }
+}
 
 int iuse::bullet_puller(player *p, item *it, bool)
 {
@@ -6887,8 +6907,13 @@ int iuse::bullet_puller(player *p, item *it, bool)
     }
     int pos = g->inv(_("Disassemble what?"));
     item* pull = &(p->i_at(pos));
-    if (pull->type->id == "null") {
+    if (pull->is_null()) {
         g->add_msg(_("You do not have that item!"));
+        return 0;
+    }
+    bullet_pulling_t::const_iterator a = bullet_pulling_recipes.find(pull->type->id);
+    if (a == bullet_pulling_recipes.end()) {
+        g->add_msg(_("You cannot disassemble that."));
         return 0;
     }
     if (p->skillLevel("gun") < 2) {
@@ -6896,210 +6921,24 @@ int iuse::bullet_puller(player *p, item *it, bool)
   can disassemble ammunition."));
         return 0;
     }
-    int multiply = pull->charges;
-    if (multiply > 20) {
-        multiply = 20;
-    }
-    item casing;
-    item primer;
-    item gunpowder;
-    item lead;
-    if (pull->type->id == "556_incendiary" || pull->type->id == "3006_incendiary" ||
-        pull->type->id == "762_51_incendiary") {
-        lead.make(itypes["incendiary"]);
-    } else {
-        lead.make(itypes["lead"]);
-    }
-    if (pull->type->id == "shot_bird") {
-        casing.make(itypes["shot_hull"]);
-        primer.make(itypes["shotgun_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 12*multiply;
-        lead.charges = 16*multiply;
-    } else if (pull->type->id == "shot_00" || pull->type->id == "shot_slug") {
-        casing.make(itypes["shot_hull"]);
-        primer.make(itypes["shotgun_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 20*multiply;
-        lead.charges = 16*multiply;
-    } else if (pull->type->id == "22_lr" || pull->type->id == "22_ratshot") {
-        casing.make(itypes["22_casing"]);
-        primer.make(itypes["smrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 2*multiply;
-        lead.charges = 2*multiply;
-    } else if (pull->type->id == "22_cb") {
-        casing.make(itypes["22_casing"]);
-        primer.make(itypes["smrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 1*multiply;
-        lead.charges = 2*multiply;
-    } else if (pull->type->id == "9mm") {
-        casing.make(itypes["9mm_casing"]);
-        primer.make(itypes["smpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 4*multiply;
-        lead.charges = 4*multiply;
-    } else if (pull->type->id == "9mmP") {
-        casing.make(itypes["9mm_casing"]);
-        primer.make(itypes["smpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 5*multiply;
-        lead.charges = 4*multiply;
-    } else if (pull->type->id == "9mmP2") {
-        casing.make(itypes["9mm_casing"]);
-        primer.make(itypes["smpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 6*multiply;
-        lead.charges = 4*multiply;
-    } else if (pull->type->id == "38_special") {
-        casing.make(itypes["38_casing"]);
-        primer.make(itypes["smpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 5*multiply;
-        lead.charges = 5*multiply;
-    } else if (pull->type->id == "38_super") {
-        casing.make(itypes["38_casing"]);
-        primer.make(itypes["smpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 7*multiply;
-        lead.charges = 5*multiply;
-    } else if (pull->type->id == "10mm") {
-        casing.make(itypes["40_casing"]);
-        primer.make(itypes["lgpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 8*multiply;
-        lead.charges = 8*multiply;
-    } else if (pull->type->id == "40sw") {
-        casing.make(itypes["40_casing"]);
-        primer.make(itypes["smpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 6*multiply;
-        lead.charges = 6*multiply;
-    } else if (pull->type->id == "44magnum") {
-        casing.make(itypes["44_casing"]);
-        primer.make(itypes["lgpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 10*multiply;
-        lead.charges = 10*multiply;
-    } else if (pull->type->id == "45_acp" ||
-               pull->type->id == "45_jhp") {
-        casing.make(itypes["45_casing"]);
-        primer.make(itypes["lgpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 10*multiply;
-        lead.charges = 8*multiply;
-    } else if (pull->type->id == "45_super") {
-        casing.make(itypes["45_casing"]);
-        primer.make(itypes["lgpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 12*multiply;
-        lead.charges = 10*multiply;
-    } else if (pull->type->id == "454_Casull") {
-        casing.make(itypes["454_casing"]);
-        primer.make(itypes["smrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 20*multiply;
-        lead.charges = 20*multiply;
-    } else if (pull->type->id == "500_Magnum") {
-        casing.make(itypes["500_casing"]);
-        primer.make(itypes["lgpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 24*multiply;
-        lead.charges = 24*multiply;
-    } else if (pull->type->id == "57mm") {
-        casing.make(itypes["57mm_casing"]);
-        primer.make(itypes["smrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 4*multiply;
-        lead.charges = 2*multiply;
-    } else if (pull->type->id == "46mm") {
-        casing.make(itypes["46mm_casing"]);
-        primer.make(itypes["smpistol_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 4*multiply;
-        lead.charges = 2*multiply;
-    } else if (pull->type->id == "762_m43") {
-        casing.make(itypes["762_casing"]);
-        primer.make(itypes["lgrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 7*multiply;
-        lead.charges = 5*multiply;
-    } else if (pull->type->id == "762_m87") {
-        casing.make(itypes["762_casing"]);
-        primer.make(itypes["lgrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 8*multiply;
-        lead.charges = 5*multiply;
-    } else if (pull->type->id == "223") {
-        casing.make(itypes["223_casing"]);
-        primer.make(itypes["smrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 4*multiply;
-        lead.charges = 2*multiply;
-    } else if (pull->type->id == "556" || pull->type->id == "556_incendiary") {
-        casing.make(itypes["223_casing"]);
-        primer.make(itypes["smrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 6*multiply;
-        lead.charges = 2*multiply;
-    } else if (pull->type->id == "270") {
-        casing.make(itypes["3006_casing"]);
-        primer.make(itypes["lgrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 10*multiply;
-        lead.charges = 5*multiply;
-    } else if (pull->type->id == "3006" || pull->type->id == "3006_incendiary") {
-        casing.make(itypes["3006_casing"]);
-        primer.make(itypes["lgrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 8*multiply;
-        lead.charges = 6*multiply;
-    } else if (pull->type->id == "308") {
-        casing.make(itypes["308_casing"]);
-        primer.make(itypes["lgrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 10*multiply;
-        lead.charges = 6*multiply;
-    } else if (pull->type->id == "762_51" || pull->type->id == "762_51_incendiary") {
-        casing.make(itypes["308_casing"]);
-        primer.make(itypes["lgrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 10*multiply;
-        lead.charges = 6*multiply;
-    } else if (pull->type->id == "5x50" || pull->type->id == "5x50dart") {
-        casing.make(itypes["5x50_hull"]);
-        primer.make(itypes["smrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 3*multiply;
-        lead.charges = 2*multiply;
-    } else if (pull->type->id == "50") {
-        casing.make(itypes["50_casing"]);
-        primer.make(itypes["lgrifle_primer"]);
-        gunpowder.make(itypes["gunpowder"]);
-        gunpowder.charges = 45*multiply;
-        lead.charges = 21*multiply;
-    } else {
-        g->add_msg(_("You cannot disassemble that."));
-        return 0;
-    }
-    pull->charges = pull->charges - multiply;
+    const long multiply = std::min<long>(20, pull->charges);
+    pull->charges -= multiply;
     if (pull->charges == 0) {
         p->i_rem(pos);
     }
+    const result_list_t &recipe = a->second;
+    for (result_list_t::const_iterator a = recipe.begin(); a != recipe.end(); ++a) {
+        int count = a->second * multiply;
+        itype *type = item_controller->find_template(a->first);
+        item new_item(type, g->turn);
+        if (new_item.count_by_charges()) {
+            new_item.charges = count;
+            count = 1;
+        }
+        p->i_add_or_drop(new_item, count);
+    }
     g->add_msg(_("You take apart the ammunition."));
     p->moves -= 500;
-    if (casing.type->id != "null"){
-        casing.charges = multiply;
-        p->i_add_or_drop(casing);
-    }
-    if (primer.type->id != "null"){
-        primer.charges = multiply;
-        p->i_add_or_drop(primer);
-    }
-    p->i_add_or_drop(gunpowder);
-    p->i_add_or_drop(lead);
-
     p->practice(g->turn, "fabrication", rng(1, multiply / 5 + 1));
     return it->type->charges_to_use();
 }
