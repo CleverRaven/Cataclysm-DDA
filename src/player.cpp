@@ -38,7 +38,7 @@
 #include <fstream>
 
 static void manage_fire_exposure(player& p, int fireStrength = 1);
-static void handle_cough(player& p, int intensity = 1, int volume = 12);
+static void handle_cough(player& p, int intensity = 1, int volume = 4);
 
 std::map<std::string, trait> traits;
 std::map<std::string, martialart> ma_styles;
