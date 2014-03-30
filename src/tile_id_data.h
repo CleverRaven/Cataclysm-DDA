@@ -142,9 +142,11 @@ const std::string monster_names[num_monsters] =
 
     toString(mon_spider_wolf),
     toString(mon_spider_web),
+    toString(mon_spider_web_s),
     toString(mon_spider_jumping),
     toString(mon_spider_trapdoor),
     toString(mon_spider_widow),
+    toString(mon_spider_widow_giant_s),
 
     toString(mon_dark_wyrm),
     toString(mon_amigara_horror),
