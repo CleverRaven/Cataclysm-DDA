@@ -29,7 +29,7 @@
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
-
+#include "iuse.h"
 
 #include <string>
 #include <vector>
@@ -213,6 +213,7 @@ void DynamicDataLoader::initialize()
     type_function_map["colordef"] = new StaticFunctionAccessor(&load_ingored_type);
     // mod information, ignored, handled by the mod manager
     type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
+    type_function_map["BULLET_PULLING"] = new StaticFunctionAccessor(&iuse::load_bullet_pulling);
 
     // init maps used for loading json data
     init_martial_arts();
@@ -385,6 +386,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    iuse::reset_bullet_pulling();
 
     // artifacts are not loaded from json, but must be unloaded anyway.
     artifact_itype_ids.clear();

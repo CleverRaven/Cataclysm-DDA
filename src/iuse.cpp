@@ -14,6 +14,7 @@
 #include "speech.h"
 #include "item_factory.h"
 #include "overmapbuffer.h"
+#include "json.h"
 #include <sstream>
 #include <algorithm>
 
@@ -6878,6 +6879,25 @@ int iuse::candle_lit(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
+iuse::bullet_pulling_t iuse::bullet_pulling_recipes;
+
+void iuse::reset_bullet_pulling()
+{
+    bullet_pulling_recipes.clear();
+}
+
+void iuse::load_bullet_pulling(JsonObject &jo)
+{
+    const std::string type = jo.get_string("bullet");
+    result_list_t &recipe = bullet_pulling_recipes[type];
+    // Allow mods that are later loaded to override previously loaded recipes
+    recipe.clear();
+    JsonArray ja = jo.get_array("items");
+    while(ja.has_more()) {
+        JsonArray itm = ja.next_array();
+        recipe.push_back(result_t(itm.get_string(0), itm.get_int(1)));
+    }
+}
 
 int iuse::bullet_puller(player *p, item *it, bool)
 {
@@ -6887,8 +6907,13 @@ int iuse::bullet_puller(player *p, item *it, bool)
     }
     int pos = g->inv(_("Disassemble what?"));
     item* pull = &(p->i_at(pos));
-    if (pull->type->id == "null") {
+    if (pull->is_null()) {
         g->add_msg(_("You do not have that item!"));
+        return 0;
+    }
+    bullet_pulling_t::const_iterator a = bullet_pulling_recipes.find(pull->type->id);
+    if (a == bullet_pulling_recipes.end()) {
+        g->add_msg(_("You cannot disassemble that."));
         return 0;
     }
     if (p->skillLevel("gun") < 2) {
@@ -6896,10 +6921,26 @@ int iuse::bullet_puller(player *p, item *it, bool)
   can disassemble ammunition."));
         return 0;
     }
-    int multiply = pull->charges;
-    if (multiply > 20) {
-        multiply = 20;
+    const long multiply = std::min<long>(20, pull->charges);
+    pull->charges -= multiply;
+    if (pull->charges == 0) {
+        p->i_rem(pos);
     }
+    const result_list_t &recipe = a->second;
+    for (result_list_t::const_iterator a = recipe.begin(); a != recipe.end(); ++a) {
+        int count = a->second * multiply;
+        itype *type = item_controller->find_template(a->first);
+        item new_item(type, g->turn);
+        if (new_item.count_by_charges()) {
+            new_item.charges = count;
+            count = 1;
+        }
+        p->i_add_or_drop(new_item, count);
+    }
+    g->add_msg(_("You take apart the ammunition."));
+    p->moves -= 500;
+    p->practice(g->turn, "fabrication", rng(1, multiply / 5 + 1));
+    return it->type->charges_to_use();
     item casing;
     item primer;
     item gunpowder;

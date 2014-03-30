@@ -1,8 +1,13 @@
 #ifndef _IUSE_H_
 #define _IUSE_H_
 
+#include <map>
+#include <string>
+#include <vector>
+
 class item;
 class player;
+class JsonObject;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
@@ -242,6 +247,14 @@ public:
        It examines the item's artifact-specific properties.
        See artifact.h for a list.                        */
     int artifact            (player *, item *, bool);
+
+    static void reset_bullet_pulling();
+    static void load_bullet_pulling(JsonObject &jo);
+protected:
+    typedef std::pair<std::string, int> result_t;
+    typedef std::vector<result_t> result_list_t;
+    typedef std::map<std::string, result_list_t> bullet_pulling_t;
+    static bullet_pulling_t bullet_pulling_recipes;
 };
 
 
