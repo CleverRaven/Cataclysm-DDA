@@ -120,6 +120,7 @@ struct trait {
     int points; // How many points it costs in character creation
     int visibility; // How visible it is
     int ugliness; // How ugly it is
+    bool mixed_effect; // Wheather it has positive as well as negative effects.
     bool startingtrait; // Starting Trait True/False
     bool purifiable; // Whether it's vulnerable to Purifier
     std::string description;
