@@ -907,14 +907,7 @@ void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         }
     }
 
-    int veh_spawn_heading;
-    if (terrain_type == "road_end_north" || terrain_type == "road_end_south") {
-        veh_spawn_heading = (one_in(2)? 0 : 180);
-    } else {
-        veh_spawn_heading = (one_in(2)? 270 : 90);
-    }
-
-    m->add_road_vehicles(sidewalks, veh_spawn_heading);
+    m->add_road_vehicles(sidewalks, rng(0,3)*90); 
 
     bool turning_cycle;
     if (sidewalks) {
