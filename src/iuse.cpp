@@ -7809,7 +7809,8 @@ int iuse::quiver(player *p, item *it, bool)
             it->put_in(p->i_rem(put));
         }
 
-        g->add_msg_if_player(p, _("You store some %ss in your %s."), it->contents[0].name.c_str(), it->name.c_str());
+        g->add_msg_if_player(p, it->contents[0].charges == 1 ?_("You put a %s in your %s.") : _("You store some %ss in your %s."), it->contents[0].name.c_str(), it->name.c_str());
+        p->moves -= 60;
 
         // handle overflow
         if(it->contents[0].charges > maxArrows) {
