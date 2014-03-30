@@ -870,11 +870,13 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 0 == strcmp( ent->d_name, ".." ) ) {
                 continue;
             }
-            #if (defined _WIN32 || defined WINDOWS)
-                std::string f = path + "\\" + ent->d_name;
-            #else
-                std::string f = path + "/" + ent->d_name;
-            #endif
+            char path_last = *path.rbegin();
+            std::string f;
+            if (is_filesep(path_last)) {
+                f = path + ent->d_name;
+            } else {
+                f = path + FILE_SEP + ent->d_name;
+            }
 
             struct stat stat_buffer;
             if( stat( f.c_str(), &stat_buffer ) == -1 ) {
