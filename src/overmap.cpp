@@ -2923,9 +2923,7 @@ void overmap::polish(const int z, const std::string &terrain_type)
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
             if (check_all || check_ot_type(terrain_type, x, y, z)) {
-                if (check_ot_type("road", x, y, z)) {
-                    good_road("road", x, y, z);
-                } else if (check_ot_type("bridge", x, y, z) &&
+                if (check_ot_type("bridge", x, y, z) &&
                            check_ot_type("bridge", x - 1, y, z) &&
                            check_ot_type("bridge", x + 1, y, z) &&
                            check_ot_type("bridge", x, y - 1, z) &&
@@ -2954,6 +2952,8 @@ void overmap::polish(const int z, const std::string &terrain_type)
                            (!is_river(ter(x, y - 1, z)) ||
                             !is_river(ter(x, y + 1, z)))) {
                     ter(x, y, z) = "road_ew";
+                } else if (check_ot_type("road", x, y, z)) {
+                    good_road("road", x, y, z);
                 }
             }
         }
