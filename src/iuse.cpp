@@ -7590,8 +7590,8 @@ int iuse::quiver(player *p, item *it, bool)
         // empty quiver
         if(choice == 2) {
             item& arrows = it->contents[0];
-            g->add_msg_if_player(p, _("You remove the %ss from the %s and put them back in your inventory."), arrows.name.c_str(), it->name.c_str());
-            p->inv.assign_empty_invlet(arrows, false);  // force getting an invlet
+            g->add_msg_if_player(p, _("You remove the %ss from the %s."), arrows.name.c_str(), it->name.c_str());
+            p->inv.assign_empty_invlet(arrows, false);
             p->i_add(arrows);
             it->contents.erase(it->contents.begin());
             return it->type->charges_to_use();
@@ -7715,8 +7715,7 @@ int iuse::holster_pistol(player *p, item *it, bool)
         }
 
         g->add_msg_if_player(p, _("You%s holster your %s."), adj.c_str(), put->tname().c_str());
-        p->moves -= (lvl == 0) ? (15 * put->volume()) : (14 * put->volume()) / lvl;
-        it->put_in(p->i_rem(pos));
+        p->store(it, put, _("pistol"), 14);
 
     // else draw the holstered pistol and have the player wield it
     } else {
@@ -7731,11 +7730,7 @@ int iuse::holster_pistol(player *p, item *it, bool)
             }
 
             g->add_msg_if_player(p, _("You%s draw your %s from the %s."), adj.c_str(), gun.tname().c_str(), it->name.c_str());
-            p->moves -= (lvl == 0) ? (14 * gun.volume()) : (13 * gun.volume()) / lvl;
-
-            p->inv.assign_empty_invlet(gun, true);  // force getting an invlet
-            p->wield(&(p->i_add(gun)));
-            it->contents.erase(it->contents.begin());
+            p->wield_contents(it, true, _("pistol"), 13);
         }
     }
     return it->type->charges_to_use();
@@ -7781,8 +7776,7 @@ int iuse::sheath_knife(player *p, item *it, bool)
         }
 
         g->add_msg_if_player(p, _("You%s your %s into the %s."), adj.c_str(), put->tname().c_str(), it->name.c_str());
-        p->moves -= (lvl == 0) ? (15 * put->volume()) : (14 * put->volume()) / lvl;
-        it->put_in(p->i_rem(pos));
+        p->store(it, put, _("cutting"), 14);
 
     // else unsheathe a sheathed weapon and have the player wield it
     } else {
@@ -7799,7 +7793,7 @@ int iuse::sheath_knife(player *p, item *it, bool)
 
             g->add_msg_if_player(p, _("You%s draw your %s from the %s."), adj.c_str(), p->weapon.tname().c_str(), it->name.c_str());
 
-            // diamond swords glimmer in the sunlight
+            // diamond knives glimmer in the sunlight
             if(g->is_in_sunlight(p->posx, p->posy) && (p->weapon.made_of("diamond") || p->weapon.type->id == "foon" || p->weapon.type->id == "spork")) {
                 g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), p->weapon.tname().c_str());
             }
@@ -7836,7 +7830,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
             adj = _(" deftly");
         }
 
-        p->store(it, put, "cutting", 14);
+        p->store(it, put, _("cutting"), 14);
         g->add_msg_if_player(p, _("You%s sheathe your %s."), adj.c_str(), put->tname().c_str());
 
     // else unsheathe a sheathed weapon and have the player wield it
