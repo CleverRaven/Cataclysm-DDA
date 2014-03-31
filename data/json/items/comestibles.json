@@ -7628,7 +7628,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "cooked_dinner",
+        "id" : "cooked_tv_dinner",
         "name" : "cooked TV dinner",
         "weight" : 450,
         "color" : "brown",

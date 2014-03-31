@@ -5999,12 +5999,12 @@
   ],
   "components": [
     [
-      [ "frozen_burrito", 1 ]
+      [ "uncooked_burrito", 1 ]
     ]
   ]
 },{
         "type" : "recipe",
-  "result": "cooked_dinner",
+  "result": "cooked_tv_dinner",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
@@ -6022,7 +6022,7 @@
   ],
   "components": [
     [
-      [ "frozen_dinner", 1 ]
+      [ "uncooked_tv_dinner", 1 ]
     ]
   ]
 },{
@@ -24078,7 +24078,7 @@
   ],
   "components": [
     [
-      [ "hotdogs_frozen", 1 ]
+      [ "hotdogs_uncooked", 1 ]
     ],
     [
       [ "bread", 4 ],
@@ -24116,7 +24116,7 @@
   ],
   "components": [
     [
-      [ "hotdogs_frozen", 1 ]
+      [ "hotdogs_uncooked", 1 ]
     ],
     [
       [ "chili", 1]
@@ -24185,7 +24185,7 @@
   ],
   "components": [
     [
-      [ "hotdogs_frozen", 1 ]
+      [ "hotdogs_uncooked", 1 ]
     ],
     [
       [ "chili_human", 1]
@@ -24254,7 +24254,7 @@
   ],
   "components": [
     [
-      [ "corndogs_frozen", 1 ]
+      [ "corndogs_uncooked", 1 ]
     ]
   ]
 },{
@@ -24559,7 +24559,7 @@
     ],
   "components": [
     [
-      [ "toasterpastryfrozen", 1 ]
+      [ "toasterpastryuncooked", 1 ]
     ]
   ]
 },{
