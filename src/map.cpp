@@ -3593,10 +3593,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             // (that are visible to the player!), we always set the symbol.
             // If there are items and the field does not hide them,
             // the code handling items will override it.
-            draw_item_sym = (sym == '.' && f.sym == '%');
-            if (sym == '.' || f.sym != '%') {
-                // default terrain '.' -> use field symbol
-                // or non-default field symbol -> field symbol overrides terrain
+            draw_item_sym = (f.sym == '%');
+            if (sym == '.' && f.sym != '%') {
+                // default terrain '.' and
+                // non-default field symbol -> field symbol overrides terrain
                 sym = f.sym;
             }
             tercol = f.color[fe->getFieldDensity() - 1];
