@@ -1222,6 +1222,9 @@ int item::weight() const
         }
         if (made_of("veggy")) {
             ret /= 3;
+        }
+        if(corpse->in_species("FISH")) {
+            ret /= 8;
         } else if (made_of("iron") || made_of("steel") || made_of("stone")) {
             ret *= 7;
         }
