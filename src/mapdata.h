@@ -240,6 +240,12 @@ struct furn_t {
  map_bash_info bash;
  map_deconstruct_info deconstruct;
 
+ std::string crafting_pseudo_item;
+ // May return NULL
+ itype *crafting_pseudo_item_type() const;
+ // May return NULL
+ itype *crafting_ammo_item_type() const;
+
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
  }

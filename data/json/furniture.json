@@ -1141,5 +1141,36 @@
         "required_str": -1,
         "flags": ["TRANSPARENT"],
         "examine_action": "flower_dahlia"
+    },{
+        "type" : "furniture",
+        "id" : "f_forge",
+        "name": "forge",
+        "symbol": "^",
+        "color": "ltred",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "crafting_pseudo_item": "char_forge",
+        "flags": ["SEALED", "CONTAINER", "NOITEM"],
+        "examine_action": "reload_furniture"
+    },{
+        "type" : "furniture",
+        "id" : "f_anvil",
+        "name": "anvil",
+        "symbol": "^",
+        "color": "ltred",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "crafting_pseudo_item": "anvil",
+        "flags": ["TRANSPARENT", "NOITEM"]
+    },{
+        "type" : "furniture",
+        "id" : "f_still",
+        "name": "still",
+        "symbol": "^",
+        "color": "ltred",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "crafting_pseudo_item": "still",
+        "flags": ["TRANSPARENT", "NOITEM"]
     }
 ]
