@@ -3490,7 +3490,7 @@
     "special_freq":0,
     "death_function":"NORMAL",
     "special_attack":"NONE",
-    "description":"A still immature giant grass spider. Too young to be venomous, or to walk proficently for that matter",
+    "description":"A still immature giant grass spider. Too young to be venomous, or to walk proficiently for that matter",
     "flags":["SMELLS", "HEARS", "WEBWALK", "STUMBLES",  "CHITIN"]
     },{
         "type" : "MONSTER",
