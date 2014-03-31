@@ -198,6 +198,7 @@
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
+"mixed_effect": false, // Wheather the trait has both positive and negative effects. This is purely declarative and is only used for the user interface. (default: false)
 "description": "Nothing gets you down!" // In-game description
 "starting_trait": true, // Can be selected at character creation (default: false)
 "valid": false,      // Can be mutated ingame (default: true)
