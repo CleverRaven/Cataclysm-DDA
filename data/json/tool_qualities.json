@@ -9,7 +9,7 @@
         "name" : "hammering"
     },{
         "type" : "tool_quality",
-        "id" : "HAMMER_G",
+        "id" : "HAMMER_FINE",
         "name" : "fine hammering"
     },{
         "type" : "tool_quality",
@@ -21,7 +21,7 @@
         "name" : "metal sawing"
     },{
         "type" : "tool_quality",
-        "id" : "SAW_M_G",
+        "id" : "SAW_M_FINE",
         "name" : "fine metal sawing"
     },{
         "type" : "tool_quality",
@@ -57,7 +57,7 @@
         "name" : "bolt turning"
     },{
         "type" : "tool_quality",
-        "id" : "WRENCH_G",
+        "id" : "WRENCH_FINE",
         "name" : "fine bolt turning"
     },{
         "type" : "tool_quality",
@@ -65,7 +65,7 @@
         "name" : "screw driving"
     },{
         "type" : "tool_quality",
-        "id" : "SCREW_G",
+        "id" : "SCREW_FINE",
         "name" : "fine screw driving"
     }
 ]

@@ -1657,7 +1657,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "shotgun_d", 1 ],
@@ -1678,7 +1678,7 @@
   "autolearn": true,
   "book_learn": [[ "manual_shotgun", 2 ] , [ "manual_pistol", 2 ]],
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "tools": [
     [
       [ "goggles_welding", -1 ]
@@ -1707,7 +1707,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "saiga_12", 1 ]
@@ -1786,8 +1786,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1808,8 +1808,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1829,7 +1829,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe_shotgun", 1 ]
@@ -1847,8 +1847,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1870,9 +1870,9 @@
   "autolearn": false,
   "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1},
-	{"id":"HAMMER_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+	{"id":"HAMMER_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1897,9 +1897,9 @@
   "autolearn": false,
   "book_learn": [[ "manual_smg", 4 ] , [ "mag_smg", 5 ]],
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1},
-	{"id":"HAMMER_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+	{"id":"HAMMER_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -1923,8 +1923,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pilot_light", 2 ]
@@ -1953,7 +1953,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe", 1 ]
@@ -2005,7 +2005,7 @@
   "autolearn": false,
   "book_learn": [[ "manual_shotgun", 4 ] , [ "mag_shotgun", 5 ]],
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe", 2 ]
@@ -2533,7 +2533,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 5 ]],
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 6 ],
@@ -12261,7 +12261,7 @@
   "autolearn": false,
   "book_learn": [[ "advanced_electronics", 3 ] , [ "textbook_electronics", 3 ] , [ "textbook_anarch", 4 ]],
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 10 ],
@@ -19630,7 +19630,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "muffler", 1 ],
@@ -21050,8 +21050,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
   ], "components": [
     [
       ["pipe", 1]
@@ -21112,9 +21112,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1},
-	{"id":"WRENCH_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+	{"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -21155,9 +21155,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1},
-	{"id":"WRENCH_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+	{"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -21199,9 +21199,9 @@
   "autolearn": false,
   "book_learn": [["recipe_mininuke_launch", 5]],
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1},
-	{"id":"WRENCH_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+	{"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -21243,9 +21243,9 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 2]],
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1},
-	{"id":"WRENCH_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+	{"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -21278,9 +21278,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1},
-	{"id":"WRENCH_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+	{"id":"WRENCH_FINE","level":1,"amount":1}
   ], "tools": [
     [
       ["goggles_welding", -1]
@@ -27264,7 +27264,7 @@
   "autolearn": false,
   "book_learn": [[ "recipe_lab_elec", 5]],
   "qualities":[
-    {"id":"SCREW_G","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1,"amount":1}
   ], "tools": [
     [
       [ "soldering_iron", 20 ],
