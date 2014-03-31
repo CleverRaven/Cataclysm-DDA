@@ -488,7 +488,7 @@ static int traceback(lua_State *L) {
 // Load an arbitrary lua file
 void lua_dofile(lua_State *L, const char* path) {
     lua_pushcfunction(L, &traceback);
-    int err = luaL_loadfile(L, path) || lua_pcall(L, 0, LUA_MULTRET, -2);
+    luaL_loadfile(L, path) || lua_pcall(L, 0, LUA_MULTRET, -2);
 }
 
 // game.dofile(file)
