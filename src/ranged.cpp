@@ -727,7 +727,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } else {
    if (relevent == &u.weapon && relevent->is_gun()) {
      if(relevent->has_flag("RELOAD_AND_SHOOT")) {
-        wprintz(w_target, c_red, _("Loosing %s from %s"), u.weapon.ammo_type().c_str(), u.weapon.tname().c_str());
+        wprintz(w_target, c_red, _("Shooting %s from %s"), u.weapon.curammo->name.c_str(), u.weapon.tname().c_str());
      } else {
          wprintz(w_target, c_red, _("Firing %s (%d)"), // - %s (%d)",
                 u.weapon.tname().c_str(),// u.weapon.curammo->name.c_str(),

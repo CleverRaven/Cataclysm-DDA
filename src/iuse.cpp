@@ -7791,6 +7791,8 @@ int iuse::quiver(player *p, item *it, bool)
             return 0;
         }
 
+        int arrowsStored = 0;
+
         // not empty so adding more arrows
         if(!(it->contents.empty()) && it->contents[0].charges > 0) {
             if(it->contents[0].type->id != put->type->id) {
@@ -7801,6 +7803,7 @@ int iuse::quiver(player *p, item *it, bool)
                 g->add_msg_if_player(p, _("That %s is already full!"), it->name.c_str());
                 return 0;
             }
+            arrowsStored = it->contents[0].charges;
             it->contents[0].charges += put->charges;
             p->i_rem(put);
 
@@ -7808,9 +7811,6 @@ int iuse::quiver(player *p, item *it, bool)
         } else {
             it->put_in(p->i_rem(put));
         }
-
-        g->add_msg_if_player(p, it->contents[0].charges == 1 ?_("You put a %s in your %s.") : _("You store some %ss in your %s."), it->contents[0].name.c_str(), it->name.c_str());
-        p->moves -= 60;
 
         // handle overflow
         if(it->contents[0].charges > maxArrows) {
@@ -7820,6 +7820,12 @@ int iuse::quiver(player *p, item *it, bool)
             clone.charges = toomany;
             p->i_add(clone);
         }
+
+        arrowsStored = it->contents[0].charges - arrowsStored;
+        arrowsStored == 1 ?
+            g->add_msg_if_player(p, _("You put a %s in your %s."), it->contents[0].name.c_str(), it->name.c_str()) :
+            g->add_msg_if_player(p, _("You store %d %ss in your %s."), arrowsStored, it->contents[0].name.c_str(), it->name.c_str());
+        p->moves -= 10 * arrowsStored;
     } else {
         g->add_msg_if_player(p, _("Never mind."));
         return 0;
@@ -7942,16 +7948,9 @@ int iuse::sheath_knife(player *p, item *it, bool)
     // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
+            p->wield_contents(it, true, _("cutting"), 13);
+
             int lvl = p->skillLevel("cutting");
-            item& knife = it->contents[0];
-
-            // bigger swords take longer to draw
-            p->moves -= (lvl == 0) ? (14 * knife.volume()) : (13 * knife.volume()) / lvl;
-
-            p->inv.assign_empty_invlet(knife, true);  // force getting an invlet
-            p->wield(&(p->i_add(knife)));
-            it->contents.erase(it->contents.begin());
-
             std::string adj;
             if(lvl < 2) {
                 adj = _(" awkwardly");
@@ -7959,11 +7958,11 @@ int iuse::sheath_knife(player *p, item *it, bool)
                 adj = _(" swiftly");
             }
 
-            g->add_msg_if_player(p, _("You%s draw your %s from the %s."), adj.c_str(), knife.tname().c_str(), it->name.c_str());
+            g->add_msg_if_player(p, _("You%s draw your %s from the %s."), adj.c_str(), p->weapon.tname().c_str(), it->name.c_str());
 
             // diamond swords glimmer in the sunlight
-            if(g->is_in_sunlight(p->posx, p->posy) && (knife.made_of("diamond") || knife.type->id == "foon" || knife.type->id == "spork")) {
-                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), knife.tname().c_str());
+            if(g->is_in_sunlight(p->posx, p->posy) && (p->weapon.made_of("diamond") || p->weapon.type->id == "foon" || p->weapon.type->id == "spork")) {
+                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), p->weapon.tname().c_str());
             }
         }
     }
@@ -7998,36 +7997,20 @@ int iuse::sheath_sword(player *p, item *it, bool)
             adj = _(" deftly");
         }
 
+        p->store(it, put, "cutting", 14);
         g->add_msg_if_player(p, _("You%s sheathe your %s."), adj.c_str(), put->tname().c_str());
-        p->moves -= (lvl == 0) ? (15 * put->volume()) : (14 * put->volume()) / lvl;
-        it->put_in(p->i_rem(pos));
 
     // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
             int lvl = p->skillLevel("cutting");
-            item& sword = it->contents[0];
-
-            // bigger swords take longer to draw
-            p->moves -= (lvl == 0) ? (14 * sword.volume()) : (13 * sword.volume()) / lvl;
-
-            p->inv.assign_empty_invlet(sword, true);  // force getting an invlet
-            p->wield(&(p->i_add(sword)));
-            it->contents.erase(it->contents.begin());
+            p->wield_contents(it, true, _("cutting"), 13);
 
             // in order to perform iaijutsu, have to pass a roll based on level
             bool iaijutsu =
-                lvl >= 7
-                && one_in(12 - lvl) &&
-                // some swords are too small/large to perform iaijutsu with
-                !(sword.type->id == "rapier"
-                || sword.type->id == "zweihander"
-                || sword.type->id == "zweifire_off"
-                || sword.type->id == "nodachi"
-                || sword.type->id == "sword_wood"
-                || sword.type->id == "sword_crude"
-                || sword.type->id == "sword_forged"
-                || sword.type->id == "carver_off");
+                lvl >= 7 &&
+                p->weapon.has_flag("IAIJUTSU") &&
+                one_in(12 - lvl);
 
             // iaijutsu! slash an enemy as you draw your sword
             if(iaijutsu) {
@@ -8036,11 +8019,13 @@ int iuse::sheath_sword(player *p, item *it, bool)
                 for(int i = -1; i <= 1; i++) {
                     for(int j = -1; j <= 1; j++) {
                         mon_num = g->mon_at(p->posx + i, p->posy + j);
-                        if(mon_num != -1)
-                            break;
+                        if(mon_num != -1) {
+                            break; // break at first found enemy
+                        }
                     }
-                    if(mon_num != -1)
+                    if(mon_num != -1) {
                         break;
+                    }
                 }
 
                 // if there's an adjacent enemy, ask which one to slash
@@ -8053,7 +8038,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
                             mon_num = mon_hit;
                     }
                     monster& zed = g->zombie(mon_num);
-                    g->add_msg_if_player(p, _("You slash at the %s as you draw your %s."), zed.name().c_str(), sword.tname().c_str());
+                    g->add_msg_if_player(p, _("You slash at the %s as you draw your %s."), zed.name().c_str(), p->weapon.tname().c_str());
                     p->melee_attack(zed, true);
                 } else {
                     // no adjacent monsters, draw sword normally
@@ -8070,12 +8055,12 @@ int iuse::sheath_sword(player *p, item *it, bool)
                     adj = _(" masterfully");
                 }
 
-                g->add_msg_if_player(p, _("You%s draw your %s."), adj.c_str(), sword.tname().c_str());
+                g->add_msg_if_player(p, _("You%s draw your %s."), adj.c_str(), p->weapon.tname().c_str());
             }
 
             // diamond swords glimmer in the sunlight
-            if(g->is_in_sunlight(p->posx, p->posy) && sword.made_of("diamond")) {
-                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), sword.tname().c_str());
+            if(g->is_in_sunlight(p->posx, p->posy) && p->weapon.made_of("diamond")) {
+                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), p->weapon.tname().c_str());
             }
         }
     }

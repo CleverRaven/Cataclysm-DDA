@@ -10743,18 +10743,9 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
 
         if(choice != -1) {
-            item* worn = holsters[choice];
-            item& gun = worn->contents[0];
-
-            u.inv.assign_empty_invlet(gun, true);  // force getting an invlet
-            u.wield(&(u.i_add(gun)));
-            worn->contents.erase(worn->contents.begin());
-
-            // same as in iuse::holster_pistol
-            int lvl = u.skillLevel("pistol");
-            u.moves -= (lvl == 0) ? (14 * gun.volume()) : (13 * gun.volume()) / lvl;
-            add_msg_if_player(&u, _("You pull your %s from its %s and ready it to fire."), gun.name.c_str(), worn->name.c_str());
-            if(gun.charges <= 0) {
+            u.wield_contents(holsters[choice], true, _("pistol"), 13);
+            add_msg_if_player(&u, _("You pull your %s from its %s and ready it to fire."), u.weapon.name.c_str(), holsters[choice]->name.c_str());
+            if(u.weapon.charges <= 0) {
                 add_msg_if_player(&u, _("... but it's empty!"));
                 return;
             }
@@ -10848,8 +10839,9 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
     }
   }
-  if(reload_pos == INT_MIN)
+  if(reload_pos == INT_MIN) {
    reload_pos = u.weapon.pick_reload_ammo(u, true);
+  }
   if (reload_pos == INT_MIN) {
    add_msg(_("Out of ammo!"));
    return;

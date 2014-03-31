@@ -2607,7 +2607,7 @@
     "bashing": 6,
     "cutting": 4,
     "to_hit": 1,
-    "flags": ["STAB","RAIN_PROTECT","SHEATH_SWORD"],
+    "flags": ["STAB","RAIN_PROTECT","SHEATH_SWORD","IAIJUTSU"],
     "techniques": ["WBLOCK_1"]
   },
   {

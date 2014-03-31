@@ -10103,6 +10103,25 @@ std::string player::weapname(bool charges)
   return weapon.tname();
 }
 
+void player::wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor)
+{
+    if(!(container->contents.empty())) {
+        item& weap = container->contents[0];
+        inv.assign_empty_invlet(weap, force_invlet);
+        wield(&(i_add(weap)));
+        container->contents.erase(container->contents.begin());
+    } else {
+        debugmsg("Tried to wield contents of empty container (player::wield_contents)");
+    }
+}
+
+void player::store(item* container, item* put, std::string skill_used, int volume_factor)
+{
+    int lvl = skillLevel(skill_used);
+    moves -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
+    container->put_in(i_rem(put));
+}
+
 nc_color encumb_color(int level)
 {
  if (level < 0)
