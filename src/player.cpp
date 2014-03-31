@@ -8674,12 +8674,12 @@ void player::use(int pos)
             g->add_msg(_("Your %s has %d charges but needs %d."), used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
-    } else if (used->type->use == &iuse::boots
-            || used->type->use == &iuse::sheath_sword
-            || used->type->use == &iuse::sheath_knife
-            || used->type->use == &iuse::holster_pistol
-            || used->type->use == &iuse::holster_ankle
-            || used->type->use == &iuse::quiver) {
+    } else if (used->type->use == &iuse::boots          ||
+               used->type->use == &iuse::sheath_sword   ||
+               used->type->use == &iuse::sheath_knife   ||
+               used->type->use == &iuse::holster_pistol ||
+               used->type->use == &iuse::holster_ankle  ||
+               used->type->use == &iuse::quiver) {
         used->type->use.call(this, used, false);
         return;
     } else if (used->is_gunmod()) {

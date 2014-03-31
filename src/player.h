@@ -586,7 +586,7 @@ public:
  bool takeoff(int pos, bool autodrop = false);
  /** Removes the first item in the container's contents and wields it, taking moves based on skill and volume of item being wielded. */
  void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
- /** Stores an item inside another item, taking turns based on skill and volume of item being stored. */
+ /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
  void store(item *container, item *put, std::string skill_used, int volume_factor);
  /** Draws the UI and handles player input for the armor re-ordering window */
  void sort_armor();
