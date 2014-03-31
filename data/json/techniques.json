@@ -1,15 +1,42 @@
 [
     {
         "type" : "technique",
+        "id" : "SPIN",
+        "name" : "Spinning Strike",
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "min_melee" : 4,
+        "crit_tec" : true,
+        "messages" : [
+            "You swing through %s and everyone nearby",
+            "<npcname> swings through %s and everyone nearby"
+        ],
+        "aoe" : "spin"
+    },{
+        "type" : "technique",
         "id" : "WIDE",
         "name" : "Wide Strike",
         "unarmed_allowed" : true,
         "melee_allowed" : true,
+        "min_melee" : 3,
+        "crit_tec" : true,
         "messages" : [
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"
         ],
         "aoe" : "wide"
+    },{
+        "type" : "technique",
+        "id" : "IMPALE",
+        "name" : "Impaling Strike",
+        "melee_allowed" : true,
+        "min_melee" : 4,
+        "crit_tec" : true,
+        "messages" : [
+            "You pierce straight through %s",
+            "<npcname> pierces through %s"
+        ],
+        "aoe" : "impale"
     },{
         "type" : "technique",
         "id" : "BRUTAL",
