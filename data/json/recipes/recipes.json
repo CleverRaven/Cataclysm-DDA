@@ -5999,7 +5999,7 @@
   ],
   "components": [
     [
-      [ "uncooked_burrito", 1 ]
+      [ "frozen_burrito", 1 ]
     ]
   ]
 },{
@@ -6022,7 +6022,7 @@
   ],
   "components": [
     [
-      [ "uncooked_tv_dinner", 1 ]
+      [ "frozen_dinner", 1 ]
     ]
   ]
 },{
@@ -24078,7 +24078,7 @@
   ],
   "components": [
     [
-      [ "hotdogs_uncooked", 1 ]
+      [ "hotdogs_frozen", 1 ]
     ],
     [
       [ "bread", 4 ],
@@ -24116,7 +24116,7 @@
   ],
   "components": [
     [
-      [ "hotdogs_uncooked", 1 ]
+      [ "hotdogs_frozen", 1 ]
     ],
     [
       [ "chili", 1]
@@ -24185,7 +24185,7 @@
   ],
   "components": [
     [
-      [ "hotdogs_uncooked", 1 ]
+      [ "hotdogs_frozen", 1 ]
     ],
     [
       [ "chili_human", 1]
@@ -24254,7 +24254,7 @@
   ],
   "components": [
     [
-      [ "corndogs_uncooked", 1 ]
+      [ "corndogs_frozen", 1 ]
     ]
   ]
 },{
@@ -24559,7 +24559,7 @@
     ],
   "components": [
     [
-      [ "toasterpastryuncooked", 1 ]
+      [ "toasterpastryfrozen", 1 ]
     ]
   ]
 },{

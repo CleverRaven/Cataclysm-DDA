@@ -4787,7 +4787,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "hotdogs_uncooked",
+        "id" : "hotdogs_frozen",
         "name" : "uncooked hot dogs",
         "weight" : 80,
         "color" : "red",
@@ -4907,7 +4907,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "corndogs_uncooked",
+        "id" : "corndogs_frozen",
         "name" : "uncooked corn dogs",
         "weight" : 90,
         "color" : "yellow",
@@ -5704,7 +5704,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "toasterpastryuncooked",
+        "id" : "toasterpastryfrozen",
         "name" : "toaster pastry (uncooked)",
         "weight" : 28,
         "color" : "red",
@@ -7599,7 +7599,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "uncooked_tv_dinner",
+        "id" : "frozen_dinner",
         "name" : "uncooked TV dinner",
         "weight" : 453,
         "color" : "brown",
@@ -7658,7 +7658,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "uncooked_burrito",
+        "id" : "frozen_burrito",
         "name" : "uncooked burrito",
         "weight" : 142,
         "color" : "brown",
