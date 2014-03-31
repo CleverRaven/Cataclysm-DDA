@@ -54,11 +54,11 @@
     },{
         "type" : "tool_quality",
         "id" : "WRENCH",
-        "name" : "bolting"
+        "name" : "bolt turning"
     },{
         "type" : "tool_quality",
         "id" : "WRENCH_G",
-        "name" : "fine bolting"
+        "name" : "fine bolt turning"
     },{
         "type" : "tool_quality",
         "id" : "SCREW",
