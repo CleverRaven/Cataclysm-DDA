@@ -861,7 +861,7 @@ bool game::do_turn()
     }
 
     if (turn % 50 == 0) { //move hordes every 5 min
-        cur_om->move_hordes();
+        overmap_buffer.move_hordes();
     }
 
     // Check if we've overdosed... in any deadly way.
@@ -5931,10 +5931,11 @@ bool game::sound(int x, int y, int vol, std::string description)
 {
     // --- Monster sound handling here ---
     // Alert all hordes
-    if( vol > 20 && levz == 0 ) {
-        int sig_power = ((vol > 140) ? 140 : vol) - 20;
-        cur_om->signal_hordes( levx + (MAPSIZE / 2), levy + (MAPSIZE / 2), sig_power );
-    }
+    if (vol > 10 && levz == 0)
+        {
+            int sig_power = ( (vol > 140) ? 140 : vol - 10 );
+            cur_om->signal_hordes(levx, levy, HSIG_NOICE, sig_power);
+        }
     // Alert all monsters (that can hear) to the sound.
     for (int i = 0, numz = num_zombies(); i < numz; i++) {
         monster &critter = critter_tracker.find(i);
