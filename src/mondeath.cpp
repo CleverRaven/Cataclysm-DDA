@@ -506,6 +506,7 @@ void mdeath::zombie(monster *z) {
     else if (zid == "mon_zombie_hazmat"){ dropset = 5;}
     else if (zid == "mon_zombie_fireman"){ dropset = 6;}
     else if (zid == "mon_zombie_survivor"){ dropset = 7;}
+    else if (zid == "mon_zombie_bio_op"){ dropset = 8;}
     switch(dropset) {
         case 0: // mon_zombie_cop
             g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
@@ -596,6 +597,24 @@ void mdeath::zombie(monster *z) {
             if (one_in(3)) {
                 underwear = false;
                 g->m.put_items_from("loincloth", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+        break;
+        
+        case 8: // mon_zombie_bio_op
+            g->m.put_items_from("bio_op_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("mil_armor_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("mil_armor_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            if (one_in(2)) {
+                g->m.put_items_from("mil_armor_helmet", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+            if (one_in(2)) {
+                g->m.put_items_from("bio_op_face", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+            if (one_in(2)) {
+                g->m.put_items_from("bio_op_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            }
+            if (one_in(2)) {
+                g->m.put_items_from("bio_op_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
         break;
 

@@ -137,6 +137,7 @@ void MonsterGenerator::init_death()
 
     /* Currently Unimplemented */
     //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
+    //death_map["HOWL"] = &mdeath::howl;// Wolf's howling
     //death_map["RATTLE"] = &mdeath::rattle;// Rattles like a rattlesnake
 }
 
@@ -146,6 +147,7 @@ void MonsterGenerator::init_attack()
     attack_map["ANTQUEEN"] = &mattack::antqueen;
     attack_map["SHRIEK"] = &mattack::shriek;
     attack_map["RATTLE"] = &mattack::rattle;
+    attack_map["HOWL"] = &mattack::howl;
     attack_map["ACID"] = &mattack::acid;
     attack_map["SHOCKSTORM"] = &mattack::shockstorm;
     attack_map["SMOKECLOUD"] = &mattack::smokecloud;
@@ -191,6 +193,7 @@ void MonsterGenerator::init_attack()
     attack_map["PARROT"] = &mattack::parrot;
     attack_map["DARKMAN"] = &mattack::darkman;
     attack_map["SLIMESPRING"] = &mattack::slimespring;
+    attack_map["BIO_OP_TAKEDOWN"] = &mattack::bio_op_takedown;
 
 }
 
@@ -260,7 +263,7 @@ void MonsterGenerator::init_flags() {
     flag_map["FUR"] = MF_FUR;
     flag_map["LEATHER"] = MF_LEATHER;
     flag_map["FEATHER"] = MF_FEATHER;
-    flag_map["CBM"] = MF_CBM;
+    flag_map["CBM_CIV"] = MF_CBM_CIV;
     flag_map["BONES"] = MF_BONES;
     flag_map["FAT"] = MF_FAT;
     flag_map["IMMOBILE"] = MF_IMMOBILE;
@@ -284,6 +287,8 @@ void MonsterGenerator::init_flags() {
     flag_map["BILE_BLOOD"] = MF_BILE_BLOOD;
     flag_map["REGEN_MORALE"] = MF_REGENMORALE;
     flag_map["CBM_POWER"] = MF_CBM_POWER;
+    flag_map["CBM_SCI"] = MF_CBM_SCI;
+    flag_map["CBM_OP"] = MF_CBM_OP;
 }
 
 

@@ -15,6 +15,7 @@ public:
     void fungus         (monster *z); // Explodes in spores D:
     void disintegrate   (monster *z); // Falls apart
     void shriek         (monster *z); // Screams loudly
+    void howl           (monster *z); // Wolf's howling
     void rattle         (monster *z); // Rattles like a rattlesnake
     void worm           (monster *z); // Spawns 2 half-worms
     void disappear      (monster *z); // Hallucination disappears

@@ -87,6 +87,18 @@ void mattack::shriek(monster *z)
  g->sound(z->posx(), z->posy(), 50, _("a terrible shriek!"));
 }
 
+void mattack::howl(monster *z)
+{
+ int j;
+ if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 4 ||
+   !g->sees_u(z->posx(), z->posy(), j)) {
+    return; // Out of range
+ }
+    z->moves -= 200;   // It takes a while
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->sound(z->posx(), z->posy(), 35, _("an ear-piercing howl!"));
+}
+
 void mattack::rattle(monster *z)
 {
  int j;
@@ -266,9 +278,11 @@ void mattack::resurrect(monster *z)
   int x = corpses[i].x, y = corpses[i].y;
   for (int n = 0; n < g->m.i_at(x, y).size(); n++) {
    if (g->m.i_at(x, y)[n].type->id == "corpse" && one_in(2)) {
+    if (!g->revive_corpse(x, y, n)) {
+        continue;
+    }
     if (g->u_see(x, y))
      raised++;
-    g->revive_corpse(x, y, n);
     n = g->m.i_at(x, y).size(); // Only one body raised per tile
    }
   }
@@ -1821,4 +1835,55 @@ void mattack::slimespring(monster *z)
             }
         }
     }
+}
+
+void mattack::bio_op_takedown(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        return;
+    }
+    z->sp_timeout = z->type->sp_freq; // Reset timer
+    g->add_msg(_("The %s mechanically grabs at you!"), z->name().c_str());
+    z->moves -= 100;
+
+    if (g->u.uncanny_dodge()) { return; }
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+        g->add_msg(_("You dodge it!"));
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        g->u.ma_ondodge_effects();
+        return;
+    }
+    // Yes, it has CQC training.
+    body_part hit = bp_legs;
+    // Weak kick to start with, knocks you off your footing
+    int dam = rng(3, 9), side = random_side(hit);
+    g->add_msg(_("The zombie kicks your %s for %d damage..."), body_part_name(hit, side).c_str(), dam);
+    g->u.hit(z, hit, side, dam, 0);
+    if ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
+    (g->u.wearing_something_on(bp_feet)) ) {
+        if (one_in(4)) {
+            hit = bp_head;
+            dam = rng(9, 21); // 50% damage buff for the headshot.
+            g->add_msg(_("and slams you, face first, to the ground for %d damage!"), dam);
+            g->u.hit(z, hit, side, dam, 0);
+        }
+        else {
+            hit = bp_torso;
+            dam = rng(6, 18);
+            g->add_msg(_("and slams you to the ground for %d damage!"), dam);
+            g->u.hit(z, hit, side, dam, 0);
+        }
+        g->u.add_effect("downed", 3);
+    }
+    else {
+        // Saved by the tentacle-bracing! :D
+        hit = bp_torso;
+            dam = rng(3, 9);
+            g->add_msg(_("and slams you for %d damage!"), dam);
+            g->u.hit(z, hit, side, dam, 0);
+    }
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }

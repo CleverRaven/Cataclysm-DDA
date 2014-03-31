@@ -6,6 +6,7 @@ public:
     void none               (monster *) {};
     void antqueen           (monster *z);
     void shriek             (monster *z);
+    void howl               (monster *z);
     void rattle             (monster *z);
     void acid               (monster *z);
     void shockstorm         (monster *z);
@@ -52,6 +53,7 @@ public:
     void parrot             (monster *z);
     void darkman            (monster *z);
     void slimespring        (monster *z);
+    void bio_op_takedown    (monster *z);
 };
 
 #endif

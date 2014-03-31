@@ -1820,6 +1820,28 @@
   ]
 },{
         "type" : "recipe",
+  "result": "pipe_double_shotgun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_G","level":1,"amount":1},
+    {"id":"SCREW_G","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "pipe_shotgunsawn",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -10222,7 +10244,7 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "egg_bird", 3 ]
+      [ "egg_bird", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -10283,7 +10305,7 @@
       [ "mutagen", 1 ]
     ],
     [
-      [ "egg_reptile", 3 ]
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "ammonia", 1 ],
@@ -22350,8 +22372,7 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 240000,
-  "reversible": true,
-  "note": "hacking the anvil back down seems unlikely to teach anything useful",
+  "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1}

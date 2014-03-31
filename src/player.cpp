@@ -6402,14 +6402,13 @@ bool player::process_single_active_item(item *it)
         }
         else if (it->type->id == "corpse")
         {
-            if (it->ready_to_revive())
+            if (it->ready_to_revive() && g->revive_corpse(posx, posy, it))
             {
                 //~ %s is corpse name
                 add_memorial_log(pgettext("memorial_male", "Had a %s revive while carrying it."),
                                  pgettext("memorial_female", "Had a %s revive while carrying it."),
                                  it->name.c_str());
                 g->add_msg_if_player(this, _("Oh dear god, a corpse you're carrying has started moving!"));
-                g->revive_corpse(posx, posy, it);
                 return false;
             }
         }
@@ -8845,10 +8844,12 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
 
 void player::remove_gunmod(item *weapon, int id)
 {
+    if (id >= weapon->contents.size()) {
+        return;
+    }
     item *gunmod = &weapon->contents[id];
-    item newgunmod;
     item ammo;
-    if (gunmod != NULL && gunmod->charges > 0) {
+    if (gunmod->charges > 0) {
         if (gunmod->curammo != NULL) {
             ammo = item(gunmod->curammo, g->turn);
         } else {
@@ -8862,9 +8863,13 @@ void player::remove_gunmod(item *weapon, int id)
         } else {
             i_add_or_drop(ammo);
         }
+        gunmod->curammo = NULL;
+        gunmod->charges = 0;
     }
-    newgunmod = item(itypes[gunmod->type->id], g->turn);
-    i_add_or_drop(newgunmod);
+    if (gunmod->mode == "MODE_AUX") {
+        weapon->next_mode();
+    }
+    i_add_or_drop(*gunmod);
     weapon->contents.erase(weapon->contents.begin()+id);
     return;
 }
@@ -9579,12 +9584,6 @@ void player::absorb_hit(body_part bp, int, damage_instance &dam) {
                 worn.erase(worn.begin() + index);
             }
         }
-
-        /* Comment out unused test
-        if (it->type == DT_BASH) { //well, these seem like they aren't needed
-        } else if (it->type == DT_CUT) {
-        }
-        */
     }
 }
 
