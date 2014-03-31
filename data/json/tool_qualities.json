@@ -9,8 +9,8 @@
         "name" : "hammering"
     },{
         "type" : "tool_quality",
-        "id" : "HAMMER_G",
-        "name" : "gunsmithing (hammering)"
+        "id" : "HAMMER_FINE",
+        "name" : "fine hammering"
     },{
         "type" : "tool_quality",
         "id" : "SAW_W",
@@ -21,8 +21,8 @@
         "name" : "metal sawing"
     },{
         "type" : "tool_quality",
-        "id" : "SAW_M_G",
-        "name" : "gunsmithing (metal sawing)"
+        "id" : "SAW_M_FINE",
+        "name" : "fine metal sawing"
     },{
         "type" : "tool_quality",
         "id" : "COOK",
@@ -30,7 +30,7 @@
     },{
         "type" : "tool_quality",
         "id" : "BOIL",
-        "name" : "liquid boiling"
+        "name" : "boiling"
     },{
         "type" : "tool_quality",
         "id" : "CONTAIN",
@@ -54,18 +54,18 @@
     },{
         "type" : "tool_quality",
         "id" : "WRENCH",
-        "name" : "bolt screwing"
+        "name" : "bolt turning"
     },{
         "type" : "tool_quality",
-        "id" : "WRENCH_G",
-        "name" : "gunsmithing (bolt screwing)"
+        "id" : "WRENCH_FINE",
+        "name" : "fine bolt turning"
     },{
         "type" : "tool_quality",
         "id" : "SCREW",
-        "name" : "screw screwing"
+        "name" : "screw driving"
     },{
         "type" : "tool_quality",
-        "id" : "SCREW_G",
-        "name" : "gunsmithing (screw screwing)"
+        "id" : "SCREW_FINE",
+        "name" : "fine screw driving"
     }
 ]

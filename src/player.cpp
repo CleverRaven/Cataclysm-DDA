@@ -38,7 +38,7 @@
 #include <fstream>
 
 static void manage_fire_exposure(player& p, int fireStrength = 1);
-static void handle_cough(player& p, int intensity = 1, int volume = 12);
+static void handle_cough(player& p, int intensity = 1, int volume = 4);
 
 std::map<std::string, trait> traits;
 std::map<std::string, martialart> ma_styles;
@@ -2274,7 +2274,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
  std::sort(traitslist.begin(), traitslist.end(), trait_display_sort);
  for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
-  if (traits[traitslist[i]].points > 0)
+  if (mutation_data[traitslist[i]].threshold == true)
+   status = c_white;
+  else if (traits[traitslist[i]].mixed_effect == true)
+   status = c_pink;
+  else if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
   else if (traits[traitslist[i]].points < 0)
    status = c_ltred;
@@ -2701,6 +2705,10 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
     mvwprintz(w_traits, 1 + i - min, 1, c_ltgray, "                         ");
     if (i > traits.size())
      status = c_ltblue;
+    else if (mutation_data[traitslist[i]].threshold == true)
+     status = c_white;
+    else if (traits[traitslist[i]].mixed_effect == true)
+     status = c_pink;
     else if (traits[traitslist[i]].points > 0)
      status = c_ltgreen;
     else if (traits[traitslist[i]].points < 0)
@@ -2733,7 +2741,11 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
      mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
      for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
       mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
-      if (traits[traitslist[i]].points > 0)
+      if (mutation_data[traitslist[i]].threshold == true)
+       status = c_white;
+      else if (traits[traitslist[i]].mixed_effect == true)
+       status = c_pink;
+      else if (traits[traitslist[i]].points > 0)
        status = c_ltgreen;
       else if (traits[traitslist[i]].points < 0)
        status = c_ltred;

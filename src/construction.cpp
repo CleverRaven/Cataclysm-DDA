@@ -338,6 +338,20 @@ void construction_menu()
                 select = available.size() - 1;
             }
             break;
+        case KEY_NPAGE:
+            update_info = true;
+            select += 15;
+            if ( select > available.size() - 1 ) {
+                select = available.size() - 1;
+            }
+            break;
+        case KEY_PPAGE:
+            update_info = true;
+            select -= 15;
+            if (select < 0) {
+                select = 0;
+            }
+            break;
         case ' ':
         case KEY_ESCAPE:
         case 'q':

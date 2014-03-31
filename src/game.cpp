@@ -199,11 +199,11 @@ void game::load_core_data() {
 
 void game::load_data_from_dir(const std::string &path) {
     #ifdef LUA
-        // Process the lua mod file before the .json files,
-        // so that custom IUSE's will be present when the
-        // item definitions are parsed.
+        // Process a preload file before the .json files,
+        // so that custom IUSE's can be defined before
+        // the items that need them are parsed
 
-        lua_loadmod(lua_state, path, "main.lua");
+        lua_loadmod(lua_state, path, "preload.lua");
     #endif
 
     try {
@@ -211,6 +211,13 @@ void game::load_data_from_dir(const std::string &path) {
     } catch(std::string &err) {
         debugmsg("Error loading data from json: %s", err.c_str());
     }
+
+    #ifdef LUA
+        // main.lua will be executed after JSON, allowing to
+        // work with items defined by mod's JSON
+
+        lua_loadmod(lua_state, path, "main.lua");
+    #endif
 }
 
 game::~game()

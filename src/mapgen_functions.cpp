@@ -3989,7 +3989,8 @@ void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_spawns("GROUP_ZOMBIE", 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
 }
 
-void mapgen_basement_game(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+void mapgen_basement_game(map *m, oter_id /*terrain_type*/, mapgendata dat,
+                          int /*turn*/, float density)
 {
 
         dat.fill_groundcover();

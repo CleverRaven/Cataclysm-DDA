@@ -426,8 +426,7 @@ public:
  /** Returns the player's total stab damage roll */
  int roll_stab_damage(bool crit);
  /** Returns the number of moves unsticking a weapon will penalize for */
- int roll_stuck_penalty(bool stabbing);
-
+ int roll_stuck_penalty(bool stabbing, ma_technique &tec);
  std::vector<matec_id> get_all_techniques();
 
  /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
@@ -435,7 +434,6 @@ public:
  /** Returns a random valid technique */
  matec_id pick_technique(Creature &t,
                              bool crit, bool dodge_counter, bool block_counter);
- /** Performs entered technique's effects */
  void perform_technique(ma_technique technique, Creature &t, int &bash_dam, int &cut_dam, int &stab_dam, int& move_cost);
  /** Performs special attacks and their effects (poisonous, stinger, etc.) */
  void perform_special_attacks(Creature &t);
@@ -443,8 +441,7 @@ public:
  /** Returns a vector of valid mutation attacks */
  std::vector<special_attack> mutation_attacks(Creature &t);
  /** Handles combat effects, returns a string of any valid combat effect messages */
- std::string melee_special_effects(Creature &t, damage_instance& d);
-
+ std::string melee_special_effects(Creature &t, damage_instance& d, ma_technique &tec);
  /** Returns Creature::get_dodge_base modified by the player's skill level */
  int get_dodge_base();   // Returns the players's dodge, modded by clothing etc
  /** Returns Creature::get_dodge() modified by any player effects */
@@ -889,6 +886,11 @@ protected:
     void setID (int i);
 
 private:
+     /** Check if an area-of-effect technique has valid targets */
+    bool valid_aoe_technique( Creature &t, ma_technique &technique );
+    bool valid_aoe_technique( Creature &t, ma_technique &technique,
+                              std::vector<int> &mon_targets, std::vector<int> &npc_targets );
+
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
 

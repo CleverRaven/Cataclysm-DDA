@@ -153,6 +153,10 @@ static SDL_Joystick *joystick; // Only one joystick for now.
 
 static bool fontblending = false;
 
+// Cache of bitmap fonts family.
+// Used only while fontlist.txt is created.
+static std::set<std::string> *bitmap_fonts;
+
 #ifdef SDLTILES
 //***********************************
 //Tile-version specific functions   *
@@ -870,11 +874,13 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 0 == strcmp( ent->d_name, ".." ) ) {
                 continue;
             }
-            #if (defined _WIN32 || defined WINDOWS)
-                std::string f = path + "\\" + ent->d_name;
-            #else
-                std::string f = path + "/" + ent->d_name;
-            #endif
+            char path_last = *path.rbegin();
+            std::string f;
+            if (is_filesep(path_last)) {
+                f = path + ent->d_name;
+            } else {
+                f = path + FILE_SEP + ent->d_name;
+            }
 
             struct stat stat_buffer;
             if( stat( f.c_str(), &stat_buffer ) == -1 ) {
@@ -915,6 +921,23 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 if (style != NULL && !isbitmap && strcasecmp(style, "Regular") != 0) {
                     fout << " " << style;
                 }
+                if (isbitmap) {
+                    std::set<std::string>::iterator it;
+                    it = bitmap_fonts->find(std::string(fami));
+                    if (it == bitmap_fonts->end()) {
+                        // First appearance of this font family
+                        bitmap_fonts->insert(fami);
+                    } else { // Font in set. Add filename to family string
+                        size_t start = f.find_last_of("/\\");
+                        size_t end = f.find_last_of(".");
+                        if (start != std::string::npos && end != std::string::npos) {
+                            fout << " [" << f.substr(start + 1, end - start - 1) + "]";
+                        } else {
+                            DebugLog() << "sdltiles.cpp::font_folder_list():" <<
+                            "Skipping wrong font file: \"" << f.c_str() << "\"\n";
+                        }
+                    }
+                }
                 fout << std::endl;
 
                 // Add filename and font index
@@ -937,6 +960,7 @@ static void font_folder_list(std::ofstream& fout, std::string path)
 static void save_font_list()
 {
     std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
+    bitmap_fonts = new std::set<std::string>;
 
     font_folder_list(fout, FILENAMES["fontdir"]);
 
@@ -966,8 +990,10 @@ static void save_font_list()
 #endif
     //TODO: other systems
 
-    fout << "end of list" << std::endl;
+    bitmap_fonts->clear();
+    delete bitmap_fonts;
 
+    fout << "end of list" << std::endl;
 }
 
 static std::string find_system_font(std::string name, int& faceIndex)

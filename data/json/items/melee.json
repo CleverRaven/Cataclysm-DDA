@@ -174,7 +174,7 @@
     "color": "light_gray",
     "name": "grappling hook",
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord. Useful for keeping yourself safe from falls.",
-    "techniques" : ["RAPID", "WIDE"],
+    "techniques" : ["RAPID", "SPIN"],
     "flags" : ["WRAP", "DURABLE_MELEE"],
     "price": 25000,
     "material": ["cotton", "steel"],
@@ -652,7 +652,7 @@
      "description": "An exotic weapon comprised of a long pole of wood with curved blades on each end. It can be deadly in skilled hands.",
      "price": 6000,
      "material": ["wood", "iron"],
-     "techniques" : ["WBLOCK_1", "WIDE"],
+     "techniques" : ["WBLOCK_1", "SPIN"],
      "flags" : ["DURABLE_MELEE"],
      "weight": 2500,
      "volume": 26,
@@ -678,7 +678,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "category" : "weapons",
-    "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_G", 1]]
+    "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1]]
   },
 
   {
@@ -2173,7 +2173,7 @@
         "color" : "light_gray",
         "symbol" : "/",
         "material" : ["steel", "null"],
-        "techniques" : ["WBLOCK_1", "RAPID"],
+        "techniques" : ["WBLOCK_1", "RAPID", "IMPALE"],
         "volume" : 5,
         "bashing" : 6,
         "cutting" : 18,

@@ -42,12 +42,18 @@ enum oter_dir {
     oter_dir_north, oter_dir_east, oter_dir_west, oter_dir_south
 };
 
+// Here are the global controls for map-extra spawning.
+// The %%% line is chance that a given map square will have an extra
+// (higher = less likely) and the individual numbers are the
+// relative frequencies of each (higher = more likely).
+// Adding or deleting map_extras will affect the amount
+// of others, so be careful.
 map_extras no_extras(0);
 map_extras road_extras(
 // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
-    50, 40, 25,60,200, 30, 10,  5, 80, 10,  8,  2,  3);
+    75, 40, 25,60,200, 30, 10,  5, 80, 10,  8,  2,  3);
 map_extras field_extras(
-    60, 40, 8, 20, 80, 10, 10,  3, 50, 10,  8,  1,  3);
+    90, 40, 8, 20, 80, 10, 10,  3, 50, 10,  8,  1,  3);
 map_extras subway_extras(
 // %%% HEL MIL SCI STA DRG SUP PRT MIN CRT FUM 1WY ART
     75,  0,  5, 12,  5,  5,  0,  7,  0,  0, 20,  1,  3);

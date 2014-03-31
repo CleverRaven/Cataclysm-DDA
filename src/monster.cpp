@@ -178,7 +178,7 @@ std::string monster::name_with_armor()
  else {
      if (type->mat == "veggy") {
          ret = string_format(_("%s's thick bark"), type->name.c_str());
-     } else if (type->mat == "flesh" || type->mat == "hflesh") {
+     } else if (type->mat == "flesh" || type->mat == "hflesh" || type->mat == "iflesh") {
          ret = string_format(_("%s's thick hide"), type->name.c_str());
      } else if (type->mat == "iron" || type->mat == "steel") {
          ret = string_format(_("%s's armor plating"), type->name.c_str());
