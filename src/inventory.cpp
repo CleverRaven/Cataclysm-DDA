@@ -1239,6 +1239,31 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
     }
 }
 
+bool inventory::has_items_with_quality_and_charges(std::string id, int level, int amount, int charges, int chargemod) const
+{
+    int found = 0;
+
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
+        for(std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end();
+            ++stack_iter) {
+            std::map<std::string, int> qualities = stack_iter->type->qualities;
+            std::map<std::string, int>::const_iterator quality_iter = qualities.find(id);
+            if(quality_iter != qualities.end() && level <= quality_iter->second) {
+                int charge_req = charges;
+                if(chargemod > 0){ charge_req = (int)(stack_iter->type->charges_to_use() * 100 / chargemod) }
+
+                if(has_charges(stack_iter->typeId(), charge_req)){ found++; }
+            }
+        }
+    }
+
+    if(found >= amount) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 bool inventory::has_gun_for_ammo(ammotype type) const
 {
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {

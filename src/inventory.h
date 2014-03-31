@@ -116,6 +116,7 @@ class inventory
   bool has_flag(std::string flag) const; //Inventory item has flag
   bool has_item(item *it) const; // Looks for a specific item
   bool has_items_with_quality(std::string id, int level, int amount) const;
+  bool has_items_with_quality_and_charges(std::string id, int level, int amount, int charges, int chargemod) const;
   bool has_gun_for_ammo(ammotype type) const;
   bool has_active_item(itype_id) const;
 

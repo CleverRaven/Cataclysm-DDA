@@ -127,24 +127,50 @@ void load_recipe(JsonObject &jsobj)
         rec->components.push_back(component_choices);
     }
 
-    jsarr = jsobj.get_array("qualities");
-    while(jsarr.has_more()) {
-        JsonObject quality_data = jsarr.next_object();
-        std::string ident = quality_data.get_string("id");
-        int level = quality_data.get_int("level", 1);
-        int amount = quality_data.get_int("amount", 1);
-        rec->qualities.push_back(quality_requirement(ident, amount, level));
-    }
+//    jsarr = jsobj.get_array("qualities");
+//    while(jsarr.has_more()) {
+//        JsonObject quality_data = jsarr.next_object();
+//        std::string ident = quality_data.get_string("id");
+//        int level = quality_data.get_int("level", 1);
+//        int amount = quality_data.get_int("amount", 1);
+//        rec->qualities.push_back(quality_requirement(ident, amount, level));
+//    }
+
+//    jsarr = jsobj.get_array("tools");
+//    while (jsarr.has_more()) {
+//        std::vector<component> tool_choices;
+//        JsonArray ja = jsarr.next_array();
+//        while (ja.has_more()) {
+//            JsonArray comp = ja.next_array();
+//            std::string name = comp.get_string(0);
+//            int quant = comp.get_int(1);
+//            tool_choices.push_back(component(name, quant));
+//        }
+//        rec->tools.push_back(tool_choices);
+//    }
 
     jsarr = jsobj.get_array("tools");
     while (jsarr.has_more()) {
         std::vector<component> tool_choices;
         JsonArray ja = jsarr.next_array();
         while (ja.has_more()) {
-            JsonArray comp = ja.next_array();
-            std::string name = comp.get_string(0);
-            int quant = comp.get_int(1);
-            tool_choices.push_back(component(name, quant));
+            JsonObject jdata = jsarr.next_object();
+            //if the object has a "tool" field, it's a tool
+            //otherwise it's a quality/tooltype
+            if(jdata.has_string("tool")){ //tools define ID, count, and charges/chargemod
+                std::string ident = jdata.get_string("tool");
+                int amount = jdata.get_int("amount", 1);
+                int chargecount = jdata.get_int("charges", 0);
+                float chargemod = jdata.get_float("chargemod", 0.0);
+                tool_choices.push_back(component(ident, amount, chargemod, chargecount));
+            }else if(jdata.has_string("tooltype")){//tooltypes define ID, count, level, and charges/chargemod
+                std::string ident = jdata.get_string("tool");
+                int amount = jdata.get_int("amount", 1);
+                int level = jdata.get_int("level", 1);
+                int chargecount = jdata.get_int("charges", 0);
+                float chargemod = jdata.get_float("chargemod", 0.0);
+                tool_choices.push_back(component(ident, amount, level, chargemod, chargecount));
+            }
         }
         rec->tools.push_back(tool_choices);
     }
@@ -256,7 +282,19 @@ std::string print_missing_objs(const std::vector< std::vector <component> > &obj
                 buffer << string_format(_("%d x %s"), abs(comp.count), itt->name.c_str());
             } else if (comp.count > 0) {
                 //~ <tool-name> (<numer-of-charges> charges)
-                buffer << string_format(_("%s (%d charges)"), itt->name.c_str(), comp.count);
+                if(comp.level > 0){
+                buffer << string_format(_("%d %s (%s of %d or more)"),
+                    comp.count,
+                    (comp.count ==1) ? qualities[comp.type].name.c_str() : qualities[comp.type].plural.c_str(),
+                    qualities[comp.type].quality.c_str(),comp.level);
+                }else{
+                    buffer << string_format(_("%dx %s"), comp.count, itt->name.c_str());
+                    if(comp.chargeperc > 0){
+                        buffer << "(charged)";
+                    }else if(comp.charges>0){
+                        buffer << string_format(_("(%d charges)"), comp.charges);
+                    }
+                }
             } else {
                 buffer << itt->name;
             }
@@ -265,18 +303,16 @@ std::string print_missing_objs(const std::vector< std::vector <component> > &obj
     return buffer.str();
 }
 
-std::string print_missing_objs(const std::vector< quality_requirement > &objs) {
-    std::ostringstream buffer;
-    for(size_t i = 0; i < objs.size(); i++) {
-        const quality_requirement &req = objs[i];
-        if (i > 0) {
-            buffer << _("\nand ");
-        }
-        buffer << string_format(_("%d %s with %s of %d or more"),
-                req.count, (req.count ==1) ? qualities[req.id].name.c_str() : qualities[req.id].plural.c_str(), qualities[req.id].quality.c_str(),req.level);
-    }
-    return buffer.str();
-}
+//std::string print_missing_objs(const std::vector< component > &objs) {
+//    std::ostringstream buffer;
+//    for(size_t i = 0; i < objs.size(); i++) {
+//        const component &req = objs[i];
+//        if (i > 0) {
+//            buffer << _("\nand ");
+//        }
+//    }
+//    return buffer.str();
+//}
 
 bool game::making_would_work(recipe *making)
 {
@@ -295,16 +331,9 @@ bool game::making_would_work(recipe *making)
         if (!missing_tools.empty()) {
             buffer << _("\nThese tools are missing:\n") << missing_tools;
         }
-        const std::string missing_quali = print_missing_objs(making->qualities);
-        if (!missing_quali.empty()) {
-            if (missing_tools.empty()) {
-                buffer << _("\nThese tools are missing:");
-            }
-            buffer << "\n" << missing_quali;
-        }
         const std::string missing_comps = print_missing_objs(making->components, false);
         if (!missing_comps.empty()) {
-            buffer << _("\nThose components are missing:\n") << missing_comps;
+            buffer << _("\nThese components are missing:\n") << missing_comps;
         }
         popup(buffer.str(), PF_NONE);
         return false;
@@ -336,20 +365,20 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
     // check all tool_quality requirements
     // this is an alternate method of checking for tools by using the tools qualities instead of the specific tool
     // You can specify the amount of tools with this quality required, but it does not work for consumed charges.
-    std::vector<quality_requirement> &qualities = r->qualities;
-    std::vector<quality_requirement>::iterator quality_iter = qualities.begin();
-    while (quality_iter != qualities.end()) {
-        std::string id = quality_iter->id;
-        int amount = quality_iter->count;
-        int level = quality_iter->level;
-        if(crafting_inv.has_items_with_quality(id, level, amount)) {
-            quality_iter->available = true;
-        } else {
-            quality_iter->available = false;
-            retval = false;
-        }
-        ++quality_iter;
-    }
+//    std::vector<component> &qualities = r->qualities;
+//    std::vector<component>::iterator quality_iter = qualities.begin();
+//    while (quality_iter != qualities.end()) {
+//        std::string id = quality_iter->type;
+//        int amount = quality_iter->count;
+//        int level = quality_iter->level;
+//        if(crafting_inv.has_items_with_quality(id, level, amount)) {
+//            quality_iter->available = 1;
+//        } else {
+//            quality_iter->available = -1;
+//            retval = false;
+//        }
+//        ++quality_iter;
+//    }
 
     // check all tools
     std::vector<std::vector<component> > &tools = r->tools;
@@ -364,15 +393,43 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
         std::vector<component>::iterator tool_it = set_of_tools.begin();
         while (tool_it != set_of_tools.end()) {
             component &tool = *tool_it;
-            itype_id type = tool.type;
-            int req = tool.count;
-            if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
-                 (req <= 0 && ((type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
-                 (req > 0 && crafting_inv.has_charges(type, req))) {
-                has_tool_in_set = true;
-                tool.available = 1;
-            } else {
-                tool.available = -1;
+            //check to see if the component is a quality
+            if(tool.level > 0)
+            { //it's a quality
+                std::string id = tool.type;
+                int amount = tool.count;
+                int level = tool.level;
+                int charges = tool.charges;
+                int chargemod = tool.chargeperc;
+                if(charges > 0 || chargemod > 0)//check if we're looking for charged tools
+                {
+                    if(crafting_inv.has_items_with_quality_and_charges(id, level, amount, charges, chargemod)) {
+                        tool.available = 1;
+                        has_tool_in_set = true;
+                    } else {
+                        tool.available = -1;
+                        retval = false;
+                    }
+                }else{
+                    if(crafting_inv.has_items_with_quality(id, level, amount)) {
+                        tool.available = 1;
+                        has_tool_in_set = true;
+                    } else {
+                        tool.available = -1;
+                        retval = false;
+                    }
+                }
+            }else{
+                itype_id type = tool.type;
+                int req = tool.count;
+                if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
+                     (req <= 0 && ((type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
+                     (req > 0 && crafting_inv.has_charges(type, req))) {
+                    has_tool_in_set = true;
+                    tool.available = 1;
+                } else {
+                    tool.available = -1;
+                }
             }
             ++tool_it;
         }
@@ -433,6 +490,8 @@ bool game::check_enough_materials(recipe *r, const inventory &crafting_inv)
                 bool have_enough_in_set = true;
                 std::vector<std::vector<component> > &tools = r->tools;
                 std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
+                //CURRENT:: figure out what to do with quality requirements
+                //say, a recipe takes a rock tool and a rock component, but all you have is one rock
                 while (tool_set_it != tools.end()) {
                     bool have_enough = false;
                     bool found_same_type = false;
@@ -441,13 +500,25 @@ bool game::check_enough_materials(recipe *r, const inventory &crafting_inv)
                     while(tool_it != set_of_tools.end()) {
                         component &tool = *tool_it;
                         if (tool.available == 1) {
-                            if (comp.type == tool.type) {
+                                //probably need to amend it here
+                                //a rock is a component, but it'll be checked against its tooltype, "HAMMER"
+                                //don't forget that tools can be multiple now as well
+                                //if it takes two HAMMERs and a rock, two rocks must not suffice
+                            std::map <std::string,int> comp_qual = item_controller->find_template(comp.type)->qualities;
+                            if (comp.type == tool.type){
                                 found_same_type = true;
                                 bool count_by_charges = item_controller->find_template(comp.type)->count_by_charges();
                                 if (count_by_charges) {
                                     int req = comp.count;
                                     if (tool.count > 0) {
-                                        req += tool.count;
+                                        //remember that we've got that chargemod thing
+                                        if(tool.charges>0){
+                                            req += tool.charges * tool.count;
+                                        }else if(tool.chargemod>0){
+                                            req += (int)(item_controller->find_template(tool.type)->charges_to_use() * 100 / tool.chargemod)*tool.count;
+                                        } else {
+                                            req += tool.count;
+                                        }
                                     } else  {
                                         ++req;
                                     }
@@ -455,7 +526,23 @@ bool game::check_enough_materials(recipe *r, const inventory &crafting_inv)
                                         have_enough = true;
                                     }
                                 } else {
-                                    int req = comp.count + 1;
+                                    int req = comp.count + tool.count;
+                                    if (crafting_inv.has_components(comp.type, req)) {
+                                        have_enough = true;
+                                    }
+                                }
+                            }else if(comp_qual.find(tool.type) != comp_qual.end()){
+                                //looking for qualities now
+                                //make sure we're looking for at least same level
+                                //if we're looking at a rock and the quality is HAMMER 2, we have enough rocks
+                                //and it's not really the same type
+                                if(comp_qual.find(tool.type)->second)
+                                found_same_type = true;
+                                bool count_by_charges = item_controller->find_template(comp.type)->count_by_charges();
+                                if (count_by_charges) {
+
+                                } else {
+                                    int req = comp.count + tool.count;
                                     if (crafting_inv.has_components(comp.type, req)) {
                                         have_enough = true;
                                     }
@@ -841,7 +928,7 @@ recipe *game::select_crafting_recipe()
                     mvwprintz(w_data, ypos, 32, c_green, _("NONE"));
                 } else {
                     // Loop to print the required tool qualities
-                    for(std::vector<quality_requirement>::const_iterator iter = current[line]->qualities.begin();
+                    for(std::vector<component>::const_iterator iter = current[line]->qualities.begin();
                         iter != current[line]->qualities.end(); ++iter) {
                         xpos = 32;
                         mvwputch(w_data, ypos, 30, col, '>');
@@ -851,9 +938,9 @@ recipe *game::select_crafting_recipe()
                         }
 
                         std::stringstream qualinfo;
-                        qualinfo << string_format(_("Requires %d %s with %s of %d or more."),
-                                                  iter->count, (iter->count == 1) ? qualities[iter->id].name.c_str() : qualities[iter->id].plural.c_str(),
-                                                  qualities[iter->id].quality.c_str(), iter->level);
+                        qualinfo << string_format(_("%dx %s (%s of %d or more)"),
+                                                  iter->count, (iter->count == 1) ? qualities[iter->type].name.c_str() : qualities[iter->type].plural.c_str(),
+                                                  qualities[iter->type].quality.c_str(), iter->level);
                         ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
                                                toolcol, qualinfo.str());
                     }

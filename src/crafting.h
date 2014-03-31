@@ -19,27 +19,45 @@ struct component
 {
  itype_id type;
  int count;
+ int level;
+ int charges;
+ int chargeperc;
  int available; // -1 means the player doesn't have the item, 1 means they do,
             // 0 means they have item but not enough for both tool and component
- component() { type = "null"; count = 0; available = -1;}
- component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {}
+ component() { type = "null"; count = 0; available = -1; level = 0; charges = 0; chargeperc = 0;}
+ component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), level (0) , charges (0) , chargeperc (0) , available(-1) {}
+ component(itype_id TYPE, int COUNT, int CHARGES, int CHARGEMOD) : type (TYPE), count (COUNT), level (0), charges (CHARGES) , chargeperc (CHARGEMOD) , available(-1) {}
+ component(std::string id, int amount, int q_level, int charges_need, int charge_percentage)
+ {
+     type = id;
+     count = amount;
+     available = -1;
+     level = q_level;
+     charges = charges_need;
+     chargeperc = charge_percentage;
+ }
+
+ float get_chargemod()
+ {
+     return 100 / chargeperc;
+ }
 };
 
-struct quality_requirement
-{
-  std::string id;
-  int count;
-  bool available;
-  int level;
-
-  quality_requirement() { id = "UNKNOWN"; count = 0; available = false; level = 0;}
-  quality_requirement(std::string new_id, int new_count, int new_level){
-    id = new_id;
-    count = new_count;
-    level = new_level;
-    available = false;
-  }
-};
+//struct quality_requirement
+//{
+//  std::string id;
+//  int count;
+//  bool available;
+//  int level;
+//
+//  quality_requirement() { id = "UNKNOWN"; count = 0; available = false; level = 0;}
+//  quality_requirement(std::string new_id, int new_count, int new_level){
+//    id = new_id;
+//    count = new_count;
+//    level = new_level;
+//    available = false;
+//  }
+//};
 
 struct quality
 {
@@ -65,7 +83,7 @@ struct recipe {
   int result_mult; // used by certain batch recipes that create more than one stack of the result
 
   std::vector<std::vector<component> > tools;
-  std::vector<quality_requirement> qualities;
+  std::vector<component> qualities;
   std::vector<std::vector<component> > components;
   // only used during loading json data: books and the skill needed
   // to learn this recipe from.
