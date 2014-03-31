@@ -6004,7 +6004,7 @@
   ]
 },{
         "type" : "recipe",
-  "result": "cooked_tv_dinner",
+  "result": "cooked_dinner",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
