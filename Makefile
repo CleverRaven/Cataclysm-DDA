@@ -78,6 +78,8 @@ BUILD_DIR = $(CURDIR)
 SRC_DIR = src
 LUA_DIR = lua
 LUASRC_DIR = src/lua
+# if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
+LUA_BINARY = lua
 LOCALIZE = 1
 
 
@@ -318,13 +320,15 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
 
-.PHONY: version
+.PHONY: version json-verify
 version:
 	@( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee $(SRC_DIR)/version.h ; fi \
          )
+json-verify:
+	$(LUA_BINARY) lua/json_verifier.lua
 
 $(ODIR):
 	mkdir -p $(ODIR)
@@ -344,7 +348,7 @@ $(ODIR)/SDLMain.o: $(SRC_DIR)/SDLMain.m
 version.cpp: version
 
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
-	cd $(LUASRC_DIR) && lua generate_bindings.lua
+	cd $(LUASRC_DIR) && $(LUA_BINARY) generate_bindings.lua
 
 $(SRC_DIR)/catalua.cpp: $(LUA_DEPENDENCIES)
 
