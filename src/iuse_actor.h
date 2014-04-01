@@ -2,12 +2,24 @@
 
 #include "iuse.h"
 
+/**
+ * Transform an item into a specific type.
+ * Optionally activate it.
+ * Optionally split it in container and content (like opening a jar).
+ */
 class iuse_transform : public iuse_actor {
 protected:
     /** Message to the player, %s is replaced with the item name */
     std::string msg_transform;
+    /** Id of the resulting item. */
     std::string target_id;
+    /** Id of the container (or empty if no container is needed).
+     * If not empty, the item is transformed to the container, and a
+     * new item (with type @ref target_id) is placed inside.
+     * In that case the new item will have the current turn as birthday.
+     */
     std::string container_id;
+    /** Set the active property of the resulting item to this. */
     bool active;
 public:
     iuse_transform(
@@ -25,23 +37,5 @@ public:
     }
     virtual ~iuse_transform() { }
     virtual long use(player*, item*, bool) const;
-    virtual iuse_actor *clone() const {
-        return new iuse_transform(msg_transform, target_id, container_id, active);
-    }
+    virtual iuse_actor *clone() const;
 };
-
-long iuse_transform::use(player* p, item* it, bool /*t*/) const {
-    g->add_msg_if_player(p, msg_transform.c_str(), it->tname().c_str());
-    if (container_id.empty()) {
-        // No container, assume simple type transformation like foo_off -> foo_on
-        it->make(itypes[target_id]);
-        it->active = active;
-    } else {
-        // Transform into something in a container, assume the content is
-        // "created" right now and give the content the current time as birthday
-        it->make(itypes[container_id]);
-        it->contents.push_back(item(itypes[target_id], g->turn));
-        it->contents.back().active = active;
-    }
-    return 0;
-}
