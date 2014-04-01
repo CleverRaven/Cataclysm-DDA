@@ -379,7 +379,16 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
-    "use_action": "GASOLINE_LANTERN_OFF"
+    "use_action": {
+        "type": "transform",
+        "target": "gasoline_lantern_on",
+        "active": true,
+        "msg": "You turn the lamp on.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "need_charges": 1,
+        "need_charges_msg": "The lamp is empty."
+    }
   },
 
   {
@@ -426,7 +435,16 @@
     "turns_per_charge": 0,
     "ammo": "lamp_oil",
     "revert_to": "null",
-    "use_action": "OIL_LAMP_OFF"
+    "use_action": {
+        "type": "transform",
+        "target": "oil_lamp_on",
+        "active": true,
+        "msg": "You turn the lamp on.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "need_charges": 1,
+        "need_charges_msg": "The lamp is empty."
+    }
   },
 
   {

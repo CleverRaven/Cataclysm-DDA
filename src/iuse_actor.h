@@ -6,6 +6,11 @@
  * Transform an item into a specific type.
  * Optionally activate it.
  * Optionally split it in container and content (like opening a jar).
+ *
+ * It optionally checks for
+ * 1. original item has a minimal amount of charges.
+ * 2. player has a minimal amount of "fire" charges and consumes them,
+ * 3. if fire is used, checks that the player is not underwater.
  */
 class iuse_transform : public iuse_actor {
 public:
@@ -21,10 +26,19 @@ public:
     std::string container_id;
     /** Set the active property of the resulting item to this. */
     bool active;
+    /** Need this many fire charges. Values <= 0 don't need fire.
+     * The player must not be underwater if fire is used! */
+    long need_fire;
+    std::string need_fire_msg;
+    /** Need this many charges before processing the action. Values <= 0 are ignored. */
+    long need_charges;
+    std::string need_charges_msg;
 
     iuse_transform()
     : iuse_actor()
     , active(false)
+    , need_fire(0)
+    , need_charges(0)
     {
     }
     virtual ~iuse_transform();

@@ -1140,6 +1140,10 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("msg", actor->msg_transform);
         obj.read("container", actor->container_id);
         obj.read("active", actor->active);
+        obj.read("need_fire", actor->need_fire);
+        obj.read("need_fire_msg", actor->need_fire_msg);
+        obj.read("need_charges", actor->need_charges);
+        obj.read("need_charges_msg", actor->need_charges_msg);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else {
