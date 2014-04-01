@@ -221,11 +221,8 @@ void Item_factory::init(){
     iuse_function_list["SCISSORS"] = &iuse::scissors;
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
-    iuse_function_list["LIGHT_OFF"] = &iuse::light_off;
     iuse_function_list["LIGHT_ON"] = &iuse::light_on;
-    iuse_function_list["GASOLINE_LANTERN_OFF"] = &iuse::gasoline_lantern_off;
     iuse_function_list["GASOLINE_LANTERN_ON"] = &iuse::gasoline_lantern_on;
-    iuse_function_list["OIL_LAMP_OFF"] = &iuse::oil_lamp_off;
     iuse_function_list["OIL_LAMP_ON"] = &iuse::oil_lamp_on;
     iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
     iuse_function_list["LIGHTSTRIP_ACTIVE"] = &iuse::lightstrip_active;
@@ -378,7 +375,6 @@ void Item_factory::init(){
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
     iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
-    iuse_function_list["TOOLARMOR_OFF"]  = &iuse::toolarmor_off;
     iuse_function_list["TOOLARMOR_ON"]  = &iuse::toolarmor_on;
     iuse_function_list["RM13ARMOR_OFF"]  = &iuse::rm13armor_off;
     iuse_function_list["RM13ARMOR_ON"]  = &iuse::rm13armor_on;

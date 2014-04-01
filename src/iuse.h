@@ -76,11 +76,8 @@ public:
     int scissors            (player *, item *, bool);
     int extinguisher        (player *, item *, bool);
     int hammer              (player *, item *, bool);
-    int light_off           (player *, item *, bool);
     int light_on            (player *, item *, bool);
-    int gasoline_lantern_off(player *, item *, bool);
     int gasoline_lantern_on (player *, item *, bool);
-    int oil_lamp_off        (player *, item *, bool);
     int oil_lamp_on         (player *, item *, bool);
     int lightstrip          (player *, item *, bool);
     int lightstrip_active   (player *, item *, bool);
@@ -234,7 +231,6 @@ public:
     int fishing_rod_basic   (player *, item *, bool);
     int gun_repair          (player *, item *, bool);
     int misc_repair         (player *, item *, bool);
-    int toolarmor_off       (player *, item *, bool);
     int toolarmor_on        (player *, item *, bool);
     int rm13armor_off       (player *, item *, bool);
     int rm13armor_on        (player *, item *, bool);

@@ -2578,31 +2578,6 @@ int iuse::hammer(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::gasoline_lantern_off(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (it->charges == 0)
-    {
-        g->add_msg_if_player(p,_("The lantern is empty."));
-        return 0;
-    }
-    else if(!p->use_charges_if_avail("fire", 1))
-    {
-        g->add_msg_if_player(p,_("You need a lighter!"));
-        return 0;
-    }
-    else
-    {
-        g->add_msg_if_player(p,_("You turn the lantern on."));
-        it->make(itypes["gasoline_lantern_on"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
 int iuse::gasoline_lantern_on(player *p, item *it, bool t)
 {
     if (p->is_underwater()) {
@@ -2622,31 +2597,6 @@ int iuse::gasoline_lantern_on(player *p, item *it, bool t)
         it->active = false;
     }
     return it->type->charges_to_use();
-}
-
-int iuse::oil_lamp_off(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (it->charges == 0)
-    {
-        g->add_msg_if_player(p,_("The lamp is empty."));
-        return 0;
-    }
-    else if(!p->use_charges_if_avail("fire", 1))
-    {
-        g->add_msg_if_player(p,_("You need a lighter!"));
-        return 0;
-    }
-    else
-    {
-        g->add_msg_if_player(p,_("You turn the lamp on."));
-        it->make(itypes["oil_lamp_on"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
 }
 
 int iuse::oil_lamp_on(player *p, item *it, bool t)
@@ -2670,24 +2620,6 @@ int iuse::oil_lamp_on(player *p, item *it, bool t)
     return it->type->charges_to_use();
 }
 
-int iuse::light_off(player *p, item *it, bool)
-{
-    if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
-        return 0;
-    } else {
-        std::string oname = it->type->id + "_on";
-        if (!item_controller->has_template(oname)) {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
-        g->add_msg_if_player(p,_("You turn the %s on."), it->tname().c_str());
-        it->make(item_controller->find_template(oname));
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
 int iuse::light_on(player *p, item *it, bool t)
 {
     if (t) { // Normal use
@@ -2709,24 +2641,6 @@ int iuse::light_on(player *p, item *it, bool t)
         it->active = false;
     }
     return it->type->charges_to_use();
-}
-
-int iuse::toolarmor_off(player *p, item *it, bool)
-{
-    if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
-        return 0;
-    } else {
-        std::string oname = it->type->id + "_on";
-        if (!item_controller->has_template(oname)) {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
-        g->add_msg_if_player(p,_("You activate your %s."), it->tname().c_str());
-        it->make(item_controller->find_template(oname));
-        it->active = true;
-        return it->type->charges_to_use();
-    }
 }
 
 int iuse::toolarmor_on(player *p, item *it, bool t)
