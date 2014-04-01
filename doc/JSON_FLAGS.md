@@ -658,6 +658,10 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
+- ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
+- ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
+- ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 
 ## Guns
 

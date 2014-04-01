@@ -726,9 +726,13 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    wprintz(w_target, c_red, _("Select a vehicle"));
  } else {
    if (relevent == &u.weapon && relevent->is_gun()) {
-     wprintz(w_target, c_red, _("Firing %s (%d)"), // - %s (%d)",
-            u.weapon.tname().c_str(),// u.weapon.curammo->name.c_str(),
-            u.weapon.charges);
+     if(relevent->has_flag("RELOAD_AND_SHOOT")) {
+        wprintz(w_target, c_red, _("Shooting %s from %s"), u.weapon.curammo->name.c_str(), u.weapon.tname().c_str());
+     } else {
+         wprintz(w_target, c_red, _("Firing %s (%d)"), // - %s (%d)",
+                u.weapon.tname().c_str(),// u.weapon.curammo->name.c_str(),
+                u.weapon.charges);
+     }
    } else {
      wprintz(w_target, c_red, _("Throwing %s"), relevent->tname().c_str());
    }

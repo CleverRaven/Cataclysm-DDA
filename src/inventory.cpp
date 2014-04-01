@@ -196,6 +196,11 @@ inventory inventory::operator+ (const item &rhs)
             }
         }
         break;
+    case IC_GUN:
+        if(it.is_gun()) {
+            return true;
+        }
+        break;
     }
     return false;
 }
