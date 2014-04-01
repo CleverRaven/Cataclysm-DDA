@@ -6365,8 +6365,6 @@ bool player::process_single_active_item(item *it)
             it->item_counter--;
             if(it->item_counter == 0)
             {
-                it->item_counter = 0;
-
                 // wet towel becomes a regular towel
                 if(it->type->id == "towel_wet")
                     it->make(itypes["towel"]);
@@ -6374,6 +6372,25 @@ bool player::process_single_active_item(item *it)
                 it->item_tags.erase("WET");
                 it->item_tags.insert("ABSORBENT");
                 it->active = false;
+            }
+        }
+        else if( it->has_flag("LITCIG") )
+        {
+            it->item_counter--;
+            if(it->item_counter % 2 == 0) { // only puff every other turn
+                g->add_msg_if_player(this, _("You take a puff of your %s."), it->name.c_str());
+                this->add_disease("cig", 10);
+                g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_cigsmoke, 2);
+            }
+            if(it->item_counter == 0) {
+                g->add_msg_if_player(this, _("You finish your %s."), it->name.c_str());
+                if(it->type->id == "cig_lit") {
+                    it->make(itypes["cig_butt"]);
+                } else { // cigar
+                    it->make(itypes["cigar_butt"]);
+                }
+                it->active = false;
+                it->item_tags.erase("LITCIG");
             }
         }
         else if (it->is_tool())

@@ -996,19 +996,21 @@ nc_color item::color(player *u) const
 {
     nc_color ret = c_ltgray;
 
-    if(has_flag("WET"))
+    if(has_flag("WET")) {
         ret = c_cyan;
-    else if (active && !is_food() && !is_food_container()) // Active items show up as yellow
+    } else if(has_flag("LITCIG")) {
+        ret = c_red;
+    } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
         ret = c_yellow;
-    else if (is_gun()) { // Guns are green if you are carrying ammo for them
+    } else if (is_gun()) { // Guns are green if you are carrying ammo for them
         ammotype amtype = ammo_type();
         if (u->has_ammo(amtype).size() > 0)
             ret = c_green;
     } else if (is_ammo()) { // Likewise, ammo is green if you have guns that use it
         ammotype amtype = ammo_type();
-        if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype)
+        if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype) {
             ret = c_green;
-        else {
+        } else {
             if (u->inv.has_gun_for_ammo(amtype)) {
                 ret = c_green;
             }
@@ -1018,10 +1020,11 @@ nc_color item::color(player *u) const
         if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
                 (tmp->intel == 0 || !u->has_trait("ILLITERATE")) &&
                 (u->skillLevel(tmp->type) >= (int)tmp->req) &&
-                (u->skillLevel(tmp->type) < (int)tmp->level))
+                (u->skillLevel(tmp->type) < (int)tmp->level)) {
             ret = c_ltblue;
-        else if (!u->studied_all_recipes(tmp) && !u->has_trait("ILLITERATE"))
+        } else if (!u->studied_all_recipes(tmp) && !u->has_trait("ILLITERATE")) {
           ret = c_yellow;
+        }
     }
     return ret;
 }
@@ -1157,6 +1160,9 @@ std::string item::tname( bool with_prefix )
 
     if(has_flag("WET"))
        ret << _(" (wet)");
+
+    if(has_flag("LITCIG"))
+        ret << _(" (lit)");
 
     tagtext = ret.str();
 

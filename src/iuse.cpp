@@ -821,17 +821,33 @@ int iuse::alcohol_strong(player *p, item *it, bool)
 int iuse::cig(player *p, item *it, bool)
 {
     if (!use_fire(p, it)) return 0;
-    if (it->type->id == "cig") {
-        g->add_msg_if_player(p,_("You light a cigarette and smoke it."));
-    } else {  // cigar
-        g->add_msg_if_player(p,_("You take a few puffs from your cigar."));
+    // make sure we're not already smoking something
+    for(std::vector<item*>::iterator iter = p->inv.active_items().begin(); iter != p->inv.active_items().end(); iter++) {
+        item* i = *iter;
+        if(i->has_flag("LITCIG")) {
+            g->add_msg_if_player(p,_("You're already smoking a %s!"), i->name.c_str());
+            return 0;
+        }
     }
+    item cig;
+    if (it->type->id == "cig") {
+        cig = item(itypes["cig_lit"], int(g->turn));
+        cig.item_counter = 40;
+    } else if(it->type->id == "cigar"){
+        cig = item(itypes["cigar_lit"], int(g->turn));
+        cig.item_counter = 120;
+    }
+    cig.active = true;
+    p->inv.add_item(cig, false, true);
+    g->add_msg_if_player(p,_("You light a %s."), cig.name.c_str());
+
     p->thirst += 2;
     p->hunger -= 3;
-    p->add_disease("cig", 200);
-    if (p->disease_duration("cig") > 600) {
-        g->add_msg_if_player(p,_("Ugh, too much smoke... you feel nasty."));
+
+    if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+        g->add_msg_if_player(p, _("Ugh, too much smoke... you feel nasty."));
     }
+
     return it->type->charges_to_use();
 }
 

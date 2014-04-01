@@ -92,6 +92,18 @@ void game::init_fields()
         },
 
         {
+            {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '~', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  100,
+            {0,0,0}
+        },
+
+        {
+            {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '~', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  200,
+            {0,0,0}
+        },
+
+        {
             {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8', 8,
             {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900,
             {0,0,0}
@@ -732,6 +744,13 @@ bool map::process_fields_in_submap(int gridn)
                         spread_gas( this, cur, x, y, curtype, 50, 30 );
                         break;
 
+                    case fd_cigsmoke:
+                        spread_gas( this, cur, x, y, curtype, 150, 30 );
+                        break;
+
+                    case fd_weedsmoke:
+                        spread_gas( this, cur, x, y, curtype, 100, 50 );
+                        break;
 
                     case fd_nuke_gas:
                         radiation(x, y) += rng(0, cur->getFieldDensity());
@@ -1031,6 +1050,8 @@ void map::step_in_field(int x, int y)
         case fd_null:
         case fd_blood: // It doesn't actually do anything //necessary to add other types of blood?
         case fd_bile:  // Ditto
+        case fd_cigsmoke:
+        case fd_weedsmoke:
             //break instead of return in the event of post-processing in the future;
             // also we're in a loop now!
             break;

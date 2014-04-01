@@ -1510,7 +1510,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
                            pgettext("memorial_female", "Set off an alarm."));
        g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
     }
- 
+
     if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
         bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
         if ( success == true ) {
@@ -2798,6 +2798,23 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
                 it->item_tags.erase("WET");
                 it->item_tags.insert("ABSORBENT");
                 it->active = false;
+            }
+
+        } else if(it->has_flag("LITCIG")) {
+            it->item_counter--;
+            if(it->item_counter % 5 == 0) {
+              int mapx = (nonant % my_MAPSIZE) * SEEX + i;
+              int mapy = (nonant / my_MAPSIZE) * SEEY + j;
+              add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_cigsmoke, 1);
+            }
+            if(it->item_counter == 0) {
+                if(it->type->id == "cig_lit") {
+                    it->make(itypes["cig_butt"]);
+                } else if(it->type->id == "cigar_lit"){
+                    it->make(itypes["cigar_butt"]);
+                }
+                it->active = false;
+                it->item_tags.erase("LITCIG");
             }
         } else if (!it->is_tool()) { // It's probably a charger gun
             it->active = false;
@@ -4544,6 +4561,8 @@ void map::build_transparency_cache()
       case fd_smoke:
       case fd_toxic_gas:
       case fd_tear_gas:
+      case fd_cigsmoke:
+      case fd_weedsmoke:
        if(cur->getFieldDensity() == 3)
         transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
        if(cur->getFieldDensity() == 2)
