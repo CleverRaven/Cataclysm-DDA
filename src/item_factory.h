@@ -141,6 +141,7 @@ private:
 
     //json data handlers
     use_function use_from_string(std::string name);
+    use_function use_from_object(JsonObject obj);
     phase_id phase_from_tag(Item_tag name);
 
     void load_basic_info(JsonObject &jo, itype *new_item);
