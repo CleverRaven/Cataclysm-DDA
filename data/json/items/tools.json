@@ -5345,7 +5345,7 @@
     "use_action": {
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "kompot_canned",
+        "target": "kompot",
         "container": "jar_3l_glass"
     }
   },
