@@ -3825,8 +3825,8 @@ bool map::accessable_items(const int Fx, const int Fy, const int Tx, const int T
 bool map::accessable_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const
 {
     int junk = 0;
-    return ((Fx != Tx || Fy != Ty) &&
-           !clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
+    return ((Fx == Tx && Fy == Ty) ||
+           clear_path( Fx, Fy, Tx, Ty, range, 1, 100, junk ) );
 }
 
 // Bash defaults to true.
