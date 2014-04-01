@@ -7195,6 +7195,12 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "hazmat_eyes",
+    "items":[
+      ["glasses_safety", 50]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "rad_gear",
     "items":[
       ["wrapped_rad_badge", 80],
