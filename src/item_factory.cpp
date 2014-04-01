@@ -12,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <memory>
 #include <stdio.h>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
@@ -1132,12 +1133,15 @@ void Item_factory::load_item_group(JsonObject &jsobj)
 use_function Item_factory::use_from_object(JsonObject obj) {
     const std::string type = obj.get_string("type");
     if (type == "transform") {
-        const std::string msg = obj.get_string("msg");
-        const bool active = obj.get_bool("active", false);
-        const std::string target = obj.get_string("target");
-        const std::string container = obj.get_string("container", "");
-        iuse_transform *actor = new iuse_transform(msg, target, container, active);
-        return use_function(actor);
+        std::auto_ptr<iuse_transform> actor(new iuse_transform);
+        // Mandatory:
+        actor->target_id = obj.get_string("target");
+        // Optional (default is good enough):
+        obj.read("msg", actor->msg_transform);
+        obj.read("container", actor->container_id);
+        obj.read("active", actor->active);
+        // from hereon memory is handled by the use_function class
+        return use_function(actor.release());
     } else {
         debugmsg("unknown use_action type %s", type.c_str());
         return use_function();
