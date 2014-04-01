@@ -5089,6 +5089,8 @@
     "items":[
       ["flamethrower", 20],
       ["m249", 30],
+      ["m2browning", 15],
+      ["mark19", 15],
       ["556", 30],
       ["40mm_frag", 7],
       ["40mm_shot", 6],
