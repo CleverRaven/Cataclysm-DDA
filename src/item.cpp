@@ -1220,6 +1220,9 @@ int item::weight() const
         }
         if (made_of("veggy")) {
             ret /= 3;
+        }
+        if(corpse->in_species("FISH")) {
+            ret /= 8;
         } else if (made_of("iron") || made_of("steel") || made_of("stone")) {
             ret *= 7;
         }
@@ -1245,17 +1248,9 @@ int item::weight() const
         }
     }
     for (size_t i = 0; i < contents.size(); i++) {
+        ret += contents[i].weight();
         if (contents[i].is_gunmod() && contents[i].charges >= 1) {
-            ret += contents[i].weight();
             ret += contents[i].curammo->weight * contents[i].charges;
-        } else if (contents[i].charges <= 0) {
-            ret += contents[i].weight();
-        } else {
-            if (contents[i].count_by_charges()) {
-                ret += contents[i].weight();
-            } else {
-                ret += contents[i].weight() * contents[i].charges;
-            }
         }
     }
 
@@ -2614,8 +2609,8 @@ bool item::reload(player &u, int pos)
  item *ammo_to_use = &u.i_at(pos);
  item *ammo_container = NULL;
 
-    // Handle ammo in containers, currently only gasoline
-    if (ammo_to_use->is_container() && !ammo_to_use->contents.empty()) {
+    // Handle ammo in containers, currently only gasoline and quivers
+    if (!ammo_to_use->contents.empty() && (ammo_to_use->is_container() || ammo_to_use->type->use == &iuse::quiver)) {
         ammo_container = ammo_to_use;
         ammo_to_use = &ammo_to_use->contents[0];
     }

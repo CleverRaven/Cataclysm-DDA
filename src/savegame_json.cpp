@@ -1069,7 +1069,11 @@ void item::serialize(JsonOut &json, bool save_contents) const
         json.member("contents");
         json.start_array();
         for (int k = 0; k < contents.size(); k++) {
-            contents[k].serialize(json, false); // no matryoshka dolls
+            if(!(contents[k].contents.empty()) && contents[k].contents[0].is_gunmod()) {
+                contents[k].serialize(json, true); // save gun mods of holstered pistol
+            } else {
+                contents[k].serialize(json, false); // no matryoshka dolls
+            }
         }
         json.end_array();
     }

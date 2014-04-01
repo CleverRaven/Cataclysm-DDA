@@ -640,7 +640,8 @@
       ["lamp_oil", 10],
       ["grapnel", 1],
       ["misc_repairkit", 15],
-      ["charcoal", 20]
+      ["charcoal", 20],
+      ["sheath", 15]
     ]
   },{
     "type" : "item_group",
@@ -920,7 +921,8 @@
       ["small_repairkit", 12],
       ["tuned_mechanism", 2],
       ["match_trigger", 3],
-      ["u_shotgun", 5]
+      ["u_shotgun", 5],
+      ["holster", 10]
     ]
   },{
     "type" : "item_group",
@@ -1618,7 +1620,8 @@
       ["knee_pads", 20],
       ["cu_pipe", 50],
       ["fungicide", 5],
-      ["charcoal", 5]
+      ["charcoal", 5],
+      ["sheath", 10]
     ]
   },{
     "type" : "item_group",
@@ -1647,7 +1650,8 @@
       ["chisel", 2],
       ["swage", 1],
       ["misc_repairkit", 5],
-      ["tool_belt", 5]
+      ["tool_belt", 5],
+      ["sheath", 5]
     ]
   },{
     "type" : "item_group",
@@ -1941,7 +1945,8 @@
       ["charcoal", 20],
       ["leathersandals", 10],
       ["grapnel", 1],
-      ["razor_blade", 9]
+      ["razor_blade", 9],
+      ["sheath", 5]
     ]
   },{
     "type" : "item_group",
@@ -2106,7 +2111,8 @@
       ["mouthpiece", 15],
       ["small_repairkit", 2],
       ["grapnel", 2],
-      ["leathersandals", 15]
+      ["leathersandals", 15],
+      ["sheath", 5]
     ]
   },{
     "type" : "item_group",
@@ -2419,7 +2425,7 @@
       ["mask_bal", 5],
       ["goggles_nv", 1],
       ["goggles_ir", 1],
-      ["holster", 8],
+      ["holster", 15],
       ["bootstrap", 3],
       ["mag_guns", 20],
       ["bayonet", 10],
@@ -3148,7 +3154,7 @@
       ["goggles_nv", 2],
       ["goggles_ir", 1],
       ["helmet_riot", 25],
-      ["holster", 8],
+      ["holster", 15],
       ["bootstrap", 3],
       ["armguard_hard", 20],
       ["legguard_hard", 15],
@@ -4215,7 +4221,9 @@
       ["maid_hat", 3],
       ["miner_hat", 3],
       ["grapnel", 1],
-      ["razor_blade", 6]
+      ["razor_blade", 6],
+      ["scabbard", 4],
+      ["sheath", 6]
     ]
   },{
     "type" : "item_group",
@@ -4281,7 +4289,8 @@
       ["signal_flare", 25],
       ["grapnel", 10],
       ["folding_poncho", 5],
-      ["quikclot", 20]
+      ["quikclot", 20],
+      ["sheath", 10]
     ]
   },{
     "type" : "item_group",
@@ -4394,7 +4403,9 @@
       ["signal_flare", 10],
       ["survivormap", 1],
       ["pur_tablets", 5],
-      ["razor_blade", 5]
+      ["razor_blade", 5],
+      ["sheath", 5],
+      ["holster", 4]
     ]
   },{
     "type" : "item_group",
@@ -5252,7 +5263,9 @@
       ["e_tool", 10],
       ["waterproof_gunmod", 8],
       ["grapnel", 3],
-      ["glasses_bal", 30]
+      ["glasses_bal", 30],
+      ["sheath", 10],
+      ["holster", 15]
     ]
   },{
     "type" : "item_group",
@@ -5547,7 +5560,8 @@
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
       ["apron_leather", 2],
-      ["tool_belt", 5]
+      ["tool_belt", 5],
+      ["sheath", 5]
     ]
   },{
     "type" : "item_group",
@@ -5606,7 +5620,9 @@
       ["gun_crossbow", 1],
       ["small_repairkit", 8],
       ["grapnel", 5],
-      ["charcoal", 5]
+      ["charcoal", 5],
+      ["sheath", 3],
+      ["holster", 3]
     ]
   },{
     "type" : "item_group",
@@ -6321,7 +6337,7 @@
       ["dump_pouch", 20],
       ["helmet_liner", 10],
       ["backpack", 38],
-      ["holster", 8],
+      ["holster", 15],
       ["bootstrap", 3],
       ["gobag", 1],
       ["tent_kit", 10],
@@ -6448,7 +6464,8 @@
       ["tuned_mechanism", 1],
       ["match_trigger", 2],
       ["grapnel", 1],
-      ["bot_laserturret", 1]
+      ["bot_laserturret", 1],
+      ["sheath", 13]
     ]
   },{
     "type" : "item_group",

@@ -6,6 +6,7 @@
 #include "translations.h"
 #include "bodypart.h"
 #include "crafting.h"
+#include "iuse_actor.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -156,7 +157,7 @@ Item_factory::Item_factory(){
 
 void Item_factory::init(){
     //Populate the iuse functions
-    iuse_function_list["NONE"] = &iuse::none;
+    iuse_function_list["NONE"] = use_function();
     iuse_function_list["RAW_MEAT"] = &iuse::raw_meat;
     iuse_function_list["RAW_FAT"] = &iuse::raw_fat;
     iuse_function_list["RAW_BONE"] = &iuse::raw_bone;
@@ -353,10 +354,14 @@ void Item_factory::init(){
     iuse_function_list["PDA_FLASHLIGHT"] = &iuse::pda_flashlight;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
-    iuse_function_list["DEJAR"] = &iuse::dejar;
     iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
     iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
+    iuse_function_list["QUIVER"] = &iuse::quiver;
+    iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
+    iuse_function_list["SHEATH_KNIFE"] = &iuse::sheath_knife;
+    iuse_function_list["HOLSTER_PISTOL"] = &iuse::holster_pistol;
+    iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
     iuse_function_list["TOWEL"] = &iuse::towel;
     iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
@@ -960,8 +965,11 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
     new_item_template->techniques = jo.get_tags("techniques");
 
-    new_item_template->use = (!jo.has_member("use_action") ? &iuse::none :
-                              use_from_string(jo.get_string("use_action")));
+    if (jo.has_string("use_action")) {
+        new_item_template->use = use_from_string(jo.get_string("use_action"));
+    } else if (jo.has_object("use_action")) {
+        new_item_template->use = use_from_object(jo.get_object("use_action"));
+    }
 
     if(jo.has_member("category")) {
         new_item_template->category = get_category(jo.get_string("category"));
@@ -1121,6 +1129,21 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     }
 }
 
+use_function Item_factory::use_from_object(JsonObject obj) {
+    const std::string type = obj.get_string("type");
+    if (type == "transform") {
+        const std::string msg = obj.get_string("msg");
+        const bool active = obj.get_bool("active", false);
+        const std::string target = obj.get_string("target");
+        const std::string container = obj.get_string("container", "");
+        iuse_transform *actor = new iuse_transform(msg, target, container, active);
+        return use_function(actor);
+    } else {
+        debugmsg("unknown use_action type %s", type.c_str());
+        return use_function();
+    }
+}
+
 use_function Item_factory::use_from_string(std::string function_name){
     std::map<Item_tag, use_function>::iterator found_function = iuse_function_list.find(function_name);
 
@@ -1130,7 +1153,7 @@ use_function Item_factory::use_from_string(std::string function_name){
     } else {
         //Otherwise, return a hardcoded function we know exists (hopefully)
         debugmsg("Received unrecognized iuse function %s, using iuse::none instead", function_name.c_str());
-        return &iuse::none;
+        return use_function();
     }
 }
 

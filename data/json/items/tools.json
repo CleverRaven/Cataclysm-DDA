@@ -1339,7 +1339,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "CARVER_OFF"
+    "use_action": "CARVER_OFF",
+    "flags": ["SHEATH_SWORD"]
   },{
     "id": "carver_on",
     "type": "TOOL",
@@ -2902,7 +2903,8 @@
      "ammo" : "battery",
      "revert_to" : "null",
      "category": "weapons",
-     "use_action" : "TAZER"
+     "use_action" : "TAZER",
+     "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -3024,7 +3026,8 @@
      "turns_per_charge": 0,
      "ammo": "battery",
      "revert_to": "null",
-     "use_action": "PORTABLE_GAME"
+     "use_action": "PORTABLE_GAME",
+     "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -3395,7 +3398,7 @@
     "volume": 4,
     "bashing": 6,
     "cutting": 20,
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3422,7 +3425,7 @@
     "volume": 6,
     "bashing": 6,
     "cutting": 20,
-    "flags" : ["FIRE", "CHOP", "DURABLE_MELEE"],
+    "flags" : ["FIRE", "CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "to_hit": 1,
     "max_charges": 50,
     "initial_charges": 0,
@@ -3473,7 +3476,7 @@
     "volume": 3,
     "bashing": 0,
     "cutting": 22,
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3499,7 +3502,7 @@
     "volume": 4,
     "bashing": 4,
     "cutting": 28,
-    "flags" : ["CHOP", "NON_STUCK", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "NON_STUCK", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3521,7 +3524,7 @@
     "price": 1500,
     "material": ["steel", "diamond"],
     "techniques": ["RAPID", "PRECISE", "WBLOCK_2"],
-    "flags" : ["DURABLE_MELEE", "SLICE"],
+    "flags" : ["DURABLE_MELEE", "SLICE", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 1100,
     "volume": 8,
     "bashing": 4,
@@ -3551,7 +3554,7 @@
     "volume": 3,
     "bashing": 1,
     "cutting": 16,
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "IAIJUTSU"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3577,7 +3580,7 @@
     "volume": 3,
     "bashing": 1,
     "cutting": 14,
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -3599,7 +3602,7 @@
     "price": 78000,
     "material": "steel",
     "techniques": ["RAPID", "WBLOCK_1"],
-    "flags" : ["SLICE", "DURABLE_MELEE"],
+    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 835,
     "volume": 6,
     "bashing": 3,
@@ -3625,7 +3628,7 @@
     "price": 98000,
     "material": "steel",
     "techniques": ["RAPID", "WBLOCK_2"],
-    "flags" : ["SLICE", "DURABLE_MELEE"],
+    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 1133,
     "volume": 8,
     "bashing": 4,
@@ -3651,7 +3654,7 @@
     "description": "This is a katana with a nozzle just behind the the cutting edge of the blade. People love fire, and people love katanas, so why not put them together? The gas burners attached to this blade can really turn up the heat on your foes. Use to ignite.",
     "price": 98000,
     "material": "steel",
-    "flags": ["FIRE", "SLICE", "DURABLE_MELEE"],
+    "flags": ["FIRE", "SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "techniques": ["RAPID", "WBLOCK_2"],
     "weight": 2041,
     "volume": 10,
@@ -3731,7 +3734,7 @@
     "price": 98000,
     "material": "steel",
     "techniques": ["RAPID", "WBLOCK_2", "PRECISE"],
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"],
     "weight": 1000,
     "volume": 6,
     "bashing": 2,
@@ -3783,7 +3786,7 @@
     "description": "This is an early modern sword seeing use in the 16th, 17th, and 18th centuries. Called 'broad' to contrast with the slimmer rapiers.",
     "price": 120000,
     "material": "steel",
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "techniques": "WBLOCK_1",
     "weight": 1133,
     "volume": 7,
@@ -3811,7 +3814,7 @@
     "rarity": 30,
     "price": 120000,
     "material": "steel",
-    "flags" : ["CHOP", "DURABLE_MELEE"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3176,
     "volume": 13,
@@ -3839,7 +3842,7 @@
     "price": 120000,
     "material": "steel",
     "flags": ["CHOP", "DURABLE_MELEE"],
-    "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
+    "techniques": ["WBLOCK_1", "WIDE", "BRUTAL", "SHEATH_SWORD"],
     "weight": 3400,
     "volume": 15,
     "bashing": 15,
@@ -3891,7 +3894,7 @@
     "description": "This is a combination of two Dark Age conflict-resolution classics, the broadsword and the torch. Use to light it up and show those heathen zombies who's Lord around here.",
     "price": 120000,
     "material": "steel",
-    "flags": ["CHOP", "DURABLE_MELEE"],
+    "flags": ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "techniques": "WBLOCK_1",
     "weight": 1474,
     "volume": 9,
@@ -3943,7 +3946,7 @@
     "description": "This is a large blade that has had a portion of the handle wrapped in duct tape, making it easier to wield as a rough machete.",
     "price": 10000,
     "material": "steel",
-    "flags": "CHOP",
+    "flags": ["CHOP", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 538,
     "volume": 8,
     "bashing": 4,
@@ -3969,7 +3972,7 @@
     "description": "This is a large blade with a fuel pipe on the side, and a small tank and igniter built into the insulated hilt.  When filled with gasoline, the blade can be made scorching hot to singe enemies and light your way. Use to ignite.",
     "price": 10000,
     "material": ["steel", "plastic"],
-    "flags": ["FIRE", "CHOP"],
+    "flags": ["FIRE", "CHOP", "SHEATH_SWORD"],
     "weight": 1701,
     "volume": 10,
     "bashing": 4,
@@ -4059,7 +4062,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -4084,7 +4088,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -4096,7 +4101,7 @@
     "description": "This is a military combat knife designed for close quarters conflict. It is light and extremely sharp, and could be deadly in the right hands. It could be used to butcher corpses.",
     "price": 10000,
     "material": ["steel", "plastic"],
-    "flags": ["STAB", "DURABLE_MELEE"],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "weight": 558,
     "volume": 2,
     "bashing": 2,
@@ -4944,7 +4949,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["SHEATH_KNIFE"]
    },
 
    {
@@ -5088,7 +5094,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+	"flags": ["SHEATH_KNIFE"]
   },
 
   {
@@ -5276,7 +5283,12 @@
     "ammo": "NULL",
     "category": "food",
     "revert_to": "null",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "meat_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5300,7 +5312,12 @@
     "ammo": "NULL",
     "category": "food",
     "revert_to": "null",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "fish_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5325,7 +5342,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "kompot_canned",
+        "container": "jar_3l_glass"
+    }
   },
 
   {
@@ -5349,7 +5371,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "human_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5373,7 +5400,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "veggy_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5397,7 +5429,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "apple_canned",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5421,7 +5458,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "veggy_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5445,7 +5487,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "meat_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5469,7 +5516,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "fish_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5493,7 +5545,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "human_pickled",
+        "container": "jar_glass"
+    }
   },
 
   {
@@ -5588,7 +5645,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "meat_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5612,7 +5674,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "fish_vac",
+        "container": "bag_plastic"
+    }
   },
 
    {
@@ -5636,7 +5703,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "hflesh_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5660,7 +5732,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "veggy_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -5684,7 +5761,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "food",
-    "use_action": "DEJAR"
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the vacuum pack, exposing it to the atmosphere.",
+        "target": "apple_vac",
+        "container": "bag_plastic"
+    }
   },
 
   {
@@ -6136,7 +6218,7 @@
     "rarity": 30,
     "price": 150000,
     "material": "steel",
-    "flags": ["SLICE", "DURABLE_MELEE"],
+    "flags": ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": ["RAPID", "WIDE", "BRUTAL"],
     "weight": 2822,
     "volume": 17,
@@ -6421,7 +6503,7 @@
     "description": "This stout combat knife features a steel guard to protect the user's knuckles. The guard can also be used for striking or blocking, and the knife can also be used to butcher corpses.",
     "price": 11000,
     "material": ["steel", "wood"],
-    "flags" : ["DURABLE_MELEE", "STAB"],
+    "flags" : ["DURABLE_MELEE", "STAB", "SHEATH_KNIFE"],
     "techniques": ["WBLOCK_1"],
     "weight": 608,
     "volume": 2,
@@ -6680,7 +6762,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "KNIFE",
-    "qualities": [["CUT", 1]]
+    "qualities": [["CUT", 1]],
+    "flags": ["SHEATH_KNIFE"]
   },
 
   {

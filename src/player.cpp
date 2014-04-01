@@ -7263,7 +7263,7 @@ bool player::consume(int pos)
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
             }
-            if (comest->use != &iuse::none) {
+            if (!comest->use.is_none()) {
                 //Check special use
                 amount_used = comest->use.call(this, to_eat, false);
                 if( amount_used == 0 ) {
@@ -7528,7 +7528,7 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if (comest->use != &iuse::none) {
+    if (!comest->use.is_none()) {
         to_eat = comest->use.call(this, eaten, false);
         if( to_eat == 0 ) {
             return false;
@@ -8674,7 +8674,12 @@ void player::use(int pos)
             g->add_msg(_("Your %s has %d charges but needs %d."), used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
-    } else if (used->type->use == &iuse::boots) {
+    } else if (used->type->use == &iuse::boots          ||
+               used->type->use == &iuse::sheath_sword   ||
+               used->type->use == &iuse::sheath_knife   ||
+               used->type->use == &iuse::holster_pistol ||
+               used->type->use == &iuse::holster_ankle  ||
+               used->type->use == &iuse::quiver) {
         used->type->use.call(this, used, false);
         return;
     } else if (used->is_gunmod()) {
@@ -10086,7 +10091,7 @@ std::string player::weapname(bool charges)
   std::stringstream dump;
   int spare_mag = weapon.has_gunmod("spare_mag");
   dump << weapon.tname().c_str();
-  if (!weapon.has_flag("NO_AMMO")) {
+  if (!(weapon.has_flag("NO_AMMO") || weapon.has_flag("RELOAD_AND_SHOOT"))) {
    dump << " (" << weapon.charges;
    if( -1 != spare_mag )
    dump << "+" << weapon.contents[spare_mag].charges;
@@ -10108,6 +10113,25 @@ std::string player::weapname(bool charges)
   return _("fists");
  } else
   return weapon.tname();
+}
+
+void player::wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor)
+{
+    if(!(container->contents.empty())) {
+        item& weap = container->contents[0];
+        inv.assign_empty_invlet(weap, force_invlet);
+        wield(&(i_add(weap)));
+        container->contents.erase(container->contents.begin());
+    } else {
+        debugmsg("Tried to wield contents of empty container (player::wield_contents)");
+    }
+}
+
+void player::store(item* container, item* put, std::string skill_used, int volume_factor)
+{
+    int lvl = skillLevel(skill_used);
+    moves -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
+    container->put_in(i_rem(put));
 }
 
 nc_color encumb_color(int level)
