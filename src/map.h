@@ -169,6 +169,11 @@ class map
   * 2. That the target location isn't sealed.
   */
  bool accessable_items(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
+ /**
+  * Like @ref accessable_items but checks for accessable furniture.
+  * It ignores the furniture flags of the target square (ignores if target is SEALED).
+  */
+ bool accessable_furniture(const int Fx, const int Fy, const int Tx, const int Ty, const int range) const;
 
  /**
   * Calculate a best path using A*

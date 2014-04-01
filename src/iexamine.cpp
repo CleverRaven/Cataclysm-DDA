@@ -1,5 +1,6 @@
 #include "item_factory.h"
 #include "iuse.h"
+#include "helper.h"
 #include "game.h"
 #include "mapdata.h"
 #include "output.h"
@@ -1045,6 +1046,59 @@ void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, "dahlia_bud");
 }
 
+void iexamine::egg_sackbw(player *p, map *m, int examx, int examy) {
+  if(!query_yn(_("Harvest the %s?"),m->furnname(examx, examy).c_str())) {
+    none(p, m, examx, examy);
+    return;
+  }
+  if (one_in(2)){
+    monster spider_widow_giant_s(GetMType("mon_spider_widow_giant_s"));
+    int f = 0;
+    for (int i = examx -1; i <= examx + 1; i++) {
+        for (int j = examy -1; j <= examy + 1; j++) {
+                if (!(g->u.posx == i && g->u.posy == j) && one_in(3)){
+                    spider_widow_giant_s.spawn(i, j);
+                    g->add_zombie(spider_widow_giant_s);
+                    f++;
+                }
+        }
+    }
+    if (f == 1){
+        g->add_msg(_("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
+    } else if (f >= 1) {
+        g->add_msg(_("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
+    }
+  }
+  m->spawn_item(examx, examy, "spider_egg", rng(1,4));
+  m->furn_set(examx, examy, f_egg_sacke);
+}
+
+void iexamine::egg_sackws(player *p, map *m, int examx, int examy) {
+  if(!query_yn(_("Harvest the %s?"),m->furnname(examx, examy).c_str())) {
+    none(p, m, examx, examy);
+    return;
+  }
+  if (one_in(2)){
+    monster mon_spider_web_s(GetMType("mon_spider_web_s"));
+    int f = 0;
+    for (int i = examx -1; i <= examx + 1; i++) {
+        for (int j = examy -1; j <= examy + 1; j++) {
+                if (!(g->u.posx == i && g->u.posy == j) && one_in(3)){
+                    mon_spider_web_s.spawn(i, j);
+                    g->add_zombie(mon_spider_web_s);
+                    f++;
+                }
+        }
+    }
+    if (f == 1){
+        g->add_msg(_("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
+    } else if (f >= 1) {
+        g->add_msg(_("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
+    }
+  }
+  m->spawn_item(examx, examy, "spider_egg", rng(1,4));
+  m->furn_set(examx, examy, f_egg_sacke);
+}
 void iexamine::fungus(player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
@@ -1769,6 +1823,103 @@ void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
     }
 }
 
+itype *furn_t::crafting_pseudo_item_type() const
+{
+    if (crafting_pseudo_item.empty()) {
+        return NULL;
+    }
+    return item_controller->find_template(crafting_pseudo_item);
+}
+
+itype *furn_t::crafting_ammo_item_type() const
+{
+    const it_tool *toolt = dynamic_cast<const it_tool*>(crafting_pseudo_item_type());
+    if (toolt != NULL && toolt->ammo != "NULL") {
+        const std::string ammoid = default_ammo(toolt->ammo);
+        return item_controller->find_template(ammoid);
+    }
+    return NULL;
+}
+
+size_t find_in_list(const itype *type, const std::vector<item> &items)
+{
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type == type) {
+            return i;
+        }
+    }
+    return static_cast<size_t>(-1);
+}
+
+long count_charges_in_list(const itype *type, const std::vector<item> &items)
+{
+    const size_t i = find_in_list(type, items);
+    return (i == static_cast<size_t>(-1)) ? 0 : items[i].charges;
+}
+
+long remove_charges_in_list(const itype *type, std::vector<item> &items, long quantity)
+{
+    const size_t i = find_in_list(type, items);
+    if (i != static_cast<size_t>(-1)) {
+        if (items[i].charges > quantity) {
+            items[i].charges -= quantity;
+            return quantity;
+        } else {
+            const long charges = items[i].charges;
+            items[i].charges = 0;
+            if (items[i].destroyed_at_zero_charges()) {
+                items.erase(items.begin() + i);
+            }
+            return charges;
+        }
+    }
+    return 0;
+}
+
+void iexamine::reload_furniture(player *p, map *m, const int examx, const int examy)
+{
+    const furn_t &f = m->furn_at(examx, examy);
+    itype *type = f.crafting_pseudo_item_type();
+    itype *ammo = f.crafting_ammo_item_type();
+    if (type == NULL || ammo == NULL) {
+        g->add_msg("This %s can not be reloaded!", f.name.c_str());
+        return;
+    }
+    const int pos = p->inv.position_by_type(ammo->id);
+    if (pos == INT_MIN) {
+        const int amount = count_charges_in_list(ammo, m->i_at(examx, examy));
+        if (amount > 0) {
+            g->add_msg("The %s contains %d %s.", f.name.c_str(), amount, ammo->name.c_str());
+        }
+        g->add_msg("You need some %s to reload this %s.", ammo->name.c_str(), f.name.c_str());
+        return;
+    }
+    const long max_amount = p->inv.find_item(pos).charges;
+    const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"), ammo->name.c_str(), f.name.c_str());
+    long amount = helper::to_int(
+        string_input_popup(
+            popupmsg, 20, helper::to_string_int(max_amount), "", "", -1, true));
+    if (amount <= 0 || amount > max_amount) {
+        return;
+    }
+    p->inv.reduce_charges(pos, amount);
+    std::vector<item> &items = m->i_at(examx, examy);
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type == ammo) {
+            items[i].charges += amount;
+            amount = 0;
+            break;
+        }
+    }
+    if (amount != 0) {
+        item it(ammo, 0);
+        it.charges = amount;
+        items.push_back(it);
+    }
+    g->add_msg("You reload the %s.", m->furnname(examx, examy).c_str());
+    p->moves -= 100;
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -1870,6 +2021,12 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   if ("flower_dahlia" == function_name) {
     return &iexamine::flower_dahlia;
   }
+  if ("egg_sackbw" == function_name) {
+    return &iexamine::egg_sackbw;
+  }
+  if ("egg_sackws" == function_name) {
+    return &iexamine::egg_sackws;
+  }
   if ("dirtmound" == function_name) {
     return &iexamine::dirtmound;
   }
@@ -1912,6 +2069,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("acid_source" == function_name) {
     return &iexamine::acid_source;
+  }
+  if ("reload_furniture" == function_name) {
+    return &iexamine::reload_furniture;
   }
 
   //No match found

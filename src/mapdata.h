@@ -240,6 +240,12 @@ struct furn_t {
  map_bash_info bash;
  map_deconstruct_info deconstruct;
 
+ std::string crafting_pseudo_item;
+ // May return NULL
+ itype *crafting_pseudo_item_type() const;
+ // May return NULL
+ itype *crafting_ammo_item_type() const;
+
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
  }
@@ -540,7 +546,7 @@ extern furn_id f_null,
     f_safe_c, f_safe_l, f_safe_o,
     f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
     f_fvat_empty, f_fvat_full,
-    f_wood_keg,
+    f_wood_keg, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
     num_furniture_types;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
