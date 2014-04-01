@@ -43,9 +43,9 @@
       { "monster" : "mon_cougar", "freq" : 1, "cost_multiplier" : 3, "ends" : 2160  },
       { "monster" : "mon_cougar", "freq" : 2, "cost_multiplier" : 3, "ends" : 2160, "conditions" : ["DAWN", "DUSK"] },
 	  
-      { "monster" : "mon_zougar", "freq" : 3, "cost_multiplier" : 10, "starts" :   72 },
-      { "monster" : "mon_zougar", "freq" : 3, "cost_multiplier" : 10, "starts" :  168 },
-      { "monster" : "mon_zougar", "freq" : 3, "cost_multiplier" : 10, "starts" :  672 },
+      { "monster" : "mon_zougar", "freq" : 3, "cost_multiplier" : 10, "starts" :   168 },
+      { "monster" : "mon_zougar", "freq" : 3, "cost_multiplier" : 10, "starts" :  504 },
+      { "monster" : "mon_zougar", "freq" : 3, "cost_multiplier" : 10, "starts" :  1008 },
       { "monster" : "mon_zougar", "freq" : 3, "cost_multiplier" : 10, "starts" : 2160 },
 
       { "monster" : "mon_crow", "freq" :  5, "cost_multiplier" : 0, "pack_size" : [1,14]                         },
