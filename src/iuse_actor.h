@@ -45,3 +45,33 @@ public:
     virtual long use(player*, item*, bool) const;
     virtual iuse_actor *clone() const;
 };
+
+/**
+ * This is a @ref iuse_transform for active items.
+ * It can be called each turn.
+ * It does the transformation - either when requested by the user,
+ * or when the charges of the item reaches 0.
+ * It can display different messages therefor.
+ */
+class auto_iuse_transform : public iuse_transform {
+public:
+    /**
+     * If non-empty: check each turn if the player is underwater
+     * and activate the transformation in that case.
+     */
+    std::string when_underwater;
+    /**
+     * If non-empty: don't let the user activate the transformation.
+     * Instead wait for the item to trigger the transformation
+     * (no charges, underwater).
+     */
+    std::string non_interactive_msg;
+
+    auto_iuse_transform()
+    : iuse_transform()
+    {
+    }
+    virtual ~auto_iuse_transform();
+    virtual long use(player*, item*, bool) const;
+    virtual iuse_actor *clone() const;
+};

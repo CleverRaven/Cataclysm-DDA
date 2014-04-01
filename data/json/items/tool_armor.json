@@ -67,7 +67,11 @@
     "turns_per_charge": 15,
     "ammo": "battery",
     "revert_to": "miner_hat",
-    "use_action": "LIGHT_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "The %s flicks off.",
+        "target": "miner_hat"
+    },
     "covers" : ["HEAD"],
     "techniques" : ["WBLOCK_1"],
     "storage" : 0,
@@ -139,7 +143,11 @@
     "turns_per_charge": 50,
     "ammo": "battery",
     "revert_to": "thermal_socks",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "thermal_socks"
+    },
     "covers" : ["FEET"],
     "storage" : 0,
     "warmth" : 60,
@@ -210,7 +218,11 @@
     "turns_per_charge": 25,
     "ammo": "battery",
     "revert_to": "thermal_suit",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "thermal_suit"
+    },
     "covers" : ["TORSO", "ARMS", "LEGS"],
     "storage" : 0,
     "warmth" : 60,
@@ -281,7 +293,11 @@
     "turns_per_charge": 50,
     "ammo": "battery",
     "revert_to": "thermal_gloves",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "thermal_gloves"
+    },
     "covers" : ["HANDS"],
     "storage" : 0,
     "warmth" : 60,
@@ -352,7 +368,11 @@
     "turns_per_charge": 50,
     "ammo": "battery",
     "revert_to": "thermal_mask",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "thermal_mask"
+    },
     "covers" : ["HEAD", "MOUTH"],
     "storage" : 0,
     "warmth" : 60,
@@ -421,7 +441,11 @@
     "turns_per_charge": 15,
     "ammo": "battery",
     "revert_to": "wearable_light",
-    "use_action": "LIGHT_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "The %s flicks off.",
+        "target": "wearable_light"
+    },
     "storage" : 0,
     "warmth" : 0,
     "enviromental_protection" : 0,
@@ -491,7 +515,11 @@
     "turns_per_charge": 10,
     "ammo": "battery",
     "revert_to": "mask_bunker",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "mask_bunker"
+    },
     "covers" : ["MOUTH", "EYES"],
     "storage" : 0,
     "warmth" : 15,
@@ -626,7 +654,11 @@
     "turns_per_charge": 10,
     "ammo": "rebreather_filter",
     "revert_to": "rebreather",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "rebreather"
+    },
     "covers" : ["MOUTH"],
     "storage" : 0,
     "warmth" : 10,
@@ -697,7 +729,11 @@
     "turns_per_charge": 10,
     "ammo": "rebreather_filter",
     "revert_to": "rebreather_xl",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "rebreather_xl"
+    },
     "covers" : ["MOUTH"],
     "storage" : 0,
     "warmth" : 10,
@@ -767,7 +803,11 @@
     "turns_per_charge": 7,
     "ammo": "battery",
     "revert_to": "goggles_nv",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "goggles_nv"
+    },
     "covers" : ["EYES"],
     "storage" : 0,
     "warmth" : 25,
@@ -837,7 +877,11 @@
     "turns_per_charge": 10,
     "ammo": "battery",
     "revert_to": "goggles_ir",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "goggles_ir"
+    },
     "covers" : ["EYES"],
     "storage" : 0,
     "warmth" : 25,
@@ -938,7 +982,11 @@
     "turns_per_charge": 10,
     "ammo": "rebreather_filter",
     "revert_to": "mask_h20survivor",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "mask_h20survivor"
+    },
     "covers" : ["MOUTH", "EYES"],
     "storage" : 0,
     "warmth" : 15,
@@ -1009,7 +1057,11 @@
     "turns_per_charge": 10,
     "ammo": "rebreather_filter",
     "revert_to": "mask_h20survivorxl",
-    "use_action": "TOOLARMOR_ON",
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "Your %s deactivates.",
+        "target": "mask_h20survivorxl"
+    },
     "covers" : ["MOUTH", "EYES"],
     "storage" : 0,
     "warmth" : 15,

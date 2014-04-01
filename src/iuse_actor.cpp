@@ -45,3 +45,35 @@ long iuse_transform::use(player* p, item* it, bool /*t*/) const
     }
     return charges_to_use;
 }
+
+
+
+auto_iuse_transform::~auto_iuse_transform()
+{
+}
+
+iuse_actor *auto_iuse_transform::clone() const
+{
+    return new auto_iuse_transform(*this);
+}
+
+long auto_iuse_transform::use(player *p, item *it, bool t) const
+{
+    if (t) {
+        if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
+            // Dirty hack to display the "when unterwater" message instead of the normal message
+            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater, const_cast<auto_iuse_transform*>(this)->msg_transform);
+            const long tmp = iuse_transform::use(p, it, t);
+            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater, const_cast<auto_iuse_transform*>(this)->msg_transform);
+            return tmp;
+        }
+        // Normal use, don't need to do anything here.
+        return 0;
+    }
+    if (it->charges > 0 && !non_interactive_msg.empty()) {
+        g->add_msg_if_player(p, non_interactive_msg.c_str(), it->tname().c_str());
+        // Activated by the player, but not allowed to do so
+        return 0;
+    }
+    return iuse_transform::use(p, it, t);
+}

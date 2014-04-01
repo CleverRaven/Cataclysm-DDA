@@ -221,13 +221,6 @@ void Item_factory::init(){
     iuse_function_list["SCISSORS"] = &iuse::scissors;
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
-    iuse_function_list["LIGHT_ON"] = &iuse::light_on;
-    iuse_function_list["GASOLINE_LANTERN_ON"] = &iuse::gasoline_lantern_on;
-    iuse_function_list["OIL_LAMP_ON"] = &iuse::oil_lamp_on;
-    iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
-    iuse_function_list["LIGHTSTRIP_ACTIVE"] = &iuse::lightstrip_active;
-    iuse_function_list["GLOWSTICK"] = &iuse::glowstick;
-    iuse_function_list["GLOWSTICK_ACTIVE"] = &iuse::glowstick_active;
     iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
     iuse_function_list["SOLDER_WELD"] = &iuse::solder_weld;
     iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
@@ -337,12 +330,8 @@ void Item_factory::init(){
     iuse_function_list["SHELTER"] = &iuse::shelter;
     iuse_function_list["TORCH"] = &iuse::torch;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
-    iuse_function_list["HANDFLARE"] = &iuse::handflare;
-    iuse_function_list["HANDFLARE_LIT"] = &iuse::handflare_lit;
     iuse_function_list["BATTLETORCH"] = &iuse::battletorch;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
-    iuse_function_list["CANDLE"] = &iuse::candle;
-    iuse_function_list["CANDLE_LIT"] = &iuse::candle_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
     iuse_function_list["MOP"] = &iuse::mop;
@@ -375,7 +364,6 @@ void Item_factory::init(){
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
     iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
-    iuse_function_list["TOOLARMOR_ON"]  = &iuse::toolarmor_on;
     iuse_function_list["RM13ARMOR_OFF"]  = &iuse::rm13armor_off;
     iuse_function_list["RM13ARMOR_ON"]  = &iuse::rm13armor_on;
     iuse_function_list["UNPACK_ITEM"]  = &iuse::unpack_item;
@@ -1140,6 +1128,22 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("need_fire_msg", actor->need_fire_msg);
         obj.read("need_charges", actor->need_charges);
         obj.read("need_charges_msg", actor->need_charges_msg);
+        // from hereon memory is handled by the use_function class
+        return use_function(actor.release());
+    } else if (type == "auto_transform") {
+        std::auto_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
+        // Mandatory:
+        actor->target_id = obj.get_string("target");
+        // Optional (default is good enough):
+        obj.read("msg", actor->msg_transform);
+        obj.read("container", actor->container_id);
+        obj.read("active", actor->active);
+        obj.read("need_fire", actor->need_fire);
+        obj.read("need_fire_msg", actor->need_fire_msg);
+        obj.read("need_charges", actor->need_charges);
+        obj.read("need_charges_msg", actor->need_charges_msg);
+        obj.read("when_underwater", actor->when_underwater);
+        obj.read("non_interactive_msg", actor->non_interactive_msg);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else {

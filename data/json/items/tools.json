@@ -412,7 +412,12 @@
     "turns_per_charge": 20,
     "ammo": "gasoline",
     "revert_to": "gasoline_lantern",
-    "use_action": "GASOLINE_LANTERN_ON"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "gasoline_lantern",
+        "when_underwater": "The lantern is extinguished.",
+        "msg": "The lantern is extinguished."
+    }
   },
 
   {
@@ -468,7 +473,12 @@
     "turns_per_charge": 20,
     "ammo": "lamp_oil",
     "revert_to": "oil_lamp",
-    "use_action": "OIL_LAMP_ON"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "oil_lamp",
+        "when_underwater": "The lantern is extinguished.",
+        "msg": "The lantern is extinguished."
+    }
   },
 
   {
@@ -522,7 +532,11 @@
     "turns_per_charge": 15,
     "ammo": "battery",
     "revert_to": "flashlight",
-    "use_action": "LIGHT_ON"
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "You turn the flashlight off.",
+        "target": "flashlight"
+    }
   },
 
   {
@@ -568,7 +582,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LIGHTSTRIP"
+    "use_action": {
+        "type": "transform",
+        "target": "lightstrip",
+        "active": true,
+        "msg": "You irreversibly activate the lightstrip."
+    }
   },
 
   {
@@ -592,7 +611,12 @@
     "turns_per_charge": 120,
     "ammo": "NULL",
     "revert_to": "lightstrip_dead",
-    "use_action": "LIGHTSTRIP_ACTIVE"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "lightstrip_dead",
+        "non_interactive_msg": "You can not deactivate the lightstrip.",
+        "msg": "The lightstrip dies."
+    }
   },
 
   {
@@ -615,7 +639,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "GLOWSTICK"
+    "use_action": {
+        "type": "transform",
+        "target": "glowstick_lit",
+        "active": true,
+        "msg": "You activate the glowstick."
+    }
   },
 
   {
@@ -639,7 +668,12 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "glowstick_dead",
-    "use_action": "GLOWSTICK_ACTIVE"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "glowstick_dead",
+        "non_interactive_msg": "You can't turn off a glowstick.",
+        "msg": "The glowstick fades out."
+    }
   },
 
   {
@@ -685,7 +719,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "HANDFLARE"
+    "use_action": {
+        "type": "transform",
+        "target": "handflare_lit",
+        "active": true,
+        "msg": "You strike your flare and light it."
+    }
   },
 
   {
@@ -709,7 +748,12 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "handflare_dead",
-    "use_action": "HANDFLARE_LIT"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "handflare_dead",
+        "non_interactive_msg": "You can't turn off a flare.",
+        "msg": "The flare sputters out."
+    }
   },
 
   {
@@ -4405,7 +4449,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "can_food",
-    "use_action": "CANDLE"
+    "use_action": {
+        "type": "transform",
+        "target": "candle_lit",
+        "active": true,
+        "msg": "You light the candle.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter to light this."
+    }
   },
 
   {
@@ -4429,7 +4480,12 @@
     "turns_per_charge": 50,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "CANDLE_LIT"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "candle",
+        "when_underwater": "The candle is extinguished.",
+        "msg": "The candle winks out."
+    }
   },
 
   {
