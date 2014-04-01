@@ -7690,8 +7690,8 @@ int iuse::holster_pistol(player *p, item *it, bool)
             message = _("You holster your %s.");
         }
 
-        p->store(it, put, _("pistol"), 14);
         g->add_msg_if_player(p, message.c_str(), put->tname().c_str());
+        p->store(it, put, _("pistol"), 14);
 
     // else draw the holstered pistol and have the player wield it
     } else {
