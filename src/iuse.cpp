@@ -7553,12 +7553,14 @@ int iuse::quiver(player *p, item *it, bool)
 {
     int choice = -1;
     if(!(it->contents.empty()) && it->contents[0].charges > 0) {
-        choice = menu(true, _("Do what with quiver?"), _("Store more arrows"), _("Empty quiver"), _("Cancel"), NULL);
+        choice = menu(true, _("Do what with quiver?"), _("Store more arrows"),
+                      _("Empty quiver"), _("Cancel"), NULL);
 
         // empty quiver
         if(choice == 2) {
             item& arrows = it->contents[0];
-            g->add_msg_if_player(p, _("You remove the %ss from the %s."), arrows.name.c_str(), it->name.c_str());
+            g->add_msg_if_player(p, _("You remove the %ss from the %s."),
+                                 arrows.name.c_str(), it->name.c_str());
             p->inv.assign_empty_invlet(arrows, false);
             p->i_add(arrows);
             it->contents.erase(it->contents.begin());
@@ -7582,7 +7584,8 @@ int iuse::quiver(player *p, item *it, bool)
 
         int maxArrows = 0;
         // find QUIVER_n tag and grab n
-        for(std::set<std::string>::iterator iter = it->type->item_tags.begin(); iter != it->type->item_tags.end(); iter++) {
+        for(std::set<std::string>::iterator iter = it->type->item_tags.begin();
+            iter != it->type->item_tags.end(); iter++) {
             std::string flag = *iter;
             if(flag.substr(0, 6) == "QUIVER") {
                 std::stringstream ss(flag.substr(7, flag.size()));
@@ -7630,8 +7633,10 @@ int iuse::quiver(player *p, item *it, bool)
 
         arrowsStored = it->contents[0].charges - arrowsStored;
         arrowsStored == 1 ?
-            g->add_msg_if_player(p, _("You put a %s in your %s."), it->contents[0].name.c_str(), it->name.c_str()) :
-            g->add_msg_if_player(p, _("You store %d %ss in your %s."), arrowsStored, it->contents[0].name.c_str(), it->name.c_str());
+            g->add_msg_if_player(p, _("You put a %s in your %s."),
+                                 it->contents[0].name.c_str(), it->name.c_str()) :
+            g->add_msg_if_player(p, _("You store %d %ss in your %s."),
+                                 arrowsStored, it->contents[0].name.c_str(), it->name.c_str());
         p->moves -= 10 * arrowsStored;
     } else {
         g->add_msg_if_player(p, _("Never mind."));
@@ -7670,34 +7675,39 @@ int iuse::holster_pistol(player *p, item *it, bool)
 
         // only allow guns smaller than a certain size
         if(put->volume() > maxvol) {
-            g->add_msg_if_player(p, _("That holster is too small to hold your %s!"), put->tname().c_str());
+            g->add_msg_if_player(p, _("That holster is too small to hold your %s!"),
+                                 put->tname().c_str());
             return 0;
         }
 
         int lvl = p->skillLevel("pistol");
-        std::string adj;
+        std::string message;
         if(lvl < 2) {
-            adj = _(" clumsily");
+            message = _("You clumsily holster your %s.");
         } else if(lvl >= 7) {
-            adj = _(" deftly");
+            message = _("You deftly holster your %s.");
+        } else  {
+            message = _("You holster your %s.");
         }
 
-        g->add_msg_if_player(p, _("You%s holster your %s."), adj.c_str(), put->tname().c_str());
         p->store(it, put, _("pistol"), 14);
+        g->add_msg_if_player(p, message.c_str(), put->tname().c_str());
 
     // else draw the holstered pistol and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
             item& gun = it->contents[0];
             int lvl = p->skillLevel("pistol");
-            std::string adj;
+            std::string message;
             if(lvl < 2) {
-                adj = _(" clumsily");
+                message = _("You clumsily draw your %s from the %s.");
             } else if(lvl >= 7) {
-                adj = _(" quickly");
+                message = _("You quickly draw your %s from the %s.");
+            } else {
+                message = _("You draw your %s from the %s.");
             }
 
-            g->add_msg_if_player(p, _("You%s draw your %s from the %s."), adj.c_str(), gun.tname().c_str(), it->name.c_str());
+            g->add_msg_if_player(p, message.c_str(), gun.tname().c_str(), it->name.c_str());
             p->wield_contents(it, true, _("pistol"), 13);
         }
     }
@@ -7708,7 +7718,8 @@ int iuse::sheath_knife(player *p, item *it, bool)
 {
     // if sheath is empty, pull up menu asking what to sheathe
     if(it->contents.empty()) {
-        int pos = g->inv_for_flag("SHEATH_KNIFE", _("Sheathe what?"), false); // only show SHEATH_KNIFE items
+         // only show SHEATH_KNIFE items
+        int pos = g->inv_for_flag("SHEATH_KNIFE", _("Sheathe what?"), false);
         item* put = &(p->i_at(pos));
         if (put == NULL || put->is_null()) {
             g->add_msg_if_player(p, _("Never mind."));
@@ -7717,7 +7728,8 @@ int iuse::sheath_knife(player *p, item *it, bool)
 
         if(!put->has_flag("SHEATH_KNIFE")) {
             if(put->has_flag("SHEATH_SWORD")) {
-                g->add_msg_if_player(p, _("You need a scabbard to sheathe a sword!"), put->tname().c_str());
+                g->add_msg_if_player(p, _("You need a scabbard to sheathe a sword!"),
+                                     put->tname().c_str());
             } else {
                 g->add_msg_if_player(p, _("You can't sheathe your %s!"), put->tname().c_str());
             }
@@ -7736,14 +7748,16 @@ int iuse::sheath_knife(player *p, item *it, bool)
         }
 
         int lvl = p->skillLevel("cutting");
-        std::string adj = _(" put");
+        std::string message;
         if(lvl < 2) {
-            adj = _(" clumsily shove");
+            message = _("You clumsily shove your %s into the %s.");
         } else if(lvl >= 5) {
-            adj = _(" deftly insert");
+            message = _("You deftly insert your %s into the %s.");
+        } else {
+            message = _("You put your %s into the %s.");
         }
 
-        g->add_msg_if_player(p, _("You%s your %s into the %s."), adj.c_str(), put->tname().c_str(), it->name.c_str());
+        g->add_msg_if_player(p, message.c_str(), put->tname().c_str(), it->name.c_str());
         p->store(it, put, _("cutting"), 14);
 
     // else unsheathe a sheathed weapon and have the player wield it
@@ -7752,18 +7766,22 @@ int iuse::sheath_knife(player *p, item *it, bool)
             p->wield_contents(it, true, _("cutting"), 13);
 
             int lvl = p->skillLevel("cutting");
-            std::string adj;
+            std::string message;
             if(lvl < 2) {
-                adj = _(" awkwardly");
+                message = _("You clumsily draw your %s from the %s.");
             } else if(lvl >= 5) {
-                adj = _(" swiftly");
+                message = _("You deftly draw your %s from the %s.");
+            } else {
+                message = _("You draw your %s from the %s.");
             }
 
-            g->add_msg_if_player(p, _("You%s draw your %s from the %s."), adj.c_str(), p->weapon.tname().c_str(), it->name.c_str());
+            g->add_msg_if_player(p, message.c_str(), p->weapon.tname().c_str(), it->name.c_str());
 
             // diamond knives glimmer in the sunlight
-            if(g->is_in_sunlight(p->posx, p->posy) && (p->weapon.made_of("diamond") || p->weapon.type->id == "foon" || p->weapon.type->id == "spork")) {
-                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), p->weapon.tname().c_str());
+            if(g->is_in_sunlight(p->posx, p->posy) && (p->weapon.made_of("diamond") ||
+               p->weapon.type->id == "foon" || p->weapon.type->id == "spork")) {
+                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."),
+                                     p->weapon.tname().c_str());
             }
         }
     }
@@ -7774,7 +7792,8 @@ int iuse::sheath_sword(player *p, item *it, bool)
 {
     // if sheath is empty, pull up menu asking what to sheathe
     if(it->contents.empty()) {
-        int pos = g->inv_for_flag("SHEATH_SWORD", _("Sheathe what?"), false); // only show SHEATH_SWORD items
+         // only show SHEATH_SWORD items
+        int pos = g->inv_for_flag("SHEATH_SWORD", _("Sheathe what?"), false);
         item* put = &(p->i_at(pos));
         if (put == NULL || put->is_null()) {
             g->add_msg_if_player(p, _("Never mind."));
@@ -7791,15 +7810,17 @@ int iuse::sheath_sword(player *p, item *it, bool)
         }
 
         int lvl = p->skillLevel("cutting");
-        std::string adj;
+        std::string message;
         if(lvl < 2) {
-            adj = _(" clumsily");
+            message = _("You clumsily sheathe your %s.");
         } else if(lvl >= 7) {
-            adj = _(" deftly");
+            message = _("You deftly sheathe your %s.");
+        } else {
+            message = _("You sheathe your %s.");
         }
 
+        g->add_msg_if_player(p, message.c_str(), put->tname().c_str());
         p->store(it, put, _("cutting"), 14);
-        g->add_msg_if_player(p, _("You%s sheathe your %s."), adj.c_str(), put->tname().c_str());
 
     // else unsheathe a sheathed weapon and have the player wield it
     } else {
@@ -7839,7 +7860,8 @@ int iuse::sheath_sword(player *p, item *it, bool)
                             mon_num = mon_hit;
                     }
                     monster& zed = g->zombie(mon_num);
-                    g->add_msg_if_player(p, _("You slash at the %s as you draw your %s."), zed.name().c_str(), p->weapon.tname().c_str());
+                    g->add_msg_if_player(p, _("You slash at the %s as you draw your %s."),
+                                         zed.name().c_str(), p->weapon.tname().c_str());
                     p->melee_attack(zed, true);
                 } else {
                     // no adjacent monsters, draw sword normally
@@ -7849,19 +7871,22 @@ int iuse::sheath_sword(player *p, item *it, bool)
 
             // draw sword normally
             if(!iaijutsu) {
-                std::string adj;
+                std::string message;
                 if(lvl < 2) {
-                    adj = _(" clumsily");
+                    message = _("You clumsily draw your %s.");
                 } else if(lvl >= 7) {
-                    adj = _(" masterfully");
+                    message = _("You masterfully draw your %s.");
+                } else {
+                    message = _("You draw your %s.");
                 }
 
-                g->add_msg_if_player(p, _("You%s draw your %s."), adj.c_str(), p->weapon.tname().c_str());
+                g->add_msg_if_player(p, message.c_str(), p->weapon.tname().c_str());
             }
 
             // diamond swords glimmer in the sunlight
             if(g->is_in_sunlight(p->posx, p->posy) && p->weapon.made_of("diamond")) {
-                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."), p->weapon.tname().c_str());
+                g->add_msg_if_player(p, _("The %s glimmers magnificently in the sunlight."),
+                                     p->weapon.tname().c_str());
             }
         }
     }
@@ -7873,7 +7898,8 @@ int iuse::holster_ankle(player *p, item *it, bool b)
     int choice = -1;
     // ask whether to store a knife or a pistol
     if (it->contents.empty()) {
-        choice = menu(true, _("Using ankle holster:"), _("Holster a pistol"), _("Sheathe a knife"), _("Cancel"), NULL);
+        choice = menu(true, _("Using ankle holster:"), _("Holster a pistol"),
+                      _("Sheathe a knife"), _("Cancel"), NULL);
         if(choice == 1) {
             holster_pistol(p, it, b);
         } else if(choice == 2) {

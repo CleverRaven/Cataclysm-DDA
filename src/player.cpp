@@ -10115,7 +10115,8 @@ std::string player::weapname(bool charges)
   return weapon.tname();
 }
 
-void player::wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor)
+void player::wield_contents(item *container, bool force_invlet,
+                            std::string /*skill_used*/, int /*volume_factor*/)
 {
     if(!(container->contents.empty())) {
         item& weap = container->contents[0];
