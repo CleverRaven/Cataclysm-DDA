@@ -2929,9 +2929,7 @@ void overmap::polish(const int z, const std::string &terrain_type)
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
             if (check_all || check_ot_type(terrain_type, x, y, z)) {
-                if (check_ot_type("road", x, y, z)) {
-                    good_road("road", x, y, z);
-                } else if (check_ot_type("bridge", x, y, z) &&
+                if (check_ot_type("bridge", x, y, z) &&
                            check_ot_type("bridge", x - 1, y, z) &&
                            check_ot_type("bridge", x + 1, y, z) &&
                            check_ot_type("bridge", x, y - 1, z) &&
@@ -2960,6 +2958,8 @@ void overmap::polish(const int z, const std::string &terrain_type)
                            (!is_river(ter(x, y - 1, z)) ||
                             !is_river(ter(x, y + 1, z)))) {
                     ter(x, y, z) = "road_ew";
+                } else if (check_ot_type("road", x, y, z)) {
+                    good_road("road", x, y, z);
                 }
             }
         }
@@ -3002,6 +3002,21 @@ bool overmap::check_ot_type(const std::string &otype, int x, int y, int z)
     return is_ot_type(otype, oter);
 }
 
+bool overmap::check_ot_type_road(const std::string &otype, int x, int y, int z)
+{
+    const oter_id oter = ter(x, y, z);
+    if(otype == "road" || otype == "bridge" || otype == "hiway") {
+        if(is_ot_type("road", oter) || is_ot_type ("bridge", oter) || is_ot_type("hiway", oter)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return is_ot_type(otype, oter);
+}
+
+
+
 bool overmap::is_road(int x, int y, int z)
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY) {
@@ -3025,57 +3040,77 @@ bool overmap::is_road_or_highway(int x, int y, int z)
 
 void overmap::good_road(const std::string &base, int x, int y, int z)
 {
-    if (check_ot_type(base, x, y-1, z)) {
-        if (check_ot_type(base, x+1, y, z)) {
-            if (check_ot_type(base, x, y+1, z)) {
-                if (check_ot_type(base, x-1, y, z)) {
+    if (check_ot_type_road(base, x, y-1, z)) {
+        if (check_ot_type_road(base, x+1, y, z)) {
+            if (check_ot_type_road(base, x, y+1, z)) {
+                if (check_ot_type_road(base, x-1, y, z)) {
                     ter(x, y, z) = base + "_nesw";
                 } else {
                     ter(x, y, z) = base + "_nes";
                 }
             } else {
-                if (check_ot_type(base, x-1, y, z)) {
+                if (check_ot_type_road(base, x-1, y, z)) {
                     ter(x, y, z) = base + "_new";
                 } else {
                     ter(x, y, z) = base + "_ne";
                 }
             }
         } else {
-            if (check_ot_type(base, x, y+1, z)) {
+            if (check_ot_type_road(base, x, y+1, z)) {
                 if (check_ot_type(base, x-1, y, z)) {
                     ter(x, y, z) = base + "_nsw";
                 } else {
                     ter(x, y, z) = base + "_ns";
                 }
             } else {
-                if (check_ot_type(base, x-1, y, z)) {
+                if (check_ot_type_road(base, x-1, y, z)) {
                     ter(x, y, z) = base + "_wn";
                 } else {
-                    ter(x, y, z) = base + "_ns";
+                    if(base == "road") {
+                        ter(x, y, z) = base + "_end_south";
+                    } else {
+                        ter(x, y, z) = base + "_ns";
+                    }
                 }
             }
         }
     } else {
-        if (check_ot_type(base, x+1, y, z)) {
-            if (check_ot_type(base, x, y+1, z)) {
-                if (check_ot_type(base, x-1, y, z)) {
+        if (check_ot_type_road(base, x+1, y, z)) {
+            if (check_ot_type_road(base, x, y+1, z)) {
+                if (check_ot_type_road(base, x-1, y, z)) {
                     ter(x, y, z) = base + "_esw";
                 } else {
                     ter(x, y, z) = base + "_es";
                 }
             } else {
-                ter(x, y, z) = base + "_ew";
+                if( check_ot_type_road(base, x-1, y, z)) {
+                    ter(x, y, z) = base + "_ew";
+                } else {
+                    if(base == "road") {
+                        ter(x, y, z) = base + "_end_west";
+                    } else {
+                        ter(x, y, z) = base + "_ew";
+                    }
+                }
             }
         } else {
-            if (check_ot_type(base, x, y+1, z)) {
-                if (check_ot_type(base, x-1, y, z)) {
+            if (check_ot_type_road(base, x, y+1, z)) {
+                if (check_ot_type_road(base, x-1, y, z)) {
                     ter(x, y, z) = base + "_sw";
                 } else {
-                    ter(x, y, z) = base + "_ns";
+                    if(base == "road") {
+                        ter(x, y, z) = base + "_end_north";
+                    } else {
+                        ter(x, y, z) = base + "_ns";
+                    }
                 }
             } else {
-                if (check_ot_type(base, x-1, y, z)) {
-                    ter(x, y, z) = base + "_ew";
+                if (check_ot_type_road(base, x-1, y, z)) {
+                    if(base == "road") {
+                        ter(x, y, z) = base + "_end_east";
+                    } else {
+                        ter(x, y, z) = base + "_ew";
+                    }
                 } else {
                     // No adjoining roads/etc.
                     // Happens occasionally, esp. with sewers.
