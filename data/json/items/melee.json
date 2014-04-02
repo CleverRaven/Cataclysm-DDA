@@ -3333,5 +3333,20 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "NONE"
+   },
+   {
+    "id": "ugl_buttstock",
+	"type": "GENERIC",
+	"symbol": ",",
+	"color": "dark_gray",
+	"name": "grenade launcher buttstock",
+	"description": "A collapsible buttstock designed for the M320 grenade launcher. When combined with this stock, the M320 can be used as a stand alone weapon",
+	"price": 10000,
+	"material": "steel",
+	"weight": 600,
+	"volume": 1,
+	"bashing": 0,
+	"cutting": 0,
+	"to_hit": 1
    }
 ]
