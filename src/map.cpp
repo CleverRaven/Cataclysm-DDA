@@ -4690,7 +4690,7 @@ void map::load_portal_destination()
         // portal_destination->save();
         // TODO: don't leak memory like a sieve lol.
         // delete portal_destination;
-        portal_destination = NULL;
+        //portal_destination = NULL;
     }
     if( !portal_cache.empty() ) {
         // grab coordinates from first portal found, should be consistent-ish across turns.
@@ -4701,9 +4701,9 @@ void map::load_portal_destination()
         portal_value /= 1 << 5;
 
         // Temporary measure, pick a random point on the current overmap.
-        int x = portal_value % 180;
-        portal_value /= 180;
-        int y = portal_value % 180;
+        int x = 5 + portal_value % 170;
+        portal_value /= 170;
+        int y = 5 + portal_value % 180;
 /*
         // TODO: pick a random very wide offset, calculate what overmap it ends up in,
         // and load the map there.
@@ -4716,6 +4716,7 @@ void map::load_portal_destination()
 
         portal_destination = new map();
         // Does this need to be update_vehicles = false?
+        x = 90, y = 90, z = 0;
         portal_destination->load( x, y, z, false);
         portal_destination->build_outside_cache();
         portal_destination->build_transparency_cache();
