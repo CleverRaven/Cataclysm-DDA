@@ -34,12 +34,12 @@
 
       { "monster" : "mon_cougar", "freq" : 1, "cost_multiplier" : 3                 },
       { "monster" : "mon_cougar", "freq" : 2, "cost_multiplier" : 3,                "conditions" : ["DAWN", "DUSK"] },
-      { "monster" : "mon_cougar", "freq" : 1, "cost_multiplier" : 3, "ends" :   72  },
-      { "monster" : "mon_cougar", "freq" : 2, "cost_multiplier" : 3, "ends" :   72, "conditions" : ["DAWN", "DUSK"] },
-      { "monster" : "mon_cougar", "freq" : 1, "cost_multiplier" : 3, "ends" :  168  },
-      { "monster" : "mon_cougar", "freq" : 2, "cost_multiplier" : 3, "ends" :  168, "conditions" : ["DAWN", "DUSK"] },
-      { "monster" : "mon_cougar", "freq" : 1, "cost_multiplier" : 3, "ends" :  672  },
-      { "monster" : "mon_cougar", "freq" : 2, "cost_multiplier" : 3, "ends" :  672, "conditions" : ["DAWN", "DUSK"] },
+      { "monster" : "mon_cougar", "freq" : 1, "cost_multiplier" : 3, "ends" :   168  },
+      { "monster" : "mon_cougar", "freq" : 2, "cost_multiplier" : 3, "ends" :   168, "conditions" : ["DAWN", "DUSK"] },
+      { "monster" : "mon_cougar", "freq" : 1, "cost_multiplier" : 3, "ends" :  504  },
+      { "monster" : "mon_cougar", "freq" : 2, "cost_multiplier" : 3, "ends" :  504, "conditions" : ["DAWN", "DUSK"] },
+      { "monster" : "mon_cougar", "freq" : 1, "cost_multiplier" : 3, "ends" :  1008  },
+      { "monster" : "mon_cougar", "freq" : 2, "cost_multiplier" : 3, "ends" :  1008, "conditions" : ["DAWN", "DUSK"] },
       { "monster" : "mon_cougar", "freq" : 1, "cost_multiplier" : 3, "ends" : 2160  },
       { "monster" : "mon_cougar", "freq" : 2, "cost_multiplier" : 3, "ends" : 2160, "conditions" : ["DAWN", "DUSK"] },
 	  
