@@ -17,9 +17,9 @@
       { "monster" : "mon_bear", "freq" : 1, "cost_multiplier" : 10, "ends" : 2160, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_bear", "freq" : 3, "cost_multiplier" : 10, "ends" : 2160, "conditions" : ["NIGHT", "SPRING", "SUMMER", "AUTUMN"] },
 
-      { "monster" : "mon_zombear", "freq" : 4, "cost_multiplier" : 10, "starts" :   72 },
-      { "monster" : "mon_zombear", "freq" : 4, "cost_multiplier" : 10, "starts" :  168 },
-      { "monster" : "mon_zombear", "freq" : 4, "cost_multiplier" : 10, "starts" :  672 },
+      { "monster" : "mon_zombear", "freq" : 1, "cost_multiplier" : 10, "starts" :   72 },
+      { "monster" : "mon_zombear", "freq" : 2, "cost_multiplier" : 10, "starts" :  168 },
+      { "monster" : "mon_zombear", "freq" : 3, "cost_multiplier" : 10, "starts" :  672 },
       { "monster" : "mon_zombear", "freq" : 4, "cost_multiplier" : 10, "starts" : 2160 },
 
       { "monster" : "mon_bobcat", "freq" :  7, "cost_multiplier" : 2                              },
