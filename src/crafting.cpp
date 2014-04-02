@@ -1081,8 +1081,8 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab, bool filtered)
         pos_x += utf8_width(_("FOOD")) + tab_step;
         draw_tab(w, pos_x,  _("CHEMS"),       (tab == "CC_CHEM")       ? true : false);
         pos_x += utf8_width(_("CHEMS")) + tab_step;
-        draw_tab(w, pos_x,  _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
-        pos_x += utf8_width(_("ELECTRONICS")) + tab_step;
+        draw_tab(w, pos_x,  _("ELECTRICAL"), (tab == "CC_ELECTRONIC") ? true : false);
+        pos_x += utf8_width(_("ELECTRICAL")) + tab_step;
         draw_tab(w, pos_x,  _("ARMOR"),       (tab == "CC_ARMOR")      ? true : false);
         pos_x += utf8_width(_("ARMOR")) + tab_step;
         draw_tab(w, pos_x,  _("OTHER"),       (tab == "CC_OTHER")      ? true : false);
