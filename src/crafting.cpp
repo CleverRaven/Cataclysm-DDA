@@ -1165,6 +1165,10 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
         } else if (tab == "CC_ELECTRONIC") {
             draw_subtab(w, pos_x, _("CBMS"), (subtab == "CSC_ELECTRONIC_CBMS") ? true : false);
             pos_x += utf8_width(_("CBMS")) + tab_step;
+            draw_subtab(w, pos_x, _("TOOLS"), (subtab == "CSC_ELECTRONIC_TOOLS") ? true : false);
+            pos_x += utf8_width(_("TOOLS")) + tab_step;
+            draw_subtab(w, pos_x, _("PARTS"), (subtab == "CSC_ELECTRONIC_PARTS") ? true : false);
+            pos_x += utf8_width(_("PARTS")) + tab_step;
             draw_subtab(w, pos_x, _("LIGHTING"), (subtab == "CSC_ELECTRONIC_LIGHTING") ? true : false);
             pos_x += utf8_width(_("LIGHTING")) + tab_step;
             draw_subtab(w, pos_x, _("COMPONENTS"), (subtab == "CSC_ELECTRONIC_COMPONENTS") ? true : false);
