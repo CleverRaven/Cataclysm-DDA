@@ -2074,7 +2074,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "PIPEBOMB"
+    "use_action": {
+        "type": "transform",
+        "msg": "You light the fuse on the pipe bomb.",
+        "active": true,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "target": "pipebomb_act",
+        "target_charges": 3
+    }
   },
 
   {
@@ -2122,7 +2130,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "GRENADE"
+    "use_action": {
+        "type": "transform",
+        "target": "grenade_act",
+        "target_charges": 5,
+        "active": true,
+        "msg": "You pull the pin on the grenade."
+    }
   },
 
   {
@@ -2218,7 +2232,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "FLASHBANG"
+    "use_action": {
+        "type": "transform",
+        "target": "flashbang_act",
+        "target_charges": 5,
+        "active": true,
+        "msg": "You pull the pin on the flashbang."
+    }
   },
 
   {
@@ -2266,7 +2286,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "EMPBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "EMPbomb_act",
+        "target_charges": 3,
+        "active": true,
+        "msg": "You pull the pin on the EMP grenade."
+    }
   },
 
   {
@@ -2314,7 +2340,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "SCRAMBLER"
+    "use_action": {
+        "type": "transform",
+        "target": "scrambler_act",
+        "target_charges": 3,
+        "active": true,
+        "msg": "You pull the pin on the scrambler grenade."
+    }
   },
 
   {
@@ -2362,7 +2394,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "GASBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "gasbomb_act",
+        "target_charges": 20,
+        "active": true,
+        "msg": "You pull the pin on the teargas canister."
+    }
   },
 
   {
@@ -2410,7 +2448,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "SMOKEBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "smokebomb_act",
+        "target_charges": 20,
+        "active": true,
+        "msg": "You pull the pin on the smoke bomb."
+    }
   },
 
   {
@@ -2578,7 +2622,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "DYNAMITE"
+    "use_action": {
+        "type": "transform",
+        "target": "dynamite_act",
+        "target_charges": 20,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "active": true,
+        "msg": "You light the dynamite."
+    }
   },
 
   {
@@ -4350,7 +4402,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TORCH"
+    "use_action": {
+        "type": "transform",
+        "target": "torch_lit",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter or fire to light this.",
+        "active": true,
+        "msg": "You light the torch."
+    }
   },
 
   {
@@ -4400,7 +4459,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "BATTLETORCH"
+    "use_action": {
+        "type": "transform",
+        "target": "battletorch_lit",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter or fire to light this.",
+        "active": true,
+        "msg": "You light the Louisville Slaughterer."
+    }
   },
 
   {
@@ -6337,7 +6403,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "MATCHBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "matchbomb_act",
+        "target_charges": 20,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "active": true,
+        "msg": "You light the match head bomb."
+    }
   },
 
   {

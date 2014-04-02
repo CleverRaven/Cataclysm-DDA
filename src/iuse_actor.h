@@ -18,6 +18,9 @@ public:
     std::string msg_transform;
     /** Id of the resulting item. */
     std::string target_id;
+    /**
+     * If >= -1: set the charges property of the target to this value. */
+    long target_charges;
     /** Id of the container (or empty if no container is needed).
      * If not empty, the item is transformed to the container, and a
      * new item (with type @ref target_id) is placed inside.
@@ -36,6 +39,7 @@ public:
 
     iuse_transform()
     : iuse_actor()
+    , target_charges(-2)
     , active(false)
     , need_fire(0)
     , need_charges(0)

@@ -271,32 +271,23 @@ void Item_factory::init(){
     iuse_function_list["TELEPORT"] = &iuse::teleport;
     iuse_function_list["CAN_GOO"] = &iuse::can_goo;
     iuse_function_list["THROWABLE_EXTINGUISHER_ACT"] = &iuse::throwable_extinguisher_act;
-    iuse_function_list["PIPEBOMB"] = &iuse::pipebomb;
     iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
-    iuse_function_list["GRENADE"] = &iuse::grenade;
     iuse_function_list["GRENADE_ACT"] = &iuse::grenade_act;
     iuse_function_list["GRANADE"] = &iuse::granade;
     iuse_function_list["GRANADE_ACT"] = &iuse::granade_act;
-    iuse_function_list["FLASHBANG"] = &iuse::flashbang;
     iuse_function_list["FLASHBANG_ACT"] = &iuse::flashbang_act;
     iuse_function_list["C4"] = &iuse::c4;
     iuse_function_list["C4ARMED"] = &iuse::c4armed;
-    iuse_function_list["EMPBOMB"] = &iuse::EMPbomb;
     iuse_function_list["EMPBOMB_ACT"] = &iuse::EMPbomb_act;
-    iuse_function_list["SCRAMBLER"] = &iuse::scrambler;
     iuse_function_list["SCRAMBLER_ACT"] = &iuse::scrambler_act;
-    iuse_function_list["GASBOMB"] = &iuse::gasbomb;
     iuse_function_list["GASBOMB_ACT"] = &iuse::gasbomb_act;
-    iuse_function_list["SMOKEBOMB"] = &iuse::smokebomb;
     iuse_function_list["SMOKEBOMB_ACT"] = &iuse::smokebomb_act;
     iuse_function_list["ACIDBOMB"] = &iuse::acidbomb;
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
-    iuse_function_list["MATCHBOMB"] = &iuse::matchbomb;
     iuse_function_list["MATCHBOMB_ACT"] = &iuse::matchbomb_act;
-    iuse_function_list["DYNAMITE"] = &iuse::dynamite;
     iuse_function_list["DYNAMITE_ACT"] = &iuse::dynamite_act;
     iuse_function_list["FIRECRACKER_PACK"] = &iuse::firecracker_pack;
     iuse_function_list["FIRECRACKER_PACK_ACT"] = &iuse::firecracker_pack_act;
@@ -328,9 +319,7 @@ void Item_factory::init(){
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
     iuse_function_list["TENT"] = &iuse::tent;
     iuse_function_list["SHELTER"] = &iuse::shelter;
-    iuse_function_list["TORCH"] = &iuse::torch;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
-    iuse_function_list["BATTLETORCH"] = &iuse::battletorch;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
@@ -1122,6 +1111,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
         obj.read("msg", actor->msg_transform);
+        obj.read("target_charges", actor->target_charges);
         obj.read("container", actor->container_id);
         obj.read("active", actor->active);
         obj.read("need_fire", actor->need_fire);
@@ -1136,6 +1126,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
         obj.read("msg", actor->msg_transform);
+        obj.read("target_charges", actor->target_charges);
         obj.read("container", actor->container_id);
         obj.read("active", actor->active);
         obj.read("need_fire", actor->need_fire);

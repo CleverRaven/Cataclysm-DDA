@@ -32,16 +32,22 @@ long iuse_transform::use(player* p, item* it, bool /*t*/) const
     // load this from the original item, not the transformed one.
     const int charges_to_use = it->type->charges_to_use();
     g->add_msg_if_player(p, msg_transform.c_str(), it->tname().c_str());
+    item *target;
     if (container_id.empty()) {
         // No container, assume simple type transformation like foo_off -> foo_on
         it->make(itypes[target_id]);
-        it->active = active;
+        target = it;
     } else {
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
         it->make(itypes[container_id]);
         it->contents.push_back(item(itypes[target_id], g->turn));
-        it->contents.back().active = active;
+        target = &it->contents.back();
+    }
+    target->active = active;
+    if (target_charges > -2) {
+        // -1 is for items that can not have any charges at all.
+        target->charges = target_charges;
     }
     return charges_to_use;
 }

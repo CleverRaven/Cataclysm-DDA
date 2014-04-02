@@ -4754,23 +4754,6 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool)
     return 0;
 }
 
-int iuse::pipebomb(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (!p->use_charges_if_avail("fire", 1)) {
-        g->add_msg_if_player(p,_("You need a lighter!"));
-        return 0;
-    }
-    g->add_msg_if_player(p,_("You light the fuse on the pipe bomb."));
-    it->make(itypes["pipebomb_act"]);
-    it->charges = 3;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
 int iuse::pipebomb_act(player *, item *it, bool t)
 {
     point pos = g->find_item(it);
@@ -4791,15 +4774,6 @@ int iuse::pipebomb_act(player *, item *it, bool t)
         }
     }
     return 0;
-}
-
-int iuse::grenade(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the grenade."));
-    it->make(itypes["grenade_act"]);
-    it->charges = 5;
-    it->active = true;
-    return it->type->charges_to_use();
 }
 
 int iuse::grenade_act(player *, item *it, bool t)
@@ -4946,15 +4920,6 @@ int iuse::granade_act(player *, item *it, bool t)
     return it->type->charges_to_use();
 }
 
-int iuse::flashbang(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the flashbang."));
-    it->make(itypes["flashbang_act"]);
-    it->charges = 5;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
 int iuse::flashbang_act(player *, item *it, bool t)
 {
     point pos = g->find_item(it);
@@ -5003,15 +4968,6 @@ int iuse::c4armed(player *, item *it, bool t)
     return 0;
 }
 
-int iuse::EMPbomb(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the EMP grenade."));
-    it->make(itypes["EMPbomb_act"]);
-    it->charges = 3;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
 int iuse::EMPbomb_act(player *, item *it, bool t)
 {
     point pos = g->find_item(it);
@@ -5032,15 +4988,6 @@ int iuse::EMPbomb_act(player *, item *it, bool t)
         }
     }
     return 0;
-}
-
-int iuse::scrambler(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the scrambler grenade."));
-    it->make(itypes["scrambler_act"]);
-    it->charges = 3;
-    it->active = true;
-    return it->type->charges_to_use();
 }
 
 int iuse::scrambler_act(player *, item *it, bool t)
@@ -5064,15 +5011,6 @@ int iuse::scrambler_act(player *, item *it, bool t)
  return 0;
 }
 
-int iuse::gasbomb(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the teargas canister."));
-    it->make(itypes["gasbomb_act"]);
-    it->charges = 20;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
 int iuse::gasbomb_act(player *, item *it, bool t)
 {
     point pos = g->find_item(it);
@@ -5093,15 +5031,6 @@ int iuse::gasbomb_act(player *, item *it, bool t)
         g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
     }
     return 0;
-}
-
-int iuse::smokebomb(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the smoke bomb."));
-    it->make(itypes["smokebomb_act"]);
-    it->charges = 20;
-    it->active = true;
-    return it->type->charges_to_use();
 }
 
 int iuse::smokebomb_act(player *, item *it, bool t)
@@ -5213,23 +5142,6 @@ int iuse::molotov_lit(player *p, item *it, bool t)
     return 0;
 }
 
-int iuse::dynamite(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
- if (!p->use_charges_if_avail("fire", 1)) {
-  g->add_msg_if_player(p,_("You need a lighter!"));
-  return 0;
- }
- g->add_msg_if_player(p,_("You light the dynamite."));
- it->make(itypes["dynamite_act"]);
- it->charges = 20;
- it->active = true;
- return it->type->charges_to_use();
-}
-
 int iuse::dynamite_act(player *, item *it, bool t)
 {
     point pos = g->find_item(it);
@@ -5245,24 +5157,6 @@ int iuse::dynamite_act(player *, item *it, bool t)
         g->explosion(pos.x, pos.y, 60, 0, false);
     }
     return 0;
-}
-
-int iuse::matchbomb(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if( !p->use_charges_if_avail("fire", 1) ) {
-        it->charges++;
-        g->add_msg_if_player(p,_("You need a lighter!"));
-        return 0;
-    }
-    g->add_msg_if_player(p,_("You light the match head bomb."));
-    it->make( itypes["matchbomb_act"] );
-    it->charges = 3;
-    it->active = true;
-    return it->type->charges_to_use();
 }
 
 int iuse::matchbomb_act(player *, item *it, bool t)
@@ -6455,23 +6349,6 @@ int iuse::shelter(player *p, item *, bool)
  return 1;
 }
 
-int iuse::torch(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (!p->use_charges_if_avail("fire", 1)) {
-        g->add_msg_if_player(p,_("You need a lighter or fire to light this."));
-        return 0;
-    } else {
-        g->add_msg_if_player(p,_("You light the torch."));
-        it->make(itypes["torch_lit"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
 
 int iuse::torch_lit(player *p, item *it, bool t)
 {
@@ -6522,24 +6399,6 @@ int iuse::torch_lit(player *p, item *it, bool t)
         }
     }
     return it->type->charges_to_use();
-}
-
-
-int iuse::battletorch(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (!p->use_charges_if_avail("fire", 1)) {
-        g->add_msg_if_player(p,_("You need a lighter or fire to light this."));
-        return 0;
-    } else {
-        g->add_msg_if_player(p,_("You light the Louisville Slaughterer."));
-        it->make(itypes["battletorch_lit"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
 }
 
 
