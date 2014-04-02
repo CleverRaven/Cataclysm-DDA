@@ -27578,8 +27578,8 @@
 },{
   "type" : "recipe",
   "result": "dehydrator",
-  "category": "CC__ELECTRONIC",
-  "subcategory": "CSC__ELECTRONIC_TOOLS",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
   "skill_used": "electronics",
   "difficulty": 4,
   "time": 36000,
