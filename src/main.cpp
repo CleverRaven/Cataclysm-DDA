@@ -31,14 +31,6 @@
 
 void exit_handler(int s);
 
-// create map where we will store the FILENAMES
-std::map<std::string, std::string> FILENAMES;
-
-bool MAP_SHARING::sharing;
-std::string MAP_SHARING::username;
-
-bool MAP_SHARING::competitive;
-
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -120,6 +112,7 @@ int main(int argc, char *argv[])
             argv++;
             MAP_SHARING::setSharing(true);
             MAP_SHARING::setCompetitive(true);
+            MAP_SHARING::setWorldmenu(false);
         } else if(std::string(argv[0]) == "--competitive") {
             argc--;
             argv++;
@@ -130,7 +123,11 @@ int main(int argc, char *argv[])
         }
     }
     while (saved_argc) {
-        if(std::string(saved_argv[0]) == "--datadir") { // TODO NEED THIS?
+        if(std::string(saved_argv[0]) == "--worldmenu") {
+            saved_argc--;
+            saved_argv++;
+            MAP_SHARING::setWorldmenu(true);
+        } else if(std::string(saved_argv[0]) == "--datadir") {
             saved_argc--;
             saved_argv++;
             if(saved_argc) {

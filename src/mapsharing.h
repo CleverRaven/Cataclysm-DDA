@@ -18,6 +18,7 @@ extern bool sharing;
 extern std::string username;
 
 extern bool competitive;
+extern bool worldmenu;
 
 void setSharing(bool mode);
 void setUsername(std::string name);
@@ -26,6 +27,9 @@ std::string getUsername();
 
 void setCompetitive(bool mode);
 bool isCompetitive();
+
+void setWorldmenu(bool mode);
+bool isWorldmenu();
 
 void setDefaults();
 

@@ -444,7 +444,7 @@ bool game::opening_screen()
 
                 // only show reset / destroy world if there is at least one valid world existing!
 
-                if(MAP_SHARING::isSharing() && MAP_SHARING::getUsername() != "admin") {
+                if(MAP_SHARING::isSharing() && !MAP_SHARING::isWorldmenu() && MAP_SHARING::getUsername() != "admin") {
                 layer = 1;
                 popup(_("Only the admin can change worlds."));
                 continue;
