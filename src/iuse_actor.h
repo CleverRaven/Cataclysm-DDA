@@ -38,6 +38,8 @@ public:
     /** Need this many charges before processing the action. Values <= 0 are ignored. */
     long need_charges;
     std::string need_charges_msg;
+    /** Subtract this from @ref Creature::moves when actually transforming the item. */
+    int moves;
 
     iuse_transform()
     : iuse_actor()
@@ -45,6 +47,7 @@ public:
     , active(false)
     , need_fire(0)
     , need_charges(0)
+    , moves(0)
     {
     }
     virtual ~iuse_transform();

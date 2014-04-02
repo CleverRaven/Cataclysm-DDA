@@ -1497,7 +1497,12 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "CIRCSAW_OFF"
+    "use_action": {
+        "type": "transform",
+        "target": "circsaw_on",
+        "active": true,
+        "msg": "You turn on the circular saw."
+    }
   },{
     "id": "circsaw_on",
     "type": "TOOL",
@@ -2621,7 +2626,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "ACIDBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "acidbomb_act",
+        "target_charges": 1,
+        "msg": "You remove the divider, and the chemicals mix.",
+        "active": true,
+        "moves": 150
+    }
   },
 
   {
@@ -5094,7 +5106,14 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "PDA"
+    "use_action": {
+        "type": "transform",
+        "need_charges": 1,
+        "need_charges_msg": "The PDA's batteries are dead.",
+        "msg": "You activate the flashlight app.",
+        "target": "pda_flashlight",
+        "active": true
+    }
   },
 
   {
@@ -5118,7 +5137,11 @@
     "turns_per_charge": 30,
     "ammo": "battery",
     "revert_to": "pda",
-    "use_action": "PDA_FLASHLIGHT"
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "The PDA screen goes blank.",
+        "target": "pda"
+    }
   },
 
   {
@@ -6702,7 +6725,11 @@
     "ammo": "NULL",
     "revert_to": "null",
     "phase" : "solid",
-    "use_action" : "RAD_BADGE"
+    "use_action": {
+        "type": "transform",
+        "target": "rad_badge",
+        "msg":"You remove the badge from its wrapper, exposing it to ambient radiation."
+    }
   },
 
   {

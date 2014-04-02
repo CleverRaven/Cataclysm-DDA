@@ -104,7 +104,6 @@ public:
     int carver_on           (player *, item *, bool);
     int trimmer_off         (player *, item *, bool);
     int trimmer_on          (player *, item *, bool);
-    int circsaw_off         (player *, item *, bool);
     int circsaw_on          (player *, item *, bool);
     int combatsaw_off       (player *, item *, bool);
     int combatsaw_on        (player *, item *, bool);
@@ -130,7 +129,6 @@ public:
     int granade             (player *, item *, bool);
     int granade_act         (player *, item *, bool);
     int c4                  (player *, item *, bool);
-    int acidbomb            (player *, item *, bool);
     int arrow_flamable      (player *, item *, bool);
     int acidbomb_act        (player *, item *, bool);
     int molotov             (player *, item *, bool);
@@ -172,13 +170,10 @@ public:
     int mop                 (player *, item *, bool);
     int spray_can           (player *, item *, bool);
     int rag                 (player *, item *, bool);
-    int pda                 (player *, item *, bool);
-    int pda_flashlight      (player *, item *, bool);
     int LAW                 (player *, item *, bool);
     int heatpack            (player *, item *, bool);
     int hotplate            (player *, item *, bool);
     int flask_yeast         (player *, item *, bool);
-    int rad_badge           (player *, item *, bool);
     int quiver              (player *, item *, bool);
     int boots               (player *, item *, bool);
     int sheath_sword        (player *, item *, bool);

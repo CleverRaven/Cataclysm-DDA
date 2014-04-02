@@ -49,6 +49,7 @@ long iuse_transform::use(player* p, item* it, bool /*t*/) const
         // -1 is for items that can not have any charges at all.
         target->charges = target_charges;
     }
+    p->moves -= moves;
     return charges_to_use;
 }
 

@@ -3845,14 +3845,6 @@ int iuse::trimmer_on(player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
-int iuse::circsaw_off(player *p, item *it, bool)
-{
- it->make(itypes["circsaw_on"]);
- it->active = true;
- g->add_msg_if_player(p,_("You turn on the circular saw."));
- return it->type->charges_to_use();
-}
-
 int iuse::circsaw_on(player *p, item *it, bool t)
 {
  if (t) { // Effects while simply on
@@ -4913,17 +4905,6 @@ int iuse::c4(player *p, item *it, bool)
     g->add_msg_if_player(p,_("You set the timer to %d."), time);
     it->make(itypes["c4armed"]);
     it->charges = time;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::acidbomb(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You remove the divider, and the chemicals mix."));
-    p->moves -= 150;
-    it->make(itypes["acidbomb_act"]);
-    it->charges = 1;
-    it->bday = int(g->turn);
     it->active = true;
     return it->type->charges_to_use();
 }
@@ -6393,31 +6374,6 @@ int iuse::rag(player *p, item *it, bool)
     }
 }
 
-int iuse::pda(player *p, item *it, bool)
-{
-    if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The PDA's batteries are dead."));
-        return 0;
-    } else {
-        g->add_msg_if_player(p,_("You activate the flashlight app."));
-        it->make(itypes["pda_flashlight"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
-int iuse::pda_flashlight(player *p, item *it, bool t)
-{
- if (t) { // Normal use
-// Do nothing... player::active_light and the lightmap::generate deal with this
- } else { // Turning it off
-  g->add_msg_if_player(p,_("The PDA screen goes blank."));
-  it->make(itypes["pda"]);
-  it->active = false;
- }
- return it->type->charges_to_use();
-}
-
 int iuse::LAW(player *p, item *it, bool)
 {
  g->add_msg_if_player(p,_("You pull the activating lever, readying the LAW to fire."));
@@ -6926,13 +6882,6 @@ int iuse::flask_yeast(player *p, item *it, bool)
         g->add_msg_if_player(p,_("The yeast isn't done culturing yet."));
         return 0;
     }
-}
-
-int iuse::rad_badge(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You remove the badge from its wrapper, exposing it to ambient radiation."));
-    it->make(itypes["rad_badge"]);
-    return 0;
 }
 
 int iuse::quiver(player *p, item *it, bool)

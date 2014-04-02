@@ -250,7 +250,6 @@ void Item_factory::init(){
     iuse_function_list["CARVER_ON"] = &iuse::carver_on;
     iuse_function_list["TRIMMER_OFF"] = &iuse::trimmer_off;
     iuse_function_list["TRIMMER_ON"] = &iuse::trimmer_on;
-    iuse_function_list["CIRCSAW_OFF"] = &iuse::circsaw_off;
     iuse_function_list["CIRCSAW_ON"] = &iuse::circsaw_on;
     iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
     iuse_function_list["COMBATSAW_ON"] = &iuse::combatsaw_on;
@@ -276,7 +275,6 @@ void Item_factory::init(){
     iuse_function_list["GRANADE"] = &iuse::granade;
     iuse_function_list["GRANADE_ACT"] = &iuse::granade_act;
     iuse_function_list["C4"] = &iuse::c4;
-    iuse_function_list["ACIDBOMB"] = &iuse::acidbomb;
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
@@ -317,12 +315,9 @@ void Item_factory::init(){
     iuse_function_list["MOP"] = &iuse::mop;
     iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
     iuse_function_list["RAG"] = &iuse::rag;
-    iuse_function_list["PDA"] = &iuse::pda;
-    iuse_function_list["PDA_FLASHLIGHT"] = &iuse::pda_flashlight;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
-    iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
@@ -1109,6 +1104,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("need_fire_msg", actor->need_fire_msg);
         obj.read("need_charges", actor->need_charges);
         obj.read("need_charges_msg", actor->need_charges_msg);
+        obj.read("moves", actor->moves);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else if (type == "auto_transform") {
@@ -1126,6 +1122,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("need_charges_msg", actor->need_charges_msg);
         obj.read("when_underwater", actor->when_underwater);
         obj.read("non_interactive_msg", actor->non_interactive_msg);
+        obj.read("moves", actor->moves);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else if (type == "explosion") {
