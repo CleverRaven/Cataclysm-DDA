@@ -99,7 +99,7 @@ void game::init_fields()
 
         {
             {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '~', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  200,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  150,
             {0,0,0}
         },
 
@@ -749,7 +749,7 @@ bool map::process_fields_in_submap(int gridn)
                         break;
 
                     case fd_weedsmoke:
-                        spread_gas( this, cur, x, y, curtype, 100, 50 );
+                        spread_gas( this, cur, x, y, curtype, 100, 35 );
                         break;
 
                     case fd_nuke_gas:

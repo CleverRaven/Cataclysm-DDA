@@ -6378,16 +6378,34 @@ bool player::process_single_active_item(item *it)
         {
             it->item_counter--;
             if(it->item_counter % 2 == 0) { // only puff every other turn
+                int duration = 10;
+                if (this->has_trait("TOLERANCE")) {
+                    duration = 5;
+                }
+                else if (this->has_trait("LIGHTWEIGHT")) {
+                    duration = 20;
+                }
                 g->add_msg_if_player(this, _("You take a puff of your %s."), it->name.c_str());
-                this->add_disease("cig", 10);
-                g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_cigsmoke, 2);
+                if(it->has_flag("TOBACCO")) {
+                    this->add_disease("cig", duration);
+                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_cigsmoke, 2);
+                } else { // weedsmoke
+                    this->add_disease("weed_high", duration / 2);
+                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_weedsmoke, 2);
+                }
+                this->moves -= 2;
             }
+            // done with cig
             if(it->item_counter == 0) {
                 g->add_msg_if_player(this, _("You finish your %s."), it->name.c_str());
                 if(it->type->id == "cig_lit") {
                     it->make(itypes["cig_butt"]);
-                } else { // cigar
+                } else if(it->type->id == "cigar_lit"){
                     it->make(itypes["cigar_butt"]);
+                } else { // joint
+                    this->add_disease("weed_high", 10); // one last puff
+                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_weedsmoke, 2);
+                    it->make(itypes["joint_roach"]);
                 }
                 it->active = false;
                 it->item_tags.erase("LITCIG");

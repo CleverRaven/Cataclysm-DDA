@@ -2802,16 +2802,24 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
 
         } else if(it->has_flag("LITCIG")) {
             it->item_counter--;
+            // release some smoke every five ticks
             if(it->item_counter % 5 == 0) {
               int mapx = (nonant % my_MAPSIZE) * SEEX + i;
               int mapy = (nonant / my_MAPSIZE) * SEEY + j;
-              add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_cigsmoke, 1);
+              if(it->has_flag("TOBACCO")) {
+                add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_cigsmoke, 1);
+              } else { // weed
+                add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_weedsmoke, 1);
+              }
             }
+            // cig dies out
             if(it->item_counter == 0) {
                 if(it->type->id == "cig_lit") {
                     it->make(itypes["cig_butt"]);
                 } else if(it->type->id == "cigar_lit"){
                     it->make(itypes["cigar_butt"]);
+                } else { // joint
+                    it->make(itypes["joint_roach"]);
                 }
                 it->active = false;
                 it->item_tags.erase("LITCIG");
