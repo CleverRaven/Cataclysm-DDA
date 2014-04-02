@@ -7577,7 +7577,7 @@ int iuse::quiver(player *p, item *it, bool)
             return 0;
         }
 
-        if(!(put->type->is_ammo() && put->ammo_type() == "arrow")) {
+        if(!(put->type->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
             g->add_msg_if_player(p, _("Those aren't arrows!"));
             return 0;
         }
