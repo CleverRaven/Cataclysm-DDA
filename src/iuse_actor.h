@@ -1,6 +1,8 @@
 #pragma once
 
 #include "iuse.h"
+#include "color.h"
+#include "field.h"
 
 /**
  * Transform an item into a specific type.
@@ -76,6 +78,66 @@ public:
     {
     }
     virtual ~auto_iuse_transform();
+    virtual long use(player*, item*, bool) const;
+    virtual iuse_actor *clone() const;
+};
+
+/**
+ * This is a @ref iuse_actor for active items that explose when
+ * their charges reaches 0.
+ * It can be called each turn, it can make a sound each turn.
+ */
+class explosion_iuse : public iuse_actor {
+public:
+    // Those 4 values are forwarded to game::explosion.
+    // No explosion is done if power < 0
+    int explosion_power;
+    int explosion_shrapnel;
+    bool explosion_fire;
+    bool explosion_blast;
+    // Those 2 values are forwarded to game::draw_explosion,
+    // Nothing is drawn if radius < 0 (game::explosion might still draw something)
+    int draw_explosion_radius;
+    nc_color draw_explosion_color;
+    /** Call game::flashbang? */
+    bool do_flashbang;
+    bool flashbang_player_immune;
+    /** Create fields of this type around the center of the explosion */
+    int fields_radius;
+    field_id fields_type;
+    int fields_min_density;
+    int fields_max_density;
+    /** Calls game::emp_blast if >= 0 */
+    int emp_blast_radius;
+    /** Calls game::scrambler_blast if >= 0 */
+    int scrambler_blast_radius;
+    /** Volume of sound each turn, -1 means no sound at all */
+    int sound_volume;
+    std::string sound_msg;
+    /** Message shown when the player tries to deactivate the item,
+     * which is not allowed. */
+    std::string no_deactivate_msg;
+
+    explosion_iuse()
+    : iuse_actor()
+    , explosion_power(-1)
+    , explosion_shrapnel(-1)
+    , explosion_fire(false)
+    , explosion_blast(true) // true is the default in game.h
+    , draw_explosion_radius(-1)
+    , draw_explosion_color(c_white)
+    , do_flashbang(false)
+    , flashbang_player_immune(false) // false is the default in game.h
+    , fields_radius(-1)
+    , fields_type(fd_null)
+    , fields_min_density(1)
+    , fields_max_density(3)
+    , emp_blast_radius(-1)
+    , scrambler_blast_radius(-1)
+    , sound_volume(-1)
+    {
+    }
+    virtual ~explosion_iuse();
     virtual long use(player*, item*, bool) const;
     virtual iuse_actor *clone() const;
 };

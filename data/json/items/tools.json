@@ -2160,7 +2160,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "GRENADE_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "explosion_power": 12,
+        "explosion_shrapnel": 28
+    }
   },
 
   {
@@ -2262,7 +2269,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "FLASHBANG_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "do_flashbang": true
+    }
   },
 
   {
@@ -2316,7 +2329,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "EMPBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "draw_explosion_radius": 4,
+        "draw_explosion_color": "ltblue",
+        "emp_blast_radius": 4
+    }
   },
 
   {
@@ -2370,7 +2391,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "SCRAMBLER_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "draw_explosion_radius": 4,
+        "draw_explosion_color": "cyan",
+        "scrambler_blast_radius": 4
+    }
   },
 
   {
@@ -2424,7 +2453,16 @@
     "ammo": "NULL",
     "revert_to": "canister_empty",
     "category": "weapons",
-    "use_action": "GASBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "fields_radius": 3,
+        "fields_type": "fd_tear_gas",
+        "fields_min_density": 3,
+        "fields_max_density": 3
+    }
   },
 
   {
@@ -2478,7 +2516,16 @@
     "ammo": "NULL",
     "revert_to": "canister_empty",
     "category": "weapons",
-    "use_action": "SMOKEBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "fields_radius": 2,
+        "fields_type": "fd_smoke",
+        "fields_min_density": 1,
+        "fields_max_density": 3
+    }
   },
 
   {   "id" : "flamable_arrow",
@@ -2654,7 +2701,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "DYNAMITE_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "ssss...",
+        "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+        "explosion_power": 60,
+        "explosion_shrapnel": 0
+    }
   },
 
   {
@@ -2796,7 +2850,18 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "MININUKE_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 2,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
+        "explosion_power": 200,
+        "explosion_shrapnel": 0,
+        "fields_type": "fd_nuke_gas",
+        "fields_radius": 4,
+        "fields_min_density": 3,
+        "fields_max_density": 3
+    }
   },
 
   {
@@ -3311,7 +3376,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "C4ARMED"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
+        "explosion_power": 40,
+        "explosion_shrapnel": 3
+    }
   },
 
   {
@@ -6435,7 +6507,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "MATCHBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "ssss...",
+        "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+        "explosion_power": 24,
+        "explosion_shrapnel": 0
+    }
   },
 
   {

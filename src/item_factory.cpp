@@ -7,6 +7,7 @@
 #include "bodypart.h"
 #include "crafting.h"
 #include "iuse_actor.h"
+#include "tile_id_data.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -272,29 +273,19 @@ void Item_factory::init(){
     iuse_function_list["CAN_GOO"] = &iuse::can_goo;
     iuse_function_list["THROWABLE_EXTINGUISHER_ACT"] = &iuse::throwable_extinguisher_act;
     iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
-    iuse_function_list["GRENADE_ACT"] = &iuse::grenade_act;
     iuse_function_list["GRANADE"] = &iuse::granade;
     iuse_function_list["GRANADE_ACT"] = &iuse::granade_act;
-    iuse_function_list["FLASHBANG_ACT"] = &iuse::flashbang_act;
     iuse_function_list["C4"] = &iuse::c4;
-    iuse_function_list["C4ARMED"] = &iuse::c4armed;
-    iuse_function_list["EMPBOMB_ACT"] = &iuse::EMPbomb_act;
-    iuse_function_list["SCRAMBLER_ACT"] = &iuse::scrambler_act;
-    iuse_function_list["GASBOMB_ACT"] = &iuse::gasbomb_act;
-    iuse_function_list["SMOKEBOMB_ACT"] = &iuse::smokebomb_act;
     iuse_function_list["ACIDBOMB"] = &iuse::acidbomb;
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
-    iuse_function_list["MATCHBOMB_ACT"] = &iuse::matchbomb_act;
-    iuse_function_list["DYNAMITE_ACT"] = &iuse::dynamite_act;
     iuse_function_list["FIRECRACKER_PACK"] = &iuse::firecracker_pack;
     iuse_function_list["FIRECRACKER_PACK_ACT"] = &iuse::firecracker_pack_act;
     iuse_function_list["FIRECRACKER"] = &iuse::firecracker;
     iuse_function_list["FIRECRACKER_ACT"] = &iuse::firecracker_act;
     iuse_function_list["MININUKE"] = &iuse::mininuke;
-    iuse_function_list["MININUKE_ACT"] = &iuse::mininuke_act;
     iuse_function_list["PHEROMONE"] = &iuse::pheromone;
     iuse_function_list["PORTAL"] = &iuse::portal;
     iuse_function_list["MANHACK"] = &iuse::manhack;
@@ -1136,6 +1127,39 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("when_underwater", actor->when_underwater);
         obj.read("non_interactive_msg", actor->non_interactive_msg);
         // from hereon memory is handled by the use_function class
+        return use_function(actor.release());
+    } else if (type == "explosion") {
+        std::auto_ptr<explosion_iuse> actor(new explosion_iuse);
+        obj.read("explosion_power", actor->explosion_power);
+        obj.read("explosion_shrapnel", actor->explosion_shrapnel);
+        obj.read("explosion_fire", actor->explosion_fire);
+        obj.read("explosion_blast", actor->explosion_blast);
+        obj.read("draw_explosion_radius", actor->draw_explosion_radius);
+        if (obj.has_member("draw_explosion_color")) {
+            actor->draw_explosion_color = color_from_string(obj.get_string("draw_explosion_color"));
+        }
+        obj.read("do_flashbang", actor->do_flashbang);
+        obj.read("flashbang_player_immune", actor->flashbang_player_immune);
+        obj.read("fields_radius", actor->fields_radius);
+        if (obj.has_member("fields_type")) {
+            const std::string ft = obj.get_string("fields_type");
+            for (int i = 0; i < num_fields; i++) {
+                if (field_names[i] == ft) {
+                    actor->fields_type = static_cast<field_id>(i);
+                    break;
+                }
+            }
+            if (actor->fields_type == fd_null) {
+                debugmsg("Unknown field type %s", ft.c_str());
+            }
+        }
+        obj.read("fields_min_density", actor->fields_min_density);
+        obj.read("fields_max_density", actor->fields_max_density);
+        obj.read("emp_blast_radius", actor->emp_blast_radius);
+        obj.read("scrambler_blast_radius", actor->scrambler_blast_radius);
+        obj.read("sound_volume", actor->sound_volume);
+        obj.read("sound_msg", actor->sound_msg);
+        obj.read("no_deactivate_msg", actor->no_deactivate_msg);
         return use_function(actor.release());
     } else {
         debugmsg("unknown use_action type %s", type.c_str());
