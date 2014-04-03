@@ -10,6 +10,8 @@ class game;
 
 void dis_msg(dis_type type);
 
+void weed_msg(player *p);
+
 void dis_end_msg(player &p, disease &dis);
 
 void dis_remove_memorial(dis_type type);

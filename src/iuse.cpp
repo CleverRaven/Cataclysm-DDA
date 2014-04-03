@@ -7,6 +7,7 @@
 #include "line.h"
 #include "mutation.h"
 #include "player.h"
+#include "disease.h"
 #include "vehicle.h"
 #include "uistate.h"
 #include "action.h"
@@ -1016,20 +1017,17 @@ int iuse::weed(player *p, item *it, bool b) {
         p->pkill *= 2;
     }
 
-    bool rollJoint = false;
+    int choice = -1;
     if(hasPipe && hasPapers) { // ask whether to roll a fatty or pack a bowl
-        int choice = -1;
-        choice = menu(true, _("Do what with cannabis?"), _("Roll a joint"), _("Smoke a pipe"), NULL);
-        if(choice < 0) {
+        choice = menu(true, _("Do what with cannabis?"), _("Roll a joint"), _("Smoke a pipe"), _("Cancel"), NULL);
+        if(choice < 0 || choice == 3) {
             g->add_msg_if_player(p, _("Never mind."));
             return 0;
-        } else if(choice == 1) {
-            rollJoint = true;
         }
     }
 
     // smoke a joint (call iuse::cig)
-    if (rollJoint || !hasPipe) {
+    if ((choice == 1) || !hasPipe) {
         p->use_charges_if_avail("rolling_paper", 1);
         return cig(p, it, b);
     }
@@ -1049,8 +1047,12 @@ int iuse::weed(player *p, item *it, bool b) {
     }
     p->add_disease("weed_high", duration);
     p->moves -= 40;
+    // breathe out some smoke
     for(int i = 0; i < 3; i++) {
         g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_weedsmoke, 2);
+    }
+    if(one_in(3)) {
+        weed_msg(p);
     }
     return it->type->charges_to_use();
 }

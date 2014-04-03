@@ -6405,6 +6405,7 @@ bool player::process_single_active_item(item *it)
                 } else { // joint
                     this->add_disease("weed_high", 10); // one last puff
                     g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_weedsmoke, 2);
+                    weed_msg(this);
                     it->make(itypes["joint_roach"]);
                 }
                 it->active = false;
