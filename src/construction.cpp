@@ -46,8 +46,8 @@ std::vector<construction *> constructions;
 static bool can_construct( const std::string &desc );
 static bool can_construct( construction *con, int x, int y );
 static bool can_construct( construction *con);
-static bool player_can_build( player &p, inventory inv, construction *con );
-static bool player_can_build( player &p, inventory pinv, const std::string &desc );
+static bool player_can_build( player &p, const inventory &inv, construction *con );
+static bool player_can_build( player &p, const inventory &pinv, const std::string &desc );
 static void place_construction(const std::string &desc);
 
 std::vector<construction *> constructions_by_desc(const std::string &description)
@@ -396,7 +396,7 @@ void construction_menu()
     g->refresh_all();
 }
 
-static bool player_can_build(player &p, inventory pinv, const std::string &desc)
+static bool player_can_build(player &p, const inventory &pinv, const std::string &desc)
 {
     // check all with the same desc to see if player can build any
     std::vector<construction *> cons = constructions_by_desc(desc);
@@ -408,7 +408,7 @@ static bool player_can_build(player &p, inventory pinv, const std::string &desc)
     return false;
 }
 
-static bool player_can_build(player &p, inventory pinv, construction *con)
+static bool player_can_build(player &p, const inventory &pinv, construction *con)
 {
     if (p.skillLevel(con->skill) < con->difficulty) {
         return false;
@@ -458,7 +458,7 @@ static bool player_can_build(player &p, inventory pinv, construction *con)
                                       con->components[j][k].count)) )) {
                     has_component = true;
                     con->components[j][k].available = 1;
-                    
+
                 } else {
                     con->components[j][k].available = -1;
                 }
