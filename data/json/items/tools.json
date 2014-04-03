@@ -6147,7 +6147,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "UNFOLD_BICYCLE"
+    "use_action": {
+        "type": "unfold_vehicle",
+        "vehicle_name": "bicycle",
+        "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
+        "moves": 500
+    }
   },
 
   {

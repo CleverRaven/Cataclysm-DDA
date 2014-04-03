@@ -1,6 +1,7 @@
 #include "iuse_actor.h"
 #include "item.h"
 #include "game.h"
+#include <sstream>
 
 iuse_transform::~iuse_transform()
 {
@@ -153,4 +154,71 @@ long explosion_iuse::use(player *p, item *it, bool t) const
         }
     }
     return 0;
+}
+
+
+
+unfold_vehicle_iuse::~unfold_vehicle_iuse()
+{
+}
+
+iuse_actor *unfold_vehicle_iuse::clone() const
+{
+    return new unfold_vehicle_iuse(*this);
+}
+
+long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx, p->posy, 0, 0, 0, false);
+    if (veh == NULL) {
+        g->add_msg_if_player(p, _("There's no room to unfold the %s."), it->tname().c_str());
+        return 0;
+    }
+    // Mark the vehicle as foldable.
+    veh->tags.insert("convertible");
+    // Store the id of the item the vehicle is made of.
+    veh->tags.insert(std::string("convertible:") + it->type->id);
+    g->add_msg_if_player(p, unfold_msg.c_str(), it->tname().c_str());
+    p->moves -= moves;
+    // Restore HP of parts if we stashed them previously.
+    if (it->item_vars.count("folding_bicycle_parts") == 0) {
+        // Brand new, no HP stored
+        return 1;
+    }
+    std::istringstream veh_data;
+    const std::string &data = it->item_vars["folding_bicycle_parts"];
+    veh_data.str(data);
+    if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
+        // starts with a digit -> old format
+        for (size_t p = 0; p < veh->parts.size(); p++) {
+            veh_data >> veh->parts[p].hp;
+        }
+    } else {
+        try {
+            JsonIn json(veh_data);
+            // Load parts into a temporary vector to not override
+            // cached values (like precalc_dx, passenger_id, ...)
+            std::vector<vehicle_part> parts;
+            json.read(parts);
+            for(size_t i = 0; i < parts.size() && i < veh->parts.size(); i++) {
+                const vehicle_part &src = parts[i];
+                vehicle_part &dst = veh->parts[i];
+                // and now only copy values, that are
+                // expected to be consistent.
+                dst.hp = src.hp;
+                dst.blood = src.blood;
+                dst.bigness = src.bigness;
+                // door state/amount of fuel/direction of headlight
+                dst.amount = src.amount;
+                dst.flags = src.flags;
+            }
+        } catch(std::string e) {
+            debugmsg("Error restoring vehicle: %s", e.c_str());
+        }
+    }
+    return 1;
 }

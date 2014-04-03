@@ -7348,59 +7348,6 @@ int iuse::towel(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::unfold_bicycle(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    vehicle *bicycle = g->m.add_vehicle( "bicycle", p->posx, p->posy, 0, 0, 0, false);
-    if( bicycle ) {
-        // Mark the vehicle as foldable.
-        bicycle->tags.insert("convertible");
-        // Restore HP of parts if we stashed them previously.
-        if( it->item_vars.count("folding_bicycle_parts") ) {
-            std::istringstream veh_data;
-            const std::string &data = it->item_vars["folding_bicycle_parts"];
-            veh_data.str(data);
-            if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
-                // starts with a digit -> old format
-                for (size_t p = 0; p < bicycle->parts.size(); p++) {
-                    veh_data >> bicycle->parts[p].hp;
-                }
-            } else {
-                try {
-                    JsonIn json(veh_data);
-                    // Load parts into a temporary vector to not override
-                    // cached values (like precalc_dx, passenger_id, ...)
-                    std::vector<vehicle_part> parts;
-                    json.read(parts);
-                    for(size_t i = 0; i < parts.size() && i < bicycle->parts.size(); i++) {
-                        const vehicle_part &src = parts[i];
-                        vehicle_part &dst = bicycle->parts[i];
-                        // and now only copy values, that are
-                        // expected to be consistent.
-                        dst.hp = src.hp;
-                        dst.blood = src.blood;
-                        dst.bigness = src.bigness;
-                        // door state/amount of fuel/direction of headlight
-                        dst.amount = src.amount;
-                        dst.flags = src.flags;
-                    }
-                } catch(std::string e) {
-                    debugmsg("Error restoring vehicle: %s", e.c_str());
-                }
-            }
-        }
-        g->add_msg_if_player(p, _("You painstakingly unfold the bicycle and make it ready to ride."));
-        p->moves -= 500;
-    } else {
-        g->add_msg_if_player(p, _("There's no room to unfold the bicycle."));
-        return 0;
-    }
-    return 1;
-}
-
 int iuse::adrenaline_injector(player *p, item *it, bool)
 {
   p->moves -= 100;

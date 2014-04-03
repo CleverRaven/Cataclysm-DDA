@@ -530,7 +530,7 @@ void vehicle::use_controls()
 
     if( tags.count("convertible") ) {
         options_choice.push_back(convert_vehicle);
-        options_message.push_back(uimenu_entry(_("Fold bicycle"), 'f'));
+        options_message.push_back(uimenu_entry(string_format(_("Fold %s"), name.c_str()), 'f'));
     }
 
     // Turn the reactor on/off
@@ -646,13 +646,19 @@ void vehicle::use_controls()
     case convert_vehicle:
     {
         if(g->u.controlling_vehicle) {
-            g->add_msg(_("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the bicycle while riding it."));
+            g->add_msg(_("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it."), name.c_str());
             break;
         }
-        g->add_msg(_("You painstakingly pack the bicycle into a portable configuration."));
+        g->add_msg(_("You painstakingly pack the %s into a portable configuration."), name.c_str());
+        std::string itype_id = "folding_bicycle";
+        for(std::set<std::string>::const_iterator a = tags.begin(); a != tags.end(); ++a) {
+            if (a->compare(0, 12, "convertible:") == 0) {
+                itype_id = a->substr(12);
+                break;
+            }
+        }
         // create a folding bicycle item
-        item bicycle;
-        bicycle.make( itypes["folding_bicycle"] );
+        item bicycle(itypes[itype_id], g->turn);
 
         // Drop stuff in containers on ground
         for (int p = 0; p < parts.size(); p++) {

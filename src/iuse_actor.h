@@ -144,3 +144,24 @@ public:
     virtual long use(player*, item*, bool) const;
     virtual iuse_actor *clone() const;
 };
+
+/**
+ * This iuse creates a new vehicle on the map.
+ */
+class unfold_vehicle_iuse : public iuse_actor {
+public:
+    /** Vehicle name (@see map::add_vehicle what it expects). */
+    std::string vehicle_name;
+    /** Message shown after successfully unfolding the item. */
+    std::string unfold_msg;
+    /** Creature::moves it takes to unfold. */
+    int moves;
+    unfold_vehicle_iuse()
+    : iuse_actor()
+    , moves(0)
+    {
+    }
+    virtual ~unfold_vehicle_iuse();
+    virtual long use(player*, item*, bool) const;
+    virtual iuse_actor *clone() const;
+};

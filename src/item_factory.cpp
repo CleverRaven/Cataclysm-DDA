@@ -325,7 +325,6 @@ void Item_factory::init(){
     iuse_function_list["HOLSTER_PISTOL"] = &iuse::holster_pistol;
     iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
     iuse_function_list["TOWEL"] = &iuse::towel;
-    iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
     iuse_function_list["CONTACTS"] = &iuse::contacts;
@@ -1157,6 +1156,12 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("sound_volume", actor->sound_volume);
         obj.read("sound_msg", actor->sound_msg);
         obj.read("no_deactivate_msg", actor->no_deactivate_msg);
+        return use_function(actor.release());
+    } else if (type == "unfold_vehicle") {
+        std::auto_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
+        obj.read("vehicle_name", actor->vehicle_name);
+        obj.read("unfold_msg", actor->unfold_msg);
+        obj.read("moves", actor->moves);
         return use_function(actor.release());
     } else {
         debugmsg("unknown use_action type %s", type.c_str());
