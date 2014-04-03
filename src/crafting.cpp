@@ -1081,8 +1081,8 @@ static void draw_recipe_tabs(WINDOW *w, craft_cat tab, bool filtered)
         pos_x += utf8_width(_("FOOD")) + tab_step;
         draw_tab(w, pos_x,  _("CHEMS"),       (tab == "CC_CHEM")       ? true : false);
         pos_x += utf8_width(_("CHEMS")) + tab_step;
-        draw_tab(w, pos_x,  _("ELECTRONICS"), (tab == "CC_ELECTRONIC") ? true : false);
-        pos_x += utf8_width(_("ELECTRONICS")) + tab_step;
+        draw_tab(w, pos_x,  _("ELECTRICAL"), (tab == "CC_ELECTRONIC") ? true : false);
+        pos_x += utf8_width(_("ELECTRICAL")) + tab_step;
         draw_tab(w, pos_x,  _("ARMOR"),       (tab == "CC_ARMOR")      ? true : false);
         pos_x += utf8_width(_("ARMOR")) + tab_step;
         draw_tab(w, pos_x,  _("OTHER"),       (tab == "CC_OTHER")      ? true : false);
@@ -1165,6 +1165,10 @@ static void draw_recipe_subtabs(WINDOW *w, craft_cat tab, craft_subcat subtab, b
         } else if (tab == "CC_ELECTRONIC") {
             draw_subtab(w, pos_x, _("CBMS"), (subtab == "CSC_ELECTRONIC_CBMS") ? true : false);
             pos_x += utf8_width(_("CBMS")) + tab_step;
+            draw_subtab(w, pos_x, _("TOOLS"), (subtab == "CSC_ELECTRONIC_TOOLS") ? true : false);
+            pos_x += utf8_width(_("TOOLS")) + tab_step;
+            draw_subtab(w, pos_x, _("PARTS"), (subtab == "CSC_ELECTRONIC_PARTS") ? true : false);
+            pos_x += utf8_width(_("PARTS")) + tab_step;
             draw_subtab(w, pos_x, _("LIGHTING"), (subtab == "CSC_ELECTRONIC_LIGHTING") ? true : false);
             pos_x += utf8_width(_("LIGHTING")) + tab_step;
             draw_subtab(w, pos_x, _("COMPONENTS"), (subtab == "CSC_ELECTRONIC_COMPONENTS") ? true : false);
