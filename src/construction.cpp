@@ -121,6 +121,7 @@ void construction_menu()
 
     bool update_info = true;
     int select = 0;
+    int oldselect = 0;
     int chosen = 0;
     int offset = 0;
     long ch;
@@ -361,6 +362,10 @@ void construction_menu()
         case ';':
             update_info = true;
             hide_unconstructable = !hide_unconstructable;
+            int tmpselect;
+            tmpselect = oldselect;
+            oldselect = select;
+            select = tmpselect;
             load_available_constructions( available, hide_unconstructable );
             break;
         case '\n':
