@@ -348,7 +348,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     const int weapon_dispersion = used_weapon->curammo->dispersion + used_weapon->dispersion();
     const int player_dispersion = skill_dispersion( this, used_weapon, false );
     // High perception allows you to pick out details better, low perception interferes.
-    const bool train_skill = weapon_dispersion < player_dispersion - rng(0, get_per());
+    const bool train_skill = weapon_dispersion < player_dispersion + rng(0, get_per());
     if( train_skill ) {
         practice(g->turn, skill_used, 4 + (num_shots / 2));
     } else if( one_in(30) ) {
