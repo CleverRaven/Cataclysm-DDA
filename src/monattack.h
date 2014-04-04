@@ -54,6 +54,7 @@ public:
     void darkman            (monster *z);
     void slimespring        (monster *z);
     void bio_op_takedown    (monster *z);
+    void suicide            (monster *z);
 };
 
 #endif

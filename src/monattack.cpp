@@ -1796,7 +1796,6 @@ void mattack::slimespring(monster *z)
         return;
     }
     z->sp_timeout = z->type->sp_freq;    // Reset timer
-    
     if (g->u.morale_level() <= 1) {
         switch (rng(1, 3)) { //~ Your slimes try to cheer you up!
         //~ Lowercase is intended: they're small voices.
@@ -1886,4 +1885,12 @@ void mattack::bio_op_takedown(monster *z)
             g->u.hit(z, hit, side, dam, 0);
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
+}
+
+void mattack::suicide(monster *z)
+{
+    if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
+        return; //commit suicide only when adjacent to player
+    }
+    z->hp = 0;
 }
