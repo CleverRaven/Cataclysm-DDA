@@ -517,7 +517,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
                      mission_id(type->id), topic);
             return "";
         }
-    
+
         if (topic == TALK_MISSION_SUCCESS && miss->follow_up != MISSION_NULL) {
             return ret + _("  And I have more I'd like you to do.");
         }
@@ -1360,6 +1360,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
     SUCCESS(TALK_DONE);
     SUCCESS_ACTION(&talk_function::assign_base);
   }
+  RESPONSE(_("I'm going to go my own way for a while."));
+   SUCCESS(TALK_LEAVE);
   RESPONSE(_("Let's go."));
    SUCCESS(TALK_DONE);
   break;
