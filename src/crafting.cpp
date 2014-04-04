@@ -127,14 +127,19 @@ void load_recipe(JsonObject &jsobj)
         rec->components.push_back(component_choices);
     }
 
-//    jsarr = jsobj.get_array("qualities");
-//    while(jsarr.has_more()) {
-//        JsonObject quality_data = jsarr.next_object();
-//        std::string ident = quality_data.get_string("id");
-//        int level = quality_data.get_int("level", 1);
-//        int amount = quality_data.get_int("amount", 1);
-//        rec->qualities.push_back(quality_requirement(ident, amount, level));
-//    }
+    //retaining support for the olden way of defining recipes
+    jsarr = jsobj.get_array("qualities");
+    if(!jsarr.empty()){
+        std::vector<component> tool_choices;
+        while(jsarr.has_more()) {
+            JsonObject quality_data = jsarr.next_object();
+            std::string ident = quality_data.get_string("id");
+            int level = quality_data.get_int("level", 1);
+            int amount = quality_data.get_int("amount", 1);
+            tool_choices.push_back(component(ident, amount, level, 0, 0));
+        }
+        rec->tools.push_back(tool_choices);
+    }
 
 //    jsarr = jsobj.get_array("tools");
 //    while (jsarr.has_more()) {
@@ -153,6 +158,7 @@ void load_recipe(JsonObject &jsobj)
     while (jsarr.has_more()) {
         std::vector<component> tool_choices;
         //let's see if we can't simplify the markup
+        //so that single requirements don't need their own array
         //test if the next object is an array
         bool singleitem = !jsarr.test_array();
         JsonArray ja;
@@ -160,28 +166,37 @@ void load_recipe(JsonObject &jsobj)
             ja = jsarr.next_array();
         }
         while (ja.has_more() || singleitem) {
-            JsonObject jdata;
-            if(singleitem){
-                jdata = jsarr.next_object();
-                singleitem = false;
+            //to let old recipes still be loaded, let's inject the old array-reader into here
+            if(ja.test_array()){
+                JsonArray comp = ja.next_array();
+                std::string name = comp.get_string(0);
+                int quant = comp.get_int(1);
+                //the old way implied 1 tool with a number of charges
+                tool_choices.push_back(component(name, 1, quant, 0));
             }else{
-                jdata = ja.next_object();
-            }
-            //if the object has a "tool" field, it's a tool
-            //otherwise it's a quality/tooltype
-            if(jdata.has_string("tool")){ //tools define ID, count, and charges/chargemod
-                std::string ident = jdata.get_string("tool");
-                int amount = jdata.get_int("amount", 1);
-                int chargecount = jdata.get_int("charges", 0);
-                int chargemod = jdata.get_int("chargemod", 0);
-                tool_choices.push_back(component(ident, amount, chargecount, chargemod));
-            }else if(jdata.has_string("quality")){//tooltypes define ID, count, level, and charges/chargemod
-                std::string ident = jdata.get_string("quality");
-                int amount = jdata.get_int("amount", 1);
-                int level = jdata.get_int("level", 0);
-                int chargecount = jdata.get_int("charges", 0);
-                int chargemod = jdata.get_int("chargemod", 0);
-                tool_choices.push_back(component(ident, amount, level, chargecount, chargemod));
+                JsonObject jdata;
+                if(singleitem){
+                    jdata = jsarr.next_object();
+                    singleitem = false;
+                }else{
+                    jdata = ja.next_object();
+                }
+                //if the object has a "tool" field, it's a tool
+                //otherwise it's a quality/tooltype
+                if(jdata.has_string("tool")){ //tools define ID, count, and charges/chargemod
+                    std::string ident = jdata.get_string("tool");
+                    int amount = jdata.get_int("amount", 1);
+                    int chargecount = jdata.get_int("charges", 0);
+                    int chargemod = jdata.get_int("chargemod", 0);
+                    tool_choices.push_back(component(ident, amount, chargecount, chargemod));
+                }else if(jdata.has_string("quality")){//tooltypes define ID, count, level, and charges/chargemod
+                    std::string ident = jdata.get_string("quality");
+                    int amount = jdata.get_int("amount", 1);
+                    int level = jdata.get_int("level", 0);
+                    int chargecount = jdata.get_int("charges", 0);
+                    int chargemod = jdata.get_int("chargemod", 0);
+                    tool_choices.push_back(component(ident, amount, level, chargecount, chargemod));
+                }
             }
         }
         rec->tools.push_back(tool_choices);
@@ -362,18 +377,234 @@ bool game::making_would_work(recipe *making)
 bool game::can_make(recipe *r)
 {
     inventory crafting_inv = crafting_inventory(&u);
-    return can_make_with_inventory(r, crafting_inv);
+    return crafting_inv.can_make_with_inventory(r, crafting_inv);
 }
 
 // rejecting the crafting inventory check, and substituting our own
-bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
+//bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
+//{
+//    bool retval = true;
+//    //moving function to inventory class for ease of access to items
+//    retval = crafting_inv.can_make_recipe(r);
+//    return retval;
+//}
+
+bool inventory::can_make_with_inventory(recipe* r, const inventory &crafting_inv)
 {
     bool retval = true;
-    //moving function to inventory class for ease of access to items
-    retval = crafting_inv.can_make_recipe(r);
+
+    /*Basic algorithm.
+    Take inventory.
+    Take recipe.
+    Iterate through inventory items.
+        On each item, iterate through recipe
+        Assign item to recipe requirement if it matches
+        End up with recipe requirement list populated by matching items from inventory
+    Iterate through recipe, picking the best suited item out of the list of assigned items
+        Item that ends up selected is pushed to a list of items in use
+        So that it can't be picked again, unless it's a tool, since tools are not used up
+            If multiple items are needed, we can make use of the fact that all items have been assigned
+            in the same order, therefore if more than one tool is needed we can keep going until we have the needed count
+        Priority 1: specific tools
+            Matching tool that uses the most of its charges is preferable -
+                if a welder(50) is required, a welder(60) will be preferable to a welder(100)
+                because the welder(100) may qualify for a welder(80) requirement - as an example
+        Priority 2: quality tools
+            If item does not fit any specific tool requirement, check its qualities against tool qualities list
+                Same ordering for charges applies, taking chargemods into account
+        Priority 3: specific components
+            If item does not fit any specific requirements, check it for specific components
+                Same ordering applies in regards to charges.
+        Priority 4: quality components
+            Doesn't happen yet, but no reason why it couldn't.
+                Same principles apply
+    Look at the recipe list again, clear any variables that need clearing.
+    Recipe now has items assigned to it, and whether or not it's craftable is known.
+    */
+
+    //iterating through inventory
+    //try tp avoid calls to has_amount or has_charges - we're kinda already iterating through the inventory here
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
+        for(std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end();
+            ++stack_iter) {
+            //store variables so that we don't need to mess with stack_iter later
+            std::map<std::string, int> item_quali = stack_iter->type->qualities;
+            itype_id item_name = stack_iter->typeId();
+            int item_charges = stack_iter->charges;
+
+            //iterating through tools
+            std::vector<std::vector<component> > &tools = r->tools;
+            std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
+            while (tool_set_it != tools.end()) {
+                std::vector<component> &tool_choices = *tool_set_it;
+                std::vector<component>::iterator tool_it = tool_choices.begin();
+                while (tool_it != tool_choices.end()) {
+                    component &tool = *tool_it;
+                    //compare item to tool requirement
+                    if(tool.type == item_name || stack_iter->has_quality(tool.type, tool.level)){
+                        //populating item lists, processing will come later
+                        //check for charges.
+                        if(tool.charges != 0 && tool.chargeperc != 0){
+                            //charges required
+                            if(item_charges >= tool.charges ||
+                               item_charges >= (int)(item_controller->find_template(tool.type)->charges_to_use() / 100 * tool.chargeperc)){
+                                tool.items_assigned.push_back(*stack_iter);
+                            }
+                        }else{
+                            tool.items_assigned.push_back(*stack_iter);
+                        }
+                    }
+//                    if(qualities.find(tool.type) != qualities.end()){
+//                        if(stack_iter->has_quality(tool.type, tool.level)){
+//                        }
+//                    }
+
+                    ++tool_it;
+                }
+                ++tool_set_it;
+            }
+
+            //iterating through components
+            std::vector<std::vector<component> > &components = r->components;
+            std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
+            while (comp_set_it != components.end()) {
+                std::vector<component> &component_choices = *comp_set_it;
+                std::vector<component>::iterator comp_it = component_choices.begin();
+                while (comp_it != component_choices.end()) {
+                    component &comp = *comp_it;
+
+                     if(comp.type == item_name || stack_iter->has_quality(comp.type, comp.level)){
+                        //populating item lists, processing will come later
+
+                        //the thing with components and charges is... odd.
+                        //the game considers ammo and liquids "charges", but these are stored the same way as count
+                        //for now there aren't going to be item requirements with charges
+                        //so count and charges can be said to be interchangeable
+                        //regardless, the actual charges-vs-count thing will be handled later
+
+                        if(comp.charges != 0 && comp.chargeperc != 0){
+                            //charges required
+                            if(item_charges >= comp.charges ||
+                               item_charges >= (int)(item_controller->find_template(comp.type)->charges_to_use() / 100 * comp.chargeperc)){
+                                comp.items_assigned.push_back(*stack_iter);
+                            }
+                        }else{
+                            comp.items_assigned.push_back(*stack_iter);
+                        }
+                    }
+
+                    ++comp_it;
+                }
+                ++comp_set_it;
+            }
+
+        }
+    }
+
+    //done iterating through inventory. Hopefully done for good.
+    //set up a few item arrays.
+    std::map< itype_id , item > items_used; //this will keep track of items selected for the requirements
+
+    //iterating through tools
+    //the idea is to literally look through the list of all items that match a given tool's description
+    //then pick one that fits it most closely, and push it into the items_used vector
+    //at the same time blanking the assigned items vector in the tool to save memory
+    //and, of course, setting the tool as available
+    //then when the next tool is checked, any items that match any items in the items_used array are omitted
+    //so that the selection process only works with still-unassigned tools.
+    //the priority systems kicks in here.
+    //items that are required /specifically/ are checked for first
+    //because the choice is narrower
+    //with broader requirement choices of qualities, and later item qualities if we get there
+    //there is a much larger possibility of error, though I think we'll err on the side of failing
+    //because consuming resources that don't exist would be bad.
+    std::vector<std::vector<component> > &tools = r->tools;
+    std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
+    while (tool_set_it != tools.end()) {
+        std::vector<component> &tool_choices = *tool_set_it;
+        std::vector<component>::iterator tool_it = tool_choices.begin();
+        bool item_in_set = false;
+        while (tool_it != tool_choices.end()) {
+            component &tool = *tool_it;
+            //first check - if the tool even has anything matching
+            if(tool.items_assigned.empty()){
+                tool.available = -1;
+            }else {//start cycling through assigned items
+                int items_found = 0;
+                std::vector< item >::iterator item_it = tool.items_assigned.begin();
+                while (item_it != tool.items_assigned.end()) {
+                    //second check - if the items_used list has the item we're checking for already, skip it
+                    if(!items_used.empty() &&  items_used.find(item_it->typeId()) != items_used.end()){
+                        //now let's see how the item fits.
+                        //for the sake of testing, let's assume that it matches.
+                        //push the item to the used items and set the tool as available
+                        items_found++;
+                        items_used[item_it->typeId()] = *item_it;
+                    }
+                    ++item_it;
+                }
+                //we went through all items this tool has.
+                if(items_found >= tool.count)
+                {
+                    //huzzah! tool is available.
+                    tool.available = 1;
+                    //if any tool in a set is available, the whole set works
+                    item_in_set = true;
+                }
+            }
+            ++tool_it;
+        }
+        ++tool_set_it;
+        retval &= item_in_set;
+    }
+
+
+    //repeat process for components
+    std::vector<std::vector<component> > &comps = r->components;
+    std::vector<std::vector<component> >::iterator comp_set_it = comps.begin();
+    while (comp_set_it != comps.end()) {
+        std::vector<component> &comp_choices = *comp_set_it;
+        std::vector<component>::iterator comp_it = comp_choices.begin();
+        bool item_in_set = false;
+        while (comp_it != comp_choices.end()) {
+            component &comp = *comp_it;
+            //first check
+            if(comp.items_assigned.empty()){
+                comp.available = -1;
+            }else {//start cycling through assigned items
+                int items_found = 0;
+                std::vector< item >::iterator item_it = comp.items_assigned.begin();
+                while (item_it != comp.items_assigned.end()) {
+                    //second check - if the items_used list has the item we're checking for already, skip it
+                   if(!items_used.empty() &&  items_used.find(item_it->typeId()) != items_used.end()){
+                        //now let's see how the item fits.
+                        //for the sake of testing, let's assume that it matches.
+                        if(item_it->count_by_charges()){
+                            items_found += item_it->charges;
+                        }else {
+                            items_found++;
+                        }
+                        items_used[item_it->typeId()] = *item_it;
+                    }
+                    ++item_it;
+                }
+                //we went through all items this component has.
+                if(items_found >= comp.count)
+                {
+                    //huzzah! component is available.
+                    comp.available = 1;
+                    //if any component in a set is available, the whole set works
+                    item_in_set = true;
+                }
+            }
+            ++comp_it;
+        }
+        ++comp_set_it;
+        retval &= item_in_set;
+    }
+
     return retval;
 }
-
 
 //bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
 //{
@@ -982,27 +1213,27 @@ recipe *game::select_crafting_recipe()
 
                             if (current[line]->tools[i][j].available == 1) {
                                 toolcol = c_green;
-                            } else if (charges < 0 && crafting_inv.has_tools(type, 1)) {
-                                toolcol = c_green;
-                            } else if (charges > 0 && crafting_inv.has_charges(type, charges)) {
-                                toolcol = c_green;
+//                            } else if (charges < 0 && crafting_inv.has_tools(type, 1)) {
+//                                toolcol = c_green;
+//                            } else if (charges > 0 && crafting_inv.has_charges(type, charges)) {
+//                                toolcol = c_green;
                             } else if ((type == "goggles_welding") && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on"))) {
                                 toolcol = c_cyan;
                             }
 
                             std::stringstream toolinfo;
                             if(level > 0){
-                                toolinfo << string_format(_("%dx %s (%s of %d or more)"),
+                                toolinfo << string_format(_("%dx %s (%s of %d or more) "),
                                                           count, (count == 1) ? qualities[type].name.c_str() : qualities[type].plural.c_str(),
                                                           qualities[type].quality.c_str(), level);
                             } else if(level == 0){
-                                toolinfo << string_format(_("%dx %s"),
+                                toolinfo << string_format(_("%dx %s "),
                                                           count, (count == 1) ? qualities[type].name.c_str() : qualities[type].plural.c_str());
                             } else {
-                                toolinfo << string_format(_("%dx %s"), count, item_controller->find_template(type)->name.c_str());
+                                toolinfo << string_format(_("%dx %s "), count, item_controller->find_template(type)->name.c_str());
                             }
                             if (charges > 0) {
-                                toolinfo << string_format(_(" (%d charges) "), charges);
+                                toolinfo << string_format(_("(%d charges) "), charges);
                             }
                             std::string toolname = toolinfo.str();
                             if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH) {
@@ -1474,7 +1705,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                     }
                 }
             }
-            if (can_make_with_inventory(*iter, crafting_inv)) {
+            if (crafting_inv.can_make_with_inventory(*iter, crafting_inv)) {//can_make_with_inventory(*iter, crafting_inv)) {
                 current.insert(current.begin(), *iter);
                 available.insert(available.begin(), true);
             } else {
