@@ -24,9 +24,11 @@ struct component
  int chargeperc;
  int available; // -1 means the player doesn't have the item, 1 means they do,
             // 0 means they have item but not enough for both tool and component
- component() { type = "null"; count = 0; available = -1; level = 0; charges = 0; chargeperc = 0;}
- component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), level (0) , charges (0) , chargeperc (0) , available(-1) {}
- component(itype_id TYPE, int COUNT, int CHARGES, int CHARGEMOD) : type (TYPE), count (COUNT), level (0), charges (CHARGES) , chargeperc (CHARGEMOD) , available(-1) {}
+ std::vector<item> *items_assigned;
+
+ component() { type = "null"; count = 0; available = -1; level = -1; charges = 0; chargeperc = 0;}
+ component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), level (-1) , charges (0) , chargeperc (0) , available(-1) {}
+ component(itype_id TYPE, int COUNT, int CHARGES, int CHARGEMOD) : type (TYPE), count (COUNT), level (-1), charges (CHARGES) , chargeperc (CHARGEMOD) , available(-1) {}
  component(std::string id, int amount, int q_level, int charges_need, int charge_percentage)
  {
      type = id;

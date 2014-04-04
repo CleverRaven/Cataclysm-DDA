@@ -1,7 +1,7 @@
 [
   {
     "type" : "recipe_category",
-    "quality" : "CC_WEAPON",
+    "id" : "CC_WEAPON",
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_WEAPON_BASHING",
@@ -14,7 +14,7 @@
     ]
   },{
     "type" : "recipe_category",
-    "quality" : "CC_AMMO",
+    "id" : "CC_AMMO",
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_AMMO_BULLETS",
@@ -24,7 +24,7 @@
     ]
   },{
     "type" : "recipe_category",
-    "quality" : "CC_FOOD",
+    "id" : "CC_FOOD",
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_FOOD_DRINKS",
@@ -37,7 +37,7 @@
     ]
   },{
     "type" : "recipe_category",
-    "quality" : "CC_CHEM",
+    "id" : "CC_CHEM",
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_CHEM_DRUGS",
@@ -47,7 +47,7 @@
     ]
   },{
     "type" : "recipe_category",
-    "quality" : "CC_ELECTRONIC",
+    "id" : "CC_ELECTRONIC",
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_ELECTRONIC_CBMS",
@@ -57,7 +57,7 @@
     ]
   },{
     "type" : "recipe_category",
-    "quality" : "CC_ARMOR",
+    "id" : "CC_ARMOR",
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_ARMOR_STORAGE",
@@ -72,7 +72,7 @@
     ]
   },{
     "type" : "recipe_category",
-    "quality" : "CC_OTHER",
+    "id" : "CC_OTHER",
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_OTHER_TOOLS",
@@ -85,7 +85,7 @@
     ]
   },{
     "type" : "recipe_category",
-    "quality" : "CC_NONCRAFT",
+    "id" : "CC_NONCRAFT",
     "recipe_subcategories" : [
       "CSC_NONCRAFT"
     ]
@@ -100,7 +100,9 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+	[ 
+		{"quality":"SCREW","level":1,"amount":1} 
+	]
   ], "components": [
     [
       [ "scrap", 1 ]
@@ -126,7 +128,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 1 ]
@@ -155,7 +157,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 1 ]
@@ -184,8 +186,8 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1},
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1},
+    {"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "tin", 100 ]
@@ -202,7 +204,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
 	],
   "components": [
     [
@@ -220,7 +222,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "silver_small", 100 ]
@@ -237,7 +239,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "silver_small", 100 ]
@@ -254,7 +256,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "silver_small", 100 ]
@@ -271,7 +273,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "silver_small", 110 ]
@@ -288,7 +290,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "gold_small", 260 ]
@@ -305,7 +307,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "silver_small", 260 ]
@@ -322,7 +324,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 1 ]
@@ -339,7 +341,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "gold_small", 50 ]
@@ -356,7 +358,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "gold_small", 50 ]
@@ -376,7 +378,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "gold_small", 60 ]
@@ -393,7 +395,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "silver_small", 60 ]
@@ -410,7 +412,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"HAMMER","level":1,"amount":1}
+    [{"quality":"HAMMER","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 1 ]
@@ -427,7 +429,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "RAM", 1 ]
@@ -444,7 +446,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "small_lcd_screen", 1 ]
@@ -470,7 +472,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "lens", 2 ]
@@ -493,7 +495,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "plastic_chunk", 1 ]
@@ -516,7 +518,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       ["processor", 1]
@@ -551,7 +553,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 1 ]
@@ -577,7 +579,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 2 ]
@@ -597,7 +599,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 4 ]
@@ -617,7 +619,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       ["processor", 1]
@@ -649,7 +651,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       ["processor", 1]
@@ -678,7 +680,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       ["cable", 2]
@@ -704,7 +706,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 3 ]
@@ -739,7 +741,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"WRENCH","level":1,"amount":1}
+    [{"quality":"WRENCH","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 8 ]
@@ -768,7 +770,7 @@
   "reversible": true,
   "autolearn": false,
   "tools" : [
-    {"quality":"SCREW","level":1,"amount":1}
+    [{"quality":"SCREW","level":1,"amount":1}]
   ], "components": [
     [
       [ "scrap", 4 ]
@@ -860,7 +862,7 @@
   "reversible": true,
   "autolearn": false,
   "tools":[
-    {"quality":"CUT","level":1,"amount":1}
+    [{"quality":"CUT","level":1,"amount":1}]
   ],  "components": [
     [
       [ "amplifier", 1 ]
@@ -881,7 +883,7 @@
   "decomp_learn": 3,
   "autolearn": true,
   "tools":[
-		{"quality":"SAW_M","level":1,"amount":1},
+	{"quality":"SAW_M","level":1,"amount":1},
 	[
 		{"tool":"welder", "charges":100},
 		{"tool":"welder_crude", "charges":150},

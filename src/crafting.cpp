@@ -152,24 +152,36 @@ void load_recipe(JsonObject &jsobj)
     jsarr = jsobj.get_array("tools");
     while (jsarr.has_more()) {
         std::vector<component> tool_choices;
-        JsonArray ja = jsarr.next_array();
-        while (ja.has_more()) {
-            JsonObject jdata = jsarr.next_object();
+        //let's see if we can't simplify the markup
+        //test if the next object is an array
+        bool singleitem = !jsarr.test_array();
+        JsonArray ja;
+        if(!singleitem){
+            ja = jsarr.next_array();
+        }
+        while (ja.has_more() || singleitem) {
+            JsonObject jdata;
+            if(singleitem){
+                jdata = jsarr.next_object();
+                singleitem = false;
+            }else{
+                jdata = ja.next_object();
+            }
             //if the object has a "tool" field, it's a tool
             //otherwise it's a quality/tooltype
             if(jdata.has_string("tool")){ //tools define ID, count, and charges/chargemod
                 std::string ident = jdata.get_string("tool");
                 int amount = jdata.get_int("amount", 1);
                 int chargecount = jdata.get_int("charges", 0);
-                float chargemod = jdata.get_float("chargemod", 0.0);
-                tool_choices.push_back(component(ident, amount, chargemod, chargecount));
-            }else if(jdata.has_string("tooltype")){//tooltypes define ID, count, level, and charges/chargemod
-                std::string ident = jdata.get_string("tool");
+                int chargemod = jdata.get_int("chargemod", 0);
+                tool_choices.push_back(component(ident, amount, chargecount, chargemod));
+            }else if(jdata.has_string("quality")){//tooltypes define ID, count, level, and charges/chargemod
+                std::string ident = jdata.get_string("quality");
                 int amount = jdata.get_int("amount", 1);
-                int level = jdata.get_int("level", 1);
+                int level = jdata.get_int("level", 0);
                 int chargecount = jdata.get_int("charges", 0);
-                float chargemod = jdata.get_float("chargemod", 0.0);
-                tool_choices.push_back(component(ident, amount, level, chargemod, chargecount));
+                int chargemod = jdata.get_int("chargemod", 0);
+                tool_choices.push_back(component(ident, amount, level, chargecount, chargemod));
             }
         }
         rec->tools.push_back(tool_choices);
@@ -353,127 +365,137 @@ bool game::can_make(recipe *r)
     return can_make_with_inventory(r, crafting_inv);
 }
 
+// rejecting the crafting inventory check, and substituting our own
 bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
 {
     bool retval = true;
-    if (!u.knows_recipe(r)) {
-        return false;
-    }
-    // under the assumption that all comp and tool's array contains
-    // all the required stuffs at the start of the array
+    //moving function to inventory class for ease of access to items
+    retval = crafting_inv.can_make_recipe(r);
+    return retval;
+}
 
-    // check all tool_quality requirements
-    // this is an alternate method of checking for tools by using the tools qualities instead of the specific tool
-    // You can specify the amount of tools with this quality required, but it does not work for consumed charges.
-//    std::vector<component> &qualities = r->qualities;
-//    std::vector<component>::iterator quality_iter = qualities.begin();
-//    while (quality_iter != qualities.end()) {
-//        std::string id = quality_iter->type;
-//        int amount = quality_iter->count;
-//        int level = quality_iter->level;
-//        if(crafting_inv.has_items_with_quality(id, level, amount)) {
-//            quality_iter->available = 1;
-//        } else {
-//            quality_iter->available = -1;
+
+//bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
+//{
+//    bool retval = true;
+//    if (!u.knows_recipe(r)) {
+//        return false;
+//    }
+//    // under the assumption that all comp and tool's array contains
+//    // all the required stuffs at the start of the array
+//
+//    // check all tool_quality requirements
+//    // this is an alternate method of checking for tools by using the tools qualities instead of the specific tool
+//    // You can specify the amount of tools with this quality required, but it does not work for consumed charges.
+////    std::vector<component> &qualities = r->qualities;
+////    std::vector<component>::iterator quality_iter = qualities.begin();
+////    while (quality_iter != qualities.end()) {
+////        std::string id = quality_iter->type;
+////        int amount = quality_iter->count;
+////        int level = quality_iter->level;
+////        if(crafting_inv.has_items_with_quality(id, level, amount)) {
+////            quality_iter->available = 1;
+////        } else {
+////            quality_iter->available = -1;
+////            retval = false;
+////        }
+////        ++quality_iter;
+////    }
+//
+//    // check all tools
+//    std::vector<std::vector<component> > &tools = r->tools;
+//    std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
+//    while (tool_set_it != tools.end()) {
+//        std::vector<component> &set_of_tools = *tool_set_it;
+//        // if current tool is null(size 0), assume that there is no more after it.
+//        if (set_of_tools.empty()) {
+//            break;
+//        }
+//        bool has_tool_in_set = false;
+//        std::vector<component>::iterator tool_it = set_of_tools.begin();
+//        while (tool_it != set_of_tools.end()) {
+//            component &tool = *tool_it;
+//            //check to see if the component is a quality
+//            if(tool.level > 0)
+//            { //it's a quality
+//                std::string id = tool.type;
+//                int amount = tool.count;
+//                int level = tool.level;
+//                int charges = tool.charges;
+//                int chargemod = tool.chargeperc;
+//                if(charges > 0 || chargemod > 0)//check if we're looking for charged tools
+//                {
+//                    if(crafting_inv.has_items_with_quality_and_charges(id, level, amount, charges, chargemod)) {
+//                        tool.available = 1;
+//                        has_tool_in_set = true;
+//                    } else {
+//                        tool.available = -1;
+//                        retval = false;
+//                    }
+//                }else{
+//                    if(crafting_inv.has_items_with_quality(id, level, amount)) {
+//                        tool.available = 1;
+//                        has_tool_in_set = true;
+//                    } else {
+//                        tool.available = -1;
+//                        retval = false;
+//                    }
+//                }
+//            }else{
+//                itype_id type = tool.type;
+//                int req = tool.count;
+//                if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
+//                     (req <= 0 && ((type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
+//                     (req > 0 && crafting_inv.has_charges(type, req))) {
+//                    has_tool_in_set = true;
+//                    tool.available = 1;
+//                } else {
+//                    tool.available = -1;
+//                }
+//            }
+//            ++tool_it;
+//        }
+//        if (!has_tool_in_set) {
 //            retval = false;
 //        }
-//        ++quality_iter;
+//        ++tool_set_it;
 //    }
-
-    // check all tools
-    std::vector<std::vector<component> > &tools = r->tools;
-    std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
-    while (tool_set_it != tools.end()) {
-        std::vector<component> &set_of_tools = *tool_set_it;
-        // if current tool is null(size 0), assume that there is no more after it.
-        if (set_of_tools.empty()) {
-            break;
-        }
-        bool has_tool_in_set = false;
-        std::vector<component>::iterator tool_it = set_of_tools.begin();
-        while (tool_it != set_of_tools.end()) {
-            component &tool = *tool_it;
-            //check to see if the component is a quality
-            if(tool.level > 0)
-            { //it's a quality
-                std::string id = tool.type;
-                int amount = tool.count;
-                int level = tool.level;
-                int charges = tool.charges;
-                int chargemod = tool.chargeperc;
-                if(charges > 0 || chargemod > 0)//check if we're looking for charged tools
-                {
-                    if(crafting_inv.has_items_with_quality_and_charges(id, level, amount, charges, chargemod)) {
-                        tool.available = 1;
-                        has_tool_in_set = true;
-                    } else {
-                        tool.available = -1;
-                        retval = false;
-                    }
-                }else{
-                    if(crafting_inv.has_items_with_quality(id, level, amount)) {
-                        tool.available = 1;
-                        has_tool_in_set = true;
-                    } else {
-                        tool.available = -1;
-                        retval = false;
-                    }
-                }
-            }else{
-                itype_id type = tool.type;
-                int req = tool.count;
-                if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
-                     (req <= 0 && ((type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
-                     (req > 0 && crafting_inv.has_charges(type, req))) {
-                    has_tool_in_set = true;
-                    tool.available = 1;
-                } else {
-                    tool.available = -1;
-                }
-            }
-            ++tool_it;
-        }
-        if (!has_tool_in_set) {
-            retval = false;
-        }
-        ++tool_set_it;
-    }
-    // check all components
-    std::vector<std::vector<component> > &components = r->components;
-    std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
-    while (comp_set_it != components.end()) {
-        std::vector<component> &component_choices = *comp_set_it;
-        if (component_choices.empty()) {
-            break;
-        }
-        bool has_comp_in_set = false;
-        std::vector<component>::iterator comp_it = component_choices.begin();
-        while (comp_it != component_choices.end()) {
-            component &comp = *comp_it;
-            itype_id type = comp.type;
-            int req = comp.count;
-            if (item_controller->find_template(type)->count_by_charges() && req > 0) {
-                if (crafting_inv.has_charges(type, req)) {
-                    has_comp_in_set = true;
-                    comp.available = 1;
-                } else {
-                    comp.available = -1;
-                }
-            } else if (crafting_inv.has_components(type, abs(req))) {
-                has_comp_in_set = true;
-                comp.available = 1;
-            } else {
-                comp.available = -1;
-            }
-            ++comp_it;
-        }
-        if (!has_comp_in_set) {
-            retval = false;
-        }
-        ++comp_set_it;
-    }
-    return check_enough_materials(r, crafting_inv) && retval;
-}
+//    // check all components
+//    std::vector<std::vector<component> > &components = r->components;
+//    std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
+//    while (comp_set_it != components.end()) {
+//        std::vector<component> &component_choices = *comp_set_it;
+//        if (component_choices.empty()) {
+//            break;
+//        }
+//        bool has_comp_in_set = false;
+//        std::vector<component>::iterator comp_it = component_choices.begin();
+//        while (comp_it != component_choices.end()) {
+//            component &comp = *comp_it;
+//            itype_id type = comp.type;
+//            int req = comp.count;
+//            if (item_controller->find_template(type)->count_by_charges() && req > 0) {
+//                if (crafting_inv.has_charges(type, req)) {
+//                    has_comp_in_set = true;
+//                    comp.available = 1;
+//                } else {
+//                    comp.available = -1;
+//                }
+//            } else if (crafting_inv.has_components(type, abs(req))) {
+//                has_comp_in_set = true;
+//                comp.available = 1;
+//            } else {
+//                comp.available = -1;
+//            }
+//            ++comp_it;
+//        }
+//        if (!has_comp_in_set) {
+//            retval = false;
+//        }
+//        ++comp_set_it;
+//    }
+//    return check_enough_materials(r, crafting_inv) && retval;
+//}
 
 bool game::check_enough_materials(recipe *r, const inventory &crafting_inv)
 {
@@ -514,8 +536,8 @@ bool game::check_enough_materials(recipe *r, const inventory &crafting_inv)
                                         //remember that we've got that chargemod thing
                                         if(tool.charges>0){
                                             req += tool.charges * tool.count;
-                                        }else if(tool.chargemod>0){
-                                            req += (int)(item_controller->find_template(tool.type)->charges_to_use() * 100 / tool.chargemod)*tool.count;
+                                        }else if(tool.chargeperc>0){
+                                            req += (int)(item_controller->find_template(tool.type)->charges_to_use() * 100 / tool.chargeperc)*tool.count;
                                         } else {
                                             req += tool.count;
                                         }
@@ -923,28 +945,28 @@ recipe *game::select_crafting_recipe()
             }
             if(display_mode == 0 || display_mode == 1) {
                 mvwprintz(w_data, ypos++, 30, col, _("Tools required:"));
-                if (current[line]->tools.empty() && current[line]->qualities.empty()) {
+                if (current[line]->tools.empty()) {
                     mvwputch(w_data, ypos, 30, col, '>');
                     mvwprintz(w_data, ypos, 32, c_green, _("NONE"));
                 } else {
                     // Loop to print the required tool qualities
-                    for(std::vector<component>::const_iterator iter = current[line]->qualities.begin();
-                        iter != current[line]->qualities.end(); ++iter) {
-                        xpos = 32;
-                        mvwputch(w_data, ypos, 30, col, '>');
-                        nc_color toolcol = c_red;
-                        if(iter->available) {
-                            toolcol = c_green;
-                        }
-
-                        std::stringstream qualinfo;
-                        qualinfo << string_format(_("%dx %s (%s of %d or more)"),
-                                                  iter->count, (iter->count == 1) ? qualities[iter->type].name.c_str() : qualities[iter->type].plural.c_str(),
-                                                  qualities[iter->type].quality.c_str(), iter->level);
-                        ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
-                                               toolcol, qualinfo.str());
-                    }
-                    ypos--;
+//                    for(std::vector<component>::const_iterator iter = current[line]->qualities.begin();
+//                        iter != current[line]->qualities.end(); ++iter) {
+//                        xpos = 32;
+//                        mvwputch(w_data, ypos, 30, col, '>');
+//                        nc_color toolcol = c_red;
+//                        if(iter->available) {
+//                            toolcol = c_green;
+//                        }
+//
+//                        std::stringstream qualinfo;
+//                        qualinfo << string_format(_("%dx %s (%s of %d or more)"),
+//                                                  iter->count, (iter->count == 1) ? qualities[iter->type].name.c_str() : qualities[iter->type].plural.c_str(),
+//                                                  qualities[iter->type].quality.c_str(), iter->level);
+//                        ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
+//                                               toolcol, qualinfo.str());
+//                    }
+                        ypos--;
                     // Loop to print the required tools
                     for (size_t i = 0; i < current[line]->tools.size() && !current[line]->tools[i].empty(); i++) {
                         ypos++;
@@ -953,11 +975,13 @@ recipe *game::select_crafting_recipe()
                         bool has_one = any_marked_available(current[line]->tools[i]);
                         for (size_t j = 0; j < current[line]->tools[i].size(); j++) {
                             itype_id type = current[line]->tools[i][j].type;
-                            long charges = current[line]->tools[i][j].count;
+                            long charges = current[line]->tools[i][j].charges;
+                            int count = current[line]->tools[i][j].count;
+                            int level = current[line]->tools[i][j].level;
                             nc_color toolcol = has_one ? c_dkgray : c_red;
 
-                            if (current[line]->tools[i][j].available == 0) {
-                                toolcol = c_brown;
+                            if (current[line]->tools[i][j].available == 1) {
+                                toolcol = c_green;
                             } else if (charges < 0 && crafting_inv.has_tools(type, 1)) {
                                 toolcol = c_green;
                             } else if (charges > 0 && crafting_inv.has_charges(type, charges)) {
@@ -967,10 +991,18 @@ recipe *game::select_crafting_recipe()
                             }
 
                             std::stringstream toolinfo;
-                            toolinfo << item_controller->find_template(type)->name << " ";
-
+                            if(level > 0){
+                                toolinfo << string_format(_("%dx %s (%s of %d or more)"),
+                                                          count, (count == 1) ? qualities[type].name.c_str() : qualities[type].plural.c_str(),
+                                                          qualities[type].quality.c_str(), level);
+                            } else if(level == 0){
+                                toolinfo << string_format(_("%dx %s"),
+                                                          count, (count == 1) ? qualities[type].name.c_str() : qualities[type].plural.c_str());
+                            } else {
+                                toolinfo << string_format(_("%dx %s"), count, item_controller->find_template(type)->name.c_str());
+                            }
                             if (charges > 0) {
-                                toolinfo << string_format(_("(%d charges) "), charges);
+                                toolinfo << string_format(_(" (%d charges) "), charges);
                             }
                             std::string toolname = toolinfo.str();
                             if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH) {
@@ -2135,8 +2167,8 @@ static void check_component_list(const std::vector<std::vector<component> > &vec
 {
     for (std::vector<std::vector<component> >::const_iterator b = vec.begin(); b != vec.end(); b++) {
         for (std::vector<component>::const_iterator c = b->begin(); c != b->end(); c++) {
-            if (!item_controller->has_template(c->type)) {
-                debugmsg("%s in recipe %s is not a valid item template", c->type.c_str(), rName.c_str());
+            if (!item_controller->has_template(c->type)&&(qualities.find(c->type)==qualities.end())) {
+                debugmsg("%s in recipe %s is not a valid item template or quality type", c->type.c_str(), rName.c_str());
             }
         }
     }
