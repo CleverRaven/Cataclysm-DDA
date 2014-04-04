@@ -359,6 +359,7 @@ void construction_menu()
             exit = true;
             break;
         case ';':
+            select = 0;
             update_info = true;
             hide_unconstructable = !hide_unconstructable;
             load_available_constructions( available, hide_unconstructable );
