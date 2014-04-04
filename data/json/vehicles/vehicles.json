@@ -3414,11 +3414,11 @@
             {"x": -3, "y": -1, "part": "wheel_armor"}
         ],
         "items" : [
-            {"x": 3, "y": 0, "chance": 20, "items": ["50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 0, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 0, "chance": 5, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 0, "chance": 2, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
-            {"x": 3, "y": 0, "chance": 1, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]}
+            {"x": -1, "y": 1, "chance": 20, "items": ["50bmg", "50bmg", "50bmg"]},
+            {"x": -1, "y": 1, "chance": 10, "items": ["50bmg", "50bmg", "50bmg", "50bmg"]},
+            {"x": -1, "y": 1, "chance": 5, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
+            {"x": -1, "y": 1, "chance": 2, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]},
+            {"x": -1, "y": 1, "chance": 1, "items": ["50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg", "50bmg"]}
         ]
     },{
         "type" : "vehicle",
@@ -3544,11 +3544,11 @@
             {"x": -3, "y": -1, "part": "wheel_armor"}
         ],
         "items" : [
-            {"x": 3, "y": 0, "chance": 20, "items": ["40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 0, "chance": 10, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 0, "chance": 5, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 0, "chance": 2, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
-            {"x": 3, "y": 0, "chance": 1, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]}
+            {"x": -1, "y": 1, "chance": 20, "items": ["40mm_frag", "40mm_frag", "40mm_frag"]},
+            {"x": -1, "y": 1, "chance": 10, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
+            {"x": -1, "y": 1, "chance": 5, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
+            {"x": -1, "y": 1, "chance": 2, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]},
+            {"x": -1, "y": 1, "chance": 1, "items": ["40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag", "40mm_frag"]}
         ]
     },{
         "type" : "vehicle",
