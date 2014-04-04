@@ -1842,7 +1842,7 @@ void game::disassemble(int pos)
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
             int num_pages = (dis_item->volume() * 2) * 10;
             m.spawn_item(u.posx, u.posy, "paper", 0, num_pages);
-            u.inv.remove_item(dis_item);
+            u.i_rem(pos);
         }
         return;
     }
