@@ -363,13 +363,8 @@ void construction_menu()
         case ';':
             update_info = true;
             hide_unconstructable = !hide_unconstructable;
-            int tmp;
-            tmp = oldselect;
-            oldselect = select;
-            select = tmp;
-            tmp = oldoffset;
-            oldoffset = offset;
-            offset = tmp;
+            std::swap(select, oldselect);
+            std::swap(offset, oldoffset);
             load_available_constructions( available, hide_unconstructable );
             break;
         case '\n':
