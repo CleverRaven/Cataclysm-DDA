@@ -320,7 +320,15 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
 // load names depending on current locale
 void init_names()
 {
-    std::locale loc("");
+    std::locale loc;
+
+    try {
+        loc = std::locale("");
+    }
+    catch( std::exception ) {
+        loc = std::locale("C");
+    }
+
     std::string loc_name = loc.name();
     if (loc_name == "C") {
         loc_name = "en";
