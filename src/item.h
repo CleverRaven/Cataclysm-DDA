@@ -151,6 +151,7 @@ public:
  bool rotten();
  int brewing_time();
  bool ready_to_revive(); // used for corpses
+ void detonate(point p) const;
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
  bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;

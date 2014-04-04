@@ -374,6 +374,16 @@ bool map::process_fields_in_submap(int gridn)
 
                         // TODO-MATERIALS: use fire resistance
                     case fd_fire: {
+                        std::vector<item> &items_here = i_at(x, y);
+                        for (size_t i = 0; i < items_here.size(); i++) {
+                            if (items_here[i].type->explode_in_fire()) {
+                                // make a copy and let the copy explode
+                                item tmp(items_here[i]);
+                                items_here.erase(items_here.begin() + i);
+                                i--;
+                                tmp.detonate(point(x, y));
+                            }
+                        }
                         // Consume items as fuel to help us grow/last longer.
                         bool destroyed = false; //Is the item destroyed?
                         // Volume, Smoke generation probability, consumed items count

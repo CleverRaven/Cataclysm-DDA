@@ -2681,6 +2681,10 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
+    "explode_in_fire" : {
+        "power": 60,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "transform",
         "target": "dynamite_act",
@@ -2713,6 +2717,10 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
+    "explode_in_fire" : {
+        "power": 60,
+        "shrapnel": 0
+    },
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,

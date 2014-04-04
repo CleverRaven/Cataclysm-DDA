@@ -877,6 +877,14 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     new_item_template->melee_cut = jo.get_int("cutting");
     new_item_template->m_to_hit = jo.get_int("to_hit");
 
+    if (jo.has_member("explode_in_fire")) {
+        JsonObject je = jo.get_object("explode_in_fire");
+        je.read("power", new_item_template->explosion_on_fire_data.power);
+        je.read("shrapnel", new_item_template->explosion_on_fire_data.shrapnel);
+        je.read("fire", new_item_template->explosion_on_fire_data.fire);
+        je.read("blast", new_item_template->explosion_on_fire_data.blast);
+    }
+
     new_item_template->light_emission = 0;
 
     /*
