@@ -1796,6 +1796,7 @@ void mattack::slimespring(monster *z)
         return;
     }
     z->sp_timeout = z->type->sp_freq;    // Reset timer
+
     if (g->u.morale_level() <= 1) {
         switch (rng(1, 3)) { //~ Your slimes try to cheer you up!
         //~ Lowercase is intended: they're small voices.

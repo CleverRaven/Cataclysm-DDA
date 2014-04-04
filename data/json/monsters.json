@@ -2104,7 +2104,7 @@
     "special_attack":"BOOMER",
     "description":"A rotund human body, bloated beyond belief and layered in rolls of fat. It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "VIS40", "REVIVES", "BILE_BLOOD"]
-},{
+    },{
         "type" : "MONSTER",
         "id" : "mon_boomer_fungus",
     "name": "fungal boomer",
@@ -2135,7 +2135,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_gasbag",
-    "name": "reeker",
+    "name": "bloated zombie",
     "species":"ZOMBIE",
     "symbol":"Z",
     "color":"magenta_yellow",
@@ -2158,7 +2158,7 @@
     "special_freq":20,
     "death_function":["GAS"],
     "special_attack":"SUICIDE",
-    "description":" -Description pending-",
+    "description":"With its gray skin swollen to near rupture with putrid gas, this cyst covered zombie looks like it could violently burst under the slightest of disturbances.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "LEAKSGAS", "NO_BREATHE", "VIS40", "REVIVES"]
     },{
         "type" : "MONSTER",
