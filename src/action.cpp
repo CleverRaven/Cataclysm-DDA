@@ -319,6 +319,8 @@ std::string action_ident(action_id act)
         return "toggle_sidebar_style";
     case ACTION_TOGGLE_FULLSCREEN:
         return "toggle_fullscreen";
+    case ACTION_ACTIONMENU:
+        return "action_menu";
     case ACTION_NULL:
         return "null";
     default:
@@ -503,6 +505,8 @@ std::string action_name(action_id act)
         return _("Switch Sidebar Style");
     case ACTION_TOGGLE_FULLSCREEN:
         return _("Toggle Fullscreen mode");
+    case ACTION_ACTIONMENU:
+        return _("Action Menu");
     case ACTION_NULL:
         return _("No Action");
     default:

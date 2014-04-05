@@ -658,6 +658,7 @@ public:
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   int  mon_info(WINDOW *); // Prints a list of nearby monsters
   void handle_key_blocking_activity(); // Abort reading etc.
+  action_id handle_action_menu(); // Show the action menu.
   bool handle_action();
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
