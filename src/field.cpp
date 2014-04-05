@@ -1167,14 +1167,19 @@ void map::step_in_field(int x, int y)
         case fd_toxic_gas:
             // Toxic gas at low levels poisons you.
             // Toxic gas at high levels will cause very nasty poison.
-            if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside))) {
-                g->u.add_env_effect("poison", bp_mouth, 5, 30);
-            }
-            else if (cur->getFieldDensity() == 3 && !inside)
             {
-                g->u.infect("badpoison", bp_mouth, 5, 30);
-            } else if (cur->getFieldDensity() == 1 && (!inside)) {
-                g->u.add_env_effect("poison", bp_mouth, 2, 20);
+                bool inhaled = false;
+                if( cur->getFieldDensity() == 2 &&
+                    (!inside || (cur->getFieldDensity() == 3 && inside)) ) {
+                    inhaled = g->u.add_env_effect("poison", bp_mouth, 5, 30);
+                } else if( cur->getFieldDensity() == 3 && !inside ) {
+                    inhaled = g->u.infect("badpoison", bp_mouth, 5, 30);
+                } else if( cur->getFieldDensity() == 1 && (!inside) ) {
+                    inhaled = g->u.add_env_effect("poison", bp_mouth, 2, 20);
+                }
+                if( inhaled ) {
+                    g->add_msg(_("You feel sick from inhaling the %s"), cur->name().c_str());
+                }
             }
             break;
 
