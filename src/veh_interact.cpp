@@ -1667,7 +1667,7 @@ void complete_vehicle ()
             fmenu.query();
             if ( fmenu.ret == 0 ) {
                 if ( foundv.size() > 1 ) {
-                    if(g->choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
+                    if(choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
                         fillv = g->m.veh_at(posx, posy);
                     } else {
                         break;
