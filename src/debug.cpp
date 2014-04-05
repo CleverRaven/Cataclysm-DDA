@@ -177,8 +177,10 @@ std::ofstream & DebugFile::currentTime()
 {
  struct tm *current;
  timeval tv;
+ time_t tt;
  gettimeofday(&tv, NULL);
- current = localtime(&tv.tv_sec);
+ tt = tv.tv_sec;
+ current = localtime(&tt);
 
  file << current->tm_hour << ":" << current->tm_min << ":" <<
   current->tm_sec << "." << int(tv.tv_usec/1000 + 0.5);
