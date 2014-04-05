@@ -11,7 +11,8 @@ std::map<char, action_id> keymap;
 std::map<char, action_id> default_keymap;
 std::set<action_id> unbound_keymap;
 
-void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, bool enable_unbound = false);
+void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap,
+                  bool enable_unbound = false);
 
 void load_keyboard_settings()
 {
@@ -31,7 +32,8 @@ void load_keyboard_settings()
         fin.open(FILENAMES["keymap"].c_str());
     }
     if (!fin) { // Still can't open it--probably bad permissions
-        debugmsg(std::string("Can't open " + FILENAMES["keymap"] + " This may be a permissions issue.").c_str());
+        debugmsg(std::string("Can't open " + FILENAMES["keymap"] +
+                             " This may be a permissions issue.").c_str());
         keymap = default_keymap;
         return;
     } else {
@@ -842,7 +844,8 @@ action_id get_movement_direction_from_delta(const int dx, const int dy)
 
 // get the key for an action, used in the action menu to give each
 // action the hotkey it's bound to
-long hotkey_for_action(action_id action) {
+long hotkey_for_action(action_id action)
+{
     std::vector<char> keys = keys_bound_to(action);
     if(keys.size() >= 1) {
         return keys[0];
@@ -851,10 +854,11 @@ long hotkey_for_action(action_id action) {
     }
 }
 
-bool can_butcher_at(int x, int y) {
+bool can_butcher_at(int x, int y)
+{
     // TODO: unify this with game::butcher
     const int factor = g->u.butcher_factor();
-    std::vector<item>& items = g->m.i_at(x, y);
+    std::vector<item> &items = g->m.i_at(x, y);
     bool has_corpse, has_item = false;
     inventory crafting_inv = g->crafting_inventory(&g->u);
     for (size_t i = 0; i < items.size(); i++) {
@@ -875,7 +879,8 @@ bool can_butcher_at(int x, int y) {
     return has_corpse || has_item;
 }
 
-bool can_move_vertical_at(int x, int y, int movez) {
+bool can_move_vertical_at(int x, int y, int movez)
+{
     // TODO: unify this with game::move_vertical
     if (g->m.has_flag("SWIMMABLE", x, y) && g->m.has_flag(TFLAG_DEEP_WATER, x, y)) {
         if (movez == -1) {
@@ -892,7 +897,8 @@ bool can_move_vertical_at(int x, int y, int movez) {
     }
 }
 
-bool can_examine_at(int x, int y) {
+bool can_examine_at(int x, int y)
+{
     int veh_part = 0;
     vehicle *veh = NULL;
 
@@ -903,8 +909,8 @@ bool can_examine_at(int x, int y) {
     if (g->m.has_flag("CONSOLE", x, y)) {
         return true;
     }
-    const furn_t *xfurn_t = &furnlist[g->m.furn(x,y)];
-    const ter_t *xter_t = &terlist[g->m.ter(x,y)];
+    const furn_t *xfurn_t = &furnlist[g->m.furn(x, y)];
+    const ter_t *xter_t = &terlist[g->m.ter(x, y)];
 
     if (g->m.has_furn(x, y) && xfurn_t->examine != &iexamine::none) {
         return true;
@@ -919,38 +925,40 @@ bool can_examine_at(int x, int y) {
     return false;
 }
 
-bool can_interact_at(action_id action, int x, int y) {
+bool can_interact_at(action_id action, int x, int y)
+{
     switch(action) {
-        case ACTION_OPEN:
-            return g->m.open_door(x, y, !g->m.is_outside(g->u.posx, g->u.posy), true);
+    case ACTION_OPEN:
+        return g->m.open_door(x, y, !g->m.is_outside(g->u.posx, g->u.posy), true);
         break;
-        case ACTION_CLOSE:
-            return g->m.close_door(x, y, !g->m.is_outside(g->u.posx, g->u.posy), true);
+    case ACTION_CLOSE:
+        return g->m.close_door(x, y, !g->m.is_outside(g->u.posx, g->u.posy), true);
         break;
-        case ACTION_BUTCHER:
-            return can_butcher_at(x, y);
-        case ACTION_MOVE_UP:
-            return can_move_vertical_at(x, y, 1);
-        case ACTION_MOVE_DOWN:
-            return can_move_vertical_at(x, y, -1);
+    case ACTION_BUTCHER:
+        return can_butcher_at(x, y);
+    case ACTION_MOVE_UP:
+        return can_move_vertical_at(x, y, 1);
+    case ACTION_MOVE_DOWN:
+        return can_move_vertical_at(x, y, -1);
         break;
-        case ACTION_EXAMINE:
-            return can_examine_at(x, y);
+    case ACTION_EXAMINE:
+        return can_examine_at(x, y);
         break;
-        default:
-            return false;
+    default:
+        return false;
         break;
     }
 }
 
-action_id handle_action_menu() {
+action_id handle_action_menu()
+{
 
-    #define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), \
-                                                                 action_name(name)));
-    #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
-                                     entries.push_back(uimenu_entry(last_category, true, -1, \
-                                                                    std::string(":")+name)); \
-                                     last_category++;
+#define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), \
+        action_name(name)));
+#define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
+    entries.push_back(uimenu_entry(last_category, true, -1, \
+                                   std::string(":")+name)); \
+    last_category++;
 
     // Calculate weightings for the various actions to give the player suggestions
     // Weight >= 200: Special action only available right now
@@ -970,8 +978,8 @@ action_id handle_action_menu() {
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for(int dx=-1; dx<=1; dx++) {
-        for(int dy=-1; dy<=1; dy++) {
+    for(int dx = -1; dx <= 1; dx++) {
+        for(int dy = -1; dy <= 1; dy++) {
             int x = g->u.xpos() + dx;
             int y = g->u.ypos() + dy;
             if(dx != 0 || dy != 0) {
@@ -1003,7 +1011,7 @@ action_id handle_action_menu() {
     // sort the map by its weightings
     std::vector<std::pair<action_id, int> > sorted_pairs;
     std::copy(action_weightings.begin(), action_weightings.end(),
-        std::back_inserter<std::vector<std::pair<action_id, int> > >(sorted_pairs));
+              std::back_inserter<std::vector<std::pair<action_id, int> > >(sorted_pairs));
     std::reverse(sorted_pairs.begin(), sorted_pairs.end());
 
 
@@ -1116,11 +1124,11 @@ action_id handle_action_menu() {
             REGISTER_CATEGORY("back");
         }
 
-        entries.push_back(uimenu_entry(2*NUM_ACTIONS, true, KEY_ESCAPE, "Cancel"));
+        entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true, KEY_ESCAPE, "Cancel"));
 
         std::string title = "Actions";
         if(category != "back") {
-            title += ": "+category;
+            title += ": " + category;
         }
         int selection = (int) uimenu(0, 50, 0, title, entries);
 
@@ -1128,17 +1136,17 @@ action_id handle_action_menu() {
         g->refresh_all();
         g->draw();
 
-        if(selection == 2*NUM_ACTIONS) {
+        if(selection == 2 * NUM_ACTIONS) {
             return ACTION_NULL;
-        }else if(selection > NUM_ACTIONS) {
+        } else if(selection > NUM_ACTIONS) {
             category = categories_by_int[selection];
         } else {
             return (action_id) selection;
         }
     }
 
-    #undef REGISTER_ACTION
-    #undef REGISTER_CATEGORY
+#undef REGISTER_ACTION
+#undef REGISTER_CATEGORY
 }
 
 bool choose_adjacent(std::string message, int &x, int &y)
@@ -1149,10 +1157,11 @@ bool choose_adjacent(std::string message, int &x, int &y)
     wrefresh(g->w_terrain);
     DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
-    if (input == Cancel || input == Close)
+    if (input == Cancel || input == Close) {
         return false;
-    else
+    } else {
         get_direction(x, y, input);
+    }
     if (x == -2 || y == -2) {
         g->add_msg(_("Invalid direction."));
         return false;
@@ -1166,8 +1175,8 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
                                action_id action_to_highlight)
 {
     // Highlight nearby terrain according to the highlight function
-    for (int dx=-1; dx <= 1; dx++) {
-        for (int dy=-1; dy <= 1; dy++) {
+    for (int dx = -1; dx <= 1; dx++) {
+        for (int dy = -1; dy <= 1; dy++) {
             int x = g->u.xpos() + dx;
             int y = g->u.ypos() + dy;
 
@@ -1182,10 +1191,11 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
     wrefresh(g->w_terrain);
     DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
-    if (input == Cancel || input == Close)
+    if (input == Cancel || input == Close) {
         return false;
-    else
+    } else {
         get_direction(x, y, input);
+    }
     if (x == -2 || y == -2) {
         g->add_msg(_("Invalid direction."));
         return false;
