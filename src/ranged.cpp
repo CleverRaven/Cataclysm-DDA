@@ -1094,23 +1094,25 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 
-/* Current dispersion ranges per skill.
- * if these drift significantly might need to adjust the values here.
- * Keep in mind these include factoring in the best/worst ammo and the best mods,
- * but outliers like pipe guns and the self bow were ignored.
- * pistol 6-30
- * rifle 0-22
- * smg 0-32
- * shotgun 0-40
- * launcher 2-10
- * archery 10-50
- * throwing 21 (sling)
+/* Adjust dispersion cutoff thresholds per skill type.
+ * If these drift significantly might need to adjust the values here.
+ * Keep in mind these include factoring in the best ammo and the best mods.
+ * The target is being able to skill up to lvl 10/10 guns/guntype with average (8) perception.
+ * That means the adjustment should be dispersion of best-in-class weapon - 8.
+ *
+ * pistol 0 (.22 is 8, S&W 22A can get down to 0 with significant modding.)
+ * rifle 0 (There are any number of rifles you can get down to 0/0.)
+ * smg 0 (H&K MP5 can get dropped to 0, leaving 9mm +P+ as the limiting factor at 8.)
+ * shotgun 0 (no comment.)
+ * launcher 0 (no comment.)
+ * archery 6 (best craftable bow is composite at 10, and best arrow is wood at 4)
+ * throwing 13 (sling)
  * As a simple tweak, we're shifting the ranges so they match,
  * so if you acquire the best of a weapon type you can reach max skill with it.
  */
 int ranged_skill_offset( std::string skill ) {
     if( skill == "pistol" ) {
-        return 10;
+        return 0;
     } else if( skill == "rifle" ) {
         return 0;
     } else if( skill == "smg" ) {
@@ -1118,11 +1120,11 @@ int ranged_skill_offset( std::string skill ) {
     } else if( skill == "shotgun" ) {
         return 0;
     } else if( skill == "launcher" ) {
-        return 2;
+        return 0;
     } else if( skill == "archery" ) {
-        return 10;
-    } else if( skill == "throwing" ) {
-        return 21;
+        return 9;
+    } else if( skill == "throw" ) {
+        return 13;
     }
     return 0;
 }
