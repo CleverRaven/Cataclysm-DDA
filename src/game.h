@@ -233,6 +233,7 @@ public:
   void moving_vehicle_dismount(int tox, int toy);
   // Get input from the player to choose an adjacent tile (for examine() etc)
   bool choose_adjacent(std::string message, int &x, int&y);
+  bool choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight);
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it

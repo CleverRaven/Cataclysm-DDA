@@ -7389,7 +7389,7 @@ bool game::revive_corpse(int x, int y, item *it)
 void game::open()
 {
     int openx, openy;
-    if (!choose_adjacent(_("Open where?"), openx, openy)) {
+    if (!choose_adjacent_highlight(_("Open where?"), openx, openy, ACTION_OPEN)) {
         return;
     }
 
@@ -7456,7 +7456,7 @@ void game::open()
 void game::close(int closex, int closey)
 {
     if (closex == -1) {
-        if (!choose_adjacent(_("Close where?"), closex, closey)) {
+        if (!choose_adjacent_highlight(_("Close where?"), closex, closey, ACTION_CLOSE)) {
             return;
         }
     }
@@ -7708,6 +7708,38 @@ void game::use_wielded_item()
 bool game::choose_adjacent(std::string message, int &x, int &y)
 {
     //~ appended to "Close where?" "Pry where?" etc.
+    std::string query_text = message + _(" (Direction button)");
+    mvwprintw(w_terrain, 0, 0, "%s", query_text.c_str());
+    wrefresh(w_terrain);
+    DebugLog() << "calling get_input() for " << message << "\n";
+    InputEvent input = get_input();
+    if (input == Cancel || input == Close)
+        return false;
+    else
+        get_direction(x, y, input);
+    if (x == -2 || y == -2) {
+        add_msg(_("Invalid direction."));
+        return false;
+    }
+    x += u.posx;
+    y += u.posy;
+    return true;
+}
+
+bool game::choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight)
+{
+    // Highlight nearby terrain according to the highlight function
+    for (int dx=-1; dx <= 1; dx++) {
+        for (int dy=-1; dy <= 1; dy++) {
+            int x = g->u.xpos() + dx;
+            int y = g->u.ypos() + dy;
+
+            if(can_interact_at(action_to_highlight, x, y)) {
+                m.drawsq(w_terrain, u, x, y, true, true, g->u.xpos(), g->u.ypos());
+            }
+        }
+    }
+
     std::string query_text = message + _(" (Direction button)");
     mvwprintw(w_terrain, 0, 0, "%s", query_text.c_str());
     wrefresh(w_terrain);
@@ -8196,7 +8228,7 @@ void game::examine(int examx, int examy)
         if (veh && veh->player_in_control(&u)) {
             examx = u.posx;
             examy = u.posy;
-        } else  if (!choose_adjacent(_("Examine where?"), examx, examy)) {
+        } else  if (!choose_adjacent_highlight(_("Examine where?"), examx, examy, ACTION_EXAMINE)) {
             return;
         }
     }
