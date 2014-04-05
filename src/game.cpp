@@ -2469,12 +2469,107 @@ long hotkey_for_action(action_id action) {
     }
 }
 
+bool game::can_butcher_at(int x, int y) {
+    // TODO: unify this with game::butcher
+    const int factor = u.butcher_factor();
+    std::vector<item>& items = m.i_at(x, y);
+    bool has_corpse, has_item = false;
+    inventory crafting_inv = crafting_inventory(&u);
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
+            if (factor != 999) {
+                has_corpse = true;
+            }
+        }
+    }
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
+            recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+            if (cur_recipe != NULL && can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+                has_item = true;
+            }
+        }
+    }
+    return has_corpse || has_item;
+}
+
+bool game::can_move_vertical_at(int x, int y, int movez) {
+    // TODO: unify this with game::move_vertical
+    if (m.has_flag("SWIMMABLE", x, y) && m.has_flag(TFLAG_DEEP_WATER, x, y)) {
+        if (movez == -1) {
+            return !u.is_underwater() && !u.worn_with_flag("FLOATATION");
+        } else {
+            return u.swim_speed() < 500 || u.is_wearing("swim_fins");
+        }
+    }
+
+    if (movez == -1) {
+        return m.has_flag("GOES_DOWN", x, y);
+    } else {
+        return m.has_flag("GOES_UP", x, y);
+    }
+}
+
+bool game::can_interact_at(action_id action, int x, int y) {
+    switch(action) {
+        case ACTION_OPEN:
+            return m.open_door(x, y, !m.is_outside(u.posx, u.posy), true);
+        break;
+        case ACTION_CLOSE:
+            return m.close_door(x, y, !m.is_outside(u.posx, u.posy), true);
+        break;
+        case ACTION_BUTCHER:
+            return can_butcher_at(x, y);
+        case ACTION_MOVE_UP:
+            return can_move_vertical_at(x, y, 1);
+        case ACTION_MOVE_DOWN:
+            return can_move_vertical_at(x, y, -1);
+        break;
+        default:
+            return false;
+        break;
+    }
+}
+
 action_id game::handle_action_menu() {
 
     #define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), action_name(name)));
     #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
                                      entries.push_back(uimenu_entry(last_category, true, -1, std::string(":")+name)); \
                                      last_category++;
+
+    // Calculate weightings for the various actions to give the player suggestions
+    // Weight >= 200: Special action only available right now
+    std::map<action_id, int> action_weightings;
+
+    // Check if we can perform one of our actions on nearby terrain. If so,
+    // display that action at the top of the list.
+    for(int dx=-1; dx<=1; dx++) {
+        for(int dy=-1; dy<=1; dy++) {
+            int x = u.xpos() + dx;
+            int y = u.ypos() + dy;
+            if(dx != 0 || dy != 0) {
+                // Check for actions that work on nearby tiles
+                if(can_interact_at(ACTION_OPEN, x, y)) {
+                    action_weightings[ACTION_OPEN] = 200;
+                }
+                if(can_interact_at(ACTION_CLOSE, x, y)) {
+                    action_weightings[ACTION_CLOSE] = 200;
+                }
+            } else {
+                // Check for actions that work on own tile only
+                if(can_interact_at(ACTION_BUTCHER, x, y)) {
+                    action_weightings[ACTION_BUTCHER] = 200;
+                }
+                if(can_interact_at(ACTION_MOVE_UP, x, y)) {
+                    action_weightings[ACTION_MOVE_UP] = 200;
+                }
+                if(can_interact_at(ACTION_MOVE_DOWN, x, y)) {
+                    action_weightings[ACTION_MOVE_DOWN] = 200;
+                }
+            }
+        }
+    }
 
     // Default category is called "back" so we can simply add a link to it
     // in sub-categories.
@@ -2486,6 +2581,16 @@ action_id game::handle_action_menu() {
         int last_category = NUM_ACTIONS + 1;
 
         if(category == "back") {
+            // Display up to 3 context-sensitive actions that can be
+            // performed currently.
+            int context_sensitive_actions = 0;
+            std::map<action_id, int>::iterator it;
+            for (it = action_weightings.begin(); it != action_weightings.end(); it++) {
+                if(it->second >= 200) {
+                    REGISTER_ACTION(it->first);
+                }
+            }
+
             REGISTER_CATEGORY("look");
             REGISTER_CATEGORY("interact");
             REGISTER_CATEGORY("inventory");
@@ -7287,11 +7392,7 @@ void game::open()
 
     bool didit = false;
 
-    if (m.is_outside(u.posx, u.posy)) {
-        didit = m.open_door(openx, openy, false);
-    } else {
-        didit = m.open_door(openx, openy, true);
-    }
+    didit = m.open_door(openx, openy, !m.is_outside(u.posx, u.posy));
 
     if (!didit) {
         const std::string terid = m.get_ter(openx, openy);
