@@ -2683,6 +2683,8 @@ action_id game::handle_action_menu() {
             REGISTER_CATEGORY("back");
         }
 
+        entries.push_back(uimenu_entry(2*NUM_ACTIONS, true, KEY_ESCAPE, "Cancel"));
+
         std::string title = "Actions";
         if(category != "back") {
             title += ": "+category;
@@ -2693,7 +2695,9 @@ action_id game::handle_action_menu() {
         refresh_all();
         draw();
 
-        if(selection > NUM_ACTIONS) {
+        if(selection == 2*NUM_ACTIONS) {
+            return ACTION_NULL;
+        }else if(selection > NUM_ACTIONS) {
             category = categories_by_int[selection];
         } else {
             return (action_id) selection;
@@ -2852,6 +2856,9 @@ bool game::handle_action()
 
     if (act == ACTION_ACTIONMENU) {
         act = handle_action_menu();
+        if(act == ACTION_NULL) {
+            return false;
+        }
     }
 
 // This has no action unless we're in a special game mode.
