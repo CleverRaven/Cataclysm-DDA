@@ -2513,7 +2513,6 @@ bool game::can_move_vertical_at(int x, int y, int movez) {
 bool game::can_examine_at(int x, int y) {
     int veh_part = 0;
     vehicle *veh = NULL;
-    const int curz = g->levz;
 
     veh = m.veh_at (x, y, veh_part);
     if (veh) {
@@ -2634,9 +2633,6 @@ action_id game::handle_action_menu() {
         int last_category = NUM_ACTIONS + 1;
 
         if(category == "back") {
-            // Display up to 3 context-sensitive actions that can be
-            // performed currently.
-            int context_sensitive_actions = 0;
             std::vector<std::pair<action_id, int> >::iterator it;
             for (it = sorted_pairs.begin(); it != sorted_pairs.end(); it++) {
                 if(it->second >= 200) {
