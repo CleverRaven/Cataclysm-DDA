@@ -377,19 +377,17 @@ bool game::making_would_work(recipe *making)
 bool game::can_make(recipe *r)
 {
     inventory crafting_inv = crafting_inventory(&u);
-    return crafting_inv.can_make_with_inventory(r, crafting_inv);
+    return crafting_inv.can_make_recipe(r);
 }
 
 // rejecting the crafting inventory check, and substituting our own
-//bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
-//{
-//    bool retval = true;
-//    //moving function to inventory class for ease of access to items
-//    retval = crafting_inv.can_make_recipe(r);
-//    return retval;
-//}
+bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
+{
+    //moving function to inventory class for ease of access to items
+    return crafting_inv.can_make_recipe(r);
+}
 
-bool inventory::can_make_with_inventory(recipe* r, const inventory &crafting_inv)
+bool inventory::can_make_recipe(recipe *r) const
 {
     bool retval = true;
 
@@ -423,7 +421,7 @@ bool inventory::can_make_with_inventory(recipe* r, const inventory &crafting_inv
     */
 
     //iterating through inventory
-    //try tp avoid calls to has_amount or has_charges - we're kinda already iterating through the inventory here
+    //try to avoid calls to has_amount or has_charges - we're kinda already iterating through the inventory here
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for(std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end();
             ++stack_iter) {
@@ -503,7 +501,7 @@ bool inventory::can_make_with_inventory(recipe* r, const inventory &crafting_inv
 
     //done iterating through inventory. Hopefully done for good.
     //set up a few item arrays.
-    std::map< itype_id , item > items_used; //this will keep track of items selected for the requirements
+    std::map< std::string , item > items_used; //this will keep track of items selected for the requirements
 
     //iterating through tools
     //the idea is to literally look through the list of all items that match a given tool's description
@@ -534,7 +532,10 @@ bool inventory::can_make_with_inventory(recipe* r, const inventory &crafting_inv
                 std::vector< item >::iterator item_it = tool.items_assigned.begin();
                 while (item_it != tool.items_assigned.end()) {
                     //second check - if the items_used list has the item we're checking for already, skip it
-                    if(!items_used.empty() &&  items_used.find(item_it->typeId()) != items_used.end()){
+                    if(items_used.empty()){//if no items have been used before, just use it if it matches
+                        items_found++;
+                        items_used[item_it->typeId()] = *item_it;
+                    }else if(items_used.count(item_it->typeId()) == 0){
                         //now let's see how the item fits.
                         //for the sake of testing, let's assume that it matches.
                         //push the item to the used items and set the tool as available
@@ -551,7 +552,12 @@ bool inventory::can_make_with_inventory(recipe* r, const inventory &crafting_inv
                     //if any tool in a set is available, the whole set works
                     item_in_set = true;
                 }
+                //debug addition: force all items to display as available.
+                //tool.available = 1;
+                //item_in_set = true;
             }
+            //will add a variable to hold the number of items here in the component later
+            tool.items_assigned.clear();
             ++tool_it;
         }
         ++tool_set_it;
@@ -576,7 +582,14 @@ bool inventory::can_make_with_inventory(recipe* r, const inventory &crafting_inv
                 std::vector< item >::iterator item_it = comp.items_assigned.begin();
                 while (item_it != comp.items_assigned.end()) {
                     //second check - if the items_used list has the item we're checking for already, skip it
-                   if(!items_used.empty() &&  items_used.find(item_it->typeId()) != items_used.end()){
+                    if(items_used.empty()){//if no items have been used before, just use it if it matches
+                        if(item_it->count_by_charges()){
+                            items_found += item_it->charges;
+                        }else {
+                            items_found++;
+                        }
+                        items_used[item_it->typeId()] = *item_it;
+                    }else if(items_used.count(item_it->typeId()) == 0){
                         //now let's see how the item fits.
                         //for the sake of testing, let's assume that it matches.
                         if(item_it->count_by_charges()){
@@ -597,12 +610,14 @@ bool inventory::can_make_with_inventory(recipe* r, const inventory &crafting_inv
                     item_in_set = true;
                 }
             }
+            //will add a variable to hold the number of items here in the component later
+            comp.items_assigned.clear();
             ++comp_it;
         }
         ++comp_set_it;
         retval &= item_in_set;
     }
-
+    items_used.clear();
     return retval;
 }
 
@@ -1209,6 +1224,7 @@ recipe *game::select_crafting_recipe()
                             long charges = current[line]->tools[i][j].charges;
                             int count = current[line]->tools[i][j].count;
                             int level = current[line]->tools[i][j].level;
+                            int have_count = current[line]->tools[i][j].items_assigned.size();
                             nc_color toolcol = has_one ? c_dkgray : c_red;
 
                             if (current[line]->tools[i][j].available == 1) {
@@ -1235,10 +1251,26 @@ recipe *game::select_crafting_recipe()
                             if (charges > 0) {
                                 toolinfo << string_format(_("(%d charges) "), charges);
                             }
+                            if(have_count > 0){
+                                toolinfo << string_format(_("(have %d) "), have_count);
+                            }
                             std::string toolname = toolinfo.str();
+                            //try to handle excessively long strings by word wrap
+//                            bool need_wrap = (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH);
+//                            while (need_wrap){
+//                                std::string fit_name = toolname.substr(0, FULL_SCREEN_WIDTH - xpos);
+//                                fit_name = fit_name.substr(0, fit_name.find_last_of(' '));
+//                                toolname = toolname.substr(fit_name.length(), toolname.length() - fit_name.length());
+//                                mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
+//                                xpos = 32;
+//                                ypos++;
+//                                if (xpos + utf8_width(toolname.c_str()) < FULL_SCREEN_WIDTH) {
+//                                        need_wrap = false;
+//                                }
+//                            }
                             if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH) {
-                                xpos = 32;
                                 ypos++;
+                                xpos = 32;
                             }
                             mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
                             xpos += utf8_width(toolname.c_str());
@@ -1266,19 +1298,25 @@ recipe *game::select_crafting_recipe()
                 bool has_one = any_marked_available(current[line]->components[i]);
                 for (unsigned j = 0; j < current[line]->components[i].size(); j++) {
                     int count = current[line]->components[i][j].count;
+                    int have_count = current[line]->components[i][j].items_assigned.size();
                     itype_id type = current[line]->components[i][j].type;
                     nc_color compcol = has_one ? c_dkgray : c_red;
                     if (current[line]->components[i][j].available == 0) {
                         compcol = c_brown;
-                    } else if (item_controller->find_template(type)->count_by_charges() && count > 0) {
-                        if (crafting_inv.has_charges(type, count)) {
-                            compcol = c_green;
-                        }
-                    } else if (crafting_inv.has_components(type, abs(count))) {
+//                    } else if (item_controller->find_template(type)->count_by_charges() && count > 0) {
+//                        if (crafting_inv.has_charges(type, count)) {
+//                            compcol = c_green;
+//                        }
+                    } else if (current[line]->components[i][j].available == 1) {
                         compcol = c_green;
                     }
                     std::stringstream dump;
                     dump << abs(count) << "x " << item_controller->find_template(type)->name << " ";
+
+                    if(have_count > 0){
+                        dump << string_format(_("(have %d) "), have_count);
+                    }
+
                     std::string compname = dump.str();
                     if (xpos + utf8_width(compname.c_str()) >= FULL_SCREEN_WIDTH) {
                         ypos++;
@@ -1705,7 +1743,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
                     }
                 }
             }
-            if (crafting_inv.can_make_with_inventory(*iter, crafting_inv)) {//can_make_with_inventory(*iter, crafting_inv)) {
+            if (can_make_with_inventory(*iter, crafting_inv)) {
                 current.insert(current.begin(), *iter);
                 available.insert(available.begin(), true);
             } else {

@@ -1412,7 +1412,9 @@
   "reversible": true,
   "autolearn": true,
   "tools":[
+	[
     {"quality":"HAMMER","level":1,"amount":1}
+	]
   ], "components": [
     [
       [ "2x4", 1 ],
