@@ -120,6 +120,10 @@ std::string action_name(action_id);
 action_id action_from_key(char ch);
 // Use the keymap to figure out direction properly
 void get_direction(int &x, int &y, char ch);
+// Get input from the player to choose an adjacent tile (for examine() etc)
+bool choose_adjacent(std::string message, int &x, int&y);
+bool choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight);
+
 // (Press X (or Y)|Try) to Z
 std::string press_x(action_id act);
 std::string press_x(action_id act, std::string key_bound,

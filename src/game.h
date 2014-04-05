@@ -231,9 +231,6 @@ public:
   bool cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...);
   void moving_vehicle_dismount(int tox, int toy);
-  // Get input from the player to choose an adjacent tile (for examine() etc)
-  bool choose_adjacent(std::string message, int &x, int&y);
-  bool choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight);
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
@@ -422,6 +419,18 @@ public:
   void calc_driving_offset(vehicle *veh = NULL);
 
   bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
+  /**
+   * Check whether we can interact with something using the
+   * specified action and the given tile.
+   *
+   * This is part of a new API that will allow for a more robust
+   * user interface. Possible features include: Extending the
+   * "select a nearby tile" widget to highlight tiles that can be
+   * interacted with. "suggest" context-sensitive actions to the
+   * user that are currently relevant.
+   */
+  bool can_interact_at(action_id action, int x, int y);
+
 
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
  //otherwise returns sentinel -1, signifies transaction fail.
@@ -661,18 +670,6 @@ public:
   void handle_key_blocking_activity(); // Abort reading etc.
   action_id handle_action_menu(); // Show the action menu.
   bool handle_action();
-
-  /**
-   * Check whether we can interact with something using the
-   * specified action and the given tile.
-   *
-   * This is part of a new API that will allow for a more robust
-   * user interface. Possible features include: Extending the
-   * "select a nearby tile" widget to highlight tiles that can be
-   * interacted with. "suggest" context-sensitive actions to the
-   * user that are currently relevant.
-   */
-  bool can_interact_at(action_id action, int x, int y);
 
   bool can_butcher_at(int x, int y);
   bool can_move_vertical_at(int x, int y, int movez);

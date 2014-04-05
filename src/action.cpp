@@ -1,6 +1,8 @@
 #include "action.h"
 #include "output.h"
 #include "path_info.h"
+#include "debug.h"
+#include "game.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -836,4 +838,57 @@ action_id get_movement_direction_from_delta(const int dx, const int dy)
     } else {
         return ACTION_MOVE_NW;
     }
+}
+bool choose_adjacent(std::string message, int &x, int &y)
+{
+    //~ appended to "Close where?" "Pry where?" etc.
+    std::string query_text = message + _(" (Direction button)");
+    mvwprintw(g->w_terrain, 0, 0, "%s", query_text.c_str());
+    wrefresh(g->w_terrain);
+    DebugLog() << "calling get_input() for " << message << "\n";
+    InputEvent input = get_input();
+    if (input == Cancel || input == Close)
+        return false;
+    else
+        get_direction(x, y, input);
+    if (x == -2 || y == -2) {
+        g->add_msg(_("Invalid direction."));
+        return false;
+    }
+    x += g->u.posx;
+    y += g->u.posy;
+    return true;
+}
+
+bool choose_adjacent_highlight(std::string message, int &x, int &y,
+                               action_id action_to_highlight)
+{
+    // Highlight nearby terrain according to the highlight function
+    for (int dx=-1; dx <= 1; dx++) {
+        for (int dy=-1; dy <= 1; dy++) {
+            int x = g->u.xpos() + dx;
+            int y = g->u.ypos() + dy;
+
+            if(g->can_interact_at(action_to_highlight, x, y)) {
+                g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos(), g->u.ypos());
+            }
+        }
+    }
+
+    std::string query_text = message + _(" (Direction button)");
+    mvwprintw(g->w_terrain, 0, 0, "%s", query_text.c_str());
+    wrefresh(g->w_terrain);
+    DebugLog() << "calling get_input() for " << message << "\n";
+    InputEvent input = get_input();
+    if (input == Cancel || input == Close)
+        return false;
+    else
+        get_direction(x, y, input);
+    if (x == -2 || y == -2) {
+        g->add_msg(_("Invalid direction."));
+        return false;
+    }
+    x += g->u.posx;
+    y += g->u.posy;
+    return true;
 }
