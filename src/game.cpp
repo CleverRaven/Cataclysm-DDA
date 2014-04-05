@@ -2573,6 +2573,18 @@ action_id game::handle_action_menu() {
     // Weight >= 200: Special action only available right now
     std::map<action_id, int> action_weightings;
 
+    // Check if we're on a vehicle, if so, vehicle controls should be top.
+    {
+        int veh_part = 0;
+        vehicle *veh = NULL;
+
+        veh = m.veh_at(u.posx, u.posy, veh_part);
+        if (veh) {
+            // Make it 300 to prioritize it before examining the vehicle.
+            action_weightings[ACTION_CONTROL_VEHICLE] = 300;
+        }
+    }
+
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
     for(int dx=-1; dx<=1; dx++) {
@@ -2605,6 +2617,13 @@ action_id game::handle_action_menu() {
         }
     }
 
+    // sort the map by its weightings
+    std::vector<std::pair<action_id, int> > sorted_pairs;
+    std::copy(action_weightings.begin(), action_weightings.end(),
+        std::back_inserter<std::vector<std::pair<action_id, int> > >(sorted_pairs));
+    std::reverse(sorted_pairs.begin(), sorted_pairs.end());
+
+
     // Default category is called "back" so we can simply add a link to it
     // in sub-categories.
     std::string category = "back";
@@ -2618,8 +2637,8 @@ action_id game::handle_action_menu() {
             // Display up to 3 context-sensitive actions that can be
             // performed currently.
             int context_sensitive_actions = 0;
-            std::map<action_id, int>::iterator it;
-            for (it = action_weightings.begin(); it != action_weightings.end(); it++) {
+            std::vector<std::pair<action_id, int> >::iterator it;
+            for (it = sorted_pairs.begin(); it != sorted_pairs.end(); it++) {
                 if(it->second >= 200) {
                     REGISTER_ACTION(it->first);
                 }
