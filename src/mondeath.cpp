@@ -471,6 +471,22 @@ void mdeath::darkman(monster *z) {
         g->add_msg(_("The %s melts away. And the world returns to normaliity"), z->name().c_str());
 }
 
+void mdeath::gas(monster *z) {
+    std::string tmp;
+    std::string explode = string_format(_("a %s explode!"), z->name().c_str());
+    g->sound(z->posx(), z->posy(), 24, explode);
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            g->m.add_field(z->posx() + i, z->posy() + j, fd_toxic_gas, 3);
+            int mondex = g->mon_at(z->posx() + i, z->posy() +j);
+            if (mondex != -1) {
+                g->zombie(mondex).stumble(false);
+                g->zombie(mondex).moves -= 250;
+            }
+        }
+    }
+}
+
 void mdeath::smokeburst(monster *z) {
     std::string tmp;
     std::string explode = string_format(_("a %s explode!"), z->name().c_str());
@@ -599,7 +615,7 @@ void mdeath::zombie(monster *z) {
                 g->m.put_items_from("loincloth", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             }
         break;
-        
+
         case 8: // mon_zombie_bio_op
             g->m.put_items_from("bio_op_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
             g->m.put_items_from("mil_armor_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
