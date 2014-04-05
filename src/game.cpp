@@ -2458,6 +2458,309 @@ input_context game::get_player_input(std::string &action)
     return ctxt;
 }
 
+// get the key for an action, used in the action menu to give each
+// action the hotkey it's bound to
+long hotkey_for_action(action_id action) {
+    std::vector<char> keys = keys_bound_to(action);
+    if(keys.size() >= 1) {
+        return keys[0];
+    } else {
+        return -1;
+    }
+}
+
+bool game::can_butcher_at(int x, int y) {
+    // TODO: unify this with game::butcher
+    const int factor = u.butcher_factor();
+    std::vector<item>& items = m.i_at(x, y);
+    bool has_corpse, has_item = false;
+    inventory crafting_inv = crafting_inventory(&u);
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
+            if (factor != 999) {
+                has_corpse = true;
+            }
+        }
+    }
+    for (size_t i = 0; i < items.size(); i++) {
+        if (items[i].type->id != "corpse" || items[i].corpse == NULL) {
+            recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+            if (cur_recipe != NULL && can_disassemble(&items[i], cur_recipe, crafting_inv, false)) {
+                has_item = true;
+            }
+        }
+    }
+    return has_corpse || has_item;
+}
+
+bool game::can_move_vertical_at(int x, int y, int movez) {
+    // TODO: unify this with game::move_vertical
+    if (m.has_flag("SWIMMABLE", x, y) && m.has_flag(TFLAG_DEEP_WATER, x, y)) {
+        if (movez == -1) {
+            return !u.is_underwater() && !u.worn_with_flag("FLOATATION");
+        } else {
+            return u.swim_speed() < 500 || u.is_wearing("swim_fins");
+        }
+    }
+
+    if (movez == -1) {
+        return m.has_flag("GOES_DOWN", x, y);
+    } else {
+        return m.has_flag("GOES_UP", x, y);
+    }
+}
+
+bool game::can_examine_at(int x, int y) {
+    int veh_part = 0;
+    vehicle *veh = NULL;
+    const int curz = g->levz;
+
+    veh = m.veh_at (x, y, veh_part);
+    if (veh) {
+        return true;
+    }
+    if (m.has_flag("CONSOLE", x, y)) {
+        return true;
+    }
+    const furn_t *xfurn_t = &furnlist[m.furn(x,y)];
+    const ter_t *xter_t = &terlist[m.ter(x,y)];
+
+    if (m.has_furn(x, y) && xfurn_t->examine != &iexamine::none) {
+        return true;
+    } else if(xter_t->examine != &iexamine::none) {
+        return true;
+    }
+
+    if(m.tr_at(x, y) != tr_null) {
+        return true;
+    }
+
+    return false;
+}
+
+bool game::can_interact_at(action_id action, int x, int y) {
+    switch(action) {
+        case ACTION_OPEN:
+            return m.open_door(x, y, !m.is_outside(u.posx, u.posy), true);
+        break;
+        case ACTION_CLOSE:
+            return m.close_door(x, y, !m.is_outside(u.posx, u.posy), true);
+        break;
+        case ACTION_BUTCHER:
+            return can_butcher_at(x, y);
+        case ACTION_MOVE_UP:
+            return can_move_vertical_at(x, y, 1);
+        case ACTION_MOVE_DOWN:
+            return can_move_vertical_at(x, y, -1);
+        break;
+        case ACTION_EXAMINE:
+            return can_examine_at(x, y);
+        break;
+        default:
+            return false;
+        break;
+    }
+}
+
+action_id game::handle_action_menu() {
+
+    #define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), action_name(name)));
+    #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
+                                     entries.push_back(uimenu_entry(last_category, true, -1, std::string(":")+name)); \
+                                     last_category++;
+
+    // Calculate weightings for the various actions to give the player suggestions
+    // Weight >= 200: Special action only available right now
+    std::map<action_id, int> action_weightings;
+
+    // Check if we're on a vehicle, if so, vehicle controls should be top.
+    {
+        int veh_part = 0;
+        vehicle *veh = NULL;
+
+        veh = m.veh_at(u.posx, u.posy, veh_part);
+        if (veh) {
+            // Make it 300 to prioritize it before examining the vehicle.
+            action_weightings[ACTION_CONTROL_VEHICLE] = 300;
+        }
+    }
+
+    // Check if we can perform one of our actions on nearby terrain. If so,
+    // display that action at the top of the list.
+    for(int dx=-1; dx<=1; dx++) {
+        for(int dy=-1; dy<=1; dy++) {
+            int x = u.xpos() + dx;
+            int y = u.ypos() + dy;
+            if(dx != 0 || dy != 0) {
+                // Check for actions that work on nearby tiles
+                if(can_interact_at(ACTION_OPEN, x, y)) {
+                    action_weightings[ACTION_OPEN] = 200;
+                }
+                if(can_interact_at(ACTION_CLOSE, x, y)) {
+                    action_weightings[ACTION_CLOSE] = 200;
+                }
+                if(can_interact_at(ACTION_EXAMINE, x, y)) {
+                    action_weightings[ACTION_EXAMINE] = 200;
+                }
+            } else {
+                // Check for actions that work on own tile only
+                if(can_interact_at(ACTION_BUTCHER, x, y)) {
+                    action_weightings[ACTION_BUTCHER] = 200;
+                }
+                if(can_interact_at(ACTION_MOVE_UP, x, y)) {
+                    action_weightings[ACTION_MOVE_UP] = 200;
+                }
+                if(can_interact_at(ACTION_MOVE_DOWN, x, y)) {
+                    action_weightings[ACTION_MOVE_DOWN] = 200;
+                }
+            }
+        }
+    }
+
+    // sort the map by its weightings
+    std::vector<std::pair<action_id, int> > sorted_pairs;
+    std::copy(action_weightings.begin(), action_weightings.end(),
+        std::back_inserter<std::vector<std::pair<action_id, int> > >(sorted_pairs));
+    std::reverse(sorted_pairs.begin(), sorted_pairs.end());
+
+
+    // Default category is called "back" so we can simply add a link to it
+    // in sub-categories.
+    std::string category = "back";
+
+    while(1) {
+        std::vector<uimenu_entry> entries;
+        std::map<int, std::string> categories_by_int;
+        int last_category = NUM_ACTIONS + 1;
+
+        if(category == "back") {
+            // Display up to 3 context-sensitive actions that can be
+            // performed currently.
+            int context_sensitive_actions = 0;
+            std::vector<std::pair<action_id, int> >::iterator it;
+            for (it = sorted_pairs.begin(); it != sorted_pairs.end(); it++) {
+                if(it->second >= 200) {
+                    REGISTER_ACTION(it->first);
+                }
+            }
+
+            REGISTER_CATEGORY("look");
+            REGISTER_CATEGORY("interact");
+            REGISTER_CATEGORY("inventory");
+            REGISTER_CATEGORY("combat");
+            REGISTER_CATEGORY("craft");
+            REGISTER_CATEGORY("info");
+            REGISTER_CATEGORY("misc");
+            REGISTER_ACTION(ACTION_SAVE);
+            REGISTER_ACTION(ACTION_QUIT);
+        } else if(category == "look") {
+            REGISTER_ACTION(ACTION_LOOK);
+            REGISTER_ACTION(ACTION_PEEK);
+            REGISTER_ACTION(ACTION_LIST_ITEMS);
+            REGISTER_CATEGORY("back");
+        } else if(category == "inventory") {
+            REGISTER_CATEGORY("back");
+            REGISTER_ACTION(ACTION_INVENTORY);
+            REGISTER_ACTION(ACTION_ADVANCEDINV);
+            REGISTER_ACTION(ACTION_SORT_ARMOR);
+            REGISTER_ACTION(ACTION_DIR_DROP);
+
+            // Everything below here can be accessed through
+            // the inventory screen, so it's sorted to the
+            // end of the list.
+            REGISTER_ACTION(ACTION_DROP);
+            REGISTER_ACTION(ACTION_COMPARE);
+            REGISTER_ACTION(ACTION_ORGANIZE);
+            REGISTER_ACTION(ACTION_USE);
+            REGISTER_ACTION(ACTION_WEAR);
+            REGISTER_ACTION(ACTION_TAKE_OFF);
+            REGISTER_ACTION(ACTION_EAT);
+            REGISTER_ACTION(ACTION_READ);
+            REGISTER_ACTION(ACTION_WIELD);
+            REGISTER_ACTION(ACTION_UNLOAD);
+            REGISTER_CATEGORY("back");
+        } else if(category == "debug") {
+            REGISTER_ACTION(ACTION_TOGGLE_SIDEBAR_STYLE);
+            REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
+            REGISTER_ACTION(ACTION_DEBUG);
+            REGISTER_ACTION(ACTION_DISPLAY_SCENT);
+            REGISTER_ACTION(ACTION_TOGGLE_DEBUGMON);
+            REGISTER_ACTION(ACTION_PICKUP);
+            REGISTER_ACTION(ACTION_GRAB);
+            REGISTER_ACTION(ACTION_BUTCHER);
+            REGISTER_CATEGORY("back");
+        } else if(category == "interact") {
+            REGISTER_ACTION(ACTION_EXAMINE);
+            REGISTER_ACTION(ACTION_SMASH);
+            REGISTER_ACTION(ACTION_MOVE_DOWN);
+            REGISTER_ACTION(ACTION_MOVE_UP);
+            REGISTER_ACTION(ACTION_OPEN);
+            REGISTER_ACTION(ACTION_CLOSE);
+            REGISTER_ACTION(ACTION_CHAT);
+            REGISTER_CATEGORY("back");
+        } else if(category == "combat") {
+            REGISTER_ACTION(ACTION_FIRE);
+            REGISTER_ACTION(ACTION_RELOAD);
+            REGISTER_ACTION(ACTION_SELECT_FIRE_MODE);
+            REGISTER_ACTION(ACTION_THROW);
+            REGISTER_ACTION(ACTION_FIRE_BURST);
+            REGISTER_ACTION(ACTION_PICK_STYLE);
+            REGISTER_ACTION(ACTION_TOGGLE_SAFEMODE);
+            REGISTER_ACTION(ACTION_TOGGLE_AUTOSAFE);
+            REGISTER_ACTION(ACTION_IGNORE_ENEMY);
+            REGISTER_CATEGORY("back");
+        } else if(category == "craft") {
+            REGISTER_ACTION(ACTION_CRAFT);
+            REGISTER_ACTION(ACTION_RECRAFT);
+            REGISTER_ACTION(ACTION_LONGCRAFT);
+            REGISTER_ACTION(ACTION_CONSTRUCT);
+            REGISTER_ACTION(ACTION_DISASSEMBLE);
+            REGISTER_CATEGORY("back");
+        } else if(category == "info") {
+            REGISTER_ACTION(ACTION_PL_INFO);
+            REGISTER_ACTION(ACTION_MAP);
+            REGISTER_ACTION(ACTION_MISSIONS);
+            REGISTER_ACTION(ACTION_KILLS);
+            REGISTER_ACTION(ACTION_FACTIONS);
+            REGISTER_ACTION(ACTION_MORALE);
+            REGISTER_ACTION(ACTION_MESSAGES);
+            REGISTER_ACTION(ACTION_HELP);
+            REGISTER_CATEGORY("back");
+        } else if(category == "misc") {
+            REGISTER_ACTION(ACTION_WAIT);
+            REGISTER_ACTION(ACTION_SLEEP);
+            REGISTER_ACTION(ACTION_BIONICS);
+            REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
+            REGISTER_ACTION(ACTION_ZOOM_OUT);
+            REGISTER_ACTION(ACTION_ZOOM_IN);
+            REGISTER_CATEGORY("back");
+        }
+
+        entries.push_back(uimenu_entry(2*NUM_ACTIONS, true, KEY_ESCAPE, "Cancel"));
+
+        std::string title = "Actions";
+        if(category != "back") {
+            title += ": "+category;
+        }
+        int selection = (int) uimenu(0, 50, 0, title, entries);
+
+        erase();
+        refresh_all();
+        draw();
+
+        if(selection == 2*NUM_ACTIONS) {
+            return ACTION_NULL;
+        }else if(selection > NUM_ACTIONS) {
+            category = categories_by_int[selection];
+        } else {
+            return (action_id) selection;
+        }
+    }
+
+    #undef REGISTER_ACTION
+    #undef REGISTER_CATEGORY
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -2601,6 +2904,13 @@ bool game::handle_action()
             }
 
             act = keymap[ch];
+        }
+    }
+
+    if (act == ACTION_ACTIONMENU) {
+        act = handle_action_menu();
+        if(act == ACTION_NULL) {
+            return false;
         }
     }
 
@@ -7098,7 +7408,7 @@ bool game::revive_corpse(int x, int y, item *it)
 void game::open()
 {
     int openx, openy;
-    if (!choose_adjacent(_("Open where?"), openx, openy)) {
+    if (!choose_adjacent_highlight(_("Open where?"), openx, openy, ACTION_OPEN)) {
         return;
     }
 
@@ -7142,11 +7452,7 @@ void game::open()
 
     bool didit = false;
 
-    if (m.is_outside(u.posx, u.posy)) {
-        didit = m.open_door(openx, openy, false);
-    } else {
-        didit = m.open_door(openx, openy, true);
-    }
+    didit = m.open_door(openx, openy, !m.is_outside(u.posx, u.posy));
 
     if (!didit) {
         const std::string terid = m.get_ter(openx, openy);
@@ -7169,7 +7475,7 @@ void game::open()
 void game::close(int closex, int closey)
 {
     if (closex == -1) {
-        if (!choose_adjacent(_("Close where?"), closex, closey)) {
+        if (!choose_adjacent_highlight(_("Close where?"), closex, closey, ACTION_CLOSE)) {
             return;
         }
     }
@@ -7421,6 +7727,38 @@ void game::use_wielded_item()
 bool game::choose_adjacent(std::string message, int &x, int &y)
 {
     //~ appended to "Close where?" "Pry where?" etc.
+    std::string query_text = message + _(" (Direction button)");
+    mvwprintw(w_terrain, 0, 0, "%s", query_text.c_str());
+    wrefresh(w_terrain);
+    DebugLog() << "calling get_input() for " << message << "\n";
+    InputEvent input = get_input();
+    if (input == Cancel || input == Close)
+        return false;
+    else
+        get_direction(x, y, input);
+    if (x == -2 || y == -2) {
+        add_msg(_("Invalid direction."));
+        return false;
+    }
+    x += u.posx;
+    y += u.posy;
+    return true;
+}
+
+bool game::choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight)
+{
+    // Highlight nearby terrain according to the highlight function
+    for (int dx=-1; dx <= 1; dx++) {
+        for (int dy=-1; dy <= 1; dy++) {
+            int x = g->u.xpos() + dx;
+            int y = g->u.ypos() + dy;
+
+            if(can_interact_at(action_to_highlight, x, y)) {
+                m.drawsq(w_terrain, u, x, y, true, true, g->u.xpos(), g->u.ypos());
+            }
+        }
+    }
+
     std::string query_text = message + _(" (Direction button)");
     mvwprintw(w_terrain, 0, 0, "%s", query_text.c_str());
     wrefresh(w_terrain);
@@ -7909,7 +8247,7 @@ void game::examine(int examx, int examy)
         if (veh && veh->player_in_control(&u)) {
             examx = u.posx;
             examy = u.posy;
-        } else  if (!choose_adjacent(_("Examine where?"), examx, examy)) {
+        } else  if (!choose_adjacent_highlight(_("Examine where?"), examx, examy, ACTION_EXAMINE)) {
             return;
         }
     }
