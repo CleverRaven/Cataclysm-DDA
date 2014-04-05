@@ -521,12 +521,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         int ammo_range = 0;
         int ammo_recoil = 0;
         int ammo_pierce = 0;
+        int ammo_dispersion = 0;
         bool has_ammo = (curammo != NULL && charges > 0);
         if (has_ammo) {
             ammo_dam = curammo->damage;
             ammo_range = curammo->range;
             ammo_recoil = curammo->recoil;
             ammo_pierce = curammo->pierce;
+            ammo_dispersion = curammo->dispersion;
         }
 
         dump->push_back(iteminfo("GUN", _("Skill used: "), gun->skill_used->name()));
@@ -571,7 +573,16 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
 
         dump->push_back(iteminfo("GUN", space + _("Dispersion: "), "",
-                                 dispersion(), true, "", true, true));
+                                 dispersion(), true, "", !has_ammo, true));
+        if (has_ammo) {
+            temp1.str("");
+            temp1 << (ammo_range >= 0 ? "+" : "" );
+            // ammo_dispersion and sum_of_dispersion don't need to translate.
+            dump->push_back(iteminfo("GUN", "ammo_dispersion", "",
+                                     ammo_dispersion, true, temp1.str(), false, false, false));
+            dump->push_back(iteminfo("GUN", "sum_of_dispersion", _(" = <num>"),
+                                     dispersion() + ammo_dispersion, true, "", true, false, false));
+        }
 
         //recoil of gun
         dump->push_back(iteminfo("GUN", _("Recoil: "), "", recoil(false), true, "", false, true));
