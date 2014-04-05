@@ -35,6 +35,9 @@ map::map()
     my_MAPSIZE = is_tiny() ? 2 : MAPSIZE;
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
+    transparency_cache_dirty = false;
+    lightmap_cache_dirty = false;
+    outdoor_cache_dirty = false;
 /*
 crashes involving traplocs? move below to the other constructors
     const int num_traps = g->traps.size(); // dead: num_trap_ids;
@@ -444,8 +447,12 @@ void map::vehmove()
 
     // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
     for( int count = 0; count < 15; count++ ) {
-        if( !vehproceed() )
+        if( !vehproceed() ) {
             break;
+        } else {
+            // If the vehicle successfully moved, dirty the outdoor cache
+            g->m.dirty_outdoor_cache();
+        }
     }
     // Process item removal on the vehicles that were modified this turn.
     for (std::set<vehicle*>::iterator it = dirty_vehicle_list.begin(); it != dirty_vehicle_list.end(); ++it) {
@@ -956,6 +963,7 @@ furn_id map::furn(const int x, const int y) const
 
 void map::furn_set(const int x, const int y, const furn_id new_furniture)
 {
+ g->m.dirty_transparency_cache();
  if (!INBOUNDS(x, y)) {
   return;
  }
@@ -968,6 +976,7 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
 }
 
 void map::furn_set(const int x, const int y, const std::string new_furniture) {
+    g->m.dirty_transparency_cache();
     if ( furnmap.find(new_furniture) == furnmap.end() ) {
         return;
     }
@@ -1042,6 +1051,8 @@ ter_t & map::ter_at(const int x, const int y) const
  * set terrain via string; this works for -any- terrain id
  */
 void map::ter_set(const int x, const int y, const std::string new_terrain) {
+    g->m.dirty_transparency_cache();
+    g->m.dirty_outdoor_cache();
     if ( termap.find(new_terrain) == termap.end() ) {
         return;
     }
@@ -1053,6 +1064,8 @@ void map::ter_set(const int x, const int y, const std::string new_terrain) {
  * for mods
  */
 void map::ter_set(const int x, const int y, const ter_id new_terrain) {
+    g->m.dirty_transparency_cache();
+    g->m.dirty_outdoor_cache();
     if (!INBOUNDS(x, y)) {
         return;
     }
@@ -1510,7 +1523,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
                            pgettext("memorial_female", "Set off an alarm."));
        g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
     }
- 
+
     if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
         bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
         if ( success == true ) {
@@ -2538,6 +2551,11 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
 // map::add_item_or_charges
 void map::add_item(const int x, const int y, item new_item, const int maxitems)
 {
+    // If the item is a new light source, we need to update the light map.
+    if(new_item.type->light_emission) {
+        g->m.dirty_lightmap_cache();
+    }
+
     if (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) {
         return;
     }
@@ -4006,6 +4024,10 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(const int wx, const int wy, const int wz, const int sx, const int sy)
 {
+    // Shifting is a guarantee that all our caches are outdated.
+    g->m.dirty_transparency_cache();
+    g->m.dirty_outdoor_cache();
+
  set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
    g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
  );
@@ -4567,9 +4589,13 @@ void map::build_transparency_cache()
 
 void map::build_map_cache()
 {
- build_outside_cache();
+ if (outdoor_cache_dirty) {
+    build_outside_cache();
+ }
 
- build_transparency_cache();
+ if (transparency_cache_dirty) {
+    build_transparency_cache();
+ }
 
  // Cache all the vehicle stuff in one loop
  VehicleList vehs = get_vehicles();
@@ -4592,7 +4618,15 @@ void map::build_map_cache()
  }
 
  build_seen_cache();
- generate_lightmap();
+
+ if (lightmap_cache_dirty || outdoor_cache_dirty || transparency_cache_dirty) {
+    generate_lightmap();
+ }
+
+ // Reset dirty flags.
+ outdoor_cache_dirty = false;
+ lightmap_cache_dirty = false;
+ transparency_cache_dirty = false;
 }
 
 std::vector<point> closest_points_first(int radius, point p)

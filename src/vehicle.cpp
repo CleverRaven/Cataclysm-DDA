@@ -221,12 +221,12 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
         //Turn on lights on some vehicles
         if(one_in(20)) {
-            lights_on = true;
+            set_overhead_lights_on(true);
         }
 
         //Turn flasher/overhead lights on separately (more likely since these are rarer)
         if(one_in(4)) {
-            overhead_lights_on = true;
+            set_overhead_lights_on(true);
         }
 
         if(one_in(10)) {
@@ -561,7 +561,7 @@ void vehicle::use_controls()
         break;
     case toggle_lights:
         if(lights_on || fuel_left(fuel_type_battery) ) {
-            lights_on = !lights_on;
+            set_lights_on(!lights_on);
             g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
             g->add_msg(_("The headlights won't come on!"));
@@ -569,7 +569,7 @@ void vehicle::use_controls()
         break;
     case toggle_overhead_lights:
         if( !overhead_lights_on || fuel_left(fuel_type_battery) ) {
-            overhead_lights_on = !overhead_lights_on;
+            set_overhead_lights_on(!overhead_lights_on);
             g->add_msg((overhead_lights_on) ? _("Overhead lights turned on") :
                        _("Overhead lights turned off"));
         } else {
@@ -2388,6 +2388,20 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
 }
 
+void vehicle::set_lights_on(bool toggle) {
+    if(lights_on != toggle) {
+        g->m.dirty_lightmap_cache();
+    }
+    lights_on = toggle;
+}
+
+void vehicle::set_overhead_lights_on(bool toggle) {
+    if(overhead_lights_on != toggle) {
+        g->m.dirty_lightmap_cache();
+    }
+    overhead_lights_on = toggle;
+}
+
 void vehicle::power_parts ()//TODO: more categories of powered part!
 {
     int epower = 0;
@@ -2516,9 +2530,9 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
     }
 
     if(battery_deficit) {
-        lights_on = false;
+        set_lights_on(false);
+        set_overhead_lights_on(false);
         tracking_on = false;
-        overhead_lights_on = false;
         fridge_on = false;
         recharger_on = false;
         if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {

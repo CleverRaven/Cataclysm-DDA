@@ -13189,6 +13189,12 @@ void game::update_map(int &x, int &y)
     // Put those in the active list.
     load_npcs();
 
+    // If the player is holding a light source, we need to update the
+    // light map.
+    if (u.active_light() > 0) {
+        g->m.dirty_lightmap_cache();
+    }
+
      // Spawn monsters if appropriate
     m.spawn_monsters(); // Static monsters
     if (turn >= nextspawn) {
