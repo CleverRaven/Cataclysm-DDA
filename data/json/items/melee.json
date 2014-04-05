@@ -1102,7 +1102,7 @@
     "color": "brown",
     "name": "splintered wood",
     "description": "A splintered piece of wood, useless as anything but kindling",
-    "price": 8000,
+    "price": 0,
     "material": "wood",
     "weight": 453,
     "volume": 1,
