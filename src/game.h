@@ -675,6 +675,7 @@ public:
 
   bool can_butcher_at(int x, int y);
   bool can_move_vertical_at(int x, int y, int movez);
+  bool can_examine_at(int x, int y);
 
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died

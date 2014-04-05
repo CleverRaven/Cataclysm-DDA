@@ -2510,6 +2510,34 @@ bool game::can_move_vertical_at(int x, int y, int movez) {
     }
 }
 
+bool game::can_examine_at(int x, int y) {
+    int veh_part = 0;
+    vehicle *veh = NULL;
+    const int curz = g->levz;
+
+    veh = m.veh_at (x, y, veh_part);
+    if (veh) {
+        return true;
+    }
+    if (m.has_flag("CONSOLE", x, y)) {
+        return true;
+    }
+    const furn_t *xfurn_t = &furnlist[m.furn(x,y)];
+    const ter_t *xter_t = &terlist[m.ter(x,y)];
+
+    if (m.has_furn(x, y) && xfurn_t->examine != &iexamine::none) {
+        return true;
+    } else if(xter_t->examine != &iexamine::none) {
+        return true;
+    }
+
+    if(m.tr_at(x, y) != tr_null) {
+        return true;
+    }
+
+    return false;
+}
+
 bool game::can_interact_at(action_id action, int x, int y) {
     switch(action) {
         case ACTION_OPEN:
@@ -2524,6 +2552,9 @@ bool game::can_interact_at(action_id action, int x, int y) {
             return can_move_vertical_at(x, y, 1);
         case ACTION_MOVE_DOWN:
             return can_move_vertical_at(x, y, -1);
+        break;
+        case ACTION_EXAMINE:
+            return can_examine_at(x, y);
         break;
         default:
             return false;
@@ -2555,6 +2586,9 @@ action_id game::handle_action_menu() {
                 }
                 if(can_interact_at(ACTION_CLOSE, x, y)) {
                     action_weightings[ACTION_CLOSE] = 200;
+                }
+                if(can_interact_at(ACTION_EXAMINE, x, y)) {
+                    action_weightings[ACTION_EXAMINE] = 200;
                 }
             } else {
                 // Check for actions that work on own tile only
