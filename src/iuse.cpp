@@ -850,6 +850,11 @@ int iuse::cig(player *p, item *it, bool)
             }
 
             if ((choice == 1) || !hasPipe) { // use a rolling paper and continue to smoke as if using a cigarette
+                if(p->has_disease("shakes") && !(one_in(15))) { // can't roll with the shakes
+                    g->add_msg_if_player(p,_("Your hands are too shaky to roll a cigarette!"));
+                    p->moves -= 10;
+                    return 0;
+                }
                 p->use_charges_if_avail("rolling_paper", 1);
             } else { // smoke out of a pipe
                 g->add_msg_if_player(p,_("You smoke some tobacco out of your pipe."));
@@ -1034,7 +1039,6 @@ int iuse::antiparasitic(player *p, item *it, bool) {
 
 int iuse::weed(player *p, item *it, bool b) {
     // Requires flame and something to smoke with.
-    bool alreadyHigh = (p->has_disease("weed_high"));
     bool hasPipe = (p->has_amount("apparatus", 1));
     bool hasPapers = (p->has_charges("rolling_paper", 1));
     if (!(hasPipe || hasPapers)) {
@@ -1065,12 +1069,17 @@ int iuse::weed(player *p, item *it, bool b) {
 
     // smoke a joint (call iuse::cig)
     if ((choice == 1) || !hasPipe) {
+        if(p->has_disease("shakes") && !(one_in(15))) {
+            g->add_msg_if_player(p,_("Your hands are too shaky to roll a joint!"));
+            p->moves -= 10;
+            return 0;
+        }
         p->use_charges_if_avail("rolling_paper", 1);
         return cig(p, it, b);
     }
 
     // smoke out of a pipe
-    if (!alreadyHigh) {
+    if (!(p->has_disease("weed_high"))) {
         g->add_msg_if_player(p,_("You smoke some weed.  Good stuff, man!"));
     } else {
         g->add_msg_if_player(p,_("You smoke some more weed."));

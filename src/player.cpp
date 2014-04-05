@@ -6395,6 +6395,13 @@ bool player::process_single_active_item(item *it)
                 }
                 this->moves -= 2;
             }
+
+            if((this->has_disease("shakes") && one_in(10)) ||
+                (this->has_trait("JITTERY") && one_in(200))) {
+                g->add_msg_if_player(this, _("Your shaking hand causes you to drop your %s."), it->name.c_str());
+                g->m.add_item_or_charges(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), this->i_rem(it), 2);
+            }
+
             // done with cig
             if(it->item_counter == 0) {
                 g->add_msg_if_player(this, _("You finish your %s."), it->name.c_str());
