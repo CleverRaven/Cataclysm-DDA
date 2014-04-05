@@ -136,4 +136,23 @@ std::string press_x(action_id act, std::string act_desc);
 // Helper function to convert co-ordinate delta to a movement direction
 action_id get_movement_direction_from_delta(const int dx, const int dy);
 
+action_id handle_action_menu(); // Show the action menu.
+
+/**
+ * Check whether we can interact with something using the
+ * specified action and the given tile.
+ *
+ * This is part of a new API that will allow for a more robust
+ * user interface. Possible features include: Extending the
+ * "select a nearby tile" widget to highlight tiles that can be
+ * interacted with. "suggest" context-sensitive actions to the
+ * user that are currently relevant.
+ */
+bool can_interact_at(action_id action, int x, int y);
+
+bool can_butcher_at(int x, int y);
+bool can_move_vertical_at(int x, int y, int movez);
+bool can_examine_at(int x, int y);
+
+
 #endif

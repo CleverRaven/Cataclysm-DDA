@@ -419,18 +419,6 @@ public:
   void calc_driving_offset(vehicle *veh = NULL);
 
   bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL, item *cont = NULL);
-  /**
-   * Check whether we can interact with something using the
-   * specified action and the given tile.
-   *
-   * This is part of a new API that will allow for a more robust
-   * user interface. Possible features include: Extending the
-   * "select a nearby tile" widget to highlight tiles that can be
-   * interacted with. "suggest" context-sensitive actions to the
-   * user that are currently relevant.
-   */
-  bool can_interact_at(action_id action, int x, int y);
-
 
  //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
  //otherwise returns sentinel -1, signifies transaction fail.
@@ -668,12 +656,7 @@ public:
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   int  mon_info(WINDOW *); // Prints a list of nearby monsters
   void handle_key_blocking_activity(); // Abort reading etc.
-  action_id handle_action_menu(); // Show the action menu.
   bool handle_action();
-
-  bool can_butcher_at(int x, int y);
-  bool can_move_vertical_at(int x, int y, int movez);
-  bool can_examine_at(int x, int y);
 
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
