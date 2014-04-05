@@ -24563,7 +24563,7 @@
   ]
 },{
         "type" : "recipe",
-   "result": "toasterpastry",
+   "result": "toastedtoastem",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
    "skill_used": "cooking",
@@ -24581,7 +24581,9 @@
     ],
   "components": [
     [
-      [ "toasterpastryfrozen", 1 ]
+      [ "toastem", 1 ],
+      [ "toastem2", 1 ],
+      [ "toastem3", 1 ]
     ]
   ]
 },{
