@@ -130,6 +130,7 @@ void MonsterGenerator::init_death()
     death_map["BROKEN"] = &mdeath::broken;// Spawns a broken robot.
     death_map["RATKING"] = &mdeath::ratking;// Cure verminitis
     death_map["DARKMAN"] = &mdeath::darkman;// sight returns to normal
+    death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
     death_map["ZOMBIE"] = &mdeath::zombie;// generate proper clothing for zombies
@@ -194,6 +195,7 @@ void MonsterGenerator::init_attack()
     attack_map["DARKMAN"] = &mattack::darkman;
     attack_map["SLIMESPRING"] = &mattack::slimespring;
     attack_map["BIO_OP_TAKEDOWN"] = &mattack::bio_op_takedown;
+    attack_map["SUICIDE"] = &mattack::suicide;
 
 }
 
@@ -255,6 +257,7 @@ void MonsterGenerator::init_flags() {
     flag_map["ELECTRIC"] = MF_ELECTRIC;
     flag_map["ACIDPROOF"] = MF_ACIDPROOF;
     flag_map["ACIDTRAIL"] = MF_ACIDTRAIL;
+    flag_map["LEAKSGAS"] = MF_LEAKSGAS;
     flag_map["SLUDGEPROOF"] = MF_SLUDGEPROOF;
     flag_map["SLUDGETRAIL"] = MF_SLUDGETRAIL;
     flag_map["FIREY"] = MF_FIREY;
