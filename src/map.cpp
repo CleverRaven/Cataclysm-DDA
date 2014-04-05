@@ -2811,7 +2811,15 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
               } else { // weed
                 add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_weedsmoke, 1);
               }
+
+              // lit cigarette can start fires
+              if (this->flammable_items_at(mapx, mapy) ||
+                 this->has_flag("FLAMMABLE", mapx, mapy) ||
+                 this->has_flag("FLAMMABLE_ASH", mapx, mapy)) {
+                add_field(mapx, mapy, fd_fire, 1);
+              }
             }
+
             // cig dies out
             if(it->item_counter == 0) {
                 if(it->type->id == "cig_lit") {
@@ -2822,7 +2830,6 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
                     it->make(itypes["joint_roach"]);
                 }
                 it->active = false;
-                it->item_tags.erase("LITCIG");
             }
         } else if (!it->is_tool()) { // It's probably a charger gun
             it->active = false;

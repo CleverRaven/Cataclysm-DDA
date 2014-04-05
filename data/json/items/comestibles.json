@@ -11409,7 +11409,7 @@
         "material" : "null",
         "phase" : "solid",
         "category": "drugs",
-        "flags" : ["LITCIG", "TOBACCO"]
+        "flags" : ["LITCIG", "TOBACCO", "LIGHT_1"]
     },
     {
         "type" : "GENERIC",
@@ -11626,7 +11626,7 @@
         "material" : "null",
         "phase" : "solid",
         "category": "drugs",
-        "flags" : ["LITCIG", "TOBACCO"]
+        "flags" : ["LITCIG", "TOBACCO", "LIGHT_1"]
     },
     {
         "type" : "GENERIC",
@@ -11691,7 +11691,7 @@
         "material" : "null",
         "phase" : "solid",
         "category": "drugs",
-        "flags" : ["LITCIG"]
+        "flags" : ["LITCIG", "LIGHT_1"]
     },
     {
         "type" : "GENERIC",

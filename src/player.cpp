@@ -6416,7 +6416,6 @@ bool player::process_single_active_item(item *it)
                     it->make(itypes["joint_roach"]);
                 }
                 it->active = false;
-                it->item_tags.erase("LITCIG");
             }
         }
         else if (it->is_tool())
