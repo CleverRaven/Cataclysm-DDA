@@ -344,6 +344,19 @@ public:
   inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
   std::list<item> consume_items(player *p, std::vector<component> components);
   void consume_tools(player *p, std::vector<component> tools, bool force_available);
+  /**
+   * Returns the recipe that is used to disassemble the given item type.
+   * Returns NULL if there is no recipe to disassemble the item type.
+   */
+  recipe* get_disassemble_recipe(const itype_id &ype);
+  /**
+   * Check if the player can disassemble the item dis_item with the recipe
+   * cur_recipe and the inventory crafting_inv.
+   * Checks for example tools (and charges), enough input charges
+   * (if disassembled item is counted by charges).
+   * If print_msg is true show a message about missing tools/charges.
+   */
+  bool can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg);
 
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
@@ -546,19 +559,6 @@ public:
   void disassemble(int pos = INT_MAX);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp
-  /**
-   * Returns the recipe that is used to disassemble the given item type.
-   * Returns NULL if there is no recipe to disassemble the item type.
-   */
-  recipe* get_disassemble_recipe(const itype_id &ype);
-  /**
-   * Check if the player can disassemble the item dis_item with the recipe
-   * cur_recipe and the inventory crafting_inv.
-   * Checks for example tools (and charges), enough input charges
-   * (if disassembled item is counted by charges).
-   * If print_msg is true show a message about missing tools/charges.
-   */
-  bool can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg);
 
   // Forcefully close a door at (x, y).
   // The function checks for creatures/items/vehicles at that point and
