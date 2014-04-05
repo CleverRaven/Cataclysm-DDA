@@ -534,6 +534,9 @@ public:
     void open(int part_index);
     void close(int part_index);
 
+    void set_lights_on(bool toggle);
+    void set_overhead_lights_on(bool toggle);
+
     /**
      *  Opens everything that can be opened on the same tile as `p`
      */

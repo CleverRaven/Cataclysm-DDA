@@ -260,6 +260,11 @@ bool map::process_fields()
     found_field |= process_fields_in_submap(x + y * my_MAPSIZE);
   }
  }
+ if(found_field) {
+     // If we changed any fields at all, we likely need to update the
+     // transparency cache.
+     g->m.dirty_transparency_cache();
+ }
  return found_field;
 }
 

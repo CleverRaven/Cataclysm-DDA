@@ -252,6 +252,10 @@ class map
 
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 
+ void dirty_transparency_cache() { transparency_cache_dirty = true; };
+ void dirty_lightmap_cache() { lightmap_cache_dirty = true; };
+ void dirty_outdoor_cache() { outdoor_cache_dirty = true; };
+
  // Check for terrain/furniture/field that provide a
  // "fire" item to be used for example when crafting or when
  // a iuse function needs fire.
@@ -525,6 +529,10 @@ submap * getsubmap( const int grididx );
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
  std::map<trap_id, std::set<point> > traplocs;
+
+ bool transparency_cache_dirty;
+ bool lightmap_cache_dirty;
+ bool outdoor_cache_dirty;
 };
 
 std::vector<point> closest_points_first(int radius, point p);
