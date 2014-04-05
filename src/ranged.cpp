@@ -1142,18 +1142,18 @@ int skill_dispersion( player *p, item *weapon, bool random ) {
       weapon_skill_level = p->skillLevel(firing->skill_used);
     }
     int dispersion = 0; // Measured in quarter-degrees.
-    // Up to 0.75 degrees for each skill point < 8.
-    if (weapon_skill_level < 8) {
-        int max_dispersion = 3 * (8 - weapon_skill_level);
+    // Up to 0.75 degrees for each skill point < 10.
+    if (weapon_skill_level < 10) {
+        int max_dispersion = 3 * (10 - weapon_skill_level);
         if( random ) {
             dispersion += rng(0, max_dispersion);
         } else {
             dispersion += max_dispersion;
         }
     }
-    // Up to 0.25 deg per each skill point < 9.
-    if (p->skillLevel("gun") < 9) {
-        int max_dispersion = 9 - p->skillLevel("gun");
+    // Up to 0.25 deg per each skill point < 10.
+    if (p->skillLevel("gun") < 10) {
+        int max_dispersion = 10 - p->skillLevel("gun");
         if( random ) {
             dispersion += rng(0, max_dispersion);
         } else {
