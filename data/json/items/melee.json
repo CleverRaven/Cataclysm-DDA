@@ -1118,7 +1118,7 @@
     "color": "brown",
     "name": "skewer",
     "description": "A thin wooden skewer. Squirrel on a stick, anyone?",
-    "price": 1000,
+    "price": 0,
     "material": "wood",
     "weight": 6,
     "volume": 0,
