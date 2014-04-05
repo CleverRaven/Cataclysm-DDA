@@ -831,22 +831,59 @@ int iuse::cig(player *p, item *it, bool)
         }
     }
     item cig;
-    if (it->type->id == "cig") {
+    if (it->type->id == "cig" || it->type->id == "tobacco"){
+        // loose tobacco can be smoked out of pipe or rolled into cigarette
+        if(it->type->id == "tobacco"){
+            bool hasPapers = p->has_charges("rolling_paper", 1);
+            bool hasPipe = p->has_amount("apparatus", 1);
+            if(!(hasPapers || hasPipe)) {
+                g->add_msg_if_player(p,_("You need some rolling papers or a pipe to smoke tobacco!"));
+                return 0;
+            }
+            int choice = -1;
+            if(hasPipe && hasPapers) { // ask whether to roll a cigarette or puff on a pipe
+                choice = menu(true, _("Do what with tobacco?"), _("Roll a cigarette"), _("Smoke a pipe"), _("Cancel"), NULL);
+                if(choice < 0 || choice == 3) {
+                    g->add_msg_if_player(p, _("Never mind."));
+                    return 0;
+                }
+            }
+
+            if ((choice == 1) || !hasPipe) { // use a rolling paper and continue to smoke as if using a cigarette
+                p->use_charges_if_avail("rolling_paper", 1);
+            } else { // smoke out of a pipe
+                g->add_msg_if_player(p,_("You smoke some tobacco out of your pipe."));
+                p->thirst += 1;
+                p->hunger -= 2;
+                p->add_disease("cig", 200);
+                for(int i = 0; i < 3; i++) {
+                    g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cigsmoke, 2);
+                }
+                if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG)))) {
+                    g->add_msg_if_player(p, _("Ugh, too much smoke... you cough heavily."));
+                    g->sound(p->posx, p->posy, 10, _(""));
+                }
+                return it->type->charges_to_use();
+            }
+        }
+
         cig = item(itypes["cig_lit"], int(g->turn));
         cig.item_counter = 40;
+        p->thirst += 2;
+        p->hunger -= 3;
     } else if(it->type->id == "cigar"){
         cig = item(itypes["cigar_lit"], int(g->turn));
         cig.item_counter = 120;
+        p->thirst += 3;
+        p->hunger -= 4;
     } else { // joint
         cig = item(itypes["joint_lit"], int(g->turn));
         cig.item_counter = 40;
+        // thirst/hunger for joint happen in iuse::weed
     }
     cig.active = true;
     p->inv.add_item(cig, false, true);
     g->add_msg_if_player(p,_("You light a %s."), cig.name.c_str());
-
-    p->thirst += 2;
-    p->hunger -= 3;
 
     if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
         g->add_msg_if_player(p, _("Ugh, too much smoke... you feel nasty."));
