@@ -998,16 +998,23 @@ static void save_font_list()
 
 static std::string find_system_font(std::string name, int& faceIndex)
 {
-    struct stat stat_buf;
-    int rc = stat(FILENAMES["fontlist"].c_str(), &stat_buf);
-    if( rc == 0 ? stat_buf.st_size == 0 : true) {
-      DebugLog() << "Generating fontlist\n";
-      save_font_list();
-    }
-
-
     std::ifstream fin(FILENAMES["fontlist"].c_str());
-    if (fin) {
+    if ( !fin->is_open() ) {
+        // Try opening the fontlist at the old location.
+        fin.open(FILENAMES["legacy_fontlist"].c_str());
+        if( !fin->is_open() ) {
+            DebugLog() << "Generating fontlist\n";
+            assure_dir_exist(FILENAMES["config_dir"]);
+            save_font_list();
+            fin.open(FILENAMES["fontlist"].c_str());
+            if( !fin ) {
+                DebugLog() << "Can't open or create fontlist file.\n";
+                return "";
+            }
+        } else {
+            // Write out fontlist to the new location.
+            save_font_list();
+        }
         std::string fname;
         std::string fpath;
         std::string iline;
@@ -1084,20 +1091,28 @@ WINDOW *curses_init(void)
     std::string typeface = "Terminus";
     std::string blending = "solid";
     std::ifstream fin;
+    bool legacy_fontdata_loaded = false;
     int fontsize = 0; //actuall size
     fin.open(FILENAMES["fontdata"].c_str());
     if (!fin.is_open()){
-        fontwidth = 8;
-        fontheight = 16;
-        std::ofstream fout;//create FONDATA file
-        fout.open(FILENAMES["fontdata"].c_str());
-        if(fout.is_open()) {
-            fout << typeface << "\n";
-            fout << fontwidth << "\n";
-            fout << fontheight;
-            fout.close();
+        fin.open(FILENAMES["legacy_fontdata"].c_str());
+        if( !fin.is_open() ) {
+            fontwidth = 8;
+            fontheight = 16;
+            assure_dir_exist(FILENAMES["config_dir"]);
+            std::ofstream fout;//create FONDATA file
+            fout.open(FILENAMES["fontdata"].c_str());
+            if(fout.is_open()) {
+                fout << typeface << "\n";
+                fout << fontwidth << "\n";
+                fout << fontheight;
+                fout.close();
+            }
+        } else {
+            legacy_fontdata_loaded = true;
         }
-    } else {
+    }
+    if( fin.is_open() ) {
         getline(fin, typeface);
         fin >> fontwidth;
         fin >> fontheight;
@@ -1108,6 +1123,19 @@ WINDOW *curses_init(void)
             fontwidth = 8;
         }
         fin.close();
+    }
+
+    if( legacy_fontdata_loaded ) {
+        // Write FONDATA file to new location.
+        assure_dir_exist(FILENAMES["config_dir"]);
+        std::ofstream fout;
+        fout.open(FILENAMES["fontdata"].c_str());
+        if(fout.is_open()) {
+            fout << typeface << "\n";
+            fout << fontwidth << "\n";
+            fout << fontheight;
+            fout.close();
+        }
     }
 
     fontblending = (blending=="blended");

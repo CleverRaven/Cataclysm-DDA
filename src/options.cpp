@@ -6,6 +6,7 @@
 #include "file_finder.h"
 #include "cursesdef.h"
 #include "path_info.h"
+#include "file_wrapper.h"
 #ifdef SDLTILES
 #include "cata_tiles.h"
 #endif // SDLTILES
@@ -1010,14 +1011,22 @@ void show_options(bool ingame)
 void load_options()
 {
     std::ifstream fin;
+    bool legacy_options_loaded = false;
     fin.open(FILENAMES["options"].c_str());
     if(!fin.is_open()) {
-        fin.close();
-        save_options();
-        fin.open(FILENAMES["options"].c_str());
+        // Try at the legacy location.
+        fin.open(FILENAMES["legacy_options"].c_str());
         if(!fin.is_open()) {
-            DebugLog() << "Could neither read nor create" << FILENAMES["options"].c_str() << "\n";
-            return;
+            // Create it since it doesn't seem to exist.
+            assure_dir_exist(FILENAMES["config_dir"]);
+            save_options();
+            fin.open(FILENAMES["options"].c_str());
+            if(!fin.is_open()) {
+                DebugLog() << "Could neither read nor create" << FILENAMES["options"].c_str() << "\n";
+                return;
+            }
+        } else {
+            legacy_options_loaded = true;
         }
     }
 
@@ -1037,6 +1046,11 @@ void load_options()
     }
 
     fin.close();
+    if( legacy_options_loaded ) {
+        // Write out options file at new location.
+        assure_dir_exist(FILENAMES["config_dir"]);
+        save_options();
+    }
 
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.

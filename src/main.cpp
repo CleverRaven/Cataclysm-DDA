@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 #ifdef USE_HOME_DIR
     init_user_dir();
 #else
-    init_user_dir("config/");
+    init_user_dir("./");
 #endif
     set_standart_filenames();
 

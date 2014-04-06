@@ -86,10 +86,18 @@ void set_standart_filenames(void)
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
-    update_pathname("options", FILENAMES["user_dir"] + "options.txt");
-    update_pathname("keymap", FILENAMES["user_dir"] + "keymap.txt");
-    update_pathname("debug", FILENAMES["user_dir"] + "debug.log");
-    update_pathname("fontlist", FILENAMES["user_dir"] + "fontlist.txt");
-    update_pathname("fontdata", FILENAMES["user_dir"] + "FONTDATA");
-    update_pathname("autopickup", FILENAMES["user_dir"] + "auto_pickup.txt");
+    update_pathname("config_dir", FILENAMES["user_dir"] + "config/");
+    update_pathname("options", FILENAMES["config_dir"] + "options.txt");
+    update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
+    update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
+    update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
+    update_pathname("fontdata", FILENAMES["config_dir"] + "FONTDATA");
+    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+
+    // Needed to move files from these legacy locations to the new config directory.
+    update_pathname("legacy_options", "data/options.txt");
+    update_pathname("legacy_keymap", "data/keymap.txt");
+    update_pathname("legacy_fontlist", "data/fontlist.txt");
+    update_pathname("legacy_fontdata", "data/FONTDATA");
+    update_pathname("legacy_autopickup", "data/auto_pickup.txt");
 }
