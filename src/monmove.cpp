@@ -851,6 +851,11 @@ int monster::move_to(int x, int y, bool force)
             }
         }
     }
+    if (has_flag(MF_LEAKSGAS)){
+        if (one_in(6)){
+        g->m.add_field(posx() + rng(-1,1), posy() + rng(-1, 1), fd_toxic_gas, 3);
+        }
+    }
 
     return 1;
 }

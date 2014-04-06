@@ -10,6 +10,7 @@
 #include <sstream>
 #include "init.h"
 #include "path_info.h"
+#include "file_wrapper.h"
 
 //***********************************
 //Globals                           *
@@ -429,20 +430,28 @@ WINDOW *curses_init(void)
     std::string typeface = "Terminus";
     char * typeface_c = 0;
     std::ifstream fin;
+    bool loaded_legacy_fontdata = false;
     fin.open(FILENAMES["fontdata"].c_str());
     if (!fin.is_open()){
-        typeface_c = (char*) "Terminus";
-        fontwidth = 8;
-        fontheight = 16;
-        std::ofstream fout;//create data/FONDATA file
-        fout.open("data\\FONTDATA");
-        if(fout.is_open()) {
-            fout << typeface << "\n";
-            fout << fontwidth << "\n";
-            fout << fontheight;
-            fout.close();
+        fin.open(FILENAMES["legacy_fontdata"].c_str());
+        if( !fin.is_open() ) {
+            typeface_c = (char*) "Terminus";
+            fontwidth = 8;
+            fontheight = 16;
+            assure_dir_exist(FILENAMES["config_dir"]);
+            std::ofstream fout;//create data/FONDATA file
+            fout.open(FILENAMES["fontdata"].c_str());
+            if(fout.is_open()) {
+                fout << typeface << "\n";
+                fout << fontwidth << "\n";
+                fout << fontheight;
+                fout.close();
+            }
+        } else {
+            loaded_legacy_fontdata = true;
         }
-    } else {
+    }
+    if( fin.is_open() ) {
         getline(fin, typeface);
         fin >> fontwidth;
         fin >> fontheight;
@@ -450,6 +459,19 @@ WINDOW *curses_init(void)
             MessageBox(WindowHandle, "Invalid font size specified!", NULL, 0);
             fontheight = 16;
             fontwidth  = 8;
+        }
+    }
+
+    if( loaded_legacy_fontdata ) {
+        // Create data/FONDATA file at new location.
+        assure_dir_exist(FILENAMES["config_dir"]);
+        std::ofstream fout;
+        fout.open(FILENAMES["fontdata"].c_str());
+        if(fout.is_open()) {
+            fout << typeface << "\n";
+            fout << fontwidth << "\n";
+            fout << fontheight;
+            fout.close();
         }
     }
     typeface_c = new char [typeface.size()+1];

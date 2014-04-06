@@ -364,6 +364,7 @@ void init_translation() {
     monStr2monId["mon_halfworm"] = mon_halfworm;
     monStr2monId["mon_boomer"] = mon_boomer;
     monStr2monId["mon_boomer_fungus"] = mon_boomer_fungus;
+    monStr2monId["mon_zombie_gasbag"] = mon_zombie_gasbag;
     monStr2monId["mon_skeleton"] = mon_skeleton;
     monStr2monId["mon_triffid"] = mon_triffid;
     monStr2monId["mon_triffid_young"] = mon_triffid_young;

@@ -1205,7 +1205,7 @@ bool monster::make_fungus()
     }else if (tid == "mon_zombie" || tid == "mon_zombie_shrieker" || tid == "mon_zombie_electric" || tid == "mon_zombie_spitter" || tid == "mon_zombie_dog" ||
               tid == "mon_zombie_brute" || tid == "mon_zombie_hulk"){
         polypick = 2;
-    }else if (tid == "mon_boomer"){
+    }else if (tid == "mon_boomer" || tid == "mon_zombie_gasbag"){
         polypick = 3;
     }else if (tid == "mon_triffid" || tid == "mon_triffid_young" || tid == "mon_triffid_queen"){
         polypick = 4;

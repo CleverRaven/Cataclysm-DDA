@@ -2159,7 +2159,7 @@ bool map::marlossify(const int x, const int y)
     return false;
 }
 
-bool map::open_door(const int x, const int y, const bool inside)
+bool map::open_door(const int x, const int y, const bool inside, const bool check_only)
 {
  const std::string terid = get_ter(x,y);
  const std::string furnid = furnlist[furn(x,y)].id;
@@ -2171,7 +2171,9 @@ bool map::open_door(const int x, const int y, const bool inside)
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
-     ter_set(x, y, termap[ terid ].open );
+     if(!check_only) {
+         ter_set(x, y, termap[ terid ].open );
+     }
      return true;
  } else if ( !furnmap[furnid].open.empty() && furnmap[ furnid ].open != "t_null" ) {
      if ( furnmap.find( furnmap[ furnid ].open ) == furnmap.end() ) {
@@ -2181,7 +2183,9 @@ bool map::open_door(const int x, const int y, const bool inside)
      if ( has_flag("OPENCLOSE_INSIDE", x, y) && inside == false ) {
          return false;
      }
-     furn_set(x, y, furnmap[ furnid ].open );
+     if(!check_only) {
+         furn_set(x, y, furnmap[ furnid ].open );
+     }
      return true;
  }
  return false;

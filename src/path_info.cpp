@@ -1,10 +1,6 @@
 #include <cstdlib>
 #include "path_info.h"
 
-//#ifdef __linux__
-//#include <unistd.h>
-//#endif // __linux__
-
 void init_base_path(std::string path)
 {
     if (!path.empty()) {
@@ -79,6 +75,7 @@ void set_standart_filenames(void)
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    // TODO fontdata.json is user related file
     update_pathname("second_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
@@ -86,16 +83,21 @@ void set_standart_filenames(void)
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
 
-    // User directories
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
+    update_pathname("config_dir", FILENAMES["user_dir"] + "config/");
+    update_pathname("options", FILENAMES["config_dir"] + "options.txt");
+    update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
+    update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
+    update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
+    update_pathname("fontdata", FILENAMES["config_dir"] + "FONTDATA");
+    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
 
-    // User files, need to be migrated from data/ to a user directory.
-    update_pathname("options", FILENAMES["datadir"] + "options.txt");
-    update_pathname("keymap", FILENAMES["datadir"] + "keymap.txt");
-    update_pathname("debug", FILENAMES["datadir"] + "debug.log");
-    update_pathname("fontlist", FILENAMES["datadir"] + "fontlist.txt");
-    update_pathname("fontdata", FILENAMES["datadir"] + "FONTDATA");
-    update_pathname("autopickup", FILENAMES["datadir"] + "auto_pickup.txt");
+    // Needed to move files from these legacy locations to the new config directory.
+    update_pathname("legacy_options", "data/options.txt");
+    update_pathname("legacy_keymap", "data/keymap.txt");
+    update_pathname("legacy_fontlist", "data/fontlist.txt");
+    update_pathname("legacy_fontdata", "data/FONTDATA");
+    update_pathname("legacy_autopickup", "data/auto_pickup.txt");
 }
