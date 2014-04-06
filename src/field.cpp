@@ -93,13 +93,25 @@ void game::init_fields()
 
         {
             {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '~', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  100,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  150,
             {0,0,0}
         },
 
         {
             {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '~', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  150,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  125,
+            {0,0,0}
+        },
+
+        {
+            {_("swirl of crack smoke"), _("crack smoke"), _("thick crack smoke")}, '~', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  25,
+            {0,0,0}
+        },
+
+        {
+            {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '~', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  75,
             {0,0,0}
         },
 
@@ -745,11 +757,19 @@ bool map::process_fields_in_submap(int gridn)
                         break;
 
                     case fd_cigsmoke:
-                        spread_gas( this, cur, x, y, curtype, 150, 30 );
+                        spread_gas( this, cur, x, y, curtype, 150, 25 );
                         break;
 
                     case fd_weedsmoke:
-                        spread_gas( this, cur, x, y, curtype, 100, 35 );
+                        spread_gas( this, cur, x, y, curtype, 100, 20 );
+                        break;
+
+                    case fd_methsmoke:
+                        spread_gas( this, cur, x, y, curtype, 75, 30 );
+                        break;
+
+                    case fd_cracksmoke:
+                        spread_gas( this, cur, x, y, curtype, 75, 30 );
                         break;
 
                     case fd_nuke_gas:
@@ -1052,6 +1072,8 @@ void map::step_in_field(int x, int y)
         case fd_bile:  // Ditto
         case fd_cigsmoke:
         case fd_weedsmoke:
+        case fd_methsmoke:
+        case fd_cracksmoke:
             //break instead of return in the event of post-processing in the future;
             // also we're in a loop now!
             break;

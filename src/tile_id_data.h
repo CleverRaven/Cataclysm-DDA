@@ -28,6 +28,8 @@ const std::string field_names[num_fields] =
     toString(fd_smoke),
     toString(fd_cigsmoke),
     toString(fd_weedsmoke),
+    toString(fd_cracksmoke),
+    toString(fd_methsmoke),
     toString(fd_toxic_gas),
     toString(fd_tear_gas),
     toString(fd_nuke_gas),

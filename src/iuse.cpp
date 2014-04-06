@@ -1130,6 +1130,10 @@ int iuse::crack(player *p, item *it, bool) {
         g->add_msg_if_player(p,_("You smoke your crack rocks.  Mother would be proud."));
         p->hunger -= 10;
         p->add_disease("high", duration);
+        // breathe out some smoke
+        for(int i = 0; i < 3; i++) {
+            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cracksmoke, 2);
+        }
         return it->type->charges_to_use();
     }
     return 0;
@@ -1162,6 +1166,10 @@ int iuse::meth(player *p, item *it, bool) {
         }
         else {
             duration *= (p->has_trait("LIGHTWEIGHT") ? 1.8 : 1.5);
+        }
+        // breathe out some smoke
+        for(int i = 0; i < 3; i++) {
+            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_methsmoke, 2);
         }
     } else {
         g->add_msg_if_player(p,_("You snort some crystal meth."));

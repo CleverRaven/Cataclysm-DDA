@@ -4582,6 +4582,8 @@ void map::build_transparency_cache()
       case fd_tear_gas:
       case fd_cigsmoke:
       case fd_weedsmoke:
+      case fd_cracksmoke:
+      case fd_methsmoke:
        if(cur->getFieldDensity() == 3)
         transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
        if(cur->getFieldDensity() == 2)
