@@ -10,6 +10,7 @@
 #include <sstream>
 #include "init.h"
 #include "path_info.h"
+#include "file_wrapper.h"
 
 //***********************************
 //Globals                           *
@@ -447,7 +448,7 @@ WINDOW *curses_init(void)
                 fout.close();
             }
         } else {
-            loaded_legacy_fontdir = true;
+            loaded_legacy_fontdata = true;
         }
     }
     if( fin.is_open() ) {
@@ -461,7 +462,7 @@ WINDOW *curses_init(void)
         }
     }
 
-    if( loaded_legacy_fontdir ) {
+    if( loaded_legacy_fontdata ) {
         // Create data/FONDATA file at new location.
         assure_dir_exist(FILENAMES["config_dir"]);
         std::ofstream fout;

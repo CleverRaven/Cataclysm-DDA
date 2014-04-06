@@ -15,6 +15,7 @@
 #include "get_version.h"
 #include "init.h"
 #include "path_info.h"
+#include "file_wrapper.h"
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -999,10 +1000,10 @@ static void save_font_list()
 static std::string find_system_font(std::string name, int& faceIndex)
 {
     std::ifstream fin(FILENAMES["fontlist"].c_str());
-    if ( !fin->is_open() ) {
+    if ( !fin.is_open() ) {
         // Try opening the fontlist at the old location.
         fin.open(FILENAMES["legacy_fontlist"].c_str());
-        if( !fin->is_open() ) {
+        if( !fin.is_open() ) {
             DebugLog() << "Generating fontlist\n";
             assure_dir_exist(FILENAMES["config_dir"]);
             save_font_list();
