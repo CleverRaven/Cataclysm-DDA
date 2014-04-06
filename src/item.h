@@ -149,6 +149,7 @@ public:
  bool craft_has_charges();
  long num_charges();
  bool rotten();
+ void calc_rot();
  int brewing_time();
  bool ready_to_revive(); // used for corpses
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
@@ -183,6 +184,7 @@ public:
  bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
+ bool is_corpse() const;
  bool is_ammo_container() const;
  bool is_drink() const;
  bool is_weap() const;

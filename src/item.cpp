@@ -1471,27 +1471,35 @@ bool item::rotten()
         return false;
     it_comest* food = dynamic_cast<it_comest*>(type);
     if (food->spoils != 0) {
-      const int now = g->turn;
-      if ( last_rot_check+10 < now ) {
-          const int since = ( last_rot_check == 0 ? bday : last_rot_check );
-          const int until = ( fridge > 0 ? fridge : now );
-          if ( since < until ) {
-              // rot (outside of fridge) from bday/last_rot_check until fridge/now
-              int old = rot;
-              rot += get_rot_since( since, until );
-              if (g->debugmon) g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
-          }
-          last_rot_check = now;
+      calc_rot();
 
-          if (fridge > 0) {
-            // Flat 20%, rot from time of putting it into fridge up to now
-            rot += (now - fridge) * 0.2;
-            fridge = 0;
-          }
-      }
       return (rot > (signed int)food->spoils * 600);
     } else {
       return false;
+    }
+}
+
+void item::calc_rot()
+{
+    const int now = g->turn;
+    if ( last_rot_check + 10 < now ) {
+        const int since = ( last_rot_check == 0 ? bday : last_rot_check );
+        const int until = ( fridge > 0 ? fridge : now );
+        if ( since < until ) {
+            // rot (outside of fridge) from bday/last_rot_check until fridge/now
+            int old = rot;
+            rot += get_rot_since( since, until );
+            if (g->debugmon) {
+                g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
+            }
+        }
+        last_rot_check = now;
+
+        if (fridge > 0) {
+            // Flat 20%, rot from time of putting it into fridge up to now
+            rot += (now - fridge) * 0.2;
+            fridge = 0;
+        }
     }
 }
 
@@ -1889,6 +1897,18 @@ bool item::is_food() const
 bool item::is_food_container() const
 {
     return (contents.size() >= 1 && contents[0].is_food());
+}
+
+bool item::is_corpse() const
+{
+    if( is_null() ) {
+        return false;
+    }
+
+    if (type->id == "corpse") {
+        return true;
+    }
+    return false;
 }
 
 bool item::is_ammo_container() const
