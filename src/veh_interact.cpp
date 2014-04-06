@@ -1686,7 +1686,7 @@ void complete_vehicle ()
             fillv->refill("gasoline", got);
             g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
                "gasoline", veh->name.c_str(), fillv->name.c_str(),
-               (got < want ? ", draining the tank completely." : ", recipient tank is full.") );
+               (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
             g->u.moves -= 200;
         } else {
             g->u.siphon( veh, "gasoline" );
