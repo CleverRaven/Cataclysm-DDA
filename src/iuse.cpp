@@ -3921,10 +3921,10 @@ int iuse::siphon(player *p, item *it, bool)
     if ( fillv != NULL ) {
         int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
         int got = veh->drain("gasoline", want);
-        int amt=fillv->refill("gasoline",got);
+        fillv->refill("gasoline", got);
         g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
            "gasoline", veh->name.c_str(), fillv->name.c_str(),
-           (amt > 0 ? "." : ", draining the tank completely.") );
+           (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
         p->moves -= 200;
     } else {
         if (p->siphon(veh, "gasoline")) {
