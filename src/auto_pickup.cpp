@@ -6,6 +6,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include "path_info.h"
+#include "file_wrapper.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -462,13 +463,20 @@ void load_auto_pickup(bool bCharacter)
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
+    bool legacy_autopickup_loaded = false;
     fin.open(sFile.c_str());
     if(!fin.is_open()) {
-        fin.close();
+        if( !bCharacter ) {
+            fin.open(FILENAMES["legacy_autopickup"].c_str());
+        }
+        if( !fin.is_open() ) {
+            assure_dir_exist(FILENAMES["config_dir"]);
+            create_default_auto_pickup(bCharacter);
+            fin.open(sFile.c_str());
+        } else {
+            legacy_autopickup_loaded = true;
+        }
 
-        create_default_auto_pickup(bCharacter);
-
-        fin.open(sFile.c_str());
         if(!fin.is_open()) {
             DebugLog() << "Could neither read nor create " << sFile << "\n";
             return;
@@ -524,6 +532,10 @@ void load_auto_pickup(bool bCharacter)
     fin.close();
     merge_vector();
     createPickupRules();
+    if( legacy_autopickup_loaded ) {
+        assure_dir_exist(FILENAMES["config_dir"]);
+        save_auto_pickup( bCharacter );
+    }
 }
 
 void merge_vector()
@@ -681,6 +693,7 @@ bool save_auto_pickup(bool bCharacter)
 
     fout.exceptions(std::ios::badbit | std::ios::failbit);
     try {
+        assure_dir_exist(FILENAMES["config_dir"]);
         fout.open(sFile.c_str());
 
         fout << auto_pickup_header(bCharacter) << std::endl;

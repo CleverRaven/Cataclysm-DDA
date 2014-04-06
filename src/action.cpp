@@ -1,6 +1,7 @@
 #include "action.h"
 #include "output.h"
 #include "path_info.h"
+#include "file_wrapper.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -20,15 +21,24 @@ void load_keyboard_settings()
 
     // Load the player's actual keymap
     std::ifstream fin;
+    bool loaded_legacy_keymap = false;
     fin.open(FILENAMES["keymap"].c_str());
-    if (!fin) { // It doesn't exist
-        std::ofstream fout;
-        fout.open(FILENAMES["keymap"].c_str());
-        fout << default_keymap_txt();
-        fout.close();
-        fin.open(FILENAMES["keymap"].c_str());
+    if (!fin.is_open()) { // It doesn't exist
+        // Try it at the legacy location.
+        fin.open(FILENAMES["legacy_keymap"].c_str());
+        if( !fin.is_open() ) {
+            // Doesn't exist in either place, output a default keymap.
+            assure_dir_exist(FILENAMES["config_dir"]);
+            std::ofstream fout;
+            fout.open(FILENAMES["keymap"].c_str());
+            fout << default_keymap_txt();
+            fout.close();
+            fin.open(FILENAMES["keymap"].c_str());
+        } else {
+            loaded_legacy_keymap = true;
+        }
     }
-    if (!fin) { // Still can't open it--probably bad permissions
+    if (!fin.is_open()) { // Still can't open it--probably bad permissions
         debugmsg(std::string("Can't open " + FILENAMES["keymap"] + " This may be a permissions issue.").c_str());
         keymap = default_keymap;
         return;
@@ -53,6 +63,10 @@ void load_keyboard_settings()
         if (!found && !keymap.count(d_it->first)) {
             keymap[d_it->first] = d_it->second;
         }
+    }
+    if( loaded_legacy_keymap ) {
+        assure_dir_exist(FILENAMES["config_dir"]);
+        save_keymap();
     }
 }
 
@@ -319,6 +333,8 @@ std::string action_ident(action_id act)
         return "toggle_sidebar_style";
     case ACTION_TOGGLE_FULLSCREEN:
         return "toggle_fullscreen";
+    case ACTION_ACTIONMENU:
+        return "action_menu";
     case ACTION_NULL:
         return "null";
     default:
@@ -503,6 +519,8 @@ std::string action_name(action_id act)
         return _("Switch Sidebar Style");
     case ACTION_TOGGLE_FULLSCREEN:
         return _("Toggle Fullscreen mode");
+    case ACTION_ACTIONMENU:
+        return _("Action Menu");
     case ACTION_NULL:
         return _("No Action");
     default:

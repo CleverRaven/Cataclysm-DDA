@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
         }
     }
     while (saved_argc) {
-        if(std::string(saved_argv[0]) == "--datadir") { // TODO NEED THIS?
+        if(std::string(saved_argv[0]) == "--datadir") {
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
