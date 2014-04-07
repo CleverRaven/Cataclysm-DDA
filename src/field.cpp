@@ -767,7 +767,7 @@ bool map::process_fields_in_submap(int gridn)
                         if (npcdex != -1 && one_in(20)) {
                             npc *p = g->active_npc[npcdex];
                             if(p->is_friend()) {
-                                p->say(one_in(2) ? _("Man, that smells like some good shit!") : _("Whew... smells like skunk!"));
+                                p->say(one_in(10) ? _("Whew... smells like a skunk!") : _("Man, that smells like some good shit!"));
                             }
                         }
 
@@ -794,7 +794,7 @@ bool map::process_fields_in_submap(int gridn)
                         if (npcdex != -1 && one_in(20)) {
                             npc *p = g->active_npc[npcdex];
                             if(p->is_friend()) {
-                                p->say(one_in(2) ? _("Smells like burning rubber! Gross!") : _("Ugh, that smells rancid!"));
+                                p->say(one_in(2) ? _("Ew, smells like burning rubber!") : _("Ugh, that smells rancid!"));
                             }
                         }
                     }

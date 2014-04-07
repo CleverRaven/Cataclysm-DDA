@@ -2825,7 +2825,7 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
             }
 
             // cig dies out
-            if(it->item_counter == 0) {
+            if(it->item_counter <= 0) {
                 if(it->type->id == "cig_lit") {
                     it->make(itypes["cig_butt"]);
                 } else if(it->type->id == "cigar_lit"){

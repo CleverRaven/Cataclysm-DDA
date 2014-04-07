@@ -6403,7 +6403,7 @@ bool player::process_single_active_item(item *it)
             }
 
             // done with cig
-            if(it->item_counter == 0) {
+            if(it->item_counter <= 0) {
                 g->add_msg_if_player(this, _("You finish your %s."), it->name.c_str());
                 if(it->type->id == "cig_lit") {
                     it->make(itypes["cig_butt"]);
