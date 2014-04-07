@@ -760,16 +760,44 @@ bool map::process_fields_in_submap(int gridn)
                         spread_gas( this, cur, x, y, curtype, 150, 25 );
                         break;
 
-                    case fd_weedsmoke:
+                    case fd_weedsmoke: {
                         spread_gas( this, cur, x, y, curtype, 100, 20 );
+
+                        int npcdex = g->npc_at(x, y);
+                        if (npcdex != -1 && one_in(20)) {
+                            npc *p = g->active_npc[npcdex];
+                            if(p->is_friend()) {
+                                p->say(one_in(2) ? _("Man, that smells like some good shit!") : _("Whew... smells like skunk!"));
+                            }
+                        }
+
+                    }
                         break;
 
-                    case fd_methsmoke:
+                    case fd_methsmoke: {
                         spread_gas( this, cur, x, y, curtype, 75, 30 );
+
+                        int npcdex = g->npc_at(x, y);
+                        if (npcdex != -1 && one_in(20)) {
+                            npc *p = g->active_npc[npcdex];
+                            if(p->is_friend()) {
+                                p->say(_("I don't know... should you really be smoking that stuff?"));
+                            }
+                        }
+                    }
                         break;
 
-                    case fd_cracksmoke:
+                    case fd_cracksmoke: {
                         spread_gas( this, cur, x, y, curtype, 75, 30 );
+
+                        int npcdex = g->npc_at(x, y);
+                        if (npcdex != -1 && one_in(20)) {
+                            npc *p = g->active_npc[npcdex];
+                            if(p->is_friend()) {
+                                p->say(one_in(2) ? _("Smells like burning rubber! Gross!") : _("Ugh, that smells rancid!"));
+                            }
+                        }
+                    }
                         break;
 
                     case fd_nuke_gas:
