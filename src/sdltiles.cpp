@@ -1016,6 +1016,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
             // Write out fontlist to the new location.
             save_font_list();
         }
+    } else {
         std::string fname;
         std::string fpath;
         std::string iline;
