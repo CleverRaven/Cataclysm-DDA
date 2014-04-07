@@ -716,6 +716,7 @@ void advanced_inventory::redraw_pane( int i )
                ( max > 99 ? 3 : max > 9 ? 2 : 1 );
     mvwprintw(panes[i].window, 0 , (w_width / 2) - fmtw, "< %d/%d >", panes[i].size, max );
     const char *fprefix = _("[F]ilter");
+    const char *fsuffix = _("[R]eset");
     if ( ! filter_edit ) {
         if ( !panes[i].filter.empty() ) {
             mvwprintw(panes[i].window, getmaxy(panes[i].window) - 1, 2, "< %s: %s >", fprefix,
@@ -730,6 +731,7 @@ void advanced_inventory::redraw_pane( int i )
     if ( ! filter_edit && !panes[i].filter.empty() ) {
         mvwprintz(panes[i].window, getmaxy(panes[i].window) - 1, 6 + strlen(fprefix), c_white, "%s",
                   panes[i].filter.c_str() );
+        mvwprintz(panes[i].window, getmaxy(panes[i].window) -1, getmaxx(panes[i].window) - strlen(fsuffix) - 2, c_white, "%s", fsuffix);
     }
 
 }
@@ -1585,6 +1587,11 @@ void advanced_inventory::display(player *pp)
                 }
             } while(key != '\n' && key != KEY_ESCAPE);
             filter_edit = false;
+            redraw = true;
+        } else if('r' == c) {
+            panes[src].filter = "";
+            recalc_pane(src);
+            redraw_pane(src);
             redraw = true;
         } else if('p' == c) {
             if(panes[src].size == 0) {
