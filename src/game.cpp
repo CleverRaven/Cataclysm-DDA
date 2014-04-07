@@ -1548,6 +1548,11 @@ void game::activity_on_finish_read()
             }
         }
     }
+
+    if (!reading->use.is_none()) {
+        reading->use.call(&g->u, book_item, false);
+    }
+
     u.activity.type = ACT_NULL;
 }
 
