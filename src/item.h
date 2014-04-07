@@ -152,6 +152,7 @@ public:
  void calc_rot();
  int brewing_time();
  bool ready_to_revive(); // used for corpses
+ bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
  bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;

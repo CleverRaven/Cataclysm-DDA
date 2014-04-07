@@ -1513,10 +1513,17 @@ int item::brewing_time()
     return ret;
 }
 
+bool item::can_revive()
+{
+    if ( corpse != NULL && corpse->has_flag(MF_REVIVES) && damage < 4) {
+        return true;
+    }
+    return false;
+}
+
 bool item::ready_to_revive()
 {
-    if ( corpse == NULL || !corpse->has_flag(MF_REVIVES) || damage >= 4)
-    {
+    if(can_revive() == false) {
         return false;
     }
     int age_in_hours = (int(g->turn) - bday) / (10 * 60);

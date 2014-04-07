@@ -4216,8 +4216,8 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
               if (it->is_corpse()) {
                   it->calc_rot();
 
-                  //remove corpse after 7 days = 100800 turns (dependent on temperature)
-                  if(it->rot > 100800) {
+                  //remove corpse after 10 days = 144000 turns (dependent on temperature)
+                  if(it->rot > 144000 && it->can_revive() == false) {
                       it = tmpsub->itm[x][y].erase(it);
                   } else { ++it; intidx++; }
 
