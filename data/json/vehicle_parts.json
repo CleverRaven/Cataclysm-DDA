@@ -3032,44 +3032,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "plating_elec",
-        "name" : "electrified plating",
-        "symbol" : ")",
-        "color" : "light_cyan",
-        "broken_symbol" : ")",
-        "broken_color" : "light_cyan",
-        "durability" : 800,
-        "item" : "elec_plate",
-        "difficulty" : 4,
-        "location" : "armor",
-        "flags" : ["ARMOR", "ELECARMOR"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 6},
-            {"item": "steel_chunk", "min": 4, "max": 6},
-            {"item": "scrap", "min": 4, "max": 6},
-            {"item": "wire", "min": 1, "max": 3}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "plating_spring",
-        "name" : "impact resistant plating",
-        "symbol" : ")",
-        "color" : "light_gray",
-        "broken_symbol" : ")",
-        "broken_color" : "light_gray",
-        "durability" : 800,
-        "item" : "spring_plate",
-        "difficulty" : 4,
-        "location" : "armor",
-        "flags" : ["ARMOR", "IMPACT"],
-        "breaks_into" : [
-            {"item": "steel_lump", "min": 4, "max": 6},
-            {"item": "steel_chunk", "min": 4, "max": 6},
-            {"item": "scrap", "min": 4, "max": 6},
-            {"item": "spring", "min": 1, "max": 6}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "headlight",
         "name" : "head light",
         "symbol" : "*",
