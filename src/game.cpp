@@ -7724,8 +7724,8 @@ bool game::choose_adjacent(std::string message, int &x, int &y)
 {
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
-    mvwprintw(w_terrain, 0, 0, "%s", query_text.c_str());
-    wrefresh(w_terrain);
+    mvwprintw(stdscr, 0, 0, "%s", query_text.c_str());
+    wrefresh(stdscr);
     DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
     if (input == Cancel || input == Close)
@@ -7756,8 +7756,8 @@ bool game::choose_adjacent_highlight(std::string message, int &x, int &y, action
     }
 
     std::string query_text = message + _(" (Direction button)");
-    mvwprintw(w_terrain, 0, 0, "%s", query_text.c_str());
-    wrefresh(w_terrain);
+    mvwprintw(stdscr, 0, 0, "%s", query_text.c_str());
+    wrefresh(stdscr);
     DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
     if (input == Cancel || input == Close)
