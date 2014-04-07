@@ -4085,10 +4085,10 @@ void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn
     for(int i = 1; i < top; i++) {
         int num_weed = rng(0, 2);
         for (int n = 0; n < num_weed; n++) {
-            if(one_in(7)) {
+            if(one_in(10)) {
                 m->spawn_item(1, i, one_in(7) ? "joint_roach" : "joint");
             }
-            if(one_in(7)) {
+            if(one_in(10)) {
                 m->spawn_item(right, i, one_in(7) ? "joint_roach" : "joint");
             }
         }
@@ -4106,7 +4106,7 @@ void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn
     for (int i = 3; i < SEEX * 2 - 3; i += 5) {
         for (int j = 3; j < 16; j += 5) {
             square(m, t_dirt, i, j, i + 2, j + 2);
-            int num_weed = rng(0, 4) * rng(0, 1);
+            int num_weed = rng(0, 3) * rng(0, 1);
             for (int n = 0; n < num_weed; n++) {
                 int x = rng(i, i + 2), y = rng(j, j + 2);
                 m->spawn_item(x, y, one_in(5) ? "seed_weed" : "weed");
