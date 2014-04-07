@@ -3801,6 +3801,21 @@ int player::unimpaired_range()
  return ret;
 }
 
+bool player::overmap_los(int omtx, int omty)
+{
+    const tripoint ompos = g->om_global_location();
+    int sight_points = overmap_sight_range(g->light_level());
+    const std::vector<point> line = line_to(ompos.x, ompos.y, omtx, omty, 0);
+    for (size_t i = 0; i < line.size() && sight_points >= 0; i++) {
+        const oter_id &ter = overmap_buffer.ter(line[i].x, line[i].y, ompos.z);
+        const int cost = otermap[ter].see_cost;
+        sight_points -= cost;
+        if (sight_points < 0)
+            return false;
+    }
+    return true;
+}
+
 int player::overmap_sight_range(int light_level)
 {
     int sight = sight_range(light_level);

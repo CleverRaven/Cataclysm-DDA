@@ -1685,6 +1685,16 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             }
             //Check if there is an npc.
             const bool npc_here = overmap_buffer.has_npc(omx, omy, z);
+            // Check hordes
+            bool horde_here = false;
+            if (g->u.overmap_los(omx, omy)) {
+                std::vector<mongroup*> hordes = overmap_buffer.monsters_at(omx, omy, z);
+                for (int ih = 0; ih < hordes.size(); ih++) {
+                    if (hordes[ih]->horde) {
+                        horde_here = true;
+                    }
+                }
+            }
             // and a vehicle
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
@@ -1776,6 +1786,10 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 // Display NPCs only when player can see the location
                 ter_color = c_pink;
                 ter_sym = '@';
+            } else if (blink && horde_here) {
+                // Display Hordes only when player can see the location
+                ter_color = c_green;
+                ter_sym = 'Z';
             } else if (blink && veh_here) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;

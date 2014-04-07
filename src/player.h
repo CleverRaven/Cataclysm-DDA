@@ -260,6 +260,8 @@ public:
  void recalc_sight_limits();
  /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
  int  unimpaired_range();
+ /** Returns true if overmap tile is within player line-of-sight */
+ bool overmap_los(int x, int y);
  /** Returns the distance the player can see on the overmap */
  int  overmap_sight_range(int light_level);
  /** Returns the distance the player can see through walls */
