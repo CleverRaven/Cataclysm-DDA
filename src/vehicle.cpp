@@ -528,7 +528,9 @@ void vehicle::use_controls()
 
     }
 
-    if( tags.count("convertible") ) {
+    const bool can_be_folded = is_foldable();
+    const bool is_convertible = (tags.count("convertible") > 0);
+    if( can_be_folded || is_convertible ) {
         options_choice.push_back(convert_vehicle);
         options_message.push_back(uimenu_entry(string_format(_("Fold %s"), name.c_str()), 'f'));
     }
@@ -658,7 +660,12 @@ void vehicle::use_controls()
             }
         }
         // create a folding bicycle item
-        item bicycle(itypes[itype_id], g->turn);
+        item bicycle;
+        if (can_be_folded) {
+            bicycle.make( itypes["generic_folded_vehicle"] );
+        } else {
+            bicycle.make( itypes["folding_bicycle"] );
+        }
 
         // Drop stuff in containers on ground
         for (int p = 0; p < parts.size(); p++) {
@@ -670,6 +677,8 @@ void vehicle::use_controls()
                 parts[p].items.clear();
             }
         }
+
+        unboard_all();
 
         // Store data of all parts, iuse::unfold_bicyle only loads
         // some of them (like bigness), some are expect to be
@@ -684,10 +693,22 @@ void vehicle::use_controls()
         } catch(std::string e) {
             debugmsg("Error storing vehicle: %s", e.c_str());
         }
+        if (can_be_folded) {
+            std::ostringstream tmpstream;
+            tmpstream.imbue(std::locale::classic());
+            tmpstream << (total_mass() * 1000);
+            bicycle.item_vars["weight"] = tmpstream.str();
+            // TODO: how to calculate the volume?
+            tmpstream.str(std::string());
+            tmpstream << (total_mass() * 10);
+            bicycle.item_vars["volume"] = tmpstream.str();
+            bicycle.item_vars["name"] = string_format(_("folded %s"), name.c_str());
+            bicycle.item_vars["vehicle_name"] = name;
+            // TODO: a better description?
+            bicycle.item_vars["description"] = string_format(_("A folded %s."), name.c_str());
+        }
 
         g->m.add_item_or_charges(g->u.posx, g->u.posy, bicycle);
-        // Remove vehicle
-        unboard_all();
         g->m.destroy_vehicle(this);
 
         g->u.moves -= 500;
@@ -766,7 +787,7 @@ void vehicle::honk_horn()
     }
 }
 
-vpart_info& vehicle::part_info (int index, bool include_removed)
+vpart_info& vehicle::part_info (int index, bool include_removed) const
 {
     if (index >= 0 && index < parts.size()) {
         if (!parts[index].removed || include_removed) {
@@ -1485,7 +1506,7 @@ std::vector<int> vehicle::all_parts_at_location(const std::string& location)
     return parts_found;
 }
 
-bool vehicle::part_flag (int part, const std::string &flag)
+bool vehicle::part_flag (int part, const std::string &flag) const
 {
     if (part < 0 || part >= parts.size() || parts[part].removed) {
         return false;
@@ -1494,7 +1515,8 @@ bool vehicle::part_flag (int part, const std::string &flag)
     }
 }
 
-bool vehicle::part_flag( int part, const vpart_bitflags &flag) {
+bool vehicle::part_flag( int part, const vpart_bitflags &flag) const
+{
    if (part < 0 || part >= parts.size() || parts[part].removed) {
         return false;
     } else {
@@ -4076,4 +4098,34 @@ float get_collision_factor(float delta_v)
     } else {
         return 0.1;
     }
+}
+
+bool vehicle::is_foldable() const
+{
+    for (size_t i = 0; i < parts.size(); i++) {
+        if (!part_flag(i, "FOLDABLE")) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool vehicle::restore(const std::string &data)
+{
+    std::istringstream veh_data(data);
+    try {
+        JsonIn json(veh_data);
+        parts.clear();
+        json.read(parts);
+    } catch(std::string e) {
+        debugmsg("Error restoring vehicle: %s", e.c_str());
+        return false;
+    }
+    refresh();
+    face.init(0);
+    turn_dir = 0;
+    turn(0);
+    precalc_mounts(0, 0);
+    precalc_mounts(1, 0);
+    return true;
 }

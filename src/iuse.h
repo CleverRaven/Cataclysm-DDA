@@ -181,6 +181,7 @@ public:
     int holster_pistol      (player *, item *, bool);
     int holster_ankle       (player *, item *, bool);
     int towel               (player *, item *, bool);
+    int unfold_generic      (player *, item *, bool);
     int airhorn             (player *, item *, bool);
     int adrenaline_injector (player *, item *, bool);
     int jet_injector        (player *, item *, bool);

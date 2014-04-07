@@ -256,7 +256,7 @@ public:
     void honk_horn();
 
 // get vpart type info for part number (part at given vector index)
-    vpart_info& part_info (int index, bool include_removed = false);
+    vpart_info& part_info (int index, bool include_removed = false) const;
 
 // check if certain part can be mounted at certain position (not accounting frame direction)
     bool can_mount (int dx, int dy, std::string id);
@@ -318,8 +318,8 @@ public:
     std::vector<int> all_parts_at_location(const std::string &location);
 
 // returns true if given flag is present for given part index
-    bool part_flag (int p, const std::string &f);
-    bool part_flag (int p, const vpart_bitflags &f);
+    bool part_flag (int p, const std::string &f) const;
+    bool part_flag (int p, const vpart_bitflags &f) const;
 
 // Translate seat-relative mount coords into tile coords
     void coord_translate (int reldx, int reldy, int &dx, int &dy);
@@ -533,6 +533,11 @@ public:
     // opens/closes doors or multipart doors
     void open(int part_index);
     void close(int part_index);
+
+    // Consists only of parts with the FOLDABLE tag.
+    bool is_foldable() const;
+    // Restore parts of a folded vehicle.
+    bool restore(const std::string &data);
 
     /**
      *  Opens everything that can be opened on the same tile as `p`

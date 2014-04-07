@@ -7348,6 +7348,28 @@ int iuse::towel(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::unfold_generic(player *p, item *it, bool)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    vehicle *veh = g->m.add_vehicle( "none", p->posx, p->posy, 0, 0, 0, false);
+    if( veh == NULL ) {
+        g->add_msg_if_player(p, _("There's no room to unfold the %s."), it->tname().c_str());
+        return 0;
+    }
+    veh->name = it->item_vars["vehicle_name"];
+    if (!veh->restore(it->item_vars["folding_bicycle_parts"])) {
+        g->m.destroy_vehicle(veh);
+        return 0;
+    }
+    g->m.update_vehicle_cache(veh, true);
+    g->add_msg_if_player(p, _("You painstakingly unfold the %s and make it ready to ride."), veh->name.c_str());
+    p->moves -= 500;
+    return 1;
+}
+
 int iuse::adrenaline_injector(player *p, item *it, bool)
 {
   p->moves -= 100;
