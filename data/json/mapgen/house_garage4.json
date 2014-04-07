@@ -1,0 +1,120 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "house"
+        ],
+        "method": "json",
+        "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "rows": [
+                ".x...SSSSSx..xSSSSS...x.",
+                ".x...SSSSSx..xSSSSS...x.",
+                ".x...SSSSSx..xSSSSS...x.",
+                ".x...SSSSSx..xSSSSS...x.",
+                ".x...SSSSSx..xSSSSS...x.",
+                ".x...SSSSSxxxxSSSSS...x.",
+                ".x...SSSSSSSSSSSSSS...x.",
+                ".x...SSSSSSSSSSSSSS...x.",
+                ".x...SSSSSSSSSSSSSS...x.",
+                ".x...SSSSSSSSSSSSSS...x.",
+                ".x...SSSSSSSSSSSSSS...x.",
+                " x...xxxxx.SS.xxxxx...x.",
+                ".|--------2332--------|.",
+                ".|8  A|         |6   F|.",
+                ".|8  ;|  66666  |6   G2.",
+                ".|    |  66666  |    >2.",
+                ".|    +         +    >|.",
+                ".-----|---+------+----|.",
+                ".w..  |7      +      6|.",
+                ".w.. B|7     6|     @@|.",
+                ".w.. B|      ?|     @@|.",
+                ".w..  3   6???|      :|.",
+                ".owwww--22-------22----.",
+                "........................"
+            ],
+            "terrain": {
+                ".": "t_grass",
+                "-": "t_wall_h",
+                "2": "t_window_domestic",
+                "w": "t_window",
+                "3": "t_door_locked",
+                "|": "t_wall_v",
+                " ": "t_floor",
+                "6": "t_floor",
+                "7": "t_floor",
+                "8": "t_floor",
+                "9": "t_floor",
+                ":": "t_floor",
+                ";": "t_floor",
+                "+": "t_door_c",
+                "=": "t_floor",
+                ">": "t_floor",
+                "?": "t_floor",
+                "@": "t_floor",
+                "A": "t_floor",
+                "B": "t_floor",
+                "C": "t_floor",
+                "D": "t_floor",
+                "E": "t_floor",
+                "F": "t_floor",
+                "G": "t_floor",
+                "S": "t_sidewalk",
+                "^": "t_tree",
+                "M": "t_door_metal_locked",
+                "X": "t_gates_mech_control",
+                "[": "t_fence_v",
+                "~": "t_fence_h",
+                "o": "t_column",
+                "x": "t_shrub"
+
+
+            },
+            "furniture": {
+                "6": "f_table",
+                "7": "f_bookcase",
+                "8": "f_bathtub",
+                "9": "f_rack",
+                ":": "f_dresser",
+                ";": "f_toilet",
+                "=": "f_fireplace",
+                ">": "f_counter",
+                "?": "f_sofa",
+                "@": "f_bed",
+                "A": "f_sink",
+                "B": "f_chair",
+                "C": "f_desk",
+                "D": "f_trashcan",
+                "E": "f_cupboard",
+                "F": "f_fridge",
+                "G": "f_oven"
+            },
+            "place_specials": [
+                { "type": "toilet", "x": 5, "y": 14 }
+            ],
+            "set": [
+                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                 { "point": "terrain", "id": "t_door_locked_interior", "x": 6, "y": 21, "repeat": [ 0, 1 ] },
+                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
+                { "point": "terrain", "id": "t_door_c", "x": [ 11, 12 ], "y": 12, "repeat": [ 0, 1 ] }
+            ],
+            "place_groups": [
+                { "item": "bedroom", "chance": 80, "x": [ 15, 21 ], "y": [ 18, 21 ] },
+                { "item": "livingroom", "chance": 80, "x": [ 7,13 ], "y": [ 18,21 ] },
+                { "item": "homeguns", "chance": 5, "x": [ 15,21 ], "y": [ 18,21 ] },
+                { "item": "homebooks", "chance": 70, "x": [ 7,7 ], "y": [ 17,18 ] },
+                { "item": "dresser", "chance": 70, "x": [ 21,21 ], "y": [ 21,21 ] },
+                { "item": "kitchen", "chance": 75, "x": [ 15,21 ], "y": [ 16,13 ] },
+                { "item": "fridge", "chance": 50, "x": [ 21,21 ], "y": [ 13,13 ] },
+                { "item": "produce", "chance": 50, "x": [ 21,21 ], "y": [ 13,13 ] },
+                { "item": "kitchen", "chance": 75, "x": [ 21,21 ], "y": [ 15,16 ] },
+                { "item": "alcohol", "chance": 50, "x": [ 21,21 ], "y": [ 15,16 ] },
+                { "item": "oven", "chance": 50, "x": 21 , "y": 14 },
+                { "item": "softdrugs", "chance": 75, "x": [ 2,4 ], "y": [ 13,16 ] },
+                { "item": "cleaning", "chance": 75, "x": [ 2,4 ], "y": [ 13,16] },
+                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
+            ]
+        }
+    }
+]
