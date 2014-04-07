@@ -861,10 +861,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     }
 
     if ( showtext && !is_null() ) {
+        const std::map<std::string, std::string>::const_iterator idescription = item_vars.find("description");
         dump->push_back(iteminfo("DESCRIPTION", "--"));
         if (is_stationary()) {
             // Just use the dynamic description
             dump->push_back( iteminfo("DESCRIPTION", SNIPPET.get(note)) );
+        } else if (idescription != item_vars.end()) {
+            dump->push_back( iteminfo("DESCRIPTION", idescription->second) );
         } else {
             dump->push_back(iteminfo("DESCRIPTION", type->description));
         }
@@ -1010,7 +1013,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             std::string ntext = "";
             if ( item_note_type != item_vars.end() ) {
                 ntext += string_format(_("%1$s on the %2$s is: "),
-                                       item_note_type->second.c_str(), type->name.c_str() );
+                                       item_note_type->second.c_str(), tname().c_str() );
             } else {
                 ntext += _("Note: ");
             }
@@ -1182,6 +1185,7 @@ std::string item::tname( bool with_prefix )
         }
     }
 
+    const std::map<std::string, std::string>::const_iterator iname = item_vars.find("name");
     std::string maintext = "";
     if (corpse != NULL && typeId() == "corpse" ) {
         if (name != "") {
@@ -1194,6 +1198,9 @@ std::string item::tname( bool with_prefix )
             maintext = rm_prefix(_("<item_name>human blood"));
         else
             maintext = rmp_format(_("<item_name>%s blood"), corpse->name.c_str());
+    }
+    else if (iname != item_vars.end()) {
+        maintext = iname->second;
     }
     else if (is_gun() && !contents.empty() ) {
         ret.str("");
@@ -1330,6 +1337,12 @@ int item::weight() const
 
     int ret = type->weight;
 
+    const std::map<std::string, std::string>::const_iterator iweight = item_vars.find("weight");
+    if (iweight != item_vars.end()) {
+        char *dummy;
+        ret = strtol(iweight->second.c_str(), &dummy, 10);
+    }
+
     if (count_by_charges()) {
         ret *= charges;
     } else if (type->is_gun() && charges >= 1) {
@@ -1413,6 +1426,11 @@ int item::volume(bool unit_value, bool precise_value ) const
     }
 
     ret = type->volume;
+    const std::map<std::string, std::string>::const_iterator ivolume = item_vars.find("volume");
+    if (ivolume != item_vars.end()) {
+        char *dummy;
+        ret = strtol(ivolume->second.c_str(), &dummy, 10);
+    }
 
     if ( precise_value == true ) {
         ret *= 1000;
