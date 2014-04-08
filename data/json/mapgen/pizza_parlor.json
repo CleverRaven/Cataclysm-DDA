@@ -132,7 +132,7 @@
 	},
 	{
 		"type" : "mapgen",
-		"om_terrain": ["s_restaurant"],
+		"om_terrain": ["s_restaurant_fast"],
 		"method": "json",
 		"weight": 500,
 		"mondensity" : 2,
