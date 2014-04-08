@@ -1278,6 +1278,11 @@ void advanced_inventory::display(player *pp)
                     continue;
                 }
             }
+            if (!squares[destarea].canputitems) {
+                popup(_("You can't put items there"));
+                redraw = true;
+                continue;
+            }
             // from inventory
             if(panes[src].area == isinventory) {
                 int max = (squares[destarea].max_size - squares[destarea].size);
