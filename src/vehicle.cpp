@@ -2618,15 +2618,20 @@ void vehicle::slow_leak() {
     for( size_t p = 0; p < fuel.size(); ++p ) {
         vehicle_part part = parts[fuel[p]];
         vpart_info pinfo = part_info(fuel[p]);
+        if (pinfo.fuel_type != "water" && pinfo.fuel_type != "gasoline") //handle only known liquids
+            continue;        
         float damage_ratio = (float)part.hp / (float)pinfo.durability;
         if (part.amount > 0 && damage_ratio < 0.5f)
         {   
-            int leak_amount = (0.5-damage_ratio) * (0.5-damage_ratio) * part.amount / 10;
+            int leak_amount = (0.5-damage_ratio) * (0.5-damage_ratio) * part.amount / 5;
             int gx, gy;
             if (leak_amount < 1)
                 leak_amount = 1;
             coord_translate(part.mount_dx, part.mount_dy, gx, gy);
-            g->m.add_item_or_charges(gx, gx, pinfo.fuel_type, leak_amount);
+            if (pinfo.fuel_type == "water")
+                g->m.spawn_item(global_x() + gx, global_y() + gy, fuel_type_water, 1, leak_amount);                
+            else if (pinfo.fuel_type == "gasoline")
+                g->m.spawn_item(global_x() + gx, global_y() + gy, fuel_type_gasoline, 1, leak_amount);
             part.amount -= leak_amount;
         }
     }
