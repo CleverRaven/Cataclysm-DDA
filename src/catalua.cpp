@@ -411,7 +411,7 @@ static int game_choose_adjacent(lua_State *L) {
     const char* parameter1 = (const char*) lua_tostring(L, 1);
     int parameter2 = (int) lua_tonumber(L, 2);
     int parameter3 = (int) lua_tonumber(L, 3);
-    bool success = (bool) g->choose_adjacent(parameter1, parameter2, parameter3);
+    bool success = (bool) choose_adjacent(parameter1, parameter2, parameter3);
     if(success) {
         // parameter2 and parameter3 were updated by the call
         lua_pushnumber(L, parameter2);

@@ -231,9 +231,6 @@ public:
   bool cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...);
   void moving_vehicle_dismount(int tox, int toy);
-  // Get input from the player to choose an adjacent tile (for examine() etc)
-  bool choose_adjacent(std::string message, int &x, int&y);
-  bool choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight);
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
@@ -344,6 +341,19 @@ public:
   inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
   std::list<item> consume_items(player *p, std::vector<component> components);
   void consume_tools(player *p, std::vector<component> tools, bool force_available);
+  /**
+   * Returns the recipe that is used to disassemble the given item type.
+   * Returns NULL if there is no recipe to disassemble the item type.
+   */
+  recipe* get_disassemble_recipe(const itype_id &ype);
+  /**
+   * Check if the player can disassemble the item dis_item with the recipe
+   * cur_recipe and the inventory crafting_inv.
+   * Checks for example tools (and charges), enough input charges
+   * (if disassembled item is counted by charges).
+   * If print_msg is true show a message about missing tools/charges.
+   */
+  bool can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg);
 
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
@@ -546,19 +556,6 @@ public:
   void disassemble(int pos = INT_MAX);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
   recipe* recipe_by_index(int index);  // See crafting.cpp
-  /**
-   * Returns the recipe that is used to disassemble the given item type.
-   * Returns NULL if there is no recipe to disassemble the item type.
-   */
-  recipe* get_disassemble_recipe(const itype_id &ype);
-  /**
-   * Check if the player can disassemble the item dis_item with the recipe
-   * cur_recipe and the inventory crafting_inv.
-   * Checks for example tools (and charges), enough input charges
-   * (if disassembled item is counted by charges).
-   * If print_msg is true show a message about missing tools/charges.
-   */
-  bool can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafting_inv, bool print_msg);
 
   // Forcefully close a door at (x, y).
   // The function checks for creatures/items/vehicles at that point and
@@ -659,24 +656,7 @@ public:
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   int  mon_info(WINDOW *); // Prints a list of nearby monsters
   void handle_key_blocking_activity(); // Abort reading etc.
-  action_id handle_action_menu(); // Show the action menu.
   bool handle_action();
-
-  /**
-   * Check whether we can interact with something using the
-   * specified action and the given tile.
-   *
-   * This is part of a new API that will allow for a more robust
-   * user interface. Possible features include: Extending the
-   * "select a nearby tile" widget to highlight tiles that can be
-   * interacted with. "suggest" context-sensitive actions to the
-   * user that are currently relevant.
-   */
-  bool can_interact_at(action_id action, int x, int y);
-
-  bool can_butcher_at(int x, int y);
-  bool can_move_vertical_at(int x, int y, int movez);
-  bool can_examine_at(int x, int y);
 
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died

@@ -1918,7 +1918,7 @@ int iuse::marloss(player *p, item *it, bool t)
 int iuse::dogfood(player *p, item *, bool)
 {
     int dirx, diry;
-    if(!g->choose_adjacent(_("Put the dog food where?"),dirx,diry)) {
+    if(!choose_adjacent(_("Put the dog food where?"),dirx,diry)) {
         return 0;
     }
     p->moves -= 15;
@@ -1940,7 +1940,7 @@ int iuse::dogfood(player *p, item *, bool)
 int iuse::catfood(player *p, item *, bool)
 {
     int dirx, diry;
-    if(!g->choose_adjacent(_("Put the cat food where?"),dirx,diry)) {
+    if(!choose_adjacent(_("Put the cat food where?"),dirx,diry)) {
         return 0;
     }
     p->moves -= 15;
@@ -1965,7 +1965,7 @@ bool prep_firestarter_use(player *p, item *, int &posx, int &posy)
         g->add_msg_if_player(p, _("You can't do that while underwater."));
         return false;
     }
-    if (!g->choose_adjacent(_("Light where?"),posx,posy)) {
+    if (!choose_adjacent(_("Light where?"),posx,posy)) {
         return false;
     }
     if (posx == p->posx && posy == p->posy) {
@@ -2351,7 +2351,7 @@ int iuse::atomic_battery(player *p, item *it, bool)
 int iuse::fishing_rod_basic (player *p, item *it, bool) {
   int dirx, diry;
 
-  if (!g->choose_adjacent(_("Fish where?"), dirx, diry)) {
+  if (!choose_adjacent(_("Fish where?"), dirx, diry)) {
     return 0;
   }
 
@@ -2489,7 +2489,7 @@ int iuse::extinguisher(player *p, item *it, bool)
  int x, y;
  // If anyone other than the player wants to use one of these,
  // they're going to need to figure out how to aim it.
- if (!g->choose_adjacent(_("Spray where?"), x, y)) {
+ if (!choose_adjacent(_("Spray where?"), x, y)) {
   return 0;
  }
 
@@ -2531,7 +2531,7 @@ int iuse::hammer(player *p, item *it, bool)
     int x, y;
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
-    if (!g->choose_adjacent(_("Pry where?"), x, y)) {
+    if (!choose_adjacent(_("Pry where?"), x, y)) {
         return 0;
     }
 
@@ -3637,7 +3637,7 @@ int iuse::ma_manual (player *p, item *it, bool) {
 int iuse::picklock(player *p, item *it, bool)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Use your pick lock where?"), dirx, diry)) {
+ if(!choose_adjacent(_("Use your pick lock where?"), dirx, diry)) {
   return 0;
  }
  if (dirx == p->posx && diry == p->posy) {
@@ -3718,7 +3718,7 @@ int iuse::picklock(player *p, item *it, bool)
 int iuse::crowbar(player *p, item *it, bool)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Pry where?"), dirx,diry)) {
+ if(!choose_adjacent(_("Pry where?"), dirx,diry)) {
      return 0;
  }
 
@@ -3869,7 +3869,7 @@ int iuse::siphon(player *p, item *it, bool)
 {
     int posx = 0;
     int posy = 0;
-    if(!g->choose_adjacent(_("Siphon from where?"), posx, posy)) {
+    if(!choose_adjacent(_("Siphon from where?"), posx, posy)) {
       return 0;
     }
 
@@ -3905,7 +3905,7 @@ int iuse::siphon(player *p, item *it, bool)
         fmenu.query();
         if ( fmenu.ret == 0 ) {
             if ( foundv.size() > 1 ) {
-                if(g->choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
+                if(choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
                     fillv = g->m.veh_at(posx, posy);
                 } else {
                     return 0;
@@ -4518,7 +4518,7 @@ int iuse::jackhammer(player *p, item *it, bool)
         return 0;
  }
  int dirx, diry;
- if(!g->choose_adjacent(_("Drill where?"),dirx,diry)) {
+ if(!choose_adjacent(_("Drill where?"),dirx,diry)) {
   return 0;
  }
 
@@ -4598,7 +4598,7 @@ int iuse::pickaxe(player *p, item *it, bool)
         return 0;
     }
     int dirx, diry;
-    if(!g->choose_adjacent(_("Mine where?"),dirx,diry)) {
+    if(!choose_adjacent(_("Mine where?"),dirx,diry)) {
         return 0;
     }
 
@@ -4675,7 +4675,7 @@ int iuse::set_trap(player *p, item *it, bool)
         return 0;
  }
  int dirx, diry;
- if(!g->choose_adjacent(_("Place trap where?"),dirx,diry)) {
+ if(!choose_adjacent(_("Place trap where?"),dirx,diry)) {
   return 0;
  }
 
@@ -5779,7 +5779,7 @@ int iuse::manhack(player *p, item *, bool)
 int iuse::turret(player *p, item *, bool)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Place the turret where?"), dirx, diry)) {
+ if(!choose_adjacent(_("Place the turret where?"), dirx, diry)) {
   return 0;
  }
  if (!g->is_empty(dirx, diry)) {
@@ -5820,7 +5820,7 @@ int iuse::turret(player *p, item *, bool)
 int iuse::turret_laser(player *p, item *, bool)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Place the turret where?"), dirx, diry)) {
+ if(!choose_adjacent(_("Place the turret where?"), dirx, diry)) {
   return 0;
  }
  if (!g->is_empty(dirx, diry)) {
@@ -5932,7 +5932,7 @@ int iuse::adv_UPS_on(player *p, item *it, bool t)
 int iuse::tazer(player *p, item *it, bool)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Shock where?"),dirx,diry)){
+ if(!choose_adjacent(_("Shock where?"),dirx,diry)){
   return 0;
  }
 
@@ -6002,7 +6002,7 @@ int iuse::tazer2(player *p, item *it, bool)
 
         int dirx, diry;
 
-        if(!g->choose_adjacent(_("Shock"), dirx, diry)) {
+        if(!choose_adjacent(_("Shock"), dirx, diry)) {
             return 0;
         }
 
@@ -6565,7 +6565,7 @@ int iuse::lumber(player *p, item *it, bool)
 int iuse::hacksaw(player *p, item *it, bool)
 {
     int dirx, diry;
-    if(!g->choose_adjacent(_("Cut up metal where?"), dirx, diry))
+    if(!choose_adjacent(_("Cut up metal where?"), dirx, diry))
         return 0;
 
     if (dirx == p->posx && diry == p->posy) {
@@ -6629,7 +6629,7 @@ int iuse::hacksaw(player *p, item *it, bool)
 int iuse::tent(player *p, item *, bool)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Pitch the tent where?"), dirx, diry)) {
+ if(!choose_adjacent(_("Pitch the tent where?"), dirx, diry)) {
   return 0;
  }
 
@@ -6665,7 +6665,7 @@ int iuse::tent(player *p, item *, bool)
 int iuse::shelter(player *p, item *, bool)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Put up the shelter where?"), dirx, diry)) {
+ if(!choose_adjacent(_("Put up the shelter where?"), dirx, diry)) {
   return 0;
  }
 
@@ -6940,7 +6940,7 @@ int iuse::bullet_puller(player *p, item *it, bool)
 int iuse::boltcutters(player *p, item *it, bool)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Cut up metal where?"),dirx,diry)) {
+ if(!choose_adjacent(_("Cut up metal where?"),dirx,diry)) {
   return 0;
  }
 
@@ -6968,7 +6968,7 @@ if (dirx == p->posx && diry == p->posy) {
 int iuse::mop(player *p, item *it, bool)
 {
  int dirx, diry;
- if(!g->choose_adjacent(_("Mop where?"),dirx,diry)) {
+ if(!choose_adjacent(_("Mop where?"),dirx,diry)) {
   return 0;
  }
 
@@ -7854,7 +7854,7 @@ int iuse::sheath_sword(player *p, item *it, bool)
                 // if a spot without an enemy is chosen, defaults to the first enemy found above
                 if(mon_num != -1) {
                     int slashx, slashy;
-                    if(g->choose_adjacent(_("Slash where?"), slashx, slashy)) {
+                    if(choose_adjacent(_("Slash where?"), slashx, slashy)) {
                         const int mon_hit = g->mon_at(slashx, slashy);
                         if(mon_hit != -1)
                             mon_num = mon_hit;

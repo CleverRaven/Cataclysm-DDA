@@ -568,7 +568,7 @@ static void place_construction(const std::string &desc)
     wrefresh(g->w_terrain);
 
     int dirx, diry;
-    if (!g->choose_adjacent(_("Contruct where?"), dirx, diry)) {
+    if (!choose_adjacent(_("Contruct where?"), dirx, diry)) {
         return;
     }
 
