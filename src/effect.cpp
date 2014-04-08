@@ -33,23 +33,30 @@ std::string effect_type::get_remove_memorial_log()
 {
     return remove_memorial_log;
 }
+int effect_type::get_max_intensity()
+{
+    return max_intensity;
+}
 
 effect::effect() :
     eff_type(NULL),
     duration(0),
-    intensity(0)
+    intensity(0),
+    permanent(false)
 { }
 
-effect::effect(effect_type *peff_type, int dur) :
+effect::effect(effect_type *peff_type, int dur, int nintensity, bool perm) :
     eff_type(peff_type),
     duration(dur),
-    intensity(1)
+    intensity(nintensity),
+    permanent(perm)
 { }
 
 effect::effect(const effect &rhs) : JsonSerializer(), JsonDeserializer(),
     eff_type(rhs.eff_type),
     duration(rhs.duration),
-    intensity(rhs.intensity)
+    intensity(rhs.intensity),
+    permanent(rhs.permanent)
 { }
 
 effect &effect::operator=(const effect &rhs)
@@ -61,6 +68,7 @@ effect &effect::operator=(const effect &rhs)
     eff_type = rhs.eff_type;
     duration = rhs.duration;
     intensity = rhs.intensity;
+    permanent = rhs.permanent;
 
     return *this;
 }
@@ -92,13 +100,34 @@ void effect::mod_duration(int dur)
     duration += dur;
 }
 
+bool effect::is_permanent()
+{
+    return permanent;
+}
+void effect::pause_effect()
+{
+    permanent = true;
+}
+void effect::unpause_effect()
+{
+    permanent = false;
+}
+
 int effect::get_intensity()
 {
     return intensity;
 }
+int effect::get_max_intensity()
+{
+    return eff_type->get_max_intensity();
+}
 void effect::set_intensity(int nintensity)
 {
     intensity = nintensity;
+}
+void effect::mod_intensity(int nintensity)
+{
+    intensity += nintensity;
 }
 
 effect_type *effect::get_effect_type()
@@ -118,6 +147,8 @@ void load_effect_type(JsonObject &jo)
     new_etype.remove_message = jo.get_string("remove_message", "");
     new_etype.apply_memorial_log = jo.get_string("apply_memorial_log", "");
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
+
+    new_etype.max_intensity = jo.get_int("max_intensity", 1);
 
     effect_types[new_etype.id] = new_etype;
 }
