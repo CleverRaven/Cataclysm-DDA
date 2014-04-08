@@ -3494,9 +3494,6 @@ void vehicle::refresh()
         }
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );
-        if( relative_parts.find(pt) == relative_parts.end() ) {
-            relative_parts[pt].clear();
-        }
         relative_parts[pt].push_back( p );
     }
 
