@@ -2609,6 +2609,27 @@ void vehicle::idle() {
         }
         engine_on = false;
     }
+
+    slow_leak();
+}
+
+void vehicle::slow_leak() {
+    //for each of your badly damaged tanks (lower than 50% health), leak a small amount of liquid
+    for( size_t p = 0; p < fuel.size(); ++p ) {
+        vehicle_part part = parts[fuel[p]];
+        vpart_info pinfo = part_info(fuel[p]);
+        float damage_ratio = (float)part.hp / (float)pinfo.durability;
+        if (part.amount > 0 && damage_ratio < 0.5f)
+        {   
+            int leak_amount = (0.5-damage_ratio) * (0.5-damage_ratio) * part.amount / 10;
+            int gx, gy;
+            if (leak_amount < 1)
+                leak_amount = 1;
+            coord_translate(part.mount_dx, part.mount_dy, gx, gy);
+            g->m.add_item_or_charges(gx, gx, pinfo.fuel_type, leak_amount);
+            part.amount -= leak_amount;
+        }
+    }
 }
 
 void vehicle::thrust (int thd) {
