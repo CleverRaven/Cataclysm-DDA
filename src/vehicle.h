@@ -587,6 +587,7 @@ public:
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
     bool has_pedals;
+    bool has_hand_rims;
     bool lights_on;     // lights on/off
     bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle

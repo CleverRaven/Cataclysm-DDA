@@ -2235,6 +2235,26 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "hand_rims",
+        "name" : "hand rims",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 50,
+        "durability" : 50,
+        "power" : 50,
+        "fuel_type" : "muscle",
+        "item" : "steel_lump",
+        "difficulty" : 1,
+        "location" : "engine_block",
+        "flags" : ["HAND_RIMS", "ENGINE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "gas_tank_small",
         "name" : "gasoline tank (small)",
         "symbol" : "O",

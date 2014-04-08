@@ -67,6 +67,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     reactor_on = false;
     engine_on = false;
     has_pedals = false;
+    has_hand_rims = false;
 
     //type can be null if the type_id parameter is omitted
     if(type != "null") {
@@ -465,7 +466,7 @@ void vehicle::use_controls()
     }
 
     // Toggle engine on/off, stop driving if we are driving.
-    if( !has_pedals && has_engine ) {
+    if( !has_pedals && !has_hand_rims && has_engine ) {
         options_choice.push_back(toggle_engine);
         if (g->u.controlling_vehicle) {
             options_message.push_back(uimenu_entry(_("Stop driving."), 's'));
@@ -632,6 +633,8 @@ void vehicle::use_controls()
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
               } else if( has_pedals ) {
                   g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
+              } else if( has_hand_rims ) {
+                  g->add_msg (_("The %s's hand rims are out of reach!"), name.c_str());
               } else {
                   g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
               }
@@ -930,7 +933,7 @@ bool vehicle::can_mount (int dx, int dy, std::string id)
     if( part.has_flag("PEDALS") && !engines.empty() ) {
         return false;
     }
-    if( part.has_flag(VPFLAG_ENGINE) && has_pedals ) {
+    if( part.has_flag(VPFLAG_ENGINE) && (has_pedals || has_hand_rims) ) {
         return false;
     }
 
@@ -2221,7 +2224,7 @@ void vehicle::noise_and_smoke( double load, double time )
     // Even a car with engines off will make noise traveling at high speeds
     noise = std::max( noise, double(fabs(velocity/500.0)) );
     int lvl = 0;
-    if( !has_pedals && one_in(4) && rng(0, 30) < noise ) {
+    if( !has_pedals && !has_hand_rims && one_in(4) && rng(0, 30) < noise ) {
        while( noise > sound_levels[lvl] ) {
            lvl++;
        }
@@ -2608,7 +2611,7 @@ void vehicle::idle() {
     int engines_power = 0;
     float idle_rate;
 
-    if( engine_on && total_power() > 0 && !has_pedals ) {
+    if( engine_on && total_power() > 0 && !has_pedals && !has_hand_rims ) {
         int strn = (int)(strain() * strain() * 100);
         for (int p = 0; p < parts.size(); p++) {
             if (part_flag(p, VPFLAG_ENGINE)) {
@@ -2713,6 +2716,8 @@ void vehicle::thrust (int thd) {
                   g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
               } else if( has_pedals ) {
                   g->add_msg (_("The %s's pedals are out of reach!"), name.c_str());
+              } else if( has_hand_rims ) {
+                  g->add_msg (_("The %s's hand rims are out of reach!"), name.c_str());
               } else {
                   g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
               }
@@ -2720,11 +2725,11 @@ void vehicle::thrust (int thd) {
             cruise_velocity = 0;
             return;
         }
-        else if( !engine_on && !has_pedals ) {
+        else if( !engine_on && !has_pedals && !has_hand_rims ) {
           g->add_msg (_("The %s's engine isn't on!"), name.c_str());
           cruise_velocity = 0;
           return;
-        } else if( has_pedals ) {
+        } else if( has_pedals || has_hand_rims ) {
             if (g->u.has_bionic("bio_torsionratchet")
                 && g->turn.get_turn() % 60 == 0) {
                 g->u.charge_power(1);
@@ -3443,6 +3448,7 @@ void vehicle::refresh()
     recharger_epower = 0;
     alternator_load = 0;
     has_pedals = false;
+    has_hand_rims = false;
 
     // Main loop over all vehicle parts.
     for( size_t p = 0; p < parts.size(); p++ ) {
@@ -3482,6 +3488,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag("PEDALS") ) {
             has_pedals = true;
+        }
+        if( vpi.has_flag("HAND_RIMS") ) {
+            has_hand_rims = true;
         }
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );
