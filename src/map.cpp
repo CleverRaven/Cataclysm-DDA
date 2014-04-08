@@ -2443,10 +2443,16 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
 int map::max_volume(const int x, const int y)
 {
     furn_t &furn = furn_at(x, y);
-    if(furn.max_volume < 0) {
+    ter_t &ter = ter_at(x, y);
+    if (furn.max_volume < 0 && ter.max_volume < 0) {
         return MAX_VOLUME_IN_SQUARE;
+    } else if (furn.max_volume >= 0 && ter.max_volume >= 0) {
+        return std::min(furn.max_volume, ter.max_volume);
+    } else if (furn.max_volume < 0) {
+        return ter.max_volume;
+    } else {
+        return furn.max_volume;
     }
-    return furn.max_volume;
 }
 
 // total volume of all the things

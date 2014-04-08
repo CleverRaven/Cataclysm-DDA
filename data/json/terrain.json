@@ -130,6 +130,7 @@
         "symbol": "#",
         "color": "cyan",
         "move_cost": 5,
+        "max_volume": 3000,
         "flags": ["TRANSPARENT", "ROUGH", "SHARP", "PLACE_ITEM", "MOUNTABLE"],
         "examine_action": "wreckage"
     },{
@@ -980,6 +981,7 @@
         "symbol": "&",
         "color": "green",
         "move_cost": 0,
+        "max_volume": 8000,
         "flags": ["TRANSPARENT", "REDUCE_SCENT"],
         "examine_action": "recycler"
     },{

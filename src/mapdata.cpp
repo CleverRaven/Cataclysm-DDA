@@ -205,6 +205,7 @@ ter_t null_terrain_t() {
   new_terrain.loadid = 0;
   new_terrain.open = "";
   new_terrain.close = "";
+  new_terrain.max_volume = -1;
   return new_terrain;
 };
 
@@ -306,6 +307,7 @@ void load_terrain(JsonObject &jsobj)
       new_terrain.trap_id_str = jsobj.get_string("trap");
   }
   new_terrain.trap = tr_null;
+  new_terrain.max_volume = jsobj.get_int("max_volume", -1);
 
   new_terrain.transparent = false;
   new_terrain.bitflags = 0;
