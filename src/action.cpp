@@ -1167,8 +1167,8 @@ bool choose_adjacent(std::string message, int &x, int &y)
 {
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
-    mvwprintw(g->w_terrain, 0, 0, "%s", query_text.c_str());
-    wrefresh(g->w_terrain);
+    mvwprintw(stdscr, 0, 0, "%s", query_text.c_str());
+    wrefresh(stdscr);
     DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
     if (input == Cancel || input == Close) {
@@ -1189,20 +1189,25 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
                                action_id action_to_highlight)
 {
     // Highlight nearby terrain according to the highlight function
+    bool highlighted = false;
     for (int dx = -1; dx <= 1; dx++) {
         for (int dy = -1; dy <= 1; dy++) {
             int x = g->u.xpos() + dx;
             int y = g->u.ypos() + dy;
 
             if(can_interact_at(action_to_highlight, x, y)) {
+                highlighted = true;
                 g->m.drawsq(g->w_terrain, g->u, x, y, true, true, g->u.xpos(), g->u.ypos());
             }
         }
     }
+    if( highlighted ) {
+        wrefresh(g->w_terrain);
+    }
 
     std::string query_text = message + _(" (Direction button)");
-    mvwprintw(g->w_terrain, 0, 0, "%s", query_text.c_str());
-    wrefresh(g->w_terrain);
+    mvwprintw(stdscr, 0, 0, "%s", query_text.c_str());
+    wrefresh(stdscr);
     DebugLog() << "calling get_input() for " << message << "\n";
     InputEvent input = get_input();
     if (input == Cancel || input == Close) {
