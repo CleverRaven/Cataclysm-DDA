@@ -1,4 +1,5 @@
 #include "player.h"
+#include "armor_layers.h"
 #include "cursesdef.h"
 #include "disease.h"
 #include "input.h"
@@ -142,70 +143,7 @@ void player::sort_armor()
 
         // Items stats
         if (leftListSize) {
-            each_armor = dynamic_cast<it_armor *>(tmp_worn[leftListIndex]->type);
-
-            mvwprintz(w_sort_middle, 0, 1, c_white, each_armor->name.c_str());
-            mvwprintz(w_sort_middle, 1, 2, c_ltgray, _("Coverage: "));
-            mvwprintz(w_sort_middle, 2, 2, c_ltgray, _("Encumbrance: "));
-            mvwprintz(w_sort_middle, 3, 2, c_ltgray, _("Bash protection: "));
-            mvwprintz(w_sort_middle, 4, 2, c_ltgray, _("Cut protection: "));
-            mvwprintz(w_sort_middle, 5, 2, c_ltgray, _("Warmth: "));
-            mvwprintz(w_sort_middle, 6, 2, c_ltgray, _("Storage: "));
-
-            mvwprintz(w_sort_middle, 1, middle_w - 4, c_ltgray, "%d", int(each_armor->coverage));
-            mvwprintz(w_sort_middle, 2, middle_w - 4, c_ltgray, "%d",
-                      (tmp_worn[leftListIndex]->has_flag("FIT")) ?
-                      std::max(0, int(each_armor->encumber) - 1) : int(each_armor->encumber));
-            mvwprintz(w_sort_middle, 3, middle_w - 4, c_ltgray, "%d",
-                      int(tmp_worn[leftListIndex]->bash_resist()));
-            mvwprintz(w_sort_middle, 4, middle_w - 4, c_ltgray, "%d",
-                      int(tmp_worn[leftListIndex]->cut_resist()));
-            mvwprintz(w_sort_middle, 5, middle_w - 4, c_ltgray, "%d", int(each_armor->warmth));
-            mvwprintz(w_sort_middle, 6, middle_w - 4, c_ltgray, "%d", int(each_armor->storage));
-
-            // Item flags
-            if (tmp_worn[leftListIndex]->has_flag("FIT")) {
-                tmp_str = _("It fits you well.\n");
-            } else if (tmp_worn[leftListIndex]->has_flag("VARSIZE")) {
-                tmp_str = _("It could be refitted.\n");
-            } else {
-                tmp_str = "";
-            }
-
-            if (tmp_worn[leftListIndex]->has_flag("SKINTIGHT")) {
-                tmp_str += _("It lies close to the skin.\n");
-            }
-            if (tmp_worn[leftListIndex]->has_flag("POCKETS")) {
-                tmp_str += _("It has pockets.\n");
-            }
-            if (tmp_worn[leftListIndex]->has_flag("HOOD")) {
-                tmp_str += _("It has a hood.\n");
-            }
-            if (tmp_worn[leftListIndex]->has_flag("WATERPROOF")) {
-                tmp_str += _("It is waterproof.\n");
-            }
-            if (tmp_worn[leftListIndex]->has_flag("WATER_FRIENDLY")) {
-                tmp_str += _("It is water friendly.\n");
-            }
-            if (tmp_worn[leftListIndex]->has_flag("FANCY")) {
-                tmp_str += _("It looks fancy.\n");
-            }
-            if (tmp_worn[leftListIndex]->has_flag("SUPER_FANCY")) {
-                tmp_str += _("It looks really fancy.\n");
-            }
-            if (tmp_worn[leftListIndex]->has_flag("FLOATATION")) {
-                tmp_str += _("You will not drown today.\n");
-            }
-            if (tmp_worn[leftListIndex]->has_flag("OVERSIZE")) {
-                tmp_str += _("It is very bulky.\n");
-            }
-            if (tmp_worn[leftListIndex]->has_flag("SWIM_GOGGLES")) {
-                tmp_str += _("It helps you to see clearly underwater.\n");
-            }
-            //WATCH
-            //ALARMCLOCK
-
-            mvwprintz(w_sort_middle, 8, 0, c_ltblue, tmp_str.c_str());
+            draw_mid_pane(w_sort_middle, tmp_worn[leftListIndex]);
         } else {
             mvwprintz(w_sort_middle, 0, 1, c_white, _("Nothing to see here!"));
         }
@@ -444,4 +382,84 @@ The sum of these values is the effective encumbrance value your character has fo
     delwin(w_sort_middle);
     delwin(w_sort_right);
     delwin(w_sort_armor);
+}
+
+void draw_mid_pane(WINDOW *w_sort_middle, item *worn_item)
+{
+    it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
+    int middle_w = getmaxx(w_sort_middle);
+
+    mvwprintz(w_sort_middle, 0, 1, c_white, each_armor->name.c_str());
+    mvwprintz(w_sort_middle, 1, 2, c_ltgray, _("Coverage: "));
+    mvwprintz(w_sort_middle, 2, 2, c_ltgray, _("Encumbrance: "));
+    mvwprintz(w_sort_middle, 3, 2, c_ltgray, _("Bash protection: "));
+    mvwprintz(w_sort_middle, 4, 2, c_ltgray, _("Cut protection: "));
+    mvwprintz(w_sort_middle, 5, 2, c_ltgray, _("Warmth: "));
+    mvwprintz(w_sort_middle, 6, 2, c_ltgray, _("Storage: "));
+
+    mvwprintz(w_sort_middle, 1, middle_w - 4, c_ltgray, "%d", int(each_armor->coverage));
+    mvwprintz(w_sort_middle, 2, middle_w - 4, c_ltgray, "%d",
+                (worn_item->has_flag("FIT")) ?
+                std::max(0, int(each_armor->encumber) - 1) : int(each_armor->encumber));
+    mvwprintz(w_sort_middle, 3, middle_w - 4, c_ltgray, "%d",
+                int(worn_item->bash_resist()));
+    mvwprintz(w_sort_middle, 4, middle_w - 4, c_ltgray, "%d",
+                int(worn_item->cut_resist()));
+    mvwprintz(w_sort_middle, 5, middle_w - 4, c_ltgray, "%d", int(each_armor->warmth));
+    mvwprintz(w_sort_middle, 6, middle_w - 4, c_ltgray, "%d", int(each_armor->storage));
+
+    //WATCH
+    //ALARMCLOCK
+
+    std::vector<std::string> desc = clothing_flags_description(worn_item);
+    if (!desc.empty()) {
+        for (int i = 0; i < desc.size(); ++i) {
+            // TODO: put fold_and_print here
+            mvwprintz(w_sort_middle, 8 + i, 0, c_ltblue, desc[i].c_str());
+        }
+    }
+}
+
+std::vector<std::string> clothing_flags_description(item *worn_item)
+{
+    std::vector<std::string> description_stack;
+
+    if (worn_item->has_flag("FIT")) {
+        description_stack.push_back(_("It fits you well."));
+    } else if (worn_item->has_flag("VARSIZE")) {
+        description_stack.push_back(_("It could be refitted."));
+    }
+
+    if (worn_item->has_flag("SKINTIGHT")) {
+        description_stack.push_back(_("It lies close to the skin."));
+    }
+    if (worn_item->has_flag("HOOD")) {
+        description_stack.push_back(_("It has a hood."));
+    }
+    if (worn_item->has_flag("POCKETS")) {
+        description_stack.push_back(_("It has pockets."));
+    }
+    if (worn_item->has_flag("WATERPROOF")) {
+        description_stack.push_back(_("It is waterproof."));
+    }
+    if (worn_item->has_flag("WATER_FRIENDLY")) {
+        description_stack.push_back(_("It is water friendly."));
+    }
+    if (worn_item->has_flag("FANCY")) {
+        description_stack.push_back(_("It looks fancy."));
+    }
+    if (worn_item->has_flag("SUPER_FANCY")) {
+        description_stack.push_back(_("It looks really fancy."));
+    }
+    if (worn_item->has_flag("FLOATATION")) {
+        description_stack.push_back(_("You will not drown today."));
+    }
+    if (worn_item->has_flag("OVERSIZE")) {
+        description_stack.push_back(_("It is very bulky."));
+    }
+    if (worn_item->has_flag("SWIM_GOGGLES")) {
+        description_stack.push_back(_("It helps you to see clearly underwater."));
+    }
+
+    return description_stack;
 }
