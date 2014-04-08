@@ -23,6 +23,7 @@
     "to_hit" : 0,
     "max_charges": 100,
     "initial_charges": 100,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 18, 20, 23, 26, 29, 32, 36, 40, 45, 51, 57, 64, 71, 80, 90, 100],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -89,6 +90,7 @@
     "to_hit" : 0,
     "max_charges": 100,
     "initial_charges": 100,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 18, 20, 23, 26, 29, 32, 36, 40, 45, 51, 57, 64, 71, 80, 90, 100],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -153,6 +155,7 @@
     "to_hit" : 0,
     "max_charges": 200,
     "initial_charges": 200,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 22, 25, 28, 32, 36, 41, 47, 54, 61, 70, 80, 91, 104, 118, 135, 154, 176, 200],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -217,6 +220,7 @@
     "to_hit" : 0,
     "max_charges": 100,
     "initial_charges": 100,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 18, 20, 23, 26, 29, 32, 36, 40, 45, 51, 57, 64, 71, 80, 90, 100],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -281,6 +285,7 @@
     "to_hit" : 0,
     "max_charges": 100,
     "initial_charges": 100,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 18, 20, 23, 26, 29, 32, 36, 40, 45, 51, 57, 64, 71, 80, 90, 100],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -344,6 +349,7 @@
     "to_hit" : 0,
     "max_charges": 100,
     "initial_charges": 100,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 18, 20, 23, 26, 29, 32, 36, 40, 45, 51, 57, 64, 71, 80, 90, 100],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -406,6 +412,7 @@
     "to_hit" : -3,
     "max_charges": 100,
     "initial_charges": 100,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 18, 20, 23, 26, 29, 32, 36, 40, 45, 51, 57, 64, 71, 80, 90, 100],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -534,6 +541,7 @@
     "to_hit" : -3,
     "max_charges": 60,
     "initial_charges": 60,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 18, 20, 22, 24, 27, 30, 33, 36, 40, 45, 49, 55, 60],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "rebreather_filter",
@@ -598,6 +606,7 @@
     "to_hit" : -3,
     "max_charges": 60,
     "initial_charges": 60,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 18, 20, 22, 24, 27, 30, 33, 36, 40, 45, 49, 55, 60],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "rebreather_filter",
@@ -661,6 +670,7 @@
     "to_hit" : -3,
     "max_charges": 200,
     "initial_charges": 200,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 22, 25, 28, 32, 36, 41, 47, 54, 61, 70, 80, 91, 104, 118, 135, 154, 176, 200],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -724,6 +734,7 @@
     "to_hit" : -3,
     "max_charges": 200,
     "initial_charges": 200,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 22, 25, 28, 32, 36, 41, 47, 54, 61, 70, 80, 91, 104, 118, 135, 154, 176, 200],
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -927,7 +938,7 @@
     "coverage" : 75,
     "material_thickness" : 3
   },
-  
+
   {
     "type": "TOOL",
     "id": "folding_poncho",
@@ -988,7 +999,7 @@
     "coverage" : 90,
     "material_thickness" : 1
   },
-  
+
   {
     "type": "TOOL",
     "id": "emer_blanket",
@@ -1067,6 +1078,7 @@
     "to_hit" : -3,
     "max_charges": 20,
     "initial_charges": 20,
+    "rand_charges": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20],
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "battery",
@@ -1109,5 +1121,5 @@
     "coverage" : 0,
     "material_thickness" : 0
   }
-  
+
 ]
