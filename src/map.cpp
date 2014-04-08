@@ -3446,6 +3446,11 @@ void map::debug()
 
 void map::draw(WINDOW* w, const point center)
 {
+ // We only need to draw anything if we're not in tiles mode.
+ if(is_draw_tiles_mode()) {
+     return;
+ }
+
  g->reset_light_level();
  const int g_light_level = (int)g->light_level();
  const int natural_sight_range = g->u.sight_range(1);
@@ -3544,6 +3549,11 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
                  const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
                  const bool low_light, const bool bright_light)
 {
+    // We only need to draw anything if we're not in tiles mode.
+    if(is_draw_tiles_mode()) {
+        return;
+    }
+
     bool invert = invert_arg;
     bool show_items = show_items_arg;
     int cx = view_center_x_arg;

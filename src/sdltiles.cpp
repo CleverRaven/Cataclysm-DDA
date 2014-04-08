@@ -1717,4 +1717,8 @@ void translate_terrain_window_size_back(int &w, int &h) {
     h = (h * map_font_height()) / fontheight;
 }
 
+bool is_draw_tiles_mode() {
+    return use_tiles;
+}
+
 #endif // TILES

@@ -1457,4 +1457,8 @@ int get_terminal_height() {
     return OPTIONS["TERMINAL_Y"];
 }
 
+bool is_draw_tiles_mode() {
+    return false;
+}
+
 #endif
