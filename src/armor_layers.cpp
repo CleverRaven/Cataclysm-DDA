@@ -4,13 +4,13 @@
 #include "disease.h"
 #include "input.h"
 #include "output.h"
+#include <algorithm>
 
 void player::sort_armor()
 {
     it_armor *each_armor = 0;
 
-    /* Define required height of the window:
-    * Right window is the most critical, so calc is based on the config of this window.
+    /* Define required height of the right pane:
     * worn.size() - count of worn items;
     * + 3 - horizontal lines;
     * + 1 - caption line;
@@ -19,16 +19,25 @@ void player::sort_armor()
     * + 1 - just a gap;
     * + 1 - unknown :-[
     */
-    int req_h = worn.size() + 3 + 1 + 2 + 8 + 1 + 1;
-
+    int req_right_h = worn.size() + 3 + 1 + 2 + 8 + 1 + 1;
     for (size_t i = 0; i < worn.size(); ++i) {
         each_armor = dynamic_cast<it_armor *>(worn[i].type);
         if (!each_armor->covers) { // no category defined?
-            req_h--;               // decrease number of required lines!
+            req_right_h--;         // decrease number of required lines!
         }
     }
 
-    const int win_h = std::min(TERMY, req_h > FULL_SCREEN_HEIGHT ? req_h : FULL_SCREEN_HEIGHT);
+    /* Define required height of the mid pane:
+    * +  3 - horizontal lines;
+    * +  1 - caption line;
+    * +  8 - general properties
+    * + 11 - maximum possible number of flags at one item
+    * +  9 - warmth & enc block
+    */
+    int req_mid_h = 3 + 1 + 8 + 11 + 9;
+
+    const int win_h = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
+                                               std::max(req_right_h, req_mid_h)));
     const int win_w = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 3;
     const int win_x = TERMX / 2 - win_w / 2;
     const int win_y = TERMY / 2 - win_h / 2;
@@ -149,6 +158,7 @@ void player::sort_armor()
         }
 
         // Player encumbrance - altered copy of '@' screen
+        it_armor *each_armor = dynamic_cast<it_armor *>(tmp_worn[leftListIndex]->type);
         mvwprintz(w_sort_middle, cont_h - 9, 1, c_white, _("Encumbrance and Warmth"));
         for (int i = 0; i < num_bp; ++i) {
             int enc, armorenc;
