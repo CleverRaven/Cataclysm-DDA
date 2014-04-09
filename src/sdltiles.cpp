@@ -1032,7 +1032,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
                 faceIndex = index;
                 return fpath;
             }
-        } while (true);
+        } while (!fin.eof());
     }
 
     return "";
@@ -1715,6 +1715,10 @@ void translate_terrain_window_size(int &w, int &h) {
 void translate_terrain_window_size_back(int &w, int &h) {
     w = (w * map_font_width()) / fontwidth;
     h = (h * map_font_height()) / fontheight;
+}
+
+bool is_draw_tiles_mode() {
+    return use_tiles;
 }
 
 #endif // TILES
