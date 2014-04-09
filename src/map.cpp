@@ -33,6 +33,7 @@ map::map()
 {
     nulter = t_null;
     my_MAPSIZE = is_tiny() ? 2 : MAPSIZE;
+    my_MAP_LAYERS_LOADED = 11;
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
 /*
@@ -48,12 +49,14 @@ map::map(std::vector<trap*> *trptr)
 {
  nulter = t_null;
  traps = trptr;
+ my_MAP_LAYERS_LOADED = 11;
  if (is_tiny())
   my_MAPSIZE = 2;
  else
   my_MAPSIZE = MAPSIZE;
- for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
+ for (int n = 0; n < my_MAPSIZE * my_MAPSIZE * my_MAP_LAYERS_LOADED; n++) {
   grid[n] = NULL;
+ }
  dbg(D_INFO) << "map::map( trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
  veh_in_active_range = true;
  memset(veh_exists_at, 0, sizeof(veh_exists_at));
@@ -4700,31 +4703,50 @@ submap * map::getsubmap( const int grididx ) {
     return grid[grididx];
 }
 
-submap *map::get_submap_at(int x, int y) const {
+submap *map::get_submap_at(int x, int y, int z) const {
     // Do a bound check first.
-    if(x >= SEEX * my_MAPSIZE || y >= SEEY * my_MAPSIZE || x < 0 || y < 0) {
+    if(
+        x >= SEEX * my_MAPSIZE ||
+        y >= SEEY * my_MAPSIZE ||
+        z >= my_MAP_LAYERS_LOADED ||
+        x < 0 ||
+        y < 0 ||
+        z < 0
+    ) {
         return NULL;
     }
 
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE + z * my_MAPSIZE * my_MAP_LAYERS_LOADED;
     return grid[nonant];
 }
 
-submap *map::get_submap_at(int x, int y, int& offset_x, int& offset_y) const {
+submap *map::get_submap_at(int x, int y, int z, int& offset_x, int& offset_y) const {
     offset_x = x % SEEX;
     offset_y = y % SEEY;
 
-    return get_submap_at(x, y);
+    return get_submap_at(x, y, z);
 }
 
-submap *map::get_submap_at_grid(int gridx, int gridy) const {
+submap *map::get_submap_at_grid(int gridx, int gridy, int gridz) const {
     // Do a bound check first.
     if(gridx >= my_MAPSIZE || gridy >= my_MAPSIZE || gridx < 0 || gridy < 0) {
         return NULL;
     }
 
-    const int nonant = gridx + gridy * my_MAPSIZE;
+    const int nonant = gridx + gridy * my_MAPSIZE + gridz * my_MAPSIZE * my_MAP_LAYERS_LOADED;
     return grid[nonant];
+}
+
+submap *map::get_submap_at(int x, int y) const {
+    return get_submap_at(x, y, 0);
+}
+
+submap *map::get_submap_at(int x, int y, int& offset_x, int& offset_y) const {
+    return get_submap_at(x, y, 0, offset_x, offset_y);
+}
+
+submap *map::get_submap_at_grid(int gridx, int gridy) const {
+    get_submap_at_grid(gridx, gridy, 0);
 }
 
 tinymap::tinymap()

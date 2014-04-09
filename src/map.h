@@ -21,6 +21,7 @@
 #include "coordinates.h"
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
+#define MAX_MAP_LAYERS 11
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
@@ -501,6 +502,7 @@ protected:
                  const int offsetX, const int offsetY, const int offsetDistance );
 
  int my_MAPSIZE;
+ int my_MAP_LAYERS_LOADED;
  virtual bool is_tiny() { return false; };
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
@@ -527,11 +529,18 @@ private:
  submap * getsubmap( const int grididx );
 
  /** Get the submap containing the specified position within the reality bubble. */
- submap *get_submap_at(int x, int y) const;
+ submap *get_submap_at(int x, int y, int z) const;
 
  /** Get the submap containing the specified position within the reality bubble.
   *  Also writes the position within the submap to offset_x, offset_y
   */
+ submap *get_submap_at(int x, int y, int z, int& offset_x, int& offset_y) const;
+ submap *get_submap_at_grid(int gridx, int gridy, int gridz) const;
+
+ // TODO: map3d: LEGACY functions, these should never be called once the 3d transition
+ //              is complete
+ submap *get_submap_at(int x, int y) const;
+
  submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
  submap *get_submap_at_grid(int gridx, int gridy) const;
  
@@ -563,7 +572,7 @@ private:
  bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
- submap* grid[MAPSIZE * MAPSIZE];
+ submap* grid[MAPSIZE * MAPSIZE * MAX_MAP_LAYERS];
  std::map<trap_id, std::set<point> > traplocs;
 };
 
