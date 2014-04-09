@@ -1462,7 +1462,7 @@ void game::complete_craft()
 
     // Set up the new item, and assign an inventory letter if available
     item newit = making->create_result();
-    if (!newit.count_by_charges()) {
+    if (!newit.count_by_charges() && making->reversible) {
         // Setting this for items counted by charges gives only problems:
         // those items are automatically merged everywhere (map/vehicle/inventory),
         // which would either loose this information or merge it somehow.
