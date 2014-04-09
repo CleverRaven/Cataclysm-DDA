@@ -52,6 +52,24 @@
         ]
     },
     {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_swimmer_death_drops",
+        "entries":
+        [
+            { "distribution": [
+                { "group": "swimmer_wetsuit", "damage-min": 1, "damage-max": 4, "prob": 10 },
+                { "collection": [
+                    { "group": "swimmer_head", "damage-min": 1, "damage-max": 4, "prob": 75 },
+                    { "group": "swimmer_torso", "damage-min": 1, "damage-max": 4, "prob": 33 },
+                    { "group": "swimmer_pants", "damage-min": 1, "damage-max": 4 },
+                    { "group": "swimmer_shoes", "damage-min": 1, "damage-max": 4, "prob": 25 }
+                ] }
+            ] },
+            { "item": "cash_card", "charges-min": -1, "charges-max": 10000 }
+        ]
+    },
+    {
         "type": "monitems",
         "id": "mon_zombie_scientist",
         "item_groups": [
