@@ -1068,10 +1068,9 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
     set_transparency_cache_dirty();
     set_outside_cache_dirty();
 
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    const int lx = x % SEEX;
-    const int ly = y % SEEY;
-    grid[nonant]->ter[lx][ly] = new_terrain;
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    current_submap->ter[lx][ly] = new_terrain;
 }
 
 std::string map::tername(const int x, const int y) const
@@ -1133,15 +1132,15 @@ int map::move_cost_ter_furn(const int x, const int y) const
     if (!INBOUNDS(x, y)) {
         return 0;
     }
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    const int lx = x % SEEX;
-    const int ly = y % SEEY;
 
-    const int tercost = terlist[ grid[nonant]->ter[lx][ly] ].movecost;
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    const int tercost = terlist[ current_submap->ter[lx][ly] ].movecost;
     if ( tercost == 0 ) {
         return 0;
     }
-    const int furncost = furnlist[ grid[nonant]->frn[lx][ly] ].movecost;
+    const int furncost = furnlist[ current_submap->frn[lx][ly] ].movecost;
     if ( furncost < 0 ) {
         return 0;
     }
@@ -1245,11 +1244,11 @@ bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int 
     if (!INBOUNDS(x, y)) {
         return false;
     }
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    const int lx = x % SEEX;
-    const int ly = y % SEEY;
 
-    return ( terlist[ grid[nonant]->ter[lx][ly] ].has_flag(flag) || furnlist[ grid[nonant]->frn[lx][ly] ].has_flag(flag) );
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->frn[lx][ly] ].has_flag(flag) );
 }
 
 bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
@@ -1295,11 +1294,11 @@ bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y
     if (!INBOUNDS(x, y)) {
         return false;
     }
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    const int lx = x % SEEX;
-    const int ly = y % SEEY;
 
-    return ( terlist[ grid[nonant]->ter[lx][ly] ].has_flag(flag) || furnlist[ grid[nonant]->frn[lx][ly] ].has_flag(flag) );
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->frn[lx][ly] ].has_flag(flag) );
 }
 
 bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const
@@ -1307,10 +1306,11 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
     if (!INBOUNDS(x, y)) {
         return false;
     }
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    const int lx = x % SEEX;
-    const int ly = y % SEEY;
- return terlist[ grid[nonant]->ter[lx][ly] ].has_flag(flag) && furnlist[ grid[nonant]->frn[lx][ly] ].has_flag(flag);
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    return terlist[ current_submap->ter[lx][ly] ].has_flag(flag) && furnlist[ current_submap->frn[lx][ly] ].has_flag(flag);
 }
 
 /////
@@ -2280,11 +2280,11 @@ int& map::radiation(const int x, const int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- return grid[nonant]->rad[lx][ly];
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+ return current_submap->rad[lx][ly];
 }
 
 int& map::temperature(const int x, const int y)
@@ -2294,9 +2294,7 @@ int& map::temperature(const int x, const int y)
   return null_temperature;
  }
 
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-
- return grid[nonant]->temperature;
+ return get_submap_at(x, y)->temperature;
 }
 
 void map::set_temperature(const int x, const int y, int new_temperature)
@@ -2317,11 +2315,11 @@ std::vector<item>& map::i_at(const int x, const int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- return grid[nonant]->itm[lx][ly];
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+ return current_submap->itm[lx][ly];
 }
 
 bool map::sees_some_items(int x, int y, const player &u)
@@ -2567,12 +2565,12 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
     if (new_item.has_flag("ACT_IN_FIRE") && (fld.findField(fd_fire) != 0)) {
         new_item.active = true;
     }
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    const int lx = x % SEEX;
-    const int ly = y % SEEY;
-    grid[nonant]->itm[lx][ly].push_back(new_item);
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+    current_submap->itm[lx][ly].push_back(new_item);
     if (new_item.active) {
-        grid[nonant]->active_item_count++;
+        current_submap->active_item_count++;
     }
 }
 
@@ -2598,12 +2596,12 @@ void map::process_active_items()
 {
     for (int gx = 0; gx < my_MAPSIZE; gx++) {
         for (int gy = 0; gy < my_MAPSIZE; gy++) {
-            const int nonant = gx + gy * my_MAPSIZE;
-            if (grid[nonant]->active_item_count > 0) {
-                process_active_items_in_submap(nonant);
+            submap * const current_submap = get_submap_at_grid(gx, gy);
+            if (current_submap->active_item_count > 0) {
+                process_active_items_in_submap(current_submap, gx, gy);
             }
-            if (!grid[nonant]->vehicles.empty()) {
-                process_active_items_in_vehicles(nonant);
+            if (!current_submap->vehicles.empty()) {
+                process_active_items_in_vehicles(current_submap, gx, gy);
             }
         }
     }
@@ -2611,13 +2609,13 @@ void map::process_active_items()
 
 extern std::pair<item, point> tmp_active_item_pos;
 
-void map::process_active_items_in_submap(const int nonant)
+void map::process_active_items_in_submap(submap * const current_submap, int gridx, int gridy)
 {
     for (int i = 0; i < SEEX; i++) {
         for (int j = 0; j < SEEY; j++) {
-            tmp_active_item_pos.second.x = (nonant % my_MAPSIZE) * SEEX + i;
-            tmp_active_item_pos.second.y = (nonant / my_MAPSIZE) * SEEY + j;
-            std::vector<item> &items = grid[nonant]->itm[i][j];
+            tmp_active_item_pos.second.x = gridx * SEEX + i;
+            tmp_active_item_pos.second.y = gridy * SEEY + j;
+            std::vector<item> &items = current_submap->itm[i][j];
             //Do a count-down loop, as some items may be removed
             for (size_t n = 0; n < items.size(); n++) {
                 if (!items[n].active) {
@@ -2625,7 +2623,7 @@ void map::process_active_items_in_submap(const int nonant)
                 }
                 tmp_active_item_pos.first = items[n];
                 items.erase(items.begin() + n);
-                if(!process_active_item(&tmp_active_item_pos.first, nonant, i, j)) {
+                if(!process_active_item(&tmp_active_item_pos.first, current_submap, gridx, gridy, i, j)) {
                     // Not destroyed, must be inserted again, but make sure
                     // we don't insert far behind the end of the vector
                     n = std::min(items.size(), n);
@@ -2641,16 +2639,16 @@ void map::process_active_items_in_submap(const int nonant)
                 // the first nuke explodes, destroys some of the glass items
                 // now the index of the second nuke is not 11, but less, but
                 // one can not know which it is now.
-                grid[nonant]->active_item_count--;
+                current_submap->active_item_count--;
                 n--;
             }
         }
     }
 }
 
-void map::process_active_items_in_vehicles(const int nonant)
+void map::process_active_items_in_vehicles(submap * const current_submap, int gridx, int gridy)
 {
-    std::vector<vehicle*> &veh_in_nonant = grid[nonant]->vehicles;
+    std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
     // a copy, important if the vehicle list changes because a
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
@@ -2663,11 +2661,11 @@ void map::process_active_items_in_vehicles(const int nonant)
             // Can't be sure that it still exist, so skip it
             continue;
         }
-        process_active_items_in_vehicle(cur_veh, nonant);
+        process_active_items_in_vehicle(cur_veh, current_submap, gridx, gridy);
     }
 }
 
-void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
+void map::process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap, const int gridx, const int gridy)
 {
     std::vector<int> cargo_parts = cur_veh->all_parts_with_feature(VPFLAG_CARGO, false);
     for(size_t part_index = 0; part_index < cargo_parts.size(); part_index++) {
@@ -2710,7 +2708,7 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
             // and use that copy to process it
             tmp_active_item_pos.first = *it;
             items_in_part->erase(items_in_part->begin() + n);
-            if(!process_active_item(&tmp_active_item_pos.first, nonant, mapx, mapy)) {
+            if(!process_active_item(&tmp_active_item_pos.first, current_submap, gridx, gridy, mapx, mapy)) {
                 // item still exist, most likely it didn't just explode,
                 // put it back
                 items_in_part->insert(items_in_part->begin() + n, tmp_active_item_pos.first);
@@ -2719,7 +2717,7 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
             n--; // to process the correct next item.
             // item does not exist anymore, might have been an exploding bomb,
             // check if the vehicle is still valid (does exist)
-            std::vector<vehicle*> &veh_in_nonant = grid[nonant]->vehicles;
+            std::vector<vehicle*> &veh_in_nonant = current_submap->vehicles;
             if(std::find(veh_in_nonant.begin(), veh_in_nonant.end(), cur_veh) == veh_in_nonant.end()) {
                 // Nope, vehicle is not in the vehicle list of the submap,
                 // it might have moved to another submap (unlikely)
@@ -2763,7 +2761,7 @@ void map::process_active_items_in_vehicle(vehicle *cur_veh, int nonant)
  * @param j The y-coordinate inside the submap.
  * @return true If the item needs to be removed.
  */
-bool map::process_active_item(item *it, const int nonant, const int i, const int j) {
+bool map::process_active_item(item *it, submap * const current_submap, const int gridx, const int gridy, const int i, const int j) {
     if (it->active ||
         (it->is_container() && !it->contents.empty() &&
          it->contents[0].active))
@@ -2774,7 +2772,7 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
                 if (it->item_counter == 0) {
                     it->item_tags.erase("HOT");
                     it->active = false;
-                    grid[nonant]->active_item_count--;
+                    current_submap->active_item_count--;
                 }
             }
         } else if (it->is_food_container()) { // food in containers
@@ -2783,13 +2781,13 @@ bool map::process_active_item(item *it, const int nonant, const int i, const int
                 if (it->contents[0].item_counter == 0) {
                     it->contents[0].item_tags.erase("HOT");
                     it->contents[0].active = false;
-                    grid[nonant]->active_item_count--;
+                    current_submap->active_item_count--;
                 }
             }
         } else if (it->type->id == "corpse" && it->corpse != NULL ) { // some corpses rez over time
             if (it->ready_to_revive()) {
-                int mapx = (nonant % my_MAPSIZE) * SEEX + i;
-                int mapy = (nonant / my_MAPSIZE) * SEEY + j;
+                int mapx = gridx * SEEX + i;
+                int mapy = gridy * SEEY + j;
                 if (rng(0,it->volume()) > it->burnt && g->revive_corpse(mapx, mapy, it)) {
                     if (g->u_see(mapx, mapy)) {
                         if(it->corpse->in_species("ROBOT")) {
