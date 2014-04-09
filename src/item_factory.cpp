@@ -4,6 +4,7 @@
 #include "json.h"
 #include "addiction.h"
 #include "translations.h"
+#include "item_group.h"
 #include "bodypart.h"
 #include "crafting.h"
 #include "iuse_actor.h"
@@ -97,7 +98,7 @@ void Item_factory::finialize_item_blacklist() {
         if (!item_is_blacklisted(itm)) {
             continue;
         }
-        for(std::map<Item_tag, Item_group*>::iterator b = m_template_groups.begin(); b != m_template_groups.end(); ++b) {
+        for(GroupMap::iterator b = m_template_groups.begin(); b != m_template_groups.end(); ++b) {
             b->second->remove_item(itm);
         }
         for(recipe_map::iterator b = recipes.begin(); b != recipes.end(); ++b) {
@@ -143,6 +144,10 @@ void Item_factory::load_item_blacklist(JsonObject &json) {
 
 void Item_factory::load_item_whitelist(JsonObject &json) {
     add_to_set(item_whitelist, json, "items");
+}
+
+Item_factory::~Item_factory() {
+    clear_items_and_groups();
 }
 
 //Every item factory comes with a missing item
@@ -505,17 +510,17 @@ void Item_factory::check_itype_definitions() const {
 }
 
 void Item_factory::check_items_of_groups_exist() const {
-    for(std::map<Item_tag, Item_group*>::const_iterator a = m_template_groups.begin(); a != m_template_groups.end(); a++) {
-        a->second->check_items_exist();
+    for(GroupMap::const_iterator a = m_template_groups.begin(); a != m_template_groups.end(); a++) {
+        a->second->check_consistency();
     }
 }
 
-bool Item_factory::has_template(Item_tag id) const {
+bool Item_factory::has_template(const Item_tag& id) const {
     return m_templates.count(id) > 0;
 }
 
 //Returns the template with the given identification tag
-itype* Item_factory::find_template(const Item_tag id){
+itype* Item_factory::find_template(Item_tag id){
     std::map<Item_tag, itype*>::iterator found = m_templates.find(id);
     if(found != m_templates.end()){
         return found->second;
@@ -523,6 +528,17 @@ itype* Item_factory::find_template(const Item_tag id){
     else{
         debugmsg("Missing item (check item_groups.json): %s", id.c_str());
         return m_missing_item;
+    }
+}
+
+Item_list Item_factory::create_from_group(Group_tag group, int created_at)
+{
+    GroupMap::iterator group_iter = m_template_groups.find(group);
+    //If the tag isn't found, just return a reference to missing item.
+    if(group_iter != m_template_groups.end()){
+        return group_iter->second->create(created_at);
+    } else {
+        return Item_list();
     }
 }
 
@@ -543,10 +559,11 @@ const Item_tag Item_factory::random_id(){
 
 //Returns a random template name from the list of all templates.
 const Item_tag Item_factory::id_from(const Item_tag group_tag){
-    std::map<Item_tag, Item_group*>::iterator group_iter = m_template_groups.find(group_tag);
+    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     //If the tag isn't found, just return a reference to missing item.
     if(group_iter != m_template_groups.end()){
-        return group_iter->second->get_id();
+        item it = group_iter->second->create_single(g->turn);
+        return it.type->id;
     } else {
         return "MISSING_ITEM";
     }
@@ -554,15 +571,30 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag){
 
 //Returns a random template name from the list of all templates, and if it should come with ammo
 const Item_tag Item_factory::id_from(const Item_tag group_tag, bool & with_ammo ) {
-    std::map<Item_tag, Item_group*>::iterator group_iter = m_template_groups.find(group_tag);
+    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     //If the tag isn't found, just return a reference to missing item.
     if(group_iter != m_template_groups.end()){
         with_ammo = group_iter->second->guns_have_ammo();
-        return group_iter->second->get_id();
+        item it = group_iter->second->create_single(g->turn);
+        return it.type->id;
     } else {
         with_ammo = false;
         return "MISSING_ITEM";
     }
+}
+
+bool Item_factory::has_group(const Item_tag &group_tag) const
+{
+    return m_template_groups.count(group_tag) > 0;
+}
+
+Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
+{
+    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
+    if(group_iter != m_template_groups.end()) {
+        return group_iter->second;
+    }
+    return NULL;
 }
 
 item Item_factory::create(Item_tag id, int created_at, bool rand){
@@ -595,7 +627,7 @@ Item_list Item_factory::create_random(int created_at, int quantity, bool rand){
 }
 
 bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item) {
-    Item_group *current_group = m_template_groups.find(group_tag)->second;
+    Item_spawn_data *current_group = m_template_groups.find(group_tag)->second;
     if(current_group) {
         return current_group->has_item(item);
     } else {
@@ -1034,7 +1066,7 @@ bool Item_factory::is_mod_target(JsonObject& jo, std::string member, std::string
 void Item_factory::clear_items_and_groups()
 {
     // clear groups
-    for (std::map<Item_tag, Item_group*>::iterator ig = m_template_groups.begin(); ig != m_template_groups.end(); ++ig){
+    for (GroupMap::iterator ig = m_template_groups.begin(); ig != m_template_groups.end(); ++ig){
         delete ig->second;
     }
     m_template_groups.clear();
@@ -1064,35 +1096,149 @@ void Item_factory::clear_items_and_groups()
     m_templates["MISSING_ITEM"] = m_missing_item;
 }
 
+Item_group *make_group_or_throw(Item_spawn_data* &isd, Item_group::Type t)
+{
+    
+    Item_group *ig = dynamic_cast<Item_group*>(isd);
+    if (ig == NULL) {
+        isd = ig = new Item_group(t);
+    } else if (ig->type != t) {
+        throw std::string("item group already definded with different type");
+    }
+    return ig;
+}
+
+template<typename T>
+bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
+{
+    bool result = false;
+    result |= obj.read(name, pa.first);
+    result |= obj.read(name, pa.second);
+    result |= obj.read(name + "-min", pa.first);
+    result |= obj.read(name + "-max", pa.second);
+    return result;
+}
+
+bool load_sub_ref(std::auto_ptr<Item_spawn_data> &ptr, JsonObject &obj, const std::string &name)
+{
+    if (obj.has_member(name)) {
+        // TODO!
+    } else if (obj.has_member(name + "-item")) {
+        ptr.reset(new Single_item_creator(obj.get_string(name + "-item"), Single_item_creator::S_ITEM, 100));
+        return true;
+    } else if (obj.has_member(name + "-group")) {
+        ptr.reset(new Single_item_creator(obj.get_string(name + "-group"), Single_item_creator::S_ITEM_GROUP, 100));
+        return true;
+    }
+    return false;
+}
+
+void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
+{
+    std::auto_ptr<Item_spawn_data> ptr;
+    int probability = obj.get_int("prob", 100);
+    JsonArray jarr;
+    if (obj.has_member("collection")) {
+        ptr.reset(new Item_group(Item_group::G_COLLECTION, probability));
+        jarr = obj.get_array("collection");
+    } else if (obj.has_member("distribution")) {
+        ptr.reset(new Item_group(Item_group::G_DISTRIBUTION, probability));
+        jarr = obj.get_array("distribution");
+    }
+    if (ptr.get() != NULL) {
+        Item_group* ig2 = dynamic_cast<Item_group*>(ptr.get());
+        while(jarr.has_more()) {
+            JsonObject job2 = jarr.next_object();
+            add_entry(ig2, job2);
+        }
+        ig->add_entry(ptr);
+        return;
+    }
+
+    if (obj.has_member("item")) {
+        ptr.reset(new Single_item_creator(obj.get_string("item"), Single_item_creator::S_ITEM, probability));
+    } else if (obj.has_member("group")) {
+        ptr.reset(new Single_item_creator(obj.get_string("group"), Single_item_creator::S_ITEM_GROUP, probability));
+    }
+    if (ptr.get() == NULL) {
+        return;
+    }
+    std::auto_ptr<Item_modifier> modifier(new Item_modifier());
+    bool use_modifier = false;
+    use_modifier |= load_min_max(modifier->damage, obj, "damage");
+    use_modifier |= load_min_max(modifier->charges, obj, "charges");
+    use_modifier |= load_min_max(modifier->count, obj, "count");
+    use_modifier |= load_sub_ref(modifier->ammo, obj, "ammo");
+    use_modifier |= load_sub_ref(modifier->container, obj, "container");
+    use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
+    if (use_modifier) {
+        dynamic_cast<Single_item_creator*>(ptr.get())->modifier = modifier;
+    }
+    ig->add_entry(ptr);
+}
+
 // Load an item group from JSON
 void Item_factory::load_item_group(JsonObject &jsobj)
 {
-    Item_tag group_id = jsobj.get_string("id");
-    Item_group *current_group;
-    if (m_template_groups.count(group_id) > 0) {
-        current_group = m_template_groups[group_id];
+    const Item_tag group_id = jsobj.get_string("id");
+    const std::string subtype = jsobj.get_string("subtype", "old");
+
+    Item_spawn_data* &isd = m_template_groups[group_id];
+    Item_group *ig = dynamic_cast<Item_group*>(isd);
+    if (subtype == "old") {
+        ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
+        ig->with_ammo = jsobj.get_bool("with_ammo", ig->with_ammo);
+    } else if (subtype == "collection") {
+        ig = make_group_or_throw(isd, Item_group::G_COLLECTION);
+    } else if (subtype == "distribution") {
+        ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
     } else {
-        current_group = new Item_group(group_id);
-        m_template_groups[group_id] = current_group;
+        throw std::string("unknown item group type");
     }
 
-    current_group->m_guns_have_ammo = jsobj.get_bool("guns_have_ammo", current_group->m_guns_have_ammo);
-
-    JsonArray items = jsobj.get_array("items");
-    while (items.has_more()) {
-        JsonArray pair = items.next_array();
-        current_group->add_entry(pair.get_string(0), pair.get_int(1));
-    }
-
-    JsonArray groups = jsobj.get_array("groups");
-    while (groups.has_more()) {
-        JsonArray pair = groups.next_array();
-        std::string name = pair.get_string(0);
-        int frequency = pair.get_int(1);
-        if (m_template_groups.count(name) == 0) {
-            m_template_groups[name] = new Item_group(name);
+    if (subtype == "old") {
+        JsonArray items = jsobj.get_array("items");
+        while (items.has_more()) {
+            JsonArray pair = items.next_array();
+            ig->add_item_entry(pair.get_string(0), pair.get_int(1));
         }
-        current_group->add_group(m_template_groups[name], frequency);
+        return;
+    }
+
+    if (jsobj.has_member("entries")) {
+        JsonArray items = jsobj.get_array("entries");
+        while (items.has_more()) {
+            JsonObject subobj = items.next_object();
+            add_entry(ig, subobj);
+        }
+    }
+    if (jsobj.has_member("items")) {
+        JsonArray items = jsobj.get_array("items");
+        while (items.has_more()) {
+            if (items.test_string()) {
+                ig->add_item_entry(items.next_string(), 100);
+            } else if (items.test_array()) {
+                JsonArray subitem = items.next_array();
+                ig->add_item_entry(subitem.get_string(0), subitem.get_int(1));
+            } else {
+                JsonObject subobj = items.next_object();
+                add_entry(ig, subobj);
+            }
+        }
+    }
+    if (jsobj.has_member("groups")) {
+        JsonArray items = jsobj.get_array("groups");
+        while (items.has_more()) {
+            if (items.test_string()) {
+                ig->add_group_entry(items.next_string(), 100);
+            } else if (items.test_array()) {
+                JsonArray subitem = items.next_array();
+                ig->add_group_entry(subitem.get_string(0), subitem.get_int(1));
+            } else {
+                JsonObject subobj = items.next_object();
+                add_entry(ig, subobj);
+            }
+        }
     }
 }
 
@@ -1299,7 +1445,7 @@ const std::string &Item_factory::calc_category(itype *it)
 
 std::vector<std::string> Item_factory::get_all_group_names() {
     std::vector<std::string> rval;
-    std::map<Item_tag, Item_group*>::iterator it;
+    GroupMap::iterator it;
     for(it = m_template_groups.begin(); it != m_template_groups.end(); it++) {
         rval.push_back(it->first);
     }
@@ -1310,14 +1456,15 @@ bool Item_factory::add_item_to_group(const std::string group_id, const std::stri
     if(m_template_groups.find(group_id) == m_template_groups.end()) {
         return false;
     }
-    Item_group *group_to_access = m_template_groups[group_id];
+    Item_spawn_data *group_to_access = m_template_groups[group_id];
     if(group_to_access->has_item(item_id)) {
         group_to_access->remove_item(item_id);
     }
 
-    if(chance != 0) {
+    Item_group *ig = dynamic_cast<Item_group*>(group_to_access);
+    if(chance != 0 && ig != NULL) {
         // Only re-add if chance != 0
-        group_to_access->add_entry(item_id, chance);
+        ig->add_item_entry(item_id, chance);
     }
 
     return true;
