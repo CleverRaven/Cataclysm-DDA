@@ -72,6 +72,33 @@ class map
 // Visual Output
  void debug();
 
+ /**
+  * Sets a dirty flag on the transparency cache.
+  *
+  * If this isn't set, it's just assumed that
+  * the transparency cache hasn't changed and
+  * doesn't need to be updated.
+  */
+ void set_transparency_cache_dirty() {
+     transparency_cache_dirty = true;
+ }
+
+ /**
+  * Sets a dirty flag on the outside cache.
+  *
+  * If this isn't set, it's just assumed that
+  * the outside cache hasn't changed and
+  * doesn't need to be updated.
+  */
+ void set_outside_cache_dirty() {
+     outside_cache_dirty = true;
+ }
+
+ /**
+  * Callback invoked when a vehicle has moved.
+  */
+ void on_vehicle_moved();
+
  /** Draw a visible part of the map into `w`.
   *
   * This method uses `g->u.posx/posy` for visibility calculations, so it can
@@ -494,6 +521,9 @@ protected:
  void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
 
 private:
+ bool transparency_cache_dirty;
+ bool outside_cache_dirty;
+
 submap * getsubmap( const int grididx );
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);

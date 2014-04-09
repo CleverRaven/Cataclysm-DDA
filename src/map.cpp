@@ -429,6 +429,11 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
  return (src_na != dst_na) || was_update;
 }
 
+void map::on_vehicle_moved() {
+    set_outside_cache_dirty();
+    set_transparency_cache_dirty();
+}
+
 void map::vehmove()
 {
     // give vehicles movement points
@@ -444,8 +449,11 @@ void map::vehmove()
 
     // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
     for( int count = 0; count < 15; count++ ) {
-        if( !vehproceed() )
+        if( !vehproceed() ) {
             break;
+        } else {
+            on_vehicle_moved();
+        }
     }
     // Process item removal on the vehicles that were modified this turn.
     for (std::set<vehicle*>::iterator it = dirty_vehicle_list.begin(); it != dirty_vehicle_list.end(); ++it) {
@@ -962,6 +970,10 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
 
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
+ // set the dirty flags
+ // TODO: consider checking if the transparency value actually changes
+ set_transparency_cache_dirty();
+
  const int lx = x % SEEX;
  const int ly = y % SEEY;
  grid[nonant]->frn[lx][ly] = new_furniture;
@@ -1056,6 +1068,12 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
     if (!INBOUNDS(x, y)) {
         return;
     }
+
+    // set the dirty flags
+    // TODO: consider checking if the transparency value actually changes
+    set_transparency_cache_dirty();
+    set_outside_cache_dirty();
+
     const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
     const int lx = x % SEEX;
     const int ly = y % SEEY;
@@ -4020,6 +4038,10 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(const int wx, const int wy, const int wz, const int sx, const int sy)
 {
+ // Shifting the map invalidates all caches.
+ set_transparency_cache_dirty();
+ set_outside_cache_dirty();
+
  set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
    g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
  );
@@ -4502,6 +4524,10 @@ float map::light_transparency(const int x, const int y) const
 
 void map::build_outside_cache()
 {
+    if (!outside_cache_dirty) {
+        return;
+    }
+
     if (g->levz < 0)
     {
         memset(outside_cache, false, sizeof(outside_cache));
@@ -4528,11 +4554,16 @@ void map::build_outside_cache()
             }
         }
     }
+
+    outside_cache_dirty = false;
 }
 
 // TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache()
 {
+ if (!transparency_cache_dirty) {
+     return;
+ }
  for(int x = 0; x < my_MAPSIZE * SEEX; x++) {
   for(int y = 0; y < my_MAPSIZE * SEEY; y++) {
 
@@ -4577,6 +4608,8 @@ void map::build_transparency_cache()
    }
   }
  }
+
+ transparency_cache_dirty = false;
 }
 
 void map::build_map_cache()
