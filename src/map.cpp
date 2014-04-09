@@ -77,13 +77,14 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
 
  for(int cx = chunk_sx; cx <= chunk_ex; ++cx) {
   for(int cy = chunk_sy; cy <= chunk_ey; ++cy) {
-   const int nonant = cx + cy * my_MAPSIZE;
-   if (nonant < 0 || nonant >= my_MAPSIZE * my_MAPSIZE)
-    continue; // out of grid
+   submap *current_submap = get_submap_at(cx, cy);
+   if(current_submap == NULL) {
+       continue; // out of grid
+   }
 
-   for( size_t i = 0; i < grid[nonant]->vehicles.size(); ++i ) {
+   for( size_t i = 0; i < current_submap->vehicles.size(); ++i ) {
     wrapped_vehicle w;
-    w.v = grid[nonant]->vehicles[i];
+    w.v = current_submap->vehicles[i];
     w.x = w.v->posx + cx * SEEX;
     w.y = w.v->posy + cy * SEEY;
     w.i = cx;
@@ -193,10 +194,10 @@ void map::clear_vehicle_cache()
  }
 }
 
-void map::update_vehicle_list(const int to) {
+void map::update_vehicle_list(submap *const to) {
  // Update vehicle data
- for( std::vector<vehicle*>::iterator it = grid[to]->vehicles.begin(),
-      end = grid[to]->vehicles.end(); it != end; ++it ) {
+ for( std::vector<vehicle*>::iterator it = to->vehicles.begin(),
+      end = to->vehicles.end(); it != end; ++it ) {
    vehicle_list.insert(*it);
  }
 }
@@ -288,17 +289,17 @@ void map::destroy_vehicle (vehicle *veh)
   debugmsg("map::destroy_vehicle was passed NULL");
   return;
  }
- const int veh_sm = veh->smx + veh->smy * my_MAPSIZE;
- for (int i = 0; i < grid[veh_sm]->vehicles.size(); i++) {
-  if (grid[veh_sm]->vehicles[i] == veh) {
+ submap * const current_submap = get_submap_at_grid(veh->smx, veh->smy);
+ for (int i = 0; i < current_submap->vehicles.size(); i++) {
+  if (current_submap->vehicles[i] == veh) {
    vehicle_list.erase(veh);
    reset_vehicle_cache();
-   grid[veh_sm]->vehicles.erase (grid[veh_sm]->vehicles.begin() + i);
+   current_submap->vehicles.erase (current_submap->vehicles.begin() + i);
    delete veh;
    return;
   }
  }
- debugmsg ("destroy_vehicle can't find it! name=%s, sm=%d", veh->name.c_str(), veh_sm);
+ debugmsg ("destroy_vehicle can't find it! name=%s, x=%d, y=%d", veh->name.c_str(), veh->smx, veh->smy);
 }
 
 bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool test)
@@ -317,22 +318,19 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
   return false;
  }
 
- const int src_na = int(srcx / SEEX) + int(srcy / SEEY) * my_MAPSIZE;
- srcx %= SEEX;
- srcy %= SEEY;
+ int src_offset_x, src_offset_y, dst_offset_x, dst_offset_y;
+ submap * const src_submap = get_submap_at(srcx, srcy, src_offset_x, src_offset_y);
+ submap * const dst_submap = get_submap_at(dstx, dsty, dst_offset_x, dst_offset_y);
 
- const int dst_na = int(dstx / SEEX) + int(dsty / SEEY) * my_MAPSIZE;
- dstx %= SEEX;
- dsty %= SEEY;
-
- if (test)
-  return src_na != dst_na;
+ if (test) {
+  return src_submap != dst_submap;
+ }
 
  // first, let's find our position in current vehicles vector
  int our_i = -1;
- for (int i = 0; i < grid[src_na]->vehicles.size(); i++) {
-  if (grid[src_na]->vehicles[i]->posx == srcx &&
-      grid[src_na]->vehicles[i]->posy == srcy) {
+ for (int i = 0; i < src_submap->vehicles.size(); i++) {
+  if (src_submap->vehicles[i]->posx == src_offset_x &&
+      src_submap->vehicles[i]->posy == src_offset_y) {
    our_i = i;
    break;
   }
@@ -343,7 +341,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
   return false;
  }
  // move the vehicle
- vehicle *veh = grid[src_na]->vehicles[our_i];
+ vehicle *veh = src_submap->vehicles[our_i];
  // don't let it go off grid
  if (!inbounds(x2, y2)){
   veh->stop();
@@ -393,14 +391,14 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
   veh->parts[p].precalc_dy[0] = veh->parts[p].precalc_dy[1];
  }
 
- veh->posx = dstx;
- veh->posy = dsty;
- if (src_na != dst_na) {
+ veh->posx = dst_offset_x;
+ veh->posy = dst_offset_y;
+ if (src_submap != dst_submap) {
   vehicle * veh1 = veh;
   veh1->smx = int(x2 / SEEX);
   veh1->smy = int(y2 / SEEY);
-  grid[dst_na]->vehicles.push_back (veh1);
-  grid[src_na]->vehicles.erase (grid[src_na]->vehicles.begin() + our_i);
+  dst_submap->vehicles.push_back (veh1);
+  dst_submap->vehicles.erase (src_submap->vehicles.begin() + our_i);
  }
 
  x += dx;
@@ -426,7 +424,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
   was_update = true;
  }
 
- return (src_na != dst_na) || was_update;
+ return (src_submap != dst_submap) || was_update;
 }
 
 void map::vehmove()
@@ -946,11 +944,10 @@ furn_id map::furn(const int x, const int y) const
   return f_null;
  }
 
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- return grid[nonant]->frn[lx][ly];
+ return current_submap->frn[lx][ly];
 }
 
 
@@ -960,11 +957,10 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
   return;
  }
 
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- grid[nonant]->frn[lx][ly] = new_furniture;
+ current_submap->frn[lx][ly] = new_furniture;
 }
 
 void map::furn_set(const int x, const int y, const std::string new_furniture) {
@@ -1003,11 +999,10 @@ ter_id map::ter(const int x, const int y) const {
   return t_null;
  }
 
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- return grid[nonant]->ter[lx][ly];
+ return current_submap->ter[lx][ly];
 }
 /*
  * -temporary- for non-rewritten switch statements
@@ -4069,7 +4064,7 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                     if (gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE) {
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
-                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                        update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
                         loadn(wx + sx, wy + sy, wz, gridx, gridy);
                 }
@@ -4078,7 +4073,7 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                     if (gridx + sx < my_MAPSIZE && gridy + sy >= 0) {
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
-                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                        update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
                         loadn(wx + sx, wy + sy, wz, gridx, gridy);
                 }
@@ -4091,7 +4086,7 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                     if (gridx + sx >= 0 && gridy + sy < my_MAPSIZE) {
                         copy_grid(gridx + gridy * my_MAPSIZE,
                         gridx + sx + (gridy + sy) * my_MAPSIZE);
-                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                        update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
                         loadn(wx + sx, wy + sy, wz, gridx, gridy);
                 }
@@ -4100,7 +4095,7 @@ void map::shift(const int wx, const int wy, const int wz, const int sx, const in
                     if (gridx + sx >= 0 && gridy + sy >= 0) {
                         copy_grid(gridx + gridy * my_MAPSIZE,
                                   gridx + sx + (gridy + sy) * my_MAPSIZE);
-                        update_vehicle_list(gridx + gridy * my_MAPSIZE);
+                        update_vehicle_list(get_submap_at_grid(gridx, gridy));
                     } else if (!loadn(wx + sx, wy + sy, wz, gridx, gridy))
                         loadn(wx + sx, wy + sy, wz, gridx, gridy);
                 }
@@ -4673,6 +4668,32 @@ submap * map::getsubmap( const int grididx ) {
     return grid[grididx];
 }
 
+submap *map::get_submap_at(int x, int y) const {
+    // Do a bound check first.
+    if(x > SEEX * my_MAPSIZE || y > SEEY * my_MAPSIZE) {
+        return NULL;
+    }
+
+    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+    return grid[nonant];
+}
+
+submap *map::get_submap_at(int x, int y, int& offset_x, int& offset_y) const {
+    offset_x = x % SEEX;
+    offset_y = y % SEEY;
+
+    return get_submap_at(x, y);
+}
+
+submap *map::get_submap_at_grid(int gridx, int gridy) const {
+    // Do a bound check first.
+    if(gridx > my_MAPSIZE || gridy > my_MAPSIZE) {
+        return NULL;
+    }
+
+    const int nonant = gridx + gridy * my_MAPSIZE;
+    return grid[nonant];
+}
 
 tinymap::tinymap()
 {
@@ -4684,8 +4705,9 @@ tinymap::tinymap(std::vector<trap*> *trptr)
  nulter = t_null;
  traps = trptr;
  my_MAPSIZE = 2;
- for (int n = 0; n < 4; n++)
+ for (int n = 0; n < 4; n++) {
   grid[n] = NULL;
+ }
  veh_in_active_range = true;
  memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }

@@ -256,8 +256,9 @@ bool map::process_fields()
  bool found_field = false;
  for (int x = 0; x < my_MAPSIZE; x++) {
   for (int y = 0; y < my_MAPSIZE; y++) {
-   if (grid[x + y * my_MAPSIZE]->field_count > 0)
-    found_field |= process_fields_in_submap(x + y * my_MAPSIZE);
+   submap * const current_submap = get_submap_at_grid(x, y);
+   if (current_submap->field_count > 0)
+    found_field |= process_fields_in_submap(current_submap, x, y);
   }
  }
  return found_field;
@@ -265,11 +266,11 @@ bool map::process_fields()
 
 /*
 Function: process_fields_in_submap
-Iterates over every field on every tile of the given submap indicated by NONANT parameter gridn.
+Iterates over every field on every tile of the given submap given as parameter.
 This is the general update function for field effects. This should only be called once per game turn.
 If you need to insert a new field behavior per unit time add a case statement in the switch below.
 */
-bool map::process_fields_in_submap(int gridn)
+bool map::process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y)
 {
     // Realistically this is always true, this function only gets called if fields exist.
     bool found_field = false;
@@ -283,16 +284,16 @@ bool map::process_fields_in_submap(int gridn)
 
     bool skipIterIncr = false; // keep track on when not to increment it[erator]
 
-    //Loop through all tiles in this submap indicated by gridn
+    //Loop through all tiles in this submap indicated by current_submap
     for (int locx = 0; locx < SEEX; locx++) {
         for (int locy = 0; locy < SEEY; locy++) {
             // This is a translation from local coordinates to submap coords.
             // All submaps are in one long 1d array.
-            int x = locx + SEEX * (gridn % my_MAPSIZE);
-            int y = locy + SEEY * int(gridn / my_MAPSIZE);
+            int x = locx + submap_x;
+            int y = locy + submap_y;
             // get a copy of the field variable from the submap;
             // contains all the pointers to the real field effects.
-            field &curfield = grid[gridn]->fld[locx][locy];
+            field &curfield = current_submap->fld[locx][locy];
             for(std::map<field_id, field_entry *>::iterator it = curfield.getFieldStart();
                 it != curfield.getFieldEnd();) {
                 //Iterating through all field effects in the submap's field.
@@ -979,8 +980,8 @@ bool map::process_fields_in_submap(int gridn)
                         cur->setFieldDensity(cur->getFieldDensity() - 1);
                     }
                     if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
-                        grid[gridn]->field_count--;
-                        it = grid[gridn]->fld[locx][locy].removeField(cur->getFieldType());
+                        current_submap->field_count--;
+                        it = current_submap->fld[locx][locy].removeField(cur->getFieldType());
                         continue;
                     }
                 }
