@@ -22,15 +22,15 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
 PROJECT(CataclysmDDA)
 
 OPTION(LOCALIZE "Toggle gettext localization/translation." ON)
-OPTION(SDL "Use SDL curses emulation instead of terminal support." OFF)
-OPTION(TILES "Enable tileset support." OFF)
+OPTION(SDL "Use SDL curses emulation instead of terminal support. Also enables tiles support." OFF)
+OPTION(LUA "Enable lua scripting support." ON)
 
 # Note: The CMake documentation says it's better to list the actual source
 #       files here, as otherwise cmake won't know to rerun when a new file
 #       is added. However, currently the Makefile also just scans for source
 #       files, so this approach should be "good enough".
-FILE(GLOB CataclysmDDA_SRCS *.cpp)
-FILE(GLOB CataclysmDDA_HDRS *.h)
+FILE(GLOB CataclysmDDA_SRCS src/*.cpp)
+FILE(GLOB CataclysmDDA_HDRS src/*.h)
 
 ADD_EXECUTABLE(cataclysm ${CataclysmDDA_SRCS} ${CataclysmDDA_HDRS})
 
@@ -55,35 +55,45 @@ ENDIF()
 
 # TODO: windows rc stuff
 
-IF(SDL OR TILES)
-    # CMake ships with a few helpful include's to find common libraries
-    # like SDL
-    Include(FindSDL)
-    Include(FindSDL_ttf)
+IF(MSVC OR MINGW)
+    add_definitions(-Wl,-stack,12000000,-subsystem,windows)
+ENDIF()
+
+Include(FindPkgConfig)
+IF(LUA)
+    ADD_DEFINITIONS(-DLUA)
+    PKG_SEARCH_MODULE(LUA51 REQUIRED lua5.1)
     
-    Find_Package(SDL REQUIRED)
-    Find_Package(SDL_ttf REQUIRED)
+    if(LUA51_FOUND)
+        ADD_DEFINITIONS(-I${LUA51_INCLUDE_DIRS})
+        target_link_libraries(cataclysm ${LUA51_LIBRARIES})
+    endif()
+ENDIF()
+
+IF(SDL)
+    # Look for SDL2 using pkgconfig
+    PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
     
-    TARGET_LINK_LIBRARIES(cataclysm ${SDL_LIBRARY} ${SDLTTF_LIBRARY})
+    # Harcode these for now since they don't seem to be included in pkg-config
+    # CMake is bound to get SDL2 finders eventually.
+    #PKG_SEARCH_MODULE(SDL2_TTF REQUIRED sdl2_ttf)
+    #PKG_SEARCH_MODULE(SDL2_IMAGE REQUIRED sdl2_image)
+    SET(SDL2_TTF_LIBRARIES -lSDL2_ttf)
+    SET(SDL2_IMAGE_LIBRARIES -lSDL2_image)
     
-    IF(TILES)
-        # Install GFX directory
-        ADD_CUSTOM_COMMAND(
-            TARGET cataclysm PRE_BUILD 
-            COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/gfx $<TARGET_FILE_DIR:cataclysm>/gfx
-        )
+    TARGET_LINK_LIBRARIES(cataclysm ${SDL2_LIBRARIES} ${SDL2_TTF_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+    include_directories(${SDL2_INCLUDE_DIRS})
     
-        Include(FindSDL_image)
-        TARGET_LINK_LIBRARIES(cataclysm ${SDLIMAGE_LIBRARY})
-        ADD_DEFINITIONS(-DSDLTILES -DTILES)
-    ELSE()
-        ADD_DEFINITIONS(-DTILES)
-    ENDIF()
-    
+    # Install GFX directory
+    ADD_CUSTOM_COMMAND(
+        TARGET cataclysm PRE_BUILD 
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/gfx $<TARGET_FILE_DIR:cataclysm>/gfx
+    )
+
+    ADD_DEFINITIONS(-DSDLTILES -DTILES)
 ELSEIF(MSVC OR MINGW)
     # On windows our default isn't curses, but rather GDI
     TARGET_LINK_LIBRARIES(cataclysm gdi32 intl iconv winmm)
-    add_definitions(-Wl,-stack,12000000,-subsystem,windows)
 ELSE()
     TARGET_LINK_LIBRARIES(cataclysm curses)
 ENDIF()
