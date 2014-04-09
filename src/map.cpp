@@ -77,7 +77,7 @@ VehicleList map::get_vehicles(const int sx, const int sy, const int ex, const in
 
  for(int cx = chunk_sx; cx <= chunk_ex; ++cx) {
   for(int cy = chunk_sy; cy <= chunk_ey; ++cy) {
-   submap *current_submap = get_submap_at(cx, cy);
+   submap *current_submap = get_submap_at_grid(cx, cy);
    if(current_submap == NULL) {
        continue; // out of grid
    }
@@ -398,7 +398,7 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
   veh1->smx = int(x2 / SEEX);
   veh1->smy = int(y2 / SEEY);
   dst_submap->vehicles.push_back (veh1);
-  dst_submap->vehicles.erase (src_submap->vehicles.begin() + our_i);
+  src_submap->vehicles.erase (src_submap->vehicles.begin() + our_i);
  }
 
  x += dx;
@@ -4670,7 +4670,7 @@ submap * map::getsubmap( const int grididx ) {
 
 submap *map::get_submap_at(int x, int y) const {
     // Do a bound check first.
-    if(x > SEEX * my_MAPSIZE || y > SEEY * my_MAPSIZE) {
+    if(x >= SEEX * my_MAPSIZE || y >= SEEY * my_MAPSIZE || x < 0 || y < 0) {
         return NULL;
     }
 
@@ -4687,7 +4687,7 @@ submap *map::get_submap_at(int x, int y, int& offset_x, int& offset_y) const {
 
 submap *map::get_submap_at_grid(int gridx, int gridy) const {
     // Do a bound check first.
-    if(gridx > my_MAPSIZE || gridy > my_MAPSIZE) {
+    if(gridx >= my_MAPSIZE || gridy >= my_MAPSIZE || gridx < 0 || gridy < 0) {
         return NULL;
     }
 
