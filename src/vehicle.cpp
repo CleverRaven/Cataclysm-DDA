@@ -3910,15 +3910,10 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t);
     if (target == NULL) {
         if (u_see) {
-            if (boo_hoo > 1) {
-                g->add_msg(ngettext("%s points in your direction and emits %d annoyed sounding beep.",
-                                    "%s points in your direction and emits %d annoyed sounding beeps.",
-                                    boo_hoo),
-                tmp.name.c_str(), boo_hoo);
-            } else if (boo_hoo > 0) {
-                g->add_msg(_("%s points in your direction and emits an IFF warning beep."),
-                tmp.name.c_str());
-            }
+            g->add_msg(ngettext("%s points in your direction and emits an IFF warning beep.",
+                                "%s points in your direction and emits %d annoyed sounding beeps.",
+                                boo_hoo),
+                       tmp.name.c_str(), boo_hoo);
         }
         return false;
     }
