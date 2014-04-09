@@ -91,6 +91,8 @@ public:
     typedef std::string Group_tag;
     Item_list create_from_group(Group_tag group, int created_at);
 
+    void debug_spawn();
+
     void load_ammo      (JsonObject &jo);
     void load_gun       (JsonObject &jo);
     void load_armor     (JsonObject &jo);

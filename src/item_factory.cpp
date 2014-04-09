@@ -1469,3 +1469,43 @@ bool Item_factory::add_item_to_group(const std::string group_id, const std::stri
 
     return true;
 }
+
+void Item_factory::debug_spawn()
+{
+    std::vector<std::string> groups = get_all_group_names();
+    uimenu menu;
+    menu.text = "which item group?";
+    for (size_t i = 0; i < groups.size(); i++) {
+        menu.entries.push_back(uimenu_entry(i, true, -2, groups[i] ));
+    }
+    menu.entries.push_back(uimenu_entry(menu.entries.size(), true, -2, "cancel"));
+    while(true) {
+        menu.query();
+        const int index = menu.ret;
+        if (index < 0 || index >= groups.size()) {
+            break;
+        }
+        // Spawn items from the group 100 times
+        std::map<std::string, int> itemnames;
+        for(size_t a = 0; a < 100; a++) {
+            Item_spawn_data *isd = m_template_groups[groups[index]];
+            Item_spawn_data::ItemList items = isd->create(g->turn);
+            for (Item_spawn_data::ItemList::iterator a = items.begin(); a != items.end(); ++a) {
+                itemnames[a->display_name()]++;
+            }
+        }
+        // Invert the map to get sorting!
+        std::multimap<int, std::string> itemnames2;
+        for (std::map<std::string, int>::iterator a = itemnames.begin(); a != itemnames.end(); ++a) {
+            itemnames2.insert(std::pair<int, std::string>(a->second, a->first));
+        }
+        uimenu menu2;
+        menu2.text = "result of 100 spawns:";
+        for (std::map<int, std::string>::reverse_iterator a = itemnames2.rbegin(); a != itemnames2.rend(); ++a) {
+            std::ostringstream buffer;
+            buffer << a->first << " x " << a->second << " [" << a->first << "]\n";
+            menu2.entries.push_back(uimenu_entry(menu2.entries.size(), true, -2, buffer.str()));
+        }
+        menu2.query();
+    }
+}

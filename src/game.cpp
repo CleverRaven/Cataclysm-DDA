@@ -3982,8 +3982,9 @@ void game::debug()
                    _("Change weather"),         // 18
                    _("Remove all monsters"),    // 19
                    _("Display hordes"), // 20
+                   _("item spawn debug"), // 21
                    #ifdef LUA
-                       _("Lua Command"), // 21
+                       _("Lua Command"), // 22
                    #endif
                    _("Cancel"),
                    NULL);
@@ -4394,9 +4395,13 @@ Current turn: %d; Next spawn %d.\n\
       overmap::draw_overmap(g->om_global_location(), true);
   }
   break;
+  case 21: {
+      item_controller->debug_spawn();
+  }
+  break;
 
   #ifdef LUA
-      case 21: {
+      case 22: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
           call_lua(luacode);
       }
