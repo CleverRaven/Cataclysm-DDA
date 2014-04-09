@@ -13,7 +13,7 @@
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
 void make_gun_sound_effect(player &p, bool burst, item* weapon);
-double calculate_missed_by(player &p, int trange, item* weapon);
+int skill_dispersion( player *p, item *weapon, bool random );
 extern bool is_valid_in_w_terrain(int,int);
 
 void splatter(std::vector<point> trajectory, int dam, Creature *target = NULL);
@@ -342,10 +342,17 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
     int weaponrange = weapon.range();
-    // Only train to level one, with these kind of ammo
-    const bool train_skill = skillLevel(skill_used) == 0 || (curammo->id != "BB" && curammo->id != "nail");
-    if (train_skill) {
+
+    // If the dispersion from the weapon is greater than the dispersion from your skill,
+    // you can't tell if you need to correct or the gun messed you up, so you can't learn.
+    const int weapon_dispersion = used_weapon->curammo->dispersion + used_weapon->dispersion();
+    const int player_dispersion = skill_dispersion( this, used_weapon, false );
+    // High perception allows you to pick out details better, low perception interferes.
+    const bool train_skill = weapon_dispersion < player_dispersion + rng(0, get_per());
+    if( train_skill ) {
         practice(g->turn, skill_used, 4 + (num_shots / 2));
+    } else if( one_in(30) ) {
+        g->add_msg_if_player(this,_("You'll need a more accurate gun to keep improving your aim."));
     }
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
@@ -492,7 +499,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         used_weapon->curammo = NULL;
     }
 
-    if (skillLevel("gun") == 0 || (curammo->id != "BB" && curammo->id != "nail")) {
+    if( train_skill ) {
         practice(g->turn, "gun", 5);
     } else {
         practice(g->turn, "gun", 0);
@@ -1087,25 +1094,83 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 
-// utility functions for projectile_attack
-double player::get_weapon_dispersion(item *weapon) {
+/* Adjust dispersion cutoff thresholds per skill type.
+ * If these drift significantly might need to adjust the values here.
+ * Keep in mind these include factoring in the best ammo and the best mods.
+ * The target is being able to skill up to lvl 10/10 guns/guntype with average (8) perception.
+ * That means the adjustment should be dispersion of best-in-class weapon - 8.
+ *
+ * pistol 0 (.22 is 8, S&W 22A can get down to 0 with significant modding.)
+ * rifle 0 (There are any number of rifles you can get down to 0/0.)
+ * smg 0 (H&K MP5 can get dropped to 0, leaving 9mm +P+ as the limiting factor at 8.)
+ * shotgun 0 (no comment.)
+ * launcher 0 (no comment.)
+ * archery 6 (best craftable bow is composite at 10, and best arrow is wood at 4)
+ * throwing 13 (sling)
+ * As a simple tweak, we're shifting the ranges so they match,
+ * so if you acquire the best of a weapon type you can reach max skill with it.
+ */
+int ranged_skill_offset( std::string skill ) {
+    if( skill == "pistol" ) {
+        return 0;
+    } else if( skill == "rifle" ) {
+        return 0;
+    } else if( skill == "smg" ) {
+        return 0;
+    } else if( skill == "shotgun" ) {
+        return 0;
+    } else if( skill == "launcher" ) {
+        return 0;
+    } else if( skill == "archery" ) {
+        return 9;
+    } else if( skill == "throw" ) {
+        return 13;
+    }
+    return 0;
+}
+
+int skill_dispersion( player *p, item *weapon, bool random ) {
     int weapon_skill_level = 0;
+    std::string skill_used;
     if(weapon->is_gunmod()) {
       it_gunmod* firing = dynamic_cast<it_gunmod *>(weapon->type);
-      weapon_skill_level = skillLevel(firing->skill_used);
+      skill_used = firing->skill_used->ident();
+      weapon_skill_level = p->skillLevel(firing->skill_used);
     } else {
       it_gun* firing = dynamic_cast<it_gun *>(weapon->type);
-      weapon_skill_level = skillLevel(firing->skill_used);
+      skill_used = firing->skill_used->ident();
+      weapon_skill_level = p->skillLevel(firing->skill_used);
     }
+    int dispersion = 0; // Measured in quarter-degrees.
+    // Up to 0.75 degrees for each skill point < 10.
+    if (weapon_skill_level < 10) {
+        int max_dispersion = 3 * (10 - weapon_skill_level);
+        if( random ) {
+            dispersion += rng(0, max_dispersion);
+        } else {
+            dispersion += max_dispersion;
+        }
+    }
+    // Up to 0.25 deg per each skill point < 10.
+    if (p->skillLevel("gun") < 10) {
+        int max_dispersion = 10 - p->skillLevel("gun");
+        if( random ) {
+            dispersion += rng(0, max_dispersion);
+        } else {
+            dispersion += max_dispersion;
+        }
+    }
+    if( !random ) {
+        dispersion += ranged_skill_offset( skill_used );
+    }
+    return dispersion;
+}
+
+
+// utility functions for projectile_attack
+double player::get_weapon_dispersion(item *weapon) {
     double dispersion = 0.; // Measured in quarter-degrees.
-    // Up to 0.75 degrees for each skill point < 8.
-    if (weapon_skill_level < 8) {
-        dispersion += rng(0, 3 * (8 - weapon_skill_level));
-    }
-    // Up to 0.25 deg per each skill point < 9.
-    if (skillLevel("gun") < 9) {
-        dispersion += rng(0, 9 - skillLevel("gun"));
-    }
+    dispersion += skill_dispersion( this, weapon, true );
 
     dispersion += rng(0, ranged_dex_mod());
     dispersion += rng(0, ranged_per_mod());
