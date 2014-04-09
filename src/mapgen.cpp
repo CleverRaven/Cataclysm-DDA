@@ -655,7 +655,7 @@ bool mapgen_function_json::setup() {
             while ( parray.has_more() ) { // hrm
                 tmpval = parray.next_string();
                 if ( tmpval.size() != mapgensize ) {
-                    parray.throw_error(string_format("  format: row %d must have %d columns, not %d",mapgensize,tmpval.size() ));
+                    parray.throw_error(string_format("  format: row %d must have %d columns, not %d", c, mapgensize, tmpval.size()));
                 }
                 for ( int i=0; i < tmpval.size(); i++ ) {
                     tmpkey=(int)tmpval[i];
