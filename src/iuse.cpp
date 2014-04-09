@@ -2578,179 +2578,6 @@ int iuse::hammer(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::gasoline_lantern_off(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (it->charges == 0)
-    {
-        g->add_msg_if_player(p,_("The lantern is empty."));
-        return 0;
-    }
-    else if(!p->use_charges_if_avail("fire", 1))
-    {
-        g->add_msg_if_player(p,_("You need a lighter!"));
-        return 0;
-    }
-    else
-    {
-        g->add_msg_if_player(p,_("You turn the lantern on."));
-        it->make(itypes["gasoline_lantern_on"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
-int iuse::gasoline_lantern_on(player *p, item *it, bool t)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p,_("The lantern is extinguished."));
-        it->make(itypes["gasoline_lantern"]);
-        it->active = false;
-        return 0;
-    }
-    if (t)  // Normal use
-    {
-// Do nothing... player::active_light and the lightmap::generate deal with this
-    }
-    else  // Turning it off
-    {
-        g->add_msg_if_player(p,_("The lantern is extinguished."));
-        it->make(itypes["gasoline_lantern"]);
-        it->active = false;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::oil_lamp_off(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (it->charges == 0)
-    {
-        g->add_msg_if_player(p,_("The lamp is empty."));
-        return 0;
-    }
-    else if(!p->use_charges_if_avail("fire", 1))
-    {
-        g->add_msg_if_player(p,_("You need a lighter!"));
-        return 0;
-    }
-    else
-    {
-        g->add_msg_if_player(p,_("You turn the lamp on."));
-        it->make(itypes["oil_lamp_on"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
-int iuse::oil_lamp_on(player *p, item *it, bool t)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p,_("The lamp is extinguished."));
-        it->make(itypes["oil_lamp"]);
-        it->active = false;
-        return 0;
-    }
-    if (t)  // Normal use
-    {
-// Do nothing... player::active_light and the lightmap::generate deal with this
-    }
-    else  // Turning it off
-    {
-        g->add_msg_if_player(p,_("The lamp is extinguished."));
-        it->make(itypes["oil_lamp"]);
-        it->active = false;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::light_off(player *p, item *it, bool)
-{
-    if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
-        return 0;
-    } else {
-        std::string oname = it->type->id + "_on";
-        if (!item_controller->has_template(oname)) {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
-        g->add_msg_if_player(p,_("You turn the %s on."), it->tname().c_str());
-        it->make(item_controller->find_template(oname));
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
-int iuse::light_on(player *p, item *it, bool t)
-{
-    if (t) { // Normal use
-        // Do nothing... player::active_light and the lightmap::generate deal with this
-    } else { // Turning it off
-        std::string oname = it->type->id;
-        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
-            oname.erase(oname.length() - 3, 3);
-        } else {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
-        if (!item_controller->has_template(oname)) {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
-        g->add_msg_if_player(p,_("The %s flicks off."), it->tname().c_str());
-        it->make(item_controller->find_template(oname));
-        it->active = false;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::toolarmor_off(player *p, item *it, bool)
-{
-    if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The %s's batteries are dead."), it->tname().c_str());
-        return 0;
-    } else {
-        std::string oname = it->type->id + "_on";
-        if (!item_controller->has_template(oname)) {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
-        g->add_msg_if_player(p,_("You activate your %s."), it->tname().c_str());
-        it->make(item_controller->find_template(oname));
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
-int iuse::toolarmor_on(player *p, item *it, bool t)
-{
-    if (t) { // Normal use
-    } else { // Turning it off
-        std::string oname = it->type->id;
-        if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
-            oname.erase(oname.length() - 3, 3);
-        } else {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
-        if (!item_controller->has_template(oname)) {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
-        g->add_msg_if_player(p,_("Your %s deactivates."), it->tname().c_str());
-        it->make(item_controller->find_template(oname));
-        it->active = false;
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::rm13armor_off(player *p, item *it, bool)
 {
     if (it->charges == 0) {
@@ -2848,76 +2675,6 @@ int iuse::pack_item(player *p, item *it, bool t)
         it->active = false;
     }
     return 0;
-}
-
-// this function only exists because we need to set it->active = true
-// otherwise crafting would just give you the active version directly
-int iuse::lightstrip(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You irreversibly activate the lightstrip."));
-    it->make(itypes["lightstrip"]);
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::lightstrip_active(player *p, item *it, bool t)
-{
-    if (t) { // Normal use
-        // Do nothing... player::active_light and the lightmap::generate deal with this
-    } else { // Turning it off
-        g->add_msg_if_player(p,_("The lightstrip dies."));
-        it->make(itypes["lightstrip_dead"]);
-        it->active = false;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::glowstick(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You activate the glowstick."));
-    it->make(itypes["glowstick_lit"]);
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::glowstick_active(player *p, item *it, bool t)
-{
-    if (t) { // Normal use
-        // Do nothing... player::active_light and the lightmap::generate deal with this
-    } else {
-        if (it->charges > 0) {
-            g->add_msg_if_player(p,_("You can't turn off a glowstick."));
-            return 0;
-        } else {
-            g->add_msg_if_player(p,_("The glowstick fades out."));
-            it->active = false;
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::handflare(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You strike your flare and light it."));
-    it->make(itypes["handflare_lit"]);
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::handflare_lit(player *p, item *it, bool t)
-{
-    if (t) { // Normal use
-        // Do nothing... player::active_light and the lightmap::generate deal with this
-    } else {
-        if (it->charges > 0) {
-            g->add_msg_if_player(p,_("You can't turn off a flare."));
-            return 0;
-        } else {
-            g->add_msg_if_player(p,_("The flare sputters out."));
-            it->active = false;
-        }
-    }
-    return it->type->charges_to_use();
 }
 
 static bool cauterize_effect(player *p, item *it, bool force = true)
@@ -4088,14 +3845,6 @@ int iuse::trimmer_on(player *p, item *it, bool t)
  return it->type->charges_to_use();
 }
 
-int iuse::circsaw_off(player *p, item *it, bool)
-{
- it->make(itypes["circsaw_on"]);
- it->active = true;
- g->add_msg_if_player(p,_("You turn on the circular saw."));
- return it->type->charges_to_use();
-}
-
 int iuse::circsaw_on(player *p, item *it, bool t)
 {
  if (t) { // Effects while simply on
@@ -4997,23 +4746,6 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool)
     return 0;
 }
 
-int iuse::pipebomb(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (!p->use_charges_if_avail("fire", 1)) {
-        g->add_msg_if_player(p,_("You need a lighter!"));
-        return 0;
-    }
-    g->add_msg_if_player(p,_("You light the fuse on the pipe bomb."));
-    it->make(itypes["pipebomb_act"]);
-    it->charges = 3;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
 int iuse::pipebomb_act(player *, item *it, bool t)
 {
     point pos = g->find_item(it);
@@ -5032,32 +4764,6 @@ int iuse::pipebomb_act(player *, item *it, bool t)
         } else {
             g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
         }
-    }
-    return 0;
-}
-
-int iuse::grenade(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the grenade."));
-    it->make(itypes["grenade_act"]);
-    it->charges = 5;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::grenade_act(player *, item *it, bool t)
-{
-    point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) {
-        return 0;
-    }
-    if (t) { // Simple timer effects
-        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-    } else if(it->charges > 0) {
-        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-        return 0;
-    } else { // When that timer runs down...
-        g->explosion(pos.x, pos.y, 12, 28, false);
     }
     return 0;
 }
@@ -5189,32 +4895,6 @@ int iuse::granade_act(player *, item *it, bool t)
     return it->type->charges_to_use();
 }
 
-int iuse::flashbang(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the flashbang."));
-    it->make(itypes["flashbang_act"]);
-    it->charges = 5;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::flashbang_act(player *, item *it, bool t)
-{
-    point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) {
-        return 0;
-    }
-    if (t) { // Simple timer effects
-        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-    } else if(it->charges > 0) {
-        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-        return 0;
-    } else { // When that timer runs down...
-        g->flashbang(pos.x, pos.y);
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::c4(player *p, item *it, bool)
 {
     int time = query_int(_("Set the timer to (0 to cancel)?"));
@@ -5225,156 +4905,6 @@ int iuse::c4(player *p, item *it, bool)
     g->add_msg_if_player(p,_("You set the timer to %d."), time);
     it->make(itypes["c4armed"]);
     it->charges = time;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::c4armed(player *, item *it, bool t)
-{
-    point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) {
-        return 0;
-    }
-    if (t) { // Simple timer effects
-        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-    } else if(it->charges > 0) {
-        g->add_msg(_("You've already set the %s's timer, you might want to get away from it."), it->name.c_str());
-        return 0;
-    } else { // When that timer runs down...
-        g->explosion(pos.x, pos.y, 40, 3, false);
-    }
-    return 0;
-}
-
-int iuse::EMPbomb(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the EMP grenade."));
-    it->make(itypes["EMPbomb_act"]);
-    it->charges = 3;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::EMPbomb_act(player *, item *it, bool t)
-{
-    point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) {
-        return 0;
-    }
-    if (t) { // Simple timer effects
-        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-    } else if(it->charges > 0) {
-        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-        return 0;
-    } else { // When that timer runs down...
-        g->draw_explosion(pos.x, pos.y, 4, c_ltblue);
-        for (int x = pos.x - 4; x <= pos.x + 4; x++) {
-            for (int y = pos.y - 4; y <= pos.y + 4; y++) {
-                g->emp_blast(x, y);
-            }
-        }
-    }
-    return 0;
-}
-
-int iuse::scrambler(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the scrambler grenade."));
-    it->make(itypes["scrambler_act"]);
-    it->charges = 3;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::scrambler_act(player *, item *it, bool t)
-{
- point pos = g->find_item(it);
- if (pos.x == -999 || pos.y == -999) {
-  return 0;
- }
- if (t) { // Simple timer effects
-  g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
- } else if(it->charges > 0) {
-  g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-  return 0;
- } else { // When that timer runs down...
-  g->draw_explosion(pos.x, pos.y, 4, c_cyan);
-  for (int x = pos.x - 4; x <= pos.x + 4; x++) {
-   for (int y = pos.y - 4; y <= pos.y + 4; y++)
-    g->scrambler_blast(x, y);
-  }
- }
- return 0;
-}
-
-int iuse::gasbomb(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the teargas canister."));
-    it->make(itypes["gasbomb_act"]);
-    it->charges = 20;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::gasbomb_act(player *, item *it, bool t)
-{
-    point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) {
-        return 0;
-    }
-    if (t) {
-        if (it->charges > 15) {
-            g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-        } else {
-            std::vector<point> gas_sources = points_for_gas_cloud(pos, 3);
-            for(size_t i = 0; i < gas_sources.size(); i++) {
-                const point &p = gas_sources[i];
-                g->m.add_field(p.x, p.y, fd_tear_gas, 3);
-            }
-        }
-    } else if(it->charges > 0) {
-        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-    }
-    return 0;
-}
-
-int iuse::smokebomb(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You pull the pin on the smoke bomb."));
-    it->make(itypes["smokebomb_act"]);
-    it->charges = 20;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::smokebomb_act(player *, item *it, bool t)
-{
-    point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) {
-        return 0;
-    }
-    if (t) {
-        g->sound(pos.x, pos.y, 0, _("Tick.")); // Vol 0 = only heard if you hold it
-    } else if(it->charges > 0) {
-        g->add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
-        return 0;
-    } else {
-        std::vector<point> gas_sources = points_for_gas_cloud(pos, 2);
-        for(size_t i = 0; i < gas_sources.size(); i++) {
-            const point &p = gas_sources[i];
-            g->m.add_field(p.x, p.y, fd_smoke, rng(1, 2) + rng(0, 1));
-        }
-    }
-    return 0;
-}
-
-int iuse::acidbomb(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You remove the divider, and the chemicals mix."));
-    p->moves -= 150;
-    it->make(itypes["acidbomb_act"]);
-    it->charges = 1;
-    it->bday = int(g->turn);
     it->active = true;
     return it->type->charges_to_use();
 }
@@ -5452,75 +4982,6 @@ int iuse::molotov_lit(player *p, item *it, bool t)
         if (!t) {
             g->explosion(pos.x, pos.y, 8, 0, true);
         }
-    }
-    return 0;
-}
-
-int iuse::dynamite(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
- if (!p->use_charges_if_avail("fire", 1)) {
-  g->add_msg_if_player(p,_("You need a lighter!"));
-  return 0;
- }
- g->add_msg_if_player(p,_("You light the dynamite."));
- it->make(itypes["dynamite_act"]);
- it->charges = 20;
- it->active = true;
- return it->type->charges_to_use();
-}
-
-int iuse::dynamite_act(player *, item *it, bool t)
-{
-    point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) { return 0; }
-    // Simple timer effects
-    if (t) {
-        g->sound(pos.x, pos.y, 0, _("ssss..."));
-        // When that timer runs down...
-    } else if(it->charges > 0) {
-        g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
-        return 0;
-    } else {
-        g->explosion(pos.x, pos.y, 60, 0, false);
-    }
-    return 0;
-}
-
-int iuse::matchbomb(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if( !p->use_charges_if_avail("fire", 1) ) {
-        it->charges++;
-        g->add_msg_if_player(p,_("You need a lighter!"));
-        return 0;
-    }
-    g->add_msg_if_player(p,_("You light the match head bomb."));
-    it->make( itypes["matchbomb_act"] );
-    it->charges = 3;
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
-int iuse::matchbomb_act(player *, item *it, bool t)
-{
-    point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) { return 0; }
-    // Simple timer effects
-    if (t) {
-        g->sound(pos.x, pos.y, 0, _("ssss..."));
-    } else if(it->charges > 0) {
-        g->add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
-        return 0;
-    } else {
-        // When that timer runs down...
-        g->explosion(pos.x, pos.y, 24, 0, false);
     }
     return 0;
 }
@@ -5675,29 +5136,6 @@ int iuse::mininuke(player *p, item *it, bool)
  it->charges = time;
  it->active = true;
  return it->type->charges_to_use();
-}
-
-int iuse::mininuke_act(player *, item *it, bool t)
-{
-    point pos = g->find_item(it);
-    if (pos.x == -999 || pos.y == -999) {
-        return 0;
-    }
-    if (t) { // Simple timer effects
-        g->sound(pos.x, pos.y, 2, _("Tick."));
-    } else if(it->charges > 0) {
-        g->add_msg(_("You've already set the %s's timer, you might want to get away from it."),
-                   it->name.c_str());
-        return 0;
-    } else { // When that timer runs down...
-        g->explosion(pos.x, pos.y, 200, 0, false);
-        std::vector<point> gas_sources = points_for_gas_cloud(pos, 4);
-        for(size_t i = 0; i < gas_sources.size(); i++) {
-            const point &p = gas_sources[i];
-            g->m.add_field(p.x, p.y, fd_nuke_gas, 3);
-        }
-    }
-    return 0;
 }
 
 int iuse::pheromone(player *p, item *it, bool)
@@ -6698,23 +6136,6 @@ int iuse::shelter(player *p, item *, bool)
  return 1;
 }
 
-int iuse::torch(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (!p->use_charges_if_avail("fire", 1)) {
-        g->add_msg_if_player(p,_("You need a lighter or fire to light this."));
-        return 0;
-    } else {
-        g->add_msg_if_player(p,_("You light the torch."));
-        it->make(itypes["torch_lit"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
 
 int iuse::torch_lit(player *p, item *it, bool t)
 {
@@ -6768,24 +6189,6 @@ int iuse::torch_lit(player *p, item *it, bool t)
 }
 
 
-int iuse::battletorch(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (!p->use_charges_if_avail("fire", 1)) {
-        g->add_msg_if_player(p,_("You need a lighter or fire to light this."));
-        return 0;
-    } else {
-        g->add_msg_if_player(p,_("You light the Louisville Slaughterer."));
-        it->make(itypes["battletorch_lit"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
-
 int iuse::battletorch_lit(player *p, item *it, bool t)
 {
     if (p->is_underwater()) {
@@ -6833,42 +6236,6 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
             }
         }
         }
-    }
-    return it->type->charges_to_use();
-}
-
-
-int iuse::candle(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (!p->use_charges_if_avail("fire", 1)) {
-        g->add_msg_if_player(p, _("You need a lighter to light this."));
-        return 0;
-    } else {
-        g->add_msg_if_player(p, _("You light the candle."));
-        it->make(itypes["candle_lit"]);
-        it->active = true;
-        return 0;
-    }
-}
-
-int iuse::candle_lit(player *p, item *it, bool t)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p,_("The candle is extinguished."));
-        it->make(itypes["candle"]);
-        it->active = false;
-        return 0;
-    }
-    if (t) { // Normal use
-        // Do nothing... player::active_light and the lightmap::generate deal with this
-    } else { // Turning it off
-        g->add_msg_if_player(p,_("The candle winks out"));
-        it->make(itypes["candle"]);
-        it->active = false;
     }
     return it->type->charges_to_use();
 }
@@ -7005,31 +6372,6 @@ int iuse::rag(player *p, item *it, bool)
                              it->type->name.c_str());
         return 0;
     }
-}
-
-int iuse::pda(player *p, item *it, bool)
-{
-    if (it->charges == 0) {
-        g->add_msg_if_player(p,_("The PDA's batteries are dead."));
-        return 0;
-    } else {
-        g->add_msg_if_player(p,_("You activate the flashlight app."));
-        it->make(itypes["pda_flashlight"]);
-        it->active = true;
-        return it->type->charges_to_use();
-    }
-}
-
-int iuse::pda_flashlight(player *p, item *it, bool t)
-{
- if (t) { // Normal use
-// Do nothing... player::active_light and the lightmap::generate deal with this
- } else { // Turning it off
-  g->add_msg_if_player(p,_("The PDA screen goes blank."));
-  it->make(itypes["pda"]);
-  it->active = false;
- }
- return it->type->charges_to_use();
 }
 
 int iuse::LAW(player *p, item *it, bool)
@@ -7542,13 +6884,6 @@ int iuse::flask_yeast(player *p, item *it, bool)
     }
 }
 
-int iuse::rad_badge(player *p, item *it, bool)
-{
-    g->add_msg_if_player(p,_("You remove the badge from its wrapper, exposing it to ambient radiation."));
-    it->make(itypes["rad_badge"]);
-    return 0;
-}
-
 int iuse::quiver(player *p, item *it, bool)
 {
     int choice = -1;
@@ -8011,59 +7346,6 @@ int iuse::towel(player *p, item *it, bool)
         it->active = true;
     }
     return it->type->charges_to_use();
-}
-
-int iuse::unfold_bicycle(player *p, item *it, bool)
-{
-    if (p->is_underwater()) {
-        g->add_msg_if_player(p, _("You can't do that while underwater."));
-        return 0;
-    }
-    vehicle *bicycle = g->m.add_vehicle( "bicycle", p->posx, p->posy, 0, 0, 0, false);
-    if( bicycle ) {
-        // Mark the vehicle as foldable.
-        bicycle->tags.insert("convertible");
-        // Restore HP of parts if we stashed them previously.
-        if( it->item_vars.count("folding_bicycle_parts") ) {
-            std::istringstream veh_data;
-            const std::string &data = it->item_vars["folding_bicycle_parts"];
-            veh_data.str(data);
-            if (!data.empty() && data[0] >= '0' && data[0] <= '9') {
-                // starts with a digit -> old format
-                for (size_t p = 0; p < bicycle->parts.size(); p++) {
-                    veh_data >> bicycle->parts[p].hp;
-                }
-            } else {
-                try {
-                    JsonIn json(veh_data);
-                    // Load parts into a temporary vector to not override
-                    // cached values (like precalc_dx, passenger_id, ...)
-                    std::vector<vehicle_part> parts;
-                    json.read(parts);
-                    for(size_t i = 0; i < parts.size() && i < bicycle->parts.size(); i++) {
-                        const vehicle_part &src = parts[i];
-                        vehicle_part &dst = bicycle->parts[i];
-                        // and now only copy values, that are
-                        // expected to be consistent.
-                        dst.hp = src.hp;
-                        dst.blood = src.blood;
-                        dst.bigness = src.bigness;
-                        // door state/amount of fuel/direction of headlight
-                        dst.amount = src.amount;
-                        dst.flags = src.flags;
-                    }
-                } catch(std::string e) {
-                    debugmsg("Error restoring vehicle: %s", e.c_str());
-                }
-            }
-        }
-        g->add_msg_if_player(p, _("You painstakingly unfold the bicycle and make it ready to ride."));
-        p->moves -= 500;
-    } else {
-        g->add_msg_if_player(p, _("There's no room to unfold the bicycle."));
-        return 0;
-    }
-    return 1;
 }
 
 int iuse::adrenaline_injector(player *p, item *it, bool)
