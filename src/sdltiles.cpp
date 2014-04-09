@@ -1032,7 +1032,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
                 faceIndex = index;
                 return fpath;
             }
-        } while (true);
+        } while (!fin.eof());
     }
 
     return "";
