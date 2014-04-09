@@ -379,7 +379,16 @@
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
-    "use_action": "GASOLINE_LANTERN_OFF"
+    "use_action": {
+        "type": "transform",
+        "target": "gasoline_lantern_on",
+        "active": true,
+        "msg": "You turn the lamp on.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "need_charges": 1,
+        "need_charges_msg": "The lamp is empty."
+    }
   },
 
   {
@@ -403,7 +412,12 @@
     "turns_per_charge": 20,
     "ammo": "gasoline",
     "revert_to": "gasoline_lantern",
-    "use_action": "GASOLINE_LANTERN_ON"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "gasoline_lantern",
+        "when_underwater": "The lantern is extinguished.",
+        "msg": "The lantern is extinguished."
+    }
   },
 
   {
@@ -426,7 +440,16 @@
     "turns_per_charge": 0,
     "ammo": "lamp_oil",
     "revert_to": "null",
-    "use_action": "OIL_LAMP_OFF"
+    "use_action": {
+        "type": "transform",
+        "target": "oil_lamp_on",
+        "active": true,
+        "msg": "You turn the lamp on.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "need_charges": 1,
+        "need_charges_msg": "The lamp is empty."
+    }
   },
 
   {
@@ -450,7 +473,12 @@
     "turns_per_charge": 20,
     "ammo": "lamp_oil",
     "revert_to": "oil_lamp",
-    "use_action": "OIL_LAMP_ON"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "oil_lamp",
+        "when_underwater": "The lantern is extinguished.",
+        "msg": "The lantern is extinguished."
+    }
   },
 
   {
@@ -473,7 +501,14 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "LIGHT_OFF"
+    "use_action": {
+        "type": "transform",
+        "msg": "You turn the flashlight on.",
+        "target": "flashlight_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The flashlights batteries are dead."
+    }
   },
 
   {
@@ -497,7 +532,11 @@
     "turns_per_charge": 15,
     "ammo": "battery",
     "revert_to": "flashlight",
-    "use_action": "LIGHT_ON"
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "You turn the flashlight off.",
+        "target": "flashlight"
+    }
   },
 
   {
@@ -543,7 +582,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LIGHTSTRIP"
+    "use_action": {
+        "type": "transform",
+        "target": "lightstrip",
+        "active": true,
+        "msg": "You irreversibly activate the lightstrip."
+    }
   },
 
   {
@@ -567,7 +611,12 @@
     "turns_per_charge": 120,
     "ammo": "NULL",
     "revert_to": "lightstrip_dead",
-    "use_action": "LIGHTSTRIP_ACTIVE"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "lightstrip_dead",
+        "non_interactive_msg": "You can not deactivate the lightstrip.",
+        "msg": "The lightstrip dies."
+    }
   },
 
   {
@@ -590,7 +639,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "GLOWSTICK"
+    "use_action": {
+        "type": "transform",
+        "target": "glowstick_lit",
+        "active": true,
+        "msg": "You activate the glowstick."
+    }
   },
 
   {
@@ -614,7 +668,12 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "glowstick_dead",
-    "use_action": "GLOWSTICK_ACTIVE"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "glowstick_dead",
+        "non_interactive_msg": "You can't turn off a glowstick.",
+        "msg": "The glowstick fades out."
+    }
   },
 
   {
@@ -660,7 +719,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "HANDFLARE"
+    "use_action": {
+        "type": "transform",
+        "target": "handflare_lit",
+        "active": true,
+        "msg": "You strike your flare and light it."
+    }
   },
 
   {
@@ -684,7 +748,12 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "handflare_dead",
-    "use_action": "HANDFLARE_LIT"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "handflare_dead",
+        "non_interactive_msg": "You can't turn off a flare.",
+        "msg": "The flare sputters out."
+    }
   },
 
   {
@@ -1428,7 +1497,12 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "CIRCSAW_OFF"
+    "use_action": {
+        "type": "transform",
+        "target": "circsaw_on",
+        "active": true,
+        "msg": "You turn on the circular saw."
+    }
   },{
     "id": "circsaw_on",
     "type": "TOOL",
@@ -2005,7 +2079,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "PIPEBOMB"
+    "use_action": {
+        "type": "transform",
+        "msg": "You light the fuse on the pipe bomb.",
+        "active": true,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "target": "pipebomb_act",
+        "target_charges": 3
+    }
   },
 
   {
@@ -2053,7 +2135,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "GRENADE"
+    "use_action": {
+        "type": "transform",
+        "target": "grenade_act",
+        "target_charges": 5,
+        "active": true,
+        "msg": "You pull the pin on the grenade."
+    }
   },
 
   {
@@ -2077,7 +2165,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "GRENADE_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "explosion_power": 12,
+        "explosion_shrapnel": 28
+    }
   },
 
   {
@@ -2149,7 +2244,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "FLASHBANG"
+    "use_action": {
+        "type": "transform",
+        "target": "flashbang_act",
+        "target_charges": 5,
+        "active": true,
+        "msg": "You pull the pin on the flashbang."
+    }
   },
 
   {
@@ -2173,7 +2274,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "FLASHBANG_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "do_flashbang": true
+    }
   },
 
   {
@@ -2197,7 +2304,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "EMPBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "EMPbomb_act",
+        "target_charges": 3,
+        "active": true,
+        "msg": "You pull the pin on the EMP grenade."
+    }
   },
 
   {
@@ -2221,7 +2334,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "EMPBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "draw_explosion_radius": 4,
+        "draw_explosion_color": "ltblue",
+        "emp_blast_radius": 4
+    }
   },
 
   {
@@ -2245,7 +2366,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "SCRAMBLER"
+    "use_action": {
+        "type": "transform",
+        "target": "scrambler_act",
+        "target_charges": 3,
+        "active": true,
+        "msg": "You pull the pin on the scrambler grenade."
+    }
   },
 
   {
@@ -2269,7 +2396,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "SCRAMBLER_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "draw_explosion_radius": 4,
+        "draw_explosion_color": "cyan",
+        "scrambler_blast_radius": 4
+    }
   },
 
   {
@@ -2293,7 +2428,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "GASBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "gasbomb_act",
+        "target_charges": 20,
+        "active": true,
+        "msg": "You pull the pin on the teargas canister."
+    }
   },
 
   {
@@ -2317,7 +2458,16 @@
     "ammo": "NULL",
     "revert_to": "canister_empty",
     "category": "weapons",
-    "use_action": "GASBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "fields_radius": 3,
+        "fields_type": "fd_tear_gas",
+        "fields_min_density": 3,
+        "fields_max_density": 3
+    }
   },
 
   {
@@ -2341,7 +2491,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "SMOKEBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "smokebomb_act",
+        "target_charges": 20,
+        "active": true,
+        "msg": "You pull the pin on the smoke bomb."
+    }
   },
 
   {
@@ -2365,7 +2521,16 @@
     "ammo": "NULL",
     "revert_to": "canister_empty",
     "category": "weapons",
-    "use_action": "SMOKEBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "fields_radius": 2,
+        "fields_type": "fd_smoke",
+        "fields_min_density": 1,
+        "fields_max_density": 3
+    }
   },
 
   {   "id" : "flamable_arrow",
@@ -2461,7 +2626,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "ACIDBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "acidbomb_act",
+        "target_charges": 1,
+        "msg": "You remove the divider, and the chemicals mix.",
+        "active": true,
+        "moves": 150
+    }
   },
 
   {
@@ -2509,7 +2681,19 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "DYNAMITE"
+    "explode_in_fire" : {
+        "power": 60,
+        "shrapnel": 0
+    },
+    "use_action": {
+        "type": "transform",
+        "target": "dynamite_act",
+        "target_charges": 20,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "active": true,
+        "msg": "You light the dynamite."
+    }
   },
 
   {
@@ -2533,7 +2717,18 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "DYNAMITE_ACT"
+    "explode_in_fire" : {
+        "power": 60,
+        "shrapnel": 0
+    },
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "ssss...",
+        "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+        "explosion_power": 60,
+        "explosion_shrapnel": 0
+    }
   },
 
   {
@@ -2675,7 +2870,18 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "MININUKE_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 2,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
+        "explosion_power": 200,
+        "explosion_shrapnel": 0,
+        "fields_type": "fd_nuke_gas",
+        "fields_radius": 4,
+        "fields_min_density": 3,
+        "fields_max_density": 3
+    }
   },
 
   {
@@ -3190,7 +3396,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "C4ARMED"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
+        "explosion_power": 40,
+        "explosion_shrapnel": 3
+    }
   },
 
   {
@@ -4281,7 +4494,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "TORCH"
+    "use_action": {
+        "type": "transform",
+        "target": "torch_lit",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter or fire to light this.",
+        "active": true,
+        "msg": "You light the torch."
+    }
   },
 
   {
@@ -4331,7 +4551,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "BATTLETORCH"
+    "use_action": {
+        "type": "transform",
+        "target": "battletorch_lit",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter or fire to light this.",
+        "active": true,
+        "msg": "You light the Louisville Slaughterer."
+    }
   },
 
   {
@@ -4380,7 +4607,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "can_food",
-    "use_action": "CANDLE"
+    "use_action": {
+        "type": "transform",
+        "target": "candle_lit",
+        "active": true,
+        "msg": "You light the candle.",
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter to light this."
+    }
   },
 
   {
@@ -4404,7 +4638,12 @@
     "turns_per_charge": 50,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "CANDLE_LIT"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "candle",
+        "when_underwater": "The candle is extinguished.",
+        "msg": "The candle winks out."
+    }
   },
 
   {
@@ -4875,7 +5114,14 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "PDA"
+    "use_action": {
+        "type": "transform",
+        "need_charges": 1,
+        "need_charges_msg": "The PDA's batteries are dead.",
+        "msg": "You activate the flashlight app.",
+        "target": "pda_flashlight",
+        "active": true
+    }
   },
 
   {
@@ -4899,7 +5145,11 @@
     "turns_per_charge": 30,
     "ammo": "battery",
     "revert_to": "pda",
-    "use_action": "PDA_FLASHLIGHT"
+    "use_action": {
+        "type": "auto_transform",
+        "msg": "The PDA screen goes blank.",
+        "target": "pda"
+    }
   },
 
   {
@@ -5905,7 +6155,12 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "UNFOLD_BICYCLE"
+    "use_action": {
+        "type": "unfold_vehicle",
+        "vehicle_name": "bicycle",
+        "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
+        "moves": 500
+    }
   },
 
   {
@@ -6256,7 +6511,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "MATCHBOMB"
+    "use_action": {
+        "type": "transform",
+        "target": "matchbomb_act",
+        "target_charges": 20,
+        "need_fire": 1,
+        "need_fire_msg": "You need a lighter!",
+        "active": true,
+        "msg": "You light the match head bomb."
+    }
   },
 
   {
@@ -6280,7 +6543,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
-    "use_action": "MATCHBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "ssss...",
+        "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+        "explosion_power": 24,
+        "explosion_shrapnel": 0
+    }
   },
 
   {
@@ -6468,7 +6738,11 @@
     "ammo": "NULL",
     "revert_to": "null",
     "phase" : "solid",
-    "use_action" : "RAD_BADGE"
+    "use_action": {
+        "type": "transform",
+        "target": "rad_badge",
+        "msg":"You remove the badge from its wrapper, exposing it to ambient radiation."
+    }
   },
 
   {

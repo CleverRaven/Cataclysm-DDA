@@ -3103,3 +3103,11 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, double V
     bLowerIsBetter = LowerIsBetter;
     bDrawName = DrawName;
 }
+
+void item::detonate(point p) const
+{
+    if (type == NULL || type->explosion_on_fire_data.power < 0) {
+        return;
+    }
+    g->explosion(p.x, p.y, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+}

@@ -7,11 +7,13 @@
 #include "bodypart.h"
 #include "crafting.h"
 #include "iuse_actor.h"
+#include "tile_id_data.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <memory>
 #include <stdio.h>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
@@ -220,16 +222,6 @@ void Item_factory::init(){
     iuse_function_list["SCISSORS"] = &iuse::scissors;
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
-    iuse_function_list["LIGHT_OFF"] = &iuse::light_off;
-    iuse_function_list["LIGHT_ON"] = &iuse::light_on;
-    iuse_function_list["GASOLINE_LANTERN_OFF"] = &iuse::gasoline_lantern_off;
-    iuse_function_list["GASOLINE_LANTERN_ON"] = &iuse::gasoline_lantern_on;
-    iuse_function_list["OIL_LAMP_OFF"] = &iuse::oil_lamp_off;
-    iuse_function_list["OIL_LAMP_ON"] = &iuse::oil_lamp_on;
-    iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
-    iuse_function_list["LIGHTSTRIP_ACTIVE"] = &iuse::lightstrip_active;
-    iuse_function_list["GLOWSTICK"] = &iuse::glowstick;
-    iuse_function_list["GLOWSTICK_ACTIVE"] = &iuse::glowstick_active;
     iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
     iuse_function_list["SOLDER_WELD"] = &iuse::solder_weld;
     iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
@@ -258,7 +250,6 @@ void Item_factory::init(){
     iuse_function_list["CARVER_ON"] = &iuse::carver_on;
     iuse_function_list["TRIMMER_OFF"] = &iuse::trimmer_off;
     iuse_function_list["TRIMMER_ON"] = &iuse::trimmer_on;
-    iuse_function_list["CIRCSAW_OFF"] = &iuse::circsaw_off;
     iuse_function_list["CIRCSAW_ON"] = &iuse::circsaw_on;
     iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
     iuse_function_list["COMBATSAW_ON"] = &iuse::combatsaw_on;
@@ -280,39 +271,19 @@ void Item_factory::init(){
     iuse_function_list["TELEPORT"] = &iuse::teleport;
     iuse_function_list["CAN_GOO"] = &iuse::can_goo;
     iuse_function_list["THROWABLE_EXTINGUISHER_ACT"] = &iuse::throwable_extinguisher_act;
-    iuse_function_list["PIPEBOMB"] = &iuse::pipebomb;
     iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
-    iuse_function_list["GRENADE"] = &iuse::grenade;
-    iuse_function_list["GRENADE_ACT"] = &iuse::grenade_act;
     iuse_function_list["GRANADE"] = &iuse::granade;
     iuse_function_list["GRANADE_ACT"] = &iuse::granade_act;
-    iuse_function_list["FLASHBANG"] = &iuse::flashbang;
-    iuse_function_list["FLASHBANG_ACT"] = &iuse::flashbang_act;
     iuse_function_list["C4"] = &iuse::c4;
-    iuse_function_list["C4ARMED"] = &iuse::c4armed;
-    iuse_function_list["EMPBOMB"] = &iuse::EMPbomb;
-    iuse_function_list["EMPBOMB_ACT"] = &iuse::EMPbomb_act;
-    iuse_function_list["SCRAMBLER"] = &iuse::scrambler;
-    iuse_function_list["SCRAMBLER_ACT"] = &iuse::scrambler_act;
-    iuse_function_list["GASBOMB"] = &iuse::gasbomb;
-    iuse_function_list["GASBOMB_ACT"] = &iuse::gasbomb_act;
-    iuse_function_list["SMOKEBOMB"] = &iuse::smokebomb;
-    iuse_function_list["SMOKEBOMB_ACT"] = &iuse::smokebomb_act;
-    iuse_function_list["ACIDBOMB"] = &iuse::acidbomb;
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
-    iuse_function_list["MATCHBOMB"] = &iuse::matchbomb;
-    iuse_function_list["MATCHBOMB_ACT"] = &iuse::matchbomb_act;
-    iuse_function_list["DYNAMITE"] = &iuse::dynamite;
-    iuse_function_list["DYNAMITE_ACT"] = &iuse::dynamite_act;
     iuse_function_list["FIRECRACKER_PACK"] = &iuse::firecracker_pack;
     iuse_function_list["FIRECRACKER_PACK_ACT"] = &iuse::firecracker_pack_act;
     iuse_function_list["FIRECRACKER"] = &iuse::firecracker;
     iuse_function_list["FIRECRACKER_ACT"] = &iuse::firecracker_act;
     iuse_function_list["MININUKE"] = &iuse::mininuke;
-    iuse_function_list["MININUKE_ACT"] = &iuse::mininuke_act;
     iuse_function_list["PHEROMONE"] = &iuse::pheromone;
     iuse_function_list["PORTAL"] = &iuse::portal;
     iuse_function_list["MANHACK"] = &iuse::manhack;
@@ -337,25 +308,16 @@ void Item_factory::init(){
     iuse_function_list["HACKSAW"] = &iuse::hacksaw;
     iuse_function_list["TENT"] = &iuse::tent;
     iuse_function_list["SHELTER"] = &iuse::shelter;
-    iuse_function_list["TORCH"] = &iuse::torch;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
-    iuse_function_list["HANDFLARE"] = &iuse::handflare;
-    iuse_function_list["HANDFLARE_LIT"] = &iuse::handflare_lit;
-    iuse_function_list["BATTLETORCH"] = &iuse::battletorch;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
-    iuse_function_list["CANDLE"] = &iuse::candle;
-    iuse_function_list["CANDLE_LIT"] = &iuse::candle_lit;
     iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
     iuse_function_list["MOP"] = &iuse::mop;
     iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
     iuse_function_list["RAG"] = &iuse::rag;
-    iuse_function_list["PDA"] = &iuse::pda;
-    iuse_function_list["PDA_FLASHLIGHT"] = &iuse::pda_flashlight;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["FLASK_YEAST"] = &iuse::flask_yeast;
-    iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
@@ -363,7 +325,6 @@ void Item_factory::init(){
     iuse_function_list["HOLSTER_PISTOL"] = &iuse::holster_pistol;
     iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
     iuse_function_list["TOWEL"] = &iuse::towel;
-    iuse_function_list["UNFOLD_BICYCLE"] = &iuse::unfold_bicycle;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
     iuse_function_list["CONTACTS"] = &iuse::contacts;
@@ -377,8 +338,6 @@ void Item_factory::init(){
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
     iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
-    iuse_function_list["TOOLARMOR_OFF"]  = &iuse::toolarmor_off;
-    iuse_function_list["TOOLARMOR_ON"]  = &iuse::toolarmor_on;
     iuse_function_list["RM13ARMOR_OFF"]  = &iuse::rm13armor_off;
     iuse_function_list["RM13ARMOR_ON"]  = &iuse::rm13armor_on;
     iuse_function_list["UNPACK_ITEM"]  = &iuse::unpack_item;
@@ -918,6 +877,14 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     new_item_template->melee_cut = jo.get_int("cutting");
     new_item_template->m_to_hit = jo.get_int("to_hit");
 
+    if (jo.has_member("explode_in_fire")) {
+        JsonObject je = jo.get_object("explode_in_fire");
+        je.read("power", new_item_template->explosion_on_fire_data.power);
+        je.read("shrapnel", new_item_template->explosion_on_fire_data.shrapnel);
+        je.read("fire", new_item_template->explosion_on_fire_data.fire);
+        je.read("blast", new_item_template->explosion_on_fire_data.blast);
+    }
+
     new_item_template->light_emission = 0;
 
     /*
@@ -1132,12 +1099,78 @@ void Item_factory::load_item_group(JsonObject &jsobj)
 use_function Item_factory::use_from_object(JsonObject obj) {
     const std::string type = obj.get_string("type");
     if (type == "transform") {
-        const std::string msg = obj.get_string("msg");
-        const bool active = obj.get_bool("active", false);
-        const std::string target = obj.get_string("target");
-        const std::string container = obj.get_string("container", "");
-        iuse_transform *actor = new iuse_transform(msg, target, container, active);
-        return use_function(actor);
+        std::auto_ptr<iuse_transform> actor(new iuse_transform);
+        // Mandatory:
+        actor->target_id = obj.get_string("target");
+        // Optional (default is good enough):
+        obj.read("msg", actor->msg_transform);
+        obj.read("target_charges", actor->target_charges);
+        obj.read("container", actor->container_id);
+        obj.read("active", actor->active);
+        obj.read("need_fire", actor->need_fire);
+        obj.read("need_fire_msg", actor->need_fire_msg);
+        obj.read("need_charges", actor->need_charges);
+        obj.read("need_charges_msg", actor->need_charges_msg);
+        obj.read("moves", actor->moves);
+        // from hereon memory is handled by the use_function class
+        return use_function(actor.release());
+    } else if (type == "auto_transform") {
+        std::auto_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
+        // Mandatory:
+        actor->target_id = obj.get_string("target");
+        // Optional (default is good enough):
+        obj.read("msg", actor->msg_transform);
+        obj.read("target_charges", actor->target_charges);
+        obj.read("container", actor->container_id);
+        obj.read("active", actor->active);
+        obj.read("need_fire", actor->need_fire);
+        obj.read("need_fire_msg", actor->need_fire_msg);
+        obj.read("need_charges", actor->need_charges);
+        obj.read("need_charges_msg", actor->need_charges_msg);
+        obj.read("when_underwater", actor->when_underwater);
+        obj.read("non_interactive_msg", actor->non_interactive_msg);
+        obj.read("moves", actor->moves);
+        // from hereon memory is handled by the use_function class
+        return use_function(actor.release());
+    } else if (type == "explosion") {
+        std::auto_ptr<explosion_iuse> actor(new explosion_iuse);
+        obj.read("explosion_power", actor->explosion_power);
+        obj.read("explosion_shrapnel", actor->explosion_shrapnel);
+        obj.read("explosion_fire", actor->explosion_fire);
+        obj.read("explosion_blast", actor->explosion_blast);
+        obj.read("draw_explosion_radius", actor->draw_explosion_radius);
+        if (obj.has_member("draw_explosion_color")) {
+            actor->draw_explosion_color = color_from_string(obj.get_string("draw_explosion_color"));
+        }
+        obj.read("do_flashbang", actor->do_flashbang);
+        obj.read("flashbang_player_immune", actor->flashbang_player_immune);
+        obj.read("fields_radius", actor->fields_radius);
+        if (obj.has_member("fields_type")) {
+            const std::string ft = obj.get_string("fields_type");
+            for (int i = 0; i < num_fields; i++) {
+                if (field_names[i] == ft) {
+                    actor->fields_type = static_cast<field_id>(i);
+                    break;
+                }
+            }
+            if (actor->fields_type == fd_null) {
+                debugmsg("Unknown field type %s", ft.c_str());
+            }
+        }
+        obj.read("fields_min_density", actor->fields_min_density);
+        obj.read("fields_max_density", actor->fields_max_density);
+        obj.read("emp_blast_radius", actor->emp_blast_radius);
+        obj.read("scrambler_blast_radius", actor->scrambler_blast_radius);
+        obj.read("sound_volume", actor->sound_volume);
+        obj.read("sound_msg", actor->sound_msg);
+        obj.read("no_deactivate_msg", actor->no_deactivate_msg);
+        return use_function(actor.release());
+    } else if (type == "unfold_vehicle") {
+        std::auto_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
+        obj.read("vehicle_name", actor->vehicle_name);
+        obj.read("unfold_msg", actor->unfold_msg);
+        obj.read("moves", actor->moves);
+        return use_function(actor.release());
     } else {
         debugmsg("unknown use_action type %s", type.c_str());
         return use_function();
