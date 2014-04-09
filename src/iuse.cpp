@@ -6320,7 +6320,7 @@ int iuse::dog_whistle(player *p, item *it, bool)
    } else {
     if (u_see)
      g->add_msg_if_player(p,_("Your %s goes docile."), g->zombie(i).name().c_str());
-    g->zombie(i).add_effect("docile", -1);
+    g->zombie(i).add_effect("docile", 1, 1, true);
    }
   }
  }

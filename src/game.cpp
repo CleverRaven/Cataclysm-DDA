@@ -12396,7 +12396,7 @@ bool game::plmove(int dx, int dy)
                                   critter.name().c_str());
                       }
                   } else {
-                      critter.add_effect("docile", -1);
+                      critter.add_effect("docile", 1, 1, true);
                       add_msg(_("The %s ."), critter.name().c_str());
                       if (one_in(3)) {
                           add_msg(_("The %s lets out a whirring noise and starts to follow you."),
