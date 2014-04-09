@@ -66,7 +66,6 @@ class map
  public:
 // Constructors & Initialization
  map();
- map(std::vector<trap*> *trptr);
  ~map();
 
 // Visual Output
@@ -483,8 +482,6 @@ protected:
  int nulrad;     // OOB &radiation()
  int null_temperature;  // Because radiation does it too
 
- std::vector <trap*> *traps;
-
  bool veh_in_active_range;
 
  point abs_sub; // same as x y in maps.txt, for 0,0 / grid[0]
@@ -534,7 +531,6 @@ class tinymap : public map
 friend class editmap;
 public:
  tinymap();
- tinymap(std::vector<trap*> *trptr);
  ~tinymap();
 
 protected:

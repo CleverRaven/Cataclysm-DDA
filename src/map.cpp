@@ -35,28 +35,10 @@ map::map()
     my_MAPSIZE = is_tiny() ? 2 : MAPSIZE;
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
-/*
-crashes involving traplocs? move below to the other constructors
-    const int num_traps = g->traps.size(); // dead: num_trap_ids;
-    for (int t = 0; t < num_traps; t++) {
-        traplocs[(trap_id) t] = std::set<point>();
+    memset(veh_exists_at, 0, sizeof(veh_exists_at));
+    for (int n = 0; n < sizeof(grid) / sizeof(grid[0]); n++) {
+        grid[n] = NULL;
     }
-*/
-}
-
-map::map(std::vector<trap*> *trptr)
-{
- nulter = t_null;
- traps = trptr;
- if (is_tiny())
-  my_MAPSIZE = 2;
- else
-  my_MAPSIZE = MAPSIZE;
- for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
-  grid[n] = NULL;
- dbg(D_INFO) << "map::map( trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
- veh_in_active_range = true;
- memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
 
 map::~map()
@@ -3590,10 +3572,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
     // todo; test using g->traps, test using global traplist
-    if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
-                                 u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
-        tercol = (*traps)[curr_trap]->color;
-        if ((*traps)[curr_trap]->sym == '%') {
+    if (curr_trap != tr_null && (g->traps[curr_trap]->visibility == -1 ||
+                                 u.per_cur - u.encumb(bp_eyes) >= g->traps[curr_trap]->visibility)) {
+        tercol = g->traps[curr_trap]->color;
+        if (g->traps[curr_trap]->sym == '%') {
             switch(rng(1, 5)) {
             case 1: sym = '*'; break;
             case 2: sym = '0'; break;
@@ -3602,7 +3584,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             case 5: sym = '+'; break;
             }
         } else {
-            sym = (*traps)[curr_trap]->sym;
+            sym = g->traps[curr_trap]->sym;
         }
     }
     if (curr_field.fieldCount() > 0) {
@@ -4278,7 +4260,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
-  tinymap tmp_map(traps);
+  tinymap tmp_map;
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
@@ -4686,18 +4668,6 @@ submap * map::getsubmap( const int grididx ) {
 
 tinymap::tinymap()
 {
- nulter = t_null;
-}
-
-tinymap::tinymap(std::vector<trap*> *trptr)
-{
- nulter = t_null;
- traps = trptr;
- my_MAPSIZE = 2;
- for (int n = 0; n < 4; n++)
-  grid[n] = NULL;
- veh_in_active_range = true;
- memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
 
 tinymap::~tinymap()

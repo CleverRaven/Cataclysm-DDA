@@ -1537,7 +1537,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     update_view(true);
 
     oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = (int)gmenu.ret;
-    tinymap tmpmap(&g->traps);
+    tinymap tmpmap;
     tmpmap.load(tc.om_sub.x, tc.om_sub.y, zlevel, false, oms[1][1]);
     // this should -not- be saved, map::save appends a dupe to mapbuffer.
     tmpmap.generate(oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
