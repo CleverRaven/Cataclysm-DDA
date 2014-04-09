@@ -6,6 +6,7 @@
 #include "line.h"
 #include "computer.h"
 #include "veh_interact.h"
+#include "veh_physics.h"
 #include "advanced_inv.h"
 #include "options.h"
 #include "auto_pickup.h"
@@ -7532,25 +7533,21 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
   return refill_vehicle_part(veh, &veh.parts[part], test);
 }
 
-void game::handbrake ()
+void game::handbrake()
 {
- vehicle *veh = m.veh_at (u.posx, u.posy);
- if (!veh)
-  return;
- add_msg (_("You pull a handbrake."));
- veh->cruise_velocity = 0;
- if (veh->last_turn != 0 && rng (15, 60) * 100 < abs(veh->velocity)) {
-  veh->skidding = true;
-  add_msg (_("You lose control of %s."), veh->name.c_str());
-  veh->turn (veh->last_turn > 0? 60 : -60);
- } else if (veh->velocity < 0)
-  veh->stop();
- else {
-  veh->velocity = veh->velocity / 2 - 10*100;
-  if (veh->velocity < 0)
-      veh->stop();
- }
- u.moves = 0;
+    vehicle *veh = m.veh_at (u.posx, u.posy);
+    if (!veh)
+        return;
+    add_msg (_("You pull a handbrake."));
+    veh->cruise_velocity = 0;
+    if ( (veh->turn_dir+15) * abs(veh->velocity) > rng(180000, 300000) ) {
+        veh->start_skid(veh->turn_dir > 0? 60 : -60);
+    } else {
+        veh->velocity = veh->velocity * 4 / 5 - 25*100;
+        if (abs(veh->velocity) < 1000)
+            veh->stop();
+    }
+    u.moves = 0;
 }
 
 void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
@@ -11827,29 +11824,12 @@ void game::pldrive(int x, int y) {
         return;
     }
 
-    int thr_amount = 10 * 100;
-    if (veh->cruise_on) {
-        veh->cruise_thrust (-y * thr_amount);
-    } else {
-        veh->thrust (-y);
-    }
-    veh->turn (15 * x);
-    if (veh->skidding && veh->valid_wheel_config()) {
-        if (rng (0, veh->velocity) < u.dex_cur + u.skillLevel("driving") * 2) {
-            add_msg (_("You regain control of the %s."), veh->name.c_str());
-            u.practice(turn, "driving", veh->velocity / 5);
-            veh->velocity = int(veh->forward_velocity());
-            veh->skidding = false;
-            veh->move.init (veh->turn_dir);
-        }
-    }
+    veh->thrust( -y * 100 ); // 100 = 100%
+    veh->turn( 15 * x );
+
     // Don't spend turns to adjust cruise speed.
     if( x != 0 || !veh->cruise_on ) {
         u.moves = 0;
-    }
-
-    if (x != 0 && veh->velocity != 0 && one_in(10)) {
-        u.practice(turn, "driving", 1);
     }
 }
 
@@ -12093,8 +12073,12 @@ bool game::plmove(int dx, int dy)
               add_msg(_("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
               return false;
           }
-          drag_multiplier += (float)(grabbed_vehicle->total_mass() * 1000) /
-              (float)(u.weight_capacity() * 5);
+          veh_physics vp;
+          vp.init( grabbed_vehicle );
+          drag_multiplier += float(vp.mass * 1000) / float(u.weight_capacity() * 5);
+          if( !vp.valid_wheel_config ) {
+              drag_multiplier *= 2;
+          }
           if( drag_multiplier > 2.0 ) {
               add_msg(_("The %s is too heavy for you to budge!"), grabbed_vehicle->name.c_str());
               return false;
@@ -12131,19 +12115,14 @@ bool game::plmove(int dx, int dy)
               grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
               grabbed_vehicle->face = grabbed_vehicle->turn_dir;
               grabbed_vehicle->precalc_mounts( 1, mdir.dir() );
-              int imp = 0;
-              std::vector<veh_collision> veh_veh_colls;
-              std::vector<veh_collision> veh_misc_colls;
-              bool can_move = true;
               // Set player location to illegal value so it can't collide with vehicle.
-              int player_prev_x = u.posx;
-              int player_prev_y = u.posy;
+              const int player_prev_x = u.posx;
+              const int player_prev_y = u.posy;
               u.posx = 0;
               u.posy = 0;
-              if( grabbed_vehicle->collision( veh_veh_colls, veh_misc_colls, dxVeh, dyVeh,
-                                              can_move, imp, true ) ) {
-                  // TODO: figure out what we collided with.
-                  add_msg( _("The %s collides with something."), grabbed_vehicle->name.c_str() );
+              if( vp.collision(dxVeh, dyVeh, true) ) {
+                  add_msg( _("The %s collides with %s."), grabbed_vehicle->name.c_str(),
+                                                          vp.first_collision_name.c_str() );
                   u.moves -= 10;
                   u.posx = player_prev_x;
                   u.posy = player_prev_y;
@@ -12156,15 +12135,8 @@ bool game::plmove(int dx, int dy)
 
               int gx = grabbed_vehicle->global_x();
               int gy = grabbed_vehicle->global_y();
-              std::vector<int> wheel_indices = grabbed_vehicle->all_parts_with_feature("WHEEL", false);
-              for( size_t i = 0; i < wheel_indices.size(); ++i ) {
-                  int p = wheel_indices[i];
-                  if( one_in(2) ) {
-                      grabbed_vehicle->handle_trap( gx + grabbed_vehicle->parts[p].precalc_dx[0] + dxVeh,
-                                                    gy + grabbed_vehicle->parts[p].precalc_dy[0] + dyVeh, p );
-                  }
-              }
               m.displace_vehicle( gx, gy, dxVeh, dyVeh );
+              vp.drive_one_tile(); // Handle sinking, traps, messsing up ground
           } else {
               //We are moving around the veh
               u.grab_point.x = (dx + dxVeh) * (-1);

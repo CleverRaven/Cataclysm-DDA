@@ -1,5 +1,6 @@
 #include <string>
 #include "veh_interact.h"
+#include "veh_physics.h"
 #include "vehicle.h"
 #include "game.h"
 #include "output.h"
@@ -1130,33 +1131,56 @@ void veh_interact::display_stats()
     }
     bool conf = veh->valid_wheel_config();
     std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
-    float speed_factor = 0.01f;
+//    float speed_factor = 0.01f;
+    std::string accel_s = "0-60 mph:  ";
+    double target_speed = 60.0 / 2.236; // m/s
     if (speed_units == "km/h") {
-        speed_factor *= 1.61f;
+//        speed_factor /= 1.61f;
+        accel_s = "0-100 km/h:";
+        target_speed = 100.0 / 3.6; // m/s
     }
+
+    veh_physics vp;
+    vp.init( veh );
+    int acc_time_cur = int(1000 * vp.calculate_movement(2.0, target_speed));
+    int acc_time_max = int(1000 * vp.calculate_movement(3.0, target_speed));
+    int eng_watt_max = veh->power_to_epower(vp.eng_pwr_max);
+    int eng_watt_cur = veh->power_to_epower(vp.eng_pwr_cur);
+
     std::string weight_units = OPTIONS["USE_METRIC_WEIGHTS"].getValue();
     float weight_factor = 1.0f;
     if (weight_units == "lbs") {
         weight_factor *= 2.2f;
     }
-    fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
-                   _("Safe speed:   <color_ltgreen>%3d</color> %s"),
-                   int(veh->safe_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
-                   _("Top speed:    <color_ltred>%3d</color> %s"),
-                   int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
+
+    if (eng_watt_cur == eng_watt_max) {
+        fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
+                       _("Engine:            <color_ltgreen>%5d</color> kW"),
+                       eng_watt_max/1000);
+    } else {
+        fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
+                       _("Engine:     <color_red>%5d</color> /<color_ltgreen>%5d</color> kW"),
+                       eng_watt_cur/1000, eng_watt_max/1000);
+    }
+    if (acc_time_cur == acc_time_max) {
+        fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
+                       _("%s        <color_ltgreen>%5d</color> ms"),
+                       accel_s.c_str(), acc_time_max);
+    } else {
+        fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
+                       _("%s <color_red>%5d</color> /<color_ltgreen>%5d</color> ms"),
+                       accel_s.c_str(), acc_time_cur, acc_time_max);
+    }
     fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
-                   _("Acceleration: <color_ltblue>%3d</color> %s/t"),
-                   int(veh->acceleration(false) * speed_factor), speed_units.c_str());
+                   _("Air drag:           <color_yellow>%4d</color>"),
+                   int(veh->drag_coeff * 1000));
     fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
-                   _("Mass:       <color_ltblue>%5d</color> %s"),
+                   _("Mass:              <color_ltblue>%5d</color> %s"),
                    int(veh->total_mass() * weight_factor), weight_units.c_str());
-
     // Write the overall damage
-    mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:  "));
-    x[4] += utf8_width(_("Status: ")) + 1;
-    fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText);
-
+    mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:   "));
+    x[4] += utf8_width(_("Status:   ")) + 1;
+    fold_and_print(w_stats, y[4], x[4], w[4], totalDurabilityColor, totalDurabilityText.c_str());
     if (conf) {
         fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                        _("Wheels:    <color_ltgreen>enough</color>"));
@@ -1175,15 +1199,8 @@ void veh_interact::display_stats()
         int damagepercent = 100 * part.hp / vehicle_part_types[part.id].durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
         partName = vehicle_part_types[partID].name;
-        fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
+        fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, "%s", partName.c_str());
     }
-
-    fold_and_print(w_stats, y[7], x[7], w[7], c_ltgray,
-                   _("K dynamics:   <color_ltblue>%3d</color>%%"),
-                   int(veh->k_dynamics() * 100));
-    fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
-                   _("K mass:       <color_ltblue>%3d</color>%%"),
-                   int(veh->k_mass() * 100));
 
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[9], x[9], c_ltgray,  _("Fuel usage:     "));
@@ -1509,43 +1526,16 @@ void complete_vehicle ()
         g->consume_tools(&g->u, tools, true);
 
         partnum = veh->install_part (dx, dy, part_id);
-        if(partnum < 0) {
+        if (partnum < 0) {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+            break;  // So we don't use the illegal partnum
         }
         used_item = consume_vpart_item (part_id);
         batterycharges = used_item.charges;
         veh->get_part_properties_from_item(partnum, used_item); //transfer damage, etc.
 
         if ( vehicle_part_types[part_id].has_flag("CONE_LIGHT") ) {
-            // Need map-relative coordinates to compare to output of look_around.
-            int gx, gy;
-            // Need to call coord_translate() directly since it's a new part.
-            veh->coord_translate(dx, dy, gx, gy);
-            // Stash offset and set it to the location of the part so look_around will start there.
-            int px = g->u.view_offset_x;
-            int py = g->u.view_offset_y;
-            g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
-            g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
-            popup(_("Choose a facing direction for the new headlight."));
-            point headlight_target = g->look_around();
-            // Restore previous view offsets.
-            g->u.view_offset_x = px;
-            g->u.view_offset_y = py;
-
-            int delta_x = headlight_target.x - (veh->global_x() + gx);
-            int delta_y = headlight_target.y - (veh->global_y() + gy);
-
-            const double PI = 3.14159265358979f;
-            int dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
-            dir -= veh->face.dir();
-            while(dir < 0) {
-                dir += 360;
-            }
-            while(dir > 360) {
-                dir -= 360;
-            }
-
-            veh->parts[partnum].direction = dir;
+            veh->change_headlight_direction(partnum);
         }
 
         // Add charges if battery.
