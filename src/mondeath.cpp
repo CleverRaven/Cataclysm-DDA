@@ -525,9 +525,7 @@ void mdeath::zombie(monster *z) {
     else if (zid == "mon_zombie_bio_op"){ dropset = 8;}
     switch(dropset) {
         case 0: // mon_zombie_cop
-            g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("cop_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("cop_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            return;
         break;
 
         case 1: // mon_zombie_swimmer
