@@ -3664,13 +3664,23 @@ int vehicle::damage_direct (int p, int dmg, int type)
                 for(int index = parts_in_square.size() - 1; index >= 0; index--) {
                     //Ignore the frame being destroyed
                     if(parts_in_square[index] != p) {
-                        if(g->u_see(x_pos, y_pos)) {
-                            g->add_msg(_("The %s's %s is torn off!"), name.c_str(),
-                                    part_info(parts_in_square[index]).name.c_str());
+                        if(parts[parts_in_square[index]].hp == 0) {
+                            //Tearing off a broken part - break it up
+                            if(g->u_see(x_pos, y_pos)) {
+                                g->add_msg(_("The %s's %s breaks into pieces!"), name.c_str(),
+                                        part_info(parts_in_square[index]).name.c_str());
+                            }
+                            break_part_into_pieces(parts_in_square[index], x_pos, y_pos, true);
+                        } else {
+                            //Intact (but possibly damaged) part - remove it in one piece
+                            if(g->u_see(x_pos, y_pos)) {
+                                g->add_msg(_("The %s's %s is torn off!"), name.c_str(),
+                                        part_info(parts_in_square[index]).name.c_str());
+                            }
+                            item part_as_item = item_from_part(parts_in_square[index]);
+                            g->m.add_item_or_charges(x_pos, y_pos, part_as_item, true);
+                            remove_part(parts_in_square[index]);
                         }
-                        item part_as_item = item_from_part(parts_in_square[index]);
-                        g->m.add_item_or_charges(x_pos, y_pos, part_as_item, true);
-                        remove_part(parts_in_square[index]);
                     }
                 }
                 /* After clearing the frame, remove it if normally legal to do
