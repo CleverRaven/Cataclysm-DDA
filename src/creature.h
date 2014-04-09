@@ -133,8 +133,9 @@ class Creature
         // should replace both player.add_disease and monster.add_effect
         // these are nonvirtual since otherwise they can't be accessed with
         // the old add_effect
-        void add_effect(efftype_id eff_id, int dur);
-        bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur); // gives chance to save via env resist, returns if successful
+        void add_effect(efftype_id eff_id, int dur, int intensity = 1, bool permanent = false);
+        bool add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
+                            int intensity = 1, bool permanent = false); // gives chance to save via env resist, returns if successful
         void remove_effect(efftype_id eff_id);
         void clear_effects(); // remove all effects
         bool has_effect(efftype_id eff_id);

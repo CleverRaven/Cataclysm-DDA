@@ -26,6 +26,7 @@ ignorable = {
     "recipe_subcategory",
     "recipe",
     "region_settings",
+    "BULLET_PULLING",
     "SPECIES"
 }
 
@@ -206,7 +207,7 @@ def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
 
 # extract commonly translatable data from json to fake-python
-def extract(item):
+def extract(item, infilename):
     """Find any extractable strings in the given json object,
     and write them to the appropriate file."""
     object_type = item["type"]
@@ -271,10 +272,10 @@ def extract_all_from_file(json_file):
     jsondata = json.loads(open(json_file).read())
     # it's either an array of objects, or a single object
     if hasattr(jsondata, "keys"):
-        extract(jsondata)
+        extract(jsondata, json_file)
     else:
         for jsonobject in jsondata:
-            extract(jsonobject)
+            extract(jsonobject, json_file)
 
 ##
 ##  EXTRACTION
