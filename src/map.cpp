@@ -3431,8 +3431,7 @@ void map::add_camp(const std::string& name, const int x, const int y)
         return;
     }
 
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
-    grid[nonant]->camp = basecamp(name, x, y);
+    get_submap_at(x, y)->camp = basecamp(name, x, y);
 }
 
 void map::debug()
@@ -4132,11 +4131,11 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 {
  dbg(D_INFO) << "map::saven(om[" << (void*)om << "], turn[" << turn <<"], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
- const int n = gridx + gridy * my_MAPSIZE;
+ submap *submap_to_save = get_submap_at_grid(gridx, gridy);
 
- dbg(D_INFO) << "map::saven n: " << n;
+ dbg(D_INFO) << "map::save x=" << gridx << " y=" << gridy;
 
- if ( !grid[n] || grid[n]->ter[0][0] == t_null)
+ if ( !submap_to_save || submap_to_save->ter[0][0] == t_null)
  {
   dbg(D_ERROR) << "map::saven grid NULL!";
   return;
@@ -4146,7 +4145,7 @@ void map::saven(overmap *om, unsigned const int turn, const int worldx, const in
 
  dbg(D_INFO) << "map::saven abs_x: " << abs_x << "  abs_y: " << abs_y;
 
- MAPBUFFER.add_submap(abs_x, abs_y, worldz, grid[n]);
+ MAPBUFFER.add_submap(abs_x, abs_y, worldz, submap_to_save);
 }
 
 // worldx & worldy specify where in the world this is;
@@ -4336,26 +4335,26 @@ void map::spawn_monsters()
 {
  for (int gx = 0; gx < my_MAPSIZE; gx++) {
   for (int gy = 0; gy < my_MAPSIZE; gy++) {
-   const int n = gx + gy * my_MAPSIZE;
-   for (int i = 0; i < grid[n]->spawns.size(); i++) {
-    for (int j = 0; j < grid[n]->spawns[i].count; j++) {
+   submap * const current_submap = get_submap_at_grid(gx, gy);
+   for (int i = 0; i < current_submap->spawns.size(); i++) {
+    for (int j = 0; j < current_submap->spawns[i].count; j++) {
      int tries = 0;
-     int mx = grid[n]->spawns[i].posx, my = grid[n]->spawns[i].posy;
-     monster tmp(GetMType(grid[n]->spawns[i].type));
+     int mx = current_submap->spawns[i].posx, my = current_submap->spawns[i].posy;
+     monster tmp(GetMType(current_submap->spawns[i].type));
      tmp.spawnmapx = g->levx + gx;
      tmp.spawnmapy = g->levy + gy;
-     tmp.faction_id = grid[n]->spawns[i].faction_id;
-     tmp.mission_id = grid[n]->spawns[i].mission_id;
-     if (grid[n]->spawns[i].name != "NONE")
-      tmp.unique_name = grid[n]->spawns[i].name;
-     if (grid[n]->spawns[i].friendly)
+     tmp.faction_id = current_submap->spawns[i].faction_id;
+     tmp.mission_id = current_submap->spawns[i].mission_id;
+     if (current_submap->spawns[i].name != "NONE")
+      tmp.unique_name = current_submap->spawns[i].name;
+     if (current_submap->spawns[i].friendly)
       tmp.friendly = -1;
      int fx = mx + gx * SEEX, fy = my + gy * SEEY;
 
      while ((!g->is_empty(fx, fy) || !tmp.can_move_to(fx, fy)) &&
             tries < 10) {
-      mx = (grid[n]->spawns[i].posx + rng(-3, 3)) % SEEX;
-      my = (grid[n]->spawns[i].posy + rng(-3, 3)) % SEEY;
+      mx = (current_submap->spawns[i].posx + rng(-3, 3)) % SEEX;
+      my = (current_submap->spawns[i].posy + rng(-3, 3)) % SEEY;
       if (mx < 0)
        mx += SEEX;
       if (my < 0)
@@ -4372,15 +4371,16 @@ void map::spawn_monsters()
      }
     }
    }
-   grid[n]->spawns.clear();
+   current_submap->spawns.clear();
   }
  }
 }
 
 void map::clear_spawns()
 {
- for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++)
+ for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
   grid[i]->spawns.clear();
+ }
 }
 
 void map::clear_traps()
@@ -4412,12 +4412,9 @@ bool map::inbounds(const int x, const int y)
 
 bool map::add_graffiti(int x, int y, std::string contents)
 {
-  int nx = x;
-  int ny = y;
-  int nonant = int(nx / SEEX) + int(ny / SEEY) * my_MAPSIZE;
-  nx %= SEEX;
-  ny %= SEEY;
-  grid[nonant]->graf[nx][ny] = graffiti(contents);
+  int lx, ly;
+  submap * const current_submap = get_submap_at(x, y, lx, ly);
+  current_submap->graf[lx][ly] = graffiti(contents);
   return true;
 }
 
@@ -4429,11 +4426,10 @@ graffiti map::graffiti_at(int x, int y)
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- x %= SEEX;
- y %= SEEY;
- return grid[nonant]->graf[x][y];
+ return current_submap->graf[lx][ly];
 }
 
 long map::determine_wall_corner(const int x, const int y, const long orig_sym)
