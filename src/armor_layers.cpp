@@ -4,37 +4,39 @@
 #include "disease.h"
 #include "input.h"
 #include "output.h"
-#include <algorithm>
 
 void player::sort_armor()
 {
     it_armor *each_armor = 0;
 
     /* Define required height of the right pane:
-    * worn.size() - count of worn items;
     * + 3 - horizontal lines;
     * + 1 - caption line;
     * + 2 - innermost/outermost string lines;
     * + 8 - sub-categories (torso, head, eyes, etc.);
-    * + 1 - just a gap;
-    * + 1 - unknown :-[
+    * + 1 - gap;
+    * number of lines required for displaying all items is calculated dynamically,
+    * because some items can have multiple entries (i.e. cover a few parts of body).
     */
-    int req_right_h = worn.size() + 3 + 1 + 2 + 8 + 1 + 1;
-    for (size_t i = 0; i < worn.size(); ++i) {
-        each_armor = dynamic_cast<it_armor *>(worn[i].type);
-        if (!each_armor->covers) { // no category defined?
-            req_right_h--;         // decrease number of required lines!
+
+    int req_right_h = 3 + 1 + 2 + 8 + 1;
+    for (int cover = 0; cover < num_bp; cover++) {
+        for (size_t i = 0; i < worn.size(); ++i) {
+            each_armor = dynamic_cast<it_armor *>(worn[i].type);
+            if (each_armor->covers & mfb(cover)) {
+                req_right_h++;
+            }
         }
     }
 
     /* Define required height of the mid pane:
-    * +  3 - horizontal lines;
-    * +  1 - caption line;
-    * +  8 - general properties
-    * + 11 - maximum possible number of flags at one item
-    * +  9 - warmth & enc block
+    * + 3 - horizontal lines;
+    * + 1 - caption line;
+    * + 8 - general properties
+    * + 7 - ASSUMPTION: max possible number of flags @ item
+    * + 9 - warmth & enc block
     */
-    int req_mid_h = 3 + 1 + 8 + 11 + 9;
+    int req_mid_h = 3 + 1 + 8 + 7 + 9;
 
     const int win_h = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
                                                std::max(req_right_h, req_mid_h)));
@@ -397,35 +399,29 @@ The sum of these values is the effective encumbrance value your character has fo
 void draw_mid_pane(WINDOW *w_sort_middle, item *worn_item)
 {
     it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
-    int middle_w = getmaxx(w_sort_middle);
+    std::vector<std::pair<std::string, int>> props;
+    props.push_back(std::make_pair(_("Coverage: "), int(each_armor->coverage)));
+    props.push_back(std::make_pair(_("Encumbrance: "), (worn_item->has_flag("FIT")) ?
+        std::max(0, int(each_armor->encumber) - 1) : int(each_armor->encumber)));
+    props.push_back(std::make_pair(_("Bash protection: "), int(worn_item->bash_resist())));
+    props.push_back(std::make_pair(_("Cut protection: "), int(worn_item->cut_resist())));
+    props.push_back(std::make_pair(_("Warmth: "), int(each_armor->warmth)));
+    props.push_back(std::make_pair(_("Storage: "), int(each_armor->storage)));
 
     mvwprintz(w_sort_middle, 0, 1, c_white, each_armor->name.c_str());
-    mvwprintz(w_sort_middle, 1, 2, c_ltgray, _("Coverage: "));
-    mvwprintz(w_sort_middle, 2, 2, c_ltgray, _("Encumbrance: "));
-    mvwprintz(w_sort_middle, 3, 2, c_ltgray, _("Bash protection: "));
-    mvwprintz(w_sort_middle, 4, 2, c_ltgray, _("Cut protection: "));
-    mvwprintz(w_sort_middle, 5, 2, c_ltgray, _("Warmth: "));
-    mvwprintz(w_sort_middle, 6, 2, c_ltgray, _("Storage: "));
-
-    mvwprintz(w_sort_middle, 1, middle_w - 4, c_ltgray, "%d", int(each_armor->coverage));
-    mvwprintz(w_sort_middle, 2, middle_w - 4, c_ltgray, "%d",
-                (worn_item->has_flag("FIT")) ?
-                std::max(0, int(each_armor->encumber) - 1) : int(each_armor->encumber));
-    mvwprintz(w_sort_middle, 3, middle_w - 4, c_ltgray, "%d",
-                int(worn_item->bash_resist()));
-    mvwprintz(w_sort_middle, 4, middle_w - 4, c_ltgray, "%d",
-                int(worn_item->cut_resist()));
-    mvwprintz(w_sort_middle, 5, middle_w - 4, c_ltgray, "%d", int(each_armor->warmth));
-    mvwprintz(w_sort_middle, 6, middle_w - 4, c_ltgray, "%d", int(each_armor->storage));
-
-    //WATCH
-    //ALARMCLOCK
+    int middle_w = getmaxx(w_sort_middle);
+    size_t i;
+    for (i = 0; i < props.size(); ++i) {
+        mvwprintz(w_sort_middle, i + 1, 2, c_ltgray, props[i].first.c_str());
+        mvwprintz(w_sort_middle, i + 1, middle_w - 4, c_ltgray, "%d", props[i].second);
+    }
 
     std::vector<std::string> desc = clothing_flags_description(worn_item);
     if (!desc.empty()) {
-        for (int i = 0; i < desc.size(); ++i) {
-            // TODO: put fold_and_print here
-            mvwprintz(w_sort_middle, 8 + i, 0, c_ltblue, desc[i].c_str());
+        int indent = (int)i + 2;
+        for (size_t j = 0; j < desc.size(); ++j) {
+            indent += -1 + fold_and_print(w_sort_middle, indent + j, 0, middle_w - 1,
+                                          c_ltblue, "%s", desc[j].c_str());
         }
     }
 }
