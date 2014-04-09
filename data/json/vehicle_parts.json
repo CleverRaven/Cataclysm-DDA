@@ -1945,6 +1945,26 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "wheel_wheelchair",
+        "name" : "wheelchair wheel",
+        "symbol" : "|",
+        "color" : "dark_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 50,
+        "durability" : 40,
+        "wheel_width" : 4,
+        "item" : "wheel_wheelchair",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 0, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "wheel_bicycle",
         "name" : "bicycle wheel",
         "symbol" : "|",
@@ -2245,7 +2265,7 @@
         "durability" : 50,
         "power" : 50,
         "fuel_type" : "muscle",
-        "item" : "steel_lump",
+        "item" : "hand_rims",
         "difficulty" : 1,
         "location" : "engine_block",
         "flags" : ["HAND_RIMS", "ENGINE", "FOLDABLE"],

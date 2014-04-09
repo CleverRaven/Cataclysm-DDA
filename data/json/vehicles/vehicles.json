@@ -7,7 +7,7 @@
         "parts" : [
             {"x": 0, "y": 0, "part": "folding_frame"},
             {"x": 0, "y": 0, "part": "folding_seat"},
-            {"x": 0, "y": 0, "part": "wheel_unicycle"},
+            {"x": 0, "y": 0, "part": "wheel_wheelchair"},
             {"x": 0, "y": 0, "part": "hand_rims"},
             {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "basketsm"}

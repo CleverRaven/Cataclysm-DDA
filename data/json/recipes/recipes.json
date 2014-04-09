@@ -19001,6 +19001,64 @@
   ]
 },{
         "type" : "recipe",
+  "result": "wheel_wheelchair",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 40 ],
+      [ "welder_crude", 60 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 2 ]
+    ], [
+      [ "wheel_bicycle", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "hand_rims",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 4000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 20 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "frame",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
