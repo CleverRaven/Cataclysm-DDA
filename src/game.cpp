@@ -7520,6 +7520,11 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
     if (part->amount == max_fuel) {
       add_msg(_("The tank is full."));
     }
+  } else if (ftype == "diesel") {
+    add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
+    if (part->amount == max_fuel) {
+      add_msg(_("The tank is full."));
+    }
   } else if (ftype == "plutonium") {
     add_msg(_("You refill %s's reactor."), veh.name.c_str());
     if (part->amount == max_fuel) {
@@ -10021,6 +10026,46 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
         const ammotype ftype = "gasoline";
+        int fuel_cap = veh->fuel_capacity(ftype);
+        int fuel_amnt = veh->fuel_left(ftype);
+        if (fuel_cap <= 0) {
+            add_msg(_("The %s doesn't use %s."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+            return false;
+        } else if (fuel_amnt >= fuel_cap) {
+            add_msg(_("The %s is already full."),
+                    veh->name.c_str());
+            return false;
+        } else if (from_ground && query_yn(_("Pump until full?"))) {
+            u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
+            u.activity.placement = point(vx, vy);
+            return false; // Liquid is not handled by this function, but by the activity!
+        }
+        const int amt = infinite ? INT_MAX : liquid.charges;
+        u.moves -= 100;
+        liquid.charges = veh->refill(ftype, amt);
+        if (veh->fuel_left(ftype) < fuel_cap) {
+            add_msg(_("You refill the %s with %s."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+        } else {
+            add_msg(_("You refill the %s with %s to its maximum."),
+                    veh->name.c_str(), ammo_name(ftype).c_str());
+        }
+        // infinite: always handled all, to prevent loops
+        return infinite || liquid.charges == 0;
+    }
+    else if ((liquid.type->id == "diesel" && vehicle_near() && query_yn(_("Refill vehicle?")))) {
+        int vx = u.posx, vy = u.posy;
+        refresh_all();
+        if (!choose_adjacent(_("Refill vehicle where?"), vx, vy)) {
+            return false;
+        }
+        vehicle *veh = m.veh_at (vx, vy);
+        if (veh == NULL) {
+            add_msg(_("There isn't any vehicle there."));
+            return false;
+        }
+        const ammotype ftype = "diesel";
         int fuel_cap = veh->fuel_capacity(ftype);
         int fuel_amnt = veh->fuel_left(ftype);
         if (fuel_cap <= 0) {

@@ -379,7 +379,7 @@ task_reason veh_interact::cant_do (char mode)
         has_skill = g->u.skillLevel("mechanics") >= 2 || can_remove_wheel;
         break;
     case 's': // siphon mode
-        valid_target = veh->fuel_left("gasoline") > 0;
+        valid_target = veh->fuel_left("gasoline") > 0 || veh->fuel_left("diesel") > 0;
         has_tools = has_siphon;
         break;
     case 'c': // change tire
@@ -774,7 +774,7 @@ void veh_interact::do_siphon(task_reason reason)
     int msg_width = getmaxx(w_msg);
     switch (reason) {
     case INVALID_TARGET:
-        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no gasoline to siphon."));
+        mvwprintz(w_msg, 0, 1, c_ltred, _("The vehicle has no fuel to siphon."));
         wrefresh (w_msg);
         return;
     case LACK_TOOLS:
@@ -1188,8 +1188,8 @@ void veh_interact::display_stats()
     // "Fuel usage (safe): " is renamed to "Fuel usage: ".
     mvwprintz(w_stats, y[9], x[9], c_ltgray,  _("Fuel usage:     "));
     x[9] += utf8_width(_("Fuel usage:     "));
-    ammotype fuel_types[3] = { "gasoline", "battery", "plasma" };
-    nc_color fuel_colors[3] = { c_ltred, c_yellow, c_ltblue };
+    ammotype fuel_types[4] = { "gasoline", "diesel", "battery", "plasma" };
+    nc_color fuel_colors[4] = { c_ltred, c_dkgray, c_yellow, c_ltblue };
     bool first = true;
     int fuel_name_length = 0;
     for (int i = 0; i < 3; ++i) {

@@ -172,6 +172,21 @@
         "id" : "gasoline",
         "name" : "gasoline",
         "default" : "gasoline"
+    },{
+        "type" : "ammunition_type",
+        "id" : "diesel",
+        "name" : "diesel",
+        "default" : "diesel"
+    },{
+        "type" : "ammunition_type",
+        "id" : "biodiesel",
+        "name" : "biodiesel",
+        "default" : "diesel"
+    },{
+        "type" : "ammunition_type",
+        "id" : "biodiesel",
+        "name" : "biodiesel",
+        "default" : "diesel"
     },
     {
         "type" : "ammunition_type",

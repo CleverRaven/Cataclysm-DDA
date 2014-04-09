@@ -3878,8 +3878,12 @@ int iuse::siphon(player *p, item *it, bool)
         g->add_msg_if_player(p,_("There's no vehicle there."));
         return 0;
     }
-    if (veh->fuel_left("gasoline") == 0) {
-        g->add_msg_if_player(p, _("That vehicle has no fuel to siphon."));
+    if (veh->fuel_capacity("gasoline") > 0 && veh->fuel_left("gasoline") == 0) {
+        g->add_msg_if_player(p, _("That vehicle has no gasoline to siphon."));
+        return 0;
+    }
+    if (veh->fuel_capacity("diesel") > 0 && veh->fuel_left("diesel") == 0) {
+        g->add_msg_if_player(p, _("That vehicle has no diesel to siphon."));
         return 0;
     }
     std::map<point, vehicle*> foundv;
@@ -3919,16 +3923,67 @@ int iuse::siphon(player *p, item *it, bool)
         }
     }
     if ( fillv != NULL ) {
-        int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
-        int got = veh->drain("gasoline", want);
-        int amt=fillv->refill("gasoline",got);
+        int want = 0;
+        int got = 0;
+        int amt = 0;
+        if ( veh->fuel_capacity("gasoline") > 0 && veh->fuel_capacity("diesel") > 0 ) {
+            uimenu smenu;
+            smenu.text = _("Siphon what?");
+            smenu.addentry("Gasoline");
+            smenu.addentry("Diesel");
+            smenu.addentry("Never mind");
+            smenu.query();
+            if ( smenu.ret == 0) {
+                want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
+                got = veh->drain("gasoline", want);
+                amt=fillv->refill("gasoline",got);
+            } else if ( smenu.ret == 1) {
+                want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
+                got = veh->drain("diesel", want);
+                amt=fillv->refill("diesel",got);
+            } else {
+                return 0;
+            }
+        } else if ( veh->fuel_capacity("diesel") > 0 ) {
+            want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
+            got = veh->drain("diesel", want);
+            amt=fillv->refill("diesel",got);
+        } else {
+            want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
+            got = veh->drain("gasoline", want);
+            amt=fillv->refill("gasoline",got);
+        }
         g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
            "gasoline", veh->name.c_str(), fillv->name.c_str(),
            (amt > 0 ? "." : ", draining the tank completely.") );
         p->moves -= 200;
     } else {
-        if (p->siphon(veh, "gasoline")) {
-            p->moves -= 200;
+        if ( veh->fuel_capacity("gasoline") > 0 && veh->fuel_capacity("diesel") > 0 ) {
+            uimenu smenu;
+            smenu.text = _("Siphon what?");
+            smenu.addentry("Gasoline");
+            smenu.addentry("Diesel");
+            smenu.addentry("Never mind");
+            smenu.query();
+            if ( smenu.ret == 0 ) {
+                if (p->siphon(veh, "gasoline")) {
+                    p->moves -= 200;
+                }
+            } else if ( smenu.ret == 1 ) {
+                if (p->siphon(veh, "diesel")) {
+                    p->moves -= 200;
+                }
+            } else {
+                return 0;
+            }
+        } else if ( veh->fuel_capacity("diesel") > 0 ) {
+            if (p->siphon(veh, "diesel")) {
+                p->moves -= 200;
+            }
+        } else {
+            if (p->siphon(veh, "gasoline")) {
+                p->moves -= 200;
+            }
         }
     }
     return it->type->charges_to_use();
