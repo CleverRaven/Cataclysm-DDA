@@ -1,6 +1,18 @@
 [
     {
         "type" : "vehicle",
+        "id" : "wheelchair",
+        "name" : "Foldable wheelchair",
+        "blueprint" : "#",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "folding_frame"},
+            {"x": 0, "y": 0, "part": "folding_seat"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "basketsm"}
+        ]
+    },{
+        "type" : "vehicle",
         "id" : "custom",
         "name" : "custom",
         "blueprint" : "H",
