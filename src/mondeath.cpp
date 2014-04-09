@@ -533,9 +533,7 @@ void mdeath::zombie(monster *z) {
         break;
 
         case 2: // mon_zombie_scientist
-            g->m.put_items_from("lab_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("lab_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("lab_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            return;
         break;
 
         case 3: // mon_zombie_soldier
