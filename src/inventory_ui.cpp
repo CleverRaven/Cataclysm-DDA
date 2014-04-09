@@ -237,7 +237,7 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 // Use width of the column minus two for the hotkey and leading space,
                 // and one for a space on the right.
                 const std::string truncated_item_name = std::string(
-                    _(it.display_name().c_str()) ).substr( 0, right_column_offset - 3 );
+                    (it.display_name(slice[cur_it].first->size()).c_str()) ).substr( 0, right_column_offset - 3 );
                 mvwputch(w_inv, cur_line, 0,
                          (cur_it == selected ? selected_line_color : c_white), invlet);
                 mvwprintz( w_inv, cur_line, 1,

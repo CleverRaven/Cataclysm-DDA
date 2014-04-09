@@ -112,7 +112,8 @@ struct itype
                  // Used for save files; aligns to itype_id above.
     unsigned int  price; // Its value
 
-    std::string name;        // Proper name
+    std::string name;        // Proper name, singular form
+    std::string name_plural; // name, plural form
     std::string description; // Flavor text
 
     char sym;       // Symbol on the map
@@ -147,6 +148,7 @@ struct itype
  const item_category *category; // category pointer or NULL for automatic selection
 
  virtual std::string get_item_type_string() { return "misc"; }
+ virtual std::string nname(unsigned int quantity) { return ngettext(name.c_str(), name_plural.c_str(), quantity); }
 
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
@@ -176,6 +178,7 @@ struct itype
         : id("null")
         , price(0)
         , name("none")
+        , name_plural("none")
         , description()
         , sym('#')
         , color(c_white)

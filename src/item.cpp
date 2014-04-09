@@ -1133,7 +1133,7 @@ nc_color item::color_in_inventory()
 * in additional inventory)
 * @return name of item
 */
-std::string item::tname( bool with_prefix )
+std::string item::tname( unsigned int quantity, bool with_prefix )
 {
     std::stringstream ret;
 
@@ -1197,7 +1197,7 @@ std::string item::tname( bool with_prefix )
     }
     else if (is_gun() && !contents.empty() ) {
         ret.str("");
-        ret << type->name;
+        ret << type->nname(quantity);
         for (size_t i = 0; i < contents.size(); i++) {
             ret << "+";
         }
@@ -1208,9 +1208,9 @@ std::string item::tname( bool with_prefix )
                               type->name.c_str(), contents[0].tname().c_str());
     }
     else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), type->name.c_str());
+        maintext = rmp_format(_("<item_name>%s, full"), type->nname(quantity).c_str());
     } else {
-        maintext = type->name;
+        maintext = type->nname(quantity);
     }
 
     item* food = NULL;
@@ -1267,14 +1267,14 @@ std::string item::tname( bool with_prefix )
     }
 }
 
-std::string item::display_name()
+std::string item::display_name(unsigned int quantity)
 {
     if (charges > 0) {
-        return string_format("%s (%d)", tname().c_str(), charges);
+        return string_format("%s (%d)", tname(quantity).c_str(), charges);
     } else if (contents.size() == 1 && contents[0].charges > 0) {
-        return string_format("%s (%d)", tname().c_str(), contents[0].charges);
+        return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
     } else {
-        return tname();
+        return tname(quantity);
     }
 }
 
