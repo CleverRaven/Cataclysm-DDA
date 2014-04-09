@@ -1,5 +1,120 @@
 [
 	{
+		"type"  : "item_group",
+		"id"    : "bar_alcohol",
+		"items" : [
+			["beer",                70],
+			["european_pilsner",    60],
+			["pale_ale",            60],
+			["india_pale_ale",      57],
+			["stout",               56],
+			["belgian_ale",         50],
+			["imperial_stout",      45],
+			["whiskey",             20],
+			["vodka",               12],
+			["gin",                 15],
+			["rum",                 12],
+			["tequila",             17],
+			["triple_sec",          10],
+			["fruit_wine",           5],
+			["wine_riesling",        7],
+			["wine_chardonnay",      4],
+			["wine_cabernet",        1],
+			["wine_noir",            1],
+			["brandy",               5],
+			["drink_boozeberry",     4],
+			["drink_rumcola",       50],
+			["drink_screwdriver",   45],
+			["drink_wild_apple",    20],
+			["drink_strawberry_surprise", 25],
+			["long_island",         27]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "bar_food",
+		"items" : [
+			["mayonnaise",    3],
+			["mustard",       3],
+			["ketchup",       3],
+			["pickle",        5],
+			["cheeseburger", 10],
+			["hamburger",     7],
+			["bobburger",     1],
+			["sloppyjoe",     6],
+			["fries",        10],
+			["cheese_fries",  7],
+			["onion_rings",   8]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "bar_fridge",
+		"items" : [
+			["water_clean",     50],
+			["water_mineral",   20],
+			["oj",              40],
+			["juice",           35],
+			["cranberry_juice", 35],
+			["cola",            50],
+			["lemonlime",       45],
+			["V8",              15],
+			["fries",            7],
+			["cheese_fries",     5],
+			["onion_rings",      7],
+			["pizza_veggy",      7],
+			["pizza_meat",       7]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "bar_table",
+		"items" : [
+			["cig",           50],
+			["matches",       45],
+			["rolling_paper", 10],
+			["bottle_glass",  70],
+			["can_drink",     65],
+			["wrapper",       50],
+			["ceramic_plate", 40],
+			["news_regional", 20],
+			["mag_news",      20]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "bar_bathroom",
+		"items" : [
+			["weed",        40],
+			["coke",        40],
+			["aspirin",     40],
+			["cig",         20],
+			["syringe",     30],
+			["meth",        20],
+			["heroin",       7],
+			["mag_porn",    35],
+			["hairpin",      5],
+			["purse",       15]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "bar_trash",
+		"items" : [
+			["wrapper",       50],
+			["bottle_glass",  70],
+			["can_drink",     60],
+			["flyer",         30],
+			["box_small",     30],
+			["rag",           20],
+			["bag_plastic",   20],
+			["news_regional", 15],
+			["mag_news",      15],
+			["hairpin",       15],
+			["jar_glass",     10]
+		]
+	},
+	{
 		"type" : "overmap_terrain",
 		"id" : "bar",
 		"name": "bar",
@@ -18,18 +133,18 @@
 			"rows": [
 				"|--'-'-'---++---'-'-'--|",
 				"|......................|",
-				"|...CC...CC...CC....ccc|",
-				"|...##...##...##...Cc.&|",
+				"|...BB...BB...BB....ccc|",
+				"|...##...##...##...Bc.&|",
 				"|...##...##...##....c.@|",
-				"'...CC...CC...CC...Cc.B|",
-				"|...................c.B|",
-				"|...CC...CC...CC...Cc.B|",
-				"|...##...##...##....c.B|",
-				"|...##...##...##...Cc..|",
-				"'...CC...CC...CC....cfc|",
+				"'...BB...BB...BB...Bc.{|",
+				"|...................c.{|",
+				"|...BB...BB...BB...Bc.{|",
+				"|...##...##...##....c.{|",
+				"|...##...##...##...Bc..|",
+				"'...BB...BB...BB....cfc|",
 				"|......................|",
-				"|...xxxxx....xxxxx....T|",
-				"|...xxxxx....xxxxx....T|",
+				"|....xxxx.....xxxx....T|",
+				"|....xxxx.....xxxx....T|",
 				"|......................|",
 				"|--D----------------D--|",
 				"|.....|   dd     D....&|",
@@ -62,24 +177,45 @@
 				"d": "f_dumpster",
 				"t": "f_toilet",
 				"s": "f_sink",
-				"C": "f_bench",
-				"T": "f_trashcan"
+				"B": "f_bench",
+				"T": "f_trashcan",
+				"{": "f_rack"
 			},
 			"place_specials": [
 				{ "type": "toilet", "x": 1, "y": 17 }
 			],
 			"place_groups": [
-			{ "item": "pool_table",   "chance": 50, "x": [4,8],  "y":[12,13], "repeat": [2,3] },
-			{ "item": "pool_table",   "chance": 50, "x": [13,17],"y":[12,13], "repeat": [2,3] },
-			{ "item": "snacks",       "chance": 30, "x": 20,     "y":[4,10],  "repeat": [1,2] },
-			{ "item": "snacks",       "chance": 50, "x": [21,24],"y":17,      "repeat": [1,2] },
-			{ "item": "fridgesnacks", "chance": 60, "x": 22,     "y":3,       "repeat": [1,2] },
-			{ "item": "fridgesnacks", "chance": 60, "x": 22,     "y":16,      "repeat": [1,2] },
-			{ "item": "alcohol",      "chance": 70, "x": 22,     "y":[5,8],   "repeat": [2,3] },
-			{ "item": "alcohol",      "chance": 55, "x": 22,     "y":[5,8],   "repeat": [3,4] },
-			{ "item": "trash",        "chance": 10, "x": [2,16], "y":[17,19], "repeat": [2,4] },
-			{ "item": "trash",        "chance": 60, "x": [10,11],"y":16,      "repeat": [3,5] },
-			{ "item": "trash",        "chance": 70, "x": 22,     "y":[12,13], "repeat": [4,5] }
+			{ "item": "pool_table",   "chance": 50, "x": [5,8],  "y":[12,13], "repeat": [2,3] },
+			{ "item": "pool_table",   "chance": 50, "x": [14,17],"y":[12,13], "repeat": [2,3] },
+			
+			{ "item": "bar_food",     "chance": 35, "x": 20,     "y":[4,10],  "repeat": [2,3] },
+			{ "item": "bar_food",     "chance": 35, "x": 20,     "y":[4,10],  "repeat": [2,3] },
+			{ "item": "bar_alcohol",  "chance": 67, "x": 20,     "y":[4,10],  "repeat": [3,4] },
+			
+			{ "item": "bar_fridge",   "chance": 50, "x": 22,     "y":3,       "repeat": [1,2] },
+			{ "item": "bar_alcohol",  "chance": 50, "x": 22,     "y":[5,8],   "repeat": [2,3] },
+			
+			{ "item": "bar_table",    "chance": 20, "x": [4,5],  "y":[3,4],   "repeat": [1,2] },
+			{ "item": "bar_alcohol",  "chance": 20, "x": [4,5],  "y":[3,4],   "repeat": [1,2] },
+			{ "item": "bar_table",    "chance": 20, "x": [9,10], "y":[3,4],   "repeat": [1,2] },
+			{ "item": "bar_table",    "chance": 20, "x": [14,15],"y":[3,4]    },
+			{ "item": "bar_alcohol",  "chance": 20, "x": [14,15],"y":[3,4],   "repeat": [1,2] },
+			
+			{ "item": "bar_table",    "chance": 20, "x": [4,5],  "y":[8,9],   "repeat": [1,2] },
+			{ "item": "bar_table",    "chance": 20, "x": [9,10], "y":[8,9]    },
+			{ "item": "bar_alcohol",  "chance": 20, "x": [9,10], "y":[8,9],   "repeat": [1,2] },
+			{ "item": "bar_table",    "chance": 20, "x": [14,15],"y":[8,9],   "repeat": [1,2] },
+			{ "item": "bar_alcohol",  "chance": 20, "x": [14,15],"y":[8,9],   "repeat": [1,2] },
+			
+			{ "item": "snacks",       "chance": 50, "x": [19,22],"y":17,      "repeat": [1,2] },
+			{ "item": "fridgesnacks", "chance": 40, "x": 22,     "y":16,      "repeat": [1,2] },
+			
+			{ "item": "trash",        "chance": 20, "x": [1,22], "y":[20,22], "repeat": [2,4] },
+			{ "item": "trash",        "chance": 50, "x": [10,11],"y":16,      "repeat": [3,5] },
+			{ "item": "bar_trash",    "chance": 50, "x": [10,11],"y":16,      "repeat": [2,4] },
+			{ "item": "bar_trash",    "chance": 70, "x": 22,     "y":[12,13], "repeat": [4,5] },
+			
+			{ "item": "bar_bathroom", "chance": 30, "x": [2,4],  "y":[16,17], "repeat": [1,2] }
 			] 
 			}
 		} ]

@@ -78,7 +78,7 @@
 		"type"  : "item_group",
 		"id"    : "pizza_table",
 		"items" : [
-			["cig",           30],
+			["cig",           15],
 			["rolling_paper",  7],
 			["wrapper",       35],
 			["ceramic_plate", 40],
@@ -86,7 +86,9 @@
 			["portable_game", 10],
 			["chips",         15],
 			["chips2",         3],
-			["chips3",         3]
+			["chips3",         3],
+			["news_regional", 12],
+			["flyer",          7]
 		]
 	},
 	{
@@ -100,7 +102,8 @@
 			["dinosuit",      7],
 			["hat_ball",     19],
 			["jacket_light", 15],
-			["mbag",         10]
+			["mbag",         10],
+			["rag",           6]
 		]
 	},
 	{
@@ -126,6 +129,10 @@
 			["bag_plastic",  20],
 			["bottle_glass", 30],
 			["can_drink",    30],
+			["rag",          10],
+			["news_regional",10],
+			["hairpin",      10],
+			["flyer",         7],
 			["glock_19",      5],
 			["9mm",           3]
 		]
