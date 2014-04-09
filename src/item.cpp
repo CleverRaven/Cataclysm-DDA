@@ -785,6 +785,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
        dump->push_back(iteminfo("DESCRIPTION", type->description));
     }
 
+    //See shorten version of this in armor_layers.cpp::clothing_flags_description
     if (is_armor() && has_flag("FIT"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -830,13 +831,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("DESCRIPTION", "--"));
         dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing allows you to see much further under water.")));
     }
-    if (is_armor() && type->id == "rad_badge")
-    {
+    if (is_armor() && type->id == "rad_badge") {
         size_t i;
-        for( i = 1; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ )
-        {
-            if( irridation < rad_dosage_thresholds[i] )
-            {
+        for ( i = 1; i < sizeof(rad_dosage_thresholds) / sizeof(rad_dosage_thresholds[0]); i++ ) {
+            if ( irridation < rad_dosage_thresholds[i] ) {
                 break;
             }
         }
