@@ -93,8 +93,8 @@ class map
              const bool low_light = false, const bool bright_level = false);
 
 // File I/O
- virtual void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
- virtual void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
+ void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
+ void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
  void shift(const int wx, const int wy, const int wz, const int x, const int y);
  void spawn_monsters();
  void clear_spawns();
