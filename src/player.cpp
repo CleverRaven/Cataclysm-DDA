@@ -6627,7 +6627,7 @@ martialart player::get_combat_style()
 std::vector<item *> player::inv_dump()
 {
  std::vector<item *> ret;
-    if (!weapon.has_flag("NO_UNWIELD")) {
+    if (!weapon.is_null() && !weapon.has_flag("NO_UNWIELD")) {
         ret.push_back(&weapon);
     }
  for (int i = 0; i < worn.size(); i++)
