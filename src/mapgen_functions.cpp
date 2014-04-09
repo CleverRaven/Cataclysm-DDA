@@ -107,7 +107,6 @@ void init_mapgen_builtin_functions() {
 //    mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
     mapgen_cfunction_map["police"] = &mapgen_police;
     mapgen_cfunction_map["bank"] = &mapgen_bank;
-    mapgen_cfunction_map["bar"] = &mapgen_bar;
     mapgen_cfunction_map["pawn"] = &mapgen_pawn;
     mapgen_cfunction_map["mil_surplus"] = &mapgen_mil_surplus;
     mapgen_cfunction_map["furniture"] = &mapgen_furniture;
@@ -910,7 +909,7 @@ void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         }
     }
 
-    m->add_road_vehicles(sidewalks, rng(0,3)*90); 
+    m->add_road_vehicles(sidewalks, rng(0,3)*90);
 
     bool turning_cycle;
     if (sidewalks) {
@@ -983,7 +982,7 @@ ssss.......yy.......ssss\n",
             }
         }
     }
-    
+
     if (terrain_type == "road_end_east") {
         m->rotate(1);
     } else if (terrain_type == "road_end_south") {
@@ -5065,70 +5064,6 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
 
     autorotate(false);
 }
-
-
-void mapgen_bar(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-
-(void)dat;
-//    } else if (is_ot_type("bar", terrain_type)) {
-
-        fill_background(m, t_pavement);
-        square(m, t_floor, 2, 2, 21, 15);
-        square(m, t_floor, 18, 17, 21, 18);
-
-        mapf::formatted_set_simple(m, 1, 1,
-                                   "\
-|---------++---------|\n\
-|                    |\n\
-|  ##   ##   ##   ccc|\n\
-|  ##   ##   ##   c &|\n\
-|                 c B|\n\
-|                 c B|\n\
-|                 c B|\n\
-|  ##   ##   ##   c B|\n\
-|  ##   ##   ##   c  |\n\
-|                 cc |\n\
-|                    |\n\
-|                    |\n\
-|  xxxxx    xxxxx    |\n\
-|  xxxxx    xxxxx    |\n\
-|                    |\n\
-|------------------D-|\n\
-                D   &|\n\
-                |cccc|\n\
-                |----|\n",
-                                   mapf::basic_bind("- | + D", t_wall_h, t_wall_v, t_door_c, t_door_locked),
-                                   mapf::basic_bind("# c x & B", f_table, f_counter, f_pool_table, f_fridge, f_rack));
-
-        // Pool table items
-        m->place_items("pool_table", 50,  4, 13,  8, 14, false, 0);
-        m->place_items("pool_table", 50, 13, 13, 17, 14, false, 0);
-
-        // 1 in 4 chance to have glass walls in front
-        if (one_in(4)) {
-            mapf::formatted_set_terrain(m, 1, 1, "  === ===    === ===  ", mapf::basic_bind("=",
-                                        t_wall_glass_h), mapf::end() );
-            mapf::formatted_set_terrain(m, 1, 1, "\n\n=\n=\n=\n\n=\n=\n=\n\n=\n=\n=\n\n",
-                                        mapf::basic_bind("=", t_wall_glass_v), mapf::end());
-        } else {
-            mapf::formatted_set_terrain(m, 1, 1, "  : : :        : : :  ", mapf::basic_bind(":", t_window),
-                                        mapf::end() );
-            mapf::formatted_set_terrain(m, 1, 1, "\n\n\n\n\n:\n\n\n\n\n:\n\n\n\n", mapf::basic_bind(":",
-                                        t_window), mapf::end());
-        }
-
-        // Item placement
-        m->place_items("snacks", 30, 19, 3, 19, 10, false, 0); //counter
-        m->place_items("snacks", 50, 18, 18, 21, 18, false, 0);
-        m->place_items("fridgesnacks", 60, 21, 4, 21, 4, false, 0); // fridge
-        m->place_items("fridgesnacks", 60, 21, 17, 21, 17, false, 0);
-        m->place_items("alcohol", 70, 21, 5, 21, 8, false, 0); // rack
-        m->place_items("trash", 15, 2, 17, 16, 19, true, 0);
-
-        autorotate(false);
-}
-
 
 void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {

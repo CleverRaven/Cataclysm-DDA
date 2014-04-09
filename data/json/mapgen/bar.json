@@ -1,0 +1,66 @@
+[
+	{
+		"type" : "mapgen",
+		"om_terrain": ["s_restaurant_fast"],
+		"method": "json",
+		"weight": 475,
+		"mondensity" : 2,
+		"object": {
+			"sidewalk" : true,
+			"fill_ter": "t_pavement",
+			"rows": [
+				"                        ",
+				" |-'-'-'---++---'-'-'-| ",
+				" |....................| ",
+				" |..##...##...##...ccc| ",
+				" |..##...##...##...c.&| ",
+				" |.................c.B| ",
+				" '.................c.B| ",
+				" |.................c.B| ",
+				" |..##...##...##...c.B| ",
+				" |..##...##...##...c..| ",
+				" |.................cc.| ",
+				" '....................| ",
+				" |....................| ",
+				" |..xxxxx....xxxxx....| ",
+				" |..xxxxx....xxxxx....| ",
+				" |....................| ",
+				" |------------------D-| ",
+				"                 D...&| ",
+				"                 |cccc| ",
+				"                 |----| ",
+				"                        ",
+				"                        ",
+				"                        ",
+				"                        "
+			],
+			"terrain": {
+				"-": "t_wall_h",
+				"|": "t_wall_v",
+				"+": "t_door_c",
+				"D": "t_door_locked",
+				"'": "t_window",
+				".": "t_floor",
+				" ": "t_null"
+			},
+			"furniture": {
+				"#": "f_table",
+				"c": "f_counter",
+				"x": "f_pool_table",
+				"&": "f_fridge",
+				"B": "f_rack"
+			},
+			"place_groups": [
+			{ "item": "pool_table",   "chance": 50, "x": [4,8],  "y":[13,14], "repeat": [2,3] },
+			{ "item": "pool_table",   "chance": 50, "x": [13,17],"y":[13,14], "repeat": [2,3] },
+			{ "item": "snacks",       "chance": 30, "x": 19,     "y":[3,10],  "repeat": [1,2] },
+			{ "item": "snacks",       "chance": 50, "x": [18,21],"y":18,      "repeat": [1,2] },
+			{ "item": "fridgesnacks", "chance": 60, "x": 21,     "y":4,       "repeat": [1,2] },
+			{ "item": "fridgesnacks", "chance": 60, "x": 21,     "y":17,      "repeat": [1,2] },
+			{ "item": "alcohol",      "chance": 70, "x": 21,     "y":[5,8],   "repeat": [2,3] },
+			{ "item": "alcohol",      "chance": 55, "x": 21,     "y":[5,8],   "repeat": [3,4] },
+			{ "item": "trash",        "chance": 30, "x": [2,16], "y":[17,19], "repeat": [3,5] }
+			] 	
+		}
+    }
+]

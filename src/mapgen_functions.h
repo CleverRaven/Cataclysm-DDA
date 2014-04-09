@@ -131,7 +131,6 @@ void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 void mapgen_farm_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_bar(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_furniture(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
