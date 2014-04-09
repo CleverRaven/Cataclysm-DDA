@@ -92,7 +92,6 @@ void mapgen_s_gun(map *m, oter_id terrain_type, mapgendata dat, int turn, float 
 void mapgen_s_clothes(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_library(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_restaurant(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_s_restaurant_fast(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_restaurant_coffee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_shelter(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
