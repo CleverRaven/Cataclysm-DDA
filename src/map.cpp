@@ -3137,36 +3137,30 @@ trap_id map::tr_at(const int x, const int y) const
  int nonant;
  cast_to_nonant(x, y, nonant);
 */
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- if (lx < 0 || lx >= SEEX || ly < 0 || ly >= SEEY) {
-  debugmsg("tr_at contained bad x:y %d:%d", lx, ly);
-  return tr_null; // Out-of-bounds, return our null trap
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+ if (terlist[ current_submap->ter[lx][ly] ].trap != tr_null) {
+  return terlist[ current_submap->ter[lx][ly] ].trap;
  }
 
- if (terlist[ grid[nonant]->ter[lx][ly] ].trap != tr_null) {
-  return terlist[ grid[nonant]->ter[lx][ly] ].trap;
- }
-
- return grid[nonant]->trp[lx][ly];
+ return current_submap->trp[lx][ly];
 }
 
 void map::add_trap(const int x, const int y, const trap_id t)
 {
     if (!INBOUNDS(x, y)) { return; }
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
-    const int lx = x % SEEX;
-    const int ly = y % SEEY;
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
 
     // If there was already a trap here, remove it.
-    if (grid[nonant]->trp[lx][ly] != tr_null) {
+    if (current_submap->trp[lx][ly] != tr_null) {
         remove_trap(x, y);
     }
 
-    grid[nonant]->trp[lx][ly] = t;
+    current_submap->trp[lx][ly] = t;
     if (t != tr_null) {
         traplocs[t].insert(point(x, y));
     }
@@ -3229,13 +3223,13 @@ void map::disarm_trap(const int x, const int y)
 void map::remove_trap(const int x, const int y)
 {
     if (!INBOUNDS(x, y)) { return; }
-    const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
-    const int lx = x % SEEX;
-    const int ly = y % SEEY;
-    trap_id t = grid[nonant]->trp[lx][ly];
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    trap_id t = current_submap->trp[lx][ly];
     if (t != tr_null) {
-        grid[nonant]->trp[lx][ly] = tr_null;
+        current_submap->trp[lx][ly] = tr_null;
         traplocs[t].erase(point(x, y));
     }
 }
@@ -3249,11 +3243,10 @@ field& map::field_at(const int x, const int y)
   return nulfield;
  }
 
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- return grid[nonant]->fld[lx][ly];
+ return current_submap->fld[lx][ly];
 }
 
 /*
@@ -3329,14 +3322,13 @@ int map::get_field_strength( const point p, const field_id t ) {
 field_entry * map::get_field( const point p, const field_id t ) {
     if (!INBOUNDS(p.x, p.y))
         return NULL;
-    const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
-    const int lx = p.x % SEEX;
-    const int ly = p.y % SEEY;
-    return grid[nonant]->fld[lx][ly].findField(t);
+    int lx, ly;
+    submap * const current_submap = get_submap_at(p.x, p.y, lx, ly);
+    return current_submap->fld[lx][ly].findField(t);
 }
 
 /*
- * add field type at point, or set denity if present
+ * add field type at point, or set density if present
  */
 bool map::add_field(const point p, const field_id t, unsigned int density, const int age)
 {
@@ -3347,15 +3339,17 @@ bool map::add_field(const point p, const field_id t, unsigned int density, const
         density = 3;
     if (density <= 0)
         return false;
-    const int nonant = int(p.x / SEEX) + int(p.y / SEEY) * my_MAPSIZE;
 
-    const int lx = p.x % SEEX;
-    const int ly = p.y % SEEY;
-    if (!grid[nonant]->fld[lx][ly].findField(t)) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
-        grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
-    grid[nonant]->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
-    if(g != NULL && p.x == g->u.posx && p.y == g->u.posy)
+    int lx, ly;
+    submap * const current_submap = get_submap_at(p.x, p.y, lx, ly);
+
+    if (!current_submap->fld[lx][ly].findField(t)) { //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
+        current_submap->field_count++; //Only adding it to the count if it doesn't exist.
+    }
+    current_submap->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
+    if(g != NULL && p.x == g->u.posx && p.y == g->u.posy) {
         step_in_field(p.x, p.y); //Hit the player with the field if it spawned on top of them.
+    }
     return true;
 }
 
@@ -3374,15 +3368,17 @@ bool map::add_field(const int x, const int y,
  */
 void map::remove_field(const int x, const int y, const field_id field_to_remove)
 {
- if (!INBOUNDS(x, y))
+ if (!INBOUNDS(x, y)) {
   return;
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ }
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- if (grid[nonant]->fld[lx][ly].findField(field_to_remove)) //same as checking for fd_null in the old system
-  grid[nonant]->field_count--;
- grid[nonant]->fld[lx][ly].removeField(field_to_remove);
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+ if (current_submap->fld[lx][ly].findField(field_to_remove)) { //same as checking for fd_null in the old system
+  current_submap->field_count--;
+ }
+ current_submap->fld[lx][ly].removeField(field_to_remove);
 }
 
 computer* map::computer_at(const int x, const int y)
@@ -3390,11 +3386,12 @@ computer* map::computer_at(const int x, const int y)
  if (!INBOUNDS(x, y))
   return NULL;
 
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ submap * const current_submap = get_submap_at(x, y);
 
- if (grid[nonant]->comp.name == "")
+ if (current_submap->comp.name == "") {
   return NULL;
- return &(grid[nonant]->comp);
+ }
+ return &(current_submap->comp);
 }
 
 bool map::allow_camp(const int x, const int y, const int radius)
@@ -3416,10 +3413,10 @@ basecamp* map::camp_at(const int x, const int y, const int radius)
 
     for (int ly = sy; ly < ey; ++ly) {
         for (int lx = sx; lx < ex; ++lx) {
-            int nonant = lx + ly * my_MAPSIZE;
-            if (grid[nonant]->camp.is_valid()) {
+            submap * const current_submap = get_submap_at(x, y);
+            if (current_submap->camp.is_valid()) {
                 // we only allow on camp per size radius, kinda
-                return &(grid[nonant]->camp);
+                return &(current_submap->camp);
             }
         }
     }
