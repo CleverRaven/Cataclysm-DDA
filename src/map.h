@@ -21,6 +21,7 @@
 #include "coordinates.h"
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
+#define MAX_MAP_LAYERS 11
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
@@ -71,6 +72,33 @@ class map
 
 // Visual Output
  void debug();
+
+ /**
+  * Sets a dirty flag on the transparency cache.
+  *
+  * If this isn't set, it's just assumed that
+  * the transparency cache hasn't changed and
+  * doesn't need to be updated.
+  */
+ void set_transparency_cache_dirty() {
+     transparency_cache_dirty = true;
+ }
+
+ /**
+  * Sets a dirty flag on the outside cache.
+  *
+  * If this isn't set, it's just assumed that
+  * the outside cache hasn't changed and
+  * doesn't need to be updated.
+  */
+ void set_outside_cache_dirty() {
+     outside_cache_dirty = true;
+ }
+
+ /**
+  * Callback invoked when a vehicle has moved.
+  */
+ void on_vehicle_moved();
 
  /** Draw a visible part of the map into `w`.
   *
@@ -211,7 +239,7 @@ class map
  void update_vehicle_cache(vehicle *, const bool brand_new = false);
  void reset_vehicle_cache();
  void clear_vehicle_cache();
- void update_vehicle_list(const int to);
+ void update_vehicle_list(submap * const to);
 
  void destroy_vehicle (vehicle *veh);
 // Change vehicle coords and move vehicle's driver along.
@@ -386,7 +414,7 @@ void add_corpse(int x, int y);
  bool add_field(const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(); // See fields.cpp
- bool process_fields_in_submap(const int gridn); // See fields.cpp
+ bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
  void step_in_field(const int x, const int y); // See fields.cpp
  void mon_in_field(const int x, const int y, monster *z); // See fields.cpp
  void field_effect(int x, int y); //See fields.cpp
@@ -474,6 +502,7 @@ protected:
                  const int offsetX, const int offsetY, const int offsetDistance );
 
  int my_MAPSIZE;
+ int my_MAP_LAYERS_LOADED;
  virtual bool is_tiny() { return false; };
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
@@ -494,7 +523,27 @@ protected:
  void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
 
 private:
-submap * getsubmap( const int grididx );
+ bool transparency_cache_dirty;
+ bool outside_cache_dirty;
+
+ submap * getsubmap( const int grididx );
+
+ /** Get the submap containing the specified position within the reality bubble. */
+ submap *get_submap_at(int x, int y, int z) const;
+
+ /** Get the submap containing the specified position within the reality bubble.
+  *  Also writes the position within the submap to offset_x, offset_y
+  */
+ submap *get_submap_at(int x, int y, int z, int& offset_x, int& offset_y) const;
+ submap *get_submap_at_grid(int gridx, int gridy, int gridz) const;
+
+ // TODO: map3d: LEGACY functions, these should never be called once the 3d transition
+ //              is complete
+ submap *get_submap_at(int x, int y) const;
+
+ submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
+ submap *get_submap_at_grid(int gridx, int gridy) const;
+ 
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
@@ -523,7 +572,7 @@ submap * getsubmap( const int grididx );
  bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
- submap* grid[MAPSIZE * MAPSIZE];
+ submap* grid[MAPSIZE * MAPSIZE * MAX_MAP_LAYERS];
  std::map<trap_id, std::set<point> > traplocs;
 };
 

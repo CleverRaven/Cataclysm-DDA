@@ -1614,10 +1614,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                         for(int y = 0; y < 2; y++) {
                             // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                             // functions that would alter the results
-                            int dnonant = int(target_sub.x + x) + int(target_sub.y + y) * 11; // get the destination submap's grid id
-                            int snonant = x + y * 2;                                          // and the source
-                            submap *destsm = g->m.grid[dnonant];                              // make direct pointers
-                            submap *srcsm = tmpmap.getsubmap(snonant);                        //
+                            submap *destsm = g->m.get_submap_at(target_sub.x + x, target_sub.y + y);
+                            submap *srcsm = tmpmap.get_submap_at(x, y);
 
                             for (int i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                                 s += string_format("  copying vehicle %d/%d",i,srcsm->vehicles.size());
@@ -1629,7 +1627,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                                 srcsm->vehicles.erase (srcsm->vehicles.begin() + i);
                                 g->m.update_vehicle_cache(veh1);
                             }
-                            g->m.update_vehicle_list(dnonant); // update real map's vcaches
+                            g->m.update_vehicle_list(destsm); // update real map's vcaches
 
                             int spawns_todo = 0;
                             for (int i = 0; i < srcsm->spawns.size(); i++) { // copy spawns
