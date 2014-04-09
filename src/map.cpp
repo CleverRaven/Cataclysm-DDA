@@ -1510,7 +1510,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
                            pgettext("memorial_female", "Set off an alarm."));
        g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
     }
- 
+
     if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
         bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
         if ( success == true ) {
@@ -4222,6 +4222,16 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
                   if ( it->is_funnel_container(maxvolume) ) {                      // biggest
                       biggest_container_idx = intidx;             // this will survive erases below, it ptr may not
                   }
+              }
+              if (it->is_corpse()) {
+                  it->calc_rot();
+
+                  //remove corpse after 10 days = 144000 turns (dependent on temperature)
+                  if(it->rot > 144000 && it->can_revive() == false) {
+                      it = tmpsub->itm[x][y].erase(it);
+                  } else { ++it; intidx++; }
+
+                  continue;
               }
               if(it->goes_bad() && biggest_container_idx != intidx) { // you never know...
                   it_comest *food = dynamic_cast<it_comest*>(it->type);
