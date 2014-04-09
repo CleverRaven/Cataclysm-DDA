@@ -331,7 +331,7 @@ void defense_game::init_map()
         break;
 
     case DEFLOC_BAR:
-        g->cur_om->ter(50, 50, 0) = "s_restaurant_fast";
+        g->cur_om->ter(50, 50, 0) = "bar_north";
         break;
 
     case DEFLOC_MANSION:

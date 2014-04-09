@@ -3579,6 +3579,10 @@ int iuse::restaurantmap(player *p, item *it, bool t)
  roadmap_targets(p, it, t, "s_restaurant_coffee", 0, 0);
   // Show restaurants
  roadmap_targets(p, it, t, "s_restaurant", 0, 0);
+  // Show bars
+ roadmap_targets(p, it, t, "bar", 0, 0);
+  // Show pizza parlors
+ roadmap_targets(p, it, t, "s_pizza_parlor", 0, 0);
   // Show fast food joints
  roadmap_targets(p, it, t, "s_restaurant_fast", 0, 0);
 

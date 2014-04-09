@@ -1,38 +1,45 @@
 [
 	{
-		"type" : "mapgen",
-		"om_terrain": ["s_restaurant_fast"],
-		"method": "json",
-		"weight": 475,
+		"type" : "overmap_terrain",
+		"id" : "bar",
+		"name": "bar",
+		"rotate" : true,
+		"sym" : [94, 62, 118, 60],
+		"color" : "magenta",
+		"see_cost" : 5,
+		"extras" : "build",
 		"mondensity" : 2,
-		"object": {
-			"sidewalk" : true,
-			"fill_ter": "t_pavement",
+		"sidewalk" : true,
+		"mondensity" : 2,
+		"mapgen": [ {
+			"method": "json",
+			"object": {
+			"fill_ter": "t_floor",
 			"rows": [
-				"                        ",
-				" |-'-'-'---++---'-'-'-| ",
-				" |....................| ",
-				" |..##...##...##...ccc| ",
-				" |..##...##...##...c.&| ",
-				" |.................c.B| ",
-				" '.................c.B| ",
-				" |.................c.B| ",
-				" |..##...##...##...c.B| ",
-				" |..##...##...##...c..| ",
-				" |.................cc.| ",
-				" '....................| ",
-				" |....................| ",
-				" |..xxxxx....xxxxx....| ",
-				" |..xxxxx....xxxxx....| ",
-				" |....................| ",
-				" |------------------D-| ",
-				"                 D...&| ",
-				"                 |cccc| ",
-				"                 |----| ",
-				"                        ",
-				"                        ",
-				"                        ",
-				"                        "
+				"|--'-'-'---++---'-'-'--|",
+				"|......................|",
+				"|...CC...CC...CC....ccc|",
+				"|...##...##...##...Cc.&|",
+				"|...##...##...##....c.@|",
+				"'...CC...CC...CC...Cc.B|",
+				"|...................c.B|",
+				"|...CC...CC...CC...Cc.B|",
+				"|...##...##...##....c.B|",
+				"|...##...##...##...Cc..|",
+				"'...CC...CC...CC....cfc|",
+				"|......................|",
+				"|...xxxxx....xxxxx....T|",
+				"|...xxxxx....xxxxx....T|",
+				"|......................|",
+				"|--D----------------D--|",
+				"|.....|   dd     D....&|",
+				"|t...s|          |.cccc|",
+				"|-----|          |-----|",
+				" ,    ,    ,    ,    ,  ",
+				" ,    ,    ,    ,    ,  ",
+				" ,    ,    ,    ,    ,  ",
+				" ,    ,    ,    ,    ,  ",
+				" ,    ,    ,    ,    ,  "
 			],
 			"terrain": {
 				"-": "t_wall_h",
@@ -40,27 +47,41 @@
 				"+": "t_door_c",
 				"D": "t_door_locked",
 				"'": "t_window",
-				".": "t_floor",
-				" ": "t_null"
+				".": "t_null",
+				" ": "t_pavement",
+				"f": "t_fencegate_c",
+				",": "t_pavement_y",
+				"@": "t_console_broken"
 			},
 			"furniture": {
 				"#": "f_table",
 				"c": "f_counter",
 				"x": "f_pool_table",
 				"&": "f_fridge",
-				"B": "f_rack"
+				"B": "f_rack",
+				"d": "f_dumpster",
+				"t": "f_toilet",
+				"s": "f_sink",
+				"C": "f_bench",
+				"T": "f_trashcan"
 			},
+			"place_specials": [
+				{ "type": "toilet", "x": 1, "y": 17 }
+			],
 			"place_groups": [
-			{ "item": "pool_table",   "chance": 50, "x": [4,8],  "y":[13,14], "repeat": [2,3] },
-			{ "item": "pool_table",   "chance": 50, "x": [13,17],"y":[13,14], "repeat": [2,3] },
-			{ "item": "snacks",       "chance": 30, "x": 19,     "y":[3,10],  "repeat": [1,2] },
-			{ "item": "snacks",       "chance": 50, "x": [18,21],"y":18,      "repeat": [1,2] },
-			{ "item": "fridgesnacks", "chance": 60, "x": 21,     "y":4,       "repeat": [1,2] },
-			{ "item": "fridgesnacks", "chance": 60, "x": 21,     "y":17,      "repeat": [1,2] },
-			{ "item": "alcohol",      "chance": 70, "x": 21,     "y":[5,8],   "repeat": [2,3] },
-			{ "item": "alcohol",      "chance": 55, "x": 21,     "y":[5,8],   "repeat": [3,4] },
-			{ "item": "trash",        "chance": 30, "x": [2,16], "y":[17,19], "repeat": [3,5] }
-			] 	
-		}
+			{ "item": "pool_table",   "chance": 50, "x": [4,8],  "y":[12,13], "repeat": [2,3] },
+			{ "item": "pool_table",   "chance": 50, "x": [13,17],"y":[12,13], "repeat": [2,3] },
+			{ "item": "snacks",       "chance": 30, "x": 20,     "y":[4,10],  "repeat": [1,2] },
+			{ "item": "snacks",       "chance": 50, "x": [21,24],"y":17,      "repeat": [1,2] },
+			{ "item": "fridgesnacks", "chance": 60, "x": 22,     "y":3,       "repeat": [1,2] },
+			{ "item": "fridgesnacks", "chance": 60, "x": 22,     "y":16,      "repeat": [1,2] },
+			{ "item": "alcohol",      "chance": 70, "x": 22,     "y":[5,8],   "repeat": [2,3] },
+			{ "item": "alcohol",      "chance": 55, "x": 22,     "y":[5,8],   "repeat": [3,4] },
+			{ "item": "trash",        "chance": 10, "x": [2,16], "y":[17,19], "repeat": [2,4] },
+			{ "item": "trash",        "chance": 60, "x": [10,11],"y":16,      "repeat": [3,5] },
+			{ "item": "trash",        "chance": 70, "x": 22,     "y":[12,13], "repeat": [4,5] }
+			] 
+			}
+		} ]
     }
 ]
