@@ -29,10 +29,10 @@ enum astar_list {
  ASL_CLOSED
 };
 
-map::map()
+map::map(int mapsize)
 {
     nulter = t_null;
-    my_MAPSIZE = is_tiny() ? 2 : MAPSIZE;
+    my_MAPSIZE = mapsize;
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
     memset(veh_exists_at, 0, sizeof(veh_exists_at));
@@ -4666,13 +4666,11 @@ submap * map::getsubmap( const int grididx ) {
 }
 
 
-tinymap::tinymap()
+tinymap::tinymap(int mapsize)
+: map(mapsize)
 {
 }
 
-tinymap::~tinymap()
-{
-}
 ////////////////////
 ter_id find_ter_id(const std::string id, bool complain=true) {
     (void)complain; //FIXME: complain unused

@@ -65,7 +65,7 @@ class map
  friend class editmap;
  public:
 // Constructors & Initialization
- map();
+ map(int mapsize = MAPSIZE);
  ~map();
 
 // Visual Output
@@ -473,7 +473,6 @@ protected:
                  const int offsetX, const int offsetY, const int offsetDistance );
 
  int my_MAPSIZE;
- virtual bool is_tiny() { return false; };
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
  ter_id nulter;  // Returned when &ter() is asked for an OOB value
@@ -530,14 +529,7 @@ class tinymap : public map
 {
 friend class editmap;
 public:
- tinymap();
- ~tinymap();
-
-protected:
- virtual bool is_tiny() { return true; };
-
-private:
- submap* grid[4];
+ tinymap(int mapsize = 2);
 };
 
 #endif
