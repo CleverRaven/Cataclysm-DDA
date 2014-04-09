@@ -579,7 +579,10 @@ void editmap::update_view(bool update_info)
                       g->m.i_at(target.x, target.y)[0].tname().c_str());
             off++;
             if (g->m.i_at(target.x, target.y).size() > 1) {
-                mvwprintw(w_info, off, 1, _("There are %d other items there as well."), g->m.i_at(target.x, target.y).size() - 1);
+                mvwprintw(w_info, off, 1, ngettext("There is %d other item there as well.",
+                                                   "There are %d other items there as well.",
+                                                   g->m.i_at(target.x, target.y).size() - 1),
+                          g->m.i_at(target.x, target.y).size() - 1);
                 off++;
             }
         }

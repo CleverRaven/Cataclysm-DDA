@@ -567,7 +567,7 @@ void computer::activate_function(computer_action action)
             print_line("%s", names[i].c_str());
         }
         if (more > 0) {
-            print_line(_("%d OTHERS FOUND..."), more);
+            print_line(ngettext("%d OTHER FOUND...", "%d OTHERS FOUND...", more), more);
         }
 
         print_newline();

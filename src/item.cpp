@@ -532,7 +532,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         }
 
         dump->push_back(iteminfo("GUN", _("Skill used: "), gun->skill_used->name()));
-        dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(_("<num> rounds of %s"),
+        dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", clip_size()),
                                  ammo_name(ammo_type()).c_str()), clip_size(), true));
 
         //damage of gun
@@ -766,7 +766,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back(iteminfo("BOOK", "", _("Reading this book affects your morale by <num>"),
                                      book->fun, true, (book->fun > 0 ? "+" : "")));
         }
-        dump->push_back(iteminfo("BOOK", "", _("This book takes <num> minutes to read."),
+        dump->push_back(iteminfo("BOOK", "", ngettext("This book takes <num> minute to read.", "This book takes <num> minutes to read.", book->time),
                                  book->time, true, "", true, true));
 
         if (!(book->recipes.empty())) {
@@ -787,7 +787,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                     recipes += ", ";
                 }
             }
-            std::string recipe_line = string_format(_("This book contains %d crafting recipes: %s"),
+            std::string recipe_line = string_format(ngettext("This book contains %d crafting recipe: %s", "This book contains %d crafting recipes: %s", book->recipes.size()),
                                                     book->recipes.size(), recipes.c_str());
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
@@ -799,28 +799,28 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if ((tool->max_charges)!=0) {
             if (has_flag("DOUBLE_AMMO")) {
                 dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?
-                    _("Maximum <num> charges (doubled).") :
-                    string_format(_("Maximum <num> charges (doubled) of %s."),
+                    ngettext("Maximum <num> charge (doubled).", "Maximum <num> charges (doubled)", tool->max_charges * 2) :
+                    string_format(ngettext("Maximum <num> charge (doubled) of %s.", "Maximum <num> charges (doubled) of %s.", tool->max_charges * 2),
                                   ammo_name(tool->ammo).c_str())), tool->max_charges * 2));
             } else if (has_flag("RECHARGE")) {
                 dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?
-                    _("Maximum <num> charges (rechargeable).") :
-                    string_format(_("Maximum <num> charges (rechargeable) of %s."),
+                    ngettext("Maximum <num> charge (rechargeable).", "Maximum <num> charges (rechargeable).", tool->max_charges) :
+                    string_format(ngettext("Maximum <num> charge (rechargeable) of %s", "Maximum <num> charges (rechargeable) of %s.", tool->max_charges),
                     ammo_name(tool->ammo).c_str())), tool->max_charges));
             } else if (has_flag("DOUBLE_AMMO") && has_flag("RECHARGE")) {
                 dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?
-                    _("Maximum <num> charges (rechargeable) (doubled).") :
-                    string_format(_("Maximum <num> charges (rechargeable) (doubled) of %s."),
+                    ngettext("Maximum <num> charge (rechargeable) (doubled).", "Maximum <num> charges (rechargeable) (doubled).", tool->max_charges * 2) :
+                    string_format(ngettext("Maximum <num> charge (rechargeable) (doubled) of %s.", "Maximum <num> charges (rechargeable) (doubled) of %s.", tool->max_charges * 2),
                                   ammo_name(tool->ammo).c_str())), tool->max_charges * 2));
             } else if (has_flag("ATOMIC_AMMO")) {
                 dump->push_back(iteminfo("TOOL", "",
-                                         ((tool->ammo == "NULL") ? _("Maximum <num> charges.") :
-                                          string_format(_("Maximum <num> charges of %s."),
+                                         ((tool->ammo == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges * 100) :
+                                          string_format(ngettext("Maximum <num> charge of %s.", "Maximum <num> charges of %s.", tool->max_charges * 100),
                                           ammo_name("plutonium").c_str())), tool->max_charges * 100));
             } else {
                 dump->push_back(iteminfo("TOOL", "",
-                    ((tool->ammo == "NULL") ? _("Maximum <num> charges.") :
-                     string_format(_("Maximum <num> charges of %s."),
+                    ((tool->ammo == "NULL") ? ngettext("Maximum <num> charge.", "Maximum <num> charges.", tool->max_charges) :
+                     string_format(ngettext("Maximum <num> charge of %s.", "Maximum <num> charges of %s.", tool->max_charges),
                                    ammo_name(tool->ammo).c_str())), tool->max_charges));
             }
         }
@@ -961,7 +961,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             int btime = ( is_food_container() ) ? contents[0].brewing_time() : brewing_time();
             if (btime <= 28800)
                 dump->push_back(iteminfo("DESCRIPTION",
-                    string_format(_("Once set in a vat, this will ferment in around %d hours."),
+                    string_format(ngettext("Once set in a vat, this will ferment in around %d hour.", "Once set in a vat, this will ferment in around %d hours.", btime / 100),
                                   btime / 600)));
             else {
                 btime = 0.5 + btime / 7200; //Round down to 12-hour intervals
@@ -971,7 +971,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                                       btime / 2)));
                 } else {
                     dump->push_back(iteminfo("DESCRIPTION",
-                        string_format(_("Once set in a vat, this will ferment in around %d days."),
+                        string_format(ngettext("Once set in a vat, this will ferment in around %d day.", "Once set in a vat, this will ferment in around %d days.", btime / 2),
                                       btime / 2)));
                 }
             }
@@ -980,7 +980,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (typeId() == "flask_yeast") {
             int cult_time = brewing_time();
             dump->push_back(iteminfo("DESCRIPTION",
-                string_format(_("It will take %d hours to culture after it's sealed."),
+                string_format(ngettext("It will take %d hour to culture after it's sealed.", "It will take %d hours to culture after it's sealed.", cult_time / 600),
                               cult_time / 600)));
         }
 

@@ -1352,7 +1352,9 @@ void mattack::smg(monster *z)
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 if(boo_hoo > 1) {
-                    g->add_msg(_("Pointed in your direction, the %s emits %d annoyed sounding beeps."),
+                    g->add_msg(ngettext("Pointed in your direction, the %s emits %d annoyed sounding beep.",
+                                        "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                        boo_hoo),
                                z->name().c_str(), boo_hoo);
                 } else {
                     g->add_msg(_("Pointed in your direction, the %s emits an IFF warning beep."),
@@ -1426,7 +1428,9 @@ void mattack::laser(monster *z)
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
                 if(boo_hoo > 1) {
-                    g->add_msg(_("Pointed in your direction, the %s emits %d annoyed sounding beeps."),
+                    g->add_msg(ngettext("Pointed in your direction, the %s emits %d annoyed sounding beep.",
+                                        "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                        boo_hoo),
                                z->name().c_str(), boo_hoo);
                 } else {
                     g->add_msg(_("Pointed in your direction, the %s emits an IFF warning beep."),

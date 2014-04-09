@@ -131,7 +131,10 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
 
         max = dep->charges;
-        std::string popupmsg=string_format(_("Deposit how much? Max:%d cents. (0 to cancel) "), max);
+        std::string popupmsg=string_format(ngettext("Deposit how much? Max:%d cent. (0 to cancel) ",
+                                                    "Deposit how much? Max:%d cents. (0 to cancel) ",
+                                                    max),
+                                           max);
         amount = helper::to_int( string_input_popup( popupmsg, 20,
                    helper::to_string_int(max), "", "", -1, true)
                 );
@@ -143,7 +146,8 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
         p->cash += amount;
         dep->charges -= amount;
-        g->add_msg(_("Your account now holds %d cents."), p->cash);
+        g->add_msg(ngettext("Your account now holds %d cent.","Your account now holds %d cents.",p->cash),
+                   p->cash);
         p->moves -= 100;
         return;
 
@@ -161,7 +165,10 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
 
         max = p->cash;
-        std::string popupmsg=string_format(_("Withdraw how much? Max:%d cents. (0 to cancel) "), max);
+        std::string popupmsg=string_format(ngettext("Withdraw how much? Max:%d cent. (0 to cancel) ",
+                                                    "Withdraw how much? Max:%d cents. (0 to cancel) ",
+                                                    max),
+                                           max);
         amount = helper::to_int( string_input_popup( popupmsg, 20,
                    helper::to_string_int(max), "", "", -1, true)
                 );
@@ -173,7 +180,10 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
         p->cash -= amount;
         with->charges += amount;
-        g->add_msg(_("Your account now holds %d cents."), p->cash);
+        g->add_msg(ngettext("Your account now holds %d cent.",
+                            "Your account now holds %d cents.",
+                            p->cash),
+                   p->cash);
         p->moves -= 100;
         return;
 
@@ -209,7 +219,10 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
 
         max = with->charges;
-        std::string popupmsg=string_format(_("Transfer how much? Max:%d cents. (0 to cancel) "), max);
+        std::string popupmsg=string_format(ngettext("Transfer how much? Max:%d cent. (0 to cancel) ",
+                                                    "Transfer how much? Max:%d cents. (0 to cancel) ", 
+                                                    max),
+                                           max);
         amount = helper::to_int( string_input_popup( popupmsg, 20,
                    helper::to_string_int(max), "", "", -1, true)
                 );
@@ -1568,7 +1581,10 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
             int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
                 : drink->volume(false, true)/1000*drink->charges;
             if (d_vol < 1)
-                g->add_msg(_("It has %d portions of %s left."), drink->charges, drink->name.c_str());
+                g->add_msg(ngettext("It has %d portion of %s left.",
+                                    "It has %d portions of %s left.",
+                                    drink->charges),
+                           drink->charges, drink->name.c_str());
             else
                 g->add_msg(_("%s contained: %d/%d"), drink->name.c_str(), d_vol, keg_cap);
             return;
