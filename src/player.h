@@ -100,7 +100,7 @@ public:
     /** Returns a random name from NAMES_* */
     void pick_name();
     /** Returns either "you" or the player's name */
-    std::string disp_name();
+    std::string disp_name(bool possessive = false);
     /** Returns the name of the player's outer layer, e.g. "armor plates" */
     std::string skin_name();
 

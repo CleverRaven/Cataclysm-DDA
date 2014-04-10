@@ -173,24 +173,28 @@ std::string monster::name_with_armor()
 {
  std::string ret;
  if (type->in_species("INSECT")) {
-     ret = string_format(_("%s's carapace"), type->name.c_str());
+     ret = string_format(_("carapace"));
  }
  else {
      if (type->mat == "veggy") {
-         ret = string_format(_("%s's thick bark"), type->name.c_str());
+         ret = string_format(_("thick bark"));
      } else if (type->mat == "flesh" || type->mat == "hflesh" || type->mat == "iflesh") {
-         ret = string_format(_("%s's thick hide"), type->name.c_str());
+         ret = string_format(_("thick hide"));
      } else if (type->mat == "iron" || type->mat == "steel") {
-         ret = string_format(_("%s's armor plating"), type->name.c_str());
+         ret = string_format(_("armor plating"));
      } else if (type->mat == "protoplasmic") {
-         ret = string_format(_("%s's hard protoplasmic hide"), type->name.c_str());
+         ret = string_format(_("hard protoplasmic hide"));
      }
  }
  return ret;
 }
 
-std::string monster::disp_name() {
-    return string_format(_("the %s"), name().c_str());
+std::string monster::disp_name(bool possessive) {
+    if (!possessive) {
+        return string_format(_("the %s"), name().c_str());
+    } else {
+        return string_format(_("the %s's"), name().c_str());
+    }
 }
 
 std::string monster::skin_name() {
@@ -899,7 +903,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
             !proj.wide) {
         if (u_see_mon)
-            g->add_msg(_("The shot passes through the %s without hitting."),
+            g->add_msg(_("The shot passes through %s without hitting."),
             disp_name().c_str());
         return 0;
     }

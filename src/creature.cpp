@@ -241,11 +241,11 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     // do 10,speed because speed could potentially be > 10000
     if (dodge_roll() >= dice(10, proj.speed)) {
         if (is_player())
-            g->add_msg(_("You dodge %s's projectile!"),
-                       source->disp_name().c_str());
+            g->add_msg(_("You dodge %s projectile!"),
+                       source->disp_name(true).c_str());
         else if (u_see_this)
-            g->add_msg(_("%s dodges %s's projectile."),
-                       disp_name().c_str(), source->disp_name().c_str());
+            g->add_msg(_("%s dodges %s projectile."),
+                       disp_name().c_str(), source->disp_name(true).c_str());
         return 0;
     }
 
@@ -359,7 +359,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                 g->add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
             }
         } else if (dealt_dam.total_damage() == 0) {
-            g->add_msg(_("The shot reflects off the %s!"),
+            g->add_msg(_("The shot reflects off %s %s!"), disp_name(true).c_str(),
                        skin_name().c_str());
         } else if (source != NULL) {
             if (source->is_player()) {

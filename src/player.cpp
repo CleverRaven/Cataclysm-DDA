@@ -341,22 +341,35 @@ void player::normalize()
         temp_conv[i] = BODYTEMP_NORM;
 }
 
-void player::pick_name() {
+void player::pick_name()
+{
     name = Name::generate(male);
 }
 
-std::string player::disp_name() {
-    if (is_player())
-        return "you";
-    return name;
+std::string player::disp_name(bool possessive)
+{
+    if (!possessive) {
+        if (is_player()) {
+            return _("you");
+        }
+        return name;
+    } else {
+        if (is_player()) {
+            return _("your");
+        }
+        return (_("%s's"), name);
+    }
 }
 
-std::string player::skin_name() {
-    return "thin skin";
+std::string player::skin_name()
+{
+    //TODO: Return actual deflecting layer name
+    return "armor";
 }
 
 // just a shim for now since actual player death is handled in game::is_game_over
-void player::die(Creature* nkiller) {
+void player::die(Creature* nkiller)
+{
     if( nkiller != NULL && !nkiller->is_fake() ) {
         killer = nkiller;
     }
