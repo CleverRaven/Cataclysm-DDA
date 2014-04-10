@@ -27,7 +27,7 @@
     {
         "type" : "ARMOR",
         "id" : "socks_wool",
-        "name" : "pair wool socks",
+        "name" : "pair of wool socks",
         "name_plural" : "pairs of wool socks",
         "weight" : 44,
         "color" : "blue",
