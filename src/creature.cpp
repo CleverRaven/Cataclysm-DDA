@@ -242,7 +242,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     if (dodge_roll() >= dice(10, proj.speed)) {
         if (is_player())
             g->add_msg(_("You dodge %s's projectile!"),
-                       skin_name().c_str());
+                       source->disp_name().c_str());
         else if (u_see_this)
             g->add_msg(_("%s dodges %s's projectile."),
                        disp_name().c_str(), source->disp_name().c_str());
