@@ -862,7 +862,8 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
       new_item_template->name_plural = jo.get_string("name_plural").c_str();
     } else {
       // default behaviour: Assume the regular plural form (appending an “s”)
-      new_item_template->name_plural = jo.get_string("name").c_str() + "s";
+      new_item_template->name_plural = jo.get_string("name").c_str();
+      new_item_template->name_plural += "s";
     }
     new_item_template->sym = jo.get_string("symbol")[0];
     new_item_template->color = color_from_string(jo.get_string("color"));
