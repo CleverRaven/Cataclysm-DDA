@@ -235,8 +235,6 @@ game::~game()
  delwin(w_status2);
 
  delete world_generator;
-
- release_traps();
 }
 
 // Fixed window sizes
@@ -8052,9 +8050,9 @@ void game::print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int
         return;
     }
 
-    int vis = traps[trapid]->visibility;
+    int vis = traplist[trapid]->visibility;
     if (vis == -1 || u.per_cur - u.encumb(bp_eyes) >= vis) {
-        mvwprintz(w_look, line++, column, traps[trapid]->color, "%s", traps[trapid]->name.c_str());
+        mvwprintz(w_look, line++, column, traplist[trapid]->color, "%s", traplist[trapid]->name.c_str());
     }
 }
 
@@ -12075,9 +12073,9 @@ bool game::plmove(int dx, int dy)
     }
 
   if (m.tr_at(x, y) != tr_null &&
-    u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility){
-        if (  !traps[m.tr_at(x, y)]->is_benign() &&
-              !query_yn(_("Really step onto that %s?"),traps[m.tr_at(x, y)]->name.c_str())){
+    u.per_cur - u.encumb(bp_eyes) >= traplist[m.tr_at(x, y)]->visibility){
+        if (  !traplist[m.tr_at(x, y)]->is_benign() &&
+              !query_yn(_("Really step onto that %s?"),traplist[m.tr_at(x, y)]->name.c_str())){
             return false;
         }
   }
@@ -12447,7 +12445,7 @@ bool game::plmove(int dx, int dy)
    m.board_vehicle(u.posx, u.posy, &u);
 
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
-   trap* tr = traps[m.tr_at(x, y)];
+   trap* tr = traplist[m.tr_at(x, y)];
    if (!u.avoid_trap(tr)) {
     trapfunc f;
     (f.*(tr->act))(x, y);
@@ -13093,7 +13091,7 @@ void game::vertical_move(int movez, bool force) {
  }
 
  if (m.tr_at(u.posx, u.posy) != tr_null) { // We stepped on a trap!
-  trap* tr = traps[m.tr_at(u.posx, u.posy)];
+  trap* tr = traplist[m.tr_at(u.posx, u.posy)];
   if (force || !u.avoid_trap(tr)) {
    trapfunc f;
    (f.*(tr->act))(u.posx, u.posy);

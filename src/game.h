@@ -11,7 +11,6 @@
 #include "omdata.h"
 #include "mapitems.h"
 #include "crafting.h"
-#include "trap.h"
 #include "npc.h"
 #include "faction.h"
 #include "event.h"
@@ -359,8 +358,6 @@ public:
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
   std::map<std::string, vehicle*> vtypes;
-  std::vector <trap*> traps;
-  void load_trap(JsonObject &jo);
   void toggle_sidebar_style(void);
   void toggle_fullscreen(void);
   void temp_exit_fullscreen(void);
@@ -512,7 +509,6 @@ public:
   void init_professions();
   void init_faction_data();
   void init_mongroups() throw (std::string);    // Initualizes monster groups
-  void release_traps();     // Release trap types memory
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_autosave();     // Initializes autosave parameters

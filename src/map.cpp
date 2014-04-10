@@ -3087,7 +3087,7 @@ std::list<item> map::use_charges(const point origin, const int range,
 }
 
 std::string map::trap_get(const int x, const int y) const {
-    return g->traps[ tr_at(x, y) ]->id;
+    return traplist[ tr_at(x, y) ]->id;
 }
 
 void map::trap_set(const int x, const int y, const std::string & sid) {
@@ -3154,14 +3154,14 @@ void map::disarm_trap(const int x, const int y)
  }
 
  const int tSkillLevel = g->u.skillLevel("traps");
- const int diff = g->traps[tr_at(x, y)]->difficulty;
+ const int diff = traplist[tr_at(x, y)]->difficulty;
  int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
  while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50)
   roll++;
  if (roll >= diff) {
   g->add_msg(_("You disarm the trap!"));
-  std::vector<itype_id> comp = g->traps[tr_at(x, y)]->components;
+  std::vector<itype_id> comp = traplist[tr_at(x, y)]->components;
   for (int i = 0; i < comp.size(); i++) {
    if (comp[i] != "null")
     spawn_item(x, y, comp[i], 1, 1);
@@ -3188,7 +3188,7 @@ void map::disarm_trap(const int x, const int y)
  }
  else {
   g->add_msg(_("You fail to disarm the trap, and you set it off!"));
-  trap* tr = g->traps[tr_at(x, y)];
+  trap* tr = traplist[tr_at(x, y)];
   trapfunc f;
   (f.*(tr->act))(x, y);
   if(diff - roll <= 6)
@@ -3571,11 +3571,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    // todo; test using g->traps, test using global traplist
-    if (curr_trap != tr_null && (g->traps[curr_trap]->visibility == -1 ||
-                                 u.per_cur - u.encumb(bp_eyes) >= g->traps[curr_trap]->visibility)) {
-        tercol = g->traps[curr_trap]->color;
-        if (g->traps[curr_trap]->sym == '%') {
+    if (curr_trap != tr_null && (traplist[curr_trap]->visibility == -1 ||
+                                 u.per_cur - u.encumb(bp_eyes) >= traplist[curr_trap]->visibility)) {
+        tercol = traplist[curr_trap]->color;
+        if (traplist[curr_trap]->sym == '%') {
             switch(rng(1, 5)) {
             case 1: sym = '*'; break;
             case 2: sym = '0'; break;
@@ -3584,7 +3583,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             case 5: sym = '+'; break;
             }
         } else {
-            sym = g->traps[curr_trap]->sym;
+            sym = traplist[curr_trap]->sym;
         }
     }
     if (curr_field.fieldCount() > 0) {
@@ -4177,7 +4176,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
                 const int fy = y + gridy * SEEY;
                 traplocs[t].insert(point(fx, fy));
                 if ( do_funnels &&
-                     g->traps[t]->funnel_radius_mm > 0 &&             // funnel
+                     traplist[t]->funnel_radius_mm > 0 &&             // funnel
                      has_flag_ter_or_furn(TFLAG_INDOORS, fx, fy) == false // we have no outside_cache
                    ) {
                     rain_backlog[point(x, y)] = t;

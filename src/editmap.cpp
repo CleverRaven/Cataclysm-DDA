@@ -555,8 +555,8 @@ void editmap::update_view(bool update_info)
 
 
         if (cur_trap != tr_null) {
-            mvwprintz(w_info, off, 1, g->traps[cur_trap]->color, _("trap: %s (%d)"),
-                      g->traps[cur_trap]->name.c_str(), cur_trap
+            mvwprintz(w_info, off, 1, traplist[cur_trap]->color, _("trap: %s (%d)"),
+                      traplist[cur_trap]->name.c_str(), cur_trap
                      );
             off++; // 6
         }
@@ -1095,8 +1095,8 @@ int editmap::edit_trp()
         for ( int t = tshift; t <= tshift + tmax; t++ ) {
             mvwprintz(w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str());
             if ( t < num_trap_types ) {
-                tnam = t == 0 ? _("-clear-") : g->traps[t]->id;
-                mvwputch(w_picktrap, t + 1 - tshift, 2, g->traps[t]->color, g->traps[t]->sym);
+                tnam = t == 0 ? _("-clear-") : traplist[t]->id;
+                mvwputch(w_picktrap, t + 1 - tshift, 2, traplist[t]->color, traplist[t]->sym);
                 mvwprintz(w_picktrap, t + 1 - tshift, 4, (trsel == t ? h_white : ( cur_trap == t ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
             }
         }

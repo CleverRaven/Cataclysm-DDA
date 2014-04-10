@@ -1789,10 +1789,10 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::trap(player *p, map *m, int examx, int examy) {
- if (g->traps[m->tr_at(examx, examy)]->difficulty < 99 &&
-     p->per_cur-p->encumb(bp_eyes) >= g->traps[m->tr_at(examx, examy)]->visibility &&
+ if (traplist[m->tr_at(examx, examy)]->difficulty < 99 &&
+     p->per_cur-p->encumb(bp_eyes) >= traplist[m->tr_at(examx, examy)]->visibility &&
      query_yn(_("There is a %s there.  Disarm?"),
-              g->traps[m->tr_at(examx, examy)]->name.c_str())) {
+              traplist[m->tr_at(examx, examy)]->name.c_str())) {
      m->disarm_trap(examx, examy);
  }
 }
