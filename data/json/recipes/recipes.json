@@ -29332,14 +29332,12 @@
       {"id":"HAMMER","level":1,"amount":1},
 	  {"id":"CUT","level":1,"amount":1}
 	],
-    "tools": [
-      [
-        ["superglue", 1]
-      ]
-    ],
     "components": [
       [
         [ "leather", 10 ]
+      ],
+      [
+        ["superglue", 1]
       ],
       [
         ["2x4", 2]
