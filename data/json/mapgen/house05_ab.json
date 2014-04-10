@@ -8,7 +8,7 @@
         "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
             "rows": [
-                ".;;;....................",
+                ".DDD....................",
                 ".|---------22----33----.",
                 ".|       |A   |       |.",
                 ".|       |;  8|       |.",
