@@ -461,7 +461,10 @@ void veh_interact::do_install(task_reason reason)
         bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
         bool eng = sel_vpart_info->has_flag("ENGINE");
         bool install_pedals = sel_vpart_info->has_flag("PEDALS");
+        bool install_hand_rims = sel_vpart_info->has_flag("HAND_RIMS");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
+        bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims;
+        bool install_muscle_engine = install_pedals || install_hand_rims;
         std::string engine_string = "";
         if (engines && eng) { // already has engine
             engine_string = string_format(
@@ -485,7 +488,7 @@ void veh_interact::do_install(task_reason reason)
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
-             !(veh->has_pedals && eng) && !(veh->has_pedals && install_pedals)) {
+             !(has_muscle_engine && eng) && !(has_muscle_engine && install_muscle_engine)) {
             sel_cmd = 'i';
             return;
         } else {

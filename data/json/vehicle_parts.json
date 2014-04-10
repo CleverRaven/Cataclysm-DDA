@@ -76,6 +76,25 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "folding_seat",
+        "name" : "foldable seat",
+        "symbol" : "#",
+        "color" : "red",
+        "broken_symbol" : "*",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "item" : "sheet",
+        "difficulty" : 3,
+        "location" : "anywhere",
+        "flags" : [
+            "SEAT", "BOARDABLE", "FOLDABLE"
+        ],
+        "breaks_into" : [
+            {"item": "rag", "min": 1, "max": 6}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "bed",
         "name" : "bed",
         "symbol" : "#",
@@ -293,6 +312,23 @@
         "breaks_into" : [
             {"item": "pipe", "min": 0, "max": 4},
             {"item": "scrap", "min": 2, "max": 4}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "folding_frame",
+        "name" : "foldable light frame",
+        "symbol" : "h",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 50,
+        "item" : "pipe", "commoent": "TODO: better item!",
+        "difficulty" : 3,
+        "location" : "structure",
+        "flags" : ["MOUNTABLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "min": 0, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
         ]
     },{
         "type" : "vehicle_part",
@@ -1909,6 +1945,26 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "wheel_wheelchair",
+        "name" : "wheelchair wheel",
+        "symbol" : "|",
+        "color" : "dark_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 50,
+        "durability" : 40,
+        "wheel_width" : 4,
+        "item" : "wheel_wheelchair",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 0, "max": 1},
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 1, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "wheel_bicycle",
         "name" : "bicycle wheel",
         "symbol" : "|",
@@ -1981,7 +2037,7 @@
         "item" : "wheel_caster",
         "difficulty" : 1,
         "location" : "under",
-        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE"],
+        "flags" : ["WHEEL", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 0, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 2},
@@ -2192,7 +2248,27 @@
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["PEDALS", "ENGINE"],
+        "flags" : ["PEDALS", "ENGINE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "min": 1, "max": 2},
+            {"item": "scrap", "min": 0, "max": 2}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "hand_rims",
+        "name" : "hand rims",
+        "symbol" : "*",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 50,
+        "durability" : 50,
+        "power" : 50,
+        "fuel_type" : "muscle",
+        "item" : "hand_rims",
+        "difficulty" : 1,
+        "location" : "engine_block",
+        "flags" : ["HAND_RIMS", "ENGINE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_chunk", "min": 1, "max": 2},
             {"item": "scrap", "min": 0, "max": 2}
@@ -2435,7 +2511,7 @@
         "item" : "wire",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE"]
+        "flags" : ["CARGO", "BOARDABLE", "FOLDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "basketlg",
@@ -2483,7 +2559,7 @@
         "durability" : 250,
         "item" : "vehicle_controls",
         "difficulty" : 3,
-        "flags" : ["CONTROLS"],
+        "flags" : ["CONTROLS", "FOLDABLE"],
         "breaks_into" : [
             {"item": "steel_lump", "min": 1, "max": 1},
             {"item": "steel_chunk", "min": 1, "max": 3},
