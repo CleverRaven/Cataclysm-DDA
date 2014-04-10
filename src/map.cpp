@@ -2439,11 +2439,13 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
     spawn_an_item(x, y, new_item, charges, damlevel);
 }
 
-// stub for now, could vary by ter type
 int map::max_volume(const int x, const int y)
 {
-    (void)x; (void)y; //stub
-    return MAX_VOLUME_IN_SQUARE;
+    const ter_t &ter = ter_at(x, y);
+    if (has_furn(x, y)) {
+        return furn_at(x, y).max_volume;
+    }
+    return ter.max_volume;
 }
 
 // total volume of all the things
