@@ -3102,8 +3102,8 @@ bool game::handle_action()
    break;
 
   case ACTION_DEBUG:
-   if(MAP_SHARING::isCompetitive() && MAP_SHARING::getUsername() != "admin")
-       break; //don't do anything when sharing
+   if(MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger())
+       break; //don't do anything when sharing and not debugger
    debug();
    refresh_all();
    break;
@@ -3117,14 +3117,14 @@ bool game::handle_action()
    break;
 
   case ACTION_DISPLAY_SCENT:
-   if(MAP_SHARING::isCompetitive() && MAP_SHARING::getUsername() != "admin")
-       break; //don't do anything when sharing
+   if(MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger())
+       break; //don't do anything when sharing and not debugger
    display_scent();
    break;
 
   case ACTION_TOGGLE_DEBUGMON:
-   if(MAP_SHARING::isCompetitive() && MAP_SHARING::getUsername() != "admin")
-       break; //don't do anything when sharing
+   if(MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger())
+       break; //don't do anything when sharing and not debugger
    debugmon = !debugmon;
    if (debugmon) {
     add_msg(_("Debug messages ON!"));

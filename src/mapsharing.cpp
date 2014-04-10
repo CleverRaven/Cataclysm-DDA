@@ -4,6 +4,8 @@ bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
 bool MAP_SHARING::worldmenu;
 std::string MAP_SHARING::username;
+std::set<std::string> MAP_SHARING::admins;
+std::set<std::string> MAP_SHARING::debuggers;
 
 void MAP_SHARING::setSharing(bool mode) {MAP_SHARING::sharing = mode;}
 void MAP_SHARING::setUsername(std::string name) {MAP_SHARING::username = name;}
@@ -17,6 +19,37 @@ bool MAP_SHARING::isCompetitive() {return MAP_SHARING::competitive;}
 void MAP_SHARING::setWorldmenu(bool mode) {MAP_SHARING::worldmenu = mode;}
 bool MAP_SHARING::isWorldmenu() {return MAP_SHARING::worldmenu;}
 
+bool MAP_SHARING::isAdmin() {
+    if(admins.find( getUsername() ) != admins.end()) {
+        return true;
+    }
+    return false;
+}
+
+void MAP_SHARING::setAdmins(std::set<std::string> names) {
+    MAP_SHARING::admins = names;
+}
+
+void MAP_SHARING::addAdmin(std::string name) {
+    MAP_SHARING::admins.insert(name);
+    MAP_SHARING::debuggers.insert(name);
+}
+
+bool MAP_SHARING::isDebugger() {
+    if(debuggers.find( getUsername() ) != debuggers.end()) {
+        return true;
+    }
+    return false;
+}
+
+void MAP_SHARING::setDebuggers(std::set<std::string> names) {
+    MAP_SHARING::debuggers = names;
+}
+
+void MAP_SHARING::addDebugger(std::string name) {
+    MAP_SHARING::debuggers.insert(name);
+}
+
 void MAP_SHARING::setDefaults() {
     MAP_SHARING::setSharing(false);
     MAP_SHARING::setCompetitive(false);
@@ -25,6 +58,7 @@ void MAP_SHARING::setDefaults() {
     if(MAP_SHARING::getUsername().empty() && getenv("USER")) {
         MAP_SHARING::setUsername(getenv("USER"));
     }
+    MAP_SHARING::addAdmin("admin");
 }
 
 int MAP_SHARING::getLock( char const *lockName ) {

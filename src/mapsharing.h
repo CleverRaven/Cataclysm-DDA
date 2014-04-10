@@ -12,6 +12,7 @@
 #include <stdlib.h>
 
 #include <string>
+#include <set>
 
 namespace MAP_SHARING {
 extern bool sharing;
@@ -30,6 +31,18 @@ bool isCompetitive();
 
 void setWorldmenu(bool mode);
 bool isWorldmenu();
+
+extern std::set<std::string> admins;
+bool isAdmin();
+
+void setAdmins(std::set<std::string> names);
+void addAdmin(std::string name);
+
+extern std::set<std::string> debuggers;
+bool isDebugger();
+
+void setDebuggers(std::set<std::string> names);
+void addDebugger(std::string name);
 
 void setDefaults();
 

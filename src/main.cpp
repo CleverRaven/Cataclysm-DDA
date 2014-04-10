@@ -107,6 +107,22 @@ int main(int argc, char *argv[])
                 argc--;
                 argv++;
             }
+        } else if(std::string(argv[0]) == "--addadmin") {
+            argc--;
+            argv++;
+            if (argc) {
+                MAP_SHARING::addAdmin(std::string(argv[0]));
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--adddebugger") {
+            argc--;
+            argv++;
+            if (argc) {
+                MAP_SHARING::addDebugger(std::string(argv[0]));
+                argc--;
+                argv++;
+            }
         } else if(std::string(argv[0]) == "--shared") {
             argc--;
             argv++;

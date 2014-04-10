@@ -346,10 +346,10 @@ void initOptions() {
     vPages.push_back(std::make_pair("general", _("General")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("graphics", _("Graphics")));
-    if(!MAP_SHARING::isCompetitive() || MAP_SHARING::getUsername() == "admin") // when sharing maps only admin is allowed to change these
+    if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) // when sharing maps only admin is allowed to change these
         vPages.push_back(std::make_pair("debug", _("Debug")));
     iWorldOptPage = vPages.size();
-    if(!MAP_SHARING::isCompetitive() || MAP_SHARING::getUsername() == "admin") // when sharing maps only admin is allowed to change these
+    if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) // when sharing maps only admin is allowed to change these
         vPages.push_back(std::make_pair("world_default", _("World Defaults")));
 
     OPTIONS.clear();
