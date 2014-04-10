@@ -283,6 +283,8 @@
 		<Unit filename="src/itypedef.cpp" />
 		<Unit filename="src/iuse.cpp" />
 		<Unit filename="src/iuse.h" />
+		<Unit filename="src/iuse_actor.cpp" />
+		<Unit filename="src/iuse_actor.h" />
 		<Unit filename="src/iuse_software.cpp" />
 		<Unit filename="src/iuse_software.h" />
 		<Unit filename="src/iuse_software_kitten.cpp" />
