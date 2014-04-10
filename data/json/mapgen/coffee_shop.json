@@ -55,7 +55,7 @@
 		"type"  : "item_group",
 		"id"    : "coffee_table",
 		"items" : [
-			["pretzels",           50],
+			["pretzels",           40],
 			["chocpretzels",       45],
 			["candy",              30],
 			["chips",              30],
@@ -72,7 +72,10 @@
 			["rolling_paper",      15],
 			["wrapper",            25],
 			["mag_news",           40],
-			["news_regional",      35]
+			["news_regional",      35],
+			["coffee",             55],
+			["atomic_coffee",      10],
+			["tea",                35]
 		]
 	},
 	{
