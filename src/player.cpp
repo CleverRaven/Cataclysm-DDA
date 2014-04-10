@@ -4294,7 +4294,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     int cut_dam = dealt_dams.type_damage(DT_CUT);
     switch (bp) {
     case bp_eyes:
-        mod_pain(1);
         if (dam > 5 || cut_dam > 0) {
             int minblind = int((dam + cut_dam) / 10);
             if (minblind < 1) {
@@ -4312,7 +4311,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
      */
     case bp_mouth: // Fall through to head damage
     case bp_head:
-        mod_pain(1);
         hp_cur[hp_head] -= dam; //this looks like an extra damage hit, as is applied in apply_damage from player::apply_damage()
         if (hp_cur[hp_head] < 0) {
             lifetime_stats()->damage_taken+=hp_cur[hp_head];
