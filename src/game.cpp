@@ -10491,20 +10491,20 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int
     if (dropped.size() == 1 || same) {
         if (to_veh) {
             add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
-                             "You put your %1$ss in the %2$s's %3$s.",
+                             "You put your %1$s in the %2$s's %3$s.",
                              dropped.size()),
-                    dropped[0].tname().c_str(),
+                    dropped[0].tname(dropped.size()).c_str(),
                     veh->name.c_str(),
                     veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(ngettext("You drop your %s on the %s.",
-                             "You drop your %ss on the %s.", dropped.size()),
-                    dropped[0].tname().c_str(),
+                             "You drop your %s on the %s.", dropped.size()),
+                    dropped[0].tname(dropped.size()).c_str(),
                     m.name(dirx, diry).c_str());
         } else {
             add_msg(ngettext("You put your %s in the %s.",
-                             "You put your %ss in the %s.", dropped.size()),
-                    dropped[0].tname().c_str(),
+                             "You put your %s in the %s.", dropped.size()),
+                    dropped[0].tname(dropped.size()).c_str(),
                     m.name(dirx, diry).c_str());
         }
     } else {
@@ -12517,7 +12517,7 @@ bool game::plmove(int dx, int dy)
             std::vector<std::string> names;
             std::vector<size_t> counts;
             if (m.i_at(x, y)[0].count_by_charges()) {
-                names.push_back(m.i_at(x, y)[0].tname());
+                names.push_back(m.i_at(x, y)[0].tname(m.i_at(x, y)[0].charges));
                 counts.push_back(m.i_at(x, y)[0].charges);
             } else {
                 names.push_back(m.i_at(x, y)[0].display_name());
@@ -12555,17 +12555,9 @@ bool game::plmove(int dx, int dy)
             }
             for (size_t i = 0; i < names.size(); ++i) {
                 std::string fmt;
-                if (names[i].at(names[i].length() - 1) == 's') {
-                    names[i] = string_format("%d %s", counts[i], names[i].c_str());
-                } else if (counts[i] == 1) {
-                    //~ one item (e.g. "a dress")
-                    fmt = _("a %s");
-                    names[i] = string_format(fmt, names[i].c_str());
-                } else {
-                    //~ number of items: "<number> <item>"
-                    fmt = ngettext("%1$d %2$s", "%1$d %2$ss", counts[i]);
-                    names[i] = string_format(fmt, counts[i], names[i].c_str());
-                }
+                //~ number of items: "<number> <item>"
+                fmt = ngettext("%1$d %2$s", "%1$d %2$s", counts[i]);
+                names[i] = string_format(fmt, counts[i], m.i_at(x, y)[i].tname(counts[i]).c_str());
             }
             if (names.size() == 1) {
                 add_msg(_("You see here %s."), names[0].c_str());
