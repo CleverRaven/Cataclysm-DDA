@@ -445,6 +445,40 @@
     },
     {
         "type" : "keybinding",
+        "id": "NEXT_TAB",
+        "name": "Go to next tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PREV_TAB",
+        "name": "Go to prev tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"<"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_FAST_SCROLL",
         "name":"Toggle Fast Scroll",
         "bindings":[

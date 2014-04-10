@@ -387,6 +387,7 @@ void input_manager::init_keycode_mapping()
         add_keycode_pair(c, name);
     }
 
+    add_keycode_pair('\t',          "TAB");
     add_keycode_pair(KEY_UP,        "UP");
     add_keycode_pair(KEY_DOWN,      "DOWN");
     add_keycode_pair(KEY_LEFT,      "LEFT");
