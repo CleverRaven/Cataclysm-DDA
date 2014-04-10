@@ -1170,9 +1170,9 @@ int editmap::edit_itm()
         ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
     }
     // todo; ilmenu.addentry(ilmenu.entries.size(), true, 'a', "Add item");
-    ilmenu.addentry(-5, true, 'a', "Add item");
+    ilmenu.addentry(-5, true, 'a', _("Add item"));
 
-    ilmenu.addentry(-10, true, 'q', "Cancel");
+    ilmenu.addentry(-10, true, 'q', _("Cancel"));
     do {
         ilmenu.query();
         if ( ilmenu.ret >= 0 && ilmenu.ret < items.size() ) {
@@ -1418,10 +1418,10 @@ int editmap::select_shape(shapetype shape, int mode)
     timeout(BLINK_SPEED);
     do {
         uphelp(
-            ( moveall == true ? "[s] resize, [y] swap" :
-              "[m]move, [s]hape, [y] swap, [z] to start" ),
-            "[enter] accept, [q] abort, [v] showall",
-            ( moveall == true ? "Moving selection" : "Resizing selection" ) );
+            ( moveall == true ? _("[s] resize, [y] swap") :
+              _("[m]move, [s]hape, [y] swap, [z] to start") ),
+            _("[enter] accept, [q] abort, [v] showall"),
+            ( moveall == true ? _("Moving selection") : _("Resizing selection") ) );
         ch = getch();
         timeout(BLINK_SPEED);
         if(ch != ERR) {
@@ -1431,13 +1431,13 @@ int editmap::select_shape(shapetype shape, int mode)
                 if ( ! moveall ) {
                     timeout(-1);
                     uimenu smenu;
-                    smenu.text = "Selection type";
+                    smenu.text = _("Selection type");
                     smenu.w_x = (TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X - 16) / 2;
-                    smenu.addentry(editmap_rect, true, 'r', "Rectangle");
-                    smenu.addentry(editmap_rect_filled, true, 'f', "Filled Rectangle");
-                    smenu.addentry(editmap_line, true, 'l', "Line");
-                    smenu.addentry(editmap_circle, true, 'c', "Filled Circle");
-                    smenu.addentry(-2, true, 'p', "Point");
+                    smenu.addentry(editmap_rect, true, 'r', pgettext("shape","Rectangle"));
+                    smenu.addentry(editmap_rect_filled, true, 'f', pgettext("shape","Filled Rectangle"));
+                    smenu.addentry(editmap_line, true, 'l', pgettext("shape","Line"));
+                    smenu.addentry(editmap_circle, true, 'c', pgettext("shape","Filled Circle"));
+                    smenu.addentry(-2, true, 'p', pgettext("shape","Point"));
                     smenu.selected = (int)shape;
                     smenu.query();
                     if ( smenu.ret != -2 ) {
@@ -1559,14 +1559,14 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.w_y = gmenu.w_height;
     gpmenu.w_x = TERRAIN_WINDOW_TERM_WIDTH + VIEW_OFFSET_X;
     gpmenu.return_invalid = true;
-    gpmenu.addentry("Regenerate");
-    gpmenu.addentry("Rotate");
-    gpmenu.addentry("Apply");
-    gpmenu.addentry("Abort");
+    gpmenu.addentry(pgettext("map generator","Regenerate"));
+    gpmenu.addentry(pgettext("map generator","Rotate"));
+    gpmenu.addentry(pgettext("map generator","Apply"));
+    gpmenu.addentry(pgettext("map generator","Abort"));
 
     gpmenu.show();
-    uphelp("[pgup/pgdn]: prev/next oter type",
-           "[up/dn] select, [enter] accept, [q] abort",
+    uphelp(_("[pgup/pgdn]: prev/next oter type"),
+           _("[up/dn] select, [enter] accept, [q] abort"),
            string_format("Mapgen: %s", oterlist[gmenu.ret].id.substr(0, 40).c_str() )
           );
     int lastsel = gmenu.selected;
@@ -1667,7 +1667,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                         }
                     }
 
-                    popup("Changed 4 submaps\n%s", s.c_str());
+                    //~ message when applying the map generator
+                    popup(_("Changed 4 submaps\n%s"), s.c_str());
 
                 }
             } else if ( gpmenu.keypress == 'm' ) {
@@ -1714,7 +1715,7 @@ int editmap::mapgen_retarget()
     int omx = -2;
     int omy = -2;
     uphelp("",
-           "[enter] accept, [q] abort", "Mapgen: Moving target");
+           pgettext("map generator","[enter] accept, [q] abort"), pgettext("map generator","Mapgen: Moving target"));
 
     do {
         timeout(BLINK_SPEED);
