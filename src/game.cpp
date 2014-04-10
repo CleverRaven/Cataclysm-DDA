@@ -4273,13 +4273,13 @@ Current turn: %d; Next spawn %d.\n\
   case 18: {
       const int weather_offset = 1;
       uimenu weather_menu;
-      weather_menu.text = "Select new weather pattern:";
+      weather_menu.text = _("Select new weather pattern:");
       weather_menu.return_invalid = true;
       for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
       }
-      weather_menu.addentry(-10,true,'v',"View weather log");
-      weather_menu.addentry(-11,true,'d',"View last 800 hours of decay");
+      weather_menu.addentry(-10,true,'v',_("View weather log"));
+      weather_menu.addentry(-11,true,'d',_("View last 800 hours of decay"));
       weather_menu.query();
 
       if(weather_menu.ret > 0 && weather_menu.ret < NUM_WEATHER_TYPES) {
@@ -4302,7 +4302,7 @@ Current turn: %d; Next spawn %d.\n\
                   pweather = pit->first;
               }
           }
-          weather_log_menu.text = string_format("turn: %d, next: %d, current: %d, prev: %d",
+          weather_log_menu.text = string_format(_("turn: %d, next: %d, current: %d, prev: %d"),
               int(turn), int(nextweather), cweather, pweather
           );
           for(std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it) {

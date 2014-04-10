@@ -121,10 +121,10 @@ void edit_json( SAVEOBJ *it )
             fout << it->serialize();
             fout.close();
         }
-        tm.addentry(0,true,'r',"rehash");
-        tm.addentry(1,true,'e',"edit");
-        tm.addentry(2,true,'d',"dump to save/jtest-*.txt");
-        tm.addentry(3,true,'q',"exit");
+        tm.addentry(0,true,'r',pgettext("item manipulation debug menu entry","rehash"));
+        tm.addentry(1,true,'e',pgettext("item manipulation debug menu entry","edit"));
+        tm.addentry(2,true,'d',pgettext("item manipulation debug menu entry","dump to save/jtest-*.txt"));
+        tm.addentry(3,true,'q',pgettext("item manipulation debug menu entry","exit"));
         if ( tmret != -2 ) {
            tm.query();
            tmret = tm.ret;
@@ -281,7 +281,7 @@ point editmap::edit()
             origin = target;               // 'editmap.origin' only makes sense if we have a list of target points.
         }
         update_view(true);
-        uphelp("[t]rap, [f]ield, [HJKL] move++, [v] showall", "[g] terrain/furn, [o] mapgen, [i]tems, [q]uit", "Looking around");
+        uphelp(pgettext("map editor","[t]rap, [f]ield, [HJKL] move++, [v] showall"), pgettext("map editor","[g] terrain/furn, [o] mapgen, [i]tems, [q]uit"), pgettext("map editor state","Looking around"));
         timeout(BLINK_SPEED);
         ch = (int)getch();
       if(ch != ERR) {
@@ -794,9 +794,9 @@ int editmap::edit_ter()
             mvwputch(w_pickter, y, width - 2, c_ltgreen, ( ter_frn_mode == 1 ? '|' : ' ' ) );
         }
 
-        uphelp("[s/tab] shape select, [m]ove, [<>^v] select",
-               "[enter] change, [g] change/quit, [q]uit, [v] showall",
-               "Terrain / Furniture");
+        uphelp(pgettext("Map editor: terrain/furniture shortkeys","[s/tab] shape select, [m]ove, [<>^v] select"),
+               pgettext("Map editor: terrain/furniture shortkeys","[enter] change, [g] change/quit, [q]uit, [v] showall"),
+               pgettext("Map editor: terrain/furniture editing menu","Terrain / Furniture"));
 
         wrefresh(w_pickter);
 
@@ -965,8 +965,9 @@ int editmap::edit_fld()
     setup_fmenu(&fmenu);
 
     do {
-        uphelp("[s/tab] shape select, [m]ove, [<,>] density",
-               "[enter] edit, [q]uit, [v] showall", "Field effects");
+        uphelp(pgettext("Map editor: Field effects shortkeys","[s/tab] shape select, [m]ove, [<,>] density"),
+               pgettext("Map editor: Field effects shortkeys","[enter] edit, [q]uit, [v] showall"),
+               pgettext("Map editor: Editing field effects","Field effects"));
 
         fmenu.query(false);
         if ( fmenu.selected > 0 && fmenu.selected < num_fields &&
@@ -990,7 +991,7 @@ int editmap::edit_fld()
                 field_t ftype = fieldlist[idx];
                 int fidens = ( fdens == 0 ? 0 : fdens - 1 );
                 femenu.text = ( ftype.name[fidens].empty() ? fids[idx] : ftype.name[fidens] );
-                femenu.addentry("-clear-");
+                femenu.addentry(pgettext("map editor: used to describe a clean field (eg. without blood)","-clear-"));
 
                 femenu.addentry("1: %s", ( ftype.name[0].empty() ? fids[idx].c_str() : ftype.name[0].c_str() ));
                 femenu.addentry("2: %s", ( ftype.name[1].empty() ? fids[idx].c_str() : ftype.name[1].c_str() ));
@@ -1083,8 +1084,9 @@ int editmap::edit_trp()
     }
     int num_trap_types = trapmap.size();
     do {
-        uphelp("[s/tab] shape select, [m]ove, [v] showall",
-               "[enter] change, [t] change/quit, [q]uit", "Traps");
+        uphelp(pgettext("map editor: traps shortkeys","[s/tab] shape select, [m]ove, [v] showall"),
+               pgettext("map editor: traps shortkeys","[enter] change, [t] change/quit, [q]uit"),
+               pgettext("map editor: traps editing","Traps"));
 
         if( trsel < tshift ) {
             tshift = trsel;
@@ -1180,15 +1182,15 @@ int editmap::edit_itm()
             imenu.w_y = ilmenu.w_height;
             imenu.w_height = TERMX - ilmenu.w_height;
             imenu.w_width = ilmenu.w_width;
-            imenu.addentry(imenu_bday, true, -1, "bday: %d", (int)it->bday);
-            imenu.addentry(imenu_damage, true, -1, "damage: %d", (int)it->damage);
-            imenu.addentry(imenu_burnt, true, -1, "burnt: %d", (int)it->burnt);
-            imenu.addentry(imenu_sep, false, 0, "-[ light emission ]-");
-            imenu.addentry(imenu_luminance, true, -1, "lum: %f", (float)it->light.luminance);
-            imenu.addentry(imenu_direction, true, -1, "dir: %d", (int)it->light.direction);
-            imenu.addentry(imenu_width, true, -1, "width: %d", (int)it->light.width);
-            imenu.addentry(imenu_savetest,true,-1,"savetest");
-            imenu.addentry(imenu_exit, true, -1, "exit");
+            imenu.addentry(imenu_bday, true, -1, pgettext("item manipulation debug menu entry","bday: %d"), (int)it->bday);
+            imenu.addentry(imenu_damage, true, -1, pgettext("item manipulation debug menu entry","damage: %d"), (int)it->damage);
+            imenu.addentry(imenu_burnt, true, -1, pgettext("item manipulation debug menu entry","burnt: %d"), (int)it->burnt);
+            imenu.addentry(imenu_sep, false, 0, pgettext("item manipulation debug menu entry","-[ light emission ]-"));
+            imenu.addentry(imenu_luminance, true, -1, pgettext("item manipulation debug menu entry for luminance of item","lum: %f"), (float)it->light.luminance);
+            imenu.addentry(imenu_direction, true, -1, pgettext("item manipulation debug menu entry for item direction","dir: %d"), (int)it->light.direction);
+            imenu.addentry(imenu_width, true, -1, pgettext("item manipulation debug menu entry for item direction","width: %d"), (int)it->light.width);
+            imenu.addentry(imenu_savetest,true,-1,pgettext("item manipulation debug menu entry","savetest"));
+            imenu.addentry(imenu_exit, true, -1, pgettext("item manipulation debug menu entry","exit"));
 
             do {
                 imenu.query();
@@ -1255,8 +1257,8 @@ int editmap::edit_itm()
             for( size_t i = 0; i < items.size(); ++i ) {
                ilmenu.addentry(i, true, 0, "%s%s", items[i].tname().c_str(), items[i].light.luminance > 0 ? " L" : "" );
             }
-            ilmenu.addentry(-5, true, 'a', "Add item");
-            ilmenu.addentry(-10, true, 'q', "Cancel");
+            ilmenu.addentry(-5, true, 'a', pgettext("item manipulation debug menu entry for adding an item on a tile","Add item"));
+            ilmenu.addentry(-10, true, 'q', pgettext("item manipulation debug menu entry","Cancel"));
             update_view(true);
             ilmenu.setup();
             ilmenu.filterlist();
@@ -1803,8 +1805,8 @@ int editmap::edit_mapgen()
     }
     real_coords tc;
     do {
-        uphelp("[m]ove",
-               "[enter] change, [q]uit", "Mapgen stamp");
+        uphelp(pgettext("map generator","[m]ove"),
+               pgettext("map generator","[enter] change, [q]uit"), pgettext("map generator","Mapgen stamp"));
         //        point msub=point(target.x/12, target.y/12);
 
         tc.fromabs(g->m.getabs(target.x, target.y));

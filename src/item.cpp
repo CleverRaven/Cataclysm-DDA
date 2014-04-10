@@ -782,9 +782,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                     recipes += "</color>";
                 }
                 if(index == book->recipes.size() - 1) {
-                    recipes += ", and "; // oxford comma 4 lyfe
+                    recipes += _(", and "); // oxford comma 4 lyfe
                 } else if(index != book->recipes.size()) {
-                    recipes += ", ";
+                    recipes += _(", ");
                 }
             }
             std::string recipe_line = string_format(_("This book contains %d crafting recipes: %s"),
