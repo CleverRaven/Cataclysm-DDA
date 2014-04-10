@@ -3822,6 +3822,12 @@ bool player::overmap_los(int omtx, int omty)
 {
     const tripoint ompos = g->om_global_location();
     int sight_points = overmap_sight_range(g->light_level());
+    if (omtx < ompos.x - sight_points || omtx > ompos.x + sight_points ||
+        omty < ompos.y - sight_points || omty > ompos.y + sight_points) {
+        // Outside maximum sight range
+        return false;
+    }
+
     const std::vector<point> line = line_to(ompos.x, ompos.y, omtx, omty, 0);
     for (size_t i = 0; i < line.size() && sight_points >= 0; i++) {
         const oter_id &ter = overmap_buffer.ter(line[i].x, line[i].y, ompos.z);
