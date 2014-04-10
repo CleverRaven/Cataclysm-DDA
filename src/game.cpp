@@ -4096,10 +4096,13 @@ Current turn: %d; Next spawn %d.\n\
     debugmsg ("There's already vehicle here");
    }
    else {
+    std::string entry;
     for(std::map<std::string, vehicle*>::iterator it = vtypes.begin();
              it != vtypes.end(); ++it) {
       if(it->first != "custom") {
-        opts.push_back(it->second->type);
+        //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
+        opts.push_back(string_format(_("%s (%s)"),
+                       _(it->second->name.c_str()), it->second->type.c_str()));
       }
     }
     opts.push_back (std::string(_("Cancel")));
