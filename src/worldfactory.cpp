@@ -631,7 +631,12 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     wrefresh(win);
     refresh();
 
-    InputEvent ch;
+    input_context ctxt("WORLDGEN_OPTION_DIALOG");
+    ctxt.register_cardinal();
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
     unsigned int sel = 0;
     unsigned int curoption = 0;
     do {
@@ -674,47 +679,32 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         wrefresh(w_options);
         refresh();
 
-        ch = get_input();
-        if (!world->world_options.empty() || ch == Tab) {
-            switch(ch) {
-                case DirectionS: //move down
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
                     sel++;
                     if (sel >= world->world_options.size()) {
                         sel = 0;
                     }
-                    break;
-                case DirectionN: //move up
+        } else if (action == "UP") {
                     if (sel == 0) {
                         sel = world->world_options.size() - 1;
                     } else {
                         sel--;
                     }
-                    break;
-                case DirectionW: //set to prev value
+        } else if (!world->world_options.empty() && action == "LEFT") {
                     world->world_options[keys[sel]].setPrev();
-                    break;
-                case DirectionE: //set to next value
+        } else if (!world->world_options.empty() && action == "RIGHT") {
                     world->world_options[keys[sel]].setNext();
-                    break;
-
-                case DirectionUp: // '<'
+        } else if (action == "PREV_TAB") {
                     werase(w_options);
                     delwin(w_options);
                     return -1;
-                    break;
-                case DirectionDown: // '>'
-                case Tab:
+        } else if (action == "NEXT_TAB") {
                     werase(w_options);
                     delwin(w_options);
                     return 1;
-                    break;
-                case Cancel:
+        } else if (action == "QUIT") {
                     return -999;
-                    break;
-
-                default:
-                    break; // Do nothing.
-            }
         }
     } while (true);
 
