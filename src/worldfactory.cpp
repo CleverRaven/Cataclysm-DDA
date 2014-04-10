@@ -1037,7 +1037,15 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
 
     int line = 1;
     bool noname = false;
-    long ch;
+    input_context ctxt("WORLDGEN_CONFIRM_DIALOG");
+    // Disabled because it conflicts with the "pick random world name" option,
+    // feel free to enable it and change its keybinding in keybindings.json
+    // ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("ANY_INPUT");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("PICK_RANDOM_WORLDNAME");
 
     std::string worldname = world->world_name;
     do {
@@ -1054,17 +1062,17 @@ to continue, or <color_yellow><</color> to go back and review your world."));
                 wprintz(w_confirmation, h_ltgray, "_");
             }
         }
-
-        wrefresh(win);
-        wrefresh(w_confirmation);
-        refresh();
-        ch = input();
         if (noname) {
             mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
             noname = false;
         }
 
-        if (ch == '>' || ch == '\t') {
+        wrefresh(win);
+        wrefresh(w_confirmation);
+        refresh();
+
+        const std::string action = ctxt.handle_input();
+        if (action == "NEXT_TAB") {
             if (worldname.empty()) {
                 mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
                 noname = true;
@@ -1087,19 +1095,20 @@ to continue, or <color_yellow><</color> to go back and review your world."));
             } else {
                 continue;
             }
-        } else if (ch == '<') {
+        } else if (action == "PREV_TAB") {
             world->world_name = worldname;
             werase(w_confirmation);
             delwin(w_confirmation);
             return -1;
-        } else if (ch == '?') {
+        } else if (action == "PICK_RANDOM_WORLDNAME") {
             mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "______________________________");
             world->world_name = worldname = pick_random_name();
-        } else if (ch == KEY_ESCAPE) {
+        } else if (action == "QUIT") {
             world->world_name =
                 worldname; // cache the current worldname just in case they say No to the exit query
             return -999;
-        } else {
+        } else if (action == "ANY_INPUT") {
+            const long ch = ctxt.get_raw_input().get_first_input();
             switch (line) {
                 case 1:
                     if (ch == KEY_BACKSPACE || ch == 127) {
