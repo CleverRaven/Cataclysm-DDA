@@ -3878,14 +3878,6 @@ int iuse::siphon(player *p, item *it, bool)
         g->add_msg_if_player(p,_("There's no vehicle there."));
         return 0;
     }
-    if (veh->fuel_capacity("gasoline") > 0 && veh->fuel_left("gasoline") == 0) {
-        g->add_msg_if_player(p, _("That vehicle has no gasoline to siphon."));
-        return 0;
-    }
-    if (veh->fuel_capacity("diesel") > 0 && veh->fuel_left("diesel") == 0) {
-        g->add_msg_if_player(p, _("That vehicle has no diesel to siphon."));
-        return 0;
-    }
     std::map<point, vehicle*> foundv;
     vehicle * fillv = NULL;
     for (int x = p->posx-1; x < p->posx+2; x++) {
@@ -3926,7 +3918,7 @@ int iuse::siphon(player *p, item *it, bool)
         int want = 0;
         int got = 0;
         int amt = 0;
-        if ( veh->fuel_capacity("gasoline") > 0 && veh->fuel_capacity("diesel") > 0 ) {
+        if ( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
             uimenu smenu;
             smenu.text = _("Siphon what?");
             smenu.addentry("Gasoline");
@@ -3944,7 +3936,7 @@ int iuse::siphon(player *p, item *it, bool)
             } else {
                 return 0;
             }
-        } else if ( veh->fuel_capacity("diesel") > 0 ) {
+        } else if ( veh->fuel_left("diesel") > 0 ) {
             want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
             got = veh->drain("diesel", want);
             amt=fillv->refill("diesel",got);
@@ -3958,7 +3950,7 @@ int iuse::siphon(player *p, item *it, bool)
            (amt > 0 ? "." : ", draining the tank completely.") );
         p->moves -= 200;
     } else {
-        if ( veh->fuel_capacity("gasoline") > 0 && veh->fuel_capacity("diesel") > 0 ) {
+        if ( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
             uimenu smenu;
             smenu.text = _("Siphon what?");
             smenu.addentry("Gasoline");
@@ -3976,7 +3968,7 @@ int iuse::siphon(player *p, item *it, bool)
             } else {
                 return 0;
             }
-        } else if ( veh->fuel_capacity("diesel") > 0 ) {
+        } else if ( veh->fuel_left("diesel") > 0 ) {
             if (p->siphon(veh, "diesel")) {
                 p->moves -= 200;
             }
