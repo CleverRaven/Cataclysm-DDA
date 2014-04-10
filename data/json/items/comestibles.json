@@ -6927,8 +6927,8 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "blueberry",
-        "name" : "blueberries",
+        "id" : "blueberries",
+        "name" : "blueberry",
         "name_plural" : "blueberries",
         "weight" : 200,
         "color" : "blue",
@@ -13291,7 +13291,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "cherries",
-        "name" : "cherry"
+        "name" : "cherry",
         "name_plural" : "cherries",
         "weight" : 200,
         "color" : "red",
