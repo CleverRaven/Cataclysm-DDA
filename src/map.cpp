@@ -35,6 +35,8 @@ map::map()
     my_MAPSIZE = is_tiny() ? 2 : MAPSIZE;
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
+    transparency_cache_dirty = true;
+    outside_cache_dirty = true;
 /*
 crashes involving traplocs? move below to the other constructors
     const int num_traps = g->traps.size(); // dead: num_trap_ids;
@@ -56,6 +58,8 @@ map::map(std::vector<trap*> *trptr)
   grid[n] = NULL;
  dbg(D_INFO) << "map::map( trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
  veh_in_active_range = true;
+ transparency_cache_dirty = true;
+ outside_cache_dirty = true;
  memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
 
