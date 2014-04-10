@@ -760,6 +760,17 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     bool redraw_active = true;
     bool selection_changed = false;
 
+    input_context ctxt("MODMANAGER_DIALOG");
+    ctxt.register_cardinal();
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("ADD_MOD");
+    ctxt.register_action("REMOVE_MOD");
+    ctxt.register_action("SAVE_DEFAULT_MODS");
+
     while (tab_output == 0) {
         if (redraw_headers) {
             for (size_t i = 0; i < headers.size(); ++i) {
@@ -907,23 +918,17 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             prev_selection = (prev_selection < 0) ? active_mod_order.size() - 1 : prev_selection;
         }
 
-        // GATHER INPUT
-        long ch = input();
+        const std::string action = ctxt.handle_input();
 
-        switch (ch) {
-            case 'j':
-                selection = next_selection;
-                break;
-            case 'k':
-                selection = prev_selection;
-                break;
-            case 'l':
-                active_header = next_header;
-                break;
-            case 'h':
-                active_header = prev_header;
-                break;
-            case '\n':
+        if (action == "DOWN") {
+            selection = next_selection;
+        } else if (action == "UP") {
+            selection = prev_selection;
+        } else if (action == "RIGHT") {
+            active_header = next_header;
+        } else if (action == "LEFT") {
+            active_header = prev_header;
+        } else if (action == "CONFIRM") {
                 if (active_header == 0 && !mman_ui->usable_mods.empty()) {
                     // try-add
                     mman_ui->try_add(mman_ui->usable_mods[cursel[0]], active_mod_order);
@@ -940,53 +945,31 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                         active_header = 0;
                     }
                 }
-                break;
-            case '+':
-            case '-':
+        } else if (action == "ADD_MOD") {
                 if (active_header == 1 && active_mod_order.size() > 1) {
-                    mman_ui->try_shift(char(ch), cursel[1], active_mod_order);
+                    mman_ui->try_shift('+', cursel[1], active_mod_order);
                     redraw_active = true;
                     redraw_shift = true;
                 }
-                break;
-            case '\t':
-            case '>':
+        } else if (action == "REMOVE_MOD") {
+                if (active_header == 1 && active_mod_order.size() > 1) {
+                    mman_ui->try_shift('-', cursel[1], active_mod_order);
+                    redraw_active = true;
+                    redraw_shift = true;
+                }
+        } else if (action == "NEXT_TAB") {
                 tab_output = 1;
-                break;
-            case '<':
+        } else if (action == "PREV_TAB") {
                 tab_output = -1;
-                break;
-            case 's':
-            case 'S':
+        } else if (action == "SAVE_DEFAULT_MODS") {
                 if(mman->set_default_mods(active_mod_order)) {
                     popup(_("Saved list of active mods as default"));
                     draw_modselection_borders(win);
                     redraw_headers = true;
                 }
-                break;
-            case '?':{
-                popup(_("\
-Use keys '<' and '>' for navigation between the tabs. \n\
-'>' Takes you to the next tab, '<' returns you to the main menu. \n\
- \n\
-Press left and right arrow keys for switching between list of all mods and active mods, or down and up arrow keys for choosing a mod. \n\
- \n\
-Press '+' or '-' for definition the order of active mods. \n\
- \n\
-Press 's' for saving list of active mods (mods listed in right part of the screen) as mods activated by default."));
-                draw_modselection_borders(win);
-                redraw_headers = true;
-                break;
-            }
-            case 'q':
-            case 'Q':
-            case KEY_ESCAPE: // exit!
+        } else if (action == "QUIT") {
                 tab_output = -999;
-                break;
-            default:
-                break;
         }
-        // end GATHER INPUT
         // RESOLVE INPUTS
         if (last_active_header != (ssize_t)active_header) {
             redraw_headers = true;

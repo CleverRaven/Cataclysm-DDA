@@ -233,6 +233,46 @@
     },
     {
         "type" : "keybinding",
+        "id": "SAVE_DEFAULT_MODS",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Save mods as default",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"S"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ADD_MOD",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Add selected mod",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_MOD",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Remove selcted mod",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"DELETE_NOTE",
         "category":"OVERMAP",
         "name":"Delete Note",
