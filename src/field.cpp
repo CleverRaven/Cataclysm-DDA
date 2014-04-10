@@ -260,6 +260,15 @@ bool map::process_fields()
     found_field |= process_fields_in_submap(x + y * my_MAPSIZE);
   }
  }
+ if (found_field) {
+     // For now, just always dirty the transparency cache
+     // when a field might possibly be changed.
+     // TODO: check if there are any fields(mostly fire)
+     //       that frequently change, if so set the dirty
+     //       flag, otherwise only set the dirty flag if
+     //       something actually changed
+     set_transparency_cache_dirty();
+ }
  return found_field;
 }
 
