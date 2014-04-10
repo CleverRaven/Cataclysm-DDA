@@ -655,7 +655,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             }
             response << string_format(_("%d.%d miles."), fullmiles, miles);
             } else {
-                response << string_format(_("%d feet."), dist);
+                response << string_format(ngettext("%d foot.","%d feet.",dist), dist);
             }
             return response.str();
             }

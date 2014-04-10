@@ -152,30 +152,23 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         wprintz(window, color, "%d", g->u.volume_carried() );
         wprintz(window, c_ltgray, "/%d ", g->u.volume_capacity() - 2 );
     } else {
-        int hrightcol =
-            rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
-        if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
-            hrightcol--;
-            if (g->u.convert_weight(squares[pane.area].weight) > 99.9 ) { // not uncommon
-                hrightcol--;
-                if (g->u.convert_weight(squares[pane.area].weight) > 999.9 ) {
-                    hrightcol--;
-                    if (g->u.convert_weight(squares[pane.area].weight) >
-                        9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
-                        hrightcol--;
-                    }
-                }
+        std::string head;
+        if (isall) {
+            head = string_format("%3.1f %3d",
+                    g->u.convert_weight(squares[pane.area].weight),
+                    squares[pane.area].volume);
+        } else {
+            int maxvolume;
+            if (squares[pane.area].veh != NULL && squares[pane.area].vstor >= 0) {
+                maxvolume = squares[pane.area].veh->max_volume(squares[pane.area].vstor);
+            } else {
+                maxvolume = g->m.max_volume(squares[pane.area].x, squares[pane.area].y);
             }
+            head = string_format("%3.1f %3d/%3d",
+                    g->u.convert_weight(squares[pane.area].weight),
+                    squares[pane.area].volume, maxvolume);
         }
-        if ( squares[pane.area].volume > 999 ) { // pile 'o dead bears
-            hrightcol--;
-            if ( squares[pane.area].volume > 9999 ) { // theoretical limit; 1024*9
-                hrightcol--;
-            }
-        }
-
-        mvwprintz( window, 4, hrightcol, norm, "%3.1f %3d", g->u.convert_weight(squares[pane.area].weight),
-                   squares[pane.area].volume);
+        mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str());
     }
 
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );

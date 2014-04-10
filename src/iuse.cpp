@@ -3003,7 +3003,7 @@ _(
   }
   if (!in_range.empty()) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
-   popup(_("A reply!  %s says, \"I'm on my way; give me %d minutes!\""),
+   popup(ngettext("A reply!  %s says, \"I'm on my way; give me %d minute!\"", "A reply!  %s says, \"I'm on my way; give me %d minutes!\"", coming->minutes_to_u()),
          coming->name.c_str(), coming->minutes_to_u());
    g->u.add_memorial_log(pgettext("memorial_male", "Called for help from %s."),
                          pgettext("memorial_female", "Called for help from %s."),
@@ -3679,7 +3679,7 @@ int iuse::siphon(player *p, item *it, bool)
         int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
         int got = veh->drain("gasoline", want);
         fillv->refill("gasoline", got);
-        g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
+        g->add_msg(ngettext("Siphoned %d unit of %s from the %s into the %s%s", "Siphoned %d units of %s from the %s into the %s%s", got), got,
            "gasoline", veh->name.c_str(), fillv->name.c_str(),
            (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
         p->moves -= 200;
@@ -5042,7 +5042,7 @@ int iuse::firecracker_pack(player *p, item *it, bool)
      new_it.active = true;
      p->i_add(new_it);
     } else {
-     g->add_msg_if_player(p,_("You light a string of %d firecrackers."), charges);
+     g->add_msg_if_player(p, ngettext("You light a string of %d firecracker.", "You light a string of %d firecrackers.", charges), charges);
      item new_it = item(itypes["firecracker_pack_act"], int(g->turn));
      new_it.charges = charges;
      new_it.active = true;
@@ -5233,12 +5233,7 @@ int iuse::turret(player *p, item *, bool)
     item& ammoitem = p->inv.find_item(ammopos);
     ammo = std::min(ammoitem.charges, long(500));
     p->inv.reduce_charges(ammopos, ammo);
-    if (ammo == 1) {
-      g->add_msg_if_player(p,_("You load your only 9mm bullet into the turret."));
-    }
-    else {
-      g->add_msg_if_player(p,_("You load %d x 9mm rounds into the turret."), ammo);
-    }
+    g->add_msg_if_player(p,ngettext("You load %d x 9mm round into the turret.", "You load %d x 9mm rounds into the turret.", ammo), ammo);
  } else {
     g->add_msg_if_player(p,_("If you had standard factory-built 9mm bullets, you could load the turret."));
  }
@@ -6967,11 +6962,8 @@ int iuse::quiver(player *p, item *it, bool)
         }
 
         arrowsStored = it->contents[0].charges - arrowsStored;
-        arrowsStored == 1 ?
-            g->add_msg_if_player(p, _("You put a %s in your %s."),
-                                 it->contents[0].name.c_str(), it->name.c_str()) :
-            g->add_msg_if_player(p, _("You store %d %ss in your %s."),
-                                 arrowsStored, it->contents[0].name.c_str(), it->name.c_str());
+        g->add_msg_if_player(p, ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
+                             arrowsStored, it->contents[0].name.c_str(), it->name.c_str());
         p->moves -= 10 * arrowsStored;
     } else {
         g->add_msg_if_player(p, _("Never mind."));
@@ -7346,6 +7338,28 @@ int iuse::towel(player *p, item *it, bool)
         it->active = true;
     }
     return it->type->charges_to_use();
+}
+
+int iuse::unfold_generic(player *p, item *it, bool)
+{
+    if (p->is_underwater()) {
+        g->add_msg_if_player(p, _("You can't do that while underwater."));
+        return 0;
+    }
+    vehicle *veh = g->m.add_vehicle( "none", p->posx, p->posy, 0, 0, 0, false);
+    if( veh == NULL ) {
+        g->add_msg_if_player(p, _("There's no room to unfold the %s."), it->tname().c_str());
+        return 0;
+    }
+    veh->name = it->item_vars["vehicle_name"];
+    if (!veh->restore(it->item_vars["folding_bicycle_parts"])) {
+        g->m.destroy_vehicle(veh);
+        return 0;
+    }
+    g->m.update_vehicle_cache(veh, true);
+    g->add_msg_if_player(p, _("You painstakingly unfold the %s and make it ready to ride."), veh->name.c_str());
+    p->moves -= 500;
+    return 1;
 }
 
 int iuse::adrenaline_injector(player *p, item *it, bool)

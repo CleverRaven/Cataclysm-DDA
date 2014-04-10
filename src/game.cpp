@@ -4022,7 +4022,7 @@ void game::debug()
         }
     } break;
   case 4:
-   debugmsg("%d radio towers", cur_om->radios.size());
+   debugmsg(ngettext("%d radio tower", "%d radio towers", cur_om->radios.size()), cur_om->radios.size());
    for (int i = 0; i < OMAPX; i++) {
        for (int j = 0; j < OMAPY; j++) {
            for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++)
@@ -4055,13 +4055,15 @@ void game::debug()
    break;
 
   case 7:
-   popup_top(_("\
-Location %d:%d in %d:%d, %s\n\
-Current turn: %d; Next spawn %d.\n\
-%s\n\
-%d monsters exist.\n\
-%d currently active NPC's.\n\
-%d events planned."),
+   {
+   std::string s;
+     s = _("Location %d:%d in %d:%d, %s\n");
+     s+= _("Current turn: %d; Next spawn %d.\n%s\n");
+     s+= ngettext("%d monster exists.\n", "%d monsters exist.\n", num_zombies());
+     s+= ngettext("%d currently active NPC.\n", "%d currently active NPCs.\n", active_npc.size());
+     s+= ngettext("%d event planned.", "%d events planned", events.size());
+     popup_top(
+             s.c_str(),
              u.posx, u.posy, levx, levy,
              otermap[overmap_buffer.ter(om_global_location())].name.c_str(),
              int(turn), int(nextspawn), (ACTIVE_WORLD_OPTIONS["RANDOM_NPC"] == "true" ? _("NPCs are going to spawn.") :
@@ -4078,7 +4080,7 @@ Current turn: %d; Next spawn %d.\n\
    }
    disp_NPCs();
    break;
-
+   }
   case 8:
    for (int i = 0; i < active_npc.size(); i++) {
     add_msg(_("%s's head implodes!"), active_npc[i]->name.c_str());
@@ -4273,13 +4275,13 @@ Current turn: %d; Next spawn %d.\n\
   case 18: {
       const int weather_offset = 1;
       uimenu weather_menu;
-      weather_menu.text = "Select new weather pattern:";
+      weather_menu.text = _("Select new weather pattern:");
       weather_menu.return_invalid = true;
       for(int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++) {
         weather_menu.addentry(weather_id + weather_offset, true, -1, weather_data[weather_id].name);
       }
-      weather_menu.addentry(-10,true,'v',"View weather log");
-      weather_menu.addentry(-11,true,'d',"View last 800 hours of decay");
+      weather_menu.addentry(-10,true,'v',_("View weather log"));
+      weather_menu.addentry(-11,true,'d',_("View last 800 hours of decay"));
       weather_menu.query();
 
       if(weather_menu.ret > 0 && weather_menu.ret < NUM_WEATHER_TYPES) {
@@ -4302,7 +4304,7 @@ Current turn: %d; Next spawn %d.\n\
                   pweather = pit->first;
               }
           }
-          weather_log_menu.text = string_format("turn: %d, next: %d, current: %d, prev: %d",
+          weather_log_menu.text = string_format(_("turn: %d, next: %d, current: %d, prev: %d"),
               int(turn), int(nextweather), cweather, pweather
           );
           for(std::map<int, weather_segment>::const_iterator it = weather_log.begin(); it != weather_log.end(); ++it) {
@@ -6570,7 +6572,10 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         if (stun > 0)
         {
             u.add_effect("stunned", stun);
-            add_msg(_("You were stunned for %d turns!"), stun);
+            add_msg(ngettext("You were stunned for %d turn!",
+                             "You were stunned for %d turns!",
+                             stun),
+                    stun);
         }
         for(int i = 1; i < traj.size(); i++)
         {
@@ -6583,11 +6588,17 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 {
                     if (u.has_effect("stunned"))
                     {
-                        add_msg(_("You were stunned AGAIN for %d turns!"), force_remaining);
+                        add_msg(ngettext("You were stunned AGAIN for %d turn!",
+                                         "You were stunned AGAIN for %d turns!",
+                                         force_remaining),
+                                force_remaining);
                     }
                     else
                     {
-                        add_msg(_("You were stunned for %d turns!"), force_remaining);
+                        add_msg(ngettext("You were stunned for %d turn!",
+                                         "You were stunned for %d turns!",
+                                         force_remaining),
+                                force_remaining);
                     }
                     u.add_effect("stunned", force_remaining);
                     if (one_in(2)) u.hit(NULL, bp_arms, 0, force_remaining*dam_mult, 0);
@@ -6611,11 +6622,17 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 {
                     if (u.has_effect("stunned"))
                     {
-                        add_msg(_("You were stunned AGAIN for %d turns!"), force_remaining);
+                        add_msg(ngettext("You were stunned AGAIN for %d turn!",
+                                         "You were stunned AGAIN for %d turns!",
+                                         force_remaining),
+                                force_remaining);
                     }
                     else
                     {
-                        add_msg(_("You were stunned for %d turns!"), force_remaining);
+                        add_msg(ngettext("You were stunned for %d turn!",
+                                         "You were stunned for %d turns!",
+                                         force_remaining),
+                                force_remaining);
                     }
                     u.add_effect("stunned", force_remaining);
                 }
@@ -12559,7 +12576,7 @@ bool game::plmove(int dx, int dy)
                 add_msg(_("You see here %s, %s, and %s."), names[0].c_str(),
                         names[1].c_str(), names[2].c_str());
             } else if (names.size() < 7) {
-                add_msg(_("There are %d items here."), names.size());
+                add_msg(ngettext("There is %d item here.", "There are %d items here.", names.size()), names.size());
             } else {
                 add_msg(_("There are many items here."));
             }

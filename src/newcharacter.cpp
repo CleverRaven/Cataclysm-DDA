@@ -839,7 +839,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         if (negativeTrait) {
                                   points *=-1;
                         }
-                        mvwprintz(w,  3, 41, col_tr, _("%s %s %d points"),
+                        mvwprintz(w,  3, 41, col_tr, ngettext("%s %s %d point", "%s %s %d points", points),
                                   traits[vStartingTraits[iCurrentPage][i]].name.c_str(),
                                   negativeTrait ? _("earns"):_("costs"),
                                   points);
@@ -943,12 +943,12 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
                 } else if (iCurWorkingPage == 0 && num_good + traits[cur_trait].points >
                            max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of advantages."),
+                    popup(ngettext("Sorry, but you can only take %d point of advantages.", "Sorry, but you can only take %d points of advantages.", max_trait_points),
                           max_trait_points);
 
                 } else if (iCurWorkingPage != 0 && num_bad + traits[cur_trait].points <
                            -max_trait_points) {
-                    popup(_("Sorry, but you can only take %d points of disadvantages."),
+                    popup(ngettext("Sorry, but you can only take %d point of disadvantages.", "Sorry, but you can only take %d points of disadvantages.", max_trait_points),
                           max_trait_points);
 
                 } else {
@@ -1047,7 +1047,9 @@ int set_profession(WINDOW *w, player *u, int &points)
         if (negativeProf) {
                   pointsForProf *=-1;
         }
-        mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, _("Profession %1$s %2$s %3$d points (net: %4$d)"),
+        mvwprintz(w, 3, 21, can_pick == "YES" ? c_green:c_ltred, ngettext("Profession %1$s %2$s %3$d point (net: %4$d)",
+                                                                          "Profession %1$s %2$s %3$d points (net: %4$d)",
+                                                                          pointsForProf),
                       sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
                       negativeProf ? _("earns"):_("costs"),
                       pointsForProf, netPointCost);
@@ -1212,7 +1214,7 @@ int set_skills(WINDOW *w, player *u, int &points)
         mvwprintz(w, 3, 31, c_ltgray, "                                              ");
         int cost = std::max(1, (u->skillLevel(currentSkill) + 1) / 2);
         mvwprintz(w, 3, 31, points >= cost ? COL_SKILL_USED : c_ltred,
-                  _("Upgrading %s costs %d point(s)"),
+                  ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
         fold_and_print(w_description, 0, 0, getmaxx(w_description), COL_SKILL_USED,
                        currentSkill->description());

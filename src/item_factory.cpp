@@ -325,6 +325,7 @@ void Item_factory::init(){
     iuse_function_list["HOLSTER_PISTOL"] = &iuse::holster_pistol;
     iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
     iuse_function_list["TOWEL"] = &iuse::towel;
+    iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
     iuse_function_list["CONTACTS"] = &iuse::contacts;

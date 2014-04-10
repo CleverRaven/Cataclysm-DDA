@@ -72,6 +72,33 @@ class map
 // Visual Output
  void debug();
 
+ /**
+  * Sets a dirty flag on the transparency cache.
+  *
+  * If this isn't set, it's just assumed that
+  * the transparency cache hasn't changed and
+  * doesn't need to be updated.
+  */
+ void set_transparency_cache_dirty() {
+     transparency_cache_dirty = true;
+ }
+
+ /**
+  * Sets a dirty flag on the outside cache.
+  *
+  * If this isn't set, it's just assumed that
+  * the outside cache hasn't changed and
+  * doesn't need to be updated.
+  */
+ void set_outside_cache_dirty() {
+     outside_cache_dirty = true;
+ }
+
+ /**
+  * Callback invoked when a vehicle has moved.
+  */
+ void on_vehicle_moved();
+
  /** Draw a visible part of the map into `w`.
   *
   * This method uses `g->u.posx/posy` for visibility calculations, so it can
@@ -211,7 +238,7 @@ class map
  void update_vehicle_cache(vehicle *, const bool brand_new = false);
  void reset_vehicle_cache();
  void clear_vehicle_cache();
- void update_vehicle_list(const int to);
+ void update_vehicle_list(submap * const to);
 
  void destroy_vehicle (vehicle *veh);
 // Change vehicle coords and move vehicle's driver along.
@@ -386,7 +413,7 @@ void add_corpse(int x, int y);
  bool add_field(const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(); // See fields.cpp
- bool process_fields_in_submap(const int gridn); // See fields.cpp
+ bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
  void step_in_field(const int x, const int y); // See fields.cpp
  void mon_in_field(const int x, const int y, monster *z); // See fields.cpp
  void field_effect(int x, int y); //See fields.cpp
@@ -494,7 +521,20 @@ protected:
  void set_abs_sub(const int x, const int y, const int z); // set the above vars on map load/shift/etc
 
 private:
-submap * getsubmap( const int grididx );
+ bool transparency_cache_dirty;
+ bool outside_cache_dirty;
+
+ submap * getsubmap( const int grididx );
+
+ /** Get the submap containing the specified position within the reality bubble. */
+ submap *get_submap_at(int x, int y) const;
+
+ /** Get the submap containing the specified position within the reality bubble.
+  *  Also writes the position within the submap to offset_x, offset_y
+  */
+ submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
+ submap *get_submap_at_grid(int gridx, int gridy) const;
+ 
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
@@ -510,10 +550,10 @@ submap * getsubmap( const int grididx );
  vehicle *add_vehicle_to_map(vehicle *veh, const int x, const int y, const bool merge_wrecks = true);
  void add_item(const int x, const int y, item new_item, int maxitems = 64);
 
- void process_active_items_in_submap(const int nonant);
- void process_active_items_in_vehicles(const int nonant);
- void process_active_items_in_vehicle(vehicle *cur_veh, int nonant);
- bool process_active_item(item *it, const int nonant, const int i, const int j);
+ void process_active_items_in_submap(submap * const current_submap, int gridx, int gridy);
+ void process_active_items_in_vehicles(submap * const current_submap, int gridx, int gridy);
+ void process_active_items_in_vehicle(vehicle *cur_veh, submap * const current_submap, const int gridx, const int gridy);
+ bool process_active_item(item *it, submap * const current_submap, const int gridx, const int gridy, const int i, const int j);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

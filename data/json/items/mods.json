@@ -33,7 +33,7 @@
     "damage_modifier" : -4,
     "ammo_modifier" : "NULL",
     "description" : "Using a suppressor is almost an imperative in zombie-infested regions. Gunfire is very noisy, and will attract predators. Its only drawback is a reduced muzzle velocity, resulting in less accuracy and damage.",
-        "location": "muzzle",
+    "location": "muzzle",
     "weight" : 410,
     "to_hit" : 1,
     "color" : "dark_gray",
@@ -336,7 +336,8 @@
         "acceptable_ammo" : ["22", "9mm", "38", "40", "57", "46"],
         "mod_targets" : ["pistol"],
         "bashing" : 2,
-        "ammo_modifier" : "NULL"
+        "ammo_modifier" : "NULL",
+        "flags" : ["MODE_BURST"]
     },
     {
         "type" : "GUNMOD",

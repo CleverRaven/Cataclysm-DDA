@@ -14,7 +14,7 @@ struct itype;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
-const std::string rad_threshold_colors[] = { "green", "blue", "yellow", "orange", "red", "black"};
+const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"), _("orange"), _("red"), _("black")};
 
 struct light_emission {
   unsigned short luminance;

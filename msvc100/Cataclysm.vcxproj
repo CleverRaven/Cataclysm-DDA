@@ -758,6 +758,7 @@
     <ClInclude Include="..\src\addiction.h" />
     <ClInclude Include="..\src\advanced_inv.h" />
     <ClInclude Include="..\src\ammo.h" />
+    <ClInclude Include="..\src\armor_layers.h" />
     <ClInclude Include="..\src\artifact.h" />
     <ClInclude Include="..\src\auto_pickup.h" />
     <ClInclude Include="..\src\basecamp.h" />
@@ -925,6 +926,7 @@
     <ClCompile Include="..\src\item_group.cpp" />
     <ClCompile Include="..\src\itypedef.cpp" />
     <ClCompile Include="..\src\iuse.cpp" />
+    <ClCompile Include="..\src\iuse_actor.cpp" />
     <ClCompile Include="..\src\iuse_software.cpp" />
     <ClCompile Include="..\src\iuse_software_kitten.cpp" />
     <ClCompile Include="..\src\iuse_software_snake.cpp" />
