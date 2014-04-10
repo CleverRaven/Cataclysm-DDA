@@ -2246,26 +2246,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
  double iLayers;
 
  const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
- mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
- for (int i=0; i < 8; i++) {
+ mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
+ for (int i = 0; i < 8; i++) {
   iLayers = iArmorEnc = 0;
   iWarmth = warmth(body_part(i));
   iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
-  mvwprintz(w_encumb, i+1, 1, c_ltgray, "%s:", asText[i].c_str());
-  mvwprintz(w_encumb, i+1, 8, c_ltgray, "(%d)", iLayers);
-  mvwprintz(w_encumb, i+1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2), " ", iArmorEnc, "+", iEnc-iArmorEnc);
+  mvwprintz(w_encumb, i + 1, 1, c_ltgray, "%s:", asText[i].c_str());
+  mvwprintz(w_encumb, i + 1, 8, c_ltgray, "(%d)", iLayers);
+  mvwprintz(w_encumb, i + 1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2),
+            " ", iArmorEnc, "+", iEnc - iArmorEnc);
   wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-  // Color the warmth value to let the player know what is sufficient
-  nc_color color = c_ltgray;
-  if (i == bp_eyes) continue; // Eyes don't count towards warmth
-  else if (temp_conv[i] >  BODYTEMP_SCORCHING) color = c_red;
-  else if (temp_conv[i] >  BODYTEMP_VERY_HOT)  color = c_ltred;
-  else if (temp_conv[i] >  BODYTEMP_HOT)       color = c_yellow;
-  else if (temp_conv[i] >  BODYTEMP_COLD)      color = c_green; // More than cold is comfortable
-  else if (temp_conv[i] >  BODYTEMP_VERY_COLD) color = c_ltblue;
-  else if (temp_conv[i] >  BODYTEMP_FREEZING)  color = c_cyan;
-  else if (temp_conv[i] <= BODYTEMP_FREEZING)  color = c_blue;
-  wprintz(w_encumb, color, " (%3d)", iWarmth);
+  wprintz(w_encumb, bodytemp_color(i), " (%3d)", iWarmth);
  }
  wrefresh(w_encumb);
 
@@ -10633,4 +10624,27 @@ bool player::has_container_for(const item &newit)
         charges -= items.front().get_remaining_capacity_for_liquid(newit, tmperr) * items.size();
     }
     return charges <= 0;
+}
+
+nc_color player::bodytemp_color(int bp)
+{
+    nc_color color;
+    if (bp == bp_eyes) {
+        color = c_ltgray;    // Eyes don't count towards warmth
+    } else if (temp_conv[bp] >  BODYTEMP_SCORCHING) {
+        color = c_red;
+    } else if (temp_conv[bp] >  BODYTEMP_VERY_HOT) {
+        color = c_ltred;
+    } else if (temp_conv[bp] >  BODYTEMP_HOT) {
+        color = c_yellow;
+    } else if (temp_conv[bp] >  BODYTEMP_COLD) {
+        color = c_green;
+    } else if (temp_conv[bp] >  BODYTEMP_VERY_COLD) {
+        color = c_ltblue;
+    } else if (temp_conv[bp] >  BODYTEMP_FREEZING) {
+        color = c_cyan;
+    } else if (temp_conv[bp] <= BODYTEMP_FREEZING) {
+        color = c_blue;
+    }
+    return color;
 }
