@@ -3940,10 +3940,13 @@ int iuse::siphon(player *p, item *it, bool)
             want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
             got = veh->drain("diesel", want);
             amt=fillv->refill("diesel",got);
-        } else {
+        } else if ( veh->fuel_left("gasoline") > 0 ) {
             want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
             got = veh->drain("gasoline", want);
             amt=fillv->refill("gasoline",got);
+        } else {
+            g->add_msg_if_player(p, _("That vehicle has no fuel to siphon."));
+            return 0;
         }
         g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
            "gasoline", veh->name.c_str(), fillv->name.c_str(),
@@ -3972,10 +3975,13 @@ int iuse::siphon(player *p, item *it, bool)
             if (p->siphon(veh, "diesel")) {
                 p->moves -= 200;
             }
-        } else {
+        } else if ( veh->fuel_left("gasoline") > 0 ) {
             if (p->siphon(veh, "gasoline")) {
                 p->moves -= 200;
             }
+        } else {
+            g->add_msg_if_player(p, _("That vehicle has no fuel to siphon."));
+            return 0;
         }
     }
     return it->type->charges_to_use();
