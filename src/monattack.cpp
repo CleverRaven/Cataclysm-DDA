@@ -1173,8 +1173,11 @@ void mattack::vortex(monster *z)
       if ((g->u.has_trait("LEG_TENT_BRACE")) && (!(g->u.wearing_something_on(bp_feet))) ) {
           g->add_msg(_("You secure yourself using your tentacles!"));
       }
-    if (!((g->u.uncanny_dodge()) || ( (g->u.has_trait("LEG_TENT_BRACE")) &&
-    (!(g->u.wearing_something_on(bp_feet))) ) )) {
+      if (g->u.is_throw_immune()) {
+          g->add_msg(_("You deftly maintain your footing!"));
+      }
+    if (!((g->u.uncanny_dodge()) && ( (g->u.has_trait("LEG_TENT_BRACE")) &&
+    (!(g->u.wearing_something_on(bp_feet))) ) && (!(g->u.is_throw_immune())) )) {
      std::vector<point> traj = continue_line(from_monster, rng(2, 3));
      g->add_msg(_("You're thrown by winds!"));
      bool hit_wall = false;
