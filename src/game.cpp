@@ -480,7 +480,7 @@ void game::reenter_fullscreen(void)
  */
 void game::setup()
 {
- m = map(&traps); // Init the root map with our vectors
+    m = map(); // reset the main map
 
     load_world_modfiles(world_generator->active_world);
 
@@ -12910,7 +12910,7 @@ void game::vertical_move(int movez, bool force) {
      return;
  }
 
- map tmpmap(&traps);
+ map tmpmap;
  tmpmap.load(levx, levy, levz + movez, false);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
@@ -13368,7 +13368,7 @@ void game::force_save_monster(monster &critter) {
     critter.spawnposx = rc.sub_pos.x;
     critter.spawnposy = rc.sub_pos.y;
 
-    tinymap tmp(&traps);
+    tinymap tmp;
     tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
     tmp.add_spawn(&critter);
     tmp.save(cur_om, turn, critter.spawnmapx, critter.spawnmapy, levz);
@@ -13398,7 +13398,7 @@ void game::despawn_monsters(const int shiftx, const int shifty)
                     // We're saving him, so there's no need to keep anymore.
                     critter.setkeep(false);
 
-                    tinymap tmp(&traps);
+                    tinymap tmp;
                     tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
                     tmp.add_spawn(&critter);
                     tmp.save(cur_om, turn, critter.spawnmapx, critter.spawnmapy, levz);
@@ -13847,7 +13847,7 @@ void game::nuke(int x, int y)
     // ^^ crops x,y to point inside om now., but map::load
     // and map::save needs submap coordinates.
     const point smc = overmapbuffer::omt_to_sm_copy(x, y);
-    map tmpmap(&traps);
+    map tmpmap;
     tmpmap.load(smc.x, smc.y, 0, false, &om);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
