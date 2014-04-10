@@ -7475,6 +7475,7 @@ bool game::refill_vehicle_part (vehicle &veh, vehicle_part *part, bool test)
     min_charges = u.weapon.charges;
   } else {
     it = &u.inv.item_or_container(itid);
+
     if (!it->is_null()) {
       if (it->type->id == itid) {
         p_itm = it;

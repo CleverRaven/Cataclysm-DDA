@@ -1699,28 +1699,28 @@ void complete_vehicle ()
                     choice = "gasoline";
                     want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
                     got = veh->drain("gasoline", want);
-                    amt=fillv->refill("gasoline",got);
+                    fillv->refill("gasoline",got);
                 } else if ( smenu.ret == 1) {
                     choice = "diesel";
                     want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
                     got = veh->drain("diesel", want);
-                    amt=fillv->refill("diesel",got);
+                    fillv->refill("diesel",got);
                 } else {
                     choice = "none";
                     break;
                 }
                 g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
                     choice.c_str(), veh->name.c_str(), fillv->name.c_str(),
-                    (amt > 0 ? "." : ", draining the tank completely.") );
+                    (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
                 g->u.moves -= 200;
             } else if ( veh->fuel_capacity("diesel") > 0 ) {
                 want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
                 got = veh->drain("diesel", want);
-                amt=fillv->refill("diesel",got);
+                fillv->refill("diesel",got);
 
                 g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
                     "diesel", veh->name.c_str(), fillv->name.c_str(),
-                    (amt > 0 ? "." : ", draining the tank completely.") );
+                    (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
                 g->u.moves -= 200;
             } else if ( veh->fuel_capacity("gasoline") > 0 ) {
                 want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
@@ -1729,7 +1729,7 @@ void complete_vehicle ()
 
                 g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
                     "gasoline", veh->name.c_str(), fillv->name.c_str(),
-                    (amt > 0 ? "." : ", draining the tank completely.") );
+                    (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
                 g->u.moves -= 200;
             } else {
                 g->add_msg("That vehicle has no fuel to siphon.");
