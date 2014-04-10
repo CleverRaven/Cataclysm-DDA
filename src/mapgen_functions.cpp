@@ -83,7 +83,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["s_clothes"] = mapgen_s_clothes;
     mapgen_cfunction_map["s_library"] = mapgen_s_library;
     mapgen_cfunction_map["s_restaurant"] = mapgen_s_restaurant;
-    mapgen_cfunction_map["s_restaurant_coffee"] = mapgen_s_restaurant_coffee;
     mapgen_cfunction_map["shelter"] = &mapgen_shelter;
     mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
@@ -3658,53 +3657,6 @@ void mapgen_s_restaurant(map *m, oter_id terrain_type, mapgendata dat, int, floa
 
         m->place_spawns("GROUP_GROCERY", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
-
-void mapgen_s_restaurant_coffee(map *m, oter_id terrain_type, mapgendata dat, int, float) {
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        mapf::formatted_set_simple(m, 0, 0,
-                                   "\
-|--------=------|--|--| \n\
-|ltSrrrrr..eOSll|T.|.T| \n\
-|...............|S.|.S| \n\
-|cccxccxccc..ccc|-D|D-| \n\
-|.....................| \n\
-|.....................| \n\
-|hh.......hth.hth.hth.| \n\
-|tt....|--555-555-555-| \n\
-|tt....%ssssssssssssssss\n\
-|hh....+ss______________\n\
-|......+ss______________\n\
-|......%ss______________\n\
-|.htth.|ss______________\n\
-|-5555-|ss,,,,,,,_______\n\
-#ssssss#ss______________\n\
-#shtths#ss______________\n\
-#sssssssss______________\n\
-#shsshssss______________\n\
-#stsstssss,,,,,,,_______\n\
-#shsshssss______________\n\
-#sssssssss______________\n\
-#shtthssss______________\n\
-#ssssss#ss______________\n\
-########ss,,,,,,,_______\n",
-                                   mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s", t_floor,
-                                           t_wall_glass_h, t_wall_glass_v, t_floor, t_pavement_y, t_pavement, t_floor, t_console,
-                                           t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_shrub, t_floor,
-                                           t_door_glass_c, t_door_locked_alarm, t_door_locked, t_window_domestic, t_floor,  t_floor, t_floor,
-                                           t_floor, t_floor,   t_floor,  t_sidewalk),
-                                   mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s", f_dumpster, f_null,
-                                           f_null,         f_oven,  f_null,       f_null,     f_rack,  f_null,    f_null,           f_null,
-                                           f_indoor_plant, f_null,  f_null,   f_null,   f_null,  f_table, f_null,         f_null,
-                                           f_null,        f_null,            f_toilet, f_sink,  f_fridge, f_chair, f_counter, f_locker,
-                                           f_null));
-        m->place_items("coffee_shop", 85,  4,  1, 8,  1, false, 0);
-        m->place_items("coffee_shop", 85,  11,  1, 11,  1, false, 0);
-        m->place_items("cleaning", 60,  14,  1, 15,  1, false, 0);
-        autorotate(true);
-}
-
-
 
 ////////////////////
 //    } else if (terrain_type == "shelter") {
