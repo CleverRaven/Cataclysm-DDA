@@ -2601,14 +2601,21 @@ detecting traps and other things of interest."));
    wrefresh(w_stats);
    break;
   case 2: // Encumberment tab
+  {
    mvwprintz(w_encumb, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
+   std::string s;
    if (line == 0) {
     mvwprintz(w_encumb, 1, 1, h_ltgray, _("Torso"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Melee skill %+d;      Dodge skill %+d;\n\
-Swimming costs %+d movement points;\n\
-Melee and thrown attacks cost %+d movement points."), -encumb(bp_torso), -encumb(bp_torso),
+    s = _("Melee skill %+d;");
+    s+= _(" Dodge skill %+d;\n");
+    s+= ngettext("Swimming costs %+d movement point;\n",
+                 "Swimming costs %+d movement points;\n",
+                 encumb(bp_torso) * (80 - skillLevel("swimming") * 3));
+    s+= ngettext("Melee and thrown attacks cost %+d movement point.",
+                 "Melee and thrown attacks cost %+d movement points.",
+                 encumb(bp_torso) * 20);
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s.c_str(), -encumb(bp_torso), -encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming") * 3), encumb(bp_torso) * 20);
    } else if (line == 1) {
     mvwprintz(w_encumb, 2, 1, h_ltgray, _("Head"));
@@ -2622,8 +2629,8 @@ Perception %+.1f when throwing items."), -encumb(bp_eyes),
 double(double(-encumb(bp_eyes)) / 2));
    } else if (line == 3) {
     mvwprintz(w_encumb, 4, 1, h_ltgray, _("Mouth"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Running costs %+d movement points."), encumb(bp_mouth) * 5);
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, ngettext("\
+Running costs %+d movement point.", "Running costs %+d movement points.", encumb(bp_mouth) * 5), encumb(bp_mouth) * 5);
    } else if (line == 4)
   {
     mvwprintz(w_encumb, 5, 1, h_ltgray, _("Arms"));
@@ -2632,20 +2639,29 @@ Arm encumbrance affects your accuracy with ranged weapons."));
    } else if (line == 5)
    {
     mvwprintz(w_encumb, 6, 1, h_ltgray, _("Hands"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Reloading costs %+d movement points; \
-Dexterity %+d when throwing items."), encumb(bp_hands) * 30, -encumb(bp_hands));
+    s = ngettext("Reloading costs %+d movement point; ",
+                 "Reloading costs %+d movement points; ",
+                 encumb(bp_hands) * 30);
+    s+= _("Dexterity %+d when throwing items.");
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, 
+    s.c_str() , encumb(bp_hands) * 30, -encumb(bp_hands));
    } else if (line == 6) {
     mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Running costs %+d movement points;  Swimming costs %+d movement points;\n\
-Dodge skill %+.1f."), encumb(bp_legs) * 3,
+    s = ngettext("Running costs %+d movement point; ",
+                 "Running costs %+d movement points; ",
+                 encumb(bp_legs) * 3);
+    s+= ngettext("Swimming costs %+d movement point;\n",
+                 "Swimming costs %+d movement points;\n",
+                 encumb(bp_legs) *(50 - skillLevel("swimming") * 2));
+    s+= _("Dodge skill %+.1f.");
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+              s.c_str(), encumb(bp_legs) * 3,
               encumb(bp_legs) *(50 - skillLevel("swimming") * 2),
                      double(double(-encumb(bp_legs)) / 2));
    } else if (line == 7) {
     mvwprintz(w_encumb, 8, 1, h_ltgray, _("Feet"));
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
-Running costs %+d movement points."), encumb(bp_feet) * 5);
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, ngettext("\
+Running costs %+d movement point.", "Running costs %+d movement points.", encumb(bp_feet) * 5), encumb(bp_feet) * 5);
    }
    wrefresh(w_encumb);
    wrefresh(w_info);
@@ -2681,6 +2697,7 @@ Running costs %+d movement points."), encumb(bp_feet) * 5);
    mvwprintz(w_encumb, 8, 1, c_ltgray, _("Feet"));
    wrefresh(w_encumb);
    break;
+  }
   case 4: // Traits tab
    mvwprintz(w_traits, 0, 0, h_ltgray,  _("                          "));
    mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, h_ltgray, title_TRAITS);
@@ -5096,7 +5113,9 @@ bool player::siphon(vehicle *veh, ammotype desired_liquid)
     int siphoned = liquid_amount - extra;
     veh->refill( desired_liquid, extra );
     if( siphoned > 0 ) {
-        g->add_msg(_("Siphoned %d units of %s from the %s."),
+        g->add_msg(ngettext("Siphoned %d unit of %s from the %s.",
+                            "Siphoned %d units of %s from the %s.",
+                            siphoned),
                    siphoned, used_item.name.c_str(), veh->name.c_str());
         //Don't consume turns if we decided not to siphon
         return true;
@@ -8686,7 +8705,10 @@ void player::use(int pos)
             // so restack to sort things out.
             inv.restack();
         } else {
-            g->add_msg(_("Your %s has %d charges but needs %d."), used->tname().c_str(),
+            g->add_msg(ngettext("Your %s has %d charge but needs %d.",
+                                "Your %s has %d charges but needs %d.",
+                                used->charges),
+                       used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
     } else if (used->type->use == &iuse::boots          ||

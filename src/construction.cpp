@@ -229,7 +229,7 @@ void construction_menu()
                 }
                 // display time needed
                 posy++;
-                mvwprintz(w_con, posy, 31, color_stage, _("Time: %1d minutes"), current_con->time);
+                mvwprintz(w_con, posy, 31, color_stage, ngettext("Time: %1d minute","Time: %1d minutes",current_con->time), current_con->time);
                 // Print tools
                 std::vector<bool> has_tool;
                 posy++;
