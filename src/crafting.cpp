@@ -215,6 +215,7 @@ bool game::crafting_can_see()
     if (u.fine_detail_vision_mod() > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
         g->add_msg(_("You can't see to craft!"));
         return false;
+
     }
 
     return true;
@@ -242,17 +243,18 @@ std::string print_missing_objs(const std::vector< std::vector <component> > &obj
         for(size_t j = 0; j < list.size(); j++) {
             const component &comp = list[j];
             const itype *itt = item_controller->find_template(comp.type);
+            itype *it = item_controller->find_template(comp.type);
             if (j > 0) {
                 buffer << _(" or ");
             }
             if (!is_tools) {
-                //~ <item-count> x <item-name>
-                buffer << string_format(_("%d x %s"), abs(comp.count), itt->name.c_str());
+                //~ <item-count> <item-name>
+                buffer << string_format(_("%d %s"), abs(comp.count), it->nname(abs(comp.count)).c_str());
             } else if (comp.count > 0) {
                 //~ <tool-name> (<numer-of-charges> charges)
                 buffer << string_format(ngettext("%s (%d charge)", "%s (%d charges)", comp.count), itt->name.c_str(), comp.count);
             } else {
-                buffer << itt->name;
+                buffer << it->nname(abs(comp.count));
             }
         }
     }
@@ -917,7 +919,7 @@ recipe *game::select_crafting_recipe()
                         compcol = c_green;
                     }
                     std::stringstream dump;
-                    dump << abs(count) << "x " << item_controller->find_template(type)->name << " ";
+                    dump << abs(count) << " " << item_controller->find_template(type)->nname(abs(count)) << " ";
                     std::string compname = dump.str();
                     if (xpos + utf8_width(compname.c_str()) >= FULL_SCREEN_WIDTH) {
                         ypos++;
