@@ -1097,7 +1097,17 @@ int editmap::edit_trp()
         for ( int t = tshift; t <= tshift + tmax; t++ ) {
             mvwprintz(w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str());
             if ( t < num_trap_types ) {
-                tnam = t == 0 ? _("-clear-") : g->traps[t]->id;
+                if ( t == 0 ) {
+                   tnam = _("-clear-");
+                } else {
+                   if( g->traps[t]->name.length() > 0 ) {
+                       //~ trap editor list entry. 1st string is display name, 2nd string is internal name of trap
+                       tnam = string_format(_("%s (%s)"), 
+                                            _(g->traps[t]->name.c_str()), g->traps[t]->id.c_str());
+                   } else {
+                       tnam = g->traps[t]->id;
+                   }
+                }
                 mvwputch(w_picktrap, t + 1 - tshift, 2, g->traps[t]->color, g->traps[t]->sym);
                 mvwprintz(w_picktrap, t + 1 - tshift, 4, (trsel == t ? h_white : ( cur_trap == t ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
             }
