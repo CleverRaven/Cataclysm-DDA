@@ -449,6 +449,9 @@ public:
 // idle fuel consumption
     void idle ();
 
+// leak from broken tanks
+    void slow_leak ();
+
 // thrust (1) or brake (-1) vehicle
     void thrust (int thd);
 

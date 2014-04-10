@@ -289,8 +289,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
          int broken = 8, unhurt = 20;
          int roll = dice(4,8);
          if(roll < unhurt){
-            if (roll <= broken)
+            if (roll <= broken) {
                parts[p].hp= 0;
+               parts[p].amount= 0; //empty broken batteries and fuel tanks
+            }
             else
                parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
             }
@@ -315,7 +317,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
          if (destroyTank) { // vehicle is disabled because no battery, minireactor or gasoline tank
           if (part_flag(p, "FUEL_TANK")) {
            parts[p].hp= 0;
-           parts[p].amount = part_info(p).size * 0;
+           parts[p].amount = 0;
           }
          }
          if (destroyEngine) { // vehicle is disabled because engine is dead
@@ -400,8 +402,9 @@ void vehicle::smash() {
         //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
         int damage = (int) (dice(1, 12) * 0.1 * part_info(part_index).durability);
         parts[part_index].hp -= damage;
-        if (parts[part_index].hp < 0) {
+        if (parts[part_index].hp <= 0) {
             parts[part_index].hp = 0;
+            parts[part_index].amount = 0;
         }
     }
 }
@@ -2640,6 +2643,35 @@ void vehicle::idle() {
         }
         engine_on = false;
     }
+
+    slow_leak();
+}
+
+void vehicle::slow_leak()
+{
+    //for each of your badly damaged tanks (lower than 50% health), leak a small amount of liquid
+    for( size_t p = 0; p < fuel.size(); ++p ) {
+        vehicle_part part = parts[fuel[p]];
+        vpart_info pinfo = part_info( fuel[p] );
+        if( pinfo.fuel_type != "water" && pinfo.fuel_type != "gasoline" ) {  //handle only known liquids
+            continue;
+        }
+        float damage_ratio = ( float )part.hp / ( float )pinfo.durability;
+        if( part.amount > 0 && damage_ratio < 0.5f ) {
+            int leak_amount = ( 0.5 - damage_ratio ) * ( 0.5 - damage_ratio ) * part.amount / 5;
+            int gx, gy;
+            if( leak_amount < 1 ) {
+                leak_amount = 1;
+            }
+            coord_translate( part.mount_dx, part.mount_dy, gx, gy );
+            if( pinfo.fuel_type == "water" ) {
+                g->m.spawn_item( global_x() + gx, global_y() + gy, fuel_type_water, 1, leak_amount );
+            } else if( pinfo.fuel_type == "gasoline" ) {
+                g->m.spawn_item( global_x() + gx, global_y() + gy, fuel_type_gasoline, 1, leak_amount );
+            }
+            part.amount -= leak_amount;
+        }
+    }
 }
 
 void vehicle::thrust (int thd) {
@@ -3938,13 +3970,10 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t);
     if (target == NULL) {
         if (u_see) {
-            if (boo_hoo > 1) {
-                g->add_msg(_("%s points in your direction and emits %d annoyed sounding beeps."),
-                tmp.name.c_str(), boo_hoo);
-            } else if (boo_hoo > 0) {
-                g->add_msg(_("%s points in your direction and emits an IFF warning beep."),
-                tmp.name.c_str());
-            }
+            g->add_msg(ngettext("%s points in your direction and emits an IFF warning beep.",
+                                "%s points in your direction and emits %d annoyed sounding beeps.",
+                                boo_hoo),
+                       tmp.name.c_str(), boo_hoo);
         }
         return false;
     }

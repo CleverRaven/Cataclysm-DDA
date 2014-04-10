@@ -1687,8 +1687,10 @@ void complete_vehicle ()
             int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
             int got = veh->drain("gasoline", want);
             fillv->refill("gasoline", got);
-            g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-               "gasoline", veh->name.c_str(), fillv->name.c_str(),
+            g->add_msg(ngettext("Siphoned %d unit of %s from the %s into the %s%s",
+                                "Siphoned %d units of %s from the %s into the %s%s",
+                                got),
+               got, "gasoline", veh->name.c_str(), fillv->name.c_str(),
                (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
             g->u.moves -= 200;
         } else {

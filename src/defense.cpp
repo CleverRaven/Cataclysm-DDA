@@ -1137,7 +1137,10 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
                 popup(_("You can't afford those items!"));
             } else if ((items[0].empty() && query_yn(_("Really buy nothing?"))) ||
                        (!items[0].empty() &&
-                        query_yn(_("Buy %d items, leaving you with $%d?"), items[0].size(),
+                        query_yn(ngettext("Buy %d item, leaving you with $%d?",
+                                          "Buy %d items, leaving you with $%d?",
+                                          items[0].size()),
+                                 items[0].size(),
                                  g->u.cash - total_price))) {
                 done = true;
             }
