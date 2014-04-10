@@ -455,11 +455,17 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
     wrefresh(w_worlds_header);
 
-    char ch = ' ';
+    input_context ctxt("PICK_WORLD_DIALOG");
+    ctxt.register_updown();
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("CONFIRM");
 
     std::stringstream sTemp;
 
-    do {
+    while(true) {
         //Clear the lines
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
@@ -513,25 +519,22 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         wrefresh(w_worlds);
 
-        ch = input();
+        const std::string action = ctxt.handle_input();
 
-        if (!world_pages[selpage].empty() || ch == '\t') {
-            switch(ch) {
-                case 'j': //move down
+        if (action == "QUIT") {
+            break;
+        } else if (!world_pages[selpage].empty() && action == "DOWN") {
                     sel++;
                     if (sel >= world_pages[selpage].size()) {
                         sel = 0;
                     }
-                    break;
-                case 'k': //move up
+        } else if (!world_pages[selpage].empty() && action == "UP") {
                     if (sel == 0) {
                         sel = world_pages[selpage].size() - 1;
                     } else {
                         sel--;
                     }
-                    break;
-                case '>':
-                case '\t': //Switch to next Page
+        } else if (action == "NEXT_TAB") {
                     sel = 0;
                     do { //skip empty pages
                         selpage++;
@@ -539,9 +542,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                             selpage = 0;
                         }
                     } while(world_pages[selpage].empty());
-
-                    break;
-                case '<':
+        } else if (action == "PREV_TAB") {
                     sel = 0;
                     do { //skip empty pages
                         if (selpage != 0) {
@@ -550,8 +551,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                             selpage = world_pages.size() - 1;
                         }
                     } while(world_pages[selpage].empty());
-                    break;
-                case '\n':
+        } else if (action == "CONFIRM") {
                     // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
                     if (query_yn(_("Do you want to start the game in world [%s]?"),
                                     world_pages[selpage][sel].c_str())) {
@@ -561,10 +561,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                         werase(w_worlds_tooltip);
                         return all_worlds[world_pages[selpage][sel]];//sel + selpage * iContentHeight;
                     }
-                    break;
-            }
         }
-    } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+    }
 
     werase(w_worlds);
     werase(w_worlds_border);
