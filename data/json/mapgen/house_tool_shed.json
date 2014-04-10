@@ -86,7 +86,7 @@
             },
             "place_specials": [
                 { "type": "toilet", "x": 3, "y": 4 },
-                { "type": "toilet", "x": 5, "y": 15 }
+                { "type": "toilet", "x": 5, "y": 14 }
             ],
             "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
             "set": [
@@ -120,8 +120,8 @@
                 { "item": "kitchen", "chance": 50, "x": [ 21,21 ], "y": 11 },
                 { "item": "kitchen", "chance": 50, "x": [ 18,18 ], "y": 11 },
                 { "item": "kitchen", "chance": 50, "x": [ 18,20 ], "y": [ 9,10 ] },
-                { "item": "fridge", "chance": 20, "x": [ 17,20 ], "y": [ 3,4 ] },
-                { "item": "dining", "chance": 75, "x": [ 17,20 ], "y": [ 3,4 ] },
+                { "item": "fridge", "chance": 20, "x": [ 17,20 ], "y": [ 2,3 ] },
+                { "item": "dining", "chance": 75, "x": [ 18,19 ], "y": [ 2,3 ] },
                 { "item": "magazines", "chance": 50, "x": [ 17,17 ], "y": 5 },
                 { "item": "mischw", "chance": 50, "x": [ 17,21 ], "y": [ 19,21 ] },
                 { "item": "hardware", "chance": 50, "x": [ 17,21 ], "y": [ 19,21 ] },
