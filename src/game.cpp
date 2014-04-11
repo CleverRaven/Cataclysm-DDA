@@ -1333,6 +1333,23 @@ void game::activity_on_turn_refill_vehicle()
                         i = 2;
                         j = 2;
                         break;
+                    } else if if (m.i_at(u.posx + i, u.posy + j)[n].type->id == "diesel") {
+                        item *gas = &(m.i_at(u.posx + i, u.posy + j)[n]);
+                        int lack = (veh->fuel_capacity("diesel") - veh->fuel_left("diesel")) < 200 ?
+                                   (veh->fuel_capacity("diesel") - veh->fuel_left("diesel")) : 200;
+                        if (gas->charges > lack) {
+                            veh->refill ("diesel", lack);
+                            gas->charges -= lack;
+                            u.activity.moves_left -= 100;
+                        } else {
+                            add_msg(_("With a clang and a shudder, the diesel pump goes silent."));
+                            veh->refill ("diesel", gas->charges);
+                            m.i_at(u.posx + i, u.posy + j).erase(m.i_at(u.posx + i, u.posy + j).begin() + n);
+                            u.activity.moves_left = 0;
+                        }
+                        i = 2;
+                        j = 2;
+                        break;
                     }
                 }
             }
