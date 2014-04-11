@@ -2658,7 +2658,7 @@ void vehicle::slow_leak()
         }
         float damage_ratio = ( float )part.hp / ( float )pinfo.durability;
         if( part.amount > 0 && damage_ratio < 0.5f ) {
-            int leak_amount = ( 0.5 - damage_ratio ) * ( 0.5 - damage_ratio ) * part.amount / 5;
+            int leak_amount = ( 0.5 - damage_ratio ) * ( 0.5 - damage_ratio ) * part.amount / 10;
             int gx, gy;
             if( leak_amount < 1 ) {
                 leak_amount = 1;
