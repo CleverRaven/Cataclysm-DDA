@@ -4096,10 +4096,14 @@ void game::debug()
     debugmsg ("There's already vehicle here");
    }
    else {
+    std::vector<std::string> veh_strings;
     for(std::map<std::string, vehicle*>::iterator it = vtypes.begin();
              it != vtypes.end(); ++it) {
       if(it->first != "custom") {
-        opts.push_back(it->second->type);
+        veh_strings.push_back(it->second->type);
+        //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
+        opts.push_back(string_format(_("%s (%s)"),
+                       _(it->second->name.c_str()), it->second->type.c_str()));
       }
     }
     opts.push_back (std::string(_("Cancel")));
@@ -4107,7 +4111,7 @@ void game::debug()
     veh_num -= 2;
     if(veh_num < opts.size() - 1) {
       //Didn't pick Cancel
-      std::string selected_opt = opts[veh_num];
+      std::string selected_opt = veh_strings[veh_num];
       vehicle* veh = m.add_vehicle (selected_opt, u.posx, u.posy, -90, 100, 0);
       if(veh != NULL) {
         m.board_vehicle (u.posx, u.posy, &u);
