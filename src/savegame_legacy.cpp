@@ -1102,7 +1102,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
             fin >> tmpter;
             tmpter = ter_key[tmpter];
             sm->ter[i][j] = ter_id(tmpter);
-            sm->frn[i][j] = f_null;
+            sm->set_furn(i, j, f_null);
             sm->itm[i][j].clear();
             sm->set_trap(i, j, tr_null);
             //sm->fld[i][j] = field(); //not needed now
@@ -1151,7 +1151,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
             sm->set_trap(itx, ity, trap_id(t));
            } else if (string_identifier == "f") {
             fin >> itx >> ity >> t;
-            sm->frn[itx][ity] = furn_id(furn_key[t]);
+            sm->set_furn(itx, ity, furn_id(furn_key[t]));
            } else if (string_identifier == "F") {
             fin >> itx >> ity >> t >> d >> a;
             if(!sm->fld[itx][ity].findField(field_id(t)))

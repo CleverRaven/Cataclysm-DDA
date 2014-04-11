@@ -959,7 +959,7 @@ furn_id map::furn(const int x, const int y) const
  int lx, ly;
  submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- return current_submap->frn[lx][ly];
+ return current_submap->get_furn(lx, ly);
 }
 
 
@@ -975,7 +975,7 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
  // set the dirty flags
  // TODO: consider checking if the transparency value actually changes
  set_transparency_cache_dirty();
- current_submap->frn[lx][ly] = new_furniture;
+ current_submap->set_furn(lx, ly, new_furniture);
 }
 
 void map::furn_set(const int x, const int y, const std::string new_furniture) {
@@ -1144,7 +1144,7 @@ int map::move_cost_ter_furn(const int x, const int y) const
     if ( tercost == 0 ) {
         return 0;
     }
-    const int furncost = furnlist[ current_submap->frn[lx][ly] ].movecost;
+    const int furncost = furnlist[ current_submap->get_furn(lx, ly) ].movecost;
     if ( furncost < 0 ) {
         return 0;
     }
@@ -1252,7 +1252,7 @@ bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->frn[lx][ly] ].has_flag(flag) );
+    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
 }
 
 bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
@@ -1302,7 +1302,7 @@ bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->frn[lx][ly] ].has_flag(flag) );
+    return ( terlist[ current_submap->ter[lx][ly] ].has_flag(flag) || furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag) );
 }
 
 bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int y) const
@@ -1314,7 +1314,7 @@ bool map::has_flag_ter_and_furn(const ter_bitflags flag, const int x, const int 
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    return terlist[ current_submap->ter[lx][ly] ].has_flag(flag) && furnlist[ current_submap->frn[lx][ly] ].has_flag(flag);
+    return terlist[ current_submap->ter[lx][ly] ].has_flag(flag) && furnlist[ current_submap->get_furn(lx, ly) ].has_flag(flag);
 }
 
 /////
@@ -4274,7 +4274,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
   // check plants
   for (int x = 0; x < SEEX; x++) {
     for (int y = 0; y < SEEY; y++) {
-      furn_id furn = tmpsub->frn[x][y];
+      furn_id furn = tmpsub->get_furn(x, y);
       if (furn && furnlist[furn].has_flag("PLANT")) {
         item seed = tmpsub->itm[x][y][0];
 
@@ -4286,7 +4286,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
           tmpsub->itm[x][y].resize(1);
 
           tmpsub->itm[x][y][0].bday = seed.bday;
-          tmpsub->frn[x][y] = furn;
+          tmpsub->set_furn(x, y, furn);
         }
       }
     }
