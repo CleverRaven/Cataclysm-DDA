@@ -2664,11 +2664,11 @@ void vehicle::slow_leak()
                 leak_amount = 1;
             }
             coord_translate( part.mount_dx, part.mount_dy, gx, gy );
-            if( pinfo.fuel_type == "water" ) {
-                g->m.spawn_item( global_x() + gx, global_y() + gy, fuel_type_water, 1, leak_amount );
-            } else if( pinfo.fuel_type == "gasoline" ) {
-                g->m.spawn_item( global_x() + gx, global_y() + gy, fuel_type_gasoline, 1, leak_amount );
-            }
+            // m.spawn_item() will spawn water in bottles, so instead we create
+            //   the leak manually and directly call m.add_item_or_charges().
+            item leak = item_controller->create( pinfo.fuel_type, g->turn );
+            leak.charges = leak_amount;
+            g->m.add_item_or_charges( global_x() + gx, global_y() + gy, leak );
             part.amount -= leak_amount;
         }
     }
