@@ -112,8 +112,10 @@ struct itype
                  // Used for save files; aligns to itype_id above.
     unsigned int  price; // Its value
 
-    std::string name;        // Proper name, singular form
-    std::string name_plural; // name, plural form
+    // name and name_plural are not translated automatically
+    // nname() is used for display purposes
+    std::string name;        // Proper name, singular form, in American English.
+    std::string name_plural; // name, plural form, in American English.
     std::string description; // Flavor text
 
     char sym;       // Symbol on the map
@@ -148,6 +150,9 @@ struct itype
  const item_category *category; // category pointer or NULL for automatic selection
 
  virtual std::string get_item_type_string() { return "misc"; }
+
+ // Returns the name of the item type in the correct language and with respect to its grammatical number,
+ // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
  virtual std::string nname(unsigned int quantity) { return ngettext(name.c_str(), name_plural.c_str(), quantity); }
 
  virtual bool is_food()          { return false; }
