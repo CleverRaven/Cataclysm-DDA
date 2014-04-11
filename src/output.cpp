@@ -399,9 +399,9 @@ bool query_yn(const char *mes, ...)
     bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
     std::string query;
     if (force_uc) {
-        query = string_format(_("%s (Y/<color_white>N</color> - Case Sensitive)"), text.c_str());
+        query = string_format(_("%s (Y/N - Case Sensitive)"), text.c_str());
     } else {
-        query = string_format(_("%s (y/<color_white>n</color>)"), text.c_str());
+        query = string_format(_("%s (y/n)"), text.c_str());
     }
 
     int win_width = utf8_width(query.c_str()) + 2;
