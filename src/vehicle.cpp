@@ -2651,7 +2651,7 @@ void vehicle::slow_leak()
 {
     //for each of your badly damaged tanks (lower than 50% health), leak a small amount of liquid
     for( size_t p = 0; p < fuel.size(); ++p ) {
-        vehicle_part part = parts[fuel[p]];
+        vehicle_part &part = parts[fuel[p]];
         vpart_info pinfo = part_info( fuel[p] );
         if( pinfo.fuel_type != "water" && pinfo.fuel_type != "gasoline" ) {  //handle only known liquids
             continue;
