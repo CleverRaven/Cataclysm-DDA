@@ -560,7 +560,7 @@
         "name" : "liquor store",
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
-        "color" : "magenta",
+        "color" : "i_magenta",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
