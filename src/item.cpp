@@ -9,6 +9,7 @@
 #include "item_factory.h"
 #include "options.h"
 #include "uistate.h"
+#include "helper.h" //to_string_int
 
 #include <cmath> // floor
 #include <sstream>
@@ -797,6 +798,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         it_tool* tool = dynamic_cast<it_tool*>(type);
 
         if ((tool->max_charges)!=0) {
+            std::string charges_line = _("Charges"); //;
+            dump->push_back(iteminfo("TOOL",charges_line+ ": " + helper::to_string_int(charges)));
+
             if (has_flag("DOUBLE_AMMO")) {
                 dump->push_back(iteminfo("TOOL", "", ((tool->ammo == "NULL") ?
                     ngettext("Maximum <num> charge (doubled).", "Maximum <num> charges (doubled)", tool->max_charges * 2) :
