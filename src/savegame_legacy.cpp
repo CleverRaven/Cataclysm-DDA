@@ -1104,7 +1104,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
             sm->ter[i][j] = ter_id(tmpter);
             sm->frn[i][j] = f_null;
             sm->itm[i][j].clear();
-            sm->trp[i][j] = tr_null;
+            sm->set_trap(i, j, tr_null);
             //sm->fld[i][j] = field(); //not needed now
             sm->graf[i][j] = graffiti();
            }
@@ -1148,7 +1148,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
              sm->active_item_count++;
            } else if (string_identifier == "T") {
             fin >> itx >> ity >> t;
-            sm->trp[itx][ity] = trap_id(t);
+            sm->set_trap(itx, ity, trap_id(t));
            } else if (string_identifier == "f") {
             fin >> itx >> ity >> t;
             sm->frn[itx][ity] = furn_id(furn_key[t]);

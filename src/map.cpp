@@ -3151,7 +3151,7 @@ trap_id map::tr_at(const int x, const int y) const
   return terlist[ current_submap->ter[lx][ly] ].trap;
  }
 
- return current_submap->trp[lx][ly];
+ return current_submap->get_trap(lx, ly);
 }
 
 void map::add_trap(const int x, const int y, const trap_id t)
@@ -3162,11 +3162,11 @@ void map::add_trap(const int x, const int y, const trap_id t)
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
     // If there was already a trap here, remove it.
-    if (current_submap->trp[lx][ly] != tr_null) {
+    if (current_submap->get_trap(lx, ly) != tr_null) {
         remove_trap(x, y);
     }
 
-    current_submap->trp[lx][ly] = t;
+    current_submap->set_trap(lx, ly, t);
     if (t != tr_null) {
         traplocs[t].insert(point(x, y));
     }
@@ -3233,9 +3233,9 @@ void map::remove_trap(const int x, const int y)
     int lx, ly;
     submap * const current_submap = get_submap_at(x, y, lx, ly);
 
-    trap_id t = current_submap->trp[lx][ly];
+    trap_id t = current_submap->get_trap(lx, ly);
     if (t != tr_null) {
-        current_submap->trp[lx][ly] = tr_null;
+        current_submap->set_trap(lx, ly, tr_null);
         traplocs[t].erase(point(x, y));
     }
 }
@@ -4018,9 +4018,10 @@ void map::load(const int wx, const int wy, const int wz, const bool update_vehic
 void map::forget_traps(int gridx, int gridy)
 {
     const int n = gridx + gridy * my_MAPSIZE;
+
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
-            trap_id t = grid[n]->trp[x][y];
+            trap_id t = grid[n]->get_trap(x, y);
             if (t != tr_null) {
                 const int fx = x + gridx * SEEX;
                 const int fy = y + gridy * SEEY;
@@ -4204,7 +4205,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
     bool do_funnels = ( worldz >= 0 && !g->weather_log.empty() ); // empty if just loaded a save here
     for (int x = 0; x < SEEX; x++) {
         for (int y = 0; y < SEEY; y++) {
-            const trap_id t = tmpsub->trp[x][y];
+            const trap_id t = tmpsub->get_trap(x, y);
             if (t != tr_null) {
 
                 const int fx = x + gridx * SEEX;
@@ -4404,7 +4405,7 @@ void map::clear_traps()
     for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
         for (int x = 0; x < SEEX; x++) {
             for (int y = 0; y < SEEY; y++) {
-                grid[i]->trp[x][y] = tr_null;
+                grid[i]->set_trap(x, y, tr_null);
             }
         }
     }
