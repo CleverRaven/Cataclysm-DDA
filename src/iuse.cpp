@@ -3918,6 +3918,7 @@ int iuse::siphon(player *p, item *it, bool)
         int want = 0;
         int got = 0;
         int amt = 0;
+        std::string choice = "none";
         if ( veh->fuel_left("gasoline") > 0 && veh->fuel_left("diesel") > 0 ) {
             uimenu smenu;
             smenu.text = _("Siphon what?");
@@ -3926,10 +3927,12 @@ int iuse::siphon(player *p, item *it, bool)
             smenu.addentry("Never mind");
             smenu.query();
             if ( smenu.ret == 0) {
+                choice = "gasoline";
                 want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
                 got = veh->drain("gasoline", want);
                 amt=fillv->refill("gasoline",got);
             } else if ( smenu.ret == 1) {
+                choice = "diesel";
                 want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
                 got = veh->drain("diesel", want);
                 amt=fillv->refill("diesel",got);
@@ -3937,10 +3940,12 @@ int iuse::siphon(player *p, item *it, bool)
                 return 0;
             }
         } else if ( veh->fuel_left("diesel") > 0 ) {
+            choice = "diesel";
             want = fillv->fuel_capacity("diesel")-fillv->fuel_left("diesel");
             got = veh->drain("diesel", want);
             fillv->refill("diesel",got);
         } else if ( veh->fuel_left("gasoline") > 0 ) {
+            choice = "gasoline";
             want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
             got = veh->drain("gasoline", want);
             fillv->refill("gasoline",got);
@@ -3949,7 +3954,7 @@ int iuse::siphon(player *p, item *it, bool)
             return 0;
         }
         g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-           "gasoline", veh->name.c_str(), fillv->name.c_str(),
+           choice.c_str(), veh->name.c_str(), fillv->name.c_str(),
            (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
         p->moves -= 200;
     } else {
