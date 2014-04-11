@@ -152,30 +152,23 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         wprintz(window, color, "%d", g->u.volume_carried() );
         wprintz(window, c_ltgray, "/%d ", g->u.volume_capacity() - 2 );
     } else {
-        int hrightcol =
-            rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
-        if (g->u.convert_weight(squares[pane.area].weight) > 9.9 ) {
-            hrightcol--;
-            if (g->u.convert_weight(squares[pane.area].weight) > 99.9 ) { // not uncommon
-                hrightcol--;
-                if (g->u.convert_weight(squares[pane.area].weight) > 999.9 ) {
-                    hrightcol--;
-                    if (g->u.convert_weight(squares[pane.area].weight) >
-                        9999.9 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
-                        hrightcol--;
-                    }
-                }
+        std::string head;
+        if (isall) {
+            head = string_format("%3.1f %3d",
+                    g->u.convert_weight(squares[pane.area].weight),
+                    squares[pane.area].volume);
+        } else {
+            int maxvolume;
+            if (squares[pane.area].veh != NULL && squares[pane.area].vstor >= 0) {
+                maxvolume = squares[pane.area].veh->max_volume(squares[pane.area].vstor);
+            } else {
+                maxvolume = g->m.max_volume(squares[pane.area].x, squares[pane.area].y);
             }
+            head = string_format("%3.1f %3d/%3d",
+                    g->u.convert_weight(squares[pane.area].weight),
+                    squares[pane.area].volume, maxvolume);
         }
-        if ( squares[pane.area].volume > 999 ) { // pile 'o dead bears
-            hrightcol--;
-            if ( squares[pane.area].volume > 9999 ) { // theoretical limit; 1024*9
-                hrightcol--;
-            }
-        }
-
-        mvwprintz( window, 4, hrightcol, norm, "%3.1f %3d", g->u.convert_weight(squares[pane.area].weight),
-                   squares[pane.area].volume);
+        mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str());
     }
 
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
@@ -716,6 +709,7 @@ void advanced_inventory::redraw_pane( int i )
                ( max > 99 ? 3 : max > 9 ? 2 : 1 );
     mvwprintw(panes[i].window, 0 , (w_width / 2) - fmtw, "< %d/%d >", panes[i].size, max );
     const char *fprefix = _("[F]ilter");
+    const char *fsuffix = _("[R]eset");
     if ( ! filter_edit ) {
         if ( !panes[i].filter.empty() ) {
             mvwprintw(panes[i].window, getmaxy(panes[i].window) - 1, 2, "< %s: %s >", fprefix,
@@ -730,6 +724,7 @@ void advanced_inventory::redraw_pane( int i )
     if ( ! filter_edit && !panes[i].filter.empty() ) {
         mvwprintz(panes[i].window, getmaxy(panes[i].window) - 1, 6 + strlen(fprefix), c_white, "%s",
                   panes[i].filter.c_str() );
+        mvwprintz(panes[i].window, getmaxy(panes[i].window) -1, getmaxx(panes[i].window) - strlen(fsuffix) - 2, c_white, "%s", fsuffix);
     }
 
 }
@@ -1278,6 +1273,11 @@ void advanced_inventory::display(player *pp)
                     continue;
                 }
             }
+            if (!squares[destarea].canputitems) {
+                popup(_("You can't put items there"));
+                redraw = true;
+                continue;
+            }
             // from inventory
             if(panes[src].area == isinventory) {
                 int max = (squares[destarea].max_size - squares[destarea].size);
@@ -1585,6 +1585,11 @@ void advanced_inventory::display(player *pp)
                 }
             } while(key != '\n' && key != KEY_ESCAPE);
             filter_edit = false;
+            redraw = true;
+        } else if('r' == c) {
+            panes[src].filter = "";
+            recalc_pane(src);
+            redraw_pane(src);
             redraw = true;
         } else if('p' == c) {
             if(panes[src].size == 0) {

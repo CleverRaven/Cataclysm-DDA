@@ -198,6 +198,8 @@ public:
     t_notes_vector find_notes(int z, const std::string& pattern) const {
         return get_notes(z, &pattern); // filter with pattern
     }
+    // hordes
+    std::vector<mongroup*> monsters_at(int x, int y, int z);
 
     // overmap terrain to overmap
     static point omt_to_om_copy(int x, int y);

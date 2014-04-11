@@ -370,17 +370,11 @@ void game::wishmonster(int x, int y)
 class wish_item_callback: public uimenu_callback
 {
     public:
-        int lastlen;
         bool incontainer;
         std::string msg;
-        item tmp;
-        wish_item_callback() : msg("") {
-            lastlen = 0;
-            incontainer = false;
+        wish_item_callback() : incontainer(false), msg("") {
         }
-        virtual bool key(int key, int entnum, uimenu *menu) {
-            (void)entnum; // unused
-            (void)menu;   // unused
+        virtual bool key(int key, int /*entnum*/, uimenu* /*menu*/) {
             if ( key == 'f' ) {
                 incontainer = !incontainer;
                 return true;
@@ -391,54 +385,27 @@ class wish_item_callback: public uimenu_callback
         virtual void select(int entnum, uimenu *menu) {
             const int starty = 3;
             const int startx = menu->w_width - menu->pad_right;
+            const std::string padding(menu->pad_right, ' ');
+            for(int y = 2; y < menu->w_height - 1; y++) {
+                mvwprintw(menu->window, y, startx - 1, "%s", padding.c_str());
+            }
             itype *ity = item_controller->find_template(standard_itype_ids[entnum]);
 
-            std::string padding = std::string(menu->pad_right - 1, ' ');
-
-            for(int i = 0; i < lastlen + starty + 1; i++ ) {
-                mvwprintw(menu->window, 1 + i, startx, "%s", padding.c_str() );
+            if ( ity == NULL ) {
+                return;
             }
+            item tmp(ity, g->turn);
+            const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
+                                       ( incontainer ? _(" (contained)") : "" ));
+            mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
+                      header.c_str());
 
-            if ( ity != NULL ) {
-                tmp.make(item_controller->find_template(standard_itype_ids[entnum]));
-                tmp.bday = g->turn;
-                if (tmp.is_tool()) {
-                    tmp.charges = dynamic_cast<it_tool *>(tmp.type)->max_charges;
-                } else if (tmp.is_ammo()) {
-                    tmp.charges = 100;
-                } else if (tmp.is_gun()) {
-                    tmp.charges = 0;
-                } else if (tmp.is_gunmod() && (tmp.has_flag("MODE_AUX") ||
-                                               tmp.typeId() == "spare_mag")) {
-                    tmp.charges = 0;
-                } else {
-                    tmp.charges = -1;
-                }
-                if( tmp.is_stationary() ) {
-                    tmp.note = SNIPPET.assign( (dynamic_cast<it_stationary *>(tmp.type))->category );
-                }
+            fold_and_print(menu->window, starty, startx, menu->pad_right - 1, c_white, tmp.info(true));
 
-                std::vector<std::string> desc = foldstring(tmp.info(true), menu->pad_right - 1);
-                int dsize = desc.size();
-                if ( dsize > menu->w_height - 5 ) {
-                    dsize = menu->w_height - 5;
-                }
-                lastlen = dsize;
-                std::string header = string_format("#%d: %s%s", entnum,
-                                                   standard_itype_ids[entnum].c_str(),
-                                                   ( incontainer ? _(" (contained)") : "" ));
+            mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
+            msg.erase();
 
-                mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2,
-                          c_cyan, _("%s"), header.c_str());
-
-                for( size_t i = 0; i < desc.size(); ++i ) {
-                    mvwprintw(menu->window, starty + i, startx, "%s", desc[i].c_str() );
-                }
-
-                mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
-                msg = padding;
-                mvwprintw(menu->window, menu->w_height - 2, startx, _("[/] find, [f] container, [q]uit"));
-            }
+            mvwprintw(menu->window, menu->w_height - 2, startx, _("[/] find, [f] container, [q]uit"));
         }
 };
 
@@ -468,19 +435,21 @@ void game::wishitem( player *p, int x, int y)
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            amount = helper::to_int(
-                         string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),
-                                            item_controller->find_template(standard_itype_ids[wmenu.ret])->name.c_str()));
             item granted = item_controller->create(standard_itype_ids[wmenu.ret], turn);
-            int incontainer = dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer;
+            if (p != NULL) {
+                amount = helper::to_int(
+                         string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),
+                                            granted.tname()));
+            }
+            if (dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer) {
+                granted = granted.in_its_container(&itypes);
+            }
             if ( p != NULL ) {
-                dynamic_cast<wish_item_callback *>(wmenu.callback)->tmp.invlet = nextinv;
                 for (int i = 0; i < amount; i++) {
-                    p->i_add(!incontainer ? granted : granted.in_its_container(&itypes));
+                    p->i_add(granted);
                 }
-                advance_nextinv();
             } else if ( x >= 0 && y >= 0 ) {
-                m.add_item_or_charges(x, y, !incontainer ? granted : granted.in_its_container(&itypes));
+                m.add_item_or_charges(x, y, granted);
                 wmenu.keypress = 'q';
             }
             dynamic_cast<wish_item_callback *>(wmenu.callback)->msg =

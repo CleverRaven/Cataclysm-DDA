@@ -1173,8 +1173,11 @@ void mattack::vortex(monster *z)
       if ((g->u.has_trait("LEG_TENT_BRACE")) && (!(g->u.wearing_something_on(bp_feet))) ) {
           g->add_msg(_("You secure yourself using your tentacles!"));
       }
-    if (!((g->u.uncanny_dodge()) || ( (g->u.has_trait("LEG_TENT_BRACE")) &&
-    (!(g->u.wearing_something_on(bp_feet))) ) )) {
+      if (g->u.is_throw_immune()) {
+          g->add_msg(_("You deftly maintain your footing!"));
+      }
+    if (!((g->u.uncanny_dodge()) && ( (g->u.has_trait("LEG_TENT_BRACE")) &&
+    (!(g->u.wearing_something_on(bp_feet))) ) && (!(g->u.is_throw_immune())) )) {
      std::vector<point> traj = continue_line(from_monster, rng(2, 3));
      g->add_msg(_("You're thrown by winds!"));
      bool hit_wall = false;
@@ -1351,13 +1354,10 @@ void mattack::smg(monster *z)
         target = tmp.auto_find_hostile_target(18, boo_hoo, fire_t);
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
-                if(boo_hoo > 1) {
-                    g->add_msg(_("Pointed in your direction, the %s emits %d annoyed sounding beeps."),
-                               z->name().c_str(), boo_hoo);
-                } else {
-                    g->add_msg(_("Pointed in your direction, the %s emits an IFF warning beep."),
-                               z->name().c_str());
-                }
+                g->add_msg(ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
+                                    "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                    boo_hoo),
+                           z->name().c_str(), boo_hoo);
             }
             return;
         }
@@ -1425,13 +1425,10 @@ void mattack::laser(monster *z)
         z->sp_timeout = z->type->sp_freq; // Reset timer
         if (target == NULL) {// Couldn't find any targets!
             if(boo_hoo > 0 && g->u_see(z->posx(), z->posy()) ) { // because that stupid oaf was in the way!
-                if(boo_hoo > 1) {
-                    g->add_msg(_("Pointed in your direction, the %s emits %d annoyed sounding beeps."),
-                               z->name().c_str(), boo_hoo);
-                } else {
-                    g->add_msg(_("Pointed in your direction, the %s emits an IFF warning beep."),
-                               z->name().c_str());
-                }
+                g->add_msg(ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
+                                    "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                    boo_hoo),
+                           z->name().c_str(), boo_hoo);
             }
             return;
         }
@@ -1735,7 +1732,7 @@ void mattack::flesh_golem(monster *z)
     g->add_msg(_("Your %s is battered for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
     if ((one_in(6)) && ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
-    (g->u.wearing_something_on(bp_feet))) ) {
+    (g->u.wearing_something_on(bp_feet))) && (!(g->u.is_throw_immune())) ) {
         g->u.add_effect("downed", 30);
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
@@ -1862,8 +1859,9 @@ void mattack::bio_op_takedown(monster *z)
     int dam = rng(3, 9), side = random_side(hit);
     g->add_msg(_("The zombie kicks your %s for %d damage..."), body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
-    if ( (!(g->u.has_trait("LEG_TENT_BRACE"))) ||
-    (g->u.wearing_something_on(bp_feet)) ) {
+    // At this point, Judo or Tentacle Bracing can make this much less painful
+    if ( (!(g->u.is_throw_immune())) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) ||
+    (g->u.wearing_something_on(bp_feet))) ) {
         if (one_in(4)) {
             hit = bp_head;
             dam = rng(9, 21); // 50% damage buff for the headshot.
@@ -1878,8 +1876,32 @@ void mattack::bio_op_takedown(monster *z)
         }
         g->u.add_effect("downed", 3);
     }
+    // "Wimpy" Judo is about to pay off... :D
+    if (g->u.is_throw_immune()){
+    // DX + Unarmed 
+        if ( ((g->u.dex_cur + g->u.skillLevel("unarmed")) > (z->type->melee_skill + rng(0, 3))) ) {
+            g->add_msg(_("but you grab its arm and flip it to the ground!"));
+            if ( (!(one_in(4))) && (!g->u.has_active_bionic("bio_faraday") &&
+              !g->u.worn_with_flag("ELECTRIC_IMMUNE") && !g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) ) {
+                g->add_msg(_("The flip does shock you..."));
+                damage_instance shock;
+                // Discount for quick flip
+                shock.add_damage(DT_ELECTRIC, rng(1,3));
+                g->u.deal_damage(z, bp_arms, side, shock);
+            }
+            z->add_effect("downed", 2);
+            // Here, have a crit!
+            dam = (g->u.roll_bash_damage(true));
+            z->hp -= dam;
+            z->hp -= 3; // Bonus for the takedown.
+        }
+        else {
+            // Still avoids the major hit!
+            g->add_msg(_("but you deftly spin out of its grasp!"));
+        }
+    }
     else {
-        // Saved by the tentacle-bracing! :D
+        // Saved by the tentacle-bracing! :)
         hit = bp_torso;
             dam = rng(3, 9);
             g->add_msg(_("and slams you for %d damage!"), dam);

@@ -97,6 +97,15 @@ std::string ammo_name(ammotype t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 itype_id default_ammo(ammotype guntype);
 
+struct explosion_data {
+    // Those 4 values are forwarded to game::explosion.
+    int power;
+    int shrapnel;
+    bool fire;
+    bool blast;
+    explosion_data() : power(-1), fire(false), blast(true) { }
+};
+
 struct itype
 {
     itype_id id; // ID # that matches its place in master itype list
@@ -120,6 +129,9 @@ struct itype
     bigness_property_aspect bigness_aspect;
     std::map<std::string, int> qualities; //Tool quality indicators
 
+    // Explosion that happens when the item is set on fire
+    explosion_data explosion_on_fire_data;
+    bool explode_in_fire() const { return explosion_on_fire_data.power >= 0; }
 
  mtype*   corpse;
 

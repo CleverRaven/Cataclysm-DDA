@@ -190,6 +190,8 @@ struct ter_t {
 
  map_bash_info bash;
  map_deconstruct_info deconstruct;
+ // Maximal volume of items that can be stored in/on this furniture
+ int max_volume;
 
  bool has_flag(const std::string & flag) const {
      return flags.count(flag) != 0;
@@ -236,6 +238,8 @@ struct furn_t {
  iexamine_function examine;
  std::string open;
  std::string close;
+ // Maximal volume of items that can be stored in/on this furniture
+ int max_volume;
 
  map_bash_info bash;
  map_deconstruct_info deconstruct;

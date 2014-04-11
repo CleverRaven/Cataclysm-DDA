@@ -14,7 +14,7 @@ struct itype;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
-const std::string rad_threshold_colors[] = { "green", "blue", "yellow", "orange", "red", "black"};
+const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"), _("orange"), _("red"), _("black")};
 
 struct light_emission {
   unsigned short luminance;
@@ -149,8 +149,11 @@ public:
  bool craft_has_charges();
  long num_charges();
  bool rotten();
+ void calc_rot();
  int brewing_time();
  bool ready_to_revive(); // used for corpses
+ void detonate(point p) const;
+ bool can_revive();      // test if item is a corpse and can be revived
 // light emission, determined by type->light_emission (LIGHT_???) tag (circular),
 // overridden by light.* struct (shaped)
  bool getlight(float & luminance, int & width, int & direction, bool calculate_dimming = true) const;
@@ -183,6 +186,7 @@ public:
  bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
+ bool is_corpse() const;
  bool is_ammo_container() const;
  bool is_drink() const;
  bool is_weap() const;

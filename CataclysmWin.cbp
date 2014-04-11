@@ -189,6 +189,7 @@
 		<Unit filename="src/animation_curses.cpp" />
 		<Unit filename="src/animation_tiles.cpp" />
 		<Unit filename="src/armor_layers.cpp" />
+		<Unit filename="src/armor_layers.h" />
 		<Unit filename="src/artifact.cpp" />
 		<Unit filename="src/artifact.h" />
 		<Unit filename="src/auto_pickup.cpp" />
@@ -283,6 +284,8 @@
 		<Unit filename="src/itypedef.cpp" />
 		<Unit filename="src/iuse.cpp" />
 		<Unit filename="src/iuse.h" />
+		<Unit filename="src/iuse_actor.cpp" />
+		<Unit filename="src/iuse_actor.h" />
 		<Unit filename="src/iuse_software.cpp" />
 		<Unit filename="src/iuse_software.h" />
 		<Unit filename="src/iuse_software_kitten.cpp" />

@@ -332,7 +332,7 @@ void trapfuncm::snare_light(monster *z, int x, int y)
    if(z->hurt(10)){
     g->kill_mon(g->mon_at(x, y));
    } else {
-    z->add_effect("beartrap", -1);
+    z->add_effect("beartrap", 1, 1, true);
    }
    break;
   case MS_SMALL:
@@ -393,7 +393,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->kill_mon(g->mon_at(x, y));
    } else {
     z->moves = 0;
-    z->add_effect("beartrap", -1);
+    z->add_effect("beartrap", 1, 1, true);
    }
    break;
   case MS_SMALL:
@@ -404,7 +404,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
     g->kill_mon(g->mon_at(x, y));
    } else {
     z->moves = 0;
-    z->add_effect("beartrap", -1);
+    z->add_effect("beartrap", 1, 1, true);
    }
    break;
   case MS_MEDIUM:

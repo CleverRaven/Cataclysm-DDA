@@ -1679,12 +1679,28 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             const int omx = cursx + i -(om_map_width / 2);
             const int omy = cursy + j -(om_map_height / 2);
             const bool see = overmap_buffer.seen(omx, omy, z);
+            bool los = false;
             if (see) {
                 // Only load terrain if we can actually see it
                 cur_ter = overmap_buffer.ter(omx, omy, z);
+
+                // Check if location is within player line-of-sight
+                if (g->u.overmap_los(omx, omy)) {
+                    los = true;
+                }
             }
             //Check if there is an npc.
             const bool npc_here = overmap_buffer.has_npc(omx, omy, z);
+            // Check for hordes within player line-of-sight
+            bool horde_here = false;
+            if (los) {
+                std::vector<mongroup*> hordes = overmap_buffer.monsters_at(omx, omy, z);
+                for (int ih = 0; ih < hordes.size(); ih++) {
+                    if (hordes[ih]->horde) {
+                        horde_here = true;
+                    }
+                }
+            }
             // and a vehicle
             const bool veh_here = overmap_buffer.has_vehicle(omx, omy, z);
             if (blink && omx == orig.x && omy == orig.y && z == orig.z) {
@@ -1776,6 +1792,10 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                 // Display NPCs only when player can see the location
                 ter_color = c_pink;
                 ter_sym = '@';
+            } else if (blink && horde_here) {
+                // Display Hordes only when within player line-of-sight
+                ter_color = c_green;
+                ter_sym = 'Z';
             } else if (blink && veh_here) {
                 // Display Vehicles only when player can see the location
                 ter_color = c_cyan;

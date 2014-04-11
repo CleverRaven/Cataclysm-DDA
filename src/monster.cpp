@@ -888,7 +888,7 @@ int monster::deal_melee_attack(Creature *source, int hitroll)
     mdefense mdf;
     if(!is_hallucination() && source != NULL)
         {
-        (mdf.*type->sp_defense)(this);
+        (mdf.*type->sp_defense)(this, NULL);
         }
     return Creature::deal_melee_attack(source, hitroll);
 }
@@ -911,7 +911,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     mdefense mdf;
      if(!is_hallucination() && source != NULL)
         {
-        (mdf.*type->sp_defense)(this);
+        (mdf.*type->sp_defense)(this, &proj);
         }
     return Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
 }

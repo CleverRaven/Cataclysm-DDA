@@ -416,6 +416,9 @@
     <ClInclude Include="..\src\ammo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\armor_layers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\artifact.h">
       <Filter>Header Files</Filter>
     </ClInclude>

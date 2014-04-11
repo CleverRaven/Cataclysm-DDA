@@ -237,6 +237,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "hand_rims",
+        "name" : "hand rims",
+        "description" : "Hand rims for use on a wheelchair.",
+        "weight" : 816,
+        "to_hit" : -1,
+        "color" : "light_gray",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "volume" : 2,
+        "bashing" : 10,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 9000
+    },
+    {
+        "type":"GENERIC",
         "id" : "small_storage_battery",
         "name" : "small storage battery",
         "description" : "A small storage battery. Useful for crafting.",

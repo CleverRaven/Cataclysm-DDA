@@ -451,6 +451,7 @@
 "move_cost_mod": 2,       //Movement cost modifier (-10 = impassable, 0 = no change)
 "required_str": 18,       //Strength required to move past the terrain easily
 "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],    //Furniture flags
+"crafting_pseudo_item": "anvil", // id of an item (tool) that will be available for crafting when this furniture is range
 "examine_action": "toilet" //(OPTIONAL) Function called when examined, see iexamine.cpp.
                            //If omitted, defaults to iexamine::none.
 ```

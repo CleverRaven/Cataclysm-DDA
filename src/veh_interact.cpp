@@ -461,7 +461,10 @@ void veh_interact::do_install(task_reason reason)
         bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
         bool eng = sel_vpart_info->has_flag("ENGINE");
         bool install_pedals = sel_vpart_info->has_flag("PEDALS");
+        bool install_hand_rims = sel_vpart_info->has_flag("HAND_RIMS");
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
+        bool has_muscle_engine = veh->has_pedals || veh->has_hand_rims;
+        bool install_muscle_engine = install_pedals || install_hand_rims;
         std::string engine_string = "";
         if (engines && eng) { // already has engine
             engine_string = string_format(
@@ -485,7 +488,7 @@ void veh_interact::do_install(task_reason reason)
         int dx, dy;
         get_direction (dx, dy, ch);
         if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
-             !(veh->has_pedals && eng) && !(veh->has_pedals && install_pedals)) {
+             !(has_muscle_engine && eng) && !(has_muscle_engine && install_muscle_engine)) {
             sel_cmd = 'i';
             return;
         } else {
@@ -1667,7 +1670,7 @@ void complete_vehicle ()
             fmenu.query();
             if ( fmenu.ret == 0 ) {
                 if ( foundv.size() > 1 ) {
-                    if(g->choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
+                    if(choose_adjacent(_("Fill which vehicle?"), posx, posy)) {
                         fillv = g->m.veh_at(posx, posy);
                     } else {
                         break;
@@ -1684,8 +1687,10 @@ void complete_vehicle ()
             int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
             int got = veh->drain("gasoline", want);
             fillv->refill("gasoline", got);
-            g->add_msg(_("Siphoned %d units of %s from the %s into the %s%s"), got,
-               "gasoline", veh->name.c_str(), fillv->name.c_str(),
+            g->add_msg(ngettext("Siphoned %d unit of %s from the %s into the %s%s",
+                                "Siphoned %d units of %s from the %s into the %s%s",
+                                got),
+               got, "gasoline", veh->name.c_str(), fillv->name.c_str(),
                (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
             g->u.moves -= 200;
         } else {

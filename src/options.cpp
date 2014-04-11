@@ -850,7 +850,9 @@ void show_options(bool ingame)
             new_window_width = projected_window_width(new_terminal_x);
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
-                           "%s #%s -- The window will be %d pixels wide with the selected value.",
+                           ngettext("%s #%s -- The window will be %d pixel wide with the selected value.",
+                                    "%s #%s -- The window will be %d pixels wide with the selected value.",
+                                    new_window_width),
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
                            new_window_width);
@@ -862,7 +864,9 @@ void show_options(bool ingame)
             new_window_height = projected_window_height(new_terminal_y);
 
             fold_and_print(w_options_tooltip, 0, 0, 78, c_white,
-                           "%s #%s -- The window will be %d pixels tall with the selected value.",
+                           ngettext("%s #%s -- The window will be %d pixel tall with the selected value.",
+                                    "%s #%s -- The window will be %d pixels tall with the selected value.",
+                                    new_window_height),
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
                            new_window_height);

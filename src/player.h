@@ -156,6 +156,8 @@ public:
  int calc_focus_equilibrium();
  /** Maintains body temperature */
  void update_bodytemp();
+ /** Define color for displaying the body temperature */
+ nc_color bodytemp_color(int bp);
  /** Returns the player's modified base movement cost */
  int  run_cost(int base_cost, bool diag = false);
  /** Returns the player's speed for swimming across water tiles */
@@ -260,6 +262,8 @@ public:
  void recalc_sight_limits();
  /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
  int  unimpaired_range();
+ /** Returns true if overmap tile is within player line-of-sight */
+ bool overmap_los(int x, int y);
  /** Returns the distance the player can see on the overmap */
  int  overmap_sight_range(int light_level);
  /** Returns the distance the player can see through walls */

@@ -250,7 +250,7 @@ std::string print_missing_objs(const std::vector< std::vector <component> > &obj
                 buffer << string_format(_("%d x %s"), abs(comp.count), itt->name.c_str());
             } else if (comp.count > 0) {
                 //~ <tool-name> (<numer-of-charges> charges)
-                buffer << string_format(_("%s (%d charges)"), itt->name.c_str(), comp.count);
+                buffer << string_format(ngettext("%s (%d charge)", "%s (%d charges)", comp.count), itt->name.c_str(), comp.count);
             } else {
                 buffer << itt->name;
             }
@@ -266,7 +266,9 @@ std::string print_missing_objs(const std::vector< quality_requirement > &objs) {
         if (i > 0) {
             buffer << _("\nand ");
         }
-        buffer << string_format(_("%d tools with %s of %d or more"),
+        buffer << string_format(ngettext("%d tool with %s of %d or more.",
+                                         "%d tools with %s of %d or more.",
+                                         req.count),
                 req.count, qualities[req.id].name.c_str(), req.level);
     }
     return buffer.str();
@@ -814,10 +816,10 @@ recipe *game::select_crafting_recipe()
                               (int)u.skillLevel(current[line]->skill_used));
                 }
                 if (current[line]->time >= 1000) {
-                    mvwprintz(w_data, ypos++, 30, col, _("Time to complete: %d minutes"),
+                    mvwprintz(w_data, ypos++, 30, col, ngettext("Time to complete: %d minute","Time to complete: %d minutes",int(current[line]->time / 1000)),
                               int(current[line]->time / 1000));
                 } else {
-                    mvwprintz(w_data, ypos++, 30, col, _("Time to complete: %d turns"),
+                    mvwprintz(w_data, ypos++, 30, col, ngettext("Time to complete: %d turn","Time to complete: %d turns",int(current[line]->time / 100)),
                               int(current[line]->time / 100));
                 }
             }
@@ -838,7 +840,9 @@ recipe *game::select_crafting_recipe()
                         }
 
                         std::stringstream qualinfo;
-                        qualinfo << string_format(_("Requires %d tools with %s quality of %d or more."),
+                        qualinfo << string_format(ngettext("Requires %d tool with %s quality of %d or more.",
+                                                           "Requires %d tools with %s quality of %d or more.",
+                                                           iter->count),
                                                   iter->count, qualities[iter->id].name.c_str(),
                                                   iter->level);
                         ypos += fold_and_print(w_data, ypos, xpos, FULL_SCREEN_WIDTH - xpos - 1,
@@ -870,7 +874,7 @@ recipe *game::select_crafting_recipe()
                             toolinfo << item_controller->find_template(type)->name << " ";
 
                             if (charges > 0) {
-                                toolinfo << string_format(_("(%d charges) "), charges);
+                                toolinfo << string_format(ngettext("(%d charge) ","(%d charges) ",charges), charges);
                             }
                             std::string toolname = toolinfo.str();
                             if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH) {
@@ -1462,7 +1466,7 @@ void game::complete_craft()
 
     // Set up the new item, and assign an inventory letter if available
     item newit = making->create_result();
-    if (!newit.count_by_charges()) {
+    if (!newit.count_by_charges() && making->reversible) {
         // Setting this for items counted by charges gives only problems:
         // those items are automatically merged everywhere (map/vehicle/inventory),
         // which would either loose this information or merge it somehow.
@@ -1753,7 +1757,10 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
         const item tmp = cur_recipe->create_result();
         if (dis_item->charges < tmp.charges) {
             if (print_msg) {
-                popup(_("You need at least %d charges of the that item to disassemble it."), tmp.charges);
+                popup(ngettext("You need at least %d charge of that item to disassemble it.",
+                               "You need at least %d charges of that item to disassemble it.",
+                               tmp.charges),
+                      tmp.charges);
             }
             return false;
         }
@@ -1798,7 +1805,9 @@ bool game::can_disassemble(item *dis_item, recipe *cur_recipe, inventory &crafti
                         add_msg(_("You need a %s to disassemble this."),
                                 item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
                     } else {
-                        add_msg(_("You need a %s with %d charges to disassemble this."),
+                        add_msg(ngettext("You need a %s with %d charge to disassemble this.",
+                                         "You need a %s with %d charges to disassemble this.",
+                                         req),
                                 item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
                     }
                 }

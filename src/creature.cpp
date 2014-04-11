@@ -493,7 +493,7 @@ bool is_expired_effect(effect &e)   // utility function for process_effects
     }
 }
 
-void Creature::add_effect(efftype_id eff_id, int dur)
+void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool permanent)
 {
     // check if we already have it
     std::vector<effect>::iterator first_eff =
@@ -502,12 +502,19 @@ void Creature::add_effect(efftype_id eff_id, int dur)
     if (first_eff != effects.end()) {
         // if we do, mod the duration
         first_eff->mod_duration(dur);
+        // Adding a permanent effect makes it permanent
+        if (first_eff->is_permanent()) {
+            first_eff->pause_effect();
+        }
+        if (first_eff->get_intensity() + intensity <= first_eff->get_max_intensity()) {
+            first_eff->mod_intensity(intensity);
+        }
     } else {
         // if we don't already have it then add a new one
         if (effect_types.find(eff_id) == effect_types.end()) {
             return;
         }
-        effect new_eff(&effect_types[eff_id], dur);
+        effect new_eff(&effect_types[eff_id], dur, intensity, permanent);
         effects.push_back(new_eff);
         if (is_player()) { // only print the message if we didn't already have it
             g->add_msg_string(effect_types[eff_id].get_apply_message());
@@ -518,10 +525,11 @@ void Creature::add_effect(efftype_id eff_id, int dur)
         }
     }
 }
-bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int, int dur)
+bool Creature::add_env_effect(efftype_id eff_id, body_part vector, int strength, int dur,
+                                int intensity, bool permanent)
 {
-    if (dice(1, 3) > dice(get_env_resist(vector), 3)) {
-        add_effect(eff_id, dur);
+    if (dice(strength, 3) > dice(get_env_resist(vector), 3)) {
+        add_effect(eff_id, dur, intensity, permanent);
         return true;
     } else {
         return false;
@@ -547,7 +555,7 @@ void Creature::process_effects()
 {
     for (std::vector<effect>::iterator it = effects.begin();
          it != effects.end(); ++it) {
-        if (it->get_duration() > 0) {
+        if (!it->is_permanent() && it->get_duration() > 0) {
             it->mod_duration(-1);
             if (g->debugmon) {
                 debugmsg("Duration %d", it->get_duration());
