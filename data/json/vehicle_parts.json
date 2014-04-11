@@ -2155,7 +2155,7 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "diesel_engine_straight_6",
+        "id" : "diesel_engine_i6",
         "name" : "straight-6 diesel engine",
         "symbol" : "*",
         "color" : "light_gray",
@@ -2165,7 +2165,7 @@
         "durability" : 400,
         "epower" : -300,
         "fuel_type" : "diesel",
-        "item" : "straight_6_diesel",
+        "item" : "i6_diesel",
         "difficulty" : 5,
         "location" : "engine_block",
         "flags" : ["ENGINE", "VARIABLE_SIZE"],

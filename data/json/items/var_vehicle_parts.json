@@ -286,7 +286,7 @@
     },
     {
         "type":"VAR_VEH_PART",
-        "id": "straigt_6_diesel",
+        "id": "i6_diesel",
         "symbol": ":",
         "color": "light_cyan",
         "name": "straight-6 diesel engine",
