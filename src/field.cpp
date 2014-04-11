@@ -92,26 +92,26 @@ void game::init_fields()
         },
 
         {
-            {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '~', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  150,
+            {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '~', 0,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  350,
             {0,0,0}
         },
 
         {
-            {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '~', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  125,
+            {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '~', 0,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  325,
             {0,0,0}
         },
 
         {
-            {_("swirl of crack smoke"), _("crack smoke"), _("thick crack smoke")}, '~', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  25,
+            {_("swirl of crack smoke"), _("crack smoke"), _("thick crack smoke")}, '~', 0,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  225,
             {0,0,0}
         },
 
         {
-            {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '~', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  75,
+            {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '~', 0,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  275,
             {0,0,0}
         },
 
@@ -777,17 +777,17 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                         break;
 
                     case fd_cigsmoke:
-                        spread_gas( this, cur, x, y, curtype, 150, 25 );
+                        spread_gas( this, cur, x, y, curtype, 250, 65 );
                         break;
 
                     case fd_weedsmoke: {
-                        spread_gas( this, cur, x, y, curtype, 100, 20 );
+                        spread_gas( this, cur, x, y, curtype, 200, 60 );
 
                         int npcdex = g->npc_at(x, y);
                         if (npcdex != -1 && one_in(20)) {
                             npc *p = g->active_npc[npcdex];
                             if(p->is_friend()) {
-                                p->say(one_in(10) ? _("Whew... smells like a skunk!") : _("Man, that smells like some good shit!"));
+                                p->say(one_in(10) ? _("Whew... smells like skunk!") : _("Man, that smells like some good shit!"));
                             }
                         }
 
@@ -795,7 +795,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                         break;
 
                     case fd_methsmoke: {
-                        spread_gas( this, cur, x, y, curtype, 75, 30 );
+                        spread_gas( this, cur, x, y, curtype, 175, 70 );
 
                         int npcdex = g->npc_at(x, y);
                         if (npcdex != -1 && one_in(20)) {
@@ -808,7 +808,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                         break;
 
                     case fd_cracksmoke: {
-                        spread_gas( this, cur, x, y, curtype, 75, 30 );
+                        spread_gas( this, cur, x, y, curtype, 175, 80 );
 
                         int npcdex = g->npc_at(x, y);
                         if (npcdex != -1 && one_in(20)) {

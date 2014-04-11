@@ -2824,8 +2824,8 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
             it->item_counter--;
             // release some smoke every five ticks
             if(it->item_counter % 5 == 0) {
-              int mapx = (nonant % my_MAPSIZE) * SEEX + i;
-              int mapy = (nonant / my_MAPSIZE) * SEEY + j;
+              int mapx = gridx * SEEX + i;
+              int mapy = gridy * SEEY + j;
               if(it->has_flag("TOBACCO")) {
                 add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_cigsmoke, 1);
               } else { // weed
@@ -4619,13 +4619,15 @@ void map::build_transparency_cache()
      if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
       // Fields are either transparent or not, however we want some to be translucent
       switch(cur->getFieldType()) {
-      case fd_smoke:
-      case fd_toxic_gas:
-      case fd_tear_gas:
       case fd_cigsmoke:
       case fd_weedsmoke:
       case fd_cracksmoke:
       case fd_methsmoke:
+          transparency_cache[x][y] *= 0.7;
+          break;
+      case fd_smoke:
+      case fd_toxic_gas:
+      case fd_tear_gas:
        if(cur->getFieldDensity() == 3)
         transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
        if(cur->getFieldDensity() == 2)

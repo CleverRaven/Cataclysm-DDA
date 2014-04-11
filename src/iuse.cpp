@@ -1097,7 +1097,7 @@ int iuse::weed(player *p, item *it, bool b) {
     for(int i = 0; i < 3; i++) {
         g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_weedsmoke, 2);
     }
-    if(one_in(3)) {
+    if(one_in(5)) {
         weed_msg(p);
     }
     return it->type->charges_to_use();
