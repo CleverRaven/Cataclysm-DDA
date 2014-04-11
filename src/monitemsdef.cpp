@@ -29,12 +29,8 @@ void game::load_monitem(JsonObject &jo) {
     }
 
     for( size_t i = 0; i < tmp_keys.size(); ++i ) {
-        std::map<std::string, std::vector <items_location_and_chance> >::iterator it = monitems.find( tmp_keys[i] );
-        if ( it == monitems.end() ) {
-            monitems[ tmp_keys[i] ] = tmp_items;
-        } else {
-            it->second.insert( it->second.end(), tmp_items.begin(), tmp_items.end() );
-        }
+        std::vector <items_location_and_chance> &itvec = monitems[tmp_keys[i]];
+        itvec.insert( itvec.end(), tmp_items.begin(), tmp_items.end() );
     }
 }
 

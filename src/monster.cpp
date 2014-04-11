@@ -1131,6 +1131,14 @@ void monster::drop_items_on_death()
     if(is_hallucination()) {
         return;
     }
+    const std::string drop_group = type->id + "_death_drops";
+    if (item_controller->has_group(drop_group)) {
+        Item_list items = item_controller->create_from_group(drop_group, g->turn);
+        for (Item_list::const_iterator a = items.begin(); a != items.end(); ++a) {
+            g->m.add_item_or_charges(_posx, _posy, *a);
+        }
+        return;
+    }
     int total_chance = 0, cur_chance, selected_location;
     bool animal_done = false;
     std::vector<items_location_and_chance> it = g->monitems[type->id];

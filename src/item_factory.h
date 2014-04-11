@@ -6,7 +6,6 @@
 #include "item.h"
 #include "color.h"
 #include "json.h"
-#include "item_group.h"
 #include "iuse.h"
 #include "martialarts.h"
 #include <string>
@@ -14,11 +13,14 @@
 #include <map>
 
 typedef std::string Item_tag;
+typedef std::string Group_tag;
 typedef std::vector<item> Item_list;
 
 //For the iuse arguments
 class game;
 class player;
+class Item_spawn_data;
+class Item_group;
 
 class item_category {
 public:
@@ -45,20 +47,36 @@ class Item_factory
 public:
     //Setup
     Item_factory();
+    ~Item_factory();
     void init();
     void clear_items_and_groups();
     void init_old();
     void register_iuse_lua(const char* name, int lua_function);
 
     void load_item_group(JsonObject &jsobj);
+    /**
+     * Check if an item type is knwo to the Item_factory,
+     * (or if it can create it).
+     * If this function returns true, @ref find_template
+     * will never return the MISSING_ITEM or null-item type.
+     */
+    bool has_template(const Item_tag& id) const;
 
-    bool has_template(Item_tag id) const;
+    bool has_group(const Group_tag& id) const;
+    Item_spawn_data *get_group(const Group_tag& id);
 
     //Intermediary Methods - Will probably be removed at final stage
+    /**
+     * Returns the itype with the given id.
+     * Never return NULL.
+     */
     itype* find_template(Item_tag id);
     itype* random_template();
     itype* template_from(Item_tag group_tag);
     const Item_tag random_id();
+    /**
+     * Return a random item type from the given item group.
+     */
     const Item_tag id_from(Item_tag group_tag);
     const Item_tag id_from(Item_tag group_tag, bool & with_ammo);
     bool group_contains_item(Item_tag group_tag, Item_tag item);
@@ -70,6 +88,10 @@ public:
     Item_list create_from(Item_tag group, int created_at, int quantity, bool rand = true);
     item create_random(int created_at, bool rand = true);
     Item_list create_random(int created_at, int quantity, bool rand = true);
+    typedef std::string Group_tag;
+    Item_list create_from_group(Group_tag group, int created_at);
+
+    void debug_spawn();
 
     void load_ammo      (JsonObject &jo);
     void load_gun       (JsonObject &jo);
@@ -116,7 +138,8 @@ public:
 private:
     std::map<Item_tag, itype*> m_templates;
     itype*  m_missing_item;
-    std::map<Item_tag, Item_group*> m_template_groups;
+    typedef std::map<Group_tag, Item_spawn_data*> GroupMap;
+    GroupMap m_template_groups;
 
     // Checks that ammo is listed in ammo_name(),
     // That there is at least on instance (it_ammo) of
@@ -143,6 +166,8 @@ private:
     use_function use_from_string(std::string name);
     use_function use_from_object(JsonObject obj);
     phase_id phase_from_tag(Item_tag name);
+
+    void add_entry(Item_group* sg, JsonObject &obj);
 
     void load_basic_info(JsonObject &jo, itype *new_item);
     void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
