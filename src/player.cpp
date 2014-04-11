@@ -10628,7 +10628,7 @@ bool player::has_container_for(const item &newit)
 
 nc_color player::bodytemp_color(int bp)
 {
-    nc_color color;
+  nc_color color =  c_ltgray; // default
     if (bp == bp_eyes) {
         color = c_ltgray;    // Eyes don't count towards warmth
     } else if (temp_conv[bp] >  BODYTEMP_SCORCHING) {
