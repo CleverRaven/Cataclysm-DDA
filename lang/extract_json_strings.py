@@ -76,6 +76,22 @@ automatically_convertible = {
     "vehicle",
 }
 
+# for these objects a plural form is needed
+needs_plural = {
+    "AMMO",
+    "ARMOR",
+    "BIONIC_ITEM",
+    "BOOK",
+    "COMESTIBLE",
+    "CONTAINER",
+    "GENERIC",
+    "GUNMOD",
+    "GUN",
+    "TOOL",
+    "TOOL_ARMOR",
+    "VAR_VEH_PART"
+}
+
 # these objects can be automatically converted, but use format strings
 use_format_strings = {
     "technique",
@@ -233,8 +249,11 @@ def extract(item, infilename):
         if "name_plural" in item:
             writestr(outfile, item["name"], item["name_plural"], **kwargs)
         else:
-            # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-            writestr(outfile, item["name"], "%ss" % item["name"], **kwargs)
+            if object_type in needs_plural:
+                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
+                writestr(outfile, item["name"], "%ss" % item["name"], **kwargs)
+            else:
+                writestr(outfile, item["name"], **kwargs)
         wrote = True
     if "description" in item:
         writestr(outfile, item["description"], **kwargs)
@@ -285,6 +304,24 @@ def extract_all_from_file(json_file):
         for jsonobject in jsondata:
             extract(jsonobject, json_file)
 
+def add_fake_items():
+    """Add names of fake items. This is done by hand and must be updated
+    manually each time something is added to itypedef.cpp."""
+    outfile = os.path.join(to_dir, "fakeitems.py")
+
+    writestr(outfile, "corpse", "corpses")
+    writestr(outfile, "nearby fire")
+    writestr(outfile, "cvd machine")
+    writestr(outfile, "integrated toolset")
+    writestr(outfile, "a smoking device and a source of flame")
+    writestr(outfile, "flyer", "flyers")
+    writestr(outfile, "note", "notes")
+    writestr(outfile, "misc software")
+    writestr(outfile, "MediSoft")
+    writestr(outfile, "infection data")
+    writestr(outfile, "hackPRO")
+
+
 ##
 ##  EXTRACTION
 ##
@@ -292,5 +329,6 @@ def extract_all_from_file(json_file):
 extract_all_from_dir(json_dir)
 extract_all_from_dir(raw_dir)
 extract_all_from_dir(mods_dir)
+add_fake_items()
 
 # done.
