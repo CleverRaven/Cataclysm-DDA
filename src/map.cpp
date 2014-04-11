@@ -1510,7 +1510,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
                            pgettext("memorial_female", "Set off an alarm."));
        g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
     }
- 
+
     if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
         bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
         if ( success == true ) {
@@ -1994,6 +1994,21 @@ void map::shoot(const int x, const int y, int &dam,
                     g->sound(x, y, 10, _("smash!"));
                 }
                 ter_set(x, y, t_gas_pump_smashed);
+            }
+            dam -= 60;
+        }
+    } else if( 0 == terrain.id.compare("t_diesel_pump") ) {
+        if (hit_items || one_in(3)) {
+            if (dam > 15) {
+                for (int i = x - 2; i <= x + 2; i++) {
+                    for (int j = y - 2; j <= y + 2; j++) {
+                        if (move_cost(i, j) > 0 && one_in(3)) {
+                            spawn_item(i, j, "diesel");
+                        }
+                    }
+                    g->sound(x, y, 10, _("smash!"));
+                }
+                ter_set(x, y, t_diesel_pump_smashed);
             }
             dam -= 60;
         }

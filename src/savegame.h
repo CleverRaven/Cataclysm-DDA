@@ -34,8 +34,8 @@ const std::string legacy_mon_id[126] = {"mon_null", "mon_squirrel", "mon_rabbit"
     "mon_turkey", "mon_raccoon", "mon_opossum", "mon_rattlesnake", "mon_giant_crayfish"
 
 };
-const int num_legacy_ter = 174;
-const std::string legacy_ter_id[174] = {"t_null", "t_hole", "t_dirt", "t_sand", "t_dirtmound",
+const int num_legacy_ter = 176;
+const std::string legacy_ter_id[176] = {"t_null", "t_hole", "t_dirt", "t_sand", "t_dirtmound",
     "t_pit_shallow", "t_pit", "t_pit_corpsed", "t_pit_covered", "t_pit_spiked", "t_pit_spiked_covered",
     "t_rock_floor", "t_rubble", "t_ash", "t_metal", "t_wreckage", "t_grass", "t_metal_floor",
     "t_pavement", "t_pavement_y", "t_sidewalk", "t_concrete", "t_floor", "t_dirtfloor", "t_grate",
@@ -58,7 +58,7 @@ const std::string legacy_ter_id[174] = {"t_null", "t_hole", "t_dirt", "t_sand", 
     "t_chainfence_v", "t_chainfence_h", "t_chainfence_posts", "t_fence_post", "t_fence_wire",
     "t_fence_barbed", "t_fence_rope", "t_railing_v", "t_railing_h", "t_marloss", "t_fungus",
     "t_tree_fungal", "t_water_sh", "t_water_dp", "t_water_pool", "t_sewage", "t_lava", "t_sandbox",
-    "t_slide", "t_monkey_bars", "t_backboard", "t_gas_pump", "t_gas_pump_smashed",
+    "t_slide", "t_monkey_bars", "t_backboard", "t_gas_pump", "t_gas_pump_smashed", "t_diesel_pump", "t_diesel_pump_smashed",
     "t_generator_broken", "t_missile", "t_missile_exploded", "t_radio_tower", "t_radio_controls",
     "t_console_broken", "t_console", "t_gates_mech_control", "t_gates_control_concrete", "t_barndoor",
     "t_palisade_pulley", "t_sewage_pipe", "t_sewage_pump", "t_centrifuge", "t_column", "t_vat",

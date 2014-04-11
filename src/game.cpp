@@ -1333,7 +1333,11 @@ void game::activity_on_turn_refill_vehicle()
                         i = 2;
                         j = 2;
                         break;
-                    } else if if (m.i_at(u.posx + i, u.posy + j)[n].type->id == "diesel") {
+                    }
+                }
+            } else if(m.ter(u.posx + i, u.posy + j) == t_diesel_pump) {
+                for (int n = 0; n < m.i_at(u.posx + i, u.posy + j).size(); n++) {
+                    if (m.i_at(u.posx + i, u.posy + j)[n].type->id == "diesel") {
                         item *gas = &(m.i_at(u.posx + i, u.posy + j)[n]);
                         int lack = (veh->fuel_capacity("diesel") - veh->fuel_left("diesel")) < 200 ?
                                    (veh->fuel_capacity("diesel") - veh->fuel_left("diesel")) : 200;
