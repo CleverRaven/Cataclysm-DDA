@@ -389,7 +389,7 @@ bool map::process_fields_in_submap(int gridn)
                                 ammo_type = dynamic_cast<it_ammo *>(it->type);
                             }
                             //Flame type ammo removed so gasoline isn't explosive, it just burns.
-                            if( ammo_type != NULL && ammo_type->id != "gasoline") {
+                            if( ammo_type != NULL && (ammo_type->id != "gasoline" || ammo_type->id != "diesel") ) {
                                 bool cookoff = false;
                                 bool special = false;
                                 // Types with special effects.
@@ -482,8 +482,10 @@ bool map::process_fields_in_submap(int gridn)
 
                             } else if (it->made_of(LIQUID)) {
                                 //Lots of smoke if alcohol, and LOTS of fire fueling power, kills a fire otherwise.
-                                if(it->type->id == "tequila" || it->type->id == "whiskey" ||
-                                   it->type->id == "vodka" || it->type->id == "rum" || it->type->id == "gasoline") {
+                                if(it->type->id == "tequila" || it->type->id == "whiskey"
+                                   || it->type->id == "vodka" || it->type->id == "rum"
+                                   || it->type->id == "gasoline" || it->type->id == "diesel")
+                                {
                                     cur->setFieldAge(cur->getFieldAge() - 300);
                                     smoke += 6;
                                 } else {
