@@ -35,6 +35,7 @@ ignorable = {
 # all of their translatable strings are in the following form:
 #   "name" member
 #   "description" member
+#   "name_plural" member
 #   "text" member
 #   "sound" member
 #   "messages" member containing an array of translatable strings
@@ -175,14 +176,17 @@ for filename in os.listdir(to_dir):
 ##  FUNCTIONS
 ##
 
-def gettextify(string, context=None):
+def gettextify(string, context=None, plural=None):
     "Put the string in a fake gettext call, and add a newline."
     if context:
         return "pgettext(%r, %r)\n" % (context, string)
     else:
-        return "_(%r)\n" % string
+        if plural:
+            return "ngettext(%r, %r, n)\n" % (string, plural)
+        else:
+            return "_(%r)\n" % string
 
-def writestr(filename, string, context=None, format_strings=False, comment=None):
+def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None):
     "Wrap the string and write to the file."
     # no empty strings
     if not string: return
@@ -194,7 +198,7 @@ def writestr(filename, string, context=None, format_strings=False, comment=None)
         # we must tell xgettext this explicitly
         if not format_strings and "%" in string:
             fs.write("# xgettext:no-python-format\n")
-        fs.write(gettextify(string,context=context))
+        fs.write(gettextify(string,context=context,plural=plural))
 
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
@@ -226,7 +230,11 @@ def extract(item, infilename):
         exit(1)
     wrote = False
     if "name" in item:
-        writestr(outfile, item["name"], **kwargs)
+        if "name_plural" in item:
+            writestr(outfile, item["name"], item["name_plural"], **kwargs)
+        else:
+            # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
+            writestr(outfile, item["name"], "%ss" % item["name"], **kwargs)
         wrote = True
     if "description" in item:
         writestr(outfile, item["description"], **kwargs)
