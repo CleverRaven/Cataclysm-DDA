@@ -404,7 +404,7 @@ bool query_yn(const char *mes, ...)
         query = string_format(_("%s (y/<color_white>n</color>)"), text.c_str());
     }
 
-    int win_width = utf8_width(query.c_str()) + 2;
+    int win_width = utf8_width(query.c_str()) + 2 - 21;
     win_width = (win_width < FULL_SCREEN_WIDTH - 2 ? win_width : FULL_SCREEN_WIDTH - 2);
 
     std::vector<std::string> textformatted;
