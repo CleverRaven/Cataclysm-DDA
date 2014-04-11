@@ -3886,7 +3886,7 @@ int iuse::siphon(player *p, item *it, bool)
         if ( fillv != NULL &&
           fillv != veh &&
           foundv.find( point(fillv->posx, fillv->posy) ) == foundv.end() &&
-          (fillv->fuel_capacity("gasoline") > 0 || fillv->fuel_capacity("diesel") < 0) ) {
+          (fillv->fuel_capacity("gasoline") > 0 || fillv->fuel_capacity("diesel") > 0) ) {
             foundv[point(fillv->posx, fillv->posy)] = fillv;
         }
       }
