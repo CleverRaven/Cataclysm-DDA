@@ -357,14 +357,14 @@ std::string player::disp_name(bool possessive)
         if (is_player()) {
             return _("your");
         }
-        return (_("%s's"), name);
+        return string_format(_("%s's"), name.c_str());
     }
 }
 
 std::string player::skin_name()
 {
     //TODO: Return actual deflecting layer name
-    return "armor";
+    return _("armor");
 }
 
 // just a shim for now since actual player death is handled in game::is_game_over
@@ -4172,7 +4172,7 @@ bool player::is_dead_state() {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
-void player::on_gethit(Creature *source, body_part bp_hit, damage_instance&) {
+void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
     bool u_see = g->u_see(this);
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
