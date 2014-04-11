@@ -28,7 +28,7 @@
         "id" : "money",
         "price" : 12000,
         "name" : "cent",
-        "plural" : "cents",
+        "name_plural" : "cents",
         "symbol" : "=",
         "color" : "light_gray",
         "description" : "IF YOU ARE SEEING THIS IT IS A BUG.",
