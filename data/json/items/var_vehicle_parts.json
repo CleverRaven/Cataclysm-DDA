@@ -289,7 +289,7 @@
         "id": "i6_diesel",
         "symbol": ":",
         "color": "light_cyan",
-        "name": "straight-6 diesel engine",
+        "name": "I6 diesel engine",
         "description": "A powerful straight-6 diesel engine.",
         "price": 2700,
         "material": ["iron", "null"],
