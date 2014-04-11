@@ -360,6 +360,7 @@ ter_id t_null,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
+    t_linoleum_white, t_linoleum_gray,
     t_grate,
     t_slime,
     t_bridge,
@@ -460,6 +461,8 @@ void set_ter_ids() {
     t_carpet_yellow=terfind("t_carpet_yellow");
     t_carpet_purple=terfind("t_carpet_purple");
     t_carpet_green=terfind("t_carpet_green");
+    t_linoleum_white=terfind("t_linoleum_white");
+    t_linoleum_gray=terfind("t_linoleum_gray");
     t_grate=terfind("t_grate");
     t_slime=terfind("t_slime");
     t_bridge=terfind("t_bridge");

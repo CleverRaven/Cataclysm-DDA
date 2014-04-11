@@ -1,0 +1,213 @@
+[
+	{
+		"type"  : "item_group",
+		"id"    : "coffee_locker",
+		"items" : [
+			["apron_leather",   25],
+			["sm_extinguisher", 10],
+			["hat_ball",        25],
+			["towel",           10],
+			["soap",             8],
+			["rag",             15],
+			["broom",            8],
+			["bleach",           8],
+			["hotplate",         1],
+			["vinegar",          3]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "coffee_display",
+		"items" : [
+			["sandwich_t",  22],
+			["jerky",       17],
+			["porkstick",   18],
+			["tea_raw",     50],
+			["chips",       28],
+			["chips2",      27],
+			["chips3",      26],
+			["cookies",     25],
+			["coffee_raw",  90],
+			["ceramic_cup", 10],
+			["ceramic_plate",10],
+			["choco_coffee_beans", 60],
+			["coffee_syrup",25],
+			["coffee_raw",  25]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "coffee_fridge",
+		"items" : [
+			["water_clean", 30],
+			["water_mineral", 15],
+			["cola",        30],
+			["choc_drink",  30],
+			["rootbeer",    33],
+			["creamsoda",   28],
+			["juice",       31],
+			["pie",         40],
+			["pie_meat",    28],
+			["yoghurt",     30]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "coffee_table",
+		"items" : [
+			["pretzels",           40],
+			["chocpretzels",       45],
+			["candy",              30],
+			["chips",              30],
+			["cookies",            45],
+			["restaurantmap",       5],
+			["touristmap",          5],
+			["seasoning_salt",     20],
+			["pepper",             20],
+			["cup_plastic",        10],
+			["ceramic_cup",        80],
+			["ceramic_plate",      60],
+			["choco_coffee_beans", 40],
+			["cig",                39],
+			["rolling_paper",      15],
+			["wrapper",            25],
+			["mag_news",           40],
+			["news_regional",      35],
+			["coffee",             55],
+			["atomic_coffee",      10],
+			["tea",                35]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "coffee_dishes",
+		"items" : [
+			["ceramic_cup",   70],
+			["ceramic_plate", 50],
+			["cup_plastic",   20]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "coffee_trash",
+		"items" : [
+			["wrapper",      17],
+			["bag_plastic",  15],
+			["bottle_glass", 10],
+			["can_drink",    10],
+			["rag",          10],
+			["news_regional",20],
+			["mag_news",     20],
+			["hairpin",      10],
+			["flyer",         7]
+		]
+	},
+	{
+		"type"  : "item_group",
+		"id"    : "coffee_bathroom",
+		"items" : [
+			["weed",     10],
+			["coke",     10],
+			["aspirin",  45],
+			["mag_news", 30],
+			["purse",    10],
+			["hairpin",  25]
+		]
+	},
+	{
+		"type" : "mapgen",
+		"om_terrain" : ["s_restaurant_coffee"],
+		"method": "json",
+		"weight": 250,
+		"object": {
+			"fill_ter": "t_floor",
+			"rows": [
+				"|--------L-------------|",
+				"|eTSrrrrr..OSll|P..|..P|",
+				"|..............|S..|..S|",
+				"|cccxccxcccWWc---D---D-|",
+				"|......................|",
+				"|HH....................|",
+				"|TT.......HTH.HTH.HTH..|",
+				"|TT....|--555-555-555--|",
+				"|HH....%ssssssssssssssss",
+				"|......+ss______________",
+				"|&.....+ss______________",
+				"|......%ss______________",
+				"|.HTTH.|ss______________",
+				"|-5555-|ss,,,,,,,_______",
+				"#pppppp#ss______________",
+				"#pHTTHp#ss______________",
+				"#ppppppsss______________",
+				"#pHppHpsss______________",
+				"#pTppTpsss,,,,,,,_______",
+				"#pHppHpsss______________",
+				"#ppppppsss______________",
+				"#pHTTHpsss______________",
+				"#pppppp#ss______________",
+				"########ss,,,,,,,_______"
+			],
+			"terrain": {
+				"5": "t_wall_glass_h",
+				"%": "t_wall_glass_v",
+				",": "t_pavement_y",				
+				"_": "t_pavement",
+				"r": "t_floor",
+				"x": "t_console_broken",
+				".": "t_floor",
+				"-": "t_wall_h",
+				"|": "t_wall_v",
+				"#": "t_shrub",
+				"+": "t_door_glass_c",
+				"s": "t_sidewalk",
+				"D": "t_door_c",
+				"L": "t_door_locked",
+				"p": "t_concrete",
+				"W": "t_fencegate_c"
+			},
+			"furniture": {
+				"r": "f_rack",
+				"l": "f_locker",
+				"T": "f_table",
+				"S": "f_sink",
+				"e": "f_fridge",
+				"O": "f_oven",
+				"P": "f_toilet",
+				"H": "f_chair",
+				"c": "f_counter",
+				"&": "f_trashcan"
+			},
+			"place_specials": [
+				{ "type": "toilet", "x": 16, "y": 1 },
+				{ "type": "toilet", "x": 22, "y": 1 }
+			],
+			"place_groups": [
+				{"item": "coffee_locker",  "chance": 75, "x": [13,14], "y": 1, "repeat": [1,3]},
+				{"item": "coffee_display", "chance": 80, "x": [4, 8],  "y": 1, "repeat": [1,2]},
+				{"item": "coffee_display", "chance": 40, "x": [4, 8],  "y": 1, "repeat": [1,2]},
+				{"item": "coffee_dishes",  "chance": 85, "x": 3,       "y": 1, "repeat": [1,2]},
+				{"item": "coffee_fridge",  "chance": 75, "x": 1,       "y": 1, "repeat": [1,2]},
+				
+				{"item": "coffee_table", "chance": 20, "x": [1,2], "y": [6,7], "repeat": [1,2]},
+				{"item": "coffee_table", "chance": 20, "x": 11,    "y": 6,     "repeat": [1,2]},
+				{"item": "coffee_table", "chance": 20, "x": 15,    "y": 6,     "repeat": [1,2]},
+				{"item": "coffee_table", "chance": 20, "x": 19,    "y": 6,     "repeat": [1,2]},
+				{"item": "coffee_table", "chance": 20, "x": [3,4], "y": 12,    "repeat": [1,2]},
+				{"item": "coffee_table", "chance": 20, "x": [3,4], "y": 15,    "repeat": [1,2]},
+				{"item": "coffee_table", "chance": 20, "x": 2,     "y": 18,    "repeat": [1,2]},
+				{"item": "coffee_table", "chance": 20, "x": 5,     "y": 18,    "repeat": [1,2]},
+				{"item": "coffee_table", "chance": 20, "x": 5,     "y": 18,    "repeat": [1,2]},
+				{"item": "coffee_table", "chance": 20, "x": [3,4], "y": 21,    "repeat": [1,2]},
+				
+				{"item": "coffee_trash", "chance": 75, "x": 1,      "y": 10,   "repeat": [2,4]},
+				{"item": "coffee_bathroom","chance": 20,"x":[17,18],"y":[1,2], "repeat": [1,2]},
+				{"item": "coffee_bathroom","chance": 20,"x":[20,21],"y":[1,2], "repeat": [1,2]}
+			],
+			"add": [
+				{ "item": "coffeemaker", "x": 2, "y": 1, "amount": 1, "repeat": 1, "chance": 1 },
+				{ "item": "atomic_coffeepot", "x": 2, "y": 1, "amount": 1, "repeat": 1, "chance": 5 }
+			]
+		}
+    }
+]
+
