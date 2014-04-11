@@ -655,7 +655,7 @@ bool mapgen_function_json::setup() {
             while ( parray.has_more() ) { // hrm
                 tmpval = parray.next_string();
                 if ( tmpval.size() != mapgensize ) {
-                    parray.throw_error(string_format("  format: row %d must have %d columns, not %d",mapgensize,tmpval.size() ));
+                    parray.throw_error(string_format("  format: row %d must have %d columns, not %d", c, mapgensize, tmpval.size()));
                 }
                 for ( int i=0; i < tmpval.size(); i++ ) {
                     tmpkey=(int)tmpval[i];
@@ -1029,8 +1029,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
-
     const std::string function_key = terrain_type.t().id_mapgen;
+
 
     std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( function_key );
     if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {

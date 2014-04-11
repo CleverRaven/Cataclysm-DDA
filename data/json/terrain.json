@@ -2395,8 +2395,7 @@
         "move_cost": 2,
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
-   },
-   {
+   },{
         "type" : "terrain",
         "id" : "t_carpet_yellow",
         "name": "yellow carpet",
@@ -2424,6 +2423,24 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG"]
     },{
+	    "type" : "terrain",
+        "id" : "t_linoleum_white",
+        "name": "linoleum tile",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"]
+   },{
+        "type" : "terrain",
+        "id" : "t_linoleum_gray",
+        "name": "linoleum tile",
+        "symbol": ".",
+        "color": "ltgray",
+        "move_cost": 2,
+        "flags": [
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"]
+   },{
         "type" : "terrain",
         "id" : "t_wall_h_r",
         "name": "red wall",
