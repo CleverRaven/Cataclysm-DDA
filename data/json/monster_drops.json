@@ -37,27 +37,61 @@
         ]
     },
     {
-        "type": "monitems",
-        "id": "mon_zombie_cop",
-        "item_groups": [
-            [ "cop_weapons", 20 ],
-            [ "cop_gear", 40 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_cop_death_drops",
+        "entries":
+        [
+            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_torso", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_weapons", "prob": 20 },
+            { "group": "cop_gear", "prob": 40 },
+            { "item": "cash_card", "charges-min": -1, "charges-max": 100000 }
         ]
     },
     {
-        "type": "monitems",
-        "id": "mon_zombie_scientist",
-        "item_groups": [
-            [ "harddrugs", 6 ],
-            [ "chem_lab", 10 ],
-            [ "teleport", 6 ],
-            [ "goo", 8 ],
-            [ "cloning_vat", 1 ],
-            [ "dissection", 10 ],
-            [ "electronics", 9 ],
-            [ "bionics", 1 ],
-            [ "radio", 2 ],
-            [ "textbooks", 3 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_swimmer_death_drops",
+        "entries":
+        [
+            { "distribution": [
+                { "group": "swimmer_wetsuit", "damage-min": 1, "damage-max": 4, "prob": 10 },
+                { "collection": [
+                    { "group": "swimmer_head", "damage-min": 1, "damage-max": 4, "prob": 75 },
+                    { "group": "swimmer_torso", "damage-min": 1, "damage-max": 4, "prob": 33 },
+                    { "group": "swimmer_pants", "damage-min": 1, "damage-max": 4 },
+                    { "group": "swimmer_shoes", "damage-min": 1, "damage-max": 4, "prob": 25 }
+                ] }
+            ] },
+            { "item": "cash_card", "charges-min": -1, "charges-max": 10000 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_scientist_death_drops",
+        "entries":
+        [
+            { "group": "lab_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "lab_torso", "damage-min": 1, "damage-max": 4 },
+            { "group": "lab_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "distribution": [
+                { "group": "harddrugs", "prob": 6 },
+                { "group": "chem_lab", "prob": 10 },
+                { "group": "teleport", "prob": 6 },
+                { "group": "goo", "prob": 8 },
+                { "group": "cloning_vat", "prob": 1 },
+                { "group": "dissection", "prob": 10 },
+                { "group": "electronics", "prob": 9 },
+                { "group": "bionics", "prob": 1 },
+                { "group": "radio", "prob": 2 },
+                { "group": "textbooks", "prob": 3 }
+            ] },
+            { "item": "cash_card", "charges-min": -1, "charges-max": 100000 }
         ]
     },
     {
