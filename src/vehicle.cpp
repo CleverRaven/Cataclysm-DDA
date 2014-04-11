@@ -2650,10 +2650,13 @@ void vehicle::idle() {
 void vehicle::slow_leak()
 {
     //for each of your badly damaged tanks (lower than 50% health), leak a small amount of liquid
+    // damaged batteries self-discharge without leaking
     for( size_t p = 0; p < fuel.size(); ++p ) {
         vehicle_part &part = parts[fuel[p]];
         vpart_info pinfo = part_info( fuel[p] );
-        if( pinfo.fuel_type != "water" && pinfo.fuel_type != "gasoline" ) {  //handle only known liquids
+        if( pinfo.fuel_type != fuel_type_gasoline &&
+            pinfo.fuel_type != fuel_type_battery && pinfo.fuel_type != fuel_type_water ) {
+            // Not a liquid fuel or battery
             continue;
         }
         float damage_ratio = ( float )part.hp / ( float )pinfo.durability;
@@ -2663,12 +2666,15 @@ void vehicle::slow_leak()
             if( leak_amount < 1 ) {
                 leak_amount = 1;
             }
-            coord_translate( part.mount_dx, part.mount_dy, gx, gy );
-            // m.spawn_item() will spawn water in bottles, so instead we create
-            //   the leak manually and directly call m.add_item_or_charges().
-            item leak = item_controller->create( pinfo.fuel_type, g->turn );
-            leak.charges = leak_amount;
-            g->m.add_item_or_charges( global_x() + gx, global_y() + gy, leak );
+            // Don't leak batteries from a damaged battery
+            if( pinfo.fuel_type != fuel_type_battery ) {
+                coord_translate( part.mount_dx, part.mount_dy, gx, gy );
+                // m.spawn_item() will spawn water in bottles, so instead we create
+                //   the leak manually and directly call m.add_item_or_charges().
+                item leak = item_controller->create( pinfo.fuel_type, g->turn );
+                leak.charges = leak_amount;
+                g->m.add_item_or_charges( global_x() + gx, global_y() + gy, leak );
+            }
             part.amount -= leak_amount;
         }
     }
