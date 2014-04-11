@@ -146,10 +146,14 @@ void game::load_vehiclepart(JsonObject &jo)
         next_part.z_order = 0;
     }
 
-    next_part.loadid = vehicle_part_int_types.size();
-
+    if (vehicle_part_types.count(next_part.id) > 0) {
+        next_part.loadid = vehicle_part_types[next_part.id].loadid;
+        vehicle_part_int_types[next_part.loadid] = next_part;
+    } else {
+        next_part.loadid = vehicle_part_int_types.size();
+        vehicle_part_int_types.push_back(next_part);
+    }
     vehicle_part_types[next_part.id] = next_part;
-    vehicle_part_int_types.push_back(next_part);
 }
 
 void game::reset_vehicleparts()
@@ -249,6 +253,10 @@ void game::finalize_vehicles()
             part_y = p.y;
 
             part_id = proto->parts[i].second;
+            if (vehicle_part_types.count(part_id) == 0) {
+                debugmsg("unknown vehicle part %s in %s", part_id.c_str(), proto->id.c_str());
+                continue;
+            }
 
             if(next_vehicle->install_part(part_x, part_y, part_id) < 0) {
                 debugmsg("init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
@@ -265,8 +273,20 @@ void game::finalize_vehicles()
                 debugmsg("Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                          proto->name.c_str(), proto->item_spawns[i].x, proto->item_spawns[i].y, proto->item_spawns[i].chance);
             }
-            next_vehicle->item_spawns.push_back(proto->item_spawns[i]);
+            for (int j = 0; j < proto->item_spawns[i].item_ids.size(); j++) {
+                const std::string &itm = proto->item_spawns[i].item_ids[j];
+                if (!item_controller->has_template(itm)) {
+                    debugmsg("unknown item %s in spawn list of %s", itm.c_str(), proto->id.c_str());
+                }
+            }
+            for (int j = 0; j < proto->item_spawns[i].item_groups.size(); j++) {
+                const std::string &itm = proto->item_spawns[i].item_groups[j];
+                if (!item_controller->has_group(itm)) {
+                    debugmsg("unknown item group %s in spawn list of %s", itm.c_str(), proto->id.c_str());
+                }
+            }
         }
+        next_vehicle->item_spawns = proto->item_spawns;
 
         if (vtypes.count(next_vehicle->type) > 0) {
             delete vtypes[next_vehicle->type];

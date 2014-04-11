@@ -176,12 +176,15 @@ void finalize_recipes()
                 const std::string &book_id = r->booksets[j].first;
                 const int skill_level = r->booksets[j].second;
                 if (!item_controller->has_template(book_id)) {
+                    debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
                 it_book *book_def = dynamic_cast<it_book *>(item_controller->find_template(book_id));
-                if (book_def != NULL) {
-                    book_def->recipes[r] = skill_level;
+                if (book_def == NULL) {
+                    debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
+                    continue;
                 }
+                book_def->recipes[r] = skill_level;
             }
             r->booksets.clear();
         }
