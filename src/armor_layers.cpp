@@ -175,26 +175,8 @@ void player::sort_armor()
             mvwprintz(w_sort_middle, cont_h - 8 + i, middle_w - 16, c_ltgray, "%d+%d = ", armorenc,
                       enc - armorenc);
             wprintz(w_sort_middle, encumb_color(enc), "%d" , enc);
-
-            nc_color color = c_ltgray;
-            if (i == bp_eyes) {
-                continue;    // Eyes don't count towards warmth
-            } else if (temp_conv[i] >  BODYTEMP_SCORCHING) {
-                color = c_red;
-            } else if (temp_conv[i] >  BODYTEMP_VERY_HOT) {
-                color = c_ltred;
-            } else if (temp_conv[i] >  BODYTEMP_HOT) {
-                color = c_yellow;
-            } else if (temp_conv[i] >  BODYTEMP_COLD) {
-                color = c_green;
-            } else if (temp_conv[i] >  BODYTEMP_VERY_COLD) {
-                color = c_ltblue;
-            } else if (temp_conv[i] >  BODYTEMP_FREEZING) {
-                color = c_cyan;
-            } else if (temp_conv[i] <= BODYTEMP_FREEZING) {
-                color = c_blue;
-            }
-            mvwprintz(w_sort_middle, cont_h - 8 + i, middle_w - 6, color, "(%3d)", warmth(body_part(i)));
+            mvwprintz(w_sort_middle, cont_h - 8 + i, middle_w - 6,
+                      bodytemp_color(i), "(%3d)", warmth(body_part(i)));
         }
 
         // Right header

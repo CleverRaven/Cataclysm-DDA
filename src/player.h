@@ -156,6 +156,8 @@ public:
  int calc_focus_equilibrium();
  /** Maintains body temperature */
  void update_bodytemp();
+ /** Define color for displaying the body temperature */
+ nc_color bodytemp_color(int bp);
  /** Returns the player's modified base movement cost */
  int  run_cost(int base_cost, bool diag = false);
  /** Returns the player's speed for swimming across water tiles */
