@@ -783,11 +783,13 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                     case fd_weedsmoke: {
                         spread_gas( this, cur, x, y, curtype, 200, 60 );
 
-                        int npcdex = g->npc_at(x, y);
-                        if (npcdex != -1 && one_in(20)) {
-                            npc *p = g->active_npc[npcdex];
-                            if(p->is_friend()) {
-                                p->say(one_in(10) ? _("Whew... smells like skunk!") : _("Man, that smells like some good shit!"));
+                        if(one_in(20)) {
+                            int npcdex = g->npc_at(x, y);
+                            if (npcdex != -1) {
+                                npc *p = g->active_npc[npcdex];
+                                if(p->is_friend()) {
+                                    p->say(one_in(10) ? _("Whew... smells like skunk!") : _("Man, that smells like some good shit!"));
+                                }
                             }
                         }
 
@@ -797,11 +799,13 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                     case fd_methsmoke: {
                         spread_gas( this, cur, x, y, curtype, 175, 70 );
 
-                        int npcdex = g->npc_at(x, y);
-                        if (npcdex != -1 && one_in(20)) {
-                            npc *p = g->active_npc[npcdex];
-                            if(p->is_friend()) {
-                                p->say(_("I don't know... should you really be smoking that stuff?"));
+                        if(one_in(20)) {
+                            int npcdex = g->npc_at(x, y);
+                            if (npcdex != -1) {
+                                npc *p = g->active_npc[npcdex];
+                                if(p->is_friend()) {
+                                    p->say(_("I don't know... should you really be smoking that stuff?"));
+                                }
                             }
                         }
                     }
@@ -810,11 +814,13 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                     case fd_cracksmoke: {
                         spread_gas( this, cur, x, y, curtype, 175, 80 );
 
-                        int npcdex = g->npc_at(x, y);
-                        if (npcdex != -1 && one_in(20)) {
-                            npc *p = g->active_npc[npcdex];
-                            if(p->is_friend()) {
-                                p->say(one_in(2) ? _("Ew, smells like burning rubber!") : _("Ugh, that smells rancid!"));
+                        if(one_in(20)) {
+                            int npcdex = g->npc_at(x, y);
+                            if (npcdex != -1) {
+                                npc *p = g->active_npc[npcdex];
+                                if(p->is_friend()) {
+                                    p->say(one_in(2) ? _("Ew, smells like burning rubber!") : _("Ugh, that smells rancid!"));
+                                }
                             }
                         }
                     }

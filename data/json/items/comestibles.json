@@ -11331,8 +11331,7 @@
         "stack_size" : 200,
         "bashing" : 0,
         "fun" : 0
-    },
-	
+    },	
     {
         "type" : "COMESTIBLE",
         "id" : "cig",

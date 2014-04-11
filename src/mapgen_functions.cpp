@@ -3847,7 +3847,7 @@ void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn
     mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
     int right = SEEX * 2 - 2, top = SEEY * 2 - 2;
     line_furn(m, f_counter, 1, 1, 1, top);
-    line_furn(m, f_counter, right, 1, right, top * 2 - 2);
+    line_furn(m, f_counter, right, 1, right, top);
 
     // spawn joints and pipes on counters
     for(int i = 1; i < top; i++) {
