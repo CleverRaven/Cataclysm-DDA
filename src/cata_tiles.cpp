@@ -11,12 +11,7 @@
 #include "item_factory.h"
 #include <fstream>
 
-// SDL headers end up in different places depending on the OS, sadly
-#if (defined OSX_SDL_FW)
-#include "SDL_image/SDL_image.h" // Make sure to add this to the other OS inclusions
-#else
-#include "SDL2/SDL_image.h" // Make sure to add this to the other OS inclusions
-#endif
+#include "SDL2/SDL_image.h"
 
 #define ITEM_HIGHLIGHT "highlight_item"
 

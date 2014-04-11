@@ -24,7 +24,6 @@
 #include <dirent.h>
 #endif
 
-// SDL headers end up in different places depending on the OS, sadly
 #if (defined _WIN32 || defined WINDOWS)
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -36,19 +35,13 @@
 #else
 #include <wordexp.h>
 #endif
-#if (defined OSX_SDL_FW)
-#include "SDL.h"
-#include "SDL_ttf/SDL_ttf.h"
-#ifdef SDLTILES
-#include "SDL_image/SDL_image.h" // Make sure to add this to the other OS inclusions
-#endif
-#else
+
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 #ifdef SDLTILES
-#include "SDL2/SDL_image.h" // Make sure to add this to the other OS inclusions
+#include "SDL2/SDL_image.h"
 #endif
-#endif
+
 //***********************************
 //Globals                           *
 //***********************************
