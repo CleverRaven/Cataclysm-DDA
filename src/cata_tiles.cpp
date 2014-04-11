@@ -658,7 +658,7 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
             }
         } else if (category == C_TRAP) {
             if (trapmap.count(id) > 0) {
-                const trap *t = g->traps[trapmap[id]];
+                const trap *t = traplist[trapmap[id]];
                 sym = t->sym;
                 col = t->color;
             }
@@ -921,7 +921,7 @@ bool cata_tiles::draw_trap(int x, int y)
         return false;
     }
 
-    const std::string tr_name = g->traps[tr_id]->id;
+    const std::string tr_name = traplist[tr_id]->id;
 
     const int neighborhood[4] = {
         static_cast<int> (g->m.tr_at(x, y + 1)), // south
