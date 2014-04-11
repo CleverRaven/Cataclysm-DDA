@@ -233,6 +233,71 @@
     },
     {
         "type" : "keybinding",
+        "id": "SAVE_DEFAULT_MODS",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Save mods as default",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"S"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ADD_MOD",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Add selected mod",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_MOD",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Remove selcted mod",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PICK_RANDOM_WORLDNAME",
+        "category": "WORLDGEN_CONFIRM_DIALOG",
+        "name": "Pick random world name",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "QUIT",
+        "category": "WORLDGEN_CONFIRM_DIALOG",
+        "name": "Exit screen",
+        "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"DELETE_NOTE",
         "category":"OVERMAP",
         "name":"Delete Note",
@@ -440,6 +505,40 @@
             {
                 "input_method":"mouse",
                 "key":"MOUSE_MOVE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "NEXT_TAB",
+        "name": "Go to next tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PREV_TAB",
+        "name": "Go to prev tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"<"
             }
         ]
     },
