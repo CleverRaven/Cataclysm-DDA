@@ -10831,7 +10831,8 @@ void map::place_spawns(std::string group, const int chance,
 
 void map::place_gas_pump(int x, int y, int charges)
 {
-    item gas(itypes["gasoline"], 0);
+    if (one_in(4)) { item gas(itypes["diesel"], 0); }
+    else { item gas(itypes["gasoline"], 0); }
     gas.charges = charges;
     add_item(x, y, gas);
     ter_set(x, y, t_gas_pump);
