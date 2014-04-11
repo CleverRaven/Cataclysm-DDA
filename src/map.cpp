@@ -29,38 +29,18 @@ enum astar_list {
  ASL_CLOSED
 };
 
-map::map()
+map::map(int mapsize)
 {
     nulter = t_null;
-    my_MAPSIZE = is_tiny() ? 2 : MAPSIZE;
+    my_MAPSIZE = mapsize;
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE;
     veh_in_active_range = true;
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
-/*
-crashes involving traplocs? move below to the other constructors
-    const int num_traps = g->traps.size(); // dead: num_trap_ids;
-    for (int t = 0; t < num_traps; t++) {
-        traplocs[(trap_id) t] = std::set<point>();
+    memset(veh_exists_at, 0, sizeof(veh_exists_at));
+    for (int n = 0; n < sizeof(grid) / sizeof(grid[0]); n++) {
+        grid[n] = NULL;
     }
-*/
-}
-
-map::map(std::vector<trap*> *trptr)
-{
- nulter = t_null;
- traps = trptr;
- if (is_tiny())
-  my_MAPSIZE = 2;
- else
-  my_MAPSIZE = MAPSIZE;
- for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
-  grid[n] = NULL;
- dbg(D_INFO) << "map::map( trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
- veh_in_active_range = true;
- transparency_cache_dirty = true;
- outside_cache_dirty = true;
- memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
 
 map::~map()
@@ -3121,7 +3101,7 @@ std::list<item> map::use_charges(const point origin, const int range,
 }
 
 std::string map::trap_get(const int x, const int y) const {
-    return g->traps[ tr_at(x, y) ]->id;
+    return traplist[ tr_at(x, y) ]->id;
 }
 
 void map::trap_set(const int x, const int y, const std::string & sid) {
@@ -3182,14 +3162,14 @@ void map::disarm_trap(const int x, const int y)
  }
 
  const int tSkillLevel = g->u.skillLevel("traps");
- const int diff = g->traps[tr_at(x, y)]->difficulty;
+ const int diff = traplist[tr_at(x, y)]->difficulty;
  int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
  while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50)
   roll++;
  if (roll >= diff) {
   g->add_msg(_("You disarm the trap!"));
-  std::vector<itype_id> comp = g->traps[tr_at(x, y)]->components;
+  std::vector<itype_id> comp = traplist[tr_at(x, y)]->components;
   for (int i = 0; i < comp.size(); i++) {
    if (comp[i] != "null")
     spawn_item(x, y, comp[i], 1, 1);
@@ -3216,7 +3196,7 @@ void map::disarm_trap(const int x, const int y)
  }
  else {
   g->add_msg(_("You fail to disarm the trap, and you set it off!"));
-  trap* tr = g->traps[tr_at(x, y)];
+  trap* tr = traplist[tr_at(x, y)];
   trapfunc f;
   (f.*(tr->act))(x, y);
   if(diff - roll <= 6)
@@ -3601,11 +3581,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    // todo; test using g->traps, test using global traplist
-    if (curr_trap != tr_null && ((*traps)[curr_trap]->visibility == -1 ||
-                                 u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility)) {
-        tercol = (*traps)[curr_trap]->color;
-        if ((*traps)[curr_trap]->sym == '%') {
+    if (curr_trap != tr_null && (traplist[curr_trap]->visibility == -1 ||
+                                 u.per_cur - u.encumb(bp_eyes) >= traplist[curr_trap]->visibility)) {
+        tercol = traplist[curr_trap]->color;
+        if (traplist[curr_trap]->sym == '%') {
             switch(rng(1, 5)) {
             case 1: sym = '*'; break;
             case 2: sym = '0'; break;
@@ -3614,7 +3593,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
             case 5: sym = '+'; break;
             }
         } else {
-            sym = (*traps)[curr_trap]->sym;
+            sym = traplist[curr_trap]->sym;
         }
     }
     if (curr_field.fieldCount() > 0) {
@@ -4211,7 +4190,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
                 const int fy = y + gridy * SEEY;
                 traplocs[t].insert(point(fx, fy));
                 if ( do_funnels &&
-                     g->traps[t]->funnel_radius_mm > 0 &&             // funnel
+                     traplist[t]->funnel_radius_mm > 0 &&             // funnel
                      has_flag_ter_or_furn(TFLAG_INDOORS, fx, fy) == false // we have no outside_cache
                    ) {
                     rain_backlog[point(x, y)] = t;
@@ -4294,7 +4273,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
-  tinymap tmp_map(traps);
+  tinymap tmp_map;
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
@@ -4734,27 +4713,11 @@ submap *map::get_submap_at_grid(int gridx, int gridy) const {
     return grid[nonant];
 }
 
-tinymap::tinymap()
+tinymap::tinymap(int mapsize)
+: map(mapsize)
 {
- nulter = t_null;
 }
 
-tinymap::tinymap(std::vector<trap*> *trptr)
-{
- nulter = t_null;
- traps = trptr;
- my_MAPSIZE = 2;
- for (int n = 0; n < 4; n++) {
-  grid[n] = NULL;
- }
- veh_in_active_range = true;
- memset(veh_exists_at, 0, sizeof(veh_exists_at));
-}
-
-tinymap::~tinymap()
-{
-}
-////////////////////
 ter_id find_ter_id(const std::string id, bool complain=true) {
     (void)complain; //FIXME: complain unused
     if( termap.find(id) == termap.end() ) {

@@ -500,7 +500,7 @@ void computer::activate_function(computer_action action)
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
         for (int level = g->levz; level <= 0; level++) {
-            map tmpmap(&g->traps);
+            map tmpmap;
             tmpmap.load(g->levx, g->levy, level, false);
 
             if(level < 0) {

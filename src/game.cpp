@@ -235,8 +235,6 @@ game::~game()
  delwin(w_status2);
 
  delete world_generator;
-
- release_traps();
 }
 
 // Fixed window sizes
@@ -480,7 +478,7 @@ void game::reenter_fullscreen(void)
  */
 void game::setup()
 {
- m = map(&traps); // Init the root map with our vectors
+    m = map(); // reset the main map
 
     load_world_modfiles(world_generator->active_world);
 
@@ -8069,9 +8067,9 @@ void game::print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int
         return;
     }
 
-    int vis = traps[trapid]->visibility;
+    int vis = traplist[trapid]->visibility;
     if (vis == -1 || u.per_cur - u.encumb(bp_eyes) >= vis) {
-        mvwprintz(w_look, line++, column, traps[trapid]->color, "%s", traps[trapid]->name.c_str());
+        mvwprintz(w_look, line++, column, traplist[trapid]->color, "%s", traplist[trapid]->name.c_str());
     }
 }
 
@@ -12092,9 +12090,9 @@ bool game::plmove(int dx, int dy)
     }
 
   if (m.tr_at(x, y) != tr_null &&
-    u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility){
-        if (  !traps[m.tr_at(x, y)]->is_benign() &&
-              !query_yn(_("Really step onto that %s?"),traps[m.tr_at(x, y)]->name.c_str())){
+    u.per_cur - u.encumb(bp_eyes) >= traplist[m.tr_at(x, y)]->visibility){
+        if (  !traplist[m.tr_at(x, y)]->is_benign() &&
+              !query_yn(_("Really step onto that %s?"),traplist[m.tr_at(x, y)]->name.c_str())){
             return false;
         }
   }
@@ -12464,7 +12462,7 @@ bool game::plmove(int dx, int dy)
    m.board_vehicle(u.posx, u.posy, &u);
 
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
-   trap* tr = traps[m.tr_at(x, y)];
+   trap* tr = traplist[m.tr_at(x, y)];
    if (!u.avoid_trap(tr)) {
     trapfunc f;
     (f.*(tr->act))(x, y);
@@ -12927,7 +12925,7 @@ void game::vertical_move(int movez, bool force) {
      return;
  }
 
- map tmpmap(&traps);
+ map tmpmap;
  tmpmap.load(levx, levy, levz + movez, false);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
@@ -13110,7 +13108,7 @@ void game::vertical_move(int movez, bool force) {
  }
 
  if (m.tr_at(u.posx, u.posy) != tr_null) { // We stepped on a trap!
-  trap* tr = traps[m.tr_at(u.posx, u.posy)];
+  trap* tr = traplist[m.tr_at(u.posx, u.posy)];
   if (force || !u.avoid_trap(tr)) {
    trapfunc f;
    (f.*(tr->act))(u.posx, u.posy);
@@ -13385,7 +13383,7 @@ void game::force_save_monster(monster &critter) {
     critter.spawnposx = rc.sub_pos.x;
     critter.spawnposy = rc.sub_pos.y;
 
-    tinymap tmp(&traps);
+    tinymap tmp;
     tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
     tmp.add_spawn(&critter);
     tmp.save(cur_om, turn, critter.spawnmapx, critter.spawnmapy, levz);
@@ -13415,7 +13413,7 @@ void game::despawn_monsters(const int shiftx, const int shifty)
                     // We're saving him, so there's no need to keep anymore.
                     critter.setkeep(false);
 
-                    tinymap tmp(&traps);
+                    tinymap tmp;
                     tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
                     tmp.add_spawn(&critter);
                     tmp.save(cur_om, turn, critter.spawnmapx, critter.spawnmapy, levz);
@@ -13864,7 +13862,7 @@ void game::nuke(int x, int y)
     // ^^ crops x,y to point inside om now., but map::load
     // and map::save needs submap coordinates.
     const point smc = overmapbuffer::omt_to_sm_copy(x, y);
-    map tmpmap(&traps);
+    map tmpmap;
     tmpmap.load(smc.x, smc.y, 0, false, &om);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {

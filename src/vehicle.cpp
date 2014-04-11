@@ -3271,7 +3271,7 @@ void vehicle::handle_trap (int x, int y, int part)
         msg.clear();
     }
     if (!msg.empty() && g->u_see(x, y)) {
-        g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
+        g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), traplist[t]->name.c_str());
     }
     if (noise > 0) {
         g->sound(x, y, noise, snd);

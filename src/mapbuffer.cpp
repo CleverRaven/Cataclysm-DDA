@@ -160,8 +160,8 @@ void mapbuffer::save( bool delete_after_save )
 
     jsout.member("trap_key");
     jsout.start_array();
-    for (size_t i = 0; i < g->traps.size(); i++) {
-        jsout.write(g->traps[i]->id);
+    for (size_t i = 0; i < traplist.size(); i++) {
+        jsout.write(traplist[i]->id);
     }
     jsout.end_array();
 

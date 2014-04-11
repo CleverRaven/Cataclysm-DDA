@@ -65,8 +65,7 @@ class map
  friend class editmap;
  public:
 // Constructors & Initialization
- map();
- map(std::vector<trap*> *trptr);
+ map(int mapsize = MAPSIZE);
  ~map();
 
 // Visual Output
@@ -121,8 +120,8 @@ class map
              const bool low_light = false, const bool bright_level = false);
 
 // File I/O
- virtual void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
- virtual void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
+ void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
+ void load(const int wx, const int wy, const int wz, const bool update_vehicles = true, overmap *om = NULL);
  void shift(const int wx, const int wy, const int wz, const int x, const int y);
  void spawn_monsters();
  void clear_spawns();
@@ -501,7 +500,6 @@ protected:
                  const int offsetX, const int offsetY, const int offsetDistance );
 
  int my_MAPSIZE;
- virtual bool is_tiny() { return false; };
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
  ter_id nulter;  // Returned when &ter() is asked for an OOB value
@@ -509,8 +507,6 @@ protected:
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
  int nulrad;     // OOB &radiation()
  int null_temperature;  // Because radiation does it too
-
- std::vector <trap*> *traps;
 
  bool veh_in_active_range;
 
@@ -573,15 +569,7 @@ class tinymap : public map
 {
 friend class editmap;
 public:
- tinymap();
- tinymap(std::vector<trap*> *trptr);
- ~tinymap();
-
-protected:
- virtual bool is_tiny() { return true; };
-
-private:
- submap* grid[4];
+ tinymap(int mapsize = 2);
 };
 
 #endif

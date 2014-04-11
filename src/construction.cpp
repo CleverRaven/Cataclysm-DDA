@@ -755,7 +755,7 @@ void construct::done_deconstruct(point p)
 
 void construct::done_dig_stair(point p)
 {
- tinymap tmpmap(&g->traps);
+ tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
  tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false);
@@ -1026,7 +1026,7 @@ void construct::done_dig_stair(point p)
 
 void construct::done_mine_downstair(point p)
 {
- tinymap tmpmap(&g->traps);
+ tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
  tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz - 1, false);
@@ -1298,7 +1298,7 @@ void construct::done_mine_downstair(point p)
 
 void construct::done_mine_upstair(point p)
 {
- tinymap tmpmap(&g->traps);
+ tinymap tmpmap;
  // Upper left corner of the current active map (levx/levy) plus half active map width.
  // The player is always in the center tile of that 11x11 square.
  tmpmap.load(g->levx + (MAPSIZE/2), g->levy + (MAPSIZE / 2), g->levz + 1, false);
