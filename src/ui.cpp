@@ -183,6 +183,10 @@ void uimenu::filterlist()
             fentries.push_back( i );
             if ( i == selected ) {
                 fselected = f;
+            } else if (i > selected && fselected == -1) {
+                // Past the previously selected entry, which has been filtered out,
+                // choose another nearby entry instead.
+                fselected = f;
             }
             f++;
         }
