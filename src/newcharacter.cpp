@@ -548,7 +548,11 @@ int set_stats(WINDOW *w, player *u, int &points)
 {
     unsigned char sel = 1;
     const int iSecondColumn = 27;
-    char ch;
+    input_context ctxt("NEW_CHAR_STATS");
+    ctxt.register_cardinal();
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("NEXT_TAB");
     int read_spd;
     WINDOW *w_description = newwin(8, FULL_SCREEN_WIDTH - iSecondColumn - 1, 6 + getbegy(w),
                                    iSecondColumn + getbegx(w));
@@ -563,17 +567,21 @@ int set_stats(WINDOW *w, player *u, int &points)
     u->posx = -1;
     u->reset();
 
-    draw_tabs(w, _("STATS"));
-    fold_and_print(w, 16, 2, getmaxx(w) - 4, COL_NOTE_MINOR, _("\
-j/k, 8/2, or up/down arrows to select a statistic.\n\
-l, 6, or right arrow to increase the statistic.\n\
-h, 4, or left arrow to decrease the statistic."));
-    mvwprintz(w, FULL_SCREEN_HEIGHT - 3, 2, COL_NOTE_MAJOR, _("> Takes you to the next tab."));
-    mvwprintz(w, FULL_SCREEN_HEIGHT - 2, 2, COL_NOTE_MAJOR, _("< Returns you to the main menu."));
-
     const char clear[] = "                                                ";
 
     do {
+        werase(w);
+        draw_tabs(w, _("STATS"));
+        fold_and_print(w, 16, 2, getmaxx(w) - 4, COL_NOTE_MINOR, _("\
+    <color_light_green>%s</color> / <color_light_green>%s</color> to select a statistic.\n\
+    <color_light_green>%s</color> to increase the statistic.\n\
+    <color_light_green>%s</color> to decrease the statistic."),
+    ctxt.get_desc("UP").c_str(), ctxt.get_desc("DOWN").c_str(),
+    ctxt.get_desc("RIGHT").c_str(), ctxt.get_desc("LEFT").c_str()
+        );
+        mvwprintz(w, FULL_SCREEN_HEIGHT - 3, 2, COL_NOTE_MAJOR, _("%s Takes you to the next tab."), ctxt.get_desc("NEXT_TAB").c_str());
+        mvwprintz(w, FULL_SCREEN_HEIGHT - 2, 2, COL_NOTE_MAJOR, _("%s Returns you to the main menu."), ctxt.get_desc("PREV_TAB").c_str());
+
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
         mvwprintz(w, 3, iSecondColumn, c_black, clear);
         for (int i = 6; i < 13; i++) {
@@ -678,14 +686,12 @@ h, 4, or left arrow to decrease the statistic."));
 
         wrefresh(w);
         wrefresh(w_description);
-        ch = input();
-        if ((ch == 'j' || ch == '2') && sel < 4) {
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
             sel++;
-        }
-        if ((ch == 'k' || ch == '8') && sel > 1) {
+        } else if (action == "UP") {
             sel--;
-        }
-        if (ch == 'h' || ch == '4') {
+        } else if (action == "LEFT") {
             if (sel == 1 && u->str_max > 4) {
                 if (u->str_max > HIGH_STAT) {
                     points++;
@@ -711,8 +717,7 @@ h, 4, or left arrow to decrease the statistic."));
                 u->per_max--;
                 points++;
             }
-        }
-        if ((ch == 'l' || ch == '6')) {
+        } else if (action == "RIGHT") {
             if (sel == 1 && u->str_max < 20) {
                 points--;
                 if (u->str_max >= HIGH_STAT) {
@@ -738,12 +743,10 @@ h, 4, or left arrow to decrease the statistic."));
                 }
                 u->per_max++;
             }
-        }
-        if (ch == '<' && query_yn(_("Return to main menu?"))) {
+        } else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
             delwin(w_description);
             return -1;
-        }
-        if (ch == '>') {
+        } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
         }
