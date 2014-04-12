@@ -4017,6 +4017,7 @@ void game::debug()
             load_npcs();
             m.spawn_monsters(); // Static monsters
             update_overmap_seen();
+            update_map(u.posx, u.posy);
             draw_minimap();
         }
     } break;
