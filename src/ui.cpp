@@ -200,6 +200,10 @@ void uimenu::filterlist()
             selected = fentries [ 0 ];
         }
     }
+    // scroll to top of screen if all remaining entries fit the screen.
+    if (fentries.size() <= vmax) {
+        vshift = 0;
+    }
 }
 
 /*
