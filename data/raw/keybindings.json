@@ -180,6 +180,68 @@
     },
     {
         "type" : "keybinding",
+        "id": "FILTER",
+        "name": "Filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"F"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "RESET_FILTER",
+        "name": "Reset filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CYCLE_MODE",
+        "category": "CRAFTING",
+        "name": "Cycle display mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "HELP_RECIPE",
+        "category": "CRAFTING",
+        "name": "Show recipe result",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"CENTER",
         "category":"OVERMAP",
         "name":"Center On Character",
