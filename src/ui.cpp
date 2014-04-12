@@ -183,6 +183,10 @@ void uimenu::filterlist()
             fentries.push_back( i );
             if ( i == selected ) {
                 fselected = f;
+            } else if (i > selected && fselected == -1) {
+                // Past the previously selected entry, which has been filtered out,
+                // choose another nearby entry instead.
+                fselected = f;
             }
             f++;
         }
@@ -195,6 +199,10 @@ void uimenu::filterlist()
         } else {
             selected = fentries [ 0 ];
         }
+    }
+    // scroll to top of screen if all remaining entries fit the screen.
+    if (fentries.size() <= vmax) {
+        vshift = 0;
     }
 }
 
