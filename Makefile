@@ -223,9 +223,9 @@ ifdef SDL
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
-      CXXFLAGS += $(shell sdl-config --cflags) \
-		  -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
-      LDFLAGS += $(shell sdl-config --libs) -lSDL2_ttf
+      CXXFLAGS += $(shell sdl2-config --cflags) \
+		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
+      LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       ifdef TILES
 	LDFLAGS += -lSDL2_image
       endif
@@ -292,12 +292,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
-
-ifdef SDL
-  ifeq ($(NATIVE),osx)
-    OBJS += $(ODIR)/SDLMain.o
-  endif
-endif
 
 ifdef LANGUAGES
   L10N = localization
