@@ -47,7 +47,7 @@ const std::string field_names[num_fields] =
     toString(fd_cigsmoke),
     toString(fd_weedsmoke),
     toString(fd_cracksmoke),
-    toString(fd_methsmoke),
+    toString(fd_methsmoke)
 };
 const std::string monster_names[num_monsters] =
 {
