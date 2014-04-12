@@ -566,6 +566,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "CHANGE_GENDER",
+        "category": "NEW_CHAR_PROFESSIONS",
+        "name": "Change gender",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOOGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toogle activate/examine",

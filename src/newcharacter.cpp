@@ -1033,6 +1033,14 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
     }
 
+    input_context ctxt("NEW_CHAR_PROFESSIONS");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("CHANGE_GENDER");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
     do {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
         std::string can_pick = sorted_profs[cur_id]->can_pick(u, points);
@@ -1133,7 +1141,8 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         werase(w_genderswap);
-        mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press TAB to switch to %1$s."),
+        mvwprintz(w_genderswap, 0, 0, c_magenta, _("Press %1$s to switch to %2$s."),
+                    ctxt.get_desc("CHANGE_GENDER").c_str(),
                     sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
         //Draw Scrollbar
@@ -1145,38 +1154,27 @@ int set_profession(WINDOW *w, player *u, int &points)
         wrefresh(w_skills);
         wrefresh(w_addictions);
         wrefresh(w_genderswap);
-        switch (input()) {
-            case 'j':
-            case '2':
+
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
                 cur_id++;
                 if (cur_id > profession::count() - 1) {
                     cur_id = 0;
                 }
-                break;
-
-            case 'k':
-            case '8':
+        } else if (action == "UP") {
                 cur_id--;
                 if (cur_id < 0) {
                     cur_id = profession::count() - 1;
                 }
-                break;
-
-            case '\n':
-            case '5':
+        } else if (action == "CONFIRM") {
                 u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
                 points -= netPointCost;
-                break;
-            case '\t':
+        } else if (action == "CHANGE_GENDER") {
                 u->male = !u->male;
-                break;
-            case '<':
+        } else if (action == "PREV_TAB") {
                 retval = -1;
-                break;
-
-            case '>':
+        } else if (action == "NEXT_TAB") {
                 retval = 1;
-                break;
         }
     } while (retval == 0);
 
