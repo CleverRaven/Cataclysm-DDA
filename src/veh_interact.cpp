@@ -1157,7 +1157,7 @@ void veh_interact::display_stats()
                    _("Mass: <color_ltblue>%5d</color> %s"),
                    int(veh->total_mass() * weight_factor), weight_units.c_str());
     fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
-                   _("Cargo Volume: <color_ltgray>%6d/%6d</color>"),
+                   _("Cargo Volume: <color_ltgray>%d/%d</color>"),
                    total_cargo - free_cargo, total_cargo);
     // Write the overall damage
     mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:  "));
