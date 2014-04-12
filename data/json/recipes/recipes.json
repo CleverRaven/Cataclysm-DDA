@@ -1832,8 +1832,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe", 2 ]
