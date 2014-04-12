@@ -767,8 +767,8 @@ matec_id player::pick_technique(Creature &t,
             continue;
         }
 
-        // Check if there are valid aoe targets.
-        if( !valid_aoe_technique(t, tec) ) {
+        // if aoe, check if there are valid targets
+        if (tec.aoe.length() > 0 && !valid_aoe_technique(t, tec)) {
             continue;
         }
 

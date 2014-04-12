@@ -7227,7 +7227,7 @@
     "id": "g_shovel",
     "symbol": "/",
     "color": "dark_gray",
-    "name": "gardening shovel",
+    "name": "trowel",
     "description": "A small, sharp gardening shovel, perfect for digging up grubs and worms.",
     "price": 20,
     "material": "steel",
