@@ -90,11 +90,27 @@ void show_auto_pickup()
     int iCurrentCol = 1;
     int iStartPos = 0;
     bool bStuffChanged = false;
-    char ch = ' ';
+    input_context ctxt("AUTO_PICKUP");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("ADD_RULE");
+    ctxt.register_action("REMOVE_RULE");
+    ctxt.register_action("COPY_RULE");
+    ctxt.register_action("SWAP_RULE_GLOBAL_CHAR");
+    ctxt.register_action("ENABLE_RULE");
+    ctxt.register_action("DISABLE_RULE");
+    ctxt.register_action("MOVE_RULE_UP");
+    ctxt.register_action("MOVE_RULE_DOWN");
+    ctxt.register_action("TEST_RULE");
+    ctxt.register_action("SWITCH_AUTO_PICKUP_OPTION");
+    ctxt.register_action("HELP_KEYBINDINGS");
 
     std::stringstream sTemp;
 
-    do {
+    while(true) {
         int locx = 17;
         locx += shortcut_print(w_auto_pickup_header, 2, locx, c_white,
                                (iCurrentPage == 1) ? hilite(c_white) : c_white, _("[<Global>]")) + 1;
@@ -176,63 +192,54 @@ void show_auto_pickup()
             wrefresh(w_auto_pickup_options);
         }
 
-        ch = (char)input();
+        const std::string action = ctxt.handle_input();
 
-        if (iCurrentPage == 3) {
-            switch(ch) {
-            case '\t': //Switch to next Page
+        if (action == "NEXT_TAB") {
                 iCurrentPage++;
                 if (iCurrentPage > 3) {
                     iCurrentPage = 1;
                     iCurrentLine = 0;
                 }
-                break;
-            }
-        } else if (iCurrentPage == 1 || iCurrentPage == 2) {
-            if (iCurrentPage == 2 && g->u.name == "" && ch != '\t') {
+        } else if (action == "PREV_TAB") {
+                iCurrentPage--;
+                if (iCurrentPage < 0) {
+                    iCurrentPage = 0;
+                    iCurrentLine = 0;
+                }
+        } else if (action == "QUIT") {
+            break;
+        } else if (iCurrentPage == 2 && g->u.name.empty()) {
                 //Only allow loaded games to use the char sheet
-            } else if (!vAutoPickupRules[iCurrentPage].empty() || ch == 'a' || ch == 'A' || ch == 's' ||
-                       ch == 'S' || ch == '\t') {
-                switch(ch) {
-                case 'j': //move down
+        } else if (action == "DOWN") {
                     iCurrentLine++;
                     iCurrentCol = 1;
                     if (iCurrentLine >= vAutoPickupRules[iCurrentPage].size()) {
                         iCurrentLine = 0;
                     }
-                    break;
-                case 'k': //move up
+        } else if (action == "UP") {
                     iCurrentLine--;
                     iCurrentCol = 1;
                     if (iCurrentLine < 0) {
                         iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
                     }
-                    break;
-                case 'a': //add new rule
-                case 'A':
+        } else if (action == "ADD_RULE") {
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage].push_back(cPickupRules("", true, false));
                     iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
-                    break;
-                case 'r': //remove rule
-                case 'R':
+        } else if (action == "REMOVE_RULE") {
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
                     if (iCurrentLine > vAutoPickupRules[iCurrentPage].size() - 1) {
                         iCurrentLine--;
                     }
-                    break;
-                case 'c': //copy rule
-                case 'C':
+        } else if (action == "COPY_RULE") {
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage].push_back(cPickupRules(
                                 vAutoPickupRules[iCurrentPage][iCurrentLine].sRule,
                                 vAutoPickupRules[iCurrentPage][iCurrentLine].bActive,
                                 vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
                     iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
-                    break;
-                case 'm': //move rule global <-> character
-                case 'M':
+        } else if (action == "SWAP_RULE_GLOBAL_CHAR") {
                     if ((iCurrentPage == 1 && g->u.name != "") || iCurrentPage == 2) {
                         bStuffChanged = true;
                         //copy over
@@ -246,15 +253,7 @@ void show_auto_pickup()
                         iCurrentLine = vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].size() - 1;
                         iCurrentPage = (iCurrentPage == 1) ? 2 : 1;
                     }
-                    break;
-                case '\t': //Switch to next Page
-                    iCurrentPage++;
-                    if (iCurrentPage > 2) {
-                        iCurrentPage = 1;
-                        iCurrentLine = 0;
-                    }
-                    break;
-                case '\n': //Edit Col in current line
+        } else if (action == "CONFIRM") {
                     bStuffChanged = true;
                     if (iCurrentCol == 1) {
                         fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white,
@@ -277,30 +276,23 @@ void show_auto_pickup()
                         vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude =
                             !vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude;
                     }
-                    break;
-                case 'e': //enable rule
-                case 'E':
+        } else if (action == "ENABLE_RULE") {
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = true;
-                    break;
-                case 'd': //disable rule
-                case 'D':
+        } else if (action == "DISABLE_RULE") {
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = false;
-                    break;
-                case 'h': //move left
+        } else if (action == "LEFT") {
                     iCurrentCol--;
                     if (iCurrentCol < 1) {
                         iCurrentCol = iTotalCols;
                     }
-                    break;
-                case 'l': //move right
+        } else if (action == "RIGHT") {
                     iCurrentCol++;
                     if (iCurrentCol > iTotalCols) {
                         iCurrentCol = 1;
                     }
-                    break;
-                case '+': //move rule up
+        } else if (action == "MOVE_RULE_UP") {
                     bStuffChanged = true;
                     if (iCurrentLine < vAutoPickupRules[iCurrentPage].size() - 1) {
                         std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
@@ -308,8 +300,7 @@ void show_auto_pickup()
                         iCurrentLine++;
                         iCurrentCol = 1;
                     }
-                    break;
-                case '-': //move rule down
+        } else if (action == "MOVE_RULE_DOWN") {
                     bStuffChanged = true;
                     if (iCurrentLine > 0) {
                         std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
@@ -317,20 +308,13 @@ void show_auto_pickup()
                         iCurrentLine--;
                         iCurrentCol = 1;
                     }
-                    break;
-                case 't': //test rule
-                case 'T':
+        } else if (action == "TEST_RULE") {
                     test_pattern(iCurrentPage, iCurrentLine);
-                    break;
-                case 'S': //Switch auto pickup option (enabled/disabled)
-                case 's':
+        } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
                     OPTIONS["AUTO_PICKUP"].setNext();
                     save_options((g->u.name != ""));
-                    break;
-                }
-            }
         }
-    } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+    }
 
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {
