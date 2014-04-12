@@ -567,12 +567,35 @@
     {
         "type" : "keybinding",
         "id": "CHANGE_GENDER",
-        "category": "NEW_CHAR_PROFESSIONS",
         "name": "Change gender",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SAVE_TEMPLATE",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Save template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"!"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PICK_RANDOM_NAME",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Pick random character name",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
             }
         ]
     },

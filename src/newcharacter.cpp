@@ -1349,7 +1349,15 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     unsigned female_pos = 2 + male_pos + utf8_width(_("Male"));
     bool redraw = true;
 
-    long ch;
+    input_context ctxt("NEW_CHAR_DESCRIPTION");
+    ctxt.register_cardinal();
+    ctxt.register_action("SAVE_TEMPLATE");
+    ctxt.register_action("PICK_RANDOM_NAME");
+    ctxt.register_action("CHANGE_GENDER");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("ANY_INPUT");
 
     do {
         if (redraw) {
@@ -1441,8 +1449,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
             wrefresh(w_skills);
 
-            mvwprintz(w_guide, 0, 0, c_green, _("Press > to finish character creation or < to go back and make revisions."));
-            mvwprintz(w_guide, 1, 0, c_green, _("Press ! to save a template of this character."));
+            mvwprintz(w_guide, 0, 0, c_green, _("Press %s to finish character creation or %s to go back and make revisions."),
+                      ctxt.get_desc("NEXT_TAB").c_str(),
+                      ctxt.get_desc("PREV_TAB").c_str());
+            mvwprintz(w_guide, 1, 0, c_green, _("Press %s to save a template of this character."),
+                      ctxt.get_desc("SAVE_TEMPLATE").c_str());
             wrefresh(w_guide);
 
             redraw = false;
@@ -1453,13 +1464,15 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
-        mvwprintz(w_name, 1, 0, c_ltgray, _("Press ? to pick a random name."));
+        mvwprintz(w_name, 1, 0, c_ltgray, _("Press %s to pick a random name."),
+                      ctxt.get_desc("PICK_RANDOM_NAME").c_str());
         wrefresh(w_name);
 
         mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
         mvwprintz(w_gender, 0, male_pos, (u->male ? c_ltred : c_ltgray), _("Male"));
         mvwprintz(w_gender, 0, female_pos, (u->male ? c_ltgray : c_ltred), _("Female"));
-        mvwprintz(w_gender, 1, 0, c_ltgray, _("Press TAB to switch gender"));
+        mvwprintz(w_gender, 1, 0, c_ltgray, _("Press %s to switch gender"),
+                      ctxt.get_desc("CHANGE_GENDER").c_str());
         wrefresh(w_gender);
 
         werase(w_profession);
@@ -1467,9 +1480,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         wprintz (w_profession, c_ltgray, u->prof->gender_appropriate_name(u->male).c_str());
         wrefresh(w_profession);
 
-        ch = input();
+        const std::string action = ctxt.handle_input();
 
-        if (ch == '>') {
+        if (action == "NEXT_TAB") {
             if (points < 0) {
                 popup(_("Too many points allocated, change some features and try again."));
                 redraw = true;
@@ -1508,7 +1521,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 redraw = true;
                 continue;
             }
-        } else if (ch == '<') {
+        } else if (action == "PREV_TAB") {
             delwin(w_name);
             delwin(w_gender);
             delwin(w_stats);
@@ -1517,42 +1530,42 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             delwin(w_skills);
             delwin(w_guide);
             return -1;
-        } else if (ch == '!') {
+        } else if (action == "SAVE_TEMPLATE") {
             if (points != 0) {
                 popup(_("You cannot save a template with nonzero unused points!"));
             } else {
                 save_template(u);
             }
             redraw = true;
-            wrefresh(w);
-        } else if (ch == '?') {
+        } else if (action == "PICK_RANDOM_NAME") {
             u->pick_name();
-        } else if (ch == KEY_BACKSPACE || ch == 127) {
-            if (!u->name.empty()) {
+        } else if (action == "CHANGE_GENDER") {
+            u->male = !u->male;
+        } else if (action == "ANY_INPUT") {
+            const long ch = ctxt.get_raw_input().get_first_input();
+            if ((ch == KEY_BACKSPACE || ch == 127) && !u->name.empty()) {
                 //erase utf8 character TODO: make a function
                 while(!u->name.empty() && ((unsigned char)u->name[u->name.size() - 1]) >= 128 &&
-                      ((unsigned char)u->name[(int)u->name.size() - 1]) <= 191) {
+                        ((unsigned char)u->name[(int)u->name.size() - 1]) <= 191) {
                     u->name.erase(u->name.size() - 1);
                 }
                 u->name.erase(u->name.size() - 1);
+            } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30) {
+                u->name.push_back(ch);
+            } else if(ch == KEY_F(2)) {
+                std::string tmp = get_input_string_from_file();
+                int tmplen = utf8_width(tmp.c_str());
+                if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
+                    u->name.append(tmp);
+                }
             }
-        } else if (ch == '\t') {
-            u->male = !u->male;
-        } else if (is_char_allowed(ch) && utf8_width(u->name.c_str()) < 30) {
-            u->name.push_back(ch);
-        } else if(ch == KEY_F(2)) {
-            std::string tmp = get_input_string_from_file();
-            int tmplen = utf8_width(tmp.c_str());
-            if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
-                u->name.append(tmp);
-            }
-        }
-        //experimental unicode input
-        else if(ch > 127) {
-            std::string tmp = utf32_to_utf8(ch);
-            int tmplen = utf8_width(tmp.c_str());
-            if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
-                u->name.append(tmp);
+            //experimental unicode input
+            else if(ch > 127) {
+                std::string tmp = utf32_to_utf8(ch);
+                int tmplen = utf8_width(tmp.c_str());
+                if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {
+                    u->name.append(tmp);
+                }
             }
         }
     } while (true);
