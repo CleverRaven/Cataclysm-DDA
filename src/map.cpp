@@ -3996,6 +3996,9 @@ void map::load(const int wx, const int wy, const int wz, const bool update_vehic
     loadn(wx, wy, wz, gridx, gridy, update_vehicle, om);
   }
  }
+
+    set_outside_cache_dirty();
+    set_transparency_cache_dirty();
 }
 
 void map::forget_traps(int gridx, int gridy)
