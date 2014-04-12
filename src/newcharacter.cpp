@@ -799,6 +799,13 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     iCurrentLine[0] = 0;
     iCurrentLine[1] = 0;
 
+    input_context ctxt("NEW_CHAR_TRAITS");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
         mvwprintz(w, 3, 19, c_ltgreen, "%4d/%-4d", num_good, max_trait_points);
@@ -895,36 +902,28 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
         wrefresh(w);
         wrefresh(w_description);
-        switch (input()) {
-            case 'h':
-            case '4':
-            case 'l':
-            case '6':
-            case '\t':
-                if (iCurWorkingPage == 0) {
-                    iCurWorkingPage = 1;
-                } else {
-                    iCurWorkingPage = 0;
-                }
-                wrefresh(w);
-                break;
-            case 'k':
-            case '8':
+        const std::string action = ctxt.handle_input();
+        if (action == "LEFT") {
+            iCurWorkingPage--;
+            if (iCurWorkingPage < 0) {
+                iCurWorkingPage = 1;
+            }
+        } else if (action == "RIGHT") {
+            iCurWorkingPage++;
+            if (iCurWorkingPage > 1) {
+                iCurWorkingPage = 0;
+            }
+        } else if (action == "UP") {
                 iCurrentLine[iCurWorkingPage]--;
                 if (iCurrentLine[iCurWorkingPage] < 0) {
                     iCurrentLine[iCurWorkingPage] = vStartingTraits[iCurWorkingPage].size() - 1;
                 }
-                break;
-            case 'j':
-            case '2':
+        } else if (action == "DOWN") {
                 iCurrentLine[iCurWorkingPage]++;
                 if (iCurrentLine[iCurWorkingPage] >= vStartingTraits[iCurWorkingPage].size()) {
                     iCurrentLine[iCurWorkingPage] = 0;
                 }
-                break;
-            case ' ':
-            case '\n':
-            case '5': {
+        } else if (action == "CONFIRM") {
                 int inc_type = 0;
                 std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
                 if (u->has_trait(cur_trait)) {
@@ -977,12 +976,10 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                         num_bad += traits[cur_trait].points * inc_type;
                     }
                 }
-                break;
-            }
-            case '<':
+        } else if (action == "PREV_TAB") {
                 delwin(w_description);
                 return -1;
-            case '>':
+        } else if (action == "NEXT_TAB") {
                 delwin(w_description);
                 return 1;
         }
