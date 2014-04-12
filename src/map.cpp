@@ -4015,10 +4015,6 @@ void map::forget_traps(int gridx, int gridy)
 
 void map::shift(const int wx, const int wy, const int wz, const int sx, const int sy)
 {
- // Shifting the map invalidates all caches.
- set_transparency_cache_dirty();
- set_outside_cache_dirty();
-
  set_abs_sub( g->cur_om->pos().x * OMAPX * 2 + wx + sx,
    g->cur_om->pos().y * OMAPY * 2 + wy + sy, wz
  );
@@ -4164,6 +4160,10 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
  }
 
  if (tmpsub) {
+    // New submap changes the content of the map and all caches must be recalculated
+    set_transparency_cache_dirty();
+    set_outside_cache_dirty();
+
   grid[gridn] = tmpsub;
 
   // Update vehicle data
