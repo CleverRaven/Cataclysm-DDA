@@ -1205,6 +1205,12 @@ int set_skills(WINDOW *w, player *u, int &points)
     int cur_pos = 0;
     Skill *currentSkill = sorted_skills[cur_pos];
 
+    input_context ctxt("NEW_CHAR_SKILLS");
+    ctxt.register_cardinal();
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
         // Clear the bottom of the screen.
@@ -1264,25 +1270,20 @@ int set_skills(WINDOW *w, player *u, int &points)
 
         wrefresh(w);
         wrefresh(w_description);
-        switch (input()) {
-        case 'j':
-        case '2':
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
             cur_pos++;
             if (cur_pos >= num_skills) {
                 cur_pos = 0;
             }
             currentSkill = sorted_skills[cur_pos];
-            break;
-        case 'k':
-        case '8':
+        } else if (action == "UP") {
             cur_pos--;
             if (cur_pos < 0) {
                 cur_pos = num_skills - 1;
             }
             currentSkill = sorted_skills[cur_pos];
-            break;
-        case 'h':
-        case '4': {
+        } else if (action == "LEFT") {
             SkillLevel& level = u->skillLevel(currentSkill);
             if (level) {
                 if (level == 2) {  // lower 2->0 for 1 point
@@ -1293,10 +1294,7 @@ int set_skills(WINDOW *w, player *u, int &points)
                     points += (level + 1) / 2;
                 }
             }
-            break;
-        }
-        case 'l':
-        case '6': {
+        } else if (action == "RIGHT") {
             SkillLevel& level = u->skillLevel(currentSkill);
             if (level <= 19) {
                 if (level == 0) {  // raise 0->2 for 1 point
@@ -1307,12 +1305,10 @@ int set_skills(WINDOW *w, player *u, int &points)
                     level.level(level + 1);
                 }
             }
-            break;
-        }
-        case '<':
+        } else if (action == "PREV_TAB") {
             delwin(w_description);
             return -1;
-        case '>':
+        } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
         }
