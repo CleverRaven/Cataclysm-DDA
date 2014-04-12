@@ -2634,7 +2634,7 @@ Arm encumbrance affects your accuracy with ranged weapons."));
                  "Reloading costs %+d movement points; ",
                  encumb(bp_hands) * 30);
     s+= _("Dexterity %+d when throwing items.");
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, 
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
     s.c_str() , encumb(bp_hands) * 30, -encumb(bp_hands));
    } else if (line == 6) {
     mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
@@ -6424,7 +6424,7 @@ bool player::process_single_active_item(item *it)
                     this->add_disease("weed_high", duration / 2);
                     g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_weedsmoke, 2);
                 }
-                this->moves -= 2;
+                this->moves -= 10;
             }
 
             if((this->has_disease("shakes") && one_in(10)) ||

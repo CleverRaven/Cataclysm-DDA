@@ -51,10 +51,6 @@ enum field_id {
  fd_fire,
  fd_rubble,
  fd_smoke,
- fd_cigsmoke,
- fd_weedsmoke,
- fd_cracksmoke,
- fd_methsmoke,
  fd_toxic_gas,
  fd_tear_gas,
  fd_nuke_gas,
@@ -73,6 +69,10 @@ enum field_id {
  fd_blood_invertebrate,
  fd_gibs_insect,
  fd_gibs_invertebrate,
+ fd_cigsmoke,
+ fd_weedsmoke,
+ fd_cracksmoke,
+ fd_methsmoke,
  num_fields
 };
 

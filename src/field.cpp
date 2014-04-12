@@ -90,31 +90,6 @@ void game::init_fields()
             {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true},  300,
             {0,0,0}
         },
-
-        {
-            {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '~', 0,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  350,
-            {0,0,0}
-        },
-
-        {
-            {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '~', 0,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  325,
-            {0,0,0}
-        },
-
-        {
-            {_("swirl of crack smoke"), _("crack smoke"), _("thick crack smoke")}, '~', 0,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  225,
-            {0,0,0}
-        },
-
-        {
-            {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '~', 0,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  275,
-            {0,0,0}
-        },
-
         {
             {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8', 8,
             {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900,
@@ -215,6 +190,27 @@ void game::init_fields()
         {
             {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
             {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '~', 0,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  350,
+            {0,0,0}
+        },
+        {
+            {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '~', 0,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  325,
+            {0,0,0}
+        },
+
+        {
+            {_("swirl of crack smoke"), _("crack smoke"), _("thick crack smoke")}, '~', 0,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  225,
+            {0,0,0}
+        },
+        {
+            {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '~', 0,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  275,
             {0,0,0}
         }
     };

@@ -821,7 +821,6 @@ int iuse::alcohol_strong(player *p, item *it, bool)
 
 int iuse::cig(player *p, item *it, bool)
 {
-    if (!use_fire(p, it)) return 0;
     // make sure we're not already smoking something
     for(std::vector<item*>::iterator iter = p->inv.active_items().begin(); iter != p->inv.active_items().end(); iter++) {
         item* i = *iter;
@@ -842,7 +841,7 @@ int iuse::cig(player *p, item *it, bool)
             }
             int choice = -1;
             if(hasPipe && hasPapers) { // ask whether to roll a cigarette or puff on a pipe
-                choice = menu(true, _("Do what with tobacco?"), _("Roll a cigarette"), _("Smoke a pipe"), _("Cancel"), NULL);
+                choice = menu(true, _("Do what with the tobacco?"), _("Roll a cigarette"), _("Smoke a pipe"), _("Cancel"), NULL);
                 if(choice < 0 || choice == 3) {
                     g->add_msg_if_player(p, _("Never mind."));
                     return 0;
@@ -857,6 +856,7 @@ int iuse::cig(player *p, item *it, bool)
                 }
                 p->use_charges_if_avail("rolling_paper", 1);
             } else { // smoke out of a pipe
+                if (!use_fire(p, it)) return 0;
                 g->add_msg_if_player(p,_("You smoke some tobacco out of your pipe."));
                 p->thirst += 1;
                 p->hunger -= 2;
@@ -882,10 +882,12 @@ int iuse::cig(player *p, item *it, bool)
         p->thirst += 3;
         p->hunger -= 4;
     } else { // joint
+        p->use_charges_if_avail("rolling_paper", 1);
         cig = item(itypes["joint_lit"], int(g->turn));
         cig.item_counter = 40;
         // thirst/hunger for joint happen in iuse::weed
     }
+    if (!use_fire(p, it)) return 0;
     cig.active = true;
     p->inv.add_item(cig, false, true);
     g->add_msg_if_player(p,_("You light a %s."), cig.name.c_str());
@@ -1041,12 +1043,13 @@ int iuse::weed(player *p, item *it, bool b) {
     // Requires flame and something to smoke with.
     bool hasPipe = (p->has_amount("apparatus", 1));
     bool hasPapers = (p->has_charges("rolling_paper", 1));
+    bool hasFire = (p->has_charges("fire", 1));
     if (!(hasPipe || hasPapers)) {
         g->add_msg_if_player(p,_("You haven't got anything to smoke out of."));
         return 0;
     }
 
-    if(!p->use_charges_if_avail("fire", 1)) {
+    if(!hasFire) {
         g->add_msg_if_player(p,_("You need something to light it."));
         return 0;
     }
@@ -1060,7 +1063,7 @@ int iuse::weed(player *p, item *it, bool b) {
 
     int choice = -1;
     if(hasPipe && hasPapers) { // ask whether to roll a fatty or pack a bowl
-        choice = menu(true, _("Do what with cannabis?"), _("Roll a joint"), _("Smoke a pipe"), _("Cancel"), NULL);
+        choice = menu(true, _("Do what with the cannabis?"), _("Roll a joint"), _("Smoke a pipe"), _("Cancel"), NULL);
         if(choice < 0 || choice == 3) {
             g->add_msg_if_player(p, _("Never mind."));
             return 0;
@@ -1074,11 +1077,11 @@ int iuse::weed(player *p, item *it, bool b) {
             p->moves -= 10;
             return 0;
         }
-        p->use_charges_if_avail("rolling_paper", 1);
         return cig(p, it, b);
     }
 
     // smoke out of a pipe
+    p->use_charges_if_avail("fire", 1);
     if (!(p->has_disease("weed_high"))) {
         g->add_msg_if_player(p,_("You smoke some weed.  Good stuff, man!"));
     } else {

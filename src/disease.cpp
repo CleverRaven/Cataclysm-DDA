@@ -260,7 +260,6 @@ void dis_msg(dis_type type_string) {
 }
 
 void weed_msg(player *p) {
-    p->add_effect("speed_boost", 10);
     int howhigh = p->disease_duration("weed_high");
     int smarts = p->get_int();
     if(howhigh > 125 && one_in(7)) {
