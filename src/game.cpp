@@ -14113,7 +14113,7 @@ nc_color sev(int a)
 
 void game::display_scent()
 {
- int div = 1 + query_int(_("Set the Scent Map sensitivity to (0 to cancel)?"));
+ int div = query_int(_("Set the Scent Map sensitivity to (0 to cancel)?"));
  if (div < 1) {
     add_msg(_("Never mind."));
     return;
