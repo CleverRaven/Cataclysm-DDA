@@ -69,7 +69,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  std::string name(); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
  // the creature-class versions of the above
- std::string disp_name();
+ std::string disp_name(bool possessive = false);
  std::string skin_name();
  void get_HP_Bar(nc_color &color, std::string &text);
  void get_Attitude(nc_color &color, std::string &text);

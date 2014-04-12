@@ -173,24 +173,28 @@ std::string monster::name_with_armor()
 {
  std::string ret;
  if (type->in_species("INSECT")) {
-     ret = string_format(_("%s's carapace"), type->name.c_str());
+     ret = string_format(_("carapace"));
  }
  else {
      if (type->mat == "veggy") {
-         ret = string_format(_("%s's thick bark"), type->name.c_str());
+         ret = string_format(_("thick bark"));
      } else if (type->mat == "flesh" || type->mat == "hflesh" || type->mat == "iflesh") {
-         ret = string_format(_("%s's thick hide"), type->name.c_str());
+         ret = string_format(_("thick hide"));
      } else if (type->mat == "iron" || type->mat == "steel") {
-         ret = string_format(_("%s's armor plating"), type->name.c_str());
+         ret = string_format(_("armor plating"));
      } else if (type->mat == "protoplasmic") {
-         ret = string_format(_("%s's hard protoplasmic hide"), type->name.c_str());
+         ret = string_format(_("hard protoplasmic hide"));
      }
  }
  return ret;
 }
 
-std::string monster::disp_name() {
-    return string_format(_("the %s"), name().c_str());
+std::string monster::disp_name(bool possessive) {
+    if (!possessive) {
+        return string_format(_("the %s"), name().c_str());
+    } else {
+        return string_format(_("the %s's"), name().c_str());
+    }
 }
 
 std::string monster::skin_name() {
@@ -789,8 +793,22 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     }
     bp_hit = dealt_dam.bp_hit;
 
+    if (hitspread < 0) { // a miss
+        // TODO: characters practice dodge when a hit misses 'em
+        if (target.is_player()) {
+            if (u_see_me) {
+                g->add_msg(_("You dodge %1$s."), disp_name().c_str());
+            } else {
+                g->add_msg(_("You dodge an attack from an unseen source."));
+            }
+        } else {
+            if (u_see_me) {
+                g->add_msg(_("The %1$s dodges %2$s attack."), name().c_str(),
+                            target.disp_name(true).c_str());
+            }
+        }
     //Hallucinations always produce messages but never actually deal damage
-    if (is_hallucination() || dealt_dam.total_damage() > 0) {
+    } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
         if (target.is_player()) {
             if (u_see_me) {
                 g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
@@ -801,26 +819,28 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
             }
         } else {
             if (u_see_me) {
-                g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
-                            target.disp_name().c_str(),
+                g->add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
+                            target.disp_name(true).c_str(),
                             body_part_name(bp_hit, random_side(bp_hit)).c_str());
             }
         }
-    } else if (hitspread < 0) { // a miss
-        // TODO: characters practice dodge when a hit misses 'em
+    } else {
         if (target.is_player()) {
             if (u_see_me) {
-                g->add_msg(_("You dodge %1$s."), disp_name().c_str());
+                g->add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
             } else {
-                g->add_msg(_("You dodge an attack from an unseen source."));
+                g->add_msg(_("Something hits your %1$s, but your %2$s protects you."),
+                        body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
             }
         } else {
             if (u_see_me) {
-                g->add_msg(_("The %1$s dodges %2$s's attack."), name().c_str(),
-                            target.disp_name().c_str());
+                g->add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
+                            target.disp_name(true).c_str(),
+                            body_part_name(bp_hit, random_side(bp_hit)).c_str(),
+                            target.skin_name().c_str());
             }
         }
-
     }
 
     if (is_hallucination()) {
@@ -899,7 +919,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
             !proj.wide) {
         if (u_see_mon)
-            g->add_msg(_("The shot passes through the %s without hitting."),
+            g->add_msg(_("The shot passes through %s without hitting."),
             disp_name().c_str());
         return 0;
     }
