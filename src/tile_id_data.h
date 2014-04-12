@@ -26,10 +26,6 @@ const std::string field_names[num_fields] =
     toString(fd_fire),
     toString(fd_rubble),
     toString(fd_smoke),
-    toString(fd_cigsmoke),
-    toString(fd_weedsmoke),
-    toString(fd_cracksmoke),
-    toString(fd_methsmoke),
     toString(fd_toxic_gas),
     toString(fd_tear_gas),
     toString(fd_nuke_gas),
@@ -47,7 +43,11 @@ const std::string field_names[num_fields] =
     toString( fd_blood_insect ),
     toString( fd_blood_invertebrate ),
     toString( fd_gibs_insect ),
-    toString( fd_gibs_invertebrate )
+    toString( fd_gibs_invertebrate ),
+    toString(fd_cigsmoke),
+    toString(fd_weedsmoke),
+    toString(fd_cracksmoke),
+    toString(fd_methsmoke),
 };
 const std::string monster_names[num_monsters] =
 {
