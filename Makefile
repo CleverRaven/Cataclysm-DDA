@@ -71,7 +71,9 @@ ifdef SOUND
   ifndef TILES
     $(error "SOUND=1 only works with TILES=1")
   endif
-  CXXFLAGS += "-DSDL_SOUND"
+  CXXFLAGS += $(shell pkg-config --cflags SDL2_mixer)
+  CXXFLAGS += -DSDL_SOUND
+  LDFLAGS += $(shell pkg-config --libs SDL2_mixer)
 endif
 
 VERSION = 0.A
