@@ -1461,4 +1461,10 @@ bool is_draw_tiles_mode() {
     return false;
 }
 
+void play_music(std::string playlist) {
+}
+
+void play_sound(std::string identifier) {
+}
+
 #endif

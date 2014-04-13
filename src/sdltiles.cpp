@@ -42,6 +42,10 @@
 #include "SDL2/SDL_image.h"
 #endif
 
+#ifdef SDL_SOUND
+#include "SDL_mixer.h"
+#endif
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -51,6 +55,13 @@ cata_tiles *tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
+#endif
+
+#ifdef SDL_SOUND
+/** The music we're currently playing. */
+Mix_Music *current_music = NULL;
+std::string current_playlist = "";
+int current_playlist_at = 0;
 #endif
 
 /**
@@ -272,11 +283,28 @@ bool WinCreate()
 
     SDL_JoystickEventState(SDL_ENABLE);
 
+    // Set up audio mixer.
+#ifdef SDL_SOUND
+    int audio_rate = 22050;
+    Uint16 audio_format = AUDIO_S16;
+    int audio_channels = 2;
+    int audio_buffers = 4096;
+
+    SDL_Init(SDL_INIT_AUDIO);
+
+    if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers)) {
+      DebugLog() << "Failed to open audio mixer.\n";
+    }
+#endif
+
     return true;
 };
 
 void WinDestroy()
 {
+#ifdef SDL_SOUND
+    Mix_CloseAudio();
+#endif
     if(joystick) {
         SDL_JoystickClose(joystick);
         joystick = 0;
@@ -1078,6 +1106,9 @@ int projected_window_height(int)
     return OPTIONS["TERMINAL_Y"] * fontheight;
 }
 
+// forward declaration
+void load_soundset();
+
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
@@ -1201,6 +1232,9 @@ WINDOW *curses_init(void)
     #endif // SDLTILES
 
     init_colors();
+
+    // initialize sound set
+    load_soundset();
 
     // Reset the font pointer
     font = Font::load_font(typeface, fontsize, fontwidth, fontheight);
@@ -1712,6 +1746,98 @@ void translate_terrain_window_size_back(int &w, int &h) {
 
 bool is_draw_tiles_mode() {
     return use_tiles;
+}
+
+struct music_playlist {
+    // list of filenames relative to the soundpack location
+    std::vector<std::string> files;
+    std::vector<int> volumes;
+    bool shuffle;
+
+    music_playlist() : shuffle(false) {
+    }
+};
+
+std::map<std::string, music_playlist> playlists;
+
+#ifdef SDL_SOUND
+
+void musicFinished();
+
+void play_music_file(std::string filename, int volume) {
+    current_music = Mix_LoadMUS((FILENAMES["datadir"] + "/sound/" + filename).c_str());
+    Mix_VolumeMusic(volume * OPTIONS["MUSIC_VOLUME"] / 100);
+    Mix_PlayMusic(current_music, 0);
+    Mix_HookMusicFinished(musicFinished);
+}
+
+/** Callback called when we finish playing music. */
+void musicFinished() {
+    Mix_HaltMusic();
+    Mix_FreeMusic(current_music);
+    current_music = NULL;
+
+    // Load the next file to play.
+    current_playlist_at++;
+
+    // Wrap around if we reached the end of the playlist.
+    if(current_playlist_at >= playlists[current_playlist].files.size()) {
+        current_playlist_at = 0;
+    }
+
+    std::string filename = playlists[current_playlist].files[current_playlist_at];
+    play_music_file(filename, playlists[current_playlist].volumes[current_playlist_at]);
+}
+#endif
+
+void play_music(std::string playlist) {
+#ifdef SDL_SOUND
+
+    if(playlists[playlist].files.size() == 0) {
+        return;
+    }
+
+    // Don't interrupt playlist that's already playing.
+    if(playlist == current_playlist) {
+        return;
+    }
+
+    std::string filename = playlists[playlist].files[0];
+    int volume = playlists[playlist].volumes[0];
+
+    current_playlist = playlist;
+    current_playlist_at = 0;
+
+    play_music_file(filename, volume);
+
+#endif
+}
+
+void load_soundset() {
+    std::string location = FILENAMES["datadir"] + "/sound/soundset.json";
+    std::ifstream jsonstream(location.c_str(), std::ifstream::binary);
+    if (jsonstream.good()) {
+        JsonIn json(jsonstream);
+        JsonObject config = json.get_object();
+        JsonArray playlists_ = config.get_array("playlists");
+
+        for(int i=0; i < playlists_.size(); i++) {
+            JsonObject playlist = playlists_.get_object(i);
+
+            std::string playlist_id = playlist.get_string("id");
+            music_playlist playlist_to_load;
+            playlist_to_load.shuffle = playlist.get_bool("shuffle", false);
+
+            JsonArray playlist_files = playlist.get_array("files");
+            for(int j=0; j < playlist_files.size(); j++) {
+                JsonObject entry = playlist_files.get_object(j);
+                playlist_to_load.files.push_back(entry.get_string("file"));
+                playlist_to_load.volumes.push_back(entry.get_int("volume"));
+            }
+
+            playlists[playlist_id] = playlist_to_load;
+        }
+    }
 }
 
 #endif // TILES
