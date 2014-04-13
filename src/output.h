@@ -61,6 +61,8 @@ void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
 void display_table(WINDOW *w, const std::string &title, int columns,
                    const std::vector<std::string> &data);
 void multipage(WINDOW *w, std::vector<std::string> text, std::string caption = "", int begin_y = 0);
+std::string name_and_value(std::string name, int value, int field_width);
+std::string name_and_value(std::string name, std::string value, int field_width);
 
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW *w, nc_color FG, long ch);
