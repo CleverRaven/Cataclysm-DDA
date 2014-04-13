@@ -243,6 +243,8 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
 
         jsout.start_object();
 
+        jsout.member( "version", savegame_version);
+
         jsout.member( "coordinates" );
         jsout.start_array();
         jsout.write( submap_addr.x );
@@ -602,7 +604,10 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int)
         jsin.start_object();
         while( !jsin.end_object() ) {
             std::string submap_member_name = jsin.get_member_name();
-            if( submap_member_name == "coordinates" ) {
+            if( submap_member_name == "version" ) {
+                // We aren't using the version number for anything at the moment.
+                jsin.skip_value();
+            } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
                 int locx = jsin.get_int();
                 int locy = jsin.get_int();
