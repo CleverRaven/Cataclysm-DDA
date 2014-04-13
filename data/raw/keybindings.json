@@ -289,6 +289,42 @@
     },
     {
         "type" : "keybinding",
+        "id": "HELP",
+        "category": "SORT_ARMOR",
+        "name": "Display Help",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ARMOR",
+        "category": "SORT_ARMOR",
+        "name": "Select armor for moving",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ASSIGN_INVLETS",
+        "category": "SORT_ARMOR",
+        "name": "Assign invlets to armor",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"HELP_KEYBINDINGS",
         "name":"Display Help",
         "bindings":[
