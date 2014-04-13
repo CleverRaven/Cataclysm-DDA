@@ -94,7 +94,7 @@ void player::sort_armor()
     ctxt.register_cardinal();
     ctxt.register_action("QUIT");
     ctxt.register_action("PREV_TAB");
-    ctxt.register_action("NEX_TAB");
+    ctxt.register_action("NEXT_TAB");
     ctxt.register_action("MOVE_ARMOR");
     ctxt.register_action("ASSIGN_INVLETS");
     ctxt.register_action("HELP");
@@ -295,7 +295,7 @@ void player::sort_armor()
             tabindex = (tabindex + 1) % tabcount;
             leftListIndex = leftListOffset = 0;
             selected = -1;
-        } else if (action == "NEX_TAB") {
+        } else if (action == "NEXT_TAB") {
             rightListOffset++;
             if (rightListOffset + cont_h - 2 > rightListSize) {
                 rightListOffset = rightListSize - cont_h + 2;
