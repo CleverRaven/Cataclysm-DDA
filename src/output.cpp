@@ -186,7 +186,8 @@ std::string name_and_value (std::string name, std::string value, int field_width
     int value_width = utf8_width(value.c_str());
     std::stringstream result;
     result << name.c_str();
-    for (int i = name_width; i < std::max(field_width, name_width + value_width); ++i) {
+    for (int i = (name_width + value_width);
+         i < std::max(field_width, name_width + value_width); ++i) {
         result << " ";
     }
     result << value.c_str();

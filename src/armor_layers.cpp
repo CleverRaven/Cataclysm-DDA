@@ -364,7 +364,7 @@ void draw_mid_pane(WINDOW *w_sort_middle, item *worn_item)
     it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
     mvwprintz(w_sort_middle, 0, 1, c_white, each_armor->name.c_str());
     int middle_w = getmaxx(w_sort_middle);
-    std::vector<std::string> props = clothing_properties(worn_item, middle_w - 6);
+    std::vector<std::string> props = clothing_properties(worn_item, middle_w - 3);
     size_t i;
     for (i = 0; i < props.size(); ++i) {
         mvwprintz(w_sort_middle, i + 1, 2, c_ltgray, props[i].c_str());
@@ -399,7 +399,7 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
     it_armor *each_armor = dynamic_cast<it_armor *>(worn_item->type);
     std::vector<std::string> props;
     props.push_back(name_and_value(_("Coverage:"),
-                    string_format("%3d%%", int(each_armor->coverage)), width));
+                    string_format("%3d", int(each_armor->coverage)), width));
     props.push_back(name_and_value(_("Encumbrance:"), string_format("%3d",
                     (worn_item->has_flag("FIT")) ? std::max(0, int(each_armor->encumber) - 1) :
                     int(each_armor->encumber)), width));
@@ -407,9 +407,9 @@ std::vector<std::string> clothing_properties(item *worn_item, int width)
                     string_format("%3d", int(worn_item->bash_resist())), width));
     props.push_back(name_and_value(_("Cut Protection:"),
                     string_format("%3d", int(worn_item->cut_resist())), width));
-    props.push_back(name_and_value(_("Warmth: "),
+    props.push_back(name_and_value(_("Warmth:"),
                     string_format("%3d", int(each_armor->warmth)), width));
-    props.push_back(name_and_value(_("Storage: "),
+    props.push_back(name_and_value(_("Storage:"),
                     string_format("%3d", int(each_armor->storage)), width));
 
     return props;
