@@ -107,7 +107,6 @@ void mapbuffer::save( bool delete_after_save )
     map_directory << world_generator->active_world->world_path << "/maps";
     assure_dir_exist( map_directory.str().c_str() );
 
-    std::ofstream fout;
     int num_saved_submaps = 0;
     int num_total_submaps = submap_list.size();
 
@@ -148,16 +147,16 @@ void mapbuffer::save( bool delete_after_save )
         std::stringstream quad_path;
         quad_path << segment_path.str() << "/" << om_addr.x << "." <<
             om_addr.y << "." << om_addr.z << ".map";
-        fout.open( quad_path.str().c_str() );
 
-        save_quad( fout, om_addr, delete_after_save );
+        save_quad( quad_path.str(), om_addr, delete_after_save );
         num_saved_submaps += 4;
-        fout.close();
     }
 }
 
-void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool delete_after_save )
+void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
+                           bool delete_after_save )
 {
+    std::ofstream fout( filename.c_str() );
     std::vector<point> offsets;
     offsets.push_back( point(0, 0) );
     offsets.push_back( point(0, 1) );
@@ -358,6 +357,7 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
         jsout.end_object();
     }
     jsout.end_array();
+    fout.close();
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and
