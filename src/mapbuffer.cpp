@@ -4,17 +4,12 @@
 #include "translations.h"
 #include <fstream>
 #include <sstream>
-#ifndef _MSC_VER
-#include <unistd.h>
-#endif
 #include "savegame.h"
 #include "file_wrapper.h"
-#include "file_finder.h"
 #include "overmapbuffer.h"
 #include "mapbuffer.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
-const int savegame_minver_map = 11;
 
 mapbuffer MAPBUFFER;
 
@@ -89,21 +84,7 @@ submap *mapbuffer::lookup_submap(int x, int y, int z)
 
     const tripoint p(x, y, z);
     if (submaps.count(p) == 0) {
-        const tripoint om_addr = overmapbuffer::sm_to_omt_copy( p );
-        const tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
-        std::stringstream quad_path;
-        quad_path << world_generator->active_world->world_path << "/maps/" <<
-            segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
-            om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
-        std::ifstream fin;
-        fin.open( quad_path.str().c_str() );
-        if( fin.is_open() ) {
-            unserialize_submaps( fin, 4 );
-        }
-        if (submaps.count(p) == 0) {
-            // If we can't find a file it must not have been generated yet.
-            return NULL;
-        }
+        return unserialize_submaps( p );
     }
 
     dbg(D_INFO) << "mapbuffer::lookup_submap success: " << submaps[p];
@@ -379,180 +360,24 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
     jsout.end_array();
 }
 
-int mapbuffer::load_keys(std::string worldname)
-{
-    int num_submaps = 0;
-    std::ifstream fin;
-    std::stringstream world_map_path;
-    world_map_path << world_generator->all_worlds[worldname]->world_path << "/maps";
-    std::stringstream map_key_file;
-    map_key_file << world_map_path.str() << "/map.key";
-    fin.open( map_key_file.str().c_str() );
-    if( !fin.is_open() ) {
-        // Currently not having a key file is fatal.
-        return 0;
-    }
-    num_submaps = unserialize_keys( fin );
-    fin.close();
-    return num_submaps;
-}
-
-void mapbuffer::load(std::string worldname)
-{
-    std::ifstream fin;
-    std::stringstream worldmap;
-    int num_submaps = 0;
-
-    worldmap << world_generator->all_worlds[worldname]->world_path << "/maps.txt";
-
-    // Handle older monolithic map file.
-    fin.open( worldmap.str().c_str() );
-    if( fin.is_open() ) {
-        // If we have a maps.txt, load it, then get rid of it.
-        num_submaps = unserialize_keys( fin );
-        unserialize_submaps( fin, num_submaps );
-        fin.close();
-        // Save the data and unload it at the same time.
-        save( true );
-        unlink( worldmap.str().c_str() );
-        // Clear and reload the keys so they don't mess with dynamic map loading.
-        load_keys( worldname );
-        return;
-    }
-
-    // If we don't have a monolithic maps.txt, we either have a maps directory or nothing.
-    std::stringstream world_map_path;
-    world_map_path << world_generator->all_worlds[worldname]->world_path << "/maps";
-    num_submaps = load_keys( worldname );
-    if( num_submaps == 0 ) {
-        return;
-    }
-    // We only need to load all the files if we changed versions,
-    // use changing numbers of map entities to trigger it as well.
-    if( savegame_loading_version != savegame_version ||
-        num_terrain_types != ter_key.size() || num_furniture_types != furn_key.size() ||
-        trapmap.size() != trap_key.size() ) {
-        std::vector<std::string> map_files = file_finder::get_files_from_path(
-            ".map", world_map_path.str(), true, true );
-        if( map_files.empty() ) {
-            return;
-        }
-        // TODO: save/load in batches to avoid peak memory use getting out of control.
-        for( std::vector<std::string>::iterator file = map_files.begin();
-             file != map_files.end(); ++file ) {
-            fin.open( file->c_str() );
-            unserialize_submaps( fin, num_submaps );
-            fin.close();
-            // Write out and clear map data as its read.
-            save( true );
-        }
-        load_keys( worldname );
-    }
-}
-
-int mapbuffer::unserialize_keys( std::ifstream &fin )
-{
-    if ( fin.peek() == '#' ) {
-        std::string vline;
-        getline(fin, vline);
-        std::string tmphash, tmpver;
-        int savedver = -1;
-        std::stringstream vliness(vline);
-        vliness >> tmphash >> tmpver >> savedver;
-        if ( tmpver == "version" && savedver != -1 ) {
-            savegame_loading_version = savedver;
-        }
-    }
-    if (savegame_loading_version != savegame_version &&
-        savegame_loading_version < savegame_minver_map) {
-        // We're version x but this is a save from version y, let's check to see if there's a loader
-        if ( unserialize_legacy(fin) == true ) { // loader returned true, we're done.
-            return 0;
-        } else {
-            // no unserialize_legacy for version y, continuing onwards towards possible disaster.
-            // Or not?
-            popup_nowait(_("Cannot find loader for map save data in old version %d,"
-                           " attempting to load as current version %d."),
-                         savegame_loading_version, savegame_version);
-        }
-    }
-
-    std::stringstream jsonbuff;
-    std::string databuff;
-    int num_submaps = 0;
-    getline(fin, databuff);
-    jsonbuff.str(databuff);
-    JsonIn jsin(jsonbuff);
-
-    ter_key.clear();
-    furn_key.clear();
-    trap_key.clear();
-
-    jsin.start_object();
-    while (!jsin.end_object()) {
-        std::string name = jsin.get_member_name();
-        if (name == "listsize") {
-            num_submaps = jsin.get_int();
-        } else if (name == "terrain_key") {
-            int i = 0;
-            jsin.start_array();
-            while (!jsin.end_array()) {
-                std::string tstr = jsin.get_string();
-                if ( termap.find(tstr) == termap.end() ) {
-                    debugmsg("Can't find terrain '%s' (%d)", tstr.c_str(), i);
-                } else {
-                    ter_key[i] = termap[tstr].loadid;
-                }
-                ++i;
-            }
-        } else if (name == "furniture_key") {
-            int i = 0;
-            jsin.start_array();
-            while (!jsin.end_array()) {
-                std::string fstr = jsin.get_string();
-                if ( furnmap.find(fstr) == furnmap.end() ) {
-                    debugmsg("Can't find furniture '%s' (%d)", fstr.c_str(), i);
-                } else {
-                    furn_key[i] = furnmap[fstr].loadid;
-                }
-                ++i;
-            }
-        } else if (name == "trap_key") {
-            int i = 0;
-            jsin.start_array();
-            while (!jsin.end_array()) {
-                std::string trstr = jsin.get_string();
-                if ( trapmap.find(trstr) == trapmap.end() ) {
-                    debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                } else {
-                    trap_key[i] = trapmap[trstr];
-                }
-                ++i;
-            }
-        } else {
-            debugmsg("unrecognized mapbuffer json member '%s'", name.c_str());
-            jsin.skip_value();
-        }
-    }
-
-    if (trap_key.empty()) { // old, snip when this moves to legacy
-        for (int i = 0; i < num_legacy_trap; i++) {
-            std::string trstr = legacy_trap_id[i];
-            if ( trapmap.find( trstr ) == trapmap.end() ) {
-                debugmsg("Can't find trap '%s' (%d)", trstr.c_str(), i);
-                trap_key[i] = trapmap["tr_null"];
-            } else {
-                trap_key[i] = trapmap[trstr];
-            }
-        }
-    }
-    return num_submaps;
-}
-
 // We're reading in way too many entities here to mess around with creating sub-objects and
 // seeking around in them, so we're using the json streaming API.
-void mapbuffer::unserialize_submaps( std::ifstream &fin, const int)
+submap *mapbuffer::unserialize_submaps( const tripoint &p )
 {
+    // Map the tripoint to the submap quad that stores it.
+    const tripoint om_addr = overmapbuffer::sm_to_omt_copy( p );
+    const tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
+    std::stringstream quad_path;
+    quad_path << world_generator->active_world->world_path << "/maps/" <<
+        segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
+        om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
+
+    std::ifstream fin( quad_path.str().c_str() );
+    if( !fin.is_open() ) {
+        // If it doesn't exist, trigger generating it.
+        return NULL;
+    }
+
     JsonIn jsin( fin );
     jsin.start_array();
     while( !jsin.end_array() ) {
@@ -685,154 +510,9 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int)
         }
         submap_list.push_back(sm);
         submaps[ submap_coordinates ] = sm;
-//        num_loaded++;
     }
+    return submaps[ p ];
 }
-
-#if 0
-// Legacy submap chunk loader.
-void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
-{
-    std::map<tripoint, submap *>::iterator it;
-    int num_loaded = 0;
-    item it_tmp;
-    std::string databuff;
-    std::string st;
-
-    while (!fin.eof()) {
-        if( num_submaps > 100 && num_loaded % 100 == 0 ) {
-            popup_nowait(_("Please wait as the map loads [%d/%d]"),
-                         num_loaded, num_submaps);
-        }
-
-        int locx, locy, locz, turn, temperature;
-        submap *sm = new submap();
-        fin >> locx >> locy >> locz >> turn >> temperature;
-        if(fin.eof()) {
-            delete sm;
-            break;
-        }
-        sm->turn_last_touched = turn;
-        sm->temperature = temperature;
-        int turndif = int(g->turn) - turn;
-        if (turndif < 0) {
-            turndif = 0;
-        }
-
-        // Load terrain
-        for (int j = 0; j < SEEY; j++) {
-            for (int i = 0; i < SEEX; i++) {
-                int tmpter;
-                fin >> tmpter;
-                tmpter = ter_key[tmpter];
-                sm->ter[i][j] = ter_id(tmpter);
-
-                sm->set_furn(i, j, f_null);
-                sm->itm[i][j].clear();
-                sm->set_trap(i, j, tr_null);
-                sm->graf[i][j] = graffiti();
-            }
-        }
-        // Load irradiation
-        int radtmp;
-        int count = 0;
-        for (int j = 0; j < SEEY; j++) {
-            for (int i = 0; i < SEEX; i++) {
-                if (count == 0) {
-                    fin >> radtmp >> count;
-                    radtmp -= int(turndif / 100); // Radiation slowly decays
-                    if (radtmp < 0) {
-                        radtmp = 0;
-                    }
-                }
-                count--;
-                sm->rad[i][j] = radtmp;
-            }
-        }
-        // Load items and traps and fields and spawn points and vehicles
-        std::string string_identifier;
-        // Parts of the loop seem to rely on these variables NOT being reset.
-        // INSANITY!
-        int itx = 0;
-        int ity = 0;
-        int d = 0;
-        int a = 0;
-        do {
-            if(fin.eof()) {
-                // file has ended, but the submap-separator string
-                // "----" has not been read, something's wrong, skip
-                // this probably damaged/invalid submap.
-                delete sm;
-                return;
-            }
-            fin >> string_identifier; // "----" indicates end of this submap
-            int t = 0;
-
-            st = "";
-            if (string_identifier == "I") {
-                fin >> itx >> ity;
-                getline(fin, databuff); // Clear out the endline
-                getline(fin, databuff);
-                it_tmp.load_info(databuff);
-                sm->itm[itx][ity].push_back(it_tmp);
-                if (it_tmp.active) {
-                    sm->active_item_count++;
-                }
-            } else if (string_identifier == "C") {
-                getline(fin, databuff); // Clear out the endline
-                getline(fin, databuff);
-                int index = sm->itm[itx][ity].size() - 1;
-                it_tmp.load_info(databuff);
-                sm->itm[itx][ity][index].put_in(it_tmp);
-                if (it_tmp.active) {
-                    sm->active_item_count++;
-                }
-            } else if (string_identifier == "T") {
-                fin >> itx >> ity >> t;
-                sm->set_trap(itx, ity, trap_id(trap_key[t]));
-            } else if (string_identifier == "f") {
-                fin >> itx >> ity >> t;
-                sm->set_furn(itx, ity, furn_id(furn_key[t]));
-            } else if (string_identifier == "F") {
-                fin >> itx >> ity >> t >> d >> a;
-                if(!sm->fld[itx][ity].findField(field_id(t))) {
-                    sm->field_count++;
-                }
-                sm->fld[itx][ity].addField(field_id(t), d, a);
-            } else if (string_identifier == "S") {
-                char tmpfriend;
-                int tmpfac = -1, tmpmis = -1;
-                std::string spawnname;
-                fin >> st >> a >> itx >> ity >> tmpfac >> tmpmis >> tmpfriend >> spawnname;
-                spawn_point tmp((st), a, itx, ity, tmpfac, tmpmis, (tmpfriend == '1'),
-                                spawnname);
-                sm->spawns.push_back(tmp);
-            } else if (string_identifier == "V") {
-                vehicle *veh = new vehicle();
-                veh->load (fin);
-                sm->vehicles.push_back(veh);
-            } else if (string_identifier == "c") {
-                getline(fin, databuff);
-                sm->comp.load_data(databuff);
-            } else if (string_identifier == "B") {
-                getline(fin, databuff);
-                sm->camp.load_data(databuff);
-            } else if (string_identifier == "G") {
-                std::string s;
-                int j;
-                int i;
-                fin >> j >> i;
-                getline(fin, s);
-                sm->graf[j][i] = graffiti(s);
-            }
-        } while (string_identifier != "----");
-
-        submap_list.push_back(sm);
-        submaps[ tripoint(locx, locy, locz) ] = sm;
-        num_loaded++;
-    }
-}
-#endif
 
 int mapbuffer::size()
 {
