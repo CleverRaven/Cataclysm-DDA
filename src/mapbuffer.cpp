@@ -1,13 +1,13 @@
-#include "game.h"
+#include "mapbuffer.h"
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
-#include <fstream>
-#include <sstream>
 #include "savegame.h"
 #include "file_wrapper.h"
 #include "overmapbuffer.h"
-#include "mapbuffer.h"
+#include "game.h"
+#include <fstream>
+#include <sstream>
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 

@@ -1,4 +1,3 @@
-#include "map.h"
 #include "line.h"
 #include <map>
 #include <list>
@@ -27,6 +26,8 @@ struct pointcomp {
         return false;
     };
 };
+
+struct submap;
 
 /**
  * Store, buffer, save and load the entire world map.
