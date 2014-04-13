@@ -1536,6 +1536,24 @@
   ]
 },{
   "type" : "recipe",
+  "result": "bwirebat",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bat", 1 ]
+    ],
+    [
+      [ "wire_barbed", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bowling_axe",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",

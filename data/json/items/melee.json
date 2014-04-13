@@ -1996,6 +1996,23 @@
     },
     {
         "type":"GENERIC",
+        "id" : "bwirebat",
+        "name" : "barbed wire bat",
+        "description" : "A baseball bat wrapped with barbed wire. A brutal melee weapon.",
+        "weight" : 1420,
+        "to_hit" : 3,
+        "color" : "brown",
+        "symbol" : "/",
+        "material" : ["wood", "steel"],
+        "techniques" : ["WBLOCK_1"],
+        "flags" : ["DURABLE_MELEE"],
+        "volume" : 8,
+        "bashing" : 21,
+        "cutting" : 4,
+        "price" : 20000
+    },
+    {
+        "type":"GENERIC",
         "id" : "bowling_axe",
         "name" : "The 7-10 Split",
         "description" : "An improvised weapon, made from two spikes attached parallel to the large end of a bowling pin.",
