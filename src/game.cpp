@@ -561,6 +561,12 @@ void game::start_game(std::string worldname)
 
 // Find a random house on the map, and set us there.
  cur_om->first_house(levx, levy, u.start_location);
+ point player_location = overmapbuffer::omt_to_sm_copy( levx, levy );
+ tinymap player_start;
+ player_start.load( player_location.x, player_location.y, levz, false );
+ player_start.translate( t_window_domestic, t_curtains );
+ player_start.save( cur_om, int(turn), levx, levy, levz );
+
  levx -= int(int(MAPSIZE / 2) / 2);
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
