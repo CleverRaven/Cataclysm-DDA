@@ -1832,8 +1832,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M_G","level":1,"amount":1},
-    {"id":"SCREW_G","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
   ], "components": [
     [
       [ "pipe", 2 ]
@@ -20646,9 +20646,6 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
@@ -22197,9 +22194,6 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-"qualities":[
-    {"id":"CUT","level":1,"amount":1}
-    ],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
@@ -28473,9 +28467,6 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
@@ -28501,9 +28492,6 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
@@ -28528,9 +28516,6 @@
   "time": 45000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1}
@@ -29002,9 +28987,6 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["mag_survival", 4] , ["atomic_survival", 3] , ["textbook_survival", 2]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [

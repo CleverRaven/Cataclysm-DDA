@@ -196,7 +196,6 @@
         "id" : "mouthpiece",
         "category" : "armor",
         "name" : "protective mouthpiece",
-        "category" : "armor",
         "weight": 20,
         "color": "yellow",
         "covers" : ["MOUTH"],

@@ -1105,6 +1105,14 @@ void veh_interact::display_stats()
     const int extraw = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2; // see exec()
     int x[15], y[15], w[15]; // 3 columns * 5 rows = 15 slots max
 
+    std::vector<int> cargo_parts = veh->all_parts_with_feature("CARGO");
+    int total_cargo = 0;
+    int free_cargo = 0;
+    for (size_t i = 0; i < cargo_parts.size(); i++) {
+        const int p = cargo_parts[i];
+        total_cargo += veh->max_volume(p);
+        free_cargo += veh->free_volume(p);
+    }
     if (vertical_menu) {
         // Vertical menu
         const int second_column = 34 + (extraw / 4); // 29
@@ -1143,18 +1151,17 @@ void veh_interact::display_stats()
         weight_factor *= 2.2f;
     }
     fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
-                   _("Safe speed:   <color_ltgreen>%3d</color> %s"),
-                   int(veh->safe_velocity(false) * speed_factor), speed_units.c_str());
+                   _("Safe/Top speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"),
+                   int(veh->safe_velocity(false) * speed_factor), int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
     fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
-                   _("Top speed:    <color_ltred>%3d</color> %s"),
-                   int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
                    _("Acceleration: <color_ltblue>%3d</color> %s/t"),
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
-                   _("Mass:       <color_ltblue>%5d</color> %s"),
+    fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
+                   _("Mass: <color_ltblue>%5d</color> %s"),
                    int(veh->total_mass() * weight_factor), weight_units.c_str());
-
+    fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
+                   _("Cargo Volume: <color_ltgray>%d/%d</color>"),
+                   total_cargo - free_cargo, total_cargo);
     // Write the overall damage
     mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:  "));
     x[4] += utf8_width(_("Status: ")) + 1;

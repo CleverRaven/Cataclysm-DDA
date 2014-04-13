@@ -169,12 +169,230 @@
     },
     {
         "type" : "keybinding",
+        "id": "ADD_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Add rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Remove rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "COPY_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Copy rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SWAP_RULE_GLOBAL_CHAR",
+        "category": "AUTO_PICKUP",
+        "name": "Move rule global <-> character",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":","
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ENABLE_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Enable rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DISABLE_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Disable rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_RULE_UP",
+        "category": "AUTO_PICKUP",
+        "name": "Move rule up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_RULE_DOWN",
+        "category": "AUTO_PICKUP",
+        "name": "Move rule down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "TEST_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Test rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SWITCH_AUTO_PICKUP_OPTION",
+        "category": "AUTO_PICKUP",
+        "name": "Enable auto pickup option",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "HELP",
+        "category": "SORT_ARMOR",
+        "name": "Display Help",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ARMOR",
+        "category": "SORT_ARMOR",
+        "name": "Select armor for moving",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ASSIGN_INVLETS",
+        "category": "SORT_ARMOR",
+        "name": "Assign invlets to armor",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"HELP_KEYBINDINGS",
         "name":"Display Help",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "FILTER",
+        "name": "Filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"F"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "RESET_FILTER",
+        "name": "Reset filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CYCLE_MODE",
+        "category": "CRAFTING",
+        "name": "Cycle display mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "HELP_RECIPE",
+        "category": "CRAFTING",
+        "name": "Show recipe result",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
             }
         ]
     },

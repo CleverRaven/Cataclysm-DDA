@@ -271,8 +271,8 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
                 }
 
                 // Save furniture
-                if (sm->frn[i][j] != f_null) {
-                    furnout << "f " << i << " " << j << " " << sm->frn[i][j] << std::endl;
+                if (sm->get_furn(i, j) != f_null) {
+                    furnout << "f " << i << " " << j << " " << sm->get_furn(i, j) << std::endl;
                 }
 
                 // Save items
@@ -287,8 +287,8 @@ void mapbuffer::save_quad( std::ofstream &fout, const tripoint &om_addr, bool de
                 }
 
                 // Save traps
-                if (sm->trp[i][j] != tr_null) {
-                    trapout << "T " << i << " " << j << " " << sm->trp[i][j] << std::endl;
+                if (sm->get_trap(i, j) != tr_null) {
+                    trapout << "T " << i << " " << j << " " << sm->get_trap(i, j) << std::endl;
                 }
 
                 // Save fields
@@ -552,9 +552,9 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
                 tmpter = ter_key[tmpter];
                 sm->ter[i][j] = ter_id(tmpter);
 
-                sm->frn[i][j] = f_null;
+                sm->set_furn(i, j, f_null);
                 sm->itm[i][j].clear();
-                sm->trp[i][j] = tr_null;
+                sm->set_trap(i, j, tr_null);
                 sm->graf[i][j] = graffiti();
             }
         }
@@ -614,10 +614,10 @@ void mapbuffer::unserialize_submaps( std::ifstream &fin, const int num_submaps )
                 }
             } else if (string_identifier == "T") {
                 fin >> itx >> ity >> t;
-                sm->trp[itx][ity] = trap_id(trap_key[t]);
+                sm->set_trap(itx, ity, trap_id(trap_key[t]));
             } else if (string_identifier == "f") {
                 fin >> itx >> ity >> t;
-                sm->frn[itx][ity] = furn_id(furn_key[t]);
+                sm->set_furn(itx, ity, furn_id(furn_key[t]));
             } else if (string_identifier == "F") {
                 fin >> itx >> ity >> t >> d >> a;
                 if(!sm->fld[itx][ity].findField(field_id(t))) {

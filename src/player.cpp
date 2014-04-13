@@ -341,22 +341,35 @@ void player::normalize()
         temp_conv[i] = BODYTEMP_NORM;
 }
 
-void player::pick_name() {
+void player::pick_name()
+{
     name = Name::generate(male);
 }
 
-std::string player::disp_name() {
-    if (is_player())
-        return "you";
-    return name;
+std::string player::disp_name(bool possessive)
+{
+    if (!possessive) {
+        if (is_player()) {
+            return _("you");
+        }
+        return name;
+    } else {
+        if (is_player()) {
+            return _("your");
+        }
+        return string_format(_("%s's"), name.c_str());
+    }
 }
 
-std::string player::skin_name() {
-    return "thin skin";
+std::string player::skin_name()
+{
+    //TODO: Return actual deflecting layer name
+    return _("armor");
 }
 
 // just a shim for now since actual player death is handled in game::is_game_over
-void player::die(Creature* nkiller) {
+void player::die(Creature* nkiller)
+{
     if( nkiller != NULL && !nkiller->is_fake() ) {
         killer = nkiller;
     }
@@ -4156,7 +4169,7 @@ bool player::is_dead_state() {
     return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
 }
 
-void player::on_gethit(Creature *source, body_part bp_hit, damage_instance&) {
+void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
     bool u_see = g->u_see(this);
     if (source != NULL) {
         if (has_active_bionic("bio_ods")) {
@@ -4278,7 +4291,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     int cut_dam = dealt_dams.type_damage(DT_CUT);
     switch (bp) {
     case bp_eyes:
-        mod_pain(1);
         if (dam > 5 || cut_dam > 0) {
             int minblind = int((dam + cut_dam) / 10);
             if (minblind < 1) {
@@ -4296,7 +4308,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
      */
     case bp_mouth: // Fall through to head damage
     case bp_head:
-        mod_pain(1);
         hp_cur[hp_head] -= dam; //this looks like an extra damage hit, as is applied in apply_damage from player::apply_damage()
         if (hp_cur[hp_head] < 0) {
             lifetime_stats()->damage_taken+=hp_cur[hp_head];
@@ -10628,7 +10639,7 @@ bool player::has_container_for(const item &newit)
 
 nc_color player::bodytemp_color(int bp)
 {
-    nc_color color;
+  nc_color color =  c_ltgray; // default
     if (bp == bp_eyes) {
         color = c_ltgray;    // Eyes don't count towards warmth
     } else if (temp_conv[bp] >  BODYTEMP_SCORCHING) {

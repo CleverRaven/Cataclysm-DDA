@@ -14113,7 +14113,11 @@ nc_color sev(int a)
 
 void game::display_scent()
 {
- int div = 1 + query_int(_("Sensitivity"));
+ int div = query_int(_("Set the Scent Map sensitivity to (0 to cancel)?"));
+ if (div < 1) {
+    add_msg(_("Never mind."));
+    return;
+ };
  draw_ter();
  for (int x = u.posx - getmaxx(w_terrain)/2; x <= u.posx + getmaxx(w_terrain)/2; x++) {
   for (int y = u.posy - getmaxy(w_terrain)/2; y <= u.posy + getmaxy(w_terrain)/2; y++) {

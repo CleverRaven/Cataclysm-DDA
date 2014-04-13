@@ -91,6 +91,16 @@ void player::sort_armor()
 
     nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
 
+    input_context ctxt("SORT_ARMOR");
+    ctxt.register_cardinal();
+    ctxt.register_action("QUIT");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEX_TAB");
+    ctxt.register_action("MOVE_ARMOR");
+    ctxt.register_action("ASSIGN_INVLETS");
+    ctxt.register_action("HELP");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
     for (bool sorting = true; sorting; ) {
         werase(w_sort_cat);
         werase(w_sort_left);
@@ -100,7 +110,7 @@ void player::sort_armor()
         // top bar
         wprintz(w_sort_cat, c_white, _("Sort Armor"));
         wprintz(w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str());
-        tmp_str = _("Press '?' for help");
+        tmp_str = string_format(_("Press %s for help"), ctxt.get_desc("HELP").c_str());
         mvwprintz(w_sort_cat, 0, win_w - utf8_width(tmp_str.c_str()) - 4,
                   c_white, tmp_str.c_str());
 
@@ -222,12 +232,8 @@ void player::sort_armor()
         wrefresh(w_sort_middle);
         wrefresh(w_sort_right);
 
-        switch (input()) {
-        case '8':
-        case 'k':
-            if (!leftListSize) {
-                break;
-            }
+        const std::string action = ctxt.handle_input();
+        if (action == "UP" && leftListSize > 0) {
             leftListIndex--;
             if (leftListIndex < 0) {
                 leftListIndex = tmp_worn.size() - 1;
@@ -255,13 +261,7 @@ void player::sort_armor()
 
                 selected = leftListIndex;
             }
-            break;
-
-        case '2':
-        case 'j':
-            if (!leftListSize) {
-                break;
-            }
+        } else if (action == "DOWN" && leftListSize > 0) {
             leftListIndex = (leftListIndex + 1) % tmp_worn.size();
 
             // Scrolling logic
@@ -285,49 +285,34 @@ void player::sort_armor()
 
                 selected = leftListIndex;
             }
-            break;
-
-        case '4':
-        case 'h':
+        } else if (action == "LEFT") {
             tabindex--;
             if (tabindex < 0) {
                 tabindex = tabcount - 1;
             }
             leftListIndex = leftListOffset = 0;
             selected = -1;
-            break;
-
-        case '\t':
-        case '6':
-        case 'l':
+        } else if (action == "RIGHT") {
             tabindex = (tabindex + 1) % tabcount;
             leftListIndex = leftListOffset = 0;
             selected = -1;
-            break;
-
-        case '>':
+        } else if (action == "NEX_TAB") {
             rightListOffset++;
             if (rightListOffset + cont_h - 2 > rightListSize) {
                 rightListOffset = rightListSize - cont_h + 2;
             }
-            break;
-
-        case '<':
+        } else if (action == "PREV_TAB") {
             rightListOffset--;
             if (rightListOffset < 0) {
                 rightListOffset = 0;
             }
-            break;
-
-        case 's':
+        } else if (action == "MOVE_ARMOR") {
             if (selected >= 0) {
                 selected = -1;
             } else {
                 selected = leftListIndex;
             }
-            break;
-
-        case 'r': {
+        } else if (action == "ASSIGN_INVLETS") {
             // Start with last armor (the most unimportant one?)
             int worn_index = worn.size() - 1;
             int invlet_index = inv_chars.size() - 1;
@@ -344,30 +329,27 @@ void player::sort_armor()
                     invlet_index--;
                 }
             }
-        }
-        break;
-
-        case '?': {
+        } else if (action == "HELP") {
             popup_getkey(_("\
 Use the arrow- or keypad keys to navigate the left list.\n\
-Press 's' to select highlighted armor for reordering.\n\
-Use PageUp/PageDown to scroll the right list.\n\
-Press 'r' to assign special inventory letters to clothing.\n\
+Press %s to select highlighted armor for reordering.\n\
+Use %s / %s to scroll the right list.\n\
+Press %s to assign special inventory letters to clothing.\n\
  \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
-The sum of these values is the effective encumbrance value your character has for that bodypart."));
+The sum of these values is the effective encumbrance value your character has for that bodypart."),
+                ctxt.get_desc("MOVE_ARMOR").c_str(),
+                ctxt.get_desc("PREV_TAB").c_str(),
+                ctxt.get_desc("NEXT_TAB").c_str(),
+                ctxt.get_desc("ASSIGN_INVLETS").c_str()
+            );
             //TODO: refresh the window properly. Current method erases the intersection symbols
             draw_border(w_sort_armor); // hack to mark whole window for redrawing
             wrefresh(w_sort_armor);
-            break;
-        }
-
-        case KEY_ESCAPE:
-        case 'q':
+        } else if (action == "QUIT") {
             sorting = false;
-            break;
         }
     }
 
