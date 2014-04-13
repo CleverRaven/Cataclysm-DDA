@@ -76,6 +76,11 @@ JsonObject::JsonObject(JsonIn &j) : positions()
     while (!jsin->end_object()) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
+        if (n != "//" && n != "comment" && positions.count(n) > 0) {
+            // members with name "//" or "comment" are used for comments and
+            // should be ignored anyway.
+            j.error("duplicate entry in json object");
+        }
         positions[n] = p;
         jsin->skip_value();
     }
