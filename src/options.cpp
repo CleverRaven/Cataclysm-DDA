@@ -697,6 +697,11 @@ void initOptions() {
                                              false
                                             );  // populate the options dynamically
 
+    OPTIONS["MUSIC_VOLUME"] =     cOpt("graphics", _("Music Volume"),
+                                             _("SDL ONLY: Adjust the volume of the music being played in the background."),
+                                             0, 200, 100
+                                            );  // populate the options dynamically
+
     OPTIONS["AUTO_NOTES"] =     cOpt("general", _("Auto notes"),
                                              _("If true automatically sets notes on places that have stairs that go up or down"),
                                              true

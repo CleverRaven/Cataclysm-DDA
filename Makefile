@@ -22,6 +22,8 @@
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
 #  make TILES=1
+# Sound (requires SDL, so TILES must be enabled)
+#  make TILES=1 SOUND=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
 # Compile localization files for specified languages
@@ -64,6 +66,13 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
+
+ifdef SOUND
+  ifndef TILES
+    $(error "SOUND=1 only works with TILES=1")
+  endif
+  CXXFLAGS += "-DSDL_SOUND"
+endif
 
 VERSION = 0.A
 
