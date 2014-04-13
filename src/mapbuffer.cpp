@@ -126,50 +126,7 @@ void mapbuffer::save( bool delete_after_save )
     map_directory << world_generator->active_world->world_path << "/maps";
     assure_dir_exist( map_directory.str().c_str() );
 
-    std::stringstream mapfile;
-    mapfile << map_directory.str() << "/map.key";
-    std::ofstream fout(mapfile.str().c_str());
-    if( !fout.is_open() ) {
-        debugmsg( "Can't open %s.", mapfile.str().c_str() );
-        return;
-    }
-    fout.exceptions(std::ios::failbit | std::ios::badbit);
-
-    fout << "# version " << savegame_version << std::endl;
-
-    JsonOut jsout(fout);
-    jsout.start_object();
-    jsout.member("listsize", (unsigned int)submap_list.size());
-
-    // To keep load speedy, we're saving ints, but since these are ints
-    // that will change with revisions and loaded mods, we're also
-    // including a rosetta stone.
-    jsout.member("terrain_key");
-    jsout.start_array();
-    for (size_t i = 0; i < terlist.size(); i++) {
-        jsout.write(terlist[i].id);
-    }
-    jsout.end_array();
-
-    jsout.member("furniture_key");
-    jsout.start_array();
-    for (size_t i = 0; i < furnlist.size(); i++) {
-        jsout.write(furnlist[i].id);
-    }
-    jsout.end_array();
-
-    jsout.member("trap_key");
-    jsout.start_array();
-    for (size_t i = 0; i < traplist.size(); i++) {
-        jsout.write(traplist[i]->id);
-    }
-    jsout.end_array();
-
-    jsout.end_object();
-
-    fout << std::endl;
-    fout.close();
-
+    std::ofstream fout;
     int num_saved_submaps = 0;
     int num_total_submaps = submap_list.size();
 
