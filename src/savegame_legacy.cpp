@@ -113,8 +113,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
-            for (int i = 0; i < SEEX *MAPSIZE; i++) {
-                for (int j = 0; j < SEEY * MAPSIZE; j++) {
+            for( size_t i = 0; i < SEEX *MAPSIZE; i++ ) {
+                for( size_t j = 0; j < SEEY * MAPSIZE; j++ ) {
                     linein >> grscent[i][j];
                 }
             }
@@ -127,7 +127,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string data;
             clear_zombies();
             monster montmp;
-            for (int i = 0; i < nummon; i++)
+            for (int i = 0; i < nummon; i++ )
             {
                 getline(fin, data);
                 montmp.load_info(data);
@@ -136,7 +136,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             // And the kill counts;
             parseline();
-            int kk; int kscrap;
+            int kscrap;
             if ( linein.peek() == '{' ) {
                 try {
                     JsonIn kjin(linein);
@@ -145,7 +145,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                     debugmsg("Bad killcount json\n%s", jsonerr.c_str() );
                 }
             } else {
-                for (kk = 0; kk < num_monsters && !linein.eof(); kk++) {
+                for (int kk = 0; kk < num_monsters && !linein.eof(); kk++) {
                     if ( kk < 126 ) { // see legacy_mon_id
                         // load->int->str->int (possibly shifted)
                         linein >> kills[legacy_mon_id[kk]];
@@ -199,8 +199,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
-            for (int i = 0; i < SEEX *MAPSIZE; i++) {
-                for (int j = 0; j < SEEY * MAPSIZE; j++) {
+            for( size_t i = 0; i < SEEX *MAPSIZE; i++) {
+                for( size_t j = 0; j < SEEY * MAPSIZE; j++) {
                     linein >> grscent[i][j];
                 }
             }
@@ -221,7 +221,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 fin >> num_items;
                 // Chomp the endline after number of items.
                 getline( fin, data );
-                for (int i = 0; i < num_items; i++) {
+                for (int j = 0; j < num_items; j++) {
                     getline( fin, data );
                     montmp.inv.push_back( item( data ) );
                 }
@@ -316,8 +316,8 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             // Next, the scent map.
             parseline();
 
-            for (int i = 0; i < SEEX *MAPSIZE; i++) {
-                for (int j = 0; j < SEEY * MAPSIZE; j++) {
+            for( size_t i = 0; i < SEEX *MAPSIZE; i++) {
+                for( size_t j = 0; j < SEEY * MAPSIZE; j++) {
                     linein >> grscent[i][j];
                 }
             }
@@ -338,7 +338,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
                 fin >> num_items;
                 // Chomp the endline after number of items.
                 getline( fin, data );
-                for (int i = 0; i < num_items; i++) {
+                for (int j = 0; j < num_items; j++) {
                     getline( fin, data );
                     montmp.inv.push_back( item( data ) );
                 }
@@ -429,8 +429,8 @@ original 'structure', which globs game/weather/location & killcount/player data 
          last_target = tmptar;
 
         // Next, the scent map.
-         for (int i = 0; i < SEEX * MAPSIZE; i++) {
-          for (int j = 0; j < SEEY * MAPSIZE; j++)
+         for( size_t i = 0; i < SEEX * MAPSIZE; i++) {
+          for( size_t j = 0; j < SEEY * MAPSIZE; j++)
            fin >> grscent[i][j];
          }
         // Now the number of monsters...
@@ -451,7 +451,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
           fin >> num_items;
           // Chomp the endline after number of items.
           getline( fin, data );
-          for (int i = 0; i < num_items; i++) {
+          for (int j = 0; j < num_items; j++) {
               getline( fin, data );
               montmp.inv.push_back( item( data ) );
           }
@@ -878,11 +878,11 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                     int tmp_ter;
                     if (z >= 0 && z < OVERMAP_LAYERS) {
                         int count = 0;
-                        for (int j = 0; j < OMAPY; j++) {
-                            for (int i = 0; i < OMAPX; i++) {
+                        for( size_t j = 0; j < OMAPY; j++) {
+                            for( size_t i = 0; i < OMAPX; i++) {
                                 if (count == 0) {
                                     fin >> tmp_ter >> count;
-                                    if (tmp_ter < 0 || tmp_ter >= num_ter_types) {
+                                    if (tmp_ter < 0 || tmp_ter >= (int)num_ter_types) {
                                         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), tmp_ter);
                                     }
                                 }
@@ -987,8 +987,8 @@ bool overmap::unserialize_legacy(std::ifstream & fin, std::string const & plrfil
                         int count = 0;
                         int vis;
                         if (z >= 0 && z < OVERMAP_LAYERS) {
-                            for (int j = 0; j < OMAPY; j++) {
-                                for (int i = 0; i < OMAPX; i++) {
+                            for( size_t j = 0; j < OMAPY; j++) {
+                                for( size_t i = 0; i < OMAPX; i++) {
                                     if (count == 0) {
                                         sfin >> vis >> count;
                                     }
@@ -1096,8 +1096,8 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
           if (turndif < 0)
            turndif = 0;
         // Load terrain
-          for (int j = 0; j < SEEY; j++) {
-           for (int i = 0; i < SEEX; i++) {
+          for( size_t j = 0; j < SEEY; j++) {
+           for( size_t i = 0; i < SEEX; i++) {
             int tmpter;
             fin >> tmpter;
             tmpter = ter_key[tmpter];
@@ -1112,8 +1112,8 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
         // Load irradiation
           int radtmp;
           int count = 0;
-          for (int j = 0; j < SEEY; j++) {
-           for (int i = 0; i < SEEX; i++) {
+          for( size_t j = 0; j < SEEY; j++) {
+           for( size_t i = 0; i < SEEX; i++) {
             if (count == 0) {
              fin >> radtmp >> count;
              radtmp -= int(turndif / 100); // Radiation slowly decays
@@ -1231,7 +1231,7 @@ void player::load_legacy(std::stringstream & dump)
  style_selected = styletmp;
 
  std::string sTemp = "";
- for (int i = 0; i < traits.size(); i++) {
+ for( size_t i = 0; i < traits.size(); i++) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
@@ -1240,7 +1240,7 @@ void player::load_legacy(std::stringstream & dump)
     }
  }
 
- for (int i = 0; i < traits.size(); i++) {
+ for( size_t i = 0; i < traits.size(); i++) {
     dump >> sTemp;
     if (sTemp == "MUTATIONS_END") {
         break;
@@ -1407,7 +1407,7 @@ void npc::load_legacy(std::stringstream & dump) {
  myclass = npc_class(classtmp);
 
  std::string sTemp = "";
- for (int i = 0; i < traits.size(); i++) {
+ for( size_t i = 0; i < traits.size(); i++) {
     dump >> sTemp;
     if (sTemp == "TRAITS_END") {
         break;
