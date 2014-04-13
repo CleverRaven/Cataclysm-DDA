@@ -496,7 +496,7 @@
     "symbol": "]",
     "color": "light_cyan",
     "name": "sheet of glass",
-    "description": "A large sheet of glass. Easily shattered. Useful for re-paning windows.",
+    "description": "A large sheet of glass. Easily shattered. Useful for repairing windows.",
     "price": 13500,
     "material": "glass",
     "weight": 24176,
