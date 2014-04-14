@@ -81,12 +81,6 @@ void snake_game::snake_over(WINDOW *w_snake, int iScore)
     center_print(w_snake, 17, c_yellow, _("TOTAL SCORE: %d"), iScore);
     center_print(w_snake, 21, c_white, _("Press 'q' or ESC to exit."));
     wrefresh(w_snake);
-    do {
-        InputEvent input_event = get_input();
-        if (input_event == Cancel) {
-            return;
-        }
-    } while (true);
 }
 
 int snake_game::start_game()
@@ -236,5 +230,9 @@ int snake_game::start_game()
     } while (true);
 
     snake_over(w_snake, iScore);
+    while(ctxt.handle_input() != "QUIT") {
+        // try again
+    }
+
     return iScore;
 }
