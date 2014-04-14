@@ -1,13 +1,24 @@
 [
     {
-        "type": "monitems",
-        "id": [
-            "mon_zombie", "mon_zombie_shrieker", "mon_zombie_spitter", "mon_zombie_electric", "mon_zombie_brute",
-            "mon_zombie_fungus", "mon_boomer", "mon_boomer_fungus", "mon_zombie_gasbag",  "mon_zombie_necro",
-            "mon_zombie_grabber", "mon_zombie_master", "mon_zombie_hunter", "mon_zombie_fat", "mon_zombie_tough", "mon_dementia",
-            "mon_zombie_rot", "mon_zombie_crawler"
-        ],
-        "item_groups": [
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "contains cloth for an average zombie",
+        "id": "default_zombie_clothes",
+        "entries":
+        [
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "bags", "damage-min": 1, "damage-max": 4, "prob": 6 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "distribution",
+        "comment": "items that an average zombie carries around and rops on death",
+        "id": "default_zombie_items",
+        "groups": [
             [ "livingroom", 5 ],
             [ "kitchen", 4 ],
             [ "bedroom", 16 ],
@@ -23,16 +34,70 @@
         ]
     },
     {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "contains cloth (always), a cash card (10% chance) and a random item (50% chance)",
+        "id": "default_zombie_death_drops",
+        "entries":
+        [
+            { "group": "default_zombie_clothes" },
+            { "group": "default_zombie_items", "prob": 50 },
+            { "item": "cash_card", "prob": 10 }
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": [
+            "mon_zombie", "mon_zombie_shrieker", "mon_zombie_spitter", "mon_zombie_electric", "mon_zombie_brute",
+            "mon_zombie_fungus", "mon_zombie_necro",
+            "mon_zombie_grabber", "mon_zombie_master", "mon_zombie_hunter", "mon_zombie_fat", "mon_zombie_tough", "mon_dementia",
+            "mon_zombie_rot", "mon_zombie_crawler"
+        ],
+        "subtype": "collection",
+        "//": "cloth, additional items, cash card",
+        "groups": [
+            [ "default_zombie_death_drops", 100 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": [
+            "mon_skeleton", "mon_flesh_angel", "mon_blood_sacrifice"
+        ],
+        "subtype": "collection",
+        "//": "only cloth (all the time), no additional items",
+        "groups": [
+            [ "default_zombie_clothes", 100 ]
+        ]
+    },
+    {
+        "type": "monitems",
+        "id": [
+            "mon_boomer", "mon_boomer_fungus", "mon_zombie_gasbag"
+        ],
+        "subtype": "collection",
+        "//": "no cloth, but additional items (sometimes)",
+        "groups": [
+            [ "default_zombie_items", 40 ]
+        ]
+    },
+    {
         "type": "monitems",
         "id": "mon_zombie_child",
-        "item_groups": [
+        "subtype": "collection",
+        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
+        "groups": [
+            [ "default_zombie_clothes", 100 ],
             [ "child_items", 65 ]
         ]
     },
     {
         "type": "monitems",
         "id": "mon_beekeeper",
-        "item_groups": [
+        "subtype": "collection",
+        "//": "cloth as any other zombie (always), additional items from group hive (sometimes)",
+        "groups": [
+            [ "default_zombie_clothes", 100 ],
             [ "hive", 80 ]
         ]
     },
@@ -129,20 +194,7 @@
         [
             { "item": "rag", "damage-min": 1, "damage-max": 4, "count-min": 1, "count-max": 4 },
             { "group": "pants", "damage-min": 1, "damage-max": 4 },
-            { "distribution": [
-                { "group": "livingroom", "prob": 5 },
-                { "group": "kitchen", "prob": 4 },
-                { "group": "bedroom", "prob": 16 },
-                { "group": "softdrugs", "prob": 5 },
-                { "group": "harddrugs", "prob": 1 },
-                { "group": "tools", "prob": 20 },
-                { "group": "trash", "prob": 7 },
-                { "group": "ammo", "prob": 1 },
-                { "group": "pistols", "prob": 1 },
-                { "group": "shotguns", "prob": 1 },
-                { "group": "smg", "prob": 1 },
-                { "group": "postman_gear", "prob": 5 }
-            ] },
+            { "group": "default_zombie_items" },
             { "item": "cash_card" }
         ]
     },
@@ -201,14 +253,14 @@
     {
         "type": "monitems",
         "id": "mon_biollante",
-        "item_groups": [
+        "groups": [
             [ "biollante", 1 ]
         ]
     },
     {
         "type": "monitems",
         "id": [ "mon_chud", "mon_one_eye" ],
-        "item_groups": [
+        "groups": [
             [ "subway", 40 ],
             [ "sewer", 20 ],
             [ "trash", 5 ],
@@ -220,21 +272,21 @@
     {
         "type": "monitems",
         "id": "mon_bee",
-        "item_groups": [
+        "groups": [
             [ "bees", 1 ]
         ]
     },
     {
         "type": "monitems",
         "id": "mon_wasp",
-        "item_groups": [
+        "groups": [
             [ "wasps", 1 ]
         ]
     },
     {
         "type": "monitems",
         "id": "mon_eyebot",
-        "item_groups": [
+        "groups": [
             [ "robots", 4 ],
             [ "eyebot", 1 ]
         ]
@@ -242,7 +294,7 @@
     {
         "type": "monitems",
         "id": "mon_manhack",
-        "item_groups": [
+        "groups": [
             [ "robots", 4 ],
             [ "manhack", 1 ]
         ]
@@ -250,7 +302,7 @@
     {
         "type": "monitems",
         "id": "mon_skitterbot",
-        "item_groups": [
+        "groups": [
             [ "robots", 4 ],
             [ "skitterbot", 1 ]
         ]
@@ -258,7 +310,7 @@
     {
         "type": "monitems",
         "id": "mon_secubot",
-        "item_groups": [
+        "groups": [
             [ "robots", 4 ],
             [ "secubot", 1]
         ]
@@ -266,7 +318,7 @@
     {
         "type": "monitems",
         "id": "mon_copbot",
-        "item_groups": [
+        "groups": [
             [ "robots", 4 ],
             [ "copbot", 1 ]
         ]
@@ -274,7 +326,7 @@
     {
         "type": "monitems",
         "id": "mon_molebot",
-        "item_groups": [
+        "groups": [
             [ "robots", 4 ],
             [ "molebot", 1 ]
         ]
@@ -282,7 +334,7 @@
     {
         "type": "monitems",
         "id": "mon_tripod",
-        "item_groups": [
+        "groups": [
             [ "robots", 4 ],
             [ "tripod", 1 ]
         ]
@@ -290,7 +342,7 @@
     {
         "type": "monitems",
         "id": "mon_chickenbot",
-        "item_groups": [
+        "groups": [
             [ "robots", 4 ],
             [ "chickenbot", 1 ]
         ]
@@ -298,7 +350,7 @@
     {
         "type": "monitems",
         "id": "mon_tankbot",
-        "item_groups": [
+        "groups": [
             [ "robots", 4 ],
             [ "tankbot", 1 ]
         ]
@@ -306,7 +358,7 @@
     {
         "type": "monitems",
         "id": "mon_turret",
-        "item_groups": [
+        "groups": [
             [ "robots", 10 ],
             [ "turret", 1 ]
         ]
@@ -314,7 +366,7 @@
     {
         "type": "monitems",
         "id": "mon_laserturret",
-        "item_groups": [
+        "groups": [
             [ "robots", 10 ],
             [ "laserturret", 1 ]
         ]
@@ -322,21 +374,21 @@
     {
         "type": "monitems",
         "id": "mon_fungal_fighter",
-        "item_groups": [
+        "groups": [
             [ "fungal_sting", 1 ]
         ]
     },
     {
         "type": "monitems",
         "id": "mon_shia",
-        "item_groups": [
+        "groups": [
             [ "shia_stuff", 1 ]
         ]
     },
     {
         "type": "monitems",
         "id": "mon_dog_zombie_cop",
-        "item_groups": [
+        "groups": [
             [ "dog_cop", 1 ]
         ]
     },
@@ -415,7 +467,7 @@
     {
         "type": "monitems",
         "id": "mon_cow",
-        "item_groups": [
+        "groups": [
             [ "cow", 75 ]
         ]
     }
