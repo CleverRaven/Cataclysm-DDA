@@ -155,7 +155,7 @@ public:
         G_DISTRIBUTION
     } Type;
 
-    Item_group(Type type, int probability = 0);
+    Item_group(Type type, int probability);
     virtual ~Item_group();
 
     const Type type;

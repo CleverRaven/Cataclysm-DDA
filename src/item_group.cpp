@@ -263,7 +263,7 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     ItemList result;
     if (type == G_COLLECTION) {
         for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            if(rng(1, 100) >= (*a)->probability) {
+            if(rng(0, 99) >= (*a)->probability) {
                 continue;
             }
             ItemList tmp = (*a)->create(birthday, rec);
@@ -288,7 +288,7 @@ item Item_group::create_single(int birthday, RecursionList &rec) const
 {
     if (type == G_COLLECTION) {
         for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            if(rng(1, 100) >= (*a)->probability) {
+            if(rng(0, 99) >= (*a)->probability) {
                 continue;
             }
             return (*a)->create_single(birthday, rec);

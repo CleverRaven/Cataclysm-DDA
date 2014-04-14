@@ -1102,7 +1102,7 @@ Item_group *make_group_or_throw(Item_spawn_data* &isd, Item_group::Type t)
     
     Item_group *ig = dynamic_cast<Item_group*>(isd);
     if (ig == NULL) {
-        isd = ig = new Item_group(t);
+        isd = ig = new Item_group(t, 100);
     } else if (ig->type != t) {
         throw std::string("item group already definded with different type");
     }
@@ -1194,7 +1194,7 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     } else if (subtype == "distribution") {
         ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
     } else {
-        throw std::string("unknown item group type");
+        jsobj.throw_error("unknown item group type", "subtype");
     }
 
     if (subtype == "old") {
