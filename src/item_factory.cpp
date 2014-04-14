@@ -1183,7 +1183,11 @@ void Item_factory::load_item_group(JsonObject &jsobj)
 {
     const Item_tag group_id = jsobj.get_string("id");
     const std::string subtype = jsobj.get_string("subtype", "old");
+    load_item_group(jsobj, group_id, subtype);
+}
 
+void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id, const std::string &subtype)
+{
     Item_spawn_data* &isd = m_template_groups[group_id];
     Item_group *ig = dynamic_cast<Item_group*>(isd);
     if (subtype == "old") {
@@ -1240,6 +1244,18 @@ void Item_factory::load_item_group(JsonObject &jsobj)
                 add_entry(ig, subobj);
             }
         }
+    }
+}
+
+void Item_factory::load_monitem(JsonObject &jo) {
+    // get_tags allows empty entries, entries of type string and entries of type array-of-string
+    std::set<std::string> tmp_keys = jo.get_tags("id");
+    if (tmp_keys.empty()) {
+        jo.throw_error("requires \"id\": \"monster_id\" or \"id\": [ \"multiple\", \"monster_ids\" ]");
+    }
+    const std::string subtype = jo.get_string("subtype", "distribution");
+    for(std::set<std::string>::const_iterator a = tmp_keys.begin(); a != tmp_keys.end(); ++a) {
+        item_controller->load_item_group(jo, *a + "_death_drops", subtype);
     }
 }
 

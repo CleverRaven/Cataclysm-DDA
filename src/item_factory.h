@@ -54,6 +54,15 @@ public:
     void register_iuse_lua(const char* name, int lua_function);
 
     void load_item_group(JsonObject &jsobj);
+    // Same as other load_item_group, but takes the ident, subtype
+    // from parameters instead of looking into the json object.
+    void load_item_group(JsonObject &jsobj, const std::string &ident);
+    void load_item_group(JsonObject &jsobj, const std::string &ident, const std::string &subtype);
+    /**
+     * Loads json objects of type "monitem". They contain item groups
+     * that are used to spawn items upon the monsters death.
+     */
+    void load_monitem(JsonObject &jo);
     /**
      * Check if an item type is knwo to the Item_factory,
      * (or if it can create it).

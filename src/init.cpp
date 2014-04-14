@@ -200,7 +200,8 @@ void DynamicDataLoader::initialize()
     type_function_map["mapgen"] =
         new StaticFunctionAccessor(&load_mapgen);
 
-    type_function_map["monitems"] = new ClassFunctionAccessor<game>(g, &game::load_monitem);
+    type_function_map["monitems"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_monitem);
 
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
     type_function_map["ITEM_BLACKLIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -387,7 +388,6 @@ void DynamicDataLoader::unload_data()
     reset_recipe_categories();
     reset_recipes();
     reset_recipes_qualities();
-    g->reset_monitems();
     release_traps();
     reset_constructions();
     reset_overmap_terrain();
