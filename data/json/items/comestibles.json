@@ -6866,7 +6866,7 @@
         "heal" : 1,
         "addiction_potential" : 0,
         "nutrition" : 8,
-        "description" : "Dried mushrooms are a tasty and healthful addition to many meals.",
+        "description" : "Dried mushrooms are a tasty and healthy addition to many meals.",
         "price" : 1800,
         "material" : "veggy",
         "tool" : "null",
