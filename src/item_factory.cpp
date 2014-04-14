@@ -1251,13 +1251,16 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
         obj.read("msg", actor->msg_transform);
+        actor->msg = _(actor->msg.c_str());
         obj.read("target_charges", actor->target_charges);
         obj.read("container", actor->container_id);
         obj.read("active", actor->active);
         obj.read("need_fire", actor->need_fire);
         obj.read("need_fire_msg", actor->need_fire_msg);
+        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
         obj.read("need_charges", actor->need_charges);
         obj.read("need_charges_msg", actor->need_charges_msg);
+        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
         obj.read("moves", actor->moves);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
@@ -1267,15 +1270,19 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
         obj.read("msg", actor->msg_transform);
+        actor->msg = _(actor->msg.c_str());
         obj.read("target_charges", actor->target_charges);
         obj.read("container", actor->container_id);
         obj.read("active", actor->active);
         obj.read("need_fire", actor->need_fire);
         obj.read("need_fire_msg", actor->need_fire_msg);
+        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
         obj.read("need_charges", actor->need_charges);
         obj.read("need_charges_msg", actor->need_charges_msg);
+        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
         obj.read("when_underwater", actor->when_underwater);
         obj.read("non_interactive_msg", actor->non_interactive_msg);
+        actor->non_interactive_msg = _(actor->non_interactive_msg.c_str());
         obj.read("moves", actor->moves);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
@@ -1316,6 +1323,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         std::auto_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
         obj.read("vehicle_name", actor->vehicle_name);
         obj.read("unfold_msg", actor->unfold_msg);
+        actor->unfold_msg = _(actor->unfold_msg.c_str());
         obj.read("moves", actor->moves);
         return use_function(actor.release());
     } else {

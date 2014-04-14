@@ -206,6 +206,20 @@ def tlcomment(fs, string):
 def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
 
+use_action_msgs = {
+    "msg",
+    "need_fire_msg",
+    "need_charges_msg",
+    "non_interactive_msg",
+    "unfold_msg"
+}
+
+def extract_use_action_msgs(outfile, use_action, kwargs):
+    """Extract messages for iuse_actor objects. """
+    for f in use_action_msgs:
+        if f in use_action:
+            writestr(outfile, use_action[f], **kwargs)
+
 # extract commonly translatable data from json to fake-python
 def extract(item, infilename):
     """Find any extractable strings in the given json object,
@@ -227,6 +241,9 @@ def extract(item, infilename):
     wrote = False
     if "name" in item:
         writestr(outfile, item["name"], **kwargs)
+        wrote = True
+    if "use_action" in item:
+        extract_use_action_msgs(outfile, item["use_action"], kwargs)
         wrote = True
     if "description" in item:
         writestr(outfile, item["description"], **kwargs)
