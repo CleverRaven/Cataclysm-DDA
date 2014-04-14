@@ -234,6 +234,16 @@ def extract(item, infilename):
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
         wrote = True
+    if "bash" in item and type(item["bash"]) is dict:
+        # entries of type technique have a bash member, too.
+        # but it's a int, not an object.
+        bash = item["bash"]
+        if "sound" in bash:
+            writestr(outfile, bash["sound"], **kwargs)
+            wrote = True
+        if "sound_fail" in bash:
+            writestr(outfile, bash["sound_fail"], **kwargs)
+            wrote = True
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True
