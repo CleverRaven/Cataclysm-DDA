@@ -553,38 +553,11 @@ void mdeath::zombie(monster *z) {
         break;
 
         case 7: // mon_zombie_survivor
-            g->m.put_items_from("survivorzed_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("survivorzed_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("survivorzed_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("survivorzed_extra", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            if (one_in(4)) {
-                g->m.put_items_from("survivorzed_suits", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            } else {
-                g->m.put_items_from("survivorzed_tops", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-                g->m.put_items_from("survivorzed_bottoms", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            }
-            if (one_in(3)) {
-                underwear = false;
-                g->m.put_items_from("loincloth", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            }
+            return;
         break;
 
         case 8: // mon_zombie_bio_op
-            g->m.put_items_from("bio_op_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("mil_armor_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("mil_armor_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            if (one_in(2)) {
-                g->m.put_items_from("mil_armor_helmet", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            }
-            if (one_in(2)) {
-                g->m.put_items_from("bio_op_face", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            }
-            if (one_in(2)) {
-                g->m.put_items_from("bio_op_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            }
-            if (one_in(2)) {
-                g->m.put_items_from("bio_op_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            }
+            return;
         break;
 
 
