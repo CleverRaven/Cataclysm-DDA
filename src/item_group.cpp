@@ -46,6 +46,8 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const 
     if (modifier.get() != NULL) {
         modifier->modify(tmp);
     }
+    // TODO: change the spawn lists to contain proper references to containers
+    tmp = tmp.in_its_container(&itypes);
     return tmp;
 }
 
@@ -279,6 +281,15 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
             ItemList tmp = (*a)->create(birthday, rec);
             result.insert(result.end(), tmp.begin(), tmp.end());
             break;
+        }
+    }
+    if (with_ammo && !result.empty()) {
+        it_gun *maybe_gun = dynamic_cast<it_gun *>(result.front().type);
+        if (maybe_gun != NULL) {
+            const item ammo = item_controller->create(default_ammo(maybe_gun->ammo), birthday);
+            // TODO: change the spawn lists to contain proper references to containers
+            ammo = ammo.in_its_container(&itypes);
+            result.push_back(ammo);
         }
     }
     return result;

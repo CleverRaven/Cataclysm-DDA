@@ -570,20 +570,6 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag){
     }
 }
 
-//Returns a random template name from the list of all templates, and if it should come with ammo
-const Item_tag Item_factory::id_from(const Item_tag group_tag, bool & with_ammo ) {
-    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
-    //If the tag isn't found, just return a reference to missing item.
-    if(group_iter != m_template_groups.end()){
-        with_ammo = group_iter->second->guns_have_ammo();
-        item it = group_iter->second->create_single(g->turn);
-        return it.type->id;
-    } else {
-        with_ammo = false;
-        return "MISSING_ITEM";
-    }
-}
-
 bool Item_factory::has_group(const Item_tag &group_tag) const
 {
     return m_template_groups.count(group_tag) > 0;

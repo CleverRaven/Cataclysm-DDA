@@ -87,7 +87,6 @@ public:
      * Return a random item type from the given item group.
      */
     const Item_tag id_from(Item_tag group_tag);
-    const Item_tag id_from(Item_tag group_tag, bool & with_ammo);
     bool group_contains_item(Item_tag group_tag, Item_tag item);
 
     //Production methods
@@ -97,7 +96,16 @@ public:
     Item_list create_from(Item_tag group, int created_at, int quantity, bool rand = true);
     item create_random(int created_at, bool rand = true);
     Item_list create_random(int created_at, int quantity, bool rand = true);
-    typedef std::string Group_tag;
+    /**
+     * Create items from the given group. It creates as many items as the
+     * group definition requests.
+     * For example if the group is a distribution that only contains
+     * item ids it will create single item.
+     * If the group is a collection with several entries it can contain
+     * more than one item (or none at all!).
+     * This function also creates ammo for guns, if this is requested
+     * in the item group.
+     */
     Item_list create_from_group(Group_tag group, int created_at);
 
     void debug_spawn();
