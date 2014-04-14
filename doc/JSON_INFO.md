@@ -59,6 +59,8 @@
                                      3 = 50+
 ```
 ###ITEM GROUPS
+Item groups have been expanded, look at doc/ITEM_SPAWN.md to their new description.
+The syntax listed here is still valid.
 ```C++
 "id":"forest",            // Unique ID. Must be one continuous word, use underscores if necessary
 "items":[                 // List of potential item ID's. Chance of an item spawning is x/T, where
@@ -70,6 +72,28 @@
   ["blueberries", 3]
 ],
 "groups":[]               // ?
+```
+###MONSTER DEATH DROPS
+```C++
+"type":"monitems",        // type of this entry, always monitems
+"id":"mon_zombie",        // ID of the monster, can also be an array of monster ids: "id":["mon_zombie","mon_dog_zombie"]
+// This json object is parsed like an item group, see for doc/ITEM_SPAWN.md for description.
+// The default subtype of this item group is "distribution" (which means one of the entries is spawned
+// and the probability is relative to the other entries).
+// This is an example: it spawns items taken from the group "default_zombie_clothes" all the time (100% chance)
+// and it spawns items taken from "child_items" (65% chance), it spawns several items because it's a collection.
+"subtype": "collection",
+"groups": [
+    [ "default_zombie_clothes", 100 ],
+    [ "child_items", 65 ]
+]
+// Or use this:
+"subtype":"distribution", // Can be omitted distribution is the default anyway
+"items": [                // use the same syntax as item groups, spawns a single item.
+  ["rock", 40],
+  ["stick", 96],
+  ["mushroom", 4] ]
+]
 ```
 ###MATERIALS
 ```C++
