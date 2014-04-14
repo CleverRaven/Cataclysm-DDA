@@ -122,6 +122,8 @@ action_id action_from_key(char ch);
 void get_direction(int &x, int &y, char ch);
 // Get input from the player to choose an adjacent tile (for examine() etc)
 bool choose_adjacent(std::string message, int &x, int &y);
+// Input from player for a direction, not related to the player position
+bool choose_direction(const std::string &message, int &x, int &y);
 bool choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight);
 
 // (Press X (or Y)|Try) to Z
