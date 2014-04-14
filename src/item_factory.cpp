@@ -1178,7 +1178,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
     Item_group *ig = dynamic_cast<Item_group*>(isd);
     if (subtype == "old") {
         ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
-        ig->with_ammo = jsobj.get_bool("with_ammo", ig->with_ammo);
+        ig->with_ammo = jsobj.get_bool("guns_with_ammo", ig->with_ammo);
     } else if (subtype == "collection") {
         ig = make_group_or_throw(isd, Item_group::G_COLLECTION);
     } else if (subtype == "distribution") {
