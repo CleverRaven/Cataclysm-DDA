@@ -326,7 +326,7 @@ public:
      * @param dx Output parameter for x delta.
      * @param dy Output parameter for y delta.
      */
-    void get_direction(int& dx, int& dy, const std::string& action);
+    static bool get_direction(int& dx, int& dy, const std::string& action);
 
     /**
      * Get the coordinates associated with the last mouse click.
