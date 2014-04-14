@@ -5769,88 +5769,87 @@ void player::suffer()
 
 void player::mend()
 {
- // Wearing splints can slowly mend a broken limb back to 1 hp.
- // 2 weeks is faster than a fracture would heal IRL,
- // but 3 weeks average (a generous estimate) was tedious and no fun.
- for(int i = 0; i < num_hp_parts; i++) {
-  int broken = (hp_cur[i] <= 0);
-  if(broken) {
-   double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
-   double healing_factor = 1.0;
-   // Studies have shown that alcohol and tobacco use delay fracture healing time
-   if(has_disease("cig") | addiction_level(ADD_CIG)) {
-    healing_factor *= 0.5;
-   }
-   if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
-    healing_factor *= 0.5;
-   }
+    // Wearing splints can slowly mend a broken limb back to 1 hp.
+    // 2 weeks is faster than a fracture would heal IRL,
+    // but 3 weeks average (a generous estimate) was tedious and no fun.
+    for(int i = 0; i < num_hp_parts; i++) {
+        int broken = (hp_cur[i] <= 0);
+        if(broken) {
+            double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
+            double healing_factor = 1.0;
+            // Studies have shown that alcohol and tobacco use delay fracture healing time
+            if(has_disease("cig") | addiction_level(ADD_CIG)) {
+                healing_factor *= 0.5;
+            }
+            if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
+                healing_factor *= 0.5;
+            }
 
-   // Bed rest speeds up mending
-   if(has_disease("sleep")) {
-    healing_factor *= 4.0;
-   } else if(fatigue > 383) {
-    // but being dead tired does not...
-    healing_factor *= 0.75;
-   }
+            // Bed rest speeds up mending
+            if(has_disease("sleep")) {
+                healing_factor *= 4.0;
+            } else if(fatigue > 383) {
+            // but being dead tired does not...
+                healing_factor *= 0.75;
+            }
 
-   // Being healthy helps.
-   if(health > 0) {
-    healing_factor *= 2.0;
-   }
+            // Being healthy helps.
+            if(health > 0) {
+                healing_factor *= 2.0;
+            }
 
-   // And being well fed...
-   if(hunger < 0) {
-    healing_factor *= 2.0;
-   }
+            // And being well fed...
+            if(hunger < 0) {
+                healing_factor *= 2.0;
+            }
 
-   if(thirst < 0) {
-    healing_factor *= 2.0;
-   }
+            if(thirst < 0) {
+                healing_factor *= 2.0;
+            }
 
-   // Mutagenic healing factor!
-   if(has_trait("REGEN")) {
-    healing_factor *= 16.0;
-   } else if (has_trait("FASTHEALER2")) {
-    healing_factor *= 4.0;
-   } else if (has_trait("FASTHEALER")) {
-    healing_factor *= 2.0;
-   } else if (has_trait("SLOWHEALER")) {
-    healing_factor *= 0.5;
-   }
+            // Mutagenic healing factor!
+            if(has_trait("REGEN")) {
+                healing_factor *= 16.0;
+            } else if (has_trait("FASTHEALER2")) {
+                healing_factor *= 4.0;
+            } else if (has_trait("FASTHEALER")) {
+                healing_factor *= 2.0;
+            } else if (has_trait("SLOWHEALER")) {
+                healing_factor *= 0.5;
+            }
 
-   bool mended = false;
-   int side = 0;
-   body_part part;
-   switch(i) {
-    case hp_arm_r:
-     side = 1;
-     // fall-through
-    case hp_arm_l:
-     part = bp_arms;
-     mended = is_wearing("arm_splint") && x_in_y(healing_factor, mending_odds);
-     break;
-    case hp_leg_r:
-     side = 1;
-     // fall-through
-    case hp_leg_l:
-     part = bp_legs;
-     mended = is_wearing("leg_splint") && x_in_y(healing_factor, mending_odds);
-     break;
-    default:
-     // No mending for you!
-     break;
-   }
-   if(mended) {
-    hp_cur[i] = 1;
-    //~ %s is bodypart
-    add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
-                     pgettext("memorial_female", "Broken %s began to mend."),
-                     body_part_name(part, side).c_str());
-    g->add_msg(_("Your %s has started to mend!"),
-      body_part_name(part, side).c_str());
-   }
-  }
- }
+            bool mended = false;
+            int side = 0;
+            body_part part;
+            switch(i) {
+            case hp_arm_r:
+                side = 1;
+                // fall-through
+            case hp_arm_l:
+                part = bp_arms;
+                mended = is_wearing("arm_splint") && x_in_y(healing_factor, mending_odds);
+                break;
+            case hp_leg_r:
+                side = 1;
+                // fall-through
+            case hp_leg_l:
+                part = bp_legs;
+                mended = is_wearing("leg_splint") && x_in_y(healing_factor, mending_odds);
+                break;
+            default:
+                // No mending for you!
+                break;
+            }
+            if(mended) {
+                hp_cur[i] = 1;
+                //~ %s is bodypart
+                add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
+                                pgettext("memorial_female", "Broken %s began to mend."),
+                                body_part_name(part, side).c_str());
+                g->add_msg(_("Your %s has started to mend!"), body_part_name(part, side).c_str());
+            }
+        }
+    }
 }
 
 void player::vomit()
