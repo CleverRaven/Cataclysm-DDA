@@ -439,6 +439,42 @@
         ]
     },
     {
+        "type": "keybinding",
+        "id": "NEXT",
+        "category": "SOKOBAN",
+        "name": "Next level",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "PREV",
+        "category": "SOKOBAN",
+        "name": "Previous level",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "UNDO",
+        "category": "SOKOBAN",
+        "name": "Undo move",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"u"
+            }
+        ]
+    },
+    {
         "type" : "keybinding",
         "id":"CONFIRM",
         "name":"Confirm Choice",
