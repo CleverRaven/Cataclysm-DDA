@@ -1104,13 +1104,17 @@ int iuse::weed(player *p, item *it, bool b) {
             p->moves -= 10;
             return 0;
         }
-        p->hunger += 4;
-        p->thirst += 6;
-        if (p->pkill < 5) {
-            p->pkill += 3;
-            p->pkill *= 2;
+
+        int charges = cig(p, it, b);
+        if(charges != 0) {
+            p->hunger += 4;
+            p->thirst += 6;
+            if (p->pkill < 5) {
+                p->pkill += 3;
+                p->pkill *= 2;
+            }
         }
-        return cig(p, it, b);
+        return charges;
     }
 
     // smoke out of a pipe
