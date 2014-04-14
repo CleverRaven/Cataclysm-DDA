@@ -1,7 +1,7 @@
 #include <vector>
 #include "game.h"
 
-void game::load_trap(JsonObject &jo)
+void load_trap(JsonObject &jo)
 {
     std::vector<std::string> drops;
     if(jo.has_member("drops")) {
@@ -13,7 +13,7 @@ void game::load_trap(JsonObject &jo)
 
     trap *new_trap = new trap(
             jo.get_string("id"), // "tr_beartrap"
-            g->traps.size(),     // tr_beartrap
+            traplist.size(),     // tr_beartrap
             _(jo.get_string("name").c_str()), // "bear trap"
             color_from_string(jo.get_string("color")),
             jo.get_string("symbol").at(0),
@@ -28,22 +28,22 @@ void game::load_trap(JsonObject &jo)
     new_trap->benign = jo.get_bool("benign", false);
     new_trap->funnel_radius_mm = jo.get_int("funnel_radius", 0);
     trapmap[new_trap->id] = new_trap->loadid;
-    traps.push_back(new_trap);
+    traplist.push_back(new_trap);
 }
 
-// ...why? we're exiting
-void game::release_traps()
+void release_traps()
 {
  std::vector<trap*>::iterator it;
- for (it = traps.begin(); it != traps.end(); it++) {
+ for (it = traplist.begin(); it != traplist.end(); it++) {
   if (*it != NULL) {
    delete *it;
   }
  }
- traps.clear();
+ traplist.clear();
  trapmap.clear();
 }
 
+std::vector <trap*> traplist;
 std::map<std::string, int> trapmap;
 
 trap_id trapfind(const std::string id) {
@@ -51,7 +51,7 @@ trap_id trapfind(const std::string id) {
          popup("Can't find trap %s",id.c_str());
          return 0;
     }
-    return g->traps[trapmap[id]]->loadid;
+    return traplist[trapmap[id]]->loadid;
 };
 
 //////////////////////////

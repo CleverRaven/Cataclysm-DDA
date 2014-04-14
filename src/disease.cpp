@@ -1845,7 +1845,7 @@ std::string dis_name(disease& dis)
         if (dis.duration > 800)  return _("Drunk");
         else return _("Tipsy");
 
-    case DI_CIG: return _("Cigarette");
+    case DI_CIG: return _("Nicotine");
     case DI_HIGH: return _("High");
     case DI_VISUALS: return _("Hallucinating");
 

@@ -169,12 +169,230 @@
     },
     {
         "type" : "keybinding",
+        "id": "ADD_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Add rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Remove rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "COPY_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Copy rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SWAP_RULE_GLOBAL_CHAR",
+        "category": "AUTO_PICKUP",
+        "name": "Move rule global <-> character",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":","
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ENABLE_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Enable rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DISABLE_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Disable rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_RULE_UP",
+        "category": "AUTO_PICKUP",
+        "name": "Move rule up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_RULE_DOWN",
+        "category": "AUTO_PICKUP",
+        "name": "Move rule down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "TEST_RULE",
+        "category": "AUTO_PICKUP",
+        "name": "Test rule",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SWITCH_AUTO_PICKUP_OPTION",
+        "category": "AUTO_PICKUP",
+        "name": "Enable auto pickup option",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "HELP",
+        "category": "SORT_ARMOR",
+        "name": "Display Help",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ARMOR",
+        "category": "SORT_ARMOR",
+        "name": "Select armor for moving",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ASSIGN_INVLETS",
+        "category": "SORT_ARMOR",
+        "name": "Assign invlets to armor",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"HELP_KEYBINDINGS",
         "name":"Display Help",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "FILTER",
+        "name": "Filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"F"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "RESET_FILTER",
+        "name": "Reset filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CYCLE_MODE",
+        "category": "CRAFTING",
+        "name": "Cycle display mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "HELP_RECIPE",
+        "category": "CRAFTING",
+        "name": "Show recipe result",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
             }
         ]
     },
@@ -228,6 +446,71 @@
             {
                 "input_method":"keyboard",
                 "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SAVE_DEFAULT_MODS",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Save mods as default",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"S"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ADD_MOD",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Add selected mod",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_MOD",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Remove selcted mod",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PICK_RANDOM_WORLDNAME",
+        "category": "WORLDGEN_CONFIRM_DIALOG",
+        "name": "Pick random world name",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "QUIT",
+        "category": "WORLDGEN_CONFIRM_DIALOG",
+        "name": "Exit screen",
+        "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
             }
         ]
     },
@@ -445,6 +728,40 @@
     },
     {
         "type" : "keybinding",
+        "id": "NEXT_TAB",
+        "name": "Go to next tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":">"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PREV_TAB",
+        "name": "Go to prev tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"<"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_FAST_SCROLL",
         "name":"Toggle Fast Scroll",
         "bindings":[
@@ -462,6 +779,41 @@
             {
                 "input_method":"keyboard",
                 "key":"*"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CHANGE_GENDER",
+        "name": "Change gender",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SAVE_TEMPLATE",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Save template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"!"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PICK_RANDOM_NAME",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Pick random character name",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
             }
         ]
     },

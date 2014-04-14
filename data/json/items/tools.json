@@ -397,7 +397,7 @@
     "to_hit": 2,
     "max_charges": 500,
     "initial_charges": 500,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "gasoline",
     "revert_to": "null",
@@ -458,7 +458,7 @@
     "to_hit": 2,
     "max_charges": 800,
     "initial_charges": 800,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "lamp_oil",
     "revert_to": "null",
@@ -519,7 +519,7 @@
     "to_hit": 2,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
@@ -1515,7 +1515,7 @@
     "to_hit": -3,
     "max_charges": 100,
     "initial_charges": 50,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
@@ -3170,9 +3170,8 @@
     "description" : "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them. The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
     "price" : 170000,
     "material" : ["plastic", "steel"],
-    "flags": [ "LIGHT_100", "CHARGEDIM" ],
+    "flags": [ "LIGHT_100", "CHARGEDIM", "DURABLE_MELEE" ],
     "techniques" : ["WBLOCK_2", "RAPID"],
-    "flags" : ["DURABLE_MELEE"],
     "weight" : 726,
     "volume" : 9,
     "bashing" : 14,
@@ -4284,7 +4283,6 @@
     "description": "This is a sharp knife, designed for cutting meat. It makes a poor melee weapon, but is decent at butchering corpses.",
     "price": 2500,
     "material": "steel",
-    "flags": "STAB",
     "weight": 453,
     "volume": 1,
     "bashing": 2,
@@ -4298,7 +4296,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]],
-    "flags": ["SHEATH_KNIFE"]
+    "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
   {
@@ -4314,7 +4312,6 @@
     "volume": 2,
     "bashing": 2,
     "cutting": 10,
-    "flags" : ["CHOP"],
     "to_hit": -3,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4324,7 +4321,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]],
-    "flags": ["SHEATH_KNIFE"]
+    "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
   {
@@ -4512,7 +4509,7 @@
     "to_hit": 1,
     "max_charges": 25,
     "initial_charges": 25,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
@@ -4568,7 +4565,7 @@
     "price" : 16000,
     "max_charges": 25,
     "initial_charges": 25,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
@@ -4625,7 +4622,7 @@
     "to_hit": -2,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "can_food",
@@ -5208,7 +5205,6 @@
     "description" : "A knife consisting of a long somewhat sharpened spike and a tightly wrapped a rag as a handle. It makes a good melee weapon.",
     "price": 1000,
     "material": ["steel", "null"],
-    "flags": "STAB",
     "weight": 550,
     "volume": 2,
     "bashing": 2,
@@ -5222,7 +5218,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]],
-    "flags": ["SHEATH_KNIFE"]
+    "flags": ["STAB", "SHEATH_KNIFE"]
    },
 
    {
@@ -5353,7 +5349,6 @@
     "description": "This is a sharpened stone set into a hollowed handle. Not nearly as usable as a proper knife, but it's better than nothing.",
     "price": 200,
     "material": ["wood", "stone"],
-    "flags": "STAB",
     "weight": 453,
     "volume": 1,
     "bashing": 2,
@@ -5367,7 +5362,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]],
-	"flags": ["SHEATH_KNIFE"]
+	"flags": ["STAB", "SHEATH_KNIFE"]
   },
 
   {
@@ -7045,7 +7040,6 @@
     "description": "This is a short, sturdy knife with a serrated edge for cutting lines and straps, and a blunt tip for prying. Used primarily by divers, it is very light and takes up virtually no space in one's pockets.",
     "price": 14000,
     "material": ["steel", "plastic"],
-    "flags": "CHOP",
     "weight": 226,
     "volume": 0,
     "bashing": 0,
@@ -7059,7 +7053,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]],
-    "flags": ["SHEATH_KNIFE"]
+    "flags": ["CHOP", "SHEATH_KNIFE"]
   },
 
   {
@@ -7227,7 +7221,7 @@
     "id": "g_shovel",
     "symbol": "/",
     "color": "dark_gray",
-    "name": "gardening shovel",
+    "name": "trowel",
     "description": "A small, sharp gardening shovel, perfect for digging up grubs and worms.",
     "price": 20,
     "material": "steel",

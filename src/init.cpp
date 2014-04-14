@@ -17,6 +17,7 @@
 #include "help.h"
 #include "mapdata.h"
 #include "color.h"
+#include "trap.h"
 #include "monstergenerator.h"
 #include "inventory.h"
 #include "tutorial.h"
@@ -151,7 +152,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["vehicle_part"] = new ClassFunctionAccessor<game>(g, &game::load_vehiclepart);
     type_function_map["vehicle"] = new ClassFunctionAccessor<game>(g, &game::load_vehicle);
-    type_function_map["trap"] = new ClassFunctionAccessor<game>(g, &game::load_trap);
+    type_function_map["trap"] = new StaticFunctionAccessor(&load_trap);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_ammo);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -387,7 +388,7 @@ void DynamicDataLoader::unload_data()
     reset_recipes();
     reset_recipes_qualities();
     g->reset_monitems();
-    g->release_traps();
+    release_traps();
     reset_constructions();
     reset_overmap_terrain();
     reset_region_settings();
@@ -424,4 +425,5 @@ void DynamicDataLoader::check_consistency() {
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();
     check_furniture_and_terrain();
+    profession::check_definitions();
 }

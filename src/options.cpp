@@ -697,6 +697,11 @@ void initOptions() {
                                              false
                                             );  // populate the options dynamically
 
+    OPTIONS["MUSIC_VOLUME"] =     cOpt("graphics", _("Music Volume"),
+                                             _("SDL ONLY: Adjust the volume of the music being played in the background."),
+                                             0, 200, 100
+                                            );  // populate the options dynamically
+
     OPTIONS["AUTO_NOTES"] =     cOpt("general", _("Auto notes"),
                                              _("If true automatically sets notes on places that have stairs that go up or down"),
                                              true
@@ -765,13 +770,19 @@ void show_options(bool ingame)
     int iStartPos = 0;
     bool bStuffChanged = false;
     bool bWorldStuffChanged = false;
-    char ch = ' ';
+    input_context ctxt("OPTIONS");
+    ctxt.register_cardinal();
+    ctxt.register_action("QUIT");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("HELP_KEYBINDINGS");
 
     std::stringstream sTemp;
 
     used_tiles_changed = false;
 
-    do {
+    while(true) {
         std::map<std::string, cOpt> & cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ?
                                                    ACTIVE_WORLD_OPTIONS : OPTIONS );
 
@@ -890,50 +901,41 @@ void show_options(bool ingame)
 
         wrefresh(w_options);
 
-        ch = input();
+        const std::string action = ctxt.handle_input();
 
-        if (!mPageItems[iCurrentPage].empty() || ch == '\t') {
-            cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
             bool bChangedSomething = false;
-            switch(ch) {
-                case 'j': //move down
+            if (action == "DOWN") {
                     iCurrentLine++;
                     if (iCurrentLine >= mPageItems[iCurrentPage].size()) {
                         iCurrentLine = 0;
                     }
-                    break;
-                case 'k': //move up
+            } else if (action == "UP") {
                     iCurrentLine--;
                     if (iCurrentLine < 0) {
                         iCurrentLine = mPageItems[iCurrentPage].size()-1;
                     }
-                    break;
-                case 'l': //set to prev value
+            } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
                     cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
                     bChangedSomething = true;
-                    break;
-                case 'h': //set to next value
+            } else if (!mPageItems[iCurrentPage].empty() && action == "LEFT") {
                     cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setPrev();
                     bChangedSomething = true;
-                    break;
-                case '>':
-                case '\t': //Switch to next Page
+            } else if (action == "NEXT_TAB") {
                     iCurrentLine = 0;
                     iStartPos = 0;
                     iCurrentPage++;
                     if (iCurrentPage >= vPages.size()) {
                         iCurrentPage = 0;
                     }
-                    break;
-                case '<':
+            } else if (action == "PREV_TAB") {
                     iCurrentLine = 0;
                     iStartPos = 0;
                     iCurrentPage--;
                     if (iCurrentPage < 0) {
                         iCurrentPage = vPages.size()-1;
                     }
-                    break;
-                case '\n':
+            } else if (!mPageItems[iCurrentPage].empty() && action == "CONFIRM") {
+                    cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
                     if (cur_opt.getType() == "bool" || cur_opt.getType() == "string") {
                         cur_opt.setNext();
                         bChangedSomething = true;
@@ -966,7 +968,8 @@ void show_options(bool ingame)
                             }
                         }
                     }
-                    break;
+            } else if (action == "QUIT") {
+                break;
             }
             if(bChangedSomething) {
                 bStuffChanged = true;
@@ -974,8 +977,7 @@ void show_options(bool ingame)
                     bWorldStuffChanged = true;
                 }
             }
-        }
-    } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+    }
 
     used_tiles_changed = (OPTIONS_OLD["TILES"].getValue() != OPTIONS["TILES"].getValue()) ||
         (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);

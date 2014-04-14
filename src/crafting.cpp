@@ -176,12 +176,15 @@ void finalize_recipes()
                 const std::string &book_id = r->booksets[j].first;
                 const int skill_level = r->booksets[j].second;
                 if (!item_controller->has_template(book_id)) {
+                    debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
                     continue;
                 }
                 it_book *book_def = dynamic_cast<it_book *>(item_controller->find_template(book_id));
-                if (book_def != NULL) {
-                    book_def->recipes[r] = skill_level;
+                if (book_def == NULL) {
+                    debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
+                    continue;
                 }
+                book_def->recipes[r] = skill_level;
             }
             r->booksets.clear();
         }
@@ -696,7 +699,17 @@ recipe *game::select_crafting_recipe()
     bool done = false;
     int display_mode = 0;
     recipe *chosen = NULL;
-    InputEvent input;
+    input_context ctxt("CRAFTING");
+    ctxt.register_cardinal();
+    ctxt.register_action("QUIT");
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("CYCLE_MODE");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("FILTER");
+    ctxt.register_action("RESET_FILTER");
+    ctxt.register_action("HELP_RECIPE");
+    ctxt.register_action("HELP_KEYBINDINGS");
 
     inventory crafting_inv = crafting_inventory(&u);
     std::string filterstring = "";
@@ -725,15 +738,15 @@ recipe *game::select_crafting_recipe()
             mvwprintz(w_data, dataLines + 1, 5, c_white, _("Press <ENTER> to attempt to craft object."));
             wprintz(w_data, c_white, "  ");
             if (filterstring != "") {
-                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind, [R]eset, [m]ode"));
+                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode [?] keybindings"));
             } else {
-                wprintz(w_data, c_white, _("[?/E]: Describe, [F]ind, [m]ode"));
+                wprintz(w_data, c_white, _("[E]: Describe, [F]ind, [m]ode [?] keybindings"));
             }
         } else {
             if (filterstring != "") {
-                mvwprintz(w_data, dataLines + 1, 5, c_white, _("[?/E]: Describe, [F]ind, [R]eset, [m]ode"));
+                mvwprintz(w_data, dataLines + 1, 5, c_white, _("[E]: Describe, [F]ind, [R]eset, [m]ode [?] keybindings"));
             } else {
-                mvwprintz(w_data, dataLines + 1, 5, c_white, _("[?/E]: Describe, [F]ind, [m]ode"));
+                mvwprintz(w_data, dataLines + 1, 5, c_white, _("[E]: Describe, [F]ind, [m]ode [?] keybindings"));
             }
             mvwprintz(w_data, dataLines + 2, 5, c_white, _("Press <ENTER> to attempt to craft object."));
         }
@@ -956,48 +969,31 @@ recipe *game::select_crafting_recipe()
         draw_scrollbar(w_data, line, dataLines, recmax, 0);
 
         wrefresh(w_data);
-        int ch = (int)getch();
-        if(ch == 'e' || ch == 'E') { // get_input is inflexible
-            ch = (int)'?';
-        } else if(ch == '/') {
-            ch = 'F';
-        } else if(ch == KEY_PPAGE) {
-            ch = (int)'<';
-        } else if(ch == KEY_NPAGE || ch == '\t' ) {
-            ch = (int)'>';
-        } else if(ch == 'm') {
+        const std::string action = ctxt.handle_input();
+        if (action == "CYCLE_MODE") {
             display_mode = display_mode + 1;
             if(display_mode >= 3 || display_mode <= 0) {
                 display_mode = 0;
             }
-        }
-        input = get_input(ch);
-        switch (input) {
-        case DirectionW:
+        } else if (action == "LEFT") {
             subtab = prev_craft_subcat( tab, subtab );
             redraw = true;
-            break;
-        case DirectionUp:
+        } else if (action == "PREV_TAB") {
             tab = prev_craft_cat(tab);
             subtab = first_craft_subcat( tab );//default ALL
             redraw = true;
-            break;
-        case DirectionE:
+        } else if (action == "RIGHT") {
             subtab = next_craft_subcat( tab, subtab );
             redraw = true;
-            break;
-        case DirectionDown:
+        } else if (action == "NEXT_TAB") {
             tab = next_craft_cat(tab);
             subtab = first_craft_subcat( tab );//default ALL
             redraw = true;
-            break;
-        case DirectionS:
+        } else if (action == "DOWN") {
             line++;
-            break;
-        case DirectionN:
+        } else if (action == "UP") {
             line--;
-            break;
-        case Confirm:
+        } else if (action == "CONFIRM") {
             if (available.empty() || !available[line]) {
                 popup(_("You can't do that!"));
             } else if (!u.has_container_for(current[line]->create_result())) {
@@ -1006,31 +1002,26 @@ recipe *game::select_crafting_recipe()
                 chosen = current[line];
                 done = true;
             }
-            break;
-        case Help:
+        } else if (action == "HELP_RECIPE") {
             tmp = current[line]->create_result();
             full_screen_popup("%s", tmp.info(true).c_str());
             redraw = true;
             keepline = true;
-            break;
-        case Filter:
+        } else if (action == "FILTER") {
             filterstring = string_input_popup(_("Search:"), 85, filterstring, _("Search tools or component using prefix t and c. \n(i.e. \"t:hammer\" or \"c:two by four\".)"));
             redraw = true;
-            break;
-        case Reset:
+        } else if (action == "QUIT") {
+            done = true;
+        } else if (action == "RESET_FILTER") {
             filterstring = "";
             redraw = true;
-            break;
-        default: // Ignore other actions. Suppress compiler warning [-Wswitch]
-            break;
-
         }
         if (line < 0) {
             line = current.size() - 1;
         } else if (line >= (int)current.size()) {
             line = 0;
         }
-    } while (input != Cancel && !done);
+    } while (!done);
 
     werase(w_head);
     werase(w_subhead);

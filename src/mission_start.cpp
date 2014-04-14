@@ -66,7 +66,7 @@ void mission_start::place_dog(mission *miss)
  miss->target = house;
  overmap_buffer.reveal(house, 6, g->levz);
 
- tinymap doghouse(&(g->traps));
+ tinymap doghouse;
  // Get overmap, crop house coords to be valid inside that overmap
  overmap &om = overmap_buffer.get_om_global(house.x, house.y);
  doghouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
@@ -85,7 +85,7 @@ void mission_start::place_zombie_mom(mission *miss)
  miss->target = house;
  overmap_buffer.reveal(house, 6, g->levz);
 
- tinymap zomhouse(&(g->traps));
+ tinymap zomhouse;
  // Get overmap, crop house coords to be valid inside that overmap
  overmap &om = overmap_buffer.get_om_global(house.x, house.y);
  zomhouse.load(house.x * 2, house.y * 2, g->levz, false, &om);
@@ -96,7 +96,7 @@ void mission_start::place_zombie_mom(mission *miss)
 void mission_start::place_jabberwock(mission *miss)
 {
     point site = target_om_ter("forest_thick", 6, miss, false);
- tinymap grove(&(g->traps));
+ tinymap grove;
  // Get overmap, crop site coords to be valid inside that overmap
  overmap &om = overmap_buffer.get_om_global(site.x, site.y);
  grove.load(site.x * 2, site.y * 2, g->levz, false, &om);
@@ -128,7 +128,7 @@ void mission_start::kill_horde_master(mission *miss)
     site = overmap_buffer.find_closest(g->om_global_location(), "forest_thick", dist, false);
  miss->target = site;
  overmap_buffer.reveal(site, 6, g->levz);
- tinymap tile(&(g->traps));
+ tinymap tile;
  // Get overmap, crop site coords to be valid inside that overmap
  overmap &om = overmap_buffer.get_om_global(site.x, site.y);
  tile.load(site.x * 2, site.y * 2, g->levz, false, &om);
@@ -189,7 +189,7 @@ void mission_start::place_npc_software(mission *miss)
     miss->target = place;
     overmap_buffer.reveal(place, 6, g->levz);
 
- tinymap compmap(&(g->traps));
+ tinymap compmap;
  // Get overmap, crop place coords to be valid inside that overmap
  overmap &om = overmap_buffer.get_om_global(place.x, place.y);
  compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
@@ -279,7 +279,7 @@ void mission_start::place_priest_diary(mission *miss)
  place.y += g->cur_om->pos().y * OMAPY;
  miss->target = place;
  overmap_buffer.reveal(place, 2, g->levz);
- tinymap compmap(&(g->traps));
+ tinymap compmap;
  // Get overmap, crop place coords to be valid inside that overmap
  overmap &om = overmap_buffer.get_om_global(place.x, place.y);
  compmap.load(place.x * 2, place.y * 2, g->levz, false, &om);
@@ -313,7 +313,7 @@ void mission_start::place_deposit_box(mission *miss)
     miss->target = site;
     overmap_buffer.reveal(site, 2, g->levz);
 
- tinymap compmap(&(g->traps));
+ tinymap compmap;
  // Get overmap, crop site coords to be valid inside that overmap
  overmap &om = overmap_buffer.get_om_global(site.x, site.y);
  compmap.load(site.x * 2, site.y * 2, g->levz, false, &om);

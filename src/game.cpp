@@ -235,8 +235,6 @@ game::~game()
  delwin(w_status2);
 
  delete world_generator;
-
- release_traps();
 }
 
 // Fixed window sizes
@@ -480,7 +478,7 @@ void game::reenter_fullscreen(void)
  */
 void game::setup()
 {
- m = map(&traps); // Init the root map with our vectors
+    m = map(); // reset the main map
 
     load_world_modfiles(world_generator->active_world);
 
@@ -3960,7 +3958,7 @@ bool game::event_queued(event_type type)
 #include "savegame.h"
 void game::debug()
 {
- int action = menu(false, // cancelable
+ int action = menu(true, // cancelable
                    _("Debug Functions - Using these is CHEATING!"),
                    _("Wish for an item"),       // 1
                    _("Teleport - Short Range"), // 2
@@ -3982,8 +3980,9 @@ void game::debug()
                    _("Change weather"),         // 18
                    _("Remove all monsters"),    // 19
                    _("Display hordes"), // 20
+                   _("item spawn debug"), // 21
                    #ifdef LUA
-                       _("Lua Command"), // 21
+                       _("Lua Command"), // 22
                    #endif
                    _("Cancel"),
                    NULL);
@@ -4098,10 +4097,14 @@ void game::debug()
     debugmsg ("There's already vehicle here");
    }
    else {
+    std::vector<std::string> veh_strings;
     for(std::map<std::string, vehicle*>::iterator it = vtypes.begin();
              it != vtypes.end(); ++it) {
       if(it->first != "custom") {
-        opts.push_back(it->second->type);
+        veh_strings.push_back(it->second->type);
+        //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
+        opts.push_back(string_format(_("%s (%s)"),
+                       _(it->second->name.c_str()), it->second->type.c_str()));
       }
     }
     opts.push_back (std::string(_("Cancel")));
@@ -4109,7 +4112,7 @@ void game::debug()
     veh_num -= 2;
     if(veh_num < opts.size() - 1) {
       //Didn't pick Cancel
-      std::string selected_opt = opts[veh_num];
+      std::string selected_opt = veh_strings[veh_num];
       vehicle* veh = m.add_vehicle (selected_opt, u.posx, u.posy, -90, 100, 0);
       if(veh != NULL) {
         m.board_vehicle (u.posx, u.posy, &u);
@@ -4396,9 +4399,13 @@ void game::debug()
       overmap::draw_overmap(g->om_global_location(), true);
   }
   break;
+  case 21: {
+      item_controller->debug_spawn();
+  }
+  break;
 
   #ifdef LUA
-      case 21: {
+      case 22: {
           std::string luacode = string_input_popup(_("Lua:"), 60, "");
           call_lua(luacode);
       }
@@ -8069,9 +8076,9 @@ void game::print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int
         return;
     }
 
-    int vis = traps[trapid]->visibility;
+    int vis = traplist[trapid]->visibility;
     if (vis == -1 || u.per_cur - u.encumb(bp_eyes) >= vis) {
-        mvwprintz(w_look, line++, column, traps[trapid]->color, "%s", traps[trapid]->name.c_str());
+        mvwprintz(w_look, line++, column, traplist[trapid]->color, "%s", traplist[trapid]->name.c_str());
     }
 }
 
@@ -12092,9 +12099,9 @@ bool game::plmove(int dx, int dy)
     }
 
   if (m.tr_at(x, y) != tr_null &&
-    u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(x, y)]->visibility){
-        if (  !traps[m.tr_at(x, y)]->is_benign() &&
-              !query_yn(_("Really step onto that %s?"),traps[m.tr_at(x, y)]->name.c_str())){
+    u.per_cur - u.encumb(bp_eyes) >= traplist[m.tr_at(x, y)]->visibility){
+        if (  !traplist[m.tr_at(x, y)]->is_benign() &&
+              !query_yn(_("Really step onto that %s?"),traplist[m.tr_at(x, y)]->name.c_str())){
             return false;
         }
   }
@@ -12464,7 +12471,7 @@ bool game::plmove(int dx, int dy)
    m.board_vehicle(u.posx, u.posy, &u);
 
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
-   trap* tr = traps[m.tr_at(x, y)];
+   trap* tr = traplist[m.tr_at(x, y)];
    if (!u.avoid_trap(tr)) {
     trapfunc f;
     (f.*(tr->act))(x, y);
@@ -12927,7 +12934,7 @@ void game::vertical_move(int movez, bool force) {
      return;
  }
 
- map tmpmap(&traps);
+ map tmpmap;
  tmpmap.load(levx, levy, levz + movez, false);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
@@ -13110,7 +13117,7 @@ void game::vertical_move(int movez, bool force) {
  }
 
  if (m.tr_at(u.posx, u.posy) != tr_null) { // We stepped on a trap!
-  trap* tr = traps[m.tr_at(u.posx, u.posy)];
+  trap* tr = traplist[m.tr_at(u.posx, u.posy)];
   if (force || !u.avoid_trap(tr)) {
    trapfunc f;
    (f.*(tr->act))(u.posx, u.posy);
@@ -13385,7 +13392,7 @@ void game::force_save_monster(monster &critter) {
     critter.spawnposx = rc.sub_pos.x;
     critter.spawnposy = rc.sub_pos.y;
 
-    tinymap tmp(&traps);
+    tinymap tmp;
     tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
     tmp.add_spawn(&critter);
     tmp.save(cur_om, turn, critter.spawnmapx, critter.spawnmapy, levz);
@@ -13415,7 +13422,7 @@ void game::despawn_monsters(const int shiftx, const int shifty)
                     // We're saving him, so there's no need to keep anymore.
                     critter.setkeep(false);
 
-                    tinymap tmp(&traps);
+                    tinymap tmp;
                     tmp.load(critter.spawnmapx, critter.spawnmapy, levz, false);
                     tmp.add_spawn(&critter);
                     tmp.save(cur_om, turn, critter.spawnmapx, critter.spawnmapy, levz);
@@ -13864,7 +13871,7 @@ void game::nuke(int x, int y)
     // ^^ crops x,y to point inside om now., but map::load
     // and map::save needs submap coordinates.
     const point smc = overmapbuffer::omt_to_sm_copy(x, y);
-    map tmpmap(&traps);
+    map tmpmap;
     tmpmap.load(smc.x, smc.y, 0, false, &om);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -14106,7 +14113,11 @@ nc_color sev(int a)
 
 void game::display_scent()
 {
- int div = 1 + query_int(_("Sensitivity"));
+ int div = query_int(_("Set the Scent Map sensitivity to (0 to cancel)?"));
+ if (div < 1) {
+    add_msg(_("Never mind."));
+    return;
+ };
  draw_ter();
  for (int x = u.posx - getmaxx(w_terrain)/2; x <= u.posx + getmaxx(w_terrain)/2; x++) {
   for (int y = u.posy - getmaxy(w_terrain)/2; y <= u.posy + getmaxy(w_terrain)/2; y++) {

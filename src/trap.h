@@ -8,8 +8,13 @@
 #include <string>
 
 typedef int trap_id;
+/** map trap ids to index into @ref traps */
 extern std::map<std::string, int> trapmap;
 void set_trap_ids();
+/** release all trap types, reset @ref traps and @ref trapmap */
+void release_traps();
+/** load a trap definition from json */
+void load_trap(JsonObject &jo);
 
 struct trap;
 
@@ -130,7 +135,8 @@ struct trap {
     };
 };
 
-trap_id trap_id_from_string(std::string trap_name);
+/** list of all trap types */
+extern std::vector<trap*> traplist;
 
 typedef void (trapfunc::*trap_function)(int, int);
 typedef void (trapfuncm::*trap_function_mon)(monster *, int, int);

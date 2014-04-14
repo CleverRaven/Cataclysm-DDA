@@ -318,8 +318,8 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
         for (int locy = 0; locy < SEEY; locy++) {
             // This is a translation from local coordinates to submap coords.
             // All submaps are in one long 1d array.
-            int x = locx + submap_x;
-            int y = locy + submap_y;
+            int x = locx + submap_x * SEEX;
+            int y = locy + submap_y * SEEY;
             // get a copy of the field variable from the submap;
             // contains all the pointers to the real field effects.
             field &curfield = current_submap->fld[locx][locy];

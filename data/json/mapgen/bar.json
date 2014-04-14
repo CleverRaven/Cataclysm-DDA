@@ -165,7 +165,6 @@
 				"c": "f_counter",
 				"x": "f_pool_table",
 				"&": "f_fridge",
-				"B": "f_rack",
 				"d": "f_dumpster",
 				"t": "f_toilet",
 				"s": "f_sink",

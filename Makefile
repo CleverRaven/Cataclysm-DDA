@@ -22,6 +22,8 @@
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
 #  make TILES=1
+# Sound (requires SDL, so TILES must be enabled)
+#  make TILES=1 SOUND=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
 # Compile localization files for specified languages
@@ -180,6 +182,16 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   RFLAGS = -J rc -O coff
 endif
 
+ifdef SOUND
+  ifndef TILES
+    $(error "SOUND=1 only works with TILES=1")
+  endif
+  CXXFLAGS += $(shell pkg-config --cflags SDL2_mixer)
+  CXXFLAGS += -DSDL_SOUND
+  LDFLAGS += $(shell pkg-config --libs SDL2_mixer)
+  LDFLAGS += -lvorbisfile -lvorbis -logg
+endif
+
 ifdef LUA
   ifeq ($(TARGETSYSTEM),WINDOWS)
     # Windows expects to have lua unpacked at a specific location
@@ -223,9 +235,9 @@ ifdef SDL
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
-      CXXFLAGS += $(shell sdl-config --cflags) \
-		  -I$(shell dirname $(shell sdl-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
-      LDFLAGS += $(shell sdl-config --libs) -lSDL2_ttf
+      CXXFLAGS += $(shell sdl2-config --cflags) \
+		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
+      LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       ifdef TILES
 	LDFLAGS += -lSDL2_image
       endif
@@ -292,12 +304,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
-
-ifdef SDL
-  ifeq ($(NATIVE),osx)
-    OBJS += $(ODIR)/SDLMain.o
-  endif
-endif
 
 ifdef LANGUAGES
   L10N = localization

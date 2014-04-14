@@ -79,7 +79,7 @@ std::pair<int, int> rain_or_acid_level( const int wt )
 void retroactively_fill_from_funnel( item *it, const trap_id t, const int endturn )
 {
     const int startturn = ( it->bday > 0 ? it->bday - 1 : 0 );
-    if ( startturn > endturn || g->traps[t]->funnel_radius_mm < 1 ) {
+    if ( startturn > endturn || traplist[t]->funnel_radius_mm < 1 ) {
         return;
     }
 
@@ -98,12 +98,12 @@ void retroactively_fill_from_funnel( item *it, const trap_id t, const int endtur
         std::pair<int, int> wlev = rain_or_acid_level( wit->second.weather );
 
         if ( wlev.first != 0 ) {
-            fillrain += (fillend - fillstart ) / g->traps[t]->funnel_turns_per_charge( wlev.first );
+            fillrain += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.first );
             if ( firstfill == 0 ) {
                 firstfill = 1;
             }
         } else if ( wlev.second != 0 ) {
-            fillacid += (fillend - fillstart ) / g->traps[t]->funnel_turns_per_charge( wlev.second );
+            fillacid += (fillend - fillstart ) / traplist[t]->funnel_turns_per_charge( wlev.second );
             if ( firstfill == 0 ) {
                 firstfill = 2;
             }
@@ -214,7 +214,7 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const {
 
 void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
 {
-    const double turns_per_charge = g->traps[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
+    const double turns_per_charge = traplist[t]->funnel_turns_per_charge(rain_depth_mm_per_hour);
     // Give each funnel on the map a chance to collect the rain.
     std::set<point> funnel_locs = g->m.trap_locations(t);
     std::set<point>::iterator i;

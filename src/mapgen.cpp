@@ -62,8 +62,8 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
         for (int x = 0; x < SEEX; x++) {
             for (int y = 0; y < SEEY; y++) {
                 grid[i]->ter[x][y] = t_null;
-                grid[i]->frn[x][y] = f_null;
-                grid[i]->trp[x][y] = tr_null;
+                grid[i]->set_furn(x, y, f_null);
+                grid[i]->set_trap(x, y, tr_null);
                 grid[i]->rad[x][y] = 0;
                 grid[i]->graf[x][y] = graffiti();
             }
@@ -10856,6 +10856,38 @@ void map::place_vending(int x, int y, std::string type)
     place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
 }
 
+int map::place_items(items_location loc, int x1, int y1,
+                     int x2, int y2, bool ongrass, int turn)
+{
+    const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
+
+    Item_list items = item_controller->create_from_group(loc, turn);
+    int item_num = 0;
+    for(Item_list::iterator a = items.begin(); a != items.end(); ++a) {
+        float lets_spawn = spawn_rate;
+        while( rng_float( 0.0, 1.0 ) <= lets_spawn ) {
+            lets_spawn -= 1.0;
+            int px, py;
+
+            int tries = 0;
+            do {
+                px = rng(x1, x2);
+                py = rng(y1, y2);
+                tries++;
+                // Only place on valid terrain
+            } while (( (terlist[ter(px, py)].movecost == 0 &&
+                        !(terlist[ter(px, py)].has_flag("PLACE_ITEM")) ) &&
+                       (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
+                     tries < 20);
+            if (tries < 20) {
+                spawn_an_item(px, py, *a, 0, a->damage);
+                item_num++;
+            }
+        }
+    }
+    return item_num;
+}
+
 int map::place_items(items_location loc, int chance, int x1, int y1,
                      int x2, int y2, bool ongrass, int turn, bool rand)
 {
@@ -12672,22 +12704,7 @@ void map::add_extra(map_extra type)
                 if (one_in(10)) {
                     add_spawn("mon_zombie_scientist", 1, x, y);
                 } else {
-                    add_item(x, y, body);
-                    spawn_item(x, y, "coat_lab");
-                    if (one_in(2)) {
-                        spawn_item(x, y, "id_science");
-                    }
-                    place_items("science", 84, x, y, x, y, true, 0);
-                    place_items("lab_pants", 50, x, y, x, y, true, 0);
-                    place_items("lab_shoes", 50, x, y, x, y, true, 0);
-                    place_items("lab_torso", 40, x, y, x, y, true, 0);
-                    if (one_in(2)) {
-                        place_items("female_underwear_top", 50, x, y, x, y, true, 0 );
-                        place_items("female_underwear_bottom", 50, x, y, x, y, true, 0 );
-                    } else {
-                        place_items("male_underwear_top", 50, x, y, x, y, true, 0 );
-                        place_items("male_underwear_bottom", 50, x, y, x, y, true, 0 );
-                    }
+                    place_items("map_extra_science", x, y, x, y, true, 0);
                 }
             }
         }
