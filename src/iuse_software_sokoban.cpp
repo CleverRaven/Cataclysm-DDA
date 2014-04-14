@@ -321,7 +321,7 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if (ctxt.get_direction(iDirY, iDirY, action)) {
+        if (ctxt.get_direction(iDirX, iDirY, action)) {
             bMoved = true;
         } else if (action == "QUIT") {
             return iScore;
