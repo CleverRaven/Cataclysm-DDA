@@ -1085,12 +1085,17 @@ bool game::do_turn()
         if (u.radiation > 1 && one_in(3)) {
             u.radiation--;
         }
-        u.get_sick(  );
+        u.get_sick();
         // Freakishly Huge folks tire quicker
         if (u.has_trait("HUGE") && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
             add_msg(_("<whew> You catch your breath."));
             u.fatigue++;
         }
+    }
+
+    if (turn % 3600 == 0)
+    {
+        u.update_health();
     }
 
     // Auto-save if autosave is enabled

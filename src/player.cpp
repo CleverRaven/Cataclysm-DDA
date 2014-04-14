@@ -138,6 +138,8 @@ player::player() : Character(), name("")
  driving_recoil = 0;
  scent = 500;
  health = 0;
+ health_mod = 0;
+ 
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
@@ -246,6 +248,7 @@ player& player::operator= (const player & rhs)
  thirst = rhs.thirst;
  fatigue = rhs.fatigue;
  health = rhs.health;
+ health_mod = rhs.health_mod;
 
  underwater = rhs.underwater;
  oxygen = rhs.oxygen;
@@ -4831,16 +4834,6 @@ void player::recalc_hp()
 
 void player::get_sick()
 {
- if (health > 0 && rng(0, health + 10) < health)
-  health--;
- if (health < 0 && rng(0, 10 - health) < (0 - health))
-  health++;
- if (one_in(12))
-  health -= 1;
-
- if (g->debugmon)
-  debugmsg("Health: %d", health);
-
  if (has_trait("DISIMMUNE"))
   return;
 
@@ -4851,6 +4844,25 @@ void player::get_sick()
   else
    infect("common_cold", bp_mouth, 3, rng(20000, 60000));
  }
+}
+
+void player::update_health()
+{
+    if (health_mod > 200) {
+        health_mod == 200;
+    }
+    int roll = rng(-100, 100);
+    int health_threshold = health - health_mod;
+    if (roll > health_threshold) {
+        health += 1;
+    } else if (roll < health_threshold) {
+        health -= 1;
+    }
+    health_mod = health_mod * 3 / 4;
+
+    if (g->debugmon) {
+        debugmsg("Health: %d, Health mod: %d", health, health_mod);
+    }
 }
 
 bool player::infect(dis_type type, body_part vector, int strength,
@@ -7738,11 +7750,11 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         // Shorter GI tract, so less nutrients captured.
         hunger -= ((comest->nutr) *= 0.66);
         thirst -= ((comest->quench) *= 0.66);
-        health += ((comest->healthy) *= 0.66);
+        health_mod += ((comest->healthy) *= 0.66);
     } else {
         hunger -= comest->nutr;
         thirst -= comest->quench;
-        health += comest->healthy;
+        health_mod += comest->healthy;
     }
 
     if (has_bionic("bio_digestion")) {
@@ -10373,6 +10385,7 @@ void player::environmental_revert_effect()
     thirst = 0;
     fatigue = 0;
     health = 0;
+    health_mod = 0;
     stim = 0;
     pain = 0;
     pkill = 0;
