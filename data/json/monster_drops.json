@@ -3,7 +3,7 @@
         "type": "monitems",
         "id": [
             "mon_zombie", "mon_zombie_shrieker", "mon_zombie_spitter", "mon_zombie_electric", "mon_zombie_brute",
-            "mon_zombie_hulk", "mon_zombie_fungus", "mon_boomer", "mon_boomer_fungus", "mon_zombie_gasbag",  "mon_zombie_necro",
+            "mon_zombie_fungus", "mon_boomer", "mon_boomer_fungus", "mon_zombie_gasbag",  "mon_zombie_necro",
             "mon_zombie_grabber", "mon_zombie_master", "mon_zombie_hunter", "mon_zombie_fat", "mon_zombie_tough", "mon_dementia",
             "mon_zombie_rot", "mon_zombie_crawler"
         ],
@@ -117,6 +117,31 @@
                 { "group": "mil_accessories", "prob": 10 },
                 { "group": "mil_food", "prob": 5 },
                 { "group": "bionics_mil", "prob": 1 }
+            ] },
+            { "item": "cash_card" }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_hulk_death_drops",
+        "entries":
+        [
+            { "item": "rag", "damage-min": 1, "damage-max": 4, "count-min": 1, "count-max": 4 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "distribution": [
+                { "group": "livingroom", "prob": 5 },
+                { "group": "kitchen", "prob": 4 },
+                { "group": "bedroom", "prob": 16 },
+                { "group": "softdrugs", "prob": 5 },
+                { "group": "harddrugs", "prob": 1 },
+                { "group": "tools", "prob": 20 },
+                { "group": "trash", "prob": 7 },
+                { "group": "ammo", "prob": 1 },
+                { "group": "pistols", "prob": 1 },
+                { "group": "shotguns", "prob": 1 },
+                { "group": "smg", "prob": 1 },
+                { "group": "postman_gear", "prob": 5 }
             ] },
             { "item": "cash_card" }
         ]

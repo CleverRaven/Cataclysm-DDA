@@ -541,9 +541,7 @@ void mdeath::zombie(monster *z) {
         break;
 
         case 4: // mon_zombie_hulk
-            g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, g->turn, rng(1,4));
-            g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            underwear = false;
+            return;
         break;
 
         case 5: // mon_zombie_hazmat
