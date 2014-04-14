@@ -1054,7 +1054,9 @@ action_id handle_action_menu()
             REGISTER_CATEGORY("info");
             REGISTER_CATEGORY("misc");
             REGISTER_ACTION(ACTION_SAVE);
-            REGISTER_ACTION(ACTION_QUIT);
+            if (hotkey_for_action(ACTION_QUIT) >-1) {
+                REGISTER_ACTION(ACTION_QUIT);
+            }
         } else if(category == "look") {
             REGISTER_ACTION(ACTION_LOOK);
             REGISTER_ACTION(ACTION_PEEK);
