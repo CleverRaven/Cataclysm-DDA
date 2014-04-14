@@ -1251,7 +1251,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
         obj.read("msg", actor->msg_transform);
-        actor->msg = _(actor->msg.c_str());
+        actor->msg_transform = _(actor->msg_transform.c_str());
         obj.read("target_charges", actor->target_charges);
         obj.read("container", actor->container_id);
         obj.read("active", actor->active);
@@ -1270,7 +1270,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
         obj.read("msg", actor->msg_transform);
-        actor->msg = _(actor->msg.c_str());
+        actor->msg_transform = _(actor->msg_transform.c_str());
         obj.read("target_charges", actor->target_charges);
         obj.read("container", actor->container_id);
         obj.read("active", actor->active);
