@@ -6424,7 +6424,7 @@ bool player::process_single_active_item(item *it)
                     this->add_disease("weed_high", duration / 2);
                     g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_weedsmoke, 2);
                 }
-                this->moves -= 10;
+                this->moves -= 15;
             }
 
             if((this->has_disease("shakes") && one_in(10)) ||

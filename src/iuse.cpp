@@ -844,7 +844,7 @@ int iuse::cig(player *p, item *it, bool)
             return 0;
         }
         g->add_msg_if_player(p,_("You roll a cigarette out of some old butts."));
-        p->moves -= 30;
+        p->moves -= 1000;
         p->use_charges_if_avail("cig_butt", 4); // 4 since using butt consumes a charge
         p->use_charges_if_avail("rolling_paper", 1);
     }
@@ -873,6 +873,7 @@ int iuse::cig(player *p, item *it, bool)
                     return 0;
                 }
                 p->use_charges_if_avail("rolling_paper", 1);
+                p->moves -= 500;
             } else { // smoke out of a pipe
                 if (!use_fire(p, it)) return 0;
                 g->add_msg_if_player(p,_("You smoke some tobacco out of your pipe."));
@@ -886,6 +887,7 @@ int iuse::cig(player *p, item *it, bool)
                     g->add_msg_if_player(p, _("Ugh, too much smoke... you cough heavily."));
                     g->sound(p->posx, p->posy, 10, _(""));
                 }
+                p->moves -= 250;
                 return it->type->charges_to_use();
             }
         }
@@ -900,9 +902,6 @@ int iuse::cig(player *p, item *it, bool)
         p->thirst += 3;
         p->hunger -= 4;
     } else { // joint
-        if(it->type->id == "cannabis") { // rolling a joint
-            p->use_charges_if_avail("rolling_paper", 1);
-        }
         cig = item(itypes["joint_lit"], int(g->turn));
         cig.item_counter = 40;
         // thirst/hunger for joint happen in iuse::weed
@@ -1086,6 +1085,7 @@ int iuse::weed(player *p, item *it, bool b) {
         roachjoint = true;
         g->add_msg_if_player(p,_("You roll a joint out of some old roaches."));
         p->use_charges_if_avail("joint_roach", 4); // 4 since using roach consumes a charge
+        p->moves -= 1000;
     }
 
     int choice = -1;
@@ -1113,6 +1113,8 @@ int iuse::weed(player *p, item *it, bool b) {
                 p->pkill += 3;
                 p->pkill *= 2;
             }
+            p->moves -= 500;
+            p->use_charges_if_avail("rolling_paper", 1);
         }
         return charges;
     }
