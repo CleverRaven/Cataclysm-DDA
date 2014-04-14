@@ -406,12 +406,16 @@ bool query_yn(const char *mes, ...)
     if (selectors.length()<2) {
         selectors = "yn";
     }
+    std::string ucselectors = selectors;
+    capitalize_letter(ucselectors, 0);
+    capitalize_letter(ucselectors, 1);
+
     std::string ucwarning = "";
+    std::string *dispkeys = &selectors;
     if (force_uc) {
         ucwarning = _("Case Sensitive");
         ucwarning = " (" + ucwarning +")";
-        capitalize_letter(selectors, 0);
-        capitalize_letter(selectors, 1);
+        dispkeys = &ucselectors;
     }
     // localizes the actual question
     std::string message = _(text.c_str());
@@ -430,14 +434,26 @@ bool query_yn(const char *mes, ...)
 
     char ch ='?';
     bool result = true;
+    bool gotkey = false;
 
-    do {
-        result = !result;
+    while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE) {
+
+        gotkey= (force_uc && ((ch == ucselectors[0]) || (ch == ucselectors[1])))
+            || (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
+
+        if (gotkey) {
+            result = (!force_uc && (ch == selectors[0])) || (force_uc && (ch == ucselectors[0]));
+            break; // could move break past render to flash final choice once.
+        } else
+        if ((!force_uc && (ch != ucselectors[0]) && (ch != ucselectors[1]))
+            || (force_uc && ((ch != selectors[0]) && (ch != selectors[1])))) {
+            result = !result;
+        }
 
         if (result) {
-            query = " (" + color_on + selectors[0] + color_off + "/" + selectors[1] + ")";
+            query = " (" + color_on + dispkeys->substr(0,1) + color_off + "/" + dispkeys->substr(1,1) + ")";
         } else {
-            query = " (" + selectors.substr(0,1) + "/" + color_on + selectors[1] + color_off + ")";
+            query = " (" + dispkeys->substr(0,1) + "/" + color_on + dispkeys->substr(1,1) + color_off + ")";
         }
         if (force_uc) {
             query += ucwarning;
@@ -453,16 +469,13 @@ bool query_yn(const char *mes, ...)
         wrefresh(w);
 
         ch = getch();
+    };
 
-    } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE && ch != selectors[0] && ch != selectors[1]);
     werase(w);
     wrefresh(w);
     delwin(w);
     refresh();
-    if (ch == KEY_ESCAPE) {
-        return false;
-    }
-    return (result || (ch == selectors[0]));
+    return ((ch != KEY_ESCAPE) && result);
 }
 
 int query_int(const char *mes, ...)
