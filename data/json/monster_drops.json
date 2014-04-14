@@ -48,7 +48,7 @@
             { "group": "underwear", "damage-min": 1, "damage-max": 4 },
             { "group": "cop_weapons", "prob": 20 },
             { "group": "cop_gear", "prob": 40 },
-            { "item": "cash_card", "charges-min": -1, "charges-max": 100000 }
+            { "item": "cash_card" }
         ]
     },
     {
@@ -64,9 +64,9 @@
                     { "group": "swimmer_torso", "damage-min": 1, "damage-max": 4, "prob": 33 },
                     { "group": "swimmer_pants", "damage-min": 1, "damage-max": 4 },
                     { "group": "swimmer_shoes", "damage-min": 1, "damage-max": 4, "prob": 25 }
-                ] }
+                ], "prob": 90 }
             ] },
-            { "item": "cash_card", "charges-min": -1, "charges-max": 10000 }
+            { "item": "cash_card" }
         ]
     },
     {
@@ -91,7 +91,7 @@
                 { "group": "radio", "prob": 2 },
                 { "group": "textbooks", "prob": 3 }
             ] },
-            { "item": "cash_card", "charges-min": -1, "charges-max": 100000 }
+            { "item": "cash_card" }
         ]
     },
     {
@@ -142,6 +142,29 @@
                 { "group": "shotguns", "prob": 1 },
                 { "group": "smg", "prob": 1 },
                 { "group": "postman_gear", "prob": 5 }
+            ] },
+            { "item": "cash_card" }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_hazmat_death_drops",
+        "entries":
+        [
+            { "distribution": [
+                { "group": "hazmat_full", "damage-min": 1, "damage-max": 4, "prob": 20 },
+                { "collection": [
+                    { "group": "hazmat_torso", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_gloves", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_boots", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_mask", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_eyes", "damage-min": 1, "damage-max": 4, "prob": 33 }
+                ], "prob": 80 }
+            ] },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "distribution": [
+                { "group": "rad_gear", "prob": 1 }
             ] },
             { "item": "cash_card" }
         ]
@@ -302,13 +325,6 @@
         "id": "mon_dog_zombie_cop",
         "item_groups": [
             [ "dog_cop", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_zombie_hazmat",
-        "item_groups": [
-            [ "rad_gear", 1 ]
         ]
     },
     {
