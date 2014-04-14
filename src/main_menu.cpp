@@ -129,6 +129,9 @@ void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int i
 
 bool game::opening_screen()
 {
+    // Play title music, whoo!
+    play_music("title");
+
     world_generator->set_active_world(NULL);
     // This actually _loads_ what worlds exist.
     world_generator->get_all_worlds();

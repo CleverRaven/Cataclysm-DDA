@@ -25,7 +25,7 @@ class Creature
         Creature();
         Creature(const Creature &rhs);
 
-        virtual std::string disp_name() = 0; // displayname for Creature
+        virtual std::string disp_name(bool possessive = false) = 0; // displayname for Creature
         virtual std::string skin_name() = 0; // name of outer layer, e.g. "armor plates"
 
         virtual bool is_player() {

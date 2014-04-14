@@ -363,9 +363,27 @@ struct spawn_point {
 };
 
 struct submap {
+    inline trap_id get_trap(int x, int y) const {
+        return trp[x][y];
+    }
+
+    inline void set_trap(int x, int y, trap_id trap) {
+        trp[x][y] = trap;
+    }
+
+    inline furn_id get_furn(int x, int y) const {
+        return frn[x][y];
+    }
+
+    inline void set_furn(int x, int y, furn_id furn) {
+        frn[x][y] = furn;
+    }
+
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
     std::vector<item>  itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square
+
+    // TODO: make trp private once the horrible hack known as editmap is resolved
     trap_id            trp[SEEX][SEEY];  // Trap on each square
     field              fld[SEEX][SEEY];  // Field on each square
     int                rad[SEEX][SEEY];  // Irradiation of each square

@@ -296,7 +296,12 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 + FULL_SCREEN_WIDTH / 2 : FULL_SCREEN_WIDTH / 2);
 
     bool used_machine = false;
-    do {
+    input_context ctxt("VENDING_MACHINE");
+    ctxt.register_updown();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    while(true) {
         werase(w);
         wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                          LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -344,27 +349,21 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
                              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
         mvwprintw(w_item_info, 0, 2, "< %s >", vend_items[cur_pos].display_name().c_str() );
         wrefresh(w_item_info);
-        switch (input()) {
-        case 'j':
-        case '2':
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
             cur_pos++;
             if (cur_pos >= num_items) {
                 cur_pos = 0;
             }
-            break;
-        case 'k':
-        case '8':
+        } else if (action == "UP") {
             cur_pos--;
             if (cur_pos < 0) {
                 cur_pos = num_items - 1;
             }
-            break;
-        case ' ':
-        case '\n':
-        case '5': {
+        } else if (action == "CONFIRM") {
             if (vend_items[cur_pos].price() > card->charges) {
                 popup(_("That item is too expensive!"));
-                break;
+                continue;
             }
             card->charges -= vend_items[cur_pos].price();
             p->i_add_or_drop(vend_items[cur_pos]);
@@ -376,23 +375,17 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
 
             if (num_items == 1) {
                 g->add_msg(_("With a beep, the empty vending machine shuts down"));
-                p->moves -= 250;
-                delwin(w_item_info);
-                delwin(w);
-                return;
+                break;
             }
+        } else if (action == "QUIT") {
             break;
         }
-        case 'q':
-        case KEY_ESCAPE:
-            if (used_machine) {
-                p->moves -= 250;
-            }
-            delwin(w_item_info);
-            delwin(w);
-            return;
-        }
-    } while (true);
+    }
+    if (used_machine) {
+        p->moves -= 250;
+    }
+    delwin(w_item_info);
+    delwin(w);
 }
 
 void iexamine::toilet(player *p, map *m, int examx, int examy) {

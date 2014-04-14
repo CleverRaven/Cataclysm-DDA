@@ -3866,6 +3866,7 @@
     "guns_with_ammo" : true,
     "items":[
       ["nailbat", 10],
+      ["bwirebat",10],
       ["nailboard", 25],
       ["makeshift_crowbar", 15],
       ["crowbar", 7],
