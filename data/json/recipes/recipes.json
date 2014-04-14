@@ -5462,6 +5462,7 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 2,
+  "skills_required": [ "survival", 5 ],
   "time": 9000,
   "reversible": false,
   "autolearn": true,
