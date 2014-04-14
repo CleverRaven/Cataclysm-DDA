@@ -734,7 +734,7 @@ void dis_effect(player &p, disease &dis)
 
         case DI_SPORES:
             // Equivalent to X in 150000 + health * 1000
-            if (one_in(100) && x_in_y(dis.intensity, 150 + p.health)) {
+            if (one_in(100) && x_in_y(dis.intensity, 150 + p.health / 10)) {
                 p.add_disease("fungus", 3601, false, 1, 1, 0, -1);
                 g->u.add_memorial_log(pgettext("memorial_male", "Contracted a fungal infection."),
                                       pgettext("memorial_female", "Contracted a fungal infection."));
@@ -963,7 +963,7 @@ void dis_effect(player &p, disease &dis)
                p.rem_disease("bloodworms");
             } else {
                 if(one_in(512)) {
-                    p.health--;
+                    p.health_mod -= 10;
                 }
             }
             break;
@@ -977,7 +977,7 @@ void dis_effect(player &p, disease &dis)
                     p.mod_pain(rng(2, 8));
                 }
                 if(one_in(1024)) {
-                    p.health--;
+                    p.health_mod -= 10;
                     p.hurt(bp_head, -1, rng(0, 1));
                     if (!p.has_disease("visuals")) {
                     g->add_msg(_("Your vision is getting fuzzy."));
@@ -985,7 +985,7 @@ void dis_effect(player &p, disease &dis)
                   }
                 }
                 if(one_in(4096)) {
-                    p.health--;
+                    p.health_mod -= 10;
                     p.hurt(bp_head, -1, rng(1, 2));
                     if (!p.has_effect("blind")) {
                     g->add_msg_if_player(&p,_("You can't see!"));
@@ -2352,7 +2352,7 @@ condition, and deals massive damage.");
 
 void manage_fungal_infection(player& p, disease& dis)
 {
-    int bonus = p.health + (p.has_trait("POISRESIST") ? 100 : 0);
+    int bonus = p.health / 10 + (p.has_trait("POISRESIST") ? 100 : 0);
     p.moves -= 10;
     p.mod_str_bonus(-1);
     p.mod_dex_bonus(-1);
@@ -2662,7 +2662,7 @@ static void handle_bite_wound(player& p, disease& dis)
         // Infection Resist is exactly that: doesn't make the Deep Bites go away
         // but it does make it much more likely they won't progress
         if (p.has_trait("INFRESIST")) { recover_factor += 1000; }
-        recover_factor += p.health; // Health still helps if factor is zero
+        recover_factor += p.health / 10; // Health still helps if factor is zero
         recover_factor = std::max(recover_factor, 0); // but can't hurt
 
         if ((x_in_y(recover_factor, 108000)) || (p.has_trait("INFIMMUNE"))) {
@@ -2708,7 +2708,7 @@ static void handle_infected_wound(player& p, disease& dis)
 {
     // Recovery chance
     if(int(g->turn) % 10 == 1) {
-        if(x_in_y(100 + p.health, 864000)) {
+        if(x_in_y(100 + p.health / 10, 864000)) {
             g->add_msg_if_player(&p,_("Your %s wound begins to feel better."),
                                  body_part_name(dis.bp, dis.side).c_str());
             if (dis.duration > 8401) {

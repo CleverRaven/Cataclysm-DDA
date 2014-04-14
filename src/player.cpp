@@ -4838,7 +4838,7 @@ void player::get_sick()
   return;
 
  if (!has_disease("flu") && !has_disease("common_cold") &&
-     one_in(900 + 10 * health + (has_trait("DISRESISTANT") ? 300 : 0))) {
+     one_in(900 + health + (has_trait("DISRESISTANT") ? 300 : 0))) {
   if (one_in(6))
    infect("flu", bp_mouth, 3, rng(40000, 80000));
   else
@@ -4854,9 +4854,9 @@ void player::update_health()
     int roll = rng(-100, 100);
     int health_threshold = health - health_mod;
     if (roll > health_threshold) {
-        health += 1;
+        health++;
     } else if (roll < health_threshold) {
-        health -= 1;
+        health--;
     }
     health_mod = health_mod * 3 / 4;
 
@@ -7744,7 +7744,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            health -= 3;
+            health_mod -= 30;
         }
     } if (has_trait("GIZZARD")) {
         // Shorter GI tract, so less nutrients captured.
