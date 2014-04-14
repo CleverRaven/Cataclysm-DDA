@@ -4306,9 +4306,7 @@ int iuse::jacqueshammer(player *p, item *it, bool)
  int dirx, diry;
  g->draw();
  //~ (jacqueshammer) "Drill where?"
- mvprintw(0, 0, _("Percer dans quelle direction?"));
- get_direction(dirx, diry, input());
- if (dirx == -2) {
+ if (!choose_direction(_("Percer dans quelle direction?"), dirx, diry)) {
   //~ (jacqueshammer) "Invalid direction"
   g->add_msg_if_player(p,_("Direction invalide"));
   return 0;
