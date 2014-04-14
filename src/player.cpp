@@ -4853,6 +4853,9 @@ void player::update_health()
     }
     int roll = rng(-100, 100);
     int health_threshold = health - health_mod;
+    if (has_artifact_with(AEP_SICK)) {
+        health_threshold += 50;
+    }
     if (roll > health_threshold) {
         health++;
     } else if (roll < health_threshold) {

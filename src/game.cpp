@@ -14469,6 +14469,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
         case AEP_BAD_WEATHER:
             add_msg(_("You feel storms coming."));
             break;
+
+        case AEP_SICK:
+            add_msg(_("You feel unwell."));
+            break;
         }
     }
 
