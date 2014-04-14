@@ -2467,17 +2467,24 @@ void manage_sleep(player& p, disease& dis)
               (p.has_trait("FLIMSY3") && one_in(4)) ||
               (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&
                (!(p.has_trait("FLIMSY3"))))) {
+            int heal_chance = p.health / 25;
             if (p.has_trait("FASTHEALER")) {
-                p.healall(1);
+                heal_chance += 100;
             } else if (p.has_trait("FASTHEALER2")) {
-                p.healall(1 + one_in(2));
+                heal_chance += 150;
             } else if (p.has_trait("REGEN")) {
-                p.healall(2);
+                heal_chance += 200;
             } else if (p.has_trait("SLOWHEALER")) {
-                p.healall(one_in(8));
+                heal_chance += 13;
             } else {
-                p.healall(one_in(4));
+                heal_chance += 25;
             }
+            int tmp_heal = 0;
+            while (heal_chance >= 100) {
+                tmp_heal++;
+                heal_chance -= 100;
+            }
+            p.healall(tmp_heal + x_in_y(heal_chance, 100));
         }
 
         if (p.fatigue <= 0 && p.fatigue > -20) {
@@ -2487,11 +2494,9 @@ void manage_sleep(player& p, disease& dis)
             p.add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
                                pgettext("memorial_female", "Awoke from hibernation."));
         }
-    }
-
     // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
     // See above.  No log note for you. :-/
-    if((int(g->turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
+    } else if((int(g->turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
@@ -2519,17 +2524,24 @@ void manage_sleep(player& p, disease& dis)
               (p.has_trait("FLIMSY3") && one_in(4)) ||
               (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&
                (!(p.has_trait("FLIMSY3"))))) {
+            int heal_chance = p.health / 25;
             if (p.has_trait("FASTHEALER")) {
-                p.healall(1);
+                heal_chance += 100;
             } else if (p.has_trait("FASTHEALER2")) {
-                p.healall(1 + one_in(2));
+                heal_chance += 150;
             } else if (p.has_trait("REGEN")) {
-                p.healall(2);
+                heal_chance += 200;
             } else if (p.has_trait("SLOWHEALER")) {
-                p.healall(one_in(8));
+                heal_chance += 13;
             } else {
-                p.healall(one_in(4));
+                heal_chance += 25;
             }
+            int tmp_heal = 0;
+            while (heal_chance >= 100) {
+                tmp_heal++;
+                heal_chance -= 100;
+            }
+            p.healall(tmp_heal + x_in_y(heal_chance, 100));
 
             if (p.fatigue <= 0 && p.fatigue > -20) {
                 p.fatigue = -25;
