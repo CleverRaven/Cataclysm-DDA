@@ -67,15 +67,6 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-ifdef SOUND
-  ifndef TILES
-    $(error "SOUND=1 only works with TILES=1")
-  endif
-  CXXFLAGS += $(shell pkg-config --cflags SDL2_mixer)
-  CXXFLAGS += -DSDL_SOUND
-  LDFLAGS += $(shell pkg-config --libs SDL2_mixer)
-endif
-
 VERSION = 0.A
 
 
@@ -189,6 +180,16 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
+endif
+
+ifdef SOUND
+  ifndef TILES
+    $(error "SOUND=1 only works with TILES=1")
+  endif
+  CXXFLAGS += $(shell pkg-config --cflags SDL2_mixer)
+  CXXFLAGS += -DSDL_SOUND
+  LDFLAGS += $(shell pkg-config --libs SDL2_mixer)
+  LDFLAGS += -lvorbisfile -lvorbis -logg
 endif
 
 ifdef LUA
