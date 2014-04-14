@@ -549,16 +549,7 @@ void mdeath::zombie(monster *z) {
         break;
 
         case 6: // mon_zombie_fireman
-            g->m.put_items_from("fireman_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("fireman_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("fireman_gloves", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("fireman_boots", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("fireman_mask", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("fireman_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-
-            if (one_in(3)) {
-                g->m.put_items_from("hazmat_eyes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
-            }
+            return;
         break;
 
         case 7: // mon_zombie_survivor

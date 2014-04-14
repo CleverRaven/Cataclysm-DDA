@@ -328,10 +328,22 @@
         ]
     },
     {
-        "type": "monitems",
-        "id": "mon_zombie_fireman",
-        "item_groups": [
-            [ "fireman_gear", 1 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_fireman_death_drops",
+        "entries":
+        [
+            { "group": "fireman_torso", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_gloves", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_mask", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_head", "damage-min": 1, "damage-max": 4 },
+            { "group": "hazmat_eyes", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "distribution": [
+                { "group": "fireman_gear", "prob": 1 }
+            ] },
+            { "item": "cash_card" }
         ]
     },
     {
