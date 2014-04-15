@@ -13369,7 +13369,7 @@ void game::update_stair_monsters() {
                     critter.setpos(mposx, mposy, true);
                     while(tries < 9) {
                         pushx = rng(-1, 1), pushy = rng(-1, 1);
-                        if (critter.can_move_to(mposx + pushx, mposy + pushy) && pushx != 0 && pushy != 0) {
+                        if (critter.can_move_to(mposx + pushx, mposy + pushy) && (pushx != 0 || pushy != 0)) {
                             add_msg(_("The %s pushed you back!"), critter.name().c_str());
                             u.posx += pushx;
                             u.posy += pushy;
