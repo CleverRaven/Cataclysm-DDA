@@ -1077,6 +1077,7 @@ int iuse::weed(player *p, item *it, bool b) {
     if(it->type->id == "joint_roach") {
         if(!hasPapers) {
            g->add_msg_if_player(p,_("You need some rolling papers to roll a joint!"));
+           return 0;
         }
         if(!p->has_charges("joint_roach", 5)) {
             g->add_msg_if_player(p,_("You need at least 5 roaches to roll a joint!"));
