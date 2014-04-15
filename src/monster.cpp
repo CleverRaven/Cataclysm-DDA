@@ -1151,12 +1151,12 @@ void monster::drop_items_on_death()
     if(is_hallucination()) {
         return;
     }
-    const std::string drop_group = type->id + "_death_drops";
-    if (item_controller->has_group(drop_group)) {
-        Item_list items = item_controller->create_from_group(drop_group, g->turn);
-        for (Item_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            g->m.add_item_or_charges(_posx, _posy, *a);
-        }
+    if (type->death_drops.empty()) {
+        return;
+    }
+    const Item_list items = item_controller->create_from_group(type->death_drops, g->turn);
+    for (Item_list::const_iterator a = items.begin(); a != items.end(); ++a) {
+        g->m.add_item_or_charges(_posx, _posy, *a);
     }
 }
 
