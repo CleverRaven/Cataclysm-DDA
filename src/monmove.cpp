@@ -192,7 +192,9 @@ void monster::plan(const std::vector<int> &friendlies)
             } else {
                 --stc;
             }
-            set_dest(g->u.posx, g->u.posy, stc);
+            // gives a 2 in 9 chance of stumbling to a side
+            int pushx = rng(-1, 1), pushy = rng(-1, 1);
+            set_dest(g->u.posx + pushx, g->u.posy + pushy, stc);
         }
         else if (closest <= -3)
             set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), stc);

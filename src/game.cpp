@@ -13404,6 +13404,8 @@ void game::update_stair_monsters() {
                         if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
                             add_msg(_("The %s pushed the %s."), critter.name().c_str(), other.name().c_str());
                             other.setpos(iposx, iposy, false);
+                            if (other.get_dodge() < 12)
+                                other.add_effect("downed", 2);
                             return;
                         }
                     }
