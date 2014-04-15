@@ -1233,18 +1233,6 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
     }
 }
 
-void Item_factory::load_monitem(JsonObject &jo) {
-    // get_tags allows empty entries, entries of type string and entries of type array-of-string
-    std::set<std::string> tmp_keys = jo.get_tags("id");
-    if (tmp_keys.empty()) {
-        jo.throw_error("requires \"id\": \"monster_id\" or \"id\": [ \"multiple\", \"monster_ids\" ]");
-    }
-    const std::string subtype = jo.get_string("subtype", "distribution");
-    for(std::set<std::string>::const_iterator a = tmp_keys.begin(); a != tmp_keys.end(); ++a) {
-        item_controller->load_item_group(jo, *a + "_death_drops", subtype);
-    }
-}
-
 use_function Item_factory::use_from_object(JsonObject obj) {
     const std::string type = obj.get_string("type");
     if (type == "transform") {

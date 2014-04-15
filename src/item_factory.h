@@ -59,11 +59,6 @@ public:
     void load_item_group(JsonObject &jsobj, const std::string &ident);
     void load_item_group(JsonObject &jsobj, const std::string &ident, const std::string &subtype);
     /**
-     * Loads json objects of type "monitem". They contain item groups
-     * that are used to spawn items upon the monsters death.
-     */
-    void load_monitem(JsonObject &jo);
-    /**
      * Check if an item type is knwo to the Item_factory,
      * (or if it can create it).
      * If this function returns true, @ref find_template
