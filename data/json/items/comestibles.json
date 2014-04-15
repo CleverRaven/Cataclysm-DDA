@@ -11350,7 +11350,7 @@
         "heal" : -2,
         "addiction_potential" : 50,
         "nutrition" : 0,
-        "description" : "A mixture of dried tobacco leaf, pesticides and chemical additives rolled into a filtered paper tube. Stimulates mental acuity and reduces appetite. Highly addictive and hazardous to health.",
+        "description" : "A mixture of dried tobacco leaf, pesticides, and chemical additives, rolled into a filtered paper tube. Stimulates mental acuity and reduces appetite. Highly addictive and hazardous to health.",
         "price" : 12000,
         "material" : "null",
         "tool" : "null",
