@@ -108,7 +108,7 @@ struct game_message
  game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
  game_message &operator= (game_message const &gm) { turn=gm.turn; count=gm.count; message=gm.message; return *this; }
 };
-1
+
 struct mtype;
 struct mission_type;
 class map;
