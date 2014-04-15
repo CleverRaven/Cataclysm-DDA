@@ -4,6 +4,7 @@
 #include "file_wrapper.h"
 #include "debug.h"
 #include "game.h"
+#include "options.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -1054,14 +1055,15 @@ action_id handle_action_menu()
             REGISTER_CATEGORY("info");
             REGISTER_CATEGORY("misc");
             REGISTER_ACTION(ACTION_SAVE);
-            REGISTER_ACTION(ACTION_QUIT);
+            if (hotkey_for_action(ACTION_QUIT) >-1) {
+                REGISTER_ACTION(ACTION_QUIT);
+            }
         } else if(category == "look") {
             REGISTER_ACTION(ACTION_LOOK);
             REGISTER_ACTION(ACTION_PEEK);
             REGISTER_ACTION(ACTION_LIST_ITEMS);
             REGISTER_CATEGORY("back");
         } else if(category == "inventory") {
-            REGISTER_CATEGORY("back");
             REGISTER_ACTION(ACTION_INVENTORY);
             REGISTER_ACTION(ACTION_ADVANCEDINV);
             REGISTER_ACTION(ACTION_SORT_ARMOR);
@@ -1133,8 +1135,10 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_SLEEP);
             REGISTER_ACTION(ACTION_BIONICS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
-            REGISTER_ACTION(ACTION_ZOOM_OUT);
-            REGISTER_ACTION(ACTION_ZOOM_IN);
+            if (use_tiles) { // from options.h
+                REGISTER_ACTION(ACTION_ZOOM_OUT);
+                REGISTER_ACTION(ACTION_ZOOM_IN);
+            };
             REGISTER_CATEGORY("back");
         }
 
@@ -1151,7 +1155,11 @@ action_id handle_action_menu()
         g->draw();
 
         if(selection == 2 * NUM_ACTIONS) {
-            return ACTION_NULL;
+            if(category != "back") {
+                category = "back";
+            } else {
+                return ACTION_NULL;
+            };
         } else if(selection > NUM_ACTIONS) {
             category = categories_by_int[selection];
         } else {
