@@ -98,8 +98,8 @@ enum TILE_CATEGORY
 };
 
 /** Typedefs */
-typedef std::vector<SDL_Texture*> tile_map;
-typedef std::map<std::string, tile_type*> tile_id_map;
+typedef std::vector<SDL_Texture *> tile_map;
+typedef std::map<std::string, tile_type *> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
 typedef tile_id_map::iterator tile_id_iterator;
@@ -111,10 +111,10 @@ struct tile_drawing_cache {
 
     // Sprite indices drawn on this tile.
     // The same indices in a different order need to be drawn differently!
-    std::vector<tile_type*> sprites;
+    std::vector<tile_type *> sprites;
     std::vector<int> rotations;
 
-    bool operator==(const tile_drawing_cache& other) const {
+    bool operator==(const tile_drawing_cache &other) const {
         if(sprites.size() != other.sprites.size()) {
             return false;
         } else {
@@ -128,11 +128,11 @@ struct tile_drawing_cache {
         return true;
     }
 
-    bool operator!=(const tile_drawing_cache& other) const {
+    bool operator!=(const tile_drawing_cache &other) const {
         return !(this->operator==(other));
     }
 
-    void operator=(const tile_drawing_cache& other) {
+    void operator=(const tile_drawing_cache &other) {
         this->sprites = other.sprites;
         this->rotations = other.rotations;
     }
@@ -192,7 +192,8 @@ class cata_tiles
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
         bool draw_from_id_string(const std::string &id, int x, int y, int subtile, int rota);
-        bool draw_from_id_string(const std::string &id, TILE_CATEGORY category, const std::string &subcategory, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(const std::string &id, TILE_CATEGORY category,
+                                 const std::string &subcategory, int x, int y, int subtile, int rota);
         bool draw_tile_at(tile_type *tile, int x, int y, int rota);
 
         /**
@@ -205,7 +206,8 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
-        void get_wall_values(const int x, const int y, const long vertical_wall_symbol, const long horizontal_wall_symbol, int &subtile, int &rotation);
+        void get_wall_values(const int x, const int y, const long vertical_wall_symbol,
+                             const long horizontal_wall_symbol, int &subtile, int &rotation);
         void get_terrain_orientation(int x, int y, int &rota, int &subtype);
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 

@@ -161,7 +161,8 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     }
 }
 
-int cata_tiles::load_tileset(std::string path, int R, int G, int B) {
+int cata_tiles::load_tileset(std::string path, int R, int G, int B)
+{
     /** reinit tile_atlas */
     SDL_Surface *tile_atlas = IMG_Load(path.c_str());
 
@@ -501,8 +502,8 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
 
     {
         //set clipping to prevent drawing over stuff we shouldn't
-        SDL_Rect clipRect = {destx,desty,width,height};
-        SDL_RenderSetClipRect(renderer,&clipRect);
+        SDL_Rect clipRect = {destx, desty, width, height};
+        SDL_RenderSetClipRect(renderer, &clipRect);
     }
 
     int posx = centerx;
@@ -579,7 +580,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
         draw_from_id_string("cursor", C_NONE, empty_string, g->ter_view_x, g->ter_view_y, 0, 0);
     }
 
-    SDL_RenderSetClipRect(renderer,NULL);
+    SDL_RenderSetClipRect(renderer, NULL);
 }
 
 void cata_tiles::clear_buffer()
@@ -709,7 +710,7 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
     if (it == tile_ids.end()) {
         const std::string &category_id = TILE_CATEGORY_IDS[category];
         if(!category_id.empty() && !subcategory.empty()) {
-            it = tile_ids.find("unknown_"+category_id+"_"+subcategory);
+            it = tile_ids.find("unknown_" + category_id + "_" + subcategory);
         }
     }
 
@@ -717,7 +718,7 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
     if (it == tile_ids.end()) {
         const std::string &category_id = TILE_CATEGORY_IDS[category];
         if(!category_id.empty()) {
-            it = tile_ids.find("unknown_"+category_id);
+            it = tile_ids.find("unknown_" + category_id);
         }
     }
 
@@ -763,7 +764,7 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
     const int screen_y = (y - o_y) * tile_height + op_y;
 
     //draw it!
-    draw_tile_at(display_tile,screen_x,screen_y,rota);
+    draw_tile_at(display_tile, screen_x, screen_y, rota);
 
     return true;
 }
@@ -1098,7 +1099,8 @@ bool cata_tiles::draw_item_highlight(int x, int y)
     return draw_from_id_string(ITEM_HIGHLIGHT, C_NONE, empty_string, x, y, 0, 0);
 }
 
-SDL_Surface *cata_tiles::create_tile_surface() {
+SDL_Surface *cata_tiles::create_tile_surface()
+{
     SDL_Surface *surface;
     #if SDL_BYTEORDER == SDL_BIG_ENDIAN
         surface = SDL_CreateRGBSurface(0, tile_width, tile_height, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
@@ -1117,7 +1119,7 @@ void cata_tiles::create_default_item_highlight()
 
     SDL_Surface *surface = create_tile_surface();
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer,surface);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 
     tile_values.push_back(texture);
@@ -1485,7 +1487,8 @@ void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects
             break;
     }
 }
-void cata_tiles::get_wall_values(const int x, const int y, const long vertical_wall_symbol, const long horizontal_wall_symbol, int &subtile, int &rotation)
+void cata_tiles::get_wall_values(const int x, const int y, const long vertical_wall_symbol,
+                                 const long horizontal_wall_symbol, int &subtile, int &rotation)
 {
     // makes the assumption that x,y is a wall | window | door of some sort
     const long neighborhood[4] = {

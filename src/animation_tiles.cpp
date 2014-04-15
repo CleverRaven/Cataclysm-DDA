@@ -14,20 +14,20 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
     timespec ts;    // Timespec for the animation of the explosion
     ts.tv_sec = 0;
     ts.tv_nsec = EXPLOSION_SPEED;
-// added offset values to keep from calculating the same value over and over again.
+    // added offset values to keep from calculating the same value over and over again.
     const int ypos = POSY + (y - (u.posy + u.view_offset_y));
     const int xpos = POSX + (x - (u.posx + u.view_offset_x));
 
     for (int i = 1; i <= radius; i++) {
         mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
-        mvwputch(w_terrain, ypos - i, xpos + i, col,'\\');
-        mvwputch(w_terrain, ypos + i, xpos - i, col,'\\');
+        mvwputch(w_terrain, ypos - i, xpos + i, col, '\\');
+        mvwputch(w_terrain, ypos + i, xpos - i, col, '\\');
         mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
         for (int j = 1 - i; j < 0 + i; j++) {
-            mvwputch(w_terrain, ypos - i, xpos + j, col,'-');
-            mvwputch(w_terrain, ypos + i, xpos + j, col,'-');
-            mvwputch(w_terrain, ypos + j, xpos - i, col,'|');
-            mvwputch(w_terrain, ypos + j, xpos + i, col,'|');
+            mvwputch(w_terrain, ypos - i, xpos + j, col, '-');
+            mvwputch(w_terrain, ypos + i, xpos + j, col, '-');
+            mvwputch(w_terrain, ypos + j, xpos - i, col, '|');
+            mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
         }
         tilecontext->init_explosion(x, y, i);
         //tilecontext->draw_explosion_frame(x, y, radius, offset_x, offset_y);
@@ -46,11 +46,16 @@ void game::draw_bullet(Creature &p, int tx, int ty, int i,
     (void)trajectory; //unused
     if (u_see(tx, ty)) {
         std::string bullet;// = "animation_bullet_normal";
-        switch(bullet_char)
-        {
-            case '*': bullet = "animation_bullet_normal"; break;
-            case '#': bullet = "animation_bullet_flame"; break;
-            case '`': bullet = "animation_bullet_shrapnel"; break;
+        switch(bullet_char) {
+        case '*':
+            bullet = "animation_bullet_normal";
+            break;
+        case '#':
+            bullet = "animation_bullet_flame";
+            break;
+        case '`':
+            bullet = "animation_bullet_shrapnel";
+            break;
         }
 
         mvwputch(w_terrain, POSY + (ty - (u.posy + u.view_offset_y)),
@@ -62,13 +67,12 @@ void game::draw_bullet(Creature &p, int tx, int ty, int i,
             nanosleep(&ts, NULL);
         }
         tilecontext->void_bullet();
-   }
+    }
 }
 /* Monster hit animation */
 void game::draw_hit_mon(int x, int y, monster m, bool dead)
 {
-    if (use_tiles)
-    {
+    if (use_tiles) {
         //int iTimeout = 0;
         tilecontext->init_draw_hit(x, y, m.type->id);
         wrefresh(w_terrain);
@@ -84,9 +88,7 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
                  POSY + (y - (u.posy + u.view_offset_y)),
                  c_white, ' ');
         wrefresh(w_terrain);
-    }
-    else
-    {
+    } else {
         nc_color cMonColor = m.type->color;
         char sMonSym = m.symbol();
 
@@ -99,12 +101,11 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
 void game::draw_hit_player(player *p, bool dead)
 {
     (void)dead; //unused
-    if (use_tiles)
-    {
+    if (use_tiles) {
         // get base name of player id
-        std::string pname = (p->is_npc()?"npc_":"player_");
+        std::string pname = (p->is_npc() ? "npc_" : "player_");
         // get sex of player
-        pname += (p->male?"male":"female");
+        pname += (p->male ? "male" : "female");
 
         tilecontext->init_draw_hit(p->posx, p->posy, pname);
         wrefresh(w_terrain);
@@ -120,9 +121,7 @@ void game::draw_hit_player(player *p, bool dead)
                  POSY + (p->posy - (u.posy + u.view_offset_y)),
                  c_white, ' ');
         wrefresh(w_terrain);
-    }
-    else
-    {
+    } else {
         hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                       POSY + (p->posy - (u.posy + u.view_offset_y)),
                       red_background(p->color()), '@');
@@ -133,29 +132,22 @@ void game::draw_hit_player(player *p, bool dead)
 
 void game::draw_line(const int x, const int y, const point center_point, std::vector<point> ret)
 {
-    if (u_see( x, y))
-    {
-        for (size_t i = 0; i < ret.size(); i++)
-        {
+    if (u_see( x, y)) {
+        for (size_t i = 0; i < ret.size(); i++) {
             int mondex = mon_at(ret[i].x, ret[i].y),
-            npcdex = npc_at(ret[i].x, ret[i].y);
+                npcdex = npc_at(ret[i].x, ret[i].y);
 
             // NPCs and monsters get drawn with inverted colors
-            if (mondex != -1 && u_see(&(critter_tracker.find(mondex))))
-            {
+            if (mondex != -1 && u_see(&(critter_tracker.find(mondex)))) {
                 critter_tracker.find(mondex).draw(w_terrain, center_point.x, center_point.y, true);
-            }
-            else if (npcdex != -1)
-            {
+            } else if (npcdex != -1) {
                 active_npc[npcdex]->draw(w_terrain, center_point.x, center_point.y, true);
-            }
-            else
-            {
-                m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center_point.x, center_point.y);
+            } else {
+                m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true, true, center_point.x, center_point.y);
             }
         }
     }
-    tilecontext->init_draw_line(x,y,ret,"line_target", true);
+    tilecontext->init_draw_line(x, y, ret, "line_target", true);
 }
 
 void game::draw_line(const int x, const int y, std::vector<point> vPoint)
@@ -163,31 +155,28 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
     int crx = POSX, cry = POSY;
 
     if(!vPoint.empty()) {
-        crx += (vPoint[vPoint.size()-1].x - (u.posx + u.view_offset_x));
-        cry += (vPoint[vPoint.size()-1].y - (u.posy + u.view_offset_y));
+        crx += (vPoint[vPoint.size() - 1].x - (u.posx + u.view_offset_x));
+        cry += (vPoint[vPoint.size() - 1].y - (u.posy + u.view_offset_y));
     }
-    for (size_t i = 1; i < vPoint.size(); i++)
-    {
-        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+    for (size_t i = 1; i < vPoint.size(); i++) {
+        m.drawsq(w_terrain, u, vPoint[i - 1].x, vPoint[i - 1].y, true, true);
     }
 
     mvwputch(w_terrain, cry, crx, c_white, 'X');
 
-    tilecontext->init_draw_line(x,y,vPoint,"line_trail", false);
+    tilecontext->init_draw_line(x, y, vPoint, "line_trail", false);
 }
 //*/
 void game::draw_weather(weather_printable wPrint)
 {
-    if (use_tiles)
-    {
+    if (use_tiles) {
         std::string weather_name;
         /*
         WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
         WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
         WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
         */
-        switch(wPrint.wtype)
-        {
+        switch(wPrint.wtype) {
             // Acid weathers, uses acid droplet tile, fallthrough intended
             case WEATHER_ACID_DRIZZLE:
             case WEATHER_ACID_RAIN: weather_name = "weather_acid_drop"; break;
@@ -215,9 +204,7 @@ void game::draw_weather(weather_printable wPrint)
         }
         */
         tilecontext->init_draw_weather(wPrint, weather_name);
-    }
-    else
-    {
+    } else {
         for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
              weather_iterator != wPrint.vdrops.end();
              ++weather_iterator)
@@ -232,32 +219,32 @@ void game::draw_footsteps()
 {
     std::queue<point> step_tiles;
     for (size_t i = 0; i < footsteps.size(); i++) {
-        if (!u_see(footsteps_source[i]->posx(),footsteps_source[i]->posy())){
+        if (!u_see(footsteps_source[i]->posx(), footsteps_source[i]->posy())) {
             std::vector<point> unseen_points;
-            for (size_t j = 0; j < footsteps[i].size(); j++){
-                if (!u_see(footsteps[i][j].x,footsteps[i][j].y)){
+            for (size_t j = 0; j < footsteps[i].size(); j++) {
+                if (!u_see(footsteps[i][j].x, footsteps[i][j].y)) {
                     unseen_points.push_back(point(footsteps[i][j].x,
-                                               footsteps[i][j].y));
+                                                  footsteps[i][j].y));
                 }
             }
 
-            if (use_tiles){
-                if (unseen_points.size() > 0){
-                    step_tiles.push(unseen_points[rng(0, unseen_points.size()-1)]);
+            if (use_tiles) {
+                if (unseen_points.size() > 0) {
+                    step_tiles.push(unseen_points[rng(0, unseen_points.size() - 1)]);
                 }
-            }else{
-                if (unseen_points.size() > 0){
-                    point selected = unseen_points[rng(0,unseen_points.size() - 1)];
+            } else {
+                if (unseen_points.size() > 0) {
+                    point selected = unseen_points[rng(0, unseen_points.size() - 1)];
 
                     mvwputch(w_terrain,
-                            POSY + (selected.y - (u.posy + u.view_offset_y)),
-                            POSX + (selected.x - (u.posx + u.view_offset_x)),
-                            c_yellow, '?');
+                             POSY + (selected.y - (u.posy + u.view_offset_y)),
+                             POSX + (selected.x - (u.posx + u.view_offset_x)),
+                             c_yellow, '?');
                 }
             }
         }
     }
-    if (use_tiles){
+    if (use_tiles) {
         tilecontext->init_draw_footsteps(step_tiles);
     }
     footsteps.clear();
