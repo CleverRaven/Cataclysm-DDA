@@ -332,7 +332,6 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->sk_dodge = jo.get_int("dodge", 0);
         newmon->armor_bash = jo.get_int("armor_bash", 0);
         newmon->armor_cut = jo.get_int("armor_cut", 0);
-        newmon->item_chance = jo.get_int("item_chance", 0);
         newmon->hp = jo.get_int("hp", 0);
         newmon->sp_freq = jo.get_int("special_freq", 0);
         newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
