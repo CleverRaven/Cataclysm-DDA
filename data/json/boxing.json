@@ -2,7 +2,8 @@
     {
         "type" : "ARMOR",
         "id" : "boxing_gloves",
-        "name" : "boxing gloves",
+        "name" : "pair of boxing gloves",
+        "name_plural" : "pairs of boxing gloves",
         "weight" : 453,
         "color" : "red",
         "covers" : ["HANDS"],
