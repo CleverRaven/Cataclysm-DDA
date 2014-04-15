@@ -1,5 +1,5 @@
 [
-	{
+  {
         "type": "mapgen",
         "om_terrain": [
             "s_restaurant"
@@ -14,7 +14,7 @@
             "____,____,____,____,____",
             "____,____,____,____,____",
             "========================",
-			"=|OOOOOOOOOOOOOOO--+--|=",
+            "=|OOOOOOOOOOOOOOO--+--|=",
             "=|HtHHtHHtHHtHHtH     |=",
             "=|HtHHtHHtHHtHHtH     |=",
             "=|                    |=",
@@ -32,7 +32,6 @@
             "........................",
             "........................",
             "........................"
-            
             ],
             "terrain": {
             ".": "t_grass",
@@ -57,14 +56,14 @@
             ":": "t_floor",
             "T": "t_floor",
             "l": "t_floor",
-			"=": "t_sidewalk",
+            "=": "t_sidewalk",
             "G": "t_floor",
-			"f": "t_floor",
-			"&": "t_door_metal_locked",
-			"B": "t_palisade",
-			"*": "t_door_locked",
-			"S": "t_floor",
-			"H": "t_floor"
+            "f": "t_floor",
+            "&": "t_door_metal_locked",
+            "B": "t_palisade",
+            "*": "t_door_locked",
+            "S": "t_floor",
+            "H": "t_floor"
             },
             "furniture": {
             ".": "f_null",
@@ -81,7 +80,7 @@
             "x": "f_null",
             "c": "f_chair",
             "#": "f_counter",
-			"&": "f_counter",
+            "&": "f_counter",
             "r": "f_rack",
             "^": "f_indoor_plant",
             "t": "f_table",
@@ -92,18 +91,17 @@
             "l": "f_vending_c",
             "S": "f_sink",
             "G": "f_oven",
-			"f": "f_fridge",
-			"H": "f_sofa",
-			"=": "f_null"
+            "f": "f_fridge",
+            "H": "f_sofa",
+            "=": "f_null"
             },
 		"place_groups": [
                 { "item": "diner_food", "chance": 75, "x": [ 4,17 ], "y": [ 14,14 ] },
-				{ "item": "diner_back", "chance": 95, "x": [ 4,16 ], "y": [ 16,16 ] }
-				],
-		"place_specials": [
+                { "item": "diner_back", "chance": 95, "x": [ 4,16 ], "y": [ 16,16 ] }
+                                ],
+                "place_specials": [
                 { "type": "toilet", "x": 20, "y": 18 }
-				]
-		 
-		}
-		}
-		]
+                                  ]
+}
+}
+]
