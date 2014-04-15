@@ -13727,7 +13727,8 @@ void game::write_msg()
         std::string mstr = m.message;
         if (m.count > 1) {
             std::stringstream mesSS;
-            mesSS << mstr << " x " << m.count;
+            //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
+            mesSS << string_format(_("%s x %d"), mstr.c_str(), m.count);
             mstr = mesSS.str();
         }
         // Split the message into many if we must!
@@ -13780,7 +13781,8 @@ void game::msg_buffer()
     std::string mes = mtmp->message;
     if (mtmp->count > 1) {
      std::stringstream mesSS;
-     mesSS << mes << " x " << mtmp->count;
+     //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
+     mesSS << string_format(_("%s x %d"), mes.c_str(), mtmp->count);
      mes = mesSS.str();
     }
 // Split the message into many if we must!
