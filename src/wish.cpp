@@ -453,7 +453,7 @@ void game::wishitem( player *p, int x, int y)
                 wmenu.keypress = 'q';
             }
             dynamic_cast<wish_item_callback *>(wmenu.callback)->msg =
-                _("Item granted, choose another or 'q' to quit.");
+                _("Wish granted. Wish for more or hit 'q' to quit.");
             uistate.wishitem_selected = wmenu.ret;
         }
     } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
