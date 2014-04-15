@@ -13332,7 +13332,6 @@ void game::update_stair_monsters() {
 
                 coming_to_stairs[i].staircount -= 4;
                 // Let the player know zombies are trying to come.
-                critter.setpos(mposx, mposy, true);
                 if (u_see(mposx, mposy)) {
                     std::stringstream dump;
                     if (coming_to_stairs[i].staircount > 4)
@@ -13363,13 +13362,15 @@ void game::update_stair_monsters() {
                     }
                     coming_to_stairs.erase(coming_to_stairs.begin() + i);
                 } else if (u.posx == mposx && u.posy == mposy && critter.staircount <= 0) {
-                    // Search for a clear tile.
+                    // Monster attempts to push player of stairs
                     int pushx = -1, pushy = -1;
                     int tries = 0;
                     critter.setpos(mposx, mposy, true);
                     while(tries < 9) {
                         pushx = rng(-1, 1), pushy = rng(-1, 1);
-                        if (critter.can_move_to(mposx + pushx, mposy + pushy) && (pushx != 0 || pushy != 0)) {
+                        int iposx = mposx + pushx;
+                        int iposy = mposy + pushy;
+                        if ((pushx != 0 || pushy != 0) && (mon_at(iposx, iposy) == -1) && critter.can_move_to(iposx, iposy)) {
                             add_msg(_("The %s pushed you back!"), critter.name().c_str());
                             u.posx += pushx;
                             u.posy += pushy;
@@ -13386,6 +13387,26 @@ void game::update_stair_monsters() {
                     add_msg(_("The %s tried to push you back but failed! It attacks you!"), critter.name().c_str());
                     critter.melee_attack(u, false);
                     u.moves -= 100;
+                    return;
+                } else if ((critter.staircount <= 0) && (mon_at(mposx, mposy) != -1)) {
+                    // Monster attempts to displace a monster from the stairs
+                    monster &other = critter_tracker.find(mon_at(mposx, mposy));
+                    critter.setpos(mposx, mposy, true);
+                    int tries = 0;
+                    int pushx, pushy;
+                    while(tries < 9) {
+                        tries++;
+                        pushx = rng(-1, 1), pushy = rng(-1, 1);
+                        int iposx = mposx + pushx;
+                        int iposy = mposy + pushy;
+                        if ((pushx == 0 && pushy == 0) || ((iposx == u.posx) && (iposy == u.posy)))
+                            continue;
+                        if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
+                            add_msg(_("The %s pushed the %s."), critter.name().c_str(), other.name().c_str());
+                            other.setpos(iposx, iposy, false);
+                            return;
+                        }
+                    }
                     return;
                 }
             }
