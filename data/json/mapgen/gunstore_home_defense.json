@@ -3,11 +3,11 @@
     "type" : "mapgen",
     "om_terrain" : [
 	"s_gun"
-	],
-	"method" : "json",
-	"weight" : 200,
-	"object" :{
-		"rows" : [
+    ],
+        "method" : "json",
+        "weight" : 200,
+        "object" :{
+        "rows" : [
         "_ssssssssssssssssssssss_",
         "_s@@@@@@@_ssss_@@@@@@@s_",
         "_s|-555-|_ssss_|-555-|s_",
@@ -50,7 +50,7 @@
         "@": "t_shrub",
         "x": "t_console_broken",
         "^": "t_floor",
-		"u": "t_floor",
+        "u": "t_floor",
         "r": "t_floor",
         "l": "t_floor",
         "#": "t_floor",
@@ -61,10 +61,10 @@
         "F": "t_floor",
         "S": "t_floor",
         "T": "t_floor",
-		"!": "t_floor",
+        "!": "t_floor",
         "d": "t_pavement",
-		"&": "t_bars",
-		"*": "t_door_locked_alarm"
+        "&": "t_bars",
+        "*": "t_door_locked_alarm"
       },
       "furniture": {
         "_": "f_null",
@@ -82,7 +82,7 @@
         "W": "f_null",
         "@": "f_null",
         "x": "f_null",
-		"&": "f_null",
+        "&": "f_null",
         "^": "f_indoor_plant",
         "r": "f_rack",
         "l": "f_locker",
@@ -95,27 +95,27 @@
         "S": "f_sink",
         "T": "f_toilet",
         "d": "f_dumpster",
-		"!": "f_bookcase",
-		"u": "f_vending_reinforced"
-		},
-		"place_specials": [
+        "!": "f_bookcase",
+        "u": "f_vending_reinforced"
+        },
+               "place_specials": [
             { "type": "toilet", "x": 4, "y": 19 }
-			],
-		"place_groups":[
+               ],
+               "place_groups":[
                 { "item": "homeguns", "chance": 70,  "x": [ 16,16 ], "y": [ 19,19 ] },
-				{ "item": "pistols", "chance": 25 ,  "x": [ 8,14 ], "y": [ 19,19 ], "repeat": [ 1,3 ] },
-				{ "item": "shotguns", "chance":25,  "x": [ 8,14 ], "y": [ 19,19 ], "repeat": [ 1,2 ] },
-				{ "item": "gunxtras", "chance":70,  "x": [ 7,9 ], "y": [ 9,10 ] },
+                { "item": "pistols", "chance": 25 ,  "x": [ 8,14 ], "y": [ 19,19 ], "repeat": [ 1,3 ] },
+                { "item": "shotguns", "chance":25,  "x": [ 8,14 ], "y": [ 19,19 ], "repeat": [ 1,2 ] },
+                { "item": "gunxtras", "chance":70,  "x": [ 7,9 ], "y": [ 9,10 ] },
                 { "item": "vending_ammo_pistol", "chance":25,  "x": 3, "y": 10, "repeat": [ 8,15 ] },
-				{ "item": "vending_ammo_shotgun", "chance":25,  "x": 3, "y": 12, "repeat": [ 8,15 ] },
-				{ "item": "vending_ammo_rifle", "chance":25,  "x": 20, "y": 12, "repeat": [ 8,15 ] },
-				{ "item": "ammo", "chance":25,  "x": 20, "y": 10, "repeat": [ 8,15 ] },
-				{ "item": "allguns", "chance":70, "x": [ 7,9 ], "y": [ 12,13 ] },
-				{ "item": "gunsmith_gunparts", "chance": 70, "x": [ 14, 16 ], "y": [ 12,13 ] },
-				{ "item": "gunsmith_casings", "chance": 70, "x":[ 14,16 ], "y": [ 12,13 ], "repeat": [ 3, 5 ] },
-				{ "item": "ammo", "chance":25,  "x": [ 3,7 ], "y": 3, "repeat": [ 2,4 ] },
-				{ "item": "ammo", "chance":25,  "x": [ 16,20 ], "y": 3, "repeat": [ 2,4 ] }
-				]
-				}
-				}
-				]
+                { "item": "vending_ammo_shotgun", "chance":25,  "x": 3, "y": 12, "repeat": [ 8,15 ] },
+                { "item": "vending_ammo_rifle", "chance":25,  "x": 20, "y": 12, "repeat": [ 8,15 ] },
+                { "item": "ammo", "chance":25,  "x": 20, "y": 10, "repeat": [ 8,15 ] },
+                { "item": "allguns", "chance":70, "x": [ 7,9 ], "y": [ 12,13 ] },
+                { "item": "gunsmith_gunparts", "chance": 70, "x": [ 14, 16 ], "y": [ 12,13 ] },
+                { "item": "gunsmith_casings", "chance": 70, "x":[ 14,16 ], "y": [ 12,13 ], "repeat": [ 3, 5 ] },
+                { "item": "ammo", "chance":25,  "x": [ 3,7 ], "y": 3, "repeat": [ 2,4 ] },
+                { "item": "ammo", "chance":25,  "x": [ 16,20 ], "y": 3, "repeat": [ 2,4 ] }
+                              ]
+}
+}
+]
