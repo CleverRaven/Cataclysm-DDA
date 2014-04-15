@@ -1049,6 +1049,7 @@
     <ClInclude Include="..\src\mapitems.h" />
     <ClInclude Include="..\src\martialarts.h" />
     <ClInclude Include="..\src\material.h" />
+    <ClInclude Include="..\src\messages.h" />
     <ClInclude Include="..\src\mission.h" />
     <ClInclude Include="..\src\monattack.h" />
     <ClInclude Include="..\src\mondeath.h" />
@@ -1161,6 +1162,7 @@
     <ClCompile Include="..\src\martialarts.cpp" />
     <ClCompile Include="..\src\material.cpp" />
     <ClCompile Include="..\src\melee.cpp" />
+    <ClCompile Include="..\src\Messages.cpp" />
     <ClCompile Include="..\src\mission.cpp" />
     <ClCompile Include="..\src\missiondef.cpp" />
     <ClCompile Include="..\src\mission_end.cpp" />

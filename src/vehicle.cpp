@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "cursesdef.h"
 #include "catacharset.h"
+#include "messages.h"
 
 #include "debug.h"
 
@@ -404,42 +405,42 @@ void vehicle::use_controls()
     switch(options_choice[select]) {
     case toggle_cruise_control:
         cruise_on = !cruise_on;
-        g->add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
+        Messages::player_messages.add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
     case toggle_lights:
         if(lights_on || fuel_left("battery") ) {
             lights_on = !lights_on;
-            g->add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
+			Messages::player_messages.add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
-            g->add_msg(_("The headlights won't come on!"));
+			Messages::player_messages.add_msg(_("The headlights won't come on!"));
         }
         break;
     case toggle_overhead_lights:
         if( !overhead_lights_on || fuel_left("battery") ) {
             overhead_lights_on = !overhead_lights_on;
-            g->add_msg((overhead_lights_on) ? _("Overhead lights turned on") :
+			Messages::player_messages.add_msg((overhead_lights_on) ? _("Overhead lights turned on") :
                        _("Overhead lights turned off"));
         } else {
-            g->add_msg(_("The lights won't come on!"));
+			Messages::player_messages.add_msg(_("The lights won't come on!"));
         }
         break;
     case activate_horn:
-        g->add_msg(_("You honk the horn!"));
+		Messages::player_messages.add_msg(_("You honk the horn!"));
         honk_horn();
         break;
     case toggle_turrets:
         if (++turret_mode > 1) {
             turret_mode = 0;
         }
-        g->add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
+		Messages::player_messages.add_msg((0 == turret_mode) ? _("Turrets: Disabled") : _("Turrets: Burst mode"));
         break;
     case release_control:
         g->u.controlling_vehicle = false;
-        g->add_msg(_("You let go of the controls."));
+		Messages::player_messages.add_msg(_("You let go of the controls."));
         break;
     case convert_vehicle:
     {
-        g->add_msg(_("You painstakingly pack the bicycle into a portable configuration."));
+		Messages::player_messages.add_msg(_("You painstakingly pack the bicycle into a portable configuration."));
         // create a folding bicycle item
         item bicycle;
         bicycle.make( itypes["folding_bicycle"] );
@@ -471,14 +472,14 @@ void vehicle::use_controls()
         {
             g->cur_om->remove_vehicle(om_id);
             tracking_on = false;
-            g->add_msg(_("tracking device disabled"));
+			Messages::player_messages.add_msg(_("tracking device disabled"));
         } else if (fuel_left("battery"))
         {
             om_id = g->cur_om->add_vehicle(this);
             tracking_on = true;
-            g->add_msg(_("tracking device enabled"));
+			Messages::player_messages.add_msg(_("tracking device enabled"));
         } else {
-            g->add_msg(_("tracking device won't turn on"));
+			Messages::player_messages.add_msg(_("tracking device won't turn on"));
         }
         break;
     case control_cancel:
@@ -952,7 +953,7 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
-            item piece(itypes[break_info[index].item_id], g->turn);
+            item piece(itypes[break_info[index].item_id], calendar::turn);
             g->m.add_item_or_charges(actual_x, actual_y, piece);
         }
     }
@@ -963,7 +964,7 @@ item vehicle::item_from_part( int part )
     itype_id itm = part_info(part).item;
     int bigness = parts[part].bigness;
     itype* parttype = itypes[itm];
-    item tmp(parttype, g->turn);
+    item tmp(parttype, calendar::turn);
 
     //transfer damage, etc.
     give_part_properties_to_item(g, part, tmp);
@@ -1771,7 +1772,7 @@ bool vehicle::valid_wheel_config ()
         yo = yo * wo / (wo + w2) + parts[p].mount_dy * w2 / (wo + w2);
         wo += w2;
     }
-//    g->add_msg("cm x=%.3f y=%.3f m=%d  x1=%d y1=%d x2=%d y2=%d", xo, yo, (int) wo, x1, y1, x2, y2);
+//    Messages::player_messages.add_msg("cm x=%.3f y=%.3f m=%d  x1=%d y1=%d x2=%d y2=%d", xo, yo, (int) wo, x1, y1, x2, y2);
     if ((int)xo < x1 || (int)xo > x2 || (int)yo < y1 || (int)yo > y2) {
         return false; // center of masses not inside support of wheels (roughly)
     }
@@ -1842,7 +1843,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         tracking_on = false;
         overhead_lights_on = false;
         if(player_in_control(&g->u))
-            g->add_msg("The %s's battery dies!",name.c_str());
+			Messages::player_messages.add_msg("The %s's battery dies!", name.c_str());
     }
 }
 
@@ -1886,7 +1887,7 @@ void vehicle::thrust (int thd)
     if (!valid_wheel_config() && velocity == 0)
     {
         if (pl_ctrl)
-            g->add_msg (_("The %s doesn't have enough wheels to move!"), name.c_str());
+			Messages::player_messages.add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
         return;
     }
 
@@ -1903,9 +1904,9 @@ void vehicle::thrust (int thd)
             if (pl_ctrl)
             {
                 if (total_power (false) < 1)
-                    g->add_msg (_("The %s doesn't have an engine!"), name.c_str());
+					Messages::player_messages.add_msg(_("The %s doesn't have an engine!"), name.c_str());
                 else
-                    g->add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+					Messages::player_messages.add_msg(_("The %s's engine emits a sneezing sound."), name.c_str());
             }
             cruise_velocity = 0;
             return;
@@ -1929,9 +1930,9 @@ void vehicle::thrust (int thd)
                     int dmg = rng (strn * 2, strn * 4);
                     damage_direct (p, dmg, 0);
                     if(one_in(2))
-                     g->add_msg(_("Your engine emits a high pitched whine."));
+						Messages::player_messages.add_msg(_("Your engine emits a high pitched whine."));
                     else
-                     g->add_msg(_("Your engine emits a loud grinding sound."));
+						Messages::player_messages.add_msg(_("Your engine emits a loud grinding sound."));
                 }
             }
         }
@@ -2290,14 +2291,14 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     if (!is_body_collision) {
         if (pl_ctrl) {
             if (snd.length() > 0) {
-                g->add_msg (_("Your %s's %s rams into a %s with a %s"), name.c_str(),
+				Messages::player_messages.add_msg(_("Your %s's %s rams into a %s with a %s"), name.c_str(),
                             part_info(part).name.c_str(), obs_name.c_str(), snd.c_str());
             } else {
-                g->add_msg (_("Your %s's %s rams into a %s."), name.c_str(),
+				Messages::player_messages.add_msg(_("Your %s's %s rams into a %s."), name.c_str(),
                             part_info(part).name.c_str(), obs_name.c_str());
             }
         } else if (snd.length() > 0) {
-            g->add_msg (_("You hear a %s"), snd.c_str());
+			Messages::player_messages.add_msg(_("You hear a %s"), snd.c_str());
         }
         g->sound(x, y, smashed? 80 : 50, "");
     } else {
@@ -2308,7 +2309,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             dname = ph->name;
         }
         if (pl_ctrl) {
-            g->add_msg (_("Your %s's %s rams into %s%s!"),
+			Messages::player_messages.add_msg(_("Your %s's %s rams into %s%s!"),
                         name.c_str(), part_info(part).name.c_str(), dname.c_str(),
                         turns_stunned > 0 && z? _(" and stuns it") : "");
         }
@@ -2444,7 +2445,7 @@ void vehicle::handle_trap (int x, int y, int part)
         default:;
     }
     if (msg.size() > 0 && g->u_see(x, y))
-        g->add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
+		Messages::player_messages.add_msg(msg.c_str(), name.c_str(), part_info(part).name.c_str(), g->traps[t]->name.c_str());
     if (noise > 0)
         g->sound(x, y, noise, snd);
     if (wreckit && chance >= rng (1, 100))
@@ -2568,7 +2569,7 @@ void vehicle::place_spawn_items()
                             continue;
                         }
                     }
-                    item new_item = item_controller->create(*next_id, g->turn);
+                    item new_item = item_controller->create(*next_id, calendar::turn);
                     new_item = new_item.in_its_container(&(itypes));
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
@@ -2584,7 +2585,7 @@ void vehicle::place_spawn_items()
                         }
                     }
                     Item_tag group_tag = item_controller->id_from(*next_group_id);
-                    item new_item = item_controller->create(group_tag, g->turn);
+                    item new_item = item_controller->create(group_tag, calendar::turn);
                     new_item = new_item.in_its_container(&(itypes));
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
@@ -2837,7 +2838,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                     //Ignore the frame being destroyed
                     if(parts_in_square[index] != p) {
                         if(g->u_see(x_pos, y_pos)) {
-                            g->add_msg(_("The %s's %s is torn off!"), name.c_str(),
+							Messages::player_messages.add_msg(_("The %s's %s is torn off!"), name.c_str(),
                                     part_info(parts_in_square[index]).name.c_str());
                         }
                         item part_as_item = item_from_part(parts_in_square[index]);
@@ -2851,7 +2852,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                      * parts) would be ideal. */
                     if(can_unmount(p)) {
                         if(g->u_see(x_pos, y_pos)) {
-                            g->add_msg(_("The %s's %s is destroyed!"),
+							Messages::player_messages.add_msg(_("The %s's %s is destroyed!"),
                                     name.c_str(), part_info(p).name.c_str());
                         }
                         break_part_into_pieces(p, x_pos, y_pos, true);
@@ -2861,7 +2862,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
             } else {
                 //Just break it off
                 if(g->u_see(x_pos, y_pos)) {
-                    g->add_msg(_("The %s's %s is destroyed!"),
+					Messages::player_messages.add_msg(_("The %s's %s is destroyed!"),
                                     name.c_str(), part_info(p).name.c_str());
                 }
                 break_part_into_pieces(p, x_pos, y_pos, true);
@@ -2910,7 +2911,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
         {
             g->m.spawn_item(global_x() + parts[p].precalc_dx[0],
                            global_y() + parts[p].precalc_dy[0],
-                           part_info(p).item, 1, 0, g->turn);
+                           part_info(p).item, 1, 0, calendar::turn);
             remove_part (p);
         }
     }
@@ -3043,7 +3044,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
         if( power < 40 ) { return false; }
     }
     if( g->u_see(x, y) ) {
-        g->add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
+		Messages::player_messages.add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     npc tmp;
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
@@ -3139,7 +3140,7 @@ void vehicle::possibly_recover_from_skid(){
    //threshold of recovery is gaussianesque.
 
    if (fabs(dot) * 100 > dice(9,20)){
-      g->add_msg(_("The %s recovers from its skid."), name.c_str());
+	   Messages::player_messages.add_msg(_("The %s recovers from its skid."), name.c_str());
       skidding = false; //face_vec takes over.
       velocity *= dot; //wheels absorb horizontal velocity.
       if(dot < -.8){

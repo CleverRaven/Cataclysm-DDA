@@ -59,7 +59,7 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
   return false;
 
  if (master_game)
-  sm->turn_last_touched = int(master_game->turn);
+	 sm->turn_last_touched = int(calendar::turn);
  submap_list.push_back(sm);
  submaps[p] = sm;
 
@@ -331,7 +331,7 @@ void mapbuffer::unserialize(std::ifstream & fin) {
   }
   sm->turn_last_touched = turn;
   sm->temperature = temperature;
-  int turndif = (master_game ? int(master_game->turn) - turn : 0);
+  int turndif = (master_game ? int(calendar::turn) - turn : 0);
   if (turndif < 0)
    turndif = 0;
 // Load terrain

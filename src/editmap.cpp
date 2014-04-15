@@ -1547,7 +1547,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     tinymap tmpmap(&g->traps);
     tmpmap.load(g, tc.om_sub.x, tc.om_sub.y, zlevel, false, oms[1][1]);
     // this should -not- be saved, map::save appends a dupe to mapbuffer.
-    tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
+    tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(calendar::turn));;
 
     point pofs = pos2screen(target.x - 11, target.y - 11); //
     WINDOW *w_preview = newwin(24, 24, pofs.y, pofs.x );
@@ -1581,7 +1581,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
             lastsel = gmenu.selected;
             oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = gmenu.selected;
             cleartmpmap( tmpmap );
-            tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
+            tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(calendar::turn));;
             showpreview = true;
         }
         if ( showpreview ) {
@@ -1606,7 +1606,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                 if ( gpmenu.ret == 0 ) {
 
                     cleartmpmap( tmpmap );
-                    tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(g->turn));;
+                    tmpmap.generate(g, oms[1][1], tc.om_sub.x, tc.om_sub.y, zlevel, int(calendar::turn));;
                     showpreview = true;
                 } else if ( gpmenu.ret == 1 ) {
                     tmpmap.rotate(1);
@@ -1661,7 +1661,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
 
                             destsm->active_item_count = srcsm->active_item_count; // various misc variables
                             destsm->temperature = srcsm->temperature;
-                            destsm->turn_last_touched = int(g->turn);
+                            destsm->turn_last_touched = int(calendar::turn);
                             destsm->comp = srcsm->comp;
                             destsm->camp = srcsm->camp;
 

@@ -100,7 +100,7 @@ struct input_event {
         if(sequence.size() != other.sequence.size()) {
             return false;
         }
-        for(int i=0; i<sequence.size(); i++) {
+        for(unsigned int i=0; i<sequence.size(); i++) {
             if(sequence[i] != other.sequence[i]) {
                 return false;
             }
@@ -109,7 +109,7 @@ struct input_event {
         if(modifiers.size() != other.modifiers.size()) {
             return false;
         }
-        for(int i=0; i<modifiers.size(); i++) {
+        for(unsigned int i=0; i<modifiers.size(); i++) {
             if(modifiers[i] != other.modifiers[i]) {
                 return false;
             }

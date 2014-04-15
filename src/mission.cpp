@@ -12,7 +12,7 @@ mission mission_type::create(game *g, int npc_id)
  ret.follow_up = follow_up;
 
  if (deadline_low != 0 || deadline_high != 0)
-  ret.deadline = int(g->turn) + rng(deadline_low, deadline_high);
+  ret.deadline = int(calendar::turn) + rng(deadline_low, deadline_high);
  else
   ret.deadline = 0;
 

@@ -425,7 +425,7 @@ namespace picojson {
 
   template<typename Iter> inline int _parse_quadhex(input<Iter> &in) {
     int uni_ch = 0;
-    for (int i = 0; i < 4; i++) {
+    for (unsigned int i = 0; i < 4; i++) {
       int hex = in.getc();
       if (hex == -1) {
         return -1;
@@ -855,7 +855,7 @@ int main(void)
 
   {
     double a = 1;
-    for (int i = 0; i < 1024; i++) {
+    for (unsigned int i = 0; i < 1024; i++) {
       picojson::value vi(a);
       std::stringstream ss;
       ss << vi;

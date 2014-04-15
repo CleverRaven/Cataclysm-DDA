@@ -9,6 +9,7 @@
 #include "options.h"
 #include "debug.h"
 #include <cmath>
+#include "messages.h"
 
 #ifdef _MSC_VER
 #include <math.h>
@@ -332,7 +333,7 @@ void veh_interact::do_install(task_reason reason)
     int pos = 0;
     int engines = 0;
     int dif_eng = 0;
-    for (int p = 0; p < veh->parts.size(); p++) {
+    for (unsigned int p = 0; p < veh->parts.size(); p++) {
         if (veh->part_flag (p, "ENGINE")) {
             engines++;
             dif_eng = dif_eng / 2 + 12;
@@ -800,7 +801,7 @@ void veh_interact::move_cursor (int dx, int dy)
     wheel = NULL;
     if (cpart >= 0) {
         parts_here = veh->parts_at_relative(veh->parts[cpart].mount_dx, veh->parts[cpart].mount_dy);
-        for (int i = 0; i < parts_here.size(); i++) {
+        for (unsigned int i = 0; i < parts_here.size(); i++) {
             int p = parts_here[i];
             if (veh->parts[p].hp < veh->part_info(p).durability) {
                 need_repair.push_back (i);
@@ -1255,9 +1256,9 @@ void complete_vehicle (game *g)
             veh->parts[partnum].direction = dir;
         }
 
-        g->add_msg (_("You install a %s into the %s."),
+		Messages::player_messages.add_msg(_("You install a %s into the %s."),
                     vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
-        g->u.practice (g->turn, "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20);
+        g->u.practice (calendar::turn, "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20);
         break;
     case 'r':
         if (veh->parts[vehicle_part].hp <= 0) {
@@ -1276,9 +1277,9 @@ void complete_vehicle (game *g)
         tools.push_back(component("toolset", welder_charges / 20));
         g->consume_tools(&g->u, tools, true);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
-        g->add_msg (_("You repair the %s's %s."),
+		Messages::player_messages.add_msg(_("You repair the %s's %s."),
                     veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
-        g->u.practice (g->turn, "mechanics", (veh->part_info(vehicle_part).difficulty + dd) * 5 + 20);
+        g->u.practice (calendar::turn, "mechanics", (veh->part_info(vehicle_part).difficulty + dd) * 5 + 20);
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, vehicle_part, true)) {
@@ -1288,7 +1289,7 @@ void complete_vehicle (game *g)
         break;
     case 'o':
         // Dump contents of part at player's feet, if any.
-        for (int i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
+        for (unsigned int i = 0; i < veh->parts[vehicle_part].items.size(); i++) {
             g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[vehicle_part].items[i]);
         }
         veh->parts[vehicle_part].items.clear();
@@ -1299,7 +1300,7 @@ void complete_vehicle (game *g)
             // Transfer fuel back to tank
             if (used_item.typeId() == "metal_tank") {
                 ammotype desired_liquid = veh->part_info(vehicle_part).fuel_type;
-                item liquid( itypes[default_ammo(desired_liquid)], g->turn );
+                item liquid( itypes[default_ammo(desired_liquid)], calendar::turn );
 
                 liquid.charges = veh->parts[vehicle_part].amount;
                 veh->parts[vehicle_part].amount = 0;
@@ -1308,22 +1309,22 @@ void complete_vehicle (game *g)
             }
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             if(type != SEL_JACK) { // Changing tires won't make you a car mechanic
-                g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
+                g->u.practice (calendar::turn, "mechanics", 2 * 5 + 20);
             }
         } else {
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
         }
         if (veh->parts.size() < 2) {
-            g->add_msg (_("You completely dismantle the %s."), veh->name.c_str());
+			Messages::player_messages.add_msg(_("You completely dismantle the %s."), veh->name.c_str());
             g->u.activity.type = ACT_NULL;
             g->m.destroy_vehicle (veh);
         } else {
             if (broken) {
-                g->add_msg(_("You remove the broken %s from the %s."),
+				Messages::player_messages.add_msg(_("You remove the broken %s from the %s."),
                            veh->part_info(vehicle_part).name.c_str(),
                            veh->name.c_str());
             } else {
-                g->add_msg(_("You remove the %s from the %s."),
+				Messages::player_messages.add_msg(_("You remove the %s from the %s."),
                            veh->part_info(vehicle_part).name.c_str(),
                            veh->name.c_str());
             }
@@ -1345,7 +1346,7 @@ void complete_vehicle (game *g)
             broken = veh->parts[replaced_wheel].hp <= 0;
             removed_wheel = veh->item_from_part( replaced_wheel );
             veh->remove_part( replaced_wheel );
-            g->add_msg( _("You replace one of the %s's tires with a %s."),
+			Messages::player_messages.add_msg(_("You replace one of the %s's tires with a %s."),
                         veh->name.c_str(), vehicle_part_types[part_id].name.c_str() );
             partnum = veh->install_part( dx, dy, part_id );
             if( partnum < 0 ) {

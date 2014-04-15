@@ -12,6 +12,7 @@
 #include "item_factory.h"
 #include "catacharset.h"
 #include <queue>
+#include "messages.h"
 
 std::vector<craft_cat> craft_cat_list;
 std::vector<std::string> recipe_names;
@@ -154,7 +155,7 @@ bool game::crafting_allowed()
 {
     if (u.morale_level() < MIN_MORALE_CRAFT)
     { // See morale.h
-        add_msg(_("Your morale is too low to craft..."));
+        Messages::player_messages.add_msg(_("Your morale is too low to craft..."));
         return false;
     }
 
@@ -982,7 +983,7 @@ inventory game::crafting_inventory(player *p){
  crafting_inv += p->inv;
  crafting_inv += p->weapon;
  if (p->has_bionic("bio_tools")) {
-  item tools(item_controller->find_template("toolset"), turn);
+	 item tools(item_controller->find_template("toolset"), calendar::turn);
   tools.charges = p->power_level;
   crafting_inv += tools;
  }
@@ -1078,11 +1079,11 @@ void game::complete_craft()
  int diff_roll  = dice(diff_dice,  diff_sides);
 
  if (making->skill_used)
-  u.practice(turn, making->skill_used, making->difficulty * 5 + 20);
+	 u.practice(calendar::turn, making->skill_used, making->difficulty * 5 + 20);
 
 // Messed up badly; waste some components.
  if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
-  add_msg(_("You fail to make the %s, and waste some materials."),
+  Messages::player_messages.add_msg(_("You fail to make the %s, and waste some materials."),
           item_controller->find_template(making->result)->name.c_str());
     for (unsigned i = 0; i < making->components.size(); i++)
     {
@@ -1098,7 +1099,7 @@ void game::complete_craft()
   return;
   // Messed up slightly; no components wasted.
  } else if (diff_roll > skill_roll) {
-  add_msg(_("You fail to make the %s, but don't waste any materials."),
+  Messages::player_messages.add_msg(_("You fail to make the %s, but don't waste any materials."),
           item_controller->find_template(making->result)->name.c_str());
   //this method would only have been called from a place that nulls u.activity.type,
   //so it appears that it's safe to NOT null that variable here.
@@ -1121,7 +1122,7 @@ void game::complete_craft()
 
   // Set up the new item, and pick an inventory letter
  int iter = 0;
- item newit(item_controller->find_template(making->result), turn, nextinv);
+ item newit(item_controller->find_template(making->result), calendar::turn, nextinv);
 
     if (newit.is_armor() && newit.has_flag("VARSIZE"))
     {
@@ -1133,7 +1134,7 @@ void game::complete_craft()
     {
         if (iter->goes_bad())
         {
-            used_age_tally += ((int)turn - iter->bday)/
+			used_age_tally += ((int)calendar::turn - iter->bday) /
                 (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
             ++used_age_count;
         }
@@ -1168,16 +1169,16 @@ void game::complete_craft()
  else {
 // We might not have space for the item
   if (iter == inv_chars.size() || !u.can_pickVolume(newit.volume())) {
-   add_msg(_("There's no room in your inventory for the %s, so you drop it."),
+   Messages::player_messages.add_msg(_("There's no room in your inventory for the %s, so you drop it."),
              newit.tname().c_str());
    m.add_item_or_charges(u.posx, u.posy, newit);
   } else if (!u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
-   add_msg(_("The %s is too heavy to carry, so you drop it."),
+   Messages::player_messages.add_msg(_("The %s is too heavy to carry, so you drop it."),
            newit.tname().c_str());
    m.add_item_or_charges(u.posx, u.posy, newit);
   } else {
    newit = u.i_add(newit);
-   add_msg("%c - %s", newit.invlet, newit.tname().c_str());
+   Messages::player_messages.add_msg("%c - %s", newit.invlet, newit.tname().c_str());
   }
  }
  u.inv.restack(&u);
@@ -1431,12 +1432,12 @@ void game::disassemble(char ch)
     }
     if (ch == 27)
     {
-        add_msg(_("Never mind."));
+        Messages::player_messages.add_msg(_("Never mind."));
         return;
     }
     if (!u.has_item(ch))
     {
-        add_msg(_("You don't have item '%c'!"), ch);
+        Messages::player_messages.add_msg(_("You don't have item '%c'!"), ch);
         return;
     }
 
@@ -1496,18 +1497,18 @@ void game::disassemble(char ch)
                         int req = cur_recipe->tools[j][0].count;
                         if (cur_recipe->tools[j][0].type == "welder")
                         {
-                            add_msg(_("You need a hacksaw to disassemble this."));
+                            Messages::player_messages.add_msg(_("You need a hacksaw to disassemble this."));
                         }
                         else
                         {
                             if (req <= 0)
                             {
-                                add_msg(_("You need a %s to disassemble this."),
+                                Messages::player_messages.add_msg(_("You need a %s to disassemble this."),
                                 item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
                             }
                             else
                             {
-                                add_msg(_("You need a %s with %d charges to disassemble this."),
+                                Messages::player_messages.add_msg(_("You need a %s with %d charges to disassemble this."),
                                 item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
                             }
                         }
@@ -1524,7 +1525,7 @@ void game::disassemble(char ch)
                     int num_disassemblies_available = dis_item->charges / dis_item->type->stack_size;;
 
                     if (num_disassemblies_available == 0){
-                      add_msg(_("You cannot disassemble the %s into its components, too few items."), dis_item->name.c_str());
+                      Messages::player_messages.add_msg(_("You cannot disassemble the %s into its components, too few items."), dis_item->name.c_str());
                       return;
                     }
                   }
@@ -1559,7 +1560,7 @@ void game::disassemble(char ch)
     }
 
     // no recipe exists, or the item cannot be disassembled
-    add_msg(_("This item cannot be disassembled!"));
+    Messages::player_messages.add_msg(_("This item cannot be disassembled!"));
 }
 
 void game::complete_disassemble()
@@ -1568,12 +1569,12 @@ void game::complete_disassemble()
   recipe* dis = recipe_by_index(u.activity.index); // Which recipe is it?
   item* dis_item = &u.i_at(u.activity.values[0]);
 
-  add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
+  Messages::player_messages.add_msg(_("You disassemble the %s into its components."), dis_item->name.c_str());
   // remove any batteries or ammo first
     if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL")
     {
       item ammodrop;
-      ammodrop = item(dis_item->curammo, turn);
+	  ammodrop = item(dis_item->curammo, calendar::turn);
       ammodrop.charges = dis_item->charges;
       if (ammodrop.made_of(LIQUID))
         handle_liquid(ammodrop, false, false);
@@ -1583,7 +1584,7 @@ void game::complete_disassemble()
     if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL")
     {
       item ammodrop;
-      ammodrop = item(item_controller->find_template(default_ammo(dis_item->ammo_type())), turn);
+	  ammodrop = item(item_controller->find_template(default_ammo(dis_item->ammo_type())), calendar::turn);
       ammodrop.charges = dis_item->charges;
       if (dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on") {
           ammodrop.charges /= 500;
@@ -1624,7 +1625,7 @@ void game::complete_disassemble()
 
    // disassembly only nets a bit of practice
    if (dis->skill_used)
-    u.practice(turn, dis->skill_used, (dis->difficulty) * 2);
+	   u.practice(calendar::turn, dis->skill_used, (dis->difficulty) * 2);
 
   for (unsigned j = 0; j < dis->components.size(); j++)
   {
@@ -1634,7 +1635,7 @@ void game::complete_disassemble()
       bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
       do
       {
-        item newit(item_controller->find_template(dis->components[j][0].type), turn);
+        item newit(item_controller->find_template(dis->components[j][0].type), calendar::turn);
         // skip item addition if component is a consumable like superglue
         if (dis->components[j][0].type == "superglue" || dis->components[j][0].type == "duct_tape")
           compcount--;
@@ -1645,14 +1646,14 @@ void game::complete_disassemble()
             if (dis->difficulty == 0 || comp_success)
               m.spawn_item(u.posx, u.posy, dis->components[j][0].type, 0, compcount);
             else
-              add_msg(_("You fail to recover a component."));
+              Messages::player_messages.add_msg(_("You fail to recover a component."));
             compcount = 0;
           } else
           {
             if (dis->difficulty == 0 || comp_success)
               m.add_item_or_charges(u.posx, u.posy, newit);
             else
-              add_msg(_("You fail to recover a component."));
+              Messages::player_messages.add_msg(_("You fail to recover a component."));
             compcount--;
           }
         }
@@ -1667,16 +1668,16 @@ void game::complete_disassemble()
       if (rng(0,3) == 0)
       {
         u.learn_recipe(dis);
-        add_msg(_("You learned a recipe from this disassembly!"));
+        Messages::player_messages.add_msg(_("You learned a recipe from this disassembly!"));
       }
       else
       {
-        add_msg(_("You think you could learn a recipe from this item. Maybe you'll try again."));
+        Messages::player_messages.add_msg(_("You think you could learn a recipe from this item. Maybe you'll try again."));
       }
     }
     else
     {
-      add_msg(_("With some more skill, you might learn a recipe from this."));
+      Messages::player_messages.add_msg(_("With some more skill, you might learn a recipe from this."));
     }
   }
 }

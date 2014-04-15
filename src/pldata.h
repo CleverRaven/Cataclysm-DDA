@@ -161,10 +161,10 @@ public:
   ignore_trivial = copy.ignore_trivial;
   warned_of_proximity = false;
   values.clear();
-  for (int i = 0; i < copy.values.size(); i++) {
+  for (unsigned int i = 0; i < copy.values.size(); i++) {
    values.push_back(copy.values[i]);
   }
-  for (int i = 0; i < copy.str_values.size(); i++) {
+  for (unsigned int i = 0; i < copy.str_values.size(); i++) {
    str_values.push_back(copy.str_values[i]);
   }
  }

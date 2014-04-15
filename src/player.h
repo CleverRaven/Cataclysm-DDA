@@ -98,6 +98,12 @@ public:
 
  virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
  nc_color color(); // What color to draw us as
+ 
+ //AO: Hackish, but will be refined later
+ virtual void add_msg_if_player(const char* msg, ...);
+ virtual void add_msg_if_npc(const char* msg, ...);
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
+
 
  virtual void load_legacy(game *g, std::stringstream & dump);  // stringstream loader for old data
  virtual void load_info(game *g, std::string data); // deserialize string when loading

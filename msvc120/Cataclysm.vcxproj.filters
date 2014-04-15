@@ -330,6 +330,9 @@
     <ClInclude Include="..\src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\messages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\resource.rc">
@@ -689,6 +692,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\worldfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Messages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

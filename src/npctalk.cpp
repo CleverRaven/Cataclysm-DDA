@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include "messages.h"
 
 std::string talk_needs[num_needs][5];
 std::string talk_okay[10];
@@ -394,10 +395,10 @@ void npc::talk_to_u(game *g)
  if (attitude == NPCATT_TALK)
   attitude = NPCATT_NULL;
  else if (attitude == NPCATT_FLEE) {
-  g->add_msg(_("%s is fleeing from you!"), name.c_str());
+  Messages::player_messages.add_msg(_("%s is fleeing from you!"), name.c_str());
   return;
  } else if (attitude == NPCATT_KILL) {
-  g->add_msg(_("%s is hostile!"), name.c_str());
+  Messages::player_messages.add_msg(_("%s is hostile!"), name.c_str());
   return;
  }
  dialogue d;
@@ -1694,7 +1695,7 @@ void talk_function::assign_base(game *g, npc *p)
         return;
     }
 
-    g->add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
+    Messages::player_messages.add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
     p->mission = NPC_MISSION_BASE;
     p->attitude = NPCATT_NULL;
 }
@@ -1755,27 +1756,27 @@ void talk_function::deny_equipment(game *g, npc *p)
 
 void talk_function::hostile(game *g, npc *p)
 {
- g->add_msg(_("%s turns hostile!"), p->name.c_str());
+ Messages::player_messages.add_msg(_("%s turns hostile!"), p->name.c_str());
  g->u.add_memorial_log(_("%s became hostile."), p->name.c_str());
  p->attitude = NPCATT_KILL;
 }
 
 void talk_function::flee(game *g, npc *p)
 {
- g->add_msg(_("%s turns to flee!"), p->name.c_str());
+ Messages::player_messages.add_msg(_("%s turns to flee!"), p->name.c_str());
  p->attitude = NPCATT_FLEE;
 }
 
 void talk_function::leave(game *g, npc *p)
 {
- g->add_msg(_("%s leaves."), p->name.c_str());
+ Messages::player_messages.add_msg(_("%s leaves."), p->name.c_str());
  p->attitude = NPCATT_NULL;
 }
 
 void talk_function::start_mugging(game *g, npc *p)
 {
  p->attitude = NPCATT_MUG;
- g->add_msg(_("Pause to stay still.  Any movement may cause %s to attack."),
+ Messages::player_messages.add_msg(_("Pause to stay still.  Any movement may cause %s to attack."),
             p->name.c_str());
 }
 
@@ -2058,7 +2059,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
   if (chosen.trial != TALK_TRIAL_NONE)
-    alpha->practice(g->turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 10);
+    alpha->practice(calendar::turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 10);
   (effect.*chosen.effect_success)(g, beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
@@ -2067,7 +2068,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   }
   return chosen.success;
  } else {
-   alpha->practice(g->turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 7);
+   alpha->practice(calendar::turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 7);
   (effect.*chosen.effect_failure)(g, beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {
@@ -2321,7 +2322,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    } else
     newinv.push_back(tmp);
   }
-  g->u.practice(g->turn, "barter", practice / 2);
+  g->u.practice(calendar::turn, "barter", practice / 2);
   p->inv = newinv;
   g->u.cash += cash;
   p->cash   -= cash;

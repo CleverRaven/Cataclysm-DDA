@@ -8,6 +8,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include "messages.h"
 
 std::vector<std::string> computer::lab_notes;
 
@@ -203,7 +204,7 @@ bool computer::hack_attempt(game *g, player *p, int Security)
     if (Security == -1)
         Security = security; // Set to main system security if no value passed
 
-    p->practice(g->turn, "computer", 5 + Security * 2);
+    p->practice(calendar::turn, "computer", 5 + Security * 2);
     int player_roll = p->skillLevel("computer");
     if (p->int_cur < 8 && one_in(2))
     {
@@ -345,7 +346,7 @@ void computer::activate_function(game *g, computer_action action)
                                 {
                                     item *it = &(g->m.i_at(x1, y1)[i]);
                                     if (it->is_container()){
-                                        item sewage = item(itypes["sewage"], g->turn);
+                                        item sewage = item(itypes["sewage"], calendar::turn);
                                         it_container* container = dynamic_cast<it_container*>(it->type);
                                         it_comest*    comest    = dynamic_cast<it_comest*>(sewage.type);
                                         int maxCharges = container->contains * comest->charges;
@@ -368,7 +369,7 @@ void computer::activate_function(game *g, computer_action action)
                                 }
                                 if (!found_item)
                                 {
-                                    item sewage(itypes["sewage"], g->turn);
+                                    item sewage(itypes["sewage"], calendar::turn);
                                     g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
@@ -558,17 +559,17 @@ void computer::activate_function(game *g, computer_action action)
         point target = g->cur_om->draw_overmap(g, 0);
         if (target.x == -1)
         {
-            g->add_msg(_("Target acquisition canceled"));
+            Messages::player_messages.add_msg(_("Target acquisition canceled"));
             return;
         }
         if(query_yn(_("Confirm nuclear missile launch.")))
         {
-            g->add_msg(_("Nuclear missile launched!"));
+            Messages::player_messages.add_msg(_("Nuclear missile launched!"));
             options.clear();//Remove the option to fire another missle.
         }
         else
         {
-            g->add_msg(_("Nuclear missile launch aborted."));
+            Messages::player_messages.add_msg(_("Nuclear missile launch aborted."));
             return;
         }
         g->refresh_all();
@@ -600,7 +601,7 @@ void computer::activate_function(game *g, computer_action action)
             {
                 tmpmap.translate(t_metal_floor, t_hole);
             }
-            tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, level);
+            tmpmap.save(g->cur_om, calendar::turn, g->levx, g->levy, level);
         }
 
         g->u.add_memorial_log(_("Launched a nuke at a %s."),
@@ -622,13 +623,13 @@ void computer::activate_function(game *g, computer_action action)
         if(query_yn(_("Disarm missile.")))
         {
             g->u.add_memorial_log(_("Disarmed a nuclear missile."));
-            g->add_msg(_("Nuclear missile disarmed!"));
+            Messages::player_messages.add_msg(_("Nuclear missile disarmed!"));
             options.clear();//disable missile.
             activate_failure(g, COMPFAIL_SHUTDOWN);
         }
         else
         {
-            g->add_msg(_("Nuclear missile remains active."));
+            Messages::player_messages.add_msg(_("Nuclear missile remains active."));
             return;
         }
         break;
@@ -789,7 +790,7 @@ INITIATING STANDARD TREMOR TEST..."));
         break;
 
     case COMPACT_AMIGARA_START:
-        g->add_event(EVENT_AMIGARA, int(g->turn) + 10, 0, 0, 0);
+        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 10, 0, 0, 0);
         if (!g->u.has_artifact_with(AEP_PSYSHIELD))
         {
             g->u.add_disease("amigara", 20);
@@ -925,7 +926,7 @@ of pureed bone & LSD."));
                         if (g->m.i_at(x, y)[0].type->id == "black_box")
                         {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
-                            item transcript(itypes["black_box_transcript"], g->turn);
+                            item transcript(itypes["black_box_transcript"], calendar::turn);
                             g->m.add_item_or_charges(g->u.posx, g->u.posy, transcript);
                         }
                         else
@@ -1169,7 +1170,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 
     case COMPACT_SRCF_SEAL:
         g->u.add_memorial_log(_("Sealed a Hazardous Material Sarcophagus."));
-        g->add_msg(_("Evacuate Immediately!"));
+        Messages::player_messages.add_msg(_("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
@@ -1257,7 +1258,7 @@ void computer::activate_failure(game *g, computer_failure fail)
         g->sound(g->u.posx, g->u.posy, 60, _("An alarm sounds!"));
         if (g->levz > 0 && !g->event_queued(EVENT_WANTED))
         {
-            g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+            g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
         }
         break;
 
@@ -1276,7 +1277,7 @@ void computer::activate_failure(game *g, computer_failure fail)
             while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10)
             {
-                g->add_msg(_("Manhacks drop from compartments in the ceiling."));
+                Messages::player_messages.add_msg(_("Manhacks drop from compartments in the ceiling."));
                 monster robot(GetMType("mon_manhack"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
@@ -1300,7 +1301,7 @@ void computer::activate_failure(game *g, computer_failure fail)
             while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10)
             {
-                g->add_msg(_("Secubots emerge from compartments in the floor."));
+                Messages::player_messages.add_msg(_("Secubots emerge from compartments in the floor."));
                 monster robot(GetMType("mon_secubot"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
@@ -1310,12 +1311,12 @@ void computer::activate_failure(game *g, computer_failure fail)
     break;
 
     case COMPFAIL_DAMAGE:
-        g->add_msg(_("The console electrocutes you!"));
+        Messages::player_messages.add_msg(_("The console electrocutes you!"));
         g->u.hurtall(rng(1, 10));
         break;
 
     case COMPFAIL_PUMP_EXPLODE:
-        g->add_msg(_("The pump explodes!"));
+        Messages::player_messages.add_msg(_("The pump explodes!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
@@ -1330,7 +1331,7 @@ void computer::activate_failure(game *g, computer_failure fail)
         break;
 
     case COMPFAIL_PUMP_LEAK:
-        g->add_msg(_("Sewage leaks!"));
+        Messages::player_messages.add_msg(_("Sewage leaks!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++)
         {
             for (int y = 0; y < SEEY * MAPSIZE; y++)
@@ -1375,7 +1376,7 @@ void computer::activate_failure(game *g, computer_failure fail)
         break;
 
     case COMPFAIL_AMIGARA:
-        g->add_event(EVENT_AMIGARA, int(g->turn) + 5, 0, 0, 0);
+        g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5, 0, 0, 0);
         g->u.add_disease("amigara", 20);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
         g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);

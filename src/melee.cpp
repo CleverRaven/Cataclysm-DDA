@@ -9,6 +9,7 @@
 #include <algorithm>
 
 #include "cursesdef.h"
+#include "messages.h"
 
 void player_hit_message(game* g, player* attacker, std::string message,
                         std::string target_name, int dam, bool crit);
@@ -148,15 +149,15 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
   int stumble_pen = stumble(*this);
   if (is_u) { // Only display messages if this is the player
    if (has_miss_recovery_tec())
-    g->add_msg(_("You feint."));
+    Messages::player_messages.add_msg(_("You feint."));
    else if (stumble_pen >= 60)
-    g->add_msg(_("You miss and stumble with the momentum."));
+    Messages::player_messages.add_msg(_("You miss and stumble with the momentum."));
    else if (stumble_pen >= 10)
-    g->add_msg(_("You swing wildly and miss."));
+    Messages::player_messages.add_msg(_("You swing wildly and miss."));
    else
-    g->add_msg(_("You miss."));
+    Messages::player_messages.add_msg(_("You miss."));
   }
-  melee_practice(g->turn, *this, false, unarmed_attack(),
+  melee_practice(calendar::turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                  (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
@@ -207,12 +208,12 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
   }
 
   if (!specialmsg.empty())
-    g->add_msg(specialmsg.c_str());
+    Messages::player_messages.add_msg(specialmsg.c_str());
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10);
  bool stabbing = (stab_dam >= 5);
- melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
+ melee_practice(calendar::turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
  if (allow_grab && technique.grabs) {
 // Move our weapon to a temp slot, if it's not unarmed
@@ -251,15 +252,15 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   int stumble_pen = stumble(*this);
   if (is_u) { // Only display messages if this is the player
    if (has_miss_recovery_tec())
-    g->add_msg(_("You feint."));
+    Messages::player_messages.add_msg(_("You feint."));
    else if (stumble_pen >= 60)
-    g->add_msg(_("You miss and stumble with the momentum."));
+    Messages::player_messages.add_msg(_("You miss and stumble with the momentum."));
    else if (stumble_pen >= 10)
-    g->add_msg(_("You swing wildly and miss."));
+    Messages::player_messages.add_msg(_("You swing wildly and miss."));
    else
-    g->add_msg(_("You miss."));
+    Messages::player_messages.add_msg(_("You miss."));
   }
-  melee_practice(g->turn, *this, false, unarmed_attack(),
+  melee_practice(calendar::turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                  (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
@@ -345,7 +346,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
  bool stabbing = (stab_dam >= 10 && stab_dam >= cut_dam);
- melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
+ melee_practice(calendar::turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
  if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
   healall( rng(dam / 10, dam / 5) );
@@ -355,7 +356,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   if (p.has_grab_break_tec() &&
       dice(p.dex_cur + p.skillLevel("melee"), 12) >
       dice(dex_cur + skillLevel("melee"), 10)) {
-   g->add_msg_player_or_npc(&p, _("You break the grab!"),
+   p.add_msg_player_or_npc(_("You break the grab!"),
                                 _("<npcname> breaks the grab!"));
   } else if (!unarmed_attack()) {
    item tmpweap = remove_weapon();
@@ -897,9 +898,9 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
     if (technique.disarms) {
         g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
         if (you) {
-            g->add_msg_if_npc(this, _("<npcname> disarms you!"));
+            add_msg_if_npc(_("<npcname> disarms you!"));
         } else {
-            g->add_msg_player_or_npc(this, _("You disarm %s!"),
+            add_msg_player_or_npc(_("You disarm %s!"),
                                      _("<npcname> disarms %s!"),
                                      target.c_str() );
         }
@@ -922,7 +923,7 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
                 g->zombie(mondex).add_effect(ME_ONFIRE, rng(3, 4));
             }
             std::string temp_target = string_format(_("the %s"), g->zombie(mondex).name().c_str());
-            g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
+            add_msg_player_or_npc(_("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
           }
           int npcdex = g->npc_at(x, y);
           if (npcdex != -1 &&
@@ -934,14 +935,14 @@ void player::perform_technique(ma_technique technique, game *g, monster *z,
             if (weapon.has_flag("FLAMING")) {// Add to wide attacks
                 g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
             }
-            g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), g->active_npc[npcdex]->name.c_str() );
+            add_msg_player_or_npc(_("You hit %s!"), _("<npcname> hits %s!"), g->active_npc[npcdex]->name.c_str() );
 
             g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
           }
         }
       }
     }
-    g->add_msg_if_player(p, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
+    p->add_msg_if_player( ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
 
   }
 
@@ -975,7 +976,7 @@ bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &s
         } else {
             mult = 0.5; // always at least as good as unarmed
         }
-        g->add_msg_player_or_npc( this, _("You block with your %s!"),
+        add_msg_player_or_npc(_("You block with your %s!"),
                 _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
         bash_dam *= mult;
         cut_dam *= mult;
@@ -1008,7 +1009,7 @@ bool player::block_hit(game *g, monster *z, player *p, body_part &bp_hit, int &s
             else
                 side = 1;
         }
-        g->add_msg_player_or_npc( this, _("You block with your %s!"),
+        add_msg_player_or_npc(_("You block with your %s!"),
                                  _("<npcname> blocks with their %s!"),
                                  body_part_name(bp_hit, side).c_str());
 
@@ -1039,7 +1040,7 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
         target = "the bug";
     }
 
- for (int i = 0; i < special_attacks.size(); i++) {
+ for (unsigned int i = 0; i < special_attacks.size(); i++) {
   bool did_damage = false;
   if (special_attacks[i].bash > bash_armor) {
    bash_dam += special_attacks[i].bash;
@@ -1060,17 +1061,17 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
    can_poison = true;
 
   if (did_damage)
-   g->add_msg( special_attacks[i].text.c_str() );
+   Messages::player_messages.add_msg( special_attacks[i].text.c_str() );
  }
 
  if (can_poison && has_trait("POISONOUS")) {
   if (z != NULL) {
    if (!z->has_effect(ME_POISONED))
-    g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
+    p->add_msg_if_player(_("You poison %s!"), target.c_str());
    z->add_effect(ME_POISONED, 6);
   } else if (p != NULL) {
    if (!p->has_disease("poison"))
-    g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
+    p->add_msg_if_player(_("You poison %s!"), target.c_str());
    p->add_disease("poison", 6);
   }
  }
@@ -1127,9 +1128,9 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
     if (stab_moves >= 150) {
         if (you) {
             // can the player force their self to the ground? probably not.
-            g->add_msg_if_npc(this, _("<npcname> forces you to the ground!"));
+            add_msg_if_npc(_("<npcname> forces you to the ground!"));
         } else {
-            g->add_msg_player_or_npc(this, _("You force %s to the ground!"),
+            add_msg_player_or_npc(_("You force %s to the ground!"),
                                      _("<npcname> forces %s to the ground!"),
                                      target.c_str() );
         }
@@ -1164,7 +1165,7 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
         if (mon) {
             z->hurt( shock * rng(1, 3) );
             z->moves -= shock * 180;
-            g->add_msg_player_or_npc(this, _("You shock %s."),
+            add_msg_player_or_npc(_("You shock %s."),
                                      _("<npcname> shocks %s."),
                                      target.c_str());
         } else {
@@ -1177,9 +1178,9 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
         power_level--;
         charge_power(rng(0, 2));
         if (you) {
-            g->add_msg_if_npc(this, _("<npcname> drains your body heat!"));
+            add_msg_if_npc( _("<npcname> drains your body heat!"));
         } else {
-            g->add_msg_player_or_npc(this, _("You drain %s's body heat!"),
+            add_msg_player_or_npc(_("You drain %s's body heat!"),
                                      _("<npcname> drains %s's body heat!"),
                                      target.c_str());
         }
@@ -1196,18 +1197,18 @@ std::string player::melee_special_effects(game *g, monster *z, player *p, bool c
  if (mon && z->has_flag(MF_ELECTRIC) && conductive) {
   hurtall(rng(0, 1));
   moves -= rng(0, 50);
-  g->add_msg_if_player(p, _("Contact with %s shocks you!"), target.c_str());
+  p->add_msg_if_player( _("Contact with %s shocks you!"), target.c_str());
  }
 
 // Glass weapons shatter sometimes
  if (weapon.made_of("glass") &&
      rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
-     g->add_msg_player_or_npc( p, _("Your %s shatters!"), _("<npcname>'s %s shatters!"),
+     p->add_msg_player_or_npc(_("Your %s shatters!"), _("<npcname>'s %s shatters!"),
                                weapon.tname(g).c_str() );
 
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
-  for (int i = 0; i < weapon.contents.size(); i++)
+  for (unsigned int i = 0; i < weapon.contents.size(); i++)
    g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
   hit(g, bp_arms, 1, 0, rng(0, weapon.volume() * 2));// Take damage
   if (weapon.is_two_handed(this))// Hurt left arm too, if it was big
@@ -1596,7 +1597,7 @@ void player_hit_message(game* g, player* attacker, std::string message,
 
     // same message is used for player and npc,
     // just using this for the <npcname> substitution.
-    g->add_msg_player_or_npc(attacker, msg.c_str(), msg.c_str(),
+    attacker->add_msg_player_or_npc(msg.c_str(), msg.c_str(),
                              target_name.c_str());
 }
 

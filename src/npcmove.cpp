@@ -4,6 +4,7 @@
 #include "game.h"
 #include "line.h"
 #include "debug.h"
+#include "messages.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_PLAYER -2
@@ -174,7 +175,7 @@ void npc::execute_action(game *g, npc_action action, int target)
    debugmsg("NPC reload failed.");
   recoil = 6;
   if (g->u_see(posx, posy)) {
-   g->add_msg(_("%s reloads their %s."), name.c_str(), weapon.tname().c_str());
+   Messages::player_messages.add_msg(_("%s reloads their %s."), name.c_str(), weapon.tname().c_str());
    }
   } break;
 
@@ -1286,28 +1287,28 @@ void npc::pick_up_item(game *g)
  if (u_see_me) {
   if (pickup.size() == 1) {
    if (u_see_items)
-    g->add_msg(_("%s picks up a %s."), name.c_str(),
+    Messages::player_messages.add_msg(_("%s picks up a %s."), name.c_str(),
                (*items)[pickup[0]].tname().c_str());
    else
-    g->add_msg(_("%s picks something up."), name.c_str());
+    Messages::player_messages.add_msg(_("%s picks something up."), name.c_str());
   } else if (pickup.size() == 2) {
    if (u_see_items)
-    g->add_msg(_("%s picks up a %s and a %s."), name.c_str(),
+    Messages::player_messages.add_msg(_("%s picks up a %s and a %s."), name.c_str(),
                (*items)[pickup[0]].tname().c_str(),
                (*items)[pickup[1]].tname().c_str());
    else
-    g->add_msg(_("%s picks up a couple of items."), name.c_str());
+    Messages::player_messages.add_msg(_("%s picks up a couple of items."), name.c_str());
   } else
-   g->add_msg(_("%s picks up several items."), name.c_str());
+   Messages::player_messages.add_msg(_("%s picks up several items."), name.c_str());
  } else if (u_see_items) {
   if (pickup.size() == 1)
-   g->add_msg(_("Someone picks up a %s."), (*items)[pickup[0]].tname().c_str());
+   Messages::player_messages.add_msg(_("Someone picks up a %s."), (*items)[pickup[0]].tname().c_str());
   else if (pickup.size() == 2)
-   g->add_msg(_("Someone picks up a %s and a %s"),
+   Messages::player_messages.add_msg(_("Someone picks up a %s and a %s"),
               (*items)[pickup[0]].tname().c_str(),
               (*items)[pickup[1]].tname().c_str());
   else
-   g->add_msg(_("Someone picks up several items."));
+   Messages::player_messages.add_msg(_("Someone picks up several items."));
  }
 
  for (int i = 0; i < pickup.size(); i++) {
@@ -1409,9 +1410,9 @@ void npc::drop_items(game *g, int weight, int volume)
  std::string item_name_str = item_name.str();
  if (g->u_see(posx, posy)) {
   if (num_items_dropped >= 3)
-   g->add_msg(ngettext("%s drops %d item.", "%s drops %d items.", num_items_dropped), name.c_str(), num_items_dropped);
+   Messages::player_messages.add_msg(ngettext("%s drops %d item.", "%s drops %d items.", num_items_dropped), name.c_str(), num_items_dropped);
   else
-   g->add_msg(_("%s drops a %s."), name.c_str(), item_name_str.c_str());
+   Messages::player_messages.add_msg(_("%s drops a %s."), name.c_str(), item_name_str.c_str());
  }
  update_worst_item_value();
 }
@@ -1549,7 +1550,7 @@ void npc::alt_attack(game *g, int target)
     trajectory = line_to(posx, posy, tarx, tary, 0);
    moves -= 125;
    if (g->u_see(posx, posy))
-    g->add_msg(_("%s throws a %s."), name.c_str(), used->tname().c_str());
+    Messages::player_messages.add_msg(_("%s throws a %s."), name.c_str(), used->tname().c_str());
 
    int stack_size = -1;
    if( used->count_by_charges() ) {
@@ -1611,7 +1612,7 @@ void npc::alt_attack(game *g, int target)
      trajectory = line_to(posx, posy, tarx, tary, 0);
     moves -= 125;
     if (g->u_see(posx, posy))
-     g->add_msg(_("%s throws a %s."), name.c_str(), used->tname().c_str());
+     Messages::player_messages.add_msg(_("%s throws a %s."), name.c_str(), used->tname().c_str());
 
     int stack_size = -1;
     if( used->count_by_charges() ) {
@@ -1688,15 +1689,15 @@ void npc::heal_player(game *g, player &patient)
   if (patient.is_npc()) {
    if (u_see_me) {
     if (u_see_patient)
-     g->add_msg(_("%s heals %s."),  name.c_str(), patient.name.c_str());
+     Messages::player_messages.add_msg(_("%s heals %s."),  name.c_str(), patient.name.c_str());
     else
-     g->add_msg(_("%s heals someone."), name.c_str());
+     Messages::player_messages.add_msg(_("%s heals someone."), name.c_str());
    } else if (u_see_patient)
-    g->add_msg(_("Someone heals %s."), patient.name.c_str());
+    Messages::player_messages.add_msg(_("Someone heals %s."), patient.name.c_str());
   } else if (u_see_me)
-   g->add_msg(_("%s heals you."), name.c_str());
+   Messages::player_messages.add_msg(_("%s heals you."), name.c_str());
   else
-   g->add_msg(_("Someone heals you."));
+   Messages::player_messages.add_msg(_("Someone heals you."));
 
   int amount_healed = 0;
   if (has_amount("1st_aid", 1)) {
@@ -1768,7 +1769,7 @@ void npc::heal_self(game *g)
   move_pause();
  }
  if (g->u_see(posx, posy))
-  g->add_msg(_("%s heals %s."), name.c_str(), (male ? _("himself") : _("herself")));
+  Messages::player_messages.add_msg(_("%s heals %s."), name.c_str(), (male ? _("himself") : _("herself")));
  heal(worst, amount_healed);
  moves -= 250;
 }
@@ -1844,16 +1845,16 @@ void npc::mug_player(game *g, player &mark)
    if (mark.is_npc()) {
     if (u_see_me) {
      if (u_see_mark)
-      g->add_msg(_("%s takes %s's money!"), name.c_str(), mark.name.c_str());
+      Messages::player_messages.add_msg(_("%s takes %s's money!"), name.c_str(), mark.name.c_str());
      else
-      g->add_msg(_("%s takes someone's money!"), name.c_str());
+      Messages::player_messages.add_msg(_("%s takes someone's money!"), name.c_str());
     } else if (u_see_mark)
-     g->add_msg(_("Someone takes %s's money!"), mark.name.c_str());
+     Messages::player_messages.add_msg(_("Someone takes %s's money!"), mark.name.c_str());
    } else {
     if (u_see_me)
-     g->add_msg(_("%s takes your money!"), name.c_str());
+     Messages::player_messages.add_msg(_("%s takes your money!"), name.c_str());
     else
-     g->add_msg(_("Someone takes your money!"));
+     Messages::player_messages.add_msg(_("Someone takes your money!"));
    }
   } else { // We already have their money; take some goodies!
 // value_mod affects at what point we "take the money and run"
@@ -1888,18 +1889,18 @@ void npc::mug_player(game *g, player &mark)
     if (mark.is_npc()) {
      if (u_see_me) {
       if (u_see_mark)
-       g->add_msg(_("%s takes %s's %s."), name.c_str(), mark.name.c_str(),
+       Messages::player_messages.add_msg(_("%s takes %s's %s."), name.c_str(), mark.name.c_str(),
                   stolen.tname().c_str());
       else
-       g->add_msg(_("%s takes something from somebody."), name.c_str());
+       Messages::player_messages.add_msg(_("%s takes something from somebody."), name.c_str());
      } else if (u_see_mark)
-      g->add_msg(_("Someone takes %s's %s."), mark.name.c_str(),
+      Messages::player_messages.add_msg(_("Someone takes %s's %s."), mark.name.c_str(),
                  stolen.tname().c_str());
     } else {
      if (u_see_me)
-      g->add_msg(_("%s takes your %s."), name.c_str(), stolen.tname().c_str());
+      Messages::player_messages.add_msg(_("%s takes your %s."), name.c_str(), stolen.tname().c_str());
      else
-      g->add_msg(_("Someone takes your %s."), stolen.tname().c_str());
+      Messages::player_messages.add_msg(_("Someone takes your %s."), stolen.tname().c_str());
     }
     i_add(stolen);
     moves -= 100;

@@ -200,7 +200,7 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
   anger = copy.anger;
   owed = copy.owed;
   favors.clear();
-  for (int i = 0; i < copy.favors.size(); i++)
+  for (unsigned int i = 0; i < copy.favors.size(); i++)
    favors.push_back( copy.favors[i] );
  };
 
@@ -395,6 +395,12 @@ public:
  int print_info(WINDOW* w, int column = 1, int line = 6);
  std::string short_description();
  std::string opinion_text();
+
+ //AO: Hackish, but will be refined later
+ virtual void add_msg_if_player(const char* msg, ...);
+ virtual void add_msg_if_npc(const char* msg, ...);
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
+
 
 // Goal / mission functions
  void pick_long_term_goal(game *g);

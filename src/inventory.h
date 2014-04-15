@@ -30,7 +30,6 @@ class inventory
   int num_items() const;
   bool is_sorted() const;
 
-  inventory& operator=  (inventory &rhs);
   inventory& operator=  (const inventory &rhs);
   inventory& operator+= (const inventory &rhs);
   inventory& operator+= (const item &rhs);

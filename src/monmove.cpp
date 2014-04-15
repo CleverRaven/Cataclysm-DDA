@@ -8,6 +8,7 @@
 #include "pldata.h"
 #include <stdlib.h>
 #include "cursesdef.h"
+#include "messages.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -550,7 +551,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
     {
         if (u_see) {
-            g->add_msg(_("The %s misses."), name().c_str());
+            Messages::player_messages.add_msg(_("The %s misses."), name().c_str());
         }
     }
     else
@@ -572,31 +573,31 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             {
                 if (is_npc) {
                     if(u_see) {
-                        g->add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
+                        Messages::player_messages.add_msg(_("%1$s dodges the %2$s."), p.name.c_str(), name().c_str());
                     }
                 } else {
-                    g->add_msg(_("You dodge the %s."), name().c_str());
+                    Messages::player_messages.add_msg(_("You dodge the %s."), name().c_str());
                 }
-                p.practice(g->turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
+                p.practice(calendar::turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
             }
 
             //Successful hit with damage
             else if (dam > 0)
             {
-                p.practice(g->turn, "dodge", type->melee_skill);
+                p.practice(calendar::turn, "dodge", type->melee_skill);
 
                 if(!p.block_hit(g, this, NULL, bphit, side, dam, cut, stab) && u_see) {
                     if (is_npc) {
                         if( u_see ) {
-                            g->add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
+                            Messages::player_messages.add_msg(_("The %1$s hits %2$s's %3$s."), name().c_str(),
                                        p.name.c_str(), body_part_name(bphit, side).c_str());
                         }
                     } else {
                         if ( g->u_see(this) ) {
-                            g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                            Messages::player_messages.add_msg(_("The %1$s hits your %2$s."), name().c_str(),
                                    body_part_name(bphit, side).c_str());
                         } else {
-                            g->add_msg(_("Something hits your %s."),
+                            Messages::player_messages.add_msg(_("Something hits your %s."),
                                     body_part_name(bphit, side).c_str());
                         }
                     }
@@ -607,15 +608,15 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     if (g->u.activity.type == ACT_RELOAD)
                     {
-                        g->add_msg(_("You stop reloading."));
+                        Messages::player_messages.add_msg(_("You stop reloading."));
                     }
                     else if (g->u.activity.type == ACT_READ)
                     {
-                        g->add_msg(_("You stop reading."));
+                        Messages::player_messages.add_msg(_("You stop reading."));
                     }
                     else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
                     {
-                        g->add_msg(_("You stop crafting."));
+                        Messages::player_messages.add_msg(_("You stop crafting."));
                         g->u.activity.type = ACT_NULL;
                     }
                 }
@@ -623,10 +624,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 if (p.has_active_bionic("bio_ods"))
                 {
                     if (!is_npc) {
-                        g->add_msg(_("Your offensive defense system shocks it!"),
+                        Messages::player_messages.add_msg(_("Your offensive defense system shocks it!"),
                                    p.name.c_str());
                     } else if (u_see) {
-                        g->add_msg(_("%s's offensive defense system shocks it!"),
+                        Messages::player_messages.add_msg(_("%s's offensive defense system shocks it!"),
                                    p.name.c_str());
                     }
                     if (hurt(rng(10, 40))) {
@@ -638,11 +639,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     int spine = rng(1, (p.has_trait("QUILLS") ? 20 : 8));
                     if (is_npc) {
                         if( u_see ) {
-                            g->add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
+                            Messages::player_messages.add_msg(_("%1$s's %2$s puncture it!"), p.name.c_str(),
                                        (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
                         }
                     } else {
-                        g->add_msg(_("Your %s puncture it!"),
+                        Messages::player_messages.add_msg(_("Your %s puncture it!"),
                                    (g->u.has_trait("QUILLS") ? _("quills") : _("spines")));
                     }
                     if (hurt(spine))
@@ -670,18 +671,18 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 
                     //Monster effects
                     if (dam > 0 && has_flag(MF_VENOM)) {
-                        g->add_msg_if_player(&p, _("You're poisoned!"));
+                        p.add_msg_if_player(_("You're poisoned!"));
                         p.add_disease("poison", 30);
                     } else if (dam > 0 && has_flag(MF_BADVENOM)) {
-                        g->add_msg_if_player(&p, _("You feel poison flood your body, wracking you with pain..."));
+                        p.add_msg_if_player(_("You feel poison flood your body, wracking you with pain..."));
                         p.add_disease("badpoison", 40);
                     } else if (dam > 0 && has_flag(MF_PARALYZE)) {
-                        g->add_msg_if_player(&p, _("You feel poison enter your body!"));
+                        p.add_msg_if_player(_("You feel poison enter your body!"));
                         p.add_disease("paralyzepoison", 100, false, 1, 20, 100);
                     }
 
                     if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
-                        g->add_msg_if_player(&p, _("You're Bleeding!"));
+                        p.add_msg_if_player(_("You're Bleeding!"));
                         p.add_disease("bleed", 60, false, 1, 3, 120, 1, bphit, side, true);
                     }
 
@@ -689,11 +690,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                     if (can_grab && has_flag(MF_GRABS) &&
                         (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
                     {
-                        g->add_msg(_("The %s grabs you!"), name().c_str());
+                        Messages::player_messages.add_msg(_("The %s grabs you!"), name().c_str());
                         if (p.has_grab_break_tec() &&
                             dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
                         {
-                            g->add_msg_if_player(&p, _("You break the grab!"));
+                            p.add_msg_if_player(_("You break the grab!"));
                         } else {
                             hit_player(g, p, false); //We grabed, so hit them again
                         }
@@ -809,7 +810,7 @@ std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) 
                    blocked[offside] = true;
                 }
                 if ( blocked[offside] == false ) { // mobs behind walls are not helpful
-                   // g->add_msg("bzone += %d,%d",hpos.x,hpos.y);
+                   // Messages::player_messages.add_msg("bzone += %d,%d",hpos.x,hpos.y);
                    ret.push_back( hpos );
                 }
              }
@@ -836,7 +837,7 @@ int monster::bash_at(int x, int y) {
         int diffx = pos().x - x;
         int diffy = pos().y - y;
         int mo_bash = 0;
-        for( int i = 0; i < bzone.size(); i++ ) {
+        for( unsigned int i = 0; i < bzone.size(); i++ ) {
            if ( g->mon_at( bzone[i] ) != -1 ) {
               monster & helpermon = g->zombie( g->mon_at( bzone[i] ) );
               // trying for the same door and can bash; put on helper hat
@@ -847,7 +848,7 @@ int monster::bash_at(int x, int y) {
                  // helpers lined up behind primary basher add full strength, others 50%
                  addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) || ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
                  mo_bash += addbash;
-                 // g->add_msg("+ bashhelp: %d,%d : +%d = %d", bzone[i].x, bzone[i].y, addbash/2, mo_bash/2 );
+                 // Messages::player_messages.add_msg("+ bashhelp: %d,%d : +%d = %d", bzone[i].x, bzone[i].y, addbash/2, mo_bash/2 );
               }
            }
         }
@@ -945,11 +946,11 @@ int monster::move_to(game *g, int x, int y, bool force)
 
     if(was_water && !will_be_water && g->u_see(x, y)) {
         //Use more dramatic messages for swimming monsters
-        g->add_msg(_("A %s %s from the %s!"), name().c_str(),
+        Messages::player_messages.add_msg(_("A %s %s from the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
                    g->m.tername(posx(), posy()).c_str());
     } else if(!was_water && will_be_water && g->u_see(x, y)) {
-        g->add_msg(_("A %s %s into the %s!"), name().c_str(),
+        Messages::player_messages.add_msg(_("A %s %s into the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
                    g->m.tername(x, y).c_str());
     }
@@ -1111,7 +1112,7 @@ void monster::knock_back_from(game *g, int x, int y)
   }
 
   if (u_see)
-   g->add_msg(_("The %s bounces off a %s!"), name().c_str(), z->name().c_str());
+   Messages::player_messages.add_msg(_("The %s bounces off a %s!"), name().c_str(), z->name().c_str());
 
   return;
  }
@@ -1123,7 +1124,7 @@ void monster::knock_back_from(game *g, int x, int y)
   add_effect(ME_STUNNED, 1);
   p->hit(g, bp_torso, -1, type->size, 0);
   if (u_see)
-   g->add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
+   Messages::player_messages.add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
   return;
  }
@@ -1134,19 +1135,19 @@ void monster::knock_back_from(game *g, int x, int y)
   if (g->m.has_flag("LIQUID", to.x, to.y) && can_drown()) {
    hurt(9999);
    if (u_see) {
-    g->add_msg(_("The %s drowns!"), name().c_str());
+    Messages::player_messages.add_msg(_("The %s drowns!"), name().c_str());
    }
 
   } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water
    hurt(9999);
    if (u_see)
-    g->add_msg(_("The %s flops around and dies!"), name().c_str());
+    Messages::player_messages.add_msg(_("The %s flops around and dies!"), name().c_str());
 
   } else { // It's some kind of wall.
    hurt(type->size);
    add_effect(ME_STUNNED, 2);
    if (u_see)
-    g->add_msg(_("The %s bounces off a %s."), name().c_str(),
+    Messages::player_messages.add_msg(_("The %s bounces off a %s."), name().c_str(),
                g->m.tername(to.x, to.y).c_str());
   }
 
@@ -1200,7 +1201,7 @@ int monster::turns_to_reach(game *g, int x, int y)
   return 999;
 
  double turns = 0.;
- for (int i = 0; i < path.size(); i++) {
+ for (unsigned int i = 0; i < path.size(); i++) {
   if (g->m.move_cost(path[i].x, path[i].y) == 0) // We have to bash through
    turns += 5;
   else if (i == 0)

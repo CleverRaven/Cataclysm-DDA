@@ -3,6 +3,7 @@
 #include "name.h"
 #include <sstream>
 #include "omdata.h"
+#include "messages.h"
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -40,7 +41,7 @@ void mission_start::place_dog(game *g, mission *miss)
   return;
  }
  g->u.i_add( item(itypes["dog_whistle"], 0) );
- g->add_msg(_("%s gave you a dog whistle."), dev->name.c_str());
+ Messages::player_messages.add_msg(_("%s gave you a dog whistle."), dev->name.c_str());
 
  miss->target = house;
 // Make it seen on our map
@@ -52,7 +53,7 @@ void mission_start::place_dog(game *g, mission *miss)
  tinymap doghouse(&(g->traps));
  doghouse.load(g, house.x * 2, house.y * 2, 0, false);
  doghouse.add_spawn("mon_dog", 1, SEEX, SEEY, true, -1, miss->uid);
- doghouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
+ doghouse.save(g->cur_om, int(calendar::turn), house.x * 2, house.y * 2, 0);
 }
 
 void mission_start::place_zombie_mom(game *g, mission *miss)
@@ -70,7 +71,7 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
  tinymap zomhouse(&(g->traps));
  zomhouse.load(g, house.x * 2, house.y * 2,  0, false);
  zomhouse.add_spawn("mon_zombie", 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
- zomhouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
+ zomhouse.save(g->cur_om, int(calendar::turn), house.x * 2, house.y * 2, 0);
 }
 
 void mission_start::place_jabberwock(game *g, mission *miss)
@@ -86,7 +87,7 @@ void mission_start::place_jabberwock(game *g, mission *miss)
  tinymap grove(&(g->traps));
  grove.load(g, site.x * 2, site.y * 2,  0, false);
  grove.add_spawn("mon_jabberwock", 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
- grove.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
+ grove.save(g->cur_om, int(calendar::turn), site.x * 2, site.y * 2, 0);
 }
 
 void mission_start::kill_100_z(game *g, mission *miss)
@@ -131,7 +132,7 @@ void mission_start::kill_horde_master(game *g, mission *miss)
 }
  tile.add_spawn("mon_zombie_necro",2,SEEX,SEEY);
  tile.add_spawn("mon_zombie_hulk",1,SEEX,SEEY);
- tile.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
+ tile.save(g->cur_om, int(calendar::turn), site.x * 2, site.y * 2, 0);
 }
 
 void mission_start::place_npc_software(game *g, mission *miss)
@@ -142,7 +143,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
   return;
  }
  g->u.i_add( item(itypes["usb_drive"], 0) );
- g->add_msg(_("%s gave you a USB drive."), dev->name.c_str());
+ Messages::player_messages.add_msg(_("%s gave you a USB drive."), dev->name.c_str());
 
  std::string type = "house";
 
@@ -252,7 +253,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option(_("Download Software"), COMPACT_DOWNLOAD_SOFTWARE, 0);
 
- compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
+ compmap.save(g->cur_om, int(calendar::turn), place.x * 2, place.y * 2, 0);
 }
 
 void mission_start::place_priest_diary(game *g, mission *miss)
@@ -282,7 +283,7 @@ void mission_start::place_priest_diary(game *g, mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
  compmap.spawn_item(comppoint.x, comppoint.y, "priest_diary");
- compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
+ compmap.save(g->cur_om, int(calendar::turn), place.x * 2, place.y * 2, 0);
 }
 
 void mission_start::place_deposit_box(game *g, mission *miss)
@@ -324,7 +325,7 @@ void mission_start::place_deposit_box(game *g, mission *miss)
   else
    comppoint = valid[rng(0, valid.size() - 1)];
 compmap.spawn_item(comppoint.x, comppoint.y, "safe_box");
-compmap.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
+compmap.save(g->cur_om, int(calendar::turn), site.x * 2, site.y * 2, 0);
 }
 
 void mission_start::reveal_lab_black_box(game *g, mission *miss)
@@ -332,7 +333,7 @@ void mission_start::reveal_lab_black_box(game *g, mission *miss)
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
   g->u.i_add( item(itypes["black_box"], 0) );
-  g->add_msg(_("%s gave you back the black box."), dev->name.c_str());
+  Messages::player_messages.add_msg(_("%s gave you back the black box."), dev->name.c_str());
  }
  int dist = 0;
  point place = g->cur_om->find_closest(g->om_location(), "lab", dist,
@@ -350,7 +351,7 @@ void mission_start::open_sarcophagus(game *g, mission *miss)
  p->attitude = NPCATT_FOLLOW;
  if (p != NULL) {
   g->u.i_add( item(itypes["sarcophagus_access_code"], 0) );
-  g->add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
+  Messages::player_messages.add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
  }
  int dist = 0;
  point place = g->cur_om->find_closest(g->om_location(), "haz_sar", dist,
@@ -367,7 +368,7 @@ void mission_start::reveal_hospital(game *g, mission *miss)
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
   g->u.i_add( item(itypes["vacutainer"], 0) );
-  g->add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
+  Messages::player_messages.add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
  }
  int dist = 0;
  point place = g->cur_om->find_closest(g->om_location(), "hospital", dist,

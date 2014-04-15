@@ -10,6 +10,7 @@
 #include "options.h"
 #include "action.h"
 #include "input.h"
+#include "messages.h"
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
@@ -293,7 +294,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       // Current guns have a durability between 5 and 9.
       // Misfire chance is between 1/64 and 1/1024.
       if (one_in(2 << firing->durability)) {
-          add_msg_player_or_npc( &p, _("Your weapon misfires!"),
+          p.add_msg_player_or_npc( _("Your weapon misfires!"),
                                  _("<npcname>'s weapon misfires!") );
           return;
       }
@@ -424,7 +425,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
           if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4) {
               // don't hit targets that have already been hit
               if (!z.has_effect(ME_BOUNCED) && !z.dead) {
-                  add_msg(_("The attack bounced to %s!"), z.name().c_str());
+				  Messages::player_messages.add_msg(_("The attack bounced to %s!"), z.name().c_str());
                   trajectory = line_to(tx, ty, z.posx(), z.posy(), 0);
                   if (weapon->charges > 0) {
                       fire(p, z.posx(), z.posy(), trajectory, false);
@@ -503,13 +504,13 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         else
             trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
         missed = true;
-        add_msg_if_player(&p,_("You miss!"));
+        p.add_msg_if_player(_("You miss!"));
     }
     else if (missed_by >= .6)
     {
         // Hit the space, but not necessarily the monster there
         missed = true;
-        add_msg_if_player(&p,_("You barely miss!"));
+        p.add_msg_if_player(_("You barely miss!"));
     }
 
     std::string message;
@@ -553,7 +554,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume())
             {
                 if (u_see(tx, ty))
-                    add_msg(_("The %s shatters!"), thrown.tname().c_str());
+					Messages::player_messages.add_msg(_("The %s shatters!"), thrown.tname().c_str());
                 for (int i = 0; i < thrown.contents.size(); i++)
                     m.add_item_or_charges(tx, ty, thrown.contents[i]);
                     sound(tx, ty, 16, _("glass breaking!"));
@@ -569,14 +570,14 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             {
                 message = _("Headshot!");
                 dam = rng(dam, dam * 3);
-                p.practice(turn, "throw", 5);
+				p.practice(calendar::turn, "throw", 5);
                 p.lifetime_stats()->headshots++;
             }
             else if (goodhit < .2)
             {
                 message = _("Critical!");
                 dam = rng(dam, dam * 2);
-                p.practice(turn, "throw", 2);
+				p.practice(calendar::turn, "throw", 2);
             }
             else if (goodhit < .4)
                 dam = rng(int(dam / 2), int(dam * 1.5));
@@ -586,8 +587,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 dam = rng(0, dam);
             }
             if (u_see(tx, ty)) {
-                g->add_msg_player_or_npc(&p,
-                    _("%s You hit the %s for %d damage."),
+                p.add_msg_player_or_npc(_("%s You hit the %s for %d damage."),
                     _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z.name().c_str(), dam);
             }
@@ -623,7 +623,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume())
     {
         if (u_see(tx, ty))
-            add_msg(_("The %s shatters!"), thrown.tname().c_str());
+			Messages::player_messages.add_msg(_("The %s shatters!"), thrown.tname().c_str());
         for (int i = 0; i < thrown.contents.size(); i++)
             m.add_item_or_charges(tx, ty, thrown.contents[i]);
         sound(tx, ty, 16, _("glass breaking!"));
@@ -1164,7 +1164,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - goodhit)) && // Maxes out at 50% chance with perfect hit
      weapon->curammo->phase != LIQUID && !effects.count("SHOT") && !effects.count("BOUNCE")) {
   if (u_see_mon)
-   g->add_msg(_("The shot passes through the %s without hitting."),
+	  Messages::player_messages.add_msg(_("The shot passes through the %s without hitting."),
            mon.name().c_str());
   goodhit = 1;
  } else { // Not HARDTOSHOOT
@@ -1183,7 +1183,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
    adjusted_damage -= zarm;
   if (adjusted_damage <= 0) {
    if (u_see_mon)
-    g->add_msg(_("The shot reflects off the %s!"),
+	   Messages::player_messages.add_msg(_("The shot reflects off the %s!"),
             mon.name_with_armor().c_str());
    adjusted_damage = 0;
    goodhit = 1;
@@ -1191,19 +1191,19 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
   if (goodhit <= .1 && !mon.has_flag(MF_NOHEAD)) {
       message = _("Headshot!");
       adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
-      p.practice(g->turn, firing->skill_used, 5);
+      p.practice(calendar::turn, firing->skill_used, 5);
       p.lifetime_stats()->headshots++;
   } else if (goodhit <= .2) {
       message = _("Critical!");
       adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);
-      p.practice(g->turn, firing->skill_used, 3);
+      p.practice(calendar::turn, firing->skill_used, 3);
   } else if (goodhit <= .4) {
       message = _("Good hit!");
       adjusted_damage = rng(adjusted_damage , adjusted_damage * 2);
-      p.practice(g->turn, firing->skill_used, 2);
+      p.practice(calendar::turn, firing->skill_used, 2);
   } else if (goodhit <= .6) {
       adjusted_damage = rng(adjusted_damage / 2, adjusted_damage);
-      p.practice(g->turn, firing->skill_used, 1);
+      p.practice(calendar::turn, firing->skill_used, 1);
   } else if (goodhit <= .8) {
       message = _("Grazing hit.");
       adjusted_damage = rng(0, adjusted_damage);
@@ -1236,9 +1236,9 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit,
                 break;
         }
         if (&p == &(g->u) && u_see_mon) {
-            g->add_msg(_("%s You hit the %s for %d damage."), message.c_str(), mon.name().c_str(), adjusted_damage);
+			Messages::player_messages.add_msg(_("%s You hit the %s for %d damage."), message.c_str(), mon.name().c_str(), adjusted_damage);
         } else if (u_see_mon) {
-            g->add_msg(_("%s %s shoots the %s."), message.c_str(), p.name.c_str(), mon.name().c_str());
+			Messages::player_messages.add_msg(_("%s %s shoots the %s."), message.c_str(), p.name.c_str(), mon.name().c_str());
         }
         bool bMonDead = mon.hurt(adjusted_damage, dam);
         if( u_see_mon ) {
@@ -1264,7 +1264,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
     if (goodhit < .003) {
         hit = bp_eyes;
         dam = rng(3 * dam, 5 * dam);
-        p.practice(g->turn, firing->skill_used, 5);
+        p.practice(calendar::turn, firing->skill_used, 5);
     } else if (goodhit < .066) {
         if (one_in(25)) {
             hit = bp_eyes;
@@ -1274,11 +1274,11 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
             hit = bp_head;
         }
         dam = rng(2 * dam, 5 * dam);
-        p.practice(g->turn, firing->skill_used, 5);
+        p.practice(calendar::turn, firing->skill_used, 5);
     } else if (goodhit < .2) {
         hit = bp_torso;
         dam = rng(dam, 2 * dam);
-        p.practice(g->turn, firing->skill_used, 2);
+        p.practice(calendar::turn, firing->skill_used, 2);
     } else if (goodhit < .4) {
         if (one_in(3)) {
             hit = bp_torso;
@@ -1288,7 +1288,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
             hit = bp_legs;
         }
         dam = rng(int(dam * .9), int(dam * 1.5));
-        p.practice(g->turn, firing->skill_used, rng(0, 1));
+        p.practice(calendar::turn, firing->skill_used, rng(0, 1));
     } else if (goodhit < .5) {
         if (one_in(2)) {
             hit = bp_arms;
@@ -1303,15 +1303,15 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
         int side = random_side(hit);
         h->moves -= rng(0, dam);
         if (h == &(g->u)) {
-            g->add_msg(_("%s shoots your %s for %d damage!"), p.name.c_str(),
+			Messages::player_messages.add_msg(_("%s shoots your %s for %d damage!"), p.name.c_str(),
                           body_part_name(hit, side).c_str(), dam);
         } else {
             if (&p == &(g->u)) {
-                g->add_msg(_("You shoot %s's %s."), h->name.c_str(),
+				Messages::player_messages.add_msg(_("You shoot %s's %s."), h->name.c_str(),
                                body_part_name(hit, side).c_str());
                 g->active_npc[npcdex]->make_angry();
             } else if (g->u_see(h->posx, h->posy)) {
-                g->add_msg(_("%s shoots %s's %s."),
+				Messages::player_messages.add_msg(_("%s shoots %s's %s."),
                    (g->u_see(p.posx, p.posy) ? p.name.c_str() : _("Someone")),
                     h->name.c_str(), body_part_name(hit, side).c_str());
             }

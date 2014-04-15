@@ -18,12 +18,12 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
     const int ypos = POSY + (y - (u.posy + u.view_offset_y));
     const int xpos = POSX + (x - (u.posx + u.view_offset_x));
 
-    for (int i = 1; i <= radius; i++) {
+    for (unsigned int i = 1; i <= radius; i++) {
         mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
         mvwputch(w_terrain, ypos - i, xpos + i, col,'\\');
         mvwputch(w_terrain, ypos + i, xpos - i, col,'\\');
         mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
-        for (int j = 1 - i; j < 0 + i; j++) {
+        for (unsigned int j = 1 - i; j < 0 + i; j++) {
             mvwputch(w_terrain, ypos - i, xpos + j, col,'-');
             mvwputch(w_terrain, ypos + i, xpos + j, col,'-');
             mvwputch(w_terrain, ypos + j, xpos - i, col,'|');
@@ -133,7 +133,7 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
 {
     if (u_see( x, y))
     {
-        for (int i = 0; i < ret.size(); i++)
+        for (unsigned int i = 0; i < ret.size(); i++)
         {
             int mondex = mon_at(ret[i].x, ret[i].y),
             npcdex = npc_at(ret[i].x, ret[i].y);
@@ -158,7 +158,7 @@ void game::draw_line(const int x, const int y, const point center_point, std::ve
 
 void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 {
-    for (int i = 1; i < vPoint.size(); i++)
+    for (unsigned int i = 1; i < vPoint.size(); i++)
     {
         m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
     }
@@ -220,10 +220,10 @@ void game::draw_weather(weather_printable wPrint)
 void game::draw_footsteps()
 {
     std::queue<point> step_tiles;
-    for (int i = 0; i < footsteps.size(); i++) {
+    for (unsigned int i = 0; i < footsteps.size(); i++) {
         if (!u_see(footsteps_source[i]->posx(),footsteps_source[i]->posy())){
             std::vector<point> unseen_points;
-            for (int j = 0; j < footsteps[i].size(); j++){
+            for (unsigned int j = 0; j < footsteps[i].size(); j++){
                 if (!u_see(footsteps[i][j].x,footsteps[i][j].y)){
                     unseen_points.push_back(point(footsteps[i][j].x,
                                                footsteps[i][j].y));

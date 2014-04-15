@@ -13,6 +13,7 @@
 #include "translations.h"
 
 #include <algorithm>
+#include "messages.h"
 
 std::vector<construction*> constructions;
 std::map<std::string,std::vector<construction*> > constructions_by_desc;
@@ -443,7 +444,7 @@ void place_construction(const std::string &desc)
 
     point choice(dirx, diry);
     if (valid.find(choice) == valid.end()) {
-        g->add_msg(_("You cannot build there!"));
+        Messages::player_messages.add_msg(_("You cannot build there!"));
         return;
     }
 
@@ -457,7 +458,7 @@ void complete_construction()
 {
     construction *built = constructions[g->u.activity.index];
 
-    g->u.practice(g->turn, "carpentry", std::max(built->difficulty, 1) * 10);
+    g->u.practice(calendar::turn, "carpentry", std::max(built->difficulty, 1) * 10);
     for (int i = 0; i < built->components.size(); i++) {
         if (!built->components[i].empty()) {
             g->consume_items(&(g->u), built->components[i]);
@@ -518,7 +519,7 @@ void construct::done_tree(point p)
 
 void construct::done_trunk_log(point p)
 {
-    g->m.spawn_item(p.x, p.y, "log", rng(5, 15), 0, g->turn);
+    g->m.spawn_item(p.x, p.y, "log", rng(5, 15), 0, calendar::turn);
 }
 
 void construct::done_trunk_plank(point p)
@@ -526,7 +527,7 @@ void construct::done_trunk_plank(point p)
     (void)p; //unused
     int num_logs = rng(5, 15);
     for( int i = 0; i < num_logs; ++i ) {
-        item tmplog(itypes["log"], int(g->turn), g->nextinv);
+        item tmplog(itypes["log"], int(calendar::turn), g->nextinv);
         iuse::cut_log_into_planks( &(g->u), &tmplog);
     }
 }
@@ -556,7 +557,7 @@ void construct::done_vehicle(point p)
 void construct::done_deconstruct(point p)
 {
   if (g->m.has_furn(p.x, p.y)) {
-    g->add_msg(_("You disassemble the %s."), g->m.furnname(p.x, p.y).c_str());
+    Messages::player_messages.add_msg(_("You disassemble the %s."), g->m.furnname(p.x, p.y).c_str());
     switch (g->m.oldfurn(p.x, p.y)){
       case old_f_makeshift_bed:
       case old_f_bed:
@@ -626,11 +627,11 @@ void construct::done_deconstruct(point p)
         g->m.furn_set(p.x, p.y, f_null);
       break;
       default:
-        g->add_msg(_("You have to push away %s first."), g->m.furnname(p.x, p.y).c_str());
+        Messages::player_messages.add_msg(_("You have to push away %s first."), g->m.furnname(p.x, p.y).c_str());
       break;
     }
   } else {
-    g->add_msg(_("You disassemble the %s."), g->m.tername(p.x, p.y).c_str());
+    Messages::player_messages.add_msg(_("You disassemble the %s."), g->m.tername(p.x, p.y).c_str());
     switch (g->m.oldter(p.x, p.y))
     {
       case old_t_door_c:

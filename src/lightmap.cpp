@@ -182,8 +182,8 @@ void map::generate_lightmap(game* g)
        std::vector<int> light_indices = vehs[v].v->all_parts_with_feature("CIRCLE_LIGHT");
        for (std::vector<int>::iterator part = light_indices.begin();
             part != light_indices.end(); ++part) {
-           if((g->turn % 2 && vehs[v].v->part_info(*part).has_flag("ODDTURN")) ||
-              (!(g->turn % 2) && vehs[v].v->part_info(*part).has_flag("EVENTURN")) ||
+           if((calendar::turn % 2 && vehs[v].v->part_info(*part).has_flag("ODDTURN")) ||
+              (!(calendar::turn % 2) && vehs[v].v->part_info(*part).has_flag("EVENTURN")) ||
               (!vehs[v].v->part_info(*part).has_flag("EVENTURN") &&
                !vehs[v].v->part_info(*part).has_flag("ODDTURN"))) {
                int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];

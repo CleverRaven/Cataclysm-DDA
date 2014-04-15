@@ -14,6 +14,7 @@
 #include "cursesdef.h"
 #include "monstergenerator.h"
 #include "json.h"
+#include "messages.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -628,11 +629,11 @@ void monster::hit_monster(game *g, int i)
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
   if (g->u_see(this))
-   g->add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
+   Messages::player_messages.add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
   return;
  }
  if (g->u_see(this))
-  g->add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
+  Messages::player_messages.add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));

@@ -368,7 +368,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("BASE", _("Moves per attack: "), "", attack_time(), true, "", true, true));
   if ( debug == true ) {
     if( g != NULL ) {
-      dump->push_back(iteminfo("BASE", _("age: "), "",  (int(g->turn) - bday) / (10 * 60), true, "", true, true));
+      dump->push_back(iteminfo("BASE", _("age: "), "",  (int(calendar::turn) - bday) / (10 * 60), true, "", true, true));
     }
     dump->push_back(iteminfo("BASE", _("burn: "), "",  burnt, true, "", true, true));
   }
@@ -849,12 +849,12 @@ std::string item::tname(game *g)
         food_type = dynamic_cast<it_comest*>(contents[0].type);
     }
     if (food != NULL && g != NULL && food_type->spoils != 0 &&
-    int(g->turn) < (int)(food->bday + 100))
+    int(calendar::turn) < (int)(food->bday + 100))
         ret << _(" (fresh)");
     if (food != NULL && g != NULL && food->has_flag("HOT"))
         ret << _(" (hot)");
     if (food != NULL && g != NULL && food_type->spoils != 0 &&
-    int(g->turn) - (int)(food->bday) > food_type->spoils * 600)
+    int(calendar::turn) - (int)(food->bday) > food_type->spoils * 600)
         ret << _(" (rotten)");
 
     if (has_flag("FIT")) {
@@ -1128,7 +1128,7 @@ bool item::rotten(game *g)
     if (!is_food() || g == NULL)
         return false;
     it_comest* food = dynamic_cast<it_comest*>(type);
-    return (food->spoils != 0 && int(g->turn) - (int)bday > food->spoils * 600);
+    return (food->spoils != 0 && int(calendar::turn) - (int)bday > food->spoils * 600);
 }
 
 bool item::ready_to_revive(game *g)
@@ -1137,7 +1137,7 @@ bool item::ready_to_revive(game *g)
     {
         return false;
     }
-    int age_in_hours = (int(g->turn) - bday) / (10 * 60);
+    int age_in_hours = (int(calendar::turn) - bday) / (10 * 60);
     age_in_hours -= ((float)burnt/volume()) * 24;
     if (damage > 0)
     {

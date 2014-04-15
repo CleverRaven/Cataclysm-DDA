@@ -365,7 +365,7 @@ class wish_item_callback: public uimenu_callback
 
             if ( ity != NULL ) {
                 tmp.make(item_controller->find_template(standard_itype_ids[entnum]));
-                tmp.bday = g->turn;
+                tmp.bday = calendar::turn;
                 if (tmp.is_tool()) {
                     tmp.charges = dynamic_cast<it_tool *>(tmp.type)->max_charges;
                 } else if (tmp.is_ammo()) {
@@ -441,7 +441,7 @@ void game::wishitem( player *p, int x, int y)
                                              item_controller->find_template(standard_itype_ids[wmenu.ret])->name.c_str()
                                            )
                      );
-            item granted = item_controller->create(standard_itype_ids[wmenu.ret], turn);
+			item granted = item_controller->create(standard_itype_ids[wmenu.ret], calendar::turn);
             int incontainer = dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer;
             if ( p != NULL ) {
                 dynamic_cast<wish_item_callback *>(wmenu.callback)->tmp.invlet = nextinv;

@@ -5,6 +5,7 @@
 #include "options.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "messages.h"
 
 void event::actualize(game *g)
 {
@@ -67,7 +68,7 @@ void event::actualize(game *g)
     }
    }
    if (!one_in(25)) // They just keep coming!
-    g->add_event(EVENT_SPAWN_WYRMS, int(g->turn) + rng(15, 25));
+    g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
   } break;
 
   case EVENT_AMIGARA: {
@@ -138,7 +139,7 @@ void event::actualize(game *g)
     }
    }
    if (saw_grate)
-    g->add_msg(_("The nearby grates open to reveal a staircase!"));
+    Messages::player_messages.add_msg(_("The nearby grates open to reveal a staircase!"));
   } break;
 
   case EVENT_TEMPLE_FLOOD: {
@@ -183,10 +184,10 @@ void event::actualize(game *g)
 // Check if we should print a message
    if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy)) {
     if (flood_buf[g->u.posx][g->u.posy] == t_water_sh) {
-     g->add_msg(_("Water quickly floods up to your knees."));
+     Messages::player_messages.add_msg(_("Water quickly floods up to your knees."));
      g->u.add_memorial_log(_("Water level reached knees."));
     } else { // Must be deep water!
-     g->add_msg(_("Water fills nearly to the ceiling!"));
+     Messages::player_messages.add_msg(_("Water fills nearly to the ceiling!"));
      g->u.add_memorial_log(_("Water level reached the ceiling."));
      g->plswim(g->u.posx, g->u.posy);
     }
@@ -196,7 +197,7 @@ void event::actualize(game *g)
     for (int y = 0; y < SEEY * MAPSIZE; y++)
        g->m.ter_set(x, y, flood_buf[x][y]);
    }
-   g->add_event(EVENT_TEMPLE_FLOOD, int(g->turn) + rng(2, 3));
+   g->add_event(EVENT_TEMPLE_FLOOD, int(calendar::turn) + rng(2, 3));
   } break;
 
   case EVENT_TEMPLE_SPAWN: {
@@ -240,7 +241,7 @@ void event::per_turn(game *g)
     eyebot.spawn(place.x, place.y);
     g->add_zombie(eyebot);
     if (g->u_see(place.x, place.y))
-     g->add_msg(_("An eyebot swoops down nearby!"));
+     Messages::player_messages.add_msg(_("An eyebot swoops down nearby!"));
    }
   } break;
 
@@ -249,16 +250,16 @@ void event::per_turn(game *g)
     turn--;
     return;
    }
-   if (int(g->turn) % 3 == 0)
-    g->add_msg(_("You hear screeches from the rock above and around you!"));
+   if (int(calendar::turn) % 3 == 0)
+    Messages::player_messages.add_msg(_("You hear screeches from the rock above and around you!"));
    break;
 
   case EVENT_AMIGARA:
-   g->add_msg(_("The entire cavern shakes!"));
+   Messages::player_messages.add_msg(_("The entire cavern shakes!"));
    break;
 
   case EVENT_TEMPLE_OPEN:
-   g->add_msg(_("The earth rumbles."));
+   Messages::player_messages.add_msg(_("The earth rumbles."));
    break;
 
 

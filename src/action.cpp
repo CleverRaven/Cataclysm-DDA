@@ -296,7 +296,7 @@ std::string action_ident(action_id act)
 
 action_id look_up_action(std::string ident)
 {
-    for (int i = 0; i < NUM_ACTIONS; i++)
+    for (unsigned int i = 0; i < NUM_ACTIONS; i++)
     {
         if (action_ident( action_id(i) ) == ident)
         {

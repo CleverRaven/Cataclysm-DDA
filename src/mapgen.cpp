@@ -9925,7 +9925,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             case 3:
                 // bat corpses
                 for (int i = rng(1, 12); i < 0; i--) {
-                    body.make_corpse(itypes["corpse"], GetMType("mon_bat"), g->turn);
+                    body.make_corpse(itypes["corpse"], GetMType("mon_bat"), calendar::turn);
                     add_item(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                 }
                 break;
@@ -9943,7 +9943,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 for (int ii = 0; ii < bloodline.size(); ii++) {
                     add_field(g, bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
                 }
-                body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+                body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
                 add_item(hermx, hermy, body);
                 // This seems verbose.  Maybe a function to spawn from a list of item groups?
                 place_items("stash_food", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
@@ -11436,7 +11436,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
           rn = rng(10, 15);
           for (int i = 0; i < rn; i++) {
            item body;
-           body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+           body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
            int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
            if (ter(zx, zy) == t_bed || one_in(3))
             add_item(zx, zy, body);
@@ -11779,7 +11779,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         rn = rng(15, 20);
         for (int i = 0; i < rn; i++) {
             item body;
-            body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+            body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
             int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
             if (move_cost(zx, zy) > 0) {
                 if (furn(zx, zy) == f_bed || one_in(3)) {
@@ -15535,7 +15535,7 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2)
 void map::add_extra(map_extra type, game *g)
 {
     item body;
-    body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+    body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
 
     switch (type) {
 

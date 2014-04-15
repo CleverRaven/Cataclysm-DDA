@@ -97,15 +97,6 @@ struct monster_and_count
  monster_and_count(monster M, int C) : mon (M), count (C) {};
 };
 
-struct game_message
-{
- calendar turn;
- int count;
- std::string message;
- game_message() { turn = 0; count = 1; message = ""; };
- game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
-};
-
 struct mtype;
 struct mission_type;
 class map;
@@ -141,13 +132,6 @@ class game
   void draw_ter(int posx = -999, int posy = -999);
   void advance_nextinv(); // Increment the next inventory letter
   void decrease_nextinv(); // Decrement the next inventory letter
-  void vadd_msg(const char* msg, va_list ap );
-  void add_msg_string(const std::string &s);
-    void add_msg(const char* msg, ...);
-  void add_msg_if_player(player *p, const char* msg, ...);
-  void add_msg_if_npc(player* p, const char* msg, ...);
-  void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
-  std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
@@ -309,7 +293,6 @@ class game
   std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
 
-  calendar turn;
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
@@ -591,8 +574,6 @@ class game
   calendar nextspawn; // The turn on which monsters will spawn next.
   calendar nextweather; // The turn on which weather will shift next.
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-  std::vector <game_message> messages;   // Messages to be printed
-  int curmes;   // The last-seen message.
   int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE]; // The scent map
   //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
   int nulscent;    // Returned for OOB scent checks

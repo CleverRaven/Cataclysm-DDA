@@ -15,6 +15,7 @@
 #include "uistate.h"
 #include "helper.h"
 #include "auto_pickup.h"
+#include "messages.h"
 #ifdef _MSC_VER
 // MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
 #define snprintf _snprintf_s
@@ -363,7 +364,7 @@ std::string center_text(const char *str, int width)
 {
     std::string spaces;
     int numSpaces = width - strlen(str);
-    for (int i = 0; i < numSpaces / 2; i++) {
+    for (unsigned int i = 0; i < numSpaces / 2; i++) {
         spaces += " ";
     }
     return spaces + std::string(str);
@@ -703,7 +704,7 @@ void advanced_inventory::display(game * gp, player * pp) {
 
         dest = (src==left ? right : left);
 
-        for (int i = 0; i < 2; i++) {
+        for (unsigned int i = 0; i < 2; i++) {
             if ( panes[i].recalc ) panes[i].redraw = true; // per pane recalc = per pane redraw
         }
 
@@ -712,7 +713,7 @@ void advanced_inventory::display(game * gp, player * pp) {
         if(redraw || panes[0].redraw || panes[1].redraw ) // any redraw = redraw everything except opposite
         {
             max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() ? 1 : 0 );
-            for (int i = 0; i < 2; i++) {
+            for (unsigned int i = 0; i < 2; i++) {
                 if ( redraw || panes[i].redraw ) {
                    redraw_pane( i );
                 }
@@ -724,8 +725,13 @@ void advanced_inventory::display(game * gp, player * pp) {
             {
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
                 int line=1;
-                if( checkshowmsg || showmsg ) {
-                  for (int i = g->messages.size() - 1; i >= 0 && line < 4; i--) {
+				if (checkshowmsg && Messages::player_messages.has_undisplayed_messages())
+					showmsg = true;
+				if (showmsg)
+					Messages::player_messages.display_messages(head, 2, line, w_width, 3);
+				/*
+				{
+                  for (unsigned int i = g->messages.size() - 1; i >= 0 && line < 4; i--) {
                     std::string mes = g->messages[i].message;
                     if (g->messages[i].count > 1) {
                       std::stringstream mesSS;
@@ -743,6 +749,7 @@ void advanced_inventory::display(game * gp, player * pp) {
                     line++;
                   }
                 }
+				*/
                 if ( ! showmsg ) {
                   mvwprintz(head,0,w_width-18,c_white,_("< [?] show log >"));
                   mvwprintz(head,1,2, c_white, _("hjkl or arrow keys to move cursor, [m]ove item between panes,"));

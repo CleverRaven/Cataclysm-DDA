@@ -103,7 +103,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             picoint(pdata,"om_x",comx);
             picoint(pdata,"om_y",comy);
 
-            turn = tmpturn;
+			calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(this, comx, comy);
@@ -193,7 +193,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             parseline() >> levx >> levy >> levz >> comx >> comy;
 
-            turn = tmpturn;
+			calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(this, comx, comy);
@@ -309,7 +309,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             parseline() >> levx >> levy >> levz >> comx >> comy;
 
-            turn = tmpturn;
+			calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(this, comx, comy);
@@ -424,7 +424,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
 
          fin >> levx >> levy >> levz >> comx >> comy;
 
-         turn = tmpturn;
+		 calendar::turn = tmpturn;
          nextspawn = tmpspawn;
 
          cur_om = &overmap_buffer.get(this, comx, comy);
@@ -1088,7 +1088,7 @@ bool mapbuffer::unserialize_legacy(std::ifstream & fin ) {
           }
           sm->turn_last_touched = turn;
           sm->temperature = temperature;
-          int turndif = (master_game ? int(master_game->turn) - turn : 0);
+		  int turndif = (master_game ? int(calendar::turn) - turn : 0);
           if (turndif < 0)
            turndif = 0;
         // Load terrain

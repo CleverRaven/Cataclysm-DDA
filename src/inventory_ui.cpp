@@ -9,6 +9,7 @@
 #include <map>
 #include <sstream>
 #include <algorithm>
+#include "messages.h"
 
 std::vector<std::string> CATEGORIES;
 
@@ -498,7 +499,7 @@ std::vector<item> game::multidrop()
          if ( ch == u.weapon.invlet &&
               std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), u.weapon.type->id) != unreal_itype_ids.end()){
           if (!warned_about_bionic)
-           add_msg(_("You cannot drop your %s."), u.weapon.tname(this).c_str());
+           Messages::player_messages.add_msg(_("You cannot drop your %s."), u.weapon.tname(this).c_str());
           warned_about_bionic = true;
          } else {
           weapon_and_armor.push_back(ch);

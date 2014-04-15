@@ -2,6 +2,7 @@
 #include "mutation.h"
 #include "game.h"
 #include "translations.h"
+#include "messages.h"
 
 // mutation_effect handles things like destruction of armor, etc.
 void mutation_effect(game *g, player &p, std::string mut);
@@ -252,7 +253,7 @@ void player::mutate_towards(game *g, std::string mut)
 
     toggle_mutation(mut);
     if (replacing != "") {
-        g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
+        Messages::player_messages.add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         g->u.add_memorial_log(_("'%s' mutation turned into '%s'"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(g, *this, replacing);
@@ -260,13 +261,13 @@ void player::mutate_towards(game *g, std::string mut)
 
     } else if (canceltrait != "") {
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
-        g->add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
+        Messages::player_messages.add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         g->u.add_memorial_log(_("'%s' trait turned into '%s'"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         toggle_mutation(canceltrait);
         mutation_loss_effect(g, *this, canceltrait);
         mutation_effect(g, *this, mut);
     } else {
-        g->add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
+        Messages::player_messages.add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
         g->u.add_memorial_log(_("Gained the mutation '%s'."), traits[mut].name.c_str());
         mutation_effect(g, *this, mut);
     }
@@ -330,12 +331,12 @@ void player::remove_mutation(game *g, std::string mut)
     toggle_mutation(mut);
 
     if (replacing != "") {
-        g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(), traits[replacing].name.c_str());
+        Messages::player_messages.add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(), traits[replacing].name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(g, *this, mut);
         mutation_effect(g, *this, replacing);
     } else {
-        g->add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
+        Messages::player_messages.add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
         mutation_loss_effect(g, *this, mut);
     }
 
@@ -467,14 +468,14 @@ void mutation_effect(game *g, player &p, std::string mut)
             if ((dynamic_cast<it_armor*>(p.worn[i].type))->covers & mfb(bps[j])) {
                 if (destroy) {
                     if (is_u) {
-                        g->add_msg(_("Your %s is destroyed!"), p.worn[i].tname().c_str());
+                        Messages::player_messages.add_msg(_("Your %s is destroyed!"), p.worn[i].tname().c_str());
                     }
 
                     p.worn.erase(p.worn.begin() + i);
 
                 } else {
                     if (is_u) {
-                        g->add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
+                        Messages::player_messages.add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
                     }
 
                     char tmp_invlet = p.worn[i].invlet;

@@ -4,6 +4,8 @@
 #include "options.h"
 #include "translations.h"
 
+calendar calendar::turn;
+
 calendar::calendar()
 {
  second = 0;

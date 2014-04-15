@@ -9,12 +9,12 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
     ts.tv_nsec = EXPLOSION_SPEED;
     const int ypos = POSY + (y - (u.posy + u.view_offset_y));
     const int xpos = POSX + (x - (u.posx + u.view_offset_x));
-    for (int i = 1; i <= radius; i++) {
+    for (unsigned int i = 1; i <= radius; i++) {
         mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
         mvwputch(w_terrain, ypos - i, xpos + i, col,'\\');
         mvwputch(w_terrain, ypos + i, xpos - i, col,'\\');
         mvwputch(w_terrain, ypos + i, xpos + i, col, '/');
-        for (int j = 1 - i; j < 0 + i; j++) {
+        for (unsigned int j = 1 - i; j < 0 + i; j++) {
             mvwputch(w_terrain, ypos - i, xpos + j, col,'-');
             mvwputch(w_terrain, ypos + i, xpos + j, col,'-');
             mvwputch(w_terrain, ypos + j, xpos - i, col,'|');

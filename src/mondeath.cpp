@@ -7,10 +7,11 @@
 #include "monstergenerator.h"
 #include <math.h>  // rounding
 #include <sstream>
+#include "messages.h"
 
 void mdeath::normal(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s dies!"), z->name().c_str());
+        Messages::player_messages.add_msg(_("The %s dies!"), z->name().c_str());
     }
     if(z->type->difficulty >= 30) {
         g->u.add_memorial_log(_("Killed a %s."), z->name().c_str());
@@ -56,7 +57,7 @@ void mdeath::normal(monster *z) {
 
 void mdeath::acid(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
+        Messages::player_messages.add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
     }
     g->m.add_field(g, z->posx(), z->posy(), fd_acid, 3);
 }
@@ -148,9 +149,9 @@ void mdeath::vine_cut(monster *z) {
 
 void mdeath::triffid_heart(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The surrounding roots begin to crack and crumble."));
+        Messages::player_messages.add_msg(_("The surrounding roots begin to crack and crumble."));
     }
-    g->add_event(EVENT_ROOTS_DIE, int(g->turn) + 100);
+    g->add_event(EVENT_ROOTS_DIE, int(calendar::turn) + 100);
 }
 
 void mdeath::fungus(monster *z) {
@@ -171,7 +172,7 @@ void mdeath::fungus(monster *z) {
                     // Spores hit a monster
                     fungal = g->zombie(mondex).type->in_species("FUNGUS");
                     if (g->u_see(sporex, sporey) && !fungal) {
-                        g->add_msg(_("The %s is covered in tiny spores!"),
+                        Messages::player_messages.add_msg(_("The %s is covered in tiny spores!"),
                                    g->zombie(mondex).name().c_str());
                     }
                     if (!g->zombie(mondex).make_fungus()) {
@@ -199,7 +200,7 @@ void mdeath::fungus(monster *z) {
                         hit = true;
                     }
                     if (hit) {
-                        g->add_msg(_("You're covered in tiny spores!"));
+                        Messages::player_messages.add_msg(_("You're covered in tiny spores!"));
                     }
                 } else if (one_in(2) && g->num_zombies() <= 1000) {
                     // Spawn a spore
@@ -213,13 +214,13 @@ void mdeath::fungus(monster *z) {
 
 void mdeath::disintegrate(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s disintegrates!"), z->name().c_str());
+        Messages::player_messages.add_msg(_("The %s disintegrates!"), z->name().c_str());
     }
 }
 
 void mdeath::worm(monster *z) {
     if (g->u_see(z))
-        g->add_msg(_("The %s splits in two!"), z->name().c_str());
+        Messages::player_messages.add_msg(_("The %s splits in two!"), z->name().c_str());
 
     std::vector <point> wormspots;
     int wormx, wormy;
@@ -247,7 +248,7 @@ void mdeath::worm(monster *z) {
 }
 
 void mdeath::disappear(monster *z) {
-    g->add_msg(_("The %s disappears."), z->name().c_str());
+    Messages::player_messages.add_msg(_("The %s disappears."), z->name().c_str());
 }
 
 void mdeath::guilt(monster *z) {
@@ -280,7 +281,7 @@ void mdeath::guilt(monster *z) {
     if (kill_count >= maxKills) {
         // player no longer cares
         if (kill_count == maxKills) {
-            g->add_msg(_("After killing so many bloody %ss you no longer care "
+            Messages::player_messages.add_msg(_("After killing so many bloody %ss you no longer care "
                           "about their deaths anymore."), z->name().c_str());
         }
         return;
@@ -294,7 +295,7 @@ void mdeath::guilt(monster *z) {
         }
     }
 
-    g->add_msg(_(msg.c_str()), z->name().c_str());
+    Messages::player_messages.add_msg(_(msg.c_str()), z->name().c_str());
 
     int moraleMalus = -50 * (1.0 - ((float) kill_count / maxKills));
     int maxMalus = -250 * (1.0 - ((float) kill_count / maxKills));
@@ -308,11 +309,11 @@ void mdeath::guilt(monster *z) {
 }
 void mdeath::blobsplit(monster *z) {
     int speed = z->speed - rng(30, 50);
-    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, g->turn, rng(5,10));
+    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, calendar::turn, rng(5,10));
     if (speed <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
-            g->add_msg(_("The %s splatters apart."), z->name().c_str());
+            Messages::player_messages.add_msg(_("The %s splatters apart."), z->name().c_str());
             return;
         }
     }
@@ -321,7 +322,7 @@ void mdeath::blobsplit(monster *z) {
     // If we're tame, our kids are too
     blob.friendly = z->friendly;
     if (g->u_see(z)) {
-        g->add_msg(_("The %s splits in two!"), z->name().c_str());
+        Messages::player_messages.add_msg(_("The %s splits in two!"), z->name().c_str());
     }
     blob.hp = blob.speed;
     std::vector <point> valid;
@@ -348,7 +349,7 @@ void mdeath::blobsplit(monster *z) {
 
 void mdeath::melt(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s melts away."), z->name().c_str());
+        Messages::player_messages.add_msg(_("The %s melts away."), z->name().c_str());
     }
 }
 
@@ -364,8 +365,8 @@ void mdeath::amigara(monster *z) {
     }
     if (count <= 1) { // We're the last!
         g->u.rem_disease("amigara");
-        g->add_msg(_("Your obsession with the fault fades away..."));
-        item art(new_artifact(itypes), g->turn);
+        Messages::player_messages.add_msg(_("Your obsession with the fault fades away..."));
+        item art(new_artifact(itypes), calendar::turn);
         g->m.add_item_or_charges(z->posx(), z->posy(), art);
     }
     normal( z);
@@ -396,7 +397,7 @@ void mdeath::explode(monster *z) {
 
 void mdeath::broken(monster *z) {
   if (z->type->id == "mon_manhack") {
-    g->m.spawn_item(z->posx(), z->posy(), "broken_manhack", 1, 0, g->turn);
+    g->m.spawn_item(z->posx(), z->posy(), "broken_manhack", 1, 0, calendar::turn);
   }
   else {
     debugmsg("Tried to create a broken %s but it does not exist.", z->type->name.c_str());
@@ -406,7 +407,7 @@ void mdeath::broken(monster *z) {
 void mdeath::ratking(monster *z) {
     g->u.rem_disease("rat");
     if (g->u_see(z)) {
-        g->add_msg(_("Rats suddenly swarm into view."));
+        Messages::player_messages.add_msg(_("Rats suddenly swarm into view."));
     }
 
     std::vector <point> ratspots;
@@ -466,65 +467,65 @@ void mdeath::zombie(monster *z) {
     else if (zid == "mon_zombie_hulk"){ dropset = 4;}
     switch(dropset) {
         case 0: // mon_zombie_cop
-            g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("cop_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("cop_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_torso", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_pants", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
         break;
 
         case 1: // mon_zombie_swimmer
             if (one_in(10)) {
               //Wetsuit zombie
-              g->m.put_items_from("swimmer_wetsuit", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+              g->m.put_items_from("swimmer_wetsuit", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1, 4));
             } else {
               if (!one_in(4)) {
-                  g->m.put_items_from("swimmer_head", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                  g->m.put_items_from("swimmer_head", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1, 4));
               }
               if (one_in(3)) {
-                  g->m.put_items_from("swimmer_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                  g->m.put_items_from("swimmer_torso", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1, 4));
               }
-              g->m.put_items_from("swimmer_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+              g->m.put_items_from("swimmer_pants", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1, 4));
               if (one_in(4)) {
-                  g->m.put_items_from("swimmer_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1, 4));
+                  g->m.put_items_from("swimmer_shoes", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1, 4));
               }
             }
         break;
 
         case 2: // mon_zombie_scientist
-            g->m.put_items_from("lab_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("lab_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("lab_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("lab_shoes", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
+            g->m.put_items_from("lab_torso", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
+            g->m.put_items_from("lab_pants", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
         break;
 
         case 3: // mon_zombie_soldier
-            g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("mil_armor_torso", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("mil_armor_pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_shoes", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
+            g->m.put_items_from("mil_armor_torso", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
+            g->m.put_items_from("mil_armor_pants", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
             if (one_in(3))
             {
-                g->m.put_items_from("mil_armor_helmet", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("mil_armor_helmet", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
             }
         break;
 
         case 4: // mon_zombie_hulk
-            g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, g->turn, rng(5,10));
-            g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.spawn_item(z->posx(), z->posy(), "rag", 1, 0, calendar::turn, rng(5,10));
+            g->m.put_items_from("pants", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
             break;
 
         default:
-            g->m.put_items_from("pants", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from("shirts", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("pants", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
+            g->m.put_items_from("shirts", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
             if (one_in(5)) {
-                g->m.put_items_from("jackets", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("jackets", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
             }
             if (one_in(15)) {
-                g->m.put_items_from("bags", 1, z->posx(), z->posy(), g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("bags", 1, z->posx(), z->posy(), calendar::turn, 0, 0, rng(1,4));
             }
         break;
     }
 }
 
 void mdeath::gameover(monster *z) {
-    g->add_msg(_("The %s was destroyed!  GAME OVER!"), z->name().c_str());
+    Messages::player_messages.add_msg(_("The %s was destroyed!  GAME OVER!"), z->name().c_str());
     g->u.hp_cur[hp_torso] = 0;
 }
 
@@ -571,7 +572,7 @@ void make_gibs(monster* z, int amount) {
 void make_mon_corpse(monster* z, int damageLvl) {
     const int MAX_DAM = 4;
     item corpse;
-    corpse.make_corpse(itypes["corpse"], z->type, g->turn);
+    corpse.make_corpse(itypes["corpse"], z->type, calendar::turn);
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

@@ -81,7 +81,7 @@ void game::serialize(std::ofstream & fout) {
 
         json.start_object();
         // basic game state information.
-        json.member( "turn", (int)turn );
+		json.member("turn", (int)calendar::turn);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)run_mode );
         json.member( "mostseen", mostseen );
@@ -216,7 +216,7 @@ void game::unserialize(std::ifstream & fin)
         data.read_into("om_x",comx);
         data.read_into("om_y",comy);
 
-        turn = tmpturn;
+		calendar::turn = tmpturn;
         nextspawn = tmpspawn;
 
         cur_om = &overmap_buffer.get(this, comx, comy);
@@ -311,10 +311,10 @@ void game::load_weather(std::ifstream & fin) {
            debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
         }
      }
-    std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(turn));
+	 std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(calendar::turn));
     if ( w_it != weather_log.end() ) {
         weather_segment cur = w_it->second;
-        if ( w_it->first > int(turn) ) {
+		if (w_it->first > int(calendar::turn)) {
             --w_it;
             if ( w_it != weather_log.end() ) {
                 cur = w_it->second;
