@@ -1369,8 +1369,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         }
     }
 
-    int location_offset = 3 + utf8_width( _("Starting location:") );
-
     do {
         if (redraw) {
             //Draw the line between editable and non-editable stuff.
