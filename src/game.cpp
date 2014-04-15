@@ -12515,9 +12515,12 @@ bool game::plmove(int dx, int dy)
             add_msg(_("There's something here, but you can't see what it is."));
         } else if (!m.i_at(x, y).empty()) {
             std::vector<std::string> names;
+            std::vector<std::string> raw_names_singular, raw_names_plural;
             std::vector<size_t> counts;
+            raw_names_singular.push_back(m.i_at(x, y)[0].type->name);
+            raw_names_plural.push_back(m.i_at(x, y)[0].type->name_plural);
             if (m.i_at(x, y)[0].count_by_charges()) {
-                names.push_back(m.i_at(x, y)[0].tname(m.i_at(x, y)[0].charges));
+                names.push_back(m.i_at(x, y)[0].tname());
                 counts.push_back(m.i_at(x, y)[0].charges);
             } else {
                 names.push_back(m.i_at(x, y)[0].display_name());
@@ -12541,6 +12544,8 @@ bool game::plmove(int dx, int dy)
                     }
                 }
                 if (!got_it) {
+                    raw_names_singular.push_back(tmpitem.type->name);
+                    raw_names_plural.push_back(tmpitem.type->name_plural);
                     if (tmpitem.count_by_charges()) {
                         names.push_back(next_tname);
                         counts.push_back(tmpitem.charges);
@@ -12557,7 +12562,10 @@ bool game::plmove(int dx, int dy)
                 std::string fmt;
                 //~ number of items: "<number> <item>"
                 fmt = ngettext("%1$d %2$s", "%1$d %2$s", counts[i]);
-                names[i] = string_format(fmt, counts[i], m.i_at(x, y)[i].tname(counts[i]).c_str());
+                names[i] = string_format(fmt, counts[i],
+                                         ngettext(raw_names_singular[i].c_str(),
+                                                  raw_names_plural[i].c_str(),
+                                                  counts[i]));
             }
             if (names.size() == 1) {
                 add_msg(_("You see here %s."), names[0].c_str());
