@@ -3980,7 +3980,7 @@ void game::debug()
                    _("Change weather"),         // 18
                    _("Remove all monsters"),    // 19
                    _("Display hordes"), // 20
-                   _("item spawn debug"), // 21
+                   _("Test Item Group"), // 21
                    #ifdef LUA
                        _("Lua Command"), // 22
                    #endif
