@@ -709,7 +709,7 @@ void input_context::register_cardinal()
     register_leftright();
 }
 
-void input_context::get_direction(int &dx, int &dy, const std::string &action)
+bool input_context::get_direction(int &dx, int &dy, const std::string &action)
 {
     if(action == "UP") {
         dx = 0;
@@ -738,7 +738,9 @@ void input_context::get_direction(int &dx, int &dy, const std::string &action)
     } else {
         dx = -2;
         dy = -2;
+        return false;
     }
+    return true;
 }
 
 void input_context::display_help()

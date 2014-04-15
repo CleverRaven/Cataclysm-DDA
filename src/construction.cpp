@@ -666,11 +666,10 @@ bool construct::check_down_OK(point)
 
 void construct::done_tree(point p)
 {
-    mvprintz(0, 0, c_red, _("Press a direction for the tree to fall in:"));
     int x = 0, y = 0;
-    do {
-        get_direction(x, y, input());
-    } while (x == -2 || y == -2);
+    while (!choose_direction(_("Press a direction for the tree to fall in:"), x, y)) {
+        // try again
+    }
     x = p.x + x * 3 + rng(-1, 1);
     y = p.y + y * 3 + rng(-1, 1);
     std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));

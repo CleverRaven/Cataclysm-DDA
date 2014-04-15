@@ -1163,7 +1163,7 @@ action_id handle_action_menu()
 #undef REGISTER_CATEGORY
 }
 
-bool choose_adjacent(std::string message, int &x, int &y)
+bool choose_direction(const std::string &message, int &x, int &y)
 {
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
@@ -1178,6 +1178,14 @@ bool choose_adjacent(std::string message, int &x, int &y)
     }
     if (x == -2 || y == -2) {
         g->add_msg(_("Invalid direction."));
+        return false;
+    }
+    return true;
+}
+
+bool choose_adjacent(std::string message, int &x, int &y)
+{
+    if (!choose_direction(message, x, y)) {
         return false;
     }
     x += g->u.posx;
