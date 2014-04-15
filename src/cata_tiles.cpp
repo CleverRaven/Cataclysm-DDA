@@ -960,6 +960,10 @@ bool cata_tiles::draw_field_or_item(int x, int y)
         case fd_acid:
         case fd_sap:
         case fd_sludge:
+        case fd_cigsmoke:
+        case fd_weedsmoke:
+        case fd_cracksmoke:
+        case fd_methsmoke:
             //need to draw fields and items both
             is_draw_field = true;
             do_item = true;

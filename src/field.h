@@ -69,6 +69,10 @@ enum field_id {
  fd_blood_invertebrate,
  fd_gibs_insect,
  fd_gibs_invertebrate,
+ fd_cigsmoke,
+ fd_weedsmoke,
+ fd_cracksmoke,
+ fd_methsmoke,
  num_fields
 };
 
