@@ -199,6 +199,10 @@ void uimenu::filterlist()
         } else {
             selected = fentries [ 0 ];
         }
+    } else if (fselected < fentries.size()) {
+        selected = fentries[fselected];
+    } else {
+        fselected = selected = -1;
     }
     // scroll to top of screen if all remaining entries fit the screen.
     if (fentries.size() <= vmax) {
