@@ -1528,7 +1528,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             return -1;
         } else if (action == "SAVE_TEMPLATE") {
             if (points != 0) {
-                popup(_("You cannot save a template with nonzero unused points!"));
+                if(query_yn(_("You are attempting to save a template with unused points,"
+                               " are you sure you want to proceed?"))) {
+                    save_template(u);
+                }
             } else {
                 save_template(u);
             }
