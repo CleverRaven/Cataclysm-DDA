@@ -13305,6 +13305,20 @@ void game::update_stair_monsters() {
                 si = i;
         }
 
+        // Find up to 4 stairs for distance stairdist[si] +1
+        int nearest[4];
+        int found = 0;
+        nearest[found++]=si;
+        for (size_t i = 0; i < stairdist.size(); i++) {
+            if ((i != si) && (stairdist[i] <= stairdist[si] + 1)) {
+                nearest[found++]=i;
+                if (found==4)
+                    break;
+            }
+        }
+        // Randomize the stair choice
+        si = nearest[one_in(found)];
+
         // Attempt to spawn zombies.
         for (size_t i = 0; i < coming_to_stairs.size(); i++) {
             int mposx = stairx[si], mposy = stairy[si];
