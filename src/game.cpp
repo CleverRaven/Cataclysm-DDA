@@ -60,7 +60,9 @@
 #endif
 
 #ifndef _MSC_VER
+	#ifndef __MINGW32__
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
+	#endif
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
