@@ -1,11 +1,11 @@
 [
-	{
-	"type":"monstergroup",
+  {
+    "type":"monstergroup",
     "name" : "GROUP_ARCADE",
     "default" : "mon_null",
     "monsters" : [
       { "monster" : "mon_zombie_child", "freq" : 600, "cost_multiplier" : 1, "pack_size": [5,12] }
-	  ]
+                 ]
 	  },{
         "type" : "overmap_terrain",
         "id" : "s_arcade",
@@ -19,7 +19,7 @@
         "mapgen": [
             { "weight": 250,
             "method": "json",
-			"object": {
+            "object": {
                 "rows":[
             ".______________________.",
             ".______________________.",
@@ -69,12 +69,12 @@
             ":": "t_floor",
             "T": "t_floor",
             "l": "t_floor",
-			"x": "t_floor",
+            "x": "t_floor",
             "G": "t_floor",
-			"f": "t_floor",
-			"S": "t_floor",
-			"&": "t_door_metal_locked",
-			"s": "t_sidewalk"
+            "f": "t_floor",
+            "S": "t_floor",
+            "&": "t_door_metal_locked",
+            "s": "t_sidewalk"
             },
             "furniture": {
             ".": "f_null",
@@ -91,7 +91,7 @@
             "x": "f_pinball_machine",
             "c": "f_chair",
             "#": "f_counter",
-			"&": "f_counter",
+            "&": "f_counter",
             "r": "f_rack",
             "^": "f_indoor_plant",
             "t": "f_table",
@@ -101,17 +101,16 @@
             "T": "f_toilet",
             "l": "f_vending_c",
             "S": "f_sink",
-			"T": "f_locker"
+            "T": "f_locker"
             },
-		"place_groups": [
+            "place_groups": [
                 { "monster": "GROUP_ARCADE", "x": [ 3, 17 ], "y": [ 16, 17 ], "chance": 100},
-				{ "item": "vending_drink", "chance": 75, "x": 19, "y": 8 },
-				{ "item": "vending_food", "chance": 75, "x": 20, "y": 8 },
-				{ "item": "arcade_prizes", "chance": 95, "x": 21, "y": [ 14,18 ] }
-				
-		] 
-		}
-		}
-		]
-		}
+                { "item": "vending_drink", "chance": 75, "x": 19, "y": 8 },
+                { "item": "vending_food", "chance": 75, "x": 20, "y": 8 },
+                { "item": "arcade_prizes", "chance": 95, "x": 21, "y": [ 14,18 ] }
+]
+}
+}
+]
+}
 		]
