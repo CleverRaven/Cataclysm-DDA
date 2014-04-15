@@ -1346,7 +1346,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     bool redraw = true;
 
     input_context ctxt("NEW_CHAR_DESCRIPTION");
-    ctxt.register_cardinal();
     ctxt.register_action("SAVE_TEMPLATE");
     ctxt.register_action("PICK_RANDOM_NAME");
     ctxt.register_action("CHANGE_GENDER");
