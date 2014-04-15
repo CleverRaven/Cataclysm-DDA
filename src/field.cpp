@@ -90,7 +90,6 @@ void game::init_fields()
             {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true},  300,
             {0,0,0}
         },
-
         {
             {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8', 8,
             {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900,
@@ -191,6 +190,27 @@ void game::init_fields()
         {
             {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
             {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '%', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  350,
+            {0,0,0}
+        },
+        {
+            {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '%', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  325,
+            {0,0,0}
+        },
+
+        {
+            {_("swirl of crack smoke"), _("crack smoke"), _("thick crack smoke")}, '%', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  225,
+            {0,0,0}
+        },
+        {
+            {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '%', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  275,
             {0,0,0}
         }
     };
@@ -752,6 +772,55 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                         spread_gas( this, cur, x, y, curtype, 50, 30 );
                         break;
 
+                    case fd_cigsmoke:
+                        spread_gas( this, cur, x, y, curtype, 250, 65 );
+                        break;
+
+                    case fd_weedsmoke: {
+                        spread_gas( this, cur, x, y, curtype, 200, 60 );
+
+                        if(one_in(20)) {
+                            int npcdex = g->npc_at(x, y);
+                            if (npcdex != -1) {
+                                npc *p = g->active_npc[npcdex];
+                                if(p->is_friend()) {
+                                    p->say(one_in(10) ? _("Whew... smells like skunk!") : _("Man, that smells like some good shit!"));
+                                }
+                            }
+                        }
+
+                    }
+                        break;
+
+                    case fd_methsmoke: {
+                        spread_gas( this, cur, x, y, curtype, 175, 70 );
+
+                        if(one_in(20)) {
+                            int npcdex = g->npc_at(x, y);
+                            if (npcdex != -1) {
+                                npc *p = g->active_npc[npcdex];
+                                if(p->is_friend()) {
+                                    p->say(_("I don't know... should you really be smoking that stuff?"));
+                                }
+                            }
+                        }
+                    }
+                        break;
+
+                    case fd_cracksmoke: {
+                        spread_gas( this, cur, x, y, curtype, 175, 80 );
+
+                        if(one_in(20)) {
+                            int npcdex = g->npc_at(x, y);
+                            if (npcdex != -1) {
+                                npc *p = g->active_npc[npcdex];
+                                if(p->is_friend()) {
+                                    p->say(one_in(2) ? _("Ew, smells like burning rubber!") : _("Ugh, that smells rancid!"));
+                                }
+                            }
+                        }
+                    }
+                        break;
 
                     case fd_nuke_gas:
                         radiation(x, y) += rng(0, cur->getFieldDensity());
@@ -1051,6 +1120,10 @@ void map::step_in_field(int x, int y)
         case fd_null:
         case fd_blood: // It doesn't actually do anything //necessary to add other types of blood?
         case fd_bile:  // Ditto
+        case fd_cigsmoke:
+        case fd_weedsmoke:
+        case fd_methsmoke:
+        case fd_cracksmoke:
             //break instead of return in the event of post-processing in the future;
             // also we're in a loop now!
             break;
