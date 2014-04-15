@@ -3161,3 +3161,133 @@ void item::detonate(point p) const
     }
     g->explosion(p.x, p.y, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
+
+//return value indicates whether adding ammo was successful
+//isAutoPickup is used to determine text output behavior
+bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
+{
+    std::vector<item*> quivers;
+    for(std::vector<item>::iterator it = u->worn.begin(); it != u->worn.end(); it++) {
+        item& worn = *it;
+
+        //item is valid quiver to store items in if it satisfies these conditions:
+        // a) is a quiver  b) contents are ammo w/ charges  c) quiver isn't full
+        if(worn.type->use == &iuse::quiver) {
+            int maxCharges = max_charges_from_flag("QUIVER", &worn);
+            if (worn.contents.empty() || (worn.contents[0].is_ammo() && worn.contents[0].charges > 0 &&
+                                            worn.contents[0].charges < maxCharges)) {
+                quivers.push_back(&worn);
+            }
+        }
+    }
+
+    // check if we have eligible quivers
+    if(!quivers.empty()) {
+        int choice = -1;
+        //only one quiver found, choose it
+        if(quivers.size() == 1) {
+            choice = 0;
+        } else {
+            std::vector<std::string> choices;
+            for(std::vector<item*>::iterator it = quivers.begin(); it != quivers.end(); it++) {
+                item *i = *it;
+                std::ostringstream ss;
+                ss << i->name;
+
+                choices.push_back(ss.str());
+            }
+            choice = (uimenu(false, _("Add to which quiver?"), choices)) - 1;
+        }
+
+        if(choice != -1) {
+            item* worn = quivers[choice];
+            int movesPerArrow = 10;
+
+            //determine max arrows/bolts chosen quiver can hold
+            int maxArrows = 0;
+            maxArrows = max_charges_from_flag("QUIVER", worn);
+
+            if(maxArrows == 0) {
+                debugmsg("Tried storing arrows in quiver without a QUIVER_n tag (item::add_ammo_to_quiver)");
+                return false;
+            }
+
+            int arrowsStored = 0;
+
+            // not empty so adding more ammo
+            if(!(worn->contents.empty()) && worn->contents[0].charges > 0) {
+                if(worn->contents[0].type->id != type->id) {
+                    if(!isAutoPickup) {
+                        g->add_msg_if_player(u, _("Those aren't the same arrows!"));
+                    }
+                    return false;
+                }
+                if(worn->contents[0].charges >= maxArrows) {
+                    if(!isAutoPickup) {
+                        g->add_msg_if_player(u, _("That %s is already full!"), worn->name.c_str());
+                    }
+                    return false;
+                }
+                arrowsStored = worn->contents[0].charges;
+                worn->contents[0].charges += charges;
+                //u->i_rem(ammo);
+
+            // empty, putting in new arrows
+            } else {
+                worn->put_in(*this);
+            }
+
+            // handle overflow
+            int toomany = 0;
+            if(worn->contents[0].charges > maxArrows) {
+                toomany = worn->contents[0].charges - maxArrows;
+                worn->contents[0].charges -= toomany;
+                item clone = worn->contents[0].clone();
+                clone.charges = toomany;
+                u->i_add(clone);
+            }
+
+            arrowsStored = worn->contents[0].charges - arrowsStored;
+            g->add_msg_if_player(u, ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
+                                 arrowsStored, worn->contents[0].name.c_str(), worn->name.c_str());
+            u->moves -= movesPerArrow * arrowsStored;
+
+            if(isAutoPickup && toomany > 0) {
+                g->add_msg_if_player(u, ngettext("You pick up: %d %s", "You pick up: %d %ss", toomany),
+                                 toomany, worn->contents[0].name.c_str());
+                u->moves -= movesPerArrow * arrowsStored;
+            }
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//used to implement charges for items that aren't tools (e.g. quivers)
+//flagName arg is the flag's name before the underscore and integer on the end
+//e.g. for "QUIVER_20" flag, flagName = "QUIVER"
+int item::max_charges_from_flag(std::string flagName, item* it)
+{
+    int maxCharges;
+
+    //loop through item's flags, looking for flag that matches flagName
+    for(std::set<std::string>::iterator iter = it->type->item_tags.begin(); iter != it->type->item_tags.end(); iter++) {
+        std::string flag = *iter;
+        //if(flag.substr(0, 6) == "QUIVER") {
+        if(flag.substr(0, flagName.size()) == flagName ) {
+            //get the substring of the flag starting w/ digit after underscore
+            std::stringstream ss(flag.substr(flagName.size() + 1, flag.size()));
+
+            //attempt to store that stringstream into maxCharges and error if there's a problem
+            if(!(ss >> maxCharges)) {
+                debugmsg("Error parsing %s_n tag (item::max_charges_from_flag)"), flagName.c_str();
+                maxCharges = -1;
+            }
+            break;
+        }
+    }
+
+    return maxCharges;
+}

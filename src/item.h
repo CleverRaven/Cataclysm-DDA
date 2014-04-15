@@ -252,6 +252,9 @@ public:
  t_item_vector components;
 
  item clone(bool rand = true);
+
+ bool add_ammo_to_quiver(player *u, bool isAutoPickup);
+ int max_charges_from_flag(std::string flagName, item* it);
 private:
  int sort_rank() const;
  static itype * nullitem_m;

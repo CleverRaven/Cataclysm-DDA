@@ -9841,6 +9841,7 @@ and you can't unwield your %s."),
         } else if (getitem[i]) {
             bool picked_up = false;
             item temp = here[i].clone();
+            int movesTaken = 100;
 
             iter = 0;
             while (iter < inv_chars.size() &&
@@ -9906,7 +9907,24 @@ and you can't unwield your %s."),
                         here[i].is_weap() || here[i].is_gun())) {
                 u.weapon = here[i];
                 picked_up = true;
-            } else {
+            }
+            else if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
+                //add ammo to quiver. Asks permission if quiver is empty
+                bool success = here[i].add_ammo_to_quiver(&u, true);
+
+                if(success) {
+                    movesTaken = 0; //moves already decremented in item::add_ammo_to_quiver()
+                }
+                else {
+                    //add to inventory instead
+                    u.i_add(here[i]);
+
+                    mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
+                }
+
+                picked_up = true;
+            }
+            else {
                 u.i_add(here[i]);
                 mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                 picked_up = true;
@@ -9919,7 +9937,8 @@ and you can't unwield your %s."),
                     m.i_rem(posx, posy, curmit);
                 }
                 curmit--;
-                u.moves -= 100;
+                //u.moves -= 100;
+                u.moves -= movesTaken;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !from_veh;
 
