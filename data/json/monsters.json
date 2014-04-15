@@ -296,6 +296,11 @@
     "armor_bash":2,
     "armor_cut":0,
     "item_chance":-50,
+    "death_drops": {
+        "groups": [
+            [ "cow", 75 ]
+        ]
+    },
     "luminance":0,
     "hp":100,
     "special_freq":0,
@@ -1328,6 +1333,11 @@
     "armor_bash":4,
     "armor_cut":6,
     "item_chance":-50,
+    "death_drops": {
+        "groups": [
+            [ "bees", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":30,
     "special_freq":0,
@@ -1357,6 +1367,11 @@
     "armor_bash":4,
     "armor_cut":8,
     "item_chance":-40,
+    "death_drops": {
+        "groups": [
+            [ "wasps", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":40,
     "special_freq":0,
@@ -1498,6 +1513,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":40,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":80,
     "special_freq":5,
@@ -1527,6 +1543,7 @@
     "armor_bash":5,
     "armor_cut":3,
     "item_chance":40,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":95,
     "special_freq":5,
@@ -1556,6 +1573,7 @@
     "armor_bash":2,
     "armor_cut":1,
     "item_chance":40,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":100,
     "special_freq":5,
@@ -1585,6 +1603,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":40,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":60,
     "special_freq":5,
@@ -1614,6 +1633,7 @@
     "armor_bash":5,
     "armor_cut":4,
     "item_chance":40,
+    "death_drops": "mon_zombie_hazmat_death_drops",
     "luminance":0,
     "hp":80,
     "special_freq":5,
@@ -1643,6 +1663,7 @@
     "armor_bash":6,
     "armor_cut":6,
     "item_chance":40,
+    "death_drops": "mon_zombie_fireman_death_drops",
     "luminance":0,
     "hp":80,
     "special_freq":0,
@@ -1672,6 +1693,7 @@
     "armor_bash":7,
     "armor_cut":7,
     "item_chance":40,
+    "death_drops": "mon_zombie_survivor_death_drops",
     "luminance":0,
     "hp":120,
     "special_freq":20,
@@ -1700,6 +1722,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":40,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":55,
     "special_freq":2,
@@ -1729,6 +1752,7 @@
     "armor_bash":6,
     "armor_cut":6,
     "item_chance":40,
+    "death_drops": "mon_zombie_cop_death_drops",
     "luminance":0,
     "hp":80,
     "special_freq":5,
@@ -1758,6 +1782,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":40,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":60,
     "special_freq":10,
@@ -1786,6 +1811,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":10,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":70,
     "special_freq":20,
@@ -1814,6 +1840,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":40,
+    "death_drops": "default_zombie_death_drops",
     "luminance":1,
     "hp":85,
     "special_freq":25,
@@ -1872,6 +1899,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":0,
+    "death_drops": "mon_zombie_swimmer_death_drops",
     "luminance":0,
     "hp":70,
     "special_freq":5,
@@ -1956,6 +1984,11 @@
     "armor_bash":6,
     "armor_cut":6,
     "item_chance":-40,
+    "death_drops": {
+        "groups": [
+            [ "dog_cop", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":42,
     "special_freq":5,
@@ -2013,6 +2046,7 @@
     "armor_bash":4,
     "armor_cut":1,
     "item_chance":60,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":120,
     "special_freq":5,
@@ -2041,6 +2075,7 @@
     "armor_bash":12,
     "armor_cut":8,
     "item_chance":80,
+    "death_drops": "mon_zombie_hulk_death_drops",
     "luminance":0,
     "hp":480,
     "special_freq":0,
@@ -2069,6 +2104,7 @@
     "armor_bash":3,
     "armor_cut":0,
     "item_chance":20,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":60,
     "special_freq":200,
@@ -2097,6 +2133,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":30,
+    "death_drops": "default_zombie_items",
     "luminance":0,
     "hp":40,
     "special_freq":20,
@@ -2125,6 +2162,7 @@
     "armor_bash":2,
     "armor_cut":0,
     "item_chance":20,
+    "death_drops": "default_zombie_items",
     "luminance":0,
     "hp":30,
     "special_freq":200,
@@ -2153,6 +2191,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":30,
+    "death_drops": "default_zombie_items",
     "luminance":0,
     "hp":15,
     "special_freq":20,
@@ -2181,6 +2220,7 @@
     "armor_bash":0,
     "armor_cut":16,
     "item_chance":0,
+    "death_drops": "default_zombie_clothes",
     "luminance":0,
     "hp":30,
     "special_freq":5,
@@ -2209,6 +2249,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":50,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":100,
     "special_freq":4,
@@ -2238,6 +2279,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":50,
+    "death_drops": "mon_zombie_scientist_death_drops",
     "luminance":0,
     "hp":80,
     "special_freq":20,
@@ -2266,6 +2308,7 @@
     "armor_bash":8,
     "armor_cut":16,
     "item_chance":80,
+    "death_drops": "mon_zombie_soldier_death_drops",
     "luminance":0,
     "hp":100,
     "special_freq":5,
@@ -2295,6 +2338,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":40,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":95,
     "special_freq":0,
@@ -2323,6 +2367,7 @@
     "armor_bash":2,
     "armor_cut":2,
     "item_chance":60,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":180,
     "special_freq":3,
@@ -2352,6 +2397,14 @@
     "armor_bash":6,
     "armor_cut":8,
     "item_chance":10,
+    "death_drops": {
+        "subtype": "collection",
+        "//": "cloth as any other zombie (always), additional items from group hive (sometimes)",
+        "groups": [
+            [ "default_zombie_clothes", 100 ],
+            [ "hive", 80 ]
+        ]
+    },
     "luminance":0,
     "hp":70,
     "special_freq":0,
@@ -2380,6 +2433,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":50,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":90,
     "special_freq":5,
@@ -2408,6 +2462,14 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":20,
+    "death_drops": {
+        "subtype": "collection",
+        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
+        "groups": [
+            [ "default_zombie_clothes", 100 ],
+            [ "child_items", 65 ]
+        ]
+    },
     "luminance":0,
     "hp":40,
     "special_freq":0,
@@ -2521,6 +2583,11 @@
     "armor_bash":4,
     "armor_cut":6,
     "item_chance":-80,
+    "death_drops": {
+        "groups": [
+            [ "fungal_sting", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":60,
     "special_freq":10,
@@ -2633,6 +2700,11 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":-80,
+    "death_drops": {
+        "groups": [
+            [ "biollante", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":120,
     "special_freq":2,
@@ -2915,6 +2987,16 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":25,
+    "death_drops": {
+        "groups": [
+            [ "subway", 40 ],
+            [ "sewer", 20 ],
+            [ "trash", 5 ],
+            [ "bedroom", 1 ],
+            [ "dresser", 5 ],
+            [ "ammo", 18 ]
+        ]
+    },
     "luminance":0,
     "hp":60,
     "special_freq":0,
@@ -2943,6 +3025,16 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":40,
+    "death_drops": {
+        "groups": [
+            [ "subway", 40 ],
+            [ "sewer", 20 ],
+            [ "trash", 5 ],
+            [ "bedroom", 1 ],
+            [ "dresser", 5 ],
+            [ "ammo", 18 ]
+        ]
+    },
     "luminance":0,
     "hp":80,
     "special_freq":0,
@@ -4418,6 +4510,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":10,
+    "death_drops": "default_zombie_death_drops",
     "luminance":0,
     "hp":80,
     "special_freq":0,
@@ -4474,6 +4567,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":0,
+    "death_drops": "default_zombie_clothes",
     "luminance":0,
     "hp":40,
     "special_freq":0,
@@ -4502,6 +4596,7 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":0,
+    "death_drops": "default_zombie_clothes",
     "luminance":0,
     "hp":200,
     "special_freq":0,
@@ -4530,6 +4625,12 @@
     "armor_bash":8,
     "armor_cut":10,
     "item_chance":70,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "eyebot", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":20,
     "special_freq":30,
@@ -4558,6 +4659,12 @@
     "armor_bash":0,
     "armor_cut":6,
     "item_chance":10,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "manhack", 1 ]
+        ]
+    },
     "luminance":0.1,
     "hp":10,
     "special_freq":0,
@@ -4586,6 +4693,12 @@
     "armor_bash":12,
     "armor_cut":12,
     "item_chance":60,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "skitterbot", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":40,
     "special_freq":5,
@@ -4614,6 +4727,12 @@
     "armor_bash":14,
     "armor_cut":14,
     "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "secubot", 1]
+        ]
+    },
     "luminance":0,
     "hp":80,
     "special_freq":2,
@@ -4670,6 +4789,12 @@
     "armor_bash":12,
     "armor_cut":8,
     "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "copbot", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":80,
     "special_freq":3,
@@ -4698,6 +4823,12 @@
     "armor_bash":0,
     "armor_cut":12,
     "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "molebot", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":80,
     "special_freq":0,
@@ -4726,6 +4857,12 @@
     "armor_bash":12,
     "armor_cut":8,
     "item_chance":82,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "tripod", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":80,
     "special_freq":10,
@@ -4754,6 +4891,12 @@
     "armor_bash":18,
     "armor_cut":14,
     "item_chance":85,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "chickenbot", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":90,
     "special_freq":5,
@@ -4782,6 +4925,12 @@
     "armor_bash":22,
     "armor_cut":20,
     "item_chance":92,
+    "death_drops": {
+        "groups": [
+            [ "robots", 4 ],
+            [ "tankbot", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":240,
     "special_freq":4,
@@ -4810,6 +4959,12 @@
     "armor_bash":14,
     "armor_cut":16,
     "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "robots", 10 ],
+            [ "turret", 1 ]
+        ]
+    },
     "luminance":30,
     "hp":30,
     "special_freq":1,
@@ -4838,6 +4993,12 @@
     "armor_bash":14,
     "armor_cut":16,
     "item_chance":80,
+    "death_drops": {
+        "groups": [
+            [ "robots", 10 ],
+            [ "laserturret", 1 ]
+        ]
+    },
     "luminance":30,
     "hp":30,
     "special_freq":1,
@@ -5132,6 +5293,11 @@
     "armor_bash":0,
     "armor_cut":0,
     "item_chance":50,
+    "death_drops": {
+        "groups": [
+            [ "shia_stuff", 1 ]
+        ]
+    },
     "luminance":0,
     "hp":50,
     "special_freq":10,
@@ -5280,6 +5446,7 @@
     "armor_bash":10,
     "armor_cut":18,
     "item_chance":50,
+    "death_drops": "mon_zombie_bio_op_death_drops",
     "luminance":1,
     "hp":120,
     "special_freq":20,
