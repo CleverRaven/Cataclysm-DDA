@@ -1,5 +1,5 @@
 [
-	{
+  {
     "type" : "overmap_terrain",
     "id" : "museum",
     "name" : "museum",
@@ -11,7 +11,7 @@
     "mondensity" : 2,
     "sidewalk" : true,
     "mapgen": [ {
-		    "method": "json",
+            "method": "json",
             "weight": 500,
             "object": {
             "rows": [
@@ -63,16 +63,16 @@
             ":": "t_floor",
             "T": "t_floor",
             "l": "t_floor",
-			"=": "t_floor",
+            "=": "t_floor",
             "G": "t_floor",
-			"f": "t_floor",
-			"&": "t_door_metal_locked",
-			"B": "t_palisade",
-			"*": "t_door_locked",
-			"5": "t_wall_glass_v",
-			"8": "t_wall_glass_h",
-			"D": "t_floor",
-			"C": "t_floor"
+            "f": "t_floor",
+            "&": "t_door_metal_locked",
+            "B": "t_palisade",
+            "*": "t_door_locked",
+            "5": "t_wall_glass_v",
+            "8": "t_wall_glass_h",
+            "D": "t_floor",
+            "C": "t_floor"
             },
             "furniture": {
             ".": "f_null",
@@ -89,7 +89,7 @@
             "x": "f_null",
             "c": "f_chair",
             "#": "f_counter",
-			"&": "f_counter",
+            "&": "f_counter",
             "r": "f_rack",
             "^": "f_indoor_plant",
             "t": "f_table",
@@ -100,37 +100,37 @@
             "l": "f_vending_c",
             "S": "f_null",
             "G": "f_desk",
-			"f": "f_glass_fridge",
-			"5": "f_null",
-			"8": "f_null",
-			"D": "f_displaycase"
+            "f": "f_glass_fridge",
+            "5": "f_null",
+            "8": "f_null",
+            "D": "f_displaycase"
             },
-		"place_groups": [
+            "place_groups": [
                 { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 1,1 ] },
-				{ "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 3,3 ] },
-				{ "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 5,5 ] },
-				{ "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 7,7 ] },
-				{ "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 9,9 ] },
-				{ "item": "museum_primitive", "chance": 65, "x": [ 6,7 ], "y": [ 3,4 ] },
-				{ "item": "museum_primitive", "chance": 65, "x": [ 6,7 ], "y": [ 8,9 ] },
-				{ "item": "museum_melee", "chance": 50, "x": [ 11,12 ], "y": [ 3,4 ] },
-				{ "item": "museum_melee", "chance": 50, "x": [11,12 ], "y": [ 8,9 ] },
-				{ "item": "museum_guns", "chance": 45, "x": [ 16,16 ], "y": [ 3,4 ] },
-				{ "item": "museum_guns", "chance": 45, "x": [ 16,16 ], "y": [ 8,9 ] },
-				{ "item": "museum_misc", "chance": 85, "x": [ 16,16 ], "y": [ 13,14 ] },
-				{ "item": "museum_misc", "chance": 85, "x": [11,12 ], "y": [ 8,9 ] },
-				{ "item": "museum_primitive", "chance": 65, "x": [ 21,21 ], "y": [ 5,7 ] },
-				{ "item": "museum_melee", "chance": 50, "x": [ 21,21 ], "y": [ 10,12 ] },
-				{ "item": "museum_guns", "chance": 45, "x": [ 9,11 ], "y": [ 16,16 ] },
-				{ "item": "museum_armor", "chance": 40, "x": [ 4,7 ], "y": [ 19,20 ] },
-				{ "item": "museum_melee", "chance": 40, "x": [ 4,7 ], "y": [ 19,20 ] },
-				{ "item": "museum_guns", "chance": 40, "x": [ 4,7 ], "y": [ 19,20 ] },
-				{ "item": "museum_misc", "chance": 50, "x": [ 4,7 ], "y": [ 19,20 ] },
-				{ "item": "museum_security", "chance": 60, "x": [ 2,6 ], "y": [ 13,13 ] },
-				{ "item": "museum_security", "chance": 60, "x": [ 2,2 ], "y": [ 14,16 ] }
-		] 
-		}
-		}
-		]
-		}
-		]
+                { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 3,3 ] },
+                { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 5,5 ] },
+                { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 7,7 ] },
+                { "item": "museum_armor", "chance": 45, "x": [ 2,2 ], "y": [ 9,9 ] },
+                { "item": "museum_primitive", "chance": 65, "x": [ 6,7 ], "y": [ 3,4 ] },
+                { "item": "museum_primitive", "chance": 65, "x": [ 6,7 ], "y": [ 8,9 ] },
+                { "item": "museum_melee", "chance": 50, "x": [ 11,12 ], "y": [ 3,4 ] },
+                { "item": "museum_melee", "chance": 50, "x": [11,12 ], "y": [ 8,9 ] },
+                { "item": "museum_guns", "chance": 45, "x": [ 16,16 ], "y": [ 3,4 ] },
+                { "item": "museum_guns", "chance": 45, "x": [ 16,16 ], "y": [ 8,9 ] },
+                { "item": "museum_misc", "chance": 85, "x": [ 16,16 ], "y": [ 13,14 ] },
+                { "item": "museum_misc", "chance": 85, "x": [11,12 ], "y": [ 8,9 ] },
+                { "item": "museum_primitive", "chance": 65, "x": [ 21,21 ], "y": [ 5,7 ] },
+                { "item": "museum_melee", "chance": 50, "x": [ 21,21 ], "y": [ 10,12 ] },
+                { "item": "museum_guns", "chance": 45, "x": [ 9,11 ], "y": [ 16,16 ] },
+                { "item": "museum_armor", "chance": 40, "x": [ 4,7 ], "y": [ 19,20 ] },
+                { "item": "museum_melee", "chance": 40, "x": [ 4,7 ], "y": [ 19,20 ] },
+                { "item": "museum_guns", "chance": 40, "x": [ 4,7 ], "y": [ 19,20 ] },
+                { "item": "museum_misc", "chance": 50, "x": [ 4,7 ], "y": [ 19,20 ] },
+                { "item": "museum_security", "chance": 60, "x": [ 2,6 ], "y": [ 13,13 ] },
+                { "item": "museum_security", "chance": 60, "x": [ 2,2 ], "y": [ 14,16 ] }
+                            ] 
+}
+}
+]
+}
+]
