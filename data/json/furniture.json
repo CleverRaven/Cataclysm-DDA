@@ -1246,7 +1246,7 @@
             "furn_set": "f_vending_o"
 			}
    },{
-		"type" : "furniture",
+        "type" : "furniture",
         "id" : "f_arcade_machine",
         "name": "arcade machine",
         "symbol": "6",
@@ -1261,11 +1261,11 @@
                 { "item": "circuit", "amount": 6, "minamount": 4 },
                 { "item": "2x4", "amount": 8 },
                 { "item": "nail", "amount": 16, "minamount": 10 },
-				{ "item": "cable", "amount": 20, "minamount": 14 },
-				{ "item": "power_supply", "amount": 2, "minamount": 1 },
-				{ "item": "RAM", "amount": 4, "minamount": 2}
-					]
-				},
+                { "item": "cable", "amount": 20, "minamount": 14 },
+                { "item": "power_supply", "amount": 2, "minamount": 1 },
+                { "item": "RAM", "amount": 4, "minamount": 2}
+            ]
+        },
         "bash": {
             "str_min": 6, "str_max": 35,
             "sound": "smash!",
@@ -1277,12 +1277,12 @@
                 { "item": "nail", "amount": 10, "minamount": 4},
                 { "item": "cable", "amount": 10, "minamount": 4},
                 { "item": "circuit", "amount": 4, "minamount": 0 },
-				{ "item": "power_supply", "amount": 1, "minamount": 0 },
-				{ "item": "RAM", "amount": 2, "minamount": 0}
-			]
-			}		
+                { "item": "power_supply", "amount": 1, "minamount": 0 },
+                { "item": "RAM", "amount": 2, "minamount": 0}
+           ]
+        }		
    },{
-		"type" : "furniture",
+        "type" : "furniture",
         "id" : "f_pinball_machine",
         "name": "pinball machine",
         "symbol": "7",
@@ -1297,14 +1297,14 @@
                 { "item": "circuit", "amount": 1},
                 { "item": "2x4", "amount": 4 },
                 { "item": "nail", "amount": 12, "minamount": 10 },
-				{ "item": "cable", "amount": 15, "minamount": 10 },
-				{ "item": "power_supply", "amount": 1, "minamount": 0 },
-				{ "item": "RAM", "amount": 1},
-				{ "item": "pipe", "amount": 2},
-				{ "item": "glass_sheet", "amount": 1},
-				{ "item": "bearing", "amount": 16, "minamount":10 }
-					]
-				},
+                { "item": "cable", "amount": 15, "minamount": 10 },
+                { "item": "power_supply", "amount": 1, "minamount": 0 },
+                { "item": "RAM", "amount": 1},
+                { "item": "pipe", "amount": 2},
+                { "item": "glass_sheet", "amount": 1},
+                { "item": "bearing", "amount": 16, "minamount":10 }
+            ]
+        },
         "bash": {
             "str_min": 8, "str_max": 40,
             "sound": "smash!",
@@ -1316,16 +1316,16 @@
                 { "item": "nail", "amount": 8, "minamount": 4},
                 { "item": "cable", "amount": 10, "minamount": 4},
                 { "item": "circuit", "amount": 1, "minamount": 0 },
-				{ "item": "power_supply", "amount": 1, "minamount": 0 },
-				{ "item": "RAM", "amount": 1, "minamount": 0},
-				{ "item": "pipe", "amount": 2, "minamount":0},
-				{ "item": "glass_shard", "amount": 8, "minamount":4},
-				{ "item": "plastic_chunk", "amount": 3, "minamount": 1},
-				{ "item": "bearing", "amount": 16, "minamount":0 }
-				]
-			}
+                { "item": "power_supply", "amount": 1, "minamount": 0 },
+                { "item": "RAM", "amount": 1, "minamount": 0},
+                { "item": "pipe", "amount": 2, "minamount":0},
+                { "item": "glass_shard", "amount": 8, "minamount":4},
+                { "item": "plastic_chunk", "amount": 3, "minamount": 1},
+                { "item": "bearing", "amount": 16, "minamount":0 }
+            ]
+        }
    },{
-		"type" : "furniture",
+        "type" : "furniture",
         "id" : "f_ergometer",
         "name": "ergometer",
         "symbol": "5",
@@ -1340,14 +1340,14 @@
                 { "item": "scrap", "amount": 4, "minamount": 2},
                 { "item": "chain", "amount": 1 },
                 { "item": "pipe", "amount": 5, "minamount": 4 },
-				{ "item": "saddle", "amount": 1, "minamount": 1 },
-				{ "item": "wheel_small", "amount": 1, "minamount": 1 },
-				{ "item": "small_lcd_screen", "amount": 1},
-				{ "item": "processor", "amount": 1},
-				{ "item": "RAM", "amount": 1},
-				{ "item": "nail", "amount": 8, "minamount":6 }
-					]
-					},
+                { "item": "saddle", "amount": 1, "minamount": 1 },
+                { "item": "wheel_small", "amount": 1, "minamount": 1 },
+                { "item": "small_lcd_screen", "amount": 1},
+                { "item": "processor", "amount": 1},
+                { "item": "RAM", "amount": 1},
+                { "item": "nail", "amount": 8, "minamount":6 }
+            ]
+        },
             "bash": {
             "str_min": 6, "str_max": 25,
             "sound": "smash!",
@@ -1359,15 +1359,15 @@
                 { "item": "chain", "amount": 1, "minamount": 0},
                 { "item": "pipe", "amount": 4, "minamount": 0},
                 { "item": "saddle", "amount": 1, "minamount": 0 },
-				{ "item": "wheel_small", "amount": 1, "minamount": 0 },
-				{ "item": "small_lcd_screen", "amount": 1, "minamount": 0},
-				{ "item": "processor", "amount": 1, "minamount":0},
-				{ "item": "RAM", "amount": 1, "minamount":0},
-				{ "item": "nail", "amount": 6, "minamount": 2}
-				]
-				}
+                { "item": "wheel_small", "amount": 1, "minamount": 0 },
+                { "item": "small_lcd_screen", "amount": 1, "minamount": 0},
+                { "item": "processor", "amount": 1, "minamount":0},
+                { "item": "RAM", "amount": 1, "minamount":0},
+                { "item": "nail", "amount": 6, "minamount": 2}
+            ]
+        }
    },{
-		"type" : "furniture",
+        "type" : "furniture",
         "id" : "f_treadmill",
         "name": "treadmill",
         "symbol": "L",
@@ -1380,11 +1380,11 @@
                 { "item": "plastic_chunk", "amount": 14, "minamount": 10 },
                 { "item": "scrap", "amount": 5,"minamount": 2},
                 { "item": "pipe", "amount": 3, "minamount": 4 },
-				{ "item": "small_lcd_screen", "amount": 1},
-				{ "item": "RAM", "amount": 1},
-				{ "item": "nail", "amount": 8, "minamount":6 }
-					]
-					},
+                { "item": "small_lcd_screen", "amount": 1},
+                { "item": "RAM", "amount": 1},
+                { "item": "nail", "amount": 8, "minamount":6 }
+            ]
+        },
             "bash": {
             "str_min": 10, "str_max": 28,
             "sound": "smash!",
@@ -1393,34 +1393,34 @@
                 { "item": "plastic_chunk", "amount": 10, "minamount": 4},
                 { "item": "scrap", "amount": 3, "minamount": 0},
                 { "item": "pipe", "amount": 4, "minamount": 0},
-				{ "item": "small_lcd_screen", "amount": 1, "minamount": 0},
-				{ "item": "RAM", "amount": 1, "minamount":4},
-				{ "item": "nail", "amount": 6, "minamount": 2}
-				]
-				}
+                { "item": "small_lcd_screen", "amount": 1, "minamount": 0},
+                { "item": "RAM", "amount": 1, "minamount":4},
+                { "item": "nail", "amount": 6, "minamount": 2}
+            ]
+        }
    },{
-		"type" : "furniture",
+        "type" : "furniture",
         "id" : "f_displaycase",
         "name": "display case",
         "symbol": "#",
         "color": "ltcyan",
         "move_cost_mod": 2,
-		"required_str": 9,
+        "required_str": 9,
         "flags": ["TRANSPARENT", "BASHABLE", "SEALED", "PLACE_ITEM"],
         "bash": {
             "str_min": 2, "str_max": 20,
             "sound": "glass breaking",
             "sound_fail": "thunk",
-			"furn_set": "f_displaycase_b"
-			}
+            "furn_set": "f_displaycase_b"
+        }
    },{
-		"type" : "furniture",
+        "type" : "furniture",
         "id" : "f_displaycase_b",
         "name": "broken display case",
         "symbol": "#",
         "color": "ltgray",
         "move_cost_mod": 2,
-		"required_str": 9,
+        "required_str": 9,
         "flags": ["TRANSPARENT", "PLACE_ITEM"]
-		}	
+    }	
 ]
