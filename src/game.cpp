@@ -12540,7 +12540,7 @@ bool game::plmove(int dx, int dy)
                         break;
                     }
                 }
-                for (size_t i = 0; i < names.size(); ++i) {
+                for (size_t i = 1; i < names.size(); ++i) {
                     if (!by_charges) {
                         names[i] = tmpitem.display_name(counts[i]);
                     }
