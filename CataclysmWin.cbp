@@ -400,7 +400,7 @@
 		<Unit filename="src/skill.h" />
 		<Unit filename="src/speech.cpp" />
 		<Unit filename="src/speech.h" />
-		<Unit filename="src/start_locaton.cpp" />
+		<Unit filename="src/start_location.cpp" />
 		<Unit filename="src/start_location.h" />
 		<Unit filename="src/text_snippets.cpp" />
 		<Unit filename="src/text_snippets.h" />
