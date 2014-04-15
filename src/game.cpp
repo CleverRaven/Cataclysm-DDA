@@ -12577,8 +12577,8 @@ bool game::plmove(int dx, int dy)
             } else if (names.size() == 3) {
                 add_msg(_("You see here %s, %s, and %s."), names[0].c_str(),
                         names[1].c_str(), names[2].c_str());
-            } else if (names.size() < 7) {
-                add_msg(ngettext("There is %d item here.", "There are %d items here.", names.size()), names.size());
+            } else if (m.i_at(x, y).size() < 7) {
+                add_msg(ngettext("There is %d item here.", "There are %d items here.", m.i_at(x, y).size()), m.i_at(x, y).size());
             } else {
                 add_msg(_("There are many items here."));
             }
