@@ -13408,6 +13408,8 @@ void game::update_stair_monsters() {
                         }
                     }
                     return;
+                } else {
+                    critter.setpos(mposx, mposy, true);
                 }
             }
         }
