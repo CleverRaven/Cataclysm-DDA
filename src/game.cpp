@@ -60,7 +60,7 @@
 #endif
 
 #ifndef _MSC_VER
-	#ifndef __MINGW32__
+	#if !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
 	#endif
 #endif
