@@ -1,5 +1,5 @@
 [
-	{
+  {
  "type" : "overmap_terrain",
     "id" : "s_gardening",
     "name" : "gardening supply",
@@ -11,7 +11,7 @@
     "mondensity" : 2,
     "sidewalk" : true,
     "mapgen": [ {
-		    "method": "json",
+            "method": "json",
             "weight": 500,
             "object": {
             "rows": [
@@ -62,17 +62,17 @@
             ":": "t_floor",
             "T": "t_floor",
             "l": "t_floor",
-			"=": "t_floor",
+            "=": "t_floor",
             "G": "t_floor",
-			"f": "t_pavement",
-			"&": "t_door_locked",
-			"B": "t_palisade",
-			"*": "t_door_locked",
-			"5": "t_chainfence_h",
-			"8": "t_chainfence_v",
-			"f": "t_pavement",
-			"v": "t_wall_glass_v",
-			"M": "t_floor"
+            "f": "t_pavement",
+            "&": "t_door_locked",
+            "B": "t_palisade",
+            "*": "t_door_locked",
+            "5": "t_chainfence_h",
+            "8": "t_chainfence_v",
+            "f": "t_pavement",
+            "v": "t_wall_glass_v",
+            "M": "t_floor"
             },
             "furniture": {
             ".": "f_null",
@@ -89,7 +89,7 @@
             "x": "f_null",
             "c": "f_chair",
             "#": "f_counter",
-			"&": "f_null",
+            "&": "f_null",
             "r": "f_rack",
             "^": "f_null",
             "t": "f_table",
@@ -100,20 +100,20 @@
             "l": "f_vending_c",
             "S": "f_null",
             "G": "f_desk",
-			"f": "f_trashcan",
-			"T": "f_safe_l",
-			"h": "f_null",
-			"v": "f_null"
+            "f": "f_trashcan",
+            "T": "f_safe_l",
+            "h": "f_null",
+            "v": "f_null"
             },
-		"place_groups": [
+            "place_groups": [
                 { "item": "farming_tools", "chance": 80, "x": [ 9,14 ], "y": [ 9,10 ] },
-				{ "item": "farming_tools", "chance": 80, "x": [ 9,14 ], "y": [ 13,14 ] },
-				{ "item": "farming_seeds", "chance": 80, "x": [ 17,18 ], "y": [ 9,10 ] },
-				{ "item": "farming_seeds", "chance": 80, "x": [ 17,18 ], "y": [ 13,14 ] },
-				{ "item": "farming_seeds", "chance": 80, "x": [ 5,18 ], "y": [ 17,17 ] }
-		] 
-		}
-		}
-		]
-		}
-		]
+                { "item": "farming_tools", "chance": 80, "x": [ 9,14 ], "y": [ 13,14 ] },
+                { "item": "farming_seeds", "chance": 80, "x": [ 17,18 ], "y": [ 9,10 ] },
+                { "item": "farming_seeds", "chance": 80, "x": [ 17,18 ], "y": [ 13,14 ] },
+                { "item": "farming_seeds", "chance": 80, "x": [ 5,18 ], "y": [ 17,17 ] }
+                            ] 
+}
+}
+]
+}
+]
