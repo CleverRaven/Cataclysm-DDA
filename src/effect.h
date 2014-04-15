@@ -32,9 +32,13 @@ class effect_type
 
         int get_max_intensity();
 
+        /** True if health alters disease duration */
+        bool health_mods();
+
     protected:
         int max_intensity;
         bool permanent;
+        bool health_affects;
 
         std::string name;
         std::string desc;
@@ -70,6 +74,9 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_max_intensity();
         void set_intensity(int nintensity);
         void mod_intensity(int nintensity);
+
+        /** True if health alters disease duration */
+        bool health_mods();
 
         efftype_id get_id() {
             return eff_type->id;

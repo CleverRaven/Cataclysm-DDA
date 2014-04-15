@@ -40,7 +40,7 @@ void addict_effect(addiction &add)
         g->u.mod_per_bonus(-1);
         g->u.mod_int_bonus(-1);
         if (rng(40, 1200) <= in * 10) {
-            g->u.health_mod--;
+            g->u.mod_healthy_mod(-1);
         }
         if (one_in(20) && rng(0, 20) < in) {
             g->add_msg(_("You could use a drink."));
@@ -76,7 +76,7 @@ void addict_effect(addiction &add)
                 g->u.mod_pain(1);
             }
             if (in >= 40 || one_in(1200 - 30 * in)) {
-                g->u.health_mod--;
+                g->u.mod_healthy_mod(-1);
             }
             if (one_in(20) && dice(2, 20) < in) {
                 g->add_msg(_("Your hands start shaking... you need some painkillers."));
@@ -105,7 +105,7 @@ void addict_effect(addiction &add)
             g->u.stim--;
         }
         if (rng(0, 150) <= in) {
-            g->u.health_mod--;
+            g->u.mod_healthy_mod(-1);
         }
         if (dice(2, 100) < in) {
             g->add_msg(_("You feel depressed.  Speed would help."));

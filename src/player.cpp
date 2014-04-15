@@ -137,8 +137,6 @@ player::player() : Character(), name("")
  recoil = 0;
  driving_recoil = 0;
  scent = 500;
- health = 0;
- health_mod = 0;
  
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
@@ -247,8 +245,6 @@ player& player::operator= (const player & rhs)
  hunger = rhs.hunger;
  thirst = rhs.thirst;
  fatigue = rhs.fatigue;
- health = rhs.health;
- health_mod = rhs.health_mod;
 
  underwater = rhs.underwater;
  oxygen = rhs.oxygen;
@@ -4838,7 +4834,7 @@ void player::get_sick()
   return;
 
  if (!has_disease("flu") && !has_disease("common_cold") &&
-     one_in(900 + health + (has_trait("DISRESISTANT") ? 300 : 0))) {
+     one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
   if (one_in(6))
    infect("flu", bp_mouth, 3, rng(40000, 80000));
   else
@@ -4849,22 +4845,22 @@ void player::get_sick()
 void player::update_health()
 {
     if (health_mod > 200) {
-        health_mod == 200;
+        set_healthy_mod(200);
     }
     int roll = rng(-100, 100);
-    int health_threshold = health - health_mod;
+    int health_threshold = get_healthy() - get_healthy_mod();
     if (has_artifact_with(AEP_SICK)) {
         health_threshold += 50;
     }
     if (roll > health_threshold) {
-        health++;
+        mod_healthy(1);
     } else if (roll < health_threshold) {
-        health--;
+        mod_healthy(-1);
     }
-    health_mod = health_mod * 3 / 4;
+    set_healthy_mod(get_healthy_mod() * 3 / 4);
 
     if (g->debugmon) {
-        debugmsg("Health: %d, Health mod: %d", health, health_mod);
+        debugmsg("Health: %d, Health mod: %d", get_healthy(), get_healthy_mod());
     }
 }
 
@@ -5747,7 +5743,7 @@ void player::suffer()
         add_disease("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
-        health--;
+        mod_healthy(-1);
     }
     if (has_bionic("bio_sleepy") && one_in(500)) {
         fatigue++;
@@ -5797,7 +5793,7 @@ void player::mend()
             }
 
             // Being healthy helps.
-            if(health > 0) {
+            if(get_healthy() > 0) {
                 healing_factor *= 2.0;
             }
 
@@ -7746,17 +7742,17 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            health_mod -= 30;
+            mod_healthy_mod(-30);
         }
     } if (has_trait("GIZZARD")) {
         // Shorter GI tract, so less nutrients captured.
         hunger -= ((comest->nutr) *= 0.66);
         thirst -= ((comest->quench) *= 0.66);
-        health_mod += ((comest->healthy) *= 0.66);
+        mod_healthy_mod((comest->healthy) *= 0.66);
     } else {
         hunger -= comest->nutr;
         thirst -= comest->quench;
-        health_mod += comest->healthy;
+        mod_healthy_mod(comest->healthy);
     }
 
     if (has_bionic("bio_digestion")) {
@@ -10386,8 +10382,8 @@ void player::environmental_revert_effect()
     hunger = 0;
     thirst = 0;
     fatigue = 0;
-    health = 0;
-    health_mod = 0;
+    set_healthy(0);
+    set_healthy_mod(0);
     stim = 0;
     pain = 0;
     pkill = 0;

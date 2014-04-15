@@ -171,6 +171,9 @@ class Creature
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
 
+        virtual int get_healthy() const;
+        virtual int get_healthy_mod() const;
+
         virtual int get_num_blocks() const;
         virtual int get_num_dodges() const;
         virtual int get_num_blocks_bonus() const;
@@ -224,6 +227,11 @@ class Creature
         virtual void mod_dex_bonus(int ndex);
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
+
+        virtual void set_healthy(int nhealthy);
+        virtual void set_healthy_mod(int nhealthy_mod);
+        virtual void mod_healthy(int nhealthy);
+        virtual void mod_healthy_mod(int nhealthy_mod);
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
@@ -281,6 +289,9 @@ class Creature
         int dex_bonus;
         int per_bonus;
         int int_bonus;
+
+        int healthy; //How healthy the creature is, currently only used by players
+        int healthy_mod;
 
         int num_blocks; // base number of blocks/dodges per turn
         int num_dodges;

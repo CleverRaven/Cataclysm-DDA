@@ -77,19 +77,22 @@
         "type":"effect_type",
         "id":"poison",
         "name": "Poisoned",
-        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."
+        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage.",
+        "health_affects": true
     },
     {
         "type":"effect_type",
         "id":"poisoned",
         "name": "Poisoned",
-        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."
+        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage.",
+        "health_affects": true
     },
     {
         "type":"effect_type",
         "id":"nasty_poisoned",
         "name": "Poisoned",
-        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."
+        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage.",
+        "health_affects": true
     },
     {
         "type":"effect_type",
@@ -157,7 +160,8 @@
    },
    {
       "type":"effect_type",
-      "id":"visuals"
+      "id":"visuals",
+      "health_affects": true
    },
    {
       "type":"effect_type",
@@ -180,7 +184,8 @@
    },
    {
       "type":"effect_type",
-      "id":"shakes"
+      "id":"shakes",
+      "health_affects": true
    },
    {
       "type":"effect_type",
@@ -192,7 +197,8 @@
    },
    {
       "type":"effect_type",
-      "id":"foodpoison"
+      "id":"foodpoison",
+      "health_affects": true
    },
    {
       "type":"effect_type",
@@ -205,11 +211,13 @@
    },
    {
       "type":"effect_type",
-      "id":"hallu"
+      "id":"hallu",
+      "health_affects": true
    },
    {
       "type":"effect_type",
-      "id":"paralyzepoison"
+      "id":"paralyzepoison",
+      "health_affects": true
    },
    {
       "type":"effect_type",
@@ -241,7 +249,8 @@
       "type":"effect_type",
       "id":"common_cold",
       "remove_memorial_log":"Got over the cold.",
-      "apply_message":"You feel a cold coming on..."
+      "apply_message":"You feel a cold coming on...",
+      "health_affects": true
    },
    {
       "type":"effect_type",
@@ -279,7 +288,8 @@
    },
    {
       "type":"effect_type",
-      "id":"recover"
+      "id":"recover",
+      "health_affects": true
    },
    {
       "type":"effect_type",
@@ -326,7 +336,8 @@
       "type":"effect_type",
       "id":"flu",
       "remove_memorial_log":"Got over the flu.",
-      "apply_message":"You feel a flu coming on..."
+      "apply_message":"You feel a flu coming on...",
+      "health_affects": true
    },
    {
       "type":"effect_type",
@@ -402,7 +413,8 @@
    },
    {
       "type":"effect_type",
-      "id":"badpoison"
+      "id":"badpoison",
+      "health_affects": true
    },
    {
       "type":"effect_type",

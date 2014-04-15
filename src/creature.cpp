@@ -18,6 +18,8 @@ Creature::Creature()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+    healthy = 0;
+    healthy_mod = 0;
     moves = 0;
     pain = 0;
     killer = NULL;
@@ -47,6 +49,9 @@ Creature::Creature(const Creature &rhs)
     dex_bonus = rhs.dex_bonus;
     per_bonus = rhs.per_bonus;
     int_bonus = rhs.int_bonus;
+
+    healthy = rhs.healthy;
+    healthy_mod = rhs.healthy_mod;
 
     num_blocks = rhs.num_blocks;
     num_dodges = rhs.num_dodges;
@@ -553,9 +558,18 @@ bool Creature::has_effect(efftype_id eff_id)
 }
 void Creature::process_effects()
 {
+    int health_val = get_healthy();
     for (std::vector<effect>::iterator it = effects.begin();
          it != effects.end(); ++it) {
         if (!it->is_permanent() && it->get_duration() > 0) {
+            // Up to a 50% chance to lose one extra/not lose one from good/bad health
+            if (it->health_mods()) {
+                if (health_val > 0 && x_in_y(health_val / 2, 100)) {
+                    it->mod_duration(-1);
+                } else if (health_val < 0 && x_in_y(-health_val / 2, 100)) {
+                    it->mod_duration(1);
+                }
+            }
             it->mod_duration(-1);
             if (g->debugmon) {
                 debugmsg("Duration %d", it->get_duration());
@@ -641,6 +655,15 @@ int Creature::get_per_bonus() const
 int Creature::get_int_bonus() const
 {
     return int_bonus;
+}
+
+int Creature::get_healthy() const
+{
+    return healthy;
+}
+int Creature::get_healthy_mod() const
+{
+    return healthy_mod;
 }
 
 int Creature::get_num_blocks() const
@@ -797,6 +820,24 @@ void Creature::mod_per_bonus(int nper)
 void Creature::mod_int_bonus(int nint)
 {
     int_bonus += nint;
+}
+
+
+void Creature::set_healthy(int nhealthy)
+{
+    healthy = nhealthy;
+}
+void Creature::set_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod = nhealthy_mod;
+}
+void Creature::mod_healthy(int nhealthy)
+{
+    healthy += nhealthy;
+}
+void Creature::mod_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod += nhealthy_mod;
 }
 
 void Creature::set_num_blocks_bonus(int nblocks)

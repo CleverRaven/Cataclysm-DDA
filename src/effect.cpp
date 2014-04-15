@@ -37,6 +37,10 @@ int effect_type::get_max_intensity()
 {
     return max_intensity;
 }
+bool effect_type::health_mods()
+{
+    return health_affects;
+}
 
 effect::effect() :
     eff_type(NULL),
@@ -129,6 +133,10 @@ void effect::mod_intensity(int nintensity)
 {
     intensity += nintensity;
 }
+bool effect::health_mods()
+{
+    return eff_type->health_mods();
+}
 
 effect_type *effect::get_effect_type()
 {
@@ -149,6 +157,8 @@ void load_effect_type(JsonObject &jo)
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
+
+    new_etype.health_affects = jo.get_bool("health_affects", false);
 
     effect_types[new_etype.id] = new_etype;
 }

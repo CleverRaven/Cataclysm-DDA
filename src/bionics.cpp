@@ -559,8 +559,8 @@ void player::activate_bionic(int b)
     }
     if(bio.id == "bio_leukocyte") {
         g->add_msg(_("You activate your leukocyte breeder system."));
-        health = std::min(100, health + 2);
-        health_mod += 20;
+        g->u.set_healthy(std::min(100, g->u.get_healthy() + 2));
+        g->u.mod_healthy_mod(20);
     }
     if(bio.id == "bio_geiger") {
         g->add_msg(_("Your radiation level: %d"), radiation);
