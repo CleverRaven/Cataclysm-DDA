@@ -5524,11 +5524,8 @@ bool game::is_hostile_very_close()
 bool game::is_hostile_within(int distance){
     for (int i = 0; i < num_zombies(); i++) {
         monster &critter = critter_tracker.find(i);
-        if (!u_see(&critter))
-            continue;
 
-        monster_attitude matt = critter.attitude(&u);
-        if (MATT_ATTACK != matt && MATT_FOLLOW != matt)
+        if ((critter.attitude(&u) != MATT_ATTACK) || (!u_see(&critter)))
             continue;
 
         int mondist = rl_dist(u.posx, u.posy, critter.posx(), critter.posy());
