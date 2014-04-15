@@ -286,7 +286,7 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     if (with_ammo && !result.empty()) {
         it_gun *maybe_gun = dynamic_cast<it_gun *>(result.front().type);
         if (maybe_gun != NULL) {
-            const item ammo = item_controller->create(default_ammo(maybe_gun->ammo), birthday);
+            item ammo = item_controller->create(default_ammo(maybe_gun->ammo), birthday);
             // TODO: change the spawn lists to contain proper references to containers
             ammo = ammo.in_its_container(&itypes);
             result.push_back(ammo);
