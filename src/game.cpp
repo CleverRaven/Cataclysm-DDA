@@ -12516,6 +12516,7 @@ bool game::plmove(int dx, int dy)
         } else if (!m.i_at(x, y).empty()) {
             std::vector<std::string> names;
             std::vector<size_t> counts;
+            std::vector<item> items;
             if (m.i_at(x, y)[0].count_by_charges()) {
                 names.push_back(m.i_at(x, y)[0].tname(m.i_at(x, y)[0].charges));
                 counts.push_back(m.i_at(x, y)[0].charges);
@@ -12523,6 +12524,7 @@ bool game::plmove(int dx, int dy)
                 names.push_back(m.i_at(x, y)[0].display_name(1));
                 counts.push_back(1);
             }
+            items.push_back(m.i_at(x, y)[0]);
             for (size_t i = 1; i < m.i_at(x, y).size(); i++) {
                 item& tmpitem = m.i_at(x, y)[i];
                 std::string next_tname = tmpitem.tname();
@@ -12540,11 +12542,6 @@ bool game::plmove(int dx, int dy)
                         break;
                     }
                 }
-                for (size_t i = 1; i < names.size(); ++i) {
-                    if (!by_charges) {
-                        names[i] = tmpitem.display_name(counts[i]);
-                    }
-                }
                 if (!got_it) {
                     if (tmpitem.count_by_charges()) {
                         names.push_back(tmpitem.tname(tmpitem.charges));
@@ -12553,9 +12550,17 @@ bool game::plmove(int dx, int dy)
                         names.push_back(tmpitem.display_name(1));
                         counts.push_back(1);
                     }
+                    items.push_back(tmpitem);
                 }
                 if (names.size() > 6) {
                     break;
+                }
+            }
+            for (size_t i = 0; i < names.size(); ++i) {
+                if (!items[i].count_by_charges()) {
+                    names[i] = items[i].display_name(counts[i]);
+                } else {
+                    names[i] = items[i].tname(counts[i]);
                 }
             }
             for (size_t i = 0; i < names.size(); ++i) {
