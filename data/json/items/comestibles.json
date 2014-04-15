@@ -3915,7 +3915,7 @@
         "container" : "null",
         "to_hit" : 0,
         "comestible_type" : "FOOD",
-        "sfmbol" : "%",
+        "symbol" : "%",
         "quench" : 0,
         "heal" : -1,
         "addiction_potential" : 0,
