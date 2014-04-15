@@ -30,6 +30,7 @@
             [ "pistols", 1 ],
             [ "shotguns", 1 ],
             [ "smg", 1 ],
+            [ "home_hw", 5 ],
             [ "postman_gear", 5]
         ]
     },
