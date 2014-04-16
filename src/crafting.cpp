@@ -113,13 +113,23 @@ void load_recipe(JsonObject &jsobj)
     }
 
     std::string rec_name = result + id_suffix;
+    const bool override_existing = jsobj.get_bool("override", false);
 
     int recipe_count = 0;
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
         for (recipe_list::iterator list_iter = map_iter->second.begin();
              list_iter != map_iter->second.end(); ++list_iter) {
             if ((*list_iter)->ident == rec_name) {
-                jsobj.throw_error(std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") + rec_name, "result");
+                if (!override_existing) {
+                    jsobj.throw_error(std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") + rec_name, "result");
+                }
+                // overriding an existing recipe: delete it and remove the pointer
+                // keep the id,
+                recipe_count = (*list_iter)->id;
+                delete *list_iter;
+                map_iter->second.erase(list_iter);
+                map_iter != recipes.end();
+                break;
             }
         }
         recipe_count += map_iter->second.size();
