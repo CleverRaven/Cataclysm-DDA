@@ -200,7 +200,7 @@ void monster::plan(const std::vector<int> &friendlies)
         if (one_in(8) && ( ((closest == -1) && (!bdocile)) || (closest == -2) )) {
             //TODO:enhance by relating to monster intelligence
             // "mob repositions closer on a single axis. 'by intuition'."
-            // allows monsters to slide past obstacles without endlessly bashing it.
+            // allows monsters to slide past obstacles without endless bashing.
             if (one_in(2)) { //slide x
                 int isgn=sgn(g->u.posx -posx());
                 while (isgn==0) {
@@ -226,7 +226,7 @@ void monster::plan(const std::vector<int> &friendlies)
             }
         } else
         if (closest == -2) {
-            //aggressive and sees the player. 2 in 9 aims to the side
+            //aggressive and sees the player. 2 in 9 aim to the side
             int pushx = rng(-1, 1), pushy = rng(-1, 1);
             set_dest(g->u.posx + pushx, g->u.posy + pushy, stc);
         }
