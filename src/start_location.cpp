@@ -1,7 +1,7 @@
 #include "start_location.h"
 #include "output.h"
 
-location_map start_location::_locations;
+static location_map _locations;
 
 start_location::start_location() {
     _ident = "";
@@ -26,6 +26,14 @@ std::string start_location::name() const {
 
 std::string start_location::target() const {
     return _target;
+}
+
+location_map::iterator start_location::begin() {
+    return _locations.begin();
+}
+
+location_map::iterator start_location::end() {
+    return _locations.end();
 }
 
 start_location *start_location::find( const std::string ident ) {

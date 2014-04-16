@@ -6,9 +6,7 @@
 #include <string>
 #include <map>
 
-class start_location;
-
-typedef std::map<std::string, start_location> location_map;
+typedef std::map<std::string, class start_location> location_map;
 
 class start_location
 {
@@ -20,8 +18,8 @@ public:
     std::string name() const;
     std::string target() const;
 
-    static location_map _locations;
-
+    static location_map::iterator begin();
+    static location_map::iterator end();
     static start_location *find( const std::string ident );
     static void load_location( JsonObject &jsonobj );
 
