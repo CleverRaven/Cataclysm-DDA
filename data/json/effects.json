@@ -2,52 +2,52 @@
     {
         "type":"effect_type",
         "id":"hit_by_player",
-        "name": "Hit By Player",
-        "desc": "AI tag for when monsters are hit by player. This is a bug if you have it."
+        "name" : ["Hit By Player"],
+        "desc" : ["AI tag for when monsters are hit by player. This is a bug if you have it."]
     },
     {
         "type":"effect_type",
         "id":"docile",
-        "name": "Docile Monster",
-        "desc": "AI tag for when monsters are tamed. This is a bug if you have it."
+        "name" : ["Docile Monster"],
+        "desc" : ["AI tag for when monsters are tamed. This is a bug if you have it."]
     },
     {
         "type":"effect_type",
         "id":"run",
-        "name": "Hit-and-run Running",
-        "desc": "AI tag for when hit-and-run monsters run away. This is a bug if you have it."
+        "name" : ["Hit-and-run Running"],
+        "desc" : ["AI tag for when hit-and-run monsters run away. This is a bug if you have it."]
     },
     {
         "type":"effect_type",
         "id":"bounced",
-        "name": "Bounced",
-        "desc": "A bouncing effect has bounced to you lately."
+        "name" : ["Bounced"],
+        "desc" : ["A bouncing effect has bounced to you lately."]
     },
     {
         "type":"effect_type",
         "id":"targeted",
-        "name": "Targeted By Turret",
-        "desc": "A turret is targeting you!"
+        "name" : ["Targeted By Turret"],
+        "desc" : ["A turret is targeting you!"]
     },
     {
         "type":"effect_type",
         "id":"downed",
-        "name": "Downed",
-        "desc": "You're knocked to the ground.  You have to get up before you can move.",
+        "name" : ["Downed"],
+        "desc" : ["You're knocked to the ground.  You have to get up before you can move."],
         "apply_message":"You're knocked to the floor!"
     },
     {
         "type":"effect_type",
         "id":"stunned",
-        "name": "Stunned",
+        "name" : ["Stunned"],
         "apply_message":"You're stunned!",
-        "desc": "Your movement is randomized."
+        "desc" : ["Your movement is randomized."]
     },
     {
         "type":"effect_type",
         "id":"onfire",
-        "name": "On Fire",
-        "desc": "Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames.",
+        "name" : ["On Fire"],
+        "desc" : ["Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames."],
         "remove_memorial_log":"Put out the fire.",
         "apply_message":"You're on fire!",
         "apply_memorial_log":"Caught on fire."
@@ -55,70 +55,70 @@
     {
         "type":"effect_type",
         "id":"bouldering",
-        "name": "Clambering Over Rubble",
-        "desc": "You are being slowed climbing over a pile of rubble",
+        "name" : ["Clambering Over Rubble"],
+        "desc" : ["You are being slowed climbing over a pile of rubble"],
         "apply_message":"You are slowed by the rubble."
     },
     {
         "type":"effect_type",
         "id":"blind",
-        "name": "Blind",
-        "desc": "Range of Sight: 0",
+        "name" : ["Blind"],
+        "desc" : ["Range of Sight: 0"],
         "apply_message":"You're blinded!"
     },
     {
         "type":"effect_type",
         "id":"deaf",
-        "name": "Deaf",
-        "desc": "Sounds will not be reported.  You cannot talk with NPCs.",
+        "name" : ["Deaf"],
+        "desc" : ["Sounds will not be reported.  You cannot talk with NPCs."],
         "apply_message":"You're deafened!"
     },
     {
         "type":"effect_type",
         "id":"poison",
-        "name": "Poisoned",
-        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage.",
+        "name" : ["Poisoned"],
+        "desc" : ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
         "health_affects": true
     },
     {
         "type":"effect_type",
         "id":"poisoned",
-        "name": "Poisoned",
-        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage.",
+        "name" : ["Poisoned"],
+        "desc" : ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
         "health_affects": true
     },
     {
         "type":"effect_type",
         "id":"nasty_poisoned",
-        "name": "Poisoned",
-        "desc": "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage.",
+        "name" : ["Poisoned"],
+        "desc" : ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
         "health_affects": true
     },
     {
         "type":"effect_type",
         "id":"beartrap",
-        "name": "Stuck in beartrap",
-        "desc": "You can't move!"
+        "name" : ["Stuck in beartrap"],
+        "desc" : ["You can't move!"]
     },
     {
         "type":"effect_type",
         "id":"glare",
-        "name": "Glare",
-        "desc": "Perception - 1",
+        "name" : ["Glare"],
+        "desc" : ["Perception - 1"],
         "apply_message":"The sunlight's glare makes it hard to see."
     },
     {
         "type":"effect_type",
         "id":"smoke",
-        "name": "Smoke",
-        "desc": "Strength - 1;   Dexterity - 1;\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso",
+        "name" : ["Smoke"],
+        "desc" : ["Strength - 1;   Dexterity - 1;\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
         "apply_message":"You inhale a lungful of thick smoke."
     },
     {
         "type":"effect_type",
         "id":"teargas",
-        "name": "Tear gas",
-        "desc": "Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso",
+        "name" : ["Tear gas"],
+        "desc" : ["Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
         "apply_message":"You inhale a lungful of tear gas."
     },
    {
@@ -414,6 +414,8 @@
    {
       "type":"effect_type",
       "id":"badpoison",
+      "name":[],
+      "desc": [],
       "health_affects": true
    },
    {

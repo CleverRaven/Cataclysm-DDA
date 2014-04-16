@@ -1928,7 +1928,7 @@ void player::disp_info()
     for (std::vector<effect>::iterator it = effects.begin();
         it != effects.end(); ++it) {
         effect_name.push_back(it->disp_name());
-        effect_text.push_back(it->get_effect_type()->get_desc());
+        effect_text.push_back(it->disp_desc());
     }
  if (abs(morale_level()) >= 100) {
   bool pos = (morale_level() > 0);

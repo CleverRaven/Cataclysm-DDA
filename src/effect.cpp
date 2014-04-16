@@ -1,5 +1,6 @@
 #include "effect.h"
 #include "rng.h"
+#include "bodypart.h"
 #include "output.h"
 #include <map>
 #include <sstream>
@@ -9,13 +10,37 @@ std::map<std::string, effect_type> effect_types;
 effect_type::effect_type() {}
 effect_type::effect_type(const effect_type &) {}
 
-std::string effect_type::get_name()
+std::string effect_type::get_name(int intensity)
 {
-    return name;
+    if (use_name_intensities()) {
+        return name[intensity];
+    } else {
+        if (name.size() == 0) {
+            return "";
+        } else {
+            return name[0];
+        }
+    }
 }
-std::string effect_type::get_desc()
+std::string effect_type::get_desc(int intensity)
 {
-    return desc;
+    if (use_desc_intensities()) {
+        return desc[intensity];
+    } else {
+        if (desc.size() == 0) {
+            return "";
+        } else {
+            return desc[0];
+        }
+    }
+}
+bool effect_type::use_name_intensities()
+{
+    return ((size_t)max_intensity <= name.size());
+}
+bool effect_type::use_desc_intensities()
+{
+    return ((size_t)max_intensity <= desc.size());
 }
 std::string effect_type::get_apply_message()
 {
@@ -37,6 +62,18 @@ int effect_type::get_max_intensity()
 {
     return max_intensity;
 }
+int effect_type::get_decay_rate()
+{
+    return decay_rate;
+}
+int effect_type::get_additive()
+{
+    return additive;
+}
+int effect_type::main_parts()
+{
+    return main_parts_only;
+}
 bool effect_type::health_mods()
 {
     return health_affects;
@@ -45,22 +82,29 @@ bool effect_type::health_mods()
 effect::effect() :
     eff_type(NULL),
     duration(0),
+    permanent(false),
     intensity(0),
-    permanent(false)
+    bp(num_bp),
+    side(-1)
 { }
 
-effect::effect(effect_type *peff_type, int dur, int nintensity, bool perm) :
+effect::effect(effect_type *peff_type, int dur, bool perm, int nintensity, body_part target,
+                int nside) :
     eff_type(peff_type),
     duration(dur),
+    permanent(perm),
     intensity(nintensity),
-    permanent(perm)
+    bp(target),
+    side(nside)
 { }
 
 effect::effect(const effect &rhs) : JsonSerializer(), JsonDeserializer(),
     eff_type(rhs.eff_type),
     duration(rhs.duration),
+    permanent(rhs.permanent),
     intensity(rhs.intensity),
-    permanent(rhs.permanent)
+    bp(rhs.bp),
+    side(rhs.side)
 { }
 
 effect &effect::operator=(const effect &rhs)
@@ -71,8 +115,10 @@ effect &effect::operator=(const effect &rhs)
 
     eff_type = rhs.eff_type;
     duration = rhs.duration;
-    intensity = rhs.intensity;
     permanent = rhs.permanent;
+    intensity = rhs.intensity;
+    bp = rhs.bp;
+    side = rhs.side;
 
     return *this;
 }
@@ -80,12 +126,20 @@ effect &effect::operator=(const effect &rhs)
 std::string effect::disp_name()
 {
     std::stringstream ret;
-    ret << eff_type->get_name();
-    if (intensity > 1) {
+    ret << eff_type->get_name(intensity);
+    if (!eff_type->use_name_intensities() && intensity > 1) {
         ret << " [" << intensity << "]";
+    }
+    if (bp != num_bp) {
+        ret << " (" << body_part_name(bp, side).c_str() << ")";
     }
     return ret.str();
 }
+std::string effect::disp_desc()
+{
+    return eff_type->get_desc(intensity);
+}
+
 void effect::do_effect(Creature &)
 {
     return;
@@ -125,6 +179,24 @@ int effect::get_max_intensity()
 {
     return eff_type->get_max_intensity();
 }
+void effect::decay(int health_val)
+{
+    if (!permanent && duration > 0) {
+        // Up to a 50% chance to lose one extra/not lose one from good/bad health
+        if (eff_type->health_mods()) {
+            if (health_val > 0 && x_in_y(health_val / 2, 100)) {
+                duration -= 1;
+            } else if (health_val < 0 && x_in_y(-health_val / 2, 100)) {
+                duration += 1;
+            }
+        }
+        duration -= 1;
+    }
+    if (eff_type->decay_rate > 0 && intensity > 1 && (duration % eff_type->decay_rate == 0)) {
+        intensity -= 1;
+    }
+}
+
 void effect::set_intensity(int nintensity)
 {
     intensity = nintensity;
@@ -133,9 +205,14 @@ void effect::mod_intensity(int nintensity)
 {
     intensity += nintensity;
 }
-bool effect::health_mods()
+
+body_part effect::get_bp()
 {
-    return eff_type->health_mods();
+    return bp;
+}
+int effect::get_side()
+{
+    return side;
 }
 
 effect_type *effect::get_effect_type()
@@ -148,8 +225,14 @@ void load_effect_type(JsonObject &jo)
     effect_type new_etype;
     new_etype.id = jo.get_string("id");
 
-    new_etype.name = jo.get_string("name", "");
-    new_etype.desc = jo.get_string("desc", "");
+    JsonArray jsarr = jo.get_array("name");
+    while (jsarr.has_more()) {
+        new_etype.name.push_back(_(jsarr.next_string().c_str()));
+    }
+    jsarr = jo.get_array("desc");
+    while (jsarr.has_more()) {
+        new_etype.desc.push_back(_(jsarr.next_string().c_str()));
+    }
 
     new_etype.apply_message = jo.get_string("apply_message", "");
     new_etype.remove_message = jo.get_string("remove_message", "");
@@ -157,6 +240,9 @@ void load_effect_type(JsonObject &jo)
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
+    new_etype.decay_rate = jo.get_int("decay_rate", 0);
+    new_etype.additive = jo.get_int("additive", 1);
+    new_etype.main_parts_only = jo.get_bool("main_parts", false);
 
     new_etype.health_affects = jo.get_bool("health_affects", false);
 
