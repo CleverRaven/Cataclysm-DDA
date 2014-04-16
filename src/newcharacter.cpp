@@ -1368,6 +1368,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             select_location.selected = offset;
         }
     }
+    select_location.setup();
 
     do {
         if (redraw) {
