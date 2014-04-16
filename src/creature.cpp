@@ -595,6 +595,37 @@ bool Creature::has_effect(efftype_id eff_id, body_part bp, int side)
     }
     return false;
 }
+int Creature::effect_duration(efftype_id eff_id, bool all, body_part bp, int side)
+{
+    int tmp = 0;
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        if (it->get_id() == eff_id && (bp == num_bp || it->get_bp() == bp) &&
+            (side == -1 || it->get_side() == side)) {
+            if (all == false) {
+                return it->get_duration();
+            } else {
+                tmp += it->get_duration();
+            }
+        }
+    }
+    return tmp;
+}
+int Creature::effect_intensity(efftype_id eff_id, bool all, body_part bp, int side)
+{
+    int tmp = 0;
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        if (it->get_id() == eff_id && (bp == num_bp || it->get_bp() == bp) &&
+            (side == -1 || it->get_side() == side)) {
+            if (all == false) {
+                return it->get_intensity();
+            } else {
+                tmp += it->get_intensity();
+            }
+        }
+    }
+    return tmp;
+}
+
 void Creature::process_effects()
 {
     int health_val = get_healthy();

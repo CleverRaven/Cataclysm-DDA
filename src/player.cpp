@@ -3207,7 +3207,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     int x = sideStyle ? 37 : 32;
     int y = sideStyle ?  0 :  1;
-    if(has_disease("deaf")) {
+    if(has_effect("deaf")) {
         mvwprintz(sideStyle ? w2 : w, y, x, c_red, _("Deaf!"), volume);
     } else {
         mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
@@ -5606,9 +5606,9 @@ void player::suffer()
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
     if (has_trait("PER_SLIME")) {
-        if (one_in(600) && !(has_disease("deaf"))) {
+        if (one_in(600) && !(has_effect("deaf"))) {
             g->add_msg(_("Suddenly, you can't hear anything!"));
-            add_disease("deaf", 20 * rng (2, 6)) ;
+            add_effect("deaf", 20 * rng (2, 6)) ;
         }
         if (one_in(600) && !(has_effect("blind"))) {
             g->add_msg(_("Suddenly, your eyes stop working!"));
@@ -5733,7 +5733,7 @@ void player::suffer()
         power_level--;
     }
     if (has_bionic("bio_noise") && one_in(500)) {
-        if(!has_disease("deaf"))
+        if(!has_effect("deaf"))
             g->add_msg(_("A bionic emits a crackle of noise!"));
         else
             g->add_msg(_("A bionic shudders, but you hear nothing."));

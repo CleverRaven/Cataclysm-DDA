@@ -143,6 +143,8 @@ class Creature
         /** Remove all effects */
         void clear_effects();
         bool has_effect(efftype_id eff_id, body_part bp = num_bp, int side = -1);
+        int effect_duration(efftype_id eff_id, bool all = false, body_part bp = num_bp, int side = -1);
+        int effect_intensity(efftype_id eff_id, bool all = false, body_part bp = num_bp, int side = -1);
 
         /** Runs all the effects on the Creature */
         virtual void process_effects();

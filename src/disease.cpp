@@ -27,7 +27,6 @@ enum dis_type_enum {
  DI_CRUSHED,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
- DI_DEAF,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_PARALYZEPOISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
@@ -98,7 +97,6 @@ void game::init_diseases() {
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
     disease_type_lookup["slimed"] = DI_SLIMED;
-    disease_type_lookup["deaf"] = DI_DEAF;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
     disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
@@ -204,9 +202,6 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_ASTHMA:
         g->add_msg(_("You can't breathe... asthma attack!"));
-        break;
-    case DI_DEAF:
-        g->add_msg(_("You're deafened!"));
         break;
     case DI_AMIGARA:
         g->add_msg(_("You can't look away from the faultline..."));
@@ -1597,7 +1592,6 @@ std::string dis_name(disease& dis)
     }
 
     case DI_SLIMED: return _("Slimed");
-    case DI_DEAF: return _("Deaf");
     case DI_BLEED:
     {
         std::string status = "";
@@ -2098,8 +2092,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_SLIMED:
         return _("Speed -25%;   Dexterity - 2");
-
-    case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
 
     case DI_BLEED:
         switch (dis.intensity) {
