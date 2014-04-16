@@ -70,7 +70,6 @@
             "*": "t_door_locked",
             "5": "t_chainfence_h",
             "8": "t_chainfence_v",
-            "f": "t_pavement",
             "v": "t_wall_glass_v",
             "M": "t_floor"
             },
