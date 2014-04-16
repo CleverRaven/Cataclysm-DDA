@@ -17,7 +17,6 @@
 
 std::vector<craft_cat> craft_cat_list;
 std::map<craft_cat, std::vector<craft_subcat> > craft_subcat_list;
-std::vector<std::string> recipe_names;
 recipe_map recipes;
 std::map<std::string, quality> qualities;
 
@@ -115,16 +114,17 @@ void load_recipe(JsonObject &jsobj)
 
     std::string rec_name = result + id_suffix;
 
-    for (std::vector<std::string>::iterator name_iter = recipe_names.begin();
-         name_iter != recipe_names.end(); ++name_iter) {
-        if ((*name_iter) == rec_name) {
-            throw jsobj.line_number() +
-            ": Recipe name collision (set a unique value for the id_suffix field to fix): " + rec_name;
+    int recipe_count = 0;
+    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
+        for (recipe_list::iterator list_iter = map_iter->second.begin();
+             list_iter != map_iter->second.end(); ++list_iter) {
+            if ((*list_iter)->ident == rec_name) {
+                jsobj.throw_error(std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") + rec_name, "result");
+            }
         }
+        recipe_count += map_iter->second.size();
     }
-
-    recipe_names.push_back(rec_name);
-    int id = recipe_names.size();
+    int id = recipe_count;
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, time, reversible,
@@ -164,7 +164,6 @@ void reset_recipes()
         }
     }
     recipes.clear();
-    recipe_names.clear();
 }
 
 void finalize_recipes()
