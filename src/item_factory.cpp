@@ -1104,7 +1104,7 @@ void Item_factory::clear_items_and_groups()
 
 Item_group *make_group_or_throw(Item_spawn_data* &isd, Item_group::Type t)
 {
-    
+
     Item_group *ig = dynamic_cast<Item_group*>(isd);
     if (ig == NULL) {
         isd = ig = new Item_group(t);
@@ -1480,7 +1480,7 @@ void Item_factory::debug_spawn()
 {
     std::vector<std::string> groups = get_all_group_names();
     uimenu menu;
-    menu.text = "which item group?";
+    menu.text = "Test which group?";
     for (size_t i = 0; i < groups.size(); i++) {
         menu.entries.push_back(uimenu_entry(i, true, -2, groups[i] ));
     }
