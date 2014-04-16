@@ -4349,9 +4349,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             add_effect("poison", 30);
         }
         else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
-            g->add_msg_if_player(this, _("You feel poison flood your body, wracking you with pain..."));
-            add_disease("badpoison", 40, false, 1, 20, 100);
-            add_effect("badpoison", 40);
+            add_effect("bad_poison", 40);
         }
         else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
             g->add_msg_if_player(this, _("You feel poison enter your body!"));
@@ -5224,7 +5222,12 @@ void player::process_effects() {
             }
         }
         if (one_in(hurt_chance)) {
-            mod_pain(it->get_hurt());
+            body_part bp = it->get_bp();
+            if (bp == num_bp) {
+                hurt(bp_torso, -1, it->get_hurt());
+            } else {
+                hurt(bp, it->get_side(), it->get_hurt());
+            }
         }
 
         std::string id = it->get_id();

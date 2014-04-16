@@ -180,9 +180,9 @@ int iuse::royal_jelly(player *p, item *it, bool)
   p->remove_effect("blind");
  }
  if (p->has_effect("poison") || p->has_disease("foodpoison") ||
-     p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {
+     p->has_effect("bad_poison") || p->has_disease("paralyzepoison")) {
   p->remove_effect("poison");
-  p->rem_disease("badpoison");
+  p->remove_effect("bad_poison");
   p->rem_disease("foodpoison");
   p->rem_disease("paralyzepoison");
  }

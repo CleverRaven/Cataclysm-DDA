@@ -92,7 +92,6 @@
         "desc" : ["Perception - 2;   Dexterity - 1;   Strength - 2 \nOccasional pain and/or damage."],
         "reduced_desc" : ["Perception - 1;   Dexterity - 1; \nRare pain and/or damage."],
         "health_affects" : true,
-        "decay_rate" : 100,
         "apply_message" : "You're poisoned!",
         "remove_message" : "You feel much better.",
         "resist_trait" : "POISRESIST",
@@ -101,18 +100,37 @@
             "dex_mod" : [-1, -1],
             "str_mod" : [-2],
             "pain" : [1],
+            "pain_reduced" : [1],
             "pain_chance" : [150, 900],
             "pain_sizing" : true,
             "hurt" : [1, 2],
+            "hurt_reduced" : [1, 2],
             "hurt_chance" : [450, 2700]
         }
     },
     {
         "type" : "effect_type",
-        "id" : "nasty_poisoned",
-        "name" : ["Poisoned"],
-        "desc" : ["Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\nOccasional pain and/or damage."],
-        "health_affects" : true
+        "id" : "bad_poison",
+        "name" : ["Badly Poisoned"],
+        "health_affects" : true,
+        "apply_message" : "You feel poison flood your body, wracking you with pain...",
+        "remove_message" : "You feel much better.",
+        "desc" : ["Perception - 2;   Dexterity - 2;   Strength - 3 \n Frequent pain and/or damage."],
+        "reduced_desc" : ["Perception - 2;   Dexterity - 2;   Strength - 1 \n Frequent pain and/or damage."],
+        "resist_trait" : "POISRESIST",
+        "base_mods" : {
+            "per_mod" : [-2, -2],
+            "dex_mod" : [-2, -2],
+            "str_mod" : [-3, -1],
+            "speed_mod" : [-10, -10],
+            "pain" : [2],
+            "pain_reduced" : [1],
+            "pain_chance" : [100, 500],
+            "pain_sizing" : true,
+            "hurt" : [1, 2],
+            "hurt_reduced" : [1, 2],
+            "hurt_chance" : [150, 750]
+        }
     },
     {
         "type" : "effect_type",
@@ -430,11 +448,6 @@
       "type" : "effect_type",
       "id" : "stemcell_treatment",
       "apply_message" : "It is excruciating."
-   },
-   {
-      "type" : "effect_type",
-      "id" : "badpoison",
-      "health_affects" : true
    },
    {
       "type" : "effect_type",

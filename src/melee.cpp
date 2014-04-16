@@ -1194,9 +1194,9 @@ void player::perform_special_attacks(Creature &t)
         g->add_msg_if_player(&t,_("You poison %s!"), target.c_str());
         t.add_effect("poison", 6);
     }
-    else if ((has_trait("POISONOUS2")) && (!(t.has_effect("nasty_poisoned")))) {
+    else if ((has_trait("POISONOUS2")) && (!(t.has_effect("bad_poison")))) {
         g->add_msg_if_player(&t,_("You inject your venom into %s!"), target.c_str());
-        t.add_effect("nasty_poisoned", 6);
+        t.add_effect("bad_poison", 6);
     }
  }
 }
