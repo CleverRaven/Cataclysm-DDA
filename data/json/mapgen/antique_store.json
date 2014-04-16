@@ -66,7 +66,6 @@
             "l": "t_floor",
             "=": "t_floor",
             "G": "t_floor",
-            "f": "t_pavement",
             "&": "t_door_locked",
             "B": "t_palisade",
             "*": "t_door_locked",
