@@ -1,4 +1,3 @@
-#include "map.h"
 #include "line.h"
 #include <map>
 #include <list>
@@ -27,6 +26,8 @@ struct pointcomp {
         return false;
     };
 };
+
+struct submap;
 
 /**
  * Store, buffer, save and load the entire world map.
@@ -76,17 +77,11 @@ class mapbuffer
         // There's a very good reason this is private,
         // if not handled carefully, this can erase in-use submaps and crash the game.
         void remove_submap( tripoint addr );
-        int load_keys( std::string worldname );
-        int unserialize_keys( std::ifstream &fin );
-        void unserialize_submaps( std::ifstream &fin, const int num_submaps );
-        bool unserialize_legacy(std::ifstream &fin);
-        void save_quad( std::ofstream &fout, const tripoint &om_addr, bool delete_after_save );
+        submap *unserialize_submaps( const tripoint &p );
+        void save_quad( const std::string &filename, const tripoint &om_addr, bool delete_after_save );
         std::map<tripoint, submap *, pointcomp> submaps;
         std::list<submap *> submap_list;
         bool dirty;
-        std::map<int, int> ter_key;
-        std::map<int, int> furn_key;
-        std::map<int, int> trap_key;
 };
 
 extern mapbuffer MAPBUFFER;
