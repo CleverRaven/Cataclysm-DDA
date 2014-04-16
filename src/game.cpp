@@ -13379,8 +13379,15 @@ void game::update_stair_monsters() {
                             // Stumble.  Unless your tentacles can latch on!
                             // As with the knockback-pushing, decided not to
                             // the system any more than necessary.
-                            if ((u.get_dodge() < 12) && (!(u.has_trait("LEG_TENT_BRACE"))))
+                            std::string msg="";
+                            if ((u.get_dodge() < 12) && (!(u.has_trait("LEG_TENT_BRACE")))) {
                                 u.add_effect("downed", 2);
+                                msg=_("The %s pushed you back hard!");
+                            } else {
+                                msg=_("The %s pushed you back!");
+                            };
+                            add_msg(msg.c_str(), critter.name().c_str());
+                            return;
                             return;
                         }
                         tries++;
@@ -13395,7 +13402,7 @@ void game::update_stair_monsters() {
                     critter.setpos(mposx, mposy, true);
                     int tries = 0;
                     int pushx, pushy;
-                    while(tries < 9) {
+                    while(tries < 9) { //TODO:needs tuning
                         tries++;
                         pushx = rng(-1, 1), pushy = rng(-1, 1);
                         int iposx = mposx + pushx;
@@ -13403,10 +13410,16 @@ void game::update_stair_monsters() {
                         if ((pushx == 0 && pushy == 0) || ((iposx == u.posx) && (iposy == u.posy)))
                             continue;
                         if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
-                            add_msg(_("The %s pushed the %s."), critter.name().c_str(), other.name().c_str());
                             other.setpos(iposx, iposy, false);
-                            if (other.get_dodge() < 12)
+                            other.moves -= 100;
+                            std::string msg="";
+                            if (one_in(4)) {//TODO:needs tuning
                                 other.add_effect("downed", 2);
+                                msg=_("The %s pushed the %s hard.");
+                            } else {
+                                msg=_("The %s pushed the %s.");
+                            };
+                            add_msg(msg.c_str(), critter.name().c_str(), other.name().c_str());
                             return;
                         }
                     }
