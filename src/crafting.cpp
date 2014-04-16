@@ -71,6 +71,34 @@ void load_obj_list(JsonArray &jsarr, std::vector< std::vector<component> > &objs
     }
 }
 
+// Check that the given recipe ident (rec_name) is unique, throw if not,
+// Returns the id for the new recipe.
+// If the recipe should override an existing one, the function removes the existing
+// recipe and returns the id if the removed recipe.
+int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
+{
+    const bool override_existing = jsobj.get_bool("override", false);
+    int recipe_count = 0;
+    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
+        for (recipe_list::iterator list_iter = map_iter->second.begin();
+             list_iter != map_iter->second.end(); ++list_iter) {
+            if ((*list_iter)->ident == rec_name) {
+                if (!override_existing) {
+                    jsobj.throw_error(std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") + rec_name, "result");
+                }
+                // overriding an existing recipe: delete it and remove the pointer
+                // keep the id,
+                const int tmp_id = (*list_iter)->id;
+                delete *list_iter;
+                map_iter->second.erase(list_iter);
+                return tmp_id;
+            }
+        }
+        recipe_count += map_iter->second.size();
+    }
+    return recipe_count;
+}
+
 void load_recipe(JsonObject &jsobj)
 {
     JsonArray jsarr;
@@ -113,28 +141,7 @@ void load_recipe(JsonObject &jsobj)
     }
 
     std::string rec_name = result + id_suffix;
-    const bool override_existing = jsobj.get_bool("override", false);
-
-    int recipe_count = 0;
-    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
-        for (recipe_list::iterator list_iter = map_iter->second.begin();
-             list_iter != map_iter->second.end(); ++list_iter) {
-            if ((*list_iter)->ident == rec_name) {
-                if (!override_existing) {
-                    jsobj.throw_error(std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") + rec_name, "result");
-                }
-                // overriding an existing recipe: delete it and remove the pointer
-                // keep the id,
-                recipe_count = (*list_iter)->id;
-                delete *list_iter;
-                map_iter->second.erase(list_iter);
-                map_iter != recipes.end();
-                break;
-            }
-        }
-        recipe_count += map_iter->second.size();
-    }
-    int id = recipe_count;
+    int id = check_recipe_ident(rec_name, jsobj);
 
     recipe *rec = new recipe(rec_name, id, result, category, subcategory, skill_used,
                              requires_skills, difficulty, time, reversible,
