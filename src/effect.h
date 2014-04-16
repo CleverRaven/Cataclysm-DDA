@@ -17,7 +17,35 @@ struct effect_mod_info {
     int per_mod;
     int int_mod;
     int speed_mod;
-    effect_mod_info() : str_mod(0), dex_mod(0), per_mod(0), int_mod(0), speed_mod(0) {};
+
+    int str_mod_reduced;
+    int dex_mod_reduced;
+    int per_mod_reduced;
+    int int_mod_reduced;
+    int speed_mod_reduced;
+
+    int pain_min;
+    int pain_max;
+    int pain_reduced_min;
+    int pain_reduced_max;
+    int pain_chance;
+    int pain_chance_reduced;
+    bool pain_sizing;
+
+    int hurt_min;
+    int hurt_max;
+    int hurt_reduced_min;
+    int hurt_reduced_max;
+    int hurt_chance;
+    int hurt_chance_reduced;
+    bool hurt_sizing;
+    effect_mod_info() : str_mod(0), dex_mod(0), per_mod(0), int_mod(0), speed_mod(0),
+                        str_mod_reduced(0), dex_mod_reduced(0), per_mod_reduced(0),
+                        int_mod_reduced(0), speed_mod_reduced(0), pain_min(0), pain_max(0),
+                        pain_reduced_min(0), pain_reduced_max(0), pain_chance(0),
+                        pain_chance_reduced(0), pain_sizing(false), hurt_min(0), hurt_max(0),
+                        hurt_reduced_min(0), hurt_reduced_max(0), hurt_chance(0),
+                        hurt_chance_reduced(0), hurt_sizing(false) {};
     bool load(JsonObject &jsobj, std::string member);
 };
 
@@ -32,7 +60,7 @@ class effect_type
         efftype_id id;
 
         std::string get_name(int intensity = 0);
-        std::string get_desc(int intensity = 0);
+        std::string get_desc(int intensity = 0, bool reduced = false);
         bool use_name_intensities();
         bool use_desc_intensities();
 
@@ -58,10 +86,12 @@ class effect_type
         int additive;
         bool main_parts_only;
         bool health_affects;
+        std::string resist_trait;
 
         std::vector<std::string> name;
         std::string speed_mod_name;
         std::vector<std::string> desc;
+        std::vector<std::string> reduced_desc;
 
         std::string apply_message;
         std::string apply_memorial_log;
@@ -82,7 +112,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         effect &operator=(const effect &rhs);
 
         std::string disp_name();
-        std::string disp_desc();
+        std::string disp_desc(bool reduced = false);
 
         effect_type *get_effect_type();
         void do_effect(Creature &t); // applies the disease's effects
@@ -106,11 +136,20 @@ class effect : public JsonSerializer, public JsonDeserializer
         body_part get_bp();
         int get_side();
 
-        int get_str_mod();
-        int get_dex_mod();
-        int get_per_mod();
-        int get_int_mod();
-        int get_speed_boost();
+        int get_str_mod(bool reduced = false);
+        int get_dex_mod(bool reduced = false);
+        int get_per_mod(bool reduced = false);
+        int get_int_mod(bool reduced = false);
+        int get_speed_boost(bool reduced = false);
+
+        int get_pain(bool reduced = false);
+        int get_pain_chance(bool reduced = false);
+        bool get_pain_sizing();
+
+        int get_hurt(bool reduced = false);
+        int get_hurt_chance(bool reduced = false);
+        bool get_hurt_sizing();
+        std::string get_resist_trait();
 
         efftype_id get_id() {
             return eff_type->id;

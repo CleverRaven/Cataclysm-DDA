@@ -181,7 +181,6 @@ int iuse::royal_jelly(player *p, item *it, bool)
  }
  if (p->has_effect("poison") || p->has_disease("foodpoison") ||
      p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {
-  message = _("You feel much better!");
   p->remove_effect("poison");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");

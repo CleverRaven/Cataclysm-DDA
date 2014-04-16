@@ -10,11 +10,130 @@ std::map<std::string, effect_type> effect_types;
 bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
-        str_mod = j.get_int("str_mod", 0);
-        dex_mod = j.get_int("dex_mod", 0);
-        per_mod = j.get_int("per_mod", 0);
-        int_mod = j.get_int("int_mod", 0);
-        speed_mod = j.get_int("speed_mod", 0);
+        if(j.has_member("str_mod")) {
+            JsonArray jsarr = j.get_array("str_mod");
+                str_mod = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                str_mod_reduced = jsarr.get_int(1);
+            } else {
+                str_mod_reduced = 0;
+            }
+        } else {
+            str_mod = 0;
+            str_mod_reduced = 0;
+        }
+        if(j.has_member("dex_mod")) {
+            JsonArray jsarr = j.get_array("dex_mod");
+                dex_mod = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                dex_mod_reduced = jsarr.get_int(1);
+            } else {
+                dex_mod_reduced = 0;
+            }
+        } else {
+            dex_mod = 0;
+            dex_mod_reduced = 0;
+        }
+        if(j.has_member("per_mod")) {
+            JsonArray jsarr = j.get_array("per_mod");
+                per_mod = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                per_mod_reduced = jsarr.get_int(1);
+            } else {
+                per_mod_reduced = 0;
+            }
+        } else {
+            per_mod = 0;
+            per_mod_reduced = 0;
+        }
+        if(j.has_member("int_mod")) {
+            JsonArray jsarr = j.get_array("int_mod");
+                int_mod = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                int_mod_reduced = jsarr.get_int(1);
+            } else {
+                int_mod_reduced = 0;
+            }
+        } else {
+            int_mod = 0;
+            int_mod_reduced = 0;
+        }
+        if(j.has_member("speed_mod")) {
+            JsonArray jsarr = j.get_array("speed_mod");
+                speed_mod = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                speed_mod_reduced = jsarr.get_int(1);
+            } else {
+                speed_mod_reduced = 0;
+            }
+        } else {
+            speed_mod = 0;
+            speed_mod_reduced = 0;
+        }
+
+        if(j.has_member("pain")) {
+            JsonArray jsarr = j.get_array("pain");
+                pain_min = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                pain_max = jsarr.get_int(1);
+            } else {
+                pain_max = pain_min;
+            }
+        }
+        if(j.has_member("pain_reduced")) {
+            JsonArray jsarr = j.get_array("pain_reduced");
+                pain_reduced_min = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                pain_reduced_max = jsarr.get_int(1);
+            } else {
+                pain_reduced_max = pain_reduced_min;
+            }
+        }
+        if(j.has_member("pain_chance")) {
+            JsonArray jsarr = j.get_array("pain_chance");
+                pain_chance = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                pain_chance_reduced = jsarr.get_int(1);
+            } else {
+                pain_chance_reduced = 0;
+            }
+        } else {
+            pain_chance = 0;
+            pain_chance_reduced = 0;
+        }
+        pain_sizing = j.get_bool("pain_sizing", false);
+
+        if(j.has_member("hurt")) {
+            JsonArray jsarr = j.get_array("hurt");
+                hurt_min = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                hurt_max = jsarr.get_int(1);
+            } else {
+                hurt_max = hurt_min;
+            }
+        }
+        if(j.has_member("hurt_reduced")) {
+            JsonArray jsarr = j.get_array("hurt_reduced");
+                hurt_reduced_min = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                hurt_reduced_max = jsarr.get_int(1);
+            } else {
+                hurt_reduced_max = hurt_reduced_min;
+            }
+        }
+        if(j.has_member("hurt_chance")) {
+            JsonArray jsarr = j.get_array("hurt_chance");
+                hurt_chance = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                hurt_chance_reduced = jsarr.get_int(1);
+            } else {
+                hurt_chance_reduced = 0;
+            }
+        } else {
+            hurt_chance = 0;
+            hurt_chance_reduced = 0;
+        }
+        hurt_sizing = j.get_bool("hurt_sizing", false);
 
         return true;
     } else {
@@ -33,12 +152,20 @@ std::string effect_type::get_name(int intensity)
         return name[0];
     }
 }
-std::string effect_type::get_desc(int intensity)
+std::string effect_type::get_desc(int intensity, bool reduced)
 {
     if (use_desc_intensities()) {
-        return desc[intensity - 1];
+        if (reduced) {
+            return reduced_desc[intensity - 1];
+        } else {
+            return desc[intensity - 1];
+        }
     } else {
-        return desc[0];
+        if (reduced) {
+            return reduced_desc[0];
+        } else {
+            return desc[0];
+        }
     }
 }
 bool effect_type::use_name_intensities()
@@ -150,9 +277,9 @@ std::string effect::disp_name()
     }
     return ret.str();
 }
-std::string effect::disp_desc()
+std::string effect::disp_desc(bool reduced)
 {
-    return eff_type->get_desc(intensity);
+    return eff_type->get_desc(intensity, reduced);
 }
 
 void effect::do_effect(Creature &)
@@ -229,40 +356,145 @@ int effect::get_side()
 {
     return side;
 }
-int effect::get_str_mod()
+
+int effect::get_str_mod(bool reduced)
 {
     int ret = 0;
-    ret += eff_type->base_mods.str_mod;
-    ret += eff_type->scaling_mods.str_mod * intensity;
+    if (!reduced) {
+        ret += eff_type->base_mods.str_mod;
+        ret += eff_type->scaling_mods.str_mod * intensity;
+    } else {
+        ret += eff_type->base_mods.str_mod_reduced;
+        ret += eff_type->scaling_mods.str_mod_reduced * intensity;
+    }
     return ret;
 }
-int effect::get_dex_mod()
+int effect::get_dex_mod(bool reduced)
 {
     int ret = 0;
-    ret += eff_type->base_mods.dex_mod;
-    ret += eff_type->scaling_mods.dex_mod * intensity;
+    if (!reduced) {
+        ret += eff_type->base_mods.dex_mod;
+        ret += eff_type->scaling_mods.dex_mod * intensity;
+    } else {
+        ret += eff_type->base_mods.dex_mod_reduced;
+        ret += eff_type->scaling_mods.dex_mod_reduced * intensity;
+    }
     return ret;
 }
-int effect::get_per_mod()
+int effect::get_per_mod(bool reduced)
 {
     int ret = 0;
-    ret += eff_type->base_mods.per_mod;
-    ret += eff_type->scaling_mods.per_mod * intensity;
+    if (!reduced) {
+        ret += eff_type->base_mods.per_mod;
+        ret += eff_type->scaling_mods.per_mod * intensity;
+    } else {
+        ret += eff_type->base_mods.per_mod_reduced;
+        ret += eff_type->scaling_mods.per_mod_reduced * intensity;
+    }
     return ret;
 }
-int effect::get_int_mod()
+int effect::get_int_mod(bool reduced)
 {
     int ret = 0;
-    ret += eff_type->base_mods.int_mod;
-    ret += eff_type->scaling_mods.int_mod * intensity;
+    if (!reduced) {
+        ret += eff_type->base_mods.int_mod;
+        ret += eff_type->scaling_mods.int_mod * intensity;
+    } else {
+        ret += eff_type->base_mods.int_mod_reduced;
+        ret += eff_type->scaling_mods.int_mod_reduced * intensity;
+    }
     return ret;
 }
-int effect::get_speed_boost()
+int effect::get_speed_boost(bool reduced)
 {
     int ret = 0;
-    ret += eff_type->base_mods.speed_mod;
-    ret += eff_type->scaling_mods.speed_mod * intensity;
+    if (!reduced) {
+        ret += eff_type->base_mods.speed_mod;
+        ret += eff_type->scaling_mods.speed_mod * intensity;
+    } else {
+        ret += eff_type->base_mods.speed_mod_reduced;
+        ret += eff_type->scaling_mods.speed_mod_reduced * intensity;
+    }
     return ret;
+}
+int effect::get_pain(bool reduced)
+{
+    int ret = 0;
+    if (!reduced) {
+        ret += rng(eff_type->base_mods.pain_min, eff_type->base_mods.pain_max);
+        ret += rng(eff_type->base_mods.pain_min, eff_type->base_mods.pain_max) * intensity;
+    } else {
+        ret += rng(eff_type->base_mods.pain_reduced_min, eff_type->base_mods.pain_reduced_max);
+        ret += rng(eff_type->base_mods.pain_reduced_min, 
+                    eff_type->base_mods.pain_reduced_max) * intensity;
+    }
+    if (ret == 0 && get_pain_chance(reduced) > 0) {
+        return 1;
+    } else {
+        return ret;
+    }
+}
+int effect::get_pain_chance(bool reduced)
+{
+    int ret = 0;
+    if (!reduced) {
+        ret += eff_type->base_mods.pain_chance;
+        ret += eff_type->scaling_mods.pain_chance * intensity;
+    } else {
+        ret += eff_type->base_mods.pain_chance_reduced;
+        ret += eff_type->scaling_mods.pain_chance_reduced * intensity;
+    }
+    if (ret == 0 && get_pain(reduced) > 0) {
+        return 1;
+    } else {
+        return ret;
+    }
+}
+bool effect::get_pain_sizing()
+{
+    return eff_type->base_mods.pain_sizing;
+}
+int effect::get_hurt(bool reduced)
+{
+    int ret = 0;
+    if (!reduced) {
+        ret += rng(eff_type->base_mods.hurt_min, eff_type->base_mods.hurt_max);
+        ret += rng(eff_type->base_mods.hurt_min, eff_type->base_mods.hurt_max) * intensity;
+    } else {
+        ret += rng(eff_type->base_mods.hurt_reduced_min, eff_type->base_mods.hurt_reduced_max);
+        ret += rng(eff_type->base_mods.hurt_reduced_min, 
+                    eff_type->base_mods.hurt_reduced_max) * intensity;
+    }
+    if (ret == 0 && get_hurt_chance(reduced) > 0) {
+        return 1;
+    } else {
+        return ret;
+    }
+}
+int effect::get_hurt_chance(bool reduced)
+{
+    int ret = 0;
+    if (!reduced) {
+        ret += eff_type->base_mods.hurt_chance;
+        ret += eff_type->scaling_mods.hurt_chance * intensity;
+    } else {
+        ret += eff_type->base_mods.hurt_chance_reduced;
+        ret += eff_type->scaling_mods.hurt_chance_reduced * intensity;
+    }
+    if (ret == 0 && get_hurt(reduced) > 0) {
+        return 1;
+    } else {
+        return ret;
+    }
+}
+bool effect::get_hurt_sizing()
+{
+    return eff_type->base_mods.hurt_sizing;
+}
+
+std::string effect::get_resist_trait()
+{
+    return eff_type->resist_trait;
 }
 
 effect_type *effect::get_effect_type()
@@ -283,6 +515,8 @@ void load_effect_type(JsonObject &jo)
     } else {
         new_etype.name.push_back("");
     }
+    new_etype.speed_mod_name = jo.get_string("speed_name", "");
+
     if(jo.has_member("desc")) {
         JsonArray jsarr = jo.get_array("desc");
         while (jsarr.has_more()) {
@@ -291,7 +525,19 @@ void load_effect_type(JsonObject &jo)
     } else {
         new_etype.desc.push_back("");
     }
-    new_etype.speed_mod_name = jo.get_string("speed_name", "");
+    if(jo.has_member("reduced_desc")) {
+        JsonArray jsarr = jo.get_array("reduced_desc");
+        while (jsarr.has_more()) {
+            new_etype.reduced_desc.push_back(_(jsarr.next_string().c_str()));
+        }
+    } else if (jo.has_member("desc")) {
+        JsonArray jsarr = jo.get_array("desc");
+        while (jsarr.has_more()) {
+            new_etype.reduced_desc.push_back(_(jsarr.next_string().c_str()));
+        }
+    } else {
+        new_etype.reduced_desc.push_back("");
+    }
 
     new_etype.apply_message = jo.get_string("apply_message", "");
     new_etype.remove_message = jo.get_string("remove_message", "");
@@ -304,6 +550,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.main_parts_only = jo.get_bool("main_parts", false);
 
     new_etype.health_affects = jo.get_bool("health_affects", false);
+    new_etype.resist_trait = jo.get_string("resist_trait", "");
 
     new_etype.base_mods.load(jo, "base_mods");
     new_etype.scaling_mods.load(jo, "scaling_mods");

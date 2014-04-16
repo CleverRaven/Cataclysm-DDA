@@ -1204,7 +1204,7 @@ void monster::process_effects()
         if (id == "nasty_poisoned") {
             speed -= rng(3, 5);
             hurt(rng(3, 6));
-        } if (id == "poisoned") {
+        } if (id == "poison") {
             speed -= rng(0, 3);
             hurt(rng(1, 3));
 
