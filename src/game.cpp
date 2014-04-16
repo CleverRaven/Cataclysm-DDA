@@ -565,7 +565,7 @@ void game::start_game(std::string worldname)
  tinymap player_start;
  player_start.load( player_location.x, player_location.y, levz, false );
  player_start.translate( t_window_domestic, t_curtains );
- player_start.save( cur_om, int(turn), levx, levy, levz );
+ player_start.save( cur_om, int(turn), player_location.x, player_location.y, levz );
 
  levx -= int(int(MAPSIZE / 2) / 2);
  levy -= int(int(MAPSIZE / 2) / 2);
