@@ -63,7 +63,9 @@
 #endif
 
 #ifndef _MSC_VER
+	#if !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
+	#endif
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -3996,7 +3998,7 @@ void game::debug()
                    _("Change weather"),         // 18
                    _("Remove all monsters"),    // 19
                    _("Display hordes"), // 20
-                   _("item spawn debug"), // 21
+                   _("Test Item Group"), // 21
                    #ifdef LUA
                        _("Lua Command"), // 22
                    #endif
