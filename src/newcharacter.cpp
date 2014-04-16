@@ -1361,8 +1361,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     uimenu select_location;
     select_location.text = _("Select a starting location.");
     int offset = 0;
-    for( location_map::iterator loc = start_location::_locations.begin();
-         loc != start_location::_locations.end(); ++loc, ++offset ) {
+    for( location_map::iterator loc = start_location::begin();
+         loc != start_location::end(); ++loc, ++offset ) {
         select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
         if( loc->second.ident() == u->start_location ) {
             select_location.selected = offset;
@@ -1566,8 +1566,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         } else if ( action == "CHOOSE_LOCATION" ){
             select_location.redraw();
             select_location.query();
-            for( location_map::iterator loc = start_location::_locations.begin();
-                 loc != start_location::_locations.end(); ++loc ) {
+            for( location_map::iterator loc = start_location::begin();
+                 loc != start_location::end(); ++loc ) {
                 if( 0 == strcmp( _( loc->second.name().c_str() ),
                                  select_location.entries[ select_location.selected ].txt.c_str() ) ) {
                     u->start_location = loc->second.ident();
