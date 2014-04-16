@@ -924,7 +924,7 @@ void game::compare(int iCompareX, int iCompareY)
                     const char invlet = it.invlet == 0 ? ' ' : it.invlet;
                     mvwputch (w_inv, cur_line, 0, c_white, invlet);
                     nc_color col = (compare_list[cur_it] == 0 ? c_ltgray : c_white);
-                    if(stacks[cur_it].first->size() > 1) {
+                    if(stacks[cur_it - groundsize].first->size() > 1) {
                         mvwprintz(w_inv, cur_line, 1, col, " %c %d %s", icon,
                                   stacks[cur_it - groundsize].first->size(),
                                   it.tname(stacks[cur_it - groundsize].first->size()).c_str());
