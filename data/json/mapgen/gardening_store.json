@@ -70,7 +70,6 @@
             "*": "t_door_locked",
             "5": "t_chainfence_h",
             "8": "t_chainfence_v",
-            "f": "t_pavement",
             "v": "t_wall_glass_v",
             "M": "t_floor"
             },
@@ -96,7 +95,6 @@
             "F": "f_null",
             "@": "f_null",
             ":": "f_dresser",
-            "T": "f_toilet",
             "l": "f_vending_c",
             "S": "f_null",
             "G": "f_desk",
