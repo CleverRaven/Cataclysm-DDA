@@ -7732,8 +7732,7 @@
       ["broadsword_fake", 8],
       ["rapier_fake", 8],
       ["wakizashi_fake", 8],
-      ["kris_fake", 8],
-      ["tanto_fake", 8]
+      ["kris_fake", 8]
     ]
   },{
 "type" : "item_group",
