@@ -1143,7 +1143,16 @@ action_id handle_action_menu()
         if(category != "back") {
             title += ": " + category;
         }
-        int selection = (int) uimenu(true, 0, 50, 0, title, entries);
+
+        int width=0;
+        for (std::vector<uimenu_entry>::iterator entry = entries.begin(); entry != entries.end(); entry++) {
+            if (width<entry->txt.length())
+                width = entry->txt.length();
+        }
+        width += 2+3+3; //border=2, selectors=3, after=3 for balance.
+        int ix = (TERMX > width) ? (TERMX - width) / 2 -1 : 0;
+        int iy = (TERMY > entries.size()+2) ? (TERMY - entries.size() -2) / 2 -1 : 0;
+        int selection = (int) uimenu(true, std::max(ix,0), width, std::max(iy,0), title, entries);
 
         erase();
         g->refresh_all();
