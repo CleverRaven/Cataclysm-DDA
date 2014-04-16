@@ -51,7 +51,8 @@
               "s_hardware": 5,
               "s_sports": 5,
               "dojo": 2,
-              "gym": 2,
+              "gym": 1,
+              "gym_fitness": 2,
               "s_liquor": 5,
               "s_gun": 5,
               "s_clothes": 5,
@@ -59,8 +60,8 @@
               "s_restaurant": 4,
               "sub_station": 5,
               "bank": 3,
-              "bar": 4,
               "s_pizza_parlor": 4,
+              "bar": 4,
               "s_electronics": 5,
               "pawn": 3,
               "mil_surplus": 2,
@@ -77,7 +78,12 @@
               "police": 1,
               "fire_station": 2,
               "home_improvement": 2,
-              "s_lot": 4
+              "s_lot": 4,
+              "s_arcade": 2,
+              "s_jewelry":2,
+              "s_antique": 2,
+              "s_gardening": 2,
+              "museum": 1
           }
       }
    }
