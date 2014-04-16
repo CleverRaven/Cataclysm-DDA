@@ -2112,12 +2112,12 @@ point overmap::draw_overmap(const tripoint& orig, bool debug_mongroup)
     return ret;
 }
 
-void overmap::first_house(int &x, int &y)
+void overmap::first_house(int &x, int &y, const std::string start_location)
 {
     std::vector<point> valid;
     for (int i = 0; i < OMAPX; i++) {
         for (int j = 0; j < OMAPY; j++) {
-            if (ter(i, j, 0) == "shelter") {
+            if (ter(i, j, 0).t().id_base == start_location) {
                 valid.push_back( point(i, j) );
             }
         }
