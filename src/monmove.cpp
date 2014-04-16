@@ -8,6 +8,7 @@
 #include "pldata.h"
 #include <stdlib.h>
 #include "cursesdef.h"
+#include "enums.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -101,6 +102,7 @@ void monster::plan(const std::vector<int> &friendlies)
     int tc = 0;
     int stc = 0;
     bool fleeing = false;
+    bool bdocile = false;
     if (friendly != 0) { // Target monsters, not the player!
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
             monster *tmp = &(g->zombie(i));
@@ -115,6 +117,7 @@ void monster::plan(const std::vector<int> &friendlies)
         }
 
         if (has_effect("docile")) {
+            bdocile = true;
             closest = -1;
         }
 
@@ -192,7 +195,38 @@ void monster::plan(const std::vector<int> &friendlies)
             } else {
                 --stc;
             }
-            // gives a 2 in 9 chance of stumbling to a side
+        }
+
+        if (one_in(8) && ( ((closest == -1) && (!bdocile)) || (closest == -2) )) {
+            //TODO:enhance by relating to monster intelligence
+            // "mob repositions closer on a single axis. 'by intuition'."
+            // allows monsters to slide past obstacles without endlessly bashing it.
+            if (one_in(2)) { //slide x
+                int isgn=sgn(g->u.posx -posx());
+                while (isgn==0) {
+                    isgn=rng(-1,1);
+                };
+                set_dest(posx() + isgn, posy(), stc);
+            } else {        //slide y
+                int isgn=sgn(g->u.posy -posy());
+                while (isgn==0) {
+                    isgn=rng(-1,1);
+                };
+                set_dest(posx(), posy() + isgn, stc);
+            }
+        } else if ((closest == -1) && (!bdocile)) {
+            //aggressive and can not see the player. make an inexact plan some of the time
+            //or leave planning to the caller's smell and stumble code.
+            if (one_in(20)) { //TODO:enhance by relating to monster intelligence
+                // "mob forgot what he was doing for a sec"
+                // d20 chance to take a random step. of these, about 3 in 9 times,
+                // the mob steps back 'for perspective', or forwards, even if diagonally.
+                // 2 in 9 he'll step to the side. 1 in 9, he'll idle. differs from a stumble.
+                set_dest(posx() + rng(-1,1), posy() + rng(-1,1), stc);
+            }
+        } else
+        if (closest == -2) {
+            //aggressive and sees the player. 2 in 9 aims to the side
             int pushx = rng(-1, 1), pushy = rng(-1, 1);
             set_dest(g->u.posx + pushx, g->u.posy + pushy, stc);
         }
