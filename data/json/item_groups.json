@@ -7696,8 +7696,6 @@
 "type" : "item_group",
 "id" : "antique",
         "items" : [
-      ["pistol_flintlock", 4],
-      ["rifle_flintlock", 4],
       ["cow_bell", 15],
       ["sickle", 2],
       ["scythe",2],
@@ -7734,8 +7732,6 @@
 "type"  : "item_group",
 "id"    : "antique_rare",
 "items" : [
-      ["pistol_flintlock", 4],
-      ["rifle_flintlock", 4],
       ["broadsword", 4],
       ["nodachi", 4],
       ["zweihander", 4],
@@ -7883,14 +7879,8 @@
   },{
 "type" : "item_group",
 "id" : "museum_guns",
+"//" : "empty, because its content is no in the Oldies Pack mod, remove this comment if you add stuff",
 "items" : [
-      ["pistol_flintlock", 60],
-      ["rifle_flintlock", 60],
-      ["flintlock_ammo", 60],
-      ["colt_army", 50],
-      ["colt_navy", 50],
-      ["36navy", 50],
-      ["44army", 50]
     ]
   },{
 "type" : "item_group",
