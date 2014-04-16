@@ -79,6 +79,9 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
             } else {
                 pain_max = pain_min;
             }
+        } else {
+            pain_min = 0;
+            pain_max = 0;
         }
         if(j.has_member("pain_reduced")) {
             JsonArray jsarr = j.get_array("pain_reduced");
@@ -88,6 +91,9 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
             } else {
                 pain_reduced_max = pain_reduced_min;
             }
+        } else {
+            pain_reduced_min = 0;
+            pain_reduced_max = 0;
         }
         if(j.has_member("pain_chance")) {
             JsonArray jsarr = j.get_array("pain_chance");
@@ -111,6 +117,9 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
             } else {
                 hurt_max = hurt_min;
             }
+        } else {
+            hurt_min = 0;
+            hurt_max = 0;
         }
         if(j.has_member("hurt_reduced")) {
             JsonArray jsarr = j.get_array("hurt_reduced");
@@ -120,6 +129,9 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
             } else {
                 hurt_reduced_max = hurt_reduced_min;
             }
+        } else {
+            hurt_reduced_min = 0;
+            hurt_reduced_max = 0;
         }
         if(j.has_member("hurt_chance")) {
             JsonArray jsarr = j.get_array("hurt_chance");
