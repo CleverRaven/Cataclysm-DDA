@@ -1307,6 +1307,9 @@ void player::recalc_speed_bonus()
     for (int i = 0; i < illness.size(); i++) {
         mod_speed_bonus(disease_speed_boost(illness[i]));
     }
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        mod_speed_bonus(it->get_speed_boost());
+    }
 
     // add martial arts speed bonus
     mod_speed_bonus(mabuff_speed_bonus());
@@ -2459,14 +2462,23 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     std::map<std::string, int> speed_effects;
     std::string dis_text = "";
-    for (int i = 0; i < illness.size(); i++) {
-        int move_adjust = disease_speed_boost(illness[i]);
+    int move_adjust = 0;
+    for (size_t i = 0; i < illness.size(); i++) {
+        move_adjust = disease_speed_boost(illness[i]);
         if (move_adjust != 0) {
             if (dis_combined_name(illness[i]) == "") {
                 dis_text = dis_name(illness[i]);
             } else {
                 dis_text = dis_combined_name(illness[i]);
             }
+            speed_effects[dis_text] += move_adjust;
+        }
+    }
+
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        move_adjust = it->get_speed_boost();
+        if (move_adjust != 0) {
+            dis_text = it->get_effect_type()->speed_name();
             speed_effects[dis_text] += move_adjust;
         }
     }
@@ -5176,6 +5188,10 @@ void player::process_effects() {
     int psnChance;
     for (std::vector<effect>::iterator it = effects.begin();
             it != effects.end(); ++it) {
+        mod_str_bonus(it->get_str_mod());
+        mod_dex_bonus(it->get_dex_mod());
+        mod_per_bonus(it->get_per_mod());
+        mod_int_bonus(it->get_int_mod());
         std::string id = it->get_id();
         if (id == "onfire") {
             manage_fire_exposure(*this, 1);
@@ -5731,7 +5747,7 @@ void player::suffer()
         g->add_msg(_("Your vision pixelates!"));
         add_disease("visuals", 100);
     }
-    if (has_bionic("bio_spasm") && one_in(3000) && !has_disease("downed")) {
+    if (has_bionic("bio_spasm") && one_in(3000) && !has_effect("downed")) {
         g->add_msg(_("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect("stunned", 1);

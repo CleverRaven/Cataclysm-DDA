@@ -1147,7 +1147,7 @@ void map::step_in_field(int x, int y)
 
         case fd_rubble:
             //You are walking on rubble. Slow down.
-            g->u.add_disease("bouldering", 0, false, cur->getFieldDensity(), 3);
+            g->u.add_effect("bouldering", 0, false, cur->getFieldDensity());
             break;
 
         case fd_smoke:
@@ -1268,7 +1268,7 @@ void map::step_in_field(int x, int y)
 
     if(no_rubble) {
         //After iterating through all fields, if we found no rubble, remove the rubble disease.
-        g->u.rem_disease("bouldering");
+        g->u.remove_effect("bouldering");
     }
 }
 

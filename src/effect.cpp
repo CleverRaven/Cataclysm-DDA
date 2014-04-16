@@ -7,31 +7,38 @@
 
 std::map<std::string, effect_type> effect_types;
 
+bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
+    if( jsobj.has_object(member) ) {
+        JsonObject j = jsobj.get_object(member);
+        str_mod = j.get_int("str_mod", 0);
+        dex_mod = j.get_int("dex_mod", 0);
+        per_mod = j.get_int("per_mod", 0);
+        int_mod = j.get_int("int_mod", 0);
+        speed_mod = j.get_int("speed_mod", 0);
+
+        return true;
+    } else {
+        return false;
+    }
+}
+
 effect_type::effect_type() {}
 effect_type::effect_type(const effect_type &) {}
 
 std::string effect_type::get_name(int intensity)
 {
     if (use_name_intensities()) {
-        return name[intensity];
+        return name[intensity - 1];
     } else {
-        if (name.size() == 0) {
-            return "";
-        } else {
-            return name[0];
-        }
+        return name[0];
     }
 }
 std::string effect_type::get_desc(int intensity)
 {
     if (use_desc_intensities()) {
-        return desc[intensity];
+        return desc[intensity - 1];
     } else {
-        if (desc.size() == 0) {
-            return "";
-        } else {
-            return desc[0];
-        }
+        return desc[0];
     }
 }
 bool effect_type::use_name_intensities()
@@ -41,6 +48,14 @@ bool effect_type::use_name_intensities()
 bool effect_type::use_desc_intensities()
 {
     return ((size_t)max_intensity <= desc.size());
+}
+std::string effect_type::speed_name()
+{
+    if (speed_mod_name == "") {
+        return get_name(1);
+    } else {
+        return speed_mod_name;
+    }
 }
 std::string effect_type::get_apply_message()
 {
@@ -214,6 +229,41 @@ int effect::get_side()
 {
     return side;
 }
+int effect::get_str_mod()
+{
+    int ret = 0;
+    ret += eff_type->base_mods.str_mod;
+    ret += eff_type->scaling_mods.str_mod * intensity;
+    return ret;
+}
+int effect::get_dex_mod()
+{
+    int ret = 0;
+    ret += eff_type->base_mods.dex_mod;
+    ret += eff_type->scaling_mods.dex_mod * intensity;
+    return ret;
+}
+int effect::get_per_mod()
+{
+    int ret = 0;
+    ret += eff_type->base_mods.per_mod;
+    ret += eff_type->scaling_mods.per_mod * intensity;
+    return ret;
+}
+int effect::get_int_mod()
+{
+    int ret = 0;
+    ret += eff_type->base_mods.int_mod;
+    ret += eff_type->scaling_mods.int_mod * intensity;
+    return ret;
+}
+int effect::get_speed_boost()
+{
+    int ret = 0;
+    ret += eff_type->base_mods.speed_mod;
+    ret += eff_type->scaling_mods.speed_mod * intensity;
+    return ret;
+}
 
 effect_type *effect::get_effect_type()
 {
@@ -225,14 +275,23 @@ void load_effect_type(JsonObject &jo)
     effect_type new_etype;
     new_etype.id = jo.get_string("id");
 
-    JsonArray jsarr = jo.get_array("name");
-    while (jsarr.has_more()) {
-        new_etype.name.push_back(_(jsarr.next_string().c_str()));
+    if(jo.has_member("name")) {
+        JsonArray jsarr = jo.get_array("name");
+        while (jsarr.has_more()) {
+            new_etype.name.push_back(_(jsarr.next_string().c_str()));
+        }
+    } else {
+        new_etype.name.push_back("");
     }
-    jsarr = jo.get_array("desc");
-    while (jsarr.has_more()) {
-        new_etype.desc.push_back(_(jsarr.next_string().c_str()));
+    if(jo.has_member("desc")) {
+        JsonArray jsarr = jo.get_array("desc");
+        while (jsarr.has_more()) {
+            new_etype.desc.push_back(_(jsarr.next_string().c_str()));
+        }
+    } else {
+        new_etype.desc.push_back("");
     }
+    new_etype.speed_mod_name = jo.get_string("speed_name", "");
 
     new_etype.apply_message = jo.get_string("apply_message", "");
     new_etype.remove_message = jo.get_string("remove_message", "");
@@ -245,6 +304,9 @@ void load_effect_type(JsonObject &jo)
     new_etype.main_parts_only = jo.get_bool("main_parts", false);
 
     new_etype.health_affects = jo.get_bool("health_affects", false);
+
+    new_etype.base_mods.load(jo, "base_mods");
+    new_etype.scaling_mods.load(jo, "scaling_mods");
 
     effect_types[new_etype.id] = new_etype;
 }

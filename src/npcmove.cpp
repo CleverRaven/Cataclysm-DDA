@@ -937,7 +937,7 @@ void npc::move_to(int x, int y)
   moves -= 100;
   return;
  }
- if (has_disease("bouldering")) {
+ if (has_effect("bouldering")) {
   moves -= 20;
   if (moves < 0)
    moves = 0;
@@ -1010,9 +1010,9 @@ void npc::move_to(int x, int y)
  } else {
      int frubble = g->m.get_field_strength( point(x, y), fd_rubble );
      if (frubble > 0 ) {
-        g->u.add_disease("bouldering", 100, false, frubble, 3);
+        g->u.add_effect("bouldering", 100, false, frubble);
      } else {
-        g->u.rem_disease("bouldering");
+        g->u.remove_effect("bouldering");
      }
      moves -= 100;
   }

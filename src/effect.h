@@ -11,6 +11,16 @@ class Creature;
 
 extern std::map<std::string, effect_type> effect_types;
 
+struct effect_mod_info {
+    int str_mod;
+    int dex_mod;
+    int per_mod;
+    int int_mod;
+    int speed_mod;
+    effect_mod_info() : str_mod(0), dex_mod(0), per_mod(0), int_mod(0), speed_mod(0) {};
+    bool load(JsonObject &jsobj, std::string member);
+};
+
 class effect_type
 {
         friend void load_effect_type(JsonObject &jo);
@@ -25,6 +35,8 @@ class effect_type
         std::string get_desc(int intensity = 0);
         bool use_name_intensities();
         bool use_desc_intensities();
+
+        std::string speed_name();
 
         std::string get_apply_message();
         std::string get_apply_memorial_log();
@@ -48,12 +60,16 @@ class effect_type
         bool health_affects;
 
         std::vector<std::string> name;
+        std::string speed_mod_name;
         std::vector<std::string> desc;
 
         std::string apply_message;
         std::string apply_memorial_log;
         std::string remove_message;
         std::string remove_memorial_log;
+
+        effect_mod_info base_mods;
+        effect_mod_info scaling_mods;
 };
 
 class effect : public JsonSerializer, public JsonDeserializer
@@ -89,6 +105,12 @@ class effect : public JsonSerializer, public JsonDeserializer
 
         body_part get_bp();
         int get_side();
+
+        int get_str_mod();
+        int get_dex_mod();
+        int get_per_mod();
+        int get_int_mod();
+        int get_speed_boost();
 
         efftype_id get_id() {
             return eff_type->id;

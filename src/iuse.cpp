@@ -1277,7 +1277,7 @@ int iuse::mutagen(player *p, item *it, bool) {
             p->thirst += 10;
             if (one_in(4)) {
                 g->add_msg_if_player(p, _("You suddenly feel dizzy, and collapse to the ground."));
-                p->add_disease("downed", 1);
+                p->add_effect("downed", 1);
             }
         }
         if (one_in(2)) {
@@ -1302,7 +1302,7 @@ int iuse::mutagen(player *p, item *it, bool) {
             p->thirst += 10;
             if (one_in(4)) {
               g->add_msg_if_player(p, _("You suddenly feel dizzy, and collapse to the ground."));
-              p->add_disease("downed", 1);
+              p->add_effect("downed", 1);
             }
         }
     } else {
@@ -1375,7 +1375,7 @@ int iuse::mutagen(player *p, item *it, bool) {
         p->thirst += 10;
         if (one_in(4)) {
             g->add_msg_if_player(p, _("You suddenly feel dizzy, and collapse to the ground."));
-            p->add_disease("downed", 1);
+            p->add_effect("downed", 1);
         }
     }
     return it->type->charges_to_use();
@@ -1435,7 +1435,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
             p->fatigue += 5;
             p->thirst += 10;
             g->add_msg_if_player(p, _("You writhe and collapse to the ground."));
-            p->add_disease("downed", rng(1, 4));
+            p->add_effect("downed", rng(1, 4));
         }
         if (!one_in(3)) {
             //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
@@ -1744,7 +1744,7 @@ int iuse::mut_iv(player *p, item *it, bool) {
                 } else {
                     g->add_msg_if_player(p,_("You stagger with a piercing headache!"));
                     p->pain += 8;
-                    p->add_disease("stunned", rng(3, 5));
+                    p->add_effect("stunned", rng(3, 5));
                 }
             } else if (p->mutation_category_level[primary] > 80) {
                 if (g->u.has_trait("NOPAIN")) {
@@ -1752,14 +1752,14 @@ int iuse::mut_iv(player *p, item *it, bool) {
                 } else {
                     g->add_msg_if_player(p,_("Your head throbs with memories of your life, before all this..."));
                     p->pain += 6;
-                    p->add_disease("stunned", rng(2, 4));
+                    p->add_effect("stunned", rng(2, 4));
                 }
             } else if (p->mutation_category_level[primary] > 60) {
                 if (g->u.has_trait("NOPAIN")) {
                     g->add_msg_if_player(p,_("You feel Bugged."));
                 } else {
                     g->add_msg_if_player(p,_("Images of your past life flash before you."));
-                    p->add_disease("stunned", rng(2, 3));
+                    p->add_effect("stunned", rng(2, 3));
                 }
             }
         }

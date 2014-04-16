@@ -55,9 +55,21 @@
     {
         "type":"effect_type",
         "id":"bouldering",
+        "apply_message":"You are slowed by the rubble.",
+        "max_intensity":3,
         "name" : ["Clambering Over Rubble"],
-        "desc" : ["You are being slowed climbing over a pile of rubble"],
-        "apply_message":"You are slowed by the rubble."
+        "desc" : [
+            "Dexterity - 1;   Speed -10%\nYou are being slowed by climbing over a pile of rubble.",
+            "Dexterity - 3;   Speed -20%\nYou are being slowed by climbing over a pile of rubble.",
+            "Dexterity - 5;   Speed -30%\nYou are being slowed by climbing over a pile of rubble."
+        ],
+        "base_mods" : {
+            "dex_mod" : 1
+        },
+        "scaling_mods" : {
+            "dex_mod" : -2,
+            "speed_mod" : -10
+        }
     },
     {
         "type":"effect_type",
@@ -414,8 +426,6 @@
    {
       "type":"effect_type",
       "id":"badpoison",
-      "name":[],
-      "desc": [],
       "health_affects": true
    },
    {

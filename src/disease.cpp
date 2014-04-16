@@ -23,8 +23,8 @@ enum dis_type_enum {
 // Diseases
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
-// Fields - onfire moved to effects
- DI_CRUSHED, DI_BOULDERING,
+// Fields
+ DI_CRUSHED,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF,
@@ -38,7 +38,7 @@ enum dis_type_enum {
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
 // Traps
- DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
+ DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT,
 // Martial Arts
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
@@ -93,7 +93,6 @@ void game::init_diseases() {
     disease_type_lookup["brainworm"] = DI_BRAINWORM;
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
-    disease_type_lookup["bouldering"] = DI_BOULDERING;
     disease_type_lookup["boomered"] = DI_BOOMERED;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
@@ -135,8 +134,6 @@ void game::init_diseases() {
     disease_type_lookup["lightsnare"] = DI_LIGHTSNARE;
     disease_type_lookup["heavysnare"] = DI_HEAVYSNARE;
     disease_type_lookup["in_pit"] = DI_IN_PIT;
-    disease_type_lookup["stunned"] = DI_STUNNED;
-    disease_type_lookup["downed"] = DI_DOWNED;
     disease_type_lookup["attack_boost"] = DI_ATTACK_BOOST;
     disease_type_lookup["damage_boost"] = DI_DAMAGE_BOOST;
     disease_type_lookup["dodge_boost"] = DI_DODGE_BOOST;
@@ -176,9 +173,6 @@ void dis_msg(dis_type type_string) {
     case DI_CRUSHED:
         g->add_msg(_("The ceiling collapses on you!"));
         break;
-    case DI_BOULDERING:
-        g->add_msg(_("You are slowed by the rubble."));
-        break;
     case DI_BOOMERED:
         g->add_msg(_("You're covered in bile!"));
         break;
@@ -213,12 +207,6 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_DEAF:
         g->add_msg(_("You're deafened!"));
-        break;
-    case DI_STUNNED:
-        g->add_msg(_("You're stunned!"));
-        break;
-    case DI_DOWNED:
-        g->add_msg(_("You're knocked to the floor!"));
         break;
     case DI_AMIGARA:
         g->add_msg(_("You can't look away from the faultline..."));
@@ -698,25 +686,6 @@ void dis_effect(player &p, disease &dis)
                 to deal different damage amounts to different body parts and
                 to account for helmets and other armor
             */
-            break;
-
-        case DI_BOULDERING:
-            switch(dis.intensity) {
-                case 3:
-                    p.mod_dex_bonus(-2);
-                case 2:
-                    p.mod_dex_bonus(-2);
-                case 1:
-                    p.mod_dex_bonus(-1);
-                    break;
-                default:
-                    debugmsg("Something went wrong with DI_BOULDERING.");
-                    debugmsg("Check disease.cpp");
-            }
-            if (p.get_dex() < 1) {
-                // Add to dexterity current + 1 so it's at least 1
-                p.mod_dex_bonus(abs(p.get_dex())+1);
-            }
             break;
 
         case DI_BOOMERED:
@@ -1453,7 +1422,6 @@ int disease_speed_boost(disease dis)
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
         case DI_GRACK:      return +20000;
         case DI_METH:       return (dis.duration > 600 ? 50 : -40);
-        case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
         case DI_LACKSLEEP:  return -5;
         case DI_GRABBED:    return -25;
         default:            break;
@@ -1630,8 +1598,6 @@ std::string dis_name(disease& dis)
 
     case DI_SLIMED: return _("Slimed");
     case DI_DEAF: return _("Deaf");
-    case DI_STUNNED: return _("Stunned");
-    case DI_DOWNED: return _("Downed");
     case DI_BLEED:
     {
         std::string status = "";
@@ -1747,7 +1713,6 @@ std::string dis_name(disease& dis)
         else return _("Meth Comedown");
 
     case DI_IN_PIT: return _("Stuck in Pit");
-    case DI_BOULDERING: return _("Clambering Over Rubble");
 
     case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
     case DI_ATTACK_BOOST: return _("Hit Bonus");
@@ -2114,23 +2079,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
-    case DI_BOULDERING:
-        switch (dis.intensity){
-        case 1:
-            stream << _(
-            "Dexterity - 1;   Speed -10%\n"
-            "You are being slowed by climbing over a pile of rubble.");
-        case 2:
-            stream << _(
-            "Dexterity - 3;   Speed -20%\n"
-            "You are being slowed by climbing over a heap of rubble.");
-        case 3:
-            stream << _(
-            "Dexterity - 5;   Speed -30%\n"
-            "You are being slowed by climbing over a mountain of rubble.");
-        }
-        return stream.str();
-
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
     case DI_BOOMERED:
@@ -2152,10 +2100,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         return _("Speed -25%;   Dexterity - 2");
 
     case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
-
-    case DI_STUNNED: return _("Your movement is randomized.");
-
-    case DI_DOWNED: return _("You're knocked to the ground.  You have to get up before you can move.");
 
     case DI_BLEED:
         switch (dis.intensity) {
