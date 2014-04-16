@@ -1062,7 +1062,6 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_LOOK);
             REGISTER_ACTION(ACTION_PEEK);
             REGISTER_ACTION(ACTION_LIST_ITEMS);
-            REGISTER_CATEGORY("back");
         } else if(category == "inventory") {
             REGISTER_ACTION(ACTION_INVENTORY);
             REGISTER_ACTION(ACTION_ADVANCEDINV);
@@ -1082,7 +1081,6 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_READ);
             REGISTER_ACTION(ACTION_WIELD);
             REGISTER_ACTION(ACTION_UNLOAD);
-            REGISTER_CATEGORY("back");
         } else if(category == "debug") {
             REGISTER_ACTION(ACTION_TOGGLE_SIDEBAR_STYLE);
             REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
@@ -1092,7 +1090,6 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_PICKUP);
             REGISTER_ACTION(ACTION_GRAB);
             REGISTER_ACTION(ACTION_BUTCHER);
-            REGISTER_CATEGORY("back");
         } else if(category == "interact") {
             REGISTER_ACTION(ACTION_EXAMINE);
             REGISTER_ACTION(ACTION_SMASH);
@@ -1101,7 +1098,6 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_OPEN);
             REGISTER_ACTION(ACTION_CLOSE);
             REGISTER_ACTION(ACTION_CHAT);
-            REGISTER_CATEGORY("back");
         } else if(category == "combat") {
             REGISTER_ACTION(ACTION_FIRE);
             REGISTER_ACTION(ACTION_RELOAD);
@@ -1112,14 +1108,12 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_TOGGLE_SAFEMODE);
             REGISTER_ACTION(ACTION_TOGGLE_AUTOSAFE);
             REGISTER_ACTION(ACTION_IGNORE_ENEMY);
-            REGISTER_CATEGORY("back");
         } else if(category == "craft") {
             REGISTER_ACTION(ACTION_CRAFT);
             REGISTER_ACTION(ACTION_RECRAFT);
             REGISTER_ACTION(ACTION_LONGCRAFT);
             REGISTER_ACTION(ACTION_CONSTRUCT);
             REGISTER_ACTION(ACTION_DISASSEMBLE);
-            REGISTER_CATEGORY("back");
         } else if(category == "info") {
             REGISTER_ACTION(ACTION_PL_INFO);
             REGISTER_ACTION(ACTION_MAP);
@@ -1129,7 +1123,6 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_MORALE);
             REGISTER_ACTION(ACTION_MESSAGES);
             REGISTER_ACTION(ACTION_HELP);
-            REGISTER_CATEGORY("back");
         } else if(category == "misc") {
             REGISTER_ACTION(ACTION_WAIT);
             REGISTER_ACTION(ACTION_SLEEP);
@@ -1139,23 +1132,25 @@ action_id handle_action_menu()
                 REGISTER_ACTION(ACTION_ZOOM_OUT);
                 REGISTER_ACTION(ACTION_ZOOM_IN);
             };
-            REGISTER_CATEGORY("back");
         }
 
-        entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true, KEY_ESCAPE, "Cancel"));
+        std::string title = _("Back");
+        if(category == "back")
+            title = "Cancel";
+        entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true, hotkey_for_action(ACTION_ACTIONMENU), title+"..."));
 
-        std::string title = "Actions";
+        title = "Actions";
         if(category != "back") {
             title += ": " + category;
         }
-        int selection = (int) uimenu(0, 50, 0, title, entries);
+        int selection = (int) uimenu(true, 0, 50, 0, title, entries);
 
         erase();
         g->refresh_all();
         g->draw();
 
-        if(selection == 2 * NUM_ACTIONS) {
-            if(category != "back") {
+        if ((selection <0) || (selection == 2 * NUM_ACTIONS)) {
+            if (category != "back") {
                 category = "back";
             } else {
                 return ACTION_NULL;
