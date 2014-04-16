@@ -855,6 +855,7 @@
     <ClInclude Include="..\src\setvector.h" />
     <ClInclude Include="..\src\skill.h" />
     <ClInclude Include="..\src\speech.h" />
+    <ClInclude Include="..\src\start_location.h" />
     <ClInclude Include="..\src\text_snippets.h" />
     <ClInclude Include="..\src\tileray.h" />
     <ClInclude Include="..\src\tile_id_data.h" />
@@ -989,6 +990,7 @@
     <ClCompile Include="..\src\setvector.cpp" />
     <ClCompile Include="..\src\skill.cpp" />
     <ClCompile Include="..\src\speech.cpp" />
+    <ClCompile Include="..\src\start_location.cpp" />
     <ClCompile Include="..\src\text_snippets.cpp" />
     <ClCompile Include="..\src\tileray.cpp" />
     <ClCompile Include="..\src\translations.cpp" />

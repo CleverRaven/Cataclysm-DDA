@@ -1,0 +1,13 @@
+[
+  {
+    "type" : "start_location",
+    "ident" : "shelter",
+    "name" : "Shelter",
+    "target" : "shelter"
+  },{
+    "type" : "start_location",
+    "ident" : "house",
+    "name" : "House",
+    "target" : "house"
+  }
+]

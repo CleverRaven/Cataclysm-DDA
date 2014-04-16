@@ -1,6 +1,7 @@
 #include "player.h"
 #include "profession.h"
 #include "item_factory.h"
+#include "start_location.h"
 #include "input.h"
 #include "output.h"
 #include "rng.h"
@@ -1330,13 +1331,14 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
     draw_tabs(w, _("DESCRIPTION"));
 
-    WINDOW* w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
-    WINDOW* w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
-    WINDOW* w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
-    WINDOW* w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
-    WINDOW* w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
-    WINDOW* w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
-    WINDOW* w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
+    WINDOW *w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
+    WINDOW *w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
+    WINDOW *w_location = newwin(1, 76, getbegy(w) + 8, getbegx(w) + 2);
+    WINDOW *w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
+    WINDOW *w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
+    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW *w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
+    WINDOW *w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
 
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
 
@@ -1352,14 +1354,26 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("CHOOSE_LOCATION");
     ctxt.register_action("ANY_INPUT");
+
+    uimenu select_location;
+    select_location.text = _("Select a starting location.");
+    int offset = 0;
+    for( location_map::iterator loc = start_location::_locations.begin();
+         loc != start_location::_locations.end(); ++loc, ++offset ) {
+        select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
+        if( loc->second.ident() == u->start_location ) {
+            select_location.selected = offset;
+        }
+    }
 
     do {
         if (redraw) {
             //Draw the line between editable and non-editable stuff.
             for (int i = 0; i < getmaxx(w); ++i) {
                 if (i == 0) {
-                    mvwputch(w, 8, i, BORDER_COLOR, LINE_XXXO);
+                    mvwputch(w, 9, i, BORDER_COLOR, LINE_XXXO);
                 } else if (i == getmaxx(w) - 1) {
                     wputch(w, BORDER_COLOR, LINE_XOXX);
                 } else {
@@ -1376,7 +1390,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             vStatNames.push_back(_("Perception:"));
             int pos = 0;
             for (int i = 0; i < vStatNames.size(); i++) {
-                pos = (utf8_width(vStatNames[i].c_str()) > pos ? utf8_width(vStatNames[i].c_str()) : pos);
+                pos = (utf8_width(vStatNames[i].c_str()) > pos ?
+                       utf8_width(vStatNames[i].c_str()) : pos);
                 mvwprintz(w_stats, i + 1, 0, c_ltgray, vStatNames[i].c_str());
             }
             mvwprintz(w_stats, 1, pos + 1, c_ltgray, "%2d", u->str_max);
@@ -1470,6 +1485,16 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                       ctxt.get_desc("CHANGE_GENDER").c_str());
         wrefresh(w_gender);
 
+        const std::string location_prompt = string_format(_("Press %s to select location."),
+                                                          ctxt.get_desc("CHOOSE_LOCATION").c_str() );
+        const int prompt_offset = utf8_width( location_prompt.c_str() );
+        werase(w_location);
+        mvwprintz( w_location, 0, 0, c_ltgray, location_prompt.c_str() );
+        mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
+        mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
+                   c_ltgray, _(select_location.entries[select_location.selected].txt.c_str()) );
+        wrefresh(w_location);
+
         werase(w_profession);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
         wprintz (w_profession, c_ltgray, u->prof->gender_appropriate_name(u->male).c_str());
@@ -1536,6 +1561,19 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             u->pick_name();
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
+        } else if ( action == "CHOOSE_LOCATION" ){
+            select_location.redraw();
+            select_location.query();
+            for( location_map::iterator loc = start_location::_locations.begin();
+                 loc != start_location::_locations.end(); ++loc ) {
+                if( 0 == strcmp( _( loc->second.name().c_str() ),
+                                 select_location.entries[ select_location.selected ].txt.c_str() ) ) {
+                    u->start_location = loc->second.ident();
+                }
+            }
+            werase(select_location.window);
+            select_location.refresh();
+            redraw = true;
         } else if (action == "ANY_INPUT") {
             const long ch = ctxt.get_raw_input().get_first_input();
             if ((ch == KEY_BACKSPACE || ch == 127) && !u->name.empty()) {

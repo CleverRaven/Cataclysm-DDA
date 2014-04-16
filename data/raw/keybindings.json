@@ -855,6 +855,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "CHOOSE_LOCATION",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Choose character start location",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOOGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toogle activate/examine",

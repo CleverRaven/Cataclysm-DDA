@@ -560,7 +560,13 @@ void game::start_game(std::string worldname)
  cur_om = &overmap_buffer.get(0, 0); // We start in the (0,0,0) overmap.
 
 // Find a random house on the map, and set us there.
- cur_om->first_house(levx, levy);
+ cur_om->first_house(levx, levy, u.start_location);
+ point player_location = overmapbuffer::omt_to_sm_copy( levx, levy );
+ tinymap player_start;
+ player_start.load( player_location.x, player_location.y, levz, false );
+ player_start.translate( t_window_domestic, t_curtains );
+ player_start.save( cur_om, int(turn), levx, levy, levz );
+
  levx -= int(int(MAPSIZE / 2) / 2);
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
@@ -571,9 +577,19 @@ void game::start_game(std::string worldname)
  levy = levy * 2 - 1;
 // Init the starting map at this location.
  m.load(levx, levy, levz);
+
 // Start us off somewhere in the shelter.
  u.posx = SEEX * int(MAPSIZE / 2) + 5;
  u.posy = SEEY * int(MAPSIZE / 2) + 6;
+
+ m.build_map_cache();
+ // Make sure we spawn on an inside and valid location.
+ int tries = 0;
+ while( (m.is_outside( u.posx, u.posy ) || m.move_cost( u.posx, u.posy ) == 0) && tries < 1000 ) {
+     tries++;
+     u.posx = (SEEX * int(MAPSIZE / 2)) + rng(0, SEEX * 2);
+     u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
+ }
  u.reset();
  nextspawn = int(turn);
  temperature = 65; // Springtime-appropriate?
