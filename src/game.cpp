@@ -13337,9 +13337,10 @@ void game::update_stair_monsters() {
                     if (coming_to_stairs[i].staircount > 4)
                         dump << _("You see a ") << critter.name() << _(" on the stairs!");
                     else
-                        dump << _("The ") << critter.name() << _(" is almost at the ")
-                        << (m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top")) <<  _(" of the ")
-                        << m.tername(mposx, mposy).c_str() << "!";
+                        if (coming_to_stairs[i].staircount > 0)
+                            dump << _("The ") << critter.name() << _(" is almost at the ")
+                            << (m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top")) <<  _(" of the ")
+                            << m.tername(mposx, mposy).c_str() << "!";
                     add_msg(dump.str().c_str());
                 }
                 else {
