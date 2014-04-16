@@ -3845,12 +3845,36 @@ void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn
 {
     // Weed grow
     mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
-    line_furn(m, f_counter, 1, 1, 1, SEEY * 2 - 2);
-    line_furn(m, f_counter, SEEX * 2 - 2, 1, SEEX * 2 - 2, SEEY * 2 - 2);
+    int right = SEEX * 2 - 2, top = SEEY * 2 - 2;
+    line_furn(m, f_counter, 1, 1, 1, top);
+    line_furn(m, f_counter, right, 1, right, top);
+
+    // spawn joints and pipes on counters
+    for(int i = 1; i < top; i++) {
+        int num_weed = rng(0, 2);
+        for (int n = 0; n < num_weed; n++) {
+            if(one_in(10)) {
+                m->spawn_item(1, i, one_in(7) ? "joint_roach" : "joint");
+            }
+            if(one_in(10)) {
+                m->spawn_item(right, i, one_in(7) ? "joint_roach" : "joint");
+            }
+        }
+
+        if(one_in(3)) {
+            if(one_in(5)) {
+               m->spawn_item(1, i, "pipe_glass");
+            }
+            if(one_in(5)) {
+                m->spawn_item(right, i, "pipe_glass");
+            }
+        }
+    }
+    // spawn weed and seeds in dirt
     for (int i = 3; i < SEEX * 2 - 3; i += 5) {
         for (int j = 3; j < 16; j += 5) {
             square(m, t_dirt, i, j, i + 2, j + 2);
-            int num_weed = rng(0, 4) * rng(0, 1);
+            int num_weed = rng(0, 3) * rng(0, 1);
             for (int n = 0; n < num_weed; n++) {
                 int x = rng(i, i + 2), y = rng(j, j + 2);
                 m->spawn_item(x, y, one_in(5) ? "seed_weed" : "weed");

@@ -193,6 +193,7 @@
                 "pants_cargo",
                 "sneakers",
                 "weed",
+                "tobacco",
                 "lighter",
                 "rolling_paper",
                 "switchblade",
@@ -1320,7 +1321,8 @@
                 "jacket_flannel",
                 "beartrap",
                 "pockknife",
-                "cig",
+                "tobacco",
+                "rolling_paper",
                 "matches"
             ],
             "male": [
@@ -1408,6 +1410,9 @@
         "points": 0,
         "items": {
             "both": [
+                "tobacco",
+                "pipe_tobacco",
+                "ref_lighter",
                 "dress_shoes",
                 "cane"
             ],
@@ -1588,6 +1593,7 @@
                 "gloves_fingerless",
                 "boots_combat",
                 "weed",
+                "tobacco",
                 "rolling_paper",
                 "mp3",
                 "ref_lighter"
@@ -1663,7 +1669,7 @@
                 "socks",
                 "dress_shoes",
                 "rolling_paper",
-                "cig",
+                "tobacco",
                 "mp3",
                 "ref_lighter"
             ],
@@ -1827,7 +1833,8 @@
                 "shorts",
                 "lowtops",
                 "aspirin",
-                "cig",
+                "tobacco",
+                "rolling_paper",
                 "lighter"
             ],
             "male": [

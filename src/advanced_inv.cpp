@@ -155,8 +155,8 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         std::string head;
         if (isall) {
             head = string_format("%3.1f %3d",
-                    g->u.convert_weight(squares[pane.area].weight),
-                    squares[pane.area].volume);
+                                 g->u.convert_weight(squares[pane.area].weight),
+                                 squares[pane.area].volume);
         } else {
             int maxvolume;
             if (squares[pane.area].veh != NULL && squares[pane.area].vstor >= 0) {
@@ -165,8 +165,8 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
                 maxvolume = g->m.max_volume(squares[pane.area].x, squares[pane.area].y);
             }
             head = string_format("%3.1f %3d/%3d",
-                    g->u.convert_weight(squares[pane.area].weight),
-                    squares[pane.area].volume, maxvolume);
+                                 g->u.convert_weight(squares[pane.area].weight),
+                                 squares[pane.area].volume, maxvolume);
         }
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str());
     }
@@ -724,7 +724,8 @@ void advanced_inventory::redraw_pane( int i )
     if ( ! filter_edit && !panes[i].filter.empty() ) {
         mvwprintz(panes[i].window, getmaxy(panes[i].window) - 1, 6 + strlen(fprefix), c_white, "%s",
                   panes[i].filter.c_str() );
-        mvwprintz(panes[i].window, getmaxy(panes[i].window) -1, getmaxx(panes[i].window) - strlen(fsuffix) - 2, c_white, "%s", fsuffix);
+        mvwprintz(panes[i].window, getmaxy(panes[i].window) - 1,
+                  getmaxx(panes[i].window) - strlen(fsuffix) - 2, c_white, "%s", fsuffix);
     }
 
 }
@@ -765,7 +766,7 @@ bool advanced_inventory::move_all_items()
             int d_y = u.posy + panes[dest].offy;
             // Ok, we're go to (try) and move everything from the player inventory.
             // First, we'll want to iterate backwards
-            for (int ip = u.inv.size()-1; ip >= 0; /* noop */ ) {
+            for (int ip = u.inv.size() - 1; ip >= 0; /* noop */ ) {
                 const std::list<item> &stack = u.inv.const_stack(ip); // get the stack at index ip
                 const item *it = &stack.front();                      // get the first item in that stack
 
@@ -913,15 +914,15 @@ bool advanced_inventory::move_all_items()
         int part = panes[src].vstor;
         vehicle *veh = panes[src].veh;
         // by default, we want to iterate the items at a location
-        std::vector<item> *items_to_iterate = &m.i_at(p_x,p_y);
+        std::vector<item> *items_to_iterate = &m.i_at(p_x, p_y);
 
         // but if it's a vehicle, we'll want the items in the vehicle
         if (panes[src].vstor >= 0) {
             items_to_iterate = &veh->parts[part].items;
         }
 
-        for (std::vector<item>::iterator it = items_to_iterate->begin(); it != items_to_iterate->end(); /* noop */)
-        {
+        for (std::vector<item>::iterator it = items_to_iterate->begin();
+             it != items_to_iterate->end(); /* noop */) {
             // if we're filtering, check if this item is in the filter. If it isn't, continue
             if ( filtering && ! cached_lcmatch(it->name, panes[src].filter, panes[src].filtercache ) ) {
                 ++it;
@@ -976,12 +977,12 @@ bool advanced_inventory::move_all_items()
                                 trycharges = amount;
                             }
                             if ( trycharges == 0 ) {
-                                g->add_msg(_("Unable to pick up %s."),it->name.c_str());
+                                g->add_msg(_("Unable to pick up %s."), it->name.c_str());
                                 ++it;
                                 continue;
                             }
                         } else {
-                            g->add_msg(_("Unable to pick up %s."),it->name.c_str());
+                            g->add_msg(_("Unable to pick up %s."), it->name.c_str());
                             ++it;
                             continue;
                         }
@@ -989,11 +990,11 @@ bool advanced_inventory::move_all_items()
 
                     // We've already checked if we're trying to pick up a stack
                     if(!u.can_pickVolume(tryvolume)) {
-                        g->add_msg(_("There's no room in your inventory for %s."),it->name.c_str());
+                        g->add_msg(_("There's no room in your inventory for %s."), it->name.c_str());
                         ++it;
                         continue;
                     } else if (!u.can_pickWeight(tryweight, false)) {
-                        g->add_msg(_("%s is too heavy."),it->name.c_str());
+                        g->add_msg(_("%s is too heavy."), it->name.c_str());
                         ++it;
                         continue;
                     }

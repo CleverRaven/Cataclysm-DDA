@@ -196,7 +196,9 @@ void map::board_vehicle(int x, int y, player *p)
     int part = 0;
     vehicle *veh = veh_at(x, y, part);
     if (!veh) {
-        debugmsg ("map::board_vehicle: vehicle not found");
+        if(p->grab_point.x == 0 && p->grab_point.y == 0) {
+            debugmsg ("map::board_vehicle: vehicle not found");
+        }
         return;
     }
 
@@ -2803,6 +2805,38 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
                 it->item_tags.insert("ABSORBENT");
                 it->active = false;
             }
+
+        } else if(it->has_flag("LITCIG")) {
+            it->item_counter--;
+            // release some smoke every five ticks
+            if(it->item_counter % 5 == 0) {
+              int mapx = gridx * SEEX + i;
+              int mapy = gridy * SEEY + j;
+              if(it->has_flag("TOBACCO")) {
+                add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_cigsmoke, 1);
+              } else { // weed
+                add_field(mapx + int(rng(-2, 2)), mapy + int(rng(-2, 2)), fd_weedsmoke, 1);
+              }
+
+              // lit cigarette can start fires
+              if (this->flammable_items_at(mapx, mapy) ||
+                 this->has_flag("FLAMMABLE", mapx, mapy) ||
+                 this->has_flag("FLAMMABLE_ASH", mapx, mapy)) {
+                add_field(mapx, mapy, fd_fire, 1);
+              }
+            }
+
+            // cig dies out
+            if(it->item_counter <= 0) {
+                if(it->type->id == "cig_lit") {
+                    it->make(itypes["cig_butt"]);
+                } else if(it->type->id == "cigar_lit"){
+                    it->make(itypes["cigar_butt"]);
+                } else { // joint
+                    it->make(itypes["joint_roach"]);
+                }
+                it->active = false;
+            }
         } else if (!it->is_tool()) { // It's probably a charger gun
             it->active = false;
             it->charges = 0;
@@ -4571,6 +4605,12 @@ void map::build_transparency_cache()
      if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
       // Fields are either transparent or not, however we want some to be translucent
       switch(cur->getFieldType()) {
+      case fd_cigsmoke:
+      case fd_weedsmoke:
+      case fd_cracksmoke:
+      case fd_methsmoke:
+          transparency_cache[x][y] *= 0.7;
+          break;
       case fd_smoke:
       case fd_toxic_gas:
       case fd_tear_gas:

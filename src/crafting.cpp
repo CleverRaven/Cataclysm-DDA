@@ -2043,6 +2043,16 @@ static void check_component_list(const std::vector<std::vector<component> > &vec
     }
 }
 
+static void check_qualities(const std::vector<quality_requirement> &vec,
+                                 const std::string &rName)
+{
+    for (std::vector<quality_requirement>::const_iterator b = vec.begin(); b != vec.end(); b++) {
+        if (qualities.count(b->id) == 0) {
+            debugmsg("Unknown quality %s in recipe %s", b->id.c_str(), rName.c_str());
+        }
+    }
+}
+
 void check_recipe_definitions()
 {
     for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter) {
@@ -2051,6 +2061,7 @@ void check_recipe_definitions()
             const recipe &r = **list_iter;
             ::check_component_list(r.tools, r.ident);
             ::check_component_list(r.components, r.ident);
+            ::check_qualities(r.qualities, r.ident);
             if (!item_controller->has_template(r.result)) {
                 debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
             }

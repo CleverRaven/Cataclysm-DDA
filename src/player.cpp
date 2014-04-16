@@ -140,6 +140,7 @@ player::player() : Character(), name("")
  health = 0;
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
+ start_location = "shelter";
  moves = 100;
  movecounter = 0;
  oxygen = 0;
@@ -228,6 +229,7 @@ player& player::operator= (const player & rhs)
  name = rhs.name;
  male = rhs.male;
  prof = rhs.prof;
+ start_location = rhs.start_location;
 
  sight_max = rhs.sight_max;
  sight_boost = rhs.sight_boost;
@@ -2647,7 +2649,7 @@ Arm encumbrance affects your accuracy with ranged weapons."));
                  "Reloading costs %+d movement points; ",
                  encumb(bp_hands) * 30);
     s+= _("Dexterity %+d when throwing items.");
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, 
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
     s.c_str() , encumb(bp_hands) * 30, -encumb(bp_hands));
    } else if (line == 6) {
     mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
@@ -6407,14 +6409,56 @@ bool player::process_single_active_item(item *it)
             it->item_counter--;
             if(it->item_counter == 0)
             {
-                it->item_counter = 0;
-
                 // wet towel becomes a regular towel
                 if(it->type->id == "towel_wet")
                     it->make(itypes["towel"]);
 
                 it->item_tags.erase("WET");
                 it->item_tags.insert("ABSORBENT");
+                it->active = false;
+            }
+        }
+        else if( it->has_flag("LITCIG") )
+        {
+            it->item_counter--;
+            if(it->item_counter % 2 == 0) { // only puff every other turn
+                int duration = 10;
+                if (this->has_trait("TOLERANCE")) {
+                    duration = 5;
+                }
+                else if (this->has_trait("LIGHTWEIGHT")) {
+                    duration = 20;
+                }
+                g->add_msg_if_player(this, _("You take a puff of your %s."), it->name.c_str());
+                if(it->has_flag("TOBACCO")) {
+                    this->add_disease("cig", duration);
+                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_cigsmoke, 2);
+                } else { // weedsmoke
+                    this->add_disease("weed_high", duration / 2);
+                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_weedsmoke, 2);
+                }
+                this->moves -= 15;
+            }
+
+            if((this->has_disease("shakes") && one_in(10)) ||
+                (this->has_trait("JITTERY") && one_in(200))) {
+                g->add_msg_if_player(this, _("Your shaking hand causes you to drop your %s."), it->name.c_str());
+                g->m.add_item_or_charges(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), this->i_rem(it), 2);
+            }
+
+            // done with cig
+            if(it->item_counter <= 0) {
+                g->add_msg_if_player(this, _("You finish your %s."), it->name.c_str());
+                if(it->type->id == "cig_lit") {
+                    it->make(itypes["cig_butt"]);
+                } else if(it->type->id == "cigar_lit"){
+                    it->make(itypes["cigar_butt"]);
+                } else { // joint
+                    this->add_disease("weed_high", 10); // one last puff
+                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_weedsmoke, 2);
+                    weed_msg(this);
+                    it->make(itypes["joint_roach"]);
+                }
                 it->active = false;
             }
         }

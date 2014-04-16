@@ -398,9 +398,8 @@ struct submap {
     computer comp;
     basecamp camp;  // only allowing one basecamp per submap
 
-    submap() : active_item_count(0), field_count(0)
-    {
-
+    submap() : ter(), frn(), trp(), rad(),
+        active_item_count(0), field_count(0), turn_last_touched(0), temperature(0) {
     }
 };
 

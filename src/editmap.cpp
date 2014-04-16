@@ -1629,8 +1629,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                         for(int y = 0; y < 2; y++) {
                             // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                             // functions that would alter the results
-                            submap *destsm = g->m.get_submap_at(target_sub.x + x, target_sub.y + y);
-                            submap *srcsm = tmpmap.get_submap_at(x, y);
+                            submap *destsm = g->m.get_submap_at_grid(target_sub.x + x, target_sub.y + y);
+                            submap *srcsm = tmpmap.get_submap_at_grid(x, y);
 
                             for (int i = 0; i < srcsm->vehicles.size(); i++ ) { // copy vehicles to real map
                                 s += string_format("  copying vehicle %d/%d",i,srcsm->vehicles.size());
