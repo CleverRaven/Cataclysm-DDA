@@ -153,7 +153,7 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
     }
 }
 
-effect_type::effect_type() {}
+effect_type::effect_type(){}
 effect_type::effect_type(const effect_type &) {}
 
 std::string effect_type::get_name(int intensity)
@@ -434,11 +434,11 @@ int effect::get_pain(bool reduced)
     int ret = 0;
     if (!reduced) {
         ret += rng(eff_type->base_mods.pain_min, eff_type->base_mods.pain_max);
-        ret += rng(eff_type->base_mods.pain_min, eff_type->base_mods.pain_max) * intensity;
+        ret += rng(eff_type->scaling_mods.pain_min, eff_type->scaling_mods.pain_max) * intensity;
     } else {
         ret += rng(eff_type->base_mods.pain_reduced_min, eff_type->base_mods.pain_reduced_max);
-        ret += rng(eff_type->base_mods.pain_reduced_min, 
-                    eff_type->base_mods.pain_reduced_max) * intensity;
+        ret += rng(eff_type->scaling_mods.pain_reduced_min, 
+                    eff_type->scaling_mods.pain_reduced_max) * intensity;
     }
     if (ret == 0 && get_pain_chance(reduced) > 0) {
         return 1;
@@ -471,11 +471,11 @@ int effect::get_hurt(bool reduced)
     int ret = 0;
     if (!reduced) {
         ret += rng(eff_type->base_mods.hurt_min, eff_type->base_mods.hurt_max);
-        ret += rng(eff_type->base_mods.hurt_min, eff_type->base_mods.hurt_max) * intensity;
+        ret += rng(eff_type->scaling_mods.hurt_min, eff_type->base_mods.hurt_max) * intensity;
     } else {
         ret += rng(eff_type->base_mods.hurt_reduced_min, eff_type->base_mods.hurt_reduced_max);
-        ret += rng(eff_type->base_mods.hurt_reduced_min, 
-                    eff_type->base_mods.hurt_reduced_max) * intensity;
+        ret += rng(eff_type->scaling_mods.hurt_reduced_min, 
+                    eff_type->scaling_mods.hurt_reduced_max) * intensity;
     }
     if (ret == 0 && get_hurt_chance(reduced) > 0) {
         return 1;

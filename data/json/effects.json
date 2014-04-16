@@ -115,8 +115,8 @@
         "health_affects" : true,
         "apply_message" : "You feel poison flood your body, wracking you with pain...",
         "remove_message" : "You feel much better.",
-        "desc" : ["Perception - 2;   Dexterity - 2;   Strength - 3 \n Frequent pain and/or damage."],
-        "reduced_desc" : ["Perception - 2;   Dexterity - 2;   Strength - 1 \n Frequent pain and/or damage."],
+        "desc" : ["Perception - 2;   Dexterity - 2;   Strength - 3 \nFrequent pain and/or damage."],
+        "reduced_desc" : ["Perception - 2;   Dexterity - 2;   Strength - 1 \nFrequent pain and/or damage."],
         "resist_trait" : "POISRESIST",
         "base_mods" : {
             "per_mod" : [-2, -2],

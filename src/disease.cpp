@@ -37,7 +37,7 @@ enum dis_type_enum {
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
 // Traps
- DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT,
+ DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT,
 // Martial Arts
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
@@ -127,7 +127,6 @@ void game::init_diseases() {
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["grack"] = DI_GRACK;
     disease_type_lookup["meth"] = DI_METH;
-    disease_type_lookup["beartrap"] = DI_BEARTRAP;
     disease_type_lookup["lightsnare"] = DI_LIGHTSNARE;
     disease_type_lookup["heavysnare"] = DI_HEAVYSNARE;
     disease_type_lookup["in_pit"] = DI_IN_PIT;

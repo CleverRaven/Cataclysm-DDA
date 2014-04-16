@@ -932,16 +932,16 @@ bool npc::can_move_to(int x, int y)
 
 void npc::move_to(int x, int y)
 {
+    if (move_effects()) {
+        return;
+    }
+    if (has_effect("bouldering")) {
+        moves -= 20;
+        if (moves < 0) {
+            moves = 0;
+        }
+    }
 
- if (has_effect("downed")) {
-  moves -= 100;
-  return;
- }
- if (has_effect("bouldering")) {
-  moves -= 20;
-  if (moves < 0)
-   moves = 0;
- }
  if (recoil > 0) { // Start by dropping recoil a little
   if (int(str_cur / 2) + skillLevel("gun") >= recoil)
    recoil = 0;

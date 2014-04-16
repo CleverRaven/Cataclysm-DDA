@@ -130,6 +130,9 @@ class Creature
         virtual int xpos() = 0;
         virtual int ypos() = 0;
 
+        /** Processes movement stopping effects, returns true if movement stopped */
+        bool move_effects();
+
         /** Should replace both player.add_disease and monster.add_effect
          *  these are nonvirtual since otherwise they can't be accessed with
          *  the old add_effect */
@@ -149,7 +152,7 @@ class Creature
         /** Runs all the effects on the Creature */
         virtual void process_effects();
 
-        // not-quite-stats, maybe group these with stats later
+        /** not-quite-stats, maybe group these with stats later */
         virtual void mod_pain(int npain);
         virtual void mod_moves(int nmoves);
 
@@ -219,8 +222,8 @@ class Creature
         virtual int get_grab_resist();
         virtual int get_throw_resist();
 
-        /*
-         * setters for stats and boni
+        /**
+         * setters for stats and bonuses
          */
         virtual void set_str_bonus(int nstr);
         virtual void set_dex_bonus(int ndex);
@@ -263,7 +266,7 @@ class Creature
         virtual void set_grab_resist(int ngrabres);
         virtual void set_throw_resist(int nthrowres);
 
-        /*
+        /**
          * Event handlers
          */
 

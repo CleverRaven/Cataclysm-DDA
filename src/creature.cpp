@@ -488,7 +488,31 @@ bool is_expired_effect(effect &e)   // utility function for process_effects
         return false;
     }
 }
-
+bool Creature::move_effects()
+{
+    if (has_effect("beartrap")) {
+        mod_moves(-100);
+        if(x_in_y(get_str(), 80)) {
+            remove_effect("beartrap");
+            g->add_msg_if_player(this, _("You free yourself from the bear trap!"));
+        } else {
+            g->add_msg_if_player(this, _("You try to free yourself from the bear trap, but can't get loose!"));
+        }
+        return true;
+    }
+    if (has_effect("downed")) {
+        if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
+            g->add_msg_if_player(this, _("You struggle to stand."));
+            mod_moves(-100);
+        } else {
+            g->add_msg_if_player(this, _("You stand up."));
+            remove_effect("downed");
+            mod_moves(-100);
+        }
+        return true;
+    }
+    return false;
+}
 void Creature::add_effect(efftype_id eff_id, int dur, bool perm, int intensity, body_part bp,
                             int side)
 {

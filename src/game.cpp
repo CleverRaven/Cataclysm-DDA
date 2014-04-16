@@ -11886,12 +11886,15 @@ bool game::plmove(int dx, int dy)
 {
     if (run_mode == 2) {
         // Monsters around and we don't wanna run
-        add_msg(_("Monster spotted--safe mode is on! \
-(%s to turn it off or %s to ignore monster.)"),
+        add_msg(_("Monster spotted--safe mode is on! (%s to turn it off or %s to ignore monster.)"),
                 press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
                 from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
         return false;
     }
+    if (u.move_effects()) {
+        return false;
+    }
+
  int x = 0;
  int y = 0;
  if (u.has_effect("stunned")) {
@@ -11991,18 +11994,6 @@ bool game::plmove(int dx, int dy)
   } else {
    add_msg(_("You escape the pit!"));
    u.rem_disease("in_pit");
-  }
- }
- if (u.has_effect("downed")) {
-  if (rng(0, 40) > u.dex_cur + int(u.str_cur / 2)) {
-   add_msg(_("You struggle to stand."));
-   u.moves -= 100;
-   return false;
-  } else {
-   add_msg(_("You stand up."));
-   u.remove_effect("downed");
-   u.moves -= 100;
-   return false;
   }
  }
 
