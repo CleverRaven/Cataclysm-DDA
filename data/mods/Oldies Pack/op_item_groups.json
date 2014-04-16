@@ -77,6 +77,35 @@
   },
   {
     "type" : "item_group",
+    "id" : "museum_guns",
+    "items" : [
+      ["pistol_flintlock", 60],
+      ["rifle_flintlock", 60],
+      ["flintlock_ammo", 60],
+      ["colt_army", 50],
+      ["colt_navy", 50],
+      ["36navy", 50],
+      ["44army", 50]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "antique",
+    "items" : [
+      ["pistol_flintlock", 4],
+      ["rifle_flintlock", 4]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "antique_rare",
+    "items" : [
+      ["pistol_flintlock", 4],
+      ["rifle_flintlock", 4]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "pawn",
     "items" : [
       ["rifle_flintlock", 1],
