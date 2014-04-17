@@ -585,22 +585,32 @@ void veh_interact::do_repair()
                            itypes[itm]->name.c_str());
         }
         wrefresh (w_msg);
-        char ch = input();
+        const std::string action = main_context.handle_input();
         int dx, dy;
-        get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') &&
+        if ((action == "REPAIR" || action == "CONFIRM") &&
             has_comps &&
             (sel_vehicle_part->hp > 0 || has_wrench) && has_skill) {
             sel_cmd = 'r';
             return;
-        } else if (ch == KEY_ESCAPE || ch == 'q' ) {
+        } else if (action == "QUIT") {
             werase (w_parts);
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             break;
+        } else if (action == "PREV_TAB" || action == "LEFT") {
+            dy = -page_size;
+        } else if (action == "NEXT_TAB" || action == "RIGHT") {
+            dy = +page_size;
+        } else if (action == "UP") {
+            dy = -1;
+        } else if (action == "DOWN") {
+            dy = +1;
+        } else {
+            // Anything else -> no movement
+            dy = 0;
         }
-        if (dy == -1 || dy == 1) {
+        if (dy != 0) {
             pos += dy;
             if(pos >= (ssize_t)need_repair.size()) {
                 pos = 0;
