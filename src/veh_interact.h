@@ -80,6 +80,14 @@ private:
     void move_cursor(int dx, int dy);
     task_reason cant_do(char mode);
     bool can_currently_install(vpart_info *vpart);
+    /** Move index (parameter pos) according to input action:
+     * (up or down, single step or whole page).
+     * @param pos index to change.
+     * @param action input action (taken from input_context::handle_input)
+     * @param size size of the list to scroll, used to wrap the cursor around.
+     * @return false if the action is not a move action, the index is not changed in this case.
+     */
+    bool move_in_list(int &pos, const std::string &action, const int size) const;
 
     void do_install();
     void do_repair();

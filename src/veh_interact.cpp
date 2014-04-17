@@ -486,7 +486,6 @@ void veh_interact::do_install()
                        engine_string.c_str());
         wrefresh (w_msg);
         const std::string action = main_context.handle_input();
-        int dx, dy;
         if ((action == "INSTALL" || action == "CONFIRM")  && has_comps && has_tools && has_skill && has_skill2 &&
              !(has_muscle_engine && eng) && !(has_muscle_engine && install_muscle_engine)) {
             sel_cmd = 'i';
@@ -497,27 +496,32 @@ void veh_interact::do_install()
             werase (w_msg);
             wrefresh(w_msg);
             break;
-        } else if (action == "PREV_TAB" || action == "LEFT") {
-            dy = -page_size;
-        } else if (action == "NEXT_TAB" || action == "RIGHT") {
-            dy = +page_size;
-        } else if (action == "UP") {
-            dy = -1;
-        } else if (action == "DOWN") {
-            dy = +1;
         } else {
-            // Anything else -> no movement
-            dy = 0;
-        }
-        if (dy != 0) {
-            pos += dy;
-            if (pos < 0) {
-                pos = can_mount.size() - 1;
-            } else if (pos >= (ssize_t)can_mount.size()) {
-                pos = 0;
-            }
+            move_in_list(pos, action, can_mount.size());
         }
     }
+}
+
+bool veh_interact::move_in_list(int &pos, const std::string &action, const int size) const
+{
+    if (action == "PREV_TAB" || action == "LEFT") {
+        pos -= page_size;
+    } else if (action == "NEXT_TAB" || action == "RIGHT") {
+        pos += page_size;
+    } else if (action == "UP") {
+        pos--;
+    } else if (action == "DOWN") {
+        pos++;
+    } else {
+        // Anything else -> no movement
+        return false;
+    }
+    if (pos < 0) {
+        pos = size - 1;
+    } else if (pos >= size) {
+        pos = 0;
+    }
+    return true;
 }
 
 /**
@@ -586,7 +590,6 @@ void veh_interact::do_repair()
         }
         wrefresh (w_msg);
         const std::string action = main_context.handle_input();
-        int dx, dy;
         if ((action == "REPAIR" || action == "CONFIRM") &&
             has_comps &&
             (sel_vehicle_part->hp > 0 || has_wrench) && has_skill) {
@@ -598,25 +601,8 @@ void veh_interact::do_repair()
             wrefresh (w_parts);
             werase (w_msg);
             break;
-        } else if (action == "PREV_TAB" || action == "LEFT") {
-            dy = -page_size;
-        } else if (action == "NEXT_TAB" || action == "RIGHT") {
-            dy = +page_size;
-        } else if (action == "UP") {
-            dy = -1;
-        } else if (action == "DOWN") {
-            dy = +1;
         } else {
-            // Anything else -> no movement
-            dy = 0;
-        }
-        if (dy != 0) {
-            pos += dy;
-            if(pos >= (ssize_t)need_repair.size()) {
-                pos = 0;
-            } else if(pos < 0) {
-                pos = need_repair.size() - 1;
-            }
+            move_in_list(pos, action, need_repair.size());
         }
     }
 }
@@ -738,7 +724,6 @@ void veh_interact::do_remove()
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
         const std::string action = main_context.handle_input();
-        int dx, dy;
         if (action == "REMOVE" || action == "CONFIRM") {
             if (veh->can_unmount(parts_here[pos])) {
                 if (can_hacksaw || is_wheel) {
@@ -764,25 +749,8 @@ void veh_interact::do_remove()
             wrefresh (w_parts);
             werase (w_msg);
             break;
-        } else if (action == "PREV_TAB" || action == "LEFT") {
-            dy = -page_size;
-        } else if (action == "NEXT_TAB" || action == "RIGHT") {
-            dy = +page_size;
-        } else if (action == "UP") {
-            dy = -1;
-        } else if (action == "DOWN") {
-            dy = +1;
         } else {
-            // Anything else -> no movement
-            dy = 0;
-        }
-        if (dy != 0) {
-            pos += dy;
-            if (pos < first) {
-                pos = parts_here.size() - 1;
-            } else if (pos >= (ssize_t)parts_here.size()) {
-                pos = first;
-            }
+            move_in_list(pos, action, parts_here.size());
         }
     }
 }
@@ -851,7 +819,6 @@ void veh_interact::do_tirechange()
         werase (w_msg);
         wrefresh (w_msg);
         const std::string action = main_context.handle_input();
-        int dx, dy;
         if ((action == "TIRE_CHANGE" || action == "CONFIRM") && has_comps && has_tools && is_wheel) {
             sel_cmd = 'c';
             return;
@@ -860,25 +827,8 @@ void veh_interact::do_tirechange()
                 wrefresh (w_list);
                 werase (w_msg);
                 break;
-        } else if (action == "PREV_TAB" || action == "LEFT") {
-            dy = -page_size;
-        } else if (action == "NEXT_TAB" || action == "RIGHT") {
-            dy = +page_size;
-        } else if (action == "UP") {
-            dy = -1;
-        } else if (action == "DOWN") {
-            dy = +1;
         } else {
-            // Anything else -> no movement
-            dy = 0;
-        }
-        if (dy != 0) {
-            pos += dy;
-            if (pos < 0) {
-                pos = wheel_types.size() - 1;
-            } else if (pos >= (ssize_t)wheel_types.size()) {
-                pos = 0;
-            }
+            move_in_list(pos, action, wheel_types.size());
         }
     }
 }
