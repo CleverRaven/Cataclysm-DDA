@@ -3175,7 +3175,6 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
         if(worn.type->use == &iuse::quiver) {
             int maxCharges = worn.max_charges_from_flag("QUIVER");
             if (worn.contents.empty() || (worn.contents[0].is_ammo() && worn.contents[0].charges > 0)) {
-                                            //worn.contents[0].charges < maxCharges)) {
                 quivers.insert(std::make_pair(&worn, maxCharges));
             }
         }

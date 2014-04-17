@@ -9936,7 +9936,6 @@ and you can't unwield your %s."),
                     m.i_rem(posx, posy, curmit);
                 }
                 curmit--;
-                //u.moves -= 100;
                 u.moves -= movesTaken;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !from_veh;
