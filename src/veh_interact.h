@@ -79,14 +79,14 @@ private:
     task_reason cant_do(char mode);
     bool can_currently_install(vpart_info *vpart);
 
-    void do_install(task_reason reason);
-    void do_repair(task_reason reason);
-    void do_refill(task_reason reason);
-    void do_remove(task_reason reason);
-    void do_rename(task_reason reason);
-    void do_siphon(task_reason reason);
-    void do_tirechange(task_reason reason);
-    void do_drain(task_reason reason);
+    void do_install();
+    void do_repair();
+    void do_refill();
+    void do_remove();
+    void do_rename();
+    void do_siphon();
+    void do_tirechange();
+    void do_drain();
 
     void display_grid();
     void display_veh();

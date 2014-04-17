@@ -223,32 +223,30 @@ void veh_interact::do_main_loop()
             if (dx != -2 && (dx || dy)) {
                 move_cursor(dx, dy);
             } else {
-                task_reason reason = cant_do(ch);
-                display_mode(ch);
                 switch (ch) {
                 case 'i':
-                    do_install(reason);
+                    do_install();
                     break;
                 case 'r':
-                    do_repair(reason);
+                    do_repair();
                     break;
                 case 'f':
-                    do_refill(reason);
+                    do_refill();
                     break;
                 case 'o':
-                    do_remove(reason);
+                    do_remove();
                     break;
                 case 'e':
-                    do_rename(reason);
+                    do_rename();
                     break;
                 case 's':
-                    do_siphon(reason);
+                    do_siphon();
                     break;
                 case 'c':
-                    do_tirechange(reason);
+                    do_tirechange();
                     break;
                 case 'd':
-                    do_drain(reason);
+                    do_drain();
                     break;
                 }
                 if (sel_cmd != ' ') {
@@ -418,8 +416,10 @@ task_reason veh_interact::cant_do (char mode)
  *               LACK_TOOLS if the player is lacking tools,
  *               LOW_MORALE if the player's morale is too low.
  */
-void veh_interact::do_install(task_reason reason)
+void veh_interact::do_install()
 {
+    const task_reason reason = cant_do('i');
+    display_mode('i');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -531,8 +531,10 @@ void veh_interact::do_install(task_reason reason)
  *               LACK_TOOLS if the player is lacking tools,
  *               LOW_MORALE if the player's morale is too low.
  */
-void veh_interact::do_repair(task_reason reason)
+void veh_interact::do_repair()
 {
+    const task_reason reason = cant_do('r');
+    display_mode('r');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -619,8 +621,10 @@ void veh_interact::do_repair(task_reason reason)
  * @param reason INVALID_TARGET if there's no fuel tank in the spot,
  *               CANT_REFILL All tanks are broken or player has nothing to fill the tank with.
  */
-void veh_interact::do_refill(task_reason reason)
+void veh_interact::do_refill()
 {
+    const task_reason reason = cant_do('f');
+    display_mode('f');
     werase (w_msg);
     //int msg_width = getmaxx(w_msg);
 
@@ -676,8 +680,10 @@ void veh_interact::do_refill(task_reason reason)
  *               LACK_SKILL if the player's mechanics skill isn't high enough,
  *               LOW_MORALE if the player's morale is too low.
  */
-void veh_interact::do_remove(task_reason reason)
+void veh_interact::do_remove()
 {
+    const task_reason reason = cant_do('o');
+    display_mode('o');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     bool can_hacksaw = has_wrench && has_hacksaw &&
@@ -771,8 +777,10 @@ void veh_interact::do_remove(task_reason reason)
  * @param reason INVALID_TARGET if the vehicle has no gas,
  *               NO_TOOLS if the player has no hose.
  */
-void veh_interact::do_siphon(task_reason reason)
+void veh_interact::do_siphon()
 {
+    const task_reason reason = cant_do('s');
+    display_mode('s');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -795,8 +803,10 @@ void veh_interact::do_siphon(task_reason reason)
  * @param reason INVALID_TARGET if there's no wheel in the selected square,
  *               LACK_TOOLS if the player is missing a tool.
  */
-void veh_interact::do_tirechange(task_reason reason)
+void veh_interact::do_tirechange()
 {
+    const task_reason reason = cant_do('c');
+    display_mode('c');
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
     switch( reason ) {
@@ -855,8 +865,10 @@ void veh_interact::do_tirechange(task_reason reason)
  * @param reason INVALID_TARGET if the vehicle has no water,
  *               LACK_TOOLS if the player has no hose.
  */
-void veh_interact::do_drain(task_reason reason)
+void veh_interact::do_drain()
 {
+    const task_reason reason = cant_do('d');
+    display_mode('d');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -878,9 +890,9 @@ void veh_interact::do_drain(task_reason reason)
  * Handles renaming a vehicle.
  * @param reason Unused.
  */
-void veh_interact::do_rename(task_reason reason)
+void veh_interact::do_rename()
 {
-    (void)reason; // unused
+    display_mode('e');
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
         (veh->name = name);
