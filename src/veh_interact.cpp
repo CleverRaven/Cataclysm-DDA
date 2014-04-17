@@ -737,10 +737,9 @@ void veh_interact::do_remove()
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
-        char ch = input();
+        const std::string action = main_context.handle_input();
         int dx, dy;
-        get_direction (dx, dy, ch);
-        if (ch == '\n' || ch == ' ') {
+        if (action == "REMOVE" || action == "CONFIRM") {
             if (veh->can_unmount(parts_here[pos])) {
                 if (can_hacksaw || is_wheel) {
                     sel_cmd = 'o';
@@ -759,14 +758,25 @@ void veh_interact::do_remove()
                 wrefresh (w_msg);
                 return;
             }
-        } else if (ch == KEY_ESCAPE || ch == 'q' ) {
+        } else if (action == "QUIT") {
             werase (w_parts);
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             break;
+        } else if (action == "PREV_TAB" || action == "LEFT") {
+            dy = -page_size;
+        } else if (action == "NEXT_TAB" || action == "RIGHT") {
+            dy = +page_size;
+        } else if (action == "UP") {
+            dy = -1;
+        } else if (action == "DOWN") {
+            dy = +1;
+        } else {
+            // Anything else -> no movement
+            dy = 0;
         }
-        if (dy == -1 || dy == 1) {
+        if (dy != 0) {
             pos += dy;
             if (pos < first) {
                 pos = parts_here.size() - 1;
