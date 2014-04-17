@@ -9,6 +9,7 @@
 #include "options.h"
 #include "action.h"
 #include "input.h"
+#include <sstream>
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
@@ -720,6 +721,13 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   y = t[target]->ypos();
  } else
   target = -1; // No monsters in range, don't use target, reset to -1
+
+    std::stringstream txt;
+    txt << _("Target: ") << int(target) << _("/") << int(t.size()) << "\n";
+    for (int i = 0; i < t.size(); i++) {
+        txt << int(t[i]->xpos()) << _(" ") << int(t[i]->ypos()) << "\n";
+    };
+    add_msg(txt.str().c_str());
 
  bool sideStyle = use_narrow_sidebar();
  int height = 13;
