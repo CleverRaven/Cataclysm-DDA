@@ -10511,21 +10511,23 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int
     }
 
     if (dropped.size() == 1 || same) {
+        int dropcount = (dropped[0].count_by_charges()) ? dropped[0].charges: 1;
+
         if (to_veh) {
             add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
                              "You put your %1$ss in the %2$s's %3$s.",
-                             dropped[0].charges),
+                             dropcount),
                     dropped[0].tname().c_str(),
                     veh->name.c_str(),
                     veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(ngettext("You drop your %s on the %s.",
-                             "You drop your %ss on the %s.", dropped[0].charges),
+                             "You drop your %ss on the %s.", dropcount),
                     dropped[0].tname().c_str(),
                     m.name(dirx, diry).c_str());
         } else {
             add_msg(ngettext("You put your %s in the %s.",
-                             "You put your %ss in the %s.", dropped[0].charges),
+                             "You put your %ss in the %s.", dropcount),
                     dropped[0].tname().c_str(),
                     m.name(dirx, diry).c_str());
         }
