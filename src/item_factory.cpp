@@ -576,20 +576,6 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag){
     }
 }
 
-//Returns a random template name from the list of all templates, and if it should come with ammo
-const Item_tag Item_factory::id_from(const Item_tag group_tag, bool & with_ammo ) {
-    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
-    //If the tag isn't found, just return a reference to missing item.
-    if(group_iter != m_template_groups.end()){
-        with_ammo = group_iter->second->guns_have_ammo();
-        item it = group_iter->second->create_single(g->turn);
-        return it.type->id;
-    } else {
-        with_ammo = false;
-        return "MISSING_ITEM";
-    }
-}
-
 bool Item_factory::has_group(const Item_tag &group_tag) const
 {
     return m_template_groups.count(group_tag) > 0;
@@ -1114,7 +1100,7 @@ Item_group *make_group_or_throw(Item_spawn_data* &isd, Item_group::Type t)
 
     Item_group *ig = dynamic_cast<Item_group*>(isd);
     if (ig == NULL) {
-        isd = ig = new Item_group(t);
+        isd = ig = new Item_group(t, 100);
     } else if (ig->type != t) {
         throw std::string("item group already definded with different type");
     }
@@ -1195,18 +1181,22 @@ void Item_factory::load_item_group(JsonObject &jsobj)
 {
     const Item_tag group_id = jsobj.get_string("id");
     const std::string subtype = jsobj.get_string("subtype", "old");
+    load_item_group(jsobj, group_id, subtype);
+}
 
+void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id, const std::string &subtype)
+{
     Item_spawn_data* &isd = m_template_groups[group_id];
     Item_group *ig = dynamic_cast<Item_group*>(isd);
     if (subtype == "old") {
         ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
-        ig->with_ammo = jsobj.get_bool("with_ammo", ig->with_ammo);
+        ig->with_ammo = jsobj.get_bool("guns_with_ammo", ig->with_ammo);
     } else if (subtype == "collection") {
         ig = make_group_or_throw(isd, Item_group::G_COLLECTION);
     } else if (subtype == "distribution") {
         ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
     } else {
-        throw std::string("unknown item group type");
+        jsobj.throw_error("unknown item group type", "subtype");
     }
 
     if (subtype == "old") {

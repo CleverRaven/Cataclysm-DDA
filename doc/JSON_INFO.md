@@ -59,6 +59,8 @@
                                      3 = 50+
 ```
 ###ITEM GROUPS
+Item groups have been expanded, look at doc/ITEM_SPAWN.md to their new description.
+The syntax listed here is still valid.
 ```C++
 "id":"forest",            // Unique ID. Must be one continuous word, use underscores if necessary
 "items":[                 // List of potential item ID's. Chance of an item spawning is x/T, where

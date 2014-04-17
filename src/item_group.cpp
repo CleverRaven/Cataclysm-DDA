@@ -46,6 +46,8 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const 
     if (modifier.get() != NULL) {
         modifier->modify(tmp);
     }
+    // TODO: change the spawn lists to contain proper references to containers
+    tmp = tmp.in_its_container(&itypes);
     return tmp;
 }
 
@@ -263,7 +265,7 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     ItemList result;
     if (type == G_COLLECTION) {
         for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            if(rng(1, 100) >= (*a)->probability) {
+            if(rng(0, 99) >= (*a)->probability) {
                 continue;
             }
             ItemList tmp = (*a)->create(birthday, rec);
@@ -281,6 +283,15 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
             break;
         }
     }
+    if (with_ammo && !result.empty()) {
+        it_gun *maybe_gun = dynamic_cast<it_gun *>(result.front().type);
+        if (maybe_gun != NULL) {
+            item ammo = item_controller->create(default_ammo(maybe_gun->ammo), birthday);
+            // TODO: change the spawn lists to contain proper references to containers
+            ammo = ammo.in_its_container(&itypes);
+            result.push_back(ammo);
+        }
+    }
     return result;
 }
 
@@ -288,7 +299,7 @@ item Item_group::create_single(int birthday, RecursionList &rec) const
 {
     if (type == G_COLLECTION) {
         for(prop_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            if(rng(1, 100) >= (*a)->probability) {
+            if(rng(0, 99) >= (*a)->probability) {
                 continue;
             }
             return (*a)->create_single(birthday, rec);

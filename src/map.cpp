@@ -2410,6 +2410,21 @@ void map::spawn_an_item(const int x, const int y, item new_item,
     add_item_or_charges(x, y, new_item);
 }
 
+void map::spawn_items(const int x, const int y, const std::vector<item> &new_items)
+{
+    if (!inbounds(x, y) || has_flag("DESTROY_ITEM", x, y)) {
+        return;
+    }
+    const bool swimmable = has_flag("SWIMMABLE", x, y);
+    for (std::vector<item>::const_iterator a = new_items.begin(); a != new_items.end(); ++a) {
+        const item &new_item = *a;
+        if (new_item.made_of(LIQUID) && swimmable) {
+            continue;
+        }
+        add_item_or_charges(x, y, new_item);
+    }
+}
+
 void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 {
     item newart(type, bday);

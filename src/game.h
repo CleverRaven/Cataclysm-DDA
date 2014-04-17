@@ -365,7 +365,6 @@ public:
   void zoom_in();
   void zoom_out();
 
-  std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
 
   calendar turn;
@@ -458,9 +457,6 @@ public:
   void reset_vehicleparts();
   void reset_vehicles();
   void finalize_vehicles();
-
-  void load_monitem(JsonObject &jo);     // Load monster inventory selection entry
-  void reset_monitems();
 
   std::queue<vehicle_prototype*> vehprototypes;
 
