@@ -659,7 +659,24 @@ void Creature::process_effects()
     effects.erase(std::remove_if(effects.begin(), effects.end(),
                                  is_expired_effect), effects.end());
 }
-
+void Creature::cough(bool harmful)
+{
+    if (is_player()) {
+        g->add_msg(_("You cough heavily."));
+        g->sound(xpos(), ypos(), 4, "");
+    } else {
+        g->sound(xpos(), ypos(), 4, _("a hacking cough."));
+    }
+    mod_moves(-80);
+    if (harmful && !one_in(4)) {
+        hurt(bp_torso, -1, 1);
+    }
+    if (has_effect("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
+        if(is_player()) {
+            //wake_up(_("You wake up coughing."));
+        }
+    }
+}
 
 void Creature::mod_pain(int npain)
 {

@@ -39,13 +39,19 @@ struct effect_mod_info {
     int hurt_chance;
     int hurt_chance_reduced;
     bool hurt_sizing;
+
+    int cough_chance;
+    int cough_chance_reduced;
+    bool harmful_cough;
+
     effect_mod_info() : str_mod(0), dex_mod(0), per_mod(0), int_mod(0), speed_mod(0),
                         str_mod_reduced(0), dex_mod_reduced(0), per_mod_reduced(0),
                         int_mod_reduced(0), speed_mod_reduced(0), pain_min(0), pain_max(0),
                         pain_reduced_min(0), pain_reduced_max(0), pain_chance(0),
                         pain_chance_reduced(0), pain_sizing(false), hurt_min(0), hurt_max(0),
                         hurt_reduced_min(0), hurt_reduced_max(0), hurt_chance(0),
-                        hurt_chance_reduced(0), hurt_sizing(false) {};
+                        hurt_chance_reduced(0), hurt_sizing(false), cough_chance(0),
+                        cough_chance_reduced(0), harmful_cough(false) {};
     bool load(JsonObject &jsobj, std::string member);
 };
 
@@ -149,6 +155,10 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_hurt(bool reduced = false);
         int get_hurt_chance(bool reduced = false);
         bool get_hurt_sizing();
+
+        int get_cough_chance(bool reduced = false);
+        bool get_harmful_cough();
+
         std::string get_resist_trait();
 
         efftype_id get_id() {

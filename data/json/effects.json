@@ -144,13 +144,25 @@
         "name" : ["Glare"],
         "desc" : ["Perception - 1"],
         "apply_message" : "The sunlight's glare makes it hard to see."
+        "base_mods" : {
+            "per_mod" : [-1]
+        }
     },
     {
         "type" : "effect_type",
         "id" : "smoke",
         "name" : ["Smoke"],
         "desc" : ["Strength - 1;   Dexterity - 1;\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
-        "apply_message" : "You inhale a lungful of thick smoke."
+        "apply_message" : "You inhale a lungful of thick smoke.",
+        "max_intensity" : 20,
+        "base_mods" : {
+            "str_mod" : [-1],
+            "per_mod" : [-1],
+            "cough_chance" : 320
+        }
+        "scaling_mods" : {
+            "cough_chance" : -20
+        }
     },
     {
         "type" : "effect_type",

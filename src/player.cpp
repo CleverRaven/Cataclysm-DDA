@@ -38,7 +38,6 @@
 #include <fstream>
 
 static void manage_fire_exposure(player& p, int fireStrength = 1);
-static void handle_cough(player& p, int intensity = 1, int volume = 4);
 
 std::map<std::string, trait> traits;
 std::map<std::string, martialart> ma_styles;
@@ -5165,21 +5164,6 @@ static void manage_fire_exposure(player &p, int fireStrength) {
         }
     }
 }
-static void handle_cough(player &p, int intensity, int loudness) {
-    if (p.is_player()) {
-        g->add_msg(_("You cough heavily."));
-        g->sound(p.posx, p.posy, loudness, "");
-    } else {
-        g->sound(p.posx, p.posy, loudness, _("a hacking cough."));
-    }
-    p.mod_moves(-80);
-    if (rng(1,6) < intensity) {
-        p.apply_damage(NULL, bp_torso, -1, 1);
-    }
-    if (p.has_disease("sleep") && intensity >= 2) {
-        p.wake_up(_("You wake up coughing."));
-    }
-}
 void player::process_effects() {
     for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
         bool reduced = has_trait(it->get_resist_trait());
@@ -5230,11 +5214,15 @@ void player::process_effects() {
             }
         }
 
+        if (it->get_cough_chance() > 0 && one_in(it->get_cough_chance())) {
+            cough(it->get_harmful_cough());
+        }
+
+        // (Still) Hardcoded effects
         std::string id = it->get_id();
         if (id == "onfire") {
             manage_fire_exposure(*this, 1);
         } else if (id == "glare") {
-            mod_per_bonus(-1);
             if (one_in(200)) {
                 g->add_msg_if_player(this,_("The sunlight's glare makes it hard to see."));
             }
@@ -5243,18 +5231,13 @@ void player::process_effects() {
             if( it->get_duration() >= 600) {
                 it->set_duration(600);
             }
-            mod_str_bonus(-1);
-            mod_dex_bonus(-1);
-            it->set_intensity((it->get_duration()+190)/200);
-            if (it->get_intensity() >= 10 && one_in(6)) {
-                handle_cough(*this, it->get_intensity());
-            }
+            it->set_intensity(std::max(1, it->get_duration()/30));
         } else if (id == "teargas") {
             mod_str_bonus(-2);
             mod_dex_bonus(-2);
             mod_per_bonus(-5);
             if (one_in(3)) {
-                handle_cough(*this, 4);
+                cough();
             }
         }
     }

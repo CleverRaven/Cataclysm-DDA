@@ -147,6 +147,20 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         }
         hurt_sizing = j.get_bool("hurt_sizing", false);
 
+        if(j.has_member("cough_chance")) {
+            JsonArray jsarr = j.get_array("cough_chance");
+                cough_chance = jsarr.get_int(0);
+            if (jsarr.size() == 2) {
+                cough_chance_reduced = jsarr.get_int(1);
+            } else {
+                cough_chance_reduced = 0;
+            }
+        } else {
+            cough_chance = 0;
+            cough_chance_reduced = 0;
+        }
+        harmful_cough = j.get_bool("harmful_cough", false);
+
         return true;
     } else {
         return false;
@@ -354,10 +368,16 @@ void effect::decay(int health_val)
 void effect::set_intensity(int nintensity)
 {
     intensity = nintensity;
+    if (intensity > get_max_intensity()) {
+        intensity = get_max_intensity();
+    }
 }
 void effect::mod_intensity(int nintensity)
 {
     intensity += nintensity;
+    if (intensity > get_max_intensity()) {
+        intensity = get_max_intensity();
+    }
 }
 
 body_part effect::get_bp()
@@ -486,6 +506,23 @@ int effect::get_hurt_chance(bool reduced)
 bool effect::get_hurt_sizing()
 {
     return eff_type->base_mods.hurt_sizing;
+}
+
+int effect::get_cough_chance(bool reduced)
+{
+    int ret = 0;
+    if (!reduced) {
+        ret += eff_type->base_mods.cough_chance;
+        ret += eff_type->scaling_mods.cough_chance * intensity;
+    } else {
+        ret += eff_type->base_mods.cough_chance_reduced;
+        ret += eff_type->scaling_mods.cough_chance_reduced * intensity;
+    }
+    return ret;
+}
+bool effect::get_harmful_cough()
+{
+    return eff_type->base_mods.harmful_cough;
 }
 
 std::string effect::get_resist_trait()

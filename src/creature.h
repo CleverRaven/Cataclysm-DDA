@@ -152,6 +152,9 @@ class Creature
         /** Runs all the effects on the Creature */
         virtual void process_effects();
 
+        /** Disease/effect functions */
+        virtual void cough(bool harmful = false);
+
         /** not-quite-stats, maybe group these with stats later */
         virtual void mod_pain(int npain);
         virtual void mod_moves(int nmoves);
