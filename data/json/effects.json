@@ -143,7 +143,7 @@
         "id" : "glare",
         "name" : ["Glare"],
         "desc" : ["Perception - 1"],
-        "apply_message" : "The sunlight's glare makes it hard to see."
+        "apply_message" : "The sunlight's glare makes it hard to see.",
         "base_mods" : {
             "per_mod" : [-1]
         }
@@ -158,10 +158,10 @@
         "base_mods" : {
             "str_mod" : [-1],
             "per_mod" : [-1],
-            "cough_chance" : 320
-        }
+            "cough_chance" : [320]
+        },
         "scaling_mods" : {
-            "cough_chance" : -20
+            "cough_chance" : [-20]
         }
     },
     {

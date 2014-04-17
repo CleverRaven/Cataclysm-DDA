@@ -168,7 +168,6 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
 }
 
 effect_type::effect_type(){}
-effect_type::effect_type(const effect_type &) {}
 
 std::string effect_type::get_name(int intensity)
 {
