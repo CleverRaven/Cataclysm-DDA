@@ -409,9 +409,9 @@ std::string action_name(action_id act)
     case ACTION_EXAMINE:
         return _("Examine Nearby Terrain");
     case ACTION_PICKUP:
-        return _("Pick Item(s) Up");
+        return _("Pick up Item(s)");
     case ACTION_GRAB:
-        return _("Grab a nearby vehicle");
+        return _("Grab something nearby");
     case ACTION_BUTCHER:
         return _("Butcher");
     case ACTION_CHAT:
@@ -1039,6 +1039,7 @@ action_id handle_action_menu()
 
     while(1) {
         std::vector<uimenu_entry> entries;
+        uimenu_entry * entry;
         std::map<int, std::string> categories_by_int;
         int last_category = NUM_ACTIONS + 1;
 
@@ -1057,15 +1058,26 @@ action_id handle_action_menu()
             REGISTER_CATEGORY("craft");
             REGISTER_CATEGORY("info");
             REGISTER_CATEGORY("misc");
+            if (hotkey_for_action(ACTION_QUICKSAVE) >-1) {
+                REGISTER_ACTION(ACTION_QUICKSAVE);
+            }
             REGISTER_ACTION(ACTION_SAVE);
             if (hotkey_for_action(ACTION_QUIT) >-1) {
                 REGISTER_ACTION(ACTION_QUIT);
             }
             REGISTER_ACTION(ACTION_HELP);
+            if (entry= &entries.back())
+                entry->txt += "...";        // help _is_a menu.
+            if (hotkey_for_action(ACTION_DEBUG) >-1) {
+                REGISTER_CATEGORY("debug"); // register with globalkey
+                if (entry= &entries.back())
+                    entry->hotkey= hotkey_for_action(ACTION_DEBUG);
+            }
         } else if(category == "look") {
             REGISTER_ACTION(ACTION_LOOK);
             REGISTER_ACTION(ACTION_PEEK);
             REGISTER_ACTION(ACTION_LIST_ITEMS);
+            REGISTER_ACTION(ACTION_MAP);
         } else if(category == "inventory") {
             REGISTER_ACTION(ACTION_INVENTORY);
             REGISTER_ACTION(ACTION_ADVANCEDINV);
@@ -1086,14 +1098,13 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_WIELD);
             REGISTER_ACTION(ACTION_UNLOAD);
         } else if(category == "debug") {
+            REGISTER_ACTION(ACTION_DEBUG);
+            if (entry= &entries.back())
+                entry->txt += "..."; // debug _is_a menu.
             REGISTER_ACTION(ACTION_TOGGLE_SIDEBAR_STYLE);
             REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
-            REGISTER_ACTION(ACTION_DEBUG);
             REGISTER_ACTION(ACTION_DISPLAY_SCENT);
             REGISTER_ACTION(ACTION_TOGGLE_DEBUGMON);
-            REGISTER_ACTION(ACTION_PICKUP);
-            REGISTER_ACTION(ACTION_GRAB);
-            REGISTER_ACTION(ACTION_BUTCHER);
         } else if(category == "interact") {
             REGISTER_ACTION(ACTION_EXAMINE);
             REGISTER_ACTION(ACTION_SMASH);
@@ -1102,6 +1113,9 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_OPEN);
             REGISTER_ACTION(ACTION_CLOSE);
             REGISTER_ACTION(ACTION_CHAT);
+            REGISTER_ACTION(ACTION_PICKUP);
+            REGISTER_ACTION(ACTION_GRAB);
+            REGISTER_ACTION(ACTION_BUTCHER);
         } else if(category == "combat") {
             REGISTER_ACTION(ACTION_FIRE);
             REGISTER_ACTION(ACTION_RELOAD);
@@ -1120,7 +1134,6 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_DISASSEMBLE);
         } else if(category == "info") {
             REGISTER_ACTION(ACTION_PL_INFO);
-            REGISTER_ACTION(ACTION_MAP);
             REGISTER_ACTION(ACTION_MISSIONS);
             REGISTER_ACTION(ACTION_KILLS);
             REGISTER_ACTION(ACTION_FACTIONS);
@@ -1143,9 +1156,11 @@ action_id handle_action_menu()
             title = _("Cancel");
         entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true, hotkey_for_action(ACTION_ACTIONMENU), title));
 
-        title = "Actions";
+        title = _("Actions");
         if(category != "back") {
-            title += ": " + category;
+            catgname= _(category.c_str());
+            capitalize_letter(catgname,0);
+            title += ": " + catgname;
         }
 
         int width=0;
@@ -1156,11 +1171,13 @@ action_id handle_action_menu()
         width += 2+3+3; //border=2, selectors=3, after=3 for balance.
         int ix = (TERMX > width) ? (TERMX - width) / 2 -1 : 0;
         int iy = (TERMY > entries.size()+2) ? (TERMY - entries.size() -2) / 2 -1 : 0;
-        int selection = (int) uimenu(true, std::max(ix,0), width, std::max(iy,0), title, entries);
+        int selection = (int) uimenu(true, std::max(ix,0), std::min(width,TERMX-2), std::max(iy,0), title, entries);
 
         g->draw();
 
-        if ((selection <0) || (selection == 2 * NUM_ACTIONS)) {
+        if (selection <0) {
+            return ACTION_NULL;
+        } else if (selection == 2 * NUM_ACTIONS) {
             if (category != "back") {
                 category = "back";
             } else {
