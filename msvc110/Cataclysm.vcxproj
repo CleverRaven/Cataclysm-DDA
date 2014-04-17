@@ -167,7 +167,6 @@
     <ClCompile Include="..\src\mondeath.cpp" />
     <ClCompile Include="..\src\mondefense.cpp" />
     <ClCompile Include="..\src\mongroupdef.cpp" />
-    <ClCompile Include="..\src\monitemsdef.cpp" />
     <ClCompile Include="..\src\monmove.cpp" />
     <ClCompile Include="..\src\monster.cpp" />
     <ClCompile Include="..\src\monstergenerator.cpp" />

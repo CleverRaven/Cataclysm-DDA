@@ -1,13 +1,24 @@
 [
     {
-        "type": "monitems",
-        "id": [
-            "mon_zombie", "mon_zombie_shrieker", "mon_zombie_spitter", "mon_zombie_electric", "mon_zombie_brute",
-            "mon_zombie_hulk", "mon_zombie_fungus", "mon_boomer", "mon_boomer_fungus", "mon_zombie_gasbag",  "mon_zombie_necro",
-            "mon_zombie_grabber", "mon_zombie_master", "mon_zombie_hunter", "mon_zombie_fat", "mon_zombie_tough", "mon_dementia",
-            "mon_zombie_rot", "mon_zombie_crawler"
-        ],
-        "item_groups": [
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "contains cloth for an average zombie",
+        "id": "default_zombie_clothes",
+        "entries":
+        [
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "bags", "damage-min": 1, "damage-max": 4, "prob": 6 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "distribution",
+        "comment": "items that an average zombie carries around and rops on death",
+        "id": "default_zombie_items",
+        "groups": [
             [ "livingroom", 5 ],
             [ "kitchen", 4 ],
             [ "bedroom", 16 ],
@@ -19,21 +30,20 @@
             [ "pistols", 1 ],
             [ "shotguns", 1 ],
             [ "smg", 1 ],
+            [ "home_hw", 5 ],
             [ "postman_gear", 5]
         ]
     },
     {
-        "type": "monitems",
-        "id": "mon_zombie_child",
-        "item_groups": [
-            [ "child_items", 65 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_beekeeper",
-        "item_groups": [
-            [ "hive", 80 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "contains cloth (always), a cash card (10% chance) and a random item (50% chance)",
+        "id": "default_zombie_death_drops",
+        "entries":
+        [
+            { "group": "default_zombie_clothes" },
+            { "group": "default_zombie_items", "prob": 50 },
+            { "item": "cash_card", "prob": 10 }
         ]
     },
     {
@@ -48,7 +58,7 @@
             { "group": "underwear", "damage-min": 1, "damage-max": 4 },
             { "group": "cop_weapons", "prob": 20 },
             { "group": "cop_gear", "prob": 40 },
-            { "item": "cash_card", "charges-min": -1, "charges-max": 100000 }
+            { "item": "cash_card" }
         ]
     },
     {
@@ -64,9 +74,9 @@
                     { "group": "swimmer_torso", "damage-min": 1, "damage-max": 4, "prob": 33 },
                     { "group": "swimmer_pants", "damage-min": 1, "damage-max": 4 },
                     { "group": "swimmer_shoes", "damage-min": 1, "damage-max": 4, "prob": 25 }
-                ] }
+                ], "prob": 90 }
             ] },
-            { "item": "cash_card", "charges-min": -1, "charges-max": 10000 }
+            { "item": "cash_card" }
         ]
     },
     {
@@ -91,223 +101,170 @@
                 { "group": "radio", "prob": 2 },
                 { "group": "textbooks", "prob": 3 }
             ] },
-            { "item": "cash_card", "charges-min": -1, "charges-max": 100000 }
+            { "item": "cash_card" }
         ]
     },
     {
-        "type": "monitems",
-        "id": "mon_zombie_soldier",
-        "item_groups": [
-            [ "ammo", 10 ],
-            [ "pistols", 5 ],
-            [ "shotguns", 2 ],
-            [ "smg", 5 ],
-            [ "bots", 1 ],
-            [ "launchers", 2 ],
-            [ "mil_rifles", 10 ],
-            [ "grenades", 5 ],
-            [ "mil_accessories", 10 ],
-            [ "mil_food", 5 ],
-            [ "bionics_mil", 1 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_soldier_death_drops",
+        "entries":
+        [
+            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "mil_armor_torso", "damage-min": 1, "damage-max": 4 },
+            { "group": "mil_armor_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "mil_armor_helmet", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "distribution": [
+                { "group": "ammo", "prob": 10 },
+                { "group": "pistols", "prob": 5 },
+                { "group": "shotguns", "prob": 2 },
+                { "group": "smg", "prob": 5 },
+                { "group": "bots", "prob": 1 },
+                { "group": "launchers", "prob": 2 },
+                { "group": "mil_rifles", "prob": 10 },
+                { "group": "grenades", "prob": 5 },
+                { "group": "mil_accessories", "prob": 10 },
+                { "group": "mil_food", "prob": 5 },
+                { "group": "bionics_mil", "prob": 1 }
+            ] },
+            { "item": "cash_card" }
         ]
     },
     {
-        "type": "monitems",
-        "id": "mon_zombie_bio_op",
-        "item_groups": [
-            [ "ammo", 15 ],
-            [ "pistols", 5 ],
-            [ "shotguns", 4 ],
-            [ "smg", 5 ],
-            [ "bots", 1 ],
-            [ "mil_rifles", 10 ],
-            [ "grenades", 5 ],
-            [ "mil_accessories", 10 ],
-            [ "mil_food", 5 ],
-            [ "bionics_mil", 1 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_hulk_death_drops",
+        "entries":
+        [
+            { "item": "rag", "damage-min": 1, "damage-max": 4, "count-min": 1, "count-max": 4 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "default_zombie_items" },
+            { "item": "cash_card" }
         ]
     },
     {
-        "type": "monitems",
-        "id": "mon_biollante",
-        "item_groups": [
-            [ "biollante", 1 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_hazmat_death_drops",
+        "entries":
+        [
+            { "distribution": [
+                { "group": "hazmat_full", "damage-min": 1, "damage-max": 4, "prob": 20 },
+                { "collection": [
+                    { "group": "hazmat_torso", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_gloves", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_boots", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_mask", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_eyes", "damage-min": 1, "damage-max": 4, "prob": 33 }
+                ], "prob": 80 }
+            ] },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "distribution": [
+                { "group": "rad_gear", "prob": 1 }
+            ] },
+            { "item": "cash_card" }
         ]
     },
     {
-        "type": "monitems",
-        "id": [ "mon_chud", "mon_one_eye" ],
-        "item_groups": [
-            [ "subway", 40 ],
-            [ "sewer", 20 ],
-            [ "trash", 5 ],
-            [ "bedroom", 1 ],
-            [ "dresser", 5 ],
-            [ "ammo", 18 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_bio_op_death_drops",
+        "entries":
+        [
+            { "group": "bio_op_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "mil_armor_torso", "damage-min": 1, "damage-max": 4 },
+            { "group": "mil_armor_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "mil_armor_helmet", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "group": "bio_op_face", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "group": "bio_op_torso", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "group": "bio_op_gloves", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "distribution": [
+                { "group": "ammo", "prob": 15 },
+                { "group": "pistols", "prob": 5 },
+                { "group": "shotguns", "prob": 4 },
+                { "group": "smg", "prob": 5 },
+                { "group": "bots", "prob": 1 },
+                { "group": "mil_rifles", "prob": 10 },
+                { "group": "grenades", "prob": 5 },
+                { "group": "mil_accessories", "prob": 10 },
+                { "group": "mil_food", "prob": 5 },
+                { "group": "bionics_mil", "prob": 1 }
+            ] },
+            { "item": "cash_card" }
         ]
     },
     {
-        "type": "monitems",
-        "id": "mon_bee",
-        "item_groups": [
-            [ "bees", 1 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_fireman_death_drops",
+        "entries":
+        [
+            { "group": "fireman_torso", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_gloves", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_mask", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_head", "damage-min": 1, "damage-max": 4 },
+            { "group": "hazmat_eyes", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "distribution": [
+                { "group": "fireman_gear", "prob": 1 }
+            ] },
+            { "item": "cash_card" }
         ]
     },
     {
-        "type": "monitems",
-        "id": "mon_wasp",
-        "item_groups": [
-            [ "wasps", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_eyebot",
-        "item_groups": [
-            [ "robots", 4 ],
-            [ "eyebot", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_manhack",
-        "item_groups": [
-            [ "robots", 4 ],
-            [ "manhack", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_skitterbot",
-        "item_groups": [
-            [ "robots", 4 ],
-            [ "skitterbot", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_secubot",
-        "item_groups": [
-            [ "robots", 4 ],
-            [ "secubot", 1]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_copbot",
-        "item_groups": [
-            [ "robots", 4 ],
-            [ "copbot", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_molebot",
-        "item_groups": [
-            [ "robots", 4 ],
-            [ "molebot", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_tripod",
-        "item_groups": [
-            [ "robots", 4 ],
-            [ "tripod", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_chickenbot",
-        "item_groups": [
-            [ "robots", 4 ],
-            [ "chickenbot", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_tankbot",
-        "item_groups": [
-            [ "robots", 4 ],
-            [ "tankbot", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_turret",
-        "item_groups": [
-            [ "robots", 10 ],
-            [ "turret", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_laserturret",
-        "item_groups": [
-            [ "robots", 10 ],
-            [ "laserturret", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_fungal_fighter",
-        "item_groups": [
-            [ "fungal_sting", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_shia",
-        "item_groups": [
-            [ "shia_stuff", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_dog_zombie_cop",
-        "item_groups": [
-            [ "dog_cop", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_zombie_hazmat",
-        "item_groups": [
-            [ "rad_gear", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_zombie_fireman",
-        "item_groups": [
-            [ "fireman_gear", 1 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_zombie_survivor",
-        "item_groups": [
-            [ "allguns", 24 ],
-            [ "grenades", 10 ],
-            [ "mil_rifles", 8 ],
-            [ "mil_hw", 1 ],
-            [ "launchers", 1 ],
-            [ "gunxtras", 14 ],
-            [ "stash_food", 40 ],
-            [ "stash_ammo", 26 ],
-            [ "stash_drugs", 28 ],
-            [ "survival_tools", 18 ],
-            [ "mil_food", 22 ],
-            [ "mil_food_nodrugs", 34 ],
-            [ "shelter", 8 ],
-            [ "mil_surplus", 6 ]
-        ]
-    },
-    {
-        "type": "monitems",
-        "id": "mon_cow",
-        "item_groups": [
-            [ "cow", 75 ]
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_survivor_death_drops",
+        "entries":
+        [
+            { "group": "survivorzed_gloves", "damage-min": 1, "damage-max": 4 },
+            { "group": "survivorzed_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "survivorzed_head", "damage-min": 1, "damage-max": 4 },
+            { "group": "survivorzed_extra", "damage-min": 1, "damage-max": 4 },
+            {
+                "distribution": [
+                    {
+                        "group": "survivorzed_suits",
+                        "prob": 25
+                    },
+                    {
+                        "collection": [
+                            { "group": "survivorzed_tops", "prob": 25 },
+                            { "group": "survivorzed_bottoms", "prob": 25 }
+                        ],
+                        "prob": 75
+                    }
+                ], "damage-min": 1, "damage-max": 4
+            },
+            {
+                "comment": "1/3 chance of underware, 2/3 chance of loincloth",
+                "distribution": [
+                    { "group": "underwear" },
+                    { "group": "loincloth" },
+                    { "group": "loincloth" }
+                ],
+                "damage-min": 1, "damage-max": 4
+            },
+            { "distribution": [
+                { "group": "allguns", "prob": 24 },
+                { "group": "grenades", "prob": 10 },
+                { "group": "mil_rifles", "prob": 8 },
+                { "group": "mil_hw", "prob": 1 },
+                { "group": "launchers", "prob": 1 },
+                { "group": "gunxtras", "prob": 14 },
+                { "group": "stash_food", "prob": 40 },
+                { "group": "stash_ammo", "prob": 26 },
+                { "group": "stash_drugs", "prob": 28 },
+                { "group": "survival_tools", "prob": 18 },
+                { "group": "mil_food", "prob": 22 },
+                { "group": "mil_food_nodrugs", "prob": 34 },
+                { "group": "shelter", "prob": 8 },
+                { "group": "mil_surplus", "prob": 6 }
+            ] },
+            { "item": "cash_card" }
         ]
     }
 ]

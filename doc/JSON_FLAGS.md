@@ -160,7 +160,6 @@ Flags used to describe monsters and define their properties and abilities.
 - ```RATKING``` Cure verminitis.
 - ```KILL_BREATHERS``` All breathers die.
 - ```SMOKEBURST``` Explode like a huge smoke bomb.
-- ```ZOMBIE``` Generate proper clothing for zombies. (Also use NORMAL).
 - ```GAMEOVER``` Game over man! Game over! Defense mode.
 
 ### Flags
