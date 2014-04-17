@@ -3941,7 +3941,7 @@
         "addiction_potential" : 0,
         "nutrition" : 4,
         "description" : "A bone from some creature or other, could be eaten or used to make some stuff, like needles.",
-        "price" : 5000,
+        "price" : 0,
         "material" : "bone",
         "tool" : "null",
         "volume" : 1,
