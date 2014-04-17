@@ -857,11 +857,11 @@ with the ! key. This ensures that the sudden appearance of a monster won't catch
 
     text.push_back(_("\
 Q: It seems like everything I eat makes me sick! What's wrong?\n\
-A: Lots of the food found in towns is perishable, and will only last a few days after \
+A: Lots of the food found in towns is perishable and will only last a few days after \
 the start of a new game. The electricity went out several days ago \
 so fruit, milk and others are the first to go bad. \
 After the first couple of days, you should switch to canned food, jerky, and hunting. \
-Also, you should make sure to cook/purify any food or water you hunt up \
+Also, you should make sure to cook any food and purify any water you hunt up \
 as it may contain parasites or otherwise be unsafe."));
 
     text.push_back(_("\
@@ -916,8 +916,8 @@ your shotgun to escape, then just run from the zombies it attracts."));
     text.push_back(_("\
 Q: Help! I started a fire and now my house is burning down!\n\
 A: Fires will spread to nearby flammable tiles if they are able. Lighting a \
-stop fire in a set-up brazier, wood stove, stone fireplace, or pit will \
-it from spreading. Fire extinguishers can put out fires that get out of control."));
+fire in a set-up brazier, stove, wood stove, stone fireplace, or pit will \
+stop it from spreading. Fire extinguishers can put out fires that get out of control."));
 
     text.push_back(_("\
 Q: I'm cold and can't sleep at night!\n\
