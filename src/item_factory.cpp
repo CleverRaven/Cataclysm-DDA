@@ -158,6 +158,7 @@ Item_factory::Item_factory(){
     // because using _() at global scope is problematic,
     // and if this appears it's a bug anyway.
     m_missing_item->name = "Error: Item Missing.";
+    m_missing_item->name_plural = "Error: Item Missing.";
     m_missing_item->description = "There is only the space where an object should be, but isn't. No item template of this type exists.";
     m_templates["MISSING_ITEM"] = m_missing_item;
 }
@@ -894,7 +895,13 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
     // And then proceed to assign the correct field
     new_item_template->price = jo.get_int("price");
-    new_item_template->name = _(jo.get_string("name").c_str());
+    new_item_template->name = jo.get_string("name").c_str();
+    if(jo.has_member("name_plural")) {
+      new_item_template->name_plural = jo.get_string("name_plural").c_str();
+    } else {
+      // default behaviour: Assume the regular plural form (appending an “s”)
+      new_item_template->name_plural = (jo.get_string("name") + "s").c_str();
+    }
     new_item_template->sym = jo.get_string("symbol")[0];
     new_item_template->color = color_from_string(jo.get_string("color"));
     new_item_template->description = _(jo.get_string("description").c_str());

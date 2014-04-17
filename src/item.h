@@ -62,8 +62,8 @@ public:
 
     nc_color color(player *u) const;
     nc_color color_in_inventory();
-    std::string tname(bool with_prefix = true); // item name (includes damage, freshness, etc)
-    std::string display_name(); // name for display (includes charges, etc)
+    std::string tname(unsigned int quantity = 1, bool with_prefix = true); // item name (includes damage, freshness, etc)
+    std::string display_name(unsigned int quantity = 1); // name for display (includes charges, etc)
     void use();
     bool burn(int amount = 1); // Returns true if destroyed
 

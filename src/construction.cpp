@@ -291,9 +291,9 @@ void construction_menu()
                             posy++;
                             posx = 33;
                         }
-                        mvwprintz(w_con, posy, posx, col, "%s x%d",
-                                  item_controller->find_template(comp.type)->name.c_str(), comp.count);
-                        posx += length + 3; // + 2 for " x", + 1 for an empty space
+                        mvwprintz(w_con, posy, posx, col, "%d %s",
+                                  comp.count, item_controller->find_template(comp.type)->nname(comp.count).c_str());
+                        posx += length + 2; 
                         // Add more space for the length of the count
                         if (comp.count < 10) {
                             posx++;

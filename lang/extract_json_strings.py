@@ -35,6 +35,7 @@ ignorable = {
 # all of their translatable strings are in the following form:
 #   "name" member
 #   "description" member
+#   "name_plural" member
 #   "text" member
 #   "sound" member
 #   "messages" member containing an array of translatable strings
@@ -73,6 +74,22 @@ automatically_convertible = {
     "VAR_VEH_PART",
     "vehicle_part",
     "vehicle",
+}
+
+# for these objects a plural form is needed
+needs_plural = {
+    "AMMO",
+    "ARMOR",
+    "BIONIC_ITEM",
+    "BOOK",
+    "COMESTIBLE",
+    "CONTAINER",
+    "GENERIC",
+    "GUNMOD",
+    "GUN",
+    "TOOL",
+    "TOOL_ARMOR",
+    "VAR_VEH_PART"
 }
 
 # these objects can be automatically converted, but use format strings
@@ -175,14 +192,17 @@ for filename in os.listdir(to_dir):
 ##  FUNCTIONS
 ##
 
-def gettextify(string, context=None):
+def gettextify(string, context=None, plural=None):
     "Put the string in a fake gettext call, and add a newline."
     if context:
         return "pgettext(%r, %r)\n" % (context, string)
     else:
-        return "_(%r)\n" % string
+        if plural:
+            return "ngettext(%r, %r, n)\n" % (string, plural)
+        else:
+            return "_(%r)\n" % string
 
-def writestr(filename, string, context=None, format_strings=False, comment=None):
+def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None):
     "Wrap the string and write to the file."
     # no empty strings
     if not string: return
@@ -194,7 +214,7 @@ def writestr(filename, string, context=None, format_strings=False, comment=None)
         # we must tell xgettext this explicitly
         if not format_strings and "%" in string:
             fs.write("# xgettext:no-python-format\n")
-        fs.write(gettextify(string,context=context))
+        fs.write(gettextify(string,context=context,plural=plural))
 
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
@@ -226,7 +246,14 @@ def extract(item, infilename):
         exit(1)
     wrote = False
     if "name" in item:
-        writestr(outfile, item["name"], **kwargs)
+        if "name_plural" in item:
+            writestr(outfile, item["name"], item["name_plural"], **kwargs)
+        else:
+            if object_type in needs_plural:
+                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
+                writestr(outfile, item["name"], "%ss" % item["name"], **kwargs)
+            else:
+                writestr(outfile, item["name"], **kwargs)
         wrote = True
     if "description" in item:
         writestr(outfile, item["description"], **kwargs)
@@ -277,6 +304,24 @@ def extract_all_from_file(json_file):
         for jsonobject in jsondata:
             extract(jsonobject, json_file)
 
+def add_fake_items():
+    """Add names of fake items. This is done by hand and must be updated
+    manually each time something is added to itypedef.cpp."""
+    outfile = os.path.join(to_dir, "fakeitems.py")
+
+    writestr(outfile, "corpse", "corpses")
+    writestr(outfile, "nearby fire")
+    writestr(outfile, "cvd machine")
+    writestr(outfile, "integrated toolset")
+    writestr(outfile, "a smoking device and a source of flame")
+    writestr(outfile, "flyer", "flyers")
+    writestr(outfile, "note", "notes")
+    writestr(outfile, "misc software")
+    writestr(outfile, "MediSoft")
+    writestr(outfile, "infection data")
+    writestr(outfile, "hackPRO")
+
+
 ##
 ##  EXTRACTION
 ##
@@ -284,5 +329,6 @@ def extract_all_from_file(json_file):
 extract_all_from_dir(json_dir)
 extract_all_from_dir(raw_dir)
 extract_all_from_dir(mods_dir)
+add_fake_items()
 
 # done.

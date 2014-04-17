@@ -427,7 +427,7 @@ void game::wishitem( player *p, int x, int y)
 
     for (int i = 0; i < standard_itype_ids.size(); i++) {
         itype *ity = item_controller->find_template(standard_itype_ids[i]);
-        wmenu.addentry( i, true, 0, string_format(_("%s"), ity->name.c_str()) );
+        wmenu.addentry( i, true, 0, string_format(_("%s"), ity->nname(1).c_str()) );
         wmenu.entries[i].extratxt.txt = string_format("%c", ity->sym);
         wmenu.entries[i].extratxt.color = ity->color;
         wmenu.entries[i].extratxt.left = 1;
@@ -453,7 +453,7 @@ void game::wishitem( player *p, int x, int y)
                 wmenu.keypress = 'q';
             }
             dynamic_cast<wish_item_callback *>(wmenu.callback)->msg =
-                _("Item granted, choose another or 'q' to quit.");
+                _("Wish granted. Wish for more or hit 'q' to quit.");
             uistate.wishitem_selected = wmenu.ret;
         }
     } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );

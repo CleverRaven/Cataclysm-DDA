@@ -132,6 +132,7 @@
         "symbol": ")",
         "color": "brown",
         "name": "cardboard box",
+        "name_plural": "cardboard boxes",
         "category": "other",
         "description": "A small cardboard box. No bigger than a foot in dimension.",
         "price": 0,
