@@ -20,6 +20,7 @@
  * Creates a blank veh_interact window.
  */
 veh_interact::veh_interact ()
+: main_context("VEH_INTERACT")
 {
     cpart = -1;
     ddx = 0;
@@ -33,6 +34,20 @@ veh_interact::veh_interact ()
     worstDurabilityColor = c_green;
     durabilityPercent = 100;
     mostDamagedPart = -1;
+
+    main_context.register_directions();
+    main_context.register_action("QUIT");
+    main_context.register_action("INSTALL");
+    main_context.register_action("REPAIR");
+    main_context.register_action("REFILL");
+    main_context.register_action("REMOVE");
+    main_context.register_action("SIPHON");
+    main_context.register_action("TIRE_CHANGE");
+    main_context.register_action("DRAIN");
+    main_context.register_action("PREV_TAB");
+    main_context.register_action("NEXT_TAB");
+    main_context.register_action("CONFIRM");
+    main_context.register_action("HELP_KEYBINDINGS");
 }
 
 /**
@@ -214,47 +229,33 @@ void veh_interact::do_main_loop()
     move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
-        char ch = input(); // See input.h
+        const std::string action = main_context.handle_input();
         int dx, dy;
-        get_direction(dx, dy, ch);
-        if (ch == KEY_ESCAPE || ch == 'q' ) {
+        if (main_context.get_direction(dx, dy, action)) {
+            move_cursor(dx, dy);
+        } else if (action == "QUIT") {
             finish = true;
-        } else {
-            if (dx != -2 && (dx || dy)) {
-                move_cursor(dx, dy);
-            } else {
-                switch (ch) {
-                case 'i':
-                    do_install();
-                    break;
-                case 'r':
-                    do_repair();
-                    break;
-                case 'f':
-                    do_refill();
-                    break;
-                case 'o':
-                    do_remove();
-                    break;
-                case 'e':
-                    do_rename();
-                    break;
-                case 's':
-                    do_siphon();
-                    break;
-                case 'c':
-                    do_tirechange();
-                    break;
-                case 'd':
-                    do_drain();
-                    break;
-                }
-                if (sel_cmd != ' ') {
-                    finish = true;
-                }
-                display_mode (' ');
-            }
+        } else if (action == "INSTALL") {
+            do_install();
+        } else if (action == "REPAIR") {
+            do_repair();
+        } else if (action == "REFILL") {
+            do_refill();
+        } else if (action == "REMOVE") {
+            do_remove();
+        } else if (action == "RENAME") {
+            do_rename();
+        } else if (action == "SIPHON") {
+            do_siphon();
+        } else if (action == "TIRE_CHANGE") {
+            do_tirechange();
+        } else if (action == "DRAIN") {
+            do_drain();
         }
+        if (sel_cmd != ' ') {
+            finish = true;
+        }
+        display_mode (' ');
     }
 }
 

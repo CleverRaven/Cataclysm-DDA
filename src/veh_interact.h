@@ -4,6 +4,7 @@
 #include <vector>
 #include "output.h"
 #include "inventory.h"
+#include "input.h"
 
 #define DUCT_TAPE_USED 100
 #define CIRC_SAW_USED 20
@@ -73,6 +74,7 @@ private:
     bool has_siphon;
     bool has_wheel;
     inventory crafting_inv;
+    input_context main_context;
 
     int part_at(int dx, int dy);
     void move_cursor(int dx, int dy);
