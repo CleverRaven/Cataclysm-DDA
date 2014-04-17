@@ -1061,6 +1061,7 @@ action_id handle_action_menu()
             if (hotkey_for_action(ACTION_QUIT) >-1) {
                 REGISTER_ACTION(ACTION_QUIT);
             }
+            REGISTER_ACTION(ACTION_HELP);
         } else if(category == "look") {
             REGISTER_ACTION(ACTION_LOOK);
             REGISTER_ACTION(ACTION_PEEK);
@@ -1125,7 +1126,6 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_FACTIONS);
             REGISTER_ACTION(ACTION_MORALE);
             REGISTER_ACTION(ACTION_MESSAGES);
-            REGISTER_ACTION(ACTION_HELP);
         } else if(category == "misc") {
             REGISTER_ACTION(ACTION_WAIT);
             REGISTER_ACTION(ACTION_SLEEP);
@@ -1158,8 +1158,6 @@ action_id handle_action_menu()
         int iy = (TERMY > entries.size()+2) ? (TERMY - entries.size() -2) / 2 -1 : 0;
         int selection = (int) uimenu(true, std::max(ix,0), width, std::max(iy,0), title, entries);
 
-        erase();
-        g->refresh_all();
         g->draw();
 
         if ((selection <0) || (selection == 2 * NUM_ACTIONS)) {
