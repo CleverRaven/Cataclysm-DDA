@@ -850,21 +850,29 @@ void veh_interact::do_tirechange()
         bool has_tools = has_jack && has_wrench;
         werase (w_msg);
         wrefresh (w_msg);
-        char ch = input();
+        const std::string action = main_context.handle_input();
         int dx, dy;
-        get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && is_wheel) {
+        if ((action == "TIRE_CHANGE" || action == "CONFIRM") && has_comps && has_tools && is_wheel) {
             sel_cmd = 'c';
             return;
-        } else {
-            if (ch == KEY_ESCAPE || ch == 'q' ) {
+        } else if (action == "QUIT") {
                 werase (w_list);
                 wrefresh (w_list);
                 werase (w_msg);
                 break;
-            }
+        } else if (action == "PREV_TAB" || action == "LEFT") {
+            dy = -page_size;
+        } else if (action == "NEXT_TAB" || action == "RIGHT") {
+            dy = +page_size;
+        } else if (action == "UP") {
+            dy = -1;
+        } else if (action == "DOWN") {
+            dy = +1;
+        } else {
+            // Anything else -> no movement
+            dy = 0;
         }
-        if (dy == -1 || dy == 1) {
+        if (dy != 0) {
             pos += dy;
             if (pos < 0) {
                 pos = wheel_types.size() - 1;
