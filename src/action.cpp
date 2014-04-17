@@ -967,12 +967,15 @@ bool can_interact_at(action_id action, int x, int y)
 
 action_id handle_action_menu()
 {
+    std::string catgname;
 
 #define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), \
         action_name(name)));
 #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
-    entries.push_back(uimenu_entry(last_category, true, -1, \
-                                   std::string(":")+name)); \
+    catgname = _(name);\
+    catgname += "...";\
+    capitalize_letter(catgname,0);\
+    entries.push_back(uimenu_entry(last_category, true, -1, catgname)); \
     last_category++;
 
     // Calculate weightings for the various actions to give the player suggestions
@@ -1135,9 +1138,10 @@ action_id handle_action_menu()
         }
 
         std::string title = _("Back");
+        title += "...";
         if(category == "back")
-            title = "Cancel";
-        entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true, hotkey_for_action(ACTION_ACTIONMENU), title+"..."));
+            title = _("Cancel");
+        entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true, hotkey_for_action(ACTION_ACTIONMENU), title));
 
         title = "Actions";
         if(category != "back") {
