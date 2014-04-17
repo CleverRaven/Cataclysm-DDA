@@ -322,6 +322,18 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
   }
  }
  if (our_i < 0) {
+     vehicle *v = veh_at(x, y);
+     for(int a = 0; a < my_MAPSIZE * my_MAPSIZE; a++) {
+        for (int i = 0; i < grid[a]->vehicles.size(); i++) {
+            if (grid[a]->vehicles[i] == v) {
+                our_i = i;
+                const_cast<submap*&>(src_submap) = grid[a];
+                break;
+            }
+        }
+     }
+ }
+ if (our_i < 0) {
   if (g->debugmon)
    debugmsg ("displace_vehicle our_i=%d", our_i);
   return false;
