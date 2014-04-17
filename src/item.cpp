@@ -3173,7 +3173,7 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
         //item is valid quiver to store items in if it satisfies these conditions:
         // a) is a quiver  b) contents are ammo w/ charges  c) quiver isn't full
         if(worn.type->use == &iuse::quiver) {
-            int maxCharges = max_charges_from_flag("QUIVER", &worn);
+            int maxCharges = worn.max_charges_from_flag("QUIVER");
             if (worn.contents.empty() || (worn.contents[0].is_ammo() && worn.contents[0].charges > 0)) {
                                             //worn.contents[0].charges < maxCharges)) {
                 quivers.insert(std::make_pair(&worn, maxCharges));
@@ -3278,9 +3278,10 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 //used to implement charges for items that aren't tools (e.g. quivers)
 //flagName arg is the flag's name before the underscore and integer on the end
 //e.g. for "QUIVER_20" flag, flagName = "QUIVER"
-int item::max_charges_from_flag(std::string flagName, item* it)
+int item::max_charges_from_flag(std::string flagName)
 {
-    int maxCharges;
+    item* it = this;
+    int maxCharges = 0;
 
     //loop through item's flags, looking for flag that matches flagName
     for(std::set<std::string>::iterator iter = it->type->item_tags.begin(); iter != it->type->item_tags.end(); iter++) {

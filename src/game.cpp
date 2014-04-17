@@ -9907,8 +9907,7 @@ and you can't unwield your %s."),
                         here[i].is_weap() || here[i].is_gun())) {
                 u.weapon = here[i];
                 picked_up = true;
-            }
-            else if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
+            } else if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
                 //add ammo to quiver. Asks permission if quiver is empty
                 bool success = here[i].add_ammo_to_quiver(&u, true);
 
