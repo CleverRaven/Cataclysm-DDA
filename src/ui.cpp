@@ -534,7 +534,7 @@ void uimenu::show() {
             if ( hilight_full ) {
                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
-            if(entries[ ei ].enabled && entries[ ei ].hotkey > 33 && entries[ ei ].hotkey < 126 ) {
+            if(entries[ ei ].enabled && entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 mvwprintz( window, estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
                            hotkey_color , "%c", entries[ ei ].hotkey );
             }
