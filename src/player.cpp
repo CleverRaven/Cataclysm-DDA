@@ -5181,16 +5181,14 @@ static void handle_cough(player &p, int intensity, int loudness) {
     }
 }
 void player::process_effects() {
-    int psnChance;
-    for (std::vector<effect>::iterator it = effects.begin();
-            it != effects.end(); ++it) {
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
         bool reduced = has_trait(it->get_resist_trait());
         mod_str_bonus(it->get_str_mod(reduced));
         mod_dex_bonus(it->get_dex_mod(reduced));
         mod_per_bonus(it->get_per_mod(reduced));
         mod_int_bonus(it->get_int_mod(reduced));
 
-        if (!has_trait("NOPAIN")) {
+        if (!has_trait("NOPAIN") && it->get_pain() > 0 && it->get_pain_chance() > 0) {
             int pain_chance = it->get_pain_chance(reduced);
             if (it->get_pain_sizing()) {
                 if (has_trait("FAT")) {
@@ -5209,24 +5207,26 @@ void player::process_effects() {
             }
         }
 
-        int hurt_chance = it->get_hurt_chance(reduced);
-        if (it->get_hurt_sizing()) {
-            if (has_trait("FAT")) {
-                hurt_chance *= 1.5;
+        if (it->get_hurt() > 0 && it->get_hurt_chance() > 0) {
+            int hurt_chance = it->get_hurt_chance(reduced);
+            if (it->get_hurt_sizing()) {
+                if (has_trait("FAT")) {
+                    hurt_chance *= 1.5;
+                }
+                if (has_trait("LARGE") || has_trait("LARGE_OK")) {
+                    hurt_chance *= 2;
+                }
+                if (has_trait("HUGE") || has_trait("HUGE_OK")) {
+                    hurt_chance *= 3;
+                }
             }
-            if (has_trait("LARGE") || has_trait("LARGE_OK")) {
-                hurt_chance *= 2;
-            }
-            if (has_trait("HUGE") || has_trait("HUGE_OK")) {
-                hurt_chance *= 3;
-            }
-        }
-        if (one_in(hurt_chance)) {
-            body_part bp = it->get_bp();
-            if (bp == num_bp) {
-                hurt(bp_torso, -1, it->get_hurt());
-            } else {
-                hurt(bp, it->get_side(), it->get_hurt());
+            if (one_in(hurt_chance)) {
+                body_part bp = it->get_bp();
+                if (bp == num_bp) {
+                    hurt(bp_torso, -1, it->get_hurt());
+                } else {
+                    hurt(bp, it->get_side(), it->get_hurt());
+                }
             }
         }
 

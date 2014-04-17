@@ -440,11 +440,7 @@ int effect::get_pain(bool reduced)
         ret += rng(eff_type->scaling_mods.pain_reduced_min, 
                     eff_type->scaling_mods.pain_reduced_max) * intensity;
     }
-    if (ret == 0 && get_pain_chance(reduced) > 0) {
-        return 1;
-    } else {
-        return ret;
-    }
+    return ret;
 }
 int effect::get_pain_chance(bool reduced)
 {
@@ -456,11 +452,7 @@ int effect::get_pain_chance(bool reduced)
         ret += eff_type->base_mods.pain_chance_reduced;
         ret += eff_type->scaling_mods.pain_chance_reduced * intensity;
     }
-    if (ret == 0 && get_pain(reduced) > 0) {
-        return 1;
-    } else {
-        return ret;
-    }
+    return ret;
 }
 bool effect::get_pain_sizing()
 {
@@ -477,11 +469,7 @@ int effect::get_hurt(bool reduced)
         ret += rng(eff_type->scaling_mods.hurt_reduced_min, 
                     eff_type->scaling_mods.hurt_reduced_max) * intensity;
     }
-    if (ret == 0 && get_hurt_chance(reduced) > 0) {
-        return 1;
-    } else {
-        return ret;
-    }
+    return ret;
 }
 int effect::get_hurt_chance(bool reduced)
 {
@@ -493,11 +481,7 @@ int effect::get_hurt_chance(bool reduced)
         ret += eff_type->base_mods.hurt_chance_reduced;
         ret += eff_type->scaling_mods.hurt_chance_reduced * intensity;
     }
-    if (ret == 0 && get_hurt(reduced) > 0) {
-        return 1;
-    } else {
-        return ret;
-    }
+    return ret;
 }
 bool effect::get_hurt_sizing()
 {
