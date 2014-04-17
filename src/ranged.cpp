@@ -845,8 +845,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 }
             } else if (relevent == &u.weapon && relevent->is_gun()) {
                 // firing a gun
-                mvwprintw(w_target, 1, 1, _("Range: %d"),
-                          rl_dist(u.posx, u.posy, x, y));
+                mvwprintw(w_target, 1, 1, _("Range: %d/%d"),
+                          rl_dist(u.posx, u.posy, x, y),range);
                 // get the current weapon mode or mods
                 std::string mode = "";
                 if (u.weapon.mode == "MODE_BURST") {
@@ -863,8 +863,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 }
             } else {
                 // throwing something
-                mvwprintw(w_target, 1, 1, _("Range: %d"),
-                          rl_dist(u.posx, u.posy, x, y));
+                mvwprintw(w_target, 1, 1, _("Range: %d/%d"),
+                          rl_dist(u.posx, u.posy, x, y),range);
             }
 
    const int zid = mon_at(x, y);
