@@ -3166,7 +3166,8 @@ void item::detonate(point p) const
 //isAutoPickup is used to determine text output behavior
 bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 {
-    std::vector<item*> quivers;
+    //std::vector<item*> quivers;
+    std::map<item*, int> quivers;
     for(std::vector<item>::iterator it = u->worn.begin(); it != u->worn.end(); it++) {
         item& worn = *it;
 
@@ -3174,92 +3175,106 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
         // a) is a quiver  b) contents are ammo w/ charges  c) quiver isn't full
         if(worn.type->use == &iuse::quiver) {
             int maxCharges = max_charges_from_flag("QUIVER", &worn);
-            if (worn.contents.empty() || (worn.contents[0].is_ammo() && worn.contents[0].charges > 0 &&
-                                            worn.contents[0].charges < maxCharges)) {
-                quivers.push_back(&worn);
+            if (worn.contents.empty() || (worn.contents[0].is_ammo() && worn.contents[0].charges > 0)) {
+                                            //worn.contents[0].charges < maxCharges)) {
+                quivers.insert(std::make_pair(&worn, maxCharges));
             }
         }
     }
 
     // check if we have eligible quivers
     if(!quivers.empty()) {
-        int choice = -1;
-        //only one quiver found, choose it
-        if(quivers.size() == 1) {
-            choice = 0;
-        } else {
-            std::vector<std::string> choices;
-            for(std::vector<item*>::iterator it = quivers.begin(); it != quivers.end(); it++) {
-                item *i = *it;
-                std::ostringstream ss;
-                ss << i->name;
+        int movesPerArrow = 10;
 
-                choices.push_back(ss.str());
-            }
-            choice = (uimenu(false, _("Add to which quiver?"), choices)) - 1;
-        }
+        //loop over all eligible quivers
+        for(std::map<item*,int>::iterator it = quivers.begin(); it != quivers.end(); it++) {
+            //only proceed if we still have item charges
+            if(charges > 0) {
+                item *worn = it->first;
+                int maxArrows = it->second;
+                int arrowsStored = 0;
+                int toomany = 0;
 
-        if(choice != -1) {
-            item* worn = quivers[choice];
-            int movesPerArrow = 10;
-
-            //determine max arrows/bolts chosen quiver can hold
-            int maxArrows = 0;
-            maxArrows = max_charges_from_flag("QUIVER", worn);
-
-            if(maxArrows == 0) {
-                debugmsg("Tried storing arrows in quiver without a QUIVER_n tag (item::add_ammo_to_quiver)");
-                return false;
-            }
-
-            int arrowsStored = 0;
-
-            // not empty so adding more ammo
-            if(!(worn->contents.empty()) && worn->contents[0].charges > 0) {
-                if(worn->contents[0].type->id != type->id) {
-                    if(!isAutoPickup) {
-                        g->add_msg_if_player(u, _("Those aren't the same arrows!"));
-                    }
+                if(maxArrows == 0) {
+                    debugmsg("Tried storing arrows in quiver without a QUIVER_n tag (item::add_ammo_to_quiver)");
                     return false;
                 }
-                if(worn->contents[0].charges >= maxArrows) {
-                    if(!isAutoPickup) {
-                        g->add_msg_if_player(u, _("That %s is already full!"), worn->name.c_str());
+
+                // quiver not empty so adding more ammo
+                if(!(worn->contents.empty()) && worn->contents[0].charges > 0) {
+                    if(worn->contents[0].type->id != type->id) {
+                        if(!isAutoPickup) {
+                            g->add_msg_if_player(u, _("Those aren't the same arrows!"));
+                        }
+                        return false;
                     }
-                    return false;
+                    if(worn->contents[0].charges >= maxArrows) {
+                        if(!isAutoPickup) {
+                            g->add_msg_if_player(u, _("That %s is already full!"), worn->name.c_str());
+                        }
+
+                        //only return false if this is last quiver in the loop
+                        std::map<item*,int>::iterator final_iter = quivers.end();
+                        --final_iter;
+                        if (it != final_iter) {
+                            continue;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+
+                    // TODO - add check here on quiver contents to make multiple equipped quivers autopickup properly
+
+
+                    arrowsStored = worn->contents[0].charges;
+                    worn->contents[0].charges += charges;
+
+                } else { // quiver empty, putting in new arrows
+                    //add a clone so we can zero out charges on base item
+                    item clone = this->clone();
+                    clone.charges = charges;
+                    worn->put_in(clone);
                 }
-                arrowsStored = worn->contents[0].charges;
-                worn->contents[0].charges += charges;
-                //u->i_rem(ammo);
 
-            // empty, putting in new arrows
-            } else {
-                worn->put_in(*this);
-            }
+                //get rid of charges from base item, since the ammo is now quivered
+                charges = 0;
 
-            // handle overflow
-            int toomany = 0;
-            if(worn->contents[0].charges > maxArrows) {
-                toomany = worn->contents[0].charges - maxArrows;
-                worn->contents[0].charges -= toomany;
-                item clone = worn->contents[0].clone();
-                clone.charges = toomany;
-                u->i_add(clone);
-            }
+                // handle overflow. OVERFLOW NEEDS TO GO TO BACK INTO BASE CHARGES
+                if(worn->contents[0].charges > maxArrows) {
+                    //set quiver's charges to max
+                    toomany = worn->contents[0].charges - maxArrows;
+                    worn->contents[0].charges -= toomany;
 
-            arrowsStored = worn->contents[0].charges - arrowsStored;
-            g->add_msg_if_player(u, ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
-                                 arrowsStored, worn->contents[0].name.c_str(), worn->name.c_str());
-            u->moves -= movesPerArrow * arrowsStored;
+                    //add any extra ammo back into base item charges
+                    charges += toomany;
+                }
 
-            if(isAutoPickup && toomany > 0) {
-                g->add_msg_if_player(u, ngettext("You pick up: %d %s", "You pick up: %d %ss", toomany),
-                                 toomany, worn->contents[0].name.c_str());
+                arrowsStored = worn->contents[0].charges - arrowsStored;
+                g->add_msg_if_player(u, ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
+                                     arrowsStored, worn->contents[0].name.c_str(), worn->name.c_str());
                 u->moves -= movesPerArrow * arrowsStored;
             }
 
-            return true;
+
+            // handle overflow after filling quivers
+            if(isAutoPickup && charges > 0) {
+
+                //add any extra ammo to inventory
+                item *anyQuiver = quivers.begin()->first;
+                item clone = anyQuiver->contents[0].clone();
+                clone.charges = charges;
+                u->i_add(clone);
+
+                g->add_msg_if_player(u, ngettext("You pick up: %d %s", "You pick up: %d %ss", charges),
+                                 charges, clone.name.c_str());
+                u->moves -= movesPerArrow * charges;
+
+                charges = 0;
+            }
         }
+
+        return true;
     }
 
     return false;
