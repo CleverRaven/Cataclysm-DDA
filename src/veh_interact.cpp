@@ -485,35 +485,29 @@ void veh_interact::do_install()
                        sel_vpart_info->difficulty,
                        engine_string.c_str());
         wrefresh (w_msg);
-        char ch = input();
+        const std::string action = main_context.handle_input();
         int dx, dy;
-        get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
+        if ((action == "INSTALL" || action == "CONFIRM")  && has_comps && has_tools && has_skill && has_skill2 &&
              !(has_muscle_engine && eng) && !(has_muscle_engine && install_muscle_engine)) {
             sel_cmd = 'i';
             return;
+        } else if (action == "QUIT") {
+            werase (w_list);
+            wrefresh (w_list);
+            werase (w_msg);
+            wrefresh(w_msg);
+            break;
+        } else if (action == "PREV_TAB" || action == "LEFT") {
+            dy = -page_size;
+        } else if (action == "NEXT_TAB" || action == "RIGHT") {
+            dy = +page_size;
+        } else if (action == "UP") {
+            dy = -1;
+        } else if (action == "DOWN") {
+            dy = +1;
         } else {
-            if (ch == KEY_ESCAPE || ch == 'q' ) {
-                werase (w_list);
-                wrefresh (w_list);
-                werase (w_msg);
-                wrefresh(w_msg);
-                break;
-            }
-        }
-        //get_direction returns -2 on failure
-        if(dx == -2 || dy == -2) {
-            dx = dy = 0;
-        }
-        //input changes pgup and pgdn to these.
-        if(ch == '<') {
-            dx = -1;
-        } else if(ch == '>') {
-            dx = 1;
-        }
-        //if we move left/right scroll by page size
-        if(dx != 0) {
-            dy = dx * page_size;
+            // Anything else -> no movement
+            dy = 0;
         }
         if (dy != 0) {
             pos += dy;
