@@ -5681,6 +5681,7 @@ int game::mon_info(WINDOW *w)
             run_mode = 2; // Stop movement!
             if ( last_target == -1 && newtarget != -1 ) {
                 last_target = newtarget;
+                last_target = -1;
             }
         }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
