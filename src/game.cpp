@@ -38,7 +38,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <cmath>
+#include <math.h>
 #include <vector>
 
 #ifdef _MSC_VER
