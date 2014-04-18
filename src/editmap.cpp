@@ -822,7 +822,7 @@ int editmap::edit_ter()
             } else if( action == "RIGHT" ) {
                 sel_ter = (sel_ter + 1 < num_terrain_types ? sel_ter + 1 : 0 );
             } else if( action == "UP" ) {
-                if (sel_ter - xmax + 3 > 0 ) {
+                if (sel_ter - xmax + 3 >= 0 ) {
                     sel_ter = sel_ter - xmax + 3;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
@@ -889,7 +889,7 @@ int editmap::edit_ter()
             } else if( action == "RIGHT" ) {
                 sel_frn = (sel_frn + 1 < num_furniture_types ? sel_frn + 1 : 0 );
             } else if( action == "UP" ) {
-                if ( sel_frn - xmax + 3 > 0 ) {
+                if ( sel_frn - xmax + 3 >= 0 ) {
                     sel_frn = sel_frn - xmax + 3;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
