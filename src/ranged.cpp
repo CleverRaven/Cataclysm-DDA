@@ -853,7 +853,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             } else if (relevent == &u.weapon && relevent->is_gun()) {
                 // firing a gun
                 mvwprintw(w_target, 1, 1, _("Range: %d/%d, %s"),
-                          rl_dist(u.posx, u.posy, x, y),range,enemiesmsg.c_str());
+                          rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
                 // get the current weapon mode or mods
                 std::string mode = "";
                 if (u.weapon.mode == "MODE_BURST") {
@@ -871,7 +871,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             } else {
                 // throwing something
                 mvwprintw(w_target, 1, 1, _("Range: %d/%d, %s"),
-                          rl_dist(u.posx, u.posy, x, y),range,enemiesmsg.c_str());
+                          rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
             }
 
    const int zid = mon_at(x, y);
@@ -886,7 +886,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     }
    }
   } else {
-    mvwprintw(w_target, 1, 1, _("Range: %d, %s"),range,enemiesmsg.c_str());
+    mvwprintw(w_target, 1, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
   }
   wrefresh(w_target);
   wrefresh(w_terrain);
