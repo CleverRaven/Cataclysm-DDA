@@ -2341,10 +2341,8 @@ void game::hide_mouseview()
     void rescale_tileset(int size);
 #endif
 
-input_context game::get_player_input(std::string &action)
-{
+input_context get_default_mode_input_context() {
     input_context ctxt("DEFAULTMODE");
-    ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_directions();
     ctxt.register_action("pause");
     ctxt.register_action("move_down");
@@ -2426,6 +2424,12 @@ input_context game::get_player_input(std::string &action)
     ctxt.register_action("MOUSE_MOVE");
     ctxt.register_action("SELECT");
     ctxt.register_action("SEC_SELECT");
+    return ctxt;
+}
+
+input_context game::get_player_input(std::string &action)
+{
+    input_context ctxt = get_default_mode_input_context();
 
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;

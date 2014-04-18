@@ -102,7 +102,6 @@ enum action_id {
 };
 
 extern std::map<char, action_id> keymap;
-extern std::set<action_id> unbound_keymap;
 
 // Load keybindings from disk
 void load_keyboard_settings();
