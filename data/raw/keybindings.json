@@ -903,6 +903,15 @@
     },
     {
         "type" : "keybinding",
+        "id": "RENAME",
+        "category": "VEH_INTERACT",
+        "name": "Rename vehicle",
+        "bindings":[
+            { "input_method":"keyboard", "key":"e" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SIPHON",
         "category": "VEH_INTERACT",
         "name": "Siphon from tank",
