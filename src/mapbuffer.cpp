@@ -111,7 +111,8 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submap_list.size();
 
-    int mapkeylock = -1;
+    int mapkeylock;
+    mapkeylock = -1;
 
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
@@ -156,6 +157,9 @@ void mapbuffer::save( bool delete_after_save )
             if(mapkeylock != -1) {
                 save_quad( quad_path.str(), om_addr, delete_after_save );
                 num_saved_submaps += 4;
+                MAP_SHARING::releaseLock(mapkeylock ,(quad_path.str()+".lock").c_str());
+                mapkeylock = -1;
+
             }
         } else {
             save_quad( quad_path.str(), om_addr, delete_after_save );
