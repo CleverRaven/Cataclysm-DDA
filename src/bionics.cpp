@@ -74,29 +74,6 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
 
 void player::power_bionics()
 {
-    int HEIGHT = TERMY;
-    int WIDTH = FULL_SCREEN_WIDTH;
-    int START_X = (TERMX - WIDTH) / 2;
-    int START_Y = (TERMY - HEIGHT) / 2;
-    WINDOW *wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
-    int DESCRIPTION_WIDTH = WIDTH - 2; // Same width as bionics window minus 2 for the borders
-    int DESCRIPTION_HEIGHT = 5;
-    int DESCRIPTION_START_X = getbegx(wBio) + 1; // +1 to avoid border
-    int DESCRIPTION_START_Y = getmaxy(wBio) - DESCRIPTION_HEIGHT -
-                              1; // At the bottom of the bio window, -1 to avoid border
-    WINDOW *w_description = newwin(DESCRIPTION_HEIGHT, DESCRIPTION_WIDTH, DESCRIPTION_START_Y,
-                                   DESCRIPTION_START_X);
-
-    int TITLE_WIDTH = DESCRIPTION_WIDTH;
-    int TITLE_HEIGHT = 2;
-    int TITLE_START_X = DESCRIPTION_START_X;
-    int TITLE_START_Y = START_Y + 1;
-    WINDOW *w_title = newwin(TITLE_HEIGHT, TITLE_WIDTH, TITLE_START_Y, TITLE_START_X);
-
-    int scroll_position = 0;
-    bool redraw = true;
-    std::string menu_mode = "activating";
-
     std::vector <bionic *> passive;
     std::vector <bionic *> active;
     for (size_t i = 0; i < my_bionics.size(); i++) {
@@ -107,6 +84,45 @@ void player::power_bionics()
         }
     }
 
+    // maximal number of rows in both columns
+    const int bionic_count = std::max(passive.size(), active.size());
+
+    int TITLE_HEIGHT = 2;
+    int DESCRIPTION_HEIGHT = 5;
+
+    // Main window
+    /** Total required height is:
+    * top frame line:                                         + 1
+    * height of title window:                                 + TITLE_HEIGHT
+    * line after the title:                                   + 1
+    * line with active/passive bionic captions:               + 1
+    * height of the biggest list of active/passive bionics:   + bionic_count
+    * line before bionic description:                         + 1
+    * height of description window:                           + DESCRIPTION_HEIGHT
+    * bottom frame line:                                      + 1
+    * TOTAL: TITLE_HEIGHT + bionic_count + DESCRIPTION_HEIGHT + 5
+    */
+    int HEIGHT = std::min(TERMY, std::max(FULL_SCREEN_HEIGHT,
+                 TITLE_HEIGHT + bionic_count + DESCRIPTION_HEIGHT + 5));
+    int WIDTH = FULL_SCREEN_WIDTH + (TERMX - FULL_SCREEN_WIDTH) / 2;
+    int START_X = (TERMX - WIDTH) / 2;
+    int START_Y = (TERMY - HEIGHT) / 2;
+    WINDOW *wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
+
+    // Description window @ the bottom of the bio window
+    int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
+    int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
+    WINDOW *w_description = newwin(DESCRIPTION_HEIGHT, WIDTH - 2,
+                                   DESCRIPTION_START_Y, START_X + 1);
+
+    // Title window
+    int TITLE_START_Y = START_Y + 1;
+    int HEADER_LINE_Y = TITLE_HEIGHT + 1; // + lines with text in titlebar, local
+    WINDOW *w_title = newwin(TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1);
+
+    int scroll_position = 0;
+    int second_column = 32 + (TERMX - FULL_SCREEN_WIDTH) / 4; // X-coordinate of the list of active bionics
+
     input_context ctxt("BIONICS");
     ctxt.register_updown();
     ctxt.register_action("ANY_INPUT");
@@ -115,39 +131,33 @@ void player::power_bionics()
     ctxt.register_action("REMOVE");
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    int HEADER_LINE_Y = TITLE_START_Y + TITLE_HEIGHT; // + lines with text in titlebar
-    int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1;
-
-    // maximal number of rows in both columns
-    const int bionic_count = std::max(passive.size(), active.size());
-    // number of rows with bionics shown (+1 for displaying "Passive:"/"Active:")
-    const int bionic_display_height = DESCRIPTION_LINE_Y - HEADER_LINE_Y - 2;
-    int max_scroll_position = bionic_count - bionic_display_height;
-    int second_column = 32;
+    bool redraw = true;
+    std::string menu_mode = "activating";
 
     while(true) {
         // offset for display: bionic with index i is drawn at y=list_start_y+i
-        // the header ("Passive:"/"Active:") is drawn at y=HEADER_LINE_Y+1
         // drawing the bionics starts with bionic[scroll_position]
         const int list_start_y = HEADER_LINE_Y + 2 - scroll_position;
+        int max_scroll_position = HEADER_LINE_Y + 2 + bionic_count -
+                                  ((menu_mode == "examining") ? DESCRIPTION_LINE_Y : (HEIGHT - 1));
         if(redraw) {
             redraw = false;
 
             werase(wBio);
             draw_border(wBio);
-
-            draw_exam_window(wBio, DESCRIPTION_LINE_Y, menu_mode == "examining");
-            for (int i = 1; i < WIDTH - 1; i++) {
-                mvwputch(wBio, HEADER_LINE_Y, i, BORDER_COLOR, LINE_OXOX); // Draw line under title
-            }
-
+            // Draw line under title
+            mvwhline(wBio, HEADER_LINE_Y, 1, LINE_OXOX, WIDTH - 2);
             // Draw symbols to connect additional lines to border
             mvwputch(wBio, HEADER_LINE_Y, 0, BORDER_COLOR, LINE_XXXO); // |-
             mvwputch(wBio, HEADER_LINE_Y, WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
-            nc_color type;
+            // Captions
             mvwprintz(wBio, HEADER_LINE_Y + 1, 2, c_ltblue, _("Passive:"));
-            if (passive.size() <= 0) {
+            mvwprintz(wBio, HEADER_LINE_Y + 1, second_column, c_ltblue, _("Active:"));
+
+            draw_exam_window(wBio, DESCRIPTION_LINE_Y, menu_mode == "examining");
+            nc_color type;
+            if (passive.empty()) {
                 mvwprintz(wBio, list_start_y, 2, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < passive.size(); i++) {
@@ -165,8 +175,7 @@ void player::power_bionics()
                 }
             }
 
-            mvwprintz(wBio, HEADER_LINE_Y + 1, second_column, c_ltblue, _("Active:"));
-            if (active.size() <= 0) {
+            if (active.empty()) {
                 mvwprintz(wBio, list_start_y, second_column, c_ltgray, _("None"));
             } else {
                 for (size_t i = scroll_position; i < active.size(); i++) {
@@ -192,12 +201,13 @@ void player::power_bionics()
                 }
             }
 
+            // Scrollbar
             if(scroll_position > 0) {
                 mvwputch(wBio, HEADER_LINE_Y + 2, 0, c_ltgreen, '^');
             }
             if(scroll_position < max_scroll_position && max_scroll_position > 0) {
-                mvwputch(wBio, menu_mode == "examining" ? ((HEADER_LINE_Y + 2) +
-                         bionic_display_height - 1) : (HEIGHT - 2), 0, c_ltgreen, 'v');
+                mvwputch(wBio, (menu_mode == "examining" ? DESCRIPTION_LINE_Y : HEIGHT - 1) - 1,
+                         0, c_ltgreen, 'v');
             }
         }
         wrefresh(wBio);
@@ -298,8 +308,7 @@ void player::power_bionics()
                 } else {
                     popup(_("\
 You can not activate %s!  To read a description of \
-%s, press '!', then '%c'."), bio_data.name.c_str(),
-                          bio_data.name.c_str(), tmp->invlet);
+%s, press '!', then '%c'."), bio_data.name.c_str(), bio_data.name.c_str(), tmp->invlet);
                     redraw = true;
                 }
             }
@@ -777,7 +786,7 @@ void player::deactivate_bionic(int b)
         // check if player knows current style naturally, otherwise drop them back to style_none
         if (style_selected != "style_none") {
             bool has_style = false;
-            for (int i = 0; i < ma_styles.size(); i++) {
+            for (size_t i = 0; i < ma_styles.size(); ++i) {
                 if (ma_styles[i] == style_selected) {
                     has_style = true;
                 }
@@ -898,7 +907,6 @@ bool player::uninstall_bionic(bionic_id b_id)
 
 bool player::install_bionics(it_bionic *type)
 {
-
     if (type == NULL) {
         debugmsg("Tried to install NULL bionic");
         return false;
@@ -959,7 +967,6 @@ bool player::install_bionics(it_bionic *type)
 
 void bionics_install_failure(player *u, it_bionic *type, int success)
 {
-
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
     success = abs(success);
