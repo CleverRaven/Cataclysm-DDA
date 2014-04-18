@@ -1575,6 +1575,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     gpmenu.addentry(pgettext("map generator","Regenerate"));
     gpmenu.addentry(pgettext("map generator","Rotate"));
     gpmenu.addentry(pgettext("map generator","Apply"));
+    gpmenu.addentry(pgettext("map generator","Change Overmap (Doesn't Apply)"));
     gpmenu.addentry(pgettext("map generator","Abort"));
 
     gpmenu.show();
@@ -1681,6 +1682,10 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
                     //~ message when applying the map generator
                     popup(_("Changed 4 submaps\n%s"), s.c_str());
 
+                } else if ( gpmenu.ret == 3 ) {
+                    popup(_("Changed oter_id from '%s' (%s) to '%s' (%s)"),
+                          orig_oters[1][1].t().name.c_str(), orig_oters[1][1].c_str(),
+                          oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel).t().name.c_str(), oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel).c_str());
                 }
             } else if ( gpmenu.keypress == 'm' ) {
                 // todo; keep preview as is and move target
@@ -1696,7 +1701,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
         } else {
             // fixme: too annoying, make a border instead. // showpreview = !showpreview;
         }
-    } while ( gpmenu.ret != 2 && gpmenu.ret != 3 );
+    } while ( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4);
 
     timeout(-1);
     werase(w_preview);
@@ -1704,7 +1709,8 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     delwin(w_preview);
 
     update_view(true);
-    if ( gpmenu.ret != 2 ) { // we didn't apply, so restore the original om_ter
+    if ( gpmenu.ret != 2 && // we didn't apply, so restore the original om_ter
+         gpmenu.ret != 3) { // chose to change oter_id but not apply mapgen
         oms[1][1]->ter(tc.om_pos.x, tc.om_pos.y, zlevel) = orig_oters[1][1];
     }
     gmenu.border_color = c_magenta;
