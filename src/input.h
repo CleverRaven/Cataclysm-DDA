@@ -190,6 +190,12 @@ public:
     void save();
 
     /**
+     * Return the prvioulsy pressed key, or 0 if there is no previous input
+     * or the previous input wasn't a key.
+     */
+    long get_previously_pressed_key() const;
+
+    /**
      * Get the keycode associated with the given key name.
      */
     long get_keycode(const std::string &name) const;
@@ -241,6 +247,9 @@ private:
     t_key_to_name_map gamepad_keycode_to_keyname;
     typedef std::map<std::string, long> t_name_to_key_map;
     t_name_to_key_map keyname_to_keycode;
+
+    // See @ref get_previously_pressed_key
+    long previously_pressed_key;
 
     // Maps the key names we see in keybindings.json and in-game to
     // the keycode integers.

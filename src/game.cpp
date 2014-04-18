@@ -11079,12 +11079,9 @@ void game::butcher()
             int hotkey = -1;
             // First entry gets a hotkey matching the butcher command.
             if( i == 0 ) {
-                for (std::map<char, action_id>::iterator it = keymap.begin();
-                     it != keymap.end(); it++) {
-                    if (it->second == ACTION_BUTCHER) {
-                        hotkey = (it->first == 'q') ? -1 : it->first;
-                        break;
-                    }
+                const long butcher_key = inp_mngr.get_previously_pressed_key();
+                if (butcher_key != 0) {
+                    hotkey = butcher_key;
                 }
             }
             if (it.corpse != NULL) {

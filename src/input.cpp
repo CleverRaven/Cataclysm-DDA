@@ -924,10 +924,16 @@ input_event input_context::get_raw_input()
     return next_action;
 }
 
+long input_manager::get_previously_pressed_key() const
+{
+    return previously_pressed_key;
+}
+
 #ifndef TILES
 // If we're using curses, we need to provide get_input_event() here.
 input_event input_manager::get_input_event(WINDOW *win)
 {
+    previously_pressed_key = 0;
     (void)win; // unused
     int key = get_keypress();
     input_event rval;
@@ -964,6 +970,7 @@ input_event input_manager::get_input_event(WINDOW *win)
 #endif
     } else {
         rval.type = CATA_INPUT_KEYBOARD;
+        previously_pressed_key = key;
         rval.add_input(key);
     }
 
