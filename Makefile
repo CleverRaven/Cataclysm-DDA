@@ -266,7 +266,7 @@ ifdef SDL
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       ifdef TILES
-	LDFLAGS += -lSDL2_image
+        LDFLAGS += -lSDL2_image
       endif
     endif
   else # not osx
