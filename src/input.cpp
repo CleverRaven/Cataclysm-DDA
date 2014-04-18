@@ -624,6 +624,20 @@ void input_context::register_action(const std::string &action_descriptor)
     registered_actions.push_back(action_descriptor);
 }
 
+std::vector<char> input_context::keys_bound_to(const std::string &action_descriptor) const
+{
+    std::vector<char> result;
+    const std::vector<input_event> &events = inp_mngr.get_input_for_action(action_descriptor, category);
+    for(size_t i = 0; i < events.size(); ++i) {
+        const input_event &event = events[i];
+        // Ignore multi-key input and non-keyboard input
+        if (event.type == CATA_INPUT_KEYBOARD && event.sequence.size() == 1) {
+            result.push_back((char) event.sequence[0]);
+        }
+    }
+    return result;
+}
+
 const std::string input_context::get_desc(const std::string &action_descriptor)
 {
     if(action_descriptor == "ANY_INPUT") {

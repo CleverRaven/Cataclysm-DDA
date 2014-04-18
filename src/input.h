@@ -378,6 +378,11 @@ public:
     std::string press_x(const std::string &action_id, const std::string &key_bound, const std::string &key_unbound) const;
     std::string press_x(const std::string &action_id, const std::string &key_bound_pre, const std::string &key_bound_suf, const std::string &key_unbound) const;
 
+    /**
+     * Keys (and only keys, other input types are not included) that
+     * trigger the given action.
+     */
+    std::vector<char> keys_bound_to(const std::string &action_id) const;
 private:
 
     std::vector<std::string> registered_actions;

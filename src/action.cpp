@@ -124,15 +124,8 @@ Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str());
 
 std::vector<char> keys_bound_to(action_id act)
 {
-    std::vector<char> ret;
-    std::map<char, action_id>::iterator it;
-    for (it = keymap.begin(); it != keymap.end(); ++it) {
-        if ( (*it).second == act ) {
-            ret.push_back( (*it).first );
-        }
-    }
-
-    return ret;
+    input_context ctxt = get_default_mode_input_context();
+    return ctxt.keys_bound_to(action_ident(act));
 }
 
 action_id action_from_key(char ch)
