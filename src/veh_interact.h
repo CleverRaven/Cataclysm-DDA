@@ -4,6 +4,7 @@
 #include <vector>
 #include "output.h"
 #include "inventory.h"
+#include "input.h"
 
 #define DUCT_TAPE_USED 100
 #define CIRC_SAW_USED 20
@@ -73,20 +74,29 @@ private:
     bool has_siphon;
     bool has_wheel;
     inventory crafting_inv;
+    input_context main_context;
 
     int part_at(int dx, int dy);
     void move_cursor(int dx, int dy);
     task_reason cant_do(char mode);
     bool can_currently_install(vpart_info *vpart);
+    /** Move index (parameter pos) according to input action:
+     * (up or down, single step or whole page).
+     * @param pos index to change.
+     * @param action input action (taken from input_context::handle_input)
+     * @param size size of the list to scroll, used to wrap the cursor around.
+     * @return false if the action is not a move action, the index is not changed in this case.
+     */
+    bool move_in_list(int &pos, const std::string &action, const int size) const;
 
-    void do_install(task_reason reason);
-    void do_repair(task_reason reason);
-    void do_refill(task_reason reason);
-    void do_remove(task_reason reason);
-    void do_rename(task_reason reason);
-    void do_siphon(task_reason reason);
-    void do_tirechange(task_reason reason);
-    void do_drain(task_reason reason);
+    void do_install();
+    void do_repair();
+    void do_refill();
+    void do_remove();
+    void do_rename();
+    void do_siphon();
+    void do_tirechange();
+    void do_drain();
 
     void display_grid();
     void display_veh();

@@ -20,6 +20,7 @@
  * Creates a blank veh_interact window.
  */
 veh_interact::veh_interact ()
+: main_context("VEH_INTERACT")
 {
     cpart = -1;
     ddx = 0;
@@ -33,6 +34,20 @@ veh_interact::veh_interact ()
     worstDurabilityColor = c_green;
     durabilityPercent = 100;
     mostDamagedPart = -1;
+
+    main_context.register_directions();
+    main_context.register_action("QUIT");
+    main_context.register_action("INSTALL");
+    main_context.register_action("REPAIR");
+    main_context.register_action("REFILL");
+    main_context.register_action("REMOVE");
+    main_context.register_action("SIPHON");
+    main_context.register_action("TIRE_CHANGE");
+    main_context.register_action("DRAIN");
+    main_context.register_action("PREV_TAB");
+    main_context.register_action("NEXT_TAB");
+    main_context.register_action("CONFIRM");
+    main_context.register_action("HELP_KEYBINDINGS");
 }
 
 /**
@@ -214,49 +229,33 @@ void veh_interact::do_main_loop()
     move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
-        char ch = input(); // See input.h
+        const std::string action = main_context.handle_input();
         int dx, dy;
-        get_direction(dx, dy, ch);
-        if (ch == KEY_ESCAPE || ch == 'q' ) {
+        if (main_context.get_direction(dx, dy, action)) {
+            move_cursor(dx, dy);
+        } else if (action == "QUIT") {
             finish = true;
-        } else {
-            if (dx != -2 && (dx || dy)) {
-                move_cursor(dx, dy);
-            } else {
-                task_reason reason = cant_do(ch);
-                display_mode(ch);
-                switch (ch) {
-                case 'i':
-                    do_install(reason);
-                    break;
-                case 'r':
-                    do_repair(reason);
-                    break;
-                case 'f':
-                    do_refill(reason);
-                    break;
-                case 'o':
-                    do_remove(reason);
-                    break;
-                case 'e':
-                    do_rename(reason);
-                    break;
-                case 's':
-                    do_siphon(reason);
-                    break;
-                case 'c':
-                    do_tirechange(reason);
-                    break;
-                case 'd':
-                    do_drain(reason);
-                    break;
-                }
-                if (sel_cmd != ' ') {
-                    finish = true;
-                }
-                display_mode (' ');
-            }
+        } else if (action == "INSTALL") {
+            do_install();
+        } else if (action == "REPAIR") {
+            do_repair();
+        } else if (action == "REFILL") {
+            do_refill();
+        } else if (action == "REMOVE") {
+            do_remove();
+        } else if (action == "RENAME") {
+            do_rename();
+        } else if (action == "SIPHON") {
+            do_siphon();
+        } else if (action == "TIRE_CHANGE") {
+            do_tirechange();
+        } else if (action == "DRAIN") {
+            do_drain();
         }
+        if (sel_cmd != ' ') {
+            finish = true;
+        }
+        display_mode (' ');
     }
 }
 
@@ -418,8 +417,10 @@ task_reason veh_interact::cant_do (char mode)
  *               LACK_TOOLS if the player is lacking tools,
  *               LOW_MORALE if the player's morale is too low.
  */
-void veh_interact::do_install(task_reason reason)
+void veh_interact::do_install()
 {
+    const task_reason reason = cant_do('i');
+    display_mode('i');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -484,45 +485,43 @@ void veh_interact::do_install(task_reason reason)
                        sel_vpart_info->difficulty,
                        engine_string.c_str());
         wrefresh (w_msg);
-        char ch = input();
-        int dx, dy;
-        get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2 &&
+        const std::string action = main_context.handle_input();
+        if ((action == "INSTALL" || action == "CONFIRM")  && has_comps && has_tools && has_skill && has_skill2 &&
              !(has_muscle_engine && eng) && !(has_muscle_engine && install_muscle_engine)) {
             sel_cmd = 'i';
             return;
+        } else if (action == "QUIT") {
+            werase (w_list);
+            wrefresh (w_list);
+            werase (w_msg);
+            wrefresh(w_msg);
+            break;
         } else {
-            if (ch == KEY_ESCAPE || ch == 'q' ) {
-                werase (w_list);
-                wrefresh (w_list);
-                werase (w_msg);
-                wrefresh(w_msg);
-                break;
-            }
-        }
-        //get_direction returns -2 on failure
-        if(dx == -2 || dy == -2) {
-            dx = dy = 0;
-        }
-        //input changes pgup and pgdn to these.
-        if(ch == '<') {
-            dx = -1;
-        } else if(ch == '>') {
-            dx = 1;
-        }
-        //if we move left/right scroll by page size
-        if(dx != 0) {
-            dy = dx * page_size;
-        }
-        if (dy != 0) {
-            pos += dy;
-            if (pos < 0) {
-                pos = can_mount.size() - 1;
-            } else if (pos >= (ssize_t)can_mount.size()) {
-                pos = 0;
-            }
+            move_in_list(pos, action, can_mount.size());
         }
     }
+}
+
+bool veh_interact::move_in_list(int &pos, const std::string &action, const int size) const
+{
+    if (action == "PREV_TAB" || action == "LEFT") {
+        pos -= page_size;
+    } else if (action == "NEXT_TAB" || action == "RIGHT") {
+        pos += page_size;
+    } else if (action == "UP") {
+        pos--;
+    } else if (action == "DOWN") {
+        pos++;
+    } else {
+        // Anything else -> no movement
+        return false;
+    }
+    if (pos < 0) {
+        pos = size - 1;
+    } else if (pos >= size) {
+        pos = 0;
+    }
+    return true;
 }
 
 /**
@@ -531,8 +530,10 @@ void veh_interact::do_install(task_reason reason)
  *               LACK_TOOLS if the player is lacking tools,
  *               LOW_MORALE if the player's morale is too low.
  */
-void veh_interact::do_repair(task_reason reason)
+void veh_interact::do_repair()
 {
+    const task_reason reason = cant_do('r');
+    display_mode('r');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -588,28 +589,20 @@ void veh_interact::do_repair(task_reason reason)
                            itypes[itm]->name.c_str());
         }
         wrefresh (w_msg);
-        char ch = input();
-        int dx, dy;
-        get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') &&
+        const std::string action = main_context.handle_input();
+        if ((action == "REPAIR" || action == "CONFIRM") &&
             has_comps &&
             (sel_vehicle_part->hp > 0 || has_wrench) && has_skill) {
             sel_cmd = 'r';
             return;
-        } else if (ch == KEY_ESCAPE || ch == 'q' ) {
+        } else if (action == "QUIT") {
             werase (w_parts);
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             break;
-        }
-        if (dy == -1 || dy == 1) {
-            pos += dy;
-            if(pos >= (ssize_t)need_repair.size()) {
-                pos = 0;
-            } else if(pos < 0) {
-                pos = need_repair.size() - 1;
-            }
+        } else {
+            move_in_list(pos, action, need_repair.size());
         }
     }
 }
@@ -619,8 +612,10 @@ void veh_interact::do_repair(task_reason reason)
  * @param reason INVALID_TARGET if there's no fuel tank in the spot,
  *               CANT_REFILL All tanks are broken or player has nothing to fill the tank with.
  */
-void veh_interact::do_refill(task_reason reason)
+void veh_interact::do_refill()
 {
+    const task_reason reason = cant_do('f');
+    display_mode('f');
     werase (w_msg);
     //int msg_width = getmaxx(w_msg);
 
@@ -676,8 +671,10 @@ void veh_interact::do_refill(task_reason reason)
  *               LACK_SKILL if the player's mechanics skill isn't high enough,
  *               LOW_MORALE if the player's morale is too low.
  */
-void veh_interact::do_remove(task_reason reason)
+void veh_interact::do_remove()
 {
+    const task_reason reason = cant_do('o');
+    display_mode('o');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     bool can_hacksaw = has_wrench && has_hacksaw &&
@@ -726,10 +723,8 @@ void veh_interact::do_remove(task_reason reason)
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
-        char ch = input();
-        int dx, dy;
-        get_direction (dx, dy, ch);
-        if (ch == '\n' || ch == ' ') {
+        const std::string action = main_context.handle_input();
+        if (action == "REMOVE" || action == "CONFIRM") {
             if (veh->can_unmount(parts_here[pos])) {
                 if (can_hacksaw || is_wheel) {
                     sel_cmd = 'o';
@@ -748,20 +743,14 @@ void veh_interact::do_remove(task_reason reason)
                 wrefresh (w_msg);
                 return;
             }
-        } else if (ch == KEY_ESCAPE || ch == 'q' ) {
+        } else if (action == "QUIT") {
             werase (w_parts);
             veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             break;
-        }
-        if (dy == -1 || dy == 1) {
-            pos += dy;
-            if (pos < first) {
-                pos = parts_here.size() - 1;
-            } else if (pos >= (ssize_t)parts_here.size()) {
-                pos = first;
-            }
+        } else {
+            move_in_list(pos, action, parts_here.size());
         }
     }
 }
@@ -771,8 +760,10 @@ void veh_interact::do_remove(task_reason reason)
  * @param reason INVALID_TARGET if the vehicle has no gas,
  *               NO_TOOLS if the player has no hose.
  */
-void veh_interact::do_siphon(task_reason reason)
+void veh_interact::do_siphon()
 {
+    const task_reason reason = cant_do('s');
+    display_mode('s');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -795,8 +786,10 @@ void veh_interact::do_siphon(task_reason reason)
  * @param reason INVALID_TARGET if there's no wheel in the selected square,
  *               LACK_TOOLS if the player is missing a tool.
  */
-void veh_interact::do_tirechange(task_reason reason)
+void veh_interact::do_tirechange()
 {
+    const task_reason reason = cant_do('c');
+    display_mode('c');
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
     switch( reason ) {
@@ -825,27 +818,17 @@ void veh_interact::do_tirechange(task_reason reason)
         bool has_tools = has_jack && has_wrench;
         werase (w_msg);
         wrefresh (w_msg);
-        char ch = input();
-        int dx, dy;
-        get_direction (dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && is_wheel) {
+        const std::string action = main_context.handle_input();
+        if ((action == "TIRE_CHANGE" || action == "CONFIRM") && has_comps && has_tools && is_wheel) {
             sel_cmd = 'c';
             return;
-        } else {
-            if (ch == KEY_ESCAPE || ch == 'q' ) {
+        } else if (action == "QUIT") {
                 werase (w_list);
                 wrefresh (w_list);
                 werase (w_msg);
                 break;
-            }
-        }
-        if (dy == -1 || dy == 1) {
-            pos += dy;
-            if (pos < 0) {
-                pos = wheel_types.size() - 1;
-            } else if (pos >= (ssize_t)wheel_types.size()) {
-                pos = 0;
-            }
+        } else {
+            move_in_list(pos, action, wheel_types.size());
         }
     }
 }
@@ -855,8 +838,10 @@ void veh_interact::do_tirechange(task_reason reason)
  * @param reason INVALID_TARGET if the vehicle has no water,
  *               LACK_TOOLS if the player has no hose.
  */
-void veh_interact::do_drain(task_reason reason)
+void veh_interact::do_drain()
 {
+    const task_reason reason = cant_do('d');
+    display_mode('d');
     werase (w_msg);
     int msg_width = getmaxx(w_msg);
     switch (reason) {
@@ -878,9 +863,9 @@ void veh_interact::do_drain(task_reason reason)
  * Handles renaming a vehicle.
  * @param reason Unused.
  */
-void veh_interact::do_rename(task_reason reason)
+void veh_interact::do_rename()
 {
-    (void)reason; // unused
+    display_mode('e');
     std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
     if(name.length() > 0) {
         (veh->name = name);

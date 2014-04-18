@@ -867,6 +867,69 @@
     },
     {
         "type" : "keybinding",
+        "id": "INSTALL",
+        "category": "VEH_INTERACT",
+        "name": "Install part",
+        "bindings":[
+            { "input_method":"keyboard", "key":"i" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REPAIR",
+        "category": "VEH_INTERACT",
+        "name": "Repair part",
+        "bindings":[
+            { "input_method":"keyboard", "key":"r" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REFILL",
+        "category": "VEH_INTERACT",
+        "name": "Refill tank/battery",
+        "bindings":[
+            { "input_method":"keyboard", "key":"f" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE",
+        "category": "VEH_INTERACT",
+        "name": "Remove part",
+        "bindings":[
+            { "input_method":"keyboard", "key":"o" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SIPHON",
+        "category": "VEH_INTERACT",
+        "name": "Siphon from tank",
+        "bindings":[
+            { "input_method":"keyboard", "key":"s" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "TIRE_CHANGE",
+        "category": "VEH_INTERACT",
+        "name": "Change tire",
+        "bindings":[
+            { "input_method":"keyboard", "key":"c" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DRAIN",
+        "category": "VEH_INTERACT",
+        "name": "Drain from tank",
+        "bindings":[
+            { "input_method":"keyboard", "key":"d" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOOGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toogle activate/examine",

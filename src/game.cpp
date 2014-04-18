@@ -10080,7 +10080,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     int dirx, diry;
     std::stringstream liqstr;
     refresh_all();
-    liqstr << _("Pour ") << liquid.tname() << (" where?");
+    liqstr << string_format(_("Pour %s where?"), liquid.tname().c_str());
     if (!from_ground && liquid.rotten() &&
         choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
 
@@ -10094,7 +10094,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
     if (cont == NULL || cont->is_null()) {
         std::stringstream text;
-        text << _("Container for ") << liquid.tname();
+        text << string_format(_("Container for %s"), liquid.tname().c_str());
 
         int pos = inv_for_liquid(liquid, text.str().c_str(), false);
         cont = &(u.i_at(pos));
@@ -10260,7 +10260,7 @@ int game::move_liquid(item &liquid)
 
   //liquid is in fact a liquid.
   std::stringstream text;
-  text << _("Container for ") << liquid.tname();
+  text << string_format(_("Container for %s"), liquid.tname().c_str());
   int pos = inv_for_liquid(liquid, text.str().c_str(), false);
 
   //is container selected?
@@ -10768,8 +10768,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             for(std::vector<item*>::iterator it = holsters.begin(); it != holsters.end(); it++) {
                 item *i = *it;
                 std::ostringstream ss;
-                ss << i->contents[0].name << _(" from ") << i->name
-                   << _(" (") << i->contents[0].charges << _(")");
+                ss << string_format(_("%s from %s (%d)"),
+                                    i->contents[0].name.c_str(),
+                                    i->name.c_str(),
+                                    i->contents[0].charges);
                 choices.push_back(ss.str());
             }
             choice = (uimenu(false, _("Draw what?"), choices)) - 1;
@@ -10849,8 +10851,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             for(std::vector<item*>::iterator it = quivers.begin(); it != quivers.end(); it++) {
                 item *i = *it;
                 std::ostringstream ss;
-                ss <<  i->contents[0].name << _(" from ") << i->name
-                << _(" (") << i->contents[0].charges << _(")");
+                ss << string_format(_("%s from %s (%d)"),
+                                    i->contents[0].name.c_str(),
+                                    i->name.c_str(),
+                                    i->contents[0].charges);
                 choices.push_back(ss.str());
             }
             choice = (uimenu(false, _("Draw from which quiver?"), choices)) - 1;
@@ -13339,11 +13343,13 @@ void game::update_stair_monsters() {
                 if (u_see(mposx, mposy)) {
                     std::stringstream dump;
                     if (coming_to_stairs[i].staircount > 4)
-                        dump << _("You see a ") << critter.name() << _(" on the stairs!");
+                        dump << string_format(_("You see a %s on the stairs"), critter.name().c_str());
                     else
-                        dump << _("The ") << critter.name() << _(" is almost at the ")
-                        << (m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top")) <<  _(" of the ")
-                        << m.tername(mposx, mposy).c_str() << "!";
+                        //~ “The <monster> is almost at the <bottom/top> of the <terrain type>!”
+                        dump << string_format(_("The %s is almost at the %s of the %s!"),
+                                              critter.name().c_str(),
+                                              m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top"),
+                                              m.tername(mposx, mposy).c_str());
                     add_msg(dump.str().c_str());
                 }
                 else {
@@ -13738,7 +13744,8 @@ void game::write_msg()
         std::string mstr = m.message;
         if (m.count > 1) {
             std::stringstream mesSS;
-            mesSS << mstr << " x " << m.count;
+            //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
+            mesSS << string_format(_("%s x %d"), mstr.c_str(), m.count);
             mstr = mesSS.str();
         }
         // Split the message into many if we must!
@@ -13791,7 +13798,8 @@ void game::msg_buffer()
     std::string mes = mtmp->message;
     if (mtmp->count > 1) {
      std::stringstream mesSS;
-     mesSS << mes << " x " << mtmp->count;
+     //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
+     mesSS << string_format(_("%s x %d"), mes.c_str(), mtmp->count);
      mes = mesSS.str();
     }
 // Split the message into many if we must!

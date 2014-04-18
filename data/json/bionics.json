@@ -13,7 +13,7 @@
         "type" : "bionic",
         "id" : "bio_power_storage_mkII",
     "name"       :    "Power Storage Mk. II",
-    "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful CBM: Power Storage.  Increases your power capacity by 10 units."
+    "description":    "Compact Bionics Module developed at DoubleTech Industries as a replacement for the highly successful Power Storage CBM.  Increases your power capacity by 10 units."
     },{
         "type" : "bionic",
         "id" : "bio_batteries",
