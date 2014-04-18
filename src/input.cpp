@@ -612,8 +612,13 @@ void input_manager::set_timeout(int delay)
     input_timeout = delay;
 }
 
-
 void input_context::register_action(const std::string &action_descriptor)
+{
+    register_action(action_descriptor, "");
+}
+
+
+void input_context::register_action(const std::string &action_descriptor, const std::string &name)
 {
     if(action_descriptor == "ANY_INPUT") {
         registered_any_input = true;
@@ -622,7 +627,11 @@ void input_context::register_action(const std::string &action_descriptor)
     }
 
     registered_actions.push_back(action_descriptor);
+    if (!name.empty()) {
+        actionID_to_name[action_descriptor] = name;
+    }
 }
+
 
 std::vector<char> input_context::keys_bound_to(const std::string &action_descriptor) const
 {
@@ -854,7 +863,7 @@ void input_context::display_help()
             } else {
                 col = global_key;
             }
-            mvwprintz(w_help, i + 1, 4, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
+            mvwprintz(w_help, i + 1, 4, col, "%s: ", get_action_name(action_id).c_str());
             mvwprintz(w_help, i + 1, 30, col, "%s", get_desc(action_id).c_str());
         }
         wrefresh(w_help);
@@ -870,7 +879,7 @@ void input_context::display_help()
         } else if (status != s_show && ch >= 'a' && ch <= 'a' + org_registered_actions.size()) {
             const int action = ch - 'a' + offset;
             const std::string &action_id = org_registered_actions[action];
-            const std::string name = inp_mngr.get_action_name(action_id);
+            const std::string name = get_action_name(action_id);
 
             // Check if this entry is local or global.
             bool is_local = false;
@@ -1031,6 +1040,15 @@ void init_interface()
 #endif
 }
 #endif
+
+const std::string& input_context::get_action_name(const std::string& action) const
+{
+    input_manager::t_string_string_map::const_iterator a = actionID_to_name.find(action);
+    if (a != actionID_to_name.end()) {
+        return a->second;
+    }
+    return inp_mngr.get_action_name(action);
+}
 
 // (Press X (or Y)|Try) to Z
 std::string input_context::press_x(const std::string &action_id) const

@@ -308,6 +308,15 @@ public:
      * the screen).
      */
     void register_action(const std::string& action_descriptor);
+    /**
+     * Same as other @ref register_action function but allows a context specific
+     * action name. The given name is displayed instead of the name taken from
+     * the @ref input_manager.
+     *
+     * @param name Name of the action, displayed to the user. If empty use the
+     * name reported by the input_manager.
+     */
+    void register_action(const std::string& action_descriptor, const std::string& name);
 
     /**
      * Get a description text for the key/other input method associated
@@ -367,6 +376,11 @@ public:
      */
     input_event get_raw_input();
 
+    /**
+     * Get the human-readable name for an action. Uses @ref actionID_to_name and
+     * @ref input_manager::actionID_to_name.
+     */
+    const std::string& get_action_name(const std::string& action) const;
 
     /* For the future, something like this might be nice:
      * const std::string register_action(const std::string& action_descriptor, x, y, width, height);
@@ -395,6 +409,13 @@ private:
     bool coordinate_input_received;
     bool handling_coordinate_input;
     input_event next_action;
+
+    /**
+     * Name of the action as it should be displayed to the user.
+     * The key is the action ident. If an action is not contained here,
+     * the @ref input_manager::actionID_to_name is used instead.
+     */
+    input_manager::t_string_string_map actionID_to_name;
 };
 
 /**
