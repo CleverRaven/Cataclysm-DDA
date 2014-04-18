@@ -62,10 +62,8 @@
 #include <tchar.h>
 #endif
 
-#ifndef _MSC_VER
-	#if !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
+#if !defined(_MSC_VER) || !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
-	#endif
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
