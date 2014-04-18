@@ -55,6 +55,7 @@ public:
     void slimespring        (monster *z);
     void bio_op_takedown    (monster *z);
     void suicide            (monster *z);
+    bool judoka_throws      (monster *z); //handles attacker getting thrown when u.is_throw_immune()
 };
 
 #endif
