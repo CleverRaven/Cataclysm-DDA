@@ -10686,27 +10686,21 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
         last_target_critter = active_npc[last_target];
     }
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker.find(i);
-        if (u_see(&critter)) {
-            mon_targets.push_back(&critter);
+        monster * critter = &critter_tracker.find(i);
+        if ((critter) && u_see(critter) && (rl_dist( u.posx, u.posy, critter->xpos(), critter->ypos() ) <= range)) {
+            mon_targets.push_back(critter);
         }
     }
     for (size_t i = 0; i < active_npc.size(); i++) {
-        npc &critter = *active_npc[i];
-        if (u_see(critter.xpos(), critter.ypos())) {
-            mon_targets.push_back(&critter);
+        npc * critter = active_npc[i];
+        if ((critter) && u_see(critter->xpos(), critter->ypos()) &&  (rl_dist( u.posx, u.posy, critter->xpos(), critter->ypos() ) <= range)) {
+            mon_targets.push_back(critter);
         }
     }
     std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_to_u);
     int passtarget = -1;
     for (size_t i = 0; i < mon_targets.size(); i++) {
         Creature &critter = *mon_targets[i];
-        if(rl_dist( u.posx, u.posy, critter.xpos(), critter.ypos() ) > range) {
-            // because the vector is sorted, everything from here on will
-            // have a distance greater than range, so not targetable at all.
-            mon_targets.erase(mon_targets.begin() + i, mon_targets.end());
-            break;
-        }
         critter.draw(w_terrain, u.posx, u.posy, true);
         // no default target, but found the last target
         if (default_target_x == -1 && last_target_critter == &critter) {
