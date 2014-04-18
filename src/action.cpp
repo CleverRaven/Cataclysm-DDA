@@ -528,12 +528,7 @@ void get_direction(int &x, int &y, char ch)
 {
     x = 0;
     y = 0;
-    action_id act;
-    if (keymap.find(ch) == keymap.end()) {
-        act = ACTION_NULL;
-    } else {
-        act = keymap[ch];
-    }
+    action_id act = action_from_key(ch);
 
     switch (act) {
     case ACTION_MOVE_NW:
