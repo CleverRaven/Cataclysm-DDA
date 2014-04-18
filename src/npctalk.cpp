@@ -1364,6 +1364,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_LEAVE);
   RESPONSE(_("Let's go."));
    SUCCESS(TALK_DONE);
+  RESPONSE(_("My mistake, bye."));
+   SUCCESS(TALK_DONE);
   break;
 
  case TALK_COMBAT_COMMANDS: {
