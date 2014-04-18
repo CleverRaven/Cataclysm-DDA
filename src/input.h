@@ -373,6 +373,11 @@ public:
      * (x, y, width, height) would describe an area on the visible window that, if clicked, triggers the action.
      */
 
+    // (Press X (or Y)|Try) to Z
+    std::string press_x(const std::string &action_id) const;
+    std::string press_x(const std::string &action_id, const std::string &key_bound, const std::string &key_unbound) const;
+    std::string press_x(const std::string &action_id, const std::string &key_bound_pre, const std::string &key_bound_suf, const std::string &key_unbound) const;
+
 private:
 
     std::vector<std::string> registered_actions;

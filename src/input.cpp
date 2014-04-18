@@ -1017,3 +1017,41 @@ void init_interface()
 #endif
 }
 #endif
+
+// (Press X (or Y)|Try) to Z
+std::string input_context::press_x(const std::string &action_id) const
+{
+    return press_x(action_id, _("Press "), "", _("Try"));
+}
+
+std::string input_context::press_x(const std::string &action_id, const std::string &key_bound, const std::string &key_unbound) const
+{
+    return press_x(action_id, key_bound, "", key_unbound);
+}
+
+// TODO: merge this with input_context::get_desc
+std::string input_context::press_x(const std::string &action_id, const std::string &key_bound_pre, const std::string &key_bound_suf, const std::string &key_unbound) const
+{
+    if (action_id == "ANY_INPUT") {
+        return _("any key");
+    }
+    if (action_id == "COORDINATE") {
+        return _("mouse movement");
+    }
+    const input_manager::t_input_event_list &events = inp_mngr.get_input_for_action(action_id, category);
+    if (events.empty()) {
+        return key_unbound;
+    }
+    std::ostringstream keyed;
+    keyed << key_bound_pre;
+    for (size_t j = 0; j < events.size(); j++) {
+        for (size_t k = 0; k < events[j].sequence.size(); ++k) {
+            keyed << inp_mngr.get_keyname(events[j].sequence[k], events[j].type);
+        }
+        if (j + 1 < events.size()) {
+            keyed << _(" or ");
+        }
+    }
+    keyed << key_bound_suf;
+    return keyed.str();
+}
