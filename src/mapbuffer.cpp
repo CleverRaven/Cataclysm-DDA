@@ -8,6 +8,7 @@
 #include "game.h"
 #include <fstream>
 #include <sstream>
+#include "mapsharing.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -110,6 +111,8 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submap_list.size();
 
+    int mapkeylock = -1;
+
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
     // The weird ternary is to handle the case where we're deleting the list as we go.
@@ -148,8 +151,16 @@ void mapbuffer::save( bool delete_after_save )
         quad_path << segment_path.str() << "/" << om_addr.x << "." <<
             om_addr.y << "." << om_addr.z << ".map";
 
-        save_quad( quad_path.str(), om_addr, delete_after_save );
-        num_saved_submaps += 4;
+        if(MAP_SHARING::isSharing()) {
+            mapkeylock = MAP_SHARING::getLock((quad_path.str()+".lock").c_str());
+            if(mapkeylock != -1) {
+                save_quad( quad_path.str(), om_addr, delete_after_save );
+                num_saved_submaps += 4;
+            }
+        } else {
+            save_quad( quad_path.str(), om_addr, delete_after_save );
+            num_saved_submaps += 4;
+        }
     }
 }
 

@@ -432,7 +432,7 @@ bool game::opening_screen()
                     }
                 } else if (action == "LEFT" || action == "QUIT") {
                     layer = 1;
-                } else if (action == "EAST" || action == "CONFIRM") {
+                } else if (action == "RIGHT" || action == "CONFIRM") {
                     if (sel2 >= 0 && sel2 < world_generator->all_worldnames.size()) {
                         layer = 3;
                         sel3 = 0;
