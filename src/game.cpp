@@ -9596,6 +9596,11 @@ and you can't unwield your %s."),
                             bPickup = true;
                         }
                     }
+
+                    //auto pickup arrow/bolt ammo
+                    if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
+                        bPickup = true;
+                    }
                 }
 
                 if (bPickup) {
