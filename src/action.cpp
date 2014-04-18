@@ -9,73 +9,32 @@
 #include <sstream>
 #include <fstream>
 
-std::map<char, action_id> keymap;
-std::map<char, action_id> default_keymap;
-std::set<action_id> unbound_keymap;
+extern input_context get_default_mode_input_context();
 
 void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap,
-                  bool enable_unbound = false);
+                  std::set<action_id> &unbound_keymap);
 
-void load_keyboard_settings()
+void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from, std::set<action_id> &unbound_keymap)
 {
-    // Load the default keymap
-    std::istringstream sin;
-    sin.str(default_keymap_txt());
-    parse_keymap(sin, default_keymap);
-
     // Load the player's actual keymap
     std::ifstream fin;
-    bool loaded_legacy_keymap = false;
     fin.open(FILENAMES["keymap"].c_str());
     if (!fin.is_open()) { // It doesn't exist
         // Try it at the legacy location.
         fin.open(FILENAMES["legacy_keymap"].c_str());
-        if( !fin.is_open() ) {
-            // Doesn't exist in either place, output a default keymap.
-            assure_dir_exist(FILENAMES["config_dir"]);
-            std::ofstream fout;
-            fout.open(FILENAMES["keymap"].c_str());
-            fout << default_keymap_txt();
-            fout.close();
-            fin.open(FILENAMES["keymap"].c_str());
-        } else {
-            loaded_legacy_keymap = true;
+        if (fin.is_open()) {
+            keymap_file_loaded_from = FILENAMES["legacy_keymap"];
         }
+    } else {
+        keymap_file_loaded_from = FILENAMES["keymap"];
     }
     if (!fin.is_open()) { // Still can't open it--probably bad permissions
-        debugmsg(std::string("Can't open " + FILENAMES["keymap"] +
-                             " This may be a permissions issue.").c_str());
-        keymap = default_keymap;
         return;
-    } else {
-        parse_keymap(fin, keymap, true);
     }
-
-    // Check for new defaults, and automatically bind them if possible
-    std::map<char, action_id>::iterator d_it;
-    for (d_it = default_keymap.begin(); d_it != default_keymap.end(); ++d_it) {
-        bool found = false;
-        if (unbound_keymap.find(d_it->second) != unbound_keymap.end()) {
-            break;
-        }
-        std::map<char, action_id>::iterator k_it;
-        for (k_it = keymap.begin(); k_it != keymap.end(); ++k_it) {
-            if (d_it->second == k_it->second) {
-                found = true;
-                break;
-            }
-        }
-        if (!found && !keymap.count(d_it->first)) {
-            keymap[d_it->first] = d_it->second;
-        }
-    }
-    if( loaded_legacy_keymap ) {
-        assure_dir_exist(FILENAMES["config_dir"]);
-        save_keymap();
-    }
+    parse_keymap(fin, keymap, unbound_keymap);
 }
 
-void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, bool enable_unbound)
+void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, std::set<action_id> &unbound_keymap)
 {
     while (!keymap_txt.eof()) {
         std::string id;
@@ -85,7 +44,7 @@ void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, boo
         } else if (id == "unbind") {
             keymap_txt >> id;
             action_id act = look_up_action(id);
-            if (act != ACTION_NULL && enable_unbound) {
+            if (act != ACTION_NULL) {
                 unbound_keymap.insert(act);
             }
             break;
@@ -119,56 +78,18 @@ Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str());
     }
 }
 
-void save_keymap()
-{
-    std::ofstream fout;
-    fout.open(FILENAMES["keymap"].c_str());
-    if (!fout) { // It doesn't exist
-        debugmsg("Can't open \"%s\".", FILENAMES["keymap"].c_str());
-        fout.close();
-        return;
-    }
-    for (std::map<char, action_id>::iterator it = keymap.begin(); it != keymap.end(); ++it) {
-        fout << action_ident( (*it).second ) << " " << (*it).first << std::endl;
-    }
-    for (std::set<action_id>::iterator it = unbound_keymap.begin(); it != unbound_keymap.end(); ++it) {
-        fout << "unbind" << " " << action_ident(*it) << std::endl;
-    }
-
-    fout.close();
-}
-
 std::vector<char> keys_bound_to(action_id act)
 {
-    std::vector<char> ret;
-    std::map<char, action_id>::iterator it;
-    for (it = keymap.begin(); it != keymap.end(); ++it) {
-        if ( (*it).second == act ) {
-            ret.push_back( (*it).first );
-        }
-    }
-
-    return ret;
+    input_context ctxt = get_default_mode_input_context();
+    return ctxt.keys_bound_to(action_ident(act));
 }
 
 action_id action_from_key(char ch)
 {
-    const std::map<char, action_id>::const_iterator it = keymap.find(ch);
-    if(it == keymap.end()) {
-        return ACTION_NULL;
-    }
-    return it->second;
-}
-
-void clear_bindings(action_id act)
-{
-    std::map<char, action_id>::iterator it;
-    for (it = keymap.begin(); it != keymap.end(); ++it) {
-        if ( (*it).second == act ) {
-            keymap.erase(it);
-            it = keymap.begin();
-        }
-    }
+    input_context ctxt = get_default_mode_input_context();
+    input_event event((long) ch, CATA_INPUT_KEYBOARD);
+    const std::string action = ctxt.input_to_action(event);
+    return look_up_action(action);
 }
 
 std::string action_ident(action_id act)
@@ -177,25 +98,25 @@ std::string action_ident(action_id act)
     case ACTION_PAUSE:
         return "pause";
     case ACTION_MOVE_N:
-        return "move_n";
+        return "UP";
     case ACTION_MOVE_NE:
-        return "move_ne";
+        return "RIGHTUP";
     case ACTION_MOVE_E:
-        return "move_e";
+        return "RIGHT";
     case ACTION_MOVE_SE:
-        return "move_se";
+        return "RIGHTDOWN";
     case ACTION_MOVE_S:
-        return "move_s";
+        return "DOWN";
     case ACTION_MOVE_SW:
-        return "move_sw";
+        return "LEFTDOWN";
     case ACTION_MOVE_W:
-        return "move_w";
+        return "LEFT";
     case ACTION_MOVE_NW:
-        return "move_nw";
+        return "LEFTUP";
     case ACTION_MOVE_DOWN:
-        return "move_down";
+        return "LEVEL_DOWN";
     case ACTION_MOVE_UP:
-        return "move_up";
+        return "LEVEL_UP";
     case ACTION_CENTER:
         return "center";
     case ACTION_SHIFT_N:
@@ -349,6 +270,29 @@ std::string action_ident(action_id act)
 
 action_id look_up_action(std::string ident)
 {
+    // Temporarly for the interface with the input manager!
+    if (ident == "move_nw") {
+        return ACTION_MOVE_NW;
+    } else if (ident == "move_sw") {
+        return ACTION_MOVE_SW;
+    } else if (ident == "move_ne") {
+        return ACTION_MOVE_NE;
+    } else if (ident == "move_se") {
+        return ACTION_MOVE_SE;
+    } else if (ident == "move_n") {
+        return ACTION_MOVE_N;
+    } else if (ident == "move_s") {
+        return ACTION_MOVE_S;
+    } else if (ident == "move_w") {
+        return ACTION_MOVE_W;
+    } else if (ident == "move_e") {
+        return ACTION_MOVE_E;
+    } else if (ident == "move_down") {
+        return ACTION_MOVE_DOWN;
+    } else if (ident == "move_up") {
+        return ACTION_MOVE_UP;
+    }
+    // ^^ Temporarly for the interface with the input manager!
     for (int i = 0; i < NUM_ACTIONS; i++) {
         if (action_ident( action_id(i) ) == ident) {
             return action_id(i);
@@ -357,192 +301,11 @@ action_id look_up_action(std::string ident)
     return ACTION_NULL;
 }
 
-std::string action_name(action_id act)
-{
-    switch (act) {
-    case ACTION_PAUSE:
-        return _("Pause");
-    case ACTION_MOVE_N:
-        return _("Move North");
-    case ACTION_MOVE_NE:
-        return _("Move Northeast");
-    case ACTION_MOVE_E:
-        return _("Move East");
-    case ACTION_MOVE_SE:
-        return _("Move Southeast");
-    case ACTION_MOVE_S:
-        return _("Move South");
-    case ACTION_MOVE_SW:
-        return _("Move Southwest");
-    case ACTION_MOVE_W:
-        return _("Move West");
-    case ACTION_MOVE_NW:
-        return _("Move Northwest");
-    case ACTION_MOVE_DOWN:
-        return _("Descend Stairs");
-    case ACTION_MOVE_UP:
-        return _("Ascend Stairs");
-    case ACTION_CENTER:
-        return _("Center View");
-    case ACTION_SHIFT_N:
-        return _("Move View North");
-    case ACTION_SHIFT_NE:
-        return _("Move View Northeast");
-    case ACTION_SHIFT_E:
-        return _("Move View East");
-    case ACTION_SHIFT_SE:
-        return _("Move View Southeast");
-    case ACTION_SHIFT_S:
-        return _("Move View South");
-    case ACTION_SHIFT_SW:
-        return _("Move View Southwest");
-    case ACTION_SHIFT_W:
-        return _("Move View West");
-    case ACTION_SHIFT_NW:
-        return _("Move View Northwest");
-    case ACTION_OPEN:
-        return _("Open Door");
-    case ACTION_CLOSE:
-        return _("Close Door");
-    case ACTION_SMASH:
-        return _("Smash Nearby Terrain");
-    case ACTION_EXAMINE:
-        return _("Examine Nearby Terrain");
-    case ACTION_PICKUP:
-        return _("Pick Item(s) Up");
-    case ACTION_GRAB:
-        return _("Grab a nearby vehicle");
-    case ACTION_BUTCHER:
-        return _("Butcher");
-    case ACTION_CHAT:
-        return _("Chat with NPC");
-    case ACTION_LOOK:
-        return _("Look Around");
-    case ACTION_PEEK:
-        return _("Peek Around Corners");
-    case ACTION_LIST_ITEMS:
-        return _("List all items around the player");
-    case ACTION_INVENTORY:
-        return _("Open Inventory");
-    case ACTION_ADVANCEDINV:
-        return _("Advanced Inventory management");
-    case ACTION_COMPARE:
-        return _("Compare two Items");
-    case ACTION_ORGANIZE:
-        return _("Swap Inventory Letters");
-    case ACTION_USE:
-        return _("Apply or Use Item");
-    case ACTION_USE_WIELDED:
-        return _("Apply or Use Wielded Item");
-    case ACTION_WEAR:
-        return _("Wear Item");
-    case ACTION_TAKE_OFF:
-        return _("Take Off Worn Item");
-    case ACTION_EAT:
-        return _("Eat");
-    case ACTION_READ:
-        return _("Read");
-    case ACTION_WIELD:
-        return _("Wield");
-    case ACTION_PICK_STYLE:
-        return _("Select Unarmed Style");
-    case ACTION_RELOAD:
-        return _("Reload Wielded Item");
-    case ACTION_UNLOAD:
-        return _("Unload or Empty Wielded Item");
-    case ACTION_THROW:
-        return _("Throw Item");
-    case ACTION_FIRE:
-        return _("Fire Wielded Item");
-    case ACTION_FIRE_BURST:
-        return _("Burst-Fire Wielded Item");
-    case ACTION_SELECT_FIRE_MODE:
-        return _("Toggle attack mode of Wielded Item");
-    case ACTION_DROP:
-        return _("Drop Item");
-    case ACTION_DIR_DROP:
-        return _("Drop Item to Adjacent Tile");
-    case ACTION_BIONICS:
-        return _("View/Activate Bionics");
-    case ACTION_SORT_ARMOR:
-        return _("Re-layer armour/clothing");
-    case ACTION_WAIT:
-        return _("Wait for Several Minutes");
-    case ACTION_CRAFT:
-        return _("Craft Items");
-    case ACTION_RECRAFT:
-        return _("Recraft last recipe");
-    case ACTION_LONGCRAFT:
-        return _("Craft as long as possible");
-    case ACTION_CONSTRUCT:
-        return _("Construct Terrain");
-    case ACTION_DISASSEMBLE:
-        return _("Disassemble items");
-    case ACTION_SLEEP:
-        return _("Sleep");
-    case ACTION_CONTROL_VEHICLE:
-        return _("Control Vehicle");
-    case ACTION_TOGGLE_SAFEMODE:
-        return _("Toggle Safemode");
-    case ACTION_TOGGLE_AUTOSAFE:
-        return _("Toggle Auto-Safemode");
-    case ACTION_IGNORE_ENEMY:
-        return _("Ignore Nearby Enemy");
-    case ACTION_SAVE:
-        return _("Save and Quit");
-    case ACTION_QUICKSAVE:
-        return _("Quicksave");
-    case ACTION_QUIT:
-        return _("Commit Suicide");
-    case ACTION_PL_INFO:
-        return _("View Player Info");
-    case ACTION_MAP:
-        return _("View Map");
-    case ACTION_MISSIONS:
-        return _("View Missions");
-    case ACTION_FACTIONS:
-        return _("View Factions");
-    case ACTION_KILLS:
-        return _("View Kills");
-    case ACTION_MORALE:
-        return _("View Morale");
-    case ACTION_MESSAGES:
-        return _("View Message Log");
-    case ACTION_HELP:
-        return _("View Help");
-    case ACTION_DEBUG:
-        return _("Debug Menu");
-    case ACTION_DISPLAY_SCENT:
-        return _("View Scentmap");
-    case ACTION_TOGGLE_DEBUGMON:
-        return _("Toggle Debug Messages");
-    case ACTION_ZOOM_OUT:
-        return _("Zoom Out");
-    case ACTION_ZOOM_IN:
-        return _("Zoom In");
-    case ACTION_TOGGLE_SIDEBAR_STYLE:
-        return _("Switch Sidebar Style");
-    case ACTION_TOGGLE_FULLSCREEN:
-        return _("Toggle Fullscreen mode");
-    case ACTION_ACTIONMENU:
-        return _("Action Menu");
-    case ACTION_NULL:
-        return _("No Action");
-    default:
-        return "Someone forgot to name an action.";
-    }
-}
-
 void get_direction(int &x, int &y, char ch)
 {
     x = 0;
     y = 0;
-    action_id act;
-    if (keymap.find(ch) == keymap.end()) {
-        act = ACTION_NULL;
-    } else {
-        act = keymap[ch];
-    }
+    action_id act = action_from_key(ch);
 
     switch (act) {
     case ACTION_MOVE_NW:
@@ -584,256 +347,22 @@ void get_direction(int &x, int &y, char ch)
     }
 }
 
-std::string default_keymap_txt()
-{
-    return "\
-# This is the keymapping for Cataclysm.\n\
-# You can start a line with # to make it a comment--it will be ignored.\n\
-# Blank lines are ignored too.\n\
-# Extra whitespace, including tab, is ignored, so format things how you like.\n\
-# If you wish to restore defaults, simply remove this file.\n\
-\n\
-# The format for each line is an action identifier, followed by several\n\
-# keys.  Any action may have an unlimited number of keys bound to it.\n\
-# If you bind the same key to multiple actions, the second and subsequent\n\
-# bindings will be ignored--and you'll get a warning when the game starts.\n\
-# Keys are case-sensitive, of course; c and C are different.\n\
- \n\
-# WARNING: If you skip an action identifier, there will be no key bound to\n\
-# that action!  You will be NOT be warned of this when the game starts.\n\
-# If you're going to mess with stuff, maybe you should back this file up?\n\
-\n\
-# It is okay to split commands across lines.\n\
-# pause . 5      is equivalent to:\n\
-# pause .\n\
-# pause 5\n\
-\n\
-# Note that movement keybindings ONLY apply to movement (for now).\n\
-# That is, binding w to move_n will let you use w to move north, but you\n\
-# cannot use w to smash north, examine to the north, etc.\n\
-# For now, you must use vikeys, the numpad, or arrow keys for those actions.\n\
-# This is planned to change in the future.\n\
-\n\
-# Finally, there is no support for special keys, like spacebar, Home, and\n\
-# so on.  This is not a planned feature, but if it's important to you, please\n\
-# let me know.\n\
-\n\
-# MOVEMENT:\n\
-pause     . 5\n\
-move_n    k 8\n\
-move_ne   u 9\n\
-move_e    l 6\n\
-move_se   n 3\n\
-move_s    j 2\n\
-move_sw   b 1\n\
-move_w    h 4\n\
-move_nw   y 7\n\
-move_down >\n\
-move_up   <\n\
-\n\
-# MOVEMENT:\n\
-center     :\n\
-shift_n    K\n\
-shift_e    L\n\
-shift_s    J\n\
-shift_w    H\n\
-\n\
-# ENVIRONMENT INTERACTION\n\
-open  o\n\
-close c\n\
-smash s\n\
-examine e\n\
-advinv /\n\
-pickup , g\n\
-grab G\n\
-butcher B\n\
-chat C\n\
-look ; x\n\
-peek X\n\
-listitems V\n\
-\n\
-# INVENTORY & QUASI-INVENTORY INTERACTION\n\
-inventory i\n\
-compare I\n\
-organize =\n\
-apply a\n\
-apply_wielded A\n\
-wear W\n\
-take_off T\n\
-eat E\n\
-read R\n\
-wield w\n\
-pick_style _\n\
-reload r\n\
-unload U\n\
-throw t\n\
-fire f\n\
-#fire_burst F\n\
-select_fire_mode F\n\
-drop d\n\
-drop_adj D\n\
-bionics p\n\
-sort_armor +\n\
-\n\
-# LONG TERM & SPECIAL ACTIONS\n\
-wait |\n\
-craft &\n\
-recraft -\n\
-construct *\n\
-disassemble (\n\
-sleep $\n\
-control_vehicle ^\n\
-safemode !\n\
-autosafe \"\n\
-ignore_enemy '\n\
-save S\n\
-quit Q\n\
-\n\
-# INFO SCREENS\n\
-player_data @\n\
-map m\n\
-missions M\n\
-factions #\n\
-kills )\n\
-morale v\n\
-messages P\n\
-help ?\n\
-zoom_in z\n\
-zoom_out Z\n\
-\n\
-# DEBUG FUNCTIONS\n\
-debug_mode ~\n\
-# debug Z\n\
-# debug_scent -\n\
-";
-}
-
 // (Press X (or Y)|Try) to Z
 std::string press_x(action_id act)
 {
-    return press_x(act, _("Press "), "", _("Try"));
+    input_context ctxt = get_default_mode_input_context();
+    return ctxt.press_x(action_ident(act), _("Press "), "", _("Try"));
 }
 std::string press_x(action_id act, std::string key_bound, std::string key_unbound)
 {
-    return press_x(act, key_bound, "", key_unbound);
+    input_context ctxt = get_default_mode_input_context();
+    return ctxt.press_x(action_ident(act), key_bound, "", key_unbound);
 }
 std::string press_x(action_id act, std::string key_bound_pre, std::string key_bound_suf,
                     std::string key_unbound)
 {
-    std::vector<char> keys = keys_bound_to( action_id(act) );
-    if (keys.empty()) {
-        return key_unbound;
-    } else {
-        std::string keyed = key_bound_pre.append("");
-        for (unsigned j = 0; j < keys.size(); j++) {
-            if (keys[j] == '\'' || keys[j] == '"') {
-                if (j < keys.size() - 1) {
-                    keyed += keys[j];
-                    keyed += _(" or ");
-                } else {
-                    keyed += keys[j];
-                }
-            } else {
-                if (j < keys.size() - 1) {
-                    keyed += "'";
-                    keyed += keys[j];
-                    keyed += _("' or ");
-                } else {
-                    if (keys[j] == '_') {
-                        keyed += _("'_' (underscore)");
-                    } else {
-                        keyed += "'";
-                        keyed += keys[j];
-                        keyed += "'";
-                    }
-                }
-            }
-        }
-        return keyed.append(key_bound_suf.c_str());
-    }
-}
-// ('Z'ing|zing) (\(X( or Y))\))
-std::string press_x(action_id act, std::string act_desc)
-{
-    bool key_after = false;
-    bool z_ing = false;
-    char zing = tolower(act_desc.at(0));
-    std::vector<char> keys = keys_bound_to( action_id(act) );
-    if (keys.empty()) {
-        return act_desc;
-    } else {
-        std::string keyed = ("");
-        for (unsigned j = 0; j < keys.size(); j++) {
-            if (tolower(keys[j]) == zing) {
-                if (z_ing) {
-                    keyed.replace(1, 1, 1, act_desc.at(0));
-                    if (key_after) {
-                        keyed += _(" or '");
-                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0))
-                                  : tolower(act_desc.at(0)));
-                        keyed += "'";
-                    } else {
-                        keyed += " ('";
-                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0))
-                                  : tolower(act_desc.at(0)));
-                        keyed += "'";
-                        key_after = true;
-                    }
-                } else {
-                    std::string uhh = "";
-                    if (keys[j] == '\'' || keys[j] == '"') {
-                        uhh += "(";
-                        uhh += keys[j];
-                        uhh += ")";
-                    } else {
-                        uhh += "'";
-                        uhh += keys[j];
-                        uhh += "'";
-                    }
-                    if(act_desc.length() > 1) {
-                        uhh += act_desc.substr(1);
-                    }
-                    if (keys[j] == '_') {
-                        uhh += _(" (underscore)");
-                    }
-                    keyed.insert(0, uhh);
-                    z_ing = true;
-                }
-            } else {
-                if (key_after) {
-                    if (keys[j] == '\'' || keys[j] == '"') {
-                        keyed += _(" or ");
-                        keyed += keys[j];
-                    } else if (keys[j] == '_') {
-                        keyed += _("or '_' (underscore)");
-                    } else {
-                        keyed += _(" or '");
-                        keyed += keys[j];
-                        keyed += "'";
-                    }
-                } else {
-                    if (keys[j] == '\'' || keys[j] == '"') {
-                        keyed += " (";
-                        keyed += keys[j];
-                    } else if (keys[j] == '_') {
-                        keyed += _(" ('_' (underscore)");
-                    } else {
-                        keyed += " ('";
-                        keyed += keys[j];
-                        keyed += "'";
-                    }
-                    key_after = true;
-                }
-            }
-        }
-        if (!z_ing) {
-            keyed.insert(0, act_desc);
-        }
-        if (key_after) {
-            keyed += ")";
-        }
-        return keyed;
-    }
+    input_context ctxt = get_default_mode_input_context();
+    return ctxt.press_x(action_ident(act), key_bound_pre, key_bound_suf, key_unbound);
 }
 
 action_id get_movement_direction_from_delta(const int dx, const int dy)
@@ -967,9 +496,10 @@ bool can_interact_at(action_id action, int x, int y)
 
 action_id handle_action_menu()
 {
+    const input_context ctxt = get_default_mode_input_context();
 
 #define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), \
-        action_name(name)));
+        ctxt.get_action_name(action_ident(name))));
 #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
     entries.push_back(uimenu_entry(last_category, true, -1, \
                                    std::string(":")+name)); \
@@ -1173,22 +703,25 @@ action_id handle_action_menu()
 
 bool choose_direction(const std::string &message, int &x, int &y)
 {
+    input_context ctxt("DIRECTION");
+    ctxt.register_directions();
+    ctxt.register_action("PAUSE");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS"); // why not?
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
     mvwprintw(stdscr, 0, 0, "%s", query_text.c_str());
     wrefresh(stdscr);
-    DebugLog() << "calling get_input() for " << message << "\n";
-    InputEvent input = get_input();
-    if (input == Cancel || input == Close) {
-        return false;
-    } else {
-        get_direction(x, y, input);
+    const std::string action = ctxt.handle_input();
+    if (input_context::get_direction(x, y, action)) {
+        return true;
+    } else if (action == "PAUSE") {
+        x = 0;
+        y = 0;
+        return true;
     }
-    if (x == -2 || y == -2) {
-        g->add_msg(_("Invalid direction."));
-        return false;
-    }
-    return true;
+    g->add_msg(_("Invalid direction."));
+    return false;
 }
 
 bool choose_adjacent(std::string message, int &x, int &y)
@@ -1220,22 +753,5 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
     if( highlighted ) {
         wrefresh(g->w_terrain);
     }
-
-    std::string query_text = message + _(" (Direction button)");
-    mvwprintw(stdscr, 0, 0, "%s", query_text.c_str());
-    wrefresh(stdscr);
-    DebugLog() << "calling get_input() for " << message << "\n";
-    InputEvent input = get_input();
-    if (input == Cancel || input == Close) {
-        return false;
-    } else {
-        get_direction(x, y, input);
-    }
-    if (x == -2 || y == -2) {
-        g->add_msg(_("Invalid direction."));
-        return false;
-    }
-    x += g->u.posx;
-    y += g->u.posy;
-    return true;
+    return choose_adjacent(message, x, y);
 }

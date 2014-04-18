@@ -10,6 +10,14 @@
 #include <stdexcept>
 #include <errno.h>
 
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
+#include <unistd.h>
+#include <dirent.h>
+#endif
+
 static const std::string default_context_id("default");
 
 static long str_to_long(const std::string &number) {
@@ -250,6 +258,10 @@ input_manager inp_mngr;
 
 void input_manager::init()
 {
+    std::map<char, action_id> keymap;
+    std::string keymap_file_loaded_from;
+    std::set<action_id> unbound_keymap;
+    load_keyboard_settings(keymap, keymap_file_loaded_from, unbound_keymap);
     init_keycode_mapping();
 
     std::ifstream data_file;
@@ -275,6 +287,7 @@ void input_manager::init()
 
         // Iterate over the bindings JSON array
         JsonArray bindings = action.get_array("bindings");
+        t_input_event_list &events = action_contexts[context][action_id];
         while (bindings.has_more()) {
             JsonObject keybinding = bindings.next_object();
             std::string input_method = keybinding.get_string("input_method");
@@ -300,11 +313,64 @@ void input_manager::init()
                 );
             }
 
-            action_contexts[context][action_id].push_back(new_event);
+            events.push_back(new_event);
         }
     }
 
     data_file.close();
+
+    if (keymap_file_loaded_from.empty() || (keymap.empty() && unbound_keymap.empty())) {
+        // No keymap file was loaded, or the file has no mappings and no unmappings,
+        // we can skip the remaining part of the function, especially the save function
+        return;
+    }
+    t_keybinding_map &main_context = action_contexts["DEFAULTMODE"];
+    std::set<action_id> touched;
+    for(std::map<char, action_id>::const_iterator a = keymap.begin(); a != keymap.end(); ++a) {
+        const std::string action_id = action_ident(a->second);
+        // Put the binding from keymap either into the global context
+        // (if an action with that ident already exists there - think movement keys)
+        // or otherwise to the DEFAULTMODE context.
+        std::string context = "DEFAULTMODE";
+        if (action_contexts[default_context_id].count(action_id) > 0) {
+            context = default_context_id;
+        } else if (touched.count(a->second) == 0) {
+            // Note: movement keys are somewhoe special as the default in keymap
+            // does not contain the arrow keys, so we don't clear existing keybindings
+            // for them.
+            // If the keymap contains a binding for this action, erase all the
+            // previously (default!) existing bindings, to only keep the bindings,
+            // the user is used to
+            action_contexts[action_id].clear();
+            touched.insert(a->second);
+        }
+        add_input_for_action(action_id, context, input_event(a->first, CATA_INPUT_KEYBOARD));
+    }
+    // Unmap actions that are explicitly not mapped
+    for(std::set<action_id>::const_iterator a = unbound_keymap.begin(); a != unbound_keymap.end(); a++) {
+        const std::string action_id = action_ident(*a);
+        main_context[action_id].clear();
+    }
+    // Imported old bindings from old keymap file, save those to the new
+    // keybindings.json file.
+    try {
+        save();
+    } catch(std::exception &err) {
+        debugmsg("Could not write imported keybindings: %s", err.what());
+        return;
+    } catch(std::string err) {
+        debugmsg("Could not write imported keybindings: %s", err.c_str());
+        return;
+    }
+    // Finally if we did import a file, and saved it to the new keybindings
+    // file, delete the old keymap file to prevent re-importing it.
+    if (!keymap_file_loaded_from.empty()) {
+#if (defined _WIN32 || defined __WIN32__)
+        DeleteFile(keymap_file_loaded_from.c_str());
+#else
+        unlink(keymap_file_loaded_from.c_str());
+#endif
+    }
 }
 
 void input_manager::save() {
@@ -588,8 +654,13 @@ void input_manager::set_timeout(int delay)
     input_timeout = delay;
 }
 
-
 void input_context::register_action(const std::string &action_descriptor)
+{
+    register_action(action_descriptor, "");
+}
+
+
+void input_context::register_action(const std::string &action_descriptor, const std::string &name)
 {
     if(action_descriptor == "ANY_INPUT") {
         registered_any_input = true;
@@ -598,6 +669,24 @@ void input_context::register_action(const std::string &action_descriptor)
     }
 
     registered_actions.push_back(action_descriptor);
+    if (!name.empty()) {
+        actionID_to_name[action_descriptor] = name;
+    }
+}
+
+
+std::vector<char> input_context::keys_bound_to(const std::string &action_descriptor) const
+{
+    std::vector<char> result;
+    const std::vector<input_event> &events = inp_mngr.get_input_for_action(action_descriptor, category);
+    for(size_t i = 0; i < events.size(); ++i) {
+        const input_event &event = events[i];
+        // Ignore multi-key input and non-keyboard input
+        if (event.type == CATA_INPUT_KEYBOARD && event.sequence.size() == 1) {
+            result.push_back((char) event.sequence[0]);
+        }
+    }
+    return result;
 }
 
 const std::string input_context::get_desc(const std::string &action_descriptor)
@@ -816,7 +905,7 @@ void input_context::display_help()
             } else {
                 col = global_key;
             }
-            mvwprintz(w_help, i + 1, 4, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
+            mvwprintz(w_help, i + 1, 4, col, "%s: ", get_action_name(action_id).c_str());
             mvwprintz(w_help, i + 1, 30, col, "%s", get_desc(action_id).c_str());
         }
         wrefresh(w_help);
@@ -832,7 +921,7 @@ void input_context::display_help()
         } else if (status != s_show && ch >= 'a' && ch <= 'a' + org_registered_actions.size()) {
             const int action = ch - 'a' + offset;
             const std::string &action_id = org_registered_actions[action];
-            const std::string name = inp_mngr.get_action_name(action_id);
+            const std::string name = get_action_name(action_id);
 
             // Check if this entry is local or global.
             bool is_local = false;
@@ -902,10 +991,16 @@ input_event input_context::get_raw_input()
     return next_action;
 }
 
+long input_manager::get_previously_pressed_key() const
+{
+    return previously_pressed_key;
+}
+
 #ifndef TILES
 // If we're using curses, we need to provide get_input_event() here.
 input_event input_manager::get_input_event(WINDOW *win)
 {
+    previously_pressed_key = 0;
     (void)win; // unused
     int key = get_keypress();
     input_event rval;
@@ -942,6 +1037,7 @@ input_event input_manager::get_input_event(WINDOW *win)
 #endif
     } else {
         rval.type = CATA_INPUT_KEYBOARD;
+        previously_pressed_key = key;
         rval.add_input(key);
     }
 
@@ -986,3 +1082,50 @@ void init_interface()
 #endif
 }
 #endif
+
+const std::string& input_context::get_action_name(const std::string& action) const
+{
+    input_manager::t_string_string_map::const_iterator a = actionID_to_name.find(action);
+    if (a != actionID_to_name.end()) {
+        return a->second;
+    }
+    return inp_mngr.get_action_name(action);
+}
+
+// (Press X (or Y)|Try) to Z
+std::string input_context::press_x(const std::string &action_id) const
+{
+    return press_x(action_id, _("Press "), "", _("Try"));
+}
+
+std::string input_context::press_x(const std::string &action_id, const std::string &key_bound, const std::string &key_unbound) const
+{
+    return press_x(action_id, key_bound, "", key_unbound);
+}
+
+// TODO: merge this with input_context::get_desc
+std::string input_context::press_x(const std::string &action_id, const std::string &key_bound_pre, const std::string &key_bound_suf, const std::string &key_unbound) const
+{
+    if (action_id == "ANY_INPUT") {
+        return _("any key");
+    }
+    if (action_id == "COORDINATE") {
+        return _("mouse movement");
+    }
+    const input_manager::t_input_event_list &events = inp_mngr.get_input_for_action(action_id, category);
+    if (events.empty()) {
+        return key_unbound;
+    }
+    std::ostringstream keyed;
+    keyed << key_bound_pre;
+    for (size_t j = 0; j < events.size(); j++) {
+        for (size_t k = 0; k < events[j].sequence.size(); ++k) {
+            keyed << inp_mngr.get_keyname(events[j].sequence[k], events[j].type);
+        }
+        if (j + 1 < events.size()) {
+            keyed << _(" or ");
+        }
+    }
+    keyed << key_bound_suf;
+    return keyed.str();
+}
