@@ -35,6 +35,8 @@
 #  make LUA=1
 # Use user's home directory for save files.
 #  make USE_HOME_DIR=1
+# Use dynamic linking (requires system libraries).
+#  make DYNAMIC_LINKING=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -100,7 +102,12 @@ RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
-  OTHERS += -O3 $(RELEASE_FLAGS)
+  OTHERS += -O3
+  # Architecture dependent optimizations.
+  # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
+  # Strip symbols, generates smaller executable.
+  OTHERS += -s
+  OTHERS += $(RELEASE_FLAGS)
   DEBUG =
 endif
 
@@ -156,10 +163,23 @@ ifeq ($(NATIVE), osx)
   endif
 endif
 
-# Win32 (mingw32?)
+# Win32 (MinGW32 or MinGW-w64(32bit)?)
 ifeq ($(NATIVE), win32)
+# Any reason not to use -m32 on MinGW32?
+# MinGW-w64 may need these (if set to use 64bit by default).
+#  CXXFLAGS += -m32
+#  LDFLAGS += -m32
   TARGETSYSTEM=WINDOWS
 endif
+
+# Win64 (MinGW-w64? 64bit isn't currently working.)
+ifeq ($(NATIVE), win64)
+  CXXFLAGS += -m64
+  LDFLAGS += -m64
+# May need to add lib64 library path.
+# LDFLAGS += -L/mingw/i686-w64-mingw32/lib64
+  TARGETSYSTEM=WINDOWS
+else
 
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
@@ -174,12 +194,19 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static
+  ifdef DYNAMIC_LINKING
+    LDFLAGS += -static-libgcc -static-libstdc++
+  else
+    LDFLAGS += -static
+  endif
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl -liconv
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
+  ifeq ($(NATIVE), win64)
+    RFLAGS += -F pe-x86-64
+  endif
 endif
 
 ifdef SOUND
@@ -253,7 +280,13 @@ ifdef SDL
   endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    ifndef DYNAMIC_LINKING
+      # These differ depending on what SDL2 is configured to use.
+      LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    else
+      # Currently none needed (only used by SDL2 layer).
+      # LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    endif
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
