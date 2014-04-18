@@ -50,15 +50,15 @@ int main(int argc, char *argv[])
 #define QUOTE(STR) Q(STR)
     init_base_path(std::string(QUOTE(PREFIX)));
 #else
-    init_base_path("");
+    PATH_INFO::init_base_path("");
 #endif
 
 #ifdef USE_HOME_DIR
-    init_user_dir();
+    PATH_INFO::init_user_dir();
 #else
-    init_user_dir("./");
+    PATH_INFO::init_user_dir("./");
 #endif
-    set_standart_filenames();
+    PATH_INFO::set_standart_filenames();
 
     MAP_SHARING::setDefaults();
 
@@ -87,8 +87,8 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             if(argc) {
-                FILENAMES["base_path"] = std::string(argv[0]);
-                set_standart_filenames();
+                PATH_INFO::init_base_path(std::string(argv[0]));
+                PATH_INFO::set_standart_filenames();
                 argc--;
                 argv++;
             }
@@ -96,8 +96,8 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             if (argc) {
-                init_user_dir( argv[0] );
-                set_standart_filenames();
+                PATH_INFO::init_user_dir( argv[0] );
+                PATH_INFO::set_standart_filenames();
                 argc--;
                 argv++;
             }
@@ -149,7 +149,8 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["datadir"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("datadir", std::string(saved_argv[0]));
+                PATH_INFO::update_datadir();
                 saved_argc--;
                 saved_argv++;
             }
@@ -157,7 +158,7 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["savedir"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("savedir", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
@@ -165,7 +166,8 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["config_dir"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("config_dir", std::string(saved_argv[0]));
+                PATH_INFO::update_config_dir();
                 saved_argc--;
                 saved_argv++;
             }
@@ -173,7 +175,7 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["optionfile"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("options", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
@@ -181,7 +183,7 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["keymapfile"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("keymap", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
@@ -189,7 +191,7 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["autopickupfile"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("autopickup", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
@@ -197,7 +199,7 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["motdfile"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("motd", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
@@ -216,8 +218,8 @@ int main(int argc, char *argv[])
 #ifdef LOCALIZE
     const char *locale_dir;
 #ifdef __linux__
-    if (!FILENAMES["base_path"].empty()) {
-        locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
+    if (!PATH_INFO::FILENAMES["base_path"].empty()) {
+        locale_dir = std::string(PATH_INFO::FILENAMES["base_path"] + "share/locale").c_str();
     } else {
         locale_dir = "lang/mo";
     }
@@ -254,9 +256,9 @@ int main(int argc, char *argv[])
     // First load and initialize everything that does not
     // depend on the mods.
     try {
-        if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
+        if (!assure_dir_exist(PATH_INFO::FILENAMES["user_dir"].c_str())) {
             debugmsg("Can't open or create %s. Check permissions.",
-                     FILENAMES["user_dir"].c_str());
+                     PATH_INFO::FILENAMES["user_dir"].c_str());
             exit_handler(-999);
         }
         g->load_static_data();

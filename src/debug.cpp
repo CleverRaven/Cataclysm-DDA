@@ -139,7 +139,7 @@ void setupDebug()
  if( cl != 0 )
   limitDebugClass(cl);
 
- debugFile.init(FILENAMES["debug"]);
+ debugFile.init(PATH_INFO::FILENAMES["debug"]);
 }
 
 // OStream Operators                                                {{{2

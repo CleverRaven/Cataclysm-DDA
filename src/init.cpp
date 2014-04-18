@@ -340,11 +340,11 @@ void init_names()
         loc_name = loc_name.substr(0, dotpos);
     }
     // test if a local version exists
-    std::string filename = FILENAMES["namesdir"] + loc_name + ".json";
+    std::string filename = PATH_INFO::FILENAMES["namesdir"] + loc_name + ".json";
     std::ifstream fin(filename.c_str(), std::ifstream::in | std::ifstream::binary);
     if (!fin.good()) {
         // if not, use "en.json"
-        filename = FILENAMES["names"];
+        filename = PATH_INFO::FILENAMES["names"];
     }
     fin.close();
 
@@ -353,7 +353,7 @@ void init_names()
 #else
 void init_names()
 {
-    load_names_from_file(FILENAMES["names"]);
+    load_names_from_file(PATH_INFO::FILENAMES["names"]);
 }
 #endif
 

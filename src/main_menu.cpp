@@ -179,16 +179,16 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    if (!assure_dir_exist(FILENAMES["savedir"])) {
+    if (!assure_dir_exist(PATH_INFO::FILENAMES["savedir"])) {
         popup(_("Unable to make save directory. Check permissions."));
         return false;
     }
 
-    if (!assure_dir_exist(FILENAMES["templatedir"].c_str())) {
+    if (!assure_dir_exist(PATH_INFO::FILENAMES["templatedir"].c_str())) {
         popup(_("Unable to make templates directory. Check permissions."));
         return false;
     }
-    dir = opendir(FILENAMES["templatedir"].c_str());
+    dir = opendir(PATH_INFO::FILENAMES["templatedir"].c_str());
     while ((dp = readdir(dir))) {
         std::string tmp = dp->d_name;
         if (tmp.find(".template") != std::string::npos) {
@@ -211,7 +211,7 @@ bool game::opening_screen()
     static std::vector<std::string> motd;
     if (motd.empty()) {
         std::ifstream motd_file;
-        motd_file.open(FILENAMES["motd"].c_str());
+        motd_file.open(PATH_INFO::FILENAMES["motd"].c_str());
         if (!motd_file.is_open()) {
             motd.push_back(_("No message today."));
         } else {
@@ -230,7 +230,7 @@ bool game::opening_screen()
     static std::vector<std::string> credits;
     if (credits.empty()) {
         std::ifstream credits_file;
-        credits_file.open(FILENAMES["credits"].c_str());
+        credits_file.open(PATH_INFO::FILENAMES["credits"].c_str());
         if (!credits_file.is_open()) {
             credits.push_back(_("No message today."));
         } else {

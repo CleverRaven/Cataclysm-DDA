@@ -357,7 +357,7 @@ void initOptions() {
     OPTIONS.clear();
 
     std::string tileset_names;
-    tileset_names = get_tileset_names(FILENAMES["gfxdir"]);      //get the tileset names and set the optionNames
+    tileset_names = get_tileset_names(PATH_INFO::FILENAMES["gfxdir"]);      //get the tileset names and set the optionNames
 
     optionNames["fahrenheit"] = _("Fahrenheit");
     optionNames["celsius"] = _("Celsius");
@@ -1022,17 +1022,17 @@ void load_options()
 {
     std::ifstream fin;
     bool legacy_options_loaded = false;
-    fin.open(FILENAMES["options"].c_str());
+    fin.open(PATH_INFO::FILENAMES["options"].c_str());
     if(!fin.is_open()) {
         // Try at the legacy location.
-        fin.open(FILENAMES["legacy_options"].c_str());
+        fin.open(PATH_INFO::FILENAMES["legacy_options"].c_str());
         if(!fin.is_open()) {
             // Create it since it doesn't seem to exist.
-            assure_dir_exist(FILENAMES["config_dir"]);
+            assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
             save_options();
-            fin.open(FILENAMES["options"].c_str());
+            fin.open(PATH_INFO::FILENAMES["options"].c_str());
             if(!fin.is_open()) {
-                DebugLog() << "Could neither read nor create" << FILENAMES["options"].c_str() << "\n";
+                DebugLog() << "Could neither read nor create" << PATH_INFO::FILENAMES["options"].c_str() << "\n";
                 return;
             }
         } else {
@@ -1058,7 +1058,7 @@ void load_options()
     fin.close();
     if( legacy_options_loaded ) {
         // Write out options file at new location.
-        assure_dir_exist(FILENAMES["config_dir"]);
+        assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
         save_options();
     }
 
@@ -1086,7 +1086,7 @@ std::string options_header()
 void save_options(bool ingame)
 {
     std::ofstream fout;
-    fout.open(FILENAMES["options"].c_str());
+    fout.open(PATH_INFO::FILENAMES["options"].c_str());
     if(!fout.is_open()) {
         return;
     }

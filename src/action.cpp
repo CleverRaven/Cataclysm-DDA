@@ -26,24 +26,24 @@ void load_keyboard_settings()
     // Load the player's actual keymap
     std::ifstream fin;
     bool loaded_legacy_keymap = false;
-    fin.open(FILENAMES["keymap"].c_str());
+    fin.open(PATH_INFO::FILENAMES["keymap"].c_str());
     if (!fin.is_open()) { // It doesn't exist
         // Try it at the legacy location.
-        fin.open(FILENAMES["legacy_keymap"].c_str());
+        fin.open(PATH_INFO::FILENAMES["legacy_keymap"].c_str());
         if( !fin.is_open() ) {
             // Doesn't exist in either place, output a default keymap.
-            assure_dir_exist(FILENAMES["config_dir"]);
+            assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
             std::ofstream fout;
-            fout.open(FILENAMES["keymap"].c_str());
+            fout.open(PATH_INFO::FILENAMES["keymap"].c_str());
             fout << default_keymap_txt();
             fout.close();
-            fin.open(FILENAMES["keymap"].c_str());
+            fin.open(PATH_INFO::FILENAMES["keymap"].c_str());
         } else {
             loaded_legacy_keymap = true;
         }
     }
     if (!fin.is_open()) { // Still can't open it--probably bad permissions
-        debugmsg(std::string("Can't open " + FILENAMES["keymap"] +
+        debugmsg(std::string("Can't open " + PATH_INFO::FILENAMES["keymap"] +
                              " This may be a permissions issue.").c_str());
         keymap = default_keymap;
         return;
@@ -70,7 +70,7 @@ void load_keyboard_settings()
         }
     }
     if( loaded_legacy_keymap ) {
-        assure_dir_exist(FILENAMES["config_dir"]);
+        assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
         save_keymap();
     }
 }
@@ -94,7 +94,7 @@ void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, boo
             if (act == ACTION_NULL)
                 debugmsg("\
 Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str());
+Fix \"%s\" at your next chance!", id.c_str(), PATH_INFO::FILENAMES["keymap"].c_str());
             else {
                 while (!keymap_txt.eof()) {
                     char ch;
@@ -106,7 +106,7 @@ Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str());
                             debugmsg("\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str());
+Fix \"%s\" at your next chance!", ch, id.c_str(), PATH_INFO::FILENAMES["keymap"].c_str());
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -122,9 +122,9 @@ Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str());
 void save_keymap()
 {
     std::ofstream fout;
-    fout.open(FILENAMES["keymap"].c_str());
+    fout.open(PATH_INFO::FILENAMES["keymap"].c_str());
     if (!fout) { // It doesn't exist
-        debugmsg("Can't open \"%s\".", FILENAMES["keymap"].c_str());
+        debugmsg("Can't open \"%s\".", PATH_INFO::FILENAMES["keymap"].c_str());
         fout.close();
         return;
     }

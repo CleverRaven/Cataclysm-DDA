@@ -52,7 +52,7 @@ void mod_manager::refresh_mod_list()
     clear();
 
     std::map<std::string, std::vector<std::string> > mod_dependency_map;
-    load_mods_from(FILENAMES["moddir"]);
+    load_mods_from(PATH_INFO::FILENAMES["moddir"]);
     if (set_default_mods("user:default")) {
     } else if(set_default_mods("dev:default")) {
     }
@@ -95,11 +95,11 @@ void mod_manager::load_mods_from(std::string path)
     for (size_t i = 0; i < mod_files.size(); ++i) {
         load_mod_info(mod_files[i]);
     }
-    if (file_exist(FILENAMES["mods-dev-default"])) {
-        load_mod_info(FILENAMES["mods-dev-default"]);
+    if (file_exist(PATH_INFO::FILENAMES["mods-dev-default"])) {
+        load_mod_info(PATH_INFO::FILENAMES["mods-dev-default"]);
     }
-    if (file_exist(FILENAMES["mods-user-defaults"])) {
-        load_mod_info(FILENAMES["mods-user-defaults"]);
+    if (file_exist(PATH_INFO::FILENAMES["mods-user-defaults"])) {
+        load_mod_info(PATH_INFO::FILENAMES["mods-user-defaults"]);
     }
 }
 
@@ -197,9 +197,9 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 bool mod_manager::set_default_mods(const t_mod_list &mods)
 {
     default_mods = mods;
-    std::ofstream stream(FILENAMES["mods-user-default"].c_str(), std::ios::out | std::ios::binary);
+    std::ofstream stream(PATH_INFO::FILENAMES["mods-user-default"].c_str(), std::ios::out | std::ios::binary);
     if(!stream) {
-        popup(_("Can not open %s for writing"), FILENAMES["mods-user-defaults"].c_str());
+        popup(_("Can not open %s for writing"), PATH_INFO::FILENAMES["mods-user-defaults"].c_str());
         return false;
     }
     try {
@@ -214,7 +214,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
         return true;
     } catch(std::ios::failure &) {
         // this might happen and indicates an I/O-error
-        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-defaults"].c_str());
+        popup(_("Failed to write default mods to %s"), PATH_INFO::FILENAMES["mods-user-defaults"].c_str());
     } catch(std::string e) {
         // this should not happen, it comes from json-serialization
         debugmsg("%s", e.c_str());

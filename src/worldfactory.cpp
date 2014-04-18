@@ -49,7 +49,7 @@ WORLD::WORLD()
 {
     world_name = get_next_valid_worldname();
     std::stringstream path;
-    path << FILENAMES["savedir"] << world_name;
+    path << PATH_INFO::FILENAMES["savedir"] << world_name;
     world_path = path.str();
     world_options.clear();
     for (std::map<std::string, cOpt>::iterator it = OPTIONS.begin(); it != OPTIONS.end(); ++it) {
@@ -135,7 +135,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     all_worldnames.push_back(retworld->world_name);
 
     std::stringstream path;
-    path << FILENAMES["savedir"] << retworld->world_name;
+    path << PATH_INFO::FILENAMES["savedir"] << retworld->world_name;
     retworld->world_path = path.str();
     //debugmsg("worldpath: %s", path.str().c_str());
 
@@ -184,7 +184,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     all_worldnames.push_back(worldname);
 
     std::stringstream path;
-    path << FILENAMES["savedir"] << worldname;
+    path << PATH_INFO::FILENAMES["savedir"] << worldname;
     special_world->world_path = path.str();
 
     if (!save_world(special_world)) {
@@ -212,7 +212,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     newworld->world_name = worldname;
 
     std::stringstream path;
-    path << FILENAMES["savedir"] << worldname;
+    path << PATH_INFO::FILENAMES["savedir"] << worldname;
     newworld->world_path = path.str();
 
     // save world as conversion world
@@ -302,7 +302,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         all_worldnames.clear();
     }
     // get the master files. These determine the validity of a world
-    std::vector<std::string> world_dirs = file_finder::get_directories_with(qualifiers, FILENAMES["savedir"], true);
+    std::vector<std::string> world_dirs = file_finder::get_directories_with(qualifiers, PATH_INFO::FILENAMES["savedir"], true);
 
     // check to see if there are >0 world directories found
     if (!world_dirs.empty()) {
