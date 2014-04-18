@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "file_wrapper.h"
 #include "path_info.h"
+#include "mapsharing.h"
 
 #include <ctime>
 #include <sys/stat.h>
@@ -29,9 +30,6 @@
 #endif
 
 void exit_handler(int s);
-
-// create map where we will store the FILENAMES
-std::map<std::string, std::string> FILENAMES;
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -62,8 +60,10 @@ int main(int argc, char *argv[])
 #endif
     set_standart_filenames();
 
+    MAP_SHARING::setDefaults();
+
     // Process CLI arguments
-    int saved_argc = --argc;
+    int saved_argc = --argc; // skip program name
     char **saved_argv = ++argv;
 
     while (argc) {
@@ -101,13 +101,51 @@ int main(int argc, char *argv[])
                 argc--;
                 argv++;
             }
+        } else if(std::string(argv[0]) == "--username") {
+            argc--;
+            argv++;
+            if (argc) {
+                MAP_SHARING::setUsername(std::string(argv[0]));
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--addadmin") {
+            argc--;
+            argv++;
+            if (argc) {
+                MAP_SHARING::addAdmin(std::string(argv[0]));
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--adddebugger") {
+            argc--;
+            argv++;
+            if (argc) {
+                MAP_SHARING::addDebugger(std::string(argv[0]));
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--shared") {
+            argc--;
+            argv++;
+            MAP_SHARING::setSharing(true);
+            MAP_SHARING::setCompetitive(true);
+            MAP_SHARING::setWorldmenu(false);
+        } else if(std::string(argv[0]) == "--competitive") {
+            argc--;
+            argv++;
+            MAP_SHARING::setCompetitive(true);
         } else { // Skipping other options.
             argc--;
             argv++;
         }
     }
     while (saved_argc) {
-        if(std::string(saved_argv[0]) == "--datadir") {
+        if(std::string(saved_argv[0]) == "--worldmenu") {
+            saved_argc--;
+            saved_argv++;
+            MAP_SHARING::setWorldmenu(true);
+        } else if(std::string(saved_argv[0]) == "--datadir") {
             saved_argc--;
             saved_argv++;
             if(saved_argc) {

@@ -1,6 +1,9 @@
 #include <cstdlib>
 #include "path_info.h"
 
+// create map where we will store the FILENAMES
+std::map<std::string, std::string> FILENAMES;
+
 void init_base_path(std::string path)
 {
     if (!path.empty()) {
