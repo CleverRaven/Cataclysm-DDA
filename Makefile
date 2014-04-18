@@ -170,16 +170,17 @@ ifeq ($(NATIVE), win32)
 #  CXXFLAGS += -m32
 #  LDFLAGS += -m32
   TARGETSYSTEM=WINDOWS
+else
+  # Win64 (MinGW-w64? 64bit isn't currently working.)
+  ifeq ($(NATIVE), win64)
+    CXXFLAGS += -m64
+    LDFLAGS += -m64
+  # May need to add lib64 library path.
+  # LDFLAGS += -L/mingw/i686-w64-mingw32/lib64
+    TARGETSYSTEM=WINDOWS
+  endif
 endif
 
-# Win64 (MinGW-w64? 64bit isn't currently working.)
-ifeq ($(NATIVE), win64)
-  CXXFLAGS += -m64
-  LDFLAGS += -m64
-# May need to add lib64 library path.
-# LDFLAGS += -L/mingw/i686-w64-mingw32/lib64
-  TARGETSYSTEM=WINDOWS
-endif
 
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
