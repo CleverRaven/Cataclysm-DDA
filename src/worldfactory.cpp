@@ -6,6 +6,7 @@
 #include "path_info.h"
 #include "debug.h"
 #include "platform.h"
+#include "mapsharing.h"
 
 #include "name.h"
 
@@ -266,6 +267,13 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     }
 
     if (!is_conversion) {
+        int keylock = -1;
+        if(MAP_SHARING::isSharing()) {
+            keylock = MAP_SHARING::getLock((woption.str()+".lock").c_str());
+            if(keylock == -1) {
+                return true; // trick the code to just go on as usual
+            }
+        } // don't even bother opening the file when the lock can't be acquired
         fout.open(woption.str().c_str());
         if (!fout.is_open()) {
             fout.close();
@@ -279,7 +287,12 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
             fout << "#Default: " << it->second.getDefaultText() << std::endl;
             fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
         }
+        if(MAP_SHARING::isSharing()) {
+            fout.close();
+            MAP_SHARING::releaseLock(keylock, (woption.str()+".lock").c_str());
+        } else {
         fout.close();
+        }
     }
     mman->save_mods_list(world);
     return true;
