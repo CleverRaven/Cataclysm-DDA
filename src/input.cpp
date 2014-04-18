@@ -260,7 +260,8 @@ void input_manager::init()
 {
     std::map<char, action_id> keymap;
     std::string keymap_file_loaded_from;
-    load_keyboard_settings(keymap, keymap_file_loaded_from);
+    std::set<action_id> unbound_keymap;
+    load_keyboard_settings(keymap, keymap_file_loaded_from, unbound_keymap);
     init_keycode_mapping();
 
     std::ifstream data_file;
@@ -343,6 +344,11 @@ void input_manager::init()
         actionID_to_name[action_id] = action_name(id);
         // and create an empty list, or do nothing if the entry already exist.
         main_context[action_id];
+    }
+    // Unmap actions that are explicitly not mapped
+    for(std::set<action_id>::const_iterator a = unbound_keymap.begin(); a != unbound_keymap.end(); a++) {
+        const std::string action_id = action_ident(*a);
+        main_context.erase(action_id);
     }
     // Imported old bindings from old keymap file, save those to the new
     // keybindings.json file.

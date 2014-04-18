@@ -11,20 +11,11 @@
 
 extern input_context get_default_mode_input_context();
 
-std::map<char, action_id> keymap;
-std::map<char, action_id> default_keymap;
-std::set<action_id> unbound_keymap;
-
 void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap,
-                  bool enable_unbound = false);
+                  std::set<action_id> &unbound_keymap);
 
-void load_keyboard_settings(std::string &keymap_file_loaded_from)
+void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from, std::set<action_id> &unbound_keymap)
 {
-    // Load the default keymap
-    std::istringstream sin;
-    sin.str(default_keymap_txt());
-    parse_keymap(sin, default_keymap);
-
     // Load the player's actual keymap
     std::ifstream fin;
     fin.open(FILENAMES["keymap"].c_str());
@@ -38,41 +29,12 @@ void load_keyboard_settings(std::string &keymap_file_loaded_from)
         keymap_file_loaded_from = FILENAMES["keymap"];
     }
     if (!fin.is_open()) { // Still can't open it--probably bad permissions
-        // or the is no keymap at all (new installation?)
-        keymap = default_keymap;
         return;
     }
-    parse_keymap(fin, keymap, true);
-
-    // Check for new defaults, and automatically bind them if possible
-    std::map<char, action_id>::iterator d_it;
-    for (d_it = default_keymap.begin(); d_it != default_keymap.end(); ++d_it) {
-        bool found = false;
-        if (unbound_keymap.find(d_it->second) != unbound_keymap.end()) {
-            break;
-        }
-        std::map<char, action_id>::iterator k_it;
-        for (k_it = keymap.begin(); k_it != keymap.end(); ++k_it) {
-            if (d_it->second == k_it->second) {
-                found = true;
-                break;
-            }
-        }
-        if (!found && !keymap.count(d_it->first)) {
-            keymap[d_it->first] = d_it->second;
-        }
-    }
+    parse_keymap(fin, keymap, unbound_keymap);
 }
 
-void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from)
-{
-    // load into global keymap, used only in this file!
-    load_keyboard_settings(keymap_file_loaded_from);
-    // copy loaded keys into the parameter so the caller can use them
-    keymap = ::keymap;
-}
-
-void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, bool enable_unbound)
+void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, std::set<action_id> &unbound_keymap)
 {
     while (!keymap_txt.eof()) {
         std::string id;
@@ -82,7 +44,7 @@ void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, boo
         } else if (id == "unbind") {
             keymap_txt >> id;
             action_id act = look_up_action(id);
-            if (act != ACTION_NULL && enable_unbound) {
+            if (act != ACTION_NULL) {
                 unbound_keymap.insert(act);
             }
             break;
