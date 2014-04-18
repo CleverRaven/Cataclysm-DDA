@@ -10,6 +10,14 @@
 #include <stdexcept>
 #include <errno.h>
 
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
+#include <unistd.h>
+#include <dirent.h>
+#endif
+
 static const std::string default_context_id("default");
 
 static long str_to_long(const std::string &number) {
@@ -251,7 +259,8 @@ input_manager inp_mngr;
 void input_manager::init()
 {
     std::map<char, action_id> keymap;
-    load_keyboard_settings(keymap);
+    std::string keymap_file_loaded_from;
+    load_keyboard_settings(keymap, keymap_file_loaded_from);
     init_keycode_mapping();
 
     std::ifstream data_file;
@@ -308,6 +317,12 @@ void input_manager::init()
 
     data_file.close();
 
+    if (keymap_file_loaded_from.empty() && action_contexts.count("DEFAULTMODE") > 0) {
+        // No keymap file was loaded, and we already have the keybindings for
+        // the default mode. keymap contains only the default keymap and
+        // we don't want to override new settings.
+        return;
+    }
     t_keybinding_map &main_context = action_contexts["DEFAULTMODE"];
     for(std::map<char, action_id>::const_iterator a = keymap.begin(); a != keymap.end(); ++a) {
         const std::string action_id = action_ident(a->second);
@@ -328,6 +343,26 @@ void input_manager::init()
         actionID_to_name[action_id] = action_name(id);
         // and create an empty list, or do nothing if the entry already exist.
         main_context[action_id];
+    }
+    // Imported old bindings from old keymap file, save those to the new
+    // keybindings.json file.
+    try {
+        save();
+    } catch(std::exception &err) {
+        debugmsg("Could not write imported keybindings: %s", err.what());
+        return;
+    } catch(std::string err) {
+        debugmsg("Could not write imported keybindings: %s", err.c_str());
+        return;
+    }
+    // Finally if we did import a file, delete that file to prevent
+    // re-importing it.
+    if (!keymap_file_loaded_from.empty()) {
+#if (defined _WIN32 || defined __WIN32__)
+        DeleteFile(keymap_file_loaded_from.c_str());
+#else
+        unlink(keymap_file_loaded_from.c_str());
+#endif
     }
 }
 

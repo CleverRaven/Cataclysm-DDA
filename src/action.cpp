@@ -18,7 +18,7 @@ std::set<action_id> unbound_keymap;
 void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap,
                   bool enable_unbound = false);
 
-void load_keyboard_settings()
+void load_keyboard_settings(std::string &keymap_file_loaded_from)
 {
     // Load the default keymap
     std::istringstream sin;
@@ -31,24 +31,18 @@ void load_keyboard_settings()
     if (!fin.is_open()) { // It doesn't exist
         // Try it at the legacy location.
         fin.open(FILENAMES["legacy_keymap"].c_str());
-        if( !fin.is_open() ) {
-            // Doesn't exist in either place, output a default keymap.
-            assure_dir_exist(FILENAMES["config_dir"]);
-            std::ofstream fout;
-            fout.open(FILENAMES["keymap"].c_str());
-            fout << default_keymap_txt();
-            fout.close();
-            fin.open(FILENAMES["keymap"].c_str());
+        if (fin.is_open()) {
+            keymap_file_loaded_from = FILENAMES["legacy_keymap"];
         }
+    } else {
+        keymap_file_loaded_from = FILENAMES["keymap"];
     }
     if (!fin.is_open()) { // Still can't open it--probably bad permissions
-        debugmsg(std::string("Can't open " + FILENAMES["keymap"] +
-                             " This may be a permissions issue.").c_str());
+        // or the is no keymap at all (new installation?)
         keymap = default_keymap;
         return;
-    } else {
-        parse_keymap(fin, keymap, true);
     }
+    parse_keymap(fin, keymap, true);
 
     // Check for new defaults, and automatically bind them if possible
     std::map<char, action_id>::iterator d_it;
@@ -70,10 +64,10 @@ void load_keyboard_settings()
     }
 }
 
-void load_keyboard_settings(std::map<char, action_id> &keymap)
+void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from)
 {
     // load into global keymap, used only in this file!
-    load_keyboard_settings();
+    load_keyboard_settings(keymap_file_loaded_from);
     // copy loaded keys into the parameter so the caller can use them
     keymap = ::keymap;
 }

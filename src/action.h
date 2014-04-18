@@ -102,7 +102,7 @@ enum action_id {
 };
 
 // Load keybindings from disk
-void load_keyboard_settings(std::map<char, action_id> &keymap);
+void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from);
 std::string default_keymap_txt();
 // All keys bound to act
 std::vector<char> keys_bound_to(action_id act);
