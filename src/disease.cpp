@@ -26,7 +26,7 @@ enum dis_type_enum {
 // Fields
  DI_CRUSHED,
 // Monsters
- DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
+ DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_PARALYZEPOISON, DI_BLEED, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
@@ -72,8 +72,6 @@ static void handle_deliriant(player& p, disease& dis);
 static void handle_evil(player& p, disease& dis);
 static void handle_insect_parasites(player& p, disease& dis);
 
-static bool will_vomit(player& p, int chance = 1000);
-
 void game::init_diseases() {
     // Initialize the disease lookup table.
 
@@ -91,7 +89,6 @@ void game::init_diseases() {
     disease_type_lookup["brainworm"] = DI_BRAINWORM;
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
-    disease_type_lookup["boomered"] = DI_BOOMERED;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
@@ -167,9 +164,6 @@ void dis_msg(dis_type type_string) {
         break;
     case DI_CRUSHED:
         g->add_msg(_("The ceiling collapses on you!"));
-        break;
-    case DI_BOOMERED:
-        g->add_msg(_("You're covered in bile!"));
         break;
     case DI_SAP:
         g->add_msg(_("You're coated in sap!"));
@@ -654,7 +648,7 @@ void dis_effect(player &p, disease &dis)
                 p.cough();
             }
             if (!p.has_disease("took_flumed") || one_in(2)) {
-                if (one_in(3600) || will_vomit(p)) {
+                if (one_in(3600) || p.will_vomit()) {
                     p.vomit();
                 }
             }
@@ -666,15 +660,6 @@ void dis_effect(player &p, disease &dis)
                 to deal different damage amounts to different body parts and
                 to account for helmets and other armor
             */
-            break;
-
-        case DI_BOOMERED:
-            p.mod_per_bonus(-5);
-            if (will_vomit(p)) {
-                p.vomit();
-            } else if (one_in(3600)) {
-                g->add_msg_if_player(&p,_("You gag and retch."));
-            }
             break;
 
         case DI_SAP:
@@ -696,7 +681,7 @@ void dis_effect(player &p, disease &dis)
 
         case DI_SLIMED:
             p.mod_dex_bonus(-2);
-            if (will_vomit(p, 2100)) {
+            if (p.will_vomit(2100)) {
                 p.vomit();
             } else if (one_in(4800)) {
                 g->add_msg_if_player(&p,_("You gag and retch."));
@@ -824,7 +809,7 @@ void dis_effect(player &p, disease &dis)
             if (dis.duration >= 600) { // Smoked too much
                 p.mod_str_bonus(-1);
                 p.mod_dex_bonus(-1);
-                if (dis.duration >= 1200 && (one_in(50) || will_vomit(p, 10))) {
+                if (dis.duration >= 1200 && (one_in(50) || p.will_vomit(10))) {
                     p.vomit();
                 }
             } else {
@@ -877,7 +862,7 @@ void dis_effect(player &p, disease &dis)
                 g->add_msg_if_player(&p,_("You're suddenly wracked with pain and nausea!"));
                 p.hurt(bp_torso, -1, 1);
             }
-            if (will_vomit(p, 100+bonus) || one_in(600 + bonus)) {
+            if (p.will_vomit(100+bonus) || one_in(600 + bonus)) {
                 p.vomit();
             }
             break;
@@ -1093,7 +1078,7 @@ void dis_effect(player &p, disease &dis)
                 }
                 p.fatigue += 1;
             }
-            if (will_vomit(p, 2000)) {
+            if (p.will_vomit(2000)) {
                 p.vomit();
             }
             break;
@@ -1197,7 +1182,7 @@ void dis_effect(player &p, disease &dis)
             }
             if (one_in(4000)) {
                 g->add_msg_if_player(&p,_("You're suddenly covered in ectoplasm."));
-                p.add_disease("boomered", 100);
+                p.add_effect("boomered", 100);
                 if (one_in(4)) {
                     p.rem_disease("teleglow");
                 }
@@ -1522,7 +1507,6 @@ std::string dis_name(disease& dis)
 
     case DI_COMMON_COLD: return _("Common Cold");
     case DI_FLU: return _("Influenza");
-    case DI_BOOMERED: return _("Boomered");
     case DI_SAP: return _("Sap-coated");
 
     case DI_SPORES:
@@ -2043,11 +2027,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
-    case DI_BOOMERED:
-        return _(
-        "Perception - 5\n"
-        "Range of Sight: 1;   All sight is tinted magenta.");
-
     case DI_SAP:
         return _("Dexterity - 3;   Speed - 25");
 
@@ -2266,7 +2245,7 @@ void manage_fungal_infection(player& p, disease& dis)
                 p.moves -= 100;
                 p.hurt(bp_torso, -1, 5);
             }
-            if (will_vomit(p, 800 + bonus * 4) || one_in(2000 + bonus * 10)) {
+            if (p.will_vomit(800 + bonus * 4) || one_in(2000 + bonus * 10)) {
                 g->add_msg_player_or_npc( &p, _("You vomit a thick, gray goop."),
                                         _("<npcname> vomits a thick, grey goop.") );
 
@@ -2546,7 +2525,7 @@ static void handle_alcohol(player& p, disease& dis)
         p.mod_str_bonus(+1);
     }
     if (dis.duration > 2000 + 100 * dice(2, 100) &&
-        (will_vomit(p, 1) || one_in(20))) {
+        (p.will_vomit(1) || one_in(20))) {
         p.vomit();
     }
     bool readyForNap = one_in(500 - int(dis.duration / 80));
@@ -2775,7 +2754,7 @@ static void handle_deliriant(player& p, disease& dis)
             g->add_msg_if_player(&p,_("Something feels very, very wrong."));
         }
     } else if (dis.duration > peakTime && dis.duration < comeupTime) {
-        if ((one_in(200) || will_vomit(p, 50)) && !puked) {
+        if ((one_in(200) || p.will_vomit(50)) && !puked) {
             g->add_msg_if_player(&p,_("You feel sick to your stomach."));
             p.hunger -= 2;
             if (one_in(6)) {
@@ -2925,15 +2904,4 @@ static void handle_insect_parasites(player& p, disease& dis)
         p.rem_disease("formication", dis.bp, dis.side);
         p.moves -= 600;
     }
-}
-
-bool will_vomit(player& p, int chance)
-{
-    bool drunk = p.has_disease("drunk");
-    bool antiEmetics = p.has_disease("weed_high");
-    bool hasNausea = p.has_trait("NAUSEA") && one_in(chance*2);
-    bool stomachUpset = p.has_trait("WEAKSTOMACH") && one_in(chance*3);
-    bool suppressed = (p.has_trait("STRONGSTOMACH") && one_in(2)) ||
-        (antiEmetics && !drunk && !one_in(chance));
-    return ((stomachUpset || hasNausea) && !suppressed);
 }

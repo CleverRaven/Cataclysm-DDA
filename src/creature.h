@@ -154,6 +154,7 @@ class Creature
 
         /** Disease/effect functions */
         virtual void cough(bool harmful = false);
+        virtual bool will_vomit(int chance = 1000);
 
         /** not-quite-stats, maybe group these with stats later */
         virtual void mod_pain(int npain);

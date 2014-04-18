@@ -8208,7 +8208,7 @@ point game::look_around()
               rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
               m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk))
   {
-   if (u.has_disease("boomered"))
+   if (u.has_effect("boomered"))
     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
    else if (u.has_disease("darkness"))
     mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_dkgray, '#');

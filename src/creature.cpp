@@ -677,6 +677,16 @@ void Creature::cough(bool harmful)
         }
     }
 }
+bool Creature::will_vomit(int chance)
+{
+    bool drunk = g->u.has_disease("drunk");
+    bool antiEmetics = g->u.has_disease("weed_high");
+    bool hasNausea = g->u.has_trait("NAUSEA") && one_in(chance*2);
+    bool stomachUpset = g->u.has_trait("WEAKSTOMACH") && one_in(chance*3);
+    bool suppressed = (g->u.has_trait("STRONGSTOMACH") && one_in(2)) ||
+        (antiEmetics && !drunk && !one_in(chance));
+    return ((stomachUpset || hasNausea) && !suppressed);
+}
 
 void Creature::mod_pain(int npain)
 {

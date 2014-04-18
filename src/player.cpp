@@ -1519,7 +1519,7 @@ nc_color player::color()
   return c_red;
  if (has_effect("stunned"))
   return c_ltblue;
- if (has_disease("boomered"))
+ if (has_effect("boomered"))
   return c_pink;
  if (underwater)
   return c_blue;
@@ -3773,7 +3773,7 @@ void player::recalc_sight_limits()
     if (has_effect("blind")) {
         sight_max = 0;
     } else if (has_disease("in_pit") ||
-            (has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+            (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 (!(has_trait("PER_SLIME_OK"))))) {
@@ -3898,7 +3898,7 @@ int player::clairvoyance()
 
 bool player::sight_impaired()
 {
- return ((has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
+ return ((has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
               && !worn_with_flag("SWIM_GOGGLES") && !(has_trait("PER_SLIME_OK"))) ||
   (has_trait("MYOPIC") && !is_wearing("glasses_eye")
@@ -5218,6 +5218,10 @@ void player::process_effects() {
             cough(it->get_harmful_cough());
         }
 
+        if (it->get_vomit_chance() > 0 && will_vomit(it->get_vomit_chance())) {
+            vomit();
+        }
+
         // (Still) Hardcoded effects
         std::string id = it->get_id();
         if (id == "onfire") {
@@ -5232,13 +5236,6 @@ void player::process_effects() {
                 it->set_duration(600);
             }
             it->set_intensity(std::max(1, it->get_duration()/30));
-        } else if (id == "teargas") {
-            mod_str_bonus(-2);
-            mod_dex_bonus(-2);
-            mod_per_bonus(-5);
-            if (one_in(3)) {
-                cough();
-            }
         }
     }
 
@@ -9258,7 +9255,7 @@ float player::fine_detail_vision_mod()
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if (has_effect("blind") || ((has_disease("boomered")) &&
+    if (has_effect("blind") || ((has_effect("boomered")) &&
     !(has_trait("PER_SLIME_OK"))))
     {
         return 5;

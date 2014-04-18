@@ -855,8 +855,8 @@ int iuse::eyedrops(player *p, item *it, bool) {
     }
     g->add_msg_if_player(p,_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
-    if (p->has_disease("boomered")) {
-        p->rem_disease("boomered");
+    if (p->has_effect("boomered")) {
+        p->remove_effect("boomered");
         g->add_msg_if_player(p,_("You wash the slime from your eyes."));
     }
     return it->type->charges_to_use();

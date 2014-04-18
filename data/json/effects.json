@@ -169,13 +169,25 @@
         "id" : "teargas",
         "name" : ["Tear gas"],
         "desc" : ["Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
-        "apply_message" : "You inhale a lungful of tear gas."
+        "apply_message" : "You inhale a lungful of tear gas.",
+        "base_mods" : {
+            "str_mod" : [-2],
+            "dex_mod" : [-2],
+            "int_mod" : [-2],
+            "cough_chance" : [3]
+        }
     },
-   {
-      "type" : "effect_type",
-      "id" : "boomered",
-      "apply_message" : "You're covered in bile!"
-   },
+    {
+        "type" : "effect_type",
+        "id" : "boomered",
+        "name" : ["Boomered"],
+        "desc" : ["Perception - 5\nRange of Sight: 1;   All sight is tinted magenta."],
+        "apply_message" : "You're covered in bile!",
+        "base_mods" : {
+            "per_mod" : [-5],
+            "vomit_chance" : [1000]
+        }
+    },
    {
       "type" : "effect_type",
       "id" : "took_flumed"
