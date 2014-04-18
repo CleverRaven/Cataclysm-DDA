@@ -5679,10 +5679,6 @@ int game::mon_info(WINDOW *w)
         turnssincelastmon = 0;
         if (run_mode == 1) {
             run_mode = 2; // Stop movement!
-            if ( last_target == -1 && newtarget != -1 ) {
-                last_target = newtarget;
-                last_target = -1;
-            }
         }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
         turnssincelastmon++;
