@@ -99,7 +99,6 @@ class editmap
 
         std::vector<point> target_list;
         std::map<std::string, editmap_hilight> hilights;
-        int lastop;
         bool blink;
         bool altblink;
         int tmaxx;
@@ -128,7 +127,6 @@ class editmap
             trset = -1;
             w_info = 0;
             w_help = 0;
-            lastop = 0;
             padding = std::string(width - 2, ' ');
             blink = false;
             altblink = false;

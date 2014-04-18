@@ -301,16 +301,12 @@ point editmap::edit()
         timeout(-1);
         if (action == "EDIT_TERRAIN") {
             edit_ter();
-            lastop = 'g';
         } else if (action == "EDIT_FIELDS") {
             edit_fld();
-            lastop = 'f';
         } else if (action == "EDIT_ITEMS") {
             edit_itm();
-            lastop = 'i';
         } else if (action == "EDIT_TRAPS") {
             edit_trp();
-            lastop = 't';
         } else if (action == "EDITMAP_SHOW_ALL") {
             uberdraw = !uberdraw;
         } else if (action == "EDIT_MONSTER") {
@@ -327,7 +323,6 @@ point editmap::edit()
           }
         } else if (action == "EDIT_OVERMAP") {
             edit_mapgen();
-            lastop = 'o';
             target_list.clear();
             origin = target;
             target_list.push_back( target);
