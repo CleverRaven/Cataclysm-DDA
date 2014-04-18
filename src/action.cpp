@@ -703,22 +703,25 @@ action_id handle_action_menu()
 
 bool choose_direction(const std::string &message, int &x, int &y)
 {
+    input_context ctxt("DIRECTION");
+    ctxt.register_directions();
+    ctxt.register_action("PAUSE");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS"); // why not?
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
     mvwprintw(stdscr, 0, 0, "%s", query_text.c_str());
     wrefresh(stdscr);
-    DebugLog() << "calling get_input() for " << message << "\n";
-    InputEvent input = get_input();
-    if (input == Cancel || input == Close) {
-        return false;
-    } else {
-        get_direction(x, y, input);
+    const std::string action = ctxt.handle_input();
+    if (input_context::get_direction(x, y, action)) {
+        return true;
+    } else if (action == "PAUSE") {
+        x = 0;
+        y = 0;
+        return true;
     }
-    if (x == -2 || y == -2) {
-        g->add_msg(_("Invalid direction."));
-        return false;
-    }
-    return true;
+    g->add_msg(_("Invalid direction."));
+    return false;
 }
 
 bool choose_adjacent(std::string message, int &x, int &y)
@@ -750,22 +753,5 @@ bool choose_adjacent_highlight(std::string message, int &x, int &y,
     if( highlighted ) {
         wrefresh(g->w_terrain);
     }
-
-    std::string query_text = message + _(" (Direction button)");
-    mvwprintw(stdscr, 0, 0, "%s", query_text.c_str());
-    wrefresh(stdscr);
-    DebugLog() << "calling get_input() for " << message << "\n";
-    InputEvent input = get_input();
-    if (input == Cancel || input == Close) {
-        return false;
-    } else {
-        get_direction(x, y, input);
-    }
-    if (x == -2 || y == -2) {
-        g->add_msg(_("Invalid direction."));
-        return false;
-    }
-    x += g->u.posx;
-    y += g->u.posy;
-    return true;
+    return choose_adjacent(message, x, y);
 }
