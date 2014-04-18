@@ -2352,8 +2352,8 @@ input_context get_default_mode_input_context() {
     ctxt.register_action("LEFT", action_name(ACTION_MOVE_W));
     ctxt.register_action("LEFTUP", action_name(ACTION_MOVE_NW));
     ctxt.register_action("pause");
-    ctxt.register_action("move_down");
-    ctxt.register_action("move_up");
+    ctxt.register_action("LEVEL_DOWN");
+    ctxt.register_action("LEVEL_UP");
     ctxt.register_action("center");
     ctxt.register_action("shift_n");
     ctxt.register_action("shift_ne");

@@ -136,25 +136,25 @@ std::string action_ident(action_id act)
     case ACTION_PAUSE:
         return "pause";
     case ACTION_MOVE_N:
-        return "move_n";
+        return "UP";
     case ACTION_MOVE_NE:
-        return "move_ne";
+        return "RIGHTUP";
     case ACTION_MOVE_E:
-        return "move_e";
+        return "RIGHT";
     case ACTION_MOVE_SE:
-        return "move_se";
+        return "RIGHTDOWN";
     case ACTION_MOVE_S:
-        return "move_s";
+        return "DOWN";
     case ACTION_MOVE_SW:
-        return "move_sw";
+        return "LEFTDOWN";
     case ACTION_MOVE_W:
-        return "move_w";
+        return "LEFT";
     case ACTION_MOVE_NW:
-        return "move_nw";
+        return "LEFTUP";
     case ACTION_MOVE_DOWN:
-        return "move_down";
+        return "LEVEL_DOWN";
     case ACTION_MOVE_UP:
-        return "move_up";
+        return "LEVEL_UP";
     case ACTION_CENTER:
         return "center";
     case ACTION_SHIFT_N:
@@ -309,22 +309,26 @@ std::string action_ident(action_id act)
 action_id look_up_action(std::string ident)
 {
     // Temporarly for the interface with the input manager!
-    if (ident == "LEFTUP") {
+    if (ident == "move_nw") {
         return ACTION_MOVE_NW;
-    } else if (ident == "LEFTDOWN") {
+    } else if (ident == "move_sw") {
         return ACTION_MOVE_SW;
-    } else if (ident == "RIGHTUP") {
+    } else if (ident == "move_ne") {
         return ACTION_MOVE_NE;
-    } else if (ident == "RIGHTDOWN") {
+    } else if (ident == "move_se") {
         return ACTION_MOVE_SE;
-    } else if (ident == "UP") {
+    } else if (ident == "move_n") {
         return ACTION_MOVE_N;
-    } else if (ident == "DOWN") {
+    } else if (ident == "move_s") {
         return ACTION_MOVE_S;
-    } else if (ident == "LEFT") {
+    } else if (ident == "move_w") {
         return ACTION_MOVE_W;
-    } else if (ident == "RIGHT") {
+    } else if (ident == "move_e") {
         return ACTION_MOVE_E;
+    } else if (ident == "move_down") {
+        return ACTION_MOVE_DOWN;
+    } else if (ident == "move_up") {
+        return ACTION_MOVE_UP;
     }
     // ^^ Temporarly for the interface with the input manager!
     for (int i = 0; i < NUM_ACTIONS; i++) {
@@ -593,16 +597,6 @@ std::string default_keymap_txt()
 \n\
 # MOVEMENT:\n\
 pause     . 5\n\
-move_n    k 8\n\
-move_ne   u 9\n\
-move_e    l 6\n\
-move_se   n 3\n\
-move_s    j 2\n\
-move_sw   b 1\n\
-move_w    h 4\n\
-move_nw   y 7\n\
-move_down >\n\
-move_up   <\n\
 \n\
 # MOVEMENT:\n\
 center     :\n\
