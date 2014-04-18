@@ -161,6 +161,14 @@ int main(int argc, char *argv[])
                 saved_argc--;
                 saved_argv++;
             }
+        } else if(std::string(saved_argv[0]) == "--configdir") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                FILENAMES["config_dir"] = std::string(saved_argv[0]);
+                saved_argc--;
+                saved_argv++;
+            }
         } else if(std::string(saved_argv[0]) == "--optionfile") {
             saved_argc--;
             saved_argv++;

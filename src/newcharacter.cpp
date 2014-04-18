@@ -1378,9 +1378,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         }
     }
     select_location.setup();
-
-    u->name = MAP_SHARING::getUsername();  // set the current username as default character name (good feature even if not sharing maps, i guess)
-
+    if(MAP_SHARING::isSharing()) {
+        u->name = MAP_SHARING::getUsername();  // set the current username as default character name
+    }
     do {
         if (redraw) {
             //Draw the line between editable and non-editable stuff.

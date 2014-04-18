@@ -90,6 +90,7 @@ void set_standart_filenames(void)
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
     update_pathname("config_dir", FILENAMES["user_dir"] + "config/");
+
     update_pathname("options", FILENAMES["config_dir"] + "options.txt");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
