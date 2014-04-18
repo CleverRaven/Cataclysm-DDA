@@ -37,7 +37,7 @@ class editmap
         void uphelp(std::string txt1 = "", std::string txt2 = "", std::string title = "" );
         point pos2screen( const int x, const int y );
         point screen2pos( const int i, const int j );
-        bool eget_direction ( int &x, int &y, InputEvent &input, int ch );
+        bool eget_direction ( int &x, int &y, const std::string &action ) const;
         point edit();
         void uber_draw_ter( WINDOW * w, map * m );
         void update_view(bool update_info = false);
@@ -71,7 +71,7 @@ class editmap
         int target_frn;
 
         point recalc_target(shapetype shape);
-        bool move_target( InputEvent &input, int ch, int moveorigin = -1 );
+        bool move_target( const std::string &action, int moveorigin = -1 );
         field *cur_field;
 
         trap_id cur_trap;
@@ -99,7 +99,6 @@ class editmap
 
         std::vector<point> target_list;
         std::map<std::string, editmap_hilight> hilights;
-        int lastop;
         bool blink;
         bool altblink;
         int tmaxx;
@@ -128,7 +127,6 @@ class editmap
             trset = -1;
             w_info = 0;
             w_help = 0;
-            lastop = 0;
             padding = std::string(width - 2, ' ');
             blink = false;
             altblink = false;
