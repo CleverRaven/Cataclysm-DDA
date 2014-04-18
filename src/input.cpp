@@ -305,6 +305,28 @@ void input_manager::init()
     }
 
     data_file.close();
+
+    t_keybinding_map &main_context = action_contexts["DEFAULTMODE"];
+    for(std::map<char, action_id>::const_iterator a = keymap.begin(); a != keymap.end(); ++a) {
+        const std::string action_id = action_ident(a->second);
+        // Put the binding from keymap either into the global context
+        // (if an action with that name already exists there - think move keys)
+        // or otherwise to the DEFAULTMODE contenxt.
+        if (action_contexts[default_context_id].count(action_id)) {
+            add_input_for_action(action_id, default_context_id, input_event(a->first, CATA_INPUT_KEYBOARD));
+        } else {
+            add_input_for_action(action_id, "DEFAULTMODE", input_event(a->first, CATA_INPUT_KEYBOARD));
+        }
+    }
+    // also map the action that are not in the keymap.
+    for(int i = 0; i < NUM_ACTIONS; i++) {
+        const action_id id = (action_id) i;
+        const std::string action_id = action_ident(id);
+        // store the name
+        actionID_to_name[action_id] = action_name(id);
+        // and create an empty list, or do nothing if the entry already exist.
+        main_context[action_id];
+    }
 }
 
 void input_manager::save() {
