@@ -137,11 +137,10 @@ std::vector<char> keys_bound_to(action_id act)
 
 action_id action_from_key(char ch)
 {
-    const std::map<char, action_id>::const_iterator it = keymap.find(ch);
-    if(it == keymap.end()) {
-        return ACTION_NULL;
-    }
-    return it->second;
+    input_context ctxt = get_default_mode_input_context();
+    input_event event((long) ch, CATA_INPUT_KEYBOARD);
+    const std::string action = ctxt.input_to_action(event);
+    return look_up_action(action);
 }
 
 std::string action_ident(action_id act)
