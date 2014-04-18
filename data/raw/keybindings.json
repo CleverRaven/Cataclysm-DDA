@@ -943,6 +943,13 @@
     },
     {
         "type" : "keybinding",
+        "id": "CONFIRM_QUIT",
+        "category": "EDITMAP_TRAPS",
+        "name": "Confirm & quit",
+        "bindings":[ { "input_method":"keyboard", "key":"t" } ]
+    },
+    {
+        "type" : "keybinding",
         "id": "RESIZE",
         "category": "EDITMAP_SHAPE",
         "name": "Resize",

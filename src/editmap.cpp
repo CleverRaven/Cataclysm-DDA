@@ -1096,7 +1096,16 @@ int editmap::edit_trp()
     draw_border(w_picktrap);
     int tmax = pwh - 4;
     int tshift = 0;
-    int subch = 0;
+    input_context ctxt("EDITMAP_TRAPS");
+    ctxt.register_updown();
+    ctxt.register_action("EDITMAP_SHOW_ALL");
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("CONFIRM_QUIT");
+    ctxt.register_action("EDITMAP_TAB");
+    ctxt.register_action("EDITMAP_MOVE");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    std::string action;
     if ( trsel == -1 ) {
         trsel = cur_trap;
     }
@@ -1132,27 +1141,27 @@ int editmap::edit_trp()
         }
         wrefresh(w_picktrap);
 
-        subch = (int)getch();
-        if(subch == KEY_UP) {
+        action = ctxt.handle_input();
+        if(action == "UP") {
             trsel--;
-        } else if (subch == KEY_DOWN) {
+        } else if (action == "DOWN") {
             trsel++;
-        } else if ( subch == KEY_ENTER || subch == '\n' || subch == 't' ) {
+        } else if ( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
             if ( trsel < num_trap_types && trsel >= 0 ) {
                 trset = trsel;
             }
             for( size_t t = 0; t < target_list.size(); ++t ) {
                 g->m.add_trap(target_list[t].x, target_list[t].y, trap_id(trset));
             }
-            if ( subch == 't' ) {
-                subch = KEY_ESCAPE;
+            if ( action == "CONFIRM_QUIT" ) {
+                break;
             }
             update_view(false);
-        } else if ( subch == 's' || subch == '\t' || subch == 'm' ) {
+        } else if ( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE" ) {
             int sel_tmp = trsel;
-            select_shape(editshape, ( subch == 'm' ? 1 : 0 ) );
+            select_shape(editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
             sel_frn = sel_tmp;
-        } else if ( subch == 'v' ) {
+        } else if ( action == "EDITMAP_SHOW_ALL" ) {
             uberdraw = !uberdraw;
             update_view(false);
         }
@@ -1163,7 +1172,7 @@ int editmap::edit_trp()
             trsel = 0;
         }
 
-    } while ( ! menu_escape ( subch ) );
+    } while ( action != "QUIT" );
     werase(w_picktrap);
     wrefresh(w_picktrap);
     delwin(w_picktrap);
