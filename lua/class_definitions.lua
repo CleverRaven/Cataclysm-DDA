@@ -345,10 +345,6 @@ classes = {
                 type = "int",
                 writable = true
             },
-            item_chance = {
-                type = "int",
-                writable = true
-            },
             sk_dodge = {
                 type = "int",
                 writable = true
