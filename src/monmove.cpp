@@ -8,6 +8,7 @@
 #include "pldata.h"
 #include <stdlib.h>
 #include "cursesdef.h"
+#include "enums.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -101,6 +102,7 @@ void monster::plan(const std::vector<int> &friendlies)
     int tc = 0;
     int stc = 0;
     bool fleeing = false;
+    bool bdocile = false;
     if (friendly != 0) { // Target monsters, not the player!
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
             monster *tmp = &(g->zombie(i));
@@ -115,6 +117,7 @@ void monster::plan(const std::vector<int> &friendlies)
         }
 
         if (has_effect("docile")) {
+            bdocile = true;
             closest = -1;
         }
 
@@ -192,7 +195,51 @@ void monster::plan(const std::vector<int> &friendlies)
             } else {
                 --stc;
             }
-            set_dest(g->u.posx, g->u.posy, stc);
+        }
+
+        if (one_in(8) && ( ((closest == -1) && (!bdocile)) || (closest == -2) )) {
+            //TODO:enhance by relating to monster intelligence
+            // "mob repositions closer on a single axis. 'by intuition'."
+            // allows monsters to slide past obstacles without endless bashing.
+            if (one_in(2)) { //slide x
+                int isgn=sgn(g->u.posx -posx());
+                while (isgn==0) {
+                    isgn=rng(-1,1);
+                };
+                set_dest(posx() + isgn, posy(), stc);
+            } else {        //slide y
+                int isgn=sgn(g->u.posy -posy());
+                while (isgn==0) {
+                    isgn=rng(-1,1);
+                };
+                set_dest(posx(), posy() + isgn, stc);
+            }
+        } else if ((closest == -1) && (!bdocile)) {
+            //aggressive and can not see the player. make an inexact plan some of the time
+            //or leave planning to the caller's smell and stumble code.
+            if (one_in(30)) { //TODO:enhance by relating to monster intelligence
+                // "mob forgot what he was doing for a sec"
+                // chance to take a random step. of these, about 3 in 9 times,
+                // the mob steps back 'for perspective', or forwards, even if diagonally.
+                // 2 in 9 he'll step to the side. 1 in 9, he'll idle. differs from a stumble.
+                set_dest(posx() + rng(-1,1), posy() + rng(-1,1), stc);
+            }
+        } else
+        if (closest == -2) {
+            //aggressive and sees the player. 2 in 9 aim to his side, gets us out of windows.
+            int pushx = 0, pushy = 0;
+            int dx= g->u.posx - posx(), dy= g->u.posy - posy();
+            if ((abs(dx)<=1) && (abs(dy)<=1)) { //adjecent to the player
+                while (((pushx==0) && (pushy==0)) ||//aim into his direction
+                       !(((pushx==0) || sgn(dx)==sgn(pushx)) && ((pushy==0) || sgn(dy)==sgn(pushy)))) {
+                    pushx = rng(-1, 1);
+                    pushy = rng(-1, 1);
+                }
+            } else { //aim anyhere on or surrounding the player
+                pushx = rng(-1, 1);
+                pushy = rng(-1, 1);
+            };
+            set_dest(g->u.posx + pushx, g->u.posy + pushy, stc);
         }
         else if (closest <= -3)
             set_dest(g->zombie(-3 - closest).posx(), g->zombie(-3 - closest).posy(), stc);
@@ -353,15 +400,53 @@ void monster::move()
         return;
     }
 
-    if (!plans.empty() &&
-         (mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
-         (can_move_to(plans[0].x, plans[0].y) ||
-         (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
-         (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
-        // CONCRETE PLANS - Most likely based on sight
-        next = plans[0];
-        moved = true;
-    } else if (has_flag(MF_SMELLS)) {
+    if (!plans.empty()) {
+        if ((mondex == -1 || g->zombie(mondex).friendly != 0 || has_flag(MF_ATTACKMON)) &&
+            (can_move_to(plans[0].x, plans[0].y) ||
+            (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
+            (g->m.has_flag("BASHABLE", plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
+            // CONCRETE PLANS - Most likely based on sight
+            next = plans[0];
+            moved = true;
+        } else {
+            //something in the way?
+            monster * other = NULL;
+            if (one_in(6)) {
+                int mon = g->mon_at(plans[0].x,plans[0].y);
+                if (mon>-1)
+                    other = &g->zombie(mon);
+            }
+            if (other != NULL) { //yes, there'a z there
+                int tries = 0;
+                int pushx, pushy;
+                while(tries < 5) {  //try to guess a valid direction
+                    tries++;
+                    pushx = rng(-1, 1), pushy = rng(-1, 1);
+                    int iposx = plans[0].x + pushx;
+                    int iposy = plans[0].y + pushy;
+                    if ((pushx == 0 && pushy == 0) || ((iposx == g->u.posx) && (iposy == g->u.posy)))
+                        continue;
+                    if ((g->mon_at(iposx, iposy) == -1) && other->can_move_to(iposx, iposy)) {
+                        other->setpos(iposx, iposy, false);
+                        //other->moves -= 100;
+                        std::string msg="";
+                        if (one_in(4)) {//TODO:needs tuning
+                            other->add_effect("downed", 2);
+                            msg=_("The %s pushed the %s hard.");
+                        } else {
+                            msg=_("The %s pushed the %s.");
+                        };
+                        g->add_msg(msg.c_str(), name().c_str(), other->name().c_str());
+                        next = plans[0];
+                        moved = true;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    if (!moved && has_flag(MF_SMELLS)) {
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
         //  solid, square of terrain).  Fall back to smell if we have it.
         plans.clear();
