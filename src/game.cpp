@@ -13368,10 +13368,16 @@ void game::update_stair_monsters() {
                     int tries = 0;
                     critter.setpos(mposx, mposy, true);
                     while(tries < 9) {
+                        tries++;
                         pushx = rng(-1, 1), pushy = rng(-1, 1);
                         int iposx = mposx + pushx;
                         int iposy = mposy + pushy;
                         if ((pushx != 0 || pushy != 0) && (mon_at(iposx, iposy) == -1) && critter.can_move_to(iposx, iposy)) {
+                            bool resiststhrow = (g->u.is_throw_immune()) || (u.has_trait("LEG_TENT_BRACE"));
+                            if (resiststhrow && one_in(3)) { //TODO:needs tuning
+                                add_msg(_("The %s fails to push you back!"), critter.name().c_str());
+                                return; //judo or leg brace prevent you from getting pushed at all
+                            }
                             add_msg(_("The %s pushed you back!"), critter.name().c_str());
                             u.posx += pushx;
                             u.posy += pushy;
@@ -13380,7 +13386,10 @@ void game::update_stair_monsters() {
                             // As with the knockback-pushing, decided not to
                             // the system any more than necessary.
                             std::string msg="";
-                            if ((u.get_dodge() < 12) && (!(u.has_trait("LEG_TENT_BRACE")))) {
+                            if ((resiststhrow) && (g->u.is_throw_immune())) {
+                                mattack defend;
+                                defend.judoka_throws(&critter); //always if throw immune.
+                            } else if (!(resiststhrow) && (u.get_dodge() < 12)) {
                                 u.add_effect("downed", 2);
                                 msg=_("The %s pushed you back hard!");
                             } else {
@@ -13389,7 +13398,6 @@ void game::update_stair_monsters() {
                             add_msg(msg.c_str(), critter.name().c_str());
                             return;
                         }
-                        tries++;
                     }
                     add_msg(_("The %s tried to push you back but failed! It attacks you!"), critter.name().c_str());
                     critter.melee_attack(u, false);
