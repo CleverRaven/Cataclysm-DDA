@@ -13388,7 +13388,6 @@ void game::update_stair_monsters() {
                             };
                             add_msg(msg.c_str(), critter.name().c_str());
                             return;
-                            return;
                         }
                         tries++;
                     }
