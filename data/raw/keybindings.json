@@ -930,6 +930,118 @@
     },
     {
         "type" : "keybinding",
+        "id": "EDITMAP_SHOW_ALL",
+        "name": "Show all",
+        "bindings":[ { "input_method":"keyboard", "key":"v" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "RESIZE",
+        "category": "EDITMAP_SHAPE",
+        "name": "Resize",
+        "bindings":[ { "input_method":"keyboard", "key":"s" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "START",
+        "category": "EDITMAP_SHAPE",
+        "name": "Select shape",
+        "bindings":[ { "input_method":"keyboard", "key":"z" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SWAP",
+        "category": "EDITMAP_SHAPE",
+        "name": "Swap origin and target",
+        "bindings":[ { "input_method":"keyboard", "key":"y" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDITMAP_MOVE",
+        "name": "Move shape",
+        "bindings":[ { "input_method":"keyboard", "key":"m" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDITMAP_TAB",
+        "name": "Switch to move point / confirm",
+        "bindings":[ { "input_method":"keyboard", "key":"TAB" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_TRAPS",
+        "category": "EDITMAP",
+        "name": "Edit traps",
+        "bindings":[ { "input_method":"keyboard", "key":"t" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_FIELDS",
+        "category": "EDITMAP",
+        "name": "Edit fields",
+        "bindings":[ { "input_method":"keyboard", "key":"f" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_TERRAIN",
+        "category": "EDITMAP",
+        "name": "Edit terrain / furniture",
+        "bindings":[ { "input_method":"keyboard", "key":"g" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_OVERMAP",
+        "category": "EDITMAP",
+        "name": "Edit overmap / mapgen",
+        "bindings":[ { "input_method":"keyboard", "key":"o" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_ITEMS",
+        "category": "EDITMAP",
+        "name": "Edit items",
+        "bindings":[ { "input_method":"keyboard", "key":"i" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_MONSTER",
+        "category": "EDITMAP",
+        "name": "Edit creatures",
+        "bindings":[ { "input_method":"keyboard", "key":"m" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SHOW_ALL",
+        "category": "EDITMAP",
+        "name": "Show whole map",
+        "bindings":[ { "input_method":"keyboard", "key":"v" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "LEFT_WIDE",
+        "name": "Wide move left",
+        "bindings":[ { "input_method":"keyboard", "key":"H" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "RIGHT_WIDE",
+        "name": "Wide move right",
+        "bindings":[ { "input_method":"keyboard", "key":"L" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "UP_WIDE",
+        "name": "Wide move up",
+        "bindings":[ { "input_method":"keyboard", "key":"K" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DOWN_WIDE",
+        "name": "Wide move down",
+        "bindings":[ { "input_method":"keyboard", "key":"J" } ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOOGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toogle activate/examine",

@@ -323,6 +323,11 @@ public:
     /**
      * Convert a direction action(UP, DOWN etc) to a delta x and y.
      *
+     * @return True if the action is a movement action (UP, DOWN, ...),
+     * the delta values of associated with it have been stored in (dx,dy).
+     * False if the action is not a movement action (CONFIRM, QUIT, ...),
+     * (dx,dy) has been set to (-2,-2).
+     *
      * @param dx Output parameter for x delta.
      * @param dy Output parameter for y delta.
      */
