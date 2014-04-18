@@ -181,7 +181,6 @@ else
   endif
 endif
 
-
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
   DEFINES += -DCROSS_LINUX
