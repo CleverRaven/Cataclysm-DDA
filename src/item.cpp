@@ -3162,11 +3162,25 @@ void item::detonate(point p) const
     g->explosion(p.x, p.y, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
+
+//sort quivers by contents, such that empty quivers go last
+struct sort_by_charges {
+    bool operator()(const std::pair<item*,int> &left, const std::pair<item*,int> &right) {
+        if(left.first->contents.empty()) {
+            return false;
+        } else if (right.first->contents.empty()){
+            return true;
+        } else {
+            return right.first->contents[0].charges < left.first->contents[0].charges;
+        }
+    }
+};
+
 //return value is number of arrows/bolts quivered
 //isAutoPickup is used to determine text output behavior
 int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 {
-    std::map<item*, int> quivers;
+    std::vector<std::pair<item*, int> > quivers;
     for(std::vector<item>::iterator it = u->worn.begin(); it != u->worn.end(); it++) {
         item& worn = *it;
 
@@ -3175,7 +3189,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
         if(worn.type->use == &iuse::quiver) {
             int maxCharges = worn.max_charges_from_flag("QUIVER");
             if (worn.contents.empty() || (worn.contents[0].is_ammo() && worn.contents[0].charges > 0)) {
-                quivers.insert(std::make_pair(&worn, maxCharges));
+                quivers.push_back(std::make_pair(&worn, maxCharges));
             }
         }
     }
@@ -3185,15 +3199,18 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
         int movesPerArrow = 10;
         int arrowsQuivered = 0;
 
+        //sort quivers by contents, such that empty quivers go last
+        std::sort(quivers.begin(), quivers.end(), sort_by_charges());
+
         //loop over all eligible quivers
-        for(std::map<item*,int>::iterator it = quivers.begin(); it != quivers.end(); it++) {
+        for(std::vector<std::pair<item*, int> >::iterator it = quivers.begin(); it != quivers.end(); it++) {
             //only proceed if we still have item charges
             if(charges > 0) {
                 item *worn = it->first;
                 int maxArrows = it->second;
                 int arrowsStored = 0;
                 int toomany = 0;
-                std::map<item*,int>::iterator final_iter = quivers.end();
+                std::vector<std::pair<item*, int> >::iterator final_iter = quivers.end();
                 --final_iter;
 
                 if(maxArrows == 0) {
