@@ -231,9 +231,6 @@
     <ClCompile Include="..\src\mongroupdef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\monitemsdef.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\monmove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

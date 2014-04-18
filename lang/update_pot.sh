@@ -27,6 +27,8 @@ then
              --output="lang/po/cataclysm-dda.pot" \
              --keyword="_" \
              --keyword="pgettext:1c,2" \
+             --keyword="ngettext:1,2" \
+             --from-code="UTF-8" \
              src/*.cpp src/*.h lang/json/*.py
     echo " OK"
     # Fix msgfmt errors

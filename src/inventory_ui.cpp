@@ -237,14 +237,17 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 // Use width of the column minus two for the hotkey and leading space,
                 // and one for a space on the right.
                 const std::string truncated_item_name = std::string(
-                    _(it.display_name().c_str()) ).substr( 0, right_column_offset - 3 );
+                    (it.display_name(slice[cur_it].first->size()).c_str()) ).substr( 0, right_column_offset - 3 );
                 mvwputch(w_inv, cur_line, 0,
                          (cur_it == selected ? selected_line_color : c_white), invlet);
-                mvwprintz( w_inv, cur_line, 1,
-                           (cur_it == selected ? selected_line_color : it.color_in_inventory()),
-                           " %s", truncated_item_name.c_str() );
-                if (slice[cur_it].first->size() > 1) {
-                    wprintw(w_inv, " x %d", slice[cur_it].first->size());
+                if(slice[cur_it].first->size() > 1) {
+                    mvwprintz(w_inv, cur_line, 1,
+                              (cur_it == selected ? selected_line_color : it.color_in_inventory()),
+                              " %d %s", slice[cur_it].first->size(), truncated_item_name.c_str() );
+                } else {
+                    mvwprintz(w_inv, cur_line, 1,
+                              (cur_it == selected ? selected_line_color : it.color_in_inventory()),
+                              " %s", truncated_item_name.c_str() );
                 }
                 cur_line++;
                 max_it = cur_it;
@@ -545,9 +548,11 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                     icon = '#';
                 }
                 nc_color col = ( cur_it == selected ? selected_line_color : it.color_in_inventory() );
-                mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon, it.tname().c_str());
+                std::string str;
                 if (stacks[cur_it].first->size() > 1) {
-                    wprintz(w_inv, col, " x %d", stacks[cur_it].first->size());
+                    mvwprintz(w_inv, cur_line, 1, col, " %c %d %s", icon, stacks[cur_it].first->size(), it.tname(stacks[cur_it].first->size()).c_str());
+                } else {
+                    mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon, it.tname(stacks[cur_it].first->size()).c_str());
                 }
                 if (it.charges > 0) {
                     wprintz(w_inv, col, " (%d)", it.charges);
@@ -556,11 +561,12 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                     wprintw(w_inv, " (%d)", it.contents[0].charges);
                 }
                 if (icon == '+' || icon == '#') {
-                    mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", invlet, icon, it.tname().c_str());
+                    if (stacks[cur_it].first->size() > 1) {
+                        mvwprintz(w_inv, drp_line, 90, col, " %c %c %d %s", invlet, icon, stacks[cur_it].first->size(), it.tname(stacks[cur_it].first->size()).c_str());
+                    } else {
+                        mvwprintz(w_inv, drp_line, 90, col, " %c %c %s", invlet, icon, it.tname(stacks[cur_it].first->size()).c_str());
+                    }
                     if (icon == '+') {
-                        if (stacks[cur_it].first->size() > 1) {
-                            wprintz(w_inv, col, " x %d", stacks[cur_it].first->size());
-                        }
                         if (it.charges > 0) {
                             wprintz(w_inv, col, " (%d)", it.charges);
                         }
@@ -918,10 +924,13 @@ void game::compare(int iCompareX, int iCompareY)
                     const char invlet = it.invlet == 0 ? ' ' : it.invlet;
                     mvwputch (w_inv, cur_line, 0, c_white, invlet);
                     nc_color col = (compare_list[cur_it] == 0 ? c_ltgray : c_white);
-                    mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
-                              it.tname().c_str());
-                    if (stacks[cur_it - groundsize].first->size() > 1) {
-                        wprintz(w_inv, col, " x %d", stacks[cur_it - groundsize].first->size());
+                    if(stacks[cur_it - groundsize].first->size() > 1) {
+                        mvwprintz(w_inv, cur_line, 1, col, " %c %d %s", icon,
+                                  stacks[cur_it - groundsize].first->size(),
+                                  it.tname(stacks[cur_it - groundsize].first->size()).c_str());
+                    } else {
+                        mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
+                                  it.tname(stacks[cur_it - groundsize].first->size()).c_str());
                     }
                     if (it.charges > 0) {
                         wprintz(w_inv, col, " (%d)", it.charges);

@@ -1151,48 +1151,12 @@ void monster::drop_items_on_death()
     if(is_hallucination()) {
         return;
     }
-    const std::string drop_group = type->id + "_death_drops";
-    if (item_controller->has_group(drop_group)) {
-        Item_list items = item_controller->create_from_group(drop_group, g->turn);
-        for (Item_list::const_iterator a = items.begin(); a != items.end(); ++a) {
-            g->m.add_item_or_charges(_posx, _posy, *a);
-        }
+    if (type->death_drops.empty()) {
         return;
     }
-    int total_chance = 0, cur_chance, selected_location;
-    bool animal_done = false;
-    std::vector<items_location_and_chance> it = g->monitems[type->id];
-    if (type->item_chance != 0 && it.empty())
-    {
-        debugmsg("monster::drop_items_on_death: Type %s has item_chance %d but no items assigned!",
-                 type->name.c_str(), type->item_chance);
-        return;
-    }
-
-    for (int i = 0; i < it.size(); i++)
-    {
-        total_chance += it[i].chance;
-    }
-
-    while (rng(0, 99) < abs(type->item_chance) && !animal_done)
-    {
-        cur_chance = rng(1, total_chance);
-        selected_location = -1;
-        while (cur_chance > 0)
-        {
-            selected_location++;
-            cur_chance -= it[selected_location].chance;
-        }
-
-        // We have selected a string representing an item group, now
-        // get a random item tag from it and spawn it.
-        Item_tag selected_item = item_controller->id_from(it[selected_location].loc);
-        g->m.spawn_item(_posx, _posy, selected_item);
-
-        if (type->item_chance < 0)
-        {
-            animal_done = true; // Only drop ONE item.
-        }
+    const Item_list items = item_controller->create_from_group(type->death_drops, g->turn);
+    for (Item_list::const_iterator a = items.begin(); a != items.end(); ++a) {
+        g->m.add_item_or_charges(_posx, _posy, *a);
     }
 }
 

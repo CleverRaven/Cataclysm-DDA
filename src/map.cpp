@@ -322,6 +322,18 @@ bool map::displace_vehicle (int &x, int &y, const int dx, const int dy, bool tes
   }
  }
  if (our_i < 0) {
+     vehicle *v = veh_at(x, y);
+     for(int a = 0; a < my_MAPSIZE * my_MAPSIZE; a++) {
+        for (int i = 0; i < grid[a]->vehicles.size(); i++) {
+            if (grid[a]->vehicles[i] == v) {
+                our_i = i;
+                const_cast<submap*&>(src_submap) = grid[a];
+                break;
+            }
+        }
+     }
+ }
+ if (our_i < 0) {
   if (g->debugmon)
    debugmsg ("displace_vehicle our_i=%d", our_i);
   return false;
@@ -2408,6 +2420,21 @@ void map::spawn_an_item(const int x, const int y, item new_item,
         new_item.item_tags.insert("FIT");
     }
     add_item_or_charges(x, y, new_item);
+}
+
+void map::spawn_items(const int x, const int y, const std::vector<item> &new_items)
+{
+    if (!inbounds(x, y) || has_flag("DESTROY_ITEM", x, y)) {
+        return;
+    }
+    const bool swimmable = has_flag("SWIMMABLE", x, y);
+    for (std::vector<item>::const_iterator a = new_items.begin(); a != new_items.end(); ++a) {
+        const item &new_item = *a;
+        if (new_item.made_of(LIQUID) && swimmable) {
+            continue;
+        }
+        add_item_or_charges(x, y, new_item);
+    }
 }
 
 void map::spawn_artifact(const int x, const int y, itype* type, const int bday)

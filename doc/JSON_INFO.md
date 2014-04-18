@@ -59,6 +59,8 @@
                                      3 = 50+
 ```
 ###ITEM GROUPS
+Item groups have been expanded, look at doc/ITEM_SPAWN.md to their new description.
+The syntax listed here is still valid.
 ```C++
 "id":"forest",            // Unique ID. Must be one continuous word, use underscores if necessary
 "items":[                 // List of potential item ID's. Chance of an item spawning is x/T, where
@@ -140,6 +142,8 @@
 ```C++
 "result": "javelin",         // ID of resulting item
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
+"id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
+"override": false,           // Optional (default: false). If false and the ident of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ident is already defined, the existing recipe is replaced by the new recipe.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "requires_skills": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
 "difficulty": 3,             // Difficulty of success check

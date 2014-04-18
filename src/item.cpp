@@ -1144,7 +1144,7 @@ nc_color item::color_in_inventory()
 * in additional inventory)
 * @return name of item
 */
-std::string item::tname( bool with_prefix )
+std::string item::tname( unsigned int quantity, bool with_prefix )
 {
     std::stringstream ret;
 
@@ -1197,22 +1197,30 @@ std::string item::tname( bool with_prefix )
     std::string maintext = "";
     if (corpse != NULL && typeId() == "corpse" ) {
         if (name != "") {
-            maintext = rmp_format(_("<item_name>%s corpse of %s"), corpse->name.c_str(), name.c_str());
+            maintext = rmp_format(ngettext("<item_name>%s corpse of %s",
+                                           "<item_name>%s corpses of %s",
+                                           quantity), corpse->name.c_str(), name.c_str());
         } else {
-            maintext = rmp_format(_("<item_name>%s corpse"), corpse->name.c_str());
+            maintext = rmp_format(ngettext("<item_name>%s corpse",
+                                           "<item_name>%s corpses",
+                                           quantity), corpse->name.c_str());
         }
     } else if (typeId() == "blood") {
         if (corpse == NULL || corpse->id == "mon_null")
-            maintext = rm_prefix(_("<item_name>human blood"));
+            maintext = rm_prefix(ngettext("<item_name>human blood",
+                                          "<item_name>human blood",
+                                          quantity));
         else
-            maintext = rmp_format(_("<item_name>%s blood"), corpse->name.c_str());
+            maintext = rmp_format(ngettext("<item_name>%s blood",
+                                           "<item_name>%s blood",
+                                           quantity), corpse->name.c_str());
     }
     else if (iname != item_vars.end()) {
         maintext = iname->second;
     }
     else if (is_gun() && !contents.empty() ) {
         ret.str("");
-        ret << type->name;
+        ret << type->nname(quantity);
         for (size_t i = 0; i < contents.size(); i++) {
             ret << "+";
         }
@@ -1220,12 +1228,12 @@ std::string item::tname( bool with_prefix )
     } else if (contents.size() == 1) {
         maintext = rmp_format((contents[0].made_of(LIQUID) || contents[0].is_food())?
                               _("<item_name>%s of %s"):("<item_name>%s with %s"),
-                              type->name.c_str(), contents[0].tname().c_str());
+                              type->nname(quantity).c_str(), contents[0].tname().c_str());
     }
     else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), type->name.c_str());
+        maintext = rmp_format(_("<item_name>%s, full"), type->nname(quantity).c_str());
     } else {
-        maintext = type->name;
+        maintext = type->nname(quantity);
     }
 
     item* food = NULL;
@@ -1275,24 +1283,26 @@ std::string item::tname( bool with_prefix )
 
     ret.str("");
 
-    ret << damtext << vehtext << burntext << toolmodtext << maintext << tagtext;
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”. %2$s: burn adjectives (eg. “burnt”). %3$s: tool modifier text (eg. “atomic”). %4$s: vehicle part text (eg. “3.8-Liter”. $5$s: main item text (eg. “apple”), %6$s: tags (eg. “ (wet) (fits)”).
+    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(), toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {
-        return "*" + ret.str() + "*";
+        //~ %s is an item name. This style is used to denote items with notes.
+        return string_format(_("*%s*"), ret.str().c_str());
     } else {
         return ret.str();
     }
 }
 
-std::string item::display_name()
+std::string item::display_name(unsigned int quantity)
 {
     if (charges > 0) {
-        return string_format("%s (%d)", tname().c_str(), charges);
+        return string_format("%s (%d)", tname(quantity).c_str(), charges);
     } else if (contents.size() == 1 && contents[0].charges > 0) {
-        return string_format("%s (%d)", tname().c_str(), contents[0].charges);
+        return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
     } else {
-        return tname();
+        return tname(quantity);
     }
 }
 

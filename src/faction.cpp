@@ -480,13 +480,14 @@ bool faction::matches_us(faction_value v)
 
 std::string faction::describe()
 {
-    std::string ret = name + _(" have the ultimate goal of ") +
-                      facgoal_data[goal].name + _(". Their primary concern is ") +
-                      facjob_data[job1].name;
+    std::string ret;
+    ret = string_format( _("%s have the ultimate goal of %s."), name.c_str(), facgoal_data[goal].name.c_str());
     if (job2 == FACJOB_NULL) {
-        ret += _(".");
+        ret += string_format( _(" Their primary concern is %s."), facjob_data[job1].name.c_str());
     } else {
-        ret += _(", but they are also involved in ") + facjob_data[job2].name + _(".");
+        ret += string_format( _(" Their primary concern is %s, but they are also involved in %s."),
+                               facjob_data[job1].name.c_str(),
+                               facjob_data[job2].name.c_str());
     }
     if (values != 0) {
         ret += _(" They are known for ");

@@ -62,10 +62,8 @@
 #include <tchar.h>
 #endif
 
-#ifndef _MSC_VER
-	#if !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
+#if !defined(_MSC_VER) || !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
-	#endif
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -10080,7 +10078,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     int dirx, diry;
     std::stringstream liqstr;
     refresh_all();
-    liqstr << _("Pour ") << liquid.tname() << (" where?");
+    liqstr << string_format(_("Pour %s where?"), liquid.tname().c_str());
     if (!from_ground && liquid.rotten() &&
         choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
 
@@ -10094,7 +10092,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
     if (cont == NULL || cont->is_null()) {
         std::stringstream text;
-        text << _("Container for ") << liquid.tname();
+        text << string_format(_("Container for %s"), liquid.tname().c_str());
 
         int pos = inv_for_liquid(liquid, text.str().c_str(), false);
         cont = &(u.i_at(pos));
@@ -10260,7 +10258,7 @@ int game::move_liquid(item &liquid)
 
   //liquid is in fact a liquid.
   std::stringstream text;
-  text << _("Container for ") << liquid.tname();
+  text << string_format(_("Container for %s"), liquid.tname().c_str());
   int pos = inv_for_liquid(liquid, text.str().c_str(), false);
 
   //is container selected?
@@ -10513,20 +10511,20 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int
     if (dropped.size() == 1 || same) {
         if (to_veh) {
             add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
-                             "You put your %1$ss in the %2$s's %3$s.",
+                             "You put your %1$s in the %2$s's %3$s.",
                              dropped.size()),
-                    dropped[0].tname().c_str(),
+                    dropped[0].tname(dropped.size()).c_str(),
                     veh->name.c_str(),
                     veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(ngettext("You drop your %s on the %s.",
-                             "You drop your %ss on the %s.", dropped.size()),
-                    dropped[0].tname().c_str(),
+                             "You drop your %s on the %s.", dropped.size()),
+                    dropped[0].tname(dropped.size()).c_str(),
                     m.name(dirx, diry).c_str());
         } else {
             add_msg(ngettext("You put your %s in the %s.",
-                             "You put your %ss in the %s.", dropped.size()),
-                    dropped[0].tname().c_str(),
+                             "You put your %s in the %s.", dropped.size()),
+                    dropped[0].tname(dropped.size()).c_str(),
                     m.name(dirx, diry).c_str());
         }
     } else {
@@ -10768,8 +10766,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             for(std::vector<item*>::iterator it = holsters.begin(); it != holsters.end(); it++) {
                 item *i = *it;
                 std::ostringstream ss;
-                ss << i->contents[0].name << _(" from ") << i->name
-                   << _(" (") << i->contents[0].charges << _(")");
+                ss << string_format(_("%s from %s (%d)"),
+                                    i->contents[0].name.c_str(),
+                                    i->name.c_str(),
+                                    i->contents[0].charges);
                 choices.push_back(ss.str());
             }
             choice = (uimenu(false, _("Draw what?"), choices)) - 1;
@@ -10849,8 +10849,10 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             for(std::vector<item*>::iterator it = quivers.begin(); it != quivers.end(); it++) {
                 item *i = *it;
                 std::ostringstream ss;
-                ss <<  i->contents[0].name << _(" from ") << i->name
-                << _(" (") << i->contents[0].charges << _(")");
+                ss << string_format(_("%s from %s (%d)"),
+                                    i->contents[0].name.c_str(),
+                                    i->name.c_str(),
+                                    i->contents[0].charges);
                 choices.push_back(ss.str());
             }
             choice = (uimenu(false, _("Draw from which quiver?"), choices)) - 1;
@@ -12538,13 +12540,15 @@ bool game::plmove(int dx, int dy)
         } else if (!m.i_at(x, y).empty()) {
             std::vector<std::string> names;
             std::vector<size_t> counts;
+            std::vector<item> items;
             if (m.i_at(x, y)[0].count_by_charges()) {
-                names.push_back(m.i_at(x, y)[0].tname());
+                names.push_back(m.i_at(x, y)[0].tname(m.i_at(x, y)[0].charges));
                 counts.push_back(m.i_at(x, y)[0].charges);
             } else {
-                names.push_back(m.i_at(x, y)[0].display_name());
+                names.push_back(m.i_at(x, y)[0].display_name(1));
                 counts.push_back(1);
             }
+            items.push_back(m.i_at(x, y)[0]);
             for (size_t i = 1; i < m.i_at(x, y).size(); i++) {
                 item& tmpitem = m.i_at(x, y)[i];
                 std::string next_tname = tmpitem.tname();
@@ -12564,30 +12568,30 @@ bool game::plmove(int dx, int dy)
                 }
                 if (!got_it) {
                     if (tmpitem.count_by_charges()) {
-                        names.push_back(next_tname);
+                        names.push_back(tmpitem.tname(tmpitem.charges));
                         counts.push_back(tmpitem.charges);
                     } else {
-                        names.push_back(next_dname);
+                        names.push_back(tmpitem.display_name(1));
                         counts.push_back(1);
                     }
+                    items.push_back(tmpitem);
                 }
                 if (names.size() > 6) {
                     break;
                 }
             }
             for (size_t i = 0; i < names.size(); ++i) {
-                std::string fmt;
-                if (names[i].at(names[i].length() - 1) == 's') {
-                    names[i] = string_format("%d %s", counts[i], names[i].c_str());
-                } else if (counts[i] == 1) {
-                    //~ one item (e.g. "a dress")
-                    fmt = _("a %s");
-                    names[i] = string_format(fmt, names[i].c_str());
+                if (!items[i].count_by_charges()) {
+                    names[i] = items[i].display_name(counts[i]);
                 } else {
-                    //~ number of items: "<number> <item>"
-                    fmt = ngettext("%1$d %2$s", "%1$d %2$ss", counts[i]);
-                    names[i] = string_format(fmt, counts[i], names[i].c_str());
+                    names[i] = items[i].tname(counts[i]);
                 }
+            }
+            for (size_t i = 0; i < names.size(); ++i) {
+                std::string fmt;
+                //~ number of items: "<number> <item>"
+                fmt = ngettext("%1$d %2$s", "%1$d %2$s", counts[i]);
+                names[i] = string_format(fmt, counts[i], names[i].c_str());
             }
             if (names.size() == 1) {
                 add_msg(_("You see here %s."), names[0].c_str());
@@ -12597,8 +12601,8 @@ bool game::plmove(int dx, int dy)
             } else if (names.size() == 3) {
                 add_msg(_("You see here %s, %s, and %s."), names[0].c_str(),
                         names[1].c_str(), names[2].c_str());
-            } else if (names.size() < 7) {
-                add_msg(ngettext("There is %d item here.", "There are %d items here.", names.size()), names.size());
+            } else if (m.i_at(x, y).size() < 7) {
+                add_msg(ngettext("There is %d item here.", "There are %d items here.", m.i_at(x, y).size()), m.i_at(x, y).size());
             } else {
                 add_msg(_("There are many items here."));
             }
@@ -13337,11 +13341,13 @@ void game::update_stair_monsters() {
                 if (u_see(mposx, mposy)) {
                     std::stringstream dump;
                     if (coming_to_stairs[i].staircount > 4)
-                        dump << _("You see a ") << critter.name() << _(" on the stairs!");
+                        dump << string_format(_("You see a %s on the stairs"), critter.name().c_str());
                     else
-                        dump << _("The ") << critter.name() << _(" is almost at the ")
-                        << (m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top")) <<  _(" of the ")
-                        << m.tername(mposx, mposy).c_str() << "!";
+                        //~ “The <monster> is almost at the <bottom/top> of the <terrain type>!”
+                        dump << string_format(_("The %s is almost at the %s of the %s!"),
+                                              critter.name().c_str(),
+                                              m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top"),
+                                              m.tername(mposx, mposy).c_str());
                     add_msg(dump.str().c_str());
                 }
                 else {
@@ -13736,7 +13742,8 @@ void game::write_msg()
         std::string mstr = m.message;
         if (m.count > 1) {
             std::stringstream mesSS;
-            mesSS << mstr << " x " << m.count;
+            //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
+            mesSS << string_format(_("%s x %d"), mstr.c_str(), m.count);
             mstr = mesSS.str();
         }
         // Split the message into many if we must!
@@ -13789,7 +13796,8 @@ void game::msg_buffer()
     std::string mes = mtmp->message;
     if (mtmp->count > 1) {
      std::stringstream mesSS;
-     mesSS << mes << " x " << mtmp->count;
+     //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
+     mesSS << string_format(_("%s x %d"), mes.c_str(), mtmp->count);
      mes = mesSS.str();
     }
 // Split the message into many if we must!

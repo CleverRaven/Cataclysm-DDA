@@ -179,6 +179,26 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
     getch();
 }
 
+// returns single string with left aligned name and right aligned value
+std::string name_and_value (std::string name, std::string value, int field_width)
+{
+    int name_width = utf8_width(name.c_str());
+    int value_width = utf8_width(value.c_str());
+    std::stringstream result;
+    result << name.c_str();
+    for (int i = (name_width + value_width);
+         i < std::max(field_width, name_width + value_width); ++i) {
+        result << " ";
+    }
+    result << value.c_str();
+    return result.str();
+}
+
+std::string name_and_value (std::string name, int value, int field_width)
+{
+    return name_and_value (name, string_format("%d", value), field_width);
+}
+
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
 {
     va_list ap;

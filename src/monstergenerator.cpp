@@ -3,6 +3,7 @@
 #include "translations.h"
 #include "rng.h"
 #include "output.h"
+#include "item_factory.h"
 
 MonsterGenerator::MonsterGenerator()
 {
@@ -133,7 +134,6 @@ void MonsterGenerator::init_death()
     death_map["GAS"] = &mdeath::gas;// Explodes in toxic gas
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
-    death_map["ZOMBIE"] = &mdeath::zombie;// generate proper clothing for zombies
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
 
     /* Currently Unimplemented */
@@ -332,11 +332,23 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->sk_dodge = jo.get_int("dodge", 0);
         newmon->armor_bash = jo.get_int("armor_bash", 0);
         newmon->armor_cut = jo.get_int("armor_cut", 0);
-        newmon->item_chance = jo.get_int("item_chance", 0);
         newmon->hp = jo.get_int("hp", 0);
         newmon->sp_freq = jo.get_int("special_freq", 0);
         newmon->def_chance = jo.get_int("special_when_hit_freq", 0);
         newmon->luminance = jo.get_float("luminance", 0);
+
+        if (jo.has_string("death_drops")) {
+            newmon->death_drops = jo.get_string("death_drops");
+        } else if (jo.has_object("death_drops")) {
+            JsonObject death_frop_json = jo.get_object("death_drops");
+            // Make up a group name, should be unique (include the monster id),
+            newmon->death_drops = newmon->id + "_death_drops_auto";
+            const std::string subtype = death_frop_json.get_string("subtype", "distribution");
+            // and load the entry as a standard item group using the made up name.
+            item_controller->load_item_group(death_frop_json, newmon->death_drops, subtype);
+        } else if (jo.has_member("death_drops")) {
+            jo.throw_error("invalid type, must be string or object", "death_drops");
+        }
 
         newmon->dies = get_death_functions(jo, "death_function");
         newmon->sp_attack = get_attack_function(jo, "special_attack");
@@ -532,6 +544,9 @@ void MonsterGenerator::check_monster_definitions() const
             if(!has_species(*spec)) {
                 debugmsg("monster %s has invalid species %s", mon->id.c_str(), spec->c_str());
             }
+        }
+        if (!mon->death_drops.empty() && !item_controller->has_group(mon->death_drops)) {
+            debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(), mon->death_drops.c_str());
         }
     }
 }
