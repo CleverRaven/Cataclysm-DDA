@@ -318,24 +318,7 @@ void input_manager::init()
 
     data_file.close();
 
-    if (keymap_file_loaded_from.empty() && action_contexts.count("DEFAULTMODE") > 0) {
-        // No keymap file was loaded, and we already have the keybindings for
-        // the default mode. keymap contains only the default keymap and
-        // we don't want to override new settings.
-        return;
-    }
     t_keybinding_map &main_context = action_contexts["DEFAULTMODE"];
-    for(std::map<char, action_id>::const_iterator a = keymap.begin(); a != keymap.end(); ++a) {
-        const std::string action_id = action_ident(a->second);
-        // Put the binding from keymap either into the global context
-        // (if an action with that name already exists there - think move keys)
-        // or otherwise to the DEFAULTMODE contenxt.
-        if (action_contexts[default_context_id].count(action_id)) {
-            add_input_for_action(action_id, default_context_id, input_event(a->first, CATA_INPUT_KEYBOARD));
-        } else {
-            add_input_for_action(action_id, "DEFAULTMODE", input_event(a->first, CATA_INPUT_KEYBOARD));
-        }
-    }
     // also map the action that are not in the keymap.
     for(int i = 0; i < NUM_ACTIONS; i++) {
         const action_id id = (action_id) i;
@@ -345,10 +328,38 @@ void input_manager::init()
         // and create an empty list, or do nothing if the entry already exist.
         main_context[action_id];
     }
+
+    if (keymap_file_loaded_from.empty() && action_contexts.count("DEFAULTMODE") > 0) {
+        // No keymap file was loaded, and we already have the keybindings for
+        // the default mode. keymap contains only the default keymap and
+        // we don't want to override new settings.
+        return;
+    }
+    std::set<action_id> touched;
+    for(std::map<char, action_id>::const_iterator a = keymap.begin(); a != keymap.end(); ++a) {
+        const std::string action_id = action_ident(a->second);
+        // Put the binding from keymap either into the global context
+        // (if an action with that ident already exists there - think movement keys)
+        // or otherwise to the DEFAULTMODE context.
+        std::string context = "DEFAULTMODE";
+        if (action_contexts[default_context_id].count(action_id) > 0) {
+            context = default_context_id;
+        } else if (touched.count(a->second) == 0) {
+            // Note: movement keys are somewhoe special as the default in keymap
+            // does not contain the arrow keys, so we don't clear existing keybindings
+            // for them.
+            // If the keymap contains a binding for this action, erase all the
+            // previously (default!) existing bindings, to only keep the bindings,
+            // the user is used to
+            action_contexts[action_id].clear();
+            touched.insert(a->second);
+        }
+        add_input_for_action(action_id, context, input_event(a->first, CATA_INPUT_KEYBOARD));
+    }
     // Unmap actions that are explicitly not mapped
     for(std::set<action_id>::const_iterator a = unbound_keymap.begin(); a != unbound_keymap.end(); a++) {
         const std::string action_id = action_ident(*a);
-        main_context.erase(action_id);
+        main_context[action_id].clear();
     }
     // Imported old bindings from old keymap file, save those to the new
     // keybindings.json file.
@@ -361,8 +372,8 @@ void input_manager::init()
         debugmsg("Could not write imported keybindings: %s", err.c_str());
         return;
     }
-    // Finally if we did import a file, delete that file to prevent
-    // re-importing it.
+    // Finally if we did import a file, and saved it to the new keybindings
+    // file, delete the old keymap file to prevent re-importing it.
     if (!keymap_file_loaded_from.empty()) {
 #if (defined _WIN32 || defined __WIN32__)
         DeleteFile(keymap_file_loaded_from.c_str());
