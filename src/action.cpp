@@ -25,7 +25,6 @@ void load_keyboard_settings()
 
     // Load the player's actual keymap
     std::ifstream fin;
-    bool loaded_legacy_keymap = false;
     fin.open(FILENAMES["keymap"].c_str());
     if (!fin.is_open()) { // It doesn't exist
         // Try it at the legacy location.
@@ -38,8 +37,6 @@ void load_keyboard_settings()
             fout << default_keymap_txt();
             fout.close();
             fin.open(FILENAMES["keymap"].c_str());
-        } else {
-            loaded_legacy_keymap = true;
         }
     }
     if (!fin.is_open()) { // Still can't open it--probably bad permissions
@@ -69,10 +66,14 @@ void load_keyboard_settings()
             keymap[d_it->first] = d_it->second;
         }
     }
-    if( loaded_legacy_keymap ) {
-        assure_dir_exist(FILENAMES["config_dir"]);
-        save_keymap();
-    }
+}
+
+void load_keyboard_settings(std::map<char, action_id> &keymap)
+{
+    // load into global keymap, used only in this file!
+    load_keyboard_settings();
+    // copy loaded keys into the parameter so the caller can use them
+    keymap = ::keymap;
 }
 
 void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap, bool enable_unbound)

@@ -250,6 +250,8 @@ input_manager inp_mngr;
 
 void input_manager::init()
 {
+    std::map<char, action_id> keymap;
+    load_keyboard_settings(keymap);
     init_keycode_mapping();
 
     std::ifstream data_file;

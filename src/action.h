@@ -101,10 +101,8 @@ enum action_id {
     NUM_ACTIONS
 };
 
-extern std::map<char, action_id> keymap;
-
 // Load keybindings from disk
-void load_keyboard_settings();
+void load_keyboard_settings(std::map<char, action_id> &keymap);
 std::string default_keymap_txt();
 // Save keybindings to disk
 void save_keymap();

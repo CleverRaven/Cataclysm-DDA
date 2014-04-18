@@ -110,7 +110,6 @@ void game::load_static_data() {
     init_lua();                 // Set up lua                       (SEE catalua.cpp)
 #endif
     // UI stuff, not mod-specific per definition
-    load_keyboard_settings();
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
     DynamicDataLoader::get_instance();
