@@ -287,6 +287,7 @@ void input_manager::init()
 
         // Iterate over the bindings JSON array
         JsonArray bindings = action.get_array("bindings");
+        t_input_event_list &events = action_contexts[context][action_id];
         while (bindings.has_more()) {
             JsonObject keybinding = bindings.next_object();
             std::string input_method = keybinding.get_string("input_method");
@@ -312,29 +313,18 @@ void input_manager::init()
                 );
             }
 
-            action_contexts[context][action_id].push_back(new_event);
+            events.push_back(new_event);
         }
     }
 
     data_file.close();
 
-    t_keybinding_map &main_context = action_contexts["DEFAULTMODE"];
-    // also map the action that are not in the keymap.
-    for(int i = 0; i < NUM_ACTIONS; i++) {
-        const action_id id = (action_id) i;
-        const std::string action_id = action_ident(id);
-        // store the name
-        actionID_to_name[action_id] = action_name(id);
-        // and create an empty list, or do nothing if the entry already exist.
-        main_context[action_id];
-    }
-
-    if (keymap_file_loaded_from.empty() && action_contexts.count("DEFAULTMODE") > 0) {
-        // No keymap file was loaded, and we already have the keybindings for
-        // the default mode. keymap contains only the default keymap and
-        // we don't want to override new settings.
+    if (keymap_file_loaded_from.empty() || (keymap.empty() && unbound_keymap.empty())) {
+        // No keymap file was loaded, or the file has no mappings and no unmappings,
+        // we can skip the remaining part of the function, especially the save function
         return;
     }
+    t_keybinding_map &main_context = action_contexts["DEFAULTMODE"];
     std::set<action_id> touched;
     for(std::map<char, action_id>::const_iterator a = keymap.begin(); a != keymap.end(); ++a) {
         const std::string action_id = action_ident(a->second);

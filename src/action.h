@@ -108,7 +108,6 @@ std::string default_keymap_txt();
 std::vector<char> keys_bound_to(action_id act);
 action_id look_up_action(std::string ident);
 std::string action_ident(action_id);
-std::string action_name(action_id);
 // Lookup key in keymap, return the mapped action or ACTION_NULL
 action_id action_from_key(char ch);
 // Use the keymap to figure out direction properly

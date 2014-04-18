@@ -2343,17 +2343,17 @@ void game::hide_mouseview()
 input_context get_default_mode_input_context() {
     input_context ctxt("DEFAULTMODE");
     // Because those keys move the character, they don't pan, as their original name says
-    ctxt.register_action("UP", action_name(ACTION_MOVE_N));
-    ctxt.register_action("RIGHTUP", action_name(ACTION_MOVE_NE));
-    ctxt.register_action("RIGHT", action_name(ACTION_MOVE_E));
-    ctxt.register_action("RIGHTDOWN", action_name(ACTION_MOVE_SE));
-    ctxt.register_action("DOWN", action_name(ACTION_MOVE_S));
-    ctxt.register_action("LEFTDOWN", action_name(ACTION_MOVE_SW));
-    ctxt.register_action("LEFT", action_name(ACTION_MOVE_W));
-    ctxt.register_action("LEFTUP", action_name(ACTION_MOVE_NW));
+    ctxt.register_action("UP", _("Move North"));
+    ctxt.register_action("RIGHTUP", _("Move Northeast"));
+    ctxt.register_action("RIGHT", _("Move East"));
+    ctxt.register_action("RIGHTDOWN", _("Move Southeast"));
+    ctxt.register_action("DOWN", _("Move South"));
+    ctxt.register_action("LEFTDOWN", _("Move Southwest"));
+    ctxt.register_action("LEFT", _("Move West"));
+    ctxt.register_action("LEFTUP", _("Move Northwest"));
     ctxt.register_action("pause");
-    ctxt.register_action("LEVEL_DOWN");
-    ctxt.register_action("LEVEL_UP");
+    ctxt.register_action("LEVEL_DOWN", _("Descend Stairs"));
+    ctxt.register_action("LEVEL_UP", _("Ascend Stairs"));
     ctxt.register_action("center");
     ctxt.register_action("shift_n");
     ctxt.register_action("shift_ne");
