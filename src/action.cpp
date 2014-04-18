@@ -120,25 +120,6 @@ Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str());
     }
 }
 
-void save_keymap()
-{
-    std::ofstream fout;
-    fout.open(FILENAMES["keymap"].c_str());
-    if (!fout) { // It doesn't exist
-        debugmsg("Can't open \"%s\".", FILENAMES["keymap"].c_str());
-        fout.close();
-        return;
-    }
-    for (std::map<char, action_id>::iterator it = keymap.begin(); it != keymap.end(); ++it) {
-        fout << action_ident( (*it).second ) << " " << (*it).first << std::endl;
-    }
-    for (std::set<action_id>::iterator it = unbound_keymap.begin(); it != unbound_keymap.end(); ++it) {
-        fout << "unbind" << " " << action_ident(*it) << std::endl;
-    }
-
-    fout.close();
-}
-
 std::vector<char> keys_bound_to(action_id act)
 {
     std::vector<char> ret;
@@ -159,17 +140,6 @@ action_id action_from_key(char ch)
         return ACTION_NULL;
     }
     return it->second;
-}
-
-void clear_bindings(action_id act)
-{
-    std::map<char, action_id>::iterator it;
-    for (it = keymap.begin(); it != keymap.end(); ++it) {
-        if ( (*it).second == act ) {
-            keymap.erase(it);
-            it = keymap.begin();
-        }
-    }
 }
 
 std::string action_ident(action_id act)

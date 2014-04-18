@@ -104,12 +104,8 @@ enum action_id {
 // Load keybindings from disk
 void load_keyboard_settings(std::map<char, action_id> &keymap);
 std::string default_keymap_txt();
-// Save keybindings to disk
-void save_keymap();
 // All keys bound to act
 std::vector<char> keys_bound_to(action_id act);
-// Delete all keys bound to act
-void clear_bindings(action_id act);
 action_id look_up_action(std::string ident);
 std::string action_ident(action_id);
 std::string action_name(action_id);
