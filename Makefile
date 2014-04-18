@@ -179,7 +179,7 @@ ifeq ($(NATIVE), win64)
 # May need to add lib64 library path.
 # LDFLAGS += -L/mingw/i686-w64-mingw32/lib64
   TARGETSYSTEM=WINDOWS
-else
+endif
 
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
