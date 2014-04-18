@@ -936,6 +936,13 @@
     },
     {
         "type" : "keybinding",
+        "id": "CONFIRM_QUIT",
+        "category": "EDITMAP_TERRAIN",
+        "name": "Confirm & quit",
+        "bindings":[ { "input_method":"keyboard", "key":"g" } ]
+    },
+    {
+        "type" : "keybinding",
         "id": "RESIZE",
         "category": "EDITMAP_SHAPE",
         "name": "Resize",

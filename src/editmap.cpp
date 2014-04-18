@@ -664,7 +664,6 @@ int editmap::edit_ter()
         fymax++;
     }
 
-    int subch = 0;
     point sel_terp = point(-1, -1);     // screen coords of current selection
     point lastsel_terp = point(-1, -1); // and last selection
     point target_terp = point(-1, -1);  // and current tile
@@ -672,6 +671,16 @@ int editmap::edit_ter()
     point lastsel_frnp = point(-1, -1);
     point target_frnp = point(-1, -1);
 
+    input_context ctxt("EDITMAP_TERRAIN");
+    ctxt.register_directions();
+    ctxt.register_action("EDITMAP_SHOW_ALL");
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("CONFIRM_QUIT");
+    ctxt.register_action("EDITMAP_TAB");
+    ctxt.register_action("EDITMAP_MOVE");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    std::string action;
 
     int mode = ter_frn_mode;
     do {
@@ -809,27 +818,27 @@ int editmap::edit_ter()
 
         wrefresh(w_pickter);
 
-        subch = (int)getch();
+        action = ctxt.handle_input();
         lastsel_ter = sel_ter;
         lastsel_frn = sel_frn;
         if ( ter_frn_mode == 0 ) {
-            if( subch == KEY_LEFT ) {
+            if( action == "LEFT" ) {
                 sel_ter = (sel_ter - 1 >= 0 ? sel_ter - 1 : num_terrain_types - 1);
-            } else if( subch == KEY_RIGHT ) {
+            } else if( action == "RIGHT" ) {
                 sel_ter = (sel_ter + 1 < num_terrain_types ? sel_ter + 1 : 0 );
-            } else if( subch == KEY_UP ) {
+            } else if( action == "UP" ) {
                 if (sel_ter - xmax + 3 > 0 ) {
                     sel_ter = sel_ter - xmax + 3;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
-            } else if( subch == KEY_DOWN ) {
+            } else if( action == "DOWN" ) {
                 if (sel_ter + xmax - 3 < num_terrain_types ) {
                     sel_ter = sel_ter + xmax - 3;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
-            } else if( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) {
+            } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
                 bool isvert=false;
                 bool ishori=false;
                 bool doalt=false;
@@ -867,55 +876,55 @@ int editmap::edit_ter()
                     }
                     g->m.ter_set(target_list[t].x, target_list[t].y, (ter_id)wter);
                 }
-                if ( subch == 'g' ) {
-                    subch = KEY_ESCAPE;
+                if ( action == "CONFIRM_QUIT" ) {
+                    break;
                 }
                 update_view(false);
-            } else if ( subch == 's'  || subch == '\t' || subch == 'm'  ) {
+            } else if ( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE"  ) {
                 int sel_tmp = sel_ter;
-                select_shape(editshape, ( subch == 'm' ? 1 : 0 ) );
+                select_shape(editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
                 sel_ter = sel_tmp;
-            } else if ( subch == 'v' ) {
+            } else if ( action == "EDITMAP_SHOW_ALL" ) {
                 uberdraw = !uberdraw;
                 update_view(false);
             }
         } else { // todo: cleanup
-            if( subch == KEY_LEFT ) {
+            if( action == "LEFT" ) {
                 sel_frn = (sel_frn - 1 >= 0 ? sel_frn - 1 : num_furniture_types - 1);
-            } else if( subch == KEY_RIGHT ) {
+            } else if( action == "RIGHT" ) {
                 sel_frn = (sel_frn + 1 < num_furniture_types ? sel_frn + 1 : 0 );
-            } else if( subch == KEY_UP ) {
+            } else if( action == "UP" ) {
                 if ( sel_frn - xmax + 3 > 0 ) {
                     sel_frn = sel_frn - xmax + 3;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
-            } else if( subch == KEY_DOWN ) {
+            } else if( action == "DOWN" ) {
                 if ( sel_frn + xmax - 3 < num_furniture_types ) {
                     sel_frn = sel_frn + xmax - 3;
                 } else {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 }
-            } else if( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) {
+            } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
                 for( size_t t = 0; t < target_list.size(); ++t ) {
                     g->m.furn_set(target_list[t].x, target_list[t].y, (furn_id)sel_frn);
                 }
-                if ( subch == 'g' ) {
-                    subch = KEY_ESCAPE;
+                if ( action == "CONFIRM_QUIT" ) {
+                    break;
                 }
                 update_view(false);
-            } else if ( subch == 's' || subch == '\t' || subch == 'm' ) {
+            } else if ( action == "EDITMAP_TAB" || action == "EDITMAP_MOVE"  ) {
                 int sel_frn_tmp = sel_frn;
                 int sel_ter_tmp = sel_ter;
-                select_shape(editshape, ( subch == 'm' ? 1 : 0 ) );
+                select_shape(editshape, ( action == "EDITMAP_MOVE" ? 1 : 0 ) );
                 sel_frn = sel_frn_tmp;
                 sel_ter = sel_ter_tmp;
-            } else if ( subch == 'v' ) {
+            } else if ( action == "EDITMAP_SHOW_ALL" ) {
                 uberdraw = !uberdraw;
                 update_view(false);
             }
         }
-    } while ( ! menu_escape ( subch ) );
+    } while ( action != "QUIT" );
 
     werase(w_pickter);
     wrefresh(w_pickter);
