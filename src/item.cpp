@@ -3162,9 +3162,9 @@ void item::detonate(point p) const
     g->explosion(p.x, p.y, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
 }
 
-//return value indicates whether adding ammo was successful
+//return value is number of arrows/bolts quivered
 //isAutoPickup is used to determine text output behavior
-bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
+int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 {
     std::map<item*, int> quivers;
     for(std::vector<item>::iterator it = u->worn.begin(); it != u->worn.end(); it++) {
@@ -3183,6 +3183,7 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
     // check if we have eligible quivers
     if(!quivers.empty()) {
         int movesPerArrow = 10;
+        int arrowsQuivered = 0;
 
         //loop over all eligible quivers
         for(std::map<item*,int>::iterator it = quivers.begin(); it != quivers.end(); it++) {
@@ -3197,7 +3198,7 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 
                 if(maxArrows == 0) {
                     debugmsg("Tried storing arrows in quiver without a QUIVER_n tag (item::add_ammo_to_quiver)");
-                    return false;
+                    return 0;
                 }
 
                 // quiver not empty so adding more ammo
@@ -3211,7 +3212,7 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                         if (it != final_iter) {
                             continue;
                         } else {
-                            return false;
+                            return 0;
                         }
                     }
                     if(worn->contents[0].charges >= maxArrows) {
@@ -3223,7 +3224,7 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                         if (it != final_iter) {
                             continue;
                         } else {
-                            return false;
+                            return 0;
                         }
                     }
 
@@ -3253,11 +3254,12 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                 g->add_msg_if_player(u, ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
                                      arrowsStored, worn->contents[0].name.c_str(), worn->name.c_str());
                 u->moves -= movesPerArrow * arrowsStored;
+                arrowsQuivered += arrowsStored;
             }
         }
 
         // handle overflow after filling all quivers
-        if(isAutoPickup && charges > 0) {
+        if(isAutoPickup && charges > 0 && u->can_pickVolume(volume())) {
             //add any extra ammo to inventory
             item clone = this->clone();
             clone.charges = charges;
@@ -3269,9 +3271,9 @@ bool item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 
             charges = 0;
         }
-        return true;
+        return arrowsQuivered;
     }
-    return false;
+    return 0;
 }
 
 //used to implement charges for items that aren't tools (e.g. quivers)

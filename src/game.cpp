@@ -9864,8 +9864,29 @@ and you can't unwield your %s."),
             if (!u.can_pickWeight(here[i].weight(), false)) {
                 add_msg(_("The %s is too heavy!"), here[i].display_name().c_str());
                 decrease_nextinv();
-            } else if (!u.can_pickVolume(here[i].volume())) {
-                if (u.is_armed()) {
+            } else if (!u.can_pickVolume(here[i].volume())) { //check if player is at max volume
+                //try to store arrows/bolts in a worn quiver
+                if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
+                    //add ammo to quiver
+                    int quivered = here[i].add_ammo_to_quiver(&u, true);
+                    if(quivered > 0) {
+                        movesTaken = 0; //moves already decremented in item::add_ammo_to_quiver()
+                        picked_up = true;
+
+                        if(here[i].charges > 0) {
+                            //update the charges for the item that gets re-added to the game map
+                            pickup_count[i] = quivered;
+                            temp.charges = here[i].charges;
+                        }
+                    }
+                    else if (!u.is_armed()){ //wield arrows if hands aren't full
+                        u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
+                        u.wield(&(u.i_add(here[i])));
+                        mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
+                        picked_up = true;
+                    }
+                }
+                else if (u.is_armed()) {
                     if (!u.weapon.has_flag("NO_UNWIELD")) {
                         // Armor can be instantly worn
                         if (here[i].is_armor() &&
@@ -9909,15 +9930,14 @@ and you can't unwield your %s."),
                 picked_up = true;
             } else if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
                 //add ammo to quiver
-                bool success = here[i].add_ammo_to_quiver(&u, true);
+                int quivered = here[i].add_ammo_to_quiver(&u, true);
 
-                if(success) {
+                if(quivered > 0) {
                     movesTaken = 0; //moves already decremented in item::add_ammo_to_quiver()
                 }
                 else {
                     //add to inventory instead
                     u.i_add(here[i]);
-
                     mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                 }
 

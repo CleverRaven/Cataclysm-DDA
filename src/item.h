@@ -253,7 +253,7 @@ public:
 
  item clone(bool rand = true);
 
- bool add_ammo_to_quiver(player *u, bool isAutoPickup);
+ int add_ammo_to_quiver(player *u, bool isAutoPickup);
  int max_charges_from_flag(std::string flagName);
 private:
  int sort_rank() const;
