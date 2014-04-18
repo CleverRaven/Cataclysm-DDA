@@ -349,6 +349,25 @@ std::string action_ident(action_id act)
 
 action_id look_up_action(std::string ident)
 {
+    // Temporarly for the interface with the input manager!
+    if (ident == "LEFTUP") {
+        return ACTION_MOVE_NW;
+    } else if (ident == "LEFTDOWN") {
+        return ACTION_MOVE_SW;
+    } else if (ident == "RIGHTUP") {
+        return ACTION_MOVE_NE;
+    } else if (ident == "RIGHTDOWN") {
+        return ACTION_MOVE_SE;
+    } else if (ident == "UP") {
+        return ACTION_MOVE_N;
+    } else if (ident == "DOWN") {
+        return ACTION_MOVE_S;
+    } else if (ident == "LEFT") {
+        return ACTION_MOVE_W;
+    } else if (ident == "RIGHT") {
+        return ACTION_MOVE_E;
+    }
+    // ^^ Temporarly for the interface with the input manager!
     for (int i = 0; i < NUM_ACTIONS; i++) {
         if (action_ident( action_id(i) ) == ident) {
             return action_id(i);
