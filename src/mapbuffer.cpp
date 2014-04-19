@@ -111,9 +111,6 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submap_list.size();
 
-    int mapkeylock;
-    mapkeylock = -1;
-
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
     // The weird ternary is to handle the case where we're deleting the list as we go.

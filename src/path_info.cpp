@@ -14,7 +14,8 @@ void PATH_INFO::init_base_path(std::string path)
         }
     }
 
-    FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
+    //FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
+    FILENAMES["base_path"] = path;
 }
 
 void PATH_INFO::init_user_dir(const char *ud)
@@ -33,7 +34,6 @@ void PATH_INFO::init_user_dir(const char *ud)
 #endif
     }
 
-    //FILENAMES.insert(std::pair<std::string,std::string>("user_dir", dir));
     FILENAMES["user_dir"] = dir;
 }
 
