@@ -534,7 +534,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```FIT``` Reduces encumbrance by one.
 - ```VARSIZE``` Can be made to fit via tailoring.
-- ```SKINTIGHT``` Reduces clothing layering penalty.
+- ```SKINTIGHT``` Underwear clothing layer.
+- ```OUTER```  Outer garment layer.
+- ```BELTED``` layer for belts and backpacks.
 - ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.

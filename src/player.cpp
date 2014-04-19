@@ -9321,20 +9321,20 @@ int player::warmth(body_part bp)
 }
 
 int player::encumb(body_part bp) {
- int iArmorEnc = 0;
- double iLayers = 0;
- return encumb(bp, iLayers, iArmorEnc);
+    int iArmorEnc = 0;
+    double iLayers = 0;
+    return encumb(bp, iLayers, iArmorEnc);
 }
 
 int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
-
     int skintight = 0;
+    double layer[CLOTHING_LAYERS_COUNT] = { };
+    int level;
 
     it_armor* armor;
-    for (int i = 0; i < worn.size(); i++)
-    {
+    for (size_t i = 0; i < worn.size(); ++i) {
         if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
                      i, worn[i].tname().c_str());
@@ -9342,7 +9342,17 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         armor = dynamic_cast<it_armor*>(worn[i].type);
 
         if( armor->covers & mfb(bp) ) {
-            layers++;
+            if( worn[i].has_flag( "SKINTIGHT" ) ) {
+                level = underwear;
+            } else if ( worn[i].has_flag( "OUTER" ) ) {
+                level = outer_layer;
+            } else if ( worn[i].has_flag( "BELTED") ) {
+                level = belted_layer;
+            } else {
+                level = regular_layer;
+            }
+
+            layer[level]++;
             if( armor->is_power_armor() &&
                 (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
                  has_active_bionic("bio_power_armor_interface") ||
@@ -9354,33 +9364,37 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( armor->encumber > 0 && armorenc > 0 ) {
                         armorenc--;
-                    } else if (layers > 0) {
-                        layers -= .5;
+                    } else if (layer[level] > 0) {
+                        layer[level] -= .5;
                     }
                 }
-                if( worn[i].has_flag( "SKINTIGHT" ) && layers > 0) {
-                  // Skintight clothes will negate layering.
-                  // But only if we aren't wearing more than two.
-                  if (skintight < 2) {
-                    skintight++;
-                    layers -= .5;
-                  }
+                if( level == underwear && layer[underwear] > 0) {
+                    // Skintight clothes will negate layering.
+                    // But only if we aren't wearing more than two.
+                    if (skintight < 2) {
+                        skintight++;
+                        layer[underwear] -= .5;
+                    }
                 }
             }
         }
     }
-    if (armorenc < 0) {
-      armorenc = 0;
-    }
-    if (layers < 0) {
-      layers = 0;
-    }
 
+    if (armorenc < 0) {
+        armorenc = 0;
+    }
     ret += armorenc;
 
-    if (layers > 1) {
-        ret += (int(layers) - 1) * (bp == bp_torso ? .75 : 1);// Easier to layer on torso
+    for (int i = 0; i < CLOTHING_LAYERS_COUNT; ++i) {
+        if (layer[i] > 1) {
+            layers += int(layer[i]) - 1;
+        }
     }
+
+    if (layers > 0) {
+        ret += int(layers) * (bp == bp_torso ? .75 : 1);// Easier to layer on torso
+    }
+
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 3;
     }

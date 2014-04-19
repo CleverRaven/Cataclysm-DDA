@@ -43,6 +43,15 @@ struct iteminfo{
 enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL};
 
+
+#define CLOTHING_LAYERS_COUNT 4
+enum layer_level {
+    underwear = 0,
+    regular_layer,
+    outer_layer,
+    belted_layer
+};
+
 class item : public JsonSerializer, public JsonDeserializer
 {
 public:
