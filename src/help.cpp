@@ -940,12 +940,16 @@ void display_help()
                             1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
     char ch;
+    bool needs_refresh = true;
     do {
-        draw_border(w_help_border);
-        center_print(w_help_border, 0, c_ltred, _(" HELP "));
-        wrefresh(w_help_border);
-        help_main(w_help);
-        refresh();
+        if (needs_refresh) {
+            draw_border(w_help_border);
+            center_print(w_help_border, 0, c_ltred, _(" HELP "));
+            wrefresh(w_help_border);
+            help_main(w_help);
+            refresh();
+            needs_refresh = false;
+        };
         ch = getch();
         switch (ch) {
         case 'a':
@@ -1037,7 +1041,7 @@ void display_help()
             int offset = 1;
             char remapch = ' ';
             bool changed_keymap = false;
-            bool needs_refresh = true;
+            needs_refresh = true;
             do {
                 if (needs_refresh) {
                     werase(w_help);
@@ -1158,7 +1162,11 @@ void display_help()
         case '7':
             multipage(w_help, text_faq());
             break;
-        }
+
+        default:
+            continue;
+        };
+        needs_refresh = true;
     } while (ch != 'q' && ch != KEY_ESCAPE);
     delwin(w_help);
     delwin(w_help_border);
