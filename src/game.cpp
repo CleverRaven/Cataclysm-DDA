@@ -9884,12 +9884,6 @@ and you can't unwield your %s."),
                             temp.charges = here[i].charges;
                         }
                     }
-                    else if (!u.is_armed()){ //wield arrows if hands aren't full
-                        u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
-                        u.wield(&(u.i_add(here[i])));
-                        mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
-                        picked_up = true;
-                    }
                 }
                 else if (u.is_armed()) {
                     if (!u.weapon.has_flag("NO_UNWIELD")) {
@@ -9928,11 +9922,6 @@ and you can't unwield your %s."),
                     mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                     picked_up = true;
                 }
-            } else if (!u.is_armed() &&
-                       (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
-                        here[i].is_weap() || here[i].is_gun())) {
-                u.weapon = here[i];
-                picked_up = true;
             } else if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
                 //add ammo to quiver
                 int quivered = here[i].add_ammo_to_quiver(&u, true);
@@ -9947,8 +9936,12 @@ and you can't unwield your %s."),
                 }
 
                 picked_up = true;
-            }
-            else {
+            } else if (!u.is_armed() &&
+                       (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
+                        here[i].is_weap() || here[i].is_gun())) {
+                u.weapon = here[i];
+                picked_up = true;
+            } else {
                 u.i_add(here[i]);
                 mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                 picked_up = true;
