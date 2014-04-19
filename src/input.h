@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <utility>
 #include "cursesdef.h"
 
 // Compiling with SDL enables gamepad support.
@@ -132,6 +133,14 @@ struct input_event {
     }
 };
 
+/**
+ * A set of attributes for an action
+ */
+struct action_attributes {
+    std::string name;
+    std::vector<input_event> input_events;
+};
+
 // Definitions for joystick/gamepad.
 
 // On the joystick there's a maximum of 256 key states.
@@ -170,8 +179,6 @@ public:
     /**
      * Get the input events associated with an action ID in a given context.
      *
-     * Note that if context is something other than "default", the default bindings will not be returned.
-     *
      * @param action_descriptor The action ID to get the input events for.
      * @param context The context in which to get the input events. Defaults to "default".
      * @param overwrites_default If this is non-NULL, this will be used as return parameter and will be set to true if the default
@@ -205,11 +212,6 @@ public:
     std::string get_keyname(long ch, input_event_t input_type, bool portable = false) const;
 
     /**
-     * Get the human-readable name for an action.
-     */
-    const std::string& get_action_name(const std::string& action) const;
-
-    /**
      * curses getch() replacement.
      *
      * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
@@ -230,8 +232,8 @@ private:
     friend class input_context;
 
     typedef std::vector<input_event> t_input_event_list;
-    typedef std::map<std::string, t_input_event_list> t_keybinding_map;
-    typedef std::map<std::string, t_keybinding_map> t_action_contexts;
+    typedef std::map<std::string, action_attributes> t_actions;
+    typedef std::map<std::string, t_actions> t_action_contexts;
     t_action_contexts action_contexts;
     typedef std::map<std::string, std::string> t_string_string_map;
     t_string_string_map actionID_to_name;
@@ -258,6 +260,38 @@ private:
      * proposed keybinding. Returns an empty string if nothing conflicts.
      */
     std::string get_conflicts(const std::string &context, const input_event &event) const;
+
+    /**
+     * Get the attributes of the action associated with an action ID by
+     * searching the given context and the default context.
+     *
+     * @param action_id The action ID of the action to find.
+     * @param context The context in which to get the action. If not found,
+     *                the "default" context will additionally be checked.
+     *                Defaults to "default".
+     * @param overwrites_default If this is non-NULL, this will be used as a
+     *                           return parameter. It will be set to true if
+     *                           the found action was not in the default
+     *                           context. It will be set to false if the found
+     *                           action was in the default context.
+     */
+    const action_attributes &get_action_attributes(
+            const std::string &action_id,
+            const std::string context="default",
+            bool *overwrites_default=NULL);
+
+    /**
+     * Get a value to be used as the default name for a newly created action.
+     * This name should be used as a fallback in cases where it is necessary
+     * to create a new action.
+     *
+     * @param action_id The action ID of the action.
+     *
+     * @return If the action ID exists in the default context, the name of
+     *         that action's name is returned. Otherwise, the action_id is
+     *         returned.
+     */
+    std::string get_default_action_name(const std::string &action_id) const;
 };
 
 // Singleton for our input manager.

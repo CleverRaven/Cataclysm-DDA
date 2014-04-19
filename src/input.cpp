@@ -270,8 +270,8 @@ void input_manager::init()
         JsonObject action = jsin.get_object();
 
         const std::string action_id = action.get_string("id");
-        actionID_to_name[action_id] = action.get_string("name", action_id);
         const std::string context = action.get_string("category", default_context_id);
+        action_contexts[context][action_id].name = action.get_string("name", action_id);
 
         // Iterate over the bindings JSON array
         JsonArray bindings = action.get_array("bindings");
@@ -300,7 +300,7 @@ void input_manager::init()
                 );
             }
 
-            action_contexts[context][action_id].push_back(new_event);
+            action_contexts[context][action_id].input_events.push_back(new_event);
         }
     }
 
@@ -322,13 +322,14 @@ void input_manager::save() {
 
     jsout.start_array();
     for (t_action_contexts::const_iterator a = action_contexts.begin(); a != action_contexts.end(); ++a) {
-        const t_keybinding_map &mapping = a->second;
-        for (t_keybinding_map::const_iterator b = mapping.begin(); b != mapping.end(); ++b) {
-            const t_input_event_list &events = b->second;
+        const t_actions &actions = a->second;
+        for (t_actions::const_iterator b = actions.begin(); b != actions.end(); ++b) {
+            const std::string& name = b->second.name;
+            const t_input_event_list &events = b->second.input_events;
             jsout.start_object();
 
             jsout.member("id", b->first);
-            jsout.member("name", actionID_to_name[b->first]);
+            jsout.member("name", name);
             jsout.member("category", a->first);
             jsout.member("bindings");
             jsout.start_array();
@@ -480,28 +481,74 @@ std::string input_manager::get_keyname(long ch, input_event_t inp_type, bool por
 const std::vector<input_event> &input_manager::get_input_for_action(const std::string
         &action_descriptor, const std::string context, bool *overwrites_default)
 {
-    // First we check if we have a special override in this particular context.
-    if(context != default_context_id && action_contexts[context][action_descriptor].size()) {
-        if(overwrites_default) {
-            *overwrites_default = true;
+    const action_attributes &attributes = get_action_attributes(action_descriptor, context, overwrites_default);
+    return attributes.input_events;
+}
+
+const action_attributes &input_manager::get_action_attributes(
+        const std::string &action_id,
+        const std::string context,
+        bool *overwrites_default)
+{
+
+    if (context != default_context_id) {
+        // Check if the action exists in the provided context
+        t_action_contexts::const_iterator action_context = action_contexts.find(context);
+        if (action_context != action_contexts.end()) {
+            t_actions::const_iterator action = action_context->second.find(action_id);
+            if (action != action_context->second.end()) {
+                if(overwrites_default) {
+                    *overwrites_default = true;
+                }
+
+                return action->second;
+            }
         }
-        return action_contexts[context][action_descriptor];
     }
 
     // If not, we use the default binding.
     if(overwrites_default) {
         *overwrites_default = false;
     }
-    return action_contexts[default_context_id][action_descriptor];
+
+    t_actions &default_action_context = action_contexts[default_context_id];
+    const t_actions::const_iterator default_action = default_action_context.find(action_id);
+    if (default_action == default_action_context.end()) {
+        // A new action is created in the event that the requested action is
+        // not in the keybindings configuration e.g. the entry is missing.
+        default_action_context[action_id].name = get_default_action_name(action_id);
+    }
+
+    return default_action_context[action_id];
+}
+
+std::string input_manager::get_default_action_name(const std::string &action_id) const {
+    const t_action_contexts::const_iterator default_action_context = action_contexts.find(default_context_id);
+    if (default_action_context == action_contexts.end()) {
+        return action_id;
+    }
+
+    const t_actions::const_iterator default_action = default_action_context->second.find(action_id);
+    if (default_action != default_action_context->second.end()) {
+        return default_action->second.name;
+    } else {
+        return action_id;
+    }
 }
 
 input_manager::t_input_event_list &input_manager::get_event_list(
     const std::string &action_descriptor, const std::string &context)
 {
-    t_action_contexts::iterator a = action_contexts.find(context);
-    if (a != action_contexts.end()) {
-        // Create a new empty list for this action if nothing exists.
-        return a->second[action_descriptor];
+    const t_action_contexts::iterator action_context = action_contexts.find(context);
+    if (action_context != action_contexts.end()) {
+        // A new action is created in the event that the user creates a local
+        // keymapping that shadows a global one.
+        t_actions &actions = action_context->second;
+        if (actions.find(action_descriptor) == actions.end()) {
+            actions[action_descriptor].name = get_default_action_name(action_descriptor);
+        }
+
+        return actions[action_descriptor].input_events;
     }
     static t_input_event_list empty;
     return empty;
@@ -536,28 +583,17 @@ std::string input_manager::get_conflicts(const std::string &context, const input
     if (a == action_contexts.end()) {
         return "";
     }
-    const t_keybinding_map &keys = a->second;
-    for (t_keybinding_map::const_iterator b = keys.begin(); b != keys.end(); ++b) {
-        const std::string &action_id = b->first;
-        const t_input_event_list &events = b->second;
+    const t_actions &actions = a->second;
+    for (t_actions::const_iterator action = actions.begin(); action != actions.end(); ++action) {
+        const t_input_event_list &events = action->second.input_events;
         if (std::find(events.begin(), events.end(), event) != events.end()) {
             if (!buffer.str().empty()) {
                 buffer << ", ";
             }
-            buffer << get_action_name(action_id);
+            buffer << action->second.name;
         }
     }
     return buffer.str();
-}
-
-const std::string &input_manager::get_action_name(const std::string &action) const
-{
-    t_string_string_map::const_iterator a = actionID_to_name.find(action);
-    if (a != actionID_to_name.end()) {
-        return a->second;
-    }
-    // default: return the action id
-    return action;
 }
 
 const std::string CATA_ERROR = "ERROR";
@@ -793,8 +829,7 @@ void input_context::display_help()
             const std::string &action_id = org_registered_actions[i + offset];
 
             bool overwrite_default;
-            const std::vector<input_event> &input_events = inp_mngr.get_input_for_action(action_id, category,
-                    &overwrite_default);
+            const action_attributes &attributes = inp_mngr.get_action_attributes(action_id, category, &overwrite_default);
 
             const char invlet = i + 'a';
             if (status == s_add_global && overwrite_default) {
@@ -809,14 +844,14 @@ void input_context::display_help()
                 mvwprintz(w_help, i + 1, 2, c_blue, "  ");
             }
             nc_color col;
-            if (input_events.empty()) {
+            if (attributes.input_events.empty()) {
                 col = unbound_key;
             } else if (overwrite_default) {
                 col = local_key;
             } else {
                 col = global_key;
             }
-            mvwprintz(w_help, i + 1, 4, col, "%s: ", inp_mngr.get_action_name(action_id).c_str());
+            mvwprintz(w_help, i + 1, 4, col, "%s: ", attributes.name.c_str());
             mvwprintz(w_help, i + 1, 30, col, "%s", get_desc(action_id).c_str());
         }
         wrefresh(w_help);
@@ -832,11 +867,11 @@ void input_context::display_help()
         } else if (status != s_show && ch >= 'a' && ch <= 'a' + org_registered_actions.size()) {
             const int action = ch - 'a' + offset;
             const std::string &action_id = org_registered_actions[action];
-            const std::string name = inp_mngr.get_action_name(action_id);
 
             // Check if this entry is local or global.
             bool is_local = false;
-            inp_mngr.get_input_for_action(action_id, category, &is_local);
+            const action_attributes &attributes = inp_mngr.get_action_attributes(action_id, category, &is_local);
+            const std::string name = attributes.name;
 
             if (status == s_remove && query_yn(_("Clear keys for %s?"), name.c_str())) {
 
