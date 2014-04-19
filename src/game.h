@@ -473,6 +473,9 @@ public:
   bool fullscreen;
   bool was_fullscreen;
 
+  int handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement, bool &picked_up);
+  void remove_from_map_or_vehicle(int posx, int posy, bool from_veh, vehicle *veh, int cargo_part, int &moves_taken);
+
  private:
 // Game-start procedures
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);

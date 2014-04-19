@@ -9418,6 +9418,9 @@ void game::pickup(int posx, int posy, int min)
     // Not many items, just grab them
     if (here.size() <= min && min != -1) {
         item newit = here[0];
+        int moves_taken = 100;
+        bool picked_up = false;
+
         if (newit.made_of(LIQUID)) {
             add_msg(_("You can't pick up a liquid!"));
             return;
@@ -9438,31 +9441,28 @@ void game::pickup(int posx, int posy, int min)
             add_msg(_("The %s is too heavy!"), newit.display_name().c_str());
             decrease_nextinv();
         } else if (!u.can_pickVolume(newit.volume())) {
-            if (u.is_armed()) {
+            if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+                int quivered = handle_quiver_insertion(newit, false, moves_taken, picked_up);
+                if(quivered > 0) {
+                    remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken);
+                }
+            } else if (u.is_armed()) {
                 if (!u.weapon.has_flag("NO_UNWIELD")) {
                     // Armor can be instantly worn
                     if (newit.is_armor() &&
                             query_yn(_("Put on the %s?"),
                                      newit.display_name().c_str())) {
                         if (u.wear_item(&newit)) {
-                            if (from_veh) {
-                                veh->remove_item (cargo_part, 0);
-                            } else {
-                                m.i_clear(posx, posy);
-                            }
+                            remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken);
                         }
                     } else if (query_yn(_("Drop your %s and pick up %s?"),
                                         u.weapon.display_name().c_str(),
                                         newit.display_name().c_str())) {
-                        if (from_veh) {
-                            veh->remove_item (cargo_part, 0);
-                        } else {
-                            m.i_clear(posx, posy);
-                        }
+                        remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken);
                         m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                         u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                         u.wield(&(u.i_add(newit)));
-                        u.moves -= 100;
+
                         add_msg(_("Wielding %c - %s"), newit.invlet,
                                 newit.display_name().c_str());
                     } else {
@@ -9478,34 +9478,25 @@ and you can't unwield your %s."),
             } else {
                 u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                 u.wield(&(u.i_add(newit)));
-                if (from_veh) {
-                    veh->remove_item (cargo_part, 0);
-                } else {
-                    m.i_clear(posx, posy);
-                }
-                u.moves -= 100;
-                add_msg(_("Wielding %c - %s"), newit.invlet,
-                        newit.display_name().c_str());
+                remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken);
+                add_msg(_("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
+            }
+        } else if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+            //add ammo to quiver
+            int quivered = handle_quiver_insertion(newit, true, moves_taken, picked_up);
+
+            if(quivered > 0) {
+                remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken);
             }
         } else if (!u.is_armed() &&
                    (u.volume_carried() + newit.volume() > u.volume_capacity() - 2 ||
                     newit.is_weap() || newit.is_gun())) {
             u.weapon = newit;
-            if (from_veh) {
-                veh->remove_item (cargo_part, 0);
-            } else {
-                m.i_clear(posx, posy);
-            }
-            u.moves -= 100;
+            remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken);
             add_msg(_("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
         } else {
             newit = u.i_add(newit);
-            if (from_veh) {
-                veh->remove_item (cargo_part, 0);
-            } else {
-                m.i_clear(posx, posy);
-            }
-            u.moves -= 100;
+            remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken);
             add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.display_name().c_str());
         }
 
@@ -9846,7 +9837,7 @@ and you can't unwield your %s."),
         } else if (getitem[i]) {
             bool picked_up = false;
             item temp = here[i].clone();
-            int movesTaken = 100;
+            int moves_taken = 100;
 
             iter = 0;
             while (iter < inv_chars.size() &&
@@ -9872,17 +9863,14 @@ and you can't unwield your %s."),
             } else if (!u.can_pickVolume(here[i].volume())) { //check if player is at max volume
                 //try to store arrows/bolts in a worn quiver
                 if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
-                    //add ammo to quiver
-                    int quivered = here[i].add_ammo_to_quiver(&u, true);
-                    if(quivered > 0) {
-                        movesTaken = 0; //moves already decremented in item::add_ammo_to_quiver()
-                        picked_up = true;
+                    int quivered = handle_quiver_insertion(here[i], false, moves_taken, picked_up);
+                    if(quivered > 0 && here[i].charges > 0) {
+                        //moves_taken = 0; //moves already decremented in item::add_ammo_to_quiver()
+                        //picked_up = true;
 
-                        if(here[i].charges > 0) {
-                            //update the charges for the item that gets re-added to the game map
-                            pickup_count[i] = quivered;
-                            temp.charges = here[i].charges;
-                        }
+                        //update the charges for the item that gets re-added to the game map
+                        pickup_count[i] = quivered;
+                        temp.charges = here[i].charges;
                     }
                 }
                 else if (u.is_armed()) {
@@ -9924,18 +9912,13 @@ and you can't unwield your %s."),
                 }
             } else if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
                 //add ammo to quiver
-                int quivered = here[i].add_ammo_to_quiver(&u, true);
+                int quivered = handle_quiver_insertion(here[i], true, moves_taken, picked_up);
 
-                if(quivered > 0) {
-                    movesTaken = 0; //moves already decremented in item::add_ammo_to_quiver()
-                }
-                else {
-                    //add to inventory instead
-                    u.i_add(here[i]);
+                if(quivered == 0) {
                     mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                 }
 
-                picked_up = true;
+                //picked_up = true;
             } else if (!u.is_armed() &&
                        (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
                         here[i].is_weap() || here[i].is_gun())) {
@@ -9954,7 +9937,7 @@ and you can't unwield your %s."),
                     m.i_rem(posx, posy, curmit);
                 }
                 curmit--;
-                u.moves -= movesTaken;
+                u.moves -= moves_taken;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !from_veh;
 
@@ -10000,6 +9983,35 @@ and you can't unwield your %s."),
     wrefresh(w_item_info);
     delwin(w_pickup);
     delwin(w_item_info);
+}
+
+//helper function for game::pickup
+//return value is amount of ammo added to quiver
+int game::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement, bool &picked_up)
+{
+    //add ammo to quiver
+    int quivered = here.add_ammo_to_quiver(&u, true);
+    if(quivered > 0) {
+        moves_to_decrement = 0; //moves already decremented in item::add_ammo_to_quiver()
+        picked_up = true;
+        return quivered;
+    } else if (inv_on_fail){
+        //add to inventory instead
+        u.i_add(here);
+        picked_up = true;
+    }
+    return 0;
+}
+
+//helper function for game::pickup (singular item)
+void game::remove_from_map_or_vehicle(int posx, int posy, bool from_veh, vehicle *veh, int cargo_part, int &moves_taken)
+{
+    if (from_veh) {
+        veh->remove_item (cargo_part, 0);
+    } else {
+        m.i_clear(posx, posy);
+    }
+    u.moves -= moves_taken;
 }
 
 // Establish or release a grab on a vehicle
