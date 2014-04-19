@@ -4,7 +4,6 @@
 #include "file_wrapper.h"
 #include "debug.h"
 #include "game.h"
-#include "options.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -1033,8 +1032,7 @@ action_id handle_action_menu()
     std::reverse(sorted_pairs.begin(), sorted_pairs.end());
 
 
-    // Default category is called "back" so we can simply add a link to it
-    // in sub-categories.
+    // Default category is called "back"
     std::string category = "back";
 
     while(1) {
@@ -1066,11 +1064,11 @@ action_id handle_action_menu()
                 REGISTER_ACTION(ACTION_QUIT);
             }
             REGISTER_ACTION(ACTION_HELP);
-            if (entry= &entries.back())
+            if ((entry= &entries.back()))
                 entry->txt += "...";        // help _is_a menu.
             if (hotkey_for_action(ACTION_DEBUG) >-1) {
                 REGISTER_CATEGORY("debug"); // register with globalkey
-                if (entry= &entries.back())
+                if ((entry= &entries.back()))
                     entry->hotkey= hotkey_for_action(ACTION_DEBUG);
             }
         } else if(category == "look") {
@@ -1099,10 +1097,12 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_UNLOAD);
         } else if(category == "debug") {
             REGISTER_ACTION(ACTION_DEBUG);
-            if (entry= &entries.back())
+            if ((entry= &entries.back()))
                 entry->txt += "..."; // debug _is_a menu.
             REGISTER_ACTION(ACTION_TOGGLE_SIDEBAR_STYLE);
-            REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
+            #ifndef TILES
+                REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
+            #endif
             REGISTER_ACTION(ACTION_DISPLAY_SCENT);
             REGISTER_ACTION(ACTION_TOGGLE_DEBUGMON);
         } else if(category == "interact") {
@@ -1144,10 +1144,10 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_SLEEP);
             REGISTER_ACTION(ACTION_BIONICS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
-            if (use_tiles) { // from options.h
+            #ifdef TILES
                 REGISTER_ACTION(ACTION_ZOOM_OUT);
                 REGISTER_ACTION(ACTION_ZOOM_IN);
-            };
+            #endif
         }
 
         std::string title = _("Back");
