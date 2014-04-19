@@ -262,11 +262,6 @@ private:
     t_input_event_list &get_event_list(const std::string &action_descriptor, const std::string &context);
     void remove_input_for_action(const std::string &action_descriptor, const std::string &context);
     void add_input_for_action(const std::string &action_descriptor, const std::string &context, const input_event &event);
-    /**
-     * Return a user presentable list of actions that conflict with the
-     * proposed keybinding. Returns an empty string if nothing conflicts.
-     */
-    std::string get_conflicts(const std::string &context, const input_event &event) const;
 };
 
 // Singleton for our input manager.
@@ -416,6 +411,12 @@ private:
      * the @ref input_manager::actionID_to_name is used instead.
      */
     input_manager::t_string_string_map actionID_to_name;
+    /**
+     * Return a user presentable list of actions that conflict with the
+     * proposed keybinding. Returns an empty string if nothing conflicts.
+     */
+    std::string get_conflicts(const input_event &event) const;
+    void list_conflicts(const input_event &event, const input_manager::t_keybinding_map &keys, std::ostringstream &buffer) const;
 };
 
 /**

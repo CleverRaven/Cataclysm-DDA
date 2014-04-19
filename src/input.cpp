@@ -591,27 +591,30 @@ void input_manager::add_input_for_action(
     events.push_back(event);
 }
 
-std::string input_manager::get_conflicts(const std::string &context, const input_event &event) const
+void input_context::list_conflicts(const input_event &event, const input_manager::t_keybinding_map &keys, std::ostringstream &buffer) const
 {
-    std::ostringstream buffer;
-    if (context != default_context_id) {
-        // also include the default context all the time
-        buffer << get_conflicts(default_context_id, event);
-    }
-    t_action_contexts::const_iterator a = action_contexts.find(context);
-    if (a == action_contexts.end()) {
-        return "";
-    }
-    const t_keybinding_map &keys = a->second;
-    for (t_keybinding_map::const_iterator b = keys.begin(); b != keys.end(); ++b) {
+    for (input_manager::t_keybinding_map::const_iterator b = keys.begin(); b != keys.end(); ++b) {
         const std::string &action_id = b->first;
-        const t_input_event_list &events = b->second;
+        const input_manager::t_input_event_list &events = b->second;
         if (std::find(events.begin(), events.end(), event) != events.end()) {
             if (!buffer.str().empty()) {
-                buffer << ", ";
+                buffer << _(", ");
             }
             buffer << get_action_name(action_id);
         }
+    }
+}
+
+std::string input_context::get_conflicts(const input_event &event) const
+{
+    std::ostringstream buffer;
+    input_manager::t_action_contexts::const_iterator a = inp_mngr.action_contexts.find(category);
+    input_manager::t_action_contexts::const_iterator b = inp_mngr.action_contexts.find(default_context_id);
+    if (a != inp_mngr.action_contexts.end()) {
+        list_conflicts(event, a->second, buffer);
+    }
+    if (a != b && b == inp_mngr.action_contexts.end()) {
+        list_conflicts(event, b->second, buffer);
     }
     return buffer.str();
 }
@@ -943,7 +946,7 @@ void input_context::display_help()
             } else if (status == s_add || status == s_add_global) {
                 const long newbind = popup_getkey(_("New key for %s:"), name.c_str());
                 const input_event new_event(newbind, CATA_INPUT_KEYBOARD);
-                const std::string conflicts = inp_mngr.get_conflicts(category, new_event);
+                const std::string conflicts = get_conflicts(new_event);
                 if (!conflicts.empty()) {
                     popup(_("This key conflicts with %s"), conflicts.c_str());
                 } else {
