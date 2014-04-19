@@ -4037,7 +4037,7 @@
         "addiction_potential" : 0,
         "nutrition" : 10,
         "description" : "Freshly butchered fat. You could eat it raw, but it is better used as an ingredient in other foods or projects.",
-        "price" : 1000,
+        "price" : 0,
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
