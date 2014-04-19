@@ -126,7 +126,6 @@ void game::load_static_data() {
     init_body_parts();
     init_ter_bitflags_map();
     init_vpart_bitflag_map();
-    init_translation();
     init_colormap();
     init_mapgen_builtin_functions();
     init_fields();
