@@ -541,7 +541,7 @@
         "type" : "keybinding",
         "id": "QUIT",
         "category": "WORLDGEN_CONFIRM_DIALOG",
-        "name": "Exit screen",
+        "name": "Exit worldgen screen",
         "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
         "bindings":[
             {
@@ -601,7 +601,7 @@
         "type" : "keybinding",
         "id":"QUIT",
         "category":"OVERMAP",
-        "name":"Exit Screen",
+        "name":"Exit overmap screen",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -628,7 +628,7 @@
     {
         "type" : "keybinding",
         "id":"QUIT",
-        "name":"Exit Screen",
+        "name":"Exit screen",
         "bindings":[
             {
                 "input_method":"keyboard",
