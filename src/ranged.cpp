@@ -9,6 +9,7 @@
 #include "options.h"
 #include "action.h"
 #include "input.h"
+#include "helper.h"
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
@@ -766,6 +767,14 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
  wrefresh(w_target);
  bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
+
+    std::string enemiesmsg;
+    if (t.size()==0) {
+        enemiesmsg= _("No Enemies in range.");
+    } else {
+        enemiesmsg= string_format(ngettext("%d Enemy in range.", "%d Enemies in range.", t.size()), t.size());
+    }
+
  do {
   if (m.sees(u.posx, u.posy, x, y, -1, tart))
     ret = line_to(u.posx, u.posy, x, y, tart);
@@ -845,8 +854,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 }
             } else if (relevent == &u.weapon && relevent->is_gun()) {
                 // firing a gun
-                mvwprintw(w_target, 1, 1, _("Range: %d"),
-                          rl_dist(u.posx, u.posy, x, y));
+                mvwprintw(w_target, 1, 1, _("Range: %d/%d, %s"),
+                          rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
                 // get the current weapon mode or mods
                 std::string mode = "";
                 if (u.weapon.mode == "MODE_BURST") {
@@ -863,8 +872,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 }
             } else {
                 // throwing something
-                mvwprintw(w_target, 1, 1, _("Range: %d"),
-                          rl_dist(u.posx, u.posy, x, y));
+                mvwprintw(w_target, 1, 1, _("Range: %d/%d, %s"),
+                          rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
             }
 
    const int zid = mon_at(x, y);
@@ -878,6 +887,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
      zombie(zid).print_info(w_target,2);
     }
    }
+  } else {
+    mvwprintw(w_target, 1, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
   }
   wrefresh(w_target);
   wrefresh(w_terrain);
