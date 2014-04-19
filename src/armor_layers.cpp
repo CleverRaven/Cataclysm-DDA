@@ -395,9 +395,11 @@ std::string clothing_layer(item *worn_item)
     std::string layer = "";
 
     if (worn_item->has_flag("SKINTIGHT")) {
-        layer = _("It lies close to the skin.");
+        layer = _("It is the undergarment.");
     } else if (worn_item->has_flag("OUTER")) {
-        layer = _("It is outermost clothing.");
+        layer = _("It is the outer garment.");
+    } else if (worn_item->has_flag("BELTED")) {
+        layer = _("It is the belted layer.");
     }
 
     return layer;
