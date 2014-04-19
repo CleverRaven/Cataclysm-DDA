@@ -649,13 +649,13 @@ void input_manager::add_input_for_action(
 
 void input_context::list_conflicts(const input_event &event, const input_manager::t_actions &actions, std::ostringstream &buffer) const
 {
-    for (input_manager::t_actions::const_iterator b = actions.begin(); b != actions.end(); ++b) {
-        const input_manager::t_input_event_list &events = b->second.input_events;
+    for (input_manager::t_actions::const_iterator action = actions.begin(); action != actions.end(); ++action) {
+        const input_manager::t_input_event_list &events = action->second.input_events;
         if (std::find(events.begin(), events.end(), event) != events.end()) {
             if (!buffer.str().empty()) {
                 buffer << _(", ");
             }
-            buffer << get_action_name(b->first);
+            buffer << get_action_name(action->first);
         }
     }
 }
@@ -663,13 +663,16 @@ void input_context::list_conflicts(const input_event &event, const input_manager
 std::string input_context::get_conflicts(const input_event &event) const
 {
     std::ostringstream buffer;
-    input_manager::t_action_contexts::const_iterator a = inp_mngr.action_contexts.find(category);
-    input_manager::t_action_contexts::const_iterator b = inp_mngr.action_contexts.find(default_context_id);
-    if (a != inp_mngr.action_contexts.end()) {
-        list_conflicts(event, a->second, buffer);
-    }
-    if (a != b && b == inp_mngr.action_contexts.end()) {
-        list_conflicts(event, b->second, buffer);
+    for (std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
+         registered_action != registered_actions.end();
+         ++registered_action) {
+        const action_attributes &attributes = inp_mngr.get_action_attributes(*registered_action, category);
+        if (std::find(attributes.input_events.begin(), attributes.input_events.end(), event) != attributes.input_events.end()) {
+            if (!buffer.str().empty()) {
+                buffer << _(", ");
+            }
+            buffer << get_action_name(*registered_action);
+        }
     }
     return buffer.str();
 }
