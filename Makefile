@@ -103,7 +103,7 @@ RC  = $(CROSS)windres
 # enable optimizations. slow to build
 ifdef RELEASE
   OTHERS += -O3
-  # Architecture dependent optimizations.
+  # Architecture dependent optimizations, probably not huh?
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
   OTHERS += -s
@@ -166,17 +166,12 @@ endif
 # Win32 (MinGW32 or MinGW-w64(32bit)?)
 ifeq ($(NATIVE), win32)
 # Any reason not to use -m32 on MinGW32?
-# MinGW-w64 may need these (if set to use 64bit by default).
-#  CXXFLAGS += -m32
-#  LDFLAGS += -m32
   TARGETSYSTEM=WINDOWS
 else
   # Win64 (MinGW-w64? 64bit isn't currently working.)
   ifeq ($(NATIVE), win64)
     CXXFLAGS += -m64
     LDFLAGS += -m64
-  # May need to add lib64 library path.
-  # LDFLAGS += -L/mingw/i686-w64-mingw32/lib64
     TARGETSYSTEM=WINDOWS
   endif
 endif
@@ -195,6 +190,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
   ifdef DYNAMIC_LINKING
+    # Windows isn't sold with programming support, these are static to remove MinGW dependency.
     LDFLAGS += -static-libgcc -static-libstdc++
   else
     LDFLAGS += -static
@@ -284,8 +280,9 @@ ifdef SDL
       # These differ depending on what SDL2 is configured to use.
       LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
     else
-      # Currently none needed (only used by SDL2 layer).
-      # LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+      # Currently none needed by the game itself (only used by SDL2 layer).
+      # Placeholder for future use (savegame compression, etc).
+      LDFLAGS +=
     endif
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
