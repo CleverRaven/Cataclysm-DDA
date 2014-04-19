@@ -296,6 +296,10 @@
             {
                 "input_method":"keyboard",
                 "key":"?"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"F1"
             }
         ]
     },
@@ -415,10 +419,6 @@
         "bindings":[
             {
                 "input_method":"keyboard",
-                "key":"PPAGE"
-            },
-            {
-                "input_method":"keyboard",
                 "key":"<"
             }
         ]
@@ -428,10 +428,6 @@
         "id":"LEVEL_DOWN",
         "name":"Go Down",
         "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"NPAGE"
-            },
             {
                 "input_method":"keyboard",
                 "key":">"
@@ -939,6 +935,132 @@
     },
     {
         "type" : "keybinding",
+        "id": "EDITMAP_SHOW_ALL",
+        "name": "Show all",
+        "bindings":[ { "input_method":"keyboard", "key":"v" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CONFIRM_QUIT",
+        "category": "EDITMAP_TERRAIN",
+        "name": "Confirm & quit",
+        "bindings":[ { "input_method":"keyboard", "key":"g" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CONFIRM_QUIT",
+        "category": "EDITMAP_TRAPS",
+        "name": "Confirm & quit",
+        "bindings":[ { "input_method":"keyboard", "key":"t" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "RESIZE",
+        "category": "EDITMAP_SHAPE",
+        "name": "Resize",
+        "bindings":[ { "input_method":"keyboard", "key":"s" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "START",
+        "category": "EDITMAP_SHAPE",
+        "name": "Select shape",
+        "bindings":[ { "input_method":"keyboard", "key":"z" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SWAP",
+        "category": "EDITMAP_SHAPE",
+        "name": "Swap origin and target",
+        "bindings":[ { "input_method":"keyboard", "key":"y" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDITMAP_MOVE",
+        "name": "Move shape",
+        "bindings":[ { "input_method":"keyboard", "key":"m" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDITMAP_TAB",
+        "name": "Switch to move point / confirm",
+        "bindings":[ { "input_method":"keyboard", "key":"TAB" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_TRAPS",
+        "category": "EDITMAP",
+        "name": "Edit traps",
+        "bindings":[ { "input_method":"keyboard", "key":"t" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_FIELDS",
+        "category": "EDITMAP",
+        "name": "Edit fields",
+        "bindings":[ { "input_method":"keyboard", "key":"f" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_TERRAIN",
+        "category": "EDITMAP",
+        "name": "Edit terrain / furniture",
+        "bindings":[ { "input_method":"keyboard", "key":"g" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_OVERMAP",
+        "category": "EDITMAP",
+        "name": "Edit overmap / mapgen",
+        "bindings":[ { "input_method":"keyboard", "key":"o" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_ITEMS",
+        "category": "EDITMAP",
+        "name": "Edit items",
+        "bindings":[ { "input_method":"keyboard", "key":"i" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EDIT_MONSTER",
+        "category": "EDITMAP",
+        "name": "Edit creatures",
+        "bindings":[ { "input_method":"keyboard", "key":"m" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SHOW_ALL",
+        "category": "EDITMAP",
+        "name": "Show whole map",
+        "bindings":[ { "input_method":"keyboard", "key":"v" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "LEFT_WIDE",
+        "name": "Wide move left",
+        "bindings":[ { "input_method":"keyboard", "key":"H" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "RIGHT_WIDE",
+        "name": "Wide move right",
+        "bindings":[ { "input_method":"keyboard", "key":"L" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "UP_WIDE",
+        "name": "Wide move up",
+        "bindings":[ { "input_method":"keyboard", "key":"K" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DOWN_WIDE",
+        "name": "Wide move down",
+        "bindings":[ { "input_method":"keyboard", "key":"J" } ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOOGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toogle activate/examine",
@@ -949,6 +1071,79 @@
             }
         ]
     },
+    { "type":"keybinding", "name": "Pause", "category":"DEFAULTMODE", "id":"pause", "bindings":[ { "input_method":"keyboard", "key":"." }, { "input_method":"keyboard", "key":"5" } ] },
+    { "type":"keybinding", "name": "Center View", "category":"DEFAULTMODE", "id":"center", "bindings":[ { "input_method":"keyboard", "key":":" } ] },
+    { "type":"keybinding", "name": "Move View North", "category":"DEFAULTMODE", "id":"shift_n", "bindings":[ { "input_method":"keyboard", "key":"K" } ] },
+    { "type":"keybinding", "name": "Move View East", "category":"DEFAULTMODE", "id":"shift_e", "bindings":[ { "input_method":"keyboard", "key":"L" } ] },
+    { "type":"keybinding", "name": "Move View South", "category":"DEFAULTMODE", "id":"shift_s", "bindings":[ { "input_method":"keyboard", "key":"J" } ] },
+    { "type":"keybinding", "name": "Move View West", "category":"DEFAULTMODE", "id":"shift_w", "bindings":[ { "input_method":"keyboard", "key":"H" } ] },
+    { "type":"keybinding", "name": "Open Door", "category":"DEFAULTMODE", "id":"open", "bindings":[ { "input_method":"keyboard", "key":"o" } ] },
+    { "type":"keybinding", "name": "Close Door", "category":"DEFAULTMODE", "id":"close", "bindings":[ { "input_method":"keyboard", "key":"c" } ] },
+    { "type":"keybinding", "name": "Smash Nearby Terrain", "category":"DEFAULTMODE", "id":"smash", "bindings":[ { "input_method":"keyboard", "key":"s" } ] },
+    { "type":"keybinding", "name": "Examine Nearby Terrain", "category":"DEFAULTMODE", "id":"examine", "bindings":[ { "input_method":"keyboard", "key":"e" } ] },
+    { "type":"keybinding", "name": "Advanced Inventory management", "category":"DEFAULTMODE", "id":"advinv", "bindings":[ { "input_method":"keyboard", "key":"/" } ] },
+    { "type":"keybinding", "name": "Pick Item(s) Up", "category":"DEFAULTMODE", "id":"pickup", "bindings":[ { "input_method":"keyboard", "key":"," }, { "input_method":"keyboard", "key":"g" } ] },
+    { "type":"keybinding", "name": "Grab a nearby vehicle", "category":"DEFAULTMODE", "id":"grab", "bindings":[ { "input_method":"keyboard", "key":"G" } ] },
+    { "type":"keybinding", "name": "Butcher", "category":"DEFAULTMODE", "id":"butcher", "bindings":[ { "input_method":"keyboard", "key":"B" } ] },
+    { "type":"keybinding", "name": "Chat with NPC", "category":"DEFAULTMODE", "id":"chat", "bindings":[ { "input_method":"keyboard", "key":"C" } ] },
+    { "type":"keybinding", "name": "Look Around", "category":"DEFAULTMODE", "id":"look", "bindings":[ { "input_method":"keyboard", "key":";" }, { "input_method":"keyboard", "key":"x" } ] },
+    { "type":"keybinding", "name": "Peek Around Corners", "category":"DEFAULTMODE", "id":"peek", "bindings":[ { "input_method":"keyboard", "key":"X" } ] },
+    { "type":"keybinding", "name": "List all items around the player", "category":"DEFAULTMODE", "id":"listitems", "bindings":[ { "input_method":"keyboard", "key":"V" } ] },
+    { "type":"keybinding", "name": "Open Inventory", "category":"DEFAULTMODE", "id":"inventory", "bindings":[ { "input_method":"keyboard", "key":"i" } ] },
+    { "type":"keybinding", "name": "Compare two Items", "category":"DEFAULTMODE", "id":"compare", "bindings":[ { "input_method":"keyboard", "key":"I" } ] },
+    { "type":"keybinding", "name": "Swap Inventory Letters", "category":"DEFAULTMODE", "id":"organize", "bindings":[ { "input_method":"keyboard", "key":"=" } ] },
+    { "type":"keybinding", "name": "Apply or Use Item", "category":"DEFAULTMODE", "id":"apply", "bindings":[ { "input_method":"keyboard", "key":"a" } ] },
+    { "type":"keybinding", "name": "Apply or Use Wielded Item", "category":"DEFAULTMODE", "id":"apply_wielded", "bindings":[ { "input_method":"keyboard", "key":"A" } ] },
+    { "type":"keybinding", "name": "Wear Item", "category":"DEFAULTMODE", "id":"wear", "bindings":[ { "input_method":"keyboard", "key":"W" } ] },
+    { "type":"keybinding", "name": "Take Off Worn Item", "category":"DEFAULTMODE", "id":"take_off", "bindings":[ { "input_method":"keyboard", "key":"T" } ] },
+    { "type":"keybinding", "name": "Eat", "category":"DEFAULTMODE", "id":"eat", "bindings":[ { "input_method":"keyboard", "key":"E" } ] },
+    { "type":"keybinding", "name": "Read", "category":"DEFAULTMODE", "id":"read", "bindings":[ { "input_method":"keyboard", "key":"R" } ] },
+    { "type":"keybinding", "name": "Wield", "category":"DEFAULTMODE", "id":"wield", "bindings":[ { "input_method":"keyboard", "key":"w" } ] },
+    { "type":"keybinding", "name": "Select Unarmed Style", "category":"DEFAULTMODE", "id":"pick_style", "bindings":[ { "input_method":"keyboard", "key":"_" } ] },
+    { "type":"keybinding", "name": "Reload Wielded Item", "category":"DEFAULTMODE", "id":"reload", "bindings":[ { "input_method":"keyboard", "key":"r" } ] },
+    { "type":"keybinding", "name": "Unload or Empty Wielded Item", "category":"DEFAULTMODE", "id":"unload", "bindings":[ { "input_method":"keyboard", "key":"U" } ] },
+    { "type":"keybinding", "name": "Throw Item", "category":"DEFAULTMODE", "id":"throw", "bindings":[ { "input_method":"keyboard", "key":"t" } ] },
+    { "type":"keybinding", "name": "Fire Wielded Item", "category":"DEFAULTMODE", "id":"fire", "bindings":[ { "input_method":"keyboard", "key":"f" } ] },
+    { "type":"keybinding", "name": "Toggle attack mode of Wielded Item", "category":"DEFAULTMODE", "id":"select_fire_mode", "bindings":[ { "input_method":"keyboard", "key":"F" } ] },
+    { "type":"keybinding", "name": "Drop Item", "category":"DEFAULTMODE", "id":"drop", "bindings":[ { "input_method":"keyboard", "key":"d" } ] },
+    { "type":"keybinding", "name": "Drop Item to Adjacent Tile", "category":"DEFAULTMODE", "id":"drop_adj", "bindings":[ { "input_method":"keyboard", "key":"D" } ] },
+    { "type":"keybinding", "name": "View/Activate Bionics", "category":"DEFAULTMODE", "id":"bionics", "bindings":[ { "input_method":"keyboard", "key":"p" } ] },
+    { "type":"keybinding", "name": "Re-layer armour/clothing", "category":"DEFAULTMODE", "id":"sort_armor", "bindings":[ { "input_method":"keyboard", "key":"+" } ] },
+    { "type":"keybinding", "name": "Wait for Several Minutes", "category":"DEFAULTMODE", "id":"wait", "bindings":[ { "input_method":"keyboard", "key":"|" } ] },
+    { "type":"keybinding", "name": "Craft Items", "category":"DEFAULTMODE", "id":"craft", "bindings":[ { "input_method":"keyboard", "key":"&" } ] },
+    { "type":"keybinding", "name": "Recraft last recipe", "category":"DEFAULTMODE", "id":"recraft", "bindings":[ { "input_method":"keyboard", "key":"-" } ] },
+    { "type":"keybinding", "name": "Construct Terrain", "category":"DEFAULTMODE", "id":"construct", "bindings":[ { "input_method":"keyboard", "key":"*" } ] },
+    { "type":"keybinding", "name": "Disassemble items", "category":"DEFAULTMODE", "id":"disassemble", "bindings":[ { "input_method":"keyboard", "key":"(" } ] },
+    { "type":"keybinding", "name": "Sleep", "category":"DEFAULTMODE", "id":"sleep", "bindings":[ { "input_method":"keyboard", "key":"$" } ] },
+    { "type":"keybinding", "name": "Control Vehicle", "category":"DEFAULTMODE", "id":"control_vehicle", "bindings":[ { "input_method":"keyboard", "key":"^" } ] },
+    { "type":"keybinding", "name": "Toggle Safemode", "category":"DEFAULTMODE", "id":"safemode", "bindings":[ { "input_method":"keyboard", "key":"!" } ] },
+    { "type":"keybinding", "name": "Ignore Nearby Enemy", "category":"DEFAULTMODE", "id":"ignore_enemy", "bindings":[ { "input_method":"keyboard", "key":"'" } ] },
+    { "type":"keybinding", "name": "Save and Quit", "category":"DEFAULTMODE", "id":"save", "bindings":[ { "input_method":"keyboard", "key":"S" } ] },
+    { "type":"keybinding", "name": "Commit Suicide", "category":"DEFAULTMODE", "id":"quit", "bindings":[ { "input_method":"keyboard", "key":"Q" } ] },
+    { "type":"keybinding", "name": "View Player Info", "category":"DEFAULTMODE", "id":"player_data", "bindings":[ { "input_method":"keyboard", "key":"@" } ] },
+    { "type":"keybinding", "name": "View Map", "category":"DEFAULTMODE", "id":"map", "bindings":[ { "input_method":"keyboard", "key":"m" } ] },
+    { "type":"keybinding", "name": "View Missions", "category":"DEFAULTMODE", "id":"missions", "bindings":[ { "input_method":"keyboard", "key":"M" } ] },
+    { "type":"keybinding", "name": "View Factions", "category":"DEFAULTMODE", "id":"factions", "bindings":[ { "input_method":"keyboard", "key":"#" } ] },
+    { "type":"keybinding", "name": "View Kills", "category":"DEFAULTMODE", "id":"kills", "bindings":[ { "input_method":"keyboard", "key":")" } ] },
+    { "type":"keybinding", "name": "View Morale", "category":"DEFAULTMODE", "id":"morale", "bindings":[ { "input_method":"keyboard", "key":"v" } ] },
+    { "type":"keybinding", "name": "View Message Log", "category":"DEFAULTMODE", "id":"messages", "bindings":[ { "input_method":"keyboard", "key":"P" } ] },
+    { "type":"keybinding", "name": "View Help", "category":"DEFAULTMODE", "id":"help", "bindings":[ { "input_method":"keyboard", "key":"?" } ] },
+    { "type":"keybinding", "name": "Zoom In", "category":"DEFAULTMODE", "id":"zoom_in", "bindings":[ { "input_method":"keyboard", "key":"z" } ] },
+    { "type":"keybinding", "name": "Zoom Out", "category":"DEFAULTMODE", "id":"zoom_out", "bindings":[ { "input_method":"keyboard", "key":"Z" } ] },
+    { "type":"keybinding", "name": "Toggle Debug Messages", "category":"DEFAULTMODE", "id":"debug_mode", "bindings":[ { "input_method":"keyboard", "key":"~" } ] },
+    { "type":"keybinding", "name": "Debug Menu", "category":"DEFAULTMODE", "id":"debug" },
+    { "type":"keybinding", "name": "View Scentmap", "category":"DEFAULTMODE", "id":"debug_scent" },
+    { "type":"keybinding", "name": "Switch Sidebar Style", "category":"DEFAULTMODE", "id":"toggle_sidebar_style" },
+    { "type":"keybinding", "name": "Toggle Fullscreen mode", "category":"DEFAULTMODE", "id":"toggle_fullscreen" },
+    { "type":"keybinding", "name": "Action Menu", "category":"DEFAULTMODE", "id":"action_menu" },
+    { "type":"keybinding", "name": "Quicksave", "category":"DEFAULTMODE", "id":"quicksave" },
+    { "type":"keybinding", "name": "Move View Northeast", "category":"DEFAULTMODE", "id":"shift_ne" },
+    { "type":"keybinding", "name": "Move View Southeast", "category":"DEFAULTMODE", "id":"shift_se" },
+    { "type":"keybinding", "name": "Move View Southwest", "category":"DEFAULTMODE", "id":"shift_sw" },
+    { "type":"keybinding", "name": "Move View Northwest", "category":"DEFAULTMODE", "id":"shift_nw" },
+    { "type":"keybinding", "name": "Burst-Fire Wielded Item", "category":"DEFAULTMODE", "id":"fire_burst" },
+    { "type":"keybinding", "name": "Craft as long as possible", "category":"DEFAULTMODE", "id":"long_craft" },
+    { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
     {
         "type" : "keybinding",
         "id":"REASSIGN",

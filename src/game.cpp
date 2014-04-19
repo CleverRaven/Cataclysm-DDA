@@ -62,10 +62,8 @@
 #include <tchar.h>
 #endif
 
-#ifndef _MSC_VER
-	#if !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
+#if !defined(_MSC_VER) || !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
 namespace std { float abs(float a) { return a < 0 ? -a : a; } }
-	#endif
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -110,7 +108,6 @@ void game::load_static_data() {
     init_lua();                 // Set up lua                       (SEE catalua.cpp)
 #endif
     // UI stuff, not mod-specific per definition
-    load_keyboard_settings();
     inp_mngr.init();            // Load input config JSON
     // Init mappings for loading the json stuff
     DynamicDataLoader::get_instance();
@@ -2341,15 +2338,103 @@ void game::hide_mouseview()
     void rescale_tileset(int size);
 #endif
 
-input_context game::get_player_input(std::string &action)
-{
+input_context get_default_mode_input_context() {
     input_context ctxt("DEFAULTMODE");
-    ctxt.register_directions();
+    // Because those keys move the character, they don't pan, as their original name says
+    ctxt.register_action("UP", _("Move North"));
+    ctxt.register_action("RIGHTUP", _("Move Northeast"));
+    ctxt.register_action("RIGHT", _("Move East"));
+    ctxt.register_action("RIGHTDOWN", _("Move Southeast"));
+    ctxt.register_action("DOWN", _("Move South"));
+    ctxt.register_action("LEFTDOWN", _("Move Southwest"));
+    ctxt.register_action("LEFT", _("Move West"));
+    ctxt.register_action("LEFTUP", _("Move Northwest"));
+    ctxt.register_action("pause");
+    ctxt.register_action("LEVEL_DOWN", _("Descend Stairs"));
+    ctxt.register_action("LEVEL_UP", _("Ascend Stairs"));
+    ctxt.register_action("center");
+    ctxt.register_action("shift_n");
+    ctxt.register_action("shift_ne");
+    ctxt.register_action("shift_e");
+    ctxt.register_action("shift_se");
+    ctxt.register_action("shift_s");
+    ctxt.register_action("shift_sw");
+    ctxt.register_action("shift_w");
+    ctxt.register_action("shift_nw");
+    ctxt.register_action("open");
+    ctxt.register_action("close");
+    ctxt.register_action("smash");
+    ctxt.register_action("examine");
+    ctxt.register_action("advinv");
+    ctxt.register_action("pickup");
+    ctxt.register_action("grab");
+    ctxt.register_action("butcher");
+    ctxt.register_action("chat");
+    ctxt.register_action("look");
+    ctxt.register_action("peek");
+    ctxt.register_action("listitems");
+    ctxt.register_action("inventory");
+    ctxt.register_action("compare");
+    ctxt.register_action("organize");
+    ctxt.register_action("apply");
+    ctxt.register_action("apply_wielded");
+    ctxt.register_action("wear");
+    ctxt.register_action("take_off");
+    ctxt.register_action("eat");
+    ctxt.register_action("read");
+    ctxt.register_action("wield");
+    ctxt.register_action("pick_style");
+    ctxt.register_action("reload");
+    ctxt.register_action("unload");
+    ctxt.register_action("throw");
+    ctxt.register_action("fire");
+    ctxt.register_action("fire_burst");
+    ctxt.register_action("select_fire_mode");
+    ctxt.register_action("drop");
+    ctxt.register_action("drop_adj");
+    ctxt.register_action("bionics");
+    ctxt.register_action("sort_armor");
+    ctxt.register_action("wait");
+    ctxt.register_action("craft");
+    ctxt.register_action("recraft");
+    ctxt.register_action("long_craft");
+    ctxt.register_action("construct");
+    ctxt.register_action("disassemble");
+    ctxt.register_action("sleep");
+    ctxt.register_action("control_vehicle");
+    ctxt.register_action("safemode");
+    ctxt.register_action("autosafe");
+    ctxt.register_action("ignore_enemy");
+    ctxt.register_action("save");
+    ctxt.register_action("quicksave");
+    ctxt.register_action("quit");
+    ctxt.register_action("player_data");
+    ctxt.register_action("map");
+    ctxt.register_action("missions");
+    ctxt.register_action("factions");
+    ctxt.register_action("kills");
+    ctxt.register_action("morale");
+    ctxt.register_action("messages");
+    ctxt.register_action("help");
+    ctxt.register_action("debug");
+    ctxt.register_action("debug_scent");
+    ctxt.register_action("debug_mode");
+    ctxt.register_action("zoom_out");
+    ctxt.register_action("zoom_in");
+    ctxt.register_action("toggle_sidebar_style");
+    ctxt.register_action("toggle_fullscreen");
+    ctxt.register_action("action_menu");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("COORDINATE");
     ctxt.register_action("MOUSE_MOVE");
     ctxt.register_action("SELECT");
     ctxt.register_action("SEC_SELECT");
+    return ctxt;
+}
+
+input_context game::get_player_input(std::string &action)
+{
+    input_context ctxt = get_default_mode_input_context();
 
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
@@ -2542,7 +2627,7 @@ bool game::handle_action()
                     destination_preview = m.route(u.posx, u.posy, mx, my, false);
                     return false;
                 }
-            } else {
+            } else if (action == "SEC_SELECT") {
                 // Right mouse button
 
                 bool had_destination_to_clear = !destination_preview.empty();
@@ -2599,29 +2684,9 @@ bool game::handle_action()
         u.clear_destination();
         destination_preview.clear();
 
-        int ch = ctxt.get_raw_input().get_first_input();
-        // Hack until new input system is fully implemented
-        if (ch == KEY_UP) {
-            act = ACTION_MOVE_N;
-        } else if (ch == KEY_RIGHT) {
-            act = ACTION_MOVE_E;
-        } else if (ch == KEY_DOWN) {
-            act = ACTION_MOVE_S;
-        } else if (ch == KEY_LEFT) {
-            act = ACTION_MOVE_W;
-        } else if (ch == KEY_NPAGE) {
-            act = ACTION_MOVE_DOWN;
-        } else if (ch == KEY_PPAGE) {
-            act = ACTION_MOVE_UP;
-        } else {
-            if (keymap.find(ch) == keymap.end()) {
-                if (ch != ' ' && ch != '\n') {
-                    add_msg(_("Unknown command: '%c'"), ch);
-                }
-                return false;
-            }
-
-            act = keymap[ch];
+        act = look_up_action(action);
+        if (act == ACTION_NULL) {
+            add_msg(_("Unknown command: '%c'"), (int) ctxt.get_raw_input().get_first_input());
         }
     }
 
@@ -10511,22 +10576,24 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int
     }
 
     if (dropped.size() == 1 || same) {
+        int dropcount = (dropped[0].count_by_charges()) ? dropped[0].charges: 1;
+
         if (to_veh) {
             add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
-                             "You put your %1$s in the %2$s's %3$s.",
-                             dropped.size()),
-                    dropped[0].tname(dropped.size()).c_str(),
+                             "You put your %1$ss in the %2$s's %3$s.",
+                             dropcount),
+                    dropped[0].tname(dropcount).c_str(),
                     veh->name.c_str(),
                     veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(ngettext("You drop your %s on the %s.",
-                             "You drop your %s on the %s.", dropped.size()),
-                    dropped[0].tname(dropped.size()).c_str(),
+                             "You drop your %ss on the %s.", dropcount),
+                    dropped[0].tname(dropcount).c_str(),
                     m.name(dirx, diry).c_str());
         } else {
             add_msg(ngettext("You put your %s in the %s.",
-                             "You put your %s in the %s.", dropped.size()),
-                    dropped[0].tname(dropped.size()).c_str(),
+                             "You put your %ss in the %s.", dropcount),
+                    dropped[0].tname(dropcount).c_str(),
                     m.name(dirx, diry).c_str());
         }
     } else {
@@ -10777,7 +10844,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             choice = (uimenu(false, _("Draw what?"), choices)) - 1;
         }
 
-        if(choice != -1) {
+        if(choice > -1) {
             u.wield_contents(holsters[choice], true, _("pistol"), 13);
             add_msg_if_player(&u, _("You pull your %s from its %s and ready it to fire."), u.weapon.name.c_str(), holsters[choice]->name.c_str());
             if(u.weapon.charges <= 0) {
@@ -10861,7 +10928,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
 
         // draw arrow from quiver
-        if(choice != -1) {
+        if(choice > -1) {
             item* worn = quivers[choice];
             item& arrows = worn->contents[0];
             // chance to fail pulling an arrow at lower levels
@@ -11023,12 +11090,9 @@ void game::butcher()
             int hotkey = -1;
             // First entry gets a hotkey matching the butcher command.
             if( i == 0 ) {
-                for (std::map<char, action_id>::iterator it = keymap.begin();
-                     it != keymap.end(); it++) {
-                    if (it->second == ACTION_BUTCHER) {
-                        hotkey = (it->first == 'q') ? -1 : it->first;
-                        break;
-                    }
+                const long butcher_key = inp_mngr.get_previously_pressed_key();
+                if (butcher_key != 0) {
+                    hotkey = butcher_key;
                 }
             }
             if (it.corpse != NULL) {

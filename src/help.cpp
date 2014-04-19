@@ -931,6 +931,8 @@ A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc cha
     return text;
 }
 
+extern input_context get_default_mode_input_context();
+
 void display_help()
 {
     WINDOW *w_help_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -940,12 +942,16 @@ void display_help()
                             1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
                             1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
     char ch;
+    bool needs_refresh = true;
     do {
-        draw_border(w_help_border);
-        center_print(w_help_border, 0, c_ltred, _(" HELP "));
-        wrefresh(w_help_border);
-        help_main(w_help);
-        refresh();
+        if (needs_refresh) {
+            draw_border(w_help_border);
+            center_print(w_help_border, 0, c_ltred, _(" HELP "));
+            wrefresh(w_help_border);
+            help_main(w_help);
+            refresh();
+            needs_refresh = false;
+        };
         ch = getch();
         switch (ch) {
         case 'a':
@@ -1029,106 +1035,8 @@ void display_help()
 
         // Keybindings
         case '1': {
-
-            // Remember what the keybindings were originally so we can restore them if player cancels.
-            std::map<char, action_id> keymap_old = keymap;
-
-            werase(w_help);
-            int offset = 1;
-            char remapch = ' ';
-            bool changed_keymap = false;
-            bool needs_refresh = true;
-            do {
-                if (needs_refresh) {
-                    werase(w_help);
-                    mvwprintz(w_help, 0, 50, c_white, _("Use the arrow keys"));
-                    mvwprintz(w_help, 1, 50, c_white, _("(or movement keys)"));
-                    mvwprintz(w_help, 2, 50, c_white, _("to scroll."));
-
-                    mvwprintz(w_help, 4, 50, c_white, _("Press ESC or q to return."));
-
-                    mvwprintz(w_help, 6, 50, c_white, _("Press - to remove all"));
-                    mvwprintz(w_help, 7, 50, c_white, _("keybindings from an action."));
-
-                    mvwprintz(w_help, 9, 50, c_white, _("Press + to add the"));
-                    mvwprintz(w_help, 10, 50, c_white, _("keybinding for an action."));
-                    needs_refresh = false;
-                }
-                // Clear the lines
-                for (int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++) {
-                    mvwprintz(w_help, i, 0, c_black, "                                                ");
-                }
-
-                //Draw Scrollbar
-                draw_scrollbar(w_help_border, offset - 1, FULL_SCREEN_HEIGHT - 2, NUM_ACTIONS - 20, 1);
-
-                for (int i = 0; i < FULL_SCREEN_HEIGHT - 2 && offset + i < NUM_ACTIONS; i++) {
-                    std::vector<char> keys = keys_bound_to( action_id(offset + i) );
-                    nc_color col = (keys.empty() ? c_ltred : c_white);
-                    mvwprintz(w_help, i, 3, col, "%s: ", action_name( action_id(offset + i) ).c_str());
-                    if (keys.empty()) {
-                        wprintz(w_help, c_red, _("Unbound!"));
-                    } else {
-                        for (size_t j = 0; j < keys.size(); j++) {
-                            wprintz(w_help, c_yellow, "%c", keys[j]);
-                            if (j < keys.size() - 1) {
-                                wprintz(w_help, c_white, _(" or "));
-                            }
-                        }
-                    }
-                }
-                wrefresh(w_help);
-                refresh();
-                remapch = input();
-                int sx = 0, sy = 0;
-                get_direction(sx, sy, remapch);
-                if (sy == -1 && offset > 1) {
-                    offset--;
-                }
-                if (sy == 1 && offset + 20 < NUM_ACTIONS) {
-                    offset++;
-                }
-                if (remapch == '-' || remapch == '+') {
-                    needs_refresh = true;
-                    for (int i = 0; i < FULL_SCREEN_HEIGHT - 2 && i + offset < NUM_ACTIONS; i++) {
-                        mvwprintz(w_help, i, 0, c_ltblue, "%c", 'a' + i);
-                        mvwprintz(w_help, i, 1, c_white, ":");
-                    }
-                    wrefresh(w_help);
-                    refresh();
-                    char actch = getch();
-                    if (actch >= 'a' && actch <= 'a' + 24 && actch - 'a' + offset < NUM_ACTIONS) {
-                        action_id act = action_id(actch - 'a' + offset);
-                        if (remapch == '-' && query_yn(_("Clear keys for %s?"),
-                                                       action_name(act).c_str())) {
-                            unbound_keymap.insert(act);
-                            clear_bindings(act);
-                            changed_keymap = true;
-                        } else if (remapch == '+') {
-                            char newbind = popup_getkey(_("New key for %s:"), action_name(act).c_str());
-                            if (keymap.find(newbind) == keymap.end()) { // It's not in use!  Good.
-                                keymap[ newbind ] = act;
-				unbound_keymap.erase(act);
-                                changed_keymap = true;
-                            } else {
-                                popup(_("%c is used for %s."), newbind,
-                                      action_name( keymap[newbind] ).c_str());
-                            }
-                        }
-                    }
-                }
-            } while (remapch != 'q' && remapch != 'Q' && remapch != KEY_ESCAPE);
-
-
-            if (changed_keymap) {
-                if(query_yn(_("Save changes?"))) {
-                    save_keymap();
-                } else {
-                    // Player wants to keep the old keybindings. Revert!
-                    keymap = keymap_old;
-                }
-            }
-
+            input_context ctxt = get_default_mode_input_context();
+            ctxt.display_help();
             werase(w_help);
         }
         break;
@@ -1158,7 +1066,11 @@ void display_help()
         case '7':
             multipage(w_help, text_faq());
             break;
-        }
+
+        default:
+            continue;
+        };
+        needs_refresh = true;
     } while (ch != 'q' && ch != KEY_ESCAPE);
     delwin(w_help);
     delwin(w_help_border);

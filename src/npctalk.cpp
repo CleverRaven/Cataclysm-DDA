@@ -647,7 +647,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             std::stringstream response;
             dist *= 100;
             if (dist >= 1300) {
-            int miles = dist / 52; // *100, e.g. quarter mile is "25"
+            int miles = dist / 25; // *100, e.g. quarter mile is "25"
             miles -= miles % 25; // Round to nearest quarter-mile
             int fullmiles = (miles - miles % 100) / 100; // Left of the decimal point
             if (fullmiles <= 0) {
