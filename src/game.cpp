@@ -10509,22 +10509,24 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int
     }
 
     if (dropped.size() == 1 || same) {
+        int dropcount = (dropped[0].count_by_charges()) ? dropped[0].charges: 1;
+
         if (to_veh) {
             add_msg(ngettext("You put your %1$s in the %2$s's %3$s.",
-                             "You put your %1$s in the %2$s's %3$s.",
-                             dropped.size()),
-                    dropped[0].tname(dropped.size()).c_str(),
+                             "You put your %1$ss in the %2$s's %3$s.",
+                             dropcount),
+                    dropped[0].tname(dropcount).c_str(),
                     veh->name.c_str(),
                     veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(ngettext("You drop your %s on the %s.",
-                             "You drop your %s on the %s.", dropped.size()),
-                    dropped[0].tname(dropped.size()).c_str(),
+                             "You drop your %ss on the %s.", dropcount),
+                    dropped[0].tname(dropcount).c_str(),
                     m.name(dirx, diry).c_str());
         } else {
             add_msg(ngettext("You put your %s in the %s.",
-                             "You put your %s in the %s.", dropped.size()),
-                    dropped[0].tname(dropped.size()).c_str(),
+                             "You put your %ss in the %s.", dropcount),
+                    dropped[0].tname(dropcount).c_str(),
                     m.name(dirx, diry).c_str());
         }
     } else {
@@ -10775,7 +10777,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
             choice = (uimenu(false, _("Draw what?"), choices)) - 1;
         }
 
-        if(choice != -1) {
+        if(choice > -1) {
             u.wield_contents(holsters[choice], true, _("pistol"), 13);
             add_msg_if_player(&u, _("You pull your %s from its %s and ready it to fire."), u.weapon.name.c_str(), holsters[choice]->name.c_str());
             if(u.weapon.charges <= 0) {
@@ -10859,7 +10861,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         }
 
         // draw arrow from quiver
-        if(choice != -1) {
+        if(choice > -1) {
             item* worn = quivers[choice];
             item& arrows = worn->contents[0];
             // chance to fail pulling an arrow at lower levels
