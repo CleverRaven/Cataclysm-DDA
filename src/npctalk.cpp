@@ -1364,8 +1364,6 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    SUCCESS(TALK_LEAVE);
   RESPONSE(_("Let's go."));
    SUCCESS(TALK_DONE);
-  RESPONSE(_("My mistake, bye."));
-   SUCCESS(TALK_DONE);
   break;
 
  case TALK_COMBAT_COMMANDS: {
@@ -1444,6 +1442,8 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
    RESPONSE(_("Care to trade?"));
     SUCCESS(TALK_NONE);
     SUCCESS_ACTION(&talk_function::start_trade);
+   RESPONSE(_("My mistake, bye."));
+    SUCCESS(TALK_DONE);
   } else {
    if (!g->u.unarmed_attack()) {
     if (g->u.volume_carried() + g->u.weapon.volume() <= g->u.volume_capacity()){
