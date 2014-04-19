@@ -32,6 +32,7 @@
 #include "file_finder.h"
 #include "mod_manager.h"
 #include "path_info.h"
+#include "mapsharing.h"
 #include <map>
 #include <set>
 #include <algorithm>
@@ -3208,6 +3209,8 @@ bool game::handle_action()
    break;
 
   case ACTION_DEBUG:
+   if(MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger())
+       break; //don't do anything when sharing and not debugger
    debug();
    refresh_all();
    break;
@@ -3221,10 +3224,14 @@ bool game::handle_action()
    break;
 
   case ACTION_DISPLAY_SCENT:
+   if(MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger())
+       break; //don't do anything when sharing and not debugger
    display_scent();
    break;
 
   case ACTION_TOGGLE_DEBUGMON:
+   if(MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger())
+       break; //don't do anything when sharing and not debugger
    debugmon = !debugmon;
    if (debugmon) {
     add_msg(_("Debug messages ON!"));
@@ -3640,9 +3647,13 @@ bool game::save_factions_missions_npcs ()
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
 
-    fout.open(masterfile.c_str());
+    fopen_exclusive(fout, masterfile.c_str());
+    if(!fout.is_open()) {
+        return true; //trick code into thinking that everything went okay
+    }
+
     serialize_master(fout);
-    fout.close();
+    fclose_exclusive(fout, masterfile.c_str());
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save factions to %s"), masterfile.c_str());
@@ -3656,7 +3667,12 @@ bool game::save_artifacts()
     try {
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
-    fout.open(artfilename.c_str(), std::ofstream::trunc);
+
+    fopen_exclusive(fout, artfilename.c_str(), std::ofstream::trunc);
+    if(!fout.is_open()) {
+        return true; // trick game into thinking it was saved
+    }
+
     JsonOut json(fout);
     json.start_array();
     for ( std::vector<std::string>::iterator it =
@@ -3671,7 +3687,8 @@ bool game::save_artifacts()
     }
     }
     json.end_array();
-    fout.close();
+    fclose_exclusive(fout, artfilename.c_str());
+
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save artifacts to %s"), artfilename.c_str());
@@ -3697,9 +3714,14 @@ bool game::save_uistate() {
     try {
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
-    fout.open(savefile.c_str());
+
+    fopen_exclusive(fout, savefile.c_str());
+    if(!fout.is_open()) {
+        return true; //trick game into thinking it was saved
+    }
+
     fout << uistate.serialize();
-    fout.close();
+    fclose_exclusive(fout, savefile.c_str());
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save uistate to %s"), savefile.c_str());
