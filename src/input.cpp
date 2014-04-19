@@ -344,7 +344,9 @@ void input_manager::load(const std::string &file_name)
 
         const std::string action_id = action.get_string("id");
         const std::string context = action.get_string("category", default_context_id);
-        action_contexts[context][action_id].name = action.get_string("name", action_id);
+        if (action.has_member("name")) {
+            action_contexts[context][action_id].name = action.get_string("name");
+        }
 
         // Iterate over the bindings JSON array
         JsonArray bindings = action.get_array("bindings");
