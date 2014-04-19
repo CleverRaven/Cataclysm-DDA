@@ -1,5 +1,6 @@
 #include "action.h"
 #include "output.h"
+#include "options.h"
 #include "path_info.h"
 #include "file_wrapper.h"
 #include "debug.h"
@@ -1145,7 +1146,7 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_BIONICS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
             #ifdef TILES
-            if (is_draw_tiles_mode()) {
+            if (use_tiles) {
                 REGISTER_ACTION(ACTION_ZOOM_OUT);
                 REGISTER_ACTION(ACTION_ZOOM_IN);
             }
