@@ -257,6 +257,12 @@ private:
     void add_keycode_pair(long ch, const std::string& name);
     void add_gamepad_keycode_pair(long ch, const std::string& name);
 
+    /**
+     * Load keybindings from a json file, override existing bindings.
+     * Throws std::string on errors
+     */
+    void load(const std::string &file_name);
+
     int input_timeout;
 
     t_input_event_list &get_event_list(const std::string &action_descriptor, const std::string &context);

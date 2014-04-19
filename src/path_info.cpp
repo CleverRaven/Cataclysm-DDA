@@ -89,6 +89,7 @@ void set_standart_filenames(void)
     update_pathname("config_dir", FILENAMES["user_dir"] + "config/");
     update_pathname("options", FILENAMES["config_dir"] + "options.txt");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
+    update_pathname("user_keybindings", FILENAMES["config_dir"] + "keybindings.json");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "FONTDATA");

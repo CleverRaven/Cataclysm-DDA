@@ -264,60 +264,8 @@ void input_manager::init()
     load_keyboard_settings(keymap, keymap_file_loaded_from, unbound_keymap);
     init_keycode_mapping();
 
-    std::ifstream data_file;
-
-    std::string file_name = FILENAMES["keybindings"];
-    data_file.open(file_name.c_str(), std::ifstream::in | std::ifstream::binary);
-
-    if(!data_file.good()) {
-        throw "Could not read " + file_name;
-    }
-
-    JsonIn jsin(data_file);
-
-    //Crawl through once and create an entry for every definition
-    jsin.start_array();
-    while (!jsin.end_array()) {
-        // JSON object representing the action
-        JsonObject action = jsin.get_object();
-
-        const std::string action_id = action.get_string("id");
-        actionID_to_name[action_id] = action.get_string("name", action_id);
-        const std::string context = action.get_string("category", default_context_id);
-
-        // Iterate over the bindings JSON array
-        JsonArray bindings = action.get_array("bindings");
-        t_input_event_list &events = action_contexts[context][action_id];
-        while (bindings.has_more()) {
-            JsonObject keybinding = bindings.next_object();
-            std::string input_method = keybinding.get_string("input_method");
-            input_event new_event;
-            if(input_method == "keyboard") {
-                new_event.type = CATA_INPUT_KEYBOARD;
-            } else if(input_method == "gamepad") {
-                new_event.type = CATA_INPUT_GAMEPAD;
-            } else if(input_method == "mouse") {
-                new_event.type = CATA_INPUT_MOUSE;
-            }
-
-            if (keybinding.has_array("key")) {
-                JsonArray keys = keybinding.get_array("key");
-                while (keys.has_more()) {
-                    new_event.sequence.push_back(
-                        get_keycode(keys.next_string())
-                    );
-                }
-            } else { // assume string if not array, and throw if not string
-                new_event.sequence.push_back(
-                    get_keycode(keybinding.get_string("key"))
-                );
-            }
-
-            events.push_back(new_event);
-        }
-    }
-
-    data_file.close();
+    load(FILENAMES["keybindings"]);
+    load(FILENAMES["user_keybindings"]);
 
     if (keymap_file_loaded_from.empty() || (keymap.empty() && unbound_keymap.empty())) {
         // No keymap file was loaded, or the file has no mappings and no unmappings,
@@ -373,10 +321,72 @@ void input_manager::init()
     }
 }
 
+void input_manager::load(const std::string &file_name)
+{
+    std::ifstream data_file(file_name.c_str(), std::ifstream::in | std::ifstream::binary);
+
+    if(!data_file.good()) {
+        // Only throw if this is the first file to load, that file _must_ exist,
+        // otherwise the keybindings can not be read at all.
+        if (action_contexts.empty()) {
+            throw "Could not read " + file_name;
+        }
+        return;
+    }
+
+    JsonIn jsin(data_file);
+
+    //Crawl through once and create an entry for every definition
+    jsin.start_array();
+    while (!jsin.end_array()) {
+        // JSON object representing the action
+        JsonObject action = jsin.get_object();
+
+        const std::string action_id = action.get_string("id");
+        if (actionID_to_name.count(action_id) == 0) {
+            actionID_to_name[action_id] = action.get_string("name", action_id);
+        }
+        const std::string context = action.get_string("category", default_context_id);
+
+        // Iterate over the bindings JSON array
+        JsonArray bindings = action.get_array("bindings");
+        t_input_event_list &events = action_contexts[context][action_id];
+        // In case this is the second file, this removes the default bindings.
+        events.clear();
+        while (bindings.has_more()) {
+            JsonObject keybinding = bindings.next_object();
+            std::string input_method = keybinding.get_string("input_method");
+            input_event new_event;
+            if(input_method == "keyboard") {
+                new_event.type = CATA_INPUT_KEYBOARD;
+            } else if(input_method == "gamepad") {
+                new_event.type = CATA_INPUT_GAMEPAD;
+            } else if(input_method == "mouse") {
+                new_event.type = CATA_INPUT_MOUSE;
+            }
+
+            if (keybinding.has_array("key")) {
+                JsonArray keys = keybinding.get_array("key");
+                while (keys.has_more()) {
+                    new_event.sequence.push_back(
+                        get_keycode(keys.next_string())
+                    );
+                }
+            } else { // assume string if not array, and throw if not string
+                new_event.sequence.push_back(
+                    get_keycode(keybinding.get_string("key"))
+                );
+            }
+
+            events.push_back(new_event);
+        }
+    }
+}
+
 void input_manager::save() {
     std::ofstream data_file;
 
-    std::string file_name = FILENAMES["keybindings"];
+    std::string file_name = FILENAMES["user_keybindings"];
     std::string file_name_tmp = file_name + ".tmp";
     data_file.open(file_name_tmp.c_str(), std::ifstream::binary);
 
@@ -394,7 +404,6 @@ void input_manager::save() {
             jsout.start_object();
 
             jsout.member("id", b->first);
-            jsout.member("name", actionID_to_name[b->first]);
             jsout.member("category", a->first);
             jsout.member("bindings");
             jsout.start_array();
