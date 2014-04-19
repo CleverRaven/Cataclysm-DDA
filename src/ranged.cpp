@@ -9,7 +9,6 @@
 #include "options.h"
 #include "action.h"
 #include "input.h"
-#include "helper.h"
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
