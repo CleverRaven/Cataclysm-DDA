@@ -3598,7 +3598,6 @@ bool game::save_factions_missions_npcs ()
 
 bool game::save_artifacts()
 {
-    int artifactlock = -1;
     std::string artfilename = world_generator->active_world->world_path + "/artifacts.gsav";
     try {
     std::ofstream fout;
@@ -3646,7 +3645,6 @@ bool game::save_maps()
 }
 
 bool game::save_uistate() {
-    int uistatelock = -1;
     std::string savefile = world_generator->active_world->world_path + "/uistate.json";
     try {
     std::ofstream fout;
