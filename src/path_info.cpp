@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include "path_info.h"
 
-// create map where we will store the PATH_INFO::FILENAMES
-std::map<std::string, std::string> PATH_INFO::FILENAMES;
+// create map where we will store the FILENAMES
+std::map<std::string, std::string> FILENAMES;
 
 void PATH_INFO::init_base_path(std::string path)
 {

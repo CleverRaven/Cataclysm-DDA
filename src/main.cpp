@@ -218,8 +218,8 @@ int main(int argc, char *argv[])
 #ifdef LOCALIZE
     const char *locale_dir;
 #ifdef __linux__
-    if (!PATH_INFO::FILENAMES["base_path"].empty()) {
-        locale_dir = std::string(PATH_INFO::FILENAMES["base_path"] + "share/locale").c_str();
+    if (!FILENAMES["base_path"].empty()) {
+        locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
     } else {
         locale_dir = "lang/mo";
     }
@@ -256,9 +256,9 @@ int main(int argc, char *argv[])
     // First load and initialize everything that does not
     // depend on the mods.
     try {
-        if (!assure_dir_exist(PATH_INFO::FILENAMES["user_dir"].c_str())) {
+        if (!assure_dir_exist(FILENAMES["user_dir"].c_str())) {
             debugmsg("Can't open or create %s. Check permissions.",
-                     PATH_INFO::FILENAMES["user_dir"].c_str());
+                     FILENAMES["user_dir"].c_str());
             exit_handler(-999);
         }
         g->load_static_data();

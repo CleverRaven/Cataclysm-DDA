@@ -479,7 +479,7 @@ static int traceback(lua_State *L) {
 
     // Print the stack trace to our debug log.
     std::ofstream debug_out;
-    debug_out.open(PATH_INFO::FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
+    debug_out.open(FILENAMES["debug"].c_str(), std::ios_base::app | std::ios_base::out);
     debug_out << stacktrace << "\n";
     debug_out.close();
     return 1;
@@ -531,8 +531,8 @@ void game::init_lua() {
     luaL_register(lua_state, "game", global_funcs);
 
     // Load lua-side metatables etc.
-    luaL_dofile(lua_state, PATH_INFO::FILENAMES["class_defslua"].c_str());
-    luaL_dofile(lua_state, PATH_INFO::FILENAMES["autoexeclua"].c_str());
+    luaL_dofile(lua_state, FILENAMES["class_defslua"].c_str());
+    luaL_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
 }
 #endif // #ifdef LUA
 

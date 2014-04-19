@@ -254,7 +254,7 @@ void input_manager::init()
 
     std::ifstream data_file;
 
-    std::string file_name = PATH_INFO::FILENAMES["keybindings"];
+    std::string file_name = FILENAMES["keybindings"];
     data_file.open(file_name.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if(!data_file.good()) {
@@ -310,7 +310,7 @@ void input_manager::init()
 void input_manager::save() {
     std::ofstream data_file;
 
-    std::string file_name = PATH_INFO::FILENAMES["keybindings"];
+    std::string file_name = FILENAMES["keybindings"];
     std::string file_name_tmp = file_name + ".tmp";
     data_file.open(file_name_tmp.c_str(), std::ifstream::binary);
 

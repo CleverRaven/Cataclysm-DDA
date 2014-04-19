@@ -61,7 +61,7 @@ void MAP_SHARING::setDefaults() {
     MAP_SHARING::addAdmin("admin");
 }
 
-int MAP_SHARING::getLock( char const *lockName ) {
+int getLock( char const *lockName ) {
     #ifdef __linux__ // make non-linux operating systems happy
     mode_t m = umask( 0 );
     int fd = open( lockName, O_RDWR|O_CREAT, 0666 );
@@ -73,14 +73,41 @@ int MAP_SHARING::getLock( char const *lockName ) {
     }
     return fd;
     #endif // __linux__
-    return -1;
+    return 0; // only if not on linux
 }
 
-void MAP_SHARING::releaseLock( int fd, char const *lockName ) {
+void releaseLock( int fd, char const *lockName ) {
     #ifdef __linux__ // same as above
     if( fd < 0 )
         return;
     remove( lockName );
     close( fd );
     #endif // __linux__
+}
+
+std::map<std::string,int> lockFiles;
+
+void fopen_exclusive(std::ofstream& fout, const char* filename,  std::ios_base::openmode mode) { //TODO: put this in an ofstream_exclusive class?
+    std::string lockfile = std::string(filename)+".lock";
+    lockFiles[lockfile] = getLock(lockfile.c_str());
+    if(lockFiles[lockfile] != -1) {
+        fout.open(filename, mode);
+    }
+}
+/*
+std::ofstream fopen_exclusive(const char* filename) {
+    std::string lockfile = std::string(filename)+".lock";
+    std::ofstream fout;
+    lockFiles[lockfile] = getLock(lockfile);
+    if(lockFiles[lockfile] != -1) {
+        fout.open(filename, std::fstream::ios_base::out);
+    }
+    return fout;
+} */
+
+void fclose_exclusive(std::ofstream &fout, const char* filename) {
+    std::string lockFile = std::string(filename)+".lock";
+    fout.close();
+    releaseLock(lockFiles[lockFile], lockFile.c_str());
+    lockFiles[lockFile] = -1;
 }

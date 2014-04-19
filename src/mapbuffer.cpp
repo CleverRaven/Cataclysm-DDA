@@ -152,26 +152,21 @@ void mapbuffer::save( bool delete_after_save )
         quad_path << segment_path.str() << "/" << om_addr.x << "." <<
             om_addr.y << "." << om_addr.z << ".map";
 
-        if(MAP_SHARING::isSharing()) {
-            mapkeylock = MAP_SHARING::getLock((quad_path.str()+".lock").c_str());
-            if(mapkeylock != -1) {
-                save_quad( quad_path.str(), om_addr, delete_after_save );
-                num_saved_submaps += 4;
-                MAP_SHARING::releaseLock(mapkeylock ,(quad_path.str()+".lock").c_str());
-                mapkeylock = -1;
+        save_quad( quad_path.str(), om_addr, delete_after_save );
+        num_saved_submaps += 4;
 
-            }
-        } else {
-            save_quad( quad_path.str(), om_addr, delete_after_save );
-            num_saved_submaps += 4;
-        }
     }
 }
 
 void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
                            bool delete_after_save )
 {
-    std::ofstream fout( filename.c_str() );
+    std::ofstream fout;
+    fopen_exclusive(fout, filename.c_str());
+    if(!fout.is_open()) {
+        return;
+    }
+
     std::vector<point> offsets;
     offsets.push_back( point(0, 0) );
     offsets.push_back( point(0, 1) );
@@ -372,7 +367,7 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         jsout.end_object();
     }
     jsout.end_array();
-    fout.close();
+    fclose_exclusive(fout, filename.c_str());
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and

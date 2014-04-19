@@ -609,14 +609,10 @@ void overmap::save()
     fout.close();
 
     // World terrain data
-    int keyLock = -1;
-    if(MAP_SHARING::isSharing()) {
-        keyLock = MAP_SHARING::getLock((terfilename+".lock").c_str());
-    }
-    if(keyLock == -1) { //skip the following save code when someone else is already writing
+    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
+    if(!fout.is_open()) {
         return;
     }
-    fout.open(terfilename.c_str(), std::ios_base::trunc);
     fout << "# version " << savegame_version << std::endl;
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
@@ -678,12 +674,7 @@ void overmap::save()
     for (int i = 0; i < npcs.size(); i++)
         fout << "n " << npcs[i]->save_info() << std::endl;
 
-    if(MAP_SHARING::isSharing()) {
-        fout.close();
-        MAP_SHARING::releaseLock(keyLock, (terfilename+".lock").c_str());
-    } else {
-        fout.close();
-    }
+    fclose_exclusive(fout, terfilename.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

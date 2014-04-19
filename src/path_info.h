@@ -13,9 +13,9 @@
 #define is_filesep(ch) (ch == '/' || ch == '\\')
 #endif // ifndef
 
-namespace PATH_INFO {
 extern std::map<std::string,std::string> FILENAMES;
 
+namespace PATH_INFO {
 void init_base_path(std::string path);
 void init_user_dir(const char *ud = "");
 void update_datadir(void);

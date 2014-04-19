@@ -207,7 +207,7 @@ bool player::create(character_type type, std::string tempname)
             case PLTYPE_TEMPLATE: {
                 std::ifstream fin;
                 std::stringstream filename;
-                filename << PATH_INFO::FILENAMES["templatedir"] << tempname << ".template";
+                filename << FILENAMES["templatedir"] << tempname << ".template";
                 fin.open(filename.str().c_str());
                 if (!fin.is_open()) {
                     debugmsg("Couldn't open %s!", filename.str().c_str());
@@ -1681,7 +1681,7 @@ void save_template(player *u)
     if (name.length() == 0) {
         return;
     }
-    std::string playerfile = PATH_INFO::FILENAMES["templatedir"] + name + ".template";
+    std::string playerfile = FILENAMES["templatedir"] + name + ".template";
 
     std::ofstream fout;
     fout.open(playerfile.c_str());

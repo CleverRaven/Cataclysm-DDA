@@ -981,10 +981,10 @@ static void font_folder_list(std::ofstream& fout, std::string path)
 
 static void save_font_list()
 {
-    std::ofstream fout(PATH_INFO::FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
+    std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
     bitmap_fonts = new std::set<std::string>;
 
-    font_folder_list(fout, PATH_INFO::FILENAMES["fontdir"]);
+    font_folder_list(fout, FILENAMES["fontdir"]);
 
 #if (defined _WIN32 || defined WINDOWS)
     char buf[256];
@@ -1020,15 +1020,15 @@ static void save_font_list()
 
 static std::string find_system_font(std::string name, int& faceIndex)
 {
-    std::ifstream fin(PATH_INFO::FILENAMES["fontlist"].c_str());
+    std::ifstream fin(FILENAMES["fontlist"].c_str());
     if ( !fin.is_open() ) {
         // Try opening the fontlist at the old location.
-        fin.open(PATH_INFO::FILENAMES["legacy_fontlist"].c_str());
+        fin.open(FILENAMES["legacy_fontlist"].c_str());
         if( !fin.is_open() ) {
             DebugLog() << "Generating fontlist\n";
-            assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
+            assure_dir_exist(FILENAMES["config_dir"]);
             save_font_list();
-            fin.open(PATH_INFO::FILENAMES["fontlist"].c_str());
+            fin.open(FILENAMES["fontlist"].c_str());
             if( !fin ) {
                 DebugLog() << "Can't open or create fontlist file.\n";
                 return "";
@@ -1120,15 +1120,15 @@ WINDOW *curses_init(void)
     std::ifstream fin;
     bool legacy_fontdata_loaded = false;
     int fontsize = 0; //actuall size
-    fin.open(PATH_INFO::FILENAMES["fontdata"].c_str());
+    fin.open(FILENAMES["fontdata"].c_str());
     if (!fin.is_open()){
-        fin.open(PATH_INFO::FILENAMES["legacy_fontdata"].c_str());
+        fin.open(FILENAMES["legacy_fontdata"].c_str());
         if( !fin.is_open() ) {
             fontwidth = 8;
             fontheight = 16;
-            assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
+            assure_dir_exist(FILENAMES["config_dir"]);
             std::ofstream fout;//create FONDATA file
-            fout.open(PATH_INFO::FILENAMES["fontdata"].c_str());
+            fout.open(FILENAMES["fontdata"].c_str());
             if(fout.is_open()) {
                 fout << typeface << "\n";
                 fout << fontwidth << "\n";
@@ -1154,9 +1154,9 @@ WINDOW *curses_init(void)
 
     if( legacy_fontdata_loaded ) {
         // Write FONDATA file to new location.
-        assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
+        assure_dir_exist(FILENAMES["config_dir"]);
         std::ofstream fout;
-        fout.open(PATH_INFO::FILENAMES["fontdata"].c_str());
+        fout.open(FILENAMES["fontdata"].c_str());
         if(fout.is_open()) {
             fout << typeface << "\n";
             fout << fontwidth << "\n";
@@ -1172,7 +1172,7 @@ WINDOW *curses_init(void)
     int map_fontheight = fontheight;
     int map_fontsize = fontsize;
 
-    std::ifstream jsonstream(PATH_INFO::FILENAMES["second_fontdata"].c_str(), std::ifstream::binary);
+    std::ifstream jsonstream(FILENAMES["second_fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
         JsonIn json(jsonstream);
         JsonObject config = json.get_object();
@@ -1221,7 +1221,7 @@ WINDOW *curses_init(void)
     DebugLog() << "Initializing SDL Tiles context\n";
     tilecontext = new cata_tiles(renderer);
     try {
-        tilecontext->init(PATH_INFO::FILENAMES["gfxdir"]);
+        tilecontext->init(FILENAMES["gfxdir"]);
         DebugLog() << "Tiles initialized successfully.\n";
     } catch(std::string err) {
         // use_tiles is the cached value of the USE_TILES option.
@@ -1254,7 +1254,7 @@ Font *Font::load_font(const std::string &typeface, int fontsize, int fontwidth, 
         // Try to load as bitmap font.
         BitmapFont *bm_font = new BitmapFont(fontwidth, fontheight);
         try {
-            bm_font->load_font(PATH_INFO::FILENAMES["fontdir"] + typeface);
+            bm_font->load_font(FILENAMES["fontdir"] + typeface);
             // It worked, tell the world to use bitmap_font.
             return bm_font;
         } catch(std::exception &err) {
@@ -1335,7 +1335,7 @@ int curses_start_color(void)
 {
     colorpairs = new pairs[100];
     //Load the console colors from colors.json
-    std::ifstream colorfile(PATH_INFO::FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
+    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
         char ch;
@@ -1368,7 +1368,7 @@ int curses_start_color(void)
         }
     }
     catch(std::string e){
-        throw PATH_INFO::FILENAMES["colors"] + ": " + e;
+        throw FILENAMES["colors"] + ": " + e;
     }
     if(consolecolors.empty())return 0;
     windowsPalette[0]  = BGR(ccolor("BLACK"));
@@ -1687,13 +1687,13 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
-        typeface = PATH_INFO::FILENAMES["fontdir"] + typeface + ".ttf";
+        typeface = FILENAMES["fontdir"] + typeface + ".ttf";
         DebugLog() << "Using compatible font [" + typeface + "].\n" ;
     }
     //different default font with wincurse
     if(!fexists(typeface.c_str())) {
         faceIndex = 0;
-        typeface = PATH_INFO::FILENAMES["fontdir"] + "fixedsys.ttf";
+        typeface = FILENAMES["fontdir"] + "fixedsys.ttf";
         DebugLog() << "Using fallback font [" + typeface + "].\n" ;
     }
     DebugLog() << "Loading truetype font [" + typeface + "].\n" ;
@@ -1765,7 +1765,7 @@ std::map<std::string, music_playlist> playlists;
 void musicFinished();
 
 void play_music_file(std::string filename, int volume) {
-    current_music = Mix_LoadMUS((PATH_INFO::FILENAMES["datadir"] + "/sound/" + filename).c_str());
+    current_music = Mix_LoadMUS((FILENAMES["datadir"] + "/sound/" + filename).c_str());
     Mix_VolumeMusic(volume * OPTIONS["MUSIC_VOLUME"] / 100);
     Mix_PlayMusic(current_music, 0);
     Mix_HookMusicFinished(musicFinished);
@@ -1814,7 +1814,7 @@ void play_music(std::string playlist) {
 }
 
 void load_soundset() {
-    std::string location = PATH_INFO::FILENAMES["datadir"] + "/sound/soundset.json";
+    std::string location = FILENAMES["datadir"] + "/sound/soundset.json";
     std::ifstream jsonstream(location.c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
         JsonIn json(jsonstream);

@@ -441,7 +441,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 void load_auto_pickup(bool bCharacter)
 {
     std::ifstream fin;
-    std::string sFile = PATH_INFO::FILENAMES["autopickup"];
+    std::string sFile = FILENAMES["autopickup"];
 
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
@@ -451,10 +451,10 @@ void load_auto_pickup(bool bCharacter)
     fin.open(sFile.c_str());
     if(!fin.is_open()) {
         if( !bCharacter ) {
-            fin.open(PATH_INFO::FILENAMES["legacy_autopickup"].c_str());
+            fin.open(FILENAMES["legacy_autopickup"].c_str());
         }
         if( !fin.is_open() ) {
-            assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
+            assure_dir_exist(FILENAMES["config_dir"]);
             create_default_auto_pickup(bCharacter);
             fin.open(sFile.c_str());
         } else {
@@ -517,7 +517,7 @@ void load_auto_pickup(bool bCharacter)
     merge_vector();
     createPickupRules();
     if( legacy_autopickup_loaded ) {
-        assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
+        assure_dir_exist(FILENAMES["config_dir"]);
         save_auto_pickup( bCharacter );
     }
 }
@@ -661,7 +661,7 @@ std::string auto_pickup_header(bool bCharacter)
 bool save_auto_pickup(bool bCharacter)
 {
     std::ofstream fout;
-    std::string sFile = PATH_INFO::FILENAMES["autopickup"];
+    std::string sFile = FILENAMES["autopickup"];
 
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
@@ -677,7 +677,7 @@ bool save_auto_pickup(bool bCharacter)
 
     fout.exceptions(std::ios::badbit | std::ios::failbit);
     try {
-        assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
+        assure_dir_exist(FILENAMES["config_dir"]);
         fout.open(sFile.c_str());
 
         fout << auto_pickup_header(bCharacter) << std::endl;
@@ -703,7 +703,7 @@ bool save_auto_pickup(bool bCharacter)
 void create_default_auto_pickup(bool bCharacter)
 {
     std::ofstream fout;
-    std::string sFile = PATH_INFO::FILENAMES["autopickup"];
+    std::string sFile = FILENAMES["autopickup"];
 
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";

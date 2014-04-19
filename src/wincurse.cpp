@@ -431,16 +431,16 @@ WINDOW *curses_init(void)
     char * typeface_c = 0;
     std::ifstream fin;
     bool loaded_legacy_fontdata = false;
-    fin.open(PATH_INFO::FILENAMES["fontdata"].c_str());
+    fin.open(FILENAMES["fontdata"].c_str());
     if (!fin.is_open()){
-        fin.open(PATH_INFO::FILENAMES["legacy_fontdata"].c_str());
+        fin.open(FILENAMES["legacy_fontdata"].c_str());
         if( !fin.is_open() ) {
             typeface_c = (char*) "Terminus";
             fontwidth = 8;
             fontheight = 16;
-            assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
+            assure_dir_exist(FILENAMES["config_dir"]);
             std::ofstream fout;//create data/FONDATA file
-            fout.open(PATH_INFO::FILENAMES["fontdata"].c_str());
+            fout.open(FILENAMES["fontdata"].c_str());
             if(fout.is_open()) {
                 fout << typeface << "\n";
                 fout << fontwidth << "\n";
@@ -464,9 +464,9 @@ WINDOW *curses_init(void)
 
     if( loaded_legacy_fontdata ) {
         // Create data/FONDATA file at new location.
-        assure_dir_exist(PATH_INFO::FILENAMES["config_dir"]);
+        assure_dir_exist(FILENAMES["config_dir"]);
         std::ofstream fout;
-        fout.open(PATH_INFO::FILENAMES["fontdata"].c_str());
+        fout.open(FILENAMES["fontdata"].c_str());
         if(fout.is_open()) {
             fout << typeface << "\n";
             fout << fontwidth << "\n";
@@ -623,7 +623,7 @@ int curses_start_color(void)
     windowsPalette = new RGBQUAD[16];
 
     //Load the console colors from colors.json
-    std::ifstream colorfile(PATH_INFO::FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
+    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
         char ch;
@@ -656,7 +656,7 @@ int curses_start_color(void)
         }
     }
     catch(std::string e){
-        throw PATH_INFO::FILENAMES["colors"] + ": " + e;
+        throw FILENAMES["colors"] + ": " + e;
     }
 
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
