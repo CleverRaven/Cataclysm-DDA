@@ -1927,10 +1927,11 @@ void player::disp_info()
    effect_text.push_back(dis_description(illness[i]));
   }
  }
-    for (std::vector<effect>::iterator it = effects.begin();
-        it != effects.end(); ++it) {
-        effect_name.push_back(it->disp_name());
-        effect_text.push_back(it->disp_desc(has_trait(it->get_resist_trait())));
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        if (it->disp_name() != "") {
+            effect_name.push_back(it->disp_name());
+            effect_text.push_back(it->disp_desc(has_trait(it->get_resist_trait())));
+        }
     }
  if (abs(morale_level()) >= 100) {
   bool pos = (morale_level() > 0);
@@ -3772,7 +3773,7 @@ void player::recalc_sight_limits()
     // Set sight_max.
     if (has_effect("blind")) {
         sight_max = 0;
-    } else if (has_disease("in_pit") ||
+    } else if (has_effect("in_pit") ||
             (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
@@ -3823,7 +3824,7 @@ int player::unimpaired_range()
  if (has_trait("PER_SLIME")) {
     ret = 6;
  }
- if (has_disease("in_pit")) {
+ if (has_effect("in_pit")) {
     ret = 1;
   }
  if (has_effect("blind")) {
@@ -5884,7 +5885,7 @@ void player::vomit()
         }
     }
     rem_disease("pkill1");
-    rem_disease("pkill2");
+    remove_effect("pkill2");
     rem_disease("pkill3");
     rem_disease("sleep");
 }

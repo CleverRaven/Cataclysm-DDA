@@ -35,9 +35,9 @@ enum dis_type_enum {
 // Food & Drugs
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
-  DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
+  DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
 // Traps
- DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT,
+ DI_LIGHTSNARE, DI_HEAVYSNARE,
 // Martial Arts
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
@@ -117,7 +117,6 @@ void game::init_diseases() {
     disease_type_lookup["iodine"] = DI_IODINE;
     disease_type_lookup["took_xanax"] = DI_TOOK_XANAX;
     disease_type_lookup["took_prozac"] = DI_TOOK_PROZAC;
-    disease_type_lookup["took_flumed"] = DI_TOOK_FLUMED;
     disease_type_lookup["adrenaline"] = DI_ADRENALINE;
     disease_type_lookup["jetinjector"] = DI_JETINJECTOR;
     disease_type_lookup["asthma"] = DI_ASTHMA;
@@ -125,7 +124,6 @@ void game::init_diseases() {
     disease_type_lookup["meth"] = DI_METH;
     disease_type_lookup["lightsnare"] = DI_LIGHTSNARE;
     disease_type_lookup["heavysnare"] = DI_HEAVYSNARE;
-    disease_type_lookup["in_pit"] = DI_IN_PIT;
     disease_type_lookup["attack_boost"] = DI_ATTACK_BOOST;
     disease_type_lookup["damage_boost"] = DI_DAMAGE_BOOST;
     disease_type_lookup["dodge_boost"] = DI_DODGE_BOOST;
@@ -610,7 +608,7 @@ void dis_effect(player &p, disease &dis)
             if (int(g->turn) % 50 == 0) {
                 p.fatigue++;
             }
-            if (p.has_disease("took_flumed")) {
+            if (p.has_effect("took_flumed")) {
             p.mod_str_bonus(-1);
             p.mod_int_bonus(-1);
             } else {
@@ -632,7 +630,7 @@ void dis_effect(player &p, disease &dis)
             if (int(g->turn) % 50 == 0) {
                 p.fatigue++;
             }
-            if (p.has_disease("took_flumed")) {
+            if (p.has_effect("took_flumed")) {
                 p.mod_str_bonus(-2);
                 p.mod_int_bonus(-1);
                 } else {
@@ -647,7 +645,7 @@ void dis_effect(player &p, disease &dis)
             if (one_in(300)) {
                 p.cough();
             }
-            if (!p.has_disease("took_flumed") || one_in(2)) {
+            if (!p.has_effect("took_flumed") || one_in(2)) {
                 if (one_in(3600) || p.will_vomit()) {
                     p.vomit();
                 }
@@ -1658,8 +1656,6 @@ std::string dis_name(disease& dis)
         if (dis.duration > 200) return _("High on Meth");
         else return _("Meth Comedown");
 
-    case DI_IN_PIT: return _("Stuck in Pit");
-
     case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
     case DI_ATTACK_BOOST: return _("Hit Bonus");
     case DI_DAMAGE_BOOST: return _("Damage Bonus");
@@ -2173,8 +2169,6 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         else
             return _(
             "Speed -40;   Strength - 3;   Dexterity - 2;   Intelligence - 2");
-
-    case DI_IN_PIT: return _("You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
     case DI_ATTACK_BOOST:
         return string_format(_("To-hit bonus + %d"), dis.intensity);

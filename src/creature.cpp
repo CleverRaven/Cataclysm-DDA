@@ -511,6 +511,16 @@ bool Creature::move_effects()
         }
         return true;
     }
+    if (has_effect("in_pit")) {
+        if (rng(0, 40) > get_str() + int(get_dex() / 2)) {
+            g->add_msg_if_player(this, _("You try to escape the pit, but slip back in."));
+            mod_moves(-100);
+            return true;
+        } else {
+            g->add_msg_if_player(this, _("You escape the pit!"));
+            remove_effect("in_pit");
+        }
+    }
     return false;
 }
 void Creature::add_effect(efftype_id eff_id, int dur, bool perm, int intensity, body_part bp,

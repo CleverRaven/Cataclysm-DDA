@@ -617,17 +617,17 @@ int iuse::pkill(player *p, item *it, bool)
     // Codeine
     } else if (it->has_flag("PKILL_2")) {
         g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill2", 180);
+        p->add_effect("pkill2", 180);
 
     } else if (it->has_flag("PKILL_3")) {
         g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
         p->add_disease("pkill3", 20);
-        p->add_disease("pkill2", 200);
+        p->add_effect("pkill2", 200);
 
     } else if (it->has_flag("PKILL_4")) {
         g->add_msg_if_player(p,_("You shoot up."));
         p->add_disease("pkill3", 80);
-        p->add_disease("pkill2", 200);
+        p->add_effect("pkill2", 200);
 
     } else if (it->has_flag("PKILL_L")) {
         g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
@@ -1187,13 +1187,13 @@ int iuse::iodine(player *p, item *it, bool) {
 }
 
 int iuse::flumed(player *p, item *it, bool) {
-    p->add_disease("took_flumed", 6000);
+    p->add_effect("took_flumed", 6000);
     g->add_msg_if_player(p,_("You take some %s"), it->tname().c_str());
     return it->type->charges_to_use();
 }
 
 int iuse::flusleep(player *p, item *it, bool) {
-    p->add_disease("took_flumed", 7200);
+    p->add_effect("took_flumed", 7200);
     p->fatigue += 30;
     g->add_msg_if_player(p,_("You take some %s"), it->tname().c_str());
     g->add_msg_if_player(p,_("You feel very sleepy..."));

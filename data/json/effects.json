@@ -188,18 +188,20 @@
             "vomit_chance" : [1000]
         }
     },
-   {
-      "type" : "effect_type",
-      "id" : "took_flumed"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "in_pit"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "pkill2"
-   },
+    {
+        "type" : "effect_type",
+        "id" : "took_flumed"
+    },
+    {
+        "type" : "effect_type",
+        "id" : "in_pit",
+        "name" : ["Stuck in Pit"],
+        "desc" : ["You're stuck in a pit.  Sight distance is limited and you have to climb out."]
+    },
+    {
+        "type" : "effect_type",
+        "id" : "pkill2"
+    },
    {
       "type" : "effect_type",
       "id" : "null"

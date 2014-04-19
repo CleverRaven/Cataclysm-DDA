@@ -586,7 +586,7 @@ void trapfunc::pit(int x, int y)
             g->add_msg(_("You land nimbly."));
         }
     }
-    g->u.add_disease("in_pit", 1, true);
+    g->u.add_effect("in_pit", 1, true);
 }
 
 void trapfuncm::pit(monster *z, int x, int y)
@@ -645,7 +645,7 @@ void trapfunc::pit_spikes(int x, int y)
             }
         }
     }
-    g->u.add_disease("in_pit", 1, true);
+    g->u.add_effect("in_pit", 1, true);
 }
 
 void trapfuncm::pit_spikes(monster *z, int x, int y)
