@@ -768,11 +768,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  wrefresh(w_target);
  bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
-    std::string enemiesmsg= (t.size()==1) ? _("Enemy") : _("Enemies");
-    enemiesmsg= (t.size()) ? (helper::to_string_int(t.size()))+ _(" ") + enemiesmsg: _("No Enemies");
-    enemiesmsg += _(" ");
-    enemiesmsg += _("in range");
-    enemiesmsg += _(".");
+    std::string enemiesmsg;
+    if (t.size()==0) {
+        enemiesmsg= _("No Enemies in range.");
+    } else {
+        enemiesmsg= string_format(ngettext("%d Enemy in range.", "%d Enemies in range.", t.size()), t.size());
+    }
 
  do {
   if (m.sees(u.posx, u.posy, x, y, -1, tart))
