@@ -3284,7 +3284,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 
             g->add_msg_if_player(u, ngettext("You pick up: %d %s", "You pick up: %d %ss", charges),
                              charges, clone.name.c_str());
-            u->moves -= movesPerArrow * charges;
+            u->moves -= 100;
 
             charges = 0;
         }
