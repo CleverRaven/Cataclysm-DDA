@@ -9320,7 +9320,8 @@ int player::warmth(body_part bp)
     return ret;
 }
 
-int player::encumb(body_part bp) {
+int player::encumb(body_part bp)
+{
     int iArmorEnc = 0;
     double iLayers = 0;
     return encumb(bp, iLayers, iArmorEnc);
@@ -9330,7 +9331,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
     int skintight = 0;
-    double layer[CLOTHING_LAYERS_COUNT] = { };
+    double layer[MAX_CLOTHING_LAYER] = { };
     int level;
 
     it_armor* armor;
@@ -9343,13 +9344,13 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
 
         if( armor->covers & mfb(bp) ) {
             if( worn[i].has_flag( "SKINTIGHT" ) ) {
-                level = underwear;
+                level = UNDERWEAR;
             } else if ( worn[i].has_flag( "OUTER" ) ) {
-                level = outer_layer;
+                level = OUTER_LAYER;
             } else if ( worn[i].has_flag( "BELTED") ) {
-                level = belted_layer;
+                level = BELTED_LAYER;
             } else {
-                level = regular_layer;
+                level = REGULAR_LAYER;
             }
 
             layer[level]++;
@@ -9368,12 +9369,12 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                         layer[level] -= .5;
                     }
                 }
-                if( level == underwear && layer[underwear] > 0) {
+                if( level == UNDERWEAR && layer[UNDERWEAR] > 0) {
                     // Skintight clothes will negate layering.
                     // But only if we aren't wearing more than two.
                     if (skintight < 2) {
                         skintight++;
-                        layer[underwear] -= .5;
+                        layer[UNDERWEAR] -= .5;
                     }
                 }
             }
@@ -9385,7 +9386,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
     ret += armorenc;
 
-    for (int i = 0; i < CLOTHING_LAYERS_COUNT; ++i) {
+    for (int i = 0; i < MAX_CLOTHING_LAYER; ++i) {
         if (layer[i] > 1) {
             layers += int(layer[i]) - 1;
         }

@@ -2,6 +2,7 @@
 #include "armor_layers.h"
 #include "cursesdef.h"
 #include "disease.h"
+#include "itype.h"
 #include "input.h"
 #include "output.h"
 
