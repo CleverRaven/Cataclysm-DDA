@@ -769,9 +769,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
     std::string enemiesmsg;
     if (t.size()==0) {
-        enemiesmsg= _("No Enemies in range.");
+        enemiesmsg= _("No targets in range.");
     } else {
-        enemiesmsg= string_format(ngettext("%d Enemy in range.", "%d Enemies in range.", t.size()), t.size());
+        enemiesmsg= string_format(ngettext("%d target in range.", "%d targets in range.", t.size()), t.size());
     }
 
  do {
