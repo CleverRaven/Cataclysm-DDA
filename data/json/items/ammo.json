@@ -95,7 +95,7 @@
     {   "type" : "AMMO",
         "id" : "sinew",
         "category" : "spare_parts",
-        "price" : 12000,
+        "price" : 0,
         "name" : "sinew",
         "symbol" : "=",
         "color" : "light_red",
