@@ -482,6 +482,8 @@ void add_corpse(int x, int y);
                               // Useful for houses, shops, etc
  void add_road_vehicles(bool city, int facing);
 
+ void splatter_blood(int posx, int posy, field_id type_blood, int damage = -1000);
+
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
@@ -532,7 +534,7 @@ private:
   */
  submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
  submap *get_submap_at_grid(int gridx, int gridy) const;
- 
+
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
