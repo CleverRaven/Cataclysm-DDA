@@ -846,6 +846,7 @@ bool input_context::get_direction(int &dx, int &dy, const std::string &action)
 
 void input_context::display_help()
 {
+    inp_mngr.set_timeout(-1);
     // Shamelessly stolen from help.cpp
     WINDOW *w_help = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
                             1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
