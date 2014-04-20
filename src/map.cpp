@@ -2351,7 +2351,13 @@ item map::water_from(const int x, const int y)
         ret.poison = rng(1, 7);
     return ret;
 }
+item map::swater_from(const int x, const int y)
+{
+    (void)x; (void)y;
+    item ret(item_controller->find_template("salt_water"), 0);
 
+    return ret;
+}
 item map::acid_from(const int x, const int y)
 {
     (void)x; (void)y; //all acid is acid, i guess?

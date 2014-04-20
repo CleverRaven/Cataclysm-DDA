@@ -1822,7 +1822,22 @@ void iexamine::water_source(player *p, map *m, const int examx, const int examy)
         p->moves -= 350;
     }
 }
-
+void iexamine::swater_source(player *p, map *m, const int examx, const int examy)
+{
+    item swater = m->swater_from(examx, examy);
+    // Try to handle first (bottling) drink after.
+    // changed boolean, large sources should be infinite
+    if (g->handle_liquid(swater, true, true))
+    {
+        p->moves -= 100;
+    }
+    else if (query_yn(_("Drink from your hands?")))
+    {
+        p->inv.push_back(swater);
+        p->consume(p->inv.position_by_type(swater.typeId()));
+        p->moves -= 350;
+    }
+}
 void iexamine::acid_source(player *p, map *m, const int examx, const int examy)
 {
     item acid = m->acid_from(examx, examy);
@@ -2075,6 +2090,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("water_source" == function_name) {
     return &iexamine::water_source;
+  }
+  if ("swater_source" == function_name) {
+    return &iexamine::swater_source;
   }
   if ("acid_source" == function_name) {
     return &iexamine::acid_source;

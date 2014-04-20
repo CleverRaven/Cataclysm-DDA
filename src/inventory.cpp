@@ -566,6 +566,11 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 water.charges = 50;
                 add_item(water);
             }
+	    if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
+                item swater(itypes["water_salt"], 0);
+		swater.charges = 50;
+		add_item(swater);
+	    }
             // add cvd forge from terrain
             if (terrain_id == t_cvdmachine) {
                 item cvd_machine(itypes["cvd_machine"], 0);
