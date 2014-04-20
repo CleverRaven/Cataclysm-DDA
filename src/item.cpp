@@ -3270,7 +3270,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                 arrowsStored = worn->contents[0].charges - arrowsStored;
                 g->add_msg_if_player(u, ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
                                      arrowsStored, worn->contents[0].name.c_str(), worn->name.c_str());
-                u->moves -= movesPerArrow * arrowsStored;
+                u->moves -= std::min(100, movesPerArrow * arrowsStored);
                 arrowsQuivered += arrowsStored;
             }
         }
