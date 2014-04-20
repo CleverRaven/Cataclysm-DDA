@@ -654,7 +654,7 @@ void input_context::list_conflicts(const input_event &event, const input_manager
             if (!buffer.str().empty()) {
                 buffer << _(", ");
             }
-            buffer << b->second.name;
+            buffer << get_action_name(b->first);
         }
     }
 }
@@ -717,7 +717,7 @@ void input_context::register_action(const std::string &action_descriptor, const 
 
     registered_actions.push_back(action_descriptor);
     if (!name.empty()) {
-        inp_mngr.action_contexts[category][action_descriptor].name = name;
+        action_name_overrides[action_descriptor] = name;
     }
 }
 
@@ -951,7 +951,7 @@ void input_context::display_help()
             } else {
                 col = global_key;
             }
-            mvwprintz(w_help, i + 1, 4, col, "%s: ", attributes.name.c_str());
+            mvwprintz(w_help, i + 1, 4, col, "%s: ", get_action_name(action_id).c_str());
             mvwprintz(w_help, i + 1, 30, col, "%s", get_desc(action_id).c_str());
         }
         wrefresh(w_help);
@@ -970,8 +970,8 @@ void input_context::display_help()
 
             // Check if this entry is local or global.
             bool is_local = false;
-            const action_attributes &attributes = inp_mngr.get_action_attributes(action_id, category, &is_local);
-            const std::string name = attributes.name;
+            inp_mngr.get_action_attributes(action_id, category, &is_local);
+            const std::string name = get_action_name(action_id);
 
             if (status == s_remove && query_yn(_("Clear keys for %s?"), name.c_str())) {
 
@@ -1131,10 +1131,30 @@ void init_interface()
 
 const std::string& input_context::get_action_name(const std::string& action_id) const
 {
-    const action_attributes &attributes = inp_mngr.get_action_attributes(action_id, category);
-    return attributes.name;
-}
+    // 1) Check action name overrides specific to this input_context
+    const input_manager::t_string_string_map::const_iterator action_name_override = action_name_overrides.find(action_id);
+    if (action_name_override != action_name_overrides.end()) {
+        return action_name_override->second;
+    }
 
+    // 2) Check if the hotkey has a name
+    const action_attributes &attributes = inp_mngr.get_action_attributes(action_id, category);
+    if (!attributes.name.empty()) {
+        return attributes.name;
+    }
+
+    // 3) If the hotkey has no name, the user has created a local hotkey in
+    // this context that is masking the global hotkey. Fallback to the global
+    // hotkey's name.
+    const action_attributes &default_attributes = inp_mngr.get_action_attributes(action_id, default_context_id);
+    if (!default_attributes.name.empty()) {
+        return default_attributes.name;
+    }
+
+    // 4) Unable to find suitable name. Keybindings configuration likely borked
+    static const std::string unknown = _("UNKNOWN");
+    return unknown;
+}
 
 // (Press X (or Y)|Try) to Z
 std::string input_context::press_x(const std::string &action_id) const

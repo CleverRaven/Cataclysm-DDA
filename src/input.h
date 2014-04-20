@@ -449,6 +449,14 @@ private:
     input_event next_action;
 
     /**
+     * When registering for actions within an input_context, callers can
+     * specify a custom action name that will override the action's normal
+     * name. This map stores those overrides. The key is the action ID and the
+     * value is the user-visible name.
+     */
+    input_manager::t_string_string_map action_name_overrides;
+
+    /**
      * Return a user presentable list of actions that conflict with the
      * proposed keybinding. Returns an empty string if nothing conflicts.
      */
