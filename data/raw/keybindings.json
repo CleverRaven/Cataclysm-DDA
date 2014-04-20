@@ -596,34 +596,6 @@
     {
         "type" : "keybinding",
         "id":"QUIT",
-        "category":"OVERMAP",
-        "name":"Exit overmap screen",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"ESC"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"q"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"Q"
-            },
-            {
-                "input_method":"keyboard",
-                "key":" "
-            },
-            {
-                "input_method":"gamepad",
-                "key":"JOY_3"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"QUIT",
         "name":"Exit screen",
         "bindings":[
             {
