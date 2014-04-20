@@ -13331,8 +13331,9 @@ void game::update_stair_monsters() {
         for (size_t i = 0; i < stairdist.size(); i++) {
             if ((i != si) && (stairdist[i] <= stairdist[si] + 1)) {
                 nearest[found++]=i;
-                if (found==4)
+                if (found==4) {
                     break;
+                }
             }
         }
         // Randomize the stair choice
@@ -13356,9 +13357,9 @@ void game::update_stair_monsters() {
                     if (coming_to_stairs[i].staircount > 4)
                         dump << string_format(_("You see a %s on the stairs"), critter.name().c_str());
                     else
-                        //~ â€œThe <monster> is almost at the <bottom/top> of the <terrain type>!â€
+                        //~ “The <monster> is almost at the <bottom/top> of the <terrain type>!”
                         if (coming_to_stairs[i].staircount > 0)
-                              dump << (m.has_flag("GOES_UP", mposx, mposy)
+                              dump << (!(m.has_flag("GOES_UP", mposx, mposy)) //seems right when reversed!
                                 ? string_format(_("The %s is almost at the top of the %s!"), critter.name().c_str(), m.tername(mposx, mposy).c_str())
                                 : string_format(_("The %s is almost at the bottom of the %s!"), critter.name().c_str(), m.tername(mposx, mposy).c_str()));
                     add_msg(dump.str().c_str());
@@ -13388,7 +13389,7 @@ void game::update_stair_monsters() {
                     int tries = 0;
 
                     // the critter is now right on top of you and will attack unless
-                    // it can find a square to push you into inside of his tries.
+                    // it can find a square to push you into with one of his tries.
                     const int Times_critter_tries_to_push_you=9;
                     const int Throwresistant_u_is_not_pushed_one_in=3;
 
@@ -13400,27 +13401,31 @@ void game::update_stair_monsters() {
                         if ((pushx != 0 || pushy != 0) && (mon_at(iposx, iposy) == -1) && critter.can_move_to(iposx, iposy)) {
                             bool resiststhrow = (g->u.is_throw_immune()) || (u.has_trait("LEG_TENT_BRACE"));
                             if (resiststhrow && one_in(Throwresistant_u_is_not_pushed_one_in)) {
+                                u.moves -= 25; // small charge for avoiding the push altogether
                                 add_msg(_("The %s fails to push you back!"), critter.name().c_str());
                                 return; //judo or leg brace prevent you from getting pushed at all
                             }
-                            add_msg(_("The %s pushed you back!"), critter.name().c_str());
-                            u.posx += pushx;
-                            u.posy += pushy;
+                            // not accounting for tentacles latching on, so..
+                            // something is about to happen, lets charge a move
                             u.moves -= 100;
-                            // Stumble.  Unless your tentacles can latch on!
-                            // As with the knockback-pushing, decided not to
-                            // the system any more than necessary.
-                            std::string msg="";
-                            if ((resiststhrow) && (g->u.is_throw_immune())) {
+                            if (resiststhrow && (g->u.is_throw_immune())) {
+                                //we have a judoka who isn't getting pushed but counterattacking now.
                                 mattack defend;
-                                defend.judoka_throws(&critter); //always if throw immune.
-                            } else if (!(resiststhrow) && (u.get_dodge() < 12)) {
+                                defend.thrown_by_judo(&critter);
+                                return;
+                            }
+                            std::string msg="";
+                            if (!(resiststhrow) && (u.get_dodge()+rng(0,3) < 12)) {
+                                // dodge 12 - never get downed
+                                // 11.. avoid 75%; 10.. avoid 50%; 9.. avoid 25%
                                 u.add_effect("downed", 2);
                                 msg=_("The %s pushed you back hard!");
                             } else {
                                 msg=_("The %s pushed you back!");
                             };
                             add_msg(msg.c_str(), critter.name().c_str());
+                            u.posx += pushx;
+                            u.posy += pushy;
                             return;
                         }
                     }
@@ -13445,8 +13450,9 @@ void game::update_stair_monsters() {
                         pushx = rng(-1, 1), pushy = rng(-1, 1);
                         int iposx = mposx + pushx;
                         int iposy = mposy + pushy;
-                        if ((pushx == 0 && pushy == 0) || ((iposx == u.posx) && (iposy == u.posy)))
+                        if ((pushx == 0 && pushy == 0) || ((iposx == u.posx) && (iposy == u.posy))) {
                             continue;
+                        }
                         if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
                             other.setpos(iposx, iposy, false);
                             other.moves -= 100;
@@ -13812,7 +13818,7 @@ void game::write_msg()
         std::string mstr = m.message;
         if (m.count > 1) {
             std::stringstream mesSS;
-            //~ Message %s on the message log was repeated %d times, eg. â€œYou here a whack! x 12â€
+            //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
             mesSS << string_format(_("%s x %d"), mstr.c_str(), m.count);
             mstr = mesSS.str();
         }
@@ -13866,7 +13872,7 @@ void game::msg_buffer()
     std::string mes = mtmp->message;
     if (mtmp->count > 1) {
      std::stringstream mesSS;
-     //~ Message %s on the message log was repeated %d times, eg. â€œYou here a whack! x 12â€
+     //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
      mesSS << string_format(_("%s x %d"), mes.c_str(), mtmp->count);
      mes = mesSS.str();
     }
