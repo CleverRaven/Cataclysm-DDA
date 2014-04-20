@@ -703,9 +703,9 @@ action_id handle_action_menu()
 
 bool choose_direction(const std::string &message, int &x, int &y)
 {
-    input_context ctxt("DIRECTION");
+    input_context ctxt("DEFAULTMODE");
     ctxt.register_directions();
-    ctxt.register_action("PAUSE");
+    ctxt.register_action("pause");
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS"); // why not?
     //~ appended to "Close where?" "Pry where?" etc.
@@ -715,7 +715,7 @@ bool choose_direction(const std::string &message, int &x, int &y)
     const std::string action = ctxt.handle_input();
     if (input_context::get_direction(x, y, action)) {
         return true;
-    } else if (action == "PAUSE") {
+    } else if (action == "pause") {
         x = 0;
         y = 0;
         return true;
