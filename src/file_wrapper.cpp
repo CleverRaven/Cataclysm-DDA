@@ -9,6 +9,13 @@
 #include <unistd.h>
 #include <stdio.h>
 #endif
+#if (defined _WIN32 || defined __WIN32__)
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#include <tchar.h>
+#endif
 
 bool assure_dir_exist( std::string path ) {
     DIR *dir = opendir( path.c_str() );
