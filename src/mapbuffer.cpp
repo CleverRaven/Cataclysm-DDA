@@ -470,6 +470,9 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                         int type = jsin.get_int();
                         int density = jsin.get_int();
                         int age = jsin.get_int();
+                        if (sm->fld[i][j].findField(field_id(type)) == NULL) {
+                            sm->field_count++;
+                        }
                         sm->fld[i][j].addField(field_id(type), density, age);
                     }
                 }
