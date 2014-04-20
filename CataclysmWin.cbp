@@ -317,6 +317,8 @@
 		<Unit filename="src/mapgenformat.cpp" />
 		<Unit filename="src/mapgenformat.h" />
 		<Unit filename="src/mapitems.h" />
+		<Unit filename="src/mapsharing.cpp" />
+		<Unit filename="src/mapsharing.h" />
 		<Unit filename="src/martialarts.cpp" />
 		<Unit filename="src/martialarts.h" />
 		<Unit filename="src/material.cpp" />
