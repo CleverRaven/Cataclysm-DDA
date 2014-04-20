@@ -1198,5 +1198,65 @@
                 "key":"JOY_DOWN"
             }
         ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SCROLL_UP",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Scroll up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SCROLL_DOWN",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Scroll down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"REMOVE",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Remove bindings",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"ADD_LOCAL",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Add local keybinding",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"ADD_GLOBAL",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Add global keybinding",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"="
+            }
+        ]
     }
 ]
