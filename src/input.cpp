@@ -939,7 +939,8 @@ void input_context::display_help()
             bool is_local = false;
             inp_mngr.get_input_for_action(action_id, category, &is_local);
 
-            if (status == s_remove && query_yn(_("Clear keys for %s?"), name.c_str())) {
+
+            if (status == s_remove && (!OPTIONS["QUERY_KEYBIND_REMOVAL"] || query_yn(_("Clear keys for %s?"), name.c_str()))) {
 
                 // If it's global, reset the global actions.
                 std::string category_to_access = category;

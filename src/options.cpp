@@ -476,6 +476,12 @@ void initOptions() {
                                              true
                                             );
 
+    OPTIONS["QUERY_KEYBIND_REMOVAL"] = cOpt("interface",
+                                              _("Query on keybinding removal"),
+                                              _("If true, will query before removing a keybinding from a hotkey."),
+                                              true
+                                             );
+
     OPTIONS["CLOSE_ADV_INV"] =          cOpt("interface", _("Close advanced inventory on move all"),
                                              _("If true, will close the advanced inventory when the move all items command is used."),
                                              false
@@ -710,6 +716,7 @@ void initOptions() {
                                              _("If true automatically sets notes on places that have stairs that go up or down"),
                                              true
                                             );
+
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (unsigned i=0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
