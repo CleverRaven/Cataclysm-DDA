@@ -554,11 +554,13 @@
     "description": "A heavy iron disc that typically covers a ladder into the sewers. Lifting it from the manhole is impossible without a crowbar.",
     "price": 2000,
     "material": "iron",
+    "flags": ["DURABLE_MELEE"],
     "weight": 36287,
     "volume": 12,
     "bashing": 20,
     "cutting": 0,
     "to_hit": -5
+
   },
 
   {
