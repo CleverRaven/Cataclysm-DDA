@@ -344,13 +344,14 @@ void input_manager::load(const std::string &file_name)
 
         const std::string action_id = action.get_string("id");
         const std::string context = action.get_string("category", default_context_id);
-        if (action.has_member("name")) {
-            action_contexts[context][action_id].name = action.get_string("name");
+        action_attributes &attributes = action_contexts[context][action_id];
+        if (attributes.name.empty() && action.has_member("name")) {
+            attributes.name = action.get_string("name");
         }
 
         // Iterate over the bindings JSON array
         JsonArray bindings = action.get_array("bindings");
-        t_input_event_list &events = action_contexts[context][action_id].input_events;
+        t_input_event_list &events = attributes.input_events;
         // In case this is the second file, this removes the default bindings.
         events.clear();
         while (bindings.has_more()) {
@@ -1152,8 +1153,7 @@ const std::string& input_context::get_action_name(const std::string& action_id) 
     }
 
     // 4) Unable to find suitable name. Keybindings configuration likely borked
-    static const std::string unknown = _("UNKNOWN");
-    return unknown;
+    return action_id;
 }
 
 // (Press X (or Y)|Try) to Z
