@@ -462,6 +462,15 @@ private:
      */
     std::string get_conflicts(const input_event &event) const;
     void list_conflicts(const input_event &event, const input_manager::t_actions &actions, std::ostringstream &buffer) const;
+
+    /**
+     * Clear an input_event from all conflicting keybindings that are
+     * registered by this input_context.
+     *
+     * @param event The input event to be cleared from conflicting
+     * keybindings.
+     */
+    void clear_conflicting_keybindings(const input_event &event);
 };
 
 /**

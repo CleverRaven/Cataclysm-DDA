@@ -677,6 +677,29 @@ std::string input_context::get_conflicts(const input_event &event) const
     return buffer.str();
 }
 
+void input_context::clear_conflicting_keybindings(const input_event &event) {
+    // The default context is always included to cover cases where the same
+    // keybinding exists for the same action in both the global and local
+    // contexts.
+    input_manager::t_actions &default_actions = inp_mngr.action_contexts[default_context_id];
+    input_manager::t_actions &category_actions = inp_mngr.action_contexts[category];
+
+    for (std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
+            registered_action != registered_actions.end();
+            ++registered_action) {
+        input_manager::t_actions::iterator default_action = default_actions.find(*registered_action);
+        input_manager::t_actions::iterator category_action = category_actions.find(*registered_action);
+        if (default_action != default_actions.end()) {
+            std::vector<input_event> &events = default_action->second.input_events;
+            events.erase(std::remove(events.begin(), events.end(), event), events.end());
+        }
+        if (category_action != category_actions.end()) {
+            std::vector<input_event> &events = category_action->second.input_events;
+            events.erase(std::remove(events.begin(), events.end(), event), events.end());
+        }
+    }
+}
+
 const std::string CATA_ERROR = "ERROR";
 const std::string ANY_INPUT = "ANY_INPUT";
 const std::string COORDINATE = "COORDINATE";
@@ -994,9 +1017,18 @@ void input_context::display_help()
                 const long newbind = popup_getkey(_("New key for %s:"), name.c_str());
                 const input_event new_event(newbind, CATA_INPUT_KEYBOARD);
                 const std::string conflicts = get_conflicts(new_event);
-                if (!conflicts.empty()) {
-                    popup(_("This key conflicts with %s"), conflicts.c_str());
-                } else {
+                const bool has_conflicts = !conflicts.empty();
+                bool resolve_conflicts = false;
+
+                if (has_conflicts) {
+                    resolve_conflicts = query_yn(_("This key conflicts with %s. Remove this key from the conflicting command(s), and continue?"), conflicts.c_str());
+                }
+
+                if (!has_conflicts || resolve_conflicts) {
+                    if (resolve_conflicts) {
+                        clear_conflicting_keybindings(new_event);
+                    }
+
                     // We might be adding a local or global action.
                     std::string category_to_access = category;
                     if (status == s_add_global) {
