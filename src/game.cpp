@@ -8777,31 +8777,46 @@ int game::list_items(const int iLastState)
     int iActiveY = 0;
     int iLastActiveX = -1;
     int iLastActiveY = -1;
-    InputEvent input = Undefined;
-    long ch = 0; //this is a long because getch returns a long
     bool reset = true;
     bool refilter = true;
     int iFilter = 0;
     int iPage = 0;
 
+    std::string action;
+    input_context ctxt("LIST_ITEMS");
+    ctxt.register_action("UP", "Move cursor up");
+    ctxt.register_action("DOWN", "Move cursor down");
+    ctxt.register_action("LEFT", "Previous item");
+    ctxt.register_action("RIGHT", "Next item");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("COMPARE");
+    ctxt.register_action("FILTER");
+    ctxt.register_action("REFILTER");
+    ctxt.register_action("EXAMINE");
+    ctxt.register_action("PRIORITY_INCREASE");
+    ctxt.register_action("PRIORITY_DECREASE");
+
     do {
         if (!ground_items.empty() || iLastState == 1) {
-            if (ch == 'I' || ch == 'c' || ch == 'C') {
+            if (action == "COMPARE") {
                 compare(iActiveX, iActiveY);
                 reset = true;
                 refresh_all();
-            } else if (ch == 'f' || ch == 'F') {
+            } else if (action == "FILTER") {
                 sFilter = ask_item_filter(w_item_info, iInfoHeight);
                 reset = true;
                 refilter = true;
-            } else if (ch == 'r' || ch == 'R') {
+            } else if (action == "REFILTER") {
                 sFilter = "";
                 filtered_items = ground_items;
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;
                 refilter = true;
-            } else if ((ch == 'e' || ch == 'E') && filtered_items.size()) {
+            } else if (action == "EXAMINE" && filtered_items.size()) {
                 item oThisItem = filtered_items[iActive].example;
                 std::vector<iteminfo> vThisItem, vDummy;
 
@@ -8812,12 +8827,12 @@ int game::list_items(const int iLastState)
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;
-            } else if(ch == '+') {
+            } else if (action == "PRIORITY_INCREASE") {
                 std::string temp = ask_item_priority_high(w_item_info, iInfoHeight);
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
-            } else if(ch == '-') {
+            } else if (action == "PRIORITY_DECREASE") {
                 std::string temp = ask_item_priority_low(w_item_info, iInfoHeight);
                 list_item_downvote = temp;
                 refilter = true;
@@ -8840,37 +8855,29 @@ int game::list_items(const int iLastState)
                 reset = false;
             }
 
-            // we're switching on input here, whereas above it was if/else clauses on a char
-            switch(input) {
-                case DirectionN:
+            if (action == "UP") {
                     iActive--;
                     iPage = 0;
                     if (iActive < 0) {
                         iActive = iItemNum - iFilter - 1;
                     }
-                    break;
-                case DirectionS:
+            } else if (action == "DOWN") {
                     iActive++;
                     iPage = 0;
                     if (iActive >= iItemNum - iFilter) {
                         iActive = 0;
                     }
-                    break;
-                case DirectionE:
+            } else if (action == "RIGHT") {
                     iPage++;
                     if ( !filtered_items.empty() && iPage >= filtered_items[iActive].vIG.size()) {
                         iPage = filtered_items[iActive].vIG.size()-1;
                     }
-                    break;
-                case DirectionW:
+            } else if (action == "LEFT") {
                     iPage--;
                     if (iPage < 0) {
                         iPage = 0;
                     }
-                    break;
-                case Tab: //Switch to list_monsters();
-                case DirectionDown:
-                case DirectionUp:
+            } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                     u.view_offset_x = iStoreViewOffsetX;
                     u.view_offset_y = iStoreViewOffsetY;
 
@@ -8883,26 +8890,6 @@ int game::list_items(const int iLastState)
                     delwin(w_item_info);
                     delwin(w_item_info_border);
                     return 1;
-                    break;
-                default: {
-                    action_id act = action_from_key(ch);
-                    switch (act) {
-                        /* The following two don't work for some reason.
-                         * Even though the zoom level will be adjusted,
-                         * the map won't be redrawn until V mode is exited.
-
-                        case ACTION_ZOOM_IN:
-                            zoom_in();
-                            break;
-                        case ACTION_ZOOM_OUT:
-                            zoom_out();
-                            break;
-                        default:
-                            break;
-                        */
-                    }
-                }
-                break;
             }
 
             if (ground_items.empty() && iLastState == 1) {
@@ -9009,14 +8996,12 @@ int game::list_items(const int iLastState)
             wrefresh(w_item_info);
 
             refresh();
-            ch = getch();
-            input = get_input(ch);
+
+            action = ctxt.handle_input();
         } else {
             iReturn = 0;
-            ch = ' ';
-            input = Close;
         }
-    } while (input != Close && input != Cancel);
+    } while (action != "QUIT");
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
@@ -9082,8 +9067,6 @@ int game::list_monsters(const int iLastState)
     int iActiveY = 0;
     int iLastActiveX = -1;
     int iLastActiveY = -1;
-    InputEvent input = Undefined;
-    long ch = 0; //this is a long because getch returns a long
     int iMonDex = -1;
 
     for (int i = 1; i < TERMX; i++) {
@@ -9107,25 +9090,30 @@ int game::list_monsters(const int iLastState)
     mvwprintz(w_monsters_border, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(w_monsters_border, c_white, _("Monsters"));
 
+    std::string action;
+    input_context ctxt("DEFAULTMODE");
+    ctxt.register_action("UP", "Move cursor up");
+    ctxt.register_action("DOWN", "Move cursor down");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("look");
+    ctxt.register_action("fire");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
     do {
         if (!vMonsters.empty() || iLastState == 1) {
-            // we're switching on input here, whereas above it was if/else clauses on a char
-            switch(input) {
-                case DirectionN:
+            if (action == "UP") {
                     iActive--;
                     if (iActive < 0) {
                         iActive = iMonsterNum - 1;
                     }
-                    break;
-                case DirectionS:
+            } else if (action == "DOWN") {
                     iActive++;
                     if (iActive >= iMonsterNum) {
                         iActive = 0;
                     }
-                    break;
-                case Tab: //Switch to list_items();
-                case DirectionDown:
-                case DirectionUp:
+            } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                     u.view_offset_x = iStoreViewOffsetX;
                     u.view_offset_y = iStoreViewOffsetY;
 
@@ -9138,16 +9126,11 @@ int game::list_monsters(const int iLastState)
                     delwin(w_monster_info);
                     delwin(w_monster_info_border);
                     return 1;
-                    break;
-                default: {
-                    action_id act = action_from_key(ch);
-                    switch (act) {
-                        case ACTION_LOOK: {
+            } else if (action == "look") {
                             point recentered=look_around();
                             iLastActiveX=recentered.x;
                             iLastActiveY=recentered.y;
-                            } break;
-                        case ACTION_FIRE: {
+            } else if (action == "fire") {
                             if ( rl_dist( point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
                                 last_target = iMonDex;
                                 u.view_offset_x = iStoreViewOffsetX;
@@ -9162,23 +9145,6 @@ int game::list_monsters(const int iLastState)
                                 delwin(w_monster_info_border);
                                 return 2;
                             }
-                        } break;
-                        /* The following two don't work for some reason.
-                         * Even though the zoom level will be adjusted,
-                         * the map won't be redrawn until V mode is exited.
-
-                        case ACTION_ZOOM_IN:
-                            zoom_in();
-                            break;
-                        case ACTION_ZOOM_OUT:
-                            zoom_out();
-                            break;
-                        default:
-                            break;
-                        */
-                    }
-                }
-                break;
             }
 
             if (vMonsters.empty() && iLastState == 1) {
@@ -9279,14 +9245,12 @@ int game::list_monsters(const int iLastState)
             wrefresh(w_monster_info);
 
             refresh();
-            ch = getch();
-            input = get_input(ch);
+
+            action = ctxt.handle_input();
         } else {
             iReturn = 0;
-            ch = ' ';
-            input = Close;
         }
-    } while (input != Close && input != Cancel);
+    } while (action != "QUIT");
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
