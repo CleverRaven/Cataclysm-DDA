@@ -6488,7 +6488,7 @@
     "volume": 16,
     "bashing": 40,
     "cutting": 0,
-    "to_hit": -2,
+    "to_hit": -5,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
