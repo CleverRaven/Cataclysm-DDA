@@ -727,23 +727,11 @@
     {
         "type" : "keybinding",
         "id":"SEC_SELECT",
-        "name":"Select",
+        "name":"Secondary Select",
         "bindings":[
             {
                 "input_method":"mouse",
                 "key":"MOUSE_RIGHT"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"SELECT",
-        "name":"Select",
-        "category":"LOOK",
-        "bindings":[
-            {
-                "input_method":"mouse",
-                "key":"MOUSE_LEFT"
             }
         ]
     },
