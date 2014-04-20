@@ -5090,3 +5090,23 @@ void map::add_road_vehicles(bool city, int facing)
         }
     }
 }
+
+//adds blood fields in the tiles adjacent to co-ord (posx, posy)
+//damage argument factors into the chance of the field being added (default = -1000)
+void map::splatter_blood(int posx, int posy, field_id type_blood, int damage)
+{
+    //always add blood splatter if damage argument is the default
+    bool alwaysSplatter = damage == -1000 ? true : false;
+
+    // Splatter some blood around
+    if(type_blood != fd_null) {
+        for (int x = posx - 1; x <= posx + 1; x++) {
+            for (int y = posy - 1; y <= posy + 1; y++) {
+                //higher damage has more of a chance to add the blood field
+                if (alwaysSplatter || (!one_in(damage+1) && type_blood != fd_null)) {
+                    add_field(x, y, type_blood, 1);
+                }
+            }
+        }
+    }
+}

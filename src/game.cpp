@@ -7416,16 +7416,10 @@ void game::activity_on_turn_pulp()
                 it->damage++;
                 u.handle_melee_wear();
             }
+
             // Splatter some blood around
-            if(type_blood != fd_null) {
-                for (int x = smashx - 1; x <= smashx + 1; x++) {
-                    for (int y = smashy - 1; y <= smashy + 1; y++) {
-                        if (!one_in(damage+1) && type_blood != fd_null) {
-                            m.add_field(x, y, type_blood, 1);
-                        }
-                    }
-                }
-            }
+            m.splatter_blood(smashx, smashy, type_blood, damage);
+
             if (it->damage >= full_pulp_threshold) {
                 it->damage = full_pulp_threshold;
                 it->active = false;
@@ -11194,6 +11188,9 @@ void game::complete_butcher(int index)
    add_msg(_("You harvest some fat!"));
   }
  }
+
+ field_id type_blood = corpse->bloodType();
+ m.splatter_blood(u.posx, u.posy, type_blood);
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.
     if( corpse->has_flag(MF_CBM_CIV) ) {
