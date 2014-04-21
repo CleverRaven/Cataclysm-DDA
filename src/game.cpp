@@ -4517,10 +4517,10 @@ void game::disp_NPCs()
 
 faction *game::list_factions(std::string title)
 {
-    std::vector<faction> valfac; // Factions that we know of.
-    for (int i = 0; i < factions.size(); i++) {
+    std::vector<faction*> valfac; // Factions that we know of.
+    for (size_t i = 0; i < factions.size(); i++) {
         if (factions[i].known_by_u) {
-            valfac.push_back(factions[i]);
+            valfac.push_back(&(factions[i]));
         }
     }
     if (valfac.empty()) { // We don't know of any factions!
@@ -4536,7 +4536,7 @@ faction *game::list_factions(std::string title)
                             MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
     int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
-    int sel = 0;
+    size_t sel = 0;
     bool redraw = true;
 
     input_context ctxt("FACTIONS");
@@ -4545,47 +4545,49 @@ faction *game::list_factions(std::string title)
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
+    faction *cur_frac = NULL;
     while(true) {
+        cur_frac = valfac[sel];
         if (redraw) {
             // Init w_list content
             werase(w_list);
             draw_border(w_list);
             mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
-            for (int i = 0; i < valfac.size(); i++) {
+            for (size_t i = 0; i < valfac.size(); i++) {
                 nc_color col = (i == sel ? h_white : c_white);
-                mvwprintz(w_list, i + 2, 1, col, "%s", valfac[i].name.c_str());
+                mvwprintz(w_list, i + 2, 1, col, "%s", valfac[i]->name.c_str());
             }
             wrefresh(w_list);
             // Init w_info content
             // fac_*_text() is in faction.cpp
             werase(w_info);
             mvwprintz(w_info, 0, 0, c_white,
-                    _("Ranking: %s"), fac_ranking_text(valfac[sel].likes_u).c_str());
+                    _("Ranking: %s"), fac_ranking_text(cur_frac->likes_u).c_str());
             mvwprintz(w_info, 1, 0, c_white,
-                    _("Respect: %s"), fac_respect_text(valfac[sel].respects_u).c_str());
-            fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe());
+                    _("Respect: %s"), fac_respect_text(cur_frac->respects_u).c_str());
+            fold_and_print(w_info, 3, 0, maxlength, c_white, cur_frac->describe());
             wrefresh(w_info);
             redraw = false;
         }
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
-                mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
-                if (sel == valfac.size() - 1) {
-                    sel = 0;    // Wrap around
-                } else {
-                    sel++;
-                }
-                redraw = true;
+            mvwprintz(w_list, sel + 2, 1, c_white, "%s", cur_frac->name.c_str());
+            if (sel == valfac.size() - 1) {
+                sel = 0;    // Wrap around
+            } else {
+                sel++;
+            }
+            redraw = true;
         } else if (action == "UP") {
-                mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
-                if (sel == 0) {
-                    sel = valfac.size() - 1;    // Wrap around
-                } else {
-                    sel--;
-                }
-                redraw = true;
+            mvwprintz(w_list, sel + 2, 1, c_white, "%s", cur_frac->name.c_str());
+            if (sel == 0) {
+                sel = valfac.size() - 1;    // Wrap around
+            } else {
+                sel--;
+            }
+            redraw = true;
         } else if (action == "QUIT") {
-            sel = -1;
+            cur_frac = NULL;
             break;
         } else if (action == "CONFIRM") {
             break;
@@ -4596,10 +4598,7 @@ faction *game::list_factions(std::string title)
     delwin(w_list);
     delwin(w_info);
     refresh_all();
-    if (sel == -1) {
-        return NULL;
-    }
-    return &(factions[valfac[sel].id]);
+    return cur_frac;
 }
 
 void game::list_missions()
@@ -4608,7 +4607,8 @@ void game::list_missions()
                                 (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                                 (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
-    int tab = 0, selection = 0;
+    int tab = 0;
+    size_t selection = 0;
     input_context ctxt("MISSIONS");
     ctxt.register_cardinal();
     ctxt.register_action("CONFIRM");
@@ -4653,10 +4653,10 @@ void game::list_missions()
         mvwputch(w_missions, 2, 30, BORDER_COLOR, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
         mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
 
-        for (int i = 0; i < umissions.size(); i++) {
+        for (size_t i = 0; i < umissions.size(); i++) {
             mission *miss = find_mission(umissions[i]);
             nc_color col = c_white;
-            if (i == u.active_mission && tab == 0) {
+            if (static_cast<int>(i) == u.active_mission && tab == 0) {
                 col = c_ltred;
             }
             if (selection == i) {
@@ -4666,7 +4666,7 @@ void game::list_missions()
             }
         }
 
-        if (selection >= 0 && selection < umissions.size()) {
+        if (selection < umissions.size()) {
             mission *miss = find_mission(umissions[selection]);
             mvwprintz(w_missions, 4, 31, c_white, "%s", miss->description.c_str());
             if (miss->deadline != 0)
@@ -4712,9 +4712,10 @@ void game::list_missions()
                 selection = 0;
             }
         } else if (action == "UP") {
-            selection--;
-            if (selection < 0) {
+            if (selection == 0) {
                 selection = umissions.size() - 1;
+            } else {
+                selection--;
             }
         } else if (action == "CONFIRM") {
             u.active_mission = selection;
@@ -9061,7 +9062,7 @@ int game::list_monsters(const int iLastState)
                 iActiveY = 0;
                 iMonDex = -1;
 
-                for (int i = 0; i < vMonsters.size(); ++i) {
+                for (size_t i = 0; i < vMonsters.size(); ++i) {
                     if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iMonsterNum) ?
                                                                  iMonsterNum : iMaxRows) ) {
 
@@ -13827,7 +13828,7 @@ void game::msg_buffer()
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
-    int offset = 0;
+    size_t offset = 0;
     input_context ctxt("MESSAGE_LOG");
     ctxt.register_action("UP", _("Scroll up"));
     ctxt.register_action("DOWN", _("Scroll down"));
