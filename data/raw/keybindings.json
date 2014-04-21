@@ -1157,38 +1157,6 @@
     },
     {
         "type" : "keybinding",
-        "id":"FILTER",
-        "category":"LIST_ITEMS",
-        "name":"Filter",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"f"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"F"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"REFILTER",
-        "category":"LIST_ITEMS",
-        "name":"Refilter",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"r"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"R"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id":"EXAMINE",
         "category":"LIST_ITEMS",
         "name":"Examine",

@@ -8792,10 +8792,10 @@ int game::list_items(const int iLastState)
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
-    ctxt.register_action("COMPARE");
     ctxt.register_action("FILTER");
-    ctxt.register_action("REFILTER");
+    ctxt.register_action("RESET_FILTER");
     ctxt.register_action("EXAMINE");
+    ctxt.register_action("COMPARE");
     ctxt.register_action("PRIORITY_INCREASE");
     ctxt.register_action("PRIORITY_DECREASE");
 
@@ -8809,7 +8809,7 @@ int game::list_items(const int iLastState)
                 sFilter = ask_item_filter(w_item_info, iInfoHeight);
                 reset = true;
                 refilter = true;
-            } else if (action == "REFILTER") {
+            } else if (action == "RESET_FILTER") {
                 sFilter = "";
                 filtered_items = ground_items;
                 iLastActiveX = -1;
