@@ -894,7 +894,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   ctxt.register_action("FIRE");
   ctxt.register_action("NEXT_TARGET");
   ctxt.register_action("PREV_TARGET");
-  ctxt.register_action("WAIT");
   ctxt.register_action("CENTER");
   ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
   ctxt.register_action("HELP_KEYBINDINGS");
@@ -955,7 +954,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (target == t.size()) target = 0;
    x = t[target]->xpos();
    y = t[target]->ypos();
-  } else if (action == "WAIT" || action == "FIRE") {
+  } else if (action == "FIRE") {
    for (int i = 0; i < t.size(); i++) {
     if (t[i]->xpos() == x && t[i]->ypos() == y)
      target = i;
