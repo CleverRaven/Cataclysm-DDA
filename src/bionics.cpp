@@ -37,8 +37,7 @@ bionic_id game::random_good_bionic() const
     do {
         random_bionic = bionics.begin();
         std::advance(random_bionic, rng(0, bionics.size() - 1));
-    } while (random_bionic->first == "bio_null" || random_bionic->second->faulty);
-    // TODO: remove bio_null
+    } while (random_bionic->second->faulty);
     return random_bionic->first;
 }
 
@@ -1108,7 +1107,7 @@ void load_bionic(JsonObject &jsobj)
     if (power_source) {
         power_source_bionics.push_back(id);
     }
-    if (!active && id != "bio_null") {
+    if (!active) {
         unpowered_bionics.push_back(id);
     }
 
