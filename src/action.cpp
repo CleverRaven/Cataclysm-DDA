@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "game.h"
 #include "options.h"
+#include "messages.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -719,8 +720,8 @@ bool choose_direction(const std::string &message, int &x, int &y)
         x = 0;
         y = 0;
         return true;
-    }
-    g->add_msg(_("Invalid direction."));
+	}
+    Messages::player_messages.add_msg(_("Invalid direction."));
     return false;
 }
 
