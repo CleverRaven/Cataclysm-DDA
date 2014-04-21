@@ -857,9 +857,9 @@
     "material": "gold",
     "weight": 9650,
     "volume": 2,
-    "bashing": 14,
+    "bashing": 0,
     "cutting": 0,
-    "to_hit": -2
+    "to_hit": -8
   },
 
   {
@@ -1103,7 +1103,7 @@
     "volume": 40,
     "bashing": 10,
     "cutting": 0,
-    "to_hit": -1
+    "to_hit": -10
   },
 
   {
@@ -1183,9 +1183,9 @@
     "material": ["steel", "iron"],
     "weight": 9071,
     "volume": 25,
-    "bashing": 10,
+    "bashing": 6,
     "cutting": 0,
-    "to_hit": -3
+    "to_hit": -4
   },
 
   {
