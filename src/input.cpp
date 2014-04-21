@@ -400,7 +400,11 @@ void input_manager::load(const std::string &file_name, bool is_user_preferences)
                 actions.count(action_id) > 0) {
             // In case this is the second file containing user preferences,
             // this replaces the default bindings with the user's preferences.
-            actions[action_id].input_events = events;
+            action_attributes &attributes = actions[action_id];
+            attributes.input_events = events;
+            if (action.has_member("is_user_created")) {
+                attributes.is_user_created = action.get_bool("is_user_created");
+            }
         }
     }
 }
@@ -427,6 +431,11 @@ void input_manager::save() {
 
             jsout.member("id", b->first);
             jsout.member("category", a->first);
+            bool is_user_created = b->second.is_user_created;
+            if (is_user_created) {
+                jsout.member("is_user_created", is_user_created);
+            }
+
             jsout.member("bindings");
             jsout.start_array();
             for(t_input_event_list::const_iterator c = events.begin(); c != events.end(); ++c) {
@@ -638,10 +647,12 @@ input_manager::t_input_event_list &input_manager::get_event_list(
     const t_action_contexts::iterator action_context = action_contexts.find(context);
     if (action_context != action_contexts.end()) {
         // A new action is created in the event that the user creates a local
-        // keymapping that shadows a global one.
+        // keymapping that masks a global one.
         t_actions &actions = action_context->second;
         if (actions.find(action_descriptor) == actions.end()) {
-            actions[action_descriptor].name = get_default_action_name(action_descriptor);
+            action_attributes &attributes = actions[action_descriptor];
+            attributes.name = get_default_action_name(action_descriptor);
+            attributes.is_user_created = true;
         }
 
         return actions[action_descriptor].input_events;
@@ -653,7 +664,20 @@ input_manager::t_input_event_list &input_manager::get_event_list(
 void input_manager::remove_input_for_action(
     const std::string &action_descriptor, const std::string &context)
 {
-    get_event_list(action_descriptor, context).clear();
+    const t_action_contexts::iterator action_context = action_contexts.find(context);
+    if (action_context != action_contexts.end()) {
+        t_actions &actions = action_context->second;
+        t_actions::iterator action = actions.find(action_descriptor);
+        if (action != actions.end()) {
+            if (action->second.is_user_created) {
+                // Since this is a user created hotkey, remove it so that the
+                // user will fallback to the hotkey in the default context.
+                actions.erase(action);
+            } else {
+                action->second.input_events.clear();
+            }
+        }
+    }
 }
 
 void input_manager::add_input_for_action(
