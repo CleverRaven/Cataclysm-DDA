@@ -370,7 +370,15 @@ classes = {
             in_species = {
                 args = {"string"},
                 rval = "bool"
-            }
+            },
+	    has_flag = {
+	        args = {"string"},
+		rval = "bool"
+	    },
+	    set_flag = {
+	        args = {"string", "bool"},
+		rval = nil
+	    }
         }
     },
     mongroup = {

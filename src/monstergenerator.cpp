@@ -476,6 +476,11 @@ mtype *MonsterGenerator::get_valid_hallucination()
     return potentials[rng(0, potentials.size() - 1)];
 }
 
+m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
+{
+    return flag_map.find( flag )->second;
+}
+
 std::vector<void (mdeath::*)(monster*)> MonsterGenerator::get_death_functions(JsonObject& jo,
                                                                               std::string member)
 {
