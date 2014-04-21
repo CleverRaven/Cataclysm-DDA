@@ -1158,7 +1158,7 @@ void advanced_inventory::display(player *pp)
         }
 
         int list_pos = panes[src].index + (panes[src].page * itemsPerPage);
-        int item_pos = panes[src].size > 0 ? panes[src].items[list_pos].idx : 0;
+        int item_pos = panes[src].size > list_pos ? panes[src].items[list_pos].idx : 0;
 
         int changex = -1;
         int changey = 0;

@@ -208,6 +208,7 @@ int player::hit_roll()
 void player::melee_attack(Creature &t, bool allow_special, matec_id force_technique) {
     bool is_u = (this == &(g->u)); // Affects how we'll display messages
     if (!t.is_player()) {
+        // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
         t.add_effect("hit_by_player", 100); // Flag as attacked by us for AI
     }
 
