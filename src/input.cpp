@@ -861,11 +861,15 @@ void input_context::display_help()
     input_manager::t_action_contexts old_action_contexts(inp_mngr.action_contexts);
     // current status: adding/removing/showing keybindings
     enum { s_remove, s_add, s_add_global, s_show } status = s_show;
-    // copy of registered_actions, but without the ANY_INPUT, which should not be shown
+    // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
     std::vector<std::string> org_registered_actions(registered_actions);
-    std::vector<std::string>::iterator any_input = std::find(org_registered_actions.begin(), org_registered_actions.end(), "ANY_INPUT");
+    std::vector<std::string>::iterator any_input = std::find(org_registered_actions.begin(), org_registered_actions.end(), ANY_INPUT);
     if (any_input != org_registered_actions.end()) {
         org_registered_actions.erase(any_input);
+    }
+    std::vector<std::string>::iterator coordinate = std::find(org_registered_actions.begin(), org_registered_actions.end(), COORDINATE);
+    if (coordinate != org_registered_actions.end()) {
+        org_registered_actions.erase(coordinate);
     }
 
     // colors of the keybindings
