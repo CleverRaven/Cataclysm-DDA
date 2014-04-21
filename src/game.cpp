@@ -5296,7 +5296,7 @@ void game::draw_minimap()
         if (cursx != targ.x) {
             slope = double(targ.y - cursy) / double(targ.x - cursx);
         }
-        if (cursx == targ.x || abs(slope) > 3.5 ) { // Vertical slope
+        if (cursx == targ.x || fabs(slope) > 3.5 ) { // Vertical slope
             if (targ.y > cursy) {
                 mvwputch(w_minimap, 6, 3, c_red, '*');
             } else {
@@ -5304,7 +5304,7 @@ void game::draw_minimap()
             }
         } else {
             int arrowx = 3, arrowy = 3;
-            if (abs(slope) >= 1.) { // y diff is bigger!
+            if (fabs(slope) >= 1.) { // y diff is bigger!
                 arrowy = (targ.y > cursy ? 6 : 0);
                 arrowx = int(3 + 3 * (targ.y > cursy ? slope : (0 - slope)));
                 if (arrowx < 0) {
