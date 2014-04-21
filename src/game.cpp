@@ -13828,11 +13828,15 @@ void game::msg_buffer()
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
     int offset = 0;
-    InputEvent input;
-    do {
+    input_context ctxt("MESSAGE_LOG");
+    ctxt.register_action("UP", _("Scroll up"));
+    ctxt.register_action("DOWN", _("Scroll down"));
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    while(true) {
         werase(w);
         draw_border(w);
-        mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 32, c_red, _("Press q to return"));
+        mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 32, c_red, _("Press %s to return"), ctxt.get_desc("QUIT").c_str());
 
         //Draw Scrollbar
         draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT - 2, Messages::player_messages.size(), 1);
@@ -13846,19 +13850,15 @@ void game::msg_buffer()
         }
         wrefresh(w);
 
-        DebugLog() << __FUNCTION__ << "calling get_input() \n";
-        input = get_input();
-        int dirx = 0, diry = 0;
-
-        get_direction(dirx, diry, input);
-        if (diry == -1 && (offset + FULL_SCREEN_HEIGHT - 2)  > Messages::player_messages.size()) {
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN" && (offset + FULL_SCREEN_HEIGHT - 2) > Messages::player_messages.size()) {
             offset++;
-        }
-        if (diry == 1 && offset > 0) {
+        } else if (action == "UP" && offset > 0) {
             offset--;
+        } else if (action == "QUIT") {
+            break;
         }
-
-    } while (input != Close && input != Cancel && input != Confirm);
+    }
 
     werase(w);
     delwin(w);
