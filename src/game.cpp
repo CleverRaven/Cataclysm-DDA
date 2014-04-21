@@ -13823,41 +13823,45 @@ void game::write_msg()
 
 void game::msg_buffer()
 {
- WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
- int offset = 0;
- InputEvent input;
- do {
-  werase(w);
-  draw_border(w);
-  mvwprintz(w, FULL_SCREEN_HEIGHT-1, 32, c_red, _("Press q to return"));
+    int offset = 0;
+    InputEvent input;
+    do {
+        werase(w);
+        draw_border(w);
+        mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 32, c_red, _("Press q to return"));
 
-  //Draw Scrollbar
-  draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT-2, Messages::player_messages.size(), 1);
-  Messages::player_messages.display_messages(w, 1, FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                             FULL_SCREEN_HEIGHT - 2,offset,true);
-  if (offset > 0)
-   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 27, c_magenta, "vvv");
-  if ((offset + FULL_SCREEN_HEIGHT - 2) < Messages::player_messages.size())
-   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 51, c_magenta, "^^^");
-  wrefresh(w);
+        //Draw Scrollbar
+        draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT - 2, Messages::player_messages.size(), 1);
+        Messages::player_messages.display_messages(w, 1, FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                FULL_SCREEN_HEIGHT - 2, offset, true);
+        if (offset > 0) {
+            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 27, c_magenta, "vvv");
+        }
+        if ((offset + FULL_SCREEN_HEIGHT - 2) < Messages::player_messages.size()) {
+            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 51, c_magenta, "^^^");
+        }
+        wrefresh(w);
 
-  DebugLog() << __FUNCTION__ << "calling get_input() \n";
-  input = get_input();
-  int dirx = 0, diry = 0;
+        DebugLog() << __FUNCTION__ << "calling get_input() \n";
+        input = get_input();
+        int dirx = 0, diry = 0;
 
-  get_direction(dirx, diry, input);
-  if (diry == -1 && (offset + FULL_SCREEN_HEIGHT - 2)  > Messages::player_messages.size())
-   offset++;
-  if (diry == 1 && offset > 0)
-   offset--;
+        get_direction(dirx, diry, input);
+        if (diry == -1 && (offset + FULL_SCREEN_HEIGHT - 2)  > Messages::player_messages.size()) {
+            offset++;
+        }
+        if (diry == 1 && offset > 0) {
+            offset--;
+        }
 
- } while (input != Close && input != Cancel && input != Confirm);
+    } while (input != Close && input != Cancel && input != Confirm);
 
- werase(w);
- delwin(w);
+    werase(w);
+    delwin(w);
 }
 
 void game::teleport(player *p, bool add_teleglow)
