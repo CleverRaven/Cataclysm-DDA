@@ -5,6 +5,7 @@
 #include "output.h"
 #include "game.h"
 #include "path_info.h"
+#include "file_wrapper.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -438,7 +439,9 @@ void input_manager::save() {
     jsout.end_array();
 
     data_file.close();
-    rename(file_name_tmp.c_str(), file_name.c_str());
+    if(!rename_file(file_name_tmp, file_name)) {
+        throw std::string("Could not rename file to ") + file_name;
+    }
 }
 
 void input_manager::add_keycode_pair(long ch, const std::string &name)
