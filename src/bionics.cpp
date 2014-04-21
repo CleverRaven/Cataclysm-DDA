@@ -263,6 +263,8 @@ void player::power_bionics()
         } else if (action == "REMOVE") {
             menu_mode = "removing";
             redraw = true;
+        } else if (action == "HELP_KEYBINDINGS") {
+            redraw = true;
         } else {
             tmp = bionic_by_invlet(ch);
             if(tmp == 0) {

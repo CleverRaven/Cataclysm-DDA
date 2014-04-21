@@ -643,6 +643,7 @@ const std::string &input_manager::get_action_name(const std::string &action) con
 
 const std::string CATA_ERROR = "ERROR";
 const std::string ANY_INPUT = "ANY_INPUT";
+const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 const std::string COORDINATE = "COORDINATE";
 const std::string TIMEOUT = "TIMEOUT";
 
@@ -756,7 +757,7 @@ const std::string &input_context::handle_input()
         // Special help action
         if(action == "HELP_KEYBINDINGS") {
             display_help();
-            return ANY_INPUT;
+            return HELP_KEYBINDINGS;
         }
 
         if(next_action.type == CATA_INPUT_MOUSE) {
