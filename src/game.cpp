@@ -8784,10 +8784,10 @@ int game::list_items(const int iLastState)
 
     std::string action;
     input_context ctxt("LIST_ITEMS");
-    ctxt.register_action("UP", "Move cursor up");
-    ctxt.register_action("DOWN", "Move cursor down");
-    ctxt.register_action("LEFT", "Previous item");
-    ctxt.register_action("RIGHT", "Next item");
+    ctxt.register_action("UP", _("Move cursor up"));
+    ctxt.register_action("DOWN", _("Move cursor down"));
+    ctxt.register_action("LEFT", _("Previous item"));
+    ctxt.register_action("RIGHT", _("Next item"));
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -9092,8 +9092,8 @@ int game::list_monsters(const int iLastState)
 
     std::string action;
     input_context ctxt("DEFAULTMODE");
-    ctxt.register_action("UP", "Move cursor up");
-    ctxt.register_action("DOWN", "Move cursor down");
+    ctxt.register_action("UP", _("Move cursor up"));
+    ctxt.register_action("DOWN", _("Move cursor down"));
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("QUIT");
