@@ -109,6 +109,12 @@ public:
  int price() const;
 
     /**
+     * Return the butcher factor, always positive, but lower is better.
+     * If the item can not be used for butcherin it return INT_MAX.
+     */
+    int butcher_factor() const;
+
+    /**
      * Returns true if this item is of the specific type, or
      * if this functions returns true for any of its contents.
      */

@@ -701,7 +701,7 @@ public:
  int get_item_position(item* it);  // looks up an item (via pointer comparison)
  martialart get_combat_style(); // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
- int  butcher_factor(); // Automatically picks our best butchering tool
+ int butcher_factor() const; // Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
  bool is_wearing(const itype_id & it) const; // Are we wearing a specific itype?
  bool has_artifact_with(const art_effect_passive effect) const;

@@ -1322,22 +1322,13 @@ bool inventory::has_mission_item(int mission_id) const
 
 int inventory::butcher_factor() const
 {
-    int lowest_factor = 999;
+    int lowest_factor = INT_MAX;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter) {
             const item &cur_item = *stack_iter;
-            if (cur_item.has_quality("CUT") && !cur_item.has_flag("SPEAR")) {
-                int factor = cur_item.volume() * 5 - cur_item.weight() / 75 -
-                             cur_item.damage_cut();
-                if (cur_item.damage_cut() <= 20) {
-                    factor *= 2;
-                }
-                if (factor < lowest_factor) {
-                    lowest_factor = factor;
-                }
-            }
+            lowest_factor = std::min(lowest_factor, cur_item.butcher_factor());
         }
     }
     return lowest_factor;
