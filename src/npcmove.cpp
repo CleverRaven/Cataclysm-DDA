@@ -1274,7 +1274,8 @@ void npc::find_item()
     }
     int minx = posx - range, maxx = posx + range,
         miny = posy - range, maxy = posy + range;
-    int index = -1, linet;
+    int linet;
+    item *wanted;
     if (minx < 0) {
         minx = 0;
     }
@@ -1291,15 +1292,20 @@ void npc::find_item()
     for (int x = minx; x <= maxx; x++) {
         for (int y = miny; y <= maxy; y++) {
             if (g->m.sees(posx, posy, x, y, range, linet) && g->m.sees_some_items(x, y, *this)) {
-                for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
-                    int itval = value(g->m.i_at(x, y)[i]);
-                    int wgt = g->m.i_at(x, y)[i].weight(), vol = g->m.i_at(x, y)[i].volume();
+                std::vector<item> &i = g->m.i_at(x, y);
+                for (std::vector<item>::iterator it = i.begin(); it != i.end(); ++it) {
+                    if ( it->made_of( LIQUID ) ) {
+                        // Don't even consider liquids.
+                        continue;
+                    }
+                    int itval = value(*it);
+                    int wgt = it->weight(), vol = it->volume();
                     if (itval > best_value &&
                         //(itval > worst_item_value ||
                         (can_pickWeight(wgt) && can_pickVolume(vol))) {
                         itx = x;
                         ity = y;
-                        index = i;
+                        wanted = &(*it);
                         best_value = itval;
                         fetching_item = true;
                     }
@@ -1308,9 +1314,10 @@ void npc::find_item()
         }
     }
 
-    if (fetching_item && is_following())
+    if (fetching_item && is_following()) {
         say(_("Hold on, I want to pick up that %s."),
-            g->m.i_at(itx, ity)[index].tname().c_str());
+            wanted->tname().c_str());
+    }
 }
 
 void npc::pick_up_item()
