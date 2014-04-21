@@ -9330,7 +9330,6 @@ int player::encumb(body_part bp)
 int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
-    int skintight = 0;
     double layer[MAX_CLOTHING_LAYER] = { };
     int level;
 
@@ -9369,14 +9368,6 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                         layer[level] -= .5;
                     }
                 }
-                if( level == UNDERWEAR && layer[UNDERWEAR] > 0) {
-                    // Skintight clothes will negate layering.
-                    // But only if we aren't wearing more than two.
-                    if (skintight < 2) {
-                        skintight++;
-                        layer[UNDERWEAR] -= .5;
-                    }
-                }
             }
         }
     }
@@ -9386,7 +9377,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
     ret += armorenc;
 
-    for (int i = 0; i < MAX_CLOTHING_LAYER; ++i) {
+    for (int i = 0; i < sizeof(layer) / sizeof(layer[0]); ++i) {
         if (layer[i] > 1) {
             layers += int(layer[i]) - 1;
         }
