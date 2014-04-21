@@ -1051,10 +1051,10 @@ int editmap::edit_fld()
                 field *t_field = &g->m.field_at(target_list[t].x, target_list[t].y);
                 if ( t_field->fieldCount() > 0 ) {
                     for ( std::map<field_id, field_entry *>::iterator field_list_it = t_field->getFieldStart();
-                          field_list_it != t_field->getFieldEnd(); ++field_list_it
+                          field_list_it != t_field->getFieldEnd(); /* noop */
                         ) {
                         field_id rmid = field_list_it->first;
-                        t_field->removeField( rmid );
+                        field_list_it = t_field->removeField( rmid );
                         if ( target_list[t].x == target.x && target_list[t].y == target.y ) {
                             update_fmenu_entry( &fmenu, t_field, (int)rmid );
                         }
