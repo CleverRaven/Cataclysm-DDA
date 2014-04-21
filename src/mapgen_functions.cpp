@@ -53,6 +53,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["road_curved"]      = &mapgen_road_curved;
     mapgen_cfunction_map["road_tee"]         = &mapgen_road_tee;
     mapgen_cfunction_map["road_four_way"]    = &mapgen_road_four_way;
+    mapgen_cfunction_map["rail_station"]     = &mapgen_rail_station;
     mapgen_cfunction_map["rail_straight"]    = &mapgen_rail_straight;
     mapgen_cfunction_map["rail_curved"]      = &mapgen_rail_curved;
     mapgen_cfunction_map["rail_end"]         = &mapgen_rail_end;
@@ -1126,6 +1127,16 @@ t   t\n\
     }
 }
 ///////////////////
+
+/* railroad station (currently just a dummy) */
+void mapgen_rail_station(map *m, oter_id, mapgendata dat, int turn, float)
+{
+    for (int i = 0; i < SEEX * 2; i++) {
+        for (int j = 0; j < SEEY * 2; j++) {
+            m->ter_set(i, j, t_pavement );
+        }
+    }
+}
 
 /* Straight railroad piece */
 void mapgen_rail_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
