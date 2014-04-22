@@ -568,7 +568,7 @@ action_id handle_action_menu()
 
     while(1) {
         std::vector<uimenu_entry> entries;
-        uimenu_entry * entry;
+        uimenu_entry *entry;
         std::map<int, std::string> categories_by_int;
         int last_category = NUM_ACTIONS + 1;
 
@@ -595,12 +595,14 @@ action_id handle_action_menu()
                 REGISTER_ACTION(ACTION_QUIT);
             }
             REGISTER_ACTION(ACTION_HELP);
-            if ((entry= &entries.back()))
+            if ((entry= &entries.back())) {
                 entry->txt += "...";        // help _is_a menu.
+            }
             if (hotkey_for_action(ACTION_DEBUG) >-1) {
                 REGISTER_CATEGORY("debug"); // register with globalkey
-                if ((entry= &entries.back()))
+                if ((entry= &entries.back())) {
                     entry->hotkey= hotkey_for_action(ACTION_DEBUG);
+                }
             }
         } else if(category == "look") {
             REGISTER_ACTION(ACTION_LOOK);
@@ -628,8 +630,9 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_UNLOAD);
         } else if(category == "debug") {
             REGISTER_ACTION(ACTION_DEBUG);
-            if ((entry= &entries.back()))
+            if ((entry= &entries.back())) {
                 entry->txt += "..."; // debug _is_a menu.
+            }
             REGISTER_ACTION(ACTION_TOGGLE_SIDEBAR_STYLE);
             #ifndef TILES
                 REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
@@ -685,9 +688,11 @@ action_id handle_action_menu()
 
         std::string title = _("Back");
         title += "...";
-        if(category == "back")
+        if(category == "back") {
             title = _("Cancel");
-        entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true, hotkey_for_action(ACTION_ACTIONMENU), title));
+        }
+        entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true,
+                                       hotkey_for_action(ACTION_ACTIONMENU), title));
 
         title = _("Actions");
         if(category != "back") {
@@ -696,15 +701,19 @@ action_id handle_action_menu()
             title += ": " + catgname;
         }
 
-        int width=0;
-        for (std::vector<uimenu_entry>::iterator entry = entries.begin(); entry != entries.end(); entry++) {
-            if (width<entry->txt.length())
+        int width = 0;
+        for (std::vector<uimenu_entry>::iterator entry = entries.begin();
+             entry != entries.end(); entry++) {
+            if (width<entry->txt.length()) {
                 width = entry->txt.length();
+            }
         }
-        width += 2+3+3; //border=2, selectors=3, after=3 for balance.
+        //border=2, selectors=3, after=3 for balance.
+        width += 2 + 3 + 3;
         int ix = (TERMX > width) ? (TERMX - width) / 2 -1 : 0;
-        int iy = (TERMY > entries.size()+2) ? (TERMY - entries.size() -2) / 2 -1 : 0;
-        int selection = (int) uimenu(true, std::max(ix,0), std::min(width,TERMX-2), std::max(iy,0), title, entries);
+        int iy = (TERMY > entries.size() + 2) ? (TERMY - entries.size() -2) / 2 -1 : 0;
+        int selection = (int) uimenu(true, std::max(ix, 0), std::min(width, TERMX - 2),
+                                     std::max(iy, 0), title, entries);
 
         g->draw();
 
@@ -715,7 +724,7 @@ action_id handle_action_menu()
                 category = "back";
             } else {
                 return ACTION_NULL;
-            };
+            }
         } else if(selection > NUM_ACTIONS) {
             category = categories_by_int[selection];
         } else {
