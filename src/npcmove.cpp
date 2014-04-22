@@ -1275,7 +1275,7 @@ void npc::find_item()
     int minx = posx - range, maxx = posx + range,
         miny = posy - range, maxy = posy + range;
     int linet;
-    item *wanted;
+    item *wanted = NULL;
     if (minx < 0) {
         minx = 0;
     }
