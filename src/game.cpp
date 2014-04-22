@@ -39,7 +39,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <math.h>
+#include <cmath>
 #include <vector>
 
 #ifdef _MSC_VER
@@ -61,10 +61,6 @@
 #endif
 #include <windows.h>
 #include <tchar.h>
-#endif
-
-#if !defined(_MSC_VER) || !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
-namespace std { float abs(float a) { return a < 0 ? -a : a; } }
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -780,7 +776,7 @@ void game::calc_driving_offset(vehicle *veh) {
     static const int border_range = 2;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
-    if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
+    if (!veh->skidding && std::fabs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
         veh->player_in_control(&u)) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actuall velocity.
@@ -790,9 +786,9 @@ void game::calc_driving_offset(vehicle *veh) {
         velocity = veh->cruise_velocity;
     }
     float rel_offset;
-    if(std::abs(velocity) < min_offset_vel) {
+    if(std::fabs(velocity) < min_offset_vel) {
         rel_offset = 0;
-    } else if(std::abs(velocity) > max_offset_vel) {
+    } else if(std::fabs(velocity) > max_offset_vel) {
         rel_offset = (velocity > 0) ? 1 : -1;
     } else {
         rel_offset = (velocity - min_offset_vel) / (max_offset_vel - min_offset_vel);
@@ -800,11 +796,11 @@ void game::calc_driving_offset(vehicle *veh) {
     // Squeeze into the corners, by making the offset vector longer,
     // the PC is still in view as long as both offset.x and
     // offset.y are <= 1
-    if(std::abs(offset.x) > std::abs(offset.y) && std::abs(offset.x) > 0.2) {
-        offset.y /= std::abs(offset.x);
+    if(std::fabs(offset.x) > std::fabs(offset.y) && std::fabs(offset.x) > 0.2) {
+        offset.y /= std::fabs(offset.x);
         offset.x  = (offset.x > 0) ? +1 : -1;
-    } else if(std::abs(offset.y) > 0.2) {
-        offset.x /= std::abs(offset.y);
+    } else if(std::fabs(offset.y) > 0.2) {
+        offset.x /= std::fabs(offset.y);
         offset.y  = offset.y > 0 ? +1 : -1;
     }
     point max_offset((getmaxx(w_terrain) + 1) / 2 - border_range - 1,
@@ -5299,7 +5295,7 @@ void game::draw_minimap()
         if (cursx != targ.x) {
             slope = double(targ.y - cursy) / double(targ.x - cursx);
         }
-        if (cursx == targ.x || abs(slope) > 3.5 ) { // Vertical slope
+        if (cursx == targ.x || fabs(slope) > 3.5 ) { // Vertical slope
             if (targ.y > cursy) {
                 mvwputch(w_minimap, 6, 3, c_red, '*');
             } else {
@@ -5307,7 +5303,7 @@ void game::draw_minimap()
             }
         } else {
             int arrowx = 3, arrowy = 3;
-            if (abs(slope) >= 1.) { // y diff is bigger!
+            if (fabs(slope) >= 1.) { // y diff is bigger!
                 arrowy = (targ.y > cursy ? 6 : 0);
                 arrowx = int(3 + 3 * (targ.y > cursy ? slope : (0 - slope)));
                 if (arrowx < 0) {
