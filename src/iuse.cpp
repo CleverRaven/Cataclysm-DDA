@@ -826,10 +826,11 @@ int iuse::cig(player *p, item *it, bool)
     bool hasPipe = p->has_amount("apparatus", 1);
 
     // make sure we're not already smoking something
-    for(std::vector<item*>::iterator iter = p->inv.active_items().begin(); iter != p->inv.active_items().end(); iter++) {
+    std::vector<item*> active_items = p->inv.active_items();
+    for(std::vector<item*>::iterator iter = active_items.begin(); iter != active_items.end(); iter++) {
         item* i = *iter;
         if(i->has_flag("LITCIG")) {
-            p->add_msg_if_player(_("You're already smoking a %s!"), i->name.c_str());
+            p->add_msg_if_player(_("You're already smoking a %s!"), i->tname().c_str());
             return 0;
         }
     }
