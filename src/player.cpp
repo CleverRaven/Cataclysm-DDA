@@ -6714,28 +6714,25 @@ item player::i_remn(char invlet)
 
 std::list<item> player::use_amount(itype_id it, int quantity, bool use_container)
 {
- std::list<item> ret;
- bool used_weapon_contents = false;
- for (int i = 0; i < weapon.contents.size(); i++) {
-  if (weapon.contents[i].type->id == it) {
-   ret.push_back(weapon.contents[i]);
-   quantity--;
-   weapon.contents.erase(weapon.contents.begin() + i);
-   i--;
-   used_weapon_contents = true;
-  }
- }
- if (use_container && used_weapon_contents)
-  remove_weapon();
-
- if (weapon.type->id == it && weapon.contents.empty()) {
-  quantity--;
-  ret.push_back(remove_weapon());
- }
-
- std::list<item> tmp = inv.use_amount(it, quantity, use_container);
- ret.splice(ret.end(), tmp);
- return ret;
+    std::list<item> ret;
+    if (weapon.use_amount(it, quantity, use_container, ret)) {
+        remove_weapon();
+    }
+    for (std::vector<item>::iterator a = worn.begin(); a != worn.end() && quantity > 0; ++a) {
+        for (std::vector<item>::iterator b = a->contents.begin(); b != a->contents.end() && quantity > 0; ) {
+            if (b->use_amount(it, quantity, use_container, ret)) {
+                b = a->contents.erase(b);
+            } else {
+                ++b;
+            }
+        }
+    }
+    if (quantity <= 0) {
+        return ret;
+    }
+    std::list<item> tmp = inv.use_amount(it, quantity, use_container);
+    ret.splice(ret.end(), tmp);
+    return ret;
 }
 
 bool player::use_charges_if_avail(itype_id it, long quantity)
@@ -6877,66 +6874,37 @@ void player::use_fire(const int quantity)
 // does NOT return anything if the item is integrated toolset or fire!
 std::list<item> player::use_charges(itype_id it, long quantity)
 {
- std::list<item> ret;
- // the first two cases *probably* don't need to be tracked for now...
- if (it == "toolset") {
-  power_level -= quantity;
-  if (power_level < 0)
-   power_level = 0;
-  return ret;
- }
- if (it == "fire")
- {
-     use_fire(quantity);
-     return ret;
- }
-
-// Start by checking weapon contents
- for (int i = 0; i < weapon.contents.size(); i++) {
-  if (weapon.contents[i].type->id == it) {
-   if (weapon.contents[i].charges > 0 &&
-       weapon.contents[i].charges <= quantity) {
-    ret.push_back(weapon.contents[i]);
-    quantity -= weapon.contents[i].charges;
-    if (weapon.contents[i].destroyed_at_zero_charges()) {
-     weapon.contents.erase(weapon.contents.begin() + i);
-     i--;
-    } else
-     weapon.contents[i].charges = 0;
-    if (quantity == 0)
-     return ret;
-   } else {
-    item tmp = weapon.contents[i];
-    tmp.charges = quantity;
-    ret.push_back(tmp);
-    weapon.contents[i].charges -= quantity;
+    std::list<item> ret;
+    // the first two cases *probably* don't need to be tracked for now...
+    if (it == "toolset") {
+        power_level -= quantity;
+        if (power_level < 0) {
+            power_level = 0;
+        }
+        return ret;
+    }
+    if (it == "fire") {
+        use_fire(quantity);
+        return ret;
+    }
+    if (weapon.use_charges(it, quantity, ret)) {
+        remove_weapon();
+    }
+    for (std::vector<item>::iterator a = worn.begin(); a != worn.end() && quantity > 0; ++a) {
+        for (std::vector<item>::iterator b = a->contents.begin(); b != a->contents.end() && quantity > 0; ) {
+            if (b->use_charges(it, quantity, ret)) {
+                b = a->contents.erase(b);
+            } else {
+                ++b;
+            }
+        }
+    }
+    if (quantity <= 0) {
+        return ret;
+    }
+    std::list<item> tmp = inv.use_charges(it, quantity);
+    ret.splice(ret.end(), tmp);
     return ret;
-   }
-  }
- }
-
- if (weapon.type->id == it || weapon.ammo_type() == it) {
-  if (weapon.charges > 0 && weapon.charges <= quantity) {
-   ret.push_back(weapon);
-   quantity -= weapon.charges;
-   if (weapon.destroyed_at_zero_charges())
-    remove_weapon();
-   else
-    weapon.charges = 0;
-   if (quantity == 0)
-    return ret;
-   } else {
-    item tmp = weapon;
-    tmp.charges = quantity;
-    ret.push_back(tmp);
-    weapon.charges -= quantity;
-    return ret;
-   }
-  }
-
- std::list<item> tmp = inv.use_charges(it, quantity);
- ret.splice(ret.end(), tmp);
- return ret;
 }
 
 int player::butcher_factor()
@@ -7080,15 +7048,9 @@ int player::amount_of(itype_id it) {
             return 1;
         }
     }
-    int quantity = 0;
-    if (weapon.type->id == it) {
-        quantity++;
-    }
-
-    for (int i = 0; i < weapon.contents.size(); i++)     {
-        if (weapon.contents[i].type->id == it) {
-            quantity++;
-        }
+    int quantity = weapon.amount_of(it, true);
+    for (std::vector<item>::iterator a = worn.begin(); a != worn.end(); ++a) {
+        quantity += a->amount_of(it, true);
     }
     quantity += inv.amount_of(it);
     return quantity;
@@ -7105,22 +7067,19 @@ bool player::has_charges(itype_id it, long quantity)
 
 long player::charges_of(itype_id it)
 {
- if (it == "toolset") {
-  if (has_bionic("bio_tools"))
-   return power_level;
-  else
-   return 0;
- }
- long quantity = 0;
- if (weapon.type->id == it || weapon.ammo_type() == it) {
-  quantity += weapon.charges;
- }
- for (int i = 0; i < weapon.contents.size(); i++) {
-  if (weapon.contents[i].type->id == it)
-   quantity += weapon.contents[i].charges;
- }
- quantity += inv.charges_of(it);
- return quantity;
+    if (it == "toolset") {
+        if (has_bionic("bio_tools")) {
+            return power_level;
+        } else {
+            return 0;
+        }
+    }
+    long quantity = weapon.charges_of(it);
+    for (std::vector<item>::iterator a = worn.begin(); a != worn.end(); ++a) {
+        quantity += a->charges_of(it);
+    }
+    quantity += inv.charges_of(it);
+    return quantity;
 }
 
 int  player::leak_level( std::string flag ) const

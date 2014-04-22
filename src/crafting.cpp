@@ -1238,6 +1238,10 @@ inventory game::crafting_inventory(player *p)
     crafting_inv.form_from_map(point(p->posx, p->posy), PICKUP_RANGE, false);
     crafting_inv += p->inv;
     crafting_inv += p->weapon;
+    for (std::vector<item>::const_iterator a = p->worn.begin(); a != p->worn.end(); a++) {
+        // Add contents of worn items, but not the worn item itself!
+        crafting_inv += a->contents;
+    }
     if (p->has_bionic("bio_tools")) {
         //item tools(item_controller->find_template("toolset"), turn);
         item tools(itypes["toolset"], turn);
