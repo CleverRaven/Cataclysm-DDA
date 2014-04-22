@@ -35,6 +35,7 @@ class inventory
   inventory& operator+= (const inventory &rhs);
   inventory& operator+= (const item &rhs);
   inventory& operator+= (const std::list<item> &rhs);
+  inventory& operator+= (const std::vector<item> &rhs);
   inventory  operator+  (const inventory &rhs);
   inventory  operator+  (const item &rhs);
   inventory  operator+  (const std::list<item> &rhs);
