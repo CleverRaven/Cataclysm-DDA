@@ -1529,3 +1529,31 @@ void reset_constructions()
     }
     constructions.clear();
 }
+
+void check_constructions()
+{
+    for( std::vector<construction *>::const_iterator a = constructions.begin();
+         a != constructions.end(); ++a ) {
+        const construction *c = *a;
+        const std::string display_name = std::string("construction ") + c->description;
+        // Note: print the description as the id is just a generated number,
+        // the description can be searched for in the json files.
+        if (!c->skill.empty() && Skill::skill(c->skill) == NULL) {
+            debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
+        }
+        check_component_list(c->tools, display_name);
+        check_component_list(c->components, display_name);
+        if (!c->pre_terrain.empty() && !c->pre_is_furniture && termap.count(c->pre_terrain) == 0) {
+            debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
+        }
+        if (!c->pre_terrain.empty() && c->pre_is_furniture && furnmap.count(c->pre_terrain) == 0) {
+            debugmsg("Unknown pre_terrain (furniture) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
+        }
+        if (!c->post_terrain.empty() && !c->post_is_furniture && termap.count(c->post_terrain) == 0) {
+            debugmsg("Unknown post_terrain (terrain) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+        }
+        if (!c->post_terrain.empty() && c->post_is_furniture && furnmap.count(c->post_terrain) == 0) {
+            debugmsg("Unknown post_terrain (furniture) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+        }
+    }
+}

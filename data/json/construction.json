@@ -1343,6 +1343,6 @@
             [ [ "anvil", 1 ] ]
         ],
         "pre_special" : "check_empty",
-        "post_terrain" : "t_anvil"
+        "post_terrain" : "f_anvil"
     }
 ]
