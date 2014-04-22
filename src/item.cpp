@@ -3121,6 +3121,78 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     return count;
 }
 
+bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used)
+{
+    // First, check contents
+    bool used_item_contents = false;
+    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+        if (a->use_amount(it, quantity, use_container, used)) {
+            a = contents.erase(a);
+            used_item_contents = true;
+        } else {
+            ++a;
+        }
+    }
+    // Now check the item itself
+    if (use_container && used_item_contents) {
+        return true;
+    } else if (type->id == it && quantity > 0 && contents.empty()) {
+        used.push_back(*this);
+        quantity--;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+long item::charges_of(const itype_id &it) const
+{
+    long count = 0;
+    if (type->id == it && contents.empty()) {
+        // If we're specifically looking for a container, only say we have it if it's empty.
+        if (charges < 0) {
+            count++;
+        } else {
+            count += charges;
+        }
+    } else {
+        for (std::vector<item>::const_iterator a = contents.begin(); a != contents.end(); ++a) {
+            count += a->charges_of(it);
+        }
+    }
+    return count;
+}
+
+bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
+{
+    // First, check contents
+    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+        if (a->use_charges(it, quantity, used)) {
+            a = contents.erase(a);
+        } else {
+            ++a;
+        }
+    }
+    // Now check the item itself
+    if (type->id != it || quantity <= 0 || !contents.empty()) {
+        return false;
+    }
+    if (charges <= quantity) {
+        used.push_back(*this);
+        if (charges < 0) {
+            quantity--;
+        } else {
+            quantity -= charges;
+        }
+        charges = 0;
+        return destroyed_at_zero_charges();
+    }
+    used.push_back(*this);
+    used.back().charges = quantity;
+    charges -= quantity;
+    return false;
+}
+
 const item_category &item::get_category() const
 {
     if(is_container() && !contents.empty()) {
