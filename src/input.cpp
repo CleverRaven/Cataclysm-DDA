@@ -21,6 +21,17 @@
 
 static const std::string default_context_id("default");
 
+template <class T1, class T2>
+struct ContainsPredicate {
+    const T1& container;
+
+    ContainsPredicate(const T1& container) : container(container) { }
+
+    bool operator()(T2 c) {
+        return std::find(container.begin(), container.end(), c) != container.end();
+    }
+};
+
 static long str_to_long(const std::string &number) {
     // ensure user's locale doesn't interfere with number format
     std::istringstream buffer(number);
@@ -733,14 +744,39 @@ std::vector<char> input_context::keys_bound_to(const std::string &action_descrip
 {
     std::vector<char> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action(action_descriptor, category);
-    for(size_t i = 0; i < events.size(); ++i) {
-        const input_event &event = events[i];
+    for (std::vector<input_event>::const_iterator event = events.begin();
+            event != events.end();
+            ++event) {
         // Ignore multi-key input and non-keyboard input
-        if (event.type == CATA_INPUT_KEYBOARD && event.sequence.size() == 1) {
-            result.push_back((char) event.sequence[0]);
+        if (event->type == CATA_INPUT_KEYBOARD && event->sequence.size() == 1) {
+            result.push_back((char) event->sequence[0]);
         }
     }
     return result;
+}
+
+std::string input_context::get_available_single_char_hotkeys(std::string requested_keys) {
+    for (std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
+            registered_action != registered_actions.end();
+            ++registered_action) {
+
+        const std::vector<input_event> &events = inp_mngr.get_input_for_action(*registered_action, category);
+        for (std::vector<input_event>::const_iterator event = events.begin();
+                event != events.end();
+                ++event) {
+            // Only consider keyboard events without modifiers
+            if (event->type == CATA_INPUT_KEYBOARD && 0 == event->modifiers.size()) {
+                requested_keys.erase(
+                        std::remove_if(
+                            requested_keys.begin(),
+                            requested_keys.end(),
+                            ContainsPredicate<std::vector<long>,char>(event->sequence)),
+                        requested_keys.end());
+            }
+        }
+    }
+
+    return requested_keys;
 }
 
 const std::string input_context::get_desc(const std::string &action_descriptor)
