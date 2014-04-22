@@ -8900,6 +8900,7 @@ int game::list_items(const int iLastState)
             action = ctxt.handle_input();
         } else {
             iReturn = 0;
+            action = "QUIT";
         }
     } while (action != "QUIT");
 
@@ -9149,6 +9150,7 @@ int game::list_monsters(const int iLastState)
             action = ctxt.handle_input();
         } else {
             iReturn = 0;
+            action = "QUIT";
         }
     } while (action != "QUIT");
 
