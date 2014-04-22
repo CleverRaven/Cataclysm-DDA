@@ -6907,24 +6907,21 @@ std::list<item> player::use_charges(itype_id it, long quantity)
     return ret;
 }
 
-int player::butcher_factor()
+int player::butcher_factor() const
 {
- int lowest_factor = 999;
- if (has_bionic("bio_tools"))
-  lowest_factor=100;
- int inv_factor = inv.butcher_factor();
- if (inv_factor < lowest_factor) {
-  lowest_factor = inv_factor;
- }
- if (weapon.has_quality("CUT") && !weapon.has_flag("SPEAR")) {
-  int factor = weapon.volume() * 5 - weapon.weight() / 75 -
-               weapon.damage_cut();
-  if (weapon.damage_cut() <= 20)
-   factor *= 2;
-  if (factor < lowest_factor)
-   lowest_factor = factor;
- }
- return lowest_factor;
+    int lowest_factor = INT_MAX;
+    if (has_bionic("bio_tools")) {
+        lowest_factor = 100;
+    }
+    int inv_factor = inv.butcher_factor();
+    if (inv_factor < lowest_factor) {
+        lowest_factor = inv_factor;
+    }
+    lowest_factor = std::min(lowest_factor, weapon.butcher_factor());
+    for (std::vector<item>::const_iterator a = worn.begin(); a != worn.end(); ++a) {
+        lowest_factor = std::min(lowest_factor, a->butcher_factor());
+    }
+    return lowest_factor;
 }
 
 item* player::pick_usb()

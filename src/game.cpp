@@ -11100,7 +11100,7 @@ void game::butcher()
     // get corpses first
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            if (factor == 999) {
+            if (factor == INT_MAX) {
                 if (!has_corpse) {
                     add_msg(_("You don't have a sharp item to butcher with."));
                 }
