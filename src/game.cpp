@@ -4609,8 +4609,12 @@ void game::list_missions()
                                 (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
     int tab = 0, selection = 0;
-    InputEvent input;
-    do {
+    input_context ctxt("MISSIONS");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    while(true) {
         werase(w_missions);
         std::vector<int> umissions;
         switch (tab) {
@@ -4691,38 +4695,34 @@ void game::list_missions()
         }
 
         wrefresh(w_missions);
-        input = get_input();
-        switch (input) {
-        case DirectionE:
+        const std::string action = ctxt.handle_input();
+        if (action == "RIGHT") {
             tab++;
             if (tab == 3) {
                 tab = 0;
             }
-            break;
-        case DirectionW:
+        } else if (action == "LEFT") {
             tab--;
             if (tab < 0) {
                 tab = 2;
             }
-            break;
-        case DirectionS:
+        } else if (action == "DOWN") {
             selection++;
             if (selection >= umissions.size()) {
                 selection = 0;
             }
-            break;
-        case DirectionN:
+        } else if (action == "UP") {
             selection--;
             if (selection < 0) {
                 selection = umissions.size() - 1;
             }
-            break;
-        case Confirm:
+        } else if (action == "CONFIRM") {
             u.active_mission = selection;
             break;
+        } else if (action == "QUIT") {
+            break;
         }
-
-    } while (input != Cancel && input != Close);
+    }
 
     werase(w_missions);
     delwin(w_missions);
