@@ -38,7 +38,7 @@ struct construct // Construction functions.
 };
 
 // Keys available for use as hotkeys.  Excludes vi direction keys and Q for quit.
-const std::string hotkeys = "abcdefgimnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
+const std::string hotkeys = "abcdefgimnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ!\"#&()*+./:=?@[\\]^_{|}";
 
 std::vector<construction *> constructions;
 
