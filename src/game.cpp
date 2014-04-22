@@ -4515,89 +4515,93 @@ void game::disp_NPCs()
     delwin(w);
 }
 
-faction* game::list_factions(std::string title)
+faction *game::list_factions(std::string title)
 {
- std::vector<faction> valfac; // Factions that we know of.
- for (int i = 0; i < factions.size(); i++) {
-  if (factions[i].known_by_u)
-   valfac.push_back(factions[i]);
- }
- if (valfac.empty()) { // We don't know of any factions!
-  popup(_("You don't know of any factions.  Press Spacebar..."));
-  return NULL;
- }
+    std::vector<faction> valfac; // Factions that we know of.
+    for (int i = 0; i < factions.size(); i++) {
+        if (factions[i].known_by_u) {
+            valfac.push_back(factions[i]);
+        }
+    }
+    if (valfac.empty()) { // We don't know of any factions!
+        popup(_("You don't know of any factions.  Press Spacebar..."));
+        return NULL;
+    }
 
- WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                         ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
-                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
- WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT-2, FULL_SCREEN_WIDTH-1 - MAX_FAC_NAME_SIZE,
-                         1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
-                         MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
+    WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                            ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
+                            (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+    WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
+                            1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
+                            MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
- draw_border(w_list);
+    draw_border(w_list);
 
- int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
- int sel = 0;
+    int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
+    int sel = 0;
 
-// Init w_list content
- mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
- for (int i = 0; i < valfac.size(); i++) {
-  nc_color col = (i == 0 ? h_white : c_white);
-  mvwprintz(w_list, i + 2, 1, col, "%s", valfac[i].name.c_str());
- }
- wrefresh(w_list);
-// Init w_info content
-// fac_*_text() is in faction.cpp
- mvwprintz(w_info, 0, 0, c_white,
-          _("Ranking: %s"), fac_ranking_text(valfac[0].likes_u).c_str());
- mvwprintz(w_info, 1, 0, c_white,
-          _("Respect: %s"), fac_respect_text(valfac[0].respects_u).c_str());
- fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe());
- wrefresh(w_info);
- InputEvent input;
- do {
-  input = get_input();
-  switch ( input ) {
-  case DirectionS: // Move selection down
-   mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
-   if (sel == valfac.size() - 1)
-    sel = 0; // Wrap around
-   else
-    sel++;
-   break;
-  case DirectionN: // Move selection up
-   mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
-   if (sel == 0)
-    sel = valfac.size() - 1; // Wrap around
-   else
-    sel--;
-   break;
-  case Cancel:
-  case Close:
-   sel = -1;
-   break;
-  }
-  if (input == DirectionS || input == DirectionN) { // Changed our selection... update the windows
-   mvwprintz(w_list, sel + 2, 1, h_white, "%s", valfac[sel].name.c_str());
-   wrefresh(w_list);
-   werase(w_info);
-// fac_*_text() is in faction.cpp
-   mvwprintz(w_info, 0, 0, c_white,
-            _("Ranking: %s"), fac_ranking_text(valfac[sel].likes_u).c_str());
-   mvwprintz(w_info, 1, 0, c_white,
-            _("Respect: %s"), fac_respect_text(valfac[sel].respects_u).c_str());
-   fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe());
-   wrefresh(w_info);
-  }
- } while (input != Cancel && input != Confirm && input != Close);
- werase(w_list);
- werase(w_info);
- delwin(w_list);
- delwin(w_info);
- refresh_all();
- if (sel == -1)
-  return NULL;
- return &(factions[valfac[sel].id]);
+    // Init w_list content
+    mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
+    for (int i = 0; i < valfac.size(); i++) {
+        nc_color col = (i == 0 ? h_white : c_white);
+        mvwprintz(w_list, i + 2, 1, col, "%s", valfac[i].name.c_str());
+    }
+    wrefresh(w_list);
+    // Init w_info content
+    // fac_*_text() is in faction.cpp
+    mvwprintz(w_info, 0, 0, c_white,
+              _("Ranking: %s"), fac_ranking_text(valfac[0].likes_u).c_str());
+    mvwprintz(w_info, 1, 0, c_white,
+              _("Respect: %s"), fac_respect_text(valfac[0].respects_u).c_str());
+    fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe());
+    wrefresh(w_info);
+    InputEvent input;
+    do {
+        input = get_input();
+        switch ( input ) {
+            case DirectionS: // Move selection down
+                mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
+                if (sel == valfac.size() - 1) {
+                    sel = 0;    // Wrap around
+                } else {
+                    sel++;
+                }
+                break;
+            case DirectionN: // Move selection up
+                mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
+                if (sel == 0) {
+                    sel = valfac.size() - 1;    // Wrap around
+                } else {
+                    sel--;
+                }
+                break;
+            case Cancel:
+            case Close:
+                sel = -1;
+                break;
+        }
+        if (input == DirectionS || input == DirectionN) { // Changed our selection... update the windows
+            mvwprintz(w_list, sel + 2, 1, h_white, "%s", valfac[sel].name.c_str());
+            wrefresh(w_list);
+            werase(w_info);
+            // fac_*_text() is in faction.cpp
+            mvwprintz(w_info, 0, 0, c_white,
+                      _("Ranking: %s"), fac_ranking_text(valfac[sel].likes_u).c_str());
+            mvwprintz(w_info, 1, 0, c_white,
+                      _("Respect: %s"), fac_respect_text(valfac[sel].respects_u).c_str());
+            fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe());
+            wrefresh(w_info);
+        }
+    } while (input != Cancel && input != Confirm && input != Close);
+    werase(w_list);
+    werase(w_info);
+    delwin(w_list);
+    delwin(w_info);
+    refresh_all();
+    if (sel == -1) {
+        return NULL;
+    }
+    return &(factions[valfac[sel].id]);
 }
 
 void game::list_missions()
