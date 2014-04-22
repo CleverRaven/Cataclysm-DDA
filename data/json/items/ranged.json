@@ -2611,7 +2611,7 @@
     "price": 750000,
     "material": ["aluminum", "wood"],
     "flags": ["RELOAD_ONE", "STR_RELOAD", "NEVER_JAMS"],
-    "skill": "rifle",
+    "skill": "launcher",
     "ammo": "mininuke_mod",
     "weight": 11260,
     "volume": 11,
