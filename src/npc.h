@@ -547,6 +547,11 @@ public:
  void go_to_destination(); // Move there; on the micro scale
  void reach_destination(); // We made it!
 
+ //message related stuff
+ virtual void add_msg_if_npc(const char* msg, ...);
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
+
+
 // The preceding are in npcmove.cpp
 
 

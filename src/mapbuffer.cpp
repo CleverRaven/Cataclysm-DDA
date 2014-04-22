@@ -58,7 +58,7 @@ bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
         return false;
     }
 
-    sm->turn_last_touched = int(g->turn);
+    sm->turn_last_touched = int(calendar::turn);
     submap_list.push_back(sm);
     submaps[p] = sm;
 

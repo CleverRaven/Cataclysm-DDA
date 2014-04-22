@@ -5822,7 +5822,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
             case 3:
                 // bat corpses
                 for (int i = rng(1, 12); i > 0; i--) {
-                    body.make_corpse(itypes["corpse"], GetMType("mon_bat"), g->turn);
+                    body.make_corpse(itypes["corpse"], GetMType("mon_bat"), calendar::turn);
                     m->add_item_or_charges(rng(1, SEEX * 2 - 1), rng(1, SEEY * 2 - 1), body);
                 }
                 break;
@@ -5840,7 +5840,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 for (int ii = 0; ii < bloodline.size(); ii++) {
                     m->add_field(bloodline[ii].x, bloodline[ii].y, fd_blood, 2);
                 }
-                body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+                body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
                 m->add_item_or_charges(hermx, hermy, body);
                 // This seems verbose.  Maybe a function to spawn from a list of item groups?
                 m->place_items("stash_food", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);

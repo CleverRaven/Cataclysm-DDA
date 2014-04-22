@@ -99,7 +99,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             pdata.read("om_x",comx);
             pdata.read("om_y",comy);
 
-            turn = tmpturn;
+            calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
@@ -186,7 +186,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             parseline() >> levx >> levy >> levz >> comx >> comy;
 
-            turn = tmpturn;
+            calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
@@ -303,7 +303,7 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 
             parseline() >> levx >> levy >> levz >> comx >> comy;
 
-            turn = tmpturn;
+            calendar::turn = tmpturn;
             nextspawn = tmpspawn;
 
             cur_om = &overmap_buffer.get(comx, comy);
@@ -419,7 +419,7 @@ original 'structure', which globs game/weather/location & killcount/player data 
 
          fin >> levx >> levy >> levz >> comx >> comy;
 
-         turn = tmpturn;
+         calendar::turn = tmpturn;
          nextspawn = tmpspawn;
 
          cur_om = &overmap_buffer.get(comx, comy);
@@ -1096,7 +1096,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
           }
           sm->turn_last_touched = turn;
           sm->temperature = temperature;
-          int turndif = int(g->turn) - turn;
+          int turndif = int(calendar::turn) - turn;
           if (turndif < 0)
            turndif = 0;
         // Load terrain
@@ -1350,7 +1350,7 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
         }
         sm->turn_last_touched = turn;
         sm->temperature = temperature;
-        int turndif = int(g->turn) - turn;
+        int turndif = int(calendar::turn) - turn;
         if (turndif < 0) {
             turndif = 0;
         }
