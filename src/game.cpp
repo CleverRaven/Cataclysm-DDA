@@ -4539,8 +4539,13 @@ faction *game::list_factions(std::string title)
     int sel = 0;
     bool redraw = true;
 
-    InputEvent input;
-    do {
+    input_context ctxt("FACTIONS");
+    ctxt.register_action("UP", _("Move cursor up"));
+    ctxt.register_action("DOWN", _("Move cursor down"));
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    while(true) {
         if (redraw) {
             // Init w_list content
             werase(w_list);
@@ -4562,9 +4567,8 @@ faction *game::list_factions(std::string title)
             wrefresh(w_info);
             redraw = false;
         }
-        input = get_input();
-        switch ( input ) {
-            case DirectionS: // Move selection down
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
                 mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
                 if (sel == valfac.size() - 1) {
                     sel = 0;    // Wrap around
@@ -4572,8 +4576,7 @@ faction *game::list_factions(std::string title)
                     sel++;
                 }
                 redraw = true;
-                break;
-            case DirectionN: // Move selection up
+        } else if (action == "UP") {
                 mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
                 if (sel == 0) {
                     sel = valfac.size() - 1;    // Wrap around
@@ -4581,13 +4584,13 @@ faction *game::list_factions(std::string title)
                     sel--;
                 }
                 redraw = true;
-                break;
-            case Cancel:
-            case Close:
-                sel = -1;
-                break;
+        } else if (action == "QUIT") {
+            sel = -1;
+            break;
+        } else if (action == "CONFIRM") {
+            break;
         }
-    } while (input != Cancel && input != Confirm && input != Close);
+    }
     werase(w_list);
     werase(w_info);
     delwin(w_list);
