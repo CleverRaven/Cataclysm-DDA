@@ -126,6 +126,14 @@ inventory &inventory::operator+= (const inventory &rhs)
 inventory &inventory::operator+= (const std::list<item> &rhs)
 {
     for (std::list<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter) {
+        add_item(*iter, false, false);
+    }
+    return *this;
+}
+
+inventory &inventory::operator+= (const std::vector<item> &rhs)
+{
+    for (std::vector<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter) {
         add_item(*iter, true);
     }
     return *this;
