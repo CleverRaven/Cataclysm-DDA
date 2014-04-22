@@ -101,7 +101,6 @@ void monster::plan(const std::vector<int> &friendlies)
     int tc = 0;
     int stc = 0;
     bool fleeing = false;
-    bool bdocile = false;
     if (friendly != 0) { // Target monsters, not the player!
         for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
             monster *tmp = &(g->zombie(i));
@@ -116,7 +115,6 @@ void monster::plan(const std::vector<int> &friendlies)
         }
 
         if (has_effect("docile")) {
-            bdocile = true;
             closest = -1;
         }
 

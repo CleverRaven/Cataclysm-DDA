@@ -10767,9 +10767,9 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
         }
     }
     for (size_t i = 0; i < active_npc.size(); i++) {
-        npc &critter = active_npc[i];
-        if (u_see(critter) && (rl_dist( u.posx, u.posy, critter.xpos(), critter.ypos() ) <= range)) {
-            mon_targets.push_back(&critter);
+        npc *critter = active_npc[i];
+        if (u_see(critter) && (rl_dist( u.posx, u.posy, critter->xpos(), critter->ypos() ) <= range)) {
+            mon_targets.push_back(critter);
         }
     }
     std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_to_u);
