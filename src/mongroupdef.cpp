@@ -54,8 +54,8 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             valid_entry = valid_entry && (GetMType(it->name)->in_category("CLASSIC") || GetMType(it->name)->in_category("WILDLIFE"));
         }
         //Insure that the time is not before the spawn first appears or after it stops appearing
-        valid_entry = valid_entry && (HOURS(it->starts) < g->turn.get_turn());
-        valid_entry = valid_entry && (it->lasts_forever() || HOURS(it->ends) > g->turn.get_turn());
+        valid_entry = valid_entry && (HOURS(it->starts) < calendar::turn.get_turn());
+        valid_entry = valid_entry && (it->lasts_forever() || HOURS(it->ends) > calendar::turn.get_turn());
 
         std::vector<std::pair<int,int> > valid_times_of_day;
         bool season_limited = false;
@@ -64,8 +64,8 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         for(std::vector<std::string>::iterator condition = it->conditions.begin(); condition != it->conditions.end(); ++condition){
             //Collect valid time of day ranges
             if( (*condition) == "DAY" || (*condition) == "NIGHT" || (*condition) == "DUSK" || (*condition) == "DAWN" ){
-                int sunset = g->turn.sunset().get_turn();
-                int sunrise = g->turn.sunrise().get_turn();
+                int sunset = calendar::turn.sunset().get_turn();
+                int sunrise = calendar::turn.sunrise().get_turn();
                 if((*condition) == "DAY"){
                     valid_times_of_day.push_back( std::make_pair(sunrise,sunset) );
                 } else if((*condition) == "NIGHT"){
@@ -80,10 +80,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             //If we have any seasons listed, we know to limit by season, and if any season matches this season, we are good to spawn
             if( (*condition) == "SUMMER" || (*condition) == "WINTER" || (*condition) == "SPRING" || (*condition) == "AUTUMN" ){
                 season_limited = true;
-                if( (g->turn.get_season() == SUMMER && (*condition) == "SUMMER") ||
-                    (g->turn.get_season() == WINTER && (*condition) == "WINTER") ||
-                    (g->turn.get_season() == SPRING && (*condition) == "SPRING") ||
-                    (g->turn.get_season() == AUTUMN && (*condition) == "AUTUMN") ){
+                if( (calendar::turn.get_season() == SUMMER && (*condition) == "SUMMER") ||
+                    (calendar::turn.get_season() == WINTER && (*condition) == "WINTER") ||
+                    (calendar::turn.get_season() == SPRING && (*condition) == "SPRING") ||
+                    (calendar::turn.get_season() == AUTUMN && (*condition) == "AUTUMN") ){
                     season_matched = true;
                 }
             }
@@ -97,7 +97,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         } else {
             //Otherwise, it's valid if it matches any of the times of day
             for(std::vector<std::pair<int,int> >::iterator time_pair = valid_times_of_day.begin(); time_pair != valid_times_of_day.end(); ++time_pair){
-                int time_now = g->turn.get_turn();
+                int time_now = calendar::turn.get_turn();
                 if(time_now > time_pair->first &&  time_now < time_pair->second){
                     is_valid_time_of_day = true;
                 }
