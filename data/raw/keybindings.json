@@ -1137,6 +1137,66 @@
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
     {
         "type" : "keybinding",
+        "id":"COMPARE",
+        "category":"LIST_ITEMS",
+        "name":"Compare",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"I"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"EXAMINE",
+        "category":"LIST_ITEMS",
+        "name":"Examine",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PRIORITY_INCREASE",
+        "category":"LIST_ITEMS",
+        "name":"Increase priority",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PRIORITY_DECREASE",
+        "category":"LIST_ITEMS",
+        "name":"Decrease priority",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"REASSIGN",
         "category":"BIONICS",
         "name":"reassign invlet",
