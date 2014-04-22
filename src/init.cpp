@@ -425,5 +425,6 @@ void DynamicDataLoader::check_consistency() {
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();
     check_furniture_and_terrain();
+    check_constructions();
     profession::check_definitions();
 }

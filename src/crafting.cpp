@@ -2053,13 +2053,13 @@ recipe *recipe_by_name(std::string name)
     return NULL;
 }
 
-static void check_component_list(const std::vector<std::vector<component> > &vec,
-                                 const std::string &rName)
+void check_component_list(const std::vector<std::vector<component> > &vec,
+                                 const std::string &display_name)
 {
     for (std::vector<std::vector<component> >::const_iterator b = vec.begin(); b != vec.end(); b++) {
         for (std::vector<component>::const_iterator c = b->begin(); c != b->end(); c++) {
             if (!item_controller->has_template(c->type)) {
-                debugmsg("%s in recipe %s is not a valid item template", c->type.c_str(), rName.c_str());
+                debugmsg("%s in %s is not a valid item template", c->type.c_str(), display_name.c_str());
             }
         }
     }
@@ -2081,8 +2081,9 @@ void check_recipe_definitions()
         for (recipe_list::iterator list_iter = map_iter->second.begin();
              list_iter != map_iter->second.end(); ++list_iter) {
             const recipe &r = **list_iter;
-            ::check_component_list(r.tools, r.ident);
-            ::check_component_list(r.components, r.ident);
+            const std::string display_name = std::string("recipe ") + r.ident;
+            ::check_component_list(r.tools, display_name);
+            ::check_component_list(r.components, display_name);
             ::check_qualities(r.qualities, r.ident);
             if (!item_controller->has_template(r.result)) {
                 debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
