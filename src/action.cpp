@@ -1,10 +1,10 @@
 #include "action.h"
 #include "output.h"
+#include "options.h"
 #include "path_info.h"
 #include "file_wrapper.h"
 #include "debug.h"
 #include "game.h"
-#include "options.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -497,12 +497,15 @@ bool can_interact_at(action_id action, int x, int y)
 action_id handle_action_menu()
 {
     const input_context ctxt = get_default_mode_input_context();
+    std::string catgname;
 
 #define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), \
         ctxt.get_action_name(action_ident(name))));
 #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
-    entries.push_back(uimenu_entry(last_category, true, -1, \
-                                   std::string(":")+name)); \
+    catgname = _(name);\
+    catgname += "...";\
+    capitalize_letter(catgname,0);\
+    entries.push_back(uimenu_entry(last_category, true, -1, catgname)); \
     last_category++;
 
     // Calculate weightings for the various actions to give the player suggestions
@@ -560,12 +563,12 @@ action_id handle_action_menu()
     std::reverse(sorted_pairs.begin(), sorted_pairs.end());
 
 
-    // Default category is called "back" so we can simply add a link to it
-    // in sub-categories.
+    // Default category is called "back"
     std::string category = "back";
 
     while(1) {
         std::vector<uimenu_entry> entries;
+        uimenu_entry * entry;
         std::map<int, std::string> categories_by_int;
         int last_category = NUM_ACTIONS + 1;
 
@@ -584,15 +587,26 @@ action_id handle_action_menu()
             REGISTER_CATEGORY("craft");
             REGISTER_CATEGORY("info");
             REGISTER_CATEGORY("misc");
+            if (hotkey_for_action(ACTION_QUICKSAVE) >-1) {
+                REGISTER_ACTION(ACTION_QUICKSAVE);
+            }
             REGISTER_ACTION(ACTION_SAVE);
             if (hotkey_for_action(ACTION_QUIT) >-1) {
                 REGISTER_ACTION(ACTION_QUIT);
+            }
+            REGISTER_ACTION(ACTION_HELP);
+            if ((entry= &entries.back()))
+                entry->txt += "...";        // help _is_a menu.
+            if (hotkey_for_action(ACTION_DEBUG) >-1) {
+                REGISTER_CATEGORY("debug"); // register with globalkey
+                if ((entry= &entries.back()))
+                    entry->hotkey= hotkey_for_action(ACTION_DEBUG);
             }
         } else if(category == "look") {
             REGISTER_ACTION(ACTION_LOOK);
             REGISTER_ACTION(ACTION_PEEK);
             REGISTER_ACTION(ACTION_LIST_ITEMS);
-            REGISTER_CATEGORY("back");
+            REGISTER_ACTION(ACTION_MAP);
         } else if(category == "inventory") {
             REGISTER_ACTION(ACTION_INVENTORY);
             REGISTER_ACTION(ACTION_ADVANCEDINV);
@@ -612,17 +626,16 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_READ);
             REGISTER_ACTION(ACTION_WIELD);
             REGISTER_ACTION(ACTION_UNLOAD);
-            REGISTER_CATEGORY("back");
         } else if(category == "debug") {
-            REGISTER_ACTION(ACTION_TOGGLE_SIDEBAR_STYLE);
-            REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
             REGISTER_ACTION(ACTION_DEBUG);
+            if ((entry= &entries.back()))
+                entry->txt += "..."; // debug _is_a menu.
+            REGISTER_ACTION(ACTION_TOGGLE_SIDEBAR_STYLE);
+            #ifndef TILES
+                REGISTER_ACTION(ACTION_TOGGLE_FULLSCREEN);
+            #endif
             REGISTER_ACTION(ACTION_DISPLAY_SCENT);
             REGISTER_ACTION(ACTION_TOGGLE_DEBUGMON);
-            REGISTER_ACTION(ACTION_PICKUP);
-            REGISTER_ACTION(ACTION_GRAB);
-            REGISTER_ACTION(ACTION_BUTCHER);
-            REGISTER_CATEGORY("back");
         } else if(category == "interact") {
             REGISTER_ACTION(ACTION_EXAMINE);
             REGISTER_ACTION(ACTION_SMASH);
@@ -631,7 +644,9 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_OPEN);
             REGISTER_ACTION(ACTION_CLOSE);
             REGISTER_ACTION(ACTION_CHAT);
-            REGISTER_CATEGORY("back");
+            REGISTER_ACTION(ACTION_PICKUP);
+            REGISTER_ACTION(ACTION_GRAB);
+            REGISTER_ACTION(ACTION_BUTCHER);
         } else if(category == "combat") {
             REGISTER_ACTION(ACTION_FIRE);
             REGISTER_ACTION(ACTION_RELOAD);
@@ -642,50 +657,61 @@ action_id handle_action_menu()
             REGISTER_ACTION(ACTION_TOGGLE_SAFEMODE);
             REGISTER_ACTION(ACTION_TOGGLE_AUTOSAFE);
             REGISTER_ACTION(ACTION_IGNORE_ENEMY);
-            REGISTER_CATEGORY("back");
         } else if(category == "craft") {
             REGISTER_ACTION(ACTION_CRAFT);
             REGISTER_ACTION(ACTION_RECRAFT);
             REGISTER_ACTION(ACTION_LONGCRAFT);
             REGISTER_ACTION(ACTION_CONSTRUCT);
             REGISTER_ACTION(ACTION_DISASSEMBLE);
-            REGISTER_CATEGORY("back");
         } else if(category == "info") {
             REGISTER_ACTION(ACTION_PL_INFO);
-            REGISTER_ACTION(ACTION_MAP);
             REGISTER_ACTION(ACTION_MISSIONS);
             REGISTER_ACTION(ACTION_KILLS);
             REGISTER_ACTION(ACTION_FACTIONS);
             REGISTER_ACTION(ACTION_MORALE);
             REGISTER_ACTION(ACTION_MESSAGES);
-            REGISTER_ACTION(ACTION_HELP);
-            REGISTER_CATEGORY("back");
         } else if(category == "misc") {
             REGISTER_ACTION(ACTION_WAIT);
             REGISTER_ACTION(ACTION_SLEEP);
             REGISTER_ACTION(ACTION_BIONICS);
             REGISTER_ACTION(ACTION_CONTROL_VEHICLE);
-            if (use_tiles) { // from options.h
+            #ifdef TILES
+            if (use_tiles) {
                 REGISTER_ACTION(ACTION_ZOOM_OUT);
                 REGISTER_ACTION(ACTION_ZOOM_IN);
-            };
-            REGISTER_CATEGORY("back");
+            }
+            #endif
         }
 
-        entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true, KEY_ESCAPE, "Cancel"));
+        std::string title = _("Back");
+        title += "...";
+        if(category == "back")
+            title = _("Cancel");
+        entries.push_back(uimenu_entry(2 * NUM_ACTIONS, true, hotkey_for_action(ACTION_ACTIONMENU), title));
 
-        std::string title = "Actions";
+        title = _("Actions");
         if(category != "back") {
-            title += ": " + category;
+            catgname= _(category.c_str());
+            capitalize_letter(catgname,0);
+            title += ": " + catgname;
         }
-        int selection = (int) uimenu(0, 50, 0, title, entries);
 
-        erase();
-        g->refresh_all();
+        int width=0;
+        for (std::vector<uimenu_entry>::iterator entry = entries.begin(); entry != entries.end(); entry++) {
+            if (width<entry->txt.length())
+                width = entry->txt.length();
+        }
+        width += 2+3+3; //border=2, selectors=3, after=3 for balance.
+        int ix = (TERMX > width) ? (TERMX - width) / 2 -1 : 0;
+        int iy = (TERMY > entries.size()+2) ? (TERMY - entries.size() -2) / 2 -1 : 0;
+        int selection = (int) uimenu(true, std::max(ix,0), std::min(width,TERMX-2), std::max(iy,0), title, entries);
+
         g->draw();
 
-        if(selection == 2 * NUM_ACTIONS) {
-            if(category != "back") {
+        if (selection <0) {
+            return ACTION_NULL;
+        } else if (selection == 2 * NUM_ACTIONS) {
+            if (category != "back") {
                 category = "back";
             } else {
                 return ACTION_NULL;
