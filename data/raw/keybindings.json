@@ -169,6 +169,28 @@
     },
     {
         "type" : "keybinding",
+        "id": "PAGE_UP",
+        "name": "Page up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PAGE_DOWN",
+        "name": "Page down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "ADD_RULE",
         "category": "AUTO_PICKUP",
         "name": "Add rule",
@@ -922,6 +944,18 @@
         "name": "Drain from tank",
         "bindings":[
             { "input_method":"keyboard", "key":"d" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "TOGGLE_UNAVAILABLE_CONSTRUCTIONS",
+        "category": "CONSTRUCTION",
+        "name": "Toggle unavailable constructions",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":";"
+            }
         ]
     },
     {
