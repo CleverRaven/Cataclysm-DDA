@@ -3503,10 +3503,9 @@ void game::death_screen()
     mvwprintz(w_death, 2, 3, c_ltred, "%s", sText.c_str());
     wrefresh(w_death);
     refresh();
-    InputEvent input;
-    do
-        input = get_input();
-    while(input != Cancel && input != Close && input != Confirm);
+    while(getch() != ' ') {
+        // wait for another key press
+    }
     delwin(w_death);
 
     msg_buffer();
