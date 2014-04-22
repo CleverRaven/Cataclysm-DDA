@@ -13407,6 +13407,21 @@ void game::update_stair_monsters() {
                 si = i;
         }
 
+        // Find up to 4 stairs for distance stairdist[si] +1
+        int nearest[4];
+        int found = 0;
+        nearest[found++]=si;
+        for (size_t i = 0; i < stairdist.size(); i++) {
+            if ((i != si) && (stairdist[i] <= stairdist[si] + 1)) {
+                nearest[found++]=i;
+                if (found==4) {
+                    break;
+                }
+            }
+        }
+        // Randomize the stair choice
+        si = nearest[one_in(found)];
+
         // Attempt to spawn zombies.
         for (size_t i = 0; i < coming_to_stairs.size(); i++) {
             int mposx = stairx[si], mposy = stairy[si];
@@ -13420,17 +13435,16 @@ void game::update_stair_monsters() {
 
                 coming_to_stairs[i].staircount -= 4;
                 // Let the player know zombies are trying to come.
-                critter.setpos(mposx, mposy, true);
                 if (u_see(mposx, mposy)) {
                     std::stringstream dump;
                     if (coming_to_stairs[i].staircount > 4)
                         dump << string_format(_("You see a %s on the stairs"), critter.name().c_str());
                     else
-                        //~ â€œThe <monster> is almost at the <bottom/top> of the <terrain type>!â€
-                        dump << string_format(_("The %s is almost at the %s of the %s!"),
-                                              critter.name().c_str(),
-                                              m.has_flag("GOES_UP", mposx, mposy) ? _("bottom") : _("top"),
-                                              m.tername(mposx, mposy).c_str());
+                        //~ “The <monster> is almost at the <bottom/top> of the <terrain type>!”
+                        if (coming_to_stairs[i].staircount > 0)
+                              dump << (!(m.has_flag("GOES_UP", mposx, mposy)) //seems right when reversed!
+                                ? string_format(_("The %s is almost at the top of the %s!"), critter.name().c_str(), m.tername(mposx, mposy).c_str())
+                                : string_format(_("The %s is almost at the bottom of the %s!"), critter.name().c_str(), m.tername(mposx, mposy).c_str()));
                     add_msg(dump.str().c_str());
                 }
                 else {
@@ -13453,30 +13467,92 @@ void game::update_stair_monsters() {
                     }
                     coming_to_stairs.erase(coming_to_stairs.begin() + i);
                 } else if (u.posx == mposx && u.posy == mposy && critter.staircount <= 0) {
-                    // Search for a clear tile.
+                    // Monster attempts to push player of stairs
                     int pushx = -1, pushy = -1;
                     int tries = 0;
+
+                    // the critter is now right on top of you and will attack unless
+                    // it can find a square to push you into with one of his tries.
+                    const int Times_critter_tries_to_push_you=9;
+                    const int Throwresistant_u_is_not_pushed_one_in=3;
+
                     critter.setpos(mposx, mposy, true);
-                    while(tries < 9) {
+                    while(tries < Times_critter_tries_to_push_you) {
+                        tries++;
                         pushx = rng(-1, 1), pushy = rng(-1, 1);
-                        if (critter.can_move_to(mposx + pushx, mposy + pushy) && pushx != 0 && pushy != 0) {
-                            add_msg(_("The %s pushed you back!"), critter.name().c_str());
+                        int iposx = mposx + pushx, iposy = mposy + pushy;
+                        if ((pushx != 0 || pushy != 0) && (mon_at(iposx, iposy) == -1) && critter.can_move_to(iposx, iposy)) {
+                            bool resiststhrow = (g->u.is_throw_immune()) || (u.has_trait("LEG_TENT_BRACE"));
+                            if (resiststhrow && one_in(Throwresistant_u_is_not_pushed_one_in)) {
+                                u.moves -= 25; // small charge for avoiding the push altogether
+                                add_msg(_("The %s fails to push you back!"), critter.name().c_str());
+                                return; //judo or leg brace prevent you from getting pushed at all
+                            }
+                            // not accounting for tentacles latching on, so..
+                            // something is about to happen, lets charge a move
+                            u.moves -= 100;
+                            if (resiststhrow && (g->u.is_throw_immune())) {
+                                //we have a judoka who isn't getting pushed but counterattacking now.
+                                mattack defend;
+                                defend.thrown_by_judo(&critter);
+                                return;
+                            }
+                            std::string msg="";
+                            if (!(resiststhrow) && (u.get_dodge()+rng(0,3) < 12)) {
+                                // dodge 12 - never get downed
+                                // 11.. avoid 75%; 10.. avoid 50%; 9.. avoid 25%
+                                u.add_effect("downed", 2);
+                                msg=_("The %s pushed you back hard!");
+                            } else {
+                                msg=_("The %s pushed you back!");
+                            };
+                            add_msg(msg.c_str(), critter.name().c_str());
                             u.posx += pushx;
                             u.posy += pushy;
-                            u.moves -= 100;
-                            // Stumble.  Unless your tentacles can latch on!
-                            // As with the knockback-pushing, decided not to
-                            // the system any more than necessary.
-                            if ((u.get_dodge() < 12) && (!(u.has_trait("LEG_TENT_BRACE"))))
-                                u.add_effect("downed", 2);
                             return;
                         }
-                        tries++;
                     }
                     add_msg(_("The %s tried to push you back but failed! It attacks you!"), critter.name().c_str());
                     critter.melee_attack(u, false);
                     u.moves -= 100;
                     return;
+                } else if ((critter.staircount <= 0) && (mon_at(mposx, mposy) != -1)) {
+                    // Monster attempts to displace a monster from the stairs
+                    monster &other = critter_tracker.find(mon_at(mposx, mposy));
+                    critter.setpos(mposx, mposy, true);
+
+                    // the critter is now right on top of another and will push it
+                    // if it can find a square to push it into inside of his tries.
+                    const int Times_critter_tries_to_push_another=9;
+                    const int PushedCritterDowned_one_in=4;
+
+                    int tries = 0;
+                    int pushx, pushy;
+                    while(tries < Times_critter_tries_to_push_another) {
+                        tries++;
+                        pushx = rng(-1, 1), pushy = rng(-1, 1);
+                        int iposx = mposx + pushx;
+                        int iposy = mposy + pushy;
+                        if ((pushx == 0 && pushy == 0) || ((iposx == u.posx) && (iposy == u.posy))) {
+                            continue;
+                        }
+                        if ((mon_at(iposx, iposy) == -1) && other.can_move_to(iposx, iposy)) {
+                            other.setpos(iposx, iposy, false);
+                            other.moves -= 100;
+                            std::string msg="";
+                            if (one_in(PushedCritterDowned_one_in)) {
+                                other.add_effect("downed", 2);
+                                msg=_("The %s pushed the %s hard.");
+                            } else {
+                                msg=_("The %s pushed the %s.");
+                            };
+                            add_msg(msg.c_str(), critter.name().c_str(), other.name().c_str());
+                            return;
+                        }
+                    }
+                    return;
+                } else {
+                    critter.setpos(mposx, mposy, true);
                 }
             }
         }
@@ -13825,7 +13901,7 @@ void game::write_msg()
         std::string mstr = m.message;
         if (m.count > 1) {
             std::stringstream mesSS;
-            //~ Message %s on the message log was repeated %d times, eg. â€œYou here a whack! x 12â€
+            //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
             mesSS << string_format(_("%s x %d"), mstr.c_str(), m.count);
             mstr = mesSS.str();
         }
@@ -13879,7 +13955,7 @@ void game::msg_buffer()
     std::string mes = mtmp->message;
     if (mtmp->count > 1) {
      std::stringstream mesSS;
-     //~ Message %s on the message log was repeated %d times, eg. â€œYou here a whack! x 12â€
+     //~ Message %s on the message log was repeated %d times, eg. “You here a whack! x 12”
      mesSS << string_format(_("%s x %d"), mes.c_str(), mtmp->count);
      mes = mesSS.str();
     }

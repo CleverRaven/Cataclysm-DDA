@@ -1834,6 +1834,44 @@ void mattack::slimespring(monster *z)
     }
 }
 
+bool mattack::thrown_by_judo(monster *z)
+{
+    // "Wimpy" Judo is about to pay off... :D
+    if (g->u.is_throw_immune()){
+        // DX + Unarmed
+        if ( ((g->u.dex_cur + g->u.skillLevel("unarmed")) > (z->type->melee_skill + rng(0, 3))) ) {
+            g->add_msg(_("but you grab its arm and flip it to the ground!"));
+
+            if ( ( (!(one_in(4)))                           // most of the time
+                && !g->u.has_active_bionic("bio_faraday")   // when not isolated
+                && !g->u.worn_with_flag("ELECTRIC_IMMUNE")  // or immunized
+                && !g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) // or artifact protected
+                && (                                        // we go and check to see if
+                (z->type->sp_defense == &mdefense::zapback) // monster has the ZapBack defense
+                || z->has_flag(MF_ELECTRIC) ) ) {           // or is flagged like a shocker
+                // as it all pans out, we're zap the player's arm as he flips the monster.
+                g->add_msg(_("The flip does shock you..."));
+                // Discounted electric damage for quick flip
+                damage_instance shock;
+                shock.add_damage(DT_ELECTRIC, rng(1,3));
+                g->u.deal_damage(z, bp_arms, random_side(bp_arms), shock);
+            }
+            // ok, monster is down,
+            z->add_effect("downed", 2);
+            // Here, have a crit!
+            z->hp -= (g->u.roll_bash_damage(true));
+            z->hp -= 3; // Bonus for the takedown.
+        }
+        else {
+            // Still avoids the major hit!
+            g->add_msg(_("but you deftly spin out of its grasp!"));
+        }
+        return true;
+    }
+    else
+        return false;
+}
+
 void mattack::bio_op_takedown(monster *z)
 {
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) > 1) {
@@ -1876,31 +1914,7 @@ void mattack::bio_op_takedown(monster *z)
         }
         g->u.add_effect("downed", 3);
     }
-    // "Wimpy" Judo is about to pay off... :D
-    if (g->u.is_throw_immune()){
-    // DX + Unarmed 
-        if ( ((g->u.dex_cur + g->u.skillLevel("unarmed")) > (z->type->melee_skill + rng(0, 3))) ) {
-            g->add_msg(_("but you grab its arm and flip it to the ground!"));
-            if ( (!(one_in(4))) && (!g->u.has_active_bionic("bio_faraday") &&
-              !g->u.worn_with_flag("ELECTRIC_IMMUNE") && !g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) ) {
-                g->add_msg(_("The flip does shock you..."));
-                damage_instance shock;
-                // Discount for quick flip
-                shock.add_damage(DT_ELECTRIC, rng(1,3));
-                g->u.deal_damage(z, bp_arms, side, shock);
-            }
-            z->add_effect("downed", 2);
-            // Here, have a crit!
-            dam = (g->u.roll_bash_damage(true));
-            z->hp -= dam;
-            z->hp -= 3; // Bonus for the takedown.
-        }
-        else {
-            // Still avoids the major hit!
-            g->add_msg(_("but you deftly spin out of its grasp!"));
-        }
-    }
-    else {
+    if (!thrown_by_judo(z)) {
         // Saved by the tentacle-bracing! :)
         hit = bp_torso;
             dam = rng(3, 9);
