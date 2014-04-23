@@ -2197,7 +2197,7 @@
     },{
         "type" : "vehicle",
         "id" : "aapc-mg",
-        "name" : "Armored Armored Personnel Carrier",
+        "name" : "Mechanized Infantry Carrier",
         "parts" : [
             {"x": -2, "y": -1, "part": "hdframe_horizontal"},
             {"x": -2, "y": -1, "part": "hdboard_horizontal"},
@@ -2354,7 +2354,7 @@
     },{
         "type" : "vehicle",
         "id" : "aapc-gl",
-        "name" : "Armored Armored Personnel Carrier",
+        "name" : "Mechanized Infantry Carrier",
         "parts" : [
             {"x": -2, "y": -1, "part": "hdframe_horizontal"},
             {"x": -2, "y": -1, "part": "hdboard_horizontal"},
