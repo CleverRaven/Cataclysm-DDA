@@ -1071,7 +1071,6 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.member("m2", m2);
     json.member("volume", volume);
     json.member("weight", weight);
-    json.member("id", id);
     json.member("melee_dam", melee_dam);
     json.member("melee_cut", melee_cut);
     json.member("m_to_hit", m_to_hit);

@@ -1,11 +1,6 @@
 [
     {
         "type" : "bionic",
-        "id" : "bio_null",
-    "name"       :    "NULL bionics",
-    "description":    "If you're seeing this, it's a bug. (game::init_bionics)"
-    },{
-        "type" : "bionic",
         "id" : "bio_power_storage",
     "name"       :    "Power Storage",
     "description":    "Compact Bionics Module that upgrades your power capacity by 4 units.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in another CBM."
