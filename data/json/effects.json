@@ -1,4 +1,8 @@
 [
+	{
+		"type" : "effect_type",
+		"id" : "null"
+	},
     {
         "type" : "effect_type",
         "id" : "hit_by_player",
@@ -17,6 +21,72 @@
         "name" : ["Hit-and-run Running"],
         "desc" : ["AI tag for when hit-and-run monsters run away. This is a bug if you have it."]
     },
+   {
+      "type" : "effect_type",
+      "id" : "asked_to_follow"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "asked_to_lead"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "catch_up"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "ma_buff"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "viper_combo"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "damage_boost"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "attack_boost"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "speed_boost"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "dodge_boost"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "armor_boost"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "asked_for_item"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "alarm_clock"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "lying_down",
+      "apply_message" : "You lie down to go to sleep..."
+   },
+   {
+      "remove_message" : "You wake up.",
+      "type" : "effect_type",
+      "id" : "sleep"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "hot"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "cold"
+   },
     {
         "type" : "effect_type",
         "id" : "bounced",
@@ -71,6 +141,11 @@
             "speed_mod" : [-10]
         }
     },
+   {
+      "type" : "effect_type",
+      "id" : "crushed",
+      "apply_message" : "The ceiling collapses on you!"
+   },
     {
         "type" : "effect_type",
         "id" : "blind",
@@ -132,6 +207,26 @@
             "hurt_chance" : [150, 750]
         }
     },
+   {
+      "type" : "effect_type",
+      "id" : "foodpoison",
+      "health_affects" : true
+   },
+   {
+      "type" : "effect_type",
+      "id" : "paralyzepoison",
+      "health_affects" : true
+   },
+   {
+      "type" : "effect_type",
+      "id" : "lightsnare",
+      "apply_message" : "You are snared."
+   },
+   {
+      "type" : "effect_type",
+      "id" : "heavysnare",
+      "apply_message" : "You are snared."
+   },
     {
         "type" : "effect_type",
         "id" : "beartrap",
@@ -198,18 +293,28 @@
         "name" : ["Stuck in Pit"],
         "desc" : ["You're stuck in a pit.  Sight distance is limited and you have to climb out."]
     },
+   {
+      "type" : "effect_type",
+      "id" : "pkill1"
+   },
     {
         "type" : "effect_type",
         "id" : "pkill2"
     },
    {
       "type" : "effect_type",
-      "id" : "null"
+      "id" : "pkill3"
    },
    {
       "type" : "effect_type",
-      "id" : "webbed",
-      "apply_message" : "You're covered in webs!"
+      "id" : "pkill_l"
+   },
+   {
+      "apply_memorial_log" : "Received a deep bite wound.",
+      "type" : "effect_type",
+      "id" : "bite",
+      "remove_memorial_log" : "Recoverd from a bite wound.",
+      "apply_message" : "The bite wound feels really deep..."
    },
    {
       "apply_memorial_log" : "Contracted an infection.",
@@ -217,6 +322,16 @@
       "id" : "infected",
       "remove_memorial_log" : "Recovered from an infection... this time.",
       "apply_message" : "Your bite wound feels infected"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "recover",
+      "health_affects" : true
+   },
+   {
+      "type" : "effect_type",
+      "id" : "webbed",
+      "apply_message" : "You're covered in webs!"
    },
    {
       "type" : "effect_type",
@@ -230,17 +345,6 @@
    {
       "type" : "effect_type",
       "id" : "rat"
-   },
-   {
-      "apply_memorial_log" : "Received a deep bite wound.",
-      "type" : "effect_type",
-      "id" : "bite",
-      "remove_memorial_log" : "Recoverd from a bite wound.",
-      "apply_message" : "The bite wound feels really deep..."
-   },
-   {
-      "type" : "effect_type",
-      "id" : "ma_buff"
    },
    {
       "type" : "effect_type",
@@ -261,15 +365,6 @@
    },
    {
       "type" : "effect_type",
-      "id" : "foodpoison",
-      "health_affects" : true
-   },
-   {
-      "type" : "effect_type",
-      "id" : "speed_boost"
-   },
-   {
-      "type" : "effect_type",
       "id" : "slimed",
       "apply_message" : "You're covered in thick goo!"
    },
@@ -277,36 +372,6 @@
       "type" : "effect_type",
       "id" : "hallu",
       "health_affects" : true
-   },
-   {
-      "type" : "effect_type",
-      "id" : "paralyzepoison",
-      "health_affects" : true
-   },
-   {
-      "type" : "effect_type",
-      "id" : "cold"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "dermatik"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "pkill_l"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "frostbite"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "sap",
-      "apply_message" : "You're coated in sap!"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "viper_combo"
    },
    {
       "apply_memorial_log" : "Caught a cold.",
@@ -317,12 +382,25 @@
       "health_affects" : true
    },
    {
+      "apply_memorial_log" : "Caught the flu.",
       "type" : "effect_type",
-      "id" : "alarm_clock"
+      "id" : "flu",
+      "remove_memorial_log" : "Got over the flu.",
+      "apply_message" : "You feel a flu coming on...",
+      "health_affects" : true
    },
    {
       "type" : "effect_type",
-      "id" : "asked_to_lead"
+      "id" : "dermatik"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "frostbite"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "sap",
+      "apply_message" : "You're coated in sap!"
    },
    {
       "type" : "effect_type",
@@ -338,10 +416,6 @@
    },
    {
       "type" : "effect_type",
-      "id" : "asked_for_item"
-   },
-   {
-      "type" : "effect_type",
       "id" : "jetinjector",
       "apply_message" : "You feel a rush as the chemicals flow through your body!"
    },
@@ -352,16 +426,7 @@
    },
    {
       "type" : "effect_type",
-      "id" : "recover",
-      "health_affects" : true
-   },
-   {
-      "type" : "effect_type",
       "id" : "meth"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "dodge_boost"
    },
    {
       "type" : "effect_type",
@@ -396,14 +461,6 @@
       "apply_message" : "Your skin feels extremely itchy!"
    },
    {
-      "apply_memorial_log" : "Caught the flu.",
-      "type" : "effect_type",
-      "id" : "flu",
-      "remove_memorial_log" : "Got over the flu.",
-      "apply_message" : "You feel a flu coming on...",
-      "health_affects" : true
-   },
-   {
       "type" : "effect_type",
       "id" : "drunk"
    },
@@ -413,62 +470,13 @@
    },
    {
       "type" : "effect_type",
-      "id" : "armor_boost"
-   },
-   {
-      "type" : "effect_type",
       "id" : "amigara",
       "apply_message" : "You can't look away from the faultline..."
    },
    {
       "type" : "effect_type",
-      "id" : "lying_down",
-      "apply_message" : "You lie down to go to sleep..."
-   },
-   {
-      "type" : "effect_type",
-      "id" : "heavysnare",
-      "apply_message" : "You are snared."
-   },
-   {
-      "type" : "effect_type",
-      "id" : "asked_to_follow"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "hot"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "pkill1"
-   },
-   {
-      "remove_message" : "You wake up.",
-      "type" : "effect_type",
-      "id" : "sleep"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "pkill3"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "catch_up"
-   },
-   {
-      "type" : "effect_type",
       "id" : "asthma",
       "apply_message" : "You can't breathe... asthma attack!"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "lightsnare",
-      "apply_message" : "You are snared."
-   },
-   {
-      "type" : "effect_type",
-      "id" : "crushed",
-      "apply_message" : "The ceiling collapses on you!"
    },
    {
       "type" : "effect_type",
@@ -483,13 +491,5 @@
    {
       "type" : "effect_type",
       "id" : "infection"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "damage_boost"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "attack_boost"
    }
 ]

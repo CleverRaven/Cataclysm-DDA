@@ -46,6 +46,14 @@ struct effect_mod_info {
 
     int vomit_chance;
     int vomit_chance_reduced;
+    
+    int pkill_amount;
+    int pkill_increment;
+    int pkill_amount_reduced;
+    int pkill_increment_reduced;
+    int pkill_max;
+    int pkill_max_reduced;
+    bool pkill_addict_reduces;
 
     effect_mod_info() : str_mod(0), dex_mod(0), per_mod(0), int_mod(0), speed_mod(0),
                         str_mod_reduced(0), dex_mod_reduced(0), per_mod_reduced(0),
@@ -55,7 +63,9 @@ struct effect_mod_info {
                         hurt_reduced_min(0), hurt_reduced_max(0), hurt_chance(0),
                         hurt_chance_reduced(0), hurt_sizing(false), cough_chance(0),
                         cough_chance_reduced(0), harmful_cough(false), vomit_chance(0),
-                        vomit_chance_reduced(0) {};
+                        vomit_chance_reduced(0), pkill_amount(0), pkill_increment(0),
+                        pkill_amount_reduced(0), pkill_increment_reduced(0), pkill_max(0),
+                        pkill_max_reduced(0), pkill_addict_reduces(false) {};
     bool load(JsonObject &jsobj, std::string member);
 };
 
@@ -164,6 +174,11 @@ class effect : public JsonSerializer, public JsonDeserializer
         bool get_harmful_cough();
 
         int get_vomit_chance(bool reduced = false);
+        
+        int get_pkill_amount(bool reduced = false);
+        int get_pkill_increment(bool reduced = false);
+        int get_pkill_max(bool reduced = false);
+        bool get_pkill_addict_reduces();
 
         std::string get_resist_trait();
 
