@@ -4,6 +4,7 @@
 #include "translations.h"
 #include "item_factory.h"
 #include "options.h"
+#include "messages.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -709,7 +710,7 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                 if (!found && ch == u.weapon.invlet && !u.weapon.is_null()) {
                     if (u.weapon.has_flag("NO_UNWIELD")) {
                         if (!warned_about_bionic) {
-                            add_msg(_("You cannot drop your %s."), u.weapon.tname().c_str());
+                            Messages::player_messages.add_msg(_("You cannot drop your %s."), u.weapon.tname().c_str());
                             warned_about_bionic = true;
                         }
                     } else {

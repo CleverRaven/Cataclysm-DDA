@@ -13,6 +13,7 @@
 #include <fstream>
 #include "debug.h"
 #include "item_factory.h"
+#include "messages.h"
 
 extern bool is_valid_in_w_terrain(int,int);
 
@@ -519,7 +520,7 @@ bool map::vehproceed()
         }
         // submerged wheels threshold is 2/3.
         if (num_wheels &&  (float)submerged_wheels / num_wheels > .666) {
-            g->add_msg(_("Your %s sank."), veh->name.c_str());
+            Messages::player_messages.add_msg(_("Your %s sank."), veh->name.c_str());
             if (pl_ctrl) {
                 veh->unboard_all ();
             }
@@ -562,7 +563,7 @@ bool map::vehproceed()
         }
     }
     else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
-        g->add_msg(_("You fumble with the %s's controls."), veh->name.c_str());
+        Messages::player_messages.add_msg(_("You fumble with the %s's controls."), veh->name.c_str());
         veh->turn (one_in(2) ? -15 : 15);
     }
     // eventually send it skidding if no control
@@ -607,7 +608,7 @@ bool map::vehproceed()
         veh_veh_coll_flag = true;
         veh_collision c = veh_veh_colls[0]; //Note: What´s with collisions with more than 2 vehicles?
         vehicle* veh2 = (vehicle*) c.target;
-        g->add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
+        Messages::player_messages.add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
                    veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
                    veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
 
@@ -763,19 +764,19 @@ bool map::vehproceed()
                 int dmg = d_vel/4*rng(70,100)/100;
                 psg->hurtall(dmg);
                 if (psg == &g->u) {
-                    g->add_msg(_("You take %d damage by the power of the impact!"), dmg);
+                    Messages::player_messages.add_msg(_("You take %d damage by the power of the impact!"), dmg);
                 } else if (psg->name.length()) {
-                    g->add_msg(_("%s takes %d damage by the power of the impact!"),
+                    Messages::player_messages.add_msg(_("%s takes %d damage by the power of the impact!"),
                                psg->name.c_str(), dmg);
                 }
             }
 
             if (throw_from_seat) {
                 if (psg == &g->u) {
-                    g->add_msg(_("You are hurled from the %s's seat by the power of the impact!"),
+                    Messages::player_messages.add_msg(_("You are hurled from the %s's seat by the power of the impact!"),
                                veh->name.c_str());
                 } else if (psg->name.length()) {
-                    g->add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
+                    Messages::player_messages.add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
                                psg->name.c_str(), veh->name.c_str());
                 }
                 unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
@@ -789,9 +790,9 @@ bool map::vehproceed()
                 const int lose_ctrl_roll = rng (0, dmg_1);
                 if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3) {
                     if (psg == &g->u) {
-                        g->add_msg(_("You lose control of the %s."), veh->name.c_str());
+                        Messages::player_messages.add_msg(_("You lose control of the %s."), veh->name.c_str());
                     } else if (psg->name.length()) {
-                        g->add_msg(_("%s loses control of the %s."), psg->name.c_str());
+                        Messages::player_messages.add_msg(_("%s loses control of the %s."), psg->name.c_str());
                     }
                     int turn_amount = (rng (1, 3) * sqrt((double)vel1_a) / 2) / 15;
                     if (turn_amount < 1) {
@@ -819,7 +820,7 @@ bool map::vehproceed()
             if (one_in(2)) {
                 if (displace_water (x + veh->parts[p].precalc_dx[0],
                                     y + veh->parts[p].precalc_dy[0]) && pl_ctrl) {
-                    g->add_msg(_("You hear a splash!"));
+                    Messages::player_messages.add_msg(_("You hear a splash!"));
                 }
             }
             veh->handle_trap( x + veh->parts[p].precalc_dx[0],
@@ -1518,7 +1519,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
         g->sound(x, y, 40, _("An alarm sounds!"));
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                            pgettext("memorial_female", "Set off an alarm."));
-       g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+       g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
     }
 
     if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
@@ -1651,7 +1652,7 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
             }
             if ( numitems > 0 ) {
                 // spawn_item(x,y, drop.itemtype, numitems); // doesn't abstract amount || charges
-                item new_item = item_controller->create(drop.itemtype, g->turn);
+                item new_item = item_controller->create(drop.itemtype, calendar::turn);
                 if ( new_item.count_by_charges() ) {
                     new_item.charges = numitems;
                     numitems = 1;
@@ -1848,7 +1849,7 @@ void map::shoot(const int x, const int y, int &dam,
     if (has_flag("ALARMED", x, y) && !g->event_queued(EVENT_WANTED))
     {
         g->sound(x, y, 30, _("An alarm sounds!"));
-        g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+        g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->levx, g->levy);
     }
 
     int vpart;
@@ -1971,7 +1972,7 @@ void map::shoot(const int x, const int y, int &dam,
             //Greatly weakens power of bullets
             dam -= 40;
             if (dam <= 0) {
-                g->add_msg(_("The shot is stopped by the reinforced glass wall!"));
+                Messages::player_messages.add_msg(_("The shot is stopped by the reinforced glass wall!"));
             } else if (dam >= 40) {
                 //high powered bullets penetrate the glass, but only extremely strong
                 // ones (80 before reduction) actually destroy the glass itself.
@@ -2108,7 +2109,7 @@ bool map::hit_with_acid(const int x, const int y)
   case old_t_door_bar_locked:
   case old_t_bars:
    ter_set(x, y, t_floor);
-   g->add_msg(_("The metal bars melt!"));
+   Messages::player_messages.add_msg(_("The metal bars melt!"));
    break;
 
   case old_t_door_b:
@@ -2598,7 +2599,7 @@ void map::add_item(const int x, const int y, item new_item, const int maxitems)
 static void apply_in_fridge(item &it)
 {
     if (it.is_food() && it.fridge == 0) {
-        it.fridge = (int) g->turn;
+        it.fridge = (int) calendar::turn;
         // cool down of the HOT flag, is unsigned, don't go below 1
         if (it.item_counter > 10) {
             it.item_counter -= 10;
@@ -2810,9 +2811,9 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
                 if (rng(0,it->volume()) > it->burnt && g->revive_corpse(mapx, mapy, it)) {
                     if (g->u_see(mapx, mapy)) {
                         if(it->corpse->in_species("ROBOT")) {
-                            g->add_msg(_("A nearby robot has repaired itself and stands up!"));
+                            Messages::player_messages.add_msg(_("A nearby robot has repaired itself and stands up!"));
                         } else {
-                            g->add_msg(_("A nearby corpse rises and moves towards you!"));
+                            Messages::player_messages.add_msg(_("A nearby corpse rises and moves towards you!"));
                         }
                     }
                     return true;
@@ -2872,7 +2873,7 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
             if (!tmp->use.is_none()) {
                 tmp->use.call(&(g->u), it, true);
             }
-            if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0) {
+            if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
                 it->charges--;
             }
             if (it->charges <= 0) {
@@ -3233,7 +3234,7 @@ void map::disarm_trap(const int x, const int y)
  while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50)
   roll++;
  if (roll >= diff) {
-  g->add_msg(_("You disarm the trap!"));
+  Messages::player_messages.add_msg(_("You disarm the trap!"));
   std::vector<itype_id> comp = traplist[tr_at(x, y)]->components;
   for (int i = 0; i < comp.size(); i++) {
    if (comp[i] != "null")
@@ -3253,21 +3254,21 @@ void map::disarm_trap(const int x, const int y)
   }
   remove_trap(x, y);
   if(diff > 1.25 * skillLevel) // failure might have set off trap
-    g->u.practice(g->turn, "traps", 1.5*(diff - skillLevel));
+    g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
  } else if (roll >= diff * .8) {
-  g->add_msg(_("You fail to disarm the trap."));
+  Messages::player_messages.add_msg(_("You fail to disarm the trap."));
   if(diff > 1.25 * skillLevel)
-    g->u.practice(g->turn, "traps", 1.5*(diff - skillLevel));
+    g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
  }
  else {
-  g->add_msg(_("You fail to disarm the trap, and you set it off!"));
+  Messages::player_messages.add_msg(_("You fail to disarm the trap, and you set it off!"));
   trap* tr = traplist[tr_at(x, y)];
   trapfunc f;
   (f.*(tr->act))(x, y);
   if(diff - roll <= 6)
    // Give xp for failing, but not if we failed terribly (in which
    // case the trap may not be disarmable).
-   g->u.practice(g->turn, "traps", 2*diff);
+   g->u.practice(calendar::turn, "traps", 2*diff);
  }
 }
 
@@ -4306,7 +4307,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
           if ( do_container_check == true && biggest_container_idx != -1 ) { // funnel: check. bucket: check
               item * it = &tmpsub->itm[x][y][biggest_container_idx];
               trap_id fun_trap_id = rain_backlog[point(x,y)];
-              retroactively_fill_from_funnel(it, fun_trap_id, int(g->turn) ); // bucket: what inside??
+              retroactively_fill_from_funnel(it, fun_trap_id, int(calendar::turn) ); // bucket: what inside??
           }
 
       }
@@ -4322,7 +4323,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
       if (furn && furnlist[furn].has_flag("PLANT")) {
         item seed = tmpsub->itm[x][y][0];
 
-        while (g->turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
+        while (calendar::turn > seed.bday + plantEpoch && furn < f_plant_harvest) {
           furn = (furn_id((int)furn + 1));
           seed.bday += plantEpoch;
 
@@ -4376,7 +4377,7 @@ bool map::loadn(const int worldx, const int worldy, const int worldz,
        this_om = &overmap_buffer.get(om->pos().x + shiftx, om->pos().y + shifty);
   }
 
-  tmp_map.generate(this_om, newmapx, newmapy, worldz, int(g->turn));
+  tmp_map.generate(this_om, newmapx, newmapy, worldz, int(calendar::turn));
   return false;
  }
  return true;

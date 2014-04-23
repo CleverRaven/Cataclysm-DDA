@@ -79,7 +79,7 @@ void game::serialize(std::ofstream & fout) {
 
         json.start_object();
         // basic game state information.
-        json.member( "turn", (int)turn );
+        json.member("turn", (int)calendar::turn);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)run_mode );
         json.member( "mostseen", mostseen );
@@ -214,7 +214,7 @@ void game::unserialize(std::ifstream & fin)
         data.read("om_x",comx);
         data.read("om_y",comy);
 
-        turn = tmpturn;
+        calendar::turn = tmpturn;
         nextspawn = tmpspawn;
 
         cur_om = &overmap_buffer.get(comx, comy);
@@ -319,7 +319,7 @@ void game::load_weather(std::ifstream & fin) {
            debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
         }
      }
-    std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(turn));
+     std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(calendar::turn));
     if ( w_it != weather_log.end() ) {
         // lower_bound returns the smallest key, that
         // is >= turn. (The key in that map is the deadline

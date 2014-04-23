@@ -569,7 +569,7 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag){
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     //If the tag isn't found, just return a reference to missing item.
     if(group_iter != m_template_groups.end()){
-        item it = group_iter->second->create_single(g->turn);
+        item it = group_iter->second->create_single(calendar::turn);
         return it.type->id;
     } else {
         return "MISSING_ITEM";
@@ -1500,7 +1500,7 @@ void Item_factory::debug_spawn()
         std::map<std::string, int> itemnames;
         for(size_t a = 0; a < 100; a++) {
             Item_spawn_data *isd = m_template_groups[groups[index]];
-            Item_spawn_data::ItemList items = isd->create(g->turn);
+            Item_spawn_data::ItemList items = isd->create(calendar::turn);
             for (Item_spawn_data::ItemList::iterator a = items.begin(); a != items.end(); ++a) {
                 itemnames[a->display_name()]++;
             }
