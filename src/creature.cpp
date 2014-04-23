@@ -176,11 +176,11 @@ int Creature::hit(Creature *source, body_part bphurt, int side,
 }
 
 int Creature::deal_melee_attack(Creature *source, int hitroll)
-{    
+{
     int dodgeroll = dodge_roll();
     int hit_spread = hitroll - dodgeroll;
     bool missed = hit_spread <= 0;
-    
+
     if (missed) {
         dodge_hit(source, hit_spread);
         return hit_spread;
@@ -191,7 +191,7 @@ int Creature::deal_melee_attack(Creature *source, int hitroll)
 
 void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
                                 const damage_instance &dam, dealt_damage_instance &dealt_dam)
-{    
+{
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part(source, hit_spread);
@@ -634,7 +634,7 @@ bool Creature::get_effect(effect &ret, efftype_id eff_id, body_part bp, int side
     for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
         if (it->get_id() == eff_id && ( bp == num_bp || it->get_bp() == bp ) &&
             ( side == -1 || it->get_side() == side ) ) {
-            ret = it;
+            ret = *it;
             return true;
         }
     }
@@ -720,18 +720,18 @@ void Creature::manage_sleep()
     // life like that--but since there's much less fluid reserve than food reserve,
     // simply using the same numbers won't work.
     effect sleep;
-    get_effect(&sleep, "sleep")
+    get_effect(sleep, "sleep");
     if((int(g->turn) % 350 == 0) && g->u.has_trait("HIBERNATE") && (g->u.hunger < -60) && !(g->u.thirst >= 80)) {
         int recovery_chance;
         // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly.
         // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
         // After 16 hours of activity, equal to 7.25 hours of rest
-        if (sleep->get_intensity() < 24) {
-            sleep->mod_intensity(1);
-        } else if (sleep->get_intensity() < 1) {
-            sleep->set_intensity(1);
+        if (sleep.get_intensity() < 24) {
+            sleep.mod_intensity(1);
+        } else if (sleep.get_intensity() < 1) {
+            sleep.set_intensity(1);
         }
-        recovery_chance = 24 - sleep->get_intensity() + 1;
+        recovery_chance = 24 - sleep.get_intensity() + 1;
         if (g->u.fatigue > 0) {
             g->u.fatigue -= 1 + one_in(recovery_chance);
         }
@@ -742,11 +742,11 @@ void Creature::manage_sleep()
             int heal_chance = get_healthy() / 25;
             if (g->u.has_trait("FASTHEALER")) {
                 heal_chance += 100;
-            } else if (p.has_trait("FASTHEALER2")) {
+            } else if (g->u.has_trait("FASTHEALER2")) {
                 heal_chance += 150;
-            } else if (p.has_trait("REGEN")) {
+            } else if (g->u.has_trait("REGEN")) {
                 heal_chance += 200;
-            } else if (p.has_trait("SLOWHEALER")) {
+            } else if (g->u.has_trait("SLOWHEALER")) {
                 heal_chance += 13;
             } else {
                 heal_chance += 25;
@@ -762,8 +762,8 @@ void Creature::manage_sleep()
         if (g->u.fatigue <= 0 && g->u.fatigue > -20) {
             g->u.fatigue = -25;
             g->add_msg_if_player(this, _("You feel well rested."));
-            sleep->set_duration(dice(3, 100));
-            if (if_player()) {
+            sleep.set_duration(dice(3, 100));
+            if (is_player()) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
                                     pgettext("memorial_female", "Awoke from hibernation."));
             }
@@ -774,12 +774,12 @@ void Creature::manage_sleep()
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
-        if (sleep->get_intensity() < 24) {
-            sleep->mod_intensity(1);
-        } else if (sleep->get_intensity() < 1) {
-            sleep->set_intensity(1);
+        if (sleep.get_intensity() < 24) {
+            sleep.mod_intensity(1);
+        } else if (sleep.get_intensity() < 1) {
+            sleep.set_intensity(1);
         }
-        recovery_chance = 24 - sleep->get_intensity() + 1;
+        recovery_chance = 24 - sleep.get_intensity() + 1;
         if (g->u.fatigue > 0) {
             g->u.fatigue -= 1 + one_in(recovery_chance);
             // You fatigue & recover faster with Sleepy
@@ -820,7 +820,7 @@ void Creature::manage_sleep()
             if (g->u.fatigue <= 0 && g->u.fatigue > -20) {
                 g->u.fatigue = -25;
                 g->add_msg_if_player(this, _("You feel well rested."));
-                sleep->set_duration(dice(3, 100));
+                sleep.set_duration(dice(3, 100));
             }
         }
     }
@@ -861,29 +861,29 @@ void Creature::manage_sleep()
         //Once every 6 / 3 / 2 hours, with a bit of randomness
         if ((int(g->turn) % (3600 / strength) == 0) && one_in(3)) {
             // Select a dream
-            std::string dream = p.get_category_dream(highcat, strength);
+            std::string dream = g->u.get_category_dream(highcat, strength);
             g->add_msg_if_player(this, "%s",dream.c_str());
         }
     }
 
-    int tirednessVal = rng(5, 200) + rng(0,abs(p.fatigue * 2 * 5));
+    int tirednessVal = rng(5, 200) + rng(0,abs(g->u.fatigue * 2 * 5));
     if (g->u.has_trait("HEAVYSLEEPER2") && !g->u.has_trait("HIBERNATE")) {
         // So you can too sleep through noon
         if ((tirednessVal * 1.25) < g->light_level() && (g->u.fatigue < 10 || one_in(g->u.fatigue / 2))) {
             g->add_msg_if_player(this, _("The light wakes you up."));
-            sleep->set_duration(1);
+            sleep.set_duration(1);
         }
         return;}
      // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
     if (g->u.has_trait("HIBERNATE")) {
         if ((tirednessVal * 5) < g->light_level() && (g->u.fatigue < 10 || one_in(g->u.fatigue / 2))) {
             g->add_msg_if_player(this, _("The light wakes you up."));
-            sleep->set_duration(1);
+            sleep.set_duration(1);
         }
         return;}
     if (tirednessVal < g->light_level() && (g->u.fatigue < 10 || one_in(g->u.fatigue / 2))) {
         g->add_msg_if_player(this, _("The light wakes you up."));
-        sleep->set_duration(1);
+        sleep.set_duration(1);
         return;
     }
 
@@ -897,7 +897,7 @@ void Creature::manage_sleep()
             if (g->u.temp_cur[i] < BODYTEMP_FREEZING - g->u.fatigue/2 ||
                                 (one_in(g->u.temp_cur[i] + 5000))) {
                 g->add_msg_if_player(this, _("The cold wakes you up."));
-                sleep->set_duration(1);
+                sleep.set_duration(1);
                 return;
             }
         } else if (g->u.temp_cur[i] > BODYTEMP_VERY_HOT + g->u.fatigue/2) {
@@ -907,7 +907,7 @@ void Creature::manage_sleep()
             if (g->u.temp_cur[i] > BODYTEMP_SCORCHING + g->u.fatigue/2 ||
                                 (one_in(15000 - g->u.temp_cur[i]))) {
                 g->add_msg_if_player(this, _("The heat wakes you up."));
-                sleep->set_duration(1);
+                sleep.set_duration(1);
                 return;
             }
         }
