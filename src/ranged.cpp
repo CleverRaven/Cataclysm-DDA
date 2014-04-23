@@ -109,7 +109,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
-            g->m.shoot(tx, ty, dam, i == trajectory.size() - 18, proj.proj_effects);
+            g->m.shoot(tx, ty, dam, i == trajectory.size() - 1, proj.proj_effects);
         }
     } // Done with the trajectory!
 
