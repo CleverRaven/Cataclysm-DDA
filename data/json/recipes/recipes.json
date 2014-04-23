@@ -6528,7 +6528,7 @@
   "tools": [],
   "components": [
       [
-          [ "popcorn", 1 ]
+          [ "popcorn", 3 ]
       ],
       [
           [ "salt", 1 ],
