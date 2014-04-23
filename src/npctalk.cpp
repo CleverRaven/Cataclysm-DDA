@@ -571,7 +571,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("I don't know, look for supplies and other survivors I guess.");
 
         case TALK_SHARE_EQUIPMENT:
-            if (p->has_disease(_("asked_for_item"))) {
+            if (p->has_disease("asked_for_item")) {
                 return _("You just asked me for stuff; ask later.");
             }
             return _("Why should I share my equipment with you?");
@@ -613,10 +613,10 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Alright, let's begin.");
 
         case TALK_SUGGEST_FOLLOW:
-            if (p->has_disease(_("infection"))) {
+            if (p->has_disease("infection")) {
                 return _("Not until I get some antibiotics...");
             }
-            if (p->has_disease(_("asked_to_follow"))) {
+            if (p->has_effect("asked_to_follow")) {
                 return _("You asked me recently; ask again later.");
             }
             return _("Why should I travel with you?");
@@ -1071,7 +1071,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   break;
 
  case TALK_SHARE_EQUIPMENT:
-  if (p->has_disease(_("asked_for_item"))) {
+  if (p->has_disease("asked_for_item")) {
    RESPONSE(_("Okay, fine."));
     SUCCESS(TALK_NONE);
   } else {
@@ -1226,10 +1226,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   break;
 
  case TALK_SUGGEST_FOLLOW:
-  if (p->has_disease(_("infection"))) {
+  if (p->has_disease("infection")) {
    RESPONSE(_("Understood.  I'll get those antibiotics."));
     SUCCESS(TALK_NONE);
-  } else if (p->has_disease(_("asked_to_follow"))) {
+  } else if (p->has_effect("asked_to_follow")) {
    RESPONSE(_("Right, right, I'll ask later."));
     SUCCESS(TALK_NONE);
   } else {
@@ -1294,7 +1294,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   }
   RESPONSE(_("I'm going to go my own way for a while."));
    SUCCESS(TALK_LEAVE);
-  if (!p->has_disease(_("asked_to_lead"))) {
+  if (!p->has_disease("asked_to_lead")) {
    RESPONSE(_("I'd like to lead for a while."));
     TRIAL(TALK_TRIAL_PERSUADE, persuade);
     SUCCESS(TALK_PLAYER_LEADS);
@@ -1863,7 +1863,7 @@ void talk_function::follow(npc *p)
 
 void talk_function::deny_follow(npc *p)
 {
-    p->add_disease("asked_to_follow", 3600);
+    p->add_effect("asked_to_follow", 3600);
 }
 
 void talk_function::deny_lead(npc *p)
