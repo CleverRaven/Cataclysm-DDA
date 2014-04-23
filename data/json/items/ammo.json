@@ -121,7 +121,7 @@
     {   "type" : "AMMO",
         "id" : "plant_fibre",
         "category" : "spare_parts",
-        "price" : 12000,
+        "price" : 0,
         "name" : "plant fibre",
         "symbol" : "=",
         "color" : "light_green",
