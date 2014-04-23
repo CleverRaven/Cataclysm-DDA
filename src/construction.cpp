@@ -38,9 +38,6 @@ struct construct // Construction functions.
     void done_mine_upstair(point);
 };
 
-// Keys available for use as hotkeys.  Excludes vi direction keys and Q for quit.
-const std::string hotkeys = "abcdefgimnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ!\"#&()*+./:=?@[\\]^_{|}";
-
 std::vector<construction *> constructions;
 
 // Helper functions, nobody but us needs to call these.
@@ -140,6 +137,8 @@ void construction_menu()
     ctxt.register_action("QUIT");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("HELP_KEYBINDINGS");
+
+    std::string hotkeys = ctxt.get_available_single_char_hotkeys();
 
     do {
         // Erase existing list of constructions
@@ -364,6 +363,8 @@ void construction_menu()
             }
         } else if (action == "QUIT") {
             exit = true;
+        } else if (action == "HELP_KEYBINDINGS") {
+            hotkeys = ctxt.get_available_single_char_hotkeys();
         } else if (action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS") {
             update_info = true;
             hide_unconstructable = !hide_unconstructable;
