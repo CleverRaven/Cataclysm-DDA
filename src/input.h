@@ -262,7 +262,7 @@ private:
      * Load keybindings from a json file, override existing bindings.
      * Throws std::string on errors
      */
-    void load(const std::string &file_name);
+    void load(const std::string &file_name, bool is_user_preferences);
 
     int input_timeout;
 
