@@ -136,7 +136,7 @@ player::player() : Character(), name("")
  recoil = 0;
  driving_recoil = 0;
  scent = 500;
- 
+
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
@@ -2658,7 +2658,7 @@ Arm encumbrance affects your accuracy with ranged weapons."));
                  "Reloading costs %+d movement points; ",
                  encumb(bp_hands) * 30);
     s+= _("Dexterity %+d when throwing items.");
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, 
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
     s.c_str() , encumb(bp_hands) * 30, -encumb(bp_hands));
    } else if (line == 6) {
     mvwprintz(w_encumb, 7, 1, h_ltgray, _("Legs"));
@@ -5247,7 +5247,7 @@ void player::process_effects() {
                         g->add_msg_if_player(this,_("You turn off your alarm-clock."));
                     }
                 }
-            } else if (!p.has_effect("lying_down")) {
+            } else if (!has_effect("lying_down")) {
                 // Turn the alarm-clock off if you woke up before the alarm
                 g->add_msg_if_player(this,_("You turn off your alarm-clock."));
                 it->set_duration(1);
@@ -5288,7 +5288,7 @@ void player::process_effects() {
             if (it->get_duration() == 1 && !has_effect("sleep")) {
                 g->add_msg_if_player(this,_("You try to sleep, but can't..."));
             }
-        
+
         } else if (id == "sleep") {
             manage_sleep();
         }
