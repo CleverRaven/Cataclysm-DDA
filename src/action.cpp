@@ -757,7 +757,7 @@ bool choose_direction(const std::string &message, int &x, int &y)
         y = 0;
         return true;
 	}
-    Messages::add_msg(_("Invalid direction."));
+    add_msg(_("Invalid direction."));
     return false;
 }
 

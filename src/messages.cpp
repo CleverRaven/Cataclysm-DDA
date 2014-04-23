@@ -47,11 +47,11 @@ void Messages::vadd_msg(const char *msg, va_list ap)
     player_messages.add_msg_string(vstring_format(msg, ap));
 }
 
-void Messages::add_msg(const char *msg, ...)
+void add_msg(const char *msg, ...)
 {
     va_list ap;
     va_start(ap, msg);
-    vadd_msg(msg, ap);
+    Messages::vadd_msg(msg, ap);
     va_end(ap);
 }
 

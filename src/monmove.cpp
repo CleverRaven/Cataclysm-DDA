@@ -230,7 +230,7 @@ void monster::move()
     if (has_flag(MF_REGENERATES_50)) {
         if (hp < type->hp) {
             if (one_in(2)) {
-                Messages::add_msg(_("The %s is visibly regenerating!"), name().c_str());
+                add_msg(_("The %s is visibly regenerating!"), name().c_str());
             }
             hp += 50;
             if(hp > type->hp) {
@@ -241,7 +241,7 @@ void monster::move()
     if (has_flag(MF_REGENERATES_10)) {
         if (hp < type->hp) {
             if (one_in(2)) {
-                Messages::add_msg(_("The %s seems a little healthier."), name().c_str());
+                add_msg(_("The %s seems a little healthier."), name().c_str());
             }
             hp += 10;
             if(hp > type->hp) {
@@ -254,7 +254,7 @@ void monster::move()
     //If there are. Consume them.
     if (has_flag(MF_ABSORBS)) {
         if(!g->m.i_at(posx(), posy()).empty()) {
-            Messages::add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
+            add_msg(_("The %s flows around the objects on the floor and they are quickly dissolved!"), name().c_str());
             std::vector<item> items_absorbed = g->m.i_at(posx(), posy());
             for( size_t i = 0; i < items_absorbed.size(); ++i ) {
                 hp += items_absorbed.at(i).volume(); //Yeah this means it can get more HP than normal.
@@ -282,7 +282,7 @@ void monster::move()
 
     // If this critter dies in sunlight, check & assess damage.
     if (g->is_in_sunlight(posx(), posy()) && has_flag(MF_SUNDEATH)) {
-        Messages::add_msg(_("The %s burns horribly in the sunlight!"), name().c_str());
+        add_msg(_("The %s burns horribly in the sunlight!"), name().c_str());
         hp -= 100;
         if(hp < 0) {
             hp = 0  ;
@@ -645,7 +645,7 @@ std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) 
                    blocked[offside] = true;
                 }
                 if ( blocked[offside] == false ) { // mobs behind walls are not helpful
-                   // Messages::add_msg("bzone += %d,%d",hpos.x,hpos.y);
+                   // add_msg("bzone += %d,%d",hpos.x,hpos.y);
                    ret.push_back( hpos );
                 }
              }
@@ -683,7 +683,7 @@ int monster::bash_at(int x, int y) {
                  // helpers lined up behind primary basher add full strength, others 50%
                  addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) || ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
                  mo_bash += addbash;
-                 // Messages::add_msg("+ bashhelp: %d,%d : +%d = %d", bzone[i].x, bzone[i].y, addbash/2, mo_bash/2 );
+                 // add_msg("+ bashhelp: %d,%d : +%d = %d", bzone[i].x, bzone[i].y, addbash/2, mo_bash/2 );
               }
            }
         }
@@ -781,11 +781,11 @@ int monster::move_to(int x, int y, bool force)
 
     if(was_water && !will_be_water && g->u_see(x, y)) {
         //Use more dramatic messages for swimming monsters
-        Messages::add_msg(_("A %s %s from the %s!"), name().c_str(),
+        add_msg(_("A %s %s from the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
                    g->m.tername(posx(), posy()).c_str());
     } else if(!was_water && will_be_water && g->u_see(x, y)) {
-        Messages::add_msg(_("A %s %s into the %s!"), name().c_str(),
+        add_msg(_("A %s %s into the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
                    g->m.tername(x, y).c_str());
     }
@@ -955,7 +955,7 @@ void monster::knock_back_from(int x, int y)
   }
 
   if (u_see)
-   Messages::add_msg(_("The %s bounces off a %s!"), name().c_str(), z->name().c_str());
+   add_msg(_("The %s bounces off a %s!"), name().c_str(), z->name().c_str());
 
   return;
  }
@@ -967,7 +967,7 @@ void monster::knock_back_from(int x, int y)
   add_effect("stunned", 1);
   p->hit(this, bp_torso, -1, type->size, 0);
   if (u_see)
-   Messages::add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
+   add_msg(_("The %s bounces off %s!"), name().c_str(), p->name.c_str());
 
   return;
  }
@@ -977,13 +977,13 @@ void monster::knock_back_from(int x, int y)
   if (g->m.has_flag("LIQUID", to.x, to.y) && can_drown()) {
    hurt(9999);
    if (u_see) {
-    Messages::add_msg(_("The %s drowns!"), name().c_str());
+    add_msg(_("The %s drowns!"), name().c_str());
    }
 
   } else if (has_flag(MF_AQUATIC)) { // We swim but we're NOT in water
    hurt(9999);
    if (u_see) {
-    Messages::add_msg(_("The %s flops around and dies!"), name().c_str());
+    add_msg(_("The %s flops around and dies!"), name().c_str());
    }
   }
  }
@@ -994,7 +994,7 @@ void monster::knock_back_from(int x, int y)
    hurt(type->size);
    add_effect("stunned", 2);
    if (u_see) {
-    Messages::add_msg(_("The %s bounces off a %s."), name().c_str(),
+    add_msg(_("The %s bounces off a %s."), name().c_str(),
                g->m.tername(to.x, to.y).c_str());
    }
 

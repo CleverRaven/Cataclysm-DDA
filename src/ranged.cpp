@@ -145,7 +145,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4) {
                 // don't hit targets that have already been hit
                 if (!z.has_effect("bounced") && !z.dead) {
-                    Messages::add_msg(_("The attack bounced to %s!"), z.name().c_str());
+                    add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     projectile_attack(proj, tx, ty, z.posx(), z.posy(), shot_dispersion);
                     break;
                 }
@@ -610,7 +610,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             if (thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
                 rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
                 if (u_see(tx, ty)) {
-                    Messages::add_msg(_("The %s shatters!"), thrown.tname().c_str());
+                    add_msg(_("The %s shatters!"), thrown.tname().c_str());
                 }
 
                 for (int i = 0; i < thrown.contents.size(); i++) {
@@ -676,7 +676,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     if (thrown.made_of("glass") && !thrown.active && // active means molotov, etc
         rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
         if (u_see(tx, ty)) {
-            Messages::add_msg(_("The %s shatters!"), thrown.tname().c_str());
+            add_msg(_("The %s shatters!"), thrown.tname().c_str());
         }
 
         for (int i = 0; i < thrown.contents.size(); i++) {

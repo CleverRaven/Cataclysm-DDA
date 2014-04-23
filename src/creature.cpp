@@ -242,10 +242,10 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     // do 10,speed because speed could potentially be > 10000
     if (dodge_roll() >= dice(10, proj.speed)) {
         if (is_player())
-            Messages::add_msg(_("You dodge %s projectile!"),
+            add_msg(_("You dodge %s projectile!"),
                        source->disp_name(true).c_str());
         else if (u_see_this)
-            Messages::add_msg(_("%s dodges %s projectile."),
+            add_msg(_("%s dodges %s projectile."),
                        disp_name().c_str(), source->disp_name(true).c_str());
         return 0;
     }
@@ -357,21 +357,21 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     if(u_see_this) {
         if (damage_mult == 0) {
             if(source != NULL) {
-                Messages::add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
+                add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
             }
         } else if (dealt_dam.total_damage() == 0) {
-            Messages::add_msg(_("The shot reflects off %s %s!"), disp_name(true).c_str(),
+            add_msg(_("The shot reflects off %s %s!"), disp_name(true).c_str(),
                        skin_name().c_str());
         } else if (source != NULL) {
             if (source->is_player()) {
-                Messages::add_msg(_("You hit the %s for %d damage."),
+                add_msg(_("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
             } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
                 add_msg_if_player( _( "You were hit in the %s for %d damage." ),
                                       body_part_name( bp_hit, side ).c_str( ),
                                       dealt_dam.total_damage( ) );
             } else if( u_see_this ) {
-                Messages::add_msg(_("%s shoots %s."),
+                add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());
             }
         }
@@ -485,7 +485,7 @@ class is_id_functor   // functor for remove/has_effect, give c++11 lambdas pls
 bool is_expired_effect(effect &e)   // utility function for process_effects
 {
     if (e.get_duration() <= 0) {
-        Messages::add_msg(e.get_effect_type()->get_remove_message().c_str());
+        add_msg(e.get_effect_type()->get_remove_message().c_str());
         g->u.add_memorial_log(pgettext("memorial_male", e.get_effect_type()->get_remove_memorial_log().c_str()),
                               pgettext("memorial_female", e.get_effect_type()->get_remove_memorial_log().c_str()));
         return true;
@@ -518,7 +518,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
         effect new_eff(&effect_types[eff_id], dur, intensity, permanent);
         effects.push_back(new_eff);
         if (is_player()) { // only print the message if we didn't already have it
-            Messages::add_msg(effect_types[eff_id].get_apply_message().c_str());
+            add_msg(effect_types[eff_id].get_apply_message().c_str());
             g->u.add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
@@ -949,9 +949,9 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     }
 
     if(g->debugmon) {
-        Messages::add_msg("source size = %d", source->get_size());
-        Messages::add_msg("target size = %d", get_size());
-        Messages::add_msg("difference = %d", szdif);
+        add_msg("source size = %d", source->get_size());
+        add_msg("target size = %d", get_size());
+        add_msg("difference = %d", szdif);
     }
 
     std::map<body_part, double> hit_weights = default_hit_weights[szdif];
@@ -975,11 +975,11 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
     // Debug for seeing weights.
     if(g->debugmon) {
-        Messages::add_msg("eyes = %f", hit_weights.at(bp_eyes));
-        Messages::add_msg("head = %f", hit_weights.at(bp_head));
-        Messages::add_msg("torso = %f", hit_weights.at(bp_torso));
-        Messages::add_msg("arms = %f", hit_weights.at(bp_arms));
-        Messages::add_msg("legs = %f", hit_weights.at(bp_legs));
+        add_msg("eyes = %f", hit_weights.at(bp_eyes));
+        add_msg("head = %f", hit_weights.at(bp_head));
+        add_msg("torso = %f", hit_weights.at(bp_torso));
+        add_msg("arms = %f", hit_weights.at(bp_arms));
+        add_msg("legs = %f", hit_weights.at(bp_legs));
     }
 
     double totalWeight = 0;

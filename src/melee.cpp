@@ -234,13 +234,13 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         int stumble_pen = stumble(*this);
         if (is_player()) { // Only display messages if this is the player
             if (has_miss_recovery_tec())
-                Messages::add_msg(_("You feint."));
+                add_msg(_("You feint."));
             else if (stumble_pen >= 60)
-                Messages::add_msg(_("You miss and stumble with the momentum."));
+                add_msg(_("You miss and stumble with the momentum."));
             else if (stumble_pen >= 10)
-                Messages::add_msg(_("You swing wildly and miss."));
+                add_msg(_("You swing wildly and miss."));
             else
-                Messages::add_msg(_("You miss."));
+                add_msg(_("You miss."));
         }
 
         if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
@@ -1038,7 +1038,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
     if (has_active_bionic("bio_cqb") && !has_martialart(style_selected)) {
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
-            Messages::add_msg(_("You have learnt %s from extensive practice with the CQB Bionic."),
+            add_msg(_("You have learnt %s from extensive practice with the CQB Bionic."),
                        martialarts[style_selected].name.c_str());
         }
     }
@@ -1184,7 +1184,7 @@ void player::perform_special_attacks(Creature &t)
             special_attacks[i].stab
         ), dealt_dam);
   if (dealt_dam.total_damage() > 0)
-      Messages::add_msg(special_attacks[i].text.c_str());
+      add_msg(special_attacks[i].text.c_str());
 
   if (!can_poison && (dealt_dam.type_damage(DT_CUT) > 0 ||
         dealt_dam.type_damage(DT_STAB) > 0 ))

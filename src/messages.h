@@ -15,8 +15,8 @@ public:
         curmes = 0;
     };
 
+    friend void add_msg(const char *msg, ...);
     static std::vector< std::pair<std::string, std::string> > recent_messages(const size_t count);
-    static void add_msg(const char *msg, ...);
     static void vadd_msg(const char *msg, va_list ap);
     static void clear_messages();
     static size_t size();
@@ -49,6 +49,8 @@ private:
     int curmes;   // The last-seen message.
     int display_single_message(WINDOW *ipk_target, int left, int top);
 };
+
+void add_msg(const char *msg, ...);
 
 
 #endif //_MESSAGES_H_

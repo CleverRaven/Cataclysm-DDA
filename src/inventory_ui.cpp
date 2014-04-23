@@ -710,7 +710,7 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
                 if (!found && ch == u.weapon.invlet && !u.weapon.is_null()) {
                     if (u.weapon.has_flag("NO_UNWIELD")) {
                         if (!warned_about_bionic) {
-                            Messages::add_msg(_("You cannot drop your %s."), u.weapon.tname().c_str());
+                            add_msg(_("You cannot drop your %s."), u.weapon.tname().c_str());
                             warned_about_bionic = true;
                         }
                     } else {

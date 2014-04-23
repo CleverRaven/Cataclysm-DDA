@@ -948,7 +948,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                     point newp = valid[rng(0, valid.size() - 1)];
                                     add_item_or_charges(newp.x, newp.y, tmp);
                                     if (g->u.posx == newp.x && g->u.posy == newp.y) {
-                                        Messages::add_msg(_("A %s hits you!"), tmp.tname().c_str());
+                                        add_msg(_("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
                                         int side = random_side(hit);
                                         g->u.hit(NULL, hit, side, 6, 0);
@@ -962,7 +962,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                         int side = random_side(hit);
                                         p->hit(NULL, hit, side, 6, 0);
                                         if (g->u_see(newp.x, newp.y)) {
-                                            Messages::add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
+                                            add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
                                     }
 
@@ -970,7 +970,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                         monster *mon = &(g->zombie(mondex));
                                         mon->hurt(6 - mon->get_armor_bash(bp_torso));
                                         if (g->u_see(newp.x, newp.y))
-                                            Messages::add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
+                                            add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
                                                        mon->name().c_str());
                                     }
                                 }
@@ -1150,7 +1150,7 @@ void map::step_in_field(int x, int y)
             //Acid deals damage at all levels now; the inside refers to inside a vehicle.
             //TODO: Add resistance to this with rubber shoes or something?
             if (cur->getFieldDensity() == 3 && !inside) {
-                Messages::add_msg(_("The acid burns your legs and feet!"));
+                add_msg(_("The acid burns your legs and feet!"));
                 g->u.hit(NULL, bp_feet, 0, 0, rng(4, 10));
                 g->u.hit(NULL, bp_feet, 1, 0, rng(4, 10));
                 g->u.hit(NULL, bp_legs, 0, 0, rng(2,  8));
@@ -1171,7 +1171,7 @@ void map::step_in_field(int x, int y)
         case fd_sap:
             //Sap causes the player to get sap disease, slowing them down.
             if( g->u.in_vehicle ) break; //sap does nothing to cars.
-            Messages::add_msg(_("The sap sticks to you!"));
+            add_msg(_("The sap sticks to you!"));
             g->u.add_disease("sap", cur->getFieldDensity() * 2);
             if (cur->getFieldDensity() == 1) {
                 field_list_it = curfield.removeField( fd_sap );
@@ -1182,7 +1182,7 @@ void map::step_in_field(int x, int y)
             break;
 
         case fd_sludge:
-            Messages::add_msg(_("The sludge is thick and sticky. You struggle to pull free."));
+            add_msg(_("The sludge is thick and sticky. You struggle to pull free."));
             g->u.moves -= cur->getFieldDensity() * 300;
             curfield.removeField( fd_sludge );
             break;
@@ -1199,18 +1199,18 @@ void map::step_in_field(int x, int y)
             }
             if (!g->u.has_active_bionic("bio_heatsink") && !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit prevents ALL fire damage.
                 if (adjusted_intensity == 1) {
-                    Messages::add_msg(_("You burn your legs and feet!"));
+                    add_msg(_("You burn your legs and feet!"));
                     g->u.hit(NULL, bp_feet, 0, 0, rng(2, 6));
                     g->u.hit(NULL, bp_feet, 1, 0, rng(2, 6));
                     g->u.hit(NULL, bp_legs, 0, 0, rng(1, 4));
                     g->u.hit(NULL, bp_legs, 1, 0, rng(1, 4));
                 } else if (adjusted_intensity == 2) {
-                    Messages::add_msg(_("You're burning up!"));
+                    add_msg(_("You're burning up!"));
                     g->u.hit(NULL, bp_legs, 0, 0,  rng(2, 6));
                     g->u.hit(NULL, bp_legs, 1, 0,  rng(2, 6));
                     g->u.hit(NULL, bp_torso, -1, 4, rng(4, 9));
                 } else if (adjusted_intensity == 3) {
-                    Messages::add_msg(_("You're set ablaze!"));
+                    add_msg(_("You're set ablaze!"));
                     g->u.hit(NULL, bp_legs, 0, 0, rng(2, 6));
                     g->u.hit(NULL, bp_legs, 1, 0, rng(2, 6));
                     g->u.hit(NULL, bp_torso, -1, 4, rng(4, 9));
@@ -1272,7 +1272,7 @@ void map::step_in_field(int x, int y)
                     inhaled = g->u.add_env_effect("poison", bp_mouth, 2, 20);
                 }
                 if( inhaled ) {
-                    Messages::add_msg(_("You feel sick from inhaling the %s"), cur->name().c_str());
+                    add_msg(_("You feel sick from inhaling the %s"), cur->name().c_str());
                 }
             }
             break;
@@ -1283,7 +1283,7 @@ void map::step_in_field(int x, int y)
             g->u.radiation += rng(cur->getFieldDensity(),
                                   cur->getFieldDensity() * (cur->getFieldDensity() + 1));
             if (cur->getFieldDensity() == 3) {
-                Messages::add_msg(_("This radioactive gas burns!"));
+                add_msg(_("This radioactive gas burns!"));
                 g->u.hurtall(rng(1, 3));
             }
             break;
@@ -1292,26 +1292,26 @@ void map::step_in_field(int x, int y)
             //A burst of flame? Only hits the legs and torso.
             if (inside) break; //fireballs can't touch you inside a car.
             if (!g->u.has_active_bionic("bio_heatsink") || !g->u.is_wearing("rm13_armor_on")) { //heatsink or suit stops fire.
-                Messages::add_msg(_("You're torched by flames!"));
+                add_msg(_("You're torched by flames!"));
                 g->u.hit(NULL, bp_legs, 0, 0,  rng(2, 6));
                 g->u.hit(NULL, bp_legs, 1, 0,  rng(2, 6));
                 g->u.hit(NULL, bp_torso, -1, 4, rng(4, 9));
             } else
-                Messages::add_msg(_("These flames do not burn you."));
+                add_msg(_("These flames do not burn you."));
             break;
 
         case fd_electricity:
             if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) //Artifact or bionic stops electricity.
-                Messages::add_msg(_("The electricity flows around you."));
+                add_msg(_("The electricity flows around you."));
             else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) //Artifact or bionic stops electricity.
-                Messages::add_msg(_("Your armor safely grounds the electrical discharge."));
+                add_msg(_("Your armor safely grounds the electrical discharge."));
             else {
-                Messages::add_msg(_("You're electrocuted!"));
+                add_msg(_("You're electrocuted!"));
                 //small universal damage based on density.
                 g->u.hurtall(rng(1, cur->getFieldDensity()));
                 if (one_in(8 - cur->getFieldDensity()) && !one_in(30 - g->u.str_cur)) {
                     //str of 30 stops this from happening.
-                    Messages::add_msg(_("You're paralyzed!"));
+                    add_msg(_("You're paralyzed!"));
                     g->u.moves -= rng(cur->getFieldDensity() * 150, cur->getFieldDensity() * 200);
                 }
             }
@@ -1320,7 +1320,7 @@ void map::step_in_field(int x, int y)
         case fd_fatigue:
             //Teleports you... somewhere.
             if (rng(0, 2) < cur->getFieldDensity()) {
-                Messages::add_msg(_("You're violently teleported!"));
+                add_msg(_("You're violently teleported!"));
                 g->u.hurtall(cur->getFieldDensity());
                 g->teleport();
             }
@@ -1556,7 +1556,7 @@ void map::mon_in_field(int x, int y, monster *z)
                     int mon_hit = g->mon_at(newposx, newposy);
                     if (mon_hit != -1) {
                         if (g->u_see(z)) {
-                            Messages::add_msg(_("The %s teleports into a %s, killing them both!"),
+                            add_msg(_("The %s teleports into a %s, killing them both!"),
                                        z->name().c_str(), g->zombie(mon_hit).name().c_str());
                         }
                         g->explode_mon(mon_hit);
@@ -1618,7 +1618,7 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
      int how_many_limbs_hit = rng(0, num_hp_parts);
      for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
       g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
-      Messages::add_msg(_("You are hit by the falling debris!"));
+      add_msg(_("You are hit by the falling debris!"));
      }
      if ((one_in(g->u.dex_cur)) && (((!(g->u.has_trait("LEG_TENT_BRACE")))) || (g->u.wearing_something_on(bp_feet))) ) {
       g->u.add_effect("downed", 2);
@@ -1628,7 +1628,7 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
      }
     }
     else if ((one_in(g->u.str_cur)) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet))) ) {
-     Messages::add_msg(_("You trip as you evade the falling debris!"));
+     add_msg(_("You trip as you evade the falling debris!"));
      g->u.add_effect("downed", 1);
     }
                         //Avoiding disease system for the moment, since I was having trouble with it.
