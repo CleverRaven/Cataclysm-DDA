@@ -394,10 +394,10 @@ void npc::talk_to_u()
  if (attitude == NPCATT_TALK)
   attitude = NPCATT_NULL;
  else if (attitude == NPCATT_FLEE) {
-  Messages::player_messages.add_msg(_("%s is fleeing from you!"), name.c_str());
+  Messages::add_msg(_("%s is fleeing from you!"), name.c_str());
   return;
  } else if (attitude == NPCATT_KILL) {
-  Messages::player_messages.add_msg(_("%s is hostile!"), name.c_str());
+  Messages::add_msg(_("%s is hostile!"), name.c_str());
   return;
  }
  dialogue d;
@@ -441,9 +441,9 @@ void npc::talk_to_u()
  moves -= 100;
 
  if(g->u.has_disease("deaf")) {
-  Messages::player_messages.add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
+  Messages::add_msg(_("%s tries to talk to you, but you're deaf!"), name.c_str());
   if(d.topic_stack.back() == TALK_MUG) {
-   Messages::player_messages.add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
+   Messages::add_msg(_("When you don't respond, %s becomes angry!"), name.c_str());
    make_angry();
   }
   return;
@@ -1820,7 +1820,7 @@ void talk_function::assign_base(npc *p)
         return;
     }
 
-    Messages::player_messages.add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
+    Messages::add_msg(_("%s waits at %s"), p->name.c_str(), camp->camp_name().c_str());
     p->mission = NPC_MISSION_BASE;
     p->attitude = NPCATT_NULL;
 }
@@ -1881,7 +1881,7 @@ void talk_function::deny_equipment(npc *p)
 
 void talk_function::hostile(npc *p)
 {
- Messages::player_messages.add_msg(_("%s turns hostile!"), p->name.c_str());
+ Messages::add_msg(_("%s turns hostile!"), p->name.c_str());
     g->u.add_memorial_log(pgettext("memorial_male","%s became hostile."),
         pgettext("memorial_female", "%s became hostile."),
         p->name.c_str());
@@ -1890,20 +1890,20 @@ void talk_function::hostile(npc *p)
 
 void talk_function::flee(npc *p)
 {
- Messages::player_messages.add_msg(_("%s turns to flee!"), p->name.c_str());
+ Messages::add_msg(_("%s turns to flee!"), p->name.c_str());
  p->attitude = NPCATT_FLEE;
 }
 
 void talk_function::leave(npc *p)
 {
- Messages::player_messages.add_msg(_("%s leaves."), p->name.c_str());
+ Messages::add_msg(_("%s leaves."), p->name.c_str());
  p->attitude = NPCATT_NULL;
 }
 
 void talk_function::start_mugging(npc *p)
 {
  p->attitude = NPCATT_MUG;
- Messages::player_messages.add_msg(_("Pause to stay still.  Any movement may cause %s to attack."),
+ Messages::add_msg(_("Pause to stay still.  Any movement may cause %s to attack."),
             p->name.c_str());
 }
 

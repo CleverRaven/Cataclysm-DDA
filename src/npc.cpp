@@ -1075,7 +1075,7 @@ bool npc::wield(item* it)
     moves -= 15;
     weapon = inv.remove_item(it);
     if ( g->u_see( posx, posy ) ) {
-        Messages::player_messages.add_msg( _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
+        Messages::add_msg( _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     }
     return true;
 }
@@ -1478,7 +1478,7 @@ void npc::say(std::string line, ...)
  va_end(ap);
  parse_tags(line, &(g->u), this);
  if (g->u_see(posx, posy)) {
-  Messages::player_messages.add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
+  Messages::add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
   g->sound(posx, posy, 16, "");
  } else {
   std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
@@ -2005,7 +2005,7 @@ void npc::die(bool your_fault)
     }
 
     if (g->u_see(posx, posy)) {
-        Messages::player_messages.add_msg(_("%s dies!"), name.c_str());
+        Messages::add_msg(_("%s dies!"), name.c_str());
     }
     if (your_fault){
         if (is_friend()) {
@@ -2160,7 +2160,7 @@ void npc::add_msg_if_npc(const char *msg, ...)
     if (offset != std::string::npos) {
         processed_npc_string.replace(offset, 9, name);
     }
-    Messages::player_messages.add_msg(processed_npc_string.c_str());
+    Messages::add_msg(processed_npc_string.c_str());
 
     va_end(ap);
 };
@@ -2178,7 +2178,7 @@ void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...)
         if (offset != std::string::npos) {
             processed_npc_string.replace(offset, 9, disp_name());
         }
-        Messages::player_messages.Messages::player_messages.add_msg(processed_npc_string.c_str());
+        Messages::Messages::add_msg(processed_npc_string.c_str());
     }
 
     va_end(ap);

@@ -18,7 +18,7 @@
 void iexamine::none(player *p, map *m, int examx, int examy)
 {
     (void)p; //unused
-    Messages::player_messages.add_msg(_("That is a %s."), m->name(examx, examy).c_str());
+    Messages::add_msg(_("That is a %s."), m->name(examx, examy).c_str());
 };
 
 void iexamine::gaspump(player *p, map *m, int examx, int examy) {
@@ -32,7 +32,7 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy) {
    item* liq = &(m->i_at(examx, examy)[i]);
 
    if (one_in(10 + p->dex_cur)) {
-    Messages::player_messages.add_msg(_("You accidentally spill the %s."), liq->type->name.c_str());
+    Messages::add_msg(_("You accidentally spill the %s."), liq->type->name.c_str());
     item spill(liq->type, calendar::turn);
     spill.charges = rng(dynamic_cast<it_ammo*>(liq->type)->count,
                         dynamic_cast<it_ammo*>(liq->type)->count * (float)(8 / p->dex_cur));
@@ -44,14 +44,14 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy) {
    } else {
     p->moves -= 300;
     if (g->handle_liquid(*liq, true, false)) {
-     Messages::player_messages.add_msg(_("With a clang and a shudder, the %s pump goes silent."), liq->type->name.c_str());
+     Messages::add_msg(_("With a clang and a shudder, the %s pump goes silent."), liq->type->name.c_str());
      m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
     }
    }
    return;
   }
  }
- Messages::player_messages.add_msg(_("Out of order."));
+ Messages::add_msg(_("Out of order."));
 }
 
 void iexamine::atm(player *p, map *m, int examx, int examy) {
@@ -147,7 +147,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
         p->cash += amount;
         dep->charges -= amount;
-        Messages::player_messages.add_msg(ngettext("Your account now holds %d cent.","Your account now holds %d cents.",p->cash),
+        Messages::add_msg(ngettext("Your account now holds %d cent.","Your account now holds %d cents.",p->cash),
                    p->cash);
         p->moves -= 100;
         return;
@@ -181,7 +181,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
         p->cash -= amount;
         with->charges += amount;
-        Messages::player_messages.add_msg(ngettext("Your account now holds %d cent.",
+        Messages::add_msg(ngettext("Your account now holds %d cent.",
                             "Your account now holds %d cents.",
                             p->cash),
                    p->cash);
@@ -257,7 +257,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
     int num_items = vend_items.size();
 
     if (num_items == 0) {
-        Messages::player_messages.add_msg(_("The vending machine is empty!"));
+        Messages::add_msg(_("The vending machine is empty!"));
         return;
     }
 
@@ -375,7 +375,7 @@ void iexamine::vending(player *p, map *m, int examx, int examy) {
             used_machine = true;
 
             if (num_items == 1) {
-                Messages::player_messages.add_msg(_("With a beep, the empty vending machine shuts down"));
+                Messages::add_msg(_("With a beep, the empty vending machine shuts down"));
                 break;
             }
         } else if (action == "QUIT") {
@@ -400,7 +400,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
     }
 
     if (waterIndex < 0) {
-        Messages::player_messages.add_msg(_("This toilet is empty."));
+        Messages::add_msg(_("This toilet is empty."));
     } else {
         bool drained = false;
 
@@ -477,8 +477,8 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy) {
     i--;
    }
   }
-  Messages::player_messages.add_msg(_("You insert your ID card."));
-  Messages::player_messages.add_msg(_("The nearby doors slide into the floor."));
+  Messages::add_msg(_("You insert your ID card."));
+  Messages::add_msg(_("The nearby doors slide into the floor."));
   p->use_amount(card_type, 1);
  } else {
   bool using_electrohack = (p->has_amount("electrohack", 1) &&
@@ -498,22 +498,22 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy) {
     else if (p->int_cur > 8)
      success += rng(0, int((p->int_cur - 8) / 2));
      if (success < 0) {
-      Messages::player_messages.add_msg(_("You cause a short circuit!"));
+      Messages::add_msg(_("You cause a short circuit!"));
       if (success <= -5) {
        if (using_electrohack) {
-        Messages::player_messages.add_msg(_("Your electrohack is ruined!"));
+        Messages::add_msg(_("Your electrohack is ruined!"));
         p->use_amount("electrohack", 1);
        } else {
-        Messages::player_messages.add_msg(_("Your power is drained!"));
+        Messages::add_msg(_("Your power is drained!"));
         p->charge_power(0 - rng(0, p->power_level));
        }
       }
       m->ter_set(examx, examy, t_card_reader_broken);
      } else if (success < 6)
-      Messages::player_messages.add_msg(_("Nothing happens."));
+      Messages::add_msg(_("Nothing happens."));
       else {
-       Messages::player_messages.add_msg(_("You activate the panel!"));
-       Messages::player_messages.add_msg(_("The nearby doors slide into the floor."));
+       Messages::add_msg(_("You activate the panel!"));
+       Messages::add_msg(_("The nearby doors slide into the floor."));
        m->ter_set(examx, examy, t_card_reader_broken);
        for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
@@ -523,14 +523,14 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy) {
        }
       }
   } else {
-   Messages::player_messages.add_msg(_("Looks like you need a %s."),itypes[card_type]->name.c_str());
+   Messages::add_msg(_("Looks like you need a %s."),itypes[card_type]->name.c_str());
   }
  }
 }
 
 void iexamine::rubble(player *p, map *m, int examx, int examy) {
     if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1)|| p->has_amount("e_tool", 1))) {
-        Messages::player_messages.add_msg(_("If only you had a shovel..."));
+        Messages::add_msg(_("If only you had a shovel..."));
         return;
     }
     std::string xname = m->tername(examx, examy);
@@ -553,7 +553,7 @@ void iexamine::rubble(player *p, map *m, int examx, int examy) {
         }
 
         // "Remind"
-        Messages::player_messages.add_msg(_("You clear up that %s."), xname.c_str());
+        Messages::add_msg(_("You clear up that %s."), xname.c_str());
     }
 }
 
@@ -563,14 +563,14 @@ void iexamine::chainfence(player *p, map *m, int examx, int examy) {
   return;
  }
  if ( (p->has_trait("ARACHNID_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
-    Messages::player_messages.add_msg(_("Climbing the fence is trivial for one such as you."));
+    Messages::add_msg(_("Climbing the fence is trivial for one such as you."));
     p->moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
     p->posx = examx;
     p->posy = examy;
     return;
  }
  if ( (p->has_trait("INSECT_ARMS_OK")) && (!(p->wearing_something_on(bp_torso))) ) {
-    Messages::player_messages.add_msg(_("You quickly scale the fence."));
+    Messages::add_msg(_("You quickly scale the fence."));
     p->moves -= 90;
     p->posx = examx;
     p->posy = examy;
@@ -579,7 +579,7 @@ void iexamine::chainfence(player *p, map *m, int examx, int examy) {
 
  p->moves -= 400;
  if (one_in(p->dex_cur)) {
-  Messages::player_messages.add_msg(_("You slip whilst climbing and fall down again."));
+  Messages::add_msg(_("You slip whilst climbing and fall down again."));
  } else {
   p->moves += p->dex_cur * 10;
   p->posx = examx;
@@ -594,7 +594,7 @@ void iexamine::bars(player *p, map *m, int examx, int examy) {
  }
  if ( ((p->encumb(bp_torso)) >= 1) && ((p->encumb(bp_head)) >= 1) &&
     ((p->encumb(bp_feet)) >= 1) ) { // Most likely places for rigid gear that would catch on the bars.
-    Messages::player_messages.add_msg(_("Your amorphous body could slip though the %s, but your cumbersome gear can't."),m->tername(examx, examy).c_str());
+    Messages::add_msg(_("Your amorphous body could slip though the %s, but your cumbersome gear can't."),m->tername(examx, examy).c_str());
     return;
  }
  if (!query_yn(_("Slip through the %s?"),m->tername(examx, examy).c_str())) {
@@ -602,7 +602,7 @@ void iexamine::bars(player *p, map *m, int examx, int examy) {
   return;
  }
   p->moves -= 200;
-  Messages::player_messages.add_msg(_("You slide right between the bars."));
+  Messages::add_msg(_("You slide right between the bars."));
   p->posx = examx;
   p->posy = examy;
 }
@@ -616,7 +616,7 @@ void iexamine::tent(player *p, map *m, int examx, int examy) {
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
    m->furn_set(examx + i, examy + j, f_null);
- Messages::player_messages.add_msg(_("You take down the tent"));
+ Messages::add_msg(_("You take down the tent"));
  item dropped(itypes["tent_kit"], calendar::turn);
  m->add_item_or_charges(examx, examy, dropped);
 }
@@ -630,14 +630,14 @@ void iexamine::shelter(player *p, map *m, int examx, int examy) {
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
    m->furn_set(examx + i, examy + j, f_null);
- Messages::player_messages.add_msg(_("You take down the shelter"));
+ Messages::add_msg(_("You take down the shelter"));
  item dropped(itypes["shelter_kit"], calendar::turn);
  m->add_item_or_charges(examx, examy, dropped);
 }
 
 void iexamine::wreckage(player *p, map *m, int examx, int examy) {
  if (!(p->has_amount("shovel", 1) || p->has_amount("primitive_shovel", 1)|| p->has_amount("e_tool", 1))) {
-  Messages::player_messages.add_msg(_("If only you had a shovel..."));
+  Messages::add_msg(_("If only you had a shovel..."));
   return;
  }
 
@@ -653,7 +653,7 @@ void iexamine::wreckage(player *p, map *m, int examx, int examy) {
   if (one_in(5)) {
    m->add_item_or_charges(examx, examy, pipe);
    m->add_item_or_charges(examx, examy, wire); }
-  Messages::player_messages.add_msg(_("You clear the wreckage up"));
+  Messages::add_msg(_("You clear the wreckage up"));
  }
 }
 
@@ -703,7 +703,7 @@ void iexamine::pit(player *p, map *m, int examx, int examy)
         {
             m->ter_set(examx, examy, t_pit_spiked_covered);
         }
-        Messages::player_messages.add_msg(_("You place a plank of wood over the pit."));
+        Messages::add_msg(_("You place a plank of wood over the pit."));
     }
 }
 
@@ -716,7 +716,7 @@ void iexamine::pit_covered(player *p, map *m, int examx, int examy)
     }
 
     item plank(itypes["2x4"], calendar::turn);
-    Messages::player_messages.add_msg(_("You remove the plank."));
+    Messages::add_msg(_("You remove the plank."));
     m->add_item_or_charges(p->posx, p->posy, plank);
 
     if( m->ter(examx, examy) == t_pit_covered )
@@ -740,7 +740,7 @@ void iexamine::fence_post(player *p, map *m, int examx, int examy) {
     m->ter_set(examx, examy, t_fence_rope);
     p->moves -= 200;
    } else
-    Messages::player_messages.add_msg(_("You need 2 six-foot lengths of rope to do that"));
+    Messages::add_msg(_("You need 2 six-foot lengths of rope to do that"));
   } break;
 
   case 2:{
@@ -749,7 +749,7 @@ void iexamine::fence_post(player *p, map *m, int examx, int examy) {
     m->ter_set(examx, examy, t_fence_wire);
     p->moves -= 200;
    } else
-    Messages::player_messages.add_msg(_("You need 2 lengths of wire to do that!"));
+    Messages::add_msg(_("You need 2 lengths of wire to do that!"));
   } break;
 
   case 3:{
@@ -758,7 +758,7 @@ void iexamine::fence_post(player *p, map *m, int examx, int examy) {
     m->ter_set(examx, examy, t_fence_barbed);
     p->moves -= 200;
    } else
-    Messages::player_messages.add_msg(_("You need 2 lengths of barbed wire to do that!"));
+    Messages::add_msg(_("You need 2 lengths of barbed wire to do that!"));
   } break;
 
   case 4:
@@ -810,7 +810,7 @@ void iexamine::slot_machine(player *p, map *m, int examx, int examy)
 {
     (void)m; (void)examx; (void)examy; //unused
     if (p->cash < 10) {
-        Messages::player_messages.add_msg(_("You need $10 to play."));
+        Messages::add_msg(_("You need $10 to play."));
     } else if (query_yn(_("Insert $10?"))) {
         do {
             if (one_in(5)) {
@@ -834,7 +834,7 @@ void iexamine::slot_machine(player *p, map *m, int examx, int examy)
 
 void iexamine::safe(player *p, map *m, int examx, int examy) {
   if (!p->has_amount("stethoscope", 1)) {
-    Messages::player_messages.add_msg(_("You need a stethoscope for safecracking."));
+    Messages::add_msg(_("You need a stethoscope for safecracking."));
     return;
   }
 
@@ -843,9 +843,9 @@ void iexamine::safe(player *p, map *m, int examx, int examy) {
 
     if (success) {
       m->furn_set(examx, examy, f_safe_o);
-      Messages::player_messages.add_msg(_("You successfully crack the safe!"));
+      Messages::add_msg(_("You successfully crack the safe!"));
     } else {
-      Messages::player_messages.add_msg(_("The safe resists your attempt at cracking it."));
+      Messages::add_msg(_("The safe resists your attempt at cracking it."));
     }
   }
 }
@@ -891,7 +891,7 @@ void iexamine::pedestal_wyrm(player *p, map *m, int examx, int examy) {
   none(p, m, examx, examy);
   return;
  }
- Messages::player_messages.add_msg(_("The pedestal sinks into the ground..."));
+ Messages::add_msg(_("The pedestal sinks into the ground..."));
  m->ter_set(examx, examy, t_rock_floor);
  g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(5, 10));
 }
@@ -900,18 +900,18 @@ void iexamine::pedestal_temple(player *p, map *m, int examx, int examy) {
 
  if (m->i_at(examx, examy).size() == 1 &&
      m->i_at(examx, examy)[0].type->id == "petrified_eye") {
-  Messages::player_messages.add_msg(_("The pedestal sinks into the ground..."));
+  Messages::add_msg(_("The pedestal sinks into the ground..."));
   m->ter_set(examx, examy, t_dirt);
   m->i_at(examx, examy).clear();
   g->add_event(EVENT_TEMPLE_OPEN, int(calendar::turn) + 4);
  } else if (p->has_amount("petrified_eye", 1) &&
             query_yn(_("Place your petrified eye on the pedestal?"))) {
   p->use_amount("petrified_eye", 1);
-  Messages::player_messages.add_msg(_("The pedestal sinks into the ground..."));
+  Messages::add_msg(_("The pedestal sinks into the ground..."));
   m->ter_set(examx, examy, t_dirt);
   g->add_event(EVENT_TEMPLE_OPEN, int(calendar::turn) + 4);
  } else
-  Messages::player_messages.add_msg(_("This pedestal is engraved in eye-shaped diagrams, and has a \
+  Messages::add_msg(_("This pedestal is engraved in eye-shaped diagrams, and has a \
 large semi-spherical indentation at the top."));
 }
 
@@ -974,7 +974,7 @@ void iexamine::fswitch(player *p, map *m, int examx, int examy)
             }
         }
     }
-    Messages::player_messages.add_msg(_("You hear the rumble of rock shifting."));
+    Messages::add_msg(_("You hear the rumble of rock shifting."));
     g->add_event(EVENT_TEMPLE_SPAWN, calendar::turn + 3);
 }
 
@@ -985,7 +985,7 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
           return;
       }
       p->moves -= 150; // You take your time...
-      Messages::player_messages.add_msg(_("You slowly suck up the nectar."));
+      Messages::add_msg(_("You slowly suck up the nectar."));
       p->hunger -= 25;
       p->add_disease("pkill2", 70);
       p->fatigue += 20;
@@ -1003,15 +1003,15 @@ void iexamine::flower_poppy(player *p, map *m, int examx, int examy) {
 
   if (resist < 10) {
     // Can't smell the flowers with a gas mask on!
-    Messages::player_messages.add_msg(_("This flower has a heady aroma."));
+    Messages::add_msg(_("This flower has a heady aroma."));
   }
 
   if (one_in(3) && resist < 5)  {
     // Should user player::infect, but can't!
     // player::infect needs to be restructured to return a bool indicating success.
-    Messages::player_messages.add_msg(_("You fall asleep..."));
+    Messages::add_msg(_("You fall asleep..."));
     p->fall_asleep(1200);
-    Messages::player_messages.add_msg(_("Your legs are covered in the poppy's roots!"));
+    Messages::add_msg(_("Your legs are covered in the poppy's roots!"));
     p->hurt(bp_legs, 0, 4);
     p->moves -=50;
   }
@@ -1025,7 +1025,7 @@ void iexamine::flower_blubell(player *p, map *m, int examx, int examy) {
   if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
       ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
       p->moves -= 50; // Takes 30 seconds
-      Messages::player_messages.add_msg(_("You drink some nectar."));
+      Messages::add_msg(_("You drink some nectar."));
       p->hunger -= 15;
   }
   if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
@@ -1041,7 +1041,7 @@ void iexamine::flower_dahlia(player *p, map *m, int examx, int examy) {
   if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
       ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
       p->moves -= 50; // Takes 30 seconds
-      Messages::player_messages.add_msg(_("You drink some nectar."));
+      Messages::add_msg(_("You drink some nectar."));
       p->hunger -= 15;
   }
   if(!query_yn(_("Pick %s?"),m->furnname(examx, examy).c_str())) {
@@ -1071,9 +1071,9 @@ void iexamine::egg_sackbw(player *p, map *m, int examx, int examy) {
         }
     }
     if (f == 1){
-        Messages::player_messages.add_msg(_("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
+        Messages::add_msg(_("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
     } else if (f >= 1) {
-        Messages::player_messages.add_msg(_("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
+        Messages::add_msg(_("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
     }
   }
   m->spawn_item(examx, examy, "spider_egg", rng(1,4));
@@ -1098,9 +1098,9 @@ void iexamine::egg_sackws(player *p, map *m, int examx, int examy) {
         }
     }
     if (f == 1){
-        Messages::player_messages.add_msg(_("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
+        Messages::add_msg(_("A spiderling brusts from the %s!"),m->furnname(examx, examy).c_str());
     } else if (f >= 1) {
-        Messages::player_messages.add_msg(_("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
+        Messages::add_msg(_("Spiderlings brust from the %s!"),m->furnname(examx, examy).c_str());
     }
   }
   m->spawn_item(examx, examy, "spider_egg", rng(1,4));
@@ -1110,7 +1110,7 @@ void iexamine::fungus(player *p, map *m, int examx, int examy) {
     // TODO: Infect NPCs?
     monster spore(GetMType("mon_spore"));
     int mondex;
-    Messages::player_messages.add_msg(_("The %s crumbles into spores!"), m->furnname(examx, examy).c_str());
+    Messages::add_msg(_("The %s crumbles into spores!"), m->furnname(examx, examy).c_str());
     for (int i = examx - 1; i <= examx + 1; i++) {
         for (int j = examy - 1; j <= examy + 1; j++) {
             mondex = g->mon_at(i, j);
@@ -1118,7 +1118,7 @@ void iexamine::fungus(player *p, map *m, int examx, int examy) {
                 if (mondex != -1) { // Spores hit a monster
                     if (g->u_see(i, j) &&
                             !g->zombie(mondex).type->in_species("FUNGUS")) {
-                        Messages::player_messages.add_msg(_("The %s is covered in tiny spores!"),
+                        Messages::add_msg(_("The %s is covered in tiny spores!"),
                                         g->zombie(mondex).name().c_str());
                     }
                     if (!g->zombie(mondex).make_fungus()) {
@@ -1146,7 +1146,7 @@ void iexamine::fungus(player *p, map *m, int examx, int examy) {
                         hit = true;
                     }
                     if (hit) {
-                        Messages::player_messages.add_msg(_("You're covered in tiny spores!"));
+                        Messages::add_msg(_("You're covered in tiny spores!"));
                     }
                 } else if (((i == examx && j == examy) || one_in(4)) &&
                               g->num_zombies() <= 1000) { // Spawn a spore
@@ -1163,20 +1163,20 @@ void iexamine::fungus(player *p, map *m, int examx, int examy) {
 void iexamine::dirtmound(player *p, map *m, int examx, int examy) {
 
     if (g->get_temperature() < 50) { // semi-appropriate temperature for most plants
-        Messages::player_messages.add_msg(_("It is too cold to plant anything now."));
+        Messages::add_msg(_("It is too cold to plant anything now."));
         return;
     }
     /* ambient_light_at() not working?
     if (m->ambient_light_at(examx, examy) < LIGHT_AMBIENT_LOW) {
-        Messages::player_messages.add_msg(_("It is too dark to plant anything now."));
+        Messages::add_msg(_("It is too dark to plant anything now."));
         return;
     }*/
     if (!p->has_item_with_flag("SEED")){
-        Messages::player_messages.add_msg(_("You have no seeds to plant."));
+        Messages::add_msg(_("You have no seeds to plant."));
         return;
     }
     if (m->i_at(examx, examy).size() != 0){
-        Messages::player_messages.add_msg(_("Something's lying there..."));
+        Messages::add_msg(_("Something's lying there..."));
         return;
     }
 
@@ -1209,7 +1209,7 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy) {
 
     // Did we cancel?
     if (seed_index < 0) {
-        Messages::player_messages.add_msg(_("You saved your seeds for later.")); // huehuehue
+        Messages::add_msg(_("You saved your seeds for later.")); // huehuehue
         return;
     }
 
@@ -1225,7 +1225,7 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy) {
     m->spawn_item(examx, examy, seed_types[seed_index], 1, 1, calendar::turn);
     m->set(examx, examy, t_dirt, f_plant_seed);
     p->moves -= 500;
-    Messages::player_messages.add_msg(_("Planted %s"), seed_names[seed_index].c_str());
+    Messages::add_msg(_("Planted %s"), seed_names[seed_index].c_str());
 }
 
 void iexamine::aggie_plant(player *p, map *m, int examx, int examy) {
@@ -1294,7 +1294,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
     if (!brew_present)
     {
         if ( !p->has_item_with_flag("BREW") ) {
-            Messages::player_messages.add_msg(_("You have no brew to ferment."));
+            Messages::add_msg(_("You have no brew to ferment."));
             return;
         }
         // Get list of all inv+wielded ferment-able items.
@@ -1347,7 +1347,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
                 brew.volume(false, true)/1000*brew.charges ) >= 100)
                 vat_full = true; //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
         }
-        Messages::player_messages.add_msg(_("Set %s in the vat."), brew.name.c_str());
+        Messages::add_msg(_("Set %s in the vat."), brew.name.c_str());
         m->i_clear(examx, examy);
         m->i_at(examx, examy).push_back(brew); //This is needed to bypass NOITEM
         p->moves -= 250;
@@ -1356,9 +1356,9 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
         m->i_at(examx, examy)[0].bday = calendar::turn;
         m->furn_set(examx, examy, f_fvat_full);
         if (vat_full)
-            Messages::player_messages.add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
+            Messages::add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
         else
-            Messages::player_messages.add_msg(_("You close the lid and start the fermenting cycle."));
+            Messages::add_msg(_("You close the lid and start the fermenting cycle."));
     }
 }
 
@@ -1382,14 +1382,14 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
     {
         int brew_time = brew_i.brewing_time();
         int brewing_stage = 3 * ((float)(calendar::turn.get_turn() - brew_i.bday) / (brew_time));
-        Messages::player_messages.add_msg(_("There's a vat full of %s set to ferment there."), brew_i.name.c_str());
+        Messages::add_msg(_("There's a vat full of %s set to ferment there."), brew_i.name.c_str());
         switch (brewing_stage) {
         case 0:
-            Messages::player_messages.add_msg(_("It's been set recently, and will take some time to ferment.")); break;
+            Messages::add_msg(_("It's been set recently, and will take some time to ferment.")); break;
         case 1:
-            Messages::player_messages.add_msg(_("It is about halfway done fermenting.")); break;
+            Messages::add_msg(_("It is about halfway done fermenting.")); break;
         case 2:
-            Messages::player_messages.add_msg(_("It will be ready for bottling soon.")); break; //More messages can be added to show progress if desired
+            Messages::add_msg(_("It will be ready for bottling soon.")); break; //More messages can be added to show progress if desired
         default:
             if ( (calendar::turn.get_turn() > (brew_i.bday + brew_time) ) //Double-checking that the brew is actually ready
             && m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?")) )
@@ -1407,10 +1407,10 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
 
                 p->practice( calendar::turn, "cooking", std::min(brew_time/600, 72) ); //low xp: you also get xp from crafting the brew
                 /*if ((cooking<4 && !one_in(cooking)) || (cooking>=4 && !one_in(4))) { //Couldn't figure out how to spawn yeast
-                    Messages::player_messages.add_msg(_("You manage to retrieve some yeast from the vat!"));  //directly into the player's inventory,
+                    Messages::add_msg(_("You manage to retrieve some yeast from the vat!"));  //directly into the player's inventory,
                     // add_item(???)                                                   //then decided that yeast culturing was
                 }                                                                      //a better idea. */
-                Messages::player_messages.add_msg(_("The %s is now ready for bottling."), booze.name.c_str());
+                Messages::add_msg(_("The %s is now ready for bottling."), booze.name.c_str());
             }
         }
     }
@@ -1419,7 +1419,7 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
         if (g->handle_liquid(*booze, true, false)) {
             m->i_at(examx, examy).erase(m->i_at(examx, examy).begin());
             m->furn_set(examx, examy, f_fvat_empty);
-            Messages::player_messages.add_msg(_("You squeeze the last drops of %s from the vat."), booze->name.c_str());
+            Messages::add_msg(_("You squeeze the last drops of %s from the vat."), booze->name.c_str());
         }
     }
 }
@@ -1437,7 +1437,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
     }
     if (!liquid_present) {
         if ( !p->has_drink() ) {
-            Messages::player_messages.add_msg(_("You don't have any drinks to fill the %s with."), m->name(examx, examy).c_str());
+            Messages::add_msg(_("You don't have any drinks to fill the %s with."), m->name(examx, examy).c_str());
             return;
         }
         // Get list of all drinks
@@ -1480,9 +1480,9 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
             if (d_vol >= keg_cap)
                 keg_full = true;
         }
-        if (keg_full) Messages::player_messages.add_msg(_("You completely fill the %s with %s."),
+        if (keg_full) Messages::add_msg(_("You completely fill the %s with %s."),
                 m->name(examx, examy).c_str(), drink.name.c_str());
-        else Messages::player_messages.add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
+        else Messages::add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
                 drink.name.c_str());
         p->moves -= 250;
         m->i_clear(examx, examy);
@@ -1521,7 +1521,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
         if(menu_items[choice]==_("Fill a container with %drink")){
             if (g->handle_liquid(*drink, true, false)) {
                 m->i_at(examx, examy).erase(m->i_at(examx, examy).begin());
-                Messages::player_messages.add_msg(_("You squeeze the last drops of %s from the %s."), drink->name.c_str(),
+                Messages::add_msg(_("You squeeze the last drops of %s from the %s."), drink->name.c_str(),
                            m->name(examx, examy).c_str());
             }
             return;
@@ -1531,7 +1531,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
             drink->charges--;
             if (drink->charges == 0) {
                 m->i_at(examx, examy).erase(m->i_at(examx, examy).begin());
-                Messages::player_messages.add_msg(_("You squeeze the last drops of %s from the %s."), drink->name.c_str(),
+                Messages::add_msg(_("You squeeze the last drops of %s from the %s."), drink->name.c_str(),
                            m->name(examx, examy).c_str());
             }
             p->eat(drink, dynamic_cast<it_comest*>(drink->type));
@@ -1544,11 +1544,11 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
             int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
                 : drink->volume(false, true)/1000*drink->charges;
             if (d_vol >= keg_cap){
-                Messages::player_messages.add_msg(_("The %s is completely full."), m->name(examx, examy).c_str());
+                Messages::add_msg(_("The %s is completely full."), m->name(examx, examy).c_str());
                 return;
             }
             if (charges_held < 1) {
-                Messages::player_messages.add_msg(_("You don't have any %s to fill the %s with."), drink->name.c_str(),
+                Messages::add_msg(_("You don't have any %s to fill the %s with."), drink->name.c_str(),
                            m->name(examx, examy).c_str());
                 return;
             }
@@ -1558,29 +1558,29 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
                 int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
                     : drink->volume(false, true)/1000*drink->charges;
                 if (d_vol >= keg_cap) {
-                    Messages::player_messages.add_msg(_("You completely fill the %s with %s."), m->name(examx, examy).c_str(),
+                    Messages::add_msg(_("You completely fill the %s with %s."), m->name(examx, examy).c_str(),
                                drink->name.c_str());
                     p->moves -= 250;
                     return;
                 }
             }
-            Messages::player_messages.add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
+            Messages::add_msg(_("You fill the %s with %s."), m->name(examx, examy).c_str(),
                    drink->name.c_str());
             p->moves -= 250;
             return;
         }
 
         if(menu_items[choice]==_("Examine")){
-            Messages::player_messages.add_msg(_("That is a %s."), m->name(examx, examy).c_str());
+            Messages::add_msg(_("That is a %s."), m->name(examx, examy).c_str());
             int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
                 : drink->volume(false, true)/1000*drink->charges;
             if (d_vol < 1)
-                Messages::player_messages.add_msg(ngettext("It has %d portion of %s left.",
+                Messages::add_msg(ngettext("It has %d portion of %s left.",
                                     "It has %d portions of %s left.",
                                     drink->charges),
                            drink->charges, drink->name.c_str());
             else
-                Messages::player_messages.add_msg(_("%s contained: %d/%d"), drink->name.c_str(), d_vol, keg_cap);
+                Messages::add_msg(_("%s contained: %d/%d"), drink->name.c_str(), d_vol, keg_cap);
             return;
         }
     }
@@ -1615,7 +1615,7 @@ void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
   if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
       ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
       p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
-      Messages::player_messages.add_msg(_("You find a flower and drink some nectar."));
+      Messages::add_msg(_("You find a flower and drink some nectar."));
       p->hunger -= 15;
   }
   if(!query_yn(_("Harvest from the %s?"),m->tername(examx, examy).c_str())) {
@@ -1679,7 +1679,7 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
     int steel_weight = sum_up_item_weight_by_material(items_on_map, "steel", false);
     if (steel_weight == 0)
     {
-        Messages::player_messages.add_msg(_("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
+        Messages::add_msg(_("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
         return;
     }
     // See below for recover_factor (rng(6,9)/10), this
@@ -1706,7 +1706,7 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
 
     if (ch >= 5 || ch <= 0)
     {
-        Messages::player_messages.add_msg(_("Never mind."));
+        Messages::add_msg(_("Never mind."));
         return;
     }
 
@@ -1726,8 +1726,8 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
 
     if (steel_weight < scrap_weight)
     {
-        Messages::player_messages.add_msg(_("The recycler chews up all the items in its hopper."));
-        Messages::player_messages.add_msg(_("The recycler beeps: \"No steel to process!\""));
+        Messages::add_msg(_("The recycler chews up all the items in its hopper."));
+        Messages::add_msg(_("The recycler beeps: \"No steel to process!\""));
         return;
     }
 
@@ -1743,8 +1743,8 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
             num_scraps = steel_weight / (scrap_weight);
             if (num_lumps == 0)
             {
-                Messages::player_messages.add_msg(_("The recycler beeps: \"Insufficient steel!\""));
-                Messages::player_messages.add_msg(_("It spits out an assortment of smaller pieces instead."));
+                Messages::add_msg(_("The recycler beeps: \"Insufficient steel!\""));
+                Messages::add_msg(_("It spits out an assortment of smaller pieces instead."));
             }
             break;
 
@@ -1756,8 +1756,8 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
             num_scraps = steel_weight / (scrap_weight);
             if (num_sheets == 0)
             {
-                Messages::player_messages.add_msg(_("The recycler beeps: \"Insufficient steel!\""));
-                Messages::player_messages.add_msg(_("It spits out an assortment of smaller pieces instead."));
+                Messages::add_msg(_("The recycler beeps: \"Insufficient steel!\""));
+                Messages::add_msg(_("It spits out an assortment of smaller pieces instead."));
             }
             break;
 
@@ -1767,8 +1767,8 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
             num_scraps = steel_weight / (scrap_weight);
             if (num_chunks == 0)
             {
-                Messages::player_messages.add_msg(_("The recycler beeps: \"Insufficient steel!\""));
-                Messages::player_messages.add_msg(_("It spits out an assortment of smaller pieces instead."));
+                Messages::add_msg(_("The recycler beeps: \"Insufficient steel!\""));
+                Messages::add_msg(_("It spits out an assortment of smaller pieces instead."));
             }
             break;
 
@@ -1892,16 +1892,16 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     itype *type = f.crafting_pseudo_item_type();
     itype *ammo = f.crafting_ammo_item_type();
     if (type == NULL || ammo == NULL) {
-        Messages::player_messages.add_msg("This %s can not be reloaded!", f.name.c_str());
+        Messages::add_msg("This %s can not be reloaded!", f.name.c_str());
         return;
     }
     const int pos = p->inv.position_by_type(ammo->id);
     if (pos == INT_MIN) {
         const int amount = count_charges_in_list(ammo, m->i_at(examx, examy));
         if (amount > 0) {
-            Messages::player_messages.add_msg("The %s contains %d %s.", f.name.c_str(), amount, ammo->name.c_str());
+            Messages::add_msg("The %s contains %d %s.", f.name.c_str(), amount, ammo->name.c_str());
         }
-        Messages::player_messages.add_msg("You need some %s to reload this %s.", ammo->name.c_str(), f.name.c_str());
+        Messages::add_msg("You need some %s to reload this %s.", ammo->name.c_str(), f.name.c_str());
         return;
     }
     const long max_amount = p->inv.find_item(pos).charges;
@@ -1926,7 +1926,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         it.charges = amount;
         items.push_back(it);
     }
-    Messages::player_messages.add_msg("You reload the %s.", m->furnname(examx, examy).c_str());
+    Messages::add_msg("You reload the %s.", m->furnname(examx, examy).c_str());
     p->moves -= 100;
 }
 

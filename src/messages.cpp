@@ -2,15 +2,16 @@
 #include <sstream>
 
 // Messages object.
-Messages    Messages::player_messages;
+static Messages player_messages;
 
 std::vector<Messages::game_message> Messages::recent_messages(const int count)
 {
     int tmp_count = count;
-    if (tmp_count > messages.size()) {
-        tmp_count = messages.size();
+    if (tmp_count > player_messages.messages.size()) {
+        tmp_count = player_messages.messages.size();
     }
-    return std::vector<game_message>(messages.end() - tmp_count, messages.end());
+    return std::vector<game_message>(player_messages.messages.end() - tmp_count,
+                                     player_messages.messages.end());
 }; // AO:only used once, should be generalized and game_message become private
 
 void Messages::add_msg_string(const std::string &s)
@@ -18,23 +19,24 @@ void Messages::add_msg_string(const std::string &s)
     if (s.length() == 0) {
         return;
     }
-    if (!messages.empty() && int(messages.back().turn) + 3 >= int(calendar::turn) &&
-        s == messages.back().message) {
-        messages.back().count++;
-        messages.back().turn = calendar::turn;
+    if (!player_messages.messages.empty() &&
+        int(player_messages.messages.back().turn) + 3 >= int(calendar::turn) &&
+        s == player_messages.messages.back().message) {
+        player_messages.messages.back().count++;
+        player_messages.messages.back().turn = calendar::turn;
         return;
     }
 
-    while (messages.size() >= 256) {
-        messages.erase(messages.begin());
+    while (player_messages.messages.size() >= 256) {
+        player_messages.messages.erase(player_messages.messages.begin());
     }
 
-    messages.push_back(game_message(calendar::turn, s));
+    player_messages.messages.push_back(game_message(calendar::turn, s));
 }
 
 void Messages::vadd_msg(const char *msg, va_list ap)
 {
-    add_msg_string(vstring_format(msg, ap));
+    player_messages.add_msg_string(vstring_format(msg, ap));
 }
 
 void Messages::add_msg(const char *msg, ...)
@@ -45,12 +47,27 @@ void Messages::add_msg(const char *msg, ...)
     va_end(ap);
 }
 
+void Messages::clear_messages()
+{
+    player_messages.messages.clear();
+}
+
+size_t Messages::size()
+{
+    return player_messages.messages.size();
+}
+
+bool Messages::has_undisplayed_messages()
+{
+    return size() && (player_messages.messages.back().turn > player_messages.curmes);
+}
+
 void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right, int bottom,
                                 int offset, bool display_turns)
 {
 
     //from  game
-    if (!messages.size()) {
+    if (!player_messages.messages.size()) {
         return;
     }
     int line = bottom;
@@ -58,13 +75,13 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
     if (offset < 0) {
         offset = 0;
     }
-    if (offset >= messages.size()) {
-        offset = messages.size();
+    if (offset >= player_messages.messages.size()) {
+        offset = player_messages.messages.size();
     }
 
     int lasttime = -1;
-    for (int i = messages.size() - offset - 1; i >= 0 && line >= top; i--) {
-        game_message &m = messages[i];
+    for (int i = player_messages.messages.size() - offset - 1; i >= 0 && line >= top; i--) {
+        game_message &m = player_messages.messages[i];
         std::string mstr = m.message;
         if (m.count > 1) {
             std::stringstream mesSS;
@@ -74,9 +91,9 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
         }
         // Split the message into many if we must!
         nc_color col = c_dkgray;
-        if (int(m.turn) >= curmes) {
+        if (int(m.turn) >= player_messages.curmes) {
             col = c_ltred;
-        } else if (int(m.turn) + 5 >= curmes) {
+        } else if (int(m.turn) + 5 >= player_messages.curmes) {
             col = c_ltgray;
         }
         std::vector<std::string> folded = foldstring(mstr, maxlength);
@@ -94,5 +111,5 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
             }
         }
     }
-    curmes = int(calendar::turn);
+    player_messages.curmes = int(calendar::turn);
 };

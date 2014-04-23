@@ -62,7 +62,7 @@ void mission_start::place_dog(mission *miss)
   return;
  }
  g->u.i_add( item(itypes["dog_whistle"], 0) );
- Messages::player_messages.add_msg(_("%s gave you a dog whistle."), dev->name.c_str());
+ Messages::add_msg(_("%s gave you a dog whistle."), dev->name.c_str());
 
  miss->target = house;
  overmap_buffer.reveal(house, 6, g->levz);
@@ -156,7 +156,7 @@ void mission_start::place_npc_software(mission *miss)
   return;
  }
  g->u.i_add( item(itypes["usb_drive"], 0) );
- Messages::player_messages.add_msg(_("%s gave you a USB drive."), dev->name.c_str());
+ Messages::add_msg(_("%s gave you a USB drive."), dev->name.c_str());
 
  std::string type = "house";
 
@@ -348,7 +348,7 @@ void mission_start::reveal_lab_black_box(mission *miss)
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
   g->u.i_add( item(itypes["black_box"], 0) );
-  Messages::player_messages.add_msg(_("%s gave you back the black box."), dev->name.c_str());
+  Messages::add_msg(_("%s gave you back the black box."), dev->name.c_str());
  }
     target_om_ter("lab", 3, miss, false);
 }
@@ -359,7 +359,7 @@ void mission_start::open_sarcophagus(mission *miss)
  p->attitude = NPCATT_FOLLOW;
  if (p != NULL) {
   g->u.i_add( item(itypes["sarcophagus_access_code"], 0) );
-  Messages::player_messages.add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
+  Messages::add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
  }
     target_om_ter("haz_sar", 3, miss, false);
 }
@@ -369,7 +369,7 @@ void mission_start::reveal_hospital(mission *miss)
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
   g->u.i_add( item(itypes["vacutainer"], 0) );
-  Messages::player_messages.add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
+  Messages::add_msg(_("%s gave you a vacutainer."), dev->name.c_str());
  }
     target_om_ter("hospital", 3, miss, false);
 }

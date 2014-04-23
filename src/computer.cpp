@@ -476,14 +476,14 @@ void computer::activate_function(computer_action action)
         // Target Acquisition.
         point target = overmap::draw_overmap(0);
         if (target == overmap::invalid_point) {
-            Messages::player_messages.add_msg(_("Target acquisition canceled"));
+            Messages::add_msg(_("Target acquisition canceled"));
             return;
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {
-            Messages::player_messages.add_msg(_("Nuclear missile launched!"));
+            Messages::add_msg(_("Nuclear missile launched!"));
             options.clear();//Remove the option to fire another missle.
         } else {
-            Messages::player_messages.add_msg(_("Nuclear missile launch aborted."));
+            Messages::add_msg(_("Nuclear missile launch aborted."));
             return;
         }
         g->refresh_all();
@@ -532,11 +532,11 @@ void computer::activate_function(computer_action action)
         if(query_yn(_("Disarm missile."))) {
             g->u.add_memorial_log(pgettext("memorial_male", "Disarmed a nuclear missile."),
                                   pgettext("memorial_female", "Disarmed a nuclear missile."));
-            Messages::player_messages.add_msg(_("Nuclear missile disarmed!"));
+            Messages::add_msg(_("Nuclear missile disarmed!"));
             options.clear();//disable missile.
             activate_failure(COMPFAIL_SHUTDOWN);
         } else {
-            Messages::player_messages.add_msg(_("Nuclear missile remains active."));
+            Messages::add_msg(_("Nuclear missile remains active."));
             return;
         }
         break;
@@ -1014,7 +1014,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     case COMPACT_SRCF_SEAL:
         g->u.add_memorial_log(pgettext("memorial_male", "Sealed a Hazardous Material Sarcophagus."),
                               pgettext("memorial_female", "Sealed a Hazardous Material Sarcophagus."));
-        Messages::player_messages.add_msg(_("Evacuate Immediately!"));
+        Messages::add_msg(_("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
@@ -1078,7 +1078,7 @@ void computer::activate_failure(computer_failure fail)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.has_flag("CONSOLE", x, y)) {
                     g->m.ter_set(x, y, t_console_broken);
-                    Messages::player_messages.add_msg(_("The console shuts down."));
+                    Messages::add_msg(_("The console shuts down."));
                 }
             }
         }
@@ -1103,7 +1103,7 @@ void computer::activate_failure(computer_failure fail)
                 tries++;
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
-                Messages::player_messages.add_msg(_("Manhacks drop from compartments in the ceiling."));
+                Messages::add_msg(_("Manhacks drop from compartments in the ceiling."));
                 monster robot(GetMType("mon_manhack"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
@@ -1122,7 +1122,7 @@ void computer::activate_failure(computer_failure fail)
                 tries++;
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
-                Messages::player_messages.add_msg(_("Secubots emerge from compartments in the floor."));
+                Messages::add_msg(_("Secubots emerge from compartments in the floor."));
                 monster robot(GetMType("mon_secubot"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
@@ -1132,18 +1132,18 @@ void computer::activate_failure(computer_failure fail)
     break;
 
     case COMPFAIL_DAMAGE:
-        Messages::player_messages.add_msg(_("The console electrocutes you!"));
+        Messages::add_msg(_("The console electrocutes you!"));
         if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
-            Messages::player_messages.add_msg(_("The electricity flows around you."));
+            Messages::add_msg(_("The electricity flows around you."));
       } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
-            Messages::player_messages.add_msg(_("Your armor safely grounds the electrical discharge."));
+            Messages::add_msg(_("Your armor safely grounds the electrical discharge."));
         }   else {
         g->u.hurtall(rng(1, 10));
            }
         break;
 
     case COMPFAIL_PUMP_EXPLODE:
-        Messages::player_messages.add_msg(_("The pump explodes!"));
+        Messages::add_msg(_("The pump explodes!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
@@ -1155,7 +1155,7 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_PUMP_LEAK:
-        Messages::player_messages.add_msg(_("Sewage leaks!"));
+        Messages::add_msg(_("Sewage leaks!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {

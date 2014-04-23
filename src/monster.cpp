@@ -798,13 +798,13 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         // TODO: characters practice dodge when a hit misses 'em
         if (target.is_player()) {
             if (u_see_me) {
-                Messages::player_messages.add_msg(_("You dodge %1$s."), disp_name().c_str());
+                Messages::add_msg(_("You dodge %1$s."), disp_name().c_str());
             } else {
-                Messages::player_messages.add_msg(_("You dodge an attack from an unseen source."));
+                Messages::add_msg(_("You dodge an attack from an unseen source."));
             }
         } else {
             if (u_see_me) {
-                Messages::player_messages.add_msg(_("The %1$s dodges %2$s attack."), name().c_str(),
+                Messages::add_msg(_("The %1$s dodges %2$s attack."), name().c_str(),
                             target.disp_name(true).c_str());
             }
         }
@@ -812,15 +812,15 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
         if (target.is_player()) {
             if (u_see_me) {
-                Messages::player_messages.add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                Messages::add_msg(_("The %1$s hits your %2$s."), name().c_str(),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str());
             } else {
-                Messages::player_messages.add_msg(_("Something hits your %s."),
+                Messages::add_msg(_("Something hits your %s."),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str());
             }
         } else {
             if (u_see_me) {
-                Messages::player_messages.add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
+                Messages::add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
                             target.disp_name(true).c_str(),
                             body_part_name(bp_hit, random_side(bp_hit)).c_str());
             }
@@ -828,15 +828,15 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     } else {
         if (target.is_player()) {
             if (u_see_me) {
-                Messages::player_messages.add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
+                Messages::add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
             } else {
-                Messages::player_messages.add_msg(_("Something hits your %1$s, but your %2$s protects you."),
+                Messages::add_msg(_("Something hits your %1$s, but your %2$s protects you."),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
             }
         } else {
             if (u_see_me) {
-                Messages::player_messages.add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
+                Messages::add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
                             target.disp_name(true).c_str(),
                             body_part_name(bp_hit, random_side(bp_hit)).c_str(),
                             target.skin_name().c_str());
@@ -894,11 +894,11 @@ void monster::hit_monster(int i)
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
   if (g->u_see(this))
-   Messages::player_messages.add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
+   Messages::add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
   return;
  }
  if (g->u_see(this))
-  Messages::player_messages.add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
+  Messages::add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));
@@ -920,7 +920,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
             !proj.wide) {
         if (u_see_mon)
-            Messages::player_messages.add_msg(_("The shot passes through %s without hitting."),
+            Messages::add_msg(_("The shot passes through %s without hitting."),
             disp_name().c_str());
         return 0;
     }
