@@ -1118,7 +1118,7 @@ void advanced_inventory::display(player *pp)
                 }
 
                 if( showmsg ) {
-                    Messages::display_messages(head, 2, 1, w_width-1, 4);
+                    Messages::display_messages(head, 2, 1, w_width - 1, 4);
                 }
                 if ( ! showmsg ) {
                     mvwprintz(head, 0, w_width - utf8_width(_("< [?] show log >")) - 1,

@@ -4,15 +4,23 @@
 // Messages object.
 static Messages player_messages;
 
-std::vector<Messages::game_message> Messages::recent_messages(const int count)
+std::vector< std::pair<std::string, std::string> > Messages::recent_messages(const size_t count)
 {
-    int tmp_count = count;
-    if (tmp_count > player_messages.messages.size()) {
-        tmp_count = player_messages.messages.size();
+    const int tmp_count = std::min( size(), count );
+
+    std::vector< std::pair<std::string, std::string> > recent_messages;
+    for( size_t i = size() - tmp_count; i < size(); ++i ) {
+        std::stringstream message_with_count;
+        message_with_count << player_messages.messages[i].message;
+        if( player_messages.messages[i].count > 1 ) {
+            message_with_count << " x" << player_messages.messages[i].count;
+        }
+
+        recent_messages.push_back( std::make_pair( player_messages.messages[i].turn.print_time(),
+                                                   message_with_count.str() ) );
     }
-    return std::vector<game_message>(player_messages.messages.end() - tmp_count,
-                                     player_messages.messages.end());
-}; // AO:only used once, should be generalized and game_message become private
+    return recent_messages;
+}
 
 void Messages::add_msg_string(const std::string &s)
 {
@@ -27,7 +35,7 @@ void Messages::add_msg_string(const std::string &s)
         return;
     }
 
-    while (player_messages.messages.size() >= 256) {
+    while( size() >= 256 ) {
         player_messages.messages.erase(player_messages.messages.begin());
     }
 
@@ -63,24 +71,18 @@ bool Messages::has_undisplayed_messages()
 }
 
 void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right, int bottom,
-                                int offset, bool display_turns)
+                                size_t offset, bool display_turns)
 {
-
     //from  game
-    if (!player_messages.messages.size()) {
+    if( !size() ) {
         return;
     }
     int line = bottom;
     int maxlength = right - left;
-    if (offset < 0) {
-        offset = 0;
-    }
-    if (offset >= player_messages.messages.size()) {
-        offset = player_messages.messages.size();
-    }
+    offset = std::min( offset, size() );
 
     int lasttime = -1;
-    for (int i = player_messages.messages.size() - offset - 1; i >= 0 && line >= top; i--) {
+    for (int i = size() - offset - 1; i >= 0 && line >= top; i--) {
         game_message &m = player_messages.messages[i];
         std::string mstr = m.message;
         if (m.count > 1) {

@@ -1650,13 +1650,9 @@ void player::memorial( std::ofstream &memorial_file )
 
     //Last 20 messages
     memorial_file << _("Final Messages:") << "\n";
-    std::vector<Messages::game_message> recent_messages = Messages::recent_messages(20);
+    std::vector<std::pair<std::string, std::string> > recent_messages = Messages::recent_messages(20);
     for( size_t i = 0; i < recent_messages.size(); ++i ) {
-      memorial_file << indent << recent_messages[i].turn.print_time() << " " <<
-              recent_messages[i].message;
-      if(recent_messages[i].count > 1) {
-        memorial_file << " x" << recent_messages[i].count;
-      }
+      memorial_file << indent << recent_messages[i].first << " " << recent_messages[i].second;
       memorial_file << "\n";
     }
     memorial_file << "\n";
