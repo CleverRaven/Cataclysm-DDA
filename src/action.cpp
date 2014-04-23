@@ -407,7 +407,7 @@ bool can_butcher_at(int x, int y)
     inventory crafting_inv = g->crafting_inventory(&g->u);
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            if (factor != 999) {
+            if (factor != INT_MAX) {
                 has_corpse = true;
             }
         }

@@ -169,6 +169,28 @@
     },
     {
         "type" : "keybinding",
+        "id": "PAGE_UP",
+        "name": "Page up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PAGE_DOWN",
+        "name": "Page down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "ADD_RULE",
         "category": "AUTO_PICKUP",
         "name": "Add rule",
@@ -537,7 +559,7 @@
         "type" : "keybinding",
         "id": "QUIT",
         "category": "WORLDGEN_CONFIRM_DIALOG",
-        "name": "Exit screen",
+        "name": "Exit worldgen screen",
         "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
         "bindings":[
             {
@@ -596,35 +618,7 @@
     {
         "type" : "keybinding",
         "id":"QUIT",
-        "category":"OVERMAP",
-        "name":"Exit Screen",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"ESC"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"q"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"Q"
-            },
-            {
-                "input_method":"keyboard",
-                "key":" "
-            },
-            {
-                "input_method":"gamepad",
-                "key":"JOY_3"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"QUIT",
-        "name":"Exit Screen",
+        "name":"Exit screen",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -727,23 +721,11 @@
     {
         "type" : "keybinding",
         "id":"SEC_SELECT",
-        "name":"Select",
+        "name":"Secondary Select",
         "bindings":[
             {
                 "input_method":"mouse",
                 "key":"MOUSE_RIGHT"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"SELECT",
-        "name":"Select",
-        "category":"LOOK",
-        "bindings":[
-            {
-                "input_method":"mouse",
-                "key":"MOUSE_LEFT"
             }
         ]
     },
@@ -899,6 +881,15 @@
     },
     {
         "type" : "keybinding",
+        "id": "RENAME",
+        "category": "VEH_INTERACT",
+        "name": "Rename vehicle",
+        "bindings":[
+            { "input_method":"keyboard", "key":"e" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SIPHON",
         "category": "VEH_INTERACT",
         "name": "Siphon from tank",
@@ -922,6 +913,18 @@
         "name": "Drain from tank",
         "bindings":[
             { "input_method":"keyboard", "key":"d" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "TOGGLE_UNAVAILABLE_CONSTRUCTIONS",
+        "category": "CONSTRUCTION",
+        "name": "Toggle unavailable constructions",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":";"
+            }
         ]
     },
     {
@@ -1137,6 +1140,66 @@
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
     {
         "type" : "keybinding",
+        "id":"COMPARE",
+        "category":"LIST_ITEMS",
+        "name":"Compare",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"I"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"EXAMINE",
+        "category":"LIST_ITEMS",
+        "name":"Examine",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PRIORITY_INCREASE",
+        "category":"LIST_ITEMS",
+        "name":"Increase priority",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PRIORITY_DECREASE",
+        "category":"LIST_ITEMS",
+        "name":"Decrease priority",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"REASSIGN",
         "category":"BIONICS",
         "name":"reassign invlet",
@@ -1196,6 +1259,66 @@
             {
                 "input_method":"gamepad",
                 "key":"JOY_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SCROLL_UP",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Scroll up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SCROLL_DOWN",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Scroll down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"REMOVE",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Remove bindings",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"ADD_LOCAL",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Add local keybinding",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"ADD_GLOBAL",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Add global keybinding",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"="
             }
         ]
     }
