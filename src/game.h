@@ -735,6 +735,11 @@ public:
     void activity_on_finish_firstaid();
     void activity_on_finish_fish();
     void activity_on_finish_vehicle();
+
+  // game::pickup helper functions
+  int handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement, bool &picked_up);
+  void remove_from_map_or_vehicle(int posx, int posy, bool from_veh, vehicle *veh, int cargo_part, int &moves_taken, int curmit);
+  void show_pickup_message(std::map<std::string, int> mapPickup);
 };
 
 #endif

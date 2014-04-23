@@ -35,6 +35,8 @@
 #  make LUA=1
 # Use user's home directory for save files.
 #  make USE_HOME_DIR=1
+# Use dynamic linking (requires system libraries).
+#  make DYNAMIC_LINKING=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -100,7 +102,12 @@ RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
-  OTHERS += -O3 $(RELEASE_FLAGS)
+  OTHERS += -O3
+  # Architecture dependent optimizations, probably not huh?
+  # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
+  # Strip symbols, generates smaller executable.
+  OTHERS += -s
+  OTHERS += $(RELEASE_FLAGS)
   DEBUG =
 endif
 
@@ -156,9 +163,17 @@ ifeq ($(NATIVE), osx)
   endif
 endif
 
-# Win32 (mingw32?)
+# Win32 (MinGW32 or MinGW-w64(32bit)?)
 ifeq ($(NATIVE), win32)
+# Any reason not to use -m32 on MinGW32?
   TARGETSYSTEM=WINDOWS
+else
+  # Win64 (MinGW-w64? 64bit isn't currently working.)
+  ifeq ($(NATIVE), win64)
+    CXXFLAGS += -m64
+    LDFLAGS += -m64
+    TARGETSYSTEM=WINDOWS
+  endif
 endif
 
 # MXE cross-compile to win32
@@ -174,12 +189,20 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static
+  ifdef DYNAMIC_LINKING
+    # Windows isn't sold with programming support, these are static to remove MinGW dependency.
+    LDFLAGS += -static-libgcc -static-libstdc++
+  else
+    LDFLAGS += -static
+  endif
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl -liconv
   endif
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
   RFLAGS = -J rc -O coff
+  ifeq ($(NATIVE), win64)
+    RFLAGS += -F pe-x86-64
+  endif
 endif
 
 ifdef SOUND
@@ -239,7 +262,7 @@ ifdef SDL
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       ifdef TILES
-	LDFLAGS += -lSDL2_image
+        LDFLAGS += -lSDL2_image
       endif
     endif
   else # not osx
@@ -253,7 +276,14 @@ ifdef SDL
   endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    ifndef DYNAMIC_LINKING
+      # These differ depending on what SDL2 is configured to use.
+      LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+    else
+      # Currently none needed by the game itself (only used by SDL2 layer).
+      # Placeholder for future use (savegame compression, etc).
+      LDFLAGS +=
+    endif
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else

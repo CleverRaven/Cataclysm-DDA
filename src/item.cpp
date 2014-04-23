@@ -3121,6 +3121,78 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     return count;
 }
 
+bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used)
+{
+    // First, check contents
+    bool used_item_contents = false;
+    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+        if (a->use_amount(it, quantity, use_container, used)) {
+            a = contents.erase(a);
+            used_item_contents = true;
+        } else {
+            ++a;
+        }
+    }
+    // Now check the item itself
+    if (use_container && used_item_contents) {
+        return true;
+    } else if (type->id == it && quantity > 0 && contents.empty()) {
+        used.push_back(*this);
+        quantity--;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+long item::charges_of(const itype_id &it) const
+{
+    long count = 0;
+    if (type->id == it && contents.empty()) {
+        // If we're specifically looking for a container, only say we have it if it's empty.
+        if (charges < 0) {
+            count++;
+        } else {
+            count += charges;
+        }
+    } else {
+        for (std::vector<item>::const_iterator a = contents.begin(); a != contents.end(); ++a) {
+            count += a->charges_of(it);
+        }
+    }
+    return count;
+}
+
+bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
+{
+    // First, check contents
+    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+        if (a->use_charges(it, quantity, used)) {
+            a = contents.erase(a);
+        } else {
+            ++a;
+        }
+    }
+    // Now check the item itself
+    if (type->id != it || quantity <= 0 || !contents.empty()) {
+        return false;
+    }
+    if (charges <= quantity) {
+        used.push_back(*this);
+        if (charges < 0) {
+            quantity--;
+        } else {
+            quantity -= charges;
+        }
+        charges = 0;
+        return destroyed_at_zero_charges();
+    }
+    used.push_back(*this);
+    used.back().charges = quantity;
+    charges -= quantity;
+    return false;
+}
+
 const item_category &item::get_category() const
 {
     if(is_container() && !contents.empty()) {
@@ -3176,4 +3248,179 @@ void item::detonate(point p) const
         return;
     }
     g->explosion(p.x, p.y, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+}
+
+
+//sort quivers by contents, such that empty quivers go last
+struct sort_by_charges {
+    bool operator()(const std::pair<item*,int> &left, const std::pair<item*,int> &right) {
+        if(left.first->contents.empty()) {
+            return false;
+        } else if (right.first->contents.empty()){
+            return true;
+        } else {
+            return right.first->contents[0].charges < left.first->contents[0].charges;
+        }
+    }
+};
+
+//return value is number of arrows/bolts quivered
+//isAutoPickup is used to determine text output behavior
+int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
+{
+    std::vector<std::pair<item*, int> > quivers;
+    for(std::vector<item>::iterator it = u->worn.begin(); it != u->worn.end(); it++) {
+        item& worn = *it;
+
+        //item is valid quiver to store items in if it satisfies these conditions:
+        // a) is a quiver  b) contents are ammo w/ charges  c) quiver isn't full
+        if(worn.type->use == &iuse::quiver) {
+            int maxCharges = worn.max_charges_from_flag("QUIVER");
+            if (worn.contents.empty() || (worn.contents[0].is_ammo() && worn.contents[0].charges > 0)) {
+                quivers.push_back(std::make_pair(&worn, maxCharges));
+            }
+        }
+    }
+
+    // check if we have eligible quivers
+    if(!quivers.empty()) {
+        int movesPerArrow = 10;
+        int arrowsQuivered = 0;
+
+        //sort quivers by contents, such that empty quivers go last
+        std::sort(quivers.begin(), quivers.end(), sort_by_charges());
+
+        //loop over all eligible quivers
+        for(std::vector<std::pair<item*, int> >::iterator it = quivers.begin(); it != quivers.end(); it++) {
+            //only proceed if we still have item charges
+            if(charges > 0) {
+                item *worn = it->first;
+                int maxArrows = it->second;
+                int arrowsStored = 0;
+                int toomany = 0;
+                std::vector<std::pair<item*, int> >::iterator final_iter = quivers.end();
+                --final_iter;
+
+                if(maxArrows == 0) {
+                    debugmsg("Tried storing arrows in quiver without a QUIVER_n tag (item::add_ammo_to_quiver)");
+                    return 0;
+                }
+
+                // quiver not empty so adding more ammo
+                if(!(worn->contents.empty()) && worn->contents[0].charges > 0) {
+                    if(worn->contents[0].type->id != type->id) {
+                        if(!isAutoPickup) {
+                            g->add_msg_if_player(u, _("Those aren't the same arrows!"));
+                        }
+
+                        //only return false if this is last quiver in the loop
+                        if (it != final_iter) {
+                            continue;
+                        } else {
+                            return 0;
+                        }
+                    }
+                    if(worn->contents[0].charges >= maxArrows) {
+                        if(!isAutoPickup) {
+                            g->add_msg_if_player(u, _("That %s is already full!"), worn->name.c_str());
+                        }
+
+                        //only return false if this is last quiver in the loop
+                        if (it != final_iter) {
+                            continue;
+                        } else {
+                            return 0;
+                        }
+                    }
+
+                    arrowsStored = worn->contents[0].charges;
+                    worn->contents[0].charges += charges;
+                } else { // quiver empty, putting in new arrows
+                    //add a clone so we can zero out charges on base item
+                    item clone = this->clone();
+                    clone.charges = charges;
+                    worn->put_in(clone);
+                }
+
+                //get rid of charges from base item, since the ammo is now quivered
+                charges = 0;
+
+                // check for any extra ammo
+                if(worn->contents[0].charges > maxArrows) {
+                    //set quiver's charges to max
+                    toomany = worn->contents[0].charges - maxArrows;
+                    worn->contents[0].charges -= toomany;
+
+                    //add any extra ammo back into base item charges
+                    charges += toomany;
+                }
+
+                arrowsStored = worn->contents[0].charges - arrowsStored;
+                g->add_msg_if_player(u, ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
+                                     arrowsStored, worn->contents[0].name.c_str(), worn->name.c_str());
+                u->moves -= std::min(100, movesPerArrow * arrowsStored);
+                arrowsQuivered += arrowsStored;
+            }
+        }
+
+        // handle overflow after filling all quivers
+        if(isAutoPickup && charges > 0 && u->can_pickVolume(volume())) {
+            //add any extra ammo to inventory
+            item clone = this->clone();
+            clone.charges = charges;
+            u->i_add(clone);
+
+            g->add_msg_if_player(u, ngettext("You pick up: %d %s", "You pick up: %d %ss", charges),
+                             charges, clone.name.c_str());
+            u->moves -= 100;
+
+            charges = 0;
+        }
+        return arrowsQuivered;
+    }
+    return 0;
+}
+
+//used to implement charges for items that aren't tools (e.g. quivers)
+//flagName arg is the flag's name before the underscore and integer on the end
+//e.g. for "QUIVER_20" flag, flagName = "QUIVER"
+int item::max_charges_from_flag(std::string flagName)
+{
+    item* it = this;
+    int maxCharges = 0;
+
+    //loop through item's flags, looking for flag that matches flagName
+    for(std::set<std::string>::iterator iter = it->type->item_tags.begin(); iter != it->type->item_tags.end(); iter++) {
+        std::string flag = *iter;
+        if(flag.substr(0, flagName.size()) == flagName ) {
+            //get the substring of the flag starting w/ digit after underscore
+            std::stringstream ss(flag.substr(flagName.size() + 1, flag.size()));
+
+            //attempt to store that stringstream into maxCharges and error if there's a problem
+            if(!(ss >> maxCharges)) {
+                debugmsg("Error parsing %s_n tag (item::max_charges_from_flag)"), flagName.c_str();
+                maxCharges = -1;
+            }
+            break;
+        }
+    }
+
+    return maxCharges;
+}
+
+int item::butcher_factor() const
+{
+    int butcher_factor = INT_MAX;
+    if (has_quality("CUT") && !has_flag("SPEAR")) {
+        int butcher_factor = volume() * 5 - weight() / 75 - damage_cut();
+        if (damage_cut() <= 20) {
+            butcher_factor *= 2;
+        }
+        return butcher_factor;
+    } else {
+        for(std::vector<item>::const_iterator a = contents.begin(); a != contents.end(); ++a) {
+            butcher_factor = std::min(butcher_factor, a->butcher_factor());
+        }
+    }
+    return butcher_factor;
 }

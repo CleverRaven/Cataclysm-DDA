@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "char_validity_check.h"
 #include "path_info.h"
+#include "mapsharing.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -72,7 +73,12 @@ bool player::create(character_type type, std::string tempname)
         switch (type) {
             case PLTYPE_NOW:
                 g->u.male = (rng(1, 100) > 50);
-                g->u.pick_name();
+
+                if(!MAP_SHARING::isSharing()) {
+                    g->u.pick_name();
+                } else {
+                    g->u.name = MAP_SHARING::getUsername();
+                }
             case PLTYPE_RANDOM: {
                 g->u.prof = profession::weighted_random();
                 str_max = rng(6, 12);
@@ -211,6 +217,10 @@ bool player::create(character_type type, std::string tempname)
                 getline(fin, data);
                 load_info(data);
                 points = 0;
+
+                if(MAP_SHARING::isSharing()) {
+                    name = MAP_SHARING::getUsername(); //just to make sure we have the right name
+                }
             }
             break;
         }
@@ -1368,7 +1378,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         }
     }
     select_location.setup();
-
+    if(MAP_SHARING::isSharing()) {
+        u->name = MAP_SHARING::getUsername();  // set the current username as default character name
+    }
     do {
         if (redraw) {
             //Draw the line between editable and non-editable stuff.
@@ -1475,8 +1487,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
-        mvwprintz(w_name, 1, 0, c_ltgray, _("Press %s to pick a random name."),
+
+        if(!MAP_SHARING::isSharing()) { // no random names when sharing maps
+            mvwprintz(w_name, 1, 0, c_ltgray, _("Press %s to pick a random name."),
                       ctxt.get_desc("PICK_RANDOM_NAME").c_str());
+        }
         wrefresh(w_name);
 
         mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
@@ -1553,7 +1568,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             return -1;
         } else if (action == "SAVE_TEMPLATE") {
             if (points > 0) {
-                if(query_yn(_("You are attempting to save a template with unused points. " 
+                if(query_yn(_("You are attempting to save a template with unused points. "
                               "Any unspent points will be lost, are you sure you want to proceed?"))) {
                     save_template(u);
                 }
@@ -1564,7 +1579,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
             redraw = true;
         } else if (action == "PICK_RANDOM_NAME") {
-            u->pick_name();
+            if(!MAP_SHARING::isSharing()){ // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
+                u->pick_name();
+            }
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
         } else if ( action == "CHOOSE_LOCATION" ){
@@ -1580,7 +1597,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             werase(select_location.window);
             select_location.refresh();
             redraw = true;
-        } else if (action == "ANY_INPUT") {
+        } else if (action == "ANY_INPUT" && !MAP_SHARING::isSharing()) {  // Don't edit names when sharing maps
             const long ch = ctxt.get_raw_input().get_first_input();
             if ((ch == KEY_BACKSPACE || ch == 127) && !u->name.empty()) {
                 //erase utf8 character TODO: make a function
@@ -1599,7 +1616,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 }
             }
             //experimental unicode input
-            else if(ch > 127) {
+            else if(ch > 127 && !MAP_SHARING::isSharing()) { //Don't edit name when sharing
                 std::string tmp = utf32_to_utf8(ch);
                 int tmplen = utf8_width(tmp.c_str());
                 if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {

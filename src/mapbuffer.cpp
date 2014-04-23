@@ -8,6 +8,7 @@
 #include "game.h"
 #include <fstream>
 #include <sstream>
+#include "mapsharing.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -150,13 +151,19 @@ void mapbuffer::save( bool delete_after_save )
 
         save_quad( quad_path.str(), om_addr, delete_after_save );
         num_saved_submaps += 4;
+
     }
 }
 
 void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
                            bool delete_after_save )
 {
-    std::ofstream fout( filename.c_str() );
+    std::ofstream fout;
+    fopen_exclusive(fout, filename.c_str());
+    if(!fout.is_open()) {
+        return;
+    }
+
     std::vector<point> offsets;
     offsets.push_back( point(0, 0) );
     offsets.push_back( point(0, 1) );
@@ -357,7 +364,7 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         jsout.end_object();
     }
     jsout.end_array();
-    fout.close();
+    fclose_exclusive(fout, filename.c_str());
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and
@@ -463,6 +470,9 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                         int type = jsin.get_int();
                         int density = jsin.get_int();
                         int age = jsin.get_int();
+                        if (sm->fld[i][j].findField(field_id(type)) == NULL) {
+                            sm->field_count++;
+                        }
                         sm->fld[i][j].addField(field_id(type), density, age);
                     }
                 }

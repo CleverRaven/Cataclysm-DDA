@@ -32,13 +32,14 @@
 #include "file_finder.h"
 #include "mod_manager.h"
 #include "path_info.h"
+#include "mapsharing.h"
 #include <map>
 #include <set>
 #include <algorithm>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <math.h>
+#include <cmath>
 #include <vector>
 
 #ifdef _MSC_VER
@@ -60,10 +61,6 @@
 #endif
 #include <windows.h>
 #include <tchar.h>
-#endif
-
-#if !defined(_MSC_VER) || !defined(__MINGW32__) || defined(__MINGW64_VERSION_MAJOR)
-namespace std { float abs(float a) { return a < 0 ? -a : a; } }
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -125,7 +122,6 @@ void game::load_static_data() {
     init_body_parts();
     init_ter_bitflags_map();
     init_vpart_bitflag_map();
-    init_translation();
     init_colormap();
     init_mapgen_builtin_functions();
     init_fields();
@@ -780,7 +776,7 @@ void game::calc_driving_offset(vehicle *veh) {
     static const int border_range = 2;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
-    if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
+    if (!veh->skidding && std::fabs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
         veh->player_in_control(&u)) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actuall velocity.
@@ -790,9 +786,9 @@ void game::calc_driving_offset(vehicle *veh) {
         velocity = veh->cruise_velocity;
     }
     float rel_offset;
-    if(std::abs(velocity) < min_offset_vel) {
+    if(std::fabs(velocity) < min_offset_vel) {
         rel_offset = 0;
-    } else if(std::abs(velocity) > max_offset_vel) {
+    } else if(std::fabs(velocity) > max_offset_vel) {
         rel_offset = (velocity > 0) ? 1 : -1;
     } else {
         rel_offset = (velocity - min_offset_vel) / (max_offset_vel - min_offset_vel);
@@ -800,11 +796,11 @@ void game::calc_driving_offset(vehicle *veh) {
     // Squeeze into the corners, by making the offset vector longer,
     // the PC is still in view as long as both offset.x and
     // offset.y are <= 1
-    if(std::abs(offset.x) > std::abs(offset.y) && std::abs(offset.x) > 0.2) {
-        offset.y /= std::abs(offset.x);
+    if(std::fabs(offset.x) > std::fabs(offset.y) && std::fabs(offset.x) > 0.2) {
+        offset.y /= std::fabs(offset.x);
         offset.x  = (offset.x > 0) ? +1 : -1;
-    } else if(std::abs(offset.y) > 0.2) {
-        offset.x /= std::abs(offset.y);
+    } else if(std::fabs(offset.y) > 0.2) {
+        offset.x /= std::fabs(offset.y);
         offset.y  = offset.y > 0 ? +1 : -1;
     }
     point max_offset((getmaxx(w_terrain) + 1) / 2 - border_range - 1,
@@ -3208,6 +3204,8 @@ bool game::handle_action()
    break;
 
   case ACTION_DEBUG:
+   if(MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger())
+       break; //don't do anything when sharing and not debugger
    debug();
    refresh_all();
    break;
@@ -3221,10 +3219,14 @@ bool game::handle_action()
    break;
 
   case ACTION_DISPLAY_SCENT:
+   if(MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger())
+       break; //don't do anything when sharing and not debugger
    display_scent();
    break;
 
   case ACTION_TOGGLE_DEBUGMON:
+   if(MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger())
+       break; //don't do anything when sharing and not debugger
    debugmon = !debugmon;
    if (debugmon) {
     add_msg(_("Debug messages ON!"));
@@ -3640,9 +3642,13 @@ bool game::save_factions_missions_npcs ()
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
 
-    fout.open(masterfile.c_str());
+    fopen_exclusive(fout, masterfile.c_str());
+    if(!fout.is_open()) {
+        return true; //trick code into thinking that everything went okay
+    }
+
     serialize_master(fout);
-    fout.close();
+    fclose_exclusive(fout, masterfile.c_str());
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save factions to %s"), masterfile.c_str());
@@ -3656,7 +3662,12 @@ bool game::save_artifacts()
     try {
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
-    fout.open(artfilename.c_str(), std::ofstream::trunc);
+
+    fopen_exclusive(fout, artfilename.c_str(), std::ofstream::trunc);
+    if(!fout.is_open()) {
+        return true; // trick game into thinking it was saved
+    }
+
     JsonOut json(fout);
     json.start_array();
     for ( std::vector<std::string>::iterator it =
@@ -3671,7 +3682,8 @@ bool game::save_artifacts()
     }
     }
     json.end_array();
-    fout.close();
+    fclose_exclusive(fout, artfilename.c_str());
+
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save artifacts to %s"), artfilename.c_str());
@@ -3697,9 +3709,14 @@ bool game::save_uistate() {
     try {
     std::ofstream fout;
     fout.exceptions(std::ios::badbit | std::ios::failbit);
-    fout.open(savefile.c_str());
+
+    fopen_exclusive(fout, savefile.c_str());
+    if(!fout.is_open()) {
+        return true; //trick game into thinking it was saved
+    }
+
     fout << uistate.serialize();
-    fout.close();
+    fclose_exclusive(fout, savefile.c_str());
         return true;
     } catch(std::ios::failure &) {
         popup(_("Failed to save uistate to %s"), savefile.c_str());
@@ -5278,7 +5295,7 @@ void game::draw_minimap()
         if (cursx != targ.x) {
             slope = double(targ.y - cursy) / double(targ.x - cursx);
         }
-        if (cursx == targ.x || abs(slope) > 3.5 ) { // Vertical slope
+        if (cursx == targ.x || fabs(slope) > 3.5 ) { // Vertical slope
             if (targ.y > cursy) {
                 mvwputch(w_minimap, 6, 3, c_red, '*');
             } else {
@@ -5286,7 +5303,7 @@ void game::draw_minimap()
             }
         } else {
             int arrowx = 3, arrowy = 3;
-            if (abs(slope) >= 1.) { // y diff is bigger!
+            if (fabs(slope) >= 1.) { // y diff is bigger!
                 arrowy = (targ.y > cursy ? 6 : 0);
                 arrowx = int(3 + 3 * (targ.y > cursy ? slope : (0 - slope)));
                 if (arrowx < 0) {
@@ -8756,31 +8773,46 @@ int game::list_items(const int iLastState)
     int iActiveY = 0;
     int iLastActiveX = -1;
     int iLastActiveY = -1;
-    InputEvent input = Undefined;
-    long ch = 0; //this is a long because getch returns a long
     bool reset = true;
     bool refilter = true;
     int iFilter = 0;
     int iPage = 0;
 
+    std::string action;
+    input_context ctxt("LIST_ITEMS");
+    ctxt.register_action("UP", _("Move cursor up"));
+    ctxt.register_action("DOWN", _("Move cursor down"));
+    ctxt.register_action("LEFT", _("Previous item"));
+    ctxt.register_action("RIGHT", _("Next item"));
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("FILTER");
+    ctxt.register_action("RESET_FILTER");
+    ctxt.register_action("EXAMINE");
+    ctxt.register_action("COMPARE");
+    ctxt.register_action("PRIORITY_INCREASE");
+    ctxt.register_action("PRIORITY_DECREASE");
+
     do {
         if (!ground_items.empty() || iLastState == 1) {
-            if (ch == 'I' || ch == 'c' || ch == 'C') {
+            if (action == "COMPARE") {
                 compare(iActiveX, iActiveY);
                 reset = true;
                 refresh_all();
-            } else if (ch == 'f' || ch == 'F') {
+            } else if (action == "FILTER") {
                 sFilter = ask_item_filter(w_item_info, iInfoHeight);
                 reset = true;
                 refilter = true;
-            } else if (ch == 'r' || ch == 'R') {
+            } else if (action == "RESET_FILTER") {
                 sFilter = "";
                 filtered_items = ground_items;
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;
                 refilter = true;
-            } else if ((ch == 'e' || ch == 'E') && filtered_items.size()) {
+            } else if (action == "EXAMINE" && filtered_items.size()) {
                 item oThisItem = filtered_items[iActive].example;
                 std::vector<iteminfo> vThisItem, vDummy;
 
@@ -8791,12 +8823,12 @@ int game::list_items(const int iLastState)
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;
-            } else if(ch == '+') {
+            } else if (action == "PRIORITY_INCREASE") {
                 std::string temp = ask_item_priority_high(w_item_info, iInfoHeight);
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
-            } else if(ch == '-') {
+            } else if (action == "PRIORITY_DECREASE") {
                 std::string temp = ask_item_priority_low(w_item_info, iInfoHeight);
                 list_item_downvote = temp;
                 refilter = true;
@@ -8819,37 +8851,29 @@ int game::list_items(const int iLastState)
                 reset = false;
             }
 
-            // we're switching on input here, whereas above it was if/else clauses on a char
-            switch(input) {
-                case DirectionN:
+            if (action == "UP") {
                     iActive--;
                     iPage = 0;
                     if (iActive < 0) {
                         iActive = iItemNum - iFilter - 1;
                     }
-                    break;
-                case DirectionS:
+            } else if (action == "DOWN") {
                     iActive++;
                     iPage = 0;
                     if (iActive >= iItemNum - iFilter) {
                         iActive = 0;
                     }
-                    break;
-                case DirectionE:
+            } else if (action == "RIGHT") {
                     iPage++;
                     if ( !filtered_items.empty() && iPage >= filtered_items[iActive].vIG.size()) {
                         iPage = filtered_items[iActive].vIG.size()-1;
                     }
-                    break;
-                case DirectionW:
+            } else if (action == "LEFT") {
                     iPage--;
                     if (iPage < 0) {
                         iPage = 0;
                     }
-                    break;
-                case Tab: //Switch to list_monsters();
-                case DirectionDown:
-                case DirectionUp:
+            } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                     u.view_offset_x = iStoreViewOffsetX;
                     u.view_offset_y = iStoreViewOffsetY;
 
@@ -8862,26 +8886,6 @@ int game::list_items(const int iLastState)
                     delwin(w_item_info);
                     delwin(w_item_info_border);
                     return 1;
-                    break;
-                default: {
-                    action_id act = action_from_key(ch);
-                    switch (act) {
-                        /* The following two don't work for some reason.
-                         * Even though the zoom level will be adjusted,
-                         * the map won't be redrawn until V mode is exited.
-
-                        case ACTION_ZOOM_IN:
-                            zoom_in();
-                            break;
-                        case ACTION_ZOOM_OUT:
-                            zoom_out();
-                            break;
-                        default:
-                            break;
-                        */
-                    }
-                }
-                break;
             }
 
             if (ground_items.empty() && iLastState == 1) {
@@ -8988,14 +8992,12 @@ int game::list_items(const int iLastState)
             wrefresh(w_item_info);
 
             refresh();
-            ch = getch();
-            input = get_input(ch);
+
+            action = ctxt.handle_input();
         } else {
             iReturn = 0;
-            ch = ' ';
-            input = Close;
         }
-    } while (input != Close && input != Cancel);
+    } while (action != "QUIT");
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
@@ -9061,8 +9063,6 @@ int game::list_monsters(const int iLastState)
     int iActiveY = 0;
     int iLastActiveX = -1;
     int iLastActiveY = -1;
-    InputEvent input = Undefined;
-    long ch = 0; //this is a long because getch returns a long
     int iMonDex = -1;
 
     for (int i = 1; i < TERMX; i++) {
@@ -9086,25 +9086,30 @@ int game::list_monsters(const int iLastState)
     mvwprintz(w_monsters_border, 0, 2, c_ltgreen, "<Tab> ");
     wprintz(w_monsters_border, c_white, _("Monsters"));
 
+    std::string action;
+    input_context ctxt("DEFAULTMODE");
+    ctxt.register_action("UP", _("Move cursor up"));
+    ctxt.register_action("DOWN", _("Move cursor down"));
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("look");
+    ctxt.register_action("fire");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
     do {
         if (!vMonsters.empty() || iLastState == 1) {
-            // we're switching on input here, whereas above it was if/else clauses on a char
-            switch(input) {
-                case DirectionN:
+            if (action == "UP") {
                     iActive--;
                     if (iActive < 0) {
                         iActive = iMonsterNum - 1;
                     }
-                    break;
-                case DirectionS:
+            } else if (action == "DOWN") {
                     iActive++;
                     if (iActive >= iMonsterNum) {
                         iActive = 0;
                     }
-                    break;
-                case Tab: //Switch to list_items();
-                case DirectionDown:
-                case DirectionUp:
+            } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                     u.view_offset_x = iStoreViewOffsetX;
                     u.view_offset_y = iStoreViewOffsetY;
 
@@ -9117,16 +9122,11 @@ int game::list_monsters(const int iLastState)
                     delwin(w_monster_info);
                     delwin(w_monster_info_border);
                     return 1;
-                    break;
-                default: {
-                    action_id act = action_from_key(ch);
-                    switch (act) {
-                        case ACTION_LOOK: {
+            } else if (action == "look") {
                             point recentered=look_around();
                             iLastActiveX=recentered.x;
                             iLastActiveY=recentered.y;
-                            } break;
-                        case ACTION_FIRE: {
+            } else if (action == "fire") {
                             if ( rl_dist( point(u.posx, u.posy), zombie(iMonDex).pos() ) <= iWeaponRange ) {
                                 last_target = iMonDex;
                                 u.view_offset_x = iStoreViewOffsetX;
@@ -9141,23 +9141,6 @@ int game::list_monsters(const int iLastState)
                                 delwin(w_monster_info_border);
                                 return 2;
                             }
-                        } break;
-                        /* The following two don't work for some reason.
-                         * Even though the zoom level will be adjusted,
-                         * the map won't be redrawn until V mode is exited.
-
-                        case ACTION_ZOOM_IN:
-                            zoom_in();
-                            break;
-                        case ACTION_ZOOM_OUT:
-                            zoom_out();
-                            break;
-                        default:
-                            break;
-                        */
-                    }
-                }
-                break;
             }
 
             if (vMonsters.empty() && iLastState == 1) {
@@ -9258,14 +9241,12 @@ int game::list_monsters(const int iLastState)
             wrefresh(w_monster_info);
 
             refresh();
-            ch = getch();
-            input = get_input(ch);
+
+            action = ctxt.handle_input();
         } else {
             iReturn = 0;
-            ch = ' ';
-            input = Close;
         }
-    } while (input != Close && input != Cancel);
+    } while (action != "QUIT");
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
@@ -9498,6 +9479,9 @@ void game::pickup(int posx, int posy, int min)
     // Not many items, just grab them
     if (here.size() <= min && min != -1) {
         item newit = here[0];
+        int moves_taken = 100;
+        bool picked_up = false;
+
         if (newit.made_of(LIQUID)) {
             add_msg(_("You can't pick up a liquid!"));
             return;
@@ -9518,31 +9502,25 @@ void game::pickup(int posx, int posy, int min)
             add_msg(_("The %s is too heavy!"), newit.display_name().c_str());
             decrease_nextinv();
         } else if (!u.can_pickVolume(newit.volume())) {
-            if (u.is_armed()) {
+            if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+                handle_quiver_insertion(newit, false, moves_taken, picked_up);
+            } else if (u.is_armed()) {
                 if (!u.weapon.has_flag("NO_UNWIELD")) {
                     // Armor can be instantly worn
                     if (newit.is_armor() &&
                             query_yn(_("Put on the %s?"),
                                      newit.display_name().c_str())) {
                         if (u.wear_item(&newit)) {
-                            if (from_veh) {
-                                veh->remove_item (cargo_part, 0);
-                            } else {
-                                m.i_clear(posx, posy);
-                            }
+                            picked_up = true;
                         }
                     } else if (query_yn(_("Drop your %s and pick up %s?"),
                                         u.weapon.display_name().c_str(),
                                         newit.display_name().c_str())) {
-                        if (from_veh) {
-                            veh->remove_item (cargo_part, 0);
-                        } else {
-                            m.i_clear(posx, posy);
-                        }
+                        picked_up = true;
                         m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                         u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                         u.wield(&(u.i_add(newit)));
-                        u.moves -= 100;
+
                         add_msg(_("Wielding %c - %s"), newit.invlet,
                                 newit.display_name().c_str());
                     } else {
@@ -9558,35 +9536,26 @@ and you can't unwield your %s."),
             } else {
                 u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                 u.wield(&(u.i_add(newit)));
-                if (from_veh) {
-                    veh->remove_item (cargo_part, 0);
-                } else {
-                    m.i_clear(posx, posy);
-                }
-                u.moves -= 100;
-                add_msg(_("Wielding %c - %s"), newit.invlet,
-                        newit.display_name().c_str());
+                picked_up = true;
+                add_msg(_("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
             }
+        } else if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+            //add ammo to quiver
+            handle_quiver_insertion(newit, true, moves_taken, picked_up);
         } else if (!u.is_armed() &&
                    (u.volume_carried() + newit.volume() > u.volume_capacity() - 2 ||
                     newit.is_weap() || newit.is_gun())) {
             u.weapon = newit;
-            if (from_veh) {
-                veh->remove_item (cargo_part, 0);
-            } else {
-                m.i_clear(posx, posy);
-            }
-            u.moves -= 100;
+            picked_up = true;
             add_msg(_("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
         } else {
             newit = u.i_add(newit);
-            if (from_veh) {
-                veh->remove_item (cargo_part, 0);
-            } else {
-                m.i_clear(posx, posy);
-            }
-            u.moves -= 100;
+            picked_up = true;
             add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.display_name().c_str());
+        }
+
+        if(picked_up) {
+            remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken, 0);
         }
 
         if (weight_is_okay && u.weight_carried() >= u.weight_capacity()) {
@@ -9675,6 +9644,11 @@ and you can't unwield your %s."),
                         if ( mapAutoPickupItems[here[i].tname()] == "true" ) {
                             bPickup = true;
                         }
+                    }
+
+                    //auto pickup arrow/bolt ammo
+                    if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
+                        bPickup = true;
                     }
                 }
 
@@ -9921,6 +9895,7 @@ and you can't unwield your %s."),
         } else if (getitem[i]) {
             bool picked_up = false;
             item temp = here[i].clone();
+            int moves_taken = 100;
 
             iter = 0;
             while (iter < inv_chars.size() &&
@@ -9943,8 +9918,16 @@ and you can't unwield your %s."),
             if (!u.can_pickWeight(here[i].weight(), false)) {
                 add_msg(_("The %s is too heavy!"), here[i].display_name().c_str());
                 decrease_nextinv();
-            } else if (!u.can_pickVolume(here[i].volume())) {
-                if (u.is_armed()) {
+            } else if (!u.can_pickVolume(here[i].volume())) { //check if player is at max volume
+                //try to store arrows/bolts in a worn quiver
+                if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
+                    int quivered = handle_quiver_insertion(here[i], false, moves_taken, picked_up);
+                    if(quivered > 0 && here[i].charges > 0) {
+                        //update the charges for the item that gets re-added to the game map
+                        pickup_count[i] = quivered;
+                        temp.charges = here[i].charges;
+                    }
+                } else if (u.is_armed()) {
                     if (!u.weapon.has_flag("NO_UNWIELD")) {
                         // Armor can be instantly worn
                         if (here[i].is_armor() &&
@@ -9981,6 +9964,9 @@ and you can't unwield your %s."),
                     mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
                     picked_up = true;
                 }
+            } else if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
+                //add ammo to quiver
+                handle_quiver_insertion(here[i], true, moves_taken, picked_up);
             } else if (!u.is_armed() &&
                        (u.volume_carried() + here[i].volume() > u.volume_capacity() - 2 ||
                         here[i].is_weap() || here[i].is_gun())) {
@@ -9993,13 +9979,8 @@ and you can't unwield your %s."),
             }
 
             if (picked_up) {
-                if (from_veh) {
-                    veh->remove_item (cargo_part, curmit);
-                } else {
-                    m.i_rem(posx, posy, curmit);
-                }
+                remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken, curmit);
                 curmit--;
-                u.moves -= 100;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !from_veh;
 
@@ -10018,15 +9999,7 @@ and you can't unwield your %s."),
     // Auto pickup item message
     // FIXME: i18n
     if (min == -1 && !mapPickup.empty()) {
-        std::stringstream sTemp;
-        for (std::map<std::string, int>::iterator iter = mapPickup.begin();
-                iter != mapPickup.end(); ++iter) {
-            if (sTemp.str() != "") {
-                sTemp << ", ";
-            }
-            sTemp << iter->second << " " << iter->first;
-        }
-        add_msg((_("You pick up: ") + sTemp.str()).c_str());
+        show_pickup_message(mapPickup);
     }
 
     if (got_water) {
@@ -10045,6 +10018,50 @@ and you can't unwield your %s."),
     wrefresh(w_item_info);
     delwin(w_pickup);
     delwin(w_item_info);
+}
+
+//helper function for game::pickup
+//return value is amount of ammo added to quiver
+int game::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement, bool &picked_up)
+{
+    //add ammo to quiver
+    int quivered = here.add_ammo_to_quiver(&u, true);
+    if(quivered > 0) {
+        moves_to_decrement = 0; //moves already decremented in item::add_ammo_to_quiver()
+        picked_up = true;
+        return quivered;
+    } else if (inv_on_fail){
+        //add to inventory instead
+        u.i_add(here);
+        picked_up = true;
+
+        //display output message
+        std::map<std::string, int> map_pickup;
+        int charges = (here.count_by_charges()) ? here.charges : 1;
+        map_pickup.insert(std::pair<std::string, int>(here.tname(), charges));
+        show_pickup_message(map_pickup);
+    }
+    return 0;
+}
+
+//helper function for game::pickup (singular item)
+void game::remove_from_map_or_vehicle(int posx, int posy, bool from_veh, vehicle *veh, int cargo_part, int &moves_taken, int curmit)
+{
+    if (from_veh) {
+        veh->remove_item (cargo_part, curmit);
+    } else {
+        m.i_rem(posx, posy, curmit);
+    }
+    u.moves -= moves_taken;
+}
+
+//helper function for game::pickup
+void game::show_pickup_message(std::map<std::string, int> mapPickup) {
+    for (std::map<std::string, int>::iterator iter = mapPickup.begin();
+            iter != mapPickup.end(); ++iter) {
+        add_msg(ngettext("You pick up: %d %s", "You pick up: %d %ss", iter->second),
+                         iter->second, iter->first.c_str());
+    }
 }
 
 // Establish or release a grab on a vehicle
@@ -11043,7 +11060,7 @@ void game::butcher()
     // get corpses first
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            if (factor == 999) {
+            if (factor == INT_MAX) {
                 if (!has_corpse) {
                     add_msg(_("You don't have a sharp item to butcher with."));
                 }

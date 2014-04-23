@@ -27,6 +27,7 @@
 #include <vector>
 #include "debug.h"
 #include "weather.h"
+#include "mapsharing.h"
 
 #include "savegame.h"
 #include "tile_id_data.h"
@@ -608,7 +609,10 @@ void overmap::save()
     fout.close();
 
     // World terrain data
-    fout.open(terfilename.c_str(), std::ios_base::trunc);
+    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
+    if(!fout.is_open()) {
+        return;
+    }
     fout << "# version " << savegame_version << std::endl;
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
@@ -670,7 +674,7 @@ void overmap::save()
     for (int i = 0; i < npcs.size(); i++)
         fout << "n " << npcs[i]->save_info() << std::endl;
 
-    fout.close();
+    fclose_exclusive(fout, terfilename.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

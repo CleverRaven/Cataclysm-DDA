@@ -5,6 +5,7 @@
 #include "output.h"
 #include "game.h"
 #include "path_info.h"
+#include "file_wrapper.h"
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -19,6 +20,17 @@
 #endif
 
 static const std::string default_context_id("default");
+
+template <class T1, class T2>
+struct ContainsPredicate {
+    const T1& container;
+
+    ContainsPredicate(const T1& container) : container(container) { }
+
+    bool operator()(T2 c) {
+        return std::find(container.begin(), container.end(), c) != container.end();
+    }
+};
 
 static long str_to_long(const std::string &number) {
     // ensure user's locale doesn't interfere with number format
@@ -469,7 +481,9 @@ void input_manager::save() {
     jsout.end_array();
 
     data_file.close();
-    rename(file_name_tmp.c_str(), file_name.c_str());
+    if(!rename_file(file_name_tmp, file_name)) {
+        throw std::string("Could not rename file to ") + file_name;
+    }
 }
 
 void input_manager::add_keycode_pair(long ch, const std::string &name)
@@ -722,6 +736,29 @@ std::string input_context::get_conflicts(const input_event &event) const
     return buffer.str();
 }
 
+void input_context::clear_conflicting_keybindings(const input_event &event) {
+    // The default context is always included to cover cases where the same
+    // keybinding exists for the same action in both the global and local
+    // contexts.
+    input_manager::t_actions &default_actions = inp_mngr.action_contexts[default_context_id];
+    input_manager::t_actions &category_actions = inp_mngr.action_contexts[category];
+
+    for (std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
+            registered_action != registered_actions.end();
+            ++registered_action) {
+        input_manager::t_actions::iterator default_action = default_actions.find(*registered_action);
+        input_manager::t_actions::iterator category_action = category_actions.find(*registered_action);
+        if (default_action != default_actions.end()) {
+            std::vector<input_event> &events = default_action->second.input_events;
+            events.erase(std::remove(events.begin(), events.end(), event), events.end());
+        }
+        if (category_action != category_actions.end()) {
+            std::vector<input_event> &events = category_action->second.input_events;
+            events.erase(std::remove(events.begin(), events.end(), event), events.end());
+        }
+    }
+}
+
 const std::string CATA_ERROR = "ERROR";
 const std::string ANY_INPUT = "ANY_INPUT";
 const std::string COORDINATE = "COORDINATE";
@@ -775,14 +812,39 @@ std::vector<char> input_context::keys_bound_to(const std::string &action_descrip
 {
     std::vector<char> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action(action_descriptor, category);
-    for(size_t i = 0; i < events.size(); ++i) {
-        const input_event &event = events[i];
+    for (std::vector<input_event>::const_iterator event = events.begin();
+            event != events.end();
+            ++event) {
         // Ignore multi-key input and non-keyboard input
-        if (event.type == CATA_INPUT_KEYBOARD && event.sequence.size() == 1) {
-            result.push_back((char) event.sequence[0]);
+        if (event->type == CATA_INPUT_KEYBOARD && event->sequence.size() == 1) {
+            result.push_back((char) event->sequence[0]);
         }
     }
     return result;
+}
+
+std::string input_context::get_available_single_char_hotkeys(std::string requested_keys) {
+    for (std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
+            registered_action != registered_actions.end();
+            ++registered_action) {
+
+        const std::vector<input_event> &events = inp_mngr.get_input_for_action(*registered_action, category);
+        for (std::vector<input_event>::const_iterator event = events.begin();
+                event != events.end();
+                ++event) {
+            // Only consider keyboard events without modifiers
+            if (event->type == CATA_INPUT_KEYBOARD && 0 == event->modifiers.size()) {
+                requested_keys.erase(
+                        std::remove_if(
+                            requested_keys.begin(),
+                            requested_keys.end(),
+                            ContainsPredicate<std::vector<long>,char>(event->sequence)),
+                        requested_keys.end());
+            }
+        }
+    }
+
+    return requested_keys;
 }
 
 const std::string input_context::get_desc(const std::string &action_descriptor)
@@ -930,6 +992,7 @@ bool input_context::get_direction(int &dx, int &dy, const std::string &action)
 
 void input_context::display_help()
 {
+    inp_mngr.set_timeout(-1);
     // Shamelessly stolen from help.cpp
     WINDOW *w_help = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
                             1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
@@ -1022,7 +1085,8 @@ void input_context::display_help()
             inp_mngr.get_action_attributes(action_id, category, &is_local);
             const std::string name = get_action_name(action_id);
 
-            if (status == s_remove && query_yn(_("Clear keys for %s?"), name.c_str())) {
+
+            if (status == s_remove && (!OPTIONS["QUERY_KEYBIND_REMOVAL"] || query_yn(_("Clear keys for %s?"), name.c_str()))) {
 
                 // If it's global, reset the global actions.
                 std::string category_to_access = category;
@@ -1039,9 +1103,18 @@ void input_context::display_help()
                 const long newbind = popup_getkey(_("New key for %s:"), name.c_str());
                 const input_event new_event(newbind, CATA_INPUT_KEYBOARD);
                 const std::string conflicts = get_conflicts(new_event);
-                if (!conflicts.empty()) {
-                    popup(_("This key conflicts with %s"), conflicts.c_str());
-                } else {
+                const bool has_conflicts = !conflicts.empty();
+                bool resolve_conflicts = false;
+
+                if (has_conflicts) {
+                    resolve_conflicts = query_yn(_("This key conflicts with %s. Remove this key from the conflicting command(s), and continue?"), conflicts.c_str());
+                }
+
+                if (!has_conflicts || resolve_conflicts) {
+                    if (resolve_conflicts) {
+                        clear_conflicting_keybindings(new_event);
+                    }
+
                     // We might be adding a local or global action.
                     std::string category_to_access = category;
                     if (status == s_add_global) {

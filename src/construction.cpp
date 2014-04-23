@@ -37,9 +37,6 @@ struct construct // Construction functions.
     void done_mine_upstair(point);
 };
 
-// Keys available for use as hotkeys.  Excludes vi direction keys and Q for quit.
-const std::string hotkeys = "abcdefgimnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
-
 std::vector<construction *> constructions;
 
 // Helper functions, nobody but us needs to call these.
@@ -125,10 +122,22 @@ void construction_menu()
     int chosen = 0;
     int offset = 0;
     int oldoffset = 0;
-    long ch;
     bool exit = false;
 
     inventory total_inv = g->crafting_inventory(&(g->u));
+
+    input_context ctxt("CONSTRUCTION");
+    ctxt.register_action("UP", _("Move cursor up"));
+    ctxt.register_action("DOWN", _("Move cursor down"));
+    ctxt.register_action("PAGE_UP");
+    ctxt.register_action("PAGE_DOWN");
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("TOGGLE_UNAVAILABLE_CONSTRUCTIONS");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("ANY_INPUT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+
+    std::string hotkeys = ctxt.get_available_single_char_hotkeys();
 
     do {
         // Erase existing list of constructions
@@ -322,60 +331,53 @@ void construction_menu()
         //Doing it here lets us refresh the entire window all at once.
         draw_scrollbar(w_con, select, iMaxY - 2, available.size(), 1);
 
-        ch = getch();
-        switch (ch) {
-        case KEY_DOWN:
+        const std::string action = ctxt.handle_input();
+        const long raw_input_char = ctxt.get_raw_input().get_first_input();
+
+        if (action == "DOWN") {
             update_info = true;
             if (select < available.size() - 1) {
                 select++;
             } else {
                 select = 0;
             }
-            break;
-        case KEY_UP:
+        } else if (action == "UP") {
             update_info = true;
             if (select > 0) {
                 select--;
             } else {
                 select = available.size() - 1;
             }
-            break;
-        case KEY_NPAGE:
+        } else if (action == "PAGE_DOWN") {
             update_info = true;
             select += 15;
             if ( select > available.size() - 1 ) {
                 select = available.size() - 1;
             }
-            break;
-        case KEY_PPAGE:
+        } else if (action == "PAGE_UP") {
             update_info = true;
             select -= 15;
             if (select < 0) {
                 select = 0;
             }
-            break;
-        case ' ':
-        case KEY_ESCAPE:
-        case 'q':
-        case 'Q':
+        } else if (action == "QUIT") {
             exit = true;
-            break;
-        case ';':
+        } else if (action == "HELP_KEYBINDINGS") {
+            hotkeys = ctxt.get_available_single_char_hotkeys();
+        } else if (action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS") {
             update_info = true;
             hide_unconstructable = !hide_unconstructable;
             std::swap(select, oldselect);
             std::swap(offset, oldoffset);
             load_available_constructions( available, hide_unconstructable );
-            break;
-        case '\n':
-        default:
-            if (ch == '\n') {
+        } else if (action == "ANY_INPUT" || action == "CONFIRM") {
+            if (action == "CONFIRM") {
                 chosen = select;
             } else {
                 // Get the index corresponding to the key pressed.
-                chosen = hotkeys.find_first_of( ch );
+                chosen = hotkeys.find_first_of(raw_input_char);
                 if( chosen == std::string::npos ) {
-                    break;
+                    continue;
                 }
             }
             if (chosen < available.size()) {
@@ -391,7 +393,6 @@ void construction_menu()
                     update_info = true;
                 }
             }
-            break;
         }
     } while (!exit);
 
@@ -1528,4 +1529,32 @@ void reset_constructions()
         delete *a;
     }
     constructions.clear();
+}
+
+void check_constructions()
+{
+    for( std::vector<construction *>::const_iterator a = constructions.begin();
+         a != constructions.end(); ++a ) {
+        const construction *c = *a;
+        const std::string display_name = std::string("construction ") + c->description;
+        // Note: print the description as the id is just a generated number,
+        // the description can be searched for in the json files.
+        if (!c->skill.empty() && Skill::skill(c->skill) == NULL) {
+            debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
+        }
+        check_component_list(c->tools, display_name);
+        check_component_list(c->components, display_name);
+        if (!c->pre_terrain.empty() && !c->pre_is_furniture && termap.count(c->pre_terrain) == 0) {
+            debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
+        }
+        if (!c->pre_terrain.empty() && c->pre_is_furniture && furnmap.count(c->pre_terrain) == 0) {
+            debugmsg("Unknown pre_terrain (furniture) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
+        }
+        if (!c->post_terrain.empty() && !c->post_is_furniture && termap.count(c->post_terrain) == 0) {
+            debugmsg("Unknown post_terrain (terrain) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+        }
+        if (!c->post_terrain.empty() && c->post_is_furniture && furnmap.count(c->post_terrain) == 0) {
+            debugmsg("Unknown post_terrain (furniture) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+        }
+    }
 }

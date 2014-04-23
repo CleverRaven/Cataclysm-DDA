@@ -355,6 +355,21 @@ public:
     void register_action(const std::string& action_descriptor, const std::string& name);
 
     /**
+     * Get the set of available single character keyboard keys that do not
+     * conflict with any registered hotkeys.  The result will only include
+     * characters from the requested_keys parameter that have no conflicts
+     * i.e. the set difference requested_keys - conflicts.
+     *
+     * @param requested_keys The set of single character hotkeys to
+     *                       potentially use. Defaults to all printable ascii.
+     *
+     * @return Returns the set of non-conflicting, single character keyboard
+     *         keys suitable for use as hotkeys.
+     */
+    std::string get_available_single_char_hotkeys(
+            std::string requested_keys="abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~");
+
+    /**
      * Get a description text for the key/other input method associated
      * with the given action.
      */
@@ -464,6 +479,15 @@ private:
      */
     std::string get_conflicts(const input_event &event) const;
     void list_conflicts(const input_event &event, const input_manager::t_actions &actions, std::ostringstream &buffer) const;
+
+    /**
+     * Clear an input_event from all conflicting keybindings that are
+     * registered by this input_context.
+     *
+     * @param event The input event to be cleared from conflicting
+     * keybindings.
+     */
+    void clear_conflicting_keybindings(const input_event &event);
 };
 
 /**
