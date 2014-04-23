@@ -3970,7 +3970,7 @@
         "addiction_potential" : 0,
         "nutrition" : 4,
         "description" : "A fluid bladder from a plant based lifeform, not very nutritious, but fine to eat anyway.",
-        "price" : 5000,
+        "price" : 0,
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,

@@ -14,35 +14,7 @@
 
 #define KEY_ESCAPE 27
 
-enum InputEvent {
-    Confirm,
-    Cancel,
-    Close,
-    Tab,
-    Help,
-
-    DirectionN,
-    DirectionS,
-    DirectionE,
-    DirectionW,
-    DirectionNW,
-    DirectionNE,
-    DirectionSE,
-    DirectionSW,
-    DirectionNone,
-
-    DirectionDown, /* Think stairs */
-    DirectionUp,
-    Filter,
-    Reset,
-    Pickup,
-    Nothing,
-    Undefined
-};
-
-InputEvent get_input(int ch = '\0');
 bool is_mouse_enabled();
-void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname = "input.txt");
 
 // Simple text input--translates numpad to vikeys

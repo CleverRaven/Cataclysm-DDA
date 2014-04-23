@@ -269,6 +269,12 @@ class Creature
         void draw(WINDOW *w, int plx, int ply, bool inv);
 
         static void init_hit_weights();
+
+        // Message related stuff
+        virtual void add_msg_if_player(const char *, ...){};
+        virtual void add_msg_if_npc(const char *, ...){};
+        virtual void add_msg_player_or_npc(const char *, const char *, ...){};
+
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
@@ -326,6 +332,7 @@ class Creature
         };
 
         body_part select_body_part(Creature *source, int hitroll);
+
 };
 
 #endif
