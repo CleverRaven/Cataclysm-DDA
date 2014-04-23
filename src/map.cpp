@@ -2895,30 +2895,15 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
 
 std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity, const bool use_container)
 {
-  std::list<item> ret;
-  for (int n = 0; n < vec.size() && quantity > 0; n++) {
-    item* curit = &(vec[n]);
-    bool used_contents = false;
-    for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-      if (curit->contents[m].type->id == type) {
-        ret.push_back(curit->contents[m]);
-        quantity--;
-        curit->contents.erase(curit->contents.begin() + m);
-        m--;
-        used_contents = true;
-      }
+    std::list<item> ret;
+    for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
+        if (a->use_amount(type, quantity, use_container, ret)) {
+            a = vec.erase(a);
+        } else {
+            ++a;
+        }
     }
-    if (use_container && used_contents) {
-      vec.erase(vec.begin() + n);
-      n--;
-    } else if (curit->type->id == type && quantity > 0 && curit->contents.empty()) {
-      ret.push_back(*curit);
-      quantity--;
-      vec.erase(vec.begin() + n);
-      n--;
-    }
-  }
-  return ret;
+    return ret;
 }
 
 std::list<item> map::use_amount_square(const int x, const int y, const itype_id type,
@@ -2961,49 +2946,21 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
 }
 
 std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type,
-                                                int &quantity)
+                                                long &quantity)
 {
     std::list<item> ret;
-    for (int n = 0; n < vec.size() && quantity > 0; n++) {
-        item &curit = vec[n];
-        if (curit.contents.empty()) {
-            if (curit.type->id == type || curit.ammo_type() == type) {
-                // curit is empty, has the required type or
-                // the required ammo type
-                ret.push_back(curit);
-                if (curit.charges < 0) {
-                    quantity--;
-                    vec.erase(vec.begin() + n);
-                    n--;
-                } else {
-                    if (curit.charges > quantity) {
-                        // push only quantity charges to ret,
-                        // remove quantity charges from curit
-                        ret.back().charges = quantity;
-                        curit.charges -= quantity;
-                        quantity = 0;
-                    } else {
-                        // remove all charges, destroy the item (perhaps)
-                        quantity -= curit.charges;
-                        curit.charges = 0;
-                        if (curit.destroyed_at_zero_charges()) {
-                            vec.erase(vec.begin() + n);
-                            n--;
-                        }
-                    }
-                }
-            }
+    for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
+        if (a->use_charges(type, quantity, ret)) {
+            a = vec.erase(a);
         } else {
-            // Not empty, process contents, ignore the item itself.
-            std::list<item> tmp = use_charges_from_map_or_vehicle(curit.contents, type, quantity);
-            ret.splice(ret.end(), tmp);
+            ++a;
         }
     }
     return ret;
 }
 
 extern long remove_charges_in_list(const itype *type, std::vector<item> &items, long quantity);
-void use_charges_from_furn(const furn_t &f, const itype_id &type, int &quantity, std::vector<item> &items, std::list<item> &ret)
+void use_charges_from_furn(const furn_t &f, const itype_id &type, long &quantity, std::vector<item> &items, std::list<item> &ret)
 {
     itype *itt = f.crafting_pseudo_item_type();
     if (itt == NULL || itt->id != type) {
@@ -3021,10 +2978,10 @@ void use_charges_from_furn(const furn_t &f, const itype_id &type, int &quantity,
 }
 
 std::list<item> map::use_charges(const point origin, const int range,
-                                 const itype_id type, const int amount)
+                                 const itype_id type, const long amount)
 {
     std::list<item> ret;
-    int quantity = amount;
+    long quantity = amount;
     for (int radius = 0; radius <= range && quantity > 0; radius++) {
         for (int x = origin.x - radius; x <= origin.x + radius; x++) {
             for (int y = origin.y - radius; y <= origin.y + radius; y++) {
