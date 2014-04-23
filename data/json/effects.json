@@ -63,7 +63,7 @@
 		"name" : ["Asleep"],
 		"desc" : ["Nighty-night, don't let the dermatiks bite."],
 		"max_intensity" : 24,
-		"remove_message" : "You wake up.",
+		"remove_message" : "You wake up."
 	},
    {
       "type" : "effect_type",
