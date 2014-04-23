@@ -571,7 +571,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("I don't know, look for supplies and other survivors I guess.");
 
         case TALK_SHARE_EQUIPMENT:
-            if (p->has_disease("asked_for_item")) {
+            if (p->has_effect("asked_for_item")) {
                 return _("You just asked me for stuff; ask later.");
             }
             return _("Why should I share my equipment with you?");
@@ -1071,7 +1071,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   break;
 
  case TALK_SHARE_EQUIPMENT:
-  if (p->has_disease("asked_for_item")) {
+  if (p->has_effect("asked_for_item")) {
    RESPONSE(_("Okay, fine."));
     SUCCESS(TALK_NONE);
   } else {
@@ -1294,7 +1294,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   }
   RESPONSE(_("I'm going to go my own way for a while."));
    SUCCESS(TALK_LEAVE);
-  if (!p->has_disease("asked_to_lead")) {
+  if (!p->has_effect("asked_to_lead")) {
    RESPONSE(_("I'd like to lead for a while."));
     TRIAL(TALK_TRIAL_PERSUADE, persuade);
     SUCCESS(TALK_PLAYER_LEADS);
@@ -1853,7 +1853,7 @@ void talk_function::give_equipment(npc *p)
 
  g->u.i_add( it );
  p->op_of_u.owed -= prices[chosen];
- p->add_disease("asked_for_item", 1800);
+ p->add_effect("asked_for_item", 1800);
 }
 
 void talk_function::follow(npc *p)
@@ -1868,12 +1868,12 @@ void talk_function::deny_follow(npc *p)
 
 void talk_function::deny_lead(npc *p)
 {
- p->add_disease("asked_to_lead", 3600);
+ p->add_effect("asked_to_lead", 3600);
 }
 
 void talk_function::deny_equipment(npc *p)
 {
- p->add_disease("asked_for_item", 600);
+ p->add_effect("asked_for_item", 600);
 }
 
 void talk_function::hostile(npc *p)

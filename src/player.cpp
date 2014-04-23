@@ -824,7 +824,7 @@ void player::update_bodytemp()
     int Ctemperature = 100*(g->get_temperature() - 32) * 5/9;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
-    int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
+    int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
     // This adjusts the temperature scale to match the bodytemp scale
     int adjusted_temp = (Ctemperature - ambient_norm);
     // This gets incremented in the for loop and used in the morale calculation
@@ -836,7 +836,7 @@ void player::update_bodytemp()
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth
     int floor_bedding_warmth = 0;
-    if ( has_disease("sleep") ) {
+    if ( has_effect("sleep") ) {
         // Search the floor for items
         std::vector<item>& floor_item = g->m.i_at(posx, posy);
         it_armor* floor_armor = NULL;
@@ -909,7 +909,7 @@ void player::update_bodytemp()
         // HUNGER
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
-        if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
+        if (!has_effect("sleep")) { temp_conv[i] -= 1.5*fatigue; }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         int blister_count = 0; // If the counter is high, your skin starts to burn
         for (int j = -6 ; j <= 6 ; j++) {
@@ -1077,7 +1077,7 @@ void player::update_bodytemp()
         // Chemical Imbalance
         // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
-        if ( has_disease("sleep") ) {
+        if ( has_effect("sleep") ) {
             int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
             // Too warm, don't need items on the floor
             if ( temp_conv[i] > BODYTEMP_NORM ) {
@@ -4222,10 +4222,10 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     dealt_damage_instance dealt_dams = Creature::deal_damage(source, bp, side, d); //damage applied here
     int dam = dealt_dams.total_damage(); //block reduction should be by applied this point
 
-    if (has_disease("sleep")) {
+    if (has_effect("sleep")) {
         wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    } else if (has_effect("lying_down")) {
+        remove_effect("lying_down");
     }
 
     if (is_player()) {
@@ -4497,10 +4497,10 @@ void player::hurt(body_part hurt, int side, int dam)
             debugmsg("Wacky body part hurt!");
             hurtpart = hp_torso;
     }
-    if (has_disease("sleep") && rng(0, dam) > 2) {
+    if (has_effect("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    } else if (has_effect("lying_down")) {
+        remove_effect("lying_down");
     }
 
     if (dam <= 0) {
@@ -4527,10 +4527,10 @@ void player::hurt(body_part hurt, int side, int dam)
 
 void player::hurt(hp_part hurt, int dam)
 {
-    if (has_disease("sleep") && rng(0, dam) > 2) {
+    if (has_effect("sleep") && rng(0, dam) > 2) {
         wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    } else if (has_effect("lying_down")) {
+        remove_effect("lying_down");
     }
 
     if (dam <= 0) {
@@ -4634,10 +4634,10 @@ void player::hurtall(int dam)
 
 void player::hitall(int dam, int vary)
 {
-    if (has_disease("sleep")) {
+    if (has_effect("sleep")) {
         wake_up(_("You wake up!"));
-    } else if (has_disease("lying_down")) {
-        rem_disease("lying_down");
+    } else if (has_effect("lying_down")) {
+        remove_effect("lying_down");
     }
 
     for (int i = 0; i < num_hp_parts; i++) {
@@ -5237,6 +5237,60 @@ void player::process_effects() {
                 it->set_duration(600);
             }
             it->set_intensity(std::max(1, it->get_duration()/30));
+        } else if (id == "alarm_clock") {
+            if (has_effect("sleep")) {
+                if (it->get_duration() == 1) {
+                    if(!g->sound(posx, posy, 12, _("beep-beep-beep!"))) {
+                        // 10 minute automatic snooze
+                        it->mod_duration(100);
+                    } else {
+                        g->add_msg_if_player(this,_("You turn off your alarm-clock."));
+                    }
+                }
+            } else if (!p.has_effect("lying_down")) {
+                // Turn the alarm-clock off if you woke up before the alarm
+                g->add_msg_if_player(this,_("You turn off your alarm-clock."));
+                it->set_duration(1);
+            }
+        } else if (id == "lying_down") {
+            set_moves(0);
+            if (can_sleep()) {
+                it->set_duration(1);
+                g->add_msg_if_player(this,_("You fall asleep."));
+                // Communicate to the player that he is using items on the floor
+                std::string item_name = is_snuggling();
+                if (item_name == "many") {
+                    if (one_in(15) ) {
+                        g->add_msg_if_player(this,_("You nestle your pile of clothes for warmth."));
+                    } else {
+                        g->add_msg_if_player(this,_("You use your pile of clothes for warmth."));
+                    }
+                } else if (item_name != "nothing") {
+                    if (one_in(15)) {
+                        g->add_msg_if_player(this,_("You snuggle your %s to keep warm."), item_name.c_str());
+                    } else {
+                        g->add_msg_if_player(this,_("You use your %s to keep warm."), item_name.c_str());
+                    }
+                }
+                if (is_player() && has_trait("HIBERNATE") && (hunger < -60)) {
+                    add_memorial_log(pgettext("memorial_male", "Entered hibernation."),
+                                       pgettext("memorial_female", "Entered hibernation."));
+                    // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
+                    fall_asleep(144000);
+                }
+                // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
+                // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
+                // will last about 8 days.
+                if (hunger >= -60) {
+                fall_asleep(6000); //10 hours, default max sleep time.
+                }
+            }
+            if (it->get_duration() == 1 && !has_effect("sleep")) {
+                g->add_msg_if_player(this,_("You try to sleep, but can't..."));
+            }
+        
+        } else if (id == "sleep") {
+            manage_sleep();
         }
     }
 
@@ -5288,7 +5342,7 @@ void player::suffer()
         }
     }
 
-    if (!has_disease("sleep")) {
+    if (!has_effect("sleep")) {
         if (weight_carried() > weight_capacity()) {
             // Starts at 1 in 25, goes down by 5 for every 50% more carried
             if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
@@ -5443,7 +5497,7 @@ void player::suffer()
                     break;
                 case 8:
                     g->add_msg(_("It's a good time to lie down and sleep."));
-                    add_disease("lying_down", 200);
+                    add_effect("lying_down", 200);
                     break;
                 case 9:
                     g->add_msg(_("You have the sudden urge to SCREAM!"));
@@ -5498,7 +5552,7 @@ void player::suffer()
             auto_use = false;
         }
 
-        if (has_disease("sleep")) {
+        if (has_effect("sleep")) {
             wake_up(_("Your asthma wakes you up!"));
             auto_use = false;
         }
@@ -5534,7 +5588,7 @@ void player::suffer()
         // (No, really, I know someone who uses an umbrella when it's sunny out.)
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
             g->add_msg(_("The sunlight is really irritating."));
-            if (has_disease("sleep")) {
+            if (has_effect("sleep")) {
                 wake_up(_("You wake up!"));
             }
             if (one_in(10)) {
@@ -5547,7 +5601,7 @@ void player::suffer()
     if (has_trait("SUNBURN") && g->is_in_sunlight(posx, posy) && one_in(10)) {
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
         g->add_msg(_("The sunlight burns your skin!"));
-        if (has_disease("sleep")) {
+        if (has_effect("sleep")) {
             wake_up(_("You wake up!"));
         }
         mod_pain(1);
@@ -5795,7 +5849,7 @@ void player::mend()
             }
 
             // Bed rest speeds up mending
-            if(has_disease("sleep")) {
+            if(has_effect("sleep")) {
                 healing_factor *= 4.0;
             } else if(fatigue > 383) {
             // but being dead tired does not...
@@ -5887,7 +5941,7 @@ void player::vomit()
     rem_disease("pkill1");
     remove_effect("pkill2");
     rem_disease("pkill3");
-    rem_disease("sleep");
+    remove_effect("sleep");
 }
 
 void player::drench(int saturation, int flags)
@@ -9156,7 +9210,7 @@ void player::try_to_sleep()
              _("It's a little hard to get to sleep on this %s.") :
              _("It's hard to get to sleep on this %s."),
              terlist[ter_at_pos].name.c_str());
- add_disease("lying_down", 300);
+ add_effect("lying_down", 300);
 }
 
 bool player::can_sleep()
@@ -9200,12 +9254,12 @@ bool player::can_sleep()
 
 void player::fall_asleep(int duration)
 {
-    add_disease("sleep", duration);
+    add_effect("sleep", duration);
 }
 
 void player::wake_up(const char * message)
 {
-    rem_disease("sleep");
+    remove_effect("sleep");
     if (message) {
         g->add_msg_if_player(this, message);
     } else {

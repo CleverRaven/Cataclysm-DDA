@@ -21,64 +21,50 @@
         "name" : ["Hit-and-run Running"],
         "desc" : ["AI tag for when hit-and-run monsters run away. This is a bug if you have it."]
     },
-   {
-      "type" : "effect_type",
-      "id" : "asked_to_follow"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "asked_to_lead"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "catch_up"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "ma_buff"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "viper_combo"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "damage_boost"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "attack_boost"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "speed_boost"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "dodge_boost"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "armor_boost"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "asked_for_item"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "alarm_clock"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "lying_down",
-      "apply_message" : "You lie down to go to sleep..."
-   },
-   {
-      "remove_message" : "You wake up.",
-      "type" : "effect_type",
-      "id" : "sleep"
-   },
+	{
+		"type" : "effect_type",
+		"id" : "asked_to_follow",
+		"name" : ["Asked to Follow"],
+		"desc" : ["AI tag for an NPC that has refused to follow you."]
+	},
+	{
+		"type" : "effect_type",
+		"id" : "asked_to_lead",
+		"name" : ["Challenged to Lead"],
+		"desc" : ["AI tag for an NPC when the player has challenged their leadership."]
+	},
+	{
+		"type" : "effect_type",
+		"id" : "asked_for_item",
+		"name" : ["Asked for Item"],
+		"desc" : ["AI tag for an NPC that has recently given the player an item."]
+	},
+	{
+		"type" : "effect_type",
+		"id" : "catch_up",
+		"name" : ["NPC waiting"],
+		"desc" : ["AI tag used to determine how often an NPC tells you to catch up."],
+        "max_intensity" : 15
+	},
+	{
+		"type" : "effect_type",
+		"id" : "alarm_clock",
+		"name" : ["Alarm set"],
+		"desc" : ["You've set an alarm to wake you up at a designated time"]
+	},
+	{
+		"type" : "effect_type",
+		"id" : "lying_down",
+		"apply_message" : "You lie down to go to sleep..."
+	},
+	{
+		"type" : "effect_type",
+		"id" : "sleep",
+		"name" : ["Asleep"],
+		"desc" : ["Nighty-night, don't let the dermatiks bite."],
+		"max_intensity" : 24,
+		"remove_message" : "You wake up.",
+	},
    {
       "type" : "effect_type",
       "id" : "hot"
@@ -491,5 +477,33 @@
    {
       "type" : "effect_type",
       "id" : "infection"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "ma_buff"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "viper_combo"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "damage_boost"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "attack_boost"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "speed_boost"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "dodge_boost"
+   },
+   {
+      "type" : "effect_type",
+      "id" : "armor_boost"
    }
 ]

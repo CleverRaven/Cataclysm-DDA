@@ -183,7 +183,7 @@ void npc::execute_action(npc_action action, int target)
 /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
  * we get some sleep, how long watch shifts should be, etc.
  */
-  //add_disease("lying_down", 300);
+  //add_effect("lying_down", 300);
   if (is_friend() && g->u_see(posx, posy))
    say(_("I'm going to sleep."));
   break;
@@ -615,7 +615,7 @@ npc_action npc::address_player()
  int linet;
  if ((attitude == NPCATT_TALK || attitude == NPCATT_TRADE) &&
      g->sees_u(posx, posy, linet)) {
-  if (g->u.has_disease("sleep")) {
+  if (g->u.has_effect("sleep")) {
     // Leave sleeping characters alone.
     return npc_undecided;
   }
@@ -650,14 +650,14 @@ npc_action npc::address_player()
  if (attitude == NPCATT_LEAD) {
   if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
       !g->sees_u(posx, posy, linet)) {
-   int intense = disease_intensity("catch_up");
+   int intense = effect_intensity("catch_up");
    if (intense < 10) {
     say("<keep_up>");
-    add_disease("catch_up", 5, false, 1, 15);
+    add_effect("catch_up", 5, false);
     return npc_pause;
    } else if (intense == 10) {
     say("<im_leaving_you>");
-    add_disease("catch_up", 5, false, 1, 15);
+    add_effect("catch_up", 5, false);
     return npc_pause;
    } else
     return npc_goto_destination;

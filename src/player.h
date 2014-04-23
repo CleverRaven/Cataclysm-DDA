@@ -606,10 +606,10 @@ public:
  bool install_bionics(it_bionic* type);
  /** Handles reading effects */
  void read(int pos);
- /** Handles sleep attempts by the player, adds DIS_LYING_DOWN */
+ /** Handles sleep attempts by the player, adds "lying_down" */
  void try_to_sleep();
- /** Checked each turn during DIS_LYING_DOWN, returns true if the player falls asleep */
- bool can_sleep(); // Checked each turn during DIS_LYING_DOWN
+ /** Checked each turn during "lying_down", returns true if the player falls asleep */
+ bool can_sleep();
  /** Adds the sleeping disease to the player */
  void fall_asleep(int duration);
  /** Removes the sleeping disease from the player, displaying message */

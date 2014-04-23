@@ -922,7 +922,7 @@ bool game::do_turn()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if (u.fatigue >= 600 && !u.has_disease("sleep")){
+    if (u.fatigue >= 600 && !u.has_effect("sleep")){
         if (u.fatigue >= 1000){
             add_msg(_("Survivor sleep now."));
             u.add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
@@ -938,7 +938,7 @@ bool game::do_turn()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if (u.fatigue >= 383 && !u.has_disease("sleep")){
+    if (u.fatigue >= 383 && !u.has_effect("sleep")){
         if (u.fatigue >= 700) {
             if (turn % 50 == 0) {
                 add_msg(_("You're too tired to stop yawning."));
@@ -946,7 +946,7 @@ bool game::do_turn()
             }
             if (one_in(50 + u.int_cur)) {
                 // Rivet's idea: look out for microsleeps!
-                u.add_disease("sleep", 5);
+                u.add_effect("sleep", 5);
             }
         }
         else if (u.fatigue >= 575) {
@@ -955,7 +955,7 @@ bool game::do_turn()
                 u.add_disease("lack_sleep", 50);
             }
             if (one_in(100 + u.int_cur)) {
-                u.add_disease("sleep", 5);
+                u.add_effect("sleep", 5);
             }
         }
         else if (u.fatigue >= 383 && turn % 50 == 0) {
@@ -1002,7 +1002,7 @@ bool game::do_turn()
             }
         }
         // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-        if (u.fatigue < 1050 && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+        if (u.fatigue < 1050 && !(u.has_effect("sleep") || u.has_effect("lying_down"))) {
             u.fatigue++;
             // Wakeful folks don't always gain fatigue!
             if (u.has_trait("WAKEFUL")) {
@@ -1031,7 +1031,7 @@ bool game::do_turn()
                 u.fatigue++;
             }
         }
-        if (u.fatigue == 192 && !u.has_disease("lying_down") && !u.has_disease("sleep")) {
+        if (u.fatigue == 192 && !u.has_effect("lying_down") && !u.has_effect("sleep")) {
             if (u.activity.type == ACT_NULL) {
                 add_msg(_("You're feeling tired.  %s to lie down for sleep."),
                         press_x(ACTION_SLEEP).c_str());
@@ -1087,7 +1087,7 @@ bool game::do_turn()
         }
         u.get_sick();
         // Freakishly Huge folks tire quicker
-        if (u.has_trait("HUGE") && !(u.has_disease("sleep") || u.has_disease("lying_down"))) {
+        if (u.has_trait("HUGE") && !(u.has_effect("sleep") || u.has_effect("lying_down"))) {
             add_msg(_("<whew> You catch your breath."));
             u.fatigue++;
         }
@@ -1114,7 +1114,7 @@ bool game::do_turn()
     }
 
     process_activity();
-    if (!u.has_disease("sleep") && !u.has_disease("lying_down")) {
+    if (!u.has_effect("sleep") && !u.has_effect("lying_down")) {
         if (u.moves > 0)
         {
             while (u.moves > 0) {
@@ -1166,7 +1166,7 @@ bool game::do_turn()
         (weffect.*(weather_data[weather].effect))();
     }
 
-    if (u.has_disease("sleep") && int(turn) % 300 == 0) {
+    if (u.has_effect("sleep") && int(turn) % 300 == 0) {
         draw();
         refresh();
     }
@@ -3017,7 +3017,7 @@ bool game::handle_action()
         }
         else if (as_m.ret >= 3 && as_m.ret <= 9)
         {
-            u.add_disease("alarm_clock", 600*as_m.ret);
+            u.add_effect("alarm_clock", 600*as_m.ret);
             bSleep = true;
         }
 
@@ -5914,9 +5914,9 @@ void game::monmove()
                 u.power_level--;
                 add_msg(_("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
-                if (u.has_disease("sleep") || u.has_disease("lying_down")) {
-                    u.rem_disease("sleep");
-                    u.rem_disease("lying_down");
+                if (u.has_effect("sleep") || u.has_effect("lying_down")) {
+                    u.remove_effect("sleep");
+                    u.remove_effect("lying_down");
                 }
             }
             // We might have stumbled out of range of the player; if so, kill us
@@ -6062,13 +6062,13 @@ bool game::sound(int x, int y, int vol, std::string description)
     }
 
     // See if we need to wake someone up
-    if (u.has_disease("sleep")){
+    if (u.has_effect("sleep")){
         if ((!(u.has_trait("HEAVYSLEEPER") ||
                u.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < vol - dist) ||
               (u.has_trait("HEAVYSLEEPER") && dice(3, 15) < vol - dist) ||
               (u.has_trait("HEAVYSLEEPER2") && dice(6, 15) < vol - dist)) {
             //Not kidding about sleep-thru-firefight
-            u.rem_disease("sleep");
+            u.remove_effect("sleep");
             add_msg(_("You're woken up by a noise."));
         } else {
             return false;

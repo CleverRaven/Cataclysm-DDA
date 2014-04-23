@@ -146,6 +146,8 @@ class Creature
         /** Remove all effects */
         void clear_effects();
         bool has_effect(efftype_id eff_id, body_part bp = num_bp, int side = -1);
+        /** Returns the first effect that matches the given conditions in as ret */
+        bool get_effect(effect &ret, efftype_id eff_id, body_part bp = num_bp, int side = -1);
         int effect_duration(efftype_id eff_id, bool all = false, body_part bp = num_bp, int side = -1);
         int effect_intensity(efftype_id eff_id, bool all = false, body_part bp = num_bp, int side = -1);
 
@@ -155,10 +157,15 @@ class Creature
         /** Disease/effect functions */
         virtual void cough(bool harmful = false);
         virtual bool will_vomit(int chance = 1000);
+        
+        /** Handles sleep effects */
+        virtual void manage_sleep()
 
         /** not-quite-stats, maybe group these with stats later */
         virtual void mod_pain(int npain);
+        virtual void set_pain(int npain);
         virtual void mod_moves(int nmoves);
+        virtual void set_moves(int nmoves);
 
         /** Get/set our killer, this is currently used exclusively to allow
          *  mondeath effects to happen after death cleanup */

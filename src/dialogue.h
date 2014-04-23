@@ -40,9 +40,9 @@ struct talk_function
     void start_trade          (npc*);
     void assign_base          (npc*);
     void follow               (npc*); // p follows u
-    void deny_follow          (npc*); // p gets DI_ASKED_TO_FOLLOW
-    void deny_lead            (npc*); // p gets DI_ASKED_TO_LEAD
-    void deny_equipment       (npc*); // p gets DI_ASKED_FOR_ITEM
+    void deny_follow          (npc*); // p gets "asked_to_follow"
+    void deny_lead            (npc*); // p gets "asked_to_lead"
+    void deny_equipment       (npc*); // p gets "asked_for_item"
     void enslave              (npc*) {}; // p becomes slave of u
     void hostile              (npc*); // p turns hostile to u
     void flee                 (npc*);
