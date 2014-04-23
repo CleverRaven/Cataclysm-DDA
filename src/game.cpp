@@ -13839,12 +13839,13 @@ void game::msg_buffer()
     while(true) {
         werase(w);
         draw_border(w);
-        mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 32, c_red, _("Press %s to return"), ctxt.get_desc("QUIT").c_str());
+        mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 32, c_red, _("Press %s to return"),
+                  ctxt.get_desc("QUIT").c_str());
 
         //Draw Scrollbar
         draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT - 2, Messages::size(), 1);
-        Messages::display_messages(w, 1, FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                FULL_SCREEN_HEIGHT - 2, offset, true);
+        Messages::display_messages(w, 1, 0, FULL_SCREEN_WIDTH - 2,
+                                   FULL_SCREEN_HEIGHT - 2, offset, true);
         if (offset > 0) {
             mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 27, c_magenta, "vvv");
         }
