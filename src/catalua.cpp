@@ -577,7 +577,7 @@ void use_function::operator=(const use_function &other)
 int use_function::call(player* player_instance, item* item_instance, bool active) {
     if (function_type == USE_FUNCTION_NONE) {
         if (player_instance != NULL && player_instance->is_player()) {
-            Messages::player_messages.add_msg(_("You can't do anything interesting with your %s."), item_instance->tname().c_str());
+            add_msg(_("You can't do anything interesting with your %s."), item_instance->tname().c_str());
         }
     } else if (function_type == USE_FUNCTION_CPP) {
         // If it's a C++ function, simply call it with the given arguments.

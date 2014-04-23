@@ -38,5 +38,5 @@ void mission_end::deposit_box(mission *miss)
         itemName = "m4a1";
     }
     g->u.i_add( item(itypes[itemName], 0, false) );
-    Messages::player_messages.add_msg(_("%s gave you an item from the deposit box."), p->name.c_str());
+    add_msg(_("%s gave you an item from the deposit box."), p->name.c_str());
 }

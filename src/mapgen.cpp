@@ -780,13 +780,13 @@ void jmapgen_place_group::apply( map * m, const float mdensity ) {
     switch(op) {
         case JMAPGEN_PLACEGROUP_MONSTER: {
             for (int i = 0; i < trepeat; i++) {
-                // Messages::player_messages.add_msg("%s %d %d,%d %d,%d %.4f", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
+                // add_msg("%s %d %d,%d %d,%d %.4f", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
                 m->place_spawns(gid, chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
             }
         } break;
         case JMAPGEN_PLACEGROUP_ITEM: {
             for (int i = 0; i < trepeat; i++) {
-                // Messages::player_messages.add_msg("%s %d %d,%d %d,%d", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax);
+                // add_msg("%s %d %d,%d %d,%d", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax);
                 m->place_items(gid, chance, x.val, y.val, x.valmax, y.valmax, true, 0 );
             }
         } break;
@@ -1039,7 +1039,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         const int rlast = weightit->second.rbegin()->first;
         const int roll = rng(1, rlast);
         const int fidx = weightit->second.lower_bound( roll )->second;
-        //Messages::player_messages.add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
+        //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
         if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_C ) {
            void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( fmapit->second[fidx] )->fptr;

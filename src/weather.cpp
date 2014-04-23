@@ -225,7 +225,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
         point loc = *i;
         std::vector<item>& items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
-            //Messages::player_messages.add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
+            //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
@@ -319,11 +319,11 @@ void weather_effect::thunder()
     very_wet();
     if (one_in(THUNDER_CHANCE)) {
         if (g->levz >= 0) {
-            Messages::player_messages.add_msg(_("You hear a distant rumble of thunder."));
+            add_msg(_("You hear a distant rumble of thunder."));
         } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->levz)) {
-            Messages::player_messages.add_msg(_("You hear a rumble of thunder from above."));
+            add_msg(_("You hear a rumble of thunder from above."));
         } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz)) {
-            Messages::player_messages.add_msg(_("You hear a rumble of thunder from above."));
+            add_msg(_("You hear a rumble of thunder from above."));
         }
     }
 }
@@ -333,7 +333,7 @@ void weather_effect::lightning()
     thunder();
     if(one_in(LIGHTNING_CHANCE)) {
         if(g->levz >= 0) {
-            Messages::player_messages.add_msg(_("A flash of lightning illuminates your surroundings!"));
+            add_msg(_("A flash of lightning illuminates your surroundings!"));
             g->lightning_active = true;
         }
     } else {
@@ -346,16 +346,16 @@ void weather_effect::light_acid()
     generic_wet(true);
     if (int(calendar::turn) % 10 == 0 && PLAYER_OUTSIDE) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
-            Messages::player_messages.add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
+            add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
         } else {
             if (g->u.worn_with_flag("RAINPROOF") && !one_in(4)) {
-                Messages::player_messages.add_msg(_("Your clothing protects you from the acidic drizzle."));
+                add_msg(_("Your clothing protects you from the acidic drizzle."));
             } else {
                 bool has_helmet = false;
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(4))) {
-                    Messages::player_messages.add_msg(_("Your power armor protects you from the acidic drizzle."));
+                    add_msg(_("Your power armor protects you from the acidic drizzle."));
                 } else {
-                    Messages::player_messages.add_msg(_("The acid rain stings, but is mostly harmless for now..."));
+                    add_msg(_("The acid rain stings, but is mostly harmless for now..."));
                     if (one_in(10) && (g->u.pain < 10)) {
                         g->u.mod_pain(1);
                     }
@@ -369,16 +369,16 @@ void weather_effect::acid()
 {
     if (int(calendar::turn) % 2 == 0 && PLAYER_OUTSIDE) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
-            Messages::player_messages.add_msg(_("Your umbrella protects you from the acid rain."));
+            add_msg(_("Your umbrella protects you from the acid rain."));
         } else {
             if (g->u.worn_with_flag("RAINPROOF") && one_in(2)) {
-                Messages::player_messages.add_msg(_("Your clothing protects you from the acid rain."));
+                add_msg(_("Your clothing protects you from the acid rain."));
             } else {
                 bool has_helmet = false;
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(2))) {
-                    Messages::player_messages.add_msg(_("Your power armor protects you from the acid rain."));
+                    add_msg(_("Your power armor protects you from the acid rain."));
                 } else {
-                    Messages::player_messages.add_msg(_("The acid rain burns!"));
+                    add_msg(_("The acid rain burns!"));
                     if (one_in(2) && (g->u.pain < 100)) {
                         g->u.mod_pain( rng(1, 5) );
                     }

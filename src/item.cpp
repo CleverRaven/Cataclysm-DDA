@@ -1625,7 +1625,7 @@ void item::calc_rot()
             int old = rot;
             rot += get_rot_since( since, until );
             if (g->debugmon) {
-                Messages::player_messages.add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
+                add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
             }
         }
         last_rot_check = now;

@@ -757,7 +757,7 @@ bool choose_direction(const std::string &message, int &x, int &y)
         y = 0;
         return true;
 	}
-    Messages::player_messages.add_msg(_("Invalid direction."));
+    add_msg(_("Invalid direction."));
     return false;
 }
 

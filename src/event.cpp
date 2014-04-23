@@ -144,7 +144,7 @@ void event::actualize()
     }
    }
    if (saw_grate)
-    Messages::player_messages.add_msg(_("The nearby grates open to reveal a staircase!"));
+    add_msg(_("The nearby grates open to reveal a staircase!"));
   } break;
 
   case EVENT_TEMPLE_FLOOD: {
@@ -189,11 +189,11 @@ void event::actualize()
 // Check if we should print a message
    if (flood_buf[g->u.posx][g->u.posy] != g->m.ter(g->u.posx, g->u.posy)) {
     if (flood_buf[g->u.posx][g->u.posy] == t_water_sh) {
-     Messages::player_messages.add_msg(_("Water quickly floods up to your knees."));
+     add_msg(_("Water quickly floods up to your knees."));
      g->u.add_memorial_log(pgettext("memorial_male", "Water level reached knees."),
                            pgettext("memorial_female", "Water level reached knees."));
     } else { // Must be deep water!
-     Messages::player_messages.add_msg(_("Water fills nearly to the ceiling!"));
+     add_msg(_("Water fills nearly to the ceiling!"));
      g->u.add_memorial_log(pgettext("memorial_male", "Water level reached the ceiling."),
                            pgettext("memorial_female", "Water level reached the ceiling."));
      g->plswim(g->u.posx, g->u.posy);
@@ -248,7 +248,7 @@ void event::per_turn()
     eyebot.spawn(place.x, place.y);
     g->add_zombie(eyebot);
     if (g->u_see(place.x, place.y))
-     Messages::player_messages.add_msg(_("An eyebot swoops down nearby!"));
+     add_msg(_("An eyebot swoops down nearby!"));
    }
   } break;
 
@@ -258,15 +258,15 @@ void event::per_turn()
     return;
    }
    if (int(calendar::turn) % 3 == 0)
-    Messages::player_messages.add_msg(_("You hear screeches from the rock above and around you!"));
+    add_msg(_("You hear screeches from the rock above and around you!"));
    break;
 
   case EVENT_AMIGARA:
-   Messages::player_messages.add_msg(_("The entire cavern shakes!"));
+   add_msg(_("The entire cavern shakes!"));
    break;
 
   case EVENT_TEMPLE_OPEN:
-   Messages::player_messages.add_msg(_("The earth rumbles."));
+   add_msg(_("The earth rumbles."));
    break;
 
 

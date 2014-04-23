@@ -24,7 +24,7 @@ float pit_effectiveness(int x, int y)
 
 void trapfunc::bubble(int x, int y)
 {
- Messages::player_messages.add_msg(_("You step on some bubble wrap!"));
+ add_msg(_("You step on some bubble wrap!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Stepped on bubble wrap."),
                        pgettext("memorial_female", "Stepped on bubble wrap."));
  g->sound(x, y, 18, _("Pop!"));
@@ -43,13 +43,13 @@ void trapfuncm::bubble(monster *z, int x, int y)
 
 void trapfuncm::cot(monster *z, int, int)
 {
- Messages::player_messages.add_msg(_("The %s stumbles over the cot"), z->name().c_str());
+ add_msg(_("The %s stumbles over the cot"), z->name().c_str());
  z->moves -= 100;
 }
 
 void trapfunc::beartrap(int x, int y)
 {
-    Messages::player_messages.add_msg(_("A bear trap closes on your foot!"));
+    add_msg(_("A bear trap closes on your foot!"));
     g->u.add_memorial_log(pgettext("memorial_male", "Caught by a beartrap."),
                           pgettext("memorial_female", "Caught by a beartrap."));
     g->sound(x, y, 8, _("SNAP!"));
@@ -80,7 +80,7 @@ void trapfuncm::beartrap(monster *z, int x, int y)
 
 void trapfunc::board(int, int)
 {
- Messages::player_messages.add_msg(_("You step on a spiked board!"));
+ add_msg(_("You step on a spiked board!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Stepped on a spiked board."),
                        pgettext("memorial_female", "Stepped on a spiked board."));
  g->u.hit(NULL, bp_feet, 0, 0, rng(6, 10));
@@ -94,7 +94,7 @@ void trapfuncm::board(monster *z, int x, int y)
         return;
 
  if (g->u_see(z))
-  Messages::player_messages.add_msg(_("The %s steps on a spiked board!"), z->name().c_str());
+  add_msg(_("The %s steps on a spiked board!"), z->name().c_str());
  if (z->hurt(rng(6, 10)))
   g->kill_mon(g->mon_at(x, y));
  else
@@ -103,7 +103,7 @@ void trapfuncm::board(monster *z, int x, int y)
 
 void trapfunc::caltrops(int, int)
 {
- Messages::player_messages.add_msg(_("You step on a sharp metal caltrop!"));
+ add_msg(_("You step on a sharp metal caltrop!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Stepped on a caltrop."),
                        pgettext("memorial_female", "Stepped on a caltrop."));
  g->u.hit(NULL, bp_feet, 0, 0, rng(9, 30));
@@ -117,7 +117,7 @@ void trapfuncm::caltrops(monster *z, int x, int y)
         return;
 
  if (g->u_see(z))
-  Messages::player_messages.add_msg(_("The %s steps on a caltrop!"), z->name().c_str());
+  add_msg(_("The %s steps on a caltrop!"), z->name().c_str());
  if (z->hurt(rng(18, 30)))
   g->kill_mon(g->mon_at(x, y));
  else
@@ -125,7 +125,7 @@ void trapfuncm::caltrops(monster *z, int x, int y)
 }
 void trapfunc::tripwire(int x, int y)
 {
- Messages::player_messages.add_msg(_("You trip over a tripwire!"));
+ add_msg(_("You trip over a tripwire!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Tripped on a tripwire."),
                        pgettext("memorial_female", "Tripped on a tripwire."));
  std::vector<point> valid;
@@ -152,7 +152,7 @@ void trapfuncm::tripwire(monster *z, int, int)
         return;
 
  if (g->u_see(z))
-  Messages::player_messages.add_msg(_("The %s trips over a tripwire!"), z->name().c_str());
+  add_msg(_("The %s trips over a tripwire!"), z->name().c_str());
  z->stumble(false);
  if (rng(0, 10) > z->type->sk_dodge && z->hurt(rng(1, 4)))
   g->kill_mon(g->mon_at(z->posx(), z->posy()));
@@ -161,7 +161,7 @@ void trapfuncm::tripwire(monster *z, int, int)
 void trapfunc::crossbow(int x, int y)
 {
  bool add_bolt = true;
- Messages::player_messages.add_msg(_("You trigger a crossbow trap!"));
+ add_msg(_("You trigger a crossbow trap!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Triggered a crossbow trap."),
                        pgettext("memorial_female", "Triggered a crossbow trap."));
  if (!one_in(4) && rng(8, 20) > g->u.get_dodge()) {
@@ -179,11 +179,11 @@ void trapfunc::crossbow(int x, int y)
    case 10: hit = bp_head; break;
   }
   int side = random_side(hit);
-  Messages::player_messages.add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
+  add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
   g->u.hit(NULL, hit, side, 0, rng(20, 30));
   add_bolt = !one_in(10);
  } else
-  Messages::player_messages.add_msg(_("You dodge the shot!"));
+  add_msg(_("You dodge the shot!"));
  g->m.remove_trap(x, y);
  g->m.spawn_item(x, y, "crossbow");
  g->m.spawn_item(x, y, "string_6");
@@ -209,13 +209,13 @@ void trapfuncm::crossbow(monster *z, int x, int y)
     if (one_in(chance))
     {
         if (seen)
-            Messages::player_messages.add_msg(_("A bolt shoots out and hits the %s!"), z->name().c_str());
+            add_msg(_("A bolt shoots out and hits the %s!"), z->name().c_str());
         if (z->hurt(rng(20, 30)))
             g->kill_mon(g->mon_at(x, y));
         add_bolt = !one_in(10);
     }
     else if (seen)
-        Messages::player_messages.add_msg(_("A bolt shoots out, but misses the %s."), z->name().c_str());
+        add_msg(_("A bolt shoots out, but misses the %s."), z->name().c_str());
     g->m.remove_trap(x, y);
     g->m.spawn_item(x, y, "crossbow");
     g->m.spawn_item(x, y, "string_6");
@@ -225,7 +225,7 @@ void trapfuncm::crossbow(monster *z, int x, int y)
 
 void trapfunc::shotgun(int x, int y)
 {
- Messages::player_messages.add_msg(_("You trigger a shotgun trap!"));
+ add_msg(_("You trigger a shotgun trap!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Triggered a shotgun trap."),
                        pgettext("memorial_female", "Triggered a shotgun trap."));
  int shots = (one_in(8) || one_in(20 - g->u.str_max) ? 2 : 1);
@@ -246,10 +246,10 @@ void trapfunc::shotgun(int x, int y)
    case 10: hit = bp_head; break;
   }
   int side = random_side(hit);
-  Messages::player_messages.add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
+  add_msg(_("Your %s is hit!"), body_part_name(hit, side).c_str());
   g->u.hit(NULL, hit, side, 0, rng(40 * shots, 60 * shots));
  } else
-  Messages::player_messages.add_msg(_("You dodge the shot!"));
+  add_msg(_("You dodge the shot!"));
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
   g->m.spawn_item(x, y, "shotgun_sawn");
   g->m.spawn_item(x, y, "string_6");
@@ -273,7 +273,7 @@ void trapfuncm::shotgun(monster *z, int x, int y)
  if (g->m.tr_at(x, y) == tr_shotgun_1)
   shots = 1;
  if (seen)
-  Messages::player_messages.add_msg(_("A shotgun fires and hits the %s!"), z->name().c_str());
+  add_msg(_("A shotgun fires and hits the %s!"), z->name().c_str());
  if (z->hurt(rng(40 * shots, 60 * shots)))
   g->kill_mon(g->mon_at(x, y));
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
@@ -289,7 +289,7 @@ void trapfuncm::shotgun(monster *z, int x, int y)
 
 void trapfunc::blade(int, int)
 {
- Messages::player_messages.add_msg(_("A blade swings out and hacks your torso!"));
+ add_msg(_("A blade swings out and hacks your torso!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Triggered a blade trap."),
                        pgettext("memorial_female", "Triggered a blade trap."));
  g->u.hit(NULL, bp_torso, -1, 12, 30);
@@ -298,7 +298,7 @@ void trapfunc::blade(int, int)
 void trapfuncm::blade(monster *z, int x, int y)
 {
  if (g->u_see(z))
-  Messages::player_messages.add_msg(_("A blade swings out and hacks the %s!"), z->name().c_str());
+  add_msg(_("A blade swings out and hacks the %s!"), z->name().c_str());
  int cutdam = 30 - z->get_armor_cut(bp_torso);
  int bashdam = 12 - z->get_armor_bash(bp_torso);
  if (cutdam < 0)
@@ -312,7 +312,7 @@ void trapfuncm::blade(monster *z, int x, int y)
 void trapfunc::snare_light(int x, int y)
 {
  g->sound(x, y, 2, _("Snap!"));
- Messages::player_messages.add_msg(_("A snare closes on your leg."));
+ add_msg(_("A snare closes on your leg."));
  g->u.add_memorial_log(pgettext("memorial_male", "Triggered a light snare."),
                        pgettext("memorial_female", "Triggered a light snare."));
  g->u.add_disease("lightsnare", rng(10, 20));
@@ -328,7 +328,7 @@ void trapfuncm::snare_light(monster *z, int x, int y)
  switch (z->type->size) {
   case MS_TINY:
    if(seen){
-    Messages::player_messages.add_msg(_("The %s has been snared!"), z->name().c_str());
+    add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    if(z->hurt(10)){
     g->kill_mon(g->mon_at(x, y));
@@ -338,26 +338,26 @@ void trapfuncm::snare_light(monster *z, int x, int y)
    break;
   case MS_SMALL:
    if(seen){
-    Messages::player_messages.add_msg(_("The %s has been snared!"), z->name().c_str());
+    add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    z->moves = 0;
    z->add_effect("beartrap", rng(100, 150));
    break;
   case MS_MEDIUM:
    if(seen){
-    Messages::player_messages.add_msg(_("The %s has been snared!"), z->name().c_str());
+    add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    z->moves = 0;
    z->add_effect("beartrap", rng(20, 30));
    break;
   case MS_LARGE:
    if(seen){
-    Messages::player_messages.add_msg(_("The snare has no effect on the %s!"), z->name().c_str());
+    add_msg(_("The snare has no effect on the %s!"), z->name().c_str());
    }
    break;
   case MS_HUGE:
    if(seen){
-    Messages::player_messages.add_msg(_("The snare has no effect on the %s!"), z->name().c_str());
+    add_msg(_("The snare has no effect on the %s!"), z->name().c_str());
    }
    break;
  }
@@ -371,7 +371,7 @@ void trapfunc::snare_heavy(int x, int y)
  int side = one_in(2) ? 0 : 1;
  body_part hit = bp_legs;
  g->sound(x, y, 4, _("Snap!"));
- Messages::player_messages.add_msg(_("A snare closes on your %s."), body_part_name(hit, side).c_str());
+ add_msg(_("A snare closes on your %s."), body_part_name(hit, side).c_str());
  g->u.add_memorial_log(pgettext("memorial_male", "Triggered a heavy snare."),
                        pgettext("memorial_female", "Triggered a heavy snare."));
  g->u.hit(NULL, bp_legs, side, 15, 20);
@@ -388,7 +388,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
  switch (z->type->size) {
   case MS_TINY:
    if(seen){
-    Messages::player_messages.add_msg(_("The %s has been snared!"), z->name().c_str());
+    add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    if(z->hurt(20)){
     g->kill_mon(g->mon_at(x, y));
@@ -399,7 +399,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
    break;
   case MS_SMALL:
    if(seen){
-    Messages::player_messages.add_msg(_("The %s has been snared!"), z->name().c_str());
+    add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    if(z->hurt(20)){
     g->kill_mon(g->mon_at(x, y));
@@ -410,7 +410,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
    break;
   case MS_MEDIUM:
    if(seen){
-    Messages::player_messages.add_msg(_("The %s has been snared!"), z->name().c_str());
+    add_msg(_("The %s has been snared!"), z->name().c_str());
    }
    if(z->hurt(10)){
     g->kill_mon(g->mon_at(x, y));
@@ -421,14 +421,14 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
    break;
   case MS_LARGE:
    if(seen){
-    Messages::player_messages.add_msg(_("The %s has been snared!"), z->name().c_str());
+    add_msg(_("The %s has been snared!"), z->name().c_str());
    }
     z->moves = 0;
     z->add_effect("beartrap", rng(20, 30));
    break;
   case MS_HUGE:
    if(seen){
-    Messages::player_messages.add_msg(_("The snare has no effect on the %s!"), z->name().c_str());
+    add_msg(_("The snare has no effect on the %s!"), z->name().c_str());
    }
    break;
  }
@@ -439,7 +439,7 @@ void trapfuncm::snare_heavy(monster *z, int x, int y)
 
 void trapfunc::landmine(int x, int y)
 {
- Messages::player_messages.add_msg(_("You trigger a land mine!"));
+ add_msg(_("You trigger a land mine!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Stepped on a land mine."),
                        pgettext("memorial_female", "Stepped on a land mine."));
  g->explosion(x, y, 10, 8, false);
@@ -453,14 +453,14 @@ void trapfuncm::landmine(monster *z, int x, int y)
         return;
 
  if (g->u_see(x, y))
-  Messages::player_messages.add_msg(_("The %s steps on a land mine!"), z->name().c_str());
+  add_msg(_("The %s steps on a land mine!"), z->name().c_str());
  g->explosion(x, y, 10, 8, false);
  g->m.remove_trap(x, y);
 }
 
 void trapfunc::boobytrap(int x, int y)
 {
- Messages::player_messages.add_msg(_("You trigger a booby trap!"));
+ add_msg(_("You trigger a booby trap!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Triggered a booby trap."),
                        pgettext("memorial_female", "Triggered a booby trap."));
  g->explosion(x, y, 18, 12, false);
@@ -470,7 +470,7 @@ void trapfunc::boobytrap(int x, int y)
 void trapfuncm::boobytrap(monster *z, int x, int y)
 {
  if (g->u_see(x, y))
-  Messages::player_messages.add_msg(_("The %s triggers a booby trap!"), z->name().c_str());
+  add_msg(_("The %s triggers a booby trap!"), z->name().c_str());
  g->explosion(x, y, 18, 12, false);
  g->m.remove_trap(x, y);
 }
@@ -479,7 +479,7 @@ void trapfunc::telepad(int x, int y)
 {
     //~ the sound of a telepad functioning
     g->sound(x, y, 6, _("vvrrrRRMM*POP!*"));
-    Messages::player_messages.add_msg(_("The air shimmers around you..."));
+    add_msg(_("The air shimmers around you..."));
     g->u.add_memorial_log(pgettext("memorial_male", "Triggered a teleport trap."),
                           pgettext("memorial_female", "Triggered a teleport trap."));
     g->teleport();
@@ -489,7 +489,7 @@ void trapfuncm::telepad(monster *z, int x, int y)
 {
  g->sound(x, y, 6, _("vvrrrRRMM*POP!*"));
  if (g->u_see(z))
-  Messages::player_messages.add_msg(_("The air shimmers around the %s..."), z->name().c_str());
+  add_msg(_("The air shimmers around the %s..."), z->name().c_str());
 
  int tries = 0;
  int newposx, newposy;
@@ -505,7 +505,7 @@ void trapfuncm::telepad(monster *z, int x, int y)
   int mon_hit = g->mon_at(newposx, newposy);
   if (mon_hit != -1) {
    if (g->u_see(z))
-    Messages::player_messages.add_msg(_("The %s teleports into a %s, killing them both!"),
+    add_msg(_("The %s teleports into a %s, killing them both!"),
                z->name().c_str(), g->zombie(mon_hit).name().c_str());
    g->explode_mon(mon_hit);
   } else {
@@ -516,12 +516,12 @@ void trapfuncm::telepad(monster *z, int x, int y)
 
 void trapfunc::goo(int x, int y)
 {
- Messages::player_messages.add_msg(_("You step in a puddle of thick goo."));
+ add_msg(_("You step in a puddle of thick goo."));
  g->u.add_memorial_log(pgettext("memorial_male", "Stepped into thick goo."),
                        pgettext("memorial_female", "Stepped into thick goo."));
  g->u.infect("slimed", bp_feet, 6, 20);
  if (one_in(3)) {
-  Messages::player_messages.add_msg(_("The acidic goo eats away at your feet."));
+  add_msg(_("The acidic goo eats away at your feet."));
   g->u.hit(NULL, bp_feet, 0, 0, 5);
   g->u.hit(NULL, bp_feet, 1, 0, 5);
  }
@@ -543,7 +543,7 @@ void trapfuncm::goo(monster *z, int x, int y)
 
 void trapfunc::dissector(int x, int y)
 {
- Messages::player_messages.add_msg(_("Electrical beams emit from the floor and slice your flesh!"));
+ add_msg(_("Electrical beams emit from the floor and slice your flesh!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Stepped into a dissector."),
                        pgettext("memorial_female", "Stepped into a dissector."));
  //~ the sound of a dissector dissecting
@@ -569,22 +569,22 @@ void trapfuncm::dissector(monster *z, int x, int y)
 
 void trapfunc::pit(int x, int y)
 {
-    Messages::player_messages.add_msg(_("You fall in a pit!"));
+    add_msg(_("You fall in a pit!"));
     g->u.add_memorial_log(pgettext("memorial_male", "Fell in a pit."),
                           pgettext("memorial_female", "Fell in a pit."));
     if ( (g->u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (g->u.has_trait("WINGS_BUTTERFLY"))) ) {
-        Messages::player_messages.add_msg(_("You flap your wings and flutter down gracefully."));
+        add_msg(_("You flap your wings and flutter down gracefully."));
     } else {
         float eff = pit_effectiveness(x, y);
         int dodge = g->u.get_dodge();
         int damage = eff * rng(10, 20) - rng(dodge, dodge * 5);
         if (damage > 0) {
-            Messages::player_messages.add_msg(_("You hurt yourself!"));
+            add_msg(_("You hurt yourself!"));
             g->u.hurtall(rng(int(damage / 2), damage));
             g->u.hit(NULL, bp_legs, 0, damage, 0);
             g->u.hit(NULL, bp_legs, 1, damage, 0);
         } else {
-            Messages::player_messages.add_msg(_("You land nimbly."));
+            add_msg(_("You land nimbly."));
         }
     }
     g->u.add_disease("in_pit", 1, true);
@@ -597,7 +597,7 @@ void trapfuncm::pit(monster *z, int x, int y)
         return;
 
     if (g->u_see(x, y)) {
-        Messages::player_messages.add_msg(_("The %s falls in a pit!"), z->name().c_str());
+        add_msg(_("The %s falls in a pit!"), z->name().c_str());
     }
 
     if (z->hurt(pit_effectiveness(x, y) * rng(10, 20))) {
@@ -609,15 +609,15 @@ void trapfuncm::pit(monster *z, int x, int y)
 
 void trapfunc::pit_spikes(int x, int y)
 {
-    Messages::player_messages.add_msg(_("You fall in a pit!"));
+    add_msg(_("You fall in a pit!"));
     g->u.add_memorial_log(pgettext("memorial_male", "Fell into a spiked pit."),
                           pgettext("memorial_female", "Fell into a spiked pit."));
     int dodge = g->u.get_dodge();
     int damage = pit_effectiveness(x, y) * rng(20, 50);
     if ( (g->u.has_trait("WINGS_BIRD")) || ((one_in(2)) && (g->u.has_trait("WINGS_BUTTERFLY"))) ) {
-        Messages::player_messages.add_msg(_("You flap your wings and flutter down gracefully."));
+        add_msg(_("You flap your wings and flutter down gracefully."));
     } else if (0 == damage || rng(5, 30) < dodge) {
-        Messages::player_messages.add_msg(_("You avoid the spikes within."));
+        add_msg(_("You avoid the spikes within."));
     } else {
         body_part hit = num_bp;
         switch (rng(1, 10)) {
@@ -633,10 +633,10 @@ void trapfunc::pit_spikes(int x, int y)
             case 10: hit = bp_torso; break;
         }
         int side = random_side(hit);
-        Messages::player_messages.add_msg(_("The spikes impale your %s!"), body_part_name(hit, side).c_str());
+        add_msg(_("The spikes impale your %s!"), body_part_name(hit, side).c_str());
         g->u.hit(NULL, hit, side, 0, damage);
         if (one_in(4)) {
-            Messages::player_messages.add_msg(_("The spears break!"));
+            add_msg(_("The spears break!"));
             g->m.ter_set(x, y, t_pit);
             g->m.add_trap(x, y, tr_pit);
             for (int i = 0; i < 4; i++) { // 4 spears to a pit
@@ -656,7 +656,7 @@ void trapfuncm::pit_spikes(monster *z, int x, int y)
 
     bool sees = g->u_see(z);
     if (sees) {
-        Messages::player_messages.add_msg(_("The %s falls in a spiked pit!"), z->name().c_str());
+        add_msg(_("The %s falls in a spiked pit!"), z->name().c_str());
     }
 
     if (z->hurt(rng(20, 50))) {
@@ -667,7 +667,7 @@ void trapfuncm::pit_spikes(monster *z, int x, int y)
 
     if (one_in(4)) {
         if (sees) {
-            Messages::player_messages.add_msg(_("The spears break!"));
+            add_msg(_("The spears break!"));
         }
         g->m.ter_set(x, y, t_pit);
         g->m.add_trap(x, y, tr_pit);
@@ -681,7 +681,7 @@ void trapfuncm::pit_spikes(monster *z, int x, int y)
 
 void trapfunc::lava(int x, int y)
 {
- Messages::player_messages.add_msg(_("The %s burns you horribly!"), g->m.tername(x, y).c_str());
+ add_msg(_("The %s burns you horribly!"), g->m.tername(x, y).c_str());
  g->u.add_memorial_log(pgettext("memorial_male", "Stepped into lava."),
                        pgettext("memorial_female", "Stepped into lava."));
  g->u.hit(NULL, bp_feet, 0, 0, 20);
@@ -696,7 +696,7 @@ void trapfuncm::lava(monster *z, int x, int y)
 {
  bool sees = g->u_see(z);
  if (sees)
-  Messages::player_messages.add_msg(_("The %s burns the %s!"), g->m.tername(x, y).c_str(),
+  add_msg(_("The %s burns the %s!"), g->m.tername(x, y).c_str(),
                                      z->name().c_str());
 
  int dam = 30;
@@ -737,7 +737,7 @@ void trapfuncm::portal(monster *z, int x, int y)
 void trapfunc::sinkhole(int x, int y)
 {
     (void)x; (void)y; // unused
- Messages::player_messages.add_msg(_("You step into a sinkhole, and start to sink down!"));
+ add_msg(_("You step into a sinkhole, and start to sink down!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Stepped into a sinkhole."),
                        pgettext("memorial_female", "Stepped into a sinkhole."));
  if (g->u.has_amount("grapnel", 1) &&
@@ -745,7 +745,7 @@ void trapfunc::sinkhole(int x, int y)
   int throwroll = rng(g->u.skillLevel("throw"),
                       g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
   if (throwroll >= 6) {
-   Messages::player_messages.add_msg(_("The grappling hook catches something!"));
+   add_msg(_("The grappling hook catches something!"));
    if (rng(g->u.skillLevel("unarmed"),
            g->u.skillLevel("unarmed") + g->u.str_cur) > 4) {
 // Determine safe places for the character to get pulled to
@@ -757,13 +757,13 @@ void trapfunc::sinkhole(int x, int y)
      }
     }
     if (safe.empty()) {
-     Messages::player_messages.add_msg(_("There's nowhere to pull yourself to, and you sink!"));
+     add_msg(_("There's nowhere to pull yourself to, and you sink!"));
      g->u.use_amount("grapnel", 1);
      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
      g->m.ter_set(g->u.posx, g->u.posy, t_hole);
      g->vertical_move(-1, true);
     } else {
-     Messages::player_messages.add_msg(_("You pull yourself to safety!  The sinkhole collapses."));
+     add_msg(_("You pull yourself to safety!  The sinkhole collapses."));
      int index = rng(0, safe.size() - 1);
      g->m.ter_set(g->u.posx, g->u.posy, t_hole);
      g->u.posx = safe[index].x;
@@ -771,7 +771,7 @@ void trapfunc::sinkhole(int x, int y)
      g->update_map(g->u.posx, g->u.posy);
     }
    } else {
-    Messages::player_messages.add_msg(_("You're not strong enough to pull yourself out..."));
+    add_msg(_("You're not strong enough to pull yourself out..."));
     g->u.moves -= 100;
     g->u.use_amount("grapnel", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
@@ -779,7 +779,7 @@ void trapfunc::sinkhole(int x, int y)
     g->vertical_move(-1, true);
    }
   } else {
-   Messages::player_messages.add_msg(_("Your throw misses completely, and you sink!"));
+   add_msg(_("Your throw misses completely, and you sink!"));
    if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
     g->u.use_amount("grapnel", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
@@ -792,7 +792,7 @@ void trapfunc::sinkhole(int x, int y)
   int throwroll = rng(g->u.skillLevel("throw"),
                       g->u.skillLevel("throw") + g->u.str_cur + g->u.dex_cur);
   if (throwroll >= 12) {
-   Messages::player_messages.add_msg(_("The rope catches something!"));
+   add_msg(_("The rope catches something!"));
    if (rng(g->u.skillLevel("unarmed"),
            g->u.skillLevel("unarmed") + g->u.str_cur) > 6) {
 // Determine safe places for the character to get pulled to
@@ -804,13 +804,13 @@ void trapfunc::sinkhole(int x, int y)
      }
     }
     if (safe.empty()) {
-     Messages::player_messages.add_msg(_("There's nowhere to pull yourself to, and you sink!"));
+     add_msg(_("There's nowhere to pull yourself to, and you sink!"));
      g->u.use_amount("rope_30", 1);
      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
      g->m.ter_set(g->u.posx, g->u.posy, t_hole);
      g->vertical_move(-1, true);
     } else {
-     Messages::player_messages.add_msg(_("You pull yourself to safety!  The sinkhole collapses."));
+     add_msg(_("You pull yourself to safety!  The sinkhole collapses."));
      int index = rng(0, safe.size() - 1);
      g->m.ter_set(g->u.posx, g->u.posy, t_hole);
      g->u.posx = safe[index].x;
@@ -818,7 +818,7 @@ void trapfunc::sinkhole(int x, int y)
      g->update_map(g->u.posx, g->u.posy);
     }
    } else {
-    Messages::player_messages.add_msg(_("You're not strong enough to pull yourself out..."));
+    add_msg(_("You're not strong enough to pull yourself out..."));
     g->u.moves -= 100;
     g->u.use_amount("rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
@@ -826,7 +826,7 @@ void trapfunc::sinkhole(int x, int y)
     g->vertical_move(-1, true);
    }
   } else {
-   Messages::player_messages.add_msg(_("Your throw misses completely, and you sink!"));
+   add_msg(_("Your throw misses completely, and you sink!"));
    if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
     g->u.use_amount("rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
@@ -835,7 +835,7 @@ void trapfunc::sinkhole(int x, int y)
    g->vertical_move(-1, true);
   }
  } else {
-  Messages::player_messages.add_msg(_("You sink into the sinkhole!"));
+  add_msg(_("You sink into the sinkhole!"));
   g->m.ter_set(g->u.posx, g->u.posy, t_hole);
   g->vertical_move(-1, true);
  }
@@ -853,7 +853,7 @@ void trapfuncm::sinkhole(monster *z, int x, int y)
 
 void trapfunc::ledge(int, int)
 {
- Messages::player_messages.add_msg(_("You fall down a level!"));
+ add_msg(_("You fall down a level!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Fell down a ledge."),
                        pgettext("memorial_female", "Fell down a ledge."));
  g->vertical_move(-1, true);
@@ -861,14 +861,14 @@ void trapfunc::ledge(int, int)
 
 void trapfuncm::ledge(monster *z, int x, int y)
 {
- Messages::player_messages.add_msg(_("The %s falls down a level!"), z->name().c_str());
+ add_msg(_("The %s falls down a level!"), z->name().c_str());
  g->kill_mon(g->mon_at(x, y));
 }
 
 void trapfunc::temple_flood(int x, int y)
 {
     (void)x; (void)y; // unused
- Messages::player_messages.add_msg(_("You step on a loose tile, and water starts to flood the room!"));
+ add_msg(_("You step on a loose tile, and water starts to flood the room!"));
  g->u.add_memorial_log(pgettext("memorial_male", "Triggered a flood trap."),
                        pgettext("memorial_female", "Triggered a flood trap."));
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
@@ -882,7 +882,7 @@ void trapfunc::temple_flood(int x, int y)
 
 void trapfunc::temple_toggle(int x, int y)
 {
- Messages::player_messages.add_msg(_("You hear the grinding of shifting rock."));
+ add_msg(_("You hear the grinding of shifting rock."));
  ter_id type = g->m.oldter(x, y);
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++) {
@@ -916,13 +916,13 @@ void trapfunc::temple_toggle(int x, int y)
 void trapfunc::glow(int, int)
 {
  if (one_in(3)) {
-  Messages::player_messages.add_msg(_("You're bathed in radiation!"));
+  add_msg(_("You're bathed in radiation!"));
   g->u.radiation += rng(10, 30);
  } else if (one_in(4)) {
-  Messages::player_messages.add_msg(_("A blinding flash strikes you!"));
+  add_msg(_("A blinding flash strikes you!"));
   g->flashbang(g->u.posx, g->u.posy);
  } else
-  Messages::player_messages.add_msg(_("Small flashes surround you."));
+  add_msg(_("Small flashes surround you."));
 }
 
 void trapfuncm::glow(monster *z, int, int)
@@ -991,7 +991,7 @@ void trapfunc::shadow(int x, int y)
           !g->m.sees(monx, mony, g->u.posx, g->u.posy, 10, junk));
 
  if (tries < 5) {
-  Messages::player_messages.add_msg(_("A shadow forms nearby."));
+  add_msg(_("A shadow forms nearby."));
   spawned.sp_timeout = rng(2, 10);
   spawned.spawn(monx, mony);
   g->add_zombie(spawned);
@@ -1003,7 +1003,7 @@ void trapfunc::drain(int, int)
 {
  g->u.add_memorial_log(pgettext("memorial_male", "Triggered a life-draining trap."),
                        pgettext("memorial_female", "Triggered a life-draining trap."));
- Messages::player_messages.add_msg(_("You feel your life force sapping away."));
+ add_msg(_("You feel your life force sapping away."));
  g->u.hurtall(1);
 }
 
@@ -1031,7 +1031,7 @@ void trapfunc::snake(int x, int y)
            !g->m.sees(monx, mony, g->u.posx, g->u.posy, 10, junk));
 
   if (tries < 5) {
-   Messages::player_messages.add_msg(_("A shadowy snake forms nearby."));
+   add_msg(_("A shadowy snake forms nearby."));
    spawned.spawn(monx, mony);
    g->add_zombie(spawned);
    g->m.remove_trap(x, y);
