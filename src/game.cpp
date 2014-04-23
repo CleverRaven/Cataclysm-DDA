@@ -3503,10 +3503,9 @@ void game::death_screen()
     mvwprintz(w_death, 2, 3, c_ltred, "%s", sText.c_str());
     wrefresh(w_death);
     refresh();
-    InputEvent input;
-    do
-        input = get_input();
-    while(input != Cancel && input != Close && input != Confirm);
+    while(getch() != ' ') {
+        // wait for another key press
+    }
     delwin(w_death);
 
     msg_buffer();
@@ -4516,89 +4515,90 @@ void game::disp_NPCs()
     delwin(w);
 }
 
-faction* game::list_factions(std::string title)
+faction *game::list_factions(std::string title)
 {
- std::vector<faction> valfac; // Factions that we know of.
- for (int i = 0; i < factions.size(); i++) {
-  if (factions[i].known_by_u)
-   valfac.push_back(factions[i]);
- }
- if (valfac.empty()) { // We don't know of any factions!
-  popup(_("You don't know of any factions.  Press Spacebar..."));
-  return NULL;
- }
+    std::vector<faction*> valfac; // Factions that we know of.
+    for (size_t i = 0; i < factions.size(); i++) {
+        if (factions[i].known_by_u) {
+            valfac.push_back(&(factions[i]));
+        }
+    }
+    if (valfac.empty()) { // We don't know of any factions!
+        popup(_("You don't know of any factions.  Press Spacebar..."));
+        return NULL;
+    }
 
- WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                         ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
-                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
- WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT-2, FULL_SCREEN_WIDTH-1 - MAX_FAC_NAME_SIZE,
-                         1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
-                         MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
+    WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                            ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
+                            (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+    WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
+                            1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0),
+                            MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0));
 
- draw_border(w_list);
+    int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
+    size_t sel = 0;
+    bool redraw = true;
 
- int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
- int sel = 0;
-
-// Init w_list content
- mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
- for (int i = 0; i < valfac.size(); i++) {
-  nc_color col = (i == 0 ? h_white : c_white);
-  mvwprintz(w_list, i + 2, 1, col, "%s", valfac[i].name.c_str());
- }
- wrefresh(w_list);
-// Init w_info content
-// fac_*_text() is in faction.cpp
- mvwprintz(w_info, 0, 0, c_white,
-          _("Ranking: %s"), fac_ranking_text(valfac[0].likes_u).c_str());
- mvwprintz(w_info, 1, 0, c_white,
-          _("Respect: %s"), fac_respect_text(valfac[0].respects_u).c_str());
- fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe());
- wrefresh(w_info);
- InputEvent input;
- do {
-  input = get_input();
-  switch ( input ) {
-  case DirectionS: // Move selection down
-   mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
-   if (sel == valfac.size() - 1)
-    sel = 0; // Wrap around
-   else
-    sel++;
-   break;
-  case DirectionN: // Move selection up
-   mvwprintz(w_list, sel + 2, 1, c_white, "%s", valfac[sel].name.c_str());
-   if (sel == 0)
-    sel = valfac.size() - 1; // Wrap around
-   else
-    sel--;
-   break;
-  case Cancel:
-  case Close:
-   sel = -1;
-   break;
-  }
-  if (input == DirectionS || input == DirectionN) { // Changed our selection... update the windows
-   mvwprintz(w_list, sel + 2, 1, h_white, "%s", valfac[sel].name.c_str());
-   wrefresh(w_list);
-   werase(w_info);
-// fac_*_text() is in faction.cpp
-   mvwprintz(w_info, 0, 0, c_white,
-            _("Ranking: %s"), fac_ranking_text(valfac[sel].likes_u).c_str());
-   mvwprintz(w_info, 1, 0, c_white,
-            _("Respect: %s"), fac_respect_text(valfac[sel].respects_u).c_str());
-   fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe());
-   wrefresh(w_info);
-  }
- } while (input != Cancel && input != Confirm && input != Close);
- werase(w_list);
- werase(w_info);
- delwin(w_list);
- delwin(w_info);
- refresh_all();
- if (sel == -1)
-  return NULL;
- return &(factions[valfac[sel].id]);
+    input_context ctxt("FACTIONS");
+    ctxt.register_action("UP", _("Move cursor up"));
+    ctxt.register_action("DOWN", _("Move cursor down"));
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    faction *cur_frac = NULL;
+    while(true) {
+        cur_frac = valfac[sel];
+        if (redraw) {
+            // Init w_list content
+            werase(w_list);
+            draw_border(w_list);
+            mvwprintz(w_list, 1, 1, c_white, "%s", title.c_str());
+            for (size_t i = 0; i < valfac.size(); i++) {
+                nc_color col = (i == sel ? h_white : c_white);
+                mvwprintz(w_list, i + 2, 1, col, "%s", valfac[i]->name.c_str());
+            }
+            wrefresh(w_list);
+            // Init w_info content
+            // fac_*_text() is in faction.cpp
+            werase(w_info);
+            mvwprintz(w_info, 0, 0, c_white,
+                    _("Ranking: %s"), fac_ranking_text(cur_frac->likes_u).c_str());
+            mvwprintz(w_info, 1, 0, c_white,
+                    _("Respect: %s"), fac_respect_text(cur_frac->respects_u).c_str());
+            fold_and_print(w_info, 3, 0, maxlength, c_white, cur_frac->describe());
+            wrefresh(w_info);
+            redraw = false;
+        }
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
+            mvwprintz(w_list, sel + 2, 1, c_white, "%s", cur_frac->name.c_str());
+            if (sel == valfac.size() - 1) {
+                sel = 0;    // Wrap around
+            } else {
+                sel++;
+            }
+            redraw = true;
+        } else if (action == "UP") {
+            mvwprintz(w_list, sel + 2, 1, c_white, "%s", cur_frac->name.c_str());
+            if (sel == 0) {
+                sel = valfac.size() - 1;    // Wrap around
+            } else {
+                sel--;
+            }
+            redraw = true;
+        } else if (action == "QUIT") {
+            cur_frac = NULL;
+            break;
+        } else if (action == "CONFIRM") {
+            break;
+        }
+    }
+    werase(w_list);
+    werase(w_info);
+    delwin(w_list);
+    delwin(w_info);
+    refresh_all();
+    return cur_frac;
 }
 
 void game::list_missions()
@@ -4607,9 +4607,14 @@ void game::list_missions()
                                 (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                                 (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
-    int tab = 0, selection = 0;
-    InputEvent input;
-    do {
+    int tab = 0;
+    size_t selection = 0;
+    input_context ctxt("MISSIONS");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    while(true) {
         werase(w_missions);
         std::vector<int> umissions;
         switch (tab) {
@@ -4648,10 +4653,10 @@ void game::list_missions()
         mvwputch(w_missions, 2, 30, BORDER_COLOR, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
         mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
 
-        for (int i = 0; i < umissions.size(); i++) {
+        for (size_t i = 0; i < umissions.size(); i++) {
             mission *miss = find_mission(umissions[i]);
             nc_color col = c_white;
-            if (i == u.active_mission && tab == 0) {
+            if (static_cast<int>(i) == u.active_mission && tab == 0) {
                 col = c_ltred;
             }
             if (selection == i) {
@@ -4661,7 +4666,7 @@ void game::list_missions()
             }
         }
 
-        if (selection >= 0 && selection < umissions.size()) {
+        if (selection < umissions.size()) {
             mission *miss = find_mission(umissions[selection]);
             mvwprintz(w_missions, 4, 31, c_white, "%s", miss->description.c_str());
             if (miss->deadline != 0)
@@ -4690,38 +4695,35 @@ void game::list_missions()
         }
 
         wrefresh(w_missions);
-        input = get_input();
-        switch (input) {
-        case DirectionE:
+        const std::string action = ctxt.handle_input();
+        if (action == "RIGHT") {
             tab++;
             if (tab == 3) {
                 tab = 0;
             }
-            break;
-        case DirectionW:
+        } else if (action == "LEFT") {
             tab--;
             if (tab < 0) {
                 tab = 2;
             }
-            break;
-        case DirectionS:
+        } else if (action == "DOWN") {
             selection++;
             if (selection >= umissions.size()) {
                 selection = 0;
             }
-            break;
-        case DirectionN:
-            selection--;
-            if (selection < 0) {
+        } else if (action == "UP") {
+            if (selection == 0) {
                 selection = umissions.size() - 1;
+            } else {
+                selection--;
             }
-            break;
-        case Confirm:
+        } else if (action == "CONFIRM") {
             u.active_mission = selection;
             break;
+        } else if (action == "QUIT") {
+            break;
         }
-
-    } while (input != Cancel && input != Close);
+    }
 
     werase(w_missions);
     delwin(w_missions);
@@ -9061,7 +9063,7 @@ int game::list_monsters(const int iLastState)
                 iActiveY = 0;
                 iMonDex = -1;
 
-                for (int i = 0; i < vMonsters.size(); ++i) {
+                for (size_t i = 0; i < vMonsters.size(); ++i) {
                     if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iMonsterNum) ?
                                                                  iMonsterNum : iMaxRows) ) {
 
@@ -13824,41 +13826,45 @@ void game::write_msg()
 
 void game::msg_buffer()
 {
- WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
-                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
- int offset = 0;
- InputEvent input;
- do {
-  werase(w);
-  draw_border(w);
-  mvwprintz(w, FULL_SCREEN_HEIGHT-1, 32, c_red, _("Press q to return"));
+    size_t offset = 0;
+    input_context ctxt("MESSAGE_LOG");
+    ctxt.register_action("UP", _("Scroll up"));
+    ctxt.register_action("DOWN", _("Scroll down"));
+    ctxt.register_action("QUIT");
+    ctxt.register_action("HELP_KEYBINDINGS");
+    while(true) {
+        werase(w);
+        draw_border(w);
+        mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 32, c_red, _("Press %s to return"), ctxt.get_desc("QUIT").c_str());
 
-  //Draw Scrollbar
-  draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT-2, Messages::player_messages.size(), 1);
-  Messages::player_messages.display_messages(w, 1, FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                             FULL_SCREEN_HEIGHT - 2,offset,true);
-  if (offset > 0)
-   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 27, c_magenta, "vvv");
-  if ((offset + FULL_SCREEN_HEIGHT - 2) < Messages::player_messages.size())
-   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 51, c_magenta, "^^^");
-  wrefresh(w);
+        //Draw Scrollbar
+        draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT - 2, Messages::player_messages.size(), 1);
+        Messages::player_messages.display_messages(w, 1, FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
+                FULL_SCREEN_HEIGHT - 2, offset, true);
+        if (offset > 0) {
+            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 27, c_magenta, "vvv");
+        }
+        if ((offset + FULL_SCREEN_HEIGHT - 2) < Messages::player_messages.size()) {
+            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 51, c_magenta, "^^^");
+        }
+        wrefresh(w);
 
-  DebugLog() << __FUNCTION__ << "calling get_input() \n";
-  input = get_input();
-  int dirx = 0, diry = 0;
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN" && (offset + FULL_SCREEN_HEIGHT - 2) > Messages::player_messages.size()) {
+            offset++;
+        } else if (action == "UP" && offset > 0) {
+            offset--;
+        } else if (action == "QUIT") {
+            break;
+        }
+    }
 
-  get_direction(dirx, diry, input);
-  if (diry == -1 && (offset + FULL_SCREEN_HEIGHT - 2)  > Messages::player_messages.size())
-   offset++;
-  if (diry == 1 && offset > 0)
-   offset--;
-
- } while (input != Close && input != Cancel && input != Confirm);
-
- werase(w);
- delwin(w);
+    werase(w);
+    delwin(w);
 }
 
 void game::teleport(player *p, bool add_teleglow)
