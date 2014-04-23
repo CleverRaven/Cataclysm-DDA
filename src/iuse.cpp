@@ -1716,15 +1716,18 @@ int iuse::mut_iv(player *p, item *it, bool) {
             mutation_category = "MUTCAT_FELINE";
         } else if( it->has_flag("MUTAGEN_RAT") ) {
             p->add_msg_if_player( _("You squeak as the shot hits you."));
+            //~Sound of ratlike squeaking
             g->sound(p->posx, p->posy, 10, _("Eep!"));
             mutation_category = "MUTCAT_RAT";
         } else if( it->has_flag("MUTAGEN_BEAST") ) {
             p->add_msg_if_player( _("Your heart races wildly as the injection takes hold."));
             mutation_category = "MUTCAT_BEAST";
         } else if( it->has_flag("MUTAGEN_CATTLE") ) {
+            //~rBGH is a bovine growth hormone, unpopular with consumers
             p->add_msg_if_player( _("You wonder if this is what rBGH feels like..."));
             mutation_category = "MUTCAT_CATTLE";
         } else if( it->has_flag("MUTAGEN_CEPHALOPOD") ) {
+            //~Zork reference, but it's talking about your blood vessels
             p->add_msg_if_player( _("You watch the mutagen flow through a maze of little twisty passages.\n\
             All the same."));
             mutation_category = "MUTCAT_CEPHALOPOD";
@@ -1802,7 +1805,15 @@ int iuse::mut_iv(player *p, item *it, bool) {
         // You wanted to be more like it and less human.
         // That said, you're required to have hit third-stage dreams first.
         if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
-            if (x_in_y(p->mutation_category_level[primary], total)) {
+            // Little help for the categories that have a lot of crossover.
+            // Starting with Ursine as that's... a bear to get.  8-)
+            // Will add others if there's serious/demonstrable need.
+            int booster = 0;
+            if (mutation_category == "MUTCAT_URSINE") {
+                booster = 50;
+            }
+            int breacher = (p->mutation_category_level[primary]) + booster;
+            if (x_in_y(breacher, total)) {
                 p->add_msg_if_player(_("Something strains mightily for a moment...and then..you're...FREE!"));
                 if (mutation_category == "MUTCAT_LIZARD") {
                     p->toggle_mutation("THRESH_LIZARD");
@@ -1830,6 +1841,11 @@ int iuse::mut_iv(player *p, item *it, bool) {
                           pgettext("memorial_female", "Wolfed out."));
                 } else if (mutation_category == "MUTCAT_URSINE") {
                     p->toggle_mutation("THRESH_URSINE");
+                    // Manually removing Carnivore, since it tends to creep in
+                    if (p->has_trait("CARNIVORE")) {
+                        p->toggle_mutation("CARNIVORE");
+                        p->add_msg_if_player( _("Your appetite for blood fades."));
+                    }
                     p->add_memorial_log(pgettext("memorial_male", "Became one with the bears."),
                           pgettext("memorial_female", "Became one with the bears."));
                 } else if (mutation_category == "MUTCAT_CATTLE") {
@@ -1886,8 +1902,8 @@ int iuse::mut_iv(player *p, item *it, bool) {
                           pgettext("memorial_female", "Hatched."));
                 }
             } else if (p->mutation_category_level[primary] > 100) {
-                // NOPAIN is a post-Threshold trait, so you shouldn't
-                // legitimately have it and get here!
+                //~NOPAIN is a post-Threshold trait, so you shouldn't
+                //~legitimately have it and get here!
                 if (g->u.has_trait("NOPAIN")) {
                     p->add_msg_if_player(_("You feel extremely Bugged."));
                 } else {
@@ -7584,7 +7600,7 @@ int iuse::contacts(player *p, item *it, bool)
             return 0;
         }
     }
-    else if(p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC")) {
+    else if(p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC") || p->has_trait("URSINE_EYE")) {
         p->moves -= 200;
         p->add_msg_if_player( _("You put the %s in your eyes."), it->name.c_str());
         p->add_disease("contacts", duration);

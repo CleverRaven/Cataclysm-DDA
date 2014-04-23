@@ -1449,7 +1449,10 @@ int player::swim_speed()
 {
   int ret = 440 + weight_carried() / 60 - 50 * skillLevel("swimming");
   if (has_trait("PAWS")) {
-      ret -= 15 + str_cur * 4;
+      ret -= 20 + str_cur * 3;
+  }
+  if (has_trait("PAWS_LARGE")) {
+      ret -= 20 + str_cur * 4;
   }
   if (is_wearing("swim_fins")) {
       ret -= (10 * str_cur) * 1.5;
@@ -3771,9 +3774,9 @@ void player::recalc_sight_limits()
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 (!(has_trait("PER_SLIME_OK"))))) {
         sight_max = 1;
-    } else if (has_trait("MYOPIC") && !is_wearing("glasses_eye") &&
-            !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal") &&
-            !has_disease("contacts")) {
+    } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
+            !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
+            !is_wearing("glasses_bifocal") && !has_disease("contacts")) {
         sight_max = 4;
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
@@ -3793,7 +3796,7 @@ void player::recalc_sight_limits()
         }
     } else if (has_trait("ELFA_NV")) {
         sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
-    } else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV")) {
+    } else if (has_trait("NIGHTVISION2") || has_trait("FEL_NV") || has_trait("URSINE_EYE")) {
         if (has_trait("BIRD_EYE")) {
             sight_boost = 5;
         }
@@ -3894,10 +3897,11 @@ bool player::sight_impaired()
  return ((has_disease("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE")
               && !worn_with_flag("SWIM_GOGGLES") && !(has_trait("PER_SLIME_OK"))) ||
-  (has_trait("MYOPIC") && !is_wearing("glasses_eye")
-                        && !is_wearing("glasses_monocle")
-                        && !is_wearing("glasses_bifocal")
-                        && !has_disease("contacts")) ||
+  ((has_trait("MYOPIC") || has_trait("URSINE_EYE") ) &&
+                        !is_wearing("glasses_eye") &&
+                        !is_wearing("glasses_monocle") &&
+                        !is_wearing("glasses_bifocal") &&
+                        !has_disease("contacts")) ||
    has_trait("PER_SLIME"));
 }
 
@@ -8269,7 +8273,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             return false;
         }
 
-        if (armor->covers & mfb(bp_hands) && has_trait("PAWS"))
+        if (armor->covers & mfb(bp_hands) && (has_trait("PAWS") || has_trait("PAWS_LARGE")) )
         {
             if(interactive)
             {
@@ -9407,6 +9411,9 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
     if ( has_trait("PAWS") && bp == bp_hands ) {
         ret += 1;
+    }
+    if ( has_trait("PAWS_LARGE") && bp == bp_hands ) {
+        ret += 2;
     }
     if ( has_trait("LARGE") && (bp == bp_arms || bp == bp_torso )) {
         ret += 1;

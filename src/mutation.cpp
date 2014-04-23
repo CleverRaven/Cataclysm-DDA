@@ -514,7 +514,8 @@ void mutation_effect(player &p, std::string mut)
           mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
         p.recalc_hp();
 
-    } else if (mut == "WEBBED" || mut == "PAWS" || mut == "ARM_TENTACLES" || mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
+    } else if (mut == "WEBBED" || mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
+      mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
         // Push off gloves
         bps.push_back(bp_hands);
 

@@ -1420,14 +1420,17 @@ void game::complete_craft()
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    if (u.has_trait("PAWS")) {
+    if (u.has_trait("PAWS") || u.has_trait("PAWS_LARGE")) {
         int paws_rank_penalty = 0;
+        if (u.has_trait("PAWS_LARGE")) {
+            paws_rank_penalty += 1;
+        }
         if (making->skill_used == Skill::skill("electronics")) {
-            paws_rank_penalty = 1;
+            paws_rank_penalty += 1;
         } else if (making->skill_used == Skill::skill("tailor")) {
-            paws_rank_penalty = 1;
+            paws_rank_penalty += 1;
         } else if (making->skill_used == Skill::skill("mechanics")) {
-            paws_rank_penalty = 1;
+            paws_rank_penalty += 1;
         }
         skill_dice -= paws_rank_penalty * 4;
     }
