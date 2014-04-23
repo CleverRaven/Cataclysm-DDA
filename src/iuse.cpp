@@ -48,7 +48,7 @@ static bool item_inscription( player *p, item *cut, std::string verb, std::strin
     if (!cut->made_of(SOLID)) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
-        Messages::player_messages.add_msg(_("You can't %s an item that's not solid!"), lower_verb.c_str());
+        add_msg(_("You can't %s an item that's not solid!"), lower_verb.c_str());
         return false;
     }
     if(carveable && !(cut->made_of("wood") || cut->made_of("plastic") || cut->made_of("glass") ||
@@ -63,7 +63,7 @@ static bool item_inscription( player *p, item *cut, std::string verb, std::strin
             mtname = mt->name();
         }
         std::transform(mtname.begin(), mtname.end(), mtname.begin(), ::tolower);
-        Messages::player_messages.add_msg(_("You can't %1$s an item made of %2$s!"),
+        add_msg(_("You can't %1$s an item made of %2$s!"),
                    lower_verb.c_str(), mtname.c_str());
         return false;
     }
@@ -102,7 +102,7 @@ static bool inscribe_item( player *p, std::string verb, std::string gerund, bool
     int pos = g->inv(string_format(_("%s on what?"), verb.c_str()));
     item* cut = &(p->i_at(pos));
     if (cut->type->id == "null") {
-        Messages::player_messages.add_msg(_("You do not have that item!"));
+        add_msg(_("You do not have that item!"));
         return false;
     }
     return item_inscription( p, cut, verb, gerund, carveable );
@@ -980,7 +980,7 @@ int iuse::fungicide(player *p, item *it, bool) {
                         if (zid >= 0) {  // Spores hit a monster
                             if (g->u_see(i, j) &&
                                   !g->zombie(zid).type->in_species("FUNGUS")) {
-                                Messages::player_messages.add_msg(_("The %s is covered in tiny spores!"),
+                                add_msg(_("The %s is covered in tiny spores!"),
                                            g->zombie(zid).name().c_str());
                             }
                             if (!g->zombie(zid).make_fungus()) {
@@ -2200,7 +2200,7 @@ int iuse::sew(player *p, item *, bool)
     }
     //minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light)
     if (p->fine_detail_vision_mod() > 4) {
-        Messages::player_messages.add_msg(_("You can't see to sew!"));
+        add_msg(_("You can't see to sew!"));
         return 0;
     }
     int thread_used = 1;
@@ -2544,7 +2544,7 @@ static bool valid_fabric(player *p, item *it, bool)
     }
     if (it->type->id == "string_6" || it->type->id == "string_36" || it->type->id == "rope_30" ||
         it->type->id == "rope_6") {
-        Messages::player_messages.add_msg(_("You cannot cut that, you must disassemble it using the disassemble key"));
+        add_msg(_("You cannot cut that, you must disassemble it using the disassemble key"));
         return false;
     }
     if (it->type->id == "rag" || it->type->id == "rag_bloody" || it->type->id == "leather") {
@@ -2552,11 +2552,11 @@ static bool valid_fabric(player *p, item *it, bool)
         return false;
     }
     if (!it->made_of("cotton") && !it->made_of("leather") && !it->made_of("nomex")) {
-        Messages::player_messages.add_msg(_("You can only slice items made of fabric or leather."));
+        add_msg(_("You can only slice items made of fabric or leather."));
         return false;
     }
     if (it->is_container() && !it->contents.empty()) {
-        Messages::player_messages.add_msg(_("That %s is not empty!"), it->tname().c_str());
+        add_msg(_("That %s is not empty!"), it->tname().c_str());
         return false;
     }
 
@@ -3214,19 +3214,19 @@ int iuse::directional_antenna(player *p, item *it, bool)
     item radio = p->i_of_type("radio_on");
     if( radio.typeId() != "radio_on" )
     {
-        Messages::player_messages.add_msg( _("Must have an active radio to check for signal direction.") );
+        add_msg( _("Must have an active radio to check for signal direction.") );
         return 0;
     }
     // Find the radio station its tuned to (if any)
     radio_tower *tower = find_radio_station( radio.frequency );
     if( tower == NULL )
     {
-        Messages::player_messages.add_msg( _("You can't find the direction if your radio isn't tuned.") );
+        add_msg( _("You can't find the direction if your radio isn't tuned.") );
         return 0;
     }
     // Report direction.
     direction angle = direction_from( g->levx, g->levy, tower->x, tower->y );
-    Messages::player_messages.add_msg( _("The signal seems strongest to the %s."), direction_name(angle).c_str());
+    add_msg( _("The signal seems strongest to the %s."), direction_name(angle).c_str());
     return it->type->charges_to_use();
 }
 
@@ -3593,10 +3593,10 @@ int iuse::picklock(player *p, item *it, bool)
    //Bar doors auto-open (and lock if closed again) so show a different message)
    open_message = _("The %s swings open...");
  } else if (type == t_door_c) {
-   Messages::player_messages.add_msg(_("That door isn't locked."));
+   add_msg(_("That door isn't locked."));
    return 0;
  } else {
-  Messages::player_messages.add_msg(_("That cannot be picked."));
+  add_msg(_("That cannot be picked."));
   return 0;
  }
 
@@ -3841,7 +3841,7 @@ int iuse::siphon(player *p, item *it, bool)
         int want = fillv->fuel_capacity("gasoline")-fillv->fuel_left("gasoline");
         int got = veh->drain("gasoline", want);
         fillv->refill("gasoline", got);
-        Messages::player_messages.add_msg(ngettext("Siphoned %d unit of %s from the %s into the %s%s", "Siphoned %d units of %s from the %s into the %s%s", got), got,
+        add_msg(ngettext("Siphoned %d unit of %s from the %s into the %s%s", "Siphoned %d units of %s from the %s into the %s%s", got), got,
            "gasoline", veh->name.c_str(), fillv->name.c_str(),
            (got < want ? ", draining the tank completely." : ", receiving tank is full.") );
         p->moves -= 200;
@@ -4781,19 +4781,19 @@ int iuse::geiger(player *p, item *it, bool t)
         }
         g->sound(p->posx, p->posy, 6, "");
         if (rads > 50) {
-            Messages::player_messages.add_msg(_("The geiger counter buzzes intensely."));
+            add_msg(_("The geiger counter buzzes intensely."));
         } else if (rads > 35) {
-            Messages::player_messages.add_msg(_("The geiger counter clicks wildly."));
+            add_msg(_("The geiger counter clicks wildly."));
         } else if (rads > 25) {
-            Messages::player_messages.add_msg(_("The geiger counter clicks rapidly."));
+            add_msg(_("The geiger counter clicks rapidly."));
         } else if (rads > 15) {
-            Messages::player_messages.add_msg(_("The geiger counter clicks steadily."));
+            add_msg(_("The geiger counter clicks steadily."));
         } else if (rads > 8) {
-            Messages::player_messages.add_msg(_("The geiger counter clicks slowly."));
+            add_msg(_("The geiger counter clicks slowly."));
         } else if (rads > 4) {
-            Messages::player_messages.add_msg(_("The geiger counter clicks intermittently."));
+            add_msg(_("The geiger counter clicks intermittently."));
         } else {
-            Messages::player_messages.add_msg(_("The geiger counter clicks once."));
+            add_msg(_("The geiger counter clicks once."));
         }
         return it->type->charges_to_use();;
     }
@@ -4801,7 +4801,7 @@ int iuse::geiger(player *p, item *it, bool t)
     it_tool *type = dynamic_cast<it_tool*>(it->type);
     bool is_on = (type->id == "geiger_on");
     if (is_on) {
-        Messages::player_messages.add_msg(_("The geiger counter's SCANNING LED flicks off."));
+        add_msg(_("The geiger counter's SCANNING LED flicks off."));
         it->make(itypes["geiger_off"]);
         it->active = false;
         return 0;
@@ -4846,7 +4846,7 @@ int iuse::can_goo(player *p, item *it, bool)
  int mondex = g->mon_at(goox, gooy);
  if (mondex != -1) {
   if (g->u_see(goox, gooy)) {
-      Messages::player_messages.add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
+      add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
                  g->zombie(mondex).name().c_str());
   }
   g->zombie(mondex).poly(GetMType("mon_blob"));
@@ -4854,7 +4854,7 @@ int iuse::can_goo(player *p, item *it, bool)
   g->zombie(mondex).hp = g->zombie(mondex).speed;
  } else {
   if (g->u_see(goox, gooy)) {
-   Messages::player_messages.add_msg(_("Living black goo emerges from the canister!"));
+   add_msg(_("Living black goo emerges from the canister!"));
   }
   monster goo(GetMType("mon_blob"));
   goo.friendly = -1;
@@ -4872,7 +4872,7 @@ int iuse::can_goo(player *p, item *it, bool)
            g->m.tr_at(goox, gooy) == tr_null && tries < 10);
   if (tries < 10) {
    if (g->u_see(goox, gooy)) {
-    Messages::player_messages.add_msg(_("A nearby splatter of goo forms into a goo pit."));
+    add_msg(_("A nearby splatter of goo forms into a goo pit."));
    }
    g->m.add_trap(goox, gooy, tr_goo);
   } else {
@@ -4916,11 +4916,11 @@ int iuse::pipebomb_act(player *, item *it, bool t)
         //~ the sound of a lit fuse
         g->sound(pos.x, pos.y, 0, _("ssss...")); // Vol 0 = only heard if you hold it
     } else if (it->charges > 0) {
-        Messages::player_messages.add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
+        add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
         return 0;
     } else { // The timer has run down
         if (one_in(10) && g->u_see(pos.x, pos.y)) {
-            Messages::player_messages.add_msg(_("The pipe bomb fizzles out."));
+            add_msg(_("The pipe bomb fizzles out."));
         } else {
             g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
         }
@@ -4947,7 +4947,7 @@ int iuse::granade_act(player *, item *it, bool t)
     if (t) { // Simple timer effects
         g->sound(pos.x, pos.y, 0, _("Merged!"));  // Vol 0 = only heard if you hold it
     } else if(it->charges > 0) {
-        Messages::player_messages.add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
+        add_msg(_("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
         return 0;
     } else {  // When that timer runs down...
         int effect_roll = rng(1,4);
@@ -5272,7 +5272,7 @@ int iuse::firecracker_act(player *, item *it, bool t)
  if (t) {// Simple timer effects
   g->sound(pos.x, pos.y, 0, _("ssss..."));
  } else if(it->charges > 0) {
-  Messages::player_messages.add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
+  add_msg(_("You've already lit the %s, try throwing it instead."), it->name.c_str());
   return 0;
  } else {  // When that timer runs down...
   g->sound(pos.x, pos.y, 20, _("Bang!"));
@@ -5329,11 +5329,11 @@ int iuse::pheromone(player *p, item *it, bool)
 
  if (g->u_see(p)) {
   if (converts == 0) {
-   Messages::player_messages.add_msg(_("...but nothing happens."));
+   add_msg(_("...but nothing happens."));
   } else if (converts == 1) {
-   Messages::player_messages.add_msg(_("...and a nearby zombie turns friendly!"));
+   add_msg(_("...and a nearby zombie turns friendly!"));
   } else{
-   Messages::player_messages.add_msg(_("...and several nearby zombies turn friendly!"));
+   add_msg(_("...and several nearby zombies turn friendly!"));
   }
  }
  return it->type->charges_to_use();
@@ -5806,7 +5806,7 @@ int iuse::portable_game(player *p, item *it, bool)
         return 0;
     }
     if(p->has_trait("ILLITERATE")) {
-        Messages::player_messages.add_msg(_("You're illiterate!"));
+        add_msg(_("You're illiterate!"));
         return 0;
     } else if(it->charges == 0) {
         p->add_msg_if_player( _("The %s's batteries are dead."), it->name.c_str());
@@ -6002,12 +6002,12 @@ int iuse::knife(player *p, item *it, bool t)
 
     if (cut->is_null())
     {
-        Messages::player_messages.add_msg(_("You do not have that item!"));
+        add_msg(_("You do not have that item!"));
         return 0;
     }
     if (cut == it)
     {
-        Messages::player_messages.add_msg(_("You can not cut the %s with itself!"), it->tname().c_str());
+        add_msg(_("You can not cut the %s with itself!"), it->tname().c_str());
         return 0;
     }
     if (cut == &p->weapon)
@@ -6030,7 +6030,7 @@ int iuse::knife(player *p, item *it, bool t)
     // let's handle the rest
     int amount = cut->volume();
     if(amount == 0) {
-        Messages::player_messages.add_msg(_("This object is too small to salvage a meaningful quantity of anything from!"));
+        add_msg(_("This object is too small to salvage a meaningful quantity of anything from!"));
         return 0;
     }
 
@@ -6043,7 +6043,7 @@ int iuse::knife(player *p, item *it, bool t)
     //if we're going to cut up a bottle/waterskin,
     //make sure it isn't full of liquid
     if (cut->is_container() && !cut->contents.empty()) {
-        Messages::player_messages.add_msg(_("That container is not empty!"));
+        add_msg(_("That container is not empty!"));
         return 0;
     }
 
@@ -6065,7 +6065,7 @@ int iuse::knife(player *p, item *it, bool t)
         count = 2 * amount; // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
         result = new item(itypes["skewer"], int(calendar::turn), g->nextinv);
     } else { // TODO: add the rest of the materials, gold and what not.
-        Messages::player_messages.add_msg(_("Material of this item is not applicable for cutting up."));
+        add_msg(_("Material of this item is not applicable for cutting up."));
         return 0;
     }
     // check again
@@ -6073,7 +6073,7 @@ int iuse::knife(player *p, item *it, bool t)
         return 0;
     }
     if ( cut->typeId() == result->typeId() ) {
-        Messages::player_messages.add_msg(_("There's no point in cutting a %s."), cut->tname().c_str());
+        add_msg(_("There's no point in cutting a %s."), cut->tname().c_str());
         return 0;
     }
 
@@ -6089,20 +6089,20 @@ int iuse::knife(player *p, item *it, bool t)
 
     if (action == "carve") {
         if(count > 0) {
-            Messages::player_messages.add_msg(ngettext("You carve the %1$s into %2$i %3$s.",
+            add_msg(ngettext("You carve the %1$s into %2$i %3$s.",
                             "You carve the %1$s into %2$i %3$ss.", count),
                    cut->tname().c_str(), count, result->tname().c_str());
         } else {
-            Messages::player_messages.add_msg("You clumsily carve the %s into useless pieces.",
+            add_msg("You clumsily carve the %s into useless pieces.",
                        cut->tname().c_str());
         }
     } else {
         if(count > 0){
-            Messages::player_messages.add_msg(ngettext("You cut the %1$s into %2$i %3$s.",
+            add_msg(ngettext("You cut the %1$s into %2$i %3$s.",
                             "You cut the %1$s into %2$i %3$ss.", count),
                    cut->tname().c_str(), count, result->tname().c_str());
         } else {
-            Messages::player_messages.add_msg("You clumsily cut the %s into useless pieces.",
+            add_msg("You clumsily cut the %s into useless pieces.",
                        cut->tname().c_str());
         }
     }
@@ -6120,7 +6120,7 @@ int iuse::knife(player *p, item *it, bool t)
 int iuse::cut_log_into_planks(player *p, item *it)
 {
     p->moves -= 300;
-    Messages::player_messages.add_msg(_("You cut the log into planks."));
+    add_msg(_("You cut the log into planks."));
     item plank(itypes["2x4"], int(calendar::turn), g->nextinv);
     item scrap(itypes["splinter"], int(calendar::turn), g->nextinv);
     int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
@@ -6129,7 +6129,7 @@ int iuse::cut_log_into_planks(player *p, item *it)
         planks = 12;
     }
     if (scraps >= planks) {
-        Messages::player_messages.add_msg(_("You waste a lot of the wood."));
+        add_msg(_("You waste a lot of the wood."));
     }
     p->i_add_or_drop(plank, planks);
     p->i_add_or_drop(scrap, scraps);
@@ -6141,7 +6141,7 @@ int iuse::lumber(player *p, item *it, bool)
  int pos = g->inv(_("Cut up what?"));
  item* cut = &(p->i_at(pos));
  if (cut->type->id == "null") {
-  Messages::player_messages.add_msg(_("You do not have that item!"));
+  add_msg(_("You do not have that item!"));
   return 0;
  }
  if (cut->type->id == "log") {
@@ -6149,7 +6149,7 @@ int iuse::lumber(player *p, item *it, bool)
      cut_log_into_planks(p, it);
      return it->type->charges_to_use();
  } else {
-     Messages::player_messages.add_msg(_("You can't cut that up!"));
+     add_msg(_("You can't cut that up!"));
      return it->type->charges_to_use();
  }
 }
@@ -6162,8 +6162,8 @@ int iuse::hacksaw(player *p, item *it, bool)
         return 0;
 
     if (dirx == p->posx && diry == p->posy) {
-        Messages::player_messages.add_msg(_("Why would you do that?"));
-        Messages::player_messages.add_msg(_("You're not even chained to a boiler."));
+        add_msg(_("Why would you do that?"));
+        add_msg(_("You're not even chained to a boiler."));
         return 0;
     }
 
@@ -6213,7 +6213,7 @@ int iuse::hacksaw(player *p, item *it, bool)
         break;
 
     default:
-        Messages::player_messages.add_msg(_("You can't cut that."));
+        add_msg(_("You can't cut that."));
         return 0;
     }
     return it->type->charges_to_use();
@@ -6240,7 +6240,7 @@ int iuse::tent(player *p, item *, bool)
      for (int j = -1; j <= 1; j++) {
          if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
              g->m.has_furn(posx + i, posy + j)) {
-             Messages::player_messages.add_msg(_("You need a 3x3 flat space to place a tent"));
+             add_msg(_("You need a 3x3 flat space to place a tent"));
              return 0;
          }
      }
@@ -6276,7 +6276,7 @@ int iuse::shelter(player *p, item *, bool)
      for (int j = -1; j <= 1; j++) {
          if (!g->m.has_flag("FLAT", posx + i, posy + j) ||
              g->m.has_furn(posx + i, posy + j)) {
-             Messages::player_messages.add_msg(_("You need a 3x3 flat space to place a shelter"));
+             add_msg(_("You need a 3x3 flat space to place a shelter"));
              return 0;
          }
      }
@@ -6424,16 +6424,16 @@ int iuse::bullet_puller(player *p, item *it, bool)
     int pos = g->inv(_("Disassemble what?"));
     item* pull = &(p->i_at(pos));
     if (pull->is_null()) {
-        Messages::player_messages.add_msg(_("You do not have that item!"));
+        add_msg(_("You do not have that item!"));
         return 0;
     }
     bullet_pulling_t::const_iterator a = bullet_pulling_recipes.find(pull->type->id);
     if (a == bullet_pulling_recipes.end()) {
-        Messages::player_messages.add_msg(_("You cannot disassemble that."));
+        add_msg(_("You cannot disassemble that."));
         return 0;
     }
     if (p->skillLevel("gun") < 2) {
-        Messages::player_messages.add_msg(_("You need to be at least level 2 in the firearms skill before you\
+        add_msg(_("You need to be at least level 2 in the firearms skill before you\
   can disassemble ammunition."));
         return 0;
     }
@@ -6453,7 +6453,7 @@ int iuse::bullet_puller(player *p, item *it, bool)
         }
         p->i_add_or_drop(new_item, count);
     }
-    Messages::player_messages.add_msg(_("You take apart the ammunition."));
+    add_msg(_("You take apart the ammunition."));
     p->moves -= 500;
     p->practice(calendar::turn, "fabrication", rng(1, multiply / 5 + 1));
     return it->type->charges_to_use();
@@ -6481,7 +6481,7 @@ if (dirx == p->posx && diry == p->posy) {
   g->sound(dirx, diry, 5,_("Snick, snick, gachunk!"));
   g->m.spawn_item(dirx, diry, "wire", 20);
  } else {
-  Messages::player_messages.add_msg(_("You can't cut that."));
+  add_msg(_("You can't cut that."));
   return 0;
  }
  return it->type->charges_to_use();
@@ -6501,7 +6501,7 @@ int iuse::mop(player *p, item *it, bool)
  }
  if (g->m.moppable_items_at(dirx, diry)) {
    g->m.mop_spills(dirx, diry);
-   Messages::player_messages.add_msg(_("You mop up the spill."));
+   add_msg(_("You mop up the spill."));
    p->moves -= 15;
  } else {
   p->add_msg_if_player(_("There's nothing to mop there."));
@@ -6799,7 +6799,7 @@ int iuse::artifact(player *p, item *it, bool)
    break;
 
   case AEA_RADIATION:
-   Messages::player_messages.add_msg(_("Horrible gasses are emitted!"));
+   add_msg(_("Horrible gasses are emitted!"));
    for (int x = p->posx - 1; x <= p->posx + 1; x++) {
     for (int y = p->posy - 1; y <= p->posy + 1; y++)
      g->m.add_field(x, y, fd_nuke_gas, rng(2, 3));
@@ -6944,14 +6944,14 @@ int iuse::spray_can(player *p, item *it, bool)
     } else {
         if(g->m.add_graffiti(p->posx, p->posy, message))
         {
-            Messages::player_messages.add_msg(
+            add_msg(
                 ismarker?
                 _("You write a message on the ground.") :
                 _("You spray a message on the ground.")
             );
             p->moves -= 2 * message.length();
         } else {
-            Messages::player_messages.add_msg(
+            add_msg(
                 ismarker?
                 _("You fail to write a message here.") :
                 _("You fail to spray a message here.")
@@ -6972,19 +6972,19 @@ static bool heat_item(player *p)
     int pos = g->inv(_("Heat up what?"));
     item* heat = &(p->i_at(pos));
     if (heat->type->id == "null") {
-        Messages::player_messages.add_msg(_("You do not have that item!"));
+        add_msg(_("You do not have that item!"));
         return false;
     }
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
     if (target->type->is_food()) {
         p->moves -= 300;
-        Messages::player_messages.add_msg(_("You heat up the food."));
+        add_msg(_("You heat up the food."));
         target->item_tags.insert("HOT");
         target->active = true;
         target->item_counter = 600; // sets the hot food flag for 60 minutes
         return true;
     }
-    Messages::player_messages.add_msg(_("You can't heat that up!"));
+    add_msg(_("You can't heat that up!"));
     return false;
 }
 
@@ -7570,7 +7570,7 @@ int iuse::radglove(player *p, item *it, bool)
         p->add_msg_if_player(_("You activate your radiation biomonitor."));
         if (p->radiation >= 1) {
             p->add_msg_if_player(_("You are currently irradiated."));
-            Messages::player_messages.add_msg(_("Your radiation level: %d"), p->radiation);
+            add_msg(_("Your radiation level: %d"), p->radiation);
         } else {
             p->add_msg_if_player(_("You are not currently irradiated."));
         }

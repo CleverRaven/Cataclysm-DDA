@@ -169,6 +169,28 @@
     },
     {
         "type" : "keybinding",
+        "id": "PAGE_UP",
+        "name": "Page up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PAGE_DOWN",
+        "name": "Page down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "ADD_RULE",
         "category": "AUTO_PICKUP",
         "name": "Add rule",
@@ -926,6 +948,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "TOGGLE_UNAVAILABLE_CONSTRUCTIONS",
+        "category": "CONSTRUCTION",
+        "name": "Toggle unavailable constructions",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":";"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "EDITMAP_SHOW_ALL",
         "name": "Show all",
         "bindings":[ { "input_method":"keyboard", "key":"v" } ]
@@ -1256,6 +1290,66 @@
             {
                 "input_method":"gamepad",
                 "key":"JOY_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SCROLL_UP",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Scroll up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SCROLL_DOWN",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Scroll down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"REMOVE",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Remove bindings",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"ADD_LOCAL",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Add local keybinding",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"ADD_GLOBAL",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Add global keybinding",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"="
             }
         ]
     }

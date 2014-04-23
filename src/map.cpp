@@ -520,7 +520,7 @@ bool map::vehproceed()
         }
         // submerged wheels threshold is 2/3.
         if (num_wheels &&  (float)submerged_wheels / num_wheels > .666) {
-            Messages::player_messages.add_msg(_("Your %s sank."), veh->name.c_str());
+            add_msg(_("Your %s sank."), veh->name.c_str());
             if (pl_ctrl) {
                 veh->unboard_all ();
             }
@@ -563,7 +563,7 @@ bool map::vehproceed()
         }
     }
     else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
-        Messages::player_messages.add_msg(_("You fumble with the %s's controls."), veh->name.c_str());
+        add_msg(_("You fumble with the %s's controls."), veh->name.c_str());
         veh->turn (one_in(2) ? -15 : 15);
     }
     // eventually send it skidding if no control
@@ -608,7 +608,7 @@ bool map::vehproceed()
         veh_veh_coll_flag = true;
         veh_collision c = veh_veh_colls[0]; //Note: What´s with collisions with more than 2 vehicles?
         vehicle* veh2 = (vehicle*) c.target;
-        Messages::player_messages.add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
+        add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
                    veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
                    veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
 
@@ -764,19 +764,19 @@ bool map::vehproceed()
                 int dmg = d_vel/4*rng(70,100)/100;
                 psg->hurtall(dmg);
                 if (psg == &g->u) {
-                    Messages::player_messages.add_msg(_("You take %d damage by the power of the impact!"), dmg);
+                    add_msg(_("You take %d damage by the power of the impact!"), dmg);
                 } else if (psg->name.length()) {
-                    Messages::player_messages.add_msg(_("%s takes %d damage by the power of the impact!"),
+                    add_msg(_("%s takes %d damage by the power of the impact!"),
                                psg->name.c_str(), dmg);
                 }
             }
 
             if (throw_from_seat) {
                 if (psg == &g->u) {
-                    Messages::player_messages.add_msg(_("You are hurled from the %s's seat by the power of the impact!"),
+                    add_msg(_("You are hurled from the %s's seat by the power of the impact!"),
                                veh->name.c_str());
                 } else if (psg->name.length()) {
-                    Messages::player_messages.add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
+                    add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
                                psg->name.c_str(), veh->name.c_str());
                 }
                 unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
@@ -790,9 +790,9 @@ bool map::vehproceed()
                 const int lose_ctrl_roll = rng (0, dmg_1);
                 if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3) {
                     if (psg == &g->u) {
-                        Messages::player_messages.add_msg(_("You lose control of the %s."), veh->name.c_str());
+                        add_msg(_("You lose control of the %s."), veh->name.c_str());
                     } else if (psg->name.length()) {
-                        Messages::player_messages.add_msg(_("%s loses control of the %s."), psg->name.c_str());
+                        add_msg(_("%s loses control of the %s."), psg->name.c_str());
                     }
                     int turn_amount = (rng (1, 3) * sqrt((double)vel1_a) / 2) / 15;
                     if (turn_amount < 1) {
@@ -820,7 +820,7 @@ bool map::vehproceed()
             if (one_in(2)) {
                 if (displace_water (x + veh->parts[p].precalc_dx[0],
                                     y + veh->parts[p].precalc_dy[0]) && pl_ctrl) {
-                    Messages::player_messages.add_msg(_("You hear a splash!"));
+                    add_msg(_("You hear a splash!"));
                 }
             }
             veh->handle_trap( x + veh->parts[p].precalc_dx[0],
@@ -1972,7 +1972,7 @@ void map::shoot(const int x, const int y, int &dam,
             //Greatly weakens power of bullets
             dam -= 40;
             if (dam <= 0) {
-                Messages::player_messages.add_msg(_("The shot is stopped by the reinforced glass wall!"));
+                add_msg(_("The shot is stopped by the reinforced glass wall!"));
             } else if (dam >= 40) {
                 //high powered bullets penetrate the glass, but only extremely strong
                 // ones (80 before reduction) actually destroy the glass itself.
@@ -2109,7 +2109,7 @@ bool map::hit_with_acid(const int x, const int y)
   case old_t_door_bar_locked:
   case old_t_bars:
    ter_set(x, y, t_floor);
-   Messages::player_messages.add_msg(_("The metal bars melt!"));
+   add_msg(_("The metal bars melt!"));
    break;
 
   case old_t_door_b:
@@ -2811,9 +2811,9 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
                 if (rng(0,it->volume()) > it->burnt && g->revive_corpse(mapx, mapy, it)) {
                     if (g->u_see(mapx, mapy)) {
                         if(it->corpse->in_species("ROBOT")) {
-                            Messages::player_messages.add_msg(_("A nearby robot has repaired itself and stands up!"));
+                            add_msg(_("A nearby robot has repaired itself and stands up!"));
                         } else {
-                            Messages::player_messages.add_msg(_("A nearby corpse rises and moves towards you!"));
+                            add_msg(_("A nearby corpse rises and moves towards you!"));
                         }
                     }
                     return true;
@@ -2895,30 +2895,15 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
 
 std::list<item> use_amount_map_or_vehicle(std::vector<item> &vec, const itype_id type, int &quantity, const bool use_container)
 {
-  std::list<item> ret;
-  for (int n = 0; n < vec.size() && quantity > 0; n++) {
-    item* curit = &(vec[n]);
-    bool used_contents = false;
-    for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
-      if (curit->contents[m].type->id == type) {
-        ret.push_back(curit->contents[m]);
-        quantity--;
-        curit->contents.erase(curit->contents.begin() + m);
-        m--;
-        used_contents = true;
-      }
+    std::list<item> ret;
+    for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
+        if (a->use_amount(type, quantity, use_container, ret)) {
+            a = vec.erase(a);
+        } else {
+            ++a;
+        }
     }
-    if (use_container && used_contents) {
-      vec.erase(vec.begin() + n);
-      n--;
-    } else if (curit->type->id == type && quantity > 0 && curit->contents.empty()) {
-      ret.push_back(*curit);
-      quantity--;
-      vec.erase(vec.begin() + n);
-      n--;
-    }
-  }
-  return ret;
+    return ret;
 }
 
 std::list<item> map::use_amount_square(const int x, const int y, const itype_id type,
@@ -2961,49 +2946,21 @@ std::list<item> map::use_amount(const point origin, const int range, const itype
 }
 
 std::list<item> use_charges_from_map_or_vehicle(std::vector<item> &vec, const itype_id type,
-                                                int &quantity)
+                                                long &quantity)
 {
     std::list<item> ret;
-    for (int n = 0; n < vec.size() && quantity > 0; n++) {
-        item &curit = vec[n];
-        if (curit.contents.empty()) {
-            if (curit.type->id == type || curit.ammo_type() == type) {
-                // curit is empty, has the required type or
-                // the required ammo type
-                ret.push_back(curit);
-                if (curit.charges < 0) {
-                    quantity--;
-                    vec.erase(vec.begin() + n);
-                    n--;
-                } else {
-                    if (curit.charges > quantity) {
-                        // push only quantity charges to ret,
-                        // remove quantity charges from curit
-                        ret.back().charges = quantity;
-                        curit.charges -= quantity;
-                        quantity = 0;
-                    } else {
-                        // remove all charges, destroy the item (perhaps)
-                        quantity -= curit.charges;
-                        curit.charges = 0;
-                        if (curit.destroyed_at_zero_charges()) {
-                            vec.erase(vec.begin() + n);
-                            n--;
-                        }
-                    }
-                }
-            }
+    for (std::vector<item>::iterator a = vec.begin(); a != vec.end() && quantity > 0; ) {
+        if (a->use_charges(type, quantity, ret)) {
+            a = vec.erase(a);
         } else {
-            // Not empty, process contents, ignore the item itself.
-            std::list<item> tmp = use_charges_from_map_or_vehicle(curit.contents, type, quantity);
-            ret.splice(ret.end(), tmp);
+            ++a;
         }
     }
     return ret;
 }
 
 extern long remove_charges_in_list(const itype *type, std::vector<item> &items, long quantity);
-void use_charges_from_furn(const furn_t &f, const itype_id &type, int &quantity, std::vector<item> &items, std::list<item> &ret)
+void use_charges_from_furn(const furn_t &f, const itype_id &type, long &quantity, std::vector<item> &items, std::list<item> &ret)
 {
     itype *itt = f.crafting_pseudo_item_type();
     if (itt == NULL || itt->id != type) {
@@ -3021,10 +2978,10 @@ void use_charges_from_furn(const furn_t &f, const itype_id &type, int &quantity,
 }
 
 std::list<item> map::use_charges(const point origin, const int range,
-                                 const itype_id type, const int amount)
+                                 const itype_id type, const long amount)
 {
     std::list<item> ret;
-    int quantity = amount;
+    long quantity = amount;
     for (int radius = 0; radius <= range && quantity > 0; radius++) {
         for (int x = origin.x - radius; x <= origin.x + radius; x++) {
             for (int y = origin.y - radius; y <= origin.y + radius; y++) {
@@ -3234,7 +3191,7 @@ void map::disarm_trap(const int x, const int y)
  while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50)
   roll++;
  if (roll >= diff) {
-  Messages::player_messages.add_msg(_("You disarm the trap!"));
+  add_msg(_("You disarm the trap!"));
   std::vector<itype_id> comp = traplist[tr_at(x, y)]->components;
   for (int i = 0; i < comp.size(); i++) {
    if (comp[i] != "null")
@@ -3256,12 +3213,12 @@ void map::disarm_trap(const int x, const int y)
   if(diff > 1.25 * skillLevel) // failure might have set off trap
     g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
  } else if (roll >= diff * .8) {
-  Messages::player_messages.add_msg(_("You fail to disarm the trap."));
+  add_msg(_("You fail to disarm the trap."));
   if(diff > 1.25 * skillLevel)
     g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
  }
  else {
-  Messages::player_messages.add_msg(_("You fail to disarm the trap, and you set it off!"));
+  add_msg(_("You fail to disarm the trap, and you set it off!"));
   trap* tr = traplist[tr_at(x, y)];
   trapfunc f;
   (f.*(tr->act))(x, y);

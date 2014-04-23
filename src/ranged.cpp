@@ -145,7 +145,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4) {
                 // don't hit targets that have already been hit
                 if (!z.has_effect("bounced") && !z.dead) {
-                    Messages::player_messages.add_msg(_("The attack bounced to %s!"), z.name().c_str());
+                    add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     projectile_attack(proj, tx, ty, z.posx(), z.posy(), shot_dispersion);
                     break;
                 }
@@ -610,7 +610,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             if (thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
                 rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
                 if (u_see(tx, ty)) {
-                    Messages::player_messages.add_msg(_("The %s shatters!"), thrown.tname().c_str());
+                    add_msg(_("The %s shatters!"), thrown.tname().c_str());
                 }
 
                 for (int i = 0; i < thrown.contents.size(); i++) {
@@ -676,7 +676,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     if (thrown.made_of("glass") && !thrown.active && // active means molotov, etc
         rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
         if (u_see(tx, ty)) {
-            Messages::player_messages.add_msg(_("The %s shatters!"), thrown.tname().c_str());
+            add_msg(_("The %s shatters!"), thrown.tname().c_str());
         }
 
         for (int i = 0; i < thrown.contents.size(); i++) {
@@ -905,7 +905,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   ctxt.register_action("FIRE");
   ctxt.register_action("NEXT_TARGET");
   ctxt.register_action("PREV_TARGET");
-  ctxt.register_action("WAIT");
   ctxt.register_action("CENTER");
   ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
   ctxt.register_action("HELP_KEYBINDINGS");
@@ -966,7 +965,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (target == t.size()) target = 0;
    x = t[target]->xpos();
    y = t[target]->ypos();
-  } else if (action == "WAIT" || action == "FIRE") {
+  } else if (action == "FIRE") {
    for (int i = 0; i < t.size(); i++) {
     if (t[i]->xpos() == x && t[i]->ypos() == y)
      target = i;
