@@ -19,6 +19,23 @@
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",
+        "id": "bio_ups",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "Unified Power System CBM",
+        "description": "A UPS fully integrated with your bionic power system. Allows you to run devices requiring a UPS off of your internal power.",
+        "price": 25000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 3
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_alarm",
         "symbol": ":",
         "color": "yellow",

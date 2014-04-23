@@ -342,6 +342,7 @@ void Item_factory::init(){
     iuse_function_list["SEED"] = &iuse::seed;
     iuse_function_list["OXYGEN_BOTTLE"] = &iuse::oxygen_bottle;
     iuse_function_list["ATOMIC_BATTERY"] = &iuse::atomic_battery;
+    iuse_function_list["UPS_BATTERY"] = &iuse::ups_battery;
     iuse_function_list["FISHING_BASIC"]  = &iuse::fishing_rod_basic;
     iuse_function_list["GUN_REPAIR"] = &iuse::gun_repair;
     iuse_function_list["MISC_REPAIR"] = &iuse::misc_repair;
@@ -943,7 +944,6 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     RAD_RESIST - Partially protects from ambient radiation.
     RAD_PROOF- Fully protects from ambient radiation.
     ELECTRIC_IMMUNE- Fully protects from electricity.
-
     Container-only flags:
     SEALS
     RIGID

@@ -10892,7 +10892,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
  if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
   if (u.has_charges("UPS_on", 1)  ||
-      u.has_charges("adv_UPS_on", 1) ) {
+      u.has_charges("adv_UPS_on", 1) || (u.has_active_bionic("bio_ups" ) && u.power_level >= 1)) {
    add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
    u.weapon.charges = 0;
    u.weapon.poison = 0;
@@ -10993,17 +10993,17 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
  if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
      !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
-     !u.has_charges("adv_UPS_on", 3)) {
+     !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 1)) {
   add_msg(_("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charges to fire that!"));
   return;
  } else if (u.weapon.has_flag("USE_UPS_20") && !u.has_charges("UPS_off", 20) &&
   !u.has_charges("UPS_on", 20) && !u.has_charges("adv_UPS_off", 12) &&
-  !u.has_charges("adv_UPS_on", 12)) {
+  !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 4)) {
   add_msg(_("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
   return;
  } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
   !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
-  !u.has_charges("adv_UPS_on", 24)) {
+  !u.has_charges("adv_UPS_on", 24)&& !(u.has_bionic("bio_ups") && u.power_level >= 8)) {
   add_msg(_("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
   return;
  }
