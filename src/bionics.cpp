@@ -454,16 +454,16 @@ void player::activate_bionic(int b)
         if (radiation > 0) {
             bad.push_back(_("Irradiated"));
         }
-        if (has_disease("pkill1")) {
+        if (has_effect("pkill1")) {
             good.push_back(_("Minor Painkiller"));
         }
         if (has_effect("pkill2")) {
             good.push_back(_("Moderate Painkiller"));
         }
-        if (has_disease("pkill3")) {
+        if (has_effect("pkill3")) {
             good.push_back(_("Heavy Painkiller"));
         }
-        if (has_disease("pkill_l")) {
+        if (has_effect("pkill_l")) {
             good.push_back(_("Slow-Release Painkiller"));
         }
         if (has_disease("drunk")) {
@@ -532,10 +532,10 @@ void player::activate_bionic(int b)
         rem_disease("dermatik");
         rem_disease("bloodworms");
         remove_effect("poison");
-        rem_disease("pkill1");
+        remove_effect("pkill1");
         remove_effect("pkill2");
-        rem_disease("pkill3");
-        rem_disease("pkill_l");
+        remove_effect("pkill3");
+        remove_effect("pkill_l");
         rem_disease("drunk");
         rem_disease("cig");
         rem_disease("high");

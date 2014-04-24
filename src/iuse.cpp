@@ -593,7 +593,7 @@ int iuse::completefirstaid(player *p, item *it, bool)
 {
     if( num_hp_parts != use_healing_item(p, it, 14, 10, 18, it->name, 95, 99, 95, false) ) {
         p->add_msg_if_player(_("You finish using the %s."), it->tname().c_str());
-        p->add_disease("pkill1", 120);
+        p->add_effect("pkill1", 120);
     }
     return 0;
 }
@@ -615,7 +615,7 @@ int iuse::pkill(player *p, item *it, bool)
     // Aspirin
     if (it->has_flag("PKILL_1")) {
         p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill1", 120);
+        p->add_effect("pkill1", 120);
     // Codeine
     } else if (it->has_flag("PKILL_2")) {
         p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
@@ -623,17 +623,17 @@ int iuse::pkill(player *p, item *it, bool)
 
     } else if (it->has_flag("PKILL_3")) {
         p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill3", 20);
+        p->add_effect("pkill3", 20);
         p->add_effect("pkill2", 200);
 
     } else if (it->has_flag("PKILL_4")) {
         p->add_msg_if_player(_("You shoot up."));
-        p->add_disease("pkill3", 80);
+        p->add_effect("pkill3", 80);
         p->add_effect("pkill2", 200);
 
     } else if (it->has_flag("PKILL_L")) {
         p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill_l", rng(12, 18) * 300);
+        p->add_effect("pkill_l", rng(12, 18) * 300);
     }
     return it->type->charges_to_use();
 }

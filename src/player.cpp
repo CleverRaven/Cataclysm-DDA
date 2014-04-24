@@ -5215,6 +5215,16 @@ void player::process_effects() {
                 }
             }
         }
+        
+        if (it->get_pkill_amount() > 0 && get_pkill_increment() > 0) {
+            if (!get_pkill_addict_reduces() || (one_in(addiction_level(ADD_PKILLER)*2))) {
+                if (it->get_duration() % it->get_pkill_increment() == 0) {
+                    if (pkill < it->get_pkill_max() || it->get_pkill_max() == 0) {
+                        pkill += it->get_pkill_amount();
+                    }
+                }
+            }
+        }
 
         if (it->get_cough_chance() > 0 && one_in(it->get_cough_chance())) {
             cough(it->get_harmful_cough());
@@ -6263,9 +6273,9 @@ void player::vomit()
             }
         }
     }
-    rem_disease("pkill1");
+    remove_effect("pkill1");
     remove_effect("pkill2");
-    rem_disease("pkill3");
+    remove_effect("pkill3");
     remove_effect("sleep");
 }
 
