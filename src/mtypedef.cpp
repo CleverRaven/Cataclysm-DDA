@@ -36,6 +36,18 @@ bool mtype::has_flag(m_flag flag) const {
     return bitflags[flag];
 }
 
+bool mtype::has_flag(std::string flag) const {
+    return has_flag( MonsterGenerator::generator().m_flag_from_string( flag ) );
+}
+
+void mtype::set_flag(std::string flag, bool state) {
+    if( state ) {
+        flags.insert( MonsterGenerator::generator().m_flag_from_string( flag ) );
+    } else {
+        flags.erase( MonsterGenerator::generator().m_flag_from_string( flag ) );
+    }
+}
+
 bool mtype::has_anger_trigger(monster_trigger trig) const {
     return bitanger[trig];
 }
