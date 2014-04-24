@@ -148,6 +148,24 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
     }
 }
 
+bool effect_morph_info::load(JsonObject &jsobj, std::string member) {
+    if( jsobj.has_object(member) ) {
+        JsonObject j = jsobj.get_object(member);
+        morph_id = j.get_string("morph_id");
+        morph_duration = j.get_int("morph_duration");
+
+        morph_perm = j.get_int("morph_perm", false);
+        morph_with_parts = j.get_bool("morph_with_parts", true);
+        morph_with_intensity = j.get_bool("morph_with_intensity", true);
+        morph_intensity = j.get_int("morph_intensity", 0);
+        cancel_trait = j.get_string("cancel_trait", "");
+
+        return true;
+    } else {
+        return false;
+    }
+}
+
 effect_type::effect_type(){}
 effect_type::effect_type(const effect_type &) {}
 
@@ -230,6 +248,34 @@ int effect_type::main_parts()
 bool effect_type::health_mods()
 {
     return health_affects;
+}
+efftype_id effect_type::get_morph_id()
+{
+    return morph.morph_id;
+}
+bool effect_type::get_morph_with_parts()
+{
+    return morph.morph_with_parts;
+}
+bool effect_type::get_morph_with_intensities()
+{
+    return morph.morph_with_intensities;
+}
+int effect_type::get_morph_duration()
+{
+    return morph.morph_duration;
+}
+bool effect_type::get_morph_perm()
+{
+    return morph.morph_perm;
+}
+int effect_type::get_morph_intensity()
+{
+    return morph.morph_intensity;
+}
+std::string effect_type::get_cancel_trait()
+{
+    return morph.cancel_trait;
 }
 
 effect::effect() :
@@ -643,6 +689,38 @@ std::string effect::get_resist_trait()
 {
     return eff_type->resist_trait;
 }
+{
+    return health_affects;
+}
+
+efftype_id effect::get_morph_id()
+{
+    return eff_type.get_morph_id();
+}
+bool effect::get_morph_with_parts()
+{
+    return eff_type.get_morph_with_parts();
+}
+bool effect::get_morph_with_intensities()
+{
+    return eff_type.get_morph_with_intensities();
+}
+int effect::get_morph_duration()
+{
+    return eff_type.get_morph_duration();
+}
+bool effect::get_morph_duration()
+{
+    return eff_type.get_morph_perm();
+}
+int effect::get_morph_intensity()
+{
+    return eff_type.get_morph_intensity();
+}
+std::string effect::get_cancel_trait()
+{
+    return eff_type.get_cancel_trait();
+}
 
 effect_type *effect::get_effect_type()
 {
@@ -702,6 +780,8 @@ void load_effect_type(JsonObject &jo)
 
     new_etype.base_mods.load(jo, "base_mods");
     new_etype.scaling_mods.load(jo, "scaling_mods");
+    
+    new_etype.morph.load(jo, "morph");
 
     effect_types[new_etype.id] = new_etype;
 }

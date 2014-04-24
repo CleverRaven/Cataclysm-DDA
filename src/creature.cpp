@@ -477,18 +477,6 @@ void Creature::set_fake(const bool fake_value)
 /*
  * Effect-related functions
  */
-// Some utility functions for effects
-bool is_expired_effect(effect &e)   // utility function for process_effects
-{
-    if (e.get_duration() <= 0) {
-        add_msg(e.get_effect_type()->get_remove_message().c_str());
-        g->u.add_memorial_log(pgettext("memorial_male", e.get_effect_type()->get_remove_memorial_log().c_str()),
-                              pgettext("memorial_female", e.get_effect_type()->get_remove_memorial_log().c_str()));
-        return true;
-    } else {
-        return false;
-    }
-}
 bool Creature::move_effects()
 {
     //Check things that prevent the player from moving at all first
@@ -704,8 +692,38 @@ void Creature::process_effects()
     for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
         it->decay(health_val);
     }
-    effects.erase(std::remove_if(effects.begin(), effects.end(),
-                                 is_expired_effect), effects.end());
+    
+    int added_count = 0;
+    for (size_t i = 0; i < effects.size() - added_count;) {
+        if (effects[i].get_duration() <= 0) {
+            add_msg(effects[i].get_effect_type()->get_remove_message().c_str());
+            g->u.add_memorial_log(pgettext("memorial_male", effects[i].get_effect_type()->get_remove_memorial_log().c_str()),
+                                    pgettext("memorial_female", effects[i].get_effect_type()->get_remove_memorial_log().c_str()));
+            if (effects[i].get_morph_id() != "" &&
+                !(is_player() && g->u.has_trait(effects[i].get_cancel_trait())) ) {
+                body_part bp = num_bp;
+                int side = -1;
+                if (effects[i].get_morph_with_parts()) {
+                    bp = effects[i].get_bp();
+                    side = effects[i].get_side();
+                }
+                
+                int intensity;
+                if (effects[i].get_morph_with_intensity()) {
+                    intensity = effects[i].get_morph_intensity();
+                } else {
+                    intensity = effects[i].get_intensity();
+                }
+                add_effect(effects[i].get_morph_id(), effects[i].get_morph_duration(),
+                            effects[i].get_morph_perm(), intensity, bp, side);
+                //New effects shouldn't be processed
+                added_count += 1;
+            }
+            effects.erase(effects.begin() + i);
+        } else {
+            i++;
+        }
+    }
 }
 
 void Creature::manage_sleep()

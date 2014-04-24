@@ -1810,12 +1810,12 @@ void mattack::slimespring(monster *z)
         }
     }
     if (rl_dist(z->posx(), z->posy(), g->u.posx, g->u.posy) <= 3) {
-        if ( (g->u.has_disease("bleed")) || (g->u.has_disease("bite")) ) {
+        if ( (g->u.has_disease("bleed")) || (g->u.has_effect("bite")) ) {
             add_msg(_("\"let me help!\""));
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
-            if (g->u.has_disease("bite")) {
+            if (g->u.has_effect("bite")) {
                 if (one_in(3)) {
-                    g->u.rem_disease("bite");
+                    g->u.remove_effect("bite");
                     add_msg(_("The slime cleans you out!"));
                 }
                 else {

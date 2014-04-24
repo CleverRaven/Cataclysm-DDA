@@ -69,6 +69,21 @@ struct effect_mod_info {
     bool load(JsonObject &jsobj, std::string member);
 };
 
+struct effect_morph_info {
+    efftype_id morph_id;
+    bool morph_with_parts;
+    bool morph_with_intensity;
+    int morph_duration;
+    bool morph_perm;
+    int morph_intensity;
+    std::string cancel_trait;
+
+    effect_mod_info() : morph_id(""), morph_with_parts(false), morph_with_intensity(false),
+                        morph_duration(0), morph_perm(false), morph_intensity(0),
+                        cancel_trait("") {};
+    bool load(JsonObject &jsobj, std::string member);
+};
+
 class effect_type
 {
         friend void load_effect_type(JsonObject &jo);
@@ -99,6 +114,14 @@ class effect_type
 
         /** True if health alters disease duration */
         bool health_mods();
+        
+        efftype_id get_morph_id();
+        bool get_morph_with_parts();
+        bool get_morph_with_intensities();
+        int get_morph_duration();
+        bool get_morph_perm();
+        int get_morph_intensity();
+        std::string get_cancel_trait();
 
     protected:
         bool permanent;
@@ -122,6 +145,8 @@ class effect_type
 
         effect_mod_info base_mods;
         effect_mod_info scaling_mods;
+
+        effect_morph_info morph;
 };
 
 class effect : public JsonSerializer, public JsonDeserializer
@@ -186,6 +211,14 @@ class effect : public JsonSerializer, public JsonDeserializer
         bool get_pkill_addict_reduces();
 
         std::string get_resist_trait();
+        
+        efftype_id get_morph_id();
+        bool get_morph_with_parts();
+        bool get_morph_with_intensities();
+        int get_morph_duration();
+        bool get_morph_perm();
+        int get_morph_intensity();
+        std::string get_cancel_trait();
 
         efftype_id get_id() {
             return eff_type->id;
