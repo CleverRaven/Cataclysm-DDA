@@ -13151,7 +13151,7 @@
         "addiction_potential" : 0,
         "nutrition" : 1,
         "description" : "Thin yellow vegetable oil used for cooking.",
-        "price" : 4000,
+        "price" : 40,
         "material" : "null",
         "tool" : "null",
         "volume" : 2,
