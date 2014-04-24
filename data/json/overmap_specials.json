@@ -1,0 +1,11 @@
+[
+    {
+        "type" : "overmap_special",
+        "id" : "test",
+        "height" : 1,
+        "width" : 1,
+        "overmaps" : ["lmoe"],
+        "locations" : ["wilderness"],
+        "rotate" : false
+    }
+]
