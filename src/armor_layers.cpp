@@ -391,20 +391,6 @@ void draw_mid_pane(WINDOW *w_sort_middle, item *worn_item)
     }
 }
 
-std::string clothing_layer(item *worn_item)
-{
-    std::string layer = "";
-
-    if (worn_item->has_flag("SKINTIGHT")) {
-        layer = _("It is the undergarment.");
-    } else if (worn_item->has_flag("OUTER")) {
-        layer = _("It is the outer garment.");
-    } else if (worn_item->has_flag("BELTED")) {
-        layer = _("It is the belted layer.");
-    }
-
-    return layer;
-}
 std::vector<std::string> clothing_flags_description(item *worn_item)
 {
     std::vector<std::string> description_stack;
