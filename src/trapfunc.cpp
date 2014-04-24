@@ -315,7 +315,7 @@ void trapfunc::snare_light(int x, int y)
  add_msg(_("A snare closes on your leg."));
  g->u.add_memorial_log(pgettext("memorial_male", "Triggered a light snare."),
                        pgettext("memorial_female", "Triggered a light snare."));
- g->u.add_disease("lightsnare", rng(10, 20));
+ g->u.add_effect("lightsnare", rng(10, 20));
  g->m.remove_trap(x, y);
  g->m.spawn_item(x, y, "string_36");
  g->m.spawn_item(x, y, "snare_trigger");

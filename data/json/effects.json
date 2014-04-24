@@ -275,16 +275,16 @@
             "speed_mod" : [-5]
         }
     },
-   {
-      "type" : "effect_type",
-      "id" : "lightsnare",
-      "apply_message" : "You are snared."
-   },
-   {
-      "type" : "effect_type",
-      "id" : "heavysnare",
-      "apply_message" : "You are snared."
-   },
+    {
+        "type" : "effect_type",
+        "id" : "lightsnare",
+        "apply_message" : "You are snared."
+    },
+    {
+        "type" : "effect_type",
+        "id" : "heavysnare",
+        "apply_message" : "You are snared."
+    },
     {
         "type" : "effect_type",
         "id" : "beartrap",

@@ -28,8 +28,6 @@ enum dis_type_enum {
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
-// Traps
- DI_LIGHTSNARE, DI_HEAVYSNARE,
 // Martial Arts
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
@@ -99,8 +97,6 @@ void game::init_diseases() {
     disease_type_lookup["asthma"] = DI_ASTHMA;
     disease_type_lookup["grack"] = DI_GRACK;
     disease_type_lookup["meth"] = DI_METH;
-    disease_type_lookup["lightsnare"] = DI_LIGHTSNARE;
-    disease_type_lookup["heavysnare"] = DI_HEAVYSNARE;
     disease_type_lookup["attack_boost"] = DI_ATTACK_BOOST;
     disease_type_lookup["damage_boost"] = DI_DAMAGE_BOOST;
     disease_type_lookup["dodge_boost"] = DI_DODGE_BOOST;
@@ -177,12 +173,6 @@ void dis_msg(dis_type type_string) {
         add_msg(_("Your bite wound feels infected."));
         g->u.add_memorial_log(pgettext("memorial_male", "Contracted an infection."),
                               pgettext("memorial_female", "Contracted an infection."));
-        break;
-    case DI_LIGHTSNARE:
-        add_msg(_("You are snared."));
-        break;
-    case DI_HEAVYSNARE:
-        add_msg(_("You are snared."));
         break;
     case DI_CONTACTS:
         add_msg(_("You can see more clearly."));
@@ -900,20 +890,6 @@ void dis_effect(player &p, disease &dis)
 
         case DI_BITE:
             handle_bite_wound(p, dis);
-            break;
-
-        case DI_LIGHTSNARE:
-            p.moves = -500;
-            if(one_in(10)) {
-                add_msg(_("You attempt to free yourself from the snare."));
-            }
-            break;
-
-        case DI_HEAVYSNARE:
-            p.moves = -500;
-            if(one_in(20)) {
-                add_msg(_("You attempt to free yourself from the snare."));
-            }
             break;
 
         case DI_INFECTED:

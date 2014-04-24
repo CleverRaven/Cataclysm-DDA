@@ -491,16 +491,7 @@ bool is_expired_effect(effect &e)   // utility function for process_effects
 }
 bool Creature::move_effects()
 {
-    if (has_effect("beartrap")) {
-        mod_moves(-100);
-        if(x_in_y(get_str(), 80)) {
-            remove_effect("beartrap");
-            add_msg_if_player(_("You free yourself from the bear trap!"));
-        } else {
-            add_msg_if_player(_("You try to free yourself from the bear trap, but can't get loose!"));
-        }
-        return true;
-    }
+    //Check things that prevent the player from moving at all first
     if (has_effect("downed")) {
         if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
             add_msg_if_player(_("You struggle to stand."));
@@ -509,6 +500,41 @@ bool Creature::move_effects()
             add_msg_if_player(_("You stand up."));
             remove_effect("downed");
             mod_moves(-100);
+        }
+        return true;
+    }
+    //Then things/traps that would stop them from moving
+    if (has_effect("lightsnare")) {
+        mod_moves(-100);
+        if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8) {
+            remove_effect("lightsnare");
+            add_msg_if_player(_("You free yourself from the light snare!"));
+        } else {
+            add_msg_if_player(_("You try to free yourself from the light snare, but can't get loose!"));
+        }
+        return true;
+    }
+    if (has_effect("heavysnare")) {
+        mod_moves(-100);
+        if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16) {
+            remove_effect("heavysnare");
+            add_msg_if_player(_("You free yourself from the heavy snare!"));
+        } else {
+            add_msg_if_player(_("You try to free yourself from the heavy snare, but can't get loose!"));
+        }
+        return true;
+    }
+    /* Real bear traps can't be removed without the proper tools; eventually this should
+       allow the player two options, removal of the limb or removal of the trap from the ground
+       (at which point the player could later remove it from the leg with the right tools).
+    */
+    if (has_effect("beartrap")) {
+        mod_moves(-100);
+        if(x_in_y(get_str(), 100)) {
+            remove_effect("beartrap");
+            add_msg_if_player(_("You free yourself from the bear trap!"));
+        } else {
+            add_msg_if_player(_("You try to free yourself from the bear trap, but can't get loose!"));
         }
         return true;
     }
