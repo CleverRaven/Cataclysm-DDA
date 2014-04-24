@@ -8740,11 +8740,27 @@ void player::use(int pos)
 
     if (used->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
-        if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use) {
+        if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use || (used->has_flag("USE_UPS") && (has_charges("adv_UPS_on", 1) || has_charges("UPS_on", 5) || has_charges("adv_UPS_off", 1) || has_charges("UPS_off", 5) || (has_bionic("bio_ups") && power_level >= 1)))) {
             int charges_used = tool->use.call(this, used, false);
             if ( charges_used >= 1 ) {
                 if( tool->charges_per_use > 0 ) {
-                    used->charges -= std::min(used->charges, long(charges_used));
+		    if (used->has_flag("USE_UPS")){
+			//If the device has been modded to run off ups, we want to reduce ups charges instead of item charges.
+			if (has_charges("adv_UPS_off", 1)) {
+			    use_charges("adv_UPS_off", 1);
+			} else if (has_charges("adv_UPS_on", 1)) {
+			    use_charges("adv_UPS_on", 1);
+			} else if (has_charges("UPS_off", 5)) {
+			    use_charges("UPS_off", 5);
+			} else if (has_charges("UPS_on", 5)) {
+			    use_charges("UPS_on", 5); 
+			}
+			  else if (has_bionic("bio_ups")) {
+			    charge_power(-1 * 1);
+			}
+		    }
+		    else{
+                    	used->charges -= std::min(used->charges, long(charges_used));}
                 } else {
                     // An item that doesn't normally expend charges is destroyed instead.
                     /* We can't be certain the item is still in the same position,
