@@ -993,7 +993,7 @@ void player::update_bodytemp()
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if (blister_count - 10*get_env_resist(body_part(i)) > 20)
         {
-            add_disease("blisters", 1, false, 1, 1, 0, 1, (body_part)i, -1);
+            add_effect("blisters", 1, false, 1, (body_part)i, -1);
         }
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
@@ -1126,18 +1126,18 @@ void player::update_bodytemp()
         // PENALTIES
         if      (temp_cur[i] < BODYTEMP_FREEZING)
         {
-            add_disease("cold", 1, false, 3, 3, 0, 1, (body_part)i, -1);
+            add_effect("cold", 1, false, 3, (body_part)i, -1);
             frostbite_timer[i] += 3;
         }
         else if (temp_cur[i] < BODYTEMP_VERY_COLD)
         {
-            add_disease("cold", 1, false, 2, 3, 0, 1, (body_part)i, -1);
+            add_effect("cold", 1, false, 2, (body_part)i, -1);
             frostbite_timer[i] += 2;
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
             // Frostbite timer does not go down if you are still cold.
-            add_disease("cold", 1, false, 1, 3, 0, 1, (body_part)i, -1);
+            add_effect("cold", 1, false, 1, (body_part)i, -1);
             frostbite_timer[i] += 1;
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
@@ -1155,10 +1155,9 @@ void player::update_bodytemp()
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
-        int intensity_mult =
-            - disease_intensity("cold", false, (body_part)i) +
-            effect_intensity("hot", false, (body_part)i);
-        if (has_disease("cold", (body_part)i) ||
+        int intensity_mult = effect_intensity("hot", false, (body_part)i)
+            - effect_intensity("cold", false, (body_part)i);
+        if (has_effect("cold", (body_part)i) ||
             has_effect("hot", (body_part)i))
         {
             switch (i)
@@ -1179,18 +1178,18 @@ void player::update_bodytemp()
         }
         if      (frostbite_timer[i] >= 240 && g->get_temperature() < 32)
         {
-            add_disease("frostbite", 1, false, 2, 2, 0, 1, (body_part)i, -1);
+            add_effect("frostbite", 1, false, 2, (body_part)i, -1);
             // Warning message for the player
-            if (disease_intensity("frostbite", false, (body_part)i) < 2
+            if (effect_intensity("frostbite", false, (body_part)i) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
             {
                 g->add_msg((i == bp_mouth ? _("Your %s hardens from the frostbite!") : _("Your %s harden from the frostbite!")), body_part_name(body_part(i), -1).c_str());
             }
             else if (frostbite_timer[i] >= 120 && g->get_temperature() < 32)
             {
-                add_disease("frostbite", 1, false, 1, 2, 0, 1, (body_part)i, -1);
+                add_effect("frostbite", 1, false, 1, (body_part)i, -1);
                 // Warning message for the player
-                if (!has_disease("frostbite", (body_part)i))
+                if (!has_effect("frostbite", (body_part)i))
                 {
                     g->add_msg(_("You lose sensation in your %s."),
                         body_part_name(body_part(i), -1).c_str());
@@ -5423,6 +5422,193 @@ void player::process_effects() {
                     break;
                 case bp_eyes:// Eyes are not susceptible by this disease.
                 case num_bp: // Suppress compiler warning [-Wswitch]
+                    break;
+            }
+        } else if (id == "cold") {
+            switch(it->get_bp()) {
+                case bp_head:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_int_bonus(-2);
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your thoughts are unclear."));
+                            }
+                        case 2:
+                            mod_int_bonus(-1);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_mouth:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_per_bonus(-2);
+                        case 2:
+                            mod_per_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your face is stiff from the cold."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_torso:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            // Speed -20
+                            mod_dex_bonus(-2);
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your torso is freezing cold. \
+                                     You should put on a few more layers."));
+                            }
+                        case 2:
+                            mod_dex_bonus(-2);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_arms:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-2);
+                        case 2:
+                            mod_dex_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your arms are shivering."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_hands:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-2);
+                        case 2:
+                            mod_dex_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your hands feel like ice."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_legs:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-1);
+                            mod_str_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your legs tremble against the relentless cold."));
+                            }
+                        case 2:
+                            mod_dex_bonus(-1);
+                            mod_str_bonus(-1);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_feet:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-1);
+                            mod_str_bonus(-1);
+                            break;
+                        case 2:
+                            mod_dex_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your feet feel frigid."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_eyes:// Eyes are not susceptible by this disease.
+                case num_bp: // Suppress compiler warning [-Wswitch]
+                    break;
+            }
+        } else if (id == "blisters") {
+            switch(it->get_bp()) {
+                case bp_hands:
+                    mod_dex_bonus(-1);
+                    if ( pain < 35 ) {
+                        mod_pain(1);
+                    }
+                    if (one_in(2)) {
+                        hp_cur[hp_arm_r]--;
+                    } else {
+                        hp_cur[hp_arm_l]--;
+                    }
+                    break;
+                case bp_feet:
+                    mod_str_bonus(-1);
+                    if (pain < 35) {
+                        mod_pain(1);
+                    }
+                    if (one_in(2)) {
+                        hp_cur[hp_leg_r]--;
+                    } else {
+                        hp_cur[hp_leg_l]--;
+                    }
+                    break;
+                case bp_mouth:
+                    mod_per_bonus(-1);
+                    hp_cur[hp_head]--;
+                    if (pain < 35) {
+                        mod_pain(1);
+                    }
+                    break;
+                default: // Suppress compiler warnings [-Wswitch]
+                    break;
+            }
+        } else if (id == "frostbite") {
+            switch(it->get_bp()) {
+                case bp_hands:
+                    switch(it->get_intensity()) {
+                        case 2:
+                            mod_dex_bonus(-3);
+                        case 1:
+                            if ((temp_cur[bp_hands] > BODYTEMP_COLD && pain < 40)) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your fingers itch."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_feet:
+                    switch(it->get_intensity()) {
+                        case 2:
+                            if ((temp_cur[bp_feet] > BODYTEMP_COLD && pain < 40)) {
+                                mod_pain(1);
+                            }
+                        case 1:
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your toes itch."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_mouth:
+                    switch(it->get_intensity()) {
+                        case 2:
+                            mod_per_bonus(-2);
+                            if ((temp_cur[bp_mouth] > BODYTEMP_COLD && pain < 40)) {
+                                mod_pain(1);
+                            }
+                        case 1:
+                            mod_per_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your face feels numb."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                default: // Suppress compiler warnings [-Wswitch]
                     break;
             }
         }

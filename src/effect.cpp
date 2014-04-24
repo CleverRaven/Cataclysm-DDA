@@ -443,7 +443,7 @@ int effect::hardcoded_speed_mod()
 {
     //TODO - Eventually empty this function into JSON based things
     std::string effect_id = eff_type->id;
-    if (effect_id == "hot") {
+    if (effect_id == "hot" || effect_id == "cold") {
         switch (get_bp()) {
             case bp_head:
                 switch (get_intensity()) {
@@ -456,6 +456,18 @@ int effect::hardcoded_speed_mod()
                     case 1 : return  -2;
                     case 2 : return  -5;
                     case 3 : return -20;
+                }
+            default:
+                return 0;
+        }
+    } else if (effect_id == "frostbite") {
+        switch (get_bp()) {
+            case bp_feet:
+                switch (get_intensity()) {
+                    case 2 :
+                        return -4;
+                    default:
+                        break;
                 }
             default:
                 return 0;

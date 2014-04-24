@@ -81,10 +81,43 @@
         ],
         "max_intensity" : 3
     },
-   {
-      "type" : "effect_type",
-      "id" : "cold"
-   },
+    {
+        "type" : "effect_type",
+        "id" : "blisters",
+        "name" : ["Blisters"],
+        "part_descs" : true,
+        "desc" : ["is blistering from the intense heat."]
+    },
+    {
+        "type" : "effect_type",
+        "id" : "cold",
+        "name" : [
+            "Chilly",
+            "Cold",
+            "Freezing"
+        ],
+        "part_descs" : true,
+        "desc" : [
+            "is exposed to the cold.",
+            "is very exposed to the cold.",
+            "is dangerously cold."
+        ],
+        "max_intensity" : 3
+    },
+    {
+        "type" : "effect_type",
+        "id" : "frostbite",
+        "name" : [
+            "Frostnip",
+            "Frostbite"
+        ],
+        "part_descs" : true,
+        "desc" : [
+            "is frostnipped from prolonged exposure to the cold and have gone numb",
+            "is frostbitten from prolonged exposure to the cold. Its tissues are frozen!"
+        ],
+        "max_intensity" : 2
+    },
     {
         "type" : "effect_type",
         "id" : "bounced",
@@ -355,10 +388,6 @@
    },
    {
       "type" : "effect_type",
-      "id" : "blisters"
-   },
-   {
-      "type" : "effect_type",
       "id" : "bleed"
    },
    {
@@ -390,10 +419,6 @@
    {
       "type" : "effect_type",
       "id" : "dermatik"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "frostbite"
    },
    {
       "type" : "effect_type",
