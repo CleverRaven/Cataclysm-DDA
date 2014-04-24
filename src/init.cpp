@@ -40,7 +40,6 @@
 #include <locale> // for loading names
 
 #include "savegame.h"
-#include "file_finder.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
