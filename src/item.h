@@ -44,6 +44,14 @@ struct iteminfo{
 enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL};
 
+enum layer_level {
+    UNDERWEAR = 0,
+    REGULAR_LAYER,
+    OUTER_LAYER,
+    BELTED_LAYER,
+    MAX_CLOTHING_LAYER
+};
+
 class item : public JsonSerializer, public JsonDeserializer
 {
 public:
