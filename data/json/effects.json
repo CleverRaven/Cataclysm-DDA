@@ -293,6 +293,12 @@
     },
     {
         "type" : "effect_type",
+        "id" : "in_pit",
+        "name" : ["Stuck in Pit"],
+        "desc" : ["You're stuck in a pit.  Sight distance is limited and you have to climb out."]
+    },
+    {
+        "type" : "effect_type",
         "id" : "glare",
         "name" : ["Glare"],
         "desc" : ["Perception - 1"],
@@ -344,12 +350,6 @@
     {
         "type" : "effect_type",
         "id" : "took_flumed"
-    },
-    {
-        "type" : "effect_type",
-        "id" : "in_pit",
-        "name" : ["Stuck in Pit"],
-        "desc" : ["You're stuck in a pit.  Sight distance is limited and you have to climb out."]
     },
    {
       "type" : "effect_type",

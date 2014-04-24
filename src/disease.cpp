@@ -242,7 +242,6 @@ void dis_remove_memorial(dis_type type_string) {
 
 void dis_effect(player &p, disease &dis)
 {
-    int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
     switch(disType) {
