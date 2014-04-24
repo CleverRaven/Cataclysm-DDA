@@ -63,12 +63,24 @@
 		"name" : ["Asleep"],
 		"desc" : ["Nighty-night, don't let the dermatiks bite."],
 		"max_intensity" : 24,
-		"remove_message" : "You wake up.",
+		"remove_message" : "You wake up."
 	},
-   {
-      "type" : "effect_type",
-      "id" : "hot"
-   },
+    {
+        "type" : "effect_type",
+        "id" : "hot",
+        "name" : [
+            "Warm",
+            "Hot",
+            "Scorching"
+        ],
+        "part_descs" : true,
+        "desc" : [
+            "feels warm.",
+            "is sweating from the heat.",
+            "is sweating profusely."
+        ],
+        "max_intensity" : 3
+    },
    {
       "type" : "effect_type",
       "id" : "cold"

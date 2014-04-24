@@ -629,16 +629,16 @@ bool Creature::has_effect(efftype_id eff_id, body_part bp, int side)
     }
     return false;
 }
-bool Creature::get_effect(effect &ret, efftype_id eff_id, body_part bp, int side)
+effect Creature::get_effect(efftype_id eff_id, body_part bp, int side)
 {
-    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
-        if (it->get_id() == eff_id && ( bp == num_bp || it->get_bp() == bp ) &&
-            ( side == -1 || it->get_side() == side ) ) {
-            ret = it;
-            return true;
+    for (size_t i = 0; i < effects.size(); i++) {
+        if (effects[i].get_id() == eff_id && ( bp == num_bp || effects[i].get_bp() == bp ) &&
+            ( side == -1 || effects[i].get_side() == side ) ) {
+            return effects[i];
         }
     }
-    return false;
+    effect ret;
+    return ret;
 }
 int Creature::effect_duration(efftype_id eff_id, bool all, body_part bp, int side)
 {
@@ -680,238 +680,10 @@ void Creature::process_effects()
     effects.erase(std::remove_if(effects.begin(), effects.end(),
                                  is_expired_effect), effects.end());
 }
-void Creature::cough(bool harmful)
-{
-    if (is_player()) {
-        g->add_msg(_("You cough heavily."));
-        g->sound(xpos(), ypos(), 4, "");
-    } else {
-        g->sound(xpos(), ypos(), 4, _("a hacking cough."));
-    }
-    mod_moves(-80);
-    if (harmful && !one_in(4)) {
-        hurt(bp_torso, -1, 1);
-    }
-    if (has_effect("sleep") && ((harmful && one_in(3)) || one_in(10)) ) {
-        if(is_player()) {
-            //wake_up(_("You wake up coughing."));
-        }
-    }
-}
-bool Creature::will_vomit(int chance)
-{
-    bool drunk = g->u.has_disease("drunk");
-    bool antiEmetics = g->u.has_disease("weed_high");
-    bool hasNausea = g->u.has_trait("NAUSEA") && one_in(chance*2);
-    bool stomachUpset = g->u.has_trait("WEAKSTOMACH") && one_in(chance*3);
-    bool suppressed = (g->u.has_trait("STRONGSTOMACH") && one_in(2)) ||
-        (antiEmetics && !drunk && !one_in(chance));
-    return ((stomachUpset || hasNausea) && !suppressed);
-}
 
 void Creature::manage_sleep()
 {
-    // TODO: Still a lot to generalize away from the player here.
     set_moves(0);
-    // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
-    // as a safety catch.  One test subject managed to get two Colds during hibernation;
-    // since those add fatigue and dry out the character, the subject went for the full 10 days plus
-    // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
-    // life like that--but since there's much less fluid reserve than food reserve,
-    // simply using the same numbers won't work.
-    effect sleep;
-    get_effect(&sleep, "sleep")
-    if((int(g->turn) % 350 == 0) && g->u.has_trait("HIBERNATE") && (g->u.hunger < -60) && !(g->u.thirst >= 80)) {
-        int recovery_chance;
-        // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly.
-        // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
-        // After 16 hours of activity, equal to 7.25 hours of rest
-        if (sleep->get_intensity() < 24) {
-            sleep->mod_intensity(1);
-        } else if (sleep->get_intensity() < 1) {
-            sleep->set_intensity(1);
-        }
-        recovery_chance = 24 - sleep->get_intensity() + 1;
-        if (g->u.fatigue > 0) {
-            g->u.fatigue -= 1 + one_in(recovery_chance);
-        }
-        if ((!(g->u.has_trait("FLIMSY")) && (!(g->u.has_trait("FLIMSY2"))) &&
-               (!(g->u.has_trait("FLIMSY3")))) || (g->u.has_trait("FLIMSY") && x_in_y(3 , 4)) ||
-               (g->u.has_trait("FLIMSY2") && one_in(2)) ||
-               (g->u.has_trait("FLIMSY3") && one_in(4))) {
-            int heal_chance = get_healthy() / 25;
-            if (g->u.has_trait("FASTHEALER")) {
-                heal_chance += 100;
-            } else if (p.has_trait("FASTHEALER2")) {
-                heal_chance += 150;
-            } else if (p.has_trait("REGEN")) {
-                heal_chance += 200;
-            } else if (p.has_trait("SLOWHEALER")) {
-                heal_chance += 13;
-            } else {
-                heal_chance += 25;
-            }
-            int tmp_heal = 0;
-            while (heal_chance >= 100) {
-                tmp_heal++;
-                heal_chance -= 100;
-            }
-            g->u.healall(tmp_heal + x_in_y(heal_chance, 100));
-        }
-
-        if (g->u.fatigue <= 0 && g->u.fatigue > -20) {
-            g->u.fatigue = -25;
-            g->add_msg_if_player(this, _("You feel well rested."));
-            sleep->set_duration(dice(3, 100));
-            if (if_player()) {
-                g->u.add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
-                                    pgettext("memorial_female", "Awoke from hibernation."));
-            }
-        }
-    // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
-    // See above.  No log note for you. :-/
-    } else if((int(g->turn) % 50 == 0) && (!(g->u.hunger < -60) || (g->u.thirst >= 80))) {
-        int recovery_chance;
-        // Accelerated recovery capped to 2x over 2 hours
-        // After 16 hours of activity, equal to 7.25 hours of rest
-        if (sleep->get_intensity() < 24) {
-            sleep->mod_intensity(1);
-        } else if (sleep->get_intensity() < 1) {
-            sleep->set_intensity(1);
-        }
-        recovery_chance = 24 - sleep->get_intensity() + 1;
-        if (g->u.fatigue > 0) {
-            g->u.fatigue -= 1 + one_in(recovery_chance);
-            // You fatigue & recover faster with Sleepy
-            // Very Sleepy, you just fatigue faster
-            if (g->u.has_trait("SLEEPY")) {
-                g->u.fatigue -=(1 + one_in(recovery_chance) / 2);
-            }
-            // Tireless folks recover fatigue really fast
-            // as well as gaining it really slowly
-            // (Doesn't speed healing any, though...)
-            if (g->u.has_trait("WAKEFUL3")) {
-                g->u.fatigue -=(2 + one_in(recovery_chance) / 2);
-            }
-        }
-        if ((!(g->u.has_trait("FLIMSY")) && (!(g->u.has_trait("FLIMSY2"))) &&
-               (!(g->u.has_trait("FLIMSY3")))) || (g->u.has_trait("FLIMSY") && x_in_y(3 , 4)) ||
-               (g->u.has_trait("FLIMSY2") && one_in(2)) ||
-               (g->u.has_trait("FLIMSY3") && one_in(4))) {
-            int heal_chance = get_healthy() / 25;
-            if (g->u.has_trait("FASTHEALER")) {
-                heal_chance += 100;
-            } else if (g->u.has_trait("FASTHEALER2")) {
-                heal_chance += 150;
-            } else if (g->u.has_trait("REGEN")) {
-                heal_chance += 200;
-            } else if (g->u.has_trait("SLOWHEALER")) {
-                heal_chance += 13;
-            } else {
-                heal_chance += 25;
-            }
-            int tmp_heal = 0;
-            while (heal_chance >= 100) {
-                tmp_heal++;
-                heal_chance -= 100;
-            }
-            g->u.healall(tmp_heal + x_in_y(heal_chance, 100));
-
-            if (g->u.fatigue <= 0 && g->u.fatigue > -20) {
-                g->u.fatigue = -25;
-                g->add_msg_if_player(this, _("You feel well rested."));
-                sleep->set_duration(dice(3, 100));
-            }
-        }
-    }
-
-    if (int(g->turn) % 100 == 0 && !g->u.has_bionic("bio_recycler") && !(g->u.hunger < -60)) {
-        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
-        g->u.hunger--;
-        g->u.thirst--;
-    }
-
-    // Hunger and thirst advance *much* more slowly whilst we hibernate.
-    // (int (g->turn) % 50 would be zero burn.)
-    // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs
-    // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
-    // without a good explanation and taking a night to make sure it works
-    // with the extended sleep duration, OK?
-    if (int(g->turn) % 70 == 0 && !g->u.has_bionic("bio_recycler") && (g->u.hunger < -60)) {
-        g->u.hunger--;
-        g->u.thirst--;
-    }
-
-    // Check mutation category strengths to see if we're mutated enough to get a dream
-    std::string highcat = g->u.get_highest_category();
-    int highest = g->u.mutation_category_level[highcat];
-
-    // Determine the strength of effects or dreams based upon category strength
-    int strength = 0; // Category too weak for any effect or dream
-    if (highest >= 20 && highest < 35) {
-        strength = 1; // Low strength
-    } else if (highest >= 35 && highest < 50) {
-        strength = 2; // Medium strength
-    } else if (highest >= 50) {
-        strength = 3; // High strength
-    }
-
-    // Get a dream if category strength is high enough.
-    if (strength != 0) {
-        //Once every 6 / 3 / 2 hours, with a bit of randomness
-        if ((int(g->turn) % (3600 / strength) == 0) && one_in(3)) {
-            // Select a dream
-            std::string dream = p.get_category_dream(highcat, strength);
-            g->add_msg_if_player(this, "%s",dream.c_str());
-        }
-    }
-
-    int tirednessVal = rng(5, 200) + rng(0,abs(p.fatigue * 2 * 5));
-    if (g->u.has_trait("HEAVYSLEEPER2") && !g->u.has_trait("HIBERNATE")) {
-        // So you can too sleep through noon
-        if ((tirednessVal * 1.25) < g->light_level() && (g->u.fatigue < 10 || one_in(g->u.fatigue / 2))) {
-            g->add_msg_if_player(this, _("The light wakes you up."));
-            sleep->set_duration(1);
-        }
-        return;}
-     // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-    if (g->u.has_trait("HIBERNATE")) {
-        if ((tirednessVal * 5) < g->light_level() && (g->u.fatigue < 10 || one_in(g->u.fatigue / 2))) {
-            g->add_msg_if_player(this, _("The light wakes you up."));
-            sleep->set_duration(1);
-        }
-        return;}
-    if (tirednessVal < g->light_level() && (g->u.fatigue < 10 || one_in(g->u.fatigue / 2))) {
-        g->add_msg_if_player(this, _("The light wakes you up."));
-        sleep->set_duration(1);
-        return;
-    }
-
-    // Cold or heat may wake you up.
-    // Player will sleep through cold or heat if fatigued enough
-    for (int i = 0 ; i < num_bp ; i++) {
-        if (g->u.temp_cur[i] < BODYTEMP_VERY_COLD - g->u.fatigue/2) {
-            if (one_in(5000)) {
-                g->add_msg_if_player(this, _("You toss and turn trying to keep warm."));
-            }
-            if (g->u.temp_cur[i] < BODYTEMP_FREEZING - g->u.fatigue/2 ||
-                                (one_in(g->u.temp_cur[i] + 5000))) {
-                g->add_msg_if_player(this, _("The cold wakes you up."));
-                sleep->set_duration(1);
-                return;
-            }
-        } else if (g->u.temp_cur[i] > BODYTEMP_VERY_HOT + g->u.fatigue/2) {
-            if (one_in(5000)) {
-                g->add_msg_if_player(this, _("You toss and turn in the heat."));
-            }
-            if (g->u.temp_cur[i] > BODYTEMP_SCORCHING + g->u.fatigue/2 ||
-                                (one_in(15000 - g->u.temp_cur[i]))) {
-                g->add_msg_if_player(this, _("The heat wakes you up."));
-                sleep->set_duration(1);
-                return;
-            }
-        }
-    }
 }
 
 void Creature::mod_pain(int npain)

@@ -83,6 +83,7 @@ class effect_type
         std::string get_desc(int intensity = 0, bool reduced = false);
         bool use_name_intensities();
         bool use_desc_intensities();
+        bool use_part_descs();
 
         std::string speed_name();
 
@@ -112,6 +113,7 @@ class effect_type
         std::string speed_mod_name;
         std::vector<std::string> desc;
         std::vector<std::string> reduced_desc;
+        bool part_descs;
 
         std::string apply_message;
         std::string apply_memorial_log;
@@ -160,7 +162,10 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_dex_mod(bool reduced = false);
         int get_per_mod(bool reduced = false);
         int get_int_mod(bool reduced = false);
-        int get_speed_boost(bool reduced = false);
+        int get_speed_mod(bool reduced = false);
+        
+        /** Holds effect speed mods that haven't been moved to JSON yet */
+        int hardcoded_speed_mod();
 
         int get_pain(bool reduced = false);
         int get_pain_chance(bool reduced = false);

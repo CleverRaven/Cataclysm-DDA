@@ -18,7 +18,6 @@ enum dis_type_enum {
 // Temperature, the order is important (dependant on bodypart.h)
  DI_COLD,
  DI_FROSTBITE,
- DI_HOT,
  DI_BLISTERS,
 // Diseases
  DI_INFECTION,
@@ -57,7 +56,6 @@ std::map<std::string, dis_type_enum> disease_type_lookup;
 // Todo: Move helper functions into a DiseaseHandler Class.
 // Should standardize parameters so we can make function pointers.
 static void manage_fungal_infection(player& p, disease& dis);
-static void manage_sleep(player& p, disease& dis);
 
 static void handle_alcohol(player& p, disease& dis);
 static void handle_bite_wound(player& p, disease& dis);
@@ -73,7 +71,6 @@ void game::init_diseases() {
     disease_type_lookup["null"] = DI_NULL;
     disease_type_lookup["cold"] = DI_COLD;
     disease_type_lookup["frostbite"] = DI_FROSTBITE;
-    disease_type_lookup["hot"] = DI_HOT;
     disease_type_lookup["blisters"] = DI_BLISTERS;
     disease_type_lookup["infection"] = DI_INFECTION;
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
@@ -458,131 +455,6 @@ void dis_effect(player &p, disease &dis)
             }
             break;
 
-        case DI_HOT:
-            switch(dis.bp) {
-                case bp_head:
-                    switch(dis.intensity) {
-                        case 3:
-                            if (int(g->turn) % 150 == 0) {
-                                p.thirst++;
-                            }
-                            if (p.pain < 40) {
-                                p.mod_pain(1);
-                            }
-                            if (!sleeping && tempMsgTrigger) {
-                                g->add_msg(_("Your head is pounding from the heat."));
-                            }
-                        case 2:
-                            if (int(g->turn) % 300 == 0) {
-                                p.thirst++;
-                            }
-                            // Hallucinations handled in game.cpp
-                            if (one_in(std::min(14500, 15000 - p.temp_cur[bp_head]))) {
-                                p.vomit();
-                            }
-                            if (p.pain < 20) {
-                                p.mod_pain(1);
-                            }
-                            if (!sleeping && tempMsgTrigger) {
-                                g->add_msg(_("The heat is making you see things."));
-                            }
-                    }
-                    break;
-                case bp_mouth:
-                    switch(dis.intensity) {
-                        case 3:
-                            if (int(g->turn) % 150 == 0) {
-                                p.thirst++;
-                            }
-                            if (p.pain < 30) {
-                                p.mod_pain(1);
-                            }
-                        case 2:
-                            if (int(g->turn) % 300 == 0) {
-                                p.thirst++;
-                            }
-                    }
-                    break;
-                case bp_torso:
-                    switch(dis.intensity) {
-                        case 3:
-                            if (int(g->turn) % 150 == 0) {
-                                p.thirst++;
-                            }
-                            p.mod_str_bonus(-1);
-                            if (!sleeping && tempMsgTrigger) {
-                                g->add_msg(_("You are sweating profusely."));
-                            }
-                        case 2:
-                            if (int(g->turn) % 300 == 0) {
-                                p.thirst++;
-                            }
-                            p.mod_str_bonus(-1);
-                        default:
-                            break;
-                    }
-                    break;
-                case bp_arms:
-                    switch(dis.intensity) {
-                        case 3 :
-                            if (int(g->turn) % 150 == 0) {
-                                p.thirst++;
-                            }
-                            if (p.pain < 30) {
-                                p.mod_pain(1);
-                            }
-                        case 2:
-                            if (int(g->turn) % 300 == 0) {
-                                p.thirst++;
-                            }
-                        default:
-                            break;
-                    }
-                    break;
-                case bp_hands:
-                    switch(dis.intensity) {
-                        case 3:
-                            p.mod_dex_bonus(-1);
-                        case 2:
-                            p.mod_dex_bonus(-1);
-                        default:
-                            break;
-                    }
-                    break;
-                case bp_legs:
-                    switch (dis.intensity) {
-                        case 3 :
-                            if (int(g->turn) % 150 == 0) {
-                                p.thirst++;
-                            }
-                            if (p.pain < 30) {
-                                p.mod_pain(1);
-                            }
-                            if (!sleeping && tempMsgTrigger) {
-                                g->add_msg(_("Your legs are cramping up."));
-                            }
-                        case 2:
-                            if (int(g->turn) % 300 == 0) {
-                                p.thirst++;
-                            }
-                    }
-                    break;
-                case bp_feet:
-                    switch (dis.intensity) {
-                        case 3 :
-                            if (p.pain < 30) {
-                                p.mod_pain(1);
-                            }
-                            if (!sleeping && tempMsgTrigger) {
-                                g->add_msg(_("Your feet are swelling in the heat."));
-                            }
-                    }
-                    break;
-                case bp_eyes:// Eyes are not susceptible by this disease.
-                case num_bp: // Suppress compiler warning [-Wswitch]
-                    break;
-            }
-            break;
         case DI_COMMON_COLD:
             if (int(g->turn) % 300 == 0) {
                 p.thirst++;
@@ -1231,24 +1103,6 @@ int disease_speed_boost(disease dis)
                     return 0;
             }
             break;
-        case DI_HOT:
-            switch(dis.bp) {
-                case bp_head:
-                    switch (dis.intensity) {
-                        case 1 : return  -2;
-                        case 2 : return  -5;
-                        case 3 : return -20;
-                    }
-                case bp_torso:
-                    switch (dis.intensity) {
-                        case 1 : return  -2;
-                        case 2 : return  -5;
-                        case 3 : return -20;
-                    }
-                default:
-                    return 0;
-            }
-        break;
 
         case DI_SPORES:
             switch (dis.bp) {
@@ -1362,49 +1216,6 @@ std::string dis_name(disease& dis)
                 case 1: return _("Frostnip - face");
                 case 2: return _("Frostbite - face");}
             default: // Suppress compiler warning [-Wswitch]
-                break; // function return "" in this case
-        }
-
-    case DI_HOT:
-        switch (dis.bp) {
-            case bp_head:
-                switch (dis.intensity) {
-                case 1: return _("Warm head");
-                case 2: return _("Hot head!");
-                case 3: return _("Scorching head!!");}
-            case bp_mouth:
-                switch (dis.intensity) {
-                case 1: return _("Warm face");
-                case 2: return _("Hot face!");
-                case 3: return _("Scorching face!!");}
-            case bp_torso:
-                switch (dis.intensity) {
-                case 1: return _("Warm torso");
-                case 2: return _("Hot torso!");
-                case 3: return _("Scorching torso!!");}
-            case bp_arms:
-                switch (dis.intensity) {
-                case 1: return _("Warm arms");
-                case 2: return _("Hot arms!");
-                case 3: return _("Scorching arms!!");}
-            case bp_hands:
-                switch (dis.intensity) {
-                case 1: return _("Warm hands");
-                case 2: return _("Hot hands!");
-                case 3: return _("Scorching hands!!");}
-                break;
-            case bp_legs:
-                switch (dis.intensity) {
-                case 1: return _("Warm legs");
-                case 2: return _("Hot legs!");
-                case 3: return _("Scorching legs!!");}
-            case bp_feet:
-                switch (dis.intensity) {
-                case 1: return _("Warm feet");
-                case 2: return _("Hot feet!");
-                case 3: return _("Scorching feet!!");}
-            case bp_eyes: // Eyes are not susceptible by this disease.
-            case num_bp: // Suppress compiler warninig [-Wswitch]
                 break; // function return "" in this case
         }
 
@@ -1692,8 +1503,6 @@ std::string dis_combined_name(disease& dis)
             return _("Cold");
         case DI_FROSTBITE:
             return _("Frostbite");
-        case DI_HOT:
-            return _("Hot");
         default: // Suppress compiler warnings [-Wswitch]
             break;
     }
@@ -1830,55 +1639,6 @@ Your legs are frostbitten from prolonged exposure to the cold. It is extremely p
             default: // Suppress compiler warning [-Wswitch]
                 break;
             }
-        }
-
-    case DI_HOT:
-        switch (dis.bp) {
-            case bp_head:
-                switch (dis.intensity) {
-                case 1: return _("Your head feels warm.");
-                case 2: return _("Your head is sweating from the heat. You feel nauseated.");
-                case 3: return _("Your head is sweating profusely. You feel very nauseated.");
-                }
-            case bp_mouth:
-                switch (dis.intensity) {
-                case 1: return _("Your face feels warm.");
-                case 2: return _("Your face is sweating from the heat, making it hard to see.");
-                case 3: return _("Your face is sweating profusely, making it hard to see.");
-                }
-            case bp_torso:
-                switch (dis.intensity) {
-                case 1: return _("Your torso feels warm.");
-                case 2: return _("Your torso is sweating from the heat. You feel weak.");
-                case 3: return _("Your torso is sweating profusely. You feel very weak.");
-                }
-            case bp_arms:
-                switch (dis.intensity) {
-                case 1: return _("Your arms feel warm.");
-                case 2: return _("Your arms are sweating from the heat.");
-                case 3: return _("Your arms are sweating profusely. Your muscles are cramping.");
-                }
-            case bp_hands:
-                switch (dis.intensity) {
-                case 1: return _("Your hands feel warm.");
-                case 2: return _("Your hands feel hot and uncoordinated.");
-                case 3: return _("Your hands feel disgustingly hot and are very uncoordinated.");
-                }
-            case bp_legs:
-                switch (dis.intensity) {
-                case 1: return _("Your legs feel warm.");
-                case 2: return _("Your legs are sweating from the heat.");
-                case 3: return _("Your legs are sweating profusely. Your muscles are cramping.");
-                }
-            case bp_feet:
-                switch (dis.intensity) {
-                case 1: return _("Your feet feel warm.");
-                case 2: return _("Your feet are swollen due to the heat.");
-                case 3: return _("Your feet are swollen due to the heat.");
-                }
-            case bp_eyes:// Eyes are not susceptible by this disease.
-            case num_bp: // Suppress compiler warning [-Wswitch]
-                break;
         }
 
     case DI_BLISTERS:
@@ -2226,206 +1986,6 @@ void manage_fungal_infection(player& p, disease& dis)
         }
         p.hurt(bp_arms, 0, 999);
         p.hurt(bp_arms, 1, 999);
-    }
-}
-
-void manage_sleep(player& p, disease& dis)
-{
-    p.moves = 0;
-    // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
-    // as a safety catch.  One test subject managed to get two Colds during hibernation;
-    // since those add fatigue and dry out the character, the subject went for the full 10 days plus
-    // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
-    // life like that--but since there's much less fluid reserve than food reserve,
-    // simply using the same numbers won't work.
-    if((int(g->turn) % 350 == 0) && p.has_trait("HIBERNATE") && (p.hunger < -60) && !(p.thirst >= 80)) {
-        int recovery_chance;
-        // Hibernators' metabolism slows down: you heal and recover Fatigue much more slowly.
-        // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
-        // After 16 hours of activity, equal to 7.25 hours of rest
-        if (dis.intensity < 24) {
-            dis.intensity++;
-        } else if (dis.intensity < 1) {
-            dis.intensity = 1;
-        }
-        recovery_chance = 24 - dis.intensity + 1;
-        if (p.fatigue > 0) {
-            p.fatigue -= 1 + one_in(recovery_chance);
-        }
-        if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
-              (p.has_trait("FLIMSY3") && one_in(4)) ||
-              (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&
-               (!(p.has_trait("FLIMSY3"))))) {
-            int heal_chance = p.get_healthy() / 25;
-            if (p.has_trait("FASTHEALER")) {
-                heal_chance += 100;
-            } else if (p.has_trait("FASTHEALER2")) {
-                heal_chance += 150;
-            } else if (p.has_trait("REGEN")) {
-                heal_chance += 200;
-            } else if (p.has_trait("SLOWHEALER")) {
-                heal_chance += 13;
-            } else {
-                heal_chance += 25;
-            }
-            int tmp_heal = 0;
-            while (heal_chance >= 100) {
-                tmp_heal++;
-                heal_chance -= 100;
-            }
-            p.healall(tmp_heal + x_in_y(heal_chance, 100));
-        }
-
-        if (p.fatigue <= 0 && p.fatigue > -20) {
-            p.fatigue = -25;
-            g->add_msg(_("You feel well rested."));
-            dis.duration = dice(3, 100);
-            p.add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
-                               pgettext("memorial_female", "Awoke from hibernation."));
-        }
-    // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
-    // See above.  No log note for you. :-/
-    } else if((int(g->turn) % 50 == 0) && (!(p.hunger < -60) || (p.thirst >= 80))) {
-        int recovery_chance;
-        // Accelerated recovery capped to 2x over 2 hours
-        // After 16 hours of activity, equal to 7.25 hours of rest
-        if (dis.intensity < 24) {
-            dis.intensity++;
-        } else if (dis.intensity < 1) {
-            dis.intensity = 1;
-        }
-        recovery_chance = 24 - dis.intensity + 1;
-        if (p.fatigue > 0) {
-            p.fatigue -= 1 + one_in(recovery_chance);
-            // You fatigue & recover faster with Sleepy
-            // Very Sleepy, you just fatigue faster
-            if (p.has_trait("SLEEPY")) {
-                p.fatigue -=(1 + one_in(recovery_chance) / 2);
-            }
-            // Tireless folks recover fatigue really fast
-            // as well as gaining it really slowly
-            // (Doesn't speed healing any, though...)
-            if (p.has_trait("WAKEFUL3")) {
-                p.fatigue -=(2 + one_in(recovery_chance) / 2);
-            }
-        }
-        if ((p.has_trait("FLIMSY") && x_in_y(3 , 4)) || (p.has_trait("FLIMSY2") && one_in(2)) ||
-              (p.has_trait("FLIMSY3") && one_in(4)) ||
-              (!(p.has_trait("FLIMSY")) && (!(p.has_trait("FLIMSY2"))) &&
-               (!(p.has_trait("FLIMSY3"))))) {
-            int heal_chance = p.get_healthy() / 25;
-            if (p.has_trait("FASTHEALER")) {
-                heal_chance += 100;
-            } else if (p.has_trait("FASTHEALER2")) {
-                heal_chance += 150;
-            } else if (p.has_trait("REGEN")) {
-                heal_chance += 200;
-            } else if (p.has_trait("SLOWHEALER")) {
-                heal_chance += 13;
-            } else {
-                heal_chance += 25;
-            }
-            int tmp_heal = 0;
-            while (heal_chance >= 100) {
-                tmp_heal++;
-                heal_chance -= 100;
-            }
-            p.healall(tmp_heal + x_in_y(heal_chance, 100));
-
-            if (p.fatigue <= 0 && p.fatigue > -20) {
-                p.fatigue = -25;
-                g->add_msg(_("You feel well rested."));
-                dis.duration = dice(3, 100);
-            }
-        }
-    }
-
-    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler") && !(p.hunger < -60)) {
-        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
-        p.hunger--;
-        p.thirst--;
-    }
-
-    // Hunger and thirst advance *much* more slowly whilst we hibernate.
-    // (int (g->turn) % 50 would be zero burn.)
-    // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs
-    // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
-    // without a good explanation and taking a night to make sure it works
-    // with the extended sleep duration, OK?
-    if (int(g->turn) % 70 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
-        p.hunger--;
-        p.thirst--;
-    }
-
-    // Check mutation category strengths to see if we're mutated enough to get a dream
-    std::string highcat = p.get_highest_category();
-    int highest = p.mutation_category_level[highcat];
-
-    // Determine the strength of effects or dreams based upon category strength
-    int strength = 0; // Category too weak for any effect or dream
-    if (highest >= 20 && highest < 35) {
-        strength = 1; // Low strength
-    } else if (highest >= 35 && highest < 50) {
-        strength = 2; // Medium strength
-    } else if (highest >= 50) {
-        strength = 3; // High strength
-    }
-
-    // Get a dream if category strength is high enough.
-    if (strength != 0) {
-        //Once every 6 / 3 / 2 hours, with a bit of randomness
-        if ((int(g->turn) % (3600 / strength) == 0) && one_in(3)) {
-            // Select a dream
-            std::string dream = p.get_category_dream(highcat, strength);
-            g->add_msg("%s",dream.c_str());
-        }
-    }
-
-    int tirednessVal = rng(5, 200) + rng(0,abs(p.fatigue * 2 * 5));
-    if (p.has_trait("HEAVYSLEEPER2") && !p.has_trait("HIBERNATE")) {
-        // So you can too sleep through noon
-        if ((tirednessVal * 1.25) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
-        g->add_msg(_("The light wakes you up."));
-        dis.duration = 1;
-        }
-        return;}
-     // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-    if (p.has_trait("HIBERNATE")) {
-        if ((tirednessVal * 5) < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
-        g->add_msg(_("The light wakes you up."));
-        dis.duration = 1;
-        }
-        return;}
-    if (tirednessVal < g->light_level() && (p.fatigue < 10 || one_in(p.fatigue / 2))) {
-        g->add_msg(_("The light wakes you up."));
-        dis.duration = 1;
-        return;
-    }
-
-    // Cold or heat may wake you up.
-    // Player will sleep through cold or heat if fatigued enough
-    for (int i = 0 ; i < num_bp ; i++) {
-        if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2) {
-            if (one_in(5000)) {
-                g->add_msg(_("You toss and turn trying to keep warm."));
-            }
-            if (p.temp_cur[i] < BODYTEMP_FREEZING - p.fatigue/2 ||
-                                (one_in(p.temp_cur[i] + 5000))) {
-                g->add_msg(_("The cold wakes you up."));
-                dis.duration = 1;
-                return;
-            }
-        } else if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2) {
-            if (one_in(5000)) {
-                g->add_msg(_("You toss and turn in the heat."));
-            }
-            if (p.temp_cur[i] > BODYTEMP_SCORCHING + p.fatigue/2 ||
-                                (one_in(15000 - p.temp_cur[i]))) {
-                g->add_msg(_("The heat wakes you up."));
-                dis.duration = 1;
-                return;
-            }
-        }
     }
 }
 

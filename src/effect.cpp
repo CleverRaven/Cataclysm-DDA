@@ -175,6 +175,10 @@ std::string effect_type::get_desc(int intensity, bool reduced)
         }
     }
 }
+bool effect_type::use_part_descs()
+{
+    return part_descs;
+}
 bool effect_type::use_name_intensities()
 {
     return ((size_t)max_intensity <= name.size());
@@ -286,7 +290,12 @@ std::string effect::disp_name()
 }
 std::string effect::disp_desc(bool reduced)
 {
-    return eff_type->get_desc(intensity, reduced);
+    std::stringstream ret;
+    if (eff_type->use_part_descs()) {
+        ret << "Your " << body_part_name(bp, side).c_str() << " ";
+    }
+    ret << eff_type->get_desc(intensity, reduced);
+    return ret.str();
 }
 
 void effect::do_effect(Creature &)
@@ -418,7 +427,7 @@ int effect::get_int_mod(bool reduced)
     }
     return ret;
 }
-int effect::get_speed_boost(bool reduced)
+int effect::get_speed_mod(bool reduced)
 {
     int ret = 0;
     if (!reduced) {
@@ -428,7 +437,31 @@ int effect::get_speed_boost(bool reduced)
         ret += eff_type->base_mods.speed_mod_reduced;
         ret += eff_type->scaling_mods.speed_mod_reduced * intensity;
     }
-    return ret;
+    return ret + hardcoded_speed_mod();
+}
+int effect::hardcoded_speed_mod()
+{
+    //TODO - Eventually empty this function into JSON based things
+    std::string effect_id = eff_type->id;
+    if (effect_id == "hot") {
+        switch (get_bp()) {
+            case bp_head:
+                switch (get_intensity()) {
+                    case 1 : return  -2;
+                    case 2 : return  -5;
+                    case 3 : return -20;
+                }
+            case bp_torso:
+                switch (get_intensity()) {
+                    case 1 : return  -2;
+                    case 2 : return  -5;
+                    case 3 : return -20;
+                }
+            default:
+                return 0;
+        }
+    }
+    return 0;
 }
 int effect::get_pain(bool reduced)
 {
@@ -457,7 +490,7 @@ int effect::get_pain_chance(bool reduced)
 }
 bool effect::get_pain_sizing()
 {
-    return (eff_type->base_mods.pain_sizing || eff_type->scaling_mods_mods.pain_sizing);
+    return (eff_type->base_mods.pain_sizing || eff_type->scaling_mods.pain_sizing);
 }
 int effect::get_hurt(bool reduced)
 {
@@ -486,7 +519,7 @@ int effect::get_hurt_chance(bool reduced)
 }
 bool effect::get_hurt_sizing()
 {
-    return (eff_type->base_mods.hurt_sizing || eff_type->scaling_mods_mods.hurt_sizing);
+    return (eff_type->base_mods.hurt_sizing || eff_type->scaling_mods.hurt_sizing);
 }
 
 int effect::get_cough_chance(bool reduced)
@@ -503,7 +536,7 @@ int effect::get_cough_chance(bool reduced)
 }
 bool effect::get_harmful_cough()
 {
-    return (eff_type->base_mods.harmful_cough || eff_type->scaling_mods_mods.harmful_cough);
+    return (eff_type->base_mods.harmful_cough || eff_type->scaling_mods.harmful_cough);
 }
 int effect::get_vomit_chance(bool reduced)
 {
@@ -556,7 +589,7 @@ int effect::get_pkill_max(bool reduced)
 bool effect::get_pkill_addict_reduces()
 {
     return (eff_type->base_mods.pkill_addict_reduces ||
-            eff_type->scaling_mods_mods.pkill_addict_reduces);
+            eff_type->scaling_mods.pkill_addict_reduces);
 }
 
 std::string effect::get_resist_trait()
@@ -605,6 +638,7 @@ void load_effect_type(JsonObject &jo)
     } else {
         new_etype.reduced_desc.push_back("");
     }
+    new_etype.part_descs = jo.get_bool("part_descs", false);
 
     new_etype.apply_message = jo.get_string("apply_message", "");
     new_etype.remove_message = jo.get_string("remove_message", "");

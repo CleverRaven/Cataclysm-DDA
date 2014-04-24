@@ -15,6 +15,13 @@ class Character : public Creature
 
         field_id bloodType();
         field_id gibType();
+        
+        /** Disease/effect functions */
+        virtual void cough(bool harmful = false);
+        virtual bool will_vomit(int chance = 1000);
+        
+        bool hibernating();
+        virtual void manage_sleep();
 };
 
 #endif

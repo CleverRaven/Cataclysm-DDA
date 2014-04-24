@@ -107,7 +107,7 @@ public:
     virtual bool is_player() { return true; }
 
     /** Processes long-term effects */
-    void process_effects(); // Process long-term effects
+    void process_effects();
 
  virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
  /** Returns what color the player should be drawn as */

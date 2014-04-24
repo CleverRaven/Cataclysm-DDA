@@ -1143,23 +1143,23 @@ void player::update_bodytemp()
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
         {
             // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
-            add_disease("hot",  1, false, 3, 3, 0, 1, (body_part)i, -1);
+            add_effect("hot", 1, false, 3, (body_part)i, -1);
         }
         else if (temp_cur[i] > BODYTEMP_VERY_HOT)
         {
-            add_disease("hot",  1, false, 2, 3, 0, 1, (body_part)i, -1);
+            add_effect("hot", 1, false, 2, (body_part)i, -1);
         }
         else if (temp_cur[i] > BODYTEMP_HOT)
         {
-            add_disease("hot",  1, false, 1, 3, 0, 1, (body_part)i, -1);
+            add_effect("hot", 1, false, 1, (body_part)i, -1);
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
         int intensity_mult =
             - disease_intensity("cold", false, (body_part)i) +
-            disease_intensity("hot", false, (body_part)i);
+            effect_intensity("hot", false, (body_part)i);
         if (has_disease("cold", (body_part)i) ||
-            has_disease("hot", (body_part)i))
+            has_effect("hot", (body_part)i))
         {
             switch (i)
             {
@@ -1307,7 +1307,7 @@ void player::recalc_speed_bonus()
         mod_speed_bonus(disease_speed_boost(illness[i]));
     }
     for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
-        mod_speed_bonus(it->get_speed_boost());
+        mod_speed_bonus(it->get_speed_mod());
     }
 
     // add martial arts speed bonus
@@ -2476,7 +2476,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     }
 
     for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
-        move_adjust = it->get_speed_boost();
+        move_adjust = it->get_speed_mod();
         if (move_adjust != 0) {
             dis_text = it->get_effect_type()->speed_name();
             speed_effects[dis_text] += move_adjust;
@@ -5225,6 +5225,8 @@ void player::process_effects() {
 
         // (Still) Hardcoded effects
         std::string id = it->get_id();
+        bool sleeping = has_effect("sleep");
+        bool tempMsgTrigger = one_in(400);
         if (id == "onfire") {
             manage_fire_exposure(*this, 1);
         } else if (id == "glare") {
@@ -5238,7 +5240,7 @@ void player::process_effects() {
             }
             it->set_intensity(std::max(1, it->get_duration()/30));
         } else if (id == "alarm_clock") {
-            if (has_effect("sleep")) {
+            if (sleeping) {
                 if (it->get_duration() == 1) {
                     if(!g->sound(posx, posy, 12, _("beep-beep-beep!"))) {
                         // 10 minute automatic snooze
@@ -5247,7 +5249,7 @@ void player::process_effects() {
                         g->add_msg_if_player(this,_("You turn off your alarm-clock."));
                     }
                 }
-            } else if (!p.has_effect("lying_down")) {
+            } else if (!has_effect("lying_down")) {
                 // Turn the alarm-clock off if you woke up before the alarm
                 g->add_msg_if_player(this,_("You turn off your alarm-clock."));
                 it->set_duration(1);
@@ -5285,12 +5287,144 @@ void player::process_effects() {
                 fall_asleep(6000); //10 hours, default max sleep time.
                 }
             }
-            if (it->get_duration() == 1 && !has_effect("sleep")) {
+            if (it->get_duration() == 1 && !sleeping) {
                 g->add_msg_if_player(this,_("You try to sleep, but can't..."));
             }
         
         } else if (id == "sleep") {
             manage_sleep();
+        } else if (id == "hot") {
+            switch(it->get_bp()) {
+                case bp_head:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            if (int(g->turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            if (pain < 40) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your head is pounding from the heat."));
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                thirst++;
+                            }
+                            // Hallucinations handled in game.cpp
+                            if (one_in(std::min(14500, 15000 - temp_cur[bp_head]))) {
+                                vomit();
+                            }
+                            if (pain < 20) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("The heat is making you see things."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_mouth:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            if (int(g->turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            if (pain < 30) {
+                                mod_pain(1);
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                thirst++;
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_torso:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            if (int(g->turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            mod_str_bonus(-1);
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("You are sweating profusely."));
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                thirst++;
+                            }
+                            mod_str_bonus(-1);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_arms:
+                    switch(it->get_intensity()) {
+                        case 3 :
+                            if (int(g->turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            if (pain < 30) {
+                                mod_pain(1);
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                thirst++;
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_hands:
+                    switch(it->get_intensity()) {
+                        case 3:
+                            mod_dex_bonus(-1);
+                        case 2:
+                            mod_dex_bonus(-1);
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_legs:
+                    switch (it->get_intensity()) {
+                        case 3 :
+                            if (int(g->turn) % 150 == 0) {
+                                thirst++;
+                            }
+                            if (pain < 30) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your legs are cramping up."));
+                            }
+                        case 2:
+                            if (int(g->turn) % 300 == 0) {
+                                thirst++;
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_feet:
+                    switch (it->get_intensity()) {
+                        case 3 :
+                            if (pain < 30) {
+                                mod_pain(1);
+                            }
+                            if (!sleeping && tempMsgTrigger) {
+                                g->add_msg(_("Your feet are swelling in the heat."));
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                case bp_eyes:// Eyes are not susceptible by this disease.
+                case num_bp: // Suppress compiler warning [-Wswitch]
+                    break;
+            }
         }
     }
 

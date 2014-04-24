@@ -146,20 +146,16 @@ class Creature
         /** Remove all effects */
         void clear_effects();
         bool has_effect(efftype_id eff_id, body_part bp = num_bp, int side = -1);
-        /** Returns the first effect that matches the given conditions in as ret */
-        bool get_effect(effect &ret, efftype_id eff_id, body_part bp = num_bp, int side = -1);
+        /** Returns the first effect that matches the given conditions */
+        effect get_effect(efftype_id eff_id, body_part bp = num_bp, int side = -1);
         int effect_duration(efftype_id eff_id, bool all = false, body_part bp = num_bp, int side = -1);
         int effect_intensity(efftype_id eff_id, bool all = false, body_part bp = num_bp, int side = -1);
 
         /** Runs all the effects on the Creature */
         virtual void process_effects();
-
-        /** Disease/effect functions */
-        virtual void cough(bool harmful = false);
-        virtual bool will_vomit(int chance = 1000);
         
         /** Handles sleep effects */
-        virtual void manage_sleep()
+        virtual void manage_sleep();
 
         /** not-quite-stats, maybe group these with stats later */
         virtual void mod_pain(int npain);
