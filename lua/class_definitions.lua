@@ -728,7 +728,7 @@ classes = {
 
 global_functions = {
     add_msg = {
-        cpp_name = "Messages::player_messages.add_msg",
+        cpp_name = "add_msg",
         args     = { "cstring" },
         argnames = { "message" },
         rval = nil,
