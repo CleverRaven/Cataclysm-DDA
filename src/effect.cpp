@@ -116,7 +116,7 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
                 vomit_chance_reduced = jsarr.get_int(1);
             }
         }
-        
+
         if(j.has_member("pkill_amount")) {
             JsonArray jsarr = j.get_array("pkill_amount");
                 pkill_amount = jsarr.get_int(0);
@@ -124,7 +124,7 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
                 pkill_amount_reduced = jsarr.get_int(1);
             }
         }
-        
+
         if(j.has_member("pkill_increment")) {
             JsonArray jsarr = j.get_array("pkill_increment");
                 pkill_increment = jsarr.get_int(0);
@@ -132,7 +132,7 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
                 pkill_increment_reduced = jsarr.get_int(1);
             }
         }
-        
+
         if(j.has_member("pkill_max")) {
             JsonArray jsarr = j.get_array("pkill_max");
                 pkill_max = jsarr.get_int(0);
@@ -471,7 +471,7 @@ int effect::get_pain(bool reduced)
         ret += rng(eff_type->scaling_mods.pain_min, eff_type->scaling_mods.pain_max) * intensity;
     } else {
         ret += rng(eff_type->base_mods.pain_reduced_min, eff_type->base_mods.pain_reduced_max);
-        ret += rng(eff_type->scaling_mods.pain_reduced_min, 
+        ret += rng(eff_type->scaling_mods.pain_reduced_min,
                     eff_type->scaling_mods.pain_reduced_max) * intensity;
     }
     return ret;
@@ -500,7 +500,7 @@ int effect::get_hurt(bool reduced)
         ret += rng(eff_type->scaling_mods.hurt_min, eff_type->base_mods.hurt_max) * intensity;
     } else {
         ret += rng(eff_type->base_mods.hurt_reduced_min, eff_type->base_mods.hurt_reduced_max);
-        ret += rng(eff_type->scaling_mods.hurt_reduced_min, 
+        ret += rng(eff_type->scaling_mods.hurt_reduced_min,
                     eff_type->scaling_mods.hurt_reduced_max) * intensity;
     }
     return ret;

@@ -153,7 +153,7 @@ class Creature
 
         /** Runs all the effects on the Creature */
         virtual void process_effects();
-        
+
         /** Handles sleep effects */
         virtual void manage_sleep();
 
