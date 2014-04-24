@@ -494,7 +494,7 @@ bool Creature::move_effects()
     //Then things/traps that would stop them from moving
     if (has_effect("lightsnare")) {
         mod_moves(-100);
-        if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8) {
+        if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8)) {
             remove_effect("lightsnare");
             add_msg_if_player(_("You free yourself from the light snare!"));
         } else {
@@ -504,7 +504,7 @@ bool Creature::move_effects()
     }
     if (has_effect("heavysnare")) {
         mod_moves(-100);
-        if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16) {
+        if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16)) {
             remove_effect("heavysnare");
             add_msg_if_player(_("You free yourself from the heavy snare!"));
         } else {

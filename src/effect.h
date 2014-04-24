@@ -78,7 +78,7 @@ struct effect_morph_info {
     int morph_intensity;
     std::string cancel_trait;
 
-    effect_mod_info() : morph_id(""), morph_with_parts(false), morph_with_intensity(false),
+    effect_morph_info() : morph_id(""), morph_with_parts(false), morph_with_intensity(false),
                         morph_duration(0), morph_perm(false), morph_intensity(0),
                         cancel_trait("") {};
     bool load(JsonObject &jsobj, std::string member);
@@ -117,7 +117,7 @@ class effect_type
         
         efftype_id get_morph_id();
         bool get_morph_with_parts();
-        bool get_morph_with_intensities();
+        bool get_morph_with_intensity();
         int get_morph_duration();
         bool get_morph_perm();
         int get_morph_intensity();
@@ -214,7 +214,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         
         efftype_id get_morph_id();
         bool get_morph_with_parts();
-        bool get_morph_with_intensities();
+        bool get_morph_with_intensity();
         int get_morph_duration();
         bool get_morph_perm();
         int get_morph_intensity();

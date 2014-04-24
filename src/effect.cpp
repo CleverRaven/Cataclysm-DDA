@@ -257,9 +257,9 @@ bool effect_type::get_morph_with_parts()
 {
     return morph.morph_with_parts;
 }
-bool effect_type::get_morph_with_intensities()
+bool effect_type::get_morph_with_intensity()
 {
-    return morph.morph_with_intensities;
+    return morph.morph_with_intensity;
 }
 int effect_type::get_morph_duration()
 {
@@ -689,37 +689,34 @@ std::string effect::get_resist_trait()
 {
     return eff_type->resist_trait;
 }
-{
-    return health_affects;
-}
 
 efftype_id effect::get_morph_id()
 {
-    return eff_type.get_morph_id();
+    return eff_type->get_morph_id();
 }
 bool effect::get_morph_with_parts()
 {
-    return eff_type.get_morph_with_parts();
+    return eff_type->get_morph_with_parts();
 }
-bool effect::get_morph_with_intensities()
+bool effect::get_morph_with_intensity()
 {
-    return eff_type.get_morph_with_intensities();
+    return eff_type->get_morph_with_intensity();
 }
 int effect::get_morph_duration()
 {
-    return eff_type.get_morph_duration();
+    return eff_type->get_morph_duration();
 }
-bool effect::get_morph_duration()
+bool effect::get_morph_perm()
 {
-    return eff_type.get_morph_perm();
+    return eff_type->get_morph_perm();
 }
 int effect::get_morph_intensity()
 {
-    return eff_type.get_morph_intensity();
+    return eff_type->get_morph_intensity();
 }
 std::string effect::get_cancel_trait()
 {
-    return eff_type.get_cancel_trait();
+    return eff_type->get_cancel_trait();
 }
 
 effect_type *effect::get_effect_type()

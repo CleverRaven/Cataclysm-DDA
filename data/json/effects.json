@@ -353,40 +353,40 @@
     },
     {
         "type" : "effect_type",
-        "id" : "pkill1"
-        "base_mods" : [
+        "id" : "pkill1",
+        "base_mods" : {
             "pkill_amount" : [1],
             "pkill_increment" : [7],
             "pkill_max" : [15]
-        ]
+        }
     },
     {
         "type" : "effect_type",
         "id" : "pkill2",
         "pkill_addict_reduces" : true,
-        "base_mods" : [
+        "base_mods" : {
             "pkill_amount" : [2],
             "pkill_increment" : [7]
-        ]
+        }
     },
     {
         "type" : "effect_type",
         "id" : "pkill3",
         "pkill_addict_reduces" : true,
-        "base_mods" : [
+        "base_mods" : {
             "pkill_amount" : [1],
             "pkill_increment" : [2]
-        ]
+        }
     },
     {
         "type" : "effect_type",
         "id" : "pkill_l",
         "pkill_addict_reduces" : true,
-        "base_mods" : [
+        "base_mods" : {
             "pkill_amount" : [1],
             "pkill_increment" : [20],
             "pkill_max" : [40]
-        ]
+        }
     },
    {
       "apply_memorial_log" : "Received a deep bite wound.",
