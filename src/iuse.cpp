@@ -2567,7 +2567,7 @@ int iuse::ups_battery(player *p, item *it, bool)
 	g->add_msg_if_player(p, _("You replace the plutonium cells of your %s with a UPS conversion pack!"),
 			     tool->name.c_str());
 	
-	g->m.spawn_item( p->posx, p->posy, "battery_ups", 1, modded->charges );
+	g->m.spawn_item( p->posx, p->posy, "battery_atomic", 1, modded->charges );
 	modded->charges = 0;
 	modded->item_tags.erase( "ATOMIC_AMMO" );
 	modded->item_tags.erase( "NO_UNLOAD" );
@@ -5787,13 +5787,11 @@ int iuse::shocktonfa_off(player *p, item *it, bool t)
         break;
 
         case 2: {
-	    if (it->has_flag("USE_UPS")){
-		if (p->has_charges("adv_UPS_on", 1) || p->has_charges("UPS_on", 5) || (p->has_active_bionic("bio_ups") && p->power_level >= 1)){
 			g->add_msg_if_player(p, _("You turn the light on."));
 			it->make(itypes["shocktonfa_on"]);
 			it->active = true;
 			return it->type->charges_to_use();
-		  }
+		  
 	    }
             else if (it->charges == 0) {
                 g->add_msg_if_player(p, _("The batteries are dead."));
