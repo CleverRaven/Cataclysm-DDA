@@ -943,7 +943,7 @@
         "id" : "URSINE_EYE",
         "name" : "Ursine Vision",
         "points" : 1,
-        "description" : "Your visual processing has shifted: though you can see better at night, you can't see as far.",
+        "description" : "Your visual processing has shifted: though you can see better in the dark, you can't see very far in the light.",
         "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_URSINE"]
     },{
@@ -1166,7 +1166,7 @@
         "category" : ["MUTCAT_CHIMERA"],
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN"],
-        "changes_to" : ["FUR", "FELINE_FUR", "LUPINE_FUR"]
+        "changes_to" : ["FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR"]
     },{
         "type" : "mutation",
         "id" : "FUR",
@@ -1178,7 +1178,7 @@
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR"],
         "changes_to" : ["URSINE_FUR"],
         "prereqs" : ["LIGHTFUR"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER", "MUTCAT_URSINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT", "MUTCAT_SPIDER"]
     },{
         "type" : "mutation",
         "id" : "URSINE_FUR",
@@ -1186,9 +1186,9 @@
         "points" : 4,
         "visibility" : 10,
         "ugliness" : 3,
-        "description" : "Your thick fur has grown out, providing noticeable protection from attacks in addition to its considerable insulation.",
+        "description" : "Your fur has grown out and thickened, providing noticeable protection from attacks as well as considerable insulation.",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR"],
-        "prereqs" : ["FUR"],
+        "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
