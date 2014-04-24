@@ -8746,6 +8746,7 @@ void player::use(int pos)
                 if( tool->charges_per_use > 0 ) {
 		    if (used->has_flag("USE_UPS")){
 			//If the device has been modded to run off ups, we want to reduce ups charges instead of item charges.
+			
 			if (has_charges("adv_UPS_off", 1)) {
 			    use_charges("adv_UPS_off", 1);
 			} else if (has_charges("adv_UPS_on", 1)) {

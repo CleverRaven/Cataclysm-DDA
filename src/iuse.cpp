@@ -2378,6 +2378,7 @@ int iuse::extra_battery(player *p, item *, bool)
 	modded->charges = -1;
 	modded->item_tags.erase( "USE_UPS" );
 	modded->item_tags.erase( "NO_UNLOAD" );
+	modded->item_tags.erase( "NO_RELOAD" );
     } else {
         g->add_msg_if_player(p,_("You double the battery capacity of your %s!"), tool->name.c_str());
     }
@@ -2431,6 +2432,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
 	modded->charges = 0;
 	modded->item_tags.erase( "USE_UPS" );
 	modded->item_tags.erase( "NO_UNLOAD" );
+	modded->item_tags.erase( "NO_RELOAD" );
     } else {
         g->add_msg_if_player( p,
             _("You replace the battery compartment of your %s with a rechargeable battery pack!"),
@@ -2503,6 +2505,7 @@ int iuse::atomic_battery(player *p, item *it, bool)
 	modded->charges = 0;
 	modded->item_tags.erase( "USE_UPS" );
 	modded->item_tags.erase( "NO_UNLOAD" );
+	modded->item_tags.erase( "NO_RELOAD" );
     } else {
         g->add_msg_if_player(p,_("You modify your %s to run off plutonium cells!"),
                              tool->name.c_str());
@@ -5787,21 +5790,17 @@ int iuse::shocktonfa_off(player *p, item *it, bool t)
         break;
 
         case 2: {
-			g->add_msg_if_player(p, _("You turn the light on."));
-			it->make(itypes["shocktonfa_on"]);
-			it->active = true;
-			return it->type->charges_to_use();
-		  
-	    }
-            else if (it->charges == 0) {
-                g->add_msg_if_player(p, _("The batteries are dead."));
-                return 0;
+		if (it->charges == 0) {
+                	g->add_msg_if_player(p, _("The batteries are dead."));
+                	return 0;
             } else {
                 g->add_msg_if_player(p, _("You turn the light on."));
                 it->make(itypes["shocktonfa_on"]);
                 it->active = true;
                 return it->type->charges_to_use();
             }
+		  
+            
         }
     }
     return 0;
