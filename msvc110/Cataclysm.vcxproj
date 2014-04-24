@@ -152,9 +152,11 @@
     <ClCompile Include="..\src\mapgen.cpp" />
     <ClCompile Include="..\src\mapgenformat.cpp" />
     <ClCompile Include="..\src\mapgen_functions.cpp" />
+    <ClCompile Include="..\src\mapsharing.cpp" />
     <ClCompile Include="..\src\martialarts.cpp" />
     <ClCompile Include="..\src\material.cpp" />
     <ClCompile Include="..\src\melee.cpp" />
+    <ClCompile Include="..\src\messages.cpp" />
     <ClCompile Include="..\src\mission.cpp" />
     <ClCompile Include="..\src\missiondef.cpp" />
     <ClCompile Include="..\src\mission_end.cpp" />
@@ -270,6 +272,7 @@
     <ClInclude Include="..\src\item_group.h" />
     <ClInclude Include="..\src\itype.h" />
     <ClInclude Include="..\src\iuse.h" />
+    <ClInclude Include="..\src\iuse_actor.h" />
     <ClInclude Include="..\src\iuse_software.h" />
     <ClInclude Include="..\src\iuse_software_kitten.h" />
     <ClInclude Include="..\src\iuse_software_snake.h" />
@@ -285,8 +288,10 @@
     <ClInclude Include="..\src\mapgenformat.h" />
     <ClInclude Include="..\src\mapgen_functions.h" />
     <ClInclude Include="..\src\mapitems.h" />
+    <ClInclude Include="..\src\mapsharing.h" />
     <ClInclude Include="..\src\martialarts.h" />
     <ClInclude Include="..\src\material.h" />
+    <ClInclude Include="..\src\messages.h" />
     <ClInclude Include="..\src\mission.h" />
     <ClInclude Include="..\src\mod_manager.h" />
     <ClInclude Include="..\src\monattack.h" />
