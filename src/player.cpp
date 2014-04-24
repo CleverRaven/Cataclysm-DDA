@@ -4352,7 +4352,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         }
         else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
             g->add_msg_if_player(this, _("You feel poison enter your body!"));
-            add_disease("paralyzepoison", 100, false, 1, 20, 100);
             add_effect("paralyzepoison", 100);
         }
 
@@ -6246,15 +6245,18 @@ void player::vomit()
     thirst += rng(quench_loss / 2, quench_loss);
     moves -= 100;
     for (int i = 0; i < illness.size(); i++) {
-        if (illness[i].type == "foodpoison") {
-            illness[i].duration -= 300;
-            if (illness[i].duration < 0) {
-                rem_disease(illness[i].type);
-            }
-        } else if (illness[i].type == "drunk") {
+        if (illness[i].type == "drunk") {
             illness[i].duration -= rng(1, 5) * 100;
             if (illness[i].duration < 0) {
                 rem_disease(illness[i].type);
+            }
+        }
+    }
+    for (std::vector<effect>::iterator it = effects.begin(); it != effects.end(); ++it) {
+        if (it->get_id() == "foodpoison") {
+            it->mod_duration(-300);
+            if (it->get_duration() < 0) {
+                remove_effect("foodpoison");
             }
         }
     }
@@ -7975,7 +7977,7 @@ bool player::eat(item *eaten, it_comest *comest)
         g->add_msg(_("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
         if (!has_trait("SAPROVORE") && !has_trait("EATDEAD") &&
        (!has_bionic("bio_digestion") || one_in(3))) {
-            add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
+            add_effect("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
         consume_effects(eaten, comest, spoiled);
     } else {
@@ -8010,7 +8012,7 @@ bool player::eat(item *eaten, it_comest *comest)
     }
     if ((eaten->poison > 0) && !has_trait("EATPOISON") &&
     !has_trait("EATDEAD")) {
-        add_disease("foodpoison", eaten->poison * 300);
+        add_effect("foodpoison", eaten->poison * 300);
     }
 
     if (has_trait("AMORPHOUS")) {

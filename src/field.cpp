@@ -1147,7 +1147,7 @@ void map::step_in_field(int x, int y)
 
         case fd_rubble:
             //You are walking on rubble. Slow down.
-            g->u.add_effect("bouldering", 0, false, cur->getFieldDensity());
+            g->u.add_effect("bouldering", 1, false, cur->getFieldDensity());
             break;
 
         case fd_smoke:
@@ -1557,9 +1557,9 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
      g->add_msg(_("You trip as you evade the falling debris!"));
      g->u.add_effect("downed", 1);
     }
-                        //Avoiding disease system for the moment, since I was having trouble with it.
-//    g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
- //   g->u.rem_disease("crushed");           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
+    //Using a disease allows for easy modification without messing with field code
+    //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
+    g->u.add_effect("crushed", 1);
    }
    if (fdmon != -1 && fdmon < g->num_zombies()) {  //If there's a monster at (x,y)...
     monster* monhit = &(g->zombie(fdmon));

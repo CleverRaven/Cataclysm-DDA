@@ -12,30 +12,30 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
         JsonObject j = jsobj.get_object(member);
         if(j.has_member("str_mod")) {
             JsonArray jsarr = j.get_array("str_mod");
-                str_mod = jsarr.get_int(0);
+                str_mod = jsarr.get_float(0);
             if (jsarr.size() == 2) {
-                str_mod_reduced = jsarr.get_int(1);
+                str_mod_reduced = jsarr.get_float(1);
             }
         }
         if(j.has_member("dex_mod")) {
             JsonArray jsarr = j.get_array("dex_mod");
-                dex_mod = jsarr.get_int(0);
+                dex_mod = jsarr.get_float(0);
             if (jsarr.size() == 2) {
-                dex_mod_reduced = jsarr.get_int(1);
+                dex_mod_reduced = jsarr.get_float(1);
             }
         }
         if(j.has_member("per_mod")) {
             JsonArray jsarr = j.get_array("per_mod");
-                per_mod = jsarr.get_int(0);
+                per_mod = jsarr.get_float(0);
             if (jsarr.size() == 2) {
-                per_mod_reduced = jsarr.get_int(1);
+                per_mod_reduced = jsarr.get_float(1);
             }
         }
         if(j.has_member("int_mod")) {
             JsonArray jsarr = j.get_array("int_mod");
-                int_mod = jsarr.get_int(0);
+                int_mod = jsarr.get_float(0);
             if (jsarr.size() == 2) {
-                int_mod_reduced = jsarr.get_int(1);
+                int_mod_reduced = jsarr.get_float(1);
             }
         }
         if(j.has_member("speed_mod")) {
@@ -291,6 +291,41 @@ std::string effect::disp_name()
 std::string effect::disp_desc(bool reduced)
 {
     std::stringstream ret;
+    int tmp = get_str_mod(reduced);
+    if (tmp > 0) {
+        ret << string_format(_("Strength +%d;  "), tmp);
+    } else if (tmp < 0) {
+        ret << string_format(_("Strength %d;  "), tmp);
+    }
+    tmp = get_dex_mod(reduced);
+    if (tmp > 0) {
+        ret << string_format(_("Dexterity +%d;  "), tmp);
+    } else if (tmp < 0) {
+        ret << string_format(_("Dexterity %d;  "), tmp);
+    }
+    tmp = get_per_mod(reduced);
+    if (tmp > 0) {
+        ret << string_format(_("Perception +%d;  "), tmp);
+    } else if (tmp < 0) {
+        ret << string_format(_("Perception %d;  "), tmp);
+    }
+    tmp = get_int_mod(reduced);
+    if (tmp > 0) {
+        ret << string_format(_("Intelligence +%d;  "), tmp);
+    } else if (tmp < 0) {
+        ret << string_format(_("Intelligence %d;  "), tmp);
+    }
+    tmp = get_speed_mod(reduced);
+    if (tmp > 0) {
+        ret << string_format(_("Speed +%d;  "), tmp);
+    } else if (tmp < 0) {
+        ret << string_format(_("Speed %d;  "), tmp);
+    }
+    
+    if (ret.str() != "") {
+        ret << "\n";
+    }
+
     if (eff_type->use_part_descs()) {
         ret << "Your " << body_part_name(bp, side).c_str() << " ";
     }
@@ -381,7 +416,7 @@ int effect::get_side()
 
 int effect::get_str_mod(bool reduced)
 {
-    int ret = 0;
+    float ret = 0;
     if (!reduced) {
         ret += eff_type->base_mods.str_mod;
         ret += eff_type->scaling_mods.str_mod * intensity;
@@ -389,11 +424,11 @@ int effect::get_str_mod(bool reduced)
         ret += eff_type->base_mods.str_mod_reduced;
         ret += eff_type->scaling_mods.str_mod_reduced * intensity;
     }
-    return ret;
+    return int(ret);
 }
 int effect::get_dex_mod(bool reduced)
 {
-    int ret = 0;
+    float ret = 0;
     if (!reduced) {
         ret += eff_type->base_mods.dex_mod;
         ret += eff_type->scaling_mods.dex_mod * intensity;
@@ -401,11 +436,11 @@ int effect::get_dex_mod(bool reduced)
         ret += eff_type->base_mods.dex_mod_reduced;
         ret += eff_type->scaling_mods.dex_mod_reduced * intensity;
     }
-    return ret;
+    return int(ret);
 }
 int effect::get_per_mod(bool reduced)
 {
-    int ret = 0;
+    float ret = 0;
     if (!reduced) {
         ret += eff_type->base_mods.per_mod;
         ret += eff_type->scaling_mods.per_mod * intensity;
@@ -413,11 +448,11 @@ int effect::get_per_mod(bool reduced)
         ret += eff_type->base_mods.per_mod_reduced;
         ret += eff_type->scaling_mods.per_mod_reduced * intensity;
     }
-    return ret;
+    return int(ret);
 }
 int effect::get_int_mod(bool reduced)
 {
-    int ret = 0;
+    float ret = 0;
     if (!reduced) {
         ret += eff_type->base_mods.int_mod;
         ret += eff_type->scaling_mods.int_mod * intensity;
@@ -425,11 +460,11 @@ int effect::get_int_mod(bool reduced)
         ret += eff_type->base_mods.int_mod_reduced;
         ret += eff_type->scaling_mods.int_mod_reduced * intensity;
     }
-    return ret;
+    return int(ret);
 }
 int effect::get_speed_mod(bool reduced)
 {
-    int ret = 0;
+    float ret = 0;
     if (!reduced) {
         ret += eff_type->base_mods.speed_mod;
         ret += eff_type->scaling_mods.speed_mod * intensity;
@@ -437,7 +472,7 @@ int effect::get_speed_mod(bool reduced)
         ret += eff_type->base_mods.speed_mod_reduced;
         ret += eff_type->scaling_mods.speed_mod_reduced * intensity;
     }
-    return ret + hardcoded_speed_mod();
+    return int(ret) + hardcoded_speed_mod();
 }
 int effect::hardcoded_speed_mod()
 {

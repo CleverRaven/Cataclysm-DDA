@@ -1244,7 +1244,7 @@ void mattack::para_sting(monster *z)
     z->sp_timeout = z->type->sp_freq;
     g->add_msg(_("The %s shoots a dart into you!"), z->name().c_str());
     g->add_msg(_("You feel poison enter your body!"));
-    g->u.add_disease("paralyzepoison", 50, false, 1, 20, 100);
+    g->u.add_effect("paralyzepoison", 50);
 }
 
 void mattack::triffid_growth(monster *z)

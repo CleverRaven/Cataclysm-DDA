@@ -653,11 +653,11 @@ npc_action npc::address_player()
    int intense = effect_intensity("catch_up");
    if (intense < 10) {
     say("<keep_up>");
-    add_effect("catch_up", 5, false);
+    add_effect("catch_up", 5);
     return npc_pause;
    } else if (intense == 10) {
     say("<im_leaving_you>");
-    add_effect("catch_up", 5, false);
+    add_effect("catch_up", 5);
     return npc_pause;
    } else
     return npc_goto_destination;

@@ -17,11 +17,9 @@ enum dis_type_enum {
 // Diseases
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
-// Fields
- DI_CRUSHED,
 // Monsters
  DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
- DI_PARALYZEPOISON, DI_BLEED, DI_FOODPOISON, DI_SHAKES,
+ DI_BLEED, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
  DI_RAT, DI_BITE,
@@ -72,14 +70,11 @@ void game::init_diseases() {
     disease_type_lookup["bloodworms"] = DI_BLOODWORMS;
     disease_type_lookup["brainworm"] = DI_BRAINWORM;
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
-    disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["sap"] = DI_SAP;
     disease_type_lookup["spores"] = DI_SPORES;
     disease_type_lookup["fungus"] = DI_FUNGUS;
     disease_type_lookup["slimed"] = DI_SLIMED;
     disease_type_lookup["bleed"] = DI_BLEED;
-    disease_type_lookup["paralyzepoison"] = DI_PARALYZEPOISON;
-    disease_type_lookup["foodpoison"] = DI_FOODPOISON;
     disease_type_lookup["shakes"] = DI_SHAKES;
     disease_type_lookup["dermatik"] = DI_DERMATIK;
     disease_type_lookup["formication"] = DI_FORMICATION;
@@ -136,9 +131,6 @@ void dis_msg(dis_type type_string) {
         g->add_msg(_("You feel a flu coming on..."));
         g->u.add_memorial_log(pgettext("memorial_male", "Caught the flu."),
                               pgettext("memorial_female", "Caught the flu."));
-        break;
-    case DI_CRUSHED:
-        g->add_msg(_("The ceiling collapses on you!"));
         break;
     case DI_SAP:
         g->add_msg(_("You're coated in sap!"));
@@ -250,8 +242,6 @@ void dis_remove_memorial(dis_type type_string) {
 
 void dis_effect(player &p, disease &dis)
 {
-    bool sleeping = p.has_effect("sleep");
-    bool tempMsgTrigger = one_in(400);
     int bonus;
     dis_type_enum disType = disease_type_lookup[dis.type];
     int grackPower = 500;
@@ -305,14 +295,6 @@ void dis_effect(player &p, disease &dis)
                     p.vomit();
                 }
             }
-            break;
-
-        case DI_CRUSHED:
-            p.hurtall(10);
-            /*  This could be developed on later, for instance
-                to deal different damage amounts to different body parts and
-                to account for helmets and other armor
-            */
             break;
 
         case DI_SAP:
@@ -436,28 +418,6 @@ void dis_effect(player &p, disease &dis)
                 p.mod_per_bonus(-1);
                 p.mod_str_bonus(-1);
                 g->m.add_field(p.posx, p.posy, p.playerBloodType(), 1);
-            }
-            break;
-
-        case DI_PARALYZEPOISON:
-            p.mod_dex_bonus(-(dis.intensity / 3));
-            break;
-
-        case DI_FOODPOISON:
-            bonus = 0;
-            p.mod_str_bonus(-3);
-            p.mod_dex_bonus(-1);
-            p.mod_per_bonus(-1);
-            if (p.has_trait("POISRESIST")) {
-                bonus += 600;
-                p.mod_str_bonus(2);
-            }
-            if ((one_in(300 + bonus)) && (!(p.has_trait("NOPAIN")))) {
-                g->add_msg_if_player(&p,_("You're suddenly wracked with pain and nausea!"));
-                p.hurt(bp_torso, -1, 1);
-            }
-            if (p.will_vomit(100+bonus) || one_in(600 + bonus)) {
-                p.vomit();
             }
             break;
 
@@ -906,13 +866,9 @@ int disease_speed_boost(disease dis)
                     return 0;
             }
 
-        case DI_PARALYZEPOISON:
-            return dis.intensity * -5;
-
         case DI_INFECTION:  return -80;
         case DI_SAP:        return -25;
         case DI_SLIMED:     return -25;
-        case DI_FOODPOISON: return -20;
         case DI_WEBBED:     return -25;
         case DI_ADRENALINE: return (dis.duration > 150 ? 40 : -10);
         case DI_ASTHMA:     return 0 - int(dis.duration / 5);
@@ -1006,20 +962,7 @@ std::string dis_name(disease& dis)
         }
         return status;
     }
-    case DI_PARALYZEPOISON:
-    {
-        if (dis.intensity > 15) {
-                return _("Completely Paralyzed");
-        } else if (dis.intensity > 10) {
-                return _("Partially Paralyzed");
-        } else if (dis.intensity > 5) {
-                return _("Sluggish");
-        } else {
-                return _("Slowed");
-        }
-    }
 
-    case DI_FOODPOISON: return _("Food Poisoning");
     case DI_SHAKES: return _("Shakes");
     case DI_FORMICATION:
     {
@@ -1222,8 +1165,6 @@ std::string dis_description(disease& dis)
         "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
         "Symptoms alleviated by medication (cough syrup).");
 
-    case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
-
     case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
     case DI_SAP:
@@ -1247,22 +1188,6 @@ std::string dis_description(disease& dis)
                 return _("You are losing blood.");
             case 3:
                 return _("You are rapidly loosing blood.");
-        }
-
-    case DI_PARALYZEPOISON:
-        dexpen = int(dis.intensity / 3);
-        if (dexpen > 0) {
-            stream << string_format(_("Dexterity - %d"), dexpen);
-        }
-        return stream.str();
-
-    case DI_FOODPOISON:
-        if (g->u.has_trait("NOPAIN")) {
-            return _("Speed - 35%;   Strength - 3;   Dexterity - 1;   Perception - 1\n"
-                     "Your stomach is extremely upset, and you are quite nauseous.");
-        } else {
-            return _("Speed - 35%;   Strength - 3;   Dexterity - 1;   Perception - 1\n"
-                     "Your stomach is extremely upset, and you keep having pangs of pain and nausea.");
         }
 
     case DI_SHAKES:

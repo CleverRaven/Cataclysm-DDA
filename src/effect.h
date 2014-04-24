@@ -12,16 +12,16 @@ class Creature;
 extern std::map<std::string, effect_type> effect_types;
 
 struct effect_mod_info {
-    int str_mod;
-    int dex_mod;
-    int per_mod;
-    int int_mod;
+    float str_mod;
+    float dex_mod;
+    float per_mod;
+    float int_mod;
     int speed_mod;
 
-    int str_mod_reduced;
-    int dex_mod_reduced;
-    int per_mod_reduced;
-    int int_mod_reduced;
+    float str_mod_reduced;
+    float dex_mod_reduced;
+    float per_mod_reduced;
+    float int_mod_reduced;
     int speed_mod_reduced;
 
     int pain_min;

@@ -160,9 +160,9 @@
         "max_intensity" :3,
         "name" : ["Clambering Over Rubble"],
         "desc" : [
-            "Dexterity - 1;   Speed -10%\nYou are being slowed by climbing over a pile of rubble.",
-            "Dexterity - 3;   Speed -20%\nYou are being slowed by climbing over a pile of rubble.",
-            "Dexterity - 5;   Speed -30%\nYou are being slowed by climbing over a pile of rubble."
+            "You are being slowed by climbing over a pile of rubble.",
+            "You are being slowed by climbing over a pile of rubble.",
+            "You are being slowed by climbing over a pile of rubble."
         ],
         "base_mods" : {
             "dex_mod" : [1]
@@ -172,11 +172,15 @@
             "speed_mod" : [-10]
         }
     },
-   {
-      "type" : "effect_type",
-      "id" : "crushed",
-      "apply_message" : "The ceiling collapses on you!"
-   },
+    {
+        "type" : "effect_type",
+        "id" : "crushed",
+        "apply_message" : "The ceiling collapses on you!",
+        "base_mods" : {
+            "hurt" : [10],
+            "hurt_chance" : [1]
+        }
+    },
     {
         "type" : "effect_type",
         "id" : "blind",
@@ -195,8 +199,8 @@
         "type" : "effect_type",
         "id" : "poison",
         "name" : ["Poisoned"],
-        "desc" : ["Perception - 2;   Dexterity - 1;   Strength - 2 \nOccasional pain and/or damage."],
-        "reduced_desc" : ["Perception - 1;   Dexterity - 1; \nRare pain and/or damage."],
+        "desc" : ["Occasional pain and/or damage."],
+        "reduced_desc" : ["Rare pain and/or damage."],
         "health_affects" : true,
         "apply_message" : "You're poisoned!",
         "remove_message" : "You feel much better.",
@@ -221,8 +225,8 @@
         "health_affects" : true,
         "apply_message" : "You feel poison flood your body, wracking you with pain...",
         "remove_message" : "You feel much better.",
-        "desc" : ["Perception - 2;   Dexterity - 2;   Strength - 3 \nFrequent pain and/or damage."],
-        "reduced_desc" : ["Perception - 2;   Dexterity - 2;   Strength - 1 \nFrequent pain and/or damage."],
+        "desc" : ["Frequent pain and/or damage."],
+        "reduced_desc" : ["Frequent pain and/or damage."],
         "resist_trait" : "POISRESIST",
         "base_mods" : {
             "per_mod" : [-2, -2],
@@ -238,16 +242,39 @@
             "hurt_chance" : [150, 750]
         }
     },
-   {
-      "type" : "effect_type",
-      "id" : "foodpoison",
-      "health_affects" : true
-   },
-   {
-      "type" : "effect_type",
-      "id" : "paralyzepoison",
-      "health_affects" : true
-   },
+    {
+        "type" : "effect_type",
+        "id" : "foodpoison",
+        "name" : ["Food Poisoning"],
+        "desc" : ["Your stomach is extremely upset, and you are quite nauseous."],
+        "reduced_desc" : ["Your stomach is extremely upset, and you are quite nauseous."],
+        "health_affects" : true,
+        "resist_trait" : "POISRESIST",
+        "base_mods" : {
+            "speed_mod" : [-30, -30],
+            "per_mod" : [-3, -3],
+            "str_mod" : [-3, -1],
+            "dex_mod" : [-1, -1],
+            "pain" : [1, 1],
+            "pain_chance" : [300, 900],
+            "hurt" : [1, 1],
+            "hurt_reduced" : [1, 1],
+            "hurt_chance" : [300, 900],
+            "vomit_chance" : [200, 800]
+        }
+    },
+    {
+        "type" : "effect_type",
+        "id" : "paralyzepoison",
+        "name" : ["Partially Paralyzed"],
+        "health_affects" : true,
+        "max_intensity" : 20,
+        "decay_rate" : 100,
+        "scaling_mods" : {
+            "dex_mod" : [-.34],
+            "speed_mod" : [-5]
+        }
+    },
    {
       "type" : "effect_type",
       "id" : "lightsnare",
@@ -278,7 +305,7 @@
         "type" : "effect_type",
         "id" : "smoke",
         "name" : ["Smoke"],
-        "desc" : ["Strength - 1;   Dexterity - 1;\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
+        "desc" : ["Occasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
         "apply_message" : "You inhale a lungful of thick smoke.",
         "max_intensity" : 20,
         "base_mods" : {
@@ -294,7 +321,7 @@
         "type" : "effect_type",
         "id" : "teargas",
         "name" : ["Tear gas"],
-        "desc" : ["Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\nOccasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
+        "desc" : ["Occasionally you will cough, costing movement and creating noise.\nLoss of health - Torso"],
         "apply_message" : "You inhale a lungful of tear gas.",
         "base_mods" : {
             "str_mod" : [-2],
@@ -307,7 +334,7 @@
         "type" : "effect_type",
         "id" : "boomered",
         "name" : ["Boomered"],
-        "desc" : ["Perception - 5\nRange of Sight: 1;   All sight is tinted magenta."],
+        "desc" : ["Range of Sight: 1;   All sight is tinted magenta."],
         "apply_message" : "You're covered in bile!",
         "base_mods" : {
             "per_mod" : [-5],
