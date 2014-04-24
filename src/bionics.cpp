@@ -6,6 +6,7 @@
 #include "bionics.h"
 #include "line.h"
 #include "json.h"
+#include "messages.h"
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
@@ -37,8 +38,7 @@ bionic_id game::random_good_bionic() const
     do {
         random_bionic = bionics.begin();
         std::advance(random_bionic, rng(0, bionics.size() - 1));
-    } while (random_bionic->first == "bio_null" || random_bionic->second->faulty);
-    // TODO: remove bio_null
+    } while (random_bionic->second->faulty);
     return random_bionic->first;
 }
 
@@ -263,6 +263,8 @@ void player::power_bionics()
         } else if (action == "REMOVE") {
             menu_mode = "removing";
             redraw = true;
+        } else if (action == "HELP_KEYBINDINGS") {
+            redraw = true;
         } else {
             tmp = bionic_by_invlet(ch);
             if(tmp == 0) {
@@ -282,7 +284,7 @@ void player::power_bionics()
                     int b = tmp - &my_bionics[0];
                     if (tmp->powered) {
                         tmp->powered = false;
-                        g->add_msg(_("%s powered off."), bio_data.name.c_str());
+                        add_msg(_("%s powered off."), bio_data.name.c_str());
 
                         deactivate_bionic(b);
                     } else if (power_level >= bio_data.power_cost ||
@@ -364,10 +366,10 @@ void player::activate_bionic(int b)
     }
     if (power_level < power_cost) {
         if (my_bionics[b].powered) {
-            g->add_msg(_("Your %s powers down."), bionics[bio.id]->name.c_str());
+            add_msg(_("Your %s powers down."), bionics[bio.id]->name.c_str());
             my_bionics[b].powered = false;
         } else {
-            g->add_msg(_("You cannot power your %s"), bionics[bio.id]->name.c_str());
+            add_msg(_("You cannot power your %s"), bionics[bio.id]->name.c_str());
         }
         return;
     }
@@ -401,8 +403,8 @@ void player::activate_bionic(int b)
         rem_disease("bleed");
         healall(4);
     } else if (bio.id == "bio_night") {
-        if (g->turn % 5) {
-            g->add_msg(_("Artificial night generator active!"));
+        if (calendar::turn % 5) {
+            add_msg(_("Artificial night generator active!"));
         }
     } else if (bio.id == "bio_resonator") {
         g->sound(posx, posy, 30, _("VRRRRMP!"));
@@ -419,9 +421,9 @@ void player::activate_bionic(int b)
     } else if (bio.id == "bio_time_freeze") {
         moves += 100 * power_level;
         power_level = 0;
-        g->add_msg(_("Your speed suddenly increases!"));
+        add_msg(_("Your speed suddenly increases!"));
         if (one_in(3)) {
-            g->add_msg(_("Your muscles tear with the strain."));
+            add_msg(_("Your muscles tear with the strain."));
             hurt(bp_arms, 0, rng(5, 10));
             hurt(bp_arms, 1, rng(5, 10));
             hurt(bp_legs, 0, rng(7, 12));
@@ -525,7 +527,7 @@ void player::activate_bionic(int b)
         getch();
         delwin(w);
     } else if(bio.id == "bio_blood_filter") {
-        g->add_msg(_("You activate your blood filtration system."));
+        add_msg(_("You activate your blood filtration system."));
         rem_disease("fungus");
         rem_disease("dermatik");
         rem_disease("bloodworms");
@@ -561,13 +563,13 @@ void player::activate_bionic(int b)
     } else if(bio.id == "bio_lighter") {
         if(!choose_adjacent(_("Start a fire where?"), dirx, diry) ||
            (!g->m.add_field(dirx, diry, fd_fire, 1))) {
-            g->add_msg_if_player(this, _("You can't light a fire there."));
+            add_msg_if_player( _("You can't light a fire there."));
             power_level += bionics["bio_lighter"]->power_cost;
         }
 
     }
     if(bio.id == "bio_leukocyte") {
-        g->add_msg(_("You activate your leukocyte breeder system."));
+        add_msg(_("You activate your leukocyte breeder system."));
         if (health < 0) {
             health = 0;
         } else {
@@ -575,10 +577,10 @@ void player::activate_bionic(int b)
         }
     }
     if(bio.id == "bio_geiger") {
-        g->add_msg(_("Your radiation level: %d"), radiation);
+        add_msg(_("Your radiation level: %d"), radiation);
     }
     if(bio.id == "bio_radscrubber") {
-        g->add_msg(_("You activate your radiation scrubber system."));
+        add_msg(_("You activate your radiation scrubber system."));
         if (radiation > 4) {
             radiation -= 5;
         } else {
@@ -586,7 +588,7 @@ void player::activate_bionic(int b)
         }
     }
     if(bio.id == "bio_adrenaline") {
-        g->add_msg(_("You activate your adrenaline pump."));
+        add_msg(_("You activate your adrenaline pump."));
         if (has_disease("adrenaline")) {
             add_disease("adrenaline", 50);
         } else {
@@ -594,41 +596,41 @@ void player::activate_bionic(int b)
         }
     } else if(bio.id == "bio_claws") {
         if (weapon.type->id == "bio_claws_weapon") {
-            g->add_msg(_("You withdraw your claws."));
+            add_msg(_("You withdraw your claws."));
             weapon = ret_null;
         } else if (weapon.has_flag ("NO_UNWIELD")) {
-            g->add_msg(_("Deactivate your %s first!"),
+            add_msg(_("Deactivate your %s first!"),
                        weapon.tname().c_str());
             power_level += bionics[bio.id]->power_cost;
             return;
         } else if(weapon.type->id != "null") {
-            g->add_msg(_("Your claws extend, forcing you to drop your %s."),
+            add_msg(_("Your claws extend, forcing you to drop your %s."),
                        weapon.tname().c_str());
             g->m.add_item_or_charges(posx, posy, weapon);
             weapon = item(itypes["bio_claws_weapon"], 0);
             weapon.invlet = '#';
         } else {
-            g->add_msg(_("Your claws extend!"));
+            add_msg(_("Your claws extend!"));
             weapon = item(itypes["bio_claws_weapon"], 0);
             weapon.invlet = '#';
         }
     } else if(bio.id == "bio_blade") {
         if (weapon.type->id == "bio_blade_weapon") {
-            g->add_msg(_("You retract your blade."));
+            add_msg(_("You retract your blade."));
             weapon = ret_null;
         } else if (weapon.has_flag ("NO_UNWIELD")) {
-            g->add_msg(_("Deactivate your %s first!"),
+            add_msg(_("Deactivate your %s first!"),
                        weapon.tname().c_str());
             power_level += bionics[bio.id]->power_cost;
             return;
         } else if(weapon.type->id != "null") {
-            g->add_msg(_("Your blade extends, forcing you to drop your %s."),
+            add_msg(_("Your blade extends, forcing you to drop your %s."),
                        weapon.tname().c_str());
             g->m.add_item_or_charges(posx, posy, weapon);
             weapon = item(itypes["bio_blade_weapon"], 0);
             weapon.invlet = '#';
         } else {
-            g->add_msg(_("You extend your blade!"));
+            add_msg(_("You extend your blade!"));
             weapon = item(itypes["bio_blade_weapon"], 0);
             weapon.invlet = '#';
         }
@@ -666,7 +668,7 @@ void player::activate_bionic(int b)
             power_level += bionics["bio_emp"]->power_cost;
         }
     } else if (bio.id == "bio_hydraulics") {
-        g->add_msg(_("Your muscles hiss as hydraulic strength fills them!"));
+        add_msg(_("Your muscles hiss as hydraulic strength fills them!"));
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         g->sound(posx, posy, 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
@@ -749,32 +751,32 @@ void player::activate_bionic(int b)
         if (type  == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
-            g->add_msg_if_player(this, _("With a satisfying click, the lock on the %s opens."),
+            add_msg_if_player(_("With a satisfying click, the lock on the %s opens."),
                                  door_name.c_str());
             g->m.ter_set(dirx, diry, t_door_c);
             // Locked metal doors are the Lab and Bunker entries.  Those need to stay locked.
         } else if(type == t_door_bar_locked) {
             moves -= 40;
             std::string door_name = rm_prefix(_("<door_name>door"));
-            g->add_msg_if_player(this, _("The %s swings open..."),
+            add_msg_if_player( _("The %s swings open..."),
                                  door_name.c_str()); //Could better copy the messages from lockpick....
             g->m.ter_set(dirx, diry, t_door_bar_o);
         } else if(type == t_chaingate_l) {
             moves -= 40;
             std::string gate_name = rm_prefix (_("<door_name>gate"));
-            g->add_msg_if_player(this, _("With a satisfying click, the lock on the %s opens."),
+            add_msg_if_player(_("With a satisfying click, the lock on the %s opens."),
                                  gate_name.c_str());
         } else if(type == t_door_c) {
-            g->add_msg(_("That door isn't locked."));
+            add_msg(_("That door isn't locked."));
         } else {
-            g->add_msg_if_player(this, _("You can't unlock that %s."), g->m.tername(dirx, diry).c_str());
+            add_msg_if_player( _("You can't unlock that %s."), g->m.tername(dirx, diry).c_str());
         }
     } else if(bio.id == "bio_flashbang") {
-        g->add_msg_if_player(this, _("You activate your integrated flashbang generator!"));
+        add_msg_if_player( _("You activate your integrated flashbang generator!"));
         g->flashbang(posx, posy, true);
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
-        g->add_msg_if_player(this, _("You unleash a powerful shockwave!"));
+        add_msg_if_player( _("You unleash a powerful shockwave!"));
     }
 }
 
@@ -802,22 +804,22 @@ void bionics_uninstall_failure(player *u)
 {
     switch (rng(1, 5)) {
     case 1:
-        g->add_msg(_("You flub the removal."));
+        add_msg(_("You flub the removal."));
         break;
     case 2:
-        g->add_msg(_("You mess up the removal."));
+        add_msg(_("You mess up the removal."));
         break;
     case 3:
-        g->add_msg(_("The removal fails."));
+        add_msg(_("The removal fails."));
         break;
     case 4:
-        g->add_msg(_("The removal is a failure."));
+        add_msg(_("The removal is a failure."));
         break;
     case 5:
-        g->add_msg(_("You screw up the removal."));
+        add_msg(_("You screw up the removal."));
         break;
     }
-    g->add_msg(_("Your body is severely damaged!"));
+    add_msg(_("Your body is severely damaged!"));
     u->hurtall(rng(30, 80));
 }
 
@@ -880,9 +882,9 @@ bool player::uninstall_bionic(bionic_id b_id)
 
     use_charges("1st_aid", 1);
 
-    practice(g->turn, "electronics", int((100 - chance_of_success) * 1.5));
-    practice(g->turn, "firstaid", int((100 - chance_of_success) * 1.0));
-    practice(g->turn, "mechanics", int((100 - chance_of_success) * 0.5));
+    practice(calendar::turn, "electronics", int((100 - chance_of_success) * 1.5));
+    practice(calendar::turn, "firstaid", int((100 - chance_of_success) * 1.0));
+    practice(calendar::turn, "mechanics", int((100 - chance_of_success) * 0.5));
 
     int success = chance_of_success - rng(1, 100);
 
@@ -891,8 +893,8 @@ bool player::uninstall_bionic(bionic_id b_id)
                          pgettext("memorial_female", "Removed bionic: %s."),
                          bionics[b_id]->name.c_str());
         // until bionics can be flagged as non-removable
-        g->add_msg(_("You jiggle your parts back into their familiar places."));
-        g->add_msg(_("Successfully removed %s."), bionics[b_id]->name.c_str());
+        add_msg(_("You jiggle your parts back into their familiar places."));
+        add_msg(_("Successfully removed %s."), bionics[b_id]->name.c_str());
         remove_bionic(b_id);
         g->m.spawn_item(posx, posy, "burnt_out_bionic", 1);
     } else {
@@ -940,9 +942,9 @@ bool player::install_bionics(it_bionic *type)
         }
     }
 
-    practice(g->turn, "electronics", int((100 - chance_of_success) * 1.5));
-    practice(g->turn, "firstaid", int((100 - chance_of_success) * 1.0));
-    practice(g->turn, "mechanics", int((100 - chance_of_success) * 0.5));
+    practice(calendar::turn, "electronics", int((100 - chance_of_success) * 1.5));
+    practice(calendar::turn, "firstaid", int((100 - chance_of_success) * 1.0));
+    practice(calendar::turn, "mechanics", int((100 - chance_of_success) * 0.5));
     int success = chance_of_success - rng(1, 100);
     if (success > 0) {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
@@ -950,9 +952,9 @@ bool player::install_bionics(it_bionic *type)
                          bionics[type->id]->name.c_str());
         if (pow_up) {
             max_power_level += pow_up;
-            g->add_msg_if_player(this, _("Increased storage capacity by %i"), pow_up);
+            add_msg_if_player( _("Increased storage capacity by %i"), pow_up);
         } else {
-            g->add_msg(_("Successfully installed %s."), bionics[type->id]->name.c_str());
+            add_msg(_("Successfully installed %s."), bionics[type->id]->name.c_str());
             add_bionic(type->id);
         }
     } else {
@@ -990,25 +992,25 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
     int fail_type = (failure_level > 5 ? 5 : failure_level);
 
     if (fail_type <= 0) {
-        g->add_msg(_("The installation fails without incident."));
+        add_msg(_("The installation fails without incident."));
         return;
     }
 
     switch (rng(1, 5)) {
     case 1:
-        g->add_msg(_("You flub the installation."));
+        add_msg(_("You flub the installation."));
         break;
     case 2:
-        g->add_msg(_("You mess up the installation."));
+        add_msg(_("You mess up the installation."));
         break;
     case 3:
-        g->add_msg(_("The installation fails."));
+        add_msg(_("The installation fails."));
         break;
     case 4:
-        g->add_msg(_("The installation is a failure."));
+        add_msg(_("The installation is a failure."));
         break;
     case 5:
-        g->add_msg(_("You screw up the installation."));
+        add_msg(_("You screw up the installation."));
         break;
     }
 
@@ -1020,21 +1022,21 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
 
     case 1:
         if (!(u->has_trait("NOPAIN"))) {
-            g->add_msg(_("It really hurts!"));
+            add_msg(_("It really hurts!"));
             u->mod_pain( rng(failure_level * 3, failure_level * 6) );
         }
         break;
 
     case 2:
-        g->add_msg(_("Your body is damaged!"));
+        add_msg(_("Your body is damaged!"));
         u->hurtall(rng(failure_level, failure_level * 2));
         break;
 
     case 3:
         if (u->num_bionics() <= failure_level) {
-            g->add_msg(_("All of your existing bionics are lost!"));
+            add_msg(_("All of your existing bionics are lost!"));
         } else {
-            g->add_msg(_("Some of your existing bionics are lost!"));
+            add_msg(_("Some of your existing bionics are lost!"));
         }
         for (int i = 0; i < failure_level && u->remove_random_bionic(); i++) {
             ;
@@ -1042,7 +1044,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
         break;
 
     case 4:
-        g->add_msg(_("You do damage to your genetics, causing mutation!"));
+        add_msg(_("You do damage to your genetics, causing mutation!"));
         while (failure_level > 0) {
             u->mutate();
             failure_level -= rng(1, failure_level + 2);
@@ -1050,7 +1052,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
         break;
 
     case 5: {
-        g->add_msg(_("The installation is faulty!"));
+        add_msg(_("The installation is faulty!"));
         std::vector<bionic_id> valid;
         for (std::vector<std::string>::iterator it = faulty_bionics.begin() ; it != faulty_bionics.end();
              ++it) {
@@ -1061,7 +1063,7 @@ void bionics_install_failure(player *u, it_bionic *type, int success)
         if (valid.empty()) { // We've got all the bad bionics!
             if (u->max_power_level > 0) {
                 int old_power = u->max_power_level;
-                g->add_msg(_("You lose power capacity!"));
+                add_msg(_("You lose power capacity!"));
                 u->max_power_level = rng(0, u->max_power_level - 1);
                 g->u.add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
                                       pgettext("memorial_female", "Lost %d units of power capacity."),
@@ -1108,7 +1110,7 @@ void load_bionic(JsonObject &jsobj)
     if (power_source) {
         power_source_bionics.push_back(id);
     }
-    if (!active && id != "bio_null") {
+    if (!active) {
         unpowered_bionics.push_back(id);
     }
 

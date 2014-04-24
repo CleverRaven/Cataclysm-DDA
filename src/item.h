@@ -4,6 +4,7 @@
 #include <climits>
 #include <string>
 #include <vector>
+#include <list>
 #include "itype.h"
 #include "mtype.h"
 
@@ -109,6 +110,12 @@ public:
  int price() const;
 
     /**
+     * Return the butcher factor, always positive, but lower is better.
+     * If the item can not be used for butcherin it return INT_MAX.
+     */
+    int butcher_factor() const;
+
+    /**
      * Returns true if this item is of the specific type, or
      * if this functions returns true for any of its contents.
      */
@@ -133,8 +140,51 @@ public:
  int attack_time();
  int damage_bash();
  int damage_cut() const;
- // See inventory::amount_of, this does the same for this item (and its content)
+
+ /**
+  * Count the amount of items of type 'it' including this item,
+  * and any of its contents (recursively).
+  * @param it The type id, only items with the same id are counted.
+  * @param used_as_tool If false all items with the PSEUDO flag are ignore
+  * (not counted).
+  */
  int amount_of(const itype_id &it, bool used_as_tool) const;
+ /**
+  * Count all the charges of items of the type 'it' including this item,
+  * and any of its contents (recursively).
+  * @param it The type id, only items with the same id are counted.
+  */
+ long charges_of(const itype_id &it) const;
+ /**
+  * Consume a specific amount of charges from items of a specific type.
+  * This includes this item, and any of its contents (recursively).
+  * @param it The type id, only items of this type are considered.
+  * @param quantity The number of charges that should be consumed.
+  * It will be changed for each used charge. After calling this function it
+  * may be at 0 which means all requested charges have been consumed.
+  * @param used All used charges are put into this list, the caller may need it.
+  * @return Whether this item should be deleted (in which case it returns true).
+  * Some items (those that are counted by charges) must be destroyed when
+  * their charges reach 0.
+  * This is usually does not apply to tools.
+  * Also if this function is called on a container and the function erase charges
+  * from its contents the container should not be deleted - it returns false in
+  * that case.
+  * The caller *must* check the return value and remove the item from wherever
+  * it is stored when the function returns true.
+  * Note that the item itself has no way of knowing where it is stored and can
+  * therefor not delete itself.
+  */
+ bool use_charges(const itype_id &it, long &quantity, std::list<item> &used);
+ /**
+  * Consume a specific amount of items of a specific type.
+  * This includes this item, and any of its contents (recursively).
+  * @see item::use_charges - this is similar for items, not charges.
+  * @param use_container If the contents of an item are used, also use the
+  * container it was in.
+  */
+ bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
+
  bool has_flag(std::string f) const;
  bool contains_with_flag (std::string f) const;
  bool has_quality(std::string quality_id) const;

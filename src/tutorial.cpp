@@ -12,7 +12,7 @@ bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
- g->turn = HOURS(12); // Start at noon
+ calendar::turn = HOURS(12); // Start at noon
  for (int i = 0; i < NUM_LESSONS; i++)
   tutorials_seen[i] = false;
 // Set the scent map to 0
@@ -56,10 +56,10 @@ bool tutorial_game::init()
 
 void tutorial_game::per_turn()
 {
- if (g->turn == HOURS(12)) {
+ if (calendar::turn == HOURS(12)) {
   add_message(LESSON_INTRO);
   add_message(LESSON_INTRO);
- } else if (g->turn == HOURS(12) + 3)
+ } else if (calendar::turn == HOURS(12) + 3)
   add_message(LESSON_INTRO);
 
  if (g->light_level() == 1) {

@@ -13,6 +13,7 @@
 #include "translations.h"
 #include "monstergenerator.h"
 #include "overmapbuffer.h"
+#include "messages.h"
 #include <algorithm>
 
 std::vector<item> starting_clothes(npc_class type, bool male);
@@ -1074,7 +1075,7 @@ bool npc::wield(item* it)
     moves -= 15;
     weapon = inv.remove_item(it);
     if ( g->u_see( posx, posy ) ) {
-        g->add_msg( _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
+        add_msg( _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     }
     return true;
 }
@@ -1083,7 +1084,7 @@ void npc::perform_mission()
 {
  switch (mission) {
  case NPC_MISSION_RESCUE_U:
-  if (int(g->turn) % 24 == 0) {
+  if (int(calendar::turn) % 24 == 0) {
    if (mapx > g->levx)
     mapx--;
    else if (mapx < g->levx)
@@ -1098,7 +1099,7 @@ void npc::perform_mission()
  case NPC_MISSION_SHOPKEEP:
   break; // Just stay where we are
  default: // Random Walk
-  if (int(g->turn) % 24 == 0) {
+  if (int(calendar::turn) % 24 == 0) {
    mapx += rng(-1, 1);
    mapy += rng(-1, 1);
   }
@@ -1477,7 +1478,7 @@ void npc::say(std::string line, ...)
  va_end(ap);
  parse_tags(line, &(g->u), this);
  if (g->u_see(posx, posy)) {
-  g->add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
+  add_msg(_("%1$s says: \"%2$s\""), name.c_str(), line.c_str());
   g->sound(posx, posy, 16, "");
  } else {
   std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), line.c_str());
@@ -2004,7 +2005,7 @@ void npc::die(bool your_fault)
     }
 
     if (g->u_see(posx, posy)) {
-        g->add_msg(_("%s dies!"), name.c_str());
+        add_msg(_("%s dies!"), name.c_str());
     }
     if (your_fault){
         if (is_friend()) {
@@ -2057,7 +2058,7 @@ void npc::die(bool your_fault)
     }
 
     item my_body;
-    my_body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+    my_body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
     my_body.name = name;
     g->m.add_item_or_charges(posx, posy, my_body);
     std::vector<item *> dump;
@@ -2146,5 +2147,41 @@ void npc::setID (int i)
 {
     this->player::setID(i);
 }
+
+//message related stuff
+void npc::add_msg_if_npc(const char *msg, ...)
+{
+    va_list ap;
+    va_start(ap, msg);
+    std::string processed_npc_string = vstring_format(msg, ap);
+    // These strings contain the substring <npcname>,
+    // if present replace it with the actual npc name.
+    size_t offset = processed_npc_string.find("<npcname>");
+    if (offset != std::string::npos) {
+        processed_npc_string.replace(offset, 9, name);
+    }
+    add_msg(processed_npc_string.c_str());
+
+    va_end(ap);
+};
+void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...)
+{
+    va_list ap;
+
+    va_start(ap, npc_str);
+
+    if (g->u_see(this)) {
+        std::string processed_npc_string = vstring_format(npc_str, ap);
+        // These strings contain the substring <npcname>,
+        // if present replace it with the actual npc name.
+        size_t offset = processed_npc_string.find("<npcname>");
+        if (offset != std::string::npos) {
+            processed_npc_string.replace(offset, 9, disp_name());
+        }
+        add_msg(processed_npc_string.c_str());
+    }
+
+    va_end(ap);
+};
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);

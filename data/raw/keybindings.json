@@ -169,6 +169,28 @@
     },
     {
         "type" : "keybinding",
+        "id": "PAGE_UP",
+        "name": "Page up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PAGE_DOWN",
+        "name": "Page down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "ADD_RULE",
         "category": "AUTO_PICKUP",
         "name": "Add rule",
@@ -926,6 +948,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "TOGGLE_UNAVAILABLE_CONSTRUCTIONS",
+        "category": "CONSTRUCTION",
+        "name": "Toggle unavailable constructions",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":";"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "EDITMAP_SHOW_ALL",
         "name": "Show all",
         "bindings":[ { "input_method":"keyboard", "key":"v" } ]
@@ -1073,8 +1107,8 @@
     { "type":"keybinding", "name": "Smash Nearby Terrain", "category":"DEFAULTMODE", "id":"smash", "bindings":[ { "input_method":"keyboard", "key":"s" } ] },
     { "type":"keybinding", "name": "Examine Nearby Terrain", "category":"DEFAULTMODE", "id":"examine", "bindings":[ { "input_method":"keyboard", "key":"e" } ] },
     { "type":"keybinding", "name": "Advanced Inventory management", "category":"DEFAULTMODE", "id":"advinv", "bindings":[ { "input_method":"keyboard", "key":"/" } ] },
-    { "type":"keybinding", "name": "Pick Item(s) Up", "category":"DEFAULTMODE", "id":"pickup", "bindings":[ { "input_method":"keyboard", "key":"," }, { "input_method":"keyboard", "key":"g" } ] },
-    { "type":"keybinding", "name": "Grab a nearby vehicle", "category":"DEFAULTMODE", "id":"grab", "bindings":[ { "input_method":"keyboard", "key":"G" } ] },
+    { "type":"keybinding", "name": "Pick up Item(s)", "category":"DEFAULTMODE", "id":"pickup", "bindings":[ { "input_method":"keyboard", "key":"," }, { "input_method":"keyboard", "key":"g" } ] },
+    { "type":"keybinding", "name": "Grab something nearby", "category":"DEFAULTMODE", "id":"grab", "bindings":[ { "input_method":"keyboard", "key":"G" } ] },
     { "type":"keybinding", "name": "Butcher", "category":"DEFAULTMODE", "id":"butcher", "bindings":[ { "input_method":"keyboard", "key":"B" } ] },
     { "type":"keybinding", "name": "Chat with NPC", "category":"DEFAULTMODE", "id":"chat", "bindings":[ { "input_method":"keyboard", "key":"C" } ] },
     { "type":"keybinding", "name": "Look Around", "category":"DEFAULTMODE", "id":"look", "bindings":[ { "input_method":"keyboard", "key":";" }, { "input_method":"keyboard", "key":"x" } ] },
@@ -1137,6 +1171,66 @@
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
     {
         "type" : "keybinding",
+        "id":"COMPARE",
+        "category":"LIST_ITEMS",
+        "name":"Compare",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"I"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"EXAMINE",
+        "category":"LIST_ITEMS",
+        "name":"Examine",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"E"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PRIORITY_INCREASE",
+        "category":"LIST_ITEMS",
+        "name":"Increase priority",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PRIORITY_DECREASE",
+        "category":"LIST_ITEMS",
+        "name":"Decrease priority",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"REASSIGN",
         "category":"BIONICS",
         "name":"reassign invlet",
@@ -1196,6 +1290,66 @@
             {
                 "input_method":"gamepad",
                 "key":"JOY_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SCROLL_UP",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Scroll up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SCROLL_DOWN",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Scroll down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"REMOVE",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Remove bindings",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"ADD_LOCAL",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Add local keybinding",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"ADD_GLOBAL",
+        "category":"HELP_KEYBINDINGS",
+        "name":"Add global keybinding",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"="
             }
         ]
     }

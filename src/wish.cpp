@@ -394,7 +394,7 @@ class wish_item_callback: public uimenu_callback
             if ( ity == NULL ) {
                 return;
             }
-            item tmp(ity, g->turn);
+            item tmp(ity, calendar::turn);
             const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
                                        ( incontainer ? _(" (contained)") : "" ));
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
@@ -435,7 +435,7 @@ void game::wishitem( player *p, int x, int y)
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            item granted = item_controller->create(standard_itype_ids[wmenu.ret], turn);
+            item granted = item_controller->create(standard_itype_ids[wmenu.ret], calendar::turn);
             if (p != NULL) {
                 amount = helper::to_int(
                          string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),

@@ -93,98 +93,6 @@ long get_keypress()
     return ch;
 }
 
-InputEvent get_input(int ch)
-{
-    if (ch == '\0') {
-        ch = getch();
-    }
-
-    const action_id act = action_from_key(ch);
-    switch(act) {
-    case ACTION_MOVE_N:
-        return DirectionN;
-    case ACTION_MOVE_NE:
-        return DirectionNE;
-    case ACTION_MOVE_E:
-        return DirectionE;
-    case ACTION_MOVE_SE:
-        return DirectionSE;
-    case ACTION_MOVE_S:
-        return DirectionS;
-    case ACTION_MOVE_SW:
-        return DirectionSW;
-    case ACTION_MOVE_W:
-        return DirectionW;
-    case ACTION_MOVE_NW:
-        return DirectionNW;
-    default:
-        break;
-    }
-
-    switch(ch) {
-    case 'k':
-    case '8':
-    case KEY_UP:
-        return DirectionN;
-    case 'j':
-    case '2':
-    case KEY_DOWN:
-        return DirectionS;
-    case 'l':
-    case '6':
-    case KEY_RIGHT:
-        return DirectionE;
-    case 'h':
-    case '4':
-    case KEY_LEFT:
-        return DirectionW;
-    case 'y':
-    case '7':
-        return DirectionNW;
-    case 'u':
-    case '9':
-        return DirectionNE;
-    case 'b':
-    case '1':
-        return DirectionSW;
-    case 'n':
-    case '3':
-        return DirectionSE;
-    case '.':
-    case '5':
-        return DirectionNone;
-    case '>':
-        return DirectionDown;
-    case '<':
-        return DirectionUp;
-
-    case '\n':
-        return Confirm;
-    case ' ':
-        return Close;
-    case 27: /* TODO Fix delay */
-    case 'q':
-        return Cancel;
-    case '\t':
-        return Tab;
-    case '?':
-        return Help;
-
-    case ',':
-    case 'g':
-        return Pickup;
-    case 'f':
-    case 'F':
-        return Filter;
-    case 'r':
-    case 'R':
-        return Reset;
-    default:
-        return Undefined;
-    }
-
-}
-
 bool is_mouse_enabled()
 {
 #if ((defined _WIN32 || defined WINDOWS) && !(defined SDLTILES || defined TILES))
@@ -192,49 +100,6 @@ bool is_mouse_enabled()
 #else
     return true;
 #endif
-}
-
-void get_direction(int &x, int &y, InputEvent &input)
-{
-    x = 0;
-    y = 0;
-
-    switch(input) {
-    case DirectionN:
-        --y;
-        break;
-    case DirectionS:
-        ++y;
-        break;
-    case DirectionE:
-        ++x;
-        break;
-    case DirectionW:
-        --x;
-        break;
-    case DirectionNW:
-        --x;
-        --y;
-        break;
-    case DirectionNE:
-        ++x;
-        --y;
-        break;
-    case DirectionSW:
-        --x;
-        ++y;
-        break;
-    case DirectionSE:
-        ++x;
-        ++y;
-        break;
-    case DirectionNone:
-    case Pickup:
-        break;
-    default:
-        x = -2;
-        y = -2;
-    }
 }
 
 //helper function for those have problem inputing certain characters.
@@ -643,6 +508,7 @@ const std::string &input_manager::get_action_name(const std::string &action) con
 
 const std::string CATA_ERROR = "ERROR";
 const std::string ANY_INPUT = "ANY_INPUT";
+const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
 const std::string COORDINATE = "COORDINATE";
 const std::string TIMEOUT = "TIMEOUT";
 
@@ -756,7 +622,7 @@ const std::string &input_context::handle_input()
         // Special help action
         if(action == "HELP_KEYBINDINGS") {
             display_help();
-            return ANY_INPUT;
+            return HELP_KEYBINDINGS;
         }
 
         if(next_action.type == CATA_INPUT_MOUSE) {
@@ -861,11 +727,15 @@ void input_context::display_help()
     input_manager::t_action_contexts old_action_contexts(inp_mngr.action_contexts);
     // current status: adding/removing/showing keybindings
     enum { s_remove, s_add, s_add_global, s_show } status = s_show;
-    // copy of registered_actions, but without the ANY_INPUT, which should not be shown
+    // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
     std::vector<std::string> org_registered_actions(registered_actions);
-    std::vector<std::string>::iterator any_input = std::find(org_registered_actions.begin(), org_registered_actions.end(), "ANY_INPUT");
+    std::vector<std::string>::iterator any_input = std::find(org_registered_actions.begin(), org_registered_actions.end(), ANY_INPUT);
     if (any_input != org_registered_actions.end()) {
         org_registered_actions.erase(any_input);
+    }
+    std::vector<std::string>::iterator coordinate = std::find(org_registered_actions.begin(), org_registered_actions.end(), COORDINATE);
+    if (coordinate != org_registered_actions.end()) {
+        org_registered_actions.erase(coordinate);
     }
 
     // colors of the keybindings
@@ -927,14 +797,36 @@ void input_context::display_help()
         wrefresh(w_help);
         refresh();
 
-        const long ch = getch();
-        if (ch == '+') {
+        input_context ctxt("HELP_KEYBINDINGS");
+        ctxt.register_action("SCROLL_UP");
+        ctxt.register_action("SCROLL_DOWN");
+        ctxt.register_action("REMOVE");
+        ctxt.register_action("ADD_LOCAL");
+        ctxt.register_action("ADD_GLOBAL");
+        ctxt.register_action("QUIT");
+        ctxt.register_action("ANY_INPUT");
+
+        if (category != "HELP_KEYBINDINGS") {
+            // avoiding inception!
+            ctxt.register_action("HELP_KEYBINDINGS");
+        }
+
+        // In addition to the modifiable hotkeys, we also check for hardcoded
+        // keys, e.g. '+', '-', '=', in order to prevent the user from
+        // entering an unrecoverable state.
+        const std::string action = ctxt.handle_input();
+        const long ch = ctxt.get_raw_input().get_first_input();
+        if (action == "ADD_LOCAL" || ch == '+') {
             status = s_add;
-        } else if (ch == '=') {
+        } else if (action == "ADD_GLOBAL" || ch == '=') {
             status = s_add_global;
-        } else if (ch == '-') {
+        } else if (action == "REMOVE" || ch == '-') {
             status = s_remove;
-        } else if (status != s_show && ch >= 'a' && ch <= 'a' + org_registered_actions.size()) {
+        } else if (action == "ANY_INPUT") {
+            if (status == s_show || ch < 'a' || ch > 'a' + org_registered_actions.size()) {
+                continue;
+            }
+
             const int action = ch - 'a' + offset;
             const std::string &action_id = org_registered_actions[action];
             const std::string name = get_action_name(action_id);
@@ -975,14 +867,15 @@ void input_context::display_help()
                 }
             }
             status = s_show;
-        } else if (status != s_show) {
-            // Pressed some key that is not mapped to an action to edit
-            status = s_show;
-        } else if (ch == KEY_DOWN && offset + 1 < org_registered_actions.size()) {
-            offset++;
-        } else if (ch == KEY_UP && offset > 0) {
-            offset--;
-        } else if (ch == 'q' || ch == 'Q' || ch == KEY_ESCAPE) {
+        } else if (action == "SCROLL_DOWN") {
+            if (offset + 1 < org_registered_actions.size()) {
+                offset++;
+            }
+        } else if (action == "SCROLL_UP") {
+            if (offset > 0) {
+                offset--;
+            }
+        } else if (action == "QUIT") {
             break;
         }
     }

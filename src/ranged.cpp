@@ -9,6 +9,7 @@
 #include "options.h"
 #include "action.h"
 #include "input.h"
+#include "messages.h"
 
 int time_to_fire(player &p, it_gun* firing);
 int recoil_add(player &p);
@@ -144,7 +145,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
             if (rl_dist(z.posx(), z.posy(), tx, ty) <= 4) {
                 // don't hit targets that have already been hit
                 if (!z.has_effect("bounced") && !z.dead) {
-                    g->add_msg(_("The attack bounced to %s!"), z.name().c_str());
+                    add_msg(_("The attack bounced to %s!"), z.name().c_str());
                     projectile_attack(proj, tx, ty, z.posx(), z.posy(), shot_dispersion);
                     break;
                 }
@@ -164,7 +165,7 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
     if (firing->skill_used != Skill::skill("archery") &&
         firing->skill_used != Skill::skill("throw")) {
         if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
-            g->add_msg_player_or_npc(this, _("Your %s misfires with a wet click!"),
+            add_msg_player_or_npc(_("Your %s misfires with a wet click!"),
                                      _("<npcname>'s %s misfires with a wet click!"),
                                      weapon.name.c_str());
             return false;
@@ -174,12 +175,12 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
             // a chance of mechanical failure between 1/64 and 1/1024 on any given shot.
             // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
         } else if ((one_in(2 << firing->durability))&& !weapon.has_flag("NEVER_JAMS")) {
-            g->add_msg_player_or_npc(this, _("Your %s malfunctions!"),
+            add_msg_player_or_npc(_("Your %s malfunctions!"),
                                      _("<npcname>'s %s malfunctions!"),
                                      weapon.name.c_str());
             if ((weapon.damage < 4) && one_in(4 * firing->durability)){
                 weapon.damage++;
-                g->add_msg_player_or_npc(this, _("Your %s is damaged by the mechanical malfunction!"),
+                add_msg_player_or_npc(_("Your %s is damaged by the mechanical malfunction!"),
                                          _("<npcname>'s %s is damaged by the mechanical malfunction!"),
                                          weapon.name.c_str());
             }
@@ -188,7 +189,7 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
             // using OEM bullets. Note that these misfires cause no damage to the weapon and
             // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
         } else if (!curammo_effects->count("NEVER_MISFIRES") && one_in(1728)) {
-            g->add_msg_player_or_npc(this, _("Your %s misfires with a dry click!"),
+            add_msg_player_or_npc(_("Your %s misfires with a dry click!"),
                                      _("<npcname>'s %s misfires with a dry click!"),
                                      weapon.name.c_str());
             return false;
@@ -197,12 +198,12 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
             // player-made ammunition have this effect the misfire may cause damage, but never
             // enough to push the weapon beyond 'shattered'.
         } else if (curammo_effects->count("RECYCLED") && one_in(256)) {
-            g->add_msg_player_or_npc(this, _("Your %s misfires with a muffled click!"),
+            add_msg_player_or_npc(_("Your %s misfires with a muffled click!"),
                                      _("<npcname>'s %s misfires with a muffled click!"),
                                      weapon.name.c_str());
             if ((weapon.damage < 4) && one_in(firing->durability)){
                 weapon.damage++;
-                g->add_msg_player_or_npc(this, _("Your %s is damaged by the misfired round!"),
+                add_msg_player_or_npc(_("Your %s is damaged by the misfired round!"),
                                          _("<npcname>'s %s is damaged by the misfired round!"),
                                          weapon.name.c_str());
             }
@@ -350,9 +351,9 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     // High perception allows you to pick out details better, low perception interferes.
     const bool train_skill = weapon_dispersion < player_dispersion + rng(0, get_per());
     if( train_skill ) {
-        practice(g->turn, skill_used, 4 + (num_shots / 2));
+        practice(calendar::turn, skill_used, 4 + (num_shots / 2));
     } else if( one_in(30) ) {
-        g->add_msg_if_player(this,_("You'll need a more accurate gun to keep improving your aim."));
+        add_msg_if_player(_("You'll need a more accurate gun to keep improving your aim."));
     }
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
@@ -482,15 +483,15 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         }
 
         if (!train_skill) {
-            practice(g->turn, skill_used, 0); // practice, but do not train
+            practice(calendar::turn, skill_used, 0); // practice, but do not train
         } else if (missed_by <= .1) {
-            practice(g->turn, skill_used, 5);
+            practice(calendar::turn, skill_used, 5);
         } else if (missed_by <= .2) {
-            practice(g->turn, skill_used, 3);
+            practice(calendar::turn, skill_used, 3);
         } else if (missed_by <= .4) {
-            practice(g->turn, skill_used, 2);
+            practice(calendar::turn, skill_used, 2);
         } else if (missed_by <= .6) {
-            practice(g->turn, skill_used, 1);
+            practice(calendar::turn, skill_used, 1);
         }
 
     }
@@ -500,9 +501,9 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     }
 
     if( train_skill ) {
-        practice(g->turn, "gun", 5);
+        practice(calendar::turn, "gun", 5);
     } else {
-        practice(g->turn, "gun", 0);
+        practice(calendar::turn, "gun", 0);
     }
 }
 
@@ -567,11 +568,11 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
         }
         missed = true;
-        add_msg_if_player(&p,_("You miss!"));
+        p.add_msg_if_player(_("You miss!"));
     } else if (missed_by >= .6) {
         // Hit the space, but not necessarily the monster there
         missed = true;
-        add_msg_if_player(&p,_("You barely miss!"));
+        p.add_msg_if_player(_("You barely miss!"));
     }
 
     std::string message;
@@ -632,12 +633,12 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             if (goodhit < .1 && !z.has_flag(MF_NOHEAD)) {
                 message = _("Headshot!");
                 dam = rng(dam, dam * 3);
-                p.practice(turn, "throw", 5);
+                p.practice(calendar::turn, "throw", 5);
                 p.lifetime_stats()->headshots++;
             } else if (goodhit < .2) {
                 message = _("Critical!");
                 dam = rng(dam, dam * 2);
-                p.practice(turn, "throw", 2);
+                p.practice(calendar::turn, "throw", 2);
             } else if (goodhit < .4) {
                 dam = rng(int(dam / 2), int(dam * 1.5));
             } else if (goodhit < .5) {
@@ -645,8 +646,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 dam = rng(0, dam);
             }
             if (u_see(tx, ty)) {
-                g->add_msg_player_or_npc(&p,
-                    _("%s You hit the %s for %d damage."),
+                p.add_msg_player_or_npc(_("%s You hit the %s for %d damage."),
                     _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z.name().c_str(), dam);
             }
@@ -766,6 +766,15 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
  wrefresh(w_target);
  bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
+
+    std::string enemiesmsg;
+    if (t.empty()) {
+        enemiesmsg = _("No targets in range.");
+    } else {
+        enemiesmsg = string_format(ngettext("%d target in range.", "%d targets in range.",
+                                            t.size()), t.size());
+    }
+
  do {
   if (m.sees(u.posx, u.posy, x, y, -1, tart))
     ret = line_to(u.posx, u.posy, x, y, tart);
@@ -845,8 +854,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 }
             } else if (relevent == &u.weapon && relevent->is_gun()) {
                 // firing a gun
-                mvwprintw(w_target, 1, 1, _("Range: %d"),
-                          rl_dist(u.posx, u.posy, x, y));
+                mvwprintw(w_target, 1, 1, _("Range: %d/%d, %s"),
+                          rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
                 // get the current weapon mode or mods
                 std::string mode = "";
                 if (u.weapon.mode == "MODE_BURST") {
@@ -863,8 +872,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 }
             } else {
                 // throwing something
-                mvwprintw(w_target, 1, 1, _("Range: %d"),
-                          rl_dist(u.posx, u.posy, x, y));
+                mvwprintw(w_target, 1, 1, _("Range: %d/%d, %s"),
+                          rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
             }
 
    const int zid = mon_at(x, y);
@@ -878,6 +887,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
      zombie(zid).print_info(w_target,2);
     }
    }
+  } else {
+    mvwprintw(w_target, 1, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
   }
   wrefresh(w_target);
   wrefresh(w_terrain);
@@ -894,7 +905,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   ctxt.register_action("FIRE");
   ctxt.register_action("NEXT_TARGET");
   ctxt.register_action("PREV_TARGET");
-  ctxt.register_action("WAIT");
   ctxt.register_action("CENTER");
   ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
   ctxt.register_action("HELP_KEYBINDINGS");
@@ -955,7 +965,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (target == t.size()) target = 0;
    x = t[target]->xpos();
    y = t[target]->ypos();
-  } else if (action == "WAIT" || action == "FIRE") {
+  } else if (action == "FIRE") {
    for (int i = 0; i < t.size(); i++) {
     if (t[i]->xpos() == x && t[i]->ypos() == y)
      target = i;

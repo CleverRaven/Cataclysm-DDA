@@ -16,6 +16,7 @@
 #include "helper.h"
 #include "item_factory.h"
 #include "auto_pickup.h"
+#include "messages.h"
 
 #include "advanced_inv.h"
 
@@ -796,7 +797,7 @@ bool advanced_inventory::move_all_items()
                     int volmax = int( free_volume / volume );
                     // can't fit this itme, let's check another
                     if (volmax == 0) {
-                        g->add_msg(_("Unable to move item, the destination is too full."));
+                        add_msg(_("Unable to move item, the destination is too full."));
                         --ip;
                         continue;
                     }
@@ -814,7 +815,7 @@ bool advanced_inventory::move_all_items()
 
                 // no items? no move.
                 if (max_items == 0) {
-                    g->add_msg(_("Unable to move item, the destination is too full."));
+                    add_msg(_("Unable to move item, the destination is too full."));
                     --ip;
                     continue;
                 }
@@ -836,13 +837,13 @@ bool advanced_inventory::move_all_items()
                                 if (panes[dest].vstor >= 0) {
                                     if (veh->add_item(part, *iter) == false) {
                                         u.i_add(*iter);
-                                        g->add_msg(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
+                                        add_msg(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
                                         chargeback = true;
                                     }
                                 } else {
                                     if (m.add_item_or_charges(d_x, d_y, *iter, 0) == false) {
                                         u.i_add(*iter);
-                                        g->add_msg(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
+                                        add_msg(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
                                         chargeback = true;
                                     }
                                 }
@@ -866,12 +867,12 @@ bool advanced_inventory::move_all_items()
                         if (panes[dest].vstor >= 0) {
                             if (veh->add_item(part, moving_item) == false) {
                                 u.i_add(moving_item);
-                                g->add_msg(_("Destination full. Please report a bug if items have vanished."));
+                                add_msg(_("Destination full. Please report a bug if items have vanished."));
                             }
                         } else {
                             if (m.add_item_or_charges(d_x, d_y, moving_item, 0) == false) {
                                 u.i_add(moving_item);
-                                g->add_msg(_("Destination full. Please report a bug if items have vanished."));
+                                add_msg(_("Destination full. Please report a bug if items have vanished."));
                             }
                         }
 
@@ -883,13 +884,13 @@ bool advanced_inventory::move_all_items()
                     if (panes[dest].vstor >= 0) {
                         if (veh->add_item(part, moving_item) == false) {
                             u.i_add(moving_item);
-                            g->add_msg(_("Destination full. Please report a bug if items have vanished."));
+                            add_msg(_("Destination full. Please report a bug if items have vanished."));
                             chargeback = true;
                         }
                     } else {
                         if (m.add_item_or_charges(d_x, d_y, moving_item) == false) {
                             u.i_add(moving_item);
-                            g->add_msg(_("Destination full. Please report a bug if items have vanished."));
+                            add_msg(_("Destination full. Please report a bug if items have vanished."));
                             chargeback = true;
                         }
                     }
@@ -942,7 +943,7 @@ bool advanced_inventory::move_all_items()
                         return true;
                     }
                     if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
-                        g->add_msg(_("You are carrying too many items."));
+                        add_msg(_("You are carrying too many items."));
                         return true;
                     }
                     // Ok, let's see. What is the volume and weight?
@@ -977,12 +978,12 @@ bool advanced_inventory::move_all_items()
                                 trycharges = amount;
                             }
                             if ( trycharges == 0 ) {
-                                g->add_msg(_("Unable to pick up %s."), it->name.c_str());
+                                add_msg(_("Unable to pick up %s."), it->name.c_str());
                                 ++it;
                                 continue;
                             }
                         } else {
-                            g->add_msg(_("Unable to pick up %s."), it->name.c_str());
+                            add_msg(_("Unable to pick up %s."), it->name.c_str());
                             ++it;
                             continue;
                         }
@@ -990,11 +991,11 @@ bool advanced_inventory::move_all_items()
 
                     // We've already checked if we're trying to pick up a stack
                     if(!u.can_pickVolume(tryvolume)) {
-                        g->add_msg(_("There's no room in your inventory for %s."), it->name.c_str());
+                        add_msg(_("There's no room in your inventory for %s."), it->name.c_str());
                         ++it;
                         continue;
                     } else if (!u.can_pickWeight(tryweight, false)) {
-                        g->add_msg(_("%s is too heavy."), it->name.c_str());
+                        add_msg(_("%s is too heavy."), it->name.c_str());
                         ++it;
                         continue;
                     }
@@ -1017,7 +1018,7 @@ bool advanced_inventory::move_all_items()
                 // if it is a vehicle storage, try to move it there. If not, let's just continue
                 } else if (squares[destarea].vstor >= 0) {
                     if( squares[destarea].veh->add_item( squares[destarea].vstor, new_item ) == false) {
-                        g->add_msg(_("Unable to move item, the destination is too full."));
+                        add_msg(_("Unable to move item, the destination is too full."));
                         ++it;
                         continue;
                     }
@@ -1025,7 +1026,7 @@ bool advanced_inventory::move_all_items()
                 // if it's a normal square, try to move it there. If not, just continue
                 } else {
                     if ( m.add_item_or_charges(squares[destarea].x, squares[destarea].y, new_item, 0 ) == false ) {
-                        g->add_msg(_("Unable to move item, the destination is too full."));
+                        add_msg(_("Unable to move item, the destination is too full."));
                         ++it;
                         continue;
                     }
@@ -1046,7 +1047,7 @@ bool advanced_inventory::move_all_items()
 
     {
         int item_pos = panes[src].size > 0 ? ait->idx : 0;
-        g->add_msg("Item %s", ait->it->name.c_str());
+        add_msg("Item %s", ait->it->name.c_str());
 
 
     }
@@ -1112,27 +1113,12 @@ void advanced_inventory::display(player *pp)
             if (redraw) {
                 werase(head);
                 draw_border(head);
-                int line = 1;
-                if( checkshowmsg || showmsg ) {
-                    for (int i = g->messages.size() - 1; i >= 0 && line < 4; i--) {
-                        std::string mes = g->messages[i].message;
-                        if (g->messages[i].count > 1) {
-                            std::stringstream mesSS;
-                            mesSS << mes << " x " << g->messages[i].count;
-                            mes = mesSS.str();
-                        }
-                        nc_color col = c_dkgray;
-                        if (int(g->messages[i].turn) >= g->curmes) {
-                            col = c_ltred;
-                            showmsg = true;
-                        } else {
-                            col = c_ltgray;
-                        }
-                        if ( showmsg ) {
-                            mvwprintz(head, line, 2, col, "%s", mes.c_str());
-                        }
-                        line++;
-                    }
+                if (checkshowmsg && Messages::has_undisplayed_messages()){
+                    showmsg = true;
+                }
+
+                if( showmsg ) {
+                    Messages::display_messages(head, 2, 1, w_width - 1, 4);
                 }
                 if ( ! showmsg ) {
                     mvwprintz(head, 0, w_width - utf8_width(_("< [?] show log >")) - 1,

@@ -7,6 +7,7 @@
 #include "crafting.h"
 #include "monstergenerator.h"
 #include "construction.h"
+#include "messages.h"
 #include <string>
 #include <vector>
 #include <ostream>
@@ -63,7 +64,7 @@ defense_game::defense_game()
 
 bool defense_game::init()
 {
-    g->turn = HOURS(12); // Start at noon
+    calendar::turn = HOURS(12); // Start at noon
     g->temperature = 65;
     if (!g->u.create(PLTYPE_CUSTOM)) {
         return false;
@@ -109,7 +110,7 @@ void defense_game::per_turn()
     if (!sleep) {
         g->u.fatigue = 0;
     }
-    if (int(g->turn) % (time_between_waves * 10) == 0) {
+    if (int(calendar::turn) % (time_between_waves * 10) == 0) {
         current_wave++;
         if (current_wave > 1 && current_wave % waves_between_caravans == 0) {
             popup(_("A caravan approaches!  Press spacebar..."));
@@ -122,11 +123,11 @@ void defense_game::per_turn()
 void defense_game::pre_action(action_id &act)
 {
     if (act == ACTION_SLEEP && !sleep) {
-        g->add_msg(_("You don't need to sleep!"));
+        add_msg(_("You don't need to sleep!"));
         act = ACTION_NULL;
     }
     if (act == ACTION_SAVE || act == ACTION_QUICKSAVE) {
-        g->add_msg(_("You cannot save in defense mode!"));
+        add_msg(_("You cannot save in defense mode!"));
         act = ACTION_NULL;
     }
 
@@ -155,7 +156,7 @@ void defense_game::pre_action(action_id &act)
                                     g->levy <=  93) ||
                                    (g->u.posx == SEEX * int(MAPSIZE / 2) &&
                                     g->levx <=  93)))) {
-        g->add_msg(_("You cannot leave the %s behind!"),
+        add_msg(_("You cannot leave the %s behind!"),
                    defense_location_name(location).c_str());
         act = ACTION_NULL;
     }
@@ -359,10 +360,10 @@ void defense_game::init_map()
             mx -= mx % 2;
             my -= my % 2;
             tinymap tm;
-            tm.generate(g->cur_om, mx, my, 0, int(g->turn));
+            tm.generate(g->cur_om, mx, my, 0, int(calendar::turn));
             tm.clear_spawns();
             tm.clear_traps();
-            tm.save(g->cur_om, int(g->turn), mx, my, 0);
+            tm.save(g->cur_om, int(calendar::turn), mx, my, 0);
         }
     }
 
@@ -1159,7 +1160,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
         g->u.cash -= total_price;
         bool dropped_some = false;
         for (unsigned i = 0; i < items[0].size(); i++) {
-            item tmp(itypes[ items[0][i] ], g->turn);
+            item tmp(itypes[ items[0][i] ], calendar::turn);
             tmp = tmp.in_its_container(&(itypes));
             for (int j = 0; j < item_count[0][i]; j++) {
                 if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight()) &&
@@ -1172,7 +1173,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing."));
             }
         }
         if (dropped_some) {
-            g->add_msg(_("You drop some items."));
+            add_msg(_("You drop some items."));
         }
     }
 }
@@ -1371,7 +1372,7 @@ int caravan_price(player &u, int price)
 
 void defense_game::spawn_wave()
 {
-    g->add_msg("********");
+    add_msg("********");
     int diff = initial_difficulty + current_wave * wave_difficulty;
     bool themed_wave = one_in(SPECIAL_WAVE_CHANCE); // All a single monster type
     g->u.cash += cash_per_wave + (current_wave - 1) * cash_increase;
@@ -1386,8 +1387,8 @@ void defense_game::spawn_wave()
             }
         }
         if (valid.empty()) {
-            g->add_msg(_("Welcome to Wave %d!"), current_wave);
-            g->add_msg("********");
+            add_msg(_("Welcome to Wave %d!"), current_wave);
+            add_msg("********");
             return;
         }
         int rn = rng(0, valid.size() - 1);
@@ -1399,8 +1400,8 @@ void defense_game::spawn_wave()
                 for (int i = 0; i < num; i++) {
                     spawn_wave_monster(type);
                 }
-                g->add_msg( special_wave_message(type->name).c_str() );
-                g->add_msg("********");
+                add_msg( special_wave_message(type->name).c_str() );
+                add_msg("********");
                 return;
             } else {
                 themed_wave = false;    // No partially-themed waves
@@ -1409,8 +1410,8 @@ void defense_game::spawn_wave()
         diff -= type->difficulty;
         spawn_wave_monster(type);
     }
-    g->add_msg(_("Welcome to Wave %d!"), current_wave);
-    g->add_msg("********");
+    add_msg(_("Welcome to Wave %d!"), current_wave);
+    add_msg("********");
 }
 
 std::vector<std::string> defense_game::pick_monster_wave()

@@ -701,7 +701,7 @@ public:
  int get_item_position(item* it);  // looks up an item (via pointer comparison)
  martialart get_combat_style(); // Returns the combat style object
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
- int  butcher_factor(); // Automatically picks our best butchering tool
+ int butcher_factor() const; // Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
  bool is_wearing(const itype_id & it) const; // Are we wearing a specific itype?
  bool has_artifact_with(const art_effect_passive effect) const;
@@ -877,6 +877,10 @@ public:
 
  field_id playerBloodType();
 
+ //message related stuff
+ virtual void add_msg_if_player(const char* msg, ...);
+ virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
+
 protected:
     std::set<std::string> my_traits;
     std::set<std::string> my_mutations;
@@ -905,6 +909,7 @@ private:
 
     int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
     //NPCs also use this ID value. Values should never be reused.
+
 };
 
 #endif

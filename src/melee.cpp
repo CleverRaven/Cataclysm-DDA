@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "game.h"
 #include "martialarts.h"
+#include "messages.h"
 #include <sstream>
 #include <stdlib.h>
 #include <algorithm>
@@ -89,11 +90,11 @@ bool player::handle_melee_wear() {
 
     if (weapon.damage < 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
      weapon.damage++;
-     g->add_msg_player_or_npc(this, _("Your %s is damaged by the force of the blow!"),
+     add_msg_player_or_npc( _("Your %s is damaged by the force of the blow!"),
                                    _("<npcname>'s %s is damaged by the force of the blow!"),
                                    weapon.name.c_str());
     } else if (weapon.damage >= 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
-      g->add_msg_player_or_npc(this, _("Your %s is destroyed by the blow!"),
+      add_msg_player_or_npc(_("Your %s is destroyed by the blow!"),
       _("<npcname>'s %s is destroyed by the blow!"),
       weapon.name.c_str());
   // Dump its contents on the ground
@@ -233,17 +234,17 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         int stumble_pen = stumble(*this);
         if (is_player()) { // Only display messages if this is the player
             if (has_miss_recovery_tec())
-                g->add_msg(_("You feint."));
+                add_msg(_("You feint."));
             else if (stumble_pen >= 60)
-                g->add_msg(_("You miss and stumble with the momentum."));
+                add_msg(_("You miss and stumble with the momentum."));
             else if (stumble_pen >= 10)
-                g->add_msg(_("You swing wildly and miss."));
+                add_msg(_("You swing wildly and miss."));
             else
-                g->add_msg(_("You miss."));
+                add_msg(_("You miss."));
         }
 
         if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
-            melee_practice(g->turn, *this, false, unarmed_attack(),
+            melee_practice(calendar::turn, *this, false, unarmed_attack(),
                         weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                         (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
         move_cost += stumble_pen;
@@ -299,7 +300,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         bool stabbing = (d.type_damage(DT_STAB) >= 10);
 
         if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
-            melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
+            melee_practice(calendar::turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
         if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
             healall( rng(dam / 10, dam / 5) );
@@ -308,7 +309,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         player_hit_message(this, message, target_name, dam, critical_hit);
 
         if (!specialmsg.empty())
-            g->add_msg_if_player(this,specialmsg.c_str());
+            add_msg_if_player(specialmsg.c_str());
     }
 
     mod_moves(-move_cost);
@@ -1014,7 +1015,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
                 melee_attack(g->zombie(mon_targets[i]), false);
 
                 std::string temp_target = string_format(_("the %s"), g->zombie(mon_targets[i]).name().c_str());
-                g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
+                add_msg_player_or_npc( _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
             }
         }
         for (int i = 0; i < npc_targets.size(); i++) {
@@ -1022,12 +1023,12 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
                 count_hit++;
                 melee_attack(*g->active_npc[npc_targets[i]], false);
 
-                g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"),
+                add_msg_player_or_npc( _("You hit %s!"), _("<npcname> hits %s!"),
                                           g->active_npc[npc_targets[i]]->name.c_str() );
             }
         }
 
-        g->add_msg_if_player(&t, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
+        t.add_msg_if_player(ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
 
         //AOE attacks should take longer than normal, but less than individual attacks.
         moves = temp_moves - ((temp_moves - moves) / 4);
@@ -1037,7 +1038,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
     if (has_active_bionic("bio_cqb") && !has_martialart(style_selected)) {
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
-            g->add_msg(_("You have learnt %s from extensive practice with the CQB Bionic."),
+            add_msg(_("You have learnt %s from extensive practice with the CQB Bionic."),
                        martialarts[style_selected].name.c_str());
         }
     }
@@ -1084,7 +1085,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
 
     //weapon blocks are prefered to arm blocks
     if (can_weapon_block()) {
-        g->add_msg_player_or_npc( this, _("You block with your %s!"),
+        add_msg_player_or_npc( _("You block with your %s!"),
             _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
         handle_melee_wear();
     }
@@ -1103,7 +1104,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
         else
             side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
 
-        g->add_msg_player_or_npc( this, _("You block with your %s!"),
+        add_msg_player_or_npc( _("You block with your %s!"),
             _("<npcname> blocks with their %s!"),
             body_part_name(bp_hit, side).c_str());
     }
@@ -1183,7 +1184,7 @@ void player::perform_special_attacks(Creature &t)
             special_attacks[i].stab
         ), dealt_dam);
   if (dealt_dam.total_damage() > 0)
-      g->add_msg(special_attacks[i].text.c_str());
+      add_msg(special_attacks[i].text.c_str());
 
   if (!can_poison && (dealt_dam.type_damage(DT_CUT) > 0 ||
         dealt_dam.type_damage(DT_STAB) > 0 ))
@@ -1192,11 +1193,11 @@ void player::perform_special_attacks(Creature &t)
 
  if (can_poison && ((has_trait("POISONOUS")) || (has_trait("POISONOUS2")))) {
     if ((has_trait("POISONOUS")) && !t.has_effect("poisoned")) {
-        g->add_msg_if_player(&t,_("You poison %s!"), target.c_str());
+        t.add_msg_if_player(_("You poison %s!"), target.c_str());
         t.add_effect("poisoned", 6);
     }
     else if ((has_trait("POISONOUS2")) && (!(t.has_effect("nasty_poisoned")))) {
-        g->add_msg_if_player(&t,_("You inject your venom into %s!"), target.c_str());
+        t.add_msg_if_player(_("You inject your venom into %s!"), target.c_str());
         t.add_effect("nasty_poisoned", 6);
     }
  }
@@ -1236,7 +1237,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
         if (is_player()) {
             dump << string_format(_("You shock %s."), target.c_str()) << std::endl;
         } else
-            g->add_msg_player_or_npc(this, _("You shock %s."),
+            add_msg_player_or_npc(_("You shock %s."),
                                      _("<npcname> shocks %s."),
                                      target.c_str());
     }
@@ -1246,12 +1247,12 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
         charge_power(rng(0, 2));
         d.add_damage(DT_COLD, 1);
         if (t.is_player()) {
-            g->add_msg_if_npc(this, _("<npcname> drains your body heat!"));
+            add_msg_if_npc(_("<npcname> drains your body heat!"));
         } else {
             if (is_player()) {
                 dump << string_format(_("You drain %s's body heat."), target.c_str()) << std::endl;
             } else
-                g->add_msg_player_or_npc(this, _("You drain %s's body heat!"),
+                add_msg_player_or_npc(_("You drain %s's body heat!"),
                                          _("<npcname> drains %s's body heat!"),
                                          target.c_str());
         }
@@ -1263,14 +1264,14 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
         if (is_player()) {
             dump << string_format(_("You burn %s."), target.c_str()) << std::endl;
         } else
-            g->add_msg_player_or_npc(this, _("You burn %s."),
+            add_msg_player_or_npc(_("You burn %s."),
                                      _("<npcname> burns %s."),
                                      target.c_str());
     }
 
     //Hurting the wielder from poorly-chosen weapons
     if(weapon.has_flag("HURT_WHEN_WIELDED") && x_in_y(2, 3)) {
-        g->add_msg_if_player(this, _("The %s cuts your hand!"), weapon.tname().c_str());
+        add_msg_if_player( _("The %s cuts your hand!"), weapon.tname().c_str());
         deal_damage(NULL, bp_hands, 0, damage_instance::physical(0, weapon.damage_cut(), 0));
         if (weapon.is_two_handed(this)) { // Hurt left hand too, if it was big
             deal_damage(NULL, bp_hands, 1, damage_instance::physical(0, weapon.damage_cut(), 0));
@@ -1283,7 +1284,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, ma_te
         if (is_player()) {
             dump << string_format(_("Your %s shatters!"), weapon.tname().c_str()) << std::endl;
         } else {
-            g->add_msg_player_or_npc(this, _("Your %s shatters!"),
+            add_msg_player_or_npc( _("Your %s shatters!"),
                                      _("<npcname>'s %s shatters!"),
                                      weapon.tname().c_str());
         }
@@ -1870,7 +1871,7 @@ void player_hit_message(player* attacker, std::string message,
 
     // same message is used for player and npc,
     // just using this for the <npcname> substitution.
-    g->add_msg_player_or_npc(attacker, msg.c_str(), msg.c_str(),
+    attacker->add_msg_player_or_npc( msg.c_str(), msg.c_str(),
                              target_name.c_str());
 }
 

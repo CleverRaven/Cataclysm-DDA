@@ -10,6 +10,7 @@
 #include "options.h"
 #include "uistate.h"
 #include "helper.h" //to_string_int
+#include "messages.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -437,7 +438,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if ( debug == true ) {
             if( g != NULL ) {
                 dump->push_back(iteminfo("BASE", _("age: "), "",
-                                         (int(g->turn) - bday) / (10 * 60), true, "", true, true));
+                                         (int(calendar::turn) - bday) / (10 * 60), true, "", true, true));
                 int maxrot = 0;
                 item * food = NULL;
                 if( goes_bad() ) {
@@ -451,7 +452,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 }
                 if ( food != NULL && maxrot != 0 ) {
                     dump->push_back(iteminfo("BASE", _("bday rot: "), "",
-                                             (int(g->turn) - food->bday), true, "", true, true));
+                                             (int(calendar::turn) - food->bday), true, "", true, true));
                     dump->push_back(iteminfo("BASE", _("temp rot: "), "",
                                              (int)food->rot, true, "", true, true));
                     dump->push_back(iteminfo("BASE", _(" max rot: "), "",
@@ -1615,7 +1616,7 @@ bool item::rotten()
 
 void item::calc_rot()
 {
-    const int now = g->turn;
+    const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
         const int since = ( last_rot_check == 0 ? bday : last_rot_check );
         const int until = ( fridge > 0 ? fridge : now );
@@ -1624,7 +1625,7 @@ void item::calc_rot()
             int old = rot;
             rot += get_rot_since( since, until );
             if (g->debugmon) {
-                g->add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
+                add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
             }
         }
         last_rot_check = now;
@@ -1660,7 +1661,7 @@ bool item::ready_to_revive()
     if(can_revive() == false) {
         return false;
     }
-    int age_in_hours = (int(g->turn) - bday) / (10 * 60);
+    int age_in_hours = (int(calendar::turn) - bday) / (10 * 60);
     age_in_hours -= int((float)burnt / volume() * 24);
     if (damage > 0)
     {
@@ -3121,6 +3122,78 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     return count;
 }
 
+bool item::use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used)
+{
+    // First, check contents
+    bool used_item_contents = false;
+    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+        if (a->use_amount(it, quantity, use_container, used)) {
+            a = contents.erase(a);
+            used_item_contents = true;
+        } else {
+            ++a;
+        }
+    }
+    // Now check the item itself
+    if (use_container && used_item_contents) {
+        return true;
+    } else if (type->id == it && quantity > 0 && contents.empty()) {
+        used.push_back(*this);
+        quantity--;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+long item::charges_of(const itype_id &it) const
+{
+    long count = 0;
+    if (type->id == it && contents.empty()) {
+        // If we're specifically looking for a container, only say we have it if it's empty.
+        if (charges < 0) {
+            count++;
+        } else {
+            count += charges;
+        }
+    } else {
+        for (std::vector<item>::const_iterator a = contents.begin(); a != contents.end(); ++a) {
+            count += a->charges_of(it);
+        }
+    }
+    return count;
+}
+
+bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
+{
+    // First, check contents
+    for (std::vector<item>::iterator a = contents.begin(); a != contents.end() && quantity > 0; ) {
+        if (a->use_charges(it, quantity, used)) {
+            a = contents.erase(a);
+        } else {
+            ++a;
+        }
+    }
+    // Now check the item itself
+    if (type->id != it || quantity <= 0 || !contents.empty()) {
+        return false;
+    }
+    if (charges <= quantity) {
+        used.push_back(*this);
+        if (charges < 0) {
+            quantity--;
+        } else {
+            quantity -= charges;
+        }
+        charges = 0;
+        return destroyed_at_zero_charges();
+    }
+    used.push_back(*this);
+    used.back().charges = quantity;
+    charges -= quantity;
+    return false;
+}
+
 const item_category &item::get_category() const
 {
     if(is_container() && !contents.empty()) {
@@ -3238,7 +3311,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                 if(!(worn->contents.empty()) && worn->contents[0].charges > 0) {
                     if(worn->contents[0].type->id != type->id) {
                         if(!isAutoPickup) {
-                            g->add_msg_if_player(u, _("Those aren't the same arrows!"));
+                            u->add_msg_if_player(_("Those aren't the same arrows!"));
                         }
 
                         //only return false if this is last quiver in the loop
@@ -3250,7 +3323,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                     }
                     if(worn->contents[0].charges >= maxArrows) {
                         if(!isAutoPickup) {
-                            g->add_msg_if_player(u, _("That %s is already full!"), worn->name.c_str());
+                            u->add_msg_if_player(_("That %s is already full!"), worn->name.c_str());
                         }
 
                         //only return false if this is last quiver in the loop
@@ -3284,7 +3357,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                 }
 
                 arrowsStored = worn->contents[0].charges - arrowsStored;
-                g->add_msg_if_player(u, ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
+                u->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
                                      arrowsStored, worn->contents[0].name.c_str(), worn->name.c_str());
                 u->moves -= std::min(100, movesPerArrow * arrowsStored);
                 arrowsQuivered += arrowsStored;
@@ -3298,7 +3371,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
             clone.charges = charges;
             u->i_add(clone);
 
-            g->add_msg_if_player(u, ngettext("You pick up: %d %s", "You pick up: %d %ss", charges),
+            u->add_msg_if_player(ngettext("You pick up: %d %s", "You pick up: %d %ss", charges),
                              charges, clone.name.c_str());
             u->moves -= 100;
 
@@ -3334,4 +3407,21 @@ int item::max_charges_from_flag(std::string flagName)
     }
 
     return maxCharges;
+}
+
+int item::butcher_factor() const
+{
+    int butcher_factor = INT_MAX;
+    if (has_quality("CUT") && !has_flag("SPEAR")) {
+        int butcher_factor = volume() * 5 - weight() / 75 - damage_cut();
+        if (damage_cut() <= 20) {
+            butcher_factor *= 2;
+        }
+        return butcher_factor;
+    } else {
+        for(std::vector<item>::const_iterator a = contents.begin(); a != contents.end(); ++a) {
+            butcher_factor = std::min(butcher_factor, a->butcher_factor());
+        }
+    }
+    return butcher_factor;
 }

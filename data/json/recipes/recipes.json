@@ -6528,7 +6528,7 @@
   "tools": [],
   "components": [
       [
-          [ "popcorn", 1 ]
+          [ "popcorn", 3 ]
       ],
       [
           [ "salt", 1 ],
@@ -10630,7 +10630,7 @@
   "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 10,
-  "time": 15000,
+  "time": 20000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "recipe_alpha", 9 ]],
@@ -10638,24 +10638,24 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
-      [ "hotplate", 37 ],
-      [ "toolset", 3 ],
+      [ "chemistry_set", 50 ],
+      [ "hotplate", 50 ],
+      [ "toolset", 4 ],
       [ "fire", -1 ]
     ]
   ],
   "components": [
     [
-      [ "mutagen_slime", 1 ]
+      [ "mutagen_slime", 2 ]
     ],
     [
-      [ "mutagen_plant", 1 ]
+      [ "mutagen_plant", 2 ]
     ],
     [
-      [ "mutagen_bird", 1 ]
+      [ "mutagen_bird", 2 ]
     ],
     [
-      [ "purifier", 3 ]
+      [ "purifier", 4 ]
     ]
   ]
 },{
@@ -11908,6 +11908,7 @@
   "difficulty": 4,
   "time": 5000,
   "reversible": true,
+  "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [[ "radio_book", 3 ] , [ "textbook_anarch", 5 ]],
   "qualities":[
@@ -11936,6 +11937,7 @@
   "difficulty": 1,
   "time": 4000,
   "reversible": true,
+  "decomp_learn": 1,
   "autolearn": false,
   "book_learn": [[ "radio_book", 3 ] , [ "manual_electronics", 1 ]],
   "qualities" : [
@@ -12020,6 +12022,7 @@
   "difficulty": 2,
   "time": 12000,
   "reversible": true,
+  "decomp_learn": 2,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "radio_book", 1 ] , [ "textbook_electronics", 2 ]],
   "qualities" : [
@@ -12050,6 +12053,7 @@
   "difficulty": 3,
   "time": 14000,
   "reversible": true,
+  "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "textbook_anarch", 3 ]],
   "qualities" : [
@@ -12247,8 +12251,8 @@
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
+  "decomp_learn": 2,
   "autolearn": true,
-  "decomp_learn": 3,
   "book_learn": [[ "manual_electronics", 2 ], [ "advanced_electronics", 2 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
@@ -24673,7 +24677,7 @@
     ],
   "components": [
     [
-      [ "toasterpastryfrozen", 1 ]
+      [ "toasterpastryfrozen", 2 ]
     ]
   ]
 },{

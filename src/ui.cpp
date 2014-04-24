@@ -87,6 +87,19 @@ uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector
     //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
 }
 
+uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) {
+    // another quick convenience coonstructor
+    init();
+    return_invalid = cancelable;
+    w_x = startx;
+    w_y = starty;
+    w_width = width;
+    text = title;
+    entries = ents;
+    query();
+    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
+}
+
 /*
  * Enables oneshot construction -> running -> exit
  */
@@ -521,7 +534,7 @@ void uimenu::show() {
             if ( hilight_full ) {
                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
-            if(entries[ ei ].enabled && entries[ ei ].hotkey > 33 && entries[ ei ].hotkey < 126 ) {
+            if(entries[ ei ].enabled && entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 mvwprintz( window, estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
                            hotkey_color , "%c", entries[ ei ].hotkey );
             }

@@ -128,4 +128,7 @@ extern std::map<std::string,quality> qualities;
 
 void check_recipe_definitions();
 
+// Check that all components are known, print a message if not containing the display_name name
+void check_component_list(const std::vector<std::vector<component> > &vec, const std::string &display_name);
+
 #endif

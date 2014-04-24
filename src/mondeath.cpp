@@ -5,12 +5,13 @@
 #include "rng.h"
 #include "line.h"
 #include "monstergenerator.h"
+#include "messages.h"
 #include <math.h>  // rounding
 #include <sstream>
 
 void mdeath::normal(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s dies!"), z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
+        add_msg(_("The %s dies!"), z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
 
     m_size monSize = (z->type->size);
@@ -55,9 +56,9 @@ void mdeath::normal(monster *z) {
 void mdeath::acid(monster *z) {
     if (g->u_see(z)) {
         if(z->type->dies.size() == 1) //If this death function is the only function. The corpse gets dissolved.
-            g->add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
+            add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
         else {
-            g->add_msg(_("The %s's body leaks acid."), z->name().c_str());
+            add_msg(_("The %s's body leaks acid."), z->name().c_str());
         }
     }
     g->m.add_field(z->posx(), z->posy(), fd_acid, 3);
@@ -151,9 +152,9 @@ void mdeath::vine_cut(monster *z) {
 
 void mdeath::triffid_heart(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The surrounding roots begin to crack and crumble."));
+        add_msg(_("The surrounding roots begin to crack and crumble."));
     }
-    g->add_event(EVENT_ROOTS_DIE, int(g->turn) + 100);
+    g->add_event(EVENT_ROOTS_DIE, int(calendar::turn) + 100);
 }
 
 void mdeath::fungus(monster *z) {
@@ -173,7 +174,7 @@ void mdeath::fungus(monster *z) {
                     // Spores hit a monster
                     fungal = g->zombie(mondex).type->in_species("FUNGUS");
                     if (g->u_see(sporex, sporey) && !fungal) {
-                        g->add_msg(_("The %s is covered in tiny spores!"),
+                        add_msg(_("The %s is covered in tiny spores!"),
                                    g->zombie(mondex).name().c_str());
                     }
                     if (!g->zombie(mondex).make_fungus()) {
@@ -182,7 +183,7 @@ void mdeath::fungus(monster *z) {
                 } else if (g->u.posx == sporex && g->u.posy == sporey) {
                     // Spores hit the player
                         if (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee"))) {
-                        g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
+                        add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
                         return;
                         }
                     bool hit = false;
@@ -205,11 +206,11 @@ void mdeath::fungus(monster *z) {
                         hit = true;
                     }
                     if (hit && (g->u.has_trait("TAIL_CATTLE") && one_in(20 - g->u.dex_cur - g->u.skillLevel("melee")))) {
-                        g->add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
+                        add_msg(_("The spores land on you, but you quickly swat them off with your tail!"));
                         hit = false;
                     }
                     if (hit) {
-                        g->add_msg(_("You're covered in tiny spores!"));
+                        add_msg(_("You're covered in tiny spores!"));
                     }
                 } else if (one_in(2) && g->num_zombies() <= 1000) {
                     // Spawn a spore
@@ -223,16 +224,16 @@ void mdeath::fungus(monster *z) {
 
 void mdeath::disintegrate(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s disintegrates!"), z->name().c_str());
+        add_msg(_("The %s disintegrates!"), z->name().c_str());
     }
 }
 
 void mdeath::worm(monster *z) {
     if (g->u_see(z)) {
         if(z->type->dies.size() == 1)
-            g->add_msg(_("The %s splits in two!"), z->name().c_str());
+            add_msg(_("The %s splits in two!"), z->name().c_str());
         else {
-            g->add_msg(_("Two worms crawl out of the %s's corpse."), z->name().c_str());
+            add_msg(_("Two worms crawl out of the %s's corpse."), z->name().c_str());
         }
     }
 
@@ -263,7 +264,7 @@ void mdeath::worm(monster *z) {
 
 void mdeath::disappear(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s disappears."), z->name().c_str());
+        add_msg(_("The %s disappears."), z->name().c_str());
     }
 }
 
@@ -293,7 +294,7 @@ void mdeath::guilt(monster *z) {
     if (kill_count >= maxKills) {
         // player no longer cares
         if (kill_count == maxKills) {
-            g->add_msg(_("After killing so many bloody %ss you no longer care "
+            add_msg(_("After killing so many bloody %ss you no longer care "
                           "about their deaths anymore."), z->name().c_str());
         }
         return;
@@ -311,7 +312,7 @@ void mdeath::guilt(monster *z) {
         }
     }
 
-    g->add_msg(_(msg.c_str()), z->name().c_str());
+    add_msg(_(msg.c_str()), z->name().c_str());
 
     int moraleMalus = -50 * (1.0 - ((float) kill_count / maxKills));
     int maxMalus = -250 * (1.0 - ((float) kill_count / maxKills));
@@ -334,11 +335,11 @@ void mdeath::guilt(monster *z) {
 }
 void mdeath::blobsplit(monster *z) {
     int speed = z->speed - rng(30, 50);
-    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, g->turn, rng(1,4));
+    g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, calendar::turn, rng(1,4));
     if (speed <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
-            g->add_msg(_("The %s splatters apart."), z->name().c_str());
+            add_msg(_("The %s splatters apart."), z->name().c_str());
         }
         return;
     }
@@ -348,9 +349,9 @@ void mdeath::blobsplit(monster *z) {
     blob.friendly = z->friendly;
     if (g->u_see(z)) {
         if(z->type->dies.size() == 1)
-            g->add_msg(_("The %s splits in two!"), z->name().c_str());
+            add_msg(_("The %s splits in two!"), z->name().c_str());
         else {
-            g->add_msg(_("Two small blobs slither out of the corpse."), z->name().c_str());
+            add_msg(_("Two small blobs slither out of the corpse."), z->name().c_str());
         }
     }
     blob.hp = blob.speed;
@@ -378,7 +379,7 @@ void mdeath::blobsplit(monster *z) {
 
 void mdeath::melt(monster *z) {
     if (g->u_see(z)) {
-        g->add_msg(_("The %s melts away."), z->name().c_str());
+        add_msg(_("The %s melts away."), z->name().c_str());
     }
 }
 
@@ -394,8 +395,8 @@ void mdeath::amigara(monster *z) {
     }
     if (count <= 1) { // We're the last!
         g->u.rem_disease("amigara");
-        g->add_msg(_("Your obsession with the fault fades away..."));
-        item art(new_artifact(itypes), g->turn);
+        add_msg(_("Your obsession with the fault fades away..."));
+        item art(new_artifact(itypes), calendar::turn);
         g->m.add_item_or_charges(z->posx(), z->posy(), art);
     }
 }
@@ -431,7 +432,7 @@ void mdeath::broken(monster *z) {
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert(0, "broken_");
     if (item_controller->has_template(item_id)) {
-        g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, g->turn);
+        g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, calendar::turn);
     } else {
         debugmsg("Tried to create a broken %s but %s does not exist.", z->type->name.c_str(), item_id.c_str());
     }
@@ -440,7 +441,7 @@ void mdeath::broken(monster *z) {
 void mdeath::ratking(monster *z) {
     g->u.rem_disease("rat");
     if (g->u_see(z)) {
-        g->add_msg(_("Rats suddenly swarm into view."));
+        add_msg(_("Rats suddenly swarm into view."));
     }
 
     std::vector <point> ratspots;
@@ -468,7 +469,7 @@ void mdeath::ratking(monster *z) {
 void mdeath::darkman(monster *z) {
      g->u.rem_disease("darkness");
      if (g->u_see(z))
-        g->add_msg(_("The %s melts away. And the world returns to normaliity"), z->name().c_str());
+        add_msg(_("The %s melts away. And the world returns to normaliity"), z->name().c_str());
 }
 
 void mdeath::gas(monster *z) {
@@ -504,7 +505,7 @@ void mdeath::smokeburst(monster *z) {
 }
 
 void mdeath::gameover(monster *z) {
-    g->add_msg(_("The %s was destroyed!  GAME OVER!"), z->name().c_str());
+    add_msg(_("The %s was destroyed!  GAME OVER!"), z->name().c_str());
     g->u.hp_cur[hp_torso] = 0;
 }
 
@@ -551,7 +552,7 @@ void make_gibs(monster* z, int amount) {
 void make_mon_corpse(monster* z, int damageLvl) {
     const int MAX_DAM = 4;
     item corpse;
-    corpse.make_corpse(itypes["corpse"], z->type, g->turn);
+    corpse.make_corpse(itypes["corpse"], z->type, calendar::turn);
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

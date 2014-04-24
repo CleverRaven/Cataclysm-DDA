@@ -367,6 +367,7 @@ void add_corpse(int x, int y);
 // Items
  std::vector<item>& i_at(int x, int y);
  item water_from(const int x, const int y);
+ item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
@@ -385,7 +386,7 @@ void add_corpse(int x, int y);
  std::list<item> use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container);
  std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
                               const bool use_container = false);
- std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);
+ std::list<item> use_charges(const point origin, const int range, const itype_id type, const long amount);
 
 // Traps
  std::string trap_get(const int x, const int y) const;

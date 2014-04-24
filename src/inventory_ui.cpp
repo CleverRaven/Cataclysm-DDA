@@ -4,6 +4,7 @@
 #include "translations.h"
 #include "item_factory.h"
 #include "options.h"
+#include "messages.h"
 #include <string>
 #include <vector>
 #include <map>

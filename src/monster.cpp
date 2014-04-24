@@ -14,6 +14,7 @@
 #include "cursesdef.h"
 #include "monstergenerator.h"
 #include "json.h"
+#include "messages.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -797,13 +798,13 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
         // TODO: characters practice dodge when a hit misses 'em
         if (target.is_player()) {
             if (u_see_me) {
-                g->add_msg(_("You dodge %1$s."), disp_name().c_str());
+                add_msg(_("You dodge %1$s."), disp_name().c_str());
             } else {
-                g->add_msg(_("You dodge an attack from an unseen source."));
+                add_msg(_("You dodge an attack from an unseen source."));
             }
         } else {
             if (u_see_me) {
-                g->add_msg(_("The %1$s dodges %2$s attack."), name().c_str(),
+                add_msg(_("The %1$s dodges %2$s attack."), name().c_str(),
                             target.disp_name(true).c_str());
             }
         }
@@ -811,15 +812,15 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
         if (target.is_player()) {
             if (u_see_me) {
-                g->add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                add_msg(_("The %1$s hits your %2$s."), name().c_str(),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str());
             } else {
-                g->add_msg(_("Something hits your %s."),
+                add_msg(_("Something hits your %s."),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str());
             }
         } else {
             if (u_see_me) {
-                g->add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
+                add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
                             target.disp_name(true).c_str(),
                             body_part_name(bp_hit, random_side(bp_hit)).c_str());
             }
@@ -827,15 +828,15 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     } else {
         if (target.is_player()) {
             if (u_see_me) {
-                g->add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
+                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
             } else {
-                g->add_msg(_("Something hits your %1$s, but your %2$s protects you."),
+                add_msg(_("Something hits your %1$s, but your %2$s protects you."),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str(), target.skin_name().c_str());
             }
         } else {
             if (u_see_me) {
-                g->add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
+                add_msg(_("The %1$s hits %2$s %3$s but is stopped by %2$s %4$s."), name().c_str(),
                             target.disp_name(true).c_str(),
                             body_part_name(bp_hit, random_side(bp_hit)).c_str(),
                             target.skin_name().c_str());
@@ -893,11 +894,11 @@ void monster::hit_monster(int i)
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
   if (g->u_see(this))
-   g->add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
+   add_msg(_("The %s misses the %s!"), name().c_str(), target->name().c_str());
   return;
  }
  if (g->u_see(this))
-  g->add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
+  add_msg(_("The %s hits the %s!"), name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))
   g->kill_mon(i, (friendly != 0));
@@ -919,7 +920,7 @@ int monster::deal_projectile_attack(Creature *source, double missed_by,
     if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && // Maxes out at 50% chance with perfect hit
             !proj.wide) {
         if (u_see_mon)
-            g->add_msg(_("The shot passes through %s without hitting."),
+            add_msg(_("The shot passes through %s without hitting."),
             disp_name().c_str());
         return 0;
     }
@@ -1154,7 +1155,7 @@ void monster::drop_items_on_death()
     if (type->death_drops.empty()) {
         return;
     }
-    const Item_list items = item_controller->create_from_group(type->death_drops, g->turn);
+    const Item_list items = item_controller->create_from_group(type->death_drops, calendar::turn);
     for (Item_list::const_iterator a = items.begin(); a != items.end(); ++a) {
         g->m.add_item_or_charges(_posx, _posy, *a);
     }
