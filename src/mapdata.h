@@ -510,7 +510,7 @@ extern ter_id t_null,
     t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall, t_fungus_wall_v,
     t_fungus_wall_h, t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young,
     // Water, lava, etc.
-    t_water_sh, t_water_dp, t_water_pool, t_sewage,
+    t_water_sh, t_swater_sh, t_water_dp, t_swater_dp, t_water_pool, t_sewage,
     t_lava,
     // More embellishments than you can shake a stick at.
     t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -621,7 +621,7 @@ old_t_railing_v, old_t_railing_h,
 // Nether
 old_t_marloss, old_t_fungus, old_t_tree_fungal,
 // Water, lava, etc.
-old_t_water_sh, old_t_water_dp, old_t_water_pool, old_t_sewage,
+old_t_water_sh, old_t_water_dp, old_t_swater_sh, old_t_swater_dp, old_t_water_pool, old_t_sewage,
 old_t_lava,
 // More embellishments than you can shake a stick at.
 old_t_sandbox, old_t_slide, old_t_monkey_bars, old_t_backboard,

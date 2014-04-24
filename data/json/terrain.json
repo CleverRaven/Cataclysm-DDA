@@ -1749,6 +1749,24 @@
         "examine_action": "water_source"
     },{
         "type" : "terrain",
+        "id" : "t_swater_sh",
+        "name": "shallow water",
+        "symbol": "~",
+        "color": "ltblue",
+        "move_cost": 5,
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
+        "examine_action": "swater_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_swater_dp",
+        "name": "deep water",
+        "symbol": "~",
+        "color": "blue",
+        "move_cost": 8,
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
+        "examine_action": "swater_source"
+    },{
+        "type" : "terrain",
         "id" : "t_water_pool",
         "name": "pool water",
         "symbol": "~",
