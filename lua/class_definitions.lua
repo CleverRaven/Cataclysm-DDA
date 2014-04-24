@@ -345,10 +345,6 @@ classes = {
                 type = "int",
                 writable = true
             },
-            item_chance = {
-                type = "int",
-                writable = true
-            },
             sk_dodge = {
                 type = "int",
                 writable = true
@@ -374,7 +370,15 @@ classes = {
             in_species = {
                 args = {"string"},
                 rval = "bool"
-            }
+            },
+	    has_flag = {
+	        args = {"string"},
+		rval = "bool"
+	    },
+	    set_flag = {
+	        args = {"string", "bool"},
+		rval = nil
+	    }
         }
     },
     mongroup = {
@@ -732,7 +736,7 @@ classes = {
 
 global_functions = {
     add_msg = {
-        cpp_name = "g->add_msg",
+        cpp_name = "add_msg",
         args     = { "cstring" },
         argnames = { "message" },
         rval = nil,

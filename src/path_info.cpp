@@ -1,7 +1,10 @@
 #include <cstdlib>
 #include "path_info.h"
 
-void init_base_path(std::string path)
+// create map where we will store the FILENAMES
+std::map<std::string, std::string> FILENAMES;
+
+void PATH_INFO::init_base_path(std::string path)
 {
     if (!path.empty()) {
         char ch;
@@ -11,10 +14,11 @@ void init_base_path(std::string path)
         }
     }
 
-    FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
+    //FILENAMES.insert(std::pair<std::string,std::string>("base_path", path));
+    FILENAMES["base_path"] = path;
 }
 
-void init_user_dir(const char *ud)
+void PATH_INFO::init_user_dir(const char *ud)
 {
     std::string dir = std::string(ud);
 
@@ -30,10 +34,10 @@ void init_user_dir(const char *ud)
 #endif
     }
 
-    FILENAMES.insert(std::pair<std::string,std::string>("user_dir", dir));
+    FILENAMES["user_dir"] = dir;
 }
 
-static void update_pathname(std::string name, std::string path)
+void PATH_INFO::update_pathname(std::string name, std::string path)
 {
     std::map<std::string,std::string>::iterator iter;
 
@@ -45,7 +49,48 @@ static void update_pathname(std::string name, std::string path)
     }
 }
 
-void set_standart_filenames(void)
+void PATH_INFO::update_datadir()
+{
+    update_pathname("gfxdir", FILENAMES["datadir"] + "gfx/");
+    update_pathname("luadir", FILENAMES["datadir"] + "lua/");
+
+    // Shared dirs
+    update_pathname("autoexeclua", FILENAMES["luadir"] + "autoexec.lua");
+    update_pathname("class_defslua", FILENAMES["luadir"] + "class_definitions.lua");
+    update_pathname("fontdir", FILENAMES["datadir"] + "font/");
+    update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
+    update_pathname("jsondir", FILENAMES["datadir"] + "json/");
+    update_pathname("moddir", FILENAMES["datadir"] + "mods/");
+    update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
+    update_pathname("namesdir", FILENAMES["datadir"] + "names/");
+
+    // Shared files
+    update_pathname("motd", FILENAMES["datadir"] + "motd");
+    update_pathname("credits", FILENAMES["datadir"] + "credits");
+    // TODO Load localized names
+    update_pathname("names", FILENAMES["namesdir"] + "en.json");
+    update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
+    update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
+    // TODO fontdata.json is user related file
+    update_pathname("second_fontdata", FILENAMES["datadir"] + "fontdata.json");
+    update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
+    update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
+    update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
+    update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
+    update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
+}
+
+void PATH_INFO::update_config_dir()
+{
+    update_pathname("options", FILENAMES["config_dir"] + "options.txt");
+    update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
+    update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
+    update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
+    update_pathname("fontdata", FILENAMES["config_dir"] + "FONTDATA");
+    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+}
+
+void PATH_INFO::set_standart_filenames(void)
 {
     // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {
@@ -87,8 +132,10 @@ void set_standart_filenames(void)
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
     update_pathname("config_dir", FILENAMES["user_dir"] + "config/");
+
     update_pathname("options", FILENAMES["config_dir"] + "options.txt");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
+    update_pathname("user_keybindings", FILENAMES["config_dir"] + "keybindings.json");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "FONTDATA");

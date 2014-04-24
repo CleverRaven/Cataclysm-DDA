@@ -122,7 +122,8 @@
     {
         "type" : "ARMOR",
         "id" : "tabi_gi",
-        "name" : "gi tabi",
+        "name" : "pair of gi tabi",
+        "name_plural" : "pairs of gi tabi",
         "weight" : 50,
         "color" : "white",
         "covers" : ["FEET"],
@@ -146,7 +147,8 @@
     {
         "type" : "ARMOR",
         "id" : "tabi_dress",
-        "name" : "tabi",
+        "name" : "pair of tabi",
+        "name_plural" : "pairs of tabi",
         "weight" : 50,
         "color" : "dark_gray",
         "covers" : ["FEET"],
@@ -170,7 +172,8 @@
     {
         "type" : "ARMOR",
         "id" : "geta",
-        "name" : "geta",
+        "name" : "pair of geta",
+        "name_plural" : "pairs of geta",
         "weight" : 460,
         "color" : "yellow",
         "covers" : ["FEET"],

@@ -25,7 +25,6 @@ mtype::mtype () {
     hp = 0;
     sp_freq = 0;
     def_chance =0;
-    item_chance = 0;
     dies.push_back(&mdeath::normal);
     sp_attack = NULL;
     sp_defense = NULL;
@@ -35,6 +34,18 @@ mtype::mtype () {
 
 bool mtype::has_flag(m_flag flag) const {
     return bitflags[flag];
+}
+
+bool mtype::has_flag(std::string flag) const {
+    return has_flag( MonsterGenerator::generator().m_flag_from_string( flag ) );
+}
+
+void mtype::set_flag(std::string flag, bool state) {
+    if( state ) {
+        flags.insert( MonsterGenerator::generator().m_flag_from_string( flag ) );
+    } else {
+        flags.erase( MonsterGenerator::generator().m_flag_from_string( flag ) );
+    }
 }
 
 bool mtype::has_anger_trigger(monster_trigger trig) const {

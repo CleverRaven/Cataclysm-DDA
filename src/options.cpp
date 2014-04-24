@@ -6,7 +6,9 @@
 #include "file_finder.h"
 #include "cursesdef.h"
 #include "path_info.h"
+#include "mapsharing.h"
 #include "file_wrapper.h"
+
 #ifdef SDLTILES
 #include "cata_tiles.h"
 #endif // SDLTILES
@@ -346,9 +348,11 @@ void initOptions() {
     vPages.push_back(std::make_pair("general", _("General")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
     vPages.push_back(std::make_pair("graphics", _("Graphics")));
-    vPages.push_back(std::make_pair("debug", _("Debug")));
+    if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) // when sharing maps only admin is allowed to change these
+        vPages.push_back(std::make_pair("debug", _("Debug")));
     iWorldOptPage = vPages.size();
-    vPages.push_back(std::make_pair("world_default", _("World Defaults")));
+    if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) // when sharing maps only admin is allowed to change these
+        vPages.push_back(std::make_pair("world_default", _("World Defaults")));
 
     OPTIONS.clear();
 
@@ -471,6 +475,12 @@ void initOptions() {
                                              _("If true, will query before disassembling items."),
                                              true
                                             );
+
+    OPTIONS["QUERY_KEYBIND_REMOVAL"] = cOpt("interface",
+                                              _("Query on keybinding removal"),
+                                              _("If true, will query before removing a keybinding from a hotkey."),
+                                              true
+                                             );
 
     OPTIONS["CLOSE_ADV_INV"] =          cOpt("interface", _("Close advanced inventory on move all"),
                                              _("If true, will close the advanced inventory when the move all items command is used."),
@@ -706,6 +716,7 @@ void initOptions() {
                                              _("If true automatically sets notes on places that have stairs that go up or down"),
                                              true
                                             );
+
     for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
         for (unsigned i=0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {

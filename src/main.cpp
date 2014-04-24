@@ -14,6 +14,7 @@
 #include "monstergenerator.h"
 #include "file_wrapper.h"
 #include "path_info.h"
+#include "mapsharing.h"
 
 #include <ctime>
 #include <sys/stat.h>
@@ -29,9 +30,6 @@
 #endif
 
 void exit_handler(int s);
-
-// create map where we will store the FILENAMES
-std::map<std::string, std::string> FILENAMES;
 
 #ifdef USE_WINMAIN
 int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -52,18 +50,20 @@ int main(int argc, char *argv[])
 #define QUOTE(STR) Q(STR)
     init_base_path(std::string(QUOTE(PREFIX)));
 #else
-    init_base_path("");
+    PATH_INFO::init_base_path("");
 #endif
 
 #ifdef USE_HOME_DIR
-    init_user_dir();
+    PATH_INFO::init_user_dir();
 #else
-    init_user_dir("./");
+    PATH_INFO::init_user_dir("./");
 #endif
-    set_standart_filenames();
+    PATH_INFO::set_standart_filenames();
+
+    MAP_SHARING::setDefaults();
 
     // Process CLI arguments
-    int saved_argc = --argc;
+    int saved_argc = --argc; // skip program name
     char **saved_argv = ++argv;
 
     while (argc) {
@@ -87,8 +87,8 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             if(argc) {
-                FILENAMES["base_path"] = std::string(argv[0]);
-                set_standart_filenames();
+                PATH_INFO::init_base_path(std::string(argv[0]));
+                PATH_INFO::set_standart_filenames();
                 argc--;
                 argv++;
             }
@@ -96,22 +96,61 @@ int main(int argc, char *argv[])
             argc--;
             argv++;
             if (argc) {
-                init_user_dir( argv[0] );
-                set_standart_filenames();
+                PATH_INFO::init_user_dir( argv[0] );
+                PATH_INFO::set_standart_filenames();
                 argc--;
                 argv++;
             }
+        } else if(std::string(argv[0]) == "--username") {
+            argc--;
+            argv++;
+            if (argc) {
+                MAP_SHARING::setUsername(std::string(argv[0]));
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--addadmin") {
+            argc--;
+            argv++;
+            if (argc) {
+                MAP_SHARING::addAdmin(std::string(argv[0]));
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--adddebugger") {
+            argc--;
+            argv++;
+            if (argc) {
+                MAP_SHARING::addDebugger(std::string(argv[0]));
+                argc--;
+                argv++;
+            }
+        } else if(std::string(argv[0]) == "--shared") {
+            argc--;
+            argv++;
+            MAP_SHARING::setSharing(true);
+            MAP_SHARING::setCompetitive(true);
+            MAP_SHARING::setWorldmenu(false);
+        } else if(std::string(argv[0]) == "--competitive") {
+            argc--;
+            argv++;
+            MAP_SHARING::setCompetitive(true);
         } else { // Skipping other options.
             argc--;
             argv++;
         }
     }
     while (saved_argc) {
-        if(std::string(saved_argv[0]) == "--datadir") {
+        if(std::string(saved_argv[0]) == "--worldmenu") {
+            saved_argc--;
+            saved_argv++;
+            MAP_SHARING::setWorldmenu(true);
+        } else if(std::string(saved_argv[0]) == "--datadir") {
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["datadir"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("datadir", std::string(saved_argv[0]));
+                PATH_INFO::update_datadir();
                 saved_argc--;
                 saved_argv++;
             }
@@ -119,7 +158,16 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["savedir"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("savedir", std::string(saved_argv[0]));
+                saved_argc--;
+                saved_argv++;
+            }
+        } else if(std::string(saved_argv[0]) == "--configdir") {
+            saved_argc--;
+            saved_argv++;
+            if(saved_argc) {
+                PATH_INFO::update_pathname("config_dir", std::string(saved_argv[0]));
+                PATH_INFO::update_config_dir();
                 saved_argc--;
                 saved_argv++;
             }
@@ -127,7 +175,7 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["optionfile"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("options", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
@@ -135,7 +183,7 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["keymapfile"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("keymap", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
@@ -143,7 +191,7 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["autopickupfile"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("autopickup", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }
@@ -151,7 +199,7 @@ int main(int argc, char *argv[])
             saved_argc--;
             saved_argv++;
             if(saved_argc) {
-                FILENAMES["motdfile"] = std::string(saved_argv[0]);
+                PATH_INFO::update_pathname("motd", std::string(saved_argv[0]));
                 saved_argc--;
                 saved_argv++;
             }

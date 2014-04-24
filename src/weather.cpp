@@ -4,6 +4,7 @@
 #include "options.h"
 #include "game.h"
 #include "weather.h"
+#include "messages.h"
 
 #define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx, g->u.posy) && g->levz >= 0)
 #define THUNDER_CHANCE 50
@@ -224,7 +225,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
         point loc = *i;
         std::vector<item>& items = g->m.i_at(loc.x, loc.y);
         if (one_in(turns_per_charge)) { // todo; fixme. todo; fixme
-            //g->add_msg("%d mm/h %d tps %.4f: fill",int(g->turn),rain_depth_mm_per_hour,turns_per_charge);
+            //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
@@ -237,7 +238,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, trap_id t)
 
             if (c != NULL) {
                 c->add_rain_to_container(acid, 1);
-                c->bday = int(g->turn);
+                c->bday = int(calendar::turn);
             }
         }
     }
@@ -318,11 +319,11 @@ void weather_effect::thunder()
     very_wet();
     if (one_in(THUNDER_CHANCE)) {
         if (g->levz >= 0) {
-            g->add_msg(_("You hear a distant rumble of thunder."));
+            add_msg(_("You hear a distant rumble of thunder."));
         } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->levz)) {
-            g->add_msg(_("You hear a rumble of thunder from above."));
+            add_msg(_("You hear a rumble of thunder from above."));
         } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->levz)) {
-            g->add_msg(_("You hear a rumble of thunder from above."));
+            add_msg(_("You hear a rumble of thunder from above."));
         }
     }
 }
@@ -332,7 +333,7 @@ void weather_effect::lightning()
     thunder();
     if(one_in(LIGHTNING_CHANCE)) {
         if(g->levz >= 0) {
-            g->add_msg(_("A flash of lightning illuminates your surroundings!"));
+            add_msg(_("A flash of lightning illuminates your surroundings!"));
             g->lightning_active = true;
         }
     } else {
@@ -343,18 +344,18 @@ void weather_effect::lightning()
 void weather_effect::light_acid()
 {
     generic_wet(true);
-    if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
+    if (int(calendar::turn) % 10 == 0 && PLAYER_OUTSIDE) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
-            g->add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
+            add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.name.c_str());
         } else {
             if (g->u.worn_with_flag("RAINPROOF") && !one_in(4)) {
-                g->add_msg(_("Your clothing protects you from the acidic drizzle."));
+                add_msg(_("Your clothing protects you from the acidic drizzle."));
             } else {
                 bool has_helmet = false;
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(4))) {
-                    g->add_msg(_("Your power armor protects you from the acidic drizzle."));
+                    add_msg(_("Your power armor protects you from the acidic drizzle."));
                 } else {
-                    g->add_msg(_("The acid rain stings, but is mostly harmless for now..."));
+                    add_msg(_("The acid rain stings, but is mostly harmless for now..."));
                     if (one_in(10) && (g->u.pain < 10)) {
                         g->u.mod_pain(1);
                     }
@@ -366,18 +367,18 @@ void weather_effect::light_acid()
 
 void weather_effect::acid()
 {
-    if (int(g->turn) % 2 == 0 && PLAYER_OUTSIDE) {
+    if (int(calendar::turn) % 2 == 0 && PLAYER_OUTSIDE) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
-            g->add_msg(_("Your umbrella protects you from the acid rain."));
+            add_msg(_("Your umbrella protects you from the acid rain."));
         } else {
             if (g->u.worn_with_flag("RAINPROOF") && one_in(2)) {
-                g->add_msg(_("Your clothing protects you from the acid rain."));
+                add_msg(_("Your clothing protects you from the acid rain."));
             } else {
                 bool has_helmet = false;
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(2))) {
-                    g->add_msg(_("Your power armor protects you from the acid rain."));
+                    add_msg(_("Your power armor protects you from the acid rain."));
                 } else {
-                    g->add_msg(_("The acid rain burns!"));
+                    add_msg(_("The acid rain burns!"));
                     if (one_in(2) && (g->u.pain < 100)) {
                         g->u.mod_pain( rng(1, 5) );
                     }
@@ -430,7 +431,7 @@ std::string weather_forecast(radio_tower tower)
     // Current time
     weather_report << string_format(
         _("The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s"),
-        g->turn.print_time().c_str(), g->turn.print_time(true).c_str(), closest_city->name.c_str(),
+        calendar::turn.print_time().c_str(), calendar::turn.print_time(true).c_str(), closest_city->name.c_str(),
         weather_data[g->weather].name.c_str(), print_temperature(g->temperature).c_str()
     );
 
@@ -450,10 +451,10 @@ std::string weather_forecast(radio_tower tower)
     int weather_proportions[NUM_WEATHER_TYPES] = {0};
     signed char high = 0;
     signed char low = 0;
-    calendar start_time = g->turn;
-    int period_start = g->turn.hours();
+    calendar start_time = calendar::turn;
+    int period_start = calendar::turn.hours();
     // TODO wind direction and speed
-    for(std::map<int, weather_segment>::iterator it = g->weather_log.lower_bound( int(g->turn) ); it != g->weather_log.end(); ++it ) {
+    for(std::map<int, weather_segment>::iterator it = g->weather_log.lower_bound( int(calendar::turn) ); it != g->weather_log.end(); ++it ) {
         weather_segment * period = &(it->second);
         int period_deadline = period->deadline.hours();
         signed char period_temperature = period->temperature;
@@ -470,7 +471,7 @@ std::string weather_forecast(radio_tower tower)
             int weather_duration = 0;
             int predominant_weather = 0;
             std::string day;
-            if( g->turn.days() == period->deadline.days() )
+            if( calendar::turn.days() == period->deadline.days() )
             {
                 if( start_day )
                 {

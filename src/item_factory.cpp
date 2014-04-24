@@ -158,6 +158,7 @@ Item_factory::Item_factory(){
     // because using _() at global scope is problematic,
     // and if this appears it's a bug anyway.
     m_missing_item->name = "Error: Item Missing.";
+    m_missing_item->name_plural = "Error: Item Missing.";
     m_missing_item->description = "There is only the space where an object should be, but isn't. No item template of this type exists.";
     m_templates["MISSING_ITEM"] = m_missing_item;
 }
@@ -449,6 +450,11 @@ void Item_factory::check_itype_definitions() const {
         if(type->m2 != "null" && !material_type::has_material(type->m2)) {
             msg << string_format("invalid material %s", type->m2.c_str()) << "\n";
         }
+        for(std::map<std::string, int>::const_iterator a = type->qualities.begin(); a != type->qualities.end(); ++a) {
+            if (::qualities.count(a->first) == 0) {
+                msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
+            }
+        }
         const it_comest* comest = dynamic_cast<const it_comest*>(type);
         if(comest != 0) {
             if(comest->container != "null" && !has_template(comest->container)) {
@@ -563,23 +569,9 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag){
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
     //If the tag isn't found, just return a reference to missing item.
     if(group_iter != m_template_groups.end()){
-        item it = group_iter->second->create_single(g->turn);
+        item it = group_iter->second->create_single(calendar::turn);
         return it.type->id;
     } else {
-        return "MISSING_ITEM";
-    }
-}
-
-//Returns a random template name from the list of all templates, and if it should come with ammo
-const Item_tag Item_factory::id_from(const Item_tag group_tag, bool & with_ammo ) {
-    GroupMap::iterator group_iter = m_template_groups.find(group_tag);
-    //If the tag isn't found, just return a reference to missing item.
-    if(group_iter != m_template_groups.end()){
-        with_ammo = group_iter->second->guns_have_ammo();
-        item it = group_iter->second->create_single(g->turn);
-        return it.type->id;
-    } else {
-        with_ammo = false;
         return "MISSING_ITEM";
     }
 }
@@ -889,7 +881,13 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
     // And then proceed to assign the correct field
     new_item_template->price = jo.get_int("price");
-    new_item_template->name = _(jo.get_string("name").c_str());
+    new_item_template->name = jo.get_string("name").c_str();
+    if(jo.has_member("name_plural")) {
+      new_item_template->name_plural = jo.get_string("name_plural").c_str();
+    } else {
+      // default behaviour: Assume the regular plural form (appending an “s”)
+      new_item_template->name_plural = (jo.get_string("name") + "s").c_str();
+    }
     new_item_template->sym = jo.get_string("symbol")[0];
     new_item_template->color = color_from_string(jo.get_string("color"));
     new_item_template->description = _(jo.get_string("description").c_str());
@@ -1099,10 +1097,10 @@ void Item_factory::clear_items_and_groups()
 
 Item_group *make_group_or_throw(Item_spawn_data* &isd, Item_group::Type t)
 {
-    
+
     Item_group *ig = dynamic_cast<Item_group*>(isd);
     if (ig == NULL) {
-        isd = ig = new Item_group(t);
+        isd = ig = new Item_group(t, 100);
     } else if (ig->type != t) {
         throw std::string("item group already definded with different type");
     }
@@ -1183,18 +1181,22 @@ void Item_factory::load_item_group(JsonObject &jsobj)
 {
     const Item_tag group_id = jsobj.get_string("id");
     const std::string subtype = jsobj.get_string("subtype", "old");
+    load_item_group(jsobj, group_id, subtype);
+}
 
+void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id, const std::string &subtype)
+{
     Item_spawn_data* &isd = m_template_groups[group_id];
     Item_group *ig = dynamic_cast<Item_group*>(isd);
     if (subtype == "old") {
         ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
-        ig->with_ammo = jsobj.get_bool("with_ammo", ig->with_ammo);
+        ig->with_ammo = jsobj.get_bool("guns_with_ammo", ig->with_ammo);
     } else if (subtype == "collection") {
         ig = make_group_or_throw(isd, Item_group::G_COLLECTION);
     } else if (subtype == "distribution") {
         ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
     } else {
-        throw std::string("unknown item group type");
+        jsobj.throw_error("unknown item group type", "subtype");
     }
 
     if (subtype == "old") {
@@ -1251,13 +1253,16 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
         obj.read("msg", actor->msg_transform);
+        actor->msg_transform = _(actor->msg_transform.c_str());
         obj.read("target_charges", actor->target_charges);
         obj.read("container", actor->container_id);
         obj.read("active", actor->active);
         obj.read("need_fire", actor->need_fire);
         obj.read("need_fire_msg", actor->need_fire_msg);
+        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
         obj.read("need_charges", actor->need_charges);
         obj.read("need_charges_msg", actor->need_charges_msg);
+        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
         obj.read("moves", actor->moves);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
@@ -1267,15 +1272,19 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
         obj.read("msg", actor->msg_transform);
+        actor->msg_transform = _(actor->msg_transform.c_str());
         obj.read("target_charges", actor->target_charges);
         obj.read("container", actor->container_id);
         obj.read("active", actor->active);
         obj.read("need_fire", actor->need_fire);
         obj.read("need_fire_msg", actor->need_fire_msg);
+        actor->need_fire_msg = _(actor->need_fire_msg.c_str());
         obj.read("need_charges", actor->need_charges);
         obj.read("need_charges_msg", actor->need_charges_msg);
+        actor->need_charges_msg = _(actor->need_charges_msg.c_str());
         obj.read("when_underwater", actor->when_underwater);
         obj.read("non_interactive_msg", actor->non_interactive_msg);
+        actor->non_interactive_msg = _(actor->non_interactive_msg.c_str());
         obj.read("moves", actor->moves);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
@@ -1316,6 +1325,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         std::auto_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
         obj.read("vehicle_name", actor->vehicle_name);
         obj.read("unfold_msg", actor->unfold_msg);
+        actor->unfold_msg = _(actor->unfold_msg.c_str());
         obj.read("moves", actor->moves);
         return use_function(actor.release());
     } else {
@@ -1475,7 +1485,7 @@ void Item_factory::debug_spawn()
 {
     std::vector<std::string> groups = get_all_group_names();
     uimenu menu;
-    menu.text = "which item group?";
+    menu.text = "Test which group?";
     for (size_t i = 0; i < groups.size(); i++) {
         menu.entries.push_back(uimenu_entry(i, true, -2, groups[i] ));
     }
@@ -1490,7 +1500,7 @@ void Item_factory::debug_spawn()
         std::map<std::string, int> itemnames;
         for(size_t a = 0; a < 100; a++) {
             Item_spawn_data *isd = m_template_groups[groups[index]];
-            Item_spawn_data::ItemList items = isd->create(g->turn);
+            Item_spawn_data::ItemList items = isd->create(calendar::turn);
             for (Item_spawn_data::ItemList::iterator a = items.begin(); a != items.end(); ++a) {
                 itemnames[a->display_name()]++;
             }

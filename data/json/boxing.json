@@ -2,7 +2,8 @@
     {
         "type" : "ARMOR",
         "id" : "boxing_gloves",
-        "name" : "boxing gloves",
+        "name" : "pair of boxing gloves",
+        "name_plural" : "pairs of boxing gloves",
         "weight" : 453,
         "color" : "red",
         "covers" : ["HANDS"],
@@ -135,7 +136,7 @@
         "name" : "boxing gym",
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
-        "color" : "i_ltcyan",
+        "color" : "yellow_cyan",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 3,

@@ -27,6 +27,7 @@
 #include <vector>
 #include "debug.h"
 #include "weather.h"
+#include "mapsharing.h"
 
 #include "savegame.h"
 #include "tile_id_data.h"
@@ -35,7 +36,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 19;
+const int savegame_version = 20;
 const int savegame_minver_game = 11;
 
 /*
@@ -78,7 +79,7 @@ void game::serialize(std::ofstream & fout) {
 
         json.start_object();
         // basic game state information.
-        json.member( "turn", (int)turn );
+        json.member("turn", (int)calendar::turn);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)run_mode );
         json.member( "mostseen", mostseen );
@@ -213,7 +214,7 @@ void game::unserialize(std::ifstream & fin)
         data.read("om_x",comx);
         data.read("om_y",comy);
 
-        turn = tmpturn;
+        calendar::turn = tmpturn;
         nextspawn = tmpspawn;
 
         cur_om = &overmap_buffer.get(comx, comy);
@@ -318,7 +319,7 @@ void game::load_weather(std::ifstream & fin) {
            debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
         }
      }
-    std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(turn));
+     std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(calendar::turn));
     if ( w_it != weather_log.end() ) {
         // lower_bound returns the smallest key, that
         // is >= turn. (The key in that map is the deadline
@@ -608,7 +609,10 @@ void overmap::save()
     fout.close();
 
     // World terrain data
-    fout.open(terfilename.c_str(), std::ios_base::trunc);
+    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
+    if(!fout.is_open()) {
+        return;
+    }
     fout << "# version " << savegame_version << std::endl;
     for (int z = 0; z < OVERMAP_LAYERS; ++z) {
         fout << "L " << z << std::endl;
@@ -670,7 +674,7 @@ void overmap::save()
     for (int i = 0; i < npcs.size(); i++)
         fout << "n " << npcs[i]->save_info() << std::endl;
 
-    fout.close();
+    fclose_exclusive(fout, terfilename.c_str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

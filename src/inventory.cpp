@@ -126,6 +126,14 @@ inventory &inventory::operator+= (const inventory &rhs)
 inventory &inventory::operator+= (const std::list<item> &rhs)
 {
     for (std::list<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter) {
+        add_item(*iter, false, false);
+    }
+    return *this;
+}
+
+inventory &inventory::operator+= (const std::vector<item> &rhs)
+{
+    for (std::vector<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter) {
         add_item(*iter, true);
     }
     return *this;
@@ -566,6 +574,11 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 water.charges = 50;
                 add_item(water);
             }
+	    if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
+                item swater(itypes["water_salt"], 0);
+		swater.charges = 50;
+		add_item(swater);
+	    }
             // add cvd forge from terrain
             if (terrain_id == t_cvdmachine) {
                 item cvd_machine(itypes["cvd_machine"], 0);
@@ -1045,25 +1058,7 @@ long inventory::charges_of(itype_id it) const
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end(); ++stack_iter) {
-            if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
-                // If we're specifically looking for a container, only say we have it if it's empty.
-                if( stack_iter->contents.empty() ) {
-                    if (stack_iter->charges < 0) {
-                        count++;
-                    } else {
-                        count += stack_iter->charges;
-                    }
-                }
-            }
-            for (int k = 0; k < stack_iter->contents.size(); k++) {
-                if (stack_iter->contents[k].type->id == it) {
-                    if (stack_iter->contents[k].charges < 0) {
-                        count++;
-                    } else {
-                        count += stack_iter->contents[k].charges;
-                    }
-                }
-            }
+            count += stack_iter->charges_of(it);
         }
     }
     return count;
@@ -1077,29 +1072,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */) {
-            // First, check contents
-            bool used_item_contents = false;
-            for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++) {
-                if (stack_iter->contents[k].type->id == it) {
-                    ret.push_back(stack_iter->contents[k]);
-                    quantity--;
-                    stack_iter->contents.erase(stack_iter->contents.begin() + k);
-                    k--;
-                    used_item_contents = true;
-                }
-            }
-            // Now check the item itself
-            if (use_container && used_item_contents) {
-                stack_iter = iter->erase(stack_iter);
-                if (iter->empty()) {
-                    iter = items.erase(iter);
-                    break;
-                } else {
-                    continue;
-                }
-            } else if (stack_iter->type->id == it && quantity > 0 && stack_iter->contents.empty()) {
-                ret.push_back(*stack_iter);
-                quantity--;
+            if (stack_iter->use_amount(it, quantity, use_container, ret)) {
                 stack_iter = iter->erase(stack_iter);
             } else {
                 ++stack_iter;
@@ -1121,61 +1094,15 @@ std::list<item> inventory::use_charges(itype_id it, long quantity)
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0; /* noop */) {
-            // First, check contents
-            for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++) {
-                if (stack_iter->contents[k].type->id == it || stack_iter->ammo_type() == it) {
-                    if (stack_iter->contents[k].charges <= quantity) {
-                        ret.push_back(stack_iter->contents[k]);
-                        quantity -= stack_iter->contents[k].charges;
-                        if (stack_iter->contents[k].destroyed_at_zero_charges()) {
-                            stack_iter->contents.erase(stack_iter->contents.begin() + k);
-                            k--;
-                        } else {
-                            stack_iter->contents[k].charges = 0;
-                        }
-                    } else {
-                        item tmp = stack_iter->contents[k];
-                        tmp.charges = quantity;
-                        ret.push_back(tmp);
-                        stack_iter->contents[k].charges -= quantity;
-                        return ret;
-                    }
-                }
-            }
-
-            // Now check the item itself
-            if (stack_iter->type->id == it || stack_iter->ammo_type() == it) {
-                if (stack_iter->charges <= quantity) {
-                    ret.push_back(*stack_iter);
-                    if (stack_iter->charges < 0) {
-                        quantity--;
-                    } else {
-                        quantity -= stack_iter->charges;
-                    }
-                    if (stack_iter->destroyed_at_zero_charges()) {
-                        stack_iter = iter->erase(stack_iter);
-                        if (iter->empty()) {
-                            iter = items.erase(iter);
-                            break;
-                        } else {
-                            continue;
-                        }
-                    } else {
-                        stack_iter->charges = 0;
-                    }
-                } else {
-                    item tmp = *stack_iter;
-                    tmp.charges = quantity;
-                    ret.push_back(tmp);
-                    stack_iter->charges -= quantity;
-                    return ret;
-                }
-            }
-            if (stack_iter != iter->end()) {
-              ++stack_iter;
+            if (stack_iter->use_charges(it, quantity, ret)) {
+                stack_iter = iter->erase(stack_iter);
+            } else {
+                ++stack_iter;
             }
         }
-        if (iter != items.end()) {
+        if (iter->empty()) {
+            iter = items.erase(iter);
+        } else if (iter != items.end()) {
             ++iter;
         }
     }
@@ -1322,22 +1249,13 @@ bool inventory::has_mission_item(int mission_id) const
 
 int inventory::butcher_factor() const
 {
-    int lowest_factor = 999;
+    int lowest_factor = INT_MAX;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter) {
             const item &cur_item = *stack_iter;
-            if (cur_item.has_quality("CUT") && !cur_item.has_flag("SPEAR")) {
-                int factor = cur_item.volume() * 5 - cur_item.weight() / 75 -
-                             cur_item.damage_cut();
-                if (cur_item.damage_cut() <= 20) {
-                    factor *= 2;
-                }
-                if (factor < lowest_factor) {
-                    lowest_factor = factor;
-                }
-            }
+            lowest_factor = std::min(lowest_factor, cur_item.butcher_factor());
         }
     }
     return lowest_factor;
@@ -1363,7 +1281,7 @@ bool inventory::has_artifact_with(art_effect_passive effect) const
 bool inventory::has_liquid(itype_id type) const
 {
     // has_capacity_for_liquid needs an item, not an item type
-    const item liquid(itypes[type], g->turn);
+    const item liquid(itypes[type], calendar::turn);
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         const item &it = iter->front();
         if (it.is_container() && !it.contents.empty()) {

@@ -69,6 +69,10 @@ enum field_id {
  fd_blood_invertebrate,
  fd_gibs_insect,
  fd_gibs_invertebrate,
+ fd_cigsmoke,
+ fd_weedsmoke,
+ fd_cracksmoke,
+ fd_methsmoke,
  num_fields
 };
 
@@ -169,7 +173,7 @@ public:
     //Density defaults to 1, and age to 0 (permanent) if not specified.
     bool addField(const field_id field_to_add,const unsigned char new_density=1, const int new_age=0);
 
-    //Removes the field entry with a type equal to the field_id parameter. Returns true if removed, false otherwise.
+    //Removes the field entry with a type equal to the field_id parameter. Returns the next iterator.
     std::map<field_id, field_entry*>::iterator removeField(const field_id field_to_remove);
 
     //Returns the number of fields existing on the current tile.

@@ -2112,12 +2112,12 @@ point overmap::draw_overmap(const tripoint& orig, bool debug_mongroup)
     return ret;
 }
 
-void overmap::first_house(int &x, int &y)
+void overmap::first_house(int &x, int &y, const std::string start_location)
 {
     std::vector<point> valid;
     for (int i = 0; i < OMAPX; i++) {
         for (int j = 0; j < OMAPY; j++) {
-            if (ter(i, j, 0) == "shelter") {
+            if (ter(i, j, 0).t().id_base == start_location) {
                 valid.push_back( point(i, j) );
             }
         }
@@ -2969,15 +2969,16 @@ void overmap::polish(const int z, const std::string &terrain_type)
                 // Sometimes a bridge will start at the edge of a river,
                 // and this looks ugly.
                 // So, fix it by making that square normal road;
-                // bit of a kludge but it works.
+                // also taking other road pieces that may be next
+		// to it into account. A bit of a kludge but it works.
                 } else if (ter(x, y, z) == "bridge_ns" &&
                            (!is_river(ter(x - 1, y, z)) ||
                             !is_river(ter(x + 1, y, z)))) {
-                    ter(x, y, z) = "road_ns";
+                    good_road("road", x, y, z);
                 } else if (ter(x, y, z) == "bridge_ew" &&
                            (!is_river(ter(x, y - 1, z)) ||
                             !is_river(ter(x, y + 1, z)))) {
-                    ter(x, y, z) = "road_ew";
+                    good_road("road", x, y, z);
                 } else if (check_ot_type("road", x, y, z)) {
                     good_road("road", x, y, z);
                 }

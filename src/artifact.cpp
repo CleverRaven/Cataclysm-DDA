@@ -97,7 +97,7 @@ int active_effect_cost[NUM_AEAS] = {
 
 std::string mk_artifact_id()
 {
-    return string_format("artifact_%zu", artifact_itype_ids.size());
+    return string_format("artifact_%d", (int) artifact_itype_ids.size());
 };
 
 //see below, move them so gettext and be applied properly
@@ -1071,7 +1071,6 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.member("m2", m2);
     json.member("volume", volume);
     json.member("weight", weight);
-    json.member("id", id);
     json.member("melee_dam", melee_dam);
     json.member("melee_cut", melee_cut);
     json.member("m_to_hit", m_to_hit);

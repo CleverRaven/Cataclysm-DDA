@@ -5,6 +5,8 @@
 #include "translations.h"
 #include "game.h"
 
+calendar calendar::turn;
+
 calendar::calendar()
 {
     second = 0;

@@ -13,35 +13,7 @@
 
 #define KEY_ESCAPE 27
 
-enum InputEvent {
-    Confirm,
-    Cancel,
-    Close,
-    Tab,
-    Help,
-
-    DirectionN,
-    DirectionS,
-    DirectionE,
-    DirectionW,
-    DirectionNW,
-    DirectionNE,
-    DirectionSE,
-    DirectionSW,
-    DirectionNone,
-
-    DirectionDown, /* Think stairs */
-    DirectionUp,
-    Filter,
-    Reset,
-    Pickup,
-    Nothing,
-    Undefined
-};
-
-InputEvent get_input(int ch = '\0');
 bool is_mouse_enabled();
-void get_direction(int &x, int &y, InputEvent &input);
 std::string get_input_string_from_file(std::string fname = "input.txt");
 
 // Simple text input--translates numpad to vikeys
@@ -190,6 +162,12 @@ public:
     void save();
 
     /**
+     * Return the prvioulsy pressed key, or 0 if there is no previous input
+     * or the previous input wasn't a key.
+     */
+    long get_previously_pressed_key() const;
+
+    /**
      * Get the keycode associated with the given key name.
      */
     long get_keycode(const std::string &name) const;
@@ -242,22 +220,26 @@ private:
     typedef std::map<std::string, long> t_name_to_key_map;
     t_name_to_key_map keyname_to_keycode;
 
+    // See @ref get_previously_pressed_key
+    long previously_pressed_key;
+
     // Maps the key names we see in keybindings.json and in-game to
     // the keycode integers.
     void init_keycode_mapping();
     void add_keycode_pair(long ch, const std::string& name);
     void add_gamepad_keycode_pair(long ch, const std::string& name);
 
+    /**
+     * Load keybindings from a json file, override existing bindings.
+     * Throws std::string on errors
+     */
+    void load(const std::string &file_name);
+
     int input_timeout;
 
     t_input_event_list &get_event_list(const std::string &action_descriptor, const std::string &context);
     void remove_input_for_action(const std::string &action_descriptor, const std::string &context);
     void add_input_for_action(const std::string &action_descriptor, const std::string &context, const input_event &event);
-    /**
-     * Return a user presentable list of actions that conflict with the
-     * proposed keybinding. Returns an empty string if nothing conflicts.
-     */
-    std::string get_conflicts(const std::string &context, const input_event &event) const;
 };
 
 // Singleton for our input manager.
@@ -299,6 +281,15 @@ public:
      * the screen).
      */
     void register_action(const std::string& action_descriptor);
+    /**
+     * Same as other @ref register_action function but allows a context specific
+     * action name. The given name is displayed instead of the name taken from
+     * the @ref input_manager.
+     *
+     * @param name Name of the action, displayed to the user. If empty use the
+     * name reported by the input_manager.
+     */
+    void register_action(const std::string& action_descriptor, const std::string& name);
 
     /**
      * Get a description text for the key/other input method associated
@@ -323,10 +314,15 @@ public:
     /**
      * Convert a direction action(UP, DOWN etc) to a delta x and y.
      *
+     * @return True if the action is a movement action (UP, DOWN, ...),
+     * the delta values of associated with it have been stored in (dx,dy).
+     * False if the action is not a movement action (CONFIRM, QUIT, ...),
+     * (dx,dy) has been set to (-2,-2).
+     *
      * @param dx Output parameter for x delta.
      * @param dy Output parameter for y delta.
      */
-    void get_direction(int& dx, int& dy, const std::string& action);
+    static bool get_direction(int& dx, int& dy, const std::string& action);
 
     /**
      * Get the coordinates associated with the last mouse click.
@@ -358,22 +354,52 @@ public:
      */
     input_event get_raw_input();
 
+    /**
+     * Get the human-readable name for an action. Uses @ref actionID_to_name and
+     * @ref input_manager::actionID_to_name.
+     */
+    const std::string& get_action_name(const std::string& action) const;
 
     /* For the future, something like this might be nice:
      * const std::string register_action(const std::string& action_descriptor, x, y, width, height);
      * (x, y, width, height) would describe an area on the visible window that, if clicked, triggers the action.
      */
 
+    // (Press X (or Y)|Try) to Z
+    std::string press_x(const std::string &action_id) const;
+    std::string press_x(const std::string &action_id, const std::string &key_bound, const std::string &key_unbound) const;
+    std::string press_x(const std::string &action_id, const std::string &key_bound_pre, const std::string &key_bound_suf, const std::string &key_unbound) const;
+
+    /**
+     * Keys (and only keys, other input types are not included) that
+     * trigger the given action.
+     */
+    std::vector<char> keys_bound_to(const std::string &action_id) const;
 private:
 
     std::vector<std::string> registered_actions;
+public:
     const std::string& input_to_action(input_event& inp);
+private:
     bool registered_any_input;
     std::string category; // The input category this context uses.
     int coordinate_x, coordinate_y;
     bool coordinate_input_received;
     bool handling_coordinate_input;
     input_event next_action;
+
+    /**
+     * Name of the action as it should be displayed to the user.
+     * The key is the action ident. If an action is not contained here,
+     * the @ref input_manager::actionID_to_name is used instead.
+     */
+    input_manager::t_string_string_map actionID_to_name;
+    /**
+     * Return a user presentable list of actions that conflict with the
+     * proposed keybinding. Returns an empty string if nothing conflicts.
+     */
+    std::string get_conflicts(const input_event &event) const;
+    void list_conflicts(const input_event &event, const input_manager::t_keybinding_map &keys, std::ostringstream &buffer) const;
 };
 
 /**

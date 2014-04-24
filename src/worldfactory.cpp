@@ -6,6 +6,7 @@
 #include "path_info.h"
 #include "debug.h"
 #include "platform.h"
+#include "mapsharing.h"
 
 #include "name.h"
 
@@ -266,7 +267,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     }
 
     if (!is_conversion) {
-        fout.open(woption.str().c_str());
+        fopen_exclusive(fout, woption.str().c_str());
         if (!fout.is_open()) {
             fout.close();
             return false;
@@ -279,7 +280,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
             fout << "#Default: " << it->second.getDefaultText() << std::endl;
             fout << it->first << " " << it->second.getValue() << std::endl << std::endl;
         }
-        fout.close();
+        fclose_exclusive(fout, woption.str().c_str());
     }
     mman->save_mods_list(world);
     return true;

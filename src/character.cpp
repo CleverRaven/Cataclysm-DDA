@@ -2,6 +2,7 @@
 #include "item.h"
 #include "output.h"
 #include "game.h"
+#include "messages.h"
 #include <algorithm>
 #include <numeric>
 #include <cmath>
@@ -29,7 +30,7 @@ field_id Character::gibType() {
 void Character::cough(bool harmful)
 {
     if (is_player()) {
-        g->add_msg(_("You cough heavily."));
+        add_msg(_("You cough heavily."));
         g->sound(xpos(), ypos(), 4, "");
     } else {
         g->sound(xpos(), ypos(), 4, _("a hacking cough."));
@@ -74,7 +75,7 @@ void Character::manage_sleep()
     // simply using the same numbers won't work.
     effect sleep = get_effect("sleep");
     bool hibernate = hibernating();
-    if( ((int(g->turn) % 350 == 0) && hibernate) || ((int(g->turn) % 50 == 0) && !hibernate) ){
+    if( ((int(calendar::turn) % 350 == 0) && hibernate) || ((int(calendar::turn) % 50 == 0) && !hibernate) ){
         int recovery_chance;
         // Accelerated recovery capped to 2x over 2 hours...well, it was ;-P
         // After 16 hours of activity, equal to 7.25 hours of rest
@@ -124,7 +125,7 @@ void Character::manage_sleep()
 
         if (g->u.fatigue <= 0 && g->u.fatigue > -20) {
             g->u.fatigue = -25;
-            g->add_msg_if_player(this, _("You feel well rested."));
+            add_msg_if_player(_("You feel well rested."));
             sleep.set_duration(dice(3, 100));
             if (hibernate && is_player()) {
                 g->u.add_memorial_log(pgettext("memorial_male", "Awoke from hibernation."),
@@ -133,19 +134,19 @@ void Character::manage_sleep()
         }
     }
 
-    if (int(g->turn) % 100 == 0 && !g->u.has_bionic("bio_recycler") && !(g->u.hunger < -60)) {
+    if (int(calendar::turn) % 100 == 0 && !g->u.has_bionic("bio_recycler") && !(g->u.hunger < -60)) {
         // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
         g->u.hunger--;
         g->u.thirst--;
     }
 
     // Hunger and thirst advance *much* more slowly whilst we hibernate.
-    // (int (g->turn) % 50 would be zero burn.)
+    // (int (calendar::turn) % 50 would be zero burn.)
     // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs
     // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
     // without a good explanation and taking a night to make sure it works
     // with the extended sleep duration, OK?
-    if (int(g->turn) % 70 == 0 && g->u.has_trait("HIBERNATE") && !g->u.has_bionic("bio_recycler") &&
+    if (int(calendar::turn) % 70 == 0 && g->u.has_trait("HIBERNATE") && !g->u.has_bionic("bio_recycler") &&
         (g->u.hunger < -60)) {
         g->u.hunger--;
         g->u.thirst--;
@@ -168,10 +169,10 @@ void Character::manage_sleep()
     // Get a dream if category strength is high enough.
     if (strength != 0) {
         //Once every 6 / 3 / 2 hours, with a bit of randomness
-        if ((int(g->turn) % (3600 / strength) == 0) && one_in(3)) {
+        if ((int(calendar::turn) % (3600 / strength) == 0) && one_in(3)) {
             // Select a dream
             std::string dream = g->u.get_category_dream(highcat, strength);
-            g->add_msg_if_player(this, "%s",dream.c_str());
+            add_msg_if_player("%s",dream.c_str());
         }
     }
 
@@ -179,19 +180,19 @@ void Character::manage_sleep()
     if (g->u.has_trait("HEAVYSLEEPER2") && !g->u.has_trait("HIBERNATE")) {
         // So you can too sleep through noon
         if ((tirednessVal * 1.25) < g->light_level() && (g->u.fatigue < 10 || one_in(g->u.fatigue / 2))) {
-            g->add_msg_if_player(this, _("The light wakes you up."));
+            add_msg_if_player(_("The light wakes you up."));
             sleep.set_duration(1);
         }
         return;}
      // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
     if (g->u.has_trait("HIBERNATE")) {
         if ((tirednessVal * 5) < g->light_level() && (g->u.fatigue < 10 || one_in(g->u.fatigue / 2))) {
-            g->add_msg_if_player(this, _("The light wakes you up."));
+            add_msg_if_player(_("The light wakes you up."));
             sleep.set_duration(1);
         }
         return;}
     if (tirednessVal < g->light_level() && (g->u.fatigue < 10 || one_in(g->u.fatigue / 2))) {
-        g->add_msg_if_player(this, _("The light wakes you up."));
+        add_msg_if_player(_("The light wakes you up."));
         sleep.set_duration(1);
         return;
     }
@@ -201,21 +202,21 @@ void Character::manage_sleep()
     for (int i = 0 ; i < num_bp ; i++) {
         if (g->u.temp_cur[i] < BODYTEMP_VERY_COLD - g->u.fatigue/2) {
             if (one_in(5000)) {
-                g->add_msg_if_player(this, _("You toss and turn trying to keep warm."));
+                add_msg_if_player(_("You toss and turn trying to keep warm."));
             }
             if (g->u.temp_cur[i] < BODYTEMP_FREEZING - g->u.fatigue/2 ||
                                 (one_in(g->u.temp_cur[i] + 5000))) {
-                g->add_msg_if_player(this, _("The cold wakes you up."));
+                add_msg_if_player(_("The cold wakes you up."));
                 sleep.set_duration(1);
                 return;
             }
         } else if (g->u.temp_cur[i] > BODYTEMP_VERY_HOT + g->u.fatigue/2) {
             if (one_in(5000)) {
-                g->add_msg_if_player(this, _("You toss and turn in the heat."));
+                add_msg_if_player(_("You toss and turn in the heat."));
             }
             if (g->u.temp_cur[i] > BODYTEMP_SCORCHING + g->u.fatigue/2 ||
                                 (one_in(15000 - g->u.temp_cur[i]))) {
-                g->add_msg_if_player(this, _("The heat wakes you up."));
+                add_msg_if_player(_("The heat wakes you up."));
                 sleep.set_duration(1);
                 return;
             }

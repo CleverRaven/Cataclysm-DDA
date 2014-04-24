@@ -97,15 +97,6 @@ struct monster_and_count
  monster_and_count(monster M, int C) : critter (M), count (C) {};
 };
 
-struct game_message
-{
- calendar turn;
- int count;
- std::string message;
- game_message() { turn = 0; count = 1; message = ""; };
- game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
-};
-
 struct mtype;
 struct mission_type;
 class map;
@@ -159,13 +150,6 @@ public:
   void draw_veh_dir_indicator(void);
   void advance_nextinv(); // Increment the next inventory letter
   void decrease_nextinv(); // Decrement the next inventory letter
-  void vadd_msg(const char* msg, va_list ap );
-  void add_msg_string(const std::string &s);
-    void add_msg(const char* msg, ...);
-  void add_msg_if_player(Creature *t, const char* msg, ...);
-  void add_msg_if_npc(Creature* p, const char* msg, ...);
-  void add_msg_player_or_npc(Creature* p, const char* player_str, const char* npc_str, ...);
-  std::vector<game_message> recent_messages(const int count); //Retrieves the last X messages
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
@@ -364,10 +348,8 @@ public:
   void zoom_in();
   void zoom_out();
 
-  std::map<std::string, std::vector <items_location_and_chance> > monitems;
   std::vector <mission_type> mission_types; // The list of mission templates
 
-  calendar turn;
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
   weather_type weather;   // Weather pattern--SEE weather.h
@@ -457,9 +439,6 @@ public:
   void reset_vehicleparts();
   void reset_vehicles();
   void finalize_vehicles();
-
-  void load_monitem(JsonObject &jo);     // Load monster inventory selection entry
-  void reset_monitems();
 
   std::queue<vehicle_prototype*> vehprototypes;
 
@@ -701,8 +680,6 @@ public:
   calendar nextspawn; // The turn on which monsters will spawn next.
   calendar nextweather; // The turn on which weather will shift next.
   int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-  std::vector <game_message> messages;   // Messages to be printed
-  int curmes;   // The last-seen message.
   int grscent[SEEX * MAPSIZE][SEEY * MAPSIZE]; // The scent map
   //int monmap[SEEX * MAPSIZE][SEEY * MAPSIZE]; // Temp monster map, for mon_at()
   int nulscent;    // Returned for OOB scent checks
@@ -738,6 +715,11 @@ public:
     void activity_on_finish_firstaid();
     void activity_on_finish_fish();
     void activity_on_finish_vehicle();
+
+  // game::pickup helper functions
+  int handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement, bool &picked_up);
+  void remove_from_map_or_vehicle(int posx, int posy, bool from_veh, vehicle *veh, int cargo_part, int &moves_taken, int curmit);
+  void show_pickup_message(std::map<std::string, int> mapPickup);
 };
 
 #endif

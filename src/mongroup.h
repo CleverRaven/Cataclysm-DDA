@@ -10,8 +10,6 @@ struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
-void init_translation();
-
 struct MonsterGroupEntry
 {
     std::string name;

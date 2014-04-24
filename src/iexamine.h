@@ -61,6 +61,7 @@ public:
  void recycler (player *p, map *m, int examx, int examy);
  void trap(player *p, map *m, int examx, int examy);
  void water_source (player *p, map *m, const int examx, const int examy);
+ void swater_source (player *p, map *m, const int examx, const int examy);
  void acid_source (player *p, map *m, const int examx, const int examy);
  void fvat_empty (player *p, map *m, const int examx, const int examy);
  void fvat_full (player *p, map *m, const int examx, const int examy);

@@ -471,7 +471,7 @@
         "points" : -2,
         "description" : "Without your glasses, your seeing radius is severely reduced! However, while wearing glasses this trait has no effect, and you are guaranteed to start with a pair.",
         "starting_trait" : true,
-        "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLOBITE", "MUTCAT_URSINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_TROGLOBITE"]
     },{
         "type" : "mutation",
         "id" : "SLOWHEALER",
@@ -878,7 +878,7 @@
         "prereqs" : ["NIGHTVISION"],
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
@@ -897,7 +897,7 @@
         "description" : "Your eyes have turned...green.  It's tough to tell the exact shade as it seems to shift.  The effect is ...pleasant.",
         "leads_to" : ["ELFA_NV"],
         "valid" : false,
-        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE"],
+        "cancels" : ["BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE"],
         "category" : ["MUTCAT_ELFA"]
     },{
         "type" : "mutation",
@@ -927,7 +927,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
         "leads_to" : ["FEL_NV"],
-        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE"],
+        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "URSINE_EYE"],
         "category" : ["MUTCAT_FELINE", "MUTCAT_BEAST"]
     },{
         "type" : "mutation",
@@ -940,13 +940,21 @@
         "category" : ["MUTCAT_FELINE"]
     },{
         "type" : "mutation",
+        "id" : "URSINE_EYE",
+        "name" : "Ursine Vision",
+        "points" : 1,
+        "description" : "Your visual processing has shifted: though you can see better at night, you can't see as far.",
+        "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
+        "category" : ["MUTCAT_URSINE"]
+    },{
+        "type" : "mutation",
         "id" : "BIRD_EYE",
         "name" : "Avian Eyes",
         "points" : 5,
         "visibility" : 1,
         "ugliness" : 0,
         "description" : "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
-        "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE"],
+        "cancels" : ["ELFAEYES", "FEL_EYE", "LIZ_EYE", "URSINE_EYE"],
         "prereqs" : ["PER_UP"],
         "threshreq" : ["THRESH_BIRD"],
         "category" : ["MUTCAT_BIRD"]
@@ -968,7 +976,7 @@
         "ugliness" : 1,
         "description" : "Your eyes have mutated, with a brilliant iris and slitted pupil similar to that of a lizard.  This is visually striking, but doesn't seem to affect your vision.",
         "leads_to" : ["LIZ_IR"],
-        "cancels" : ["ELFAEYES", "FEL_EYE"],
+        "cancels" : ["ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -1354,7 +1362,8 @@
         "points" : 1,
         "visibility" : 1,
         "description" : "Your fingernails are long and sharp. If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
-        "changes_to" : ["CLAWS", "TALONS"]
+        "changes_to" : ["CLAWS", "TALONS"],
+        "category" : ["MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
         "id" : "CLAWS",
@@ -1366,7 +1375,7 @@
         "prereqs" : ["NAILS"],
         "changes_to" : ["CLAWS_RETRACT"],
         "cancels" : ["TALONS"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_RAPTOR", "MUTCAT_URSINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAT", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "CLAWS_RETRACT",
@@ -1527,7 +1536,7 @@
     },{
         "type" : "mutation",
         "id" : "BENDY3",
-        "name" : "Rubbery Limbs",
+        "name" : "Pseudolimbs",
         "points" : 0,
         "mixed_effect" : true,
         "description" : "Your pseudopod-like limbs can fit into anything!  +4 Dexterity, -4 Strength.",
@@ -1973,7 +1982,7 @@
         "description" : "You've had a revelation: by killing the weaker creatures, who would only die anyway, you preserve resources for those better able to survive.",
         "purifiable" : false,
         "changes_to" : ["PRED2"],
-        "prereqs" : ["CARNIVORE"],
+        "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_LUPINE", "MUTCAT_FELINE", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
     },{
@@ -1984,7 +1993,7 @@
         "description" : "You're getting quite used to hunting and killing ...game.  For food.",
         "note" : "That ellipsis is placed correctly: it indicates that the thinker takes a second to decide on that term.  Hasn't gone all-out Monster yet, but xe's getting there.",
         "purifiable" : false,
-        "prereqs" : ["CARNIVORE"],
+        "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED1"],
         "changes_to" : ["PRED3"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_LUPINE", "THRESH_FELINE", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
@@ -1997,7 +2006,7 @@
         "description" : "Let's not overthink things.  You get hungry, you find prey, you kill it and you eat it.",
         "valid" : false,
         "purifiable" : false,
-        "prereqs" : ["CARNIVORE"],
+        "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED2"],
         "leads_to" : ["SAPIOVORE"],
         "changes_to" : ["PRED4"],
@@ -2011,7 +2020,7 @@
         "description" : "It's good to be on top of the food chain.",
         "valid" : false,
         "purifiable" : false,
-        "prereqs" : ["CARNIVORE"],
+        "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED3"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE"]
@@ -2943,7 +2952,20 @@
         "description" : "Your hands have fused into quasi-paws. Fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and your gloves don't fit. But they handle water better.",
         "prereqs" : ["CLAWS", "CLAWS_RETRACT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_URSINE", "MUTCAT_FELINE"]
+        "changes_to" : ["PAWS_LARGE"],
+        "category" : ["MUTCAT_LUPINE", "MUTCAT_RAT", "MUTCAT_FELINE"]
+    },{
+        "type" : "mutation",
+        "id" : "PAWS_LARGE",
+        "name" : "Broad Paws",
+        "points" : -3,
+        "visibility" : 4,
+        "ugliness" : 3,
+        "mixed_effect" : true,
+        "description" : "Your paws are much larger now. Manual dexterity is is difficult: permanent hand encumbrance of 2, serious problems crafting, and no gloves. But you can swim more effectively.",
+        "prereqs" : ["PAWS"],
+        "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
+        "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
     },{
         "type" : "mutation",
         "id" : "BEAK",
@@ -3357,7 +3379,7 @@
         "description" : "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. Somewhat decreases wet penalties.",
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_4"],
-        "cancels" : ["PAWS"],
+        "cancels" : ["PAWS", "PAWS_LARGE"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },
             { "part" : "HANDS", "neutral" : 5 }
@@ -3373,7 +3395,7 @@
         "prereqs" : ["ARM_TENTACLES"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
-        "cancels" : ["PAWS"],
+        "cancels" : ["PAWS", "PAWS_LARGE"],
         "wet_protection" : [
             { "part" : "ARMS", "neutral" : 19 },
             { "part" : "HANDS", "neutral" : 5 }
@@ -3387,7 +3409,7 @@
         "ugliness" : 6,
         "description" : "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves. You can make up to 7 extra attacks with them. Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES_4"],
-        "cancels" : ["PAWS"],
+        "cancels" : ["PAWS", "PAWS_LARGE"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
@@ -3497,6 +3519,7 @@
         "name" : "Bear",
         "points" : 1,
         "description" : "So the humans died, what's the worry? Now they won't ruin the woods.",
+        "cancels" : ["CARNIVORE"],
         "valid": false,
         "purifiable": false,
         "threshold": true

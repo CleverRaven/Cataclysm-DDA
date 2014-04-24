@@ -2,6 +2,7 @@
 #include "mutation.h"
 #include "game.h"
 #include "translations.h"
+#include "messages.h"
 
 // mutation_effect handles things like destruction of armor, etc.
 void mutation_effect(player &p, std::string mut);
@@ -274,7 +275,7 @@ void player::mutate_towards(std::string mut)
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized--but if it does, just reroll
     if (threshold) {
-        g->add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        add_msg(_("You feel something straining deep inside you, yearning to be free..."));
         mutate();
         return;
     }
@@ -288,7 +289,7 @@ void player::mutate_towards(std::string mut)
     // No crossing The Threshold by simply not having it
     // Rerolling proved more trouble than it was worth, so deleted
     if (!has_threshreq && !threshreq.empty()) {
-        g->add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        add_msg(_("You feel something straining deep inside you, yearning to be free..."));
         return;
     }
 
@@ -325,7 +326,7 @@ void player::mutate_towards(std::string mut)
     bool mutation_replaced = false;
 
     if (replacing != "") {
-        g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
+        add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing].name.c_str(), traits[mut].name.c_str());
         add_memorial_log(pgettext("memorial_male","'%s' mutation turned into '%s'"),
             pgettext("memorial_female", "'%s' mutation turned into '%s'"),
             traits[replacing].name.c_str(), traits[mut].name.c_str());
@@ -335,7 +336,7 @@ void player::mutate_towards(std::string mut)
         mutation_replaced = true;
     }
     if (replacing2 != "") {
-        g->add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing2].name.c_str(), traits[mut].name.c_str());
+        add_msg(_("Your %1$s mutation turns into %2$s!"), traits[replacing2].name.c_str(), traits[mut].name.c_str());
         add_memorial_log(pgettext("memorial_male","'%s' mutation turned into '%s'"),
             pgettext("memorial_female", "'%s' mutation turned into '%s'"),
             traits[replacing2].name.c_str(), traits[mut].name.c_str());
@@ -346,7 +347,7 @@ void player::mutate_towards(std::string mut)
     }
     if (canceltrait != "") {
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
-        g->add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
+        add_msg(_("Your innate %1$s trait turns into %2$s!"), traits[canceltrait].name.c_str(), traits[mut].name.c_str());
         add_memorial_log(pgettext("memorial_male","'%s' mutation turned into '%s'"),
             pgettext("memorial_female", "'%s' mutation turned into '%s'"),
             traits[canceltrait].name.c_str(), traits[mut].name.c_str());
@@ -356,7 +357,7 @@ void player::mutate_towards(std::string mut)
         mutation_replaced = true;
     }
     if (!mutation_replaced) {
-        g->add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
+        add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
         add_memorial_log(pgettext("memorial_male","Gained the mutation '%s'."),
             pgettext("memorial_female", "Gained the mutation '%s'."),
             traits[mut].name.c_str());
@@ -454,7 +455,7 @@ void player::remove_mutation(std::string mut)
     bool mutation_replaced = false;
 
     if (replacing != "") {
-        g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
+        add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
                    traits[replacing].name.c_str());
         toggle_mutation(replacing);
         mutation_loss_effect(*this, mut);
@@ -462,7 +463,7 @@ void player::remove_mutation(std::string mut)
         mutation_replaced = true;
     }
     if (replacing2 != "") {
-        g->add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
+        add_msg(_("Your %1$s mutation turns into %2$s."), traits[mut].name.c_str(),
                    traits[replacing2].name.c_str());
         toggle_mutation(replacing2);
         mutation_loss_effect(*this, mut);
@@ -470,7 +471,7 @@ void player::remove_mutation(std::string mut)
         mutation_replaced = true;
     }
     if(!mutation_replaced) {
-        g->add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
+        add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
         mutation_loss_effect(*this, mut);
     }
 
@@ -513,7 +514,8 @@ void mutation_effect(player &p, std::string mut)
           mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
         p.recalc_hp();
 
-    } else if (mut == "WEBBED" || mut == "PAWS" || mut == "ARM_TENTACLES" || mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
+    } else if (mut == "WEBBED" || mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
+      mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
         // Push off gloves
         bps.push_back(bp_hands);
 
@@ -563,7 +565,7 @@ void mutation_effect(player &p, std::string mut)
         // Bad-Huge gets less HP bonus than normal, this is handled in recalc_hp()
         p.recalc_hp();
         // And there goes your clothing; by now you shouldn't need it anymore
-        g->add_msg(_("You rip out of your clothing!"));
+        add_msg(_("You rip out of your clothing!"));
         destroy = true;
         bps.push_back(bp_torso);
         bps.push_back(bp_legs);
@@ -710,7 +712,7 @@ void mutation_effect(player &p, std::string mut)
             (!(p.worn[i].has_flag(mutation_safe))) ) {
                 if (destroy) {
                     if (is_u) {
-                        g->add_msg(_("Your %s is destroyed!"), p.worn[i].tname().c_str());
+                        add_msg(_("Your %s is destroyed!"), p.worn[i].tname().c_str());
                     }
 
                     p.worn.erase(p.worn.begin() + i);
@@ -718,7 +720,7 @@ void mutation_effect(player &p, std::string mut)
                 }
                 else {
                     if (is_u) {
-                        g->add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
+                        add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
                     }
 
                     int pos = player::worn_position_to_index(i);

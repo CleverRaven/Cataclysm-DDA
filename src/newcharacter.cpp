@@ -1,6 +1,7 @@
 #include "player.h"
 #include "profession.h"
 #include "item_factory.h"
+#include "start_location.h"
 #include "input.h"
 #include "output.h"
 #include "rng.h"
@@ -10,6 +11,7 @@
 #include "debug.h"
 #include "char_validity_check.h"
 #include "path_info.h"
+#include "mapsharing.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -71,7 +73,12 @@ bool player::create(character_type type, std::string tempname)
         switch (type) {
             case PLTYPE_NOW:
                 g->u.male = (rng(1, 100) > 50);
-                g->u.pick_name();
+
+                if(!MAP_SHARING::isSharing()) {
+                    g->u.pick_name();
+                } else {
+                    g->u.name = MAP_SHARING::getUsername();
+                }
             case PLTYPE_RANDOM: {
                 g->u.prof = profession::weighted_random();
                 str_max = rng(6, 12);
@@ -210,6 +217,10 @@ bool player::create(character_type type, std::string tempname)
                 getline(fin, data);
                 load_info(data);
                 points = 0;
+
+                if(MAP_SHARING::isSharing()) {
+                    name = MAP_SHARING::getUsername(); //just to make sure we have the right name
+                }
             }
             break;
         }
@@ -1330,13 +1341,14 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
     draw_tabs(w, _("DESCRIPTION"));
 
-    WINDOW* w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
-    WINDOW* w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
-    WINDOW* w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
-    WINDOW* w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
-    WINDOW* w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
-    WINDOW* w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
-    WINDOW* w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
+    WINDOW *w_name = newwin(2, 42, getbegy(w) + 6, getbegx(w) + 2);
+    WINDOW *w_gender = newwin(2, 32, getbegy(w) + 6, getbegx(w) + 47);
+    WINDOW *w_location = newwin(1, 76, getbegy(w) + 8, getbegx(w) + 2);
+    WINDOW *w_stats = newwin(6, 16, getbegy(w) + 10, getbegx(w) + 2);
+    WINDOW *w_traits = newwin(13, 24, getbegy(w) + 10, getbegx(w) + 24);
+    WINDOW *w_profession = newwin(1, 32, getbegy(w) + 10, getbegx(w) + 47);
+    WINDOW *w_skills = newwin(9, 24, getbegy(w) + 12, getbegx(w) + 47);
+    WINDOW *w_guide = newwin(2, FULL_SCREEN_WIDTH - 4, getbegy(w) + 21, getbegx(w) + 2);
 
     mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
 
@@ -1346,21 +1358,35 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     bool redraw = true;
 
     input_context ctxt("NEW_CHAR_DESCRIPTION");
-    ctxt.register_cardinal();
     ctxt.register_action("SAVE_TEMPLATE");
     ctxt.register_action("PICK_RANDOM_NAME");
     ctxt.register_action("CHANGE_GENDER");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("CHOOSE_LOCATION");
     ctxt.register_action("ANY_INPUT");
 
+    uimenu select_location;
+    select_location.text = _("Select a starting location.");
+    int offset = 0;
+    for( location_map::iterator loc = start_location::begin();
+         loc != start_location::end(); ++loc, ++offset ) {
+        select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
+        if( loc->second.ident() == u->start_location ) {
+            select_location.selected = offset;
+        }
+    }
+    select_location.setup();
+    if(MAP_SHARING::isSharing()) {
+        u->name = MAP_SHARING::getUsername();  // set the current username as default character name
+    }
     do {
         if (redraw) {
             //Draw the line between editable and non-editable stuff.
             for (int i = 0; i < getmaxx(w); ++i) {
                 if (i == 0) {
-                    mvwputch(w, 8, i, BORDER_COLOR, LINE_XXXO);
+                    mvwputch(w, 9, i, BORDER_COLOR, LINE_XXXO);
                 } else if (i == getmaxx(w) - 1) {
                     wputch(w, BORDER_COLOR, LINE_XOXX);
                 } else {
@@ -1377,7 +1403,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             vStatNames.push_back(_("Perception:"));
             int pos = 0;
             for (int i = 0; i < vStatNames.size(); i++) {
-                pos = (utf8_width(vStatNames[i].c_str()) > pos ? utf8_width(vStatNames[i].c_str()) : pos);
+                pos = (utf8_width(vStatNames[i].c_str()) > pos ?
+                       utf8_width(vStatNames[i].c_str()) : pos);
                 mvwprintz(w_stats, i + 1, 0, c_ltgray, vStatNames[i].c_str());
             }
             mvwprintz(w_stats, 1, pos + 1, c_ltgray, "%2d", u->str_max);
@@ -1460,8 +1487,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "_______________________________");
         mvwprintz(w_name, 0, namebar_pos, c_ltgray, "%s", u->name.c_str());
         wprintz(w_name, h_ltgray, "_");
-        mvwprintz(w_name, 1, 0, c_ltgray, _("Press %s to pick a random name."),
+
+        if(!MAP_SHARING::isSharing()) { // no random names when sharing maps
+            mvwprintz(w_name, 1, 0, c_ltgray, _("Press %s to pick a random name."),
                       ctxt.get_desc("PICK_RANDOM_NAME").c_str());
+        }
         wrefresh(w_name);
 
         mvwprintz(w_gender, 0, 0, c_ltgray, _("Gender:"));
@@ -1470,6 +1500,16 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_gender, 1, 0, c_ltgray, _("Press %s to switch gender"),
                       ctxt.get_desc("CHANGE_GENDER").c_str());
         wrefresh(w_gender);
+
+        const std::string location_prompt = string_format(_("Press %s to select location."),
+                                                          ctxt.get_desc("CHOOSE_LOCATION").c_str() );
+        const int prompt_offset = utf8_width( location_prompt.c_str() );
+        werase(w_location);
+        mvwprintz( w_location, 0, 0, c_ltgray, location_prompt.c_str() );
+        mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
+        mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
+                   c_ltgray, _(select_location.entries[select_location.selected].txt.c_str()) );
+        wrefresh(w_location);
 
         werase(w_profession);
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
@@ -1527,17 +1567,37 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             delwin(w_guide);
             return -1;
         } else if (action == "SAVE_TEMPLATE") {
-            if (points != 0) {
-                popup(_("You cannot save a template with nonzero unused points!"));
+            if (points > 0) {
+                if(query_yn(_("You are attempting to save a template with unused points. "
+                              "Any unspent points will be lost, are you sure you want to proceed?"))) {
+                    save_template(u);
+                }
+            } else if (points < 0) {
+                popup(_("You cannot save a template with negative unused points"));
             } else {
                 save_template(u);
             }
             redraw = true;
         } else if (action == "PICK_RANDOM_NAME") {
-            u->pick_name();
+            if(!MAP_SHARING::isSharing()){ // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
+                u->pick_name();
+            }
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
-        } else if (action == "ANY_INPUT") {
+        } else if ( action == "CHOOSE_LOCATION" ){
+            select_location.redraw();
+            select_location.query();
+            for( location_map::iterator loc = start_location::begin();
+                 loc != start_location::end(); ++loc ) {
+                if( 0 == strcmp( _( loc->second.name().c_str() ),
+                                 select_location.entries[ select_location.selected ].txt.c_str() ) ) {
+                    u->start_location = loc->second.ident();
+                }
+            }
+            werase(select_location.window);
+            select_location.refresh();
+            redraw = true;
+        } else if (action == "ANY_INPUT" && !MAP_SHARING::isSharing()) {  // Don't edit names when sharing maps
             const long ch = ctxt.get_raw_input().get_first_input();
             if ((ch == KEY_BACKSPACE || ch == 127) && !u->name.empty()) {
                 //erase utf8 character TODO: make a function
@@ -1556,7 +1616,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 }
             }
             //experimental unicode input
-            else if(ch > 127) {
+            else if(ch > 127 && !MAP_SHARING::isSharing()) { //Don't edit name when sharing
                 std::string tmp = utf32_to_utf8(ch);
                 int tmplen = utf8_width(tmp.c_str());
                 if(tmplen > 0 && tmplen + utf8_width(u->name.c_str()) < 30) {

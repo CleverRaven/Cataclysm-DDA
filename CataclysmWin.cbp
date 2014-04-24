@@ -50,10 +50,10 @@
 				<Linker>
 					<Add library="libSDL.dll" />
 					<Add library="SDL_ttf" />
-					<Add library="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86/SDL_ttf.lib" />
-					<Add library="WinDepend/SDL-1.2.15/lib/libSDL.dll.a" />
-					<Add library="WinDepend/SDL-1.2.15/lib/libSDLmain.a" />
-					<Add library="WinDepend/SDLImg_binVC/SDL_image-1.2.12/lib/x86/SDL_image.lib" />
+					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
+					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
+					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
+					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
 					<Add directory="WinDepend/SDL-1.2.15/lib" />
 					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86" />
 					<Add directory="WinDepend/libiconv/lib" />
@@ -79,10 +79,10 @@
 				<Linker>
 					<Add library="intl" />
 					<Add library="iconv" />
-					<Add library="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86/SDL_ttf.lib" />
-					<Add library="WinDepend/SDL-1.2.15/lib/libSDL.dll.a" />
-					<Add library="WinDepend/SDL-1.2.15/lib/libSDLmain.a" />
-					<Add library="WinDepend/SDLImg_binVC/SDL_image-1.2.12/lib/x86/SDL_image.lib" />
+					<Add library="WinDepend\SDLttf\SDL_ttf-2.0.11\lib\x86\SDL_ttf.lib" />
+					<Add library="WinDepend\SDL-1.2.15\lib\libSDL.dll.a" />
+					<Add library="WinDepend\SDL-1.2.15\lib\libSDLmain.a" />
+					<Add library="WinDepend\SDLImg_binVC\SDL_image-1.2.12\lib\x86\SDL_image.lib" />
 					<Add directory="WinDepend/SDL-1.2.15/lib" />
 					<Add directory="WinDepend/SDLttf/SDL_ttf-2.0.11/lib/x86" />
 					<Add directory="WinDepend/libiconv/lib" />
@@ -133,10 +133,10 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="3rdparty/lib/libSDL.dll.a" />
-					<Add library="3rdparty/lib/libSDLmain.a" />
-					<Add library="3rdparty/lib/x86/SDL_image.lib" />
-					<Add library="3rdparty/lib/x86/SDL_ttf.lib" />
+					<Add library="3rdparty\lib\libSDL.dll.a" />
+					<Add library="3rdparty\lib\libSDLmain.a" />
+					<Add library="3rdparty\lib\x86\SDL_image.lib" />
+					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
 					<Add directory="3rdparty/lib" />
 					<Add directory="3rdparty/lib/x86" />
 				</Linker>
@@ -157,10 +157,10 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add library="3rdparty/lib/libSDL.dll.a" />
-					<Add library="3rdparty/lib/libSDLmain.a" />
-					<Add library="3rdparty/lib/x86/SDL_image.lib" />
-					<Add library="3rdparty/lib/x86/SDL_ttf.lib" />
+					<Add library="3rdparty\lib\libSDL.dll.a" />
+					<Add library="3rdparty\lib\libSDLmain.a" />
+					<Add library="3rdparty\lib\x86\SDL_image.lib" />
+					<Add library="3rdparty\lib\x86\SDL_ttf.lib" />
 					<Add directory="3rdparty/lib" />
 					<Add directory="3rdparty/lib/x86" />
 				</Linker>
@@ -317,11 +317,15 @@
 		<Unit filename="src/mapgenformat.cpp" />
 		<Unit filename="src/mapgenformat.h" />
 		<Unit filename="src/mapitems.h" />
+		<Unit filename="src/mapsharing.cpp" />
+		<Unit filename="src/mapsharing.h" />
 		<Unit filename="src/martialarts.cpp" />
 		<Unit filename="src/martialarts.h" />
 		<Unit filename="src/material.cpp" />
 		<Unit filename="src/material.h" />
 		<Unit filename="src/melee.cpp" />
+		<Unit filename="src/messages.cpp" />
+		<Unit filename="src/messages.h" />
 		<Unit filename="src/mission.cpp" />
 		<Unit filename="src/mission.h" />
 		<Unit filename="src/mission_end.cpp" />
@@ -341,7 +345,6 @@
 		<Unit filename="src/mondefense.h" />
 		<Unit filename="src/mongroup.h" />
 		<Unit filename="src/mongroupdef.cpp" />
-		<Unit filename="src/monitemsdef.cpp" />
 		<Unit filename="src/monmove.cpp" />
 		<Unit filename="src/monster.cpp" />
 		<Unit filename="src/monster.h" />
@@ -400,6 +403,8 @@
 		<Unit filename="src/skill.h" />
 		<Unit filename="src/speech.cpp" />
 		<Unit filename="src/speech.h" />
+		<Unit filename="src/start_location.cpp" />
+		<Unit filename="src/start_location.h" />
 		<Unit filename="src/text_snippets.cpp" />
 		<Unit filename="src/text_snippets.h" />
 		<Unit filename="src/tile_id_data.h" />

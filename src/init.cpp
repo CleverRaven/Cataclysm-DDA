@@ -31,6 +31,7 @@
 #include "debug.h"
 #include "path_info.h"
 #include "iuse.h"
+#include "start_location.h"
 
 #include <string>
 #include <vector>
@@ -39,7 +40,6 @@
 #include <locale> // for loading names
 
 #include "savegame.h"
-#include "file_finder.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -141,7 +141,9 @@ void DynamicDataLoader::initialize()
     type_function_map["MONSTER_WHITELIST"] = new StaticFunctionAccessor(
         &MonsterGroupManager::LoadMonsterWhitelist);
     type_function_map["speech"] = new StaticFunctionAccessor(&load_speech);
-    type_function_map["ammunition_type"] = new StaticFunctionAccessor(&ammunition_type::load_ammunition_type);
+    type_function_map["ammunition_type"] = new StaticFunctionAccessor(
+        &ammunition_type::load_ammunition_type);
+    type_function_map["start_location"] = new StaticFunctionAccessor(&start_location::load_location);
 
     // json/colors.json would be listed here, but it's loaded before the others (see curses_start_color())
     // Non Static Function Access
@@ -199,8 +201,6 @@ void DynamicDataLoader::initialize()
         new StaticFunctionAccessor(&load_construction);
     type_function_map["mapgen"] =
         new StaticFunctionAccessor(&load_mapgen);
-
-    type_function_map["monitems"] = new ClassFunctionAccessor<game>(g, &game::load_monitem);
 
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
     type_function_map["ITEM_BLACKLIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -387,7 +387,6 @@ void DynamicDataLoader::unload_data()
     reset_recipe_categories();
     reset_recipes();
     reset_recipes_qualities();
-    g->reset_monitems();
     release_traps();
     reset_constructions();
     reset_overmap_terrain();
@@ -425,5 +424,6 @@ void DynamicDataLoader::check_consistency() {
     MonsterGroupManager::check_group_definitions();
     check_recipe_definitions();
     check_furniture_and_terrain();
+    check_constructions();
     profession::check_definitions();
 }

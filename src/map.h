@@ -367,6 +367,7 @@ void add_corpse(int x, int y);
 // Items
  std::vector<item>& i_at(int x, int y);
  item water_from(const int x, const int y);
+ item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
@@ -385,7 +386,7 @@ void add_corpse(int x, int y);
  std::list<item> use_amount_square(const int x, const int y, const itype_id type, int &quantity, const bool use_container);
  std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
                               const bool use_container = false);
- std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);
+ std::list<item> use_charges(const point origin, const int range, const itype_id type, const long amount);
 
 // Traps
  std::string trap_get(const int x, const int y) const;
@@ -439,13 +440,13 @@ void add_corpse(int x, int y);
  void place_vending(int x, int y, std::string type);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
- int place_items(items_location loc, const int x1, const int y1,
-                  const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
  void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0,
                     const int quantity = 0, const long charges = 0, const int damlevel = 0, const bool rand = true);
  void spawn_an_item(const int x, const int y, item new_item,
                     const long charges, const int damlevel);
+ // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
+ void spawn_items(const int x, const int y, const std::vector<item> &new_items);
  void add_spawn(std::string type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");

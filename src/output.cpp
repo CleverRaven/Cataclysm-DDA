@@ -179,6 +179,26 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
     getch();
 }
 
+// returns single string with left aligned name and right aligned value
+std::string name_and_value (std::string name, std::string value, int field_width)
+{
+    int name_width = utf8_width(name.c_str());
+    int value_width = utf8_width(value.c_str());
+    std::stringstream result;
+    result << name.c_str();
+    for (int i = (name_width + value_width);
+         i < std::max(field_width, name_width + value_width); ++i) {
+        result << " ";
+    }
+    result << value.c_str();
+    return result.str();
+}
+
+std::string name_and_value (std::string name, int value, int field_width)
+{
+    return name_and_value (name, string_format("%d", value), field_width);
+}
+
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
 {
     va_list ap;
@@ -389,6 +409,9 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
     werase(stdscr);
 }
 
+// yn to make an immediate selection
+// esc to cancel, returns false
+// enter or space to accept, any other key to toggle
 bool query_yn(const char *mes, ...)
 {
     va_list ap;
@@ -397,39 +420,82 @@ bool query_yn(const char *mes, ...)
     va_end(ap);
 
     bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
-    std::string query;
-    if (force_uc) {
-        query = string_format(_("%s (Y/N - Case Sensitive)"), text.c_str());
-    } else {
-        query = string_format(_("%s (y/n)"), text.c_str());
-    }
 
-    int win_width = utf8_width(query.c_str()) + 2;
+    // localizes the selectors, requires translation to use lower case
+    std::string selectors = _("yn");
+    if (selectors.length()<2) {
+        selectors = "yn";
+    }
+    std::string ucselectors = selectors;
+    capitalize_letter(ucselectors, 0);
+    capitalize_letter(ucselectors, 1);
+
+    std::string ucwarning = "";
+    std::string *dispkeys = &selectors;
+    if (force_uc) {
+        ucwarning = _("Case Sensitive");
+        ucwarning = " (" + ucwarning +")";
+        dispkeys = &ucselectors;
+    }
+    // localizes the actual question
+    std::string message = _(text.c_str());
+
+    // figures the length of the combined texts
+    // width needed for text +2 for the border. + (/) 4 for the symbols and a space
+    int win_width = utf8_width(message.c_str()) + utf8_width(selectors.c_str()) + utf8_width(ucwarning.c_str()) + 2 + 4;
     win_width = (win_width < FULL_SCREEN_WIDTH - 2 ? win_width : FULL_SCREEN_WIDTH - 2);
 
+    WINDOW *w = NULL;
     std::vector<std::string> textformatted;
-    textformatted = foldstring(query, win_width);
-    WINDOW *w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
-                       (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
 
-    fold_and_print(w, 1, 1, win_width, c_ltred, query);
+    std::string query;
+    std::string color_on = "<color_white>";
+    std::string color_off = "</color>";
 
-    draw_border(w);
+    char ch ='?';
+    bool result = true;
+    bool gotkey = false;
 
-    wrefresh(w);
-    char ch;
-    do {
+    while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE) {
+
+        gotkey= (force_uc && ((ch == ucselectors[0]) || (ch == ucselectors[1])))
+            || (!force_uc && ((ch == selectors[0]) || (ch == selectors[1])));
+
+        if (gotkey) {
+            result = (!force_uc && (ch == selectors[0])) || (force_uc && (ch == ucselectors[0]));
+            break; // could move break past render to flash final choice once.
+        } else
+        if ((!force_uc && (ch != ucselectors[0]) && (ch != ucselectors[1]))
+            || (force_uc && ((ch != selectors[0]) && (ch != selectors[1])))) {
+            result = !result;
+        }
+
+        if (result) {
+            query = " (" + color_on + dispkeys->substr(0,1) + color_off + "/" + dispkeys->substr(1,1) + ")";
+        } else {
+            query = " (" + dispkeys->substr(0,1) + "/" + color_on + dispkeys->substr(1,1) + color_off + ")";
+        }
+        if (force_uc) {
+            query += ucwarning;
+        }
+
+        if (!w) {
+            textformatted = foldstring(message + query, win_width);
+            w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
+                (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
+            draw_border(w);
+        }
+        fold_and_print(w, 1, 1, win_width, c_ltred, message + query);
+        wrefresh(w);
+
         ch = getch();
-    } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE && ch != 'Y'
-             && ch != 'N' && (force_uc || (ch != 'y' && ch != 'n')));
+    };
+
     werase(w);
     wrefresh(w);
     delwin(w);
     refresh();
-    if (ch == 'Y' || ch == 'y') {
-        return true;
-    }
-    return false;
+    return ((ch != KEY_ESCAPE) && result);
 }
 
 int query_int(const char *mes, ...)
@@ -1461,10 +1527,10 @@ bool is_draw_tiles_mode() {
     return false;
 }
 
-void play_music(std::string playlist) {
+void play_music(std::string) {
 }
 
-void play_sound(std::string identifier) {
+void play_sound(std::string) {
 }
 
 #endif

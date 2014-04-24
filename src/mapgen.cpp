@@ -780,13 +780,13 @@ void jmapgen_place_group::apply( map * m, const float mdensity ) {
     switch(op) {
         case JMAPGEN_PLACEGROUP_MONSTER: {
             for (int i = 0; i < trepeat; i++) {
-                // g->add_msg("%s %d %d,%d %d,%d %.4f", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
+                // add_msg("%s %d %d,%d %d,%d %.4f", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
                 m->place_spawns(gid, chance, x.val, y.val, x.valmax, y.valmax, ( density == -1.0f ? mdensity : density ) );
             }
         } break;
         case JMAPGEN_PLACEGROUP_ITEM: {
             for (int i = 0; i < trepeat; i++) {
-                // g->add_msg("%s %d %d,%d %d,%d", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax);
+                // add_msg("%s %d %d,%d %d,%d", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax);
                 m->place_items(gid, chance, x.val, y.val, x.valmax, y.valmax, true, 0 );
             }
         } break;
@@ -1039,7 +1039,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         const int rlast = weightit->second.rbegin()->first;
         const int roll = rng(1, rlast);
         const int fidx = weightit->second.lower_bound( roll )->second;
-        //g->add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
+        //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
         if ( fmapit->second[fidx]->function_type() == MAPGENFUNC_C ) {
            void(*gfunction)(map*,oter_id,mapgendata,int,float) = dynamic_cast<mapgen_function_builtin*>( fmapit->second[fidx] )->fptr;
@@ -9505,7 +9505,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
           rn = rng(10, 15);
           for (int i = 0; i < rn; i++) {
            item body;
-           body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+           body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
            int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
            if (ter(zx, zy) == t_bed || one_in(3))
             add_item(zx, zy, body);
@@ -9867,7 +9867,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         rn = rng(15, 20);
         for (int i = 0; i < rn; i++) {
             item body;
-            body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+            body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
             int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
             if (move_cost(zx, zy) > 0) {
                 if (furn(zx, zy) == f_bed || one_in(3)) {
@@ -10856,66 +10856,35 @@ void map::place_vending(int x, int y, std::string type)
     place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
 }
 
-int map::place_items(items_location loc, int x1, int y1,
-                     int x2, int y2, bool ongrass, int turn)
-{
-    const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
-
-    Item_list items = item_controller->create_from_group(loc, turn);
-    int item_num = 0;
-    for(Item_list::iterator a = items.begin(); a != items.end(); ++a) {
-        float lets_spawn = spawn_rate;
-        while( rng_float( 0.0, 1.0 ) <= lets_spawn ) {
-            lets_spawn -= 1.0;
-            int px, py;
-
-            int tries = 0;
-            do {
-                px = rng(x1, x2);
-                py = rng(y1, y2);
-                tries++;
-                // Only place on valid terrain
-            } while (( (terlist[ter(px, py)].movecost == 0 &&
-                        !(terlist[ter(px, py)].has_flag("PLACE_ITEM")) ) &&
-                       (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
-                     tries < 20);
-            if (tries < 20) {
-                spawn_an_item(px, py, *a, 0, a->damage);
-                item_num++;
-            }
-        }
-    }
-    return item_num;
-}
-
+// A chance of 100 indicates that items should always spawn,
+// the item group should be responsible for determining the amount of items.
 int map::place_items(items_location loc, int chance, int x1, int y1,
-                     int x2, int y2, bool ongrass, int turn, bool rand)
+                     int x2, int y2, bool ongrass, int, bool)
 {
     const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
-    if (chance >= 100 || chance <= 0) {
+    if (chance > 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
         return 0;
     }
-
-    Item_tag selected_item;
-    bool guns_have_ammo = false;
-    selected_item = item_controller->id_from(loc, guns_have_ammo);
-    if ( selected_item == "MISSING_ITEM" ) {
+    if (!item_controller->has_group(loc)) {
         real_coords rc( this->getabs() );
         overmap * thisom = &overmap_buffer.get(rc.abs_om.x, rc.abs_om.y );
         oter_id oid = thisom->ter( rc.om_pos.x, rc.om_pos.y, world_z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                  loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+        return 0;
     }
+
     int px, py;
     int item_num = 0;
-    while (rng(0, 99) < chance) {
+    while (chance == 100 || rng(0, 99) < chance) {
         float lets_spawn = spawn_rate;
         while( rng_float( 0.0, 1.0 ) <= lets_spawn ) {
             lets_spawn -= 1.0;
 
-            selected_item = item_controller->id_from(loc);
+            // Might contain one item or several that belong together like guns & their ammo
+            const Item_list items = item_controller->create_from_group(loc, 0);
             int tries = 0;
             do {
                 px = rng(x1, x2);
@@ -10927,16 +10896,12 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                        (!ongrass && !terlist[ter(px, py)].has_flag("FLAT")) ) &&
                      tries < 20);
             if (tries < 20) {
-                spawn_item(px, py, selected_item, 1, 0, turn, 0, rand);
-                item_num++;
-                // Guns in item groups with guns_have_ammo flags are generated with their ammo
-                if ( guns_have_ammo ) {
-                    it_gun *maybe_gun = dynamic_cast<it_gun *> (item_controller->find_template(selected_item));
-                    if ( maybe_gun != NULL ) {
-                        spawn_item(px, py, default_ammo(maybe_gun->ammo), 1, 0, turn);
-                    }
-                }
+                spawn_items(px, py, items);
+                item_num += items.size();
             }
+        }
+        if (chance == 100) {
+            break;
         }
     }
     return item_num;
@@ -12591,7 +12556,7 @@ void mansion_room(map *m, int x1, int y1, int x2, int y2, mapgendata & dat)
 void map::add_extra(map_extra type)
 {
     item body;
-    body.make_corpse(itypes["corpse"], GetMType("mon_null"), g->turn);
+    body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
 
     switch (type) {
 
@@ -12656,22 +12621,7 @@ void map::add_extra(map_extra type)
                 } else if (one_in(25)) {
                     add_spawn("mon_zombie_bio_op", 1, x, y);
                 } else {
-                    add_item(x, y, body);
-                    spawn_item(x, y, "pants_army");
-                    spawn_item(x, y, "boots_combat");
-                    place_items("mil_armor_torso", 40, x, y, x, y, true, 0);
-                    place_items("mil_armor_helmet", 30, x, y, x, y, true, 0);
-                    place_items("military", 86, x, y, x, y, true, 0);
-                    if( one_in(8) ) {
-                        spawn_item( x, y, "id_military" );
-                    }
-                    if (one_in(2)) {
-                        place_items("female_underwear_top", 40, x, y, x, y, true, 0 );
-                        place_items("female_underwear_bottom", 40, x, y, x, y, true, 0 );
-                    } else {
-                        place_items("male_underwear_top", 40, x, y, x, y, true, 0 );
-                        place_items("male_underwear_bottom", 40, x, y, x, y, true, 0 );
-                    }
+                    place_items("map_extra_military", 100, x, y, x, y, true, 0);
                 }
             }
 
@@ -12704,7 +12654,7 @@ void map::add_extra(map_extra type)
                 if (one_in(10)) {
                     add_spawn("mon_zombie_scientist", 1, x, y);
                 } else {
-                    place_items("map_extra_science", x, y, x, y, true, 0);
+                    place_items("map_extra_science", 100, x, y, x, y, true, 0);
                 }
             }
         }
@@ -12852,23 +12802,11 @@ void map::add_extra(map_extra type)
                 if (one_in(10)) {
                     add_spawn("mon_zombie_spitter", 1, x, y);
                 } else {
-                    add_item(x, y, body);
+                    place_items("map_extra_drugdeal", 100, x, y, x, y, true, 0);
                     int splatter_range = rng(1, 3);
                     for (int j = 0; j <= splatter_range; j++) {
                         add_field(x + (j * x_offset), y + (j * y_offset),
                                   fd_blood, 1);
-                    }
-                    place_items("drugdealer", 75, x, y, x, y, true, 0);
-                    spawn_item(x, y, "pants_cargo");
-                    place_items("lab_shoes", 50, x, y, x, y, true, 0);
-                    place_items("shirts", 50, x, y, x, y, true, 0);
-                    place_items("jackets", 30, x, y, x, y, true, 0);
-                    if (one_in(2)) {
-                        place_items("female_underwear_top", 40, x, y, x, y, true, 0 );
-                        place_items("female_underwear_bottom", 40, x, y, x, y, true, 0 );
-                    } else {
-                        place_items("male_underwear_top", 40, x, y, x, y, true, 0 );
-                        place_items("male_underwear_bottom", 40, x, y, x, y, true, 0 );
                     }
                 }
                 if (a_has_drugs && num_drugs > 0) {
@@ -12902,23 +12840,11 @@ void map::add_extra(map_extra type)
                 if (one_in(20)) {
                     add_spawn("mon_zombie_smoker", 1, x, y);
                 } else {
-                    add_item(x, y, body);
+                    place_items("map_extra_drugdeal", 100, x, y, x, y, true, 0);
                     int splatter_range = rng(1, 3);
                     for (int j = 0; j <= splatter_range; j++) {
                         add_field( x + (j * x_offset), y + (j * y_offset),
                                    fd_blood, 1 );
-                    }
-                    place_items("drugdealer", 75, x, y, x, y, true, 0);
-                    spawn_item(x, y, "pants_cargo");
-                    place_items("lab_shoes", 50, x, y, x, y, true, 0);
-                    place_items("shirts", 50, x, y, x, y, true, 0);
-                    place_items("jackets", 25, x, y, x, y, true, 0);
-                    if (one_in(2)) {
-                        place_items("female_underwear_top", 40, x, y, x, y, true, 0 );
-                        place_items("female_underwear_bottom", 40, x, y, x, y, true, 0 );
-                    } else {
-                        place_items("male_underwear_top", 40, x, y, x, y, true, 0 );
-                        place_items("male_underwear_bottom", 40, x, y, x, y, true, 0 );
                     }
                     if (!a_has_drugs && num_drugs > 0) {
                         int drugs_placed = rng(2, 6);

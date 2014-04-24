@@ -394,7 +394,7 @@ class wish_item_callback: public uimenu_callback
             if ( ity == NULL ) {
                 return;
             }
-            item tmp(ity, g->turn);
+            item tmp(ity, calendar::turn);
             const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
                                        ( incontainer ? _(" (contained)") : "" ));
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
@@ -427,7 +427,7 @@ void game::wishitem( player *p, int x, int y)
 
     for (int i = 0; i < standard_itype_ids.size(); i++) {
         itype *ity = item_controller->find_template(standard_itype_ids[i]);
-        wmenu.addentry( i, true, 0, string_format(_("%s"), ity->name.c_str()) );
+        wmenu.addentry( i, true, 0, string_format(_("%s"), ity->nname(1).c_str()) );
         wmenu.entries[i].extratxt.txt = string_format("%c", ity->sym);
         wmenu.entries[i].extratxt.color = ity->color;
         wmenu.entries[i].extratxt.left = 1;
@@ -435,7 +435,7 @@ void game::wishitem( player *p, int x, int y)
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            item granted = item_controller->create(standard_itype_ids[wmenu.ret], turn);
+            item granted = item_controller->create(standard_itype_ids[wmenu.ret], calendar::turn);
             if (p != NULL) {
                 amount = helper::to_int(
                          string_input_popup(_("How many?"), 20, helper::to_string_int( amount ),
@@ -453,7 +453,7 @@ void game::wishitem( player *p, int x, int y)
                 wmenu.keypress = 'q';
             }
             dynamic_cast<wish_item_callback *>(wmenu.callback)->msg =
-                _("Item granted, choose another or 'q' to quit.");
+                _("Wish granted. Wish for more or hit 'q' to quit.");
             uistate.wishitem_selected = wmenu.ret;
         }
     } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
