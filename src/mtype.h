@@ -245,6 +245,8 @@ struct mtype {
     mtype ();
 
     bool has_flag(m_flag flag) const;
+    bool has_flag(std::string flag) const;
+    void set_flag(std::string flag, bool state);
     bool has_anger_trigger(monster_trigger trigger) const;
     bool has_fear_trigger(monster_trigger trigger) const;
     bool has_placate_trigger(monster_trigger trigger) const;

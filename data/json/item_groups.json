@@ -7728,7 +7728,6 @@
       ["boxing_gloves", 12]
     ]
   },{
-			
 "type"  : "item_group",
 "id"    : "antique_rare",
 "items" : [
@@ -7747,52 +7746,6 @@
       ["rapier_fake", 8],
       ["wakizashi_fake", 8],
       ["kris_fake", 8]
-    ]
-  },{
-"type" : "item_group",
-"id" : "diner_food",
-        "items" : [
-      ["cheeseburger", 6],
-      ["hamburger", 8],
-      ["sloppyjoe", 6],
-      ["blt", 6],
-      ["fries",10],
-      ["onion_rings", 8],
-      ["fchicken", 8],
-      ["sausage", 8],
-      ["hotdogs_cooked", 8],
-      ["chilidogs", 6],
-      ["corndogs_cooked", 8],
-      ["scrambled_eggs", 8],
-      ["deluxe_eggs", 5],
-      ["pancakes" , 12],
-      ["fruit_pancakes", 6],
-      ["choc_pancakes", 6],
-      ["waffles", 10],
-      ["fruit_waffles", 6],
-      ["choc_waffles", 6],
-      ["pie", 9],
-      ["pie_meat", 8],
-      ["pan", 30]
-    ]
-  },{
-"type" : "item_group",
-"id" : "diner_back",
-"items" : [
-      ["pickle", 20],
-      ["bacon", 20],
-      ["fries", 20],
-      ["onion_rings", 20],
-      ["sausage", 20],
-      ["hotdogs_frozen", 20],
-      ["corndogs_frozen", 20],
-      ["pancakes" , 20],
-      ["waffles", 20],
-      ["tomato", 20],
-      ["lettuce", 20],
-      ["soup_veggy", 20],
-      ["soup_meat", 20],
-      ["soup_tomato", 20]
     ]
   },{
 "type" : "item_group",

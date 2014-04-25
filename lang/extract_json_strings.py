@@ -65,6 +65,7 @@ automatically_convertible = {
     "skill",
     "snippet",
     "speech",
+    "start_location",
     "terrain",
     "tool_quality",
     "TOOL",

@@ -370,7 +370,15 @@ classes = {
             in_species = {
                 args = {"string"},
                 rval = "bool"
-            }
+            },
+	    has_flag = {
+	        args = {"string"},
+		rval = "bool"
+	    },
+	    set_flag = {
+	        args = {"string", "bool"},
+		rval = nil
+	    }
         }
     },
     mongroup = {
@@ -728,7 +736,7 @@ classes = {
 
 global_functions = {
     add_msg = {
-        cpp_name = "Messages::player_messages.add_msg",
+        cpp_name = "add_msg",
         args     = { "cstring" },
         argnames = { "message" },
         rval = nil,

@@ -78,9 +78,9 @@ bool player_activity::is_suspendable() const {
 
 
 int player_activity::get_value(int index, int def) const {
-    return (index < (ssize_t)values.size()) ? values[index] : def;
+    return ((size_t)index < values.size()) ? values[index] : def;
 }
 
 std::string player_activity::get_str_value(int index, std::string def) const {
-    return (index < (ssize_t)str_values.size()) ? str_values[index] : def;
+    return ((size_t)index < str_values.size()) ? str_values[index] : def;
 }
