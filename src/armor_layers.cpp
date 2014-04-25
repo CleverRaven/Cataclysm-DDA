@@ -1,6 +1,7 @@
 #include "player.h"
 #include "armor_layers.h"
 #include "catacharset.h"
+#include "itype.h"
 #include "input.h"
 #include "output.h"
 
@@ -388,7 +389,11 @@ std::string clothing_layer(item *worn_item)
     std::string layer = "";
 
     if (worn_item->has_flag("SKINTIGHT")) {
-        layer = _("It lies close to the skin.");
+        layer = _("This is worn next to the skin.");
+    } else if (worn_item->has_flag("OUTER")) {
+        layer = _("This is worn over your other clothes.");
+    } else if (worn_item->has_flag("BELTED")) {
+        layer = _("It is the belted layer.");
     }
 
     return layer;

@@ -44,6 +44,7 @@ Format: File with definition : Name of enum
 * gamemode.h : caravan_category
 * input.h : InputEvent
 * item.h : hint_rating
+* item.h : layer_level
 * itype.h : item_cat
 * itype.h : software_type
 * itype.h : technique_id
