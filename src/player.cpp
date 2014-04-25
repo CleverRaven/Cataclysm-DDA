@@ -1067,7 +1067,7 @@ void player::update_bodytemp()
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 300 : 800);
         }
         // Fat deposits don't hold in much heat, but don't shift for temp
-        if (has_trait("DOWN"))
+        if (has_trait("FAT"))
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 200 : 200);
         }
