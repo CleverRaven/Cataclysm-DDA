@@ -901,8 +901,8 @@ void input_context::display_help()
     legend << _("Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n");
 
     input_context ctxt("HELP_KEYBINDINGS");
-    ctxt.register_action("SCROLL_UP");
-    ctxt.register_action("SCROLL_DOWN");
+    ctxt.register_action("UP", _("Scroll up"));
+    ctxt.register_action("DOWN", _("Scroll down"));
     ctxt.register_action("REMOVE");
     ctxt.register_action("ADD_LOCAL");
     ctxt.register_action("ADD_GLOBAL");
@@ -1029,11 +1029,11 @@ void input_context::display_help()
                 }
             }
             status = s_show;
-        } else if (action == "SCROLL_DOWN") {
+        } else if (action == "DOWN") {
             if (scroll_offset + 1 < org_registered_actions.size()) {
                 scroll_offset++;
             }
-        } else if (action == "SCROLL_UP") {
+        } else if (action == "UP") {
             if (scroll_offset > 0) {
                 scroll_offset--;
             }

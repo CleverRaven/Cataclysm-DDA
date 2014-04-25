@@ -1264,30 +1264,6 @@
     },
     {
         "type" : "keybinding",
-        "id":"SCROLL_UP",
-        "category":"HELP_KEYBINDINGS",
-        "name":"Scroll up",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"UP"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"SCROLL_DOWN",
-        "category":"HELP_KEYBINDINGS",
-        "name":"Scroll down",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"DOWN"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id":"REMOVE",
         "category":"HELP_KEYBINDINGS",
         "name":"Remove bindings",
