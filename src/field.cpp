@@ -582,7 +582,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3) {
-                                    g->m.destroy(x, y, false);
+                                    destroy(x, y, false);
                                 }
 
                             } else if (has_flag("FLAMMABLE_ASH", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
@@ -601,7 +601,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                 cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 30);
                                 smoke += 10;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
-                                    g->m.destroy(x, y, false);
+                                    destroy(x, y, false);
                                 }
 
                             } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
@@ -690,7 +690,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                             for (int j = 0; j < 3; j++) {
                                 int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
                                 if (INBOUNDS(fx, fy)) {
-                                    field &nearby_field = g->m.field_at(fx, fy);
+                                    field &nearby_field = field_at(fx, fy);
                                     field_entry *nearwebfld = nearby_field.findField(fd_web);
                                     int spread_chance = 25 * (cur->getFieldDensity() - 1);
                                     if (nearwebfld) {
@@ -731,7 +731,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                         bool nosmoke = true;
                                         for (int ii = -1; ii <= 1; ii++) {
                                             for (int jj = -1; jj <= 1; jj++) {
-                                                field &spreading_field = g->m.field_at(x + ii, y + jj);
+                                                field &spreading_field = field_at(x + ii, y + jj);
 
                                                 tmpfld = spreading_field.findField(fd_fire);
                                                 int tmpflddens = ( tmpfld ? tmpfld->getFieldDensity() : 0 );
@@ -1028,7 +1028,7 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                             cur->setFieldDensity(3);
                             for (int i = x - 5; i <= x + 5; i++) {
                                 for (int j = y - 5; j <= y + 5; j++) {
-                                    field &wandering_field = g->m.field_at(i, j);
+                                    field &wandering_field = field_at(i, j);
                                     if (wandering_field.findField(fd_acid)) {
                                         if (wandering_field.findField(fd_acid)->getFieldDensity() == 0) {
                                             int newdens = 3 - (rl_dist(x, y, i, j) / 2) + (one_in(3) ? 1 : 0);
@@ -1097,7 +1097,7 @@ void map::step_in_field(int x, int y)
     //If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if (g->u.in_vehicle) {
-        veh = g->m.veh_at(x, y, veh_part);
+        veh = veh_at(x, y, veh_part);
         inside = (veh && veh->is_inside(veh_part));
     }
 
@@ -1548,7 +1548,7 @@ void map::mon_in_field(int x, int y, monster *z)
                     newposx = rng(z->posx() - SEEX, z->posx() + SEEX);
                     newposy = rng(z->posy() - SEEY, z->posy() + SEEY);
                     tries++;
-                } while (g->m.move_cost(newposx, newposy) == 0 && tries != 10);
+                } while (move_cost(newposx, newposy) == 0 && tries != 10);
 
                 if (tries == 10) {
                     g->explode_mon(g->mon_at(z->posx(), z->posy()));
@@ -1606,11 +1606,11 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
    bool npc_inside = false;
 
    if (g->u.in_vehicle) {
-    vehicle *veh = g->m.veh_at(x, y, veh_part);
+    vehicle *veh = veh_at(x, y, veh_part);
     pc_inside = (veh && veh->is_inside(veh_part));
    }
    if (me && me->in_vehicle) {
-    vehicle *veh = g->m.veh_at(x, y, veh_part);
+    vehicle *veh = veh_at(x, y, veh_part);
     npc_inside = (veh && veh->is_inside(veh_part));
    }
    if (g->u.posx == x && g->u.posy == y && !pc_inside) {            //If there's a PC at (x,y) and he's not in a covered vehicle...
