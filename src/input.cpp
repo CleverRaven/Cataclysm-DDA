@@ -1027,7 +1027,11 @@ void input_context::display_help()
                 offset--;
             }
         } else if (action == "QUIT") {
-            break;
+            if (status != s_show) {
+                status = s_show;
+            } else {
+                break;
+            }
         }
     }
 
