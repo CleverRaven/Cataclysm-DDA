@@ -1482,7 +1482,7 @@
     },{
         "type" : "mutation",
         "id" : "POISONOUS",
-        "name" : "Poisonous",
+        "name" : "Venomous",
         "points" : 8,
         "description" : "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
         "prereqs" : ["POISRESIST"],
@@ -1492,7 +1492,7 @@
     },{
         "type" : "mutation",
         "id" : "POISONOUS2",
-        "name" : "Venomous",
+        "name" : "Strongly Venomous",
         "points" : 10,
         "description" : "Your venom has become particularly strong.  You're confident that your bites or other cutting/stabbing natural attacks will take your target down quickly.",
         "prereqs" : ["POISONOUS"],
