@@ -3362,7 +3362,7 @@ bool map::add_field(const point p, const field_id t, unsigned int density, const
         current_submap->field_count++; //Only adding it to the count if it doesn't exist.
     }
     current_submap->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
-    if(g != NULL && p.x == g->u.posx && p.y == g->u.posy) {
+    if(g != NULL && this == &g->m && p.x == g->u.posx && p.y == g->u.posy) {
         step_in_field(p.x, p.y); //Hit the player with the field if it spawned on top of them.
     }
     return true;
