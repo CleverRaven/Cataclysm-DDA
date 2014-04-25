@@ -1,3 +1,16 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: cataclysm-dda 0.A\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-25 13:15+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
 #: lang/json/AMMO_from_json.py
 msgid "battery"
 msgid_plural "batteries"
@@ -21646,6 +21659,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "Mark 19 grenade launcher"
+msgid_plural "Mark 19 grenade launchers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid ""
+"A heavy, tripod-mounted belt-fed grenade launcher used by the US Military "
+"since the start of the cold war all the way to the cataclysm, and if you can "
+"find some 40mm grenades, maybe even beyond."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "Mossberg Brownie"
 msgid_plural "Mossberg Brownie"
 msgstr[0] ""
@@ -22060,6 +22086,14 @@ msgid "A compilation of medieval gear by several different authors"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "Prevent Zombie Revivication"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Disables zombie revival."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Old Guns Pack"
 msgstr ""
 
@@ -22073,23 +22107,6 @@ msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Halves zombie speed."
-msgstr ""
-
-#: lang/json/MOD_INFO_from_json.py
-msgid "Drinkable Milk"
-msgstr ""
-
-#: lang/json/MOD_INFO_from_json.py
-msgid ""
-"Makes it so milk doesn't spoil instantly upon arriving in the cataclysm."
-msgstr ""
-
-#: lang/json/MOD_INFO_from_json.py
-msgid "Elf Mod"
-msgstr ""
-
-#: lang/json/MOD_INFO_from_json.py
-msgid "Elves spawn randomly in the cataclysm."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -24204,14 +24221,6 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "A medium dinosaur with a sticky green bile dripping from its teeth."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "elf"
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "This is an elf. Nobody knows what an elf is doing in the cataclysm."
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -31659,7 +31668,7 @@ msgid "Pick random world name"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
-msgid "Exit screen"
+msgid "Exit worldgen screen"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -31679,7 +31688,7 @@ msgid "Search"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
-msgid "Exit Screen"
+msgid "Exit screen"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -31696,6 +31705,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Select"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Secondary Select"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -31748,6 +31761,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Remove part"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Rename vehicle"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -42597,7 +42614,11 @@ msgid "Luxury RV"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
-msgid "Armored Personel Carrier"
+msgid "Armored Personnel Carrier"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
+msgid "Mechanized Infantry Carrier"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
@@ -42878,6 +42899,10 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "mounted M2 Browning"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "mounted Mark 19 grenade launcher"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -43536,7 +43561,15 @@ msgid ""
 msgstr ""
 
 #: src/armor_layers.cpp
-msgid "It lies close to the skin."
+msgid "This is worn next to the skin."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "This is worn over your other clothes."
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "It is the belted layer."
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -44533,6 +44566,7 @@ msgid "You activate your blood filtration system."
 msgstr ""
 
 #: src/bionics.cpp src/iexamine.cpp
+#: src/iexamine.cpp
 msgid "Drink from your hands?"
 msgstr ""
 
@@ -49708,8 +49742,9 @@ msgid " They are known for "
 msgstr ""
 
 #: src/faction.cpp
-#: src/faction.cpp src/input.cpp src/item.cpp
-#: src/item.cpp src/npc.cpp src/options.cpp
+#: src/faction.cpp src/input.cpp
+#: src/item.cpp src/npc.cpp
+#: src/options.cpp
 msgid ", "
 msgstr ""
 
@@ -55613,7 +55648,9 @@ msgstr ""
 
 #: src/input.cpp
 #, c-format
-msgid "This key conflicts with %s"
+msgid ""
+"This key conflicts with %s. Remove this key from the conflicting command(s), "
+"and continue?"
 msgstr ""
 
 #: src/input.cpp
@@ -56710,27 +56747,6 @@ msgstr ""
 #: src/iuse.cpp
 msgid "Ugh, too much smoke... you cough heavily."
 msgstr ""
-
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#: src/iuse.cpp
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-23 22:43-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: src/iuse.cpp
 #, c-format
