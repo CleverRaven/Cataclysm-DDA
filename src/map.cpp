@@ -1513,7 +1513,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
         bash = &(ter_at(x,y).bash);
         jster = true;
     }
-    if (g->m.has_flag("ALARMED", x, y) &&
+    if (has_flag("ALARMED", x, y) &&
         !g->event_queued(EVENT_WANTED))
     {
         g->sound(x, y, 40, _("An alarm sounds!"));
