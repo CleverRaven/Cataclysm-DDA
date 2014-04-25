@@ -14,51 +14,60 @@ then
 fi
 
 # try to extract translatable strings from .json files
-echo "Updating gettext .pot file"
-echo -n "Extracting strings from json..."
-if python lang/extract_json_strings.py 
+echo "Extracting strings from json..."
+if ! python lang/extract_json_strings.py
 then
-    echo " OK"
-    # update cataclysm-dda.pot
-    echo -n "Running xgettext to create .pot file..."
-    xgettext --default-domain="cataclysm-dda" \
-             --sort-by-file \
-             --add-comments="~" \
-             --output="lang/po/cataclysm-dda.pot" \
-             --keyword="_" \
-             --keyword="pgettext:1c,2" \
-             --keyword="ngettext:1,2" \
-             --from-code="UTF-8" \
-             src/*.cpp src/*.h lang/json/*.py
-    echo " OK"
-    # Fix msgfmt errors
-    if [ "`head -n1 lang/po/cataclysm-dda.pot`" == "# SOME DESCRIPTIVE TITLE." ]
-    then
-        echo -n "Fixing .pot file headers..."
-        package="cataclysm-dda"
-        version=$(grep '^VERSION *= *' Makefile | tr -d [:space:] | cut -f 2 -d '=')
-        pot_file="lang/po/cataclysm-dda.pot"
-        sed -e "1,6d" \
-            -e "s/^\"Project-Id-Version:.*\"$/\"Project-Id-Version: $package $version\\\n\"/1" \
-            -e "/\"Plural-Forms:.*\"$/d" $pot_file > $pot_file.temp
-        mv $pot_file.temp $pot_file
-        echo " OK"
-    fi
-else
-    echo "ABORTED"
+    echo "Error in extract_json_strings.py. Aborting"
     cd $oldpwd
     exit 1
+fi
+
+# Update cataclysm-dda.pot
+echo "Running xgettext to create .pot file..."
+xgettext --default-domain="cataclysm-dda" \
+         --sort-by-file \
+         --add-comments="~" \
+         --output="lang/po/cataclysm-dda.pot" \
+         --keyword="_" \
+         --keyword="pgettext:1c,2" \
+         --keyword="ngettext:1,2" \
+         --from-code="UTF-8" \
+         src/*.cpp src/*.h lang/json/*.py
+if [ $? -ne 0 ]; then
+    echo "Error in xgettext. Aborting"
+    cd $oldpwd
+    exit 1
+fi
+
+# Fix msgfmt errors
+if [ "`head -n1 lang/po/cataclysm-dda.pot`" == "# SOME DESCRIPTIVE TITLE." ]
+then
+    echo "Fixing .pot file headers..."
+    package="cataclysm-dda"
+    version=$(grep '^VERSION *= *' Makefile | tr -d [:space:] | cut -f 2 -d '=')
+    pot_file="lang/po/cataclysm-dda.pot"
+    sed -e "1,6d" \
+    -e "s/^\"Project-Id-Version:.*\"$/\"Project-Id-Version: $package $version\\\n\"/1" \
+    -e "/\"Plural-Forms:.*\"$/d" $pot_file > $pot_file.temp
+    mv $pot_file.temp $pot_file
 fi
 
 # strip line-numbers from the .pot file
-echo -n "Stripping .pot file from unneeded comments..."
-if python lang/strip_line_numbers.py lang/po/cataclysm-dda.pot
+echo "Stripping .pot file from unneeded comments..."
+if ! python lang/strip_line_numbers.py lang/po/cataclysm-dda.pot
 then
-    echo " OK"
-else
-    echo "ABORTED"
+    echo "Error in strip_line_numbers.py. Aborting"
     cd $oldpwd
     exit 1
 fi
 
+# Final compilation check
+if ! msgfmt -c -o /dev/null lang/po/cataclysm-dda.pot
+then
+    echo "Updated pot file contain gettext errors. Aborting."
+    cd $oldpwd
+    exit 1
+fi
+
+echo "Update finished."
 cd $oldpwd
