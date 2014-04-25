@@ -887,7 +887,7 @@ int iuse::cig(player *p, item *it, bool)
                 }
                 if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG)))) {
                     p->add_msg_if_player( _("Ugh, too much smoke... you cough heavily."));
-                    g->sound(p->posx, p->posy, 10, _(""));
+                    g->sound(p->posx, p->posy, 10, "");
                 }
                 p->moves -= 250;
                 return it->type->charges_to_use();
