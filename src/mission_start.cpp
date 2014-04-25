@@ -44,7 +44,7 @@ void mission_start::infect_npc(mission *miss)
   debugmsg("mission_start::infect_npc() couldn't find an NPC!");
   return;
  }
- p->add_disease("infection", 1, true);
+ p->add_effect("infected", 1, true);
  // make sure they don't have any antibiotics
  while ( !p->inv.remove_item("antibiotics").is_null() ) { /* empty */ }
 }

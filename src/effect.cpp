@@ -156,8 +156,8 @@ bool effect_morph_info::load(JsonObject &jsobj, std::string member) {
 
         morph_perm = j.get_int("morph_perm", false);
         morph_with_parts = j.get_bool("morph_with_parts", true);
-        morph_with_intensity = j.get_bool("morph_with_intensity", true);
-        morph_intensity = j.get_int("morph_intensity", 0);
+        morph_with_intensity = j.get_bool("morph_with_intensity", false);
+        morph_intensity = j.get_int("morph_intensity", 1);
         cancel_trait = j.get_string("cancel_trait", "");
 
         return true;
@@ -259,7 +259,12 @@ bool effect_type::get_morph_with_parts()
 }
 bool effect_type::get_morph_with_intensity()
 {
-    return morph.morph_with_intensity;
+    // Any value in morph_intensity trumps morph_with_intensity
+    if (morph.morph_intensity > 1) {
+        return false;
+    } else {
+        return morph.morph_with_intensity;
+    }
 }
 int effect_type::get_morph_duration()
 {
@@ -431,8 +436,12 @@ void effect::decay(int health_val)
         }
         duration -= 1;
     }
-    if (eff_type->decay_rate > 0 && intensity > 1 && (duration % eff_type->decay_rate == 0)) {
-        intensity -= 1;
+    if (eff_type->decay_rate != 0 && duration % eff_type->decay_rate == 0) {
+        if (eff_type->decay_rate > 0) {
+            intensity = std::max(intensity - 1, 1);
+        } else {
+            intensity = std::min(intensity + 1, max_intensity);
+        }
     }
 }
 
@@ -694,13 +703,21 @@ efftype_id effect::get_morph_id()
 {
     return eff_type->get_morph_id();
 }
-bool effect::get_morph_with_parts()
+body_part effect::get_morph_bp()
 {
-    return eff_type->get_morph_with_parts();
+    if (eff_type->get_morph_with_parts()) {
+        return bp;
+    } else {
+        return num_bp;
+    }
 }
-bool effect::get_morph_with_intensity()
+int effect::get_morph_side()
 {
-    return eff_type->get_morph_with_intensity();
+    if (eff_type->get_morph_with_parts()) {
+        return side;
+    } else {
+        return -1;
+    }
 }
 int effect::get_morph_duration()
 {
@@ -712,7 +729,11 @@ bool effect::get_morph_perm()
 }
 int effect::get_morph_intensity()
 {
-    return eff_type->get_morph_intensity();
+    if (eff_type->get_morph_with_intensity()) {
+        return intensity;
+    } else {
+        return eff_type->get_morph_intensity()
+    }
 }
 std::string effect::get_cancel_trait()
 {

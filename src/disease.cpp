@@ -16,14 +16,13 @@
 enum dis_type_enum {
  DI_NULL,
 // Diseases
- DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
 // Monsters
  DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_BLEED, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
- DI_RAT, DI_BITE,
+ DI_RAT,
 // Food & Drugs
  DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
@@ -32,7 +31,7 @@ enum dis_type_enum {
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
 // Other
- DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
+ DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL,
 // Martial arts-related buffs
  DI_MA_BUFF,
  // Contact lenses
@@ -50,7 +49,6 @@ std::map<std::string, dis_type_enum> disease_type_lookup;
 static void manage_fungal_infection(player& p, disease& dis);
 
 static void handle_alcohol(player& p, disease& dis);
-static void handle_bite_wound(player& p, disease& dis);
 static void handle_infected_wound(player& p, disease& dis);
 static void handle_recovery(player& p, disease& dis);
 static void handle_deliriant(player& p, disease& dis);
@@ -61,7 +59,6 @@ void game::init_diseases() {
     // Initialize the disease lookup table.
 
     disease_type_lookup["null"] = DI_NULL;
-    disease_type_lookup["infection"] = DI_INFECTION;
     disease_type_lookup["common_cold"] = DI_COMMON_COLD;
     disease_type_lookup["flu"] = DI_FLU;
     disease_type_lookup["recover"] = DI_RECOVER;
@@ -79,7 +76,6 @@ void game::init_diseases() {
     disease_type_lookup["formication"] = DI_FORMICATION;
     disease_type_lookup["webbed"] = DI_WEBBED;
     disease_type_lookup["rat"] = DI_RAT;
-    disease_type_lookup["bite"] = DI_BITE;
     disease_type_lookup["drunk"] = DI_DRUNK;
     disease_type_lookup["cig"] = DI_CIG;
     disease_type_lookup["high"] = DI_HIGH;
@@ -104,7 +100,6 @@ void game::init_diseases() {
     disease_type_lookup["teleglow"] = DI_TELEGLOW;
     disease_type_lookup["attention"] = DI_ATTENTION;
     disease_type_lookup["evil"] = DI_EVIL;
-    disease_type_lookup["infected"] = DI_INFECTED;
     disease_type_lookup["weed_high"] = DI_WEED_HIGH;
     disease_type_lookup["ma_buff"] = DI_MA_BUFF;
     disease_type_lookup["contacts"] = DI_CONTACTS;
@@ -159,16 +154,6 @@ void dis_msg(dis_type type_string) {
         if (!(g->u.has_trait("NOPAIN"))) {
             add_msg(_("It is excruciating."));
         }
-        break;
-    case DI_BITE:
-        add_msg(_("The bite wound feels really deep..."));
-        g->u.add_memorial_log(pgettext("memorial_male", "Received a deep bite wound."),
-                              pgettext("memorial_female", "Received a deep bite wound."));
-        break;
-    case DI_INFECTED:
-        add_msg(_("Your bite wound feels infected."));
-        g->u.add_memorial_log(pgettext("memorial_male", "Contracted an infection."),
-                              pgettext("memorial_female", "Contracted an infection."));
         break;
     case DI_CONTACTS:
         add_msg(_("You can see more clearly."));
@@ -332,14 +317,6 @@ void dis_remove_memorial(dis_type type_string) {
     case DI_FUNGUS:
       g->u.add_memorial_log(pgettext("memorial_male", "Cured the fungal infection."),
                             pgettext("memorial_female", "Cured the fungal infection."));
-      break;
-    case DI_BITE:
-      g->u.add_memorial_log(pgettext("memorial_male", "Recovered from a bite wound."),
-                            pgettext("memorial_female", "Recovered from a bite wound."));
-      break;
-    case DI_INFECTED:
-      g->u.add_memorial_log(pgettext("memorial_male", "Recovered from an infection... this time."),
-                            pgettext("memorial_female", "Recovered from an infection... this time."));
       break;
 
     default:
@@ -857,14 +834,6 @@ void dis_effect(player &p, disease &dis)
             handle_evil(p, dis);
             break;
 
-        case DI_BITE:
-            handle_bite_wound(p, dis);
-            break;
-
-        case DI_INFECTED:
-            handle_infected_wound(p, dis);
-            break;
-
         case DI_RECOVER:
             handle_recovery(p, dis);
             break;
@@ -932,7 +901,6 @@ int disease_speed_boost(disease dis)
                     return 0;
             }
 
-        case DI_INFECTION:  return -80;
         case DI_SAP:        return -25;
         case DI_SLIMED:     return -25;
         case DI_WEBBED:     return -25;
@@ -1105,71 +1073,6 @@ std::string dis_name(disease& dis)
         case 1: return _("Snakebite Unlocked!");
         case 2: return _("Viper Strike Unlocked!");
         default: return "Viper combo bug. (in disease.cpp:dis_name)";}
-    case DI_BITE:
-    {
-        std::string status = "";
-        if ((dis.duration > 2401) || (g->u.has_trait("INFIMMUNE"))) {status = _("Bite - ");
-        } else { status = _("Painful Bite - ");
-        }
-        switch (dis.bp) {
-            case bp_head:
-                status += _("Head");
-                break;
-            case bp_torso:
-                status += _("Torso");
-                break;
-            case bp_arms:
-                if (dis.side == 0) {
-                    status += _("Left Arm");
-                } else if (dis.side == 1) {
-                    status += _("Right Arm");
-                }
-                break;
-            case bp_legs:
-                if (dis.side == 0) {
-                    status += _("Left Leg");
-                } else if (dis.side == 1) {
-                    status += _("Right Leg");
-                }
-                break;
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-        return status;
-    }
-    case DI_INFECTED:
-    {
-        std::string status = "";
-        if (dis.duration > 8401) {status = _("Infected - ");
-        } else if (dis.duration > 3601) {status = _("Badly Infected - ");
-        } else {status = _("Pus Filled - ");
-        }
-        switch (dis.bp) {
-            case bp_head:
-                status += _("Head");
-                break;
-            case bp_torso:
-                status += _("Torso");
-                break;
-            case bp_arms:
-                if (dis.side == 0) {
-                    status += _("Left Arm");
-                } else if (dis.side == 1) {
-                    status += _("Right Arm");
-                }
-                break;
-            case bp_legs:
-                if (dis.side == 0) {
-                    status += _("Left Leg");
-                } else if (dis.side == 1) {
-                    status += _("Right Leg");
-                }
-                break;
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-        return status;
-    }
     case DI_RECOVER: return _("Recovering From Infection");
 
     case DI_CONTACTS: return _("Contact lenses");
@@ -1389,8 +1292,6 @@ Your next strike will be a Viper Strike.  It requires both arms to be in good\n\
 condition, and deals massive damage.");
         }
 
-    case DI_BITE: return _("You have a nasty bite wound.");
-    case DI_INFECTED: return _("You have an infected wound.");
     case DI_RECOVER: return _("You are recovering from an infection.");
 
     case DI_CONTACTS: return _("You are wearing contact lenses.");
@@ -1541,7 +1442,7 @@ static void handle_bite_wound(player& p, disease& dis)
             if (((3601 - dis.duration) > 2400) && (!(p.has_trait("INFIMMUNE")))) {
                 p.add_disease("recover", 2 * (3601 - dis.duration) - 4800);
             }
-            p.rem_disease("bite", dis.bp, dis.side);
+            p.remove_effect("bite", dis.bp, dis.side);
         }
     }
 
@@ -1568,8 +1469,8 @@ static void handle_bite_wound(player& p, disease& dis)
     } else {
         // Infection starts
          // 1 day of timer + 1 tick
-        p.add_disease("infected", 14401, false, 1, 1, 0, 0, dis.bp, dis.side, true);
-        p.rem_disease("bite", dis.bp, dis.side);
+        p.add_effect("infection", 14400, false, 1, dis.bp, dis.side);
+        p.remove_effect("bite", dis.bp, dis.side);
     }
 }
 
@@ -1585,7 +1486,7 @@ static void handle_infected_wound(player& p, disease& dis)
             } else {
                 p.add_disease("recover", 4 * (14401 - dis.duration + 3600) - 4800);
             }
-            p.rem_disease("infected", dis.bp, dis.side);
+            p.remove_effect("infection", dis.bp, dis.side);
         }
     }
 

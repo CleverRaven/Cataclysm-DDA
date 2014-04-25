@@ -388,25 +388,44 @@
             "pkill_max" : [40]
         }
     },
-   {
-      "apply_memorial_log" : "Received a deep bite wound.",
-      "type" : "effect_type",
-      "id" : "bite",
-      "remove_memorial_log" : "Recoverd from a bite wound.",
-      "apply_message" : "The bite wound feels really deep..."
-   },
-   {
-      "apply_memorial_log" : "Contracted an infection.",
-      "type" : "effect_type",
-      "id" : "infected",
-      "remove_memorial_log" : "Recovered from an infection... this time.",
-      "apply_message" : "Your bite wound feels infected"
-   },
-   {
-      "type" : "effect_type",
-      "id" : "recover",
-      "health_affects" : true
-   },
+    {
+        "apply_memorial_log" : "Received a deep bite wound.",
+        "type" : "effect_type",
+        "id" : "bite",
+        "name" : [
+            "Bite Wound",
+            "Bad Bite Wound"
+        ],
+        "desc" : ["A nasty bite wound. Leave it alone for too long and it might get infected!"],
+        "remove_memorial_log" : "Recovered from a bite wound.",
+        "apply_message" : "The bite wound feels really deep...",
+        "additive" : -1,
+        "main_parts" : true,
+        "morph" : {
+            "cancel_trait" : "INFIMMUNE",
+            "morph_id" : "infection",
+            "morph_duration" : 14400
+        }
+    },
+    {
+        "apply_memorial_log" : "Contracted an infection.",
+        "type" : "effect_type",
+        "id" : "infection",
+        "name" : [
+            "Infected"
+            "Badly Infected"
+        ],
+        "desc" : ["An infected bite wound. Leave this alone too long and it could kill you! Take antibiotics as soon as possible!"],
+        "remove_memorial_log" : "Recovered from an infection... this time.",
+        "apply_message" : "Your bite wound feels infected",
+        "additive" : -1,
+        "main_parts" : true
+    },
+    {
+        "type" : "effect_type",
+        "id" : "recover",
+        "health_affects" : true
+    },
    {
       "type" : "effect_type",
       "id" : "webbed",
@@ -559,10 +578,13 @@
       "id" : "weed_high",
       "apply_message" : "You feel lightheaded."
    },
-   {
-      "type" : "effect_type",
-      "id" : "infection"
-   },
+    {
+        "type" : "effect_type",
+        "id" : "infected",
+        "base_mods" : {
+            "speed_mod" : [-80]
+        }
+    },
    {
       "type" : "effect_type",
       "id" : "ma_buff"

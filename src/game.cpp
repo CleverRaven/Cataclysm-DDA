@@ -5060,10 +5060,10 @@ nc_color game::limb_color(player *p, body_part bp, int side, bool bleed, bool bi
     if (bleed && p->has_disease("bleed", bp, side)) {
         color_bit += 1;
     }
-    if (bite && p->has_disease("bite", bp, side)) {
+    if (bite && p->has_effect("bite", bp, side)) {
         color_bit += 10;
     }
-    if (infect && p->has_disease("infected", bp, side)) {
+    if (infect && p->has_effect("infection", bp, side)) {
         color_bit += 100;
     }
     switch (color_bit) {

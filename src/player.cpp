@@ -4853,7 +4853,7 @@ void player::get_sick()
 
 void player::update_health()
 {
-    if (health_mod > 200) {
+    if (get_healthy_mod() > 200) {
         set_healthy_mod(200);
     }
     int roll = rng(-100, 100);

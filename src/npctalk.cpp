@@ -614,7 +614,7 @@ std::string dynamic_line(talk_topic topic, npc *p)
             return _("Alright, let's begin.");
 
         case TALK_SUGGEST_FOLLOW:
-            if (p->has_disease("infection")) {
+            if (p->has_effect("infected")) {
                 return _("Not until I get some antibiotics...");
             }
             if (p->has_effect("asked_to_follow")) {
@@ -1227,7 +1227,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, npc *p)
   break;
 
  case TALK_SUGGEST_FOLLOW:
-  if (p->has_disease("infection")) {
+  if (p->has_effect("infected")) {
    RESPONSE(_("Understood.  I'll get those antibiotics."));
     SUCCESS(TALK_NONE);
   } else if (p->has_effect("asked_to_follow")) {

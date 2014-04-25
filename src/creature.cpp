@@ -701,21 +701,9 @@ void Creature::process_effects()
                                     pgettext("memorial_female", effects[i].get_effect_type()->get_remove_memorial_log().c_str()));
             if (effects[i].get_morph_id() != "" &&
                 !(is_player() && g->u.has_trait(effects[i].get_cancel_trait())) ) {
-                body_part bp = num_bp;
-                int side = -1;
-                if (effects[i].get_morph_with_parts()) {
-                    bp = effects[i].get_bp();
-                    side = effects[i].get_side();
-                }
-                
-                int intensity;
-                if (effects[i].get_morph_with_intensity()) {
-                    intensity = effects[i].get_morph_intensity();
-                } else {
-                    intensity = effects[i].get_intensity();
-                }
                 add_effect(effects[i].get_morph_id(), effects[i].get_morph_duration(),
-                            effects[i].get_morph_perm(), intensity, bp, side);
+                            effects[i].get_morph_perm(), effects[i].get_morph_intensity(),
+                            effects[i].get_morph_bp(), effects[i].get_morph_side() );
                 //New effects shouldn't be processed
                 added_count += 1;
             }

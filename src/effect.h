@@ -213,8 +213,8 @@ class effect : public JsonSerializer, public JsonDeserializer
         std::string get_resist_trait();
         
         efftype_id get_morph_id();
-        bool get_morph_with_parts();
-        bool get_morph_with_intensity();
+        body_part get_morph_bp();
+        int get_morph_side();
         int get_morph_duration();
         bool get_morph_perm();
         int get_morph_intensity();

@@ -74,6 +74,10 @@ void Character::manage_sleep()
     // life like that--but since there's much less fluid reserve than food reserve,
     // simply using the same numbers won't work.
     effect sleep = get_effect("sleep");
+    if (sleep.get_id() == "") {
+        debugmsg("Tried to manage sleep for non-sleeping Character.");
+        return;
+    }
     bool hibernate = hibernating();
     if( ((int(calendar::turn) % 350 == 0) && hibernate) || ((int(calendar::turn) % 50 == 0) && !hibernate) ){
         int recovery_chance;

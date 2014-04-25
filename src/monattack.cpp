@@ -1674,12 +1674,12 @@ void mattack::bite(monster *z) {
         add_msg(_("The %s bites your %s!"), z->name().c_str(), body_part_name(hit, side).c_str());
 
         if(one_in(14 - dam)) {
-            if (g->u.has_disease("bite", hit, side)) {
-                g->u.add_disease("bite", 400, false, 1, 1, 0, -1, hit, side, true);
+            if (g->u.has_effect("bite", hit, side)) {
+                g->u.add_effect("bite", 400, false, 1, hit, side);
             } else if (g->u.has_disease("infected", hit, side)) {
-                g->u.add_disease("infected", 250, false, 1, 1, 0, -1, hit, side, true);
+                g->u.add_effect("infected", 250, false, 1, hit, side);
             } else {
-                g->u.add_disease("bite", 3601, false, 1, 1, 0, 0, hit, side, true); //6 hours + 1 "tick"
+                g->u.add_effect("bite", 3600, false, 1, hit, side); //6 hours
             }
         }
     } else {
