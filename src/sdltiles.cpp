@@ -135,6 +135,7 @@ static SDL_Color windowsPalette[256];
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_PixelFormat *format;
+static SDL_Texture *display_buffer;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
@@ -260,7 +261,12 @@ bool WinCreate()
         }
     }
 
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+    display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
+    SDL_SetRenderTarget(renderer, display_buffer);
+
     ClearScreen();
+    SDL_SetRenderTarget(renderer, display_buffer);
 
     if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
         SDL_ShowCursor(SDL_DISABLE);
@@ -315,6 +321,10 @@ void WinDestroy()
     if(renderer)
         SDL_DestroyRenderer(renderer);
     renderer = NULL;
+    if (display_buffer != NULL) {
+        SDL_DestroyTexture(display_buffer);
+        display_buffer = NULL;
+    }
     if(window)
         SDL_DestroyWindow(window);
     window = NULL;
@@ -466,7 +476,12 @@ void try_update()
 {
     unsigned long now = SDL_GetTicks();
     if (now - lastupdate >= interval) {
+        // Select default target (the window), copy rendered buffer
+        // there, present it, select the buffer as target again.
+        SDL_SetRenderTarget(renderer, NULL);
+        SDL_RenderCopy(renderer, display_buffer, NULL, NULL);
         SDL_RenderPresent(renderer);
+        SDL_SetRenderTarget(renderer, display_buffer);
         needupdate = false;
         lastupdate = now;
     } else {
