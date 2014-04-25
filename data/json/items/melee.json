@@ -165,7 +165,7 @@
     "volume": 10,
     "bashing": 1,
     "cutting": 0,
-    "to_hit": -10
+    "to_hit": -1
   },
 
   {
@@ -554,11 +554,13 @@
     "description": "A heavy iron disc that typically covers a ladder into the sewers. Lifting it from the manhole is impossible without a crowbar.",
     "price": 2000,
     "material": "iron",
+    "flags": ["DURABLE_MELEE"],
     "weight": 36287,
     "volume": 12,
     "bashing": 20,
     "cutting": 0,
-    "to_hit": -10
+    "to_hit": -5
+
   },
 
   {
@@ -855,7 +857,7 @@
     "material": "gold",
     "weight": 9650,
     "volume": 2,
-    "bashing": 14,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": -8
   },
@@ -1133,7 +1135,7 @@
     "volume": 0,
     "bashing": 0,
     "cutting": 0,
-    "to_hit": -10,
+    "to_hit": -5,
     "qualities": [["COOK", 1]]
     },
   {
@@ -1181,9 +1183,9 @@
     "material": ["steel", "iron"],
     "weight": 9071,
     "volume": 25,
-    "bashing": -3,
+    "bashing": 6,
     "cutting": 0,
-    "to_hit": -10
+    "to_hit": -4
   },
 
   {
@@ -1393,7 +1395,7 @@
     "volume": 1,
     "bashing": 6,
     "cutting": 6,
-    "to_hit": -3
+    "to_hit": -2
   },
   {
     "type":"GENERIC",
@@ -1674,9 +1676,9 @@
     "material": ["plastic", "steel"],
     "weight": 725,
     "volume": 1,
-    "bashing": 0,
+    "bashing": 4,
     "cutting": 0,
-    "to_hit": 0
+    "to_hit": -3
   },
 
   {
