@@ -158,7 +158,13 @@
 				"f": "t_fencegate_c",
 				",": "t_pavement_y",
 				"@": "t_console_broken",
-				"l": "t_linoleum_gray"
+				"l": "t_linoleum_gray",
+				"d": "t_pavement",
+				"c": "t_linoleum_gray",
+				"t": "t_linoleum_gray",
+				"s": "t_linoleum_gray",
+				"{": "t_linoleum_gray",
+				"&": "t_linoleum_gray"
 			},
 			"furniture": {
 				"#": "f_table",
