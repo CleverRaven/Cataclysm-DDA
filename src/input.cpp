@@ -856,6 +856,8 @@ bool input_context::get_direction(int &dx, int &dy, const std::string &action)
     return true;
 }
 
+const std::string display_help_hotkeys= "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",./<>?!@#$%^&*()_[]\\{}|`~";
+
 void input_context::display_help()
 {
     inp_mngr.set_timeout(-1);
@@ -886,11 +888,11 @@ void input_context::display_help()
     static const nc_color local_key = c_ltgreen;
     static const nc_color unbound_key = c_ltred;
     // (vertical) scroll offset
-    int offset = 0;
+    size_t scroll_offset = 0;
     // height of the area usable for display of keybindings, excludes headers & borders
-    int display_height = FULL_SCREEN_HEIGHT - 2 - 2; // -2 for the border
+    const size_t display_height = FULL_SCREEN_HEIGHT - 2 - 2; // -2 for the border
     // width of the legend
-    const int legwidth = FULL_SCREEN_WIDTH - 51 - 2;
+    const size_t legwidth = FULL_SCREEN_WIDTH - 51 - 2;
     // keybindings help
     std::ostringstream legend;
     legend << "<color_" << string_from_color(unbound_key) << ">" << _("Unbound keys") << "</color>\n";
@@ -898,22 +900,44 @@ void input_context::display_help()
     legend << "<color_" << string_from_color(global_key) << ">" << _("Keybinding active globally") << "</color>\n";
     legend << _("Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n");
 
+    input_context ctxt("HELP_KEYBINDINGS");
+    ctxt.register_action("SCROLL_UP");
+    ctxt.register_action("SCROLL_DOWN");
+    ctxt.register_action("REMOVE");
+    ctxt.register_action("ADD_LOCAL");
+    ctxt.register_action("ADD_GLOBAL");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("ANY_INPUT");
+
+    if (category != "HELP_KEYBINDINGS") {
+        // avoiding inception!
+        ctxt.register_action("HELP_KEYBINDINGS");
+    }
+
+    std::string hotkeys = ctxt.get_available_single_char_hotkeys(display_help_hotkeys);
+
     while(true) {
         werase(w_help);
         draw_border(w_help);
-        draw_scrollbar(w_help, offset, display_height, org_registered_actions.size(), 1);
+        draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size(), 1);
         mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
                 c_ltred, " %s ", _("Keybindings"));
 
         fold_and_print(w_help, 1, 51, legwidth, c_white, legend.str());
 
-        for (size_t i = 0; i + offset < org_registered_actions.size() && i < display_height; i++) {
-            const std::string &action_id = org_registered_actions[i + offset];
+        for (size_t i = 0; i + scroll_offset < org_registered_actions.size() && i < display_height; i++) {
+            const std::string &action_id = org_registered_actions[i + scroll_offset];
 
             bool overwrite_default;
             const action_attributes &attributes = inp_mngr.get_action_attributes(action_id, category, &overwrite_default);
 
-            const char invlet = i + 'a';
+            char invlet;
+            if (i < hotkeys.size()) {
+                invlet = hotkeys[i];
+            } else {
+                invlet = ' ';
+            }
+
             if (status == s_add_global && overwrite_default) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
@@ -939,38 +963,25 @@ void input_context::display_help()
         wrefresh(w_help);
         refresh();
 
-        input_context ctxt("HELP_KEYBINDINGS");
-        ctxt.register_action("SCROLL_UP");
-        ctxt.register_action("SCROLL_DOWN");
-        ctxt.register_action("REMOVE");
-        ctxt.register_action("ADD_LOCAL");
-        ctxt.register_action("ADD_GLOBAL");
-        ctxt.register_action("QUIT");
-        ctxt.register_action("ANY_INPUT");
-
-        if (category != "HELP_KEYBINDINGS") {
-            // avoiding inception!
-            ctxt.register_action("HELP_KEYBINDINGS");
-        }
-
         // In addition to the modifiable hotkeys, we also check for hardcoded
         // keys, e.g. '+', '-', '=', in order to prevent the user from
         // entering an unrecoverable state.
         const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
-        if (action == "ADD_LOCAL" || ch == '+') {
+        const long raw_input_char = ctxt.get_raw_input().get_first_input();
+        if (action == "ADD_LOCAL" || raw_input_char == '+') {
             status = s_add;
-        } else if (action == "ADD_GLOBAL" || ch == '=') {
+        } else if (action == "ADD_GLOBAL" || raw_input_char == '=') {
             status = s_add_global;
-        } else if (action == "REMOVE" || ch == '-') {
+        } else if (action == "REMOVE" || raw_input_char == '-') {
             status = s_remove;
         } else if (action == "ANY_INPUT") {
-            if (status == s_show || ch < 'a' || ch > 'a' + org_registered_actions.size()) {
+            const size_t hotkey_index = hotkeys.find_first_of(raw_input_char);
+            if (status == s_show || hotkey_index == std::string::npos || hotkey_index >= org_registered_actions.size()) {
                 continue;
             }
 
-            const int action = ch - 'a' + offset;
-            const std::string &action_id = org_registered_actions[action];
+            const int action_index = hotkey_index + scroll_offset;
+            const std::string &action_id = org_registered_actions[action_index];
 
             // Check if this entry is local or global.
             bool is_local = false;
@@ -1019,12 +1030,12 @@ void input_context::display_help()
             }
             status = s_show;
         } else if (action == "SCROLL_DOWN") {
-            if (offset + 1 < org_registered_actions.size()) {
-                offset++;
+            if (scroll_offset + 1 < org_registered_actions.size()) {
+                scroll_offset++;
             }
         } else if (action == "SCROLL_UP") {
-            if (offset > 0) {
-                offset--;
+            if (scroll_offset > 0) {
+                scroll_offset--;
             }
         } else if (action == "QUIT") {
             if (status != s_show) {
@@ -1032,6 +1043,9 @@ void input_context::display_help()
             } else {
                 break;
             }
+        } else if (action == "HELP_KEYBINDINGS") {
+            // update available hotkeys in case they've changed
+            hotkeys = ctxt.get_available_single_char_hotkeys(display_help_hotkeys);
         }
     }
 
