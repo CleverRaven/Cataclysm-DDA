@@ -9552,11 +9552,6 @@ and you can't unwield your %s."),
                             bPickup = true;
                         }
                     }
-
-                    //auto pickup arrow/bolt ammo
-                    if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
-                        bPickup = true;
-                    }
                 }
 
                 if (bPickup) {
@@ -9678,7 +9673,8 @@ and you can't unwield your %s."),
                 last_selected = selected;
                 werase(w_item_info);
                 if ( selected >= 0 && selected <= here.size()-1 ) {
-                    fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  here[selected].info().c_str());
+                    fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",
+                                   here[selected].info().c_str());
                 }
                 draw_border(w_item_info);
                 mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].display_name().c_str() );
@@ -9716,12 +9712,14 @@ and you can't unwield your %s."),
                     }
 
                     if (cur_it < pickup_chars.size() ) {
-                        mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, char(pickup_chars[cur_it]));
+                        mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor,
+                                 char(pickup_chars[cur_it]));
                     } else {
                         int p=cur_it - pickup_chars.size();
                         int p1=p / pickup_chars.size();
                         int p2=p % pickup_chars.size();
-                        mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
+                        mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor,
+                                  "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
                     }
                     if (getitem[cur_it]) {
                         if (pickup_count[cur_it] == 0) {
