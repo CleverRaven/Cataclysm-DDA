@@ -1826,7 +1826,8 @@ void play_music(std::string playlist) {
     current_playlist_at = 0;
 
     play_music_file(filename, volume);
-
+#else
+    (void)playlist;
 #endif
 }
 
