@@ -193,7 +193,7 @@ public:
   */
  bool use_amount(const itype_id &it, int &quantity, bool use_container, std::list<item> &used);
 
- bool has_flag(std::string f) const;
+ bool has_flag(const std::string f) const;
  bool contains_with_flag (std::string f) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;

@@ -1458,7 +1458,20 @@ int item::volume(bool unit_value, bool precise_value ) const
         ret *= 1000;
     }
 
-    if (count_by_charges()) {
+    static const std::string RIGID_FLAG("RIGID");
+    if (is_container() && !has_flag(RIGID_FLAG)) {
+        // non-rigid container add the volume of the content
+        int tmpvol = 0;
+        for (size_t i = 0; i < contents.size(); i++) {
+            tmpvol += contents[i].volume(false, true);
+        }
+        if (!precise_value) {
+            tmpvol /= 1000;
+        }
+        ret += tmpvol;
+    }
+
+    if (count_by_charges() || made_of(LIQUID)) {
         if ( unit_value == false ) {
             ret *= charges;
         }
@@ -1525,7 +1538,7 @@ int item::damage_cut() const
         }
 }
 
-bool item::has_flag(std::string f) const
+bool item::has_flag(const std::string &f) const
 {
     bool ret = false;
 
