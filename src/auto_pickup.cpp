@@ -139,27 +139,29 @@ void show_auto_pickup()
             }
         }
 
-        std::vector<cPickupRules> &currentPage = vAutoPickupRules[iCurrentPage];
-        const bool currentPageNonEmpty = currentPageNonEmpty;
+        const bool currentPageNonEmpty = !vAutoPickupRules[iCurrentPage].empty();
 
         if (iCurrentPage == 1 || iCurrentPage == 2) {
             if (iCurrentPage == 2 && g->u.name == "") {
                 vAutoPickupRules[2].clear();
-                mvwprintz(w_auto_pickup, 8, 15, c_white, _("Please load a character first to use this page!"));
+                mvwprintz(w_auto_pickup, 8, 15, c_white,
+                          _("Please load a character first to use this page!"));
             }
 
             //Draw Scrollbar
             draw_scrollbar(w_auto_pickup_border, iCurrentLine, iContentHeight,
                            vAutoPickupRules[iCurrentPage].size(), 5);
 
-            calcStartPos(iStartPos, iCurrentLine, iContentHeight, vAutoPickupRules[iCurrentPage].size());
+            calcStartPos(iStartPos, iCurrentLine, iContentHeight,
+                         vAutoPickupRules[iCurrentPage].size());
 
             // display auto pickup
             for (int i = iStartPos; i < vAutoPickupRules[iCurrentPage].size(); i++) {
                 if (i >= iStartPos &&
                     i < iStartPos + ((iContentHeight > vAutoPickupRules[iCurrentPage].size()) ?
                                      vAutoPickupRules[iCurrentPage].size() : iContentHeight)) {
-                    nc_color cLineColor = (vAutoPickupRules[iCurrentPage][i].bActive) ? c_white : c_ltgray;
+                    nc_color cLineColor = (vAutoPickupRules[iCurrentPage][i].bActive) ?
+                        c_white : c_ltgray;
 
                     sTemp.str("");
                     sTemp << i + 1;
