@@ -350,6 +350,7 @@ void Item_factory::init(){
     iuse_function_list["UNPACK_ITEM"]  = &iuse::unpack_item;
     iuse_function_list["PACK_ITEM"]  = &iuse::pack_item;
     iuse_function_list["RADGLOVE"]  = &iuse::radglove;
+    iuse_function_list["ROBOTCONTROL"]  = &iuse::robotcontrol;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
