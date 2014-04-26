@@ -1668,7 +1668,7 @@ void player::memorial( std::ofstream &memorial_file )
     const std::map<std::string, mtype*> monids = MonsterGenerator::generator().get_all_mtypes();
     for (std::map<std::string, mtype*>::const_iterator mon = monids.begin(); mon != monids.end(); ++mon){
         if (g->kill_count(mon->first) > 0){
-            memorial_file << "  " << (char)mon->second->sym << " - " << mon->second->name << " x" << g->kill_count(mon->first) << "\n";
+            memorial_file << "  " << (char)mon->second->sym << " - " << string_format("%4d",g->kill_count(mon->first)) << " " << mon->second->nname(g->kill_count(mon->first)) << "\n";
             total_kills += g->kill_count(mon->first);
         }
     }
