@@ -8206,7 +8206,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         {
             if(interactive)
             {
-                add_msg(_("You can't wear more than two %ss at once."), to_wear->tname().c_str());
+                add_msg(_("You can't wear more than two %s at once."), to_wear->tname(count).c_str());
             }
             return false;
         }
