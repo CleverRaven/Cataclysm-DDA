@@ -7773,7 +7773,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
            point pos = g->look_around();
            int mondex = g->mon_at(pos.x, pos.y);
            if (mondex == -1){
-                p->add_msg_if_player(_("There's nothing there."));
+                p->add_msg_if_player( _("There's nothing there."));
                 return 0;
            }
            monster *z = &(g->zombie(mondex));
@@ -7781,10 +7781,10 @@ int iuse::robotcontrol(player *p, item *it, bool)
                 p->add_msg_if_player( _("That %s is not a robot!"), z->name().c_str());
                 return 0;
            } else if (z->friendly != 0){
-                p->add_msg_if_player(_("That %s is already friendly"), z->name().c_str());
+                p->add_msg_if_player( _("That %s is already friendly"), z->name().c_str());
                 return 0;
            } else {
-                p->add_msg_if_player(_("You start reprograming the %s into an ally."), z->name().c_str());
+                p->add_msg_if_player( _("You start reprograming the %s into an ally."), z->name().c_str());
                 p->moves -= 1000 - p->int_cur*10 - p->skillLevel("computer")*10;
                 float success =  p->skillLevel("computer")
                  - 1.5 * (GetMType(mondex)->difficulty) / ((rng(2, p->int_cur) /2) + (p->skillLevel("computer") /2));
@@ -7799,7 +7799,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                     return it->type->charges_to_use(); //dont do the other effects if the robot died
                   }
                   if (one_in(3)){
-                    p->add_msg_if_player("...and turns friendly!");
+                    p->add_msg_if_player( _("...and turns friendly!"));
                     if (one_in(3)){ //did the robot became friendly permanently?
                         z->friendly = -1; //it did
                     } else {
@@ -7807,7 +7807,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                     }
                   }
                 } else {
-                 p->add_msg_if_player("...but the robot refuses to aknowledge you as an ally!");
+                 p->add_msg_if_player( _("...but the robot refuses to aknowledge you as an ally!"));
                }
             p->practice(calendar::turn, "computer", 10);
             return it->type->charges_to_use();
@@ -7819,12 +7819,12 @@ int iuse::robotcontrol(player *p, item *it, bool)
             int i = 0;
             for (i = 0; i < g->num_zombies(); i++) {
                 if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species("ROBOT")) {
-                        p->add_msg_if_player(_("A following %s goes into passive mode."), g->zombie(i).name().c_str());
+                        p->add_msg_if_player( _("A following %s goes into passive mode."), g->zombie(i).name().c_str());
                         g->zombie(i).add_effect("docile", 1, 1, true);
                     }
                 }
             if (i == 0){
-                p->add_msg_if_player("You are not commanding any robots");
+                p->add_msg_if_player( _("You are not commanding any robots"));
             }
             return it->type->charges_to_use();
             break;
@@ -7834,12 +7834,12 @@ int iuse::robotcontrol(player *p, item *it, bool)
             int i = 0;
             for (i = 0; i < g->num_zombies(); i++) {
                 if (g->zombie(i).friendly != 0 && g->zombie(i).has_flag(MF_ELECTRONIC)) {
-                        p->add_msg_if_player(_("A following %s goes into combat mode."), g->zombie(i).name().c_str());
+                        p->add_msg_if_player( _("A following %s goes into combat mode."), g->zombie(i).name().c_str());
                         g->zombie(i).remove_effect("docile");
                     }
                 }
             if (i == 0){
-                p->add_msg_if_player("You are not commanding any robots");
+                p->add_msg_if_player( _("You are not commanding any robots"));
                 return 0;
             }
             return it->type->charges_to_use();
