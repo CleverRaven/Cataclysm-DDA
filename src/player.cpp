@@ -4355,7 +4355,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
 
         if (source->has_flag(MF_BLEED) && dealt_dams.total_damage() > 6 && dealt_dams.type_damage(DT_CUT) > 0) { //maybe should only be if DT_CUT > 6... Balence question
             add_msg_if_player( _("You're Bleeding!"));
-            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, -1, true); //only place bleed effect added to player in code
+            add_disease("bleed", 60, false, 1, 3, 120, 1, bp, side, true); //only place bleed effect added to player in code
         }
 
         if ( source->has_flag(MF_GRABS)) {
