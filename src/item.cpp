@@ -3371,8 +3371,8 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                 }
 
                 arrowsStored = worn->contents[0].charges - arrowsStored;
-                u->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
-                                     arrowsStored, worn->contents[0].name.c_str(), worn->name.c_str());
+                u->add_msg_if_player(ngettext("You store %d %s in your %s.", "You store %d %s in your %s.", arrowsStored),
+                                     arrowsStored, worn->contents[0].type->nname(arrowsStored).c_str(), worn->name.c_str());
                 u->moves -= std::min(100, movesPerArrow * arrowsStored);
                 arrowsQuivered += arrowsStored;
             }
@@ -3385,8 +3385,8 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
             clone.charges = charges;
             u->i_add(clone);
 
-            u->add_msg_if_player(ngettext("You pick up: %d %s", "You pick up: %d %ss", charges),
-                             charges, clone.name.c_str());
+            u->add_msg_if_player(ngettext("You pick up %d %s.", "You pick up %d %s.", charges),
+                             charges, clone.type->nname(charges).c_str());
             u->moves -= 100;
 
             charges = 0;
