@@ -1805,10 +1805,10 @@ void game::update_weather()
     if (calendar::turn >= nextweather)
     {
         weather_type old_weather = weather;
-        weather_segment  new_weather = weather_log.lower_bound((int)nextweather)->second;
+        weather_segment new_weather = weather_log.upper_bound((int)calendar::turn)->second;
         weather = new_weather.weather;
         temperature = new_weather.temperature;
-        nextweather = weather_log.upper_bound(int(new_weather.deadline))->second.deadline;
+        nextweather = new_weather.deadline;
 
         //In case weather changes right after a lightning strike
         g->lightning_active = false;
