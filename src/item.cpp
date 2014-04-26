@@ -3191,6 +3191,7 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
     used.push_back(*this);
     used.back().charges = quantity;
     charges -= quantity;
+    quantity = 0;
     return false;
 }
 

@@ -102,7 +102,7 @@ RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
-  OTHERS += -O3
+  OTHERS += -Os
   # Architecture dependent optimizations, probably not huh?
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.

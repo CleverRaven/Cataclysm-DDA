@@ -139,6 +139,9 @@ void show_auto_pickup()
             }
         }
 
+        std::vector<cPickupRules> &currentPage = vAutoPickupRules[iCurrentPage];
+        const bool currentPageNonEmpty = currentPageNonEmpty;
+
         if (iCurrentPage == 1 || iCurrentPage == 2) {
             if (iCurrentPage == 2 && g->u.name == "") {
                 vAutoPickupRules[2].clear();
@@ -226,20 +229,20 @@ void show_auto_pickup()
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage].push_back(cPickupRules("", true, false));
                     iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
-        } else if (action == "REMOVE_RULE") {
+        } else if (action == "REMOVE_RULE" && currentPageNonEmpty) {
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage].erase(vAutoPickupRules[iCurrentPage].begin() + iCurrentLine);
                     if (iCurrentLine > vAutoPickupRules[iCurrentPage].size() - 1) {
                         iCurrentLine--;
                     }
-        } else if (action == "COPY_RULE") {
+        } else if (action == "COPY_RULE" && currentPageNonEmpty) {
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage].push_back(cPickupRules(
                                 vAutoPickupRules[iCurrentPage][iCurrentLine].sRule,
                                 vAutoPickupRules[iCurrentPage][iCurrentLine].bActive,
                                 vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude));
                     iCurrentLine = vAutoPickupRules[iCurrentPage].size() - 1;
-        } else if (action == "SWAP_RULE_GLOBAL_CHAR") {
+        } else if (action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty) {
                     if ((iCurrentPage == 1 && g->u.name != "") || iCurrentPage == 2) {
                         bStuffChanged = true;
                         //copy over
@@ -253,7 +256,7 @@ void show_auto_pickup()
                         iCurrentLine = vAutoPickupRules[(iCurrentPage == 1) ? 2 : 1].size() - 1;
                         iCurrentPage = (iCurrentPage == 1) ? 2 : 1;
                     }
-        } else if (action == "CONFIRM") {
+        } else if (action == "CONFIRM" && currentPageNonEmpty) {
                     bStuffChanged = true;
                     if (iCurrentCol == 1) {
                         fold_and_print(w_auto_pickup_help, 1, 1, 999, c_white,
@@ -276,10 +279,10 @@ void show_auto_pickup()
                         vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude =
                             !vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude;
                     }
-        } else if (action == "ENABLE_RULE") {
+        } else if (action == "ENABLE_RULE" && currentPageNonEmpty) {
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = true;
-        } else if (action == "DISABLE_RULE") {
+        } else if (action == "DISABLE_RULE" && currentPageNonEmpty) {
                     bStuffChanged = true;
                     vAutoPickupRules[iCurrentPage][iCurrentLine].bActive = false;
         } else if (action == "LEFT") {
@@ -292,7 +295,7 @@ void show_auto_pickup()
                     if (iCurrentCol > iTotalCols) {
                         iCurrentCol = 1;
                     }
-        } else if (action == "MOVE_RULE_UP") {
+        } else if (action == "MOVE_RULE_UP" && currentPageNonEmpty) {
                     bStuffChanged = true;
                     if (iCurrentLine < vAutoPickupRules[iCurrentPage].size() - 1) {
                         std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
@@ -300,7 +303,7 @@ void show_auto_pickup()
                         iCurrentLine++;
                         iCurrentCol = 1;
                     }
-        } else if (action == "MOVE_RULE_DOWN") {
+        } else if (action == "MOVE_RULE_DOWN" && currentPageNonEmpty) {
                     bStuffChanged = true;
                     if (iCurrentLine > 0) {
                         std::swap(vAutoPickupRules[iCurrentPage][iCurrentLine],
@@ -308,7 +311,7 @@ void show_auto_pickup()
                         iCurrentLine--;
                         iCurrentCol = 1;
                     }
-        } else if (action == "TEST_RULE") {
+        } else if (action == "TEST_RULE" && currentPageNonEmpty) {
                     test_pattern(iCurrentPage, iCurrentLine);
         } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
                     OPTIONS["AUTO_PICKUP"].setNext();

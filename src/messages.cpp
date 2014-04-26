@@ -77,12 +77,12 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
     if( !size() ) {
         return;
     }
-    int line = bottom;
+    int line = top;
     int maxlength = right - left;
     offset = std::min( offset, size() );
 
     int lasttime = -1;
-    for (int i = size() - offset - 1; i >= 0 && line >= top; i--) {
+    for (int i = size() - offset - 1; i >= 0 && line <= bottom; i--) {
         game_message &m = player_messages.messages[i];
         std::string mstr = m.message;
         if (m.count > 1) {
@@ -98,19 +98,19 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
         } else if (int(m.turn) + 5 >= player_messages.curmes) {
             col = c_ltgray;
         }
-        std::vector<std::string> folded = foldstring(mstr, maxlength);
-        for (int j = folded.size() - 1; j >= 0 && line >= top; j--, line--) {
-            mvwprintz(ipk_target, line, left, col, "%s", folded[j].c_str());
-        }
         if (display_turns) {
             calendar timepassed = calendar::turn - m.turn;
 
             if (int(timepassed) > lasttime) {
                 mvwprintz(ipk_target, line, 3, c_ltblue, _("%s ago:"),
                           timepassed.textify_period().c_str());
-                line--;
+                line++;
                 lasttime = int(timepassed);
             }
+        }
+        std::vector<std::string> folded = foldstring(mstr, maxlength);
+        for (size_t j = 0; j < folded.size() && line <= bottom; j++, line++) {
+            mvwprintz(ipk_target, line, left, col, "%s", folded[j].c_str());
         }
     }
     player_messages.curmes = int(calendar::turn);

@@ -13844,18 +13844,18 @@ void game::msg_buffer()
 
         //Draw Scrollbar
         draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT - 2, Messages::size(), 1);
-        Messages::display_messages(w, 1, 0, FULL_SCREEN_WIDTH - 2,
+        Messages::display_messages(w, 1, 1, FULL_SCREEN_WIDTH - 2,
                                    FULL_SCREEN_HEIGHT - 2, offset, true);
         if (offset > 0) {
             mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 27, c_magenta, "vvv");
         }
-        if ((offset + FULL_SCREEN_HEIGHT - 2) < Messages::size()) {
+        if (offset + 1 < Messages::size()) {
             mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 51, c_magenta, "^^^");
         }
         wrefresh(w);
 
         const std::string action = ctxt.handle_input();
-        if (action == "DOWN" && (offset + FULL_SCREEN_HEIGHT - 2) > Messages::size()) {
+        if (action == "DOWN" && offset + 1 < Messages::size()) {
             offset++;
         } else if (action == "UP" && offset > 0) {
             offset--;

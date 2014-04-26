@@ -38,7 +38,7 @@ void map::generate_lightmap()
             for(int sy = DAYLIGHT_LEVEL - (natural_light / 2);
                 sy < LIGHTMAP_CACHE_Y - (natural_light / 2); ++sy) {
                 // In bright light indoor light exists to some degree
-                if (!g->m.is_outside(sx, sy)) {
+                if (!is_outside(sx, sy)) {
                     lm[sx][sy] = LIGHT_AMBIENT_LOW;
                 } else if (g->u.posx == sx && g->u.posy == sy ) {
                     //Only apply daylight on square where player is standing to avoid flooding
@@ -55,21 +55,21 @@ void map::generate_lightmap()
     }
     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
-            const ter_id terrain = g->m.ter(sx, sy);
-            const std::vector<item> &items = g->m.i_at(sx, sy);
-            field &current_field = g->m.field_at(sx, sy);
+            const ter_id terrain = ter(sx, sy);
+            const std::vector<item> &items = i_at(sx, sy);
+            field &current_field = field_at(sx, sy);
             // When underground natural_light is 0, if this changes we need to revisit
             // Only apply this whole thing if the player is inside,
             // buildings will be shadowed when outside looking in.
-            if (natural_light > LIGHT_AMBIENT_LOW && !g->m.is_outside(g->u.posx, g->u.posy) ) {
-                if (!g->m.is_outside(sx, sy)) {
+            if (natural_light > LIGHT_AMBIENT_LOW && !is_outside(g->u.posx, g->u.posy) ) {
+                if (!is_outside(sx, sy)) {
                     // Apply light sources for external/internal divide
                     for(int i = 0; i < 4; ++i) {
                         if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
-                            g->m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
+                            is_outside(sx + dir_x[i], sy + dir_y[i])) {
                             lm[sx][sy] = natural_light;
 
-                            if (g->m.light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID) {
+                            if (light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID) {
                                 apply_light_arc(sx, sy, dir_d[i], natural_light);
                             }
                         }
@@ -160,7 +160,7 @@ void map::generate_lightmap()
     }
 
     // Apply any vehicle light sources
-    VehicleList vehs = g->m.get_vehicles();
+    VehicleList vehs = get_vehicles();
     for( size_t v = 0; v < vehs.size(); ++v ) {
         if(vehs[v].v->lights_on) {
             int dir = vehs[v].v->face.dir();
