@@ -2542,7 +2542,7 @@ int iuse::ups_battery(player *p, item *it, bool)
     }
 
     if (modded->has_flag("USE_UPS")) {
-        g->add_msg_if_player(p,_("That item has already had its battery modded use a UPS!"));
+        g->add_msg_if_player(p,_("That item has already had its battery modded to use a UPS!"));
         return 0;
     }
 
