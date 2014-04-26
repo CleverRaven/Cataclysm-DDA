@@ -389,24 +389,26 @@ void initOptions()
     tileset_names = get_tileset_names(
                         FILENAMES["gfxdir"]);      //get the tileset names and set the optionNames
 
-    optionNames["system_lang"] = _("System language");
+    // TODO: scan for languages like we do for tilesets.
+    optionNames[""] = _("System language");
     optionNames["cs"] = _("Czech");
     optionNames["en"] = _("English");
-    optionNames["fr"] = _("French");
-    optionNames["de"] = _("German");
+    optionNames["fr_FR"] = _("French");
+    optionNames["de_DE"] = _("German");
     optionNames["it"] = _("Italian");
     optionNames["ja"] = _("Japanese");
     optionNames["ko"] = _("Korean");
     optionNames["pl"] = _("Polish");
-    optionNames["pt"] = _("Portuguese");
-    optionNames["ru"] = _("Russian");
+    optionNames["pt_BR"] = _("Brazilian Portuguese");
+    optionNames["pt_PT"] = _("Portuguese, Portugal");
+    optionNames["ru_RU"] = _("Russian");
     optionNames["sr"] = _("Serbian");
     optionNames["vi"] = _("Vietnamese");
     optionNames["zh_CN"] = _("Simplified Chinese");
     optionNames["zh_TW"] = _("Traditional Chinese");
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               "system_lang,cs,en,fr,de,it,ja,ko,pl,pt,ru,sr,vi,zh_CN,zh_TW",
-                               "system_lang" );
+                               ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru_RU,sr,vi,zh_CN,zh_TW",
+                               "" );
 
     optionNames["fahrenheit"] = _("Fahrenheit");
     optionNames["celsius"] = _("Celsius");
@@ -1033,7 +1035,7 @@ void show_options(bool ingame)
 
     used_tiles_changed = (OPTIONS_OLD["TILES"].getValue() != OPTIONS["TILES"].getValue()) ||
                          (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
-
+    bool lang_changed = OPTIONS_OLD["USE_LANG"].getValue() != OPTIONS["USE_LANG"].getValue();
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {
             save_options(ingame && bWorldStuffChanged);
@@ -1044,6 +1046,9 @@ void show_options(bool ingame)
                 ACTIVE_WORLD_OPTIONS = WOPTIONS_OLD;
             }
         }
+    }
+    if( lang_changed ) {
+        setlocale( LC_ALL, OPTIONS["USE_LANG"].getValue().c_str() );
     }
 #ifdef SDLTILES
     if( used_tiles_changed ) {

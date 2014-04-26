@@ -236,9 +236,7 @@ int main(int argc, char *argv[])
     initOptions();
     load_options(); // For getting size options
 #ifdef LOCALIZE
-    if (OPTIONS["USE_LANG"].getValue()!="system_lang") {
-        setenv ("LANGUAGE", OPTIONS["USE_LANG"].getValue().c_str(),1);
-    }
+    setlocale(LC_ALL, OPTIONS["USE_LANG"].getValue().c_str());
 #endif // LOCALIZE
     if (initscr() == NULL) { // Initialize ncurses
         DebugLog() << "initscr failed!\n";
