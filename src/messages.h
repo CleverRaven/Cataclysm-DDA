@@ -47,7 +47,6 @@ private:
     std::vector <struct game_message> messages;   // Messages to be printed
     void add_msg_string(const std::string &s);
     int curmes;   // The last-seen message.
-    int display_single_message(WINDOW *ipk_target, int left, int top);
 };
 
 void add_msg(const char *msg, ...);
