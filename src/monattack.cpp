@@ -1319,7 +1319,7 @@ void mattack::tazer(monster *z)
  z->sp_timeout = z->type->sp_freq; // Reset timer
  z->moves -= 200;   // It takes a while
  if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday") || g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
-     g->add_msg(_("The %s attempts to shock you but fails."), z->name().c_str());
+     g->add_msg(_("The %s unsuccessfully attempts to shock you."), z->name().c_str());
   return;
  }
  g->add_msg(_("The %s shocks you!"), z->name().c_str());
