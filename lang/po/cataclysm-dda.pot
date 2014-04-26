@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-25 13:15+0400\n"
+"POT-Creation-Date: 2014-04-26 13:34+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1690,6 +1690,18 @@ msgstr[1] ""
 msgid ""
 "An empty casing from a .700 NX round. These are rare, so you might want to "
 "hold onto these."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "nicotine liquid"
+msgid_plural "nicotine liquids"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A small bottle of liquid. The liquid is made up of propylene glycol, vegetal "
+"glycerine, flavorings and nicotine."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -16324,6 +16336,19 @@ msgstr[1] ""
 msgid "An egg belonging to one of reptile species found in New England."
 msgstr ""
 
+#: lang/json/COMESTIBLE_from_json.py
+msgid "electronic cigarette"
+msgid_plural "electronic cigarettes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"This battery operated device vaporizes a liquid which contains flavorings "
+"and nicotine. A less harmful alternative to traditional cigarette, but still "
+"addictive. It can't be reused once it's empty."
+msgstr ""
+
 #: lang/json/CONTAINER_from_json.py
 msgid "plastic bag"
 msgid_plural "plastic bags"
@@ -28419,6 +28444,19 @@ msgstr[1] ""
 msgid "Dummy item. If you see this, then something went wrong."
 msgstr ""
 
+#: lang/json/TOOL_from_json.py
+msgid "advanced electronic cigarette"
+msgid_plural "advanced electronic cigarettes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An advanced version of the electronic cigarette. A less harmful way to get "
+"your nicotine fix than regular cigarettes, but still addictive. It needs "
+"batteries and nicotine liquid to function."
+msgstr ""
+
 #: lang/json/VAR_VEH_PART_from_json.py
 #: lang/json/vehicle_part_from_json.py
 msgid "wheel"
@@ -32177,14 +32215,6 @@ msgstr ""
 msgid "remove bionic"
 msgstr ""
 
-#: lang/json/keybinding_from_json.py src/game.cpp
-msgid "Scroll up"
-msgstr ""
-
-#: lang/json/keybinding_from_json.py src/game.cpp
-msgid "Scroll down"
-msgstr ""
-
 #: lang/json/keybinding_from_json.py
 msgid "Remove bindings"
 msgstr ""
@@ -34459,8 +34489,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your visual processing has shifted: though you can see better at night, you "
-"can't see as far."
+"Your visual processing has shifted: though you can see better in the dark, "
+"you can't see very far in the light."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -34653,8 +34683,8 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid ""
-"Your thick fur has grown out, providing noticeable protection from attacks "
-"in addition to its considerable insulation."
+"Your fur has grown out and thickened, providing noticeable protection from "
+"attacks as well as considerable insulation."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -34913,8 +34943,8 @@ msgid ""
 "become infested with internal parasites."
 msgstr ""
 
-#: lang/json/mutation_from_json.py src/faction.cpp
-msgid "Poisonous"
+#: lang/json/mutation_from_json.py
+msgid "Venomous"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -34924,7 +34954,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
-msgid "Venomous"
+msgid "Strongly Venomous"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -49220,6 +49250,10 @@ msgid "Nefarious"
 msgstr ""
 
 #: src/faction.cpp
+msgid "Poisonous"
+msgstr ""
+
+#: src/faction.cpp
 msgid "Vile"
 msgstr ""
 
@@ -53590,6 +53624,14 @@ msgstr ""
 msgid "GAME OVER"
 msgstr ""
 
+#: src/game.cpp src/input.cpp
+msgid "Scroll up"
+msgstr ""
+
+#: src/game.cpp src/input.cpp
+msgid "Scroll down"
+msgstr ""
+
 #: src/game.cpp
 #, c-format
 msgid "Press %s to return"
@@ -56755,6 +56797,22 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Ugh, too much smoke... you feel nasty."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You take a puff from your electronic cigarette."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You inhale some vapor from your advanced electronic cigarette."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You don't have any nicotine liquid!"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Ugh, too much nicotine... you feel nasty."
 msgstr ""
 
 #: src/iuse.cpp
@@ -62404,7 +62462,7 @@ msgstr ""
 msgid "%s for %d damage."
 msgstr ""
 
-#. ~ Message %s on the message log was repeated %d times, eg. “You hear a whack! x 12”
+#. ~ Message %s on the message log was repeated %d times, eg. You hear a whack! x 12
 #: src/messages.cpp
 #, c-format
 msgid "%s x %d"
