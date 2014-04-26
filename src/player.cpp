@@ -6027,7 +6027,7 @@ int player::volume_capacity()
   ret += armor->storage;
  }
  if (has_bionic("bio_storage"))
-  ret += 6;
+  ret += 8;
  if (has_trait("SHELL"))
   ret += 16;
  if (has_trait("PACKMULE"))
