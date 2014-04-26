@@ -861,14 +861,16 @@ int iuse::cig(player *p, item *it, bool)
             }
             int choice = -1;
             if(hasPipe && hasPapers) { // ask whether to roll a cigarette or puff on a pipe
-                choice = menu(true, _("Do what with the tobacco?"), _("Roll a cigarette"), _("Smoke a pipe"), _("Cancel"), NULL);
+                choice = menu(true, _("Do what with the tobacco?"), _("Roll a cigarette"),
+                              _("Smoke a pipe"), _("Cancel"), NULL);
                 if(choice < 0 || choice == 3) {
                     p->add_msg_if_player( _("Never mind."));
                     return 0;
                 }
             }
 
-            if ((choice == 1) || !hasPipe) { // use a rolling paper and continue to smoke as if using a cigarette
+            // Use a rolling paper and continue to smoke as if using a cigarette.
+            if ((choice == 1) || !hasPipe) {
                 if(p->has_disease("shakes") && !(one_in(15))) { // can't roll with the shakes
                     p->add_msg_if_player(_("Your hands are too shaky to roll a cigarette!"));
                     p->moves -= 10;
@@ -917,6 +919,29 @@ int iuse::cig(player *p, item *it, bool)
         p->add_msg_if_player( _("Ugh, too much smoke... you feel nasty."));
     }
 
+    return it->type->charges_to_use();
+}
+
+int iuse::ecig(player *p, item *it, bool)
+{
+    if (it->type->id == "ecig") {
+        p->add_msg_if_player(_("You take a puff from your electronic cigarette."));
+    } else if(it->type->id == "advanced_ecig") {
+        if(p->inv.has_components("nicotine_liquid", 1)) {
+            p->add_msg_if_player(_("You inhale some vapor from your advanced electronic cigarette."));
+            p->inv.use_charges("nicotine_liquid", 1);
+        } else {
+            p->add_msg_if_player(_("You don't have any nicotine liquid!"));
+            return 0;
+        }
+    }
+
+    p->thirst += 1;
+    p->hunger -= 1;
+    p->add_disease("cig", 100);
+    if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+        p->add_msg_if_player(_("Ugh, too much nicotine... you feel nasty."));
+    }
     return it->type->charges_to_use();
 }
 

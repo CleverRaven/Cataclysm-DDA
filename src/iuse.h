@@ -34,6 +34,7 @@ public:
     int pkill               (player*, item*, bool);
     int xanax               (player*, item*, bool);
     int cig                 (player*, item*, bool);
+    int ecig                (player*, item*, bool);
     int antibiotic          (player*, item*, bool);
     int eyedrops            (player*, item*, bool);
     int fungicide           (player*, item*, bool);

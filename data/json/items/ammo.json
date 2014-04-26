@@ -3462,6 +3462,28 @@
         "dispersion" : 0,
         "recoil" : 0,
         "count" : 30
+    },
+    {   "type" : "AMMO",
+        "id" : "nicotine_liquid",
+        "category" : "spare_parts",
+        "price" : 1000,
+        "name" : "nicotine liquid",
+        "symbol" : "=",
+        "color" : "yellow",
+        "description" : "A small bottle of liquid. The liquid is made up of propylene glycol, vegetal glycerine, flavorings and nicotine.",
+        "material" : "plastic",
+        "volume" : 0,
+        "weight" : 2,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "components",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 50
     }
 
 
