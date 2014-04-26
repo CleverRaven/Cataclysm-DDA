@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-26 13:34+0400\n"
+"POT-Creation-Date: 2014-04-26 13:46+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62462,7 +62462,7 @@ msgstr ""
 msgid "%s for %d damage."
 msgstr ""
 
-#. ~ Message %s on the message log was repeated %d times, eg. You hear a whack! x 12
+#. ~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
 #: src/messages.cpp
 #, c-format
 msgid "%s x %d"
