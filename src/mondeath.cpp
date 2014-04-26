@@ -294,8 +294,9 @@ void mdeath::guilt(monster *z) {
     if (kill_count >= maxKills) {
         // player no longer cares
         if (kill_count == maxKills) {
-            add_msg(_("After killing so many bloody %ss you no longer care "
-                          "about their deaths anymore."), z->name().c_str());
+            //~ Message after killing a lot of monsters which would normally affect the morale negatively. %s is the monster name, it will be pluralized with a number of 100.
+            add_msg(_("After killing so many bloody %s you no longer care "
+                          "about their deaths anymore."), z->name(maxKills).c_str());
         }
         return;
     }

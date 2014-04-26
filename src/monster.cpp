@@ -158,15 +158,16 @@ void monster::spawn(int x, int y)
     _posy = y;
 }
 
-std::string monster::name()
+std::string monster::name(unsigned int quantity)
 {
  if (!type) {
   debugmsg ("monster::name empty type!");
   return std::string();
  }
  if (unique_name != "")
-  return type->name + ": " + unique_name;
- return type->name;
+  return string_format("%s: %s",
+                       _(type->name.c_str()), unique_name.c_str());
+ return ngettext(type->name.c_str(), type->name_plural.c_str(), quantity);
 }
 
 // MATERIALS-TODO: put description in materials.json?
