@@ -1981,7 +1981,6 @@ point overmap::draw_overmap(int z)
 point overmap::draw_overmap(const tripoint& orig, bool debug_mongroup)
 {
     WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
-    timeout(BLINK_SPEED); // Enable blinking!
     bool blink = true;
     long ch = 0;
     point ret(invalid_point);
@@ -2011,11 +2010,7 @@ point overmap::draw_overmap(const tripoint& orig, bool debug_mongroup)
         timeout(-1);
 
         int dirx, diry;
-        if (action != "ANY_INPUT") {
-            blink = true; // If any input is detected, make the blinkies on
-        }
-        ictxt.get_direction(dirx, diry, action);
-        if (dirx != -2 && diry != -2) {
+        if (ictxt.get_direction(dirx, diry, action)) {
             curs.x += dirx;
             curs.y += diry;
         } else if (action == "CENTER") {
@@ -2097,8 +2092,9 @@ point overmap::draw_overmap(const tripoint& orig, bool debug_mongroup)
             } while(ch != '\n' && ch != ' ' && ch != 'q' && ch != KEY_ESCAPE);
             delwin(w_search);
             ch = '.';
+        } else if (action == "TIMEOUT") {
+            blink = !blink;
         } else if (action == "ANY_INPUT") {
-            // Hit timeout on input, so make characters blink
             blink = !blink;
             input_event e = ictxt.get_raw_input();
             if(e.type == CATA_INPUT_KEYBOARD && e.get_first_input() == 'm') {
