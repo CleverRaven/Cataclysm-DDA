@@ -87,7 +87,7 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
         std::string mstr = m.message;
         if (m.count > 1) {
             std::stringstream mesSS;
-            //~ Message %s on the message log was repeated %d times, eg. “You hear a whack! x 12”
+            //~ Message %s on the message log was repeated %d times, eg. You hear a whack! x 12
             mesSS << string_format(_("%s x %d"), mstr.c_str(), m.count);
             mstr = mesSS.str();
         }
