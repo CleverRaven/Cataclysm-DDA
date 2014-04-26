@@ -7764,7 +7764,13 @@ int iuse::robotcontrol(player *p, item *it, bool)
     if(it->charges == 0) {
         p->add_msg_if_player( _("The %s's batteries are dead."), it->name.c_str());
         return 0;
+
     }
+    if(p->has_trait("ILLITERATE")){
+        p->add_msg_if_player( _("You cannot read a computer screen."));
+        return 0;
+    }
+
     int choice = -1;
     choice = menu(true, _("Welcome to hackPRO!:"), _("Override IFF protocols"), _("Set friendly robots to passive mode"),
                   _("Set friendly robots to combat mode"), _("Cancel"), NULL);
@@ -7772,6 +7778,10 @@ int iuse::robotcontrol(player *p, item *it, bool)
         case 1:{ // attempt to make a robot friendly
            point pos = g->look_around();
            int mondex = g->mon_at(pos.x, pos.y);
+           if (g->u_see(pos.x, pos.y) == 0){ // the player cannot see the selected square
+                p->add_msg_if_player( _("Never Mind."));
+                return 0;
+           }
            if (mondex == -1){
                 p->add_msg_if_player( _("There's nothing there."));
                 return 0;
@@ -7781,7 +7791,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                 p->add_msg_if_player( _("That %s is not a robot!"), z->name().c_str());
                 return 0;
            } else if (z->friendly != 0){
-                p->add_msg_if_player( _("That %s is already friendly"), z->name().c_str());
+                p->add_msg_if_player( _("That %s is already friendly."), z->name().c_str());
                 return 0;
            } else {
                 p->add_msg_if_player( _("You start reprograming the %s into an ally."), z->name().c_str());
@@ -7825,7 +7835,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                     }
                 }
             if (f == 0){
-                p->add_msg_if_player( _("You are not commanding any robots"));
+                p->add_msg_if_player( _("You are not commanding any robots."));
                 return 0;
             }
             return it->type->charges_to_use();
@@ -7842,7 +7852,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                     }
                 }
             if (f == 0){
-                p->add_msg_if_player( _("You are not commanding any robots"));
+                p->add_msg_if_player( _("You are not commanding any robots."));
                 return 0;
             }
             return it->type->charges_to_use();
