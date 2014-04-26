@@ -9849,7 +9849,7 @@ and you can't unwield your %s."),
                                 m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                                 u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                                 u.wield(&(u.i_add(here[i])));
-                                mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
+                                mapPickup[here[i].tname(here[i].charges)] += (here[i].count_by_charges()) ? here[i].charges : 1;
                                 add_msg(_("Wielding %c - %s"), u.weapon.invlet,
                                         u.weapon.display_name().c_str());
                             }
@@ -9866,7 +9866,7 @@ and you can't unwield your %s."),
                 } else {
                     u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                     u.wield(&(u.i_add(here[i])));
-                    mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
+                    mapPickup[here[i].tname(here[i].charges)] += (here[i].count_by_charges()) ? here[i].charges : 1;
                     picked_up = true;
                 }
             } else if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
@@ -9879,7 +9879,7 @@ and you can't unwield your %s."),
                 picked_up = true;
             } else {
                 u.i_add(here[i]);
-                mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
+                mapPickup[here[i].tname(here[i].charges)] += (here[i].count_by_charges()) ? here[i].charges : 1;
                 picked_up = true;
             }
 
@@ -9902,7 +9902,6 @@ and you can't unwield your %s."),
     }
 
     // Auto pickup item message
-    // FIXME: i18n
     if (min == -1 && !mapPickup.empty()) {
         show_pickup_message(mapPickup);
     }
@@ -9943,7 +9942,7 @@ int game::handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_de
         //display output message
         std::map<std::string, int> map_pickup;
         int charges = (here.count_by_charges()) ? here.charges : 1;
-        map_pickup.insert(std::pair<std::string, int>(here.tname(), charges));
+        map_pickup.insert(std::pair<std::string, int>(here.tname(charges), charges));
         show_pickup_message(map_pickup);
     }
     return 0;
@@ -9964,7 +9963,7 @@ void game::remove_from_map_or_vehicle(int posx, int posy, bool from_veh, vehicle
 void game::show_pickup_message(std::map<std::string, int> mapPickup) {
     for (std::map<std::string, int>::iterator iter = mapPickup.begin();
             iter != mapPickup.end(); ++iter) {
-        add_msg(ngettext("You pick up: %d %s", "You pick up: %d %ss", iter->second),
+        add_msg(ngettext("You pick up: %d %s", "You pick up: %d %s", iter->second),
                          iter->second, iter->first.c_str());
     }
 }
@@ -10509,12 +10508,12 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, int
                     veh->part_info(veh_part).name.c_str());
         } else if (can_move_there) {
             add_msg(ngettext("You drop your %s on the %s.",
-                             "You drop your %ss on the %s.", dropcount),
+                             "You drop your %s on the %s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
                     m.name(dirx, diry).c_str());
         } else {
             add_msg(ngettext("You put your %s in the %s.",
-                             "You put your %ss in the %s.", dropcount),
+                             "You put your %s in the %s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
                     m.name(dirx, diry).c_str());
         }
