@@ -5,8 +5,7 @@
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 
 extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
-extern int fontheight;
-extern int fontwidth;
+extern void try_update();
 
 /* Tiles version of Explosion Animation */
 void game::draw_explosion(int x, int y, int radius, nc_color col)
@@ -19,6 +18,9 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
     const int xpos = POSX + (x - (u.posx + u.view_offset_x));
 
     for (int i = 1; i <= radius; i++) {
+        if (use_tiles) {
+            tilecontext->init_explosion(x, y, i);
+        } else {
         mvwputch(w_terrain, ypos - i, xpos - i, col, '/');
         mvwputch(w_terrain, ypos - i, xpos + i, col, '\\');
         mvwputch(w_terrain, ypos + i, xpos - i, col, '\\');
@@ -29,10 +31,10 @@ void game::draw_explosion(int x, int y, int radius, nc_color col)
             mvwputch(w_terrain, ypos + j, xpos - i, col, '|');
             mvwputch(w_terrain, ypos + j, xpos + i, col, '|');
         }
-        tilecontext->init_explosion(x, y, i);
-        //tilecontext->draw_explosion_frame(x, y, radius, offset_x, offset_y);
+        }
 
         wrefresh(w_terrain);
+        try_update();
         nanosleep(&ts, NULL);
     }
     tilecontext->void_explosion();
@@ -58,12 +60,15 @@ void game::draw_bullet(Creature &p, int tx, int ty, int i,
             break;
         }
 
-        mvwputch(w_terrain, POSY + (ty - (u.posy + u.view_offset_y)),
+        if (use_tiles) {
+            tilecontext->init_draw_bullet(tx, ty, bullet);
+        } else {
+            mvwputch(w_terrain, POSY + (ty - (u.posy + u.view_offset_y)),
                  POSX + (tx - (u.posx + u.view_offset_x)), c_red, bullet_char);
-        // pass to tilecontext
-        tilecontext->init_draw_bullet(tx, ty, bullet);
+        }
         wrefresh(w_terrain);
         if (p.is_player()) {
+            try_update();
             nanosleep(&ts, NULL);
         }
         tilecontext->void_bullet();
@@ -76,18 +81,13 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
         //int iTimeout = 0;
         tilecontext->init_draw_hit(x, y, m.type->id);
         wrefresh(w_terrain);
+        try_update();
 
         timespec tspec;
         tspec.tv_sec = 0;
         tspec.tv_nsec = BULLET_SPEED;
 
         nanosleep(&tspec, NULL);
-
-        mvwputch(w_terrain,
-                 POSX + (x - (u.posx + u.view_offset_x)),
-                 POSY + (y - (u.posy + u.view_offset_y)),
-                 c_white, ' ');
-        wrefresh(w_terrain);
     } else {
         nc_color cMonColor = m.type->color;
         char sMonSym = m.symbol();
@@ -109,18 +109,13 @@ void game::draw_hit_player(player *p, bool dead)
 
         tilecontext->init_draw_hit(p->posx, p->posy, pname);
         wrefresh(w_terrain);
+        try_update();
 
         timespec tspec;
         tspec.tv_sec = 0;
         tspec.tv_nsec = BULLET_SPEED;
 
         nanosleep(&tspec, NULL);
-
-        mvwputch(w_terrain,
-                 POSX + (p->posx - (u.posx + u.view_offset_x)),
-                 POSY + (p->posy - (u.posy + u.view_offset_y)),
-                 c_white, ' ');
-        wrefresh(w_terrain);
     } else {
         hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                       POSY + (p->posy - (u.posy + u.view_offset_y)),

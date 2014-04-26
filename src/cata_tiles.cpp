@@ -535,6 +535,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
                 // Draw lighting
                 draw_lighting(x, y, l);
                 // continue on to next part of loop
+                g->mapRain[my][mx] = false;
                 continue;
             }
             // light is no longer being considered, for now.
@@ -542,6 +543,7 @@ void cata_tiles::draw(int destx, int desty, int centerx, int centery, int width,
             if (!draw_terrain(x, y)) {
                 continue;
             }
+            g->mapRain[my][mx] = g->m.is_outside(x, y);
             draw_furniture(x, y);
             draw_trap(x, y);
             draw_field_or_item(x, y);
@@ -1282,11 +1284,8 @@ void cata_tiles::draw_weather_frame()
             weather_iterator != anim_weather.vdrops.end();
             ++weather_iterator) {
         // currently in ascii screen coordinates
-        int x = weather_iterator->first;
-        int y = weather_iterator->second;
-
-        x = x + g->ter_view_x - getmaxx(g->w_terrain) / 2;
-        y = y + g->ter_view_y - getmaxy(g->w_terrain) / 2;
+        int x = weather_iterator->first + o_x;
+        int y = weather_iterator->second + o_y;
 
         draw_from_id_string(weather_name, C_WEATHER, empty_string, x, y, 0, 0);
     }
