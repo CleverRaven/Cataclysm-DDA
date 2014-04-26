@@ -3611,15 +3611,15 @@ void overmap::place_mongroups()
 {
     // Cities are full of zombies
     for( size_t i = 0; i < cities.size(); i++ ) {
-        if( !one_in(16) || cities[i].s > 5 ) {
-            if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
-                zg.push_back (mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
-                                       int(cities[i].s * 2.5), cities[i].s * 80));
+        if( ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"] ) {
+            if( !one_in(16) || cities[i].s > 5 ) {
+                zg.push_back( mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
+                                       int(cities[i].s * 2.5), cities[i].s * 80) );
+                zg.back().set_target( zg.back().posx, zg.back().posy );
+                zg.back().horde = true;
+                zg.back().wander();
             }
         }
-        zg.back().set_target( zg.back().posx, zg.back().posy );
-        zg.back().horde = true;
-        zg.back().wander();
         if( !ACTIVE_WORLD_OPTIONS["STATIC_SPAWN"] ) {
             zg.push_back( mongroup("GROUP_ZOMBIE", (cities[i].x * 2), (cities[i].y * 2), 0,
                                    int(cities[i].s * 2.5), cities[i].s * 80) );
