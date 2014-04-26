@@ -6466,22 +6466,29 @@ bool player::process_single_active_item(item *it)
         {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
             tmp->use.call(this, it, true);
-            if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
+            if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0 )
             {
                 it->charges--;
             }
-            if (it->charges <= 0)
+            if (it->charges <= 0  and !(it->has_flag("USE_UPS") && (has_charges("adv_UPS_on", 1) || has_charges("UPS_on", 1) || (has_active_bionic("bio_ups")))))
             {
-                tmp->use.call(this, it, false);
-                if (tmp->revert_to == "null")
-                {
-                    return false;
-                }
-                else
-                {
-                    it->type = itypes[tmp->revert_to];
-                    it->active = false;
-                }
+		if (it->has_flag("USE_UPS")){
+			g->add_msg_if_player(this,"You need an active UPS to run that!");
+			tmp->use.call(this, it, false);		
+		}
+		else
+		{
+		        tmp->use.call(this, it, false);
+		        if (tmp->revert_to == "null")
+		        {
+		            return false;
+		        }
+		        else
+		        {
+		            it->type = itypes[tmp->revert_to];
+		            it->active = false;
+		        }
+		}
             }
         }
         else if (it->type->id == "corpse")
@@ -8740,24 +8747,29 @@ void player::use(int pos)
 
     if (used->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
-        if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use || (used->has_flag("USE_UPS") && (has_charges("adv_UPS_on", 1) || has_charges("UPS_on", 5) || has_charges("adv_UPS_off", 1) || has_charges("UPS_off", 5) || (has_bionic("bio_ups") && power_level >= 1)))) {
-            int charges_used = tool->use.call(this, used, false);
+	int charges_used = tool->use.call(this, used, false);
+        if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use || (used->has_flag("USE_UPS") && (has_charges("adv_UPS_on", charges_used * (.6)) || has_charges("UPS_on", charges_used) || has_charges("adv_UPS_off", charges_used * (.6)) || has_charges("UPS_off", charges_used) || (has_bionic("bio_ups") && power_level >= (charges_used/10))))) {
+            
             if ( charges_used >= 1 ) {
                 if( tool->charges_per_use > 0 ) {
 		    if (used->has_flag("USE_UPS")){
 			//If the device has been modded to run off ups, we want to reduce ups charges instead of item charges.
-			
-			if (has_charges("adv_UPS_off", 1)) {
-			    use_charges("adv_UPS_off", 1);
-			} else if (has_charges("adv_UPS_on", 1)) {
-			    use_charges("adv_UPS_on", 1);
-			} else if (has_charges("UPS_off", 5)) {
-			    use_charges("UPS_off", 5);
-			} else if (has_charges("UPS_on", 5)) {
-			    use_charges("UPS_on", 5); 
+			//if (charges_used == 1){
+		///		if (has_charges("adv_UPS_on", 1) || has_charges("UPS_on",1) || has_active_bionic("bio_ups")){
+		//			g->add_msg("");
+		//		}
+		//	}
+			if (has_charges("adv_UPS_off", charges_used * (.6))) {
+			    use_charges("adv_UPS_off", charges_used * (.6));
+			} else if (has_charges("adv_UPS_on", charges_used * (.6))) {
+			    use_charges("adv_UPS_on", charges_used * (.6));
+			} else if (has_charges("UPS_off", charges_used)) {
+			    use_charges("UPS_off", charges_used);
+			} else if (has_charges("UPS_on", charges_used)) {
+			    use_charges("UPS_on", charges_used); 
 			}
 			  else if (has_bionic("bio_ups")) {
-			    charge_power(-1 * 1);
+			    charge_power(-1 * (charges_used/10));
 			}
 		    }
 		    else{

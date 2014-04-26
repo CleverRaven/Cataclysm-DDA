@@ -5811,7 +5811,7 @@ int iuse::shocktonfa_on(player *p, item *it, bool t)
     if (t) {  // Effects while simply on
 
     } else
-        if (it->charges == 0) {
+        if (it->charges <= 0) {
             g->add_msg_if_player(p, _("Your tactical tonfa is out of power"));
             it->make(itypes["shocktonfa_off"]);
             it->active = false;

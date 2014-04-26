@@ -12962,6 +12962,40 @@
   ]
 },{
         "type" : "recipe",
+  "result": "battery_ups",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "electronics",
+  "difficulty": 5,
+  "time": 45000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": true,
+  "book_learn": [[ "advanced_electronics", 4] , [ "recipe_lab_elec", 4 ] , [ "textbook_anarch", 4]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "soldering_iron", 24 ],
+      [ "toolset", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "power_supply", 4 ]
+    ],
+    [
+      [ "amplifier", 3 ]
+    ],
+    [
+      [ "scrap", 4 ]
+    ],
+    [
+      [ "cable", 10 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result" : "adv_UPS_off",
   "category" : "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
