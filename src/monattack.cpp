@@ -1319,6 +1319,11 @@ void mattack::tazer(monster *z)
  if (g->u.uncanny_dodge()) { return; }
  z->sp_timeout = z->type->sp_freq; // Reset timer
  z->moves -= 200;   // It takes a while
+  if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday") ||
+    g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Resistances applied.
+     add_msg(_("The %s unsuccessfully attempts to shock you."), z->name().c_str());
+  return;
+  }
  add_msg(_("The %s shocks you!"), z->name().c_str());
  int shock = rng(1, 5);
  g->u.hurt(bp_torso, -1, shock * rng(1, 3));
