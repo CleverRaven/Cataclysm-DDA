@@ -315,12 +315,12 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         mtype *newmon = new mtype;
 
         newmon->id = mid;
-        newmon->name = _(jo.get_string("name","").c_str());
+        newmon->name = jo.get_string("name","").c_str();
         if(jo.has_member("name_plural")) {
-            newmon->name_plural = jo.get_string("name_plural").c_str();
+            newmon->name_plural = jo.get_string("name_plural");
         } else {
             // default behaviour: Assume the regular plural form (appending an “s”)
-            newmon->name_plural = (jo.get_string("name") + "s").c_str();
+            newmon->name_plural = jo.get_string("name") + "s";
         }
         newmon->description = _(jo.get_string("description").c_str());
 

@@ -1488,7 +1488,7 @@ std::string defense_game::special_wave_message(std::string name)
         }
     }
 
-    switch (rng(1, 6)) {
+    switch (rng(1, 8)) {
     case 1:
         ret << string_format(_("Invasion of the %s!"), name.c_str());
         break;

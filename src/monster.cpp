@@ -166,7 +166,7 @@ std::string monster::name(unsigned int quantity)
  }
  if (unique_name != "")
   return string_format("%s: %s",
-                       _(type->name.c_str()), unique_name.c_str());
+                       (type->nname(quantity).c_str()), unique_name.c_str());
  return ngettext(type->name.c_str(), type->name_plural.c_str(), quantity);
 }
 
