@@ -291,6 +291,7 @@ void game::init_ui(){
     TERRAIN_WINDOW_HEIGHT = TERMY;
     TERRAIN_WINDOW_WIDTH = TERMX - sidebarWidth;
     TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
+    TERRAIN_WINDOW_TERM_HEIGHT = TERRAIN_WINDOW_HEIGHT;
 
     // Dimensions of terrain window is currently in colums/rows of the standard font,
     // but if the tileset is in use or if we use a different sized
