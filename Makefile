@@ -102,11 +102,14 @@ RC  = $(CROSS)windres
 
 # enable optimizations. slow to build
 ifdef RELEASE
-  OTHERS += -Os
-  # Architecture dependent optimizations, probably not huh?
+  ifeq ($(NATIVE), osx)
+    OTHERS += -O3
+  else
+    OTHERS += -Os
+    OTHERS += -s
+  endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
-  OTHERS += -s
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
 endif
