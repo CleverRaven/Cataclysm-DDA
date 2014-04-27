@@ -307,6 +307,7 @@ player& player::operator= (const player & rhs)
 
  illness = rhs.illness;
  addictions = rhs.addictions;
+ memorial_log = rhs.memorial_log;
 
  nv_cached = false;
  pda_cached = false;
