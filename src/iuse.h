@@ -192,6 +192,7 @@ public:
     int seed                (player *, item *, bool);
     int oxygen_bottle       (player *, item *, bool);
     int atomic_battery      (player *, item *, bool);
+    int ups_battery         (player *, item *, bool);
     int fishing_rod_basic   (player *, item *, bool);
     int gun_repair          (player *, item *, bool);
     int misc_repair         (player *, item *, bool);

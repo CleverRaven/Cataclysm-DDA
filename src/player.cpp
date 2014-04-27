@@ -6433,18 +6433,22 @@ bool player::process_single_active_item(item *it)
                 add_msg_if_player( _("You take a puff of your %s."), it->name.c_str());
                 if(it->has_flag("TOBACCO")) {
                     this->add_disease("cig", duration);
-                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_cigsmoke, 2);
+                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
+                                   fd_cigsmoke, 2);
                 } else { // weedsmoke
                     this->add_disease("weed_high", duration / 2);
-                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_weedsmoke, 2);
+                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
+                                   fd_weedsmoke, 2);
                 }
                 this->moves -= 15;
             }
 
             if((this->has_disease("shakes") && one_in(10)) ||
                 (this->has_trait("JITTERY") && one_in(200))) {
-                add_msg_if_player( _("Your shaking hand causes you to drop your %s."), it->name.c_str());
-                g->m.add_item_or_charges(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), this->i_rem(it), 2);
+                add_msg_if_player( _("Your shaking hand causes you to drop your %s."),
+                                   it->name.c_str());
+                g->m.add_item_or_charges(this->posx + int(rng(-1, 1)),
+                                         this->posy + int(rng(-1, 1)), this->i_rem(it), 2);
             }
 
             // done with cig
@@ -6456,39 +6460,37 @@ bool player::process_single_active_item(item *it)
                     it->make(itypes["cigar_butt"]);
                 } else { // joint
                     this->add_disease("weed_high", 10); // one last puff
-                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)), fd_weedsmoke, 2);
+                    g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
+                                   fd_weedsmoke, 2);
                     weed_msg(this);
                     it->make(itypes["joint_roach"]);
                 }
                 it->active = false;
             }
-        }
-        else if (it->is_tool())
-        {
+        } else if (it->is_tool()) {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
             tmp->use.call(this, it, true);
-            if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0)
-            {
+            if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
                 it->charges--;
             }
-            if (it->charges <= 0)
-            {
-                tmp->use.call(this, it, false);
-                if (tmp->revert_to == "null")
-                {
-                    return false;
-                }
-                else
-                {
-                    it->type = itypes[tmp->revert_to];
-                    it->active = false;
+            if (it->charges <= 0 && !(it->has_flag("USE_UPS") &&
+                                      (has_charges("adv_UPS_on", 1) || has_charges("UPS_on", 1) ||
+                                       has_active_bionic("bio_ups")))) {
+                if (it->has_flag("USE_UPS")){
+                    add_msg_if_player(_("You need an active UPS to run that!"));
+                    tmp->use.call(this, it, false);
+                }	else	{
+                    tmp->use.call(this, it, false);
+                    if (tmp->revert_to == "null") {
+                        return false;
+                    } else {
+                        it->type = itypes[tmp->revert_to];
+                        it->active = false;
+                    }
                 }
             }
-        }
-        else if (it->type->id == "corpse")
-        {
-            if (it->ready_to_revive() && g->revive_corpse(posx, posy, it))
-            {
+        } else if (it->type->id == "corpse") {
+            if (it->ready_to_revive() && g->revive_corpse(posx, posy, it)) {
                 //~ %s is corpse name
                 add_memorial_log(pgettext("memorial_male", "Had a %s revive while carrying it."),
                                  pgettext("memorial_female", "Had a %s revive while carrying it."),
@@ -6496,9 +6498,7 @@ bool player::process_single_active_item(item *it)
                 add_msg_if_player( _("Oh dear god, a corpse you're carrying has started moving!"));
                 return false;
             }
-        }
-        else
-        {
+        } else {
             debugmsg("%s is active, but has no known active function.", it->tname().c_str());
         }
     }
@@ -8697,11 +8697,32 @@ void player::use(int pos)
 
     if (used->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
-        if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use) {
-            int charges_used = tool->use.call(this, used, false);
+        int charges_used = tool->use.call(this, used, false);
+        if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use ||
+            (used->has_flag("USE_UPS") &&
+             (has_charges("adv_UPS_on", charges_used * (.6)) || has_charges("UPS_on", charges_used) ||
+              has_charges("adv_UPS_off", charges_used * (.6)) ||
+              has_charges("UPS_off", charges_used) ||
+              (has_bionic("bio_ups") && power_level >= (charges_used / 10))))) {
             if ( charges_used >= 1 ) {
                 if( tool->charges_per_use > 0 ) {
-                    used->charges -= std::min(used->charges, long(charges_used));
+                    if (used->has_flag("USE_UPS")){
+                        //If the device has been modded to run off ups,
+                        // we want to reduce ups charges instead of item charges.
+                        if (has_charges("adv_UPS_off", charges_used * (.6))) {
+                            use_charges("adv_UPS_off", charges_used * (.6));
+                        } else if (has_charges("adv_UPS_on", charges_used * (.6))) {
+                            use_charges("adv_UPS_on", charges_used * (.6));
+                        } else if (has_charges("UPS_off", charges_used)) {
+                            use_charges("UPS_off", charges_used);
+                        } else if (has_charges("UPS_on", charges_used)) {
+                            use_charges("UPS_on", charges_used);
+                        } else if (has_bionic("bio_ups")) {
+                            charge_power(-1 * (charges_used/10));
+                        }
+                    } else {
+                        used->charges -= std::min(used->charges, long(charges_used));
+                    }
                 } else {
                     // An item that doesn't normally expend charges is destroyed instead.
                     /* We can't be certain the item is still in the same position,
