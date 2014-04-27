@@ -15,7 +15,6 @@
 #include "enums.h"
 #include "color.h"
 #include "field.h"
-#include "translations.h"
 
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
@@ -221,11 +220,6 @@ struct mtype {
     std::bitset<MF_MAX> bitflags;
     std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
 
-    // Used to fetch the properly pluralized monster type name
-    virtual std::string nname(unsigned int quantity = 1) {
-        return ngettext(name.c_str(), name_plural.c_str(), quantity);
-    };
-
     int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
     int agro;       // How likely to attack; -100 to 100
     int morale;     // Default morale level
@@ -245,11 +239,14 @@ struct mtype {
     std::vector<void (mdeath::*)(monster *)> dies; // What happens when this monster dies
     unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
     void (mattack::*sp_attack)(monster *); // This monster's special attack
-    void (mdefense::*sp_defense)(monster *, const projectile*); // This monster's special "defensive" move that may trigger when the monster is attacked.
-                                             // Note that this can be anything, and is not necessarily beneficial to the monster
+    // This monster's special "defensive" move that may trigger when the monster is attacked.
+    // Note that this can be anything, and is not necessarily beneficial to the monster
+    void (mdefense::*sp_defense)(monster *, const projectile*);
     // Default constructor
     mtype ();
 
+    // Used to fetch the properly pluralized monster type name
+    std::string nname(unsigned int quantity = 1) const;
     bool has_flag(m_flag flag) const;
     bool has_flag(std::string flag) const;
     void set_flag(std::string flag, bool state);

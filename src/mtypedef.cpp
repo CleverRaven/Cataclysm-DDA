@@ -33,6 +33,10 @@ mtype::mtype () {
     flags.insert(MF_HUMAN);
 }
 
+std::string mtype::nname(unsigned int quantity) const {
+    return ngettext(name.c_str(), name_plural.c_str(), quantity);
+}
+
 bool mtype::has_flag(m_flag flag) const {
     return bitflags[flag];
 }
