@@ -1345,7 +1345,7 @@ void veh_interact::countDurability()
     totalDurabilityText = getDurabilityDescription(durabilityPercent);
 }
 
-nc_color veh_interact::getDurabilityColor(const int &dur)
+nc_color getDurabilityColor(const int &dur)
 {
     if (dur >= 95) {
         return c_green;
