@@ -14984,7 +14984,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "contacts",
-        "name" : "contact lense",
+        "name" : "pair of contact lenses",
+        "name_plural" : "pairs of contact lenses",
         "weight" : 1,
         "color" : "cyan",
         "addiction_type" : "none",

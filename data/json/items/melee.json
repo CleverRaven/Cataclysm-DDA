@@ -3530,6 +3530,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "name": "kris",
+    "name_plural": "krises",
     "description": "This is a dull, cheap replica of a wavy bladed dagger that comes from Southeast Asia.",
     "price": 3800,
     "material": "steel",
