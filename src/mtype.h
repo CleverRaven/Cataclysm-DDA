@@ -15,6 +15,7 @@
 #include "enums.h"
 #include "color.h"
 #include "field.h"
+#include "translations.h"
 
 /*
   On altering any entries in this enum please add or remove the appropriate entry to the monster_names array in tile_id_data.h
@@ -207,7 +208,7 @@ enum m_flag {
 };
 
 struct mtype {
-    std::string id, name, description;
+    std::string id, name, name_plural, description;
     std::set<std::string> species, categories;
     long sym;
     nc_color color;
@@ -219,6 +220,11 @@ struct mtype {
 
     std::bitset<MF_MAX> bitflags;
     std::bitset<N_MONSTER_TRIGGERS> bitanger, bitfear, bitplacate;
+
+    // Used to fetch the properly pluralized monster type name
+    virtual std::string nname(unsigned int quantity = 1) {
+        return ngettext(name.c_str(), name_plural.c_str(), quantity);
+    };
 
     int difficulty; // Used all over; 30 min + (diff-3)*30 min = earlist appearance
     int agro;       // How likely to attack; -100 to 100

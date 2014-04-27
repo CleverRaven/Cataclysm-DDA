@@ -4,7 +4,8 @@
 
 mtype::mtype () {
     id = "mon_null";
-    name = _("human");
+    name = "human";
+    name_plural = "humans";
     description = "";
     sym = ' ';
     color = c_white;

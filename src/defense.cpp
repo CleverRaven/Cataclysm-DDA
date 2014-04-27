@@ -1400,7 +1400,7 @@ void defense_game::spawn_wave()
                 for (int i = 0; i < num; i++) {
                     spawn_wave_monster(type);
                 }
-                add_msg( special_wave_message(type->name).c_str() );
+                add_msg( special_wave_message(type->nname(100)).c_str() );
                 add_msg("********");
                 return;
             } else {
@@ -1488,12 +1488,12 @@ std::string defense_game::special_wave_message(std::string name)
         }
     }
 
-    switch (rng(1, 6)) {
+    switch (rng(1, 8)) {
     case 1:
-        ret << string_format(_("%s Invasion!"), name.c_str());
+        ret << string_format(_("Invasion of the %s!"), name.c_str());
         break;
     case 2:
-        ret << string_format(_("Attack of the %ss!"), name.c_str());
+        ret << string_format(_("Attack of the %s!"), name.c_str());
         break;
     case 3:
         ret << string_format(_("%s Attack!"), name.c_str());
@@ -1508,13 +1508,10 @@ std::string defense_game::special_wave_message(std::string name)
         ret << string_format(_("The Day of the %s!"), name.c_str());
         break;
     case 7:
-        ret << string_format(_("%s Party!"), name.c_str());
+        ret << string_format(_("Revenge of the %s!"), name.c_str());
         break;
     case 8:
-        ret << string_format(_("Revenge of the %ss!"), name.c_str());
-        break;
-    case 9:
-        ret << string_format(_("Rise of the %ss!"), name.c_str());
+        ret << string_format(_("Rise of the %s!"), name.c_str());
         break;
     }
 

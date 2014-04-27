@@ -91,7 +91,8 @@ needs_plural = {
     "GUN",
     "TOOL",
     "TOOL_ARMOR",
-    "VAR_VEH_PART"
+    "VAR_VEH_PART",
+    "MONSTER"
 }
 
 # these objects can be automatically converted, but use format strings
@@ -333,11 +334,12 @@ def extract_all_from_file(json_file):
         for jsonobject in jsondata:
             extract(jsonobject, json_file)
 
-def add_fake_items():
-    """Add names of fake items. This is done by hand and must be updated
-    manually each time something is added to itypedef.cpp."""
-    outfile = os.path.join(to_dir, "fakeitems.py")
+def add_fake_types():
+    """Add names of fake items and monsters. This is done by hand and must be updated
+    manually each time something is added to itypedef.cpp or mtypedef.cpp."""
+    outfile = os.path.join(to_dir, "faketypes.py")
 
+    # fake item types
     writestr(outfile, "corpse", "corpses")
     writestr(outfile, "nearby fire")
     writestr(outfile, "cvd machine")
@@ -350,6 +352,9 @@ def add_fake_items():
     writestr(outfile, "infection data")
     writestr(outfile, "hackPRO")
 
+    # fake monster types
+    writestr(outfile, "human", "humans")
+
 
 ##
 ##  EXTRACTION
@@ -358,6 +363,6 @@ def add_fake_items():
 extract_all_from_dir(json_dir)
 extract_all_from_dir(raw_dir)
 extract_all_from_dir(mods_dir)
-add_fake_items()
+add_fake_types()
 
 # done.
