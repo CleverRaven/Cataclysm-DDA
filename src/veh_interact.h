@@ -107,7 +107,7 @@ private:
     size_t display_esc (WINDOW *w);
 
     void countDurability();
-    nc_color getDurabilityColor(const int& dur);
+    friend nc_color getDurabilityColor(const int& dur);
     std::string getDurabilityDescription(const int& dur);
 
     int durabilityPercent;
@@ -163,5 +163,6 @@ public:
 };
 
 void complete_vehicle ();
+nc_color getDurabilityColor(const int& dur);
 
 #endif

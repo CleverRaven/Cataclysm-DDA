@@ -4,6 +4,7 @@
 #include "game.h"
 #include "item.h"
 #include "item_factory.h"
+#include "veh_interact.h"
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
@@ -1711,20 +1712,21 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
     {
         int dur = part_info (pl[i]).durability;
         int per_cond = parts[pl[i]].hp * 100 / (dur < 1? 1 : dur);
-        nc_color col_cond;
-        if (parts[pl[i]].hp >= dur) {
-            col_cond = c_green;
-        } else if (per_cond >= 80) {
-            col_cond = c_ltgreen;
-        } else if (per_cond >= 50) {
-            col_cond = c_yellow;
-        } else if (per_cond >= 20) {
-            col_cond = c_ltred;
-        } else if (parts[pl[i]].hp > 0) {
-            col_cond = c_red;
-        } else { //Broken
-            col_cond = c_dkgray;
-        }
+        nc_color col_cond = getDurabilityColor(per_cond);
+// Either use these values or the ones in getDurabilityColor, not both.
+//        if (parts[pl[i]].hp >= dur) {
+//            col_cond = c_green;
+//        } else if (per_cond >= 80) {
+//            col_cond = c_ltgreen;
+//        } else if (per_cond >= 50) {
+//            col_cond = c_yellow;
+//        } else if (per_cond >= 20) {
+//            col_cond = c_ltred;
+//        } else if (parts[pl[i]].hp > 0) {
+//            col_cond = c_red;
+//        } else { //Broken
+//            col_cond = c_dkgray;
+//        }
 
         std::string partname;
         // part bigness, if that's relevant.
