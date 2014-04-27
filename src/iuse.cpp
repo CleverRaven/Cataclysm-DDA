@@ -7778,7 +7778,6 @@ int iuse::robotcontrol(player *p, item *it, bool)
         case 1:{ // attempt to make a robot friendly
            point pos = g->look_around();
            int mondex = g->mon_at(pos.x, pos.y);
-           }
            if (mondex == -1){
                 p->add_msg_if_player( _("There's nothing there."));
                 return 0;
@@ -7855,6 +7854,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
             return it->type->charges_to_use();
             break;
         }
+
     }
     return 0;
 
