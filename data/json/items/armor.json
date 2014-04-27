@@ -6162,6 +6162,7 @@
         "volume" : 1,
         "material_thickness" : 0,
         "storage" : 6,
+        "covers" : ["TORSO"],
         "description" : "Provides a bit of extra storage without encumbering you at all.",
         "weight" : 272,
         "to_hit" : 2,
