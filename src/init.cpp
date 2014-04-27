@@ -32,6 +32,7 @@
 #include "path_info.h"
 #include "iuse.h"
 #include "start_location.h"
+#include "omdata.h"
 
 #include <string>
 #include <vector>
@@ -202,6 +203,8 @@ void DynamicDataLoader::initialize()
         new StaticFunctionAccessor(&load_construction);
     type_function_map["mapgen"] =
         new StaticFunctionAccessor(&load_mapgen);
+    type_function_map["overmap_special"] =
+        new StaticFunctionAccessor(&load_new_overmap_specials);
 
     type_function_map["region_settings"] = new StaticFunctionAccessor(&load_region_settings);
     type_function_map["ITEM_BLACKLIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -396,6 +399,7 @@ void DynamicDataLoader::unload_data()
     reset_effect_types();
     reset_speech();
     iuse::reset_bullet_pulling();
+    clear_overmap_specials();
 
     // artifacts are not loaded from json, but must be unloaded anyway.
     artifact_itype_ids.clear();

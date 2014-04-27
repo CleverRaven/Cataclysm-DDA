@@ -420,6 +420,7 @@ class overmap
   void good_river(int x, int y, int z);
   oter_id rotate(const oter_id &oter, int dir);
   bool allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed);
+  bool allowed_terrain(tripoint p, std::list<overmap_special_terrain>, std::list<std::string> allowed);
   // Monsters, radios, etc.
   void place_specials();
   void place_special(overmap_special special, tripoint p);

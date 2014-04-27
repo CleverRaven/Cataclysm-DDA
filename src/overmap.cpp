@@ -203,6 +203,71 @@ double dist(int x1, int y1, int x2, int y2)
  return sqrt(double((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
 }
 
+std::vector<new_overmap_special> new_overmap_specials;
+
+void load_new_overmap_specials(JsonObject &jo)
+{
+    new_overmap_special spec;
+
+    spec.id = jo.get_string("id");
+    JsonArray om_array = jo.get_array("overmaps");
+    while(om_array.has_more())
+    {
+        JsonObject om = om_array.next_object();
+        overmap_special_terrain terrain;
+        JsonArray point = om.get_array("point");
+        terrain.p = tripoint(point.next_int(), point.next_int(), point.next_int());
+        terrain.terrain = om.get_string("overmap");
+        JsonArray flagarray = om.get_array("flags");
+        while(flagarray.has_more())
+        {
+            terrain.flags.push_back(flagarray.next_string());
+        }
+        spec.terrains.push_back(terrain);
+    }
+    JsonArray location_array = jo.get_array("locations");
+    while(location_array.has_more())
+    {
+        spec.locations.push_back(location_array.next_string());
+    }
+    JsonArray city_size_array = jo.get_array("city_sizes");
+    spec.min_city_size = city_size_array.get_int(0);
+    spec.max_city_size = city_size_array.get_int(1);
+
+    JsonArray occurrences_array = jo.get_array("occurrences");
+    spec.min_occurrences = occurrences_array.get_int(0);
+    spec.max_occurrences = occurrences_array.get_int(1);
+
+    JsonArray city_distance_array = jo.get_array("city_distance");
+    spec.min_city_distance = city_distance_array.get_int(0);
+    spec.max_city_distance = city_distance_array.get_int(1);
+
+    spec.rotatable = jo.get_bool("rotatable", false);
+    spec.unique = jo.get_bool("unique", false);
+    spec.required = jo.get_bool("required", false);
+
+    //new_overmap_specials.push_back(&this);
+    tripoint topleft = tripoint(999, 999, 0);
+    tripoint bottomright = tripoint(-999, -999, 0);
+    for(std::list<overmap_special_terrain>::iterator it = spec.terrains.begin();
+        it != spec.terrains.end(); ++it)
+    {
+        // find top left and bottom right point, diff = height/width
+        if((*it).p.x < topleft.x || (*it).p.y < topleft.y)
+        {
+            topleft = (*it).p;
+        }
+        if((*it).p.x > bottomright.x || (*it).p.y > bottomright.y)
+        {
+            bottomright = (*it).p;
+        }
+    }
+    spec.height = bottomright.y - topleft.y;
+    spec.width = bottomright.x - topleft.x;
+
+    new_overmap_specials.push_back(spec);
+}
+
 
 bool is_river(const oter_id &ter)
 {
@@ -1244,7 +1309,8 @@ void overmap::generate(overmap* north, overmap* east, overmap* south,
 // And finally connect them via "highways"
  place_hiways(road_points, 0, "road");
 // Place specials
- place_specials();
+ //place_specials();
+ place_new_specials();
 // Clean up our roads and rivers
  polish(0);
 
@@ -3236,6 +3302,26 @@ bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::
     return true;
 }
 
+bool overmap::allowed_terrain(tripoint p, std::list<overmap_special_terrain> tocheck, std::list<std::string> allowed)
+{
+    for(std::list<overmap_special_terrain>::iterator checkit = tocheck.begin();
+        checkit != tocheck.end(); ++checkit)
+    {
+        for(std::list<std::string>::iterator allowedit = allowed.begin();
+            allowedit != allowed.end(); ++allowedit)
+        {
+            overmap_special_terrain t = *checkit;
+
+            oter_id oter = this->ter(p.x + t.p.x, p.y + t.p.y, p.z);
+            if (!is_ot_type(*allowedit, oter))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 // should work essentially the same as previously
 // split map into sections, iterate through sections
 // iterate through specials, check if special is valid
@@ -3279,8 +3365,8 @@ void overmap::place_new_specials()
             for(std::vector<new_overmap_special>::iterator it = new_overmap_specials.begin();
                 it != new_overmap_specials.end(); ++it)
             {
-                std::list<std::string> terrains;
-                terrains.push_back("forest");
+                std::list<std::string> allowed_terrains;
+                allowed_terrains.push_back("forest");
                 new_overmap_special special = *it;
 
                 int min_city_distance = special.min_city_distance;
@@ -3290,7 +3376,7 @@ void overmap::place_new_specials()
                 if ((num_placed[special] < special.max_occurrences || special.max_occurrences <= 0) &&
                     (min_city_distance == -1 || dist_from_city(pt) >= min_city_distance) &&
                     (max_city_distance == -1 || dist_from_city(pt) <= max_city_distance) &&
-                    allowed_terrain(p, special.width, special.height, terrains))
+                    allowed_terrain(p, special.terrains, allowed_terrains))
                 {
                     valid_specials.push_back(special);
                 }
@@ -3331,7 +3417,43 @@ void overmap::place_new_specials()
 
 void overmap::place_new_special(new_overmap_special special, tripoint p)
 {
+    for(std::list<overmap_special_terrain>::iterator it = special.terrains.begin();
+        it != special.terrains.end(); ++it)
+    {
+        overmap_special_terrain terrain = *it;
 
+        this->ter(p.x + terrain.p.x, p.y + terrain.p.y, p.z) = terrain.terrain;
+
+        for(std::list<std::string>::iterator flagit = terrain.flags.begin();
+            flagit != terrain.flags.end(); ++flagit)
+        {
+            std::string flag = *flagit;
+
+            if(flag == "road_connect")
+            {
+                city closest;
+                int distance = 999;
+                for(std::vector<city>::iterator cityit = cities.begin();
+                    cityit != cities.end(); ++cityit)
+                {
+                    city c = *cityit;
+                    int dist = rl_dist(p.x + terrain.p.x, p.y + terrain.p.y, c.x, c.y);
+                    if (dist < distance)
+                    {
+                        closest = c;
+                        distance = dist;
+                    }
+                }
+
+                make_hiway(p.x, p.y, closest.x, closest.y, p.z, "road");
+            }
+        }
+    }
+}
+
+void clear_overmap_specials()
+{
+    new_overmap_specials.clear();
 }
 
 void overmap::place_specials()
