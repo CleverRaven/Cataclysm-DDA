@@ -57,7 +57,6 @@ class item : public JsonSerializer, public JsonDeserializer
 public:
  item();
  item(itype* it, unsigned int turn, bool rand = true);
- item(itype* it, unsigned int turn, char let, bool rand = true);
  void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata);
  item(JsonObject &jo);

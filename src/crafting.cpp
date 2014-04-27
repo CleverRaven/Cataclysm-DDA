@@ -1388,7 +1388,7 @@ void game::make_all_craft(recipe *making)
 
 item recipe::create_result() const
 {
-    item newit(item_controller->find_template(result), calendar::turn, 0, false);
+    item newit(item_controller->find_template(result), calendar::turn, false);
     if (result_mult != 1) {
         newit.charges *= result_mult;
     }
