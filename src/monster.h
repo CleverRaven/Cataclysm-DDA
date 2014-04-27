@@ -66,7 +66,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
  std::string get_material() { return type->mat; };
 
  // Access
- std::string name(); // Returns the monster's formal name
+ std::string name(unsigned int quantity = 1); // Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
  // the creature-class versions of the above
  std::string disp_name(bool possessive = false);

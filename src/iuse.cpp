@@ -7171,8 +7171,9 @@ int iuse::quiver(player *p, item *it, bool)
         // empty quiver
         if(choice == 2) {
             item& arrows = it->contents[0];
-            p->add_msg_if_player( _("You remove the %ss from the %s."),
-                                 arrows.name.c_str(), it->name.c_str());
+            int arrowsRemoved = arrows.charges;
+            p->add_msg_if_player( ngettext("You remove the %s from the %s.", "You remove the %s from the %s.", arrowsRemoved),
+                                 arrows.type->nname(arrowsRemoved).c_str(), it->name.c_str());
             p->inv.assign_empty_invlet(arrows, false);
             p->i_add(arrows);
             it->contents.erase(it->contents.begin());
@@ -7231,8 +7232,8 @@ int iuse::quiver(player *p, item *it, bool)
         }
 
         arrowsStored = it->contents[0].charges - arrowsStored;
-        p->add_msg_if_player( ngettext("You store %d %s in your %s.", "You store %d %ss in your %s.", arrowsStored),
-                             arrowsStored, it->contents[0].name.c_str(), it->name.c_str());
+        p->add_msg_if_player( ngettext("You store %d %s in your %s.", "You store %d %s in your %s.", arrowsStored),
+                             arrowsStored, it->contents[0].type->nname(arrowsStored).c_str(), it->name.c_str());
         p->moves -= 10 * arrowsStored;
     } else {
         p->add_msg_if_player( _("Never mind."));
