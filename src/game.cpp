@@ -2106,7 +2106,7 @@ void game::handle_key_blocking_activity() {
                     refresh_all();
                     break;
                 case ACTION_MESSAGES:
-                    msg_buffer();
+                    Messages::display_messages();
                     refresh_all();
                     break;
                 case ACTION_HELP:
@@ -3202,7 +3202,7 @@ bool game::handle_action()
    break;
 
   case ACTION_MESSAGES:
-   msg_buffer();
+   Messages::display_messages();
    refresh_all();
    break;
 
@@ -3508,7 +3508,7 @@ void game::death_screen()
     }
     delwin(w_death);
 
-    msg_buffer();
+    Messages::display_messages();
     disp_kills();
 }
 
@@ -13817,53 +13817,9 @@ void game::write_msg()
     const int topline = mon_info(w_messages) + 2;
 
     int line = getmaxy(w_messages) - 1;
-    Messages::display_messages(w_messages,0,topline,maxlength,line);
+    Messages::display_messages(w_messages, 0, topline, maxlength, line);
 
     wrefresh(w_messages);
-}
-
-void game::msg_buffer()
-{
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-
-    size_t offset = 0;
-    input_context ctxt("MESSAGE_LOG");
-    ctxt.register_action("UP", _("Scroll up"));
-    ctxt.register_action("DOWN", _("Scroll down"));
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    while(true) {
-        werase(w);
-        draw_border(w);
-        mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 32, c_red, _("Press %s to return"),
-                  ctxt.get_desc("QUIT").c_str());
-
-        //Draw Scrollbar
-        draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT - 2, Messages::size(), 1);
-        Messages::display_messages(w, 1, 1, FULL_SCREEN_WIDTH - 2,
-                                   FULL_SCREEN_HEIGHT - 2, offset, true);
-        if (offset > 0) {
-            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 27, c_magenta, "vvv");
-        }
-        if (offset + 1 < Messages::size()) {
-            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 51, c_magenta, "^^^");
-        }
-        wrefresh(w);
-
-        const std::string action = ctxt.handle_input();
-        if (action == "DOWN" && offset + 1 < Messages::size()) {
-            offset++;
-        } else if (action == "UP" && offset > 0) {
-            offset--;
-        } else if (action == "QUIT") {
-            break;
-        }
-    }
-
-    werase(w);
-    delwin(w);
 }
 
 void game::teleport(player *p, bool add_teleglow)

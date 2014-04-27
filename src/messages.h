@@ -21,8 +21,8 @@ public:
     static void clear_messages();
     static size_t size();
     static bool has_undisplayed_messages();
-    static void display_messages(WINDOW *ipk_target, int left, int top, int right, int bottom,
-                                 size_t offset = 0, bool display_turns = false);
+    static void display_messages();
+    static void display_messages(WINDOW *ipk_target, int left, int top, int right, int bottom);
 
 private:
     struct game_message {
@@ -43,6 +43,8 @@ private:
             message = gm.message;
             return *this;
         }
+        std::string get_with_count() const;
+        nc_color get_color() const;
     };
     std::vector <struct game_message> messages;   // Messages to be printed
     void add_msg_string(const std::string &s);
