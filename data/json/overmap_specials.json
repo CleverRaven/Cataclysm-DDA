@@ -7,5 +7,46 @@
         "overmaps" : ["lmoe"],
         "locations" : ["wilderness"],
         "rotate" : false
+    },{
+        "type" : "overmap_special",
+        "id" : "Hotel",
+        "overmaps" :
+        [
+            { "point":[-1,0,0], "overmap": "hotel_tower_1_1"},
+            { "point":[0,0,0], "overmap": "hotel_tower_1_2", "flags": ["road_connect"]},
+            { "point":[1,0,0], "overmap": "hotel_tower_1_3"},
+            { "point":[-1,1,0], "overmap": "hotel_tower_1_4"},
+            { "point":[0,1,0], "overmap": "hotel_tower_1_5"},
+            { "point":[1,1,0], "overmap": "hotel_tower_1_6"},
+            { "point":[-1,2,0], "overmap": "hotel_tower_1_7"},
+            { "point":[0,2,0], "overmap": "hotel_tower_1_8"},
+            { "point":[1,2,0], "overmap": "hotel_tower_1_9"},
+            { "point":[-1,2,-1], "overmap": "hotel_tower_b_1"},
+            { "point":[0,2,-1], "overmap": "hotel_tower_b_2"},
+            { "point":[1,2,-1], "overmap": "hotel_tower_b_3"}
+        ],
+        "locations" : [ "inner_city", "outer_city" ], "//":"what special locations does it spawn",
+        "city_distance" : [-1, 4], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 3], "//":"how many per overmap",
+        "rotate" : true, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Public Works",
+        "height" : 2,
+        "width" : 2,
+        "overmaps" :
+            [ "public_works", "public_works_entrance",
+              "public_works", "public_works"],
+        "entrance" : 1,
+        "locations" : [ "outer_city" ],
+        "city_sizes" : [4, 16],
+        "rotate" : true,
+        "connect_road" : true,
+        "unique" : false,
+        "required" : false
     }
 ]

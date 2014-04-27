@@ -9,6 +9,7 @@
 #include "output.h"
 #include "mongroup.h"
 #include "mapdata.h"
+#include "json.h"
 
 #define OMAPX 180
 #define OMAPY 180
@@ -122,6 +123,14 @@ typedef oter_id oter_iid;
 // into 900 squares; lots of space for interesting stuff!
 #define OMSPEC_FREQ 15
 
+//TODO:
+/*
+Turn flags that make sense into overmap_special json values
+Update overmap_special object to include new json fields
+Create overmap_special json entries for each omspec_id
+Update json reader to parse overmap_specials
+Update overmap.h/cpp to use the json defined specials
+*/
 // Flags that determine special behavior for placement
 enum omspec_flag {
 OMS_FLAG_NULL = 0,
@@ -172,6 +181,97 @@ std::string ter;
  unsigned long flags : NUM_OMS_FLAGS; // See above
 };
 
+struct overmap_special_terrain
+{
+    tripoint p;
+    std::string terrain;
+    std::list<std::string> flags;
+};
+
+class new_overmap_special : public JsonDeserializer
+{
+    public:
+    using JsonDeserializer::deserialize;
+    void deserialize(JsonIn &jsin) {
+        JsonObject jo = jsin.get_object();
+        id = jo.get_string("id");
+        JsonArray om_array = jo.get_array("overmaps");
+        while(om_array.has_more())
+        {
+            JsonObject om = om_array.next_object();
+            overmap_special_terrain terrain;
+            JsonArray point = om.get_array("point");
+            terrain.p = tripoint(point.next_int(), point.next_int(), point.next_int());
+            terrain.terrain = om.get_string("overmap");
+            JsonArray flagarray = om.get_array("flags");
+            while(flagarray.has_more())
+            {
+                terrain.flags.push_back(flagarray.next_string());
+            }
+            terrains.push_back(terrain);
+        }
+        JsonArray location_array = jo.get_array("locations");
+        while(location_array.has_more())
+        {
+            locations.push_back(location_array.next_string());
+        }
+        JsonArray city_size_array = jo.get_array("city_sizes");
+        min_city_size = city_size_array.get_int(0);
+        max_city_size = city_size_array.get_int(1);
+
+        JsonArray occurrences_array = jo.get_array("occurrences");
+        min_occurrences = occurrences_array.get_int(0);
+        max_occurrences = occurrences_array.get_int(1);
+
+        JsonArray city_distance_array = jo.get_array("city_distance");
+        min_city_distance = city_distance_array.get_int(0);
+        max_city_distance = city_distance_array.get_int(1);
+
+        rotatable = jo.get_bool("rotatable", false);
+        unique = jo.get_bool("unique", false);
+        required = jo.get_bool("required", false);
+
+        //new_overmap_specials.push_back(&this);
+        tripoint topleft = tripoint(999, 999, 0);
+        tripoint bottomright = tripoint(-999, -999, 0);
+        for(std::list<overmap_special_terrain>::iterator it = terrains.begin();
+            it != terrains.end(); ++it)
+        {
+            // find top left and bottom right point, diff = height/width
+            if((*it).p.x < topleft.x || (*it).p.y < topleft.y)
+            {
+                topleft = (*it).p;
+            }
+            if((*it).p.x > bottomright.x || (*it).p.y > bottomright.y)
+            {
+                bottomright = (*it).p;
+            }
+        }
+        height = bottomright.y - topleft.y;
+        width = bottomright.x - topleft.x;
+    }
+    bool operator<(const new_overmap_special& right) const
+    {
+        return (this->id.compare(right.id) < 0);
+    }
+    std::string id;
+    std::list<overmap_special_terrain> terrains;
+    int min_city_size, max_city_size;
+    int min_city_distance, max_city_distance;
+    int min_occurrences, max_occurrences;
+    int height, width;
+    bool rotatable;
+    bool unique;
+    bool required;
+    // needs to be refactored to support json loading (currently ugly ass solution anyway)
+    //bool (omspec_place::*able) (overmap *om, unsigned long f, tripoint p); // See above
+    std::list<std::string> locations;
+    std::list<std::string> flags;
+};
+
+extern std::vector<new_overmap_special> new_overmap_specials;
+
+// to be replaced with a list of the above structures
 enum omspec_id
 {
  OMSPEC_CRATER,

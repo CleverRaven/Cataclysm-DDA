@@ -3216,6 +3216,124 @@ void overmap::good_river(int x, int y, int z)
     }
 }
 
+bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed)
+{
+    for(int h = 0; h < height; ++h)
+    {
+        for(int w = 0; w < width; ++w)
+        {
+            for(std::list<std::string>::iterator it = allowed.begin();
+                it != allowed.end(); ++it)
+            {
+                oter_id oter = this->ter(p.x + w, p.y + h, p.z);
+                if (!is_ot_type(*it, oter))
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+// should work essentially the same as previously
+// split map into sections, iterate through sections
+// iterate through specials, check if special is valid
+// pick & place special
+
+void overmap::place_new_specials()
+{
+    std::map<new_overmap_special, int> num_placed;
+
+    for(std::vector<new_overmap_special>::iterator it = new_overmap_specials.begin();
+        it != new_overmap_specials.end(); ++it)
+    {
+        num_placed.insert(std::pair<new_overmap_special, int>(*it, 0));
+    }
+
+    std::vector<point> sectors;
+    for (int x = 0; x < OMAPX; x += OMSPEC_FREQ)
+    {
+        for (int y = 0; y < OMAPY; y += OMSPEC_FREQ)
+        {
+            sectors.push_back(point(x, y));
+        }
+    }
+
+    while(!sectors.empty())
+    {
+        int pick = rng(0, sectors.size() - 1);
+        int x = sectors.at(pick).x;
+        int y = sectors.at(pick).y;
+
+        sectors.erase(sectors.begin() + pick);
+
+        std::vector<new_overmap_special> valid_specials;
+        int tries = 0;
+        tripoint p;
+
+        do
+        {
+            p = tripoint(rng(x, x+OMSPEC_FREQ-1), rng(y, y+OMSPEC_FREQ-1), 0);
+            // dont need to check for edges yet
+            for(std::vector<new_overmap_special>::iterator it = new_overmap_specials.begin();
+                it != new_overmap_specials.end(); ++it)
+            {
+                std::list<std::string> terrains;
+                terrains.push_back("forest");
+                new_overmap_special special = *it;
+
+                int min_city_distance = special.min_city_distance;
+                int max_city_distance = special.max_city_distance;
+
+                point pt(p.x, p.y);
+                if ((num_placed[special] < special.max_occurrences || special.max_occurrences <= 0) &&
+                    (min_city_distance == -1 || dist_from_city(pt) >= min_city_distance) &&
+                    (max_city_distance == -1 || dist_from_city(pt) <= max_city_distance) &&
+                    allowed_terrain(p, special.width, special.height, terrains))
+                {
+                    valid_specials.push_back(special);
+                }
+            }
+            ++tries;
+        } while(valid_specials.empty() && tries < 20);
+
+        // selection & placement happens here
+        if(!valid_specials.empty())
+        {
+            // Place the MUST HAVE ones first, to try and guarantee that they appear
+            std::vector<new_overmap_special> must_place;
+            for(std::vector<new_overmap_special>::iterator it = valid_specials.begin();
+                it != valid_specials.end(); ++it)
+            {
+                if(num_placed[*it] < (*it).min_occurrences)
+                {
+                    must_place.push_back(*it);
+                }
+            }
+            if (must_place.empty())
+            {
+                int selection = rng(0, valid_specials.size() - 1);
+                new_overmap_special special = valid_specials.at(selection);
+                num_placed[special]++;
+                place_new_special(special, p);
+            }
+            else
+            {
+                int selection = rng(0, must_place.size() - 1);
+                new_overmap_special special = must_place.at(selection);
+                num_placed[special]++;
+                place_new_special(special, p);
+            }
+        }
+    }
+}
+
+void overmap::place_new_special(new_overmap_special special, tripoint p)
+{
+
+}
+
 void overmap::place_specials()
 {
  int placed[NUM_OMSPECS];
