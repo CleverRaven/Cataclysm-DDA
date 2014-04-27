@@ -2691,7 +2691,7 @@ bool game::handle_action()
         act = look_up_action(action);
         if (act == ACTION_NULL) {
             add_msg(_("Unknown command: '%c'"), (int) ctxt.get_raw_input().get_first_input());
-		}
+        }
     }
 
     if (act == ACTION_ACTIONMENU) {
@@ -9459,7 +9459,7 @@ and you can't unwield your %s."),
             newit = u.i_add(newit);
             picked_up = true;
             add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.display_name().c_str());
-		}
+        }
 
         if(picked_up) {
             remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken, 0);
@@ -11319,69 +11319,65 @@ void game::complete_butcher(int index)
 
 void game::forage()
 {
-  int veggy_chance = rng(1, 100);
+    int veggy_chance = rng(1, 100);
 
-  if (one_in(12))
-  {
-    add_msg(_("You found some trash!"));
-    m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
-  }
-  if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5))
-  {
-    if (!one_in(6)) {
-       if (!one_in(3)) {
-         add_msg(_("You found some wild veggies!"));
-         m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, calendar::turn);
-         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-       } else {
-         add_msg(_("You found some wild mushrooms!"));
-         m.put_items_from("mushroom_forest", rng(1, 3), u.posx, u.posy, calendar::turn, 0, 0, 0);
-         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-       }
+    if (one_in(12)) {
+        add_msg(_("You found some trash!"));
+        m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
     }
-	else {
-	   add_msg(_("You found a nest with some eggs!"));
-	   if (!one_in(4)) {
-           m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
-       } else {
-          // ~15% & 3.8% chance to find these, assuming you make your veggy roll
-          // So maybe we can give more than 1.
-           m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
-	   }
-    }
-    m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-  }
-  else
-  {
-    add_msg(_("You didn't find anything."));
-    if (one_in(2))
+    if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5)) {
+        if (!one_in(6)) {
+            if (!one_in(3)) {
+                add_msg(_("You found some wild veggies!"));
+                m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, calendar::turn);
+                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+            } else {
+                add_msg(_("You found some wild mushrooms!"));
+                m.put_items_from("mushroom_forest", rng(1, 3), u.posx, u.posy,
+                                 calendar::turn, 0, 0, 0);
+                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+            }
+        } else {
+            add_msg(_("You found a nest with some eggs!"));
+            if (!one_in(4)) {
+                m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
+            } else {
+                // ~15% & 3.8% chance to find these, assuming you make your veggy roll
+                // So maybe we can give more than 1.
+                m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
+            }
+        }
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-  }
-  //Determinate maximum level of skill attained by foraging using ones intelligence score
-  int max_forage_skill =  0;
-  if (u.int_cur < 4)
-  {
-    max_forage_skill =  1;
-  } else if (u.int_cur <  6) {
-    max_forage_skill =  2;
-  } else if (u.int_cur <  8) {
-    max_forage_skill =  3;
-  } else if (u.int_cur < 11) {
-    max_forage_skill =  4;
-  } else if (u.int_cur < 15) {
-    max_forage_skill =  5;
-  } else if (u.int_cur < 20) {
-    max_forage_skill =  6;
-  } else if (u.int_cur < 26) {
-    max_forage_skill =  7;
-  } else if (u.int_cur > 25) {
-    max_forage_skill =  8;
-  }
-  //Award experience for foraging attempt regardless of success
-  if (u.skillLevel("survival") < max_forage_skill)
-  {
-      u.practice(calendar::turn, "survival", rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)));
-  }
+    } else {
+        add_msg(_("You didn't find anything."));
+        if (one_in(2)) {
+            m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+        }
+    }
+    //Determinate maximum level of skill attained by foraging using ones intelligence score
+    int max_forage_skill =  0;
+    if (u.int_cur < 4) {
+        max_forage_skill =  1;
+    } else if (u.int_cur <  6) {
+        max_forage_skill =  2;
+    } else if (u.int_cur <  8) {
+        max_forage_skill =  3;
+    } else if (u.int_cur < 11) {
+        max_forage_skill =  4;
+    } else if (u.int_cur < 15) {
+        max_forage_skill =  5;
+    } else if (u.int_cur < 20) {
+        max_forage_skill =  6;
+    } else if (u.int_cur < 26) {
+        max_forage_skill =  7;
+    } else if (u.int_cur > 25) {
+        max_forage_skill =  8;
+    }
+    //Award experience for foraging attempt regardless of success
+    if (u.skillLevel("survival") < max_forage_skill) {
+        u.practice(calendar::turn, "survival",
+                   rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)));
+    }
 }
 
 void game::eat(int pos)

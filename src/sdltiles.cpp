@@ -236,7 +236,7 @@ bool WinCreate()
             window_flags
         );
 
-	//create renderer and convert that to a SDL_Surface?
+    //create renderer and convert that to a SDL_Surface?
 
     if (window == NULL) return false;
 

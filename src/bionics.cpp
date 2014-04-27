@@ -779,7 +779,7 @@ void player::activate_bionic(int b)
         add_msg_if_player( _("You unleash a powerful shockwave!"));
     }
       else if(bio.id == "bio_ups"){
-	g->add_msg_if_player(this, _("Your internal UPS powers on."));
+          g->add_msg_if_player(this, _("Your internal UPS powers on."));
     }
 }
 

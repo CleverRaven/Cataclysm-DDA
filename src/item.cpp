@@ -1944,9 +1944,10 @@ bool item::conductive() const
     material_type* cur_mat1 = material_type::find_material(type->m1);
     material_type* cur_mat2 = material_type::find_material(type->m2);
 
-	//Looks ugly, but prevents "null" 2nd material from making weapon conductive
-	//Unsure if there is a better way to determine 2nd material is "null"
-	return (cur_mat1->elec_resist() <= 0 || (!(cur_mat2->ident() == "null") && cur_mat2->elec_resist() <= 0));
+    //Looks ugly, but prevents "null" 2nd material from making weapon conductive
+    //Unsure if there is a better way to determine 2nd material is "null"
+    return (cur_mat1->elec_resist() <= 0 || (!(cur_mat2->ident() == "null") &&
+                                             cur_mat2->elec_resist() <= 0));
 }
 
 bool item::destroyed_at_zero_charges()

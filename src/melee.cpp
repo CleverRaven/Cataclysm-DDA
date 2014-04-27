@@ -1071,8 +1071,8 @@ void player::dodge_hit(Creature *source, int) {
 bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
                        damage_instance &dam) {
 
-	//Shouldn't block if player is asleep; this only seems to be used by player.
-	//g->u.has_disease("sleep") would work as well from looking at other block functions.
+    //Shouldn't block if player is asleep; this only seems to be used by player.
+    //g->u.has_disease("sleep") would work as well from looking at other block functions.
 
     if (blocks_left < 1 || this->has_disease("sleep"))
         return false;
