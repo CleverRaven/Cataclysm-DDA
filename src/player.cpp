@@ -426,6 +426,9 @@ void player::reset_stats()
             mod_dex_bonus(-1);
         }
     }
+    if (has_trait("WEBBED")) {
+        mod_dex_bonus(-1);
+    }
     if (has_trait("ARACHNID_ARMS")) {
         mod_dex_bonus(-4);
     }
