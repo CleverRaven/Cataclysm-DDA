@@ -160,7 +160,6 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
     }
     const int maxlength = right - left;
     int line = bottom;
-    int lasttime = -1;
     for (int i = size() - 1; i >= 0 && line >= top; i--) {
         const game_message &m = player_messages.messages[i];
         const std::string mstr = m.get_with_count();
