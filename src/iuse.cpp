@@ -7778,9 +7778,6 @@ int iuse::robotcontrol(player *p, item *it, bool)
         case 1:{ // attempt to make a robot friendly
            point pos = g->look_around();
            int mondex = g->mon_at(pos.x, pos.y);
-           if (g->u_see(pos.x, pos.y) == 0){ // the player cannot see the selected square
-                p->add_msg_if_player( _("Never Mind."));
-                return 0;
            }
            if (mondex == -1){
                 p->add_msg_if_player( _("There's nothing there."));
@@ -7817,7 +7814,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                     }
                   }
                 } else {
-                 p->add_msg_if_player( _("...but the robot refuses to aknowledge you as an ally!"));
+                 p->add_msg_if_player( _("...but the robot refuses to acknowledge you as an ally!"));
                }
             p->practice(calendar::turn, "computer", 10);
             return it->type->charges_to_use();
