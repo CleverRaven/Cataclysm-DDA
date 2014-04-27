@@ -2412,6 +2412,15 @@ int iuse::extra_battery(player *p, item *, bool)
         modded->charges = 0;
         modded->item_tags.erase( "RECHARGE" );
         modded->item_tags.erase( "NO_UNLOAD" );
+    } else if( modded->has_flag( "USE_UPS" )){
+        p->add_msg_if_player( _("You replace the UPS Conversion Pack of your %s with a double-capacity battery compartment!"),
+                              tool->name.c_str());
+
+        g->m.spawn_item( p->posx, p->posy, "battery_ups", 1, modded->charges );
+        modded->charges = -1;
+        modded->item_tags.erase( "USE_UPS" );
+        modded->item_tags.erase( "NO_UNLOAD" );
+        modded->item_tags.erase( "NO_RELOAD" );
     } else {
         p->add_msg_if_player(_("You double the battery capacity of your %s!"), tool->name.c_str());
     }
@@ -2456,6 +2465,15 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
         modded->item_tags.erase("RADIOACTIVE");
         modded->item_tags.erase("LEAK_DAM");
         modded->item_tags.erase("NO_UNLOAD");
+    } else if( modded->has_flag( "USE_UPS" )){
+        p->add_msg_if_player( _("You replace the UPS Conversion Pack of your %s with a rechargeable battery pack!"),
+                              tool->name.c_str());
+
+        g->m.spawn_item( p->posx, p->posy, "battery_ups", 1, modded->charges );
+        modded->charges = 0;
+        modded->item_tags.erase( "USE_UPS" );
+        modded->item_tags.erase( "NO_UNLOAD" );
+        modded->item_tags.erase( "NO_RELOAD" );
     } else {
         p->add_msg_if_player(_("You replace the battery compartment of your %s with a rechargeable battery pack!"),
                              tool->name.c_str() );
@@ -2503,7 +2521,7 @@ int iuse::atomic_battery(player *p, item *it, bool)
     if( modded->has_flag("DOUBLE_AMMO") || modded->has_flag("RECHARGE") ) {
         if( modded->has_flag("DOUBLE_AMMO") ) {
             p->add_msg_if_player(_("You replace the conventional batteries in your %s with plutonium cells!"),
-                             tool->name.c_str() );
+                                 tool->name.c_str() );
             g->m.spawn_item( p->posx, p->posy, "battery_compartment", 1 );
             modded->item_tags.erase("DOUBLE_AMMO");
             if (modded->charges > 0) {
@@ -2517,6 +2535,15 @@ int iuse::atomic_battery(player *p, item *it, bool)
             modded->item_tags.erase("RECHARGE");
             modded->item_tags.erase("NO_UNLOAD");
         }
+    } else if( modded->has_flag( "USE_UPS" )){
+        p->add_msg_if_player( _("You replace the UPS Conversion Pack of your %s with plutonium cells!"),
+                              tool->name.c_str());
+
+        g->m.spawn_item( p->posx, p->posy, "battery_ups", 1, modded->charges );
+        modded->charges = 0;
+        modded->item_tags.erase( "USE_UPS" );
+        modded->item_tags.erase( "NO_UNLOAD" );
+        modded->item_tags.erase( "NO_RELOAD" );
     } else {
         p->add_msg_if_player(_("You modify your %s to run off plutonium cells!"),
                              tool->name.c_str());
@@ -2532,33 +2559,101 @@ int iuse::atomic_battery(player *p, item *it, bool)
     modded->charges = it->charges;
     return 1;
 }
+int iuse::ups_battery(player *p, item *, bool)
+{
+    int pos = g->inv_type(_("Modify what?"), IC_TOOL);
+    item* modded = &(p->i_at(pos));
+
+    if (modded == NULL || modded->is_null()) {
+        p->add_msg_if_player(_("You do not have that item!"));
+        return 0;
+    }
+    if (!modded->is_tool()) {
+        p->add_msg_if_player(_("This mod can only be used on tools."));
+        return 0;
+    }
+
+    it_tool *tool = dynamic_cast<it_tool*>(modded->type);
+    if (tool->ammo != "battery") {
+        p->add_msg_if_player(_("That item does not use batteries!"));
+        return 0;
+    }
+
+    if (modded->has_flag("USE_UPS")) {
+        p->add_msg_if_player(_("That item has already had its battery modded to use a UPS!"));
+        return 0;
+    }
+
+    // remove any existing battery mods
+    if( modded->has_flag("DOUBLE_AMMO") || modded->has_flag("RECHARGE") ) {
+        if( modded->has_flag("DOUBLE_AMMO") ) {
+            p->add_msg_if_player(
+            _("You replace the conventional batteries in your %s with a UPS conversion pack!"),
+                             tool->name.c_str() );
+            g->m.spawn_item( p->posx, p->posy, "battery_compartment", 1 );
+            modded->item_tags.erase("DOUBLE_AMMO");
+            if (modded->charges > 0) {
+                g->m.spawn_item( p->posx, p->posy, "battery", 1, modded->charges );
+            }
+        }
+        if( modded->has_flag("RECHARGE") ) {
+            p->add_msg_if_player(
+            _("You replace the rechargeable powerpack in your %s with a UPS conversion pack!"),
+                             tool->name.c_str() );
+            g->m.spawn_item( p->posx, p->posy, "rechargeable_battery", 1, modded->charges );
+            modded->item_tags.erase("RECHARGE");
+            modded->item_tags.erase("NO_UNLOAD");
+        }
+    } else if( modded->has_flag( "ATOMIC_AMMO" )){
+        p->add_msg_if_player( _("You replace the plutonium cells of your %s with a UPS conversion pack!"),
+                              tool->name.c_str());
+
+        g->m.spawn_item( p->posx, p->posy, "battery_atomic", 1, modded->charges );
+        modded->charges = 0;
+        modded->item_tags.erase( "ATOMIC_AMMO" );
+        modded->item_tags.erase( "NO_UNLOAD" );
+        modded->item_tags.erase( "RADIOACTIVE" );
+        modded->item_tags.erase( "LEAK_DAM" );
+    } else {
+        p->add_msg_if_player(_("You modify your %s to run off a UPS!"),
+                             tool->name.c_str());
+        if (modded->charges > 0) {
+            g->m.spawn_item( p->posx, p->posy, "battery", 1, modded->charges );
+        }
+    }
+
+    modded->item_tags.insert("USE_UPS");
+    modded->item_tags.insert("NO_UNLOAD");
+    modded->item_tags.insert("NO_RELOAD");
+    modded->charges = -1;
+    return 1;
+}
 
 int iuse::fishing_rod_basic (player *p, item *it, bool) {
-  int dirx, diry;
+    int dirx, diry;
 
-  if (!choose_adjacent(_("Fish where?"), dirx, diry)) {
+    if (!choose_adjacent(_("Fish where?"), dirx, diry)) {
+        return 0;
+    }
+
+    if (!g->m.has_flag("FISHABLE", dirx, diry)) {
+        p->add_msg_if_player( _("You can't fish there!"));
+        return 0;
+    }
+    // can't use g->om_global_location, because that gives the position
+    // of the player, not of (dirx, diry)
+    const int cursx = (g->levx + dirx / SEEX) / 2 + g->cur_om->pos().x * OMAPX;
+    const int cursy = (g->levy + diry / SEEY) / 2 + g->cur_om->pos().y * OMAPY;
+    if (!otermap[overmap_buffer.ter(cursx, cursy, g->levz)].is_river) {
+        p->add_msg_if_player( _("That water does not contain any fish, try a river instead."));
+        return 0;
+    }
+
+    p->add_msg_if_player( _("You throw your fishing line and wait to hook something..."));
+
+    p->assign_activity(ACT_FISH, 30000, 0, p->get_item_position(it), it->name);
+
     return 0;
-  }
-
-  if (!g->m.has_flag("FISHABLE", dirx, diry)) {
-    p->add_msg_if_player( _("You can't fish there!"));
-
-    return 0;
-  }
-  // can't use g->om_global_location, because that gives the position
-  // of the player, not of (dirx, diry)
-  const int cursx = (g->levx + dirx / SEEX) / 2 + g->cur_om->pos().x * OMAPX;
-  const int cursy = (g->levy + diry / SEEY) / 2 + g->cur_om->pos().y * OMAPY;
-  if (!otermap[overmap_buffer.ter(cursx, cursy, g->levz)].is_river) {
-    p->add_msg_if_player( _("That water does not contain any fish, try a river instead."));
-    return 0;
-  }
-
-  p->add_msg_if_player( _("You throw your fishing line and wait to hook something..."));
-
-  p->assign_activity(ACT_FISH, 30000, 0, p->get_item_position(it), it->name);
-
-  return 0;
 }
 
 static bool valid_fabric(player *p, item *it, bool)
@@ -5616,8 +5711,7 @@ int iuse::tazer(player *p, item *it, bool)
 
 int iuse::tazer2(player *p, item *it, bool)
 {
-    if (it->charges >= 100) {
-
+    if (it->charges >= 100 || (it->has_flag("USE_UPS") && (p->has_charges("UPS_off",5) || p->has_charges("UPS_on",5) || p->has_charges("adv_UPS_off",3) || p->has_charges("adv_UPS_on",3) || (p->has_bionic("bio_ups") && p->power_level <= 1)))) {
         int dirx, diry;
 
         if(!choose_adjacent(_("Shock"), dirx, diry)) {
@@ -5733,7 +5827,7 @@ int iuse::shocktonfa_off(player *p, item *it, bool t)
         break;
 
         case 2: {
-            if (it->charges == 0) {
+            if (it->charges <= 0) {
                 p->add_msg_if_player( _("The batteries are dead."));
                 return 0;
             } else {
@@ -5751,8 +5845,8 @@ int iuse::shocktonfa_on(player *p, item *it, bool t)
 {
     if (t) {  // Effects while simply on
 
-    } else
-        if (it->charges == 0) {
+    } else {
+        if (it->charges <= 0) {
             p->add_msg_if_player( _("Your tactical tonfa is out of power"));
             it->make(itypes["shocktonfa_off"]);
             it->active = false;
@@ -5773,55 +5867,58 @@ int iuse::shocktonfa_on(player *p, item *it, bool t)
                 }
             }
         }
+    }
     return 0;
 }
 
 int iuse::mp3(player *p, item *it, bool)
 {
- if (it->charges == 0)
-  p->add_msg_if_player(_("The mp3 player's batteries are dead."));
- else if (p->has_active_item("mp3_on"))
-  p->add_msg_if_player(_("You are already listening to an mp3 player!"));
- else {
-  p->add_msg_if_player(_("You put in the earbuds and start listening to music."));
-  it->make(itypes["mp3_on"]);
-  it->active = true;
- }
- return it->type->charges_to_use();
+    if (it->charges == 0) {
+        p->add_msg_if_player(_("The mp3 player's batteries are dead."));
+    } else if (p->has_active_item("mp3_on")) {
+        p->add_msg_if_player(_("You are already listening to an mp3 player!"));
+    } else {
+        p->add_msg_if_player(_("You put in the earbuds and start listening to music."));
+        it->make(itypes["mp3_on"]);
+        it->active = true;
+    }
+    return it->type->charges_to_use();
 }
 
 int iuse::mp3_on(player *p, item *it, bool t)
 {
- if (t) { // Normal use
-  if (!p->has_item(it) || p->has_disease("deaf") ) {
-   return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
-  }
-  p->add_morale(MORALE_MUSIC, 1, 50);
-
-  if (int(calendar::turn) % 10 == 0) { // Every 10 turns, describe the music
-   std::string sound = "";
-   if (one_in(50))
-     sound = _("some bass-heavy post-glam speed polka");
-   switch (rng(1, 10)) {
-    case 1: sound = _("a sweet guitar solo!"); p->stim++; break;
-    case 2: sound = _("a funky bassline."); break;
-    case 3: sound = _("some amazing vocals."); break;
-    case 4: sound = _("some pumping bass."); break;
-    case 5: sound = _("dramatic classical music.");
-        if (p->int_cur >= 10) {
-            p->add_morale(MORALE_MUSIC, 1, 100); break;
+    if (t) { // Normal use
+        if (!p->has_item(it) || p->has_disease("deaf") ) {
+            return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
         }
-   }
-   if (sound.length() > 0) {
-       p->add_msg_if_player(_("You listen to %s"), sound.c_str());
-   }
-  }
- } else { // Turning it off
-  p->add_msg_if_player(_("The mp3 player turns off."));
-  it->make(itypes["mp3"]);
-  it->active = false;
- }
- return it->type->charges_to_use();
+        p->add_morale(MORALE_MUSIC, 1, 50);
+
+        if (int(calendar::turn) % 10 == 0) { // Every 10 turns, describe the music
+            std::string sound = "";
+            if (one_in(50)) {
+                sound = _("some bass-heavy post-glam speed polka");
+            }
+            switch (rng(1, 10)) {
+            case 1: sound = _("a sweet guitar solo!"); p->stim++; break;
+            case 2: sound = _("a funky bassline."); break;
+            case 3: sound = _("some amazing vocals."); break;
+            case 4: sound = _("some pumping bass."); break;
+            case 5: sound = _("dramatic classical music.");
+                if (p->int_cur >= 10) {
+                    p->add_morale(MORALE_MUSIC, 1, 100);
+                }
+                break;
+            }
+            if (sound.length() > 0) {
+                p->add_msg_if_player(_("You listen to %s"), sound.c_str());
+            }
+        }
+    } else { // Turning it off
+        p->add_msg_if_player(_("The mp3 player turns off."));
+        it->make(itypes["mp3"]);
+        it->active = false;
+    }
+    return it->type->charges_to_use();
 }
 
 int iuse::portable_game(player *p, item *it, bool)

@@ -769,14 +769,16 @@ void player::activate_bionic(int b)
         } else if(type == t_door_c) {
             add_msg(_("That door isn't locked."));
         } else {
-            add_msg_if_player( _("You can't unlock that %s."), g->m.tername(dirx, diry).c_str());
+            add_msg_if_player(_("You can't unlock that %s."), g->m.tername(dirx, diry).c_str());
         }
     } else if(bio.id == "bio_flashbang") {
-        add_msg_if_player( _("You activate your integrated flashbang generator!"));
+        add_msg_if_player(_("You activate your integrated flashbang generator!"));
         g->flashbang(posx, posy, true);
     } else if(bio.id == "bio_shockwave") {
         g->shockwave(posx, posy, 3, 4, 2, 8, true);
-        add_msg_if_player( _("You unleash a powerful shockwave!"));
+        add_msg_if_player(_("You unleash a powerful shockwave!"));
+    } else if(bio.id == "bio_ups"){
+        add_msg_if_player(_("Your internal UPS powers on."));
     }
 }
 

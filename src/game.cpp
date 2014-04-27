@@ -291,6 +291,7 @@ void game::init_ui(){
     TERRAIN_WINDOW_HEIGHT = TERMY;
     TERRAIN_WINDOW_WIDTH = TERMX - sidebarWidth;
     TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
+    TERRAIN_WINDOW_TERM_HEIGHT = TERRAIN_WINDOW_HEIGHT;
 
     // Dimensions of terrain window is currently in colums/rows of the standard font,
     // but if the tileset is in use or if we use a different sized
@@ -1805,10 +1806,10 @@ void game::update_weather()
     if (calendar::turn >= nextweather)
     {
         weather_type old_weather = weather;
-        weather_segment  new_weather = weather_log.lower_bound((int)nextweather)->second;
+        weather_segment new_weather = weather_log.upper_bound((int)calendar::turn)->second;
         weather = new_weather.weather;
         temperature = new_weather.temperature;
-        nextweather = weather_log.upper_bound(int(new_weather.deadline))->second.deadline;
+        nextweather = new_weather.deadline;
 
         //In case weather changes right after a lightning strike
         g->lightning_active = false;
@@ -2106,7 +2107,7 @@ void game::handle_key_blocking_activity() {
                     refresh_all();
                     break;
                 case ACTION_MESSAGES:
-                    msg_buffer();
+                    Messages::display_messages();
                     refresh_all();
                     break;
                 case ACTION_HELP:
@@ -2691,7 +2692,7 @@ bool game::handle_action()
         act = look_up_action(action);
         if (act == ACTION_NULL) {
             add_msg(_("Unknown command: '%c'"), (int) ctxt.get_raw_input().get_first_input());
-		}
+        }
     }
 
     if (act == ACTION_ACTIONMENU) {
@@ -3202,7 +3203,7 @@ bool game::handle_action()
    break;
 
   case ACTION_MESSAGES:
-   msg_buffer();
+   Messages::display_messages();
    refresh_all();
    break;
 
@@ -3508,7 +3509,7 @@ void game::death_screen()
     }
     delwin(w_death);
 
-    msg_buffer();
+    Messages::display_messages();
     disp_kills();
 }
 
@@ -9459,7 +9460,7 @@ and you can't unwield your %s."),
             newit = u.i_add(newit);
             picked_up = true;
             add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.display_name().c_str());
-		}
+        }
 
         if(picked_up) {
             remove_from_map_or_vehicle(posx, posy, from_veh, veh, cargo_part, moves_taken, 0);
@@ -10788,7 +10789,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
  if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
   if (u.has_charges("UPS_on", 1)  ||
-      u.has_charges("adv_UPS_on", 1) ) {
+      u.has_charges("adv_UPS_on", 1) || (u.has_active_bionic("bio_ups" ) && u.power_level >= 1)) {
    add_msg(_("Your %s starts charging."), u.weapon.tname().c_str());
    u.weapon.charges = 0;
    u.weapon.poison = 0;
@@ -10891,17 +10892,17 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
  }
  if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
      !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 3) &&
-     !u.has_charges("adv_UPS_on", 3)) {
+     !u.has_charges("adv_UPS_on", 3) && !(u.has_bionic("bio_ups") && u.power_level >= 1)) {
   add_msg(_("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charges to fire that!"));
   return;
  } else if (u.weapon.has_flag("USE_UPS_20") && !u.has_charges("UPS_off", 20) &&
   !u.has_charges("UPS_on", 20) && !u.has_charges("adv_UPS_off", 12) &&
-  !u.has_charges("adv_UPS_on", 12)) {
+  !u.has_charges("adv_UPS_on", 12) && !(u.has_bionic("bio_ups") && u.power_level >= 4)) {
   add_msg(_("You need a UPS with at least 20 charges or an advanced UPS with at least 12 charges to fire that!"));
   return;
  } else if (u.weapon.has_flag("USE_UPS_40") && !u.has_charges("UPS_off", 40) &&
   !u.has_charges("UPS_on", 40) && !u.has_charges("adv_UPS_off", 24) &&
-  !u.has_charges("adv_UPS_on", 24)) {
+  !u.has_charges("adv_UPS_on", 24)&& !(u.has_bionic("bio_ups") && u.power_level >= 8)) {
   add_msg(_("You need a UPS with at least 40 charges or an advanced UPS with at least 24 charges to fire that!"));
   return;
  }
@@ -11319,69 +11320,65 @@ void game::complete_butcher(int index)
 
 void game::forage()
 {
-  int veggy_chance = rng(1, 100);
+    int veggy_chance = rng(1, 100);
 
-  if (one_in(12))
-  {
-    add_msg(_("You found some trash!"));
-    m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
-  }
-  if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5))
-  {
-    if (!one_in(6)) {
-       if (!one_in(3)) {
-         add_msg(_("You found some wild veggies!"));
-         m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, calendar::turn);
-         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-       } else {
-         add_msg(_("You found some wild mushrooms!"));
-         m.put_items_from("mushroom_forest", rng(1, 3), u.posx, u.posy, calendar::turn, 0, 0, 0);
-         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-       }
+    if (one_in(12)) {
+        add_msg(_("You found some trash!"));
+        m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
     }
-	else {
-	   add_msg(_("You found a nest with some eggs!"));
-	   if (!one_in(4)) {
-           m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
-       } else {
-          // ~15% & 3.8% chance to find these, assuming you make your veggy roll
-          // So maybe we can give more than 1.
-           m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
-	   }
-    }
-    m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-  }
-  else
-  {
-    add_msg(_("You didn't find anything."));
-    if (one_in(2))
+    if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5)) {
+        if (!one_in(6)) {
+            if (!one_in(3)) {
+                add_msg(_("You found some wild veggies!"));
+                m.spawn_item(u.posx, u.posy, "veggy_wild", 1, 0, calendar::turn);
+                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+            } else {
+                add_msg(_("You found some wild mushrooms!"));
+                m.put_items_from("mushroom_forest", rng(1, 3), u.posx, u.posy,
+                                 calendar::turn, 0, 0, 0);
+                m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+            }
+        } else {
+            add_msg(_("You found a nest with some eggs!"));
+            if (!one_in(4)) {
+                m.spawn_item(u.posx, u.posy, "egg_bird", rng(2, 5), 0, calendar::turn);
+            } else {
+                // ~15% & 3.8% chance to find these, assuming you make your veggy roll
+                // So maybe we can give more than 1.
+                m.spawn_item(u.posx, u.posy, "egg_reptile", rng(2, 5), 0, calendar::turn);
+            }
+        }
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-  }
-  //Determinate maximum level of skill attained by foraging using ones intelligence score
-  int max_forage_skill =  0;
-  if (u.int_cur < 4)
-  {
-    max_forage_skill =  1;
-  } else if (u.int_cur <  6) {
-    max_forage_skill =  2;
-  } else if (u.int_cur <  8) {
-    max_forage_skill =  3;
-  } else if (u.int_cur < 11) {
-    max_forage_skill =  4;
-  } else if (u.int_cur < 15) {
-    max_forage_skill =  5;
-  } else if (u.int_cur < 20) {
-    max_forage_skill =  6;
-  } else if (u.int_cur < 26) {
-    max_forage_skill =  7;
-  } else if (u.int_cur > 25) {
-    max_forage_skill =  8;
-  }
-  //Award experience for foraging attempt regardless of success
-  if (u.skillLevel("survival") < max_forage_skill)
-  {
-      u.practice(calendar::turn, "survival", rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)));
-  }
+    } else {
+        add_msg(_("You didn't find anything."));
+        if (one_in(2)) {
+            m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+        }
+    }
+    //Determinate maximum level of skill attained by foraging using ones intelligence score
+    int max_forage_skill =  0;
+    if (u.int_cur < 4) {
+        max_forage_skill =  1;
+    } else if (u.int_cur <  6) {
+        max_forage_skill =  2;
+    } else if (u.int_cur <  8) {
+        max_forage_skill =  3;
+    } else if (u.int_cur < 11) {
+        max_forage_skill =  4;
+    } else if (u.int_cur < 15) {
+        max_forage_skill =  5;
+    } else if (u.int_cur < 20) {
+        max_forage_skill =  6;
+    } else if (u.int_cur < 26) {
+        max_forage_skill =  7;
+    } else if (u.int_cur > 25) {
+        max_forage_skill =  8;
+    }
+    //Award experience for foraging attempt regardless of success
+    if (u.skillLevel("survival") < max_forage_skill) {
+        u.practice(calendar::turn, "survival",
+                   rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)));
+    }
 }
 
 void game::eat(int pos)
@@ -13817,53 +13814,9 @@ void game::write_msg()
     const int topline = mon_info(w_messages) + 2;
 
     int line = getmaxy(w_messages) - 1;
-    Messages::display_messages(w_messages,0,topline,maxlength,line);
+    Messages::display_messages(w_messages, 0, topline, maxlength, line);
 
     wrefresh(w_messages);
-}
-
-void game::msg_buffer()
-{
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
-
-    size_t offset = 0;
-    input_context ctxt("MESSAGE_LOG");
-    ctxt.register_action("UP", _("Scroll up"));
-    ctxt.register_action("DOWN", _("Scroll down"));
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    while(true) {
-        werase(w);
-        draw_border(w);
-        mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 32, c_red, _("Press %s to return"),
-                  ctxt.get_desc("QUIT").c_str());
-
-        //Draw Scrollbar
-        draw_scrollbar(w, offset, FULL_SCREEN_HEIGHT - 2, Messages::size(), 1);
-        Messages::display_messages(w, 1, 1, FULL_SCREEN_WIDTH - 2,
-                                   FULL_SCREEN_HEIGHT - 2, offset, true);
-        if (offset > 0) {
-            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 27, c_magenta, "vvv");
-        }
-        if (offset + 1 < Messages::size()) {
-            mvwprintz(w, FULL_SCREEN_HEIGHT - 1, 51, c_magenta, "^^^");
-        }
-        wrefresh(w);
-
-        const std::string action = ctxt.handle_input();
-        if (action == "DOWN" && offset + 1 < Messages::size()) {
-            offset++;
-        } else if (action == "UP" && offset > 0) {
-            offset--;
-        } else if (action == "QUIT") {
-            break;
-        }
-    }
-
-    werase(w);
-    delwin(w);
 }
 
 void game::teleport(player *p, bool add_teleglow)

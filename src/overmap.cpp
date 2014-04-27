@@ -2962,11 +2962,11 @@ void overmap::polish(const int z, const std::string &terrain_type)
                     good_road("ants", x, y, z);
                 } else if (check_ot_type("river", x, y, z)) {
                     good_river(x, y, z);
-                // Sometimes a bridge will start at the edge of a river,
-                // and this looks ugly.
-                // So, fix it by making that square normal road;
-                // also taking other road pieces that may be next
-		// to it into account. A bit of a kludge but it works.
+                    // Sometimes a bridge will start at the edge of a river,
+                    // and this looks ugly.
+                    // So, fix it by making that square normal road;
+                    // also taking other road pieces that may be next
+                    // to it into account. A bit of a kludge but it works.
                 } else if (ter(x, y, z) == "bridge_ns" &&
                            (!is_river(ter(x - 1, y, z)) ||
                             !is_river(ter(x + 1, y, z)))) {

@@ -319,7 +319,7 @@ void game::load_weather(std::ifstream & fin) {
            debugmsg("weather zones unimplemented. bad data '%s'", data.c_str() );
         }
      }
-     std::map<int, weather_segment>::iterator w_it = weather_log.lower_bound(int(calendar::turn));
+     std::map<int, weather_segment>::iterator w_it = weather_log.upper_bound(int(calendar::turn));
     if ( w_it != weather_log.end() ) {
         // lower_bound returns the smallest key, that
         // is >= turn. (The key in that map is the deadline

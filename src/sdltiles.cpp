@@ -236,7 +236,7 @@ bool WinCreate()
             window_flags
         );
 
-	//create renderer and convert that to a SDL_Surface?
+    //create renderer and convert that to a SDL_Surface?
 
     if (window == NULL) return false;
 
@@ -555,8 +555,8 @@ void curses_drawwindow(WINDOW *win)
             win->y * fontheight,
             g->ter_view_x,
             g->ter_view_y,
-            win->width * tilecontext->get_tile_width(),
-            win->height * tilecontext->get_tile_height());
+            TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
+            TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
         update = true;
     } else if (g && win == g->w_terrain && map_font != NULL) {
         // Special font for the terrain window

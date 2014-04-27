@@ -549,7 +549,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                          m->ter(x, y) == t_underbrush) {
                     m->ter_set(x, y, t_swater_sh);
                 }
-		if (m->ter(x, y) == t_water_sh) {
+                if (m->ter(x, y) == t_water_sh) {
                     m->ter_set(x, y, t_water_dp);
                 } else if ( dat.is_groundcover( m->ter(x, y) ) ||
                          m->ter(x, y) == t_underbrush) {
