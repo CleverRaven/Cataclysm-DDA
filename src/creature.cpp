@@ -213,11 +213,11 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     if (stab_moves >= 150) {
         if ((is_player()) && ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet))) ) {
             // can the player force their self to the ground? probably not.
-            source->add_msg_if_npc( _("<npcname> forces you to the ground!"));
+            source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {
-            source->add_msg_player_or_npc( _("You force %s to the ground!"),
-                                     _("<npcname> forces %s to the ground!"),
-                                     disp_name().c_str() );
+            source->add_msg_player_or_npc( m_good, _("You force %s to the ground!"),
+                                                   _("<npcname> forces %s to the ground!"),
+                                                   disp_name().c_str() );
         }
         if ((!(g->u.has_trait("LEG_TENT_BRACE"))) || (g->u.wearing_something_on(bp_feet)) ) {
             add_effect("downed", 1);
@@ -270,19 +270,19 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     double damage_mult = 1.0;
 
     if (goodhit <= .1) {
-        source->add_msg_if_player(_("Headshot!"));
+        source->add_msg_if_player(m_good, _("Headshot!"));
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
     } else if (goodhit <= .2) {
-        source->add_msg_if_player(_("Critical!"));
+        source->add_msg_if_player(m_good, _("Critical!"));
         damage_mult *= rng_float(1.75, 2.3);
     } else if (goodhit <= .4) {
-        source->add_msg_if_player(_("Good hit!"));
+        source->add_msg_if_player(m_good, _("Good hit!"));
         damage_mult *= rng_float(1, 1.5);
     } else if (goodhit <= .6) {
         damage_mult *= rng_float(0.5, 1);
     } else if (goodhit <= .8) {
-        source->add_msg_if_player(_("Grazing hit."));
+        source->add_msg_if_player(m_good, _("Grazing hit."));
         damage_mult *= rng_float(0, .25);
     } else {
         damage_mult *= 0;
@@ -367,9 +367,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                 add_msg(m_good, _("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
             } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
-                add_msg_if_player( _( "You were hit in the %s for %d damage." ),
-                                      body_part_name( bp_hit, side ).c_str( ),
-                                      dealt_dam.total_damage( ) );
+                add_msg_if_player( m_bad, _( "You were hit in the %s for %d damage." ),
+                                          body_part_name( bp_hit, side ).c_str( ),
+                                          dealt_dam.total_damage( ) );
             } else if( u_see_this ) {
                 add_msg(_("%s shoots %s."),
                            source->disp_name().c_str(), disp_name().c_str());

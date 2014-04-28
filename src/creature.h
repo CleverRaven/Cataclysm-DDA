@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "mtype.h"
 #include "output.h"
+#include "messages.h"
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -272,8 +273,11 @@ class Creature
 
         // Message related stuff
         virtual void add_msg_if_player(const char *, ...){};
+        virtual void add_msg_if_player(game_message_type type, const char *, ...){};
         virtual void add_msg_if_npc(const char *, ...){};
+        virtual void add_msg_if_npc(game_message_type type, const char *, ...){};
         virtual void add_msg_player_or_npc(const char *, const char *, ...){};
+        virtual void add_msg_player_or_npc(game_message_type type, const char *, const char *, ...){};
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
