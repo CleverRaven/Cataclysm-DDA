@@ -69,5 +69,13 @@ then
     exit 1
 fi
 
-echo "Update finished."
+# Check for broken Unicode symbols
+if ! python lang/unicode_check.py lang/po/cataclysm-dda.pot
+then
+    echo "Updated pot file contain broken Unicode symbols. Aborting."
+    cd $oldpwd
+    exit 1
+fi
+
+echo "Update finished. It's safe to commit."
 cd $oldpwd
