@@ -79,6 +79,7 @@
       ["muffler", 30],
       ["pipe", 20],
       ["motor", 2],
+      ["stereo", 6],
       ["horn_car", 2],
       ["horn_big", 2],
       ["horn_bicycle", 8],
@@ -4439,6 +4440,7 @@
     "id" : "mechanics",
     "items":[
       ["wrench", 30],
+      ["stereo", 25],
       ["frame", 20],
       ["hdframe", 10],
       ["motor", 2],
