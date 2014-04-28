@@ -230,7 +230,7 @@ void monster::move()
     if (has_flag(MF_REGENERATES_50)) {
         if (hp < type->hp) {
             if (one_in(2)) {
-                add_msg(_("The %s is visibly regenerating!"), name().c_str());
+                add_msg(m_warning, _("The %s is visibly regenerating!"), name().c_str());
             }
             hp += 50;
             if(hp > type->hp) {
@@ -241,7 +241,7 @@ void monster::move()
     if (has_flag(MF_REGENERATES_10)) {
         if (hp < type->hp) {
             if (one_in(2)) {
-                add_msg(_("The %s seems a little healthier."), name().c_str());
+                add_msg(m_warning, _("The %s seems a little healthier."), name().c_str());
             }
             hp += 10;
             if(hp > type->hp) {
@@ -781,11 +781,11 @@ int monster::move_to(int x, int y, bool force)
 
     if(was_water && !will_be_water && g->u_see(x, y)) {
         //Use more dramatic messages for swimming monsters
-        add_msg(_("A %s %s from the %s!"), name().c_str(),
+        add_msg(m_warning, _("A %s %s from the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("leaps") : _("emerges"),
                    g->m.tername(posx(), posy()).c_str());
     } else if(!was_water && will_be_water && g->u_see(x, y)) {
-        add_msg(_("A %s %s into the %s!"), name().c_str(),
+        add_msg(m_warning, _("A %s %s into the %s!"), name().c_str(),
                    has_flag(MF_SWIMS) || has_flag(MF_AQUATIC) ? _("dives") : _("sinks"),
                    g->m.tername(x, y).c_str());
     }

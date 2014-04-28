@@ -634,11 +634,11 @@ void vehicle::use_controls()
         } else {
           if (total_power () < 1) {
               if (total_power (false) < 1) {
-                  add_msg (_("The %s doesn't have an engine!"), name.c_str());
+                  add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
               } else if( has_pedals ) {
-                  add_msg (_("The %s's pedals are out of reach!"), name.c_str());
+                  add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
               } else if( has_hand_rims ) {
-                  add_msg (_("The %s's hand rims are out of reach!"), name.c_str());
+                  add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
               } else {
                   add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
               }
@@ -655,7 +655,7 @@ void vehicle::use_controls()
     case convert_vehicle:
     {
         if(g->u.controlling_vehicle) {
-            add_msg(_("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it."), name.c_str());
+            add_msg(m_warning, _("As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it."), name.c_str());
             break;
         }
         add_msg(_("You painstakingly pack the %s into a portable configuration."), name.c_str());
@@ -2752,13 +2752,13 @@ void vehicle::thrust (int thd) {
             if (pl_ctrl)
             {
               if (total_power (false) < 1) {
-                  add_msg (_("The %s doesn't have an engine!"), name.c_str());
+                  add_msg (m_info, _("The %s doesn't have an engine!"), name.c_str());
               } else if( has_pedals ) {
-                  add_msg (_("The %s's pedals are out of reach!"), name.c_str());
+                  add_msg (m_info, _("The %s's pedals are out of reach!"), name.c_str());
               } else if( has_hand_rims ) {
-                  add_msg (_("The %s's hand rims are out of reach!"), name.c_str());
+                  add_msg (m_info, _("The %s's hand rims are out of reach!"), name.c_str());
               } else {
-                  add_msg (_("The %s's engine emits a sneezing sound."), name.c_str());
+                  add_msg (m_info, _("The %s's engine emits a sneezing sound."), name.c_str());
               }
             }
             cruise_velocity = 0;
@@ -3134,14 +3134,14 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     if (!is_body_collision) {
         if (pl_ctrl) {
             if (snd.length() > 0) {
-                add_msg (_("Your %s's %s rams into a %s with a %s"), name.c_str(),
+                add_msg (m_warning, _("Your %s's %s rams into a %s with a %s"), name.c_str(),
                             part_info(part).name.c_str(), obs_name.c_str(), snd.c_str());
             } else {
-                add_msg (_("Your %s's %s rams into a %s."), name.c_str(),
+                add_msg (m_warning, _("Your %s's %s rams into a %s."), name.c_str(),
                             part_info(part).name.c_str(), obs_name.c_str());
             }
         } else if (snd.length() > 0) {
-            add_msg (_("You hear a %s"), snd.c_str());
+            add_msg (m_warning, _("You hear a %s"), snd.c_str());
         }
         g->sound(x, y, smashed? 80 : 50, "");
     } else {
@@ -3152,7 +3152,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
             dname = ph->name;
         }
         if (pl_ctrl) {
-            add_msg (_("Your %s's %s rams into %s%s!"),
+            add_msg (m_warning, _("Your %s's %s rams into %s%s!"),
                         name.c_str(), part_info(part).name.c_str(), dname.c_str(),
                         turns_stunned > 0 && z? _(" and stuns it") : "");
         }
@@ -3278,7 +3278,7 @@ void vehicle::handle_trap (int x, int y, int part)
         msg.clear();
     }
     if (!msg.empty() && g->u_see(x, y)) {
-        add_msg (msg.c_str(), name.c_str(), part_info(part).name.c_str(), traplist[t]->name.c_str());
+        add_msg (m_bad, msg.c_str(), name.c_str(), part_info(part).name.c_str(), traplist[t]->name.c_str());
     }
     if (noise > 0) {
         g->sound(x, y, noise, snd);
@@ -3460,7 +3460,7 @@ void vehicle::gain_moves()
         }
         if( !can_fire ) {
             if( player_in_control(&g->u) || g->u_see(global_x(), global_y()) ) {
-                add_msg( _("The %s's turrets run out of ammo and switch off."), name.c_str() );
+                add_msg(m_warning, _("The %s's turrets run out of ammo and switch off."), name.c_str() );
             }
            turret_mode = 0;
         }
@@ -3740,14 +3740,14 @@ int vehicle::damage_direct (int p, int dmg, int type)
                         if(parts[parts_in_square[index]].hp == 0) {
                             //Tearing off a broken part - break it up
                             if(g->u_see(x_pos, y_pos)) {
-                                add_msg(_("The %s's %s breaks into pieces!"), name.c_str(),
+                                add_msg(m_bad, _("The %s's %s breaks into pieces!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
                             break_part_into_pieces(parts_in_square[index], x_pos, y_pos, true);
                         } else {
                             //Intact (but possibly damaged) part - remove it in one piece
                             if(g->u_see(x_pos, y_pos)) {
-                                add_msg(_("The %s's %s is torn off!"), name.c_str(),
+                                add_msg(m_bad, _("The %s's %s is torn off!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
                             item part_as_item = item_from_part(parts_in_square[index]);
@@ -3762,7 +3762,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                  * vehicles from the split parts) would be ideal. */
                 if(can_unmount(p)) {
                     if(g->u_see(x_pos, y_pos)) {
-                        add_msg(_("The %s's %s is destroyed!"),
+                        add_msg(m_bad, _("The %s's %s is destroyed!"),
                                 name.c_str(), part_info(p).name.c_str());
                     }
                     break_part_into_pieces(p, x_pos, y_pos, true);
@@ -3771,7 +3771,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
             } else {
                 //Just break it off
                 if(g->u_see(x_pos, y_pos)) {
-                    add_msg(_("The %s's %s is destroyed!"),
+                    add_msg(m_bad, _("The %s's %s is destroyed!"),
                                     name.c_str(), part_info(p).name.c_str());
                 }
                 break_part_into_pieces(p, x_pos, y_pos, true);
@@ -3977,9 +3977,9 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t);
     if (target == NULL) {
         if (u_see) {
-            add_msg(ngettext("%s points in your direction and emits an IFF warning beep.",
-                                "%s points in your direction and emits %d annoyed sounding beeps.",
-                                boo_hoo),
+            add_msg(m_warning, ngettext("%s points in your direction and emits an IFF warning beep.",
+                                        "%s points in your direction and emits %d annoyed sounding beeps.",
+                                         boo_hoo),
                        tmp.name.c_str(), boo_hoo);
         }
         return false;

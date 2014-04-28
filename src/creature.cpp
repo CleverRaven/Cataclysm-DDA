@@ -364,7 +364,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                        skin_name().c_str());
         } else if (source != NULL) {
             if (source->is_player()) {
-                add_msg(_("You hit the %s for %d damage."),
+                add_msg(m_good, _("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
             } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
                 add_msg_if_player( _( "You were hit in the %s for %d damage." ),
@@ -949,9 +949,9 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
     }
 
     if(g->debugmon) {
-        add_msg("source size = %d", source->get_size());
-        add_msg("target size = %d", get_size());
-        add_msg("difference = %d", szdif);
+        add_msg(m_info, "source size = %d", source->get_size());
+        add_msg(m_info, "target size = %d", get_size());
+        add_msg(m_info, "difference = %d", szdif);
     }
 
     std::map<body_part, double> hit_weights = default_hit_weights[szdif];
@@ -975,11 +975,11 @@ body_part Creature::select_body_part(Creature *source, int hit_roll)
 
     // Debug for seeing weights.
     if(g->debugmon) {
-        add_msg("eyes = %f", hit_weights.at(bp_eyes));
-        add_msg("head = %f", hit_weights.at(bp_head));
-        add_msg("torso = %f", hit_weights.at(bp_torso));
-        add_msg("arms = %f", hit_weights.at(bp_arms));
-        add_msg("legs = %f", hit_weights.at(bp_legs));
+        add_msg(m_info, "eyes = %f", hit_weights.at(bp_eyes));
+        add_msg(m_info, "head = %f", hit_weights.at(bp_head));
+        add_msg(m_info, "torso = %f", hit_weights.at(bp_torso));
+        add_msg(m_info, "arms = %f", hit_weights.at(bp_arms));
+        add_msg(m_info, "legs = %f", hit_weights.at(bp_legs));
     }
 
     double totalWeight = 0;

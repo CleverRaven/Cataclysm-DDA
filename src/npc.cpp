@@ -1075,7 +1075,7 @@ bool npc::wield(item* it)
     moves -= 15;
     weapon = inv.remove_item(it);
     if ( g->u_see( posx, posy ) ) {
-        add_msg( _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
+        add_msg( m_info, _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     }
     return true;
 }

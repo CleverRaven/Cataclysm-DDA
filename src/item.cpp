@@ -1638,7 +1638,7 @@ void item::calc_rot()
             int old = rot;
             rot += get_rot_since( since, until );
             if (g->debugmon) {
-                add_msg("r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
+                add_msg(m_info, "r: %s %d,%d %d->%d", type->id.c_str(), since, until, old, rot );
             }
         }
         last_rot_check = now;
@@ -3325,7 +3325,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                 if(!(worn->contents.empty()) && worn->contents[0].charges > 0) {
                     if(worn->contents[0].type->id != type->id) {
                         if(!isAutoPickup) {
-                            u->add_msg_if_player(_("Those aren't the same arrows!"));
+                            u->add_msg_if_player(m_info, _("Those aren't the same arrows!"));
                         }
 
                         //only return false if this is last quiver in the loop
@@ -3337,7 +3337,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
                     }
                     if(worn->contents[0].charges >= maxArrows) {
                         if(!isAutoPickup) {
-                            u->add_msg_if_player(_("That %s is already full!"), worn->name.c_str());
+                            u->add_msg_if_player(m_info, _("That %s is already full!"), worn->name.c_str());
                         }
 
                         //only return false if this is last quiver in the loop

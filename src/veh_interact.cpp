@@ -1552,7 +1552,7 @@ void complete_vehicle ()
             veh->charge_battery(batterycharges);
         }
 
-        add_msg (_("You install a %s into the %s."),
+        add_msg (m_good, _("You install a %s into the %s."),
                     vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
         g->u.practice (calendar::turn, "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20);
         break;
@@ -1573,7 +1573,7 @@ void complete_vehicle ()
         tools.push_back(component("toolset", welder_charges / 20));
         g->consume_tools(&g->u, tools, true);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
-        add_msg (_("You repair the %s's %s."),
+        add_msg (m_good, _("You repair the %s's %s."),
                     veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
         g->u.practice (calendar::turn, "mechanics", (veh->part_info(vehicle_part).difficulty + dd) * 5 + 20);
         break;
