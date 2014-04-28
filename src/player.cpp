@@ -7772,7 +7772,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     }
     if (has_trait("GOURMAND")) {
         if (comest->fun < -2) {
-            add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
+            add_morale(MORALE_FOOD_BAD, comest->fun * 0.5, comest->fun, 60, 30, false, comest);
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
         }

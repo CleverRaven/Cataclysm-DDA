@@ -254,7 +254,7 @@
         "id" : "GOURMAND",
         "name" : "Gourmand",
         "points" : 2,
-        "description" : "You eat faster, and can eat and drink more, than anyone else! You also enjoy food more; delicious food is better for your morale, and you don't mind some unsavory meals.",
+        "description" : "You eat faster, and can eat and drink more, than anyone else! You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.",
         "starting_trait" : true,
         "valid" : false
     },{
