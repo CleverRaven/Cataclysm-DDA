@@ -11,7 +11,7 @@
 
 void mdeath::normal(monster *z) {
     if (g->u_see(z)) {
-        add_msg(_("The %s dies!"), z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
+        add_msg(m_good, _("The %s dies!"), z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
 
     m_size monSize = (z->type->size);
@@ -56,7 +56,7 @@ void mdeath::normal(monster *z) {
 void mdeath::acid(monster *z) {
     if (g->u_see(z)) {
         if(z->type->dies.size() == 1) //If this death function is the only function. The corpse gets dissolved.
-            add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
+            add_msg(m_mixed, _("The %s's body dissolves into acid."), z->name().c_str());
         else {
             add_msg(m_warning, _("The %s's body leaks acid."), z->name().c_str());
         }
@@ -224,14 +224,14 @@ void mdeath::fungus(monster *z) {
 
 void mdeath::disintegrate(monster *z) {
     if (g->u_see(z)) {
-        add_msg(_("The %s disintegrates!"), z->name().c_str());
+        add_msg(m_good, _("The %s disintegrates!"), z->name().c_str());
     }
 }
 
 void mdeath::worm(monster *z) {
     if (g->u_see(z)) {
         if(z->type->dies.size() == 1)
-            add_msg(_("The %s splits in two!"), z->name().c_str());
+            add_msg(m_good, _("The %s splits in two!"), z->name().c_str());
         else {
             add_msg(m_warning, _("Two worms crawl out of the %s's corpse."), z->name().c_str());
         }
@@ -264,7 +264,7 @@ void mdeath::worm(monster *z) {
 
 void mdeath::disappear(monster *z) {
     if (g->u_see(z)) {
-        add_msg(_("The %s disappears."), z->name().c_str());
+        add_msg(m_good, _("The %s disappears."), z->name().c_str());
     }
 }
 
@@ -313,7 +313,7 @@ void mdeath::guilt(monster *z) {
         }
     }
 
-    add_msg(_(msg.c_str()), z->name().c_str());
+    add_msg(msgtype, _(msg.c_str()), z->name().c_str());
 
     int moraleMalus = -50 * (1.0 - ((float) kill_count / maxKills));
     int maxMalus = -250 * (1.0 - ((float) kill_count / maxKills));
@@ -340,7 +340,7 @@ void mdeath::blobsplit(monster *z) {
     if (speed <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
-            add_msg(_("The %s splatters apart."), z->name().c_str());
+            add_msg(m_good, _("The %s splatters apart."), z->name().c_str());
         }
         return;
     }
@@ -350,7 +350,7 @@ void mdeath::blobsplit(monster *z) {
     blob.friendly = z->friendly;
     if (g->u_see(z)) {
         if(z->type->dies.size() == 1)
-            add_msg(_("The %s splits in two!"), z->name().c_str());
+            add_msg(m_good, _("The %s splits in two!"), z->name().c_str());
         else {
             add_msg(m_bad, _("Two small blobs slither out of the corpse."), z->name().c_str());
         }
@@ -380,7 +380,7 @@ void mdeath::blobsplit(monster *z) {
 
 void mdeath::melt(monster *z) {
     if (g->u_see(z)) {
-        add_msg(_("The %s melts away."), z->name().c_str());
+        add_msg(m_good, _("The %s melts away."), z->name().c_str());
     }
 }
 
@@ -470,7 +470,7 @@ void mdeath::ratking(monster *z) {
 void mdeath::darkman(monster *z) {
      g->u.rem_disease("darkness");
      if (g->u_see(z))
-        add_msg(_("The %s melts away. And the world returns to normaliity"), z->name().c_str());
+        add_msg(m_good, _("The %s melts away. And the world returns to normaliity"), z->name().c_str());
 }
 
 void mdeath::gas(monster *z) {
