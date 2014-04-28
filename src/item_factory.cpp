@@ -9,6 +9,8 @@
 #include "crafting.h"
 #include "iuse_actor.h"
 #include "tile_id_data.h"
+#include "item.h"
+#include "game.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -552,21 +554,6 @@ Item_list Item_factory::create_from_group(Group_tag group, int created_at)
     }
 }
 
-//Returns a random template from the list of all templates.
-itype* Item_factory::random_template(){
-    return template_from("ALL");
-}
-
-//Returns a random template from those with the given group tag
-itype* Item_factory::template_from(const Item_tag group_tag){
-    return find_template( id_from(group_tag) );
-}
-
-//Returns a random template name from the list of all templates.
-const Item_tag Item_factory::random_id(){
-    return id_from("ALL");
-}
-
 //Returns a random template name from the list of all templates.
 const Item_tag Item_factory::id_from(const Item_tag group_tag){
     GroupMap::iterator group_iter = m_template_groups.find(group_tag);
@@ -591,29 +578,6 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
         return group_iter->second;
     }
     return NULL;
-}
-
-Item_list Item_factory::create(Item_tag id, int created_at, int quantity, bool rand){
-    Item_list new_items;
-    item new_item_base(id, created_at, rand);
-    for(int ii = 0; ii < quantity; ++ii) {
-        new_items.push_back(new_item_base.clone(rand));
-    }
-    return new_items;
-}
-item Item_factory::create_from(Item_tag group, int created_at, bool rand){
-    return item(id_from(group), created_at, rand);
-}
-item Item_factory::create_random(int created_at, bool rand){
-    return item(random_id(), created_at, rand);
-}
-Item_list Item_factory::create_random(int created_at, int quantity, bool rand){
-    Item_list new_items;
-    item new_item_base(random_id(), created_at);
-    for(int ii = 0; ii < quantity; ++ii){
-        new_items.push_back(new_item_base.clone(rand));
-    }
-    return new_items;
 }
 
 bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item) {
@@ -1187,7 +1151,8 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
-void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id, const std::string &subtype)
+void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id,
+                                   const std::string &subtype)
 {
     Item_spawn_data* &isd = m_template_groups[group_id];
     Item_group *ig = dynamic_cast<Item_group*>(isd);

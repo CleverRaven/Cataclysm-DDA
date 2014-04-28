@@ -1,9 +1,6 @@
 #ifndef _ITEM_FACTORY_H_
 #define _ITEM_FACTORY_H_
 
-#include "game.h"
-#include "itype.h"
-#include "item.h"
 #include "color.h"
 #include "json.h"
 #include "iuse.h"
@@ -21,6 +18,8 @@ class game;
 class player;
 class Item_spawn_data;
 class Item_group;
+class item;
+struct itype;
 
 class item_category {
 public:
@@ -56,7 +55,6 @@ public:
     void load_item_group(JsonObject &jsobj);
     // Same as other load_item_group, but takes the ident, subtype
     // from parameters instead of looking into the json object.
-    void load_item_group(JsonObject &jsobj, const std::string &ident);
     void load_item_group(JsonObject &jsobj, const std::string &ident, const std::string &subtype);
     /**
      * Check if an item type is knwo to the Item_factory,
@@ -75,20 +73,12 @@ public:
      * Never return NULL.
      */
     itype* find_template(Item_tag id);
-    itype* random_template();
-    itype* template_from(Item_tag group_tag);
-    const Item_tag random_id();
     /**
      * Return a random item type from the given item group.
      */
     const Item_tag id_from(Item_tag group_tag);
     bool group_contains_item(Item_tag group_tag, Item_tag item);
 
-    //Production methods
-    Item_list create(Item_tag id, int created_at, int quantity, bool rand = true);
-    item create_from(Item_tag group, int created_at, bool rand = true);
-    item create_random(int created_at, bool rand = true);
-    Item_list create_random(int created_at, int quantity, bool rand = true);
     /**
      * Create items from the given group. It creates as many items as the
      * group definition requests.
@@ -190,7 +180,8 @@ private:
     void set_intvar(std::string tag, unsigned int & var, int min, int max);
 
     //two convenience functions that just call into set_bitmask_by_string
-    void set_flag_by_string(unsigned& cur_flags, const std::string & new_flag, const std::string & flag_type);
+    void set_flag_by_string(unsigned& cur_flags, const std::string & new_flag,
+                            const std::string & flag_type);
 
     //iuse stuff
     std::map<Item_tag, use_function> iuse_function_list;

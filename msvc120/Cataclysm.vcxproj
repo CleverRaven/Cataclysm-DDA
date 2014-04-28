@@ -259,6 +259,7 @@
     <ClInclude Include="..\src\file_finder.h" />
     <ClInclude Include="..\src\file_wrapper.h" />
     <ClInclude Include="..\src\game.h" />
+    <ClInclude Include="..\src\game_constants.h" />
     <ClInclude Include="..\src\gamemode.h" />
     <ClInclude Include="..\src\get_version.h" />
     <ClInclude Include="..\src\graffiti.h" />

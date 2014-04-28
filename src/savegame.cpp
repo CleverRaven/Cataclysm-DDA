@@ -9,7 +9,6 @@
 #include "debug.h"
 #include "map.h"
 #include "output.h"
-#include "item_factory.h"
 #include "artifact.h"
 #include "mission.h"
 #include "faction.h"

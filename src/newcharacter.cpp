@@ -1,6 +1,5 @@
 #include "player.h"
 #include "profession.h"
-#include "item_factory.h"
 #include "start_location.h"
 #include "input.h"
 #include "output.h"

@@ -2,7 +2,6 @@
 #include "inventory.h"
 #include "game.h"
 #include "mapdata.h"
-#include "item_factory.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";

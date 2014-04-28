@@ -1,13 +1,14 @@
 #ifndef _MARTIALARTS_H_
 #define _MARTIALARTS_H_
 
-#include "player.h"
 #include "pldata.h"
 #include "json.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <set>
+
+class player;
 
 struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
@@ -61,7 +62,7 @@ class ma_technique {
     std::vector<std::string> messages;
 
     bool defensive;
-    bool crit_tec;    
+    bool crit_tec;
 
     ma_requirements reqs;
 
@@ -226,7 +227,7 @@ class martialart {
     // determines if a technique is valid or not for this style
     bool has_technique(player& u, matec_id tech);
     // determines if a weapon is valid for this style
-    bool has_weapon(itype_id item);
+    bool has_weapon(std::string item);
     // gets custom melee string for a technique under this style
     std::string melee_verb(matec_id tech, player& u);
 
@@ -238,7 +239,7 @@ class martialart {
     bool arm_block_with_bio_armor_arms;
     bool leg_block_with_bio_armor_legs;
     std::set<matec_id> techniques; // all available techniques
-    std::set<itype_id> weapons; // all style weapons
+    std::set<std::string> weapons; // all style weapons
     std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
     std::vector<ma_buff> onmove_buffs;
     std::vector<ma_buff> onhit_buffs;
