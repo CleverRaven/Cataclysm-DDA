@@ -1064,6 +1064,11 @@ void player::update_bodytemp()
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 1000);
         }
+        // Feathers: minor means minor.
+        if (has_trait("FEATHERS"))
+        {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 50 : 100);
+        }
         // Down; lets heat out more easily if needed but not as Warm
         // as full-blown fur.  So less miserable in Summer.
         if (has_trait("DOWN"))
