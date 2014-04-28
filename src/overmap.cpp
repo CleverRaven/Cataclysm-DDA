@@ -216,7 +216,7 @@ void load_new_overmap_specials(JsonObject &jo)
         JsonObject om = om_array.next_object();
         overmap_special_terrain terrain;
         JsonArray point = om.get_array("point");
-        terrain.p = tripoint(point.next_int(), point.next_int(), point.next_int());
+        terrain.p = tripoint(point.get_int(0), point.get_int(1), point.get_int(2));
         terrain.terrain = om.get_string("overmap");
         JsonArray flagarray = om.get_array("flags");
         while(flagarray.has_more())
@@ -268,6 +268,10 @@ void load_new_overmap_specials(JsonObject &jo)
     new_overmap_specials.push_back(spec);
 }
 
+void clear_overmap_specials()
+{
+    new_overmap_specials.clear();
+}
 
 bool is_river(const oter_id &ter)
 {
@@ -3422,7 +3426,7 @@ void overmap::place_new_special(new_overmap_special special, tripoint p)
     {
         overmap_special_terrain terrain = *it;
 
-        this->ter(p.x + terrain.p.x, p.y + terrain.p.y, p.z) = terrain.terrain;
+        this->ter(p.x + terrain.p.x, p.y + terrain.p.y, p.z + terrain.p.z) = terrain.terrain;
 
         for(std::list<std::string>::iterator flagit = terrain.flags.begin();
             flagit != terrain.flags.end(); ++flagit)
@@ -3449,11 +3453,6 @@ void overmap::place_new_special(new_overmap_special special, tripoint p)
             }
         }
     }
-}
-
-void clear_overmap_specials()
-{
-    new_overmap_specials.clear();
 }
 
 void overmap::place_specials()
