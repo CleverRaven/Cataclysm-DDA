@@ -588,14 +588,21 @@ void vehicle::use_controls()
         }
         break;
     case toggle_stereo:
-        if(stereo_on || fuel_left(fuel_type_battery) ) {
+        if((stereo_on || fuel_left(fuel_type_battery))) {
             stereo_on = !stereo_on;
-            add_msg((stereo_on) ? _("Music starts playing") : _("The music stops"));
-            if (stereo_on == true) {
-                play_music();
+            add_msg((stereo_on) ? _("Loading CD...") : _("Ejecting..."));
+            if (!g->u.has_item_with_flag("CD") && stereo_on == true) {
+                add_msg("You don't have a cd to play!");
+                stereo_on = false;
+            } else if (stereo_on == false) {
+                add_msg("You eject your cd!");
+                g->u.inv.add_item_by_type(itypes["music_cd"]->id);
+            } else {
+                add_msg("You insert your cd");
+                g->u.inv.remove_item("music_cd");
             }
         } else {
-            add_msg(_("The stereo won't come on!"));
+                add_msg(_("The stereo won't come on!"));
         }
         break;
     case toggle_overhead_lights:
