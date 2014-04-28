@@ -7,16 +7,16 @@
 #include "output.h"
 
 enum game_message_type {
-    good,	 /* something good happend to the player character, eg. damage., decreasing in skill */
-    bad,     /* something bad happened to the player character, eg. health boost, increasing in skill */
-    mixed,   /* something happened to the player character which is mixed (has good and bad parts),
-                eg. gaining a mutation with mixed effect*/
-    warning, /* warns the player about a danger. eg. enemy appeared, an alarm sounds, noise heard. */
-    info,    /* informs the player about something, eg. on examination, seeing an item,
-                about how to use a certain function, etc. */
-    neutral	 /* neutral or indifferent events which aren’t informational or nothing really happened eg.
-                a miss, a non-critical failure. May also effect for good or bad effects which are
-                just very slight to be notable. */
+    m_good,    /* something good happend to the player character, eg. damage., decreasing in skill */
+    m_bad,      /* something bad happened to the player character, eg. health boost, increasing in skill */
+    m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
+                  eg. gaining a mutation with mixed effect*/
+    m_warning, /* warns the player about a danger. eg. enemy appeared, an alarm sounds, noise heard. */
+    m_info,    /* informs the player about something, eg. on examination, seeing an item,
+                  about how to use a certain function, etc. */
+    m_neutral  /* neutral or indifferent events which aren’t informational or nothing really happened eg.
+                  a miss, a non-critical failure. May also effect for good or bad effects which are
+                  just very slight to be notable. This is the default message type. */
 };
 
 class Messages
@@ -48,11 +48,11 @@ private:
             turn = 0;
             count = 1;
             message = "";
-            type = neutral;
+            type = m_neutral;
         };
         game_message(calendar T, std::string M) : turn(T), message(M) {
             count = 1;
-            type = neutral;
+            type = m_neutral;
         };
         game_message(calendar T, std::string M, game_message_type Y) : turn(T), message(M), type(Y) {
             count = 1;

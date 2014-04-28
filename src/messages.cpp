@@ -130,22 +130,24 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
         if (int(m.turn) >= player_messages.curmes) {
             // color for new messages
             switch(m.type) {
-               case good:    col = c_ltgreen; break;
-               case bad:     col = c_ltred; break;
-               case neutral: col = c_white; break;
-               case warning: col = c_yellow; break;
-               case info:    col = c_ltblue; break;
-               default:      col = c_white; break;
+               case m_good:    col = c_ltgreen; break;
+               case m_bad:     col = c_ltred; break;
+               case m_mixed:   col = c_pink; break;
+               case m_neutral: col = c_white; break;
+               case m_warning: col = c_yellow; break;
+               case m_info:    col = c_ltblue; break;
+               default:        col = c_white; break;
             }
         } else if (int(m.turn) + 5 >= player_messages.curmes) {
             // color for slightly old messages
             switch(m.type) {
-               case good:    col = c_green; break;
-               case bad:     col = c_red; break;
-               case neutral: col = c_ltgray; break;
-               case warning: col = c_brown; break;
-               case info:    col = c_blue; break;
-               default:      col = c_ltgray; break;
+               case m_good:    col = c_green; break;
+               case m_bad:     col = c_red; break;
+               case m_mixed:   col = c_magenta; break;
+               case m_neutral: col = c_ltgray; break;
+               case m_warning: col = c_brown; break;
+               case m_info:    col = c_blue; break;
+               default:        col = c_ltgray; break;
             }
         }
         if (display_turns) {
