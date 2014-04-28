@@ -13,6 +13,7 @@
 #include "vehicle.h"
 #include "martialarts.h"
 #include "player_activity.h"
+#include "messages.h"
 
 class monster;
 class game;
@@ -879,7 +880,9 @@ public:
 
  //message related stuff
  virtual void add_msg_if_player(const char* msg, ...);
+ virtual void add_msg_if_player(game_message_type type, const char* msg, ...);
  virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
+ virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...);
 
 protected:
     std::set<std::string> my_traits;
