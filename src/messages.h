@@ -50,9 +50,9 @@ private:
             message = "";
             type = neutral;
         };
-        /* legacy */
         game_message(calendar T, std::string M) : turn(T), message(M) {
             count = 1;
+            type = neutral;
         };
         game_message(calendar T, std::string M, game_message_type Y) : turn(T), message(M), type(Y) {
             count = 1;
