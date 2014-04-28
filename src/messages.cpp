@@ -42,7 +42,7 @@ void Messages::add_msg_string(const std::string &s)
     player_messages.messages.push_back(game_message(calendar::turn, s));
 }
 
-void Messages::add_msg_string_type(const std::string &s, game_message_type type)
+void Messages::add_msg_string(const std::string &s, game_message_type type)
 {
     if (s.length() == 0) {
         return;
@@ -68,9 +68,9 @@ void Messages::vadd_msg(const char *msg, va_list ap)
     player_messages.add_msg_string(vstring_format(msg, ap));
 }
 
-void Messages::vadd_msg_with_type(game_message_type type, const char *msg, va_list ap)
+void Messages::vadd_msg(game_message_type type, const char *msg, va_list ap)
 {
-    player_messages.add_msg_string_type(vstring_format(msg, ap), type);
+    player_messages.add_msg_string(vstring_format(msg, ap), type);
 }
 
 void add_msg(const char *msg, ...)
@@ -81,11 +81,11 @@ void add_msg(const char *msg, ...)
     va_end(ap);
 }
 
-void add_msg_with_type(game_message_type type, const char *msg, ...)
+void add_msg(game_message_type type, const char *msg, ...)
 {
     va_list ap;
     va_start(ap, msg);
-    Messages::vadd_msg_with_type(type, msg, ap);
+    Messages::vadd_msg(type, msg, ap);
     va_end(ap);
 }
 

@@ -28,10 +28,10 @@ public:
         curmes = 0;
     };
     friend void add_msg(const char *msg, ...);
-    friend void add_msg_with_type(game_message_type type, const char *msg, ...);
+    friend void add_msg(game_message_type type, const char *msg, ...);
     static std::vector< std::pair<std::string, std::string> > recent_messages(const size_t count);
     static void vadd_msg(const char *msg, va_list ap);
-    static void vadd_msg_with_type(game_message_type type, const char *msg, va_list ap);
+    static void vadd_msg(game_message_type type, const char *msg, va_list ap);
     static void clear_messages();
     static size_t size();
     static bool has_undisplayed_messages();
@@ -67,12 +67,12 @@ private:
     };
     std::vector <struct game_message> messages;   // Messages to be printed
     void add_msg_string(const std::string &s);
-    void add_msg_string_type(const std::string &s, game_message_type type);
+    void add_msg_string(const std::string &s, game_message_type type);
     int curmes;   // The last-seen message.
     int display_single_message(WINDOW *ipk_target, int left, int top);
 };
 
 void add_msg(const char *msg, ...);
-void add_msg_with_type(game_message_type type, const char *msg, ...);
+void add_msg(game_message_type type, const char *msg, ...);
 
 #endif //_MESSAGES_H_
