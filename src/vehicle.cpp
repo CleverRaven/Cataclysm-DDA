@@ -32,6 +32,7 @@ enum vehicle_controls {
  toggle_lights,
  toggle_overhead_lights,
  toggle_turrets,
+ toggle_stereo,
  toggle_tracker,
  activate_horn,
  release_control,
@@ -61,6 +62,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     skidding = false;
     cruise_on = true;
     lights_on = false;
+    stereo_on = false;
     tracking_on = false;
     overhead_lights_on = false;
     fridge_on = false;
@@ -428,6 +430,7 @@ void vehicle::use_controls()
 
 
     bool has_lights = false;
+    bool has_stereo = false;
     bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
@@ -454,6 +457,9 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "TRACK")) {
             has_tracker = true;
+        }
+        else if (part_flag(p, "STEREO")) {
+            has_stereo = true;
         }
         else if (part_flag(p, VPFLAG_FUEL_TANK) &&
                  part_info(p).fuel_type == fuel_type_plutonium) {
@@ -491,6 +497,12 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_lights);
         options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
                                                _("Turn on headlights"), 'h'));
+    }
+
+    if (has_stereo) {
+        options_choice.push_back(toggle_stereo);
+        options_message.push_back(uimenu_entry((stereo_on) ? _("Turn off stereo") :
+                                               _("Turn on stereo"), 'h'));
     }
 
    if (has_overhead_lights) {
@@ -573,6 +585,17 @@ void vehicle::use_controls()
             add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
             add_msg(_("The headlights won't come on!"));
+        }
+        break;
+    case toggle_stereo:
+        if(stereo_on || fuel_left(fuel_type_battery) ) {
+            stereo_on = !stereo_on;
+            add_msg((stereo_on) ? _("Music starts playing") : _("The music stops"));
+            if (stereo_on == true) {
+                play_music();
+            }
+        } else {
+            add_msg(_("The stereo won't come on!"));
         }
         break;
     case toggle_overhead_lights:
@@ -795,6 +818,19 @@ void vehicle::honk_horn()
     }
 }
 
+void vehicle::play_music()
+{
+    for( size_t p = 0; p < parts.size(); ++p ) {
+        if ( ! part_flag( p, "STEREO" ) )
+            continue;
+        const int radio_x = global_x() + parts[p].precalc_dx[0];
+        const int radio_y = global_y() + parts[p].precalc_dy[0];
+        g->sound(radio_x,radio_y,15,"dun dun duuun");
+        if ((g->u.posx < radio_x + 15 && g->u.posy < radio_y + 15) && (g->u.posx > radio_x - 15 && g->u.posy > radio_y - 15)) {
+            g->u.add_morale(MORALE_MUSIC,5,20,30,1);
+        }
+    }
+}
 vpart_info& vehicle::part_info (int index, bool include_removed) const
 {
     if (index >= 0 && index < parts.size()) {
@@ -2543,6 +2579,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         tracking_on = false;
         overhead_lights_on = false;
         fridge_on = false;
+        stereo_on = false;
         recharger_on = false;
         if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
             add_msg("The %s's battery dies!",name.c_str());
@@ -2632,7 +2669,9 @@ void vehicle::idle() {
         }
         engine_on = false;
     }
-
+    if (stereo_on == true && engine_on == true) {
+        play_music();
+    }
     slow_leak();
 }
 
@@ -2798,6 +2837,9 @@ void vehicle::thrust (int thd) {
         else
         if (velocity < -max_vel / 4)
             velocity = -max_vel / 4;
+    }
+    if (stereo_on == true && engine_on == true) {
+        play_music();
     }
 }
 

@@ -255,6 +255,8 @@ public:
 // Honk the vehicle's horn, if there are any
     void honk_horn();
 
+    void play_music();
+
 // get vpart type info for part number (part at given vector index)
     vpart_info& part_info (int index, bool include_removed = false) const;
 
@@ -592,6 +594,7 @@ public:
     bool has_pedals;
     bool has_hand_rims;
     bool lights_on;     // lights on/off
+    bool stereo_on;
     bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off
