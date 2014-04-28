@@ -62,6 +62,7 @@ then
 fi
 
 # Final compilation check
+echo "Check pot-file compilation..."
 if ! msgfmt -c -o /dev/null lang/po/cataclysm-dda.pot
 then
     echo "Updated pot file contain gettext errors. Aborting."
@@ -70,6 +71,7 @@ then
 fi
 
 # Check for broken Unicode symbols
+echo "Check for wrong Unicode symbols..."
 if ! python lang/unicode_check.py lang/po/cataclysm-dda.pot
 then
     echo "Updated pot file contain broken Unicode symbols. Aborting."
