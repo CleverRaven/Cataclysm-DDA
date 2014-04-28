@@ -8324,6 +8324,15 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
+        
+        if (armor->covers & mfb(bp_mouth) && has_trait("MANDIBLES"))
+        {
+            if(interactive)
+            {
+                add_msg(_("Your mandibles are simply too large for %s to fit."), armor->name.c_str());
+            }
+            return false;
+        }
 
         if (armor->covers & mfb(bp_mouth) && has_trait("PROBOSCIS"))
         {
