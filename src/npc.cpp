@@ -2183,5 +2183,40 @@ void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...)
 
     va_end(ap);
 };
+//message related stuff
+void npc::add_msg_if_npc(game_message_type type, const char *msg, ...)
+{
+    va_list ap;
+    va_start(ap, msg);
+    std::string processed_npc_string = vstring_format(msg, ap);
+    // These strings contain the substring <npcname>,
+    // if present replace it with the actual npc name.
+    size_t offset = processed_npc_string.find("<npcname>");
+    if (offset != std::string::npos) {
+        processed_npc_string.replace(offset, 9, name);
+    }
+    add_msg(processed_npc_string.c_str(), type);
+
+    va_end(ap);
+};
+void npc::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...)
+{
+    va_list ap;
+
+    va_start(ap, npc_str);
+
+    if (g->u_see(this)) {
+        std::string processed_npc_string = vstring_format(npc_str, ap);
+        // These strings contain the substring <npcname>,
+        // if present replace it with the actual npc name.
+        size_t offset = processed_npc_string.find("<npcname>");
+        if (offset != std::string::npos) {
+            processed_npc_string.replace(offset, 9, disp_name());
+        }
+        add_msg(processed_npc_string.c_str(), type);
+    }
+
+    va_end(ap);
+};
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);
