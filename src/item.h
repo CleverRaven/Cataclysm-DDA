@@ -7,6 +7,7 @@
 #include <list>
 #include "itype.h"
 #include "mtype.h"
+#include "artifact.h"
 
 class game;
 class player;
@@ -56,17 +57,18 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(itype* it, unsigned int turn, bool rand = true);
- void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
+ item(const std::string new_type, unsigned int turn, bool rand = true,
+      enum artifact_natural_property prop = ARTPROP_NULL);
+ void make_corpse(const std::string new_type, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata);
  item(JsonObject &jo);
  virtual ~item();
  void init();
- void make(itype* it);
+ void make( const std::string new_type );
  void clear(); // cleanup that's required to re-use an item variable
 
-// returns the default container of this item, with this item in it
- item in_its_container(std::map<std::string, itype*> *itypes);
+ // returns the default container of this item, with this item in it
+ item in_its_container();
 
     nc_color color(player *u) const;
     nc_color color_in_inventory();

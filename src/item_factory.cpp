@@ -593,30 +593,24 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
     return NULL;
 }
 
-item Item_factory::create(Item_tag id, int created_at, bool rand){
-    return item(find_template(id), created_at, rand);
-}
 Item_list Item_factory::create(Item_tag id, int created_at, int quantity, bool rand){
     Item_list new_items;
-    item new_item_base = create(id, created_at, rand);
-    for(int ii=0;ii<quantity;++ii){
+    item new_item_base(id, created_at, rand);
+    for(int ii = 0; ii < quantity; ++ii) {
         new_items.push_back(new_item_base.clone(rand));
     }
     return new_items;
 }
 item Item_factory::create_from(Item_tag group, int created_at, bool rand){
-    return create(id_from(group), created_at, rand);
-}
-Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity, bool rand){
-    return create(id_from(group), created_at, quantity, rand);
+    return item(id_from(group), created_at, rand);
 }
 item Item_factory::create_random(int created_at, bool rand){
-    return create(random_id(), created_at, rand);
+    return item(random_id(), created_at, rand);
 }
 Item_list Item_factory::create_random(int created_at, int quantity, bool rand){
     Item_list new_items;
-    item new_item_base = create(random_id(), created_at);
-    for(int ii=0;ii<quantity;++ii){
+    item new_item_base(random_id(), created_at);
+    for(int ii = 0; ii < quantity; ++ii){
         new_items.push_back(new_item_base.clone(rand));
     }
     return new_items;

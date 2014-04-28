@@ -465,7 +465,7 @@ void init_artifacts()
 
 }
 
-itype *new_artifact(itypemap &itypes)
+itype *new_artifact()
 {
     if (one_in(2)) { // Generate a "tool" artifact
 
@@ -715,7 +715,7 @@ itype *new_artifact(itypemap &itypes)
     }
 }
 
-itype *new_natural_artifact(itypemap &itypes, artifact_natural_property prop)
+itype *new_natural_artifact(artifact_natural_property prop)
 {
     // Natural artifacts are always tools.
     it_artifact_tool *art = new it_artifact_tool();
@@ -887,7 +887,7 @@ std::string artifact_name(std::string type)
 
 /* Json Loading and saving */
 
-void load_artifacts(const std::string &artfilename, itypemap &itypes)
+void load_artifacts(const std::string &artfilename)
 {
     std::ifstream file_test(artfilename.c_str(),
                             std::ifstream::in | std::ifstream::binary);
@@ -897,7 +897,7 @@ void load_artifacts(const std::string &artfilename, itypemap &itypes)
     }
 
     try {
-        load_artifacts_from_ifstream(file_test, itypes);
+        load_artifacts_from_ifstream(file_test);
     } catch (std::string e) {
         debugmsg("%s: %s", artfilename.c_str(), e.c_str());
     }
@@ -905,7 +905,7 @@ void load_artifacts(const std::string &artfilename, itypemap &itypes)
     file_test.close();
 }
 
-void load_artifacts_from_ifstream(std::ifstream &f, itypemap &itypes)
+void load_artifacts_from_ifstream(std::ifstream &f)
 {
     // delete current artefact ids
     artifact_itype_ids.clear();

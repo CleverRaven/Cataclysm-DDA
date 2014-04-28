@@ -978,7 +978,7 @@ void item::deserialize(JsonObject &data)
         if ( old_itype ) {
             item_vars.erase( "_invalid_itype_" );
         }
-        make(ity->second);
+        make(ity->second->id);
     }
 
     if ( ! data.read( "name", name ) ) {

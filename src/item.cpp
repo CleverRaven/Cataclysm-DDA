@@ -33,22 +33,33 @@ item::item()
     init();
 }
 
-item::item(itype* it, unsigned int turn, bool rand)
+item::item(const std::string new_type, unsigned int turn, bool rand,
+           enum artifact_natural_property prop)
 {
     init();
-    if (it == NULL)
-        return;
-    type = it;
+    if( itypes.find( new_type ) == itypes.end() ) {
+        if( new_type == "artifact" ) {
+            if( prop == 0 ) {
+                type = new_artifact();
+            } else {
+                type = new_natural_artifact( prop );
+            }
+        } else {
+            return;
+        }
+    } else {
+        type = itypes[ new_type ];
+    }
     bday = turn;
-    corpse = it->corpse;
-    name = it->name;
-    if (it->is_gun()) {
+    corpse = type->corpse;
+    name = type->name;
+    if (type->is_gun()) {
         charges = 0;
-    } else if (it->is_ammo()) {
-        it_ammo* ammo = dynamic_cast<it_ammo*>(it);
+    } else if (type->is_ammo()) {
+        it_ammo* ammo = dynamic_cast<it_ammo*>(type);
         charges = ammo->count;
-    } else if (it->is_food()) {
-        it_comest* comest = dynamic_cast<it_comest*>(it);
+    } else if (type->is_food()) {
+        it_comest* comest = dynamic_cast<it_comest*>(type);
         if (comest->charges == 1 && !made_of(LIQUID)) {
             charges = -1;
         } else {
@@ -59,8 +70,8 @@ item::item(itype* it, unsigned int turn, bool rand)
                 charges = comest->charges;
             }
         }
-    } else if (it->is_tool()) {
-        it_tool* tool = dynamic_cast<it_tool*>(it);
+    } else if (type->is_tool()) {
+        it_tool* tool = dynamic_cast<it_tool*>(type);
         if (tool->max_charges == 0) {
             charges = -1;
         } else {
@@ -74,32 +85,32 @@ item::item(itype* it, unsigned int turn, bool rand)
                 curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
             }
         }
-    } else if (it->is_book()) {
-        it_book* book = dynamic_cast<it_book*>(it);
+    } else if (type->is_book()) {
+        it_book* book = dynamic_cast<it_book*>(type);
         charges = book->chapters;
-    } else if ((it->is_gunmod() && it->id == "spare_mag") || it->item_tags.count("MODE_AUX")) {
+    } else if ((type->is_gunmod() && type->id == "spare_mag") || type->item_tags.count("MODE_AUX")) {
         charges = 0;
     } else
         charges = -1;
-    if(it->is_var_veh_part()) {
-        it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(it);
+    if(type->is_var_veh_part()) {
+        it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(type);
         bigness= rng( varcarpart->min_bigness, varcarpart->max_bigness);
     }
-// Should be a flag, but we're out at the moment
-    if( it->is_stationary() )
-    {
-        note = SNIPPET.assign( (dynamic_cast<it_stationary*>(it))->category );
+    // Should be a flag, but we're out at the moment
+    if( type->is_stationary() ) {
+        note = SNIPPET.assign( (dynamic_cast<it_stationary*>(type))->category );
     }
 }
 
-void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
+void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn)
 {
     init();
     active = mt->has_flag(MF_REVIVES)? true : false;
-    if(!it)
+    if( itypes.find( new_type ) == itypes.end() ) {
         type = nullitem();
-    else
-        type = it;
+    } else {
+        type = itypes[ new_type ];
+    }
     corpse = mt;
     bday = turn;
 }
@@ -147,12 +158,13 @@ void item::init() {
     last_rot_check = 0;
 }
 
-void item::make(itype* it)
+void item::make( const std::string new_type )
 {
-    if(!it)
+    if( itypes.find( new_type ) == itypes.end() ) {
         type = nullitem();
-    else
-        type = it;
+    } else {
+        type = itypes[ new_type ];
+    }
     contents.clear();
 }
 
@@ -171,20 +183,19 @@ bool item::is_null() const
     return (this == NULL || type == NULL || type->id == s_null);
 }
 
-item item::in_its_container(std::map<std::string, itype*> *itypes)
+item item::in_its_container()
 {
     if (is_software()) {
-        item ret( (*itypes)["usb_drive"], 0);
+        item ret( "usb_drive", 0);
         ret.contents.push_back(*this);
         ret.invlet = invlet;
         return ret;
     }
     if (is_food() && (dynamic_cast<it_comest*>(type))->container != "null") {
         it_comest *food = dynamic_cast<it_comest*>(type);
-        item ret((*itypes)[food->container], bday);
+        item ret(food->container, bday);
 
-        if (made_of(LIQUID))
-        {
+        if (made_of(LIQUID)) {
             it_container* container = dynamic_cast<it_container*>(ret.type);
             charges = container->contains * food->charges;
         }
@@ -193,18 +204,18 @@ item item::in_its_container(std::map<std::string, itype*> *itypes)
         return ret;
     } else if (is_ammo() && (dynamic_cast<it_ammo*>(type))->container != "null") {
         it_ammo *ammo = dynamic_cast<it_ammo*>(type);
-        item ret((*itypes)[ammo->container], bday);
+        item ret(ammo->container, bday);
 
-        if (made_of(LIQUID))
-        {
+        if (made_of(LIQUID)) {
             it_container* container = dynamic_cast<it_container*>(ret.type);
             charges = container->contains * ammo->count;
         }
         ret.contents.push_back(*this);
         ret.invlet = invlet;
         return ret;
-    } else
+    } else {
         return *this;
+    }
 }
 
 bool item::invlet_is_okay()
@@ -2678,7 +2689,7 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
     if( reload_target->has_flag("RELOAD_EJECT") && casing_type != "NULL" && !casing_type.empty() ) {
         if( reload_target->item_vars.count( "CASINGS" ) ) {
             int num_casings = atoi( reload_target->item_vars[ "CASINGS" ].c_str() );
-            item casing(itypes[casing_type], 0);
+            item casing( casing_type, 0);
             // Casings need a count of one to stack properly.
             casing.charges = 1;
             // Drop all the casings on the ground under the player.
@@ -2877,13 +2888,14 @@ std::ostream & operator<<(std::ostream & out, const item & it)
 
 itype_id item::typeId() const
 {
-    if (!type)
+    if (!type) {
         return "null";
+    }
     return type->id;
 }
 
 item item::clone(bool rand) {
-    return item(type, bday, rand);
+    return item(type->id, bday, rand);
 }
 
 bool item::getlight(float & luminance, int & width, int & direction, bool calculate_dimming ) const {

@@ -290,7 +290,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
-    if( item(proj.ammo, 0).has_flag("NOGIB") ) {
+    if( item(proj.ammo->id, 0).has_flag("NOGIB") ) {
         impact.add_effect("NOGIB");
     }
     impact.mult_damage(damage_mult);

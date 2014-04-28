@@ -105,7 +105,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         }
         if(menu_items[choice] == _("Use the hotplate")) {
             //Will be -1 if no battery at all
-            item tmp_hotplate( itypes["hotplate"], 0 );
+            item tmp_hotplate( "hotplate", 0 );
             // Drain a ton of power
             tmp_hotplate.charges = veh->drain( "battery", 100 );
             if( tmp_hotplate.is_tool() ) {
@@ -121,7 +121,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         if(menu_items[choice] == _("Fill a container with water")) {
             int amt = veh->drain("water", veh->fuel_left("water"));
-            item fill_water(itypes[default_ammo("water")], calendar::turn);
+            item fill_water( default_ammo("water"), calendar::turn );
             fill_water.charges = amt;
             int back = g->move_liquid(fill_water);
             if (back >= 0) {
@@ -134,7 +134,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         if(menu_items[choice] == _("Have a drink")) {
             veh->drain("water", 1);
-            item water(itypes["water_clean"], 0);
+            item water( "water_clean", 0 );
             g->u.eat(&water, dynamic_cast<it_comest *>(water.type));
             g->u.moves -= 250;
             return;
@@ -142,7 +142,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         if(menu_items[choice] == _("Use the welding rig?")) {
             //Will be -1 if no battery at all
-            item tmp_welder( itypes["welder"], 0 );
+            item tmp_welder( "welder", 0 );
             // Drain a ton of power
             tmp_welder.charges = veh->drain( "battery", 1000 );
             if( tmp_welder.is_tool() ) {
@@ -158,7 +158,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         if(menu_items[choice] == _("Use the water purifier?")) {
             //Will be -1 if no battery at all
-            item tmp_purifier( itypes["water_purifier"], 0 );
+            item tmp_purifier( "water_purifier", 0 );
             // Drain a ton of power
             tmp_purifier.charges = veh->drain( "battery", 100 );
             if( tmp_purifier.is_tool() ) {

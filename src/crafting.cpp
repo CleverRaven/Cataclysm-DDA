@@ -1244,8 +1244,7 @@ inventory game::crafting_inventory(player *p)
         crafting_inv += a->contents;
     }
     if (p->has_bionic("bio_tools")) {
-        //item tools(item_controller->find_template("toolset"), turn);
-        item tools(itypes["toolset"], calendar::turn);
+        item tools("toolset", calendar::turn);
         tools.charges = p->power_level;
         crafting_inv += tools;
     }
@@ -1388,7 +1387,7 @@ void game::make_all_craft(recipe *making)
 
 item recipe::create_result() const
 {
-    item newit(item_controller->find_template(result), calendar::turn, false);
+    item newit(result, calendar::turn, false);
     if (result_mult != 1) {
         newit.charges *= result_mult;
     }
@@ -1521,10 +1520,7 @@ void game::complete_craft()
     }
 
     u.inv.assign_empty_invlet(newit);
-    //newit = newit.in_its_container(&itypes);
     if (newit.made_of(LIQUID)) {
-        //while ( u.inv.slice_filter_by_capacity_for_liquid(newit).size() > 0 ){
-        // ^ failed container controls, they don't detect stacks of the same empty container after only one of them is filled
         while(!handle_liquid(newit, false, false)) { ; }
     } else {
         // We might not have space for the item
@@ -1970,7 +1966,7 @@ void game::complete_disassemble()
         }
 
         int compcount = comp.count;
-        item newit(itt, calendar::turn);
+        item newit(itt->id, calendar::turn);
         // Compress liquids and counted-by-charges items into one item,
         // they are added together on the map anyway and handle_liquid
         // should only be called once to put it all into a container at once.
@@ -2108,7 +2104,7 @@ void remove_ammo(item *dis_item) {
     }
     if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL") {
         item ammodrop;
-        ammodrop = item(dis_item->curammo, calendar::turn);
+        ammodrop = item(dis_item->curammo->id, calendar::turn);
         ammodrop.charges = dis_item->charges;
         if (ammodrop.made_of(LIQUID)) {
             while(!g->handle_liquid(ammodrop, false, false)) {
@@ -2121,7 +2117,7 @@ void remove_ammo(item *dis_item) {
     }
     if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL") {
         item ammodrop;
-        ammodrop = item(item_controller->find_template(default_ammo(dis_item->ammo_type())), calendar::turn);
+        ammodrop = item(default_ammo(dis_item->ammo_type()), calendar::turn);
         ammodrop.charges = dis_item->charges;
         if (dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on") {
             ammodrop.charges /= 500;

@@ -10,7 +10,6 @@
 #include "debug.h"
 #include "map.h"
 #include "output.h"
-#include "item_factory.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
 #include "trap.h"
@@ -1937,7 +1936,7 @@ void item::load_legacy(std::stringstream & dump) {
         if ( old_itype ) {
             item_vars.erase( "_invalid_itype_" );
         }
-        make(ity->second);
+        make(ity->second->id);
     }
 
     invlet = char(lettmp);

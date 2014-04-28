@@ -692,7 +692,7 @@ void construct::done_trunk_plank(point p)
     (void)p; //unused
     int num_logs = rng(5, 15);
     for( int i = 0; i < num_logs; ++i ) {
-        item tmplog(itypes["log"], int(calendar::turn), g->nextinv);
+        item tmplog("log", int(calendar::turn), g->nextinv);
         iuse::cut_log_into_planks( &(g->u), &tmplog);
     }
 }
@@ -791,7 +791,7 @@ void construct::done_dig_stair(point p)
           if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope(itypes["rope_30"], 0);
+                  item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
@@ -803,7 +803,7 @@ void construct::done_dig_stair(point p)
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope(itypes["rope_30"], 0);
+                  item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
@@ -1063,7 +1063,7 @@ void construct::done_mine_downstair(point p)
           if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope(itypes["rope_30"], 0);
+                  item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
@@ -1075,7 +1075,7 @@ void construct::done_mine_downstair(point p)
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope(itypes["rope_30"], 0);
+                  item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
@@ -1342,7 +1342,7 @@ void construct::done_mine_upstair(point p)
           add_msg(m_warning, _("The rock overhead feels hot.  You decide *not* to mine magma."));
           // refund components!
           if (!(g->u.has_trait("WEB_ROPE"))) {
-              item rope(itypes["rope_30"], 0);
+              item rope("rope_30", 0);
               g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
           }
           // presuming 2x4 to conserve lumber.
@@ -1353,7 +1353,7 @@ void construct::done_mine_upstair(point p)
           if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
               // refund components!
               if (!(g->u.has_trait("WEB_ROPE"))) {
-                  item rope(itypes["rope_30"], 0);
+                  item rope("rope_30", 0);
                   g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
               }
               // presuming 2x4 to conserve lumber.
@@ -1365,7 +1365,7 @@ void construct::done_mine_upstair(point p)
           add_msg(m_warning, _("The rock above is rather damp.  You decide *not* to mine water."));
           // refund components!
           if (!(g->u.has_trait("WEB_ROPE"))) {
-              item rope(itypes["rope_30"], 0);
+              item rope("rope_30", 0);
               g->m.add_item_or_charges(g->u.posx, g->u.posy, rope);
           }
           // presuming 2x4 to conserve lumber.

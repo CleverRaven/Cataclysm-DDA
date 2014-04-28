@@ -85,10 +85,8 @@ public:
     bool group_contains_item(Item_tag group_tag, Item_tag item);
 
     //Production methods
-    item create(Item_tag id, int created_at, bool rand = true);
     Item_list create(Item_tag id, int created_at, int quantity, bool rand = true);
     item create_from(Item_tag group, int created_at, bool rand = true);
-    Item_list create_from(Item_tag group, int created_at, int quantity, bool rand = true);
     item create_random(int created_at, bool rand = true);
     Item_list create_random(int created_at, int quantity, bool rand = true);
     /**
