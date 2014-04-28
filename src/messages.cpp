@@ -42,9 +42,35 @@ void Messages::add_msg_string(const std::string &s)
     player_messages.messages.push_back(game_message(calendar::turn, s));
 }
 
+void Messages::add_msg_string_type(const std::string &s, game_message_type type)
+{
+    if (s.length() == 0) {
+        return;
+    }
+    if (!player_messages.messages.empty() &&
+        int(player_messages.messages.back().turn) + 3 >= int(calendar::turn) &&
+        s == player_messages.messages.back().message) {
+        player_messages.messages.back().count++;
+        player_messages.messages.back().turn = calendar::turn;
+        player_messages.messages.back().type = type;
+        return;
+    }
+
+    while( size() >= 256 ) {
+        player_messages.messages.erase(player_messages.messages.begin());
+    }
+
+    player_messages.messages.push_back(game_message(calendar::turn, s, type));
+}
+
 void Messages::vadd_msg(const char *msg, va_list ap)
 {
     player_messages.add_msg_string(vstring_format(msg, ap));
+}
+
+void Messages::vadd_msg_with_type(game_message_type type, const char *msg, va_list ap)
+{
+    player_messages.add_msg_string_type(vstring_format(msg, ap), type);
 }
 
 void add_msg(const char *msg, ...)
@@ -52,6 +78,14 @@ void add_msg(const char *msg, ...)
     va_list ap;
     va_start(ap, msg);
     Messages::vadd_msg(msg, ap);
+    va_end(ap);
+}
+
+void add_msg_with_type(game_message_type type, const char *msg, ...)
+{
+    va_list ap;
+    va_start(ap, msg);
+    Messages::vadd_msg_with_type(type, msg, ap);
     va_end(ap);
 }
 
@@ -87,16 +121,32 @@ void Messages::display_messages(WINDOW *ipk_target, int left, int top, int right
         std::string mstr = m.message;
         if (m.count > 1) {
             std::stringstream mesSS;
-            //~ Message %s on the message log was repeated %d times, eg. “You hear a whack! x 12”
+            //~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
             mesSS << string_format(_("%s x %d"), mstr.c_str(), m.count);
             mstr = mesSS.str();
         }
-        // Split the message into many if we must!
+        // color for old messages
         nc_color col = c_dkgray;
         if (int(m.turn) >= player_messages.curmes) {
-            col = c_ltred;
+            // color for new messages
+            switch(m.type) {
+               case good:    col = c_ltgreen; break;
+               case bad:     col = c_ltred; break;
+               case neutral: col = c_white; break;
+               case warning: col = c_yellow; break;
+               case info:    col = c_ltblue; break;
+               default:      col = c_white; break;
+            }
         } else if (int(m.turn) + 5 >= player_messages.curmes) {
-            col = c_ltgray;
+            // color for slightly old messages
+            switch(m.type) {
+               case good:    col = c_green; break;
+               case bad:     col = c_red; break;
+               case neutral: col = c_ltgray; break;
+               case warning: col = c_brown; break;
+               case info:    col = c_blue; break;
+               default:      col = c_ltgray; break;
+            }
         }
         if (display_turns) {
             calendar timepassed = calendar::turn - m.turn;
