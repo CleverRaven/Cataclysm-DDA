@@ -313,9 +313,9 @@ The syntax listed here is still valid.
 "description" : "A college textbook on computer science.", // In-game description
 "weight" : 1587,      // Weight, measured in grams
 "to_hit" : 1,         // To-hit bonus if using it as a melee weapon
-"color" : "blue",     // ASCII character colour
+"color" : "blue",     // ASCII character colour (see below)
 "intelligence" : 11,  // Intelligence required to read this book without penalty
-"symbol" : "?",       // ASCII character used in-game
+"symbol" : "?",       // ASCII character used in-game (should always be a question mark for books)
 "material" : ["paper", "null"], // Material types.  See materials.json for possible options
 "volume" : 7,         // Volume, measured in 1/4 liters
 "bashing" : 5,        // Bashing damage caused by using it as a melee weapon
@@ -326,6 +326,24 @@ The syntax listed here is still valid.
 "price" : 500,        // Used when bartering with NPCs
 "required_level" : 2  // Minimum skill level required to learn
 ```
+####Color key
+Please pick one of the following colors, depending on the book type:
+* `light_red`: teaches a martial arts technique
+* `light_green`: contains crafting recipes (at least 1) (primarily). Prefer this to the “skill book colors” if fabrication skill is used.
+* `magenta`: teaches skill (primarily) up to 1
+* `brown`: teaches skill up to 2
+* `green`: teaches skill up to 3-5
+* `cyan`: teaches skill up to 6-7
+* `blue`: teaches skill up to 8 or more
+* `pink`: just (!) for fun, morale +1
+* `light_blue`: just for fun, morale +2
+* `light_cyan`: just for fun, morale +3
+* `white`: just for fun, morale +4 or more
+* `dark_gray`: book with special use case which doesn’t fit into any category above.
+* `light_gray`: Waste book. No skills, martial arts, crafting recipes, morale boost or special use case. Basically trash.
+A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
+Do not use yellow or red. Those colors are used for noises and infrared, repectively.
+
 ###COMESTIBLES
 ```C++
 "type" : "COMESTIBLE", // Defines this as a COMESTIBLE
