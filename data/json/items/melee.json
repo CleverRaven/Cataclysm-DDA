@@ -3432,7 +3432,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
-    "name": "zweih√§nder",
+    "name": "zweih‰nder",
     "description": "This is a dull, cheaply made replica of a huge two-handed sword from Germany. It still packs a whallop.",
     "rarity": 30,
     "price": 8000,
@@ -3602,8 +3602,8 @@
       "id":"music_cd",
       "symbol":"?",
       "color":"white",
-      "name":"music cd",
-      "description":"A cd with many hit songs burned to it.",
+      "name":"music CD",
+      "description":"A CD with many hit songs burned to it.",
       "price":250,
       "material":"plastic",
       "weight":15,
@@ -3612,5 +3612,5 @@
       "cutting":0,
       "to_hit":-2,
       "flags":["CD"]
-      }
+     }
 ]

@@ -592,13 +592,13 @@ void vehicle::use_controls()
             stereo_on = !stereo_on;
             add_msg((stereo_on) ? _("Loading CD...") : _("Ejecting..."));
             if (!g->u.has_item_with_flag("CD") && stereo_on == true) {
-                add_msg("You don't have a cd to play!");
+                add_msg("You don't have a CD to play!");
                 stereo_on = false;
             } else if (stereo_on == false) {
-                add_msg("You eject your cd!");
+                add_msg("You eject your CD!");
                 g->u.inv.add_item_by_type(itypes["music_cd"]->id);
             } else {
-                add_msg("You insert your cd");
+                add_msg("You insert your CD");
                 g->u.inv.remove_item("music_cd");
             }
         } else {
@@ -830,9 +830,17 @@ void vehicle::play_music()
     for( size_t p = 0; p < parts.size(); ++p ) {
         if ( ! part_flag( p, "STEREO" ) )
             continue;
+        std::string sound = "";
         const int radio_x = global_x() + parts[p].precalc_dx[0];
         const int radio_y = global_y() + parts[p].precalc_dy[0];
-        g->sound(radio_x,radio_y,15,"dun dun duuun");
+        switch (rng(1, 10)) {
+            case 1: sound = _("a sweet guitar solo!");
+            case 2: sound = _("a funky bassline."); break;
+            case 3: sound = _("some amazing vocals."); break;
+            case 4: sound = _("some pumping bass."); break;
+            case 5: sound = _("dramatic classical music.");
+            }
+        g->sound(radio_x,radio_y,15,sound);
         if ((g->u.posx < radio_x + 15 && g->u.posy < radio_y + 15) && (g->u.posx > radio_x - 15 && g->u.posy > radio_y - 15)) {
             g->u.add_morale(MORALE_MUSIC,5,20,30,1);
         }
