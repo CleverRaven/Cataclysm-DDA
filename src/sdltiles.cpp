@@ -271,9 +271,7 @@ bool WinCreate()
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
     display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
     SDL_SetRenderTarget(renderer, display_buffer);
-
     ClearScreen();
-    SDL_SetRenderTarget(renderer, display_buffer);
 
     if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
         SDL_ShowCursor(SDL_DISABLE);
@@ -1738,14 +1736,14 @@ int map_font_height() {
     return (map_font != NULL ? map_font : font)->fontheight;
 }
 
-void translate_terrain_window_size(int &w, int &h) {
+void to_map_font_dimension(int &w, int &h) {
     w = (w * fontwidth) / map_font_width();
     h = (h * fontheight) / map_font_height();
 }
 
-void translate_terrain_window_size_back(int &w, int &h) {
-    w = (w * map_font_width()) / fontwidth;
-    h = (h * map_font_height()) / fontheight;
+void from_map_font_dimension(int &w, int &h) {
+    w = (w * map_font_width() + fontwidth - 1) / fontwidth;
+    h = (h * map_font_height() + fontheight - 1) / fontheight;
 }
 
 bool is_draw_tiles_mode() {

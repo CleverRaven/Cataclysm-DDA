@@ -239,12 +239,12 @@ game::~game()
 
 #if (defined TILES)
 // defined in sdltiles.cpp
-void translate_terrain_window_size(int &w, int &h);
-void translate_terrain_window_size_back(int &w, int &h);
+void to_map_font_dimension(int &w, int &h);
+void from_map_font_dimension(int &w, int &h);
 #else
 // unchanged, nothing to be translated without tiles
-void translate_terrain_window_size(int &, int &) { }
-void translate_terrain_window_size_back(int &, int &) { }
+void to_map_font_dimension(int &, int &) { }
+void from_map_font_dimension(int &, int &) { }
 #endif
 
 void game::init_ui(){
@@ -293,31 +293,54 @@ void game::init_ui(){
     TERRAIN_WINDOW_TERM_WIDTH = TERRAIN_WINDOW_WIDTH;
     TERRAIN_WINDOW_TERM_HEIGHT = TERRAIN_WINDOW_HEIGHT;
 
-    // Dimensions of terrain window is currently in colums/rows of the standard font,
-    // but if the tileset is in use or if we use a different sized
-    // font for the terrain window this does not match.
-    translate_terrain_window_size(TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT);
-
-    // Adjust for the maximal viewing area. It's useless to make the
-    // terrain window larger, as the area outside of the maximal
-    // view range would never be displayed.
-    // Also set offset to move everything into the middle of the screen.
+    /**
+     * In tiles mode w_terrain can have a different font (with a different
+     * tile dimension) or can be drawn by cata_tiles which uses tiles that again
+     * might have a different dimension then the normal font used everywhere else.
+     *
+     * TERRAIN_WINDOW_WIDTH/TERRAIN_WINDOW_HEIGHT defines how many squares can
+     * be displayed in w_terrain (using it's specific tile dimension), not
+     * including partially drawn squares at the right/bottom. You should
+     * use it whenever you want to draw specific squares in that window or to
+     * determine whether a specific square is draw on screen (or outside the screen
+     * and needs scrolling).
+     *
+     * TERRAIN_WINDOW_TERM_WIDTH/TERRAIN_WINDOW_TERM_HEIGHT defines the size of
+     * w_terrain in the standard font dimension (the font that everything else uses).
+     * You usually don't have to use it, expect for positioning of windows,
+     * because the window positions use the standard font dimension.
+     *
+     * VIEW_OFFSET_X/VIEW_OFFSET_Y is the position of w_terrain on screen,
+     * it is (as every window position) in standard font dimension.
+     * As the sidebar is located right of w_terrain it also controls its position.
+     * It is used to move everything into the center of the screen,
+     * when the screen is larger than what the game requires.
+     *
+     * The code here calculates size available for w_terrain, caps it at
+     * max_view_size (the maximal view range than any character can have at
+     * any time).
+     * It is stored in TERRAIN_WINDOW_*.
+     * If w_terrain does not occupy the whole available area, VIEW_OFFSET_*
+     * are set to move everything into the middle of the screen.
+     */
+    to_map_font_dimension(TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT);
     static const int max_view_size = DAYLIGHT_LEVEL * 2 + 1;
     if (TERRAIN_WINDOW_WIDTH > max_view_size) {
         VIEW_OFFSET_X = (TERRAIN_WINDOW_WIDTH - max_view_size) / 2;
+        TERRAIN_WINDOW_TERM_WIDTH = max_view_size * TERRAIN_WINDOW_TERM_WIDTH / TERRAIN_WINDOW_WIDTH;
         TERRAIN_WINDOW_WIDTH = max_view_size;
     } else {
         VIEW_OFFSET_X = 0;
     }
     if (TERRAIN_WINDOW_HEIGHT > max_view_size) {
         VIEW_OFFSET_Y = (TERRAIN_WINDOW_HEIGHT - max_view_size) / 2;
+        TERRAIN_WINDOW_TERM_HEIGHT = max_view_size * TERRAIN_WINDOW_TERM_HEIGHT / TERRAIN_WINDOW_HEIGHT;
         TERRAIN_WINDOW_HEIGHT = max_view_size;
     } else {
         VIEW_OFFSET_Y = 0;
     }
-    // View offset is the position of the terrain window, the position
-    // of every window is always measured in the standard font.
-    translate_terrain_window_size_back(VIEW_OFFSET_X, VIEW_OFFSET_Y);
+    // VIEW_OFFSET_* are in standard font dimension.
+    from_map_font_dimension(VIEW_OFFSET_X, VIEW_OFFSET_Y);
 
     // Position of the player in the terrain window, it is always in the center
     POSX = TERRAIN_WINDOW_WIDTH / 2;
