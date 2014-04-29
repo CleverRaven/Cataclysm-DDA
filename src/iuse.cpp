@@ -1143,7 +1143,7 @@ int iuse::weed(player *p, item *it, bool b) {
             }
             p->moves -= 500;
             p->use_charges_if_avail("rolling_paper", 1);
-			p->use_charges_if_avail("fire", 1);
+		p->use_charges_if_avail("fire", 1);
         }
         return charges;
     }
