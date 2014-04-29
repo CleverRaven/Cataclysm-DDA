@@ -2879,6 +2879,20 @@ bool item::reload(player &u, int pos)
   if (single_load || max_load == 1) { // Only insert one cartridge!
    reload_target->charges++;
    ammo_to_use->charges--;
+   if ((reload_target->has_flag("NO_EJECT")) && (reload_target->spent_casings > 0)) {
+      int x = 0;
+      int y = 0;
+      itype_id casing_type = curammo->casing;
+      if (casing_type != "NULL" && !casing_type.empty()) {
+           item casing;
+           casing.make(itypes[casing_type]);
+           casing.charges = 1;
+           x = u.posx - 1 + rng(0, 2);
+           y = u.posy - 1 + rng(0, 2);
+           g->m.add_item_or_charges(x,y,casing);
+           reload_target->spent_casings--;
+    }
+  }
   }
   else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO") ||
            reload_target->typeId() == "rm13_armor" || reload_target->typeId() == "rm13_armor_on") {
