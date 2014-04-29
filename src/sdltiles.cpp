@@ -220,12 +220,13 @@ bool WinCreate()
 {
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
-    //Flags used for setting up SDL VideoMode
+    // Common flags used for fulscreen and for windowed
     int window_flags = 0;
+    WindowWidth = TERMINAL_WIDTH * fontwidth;
+    WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    //If FULLSCREEN was selected in options add SDL_WINDOW_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
-    if(OPTIONS["FULLSCREEN"]) {
-        window_flags = window_flags | SDL_WINDOW_FULLSCREEN;
+    if (OPTIONS["FULLSCREEN"]) {
+        window_flags |= SDL_WINDOW_FULLSCREEN;
     }
 
     window = SDL_CreateWindow(version.c_str(),
@@ -236,9 +237,15 @@ bool WinCreate()
             window_flags
         );
 
-    //create renderer and convert that to a SDL_Surface?
-
-    if (window == NULL) return false;
+    if (window == NULL) {
+        return false;
+    }
+    if (window_flags & SDL_WINDOW_FULLSCREEN) {
+        SDL_GetWindowSize(window, &WindowWidth, &WindowHeight);
+        // Ignore previous values, use the whole window, but nothing more.
+        TERMINAL_WIDTH = WindowWidth / fontwidth;
+        TERMINAL_HEIGHT = WindowHeight / fontheight;
+    }
 
     format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
 
@@ -1109,10 +1116,7 @@ static int test_face_size(std::string f, int size, int faceIndex)
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    int newWindowWidth = OPTIONS["TERMINAL_X"];
-    newWindowWidth = newWindowWidth < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : newWindowWidth;
-
-    return newWindowWidth * fontwidth;
+    return OPTIONS["TERMINAL_X"] * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
@@ -1209,23 +1213,6 @@ WINDOW *curses_init(void)
 
     TERMINAL_WIDTH = OPTIONS["TERMINAL_X"];
     TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
-
-    if(OPTIONS["FULLSCREEN"]) {
-        // Fullscreen mode overrides terminal width/height
-        SDL_DisplayMode display_mode;
-        SDL_GetDesktopDisplayMode(0, &display_mode);
-
-        TERMINAL_WIDTH = display_mode.w / fontwidth;
-        TERMINAL_HEIGHT = display_mode.h / fontheight;
-
-        WindowWidth  = display_mode.w;
-        WindowHeight = display_mode.h;
-    } else {
-        WindowWidth= OPTIONS["TERMINAL_X"];
-        if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
-        WindowWidth *= fontwidth;
-        WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
-    }
 
     if(!WinCreate()) {
         DebugLog() << "Failed to create game window: " << SDL_GetError() << "\n";
