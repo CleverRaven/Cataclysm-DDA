@@ -2653,7 +2653,7 @@ bool game::handle_action()
                     }
 
                     if (!u.weapon.is_gun()) {
-                        add_msg(_("You are not wielding a ranged weapon."));
+                        add_msg(m_info, _("You are not wielding a ranged weapon."));
                         return false;
                     }
 
@@ -9428,7 +9428,7 @@ void game::pickup(int posx, int posy, int min)
                         m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
                         u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                         u.wield(&(u.i_add(newit)));
-                        add_msg(_("Wielding %c - %s"), newit.invlet,
+                        add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
                                 newit.display_name().c_str());
                     } else {
                         decrease_nextinv();
@@ -9444,7 +9444,7 @@ and you can't unwield your %s."),
                 u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
                 u.wield(&(u.i_add(newit)));
                 picked_up = true;
-                add_msg(_("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
+                add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
             }
         } else if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
             //add ammo to quiver
@@ -9454,11 +9454,11 @@ and you can't unwield your %s."),
                     newit.is_weap() || newit.is_gun())) {
             u.weapon = newit;
             picked_up = true;
-            add_msg(_("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
+            add_msg(m_info, _("Wielding %c - %s"), newit.invlet, newit.display_name().c_str());
         } else {
             newit = u.i_add(newit);
             picked_up = true;
-            add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.display_name().c_str());
+            add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.display_name().c_str());
 		}
 
         if(picked_up) {
@@ -9850,7 +9850,7 @@ and you can't unwield your %s."),
                                 u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.
                                 u.wield(&(u.i_add(here[i])));
                                 mapPickup[here[i].tname()] += (here[i].count_by_charges()) ? here[i].charges : 1;
-                                add_msg(_("Wielding %c - %s"), u.weapon.invlet,
+                                add_msg(m_info, _("Wielding %c - %s"), u.weapon.invlet,
                                         u.weapon.display_name().c_str());
                             }
                             offered_swap = true;

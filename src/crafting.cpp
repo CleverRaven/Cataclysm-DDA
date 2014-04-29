@@ -1538,7 +1538,7 @@ void game::complete_craft()
             m.add_item_or_charges(u.posx, u.posy, newit);
         } else {
             newit = u.i_add(newit);
-            add_msg("%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
+            add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
         }
     }
     u.inv.restack(&u);
