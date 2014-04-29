@@ -812,10 +812,10 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
     } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
         if (target.is_player()) {
             if (u_see_me) {
-                add_msg(_("The %1$s hits your %2$s."), name().c_str(),
+                add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str());
             } else {
-                add_msg(_("Something hits your %s."),
+                add_msg(m_bad, _("Something hits your %s."),
                         body_part_name(bp_hit, random_side(bp_hit)).c_str());
             }
         } else {
