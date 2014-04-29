@@ -315,6 +315,8 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         num_shots = used_weapon->num_charges();
     }
 
+    used_weapon->spent_casings++;
+
     if (num_shots == 0) {
         debugmsg("game::fire() - num_shots = 0!");
     }
@@ -398,7 +400,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
         // Drop a shell casing if appropriate.
         itype_id casing_type = curammo->casing;
-        if (casing_type != "NULL" && !casing_type.empty()) {
+        if ((casing_type != "NULL" && !casing_type.empty()) && !(weapon.has_flag("NO_EJECT"))) {
             item casing;
             casing.make(itypes[casing_type]);
             // Casing needs a charges of 1 to stack properly with other casings.
