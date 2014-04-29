@@ -64,7 +64,7 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
                 grid[i]->ter[x][y] = t_null;
                 grid[i]->set_furn(x, y, f_null);
                 grid[i]->set_trap(x, y, tr_null);
-                grid[i]->rad[x][y] = 0;
+                grid[i]->set_radiation(x, y, 0);
                 grid[i]->graf[x][y] = graffiti();
             }
         }
@@ -853,7 +853,7 @@ bool jmapgen_setmap::apply( map *m ) {
                     m->trap_set( x.get(), y.get(), val.get() );
                 } break;
                 case JMAPGEN_SETMAP_RADIATION: {
-                    m->radiation( x.get(), y.get() ) = val.get();
+                    m->set_radiation( x.get(), y.get(), val.get());
                 } break;
 
 
@@ -872,7 +872,7 @@ bool jmapgen_setmap::apply( map *m ) {
                 case JMAPGEN_SETMAP_LINE_RADIATION: {
                     const std::vector<point> line = line_to(x.get(), y.get(), x2.get(), y2.get(), 0);
                     for (int i = 0; i < line.size(); i++) {
-                        m->radiation( line[i].x, line[i].y ) = (int)val.get();
+                        m->set_radiation( line[i].x, line[i].y, (int)val.get() );
                     }
                 } break;
 
@@ -901,7 +901,7 @@ bool jmapgen_setmap::apply( map *m ) {
                     const int cy2 = y2.get();
                     for (int tx = cx; tx <= cx2; tx++) {
                         for (int ty = cy; ty <= cy2; ty++) {
-                            m->radiation( tx, ty ) = (int)val.get();
+                            m->set_radiation( tx, ty, (int)val.get());
                         }
                     }
                 } break;
@@ -4306,9 +4306,10 @@ ff.......|....|WWWWWWWW|\n\
         // Oh wait--let's also put radiation in any rubble
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
-                radiation(i, j) += (one_in(5) ? rng(1, 2) : 0);
+                int extra_radiation = (one_in(5) ? rng(1, 2) : 0);
+                adjust_radiation(i, j, extra_radiation);
                 if (ter(i, j) == t_rubble) {
-                    radiation(i, j) += rng(1, 3);
+                    adjust_radiation(i, j, rng(1, 3));
                 }
             }
         }
@@ -8263,7 +8264,7 @@ tth.............^|..|###\n\
                 for (int j = pooly - 3; j <= pooly + 3; j++) {
                     if (rng(2, 5) > rl_dist(poolx, pooly, i, j)) {
                         ter_set(i, j, t_sewage);
-                        radiation(i, j) += rng(20, 60);
+                        adjust_radiation(i, j, rng(20, 60));
                     }
                 }
             }
@@ -8336,7 +8337,7 @@ tth.............^|..|###\n\
         //lazy radiation mapping
         for (int x = 0; x <= 23; x++) {
             for (int y = 0; y <= 23; y++) {
-                radiation(x, y) += rng(10, 30);
+                adjust_radiation(x, y, rng(10, 30));
             }
         }
         if (t_north == "haz_sar" && t_west == "haz_sar") {
@@ -8407,7 +8408,7 @@ tth.............^|..|###\n\
             //lazy radiation mapping
             for (int x = 0; x <= 23; x++) {
                 for (int y = 0; y <= 23; y++) {
-                    radiation(x, y) += rng(10, 30);
+                    adjust_radiation(x, y, rng(10, 30));
                 }
             }
             if (t_west == "haz_sar_entrance") {
@@ -8479,7 +8480,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
             //lazy radiation mapping
             for (int x = 0; x <= 23; x++) {
                 for (int y = 0; y <= 23; y++) {
-                    radiation(x, y) += rng(10, 30);
+                    adjust_radiation(x, y, rng(10, 30));
                 }
             }
             if (t_north == "haz_sar_entrance") {
@@ -8544,7 +8545,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
             //lazy radiation mapping
             for (int x = 0; x <= 23; x++) {
                 for (int y = 0; y <= 23; y++) {
-                    radiation(x, y) += rng(10, 30);
+                    adjust_radiation(x, y, rng(10, 30));
                 }
             }
             tmpcomp = add_computer(2, 23, _("SRCF Security Terminal"), 0);
@@ -8623,7 +8624,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     }
                 }
                 if (this->ter(i, j) != t_metal_floor) {
-                    radiation(x, y) += rng(10, 70);
+                    adjust_radiation(x, y, rng(10, 70));
                 }
                 if (this->ter(i, j) == t_sewage) {
                     if (one_in(2)) {
@@ -8716,7 +8717,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                     }
                     if (this->ter(i, j) != t_metal_floor) {
-                        radiation(x, y) += rng(10, 70);
+                        adjust_radiation(x, y, rng(10, 70));
                     }
                     if (this->ter(i, j) == t_sewage) {
                         if (one_in(2)) {
@@ -8802,7 +8803,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         }
                     }
                     if (this->ter(i, j) != t_metal_floor) {
-                        radiation(x, y) += rng(10, 70);
+                        adjust_radiation(x, y, rng(10, 70));
                     }
                     if (this->ter(i, j) == t_sewage) {
                         if (one_in(2)) {
@@ -8897,7 +8898,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         }
                     }
                     if (this->ter(i, j) != t_metal_floor) {
-                        radiation(x, y) += rng(10, 70);
+                        adjust_radiation(x, y, rng(10, 70));
                     }
                     if (this->ter(i, j) == t_sewage) {
                         if (one_in(2)) {
@@ -12951,7 +12952,7 @@ void map::add_extra(map_extra type)
                 //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
                 if(!trigdist || (((i - x) * (i - x) + (j - y) * (j - y)) <= size_squared)) {
                     destroy(i, j, false);
-                    radiation(i, j) += rng(20, 40);
+                    adjust_radiation(i, j, rng(20, 40));
                 }
             }
         }
@@ -13077,7 +13078,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
         for (int i = cx - 5; i <= cx + 5; i++) {
             for (int j = cy - 5; j <= cy + 5; j++) {
                 if (ter(i, j) == t_rubble) {
-                    radiation(i, j) = rng(0, 10);
+                    set_radiation(i, j, rng(0, 10));
                 }
             }
         }
