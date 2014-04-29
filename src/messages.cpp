@@ -32,6 +32,7 @@ void Messages::add_msg_string(const std::string &s)
         s == player_messages.messages.back().message) {
         player_messages.messages.back().count++;
         player_messages.messages.back().turn = calendar::turn;
+        player_messages.messages.back().type = m_neutral;
         return;
     }
 
