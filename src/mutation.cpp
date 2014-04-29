@@ -330,9 +330,9 @@ void player::mutate_towards(std::string mut)
     if (replacing != "") {
         if(traits[mut].mixed_effect || traits[replacing].mixed_effect) {
             rating = m_mixed;
-        } else if(traits[replacing].points - traits[mut].points > 0) {
+        } else if(traits[replacing].points - traits[mut].points < 0) {
             rating = m_good;
-        } else if(traits[mut].points - traits[replacing].points > 0) {
+        } else if(traits[mut].points - traits[replacing].points < 0) {
             rating = m_bad;
         } else {
             rating = m_neutral;
@@ -349,9 +349,9 @@ void player::mutate_towards(std::string mut)
     if (replacing2 != "") {
         if(traits[mut].mixed_effect || traits[replacing2].mixed_effect) {
             rating = m_mixed;
-        } else if(traits[replacing2].points - traits[mut].points > 0) {
+        } else if(traits[replacing2].points - traits[mut].points < 0) {
             rating = m_good;
-        } else if(traits[mut].points - traits[replacing2].points > 0) {
+        } else if(traits[mut].points - traits[replacing2].points < 0) {
             rating = m_bad;
         } else {
             rating = m_neutral;
@@ -634,7 +634,7 @@ void mutation_effect(player &p, std::string mut)
         // Bad-Huge gets less HP bonus than normal, this is handled in recalc_hp()
         p.recalc_hp();
         // And there goes your clothing; by now you shouldn't need it anymore
-        add_msg(_("You rip out of your clothing!"));
+        add_msg(m_bad, _("You rip out of your clothing!"));
         destroy = true;
         bps.push_back(bp_torso);
         bps.push_back(bp_legs);
@@ -781,7 +781,7 @@ void mutation_effect(player &p, std::string mut)
             (!(p.worn[i].has_flag(mutation_safe))) ) {
                 if (destroy) {
                     if (is_u) {
-                        add_msg(_("Your %s is destroyed!"), p.worn[i].tname().c_str());
+                        add_msg(m_bad, _("Your %s is destroyed!"), p.worn[i].tname().c_str());
                     }
 
                     p.worn.erase(p.worn.begin() + i);
@@ -789,7 +789,7 @@ void mutation_effect(player &p, std::string mut)
                 }
                 else {
                     if (is_u) {
-                        add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
+                        add_msg(m_bad, _("Your %s is pushed off."), p.worn[i].tname().c_str());
                     }
 
                     int pos = player::worn_position_to_index(i);
