@@ -24,23 +24,7 @@ std::vector< std::pair<std::string, std::string> > Messages::recent_messages(con
 
 void Messages::add_msg_string(const std::string &s)
 {
-    if (s.length() == 0) {
-        return;
-    }
-    if (!player_messages.messages.empty() &&
-        int(player_messages.messages.back().turn) + 3 >= int(calendar::turn) &&
-        s == player_messages.messages.back().message) {
-        player_messages.messages.back().count++;
-        player_messages.messages.back().turn = calendar::turn;
-        player_messages.messages.back().type = m_neutral;
-        return;
-    }
-
-    while( size() >= 256 ) {
-        player_messages.messages.erase(player_messages.messages.begin());
-    }
-
-    player_messages.messages.push_back(game_message(calendar::turn, s));
+    add_msg_string(s, m_neutral);
 }
 
 void Messages::add_msg_string(const std::string &s, game_message_type type)
