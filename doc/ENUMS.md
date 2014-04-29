@@ -56,6 +56,7 @@ Format: File with definition : Name of enum
 * mapdata.h : furn_id
 * mapdata.h : map_extra
 * mapgen.cpp : room_type
+* messages.h : game_message_type
 * mission.h : talk_topic
 * mission.h : mission_id
 * mission.h : mission_origin
