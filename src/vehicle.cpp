@@ -833,13 +833,16 @@ void vehicle::play_music()
         std::string sound = "";
         const int radio_x = global_x() + parts[p].precalc_dx[0];
         const int radio_y = global_y() + parts[p].precalc_dy[0];
-        switch (rng(1, 10)) {
+        if (int(calendar::turn) % 5 == 0) {
+            switch (rng(1, 5)) {
             case 1: sound = _("a sweet guitar solo!");
             case 2: sound = _("a funky bassline."); break;
             case 3: sound = _("some amazing vocals."); break;
             case 4: sound = _("some pumping bass."); break;
             case 5: sound = _("dramatic classical music.");
             }
+
+        }
         g->sound(radio_x,radio_y,15,sound);
         if ((g->u.posx < radio_x + 15 && g->u.posy < radio_y + 15) && (g->u.posx > radio_x - 15 && g->u.posy > radio_y - 15)) {
             g->u.add_morale(MORALE_MUSIC,5,20,30,1);
