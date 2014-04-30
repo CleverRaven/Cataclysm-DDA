@@ -2779,7 +2779,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
 static void eject_casings( player &p, item *reload_target, itype_id casing_type ) {
-    if( reload_target->has_flag("NO_EJECT") && casing_type != "NULL" && !casing_type.empty() ) {
+    if( reload_target->has_flag("RELOAD_EJECT") && casing_type != "NULL" && !casing_type.empty() ) {
         if( reload_target->item_vars.count( "CASINGS" ) ) {
             int num_casings = atoi( reload_target->item_vars[ "CASINGS" ].c_str() );
             item casing(itypes[casing_type], 0);

@@ -399,7 +399,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         // Drop a shell casing if appropriate.
         itype_id casing_type = curammo->casing;
         if( casing_type != "NULL" && !casing_type.empty() ) {
-            if( weapon.has_flag("NO_EJECT") ) {
+            if( weapon.has_flag("RELOAD_EJECT") ) {
                 int num_casings = 0;
                 if( weapon.item_vars.count( "CASINGS" ) ) {
                     num_casings = atoi( weapon.item_vars[ "CASINGS" ].c_str() );
