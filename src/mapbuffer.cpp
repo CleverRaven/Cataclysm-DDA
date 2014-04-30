@@ -309,11 +309,11 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
                 // Save graffiti
-                if (sm->graf[i][j].contents) {
+                if (sm->get_graffiti(i, j).contents) {
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
-                    jsout.write( *sm->graf[i][j].contents );
+                    jsout.write( *sm->get_graffiti(i, j).contents );
                     jsout.end_array();
                 }
             }
@@ -482,7 +482,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->graf[i][j] = graffiti( jsin.get_string() );
+                    sm->set_graffiti(i, j, graffiti( jsin.get_string() ));
                     jsin.end_array();
                 }
             } else if( submap_member_name == "spawns" ) {
