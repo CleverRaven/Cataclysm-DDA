@@ -2879,7 +2879,7 @@ bool item::reload(player &u, int pos)
   if (single_load || max_load == 1) { // Only insert one cartridge!
    reload_target->charges++;
    ammo_to_use->charges--;
-   if ((reload_target->has_flag("NO_EJECT")) && (reload_target->spent_casings > 0)) {
+   if ((reload_target->has_flag("RELOAD_EJECT")) && (reload_target->spent_casings > 0)) {
       int x = 0;
       int y = 0;
       itype_id casing_type = curammo->casing;
