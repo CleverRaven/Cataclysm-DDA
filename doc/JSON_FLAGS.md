@@ -680,6 +680,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FIRE_100``` Uses 100 shots per firing.
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
 - ```STR_RELOAD``` Reload speed is affected by strength.
+- ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
 
 ## Tools
 
@@ -690,7 +691,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```FIRE``` Counts as a fire for crafting purposes.
 - ```WRAP``` Unused?
-- ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station. 
+- ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 
 ### Use actions
 
