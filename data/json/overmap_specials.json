@@ -30,12 +30,13 @@
         "id" : "LMOE Shelter",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "lmoe"}
+            { "point":[0,0,0], "overmap": "lmoe"},
+			{ "point":[0,0,-1], "overmap": "lmoe_under"}
         ],
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [10, 60], "//":"how far from a city it should be",
+        "city_distance" : [20, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 4], "//":"how many per overmap",
+        "occurrences" : [0, 3], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
@@ -49,7 +50,7 @@
             { "point":[0,1,0], "overmap": "sewage_treatment"}
         ],
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [3, 10], "//":"how far from a city it should be",
+        "city_distance" : [10, 20], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
@@ -74,7 +75,7 @@
         "locations" : [ "forest" ], "//":"what special locations does it spawn",
         "city_distance" : [10, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 4], "//":"how many per overmap",
+        "occurrences" : [0, 50], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
@@ -154,7 +155,7 @@
         "id" : "Strangle Temple",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "temple"}
+            { "point":[0,0,0], "overmap": "temple_stairs"}
         ],
         "locations" : [ "forest" ], "//":"what special locations does it spawn",
         "city_distance" : [20, -1], "//":"how far from a city it should be",
@@ -194,5 +195,493 @@
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "FEMA Camp",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "fema"},
+            { "point":[1,0,0], "overmap": "fema_entrance", "connect": "road"},
+            { "point":[2,0,0], "overmap": "fema"},
+            { "point":[0,1,0], "overmap": "fema"},
+            { "point":[1,1,0], "overmap": "fema"},
+            { "point":[2,1,0], "overmap": "fema"},
+            { "point":[0,2,0], "overmap": "fema"},
+            { "point":[1,2,0], "overmap": "fema"},
+            { "point":[2,2,0], "overmap": "fema"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [8, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [2, 5], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Military Bunker",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "bunker", "connect": "road"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [4, -1], "//":"how far from a city it should be",
+        "city_sizes" : [2, 10], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 20], "//":"how many per overmap",
+        "rotate" : true, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Military Outpost",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "outpost"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [4, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 10], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Missile Silo",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "silo", "connect": "road"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [30, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 1], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Radio Tower",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "radio_tower", "connect": "road"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [0, 20], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 5], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Mansion_Road",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "mansion"},
+            { "point":[1,0,0], "overmap": "mansion_entrance", "connect": "road"},
+            { "point":[2,0,0], "overmap": "mansion"},
+            { "point":[0,1,0], "overmap": "mansion"},
+            { "point":[1,1,0], "overmap": "mansion"},
+            { "point":[2,1,0], "overmap": "mansion"},
+            { "point":[0,2,0], "overmap": "mansion"},
+            { "point":[1,2,0], "overmap": "mansion"},
+            { "point":[2,2,0], "overmap": "mansion"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [0, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 8], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Mansion_Wild",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "mansion"},
+            { "point":[1,0,0], "overmap": "mansion_entrance"},
+            { "point":[2,0,0], "overmap": "mansion"},
+            { "point":[0,1,0], "overmap": "mansion"},
+            { "point":[1,1,0], "overmap": "mansion"},
+            { "point":[2,1,0], "overmap": "mansion"},
+            { "point":[0,2,0], "overmap": "mansion"},
+            { "point":[1,2,0], "overmap": "mansion"},
+            { "point":[2,2,0], "overmap": "mansion"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [10, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 4], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Megastore",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "megastore"},
+            { "point":[1,0,0], "overmap": "megastore_entrance", "connect": "road"},
+            { "point":[2,0,0], "overmap": "megastore"},
+            { "point":[0,1,0], "overmap": "megastore"},
+            { "point":[1,1,0], "overmap": "megastore"},
+            { "point":[2,1,0], "overmap": "megastore"},
+            { "point":[0,2,0], "overmap": "megastore"},
+            { "point":[1,2,0], "overmap": "megastore"},
+            { "point":[2,2,0], "overmap": "megastore"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [0, 10], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 5], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Hospital",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "hospital"},
+            { "point":[1,0,0], "overmap": "hospital_entrance", "connect": "road"},
+            { "point":[2,0,0], "overmap": "hospital"},
+            { "point":[0,1,0], "overmap": "hospital"},
+            { "point":[1,1,0], "overmap": "hospital"},
+            { "point":[2,1,0], "overmap": "hospital"},
+            { "point":[0,2,0], "overmap": "hospital"},
+            { "point":[1,2,0], "overmap": "hospital"},
+            { "point":[2,2,0], "overmap": "hospital"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [3, 15], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 5], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Public Works",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "public_works"},
+            { "point":[1,0,0], "overmap": "public_works_entrance", "connect": "road"},
+            { "point":[0,1,0], "overmap": "public_works"},
+            { "point":[1,1,0], "overmap": "public_works"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [2, 10], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 3], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Apartments_Con",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "apartments_con_tower_1"},
+            { "point":[1,0,0], "overmap": "apartments_con_tower_1_entrance", "connect": "road"},
+            { "point":[0,1,0], "overmap": "apartments_con_tower_1"},
+            { "point":[1,1,0], "overmap": "apartments_con_tower_1"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [-1, 2], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 5], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Apartments_Mod",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "apartments_mod_tower_1"},
+            { "point":[1,0,0], "overmap": "apartments_mod_tower_1_entrance", "connect": "road"},
+            { "point":[0,1,0], "overmap": "apartments_mod_tower_1"},
+            { "point":[1,1,0], "overmap": "apartments_mod_tower_1"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [-1, 2], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 4], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Office Tower",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "office_tower_1"},
+            { "point":[1,0,0], "overmap": "office_tower_1_entrance", "connect": "road"},
+            { "point":[0,1,0], "overmap": "office_tower_1"},
+            { "point":[1,1,0], "overmap": "office_tower_1"},
+			{ "point":[0,0,-1], "overmap": "office_tower_b"},
+            { "point":[1,0,-1], "overmap": "office_tower_b_entrance"},
+            { "point":[0,1,-1], "overmap": "office_tower_b"},
+            { "point":[1,1,-1], "overmap": "office_tower_b"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [-1, 4], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 5], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Cathedral",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "cathedral_1_entrance", "connect": "road"},
+            { "point":[1,0,0], "overmap": "cathedral_1_entrance", "connect": "road"},
+            { "point":[0,1,0], "overmap": "cathedral_1"},
+            { "point":[1,1,0], "overmap": "cathedral_1"},
+			{ "point":[0,0,-1], "overmap": "cathedral_b_entrance"},
+            { "point":[1,0,-1], "overmap": "cathedral_b_entrance"},
+            { "point":[0,1,-1], "overmap": "cathedral_b"},
+            { "point":[1,1,-1], "overmap": "cathedral_b"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [-1, 2], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 2], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "School",
+        "overmaps" :
+        [
+            { "point":[-1,0,0], "overmap": "school_3"},
+            { "point":[0,0,0], "overmap": "school_2", "connect":"road"},
+            { "point":[1,0,0], "overmap": "school_1"},
+            { "point":[-1,1,0], "overmap": "school_6"},
+            { "point":[0,1,0], "overmap": "school_5"},
+            { "point":[1,1,0], "overmap": "school_4"},
+            { "point":[-1,2,0], "overmap": "school_9"},
+            { "point":[0,2,0], "overmap": "school_8"},
+            { "point":[1,2,0], "overmap": "school_7"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [1, 5], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 3], "//":"how many per overmap",
+        "rotate" : true, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Prison",
+        "overmaps" :
+        [
+            { "point":[-1,0,0], "overmap": "prison_3"},
+            { "point":[0,0,0], "overmap": "prison_2", "connect":"road"},
+            { "point":[1,0,0], "overmap": "prison_1"},
+            { "point":[-1,1,0], "overmap": "prison_6"},
+            { "point":[0,1,0], "overmap": "prison_5"},
+            { "point":[1,1,0], "overmap": "prison_4"},
+            { "point":[-1,2,0], "overmap": "prison_9"},
+            { "point":[0,2,0], "overmap": "prison_8"},
+            { "point":[1,2,0], "overmap": "prison_7"},
+			{ "point":[-1,0,-1], "overmap": "prison_b"},
+            { "point":[0,0,-1], "overmap": "prison_b_entrance"},
+            { "point":[1,0,-1], "overmap": "prison_b"},
+            { "point":[-1,1,-1], "overmap": "prison_b"},
+            { "point":[0,1,-1], "overmap": "prison_b"},
+            { "point":[1,1,-1], "overmap": "prison_b"},
+            { "point":[-1,2,-1], "overmap": "prison_b"},
+            { "point":[0,2,-1], "overmap": "prison_b"},
+            { "point":[1,2,-1], "overmap": "prison_b"}
+        ],
+        "locations" : [ "land" ], "//":"what special locations does it spawn",
+        "city_distance" : [3, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 1], "//":"how many per overmap",
+        "rotate" : true, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Mine Entrace",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "s_lot", "connect":"road"},
+            { "point":[0,1,0], "overmap": "mine_entrance"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [15, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 5], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Anthill",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "anthill"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [10, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 30], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Spider Pit",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "spider_pit"}
+        ],
+        "locations" : [ "forest" ], "//":"what special locations does it spawn",
+        "city_distance" : [0, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 500], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Slime Pit",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "slimepit_down"}
+        ],
+        "locations" : [ "land" ], "//":"what special locations does it spawn",
+        "city_distance" : [0, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 4], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Bloom",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "fungal_bloom"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [5, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 3], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Triffid Grove",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "triffid_grove"}
+        ],
+        "locations" : [ "forest" ], "//":"what special locations does it spawn",
+        "city_distance" : [0, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 4], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Evac Shelter",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "shelter", "connect":"road"},
+			{ "point":[0,0,-1], "overmap": "shelter_under"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [5, 10], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [5, 10], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Evac Shelter",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "cave"},
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [0, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 30], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Toxic Waste Dump",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "toxic_dump"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [15, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 5], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Hazardous Waste Sarcophagus",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "haz_sar"},
+            { "point":[1,0,0], "overmap": "haz_sar_entrance", "connect": "road"},
+            { "point":[0,1,0], "overmap": "haz_sar"},
+            { "point":[1,1,0], "overmap": "haz_sar"},
+			{ "point":[0,0,-1], "overmap": "haz_sar_b1"},
+            { "point":[1,0,-1], "overmap": "haz_sar_entrance_b1"},
+            { "point":[0,1,-1], "overmap": "haz_sar_b1"},
+            { "point":[1,1,-1], "overmap": "haz_sar_b1"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [15, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 2], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
     }
 ]
+
