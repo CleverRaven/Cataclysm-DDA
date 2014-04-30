@@ -12902,9 +12902,8 @@ void map::add_extra(map_extra type)
             for(int i = 0; i < 140 && i_at(x, y).size() < 2; i++) {
                 place_items(item_group, 80, x, y, x, y, true, 0);
             }
-            // No items spawned at all? Make the crate open, as if someone had taken all the items.
             if (i_at(x, y).empty()) {
-                furn_set(x, y, f_crate_o);
+                destroy(x, y, false);
             }
         }
     }
