@@ -2029,7 +2029,7 @@
         "id" : "bowling_axe",
         "name" : "The 7-10 Split",
         "name_plural" : "7-10 Splits",
-        "description" : "An improvised weapon, made from two spikes attached to a bowling pin the shape of a 'T'",
+        "description" : "An improvised weapon, made from two spikes attached to a bowling pin in the shape of a 'T'",
         "weight" : 2433,
         "to_hit" : -1,
         "color" : "brown",
