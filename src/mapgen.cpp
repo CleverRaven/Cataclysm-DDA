@@ -12878,25 +12878,32 @@ void map::add_extra(map_extra type)
                 tries++;
             } while (tries < 10 && move_cost(x, y) == 0);
             furn_set(x, y, f_crate_c);
+            std::string item_group;
             switch (rng(1, 10)) {
             case 1:
             case 2:
             case 3:
             case 4:
-                place_items("mil_food", 88, x, y, x, y, true, 0);
+                item_group = "mil_food";
                 break;
             case 5:
             case 6:
             case 7:
-                place_items("grenades", 82, x, y, x, y, true, 0);
+                item_group = "grenades";
                 break;
             case 8:
             case 9:
-                place_items("mil_armor", 75, x, y, x, y, true, 0);
+                item_group = "mil_armor";
                 break;
             case 10:
-                place_items("mil_rifles", 80, x, y, x, y, true, 0);
+                item_group = "mil_rifles";
                 break;
+            }
+            for(int i = 0; i < 140 && i_at(x, y).size() < 2; i++) {
+                place_items(item_group, 80, x, y, x, y, true, 0);
+            }
+            if (i_at(x, y).empty()) {
+                destroy(x, y, false);
             }
         }
     }
