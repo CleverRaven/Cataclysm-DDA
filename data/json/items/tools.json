@@ -5682,8 +5682,8 @@
     "bashing": 8,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 5,
-    "initial_charges": 6,
+    "max_charges": 1,
+    "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
@@ -5693,6 +5693,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "kompot",
+        "target_charges": 12,
         "container": "jar_3l_glass"
     }
   },
