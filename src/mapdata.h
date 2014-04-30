@@ -379,6 +379,26 @@ struct submap {
         frn[x][y] = furn;
     }
 
+    int get_radiation(int x, int y) {
+        return rad[x][y];
+    }
+
+    void set_radiation(int x, int y, int radiation) {
+        rad[x][y] = radiation;
+    }
+
+    inline const graffiti& get_graffiti(int x, int y) {
+        // return value must be const, or else somebody might
+        // be able to modify the graffiti without going through
+        // the setter
+
+        return graf[x][y];
+    }
+
+    inline void set_graffiti(int x, int y, const graffiti& value) {
+        graf[x][y] = value;
+    }
+
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
     std::vector<item>  itm[SEEX][SEEY];  // Items on each square
     furn_id            frn[SEEX][SEEY];  // Furniture on each square

@@ -218,7 +218,7 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
                 // Save radiation, re-examine this because it doesnt look like it works right
-                int r = sm->rad[i][j];
+                int r = sm->get_radiation(i, j);
                 if (r == lastrad) {
                     count++;
                 } else {
@@ -425,7 +425,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     for( int i = 0; i < rad_num; ++i ) {
                         // A little array trick here, assign to it as a 1D array.
                         // If it's not in bounds we're kinda hosed anyway.
-                        sm->rad[0][rad_cell] = rad_strength;
+                        sm->set_radiation(0, rad_cell, rad_strength);
                         rad_cell++;
                     }
                 }

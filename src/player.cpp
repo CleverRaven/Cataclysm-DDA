@@ -426,6 +426,9 @@ void player::reset_stats()
             mod_dex_bonus(-1);
         }
     }
+    if (has_trait("WEBBED")) {
+        mod_dex_bonus(-1);
+    }
     if (has_trait("ARACHNID_ARMS")) {
         mod_dex_bonus(-4);
     }
@@ -1060,6 +1063,11 @@ void player::update_bodytemp()
         if (has_trait("FELINE_FUR"))
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 1000);
+        }
+        // Feathers: minor means minor.
+        if (has_trait("FEATHERS"))
+        {
+            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 50 : 100);
         }
         // Down; lets heat out more easily if needed but not as Warm
         // as full-blown fur.  So less miserable in Summer.
@@ -5609,18 +5617,18 @@ void player::suffer()
     }
 
     if (has_trait("RADIOACTIVE1")) {
-        if (g->m.radiation(posx, posy) < 10 && one_in(50)) {
-            g->m.radiation(posx, posy)++;
+        if (g->m.get_radiation(posx, posy) < 10 && one_in(50)) {
+            g->m.adjust_radiation(posx, posy, 1);
         }
     }
     if (has_trait("RADIOACTIVE2")) {
-        if (g->m.radiation(posx, posy) < 20 && one_in(25)) {
-            g->m.radiation(posx, posy)++;
+        if (g->m.get_radiation(posx, posy) < 20 && one_in(25)) {
+            g->m.adjust_radiation(posx, posy, 1);
         }
     }
     if (has_trait("RADIOACTIVE3")) {
-        if (g->m.radiation(posx, posy) < 30 && one_in(10)) {
-            g->m.radiation(posx, posy)++;
+        if (g->m.get_radiation(posx, posy) < 30 && one_in(10)) {
+            g->m.adjust_radiation(posx, posy, 1);
         }
     }
 
@@ -5638,7 +5646,7 @@ void player::suffer()
     int selfRadiation = 0;
     selfRadiation = leak_level("RADIOACTIVE");
 
-    int localRadiation = g->m.radiation(posx, posy);
+    int localRadiation = g->m.get_radiation(posx, posy);
 
     if (localRadiation || selfRadiation) {
         bool has_helmet = false;
@@ -7769,7 +7777,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
     }
     if (has_trait("GOURMAND")) {
         if (comest->fun < -2) {
-            add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
+            add_morale(MORALE_FOOD_BAD, comest->fun * 0.5, comest->fun, 60, 30, false, comest);
         } else if (comest->fun > 0) {
             add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, false, comest);
         }
@@ -8313,6 +8321,15 @@ bool player::wear_item(item *to_wear, bool interactive)
             if(interactive)
             {
                 add_msg(_("Your saber teeth are simply too large for %s to fit."), armor->name.c_str());
+            }
+            return false;
+        }
+        
+        if (armor->covers & mfb(bp_mouth) && has_trait("MANDIBLES"))
+        {
+            if(interactive)
+            {
+                add_msg(_("Your mandibles are simply too large for %s to fit."), armor->name.c_str());
             }
             return false;
         }

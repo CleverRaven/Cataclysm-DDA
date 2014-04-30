@@ -373,7 +373,7 @@ void mapgen_null(map *m, oter_id, mapgendata, int, float)
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
             m->ter_set(i, j, t_null);
-            m->radiation(i, j) = 0;
+            m->set_radiation(i, j, 0);
         }
     }
 }
@@ -391,10 +391,10 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
            if (rng(0, dat.w_fac) <= i && rng(0, dat.e_fac) <= SEEX * 2 - 1 - i &&
                rng(0, dat.n_fac) <= j && rng(0, dat.s_fac) <= SEEX * 2 - 1 - j ) {
                m->ter_set(i, j, t_rubble);
-               m->radiation(i, j) = rng(0, 4) * rng(0, 2);
+               m->set_radiation(i, j, rng(0, 4) * rng(0, 2));
            } else {
                m->ter_set(i, j, dat.groundcover());
-               m->radiation(i, j) = rng(0, 2) * rng(0, 2) * rng(0, 2);
+               m->set_radiation(i, j, rng(0, 2) * rng(0, 2) * rng(0, 2));
             }
         }
     }

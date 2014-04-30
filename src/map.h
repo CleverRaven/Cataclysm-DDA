@@ -358,7 +358,13 @@ void add_corpse(int x, int y);
  void mop_spills(const int x, const int y);
 
 // Radiation
- int& radiation(const int x, const int y); // Amount of radiation at (x, y);
+ int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
+ void set_radiation(const int x, const int y, const int value);
+
+ /** Increment the radiation in the given tile by the given delta
+  *  (decrement it if delta is negative)
+  */
+ void adjust_radiation(const int x, const int y, const int delta);
 
 // Temperature
  int& temperature(const int x, const int y);    // Temperature for submap
@@ -508,7 +514,6 @@ protected:
  ter_id nulter;  // Returned when &ter() is asked for an OOB value
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
- int nulrad;     // OOB &radiation()
  int null_temperature;  // Because radiation does it too
 
  bool veh_in_active_range;
@@ -533,7 +538,7 @@ private:
   */
  submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
  submap *get_submap_at_grid(int gridx, int gridy) const;
- 
+
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...
