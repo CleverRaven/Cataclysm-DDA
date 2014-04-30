@@ -845,6 +845,8 @@ void player::update_bodytemp()
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth
     int floor_bedding_warmth = 0;
+    // If the PC has fur, etc, that'll apply too
+    int floor_mut_warmth = 0;
     if ( has_disease("sleep") ) {
         // Search the floor for items
         std::vector<item>& floor_item = g->m.i_at(posx, posy);
@@ -903,6 +905,30 @@ void player::update_bodytemp()
         else
         {
             floor_bedding_warmth -= 2000;
+        }
+        // Fur, etc effects for sleeping here.
+        // Full-power fur is about as effective as a makeshift bed
+        if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
+            floor_mut_warmth += 500;
+        }
+        // Feline fur, not quite as warm.  Cats do better in warmer spots.
+        if (has_trait("FELINE_FUR")) {
+            floor_mut_warmth += 300;
+        }
+        // Light fur's better than nothing!
+        if (has_trait("LIGHTFUR")) {
+            floor_mut_warmth += 100;
+        }
+        // Down helps too
+        if (has_trait("DOWN")) {
+            floor_mut_warmth += 250;
+        }
+        // DOWN doesn't provide floor insulation, though.
+        // Non-light fur does.
+        if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)){
+            if (floor_bedding_warmth < 0) {
+                floor_bedding_warmth = 0;
+            }
         }
     }
     // Current temperature and converging temperature calculations
@@ -1092,7 +1118,7 @@ void player::update_bodytemp()
         // Added line in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
         if ( has_disease("sleep") ) {
-            int sleep_bonus = floor_bedding_warmth + floor_item_warmth;
+            int sleep_bonus = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
             // Too warm, don't need items on the floor
             if ( temp_conv[i] > BODYTEMP_NORM ) {
                 // Do nothing
