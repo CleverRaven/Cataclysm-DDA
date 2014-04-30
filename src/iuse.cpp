@@ -4895,7 +4895,7 @@ if(it->type->id == "cot"){
 int iuse::geiger(player *p, item *it, bool t)
 {
     if (t) { // Every-turn use when it's on
-        int rads = g->m.radiation(p->posx, p->posy);
+        int rads = g->m.get_radiation(p->posx, p->posy);
         if (rads == 0) {
             return it->type->charges_to_use();
         }
@@ -4932,7 +4932,7 @@ int iuse::geiger(player *p, item *it, bool t)
     switch (ch) {
     case 1: p->add_msg_if_player(_("Your radiation level: %d (%d from items)"), p->radiation, p->leak_level("RADIOACTIVE")); break;
     case 2: p->add_msg_if_player(_("The ground's radiation level: %d"),
-                                 g->m.radiation(p->posx, p->posy)); break;
+                                 g->m.get_radiation(p->posx, p->posy)); break;
     case 3:
         p->add_msg_if_player(_("The geiger counter's scan LED flicks on."));
         it->make(itypes["geiger_on"]);

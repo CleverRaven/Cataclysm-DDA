@@ -823,10 +823,12 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                     }
                         break;
 
-                    case fd_nuke_gas:
-                        radiation(x, y) += rng(0, cur->getFieldDensity());
+                    case fd_nuke_gas: {
+                        int extra_radiation = rng(0, cur->getFieldDensity());
+                        adjust_radiation(x, y, extra_radiation);
                         spread_gas( this, cur, x, y, curtype, 50, 10 );
                         break;
+                    }
 
                     case fd_gas_vent:
                         for (int i = x - 1; i <= x + 1; i++) {

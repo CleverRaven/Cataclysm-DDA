@@ -5617,18 +5617,18 @@ void player::suffer()
     }
 
     if (has_trait("RADIOACTIVE1")) {
-        if (g->m.radiation(posx, posy) < 10 && one_in(50)) {
-            g->m.radiation(posx, posy)++;
+        if (g->m.get_radiation(posx, posy) < 10 && one_in(50)) {
+            g->m.adjust_radiation(posx, posy, 1);
         }
     }
     if (has_trait("RADIOACTIVE2")) {
-        if (g->m.radiation(posx, posy) < 20 && one_in(25)) {
-            g->m.radiation(posx, posy)++;
+        if (g->m.get_radiation(posx, posy) < 20 && one_in(25)) {
+            g->m.adjust_radiation(posx, posy, 1);
         }
     }
     if (has_trait("RADIOACTIVE3")) {
-        if (g->m.radiation(posx, posy) < 30 && one_in(10)) {
-            g->m.radiation(posx, posy)++;
+        if (g->m.get_radiation(posx, posy) < 30 && one_in(10)) {
+            g->m.adjust_radiation(posx, posy, 1);
         }
     }
 
@@ -5646,7 +5646,7 @@ void player::suffer()
     int selfRadiation = 0;
     selfRadiation = leak_level("RADIOACTIVE");
 
-    int localRadiation = g->m.radiation(posx, posy);
+    int localRadiation = g->m.get_radiation(posx, posy);
 
     if (localRadiation || selfRadiation) {
         bool has_helmet = false;

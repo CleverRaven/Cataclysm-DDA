@@ -2269,21 +2269,41 @@ bool map::close_door(const int x, const int y, const bool inside, const bool che
  return false;
 }
 
-int& map::radiation(const int x, const int y)
+int map::get_radiation(const int x, const int y) const
 {
- if (!INBOUNDS(x, y)) {
-  nulrad = 0;
-  return nulrad;
- }
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
+    if (!INBOUNDS(x, y)) {
+        return 0;
+    }
 
- int lx, ly;
- submap * const current_submap = get_submap_at(x, y, lx, ly);
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- return current_submap->rad[lx][ly];
+    return current_submap->get_radiation(lx, ly);
+}
+
+void map::set_radiation(const int x, const int y, const int value)
+{
+    if (!INBOUNDS(x, y)) {
+        return;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    current_submap->set_radiation(lx, ly, value);
+}
+
+void map::adjust_radiation(const int x, const int y, const int delta)
+{
+    if (!INBOUNDS(x, y)) {
+        return;
+    }
+
+    int lx, ly;
+    submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+    int current_radiation = current_submap->get_radiation(lx, ly);
+    current_submap->set_radiation(lx, ly, current_radiation + delta);
 }
 
 int& map::temperature(const int x, const int y)
