@@ -11183,7 +11183,7 @@ void game::complete_butcher(int index)
     if( corpse->has_flag(MF_CBM_CIV) ) {
         //As long as the factor is above -4 (the sinew cutoff), you will be able to extract cbms
         if( skill_shift >= 0 ) {
-            add_msg(m_good, ("You discover a CBM in the %s!"), corpse->name.c_str());
+            add_msg(m_good, _("You discover a CBM in the %s!"), corpse->name.c_str());
             //To see if it spawns a battery
             if( rng(0, 1) == 1 ) { //The battery works
                 m.spawn_item( u.posx, u.posy, "bio_power_storage", 1, 0, age );
