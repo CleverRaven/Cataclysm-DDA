@@ -220,12 +220,13 @@ bool WinCreate()
 {
     std::string version = string_format("Cataclysm: Dark Days Ahead - %s", getVersionString());
 
-    //Flags used for setting up SDL VideoMode
+    // Common flags used for fulscreen and for windowed
     int window_flags = 0;
+    WindowWidth = TERMINAL_WIDTH * fontwidth;
+    WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    //If FULLSCREEN was selected in options add SDL_WINDOW_FULLSCREEN flag to screen_flags, causing screen to go fullscreen.
-    if(OPTIONS["FULLSCREEN"]) {
-        window_flags = window_flags | SDL_WINDOW_FULLSCREEN;
+    if (OPTIONS["FULLSCREEN"]) {
+        window_flags |= SDL_WINDOW_FULLSCREEN;
     }
 
     window = SDL_CreateWindow(version.c_str(),
@@ -236,9 +237,15 @@ bool WinCreate()
             window_flags
         );
 
-    //create renderer and convert that to a SDL_Surface?
-
-    if (window == NULL) return false;
+    if (window == NULL) {
+        return false;
+    }
+    if (window_flags & SDL_WINDOW_FULLSCREEN) {
+        SDL_GetWindowSize(window, &WindowWidth, &WindowHeight);
+        // Ignore previous values, use the whole window, but nothing more.
+        TERMINAL_WIDTH = WindowWidth / fontwidth;
+        TERMINAL_HEIGHT = WindowHeight / fontheight;
+    }
 
     format = SDL_AllocFormat(SDL_GetWindowPixelFormat(window));
 
@@ -264,9 +271,7 @@ bool WinCreate()
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
     display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
     SDL_SetRenderTarget(renderer, display_buffer);
-
     ClearScreen();
-    SDL_SetRenderTarget(renderer, display_buffer);
 
     if(OPTIONS["HIDE_CURSOR"] != "show" && SDL_ShowCursor(-1)) {
         SDL_ShowCursor(SDL_DISABLE);
@@ -1109,10 +1114,7 @@ static int test_face_size(std::string f, int size, int faceIndex)
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    int newWindowWidth = OPTIONS["TERMINAL_X"];
-    newWindowWidth = newWindowWidth < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : newWindowWidth;
-
-    return newWindowWidth * fontwidth;
+    return OPTIONS["TERMINAL_X"] * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
@@ -1209,23 +1211,6 @@ WINDOW *curses_init(void)
 
     TERMINAL_WIDTH = OPTIONS["TERMINAL_X"];
     TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];
-
-    if(OPTIONS["FULLSCREEN"]) {
-        // Fullscreen mode overrides terminal width/height
-        SDL_DisplayMode display_mode;
-        SDL_GetDesktopDisplayMode(0, &display_mode);
-
-        TERMINAL_WIDTH = display_mode.w / fontwidth;
-        TERMINAL_HEIGHT = display_mode.h / fontheight;
-
-        WindowWidth  = display_mode.w;
-        WindowHeight = display_mode.h;
-    } else {
-        WindowWidth= OPTIONS["TERMINAL_X"];
-        if (WindowWidth < FULL_SCREEN_WIDTH) WindowWidth = FULL_SCREEN_WIDTH;
-        WindowWidth *= fontwidth;
-        WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
-    }
 
     if(!WinCreate()) {
         DebugLog() << "Failed to create game window: " << SDL_GetError() << "\n";
@@ -1751,14 +1736,14 @@ int map_font_height() {
     return (map_font != NULL ? map_font : font)->fontheight;
 }
 
-void translate_terrain_window_size(int &w, int &h) {
+void to_map_font_dimension(int &w, int &h) {
     w = (w * fontwidth) / map_font_width();
     h = (h * fontheight) / map_font_height();
 }
 
-void translate_terrain_window_size_back(int &w, int &h) {
-    w = (w * map_font_width()) / fontwidth;
-    h = (h * map_font_height()) / fontheight;
+void from_map_font_dimension(int &w, int &h) {
+    w = (w * map_font_width() + fontwidth - 1) / fontwidth;
+    h = (h * map_font_height() + fontheight - 1) / fontheight;
 }
 
 bool is_draw_tiles_mode() {
