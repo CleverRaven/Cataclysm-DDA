@@ -766,6 +766,7 @@ void player::activate_bionic(int b)
             std::string gate_name = rm_prefix (_("<door_name>gate"));
             add_msg_if_player(_("With a satisfying click, the lock on the %s opens."),
                                  gate_name.c_str());
+            g->m.ter_set(dirx, diry, t_chaingate_c);
         } else if(type == t_door_c) {
             add_msg(_("That door isn't locked."));
         } else {
