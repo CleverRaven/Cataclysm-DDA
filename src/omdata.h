@@ -184,6 +184,7 @@ std::string ter;
 struct overmap_special_terrain
 {
     tripoint p;
+    std::string connect;
     std::string terrain;
     std::list<std::string> flags;
 };

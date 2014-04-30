@@ -218,6 +218,7 @@ void load_new_overmap_specials(JsonObject &jo)
         JsonArray point = om.get_array("point");
         terrain.p = tripoint(point.get_int(0), point.get_int(1), point.get_int(2));
         terrain.terrain = om.get_string("overmap");
+        terrain.connect = om.get_string("connect", "");
         JsonArray flagarray = om.get_array("flags");
         while(flagarray.has_more())
         {
@@ -3306,24 +3307,111 @@ bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::
     return true;
 }
 
-bool overmap::allowed_terrain(tripoint p, std::list<overmap_special_terrain> tocheck, std::list<std::string> allowed)
+// checks the area around the selected point to ensure terrain is valid for special
+bool overmap::allowed_terrain(tripoint p, std::list<overmap_special_terrain> tocheck,
+    std::list<std::string> allowed, std::list<std::string> disallowed)
 {
     for(std::list<overmap_special_terrain>::iterator checkit = tocheck.begin();
         checkit != tocheck.end(); ++checkit)
     {
+        overmap_special_terrain t = *checkit;
+
+        bool passed = false;
         for(std::list<std::string>::iterator allowedit = allowed.begin();
             allowedit != allowed.end(); ++allowedit)
         {
-            overmap_special_terrain t = *checkit;
-
             oter_id oter = this->ter(p.x + t.p.x, p.y + t.p.y, p.z);
-            if (!is_ot_type(*allowedit, oter))
+            if (is_ot_type(*allowedit, oter))
+            {
+                passed = true;
+            }
+        }
+        if(!passed)
+        {
+            return false;
+        }
+
+        for(std::list<std::string>::iterator disallowedit = disallowed.begin();
+            disallowedit != disallowed.end(); ++disallowedit)
+        {
+            oter_id oter = this->ter(p.x + t.p.x, p.y + t.p.y, p.z);
+            if (is_ot_type(*disallowedit, oter))
             {
                 return false;
             }
         }
     }
+
     return true;
+}
+
+// checks the selected point to see if the special can be placed there
+bool overmap::allow_special(tripoint p, new_overmap_special special)
+{
+    // first do bounds checking
+    for(std::list<overmap_special_terrain>::iterator ostit = special.terrains.begin();
+        ostit != special.terrains.end(); ++ostit)
+    {
+        overmap_special_terrain ost = *ostit;
+        tripoint testpoint = tripoint(ost.p.x + p.x, ost.p.y + p.y, p.z);
+        if((testpoint.x >= OMAPX + 1) ||
+           (testpoint.x < 0) || (testpoint.y < 0) ||
+           (testpoint.y >= OMAPY + 1))
+        {
+            return false;
+        }
+    }
+    // then do city range checking
+    point citypt = point(p.x, p.y);
+    if(!(special.min_city_distance == -1 || dist_from_city(citypt) >= special.min_city_distance) ||
+        !(special.max_city_distance == -1 || dist_from_city(citypt) <= special.max_city_distance))
+    {
+        return false;
+    }
+    // then check location flags
+    bool passed = false;
+    for(std::list<std::string>::iterator it = special.locations.begin();
+        it != special.locations.end(); ++it)
+    {
+        // check each location, if one returns true, then return true, else return false
+        // never, always, water, land, forest, wilderness, by_hiway
+        // false, true,   river, !river, forest, forest/field, special
+        std::list<std::string> allowed_terrains;
+        std::list<std::string> disallowed_terrains;
+        std::string location = *it;
+        if(location == "never")
+        {
+            return false;
+        }
+        else if(location == "always")
+        {
+            return true;
+        }
+        else if(location == "water")
+        {
+            allowed_terrains.push_back("river");
+        }
+        else if(location == "land")
+        {
+            disallowed_terrains.push_back("river");
+        }
+        else if(location == "forest")
+        {
+            allowed_terrains.push_back("forest");
+        }
+        else if(location == "wilderness")
+        {
+            allowed_terrains.push_back("forest");
+            allowed_terrains.push_back("field");
+        }
+
+        passed = allowed_terrain(p, special.terrains, allowed_terrains, disallowed_terrains);
+        if(passed)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 // should work essentially the same as previously
@@ -3373,14 +3461,9 @@ void overmap::place_new_specials()
                 allowed_terrains.push_back("forest");
                 new_overmap_special special = *it;
 
-                int min_city_distance = special.min_city_distance;
-                int max_city_distance = special.max_city_distance;
-
                 point pt(p.x, p.y);
                 if ((num_placed[special] < special.max_occurrences || special.max_occurrences <= 0) &&
-                    (min_city_distance == -1 || dist_from_city(pt) >= min_city_distance) &&
-                    (max_city_distance == -1 || dist_from_city(pt) <= max_city_distance) &&
-                    allowed_terrain(p, special.terrains, allowed_terrains))
+                    allow_special(p, special))
                 {
                     valid_specials.push_back(special);
                 }
@@ -3419,38 +3502,54 @@ void overmap::place_new_specials()
     }
 }
 
+// does the actual placement.  should do rotation, but rotation validity should be checked before
 void overmap::place_new_special(new_overmap_special special, tripoint p)
 {
+    std::map<std::string, tripoint> connections;
+
     for(std::list<overmap_special_terrain>::iterator it = special.terrains.begin();
         it != special.terrains.end(); ++it)
     {
         overmap_special_terrain terrain = *it;
 
-        this->ter(p.x + terrain.p.x, p.y + terrain.p.y, p.z + terrain.p.z) = terrain.terrain;
+        tripoint location = tripoint(p.x + terrain.p.x, p.y + terrain.p.y, p.z + terrain.p.z);
+        this->ter(location.x, location.y, location.z) = terrain.terrain;
+
+        if(terrain.connect.size() > 0)
+        {
+            connections[terrain.connect] = location;
+        }
 
         for(std::list<std::string>::iterator flagit = terrain.flags.begin();
             flagit != terrain.flags.end(); ++flagit)
         {
             std::string flag = *flagit;
 
-            if(flag == "road_connect")
-            {
-                city closest;
-                int distance = 999;
-                for(std::vector<city>::iterator cityit = cities.begin();
-                    cityit != cities.end(); ++cityit)
-                {
-                    city c = *cityit;
-                    int dist = rl_dist(p.x + terrain.p.x, p.y + terrain.p.y, c.x, c.y);
-                    if (dist < distance)
-                    {
-                        closest = c;
-                        distance = dist;
-                    }
-                }
+        }
+    }
 
-                make_hiway(p.x, p.y, closest.x, closest.y, p.z, "road");
+    for(std::map<std::string, tripoint>::iterator connectit = connections.begin();
+        connectit != connections.end(); ++connectit)
+    {
+        std::pair<std::string, tripoint> connection = *connectit;
+
+        if(connection.first == "road")
+        {
+            city closest;
+            int distance = 999;
+            for(std::vector<city>::iterator cityit = cities.begin();
+                cityit != cities.end(); ++cityit)
+            {
+                city c = *cityit;
+                int dist = rl_dist(connection.second.x, connection.second.y, c.x, c.y);
+                if (dist < distance)
+                {
+                    closest = c;
+                    distance = dist;
+                }
             }
+
+            make_hiway(connection.second.x, connection.second.y, closest.x, closest.y, p.z, "road");
         }
     }
 }
