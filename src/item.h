@@ -298,7 +298,6 @@ public:
    int frequency;       // Radio frequency
    int note;            // Associated dynamic text snippet.
    int irridation;      // Tracks radiation dosage.
-   int spent_casings;   // Tracks casing in a gun
  };
  std::string mode;    // Mode of operation, can be changed by the player.
  std::set<std::string> item_tags; // generic item specific flags

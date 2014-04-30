@@ -2777,6 +2777,23 @@ int item::pick_reload_ammo(player &u, bool interactive)
     return u.get_item_position(am[ amenu.ret ]);
 }
 
+// Helper to handle ejecting casings from guns that require them to be manually extracted.
+static void eject_casings( player &p, item *reload_target, itype_id casing_type ) {
+    if( reload_target->has_flag("NO_EJECT") && casing_type != "NULL" && !casing_type.empty() ) {
+        if( reload_target->item_vars.count( "CASINGS" ) ) {
+            int num_casings = atoi( reload_target->item_vars[ "CASINGS" ].c_str() );
+            item casing(itypes[casing_type], 0);
+            // Casings need a count of one to stack properly.
+            casing.charges = 1;
+            // Drop all the casings on the ground under the player.
+            for( int i = 0; i < num_casings; ++i ) {
+                g->m.add_item_or_charges(p.posx, p.posy, casing);
+            }
+            reload_target->item_vars.erase( "CASINGS" );
+        }
+    }
+}
+
 bool item::reload(player &u, int pos)
 {
  bool single_load = false;
@@ -2876,23 +2893,10 @@ bool item::reload(player &u, int pos)
    }
    reload_target->curammo = dynamic_cast<it_ammo*>((ammo_to_use->type));
   }
+  eject_casings( u, reload_target, curammo->casing );
   if (single_load || max_load == 1) { // Only insert one cartridge!
    reload_target->charges++;
    ammo_to_use->charges--;
-   if ((reload_target->has_flag("NO_EJECT")) && (reload_target->spent_casings > 0)) {
-      int x = 0;
-      int y = 0;
-      itype_id casing_type = curammo->casing;
-      if (casing_type != "NULL" && !casing_type.empty()) {
-           item casing;
-           casing.make(itypes[casing_type]);
-           casing.charges = 1;
-           x = u.posx - 1 + rng(0, 2);
-           y = u.posy - 1 + rng(0, 2);
-           g->m.add_item_or_charges(x,y,casing);
-           reload_target->spent_casings--;
-    }
-  }
   }
   else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on" || reload_target->has_flag("ATOMIC_AMMO") ||
            reload_target->typeId() == "rm13_armor" || reload_target->typeId() == "rm13_armor_on") {
