@@ -13341,7 +13341,7 @@ void game::update_stair_monsters() {
                     if (coming_to_stairs[i].staircount > 4) {
                         dump << string_format(_("You see a %s on the stairs"), critter.name().c_str());
                     } else {
-                        //~ “The <monster> is almost at the <bottom/top> of the <terrain type>!”
+                        //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
                         if (coming_to_stairs[i].staircount > 0) {
                             dump << (!(m.has_flag("GOES_UP", mposx, mposy)) ?
                                      string_format(_("The %s is almost at the top of the %s!"),
@@ -13893,7 +13893,7 @@ void game::nuke(int x, int y)
             if (one_in(3)) {
                 tmpmap.add_field(i, j, fd_nuke_gas, 3);
             }
-            tmpmap.radiation(i, j) += rng(20, 80);
+            tmpmap.adjust_radiation(i, j, rng(20, 80));
         }
     }
     tmpmap.save(&om, calendar::turn, smc.x, smc.y, 0);

@@ -358,7 +358,13 @@ void add_corpse(int x, int y);
  void mop_spills(const int x, const int y);
 
 // Radiation
- int& radiation(const int x, const int y); // Amount of radiation at (x, y);
+ int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
+ int set_radiation(const int x, const int y, const int value);
+
+ /** Increment the radiation in the given tile by the given delta
+  *  (decrement it if delta is negative)
+  */
+ int adjust_radiation(const int x, const int y, const int delta);
 
 // Temperature
  int& temperature(const int x, const int y);    // Temperature for submap

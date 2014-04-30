@@ -1126,7 +1126,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
              }
             }
             count--;
-            sm->rad[i][j] = radtmp;
+            sm->set_radiation(i, j, radtmp);
            }
           }
         // Load items and traps and fields and spawn points and vehicles
@@ -1382,7 +1382,7 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                     }
                 }
                 count--;
-                sm->rad[i][j] = radtmp;
+                sm->set_radiation(i, j, radtmp);
             }
         }
         // Load items and traps and fields and spawn points and vehicles
