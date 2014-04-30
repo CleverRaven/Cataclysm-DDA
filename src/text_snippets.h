@@ -23,6 +23,8 @@ private:
     std::map<int, std::string> snippets;
     // Categories groups snippets by well, category.
     std::multimap<std::string, int> categories;
+    // Add the snippet text, puts it into @ref categories and @ref snippets
+    void add_snippet(const std::string &category, const std::string &text);
 };
 
 extern snippet_library SNIPPET;
