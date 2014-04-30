@@ -609,19 +609,11 @@ struct it_stationary : public virtual itype
 
  std::string category;
 
- it_stationary(std::string pid, unsigned int pprice,
-          std::string pname, std::string pname_plural, std::string pdes,
-          char psym, nc_color pcolor, std::string pm1, std::string pm2,
-          unsigned char pvolume, unsigned char pweight,
-          signed int pmelee_dam, signed int pmelee_cut,
-          signed int pm_to_hit,
-          std::string pcategory)
-
-:itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
- {
-     category = pcategory;
- }
+    it_stationary()
+    : itype()
+    , category()
+    {
+    }
 };
 
 #endif

@@ -179,6 +179,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_bionic);
     type_function_map["VAR_VEH_PART"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_veh_part);
+    type_function_map["STATIONARY_ITEM"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_stationary);
     type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_category);
 

@@ -117,6 +117,7 @@ public:
     void load_generic   (JsonObject &jo);
     void load_bionic    (JsonObject &jo);
     void load_veh_part  (JsonObject &jo);
+    void load_stationary(JsonObject &jo);
 
     void load_item_blacklist(JsonObject &jo);
     void load_item_whitelist(JsonObject &jo);
