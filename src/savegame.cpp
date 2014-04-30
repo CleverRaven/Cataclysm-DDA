@@ -296,7 +296,7 @@ void game::load_weather(std::ifstream & fin) {
    if (fin.peek() == 'l') {
        std::string line;
        getline(fin, line);
-       lightning_active = ((*line.end()) == '1');
+       lightning_active = (line.empty() ? false : line.back() == '1');
    } else {
        lightning_active = false;
    }
