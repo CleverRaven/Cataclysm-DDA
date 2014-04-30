@@ -55,6 +55,7 @@ automatically_convertible = {
     "GENERIC",
     "GUNMOD",
     "GUN",
+    "STATIONARY_ITEM",
     "hint",
     "ITEM_CATEGORY",
     "keybinding",
@@ -89,6 +90,7 @@ needs_plural = {
     "GENERIC",
     "GUNMOD",
     "GUN",
+    "STATIONARY_ITEM",
     "TOOL",
     "TOOL_ARMOR",
     "VAR_VEH_PART",
@@ -206,6 +208,11 @@ def gettextify(string, context=None, plural=None):
             return "_(%r)\n" % string
 
 def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None):
+    if type(string) is list and plural is None:
+        for entry in string:
+            writestr(filename, entry, None, context, format_strings, comment)
+        return
+
     "Wrap the string and write to the file."
     # no empty strings
     if not string: return
@@ -325,6 +332,7 @@ def extract_all_from_dir(json_dir):
         extract_all_from_dir(os.path.join(json_dir, d))
 
 def extract_all_from_file(json_file):
+    print("Loading %s" % json_file)
     "Extract translatable strings from every object in the specified file."
     jsondata = json.loads(open(json_file).read())
     # it's either an array of objects, or a single object
@@ -345,7 +353,6 @@ def add_fake_types():
     writestr(outfile, "cvd machine")
     writestr(outfile, "integrated toolset")
     writestr(outfile, "a smoking device and a source of flame")
-    writestr(outfile, "flyer", "flyers")
     writestr(outfile, "note", "notes")
     writestr(outfile, "misc software")
     writestr(outfile, "MediSoft")
