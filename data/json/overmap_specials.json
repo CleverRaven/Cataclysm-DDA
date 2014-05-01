@@ -451,11 +451,11 @@
         "id" : "Cathedral",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "cathedral_1_entrance", "connect": "road"},
+            { "point":[0,0,0], "overmap": "cathedral_1", "connect": "road"},
             { "point":[1,0,0], "overmap": "cathedral_1_entrance", "connect": "road"},
             { "point":[0,1,0], "overmap": "cathedral_1"},
             { "point":[1,1,0], "overmap": "cathedral_1"},
-			{ "point":[0,0,-1], "overmap": "cathedral_b_entrance"},
+			{ "point":[0,0,-1], "overmap": "cathedral_b"},
             { "point":[1,0,-1], "overmap": "cathedral_b_entrance"},
             { "point":[0,1,-1], "overmap": "cathedral_b"},
             { "point":[1,1,-1], "overmap": "cathedral_b"}
@@ -632,10 +632,10 @@
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
     },{
         "type" : "overmap_special",
-        "id" : "Evac Shelter",
+        "id" : "Cave",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "cave"},
+            { "point":[0,0,0], "overmap": "cave"}
         ],
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [0, -1], "//":"how far from a city it should be",

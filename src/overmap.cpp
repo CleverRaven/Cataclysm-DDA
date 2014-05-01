@@ -1601,10 +1601,10 @@ bool overmap::generate_sub(int const z)
         ter(haz_sar_points[i].x, haz_sar_points[i].y, z-1) = "haz_sar_b1";
     }
     for (int i = 0; i < cathedral_entrance_points.size(); i++) {
-        ter(cathedral_entrance_points[i].x, cathedral_entrance_points[i].y, z) = "cathedral_b_entrance";
+        //ter(cathedral_entrance_points[i].x, cathedral_entrance_points[i].y, z) = "cathedral_b_entrance";
     }
     for (int i = 0; i < cathedral_points.size(); i++) {
-        ter(cathedral_points[i].x, cathedral_points[i].y, z) = "cathedral_b";
+        //ter(cathedral_points[i].x, cathedral_points[i].y, z) = "cathedral_b";
     }
     for (int i = 0; i < hotel_tower_1_points.size(); i++) {
         ter(hotel_tower_1_points[i].x, hotel_tower_1_points[i].y, z) = "hotel_tower_b_1";
