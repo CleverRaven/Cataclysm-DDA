@@ -4,7 +4,7 @@
 NAME: blockhead
 #Viewing (Option) name of the tileset
 VIEW: Blockhead's
-#JSON Path - Default of gfx/tile_config.json
-JSON: gfx/BlockheadTileset/tile_config.json
-#Tileset Path - Default of gfx/tinytile.png
-TILESET: gfx/BlockheadTileset/blockheadtiles.png
+#JSON Path - Default of tile_config.json
+JSON: BlockheadTileset/tile_config.json
+#Tileset Path - Default of tinytile.png
+TILESET: BlockheadTileset/blockheadtiles.png
