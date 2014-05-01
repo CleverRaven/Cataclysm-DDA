@@ -451,6 +451,8 @@ public:
   bool narrow_sidebar;
   bool fullscreen;
   bool was_fullscreen;
+  void write_msg();        // Prints the messages in the messages list
+  void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);  // open vehicle interaction screen
 
  private:
 // Game-start procedures
@@ -555,9 +557,7 @@ public:
   void control_vehicle(); // Use vehicle controls  '^'
   void examine(int examx = -1, int examy = -1);// Examine nearby terrain  'e'
   void advanced_inv();
-  // open vehicle interaction screen
-  void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
-  void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
+
   // Establish a grab on something.
   void grab();
 // Pick where to put liquid; false if it's left where it was
@@ -599,6 +599,7 @@ public:
   void handle_multi_item_info(int lx, int ly, WINDOW* w_look, const int column, int &line, bool mouse_hover);
   void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
+
   input_context get_player_input(std::string &action);
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
@@ -637,7 +638,6 @@ public:
   void place_corpse();     // Place player corpse
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"
   void gameover();         // Ends the game
-  void write_msg();        // Prints the messages in the messages list
   void msg_buffer();       // Opens a window with old messages in it
   void draw_minimap();     // Draw the 5x5 minimap
   void draw_HP();          // Draws the player's HP and Power level
@@ -686,7 +686,6 @@ public:
   std::vector<event> events;         // Game events to be processed
   std::map<std::string, int> kills;         // Player's kill count
   int moves_since_last_save;
-  int item_exchanges_since_save;
   time_t last_save_timestamp;
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
@@ -716,10 +715,6 @@ public:
     void activity_on_finish_fish();
     void activity_on_finish_vehicle();
 
-  // game::pickup helper functions
-  int handle_quiver_insertion(item &here, bool inv_on_fail, int &moves_to_decrement, bool &picked_up);
-  void remove_from_map_or_vehicle(int posx, int posy, bool from_veh, vehicle *veh, int cargo_part, int &moves_taken, int curmit);
-  void show_pickup_message(std::map<std::string, int> mapPickup);
 };
 
 #endif
