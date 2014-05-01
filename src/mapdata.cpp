@@ -825,3 +825,71 @@ void check_furniture_and_terrain()
         check_decon_items(t.deconstruct, t.id, true);
     }
 }
+
+item_accessor submap::get_items(int x, int y) {
+    return item_accessor(this, x, y);
+}
+
+const item* item_accessor::next() {
+    const std::vector<item>& items = wrapped_submap->itm[submap_x][submap_y];
+
+    position++;
+
+    if(position >= items.size()) {
+        return NULL;
+    }
+
+    return &(items[position]);
+}
+
+void item_accessor::remove_current() {
+    positions_to_remove.insert(position);
+}
+
+void item_accessor::update_item(const item& replacement) {
+    replacements_by_position[position] = replacement;
+}
+
+void item_accessor::flush() {
+    std::vector<item>& items = wrapped_submap->itm[submap_x][submap_y];
+
+    // First, apply replacements
+    std::map<int, item>::iterator it;
+    for (it=replacements_by_position.begin(); it != replacements_by_position.end(); it++) {
+        const int& position = it->first;
+        const item& replacement = it->second;
+        items[position] = replacement;
+    }
+
+    // Second, remove items that were marked for removal. This means the vector needs to be
+    // compacted, which is a O(n) operation anyway, but since the previous naive method
+    // did the compacting potentially up to n times, we were in O(n^2), so this implementation
+    // should in theory scale a lot better.
+    //
+    // Operation can be performed in O(n) by disregarding order of items. Order doesn't matter,
+    // anything displaying the items to the user (hopefully) sorts them anyway.
+    int items_removed = 0;
+    for(int i=items.size() - 1; i >= 0; i++) {
+        // If there's nothing more to remove, we're done.
+        if(positions_to_remove.empty()) {
+            break;
+        }
+
+        if(positions_to_remove.find(i) != positions_to_remove.end()) {
+            positions_to_remove.erase(i);
+
+            // Now we remove the actual element, but we don't want a "hole"
+            // in our vector, so we just copy over the last element to the
+            // current location.
+            //
+            // Special case: We're at the end of the vector anyway. In that case,
+            // we assign the last item to itself and then delete it. No harm done.
+            items[i] = items.back();
+
+            items_removed++;
+            // We just removed an item, shrink the vector to be one entry
+            // smaller.
+            items.resize(items.size() - 1);
+        }
+    }
+}

@@ -362,6 +362,54 @@ struct spawn_point {
              mission_id (MIS), friendly (F), name (N) {}
 };
 
+struct submap;
+
+/**
+ * Wraps access to item lists.
+ *
+ * The purpose of this class is to provide an uniform API to access
+ * and update item "containers", without the hassle of e.g. updating
+ * item iterators when removing an item.
+ *
+ * To this end, this class itself provides a simple iteration API.
+ */
+class item_accessor {
+public:
+    item_accessor(submap *wrapped_submap, int x, int y) :
+        wrapped_submap(wrapped_submap),
+        submap_x(x), submap_y(y),
+        position(-1) { }
+
+    /**
+     * Advance to the next position in the container and return a
+     * reference to the item at that position.
+     *
+     * The first call to this function will return the first item
+     * in the container and so on.
+     */
+    const item* next();
+
+    /**
+     * Remove the item at the current position from the container.
+     */
+    void remove_current();
+
+    /**
+     * Replace the item at the current position with the given parameter.
+     */
+    void update_item(const item& replacement);
+
+    /** Apply the changes done by this accessor to the wrapped object. */
+    void flush();
+
+private:
+    submap * const wrapped_submap;
+    int submap_x, submap_y;
+    int position;
+    std::set<int> positions_to_remove;
+    std::map<int, item> replacements_by_position;
+};
+
 struct submap {
     inline trap_id get_trap(int x, int y) const {
         return trp[x][y];
@@ -398,6 +446,8 @@ struct submap {
     inline void set_graffiti(int x, int y, const graffiti& value) {
         graf[x][y] = value;
     }
+
+    item_accessor get_items(int x, int y);
 
     ter_id             ter[SEEX][SEEY];  // Terrain on each square
     std::vector<item>  itm[SEEX][SEEY];  // Items on each square
