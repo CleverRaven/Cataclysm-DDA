@@ -1047,9 +1047,6 @@ void overmap::generate(overmap* north, overmap* east, overmap* south,
                        overmap* west)
 {
  dbg(D_INFO) << "overmap::generate start...";
- erase();
- clear();
- move(0, 0);
  std::vector<city> road_points; // cities and roads_out together
  std::vector<point> river_start;// West/North endpoints of rivers
  std::vector<point> river_end; // East/South endpoints of rivers
