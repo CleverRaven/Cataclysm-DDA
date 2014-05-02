@@ -59,6 +59,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     recharger_epower = 0;
     tracking_epower = 0;
     cruise_velocity = 0;
+    music_id = "";
     skidding = false;
     cruise_on = true;
     lights_on = false;
@@ -590,16 +591,42 @@ void vehicle::use_controls()
     case toggle_stereo:
         if((stereo_on || fuel_left(fuel_type_battery))) {
             stereo_on = !stereo_on;
-            add_msg((stereo_on) ? _("Loading CD...") : _("Ejecting..."));
-            if (!g->u.has_item_with_flag("CD") && stereo_on == true) {
-                add_msg("You don't have a CD to play!");
+            int music_index = 0;
+            std::vector<item*> music_inv = g->u.inv.all_items_with_flag("CD");
+            std::vector<itype_id> music_types;
+            std::vector<std::string> music_names;
+            add_msg((stereo_on) ? _("Loading...") : _("Ejecting..."));
+            if (!g->u.has_item_with_flag("CD")&& stereo_on == true) {
+                add_msg("You don't have anything to play!");
                 stereo_on = false;
             } else if (stereo_on == false) {
-                add_msg("You eject your CD!");
-                g->u.inv.add_item_by_type(itypes["music_cd"]->id);
+                add_msg(_("Ejected the %s"), itypes[music_id]->name.c_str());
+                g->u.inv.add_item_by_type(music_id);
             } else {
-                add_msg("You insert your CD");
-                g->u.inv.remove_item("music_cd");
+            for (std::vector<item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
+                if (std::find(music_types.begin(), music_types.end(), (*it)->typeId()) == music_types.end()){
+                music_types.push_back((*it)->typeId());
+                music_names.push_back((*it)->name);
+                }
+            }
+            if (music_types.size() > 1) {
+                music_names.push_back("Cancel");
+                music_index = menu_vec(false, _("Use which item?"), music_names) - 1;
+            if (music_index == music_names.size() - 1)
+            music_index = -1;
+            } else {
+                music_index = 0;
+            }
+
+            if (music_index < 0) {
+                add_msg(_("You decided not to play anything"));
+                stereo_on = false;
+                return;
+            } else {
+                add_msg(_("Inserted the %s"), music_names[music_index].c_str());
+                g->u.inv.remove_item(music_types[music_index]);
+                music_id = music_types[music_index];
+            }
             }
         } else {
                 add_msg(_("The stereo won't come on!"));
