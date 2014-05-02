@@ -72,6 +72,7 @@ nc_color sev(int a); // Right now, ONLY used for scent debugging....
 //The one and only game instance
 game *g;
 extern worldfactory *world_generator;
+input_context get_default_mode_input_context();
 
 uistatedata uistate;
 
@@ -2118,29 +2119,22 @@ void game::handle_key_blocking_activity() {
     }
 
     if (u.activity.moves_left > 0 && u.activity.is_abortable()) {
+        input_context ctxt = get_default_mode_input_context();
         timeout(1);
-        signed char ch = input();
-        if(ch != ERR) {
-            timeout(-1);
-            switch(action_from_key(ch)) {  // should probably make the switch in handle_action() a function
-                case ACTION_PAUSE:
-                    cancel_activity_query(_("Confirm:"));
-                    break;
-                case ACTION_PL_INFO:
-                    u.disp_info();
-                    refresh_all();
-                    break;
-                case ACTION_MESSAGES:
-                    Messages::display_messages();
-                    refresh_all();
-                    break;
-                case ACTION_HELP:
-                    display_help();
-                    refresh_all();
-                    break;
-            }
-        }
+        const std::string action = ctxt.handle_input();
         timeout(-1);
+        if (action == "pause") {
+            cancel_activity_query(_("Confirm:"));
+        } else if (action == "player_data") {
+            u.disp_info();
+            refresh_all();
+        } else if (action == "messages") {
+            Messages::display_messages();
+            refresh_all();
+        } else if (action == "help") {
+            display_help();
+            refresh_all();
+        }
     }
 }
 
