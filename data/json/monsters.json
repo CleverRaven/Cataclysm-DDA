@@ -3549,7 +3549,7 @@
     "size":"TINY",
     "material":"iflesh",
     "diff":1,
-    "aggression":0,
+    "aggression":-99,
     "morale":0,
     "speed":20,
     "melee_skill":0,
@@ -3565,8 +3565,7 @@
     "death_function":"NORMAL",
     "special_attack":"NONE",
     "description":"A little spider with elongated forelegs. It does not build extensive webs, but leaps very quickly, appearing to move instantaneously from one spot to another.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITES"],
-    "anger_triggers":["PLAYER_CLOSE"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITER"]
     },{
         "type" : "MONSTER",
         "id" : "mon_spider_jumping_giant",
