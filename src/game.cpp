@@ -4754,6 +4754,42 @@ void game::list_missions()
     refresh_all();
 }
 
+void game::calculate_footstep_markers(std::vector<point> &result)
+{
+    result.reserve(footsteps.size());
+    for (size_t i = 0; i < footsteps.size(); i++) {
+        if (!u_see(footsteps_source[i]->posx(), footsteps_source[i]->posy())) {
+            std::vector<point> unseen_points;
+            for (size_t j = 0; j < footsteps[i].size(); j++) {
+                if (!u_see(footsteps[i][j].x, footsteps[i][j].y)) {
+                    unseen_points.push_back(footsteps[i][j]);
+                }
+            }
+            if (unseen_points.size() > 0) {
+                result.push_back(unseen_points[rng(0, unseen_points.size() - 1)]);
+            }
+        }
+    }
+    footsteps.clear();
+    footsteps_source.clear();
+}
+
+// draws footsteps that have been created by monsters moving about
+void game::draw_footsteps()
+{
+    if (is_draw_tiles_mode()) {
+        return; // already done by cata_tiles
+    }
+    std::vector<point> markers;
+    calculate_footstep_markers(markers);
+    const int offset_y = POSY - (u.posy + u.view_offset_y);
+    const int offset_x = POSX - (u.posx + u.view_offset_x);
+    for (std::vector<point>::const_iterator a = markers.begin(); a != markers.end(); ++a) {
+        mvwputch(w_terrain, offset_y + a->y, offset_x + a->x, c_yellow, '?');
+    }
+    wrefresh(w_terrain);
+}
+
 void game::draw()
 {
     // Draw map

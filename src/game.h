@@ -159,6 +159,9 @@ public:
   void add_footstep(int x, int y, int volume, int distance, monster* source);
   std::vector<std::vector<point> > footsteps;
   std::vector<monster*> footsteps_source;
+// Calculate where footstep marker should appear and put those points into the result.
+// It also clears @ref footsteps_source and @ref footsteps
+  void calculate_footstep_markers(std::vector<point> &result);
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
