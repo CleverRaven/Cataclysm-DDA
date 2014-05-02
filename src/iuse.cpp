@@ -2682,7 +2682,7 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
         return it->type->charges_to_use();
     }
     p->add_msg_if_player( m_good, sliced_text.c_str(), cut->tname().c_str(), count);
-    item result(type, int(calendar::turn), g->nextinv);
+    item result(type, int(calendar::turn) );
     p->i_rem(pos);
     p->i_add_or_drop(result, count);
     return it->type->charges_to_use();
@@ -6137,15 +6137,15 @@ int iuse::knife(player *p, item *it, bool t)
     } else if( cut->made_of(found_mat.c_str()) ||
                cut->made_of((found_mat = "kevlar").c_str())) { // TODO : extract a function
         if ( found_mat == "plastic" ) {
-            result = new item("plastic_chunk", int(calendar::turn), g->nextinv);
+            result = new item( "plastic_chunk", int(calendar::turn) );
         } else {
-            result = new item("kevlar_plate", int(calendar::turn), g->nextinv);
+            result = new item( "kevlar_plate", int(calendar::turn) );
         }
 
     } else if (cut->made_of("wood")) {
         action = "carve";
         count = 2 * amount; // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
-        result = new item("skewer", int(calendar::turn), g->nextinv);
+        result = new item( "skewer", int(calendar::turn) );
     } else { // TODO: add the rest of the materials, gold and what not.
         add_msg(m_info, _("Material of this item is not applicable for cutting up."));
         return 0;
@@ -6203,8 +6203,8 @@ int iuse::cut_log_into_planks(player *p, item *it)
 {
     p->moves -= 300;
     add_msg(_("You cut the log into planks."));
-    item plank("2x4", int(calendar::turn), g->nextinv);
-    item scrap("splinter", int(calendar::turn), g->nextinv);
+    item plank( "2x4", int(calendar::turn) );
+    item scrap( "splinter", int(calendar::turn) );
     int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
     int scraps = 12 - planks;
     if (planks >= 12) {

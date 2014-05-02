@@ -692,7 +692,7 @@ void construct::done_trunk_plank(point p)
     (void)p; //unused
     int num_logs = rng(5, 15);
     for( int i = 0; i < num_logs; ++i ) {
-        item tmplog("log", int(calendar::turn), g->nextinv);
+        item tmplog( "log", int(calendar::turn) );
         iuse::cut_log_into_planks( &(g->u), &tmplog);
     }
 }
