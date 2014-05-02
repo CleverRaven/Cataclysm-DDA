@@ -2897,7 +2897,9 @@ bool item::reload(player &u, int pos)
             }
             reload_target->curammo = dynamic_cast<it_ammo*>((ammo_to_use->type));
         }
-        eject_casings( u, reload_target, curammo->casing );
+        if (curammo != NULL) {
+            eject_casings( u, reload_target, curammo->casing );
+        }
         if (single_load || max_load == 1) { // Only insert one cartridge!
             reload_target->charges++;
             ammo_to_use->charges--;
