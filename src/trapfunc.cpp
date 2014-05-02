@@ -1052,11 +1052,6 @@ void trapfuncm::snake(monster*, int x, int y)
     }
 }
 
-bool trap::is_benign()
-{
-    return benign;
-}
-
 /**
  * Takes the name of a trap function and returns a function pointer to it.
  * @param function_name The name of the trapfunc function to find.

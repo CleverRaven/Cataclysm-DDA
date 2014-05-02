@@ -8102,9 +8102,7 @@ void game::print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int
     if (trapid == tr_null) {
         return;
     }
-
-    int vis = traplist[trapid]->visibility;
-    if (vis == -1 || u.per_cur - u.encumb(bp_eyes) >= vis) {
+    if (traplist[trapid]->can_see(u)) {
         mvwprintz(w_look, line++, column, traplist[trapid]->color, "%s", traplist[trapid]->name.c_str());
     }
 }
@@ -11321,13 +11319,14 @@ bool game::plmove(int dx, int dy)
     }
     }
 
-  if (m.tr_at(x, y) != tr_null &&
-    u.per_cur - u.encumb(bp_eyes) >= traplist[m.tr_at(x, y)]->visibility){
-        if (  !traplist[m.tr_at(x, y)]->is_benign() &&
-              !query_yn(_("Really step onto that %s?"),traplist[m.tr_at(x, y)]->name.c_str())){
+    const trap_id tid = m.tr_at(x, y);
+    if (tid != tr_null) {
+        const struct trap &t = *traplist[tid];
+        if (t.can_see(u) && !t.is_benign() &&
+            !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
             return false;
         }
-  }
+    }
 
   float drag_multiplier = 1.0;
   vehicle *grabbed_vehicle = NULL;
@@ -11696,8 +11695,7 @@ bool game::plmove(int dx, int dy)
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
    trap* tr = traplist[m.tr_at(x, y)];
    if (!u.avoid_trap(tr)) {
-    trapfunc f;
-    (f.*(tr->act))(x, y);
+       tr->trigger(&g->u, x, y);
    }
   }
 
@@ -12344,8 +12342,7 @@ void game::vertical_move(int movez, bool force) {
  if (m.tr_at(u.posx, u.posy) != tr_null) { // We stepped on a trap!
   trap* tr = traplist[m.tr_at(u.posx, u.posy)];
   if (force || !u.avoid_trap(tr)) {
-   trapfunc f;
-   (f.*(tr->act))(u.posx, u.posy);
+   tr->trigger(&g->u, u.posx, u.posy);
   }
  }
 

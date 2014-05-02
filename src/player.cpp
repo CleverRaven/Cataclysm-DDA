@@ -3947,10 +3947,11 @@ bool player::avoid_trap(trap* tr)
 {
   int myroll = dice(3, int(dex_cur + skillLevel("dodge") * 1.5));
  int traproll;
- if (per_cur - encumb(bp_eyes) >= tr->visibility)
-  traproll = dice(3, tr->avoidance);
- else
-  traproll = dice(6, tr->avoidance);
+    if (tr->can_see(*this)) {
+        traproll = dice(3, tr->get_avoidance());
+    } else {
+        traproll = dice(6, tr->get_avoidance());
+    }
  if (has_trait("LIGHTSTEP"))
   myroll += dice(2, 6);
  if (has_trait("CLUMSY"))

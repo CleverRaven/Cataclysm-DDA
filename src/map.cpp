@@ -3210,15 +3210,16 @@ void map::disarm_trap(const int x, const int y)
   return;
  }
 
+ trap* tr = traplist[tr_at(x, y)];
  const int tSkillLevel = g->u.skillLevel("traps");
- const int diff = traplist[tr_at(x, y)]->difficulty;
+ const int diff = tr->get_difficulty();
  int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
  while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50)
   roll++;
  if (roll >= diff) {
   add_msg(_("You disarm the trap!"));
-  std::vector<itype_id> comp = traplist[tr_at(x, y)]->components;
+  std::vector<itype_id> comp = tr->components;
   for (int i = 0; i < comp.size(); i++) {
    if (comp[i] != "null")
     spawn_item(x, y, comp[i], 1, 1);
@@ -3245,9 +3246,7 @@ void map::disarm_trap(const int x, const int y)
  }
  else {
   add_msg(_("You fail to disarm the trap, and you set it off!"));
-  trap* tr = traplist[tr_at(x, y)];
-  trapfunc f;
-  (f.*(tr->act))(x, y);
+  tr->trigger(&g->u, x, y);
   if(diff - roll <= 6)
    // Give xp for failing, but not if we failed terribly (in which
    // case the trap may not be disarmable).
@@ -3630,8 +3629,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if (curr_trap != tr_null && (traplist[curr_trap]->visibility == -1 ||
-                                 u.per_cur - u.encumb(bp_eyes) >= traplist[curr_trap]->visibility)) {
+    if (curr_trap != tr_null && traplist[curr_trap]->can_see(g->u)) {
         tercol = traplist[curr_trap]->color;
         if (traplist[curr_trap]->sym == '%') {
             switch(rng(1, 5)) {
