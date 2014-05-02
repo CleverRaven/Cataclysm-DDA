@@ -3549,7 +3549,7 @@
     "size":"TINY",
     "material":"iflesh",
     "diff":1,
-    "aggression":0,
+    "aggression":-99,
     "morale":0,
     "speed":20,
     "melee_skill":0,
