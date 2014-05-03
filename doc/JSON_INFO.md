@@ -134,7 +134,7 @@ The syntax listed here is still valid.
 "special_attack" : "BITE",			// Monster's special attack. See JSON_FLAGS.md for a list of possible special attacks. A monster can have only one special attack
 "description": "One of the vesper bats, a family of winged insect-eating mammals. It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",	
 									// In-game description for the monster
-"flags" : ["SEES", HEARS", etc],	// Monster flags. See JSON_FLAGS.md for a full list
+"flags" : ["SEES", "HEARS", etc],	// Monster flags. See JSON_FLAGS.md for a full list
 "fear_triggers" : ["SOUND", etc],	// What makes the monster afraid. See JSON_FLAGS.md for a full list
 "anger_triggers" : ["PLAYER_CLOSE"],// What makes the monster angry. See JSON_FLAGS.md for a full list
 "placate_triggers" : ["MEAT"],		// What calms the monster. See JSON_FLAGS.md for a full list
