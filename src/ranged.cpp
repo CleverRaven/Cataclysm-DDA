@@ -103,9 +103,11 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         if (critter != NULL && cur_missed_by <= 1.0) {
             dealt_damage_instance dealt_dam;
             critter->deal_projectile_attack(this, missed_by, proj, dealt_dam);
-            std::vector<point> blood_traj = trajectory;
-            blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-            splatter( blood_traj, dam, critter );
+            if (dealt_dam.total_damage() > 0) {
+                std::vector<point> blood_traj = trajectory;
+                blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
+                splatter( blood_traj, dam, critter );
+            }
             dam = 0;
         } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
