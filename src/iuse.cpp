@@ -273,40 +273,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
             (head_bonus < 0 || torso_bonus < 0 || normal_bonus < 0)) {
             int current_hp = p->hp_cur[i];
             if (current_hp != 0) {
-                if (current_hp == p->hp_max[i]){
-                  color = c_green;
-                  health_bar = "|||||";
-                } else if (current_hp > p->hp_max[i] * .9) {
-                  color = c_green;
-                  health_bar = "||||\\";
-                } else if (current_hp > p->hp_max[i] * .8) {
-                  color = c_ltgreen;
-                  health_bar = "|||| ";
-                } else if (current_hp > p->hp_max[i] * .7) {
-                  color = c_ltgreen;
-                  health_bar = "|||\\";
-                } else if (current_hp > p->hp_max[i] * .6) {
-                  color = c_yellow;
-                  health_bar = "|||  ";
-                } else if (current_hp > p->hp_max[i] * .5) {
-                  color = c_yellow;
-                  health_bar = "||\\ ";
-                } else if (current_hp > p->hp_max[i] * .4) {
-                  color = c_ltred;
-                  health_bar = "||   ";
-                } else if (current_hp > p->hp_max[i] * .3) {
-                  color = c_ltred;
-                  health_bar = "|\\  ";
-                } else if (current_hp > p->hp_max[i] * .2) {
-                  color = c_red;
-                  health_bar = "|    ";
-                } else if (current_hp > p->hp_max[i] * .1) {
-                  color = c_red;
-                  health_bar = "\\   ";
-                } else {
-                  color = c_red;
-                  health_bar = ":    ";
-                }
+                get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
                 if (p->has_trait("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 15, color, "%5d", current_hp);
                 } else {
@@ -334,41 +301,7 @@ static hp_part body_window(player *p, item *, std::string item_name,
                 } else if (current_hp < 0) {
                     current_hp = 0;
                 }
-
-                if (current_hp == p->hp_max[i]){
-                  color = c_green;
-                  health_bar = "|||||";
-                } else if (current_hp > p->hp_max[i] * .9) {
-                  color = c_green;
-                  health_bar = "||||\\";
-                } else if (current_hp > p->hp_max[i] * .8) {
-                  color = c_ltgreen;
-                  health_bar = "|||| ";
-                } else if (current_hp > p->hp_max[i] * .7) {
-                  color = c_ltgreen;
-                  health_bar = "|||\\";
-                } else if (current_hp > p->hp_max[i] * .6) {
-                  color = c_yellow;
-                  health_bar = "|||  ";
-                } else if (current_hp > p->hp_max[i] * .5) {
-                  color = c_yellow;
-                  health_bar = "||\\ ";
-                } else if (current_hp > p->hp_max[i] * .4) {
-                  color = c_ltred;
-                  health_bar = "||   ";
-                } else if (current_hp > p->hp_max[i] * .3) {
-                  color = c_ltred;
-                  health_bar = "|\\  ";
-                } else if (current_hp > p->hp_max[i] * .2) {
-                  color = c_red;
-                  health_bar = "|    ";
-                } else if (current_hp > p->hp_max[i] * .1) {
-                  color = c_red;
-                  health_bar = "\\   ";
-                } else {
-                  color = c_red;
-                  health_bar = ":    ";
-                }
+                get_HP_Bar(current_hp, p->hp_max[i], color, health_bar, false);
                 if (p->has_trait("SELFAWARE")) {
                     mvwprintz(hp_window, i + 2, 24, color, "%5d", current_hp);
                 } else {
