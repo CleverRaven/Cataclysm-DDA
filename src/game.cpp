@@ -504,8 +504,6 @@ void game::setup()
 
     load_world_modfiles(world_generator->active_world);
 
-// Even though we may already have 'd', nextinv will be incremented as needed
- nextinv = 'd';
  next_npc_id = 1;
  next_faction_id = 1;
  next_mission_id = 1;
@@ -3935,22 +3933,6 @@ void game::write_memorial_file() {
     //Cleanup
     memorial_file.close();
     closedir(dir);
-}
-
-void game::advance_nextinv()
-{
-  if (nextinv == inv_chars.end()[-1])
-    nextinv = inv_chars.begin()[0];
-  else
-    nextinv = inv_chars[inv_chars.find(nextinv) + 1];
-}
-
-void game::decrease_nextinv()
-{
-  if (nextinv == inv_chars.begin()[0])
-    nextinv = inv_chars.end()[-1];
-  else
-    nextinv = inv_chars[inv_chars.find(nextinv) - 1];
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
@@ -10946,7 +10928,8 @@ void game::unload(item& it)
  } else {
      newam = item(default_ammo(weapon->ammo_type()), calendar::turn);
  }
- if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on"|| weapon->typeId() == "rm13_armor"|| weapon->typeId() == "rm13_armor_on") {
+ if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on"||
+    weapon->typeId() == "rm13_armor"|| weapon->typeId() == "rm13_armor_on") {
     int chargesPerPlutonium = 500;
     int chargesRemoved = weapon->charges - (weapon-> charges % chargesPerPlutonium);;
     int plutoniumRemoved = chargesRemoved / chargesPerPlutonium;
@@ -10964,21 +10947,16 @@ void game::unload(item& it)
  }
 
  if (newam.made_of(LIQUID)) {
-  if (!handle_liquid(newam, false, false))
-   weapon->charges += newam.charges; // Put it back in
+     if (!handle_liquid(newam, false, false)) {
+         weapon->charges += newam.charges; // Put it back in
+     }
  } else if(newam.charges > 0) {
-  size_t iter = 0;
-  while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < inv_chars.size()) {
-   newam.invlet = nextinv;
-   advance_nextinv();
-   iter++;
-  }
-  if (u.can_pickWeight(newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-      u.can_pickVolume(newam.volume()) && iter < inv_chars.size()) {
-   u.i_add(newam);
-  } else {
-   m.add_item_or_charges(u.posx, u.posy, newam, 1);
-  }
+     if( u.can_pickWeight( newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) &&
+         u.can_pickVolume( newam.volume() ) ) {
+         u.i_add(newam);
+     } else {
+         m.add_item_or_charges(u.posx, u.posy, newam, 1);
+     }
  }
  // null the curammo, but only if we did empty the item
  if (weapon->charges == 0) {

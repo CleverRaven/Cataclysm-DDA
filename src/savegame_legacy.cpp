@@ -83,7 +83,6 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             pdata.read("run_mode", tmprun);
             pdata.read("mostseen", mostseen);
             pdata.read("nextinv", tmpinv);
-            nextinv = (char)tmpinv;
             pdata.read("next_npc_id", next_npc_id);
             pdata.read("next_faction_id", next_faction_id);
             pdata.read("next_mission_id", next_mission_id);
@@ -175,9 +174,10 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
 
-            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+            // tempinv is a no-longer used field, so is discarded.
+            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
                 next_faction_id >> next_mission_id >> tmpspawn;
 
             getline(fin, linebuf);
@@ -292,9 +292,10 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
 
-            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+            // tempenv gets the value of the no-longer-used nextinv variable, so we discard it.
+            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
                 next_faction_id >> next_mission_id >> tmpspawn;
 
             getline(fin, linebuf);
@@ -410,8 +411,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 /*
 original 'structure', which globs game/weather/location & killcount/player data onto the same lines.
 */
-         int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
-         fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+         int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
+         // tempinv gets the legacy nextinv value and is discarded.
+         fin >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
              next_faction_id >> next_mission_id >> tmpspawn;
 
          load_legacy_future_weather(fin);

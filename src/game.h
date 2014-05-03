@@ -126,8 +126,6 @@ public:
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
   void draw_veh_dir_indicator(void);
-  void advance_nextinv(); // Increment the next inventory letter
-  void decrease_nextinv(); // Decrement the next inventory letter
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
@@ -337,7 +335,6 @@ public:
   bool lightning_active;
 
   std::map<int, weather_segment> weather_log;
-  char nextinv; // Determines which letter the next inv item will have
   overmap *cur_om;
   map m;
   int levx, levy, levz; // Placement inside the overmap
