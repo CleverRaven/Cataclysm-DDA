@@ -17,7 +17,6 @@ mapbuffer MAPBUFFER;
 // g defaults to NULL
 mapbuffer::mapbuffer()
 {
-    dirty = false;
 }
 
 mapbuffer::~mapbuffer()
@@ -34,18 +33,6 @@ void mapbuffer::reset()
 
     submaps.clear();
     submap_list.clear();
-}
-
-// set to dirty right before the game starts & the player starts changing stuff.
-void mapbuffer::set_dirty()
-{
-    dirty = true;
-}
-// initial state; no need to synchronize.
-// make volatile after game has ended.
-void mapbuffer::make_volatile()
-{
-    dirty = false;
 }
 
 bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
@@ -91,13 +78,6 @@ submap *mapbuffer::lookup_submap(int x, int y, int z)
     dbg(D_INFO) << "mapbuffer::lookup_submap success: " << submaps[p];
 
     return submaps[p];
-}
-
-void mapbuffer::save_if_dirty()
-{
-    if(dirty) {
-        save();
-    }
 }
 
 void mapbuffer::save( bool delete_after_save )
@@ -522,9 +502,4 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
         submaps[ submap_coordinates ] = sm;
     }
     return submaps[ p ];
-}
-
-int mapbuffer::size()
-{
-    return submap_list.size();
 }
