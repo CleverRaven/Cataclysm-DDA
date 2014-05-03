@@ -545,7 +545,19 @@ itype* Item_factory::find_template(Item_tag id, int prop){
         }
     } else {
         debugmsg("Missing item (check item_groups.json): %s", id.c_str());
-        return m_missing_item;
+        it_artifact_tool *bad_itype = new it_artifact_tool();
+        bad_itype->id = id.c_str();
+        bad_itype->name = string_format("undefined-%ss", id.c_str());
+        bad_itype->name_plural = string_format("undefined-%ss", id.c_str());
+        bad_itype->description = string_format("A strange shimmering... nothing."
+                                               "  You think it wants to be a %s.", id.c_str());
+        bad_itype->sym = '.';
+        bad_itype->color = c_white;
+        m_templates[ id.c_str() ] = bad_itype;
+        itypes[ id.c_str() ] = bad_itype;
+        // Push the item definition on the artifact list so it gets saved/loaded from json.
+        artifact_itype_ids.push_back( id );
+        return bad_itype;
     }
 }
 
