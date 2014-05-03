@@ -2201,8 +2201,9 @@ bool item::is_other() const
 
 bool item::is_artifact() const
 {
-    if( is_null() )
+    if( is_null() ) {
         return false;
+    }
 
     return type->is_artifact();
 }
@@ -2257,6 +2258,40 @@ int item::sort_rank() const
 
     // "other" case
     return 9;
+}
+
+int item::clothing_lvl() const
+{
+    int level;
+    if( has_flag( "SKINTIGHT" ) ) {
+        level = UNDERWEAR;
+    } else if ( has_flag( "OUTER" ) ) {
+        level = OUTER_LAYER;
+    } else if ( has_flag( "BELTED") ) {
+        level = BELTED_LAYER;
+    } else {
+        level = REGULAR_LAYER;
+    }
+    return level;
+}
+
+std::string item::clothing_lvl_description(bool short_desc) const
+{
+    std::string description = "";
+    switch (clothing_lvl()) {
+    case UNDERWEAR:
+        description = short_desc ? _("Underwear") : _("This is worn next to the skin.");
+        break;
+    case REGULAR_LAYER:
+        break;
+    case OUTER_LAYER:
+        description = short_desc ? _("Outerwear") : _("This is worn over your other clothes.");
+        break;
+    case BELTED_LAYER:
+        description = short_desc ? _("Belted layer") : _("It is the belted layer.");
+        break;
+    }
+    return description;
 }
 
 bool item::operator<(const item& other) const
