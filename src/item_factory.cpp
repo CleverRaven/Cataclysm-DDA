@@ -11,6 +11,7 @@
 #include "tile_id_data.h"
 #include "item.h"
 #include "game.h"
+#include "artifact.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -532,12 +533,17 @@ bool Item_factory::has_template(const Item_tag& id) const {
 }
 
 //Returns the template with the given identification tag
-itype* Item_factory::find_template(Item_tag id){
+itype* Item_factory::find_template(Item_tag id, int prop){
     std::map<Item_tag, itype*>::iterator found = m_templates.find(id);
-    if(found != m_templates.end()){
+    if( found != m_templates.end() ) {
         return found->second;
-    }
-    else{
+    } else if ( id == "artifact" ) {
+        if( prop ) {
+            return new_natural_artifact( (artifact_natural_property)prop );
+        } else {
+            return new_artifact();
+        }
+    } else {
         debugmsg("Missing item (check item_groups.json): %s", id.c_str());
         return m_missing_item;
     }

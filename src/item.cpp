@@ -33,23 +33,10 @@ item::item()
     init();
 }
 
-item::item(const std::string new_type, unsigned int turn, bool rand,
-           enum artifact_natural_property prop)
+item::item(const std::string new_type, unsigned int turn, bool rand, int prop)
 {
     init();
-    if( itypes.find( new_type ) == itypes.end() ) {
-        if( new_type == "artifact" ) {
-            if( prop == 0 ) {
-                type = new_artifact();
-            } else {
-                type = new_natural_artifact( prop );
-            }
-        } else {
-            return;
-        }
-    } else {
-        type = itypes[ new_type ];
-    }
+    type = item_controller->find_template( new_type, prop );
     bday = turn;
     corpse = type->corpse;
     name = type->name;
@@ -106,11 +93,7 @@ void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn)
 {
     init();
     active = mt->has_flag(MF_REVIVES)? true : false;
-    if( itypes.find( new_type ) == itypes.end() ) {
-        type = nullitem();
-    } else {
-        type = itypes[ new_type ];
-    }
+    type = item_controller->find_template( new_type );
     corpse = mt;
     bday = turn;
 }
@@ -160,11 +143,7 @@ void item::init() {
 
 void item::make( const std::string new_type )
 {
-    if( itypes.find( new_type ) == itypes.end() ) {
-        type = nullitem();
-    } else {
-        type = itypes[ new_type ];
-    }
+    item_controller->find_template( new_type );
     contents.clear();
 }
 
@@ -723,7 +702,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 if(g->u.knows_recipe(iter->first)) {
                     recipes += "<color_ltgray>";
                 }
-                recipes += itypes.at(iter->first->result)->name;
+                recipes += item_controller->find_template( iter->first->result )->name;
                 if(g->u.knows_recipe(iter->first)) {
                     recipes += "</color>";
                 }

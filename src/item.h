@@ -7,7 +7,6 @@
 #include <list>
 #include "itype.h"
 #include "mtype.h"
-#include "artifact.h"
 
 class game;
 class player;
@@ -26,20 +25,24 @@ struct light_emission {
 extern light_emission nolight;
 
 struct iteminfo{
- public:
-  std::string sType; //Itemtype
-  std::string sName; //Main item text
-  std::string sFmt; //Text between main item and value
-  std::string sValue; //Set to "-999" if no compare value is present
-  double dValue; //Stores double value of sValue for value comparisons
-  bool is_int; //Sets if sValue should be treated as int or single decimal double
-  std::string sPlus; //number +
-  bool bNewLine; //New line at the end
-  bool bLowerIsBetter; //Lower values are better (red <-> green)
-  bool bDrawName; //If false then compares sName, but don't print sName.
+public:
+    std::string sType; //Itemtype
+    std::string sName; //Main item text
+    std::string sFmt; //Text between main item and value
+    std::string sValue; //Set to "-999" if no compare value is present
+    double dValue; //Stores double value of sValue for value comparisons
+    bool is_int; //Sets if sValue should be treated as int or single decimal double
+    std::string sPlus; //number +
+    bool bNewLine; //New line at the end
+    bool bLowerIsBetter; //Lower values are better (red <-> green)
+    bool bDrawName; //If false then compares sName, but don't print sName.
 
-  //Inputs are: ItemType, main text, text between main text and value, value, if the value should be an int instead of a double, text after number, if there should be a newline after this item, if lower values are better
-  iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999, bool _is_int = true, std::string Plus = "", bool NewLine = true, bool LowerIsBetter = false, bool DrawName = true);
+    // Inputs are: ItemType, main text, text between main text and value, value,
+    // if the value should be an int instead of a double, text after number,
+    // if there should be a newline after this item, if lower values are better
+    iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
+             bool _is_int = true, std::string Plus = "", bool NewLine = true,
+             bool LowerIsBetter = false, bool DrawName = true);
 };
 
 enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
@@ -57,8 +60,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true,
-      enum artifact_natural_property prop = ARTPROP_NULL);
+ item(const std::string new_type, unsigned int turn, bool rand = true, int prop = 0);
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata);
  item(JsonObject &jo);

@@ -7,7 +7,6 @@
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
-#include "artifact.h"
 #include "options.h"
 #include <sstream>
 #include <stdlib.h>

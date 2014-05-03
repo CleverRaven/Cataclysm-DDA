@@ -743,19 +743,6 @@ itype *new_natural_artifact(artifact_natural_property prop)
     art->description = rmp_format(_("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(),
                                   property_data->desc.c_str());
 
-    // Add line breaks to the description as necessary
-    /*
-     size_t pos = 76;
-     while (art->description.length() - pos >= 76) {
-      pos = art->description.find_last_of(' ', pos);
-      if (pos == std::string::npos)
-       pos = art->description.length();
-      else {
-       art->description[pos] = '\n';
-       pos += 76;
-      }
-     }*/
-
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
     bool good_passive = false, bad_passive = false,

@@ -57,7 +57,7 @@ public:
     // from parameters instead of looking into the json object.
     void load_item_group(JsonObject &jsobj, const std::string &ident, const std::string &subtype);
     /**
-     * Check if an item type is knwo to the Item_factory,
+     * Check if an item type is known to the Item_factory,
      * (or if it can create it).
      * If this function returns true, @ref find_template
      * will never return the MISSING_ITEM or null-item type.
@@ -70,9 +70,10 @@ public:
     //Intermediary Methods - Will probably be removed at final stage
     /**
      * Returns the itype with the given id.
+     * In the special case of "artifact", generates a new artifact type.
      * Never return NULL.
      */
-    itype* find_template(Item_tag id);
+    itype* find_template(Item_tag id, int prop = 0);
     /**
      * Return a random item type from the given item group.
      */
