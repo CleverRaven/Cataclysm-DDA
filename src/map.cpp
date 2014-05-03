@@ -2484,10 +2484,6 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
     if(type_id == "null") {
         return;
     }
-    if (!item_controller->has_template(type_id)) {
-        debugmsg("Tried to spawn an item with unknown id %s", type_id.c_str());
-        return;
-    }
     // recurse to spawn (quantity - 1) items
     for(int i = 1; i < quantity; i++)
     {

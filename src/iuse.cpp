@@ -13,7 +13,6 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "speech.h"
-#include "item_factory.h"
 #include "overmapbuffer.h"
 #include "json.h"
 #include "messages.h"
@@ -2812,10 +2811,6 @@ int iuse::rm13armor_off(player *p, item *it, bool)
         return 0;
     } else {
         std::string oname = it->type->id + "_on";
-        if (!item_controller->has_template(oname)) {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
         p->add_msg_if_player(_("You activate your RM13 combat armor."));
         p->add_msg_if_player(_("Rivtech Model 13 RivOS v2.19:   ONLINE."));
         p->add_msg_if_player(_("CBRN defense system:            ONLINE."));
@@ -2841,10 +2836,6 @@ int iuse::rm13armor_on(player *p, item *it, bool t)
             debugmsg("no item type to turn it into (%s)!", oname.c_str());
             return 0;
         }
-        if (!item_controller->has_template(oname)) {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
         p->add_msg_if_player(_("RivOS v2.19 shutdown sequence initiated."));
         p->add_msg_if_player(_("Shutting down."));
         p->add_msg_if_player(_("Your RM13 combat armor turns off."));
@@ -2861,10 +2852,6 @@ int iuse::unpack_item(player *p, item *it, bool)
         return 0;
     }
     std::string oname = it->type->id + "_on";
-    if (!item_controller->has_template(oname)) {
-        debugmsg("no item type to turn it into (%s)!", oname.c_str());
-        return 0;
-    }
     p->moves -= 300;
     p->add_msg_if_player(_("You unpack your %s for use."), it->tname().c_str());
     it->make(oname);
@@ -2889,10 +2876,6 @@ int iuse::pack_item(player *p, item *it, bool t)
         if (oname.length() > 3 && oname.compare(oname.length() - 3, 3, "_on") == 0) {
             oname.erase(oname.length() - 3, 3);
         } else {
-            debugmsg("no item type to turn it into (%s)!", oname.c_str());
-            return 0;
-        }
-        if (!item_controller->has_template(oname)) {
             debugmsg("no item type to turn it into (%s)!", oname.c_str());
             return 0;
         }
