@@ -21,7 +21,7 @@
         "city_distance" : [-1, 4], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 3], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -37,7 +37,7 @@
         "city_distance" : [20, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 3], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -88,11 +88,11 @@
             { "point":[0,0,0], "overmap": "s_gas_north", "connect":"road"},
             { "point":[1,0,0], "overmap": "s_lot"}
         ],
-        "locations" : [ "land" ], "//":"what special locations does it spawn",
+        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
         "city_distance" : [10, 200], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true	, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -214,7 +214,7 @@
         "city_distance" : [8, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [2, 5], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -229,7 +229,7 @@
         "city_distance" : [4, -1], "//":"how far from a city it should be",
         "city_sizes" : [2, 10], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 20], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -297,7 +297,7 @@
         "city_distance" : [0, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 8], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -320,7 +320,7 @@
         "city_distance" : [10, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -343,7 +343,7 @@
         "city_distance" : [0, 10], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 5], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -366,7 +366,7 @@
         "city_distance" : [3, 15], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 5], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -384,7 +384,7 @@
         "city_distance" : [2, 10], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 3], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -475,7 +475,7 @@
         [
             { "point":[-1,0,0], "overmap": "school_3"},
             { "point":[0,0,0], "overmap": "school_2", "connect":"road"},
-            { "point":[1,0,0], "overmap": "school_1"},
+            { "point":[1,0,0], "overmap": "school_1", "connect":"road"},
             { "point":[-1,1,0], "overmap": "school_6"},
             { "point":[0,1,0], "overmap": "school_5"},
             { "point":[1,1,0], "overmap": "school_4"},
@@ -487,7 +487,7 @@
         "city_distance" : [1, 5], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 3], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
@@ -519,7 +519,7 @@
         "city_distance" : [3, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 1], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]

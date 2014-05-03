@@ -243,7 +243,7 @@ void load_new_overmap_specials(JsonObject &jo)
     spec.min_city_distance = city_distance_array.get_int(0);
     spec.max_city_distance = city_distance_array.get_int(1);
 
-    spec.rotatable = jo.get_bool("rotatable", false);
+    spec.rotatable = jo.get_bool("rotate", false);
     spec.unique = jo.get_bool("unique", false);
     spec.required = jo.get_bool("required", false);
 
@@ -3308,25 +3308,26 @@ bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::
 }
 
 // checks the area around the selected point to ensure terrain is valid for special
-bool overmap::allowed_terrain(tripoint p, std::list<overmap_special_terrain> tocheck,
+bool overmap::allowed_terrain(tripoint p, std::list<tripoint> tocheck,
     std::list<std::string> allowed, std::list<std::string> disallowed)
 {
-    for(std::list<overmap_special_terrain>::iterator checkit = tocheck.begin();
+    for(std::list<tripoint>::iterator checkit = tocheck.begin();
         checkit != tocheck.end(); ++checkit)
     {
-        overmap_special_terrain t = *checkit;
+        tripoint t = *checkit;
 
         bool passed = false;
         for(std::list<std::string>::iterator allowedit = allowed.begin();
             allowedit != allowed.end(); ++allowedit)
         {
-            oter_id oter = this->ter(p.x + t.p.x, p.y + t.p.y, p.z);
+            oter_id oter = this->ter(p.x + t.x, p.y + t.y, p.z);
             if (is_ot_type(*allowedit, oter))
             {
                 passed = true;
             }
         }
-        if(!passed)
+        // if we are only checking against disallowed types, we don't want this to fail us
+        if(!passed && allowed.size() > 0)
         {
             return false;
         }
@@ -3334,7 +3335,7 @@ bool overmap::allowed_terrain(tripoint p, std::list<overmap_special_terrain> toc
         for(std::list<std::string>::iterator disallowedit = disallowed.begin();
             disallowedit != disallowed.end(); ++disallowedit)
         {
-            oter_id oter = this->ter(p.x + t.p.x, p.y + t.p.y, p.z);
+            oter_id oter = this->ter(p.x + t.x, p.y + t.y, p.z);
             if (is_ot_type(*disallowedit, oter))
             {
                 return false;
@@ -3345,15 +3346,84 @@ bool overmap::allowed_terrain(tripoint p, std::list<overmap_special_terrain> toc
     return true;
 }
 
-// checks the selected point to see if the special can be placed there
-bool overmap::allow_special(tripoint p, new_overmap_special special)
+// new x = (x-c.x)*cos() - (y-c.y)*sin() + c.x
+// new y = (x-c.x)*sin() + (y-c.y)*cos() + c.y
+// c=0,0, rot90 = (-y, x); rot180 = (-x, y); rot270 = (y, -x)
+/*
+    (0,0)(1,0)(2,0) 90 (0,0)(0,1)(0,2)       (-2,0)(-1,0)(0,0)
+    (0,1)(1,1)(2,1) -> (-1,0)(-1,1)(-1,2) -> (-2,1)(-1,1)(0,1)
+    (0,2)(1,2)(2,2)    (-2,0)(-2,1)(-2,2)    (-2,2)(-1,2)(0,2)
+*/
+
+inline tripoint rotate_tripoint(tripoint p, int rotations)
 {
-    // first do bounds checking
-    for(std::list<overmap_special_terrain>::iterator ostit = special.terrains.begin();
-        ostit != special.terrains.end(); ++ostit)
+    if(rotations == 1)
     {
-        overmap_special_terrain ost = *ostit;
-        tripoint testpoint = tripoint(ost.p.x + p.x, ost.p.y + p.y, p.z);
+        return tripoint(-1 * p.y, p.x, p.z);
+    }
+    else if(rotations == 2)
+    {
+        return tripoint(-1 * p.x, p.y, p.z);
+    }
+    else if(rotations == 3)
+    {
+        return tripoint(p.y, -1 * p.x, p.z);
+    }
+    return p;
+}
+
+// checks around the selected point to see if the special can be placed there
+bool overmap::allow_special(tripoint p, new_overmap_special special, int &rotate)
+{
+    // check if rotation is allowed, and if necessary
+    rotate = 0;
+    if(special.rotatable)
+    {
+        //debugmsg("%s is rotatable.", special.id.c_str());
+        // if necessary:
+        if(std::find(special.locations.begin(), special.locations.end(), "by_hiway") != special.locations.end())
+        {
+            if(is_road(p.x + 1, p.y, p.z))
+            {
+                // road to right
+                rotate = 1;
+            }
+            else if(is_road(p.x - 1, p.y, p.z))
+            {
+                // road to left
+                rotate = 2;
+            }
+            else if(is_road(p.x, p.y + 1, p.z))
+            {
+                // road to south
+                rotate = 3;
+            }
+            else if(is_road(p.x, p.y - 1, p.z))
+            {
+                // road to north
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            // if not necessary
+            rotate = rng(0,3);
+        }
+    }
+
+    // do bounds checking
+    std::list<tripoint> rotated_points;
+    for(std::list<overmap_special_terrain>::iterator points = special.terrains.begin();
+        points != special.terrains.end(); ++points)
+    {
+        overmap_special_terrain t = *points;
+        tripoint rotated_point = rotate_tripoint(t.p, rotate);
+        rotated_points.push_back(rotated_point);
+
+        tripoint testpoint = tripoint(rotated_point.x + p.x, rotated_point.y + p.y, p.z);
         if((testpoint.x >= OMAPX + 1) ||
            (testpoint.x < 0) || (testpoint.y < 0) ||
            (testpoint.y >= OMAPY + 1))
@@ -3361,6 +3431,7 @@ bool overmap::allow_special(tripoint p, new_overmap_special special)
             return false;
         }
     }
+
     // then do city range checking
     point citypt = point(p.x, p.y);
     if(!(special.min_city_distance == -1 || dist_from_city(citypt) >= special.min_city_distance) ||
@@ -3394,6 +3465,7 @@ bool overmap::allow_special(tripoint p, new_overmap_special special)
         else if(location == "land")
         {
             disallowed_terrains.push_back("river");
+            disallowed_terrains.push_back("road");
         }
         else if(location == "forest")
         {
@@ -3404,8 +3476,12 @@ bool overmap::allow_special(tripoint p, new_overmap_special special)
             allowed_terrains.push_back("forest");
             allowed_terrains.push_back("field");
         }
+        else if(location == "by_hiway")
+        {
+            disallowed_terrains.push_back("road");
+        }
 
-        passed = allowed_terrain(p, special.terrains, allowed_terrains, disallowed_terrains);
+        passed = allowed_terrain(p, rotated_points, allowed_terrains, disallowed_terrains);
         if(passed)
         {
             return true;
@@ -3446,9 +3522,12 @@ void overmap::place_new_specials()
 
         sectors.erase(sectors.begin() + pick);
 
-        std::vector<new_overmap_special> valid_specials;
+        //std::vector<new_overmap_special> valid_specials;
+        // second parameter is rotation
+        std::map<new_overmap_special, int> valid_specials;
         int tries = 0;
         tripoint p;
+        int rotation = 0;
 
         do
         {
@@ -3461,49 +3540,70 @@ void overmap::place_new_specials()
                 allowed_terrains.push_back("forest");
                 new_overmap_special special = *it;
 
-                point pt(p.x, p.y);
                 if ((num_placed[special] < special.max_occurrences || special.max_occurrences <= 0) &&
-                    allow_special(p, special))
+                    allow_special(p, special, rotation))
                 {
-                    valid_specials.push_back(special);
+                    valid_specials[special] = rotation;
                 }
             }
             ++tries;
         } while(valid_specials.empty() && tries < 20);
 
         // selection & placement happens here
+        std::pair<new_overmap_special, int> place;
         if(!valid_specials.empty())
         {
             // Place the MUST HAVE ones first, to try and guarantee that they appear
-            std::vector<new_overmap_special> must_place;
-            for(std::vector<new_overmap_special>::iterator it = valid_specials.begin();
+            //std::vector<new_overmap_special> must_place;
+            std::map<new_overmap_special, int> must_place;
+            for(std::map<new_overmap_special, int>::iterator it = valid_specials.begin();
                 it != valid_specials.end(); ++it)
             {
-                if(num_placed[*it] < (*it).min_occurrences)
+                place = *it;
+                if(num_placed[place.first] < place.first.min_occurrences)
                 {
-                    must_place.push_back(*it);
+                    must_place.insert(place);
                 }
             }
             if (must_place.empty())
             {
                 int selection = rng(0, valid_specials.size() - 1);
-                new_overmap_special special = valid_specials.at(selection);
+                //new_overmap_special special = valid_specials.at(valid_specials.begin() + selection).first;
+                std::map<new_overmap_special, int>::iterator it = valid_specials.begin();
+                std::advance(it, selection);
+                place = *it;
+                new_overmap_special special = place.first;
+
                 num_placed[special]++;
-                place_new_special(special, p);
+                place_new_special(special, p, place.second);
             }
             else
             {
                 int selection = rng(0, must_place.size() - 1);
-                new_overmap_special special = must_place.at(selection);
+                //new_overmap_special special = must_place.at(must_place.begin() + selection).first;
+                std::map<new_overmap_special, int>::iterator it = must_place.begin();
+                std::advance(it, selection);
+                place = *it;
+                new_overmap_special special = place.first;
+
                 num_placed[special]++;
-                place_new_special(special, p);
+                place_new_special(special, p, place.second);
             }
         }
     }
 }
 
 // does the actual placement.  should do rotation, but rotation validity should be checked before
-void overmap::place_new_special(new_overmap_special special, tripoint p)
+// c = center point about rotation
+// new x = (x-c.x)*cos() - (y-c.y)*sin() + c.x
+// new y = (x-c.x)*sin() + (y-c.y)*cos() + c.y
+// c=0,0, rot90 = (-y, x); rot180 = (-x, y); rot270 = (y, -x)
+/*
+    (0,0)(1,0)(2,0) 90 (0,0)(0,1)(0,2)       (-2,0)(-1,0)(0,0)
+    (0,1)(1,1)(2,1) -> (-1,0)(-1,1)(-1,2) -> (-2,1)(-1,1)(0,1)
+    (0,2)(1,2)(2,2)    (-2,0)(-2,1)(-2,2)    (-2,2)(-1,2)(0,2)
+*/
+void overmap::place_new_special(new_overmap_special special, tripoint p, int rotation)
 {
     std::map<std::string, tripoint> connections;
 
@@ -3512,8 +3612,20 @@ void overmap::place_new_special(new_overmap_special special, tripoint p)
     {
         overmap_special_terrain terrain = *it;
 
-        tripoint location = tripoint(p.x + terrain.p.x, p.y + terrain.p.y, p.z + terrain.p.z);
-        this->ter(location.x, location.y, location.z) = terrain.terrain;
+        oter_id id = (oter_id) terrain.terrain;
+        oter_t t = (oter_t) id;
+
+        tripoint rp = rotate_tripoint(terrain.p, rotation);
+        tripoint location = tripoint(p.x + rp.x, p.y + rp.y, p.z + rp.z);
+
+        if(!t.rotates)
+        {
+            this->ter(location.x, location.y, location.z) = terrain.terrain;
+        }
+        else
+        {
+            this->ter(location.x, location.y, location.z) = rotate(terrain.terrain, rotation);
+        }
 
         if(terrain.connect.size() > 0)
         {
@@ -3524,7 +3636,6 @@ void overmap::place_new_special(new_overmap_special special, tripoint p)
             flagit != terrain.flags.end(); ++flagit)
         {
             std::string flag = *flagit;
-
         }
     }
 
@@ -3627,7 +3738,7 @@ void overmap::place_specials()
 oter_id overmap::rotate(const oter_id &oter, int dir)
 {
     const oter_t & otert = oter;
-    if (! otert.rotates ) {
+    if (! otert.rotates  && dir != 0) {
         debugmsg("%s does not rotate.", oter.c_str());
         return oter;
     }
