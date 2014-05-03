@@ -226,7 +226,7 @@ int rl_dist(const tripoint loc1, const tripoint loc2)
 // returns normalized dx and dy for the current line vector.
 std::pair<double,double> slope_of(const std::vector<point> &line)
 {
-    int len = line.size();
+    const double len = line.size();
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     std::pair<double, double> ret = std::make_pair(normDx, normDy); // slope of x, y
@@ -237,7 +237,7 @@ std::pair<double,double> slope_of(const std::vector<point> &line)
 // ret.second contains z and can be ignored if unused.
 std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
 {
-    int len = line.size();
+    const double len = line.size();
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     double normDz = (line.back().z - line.front().z) / len;
@@ -249,20 +249,11 @@ std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint
 
 std::vector<point> continue_line(const std::vector<point> &line, const int distance)
 {
-    point start = line.back(), end = line.back();
-    // slope <x,y> ( slope.first = x, slope.second = y)
-    std::pair<double, double> slope;
-    slope = slope_of(line);
-    if (abs(slope.first) == 1 && abs(slope.second) == 1) {  // dx = dy
-        end.x += distance * sgn(slope.first);
-        end.y += distance * sgn(slope.second);
-    } else if (abs(slope.first) > abs(slope.second)) { // X > Y implies abs(x) = 1
-        end.x += distance * sgn(slope.first);
-        end.y += int(distance * slope.second);
-    } else {                                           // else abs(y) = 1
-        end.x += int(distance * slope.first);
-        end.y += distance * sgn(slope.second);
-    }
+    const point start = line.back();
+    point end = line.back();
+    const std::pair<double, double> slope = slope_of(line);
+    end.x += distance * slope.first;
+    end.y += distance * slope.second;
     return line_to(start.x, start.y, end.x, end.y, 0);
 }
 
