@@ -1942,6 +1942,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
         mvwprintz(w, 3, om_map_width + 1, c_white, _("Distance to target: %d"), distance);
     }
     mvwprintz(w, 15, om_map_width + 1, c_magenta, _("Use movement keys to pan."));
+    if (inp_ctxt != NULL) {
     mvwprintz(w, 16, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
             _(" - Center map on character")).c_str());
     mvwprintz(w, 17, om_map_width + 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
@@ -1954,6 +1955,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
             _(" - List notes")).c_str());
     fold_and_print(w, 21, om_map_width + 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
                 _(" - Return to game")).c_str());
+    }
     point omt(cursx, cursy);
     const point om = overmapbuffer::omt_to_om_remain(omt);
     mvwprintz(w, getmaxy(w) - 1, om_map_width + 1, c_red,
@@ -1979,7 +1981,6 @@ point overmap::draw_overmap(const tripoint& orig, bool debug_mongroup)
 {
     WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
     bool blink = true;
-    long ch = 0;
     point ret(invalid_point);
     tripoint curs(orig);
 
@@ -2061,11 +2062,17 @@ point overmap::draw_overmap(const tripoint& orig, bool debug_mongroup)
             //Navigate through results
             tripoint tmp = curs;
             WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
+            input_context ctxt("OVERMAP_SEARCH");
+            ctxt.register_action("NEXT_TAB", _("Next target"));
+            ctxt.register_action("PREV_TAB", _("Previous target"));
+            ctxt.register_action("QUIT");
+            ctxt.register_action("CONFIRM");
+            ctxt.register_action("HELP_KEYBINDINGS");
+            ctxt.register_action("ANY_INPUT");
             do {
                 tmp.x = om.pos().x * OMAPX + terlist[i].x;
                 tmp.y = om.pos().y * OMAPY + terlist[i].y;
-                timeout(BLINK_SPEED); // Enable blinking!
-                draw(w_map, tmp, orig, blink, &ictxt);
+                draw(w_map, tmp, orig, blink, NULL);
                 //Draw search box
                 draw_border(w_search);
                 mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
@@ -2075,20 +2082,20 @@ point overmap::draw_overmap(const tripoint& orig, bool debug_mongroup)
                 mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
                 mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
                 wrefresh(w_search);
-                ch = input();
+                timeout(BLINK_SPEED); // Enable blinking!
+                action = ctxt.handle_input();
                 timeout(-1);
-                if (ch == ERR) {
-                    blink = !blink;
-                } else if (ch == '<') {
-                    i = (i + + 1) % terlist.size();
-                } else if (ch == '>' && i > 0) {
+                blink = !blink;
+                if (action == "NEXT_TAB") {
+                    i = (i + 1) % terlist.size();
+                } else if (action == "PREV_TAB") {
                     i = (i + terlist.size() - 1) % terlist.size();
-                } else if (ch == '\n' || ch == ' ') {
+                } else if (action == "CONFIRM") {
                     curs = tmp;
                 }
-            } while(ch != '\n' && ch != ' ' && ch != 'q' && ch != KEY_ESCAPE);
+            } while(action != "CONFIRM" && action != "QUIT");
             delwin(w_search);
-            ch = '.';
+            action = "";
         } else if (action == "TIMEOUT") {
             blink = !blink;
         } else if (action == "ANY_INPUT") {
