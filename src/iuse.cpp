@@ -6668,46 +6668,6 @@ int iuse::mcg_note(player *, item *it, bool)
 {
  std::stringstream message;
  message << "Dear " << it->name << ":\n";
-/*
- faction* fac = NULL;
- direction dir = NORTH;
-// Pick an associated faction
- switch (it->associated_mission) {
- case MISSION_FIND_FAMILY_FACTION:
-  fac = &(g->factions[rng(0, g->factions.size() - 1)]);
-  break;
- case MISSION_FIND_FAMILY_KIDNAPPER:
-  fac = g->random_evil_faction();
-  break;
- }
-// Calculate where that faction is
- if (fac != NULL) {
-  int omx = g->cur_om->posx, omy = g->cur_om->posy;
-  if (fac->omx != g->cur_om->posx || fac->omx != g->cur_om->posy)
-   dir = direction_from(omx, omy, fac->omx, fac->omy);
-  else
-   dir = direction_from(g->levx, g->levy, fac->mapx, fac->mapy);
- }
-// Produce the note and generate the next mission
- switch (it->associated_mission) {
- case MISSION_FIND_FAMILY_FACTION:
-  if (fac->name == "The army")
-   message << "\
-I've been rescued by an army patrol.  They're taking me\n\
-to their outpost to the " << direction_name(dir) << ".\n\
-Please meet me there.  I need to know you're alright.";
-  else
-   message << "\
-This group came through, looking for survivors.  They\n\
-said they were members of this group calling itself\n" << fac->name << ".\n\
-They've got a settlement to the " << direction_name(dir) << ", so\n\
-I guess I'm heading there.  Meet me there as soon as\n\
-you can, I need to know you're alright.";
-  break;
-
-
-  popup(message.str(), 0);
-*/
  return 0;
 }
 
