@@ -17,10 +17,6 @@
 bool is_mouse_enabled();
 std::string get_input_string_from_file(std::string fname = "input.txt");
 
-// Simple text input--translates numpad to vikeys
-long input(long ch = -1);
-long get_keypress();
-
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
 enum input_event_t {

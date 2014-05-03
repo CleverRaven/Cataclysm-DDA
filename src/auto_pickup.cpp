@@ -365,7 +365,6 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     int iStartPos = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 8;
     const int iContentWidth = FULL_SCREEN_WIDTH - 30;
-    char ch;
     std::stringstream sTemp;
 
     WINDOW *w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
@@ -386,7 +385,11 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
     iCurrentLine = 0;
 
-    do {
+    input_context ctxt("AUTO_PICKUP_TEST");
+    ctxt.register_updown();
+    ctxt.register_action("QUIT");
+
+    while(true) {
         // Clear the lines
         for (int i = 0; i < iContentHeight; i++) {
             for (int j = 0; j < 79; j++) {
@@ -421,23 +424,21 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
 
         wrefresh(w_test_rule_content);
 
-        ch = (char)input();
-
-        switch(ch) {
-        case 'j': //move down
+        const std::string action = ctxt.handle_input();
+        if (action == "DOWN") {
             iCurrentLine++;
             if (iCurrentLine >= vMatchingItems.size()) {
                 iCurrentLine = 0;
             }
-            break;
-        case 'k': //move up
+        } else if (action == "UP") {
             iCurrentLine--;
             if (iCurrentLine < 0) {
                 iCurrentLine = vMatchingItems.size() - 1;
             }
+        } else {
             break;
         }
-    } while(ch == 'j' || ch == 'k');
+    }
 
     werase(w_test_rule_border);
     werase(w_test_rule_content);

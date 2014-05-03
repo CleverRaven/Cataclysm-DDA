@@ -2210,7 +2210,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     }
     mvwprintw(w_tip, 0, 0, gender_prof.c_str());
 
- mvwprintz(w_tip, 0, 39, c_ltred, _("| Press TAB to cycle, ESC or q to return."));
+    input_context ctxt("PLAYER_INFO");
+    ctxt.register_updown();
+    ctxt.register_action("NEXT_TAB", _("Cycle to next category"));
+    ctxt.register_action("QUIT");
+    ctxt.register_action("CONFIRM", _("Toogle skill training"));
+    ctxt.register_action("HELP_KEYBINDINGS");
+    std::string action;
+
+ mvwprintz(w_tip, 0, 39, c_ltred, _("Press %s for help."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
  wrefresh(w_tip);
 
 // First!  Default STATS screen.
@@ -2613,26 +2621,22 @@ detecting traps and other things of interest."));
    }
    wrefresh(w_stats);
    wrefresh(w_info);
-   switch (input()) {
-    case 'j':
+   action = ctxt.handle_input();
+   if (action == "DOWN") {
      line++;
      if (line == 4)
       line = 0;
-     break;
-    case 'k':
+   } else if (action == "UP") {
      line--;
      if (line == -1)
       line = 3;
-     break;
-    case '\t':
+   } else if (action == "NEXT_TAB") {
      mvwprintz(w_stats, 0, 0, c_ltgray, _("                          "));
      mvwprintz(w_stats, 0, 13 - utf8_width(title_STATS)/2, c_ltgray, title_STATS);
      wrefresh(w_stats);
      line = 0;
      curtab++;
-     break;
-    case 'q':
-    case KEY_ESCAPE:
+   } else if (action == "QUIT") {
      done = true;
    }
    mvwprintz(w_stats, 2, 1, c_ltgray, _("Strength:"));
@@ -2706,26 +2710,22 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
    }
    wrefresh(w_encumb);
    wrefresh(w_info);
-   switch (input()) {
-    case 'j':
+   action = ctxt.handle_input();
+   if (action == "DOWN") {
      line++;
      if (line == 8)
       line = 0;
-     break;
-    case 'k':
+   } else if (action == "UP") {
      line--;
      if (line == -1)
       line = 7;
-     break;
-    case '\t':
+   } else if (action == "NEXT_TAB") {
      mvwprintz(w_encumb, 0, 0, c_ltgray,  _("                          "));
      mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
      wrefresh(w_encumb);
      line = 0;
      curtab++;
-     break;
-    case 'q':
-    case KEY_ESCAPE:
+   } else if (action == "QUIT") {
      done = true;
    }
    mvwprintz(w_encumb, 1, 1, c_ltgray, _("Torso"));
@@ -2785,16 +2785,15 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
    }
    wrefresh(w_traits);
    wrefresh(w_info);
-   switch (input()) {
-    case 'j':
+   action = ctxt.handle_input();
+   if (action == "DOWN") {
      if (line < traitslist.size() - 1)
       line++;
      break;
-    case 'k':
+   } else if (action == "UP") {
      if (line > 0)
       line--;
-     break;
-    case '\t':
+   } else if (action == "NEXT_TAB") {
      mvwprintz(w_traits, 0, 0, c_ltgray,  _("                          "));
      mvwprintz(w_traits, 0, 13 - utf8_width(title_TRAITS)/2, c_ltgray, title_TRAITS);
      for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
@@ -2814,9 +2813,7 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
      wrefresh(w_traits);
      line = 0;
      curtab++;
-     break;
-    case 'q':
-    case KEY_ESCAPE:
+   } else if (action == "QUIT") {
      done = true;
    }
    break;
@@ -2853,16 +2850,15 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
    }
    wrefresh(w_effects);
    wrefresh(w_info);
-   switch (input()) {
-    case 'j':
+   action = ctxt.handle_input();
+   if (action == "DOWN") {
      if (line < effect_name.size() - 1)
       line++;
      break;
-    case 'k':
+   } else if (action == "UP") {
      if (line > 0)
       line--;
-     break;
-    case '\t':
+   } else if (action == "NEXT_TAB") {
      mvwprintz(w_effects, 0, 0, c_ltgray,  _("                          "));
      mvwprintz(w_effects, 0, 13 - utf8_width(title_EFFECTS)/2, c_ltgray, title_EFFECTS);
      for (int i = 0; i < effect_name.size() && i < 7; i++)
@@ -2870,9 +2866,7 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
      wrefresh(w_effects);
      line = 0;
      curtab = 1;
-     break;
-    case 'q':
-    case KEY_ESCAPE:
+   } else if (action == "QUIT") {
      done = true;
    }
    break;
@@ -2937,16 +2931,14 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
    }
    wrefresh(w_skills);
    wrefresh(w_info);
-   switch (input()) {
-    case 'j':
+   action = ctxt.handle_input();
+   if (action == "DOWN") {
      if (line < skillslist.size() - 1)
       line++;
-     break;
-    case 'k':
+   } else if (action == "UP") {
      if (line > 0)
       line--;
-     break;
-    case '\t':
+   } else if (action == "NEXT_TAB") {
       werase(w_skills);
      mvwprintz(w_skills, 0, 0, c_ltgray,  _("                          "));
      mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
@@ -2967,13 +2959,9 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
      wrefresh(w_skills);
      line = 0;
      curtab++;
-     break;
-   case ' ':
+   } else if (action == "CONFIRM") {
      skillLevel(selectedSkill).toggleTraining();
-     break;
-    case 'q':
-    case 'Q':
-    case KEY_ESCAPE:
+   } else if (action == "QUIT") {
      done = true;
    }
   }
