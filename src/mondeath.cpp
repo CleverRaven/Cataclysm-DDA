@@ -1,4 +1,3 @@
-#include "item_factory.h"
 #include "mondeath.h"
 #include "monster.h"
 #include "game.h"
@@ -433,11 +432,7 @@ void mdeath::broken(monster *z) {
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert(0, "broken_");
-    if (item_controller->has_template(item_id)) {
-        g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, calendar::turn);
-    } else {
-        debugmsg("Tried to create a broken %s but %s does not exist.", z->type->name.c_str(), item_id.c_str());
-    }
+    g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, calendar::turn);
 }
 
 void mdeath::ratking(monster *z) {

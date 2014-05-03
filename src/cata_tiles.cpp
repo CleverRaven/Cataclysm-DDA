@@ -8,7 +8,6 @@
 #include "json.h"
 #include "path_info.h"
 #include "monstergenerator.h"
-#include "item_factory.h"
 #include <fstream>
 
 #include "SDL2/SDL_image.h"
@@ -657,11 +656,9 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
                 col = t->color;
             }
         } else if (category == C_ITEM) {
-            if (item_controller->has_template(id)) {
-                const itype *i = item_controller->find_template(id);
-                sym = i->sym;
-                col = i->color;
-            }
+            const itype *i = item_controller->find_template(id);
+            sym = i->sym;
+            col = i->color;
         }
         // Special cases for walls
         switch(sym) {
