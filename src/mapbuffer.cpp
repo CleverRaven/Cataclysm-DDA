@@ -5,10 +5,11 @@
 #include "savegame.h"
 #include "file_wrapper.h"
 #include "overmapbuffer.h"
-#include "game.h"
+#include "mapsharing.h"
+#include "mapdata.h"
+#include "worldfactory.h"
 #include <fstream>
 #include <sstream>
-#include "mapsharing.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
