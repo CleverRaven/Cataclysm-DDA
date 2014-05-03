@@ -116,7 +116,7 @@ The syntax listed here is still valid.
 "color" : "brown",					// Color of symbol in-game
 "size" : "TINY",					// Size flag, can be TINY, SMALL, MEDIUM, LARGE, or HUGE. See JSON_FLAGS.md for reference
 "material" : "flesh",				// The material the monster is primarily composed of
-"diff" : 4,
+"diff" : 4,							// Monster difficulty
 "aggression" : -25,					// Defines how aggressive the monster is. Ranges from -99 (totally passive) to 100 (guaranteed hostility on detection)
 "morale" : 5,						// Monster morale
 "speed" : 230,						// Monster speed
