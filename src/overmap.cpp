@@ -232,39 +232,45 @@ void load_new_overmap_specials(JsonObject &jo)
         spec.locations.push_back(location_array.next_string());
     }
     JsonArray city_size_array = jo.get_array("city_sizes");
-    spec.min_city_size = city_size_array.get_int(0);
-    spec.max_city_size = city_size_array.get_int(1);
+    if(city_size_array.has_more())
+    {
+        spec.min_city_size = city_size_array.get_int(0);
+        spec.max_city_size = city_size_array.get_int(1);
+    }
 
     JsonArray occurrences_array = jo.get_array("occurrences");
-    spec.min_occurrences = occurrences_array.get_int(0);
-    spec.max_occurrences = occurrences_array.get_int(1);
+    if(occurrences_array.has_more())
+    {
+        spec.min_occurrences = occurrences_array.get_int(0);
+        spec.max_occurrences = occurrences_array.get_int(1);
+    }
 
     JsonArray city_distance_array = jo.get_array("city_distance");
-    spec.min_city_distance = city_distance_array.get_int(0);
-    spec.max_city_distance = city_distance_array.get_int(1);
+    if(city_distance_array.has_more())
+    {
+        spec.min_city_distance = city_distance_array.get_int(0);
+        spec.max_city_distance = city_distance_array.get_int(1);
+    }
 
     spec.rotatable = jo.get_bool("rotate", false);
     spec.unique = jo.get_bool("unique", false);
     spec.required = jo.get_bool("required", false);
 
-    //new_overmap_specials.push_back(&this);
-    tripoint topleft = tripoint(999, 999, 0);
-    tripoint bottomright = tripoint(-999, -999, 0);
-    for(std::list<overmap_special_terrain>::iterator it = spec.terrains.begin();
-        it != spec.terrains.end(); ++it)
+    if(jo.has_object("spawns"))
     {
-        // find top left and bottom right point, diff = height/width
-        if((*it).p.x < topleft.x || (*it).p.y < topleft.y)
-        {
-            topleft = (*it).p;
-        }
-        if((*it).p.x > bottomright.x || (*it).p.y > bottomright.y)
-        {
-            bottomright = (*it).p;
-        }
+        JsonObject spawns = jo.get_object("spawns");
+        spec.spawns.group = spawns.get_string("group");
+        spec.spawns.min_population = spawns.get_array("population").get_int(0);
+        spec.spawns.max_population = spawns.get_array("population").get_int(1);
+        spec.spawns.min_radius = spawns.get_array("radius").get_int(0);
+        spec.spawns.max_radius = spawns.get_array("radius").get_int(1);
     }
-    spec.height = bottomright.y - topleft.y;
-    spec.width = bottomright.x - topleft.x;
+
+    JsonArray flag_array = jo.get_array("flags");
+    while(flag_array.has_more())
+    {
+        spec.flags.push_back(flag_array.next_string());
+    }
 
     new_overmap_specials.push_back(spec);
 }
@@ -1347,24 +1353,8 @@ bool overmap::generate_sub(int const z)
     std::vector<city> ice_lab_points;
     std::vector<point> shaft_points;
     std::vector<city> mine_points;
-    std::vector<point> bunker_points;
-    std::vector<point> shelter_points;
-    std::vector<point> lmoe_points;
-    std::vector<point> cabin_strange_points;
     std::vector<point> triffid_points;
     std::vector<point> temple_points;
-    std::vector<point> office_entrance_points;
-    std::vector<point> office_points;
-    std::vector<point> prison_points;
-    std::vector<point> prison_entrance_points;
-    std::vector<point> haz_sar_entrance_points;
-    std::vector<point> haz_sar_points;
-    std::vector<point> cathedral_entrance_points;
-    std::vector<point> cathedral_points;
-    std::vector<point> hotel_tower_1_points;
-    std::vector<point> hotel_tower_2_points;
-    std::vector<point> hotel_tower_3_points;
-
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
         oter_id("rock"), oter_id("forest"), oter_id("field"),
@@ -1391,25 +1381,11 @@ bool overmap::generate_sub(int const z)
             } else if (is_ot_type("sub_station", oter_above)) {
                 ter(i, j, z) = "subway_nesw";
                 subway_points.push_back(city(i, j, 0));
-            } else if (is_ot_type("prison", oter_above) &&
-                       oter_above != "prison_2") {
-                prison_points.push_back( point(i, j) );
-
-            } else if (oter_above == "prison_2") {
-                prison_entrance_points.push_back( point(i, j) );
             } else if (oter_above == "road_nesw_manhole") {
                 ter(i, j, z) = "sewer_nesw";
                 sewer_points.push_back(city(i, j, 0));
             } else if (oter_above == "sewage_treatment") {
-                for (int x = i-1; x <= i+1; x++) {
-                    for (int y = j-1; y <= j+1; y++) {
-                        ter(x, y, z) = "sewage_treatment_under";
-                    }
-                }
-                ter(i, j, z) = "sewage_treatment_hub";
                 sewer_points.push_back(city(i, j, 0));
-            } else if (oter_above == "spider_pit") {
-                ter(i, j, z) = "spider_pit_under";
             } else if (oter_above == "cave" && z == -1) {
                 if (one_in(3)) {
                     ter(i, j, z) = "cave_rat";
@@ -1443,14 +1419,6 @@ bool overmap::generate_sub(int const z)
                 ice_lab_points.push_back(city(i, j, rng(1, 5 + z)));
             } else if (oter_above == "ice_lab_stairs") {
                 ter(i, j, z) = "ice_lab";
-            } else if (oter_above == "bunker" && z == -1) {
-                bunker_points.push_back( point(i, j) );
-            } else if (oter_above == "shelter") {
-                shelter_points.push_back( point(i, j) );
-            } else if (oter_above == "lmoe") {
-                lmoe_points.push_back( point(i, j) );
-            } else if (oter_above == "cabin_strange") {
-                cabin_strange_points.push_back( point(i, j) );
             } else if (oter_above == "mine_entrance") {
                 shaft_points.push_back( point(i, j) );
             } else if (oter_above == "mine_shaft" ||
@@ -1475,24 +1443,6 @@ bool overmap::generate_sub(int const z)
                     ter(i, j, z) = "silo";
                     requires_sub = true;
                 }
-            } else if (oter_above == "office_tower_1_entrance") {
-                office_entrance_points.push_back( point(i, j) );
-            } else if (oter_above == "office_tower_1") {
-                office_points.push_back( point(i, j) );
-            } else if (oter_above == "haz_sar_entrance") {
-                haz_sar_entrance_points.push_back( point(i, j) );
-            } else if (oter_above == "haz_sar") {
-                haz_sar_points.push_back( point(i, j) );
-            } else if (oter_above == "cathedral_1_entrance") {
-                cathedral_entrance_points.push_back( point(i, j) );
-            } else if (oter_above == "cathedral_1") {
-                cathedral_points.push_back( point(i, j) );
-            } else if (oter_above == "hotel_tower_1_7") {
-                hotel_tower_1_points.push_back( point(i, j) );
-            } else if (oter_above == "hotel_tower_1_8") {
-                hotel_tower_2_points.push_back( point(i, j) );
-            } else if (oter_above == "hotel_tower_1_9") {
-                hotel_tower_3_points.push_back( point(i, j) );
             }
         }
     }
@@ -1549,22 +1499,6 @@ bool overmap::generate_sub(int const z)
         requires_sub = true;
     }
 
-    for (int i = 0; i < bunker_points.size(); i++) {
-        ter(bunker_points[i].x, bunker_points[i].y, z) = "bunker";
-    }
-
-    for (int i = 0; i < shelter_points.size(); i++) {
-        ter(shelter_points[i].x, shelter_points[i].y, z) = "shelter_under";
-    }
-
-    for (int i = 0; i < lmoe_points.size(); i++) {
-        ter(lmoe_points[i].x, lmoe_points[i].y, z) = "lmoe_under";
-    }
-
-    for (int i = 0; i < cabin_strange_points.size(); i++) {
-        ter(cabin_strange_points[i].x, cabin_strange_points[i].y, z) = "cabin_strange_b";
-    }
-
     for (int i = 0; i < triffid_points.size(); i++) {
         if (z == -1) {
             ter(triffid_points[i].x, triffid_points[i].y, z) = "triffid_roots";
@@ -1581,39 +1515,6 @@ bool overmap::generate_sub(int const z)
             ter(temple_points[i].x, temple_points[i].y, z) = "temple_stairs";
             requires_sub = true;
         }
-    }
-    for (int i = 0; i < office_entrance_points.size(); i++) {
-        ter(office_entrance_points[i].x, office_entrance_points[i].y, z) = "office_tower_b_entrance";
-    }
-    for (int i = 0; i < office_points.size(); i++) {
-        ter(office_points[i].x, office_points[i].y, z) = "office_tower_b";
-    }
-    for (int i = 0; i < prison_points.size(); i++) {
-        ter(prison_points[i].x, prison_points[i].y, z) = "prison_b";
-    }
-    for (int i = 0; i < prison_entrance_points.size(); i++) {
-        ter(prison_entrance_points[i].x, prison_entrance_points[i].y, z) = "prison_b_entrance";
-    }
-    for (int i = 0; i < haz_sar_entrance_points.size(); i++) {
-        ter(haz_sar_entrance_points[i].x, haz_sar_entrance_points[i].y, z-1) = "haz_sar_entrance_b1";
-    }
-    for (int i = 0; i < haz_sar_points.size(); i++) {
-        ter(haz_sar_points[i].x, haz_sar_points[i].y, z-1) = "haz_sar_b1";
-    }
-    for (int i = 0; i < cathedral_entrance_points.size(); i++) {
-        //ter(cathedral_entrance_points[i].x, cathedral_entrance_points[i].y, z) = "cathedral_b_entrance";
-    }
-    for (int i = 0; i < cathedral_points.size(); i++) {
-        //ter(cathedral_points[i].x, cathedral_points[i].y, z) = "cathedral_b";
-    }
-    for (int i = 0; i < hotel_tower_1_points.size(); i++) {
-        ter(hotel_tower_1_points[i].x, hotel_tower_1_points[i].y, z) = "hotel_tower_b_1";
-    }
-    for (int i = 0; i < hotel_tower_2_points.size(); i++) {
-        ter(hotel_tower_2_points[i].x, hotel_tower_2_points[i].y, z) = "hotel_tower_b_2";
-    }
-    for (int i = 0; i < hotel_tower_3_points.size(); i++) {
-        ter(hotel_tower_3_points[i].x, hotel_tower_3_points[i].y, z) = "hotel_tower_b_3";
     }
     return requires_sub;
 }
@@ -3391,12 +3292,12 @@ bool overmap::allow_special(tripoint p, new_overmap_special special, int &rotate
             else if(is_road(p.x - 1, p.y, p.z))
             {
                 // road to left
-                rotate = 2;
+                rotate = 3;
             }
             else if(is_road(p.x, p.y + 1, p.z))
             {
                 // road to south
-                rotate = 3;
+                rotate = 2;
             }
             else if(is_road(p.x, p.y - 1, p.z))
             {
@@ -3605,7 +3506,8 @@ void overmap::place_new_specials()
 */
 void overmap::place_new_special(new_overmap_special special, tripoint p, int rotation)
 {
-    std::map<std::string, tripoint> connections;
+    //std::map<std::string, tripoint> connections;
+    std::vector<std::pair<std::string, tripoint> > connections;
 
     for(std::list<overmap_special_terrain>::iterator it = special.terrains.begin();
         it != special.terrains.end(); ++it)
@@ -3629,17 +3531,35 @@ void overmap::place_new_special(new_overmap_special special, tripoint p, int rot
 
         if(terrain.connect.size() > 0)
         {
-            connections[terrain.connect] = location;
+            //connections[terrain.connect] = location;
+            std::pair<std::string, tripoint> connection;
+            connection.first = terrain.connect;
+            connection.second = location;
+            connections.push_back(connection);
         }
 
-        for(std::list<std::string>::iterator flagit = terrain.flags.begin();
-            flagit != terrain.flags.end(); ++flagit)
+        for(std::list<std::string>::iterator flagit = special.flags.begin();
+            flagit != special.flags.end(); ++flagit)
         {
             std::string flag = *flagit;
+
+            if(flag == "BLOB")
+            {
+                for (int x = -2; x <= 2; x++)
+                {
+                    for (int y = -2; y <= 2; y++)
+                    {
+                        if (one_in(1 + abs(x) + abs(y)))
+                        {
+                            ter(location.x + x, location.y + y, location.z) = terrain.terrain;
+                        }
+                    }
+                }
+            }
         }
     }
 
-    for(std::map<std::string, tripoint>::iterator connectit = connections.begin();
+    for(std::vector<std::pair<std::string, tripoint> >::iterator connectit = connections.begin();
         connectit != connections.end(); ++connectit)
     {
         std::pair<std::string, tripoint> connection = *connectit;
@@ -3662,6 +3582,16 @@ void overmap::place_new_special(new_overmap_special special, tripoint p, int rot
 
             make_hiway(connection.second.x, connection.second.y, closest.x, closest.y, p.z, "road");
         }
+    }
+
+    // place spawns
+    if(special.spawns.group != "GROUP_NULL")
+    {
+        debugmsg("placing group %s", special.spawns.group.c_str());
+        overmap_special_spawns spawns = special.spawns;
+        int pop = rng(spawns.min_population, spawns.max_population);
+        int rad = rng(spawns.min_radius, spawns.max_radius);
+        zg.push_back(mongroup(spawns.group, p.x, p.y, p.z, pop, rad));
     }
 }
 

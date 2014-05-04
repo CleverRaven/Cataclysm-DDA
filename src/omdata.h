@@ -181,6 +181,17 @@ std::string ter;
  unsigned long flags : NUM_OMS_FLAGS; // See above
 };
 
+struct overmap_special_spawns
+{
+    overmap_special_spawns():group("GROUP_NULL"),min_population(0),max_population(0),
+        min_radius(0), max_radius(0){};
+    std::string group;
+    int min_population;
+    int max_population;
+    int min_radius;
+    int max_radius;
+};
+
 struct overmap_special_terrain
 {
     tripoint p;
@@ -205,8 +216,7 @@ class new_overmap_special
     bool rotatable;
     bool unique;
     bool required;
-    // needs to be refactored to support json loading (currently ugly ass solution anyway)
-    //bool (omspec_place::*able) (overmap *om, unsigned long f, tripoint p); // See above
+    overmap_special_spawns spawns;
     std::list<std::string> locations;
     std::list<std::string> flags;
 };
