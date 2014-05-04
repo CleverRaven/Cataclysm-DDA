@@ -80,6 +80,12 @@ bool player::create(character_type type, std::string tempname)
                     g->u.name = MAP_SHARING::getUsername();
                 }
             case PLTYPE_RANDOM: {
+                g->u.male = (rng(1, 100) > 50);
+                if(!MAP_SHARING::isSharing()) {
+                    g->u.pick_name();
+                } else {
+                    g->u.name = MAP_SHARING::getUsername();
+                }
                 g->u.prof = profession::weighted_random();
                 str_max = rng(6, 12);
                 dex_max = rng(6, 12);
