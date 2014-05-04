@@ -30,9 +30,9 @@
         "id" : "Hotel",
         "overmaps" :
         [
-            { "point":[-1,0,0], "overmap": "hotel_tower_1_1"},
+            { "point":[-1,0,0], "overmap": "hotel_tower_1_3"},
             { "point":[0,0,0], "overmap": "hotel_tower_1_2", "connect":"road"},
-            { "point":[1,0,0], "overmap": "hotel_tower_1_3"},
+            { "point":[1,0,0], "overmap": "hotel_tower_1_1"},
             { "point":[-1,1,0], "overmap": "hotel_tower_1_6"},
             { "point":[0,1,0], "overmap": "hotel_tower_1_5"},
             { "point":[1,1,0], "overmap": "hotel_tower_1_4"},
@@ -47,7 +47,7 @@
         "city_distance" : [-1, 4], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 3], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
 		"flags" : [ "CLASSIC" ]
@@ -463,7 +463,7 @@
         "id" : "Office Tower",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "office_tower_1"},
+            { "point":[0,0,0], "overmap": "office_tower_1", "connect": "road"},
             { "point":[1,0,0], "overmap": "office_tower_1_entrance", "connect": "road"},
             { "point":[0,1,0], "overmap": "office_tower_1"},
             { "point":[1,1,0], "overmap": "office_tower_1"},

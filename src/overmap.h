@@ -421,12 +421,10 @@ class overmap
   oter_id rotate(const oter_id &oter, int dir);
   bool allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed);
   bool allowed_terrain(tripoint p, std::list<tripoint>, std::list<std::string> allowed, std::list<std::string> disallowed);
-  bool allow_special(tripoint p, new_overmap_special special, int &rotate);
+  bool allow_special(tripoint p, overmap_special special, int &rotate);
   // Monsters, radios, etc.
   void place_specials();
-  void place_special(overmap_special special, tripoint p);
-  void place_new_specials();
-  void place_new_special(new_overmap_special special, tripoint p, int rotation);
+  void place_special(overmap_special special, tripoint p, int rotation);
   void place_mongroups();
   void place_radios();
   // File I/O

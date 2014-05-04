@@ -67,147 +67,16 @@ std::map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
 std::map<std::string, regional_settings> region_settings_map;
 
-overmap_special overmap_specials[NUM_OMSPECS] = {
-
-// Terrain  MIN MAX DISTANCE
-{"crater",    0, 10,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_BLOB) | mfb(OMS_FLAG_CLASSIC)},
-
-{"hive",     0, 50, 10, -1, "GROUP_BEE", 20, 60, 2, 4,
- &omspec_place::forest, mfb(OMS_FLAG_3X3)},
-
-{"house_north",   0,100,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD) | mfb(OMS_FLAG_CLASSIC)},
-
-{"s_gas_north",   0,100,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD) | mfb(OMS_FLAG_CLASSIC)},
-
-{"cabin",   0, 30, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Woods cabin
- &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
-
-{"cabin_strange",   1, 1, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Hidden cabin
- &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
-
-{"lmoe",   0, 3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
-
-{"farm",   0, 20, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT) | mfb(OMS_FLAG_CLASSIC)},
-
-{"temple_stairs", 0,  3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::forest, 0},
-
-{"lab_stairs",    0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
-
-{"ice_lab_stairs",    0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
-
-{"fema_entrance",    2, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
-
-// Terrain  MIN MAX DISTANCE
-{"bunker",    2, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
-
-{"outpost",    0, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, 0},
-
-{"silo",    0,  1, 30, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
-
-{"radio_tower",   1, 5,  0, 20, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC)},
-
-{"mansion_entrance", 0, 8, 0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
-
-{"mansion_entrance", 0, 4, 10, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
-
-{"megastore_entrance", 0, 5, 0, 10, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
-
-{"hospital_entrance", 1, 5, 3, 15, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
-
-{"public_works_entrance",    1, 3,  2, 10, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
-
-{"apartments_con_tower_1_entrance",    1, 5,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
-
-{"apartments_mod_tower_1_entrance",    1, 4,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
-
-{"office_tower_1_entrance",    1, 5,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
-
-{"cathedral_1_entrance",    1, 2,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
-
-{"school_2",    1, 3,  1, 5, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
-
-{"prison_2",    1, 1,  3, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
-
-{"hotel_tower_1_2",    1, 4,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
-
-{"sewage_treatment", 1, 5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
-
-{"mine_entrance",  0, 5,  15, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
-
-// Terrain  MIN MAX DISTANCE
-{"anthill",    0, 30,  10, -1, "GROUP_ANT", 1000, 2000, 10, 30,
- &omspec_place::wilderness, 0},
-
-{"spider_pit",    0,500,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::forest, 0},
-
-{"slimepit_down",    0,  4,  0, -1, "GROUP_GOO", 100, 200, 2, 10,
- &omspec_place::land, 0},
-
-{"fungal_bloom",  0,  3, 5, -1, "GROUP_FUNGI", 600, 1200, 30, 50,
- &omspec_place::wilderness, 0},
-
-{"triffid_grove", 0,  4,  0, -1, "GROUP_TRIFFID", 800, 1300, 12, 20,
- &omspec_place::forest, 0},
-
-{"river_center",  0, 10, 10, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::always, mfb(OMS_FLAG_BLOB) | mfb(OMS_FLAG_CLASSIC)},
-
-// Terrain  MIN MAX DISTANCE
-{"shelter",       5, 10, 5, 10, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC)},
-
-{"cave",    0, 30,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, 0},
-
-{"toxic_dump",    0, 5, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
-
-{"s_gas_north",   10,  500,  10, 200, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_ROTATE_ROAD)},
-
-{"haz_sar_entrance",     1,  2, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)}
-};
-
-
 double dist(int x1, int y1, int x2, int y2)
 {
  return sqrt(double((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
 }
 
-std::vector<new_overmap_special> new_overmap_specials;
+std::vector<overmap_special> overmap_specials;
 
-void load_new_overmap_specials(JsonObject &jo)
+void load_overmap_specials(JsonObject &jo)
 {
-    new_overmap_special spec;
+    overmap_special spec;
 
     spec.id = jo.get_string("id");
     JsonArray om_array = jo.get_array("overmaps");
@@ -272,12 +141,12 @@ void load_new_overmap_specials(JsonObject &jo)
         spec.flags.insert(flag_array.next_string());
     }
 
-    new_overmap_specials.push_back(spec);
+    overmap_specials.push_back(spec);
 }
 
 void clear_overmap_specials()
 {
-    new_overmap_specials.clear();
+    overmap_specials.clear();
 }
 
 bool is_river(const oter_id &ter)
@@ -1321,7 +1190,7 @@ void overmap::generate(overmap* north, overmap* east, overmap* south,
  place_hiways(road_points, 0, "road");
 // Place specials
  //place_specials();
- place_new_specials();
+ place_specials();
 // Clean up our roads and rivers
  polish(0);
 
@@ -3249,7 +3118,7 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
 }
 
 // checks around the selected point to see if the special can be placed there
-bool overmap::allow_special(tripoint p, new_overmap_special special, int &rotate)
+bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
 {
     // check if rotation is allowed, and if necessary
     rotate = 0;
@@ -3371,14 +3240,14 @@ bool overmap::allow_special(tripoint p, new_overmap_special special, int &rotate
 // iterate through specials, check if special is valid
 // pick & place special
 
-void overmap::place_new_specials()
+void overmap::place_specials()
 {
-    std::map<new_overmap_special, int> num_placed;
+    std::map<overmap_special, int> num_placed;
 
-    for(std::vector<new_overmap_special>::iterator it = new_overmap_specials.begin();
-        it != new_overmap_specials.end(); ++it)
+    for(std::vector<overmap_special>::iterator it = overmap_specials.begin();
+        it != overmap_specials.end(); ++it)
     {
-        num_placed.insert(std::pair<new_overmap_special, int>(*it, 0));
+        num_placed.insert(std::pair<overmap_special, int>(*it, 0));
     }
 
     std::vector<point> sectors;
@@ -3398,9 +3267,9 @@ void overmap::place_new_specials()
 
         sectors.erase(sectors.begin() + pick);
 
-        //std::vector<new_overmap_special> valid_specials;
+        //std::vector<overmap_special> valid_specials;
         // second parameter is rotation
-        std::map<new_overmap_special, int> valid_specials;
+        std::map<overmap_special, int> valid_specials;
         int tries = 0;
         tripoint p;
         int rotation = 0;
@@ -3409,12 +3278,12 @@ void overmap::place_new_specials()
         {
             p = tripoint(rng(x, x+OMSPEC_FREQ-1), rng(y, y+OMSPEC_FREQ-1), 0);
             // dont need to check for edges yet
-            for(std::vector<new_overmap_special>::iterator it = new_overmap_specials.begin();
-                it != new_overmap_specials.end(); ++it)
+            for(std::vector<overmap_special>::iterator it = overmap_specials.begin();
+                it != overmap_specials.end(); ++it)
             {
                 std::list<std::string> allowed_terrains;
                 allowed_terrains.push_back("forest");
-                new_overmap_special special = *it;
+                overmap_special special = *it;
 
                 if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && (special.flags.count("CLASSIC") < 1)) continue;
                 if ((num_placed[special] < special.max_occurrences || special.max_occurrences <= 0) &&
@@ -3427,13 +3296,13 @@ void overmap::place_new_specials()
         } while(valid_specials.empty() && tries < 20);
 
         // selection & placement happens here
-        std::pair<new_overmap_special, int> place;
+        std::pair<overmap_special, int> place;
         if(!valid_specials.empty())
         {
             // Place the MUST HAVE ones first, to try and guarantee that they appear
-            //std::vector<new_overmap_special> must_place;
-            std::map<new_overmap_special, int> must_place;
-            for(std::map<new_overmap_special, int>::iterator it = valid_specials.begin();
+            //std::vector<overmap_special> must_place;
+            std::map<overmap_special, int> must_place;
+            for(std::map<overmap_special, int>::iterator it = valid_specials.begin();
                 it != valid_specials.end(); ++it)
             {
                 place = *it;
@@ -3445,26 +3314,26 @@ void overmap::place_new_specials()
             if (must_place.empty())
             {
                 int selection = rng(0, valid_specials.size() - 1);
-                //new_overmap_special special = valid_specials.at(valid_specials.begin() + selection).first;
-                std::map<new_overmap_special, int>::iterator it = valid_specials.begin();
+                //overmap_special special = valid_specials.at(valid_specials.begin() + selection).first;
+                std::map<overmap_special, int>::iterator it = valid_specials.begin();
                 std::advance(it, selection);
                 place = *it;
-                new_overmap_special special = place.first;
+                overmap_special special = place.first;
 
                 num_placed[special]++;
-                place_new_special(special, p, place.second);
+                place_special(special, p, place.second);
             }
             else
             {
                 int selection = rng(0, must_place.size() - 1);
-                //new_overmap_special special = must_place.at(must_place.begin() + selection).first;
-                std::map<new_overmap_special, int>::iterator it = must_place.begin();
+                //overmap_special special = must_place.at(must_place.begin() + selection).first;
+                std::map<overmap_special, int>::iterator it = must_place.begin();
                 std::advance(it, selection);
                 place = *it;
-                new_overmap_special special = place.first;
+                overmap_special special = place.first;
 
                 num_placed[special]++;
-                place_new_special(special, p, place.second);
+                place_special(special, p, place.second);
             }
         }
     }
@@ -3480,7 +3349,7 @@ void overmap::place_new_specials()
     (0,1)(1,1)(2,1) -> (-1,0)(-1,1)(-1,2) -> (-2,1)(-1,1)(0,1)
     (0,2)(1,2)(2,2)    (-2,0)(-2,1)(-2,2)    (-2,2)(-1,2)(0,2)
 */
-void overmap::place_new_special(new_overmap_special special, tripoint p, int rotation)
+void overmap::place_special(overmap_special special, tripoint p, int rotation)
 {
     //std::map<std::string, tripoint> connections;
     std::vector<std::pair<std::string, tripoint> > connections;
@@ -3550,8 +3419,29 @@ void overmap::place_new_special(new_overmap_special special, tripoint p, int rot
                 }
             }
             // generally entrances come out of the top, so we want to rotate the road connection with the point
-
-            make_hiway(connection.second.x, connection.second.y, closest.x, closest.y, p.z, "road");
+            tripoint conn = connection.second;
+            /*
+            switch(rotation)
+            {
+            case 0:
+                conn.y = conn.y - 1;
+                break;
+            case 1:
+                conn.x = conn.x + 1;
+                break;
+            case 2:
+                conn.y = conn.y + 1;
+                break;
+            case 3:
+                conn.x = conn.x - 1;
+                break;
+            default:
+                break;
+            }
+            debugmsg("making road at %i, %i, to connect to entrance at %i, %i",
+                     conn.x, conn.y, connection.second.x, connection.second.y);
+            */
+            make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
         }
     }
 
@@ -3565,76 +3455,6 @@ void overmap::place_new_special(new_overmap_special special, tripoint p, int rot
     }
 }
 
-void overmap::place_specials()
-{
- int placed[NUM_OMSPECS];
- for (int i = 0; i < NUM_OMSPECS; i++)
-  placed[i] = 0;
-
- std::vector<point> sectors;
- for (int x = 0; x < OMAPX; x += OMSPEC_FREQ) {
-  for (int y = 0; y < OMAPY; y += OMSPEC_FREQ)
-   sectors.push_back(point(x, y));
- }
-
- while (!sectors.empty()) {
-  int sector_pick = rng(0, sectors.size() - 1);
-  int x = sectors[sector_pick].x, y = sectors[sector_pick].y;
-  sectors.erase(sectors.begin() + sector_pick);
-  std::vector<omspec_id> valid;
-  int tries = 0;
-  tripoint p;
-  do {
-   p = tripoint(rng(x, x + OMSPEC_FREQ - 1), rng(y, y + OMSPEC_FREQ - 1), 0);
-   if (p.x >= OMAPX - 1)
-    p.x = OMAPX - 2;
-   if (p.y >= OMAPY - 1)
-    p.y = OMAPY - 2;
-   if (p.x == 0)
-    p.x = 1;
-   if (p.y == 0)
-    p.y = 1;
-   for (int i = 0; i < NUM_OMSPECS; i++) {
-    omspec_place place;
-    overmap_special special = overmap_specials[i];
-    int min = special.min_dist_from_city, max = special.max_dist_from_city;
-    point pt(p.x, p.y);
-    // Skip non-classic specials if we're in classic mode
-    if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
-    if ((placed[ omspec_id(i) ] < special.max_appearances || special.max_appearances <= 0) &&
-        (min == -1 || dist_from_city(pt) >= min) &&
-        (max == -1 || dist_from_city(pt) <= max) &&
-        (place.*special.able)(this, special.flags, p))
-     valid.push_back( omspec_id(i) );
-   }
-   tries++;
-  } while (valid.empty() && tries < 20); // Done looking for valid spot
-
-  if (!valid.empty()) { // We found a valid spot!
-// Place the MUST HAVE ones first, to try and guarantee that they appear
-   std::vector<omspec_id> must_place;
-   for (int i = 0; i < valid.size(); i++) {
-    if (placed[ valid[i] ] < overmap_specials[ valid[i] ].min_appearances)
-     must_place.push_back(valid[i]);
-   }
-   if (must_place.empty()) {
-    int selection = rng(0, valid.size() - 1);
-    overmap_special special = overmap_specials[ valid[selection] ];
-    placed[ valid[selection] ]++;
-    place_special(special, p);
-   } else {
-    int selection = rng(0, must_place.size() - 1);
-    overmap_special special = overmap_specials[ must_place[selection] ];
-    placed[ must_place[selection] ]++;
-    place_special(special, p);
-   }
-  } // Done with <Found a valid spot>
-
- } // Done picking sectors...
-}
-
-
-// find the id for a specified rotation of a rotatable oter_t
 oter_id overmap::rotate(const oter_id &oter, int dir)
 {
     const oter_t & otert = oter;
@@ -3649,311 +3469,6 @@ oter_id overmap::rotate(const oter_id &oter, int dir)
         return oter;
     }
     return otert.directional_peers[dir];
-}
-
-void overmap::place_special(overmap_special special, tripoint p)
-{
-    bool rotated = false;
-    int city = -1;
-    // First, place terrain...
-    ter(p.x, p.y, p.z) = special.ter;
-    // Next, obey any special effects the flags might have
-    if (special.flags & mfb(OMS_FLAG_ROTATE_ROAD)) {
-        if (is_road_or_highway(p.x, p.y - 1, p.z)) {
-            ter(p.x, p.y, p.z) = rotate(special.ter, 0);
-            rotated = true;
-        } else if (is_road_or_highway(p.x + 1, p.y, p.z)) {
-            ter(p.x, p.y, p.z) = rotate(special.ter, 1);
-            rotated = true;
-        } else if (is_road_or_highway(p.x, p.y + 1, p.z)) {
-            ter(p.x, p.y, p.z) = rotate(special.ter, 2);
-            rotated = true;
-        } else if (is_road_or_highway(p.x - 1, p.y, p.z)) {
-            ter(p.x, p.y, p.z) = rotate(special.ter, 3);
-            rotated = true;
-        }
-    }
-
-    if (!rotated && special.flags & mfb(OMS_FLAG_ROTATE_RANDOM)) {
-        ter(p.x, p.y, p.z) = rotate(special.ter, rng(0, 3));
-    }
-
-    if (special.flags & mfb(OMS_FLAG_ROAD)) {
-        int closest = -1, distance = 999;
-        for (int i = 0; i < cities.size(); i++) {
-            int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
-            if (dist < distance) {
-                closest = i;
-                distance = dist;
-            }
-        }
-        if (special.flags & (mfb(OMS_FLAG_2X2_SECOND) | mfb(OMS_FLAG_3X3_FIXED))) {
-            city = closest;
-        } else {
-            make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, "road");
-        }
-    }
-
-    if (special.flags & mfb(OMS_FLAG_3X3)) {
-        for (int x = p.x; x < p.x + 3; x++) {
-            for (int y = p.y; y < p.y + 3; y++) {
-                if (x == p.x && y == p.y) {
-                    y++; // Already handled
-                }
-                ter(x, y, p.z) = special.ter;
-            }
-        }
-    }
-
-    if (special.flags & mfb(OMS_FLAG_3X3_SECOND)) {
-        size_t e_pos = std::string(special.ter).find("_entrance",0,9);
-        std::string ter_base;
-        if (e_pos != std::string::npos) {
-            // strip "_entrance" to get the base oter_id
-            ter_base = std::string(special.ter).substr(0, e_pos);
-        } else if (special.ter == "farm") {
-            ter_base = std::string(special.ter) + "_field";
-        } else {
-            ter_base = std::string(special.ter);
-        }
-        for (int x = p.x; x < p.x + 3; x++) {
-            for (int y = p.y; y < p.y + 3; y++) {
-                ter(x, y, p.z) = ter_base;
-            }
-        }
-
-        if (is_road(p.x + 3, p.y + 1, p.z)) { // Road to east
-            ter(p.x + 2, p.y + 1, p.z) = special.ter;
-        } else if (is_road(p.x + 1, p.y + 3, p.z)) { // Road to south
-            ter(p.x + 1, p.y + 2, p.z) = special.ter;
-        } else if (is_road(p.x - 1, p.y + 1, p.z)) { // Road to west
-            ter(p.x, p.y + 1, p.z) = special.ter;
-        } else { // Road to north, or no roads
-            ter(p.x + 1, p.y, p.z) = special.ter;
-        }
-    }
-
- if (special.flags & mfb(OMS_FLAG_BLOB)) {
-  for (int x = -2; x <= 2; x++) {
-   for (int y = -2; y <= 2; y++) {
-    if (x == 0 && y == 0)
-     y++; // Already handled
-    omspec_place place;
-    tripoint np(p.x + x, p.y + y, p.z);
-    if (one_in(1 + abs(x) + abs(y)) && (place.*special.able)(this, special.flags, np))
-     ter(p.x + x, p.y + y, p.z) = special.ter;
-   }
-  }
- }
-
- if (special.flags & mfb(OMS_FLAG_BIG)) {
-  for (int x = -3; x <= 3; x++) {
-   for (int y = -3; y <= 3; y++) {
-    if (x == 0 && y == 0)
-     y++; // Already handled
-    omspec_place place;
-    tripoint np(p.x + x, p.y + y, p.z);
-    if ((place.*special.able)(this, special.flags, np))
-     ter(p.x + x, p.y + y, p.z) = special.ter;
-     ter(p.x + x, p.y + y, p.z) = special.ter;
-   }
-  }
- }
-
-    if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
-        // road comes out of "_2" variant, rotations:
-        //  |
-        // 321   963   789   147
-        // 654   852-  456  -258
-        // 987   741   123   369
-        //              |
-        // reference point is top-left
-        int dir = 0;
-        if (is_road(p.x + 1, p.y - 1, p.z)) { // Road to north
-            dir = 0;
-        } else if (is_road(p.x + 3, p.y + 1, p.z)) { // Road to east
-            dir = 1;
-        } else if (is_road(p.x + 1, p.y + 3, p.z)) { // Road to south
-            dir = 2;
-        } else if (is_road(p.x - 1, p.y + 1, p.z)) { // Road to west
-            dir = 3;
-        } else {
-            dir = rng(0, 3); // Random direction;
-        }
-//fixme
-
-        // usually will be called with the _2 entrance variant,
-        // for example "school_2"
-        size_t suffix_pos = std::string(special.ter).rfind("_2", std::string::npos, 2);
-        std::string ter_base = std::string(special.ter).substr(0, suffix_pos);
-        const char* suffix[] = {
-            "_1", "_2", "_3", "_4", "_5", "_6","_7", "_8", "_9"
-        };
-        if (dir == 0) {
-            for (int i = 0, y = p.y; y <= p.y + 2; y++) {
-                for (int x = p.x + 2; x >= p.x; x--, i++) {
-                    ter(x, y, p.z) = ter_base + suffix[i];
-                }
-            }
-            if (ter_base == "school") { // wat. fixme.
-                make_hiway(p.x, p.y - 1, p.x + 1, p.y - 1, p.z, "road");
-            }
-        } else if (dir == 1) {
-            for (int i = 0, x = p.x + 2; x >= p.x; x--) {
-                for (int y = p.y + 2; y >= p.y; y--, i++) {
-                    ter(x, y, p.z) = ter_base + suffix[i];
-                }
-            }
-            if (ter_base == "school") {
-                make_hiway(p.x + 3, p.y, p.x + 3, p.y + 1, p.z, "road");
-            }
-        } else if (dir == 2) {
-            for (int i = 0, y = p.y + 2; y >= p.y; y--) {
-                for (int x = p.x; x <= p.x + 2; x++, i++) {
-                    ter(x, y, p.z) = ter_base + suffix[i];
-                }
-            }
-            if (ter_base == "school") {
-                make_hiway(p.x + 2, p.y + 3, p.x + 1, p.y + 3, p.z, "road");
-            }
-        } else if (dir == 3) {
-            for (int i = 0, x = p.x; x <= p.x + 2; x++) {
-                for (int y = p.y; y <= p.y + 2; y++, i++) {
-                    ter(x, y, p.z) = ter_base + suffix[i];
-                }
-            }
-            if (ter_base == "school") {
-                make_hiway(p.x - 1, p.y + 2, p.x - 1, p.y + 1, p.z, "road");
-            }
-        }
-
-        if (special.flags & mfb(OMS_FLAG_ROAD)) {
-            if (dir == 0) {
-                make_hiway(p.x + 1, p.y - 1, cities[city].x,
-                           cities[city].y, p.z, "road");
-            } else if (dir == 1) {
-                make_hiway(p.x + 3, p.y + 1, cities[city].x,
-                           cities[city].y, p.z, "road");
-            } else if (dir == 2) {
-                make_hiway(p.x + 1, p.y + 3, cities[city].x,
-                           cities[city].y, p.z, "road");
-            } else if (dir == 3) {
-                make_hiway(p.x - 1, p.y + 1, cities[city].x,
-                           cities[city].y, p.z, "road");
-            }
-        }
-    }
-
-    // Buildings should be designed with the entrance at the southwest corner
-    // and open to the street on the south.
-
-    if (special.flags & mfb(OMS_FLAG_2X2_SECOND)) {
-        size_t e_pos = std::string(special.ter).find("_entrance",0,9);
-        std::string ter_base;
-        if (e_pos != std::string::npos) {
-            // strip "_entrance" to get the base oter_id
-            ter_base = std::string(special.ter).substr(0, e_pos);
-        } else {
-            ter_base = std::string(special.ter);
-        }
-        for (int x = p.x; x < p.x + 2; x++) {
-            for (int y = p.y; y < p.y + 2; y++) {
-                ter(x, y, p.z) = ter_base;
-            }
-        }
-
-        int dir = 0;
-        if (is_road(p.x + 1, p.y - 1, p.z)) { // Road to north
-            dir = 0;
-        } else if (is_road(p.x + 2, p.y + 1, p.z)) { // Road to east
-            dir = 1;
-        } else if (is_road(p.x, p.y + 2, p.z)) { // Road to south
-            dir = 2;
-        } else if (is_road(p.x - 1, p.y, p.z)) { // Road to west
-            dir = 3;
-        } else {
-            dir = rng(0, 3); // Random direction;
-        }
-
-        if (dir == 0) {
-            ter(p.x + 1, p.y, p.z) = special.ter;
-        } else if (dir == 1) {
-            ter(p.x + 1, p.y + 1, p.z) = special.ter;
-        } else if (dir == 2) {
-            ter(p.x, p.y + 1, p.z) = special.ter;
-        } else if (dir == 3) {
-            ter(p.x, p.y, p.z) = special.ter;
-        }
-
-        if (special.flags & mfb(OMS_FLAG_ROAD)) {
-            if (dir == 0) {
-                make_hiway(p.x + 1, p.y - 1, cities[city].x,
-                           cities[city].y, p.z, "road");
-            } else if (dir == 1) {
-                make_hiway(p.x + 2, p.y + 1, cities[city].x,
-                           cities[city].y, p.z, "road");
-            } else if (dir == 2) {
-                make_hiway(p.x, p.y + 2, cities[city].x,
-                           cities[city].y, p.z, "road");
-            } else if (dir == 3) {
-                make_hiway(p.x - 1, p.y, cities[city].x,
-                           cities[city].y, p.z, "road");
-            }
-        }
-    }
-
- if (special.flags & mfb(OMS_FLAG_PARKING_LOT)) {
-  int closest = -1, distance = 999;
-  for (int i = 0; i < cities.size(); i++) {
-   int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
-   if (dist < distance) {
-    closest = i;
-    distance = dist;
-   }
-  }
-  if (special.flags & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND))) {
-   ter(p.x + 1, p.y - 1, p.z) = "s_lot";
-   make_hiway(p.x + 1, p.y - 1, cities[closest].x, cities[closest].y, p.z, "road");
-  } else {
-   ter(p.x, p.y - 1, p.z) = "s_lot";
-   make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, "road");
-  }
- }
-
- if (special.flags & mfb(OMS_FLAG_DIRT_LOT)) {
-  int closest = -1, distance = 999;
-  for (int i = 0; i < cities.size(); i++) {
-   int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
-   if (dist < distance) {
-    closest = i;
-    distance = dist;
-   }
-  }
-  if (special.flags & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND))) {
-   ter(p.x + 1, p.y - 1, p.z) = "dirtlot";
-   make_hiway(p.x + 1, p.y - 1, cities[closest].x, cities[closest].y, p.z, "road");
-  } else {
-   ter(p.x, p.y - 1, p.z) = "dirtlot";
-   make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, "road");
-  }
- }
-
-// Finally, place monsters if applicable
- if (special.monsters != "GROUP_NULL") {
-  if (special.monster_pop_min == 0 || special.monster_pop_max == 0 ||
-      special.monster_rad_min == 0 || special.monster_rad_max == 0   ) {
-   debugmsg("Overmap special %s has bad spawn: pop(%d, %d) rad(%d, %d)",
-            otermap[special.ter].name.c_str(), special.monster_pop_min,
-            special.monster_pop_max, special.monster_rad_min,
-            special.monster_rad_max);
-   return;
-  }
-
-  int population = rng(special.monster_pop_min, special.monster_pop_max);
-  int radius     = rng(special.monster_rad_min, special.monster_rad_max);
-  zg.push_back(
-     mongroup(special.monsters, p.x * 2, p.y * 2, p.z, radius, population));
- }
 }
 
 void overmap::place_mongroups()
@@ -4151,134 +3666,6 @@ std::string overmap::player_filename(int const x, int const y) const
 
  return filename.str();
 }
-
-// Overmap special placement functions // fixme oter_t: std::set<std::string> spec_flags;
-
-bool omspec_place::water(overmap *om, unsigned long f, tripoint p)
-{
- int size = 1;
- if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
-     size = 2;
- else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
-     size = 3;
-
-    for (int x = p.x; x < p.x + size; x++) {
-        for (int y = p.y; y < p.y + size; y++) {
-            oter_id oter = om->ter(x, y, p.z);
-            if (!is_ot_type("river", oter)) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-bool omspec_place::land(overmap *om, unsigned long f, tripoint p)
-{
- int size = 1;
- if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
-     size = 2;
- else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
-     size = 3;
-
-    for (int x = p.x; x < p.x + size; x++) {
-        for (int y = p.y; y < p.y + size; y++) {
-            oter_id oter = om->ter(x, y, p.z);
-            if (is_ot_type("river", oter)) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-bool omspec_place::forest(overmap *om, unsigned long f, tripoint p)
-{
- int size = 1;
- if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
-     size = 2;
- else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
-     size = 3;
-
-    for (int x = p.x; x < p.x + size; x++) {
-        for (int y = p.y; y < p.y + size; y++) {
-            oter_id oter = om->ter(x, y, p.z);
-            if (!is_ot_type("forest", oter)) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-bool omspec_place::wilderness(overmap *om, unsigned long f, tripoint p)
-{
- int size = 1;
- if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
-     size = 2;
- else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
-     size = 3;
-
-    for (int x = p.x; x < p.x + size; x++) {
-        for (int y = p.y; y < p.y + size; y++) {
-            oter_id oter = om->ter(x, y, p.z);
-            if (!is_ot_type("forest", oter) && !is_ot_type("field", oter)) { // fixme
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-bool omspec_place::by_highway(overmap *om, unsigned long f, tripoint p)
-{
- int size = 1;
- if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
-     size = 2;
- else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
-     size = 3;
-
-    for (int x = p.x; x < p.x + size; x++) {
-        for (int y = p.y; y < p.y + size; y++) {
-            oter_id oter = om->ter(x, y, p.z);
-            if (!is_ot_type("forest", oter) && !is_ot_type("field", oter)) {
-                return false;
-            }
-        }
-    }
-
- if (size == 3 &&
-     !om->is_road_or_highway(p.x + 1, p.y - 1, p.z) &&
-     !om->is_road_or_highway(p.x + 3, p.y + 1, p.z) &&
-     !om->is_road_or_highway(p.x + 1, p.y + 3, p.z) &&
-     !om->is_road_or_highway(p.x - 1, p.y + 1, p.z))
-  return false;
- else if (size == 2 &&
-          !om->is_road_or_highway(p.x + 1, p.y - 1, p.z) &&
-          !om->is_road_or_highway(p.x + 2, p.y + 1, p.z) &&
-          !om->is_road_or_highway(p.x, p.y + 2, p.z) &&
-          !om->is_road_or_highway(p.x - 1, p.y, p.z))
-  return false;
- else if (size == 1 &&
-          !om->is_road_or_highway(p.x, p.y - 1, p.z) &&
-          !om->is_road_or_highway(p.x, p.y + 1, p.z) &&
-          !om->is_road_or_highway(p.x - 1, p.y, p.z) &&
-          !om->is_road_or_highway(p.x + 1, p.y, p.z))
-  return false;
- return true;
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #include "omdata.h"
