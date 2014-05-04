@@ -8,6 +8,7 @@
 #include "json.h"
 #include "path_info.h"
 #include "monstergenerator.h"
+#include "item_factory.h"
 #include <fstream>
 
 #include "SDL2/SDL_image.h"
