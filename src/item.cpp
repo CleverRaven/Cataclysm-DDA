@@ -2025,7 +2025,7 @@ bool item::is_food(player const*u) const
     if (u->has_bionic("bio_batteries") && is_ammo() &&
             (dynamic_cast<it_ammo*>(type))->type == "battery")
         return true;
-    if (u->has_bionic("bio_furnace") && flammable() && typeId() != "corpse")
+    if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
         return true;
     return false;
 }
