@@ -54,9 +54,6 @@
 #define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
 
-extern const int savegame_version;
-extern int save_loading_version;
-
 // The reference to the one and only game instance.
 extern game *g;
 
