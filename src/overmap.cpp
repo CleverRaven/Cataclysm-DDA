@@ -222,7 +222,7 @@ void load_new_overmap_specials(JsonObject &jo)
         JsonArray flagarray = om.get_array("flags");
         while(flagarray.has_more())
         {
-            terrain.flags.push_back(flagarray.next_string());
+            terrain.flags.insert(flagarray.next_string());
         }
         spec.terrains.push_back(terrain);
     }
@@ -269,7 +269,7 @@ void load_new_overmap_specials(JsonObject &jo)
     JsonArray flag_array = jo.get_array("flags");
     while(flag_array.has_more())
     {
-        spec.flags.push_back(flag_array.next_string());
+        spec.flags.insert(flag_array.next_string());
     }
 
     new_overmap_specials.push_back(spec);
@@ -1353,8 +1353,6 @@ bool overmap::generate_sub(int const z)
     std::vector<city> ice_lab_points;
     std::vector<point> shaft_points;
     std::vector<city> mine_points;
-    std::vector<point> triffid_points;
-    std::vector<point> temple_points;
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
         oter_id("rock"), oter_id("forest"), oter_id("field"),
@@ -1404,11 +1402,6 @@ bool overmap::generate_sub(int const z)
                 goo_points.push_back(city(i, j, size));
             } else if (oter_above == "forest_water") {
                 ter(i, j, z) = "cavern";
-            } else if (oter_above == "triffid_grove" ||
-                       oter_above == "triffid_roots") {
-             triffid_points.push_back( point(i, j) );
-            } else if (oter_above == "temple_stairs") {
-                temple_points.push_back( point(i, j) );
             } else if (oter_above == "lab_core" ||
                        (z == -1 && oter_above == "lab_stairs")) {
                 lab_points.push_back(city(i, j, rng(1, 5 + z)));
@@ -1497,24 +1490,6 @@ bool overmap::generate_sub(int const z)
     for (int i = 0; i < shaft_points.size(); i++) {
         ter(shaft_points[i].x, shaft_points[i].y, z) = "mine_shaft";
         requires_sub = true;
-    }
-
-    for (int i = 0; i < triffid_points.size(); i++) {
-        if (z == -1) {
-            ter(triffid_points[i].x, triffid_points[i].y, z) = "triffid_roots";
-            requires_sub = true;
-        } else {
-            ter(triffid_points[i].x, triffid_points[i].y, z) = "triffid_finale";
-        }
-    }
-
-    for (int i = 0; i < temple_points.size(); i++) {
-        if (z == -5) {
-            ter(temple_points[i].x, temple_points[i].y, z) = "temple_finale";
-        } else {
-            ter(temple_points[i].x, temple_points[i].y, z) = "temple_stairs";
-            requires_sub = true;
-        }
     }
     return requires_sub;
 }
@@ -3441,6 +3416,7 @@ void overmap::place_new_specials()
                 allowed_terrains.push_back("forest");
                 new_overmap_special special = *it;
 
+                if (ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"] && (special.flags.count("CLASSIC") < 1)) continue;
                 if ((num_placed[special] < special.max_occurrences || special.max_occurrences <= 0) &&
                     allow_special(p, special, rotation))
                 {
@@ -3538,21 +3514,15 @@ void overmap::place_new_special(new_overmap_special special, tripoint p, int rot
             connections.push_back(connection);
         }
 
-        for(std::list<std::string>::iterator flagit = special.flags.begin();
-            flagit != special.flags.end(); ++flagit)
+        if(special.flags.count("BLOB") > 0)
         {
-            std::string flag = *flagit;
-
-            if(flag == "BLOB")
+            for (int x = -2; x <= 2; x++)
             {
-                for (int x = -2; x <= 2; x++)
+                for (int y = -2; y <= 2; y++)
                 {
-                    for (int y = -2; y <= 2; y++)
+                    if (one_in(1 + abs(x) + abs(y)))
                     {
-                        if (one_in(1 + abs(x) + abs(y)))
-                        {
-                            ter(location.x + x, location.y + y, location.z) = terrain.terrain;
-                        }
+                        ter(location.x + x, location.y + y, location.z) = terrain.terrain;
                     }
                 }
             }
@@ -3579,6 +3549,7 @@ void overmap::place_new_special(new_overmap_special special, tripoint p, int rot
                     distance = dist;
                 }
             }
+            // generally entrances come out of the top, so we want to rotate the road connection with the point
 
             make_hiway(connection.second.x, connection.second.y, closest.x, closest.y, p.z, "road");
         }
@@ -3587,11 +3558,10 @@ void overmap::place_new_special(new_overmap_special special, tripoint p, int rot
     // place spawns
     if(special.spawns.group != "GROUP_NULL")
     {
-        debugmsg("placing group %s", special.spawns.group.c_str());
         overmap_special_spawns spawns = special.spawns;
         int pop = rng(spawns.min_population, spawns.max_population);
         int rad = rng(spawns.min_radius, spawns.max_radius);
-        zg.push_back(mongroup(spawns.group, p.x, p.y, p.z, pop, rad));
+        zg.push_back(mongroup(spawns.group, p.x, p.y, p.z, rad, pop));
     }
 }
 

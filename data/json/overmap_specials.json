@@ -9,7 +9,7 @@
 		"locations" : [ "land" ],
 		"city_distance" : [0, -1],
 		"occurrences" : [0, 10],
-		"flags" : [ "BLOB" ]
+		"flags" : [ "BLOB", "CLASSIC" ]
     },{
 		"type" : "overmap_special",
 		"id" : "Lake",
@@ -24,7 +24,7 @@
 		"rotate" : false,
 		"unique" : false,
 		"required" : false,
-		"flags" : [ "BLOB" ]
+		"flags" : [ "BLOB", "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Hotel",
@@ -50,7 +50,7 @@
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
-		"spawns" : { "group" : "GROUP_ZOMBIE", "population":[1,10], "radius":[1,10] }
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "LMOE Shelter",
@@ -65,7 +65,8 @@
         "occurrences" : [0, 3], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Sewage Treatment Plant",
@@ -89,7 +90,8 @@
         "occurrences" : [0, 4], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Bee Hive",
@@ -126,7 +128,8 @@
         "occurrences" : [0, 4], "//":"how many per overmap",
         "rotate" : true	, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Cabin",
@@ -140,7 +143,8 @@
         "occurrences" : [0, 30], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Strange Cabin",
@@ -155,7 +159,8 @@
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Farm",
@@ -177,13 +182,19 @@
         "occurrences" : [0, 20], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Strangle Temple",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "temple_stairs"}
+            { "point":[0,0,0], "overmap": "temple_stairs"},
+			{ "point":[0,0,-1], "overmap": "temple_stairs"},
+			{ "point":[0,0,-2], "overmap": "temple_stairs"},
+			{ "point":[0,0,-3], "overmap": "temple_stairs"},
+			{ "point":[0,0,-4], "overmap": "temple_stairs"},
+			{ "point":[0,0,-5], "overmap": "temple_finale"}
         ],
         "locations" : [ "forest" ], "//":"what special locations does it spawn",
         "city_distance" : [20, -1], "//":"how far from a city it should be",
@@ -241,7 +252,8 @@
         "occurrences" : [2, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Military Bunker",
@@ -298,7 +310,8 @@
         "occurrences" : [1, 5], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Mansion_Road",
@@ -320,7 +333,8 @@
         "occurrences" : [0, 8], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Mansion_Wild",
@@ -342,7 +356,8 @@
         "occurrences" : [0, 4], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Megastore",
@@ -364,7 +379,8 @@
         "occurrences" : [0, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Hospital",
@@ -386,7 +402,8 @@
         "occurrences" : [1, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Public Works",
@@ -403,7 +420,8 @@
         "occurrences" : [1, 3], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Apartments_Con",
@@ -418,9 +436,10 @@
         "city_distance" : [-1, 2], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 5], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Apartments_Mod",
@@ -435,9 +454,10 @@
         "city_distance" : [-1, 2], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 4], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Office Tower",
@@ -456,9 +476,10 @@
         "city_distance" : [-1, 4], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 5], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Cathedral",
@@ -477,9 +498,10 @@
         "city_distance" : [-1, 2], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 2], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "School",
@@ -499,9 +521,10 @@
         "city_distance" : [1, 5], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 3], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Prison",
@@ -532,7 +555,8 @@
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Mine Entrace",
@@ -613,7 +637,9 @@
         "id" : "Triffid Grove",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "triffid_grove"}
+            { "point":[0,0,0], "overmap": "triffid_grove"},
+			{ "point":[0,0,-1], "overmap": "triffid_roots"},
+			{ "point":[0,0,-2], "overmap": "triffid_finale"}
         ],
         "locations" : [ "forest" ], "//":"what special locations does it spawn",
         "city_distance" : [0, -1], "//":"how far from a city it should be",
@@ -637,7 +663,8 @@
         "occurrences" : [5, 10], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Cave",
@@ -665,7 +692,8 @@
         "occurrences" : [0, 5], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+		"flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "Hazardous Waste Sarcophagus",

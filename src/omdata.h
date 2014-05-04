@@ -197,7 +197,7 @@ struct overmap_special_terrain
     tripoint p;
     std::string connect;
     std::string terrain;
-    std::list<std::string> flags;
+    std::set<std::string> flags;
 };
 
 class new_overmap_special
@@ -218,7 +218,7 @@ class new_overmap_special
     bool required;
     overmap_special_spawns spawns;
     std::list<std::string> locations;
-    std::list<std::string> flags;
+    std::set<std::string> flags;
 };
 
 extern std::vector<new_overmap_special> new_overmap_specials;
