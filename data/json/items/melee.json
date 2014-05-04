@@ -2797,6 +2797,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "charcoal kiln",
+    "category" : "tools",
     "description": "A stout metal box used for producing charcoal via pyrolysis; the incomplete burning of organic materials in the absence of oxygen.",
     "price": 16000,
     "material": "steel",
