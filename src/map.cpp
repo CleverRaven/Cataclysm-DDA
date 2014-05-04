@@ -3203,56 +3203,59 @@ void map::add_trap(const int x, const int y, const trap_id t)
 
 void map::disarm_trap(const int x, const int y)
 {
-  int skillLevel = g->u.skillLevel("traps");
+    int skillLevel = g->u.skillLevel("traps");
 
- if (tr_at(x, y) == tr_null) {
-  debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
-  return;
- }
+    if (tr_at(x, y) == tr_null) {
+        debugmsg("Tried to disarm a trap where there was none (%d %d)", x, y);
+        return;
+    }
 
- const int tSkillLevel = g->u.skillLevel("traps");
- const int diff = traplist[tr_at(x, y)]->difficulty;
- int roll = rng(tSkillLevel, 4 * tSkillLevel);
+    trap* tr = traplist[tr_at(x, y)];
+    const int tSkillLevel = g->u.skillLevel("traps");
+    const int diff = tr->get_difficulty();
+    int roll = rng(tSkillLevel, 4 * tSkillLevel);
 
- while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50)
-  roll++;
- if (roll >= diff) {
-  add_msg(_("You disarm the trap!"));
-  std::vector<itype_id> comp = traplist[tr_at(x, y)]->components;
-  for (int i = 0; i < comp.size(); i++) {
-   if (comp[i] != "null")
-    spawn_item(x, y, comp[i], 1, 1);
-  }
-  if (tr_at(x, y) == tr_engine) {
-      for (int i = -1; i <= 1; i++) {
-          for (int j = -1; j <= 1; j++) {
-              if (i != 0 || j != 0) {
-                  remove_trap(x + i, y + j);
-              }
-          }
-      }
-  }
-  if (tr_at(x, y) == tr_shotgun_1 || tr_at(x,y) == tr_shotgun_2) {
-      spawn_item(x,y,"shot_00",1,2);
-  }
-  remove_trap(x, y);
-  if(diff > 1.25 * skillLevel) // failure might have set off trap
-    g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
- } else if (roll >= diff * .8) {
-  add_msg(_("You fail to disarm the trap."));
-  if(diff > 1.25 * skillLevel)
-    g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
- }
- else {
-  add_msg(m_bad, _("You fail to disarm the trap, and you set it off!"));
-  trap* tr = traplist[tr_at(x, y)];
-  trapfunc f;
-  (f.*(tr->act))(x, y);
-  if(diff - roll <= 6)
-   // Give xp for failing, but not if we failed terribly (in which
-   // case the trap may not be disarmable).
-   g->u.practice(calendar::turn, "traps", 2*diff);
- }
+    while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50) {
+        roll++;
+    }
+    if (roll >= diff) {
+        add_msg(_("You disarm the trap!"));
+        std::vector<itype_id> comp = tr->components;
+        for (int i = 0; i < comp.size(); i++) {
+            if (comp[i] != "null") {
+                spawn_item(x, y, comp[i], 1, 1);
+            }
+        }
+        if (tr_at(x, y) == tr_engine) {
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    if (i != 0 || j != 0) {
+                        remove_trap(x + i, y + j);
+                    }
+                }
+            }
+        }
+        if (tr_at(x, y) == tr_shotgun_1 || tr_at(x,y) == tr_shotgun_2) {
+            spawn_item(x,y,"shot_00",1,2);
+        }
+        remove_trap(x, y);
+        if(diff > 1.25 * skillLevel) { // failure might have set off trap
+            g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
+        }
+    } else if (roll >= diff * .8) {
+        add_msg(_("You fail to disarm the trap."));
+        if(diff > 1.25 * skillLevel) {
+            g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
+        }
+    } else {
+        add_msg(m_bad, _("You fail to disarm the trap, and you set it off!"));
+        tr->trigger(&g->u, x, y);
+        if(diff - roll <= 6) {
+            // Give xp for failing, but not if we failed terribly (in which
+            // case the trap may not be disarmable).
+            g->u.practice(calendar::turn, "traps", 2*diff);
+        }
+    }
 }
 
 void map::remove_trap(const int x, const int y)
@@ -3630,8 +3633,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if (curr_trap != tr_null && (traplist[curr_trap]->visibility == -1 ||
-                                 u.per_cur - u.encumb(bp_eyes) >= traplist[curr_trap]->visibility)) {
+    if (curr_trap != tr_null && traplist[curr_trap]->can_see(g->u)) {
         tercol = traplist[curr_trap]->color;
         if (traplist[curr_trap]->sym == '%') {
             switch(rng(1, 5)) {

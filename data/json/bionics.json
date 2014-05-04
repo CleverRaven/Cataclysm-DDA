@@ -42,7 +42,7 @@
     "power_source" :  true,
     "active"     :    true,
     "time"       :    100,
-    "description":    "You can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others."
+    "description":    "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others."
     },{
         "type" : "bionic",
         "id" : "bio_ethanol",

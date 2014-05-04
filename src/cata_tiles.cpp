@@ -914,6 +914,9 @@ bool cata_tiles::draw_trap(int x, int y)
     if (tr_id == tr_null) {
         return false;
     }
+    if (!traplist[tr_id]->can_see(g->u)) {
+        return false;
+    }
 
     const std::string tr_name = traplist[tr_id]->id;
 

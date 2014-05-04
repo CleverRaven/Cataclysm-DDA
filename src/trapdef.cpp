@@ -54,6 +54,26 @@ trap_id trapfind(const std::string id) {
     return traplist[trapmap[id]]->loadid;
 };
 
+bool trap::can_see(const player &p) const
+{
+    return visibility < 0 || (p.per_cur - const_cast<player&>(p).encumb(bp_eyes)) >= visibility;
+}
+
+void trap::trigger(Creature *creature, int x, int y) const
+{
+    monster *m = dynamic_cast<monster*>(creature);
+    if (m != NULL) {
+        trapfuncm f;
+        (f.*actm)(m, x, y);
+        return;
+    }
+    player *p = dynamic_cast<player*>(creature);
+    if (p != NULL && p == &g->u) {
+        trapfunc f;
+        (f.*act)(x, y); // Why has this no player parameter? TODO!
+    }
+}
+
 //////////////////////////
 // convenient int-lookup names for hard-coded functions
 trap_id

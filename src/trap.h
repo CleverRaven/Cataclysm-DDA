@@ -7,6 +7,8 @@
 #include "json.h"
 #include <string>
 
+class Creature;
+
 typedef int trap_id;
 /** map trap ids to index into @ref traps */
 extern std::map<std::string, int> trapmap;
@@ -87,22 +89,30 @@ struct trap {
  long sym;
  nc_color color;
  std::string name;
-
+private:
+    friend void load_trap(JsonObject &jo);
  int visibility; // 1 to ??, affects detection
  int avoidance;  // 0 to ??, affects avoidance
  int difficulty; // 0 to ??, difficulty of assembly & disassembly
- std::vector<itype_id> components; // For disassembly?
-
+ bool benign;
 // You stepped on it
  void (trapfunc::*act)(int x, int y);
 // Monster stepped on it
  void (trapfuncm::*actm)(monster *, int x, int y);
-// Type of trap
- bool is_benign();
- bool benign;
+public:
+ std::vector<itype_id> components; // For disassembly?
 
+ int get_avoidance() const { return avoidance; }
+ int get_difficulty() const { return difficulty; }
+// Type of trap
+ bool is_benign() const { return benign; }
  // non-generic numbers for special cases
  int funnel_radius_mm;
+    /** Can player/npc p see this kind of trap? */
+    bool can_see(const player &p) const;
+    /** Trigger trap effects by creature that stepped onto it. */
+    void trigger(Creature *creature, int x, int y) const;
+
  double funnel_turns_per_charge( double rain_depth_mm_per_hour ) const;
  /* pending jsonize
  std::set<std::string> flags
