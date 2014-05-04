@@ -1075,7 +1075,7 @@ bool npc::wield(item* it)
     moves -= 15;
     weapon = inv.remove_item(it);
     if ( g->u_see( posx, posy ) ) {
-        add_msg( _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
+        add_msg( m_info, _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     }
     return true;
 }
@@ -2179,6 +2179,41 @@ void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...)
             processed_npc_string.replace(offset, 9, disp_name());
         }
         add_msg(processed_npc_string.c_str());
+    }
+
+    va_end(ap);
+};
+//message related stuff
+void npc::add_msg_if_npc(game_message_type type, const char *msg, ...)
+{
+    va_list ap;
+    va_start(ap, msg);
+    std::string processed_npc_string = vstring_format(msg, ap);
+    // These strings contain the substring <npcname>,
+    // if present replace it with the actual npc name.
+    size_t offset = processed_npc_string.find("<npcname>");
+    if (offset != std::string::npos) {
+        processed_npc_string.replace(offset, 9, name);
+    }
+    add_msg(processed_npc_string.c_str(), type);
+
+    va_end(ap);
+};
+void npc::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...)
+{
+    va_list ap;
+
+    va_start(ap, npc_str);
+
+    if (g->u_see(this)) {
+        std::string processed_npc_string = vstring_format(npc_str, ap);
+        // These strings contain the substring <npcname>,
+        // if present replace it with the actual npc name.
+        size_t offset = processed_npc_string.find("<npcname>");
+        if (offset != std::string::npos) {
+            processed_npc_string.replace(offset, 9, disp_name());
+        }
+        add_msg(processed_npc_string.c_str(), type);
     }
 
     va_end(ap);

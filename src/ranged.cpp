@@ -182,9 +182,9 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
                                      weapon.name.c_str());
             if ((weapon.damage < 4) && one_in(4 * firing->durability)){
                 weapon.damage++;
-                add_msg_player_or_npc(_("Your %s is damaged by the mechanical malfunction!"),
-                                         _("<npcname>'s %s is damaged by the mechanical malfunction!"),
-                                         weapon.name.c_str());
+                add_msg_player_or_npc(m_bad, _("Your %s is damaged by the mechanical malfunction!"),
+                                             _("<npcname>'s %s is damaged by the mechanical malfunction!"),
+                                             weapon.name.c_str());
             }
             return false;
             // Here we check for a chance for the weapon to suffer a misfire due to
@@ -205,9 +205,9 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
                                      weapon.name.c_str());
             if ((weapon.damage < 4) && one_in(firing->durability)){
                 weapon.damage++;
-                add_msg_player_or_npc(_("Your %s is damaged by the misfired round!"),
-                                         _("<npcname>'s %s is damaged by the misfired round!"),
-                                         weapon.name.c_str());
+                add_msg_player_or_npc(m_bad, _("Your %s is damaged by the misfired round!"),
+                                             _("<npcname>'s %s is damaged by the misfired round!"),
+                                             weapon.name.c_str());
             }
             return false;
         }
@@ -360,7 +360,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     if( train_skill ) {
         practice(calendar::turn, skill_used, 4 + (num_shots / 2));
     } else if( one_in(30) ) {
-        add_msg_if_player(_("You'll need a more accurate gun to keep improving your aim."));
+        add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
@@ -664,7 +664,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 dam = rng(0, dam);
             }
             if (u_see(tx, ty)) {
-                p.add_msg_player_or_npc(_("%s You hit the %s for %d damage."),
+                p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
                     _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z.name().c_str(), dam);
             }

@@ -576,7 +576,7 @@ static void place_construction(const std::string &desc)
 
     point choice(dirx, diry);
     if (valid.find(choice) == valid.end()) {
-        add_msg(_("You cannot build there!"));
+        add_msg(m_info, _("You cannot build there!"));
         return;
     }
 
@@ -732,7 +732,7 @@ void construct::done_deconstruct(point p)
     if (g->m.has_furn(p.x, p.y)) {
         furn_t &f = g->m.furn_at(p.x, p.y);
         if (!f.deconstruct.can_do) {
-            add_msg(_("That %s can not be disassembled!"), f.name.c_str());
+            add_msg(m_info, _("That %s can not be disassembled!"), f.name.c_str());
             return;
         }
         if (f.deconstruct.furn_set.empty()) {
@@ -825,7 +825,7 @@ void construct::done_dig_stair(point p)
           g->u.fatigue += 30;
           g->u.thirst += 25;
           if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(_("You're quite sore from all that work, though."));
+              add_msg(m_bad, _("You're quite sore from all that work, though."));
               g->u.mod_pain(8); // Backbreaking work, mining!
           }
       }
@@ -837,14 +837,14 @@ void construct::done_dig_stair(point p)
    }
    else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You strike deeply--above a magma flow!"));
+          add_msg(m_warning, _("You strike deeply--above a magma flow!"));
           g->u.hunger += 15;
           g->u.fatigue += 20;
           g->u.thirst += 15;
           g->u.mod_pain(4);
       }
       else {
-          add_msg(_("You just tunneled into lava!"));
+          add_msg(m_warning, _("You just tunneled into lava!"));
           g->u.hunger += 25;
           g->u.fatigue += 30;
           g->u.thirst += 25;
@@ -883,7 +883,7 @@ void construct::done_dig_stair(point p)
                     }
                   }
                   if (safe.empty()) {
-                      add_msg(_("There's nowhere to pull yourself to, and you fall!"));
+                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->u.use_amount("grapnel", 1);
                       g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
                       g->vertical_move(-1, true);
@@ -895,14 +895,14 @@ void construct::done_dig_stair(point p)
                       g->update_map(g->u.posx, g->u.posy);
                   }
               } else {
-                    add_msg(_("You're not strong enough to pull yourself out..."));
+                    add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                     g->u.moves -= 100;
                     g->u.use_amount("grapnel", 1);
                     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
                     g->vertical_move(-1, true);
                 }
               } else {
-                  add_msg(_("Your throw misses completely, and you fall into the lava!"));
+                  add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
                   if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                       g->u.use_amount("grapnel", 1);
                       g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
@@ -932,7 +932,7 @@ void construct::done_dig_stair(point p)
                             }
                           }
                           if (safe.empty()) {
-                              add_msg(_("There's nowhere to pull yourself to, and you fall!"));
+                              add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                               g->vertical_move(-1, true);
                           } else {
                               add_msg(_("You pull yourself to safety!"));
@@ -942,12 +942,12 @@ void construct::done_dig_stair(point p)
                               g->update_map(g->u.posx, g->u.posy);
                           }
                       } else {
-                            add_msg(_("You're not strong enough to pull yourself out..."));
+                            add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                             g->u.moves -= 100;
                             g->vertical_move(-1, true);
                         }
                       } else {
-                          add_msg(_("The sudden strain pulls your web free, and you fall into the lava!"));
+                          add_msg(m_bad, _("The sudden strain pulls your web free, and you fall into the lava!"));
                           g->vertical_move(-1, true);
                       }
                   }
@@ -971,7 +971,7 @@ void construct::done_dig_stair(point p)
                     }
                   }
                   if (safe.empty()) {
-                      add_msg(_("There's nowhere to pull yourself to, and you fall!"));
+                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
                       g->vertical_move(-1, true);
                   } else {
@@ -983,13 +983,13 @@ void construct::done_dig_stair(point p)
                       g->update_map(g->u.posx, g->u.posy);
                   }
               } else {
-                    add_msg(_("You're not strong enough to pull yourself out..."));
+                    add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                     g->u.moves -= 100;
                     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
                     g->vertical_move(-1, true);
                 }
               } else {
-                  add_msg(_("Your throw misses completely, and you fall into the lava!"));
+                  add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
                   if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                       g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
                   }
@@ -1012,7 +1012,7 @@ void construct::done_dig_stair(point p)
           g->u.fatigue += 30;
           g->u.thirst += 20;
           if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(_("You're quite sore from all that work, though."));
+              add_msg(m_bad, _("You're quite sore from all that work, though."));
               g->u.mod_pain(4); // Backbreaking work, mining!
           }
       }
@@ -1097,7 +1097,7 @@ void construct::done_mine_downstair(point p)
           g->u.fatigue += 40;
           g->u.thirst += 35;
           if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(_("You're quite sore from all that work."));
+              add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(10); // Backbreaking work, mining!
           }
       }
@@ -1109,14 +1109,14 @@ void construct::done_mine_downstair(point p)
    }
    else if (tmpmap.ter(p.x % SEEX, p.y % SEEY) == t_lava) { // Oooooops
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You delve down directly above a magma flow!"));
+          add_msg(m_warning, _("You delve down directly above a magma flow!"));
           g->u.hunger += 25;
           g->u.fatigue += 30;
           g->u.thirst += 25;
           g->u.mod_pain(4);
       }
       else {
-          add_msg(_("You just mined into lava!"));
+          add_msg(m_warning, _("You just mined into lava!"));
           g->u.hunger += 35;
           g->u.fatigue += 40;
           g->u.thirst += 35;
@@ -1155,7 +1155,7 @@ void construct::done_mine_downstair(point p)
                     }
                   }
                   if (safe.empty()) {
-                      add_msg(_("There's nowhere to pull yourself to, and you fall!"));
+                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->u.use_amount("grapnel", 1);
                       g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
                       g->vertical_move(-1, true);
@@ -1167,14 +1167,14 @@ void construct::done_mine_downstair(point p)
                       g->update_map(g->u.posx, g->u.posy);
                   }
               } else {
-                    add_msg(_("You're not strong enough to pull yourself out..."));
+                    add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                     g->u.moves -= 100;
                     g->u.use_amount("grapnel", 1);
                     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
                     g->vertical_move(-1, true);
                 }
               } else {
-                  add_msg(_("Your throw misses completely, and you fall into the lava!"));
+                  add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
                   if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                       g->u.use_amount("grapnel", 1);
                       g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "grapnel");
@@ -1204,7 +1204,7 @@ void construct::done_mine_downstair(point p)
                             }
                           }
                           if (safe.empty()) {
-                              add_msg(_("There's nowhere to pull yourself to, and you fall!"));
+                              add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                               g->vertical_move(-1, true);
                           } else {
                               add_msg(_("You pull yourself to safety!"));
@@ -1214,12 +1214,12 @@ void construct::done_mine_downstair(point p)
                               g->update_map(g->u.posx, g->u.posy);
                           }
                       } else {
-                            add_msg(_("You're not strong enough to pull yourself out..."));
+                            add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                             g->u.moves -= 100;
                             g->vertical_move(-1, true);
                         }
                       } else {
-                          add_msg(_("The sudden strain pulls your web free, and you fall into the lava!"));
+                          add_msg(m_bad, _("The sudden strain pulls your web free, and you fall into the lava!"));
                           g->vertical_move(-1, true);
                       }
                   }
@@ -1243,7 +1243,7 @@ void construct::done_mine_downstair(point p)
                     }
                   }
                   if (safe.empty()) {
-                      add_msg(_("There's nowhere to pull yourself to, and you fall!"));
+                      add_msg(m_bad, _("There's nowhere to pull yourself to, and you fall!"));
                       g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
                       g->vertical_move(-1, true);
                   } else {
@@ -1255,13 +1255,13 @@ void construct::done_mine_downstair(point p)
                       g->update_map(g->u.posx, g->u.posy);
                   }
               } else {
-                    add_msg(_("You're not strong enough to pull yourself out..."));
+                    add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
                     g->u.moves -= 100;
                     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
                     g->vertical_move(-1, true);
                 }
               } else {
-                  add_msg(_("Your throw misses completely, and you fall into the lava!"));
+                  add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
                   if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
                       g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1), "rope_30");
                   }
@@ -1284,7 +1284,7 @@ void construct::done_mine_downstair(point p)
           g->u.fatigue += 40;
           g->u.thirst += 30;
           if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(_("You're quite sore from all that work."));
+              add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(4);
           }
       }
@@ -1338,7 +1338,7 @@ void construct::done_mine_upstair(point p)
   if (danger_lava || danger_open || danger_liquid) { // Bad Stuff detected.  Are you sure?
       g->m.ter_set(p.x, p.y, t_rock_floor); // You dug a bit before discovering the problem
       if (danger_lava) {
-          add_msg(_("The rock overhead feels hot.  You decide *not* to mine magma."));
+          add_msg(m_warning, _("The rock overhead feels hot.  You decide *not* to mine magma."));
           // refund components!
           if (!(g->u.has_trait("WEB_ROPE"))) {
               item rope(itypes["rope_30"], 0);
@@ -1361,7 +1361,7 @@ void construct::done_mine_upstair(point p)
           }
       }
       if (danger_liquid) {
-          add_msg(_("The rock above is rather damp.  You decide *not* to mine water."));
+          add_msg(m_warning, _("The rock above is rather damp.  You decide *not* to mine water."));
           // refund components!
           if (!(g->u.has_trait("WEB_ROPE"))) {
               item rope(itypes["rope_30"], 0);
@@ -1386,7 +1386,7 @@ void construct::done_mine_upstair(point p)
           g->u.fatigue += 50;
           g->u.thirst += 45;
           if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(_("You're quite sore from all that work."));
+              add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(15); // Backbreaking work, mining!
           }
       }
@@ -1410,7 +1410,7 @@ void construct::done_mine_upstair(point p)
           g->u.fatigue += 50;
           g->u.thirst += 40;
           if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(_("You're quite sore from all that work."));
+              add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(5);
           }
       }

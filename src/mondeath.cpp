@@ -11,7 +11,7 @@
 
 void mdeath::normal(monster *z) {
     if (g->u_see(z)) {
-        add_msg(_("The %s dies!"), z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
+        add_msg(m_good, _("The %s dies!"), z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
 
     m_size monSize = (z->type->size);
@@ -56,9 +56,9 @@ void mdeath::normal(monster *z) {
 void mdeath::acid(monster *z) {
     if (g->u_see(z)) {
         if(z->type->dies.size() == 1) //If this death function is the only function. The corpse gets dissolved.
-            add_msg(_("The %s's body dissolves into acid."), z->name().c_str());
+            add_msg(m_mixed, _("The %s's body dissolves into acid."), z->name().c_str());
         else {
-            add_msg(_("The %s's body leaks acid."), z->name().c_str());
+            add_msg(m_warning, _("The %s's body leaks acid."), z->name().c_str());
         }
     }
     g->m.add_field(z->posx(), z->posy(), fd_acid, 3);
@@ -152,7 +152,7 @@ void mdeath::vine_cut(monster *z) {
 
 void mdeath::triffid_heart(monster *z) {
     if (g->u_see(z)) {
-        add_msg(_("The surrounding roots begin to crack and crumble."));
+        add_msg(m_warning, _("The surrounding roots begin to crack and crumble."));
     }
     g->add_event(EVENT_ROOTS_DIE, int(calendar::turn) + 100);
 }
@@ -210,7 +210,7 @@ void mdeath::fungus(monster *z) {
                         hit = false;
                     }
                     if (hit) {
-                        add_msg(_("You're covered in tiny spores!"));
+                        add_msg(m_warning, _("You're covered in tiny spores!"));
                     }
                 } else if (one_in(2) && g->num_zombies() <= 1000) {
                     // Spawn a spore
@@ -224,16 +224,16 @@ void mdeath::fungus(monster *z) {
 
 void mdeath::disintegrate(monster *z) {
     if (g->u_see(z)) {
-        add_msg(_("The %s disintegrates!"), z->name().c_str());
+        add_msg(m_good, _("The %s disintegrates!"), z->name().c_str());
     }
 }
 
 void mdeath::worm(monster *z) {
     if (g->u_see(z)) {
         if(z->type->dies.size() == 1)
-            add_msg(_("The %s splits in two!"), z->name().c_str());
+            add_msg(m_good, _("The %s splits in two!"), z->name().c_str());
         else {
-            add_msg(_("Two worms crawl out of the %s's corpse."), z->name().c_str());
+            add_msg(m_warning, _("Two worms crawl out of the %s's corpse."), z->name().c_str());
         }
     }
 
@@ -264,7 +264,7 @@ void mdeath::worm(monster *z) {
 
 void mdeath::disappear(monster *z) {
     if (g->u_see(z)) {
-        add_msg(_("The %s disappears."), z->name().c_str());
+        add_msg(m_good, _("The %s disappears."), z->name().c_str());
     }
 }
 
@@ -275,6 +275,7 @@ void mdeath::guilt(monster *z) {
 
     // different message as we kill more of the same monster
     std::string msg = "You feel guilty for killing %s."; // default guilt message
+    game_message_type msgtype = m_bad; // default guilt message type
     std::map<int, std::string> guilt_tresholds;
     guilt_tresholds[75] = "You feel ashamed for killing %s.";
     guilt_tresholds[50] = "You regret killing %s.";
@@ -295,17 +296,17 @@ void mdeath::guilt(monster *z) {
         // player no longer cares
         if (kill_count == maxKills) {
             //~ Message after killing a lot of monsters which would normally affect the morale negatively. %s is the monster name, it will be pluralized with a number of 100.
-            add_msg(_("After killing so many bloody %s you no longer care "
-                          "about their deaths anymore."), z->name(maxKills).c_str());
+            add_msg(m_good, _("After killing so many bloody %s you no longer care "
+                              "about their deaths anymore."), z->name(maxKills).c_str());
         }
         return;
-    }
-        else if ((g->u.has_trait("PRED1")) || (g->u.has_trait("PRED2"))) {
+    } else if ((g->u.has_trait("PRED1")) || (g->u.has_trait("PRED2"))) {
             msg = (_("Culling the weak is distasteful, but necessary."));
-        }
-        else {
+            msgtype = m_neutral;
+    } else {
+        msgtype = m_bad;
         for (std::map<int, std::string>::iterator it = guilt_tresholds.begin();
-                it != guilt_tresholds.end(); it++) {
+            it != guilt_tresholds.end(); it++) {
             if (kill_count >= it->first) {
                 msg = it->second;
                 break;
@@ -313,7 +314,7 @@ void mdeath::guilt(monster *z) {
         }
     }
 
-    add_msg(_(msg.c_str()), z->name().c_str());
+    add_msg(msgtype, _(msg.c_str()), z->name().c_str());
 
     int moraleMalus = -50 * (1.0 - ((float) kill_count / maxKills));
     int maxMalus = -250 * (1.0 - ((float) kill_count / maxKills));
@@ -340,7 +341,7 @@ void mdeath::blobsplit(monster *z) {
     if (speed <= 0) {
         if (g->u_see(z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)
-            add_msg(_("The %s splatters apart."), z->name().c_str());
+            add_msg(m_good, _("The %s splatters apart."), z->name().c_str());
         }
         return;
     }
@@ -350,9 +351,9 @@ void mdeath::blobsplit(monster *z) {
     blob.friendly = z->friendly;
     if (g->u_see(z)) {
         if(z->type->dies.size() == 1)
-            add_msg(_("The %s splits in two!"), z->name().c_str());
+            add_msg(m_good, _("The %s splits in two!"), z->name().c_str());
         else {
-            add_msg(_("Two small blobs slither out of the corpse."), z->name().c_str());
+            add_msg(m_bad, _("Two small blobs slither out of the corpse."), z->name().c_str());
         }
     }
     blob.hp = blob.speed;
@@ -380,7 +381,7 @@ void mdeath::blobsplit(monster *z) {
 
 void mdeath::melt(monster *z) {
     if (g->u_see(z)) {
-        add_msg(_("The %s melts away."), z->name().c_str());
+        add_msg(m_good, _("The %s melts away."), z->name().c_str());
     }
 }
 
@@ -442,7 +443,7 @@ void mdeath::broken(monster *z) {
 void mdeath::ratking(monster *z) {
     g->u.rem_disease("rat");
     if (g->u_see(z)) {
-        add_msg(_("Rats suddenly swarm into view."));
+        add_msg(m_warning, _("Rats suddenly swarm into view."));
     }
 
     std::vector <point> ratspots;
@@ -470,7 +471,7 @@ void mdeath::ratking(monster *z) {
 void mdeath::darkman(monster *z) {
      g->u.rem_disease("darkness");
      if (g->u_see(z))
-        add_msg(_("The %s melts away. And the world returns to normaliity"), z->name().c_str());
+        add_msg(m_good, _("The %s melts away. And the world returns to normaliity"), z->name().c_str());
 }
 
 void mdeath::gas(monster *z) {
@@ -506,7 +507,7 @@ void mdeath::smokeburst(monster *z) {
 }
 
 void mdeath::gameover(monster *z) {
-    add_msg(_("The %s was destroyed!  GAME OVER!"), z->name().c_str());
+    add_msg(m_bad, _("The %s was destroyed!  GAME OVER!"), z->name().c_str());
     g->u.hp_cur[hp_torso] = 0;
 }
 

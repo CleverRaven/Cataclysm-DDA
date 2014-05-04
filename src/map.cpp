@@ -520,7 +520,7 @@ bool map::vehproceed()
         }
         // submerged wheels threshold is 2/3.
         if (num_wheels &&  (float)submerged_wheels / num_wheels > .666) {
-            add_msg(_("Your %s sank."), veh->name.c_str());
+            add_msg(m_bad, _("Your %s sank."), veh->name.c_str());
             if (pl_ctrl) {
                 veh->unboard_all ();
             }
@@ -563,7 +563,7 @@ bool map::vehproceed()
         }
     }
     else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
-        add_msg(_("You fumble with the %s's controls."), veh->name.c_str());
+        add_msg(m_warning, _("You fumble with the %s's controls."), veh->name.c_str());
         veh->turn (one_in(2) ? -15 : 15);
     }
     // eventually send it skidding if no control
@@ -608,9 +608,9 @@ bool map::vehproceed()
         veh_veh_coll_flag = true;
         veh_collision c = veh_veh_colls[0]; //Note: What´s with collisions with more than 2 vehicles?
         vehicle* veh2 = (vehicle*) c.target;
-        add_msg(_("The %1$s's %2$s collides with the %3$s's %4$s."),
-                   veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
-                   veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
+        add_msg(m_bad, _("The %1$s's %2$s collides with the %3$s's %4$s."),
+                       veh->name.c_str(),  veh->part_info(c.part).name.c_str(),
+                       veh2->name.c_str(), veh2->part_info(c.target_part).name.c_str());
 
         // for reference, a cargo truck weighs ~25300, a bicycle 690,
         //  and 38mph is 3800 'velocity'
@@ -764,20 +764,20 @@ bool map::vehproceed()
                 int dmg = d_vel/4*rng(70,100)/100;
                 psg->hurtall(dmg);
                 if (psg == &g->u) {
-                    add_msg(_("You take %d damage by the power of the impact!"), dmg);
+                    add_msg(m_bad, _("You take %d damage by the power of the impact!"), dmg);
                 } else if (psg->name.length()) {
-                    add_msg(_("%s takes %d damage by the power of the impact!"),
-                               psg->name.c_str(), dmg);
+                    add_msg(m_bad, _("%s takes %d damage by the power of the impact!"),
+                                   psg->name.c_str(), dmg);
                 }
             }
 
             if (throw_from_seat) {
                 if (psg == &g->u) {
-                    add_msg(_("You are hurled from the %s's seat by the power of the impact!"),
-                               veh->name.c_str());
+                    add_msg(m_bad, _("You are hurled from the %s's seat by the power of the impact!"),
+                                   veh->name.c_str());
                 } else if (psg->name.length()) {
-                    add_msg(_("%s is hurled from the %s's seat by the power of the impact!"),
-                               psg->name.c_str(), veh->name.c_str());
+                    add_msg(m_bad, _("%s is hurled from the %s's seat by the power of the impact!"),
+                                   psg->name.c_str(), veh->name.c_str());
                 }
                 unboard_vehicle(x + veh->parts[ppl[ps]].precalc_dx[0],
                                      y + veh->parts[ppl[ps]].precalc_dy[0]);
@@ -790,9 +790,9 @@ bool map::vehproceed()
                 const int lose_ctrl_roll = rng (0, dmg_1);
                 if (lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel("driving") * 3) {
                     if (psg == &g->u) {
-                        add_msg(_("You lose control of the %s."), veh->name.c_str());
+                        add_msg(m_warning, _("You lose control of the %s."), veh->name.c_str());
                     } else if (psg->name.length()) {
-                        add_msg(_("%s loses control of the %s."), psg->name.c_str());
+                        add_msg(m_warning, _("%s loses control of the %s."), psg->name.c_str());
                     }
                     int turn_amount = (rng (1, 3) * sqrt((double)vel1_a) / 2) / 15;
                     if (turn_amount < 1) {
@@ -820,7 +820,7 @@ bool map::vehproceed()
             if (one_in(2)) {
                 if (displace_water (x + veh->parts[p].precalc_dx[0],
                                     y + veh->parts[p].precalc_dy[0]) && pl_ctrl) {
-                    add_msg(_("You hear a splash!"));
+                    add_msg(m_warning, _("You hear a splash!"));
                 }
             }
             veh->handle_trap( x + veh->parts[p].precalc_dx[0],
@@ -2109,7 +2109,7 @@ bool map::hit_with_acid(const int x, const int y)
   case old_t_door_bar_locked:
   case old_t_bars:
    ter_set(x, y, t_floor);
-   add_msg(_("The metal bars melt!"));
+   add_msg(m_warning, _("The metal bars melt!"));
    break;
 
   case old_t_door_b:
@@ -2837,9 +2837,9 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
                 if (rng(0,it->volume()) > it->burnt && g->revive_corpse(mapx, mapy, it)) {
                     if (g->u_see(mapx, mapy)) {
                         if(it->corpse->in_species("ROBOT")) {
-                            add_msg(_("A nearby robot has repaired itself and stands up!"));
+                            add_msg(m_warning, _("A nearby robot has repaired itself and stands up!"));
                         } else {
-                            add_msg(_("A nearby corpse rises and moves towards you!"));
+                            add_msg(m_warning, _("A nearby corpse rises and moves towards you!"));
                         }
                     }
                     return true;
@@ -3244,7 +3244,7 @@ void map::disarm_trap(const int x, const int y)
     g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
  }
  else {
-  add_msg(_("You fail to disarm the trap, and you set it off!"));
+  add_msg(m_bad, _("You fail to disarm the trap, and you set it off!"));
   trap* tr = traplist[tr_at(x, y)];
   trapfunc f;
   (f.*(tr->act))(x, y);
