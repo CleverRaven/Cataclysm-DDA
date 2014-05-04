@@ -2280,15 +2280,15 @@ std::string item::clothing_lvl_description(bool short_desc) const
     std::string description = "";
     switch (clothing_lvl()) {
     case UNDERWEAR:
-        description = short_desc ? _("Underwear") : _("This is worn next to the skin.");
+        description = short_desc ? _("underwear") : _("This is worn next to the skin.");
         break;
     case REGULAR_LAYER:
         break;
     case OUTER_LAYER:
-        description = short_desc ? _("Outerwear") : _("This is worn over your other clothes.");
+        description = short_desc ? _("outerwear") : _("This is worn over your other clothes.");
         break;
     case BELTED_LAYER:
-        description = short_desc ? _("Belted layer") : _("It is the belted layer.");
+        description = short_desc ? _("belted layer") : _("It is the belted layer.");
         break;
     }
     return description;
