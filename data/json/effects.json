@@ -339,7 +339,7 @@
       "type":"effect_type",
       "id":"contacts",
       "apply_message":"You can see more clearly.",
-      "rating": "bad"
+      "rating": "good"
    },
    {
       "type":"effect_type",
