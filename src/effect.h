@@ -11,6 +11,13 @@ class Creature;
 
 extern std::map<std::string, effect_type> effect_types;
 
+enum effect_rating {
+    e_good,	// the effect is good for the one who has it.
+    e_neutral,  // there is no effect or the effect is very nominal. This is the default.
+    e_bad,      // the effect is bad for the one who has it
+    e_mixed     // the effect has good and bad parts to the one who has it 
+};
+
 class effect_type
 {
         friend void load_effect_type(JsonObject &jo);
@@ -25,6 +32,8 @@ class effect_type
         std::string get_name();
         std::string get_desc();
 
+        effect_rating get_rating();
+
         std::string get_apply_message();
         std::string get_apply_memorial_log();
         std::string get_remove_message();
@@ -38,6 +47,8 @@ class effect_type
 
         std::string name;
         std::string desc;
+
+        effect_rating rating;
 
         std::string apply_message;
         std::string apply_memorial_log;

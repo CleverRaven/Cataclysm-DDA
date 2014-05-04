@@ -17,6 +17,10 @@ std::string effect_type::get_desc()
 {
     return desc;
 }
+effect_rating effect_type::get_rating()
+{
+    return rating;
+}
 std::string effect_type::get_apply_message()
 {
     return apply_message;
@@ -142,7 +146,16 @@ void load_effect_type(JsonObject &jo)
 
     new_etype.name = jo.get_string("name", "");
     new_etype.desc = jo.get_string("desc", "");
-
+    if(jo.has_member("rating")) {
+        std::string r = jo.get_string("rating");
+        if(r == "good") { new_etype.rating = e_good; }
+        else if(r == "neutral" ) { new_etype.rating = e_neutral; }
+        else if(r == "bad" ) { new_etype.rating = e_bad; }
+        else if(r == "mixed" ) { new_etype.rating = e_mixed; }
+        else { new_etype.rating = e_neutral; }
+    } else {
+        new_etype.rating = e_neutral;
+    }
     new_etype.apply_message = jo.get_string("apply_message", "");
     new_etype.remove_message = jo.get_string("remove_message", "");
     new_etype.apply_memorial_log = jo.get_string("apply_memorial_log", "");
