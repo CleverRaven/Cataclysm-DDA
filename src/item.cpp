@@ -143,7 +143,7 @@ void item::init() {
 
 void item::make( const std::string new_type )
 {
-    item_controller->find_template( new_type );
+    type = item_controller->find_template( new_type );
     contents.clear();
 }
 
