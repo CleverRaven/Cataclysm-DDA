@@ -4719,11 +4719,19 @@ int iuse::set_trap(player *p, item *it, bool)
   p->add_msg_if_player(_("You can't place a %s there."), it->tname().c_str());
   return 0;
  }
-  if (g->m.tr_at(posx, posy) != tr_null) {
-  p->add_msg_if_player( _("You can't place a %s there. It contains a trap already."),
+
+    const trap_id existing_trap = g->m.tr_at(posx, posy);
+    if (existing_trap != tr_null) {
+        const struct trap &t = *traplist[existing_trap];
+        if (t.can_see(*p)) {
+            p->add_msg_if_player( _("You can't place a %s there. It contains a trap already."),
                        it->tname().c_str());
-  return 0;
- }
+        } else {
+            p->add_msg_if_player(_("You trigger a %s!"), t.name.c_str());
+            t.trigger(p, posx, posy);
+        }
+        return 0;
+    }
 
  trap_id type = tr_null;
  ter_id ter;

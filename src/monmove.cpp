@@ -805,9 +805,8 @@ int monster::move_to(int x, int y, bool force)
     if (!digging() && !has_flag(MF_FLIES) &&
           g->m.tr_at(posx(), posy()) != tr_null) { // Monster stepped on a trap!
         trap* tr = traplist[g->m.tr_at(posx(), posy())];
-        if (dice(3, type->sk_dodge + 1) < dice(3, tr->avoidance)) {
-            trapfuncm f;
-            (f.*(tr->actm))(this, posx(), posy());
+        if (dice(3, type->sk_dodge + 1) < dice(3, tr->get_avoidance())) {
+            tr->trigger(this, posx(), posy());
         }
     }
     // Diggers turn the dirt into dirtmound

@@ -1799,12 +1799,14 @@ void iexamine::recycler(player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::trap(player *p, map *m, int examx, int examy) {
- if (traplist[m->tr_at(examx, examy)]->difficulty < 99 &&
-     p->per_cur-p->encumb(bp_eyes) >= traplist[m->tr_at(examx, examy)]->visibility &&
-     query_yn(_("There is a %s there.  Disarm?"),
-              traplist[m->tr_at(examx, examy)]->name.c_str())) {
-     m->disarm_trap(examx, examy);
- }
+    const trap_id tid = m->tr_at(examx, examy);
+    if (p == NULL || !p->is_player() || tid == tr_null) {
+        return;
+    }
+    const struct trap& t = *traplist[tid];
+    if (t.can_see(*p) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+        m->disarm_trap(examx, examy);
+    }
 }
 
 void iexamine::water_source(player *p, map *m, const int examx, const int examy)
