@@ -485,7 +485,7 @@ class is_id_functor   // functor for remove/has_effect, give c++11 lambdas pls
 bool is_expired_effect(effect &e)   // utility function for process_effects
 {
     if (e.get_duration() <= 0) {
-        add_msg(e.get_effect_type()->get_remove_message().c_str());
+        add_msg(e.get_effect_type()->lose_game_message_type(), e.get_effect_type()->get_remove_message().c_str());
         g->u.add_memorial_log(pgettext("memorial_male", e.get_effect_type()->get_remove_memorial_log().c_str()),
                               pgettext("memorial_female", e.get_effect_type()->get_remove_memorial_log().c_str()));
         return true;
@@ -518,7 +518,7 @@ void Creature::add_effect(efftype_id eff_id, int dur, int intensity, bool perman
         effect new_eff(&effect_types[eff_id], dur, intensity, permanent);
         effects.push_back(new_eff);
         if (is_player()) { // only print the message if we didn't already have it
-            add_msg(effect_types[eff_id].get_apply_message().c_str());
+            add_msg(effect_types[eff_id].gain_game_message_type(), effect_types[eff_id].get_apply_message().c_str());
             g->u.add_memorial_log(pgettext("memorial_male",
                                            effect_types[eff_id].get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",

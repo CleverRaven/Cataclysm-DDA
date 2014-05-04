@@ -21,6 +21,26 @@ effect_rating effect_type::get_rating()
 {
     return rating;
 }
+game_message_type effect_type::gain_game_message_type()
+{
+    switch(rating) {
+        case e_good: return m_good;
+        case e_bad: return m_bad;
+        case e_neutral: return m_neutral;
+        case e_mixed: return m_mixed;
+        default: return m_neutral;  // should never happen
+    }
+}
+game_message_type effect_type::lose_game_message_type()
+{
+    switch(rating) {
+        case e_good: return m_bad;
+        case e_bad: return m_good;
+        case e_neutral: return m_neutral;
+        case e_mixed: return m_mixed;
+        default: return m_neutral;  // should never happen
+    }
+}
 std::string effect_type::get_apply_message()
 {
     return apply_message;

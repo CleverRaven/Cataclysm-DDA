@@ -4,7 +4,7 @@
 #include "pldata.h"
 #include "creature.h"
 #include "json.h"
-
+#include "messages.h"
 
 class effect_type;
 class Creature;
@@ -33,6 +33,9 @@ class effect_type
         std::string get_desc();
 
         effect_rating get_rating();
+
+        game_message_type gain_game_message_type(); // appropriate game_message_type when effect is optained
+        game_message_type lose_game_message_type(); // appropriate game_message_type when effect is lost
 
         std::string get_apply_message();
         std::string get_apply_memorial_log();
