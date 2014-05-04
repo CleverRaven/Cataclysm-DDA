@@ -329,6 +329,12 @@
         "name" : "rebreather filter",
         "default" : "rebreather_filter"
     },
+	{
+        "type" : "ammunition_type",
+        "id" : "whip",
+        "name" : "whip ammo",
+        "default" : "whip"
+    },
     {
         "type" : "ammunition_type",
         "id" : "fishspear",
