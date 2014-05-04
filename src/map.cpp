@@ -4459,7 +4459,7 @@ bool map::add_graffiti(int x, int y, std::string contents)
 {
   int lx, ly;
   submap * const current_submap = get_submap_at(x, y, lx, ly);
-  current_submap->graf[lx][ly] = graffiti(contents);
+  current_submap->set_graffiti(lx, ly, graffiti(contents));
   return true;
 }
 
@@ -4474,7 +4474,7 @@ graffiti map::graffiti_at(int x, int y)
  int lx, ly;
  submap * const current_submap = get_submap_at(x, y, lx, ly);
 
- return current_submap->graf[lx][ly];
+ return current_submap->get_graffiti(lx, ly);
 }
 
 long map::determine_wall_corner(const int x, const int y, const long orig_sym)
