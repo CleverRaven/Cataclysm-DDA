@@ -443,6 +443,29 @@ The syntax listed here is still valid.
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "TORCH_LIT" // Action performed when tool is used
 ```
+###PAPERS
+Require the same values as items of type "GENERIC", additional a "snippet_category" entry:
+```
+"snippet_category": "newspaper",
+```
+The item descriptions are taken from snippets, which can be specified like this (the value of category must match the snippet_category in the item definition):
+```
+{
+    "type" : "snippet",
+    "category" : "newspaper",
+    "text": "your flavor text"
+}
+```
+or several snippets at once:
+```
+{
+    "type" : "snippet",
+    "category" : "newspaper",
+    "text": [ "your flavor text", "another flavor text", "more flavor" ]
+}
+```
+Multiple snippets for the same category are possible and actually recommended. The game will select a random one for each item of that type.
+
 #json jsons
 
 ###FURNITURE
