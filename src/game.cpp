@@ -631,8 +631,6 @@ void game::start_game(std::string worldname)
  //Calc mutation drench protection stats
  u.drench_mut_calc();
 
- MAPBUFFER.set_dirty();
-
  //~ %s is player name
  u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                     pgettext("memorial_female", "%s began their journey into the Cataclysm."),
@@ -764,7 +762,6 @@ void game::cleanup_at_end(){
         }
     }
     MAPBUFFER.reset();
-    MAPBUFFER.make_volatile();
     overmap_buffer.clear();
 }
 
@@ -3174,7 +3171,6 @@ bool game::handle_action()
     if(save()) {
      u.moves = 0;
      uquit = QUIT_SAVED;
-     MAPBUFFER.make_volatile();
     }
    }
    break;
@@ -3626,7 +3622,6 @@ void game::load(std::string worldname, std::string name)
 // Now load up the master game data; factions (and more?)
  load_master(worldname);
  update_map(u.posx, u.posy);
- MAPBUFFER.set_dirty();
 
  u.reset();
  draw();
