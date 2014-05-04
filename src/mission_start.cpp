@@ -359,7 +359,7 @@ void mission_start::open_sarcophagus(mission *miss)
  p->attitude = NPCATT_FOLLOW;
  if (p != NULL) {
   g->u.i_add( item(itypes["sarcophagus_access_code"], 0) );
-  add_msg(_("%s gave you sarcophagus access code."), p->name.c_str());
+  add_msg(m_good, _("%s gave you sarcophagus access code."), p->name.c_str());
  }
     target_om_ter("haz_sar", 3, miss, false);
 }

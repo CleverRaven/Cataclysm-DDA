@@ -65,7 +65,7 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
                 grid[i]->set_furn(x, y, f_null);
                 grid[i]->set_trap(x, y, tr_null);
                 grid[i]->set_radiation(x, y, 0);
-                grid[i]->graf[x][y] = graffiti();
+                grid[i]->set_graffiti(x, y, graffiti());
             }
         }
     }

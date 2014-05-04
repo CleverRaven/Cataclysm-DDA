@@ -25,6 +25,11 @@ std::vector< std::pair<std::string, std::string> > Messages::recent_messages(con
 
 void Messages::add_msg_string(const std::string &s)
 {
+    add_msg_string(s, m_neutral);
+}
+
+void Messages::add_msg_string(const std::string &s, game_message_type type)
+{
     if (s.length() == 0) {
         return;
     }
@@ -33,6 +38,7 @@ void Messages::add_msg_string(const std::string &s)
         s == player_messages.messages.back().message) {
         player_messages.messages.back().count++;
         player_messages.messages.back().turn = calendar::turn;
+        player_messages.messages.back().type = type;
         return;
     }
 
@@ -40,7 +46,7 @@ void Messages::add_msg_string(const std::string &s)
         player_messages.messages.erase(player_messages.messages.begin());
     }
 
-    player_messages.messages.push_back(game_message(calendar::turn, s));
+    player_messages.messages.push_back(game_message(calendar::turn, s, type));
 }
 
 void Messages::vadd_msg(const char *msg, va_list ap)
@@ -48,11 +54,24 @@ void Messages::vadd_msg(const char *msg, va_list ap)
     player_messages.add_msg_string(vstring_format(msg, ap));
 }
 
+void Messages::vadd_msg(game_message_type type, const char *msg, va_list ap)
+{
+    player_messages.add_msg_string(vstring_format(msg, ap), type);
+}
+
 void add_msg(const char *msg, ...)
 {
     va_list ap;
     va_start(ap, msg);
     Messages::vadd_msg(msg, ap);
+    va_end(ap);
+}
+
+void add_msg(game_message_type type, const char *msg, ...)
+{
+    va_list ap;
+    va_start(ap, msg);
+    Messages::vadd_msg(type, msg, ap);
     va_end(ap);
 }
 
@@ -83,10 +102,29 @@ std::string Messages::game_message::get_with_count() const
 nc_color Messages::game_message::get_color() const
 {
     if (int(turn) >= player_messages.curmes) {
-        return c_ltred;
+        // color for new messages
+        switch(type) {
+        case m_good:    return c_ltgreen;
+        case m_bad:     return c_ltred;
+        case m_mixed:   return c_pink;
+        case m_neutral: return c_white;
+        case m_warning: return c_yellow;
+        case m_info:    return c_ltblue;
+        default:        return c_white;
+        }
     } else if (int(turn) + 5 >= player_messages.curmes) {
-        return c_ltgray;
+        // color for slightly old messages
+        switch(type) {
+        case m_good:    return c_green;
+        case m_bad:     return c_red;
+        case m_mixed:   return c_magenta;
+        case m_neutral: return c_ltgray;
+        case m_warning: return c_brown;
+        case m_info:    return c_blue;
+        default:        return c_ltgray;
+        }
     }
+    // color for old messages
     return c_dkgray;
 }
 

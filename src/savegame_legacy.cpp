@@ -1110,7 +1110,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             sm->itm[i][j].clear();
             sm->set_trap(i, j, tr_null);
             //sm->fld[i][j] = field(); //not needed now
-            sm->graf[i][j] = graffiti();
+            sm->set_graffiti(i, j, graffiti());
            }
           }
         // Load irradiation
@@ -1188,7 +1188,7 @@ static bool unserialize_legacy(std::ifstream & fin ) {
             int i;
             fin >> j >> i;
             getline(fin,s);
-            sm->graf[j][i] = graffiti(s);
+            sm->set_graffiti(j, i, graffiti(s));
            }
           } while (string_identifier != "----" && !fin.eof());
 
@@ -1366,7 +1366,7 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 sm->set_furn(i, j, f_null);
                 sm->itm[i][j].clear();
                 sm->set_trap(i, j, tr_null);
-                sm->graf[i][j] = graffiti();
+                sm->set_graffiti(i, j, graffiti());
             }
         }
         // Load irradiation
@@ -1459,7 +1459,7 @@ static void unserialize_legacy_submaps( std::ifstream &fin, const int num_submap
                 int i;
                 fin >> j >> i;
                 getline(fin, s);
-                sm->graf[j][i] = graffiti(s);
+                sm->set_graffiti(j, i, graffiti(s));
             }
         } while (string_identifier != "----");
 

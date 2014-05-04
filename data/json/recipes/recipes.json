@@ -19520,7 +19520,7 @@
       [ "bolt_wood", 4 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "string_6", 6 ],
       [ "string_36", 1 ]
     ]
   ]
@@ -28103,6 +28103,7 @@
     [
        [ "apple", 2 ],
        [ "blueberries", 2 ],
+       [ "strawberries", 2 ],
        [ "orange", 2 ],
        [ "lemon", 2 ],
        [ "banana", 2 ],

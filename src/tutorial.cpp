@@ -5,6 +5,7 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "profession.h"
 
 std::vector<std::string> tut_text;
 
@@ -30,6 +31,7 @@ bool tutorial_game::init()
  g->u.dex_cur = g->u.dex_max;
  //~ default name for the tutorial
  g->u.name = _("John Smith");
+ g->u.prof = profession::generic();
  g->levx = 100;
  g->levy = 100;
  g->cur_om = &overmap_buffer.get(0, 0);

@@ -408,6 +408,7 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
         // wait for spacebar
     }
     werase(stdscr);
+    refresh();
 }
 
 // yn to make an immediate selection

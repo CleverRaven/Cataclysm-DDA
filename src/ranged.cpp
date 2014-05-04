@@ -103,9 +103,11 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
         if (critter != NULL && cur_missed_by <= 1.0) {
             dealt_damage_instance dealt_dam;
             critter->deal_projectile_attack(this, missed_by, proj, dealt_dam);
-            std::vector<point> blood_traj = trajectory;
-            blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
-            splatter( blood_traj, dam, critter );
+            if (dealt_dam.total_damage() > 0) {
+                std::vector<point> blood_traj = trajectory;
+                blood_traj.insert(blood_traj.begin(), point(xpos(), ypos()));
+                splatter( blood_traj, dam, critter );
+            }
             dam = 0;
         } else if(in_veh != NULL && g->m.veh_at(tx, ty) == in_veh) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
@@ -180,9 +182,9 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
                                      weapon.name.c_str());
             if ((weapon.damage < 4) && one_in(4 * firing->durability)){
                 weapon.damage++;
-                add_msg_player_or_npc(_("Your %s is damaged by the mechanical malfunction!"),
-                                         _("<npcname>'s %s is damaged by the mechanical malfunction!"),
-                                         weapon.name.c_str());
+                add_msg_player_or_npc(m_bad, _("Your %s is damaged by the mechanical malfunction!"),
+                                             _("<npcname>'s %s is damaged by the mechanical malfunction!"),
+                                             weapon.name.c_str());
             }
             return false;
             // Here we check for a chance for the weapon to suffer a misfire due to
@@ -203,9 +205,9 @@ bool player::handle_gun_damage( it_gun *firing, std::set<std::string> *curammo_e
                                      weapon.name.c_str());
             if ((weapon.damage < 4) && one_in(firing->durability)){
                 weapon.damage++;
-                add_msg_player_or_npc(_("Your %s is damaged by the misfired round!"),
-                                         _("<npcname>'s %s is damaged by the misfired round!"),
-                                         weapon.name.c_str());
+                add_msg_player_or_npc(m_bad, _("Your %s is damaged by the misfired round!"),
+                                             _("<npcname>'s %s is damaged by the misfired round!"),
+                                             weapon.name.c_str());
             }
             return false;
         }
@@ -358,7 +360,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     if( train_skill ) {
         practice(calendar::turn, skill_used, 4 + (num_shots / 2));
     } else if( one_in(30) ) {
-        add_msg_if_player(_("You'll need a more accurate gun to keep improving your aim."));
+        add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
     for (int curshot = 0; curshot < num_shots; curshot++) {
@@ -398,24 +400,32 @@ void player::fire_gun(int tarx, int tary, bool burst) {
 
         // Drop a shell casing if appropriate.
         itype_id casing_type = curammo->casing;
-        if (casing_type != "NULL" && !casing_type.empty()) {
-            item casing;
-            casing.make(itypes[casing_type]);
-            // Casing needs a charges of 1 to stack properly with other casings.
-            casing.charges = 1;
-            if( used_weapon->has_gunmod("brass_catcher") != -1 ) {
-                i_add( casing );
+        if( casing_type != "NULL" && !casing_type.empty() ) {
+            if( weapon.has_flag("RELOAD_EJECT") ) {
+                int num_casings = 0;
+                if( weapon.item_vars.count( "CASINGS" ) ) {
+                    num_casings = atoi( weapon.item_vars[ "CASINGS" ].c_str() );
+                }
+                weapon.item_vars[ "CASINGS" ] = string_format( "%d", num_casings + 1 );
             } else {
-                int x = 0;
-                int y = 0;
-                int count = 0;
-                do {
-                    x = xpos() - 1 + rng(0, 2);
-                    y = ypos() - 1 + rng(0, 2);
-                    count++;
-                    // Try not to drop the casing on a wall if at all possible.
-                } while( g->m.move_cost( x, y ) == 0 && count < 10 );
-                g->m.add_item_or_charges(x, y, casing);
+                item casing;
+                casing.make(itypes[casing_type]);
+                // Casing needs a charges of 1 to stack properly with other casings.
+                casing.charges = 1;
+                if( used_weapon->has_gunmod("brass_catcher") != -1 ) {
+                    i_add( casing );
+                } else {
+                    int x = 0;
+                    int y = 0;
+                    int count = 0;
+                    do {
+                        x = xpos() - 1 + rng(0, 2);
+                        y = ypos() - 1 + rng(0, 2);
+                        count++;
+                        // Try not to drop the casing on a wall if at all possible.
+                    } while( g->m.move_cost( x, y ) == 0 && count < 10 );
+                    g->m.add_item_or_charges(x, y, casing);
+                }
             }
         }
 
@@ -654,7 +664,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 dam = rng(0, dam);
             }
             if (u_see(tx, ty)) {
-                p.add_msg_player_or_npc(_("%s You hit the %s for %d damage."),
+                p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
                     _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z.name().c_str(), dam);
             }

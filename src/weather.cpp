@@ -355,7 +355,7 @@ void weather_effect::light_acid()
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(4))) {
                     add_msg(_("Your power armor protects you from the acidic drizzle."));
                 } else {
-                    add_msg(_("The acid rain stings, but is mostly harmless for now..."));
+                    add_msg(m_warning, _("The acid rain stings, but is mostly harmless for now..."));
                     if (one_in(10) && (g->u.pain < 10)) {
                         g->u.mod_pain(1);
                     }
@@ -378,7 +378,7 @@ void weather_effect::acid()
                 if (g->u.is_wearing_power_armor(&has_helmet) && (has_helmet || !one_in(2))) {
                     add_msg(_("Your power armor protects you from the acid rain."));
                 } else {
-                    add_msg(_("The acid rain burns!"));
+                    add_msg(m_bad, _("The acid rain burns!"));
                     if (one_in(2) && (g->u.pain < 100)) {
                         g->u.mod_pain( rng(1, 5) );
                     }

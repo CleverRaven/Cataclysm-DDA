@@ -4,12 +4,19 @@
 #include "pldata.h"
 #include "creature.h"
 #include "json.h"
-
+#include "messages.h"
 
 class effect_type;
 class Creature;
 
 extern std::map<std::string, effect_type> effect_types;
+
+enum effect_rating {
+    e_good,	// the effect is good for the one who has it.
+    e_neutral,  // there is no effect or the effect is very nominal. This is the default.
+    e_bad,      // the effect is bad for the one who has it
+    e_mixed     // the effect has good and bad parts to the one who has it 
+};
 
 class effect_type
 {
@@ -25,6 +32,11 @@ class effect_type
         std::string get_name();
         std::string get_desc();
 
+        effect_rating get_rating();
+
+        game_message_type gain_game_message_type(); // appropriate game_message_type when effect is optained
+        game_message_type lose_game_message_type(); // appropriate game_message_type when effect is lost
+
         std::string get_apply_message();
         std::string get_apply_memorial_log();
         std::string get_remove_message();
@@ -38,6 +50,8 @@ class effect_type
 
         std::string name;
         std::string desc;
+
+        effect_rating rating;
 
         std::string apply_message;
         std::string apply_memorial_log;
