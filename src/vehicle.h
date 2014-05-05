@@ -255,6 +255,8 @@ public:
 // Honk the vehicle's horn, if there are any
     void honk_horn();
 
+    void play_music();
+
 // get vpart type info for part number (part at given vector index)
     vpart_info& part_info (int index, bool include_removed = false) const;
 
@@ -586,12 +588,14 @@ public:
     tileray move;       // direction we are moving
     int velocity;       // vehicle current velocity, mph * 100
     int cruise_velocity; // velocity vehicle's cruise control trying to acheive
+    std::string music_id;    // what music storage device is in the stereo
     bool cruise_on;     // cruise control on/off
     bool reactor_on;    // reactor on/off
     bool engine_on;     // engine on/off
     bool has_pedals;
     bool has_hand_rims;
     bool lights_on;     // lights on/off
+    bool stereo_on;
     bool tracking_on;        // vehicle tracking on/off
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     bool overhead_lights_on; //circle lights on/off
