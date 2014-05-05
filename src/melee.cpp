@@ -1038,7 +1038,7 @@ void player::perform_technique(ma_technique technique, Creature &t, int &bash_da
     if (has_active_bionic("bio_cqb") && !has_martialart(style_selected)) {
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
-            add_msg(m_good, _("You have learnt %s from extensive practice with the CQB Bionic."),
+            add_msg_if_player(m_good, _("You have learnt %s from extensive practice with the CQB Bionic."),
                        martialarts[style_selected].name.c_str());
         }
     }
@@ -1184,7 +1184,7 @@ void player::perform_special_attacks(Creature &t)
             special_attacks[i].stab
         ), dealt_dam);
   if (dealt_dam.total_damage() > 0)
-      add_msg(m_good, special_attacks[i].text.c_str());
+      add_msg_if_player(m_good, special_attacks[i].text.c_str());
 
   if (!can_poison && (dealt_dam.type_damage(DT_CUT) > 0 ||
         dealt_dam.type_damage(DT_STAB) > 0 ))
