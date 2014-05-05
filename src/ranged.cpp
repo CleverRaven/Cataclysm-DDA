@@ -841,7 +841,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             } else if(relevent->has_flag("NO_AMMO")) {
                 wprintz(w_target, c_red, _("Firing %s"), u.weapon.tname().c_str());
             } else {
-                wprintz(w_target, c_red, _("Firing %s (%d)"), // - %s (%d)",
+                wprintz(w_target, c_red, _("Firing %s (%d)"),
                         u.weapon.tname().c_str(), u.weapon.charges);
             }
         } else {
@@ -853,8 +853,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     if (is_mouse_enabled()) {
         --text_y;
     }
-    mvwprintz(w_target, text_y++, 1, c_white,
-              _("Move cursor to target with directional keys"));
+    mvwprintz(w_target, text_y++, 1, c_white, _("Move cursor to target with directional keys"));
     if (relevent) {
         mvwprintz(w_target, text_y++, 1, c_white,
                   _("'<' '>' Cycle targets; 'f' or Enter to fire"));
@@ -915,7 +914,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 mvwputch(w_target, i, j, c_white, ' ');
             }
         }
-        /* Start drawing w_terrain things -- possibly move out to centralized draw_terrain_window function as they all should be roughly similar*/
+        /* Start drawing w_terrain things -- possibly move out to centralized draw_terrain_window
+           function as they all should be roughly similar */
         m.build_map_cache(); // part of the SDLTILES drawing code
         m.draw(w_terrain, center); // embedded in SDL drawing code
         // Draw the Monsters
@@ -930,7 +930,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         draw_critter( g->u, center );
         if (x != u.posx || y != u.posy) {
             // Only draw a highlighted trajectory if we can see the endpoint.
-            // Provides feedback to the player, and avoids leaking information about tiles they can't see.
+            // Provides feedback to the player, and avoids leaking information
+            // about tiles they can't see.
             draw_line(x, y, center, ret);
             // Print to target window
             if (!relevent) {
@@ -996,7 +997,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         ctxt.register_action("HELP_KEYBINDINGS");
         ctxt.register_action("QUIT");
 
-        const std::string& action = ctxt.handle_input();
+        const std::string &action = ctxt.handle_input();
+
 
         tarx = 0;
         tary = 0;
@@ -1010,8 +1012,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
             tarx -= x;
             tary -= y;
-
-
         } else {
             ctxt.get_direction(tarx, tary, action);
             if(tarx == -2) {
@@ -1069,7 +1069,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
             // Increase aim at the cost of moves
             u.moves -= u.time_to_aim();
-            if(u.recoil > 0) { u.recoil--; }
+            if(u.recoil > 0) {
+                u.recoil--;
+            }
             if(u.moves <= 0) {
                 // We've run out of moves, clear target vector, but leave target selected.
                 ret.clear();
@@ -1374,12 +1376,13 @@ void splatter( std::vector<point> trajectory, int dam, Creature *target )
     if( dam <= 0) {
         return;
     }
-    if(!target->is_npc() &&
-       !target->is_player()) { //Check if the creature isn't an NPC or the player (so the cast works)
+    if( !target->is_npc() && !target->is_player() ) {
+        //Check if the creature isn't an NPC or the player (so the cast works)
         monster *mon = dynamic_cast<monster *>(target);
         if (mon->is_hallucination() || mon->get_material() != "flesh" ||
-            mon->has_flag(
-                MF_VERMIN)) {//if it is a hallucanation, not made of flesh, or a vermin creature, don't splatter the blood.
+            mon->has_flag( MF_VERMIN)) {
+            // If it is a hallucanation, not made of flesh, or a vermin creature,
+            // don't splatter the blood.
             return;
         }
     }
