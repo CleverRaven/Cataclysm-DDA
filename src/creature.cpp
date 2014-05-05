@@ -722,6 +722,9 @@ void Creature::manage_sleep()
 void Creature::mod_pain(int npain)
 {
     pain += npain;
+    if (pain < 0) {
+        pain = 0;
+    }
 }
 void Creature::set_pain(int npain)
 {

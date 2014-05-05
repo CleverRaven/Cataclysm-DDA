@@ -17,6 +17,8 @@ typedef std::string matec_id;
 
 typedef std::string efftype_id;
 
+typedef std::string wefftype_id;
+
 enum character_type {
  PLTYPE_CUSTOM,
  PLTYPE_RANDOM,

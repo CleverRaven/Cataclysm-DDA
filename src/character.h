@@ -3,6 +3,7 @@
 
 #include "creature.h"
 #include "action.h"
+#include "bodypart.h"
 
 #include <map>
 
@@ -22,6 +23,12 @@ class Character : public Creature
         
         bool hibernating();
         virtual void manage_sleep();
+        
+        void add_wound(body_part bp, int side, int duration, int severity = 1, int heal_mod = 0);
+        void remove_wound(body_part bp, int side,
+    
+    protected:
+        std::vector<wound> wounds;
 };
 
 #endif

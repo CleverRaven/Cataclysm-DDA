@@ -5221,6 +5221,9 @@ void player::process_effects() {
                 if (it->get_duration() % it->get_pkill_increment() == 0) {
                     if (pkill < it->get_pkill_max() || it->get_pkill_max() == 0) {
                         pkill += it->get_pkill_amount();
+                        if (pkill < 0) {
+                            pkill = 0;
+                        )
                     }
                 }
             }

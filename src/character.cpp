@@ -11,13 +11,17 @@ Character::Character() {
     Creature::set_speed_base(100);
 };
 
-Character::Character(const Creature &) {
+Character::Character(const Creature &rhs) {
     Creature::set_speed_base(100);
+    
+    wounds = rhs.wounds;
 };
 
 Character &Character::operator= (const Character &rhs)
 {
     Creature::operator=(rhs);
+    
+    wounds = rhs.wounds;
     return (*this);
 }
 
