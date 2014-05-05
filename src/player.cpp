@@ -4212,7 +4212,7 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
             source->deal_damage(this, bp_torso, 3, ods_shock_damage);
         }
-        if (encumb(bp_hit) == 0 &&(has_trait("SPINES") || has_trait("QUILLS"))) {
+        if ((!(wearing_something_on(bp_hit))) && (has_trait("SPINES") || has_trait("QUILLS"))) {
             int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
             if (!is_player()) {
                 if( u_see ) {
@@ -4229,13 +4229,21 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             spine_damage.add_damage(DT_STAB, spine);
             source->deal_damage(this, bp_torso, 3, spine_damage);
         }
-        if ((encumb(bp_hit) == 0) && (has_trait("THORNS")) && (!(source->has_weapon())))
-        {
+        if ((!(wearing_something_on(bp_hit))) && (has_trait("THORNS")) && (!(source->has_weapon()))) {
+            if (!is_player()) {
+                if( u_see ) {
+                    add_msg(_("%1$s's %2$s puncture %s in mid-attack!"), name.c_str(),
+                                (_("thorns"), source->disp_name().c_str()));
+                }
+            } else {
+                add_msg(m_good, _("Your thorns scrape %s in mid-attack!"), source->disp_name().c_str());
+            }
             int thorn = rng(1, 4);
-            add_msg(m_good, _("Your thorns scrape %s in mid-attack!"), source->disp_name().c_str());
             damage_instance thorn_damage;
             thorn_damage.add_damage(DT_CUT, thorn);
-            source->deal_damage(this, bp_hands, 3, thorn_damage);
+            // In general, critters don't have separate limbs
+            // so safer to target the torso
+            source->deal_damage(this, bp_torso, 3, thorn_damage);
         }
     }
 }
