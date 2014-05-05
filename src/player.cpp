@@ -4229,7 +4229,7 @@ void player::on_gethit(Creature *source, body_part bp_hit, damage_instance &) {
             spine_damage.add_damage(DT_STAB, spine);
             source->deal_damage(this, bp_torso, 3, spine_damage);
         }
-        if (encumb(bp_hit) == 0 && (has_trait("THORNS")) && (!(source->has_weapon())))
+        if ((encumb(bp_hit) == 0) && (has_trait("THORNS")) && (!(source->has_weapon())))
         {
             int thorn = rng(1, 4);
             add_msg(m_good, _("Your thorns scrape %s in mid-attack!"), source->disp_name().c_str());
