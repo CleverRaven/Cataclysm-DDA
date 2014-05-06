@@ -1656,7 +1656,7 @@ void player::memorial( std::ofstream &memorial_file )
     }
     memorial_file << pronoun << _(" was ") << profession_name.str()
                   << _(" when the apocalypse began.") << "\n";
-    memorial_file << pronoun << _(" died on ") << _(season_name[calendar::turn.get_season()].c_str())
+    memorial_file << pronoun << _(" died on ") << season_name[calendar::turn.get_season()]
                   << _(" of year ") << (calendar::turn.years() + 1)
                   << _(", day ") << (calendar::turn.days() + 1)
                   << _(", at ") << calendar::turn.print_time() << ".\n";
@@ -1880,7 +1880,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
 
     std::stringstream timestamp;
     timestamp << _("Year") << " " << (calendar::turn.years() + 1) << ", "
-              << _(season_name[calendar::turn.get_season()].c_str()) << " "
+              << season_name[calendar::turn.get_season()] << " "
               << (calendar::turn.days() + 1) << ", " << calendar::turn.print_time();
 
     const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
@@ -9087,9 +9087,9 @@ void player::read(int pos)
         add_msg(m_info, _("What's the point of reading?  (Your morale is too low!)"));
         return;
     } else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
-               !query_yn(_(tmp->fun > 0 ?
-                           "It would be fun, but your %s skill won't be improved.  Read anyway?"
-                           : "Your %s skill won't be improved.  Read anyway?"),
+               !query_yn(tmp->fun > 0 ?
+                           _("It would be fun, but your %s skill won't be improved.  Read anyway?")
+                           : _("Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
     } else if (!continuous && !query_yn(_("Study %s until you learn something? (gain a level)"),

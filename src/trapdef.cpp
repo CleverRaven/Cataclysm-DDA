@@ -11,10 +11,14 @@ void load_trap(JsonObject &jo)
         }
     }
 
+    std::string name = jo.get_string("name");
+    if (!name.empty()) {
+        name = _(name.c_str());
+    }
     trap *new_trap = new trap(
             jo.get_string("id"), // "tr_beartrap"
             traplist.size(),     // tr_beartrap
-            _(jo.get_string("name").c_str()), // "bear trap"
+            name, // "bear trap"
             color_from_string(jo.get_string("color")),
             jo.get_string("symbol").at(0),
             jo.get_int("visibility"),

@@ -1494,7 +1494,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
         std::vector<std::string> menu_items;
         std::vector<uimenu_entry> options_message;
         menu_items.push_back(_("Fill a container with %drink"));
-        options_message.push_back(uimenu_entry(_((std::string("Fill a container with ") + drink->name).c_str()), '1'));
+        options_message.push_back(uimenu_entry(string_format(_("Fill a container with %s"), drink->name.c_str()), '1'));
         menu_items.push_back(_("Have a drink"));
         options_message.push_back(uimenu_entry(_("Have a drink"), '2'));
         menu_items.push_back(_("Refill"));

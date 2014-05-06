@@ -1429,7 +1429,7 @@ void load_construction(JsonObject &jo)
     JsonArray temp;
 
     con->description = _(jo.get_string("description").c_str());
-    con->skill = _(jo.get_string("skill", "carpentry").c_str());
+    con->skill = jo.get_string("skill", "carpentry");
     con->difficulty = jo.get_int("difficulty");
     con->time = jo.get_int("time");
 
