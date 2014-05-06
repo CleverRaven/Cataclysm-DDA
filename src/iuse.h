@@ -40,6 +40,7 @@ public:
     int fungicide           (player*, item*, bool);
     int antifungal          (player*, item*, bool);
     int antiparasitic       (player*, item*, bool);
+    int anticonvulsant      (player*, item*, bool);
     int weed                (player*, item*, bool);
     int coke                (player*, item*, bool);
     int crack               (player*, item*, bool);

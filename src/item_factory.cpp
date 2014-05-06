@@ -192,6 +192,7 @@ void Item_factory::init(){
     iuse_function_list["FUNGICIDE"] = &iuse::fungicide;
     iuse_function_list["ANTIFUNGAL"] = &iuse::antifungal;
     iuse_function_list["ANTIPARASITIC"] = &iuse::antiparasitic;
+    iuse_function_list["ANTICONVULSANT"] = &iuse::anticonvulsant;
     iuse_function_list["WEED"] = &iuse::weed;
     iuse_function_list["COKE"] = &iuse::coke;
     iuse_function_list["CRACK"] = &iuse::crack;

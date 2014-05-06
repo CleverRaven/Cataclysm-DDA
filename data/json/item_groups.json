@@ -1447,6 +1447,7 @@
       ["antibiotics", 25],
       ["antifungal", 2],
       ["antiparasitic", 3],
+      ["diazepam", 4],
       ["syringe", 8]
     ]
   },{
@@ -3490,6 +3491,7 @@
       ["smoxygen_tank", 10],
       ["antifungal", 5],
       ["antiparasitic", 10],
+      ["diazepam", 10],
       ["jar_3l_glass", 15]
     ]
   },{
@@ -3538,6 +3540,7 @@
       ["blanket", 50],
       ["smoxygen_tank", 10],
       ["antiparasitic", 3],
+      ["diazepam", 3],
       ["recipe_augs", 3],
       ["holybook_bible1", 4],
       ["holybook_bible2", 3],
@@ -5879,6 +5882,7 @@
       ["30gal_drum", 30],
       ["wearable_light", 10],
       ["antiparasitic", 5],
+      ["diazepam", 5],
       ["misc_repairkit", 5],
       ["apron_leather", 10]
     ]
@@ -6605,6 +6609,7 @@
       ["pur_tablets", 10],
       ["optical_cloak", 1],
       ["antiparasitic", 2],
+      ["diazepam", 1],
       ["bot_laserturret", 1]
     ]
   },{
@@ -6778,6 +6783,7 @@
       ["crackpipe", 7],
       ["antifungal", 1],
       ["antiparasitic", 2],
+      ["diazepam", 1],
       ["lsd", 6]
     ]
   },{
@@ -7468,6 +7474,7 @@
       ["fungicide", 10],
       ["antifungal", 1],
       ["antiparasitic", 5],
+      ["diazepam", 1],
       ["throw_extinguisher", 2],
       ["small_repairkit", 14],
       ["grapnel", 6],
