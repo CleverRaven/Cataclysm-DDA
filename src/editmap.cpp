@@ -231,9 +231,9 @@ void editmap::uphelp (std::string txt1, std::string txt2, std::string title)
     if ( txt1 != "" ) {
         mvwprintw(w_help, 0, 0, "%s", padding.c_str() );
         mvwprintw(w_help, 1, 0, "%s", padding.c_str() );
-        mvwprintw(w_help, ( txt2 != "" ? 0 : 1 ), 0, _(txt1.c_str()));
+        mvwprintw(w_help, ( txt2 != "" ? 0 : 1 ), 0, txt1.c_str());
         if ( txt2 != "" ) {
-            mvwprintw(w_help, 1, 0, _(txt2.c_str()));
+            mvwprintw(w_help, 1, 0, txt2.c_str() );
         }
     }
     if ( title != "" ) {
@@ -1125,7 +1125,7 @@ int editmap::edit_trp()
                    if( traplist[t]->name.length() > 0 ) {
                        //~ trap editor list entry. 1st string is display name, 2nd string is internal name of trap
                        tnam = string_format(_("%s (%s)"),
-                                            _(traplist[t]->name.c_str()), traplist[t]->id.c_str());
+                                            traplist[t]->name.c_str(), traplist[t]->id.c_str());
                    } else {
                        tnam = traplist[t]->id;
                    }

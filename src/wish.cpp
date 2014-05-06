@@ -479,7 +479,7 @@ void game::wishskill(player *p)
          aSkill != Skill::skills.end(); ++aSkill) {
         int skill_id = (*aSkill)->id();
         skmenu.addentry( skill_id + skoffset, true, -2, _("@ %d: %s  "),
-                         (int)p->skillLevel(*aSkill), _((*aSkill)->name().c_str()) );
+                         (int)p->skillLevel(*aSkill), (*aSkill)->name().c_str() );
         origskills[skill_id] = (int)p->skillLevel(*aSkill);
     }
     do {
