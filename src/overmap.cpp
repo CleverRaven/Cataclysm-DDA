@@ -67,11 +67,6 @@ std::map<std::string, oter_t> obasetermap;
 //const regional_settings default_region_settings;
 std::map<std::string, regional_settings> region_settings_map;
 
-double dist(int x1, int y1, int x2, int y2)
-{
-    return sqrt(double((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
-}
-
 std::vector<overmap_special> overmap_specials;
 
 void load_overmap_specials(JsonObject &jo)
@@ -2116,7 +2111,7 @@ void overmap::place_forest()
         int inner_tries = 1000;
         for (int j = 0; j < cities.size(); j++) {
             inner_tries = 1000;
-            while (dist(forx, fory, cities[j].x, cities[j].y) - fors / 2 < cities[j].s ) {
+            while (trig_dist(forx, fory, cities[j].x, cities[j].y) - fors / 2 < cities[j].s ) {
                 // Set forx and fory far enough from cities
                 forx = rng(0, OMAPX - 1);
                 fory = rng(0, OMAPY - 1);
@@ -2315,11 +2310,11 @@ void overmap::put_buildings(int x, int y, int dir, city town)
     for (int i = -1; i <= 1; i += 2) {
         if ((ter(x + i * xchange, y + i * ychange, 0) == settings.default_oter ) &&
             !one_in(STREETCHANCE)) {
-            if (rng(0, 99) > 80 * dist(x, y, town.x, town.y) / town.s) {
+            if (rng(0, 99) > 80 * trig_dist(x, y, town.x, town.y) / town.s) {
                 ter(x + i * xchange, y + i * ychange, 0) =
                     shop( ((dir % 2) - i) % 4, settings.city_spec.shops );
             } else {
-                if (rng(0, 99) > 130 * dist(x, y, town.x, town.y) / town.s) {
+                if (rng(0, 99) > 130 * trig_dist(x, y, town.x, town.y) / town.s) {
                     ter(x + i * xchange, y + i * ychange, 0) =
                         shop( ((dir % 2) - i) % 4, settings.city_spec.parks );
                 } else {
@@ -2870,7 +2865,7 @@ void overmap::place_hiways(std::vector<city> cities, int z, const std::string &b
     for (int i = 0; i < cities.size(); i++) {
         int closest = -1;
         for (int j = i + 1; j < cities.size(); j++) {
-            int distance = (int)dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
+            int distance = trig_dist(cities[i].x, cities[i].y, cities[j].x, cities[j].y);
             if (distance < closest || closest < 0) {
                 closest = distance;
                 best = cities[j];
