@@ -2183,7 +2183,6 @@ void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...)
 
     va_end(ap);
 };
-//message related stuff
 void npc::add_msg_if_npc(game_message_type type, const char *msg, ...)
 {
     va_list ap;
@@ -2195,7 +2194,7 @@ void npc::add_msg_if_npc(game_message_type type, const char *msg, ...)
     if (offset != std::string::npos) {
         processed_npc_string.replace(offset, 9, name);
     }
-    add_msg(processed_npc_string.c_str(), type);
+    add_msg(type, processed_npc_string.c_str());
 
     va_end(ap);
 };
@@ -2213,7 +2212,7 @@ void npc::add_msg_player_or_npc(game_message_type type, const char *, const char
         if (offset != std::string::npos) {
             processed_npc_string.replace(offset, 9, disp_name());
         }
-        add_msg(processed_npc_string.c_str(), type);
+        add_msg(type, processed_npc_string.c_str());
     }
 
     va_end(ap);
