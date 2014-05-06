@@ -274,12 +274,12 @@ void mdeath::guilt(monster *z) {
     int maxKills = 100; // this is when the player stop caring altogether.
 
     // different message as we kill more of the same monster
-    std::string msg = "You feel guilty for killing %s."; // default guilt message
+    std::string msg = _("You feel guilty for killing %s."); // default guilt message
     game_message_type msgtype = m_bad; // default guilt message type
     std::map<int, std::string> guilt_tresholds;
-    guilt_tresholds[75] = "You feel ashamed for killing %s.";
-    guilt_tresholds[50] = "You regret killing %s.";
-    guilt_tresholds[25] = "You feel remorse for killing %s.";
+    guilt_tresholds[75] = _("You feel ashamed for killing %s.");
+    guilt_tresholds[50] = _("You regret killing %s.");
+    guilt_tresholds[25] = _("You feel remorse for killing %s.");
 
     if (g->u.has_trait("PSYCHOPATH") || g->u.has_trait("PRED3") || g->u.has_trait("PRED4") ) {
         return;
@@ -314,7 +314,7 @@ void mdeath::guilt(monster *z) {
         }
     }
 
-    add_msg(msgtype, _(msg.c_str()), z->name().c_str());
+    add_msg(msgtype, msg.c_str(), z->name().c_str());
 
     int moraleMalus = -50 * (1.0 - ((float) kill_count / maxKills));
     int maxMalus = -250 * (1.0 - ((float) kill_count / maxKills));
