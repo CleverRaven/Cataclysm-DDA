@@ -1822,28 +1822,6 @@ int editmap::edit_mapgen()
         if ( broken_oter_blacklist.find(id) != broken_oter_blacklist.end() ) {
             gmenu.entries[i].enabled = false;
         }
-        std::string special = "";
-        if ( oter_special.find(id) != oter_special.end() ) {
-            unsigned long flags =  overmap_specials[ oter_special[id] ].flags;
-            if (flags & mfb(OMS_FLAG_2X2)) {
-                special += " 2x2";
-            }
-            if (flags & mfb(OMS_FLAG_2X2_SECOND)) {
-                special += " 2x2s";
-            }
-            if (flags & mfb(OMS_FLAG_3X3)) {
-                special += " 3x3";
-            }
-            if (flags & mfb(OMS_FLAG_3X3_SECOND)) {
-                special += " 3x3s";
-            }
-            if (flags & mfb(OMS_FLAG_CLASSIC)) {
-                special += " clas";
-            }
-        }
-        if ( !special.empty() ) {
-            gmenu.entries[i].txt += " (" + special + " )";
-        }
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = otermap[id].color;
         gmenu.entries[i].extratxt.txt = string_format("%c", otermap[id].sym);

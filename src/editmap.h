@@ -159,10 +159,6 @@ class editmap
             oter_special.clear();
             zlevel = g->levz;
             uberdraw = false;
-            for ( int i=0; i < NUM_OMSPECS; i++ ) {
-                oter_id key=overmap_specials[i].ter;
-                oter_special[key]=i;
-            }
         };
         ~editmap() {
             delwin(w_info);
