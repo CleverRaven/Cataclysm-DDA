@@ -1084,9 +1084,13 @@ void dis_effect(player &p, disease &dis)
 
         case DI_TETANUS:
             p.mod_dex_bonus(-4);
-            if (one_in(15)) {
-                p.add_effect("downed",3);
+            if (one_in(25)) {
+                add_msg(m_bad, "Your muscles spasm.");
+                p.add_effect("downed",rng(1,4));
                 p.add_effect("stunned",8);
+                if (one_in(10)) {
+                    p.mod_pain(rng(1, 10));
+                }
             }
             break;
 
