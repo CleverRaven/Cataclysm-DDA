@@ -10595,12 +10595,13 @@ void game::forage()
         }
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
         found_something = true;
-    }
-    if(!found_something) {
-        add_msg(_("You didn't find anything."));
+    } else {
         if (one_in(2)) {
             m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
         }
+    }
+    if(!found_something) {
+        add_msg(_("You didn't find anything."));
     }
 
     //Determinate maximum level of skill attained by foraging using ones intelligence score
