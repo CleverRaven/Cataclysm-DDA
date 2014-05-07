@@ -525,6 +525,11 @@ void initOptions()
                                             true
                                            );
 
+    OPTIONS["SUPPRESS_NOISES"] = cOpt("interface", _("Suppress vehicle engine noises"),
+                                    _("If true, vehicle whirrs and vrooms will not be printed and will not interrupt tasks."),
+                                    false
+                                   );
+
     OPTIONS["CLOSE_ADV_INV"] = cOpt("interface", _("Close advanced inventory on move all"),
                                     _("If true, will close the advanced inventory when the move all items command is used."),
                                     false
