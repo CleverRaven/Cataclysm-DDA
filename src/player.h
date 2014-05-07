@@ -183,6 +183,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
+        /** Print just the gun mode indicator. **/
+        void print_gun_mode( WINDOW *w, nc_color c );
+        /** Print just the colored recoil indicator. **/
+        void print_recoil( WINDOW *w );
+
         /** Generates the sidebar and it's data in-game */
         void disp_status(WINDOW *w, WINDOW *w2);
 

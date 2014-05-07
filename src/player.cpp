@@ -3387,46 +3387,59 @@ void player::disp_morale()
     delwin(w);
 }
 
+void player::print_gun_mode( WINDOW *w, nc_color c )
+{
+    // Print current weapon, or attachment if active.
+    item* gunmod = weapon.active_gunmod();
+    std::stringstream attachment;
+    if (gunmod != NULL) {
+        attachment << gunmod->type->nname(1).c_str();
+        for( auto &mod : weapon.contents ) {
+            if (mod.is_gunmod() && mod.has_flag("MODE_AUX")) {
+                attachment << " (" << mod.charges << ")";
+            }
+        }
+        wprintz(w, c, _("%s (Mod)"), attachment.str().c_str());
+    } else {
+        if (weapon.mode == "MODE_BURST") {
+            wprintz(w, c, _("%s (Burst)"), weapname().c_str());
+        } else {
+            wprintz(w, c, _("%s"), weapname().c_str());
+        }
+    }
+}
+
+void player::print_recoil( WINDOW *w )
+{
+    if (weapon.is_gun()) {
+        const int adj_recoil = recoil + driving_recoil;
+        if (adj_recoil > 0) {
+            nc_color c = c_ltgray;
+            if (adj_recoil >= 36) {
+                c = c_red;
+            } else if (adj_recoil >= 20) {
+                c = c_ltred;
+            } else if (adj_recoil >= 4) {
+                c = c_yellow;
+            }
+            wprintz(w, c, _("Recoil"));
+        }
+    }
+}
+
 void player::disp_status(WINDOW *w, WINDOW *w2)
 {
     bool sideStyle = use_narrow_sidebar();
     WINDOW *weapwin = sideStyle ? w2 : w;
 
-    // Print current weapon, or attachment if active.
-    item* gunmod = weapon.active_gunmod();
-    std::stringstream attachment;
-    if (gunmod != NULL)
     {
-        attachment << gunmod->type->nname(1).c_str();
-        for (auto &i : weapon.contents) {
-            if (i.is_gunmod() && i.has_flag("MODE_AUX")) {
-                attachment << " (" << i.charges << ")";
-            }
-        }
-        mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Mod)"), attachment.str().c_str());
-    }
-    else
-    {
-        if (weapon.mode == "MODE_BURST")
-                mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s (Burst)"), weapname().c_str());
-        else
-            mvwprintz(weapwin, sideStyle ? 1 : 0, 0, c_ltgray, _("%s"), weapname().c_str());
-    }
+        const int y = sideStyle ? 1 : 0;
+        wmove( weapwin, y, 0 );
+        print_gun_mode( weapwin, c_ltgray );
 
-    if (weapon.is_gun()) {
-        int adj_recoil = recoil + driving_recoil;
-        if (adj_recoil > 0) {
-            nc_color c = c_ltgray;
-            if (adj_recoil >= 36)
-                c = c_red;
-            else if (adj_recoil >= 20)
-                c = c_ltred;
-            else if (adj_recoil >= 4)
-                c = c_yellow;
-            int y = sideStyle ? 1 : 0;
-            int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
-            mvwprintz(weapwin, y, x, c, _("Recoil"));
-        }
+        const int x = sideStyle ? (getmaxx(weapwin) - 6) : 34;
+        wmove( weapwin, y, x );
+        print_recoil(weapwin);
     }
 
     // Print currently used style or weapon mode.
