@@ -11658,7 +11658,7 @@
         "addiction_potential" : 0,
         "nutrition" : 2,
         "description" : "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
-        "price" : 0,
+        "price" : 100,
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
