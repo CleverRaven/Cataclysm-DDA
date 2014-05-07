@@ -803,7 +803,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 }
 
-void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
+static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
 {
     draw_border(w_target);
     mvwprintz(w_target, 0, 2, c_white, "< ");
@@ -817,15 +817,17 @@ void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
             } else if( relevent->has_flag("NO_AMMO") ) {
                 wprintz(w_target, c_red, _("Firing %s"), u.weapon.tname().c_str());
             } else {
-                wprintz(w_target, c_red, _("Firing %s (%d)"), // - %s (%d)",
-                        p.weapon.tname().c_str(), p.weapon.charges);
+                wprintz(w_target, c_red, _("Firing ") );
+                p.print_gun_mode( w_target, c_red );
+                wprintz(w_target, c_red, "%s", " ");
+                p.print_recoil( w_target );
             }
         } else {
             wprintz(w_target, c_red, _("Throwing %s"), relevant->tname().c_str());
         }
     }
     wprintz(w_target, c_white, " >");
-    int text_y = getmaxy(w_target) - 4;
+    int text_y = getmaxy(w_target) - 5;
     if (is_mouse_enabled()) {
         --text_y;
     }
@@ -868,14 +870,16 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     }
 
     bool sideStyle = use_narrow_sidebar();
-    int height = 13;
+    int height = 17;
     int width  = getmaxx(w_messages);
-    int top    = sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));
+    // Overlap the player info window.
+    int top    = -1 + sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap));
     int left   = getbegx(w_messages);
     WINDOW *w_target = newwin(height, width, top, left);
     WINDOW_PTR w_targetptr( w_target );
 
     draw_targeting_window( w_target, relevant, u );
+
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
     std::string enemiesmsg;
@@ -916,7 +920,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
         }
         // Clear the target window.
-        for (int i = 1; i < getmaxy(w_target) - 5; i++) {
+        for (int i = 1; i < getmaxy(w_target) - 6; i++) {
             for (int j = 1; j < getmaxx(w_target) - 2; j++) {
                 mvwputch(w_target, i, j, c_white, ' ');
             }
@@ -984,9 +988,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         }
         wrefresh(w_target);
         wrefresh(w_terrain);
-        u.disp_status(w_status, w_status2);
-        wrefresh(w_status);
-        wrefresh(w_status2);
         refresh();
 
         input_context ctxt("TARGET");
