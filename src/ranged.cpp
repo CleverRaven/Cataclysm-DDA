@@ -1102,6 +1102,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             snap_to_target = !snap_to_target;
         } else if (action == "QUIT") { // return empty vector (cancel)
             ret.clear();
+            target = -1;
             break;
         }
     } while (true);
