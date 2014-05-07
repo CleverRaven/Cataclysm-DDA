@@ -914,8 +914,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 mvwputch(w_target, i, j, c_white, ' ');
             }
         }
-        /* Start drawing w_terrain things -- possibly move out to centralized draw_terrain_window
-           function as they all should be roughly similar */
+        /* Start drawing w_terrain things -- possibly move out to centralized
+           draw_terrain_window function as they all should be roughly similar */
         m.build_map_cache(); // part of the SDLTILES drawing code
         m.draw(w_terrain, center); // embedded in SDL drawing code
         // Draw the Monsters
@@ -998,7 +998,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         ctxt.register_action("QUIT");
 
         const std::string &action = ctxt.handle_input();
-
 
         tarx = 0;
         tary = 0;
