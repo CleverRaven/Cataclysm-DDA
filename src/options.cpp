@@ -525,8 +525,8 @@ void initOptions()
                                             true
                                            );
 
-    OPTIONS["SUPPRESS_NOISES"] = cOpt("interface", _("Suppress vehicle engine noises"),
-                                    _("If true, vehicle whirrs and vrooms will not be printed and will not interrupt tasks."),
+    OPTIONS["SUPPRESS_NOISES"] = cOpt("interface", _("Suppress noises"),
+                                    _("If true, noises will not give prompt to interrupt tasks."),
                                     false
                                    );
 
