@@ -803,10 +803,55 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 }
 
+void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
+{
+    draw_border(w_target);
+    mvwprintz(w_target, 0, 2, c_white, "< ");
+    if (!relevant) { // currently targetting vehicle to refill with fuel
+        wprintz(w_target, c_red, _("Select a vehicle"));
+    } else {
+        if( relevant == &p.weapon && relevant->is_gun() ) {
+            if( relevant->has_flag("RELOAD_AND_SHOOT") ) {
+                wprintz(w_target, c_red, _("Shooting %s from %s"),
+                        p.weapon.curammo->nname(1).c_str(), p.weapon.tname().c_str());
+            } else if( relevent->has_flag("NO_AMMO") ) {
+                wprintz(w_target, c_red, _("Firing %s"), u.weapon.tname().c_str());
+            } else {
+                wprintz(w_target, c_red, _("Firing %s (%d)"), // - %s (%d)",
+                        p.weapon.tname().c_str(), p.weapon.charges);
+            }
+        } else {
+            wprintz(w_target, c_red, _("Throwing %s"), relevant->tname().c_str());
+        }
+    }
+    wprintz(w_target, c_white, " >");
+    int text_y = getmaxy(w_target) - 4;
+    if (is_mouse_enabled()) {
+        --text_y;
+    }
+    mvwprintz(w_target, text_y++, 1, c_white,
+              _("Move cursor to target with directional keys"));
+    if( relevant ) {
+        mvwprintz(w_target, text_y++, 1, c_white,
+                  _("'<' '>' Cycle targets; 'f' or Enter to fire"));
+        mvwprintz(w_target, text_y++, 1, c_white,
+                  _("'0' target self; '*' toggle snap-to-target"));
+        mvwprintz(w_target, text_y++, 1, c_white,
+                  _("'.' to steady your aim."));
+    }
+
+    if( is_mouse_enabled() ) {
+        mvwprintz(w_target, text_y++, 1, c_white,
+                  _("Mouse: LMB: Target, Wheel: Cycle, RMB: Fire"));
+    }
+
+    wrefresh( w_target );
+}
+
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 int hiy, std::vector <Creature *> t, int &target,
-                                item *relevent)
+                                item *relevant)
 {
     std::vector<point> ret;
     int tarx, tary, junk, tart;
@@ -829,46 +874,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     int left   = getbegx(w_messages);
     WINDOW *w_target = newwin(height, width, top, left);
     WINDOW_PTR w_targetptr( w_target );
-    draw_border(w_target);
-    mvwprintz(w_target, 0, 2, c_white, "< ");
-    if (!relevent) { // currently targetting vehicle to refill with fuel
-        wprintz(w_target, c_red, _("Select a vehicle"));
-    } else {
-        if (relevent == &u.weapon && relevent->is_gun()) {
-            if(relevent->has_flag("RELOAD_AND_SHOOT")) {
-                wprintz(w_target, c_red, _("Shooting %s from %s"),
-                        u.weapon.curammo->nname(1).c_str(), u.weapon.tname().c_str());
-            } else if(relevent->has_flag("NO_AMMO")) {
-                wprintz(w_target, c_red, _("Firing %s"), u.weapon.tname().c_str());
-            } else {
-                wprintz(w_target, c_red, _("Firing %s (%d)"),
-                        u.weapon.tname().c_str(), u.weapon.charges);
-            }
-        } else {
-            wprintz(w_target, c_red, _("Throwing %s"), relevent->tname().c_str());
-        }
-    }
-    wprintz(w_target, c_white, " >");
-    int text_y = getmaxy(w_target) - 4;
-    if (is_mouse_enabled()) {
-        --text_y;
-    }
-    mvwprintz(w_target, text_y++, 1, c_white, _("Move cursor to target with directional keys"));
-    if (relevent) {
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'<' '>' Cycle targets; 'f' or Enter to fire"));
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'0' target self; '*' toggle snap-to-target"));
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("'.' to steady your aim."));
-    }
 
-    if (is_mouse_enabled()) {
-        mvwprintz(w_target, text_y++, 1, c_white,
-                  _("Mouse: LMB: Target, Wheel: Cycle, RMB: Fire"));
-    }
-
-    wrefresh(w_target);
+    draw_targeting_window( w_target, relevant, u );
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
     std::string enemiesmsg;
@@ -933,15 +940,16 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             // Provides feedback to the player, and avoids leaking information
             // about tiles they can't see.
             draw_line(x, y, center, ret);
+
             // Print to target window
-            if (!relevent) {
+            if (!relevant) {
                 // currently targetting vehicle to refill with fuel
                 vehicle *veh = m.veh_at(x, y);
                 if( veh != nullptr && u.sees( x, y ) ) {
                     mvwprintw(w_target, 1, 1, _("There is a %s"),
                               veh->name.c_str());
                 }
-            } else if (relevent == &u.weapon && relevent->is_gun()) {
+            } else if (relevant == &u.weapon && relevant->is_gun()) {
                 // firing a gun
                 mvwprintw(w_target, 1, 1, _("Range: %d/%d, %s"),
                           rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
