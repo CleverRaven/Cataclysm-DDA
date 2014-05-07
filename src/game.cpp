@@ -6092,7 +6092,7 @@ bool game::sound(int x, int y, int vol, std::string description)
     }
 
     if( (x != u.posx || y != u.posy) && !m.pl_sees(u.posx, u.posy, x, y, dist) ) {
-        if(u.activity.ignore_trivial != true) {
+        if(u.activity.ignore_trivial != true && OPTIONS["SUPPRESS_NOISES"] != true) {
             std::string query;
             if (description != "") {
                 query = string_format(_("Heard %s!"), description.c_str());
