@@ -2341,6 +2341,18 @@ std::vector<item>& map::i_at(const int x, const int y)
  return current_submap->itm[lx][ly];
 }
 
+item_accessor map::get_items(const int x, const int y)
+{
+ if (!INBOUNDS(x, y)) {
+     return item_accessor(NULL, 0, 0);
+ }
+
+ int lx, ly;
+ submap * const current_submap = get_submap_at(x, y, lx, ly);
+
+ return current_submap->get_items(lx, ly);
+}
+
 bool map::sees_some_items(int x, int y, const player &u)
 {
     if(i_at(x, y).empty()) {

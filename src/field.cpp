@@ -368,34 +368,41 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                         }
                         break;
 
-                    case fd_acid:
+                    case fd_acid: {
                         if (has_flag("SWIMMABLE", x, y)) { // Dissipate faster in water
                             cur->setFieldAge(cur->getFieldAge() + 20);
                         }
-                        for (int i = 0; i < i_at(x, y).size(); i++) {
-                            item *melting = &(i_at(x, y)[i]); //For each item on the tile...
+
+                        item_accessor items = get_items(x, y);
+                        const item* melting;
+                        while( (melting = items.next()) != NULL) {
 
                             // see DEVELOPER_FAQ.txt for how acid resistance is calculated
 
+                            // Create a copy of the melting item that we'll modify.
+                            item melting_replacement = *melting;
+
                             int chance = melting->acid_resist();
                             if (chance == 0) {
-                                melting->damage++;
+                                melting_replacement.damage++;
                             } else if (chance > 0 && chance < 9) {
                                 if (one_in(chance)) {
-                                    melting->damage++;
+                                    melting_replacement.damage++;
                                 }
                             }
-                            if (melting->damage >= 5) {
+                            if (melting_replacement.damage >= 5) {
                                 //Destroy the object, age the field.
                                 cur->setFieldAge(cur->getFieldAge() + melting->volume());
-                                for (int m = 0; m < i_at(x, y)[i].contents.size(); m++) {
-                                    i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
-                                }
-                                i_at(x, y).erase(i_at(x, y).begin() + i);
-                                i--;
+                                items.remove_current();
+                            } else {
+                                // Update our item.
+                                items.update_item(melting_replacement);
                             }
                         }
+
+                        items.flush();
                         break;
+                    }
 
                     case fd_sap:
                         break;
