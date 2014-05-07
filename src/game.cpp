@@ -11594,7 +11594,7 @@ bool game::plmove(int dx, int dy)
     if(u.hit(NULL, bp, side, 0, rng(1, 4)) > 0)
      add_msg(m_bad, _("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
      if (one_in(35)) {
-        u.add_disease("tetanus",1,true);
+         u.add_disease("tetanus",1,true);
      }
    }
   }

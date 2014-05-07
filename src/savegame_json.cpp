@@ -163,6 +163,7 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("power_level",power_level);
     data.read("max_power_level",max_power_level);
     data.read("traits",my_traits);
+    data.read("vaccines",my_vaccines);
 
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
@@ -234,6 +235,9 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // traits: permanent 'mutations' more or less
     json.member( "traits", my_traits );
+
+    //vaccines you have taken
+    json.member( "vaccines", my_vaccines );
 
     // skills
     json.member( "skills" );

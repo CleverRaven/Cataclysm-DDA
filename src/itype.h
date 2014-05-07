@@ -254,6 +254,7 @@ struct it_comest : public virtual itype
     signed int healthy;
     unsigned int brewtime; // How long it takes for a brew to ferment.
     std::string comesttype; //FOOD, DRINK, MED
+    std::string immunize; //What it immunizes against
 
     signed int fun;    // How fun its use is
 
@@ -284,6 +285,7 @@ struct it_comest : public virtual itype
     , healthy(0)
     , brewtime(0)
     , comesttype()
+    , immunize()
     , fun(0)
     , container()
     , tool()

@@ -3403,6 +3403,11 @@ bool player::has_trait(const std::string &flag) const
     return (flag != "") && (my_mutations.find(flag) != my_mutations.end());
 }
 
+bool player::has_vaccine(const std::string &flag) const
+{
+    return (flag != "") && (my_vaccines.find(flag) != my_vaccines.end());
+}
+
 bool player::has_base_trait(const std::string &flag) const
 {
     // Look only at base traits
@@ -3488,6 +3493,12 @@ void player::toggle_trait(const std::string &flag)
 {
     toggle_str_set(my_traits, flag); //Toggles a base trait on the player
     toggle_str_set(my_mutations, flag); //Toggles corresponding trait in mutations list as well.
+    recalc_sight_limits();
+}
+
+void player::add_vaccine(const std::string &flag)
+{
+    toggle_str_set(my_vaccines, flag); //Toggles a base trait on the player
     recalc_sight_limits();
 }
 
@@ -4928,6 +4939,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
                          int additive, body_part part, int side,
                          bool main_parts_only)
 {
+    if (!has_vaccine(type)) {
     if (duration <= 0) {
         return;
     }
@@ -4988,6 +5000,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
         }
         disease tmp(type, duration, intensity, part, side, permanent, decay);
         illness.push_back(tmp);
+    }
     }
 
     recalc_sight_limits();
@@ -8352,7 +8365,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_mouth) && has_trait("MANDIBLES"))
         {
             if(interactive)

@@ -1039,6 +1039,19 @@ int iuse::anticonvulsant(player *p, item *it, bool) {
     return it->type->charges_to_use();
 }
 
+int iuse::immunize(player *p, item *it, bool) {
+    it_comest *vac = dynamic_cast<it_comest*> (it->type);
+    if (!p->has_vaccine(vac->immunize)) {
+        if (one_in(3)) {
+            p->add_vaccine(vac->immunize);
+        }
+        p->add_msg_if_player(_("You inject your self with a vaccine"));
+        p->add_msg_if_player(m_warning,_("Your not sure if it worked "));
+    }
+    p->mod_pain( 3 );
+    return it->type->charges_to_use();
+}
+
 int iuse::weed(player *p, item *it, bool b) {
     // Requires flame and something to smoke with.
     bool hasPipe = (p->has_amount("apparatus", 1));
