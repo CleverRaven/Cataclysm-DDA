@@ -3122,29 +3122,25 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     // Print currently used style or weapon mode.
     std::string style = "";
-    if (is_armed())
-    {
-        //Show normal if no martial style is selected, or if the currently selected style does nothing for your weapon
-        if (style_selected == "style_none" || (!can_melee() && !martialarts[style_selected].has_weapon(weapon.type->id)))
+    if (is_armed()) {
+        // Show normal if no martial style is selected,
+        // or if the currently selected style does nothing for your weapon.
+        if (style_selected == "style_none" ||
+            (!can_melee() && !martialarts[style_selected].has_weapon(weapon.type->id))) {
             style = _("Normal");
-        else
+        } else {
             style = martialarts[style_selected].name;
+        }
 
         int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
         mvwprintz(weapwin, 1, x, c_red, style.c_str());
-    }
-    else
-    {
-        if (style_selected == "style_none")
-        {
+    } else {
+        if (style_selected == "style_none") {
             style = _("No Style");
-        }
-        else
-        {
+        } else {
             style = martialarts[style_selected].name;
         }
-        if (style != "")
-        {
+        if (style != "") {
             int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
             mvwprintz(weapwin, 1, x, c_blue, style.c_str());
         }
