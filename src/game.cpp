@@ -10567,10 +10567,12 @@ void game::complete_butcher(int index)
 void game::forage()
 {
     int veggy_chance = rng(1, 100);
+    bool found_something = false;
 
     if (one_in(12)) {
         add_msg(m_good, _("You found some trash!"));
         m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
+        found_something = true;
     }
     if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5)) {
         if (!one_in(6)) {
@@ -10595,12 +10597,15 @@ void game::forage()
             }
         }
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
-    } else {
+        found_something = true;
+    }
+    if(!found_something) {
         add_msg(_("You didn't find anything."));
         if (one_in(2)) {
             m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
         }
     }
+
     //Determinate maximum level of skill attained by foraging using ones intelligence score
     int max_forage_skill =  0;
     if (u.int_cur < 4) {
