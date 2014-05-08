@@ -2881,7 +2881,7 @@ your resistance to many diseases, and the effectiveness of actions which require
                               base_to_hit(false));
                     mvwprintz(w_stats, 7, 1, c_magenta, "                                            ");
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Ranged penalty: -%d"),
-                              abs(ranged_dex_mod(false)));
+                              abs(ranged_dex_mod()));
                     mvwprintz(w_stats, 8, 1, c_magenta, "                                            ");
                     if (throw_dex_mod(false) <= 0) {
                         mvwprintz(w_stats, 8, 1, c_magenta, _("Throwing bonus: +%d"),
@@ -2907,7 +2907,7 @@ electronics crafting. It also affects how much skill you can pick up from readin
                     // display player current PER effects
                     mvwprintz(w_stats, 5, 1, h_ltgray, _("Perception:"));
                     mvwprintz(w_stats, 6, 1,  c_magenta, _("Ranged penalty: -%d"),
-                              abs(ranged_per_mod(false)),"          ");
+                              abs(ranged_per_mod()),"          ");
                     mvwprintz(w_stats, 7, 1, c_magenta, _("Trap detection level: %d       "), get_per());
                     mvwprintz(w_stats, 8, 1, c_magenta, "                             ");
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, _("\
@@ -4484,28 +4484,26 @@ int player::throw_range(int pos)
  return ret;
 }
 
-int player::ranged_dex_mod(bool return_stat_effect) const
+int player::ranged_dex_mod() const
 {
-  // Stat window shows stat effects on based on current stat
-    const int dex = (return_stat_effect ? get_dex() : get_dex());
+    const int dex = get_dex();
 
     if (dex >= 12) { return 0; }
     return 12 - dex;
 }
 
-int player::ranged_per_mod(bool return_stat_effect) const
+int player::ranged_per_mod() const
 {
-  // Stat window shows stat effects on based on current stat
- const int per = (return_stat_effect ? get_per() : get_per());
+    const int per = get_per();
 
- if (per >= 12) { return 0; }
- return 12 - per;
+    if (per >= 12) { return 0; }
+    return 12 - per;
 }
 
 int player::throw_dex_mod(bool return_stat_effect) const
 {
   // Stat window shows stat effects on based on current stat
- int dex = (return_stat_effect ? get_dex() : get_dex());
+ int dex = get_dex();
  if (dex == 8 || dex == 9)
   return 0;
  if (dex >= 10)
