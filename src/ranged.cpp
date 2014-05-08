@@ -938,6 +938,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         }
         // Draw the player
         draw_critter( g->u, center );
+        int line_number = 1;
         if (x != u.posx || y != u.posy) {
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information
@@ -949,12 +950,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 // currently targetting vehicle to refill with fuel
                 vehicle *veh = m.veh_at(x, y);
                 if( veh != nullptr && u.sees( x, y ) ) {
-                    mvwprintw(w_target, 1, 1, _("There is a %s"),
+                    mvwprintw(w_target, line_number++, 1, _("There is a %s"),
                               veh->name.c_str());
                 }
             } else if (relevant == &u.weapon && relevant->is_gun()) {
                 // firing a gun
-                mvwprintw(w_target, 1, 1, _("Range: %d/%d, %s"),
+                mvwprintw(w_target, line_number, 1, _("Range: %d/%d, %s"),
                           rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
                 // get the current weapon mode or mods
                 std::string mode = "";
@@ -967,24 +968,29 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                     }
                 }
                 if (mode != "") {
-                    mvwprintw(w_target, 1, 14, _("Firing mode: %s"),
+                    mvwprintw(w_target, line_number, 14, _("Firing mode: %s"),
                               mode.c_str());
                 }
+                line_number++;
             } else {
                 // throwing something
-                mvwprintw(w_target, 1, 1, _("Range: %d/%d, %s"),
+                mvwprintw(w_target, line_number++, 1, _("Range: %d/%d, %s"),
                           rl_dist(u.posx, u.posy, x, y), range, enemiesmsg.c_str());
             }
 
             const Creature *critter = critter_at( x, y );
             if( critter != nullptr && u.sees( critter ) ) {
-                critter->print_info( w_target, 2, 5, 1);
+                line_number = critter->print_info( w_target, line_number, 5, 1);
             } else {
                 mvwputch(w_terrain, POSY + y - center.y, POSX + x - center.x, c_red, '*');
             }
         } else {
-            mvwprintw(w_target, 1, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
+            mvwprintw(w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
         }
+
+        wmove( w_target, line_number++, 1 );
+        u.print_aim_adjective( w_target, relevant );
+
         wrefresh(w_target);
         wrefresh(w_terrain);
         refresh();

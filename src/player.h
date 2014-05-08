@@ -183,6 +183,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
+        /** Print the adjective describing how well the player is currently aiming.**/
+        void print_aim_adjective( WINDOW *w, item *weapon );
         /** Print just the gun mode indicator. **/
         void print_gun_mode( WINDOW *w, nc_color c );
         /** Print just the colored recoil indicator. **/

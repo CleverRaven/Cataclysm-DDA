@@ -3387,6 +3387,34 @@ void player::disp_morale()
     delwin(w);
 }
 
+void player::print_aim_adjective( WINDOW *w, item *weapon)
+{
+    const int aim_level = recoil + driving_recoil + ranged_dex_mod() +
+        skill_dispersion( weapon, false );
+    std::string aim_adjective;
+    if( aim_level == 0 ) {
+        aim_adjective = _("pinpoint");
+    } else if ( aim_level < 10 ) {
+        aim_adjective = _("solid");
+    } else if ( aim_level < 20 ) {
+        aim_adjective = _("controlled");
+    } else if ( aim_level < 30 ) {
+        aim_adjective = _("steady");
+    } else if ( aim_level < 40 ) {
+        aim_adjective = _("stable");
+    } else if ( aim_level < 50 ) {
+        aim_adjective = _("unsteady");
+    } else if ( aim_level < 60 ) {
+        aim_adjective = _("shakey");
+    } else if ( aim_level < 70 ) {
+        aim_adjective = _("precarious");
+    } else {
+        aim_adjective = _("wild");
+    }
+    // "Your aim is <an adjective describing steadiness of aim>."
+    wprintw(w, _("Your aim is %s"), aim_adjective.c_str() );
+}
+
 void player::print_gun_mode( WINDOW *w, nc_color c )
 {
     // Print current weapon, or attachment if active.
