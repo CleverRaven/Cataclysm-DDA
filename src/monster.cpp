@@ -249,7 +249,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column)
 
  const int vEnd = vStart + vLines;
 
- mvwprintz(w, vStart++, column, c_white, "%s ", type->name.c_str());
+ mvwprintz(w, vStart++, column, c_white, "%s ", _(type->name.c_str()));
  nc_color color = c_white;
  std::string attitude = "";
 
