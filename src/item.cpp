@@ -26,8 +26,6 @@
 #define ssize_t int
 #endif
 
-std::string default_technique_name(technique_id tech);
-
 light_emission nolight={0,0,0};
 
 item::item()
@@ -2958,33 +2956,6 @@ bool item::flammable() const
     material_type* cur_mat2 = material_type::find_material(type->m2);
 
     return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
-}
-
-std::string default_technique_name(technique_id tech)
-{
- switch (tech) {
-  case TEC_SWEEP: return _("Sweep attack");
-  case TEC_PRECISE: return _("Precision attack");
-  case TEC_BRUTAL: return _("Knock-back attack");
-  case TEC_GRAB: return _("Grab");
-  case TEC_WIDE: return _("Hit all adjacent monsters");
-  case TEC_RAPID: return _("Rapid attack");
-  case TEC_FEINT: return _("Feint");
-  case TEC_THROW: return _("Throw");
-  case TEC_BLOCK: return _("Block");
-  case TEC_BLOCK_LEGS: return _("Leg block");
-  case TEC_WBLOCK_1: return _("Weak block");
-  case TEC_WBLOCK_2: return _("Parry");
-  case TEC_WBLOCK_3: return _("Shield");
-  case TEC_COUNTER: return _("Counter-attack");
-  case TEC_BREAK: return _("Grab break");
-  case TEC_DISARM: return _("Disarm");
-  case TEC_DEF_THROW: return _("Defensive throw");
-  case TEC_DEF_DISARM: return _("Defense disarm");
-  case TEC_FLAMING: return    _("FLAMING");
-  default: return "A BUG! (item.cpp:default_technique_name (default))";
- }
- return "A BUG! (item.cpp:default_technique_name)";
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)
