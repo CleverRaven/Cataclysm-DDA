@@ -360,10 +360,6 @@ void Item_factory::init(){
     // See artifact.h for a list
     iuse_function_list["ARTIFACT"] = &iuse::artifact;
 
-    // Offensive Techniques
-    techniques_list["PRECISE"] = "tec_precise";
-    techniques_list["RAPID"] = "tec_rapid";
-
     create_inital_categories();
 }
 
