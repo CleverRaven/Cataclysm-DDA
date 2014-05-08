@@ -253,8 +253,6 @@ void load_martial_art(JsonObject &jo);
 
 void clear_techniques_and_martial_arts();
 
-void init_martial_arts();
-
 extern std::map<matype_id, martialart> martialarts;
 extern std::map<mabuff_id, ma_buff> ma_buffs;
 extern std::map<matec_id, ma_technique> ma_techniques;

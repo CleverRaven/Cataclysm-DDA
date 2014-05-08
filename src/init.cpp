@@ -220,9 +220,6 @@ void DynamicDataLoader::initialize()
     // mod information, ignored, handled by the mod manager
     type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
     type_function_map["BULLET_PULLING"] = new StaticFunctionAccessor(&iuse::load_bullet_pulling);
-
-    // init maps used for loading json data
-    init_martial_arts();
 }
 
 void DynamicDataLoader::reset()
