@@ -2205,58 +2205,6 @@ bool item::is_artifact() const
     return type->is_artifact();
 }
 
-int item::sort_rank() const
-{
-    // guns ammo weaps tools armor food med books mods other
-    if (is_gun())
-    {
-        return 0;
-    }
-    else if (is_ammo())
-    {
-        return 1;
-    }
-    else if (is_weap()) // is_weap calls a lot of other stuff, so possible optimization candidate
-    {
-        return 2;
-    }
-    else if (is_tool())
-    {
-        return 3;
-    }
-    else if (is_armor())
-    {
-        return 4;
-    }
-    else if (is_food_container())
-    {
-        return 5;
-    }
-    else if (is_food())
-    {
-        it_comest* comest = dynamic_cast<it_comest*>(type);
-        if (comest->comesttype != "MED")
-        {
-            return 5;
-        }
-        else
-        {
-            return 6;
-        }
-    }
-    else if (is_book())
-    {
-        return 7;
-    }
-    else if (is_gunmod() || is_bionic())
-    {
-        return 8;
-    }
-
-    // "other" case
-    return 9;
-}
-
 bool item::operator<(const item& other) const
 {
     const item_category &cat_a = get_category();
