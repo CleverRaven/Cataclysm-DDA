@@ -401,13 +401,13 @@ void initOptions()
     optionNames["pl"] = _("Polish");
     optionNames["pt_BR"] = _("Brazilian Portuguese");
     optionNames["pt_PT"] = _("Portuguese, Portugal");
-    optionNames["ru_RU"] = _("Russian");
+    optionNames["ru"] = _("Russian");
     optionNames["sr"] = _("Serbian");
     optionNames["vi"] = _("Vietnamese");
     optionNames["zh_CN"] = _("Simplified Chinese");
     optionNames["zh_TW"] = _("Traditional Chinese");
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru_RU,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                "" );
 
     optionNames["fahrenheit"] = _("Fahrenheit");
