@@ -3409,7 +3409,7 @@ void player::print_gun_mode( WINDOW *w, nc_color c )
     }
 }
 
-void player::print_recoil( WINDOW *w )
+void player::print_recoil( WINDOW *w ) const
 {
     if (weapon.is_gun()) {
         const int adj_recoil = recoil + driving_recoil;

@@ -186,7 +186,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Print just the gun mode indicator. **/
         void print_gun_mode( WINDOW *w, nc_color c );
         /** Print just the colored recoil indicator. **/
-        void print_recoil( WINDOW *w );
+        void print_recoil( WINDOW *w ) const;
 
         /** Generates the sidebar and it's data in-game */
         void disp_status(WINDOW *w, WINDOW *w2);
