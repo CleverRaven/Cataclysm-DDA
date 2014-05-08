@@ -461,6 +461,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_weapon_block();
         /** Sets up a melee attack and handles melee attack function calls */
         void melee_attack(Creature &t, bool allow_special, matec_id technique = "");
+        /** Returns the player's dispersion modifier based on skill. **/
+        int skill_dispersion( item *weapon, bool random );
         /** Returns a weapon's modified dispersion value */
         double get_weapon_dispersion(item *weapon);
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
