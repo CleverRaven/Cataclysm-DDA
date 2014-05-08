@@ -772,11 +772,7 @@ void Item_factory::load_comestible(JsonObject& jo)
 {
     it_comest* comest_template = new it_comest();
     comest_template->comesttype = jo.get_string("comestible_type");
-    if (comest_template->comesttype == "MED") {
-        comest_template->immunize = jo.get_string("immunize");
-    } else {
-        comest_template->immunize = "null";
-    }
+    comest_template->immunize = jo.get_string("immunize","null");
     comest_template->tool = jo.get_string("tool", "null");
     comest_template->container = jo.get_string("container", "null");
     comest_template->quench = jo.get_int("quench", 0);
