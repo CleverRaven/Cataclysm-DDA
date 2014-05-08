@@ -16,7 +16,10 @@ void load_technique(JsonObject &jo)
     ma_technique tec;
 
     tec.id = jo.get_string("id");
-    //tec.name = _(jo.get_string("name").c_str());
+    tec.name = jo.get_string("name", "");
+	if (!tec.name.empty()) {
+		tec.name = _(tec.name.c_str());
+	}
 
     JsonArray jsarr = jo.get_array("messages");
     while (jsarr.has_more()) {

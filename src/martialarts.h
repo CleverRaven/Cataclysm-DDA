@@ -48,6 +48,7 @@ class ma_technique {
     ma_technique();
 
     std::string id;
+    std::string name;
 
     std::string goal; // the melee goal this achieves
 

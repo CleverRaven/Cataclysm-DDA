@@ -448,6 +448,11 @@ void Item_factory::check_itype_definitions() const {
         if(type->m2 != "null" && !material_type::has_material(type->m2)) {
             msg << string_format("invalid material %s", type->m2.c_str()) << "\n";
         }
+        for(std::set<std::string>::const_iterator a = type->techniques.begin(); a != type->techniques.end(); ++a) {
+            if (ma_techniques.count(*a) == 0) {
+                msg << string_format("unknown technique %s", a->c_str()) << "\n";
+            }
+        }
         for(std::map<std::string, int>::const_iterator a = type->qualities.begin(); a != type->qualities.end(); ++a) {
             if (::qualities.count(a->first) == 0) {
                 msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
