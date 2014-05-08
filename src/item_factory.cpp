@@ -360,10 +360,6 @@ void Item_factory::init(){
     // See artifact.h for a list
     iuse_function_list["ARTIFACT"] = &iuse::artifact;
 
-    // Offensive Techniques
-    techniques_list["PRECISE"] = "tec_precise";
-    techniques_list["RAPID"] = "tec_rapid";
-
     create_inital_categories();
 }
 
@@ -451,6 +447,11 @@ void Item_factory::check_itype_definitions() const {
         }
         if(type->m2 != "null" && !material_type::has_material(type->m2)) {
             msg << string_format("invalid material %s", type->m2.c_str()) << "\n";
+        }
+        for(std::set<std::string>::const_iterator a = type->techniques.begin(); a != type->techniques.end(); ++a) {
+            if (ma_techniques.count(*a) == 0) {
+                msg << string_format("unknown technique %s", a->c_str()) << "\n";
+            }
         }
         for(std::map<std::string, int>::const_iterator a = type->qualities.begin(); a != type->qualities.end(); ++a) {
             if (::qualities.count(a->first) == 0) {

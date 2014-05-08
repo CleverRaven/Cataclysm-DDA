@@ -48,6 +48,7 @@ class ma_technique {
     ma_technique();
 
     std::string id;
+    std::string name;
 
     std::string goal; // the melee goal this achieves
 
@@ -252,8 +253,6 @@ void load_technique(JsonObject &jo);
 void load_martial_art(JsonObject &jo);
 
 void clear_techniques_and_martial_arts();
-
-void init_martial_arts();
 
 extern std::map<matype_id, martialart> martialarts;
 extern std::map<mabuff_id, ma_buff> ma_buffs;
