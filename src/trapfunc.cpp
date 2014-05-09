@@ -142,7 +142,7 @@ void trapfunc::tripwire(Creature *c, int x, int y)
             std::vector<point> valid;
             point jk;
             for (jk.x = x - 1; jk.x <= x + 1; jk.x++) {
-                for (jk.y = y - 1; y <= y + 1; jk.y++) {
+                for (jk.y = y - 1; jk.y <= y + 1; jk.y++) {
                     if (g->is_empty(jk.x, jk.y)) {
                         // No monster, NPC, or player, plus valid for movement
                         valid.push_back(jk);
@@ -729,7 +729,7 @@ void trapfunc::portal(Creature */*c*/, int /*x*/, int /*y*/)
     // TODO: make this do something?
 }
 
-void trapfunc::sinkhole(Creature *c, int x, int y)
+void trapfunc::sinkhole(Creature *c, int /*x*/, int /*y*/)
 {
     if (c != &g->u) {
         // TODO: make something exciting happen here
