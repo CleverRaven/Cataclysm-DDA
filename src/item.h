@@ -109,6 +109,7 @@ public:
  int pick_reload_ammo(player &u, bool interactive);
  bool reload(player &u, int pos);
  void next_mode();
+ std::string skill() const;
 
     using JsonSerializer::serialize;
     // give the option not to save recursively, but recurse by default

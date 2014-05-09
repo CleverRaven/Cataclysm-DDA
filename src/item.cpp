@@ -2667,6 +2667,18 @@ void item::next_mode()
     }
 }
 
+std::string item::skill() const
+{
+    if( is_gunmod() ) {
+        return dynamic_cast<it_gunmod *>(type)->skill_used->ident();
+    } else if ( is_gun() ) {
+        return dynamic_cast<it_gun *>(type)->skill_used->ident();
+    } else if ( is_book() ) {
+        return dynamic_cast<it_book *>(type)->type->ident();
+    }
+    return "null";
+}
+
 int item::clip_size()
 {
     if(is_gunmod() && has_flag("MODE_AUX"))

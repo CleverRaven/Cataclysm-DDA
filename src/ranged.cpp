@@ -1297,17 +1297,8 @@ int ranged_skill_offset( std::string skill )
 }
 
 int player::skill_dispersion( item *weapon, bool random ) {
-    int weapon_skill_level = 0;
-    std::string skill_used;
-    if(weapon->is_gunmod()) {
-        it_gunmod* firing = dynamic_cast<it_gunmod *>(weapon->type);
-        skill_used = firing->skill_used->ident();
-        weapon_skill_level = skillLevel(firing->skill_used);
-    } else {
-        it_gun* firing = dynamic_cast<it_gun *>(weapon->type);
-        skill_used = firing->skill_used->ident();
-        weapon_skill_level = skillLevel(firing->skill_used);
-    }
+    const std::string skill_used = weapon->skill();
+    const int weapon_skill_level = skillLevel(skill_used);
     int dispersion = 0; // Measured in quarter-degrees.
     // Up to 0.75 degrees for each skill point < 10.
     if (weapon_skill_level < 10) {
