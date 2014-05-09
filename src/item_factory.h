@@ -196,8 +196,6 @@ private:
 
     //iuse stuff
     std::map<Item_tag, use_function> iuse_function_list;
-    //techniques stuff
-    std::map<Item_tag, matec_id> techniques_list;
 };
 
 extern Item_factory* item_controller;
