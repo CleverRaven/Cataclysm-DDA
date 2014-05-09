@@ -1613,7 +1613,7 @@ void overmap::draw(WINDOW *w, const tripoint &center,
                         ter_color = c_pink;
                     }
                 } else if (note_text.length() >= 4 && note_text[3] == ';') {
-                    if (note_text[0] == 'r') {
+                    if (note_text[2] == 'r') {
                         ter_color = c_ltred;
                     }
                     if (note_text[2] == 'R') {
