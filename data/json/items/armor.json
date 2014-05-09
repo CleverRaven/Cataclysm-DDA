@@ -3893,7 +3893,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "BELTED"],
         "coverage" : 20,
         "material_thickness" : 2
     },
