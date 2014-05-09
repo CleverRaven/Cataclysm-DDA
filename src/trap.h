@@ -81,6 +81,8 @@ public:
  bool is_benign() const { return benign; }
  // non-generic numbers for special cases
  int funnel_radius_mm;
+    /** If an item with this weight or more is thrown onto the trap, it triggers. */
+    int trigger_weight;
     /** Can player/npc p see this kind of trap? */
     bool can_see(const player &p, int x, int y) const;
     /** Trigger trap effects by creature that stepped onto it. */
@@ -113,6 +115,7 @@ public:
         benign = false;
         // Traps are not typically funnels
         funnel_radius_mm = 0;
+        trigger_weight = -1;
     };
 };
 

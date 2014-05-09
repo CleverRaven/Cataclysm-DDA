@@ -30,6 +30,7 @@ void load_trap(JsonObject &jo)
 
     new_trap->benign = jo.get_bool("benign", false);
     new_trap->funnel_radius_mm = jo.get_int("funnel_radius", 0);
+    new_trap->trigger_weight = jo.get_int("trigger_weight", -1);
     trapmap[new_trap->id] = new_trap->loadid;
     traplist.push_back(new_trap);
 }
