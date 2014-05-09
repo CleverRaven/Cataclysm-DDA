@@ -1804,7 +1804,7 @@ void iexamine::trap(player *p, map *m, int examx, int examy) {
         return;
     }
     const struct trap& t = *traplist[tid];
-    if (t.can_see(*p) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
+    if (t.can_see(*p, examx, examy) && query_yn(_("There is a %s there.  Disarm?"), t.name.c_str())) {
         m->disarm_trap(examx, examy);
     }
 }

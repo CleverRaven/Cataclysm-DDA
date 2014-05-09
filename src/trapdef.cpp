@@ -71,9 +71,11 @@ trap_id trapfind(const std::string id) {
     return traplist[trapmap[id]]->loadid;
 };
 
-bool trap::can_see(const player &p) const
+bool trap::can_see(const player &p, int x, int y) const
 {
-    return visibility < 0 || (p.per_cur - const_cast<player&>(p).encumb(bp_eyes)) >= visibility;
+    return visibility < 0 ||
+        (p.per_cur - const_cast<player&>(p).encumb(bp_eyes)) >= visibility ||
+        p.knows_trap(x, y);
 }
 
 void trap::trigger(Creature *creature, int x, int y) const

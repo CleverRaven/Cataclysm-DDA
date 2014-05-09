@@ -914,7 +914,7 @@ bool cata_tiles::draw_trap(int x, int y)
     if (tr_id == tr_null) {
         return false;
     }
-    if (!traplist[tr_id]->can_see(g->u)) {
+    if (!traplist[tr_id]->can_see(g->u) && !g->u.knows_trap(x, y)) {
         return false;
     }
 

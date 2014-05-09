@@ -109,7 +109,7 @@ public:
  // non-generic numbers for special cases
  int funnel_radius_mm;
     /** Can player/npc p see this kind of trap? */
-    bool can_see(const player &p) const;
+    bool can_see(const player &p, int x, int y) const;
     /** Trigger trap effects by creature that stepped onto it. */
     void trigger(Creature *creature, int x, int y) const;
 
