@@ -4027,6 +4027,34 @@ void player::pause()
             break;
         }
     }
+
+    search_surroundings();
+}
+
+void player::search_surroundings()
+{
+    if (controlling_vehicle) {
+        return;
+    }
+    for(size_t i = 0; i < 9; i++) {
+        const int x = posx + i / 3 - 1;
+        const int y = posy + i % 3 - 1;
+        const trap_id trid = g->m.tr_at(x, y);
+        if (trid == tr_null || (x == posx && y == posy)) {
+            continue;
+        }
+        const trap *tr = traplist[trid];
+        if (tr->name.empty() || tr->can_see(*this)) {
+            // Already seen, or has no name -> can never bee seen
+            continue;
+        }
+        const std::string direction = direction_name(direction_from(posx, posy, x, y));
+        add_msg_if_player(_("You've spotted a %s to the %s!"), tr->name.c_str(), direction.c_str());
+        const std::map<std::string, int>::const_iterator kntr = trapmap.find(std::string("known_") + tr->id);
+        if (kntr != trapmap.end()) {
+            g->m.add_trap(x, y, (trap_id) kntr->second);
+        }
+    }
 }
 
 int player::throw_range(int pos)

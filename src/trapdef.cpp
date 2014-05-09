@@ -33,6 +33,19 @@ void load_trap(JsonObject &jo)
     new_trap->funnel_radius_mm = jo.get_int("funnel_radius", 0);
     trapmap[new_trap->id] = new_trap->loadid;
     traplist.push_back(new_trap);
+
+    if (new_trap->visibility >= 0 && new_trap->id != "tr_null" && !new_trap->name.empty()) {
+        // Add a copy of the new trap with visibility = -1 (always visible)
+        // and id = "known_" + id ("known_beartrap").
+        // Otherwise this copy is identical. The copy is used when the player
+        // knows about a trap, but can't see it, the copy can always be seen.
+        new_trap = new trap(*new_trap);
+        new_trap->id.insert(0, "known_");
+        new_trap->visibility = -1;
+        new_trap->loadid = traplist.size();
+        trapmap[new_trap->id] = new_trap->loadid;
+        traplist.push_back(new_trap);
+    }
 }
 
 void release_traps()

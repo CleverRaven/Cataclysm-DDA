@@ -4835,7 +4835,16 @@ if(it->type->id == "cot"){
 
  p->add_msg_if_player(message.str().c_str());
  p->practice(calendar::turn, "traps", practice);
- g->m.add_trap(posx, posy, type);
+    trap *tr = traplist[type];
+    const std::map<std::string, int>::const_iterator kntr = trapmap.find(
+                std::string("known_") + tr->id);
+    if (tr->can_see(*p) || kntr == trapmap.end()) {
+        g->m.add_trap(posx, posy, type);
+    } else {
+        // if the newly places trap would be invisible to the one placing it
+        // and there is a visible version of it (known_ prefix), use that one instead.
+        g->m.add_trap(posx, posy, (trap_id) kntr->second);
+    }
  p->moves -= 100 + practice * 25;
  if (type == tr_engine) {
   for (int i = -1; i <= 1; i++) {

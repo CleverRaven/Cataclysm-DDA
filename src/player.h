@@ -906,6 +906,9 @@ private:
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
 
+    /** Search surroundings squares for traps while pausing a turn. */
+    void search_surroundings();
+
     std::vector<point> auto_move_route;
     // Used to make sure auto move is canceled if we stumble off course
     point next_expected_position;
