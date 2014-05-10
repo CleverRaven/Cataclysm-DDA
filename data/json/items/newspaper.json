@@ -24,7 +24,7 @@
         "name": "survivor's note",
         "plural-name": "survivor's notes",
         "snippet_category": "note",
-        "description": "A scrap of paper. Something's written on it, scrawled and in bad handwriting.",
+        "description": "A scrap of paper. Something's written on it, scrawled in bad handwriting.",
         "price": 0,
         "material": "paper",
         "weight": 3,
