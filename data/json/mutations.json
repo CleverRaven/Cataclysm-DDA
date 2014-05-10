@@ -1910,6 +1910,40 @@
         "category" : ["MUTCAT_URSINE"]
     },{
         "type" : "mutation",
+        "id" : "MUT_TOUGH",
+        "name" : "Resilient",
+        "points" : 3,
+        "description" : "You can survive injuries that would incapicitate humans: you get a 20% bonus to all hit points. Stacks with Tough, etc.",
+        "prereqs" : ["LARGE_OK", "HUGE_OK", "STR_UP_3"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA"],
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "changes_to" : ["MUT_TOUGH2"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "MUT_TOUGH2",
+        "name" : "Solidly Built",
+        "points" : 5,
+        "description" : "Not much scares you. You get a 30% bonus to all hit points. Stacks with Tough, etc.",
+        "valid" : false,
+        "prereqs" : ["MUT_TOUGH"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA"],
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "changes_to" : ["MUT_TOUGH3"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "MUT_TOUGH3",
+        "name" : "TAAANK",
+        "points" : 7,
+        "description" : "You can simply take the punishment from lesser beings and keep going. You get a 40% bonus to all hit points. Stacks with Tough, etc.",
+        "valid" : false,
+        "prereqs" : ["MUT_TOUGH2"],
+        "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
+        "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+    },{
+        "type" : "mutation",
         "id" : "PAINREC1",
         "name" : "Pain Recovery",
         "points" : 3,
@@ -3022,7 +3056,18 @@
         "points" : -4,
         "mixed_effect" : true,
         "description" : "Your DNA has been damaged in a way that causes you to continually develop more mutations.",
+        "changes_to" : ["CHAOTIC"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_MEDICAL", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "CHAOTIC",
+        "name" : "Genetic Chaos",
+        "points" : -8,
+        "purifiable" : false,
+        "description" : "Your body alters itself rapidly, and without your intervention or conscious control.",
+        "prereqs" : ["UNSTABLE", "MUT_JUNKIE"],
+        "threshreq" : ["THRESH_CHIMERA"],
+        "category" : ["MUTCAT_CHIMERA"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE1",

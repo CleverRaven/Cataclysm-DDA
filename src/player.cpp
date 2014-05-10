@@ -4871,10 +4871,10 @@ void player::recalc_hp()
         }
         // You lose half the HP you'd expect from BENDY mutations.  Your gelatinous
         // structure can help with that, a bit.
-        if (has_trait("BENDY02")) {
+        if (has_trait("BENDY2")) {
             new_max_hp[i] += 3;
         }
-        if (has_trait("BENDY03")) {
+        if (has_trait("BENDY3")) {
             new_max_hp[i] += 6;
         }
         // Only the most extreme applies.
@@ -4890,6 +4890,14 @@ void player::recalc_hp()
             new_max_hp[i] *= .5;
         } else if (has_trait("FLIMSY3")) {
             new_max_hp[i] *= .25;
+        }
+        // Mutated toughness stacks with starting, by design.
+        if (has_trait("MUT_TOUGH")) {
+            new_max_hp[i] *= 1.2;
+        } else if (has_trait("MUT_TOUGH2")) {
+            new_max_hp[i] *= 1.3;
+        } else if (has_trait("MUT_TOUGH3")) {
+            new_max_hp[i] *= 1.4;
         }
     }
     if (has_trait("GLASSJAW"))
@@ -5695,6 +5703,9 @@ void player::suffer()
     }
 
     if (has_trait("UNSTABLE") && one_in(28800)) { // Average once per 2 days
+        mutate();
+    }
+    if (has_trait("CHAOTIC") && one_in(7200)) { // Should be once every 12 hours
         mutate();
     }
     if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800)) {
