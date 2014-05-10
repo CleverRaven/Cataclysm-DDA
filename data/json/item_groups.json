@@ -596,8 +596,7 @@
       ["pan", 80],
       ["waffleiron", 25],
       ["teapot", 25],
-      ["pot", 80],
-      ["arm", 1]
+      ["pot", 80]
     ]
   },{
     "type" : "item_group",
@@ -1066,8 +1065,7 @@
       ["fruit_leather", 25],
       ["popcorn", 25],
       ["popcorn2", 25],
-      ["candycigarette", 20],
-      ["arm", 1]
+      ["candycigarette", 20]
     ]
     },{
     "type" : "item_group",
