@@ -370,7 +370,7 @@
     },{
 			"type" : "snippet",
         "category" : "note",
-        "text" : "\"My friend gave me lit dynamite, but it hasn't exploded yet... three hour fuse?!\""
+        "text" : "\"My friend gave me lit dynamite, but it hasn't exploded yet... I don't think that's supposed to happen. God help us.\""
     },{
 			"type" : "snippet",
         "category" : "note",
@@ -491,5 +491,13 @@
 			"type" : "snippet",
         "category" : "note",
         "text" : "\"Shopping carts become a lot more efficient when you plate-weld a trunk to them. Crate on wheels!\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"telportfd itont wall, amr gone\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"This thing isn't a car any more. It's just a fucking mountain of metal on wheels, which I live in.\""
     }
 ]
