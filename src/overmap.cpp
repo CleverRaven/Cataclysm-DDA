@@ -3702,34 +3702,20 @@ void overmap::open()
     std::string const plrfilename = player_filename(loc.x, loc.y);
     std::string const terfilename = terrain_filename(loc.x, loc.y);
     std::ifstream fin;
-    // Set position IDs
+
     fin.open(terfilename.c_str());
     if (fin.is_open()) {
         unserialize(fin, plrfilename, terfilename);
         fin.close();
     } else { // No map exists!  Prepare neighbors, and generate one.
-        std::vector<overmap *> pointers;
-        // Fetch north and south
+        std::vector<overmap*> pointers;
+
         for (int i = -1; i <= 1; i += 2) {
-            std::string const tmpfilename = terrain_filename(loc.x, loc.y + i);
-            fin.open(tmpfilename.c_str());
-            if (fin.is_open()) {
-                fin.close();
-                pointers.push_back(new overmap(loc.x, loc.y + i));
-            } else {
-                pointers.push_back(NULL);
-            }
+            pointers.push_back((overmap*)overmap_buffer.get_existing(loc.x, loc.y+i));
         }
         // Fetch east and west
         for (int i = -1; i <= 1; i += 2) {
-            std::string const tmpfilename = terrain_filename(loc.x + i, loc.y);
-            fin.open(tmpfilename.c_str());
-            if (fin.is_open()) {
-                fin.close();
-                pointers.push_back(new overmap(loc.x + i, loc.y));
-            } else {
-                pointers.push_back(NULL);
-            }
+            pointers.push_back((overmap*)overmap_buffer.get_existing(loc.x+i, loc.y));
         }
         // pointers looks like (north, south, west, east)
         generate(pointers[0], pointers[3], pointers[1], pointers[2]);
