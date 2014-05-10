@@ -3084,6 +3084,40 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
 
 void overmap::good_river(int x, int y, int z)
 {
+
+
+    if((x == 0) || (x == OMAPX-1))
+    {
+        if(!is_river(ter(x, y - 1, z)))
+        {
+            ter(x, y, z) = "river_south";
+        }
+        else if(!is_river(ter(x, y + 1, z)))
+        {
+            ter(x, y, z) = "river_north";
+        }
+        else
+        {
+            ter(x, y, z) = "river_center";
+        }
+        return;
+    }
+    if((y == 0) || (y == OMAPY-1))
+    {
+        if(!is_river(ter(x - 1, y, z)))
+        {
+            ter(x, y, z) = "river_west";
+        }
+        else if(!is_river(ter(x + 1, y, z)))
+        {
+            ter(x, y, z) = "river_east";
+        }
+        else
+        {
+            ter(x, y, z) = "river_center";
+        }
+        return;
+    }
     if (is_river(ter(x - 1, y, z))) {
         if (is_river(ter(x, y - 1, z))) {
             if (is_river(ter(x, y + 1, z))) {
@@ -3151,6 +3185,7 @@ void overmap::good_river(int x, int y, int z)
             }
         }
     }
+
 }
 
 bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed)
