@@ -237,8 +237,15 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 const char invlet = it.invlet == 0 ? ' ' : it.invlet;
                 // Use width of the column minus two for the hotkey and leading space,
                 // and one for a space on the right.
-                const std::string truncated_item_name = std::string(
-                    (it.display_name(slice[cur_it].first->size()).c_str()) ).substr( 0, right_column_offset - 3 );
+                std::string truncated_item_name;
+                std::string it_name_full = it.display_name(slice[cur_it].first->size()).c_str();
+                int it_name_width = utf8_width(it_name_full.c_str());
+                if (it_name_width > right_column_offset - 3) {
+                    int bytes_offset = cursorx_to_position(it_name_full.c_str(), right_column_offset - 3, NULL, 0);
+                    truncated_item_name = it_name_full.substr(0, bytes_offset);
+                } else {
+                    truncated_item_name = it_name_full;
+                }
                 mvwputch(w_inv, cur_line, 0,
                          (cur_it == selected ? selected_line_color : c_white), invlet);
                 if(slice[cur_it].first->size() > 1) {
