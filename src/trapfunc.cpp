@@ -38,9 +38,10 @@ void trapfunc::bubble(Creature *c, int x, int y)
 
 void trapfunc::cot(Creature *c, int, int)
 {
-    if (dynamic_cast<monster *>(c) != NULL) {
+    monster *z = dynamic_cast<monster *>(c);
+    if (z != NULL) {
         // Haha, only monsters stumble over a cot, humans are smart.
-        add_msg(m_good, _("The %s stumbles over the cot"), c->disp_name().c_str());
+        add_msg(m_good, _("The %s stumbles over the cot"), z->name().c_str());
         c->moves -= 100;
     }
 }
@@ -229,12 +230,12 @@ void trapfunc::crossbow(Creature *c, int x, int y)
             }
             if (one_in(chance)) {
                 if (seen) {
-                    add_msg(m_bad, _("A bolt shoots out and hits the %s!"), z->disp_name().c_str());
+                    add_msg(m_bad, _("A bolt shoots out and hits the %s!"), z->name().c_str());
                 }
                 z->hurt(rng(20, 30));
                 add_bolt = !one_in(10);
             } else if (seen) {
-                add_msg(m_neutral, _("A bolt shoots out, but misses the %s."), z->disp_name().c_str());
+                add_msg(m_neutral, _("A bolt shoots out, but misses the %s."), z->name().c_str());
             }
         }
     }
@@ -248,6 +249,7 @@ void trapfunc::crossbow(Creature *c, int x, int y)
 
 void trapfunc::shotgun(Creature *c, int x, int y)
 {
+    g->sound(x, y, 60, _("Kerblam!"));
     int shots = 1;
     if (c != NULL) {
         c->add_msg_player_or_npc(m_neutral, _("You trigger a shotgun trap!"),
@@ -315,7 +317,7 @@ void trapfunc::shotgun(Creature *c, int x, int y)
                 shots = 1;
             }
             if (seen) {
-                add_msg(m_bad, _("A shotgun fires and hits the %s!"), z->disp_name().c_str());
+                add_msg(m_bad, _("A shotgun fires and hits the %s!"), z->name().c_str());
             }
             z->hurt(rng(40 * shots, 60 * shots));
         }
@@ -342,9 +344,6 @@ void trapfunc::blade(Creature *c, int, int)
         if (n != NULL) {
             n->hit(NULL, bp_torso, -1, 12, 30);
         } else if (z != NULL) {
-            if (g->u_see(z)) {
-                add_msg(m_bad, _("A blade swings out and hacks the %s!"), z->disp_name().c_str());
-            }
             int cutdam = std::max(0, 30 - z->get_armor_cut(bp_torso));
             int bashdam = std::max(0, 12 - z->get_armor_bash(bp_torso));
             z->hurt(bashdam + cutdam);
@@ -375,10 +374,6 @@ void trapfunc::snare_light(Creature *c, int x, int y)
     if (n != NULL) {
         n->add_disease("lightsnare", rng(10, 20));
     } else if (z != NULL) {
-        bool seen = g->u_see(z);
-        if(seen) {
-            add_msg(m_good, _("The %s has been snared!"), z->disp_name().c_str());
-        }
         switch (z->type->size) {
             case MS_TINY:
                 z->add_effect("beartrap", 1, 1, true);
@@ -424,7 +419,6 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
         n->hit(NULL, bp_legs, side, 15, 20);
         n->add_disease("heavysnare", rng(20, 30));
     } else if (z != NULL) {
-        bool seen = g->u_see(z);
         int damage;
         switch (z->type->size) {
             case MS_TINY:
@@ -445,9 +439,6 @@ void trapfunc::snare_heavy(Creature *c, int x, int y)
                 break;
             default:
                 damage = 0;
-        }
-        if(seen) {
-            add_msg(m_good, _("The %s has been snared!"), z->disp_name().c_str());
         }
         z->moves = 0;
         z->hurt(damage);
@@ -496,7 +487,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
             g->teleport();
         } else if (z != NULL) {
             if (g->u_see(z)) {
-                add_msg(_("The air shimmers around the %s..."), z->disp_name().c_str());
+                add_msg(_("The air shimmers around the %s..."), z->name().c_str());
             }
 
             int tries = 0;
@@ -514,7 +505,7 @@ void trapfunc::telepad(Creature *c, int x, int y)
                 if (mon_hit != -1) {
                     if (g->u_see(z)) {
                         add_msg(m_good, _("The %s teleports into a %s, killing them both!"),
-                                z->disp_name().c_str(), g->zombie(mon_hit).disp_name().c_str());
+                                z->name().c_str(), g->zombie(mon_hit).name().c_str());
                     }
                     g->explode_mon(mon_hit);
                 } else {
