@@ -3272,6 +3272,9 @@ void map::remove_trap(const int x, const int y)
 
     trap_id t = current_submap->get_trap(lx, ly);
     if (t != tr_null) {
+        if (g != NULL && this == &g->m) {
+            g->u.add_known_trap(x, y, "tr_null");
+        }
         current_submap->set_trap(lx, ly, tr_null);
         traplocs[t].erase(point(x, y));
     }
@@ -3637,7 +3640,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
         show_items = false; // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if (curr_trap != tr_null && traplist[curr_trap]->can_see(g->u)) {
+    if (curr_trap != tr_null && traplist[curr_trap]->can_see(g->u, x, y)) {
         tercol = traplist[curr_trap]->color;
         if (traplist[curr_trap]->sym == '%') {
             switch(rng(1, 5)) {

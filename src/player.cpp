@@ -254,6 +254,7 @@ player& player::operator= (const player & rhs)
  oxygen = rhs.oxygen;
  next_climate_control_check=rhs.next_climate_control_check;
  last_climate_control_ret=rhs.last_climate_control_ret;
+ known_traps = rhs.known_traps;
 
  recoil = rhs.recoil;
  driving_recoil = rhs.driving_recoil;
@@ -3931,11 +3932,11 @@ bool player::has_two_arms() const
  return true;
 }
 
-bool player::avoid_trap(trap* tr)
+bool player::avoid_trap(trap* tr, int x, int y)
 {
   int myroll = dice(3, int(dex_cur + skillLevel("dodge") * 1.5));
  int traproll;
-    if (tr->can_see(*this)) {
+    if (tr->can_see(*this, x, y)) {
         traproll = dice(3, tr->get_avoidance());
     } else {
         traproll = dice(6, tr->get_avoidance());
@@ -4026,6 +4027,31 @@ void player::pause()
             }
             break;
         }
+    }
+
+    search_surroundings();
+}
+
+void player::search_surroundings()
+{
+    if (controlling_vehicle) {
+        return;
+    }
+    for(size_t i = 0; i < 9; i++) {
+        const int x = posx + i / 3 - 1;
+        const int y = posy + i % 3 - 1;
+        const trap_id trid = g->m.tr_at(x, y);
+        if (trid == tr_null || (x == posx && y == posy)) {
+            continue;
+        }
+        const trap *tr = traplist[trid];
+        if (tr->name.empty() || tr->can_see(*this, x, y)) {
+            // Already seen, or has no name -> can never bee seen
+            continue;
+        }
+        const std::string direction = direction_name(direction_from(posx, posy, x, y));
+        add_msg_if_player(_("You've spotted a %s to the %s!"), tr->name.c_str(), direction.c_str());
+        add_known_trap(x, y, tr->id);
     }
 }
 
@@ -10770,3 +10796,23 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
     Messages::vadd_msg(type, player_str, ap);
     va_end(ap);
 };
+
+bool player::knows_trap(int x, int y) const
+{
+    x += g->levx * SEEX;
+    y += g->levy * SEEY;
+    tripoint p(x, y, g->levz);
+    return known_traps.count(p) > 0;
+}
+
+void player::add_known_trap(int x, int y, const std::string &t)
+{
+    x += g->levx * SEEX;
+    y += g->levy * SEEY;
+    tripoint p(x, y, g->levz);
+    if (t == "tr_null") {
+        known_traps.erase(p);
+    } else {
+        known_traps[p] = t;
+    }
+}

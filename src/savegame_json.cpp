@@ -182,6 +182,15 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("effects",effects);
     data.read("addictions",addictions);
     data.read("my_bionics",my_bionics);
+
+    JsonArray traps = data.get_array("known_traps");
+    known_traps.clear();
+    while(traps.has_more()) {
+        JsonObject pmap = traps.next_object();
+        const tripoint p(pmap.get_int("x"), pmap.get_int("y"), pmap.get_int("z"));
+        const std::string t = pmap.get_string("trap");
+        known_traps.insert(trap_map::value_type(p, t));
+    }
 }
 
 /*
@@ -259,6 +268,18 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", my_bionics );
+
+    json.member( "known_traps" );
+    json.start_array();
+    for (trap_map::const_iterator a = known_traps.begin(); a != known_traps.end(); ++a) {
+        json.start_object();
+        json.member( "x", a->first.x );
+        json.member( "y", a->first.y );
+        json.member( "z", a->first.z );
+        json.member( "trap", a->second );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

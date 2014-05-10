@@ -279,6 +279,8 @@ class Creature
         virtual void add_msg_player_or_npc(const char *, const char *, ...){};
         virtual void add_msg_player_or_npc(game_message_type, const char *, const char *, ...){};
 
+        virtual void add_memorial_log(const char*, const char*, ...) {};
+
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
 
