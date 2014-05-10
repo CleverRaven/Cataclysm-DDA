@@ -299,6 +299,7 @@ class overmap
      * is invalid.
      */
     static const point invalid_point;
+    static const tripoint invalid_tripoint;
     /**
      * Search for the nearest note that contains the given pattern.
      * (x,y) are in global overmap terrain coordinates.
@@ -312,17 +313,17 @@ class overmap
      * @returns The absolute coordinates of the chosen point or
      * @ref invalid_point if canceled with escape (or similar key).
      */
-    static point draw_overmap();
+    static tripoint draw_overmap();
     /**
      * Same as @ref draw_overmap() but starts at center
      * instead of players location.
      */
-    static point draw_overmap(const tripoint& center, bool debug_mongroup = false);
+    static tripoint draw_overmap(const tripoint& center, bool debug_mongroup = false);
     /**
      * Same as above but start at z-level z instead of players
      * current z-level, x and y are taken from the players position.
      */
-    static point draw_overmap(int z);
+    static tripoint draw_overmap(int z);
   void remove_vehicle(int id);
   int add_vehicle(vehicle *veh);
 

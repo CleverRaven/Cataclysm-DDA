@@ -4023,8 +4023,8 @@ void game::debug()
    break;
 
   case 3: {
-        point tmp = overmap::draw_overmap();
-        if (tmp != overmap::invalid_point)
+        tripoint tmp = overmap::draw_overmap();
+        if (tmp != overmap::invalid_tripoint)
         {
             //First offload the active npcs.
             active_npc.clear();
@@ -4038,6 +4038,7 @@ void game::debug()
             cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
             levx = tmp.x * 2 - int(MAPSIZE / 2);
             levy = tmp.y * 2 - int(MAPSIZE / 2);
+            levz = tmp.z;
             m.load(levx, levy, levz);
             load_npcs();
             m.spawn_monsters(); // Static monsters
