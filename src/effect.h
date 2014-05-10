@@ -30,7 +30,6 @@ struct effect_mod_info {
     int pain_reduced_max;
     int pain_chance;
     int pain_chance_reduced;
-    bool pain_sizing;
 
     int hurt_min;
     int hurt_max;
@@ -38,11 +37,9 @@ struct effect_mod_info {
     int hurt_reduced_max;
     int hurt_chance;
     int hurt_chance_reduced;
-    bool hurt_sizing;
 
     int cough_chance;
     int cough_chance_reduced;
-    bool harmful_cough;
 
     int vomit_chance;
     int vomit_chance_reduced;
@@ -53,7 +50,6 @@ struct effect_mod_info {
     int pkill_increment_reduced;
     int pkill_max;
     int pkill_max_reduced;
-    bool pkill_addict_reduces;
 
     effect_mod_info() : str_mod(0), dex_mod(0), per_mod(0), int_mod(0), speed_mod(0),
                         str_mod_reduced(0), dex_mod_reduced(0), per_mod_reduced(0),
@@ -142,6 +138,11 @@ class effect_type
         std::string apply_memorial_log;
         std::string remove_message;
         std::string remove_memorial_log;
+        
+        bool pain_sizing;
+        bool hurt_sizing;
+        bool harmful_cough;
+        bool pkill_addict_reduces;
 
         effect_mod_info base_mods;
         effect_mod_info scaling_mods;

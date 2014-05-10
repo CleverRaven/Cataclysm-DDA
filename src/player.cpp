@@ -4855,6 +4855,8 @@ void player::update_health()
 {
     if (get_healthy_mod() > 200) {
         set_healthy_mod(200);
+    } else if (get_healthy_mod() < -200) {
+        set_healthy_mod(-200);
     }
     int roll = rng(-100, 100);
     int health_threshold = get_healthy() - get_healthy_mod();
@@ -5223,7 +5225,7 @@ void player::process_effects() {
                         pkill += it->get_pkill_amount();
                         if (pkill < 0) {
                             pkill = 0;
-                        )
+                        }
                     }
                 }
             }
@@ -5632,6 +5634,52 @@ void player::process_effects() {
     Creature::process_effects();
 }
 
+void player::process_wounds()
+{
+    for (int i = 0; i < wounds.size(); /*no-op*/) {
+        wounds[i].mod_age(1);
+        //Handle trigs effects, only advance i if wound isn't removed
+        if(wounds[i].roll_trigs(*this);) {
+            wounds.erase(wounds.begin() + i);
+        } else {
+            //Wound wasn't removed, do other effects
+            mod_str_bonus(wounds[i].get_str_mod());
+            mod_dex_bonus(wounds[i].get_dex_mod());
+            mod_per_bonus(wounds[i].get_per_mod());
+            mod_int_bonus(wounds[i].get_int_mod());
+            
+            if (!has_trait("NOPAIN")) {
+                mod_pain(wounds[i].get_pain());
+            }
+            
+            //Not implemented yet
+            //bleed(wounds[i].get_bleed());
+            
+            if (wounds[i].get_bp() == num_bp) {
+                hurt(bp_torso, -1, wounds[i].get_hurt());
+            } else {
+                hurt(wounds[i].get_bp(), wounds[i].get_side(), wounds[i].get_hurt());
+            }
+            
+            for (std::vector<*wound_eff_type>::iterator it = wounds[i]->wound_effects.begin();
+                  it != wounds[i]->wound_effects.end(); ++it) {
+                if (it->effect_placed != "") {
+                    if (it->get_targeted_effect()) {
+                        p.add_effect(it->effect_placed, it->get_trig_effect_dur(),
+                                    it->get_effect_perm(), it->get_trig_effect_int(),
+                                    wounds[i].get_bp(), wounds[i].get_side());
+                    } else {
+                        p.add_effect(it->effect_placed, it->get_trig_effect_dur(),
+                                    it->get_effect_perm(), it->get_trig_effect_int());
+                    }
+                }
+            }
+
+            i++;
+        }
+    }
+}
+
 void player::suffer()
 {
     for (int i = 0; i < my_bionics.size(); i++) {
@@ -5657,6 +5705,8 @@ void player::suffer()
         }
     }
 
+    process_wounds();
+    
     for (int i = 0; i < illness.size(); i++) {
         dis_effect(*this, illness[i]);
     }
@@ -5935,12 +5985,12 @@ void player::suffer()
 
     if (has_trait("SUNBURN") && g->is_in_sunlight(posx, posy) && one_in(10)) {
         if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
-        add_msg(_("The sunlight burns your skin!"));
-        if (has_effect("sleep")) {
-            wake_up(_("You wake up!"));
-        }
-        mod_pain(1);
-        hurtall(1);
+            add_msg(_("The sunlight burns your skin!"));
+            if (has_effect("sleep")) {
+                wake_up(_("You wake up!"));
+            }
+            mod_pain(1);
+            hurtall(1);
         }
     }
 

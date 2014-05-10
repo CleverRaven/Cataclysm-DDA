@@ -205,6 +205,7 @@
         "apply_message" : "You're poisoned!",
         "remove_message" : "You feel much better.",
         "resist_trait" : "POISRESIST",
+        "pain_sizing" : true,
         "base_mods" : {
             "per_mod" : [-2, -1],
             "dex_mod" : [-1, -1],
@@ -212,7 +213,6 @@
             "pain" : [1],
             "pain_reduced" : [1],
             "pain_chance" : [150, 900],
-            "pain_sizing" : true,
             "hurt" : [1, 2],
             "hurt_reduced" : [1, 2],
             "hurt_chance" : [450, 2700]
@@ -228,6 +228,7 @@
         "desc" : ["Frequent pain and/or damage."],
         "reduced_desc" : ["Frequent pain and/or damage."],
         "resist_trait" : "POISRESIST",
+        "pain_sizing" : true,
         "base_mods" : {
             "per_mod" : [-2, -2],
             "dex_mod" : [-2, -2],
@@ -236,7 +237,6 @@
             "pain" : [2],
             "pain_reduced" : [1],
             "pain_chance" : [100, 500],
-            "pain_sizing" : true,
             "hurt" : [1, 2],
             "hurt_reduced" : [1, 2],
             "hurt_chance" : [150, 750]

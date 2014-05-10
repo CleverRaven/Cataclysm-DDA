@@ -71,7 +71,6 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
                 pain_chance_reduced = jsarr.get_int(1);
             }
         }
-        pain_sizing = j.get_bool("pain_sizing", false);
 
         if(j.has_member("hurt")) {
             JsonArray jsarr = j.get_array("hurt");
@@ -98,7 +97,6 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
                 hurt_chance_reduced = jsarr.get_int(1);
             }
         }
-        hurt_sizing = j.get_bool("hurt_sizing", false);
 
         if(j.has_member("cough_chance")) {
             JsonArray jsarr = j.get_array("cough_chance");
@@ -107,7 +105,6 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
                 cough_chance_reduced = jsarr.get_int(1);
             }
         }
-        harmful_cough = j.get_bool("harmful_cough", false);
 
         if(j.has_member("vomit_chance")) {
             JsonArray jsarr = j.get_array("vomit_chance");
@@ -140,7 +137,6 @@ bool effect_mod_info::load(JsonObject &jsobj, std::string member) {
                 pkill_max_reduced = jsarr.get_int(1);
             }
         }
-        pkill_addict_reduces = j.get_bool("pkill_addict_reduces", false);
 
         return true;
     } else {
@@ -152,7 +148,7 @@ bool effect_morph_info::load(JsonObject &jsobj, std::string member) {
     if( jsobj.has_object(member) ) {
         JsonObject j = jsobj.get_object(member);
         morph_id = j.get_string("morph_id");
-        morph_duration = j.get_int("morph_duration");
+        morph_duration = j.get_int("morph_duration", 1);
 
         morph_perm = j.get_int("morph_perm", false);
         morph_with_parts = j.get_bool("morph_with_parts", true);
@@ -592,7 +588,7 @@ int effect::get_pain_chance(bool reduced)
 }
 bool effect::get_pain_sizing()
 {
-    return (eff_type->base_mods.pain_sizing || eff_type->scaling_mods.pain_sizing);
+    return (eff_type.pain_sizing);
 }
 int effect::get_hurt(bool reduced)
 {
@@ -621,7 +617,7 @@ int effect::get_hurt_chance(bool reduced)
 }
 bool effect::get_hurt_sizing()
 {
-    return (eff_type->base_mods.hurt_sizing || eff_type->scaling_mods.hurt_sizing);
+    return (eff_type.hurt_sizing);
 }
 
 int effect::get_cough_chance(bool reduced)
@@ -638,7 +634,7 @@ int effect::get_cough_chance(bool reduced)
 }
 bool effect::get_harmful_cough()
 {
-    return (eff_type->base_mods.harmful_cough || eff_type->scaling_mods.harmful_cough);
+    return (eff_type.harmful_cough);
 }
 int effect::get_vomit_chance(bool reduced)
 {
@@ -690,8 +686,7 @@ int effect::get_pkill_max(bool reduced)
 }
 bool effect::get_pkill_addict_reduces()
 {
-    return (eff_type->base_mods.pkill_addict_reduces ||
-            eff_type->scaling_mods.pkill_addict_reduces);
+    return (eff_type.pkill_addict_reduces);
 }
 
 std::string effect::get_resist_trait()
@@ -795,6 +790,11 @@ void load_effect_type(JsonObject &jo)
 
     new_etype.health_affects = jo.get_bool("health_affects", false);
     new_etype.resist_trait = jo.get_string("resist_trait", "");
+    
+    new_etype.pain_sizing = j.get_bool("pain_sizing", false);
+    new_etype.hurt_sizing = j.get_bool("hurt_sizing", false);
+    new_etype.harmful_cough = j.get_bool("harmful_cough", false);
+    new_etype.pkill_addict_reduces = j.get_bool("pkill_addict_reduces", false);
 
     new_etype.base_mods.load(jo, "base_mods");
     new_etype.scaling_mods.load(jo, "scaling_mods");

@@ -108,6 +108,9 @@ public:
 
     /** Processes long-term effects */
     void process_effects();
+    
+    /** Processes wounds */
+    void process_wounds();
 
  virtual bool is_npc() { return false; } // Overloaded for NPCs in npc.h
  /** Returns what color the player should be drawn as */
