@@ -2175,7 +2175,7 @@
         "use_action" : "BLECH",
         "stim" : 0,
         "container" : "null",
-        "to_hit" : 0,
+        "to_hit" : -3,
         "comestible_type" : "FOOD",
         "symbol" : "*",
         "quench" : -96,
