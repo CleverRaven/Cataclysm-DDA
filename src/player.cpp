@@ -328,11 +328,11 @@ void player::normalize()
         // Tough and Flimsy are exclusive.
         // Only the most extreme of each version applies.
         if (has_trait("TOUGH3")) {
-            hp_max[i] = int(hp_max[i] * 1.2);
+            hp_max[i] = int(hp_max[i] * 1.4);
         } else if (has_trait("TOUGH2")) {
             hp_max[i] = int(hp_max[i] * 1.3);
         } else if (has_trait("TOUGH")) {
-            hp_max[i] = int(hp_max[i] * 1.4);
+            hp_max[i] = int(hp_max[i] * 1.2);
         } else if (has_trait("FLIMSY3")) {
             hp_max[i] = int(hp_max[i] * .75);
         } else if (has_trait("FLIMSY2")) {
