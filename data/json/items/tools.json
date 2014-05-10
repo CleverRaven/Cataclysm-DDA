@@ -4978,7 +4978,7 @@
     "name": "picklock kit",
     "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches. It is essential for silently and quickly opening locks, provided you have some mechanical skill.",
     "price": 0,
-    "material": "aluminum",
+    "material": "steel",
     "weight": 544,
     "volume": 0,
     "bashing": 0,
