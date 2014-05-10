@@ -1839,12 +1839,12 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     wrefresh(w);
 }
 
-point overmap::draw_overmap()
+tripoint overmap::draw_overmap()
 {
     return draw_overmap(g->om_global_location());
 }
 
-point overmap::draw_overmap(int z)
+tripoint overmap::draw_overmap(int z)
 {
     tripoint loc = g->om_global_location();
     loc.z = z;
@@ -1852,11 +1852,12 @@ point overmap::draw_overmap(int z)
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-point overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
+tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
 {
     WINDOW *w_map = newwin(TERMY, TERMX, 0, 0);
     bool blink = true;
-    point ret(invalid_point);
+
+    tripoint ret(INT_MIN, INT_MIN, INT_MIN);
     tripoint curs(orig);
 
     // Configure input context for navigating the map.
@@ -1893,9 +1894,9 @@ point overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
         } else if (action == "LEVEL_UP" && curs.z < OVERMAP_HEIGHT) {
             curs.z += 1;
         } else if (action == "CONFIRM") {
-            ret = point(curs.x, curs.y);
+            ret = tripoint(curs.x, curs.y, curs.z);
         } else if (action == "QUIT") {
-            ret = invalid_point;
+            ret = invalid_tripoint;
         } else if (action == "CREATE_NOTE") {
             const std::string old_note = overmap_buffer.note(curs);
             const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol, G; for color):"),
@@ -3084,8 +3085,6 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
 
 void overmap::good_river(int x, int y, int z)
 {
-
-
     if((x == 0) || (x == OMAPX-1))
     {
         if(!is_river(ter(x, y - 1, z)))
@@ -4007,3 +4006,4 @@ void regional_settings::setup()
 }
 
 const point overmap::invalid_point(INT_MIN, INT_MIN);
+const tripoint overmap::invalid_tripoint(INT_MIN, INT_MIN, INT_MIN);
