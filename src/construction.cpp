@@ -620,7 +620,8 @@ void complete_construction()
 bool construct::check_empty(point p)
 {
     return (g->m.has_flag("FLAT", p.x, p.y) && !g->m.has_furn(p.x, p.y) &&
-            g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y) == tr_null);
+            g->is_empty(p.x, p.y) && g->m.tr_at(p.x, p.y) == tr_null &&
+            g->m.i_at(p.x, p.y).empty() && g->m.veh_at(p.x, p.y) == NULL);
 }
 
 bool construct::check_support(point p)
