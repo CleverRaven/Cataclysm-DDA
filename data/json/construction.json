@@ -696,7 +696,7 @@
         "type" : "construction",
         "description" : "Build Log & Sod Roof",
         "difficulty" : 3,
-        "time" : 0,
+        "time" : 40,
         "tools" : [
             ["hammer", "primitive_hammer", "hatchet", "toolset" ],
             ["shovel", "e_tool", "primitive_shovel"]

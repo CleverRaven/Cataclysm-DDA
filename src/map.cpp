@@ -2456,9 +2456,14 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
     }
     const bool swimmable = has_flag("SWIMMABLE", x, y);
     for (std::vector<item>::const_iterator a = new_items.begin(); a != new_items.end(); ++a) {
-        const item &new_item = *a;
+        item new_item = *a;
         if (new_item.made_of(LIQUID) && swimmable) {
             continue;
+        }
+        // clothing with variable size flag may sometimes be generated fitted
+        if (new_item.is_armor() && new_item.has_flag("VARSIZE") && one_in(3))
+        {
+            new_item.item_tags.insert("FIT");
         }
         add_item_or_charges(x, y, new_item);
     }

@@ -347,9 +347,9 @@ The syntax listed here is still valid.
 "description" : "A college textbook on computer science.", // In-game description
 "weight" : 1587,      // Weight, measured in grams
 "to_hit" : 1,         // To-hit bonus if using it as a melee weapon
-"color" : "blue",     // ASCII character colour
+"color" : "blue",     // ASCII character colour (see below)
 "intelligence" : 11,  // Intelligence required to read this book without penalty
-"symbol" : "?",       // ASCII character used in-game
+"symbol" : "?",       // ASCII character used in-game (should always be a question mark for books)
 "material" : ["paper", "null"], // Material types.  See materials.json for possible options
 "volume" : 7,         // Volume, measured in 1/4 liters
 "bashing" : 5,        // Bashing damage caused by using it as a melee weapon
@@ -360,6 +360,22 @@ The syntax listed here is still valid.
 "price" : 500,        // Used when bartering with NPCs
 "required_level" : 2  // Minimum skill level required to learn
 ```
+
+####Color key
+When adding a new book, please use this color key:
+
+* Magazines: `pink`
+* “Paperbacks” Short enjoyment books (including novels): `light_cyan`
+* “Hardbacks” Long enjoyment books (including novels): `light_blue`
+* “Small textbook” Beginner level textbooks, guides and martial arts books: `dark_green`
+* “Large textbook” Advanced level textbooks and advanced guides: `dark_blue`
+* Religious books: `dark_gray`
+* “Printouts” (including spiral-bound and similar) Technical documents, (technical?) protocols, (lab) journals: `light_green`
+* Other reading material/non-books (use only if every other category does not apply): `light_gray`
+
+A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
+Never use `yellow` and `red`, those colors are reserved for sounds and infrared vision.
+
 ###COMESTIBLES
 ```C++
 "type" : "COMESTIBLE", // Defines this as a COMESTIBLE

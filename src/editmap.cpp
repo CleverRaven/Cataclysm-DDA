@@ -231,9 +231,9 @@ void editmap::uphelp (std::string txt1, std::string txt2, std::string title)
     if ( txt1 != "" ) {
         mvwprintw(w_help, 0, 0, "%s", padding.c_str() );
         mvwprintw(w_help, 1, 0, "%s", padding.c_str() );
-        mvwprintw(w_help, ( txt2 != "" ? 0 : 1 ), 0, _(txt1.c_str()));
+        mvwprintw(w_help, ( txt2 != "" ? 0 : 1 ), 0, txt1.c_str());
         if ( txt2 != "" ) {
-            mvwprintw(w_help, 1, 0, _(txt2.c_str()));
+            mvwprintw(w_help, 1, 0, txt2.c_str() );
         }
     }
     if ( title != "" ) {
@@ -1125,7 +1125,7 @@ int editmap::edit_trp()
                    if( traplist[t]->name.length() > 0 ) {
                        //~ trap editor list entry. 1st string is display name, 2nd string is internal name of trap
                        tnam = string_format(_("%s (%s)"),
-                                            _(traplist[t]->name.c_str()), traplist[t]->id.c_str());
+                                            traplist[t]->name.c_str(), traplist[t]->id.c_str());
                    } else {
                        tnam = traplist[t]->id;
                    }
@@ -1821,28 +1821,6 @@ int editmap::edit_mapgen()
         gmenu.addentry(-1, true, 0, "[%3d] %s", (int)id, std::string(id).c_str() );
         if ( broken_oter_blacklist.find(id) != broken_oter_blacklist.end() ) {
             gmenu.entries[i].enabled = false;
-        }
-        std::string special = "";
-        if ( oter_special.find(id) != oter_special.end() ) {
-            unsigned long flags =  overmap_specials[ oter_special[id] ].flags;
-            if (flags & mfb(OMS_FLAG_2X2)) {
-                special += " 2x2";
-            }
-            if (flags & mfb(OMS_FLAG_2X2_SECOND)) {
-                special += " 2x2s";
-            }
-            if (flags & mfb(OMS_FLAG_3X3)) {
-                special += " 3x3";
-            }
-            if (flags & mfb(OMS_FLAG_3X3_SECOND)) {
-                special += " 3x3s";
-            }
-            if (flags & mfb(OMS_FLAG_CLASSIC)) {
-                special += " clas";
-            }
-        }
-        if ( !special.empty() ) {
-            gmenu.entries[i].txt += " (" + special + " )";
         }
         gmenu.entries[i].extratxt.left = 1;
         gmenu.entries[i].extratxt.color = otermap[id].color;

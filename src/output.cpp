@@ -439,12 +439,10 @@ bool query_yn(const char *mes, ...)
         ucwarning = " (" + ucwarning +")";
         dispkeys = &ucselectors;
     }
-    // localizes the actual question
-    std::string message = _(text.c_str());
 
     // figures the length of the combined texts
     // width needed for text +2 for the border. + (/) 4 for the symbols and a space
-    int win_width = utf8_width(message.c_str()) + utf8_width(selectors.c_str()) + utf8_width(ucwarning.c_str()) + 2 + 4;
+    int win_width = utf8_width(text.c_str()) + utf8_width(selectors.c_str()) + utf8_width(ucwarning.c_str()) + 2 + 4;
     win_width = (win_width < FULL_SCREEN_WIDTH - 2 ? win_width : FULL_SCREEN_WIDTH - 2);
 
     WINDOW *w = NULL;
@@ -482,12 +480,12 @@ bool query_yn(const char *mes, ...)
         }
 
         if (!w) {
-            textformatted = foldstring(message + query, win_width);
+            textformatted = foldstring(text + query, win_width);
             w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
                 (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
             draw_border(w);
         }
-        fold_and_print(w, 1, 1, win_width, c_ltred, message + query);
+        fold_and_print(w, 1, 1, win_width, c_ltred, text + query);
         wrefresh(w);
 
         ch = getch();

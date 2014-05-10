@@ -4129,7 +4129,7 @@ void game::debug()
         veh_strings.push_back(it->second->type);
         //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
         opts.push_back(string_format(_("%s (%s)"),
-                       _(it->second->name.c_str()), it->second->type.c_str()));
+                       it->second->name.c_str(), it->second->type.c_str()));
       }
     }
     opts.push_back (std::string(_("Cancel")));
@@ -4878,7 +4878,7 @@ void game::draw()
 
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
-    mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"), _(season_name[calendar::turn.get_season()].c_str()), calendar::turn.days() + 1);
+    mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"), season_name[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
         int iPercent = int((turnssincelastmon*100)/OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
@@ -9314,11 +9314,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
     // Ask to pour rotten liquid (milk!) from the get-go
     int dirx, diry;
-    std::stringstream liqstr;
+    const std::string liqstr = string_format(_("Pour %s where?"), liquid.tname().c_str());
     refresh_all();
-    liqstr << string_format(_("Pour %s where?"), liquid.tname().c_str());
     if (!from_ground && liquid.rotten() &&
-        choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
+        choose_adjacent(liqstr, dirx, diry)) {
 
         if (!m.can_put_items(dirx, diry)) {
             add_msg(m_info, _("You can't pour there!"));
@@ -9329,16 +9328,15 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     }
 
     if (cont == NULL || cont->is_null()) {
-        std::stringstream text;
-        text << string_format(_("Container for %s"), liquid.tname().c_str());
+        const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
-        int pos = inv_for_liquid(liquid, text.str().c_str(), false);
+        int pos = inv_for_liquid(liquid, text, false);
         cont = &(u.i_at(pos));
         if (cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
-                choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
+                choose_adjacent(liqstr, dirx, diry)) {
 
                 if (!m.can_put_items(dirx, diry)) {
                     add_msg(m_info, _("You can't pour there!"));
@@ -9495,9 +9493,8 @@ int game::move_liquid(item &liquid)
   }
 
   //liquid is in fact a liquid.
-  std::stringstream text;
-  text << string_format(_("Container for %s"), liquid.tname().c_str());
-  int pos = inv_for_liquid(liquid, text.str().c_str(), false);
+  const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
+  int pos = inv_for_liquid(liquid, text, false);
 
   //is container selected?
   if(u.has_item(pos)) {
@@ -10567,10 +10564,12 @@ void game::complete_butcher(int index)
 void game::forage()
 {
     int veggy_chance = rng(1, 100);
+    bool found_something = false;
 
     if (one_in(12)) {
         add_msg(m_good, _("You found some trash!"));
         m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
+        found_something = true;
     }
     if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5)) {
         if (!one_in(6)) {
@@ -10595,12 +10594,16 @@ void game::forage()
             }
         }
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+        found_something = true;
     } else {
-        add_msg(_("You didn't find anything."));
         if (one_in(2)) {
             m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
         }
     }
+    if(!found_something) {
+        add_msg(_("You didn't find anything."));
+    }
+
     //Determinate maximum level of skill attained by foraging using ones intelligence score
     int max_forage_skill =  0;
     if (u.int_cur < 4) {

@@ -26,8 +26,6 @@
 #define ssize_t int
 #endif
 
-std::string default_technique_name(technique_id tech);
-
 light_emission nolight={0,0,0};
 
 item::item()
@@ -875,6 +873,21 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
             dump->push_back( iteminfo("DESCRIPTION", idescription->second) );
         } else {
             dump->push_back(iteminfo("DESCRIPTION", type->description));
+        }
+
+        std::ostringstream tec_buffer;
+        for(std::set<std::string>::const_iterator a = type->techniques.begin(); a != type->techniques.end(); ++a) {
+            const ma_technique &tec = ma_techniques[*a];
+            if (tec.name.empty()) {
+                continue;
+            }
+            if (!tec_buffer.str().empty()) {
+                tec_buffer << _(", ");
+            }
+            tec_buffer << tec.name;
+        }
+        if (!tec_buffer.str().empty()) {
+            dump->push_back(iteminfo("DESCRIPTION", std::string(_("Techniques: ")) + tec_buffer.str()));
         }
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
@@ -2022,7 +2035,7 @@ bool item::is_food(player const*u) const
     if (type->is_food())
         return true;
 
-    if (u->has_bionic("bio_batteries") && is_ammo() &&
+    if (u->has_active_bionic("bio_batteries") && is_ammo() &&
             (dynamic_cast<it_ammo*>(type))->type == "battery")
         return true;
     if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
@@ -2205,58 +2218,6 @@ bool item::is_artifact() const
         return false;
 
     return type->is_artifact();
-}
-
-int item::sort_rank() const
-{
-    // guns ammo weaps tools armor food med books mods other
-    if (is_gun())
-    {
-        return 0;
-    }
-    else if (is_ammo())
-    {
-        return 1;
-    }
-    else if (is_weap()) // is_weap calls a lot of other stuff, so possible optimization candidate
-    {
-        return 2;
-    }
-    else if (is_tool())
-    {
-        return 3;
-    }
-    else if (is_armor())
-    {
-        return 4;
-    }
-    else if (is_food_container())
-    {
-        return 5;
-    }
-    else if (is_food())
-    {
-        it_comest* comest = dynamic_cast<it_comest*>(type);
-        if (comest->comesttype != "MED")
-        {
-            return 5;
-        }
-        else
-        {
-            return 6;
-        }
-    }
-    else if (is_book())
-    {
-        return 7;
-    }
-    else if (is_gunmod() || is_bionic())
-    {
-        return 8;
-    }
-
-    // "other" case
-    return 9;
 }
 
 bool item::operator<(const item& other) const
@@ -2958,33 +2919,6 @@ bool item::flammable() const
     material_type* cur_mat2 = material_type::find_material(type->m2);
 
     return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
-}
-
-std::string default_technique_name(technique_id tech)
-{
- switch (tech) {
-  case TEC_SWEEP: return _("Sweep attack");
-  case TEC_PRECISE: return _("Precision attack");
-  case TEC_BRUTAL: return _("Knock-back attack");
-  case TEC_GRAB: return _("Grab");
-  case TEC_WIDE: return _("Hit all adjacent monsters");
-  case TEC_RAPID: return _("Rapid attack");
-  case TEC_FEINT: return _("Feint");
-  case TEC_THROW: return _("Throw");
-  case TEC_BLOCK: return _("Block");
-  case TEC_BLOCK_LEGS: return _("Leg block");
-  case TEC_WBLOCK_1: return _("Weak block");
-  case TEC_WBLOCK_2: return _("Parry");
-  case TEC_WBLOCK_3: return _("Shield");
-  case TEC_COUNTER: return _("Counter-attack");
-  case TEC_BREAK: return _("Grab break");
-  case TEC_DISARM: return _("Disarm");
-  case TEC_DEF_THROW: return _("Defensive throw");
-  case TEC_DEF_DISARM: return _("Defense disarm");
-  case TEC_FLAMING: return    _("FLAMING");
-  default: return "A BUG! (item.cpp:default_technique_name (default))";
- }
- return "A BUG! (item.cpp:default_technique_name)";
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)

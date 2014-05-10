@@ -74,7 +74,14 @@ submap *mapbuffer::lookup_submap(int x, int y, int z)
 
     const tripoint p(x, y, z);
     if (submaps.count(p) == 0) {
-        return unserialize_submaps( p );
+        try {
+            return unserialize_submaps( p );
+        } catch (std::string &err) {
+            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.c_str());
+        } catch (const std::exception &err) {
+            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.what());
+        }
+        return NULL;
     }
 
     dbg(D_INFO) << "mapbuffer::lookup_submap success: " << submaps[p];
