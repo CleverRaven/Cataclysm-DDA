@@ -246,11 +246,11 @@
     },{
 			"type" : "snippet",
         "category" : "note",
-        "text" : "\"I can wear six backpacks! Fuck, I'm good.\""
+        "text" : "\"I can wear three backpacks! Fuck, I'm good.\""
     },{
 			"type" : "snippet",
         "category" : "note",
-        "text" : "\"They build modern bullets fuckin crazy. Set one on fire and it goes like a grenade. Need kindling first.\""
+        "text" : "\"They build modern bullets fuckin crazy. Set some on fire and they all goes like a lil grenade. Need kindling first.\""
     },{
 			"type" : "snippet",
         "category" : "note",
@@ -467,5 +467,31 @@
 			"type" : "snippet",
         "category" : "note",
         "text" : "\"You can't see them through the smoke but they can't either.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"There's gotta be a better use of all this rebar...\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"met schoolhouse of people, all crazy and mad they were, ate killed all of them, yum\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"STAY AWAY FROM THE BIG ONES IN THE FOREST\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"...that's an arm, an arm in the vending machine. I don't have enough cash to pay for it.\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"got into a prison with a halligan bar. makes me wonder how they kept prisoners inside\""
+    },{
+			"type" : "snippet",
+        "category" : "note",
+        "text" : "\"Shopping carts become a lot more efficient when you plate-weld a trunk to them. Crate on wheels!\""
     }
+]
+    
 ]
