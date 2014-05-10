@@ -54,6 +54,9 @@ void trapfunc::beartrap(int x, int y)
                           pgettext("memorial_female", "Caught by a beartrap."));
     g->sound(x, y, 8, _("SNAP!"));
     g->u.hit(NULL, bp_legs, random_side(bp_legs), 10, 16);
+    if (one_in(35)) {
+        g->u.add_disease("tetanus",1,true);
+    }
     g->u.add_disease("beartrap", 1, true);
     g->m.remove_trap(x, y);
     g->m.spawn_item(x, y, "beartrap");
@@ -85,6 +88,9 @@ void trapfunc::board(int, int)
                        pgettext("memorial_female", "Stepped on a spiked board."));
  g->u.hit(NULL, bp_feet, 0, 0, rng(6, 10));
  g->u.hit(NULL, bp_feet, 1, 0, rng(6, 10));
+ if (one_in(35)) {
+    g->u.add_disease("tetanus",1,true);
+ }
 }
 
 void trapfuncm::board(monster *z, int x, int y)
