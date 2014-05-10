@@ -280,7 +280,7 @@ public:
  /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
  bool unarmed_attack();
  /** Called when a player triggers a trap, returns true if they don't set it off */
- bool avoid_trap(trap *tr);
+ bool avoid_trap(trap *tr, int x, int y);
 
  /** Returns true if the player has some form of night vision */
  bool has_nv();
@@ -884,12 +884,16 @@ public:
  virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...);
  virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...);
 
+    typedef std::map<tripoint, std::string> trap_map;
+    bool knows_trap(int x, int y) const;
+    void add_known_trap(int x, int y, const std::string &t);
 protected:
     std::set<std::string> my_traits;
     std::set<std::string> my_mutations;
     std::vector<bionic> my_bionics;
     std::vector<disease> illness;
     bool underwater;
+    trap_map known_traps;
 
     int sight_max;
     int sight_boost;
@@ -905,6 +909,9 @@ private:
 
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
+
+    /** Search surroundings squares for traps while pausing a turn. */
+    void search_surroundings();
 
     std::vector<point> auto_move_route;
     // Used to make sure auto move is canceled if we stumble off course

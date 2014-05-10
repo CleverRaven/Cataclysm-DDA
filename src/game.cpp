@@ -8127,7 +8127,7 @@ void game::print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int
     if (trapid == tr_null) {
         return;
     }
-    if (traplist[trapid]->can_see(u)) {
+    if (traplist[trapid]->can_see(u, lx, ly)) {
         mvwprintz(w_look, line++, column, traplist[trapid]->color, "%s", traplist[trapid]->name.c_str());
     }
 }
@@ -11353,7 +11353,7 @@ bool game::plmove(int dx, int dy)
     const trap_id tid = m.tr_at(x, y);
     if (tid != tr_null) {
         const struct trap &t = *traplist[tid];
-        if (t.can_see(u) && !t.is_benign() &&
+        if ((t.can_see(u, x, y)) && !t.is_benign() &&
             !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
             return false;
         }
@@ -11725,7 +11725,7 @@ bool game::plmove(int dx, int dy)
 
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
    trap* tr = traplist[m.tr_at(x, y)];
-   if (!u.avoid_trap(tr)) {
+   if (!u.avoid_trap(tr, x, y)) {
        tr->trigger(&g->u, x, y);
    }
   }
@@ -12374,7 +12374,7 @@ void game::vertical_move(int movez, bool force) {
 
  if (m.tr_at(u.posx, u.posy) != tr_null) { // We stepped on a trap!
   trap* tr = traplist[m.tr_at(u.posx, u.posy)];
-  if (force || !u.avoid_trap(tr)) {
+  if (force || !u.avoid_trap(tr, u.posx, u.posy)) {
    tr->trigger(&g->u, u.posx, u.posy);
   }
  }
