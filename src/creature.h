@@ -186,7 +186,7 @@ class Creature
         virtual int get_armor_bash_bonus();
         virtual int get_armor_cut_bonus();
 
-        virtual int get_speed();
+        virtual int get_speed() const;
         virtual int get_dodge();
         virtual int get_hit();
         virtual m_size get_size() = 0;
@@ -197,10 +197,10 @@ class Creature
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const { return false; };
 
-        virtual int get_speed_base();
+        virtual int get_speed_base() const;
         virtual int get_dodge_base();
         virtual int get_hit_base();
-        virtual int get_speed_bonus();
+        virtual int get_speed_bonus() const;
         virtual int get_dodge_bonus();
         virtual int get_block_bonus();
         virtual int get_hit_bonus();
