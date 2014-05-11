@@ -1594,13 +1594,8 @@ void mattack::laser(monster *z)
     if (g->u_see(z->posx(), z->posy())) {
         add_msg(m_warning, _("The %s's barrel spins and fires!"), z->name().c_str());
     }
-<<<<<<< HEAD
     tmp.weapon = item("cerberus_laser", 0);
     tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["laser_capacitor"]);
-=======
-    tmp.weapon = item(itypes["cerberus_laser"], 0);
-    tmp.weapon.curammo = dynamic_cast<it_ammo *>(itypes["laser_capacitor"]);
->>>>>>> 0646b9e6ad8f833905bc56b35a3def72184a2c41
     tmp.weapon.charges = 100;
     tmp.fire_gun(target->xpos(), target->ypos(), true);
     if (target == &g->u) {
