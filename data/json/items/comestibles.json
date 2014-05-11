@@ -9686,7 +9686,7 @@
         "addiction_potential" : 0,
         "nutrition" : 10,
         "description" : "This is defenitely not how grandma used to bake them.",
-        "price" : 100000,
+        "price" : 5000,
         "material" : "wheat",
         "tool" : "null",
         "volume" : 3,
