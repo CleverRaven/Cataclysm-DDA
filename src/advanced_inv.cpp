@@ -658,18 +658,41 @@ void advanced_inventory::redraw_pane( int i )
     // paginate (not sure why)
     panes[i].max_page = (int)ceil(panes[i].size / (itemsPerPage +
                                   0.0)); //(int)ceil(panes[i].size/20.0);
-    panes[i].max_index = panes[i].page == (-1 + panes[i].max_page) ? ((panes[i].size % itemsPerPage) ==
-                         0 ? itemsPerPage : panes[i].size % itemsPerPage) : itemsPerPage;
-    // check if things are out of bound
-    panes[i].index = (panes[i].index >= panes[i].max_index) ? panes[i].max_index - 1 : panes[i].index;
 
+    if (panes[i].max_page == 0) {
+        // No results forces page 0.
+        panes[i].page = 0;
+    }
+    else if (panes[i].page >= panes[i].max_page) {
+        // Clamp to max_page.
+        panes[i].page = panes[i].max_page - 1;
+    }
 
-    panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ?
-                    panes[i].max_page - 1 : panes[i].page);
+    // Determine max index.
+    if (panes[i].max_page == 0 || panes[i].page == (-1 + panes[i].max_page)) {
+        // We are on the last page.
+        if (0 == (panes[i].size % itemsPerPage)) {
+            // Last page was exactly full, use maximum..
+            panes[i].max_index = itemsPerPage;
+        }
+        else {
+            // Last page was not full, use remainder.
+            panes[i].max_index = panes[i].size % itemsPerPage;
+        }
+    }
+    else {
+        // We aren't on the last page, so the last item is always maximum.
+        panes[i].max_index = itemsPerPage;
+    }
 
+    // Last chance to force the index in range.
+    if (panes[i].index >= panes[i].max_index && panes[i].max_index > 0) {
+        panes[i].index = panes[i].max_index - 1;
+    }
     if( panes[i].sortby == SORTBY_CATEGORY && !panes[i].items.empty() ) {
         unsigned lpos = panes[i].index + (panes[i].page * itemsPerPage);
         if ( lpos < panes[i].items.size() && panes[i].items[lpos].volume == -8 ) {
+            // Force the selection off the category labels, but don't run off the page.
             panes[i].index += ( panes[i].index + 1 >= itemsPerPage ? -1 : 1 );
         }
     }
@@ -679,7 +702,7 @@ void advanced_inventory::redraw_pane( int i )
     print_items( panes[i], (src == i) );
 
     int sel = -1;
-    if ( panes[i].size > 0 ) {
+    if ( panes[i].size > 0 && panes[i].size > panes[i].index) {
         sel = panes[i].items[panes[i].index].area;
     }
 
@@ -1638,17 +1661,27 @@ void advanced_inventory::display(player *pp)
         } else if( 'q' == c || KEY_ESCAPE == c) {
             exit = true;
         } else if('>' == c || KEY_NPAGE == c) {
-            panes[src].page++;
-            if( panes[src].page >= panes[src].max_page ) {
-                panes[src].page = 0;
+            if ( inCategoryMode ) {
+                changey = 1;
             }
-            redraw = true;
+            else {
+                panes[src].page++;
+                if( panes[src].page >= panes[src].max_page ) {
+                    panes[src].page = 0;
+                }
+                redraw = true;
+            }
         } else if('<' == c || KEY_PPAGE == c) {
-            panes[src].page--;
-            if( panes[src].page < 0 ) {
-                panes[src].page = panes[src].max_page;
+            if ( inCategoryMode ) {
+                changey = -1;
             }
-            redraw = true;
+            else {
+                panes[src].page--;
+                if( panes[src].page < 0 ) {
+                    panes[src].page = panes[src].max_page;
+                }
+                redraw = true;
+            }
         } else {
             switch(c) {
             case 'j':
@@ -1686,7 +1719,7 @@ void advanced_inventory::display(player *pp)
 
                         for (unsigned curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {
                             int next_cat_start = curr_cat + 1 < category_index_start.size() ?
-                                                 curr_cat + 1 : panes[src].items.size() - 1;
+                                                 curr_cat + 1 : category_index_start.size() - 1;
                             int actual_index = panes[src].index + panes[src].page * itemsPerPage;
 
                             if (actual_index >= category_index_start[curr_cat] &&
@@ -1723,7 +1756,7 @@ void advanced_inventory::display(player *pp)
                             panes[src].page = panes[src].max_page - 1;
                             panes[src].index = panes[src].items.size() - 1 - ( panes[src].page * itemsPerPage );
                         } else {
-                            panes[src].index = itemsPerPage; // corrected at the start of next iteration
+                            panes[src].index = itemsPerPage - 1; // corrected at the start of next iteration
                         }
                     } else if ( panes[src].index >= panes[src].max_index ) {
                         panes[src].page++;
