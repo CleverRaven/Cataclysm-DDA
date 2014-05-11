@@ -70,9 +70,15 @@ void overmapbuffer::delete_note(int x, int y, int z)
 
 const overmap *overmapbuffer::get_existing(int x, int y) const
 {
+    if(x != 0 && y != 0)
+        debugmsg("checking overmap buffer for (%i, %i)", x, y);
+    if(x != 0 && y != 0)
+        debugmsg("checking cache");
     if (last_requested_overmap != NULL && last_requested_overmap->pos().x == x && last_requested_overmap->pos().y == y) {
         return last_requested_overmap;
     }
+    if(x != 0 && y != 0)
+        debugmsg("checking list");
     for(std::list<overmap>::const_iterator candidate = overmap_list.begin();
         candidate != overmap_list.end(); ++candidate)
     {
@@ -81,6 +87,8 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
             return last_requested_overmap = &*candidate;
         }
     }
+    if(x != 0 && y != 0)
+        debugmsg("checking known non existent");
     if (known_non_existing.count(point(x, y)) > 0) {
         // This overmap does not exist on disk (this has already been
         // checked in a previous call of this function).
@@ -89,10 +97,13 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
     // Check if the overmap exist on disk,
     // overmap(0,0) should always exist, we need it for the proper
     // overmap file name.
+    if(x != 0 && y != 0)
+        debugmsg("checking saved overmap files");
     overmap &om = overmap_buffer.get(0, 0);
     const std::string filename = om.terrain_filename(x, y);
     std::ifstream tmp(filename.c_str(), std::ios::in);
-    if(tmp) {
+    if(tmp.is_open()) {
+        debugmsg("tmp is open!");
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         tmp.close();
@@ -104,6 +115,8 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
     // return early.
     // If the overmap had been created in the mean time, the previous
     // loop would have found and returned it.
+    if(x != 0 && y != 0)
+        debugmsg("inserting into known non existing");
     known_non_existing.insert(point(x, y));
     return NULL;
 }
