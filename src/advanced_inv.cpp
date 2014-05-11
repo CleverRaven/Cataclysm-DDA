@@ -662,8 +662,7 @@ void advanced_inventory::redraw_pane( int i )
     if (panes[i].max_page == 0) {
         // No results forces page 0.
         panes[i].page = 0;
-    }
-    else if (panes[i].page >= panes[i].max_page) {
+    } else if (panes[i].page >= panes[i].max_page) {
         // Clamp to max_page.
         panes[i].page = panes[i].max_page - 1;
     }
@@ -674,13 +673,11 @@ void advanced_inventory::redraw_pane( int i )
         if (0 == (panes[i].size % itemsPerPage)) {
             // Last page was exactly full, use maximum..
             panes[i].max_index = itemsPerPage;
-        }
-        else {
+        } else {
             // Last page was not full, use remainder.
             panes[i].max_index = panes[i].size % itemsPerPage;
         }
-    }
-    else {
+    } else {
         // We aren't on the last page, so the last item is always maximum.
         panes[i].max_index = itemsPerPage;
     }
@@ -708,14 +705,15 @@ void advanced_inventory::redraw_pane( int i )
 
     advanced_inv_print_header(squares, panes[i], sel );
     // todo move --v to --^
-    mvwprintz(panes[i].window, 1, 2, src == i ? c_cyan : c_ltgray, "%s", panes[i].area_string.c_str());
+    mvwprintz(panes[i].window, 1, 2, src == i ? c_cyan : c_ltgray, "%s",
+              panes[i].area_string.c_str());
     mvwprintz(panes[i].window, 2, 2, src == i ? c_green : c_dkgray , "%s",
               squares[panes[i].area].desc.c_str() );
 
     if ( i == src ) {
         if(panes[src].max_page > 1 ) {
-            mvwprintz(panes[src].window, 4, 2, c_ltblue, _("[<] page %d of %d [>]"), panes[src].page + 1,
-                      panes[src].max_page);
+            mvwprintz(panes[src].window, 4, 2, c_ltblue, _("[<] page %d of %d [>]"),
+                      panes[src].page + 1, panes[src].max_page);
         }
     }
     ////////////
@@ -791,11 +789,14 @@ bool advanced_inventory::move_all_items()
             // Ok, we're go to (try) and move everything from the player inventory.
             // First, we'll want to iterate backwards
             for (int ip = u.inv.size() - 1; ip >= 0; /* noop */ ) {
-                const std::list<item> &stack = u.inv.const_stack(ip); // get the stack at index ip
-                const item *it = &stack.front();                      // get the first item in that stack
+                // Get the stack at index ip.
+                const std::list<item> &stack = u.inv.const_stack(ip);
+                // Get the first item in that stack.
+                const item *it = &stack.front();
 
                 // if we're filtering, check if this item is in the filter. If it isn't, continue
-                if ( filtering && ! cached_lcmatch(it->name, panes[src].filter, panes[src].filtercache ) ) {
+                if ( filtering && ! cached_lcmatch(it->name, panes[src].filter,
+                                                   panes[src].filtercache ) ) {
                     --ip;
                     continue;
                 }
@@ -803,7 +804,8 @@ bool advanced_inventory::move_all_items()
                 // max items in the destination area
                 int max_items = (squares[destarea].max_size - squares[destarea].size);
                 // get the free volume in the destination area
-                int free_volume = 1000 * ( panes[dest].vstor >= 0 ? veh->free_volume(part) : m.free_volume( d_x, d_y ));
+                int free_volume = 1000 * ( panes[dest].vstor >= 0 ?
+                                           veh->free_volume(part) : m.free_volume( d_x, d_y ));
 
                 long amount = 1; // the amount to move from the stack
                 int volume = it->precise_unit_volume(); // exact volume
@@ -1663,8 +1665,7 @@ void advanced_inventory::display(player *pp)
         } else if('>' == c || KEY_NPAGE == c) {
             if ( inCategoryMode ) {
                 changey = 1;
-            }
-            else {
+            } else {
                 panes[src].page++;
                 if( panes[src].page >= panes[src].max_page ) {
                     panes[src].page = 0;
@@ -1674,8 +1675,7 @@ void advanced_inventory::display(player *pp)
         } else if('<' == c || KEY_PPAGE == c) {
             if ( inCategoryMode ) {
                 changey = -1;
-            }
-            else {
+            } else {
                 panes[src].page--;
                 if( panes[src].page < 0 ) {
                     panes[src].page = panes[src].max_page;
