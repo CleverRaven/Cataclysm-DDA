@@ -679,18 +679,18 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
     while(true) {
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
-        if (inv_s.handle_movement(action)) {
+        const long ch = inv_s.ctxt.get_raw_input().get_first_input();
+        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+        if (item_pos != INT_MIN) {
+            return item_pos;
+        } else if (inv_s.handle_movement(action)) {
             continue;
         } else if (action == "CONFIRM" || action == "RIGHT") {
             return inv_s.get_selected_item_position();
         } else if (action == "QUIT") {
             return INT_MIN;
         } else {
-            const long ch = inv_s.ctxt.get_raw_input().get_first_input();
-            const int index = g->u.invlet_to_position(static_cast<char>(ch));
-            if (index != INT_MIN) {
-                return index;
-            }
+            return INT_MIN;
         }
     }
 }
@@ -772,8 +772,12 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
+        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
         if (ch >= '0' && ch <= '9') {
             count = count * 10 + ((char)ch - '0');
+        } else if (item_pos != INT_MIN) {
+            inv_s.set_to_drop(item_pos, count);
+            count = 0;
         } else if (inv_s.handle_movement(action)) {
             count = 0;
             continue;
@@ -783,9 +787,6 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
             return std::vector<item>();
         } else if (action == "RIGHT") {
             inv_s.set_selected_to_drop(count);
-            count = 0;
-        } else {
-            inv_s.set_to_drop(g->u.invlet_to_position(ch), count);
             count = 0;
         }
     }
@@ -901,7 +902,10 @@ void game::compare(int iCompareX, int iCompareY)
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
-        if (inv_s.handle_movement(action)) {
+        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+        if (item_pos != INT_MIN) {
+            inv_s.set_to_drop(item_pos, 0);
+        } else if (inv_s.handle_movement(action)) {
             // continue with comparison below
         } else if (action == "QUIT") {
             break;
@@ -910,8 +914,6 @@ void game::compare(int iCompareX, int iCompareY)
         } else if (ch >= '0' && ch <= '9' && (size_t) (ch - '0') < grounditems_slice.size()) {
             const int ip = ch - '0';
             inv_s.set_drop_count(INT_MIN + 1 + ip, 0, grounditems_slice[ip].first->front());
-        } else {
-            inv_s.set_to_drop(g->u.invlet_to_position(ch), 0);
         }
         if (inv_s.second_item != NULL) {
             std::vector<iteminfo> vItemLastCh, vItemCh;
