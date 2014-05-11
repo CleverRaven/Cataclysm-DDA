@@ -691,7 +691,7 @@ int Creature::get_armor_cut_bonus()
     return armor_cut_bonus;
 }
 
-int Creature::get_speed()
+int Creature::get_speed() const
 {
     return get_speed_base() + get_speed_bonus();
 }
@@ -704,7 +704,7 @@ int Creature::get_hit()
     return get_hit_base() + get_hit_bonus();
 }
 
-int Creature::get_speed_base()
+int Creature::get_speed_base() const
 {
     return speed_base;
 }
@@ -716,7 +716,7 @@ int Creature::get_hit_base()
 {
     return (get_dex() / 2) + 1;
 }
-int Creature::get_speed_bonus()
+int Creature::get_speed_bonus() const
 {
     return speed_bonus;
 }
