@@ -1091,6 +1091,13 @@
     },
     {
         "type" : "keybinding",
+        "id": "CATEGORY_SELECTION",
+        "category": "INVENTORY",
+        "name": "Toggle category selection mode",
+        "bindings":[ { "input_method":"keyboard", "key":"TAB" } ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOOGLE_EXAMINE",
         "category":"BIONICS",
         "name":"Toogle activate/examine",
