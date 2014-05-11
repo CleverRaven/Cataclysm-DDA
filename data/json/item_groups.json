@@ -7721,8 +7721,7 @@
       ["jedi_cloak", 5],
       ["glowstick", 15],
       ["clown_suit", 5],
-      ["clownshoes", 5],
-      ["arm", 1]
+      ["clownshoes", 5]
     ]
   },{
 "type" : "item_group",
