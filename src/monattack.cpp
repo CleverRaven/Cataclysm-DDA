@@ -1396,7 +1396,7 @@ void mattack::smg(monster *z)
     if (g->u_see(z->posx(), z->posy())) {
         add_msg(m_warning, _("The %s fires its smg!"), z->name().c_str());
     }
-    tmp.weapon = item(itypes["smg_9mm"], 0);
+    tmp.weapon = item("smg_9mm", 0);
     tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["9mm"]);
     tmp.weapon.charges = std::max(z->ammo, 10);
     z->ammo -= tmp.weapon.charges;
@@ -1468,7 +1468,7 @@ void mattack::laser(monster *z)
     if (g->u_see(z->posx(), z->posy())) {
         add_msg(m_warning, _("The %s's barrel spins and fires!"), z->name().c_str());
     }
-    tmp.weapon = item(itypes["cerberus_laser"], 0);
+    tmp.weapon = item("cerberus_laser", 0);
     tmp.weapon.curammo = dynamic_cast<it_ammo*>(itypes["laser_capacitor"]);
     tmp.weapon.charges = 100;
     tmp.fire_gun(target->xpos(), target->ypos(), true);

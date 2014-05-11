@@ -2,7 +2,6 @@
 #include "inventory.h"
 #include "game.h"
 #include "mapdata.h"
-#include "item_factory.h"
 
 const std::string inv_chars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
@@ -463,7 +462,7 @@ void inventory::add_item_by_type(itype_id type, int count, long charges, bool ra
 {
     // TODO add proper birthday
     while (count > 0) {
-        item tmp = item_controller->create(type, 0, rand);
+        item tmp(type, 0, rand);
         if (charges != -1) {
             tmp.charges = charges;
         }
@@ -545,7 +544,7 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 const furn_t &f = g->m.furn_at(x, y);
                 itype *type = f.crafting_pseudo_item_type();
                 if (type != NULL) {
-                    item furn_item(type, 0);
+                    item furn_item(type->id, 0);
                     const itype *ammo = f.crafting_ammo_item_type();
                     if (ammo != NULL) {
                         furn_item.charges = count_charges_in_list(ammo, g->m.i_at(x, y));
@@ -565,23 +564,23 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
             // Kludges for now!
             ter_id terrain_id = g->m.ter(x, y);
             if (g->m.has_nearby_fire(x, y, 0)) {
-                item fire(itypes["fire"], 0);
+                item fire("fire", 0);
                 fire.charges = 1;
                 add_item(fire);
             }
             if (terrain_id == t_water_sh || terrain_id == t_water_dp) {
-                item water(itypes["water"], 0);
+                item water("water", 0);
                 water.charges = 50;
                 add_item(water);
             }
             if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
-                item swater(itypes["water_salt"], 0);
+                item swater("water_salt", 0);
                 swater.charges = 50;
                 add_item(swater);
             }
             // add cvd forge from terrain
             if (terrain_id == t_cvdmachine) {
-                item cvd_machine(itypes["cvd_machine"], 0);
+                item cvd_machine("cvd_machine", 0);
                 cvd_machine.charges = 1;
                 cvd_machine.item_tags.insert("PSEUDO");
                 add_item(cvd_machine);
@@ -630,68 +629,68 @@ void inventory::form_from_map(point origin, int range, bool assign_invlet)
                 }
 
                 if(faupart >= 0 ){
-                    item water(itypes["water_clean"], 0);
+                    item water("water_clean", 0);
                     water.charges = veh->fuel_left("water");
                     add_item(water);
                 }
 
                 if (kpart >= 0) {
-                    item hotplate(itypes["hotplate"], 0);
+                    item hotplate("hotplate", 0);
                     hotplate.charges = veh->fuel_left("battery");
                     hotplate.item_tags.insert("PSEUDO");
                     add_item(hotplate);
 
-                    item water(itypes["water_clean"], 0);
+                    item water("water_clean", 0);
                     water.charges = veh->fuel_left("water");
                     add_item(water);
 
-                    item pot(itypes["pot"], 0);
+                    item pot("pot", 0);
                     pot.item_tags.insert("PSEUDO");
                     add_item(pot);
-                    item pan(itypes["pan"], 0);
+                    item pan("pan", 0);
                     pan.item_tags.insert("PSEUDO");
                     add_item(pan);
                 }
                 if (weldpart >= 0) {
-                    item welder(itypes["welder"], 0);
+                    item welder("welder", 0);
                     welder.charges = veh->fuel_left("battery");
                     welder.item_tags.insert("PSEUDO");
                     add_item(welder);
 
-                    item soldering_iron(itypes["soldering_iron"], 0);
+                    item soldering_iron("soldering_iron", 0);
                     soldering_iron.charges = veh->fuel_left("battery");
                     soldering_iron.item_tags.insert("PSEUDO");
                     add_item(soldering_iron);
                 }
                 if (craftpart >= 0) {
-                    item vac_sealer(itypes["vac_sealer"], 0);
+                    item vac_sealer("vac_sealer", 0);
                     vac_sealer.charges = veh->fuel_left("battery");
                     vac_sealer.item_tags.insert("PSEUDO");
                     add_item(vac_sealer);
 
-                    item dehydrator(itypes["dehydrator"], 0);
+                    item dehydrator("dehydrator", 0);
                     dehydrator.charges = veh->fuel_left("battery");
                     dehydrator.item_tags.insert("PSEUDO");
                     add_item(dehydrator);
 
-                    item press(itypes["press"], 0);
+                    item press("press", 0);
                     press.charges = veh->fuel_left("battery");
                     press.item_tags.insert("PSEUDO");
                     add_item(press);
                 }
                 if (forgepart >= 0) {
-                    item forge(itypes["forge"], 0);
+                    item forge("forge", 0);
                     forge.charges = veh->fuel_left("battery");
                     forge.item_tags.insert("PSEUDO");
                     add_item(forge);
                 }
                 if (chempart >= 0) {
-                    item hotplate(itypes["hotplate"], 0);
+                    item hotplate("hotplate", 0);
                     hotplate.charges = veh->fuel_left("battery");
                     hotplate.item_tags.insert("PSEUDO");
                     add_item(hotplate);
 
-                    item chemistry_set(itypes["chemistry_set"], 0);
+                    item chemistry_set("chemistry_set", 0);
                     chemistry_set.charges = veh->fuel_left("battery");
                     chemistry_set.item_tags.insert("PSEUDO");
                     add_item(chemistry_set);
@@ -1281,7 +1280,7 @@ bool inventory::has_artifact_with(art_effect_passive effect) const
 bool inventory::has_liquid(itype_id type) const
 {
     // has_capacity_for_liquid needs an item, not an item type
-    const item liquid(itypes[type], calendar::turn);
+    const item liquid(type, calendar::turn);
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter) {
         const item &it = iter->front();
         if (it.is_container() && !it.contents.empty()) {

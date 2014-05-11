@@ -138,7 +138,7 @@ void item::add_rain_to_container(bool acid, int charges)
     long added = charges;
     if (contents.empty()) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
-        item ret(item_controller->find_template(typeId), 0);
+        item ret(typeId, 0);
         if (!acid) {
             // Funnels aren't always clean enough for water. // todo; disinfectant squeegie->funnel
             ret.poison = one_in(10) ? 1 : 0;
@@ -171,7 +171,7 @@ void item::add_rain_to_container(bool acid, int charges)
             const bool transmute = x_in_y(2*added, liq.charges);
 
             if (transmute) {
-                item transmuted(item_controller->find_template("water_acid_weak"), 0);
+                item transmuted("water_acid_weak", 0);
                 transmuted.charges = liq.charges;
                 contents[0] = transmuted;
             } else if (liq.typeId() == "water") {
@@ -199,7 +199,7 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const {
     if ( rain_depth_mm_per_hour == 0 ) {
         return 0;
     }
-    const item water(item_controller->find_template("water"), 0);
+    const item water("water", 0);
     const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
     const double PI = 3.14159265358979f;
 

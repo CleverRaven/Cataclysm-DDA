@@ -518,10 +518,10 @@ void advanced_inventory::recalc_pane(int i)
     if(panes[i].area == isinventory) {
         const invslice &stacks = u.inv.slice();
         for (unsigned x = 0; x < stacks.size(); ++x ) {
-            item &item = stacks[x]->front();
+            item &an_item = stacks[x]->front();
             advanced_inv_listitem it;
-            it.name = item.tname();
-            it.name_without_prefix = item.tname( false );
+            it.name = an_item.tname();
+            it.name_without_prefix = an_item.tname( false );
             if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                 continue;
             }
@@ -532,10 +532,10 @@ void advanced_inventory::recalc_pane(int i)
             }
             it.autopickup = hasPickupRule(it.name);
             it.stacks = size;
-            it.weight = item.weight() * size;
-            it.volume = item.volume() * size;
-            it.cat = &(item.get_category());
-            it.it = &item;
+            it.weight = an_item.weight() * size;
+            it.volume = an_item.volume() * size;
+            it.cat = &(an_item.get_category());
+            it.it = &an_item;
             it.area = panes[i].area;
             if( has_category.count(it.cat->id) == 0 ) {
                 has_category.insert(it.cat->id);

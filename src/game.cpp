@@ -504,8 +504,6 @@ void game::setup()
 
     load_world_modfiles(world_generator->active_world);
 
-// Even though we may already have 'd', nextinv will be incremented as needed
- nextinv = 'd';
  next_npc_id = 1;
  next_faction_id = 1;
  next_mission_id = 1;
@@ -1648,7 +1646,7 @@ void game::activity_on_finish_fish()
             std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
             std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
 
-            fish.make_corpse(itypes["corpse"], GetMType(fish_mon), calendar::turn);
+            fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
             m.add_item_or_charges(u.posx, u.posy, fish);
 
             u.add_msg_if_player(m_good, _("You catch a fish!"));
@@ -3436,24 +3434,24 @@ void game::place_corpse()
 {
   std::vector<item *> tmp = u.inv_dump();
   item your_body;
-  your_body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
+  your_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
   your_body.name = u.name;
   for (int i = 0; i < tmp.size(); i++)
     m.add_item_or_charges(u.posx, u.posy, *(tmp[i]));
   for (int i = 0; i < u.num_bionics(); i++) {
     bionic &b = u.bionic_at_index(i);
     if (itypes.find(b.id) != itypes.end()) {
-        your_body.contents.push_back(item(itypes[b.id], calendar::turn));
+        your_body.contents.push_back(item(b.id, calendar::turn));
     }
   }
   int pow = u.max_power_level;
   while (pow >= 4) {
     if (pow % 4 != 0 && pow >= 10){
       pow -= 10;
-      your_body.contents.push_back(item(itypes["bio_power_storage_mkII"], calendar::turn));
+      your_body.contents.push_back(item("bio_power_storage_mkII", calendar::turn));
     } else {
       pow -= 4;
-      your_body.contents.push_back(item(itypes["bio_power_storage"], calendar::turn));
+      your_body.contents.push_back(item("bio_power_storage", calendar::turn));
     }
   }
   m.add_item_or_charges(u.posx, u.posy, your_body);
@@ -3577,8 +3575,8 @@ void game::load(std::string worldname, std::string name)
  }
  u = player();
  u.name = base64_decode(name);
- u.ret_null = item(itypes["null"], 0);
- u.weapon = item(itypes["null"], 0);
+ u.ret_null = item("null", 0);
+ u.weapon = item("null", 0);
  unserialize(fin);
  fin.close();
 
@@ -3632,7 +3630,7 @@ void game::load_world_modfiles(WORLDPTR world)
     popup_nowait(_("Please wait while the world data loads"));
     load_core_data();
     if (world != NULL) {
-        load_artifacts(world->world_path + "/artifacts.gsav", itypes);
+        load_artifacts(world->world_path + "/artifacts.gsav");
         mod_manager *mm = world_generator->get_mod_manager();
         // this code does not care about mod dependencies,
         // it assumes that those dependencies are static and
@@ -3935,22 +3933,6 @@ void game::write_memorial_file() {
     //Cleanup
     memorial_file.close();
     closedir(dir);
-}
-
-void game::advance_nextinv()
-{
-  if (nextinv == inv_chars.end()[-1])
-    nextinv = inv_chars.begin()[0];
-  else
-    nextinv = inv_chars[inv_chars.find(nextinv) + 1];
-}
-
-void game::decrease_nextinv()
-{
-  if (nextinv == inv_chars.begin()[0])
-    nextinv = inv_chars.end()[-1];
-  else
-    nextinv = inv_chars[inv_chars.find(nextinv) - 1];
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
@@ -4260,7 +4242,7 @@ void game::debug()
       artifact_natural_property prop =
           artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
       m.create_anomaly(center.x, center.y, prop);
-      m.spawn_artifact(center.x, center.y, new_natural_artifact(itypes, prop), 0);
+      m.spawn_artifact(center.x, center.y, prop);
   }
   break;
 
@@ -4290,7 +4272,7 @@ void game::debug()
       art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
       itypes[art->id] = art;
       artifact_itype_ids.push_back(art->id);
-      item artifact( art, 0);
+      item artifact( art->id, 0);
       u.i_add(artifact);
   }
   break;
@@ -10552,8 +10534,8 @@ void game::complete_butcher(int index)
      return;
   }
   }
-  item tmpitem=item_controller->create(meat, age);
-  tmpitem.corpse=dynamic_cast<mtype*>(corpse);
+  item tmpitem(meat, age);
+  tmpitem.corpse = dynamic_cast<mtype*>(corpse);
   while ( pieces > 0 ) {
     pieces--;
     m.add_item_or_charges(u.posx, u.posy, tmpitem);
@@ -10805,7 +10787,7 @@ void game::unload(int pos)
         item ite;
         if (pos == -1) { // item is wielded as weapon.
             ite = u.weapon;
-            u.weapon = item(itypes["null"], 0); //ret_null;
+            u.weapon = item("null", 0); //ret_null;
             unload(ite);
             u.weapon = ite;
             return;
@@ -10942,11 +10924,12 @@ void game::unload(item& it)
  item newam;
 
  if (weapon->curammo != NULL) {
-     newam = item(weapon->curammo, calendar::turn);
+     newam = item(weapon->curammo->id, calendar::turn);
  } else {
-     newam = item(itypes[default_ammo(weapon->ammo_type())], calendar::turn);
+     newam = item(default_ammo(weapon->ammo_type()), calendar::turn);
  }
- if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on"|| weapon->typeId() == "rm13_armor"|| weapon->typeId() == "rm13_armor_on") {
+ if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on"||
+    weapon->typeId() == "rm13_armor"|| weapon->typeId() == "rm13_armor_on") {
     int chargesPerPlutonium = 500;
     int chargesRemoved = weapon->charges - (weapon-> charges % chargesPerPlutonium);;
     int plutoniumRemoved = chargesRemoved / chargesPerPlutonium;
@@ -10964,21 +10947,16 @@ void game::unload(item& it)
  }
 
  if (newam.made_of(LIQUID)) {
-  if (!handle_liquid(newam, false, false))
-   weapon->charges += newam.charges; // Put it back in
+     if (!handle_liquid(newam, false, false)) {
+         weapon->charges += newam.charges; // Put it back in
+     }
  } else if(newam.charges > 0) {
-  size_t iter = 0;
-  while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < inv_chars.size()) {
-   newam.invlet = nextinv;
-   advance_nextinv();
-   iter++;
-  }
-  if (u.can_pickWeight(newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-      u.can_pickVolume(newam.volume()) && iter < inv_chars.size()) {
-   u.i_add(newam);
-  } else {
-   m.add_item_or_charges(u.posx, u.posy, newam, 1);
-  }
+     if( u.can_pickWeight( newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) &&
+         u.can_pickVolume( newam.volume() ) ) {
+         u.i_add(newam);
+     } else {
+         m.add_item_or_charges(u.posx, u.posy, newam, 1);
+     }
  }
  // null the curammo, but only if we did empty the item
  if (weapon->charges == 0) {
@@ -13242,7 +13220,7 @@ bool game::spread_fungus(int x, int y)
                 for (int k = 0; k < g->m.i_at(x, y).size(); k++) {
                     m.i_rem(x, y, k);
                 }
-                item seeds(itypes["fungal_seeds"], int(calendar::turn));
+                item seeds("fungal_seeds", int(calendar::turn));
                 m.add_item_or_charges(x, y, seeds);
             }
         }
@@ -13326,7 +13304,7 @@ bool game::spread_fungus(int x, int y)
                             for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
                                 m.i_rem(i, j, k);
                             }
-                            item seeds(itypes["fungal_seeds"], int(calendar::turn));
+                            item seeds("fungal_seeds", int(calendar::turn));
                             m.add_item_or_charges(x, y, seeds);
                         }
                     }

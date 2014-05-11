@@ -63,7 +63,7 @@ void trapfunc::beartrap(Creature *c, int x, int y)
         if (z != NULL) {
             z->moves = 0;
             z->add_effect("beartrap", rng(8, 15));
-            item beartrap(itypes["beartrap"], 0);
+            item beartrap("beartrap", 0);
             z->add_item(beartrap);
             z->hurt(35);
         } else if (n != NULL) {

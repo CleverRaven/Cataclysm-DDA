@@ -1,6 +1,7 @@
 #ifndef _ITEM_GROUP_H_
 #define _ITEM_GROUP_H_
 
+#include "item.h"
 #include <vector>
 #include <set>
 #include <string>

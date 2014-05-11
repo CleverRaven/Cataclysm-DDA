@@ -33,6 +33,8 @@
 #include "iuse.h"
 #include "start_location.h"
 #include "omdata.h"
+#include "options.h"
+#include "game.h"
 
 #include <string>
 #include <vector>

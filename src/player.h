@@ -7,7 +7,6 @@
 #include "trap.h"
 #include "morale.h"
 #include "inventory.h"
-#include "artifact.h"
 #include "mutation.h"
 #include "crafting.h"
 #include "vehicle.h"
