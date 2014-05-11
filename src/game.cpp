@@ -8880,7 +8880,7 @@ int game::list_items(const int iLastState)
                                   ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
                                   "%s", (sText.str()).c_str());
                         int numw = iItemNum > 9 ? 2 : 1;
-                        mvwprintz(w_items, iNum - iStartPos, width - (5 + numw),
+                        mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
                                   ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
                                   numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
                                   direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
