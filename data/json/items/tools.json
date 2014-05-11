@@ -1024,6 +1024,29 @@
   },
 
   {
+    "type":"TOOL",
+    "id": "control_laptop",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "Control laptop",
+    "description": "A modified laptop, now capable of transmiting  in the ultra high frequencies utilized by robots. Activate it to command robots from afar",
+    "price": 1000,
+    "material": ["plastic", "aluminum"],
+    "weight": 2721,
+    "volume": 4,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 1000,
+    "initial_charges": 0,
+    "charges_per_use": 5,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "ROBOTCONTROL"
+  },
+
+  {
     "id": "sarcophagus_access_code",
     "type": "TOOL",
     "symbol": ";",
