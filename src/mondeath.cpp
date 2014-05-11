@@ -335,6 +335,7 @@ void mdeath::guilt(monster *z) {
     g->u.add_morale(MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay);
 
 }
+
 void mdeath::blobsplit(monster *z) {
     int speed = z->speed - rng(30, 50);
     g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, calendar::turn, rng(1,4));
