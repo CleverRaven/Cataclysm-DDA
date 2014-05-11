@@ -5166,7 +5166,7 @@
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
   "tools": [
     [
       [ "hotplate", 7 ],
@@ -5197,7 +5197,7 @@
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
   "tools": [
     [
       [ "hotplate", 10 ],
@@ -5534,7 +5534,7 @@
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
   "tools": [
     [
       [ "hotplate", 8 ],
@@ -5940,7 +5940,7 @@
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
      {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
   "tools": [
     [
       [ "hotplate", 6 ],
@@ -6243,7 +6243,7 @@
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
      {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
    "tools": [
     [
       [ "hotplate", 3 ],
@@ -6275,7 +6275,7 @@
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
      {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
    "tools": [
     [
       [ "hotplate", 3 ],
@@ -6305,7 +6305,7 @@
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
      {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
    "tools": [
     [
       [ "hotplate", 3 ],
@@ -6336,7 +6336,7 @@
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
    "tools": [
     [
       [ "hotplate", 3 ],
@@ -6368,7 +6368,7 @@
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
    "tools": [
     [
       [ "hotplate", 3 ],
@@ -6405,7 +6405,7 @@
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
-  ], 
+  ],
    "tools": [
     [
       [ "hotplate", 3 ],
@@ -7055,6 +7055,48 @@
   ]
 },{
         "type" : "recipe",
+  "result": "meat_aspic",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pan", -1 ],
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+        ]
+  ],
+  "components": [
+    [
+      [ "meat", 1 ]
+    ],
+    [
+    	[ "meat", 1 ],
+    	[ "fish", 1 ],
+    	[ "can_tuna", 1 ],
+    	[ "can_sardine", 1 ],
+    	[ "veggy_wild", 1 ],
+    	[ "zucchini", 1],
+    	[ "tomato", 1]
+
+    ],
+    [
+    	[ "water_clean", 1],
+    	[ "water", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "jerky",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -7579,6 +7621,46 @@
     [
       [ "milk", 1 ],
       [ "con_milk", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "brownie_weed",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "pot", -1 ],
+      [ "rock_pot", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 3 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ],
+    [
+    	[ "chocolate", 1]
+    ],
+    [
+    	[ "powder_eggs", 1]
+    ],
+    [
+    	[ "weed", 5]
     ]
   ]
 },{
@@ -21880,7 +21962,7 @@
   "book_learn": [ ["brewing_cookbook", 5] ],
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
-  ], "tools": [ 
+  ], "tools": [
     [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -21911,7 +21993,7 @@
   "book_learn": [ ["brewing_cookbook", 6] ],
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
-  ], "tools": [ 
+  ], "tools": [
     [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -21919,7 +22001,7 @@
       [ "water", 3 ], [ "water_clean", 3 ]
     ],
     [
-      [ "molasses", 2 ], [ "potato_raw", 2 ], [ "potato_irradiated", 2 ], [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], 
+      [ "molasses", 2 ], [ "potato_raw", 2 ], [ "potato_irradiated", 2 ], [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ],
       [ "wheat", 1 ], [ "barley", 1 ], [ "sugar_beet", 1 ]
     ],
     [
@@ -21940,7 +22022,7 @@
   "book_learn": [ ["brewing_cookbook", 4] ],
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
-  ], "tools": [ 
+  ], "tools": [
     [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 1 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -21969,7 +22051,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 1] ],
-  "tools": [ 
+  "tools": [
     [ [ "still", -1], [ "v6_combustion", -1], [ "v8_combustion", -1]],
     [ [ "hotplate", 10 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
     ],
@@ -22009,11 +22091,11 @@
       [ "water", 4 ], [ "water_clean", 4 ]
     ],
     [
-      [ "pear", 2 ], [ "irradiated_pear", 2 ], 
-      [ "apple", 2 ], [ "irradiated_apple", 2 ], 
-      [ "peach", 2 ], [ "irradiated_peach", 2 ], 
-      [ "plums", 2 ], [ "irradiated_plums", 2 ], 
-      [ "apricot", 2 ], [ "irradiated_apricot", 2 ], 
+      [ "pear", 2 ], [ "irradiated_pear", 2 ],
+      [ "apple", 2 ], [ "irradiated_apple", 2 ],
+      [ "peach", 2 ], [ "irradiated_peach", 2 ],
+      [ "plums", 2 ], [ "irradiated_plums", 2 ],
+      [ "apricot", 2 ], [ "irradiated_apricot", 2 ],
       [ "juice", 1 ]
     ],
     [
@@ -22100,7 +22182,7 @@
   "book_learn": [ ["brewing_cookbook", 4] ],
   "qualities":[
     {"id":"BREW","level":2,"amount":1}
-  ], "tools": [ 
+  ], "tools": [
     [ [ "hotplate", 6 ], [ "char_smoker", 1 ], [ "toolset", 2 ], [ "fire", -1 ] ]
     ],
   "components": [
@@ -22239,11 +22321,11 @@
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
-  ], "components": 
+  ], "components":
     [
     [ ["rag", 4] ],
-    [ ["scrap", 4] ] 
-	] 
+    [ ["scrap", 4] ]
+	]
 },{
         "type" : "recipe",
   "result": "knuckle_katar",
@@ -22681,7 +22763,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1}
-  ], "tools": [ 
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -22748,7 +22830,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1}
-  ], "tools": [ 
+  ], "tools": [
       [
       ["tongs", -1]
       ],
@@ -22997,7 +23079,7 @@
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"HAMMER","level":3,"amount":1}
-  ], 
+  ],
   "tools": [
       [
       ["tongs", -1]
