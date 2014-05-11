@@ -241,7 +241,7 @@ int game::display_slice(indexed_invslice &slice, const std::string &title)
                 std::string it_name_full = it.display_name(slice[cur_it].first->size()).c_str();
                 int it_name_width = utf8_width(it_name_full.c_str());
                 if (it_name_width > right_column_offset - 3) {
-                    int bytes_offset = cursorx_to_position(it_name_full.c_str(), right_column_offset - 3, NULL, 0);
+                    int bytes_offset = cursorx_to_position(it_name_full.c_str(), right_column_offset - 3, NULL, -1);
                     truncated_item_name = it_name_full.substr(0, bytes_offset);
                 } else {
                     truncated_item_name = it_name_full;
