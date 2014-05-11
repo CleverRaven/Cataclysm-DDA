@@ -3707,18 +3707,21 @@ void overmap::open()
     if (fin.is_open()) {
         unserialize(fin, plrfilename, terfilename);
         fin.close();
+    } else if (loc.x == 0 && loc.y == 0) {
+        generate(NULL, NULL, NULL, NULL);
     } else { // No map exists!  Prepare neighbors, and generate one.
-        std::vector<overmap*> pointers;
-
+        std::vector<const overmap*> pointers;
+        // Fetch south and north
         for (int i = -1; i <= 1; i += 2) {
-            pointers.push_back((overmap*)overmap_buffer.get_existing(loc.x, loc.y+i));
+            pointers.push_back(overmap_buffer.get_existing(loc.x, loc.y+i));
         }
         // Fetch east and west
         for (int i = -1; i <= 1; i += 2) {
-            pointers.push_back((overmap*)overmap_buffer.get_existing(loc.x+i, loc.y));
+            pointers.push_back(overmap_buffer.get_existing(loc.x+i, loc.y));
         }
         // pointers looks like (north, south, west, east)
-        generate(pointers[0], pointers[3], pointers[1], pointers[2]);
+        generate(NULL, NULL, NULL, NULL);
+        //generate(pointers[0], pointers[3], pointers[1], pointers[2]);
         for (int i = 0; i < 4; i++) {
             delete pointers[i];
         }
