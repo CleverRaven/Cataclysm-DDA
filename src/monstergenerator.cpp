@@ -176,6 +176,7 @@ void MonsterGenerator::init_attack()
     attack_map["PLANT"] = &mattack::plant;
     attack_map["DISAPPEAR"] = &mattack::disappear;
     attack_map["FORMBLOB"] = &mattack::formblob;
+    attack_map["CALLBLOBS"] = &mattack::callblobs;
     attack_map["DOGTHING"] = &mattack::dogthing;
     attack_map["TENTACLE"] = &mattack::tentacle;
     attack_map["VORTEX"] = &mattack::vortex;

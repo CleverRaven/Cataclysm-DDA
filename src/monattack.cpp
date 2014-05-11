@@ -993,27 +993,36 @@ void mattack::formblob(monster *z)
                 didit = true;
                 g->u.add_disease("slimed", rng(0, z->hp));
             } else if (thatmon != -1) {
+                monster &othermon = g->zombie(thatmon);
                 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-                if (z->speed > 20 && g->zombie(thatmon).type->id == "mon_blob" &&
-                    g->zombie(thatmon).speed < 85) {
-                    didit = true;
-                    g->zombie(thatmon).speed += 5;
-                    z->speed -= 5;
-                } else if (z->speed > 20 && g->zombie(thatmon).type->id == "mon_blob_small") {
-                    didit = true;
-                    z->speed -= 5;
-                    g->zombie(thatmon).speed += 5;
-                    if (g->zombie(thatmon).speed >= 60) {
-                        g->zombie(thatmon).poly(GetMType("mon_blob"));
+                if( z->speed > 40 && othermon.type->in_species( "BLOB" ) ) {
+                    if( othermon.type->id == "mon_blob_brain" ) {
+                        // Brain blobs don't get sped up, they heal at the cost of the other blob.
+                        // But only if they are hurt badly.
+                        if( othermon.hp < othermon.type->hp / 2 ) {
+                            didit = true;
+                            othermon.hp += z->speed;
+                            z->hp = 0;
+                            return;
+                        }
+                        continue;
                     }
-                } else if( (g->zombie(thatmon).made_of("flesh") ||
-                            g->zombie(thatmon).made_of("veggy") ||
-                            g->zombie(thatmon).made_of("iflesh") ) &&
-                           rng(0, z->hp) > rng(0, g->zombie(thatmon).hp)) { // Blobify!
                     didit = true;
-                    g->zombie(thatmon).poly(GetMType("mon_blob"));
-                    g->zombie(thatmon).speed = z->speed - rng(5, 25);
-                    g->zombie(thatmon).hp = g->zombie(thatmon).speed;
+                    othermon.speed += 5;
+                    z->speed -= 5;
+                    if (othermon.type->id == "mon_blob_small" && othermon.speed >= 60) {
+                        othermon.poly(GetMType("mon_blob"));
+                    } else if ( othermon.type->id == "mon_blob" && othermon.speed >= 80) {
+                        othermon.poly(GetMType("mon_blob_large"));
+                    }
+                } else if( (othermon.made_of("flesh") ||
+                            othermon.made_of("veggy") ||
+                            othermon.made_of("iflesh") ) &&
+                           rng(0, z->hp) > rng(0, othermon.hp)) { // Blobify!
+                    didit = true;
+                    othermon.poly(GetMType("mon_blob"));
+                    othermon.speed = z->speed - rng(5, 25);
+                    othermon.hp = othermon.speed;
                 }
             } else if (z->speed >= 85 && rng(0, 250) < z->speed) {
                 // If we're big enough, spawn a baby blob.
@@ -1028,13 +1037,53 @@ void mattack::formblob(monster *z)
         }
         if (didit) { // We did SOMEthing.
             if (z->type->id == "mon_blob" && z->speed <= 50) { // We shrank!
+                z->poly(GetMType("mon_blob_small"));
+            } else if (z->type->id == "mon_blob_large" && z->speed <= 70) { // We shrank!
                 z->poly(GetMType("mon_blob"));
             }
-            z->moves -= 500;
+
+            z->moves = 0;
             z->sp_timeout = z->type->sp_freq; // Reset timer
             return;
         }
     }
+}
+
+void mattack::callblobs( monster *z )
+{
+    // The huge brain blob interposes other blobs between it and any threat.
+    // For the moment just target the player, this gets a bit more complicated
+    // if we want to deal with NPCS and friendly monsters as well.
+    // The strategy is to send about 1/3 of the available blobs after the player,
+    // and keep the rest near the brain blob for protection.
+    point enemy( g->u.xpos(), g->u.ypos() );
+    std::list<monster *> allies;
+    std::vector<point> nearby_points = closest_points_first( 3, z->pos() );
+    // Iterate using horrible creature_tracker API.
+    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+        monster *candidate = &g->zombie( i );
+        if( candidate->type->in_species("BLOB") && candidate->type->id != "mon_blob_brain" ) {
+            // Just give the allies consistent assignments.
+            // Don't worry about trying to make the orders optimal.
+            allies.push_back( candidate );
+        }
+    }
+    // 1/3 of the available blobs, unless they would fill the entire area near the brain.
+    const int num_guards = std::min( allies.size() / 3, nearby_points.size() );
+    int guards = 0;
+    for( std::list<monster *>::iterator ally = allies.begin();
+         ally != allies.end(); ++ally, ++guards ) {
+        point post = enemy;
+        if( guards < num_guards ) {
+            // Each guard is assigned a spot in the nearby_points vector based on their order.
+            int assigned_spot = (nearby_points.size() * guards) / num_guards;
+            post = nearby_points[ assigned_spot ];
+        }
+        int trash = 0;
+        (*ally)->set_dest( post.x, post.y, trash );
+    }
+    // This is telepathy, doesn't take any moves.
+    z->sp_timeout = z->type->sp_freq;
 }
 
 void mattack::dogthing(monster *z)

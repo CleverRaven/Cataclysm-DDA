@@ -29,6 +29,7 @@ class mattack
         void plant              (monster *z);
         void disappear          (monster *z);
         void formblob           (monster *z);
+        void callblobs          (monster *z);
         void dogthing           (monster *z);
         void tentacle           (monster *z);
         void vortex             (monster *z);
