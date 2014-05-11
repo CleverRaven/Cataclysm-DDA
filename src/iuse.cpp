@@ -1123,6 +1123,30 @@ int iuse::weed(player *p, item *it, bool b) {
     return it->type->charges_to_use();
 }
 
+int iuse::weed_brownie(player *p, item *it, bool b)
+{
+    p->add_msg_if_player(_("You scarf down the delicious brownie. It tastes a little funny though..."));
+    int duration = 120;
+    if (p->has_trait("TOLERANCE")) {
+        duration = 90;
+    }
+    if (p->has_trait("LIGHTWEIGHT")) {
+        duration = 150;
+    }
+    p->hunger += 2;
+    p->thirst += 6;
+    if (p->pkill < 5) {
+        p->pkill += 3;
+        p->pkill *= 2;
+    }
+    p->add_disease("weed_high", duration);
+    p->moves -= 100;
+    if(one_in(5)) {
+        weed_msg(p);
+    }
+    it->type->charges_to_use();
+}
+
 int iuse::coke(player *p, item *it, bool) {
     p->add_msg_if_player(_("You snort a bump of coke."));
     int duration = 21 - p->str_cur + rng(0,10);
