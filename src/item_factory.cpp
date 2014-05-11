@@ -9,6 +9,9 @@
 #include "crafting.h"
 #include "iuse_actor.h"
 #include "tile_id_data.h"
+#include "item.h"
+#include "game.h"
+#include "artifact.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -530,14 +533,31 @@ bool Item_factory::has_template(const Item_tag& id) const {
 }
 
 //Returns the template with the given identification tag
-itype* Item_factory::find_template(Item_tag id){
+itype* Item_factory::find_template(Item_tag id, int prop){
     std::map<Item_tag, itype*>::iterator found = m_templates.find(id);
-    if(found != m_templates.end()){
+    if( found != m_templates.end() ) {
         return found->second;
-    }
-    else{
+    } else if ( id == "artifact" ) {
+        if( prop ) {
+            return new_natural_artifact( (artifact_natural_property)prop );
+        } else {
+            return new_artifact();
+        }
+    } else {
         debugmsg("Missing item (check item_groups.json): %s", id.c_str());
-        return m_missing_item;
+        it_artifact_tool *bad_itype = new it_artifact_tool();
+        bad_itype->id = id.c_str();
+        bad_itype->name = string_format("undefined-%ss", id.c_str());
+        bad_itype->name_plural = string_format("undefined-%ss", id.c_str());
+        bad_itype->description = string_format("A strange shimmering... nothing."
+                                               "  You think it wants to be a %s.", id.c_str());
+        bad_itype->sym = '.';
+        bad_itype->color = c_white;
+        m_templates[ id.c_str() ] = bad_itype;
+        itypes[ id.c_str() ] = bad_itype;
+        // Push the item definition on the artifact list so it gets saved/loaded from json.
+        artifact_itype_ids.push_back( id );
+        return bad_itype;
     }
 }
 
@@ -550,21 +570,6 @@ Item_list Item_factory::create_from_group(Group_tag group, int created_at)
     } else {
         return Item_list();
     }
-}
-
-//Returns a random template from the list of all templates.
-itype* Item_factory::random_template(){
-    return template_from("ALL");
-}
-
-//Returns a random template from those with the given group tag
-itype* Item_factory::template_from(const Item_tag group_tag){
-    return find_template( id_from(group_tag) );
-}
-
-//Returns a random template name from the list of all templates.
-const Item_tag Item_factory::random_id(){
-    return id_from("ALL");
 }
 
 //Returns a random template name from the list of all templates.
@@ -591,35 +596,6 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
         return group_iter->second;
     }
     return NULL;
-}
-
-item Item_factory::create(Item_tag id, int created_at, bool rand){
-    return item(find_template(id), created_at, rand);
-}
-Item_list Item_factory::create(Item_tag id, int created_at, int quantity, bool rand){
-    Item_list new_items;
-    item new_item_base = create(id, created_at, rand);
-    for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone(rand));
-    }
-    return new_items;
-}
-item Item_factory::create_from(Item_tag group, int created_at, bool rand){
-    return create(id_from(group), created_at, rand);
-}
-Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity, bool rand){
-    return create(id_from(group), created_at, quantity, rand);
-}
-item Item_factory::create_random(int created_at, bool rand){
-    return create(random_id(), created_at, rand);
-}
-Item_list Item_factory::create_random(int created_at, int quantity, bool rand){
-    Item_list new_items;
-    item new_item_base = create(random_id(), created_at);
-    for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone(rand));
-    }
-    return new_items;
 }
 
 bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item) {
@@ -1193,7 +1169,8 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
-void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id, const std::string &subtype)
+void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id,
+                                   const std::string &subtype)
 {
     Item_spawn_data* &isd = m_template_groups[group_id];
     Item_group *ig = dynamic_cast<Item_group*>(isd);

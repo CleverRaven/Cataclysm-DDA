@@ -345,14 +345,12 @@ class it_artifact_armor : public it_armor, public JsonSerializer, public JsonDes
 
 /* FUNCTIONS */
 
-typedef std::map<std::string, itype *> itypemap;
-
 void init_artifacts();
-itype *new_artifact(itypemap &itypes);
-itype *new_natural_artifact(itypemap &itypes, artifact_natural_property prop = ARTPROP_NULL);
+itype *new_artifact();
+itype *new_natural_artifact(artifact_natural_property prop = ARTPROP_NULL);
 
 // note: needs to be called by main() before MAPBUFFER.load
-void load_artifacts(const std::string &filename, itypemap &itypes);
-void load_artifacts_from_ifstream(std::ifstream &f, itypemap &itypes);
+void load_artifacts(const std::string &filename);
+void load_artifacts_from_ifstream(std::ifstream &f);
 
 #endif
