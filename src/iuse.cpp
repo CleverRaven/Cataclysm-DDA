@@ -1144,7 +1144,7 @@ int iuse::weed_brownie(player *p, item *it, bool b)
     if(one_in(5)) {
         weed_msg(p);
     }
-    it->type->charges_to_use();
+    return it->type->charges_to_use();
 }
 
 int iuse::coke(player *p, item *it, bool) {
