@@ -820,6 +820,7 @@ void monster::deserialize(JsonIn &jsin)
     data.read("wandf", wandf);
     data.read("moves", moves);
     data.read("speed", speed);
+    Creature::set_speed_base(speed);
     data.read("hp", hp);
     data.read("sp_timeout", sp_timeout);
     data.read("friendly", friendly);
@@ -855,7 +856,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("wandy",wandy);
     json.member("wandf",wandf);
     json.member("moves",moves);
-    json.member("speed",speed);
+    json.member("speed", get_speed());
     json.member("hp",hp);
     json.member("sp_timeout",sp_timeout);
     json.member("friendly",friendly);
