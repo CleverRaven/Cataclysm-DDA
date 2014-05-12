@@ -323,25 +323,9 @@ void player::normalize()
     ret_null = item(itypes["null"], 0);
     weapon   = item(itypes["null"], 0);
     style_selected = "style_none";
-    for (int i = 0; i < num_hp_parts; i++) {
-        hp_max[i] = 60 + str_max * 3;
-        // Tough and Flimsy are exclusive.
-        // Only the most extreme of each version applies.
-        if (has_trait("TOUGH3")) {
-            hp_max[i] = int(hp_max[i] * 1.4);
-        } else if (has_trait("TOUGH2")) {
-            hp_max[i] = int(hp_max[i] * 1.3);
-        } else if (has_trait("TOUGH")) {
-            hp_max[i] = int(hp_max[i] * 1.2);
-        } else if (has_trait("FLIMSY3")) {
-            hp_max[i] = int(hp_max[i] * .75);
-        } else if (has_trait("FLIMSY2")) {
-            hp_max[i] = int(hp_max[i] * .5);
-        } else if (has_trait("FLIMSY")) {
-            hp_max[i] = int(hp_max[i] * .25);
-        }
-        hp_cur[i] = hp_max[i];
-    }
+    
+    recalc_hp();
+    
     for (int i = 0 ; i < num_bp; i++)
         temp_conv[i] = BODYTEMP_NORM;
 }
