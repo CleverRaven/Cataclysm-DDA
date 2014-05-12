@@ -9679,7 +9679,7 @@
         "use_action" : "WEED_BROWNIE",
         "stim" : 0,
         "to_hit" : 0,
-        "comestible_type" : "FOOD",
+        "comestible_type" : "MED",
         "symbol" : "%",
         "quench" : 0,
         "heal" : 0,
