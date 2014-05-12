@@ -24,6 +24,7 @@ enum dis_type_enum {
 // Diseases
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_TAPEWORM, DI_BLOODWORMS, DI_BRAINWORM, DI_PAINCYSTS,
+ DI_TETANUS,
 // Fields - onfire moved to effects
  DI_CRUSHED, DI_BOULDERING,
 // Monsters
@@ -92,6 +93,7 @@ void game::init_diseases() {
     disease_type_lookup["tapeworm"] = DI_TAPEWORM;
     disease_type_lookup["bloodworms"] = DI_BLOODWORMS;
     disease_type_lookup["brainworm"] = DI_BRAINWORM;
+    disease_type_lookup["tetanus"] = DI_TETANUS;
     disease_type_lookup["paincysts"] = DI_PAINCYSTS;
     disease_type_lookup["crushed"] = DI_CRUSHED;
     disease_type_lookup["bouldering"] = DI_BOULDERING;
@@ -1076,6 +1078,18 @@ void dis_effect(player &p, disease &dis)
             } else {
                 if(one_in(512)) {
                     p.hunger++;
+                }
+            }
+            break;
+
+        case DI_TETANUS:
+            p.mod_dex_bonus(-4);
+            if (one_in(25)) {
+                add_msg(m_bad, "Your muscles spasm.");
+                p.add_effect("downed",rng(1,4));
+                p.add_effect("stunned",8);
+                if (one_in(10)) {
+                    p.mod_pain(rng(1, 10));
                 }
             }
             break;

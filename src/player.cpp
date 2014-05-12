@@ -8377,7 +8377,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_mouth) && has_trait("MANDIBLES"))
         {
             if(interactive)
