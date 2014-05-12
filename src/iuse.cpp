@@ -7797,90 +7797,101 @@ int iuse::robotcontrol(player *p, item *it, bool)
     }
 
     int choice = -1;
-    choice = menu(true, _("Welcome to hackPRO!:"), _("Override IFF protocols"), _("Set friendly robots to passive mode"),
+    choice = menu(true, _("Welcome to hackPRO!:"), _("Override IFF protocols"),
+                  _("Set friendly robots to passive mode"),
                   _("Set friendly robots to combat mode"), _("Cancel"), NULL);
     switch(choice){
-        case 1:{ // attempt to make a robot friendly
-           point pos = g->look_around();
-           int mondex = g->mon_at(pos.x, pos.y);
-           if (mondex == -1){
-                p->add_msg_if_player( _("There's nothing there."));
-                return 0;
-           }
-           monster *z = &(g->zombie(mondex));
-           if (!(z->type->in_species("ROBOT"))){
-                p->add_msg_if_player( _("That %s is not a robot!"), z->name().c_str());
-                return 0;
-           } else if (z->friendly != 0){
-                p->add_msg_if_player( _("That %s is already friendly."), z->name().c_str());
-                return 0;
-           } else {
-                p->add_msg_if_player( _("You start reprograming the %s into an ally."), z->name().c_str());
-                p->moves -= 1000 - p->int_cur*10 - p->skillLevel("computer")*10;
-                float success =  p->skillLevel("computer")
-                 - 1.5 * (z->type->difficulty) / ((rng(2, p->int_cur) /2) + (p->skillLevel("computer") /2));
-                if (success >= 0){
-                  p->add_msg_if_player( _("You successfully override the %s's IFF protocols!"), z->name().c_str());
-                  z->friendly = -1;
-                }else if (success >= -2){ //A near success
-                  p->add_msg_if_player( _("The %s short circuits as you attempt to reprogram it!"), z->name().c_str());
-                  if (z->hurt(rng(1,10))){ //damage it a little
-                    g->kill_mon(mondex, (p == &(g->u)));
-                    p->practice(calendar::turn, "computer", 10);
-                    return it->type->charges_to_use(); //dont do the other effects if the robot died
-                  }
-                  if (one_in(3)){
-                    p->add_msg_if_player( _("...and turns friendly!"));
-                    if (one_in(3)){ //did the robot became friendly permanently?
-                        z->friendly = -1; //it did
-                    } else {
-                        z->friendly = rng(5, 40); // it didn't
-                    }
-                  }
+    case 1:{ // attempt to make a robot friendly
+        uimenu pick_robot;
+        pick_robot.text = _("Choose an endpoint to hack.");
+        // Build a list of all unfriendly robots in range.
+        for( int i = 0; i < g->num_zombies(); ++i ) {
+            monster &candidate = g->zombie( i );
+            if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
+                rl_dist( p->xpos(), p->ypos(), candidate.xpos(), candidate.ypos() <= 10 ) ) {
+                pick_robot.entries.push_back( uimenu_entry( i, true, -1,
+                                                            candidate.name().c_str() ) );
+            }
+        }
+        if( pick_robot.entries.empty() ) {
+            p->add_msg_if_player( m_info, _("No enemy robots in range.") );
+            return it->type->charges_to_use();
+        }
+        pick_robot.entries.push_back( uimenu_entry( -1, true, -1, _("Cancel") ) );
+
+        pick_robot.query();
+        if( pick_robot.ret == -1 ) {
+            p->add_msg_if_player( m_info, _("Never mind") );
+            return it->type->charges_to_use();
+        }
+        monster *z = &(g->zombie( pick_robot.ret ));
+        p->add_msg_if_player( _("You start reprograming the %s into an ally."), z->name().c_str());
+        p->moves -= 1000 - p->int_cur*10 - p->skillLevel("computer")*10;
+        float success =  p->skillLevel("computer") - 1.5 * (z->type->difficulty) /
+            ((rng(2, p->int_cur) /2) + (p->skillLevel("computer") /2));
+        if (success >= 0){
+            p->add_msg_if_player( _("You successfully override the %s's IFF protocols!"),
+                                  z->name().c_str());
+            z->friendly = -1;
+        } else if (success >= -2) { //A near success
+            p->add_msg_if_player( _("The %s short circuits as you attempt to reprogram it!"),
+                                  z->name().c_str());
+            if( z->hurt( rng(1,10) ) ) { //damage it a little
+                g->kill_mon( pick_robot.ret, p == &(g->u) );
+                p->practice(calendar::turn, "computer", 10);
+                return it->type->charges_to_use(); //dont do the other effects if the robot died
+            }
+            if (one_in(3)) {
+                p->add_msg_if_player( _("...and turns friendly!"));
+                if (one_in(3)){ //did the robot became friendly permanently?
+                    z->friendly = -1; //it did
                 } else {
-                 p->add_msg_if_player( _("...but the robot refuses to acknowledge you as an ally!"));
-               }
-            p->practice(calendar::turn, "computer", 10);
-            return it->type->charges_to_use();
-           }
-           break;
-        }
-        case 2:{ //make all friendly robots stop their purposeless extermination of (un)life.
-            p->moves -= 100;
-            int f = 0; //flag to check if you have robotic allies
-            for (int i = 0; i < g->num_zombies(); i++) {
-                if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species("ROBOT")) {
-                        p->add_msg_if_player( _("A following %s goes into passive mode."), g->zombie(i).name().c_str());
-                        g->zombie(i).add_effect("docile", 1, 1, true);
-                        f = 1;
-                    }
+                    z->friendly = rng(5, 40); // it didn't
                 }
-            if (f == 0){
-                p->add_msg_if_player( _("You are not commanding any robots."));
-                return 0;
             }
-            return it->type->charges_to_use();
-            break;
+        } else {
+            p->add_msg_if_player( _("...but the robot refuses to acknowledge you as an ally!"));
         }
-        case 3:{ //make all friendly robots terminate (un)life with extreme prejudice
-            p->moves -= 100;
-            int f = 0; //flag to check if you have robotic allies
-            for (int i = 0; i < g->num_zombies(); i++) {
-                if (g->zombie(i).friendly != 0 && g->zombie(i).has_flag(MF_ELECTRONIC)) {
-                        p->add_msg_if_player( _("A following %s goes into combat mode."), g->zombie(i).name().c_str());
-                        g->zombie(i).remove_effect("docile");
-                        f = 1;
-                    }
-                }
-            if (f == 0){
-                p->add_msg_if_player( _("You are not commanding any robots."));
-                return 0;
+        p->practice(calendar::turn, "computer", 10);
+        return it->type->charges_to_use();
+    }
+    case 2:{ //make all friendly robots stop their purposeless extermination of (un)life.
+        p->moves -= 100;
+        int f = 0; //flag to check if you have robotic allies
+        for (int i = 0; i < g->num_zombies(); i++) {
+            if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species("ROBOT")) {
+                p->add_msg_if_player( _("A following %s goes into passive mode."),
+                                      g->zombie(i).name().c_str());
+                g->zombie(i).add_effect("docile", 1, 1, true);
+                f = 1;
             }
-            return it->type->charges_to_use();
-            break;
         }
+        if (f == 0){
+            p->add_msg_if_player( _("You are not commanding any robots."));
+            return 0;
+        }
+        return it->type->charges_to_use();
+        break;
+    }
+    case 3:{ //make all friendly robots terminate (un)life with extreme prejudice
+        p->moves -= 100;
+        int f = 0; //flag to check if you have robotic allies
+        for (int i = 0; i < g->num_zombies(); i++) {
+            if (g->zombie(i).friendly != 0 && g->zombie(i).has_flag(MF_ELECTRONIC)) {
+                p->add_msg_if_player( _("A following %s goes into combat mode."),
+                                      g->zombie(i).name().c_str());
+                g->zombie(i).remove_effect("docile");
+                f = 1;
+            }
+        }
+        if (f == 0){
+            p->add_msg_if_player( _("You are not commanding any robots."));
+            return 0;
+        }
+        return it->type->charges_to_use();
+        break;
+    }
 
     }
     return 0;
-
 }
