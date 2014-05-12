@@ -193,7 +193,6 @@ void Item_factory::init(){
     iuse_function_list["ANTIFUNGAL"] = &iuse::antifungal;
     iuse_function_list["ANTIPARASITIC"] = &iuse::antiparasitic;
     iuse_function_list["ANTICONVULSANT"] = &iuse::anticonvulsant;
-    iuse_function_list["IMMUNIZE"] = &iuse::immunize;
     iuse_function_list["WEED"] = &iuse::weed;
     iuse_function_list["COKE"] = &iuse::coke;
     iuse_function_list["CRACK"] = &iuse::crack;
@@ -772,7 +771,6 @@ void Item_factory::load_comestible(JsonObject& jo)
 {
     it_comest* comest_template = new it_comest();
     comest_template->comesttype = jo.get_string("comestible_type");
-    comest_template->immunize = jo.get_string("immunize","null");
     comest_template->tool = jo.get_string("tool", "null");
     comest_template->container = jo.get_string("container", "null");
     comest_template->quench = jo.get_int("quench", 0);

@@ -166,8 +166,6 @@ public:
 
  /** Returns true if the player has the entered trait */
  bool has_trait(const std::string &flag) const;
- /** Returns true if the player has the entered vaccine */
- bool has_vaccine(const std::string &flag) const;
  /** Returns true if the player has the entered starting trait */
  bool has_base_trait(const std::string &flag) const;
  /** Returns true if the player has a conflicting trait to the entered trait
@@ -190,8 +188,6 @@ public:
  bool purifiable(const std::string &flag) const;
  /** Toggles a trait on the player and in their mutation list */
  void toggle_trait(const std::string &flag);
- /** adds a vaccine **/
- void add_vaccine(const std::string &flag);
  /** Toggles a mutation on the player */
  void toggle_mutation(const std::string &flag);
  /** Modifies mutation_category_level[] based on the entered trait */
@@ -890,7 +886,6 @@ public:
 
 protected:
     std::set<std::string> my_traits;
-    std::set<std::string> my_vaccines;
     std::set<std::string> my_mutations;
     std::vector<bionic> my_bionics;
     std::vector<disease> illness;

@@ -1033,22 +1033,14 @@ int iuse::antiparasitic(player *p, item *it, bool) {
 int iuse::anticonvulsant(player *p, item *it, bool) {
     p->add_msg_if_player(_("You take some anticonvulsant medication."));
     if (p->has_disease("tetanus")) {
-        p->rem_disease("tetanus");
-        p->add_msg_if_player(m_warning, _("The muscle spasms start to go away."));
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::immunize(player *p, item *it, bool) {
-    it_comest *vac = dynamic_cast<it_comest*> (it->type);
-    if (!p->has_vaccine(vac->immunize)) {
         if (one_in(3)) {
-            p->add_vaccine(vac->immunize);
+            p->rem_disease("tetanus");
+            p->add_msg_if_player(m_good, _("The muscle spasms start to go away."));
+        } else {
+            p->add_msg_if_player(m_warning, _("The medication does nothing to help the spasms."));
         }
-        p->add_msg_if_player(_("You inject your self with a vaccine"));
-        p->add_msg_if_player(m_warning,_("Your not sure if it worked "));
+
     }
-    p->mod_pain( 3 );
     return it->type->charges_to_use();
 }
 
