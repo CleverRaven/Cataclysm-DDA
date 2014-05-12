@@ -1450,16 +1450,16 @@ void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color, std::st
     } else if (current_hp > max_hp * .5 && !bMonster) {
         color = c_yellow;
         text = "||\\";
-    } else if (current_hp > max_hp * .4 && !bMonster) {
+    } else if (current_hp > max_hp * .4) {
         color = c_ltred;
         text = "||";
-    } else if (current_hp > max_hp * .3) {
+    } else if (current_hp > max_hp * .3 && !bMonster) {
         color = c_ltred;
         text = "|\\";
-    } else if (current_hp > max_hp * .2 && !bMonster) {
+    } else if (current_hp > max_hp * .2) {
         color = c_red;
         text = "|";
-    } else if (current_hp > max_hp * .1) {
+    } else if (current_hp > max_hp * .1 && !bMonster) {
         color = c_red;
         text = "\\";
     } else if (current_hp > 0) {
