@@ -278,6 +278,7 @@ class overmap
   int dist_from_city(point p);
 
   oter_id& ter(const int x, const int y, const int z);
+  const oter_id& get_ter(const int x, const int y, const int z) const;
   bool&   seen(int x, int y, int z);
   std::vector<mongroup*> monsters_at(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
@@ -377,8 +378,7 @@ class overmap
   // parse data in an old overmap file
   bool unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
 
-  void generate(overmap* north, overmap* east, overmap* south,
-                overmap* west);
+  void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
   /**

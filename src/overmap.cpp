@@ -725,6 +725,11 @@ oter_id &overmap::ter(const int x, const int y, const int z)
     return layer[z + OVERMAP_DEPTH].terrain[x][y];
 }
 
+const oter_id &overmap::get_ter(const int x, const int y, const int z) const
+{
+    return layer[z + OVERMAP_DEPTH].terrain[x][y];
+}
+
 bool &overmap::seen(int x, int y, int z)
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
@@ -1021,8 +1026,8 @@ void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z) c
     mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
-void overmap::generate(overmap *north, overmap *east, overmap *south,
-                       overmap *west)
+void overmap::generate(const overmap *north, const overmap *east,
+                       const overmap *south, const overmap *west)
 {
     dbg(D_INFO) << "overmap::generate start...";
     std::vector<city> road_points; // cities and roads_out together
@@ -1034,12 +1039,12 @@ void overmap::generate(overmap *north, overmap *east, overmap *south,
 
     if (north != NULL) {
         for (int i = 2; i < OMAPX - 2; i++) {
-            if (is_river(north->ter(i, OMAPY - 1, 0))) {
+            if (is_river(north->get_ter(i, OMAPY - 1, 0))) {
                 ter(i, 0, 0) = river_center;
             }
-            if (north->ter(i,     OMAPY - 1, 0) == river_center &&
-                north->ter(i - 1, OMAPY - 1, 0) == river_center &&
-                north->ter(i + 1, OMAPY - 1, 0) == river_center) {
+            if (north->get_ter(i,     OMAPY - 1, 0) == river_center &&
+                north->get_ter(i - 1, OMAPY - 1, 0) == river_center &&
+                north->get_ter(i + 1, OMAPY - 1, 0) == river_center) {
                 if (river_start.empty() ||
                     river_start[river_start.size() - 1].x < i - 6) {
                     river_start.push_back(point(i, 0));
@@ -1055,12 +1060,12 @@ void overmap::generate(overmap *north, overmap *east, overmap *south,
     int rivers_from_north = river_start.size();
     if (west != NULL) {
         for (int i = 2; i < OMAPY - 2; i++) {
-            if (is_river(west->ter(OMAPX - 1, i, 0))) {
+            if (is_river(west->get_ter(OMAPX - 1, i, 0))) {
                 ter(0, i, 0) = river_center;
             }
-            if (west->ter(OMAPX - 1, i, 0)     == river_center &&
-                west->ter(OMAPX - 1, i - 1, 0) == river_center &&
-                west->ter(OMAPX - 1, i + 1, 0) == river_center) {
+            if (west->get_ter(OMAPX - 1, i, 0)     == river_center &&
+                west->get_ter(OMAPX - 1, i - 1, 0) == river_center &&
+                west->get_ter(OMAPX - 1, i + 1, 0) == river_center) {
                 if (river_start.size() == rivers_from_north ||
                     river_start[river_start.size() - 1].y < i - 6) {
                     river_start.push_back(point(0, i));
@@ -1075,18 +1080,18 @@ void overmap::generate(overmap *north, overmap *east, overmap *south,
     }
     if (south != NULL) {
         for (int i = 2; i < OMAPX - 2; i++) {
-            if (is_river(south->ter(i, 0, 0))) {
+            if (is_river(south->get_ter(i, 0, 0))) {
                 ter(i, OMAPY - 1, 0) = river_center;
             }
-            if (south->ter(i,     0, 0) == river_center &&
-                south->ter(i - 1, 0, 0) == river_center &&
-                south->ter(i + 1, 0, 0) == river_center) {
+            if (south->get_ter(i,     0, 0) == river_center &&
+                south->get_ter(i - 1, 0, 0) == river_center &&
+                south->get_ter(i + 1, 0, 0) == river_center) {
                 if (river_end.empty() ||
                     river_end[river_end.size() - 1].x < i - 6) {
                     river_end.push_back(point(i, OMAPY - 1));
                 }
             }
-            if (south->ter(i, 0, 0) == "road_nesw") {
+            if (south->get_ter(i, 0, 0) == "road_nesw") {
                 roads_out.push_back(city(i, OMAPY - 1, 0));
             }
         }
@@ -1099,18 +1104,18 @@ void overmap::generate(overmap *north, overmap *east, overmap *south,
     int rivers_to_south = river_end.size();
     if (east != NULL) {
         for (int i = 2; i < OMAPY - 2; i++) {
-            if (is_river(east->ter(0, i, 0))) {
+            if (is_river(east->get_ter(0, i, 0))) {
                 ter(OMAPX - 1, i, 0) = river_center;
             }
-            if (east->ter(0, i, 0)     == river_center &&
-                east->ter(0, i - 1, 0) == river_center &&
-                east->ter(0, i + 1, 0) == river_center) {
+            if (east->get_ter(0, i, 0)     == river_center &&
+                east->get_ter(0, i - 1, 0) == river_center &&
+                east->get_ter(0, i + 1, 0) == river_center) {
                 if (river_end.size() == rivers_to_south ||
                     river_end[river_end.size() - 1].y < i - 6) {
                     river_end.push_back(point(OMAPX - 1, i));
                 }
             }
-            if (east->ter(0, i, 0) == "road_nesw") {
+            if (east->get_ter(0, i, 0) == "road_nesw") {
                 roads_out.push_back(city(OMAPX - 1, i, 0));
             }
         }
@@ -3025,7 +3030,7 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                 if (check_ot_type_road(base, x - 1, y, z)) {
                     ter(x, y, z) = base + "_wn";
                 } else {
-                    if(base == "road") {
+                    if(base == "road" && (y != OMAPY - 1)) {
                         ter(x, y, z) = base + "_end_south";
                     } else {
                         ter(x, y, z) = base + "_ns";
@@ -3045,7 +3050,7 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                 if( check_ot_type_road(base, x - 1, y, z)) {
                     ter(x, y, z) = base + "_ew";
                 } else {
-                    if(base == "road") {
+                    if(base == "road" && (x != 0)) {
                         ter(x, y, z) = base + "_end_west";
                     } else {
                         ter(x, y, z) = base + "_ew";
@@ -3057,7 +3062,7 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                 if (check_ot_type_road(base, x - 1, y, z)) {
                     ter(x, y, z) = base + "_sw";
                 } else {
-                    if(base == "road") {
+                    if(base == "road" && (y != 0)) {
                         ter(x, y, z) = base + "_end_north";
                     } else {
                         ter(x, y, z) = base + "_ns";
@@ -3065,7 +3070,7 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                 }
             } else {
                 if (check_ot_type_road(base, x - 1, y, z)) {
-                    if(base == "road") {
+                    if(base == "road" && (x != OMAPX-1)) {
                         ter(x, y, z) = base + "_end_east";
                     } else {
                         ter(x, y, z) = base + "_ew";
@@ -3085,34 +3090,22 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
 
 void overmap::good_river(int x, int y, int z)
 {
-    if((x == 0) || (x == OMAPX-1))
-    {
-        if(!is_river(ter(x, y - 1, z)))
-        {
+    if((x == 0) || (x == OMAPX-1)) {
+        if(!is_river(ter(x, y - 1, z))) {
             ter(x, y, z) = "river_south";
-        }
-        else if(!is_river(ter(x, y + 1, z)))
-        {
+        } else if(!is_river(ter(x, y + 1, z))) {
             ter(x, y, z) = "river_north";
-        }
-        else
-        {
+        } else {
             ter(x, y, z) = "river_center";
         }
         return;
     }
-    if((y == 0) || (y == OMAPY-1))
-    {
-        if(!is_river(ter(x - 1, y, z)))
-        {
+    if((y == 0) || (y == OMAPY-1)) {
+        if(!is_river(ter(x - 1, y, z))) {
             ter(x, y, z) = "river_west";
-        }
-        else if(!is_river(ter(x + 1, y, z)))
-        {
+        } else if(!is_river(ter(x + 1, y, z))) {
             ter(x, y, z) = "river_east";
-        }
-        else
-        {
+        } else {
             ter(x, y, z) = "river_center";
         }
         return;
@@ -3720,11 +3713,8 @@ void overmap::open()
             pointers.push_back(overmap_buffer.get_existing(loc.x+i, loc.y));
         }
         // pointers looks like (north, south, west, east)
-        generate(NULL, NULL, NULL, NULL);
-        //generate(pointers[0], pointers[3], pointers[1], pointers[2]);
-        for (int i = 0; i < 4; i++) {
-            delete pointers[i];
-        }
+        //generate(NULL, NULL, NULL, NULL);
+        generate(pointers[0], pointers[3], pointers[1], pointers[2]);
     }
 }
 
