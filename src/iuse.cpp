@@ -1123,7 +1123,7 @@ int iuse::weed(player *p, item *it, bool b) {
     return it->type->charges_to_use();
 }
 
-int iuse::weed_brownie(player *p, item *it, bool b)
+int iuse::weed_brownie(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You scarf down the delicious brownie. It tastes a little funny though..."));
     int duration = 120;
