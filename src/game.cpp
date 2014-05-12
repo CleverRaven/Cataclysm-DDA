@@ -134,6 +134,7 @@ void game::load_static_data() {
     init_npctalk();
     init_artifacts();
     init_weather();
+    init_weather_anim();
     init_faction_data();
 
     // --- move/delete everything below
@@ -2456,76 +2457,29 @@ input_context game::get_player_input(std::string &action)
 {
     input_context ctxt = get_default_mode_input_context();
 
-    char cGlyph = ',';
-    nc_color colGlyph = c_ltblue;
-    float fFactor = 0.01f;
-
-    bool bWeatherEffect = true;
-    switch(weather) {
-        case WEATHER_ACID_DRIZZLE:
-            cGlyph = '.';
-            colGlyph = c_ltgreen;
-            fFactor = 0.01f;
-            break;
-        case WEATHER_ACID_RAIN:
-            cGlyph = ',';
-            colGlyph = c_ltgreen;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_DRIZZLE:
-            cGlyph = '.';
-            colGlyph = c_ltblue;
-            fFactor = 0.01f;
-            break;
-        case WEATHER_RAINY:
-            cGlyph = ',';
-            colGlyph = c_ltblue;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_THUNDER:
-            cGlyph = '.';
-            colGlyph = c_ltblue;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_LIGHTNING:
-            cGlyph = ',';
-            colGlyph = c_ltblue;
-            fFactor = 0.04f;
-            break;
-        case WEATHER_SNOW:
-            cGlyph = '*';
-            colGlyph = c_white;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_SNOWSTORM:
-            cGlyph = '*';
-            colGlyph = c_white;
-            fFactor = 0.04f;
-            break;
-        default:
-            bWeatherEffect = false;
-            break;
-    }
-
-    if (bWeatherEffect && OPTIONS["RAIN_ANIMATION"]) {
+    if (OPTIONS["ANIMATIONS"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
         int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
 
         if(fullscreen) {
-          iStartX = 0;
-          iStartY = 0;
-          iEndX = TERMX;
-          iEndY = TERMY;
+            iStartX = 0;
+            iStartY = 0;
+            iEndX = TERMX;
+            iEndY = TERMY;
         }
+
         //x% of the Viewport, only shown on visible areas
-        int dropCount = int(iEndX * iEndY * fFactor);
-        //std::vector<std::pair<int, int> > vDrops;
+        int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
+        int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
+        int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
+
+        bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
 
         weather_printable wPrint;
-        wPrint.colGlyph = colGlyph;
-        wPrint.cGlyph = cGlyph;
+        wPrint.colGlyph = mapWeatherAnim[weather].colGlyph;
+        wPrint.cGlyph = mapWeatherAnim[weather].cGlyph;
         wPrint.wtype = weather;
         wPrint.vdrops.clear();
         wPrint.startx = iStartX;
@@ -2533,46 +2487,62 @@ input_context game::get_player_input(std::string &action)
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        /*
-        Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
-        Get tile information from above's weather information:
-            WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-            WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
-            WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
-        */
-        int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
-        int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
-
         do {
-            for( size_t i = 0; i < wPrint.vdrops.size(); ++i ) {
-                m.drawsq(w_terrain, u,
-                         //vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
-                         wPrint.vdrops[i].first + offset_x,
-                         //vDrops[i].second - getmaxy(w_terrain)/2 + u.posy + u.view_offset_y,
-                         wPrint.vdrops[i].second + offset_y,
-                         false,
-                         true,
-                         u.posx + u.view_offset_x,
-                         u.posy + u.view_offset_y);
+            if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
+                /*
+                Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
+                Get tile information from above's weather information:
+                    WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
+                    WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+                    WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
+                */
+
+                for( size_t i = 0; i < wPrint.vdrops.size(); ++i ) {
+                    m.drawsq(w_terrain, u,
+                             wPrint.vdrops[i].first + offset_x,
+                             wPrint.vdrops[i].second + offset_y,
+                             false,
+                             true,
+                             u.posx + u.view_offset_x,
+                             u.posy + u.view_offset_y);
+                }
+
+                wPrint.vdrops.clear();
+
+                for(int i=0; i < dropCount; i++) {
+                    int iRandX = rng(iStartX, iEndX-1);
+                    int iRandY = rng(iStartY, iEndY-1);
+
+                    if (mapRain[iRandY][iRandX]) {
+                        std::stringstream ssTemp;
+                        ssTemp << u.posx << " - " << u.posy << " | " << iRandX << " - " << iRandY;
+                        add_msg(ssTemp.str().c_str());
+                        wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+                    }
+                }
+                draw_weather(wPrint);
             }
 
-            //vDrops.clear();
-            wPrint.vdrops.clear();
+            if (OPTIONS["ANIMATION_SCT"]) {
+                add_msg("try draw");
+                //draw_sct();
 
-            for(int i=0; i < dropCount; i++) {
-                int iRandX = rng(iStartX, iEndX-1);
-                int iRandY = rng(iStartY, iEndY-1);
+                std::stringstream ssTemp;
 
-                if (mapRain[iRandY][iRandX]) {
-                    //vDrops.push_back(std::make_pair(iRandX, iRandY));
-                    wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+                SCT.advanceStep();
 
-                    //mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+                    ssTemp.str("");
+                    ssTemp << u.posx << " - " << u.posy << " | " << iter->getPosX() << " - " << iter->getPosY() << " | " << iter->getText();
+
+                    add_msg(ssTemp.str().c_str());
+                    mvwputch(w_terrain, iter->getPosY()+iter->getStep(), iter->getPosX()+iter->getStep(), c_ltblue_cyan, 'S');
+                    //mvwprintz(w_terrain, iter->getPosX(), iter->getPosY(), msgtype_to_color(iter->getMsgType()), "%s", iter->getText().c_str());
                 }
             }
-            draw_weather(wPrint);
 
             wrefresh(w_terrain);
+
             inp_mngr.set_timeout(125);
         } while (handle_mouseview(ctxt, action));
         inp_mngr.set_timeout(-1);
@@ -4312,7 +4282,7 @@ void game::debug()
       weather_menu.addentry(-11,true,'d',_("View last 800 hours of decay"));
       weather_menu.query();
 
-      if(weather_menu.ret > 0 && weather_menu.ret < NUM_WEATHER_TYPES) {
+      if(weather_menu.ret > 0 && weather_menu.ret <= NUM_WEATHER_TYPES) {
         add_msg(m_info, "%d", weather_menu.selected);
 
         int selected_weather = weather_menu.selected + 1;
@@ -4345,7 +4315,7 @@ void game::debug()
               );
               if ( it->first == cweather ) {
                   weather_log_menu.entries.back().text_color = c_yellow;
-          }
+              }
           }
           weather_log_menu.query();
 

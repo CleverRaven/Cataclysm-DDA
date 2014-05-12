@@ -99,7 +99,7 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 
     mvwputch(w_terrain, cry, crx, c_white, 'X');
 }
-//*/
+
 void game::draw_weather(weather_printable wPrint)
 {
     for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
@@ -107,6 +107,15 @@ void game::draw_weather(weather_printable wPrint)
          ++weather_iterator)
     {
         mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
+    }
+}
+
+void game::draw_sct()
+{
+    SCT.advanceStep();
+
+    for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+        mvwprintz(w_terrain, iter->getPosY(), iter->getPosX(), msgtype_to_color(iter->getMsgType()), "%s", iter->getText().c_str());
     }
 }
 

@@ -97,6 +97,19 @@ int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES] = {
 }
 };
 
+void game::init_weather_anim() {
+    mapWeatherAnim.clear();
+    mapWeatherAnim[WEATHER_ACID_DRIZZLE] =  clWeatherAnim('.', c_ltgreen, 0.01f);
+    mapWeatherAnim[WEATHER_ACID_RAIN] =     clWeatherAnim(',', c_ltgreen, 0.02f);
+    mapWeatherAnim[WEATHER_DRIZZLE] =       clWeatherAnim('.', c_ltblue, 0.01f);
+    mapWeatherAnim[WEATHER_RAINY] =         clWeatherAnim(',', c_ltblue, 0.02f);
+    mapWeatherAnim[WEATHER_THUNDER] =       clWeatherAnim('.', c_ltblue, 0.02f);
+    mapWeatherAnim[WEATHER_LIGHTNING] =     clWeatherAnim(',', c_ltblue, 0.04f);
+    mapWeatherAnim[WEATHER_FLURRIES] =      clWeatherAnim('*', c_white, 0.01f);
+    mapWeatherAnim[WEATHER_SNOW] =          clWeatherAnim('*', c_white, 0.02f);
+    mapWeatherAnim[WEATHER_SNOWSTORM] =     clWeatherAnim('*', c_white, 0.04f);
+}
+
 void game::init_weather()
 {
     std::string tmp_season_name[4] = {

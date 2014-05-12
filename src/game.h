@@ -432,6 +432,7 @@ public:
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
+  void draw_sct();
 
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
@@ -483,6 +484,7 @@ public:
   void init_npctalk();
   void init_fields();
   void init_weather();
+  void init_weather_anim();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);

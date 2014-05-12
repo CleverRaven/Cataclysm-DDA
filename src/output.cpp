@@ -34,6 +34,8 @@ int TERRAIN_WINDOW_TERM_HEIGHT;
 int FULL_SCREEN_WIDTH;
 int FULL_SCREEN_HEIGHT;
 
+scrollingcombattext SCT;
+
 // utf8 version
 std::vector<std::string> foldstring ( std::string str, int width )
 {
@@ -1512,6 +1514,47 @@ void display_table(WINDOW *w, const std::string &title, int columns,
             break;
         }
     }
+}
+
+void scrollingcombattext::advanceStep() {
+    std::vector<cSCT>::iterator iter = vSCT.begin();
+
+    while (iter != vSCT.end()) {
+        if (iter->advanceStep() >= this->iMaxSteps) {
+            iter = vSCT.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+}
+
+nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg)
+{
+    if (!bOldMsg) {
+        // color for new messages
+        switch(type) {
+            case m_good:    return c_ltgreen;
+            case m_bad:     return c_ltred;
+            case m_mixed:   return c_pink;
+            case m_neutral: return c_white;
+            case m_warning: return c_yellow;
+            case m_info:    return c_ltblue;
+            default:        return c_white;
+        }
+    } else {
+        // color for slightly old messages
+        switch(type) {
+            case m_good:    return c_green;
+            case m_bad:     return c_red;
+            case m_mixed:   return c_magenta;
+            case m_neutral: return c_ltgray;
+            case m_warning: return c_brown;
+            case m_info:    return c_blue;
+            default:        return c_ltgray;
+        }
+    }
+
+    return c_white;
 }
 
 // In non-SDL mode, width/height is just what's specified in the menu

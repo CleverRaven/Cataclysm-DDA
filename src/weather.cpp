@@ -10,6 +10,8 @@
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
+std::map<weather_type, clWeatherAnim> mapWeatherAnim;
+
 void weather_effect::glare()
 {
  if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {

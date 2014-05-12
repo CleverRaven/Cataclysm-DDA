@@ -3,7 +3,6 @@
 #include "output.h"
 #include "game.h"
 #include "messages.h"
-#include "scrollingcombattext.h"
 #include <algorithm>
 #include <numeric>
 #include <cmath>

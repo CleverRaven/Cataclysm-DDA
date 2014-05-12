@@ -2,6 +2,7 @@
 #define _OUTPUT_H_
 
 #include "color.h"
+#include "line.h"
 #include <cstdarg>
 #include <string>
 #include <vector>
@@ -50,6 +51,21 @@ extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal cha
 extern int TERRAIN_WINDOW_TERM_HEIGHT; // same for height
 extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
+
+enum game_message_type {
+    m_good,    /* something good happend to the player character, eg. damage., decreasing in skill */
+    m_bad,      /* something bad happened to the player character, eg. health boost, increasing in skill */
+    m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
+                  eg. gaining a mutation with mixed effect*/
+    m_warning, /* warns the player about a danger. eg. enemy appeared, an alarm sounds, noise heard. */
+    m_info,    /* informs the player about something, eg. on examination, seeing an item,
+                  about how to use a certain function, etc. */
+    m_neutral  /* neutral or indifferent events which aren’t informational or nothing really happened eg.
+                  a miss, a non-critical failure. May also effect for good or bad effects which are
+                  just very slight to be notable. This is the default message type. */
+};
+
+nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = false);
 
 std::vector<std::string> foldstring (std::string str, int width);
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
@@ -153,6 +169,56 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
 void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);
+
+class scrollingcombattext {
+    private:
+
+    public:
+        const int iMaxSteps;
+
+        scrollingcombattext() : iMaxSteps(10) {};
+        ~scrollingcombattext() {};
+
+        class cSCT {
+            private:
+                int iPosX;
+                int iPosY;
+                direction oDir;
+                int iStep;
+                std::string sText;
+                game_message_type gmt;
+
+            public:
+                cSCT(const int p_iPosX, const int p_iPosY, const direction p_oDir,
+                     const std::string p_sText, const game_message_type p_gmt) {
+                    iPosX = p_iPosX;
+                    iPosY = p_iPosY;
+                    oDir = p_oDir;
+                    iStep = 0;
+                    sText = p_sText;
+                    gmt = p_gmt;
+                };
+                ~cSCT() {};
+
+                int getStep() { return iStep; }
+                int advanceStep() { return ++iStep; }
+                int getPosX() { return iPosX; }
+                int getPosY() { return iPosY; }
+                direction getDir() { return oDir; }
+                std::string getText() { return sText; }
+                game_message_type getMsgType() { return gmt; };
+        };
+
+        std::vector<cSCT> vSCT;
+
+        void add(const int p_iPosX, const int p_iPosY, const direction p_oDir,
+                 const std::string p_sText, const game_message_type p_gmt) {
+            vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt));
+        }
+        void advanceStep();
+};
+
+extern scrollingcombattext SCT;
 
 /** Get the width in font glyphs of the drawing screen.
  *
