@@ -42,6 +42,7 @@ public:
     int antiparasitic       (player*, item*, bool);
     int anticonvulsant      (player*, item*, bool);
     int weed                (player*, item*, bool);
+    int weed_brownie        (player*, item*, bool);
     int coke                (player*, item*, bool);
     int crack               (player*, item*, bool);
     int grack               (player*, item*, bool);
