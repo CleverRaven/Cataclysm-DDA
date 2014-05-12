@@ -827,25 +827,24 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
             ret.back().charges = dit->second;
         }
     }
-    for (size_t i = 0; i < u.worn.size(); i++) {
-        // We iterate backwards because deletion will invalidate later indices.
-        const int k = u.worn.size() - i - 1;
-        const int wornpos = player::worn_position_to_index(k);
-        if (dropping.count(wornpos) == 0) {
+    // We iterate backwards because deletion will invalidate later indices.
+    for( int k = u.worn.size() - 1; k >= 0; k-- ) {
+        const int wornpos = player::worn_position_to_index( k );
+        if( dropping.count( wornpos ) == 0 ) {
             continue;
         }
-        const it_armor *ita = dynamic_cast<const it_armor *>(u.worn[k].type);
+        const it_armor *ita = dynamic_cast<const it_armor *>( u.worn[k].type );
         const char invlet = u.worn[k].invlet; // TODO: might be 0
-        if (!u.takeoff(wornpos, true)) {
+        if( !u.takeoff( wornpos, true ) ) {
             continue;
         }
         u.moves -= 250; // same as in game::takeoff
-        if(ita != NULL) {
+        if( ita != NULL ) {
             freed_volume_capacity += ita->storage;
         }
         // Item could have been dropped after taking it off
-        if (u.inv.item_by_letter(invlet).is_null()) {
-            dropped_worn.push_back(u.i_rem(invlet));
+        if( !u.inv.item_by_letter( invlet ).is_null() ) {
+            dropped_worn.push_back( u.i_rem( invlet ) );
         }
     }
 
