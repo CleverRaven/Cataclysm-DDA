@@ -105,7 +105,7 @@ void Pickup::pick_up(int posx, int posy, int min)
         }
         if(menu_items[choice] == _("Use the hotplate")) {
             //Will be -1 if no battery at all
-            item tmp_hotplate( itypes["hotplate"], 0 );
+            item tmp_hotplate( "hotplate", 0 );
             // Drain a ton of power
             tmp_hotplate.charges = veh->drain( "battery", 100 );
             if( tmp_hotplate.is_tool() ) {
@@ -121,7 +121,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         if(menu_items[choice] == _("Fill a container with water")) {
             int amt = veh->drain("water", veh->fuel_left("water"));
-            item fill_water(itypes[default_ammo("water")], calendar::turn);
+            item fill_water( default_ammo("water"), calendar::turn );
             fill_water.charges = amt;
             int back = g->move_liquid(fill_water);
             if (back >= 0) {
@@ -134,7 +134,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         if(menu_items[choice] == _("Have a drink")) {
             veh->drain("water", 1);
-            item water(itypes["water_clean"], 0);
+            item water( "water_clean", 0 );
             g->u.eat(&water, dynamic_cast<it_comest *>(water.type));
             g->u.moves -= 250;
             return;
@@ -142,7 +142,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         if(menu_items[choice] == _("Use the welding rig?")) {
             //Will be -1 if no battery at all
-            item tmp_welder( itypes["welder"], 0 );
+            item tmp_welder( "welder", 0 );
             // Drain a ton of power
             tmp_welder.charges = veh->drain( "battery", 1000 );
             if( tmp_welder.is_tool() ) {
@@ -158,7 +158,7 @@ void Pickup::pick_up(int posx, int posy, int min)
 
         if(menu_items[choice] == _("Use the water purifier?")) {
             //Will be -1 if no battery at all
-            item tmp_purifier( itypes["water_purifier"], 0 );
+            item tmp_purifier( "water_purifier", 0 );
             // Drain a ton of power
             tmp_purifier.charges = veh->drain( "battery", 100 );
             if( tmp_purifier.is_tool() ) {
@@ -221,20 +221,8 @@ void Pickup::pick_up(int posx, int posy, int min)
             return;
         }
         newit.invlet = g->u.inv.get_invlet_for_item( newit.typeId() );
-        if (newit.invlet == 0) {
-            newit.invlet = g->nextinv;
-            g->advance_nextinv();
-        }
-        size_t iter = 0;
-        while (iter <= inv_chars.size() && g->u.has_item(newit.invlet) &&
-               !g->u.i_at(newit.invlet).stacks_with(newit)) {
-            newit.invlet = g->nextinv;
-            iter++;
-            g->advance_nextinv();
-        }
         if (!g->u.can_pickWeight(newit.weight(), false)) {
             add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
-            g->decrease_nextinv();
         } else if (!g->u.can_pickVolume(newit.volume())) {
             if (newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
                 handle_quiver_insertion(newit, false, moves_taken, picked_up);
@@ -242,7 +230,6 @@ void Pickup::pick_up(int posx, int posy, int min)
                     add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
                                              "There's no room in your inventory for the %ss.",
                                              newit.charges), newit.name.c_str());
-                    g->decrease_nextinv();
                 }
             } else if (g->u.is_armed()) {
                 if (!g->u.weapon.has_flag("NO_UNWIELD")) {
@@ -262,15 +249,12 @@ void Pickup::pick_up(int posx, int posy, int min)
                         g->u.wield(&(g->u.i_add(newit)));
                         add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
                                 newit.display_name().c_str());
-                    } else {
-                        g->decrease_nextinv();
                     }
                 } else {
                     add_msg(m_info, _("There's no room in your inventory for the %s, "
                                       "and you can't unwield your %s."),
                             newit.display_name().c_str(),
                             g->u.weapon.display_name().c_str());
-                    g->decrease_nextinv();
                 }
             } else {
                 g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
@@ -627,14 +611,11 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     // At this point we've selected our items, now we add them to our inventory
-    size_t iter;
     int curmit = 0;
     bool got_water = false; // Did we try to pick up water?
     bool offered_swap = false;
     std::map<std::string, int> mapPickup;
     for (size_t i = 0; i < here.size(); i++) {
-        // This while loop guarantees the inventory letter won't be a repeat. If it
-        // tries all 52 letters, it fails and we don't pick it up.
         if (getitem[i] && here[i].made_of(LIQUID)) {
             got_water = true;
         } else if (getitem[i]) {
@@ -642,14 +623,7 @@ void Pickup::pick_up(int posx, int posy, int min)
             item temp = here[i].clone();
             int moves_taken = 100;
 
-            iter = 0;
-            while (iter < inv_chars.size() &&
-                   (here[i].invlet == 0 || (g->u.has_item(here[i].invlet) &&
-                                            !g->u.i_at(here[i].invlet).stacks_with(here[i]))) ) {
-                here[i].invlet = g->nextinv;
-                iter++;
-                g->advance_nextinv();
-            }
+            here[i].invlet = g->u.inv.get_invlet_for_item( here[i].typeId() );
 
             if(pickup_count[i] != 0) {
                 // Reinserting leftovers happens after item removal to avoid stacking issues.
@@ -662,10 +636,10 @@ void Pickup::pick_up(int posx, int posy, int min)
 
             if (!g->u.can_pickWeight(here[i].weight(), false)) {
                 add_msg(m_info, _("The %s is too heavy!"), here[i].display_name().c_str());
-                g->decrease_nextinv();
             } else if (!g->u.can_pickVolume(here[i].volume())) { //check if player is at max volume
                 //try to store arrows/bolts in a worn quiver
-                if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" || here[i].ammo_type() == "bolt")) {
+                if (here[i].is_ammo() && (here[i].ammo_type() == "arrow" ||
+                                          here[i].ammo_type() == "bolt")) {
                     int quivered = handle_quiver_insertion(here[i], false, moves_taken, picked_up);
 
                     if (here[i].charges > 0) {
@@ -678,7 +652,6 @@ void Pickup::pick_up(int posx, int posy, int min)
                         add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
                                                  "There's no room in your inventory for the %ss.",
                                                  here[i].charges), here[i].name.c_str());
-                        g->decrease_nextinv();
                     }
                 } else if (g->u.is_armed()) {
                     if (!g->u.weapon.has_flag("NO_UNWIELD")) {
@@ -703,15 +676,12 @@ void Pickup::pick_up(int posx, int posy, int min)
                                         g->u.weapon.display_name().c_str());
                             }
                             offered_swap = true;
-                        } else {
-                            g->decrease_nextinv();
                         }
                     } else {
                         add_msg(m_info, _("There's no room in your inventory for the %s,"
                                           " and you can't unwield your %s."),
                                 here[i].display_name().c_str(),
                                 g->u.weapon.display_name().c_str());
-                        g->decrease_nextinv();
                     }
                 } else {
                     g->u.inv.assign_empty_invlet(here[i], true);  // force getting an invlet.

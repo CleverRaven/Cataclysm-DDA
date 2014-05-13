@@ -550,7 +550,7 @@ void player::activate_bionic(int b)
         pkill = 0;
         stim = 0;
     } else if(bio.id == "bio_evap") {
-        item water = item(itypes["water_clean"], 0);
+        item water = item("water_clean", 0);
         if (g->handle_liquid(water, true, true)) {
             moves -= 100;
         } else if (query_yn(_("Drink from your hands?"))) {
@@ -607,11 +607,11 @@ void player::activate_bionic(int b)
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
                        weapon.tname().c_str());
             g->m.add_item_or_charges(posx, posy, weapon);
-            weapon = item(itypes["bio_claws_weapon"], 0);
+            weapon = item("bio_claws_weapon", 0);
             weapon.invlet = '#';
         } else {
             add_msg(m_neutral, _("Your claws extend!"));
-            weapon = item(itypes["bio_claws_weapon"], 0);
+            weapon = item("bio_claws_weapon", 0);
             weapon.invlet = '#';
         }
     } else if(bio.id == "bio_blade") {
@@ -627,16 +627,16 @@ void player::activate_bionic(int b)
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
                        weapon.tname().c_str());
             g->m.add_item_or_charges(posx, posy, weapon);
-            weapon = item(itypes["bio_blade_weapon"], 0);
+            weapon = item("bio_blade_weapon", 0);
             weapon.invlet = '#';
         } else {
             add_msg(m_neutral, _("You extend your blade!"));
-            weapon = item(itypes["bio_blade_weapon"], 0);
+            weapon = item("bio_blade_weapon", 0);
             weapon.invlet = '#';
         }
     } else if(bio.id == "bio_blaster") {
         tmp_item = weapon;
-        weapon = item(itypes["bio_blaster_gun"], 0);
+        weapon = item("bio_blaster_gun", 0);
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
@@ -645,7 +645,7 @@ void player::activate_bionic(int b)
         weapon = tmp_item;
     } else if (bio.id == "bio_laser") {
         tmp_item = weapon;
-        weapon = item(itypes["bio_laser_gun"], 0);
+        weapon = item("bio_laser_gun", 0);
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
@@ -654,7 +654,7 @@ void player::activate_bionic(int b)
         weapon = tmp_item;
     } else if(bio.id == "bio_chain_lightning") {
         tmp_item = weapon;
-        weapon = item(itypes["bio_lightning"], 0);
+        weapon = item("bio_lightning", 0);
         g->refresh_all();
         g->plfire(false);
         if(weapon.charges == 1) { // not fired
@@ -683,7 +683,7 @@ void player::activate_bionic(int b)
                     avail = tmp.volume() / 2;
                 }
                 if(avail > 0 && query_yn(_("Extract water from the %s"), tmp.tname().c_str())) {
-                    item water = item(itypes["water_clean"], 0);
+                    item water = item("water_clean", 0);
                     if (g->handle_liquid(water, true, true)) {
                         moves -= 100;
                     } else if (query_yn(_("Drink directly from the condensor?"))) {

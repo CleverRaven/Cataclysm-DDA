@@ -841,6 +841,7 @@ void monster::deserialize(JsonIn &jsin)
     data.read("wandf", wandf);
     data.read("moves", moves);
     data.read("speed", speed);
+    Creature::set_speed_base(speed);
     data.read("hp", hp);
     data.read("sp_timeout", sp_timeout);
     data.read("friendly", friendly);
@@ -876,7 +877,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("wandy",wandy);
     json.member("wandf",wandf);
     json.member("moves",moves);
-    json.member("speed",speed);
+    json.member("speed", get_speed());
     json.member("hp",hp);
     json.member("sp_timeout",sp_timeout);
     json.member("friendly",friendly);
@@ -960,29 +961,10 @@ void item::deserialize(JsonObject &data)
         }
     }
 
-    bool old_itype = false;
-
-    if ( idtmp == "null" ) {
-        std::map<std::string, std::string>::const_iterator oldity = item_vars.find("_invalid_itype_");
-        if ( oldity != item_vars.end() ) {
-            old_itype = true;
-            idtmp = oldity->second;
-        }
-    }
-
-    std::map<std::string, itype*>::const_iterator ity = itypes.find(idtmp);
-    if ( ity == itypes.end() ) {
-        item_vars["_invalid_itype_"] = idtmp;
-        make(NULL);
-    } else {
-        if ( old_itype ) {
-            item_vars.erase( "_invalid_itype_" );
-        }
-        make(ity->second);
-    }
+    make(idtmp);
 
     if ( ! data.read( "name", name ) ) {
-        name=type->name;
+        name = type->name;
     }
 
     data.read( "invlet", lettmp );
@@ -1006,12 +988,12 @@ void item::deserialize(JsonObject &data)
     data.read("item_tags", item_tags);
 
 
-    int tmplum=0;
+    int tmplum = 0;
     if ( data.read("light",tmplum) ) {
 
-        light=nolight;
-        int tmpwidth=0;
-        int tmpdir=0;
+        light = nolight;
+        int tmpwidth = 0;
+        int tmpdir = 0;
 
         data.read("light_width",tmpwidth);
         data.read("light_dir",tmpdir);

@@ -1189,6 +1189,11 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "anvil",
+        "deconstruct": {
+            "items": [
+                { "item": "anvil", "amount": 1 }
+            ]
+        },
         "flags": ["TRANSPARENT", "NOITEM"]
     },{
         "type" : "furniture",

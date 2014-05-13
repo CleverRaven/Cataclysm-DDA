@@ -322,7 +322,7 @@ void computer::activate_function(computer_action action)
                                 for (unsigned i = 0; i < g->m.i_at(x1, y1).size(); i++) {
                                     item *it = &(g->m.i_at(x1, y1)[i]);
                                     if (it->is_container()) {
-                                        item sewage = item(itypes["sewage"], calendar::turn);
+                                        item sewage = item("sewage", calendar::turn);
                                         it_container *container = dynamic_cast<it_container *>(it->type);
                                         it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
                                         long maxCharges = container->contains * comest->charges;
@@ -343,7 +343,7 @@ void computer::activate_function(computer_action action)
                                     }
                                 }
                                 if (!found_item) {
-                                    item sewage(itypes["sewage"], calendar::turn);
+                                    item sewage("sewage", calendar::turn);
                                     g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
@@ -702,7 +702,7 @@ of pureed bone & LSD."));
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;
             }
-            item software(itypes[miss->item_id], 0);
+            item software(miss->item_id, 0);
             software.mission_id = mission_id;
             item *usb = g->u.pick_usb();
             usb->contents.clear();
@@ -737,7 +737,7 @@ of pureed bone & LSD."));
                                 if (!g->u.has_amount("usb_drive", 1)) {
                                     print_error(_("USB drive required!"));
                                 } else {
-                                    item software(itypes["software_blood_data"], 0);
+                                    item software("software_blood_data", 0);
                                     item *usb = g->u.pick_usb();
                                     usb->contents.clear();
                                     usb->put_in(software);
@@ -771,7 +771,7 @@ of pureed bone & LSD."));
                     } else { // Success!
                         if (g->m.i_at(x, y)[0].type->id == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
-                            item transcript(itypes["black_box_transcript"], calendar::turn);
+                            item transcript("black_box_transcript", calendar::turn);
                             g->m.add_item_or_charges(g->u.posx, g->u.posy, transcript);
                         } else {
                             print_line(_("Memory Bank:  Unencrypted\nNothing of interest.\n"));

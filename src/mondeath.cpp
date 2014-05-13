@@ -1,4 +1,3 @@
-#include "item_factory.h"
 #include "mondeath.h"
 #include "monster.h"
 #include "game.h"
@@ -335,6 +334,7 @@ void mdeath::guilt(monster *z) {
     g->u.add_morale(MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay);
 
 }
+
 void mdeath::blobsplit(monster *z) {
     int speed = z->speed - rng(30, 50);
     g->m.spawn_item(z->posx(), z->posy(), "slime_scrap", 1, 0, calendar::turn, rng(1,4));
@@ -398,7 +398,7 @@ void mdeath::amigara(monster *z) {
     if (count <= 1) { // We're the last!
         g->u.rem_disease("amigara");
         add_msg(_("Your obsession with the fault fades away..."));
-        item art(new_artifact(itypes), calendar::turn);
+        item art("artifact", calendar::turn);
         g->m.add_item_or_charges(z->posx(), z->posy(), art);
     }
 }
@@ -433,11 +433,7 @@ void mdeath::broken(monster *z) {
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert(0, "broken_");
-    if (item_controller->has_template(item_id)) {
-        g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, calendar::turn);
-    } else {
-        debugmsg("Tried to create a broken %s but %s does not exist.", z->type->name.c_str(), item_id.c_str());
-    }
+    g->m.spawn_item(z->posx(), z->posy(), item_id, 1, 0, calendar::turn);
 }
 
 void mdeath::ratking(monster *z) {
@@ -554,7 +550,7 @@ void make_gibs(monster* z, int amount) {
 void make_mon_corpse(monster* z, int damageLvl) {
     const int MAX_DAM = 4;
     item corpse;
-    corpse.make_corpse(itypes["corpse"], z->type, calendar::turn);
+    corpse.make_corpse("corpse", z->type, calendar::turn);
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     g->m.add_item_or_charges(z->posx(), z->posy(), corpse);
 }

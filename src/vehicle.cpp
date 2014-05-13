@@ -266,7 +266,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
             if(consistent_bignesses.count(parts[p].id) < 1){
                 //generate an item for this type, & cache its bigness
-                item tmp (itypes[part_info(p).item], 0);
+                item tmp (part_info(p).item, 0);
                 consistent_bignesses[parts[p].id] = tmp.bigness;
             }
             parts[p].bigness = consistent_bignesses[parts[p].id];
@@ -727,9 +727,9 @@ void vehicle::use_controls()
         // create a folding bicycle item
         item bicycle;
         if (can_be_folded) {
-            bicycle.make( itypes["generic_folded_vehicle"] );
+            bicycle.make( "generic_folded_vehicle" );
         } else {
-            bicycle.make( itypes["folding_bicycle"] );
+            bicycle.make( "folding_bicycle" );
         }
 
         // Drop stuff in containers on ground
@@ -1274,7 +1274,7 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     new_part.hp = hp < 0 ? vehicle_part_types[id].durability : hp;
     new_part.amount = 0;
     new_part.blood = 0;
-    item tmp(itypes[vehicle_part_types[id].item], 0);
+    item tmp(vehicle_part_types[id].item, 0);
     new_part.bigness = tmp.bigness;
     parts.push_back (new_part);
 
@@ -1437,7 +1437,7 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
-            item piece(itypes[break_info[index].item_id], calendar::turn);
+            item piece(break_info[index].item_id, calendar::turn);
             g->m.add_item_or_charges(actual_x, actual_y, piece);
         }
     }
@@ -1448,7 +1448,7 @@ item vehicle::item_from_part( int part )
     itype_id itm = part_info(part).item;
     int bigness = parts[part].bigness;
     itype* parttype = itypes[itm];
-    item tmp(parttype, calendar::turn);
+    item tmp(itm, calendar::turn);
 
     //transfer damage, etc.
     give_part_properties_to_item(part, tmp);
@@ -2744,7 +2744,7 @@ void vehicle::slow_leak()
                 coord_translate( part.mount_dx, part.mount_dy, gx, gy );
                 // m.spawn_item() will spawn water in bottles, so instead we create
                 //   the leak manually and directly call m.add_item_or_charges().
-                item leak = item_controller->create( pinfo.fuel_type, calendar::turn );
+                item leak( pinfo.fuel_type, calendar::turn );
                 leak.charges = leak_amount;
                 g->m.add_item_or_charges( global_x() + gx, global_y() + gy, leak );
             }
@@ -3481,8 +3481,8 @@ void vehicle::place_spawn_items()
                             continue;
                         }
                     }
-                    item new_item = item_controller->create(*next_id, calendar::turn);
-                    new_item = new_item.in_its_container(&(itypes));
+                    item new_item(*next_id, calendar::turn);
+                    new_item = new_item.in_its_container();
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
                     }
@@ -3497,8 +3497,8 @@ void vehicle::place_spawn_items()
                         }
                     }
                     Item_tag group_tag = item_controller->id_from(*next_group_id);
-                    item new_item = item_controller->create(group_tag, calendar::turn);
-                    new_item = new_item.in_its_container(&(itypes));
+                    item new_item(group_tag, calendar::turn);
+                    new_item = new_item.in_its_container();
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
                     }
@@ -4041,7 +4041,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
-    tmp.weapon = item(&gun, 0);
+    tmp.weapon = item(gun.id, 0);
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
@@ -4069,7 +4069,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
         add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
-    item tmp_ups( itypes["UPS_on"], 0 );
+    item tmp_ups( "UPS_on", 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     item &ups_ref = tmp.i_add(tmp_ups);

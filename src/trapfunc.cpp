@@ -63,12 +63,15 @@ void trapfunc::beartrap(Creature *c, int x, int y)
         if (z != NULL) {
             z->moves = 0;
             z->add_effect("beartrap", rng(8, 15));
-            item beartrap(itypes["beartrap"], 0);
+            item beartrap("beartrap", 0);
             z->add_item(beartrap);
             z->hurt(35);
         } else if (n != NULL) {
             n->hit(NULL, bp_legs, random_side(bp_legs), 10, 16);
             n->add_disease("beartrap", 1, true);
+            if (one_in(35)) {
+                g->u.add_disease("tetanus",1,true);
+            }
             g->m.spawn_item(x, y, "beartrap");
         }
     } else {
@@ -95,6 +98,9 @@ void trapfunc::board(Creature *c, int, int)
         } else {
             c->hit(NULL, bp_feet, 0, 0, rng(6, 10));
             c->hit(NULL, bp_feet, 1, 0, rng(6, 10));
+            if (one_in(35)) {
+                g->u.add_disease("tetanus",1,true);
+            }
         }
     }
 }

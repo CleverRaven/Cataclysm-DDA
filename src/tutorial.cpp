@@ -38,7 +38,7 @@ bool tutorial_game::init()
  g->cur_om->make_tutorial();
  g->cur_om->save();
  g->u.toggle_trait("QUICK");
- g->u.inv.push_back(item(itypes["lighter"], 0, 'e'));
+ g->u.inv.push_back(item("lighter", 0, 'e'));
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
 // Start with the overmap revealed

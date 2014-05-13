@@ -7,7 +7,6 @@
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
-#include "artifact.h"
 #include "options.h"
 #include <sstream>
 #include <stdlib.h>
@@ -320,28 +319,12 @@ void player::normalize()
 {
     Creature::normalize();
 
-    ret_null = item(itypes["null"], 0);
-    weapon   = item(itypes["null"], 0);
+    ret_null = item("null", 0);
+    weapon   = item("null", 0);
     style_selected = "style_none";
-    for (int i = 0; i < num_hp_parts; i++) {
-        hp_max[i] = 60 + str_max * 3;
-        // Tough and Flimsy are exclusive.
-        // Only the most extreme of each version applies.
-        if (has_trait("TOUGH3")) {
-            hp_max[i] = int(hp_max[i] * 1.2);
-        } else if (has_trait("TOUGH2")) {
-            hp_max[i] = int(hp_max[i] * 1.3);
-        } else if (has_trait("TOUGH")) {
-            hp_max[i] = int(hp_max[i] * 1.4);
-        } else if (has_trait("FLIMSY3")) {
-            hp_max[i] = int(hp_max[i] * .75);
-        } else if (has_trait("FLIMSY2")) {
-            hp_max[i] = int(hp_max[i] * .5);
-        } else if (has_trait("FLIMSY")) {
-            hp_max[i] = int(hp_max[i] * .25);
-        }
-        hp_cur[i] = hp_max[i];
-    }
+    
+    recalc_hp();
+    
     for (int i = 0 ; i < num_bp; i++)
         temp_conv[i] = BODYTEMP_NORM;
 }
@@ -5192,7 +5175,7 @@ int player::addiction_level(add_type type)
 bool player::siphon(vehicle *veh, ammotype desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
-    item used_item( itypes[default_ammo(desired_liquid)], calendar::turn );
+    item used_item( default_ammo(desired_liquid), calendar::turn );
     used_item.charges = liquid_amount;
     int extra = g->move_liquid( used_item );
     if( extra == -1 ) {
@@ -6494,7 +6477,7 @@ bool player::process_single_active_item(item *it)
             {
                 // wet towel becomes a regular towel
                 if(it->type->id == "towel_wet")
-                    it->make(itypes["towel"]);
+                    it->make("towel");
 
                 it->item_tags.erase("WET");
                 it->item_tags.insert("ABSORBENT");
@@ -6537,15 +6520,15 @@ bool player::process_single_active_item(item *it)
             if(it->item_counter <= 0) {
                 add_msg_if_player( _("You finish your %s."), it->name.c_str());
                 if(it->type->id == "cig_lit") {
-                    it->make(itypes["cig_butt"]);
+                    it->make("cig_butt");
                 } else if(it->type->id == "cigar_lit"){
-                    it->make(itypes["cigar_butt"]);
+                    it->make("cigar_butt");
                 } else { // joint
                     this->add_disease("weed_high", 10); // one last puff
                     g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
                                    fd_weedsmoke, 2);
                     weed_msg(this);
-                    it->make(itypes["joint_roach"]);
+                    it->make("joint_roach");
                 }
                 it->active = false;
             }
@@ -8389,7 +8372,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_mouth) && has_trait("MANDIBLES"))
         {
             if(interactive)
@@ -9004,9 +8987,9 @@ void player::remove_gunmod(item *weapon, int id)
     item ammo;
     if (gunmod->charges > 0) {
         if (gunmod->curammo != NULL) {
-            ammo = item(gunmod->curammo, calendar::turn);
+            ammo = item(gunmod->curammo->id, calendar::turn);
         } else {
-            ammo = item(itypes[default_ammo(weapon->ammo_type())], calendar::turn);
+            ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
         }
         ammo.charges = gunmod->charges;
         if (ammo.made_of(LIQUID)) {

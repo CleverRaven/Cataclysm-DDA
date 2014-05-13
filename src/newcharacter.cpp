@@ -1,6 +1,5 @@
 #include "player.h"
 #include "profession.h"
-#include "item_factory.h"
 #include "start_location.h"
 #include "input.h"
 #include "output.h"
@@ -60,7 +59,7 @@ void save_template(player *u);
 
 bool player::create(character_type type, std::string tempname)
 {
-    weapon = item(itypes["null"], 0);
+    weapon = item("null", 0);
 
     g->u.prof = profession::generic();
 
@@ -413,7 +412,7 @@ bool player::create(character_type type, std::string tempname)
     }
 
 
-    ret_null = item(itypes["null"], 0);
+    ret_null = item("null", 0);
     weapon = ret_null;
 
 
@@ -443,8 +442,8 @@ bool player::create(character_type type, std::string tempname)
 
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
-        tmp = item(item_controller->find_template(*iter), 0, false);
-        tmp = tmp.in_its_container(&(itypes));
+        tmp = item(*iter, 0, false);
+        tmp = tmp.in_its_container();
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
                 tmp.item_tags.insert("FIT");
@@ -494,13 +493,13 @@ bool player::create(character_type type, std::string tempname)
 
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
-        tmp = item(itypes["inhaler"], 0, false);
+        tmp = item("inhaler", 0, false);
         inv.push_back(tmp);
     }
 
     // And cannibals start with a special cookbook.
     if (has_trait("CANNIBAL")) {
-        tmp = item(itypes["cookbook_human"], 0);
+        tmp = item("cookbook_human", 0);
         inv.push_back(tmp);
     }
 
@@ -508,7 +507,7 @@ bool player::create(character_type type, std::string tempname)
     // Since they have to wield it, I don't think it breaks things
     // too badly to issue one.
     if (has_trait("ALBINO")) {
-        tmp = item(itypes["teleumbrella"], 0);
+        tmp = item("teleumbrella", 0);
         inv.push_back(tmp);
     }
 

@@ -1652,7 +1652,7 @@ void map::spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, i
             }
             if ( numitems > 0 ) {
                 // spawn_item(x,y, drop.itemtype, numitems); // doesn't abstract amount || charges
-                item new_item = item_controller->create(drop.itemtype, calendar::turn);
+                item new_item(drop.itemtype, calendar::turn);
                 if ( new_item.count_by_charges() ) {
                     new_item.charges = numitems;
                     numitems = 1;
@@ -2363,7 +2363,7 @@ bool map::sees_some_items(int x, int y, const player &u)
 
 item map::water_from(const int x, const int y)
 {
-    item ret(item_controller->find_template("water"), 0);
+    item ret("water", 0);
     if (ter(x, y) == t_water_sh && one_in(3))
         ret.poison = rng(1, 4);
     else if (ter(x, y) == t_water_dp && one_in(4))
@@ -2375,14 +2375,14 @@ item map::water_from(const int x, const int y)
 item map::swater_from(const int x, const int y)
 {
     (void)x; (void)y;
-    item ret(item_controller->find_template("salt_water"), 0);
+    item ret("salt_water", 0);
 
     return ret;
 }
 item map::acid_from(const int x, const int y)
 {
     (void)x; (void)y; //all acid is acid, i guess?
-    item ret(item_controller->find_template("water_acid"), 0);
+    item ret("water_acid", 0);
     return ret;
 }
 
@@ -2423,7 +2423,7 @@ void map::spawn_an_item(const int x, const int y, item new_item,
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item.charges = charges;
     }
-    new_item = new_item.in_its_container(&(itypes));
+    new_item = new_item.in_its_container();
     if ((new_item.made_of(LIQUID) && has_flag("SWIMMABLE", x, y)) ||
         has_flag("DESTROY_ITEM", x, y))
     {
@@ -2469,9 +2469,9 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
     }
 }
 
-void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
+void map::spawn_artifact(const int x, const int y, artifact_natural_property prop)
 {
-    item newart(type, bday);
+    item newart("artifact", 0, true, prop);
     add_item_or_charges(x, y, newart);
 }
 
@@ -2484,17 +2484,13 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
     if(type_id == "null") {
         return;
     }
-    if (!item_controller->has_template(type_id)) {
-        debugmsg("Tried to spawn an item with unknown id %s", type_id.c_str());
-        return;
-    }
     // recurse to spawn (quantity - 1) items
     for(int i = 1; i < quantity; i++)
     {
         spawn_item(x, y, type_id, 1, charges, birthday, damlevel);
     }
     // spawn the item
-    item new_item = item_controller->create(type_id, birthday, rand);
+    item new_item(type_id, birthday, rand);
     spawn_an_item(x, y, new_item, charges, damlevel);
 }
 
@@ -2858,7 +2854,7 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
             {
                 // wet towel becomes a regular towel
                 if(it->type->id == "towel_wet")
-                    it->make(itypes["towel"]);
+                    it->make("towel");
 
                 it->item_tags.erase("WET");
                 it->item_tags.insert("ABSORBENT");
@@ -2888,11 +2884,11 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
             // cig dies out
             if(it->item_counter <= 0) {
                 if(it->type->id == "cig_lit") {
-                    it->make(itypes["cig_butt"]);
+                    it->make("cig_butt");
                 } else if(it->type->id == "cigar_lit"){
-                    it->make(itypes["cigar_butt"]);
+                    it->make("cigar_butt");
                 } else { // joint
-                    it->make(itypes["joint_roach"]);
+                    it->make("joint_roach");
                 }
                 it->active = false;
             }
@@ -2999,7 +2995,7 @@ void use_charges_from_furn(const furn_t &f, const itype_id &type, long &quantity
     }
     const itype *ammo = f.crafting_ammo_item_type();
     if (ammo != NULL) {
-        item furn_item(itt, 0);
+        item furn_item(itt->id, 0);
         furn_item.charges = remove_charges_in_list(ammo, items, quantity);
         if (furn_item.charges > 0) {
             ret.push_back(furn_item);
@@ -3046,7 +3042,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                                 ftype = "battery";
                             }
 
-                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            item tmp(type, 0); //TODO add a sane birthday arg
                             tmp.charges = veh->drain(ftype, quantity);
                             quantity -= tmp.charges;
                             ret.push_back(tmp);
@@ -3065,7 +3061,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                                 ftype = "battery";
                             }
 
-                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            item tmp(type, 0); //TODO add a sane birthday arg
                             tmp.charges = veh->drain(ftype, quantity);
                             quantity -= tmp.charges;
                             ret.push_back(tmp);
@@ -3086,7 +3082,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                                 ftype = "battery";
                             }
 
-                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            item tmp(type, 0); //TODO add a sane birthday arg
                             tmp.charges = veh->drain(ftype, quantity);
                             quantity -= tmp.charges;
                             ret.push_back(tmp);
@@ -3103,7 +3099,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                                 ftype = "battery";
                             }
 
-                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            item tmp(type, 0); //TODO add a sane birthday arg
                             tmp.charges = veh->drain(ftype, quantity);
                             quantity -= tmp.charges;
                             ret.push_back(tmp);
@@ -3122,7 +3118,7 @@ std::list<item> map::use_charges(const point origin, const int range,
                                 ftype = "battery";
                             }
 
-                            item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+                            item tmp(type, 0); //TODO add a sane birthday arg
                             tmp.charges = veh->drain(ftype, quantity);
                             quantity -= tmp.charges;
                             ret.push_back(tmp);
@@ -4891,7 +4887,7 @@ void map::draw_rough_circle(std::string type, int x, int y, int rad) {
 
 void map::add_corpse(int x, int y) {
     item body;
-    body.make_corpse(itypes["corpse"], GetMType("mon_null"), 0);
+    body.make_corpse("corpse", GetMType("mon_null"), 0);
     add_item_or_charges(x, y, body);
     put_items_from("shoes",  1, x, y, 0, 0, 0);
     put_items_from("pants",  1, x, y, 0, 0, 0);
