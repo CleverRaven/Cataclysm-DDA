@@ -1111,7 +1111,7 @@ bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
     return result;
 }
 
-bool load_sub_ref(std::auto_ptr<Item_spawn_data> &ptr, JsonObject &obj, const std::string &name)
+bool load_sub_ref(std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj, const std::string &name)
 {
     if (obj.has_member(name)) {
         // TODO!
@@ -1127,7 +1127,7 @@ bool load_sub_ref(std::auto_ptr<Item_spawn_data> &ptr, JsonObject &obj, const st
 
 void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
 {
-    std::auto_ptr<Item_spawn_data> ptr;
+    std::unique_ptr<Item_spawn_data> ptr;
     int probability = obj.get_int("prob", 100);
     JsonArray jarr;
     if (obj.has_member("collection")) {
@@ -1155,7 +1155,7 @@ void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
     if (ptr.get() == NULL) {
         return;
     }
-    std::auto_ptr<Item_modifier> modifier(new Item_modifier());
+    std::unique_ptr<Item_modifier> modifier(new Item_modifier());
     bool use_modifier = false;
     use_modifier |= load_min_max(modifier->damage, obj, "damage");
     use_modifier |= load_min_max(modifier->charges, obj, "charges");
@@ -1164,7 +1164,7 @@ void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
     use_modifier |= load_sub_ref(modifier->container, obj, "container");
     use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
     if (use_modifier) {
-        dynamic_cast<Single_item_creator*>(ptr.get())->modifier = modifier;
+        dynamic_cast<Single_item_creator*>(ptr.get())->modifier = std::move(modifier);
     }
     ig->add_entry(ptr);
 }
@@ -1242,7 +1242,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
 use_function Item_factory::use_from_object(JsonObject obj) {
     const std::string type = obj.get_string("type");
     if (type == "transform") {
-        std::auto_ptr<iuse_transform> actor(new iuse_transform);
+        std::unique_ptr<iuse_transform> actor(new iuse_transform);
         // Mandatory:
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
@@ -1261,7 +1261,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else if (type == "auto_transform") {
-        std::auto_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
+        std::unique_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
         // Mandatory:
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
@@ -1285,7 +1285,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else if (type == "explosion") {
-        std::auto_ptr<explosion_iuse> actor(new explosion_iuse);
+        std::unique_ptr<explosion_iuse> actor(new explosion_iuse);
         obj.read("explosion_power", actor->explosion_power);
         obj.read("explosion_shrapnel", actor->explosion_shrapnel);
         obj.read("explosion_fire", actor->explosion_fire);
@@ -1318,7 +1318,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("no_deactivate_msg", actor->no_deactivate_msg);
         return use_function(actor.release());
     } else if (type == "unfold_vehicle") {
-        std::auto_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
+        std::unique_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
         obj.read("vehicle_name", actor->vehicle_name);
         obj.read("unfold_msg", actor->unfold_msg);
         actor->unfold_msg = _(actor->unfold_msg.c_str());

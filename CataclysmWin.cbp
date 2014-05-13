@@ -5,6 +5,7 @@
 		<Option title="Cataclysm" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Add option="-std=c++11">
 		<Build>
 			<Target title="Release">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
