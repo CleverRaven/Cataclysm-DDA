@@ -1042,9 +1042,9 @@ void overmap::generate(const overmap *north, const overmap *east,
             if (is_river(north->get_ter(i, OMAPY - 1, 0))) {
                 ter(i, 0, 0) = river_center;
             }
-            if (north->get_ter(i,     OMAPY - 1, 0) == river_center &&
-                north->get_ter(i - 1, OMAPY - 1, 0) == river_center &&
-                north->get_ter(i + 1, OMAPY - 1, 0) == river_center) {
+            if (is_river(north->get_ter(i, OMAPY - 1, 0)) &&
+                is_river(north->get_ter(i - 1, OMAPY - 1, 0)) &&
+                is_river(north->get_ter(i + 1, OMAPY - 1, 0))) {
                 if (river_start.empty() ||
                     river_start[river_start.size() - 1].x < i - 6) {
                     river_start.push_back(point(i, 0));
@@ -1063,9 +1063,9 @@ void overmap::generate(const overmap *north, const overmap *east,
             if (is_river(west->get_ter(OMAPX - 1, i, 0))) {
                 ter(0, i, 0) = river_center;
             }
-            if (west->get_ter(OMAPX - 1, i, 0)     == river_center &&
-                west->get_ter(OMAPX - 1, i - 1, 0) == river_center &&
-                west->get_ter(OMAPX - 1, i + 1, 0) == river_center) {
+            if (is_river(west->get_ter(OMAPX - 1, i, 0)) &&
+                is_river(west->get_ter(OMAPX - 1, i - 1, 0)) &&
+                is_river(west->get_ter(OMAPX - 1, i + 1, 0))) {
                 if (river_start.size() == rivers_from_north ||
                     river_start[river_start.size() - 1].y < i - 6) {
                     river_start.push_back(point(0, i));
@@ -1083,9 +1083,9 @@ void overmap::generate(const overmap *north, const overmap *east,
             if (is_river(south->get_ter(i, 0, 0))) {
                 ter(i, OMAPY - 1, 0) = river_center;
             }
-            if (south->get_ter(i,     0, 0) == river_center &&
-                south->get_ter(i - 1, 0, 0) == river_center &&
-                south->get_ter(i + 1, 0, 0) == river_center) {
+            if (is_river(south->get_ter(i,     0, 0)) &&
+                is_river(south->get_ter(i - 1, 0, 0)) &&
+                is_river(south->get_ter(i + 1, 0, 0))) {
                 if (river_end.empty() ||
                     river_end[river_end.size() - 1].x < i - 6) {
                     river_end.push_back(point(i, OMAPY - 1));
@@ -1107,9 +1107,9 @@ void overmap::generate(const overmap *north, const overmap *east,
             if (is_river(east->get_ter(0, i, 0))) {
                 ter(OMAPX - 1, i, 0) = river_center;
             }
-            if (east->get_ter(0, i, 0)     == river_center &&
-                east->get_ter(0, i - 1, 0) == river_center &&
-                east->get_ter(0, i + 1, 0) == river_center) {
+            if (is_river(east->get_ter(0, i, 0)) &&
+                is_river(east->get_ter(0, i - 1, 0)) &&
+                is_river(east->get_ter(0, i + 1, 0))) {
                 if (river_end.size() == rivers_to_south ||
                     river_end[river_end.size() - 1].y < i - 6) {
                     river_end.push_back(point(OMAPX - 1, i));
@@ -3231,6 +3231,9 @@ bool overmap::allowed_terrain(tripoint p, std::list<tripoint> tocheck,
 
 // new x = (x-c.x)*cos() - (y-c.y)*sin() + c.x
 // new y = (x-c.x)*sin() + (y-c.y)*cos() + c.y
+// r1x = 0*x - 1*y = -1*y, r1y = 1*x + y*0 = x
+// r2x = -1*x - 0*y = -1*x , r2y = x*0 + y*-1 = -1*y
+// r3x = x*0 - (-1*y) = y, r3y = x*-1 + y*0 = -1*x
 // c=0,0, rot90 = (-y, x); rot180 = (-x, y); rot270 = (y, -x)
 /*
     (0,0)(1,0)(2,0) 90 (0,0)(0,1)(0,2)       (-2,0)(-1,0)(0,0)
@@ -3243,7 +3246,7 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
     if(rotations == 1) {
         return tripoint(-1 * p.y, p.x, p.z);
     } else if(rotations == 2) {
-        return tripoint(-1 * p.x, p.y, p.z);
+        return tripoint(-1 * p.x, -1 * p.y, p.z);
     } else if(rotations == 3) {
         return tripoint(p.y, -1 * p.x, p.z);
     }
@@ -3255,32 +3258,33 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
 {
     // check if rotation is allowed, and if necessary
     rotate = 0;
+    // check to see if road is nearby, if so, rotate to face road
+    // if no road && special requires road, return false
+    // if no road && special does not require it, pick a random rotation
     if(special.rotatable) {
-        //debugmsg("%s is rotatable.", special.id.c_str());
         // if necessary:
-        if(std::find(special.locations.begin(), special.locations.end(),
-                     "by_hiway") != special.locations.end()) {
-            if(is_road(p.x + 1, p.y, p.z)) {
-                // road to right
-                rotate = 1;
-            } else if(is_road(p.x - 1, p.y, p.z)) {
-                // road to left
-                rotate = 3;
-            } else if(is_road(p.x, p.y + 1, p.z)) {
-                // road to south
-                rotate = 2;
-            } else if(is_road(p.x, p.y - 1, p.z)) {
-                // road to north
-            } else {
-                return false;
-            }
+        if(check_ot_type("road", p.x + 1, p.y, p.z)) {
+            // road to right
+            rotate = 1;
+        } else if(check_ot_type("road", p.x - 1, p.y, p.z)) {
+            // road to left
+            rotate = 3;
+        } else if(check_ot_type("road", p.x, p.y + 1, p.z)) {
+            // road to south
+            rotate = 2;
+        } else if(check_ot_type("road", p.x, p.y - 1, p.z)) {
+            // road to north
         } else {
-            // if not necessary
-            rotate = rng(0, 3);
+            if(std::find(special.locations.begin(), special.locations.end(),
+                 "by_hiway") != special.locations.end()) {
+                return false;
+            } else {
+                rotate = rng(0, 3);
+            }
         }
     }
 
-    // do bounds checking
+    // do bounds & connection checking
     std::list<tripoint> rotated_points;
     for(std::list<overmap_special_terrain>::iterator points = special.terrains.begin();
         points != special.terrains.end(); ++points) {
@@ -3289,10 +3293,33 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
         rotated_points.push_back(rotated_point);
 
         tripoint testpoint = tripoint(rotated_point.x + p.x, rotated_point.y + p.y, p.z);
-        if((testpoint.x >= OMAPX + 1) ||
+        if((testpoint.x >= OMAPX - 1) ||
            (testpoint.x < 0) || (testpoint.y < 0) ||
-           (testpoint.y >= OMAPY + 1)) {
+           (testpoint.y >= OMAPY - 1)) {
             return false;
+        }
+        if(t.connect == "road")
+        {
+            switch(rotate){
+            case 0:
+                testpoint = tripoint(testpoint.x, testpoint.y - 1, testpoint.z);
+                break;
+            case 1:
+                testpoint = tripoint(testpoint.x + 1, testpoint.y, testpoint.z);
+                break;
+            case 2:
+                testpoint = tripoint(testpoint.x, testpoint.y + 1, testpoint.z);
+                break;
+            case 3:
+                testpoint = tripoint(testpoint.x - 1, testpoint.y, testpoint.z);
+                break;
+            default:
+                break;
+            }
+            if(!road_allowed(get_ter(testpoint.x, testpoint.y, testpoint.z)))
+            {
+                return false;
+            }
         }
     }
 
@@ -3500,7 +3527,7 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
             // generally entrances come out of the top,
             // so we want to rotate the road connection with the point.
             tripoint conn = connection.second;
-            /*
+
             switch(rotation)
             {
             case 0:
@@ -3518,9 +3545,6 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
             default:
                 break;
             }
-            debugmsg("making road at %i, %i, to connect to entrance at %i, %i",
-                     conn.x, conn.y, connection.second.x, connection.second.y);
-            */
             make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
         }
     }
