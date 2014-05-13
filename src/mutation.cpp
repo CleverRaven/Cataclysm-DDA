@@ -580,7 +580,8 @@ void mutation_effect(player &p, std::string mut)
     std::vector<body_part> bps;
 
     if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
-          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
+          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
+          mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
         p.recalc_hp();
 
     } else if (mut == "WEBBED" || mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
@@ -806,7 +807,8 @@ void mutation_effect(player &p, std::string mut)
 void mutation_loss_effect(player &p, std::string mut)
 {
     if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
-          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3") {
+          mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
+          mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
         p.recalc_hp();
 
     } else if (mut == "LARGE" || mut == "LARGE_OK") {
