@@ -7293,6 +7293,9 @@ bool player::consume(int pos)
     } if (is_underwater()) {
         add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
+    } else if( pos < -1 ) {
+        add_msg_if_player( m_info, _( "You can't eat worn items, you have to take them off." ) );
+        return false;
     } else if (pos == -1) {
         // Consume your current weapon
         if (weapon.is_food_container(this)) {
@@ -8123,6 +8126,12 @@ bool player::wear(int pos, bool interactive)
     if (pos == -1)
     {
         to_wear = &weapon;
+    }
+    else if( pos < -1 ) {
+        if( interactive ) {
+            add_msg( m_info, _( "You are already wearing that." ) );
+        }
+        return false;
     }
     else
     {
