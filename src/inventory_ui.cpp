@@ -112,6 +112,8 @@ void set_selected_to_drop(int count);
 inventory_selector(bool m, bool c, const std::string &t);
 ~inventory_selector();
 
+std::vector<item> remove_dropping_items( player &u ) const;
+
 private:
     /** All the items that should be shown in the left column */
     itemstack_vector items;
@@ -411,15 +413,7 @@ void inventory_selector::display() const
                 tmp.worn.erase(tmp.worn.begin() + player::worn_position_to_index(a->first));
             }
         }
-        // second round: remove inventory items, start with larges index
-        for (drop_map::const_reverse_iterator a = dropping.rbegin(); a != dropping.rend(); ++a) {
-            item &it = tmp.inv.find_item(a->first);
-            if (it.count_by_charges()) {
-                it.charges -= a->second;
-            } else {
-                tmp.inv.reduce_stack(a->first, a->second);
-            }
-        }
+        remove_dropping_items(tmp);
         print_inv_weight_vol(tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity());
     } else {
         print_inv_weight_vol(g->u.weight_carried(), g->u.volume_carried(), g->u.volume_capacity());
@@ -671,6 +665,36 @@ void inventory_selector::set_drop_count(int it_pos, int count, const item& it)
     }
 }
 
+std::vector<item> inventory_selector::remove_dropping_items( player &u ) const
+{
+    std::vector<item> ret;
+    // We iterate backwards because deletion will invalidate later indices.
+    for( inventory_selector::drop_map::const_reverse_iterator a = dropping.rbegin();
+         a != dropping.rend(); ++a ) {
+        if( a->first < 0 ) { // weapon or armor, handled separately
+            continue;
+        }
+        const int count = a->second;
+        const item tmpit = u.inv.find_item( a->first );
+        if( tmpit.count_by_charges() ) {
+            long charges = tmpit.charges;
+            if( count != -1 && count < charges ) {
+                charges = count;
+            }
+            ret.push_back( u.inv.reduce_charges( a->first, charges ) );
+        } else {
+            size_t max_count = u.inv.const_stack( a->first ).size();
+            if( count != -1 && ( size_t )count < max_count ) {
+                max_count = count;
+            }
+            for( size_t i = 0; i < max_count; i++ ) {
+                ret.push_back( u.inv.remove_item( a->first ) );
+            }
+        }
+    }
+    return ret;
+}
+
 int game::display_slice(indexed_invslice &slice, const std::string &title)
 {
     inventory_selector inv_s(false, false, title);
@@ -793,30 +817,8 @@ std::vector<item> game::multidrop(std::vector<item> &dropped_worn, int &freed_vo
 
     std::vector<item> ret;
 
-    // We iterate backwards because deletion will invalidate later indices.
-    inventory_selector::drop_map &dropping = inv_s.dropping;
-    for (inventory_selector::drop_map::const_reverse_iterator a = dropping.rbegin(); a != dropping.rend(); ++a) {
-        if (a->first < 0) { // weapon or armor, handled separately
-            continue;
-        }
-        const int count = a->second;
-        const item tmpit = u.inv.find_item(a->first);
-        if (tmpit.count_by_charges()) {
-            long charges = tmpit.charges;
-            if (count != -1 && count < charges) {
-                charges = count;
-            }
-            ret.push_back(u.inv.reduce_charges(a->first, charges));
-        } else {
-            size_t max_count = u.inv.const_stack(a->first).size();
-            if (count != -1 && (size_t)count < max_count) {
-                max_count = count;
-            }
-            for(size_t i = 0; i < max_count; i++) {
-                ret.push_back(u.inv.remove_item(a->first));
-            }
-        }
-    }
+    ret = inv_s.remove_dropping_items(g->u);
+    const inventory_selector::drop_map &dropping = inv_s.dropping;
     const inventory_selector::drop_map::const_iterator dit = dropping.find(-1);
     if (dit != dropping.end()) {
         if (dit->second == -1) {
