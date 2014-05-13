@@ -93,6 +93,12 @@ void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn)
     bday = turn;
 }
 
+void item::make_corpse(const std::string new_type, mtype* mt, unsigned int turn, const std::string &name)
+{
+    make_corpse(new_type, mt, turn);
+    this->name = name;
+}
+
 itype * item::nullitem_m = new itype();
 itype * item::nullitem()
 {
@@ -768,12 +774,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         typedef std::map<std::string, int> t_count_map;
         t_count_map counts;
         for(t_item_vector::const_iterator a = components.begin(); a != components.end(); ++a) {
-            const std::string name = const_cast<item&>(*a).display_name();
-            if (counts.count(name) > 0) {
-                counts[name]++;
-            } else {
-                counts[name] = 1;
-            }
+            const std::string name = a->display_name();
+            counts[name]++;
         }
         std::ostringstream buffer;
         buffer << _("Made from: ");
@@ -1093,7 +1095,7 @@ nc_color item::color_in_inventory()
 * in additional inventory)
 * @return name of item
 */
-std::string item::tname( unsigned int quantity, bool with_prefix )
+std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
 
@@ -1192,8 +1194,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
         maintext = type->nname(quantity);
     }
 
-    item* food = NULL;
-    it_comest* food_type = NULL;
+    const item* food = NULL;
+    const it_comest* food_type = NULL;
     std::string tagtext = "";
     std::string toolmodtext = "";
     ret.str("");
@@ -1204,7 +1206,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
 
         if (food_type->spoils != 0)
         {
-            if(food->rotten()) {
+            if(const_cast<item*>(food)->rotten()) {
                 ret << _(" (rotten)");
             } else if ( rot < 100 ) {
                 ret << _(" (fresh)");
@@ -1252,7 +1254,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
     }
 }
 
-std::string item::display_name(unsigned int quantity)
+std::string item::display_name(unsigned int quantity) const
 {
     // Show count of contents (e.g. amount of liquid in container)
     // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
@@ -2874,7 +2876,7 @@ std::ostream & operator<<(std::ostream & out, const item * it)
         out << "NULL)";
         return out;
     }
-    out << it->name << ")";
+    out << it->tname() << ")";
     return out;
 }
 

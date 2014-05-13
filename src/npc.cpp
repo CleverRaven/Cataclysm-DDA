@@ -2058,8 +2058,7 @@ void npc::die(bool your_fault)
     }
 
     item my_body;
-    my_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
-    my_body.name = name;
+    my_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn, name);
     g->m.add_item_or_charges(posx, posy, my_body);
     std::vector<item *> dump;
     inv.dump(dump);

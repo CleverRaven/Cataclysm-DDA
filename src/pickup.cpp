@@ -228,8 +228,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                 handle_quiver_insertion(newit, false, moves_taken, picked_up);
                 if (newit.charges > 0) {
                     add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                             "There's no room in your inventory for the %ss.",
-                                             newit.charges), newit.name.c_str());
+                                             "There's no room in your inventory for the %s.",
+                                             newit.charges), newit.tname(newit.charges).c_str());
                 }
             } else if (g->u.is_armed()) {
                 if (!g->u.weapon.has_flag("NO_UNWIELD")) {
@@ -652,8 +652,8 @@ void Pickup::pick_up(int posx, int posy, int min)
                         }
 
                         add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                                 "There's no room in your inventory for the %ss.",
-                                                 here[i].charges), here[i].name.c_str());
+                                                 "There's no room in your inventory for the %s.",
+                                                 here[i].charges), here[i].tname(here[i].charges).c_str());
                     }
                 } else if (g->u.is_armed()) {
                     if (!g->u.weapon.has_flag("NO_UNWIELD")) {

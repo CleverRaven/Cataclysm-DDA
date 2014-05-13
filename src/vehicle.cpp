@@ -609,7 +609,7 @@ void vehicle::use_controls()
             for (std::vector<item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
                 if (std::find(music_types.begin(), music_types.end(), (*it)->typeId()) == music_types.end()){
                 music_types.push_back((*it)->typeId());
-                music_names.push_back((*it)->name);
+                music_names.push_back((*it)->tname());
                 }
             }
             if (music_types.size() > 1) {

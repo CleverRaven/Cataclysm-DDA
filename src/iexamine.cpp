@@ -1191,7 +1191,7 @@ void iexamine::dirtmound(player *p, map *m, int examx, int examy) {
     for (std::vector<item*>::iterator it = seed_inv.begin() ; it != seed_inv.end(); it++){
         if (std::find(seed_types.begin(), seed_types.end(), (*it)->typeId()) == seed_types.end()){
             seed_types.push_back((*it)->typeId());
-            seed_names.push_back((*it)->name);
+            seed_names.push_back((*it)->tname());
         }
     }
 
@@ -1308,7 +1308,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
         for (std::vector<item*>::iterator it = b_inv.begin() ; it != b_inv.end(); it++) {
             if (std::find(b_types.begin(), b_types.end(), (*it)->typeId()) == b_types.end()) {
                 b_types.push_back((*it)->typeId());
-                b_names.push_back((*it)->name);
+                b_names.push_back((*it)->tname());
             }
         }
         // Choose brew from list
@@ -1449,7 +1449,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
         for (std::vector<item*>::iterator it = drinks_inv.begin() ; it != drinks_inv.end(); it++) {
             if (std::find(drink_types.begin(), drink_types.end(), (*it)->typeId()) == drink_types.end()) {
                 drink_types.push_back((*it)->typeId());
-                drink_names.push_back((*it)->name);
+                drink_names.push_back((*it)->tname());
             }
         }
         // Choose drink to store in keg from list

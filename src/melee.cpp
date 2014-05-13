@@ -91,11 +91,11 @@ bool player::handle_melee_wear() {
      weapon.damage++;
      add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
                                    _("<npcname>'s %s is damaged by the force of the blow!"),
-                                   weapon.name.c_str());
+                                   weapon.tname().c_str());
     } else if (weapon.damage >= 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
       add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
       _("<npcname>'s %s is destroyed by the blow!"),
-      weapon.name.c_str());
+      weapon.tname().c_str());
   // Dump its contents on the ground
   for (size_t i = 0; i < weapon.contents.size(); i++)
    g->m.add_item_or_charges(posx, posy, weapon.contents[i]);

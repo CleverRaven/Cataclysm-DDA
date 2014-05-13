@@ -1938,7 +1938,7 @@ void game::complete_disassemble()
         veh_part = veh->part_with_feature(veh_part, "CARGO");
     }
 
-    add_msg(_("You disassemble the %s into its components."), dis_item.name.c_str());
+    add_msg(_("You disassemble the %s into its components."), dis_item.tname().c_str());
     // remove any batteries or ammo first
     remove_ammo( &dis_item, u );
 
