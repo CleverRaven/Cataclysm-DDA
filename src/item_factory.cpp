@@ -1273,7 +1273,9 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->need_charges_msg = _(actor->need_charges_msg.c_str());
         obj.read("when_underwater", actor->when_underwater);
         obj.read("non_interactive_msg", actor->non_interactive_msg);
-        actor->non_interactive_msg = _(actor->non_interactive_msg.c_str());
+        if (!actor->non_interactive_msg.empty()) {
+            actor->non_interactive_msg = _(actor->non_interactive_msg.c_str());
+        }
         obj.read("moves", actor->moves);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
