@@ -6464,12 +6464,14 @@ bool player::process_single_active_item(item *it)
             it->item_counter--;
             if(it->item_counter == 0)
             {
-                // wet towel becomes a regular towel
-                if(it->type->id == "towel_wet")
-                    it->make("towel");
-
+                const it_tool *tool = dynamic_cast<const it_tool*>(it->type);
+                if (tool != NULL && tool->revert_to != "null") {
+                    it->make(tool->revert_to);
+                }
                 it->item_tags.erase("WET");
-                it->item_tags.insert("ABSORBENT");
+                if (!it->has_flag("ABSORBENT")) {
+                    it->item_tags.insert("ABSORBENT");
+                }
                 it->active = false;
             }
         }
