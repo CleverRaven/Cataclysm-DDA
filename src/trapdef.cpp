@@ -24,13 +24,13 @@ void load_trap(JsonObject &jo)
             jo.get_int("visibility"),
             jo.get_int("avoidance"),
             jo.get_int("difficulty"),
-            trap_function_from_string(jo.get_string("player_action")),
-            trap_function_mon_from_string(jo.get_string("monster_action")),
+            trap_function_from_string(jo.get_string("action")),
             drops
     );
 
     new_trap->benign = jo.get_bool("benign", false);
     new_trap->funnel_radius_mm = jo.get_int("funnel_radius", 0);
+    new_trap->trigger_weight = jo.get_int("trigger_weight", -1);
     trapmap[new_trap->id] = new_trap->loadid;
     traplist.push_back(new_trap);
 }
@@ -58,23 +58,18 @@ trap_id trapfind(const std::string id) {
     return traplist[trapmap[id]]->loadid;
 };
 
-bool trap::can_see(const player &p) const
+bool trap::can_see(const player &p, int x, int y) const
 {
-    return visibility < 0 || (p.per_cur - const_cast<player&>(p).encumb(bp_eyes)) >= visibility;
+    return visibility < 0 ||
+        (p.per_cur - const_cast<player&>(p).encumb(bp_eyes)) >= visibility ||
+        p.knows_trap(x, y);
 }
 
 void trap::trigger(Creature *creature, int x, int y) const
 {
-    monster *m = dynamic_cast<monster*>(creature);
-    if (m != NULL) {
-        trapfuncm f;
-        (f.*actm)(m, x, y);
-        return;
-    }
-    player *p = dynamic_cast<player*>(creature);
-    if (p != NULL && p == &g->u) {
+    if (act != NULL) {
         trapfunc f;
-        (f.*act)(x, y); // Why has this no player parameter? TODO!
+        (f.*act)(creature, x, y);
     }
 }
 

@@ -1599,7 +1599,7 @@ void complete_vehicle ()
             // Transfer fuel back to tank
             if (used_item.typeId() == "metal_tank") {
                 ammotype desired_liquid = veh->part_info(vehicle_part).fuel_type;
-                item liquid( itypes[default_ammo(desired_liquid)], calendar::turn );
+                item liquid( default_ammo(desired_liquid), calendar::turn );
 
                 liquid.charges = veh->parts[vehicle_part].amount;
                 veh->parts[vehicle_part].amount = 0;

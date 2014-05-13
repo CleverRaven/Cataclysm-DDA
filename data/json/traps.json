@@ -10,8 +10,7 @@
         "visibility" : 20,
         "avoidance" : 0,
         "difficulty" : 0,
-        "player_action" : "none",
-        "monster_action" : "none"
+        "action" : "none"
     },
     {
         "type" : "trap",
@@ -24,8 +23,7 @@
         "visibility" : 0,
         "avoidance" : 8,
         "difficulty" : 0,
-        "player_action" : "bubble",
-        "monster_action" : "bubble",
+        "action" : "bubble",
         "drops" : ["bubblewrap"]
     },
     {
@@ -39,8 +37,7 @@
         "visibility" : -1,
         "avoidance" : 0,
         "difficulty" : 0,
-        "player_action" : "none",
-        "monster_action" : "cot",
+        "action" : "cot",
         "drops" : ["cot"],
         "benign" : true
     },
@@ -55,8 +52,7 @@
         "visibility" : -1,
         "avoidance" : 0,
         "difficulty" : 0,
-        "player_action" : "none",
-        "monster_action" : "none",
+        "action" : "none",
         "drops" : ["brazier"],
         "benign" : true
     },
@@ -71,8 +67,7 @@
         "visibility" : -1,
         "avoidance" : 0,
         "difficulty" : 0,
-        "player_action" : "none",
-        "monster_action" : "none",
+        "action" : "none",
         "drops" : ["funnel"],
         "benign" : true,
         "funnel_radius": 380
@@ -88,8 +83,7 @@
         "visibility" : -1,
         "avoidance" : 0,
         "difficulty" : 0,
-        "player_action" : "none",
-        "monster_action" : "none",
+        "action" : "none",
         "drops" : ["makeshift_funnel"],
         "benign" : true,
         "funnel_radius": 85
@@ -105,8 +99,7 @@
         "visibility" : -1,
         "avoidance" : 0,
         "difficulty" : 0,
-        "player_action" : "none",
-        "monster_action" : "none",
+        "action" : "none",
         "drops" : ["rollmat"],
         "benign" : true
     },
@@ -121,8 +114,7 @@
         "visibility" : -1,
         "avoidance" : 0,
         "difficulty" : 0,
-        "player_action" : "none",
-        "monster_action" : "none",
+        "action" : "none",
         "drops" : ["fur_rollmat"],
         "benign" : true
     },
@@ -131,14 +123,14 @@
         "id": "tr_beartrap",
         "identstring" : "BEARTRAP",
         "legacy_id": 8,
+        "trigger_weight": 200,
         "name" : "bear trap",
         "color" : "blue",
         "symbol" : "^",
         "visibility" : 2,
         "avoidance" : 7,
         "difficulty" : 3,
-        "player_action" : "beartrap",
-        "monster_action" : "beartrap",
+        "action" : "beartrap",
         "drops" : ["beartrap"]
     },
     {
@@ -146,14 +138,14 @@
         "id": "tr_beartrap_buried",
         "identstring" : "BEARTRAP_BURIED",
         "legacy_id": 9,
+        "trigger_weight": 200,
         "name" : "buried bear trap",
         "color" : "blue",
         "symbol" : "^",
         "visibility" : 9,
         "avoidance" : 8,
         "difficulty" : 4,
-        "player_action" : "beartrap",
-        "monster_action" : "beartrap",
+        "action" : "beartrap",
         "drops" : ["beartrap"]
     },
     {
@@ -167,8 +159,7 @@
         "visibility" : 1,
         "avoidance" : 6,
         "difficulty" : 0,
-        "player_action" : "board",
-        "monster_action" : "board",
+        "action" : "board",
         "drops" : ["board_trap"]
     },
     {
@@ -182,8 +173,7 @@
         "visibility" : 4,
         "avoidance" : 6,
         "difficulty" : 0,
-        "player_action" : "caltrops",
-        "monster_action" : "caltrops",
+        "action" : "caltrops",
         "drops" : ["caltrops"]
     },
     {
@@ -197,8 +187,7 @@
         "visibility" : 6,
         "avoidance" : 4,
         "difficulty" : 3,
-        "player_action" : "tripwire",
-        "monster_action" : "tripwire",
+        "action" : "tripwire",
         "drops" : ["string_36"]
     },
     {
@@ -206,14 +195,14 @@
         "id": "tr_crossbow",
         "identstring" : "CROSSBOW_TRAP",
         "legacy_id": 13,
+        "trigger_weight": 200,
         "name" : "crossbow trap",
         "color" : "green",
         "symbol" : "^",
         "visibility" : 5,
         "avoidance" : 4,
         "difficulty" : 5,
-        "player_action" : "crossbow",
-        "monster_action" : "crossbow",
+        "action" : "crossbow",
         "drops" : ["string_36", "crossbow", "bolt_steel"]
     },
     {
@@ -221,14 +210,14 @@
         "id": "tr_shotgun_2",
         "identstring" : "SHOTGUN_2",
         "legacy_id": 14,
+        "trigger_weight": 200,
         "name" : "shotgun trap",
         "color" : "red",
         "symbol" : "^",
         "visibility" : 4,
         "avoidance" : 5,
         "difficulty" : 6,
-        "player_action" : "shotgun",
-        "monster_action" : "shotgun",
+        "action" : "shotgun",
         "drops" : ["string_36", "shotgun_sawn"]
     },
     {
@@ -236,14 +225,14 @@
         "id": "tr_shotgun_1",
         "identstring" : "SHOTGUN_1",
         "legacy_id": 15,
+        "trigger_weight": 200,
         "name" : "shotgun trap",
         "color" : "red",
         "symbol" : "^",
         "visibility" : 4,
         "avoidance" : 5,
         "difficulty" : 6,
-        "player_action" : "shotgun",
-        "monster_action" : "shotgun",
+        "action" : "shotgun",
         "drops" : ["string_36", "shotgun_sawn"]
     },
     {
@@ -251,14 +240,14 @@
         "id": "tr_engine",
         "identstring" : "ENGINE",
         "legacy_id": 16,
+        "trigger_weight": 200,
         "name" : "spinning blade engine",
         "color" : "light_red",
         "symbol" : "_",
         "visibility" : 0,
         "avoidance" : 0,
         "difficulty" : 2,
-        "player_action" : "none",
-        "monster_action" : "none",
+        "action" : "none",
         "drops" : ["motor", "blade", "blade", "string_36"]
     },
     {
@@ -272,9 +261,7 @@
         "visibility" : 0,
         "avoidance" : 4,
         "difficulty" : 99,
-        "player_action" : "blade",
-        "monster_action" : "blade"
-
+        "action" : "blade"
     },
     {
         "type" : "trap",
@@ -287,8 +274,7 @@
         "visibility" : 5,
         "avoidance" : 10,
         "difficulty" : 2,
-        "player_action" : "snare_light",
-        "monster_action" : "snare_light",
+        "action" : "snare_light",
         "drops" : ["light_snare_kit"]
     },
     {
@@ -302,8 +288,7 @@
         "visibility" : 3,
         "avoidance" : 10,
         "difficulty" : 4,
-        "player_action" : "snare_heavy",
-        "monster_action" : "snare_heavy",
+        "action" : "snare_heavy",
         "drops" : ["heavy_snare_kit"]
     },
     {
@@ -311,14 +296,14 @@
         "id": "tr_landmine",
         "identstring" : "LANDMINE",
         "legacy_id": 20,
+        "trigger_weight": 200,
         "name" : "land mine",
         "color" : "red",
         "symbol" : "^",
         "visibility" : 1,
         "avoidance" : 14,
         "difficulty" : 10,
-        "player_action" : "landmine",
-        "monster_action" : "landmine",
+        "action" : "landmine",
         "drops" : ["landmine"]
     },
     {
@@ -326,14 +311,14 @@
         "id": "tr_landmine_buried",
         "identstring" : "LANDMINE_BURIED",
         "legacy_id": 21,
+        "trigger_weight": 200,
         "name" : "buried land mine",
         "color" : "red",
         "symbol" : "_",
         "visibility" : 10,
         "avoidance" : 14,
         "difficulty" : 10,
-        "player_action" : "landmine",
-        "monster_action" : "landmine",
+        "action" : "landmine",
         "drops" : ["landmine"]
     },
     {
@@ -341,14 +326,14 @@
         "id": "tr_telepad",
         "identstring" : "TELEPAD",
         "legacy_id": 22,
+        "trigger_weight": 200,
         "name" : "teleport pad",
         "color" : "magenta",
         "symbol" : "_",
         "visibility" : 0,
         "avoidance" : 15,
         "difficulty" : 20,
-        "player_action" : "telepad",
-        "monster_action" : "telepad",
+        "action" : "telepad",
         "drops" : ["telepad"]
     },
     {
@@ -362,8 +347,7 @@
         "visibility" : 0,
         "avoidance" : 15,
         "difficulty" : 15,
-        "player_action" : "goo",
-        "monster_action" : "goo"
+        "action" : "goo"
     },
     {
         "type" : "trap",
@@ -376,8 +360,7 @@
         "visibility" : 2,
         "avoidance" : 20,
         "difficulty" : 99,
-        "player_action" : "dissector",
-        "monster_action" : "dissector"
+        "action" : "dissector"
     },
     {
         "type" : "trap",
@@ -390,8 +373,7 @@
         "visibility" : 10,
         "avoidance" : 14,
         "difficulty" : 99,
-        "player_action" : "sinkhole",
-        "monster_action" : "sinkhole"
+        "action" : "sinkhole"
     },
     {
         "type" : "trap",
@@ -404,8 +386,7 @@
         "visibility" : 0,
         "avoidance" : 8,
         "difficulty" : 99,
-        "player_action" : "pit",
-        "monster_action" : "pit"
+        "action" : "pit"
     },
     {
         "type" : "trap",
@@ -418,8 +399,7 @@
         "visibility" : 0,
         "avoidance" : 8,
         "difficulty" : 99,
-        "player_action" : "pit_spikes",
-        "monster_action" : "pit_spikes"
+        "action" : "pit_spikes"
     },
     {
         "type" : "trap",
@@ -432,8 +412,7 @@
         "visibility" : 0,
         "avoidance" : 99,
         "difficulty" : 99,
-        "player_action" : "lava",
-        "monster_action" : "lava"
+        "action" : "lava"
     },
     {
         "type" : "trap",
@@ -446,8 +425,7 @@
         "visibility" : 0,
         "avoidance" : 30,
         "difficulty" : 99,
-        "player_action" : "portal",
-        "monster_action" : "portal"
+        "action" : "portal"
     },
     {
         "type" : "trap",
@@ -460,22 +438,21 @@
         "visibility" : 0,
         "avoidance" : 99,
         "difficulty" : 99,
-        "player_action" : "ledge",
-        "monster_action" : "ledge"
+        "action" : "ledge"
     },
     {
         "type" : "trap",
         "id": "tr_boobytrap",
         "identstring" : "BOOBY_TRAP",
         "legacy_id": 31,
+        "trigger_weight": 200,
         "name" : "booby trap",
         "color" : "light_cyan",
         "symbol" : "^",
         "visibility" : 5,
         "avoidance" : 4,
         "difficulty" : 7,
-        "player_action" : "boobytrap",
-        "monster_action" : "boobytrap",
+        "action" : "boobytrap",
         "drops" : ["boobytrap"]
     },
     {
@@ -489,8 +466,7 @@
         "visibility" : 9,
         "avoidance" : 20,
         "difficulty" : 99,
-        "player_action" : "temple_flood",
-        "monster_action" : "none"
+        "action" : "temple_flood"
     },
     {
         "type" : "trap",
@@ -503,8 +479,7 @@
         "visibility" : 99,
         "avoidance" : 99,
         "difficulty" : 99,
-        "player_action" : "temple_toggle",
-        "monster_action" : "none"
+        "action" : "temple_toggle"
     },
     {
         "type" : "trap",
@@ -517,8 +492,7 @@
         "visibility" : 99,
         "avoidance" : 99,
         "difficulty" : 99,
-        "player_action" : "glow",
-        "monster_action" : "glow"
+        "action" : "glow"
     },
     {
         "type" : "trap",
@@ -531,8 +505,7 @@
         "visibility" : 99,
         "avoidance" : 99,
         "difficulty" : 99,
-        "player_action" : "hum",
-        "monster_action" : "hum"
+        "action" : "hum"
     },
     {
         "type" : "trap",
@@ -545,8 +518,7 @@
         "visibility" : 99,
         "avoidance" : 99,
         "difficulty" : 99,
-        "player_action" : "shadow",
-        "monster_action" : "none"
+        "action" : "shadow"
     },
     {
         "type" : "trap",
@@ -559,8 +531,7 @@
         "visibility" : 99,
         "avoidance" : 99,
         "difficulty" : 99,
-        "player_action" : "drain",
-        "monster_action" : "drain"
+        "action" : "drain"
     },
     {
         "type" : "trap",
@@ -573,7 +544,6 @@
         "visibility" : 99,
         "avoidance" : 99,
         "difficulty" : 99,
-        "player_action" : "snake",
-        "monster_action" : "snake"
+        "action" : "snake"
     }
 ]
