@@ -787,10 +787,10 @@ recipe *game::select_crafting_recipe()
                     mvwprintz(w_data, i - recmin, 2, c_dkgray, ""); // Clear the line
                     if (i == line) {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
-                                  _(item_controller->find_template(current[i]->result)->name.c_str()));
+                                  _(item_controller->find_template(current[i]->result)->nname(1).c_str()));
                     } else {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? c_white : c_dkgray),
-                                  _(item_controller->find_template(current[i]->result)->name.c_str()));
+                                  _(item_controller->find_template(current[i]->result)->nname(1).c_str()));
                     }
                 }
             } else if (line >= recmax - dataHalfLines) {
@@ -798,10 +798,10 @@ recipe *game::select_crafting_recipe()
                     mvwprintz(w_data, dataLines + i - recmax, 2, c_ltgray, ""); // Clear the line
                     if (i == line) {
                         mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? h_white : h_dkgray),
-                                  _(item_controller->find_template(current[i]->result)->name.c_str()));
+                                  _(item_controller->find_template(current[i]->result)->nname(1).c_str()));
                     } else {
                         mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? c_white : c_dkgray),
-                                  _(item_controller->find_template(current[i]->result)->name.c_str()));
+                                  _(item_controller->find_template(current[i]->result)->nname(1).c_str()));
                     }
                 }
             } else {
@@ -810,11 +810,11 @@ recipe *game::select_crafting_recipe()
                     if (i == line) {
                         mvwprintz(w_data, dataHalfLines + i - line, 2,
                                   (available[i] ? h_white : h_dkgray),
-                                  _(item_controller->find_template(current[i]->result)->name.c_str()));
+                                  _(item_controller->find_template(current[i]->result)->nname(1).c_str()));
                     } else {
                         mvwprintz(w_data, dataHalfLines + i - line, 2,
                                   (available[i] ? c_white : c_dkgray),
-                                  _(item_controller->find_template(current[i]->result)->name.c_str()));
+                                  _(item_controller->find_template(current[i]->result)->nname(1).c_str()));
                     }
                 }
             }
@@ -822,10 +822,10 @@ recipe *game::select_crafting_recipe()
             for (size_t i = 0; i < current.size() && i < (size_t)dataHeight + 1; ++i) {
                 if ((ssize_t)i == line) {
                     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
-                              _(item_controller->find_template(current[i]->result)->name.c_str()));
+                              _(item_controller->find_template(current[i]->result)->nname(1).c_str()));
                 } else {
                     mvwprintz(w_data, i, 2, (available[i] ? c_white : c_dkgray),
-                              _(item_controller->find_template(current[i]->result)->name.c_str()));
+                              _(item_controller->find_template(current[i]->result)->nname(1).c_str()));
                 }
             }
         }
