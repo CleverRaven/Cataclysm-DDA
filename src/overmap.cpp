@@ -2200,7 +2200,7 @@ void overmap::place_river(point pa, point pb)
             x = 0;
         }
         if (x > OMAPX - 1) {
-            x = OMAPX - 2;
+            x = OMAPX - 1;
         }
         if (y < 0) {
             y = 0;

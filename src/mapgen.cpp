@@ -1577,7 +1577,7 @@ ss                      \n",
         }
 
         else if ((t_west == "apartments_mod_tower_1_entrance" && t_north == "apartments_mod_tower_1") ||
-                 (t_north == "apartments_mod_tower_1_entrance" && t_east == "apartments_con_tower_1")
+                 (t_north == "apartments_mod_tower_1_entrance" && t_east == "apartments_mod_tower_1")
                  || (t_west == "apartments_mod_tower_1" && t_south == "apartments_mod_tower_1_entrance") ||
                  (t_south == "apartments_mod_tower_1" && t_east == "apartments_mod_tower_1_entrance")) {
             mapf::formatted_set_simple(this, 0, 0,
