@@ -603,7 +603,7 @@ void vehicle::use_controls()
                 add_msg("You don't have anything to play!");
                 stereo_on = false;
             } else if (stereo_on == false) {
-                add_msg(_("Ejected the %s"), itypes[music_id]->name.c_str());
+                add_msg(_("Ejected the %s"), itypes[music_id]->nname(1).c_str());
                 g->u.inv.add_item_by_type(music_id);
             } else {
             for (std::vector<item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){

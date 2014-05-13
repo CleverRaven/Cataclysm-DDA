@@ -116,7 +116,7 @@ public:
         std::string item_name = "";
         if (item_type != NULL)
         {
-            item_name = item_type->name;
+            item_name = item_type->nname(1);
         }
 
         // Replace each instance of %i with the item's name.

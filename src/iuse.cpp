@@ -57,7 +57,7 @@ static bool item_inscription( player *p, item *cut, std::string verb, std::strin
     std::string message = "";
     std::string messageprefix = string_format( hasnote ? _("(To delete, input one '.')\n") : "" ) +
                                 string_format(_("%1$s on the %2$s is: "),
-                                              gerund.c_str(), cut->type->name.c_str() );
+                                              gerund.c_str(), cut->type->nname(1).c_str() );
     message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
                                  (hasnote ? cut->item_vars["item_note"] : message ),
                                  messageprefix, "inscribe_item", 128 );
@@ -2318,7 +2318,7 @@ int iuse::extra_battery(player *p, item *, bool)
 
     if( modded->has_flag("ATOMIC_AMMO") ) {
         p->add_msg_if_player(_("You replace the plutonium cells in your %s with a double capacity battery compartment!"),
-                              tool->name.c_str() );
+                              tool->nname(1).c_str() );
         if( modded->charges >= 2500 ) {
             g->m.spawn_item( p->posx, p->posy, "plut_cell", modded->charges / 2500 );
             modded->charges %= 2500;
@@ -2332,14 +2332,14 @@ int iuse::extra_battery(player *p, item *, bool)
     } else if( modded->has_flag( "RECHARGE" ) ) {
         p->add_msg_if_player(
             _("You replace the rechargeable battery pack of your %s with a double-capacity battery compartment!"),
-                             tool->name.c_str());
+                             tool->nname(1).c_str());
         g->m.spawn_item( p->posx, p->posy, "rechargeable_battery", 1, modded->charges );
         modded->charges = 0;
         modded->item_tags.erase( "RECHARGE" );
         modded->item_tags.erase( "NO_UNLOAD" );
     } else if( modded->has_flag( "USE_UPS" )){
         p->add_msg_if_player( _("You replace the UPS Conversion Pack of your %s with a double-capacity battery compartment!"),
-                              tool->name.c_str());
+                              tool->nname(1).c_str());
 
         g->m.spawn_item( p->posx, p->posy, "battery_ups", 1, modded->charges );
         modded->charges = -1;
@@ -2347,7 +2347,7 @@ int iuse::extra_battery(player *p, item *, bool)
         modded->item_tags.erase( "NO_UNLOAD" );
         modded->item_tags.erase( "NO_RELOAD" );
     } else {
-        p->add_msg_if_player(_("You double the battery capacity of your %s!"), tool->name.c_str());
+        p->add_msg_if_player(_("You double the battery capacity of your %s!"), tool->nname(1).c_str());
     }
     modded->item_tags.insert("DOUBLE_AMMO");
     return 1;
@@ -2380,7 +2380,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
 
     if (modded->has_flag("ATOMIC_AMMO")) {
         p->add_msg_if_player(_("You replace the plutonium cells in your %s with a rechargeable battery pack!"),
-                             tool->name.c_str() );
+                             tool->nname(1).c_str() );
         if( modded->charges >= 2500 ) {
             g->m.spawn_item( p->posx, p->posy, "plut_cell", modded->charges / 2500 );
             modded->charges %= 2500;
@@ -2392,7 +2392,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
         modded->item_tags.erase("NO_UNLOAD");
     } else if( modded->has_flag( "USE_UPS" )){
         p->add_msg_if_player( _("You replace the UPS Conversion Pack of your %s with a rechargeable battery pack!"),
-                              tool->name.c_str());
+                              tool->nname(1).c_str());
 
         g->m.spawn_item( p->posx, p->posy, "battery_ups", 1, modded->charges );
         modded->charges = 0;
@@ -2401,7 +2401,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool)
         modded->item_tags.erase( "NO_RELOAD" );
     } else {
         p->add_msg_if_player(_("You replace the battery compartment of your %s with a rechargeable battery pack!"),
-                             tool->name.c_str() );
+                             tool->nname(1).c_str() );
         if ( modded->has_flag("DOUBLE_AMMO") ){
             g->m.spawn_item(p->posx, p->posy, "battery_compartment", 1);
             modded->item_tags.erase( "DOUBLE_AMMO" );
@@ -2446,7 +2446,7 @@ int iuse::atomic_battery(player *p, item *it, bool)
     if( modded->has_flag("DOUBLE_AMMO") || modded->has_flag("RECHARGE") ) {
         if( modded->has_flag("DOUBLE_AMMO") ) {
             p->add_msg_if_player(_("You replace the conventional batteries in your %s with plutonium cells!"),
-                                 tool->name.c_str() );
+                                 tool->nname(1).c_str() );
             g->m.spawn_item( p->posx, p->posy, "battery_compartment", 1 );
             modded->item_tags.erase("DOUBLE_AMMO");
             if (modded->charges > 0) {
@@ -2455,14 +2455,14 @@ int iuse::atomic_battery(player *p, item *it, bool)
         }
         if( modded->has_flag("RECHARGE") ) {
             p->add_msg_if_player(_("You replace the rechargeable powerpack in your %s with plutonium cells!"),
-                             tool->name.c_str() );
+                             tool->nname(1).c_str() );
             g->m.spawn_item( p->posx, p->posy, "rechargeable_battery", 1, modded->charges );
             modded->item_tags.erase("RECHARGE");
             modded->item_tags.erase("NO_UNLOAD");
         }
     } else if( modded->has_flag( "USE_UPS" )){
         p->add_msg_if_player( _("You replace the UPS Conversion Pack of your %s with plutonium cells!"),
-                              tool->name.c_str());
+                              tool->nname(1).c_str());
 
         g->m.spawn_item( p->posx, p->posy, "battery_ups", 1, modded->charges );
         modded->charges = 0;
@@ -2471,7 +2471,7 @@ int iuse::atomic_battery(player *p, item *it, bool)
         modded->item_tags.erase( "NO_RELOAD" );
     } else {
         p->add_msg_if_player(_("You modify your %s to run off plutonium cells!"),
-                             tool->name.c_str());
+                             tool->nname(1).c_str());
         if (modded->charges > 0) {
             g->m.spawn_item( p->posx, p->posy, "battery", 1, modded->charges );
         }
@@ -2514,7 +2514,7 @@ int iuse::ups_battery(player *p, item *, bool)
         if( modded->has_flag("DOUBLE_AMMO") ) {
             p->add_msg_if_player(
             _("You replace the conventional batteries in your %s with a UPS conversion pack!"),
-                             tool->name.c_str() );
+                             tool->nname(1).c_str() );
             g->m.spawn_item( p->posx, p->posy, "battery_compartment", 1 );
             modded->item_tags.erase("DOUBLE_AMMO");
             if (modded->charges > 0) {
@@ -2524,14 +2524,14 @@ int iuse::ups_battery(player *p, item *, bool)
         if( modded->has_flag("RECHARGE") ) {
             p->add_msg_if_player(
             _("You replace the rechargeable powerpack in your %s with a UPS conversion pack!"),
-                             tool->name.c_str() );
+                             tool->nname(1).c_str() );
             g->m.spawn_item( p->posx, p->posy, "rechargeable_battery", 1, modded->charges );
             modded->item_tags.erase("RECHARGE");
             modded->item_tags.erase("NO_UNLOAD");
         }
     } else if( modded->has_flag( "ATOMIC_AMMO" )){
         p->add_msg_if_player( _("You replace the plutonium cells of your %s with a UPS conversion pack!"),
-                              tool->name.c_str());
+                              tool->nname(1).c_str());
 
         g->m.spawn_item( p->posx, p->posy, "battery_atomic", 1, modded->charges );
         modded->charges = 0;
@@ -2541,7 +2541,7 @@ int iuse::ups_battery(player *p, item *, bool)
         modded->item_tags.erase( "LEAK_DAM" );
     } else {
         p->add_msg_if_player(_("You modify your %s to run off a UPS!"),
-                             tool->name.c_str());
+                             tool->nname(1).c_str());
         if (modded->charges > 0) {
             g->m.spawn_item( p->posx, p->posy, "battery", 1, modded->charges );
         }
@@ -2593,7 +2593,7 @@ static bool valid_fabric(player *p, item *it, bool)
         return false;
     }
     if (it->type->id == "rag" || it->type->id == "rag_bloody" || it->type->id == "leather") {
-        p->add_msg_if_player(m_info, _("There's no point in cutting a %s."), it->type->name.c_str());
+        p->add_msg_if_player(m_info, _("There's no point in cutting a %s."), it->tname().c_str());
         return false;
     }
     if (!it->made_of("cotton") && !it->made_of("leather") && !it->made_of("nomex")) {
@@ -6605,7 +6605,7 @@ int iuse::rag(player *p, item *it, bool)
         return 0;
     } else {
         p->add_msg_if_player(m_info, _("You're not bleeding enough to need your %s."),
-                                       it->type->name.c_str());
+                                       it->tname().c_str());
         return 0;
     }
 }

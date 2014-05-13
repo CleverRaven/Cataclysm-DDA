@@ -34,7 +34,7 @@ item::item(const std::string new_type, unsigned int turn, bool rand)
     type = item_controller->find_template( new_type );
     bday = turn;
     corpse = type->corpse;
-    name = type->name;
+    name = type->nname(1);
     if (type->is_gun()) {
         charges = 0;
     } else if (type->is_ammo()) {
@@ -707,7 +707,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                     if(g->u.knows_recipe(iter->first)) {
                         recipes += "<color_ltgray>";
                     }
-                    recipes += item_controller->find_template( iter->first->result )->name;
+                    recipes += item_controller->find_template( iter->first->result )->nname(1);
                     if(g->u.knows_recipe(iter->first)) {
                         recipes += "</color>";
                     }

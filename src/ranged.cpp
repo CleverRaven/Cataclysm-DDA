@@ -788,7 +788,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } else {
    if (relevent == &u.weapon && relevent->is_gun()) {
      if(relevent->has_flag("RELOAD_AND_SHOOT")) {
-        wprintz(w_target, c_red, _("Shooting %s from %s"), u.weapon.curammo->name.c_str(), u.weapon.tname().c_str());
+        wprintz(w_target, c_red, _("Shooting %s from %s"), u.weapon.curammo->nname(1).c_str(), u.weapon.tname().c_str());
 ;    } else if(relevent->has_flag("NO_AMMO")) {
         wprintz(w_target, c_red, _("Firing %s"), u.weapon.tname().c_str());
      } else {
@@ -919,7 +919,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                 } else {
                     item* gunmod = u.weapon.active_gunmod();
                     if (gunmod != NULL) {
-                        mode = gunmod->type->name;
+                        mode = gunmod->type->nname(1);
                     }
                 }
                 if (mode != "") {
@@ -1089,7 +1089,7 @@ int time_to_fire(player &p, it_gun* firing)
     else
         time = (200 - (20 * p.skillLevel("melee")));
  } else {
-   debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
+   debugmsg("Why is shooting %s using %s skill?", firing->nname(1).c_str(), firing->skill_used->name().c_str());
    time =  0;
  }
 
