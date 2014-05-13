@@ -402,7 +402,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         if (corpse != NULL && ( debug == true || ( g != NULL &&
              ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait("CARNIVORE") ||
                g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) ) ) ) ) {
-            dump->push_back(iteminfo("FOOD", _("Smells like: ") + corpse->name));
+            dump->push_back(iteminfo("FOOD", _("Smells like: ") + corpse->nname()));
         }
     } else if (is_food_container()) {
         // added charge display for debugging
@@ -1150,11 +1150,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if (name != "") {
             maintext = rmp_format(ngettext("<item_name>%s corpse of %s",
                                            "<item_name>%s corpses of %s",
-                                           quantity), corpse->name.c_str(), name.c_str());
+                                           quantity), corpse->nname().c_str(), name.c_str());
         } else {
             maintext = rmp_format(ngettext("<item_name>%s corpse",
                                            "<item_name>%s corpses",
-                                           quantity), corpse->name.c_str());
+                                           quantity), corpse->nname().c_str());
         }
     } else if (typeId() == "blood") {
         if (corpse == NULL || corpse->id == "mon_null")
@@ -1164,7 +1164,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         else
             maintext = rmp_format(ngettext("<item_name>%s blood",
                                            "<item_name>%s blood",
-                                           quantity), corpse->name.c_str());
+                                           quantity), corpse->nname().c_str());
     }
     else if (iname != item_vars.end()) {
         maintext = iname->second;

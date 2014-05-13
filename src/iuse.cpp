@@ -2040,7 +2040,7 @@ int iuse::dogfood(player *p, item *, bool)
             g->zombie(mon_dex).friendly = -1;
         } else {
             p->add_msg_if_player( _("The %s seems quite unimpressed!"),
-                                 g->zombie(mon_dex).type->name.c_str());
+                                 g->zombie(mon_dex).name().c_str());
         }
     } else {
         p->add_msg_if_player( m_bad, _("You spill the dogfood all over the ground."));
@@ -2062,7 +2062,7 @@ int iuse::catfood(player *p, item *, bool)
             g->zombie(mon_dex).friendly = -1;
         } else {
             p->add_msg_if_player( _("The %s seems quite unimpressed!"),
-                                 g->zombie(mon_dex).type->name.c_str());
+                                 g->zombie(mon_dex).name().c_str());
         }
     } else {
         p->add_msg_if_player( m_bad, _("You spill the cat food all over the ground."));
