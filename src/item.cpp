@@ -712,7 +712,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                     recipes += _(", ");
                 }
             }
-            std::string recipe_line = string_format(ngettext("This book contains %d crafting recipe: %s", "This book contains %d crafting recipes: %s", book->recipes.size()),
+            std::string recipe_line = string_format(ngettext("This book contains %1$d crafting recipe: %2$s", "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
                                                     book->recipes.size(), recipes.c_str());
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
@@ -783,7 +783,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
     if ( !type->qualities.empty()){
         for(std::map<std::string, int>::const_iterator quality = type->qualities.begin();
             quality != type->qualities.end(); ++quality){
-            dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has level %d %s quality."),
+            dump->push_back(iteminfo("QUALITIES", "", string_format(_("Has level %1$d %2$s quality."),
                             quality->second, qualities[quality->first].name.c_str())));
         }
     }
