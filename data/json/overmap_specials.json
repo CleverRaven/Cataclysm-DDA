@@ -17,7 +17,7 @@
         [
             { "point":[0,0,0], "overmap": "river_center"}
         ],
-        "locations" : [ "land" ],
+        "locations" : [ "wilderness" ],
         "city_distance" : [10, -1],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 10],
@@ -427,7 +427,7 @@
         "id" : "Apartments_Con",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "apartments_con_tower_1", "connect": "road"},
+            { "point":[0,0,0], "overmap": "apartments_con_tower_1"},
             { "point":[1,0,0], "overmap": "apartments_con_tower_1_entrance", "connect": "road"},
             { "point":[0,1,0], "overmap": "apartments_con_tower_1"},
             { "point":[1,1,0], "overmap": "apartments_con_tower_1"}
@@ -445,7 +445,7 @@
         "id" : "Apartments_Mod",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "apartments_mod_tower_1", "connect": "road"},
+            { "point":[0,0,0], "overmap": "apartments_mod_tower_1"},
             { "point":[1,0,0], "overmap": "apartments_mod_tower_1_entrance", "connect": "road"},
             { "point":[0,1,0], "overmap": "apartments_mod_tower_1"},
             { "point":[1,1,0], "overmap": "apartments_mod_tower_1"}
