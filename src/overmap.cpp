@@ -725,6 +725,16 @@ oter_id &overmap::ter(const int x, const int y, const int z)
     return layer[z + OVERMAP_DEPTH].terrain[x][y];
 }
 
+const oter_id overmap::get_ter(const int x, const int y, const int z) const
+{
+
+    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+        return nullret;
+    }
+
+    return layer[z + OVERMAP_DEPTH].terrain[x][y];
+}
+
 bool &overmap::seen(int x, int y, int z)
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
@@ -1021,8 +1031,8 @@ void overmap::print_vehicles(WINDOW *w, int const x, int const y, int const z) c
     mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
-void overmap::generate(overmap *north, overmap *east, overmap *south,
-                       overmap *west)
+void overmap::generate(const overmap *north, const overmap *east,
+                       const overmap *south, const overmap *west)
 {
     dbg(D_INFO) << "overmap::generate start...";
     std::vector<city> road_points; // cities and roads_out together
@@ -1034,12 +1044,12 @@ void overmap::generate(overmap *north, overmap *east, overmap *south,
 
     if (north != NULL) {
         for (int i = 2; i < OMAPX - 2; i++) {
-            if (is_river(north->ter(i, OMAPY - 1, 0))) {
+            if (is_river(north->get_ter(i, OMAPY - 1, 0))) {
                 ter(i, 0, 0) = river_center;
             }
-            if (north->ter(i,     OMAPY - 1, 0) == river_center &&
-                north->ter(i - 1, OMAPY - 1, 0) == river_center &&
-                north->ter(i + 1, OMAPY - 1, 0) == river_center) {
+            if (is_river(north->get_ter(i, OMAPY - 1, 0)) &&
+                is_river(north->get_ter(i - 1, OMAPY - 1, 0)) &&
+                is_river(north->get_ter(i + 1, OMAPY - 1, 0))) {
                 if (river_start.empty() ||
                     river_start[river_start.size() - 1].x < i - 6) {
                     river_start.push_back(point(i, 0));
@@ -1055,12 +1065,12 @@ void overmap::generate(overmap *north, overmap *east, overmap *south,
     int rivers_from_north = river_start.size();
     if (west != NULL) {
         for (int i = 2; i < OMAPY - 2; i++) {
-            if (is_river(west->ter(OMAPX - 1, i, 0))) {
+            if (is_river(west->get_ter(OMAPX - 1, i, 0))) {
                 ter(0, i, 0) = river_center;
             }
-            if (west->ter(OMAPX - 1, i, 0)     == river_center &&
-                west->ter(OMAPX - 1, i - 1, 0) == river_center &&
-                west->ter(OMAPX - 1, i + 1, 0) == river_center) {
+            if (is_river(west->get_ter(OMAPX - 1, i, 0)) &&
+                is_river(west->get_ter(OMAPX - 1, i - 1, 0)) &&
+                is_river(west->get_ter(OMAPX - 1, i + 1, 0))) {
                 if (river_start.size() == rivers_from_north ||
                     river_start[river_start.size() - 1].y < i - 6) {
                     river_start.push_back(point(0, i));
@@ -1075,18 +1085,18 @@ void overmap::generate(overmap *north, overmap *east, overmap *south,
     }
     if (south != NULL) {
         for (int i = 2; i < OMAPX - 2; i++) {
-            if (is_river(south->ter(i, 0, 0))) {
+            if (is_river(south->get_ter(i, 0, 0))) {
                 ter(i, OMAPY - 1, 0) = river_center;
             }
-            if (south->ter(i,     0, 0) == river_center &&
-                south->ter(i - 1, 0, 0) == river_center &&
-                south->ter(i + 1, 0, 0) == river_center) {
+            if (is_river(south->get_ter(i,     0, 0)) &&
+                is_river(south->get_ter(i - 1, 0, 0)) &&
+                is_river(south->get_ter(i + 1, 0, 0))) {
                 if (river_end.empty() ||
                     river_end[river_end.size() - 1].x < i - 6) {
                     river_end.push_back(point(i, OMAPY - 1));
                 }
             }
-            if (south->ter(i, 0, 0) == "road_nesw") {
+            if (south->get_ter(i, 0, 0) == "road_nesw") {
                 roads_out.push_back(city(i, OMAPY - 1, 0));
             }
         }
@@ -1099,18 +1109,18 @@ void overmap::generate(overmap *north, overmap *east, overmap *south,
     int rivers_to_south = river_end.size();
     if (east != NULL) {
         for (int i = 2; i < OMAPY - 2; i++) {
-            if (is_river(east->ter(0, i, 0))) {
+            if (is_river(east->get_ter(0, i, 0))) {
                 ter(OMAPX - 1, i, 0) = river_center;
             }
-            if (east->ter(0, i, 0)     == river_center &&
-                east->ter(0, i - 1, 0) == river_center &&
-                east->ter(0, i + 1, 0) == river_center) {
+            if (is_river(east->get_ter(0, i, 0)) &&
+                is_river(east->get_ter(0, i - 1, 0)) &&
+                is_river(east->get_ter(0, i + 1, 0))) {
                 if (river_end.size() == rivers_to_south ||
                     river_end[river_end.size() - 1].y < i - 6) {
                     river_end.push_back(point(OMAPX - 1, i));
                 }
             }
-            if (east->ter(0, i, 0) == "road_nesw") {
+            if (east->get_ter(0, i, 0) == "road_nesw") {
                 roads_out.push_back(city(OMAPX - 1, i, 0));
             }
         }
@@ -1839,12 +1849,12 @@ void overmap::draw(WINDOW *w, const tripoint &center,
     wrefresh(w);
 }
 
-point overmap::draw_overmap()
+tripoint overmap::draw_overmap()
 {
     return draw_overmap(g->om_global_location());
 }
 
-point overmap::draw_overmap(int z)
+tripoint overmap::draw_overmap(int z)
 {
     tripoint loc = g->om_global_location();
     loc.z = z;
@@ -1852,11 +1862,12 @@ point overmap::draw_overmap(int z)
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-point overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
+tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
 {
     WINDOW *w_map = newwin(TERMY, TERMX, 0, 0);
     bool blink = true;
-    point ret(invalid_point);
+
+    tripoint ret = invalid_tripoint;
     tripoint curs(orig);
 
     // Configure input context for navigating the map.
@@ -1893,9 +1904,9 @@ point overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
         } else if (action == "LEVEL_UP" && curs.z < OVERMAP_HEIGHT) {
             curs.z += 1;
         } else if (action == "CONFIRM") {
-            ret = point(curs.x, curs.y);
+            ret = tripoint(curs.x, curs.y, curs.z);
         } else if (action == "QUIT") {
-            ret = invalid_point;
+            ret = invalid_tripoint;
         } else if (action == "CREATE_NOTE") {
             const std::string old_note = overmap_buffer.note(curs);
             const std::string new_note = string_input_popup(_("Note (X:TEXT for custom symbol, G; for color):"),
@@ -2194,7 +2205,7 @@ void overmap::place_river(point pa, point pb)
             x = 0;
         }
         if (x > OMAPX - 1) {
-            x = OMAPX - 2;
+            x = OMAPX - 1;
         }
         if (y < 0) {
             y = 0;
@@ -3024,7 +3035,7 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                 if (check_ot_type_road(base, x - 1, y, z)) {
                     ter(x, y, z) = base + "_wn";
                 } else {
-                    if(base == "road") {
+                    if(base == "road" && (y != OMAPY - 1)) {
                         ter(x, y, z) = base + "_end_south";
                     } else {
                         ter(x, y, z) = base + "_ns";
@@ -3044,7 +3055,7 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                 if( check_ot_type_road(base, x - 1, y, z)) {
                     ter(x, y, z) = base + "_ew";
                 } else {
-                    if(base == "road") {
+                    if(base == "road" && (x != 0)) {
                         ter(x, y, z) = base + "_end_west";
                     } else {
                         ter(x, y, z) = base + "_ew";
@@ -3056,7 +3067,7 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                 if (check_ot_type_road(base, x - 1, y, z)) {
                     ter(x, y, z) = base + "_sw";
                 } else {
-                    if(base == "road") {
+                    if(base == "road" && (y != 0)) {
                         ter(x, y, z) = base + "_end_north";
                     } else {
                         ter(x, y, z) = base + "_ns";
@@ -3064,7 +3075,7 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
                 }
             } else {
                 if (check_ot_type_road(base, x - 1, y, z)) {
-                    if(base == "road") {
+                    if(base == "road" && (x != OMAPX-1)) {
                         ter(x, y, z) = base + "_end_east";
                     } else {
                         ter(x, y, z) = base + "_ew";
@@ -3084,6 +3095,26 @@ void overmap::good_road(const std::string &base, int x, int y, int z)
 
 void overmap::good_river(int x, int y, int z)
 {
+    if((x == 0) || (x == OMAPX-1)) {
+        if(!is_river(ter(x, y - 1, z))) {
+            ter(x, y, z) = "river_north";
+        } else if(!is_river(ter(x, y + 1, z))) {
+            ter(x, y, z) = "river_south";
+        } else {
+            ter(x, y, z) = "river_center";
+        }
+        return;
+    }
+    if((y == 0) || (y == OMAPY-1)) {
+        if(!is_river(ter(x - 1, y, z))) {
+            ter(x, y, z) = "river_west";
+        } else if(!is_river(ter(x + 1, y, z))) {
+            ter(x, y, z) = "river_east";
+        } else {
+            ter(x, y, z) = "river_center";
+        }
+        return;
+    }
     if (is_river(ter(x - 1, y, z))) {
         if (is_river(ter(x, y - 1, z))) {
             if (is_river(ter(x, y + 1, z))) {
@@ -3151,6 +3182,7 @@ void overmap::good_river(int x, int y, int z)
             }
         }
     }
+
 }
 
 bool overmap::allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed)
@@ -3204,6 +3236,9 @@ bool overmap::allowed_terrain(tripoint p, std::list<tripoint> tocheck,
 
 // new x = (x-c.x)*cos() - (y-c.y)*sin() + c.x
 // new y = (x-c.x)*sin() + (y-c.y)*cos() + c.y
+// r1x = 0*x - 1*y = -1*y, r1y = 1*x + y*0 = x
+// r2x = -1*x - 0*y = -1*x , r2y = x*0 + y*-1 = -1*y
+// r3x = x*0 - (-1*y) = y, r3y = x*-1 + y*0 = -1*x
 // c=0,0, rot90 = (-y, x); rot180 = (-x, y); rot270 = (y, -x)
 /*
     (0,0)(1,0)(2,0) 90 (0,0)(0,1)(0,2)       (-2,0)(-1,0)(0,0)
@@ -3216,7 +3251,7 @@ inline tripoint rotate_tripoint(tripoint p, int rotations)
     if(rotations == 1) {
         return tripoint(-1 * p.y, p.x, p.z);
     } else if(rotations == 2) {
-        return tripoint(-1 * p.x, p.y, p.z);
+        return tripoint(-1 * p.x, -1 * p.y, p.z);
     } else if(rotations == 3) {
         return tripoint(p.y, -1 * p.x, p.z);
     }
@@ -3228,32 +3263,33 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
 {
     // check if rotation is allowed, and if necessary
     rotate = 0;
+    // check to see if road is nearby, if so, rotate to face road
+    // if no road && special requires road, return false
+    // if no road && special does not require it, pick a random rotation
     if(special.rotatable) {
-        //debugmsg("%s is rotatable.", special.id.c_str());
         // if necessary:
-        if(std::find(special.locations.begin(), special.locations.end(),
-                     "by_hiway") != special.locations.end()) {
-            if(is_road(p.x + 1, p.y, p.z)) {
-                // road to right
-                rotate = 1;
-            } else if(is_road(p.x - 1, p.y, p.z)) {
-                // road to left
-                rotate = 3;
-            } else if(is_road(p.x, p.y + 1, p.z)) {
-                // road to south
-                rotate = 2;
-            } else if(is_road(p.x, p.y - 1, p.z)) {
-                // road to north
-            } else {
-                return false;
-            }
+        if(check_ot_type("road", p.x + 1, p.y, p.z)) {
+            // road to right
+            rotate = 1;
+        } else if(check_ot_type("road", p.x - 1, p.y, p.z)) {
+            // road to left
+            rotate = 3;
+        } else if(check_ot_type("road", p.x, p.y + 1, p.z)) {
+            // road to south
+            rotate = 2;
+        } else if(check_ot_type("road", p.x, p.y - 1, p.z)) {
+            // road to north
         } else {
-            // if not necessary
-            rotate = rng(0, 3);
+            if(std::find(special.locations.begin(), special.locations.end(),
+                 "by_hiway") != special.locations.end()) {
+                return false;
+            } else {
+                rotate = rng(0, 3);
+            }
         }
     }
 
-    // do bounds checking
+    // do bounds & connection checking
     std::list<tripoint> rotated_points;
     for(std::list<overmap_special_terrain>::iterator points = special.terrains.begin();
         points != special.terrains.end(); ++points) {
@@ -3262,10 +3298,33 @@ bool overmap::allow_special(tripoint p, overmap_special special, int &rotate)
         rotated_points.push_back(rotated_point);
 
         tripoint testpoint = tripoint(rotated_point.x + p.x, rotated_point.y + p.y, p.z);
-        if((testpoint.x >= OMAPX + 1) ||
+        if((testpoint.x >= OMAPX - 1) ||
            (testpoint.x < 0) || (testpoint.y < 0) ||
-           (testpoint.y >= OMAPY + 1)) {
+           (testpoint.y >= OMAPY - 1)) {
             return false;
+        }
+        if(t.connect == "road")
+        {
+            switch(rotate){
+            case 0:
+                testpoint = tripoint(testpoint.x, testpoint.y - 1, testpoint.z);
+                break;
+            case 1:
+                testpoint = tripoint(testpoint.x + 1, testpoint.y, testpoint.z);
+                break;
+            case 2:
+                testpoint = tripoint(testpoint.x, testpoint.y + 1, testpoint.z);
+                break;
+            case 3:
+                testpoint = tripoint(testpoint.x - 1, testpoint.y, testpoint.z);
+                break;
+            default:
+                break;
+            }
+            if(!road_allowed(get_ter(testpoint.x, testpoint.y, testpoint.z)))
+            {
+                return false;
+            }
         }
     }
 
@@ -3473,7 +3532,7 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
             // generally entrances come out of the top,
             // so we want to rotate the road connection with the point.
             tripoint conn = connection.second;
-            /*
+
             switch(rotation)
             {
             case 0:
@@ -3491,9 +3550,6 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
             default:
                 break;
             }
-            debugmsg("making road at %i, %i, to connect to entrance at %i, %i",
-                     conn.x, conn.y, connection.second.x, connection.second.y);
-            */
             make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
         }
     }
@@ -3665,74 +3721,30 @@ void overmap::place_radios()
 
 void overmap::open()
 {
-    std::string const plrfilename = player_filename(loc.x, loc.y);
-    std::string const terfilename = terrain_filename(loc.x, loc.y);
+    std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
+    std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
     std::ifstream fin;
-    // Set position IDs
+
     fin.open(terfilename.c_str());
     if (fin.is_open()) {
         unserialize(fin, plrfilename, terfilename);
         fin.close();
     } else { // No map exists!  Prepare neighbors, and generate one.
-        std::vector<overmap *> pointers;
-        // Fetch north and south
+        std::vector<const overmap*> pointers;
+        // Fetch south and north
         for (int i = -1; i <= 1; i += 2) {
-            std::string const tmpfilename = terrain_filename(loc.x, loc.y + i);
-            fin.open(tmpfilename.c_str());
-            if (fin.is_open()) {
-                fin.close();
-                pointers.push_back(new overmap(loc.x, loc.y + i));
-            } else {
-                pointers.push_back(NULL);
-            }
+            pointers.push_back(overmap_buffer.get_existing(loc.x, loc.y+i));
         }
         // Fetch east and west
         for (int i = -1; i <= 1; i += 2) {
-            std::string const tmpfilename = terrain_filename(loc.x + i, loc.y);
-            fin.open(tmpfilename.c_str());
-            if (fin.is_open()) {
-                fin.close();
-                pointers.push_back(new overmap(loc.x + i, loc.y));
-            } else {
-                pointers.push_back(NULL);
-            }
+            pointers.push_back(overmap_buffer.get_existing(loc.x+i, loc.y));
         }
         // pointers looks like (north, south, west, east)
         generate(pointers[0], pointers[3], pointers[1], pointers[2]);
-        for (int i = 0; i < 4; i++) {
-            delete pointers[i];
-        }
     }
 }
-
-std::string overmap::terrain_filename(int const x, int const y) const
-{
-    std::stringstream filename;
-
-    filename << world_generator->active_world->world_path << "/";
-
-    if (!prefix.empty()) {
-        filename << prefix << ".";
-    }
-
-    filename << "o." << x << "." << y;
-
-    return filename.str();
-}
-
-std::string overmap::player_filename(int const x, int const y) const
-{
-    std::stringstream filename;
-
-    filename << world_generator->active_world->world_path << "/" << base64_encode(
-                 name) << ".seen." << x << "." << y;
-
-    return filename.str();
-}
-
 
 #include "omdata.h"
-
 ////////////////
 oter_iid ot_null,
          ot_crater,
@@ -3971,4 +3983,6 @@ void regional_settings::setup()
     }
 }
 
-const point overmap::invalid_point(INT_MIN, INT_MIN);
+const point overmap::invalid_point = point(INT_MIN, INT_MIN);
+const tripoint overmap::invalid_tripoint = tripoint(INT_MIN, INT_MIN, INT_MIN);
+//oter_id overmap::nulloter = "";
