@@ -55,6 +55,9 @@ class overmapbuffer
 public:
     overmapbuffer();
 
+    static std::string terrain_filename(int const x, int const y);
+    static std::string player_filename(int const x, int const y);
+
     /**
      * Uses overmap coordinates, that means x and y are directly
      * compared with the position of the overmap.
