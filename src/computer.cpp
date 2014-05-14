@@ -474,8 +474,8 @@ void computer::activate_function(computer_action action)
 
     case COMPACT_MISS_LAUNCH: {
         // Target Acquisition.
-        point target = overmap::draw_overmap(0);
-        if (target == overmap::invalid_point) {
+        tripoint target = overmap::draw_overmap(0);
+        if (target == overmap::invalid_tripoint) {
             add_msg(m_info, _("Target acquisition canceled"));
             return;
         }
@@ -519,7 +519,15 @@ void computer::activate_function(computer_action action)
                                otermap[oter].name.c_str() );
         for(int x = target.x - 2; x <= target.x + 2; x++) {
             for(int y = target.y - 2; y <= target.y + 2; y++) {
-                g->nuke(x, y);
+                // give it a nice rounded shape
+                if(!(x == (target.x-2) && (y == (target.y-2))) &&
+                   !(x == (target.x-2) && (y == (target.y+2))) &&
+                   !(x == (target.x+2) && (y == (target.y-2))) &&
+                   !(x == (target.x+2) && (y == (target.y+2))))
+                {
+                    g->nuke(x, y);
+                }
+
             }
         }
 
