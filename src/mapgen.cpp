@@ -4037,6 +4037,14 @@ ff.......|....|WWWWWWWW|\n\
                 add_spawn("mon_turret", 1, 14, i + 1);
             }
             ter_set(13, 16, t_card_military);
+
+            if (is_ot_type("road", t_west)) {
+                rotate(1);
+            } else if (is_ot_type("road", t_north)) {
+                rotate(2);
+            } else if (is_ot_type("road", t_east)) {
+                rotate(3);
+            }
         } else { // Below ground!
 
             fill_background(this, t_rock);

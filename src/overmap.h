@@ -278,7 +278,7 @@ class overmap
   int dist_from_city(point p);
 
   oter_id& ter(const int x, const int y, const int z);
-  const oter_id& get_ter(const int x, const int y, const int z) const;
+  const oter_id get_ter(const int x, const int y, const int z) const;
   bool&   seen(int x, int y, int z);
   std::vector<mongroup*> monsters_at(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
@@ -288,6 +288,8 @@ class overmap
   std::string const& note(int const x, int const y, int const z) const;
   void add_note(int const x, int const y, int const z, std::string const& message);
   void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
+
+//    static oter_id nulloter;
     /**
      * Display a list of all notes on this z-level. Let the user choose
      * one or none of them.
@@ -428,10 +430,6 @@ class overmap
   void place_special(overmap_special special, tripoint p, int rotation);
   void place_mongroups();
   void place_radios();
-  // File I/O
-
-  std::string terrain_filename(int const x, int const y) const;
-  std::string player_filename(int const x, int const y) const;
 
   // Map helper function.
   static void print_npcs(WINDOW *w, int const x, int const y, int const z);

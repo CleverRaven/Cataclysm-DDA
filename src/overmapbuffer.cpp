@@ -15,6 +15,31 @@ overmapbuffer::overmapbuffer()
 {
 }
 
+std::string overmapbuffer::terrain_filename(int const x, int const y)
+{
+    std::stringstream filename;
+
+    filename << world_generator->active_world->world_path << "/";
+
+    if (g->has_gametype()) {
+        filename << special_game_name(g->gametype()) << ".";
+    }
+
+    filename << "o." << x << "." << y;
+
+    return filename.str();
+}
+
+std::string overmapbuffer::player_filename(int const x, int const y)
+{
+    std::stringstream filename;
+
+    filename << world_generator->active_world->world_path << "/" << base64_encode(
+                 g->u.name) << ".seen." << x << "." << y;
+
+    return filename.str();
+}
+
 overmap &overmapbuffer::get( const int x, const int y )
 {
     // Check list first

@@ -725,8 +725,13 @@ oter_id &overmap::ter(const int x, const int y, const int z)
     return layer[z + OVERMAP_DEPTH].terrain[x][y];
 }
 
-const oter_id &overmap::get_ter(const int x, const int y, const int z) const
+const oter_id overmap::get_ter(const int x, const int y, const int z) const
 {
+
+    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+        return nullret;
+    }
+
     return layer[z + OVERMAP_DEPTH].terrain[x][y];
 }
 
@@ -1862,7 +1867,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
     WINDOW *w_map = newwin(TERMY, TERMX, 0, 0);
     bool blink = true;
 
-    tripoint ret(INT_MIN, INT_MIN, INT_MIN);
+    tripoint ret = invalid_tripoint;
     tripoint curs(orig);
 
     // Configure input context for navigating the map.
@@ -3716,8 +3721,8 @@ void overmap::place_radios()
 
 void overmap::open()
 {
-    std::string const plrfilename = player_filename(loc.x, loc.y);
-    std::string const terfilename = terrain_filename(loc.x, loc.y);
+    std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
+    std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
     std::ifstream fin;
 
     fin.open(terfilename.c_str());
@@ -3739,34 +3744,7 @@ void overmap::open()
     }
 }
 
-std::string overmap::terrain_filename(int const x, int const y) const
-{
-    std::stringstream filename;
-
-    filename << world_generator->active_world->world_path << "/";
-
-    if (!prefix.empty()) {
-        filename << prefix << ".";
-    }
-
-    filename << "o." << x << "." << y;
-
-    return filename.str();
-}
-
-std::string overmap::player_filename(int const x, int const y) const
-{
-    std::stringstream filename;
-
-    filename << world_generator->active_world->world_path << "/" << base64_encode(
-                 name) << ".seen." << x << "." << y;
-
-    return filename.str();
-}
-
-
 #include "omdata.h"
-
 ////////////////
 oter_iid ot_null,
          ot_crater,
@@ -4005,5 +3983,6 @@ void regional_settings::setup()
     }
 }
 
-const point overmap::invalid_point(INT_MIN, INT_MIN);
-const tripoint overmap::invalid_tripoint(INT_MIN, INT_MIN, INT_MIN);
+const point overmap::invalid_point = point(INT_MIN, INT_MIN);
+const tripoint overmap::invalid_tripoint = tripoint(INT_MIN, INT_MIN, INT_MIN);
+//oter_id overmap::nulloter = "";
