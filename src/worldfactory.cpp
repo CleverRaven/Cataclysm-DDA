@@ -5,7 +5,6 @@
 #include "file_wrapper.h"
 #include "path_info.h"
 #include "debug.h"
-#include "platform.h"
 #include "mapsharing.h"
 
 #include "name.h"
@@ -829,8 +828,9 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             } else {
                 std::stringstream list_output;
 
-                for (size_t i = startsel[0], c = 0; i < useable_mod_count && c < getmaxy(w_list); ++i, ++c) {
-                    if ((ssize_t)i != cursel[0]) {
+                for( size_t i = startsel[0], c = 0;
+                     i < useable_mod_count < getmaxy(w_list); ++i, ++c ) {
+                    if ((int)i != cursel[0]) {
                         list_output << std::string(3, ' ');
                     } else {
                         if (active_header == 0) {
@@ -972,7 +972,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 tab_output = -999;
         }
         // RESOLVE INPUTS
-        if (last_active_header != (ssize_t)active_header) {
+        if (last_active_header != (int)active_header) {
             redraw_headers = true;
             redraw_shift = true;
             redraw_description = true;
@@ -999,7 +999,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             } else {
                 if (cursel[1] < 0) {
                     cursel[1] = 0;
-                } else if (cursel[1] >= (ssize_t)active_mod_order.size()) {
+                } else if (cursel[1] >= (int)active_mod_order.size()) {
                     cursel[1] = active_mod_order.size() - 1;
                 }
             }
