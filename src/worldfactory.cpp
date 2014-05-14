@@ -829,7 +829,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 std::stringstream list_output;
 
                 for( size_t i = startsel[0], c = 0;
-                     i < useable_mod_count < getmaxy(w_list); ++i, ++c ) {
+                     i < useable_mod_count && c < getmaxy(w_list); ++i, ++c ) {
                     if ((int)i != cursel[0]) {
                         list_output << std::string(3, ' ');
                     } else {
