@@ -597,14 +597,6 @@ void inventory_selector::set_to_drop(int it_pos, int count)
         if (u.weapon.is_null()) {
             return;
         }
-        // "dropping" when comparing means select for comparison, valid for bionics
-        if (u.weapon.has_flag("NO_UNWIELD") && !compare) {
-            if (!warned_about_bionic) {
-                popup(_("You cannot drop your %s."), u.weapon.tname().c_str());
-                warned_about_bionic = true;
-            }
-            return;
-        }
         if (count > 0 && (!u.weapon.count_by_charges() || count >= u.weapon.charges)) {
             count = -1; // drop whole item, because it can not be separated, or the requested count means all
         }
@@ -644,6 +636,14 @@ void inventory_selector::set_drop_count(int it_pos, int count, const std::list<i
 
 void inventory_selector::set_drop_count(int it_pos, int count, const item& it)
 {
+    // "dropping" when comparing means select for comparison, valid for bionics
+    if (it_pos == -1 && g->u.weapon.has_flag("NO_UNWIELD") && !compare) {
+        if (!warned_about_bionic) {
+            popup(_("You cannot drop your %s."), g->u.weapon.tname().c_str());
+            warned_about_bionic = true;
+        }
+        return;
+    }
     // count 0 means toggle, if already selected for dropping, drop none
     drop_map::iterator iit = dropping.find(it_pos);
     if (count == 0 && iit != dropping.end()) {
