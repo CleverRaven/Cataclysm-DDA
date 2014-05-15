@@ -853,7 +853,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
     if (is_hallucination()) {
         if(one_in(7)) {
-            die();
+            dead = true;
         }
         return;
     }
