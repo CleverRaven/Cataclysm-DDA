@@ -218,7 +218,7 @@ void monster::move()
 
     //Hallucinations have a chance of disappearing each turn
     if (is_hallucination() && one_in(25)) {
-        die();
+        dead = true;
         return;
     }
 
@@ -723,7 +723,7 @@ int monster::attack_at(int x, int y) {
 
         // Special case: Target is hallucination
         if(mon.is_hallucination()) {
-            g->kill_mon(mondex);
+            mon.dead = true;
 
             // We haven't actually attacked anything, i.e. we can still do things.
             // Hallucinations(obviously) shouldn't affect the way real monsters act.
