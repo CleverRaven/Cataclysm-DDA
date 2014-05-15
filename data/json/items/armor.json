@@ -2466,9 +2466,9 @@
         "color" : "brown",
         "covers" : ["TORSO"],
         "to_hit" : 0,
-        "storage" : 36,
+        "storage" : 40,
         "symbol" : "[",
-        "description" : "A custom-built backpack with extra pockets. Durable and carefully crafted to be comfortable to wear.",
+        "description" : "A custom-built backpack. Durable and carefully crafted to be comfortable to wear.",
         "price" : 24000,
         "material" : ["leather", "cotton"],
         "volume" : 8,
@@ -2478,7 +2478,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED"],
+        "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -2490,9 +2490,9 @@
         "color" : "dark_gray",
         "covers" : ["TORSO"],
         "to_hit" : 0,
-        "storage" : 64,
+        "storage" : 80,
         "symbol" : "[",
-        "description" : "A custom-built heavy backpack with extra pockets. Durable and carefully crafted to be comfortable to wear.",
+        "description" : "A custom-built heavy backpack. Durable and carefully crafted to be comfortable to wear.",
         "price" : 24000,
         "material" : ["leather", "cotton"],
         "volume" : 8,
@@ -2502,7 +2502,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 2,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED"],
+        "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -3893,7 +3893,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "BELTED"],
+        "flags" : ["BELTED"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -3917,7 +3917,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -6105,7 +6105,7 @@
         "bashing" : 2,
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags" : ["FANCY"]
+        "flags" : ["FANCY", "BELTED"]
     },
     {
         "type" : "ARMOR",
@@ -6115,12 +6115,12 @@
         "color" : "green",
         "covers" : ["TORSO"],
         "to_hit" : 1,
-        "storage" : 20,
+        "storage" : 10,
         "symbol" : "[",
         "description" : "Light and easy to wear, but doesn't offer much storage.",
         "price" : 11000,
         "material" : ["cotton", "plastic"],
-        "volume" : 4,
+        "volume" : 2,
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -6139,12 +6139,12 @@
         "color" : "green",
         "covers" : ["TORSO"],
         "to_hit" : 1,
-        "storage" : 18,
+        "storage" : 9,
         "symbol" : "[",
         "description" : "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
         "price" : 24000,
         "material" : ["cotton", "plastic"],
-        "volume" : 6,
+        "volume" : 3,
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
@@ -6176,7 +6176,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "VARSIZE"],
         "phase" : "solid"
     },
     {
@@ -6201,7 +6201,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "VARSIZE"],
         "phase" : "solid"
     },
     {
@@ -6248,7 +6248,6 @@
         "warmth" : 1,
         "phase" : "solid",
         "encumbrance" : 0,
-        "flags" : ["BELTED"],
         "material_thickness" : 2,
         "use_action" : "HOLSTER_PISTOL"
     },
@@ -6322,7 +6321,7 @@
         "encumbrance" : 0,
         "coverage" : 5,
         "material_thickness" : 2,
-        "flags" : ["QUIVER_20", "BELTED"],
+        "flags" : ["QUIVER_20", "BELTED", "VARSIZE"],
         "use_action" : "QUIVER"
     },
     {
@@ -6347,7 +6346,7 @@
         "encumbrance" : 0,
         "coverage" : 15,
         "material_thickness" : 2,
-        "flags" : ["QUIVER_60", "BELTED"],
+        "flags" : ["QUIVER_60", "BELTED", "VARSIZE"],
         "use_action" : "QUIVER"
     },
     {
@@ -6372,7 +6371,7 @@
         "encumbrance" : 0,
         "coverage" : 15,
         "material_thickness" : 2,
-        "flags" : ["BELTED"],
+        "flags" : ["VARSIZE", "BELTED"],
         "use_action": "SHEATH_SWORD"
     },
     {
