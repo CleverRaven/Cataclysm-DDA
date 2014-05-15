@@ -95,7 +95,7 @@ void player::sort_armor()
         werase(w_desc);
         werase(w_sort);
 
-        // top bar
+        // Top bar
         wprintz(w_title, c_white, _("Sort Armor"));
         wprintz(w_title, c_yellow, "  << %s >>", armor_cat[tabindex].c_str());
         tmp_str = string_format(_("Press %s for help"), ctxt.get_desc("HELP").c_str());
@@ -187,9 +187,17 @@ void player::sort_armor()
                 each_armor = dynamic_cast<it_armor *>(worn[i].type);
                 if (each_armor->covers & mfb(bp_order[cover])) {
                     if (sort_list_size >= sort_list_offset && pos <= content_h - 2) {
-                        mvwprintz(w_sort, pos, 3 + worn[i].clothing_lvl(),
-                                  dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                        int lvl = worn[i].clothing_lvl() + 2;
 
+                        // Debug only
+                        if (true) {
+                            mvwhline(w_sort, pos, 1, '>', lvl, c_yellow);
+                        }
+
+                        mvwprintz(w_sort, pos, lvl + 1, dam_color[int(worn[i].damage + 1)],
+                                  each_armor->name.c_str());
+
+                        // Storage
                         int storage_val = int(each_armor->storage);
                         if (storage_val > 0) {
                             wprintz(w_sort, c_ltgray, " [%d]", storage_val);
