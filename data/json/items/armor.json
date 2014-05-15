@@ -136,7 +136,7 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "Guaranteed to make you run faster and jump higher!",
-        "price" : 3000,
+        "price" : 10000,
         "material" : ["cotton", "leather"],
         "volume" : 6,
         "cutting" : 0,
