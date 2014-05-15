@@ -126,7 +126,6 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
 
     std::ifstream tmp(filename.str().c_str(), std::ios::in);
     if(tmp.is_open()) {
-        debugmsg("tmp is open!");
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         tmp.close();
