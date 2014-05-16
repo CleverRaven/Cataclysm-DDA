@@ -2125,61 +2125,7 @@
             ]
         }
     },
-    {
-            "type": "profession",
-            "ident": "bionic_prepper",
-            "name": "Bionic Prepper",
-            "description": "You knew the end was coming. You augmented yourself with some basic bionics and got additional survival training. Now the end has come, and it is time to see if your efforts have paid off].",
-            "points": 3,
-            "CBMs":[
-                "bio_metabolics",
-                "bio_power_storage_mkII",
-                "bio_tools",
-                "bio_sunglasses"
-               
-            ],
-            "skills": [
-                {
-                    "level": 4,
-                    "name": "survival"
-                },
-                {
-                    "level": 2,
-                    "name": "fabrication"
-                },
-                {
-                    "level": 2,
-                    "name": "cooking"
-                },
-                {
-                    "level": 2,
-                    "name": "firstaid"
-                }
-            ],
-            "items": {
-                "both": [
-                    "flashlight",
-                    "shorts_cargo",
-                    "boots",
-                    "hat_boonie",
-                    "blazer",
-                    "tshirt",
-                    "socks",
-                    "backpack",
-                    "knife_combat",
-                    "rope_30",
-                    "canteen",
-                    "sheath"
-                ],
-                "male": [
-                    "boxer_shorts"
-                ],
-                "female": [
-                    "bra",
-                    "boxer_shorts"
-                ]
-            }
-        },
+    
     {
         "type": "profession",
         "ident": "farmer",
