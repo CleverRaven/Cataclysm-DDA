@@ -55,12 +55,7 @@ static bool item_inscription( player *p, item *cut, std::string verb, std::strin
                       cut->made_of("silver"))) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
-        std::string mat = cut->get_material(1);
-        material_type *mt = material_type::find_material(mat);
-        std::string mtname = "null";
-        if(mt != NULL) {
-            mtname = mt->name();
-        }
+        std::string mtname = cut->get_material(1)->name();
         std::transform(mtname.begin(), mtname.end(), mtname.begin(), ::tolower);
         add_msg(m_info, _("You can't %1$s an item made of %2$s!"),
                    lower_verb.c_str(), mtname.c_str());
