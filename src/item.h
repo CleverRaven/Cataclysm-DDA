@@ -12,6 +12,7 @@ class game;
 class player;
 class npc;
 struct itype;
+class material_type;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
@@ -231,7 +232,8 @@ public:
  int acid_resist() const;
  bool is_two_handed(player *u);
  bool made_of(std::string mat_ident) const;
- std::string get_material(int m) const;
+ // Never returns NULL
+ const material_type *get_material(int m) const;
  bool made_of(phase_id phase) const;
  bool conductive() const; // Electricity
  bool flammable() const;
