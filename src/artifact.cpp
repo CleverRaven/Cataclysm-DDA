@@ -1,12 +1,8 @@
 #include "artifact.h"
 
-#include "itype.h"
 #include "output.h" // string_format
-#include "json.h"
 #include "item_factory.h"
 
-#include <string>
-#include <vector>
 #include <sstream>
 #include <fstream>
 
@@ -96,6 +92,126 @@ int active_effect_cost[NUM_AEAS] = {
     -5  // AEA_SHADOWS
 };
 
+enum artifact_natural_shape {
+    ARTSHAPE_NULL,
+    ARTSHAPE_SPHERE,
+    ARTSHAPE_ROD,
+    ARTSHAPE_TEARDROP,
+    ARTSHAPE_LAMP,
+    ARTSHAPE_SNAKE,
+    ARTSHAPE_DISC,
+    ARTSHAPE_BEADS,
+    ARTSHAPE_NAPKIN,
+    ARTSHAPE_URCHIN,
+    ARTSHAPE_JELLY,
+    ARTSHAPE_SPIRAL,
+    ARTSHAPE_PIN,
+    ARTSHAPE_TUBE,
+    ARTSHAPE_PYRAMID,
+    ARTSHAPE_CRYSTAL,
+    ARTSHAPE_KNOT,
+    ARTSHAPE_CRESCENT,
+    ARTSHAPE_MAX
+};
+
+struct artifact_shape_datum {
+    std::string name;
+    std::string desc;
+    int volume_min, volume_max;
+    int weight_min, weight_max;
+};
+
+struct artifact_property_datum {
+    std::string name;
+    std::string desc;
+    art_effect_passive passive_good[4];
+    art_effect_passive passive_bad[4];
+    art_effect_active active_good[4];
+    art_effect_active active_bad[4];
+};
+
+enum artifact_weapon_type {
+    ARTWEAP_NULL,
+    ARTWEAP_BULK,  // A bulky item that works okay for bashing
+    ARTWEAP_CLUB,  // An item designed to bash
+    ARTWEAP_SPEAR, // A stab-only weapon
+    ARTWEAP_SWORD, // A long slasher
+    ARTWEAP_KNIFE, // Short, slash and stab
+    NUM_ARTWEAPS
+};
+
+struct artifact_tool_form_datum {
+    std::string name;
+    char sym;
+    nc_color color;
+    std::string m1;
+    std::string m2;
+    int volume_min, volume_max;
+    int weight_min, weight_max;
+    artifact_weapon_type base_weapon;
+    artifact_weapon_type extra_weapons[3];
+};
+
+enum artifact_tool_form {
+    ARTTOOLFORM_NULL,
+    ARTTOOLFORM_HARP,
+    ARTTOOLFORM_STAFF,
+    ARTTOOLFORM_SWORD,
+    ARTTOOLFORM_KNIFE,
+    ARTTOOLFORM_CUBE,
+    NUM_ARTTOOLFORMS
+};
+
+struct artifact_weapon_datum {
+    std::string adjective;
+    int volume, weight; // Only applicable if this is an *extra* weapon
+    int bash_min, bash_max;
+    int cut_min, cut_max;
+    int to_hit_min, to_hit_max;
+    std::string tag;
+};
+
+enum artifact_armor_mod {
+    ARMORMOD_NULL,
+    ARMORMOD_LIGHT,
+    ARMORMOD_BULKY,
+    ARMORMOD_POCKETED,
+    ARMORMOD_FURRED,
+    ARMORMOD_PADDED,
+    ARMORMOD_PLATED,
+    NUM_ARMORMODS
+};
+
+struct artifact_armor_form_datum {
+    std::string name;
+    nc_color color;
+    std::string m1;
+    std::string m2;
+    int volume, weight;
+    int encumb;
+    int coverage;
+    int thickness;
+    int env_resist;
+    int warmth;
+    int storage;
+    int melee_bash, melee_cut, melee_hit;
+    unsigned char covers;
+    bool plural;
+    artifact_armor_mod available_mods[5];
+};
+
+enum artifact_armor_form {
+    ARTARMFORM_NULL,
+    ARTARMFORM_ROBE,
+    ARTARMFORM_COAT,
+    ARTARMFORM_MASK,
+    ARTARMFORM_HELM,
+    ARTARMFORM_GLOVES,
+    ARTARMFORM_BOOTS,
+    ARTARMFORM_RING,
+    NUM_ARTARMFORMS
+};
+
 std::string mk_artifact_id()
 {
     return string_format("artifact_%d", (int) artifact_itype_ids.size());
@@ -107,10 +223,36 @@ artifact_property_datum artifact_property_data[ARTPROP_MAX];
 artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS];
 artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS];
 artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS];
+/*
+ * Armor mods alter the normal values of armor.
+ * If the basic armor type has "null" as its second material, and the mod has a
+ * material attached, the second material will be changed.
+ */
 artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS];
+#define NUM_ART_ADJS 20
 std::string artifact_adj[NUM_ART_ADJS];
+#define NUM_ART_NOUNS 20
 std::string artifact_noun[NUM_ART_NOUNS];
 std::string artifact_name(std::string type);
+
+// Constructrs for artifact itypes.
+it_artifact_tool::it_artifact_tool() : it_tool() {
+    id = mk_artifact_id();
+    ammo = "NULL";
+    price = 0;
+    def_charges = 0;
+    std::vector<long> rand_charges;
+    charges_per_use = 1;
+    charge_type = ARTC_NULL;
+    turns_per_charge = 0;
+    revert_to = "null";
+    use = &iuse::artifact;
+};
+
+it_artifact_armor::it_artifact_armor() : it_armor() {
+    id = mk_artifact_id();
+    price = 0;
+};
 
 void init_artifacts()
 {
@@ -822,6 +964,36 @@ std::string new_natural_artifact(artifact_natural_property prop)
     artifact_itype_ids.push_back(art->id);
     item_controller->add_item_type( art );
     return art->id;
+}
+
+// Make a special debugging artifact.
+std::string architects_cube()
+{
+      std::string artifact_name(std::string type);
+
+      it_artifact_tool *art = new it_artifact_tool();
+      artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
+      art->name = artifact_name(info->name);
+      art->color = info->color;
+      art->sym = info->sym;
+      art->m1 = info->m1;
+      art->m2 = info->m2;
+      art->volume = rng(info->volume_min, info->volume_max);
+      art->weight = rng(info->weight_min, info->weight_max);
+      // Set up the basic weapon type
+      artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
+      art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
+      art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
+      art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
+      if( weapon->tag != "" ) {
+          art->item_tags.insert(weapon->tag);
+      }
+      // Add an extra weapon perhaps?
+      art->description = _("The architect's cube.");
+      art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
+      item_controller->add_item_type( art );
+      artifact_itype_ids.push_back(art->id);
+      return art->id;
 }
 
 std::vector<art_effect_passive> fill_good_passive()

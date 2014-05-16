@@ -4248,34 +4248,8 @@ void game::debug()
   break;
 
   case 16:
-  {
-      std::string artifact_name(std::string type);
-
-      it_artifact_tool *art = new it_artifact_tool();
-      artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
-      art->name = artifact_name(info->name);
-      art->color = info->color;
-      art->sym = info->sym;
-      art->m1 = info->m1;
-      art->m2 = info->m2;
-      art->volume = rng(info->volume_min, info->volume_max);
-      art->weight = rng(info->weight_min, info->weight_max);
-      // Set up the basic weapon type
-      artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-      art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-      art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
-      art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-      if( weapon->tag != "" ) {
-          art->item_tags.insert(weapon->tag);
-      }
-      // Add an extra weapon perhaps?
-      art->description = _("The architect's cube.");
-      art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
-      item_controller->add_item_type( art );
-      artifact_itype_ids.push_back(art->id);
-      u.i_add( item( art->id, calendar::turn) );
-  }
-  break;
+      u.i_add( item( architects_cube(), calendar::turn ) );
+      break;
 
   case 17: {
       point coord = look_debug();
