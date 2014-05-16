@@ -67,7 +67,9 @@ bool player::create(character_type type, std::string tempname)
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
-    int tab = 0, points = 38, max_trait_points = 12;
+    int tab = 0;
+    int points = OPTIONS["INITIAL_POINTS"];
+    int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
     if (type != PLTYPE_CUSTOM) {
         switch (type) {
             case PLTYPE_NOW:
@@ -230,10 +232,7 @@ bool player::create(character_type type, std::string tempname)
             break;
         }
         tab = NEWCHAR_TAB_MAX;
-    } else {
-        points = OPTIONS["INITIAL_POINTS"];
     }
-    max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
 
     do {
         werase(w);
