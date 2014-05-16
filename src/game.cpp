@@ -4243,7 +4243,7 @@ void game::debug()
       artifact_natural_property prop =
           artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
       m.create_anomaly(center.x, center.y, prop);
-      m.spawn_artifact(center.x, center.y, prop);
+      m.spawn_natural_artifact(center.x, center.y, prop);
   }
   break;
 
@@ -4271,10 +4271,9 @@ void game::debug()
       // Add an extra weapon perhaps?
       art->description = _("The architect's cube.");
       art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
-      itypes[art->id] = art;
+      item_controller->add_item_type( art );
       artifact_itype_ids.push_back(art->id);
-      item artifact( art->id, 0);
-      u.i_add(artifact);
+      u.i_add( item( art->id, calendar::turn) );
   }
   break;
 

@@ -3,6 +3,7 @@
 #include "itype.h"
 #include "output.h" // string_format
 #include "json.h"
+#include "item_factory.h"
 
 #include <string>
 #include <vector>
@@ -465,7 +466,7 @@ void init_artifacts()
 
 }
 
-itype *new_artifact()
+std::string new_artifact()
 {
     if (one_in(2)) { // Generate a "tool" artifact
 
@@ -597,11 +598,9 @@ itype *new_artifact()
         if (one_in(8) && num_bad + num_good >= 4) {
             art->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
-
-        itypes[art->id] = art;
         artifact_itype_ids.push_back(art->id);
-        return art;
-
+        item_controller->add_item_type( art );
+        return art->id;
     } else { // Generate an armor artifact
 
         it_artifact_armor *art = new it_artifact_armor();
@@ -709,13 +708,13 @@ itype *new_artifact()
             value += passive_effect_cost[passive_tmp];
             art->effects_worn.push_back(passive_tmp);
         }
-        itypes[art->id] = art;
         artifact_itype_ids.push_back(art->id);
-        return art;
+        item_controller->add_item_type( art );
+        return art->id;
     }
 }
 
-itype *new_natural_artifact(artifact_natural_property prop)
+std::string new_natural_artifact(artifact_natural_property prop)
 {
     // Natural artifacts are always tools.
     it_artifact_tool *art = new it_artifact_tool();
@@ -725,7 +724,8 @@ itype *new_natural_artifact(artifact_natural_property prop)
     artifact_shape_datum *shape_data = &(artifact_shape_data[shape]);
     // Pick a property
     artifact_natural_property property = (prop > ARTPROP_NULL ? prop :
-                                          artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1)));
+                                          artifact_natural_property(rng(ARTPROP_NULL + 1,
+                                                                        ARTPROP_MAX - 1)));
     artifact_property_datum *property_data = &(artifact_property_data[property]);
 
     art->sym = ':';
@@ -820,8 +820,8 @@ itype *new_natural_artifact(artifact_natural_property prop)
         art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
     }
     artifact_itype_ids.push_back(art->id);
-    itypes[art->id] = art;
-    return art;
+    item_controller->add_item_type( art );
+    return art->id;
 }
 
 std::vector<art_effect_passive> fill_good_passive()

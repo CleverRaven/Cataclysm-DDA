@@ -2469,10 +2469,14 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
     }
 }
 
-void map::spawn_artifact(const int x, const int y, artifact_natural_property prop)
+void map::spawn_artifact(const int x, const int y)
 {
-    item newart("artifact", 0, true, prop);
-    add_item_or_charges(x, y, newart);
+    add_item_or_charges( x, y, item( new_artifact() ) );
+}
+
+void map::spawn_natural_artifact(const int x, const int y, artifact_natural_property prop)
+{
+    add_item_or_charges( x, y, item( new_natural_artifact( prop ) ) );
 }
 
 //New spawn_item method, using item factory

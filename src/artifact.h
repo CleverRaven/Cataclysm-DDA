@@ -346,8 +346,8 @@ class it_artifact_armor : public it_armor, public JsonSerializer, public JsonDes
 /* FUNCTIONS */
 
 void init_artifacts();
-itype *new_artifact();
-itype *new_natural_artifact(artifact_natural_property prop = ARTPROP_NULL);
+std::string new_artifact();
+std::string new_natural_artifact( artifact_natural_property prop );
 
 // note: needs to be called by main() before MAPBUFFER.load
 void load_artifacts(const std::string &filename);

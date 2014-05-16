@@ -26,17 +26,17 @@
 #define ssize_t int
 #endif
 
-light_emission nolight={0,0,0};
+light_emission nolight = {0, 0, 0};
 
 item::item()
 {
     init();
 }
 
-item::item(const std::string new_type, unsigned int turn, bool rand, int prop)
+item::item(const std::string new_type, unsigned int turn, bool rand)
 {
     init();
-    type = item_controller->find_template( new_type, prop );
+    type = item_controller->find_template( new_type );
     bday = turn;
     corpse = type->corpse;
     name = type->name;
