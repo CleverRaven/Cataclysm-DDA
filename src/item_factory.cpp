@@ -540,7 +540,12 @@ itype* Item_factory::find_template(Item_tag id, int prop){
     std::map<Item_tag, itype*>::iterator found = m_templates.find(id);
     if( found != m_templates.end() ) {
         return found->second;
-    } else if ( id == "artifact" ) {
+    }
+    found = itypes.find( id );
+    if( found != itypes.end() ) {
+        return found->second;
+    }
+    if ( id == "artifact" ) {
         if( prop ) {
             return new_natural_artifact( (artifact_natural_property)prop );
         } else {
@@ -556,8 +561,8 @@ itype* Item_factory::find_template(Item_tag id, int prop){
                                                "  You think it wants to be a %s.", id.c_str());
         bad_itype->sym = '.';
         bad_itype->color = c_white;
-        m_templates[ id.c_str() ] = bad_itype;
-        itypes[ id.c_str() ] = bad_itype;
+        m_templates[ id ] = bad_itype;
+        itypes[ id ] = bad_itype;
         // Push the item definition on the artifact list so it gets saved/loaded from json.
         artifact_itype_ids.push_back( id );
         return bad_itype;
