@@ -7,7 +7,7 @@
         "weight" : 32,
         "color" : "white",
         "covers" : ["FEET"],
-        "to_hit" s
+        "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
         "description" : "Socks. Put 'em on your feet.",
