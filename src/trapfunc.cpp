@@ -70,10 +70,10 @@ void trapfunc::beartrap(Creature *c, int x, int y)
             n->hit(NULL, bp_legs, random_side(bp_legs), 10, 16);
             n->add_disease("beartrap", 1, true);
               if ((n->has_trait("INFRESIST")) && (one_in(512))) {
-                  g->u.add_disease("tetanus",1,true);
+                  n->add_disease("tetanus",1,true);
               }
               else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(128))) {
-                      g->u.add_disease("tetanus",1,true);
+                      n->add_disease("tetanus",1,true);
               }
             g->m.spawn_item(x, y, "beartrap");
         }
@@ -103,10 +103,10 @@ void trapfunc::board(Creature *c, int, int)
             c->hit(NULL, bp_feet, 0, 0, rng(6, 10));
             c->hit(NULL, bp_feet, 1, 0, rng(6, 10));
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
-                  g->u.add_disease("tetanus",1,true);
+                  n->add_disease("tetanus",1,true);
               }
               else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(35))) {
-                      g->u.add_disease("tetanus",1,true);
+                      n->add_disease("tetanus",1,true);
               }
         }
     }
@@ -669,10 +669,10 @@ void trapfunc::pit_spikes(Creature *c, int x, int y)
                 n->add_msg_if_player(m_bad, _("The spikes impale your %s!"), body_part_name(hit, side).c_str());
                 n->hit(NULL, hit, side, 0, damage);              
               if ((n->has_trait("INFRESIST")) && (one_in(256))) {
-                  g->u.add_disease("tetanus",1,true);
+                  n->add_disease("tetanus",1,true);
               }
               else if ((!n->has_trait("INFIMMUNE") || !n->has_trait("INFRESIST")) && (one_in(35))) {
-                      g->u.add_disease("tetanus",1,true);
+                      n->add_disease("tetanus",1,true);
               }
             }
             n->add_disease("in_pit", 1, true);
