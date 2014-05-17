@@ -296,7 +296,7 @@ void construction_menu()
                             has_component[i] = true;
                             col = c_ltgreen; // Show that WEB_ROPE is on the job!
                         }
-                        int length = utf8_width(item_controller->find_template(comp.type)->name.c_str());
+                        int length = utf8_width(item_controller->find_template(comp.type)->nname(comp.count).c_str());
                         if (posx + length > FULL_SCREEN_WIDTH - 1) {
                             posy++;
                             posx = 33;
