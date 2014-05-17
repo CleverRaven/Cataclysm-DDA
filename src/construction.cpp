@@ -195,13 +195,13 @@ void construction_menu()
             }
 
             // Print instructions for toggling recipe hiding.
-            mvwprintz(w_con, 1, 31, c_white, "%s", _("Press ';' to toggle unavailable constructions."));
+            mvwprintz(w_con, iMaxY - 2, 31, c_white, "%s", _("Press ';' to toggle unavailable constructions."));
 
             // Print consruction name
-            mvwprintz(w_con, 2, 31, c_white, "%s", current_desc.c_str());
+            mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
 
             // Print stages and their requirement
-            int posx = 33, posy = 2;
+            int posx = 33, posy = 1;
             std::vector<construction *> options = constructions_by_desc(current_desc);
             for( unsigned i = 0; i < options.size(); ++i) {
                 construction *current_con = options[i];
