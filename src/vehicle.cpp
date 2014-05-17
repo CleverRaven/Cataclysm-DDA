@@ -1267,15 +1267,20 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     if (!force && !can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!
     }
-    vehicle_part new_part;
-    new_part.setid(id);
-    new_part.mount_dx = dx;
-    new_part.mount_dy = dy;
-    new_part.hp = hp < 0 ? vehicle_part_types[id].durability : hp;
-    new_part.amount = 0;
-    new_part.blood = 0;
     item tmp(vehicle_part_types[id].item, 0);
-    new_part.bigness = tmp.bigness;
+    vehicle_part new_part(id, dx, dy, &tmp);
+    if (hp >= 0) {
+        new_part.hp = hp;
+    }
+    return install_part(dx, dy, new_part);
+}
+
+int vehicle::install_part (int dx, int dy, const std::string &id, const item &used_item)
+{
+    if (!can_mount (dx, dy, id)) {
+        return -1;  // no money -- no ski!
+    }
+    vehicle_part new_part(id, dx, dy, &used_item);
     return install_part(dx, dy, new_part);
 }
 
@@ -1286,44 +1291,59 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
     return parts.size() - 1;
 }
 
-// share damage & bigness betwixt veh_parts & items.
-void vehicle::get_part_properties_from_item(int partnum, item& i)
+void vehicle_part::properties_from_item( const item &used_item )
 {
-    //transfer bigness if relevant.
-    itype_id  pitmid = part_info(partnum).item;
-    itype* itemtype = itypes[pitmid];
-    if(itemtype->is_var_veh_part())
-       parts[partnum].bigness = i.bigness;
-
+    const vpart_info &vpinfo = vehicle_part_int_types[iid];
+    if( used_item.type->is_var_veh_part() ) {
+        bigness = used_item.bigness;
+    }
     // item damage is 0,1,2,3, or 4. part hp is 1..durability.
     // assuming it rusts. other item materials disentigrate at different rates...
-    int health = 5 - i.damage;
-    health *= part_info(partnum).durability; //[0,dur]
+    int health = 5 - used_item.damage;
+    health *= vpinfo.durability; //[0,dur]
     health /= 5;
-    parts[partnum].hp = health;
+    hp = std::max( 1, health );
+    // Transfer fuel from item to tank
+    const ammotype &desired_liquid = vpinfo.fuel_type;
+    if( used_item.charges > 0 && desired_liquid == fuel_type_battery ) {
+        amount = std::min<int>( used_item.charges, vpinfo.size );
+    } else if( !used_item.contents.empty() ) {
+        const item &liquid = used_item.contents[0];
+        if( liquid.type->id == default_ammo( desired_liquid ) ) {
+            amount = std::min<int>( liquid.charges, vpinfo.size );
+        }
+    }
 }
 
-void vehicle::give_part_properties_to_item(int partnum, item& i)
+item vehicle_part::properties_to_item() const
 {
-    //transfer bigness if relevant.
-    itype_id  pitmid = part_info(partnum).item;
-    itype* itemtype = itypes[pitmid];
-    if(itemtype->is_var_veh_part())
-       i.bigness = parts[partnum].bigness;
-
-    // remove charges if part is made of a tool
-    if(itemtype->is_tool())
-        i.charges = 0;
-
+    const vpart_info &vpinfo = vehicle_part_int_types[iid];
+    item tmp( vpinfo.item, calendar::turn );
+    if( tmp.type->is_var_veh_part() ) {
+        tmp.bigness = bigness;
+    }
+    // tools go unloaded to prevent user from exploiting this to
+    // refill their (otherwise not refillable) tools
+    if( tmp.type->is_tool() ) {
+        tmp.charges = 0;
+    }
     // translate part damage to item damage.
     // max damage is 4, min damage 0.
     // this is very lossy.
-    int dam;
-    float hpofdur = (float)parts[partnum].hp / part_info(partnum).durability;
-    dam = (1 - hpofdur) * 5;
-    if (dam > 4) dam = 4;
-    if (dam < 0) dam = 0;
-    i.damage = dam;
+    float hpofdur = ( float )hp / vpinfo.durability;
+    tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
+    // Transfer fuel back to tank
+    if( !vpinfo.fuel_type.empty() && amount > 0 ) {
+        const ammotype &desired_liquid = vpinfo.fuel_type;
+        if( desired_liquid == fuel_type_battery ) {
+            tmp.charges = amount;
+        } else {
+            item liquid( default_ammo( desired_liquid ), calendar::turn );
+            liquid.charges = amount;
+            tmp.put_in( liquid );
+        }
+    }
+    return tmp;
 }
 
 /**
@@ -1365,7 +1385,7 @@ bool vehicle::remove_part (int p)
         int curtain = part_with_feature(p, "CURTAIN", false);
         if (curtain >= 0) {
             int x = parts[curtain].precalc_dx[0], y = parts[curtain].precalc_dy[0];
-            item it = item_from_part(curtain);
+            item it = parts[curtain].properties_to_item();
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(curtain);
         }
@@ -1376,7 +1396,7 @@ bool vehicle::remove_part (int p)
         int seatbelt = part_with_feature(p, "SEATBELT", false);
         if (seatbelt >= 0) {
             int x = parts[seatbelt].precalc_dx[0], y = parts[seatbelt].precalc_dy[0];
-            item it = item_from_part(seatbelt);
+            item it = parts[seatbelt].properties_to_item();
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(seatbelt);
         }
@@ -1445,21 +1465,6 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
             g->m.add_item_or_charges(actual_x, actual_y, piece);
         }
     }
-}
-
-item vehicle::item_from_part( int part )
-{
-    itype_id itm = part_info(part).item;
-    int bigness = parts[part].bigness;
-    itype* parttype = itypes[itm];
-    item tmp(itm, calendar::turn);
-
-    //transfer damage, etc.
-    give_part_properties_to_item(part, tmp);
-    if( parttype->is_var_veh_part() ) {
-        tmp.bigness = bigness;
-    }
-    return tmp;
 }
 
 const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache)
@@ -3829,7 +3834,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                                 add_msg(m_bad, _("The %s's %s is torn off!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
-                            item part_as_item = item_from_part(parts_in_square[index]);
+                            item part_as_item = parts[parts_in_square[index]].properties_to_item();
                             g->m.add_item_or_charges(x_pos, y_pos, part_as_item, true);
                             remove_part(parts_in_square[index]);
                         }
