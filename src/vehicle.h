@@ -268,6 +268,8 @@ public:
 
 // install a new part to vehicle (force to skip possibility check)
     int install_part (int dx, int dy, std::string id, int hp = -1, bool force = false);
+// Install a copy of the given part, skips possibility check
+    int install_part (int dx, int dy, const vehicle_part &part);
 
     bool remove_part (int p);
     void part_removal_cleanup ();

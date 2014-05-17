@@ -1276,8 +1276,12 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     new_part.blood = 0;
     item tmp(vehicle_part_types[id].item, 0);
     new_part.bigness = tmp.bigness;
-    parts.push_back (new_part);
+    return install_part(dx, dy, new_part);
+}
 
+int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
+{
+    parts.push_back( new_part );
     refresh();
     return parts.size() - 1;
 }
