@@ -349,13 +349,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("BASE", _("Price: "), "<num>",
                                  (double)price() / 100, false, "$", true, true));
 
-        if (get_material(1) != "null") {
-            std::string material_string = material_type::find_material(get_material(1))->name();
-            if (get_material(2) != "null") {
-                material_string += ", ";
-                material_string += material_type::find_material(get_material(2))->name();
+        if (!get_material(1)->is_null()) {
+            std::string text;
+            if (get_material(2)->is_null()) {
+                text = string_format(_("Material: %s"), get_material(1)->name().c_str());
+            } else {
+                text = string_format(_("Material: %s, %s"), get_material(1)->name().c_str(), get_material(2)->name().c_str());
             }
-            dump->push_back(iteminfo("BASE", _("Material: ") + material_string));
+            dump->push_back(iteminfo("BASE", text));
         }
 
         if ( debug == true ) {
@@ -1733,12 +1734,12 @@ int item::bash_resist() const
     if (is_null())
         return 0;
 
+    const material_type* cur_mat1 = get_material(1);
+    const material_type* cur_mat2 = get_material(2);
     if (is_armor())
     {
         // base resistance
         it_armor* tmp = dynamic_cast<it_armor*>(type);
-        material_type* cur_mat1 = material_type::find_material(tmp->m1);
-        material_type* cur_mat2 = material_type::find_material(tmp->m2);
         int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
 
         // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
@@ -1753,8 +1754,6 @@ int item::bash_resist() const
     }
     else // for non-armor, just bash_resist
     {
-        material_type* cur_mat1 = material_type::find_material(type->m1);
-        material_type* cur_mat2 = material_type::find_material(type->m2);
         if (cur_mat2->is_null())
         {
             ret = 3 * cur_mat1->bash_resist();
@@ -1775,11 +1774,11 @@ int item::cut_resist() const
     if (is_null())
         return 0;
 
+    const material_type* cur_mat1 = get_material(1);
+    const material_type* cur_mat2 = get_material(2);
     if (is_armor())
         {
         it_armor* tmp = dynamic_cast<it_armor*>(type);
-        material_type* cur_mat1 = material_type::find_material(tmp->m1);
-        material_type* cur_mat2 = material_type::find_material(tmp->m2);
         int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
 
         // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
@@ -1795,8 +1794,6 @@ int item::cut_resist() const
     }
     else // for non-armor
     {
-        material_type* cur_mat1 = material_type::find_material(type->m1);
-        material_type* cur_mat2 = material_type::find_material(type->m2);
         if (cur_mat2->is_null())
         {
             ret = 3 * cur_mat1->cut_resist();
@@ -1818,8 +1815,8 @@ int item::acid_resist() const
         return 0;
 
     // similar weighted sum of acid resistances
-    material_type* cur_mat1 = material_type::find_material(type->m1);
-    material_type* cur_mat2 = material_type::find_material(type->m2);
+    const material_type* cur_mat1 = get_material(1);
+    const material_type* cur_mat2 = get_material(2);
     if (cur_mat2->is_null())
     {
         ret = 3 * cur_mat1->acid_resist();
@@ -1852,18 +1849,21 @@ bool item::made_of(std::string mat_ident) const
     return (type->m1 == mat_ident || type->m2 == mat_ident);
 }
 
-std::string item::get_material(int m) const
+const material_type *item::get_material(int m) const
 {
-    if (corpse != NULL && typeId() == "corpse" ) {
-        // corpses have only one material
-        return m == 1 ? corpse->mat : "null";
+    if (is_null() || m < 1 || m > 2) {
+        return material_type::base_material();
     }
 
-    if ( is_null())
-        return "NULL type";
+    if (corpse != NULL && typeId() == "corpse" ) {
+        if (m == 1) {
+            return material_type::find_material(corpse->mat);
+        }
+        // corpses have only one material
+        return material_type::base_material();
+    }
 
-    return (m==2)?type->m2:type->m1;
-
+    return material_type::find_material(m == 1 ? type->m1 : type->m2);
 }
 
 bool item::made_of(phase_id phase) const
@@ -1879,12 +1879,12 @@ bool item::conductive() const
     if( is_null() )
         return false;
 
-    material_type* cur_mat1 = material_type::find_material(type->m1);
-    material_type* cur_mat2 = material_type::find_material(type->m2);
+    const material_type* cur_mat1 = get_material(1);
+    const material_type* cur_mat2 = get_material(2);
 
     //Looks ugly, but prevents "null" 2nd material from making weapon conductive
     //Unsure if there is a better way to determine 2nd material is "null"
-    return (cur_mat1->elec_resist() <= 0 || (!(cur_mat2->ident() == "null") &&
+    return (cur_mat1->elec_resist() <= 0 || (!cur_mat2->is_null() &&
                                              cur_mat2->elec_resist() <= 0));
 }
 
@@ -2840,8 +2840,8 @@ bool item::burn(int amount)
 
 bool item::flammable() const
 {
-    material_type* cur_mat1 = material_type::find_material(type->m1);
-    material_type* cur_mat2 = material_type::find_material(type->m2);
+    const material_type* cur_mat1 = get_material(1);
+    const material_type* cur_mat2 = get_material(2);
 
     return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
 }

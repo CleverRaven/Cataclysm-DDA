@@ -8305,6 +8305,7 @@ point game::look_around()
  return point(-1, -1);
 }
 
+bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
 bool game::list_items_match(item &item, std::string sPattern)
 {
     size_t iPos;
@@ -8332,10 +8333,16 @@ bool game::list_items_match(item &item, std::string sPattern)
         if(pat.find("{",0) != std::string::npos) {
             std::string adv_pat_type = pat.substr(1, pat.find(":")-1);
             std::string adv_pat_search = pat.substr(pat.find(":")+1, (pat.find("}")-pat.find(":"))-1);
-            if(adv_pat_type == "c" && item.get_category().name.find(adv_pat_search,0) != std::string::npos) {
+            std::transform( adv_pat_search.begin(), adv_pat_search.end(), adv_pat_search.begin(), tolower );
+            if(adv_pat_type == "c" && lcmatch(item.get_category().name, adv_pat_search)) {
                 return !exclude;
-            } else if (adv_pat_type == "m" && item.made_of(adv_pat_search)) {
-                return !exclude;
+            } else if (adv_pat_type == "m") {
+                if (lcmatch(item.get_material(1)->name(), adv_pat_search)) {
+                    return !exclude;
+                }
+                if (lcmatch(item.get_material(2)->name(), adv_pat_search)) {
+                    return !exclude;
+                }
             } else if (adv_pat_type == "dgt" && item.damage > atoi(adv_pat_search.c_str())) {
                 return !exclude;
             } else if (adv_pat_type == "dlt" && item.damage < atoi(adv_pat_search.c_str())) {
