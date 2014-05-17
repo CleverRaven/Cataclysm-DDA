@@ -70,9 +70,10 @@ bool player::create(character_type type, std::string tempname)
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
     int tab = 0;
-    int points = OPTIONS["INITIAL_POINTS"] + 32;
+    int points = OPTIONS["INITIAL_POINTS"];
     int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
     if (type != PLTYPE_CUSTOM) {
+        points = points + 32;
         switch (type) {
             case PLTYPE_NOW:
                 g->u.male = (rng(1, 100) > 50);
