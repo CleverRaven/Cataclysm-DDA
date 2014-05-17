@@ -254,13 +254,13 @@ void construction_menu()
                             has_tool[i] = true;
                             col = c_green;
                         }
-                        int length = utf8_width(item_controller->find_template(tool)->name.c_str());
+                        int length = utf8_width(item_controller->find_template(tool)->nname(1).c_str());
                         if( posx + length > FULL_SCREEN_WIDTH - 1 ) {
                             posy++;
                             posx = 33;
                         }
                         mvwprintz(w_con, posy, posx, col,
-                                  item_controller->find_template(tool)->name.c_str());
+                                  item_controller->find_template(tool)->nname(1).c_str());
                         posx += length + 1; // + 1 for an empty space
                         if (j < current_con->tools[i].size() - 1) { // "OR" if there's more
                             if (posx > FULL_SCREEN_WIDTH - 3) {
