@@ -528,8 +528,12 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
                 tmpop = JMAPGEN_PLACESPECIAL_GASPUMP;
             } else if (tmpval == "vendingmachine") {
                 tmpop = JMAPGEN_PLACESPECIAL_VENDINGMACHINE;
+                tmp_type = jsi.get_string("item_group", one_in(2) ? "vending_food" : "vending_drink");
+                if (!item_controller->has_group(tmp_type)) {
+                    jsi.throw_error(string_format("  place special: no such item group '%s'", tmp_type.c_str()), "item_group" );
+                }
             } else {
-            jsi.throw_error("  place special: no such special '%s'", tmpval.c_str() );
+            jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
             }
         } else {
             parray.throw_error("placing other specials is not supported yet"); return;
