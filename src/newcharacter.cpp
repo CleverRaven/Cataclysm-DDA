@@ -40,6 +40,8 @@
 #define COL_NOTE_MINOR      c_ltgray  // Just regular note
 
 #define HIGH_STAT 14 // The point after which stats cost double
+#define MAX_STAT 20 // The point after which stats can not be increased further
+#define MAX_SKILL 20 // The maximum selectable skill level
 
 #define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
 
@@ -67,7 +69,9 @@ bool player::create(character_type type, std::string tempname)
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
-    int tab = 0, points = 38, max_trait_points = 12;
+    int tab = 0;
+    int points = OPTIONS["INITIAL_POINTS"] + 32;
+    int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
     if (type != PLTYPE_CUSTOM) {
         switch (type) {
             case PLTYPE_NOW:
@@ -150,7 +154,10 @@ bool player::create(character_type type, std::string tempname)
                         }
                     }
                 }
-                while (points > 0) {
+
+                /* The loops variable is used to prevent the algorithm running in an infinte loop */
+                unsigned int loops = 0;
+                while (points > 0 && loops <= 30000) {
                     switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
                         case 1:
                         case 2:
@@ -171,24 +178,36 @@ bool player::create(character_type type, std::string tempname)
                                     if (str_max < HIGH_STAT) {
                                         str_max++;
                                         points--;
+                                    } else if (points >= 2 && str_max < MAX_STAT) {
+                                        str_max++;
+                                        points = points - 2;
                                     }
                                     break;
                                 case 2:
                                     if (dex_max < HIGH_STAT) {
                                         dex_max++;
                                         points--;
+                                    } else if (points >= 2 && dex_max < MAX_STAT) {
+                                        dex_max++;
+                                        points = points - 2;
                                     }
                                     break;
                                 case 3:
                                     if (int_max < HIGH_STAT) {
                                         int_max++;
                                         points--;
+                                    } else if (points >= 2 && int_max < MAX_STAT) {
+                                        int_max++;
+                                        points = points - 2;
                                     }
                                     break;
                                 case 4:
                                     if (per_max < HIGH_STAT) {
                                         per_max++;
                                         points--;
+                                    } else if (points >= 2 && per_max < MAX_STAT) {
+                                        per_max++;
+                                        points = points - 2;
                                     }
                                     break;
                             }
@@ -200,12 +219,13 @@ bool player::create(character_type type, std::string tempname)
                             Skill *aSkill = random_skill();
                             int level = skillLevel(aSkill);
 
-                            if (level < points) {
+                            if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
                                 points -= level + 1;
                                 skillLevel(aSkill).level(level + 2);
                             }
                             break;
                     }
+                    loops++;
                 }
             }
             break;
@@ -230,10 +250,7 @@ bool player::create(character_type type, std::string tempname)
             break;
         }
         tab = NEWCHAR_TAB_MAX;
-    } else {
-        points = OPTIONS["INITIAL_POINTS"];
     }
-    max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
 
     do {
         werase(w);
@@ -734,25 +751,25 @@ int set_stats(WINDOW *w, player *u, int &points)
                 points++;
             }
         } else if (action == "RIGHT") {
-            if (sel == 1 && u->str_max < 20) {
+            if (sel == 1 && u->str_max < MAX_STAT) {
                 points--;
                 if (u->str_max >= HIGH_STAT) {
                     points--;
                 }
                 u->str_max++;
-            } else if (sel == 2 && u->dex_max < 20) {
+            } else if (sel == 2 && u->dex_max < MAX_STAT) {
                 points--;
                 if (u->dex_max >= HIGH_STAT) {
                     points--;
                 }
                 u->dex_max++;
-            } else if (sel == 3 && u->int_max < 20) {
+            } else if (sel == 3 && u->int_max < MAX_STAT) {
                 points--;
                 if (u->int_max >= HIGH_STAT) {
                     points--;
                 }
                 u->int_max++;
-            } else if (sel == 4 && u->per_max < 20) {
+            } else if (sel == 4 && u->per_max < MAX_STAT) {
                 points--;
                 if (u->per_max >= HIGH_STAT) {
                     points--;
