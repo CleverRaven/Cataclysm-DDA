@@ -11582,7 +11582,10 @@ bool game::plmove(int dx, int dy)
     int side = random_side(bp);
     if(u.hit(NULL, bp, side, 0, rng(1, 4)) > 0)
      add_msg(m_bad, _("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
-     if (one_in(35)) {
+     if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+         u.add_disease("tetanus",1,true);
+     }
+     else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
          u.add_disease("tetanus",1,true);
      }
    }
