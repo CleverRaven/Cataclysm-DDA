@@ -9415,13 +9415,31 @@ int player::encumb(body_part bp)
     return encumb(bp, iLayers, iArmorEnc);
 }
 
+
+/*
+ * Encumbrance logic:
+ * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
+ * These simply add their encumbrance value to each body part they cover.
+ * In addition, each article of clothing after the first in a layer imposes an additional penalty.
+ * e.g. one shirt will not encumber you, but two is tight and starts to restrict movement.
+ * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
+ * they're intended to be worn that way, and don't impose a penalty.
+ * The default is to assume that clothes do not fit, clothes that are "fitted" either
+ * reduce the encumbrance penalty by one, or if that is already 0, they reduce the layering effect.
+ *
+ * Use cases:
+ * What would typically be considered normal "street clothes" should not be considered encumbering.
+ * Tshirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
+ * This is currently handled by each of these articles of clothing
+ * being on a different layer and/or body part, therefore accumulating no encumbrance.
+ */
 int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
     double layer[MAX_CLOTHING_LAYER] = { };
-    int level;
+    int level = 0;
 
-    it_armor* armor;
+    it_armor* armor = NULL;
     for (size_t i = 0; i < worn.size(); ++i) {
         if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
@@ -9445,10 +9463,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
                  has_active_bionic("bio_power_armor_interface") ||
                  has_active_bionic("bio_power_armor_interface_mkII")) ) {
-                armorenc += armor->encumber - 4;
+                armorenc += std::max( 0, armor->encumber - 4);
             } else {
                 armorenc += armor->encumber;
-                // Fitted clothes will either reduce encumbrance or negate layering.
+                // Fitted clothes will reduce either encumbrance or layering.
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( armor->encumber > 0 && armorenc > 0 ) {
                         armorenc--;
@@ -9465,13 +9483,11 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     ret += armorenc;
 
     for (int i = 0; i < sizeof(layer) / sizeof(layer[0]); ++i) {
-        if (layer[i] > 1) {
-            layers += int(layer[i]) - 1;
-        }
+        layers += std::max( 0.0, layer[i] - 1.0 );
     }
 
-    if (layers > 0) {
-        ret += int(layers) * (bp == bp_torso ? .75 : 1); // Easier to layer on torso
+    if (layers > 0.0) {
+        ret += layers * (bp == bp_torso ? 0.75 : 1.0); // Easier to layer on torso
     }
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
