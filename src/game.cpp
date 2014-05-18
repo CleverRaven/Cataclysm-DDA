@@ -1357,7 +1357,9 @@ void game::activity_on_turn_vibe()
     if (int(calendar::turn) % 10 == 0) {
         vibrator_item.charges--;
         u.add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
-        u.fatigue += (rng(1, 2));
+        // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
+        // you pretty close to Dead Tired from a well-rested state.
+        u.fatigue += 4;
     }
     if (vibrator_item.charges == 0) {
         u.activity.moves_left = 0;
@@ -1462,6 +1464,10 @@ void game::activity_on_finish() {
             break;
         case ACT_PICKAXE:
             on_finish_activity_pickaxe(&u);
+            u.activity.type = ACT_NULL;
+            break;
+        case ACT_VIBE:
+            add_msg(m_good, _("You feel much better."));
             u.activity.type = ACT_NULL;
             break;
         default:
