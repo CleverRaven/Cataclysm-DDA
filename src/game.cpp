@@ -797,7 +797,7 @@ void game::calc_driving_offset(vehicle *veh) {
     static const int border_range = 2;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
-    if (!veh->skidding && std::fabs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
+    if (!veh->skidding && std::abs(veh->cruise_velocity - veh->velocity) < 14 * 100 &&
         veh->player_in_control(&u)) {
         // Use the cruise controlled velocity, but only if
         // it is not too different from the actuall velocity.
@@ -9867,22 +9867,25 @@ void game::plthrow(int pos)
  // Base move cost on moves per turn of the weapon
  // and our skill.
  int move_cost = thrown.attack_time() / 2;
- int skill_cost = (int)(move_cost / (pow(static_cast<float>(u.skillLevel("throw")), 3.0f)/400 +1));
- int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
+ int skill_cost = (int)(move_cost / (std::pow( u.skillLevel("throw"), 3.0f)/400.0 + 1.0));
+ int dexbonus = (int)( std::pow(std::max(u.dex_cur - 8, 0), 0.8) * 3.0 );
 
  move_cost += skill_cost;
  move_cost += 20 * u.encumb(bp_torso);
  move_cost -= dexbonus;
 
- if (u.has_trait("LIGHT_BONES"))
+ if (u.has_trait("LIGHT_BONES")) {
   move_cost *= .9;
- if (u.has_trait("HOLLOW_BONES"))
+ }
+ if (u.has_trait("HOLLOW_BONES")) {
   move_cost *= .8;
+ }
 
  move_cost -= u.disease_intensity("speed_boost");
 
- if (move_cost < 25)
+ if (move_cost < 25) {
   move_cost = 25;
+ }
 
  u.moves -= move_cost;
  u.practice(calendar::turn, "throw", 10);
@@ -11498,7 +11501,7 @@ bool game::plmove(int dx, int dy)
           u.moves -= str_req * 10;
           // Additional penalty if we can't comfortably move it.
           if (!m.can_move_furniture(fpos.x, fpos.y, &u)) {
-              int move_penalty = std::min((int)pow(str_req, 2) + 100, 1000);
+              int move_penalty = std::min(std::pow(str_req, 2.0) + 100.0, 1000.0);
               u.moves -= move_penalty;
               if (move_penalty > 500) {
                 if (one_in(3)) // Nag only occasionally.
