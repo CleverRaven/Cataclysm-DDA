@@ -1898,7 +1898,7 @@ void game::complete_disassemble()
     // has been removed.
     item dis_item = *org_item;
 
-    float component_success_chance = std::min((float)pow(0.8f, dis_item.damage), 1.f);
+    float component_success_chance = std::min(std::pow(0.8f, dis_item.damage), 1.0);
 
     int veh_part = -1;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);

@@ -2678,7 +2678,7 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
 
     // damaged clothing has a chance to lose material
     if(count>0) {
-        float component_success_chance = std::min((float)pow(0.8f, cut->damage), 1.f);
+        float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
         for(int i = count; i > 0; i--) {
             if(component_success_chance < rng_float(0,1)) {
                 count--;
@@ -6177,7 +6177,7 @@ int iuse::knife(player *p, item *it, bool t)
 
     // damaged items has a chance to lose material
     if(count>0) {
-        float component_success_chance = std::min((float)pow(0.8f, cut->damage), 1.f);
+        float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
         for(int i = count; i > 0; i--) {
             if(component_success_chance < rng_float(0,1)) {
                 count--;
