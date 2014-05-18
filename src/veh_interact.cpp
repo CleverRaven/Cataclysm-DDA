@@ -1485,7 +1485,6 @@ void complete_vehicle ()
     int replaced_wheel;
     std::vector<int> parts;
     int dd = 2;
-    long batterycharges; // Charges in a battery
 
     // For siphoning from adjacent vehicles
     int posx = 0;

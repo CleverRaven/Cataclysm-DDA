@@ -1287,6 +1287,8 @@ int vehicle::install_part (int dx, int dy, const std::string &id, const item &us
 int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
 {
     parts.push_back( new_part );
+    parts.back().mount_dx = dx;
+    parts.back().mount_dy = dy;
     refresh();
     return parts.size() - 1;
 }
