@@ -10998,9 +10998,6 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     veh->smx = smx;
     veh->smy = smy;
     veh->place_spawn_items();
-    veh->face.init(dir);
-    veh->turn_dir = dir;
-    veh->precalc_mounts (0, dir);
     // veh->init_veh_fuel = 50;
     // veh->init_veh_status = 0;
 
@@ -11086,7 +11083,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
                                     + veh->parts[part_index].precalc_dy[0]
                                     - global_y;
 
-                wreckage->install_part(local_x, local_y, veh->parts[part_index].id, -1, true);
+                wreckage->install_part(local_x, local_y, veh->parts[part_index]);
 
             }
             for (int part_index = 0; part_index < other_veh->parts.size(); part_index++) {
@@ -11098,7 +11095,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
                                     + other_veh->parts[part_index].precalc_dy[0]
                                     - global_y;
 
-                wreckage->install_part(local_x, local_y, other_veh->parts[part_index].id, -1, true);
+                wreckage->install_part(local_x, local_y, other_veh->parts[part_index]);
 
             }
 
