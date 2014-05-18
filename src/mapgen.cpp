@@ -13009,7 +13009,7 @@ void map::add_extra(map_extra type)
         artifact_natural_property prop =
             artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
         create_anomaly(center.x, center.y, prop);
-        spawn_artifact(center.x, center.y, prop);
+        spawn_natural_artifact(center.x, center.y, prop);
     }
     break;
 

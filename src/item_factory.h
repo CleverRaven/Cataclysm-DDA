@@ -70,10 +70,15 @@ public:
     //Intermediary Methods - Will probably be removed at final stage
     /**
      * Returns the itype with the given id.
-     * In the special case of "artifact", generates a new artifact type.
      * Never return NULL.
      */
-    itype* find_template(Item_tag id, int prop = 0);
+    itype* find_template( Item_tag id );
+
+    /**
+     * Add a passed in itype to the collection of item types.
+     */
+    void add_item_type( itype *new_type );
+
     /**
      * Return a random item type from the given item group.
      */
