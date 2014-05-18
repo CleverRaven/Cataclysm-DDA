@@ -1237,11 +1237,15 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
 
 std::string item::display_name(unsigned int quantity)
 {
-    if (charges > 0) {
-        return string_format("%s (%d)", tname(quantity).c_str(), charges);
-    } else if (contents.size() == 1 && contents[0].charges > 0) {
+    // Show count of contents (e.g. amount of liquid in container)
+    // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
+    if (contents.size() == 1 && contents[0].charges > 0) {
         return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
-    } else {
+    }
+    else if (charges >= 0) {
+        return string_format("%s (%d)", tname(quantity).c_str(), charges);
+    }
+    else {
         return tname(quantity);
     }
 }
