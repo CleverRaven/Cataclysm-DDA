@@ -1357,6 +1357,20 @@
         ]
     },{
         "type" : "mutation",
+        "id" : "FLOWERS",
+        "name" : "Flowering",
+        "points" : 2,
+        "visibility" : 10,
+        "ugliness" : -2,
+        "description" : "You've .",
+        "prereqs" : ["PLANTSKIN"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["LEG_TENTACLES"],
+        "changes_to" : ["ROOTS2"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+    },{
+        "type" : "mutation",
         "id" : "NAILS",
         "name" : "Long Fingernails",
         "points" : 1,
@@ -3250,6 +3264,44 @@
         "prereqs2" : ["VINES2"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["WINGS_BAT", "WINGS_INSECT", "WINGS_BIRD", "WINGS_STUB", "WINGS_BUTTERFLY"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "ROOTS1",
+        "name" : "Toe Roots",
+        "points" : -2,
+        "visibility" : 1,
+        "ugliness" : 5,
+        "description" : "Your toes have grown wriggly, and you can't imagine why you wear that stuff on your feet. Take it off. It's in the way.",
+        "prereqs" : ["PLANTSKIN"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["LEG_TENTACLES"],
+        "changes_to" : ["ROOTS2"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "ROOTS2",
+        "name" : "Roots",
+        "points" : 2,
+        "visibility" : 4,
+        "ugliness" : 5,
+        "description" : "It's about time you started developing a root system. When crafting or otherwise taking time on diggable terrain, you'll extract nutrients from the soil.",
+        "prereqs" : ["ROOTS1"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["LEG_TENTACLES"],
+        "changes_to" : ["ROOTS3"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "ROOTS3",
+        "name" : "Rooter",
+        "points" : -3,
+        "visibility" : 5,
+        "ugliness" : 5,
+        "description" : "You find it difficult not to sink roots when able. You extract nutrients whenever on diggable terrain, but move more slowly.",
+        "prereqs" : ["ROOTS2"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["LEG_TENTACLES"],
         "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
