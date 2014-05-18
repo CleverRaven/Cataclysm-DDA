@@ -800,7 +800,9 @@ void jmapgen_place_group::apply( map * m, const float mdensity ) {
         } break;
         case JMAPGEN_PLACEGROUP_VEHICLE: {
             for (int i = 0; i < trepeat; i++) {
-                m->add_vehicle (gid, x.val, y.val, rotation);
+                if (x_in_y(chance, 100)) {
+                    m->add_vehicle (gid, x.val, y.val, rotation);
+                }
             }
         } break;
     }
