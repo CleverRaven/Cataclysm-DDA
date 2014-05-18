@@ -3335,7 +3335,7 @@
     "name_plural": "vibrators",
     "description": "This battery-devouring device is just the thing to knead the tension out and help you relax. Use it to take a break and unwind.",
     "price": 5500,
-    "material": ["steel", "plastic"],
+    "material": ["aluminum", "plastic"],
     "weight": 453,
     "volume": 2,
     "bashing": 0,

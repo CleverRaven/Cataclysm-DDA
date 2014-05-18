@@ -5967,7 +5967,8 @@ int iuse::portable_game(player *p, item *it, bool)
 
 int iuse::vibe(player *p, item *it, bool)
 {
-  if ((p->is_underwater()) && !p->has_trait("GILLS")) {
+  if ((p->is_underwater()) && (!((p->has_trait("GILLS")) || (p->is_wearing("rebreather_on")) ||
+    (p->is_wearing("rebreather_xl_on")) || (p->is_wearing("mask_h20survivor_on")))) ) {
         p->add_msg_if_player(m_info,  _("It's waterproof, but oxygen maybe?"));
         return 0;
     }

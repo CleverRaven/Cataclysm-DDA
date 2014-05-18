@@ -1352,6 +1352,11 @@ void game::activity_on_turn_vibe()
     u.activity.moves_left -= 100;
 
     item &vibrator_item = u.i_at(u.activity.position);
+    
+    if ( (u.is_wearing("rebreather")) || (u.is_wearing("rebreather_xl")) || (u.is_wearing("mask_h20survivor")) ) {
+        u.activity.moves_left = 0;
+        add_msg(m_bad, _("You have trouble breathing, and stop."));
+    }
 
     //Deduct 1 battery charge for every minute using the vibrator
     if (int(calendar::turn) % 10 == 0) {
