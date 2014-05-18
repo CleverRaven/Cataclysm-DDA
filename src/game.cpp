@@ -1353,7 +1353,7 @@ void game::activity_on_turn_vibe()
 
     item &vibrator_item = u.i_at(u.activity.position);
 
-    //Deduct 1 battery charge for every minute spent playing
+    //Deduct 1 battery charge for every minute using the vibrator
     if (int(calendar::turn) % 10 == 0) {
         vibrator_item.charges--;
         u.add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
