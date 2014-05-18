@@ -215,6 +215,10 @@ void monster::get_Attitude(nc_color &color, std::string &text)
             color = h_white;
             text = _("Friendly ");
             break;
+        case MATT_FPASSIVE:
+            color = h_white;
+            text = _("Passive ");
+            break;
         case MATT_FLEE:
             color = c_green;
             text = _("Fleeing! ");
@@ -472,8 +476,10 @@ bool monster::is_fleeing(player &u)
 
 monster_attitude monster::attitude(player *u)
 {
- if (friendly != 0)
+ if (friendly != 0 && !(has_effect("docile")))
   return MATT_FRIEND;
+ if (friendly != 0 )
+  return MATT_FPASSIVE;
  if (has_effect("run"))
   return MATT_FLEE;
 
@@ -847,7 +853,7 @@ void monster::melee_attack(Creature &target, bool, matec_id) {
 
     if (is_hallucination()) {
         if(one_in(7)) {
-            die();
+            dead = true;
         }
         return;
     }

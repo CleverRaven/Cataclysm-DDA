@@ -33,7 +33,7 @@ void iexamine::gaspump(player *p, map *m, int examx, int examy) {
 
    if (one_in(10 + p->dex_cur)) {
     add_msg(m_bad, _("You accidentally spill the %s."), liq->type->name.c_str());
-    item spill(liq->type, calendar::turn);
+    item spill(liq->type->id, calendar::turn);
     spill.charges = rng(dynamic_cast<it_ammo*>(liq->type)->count,
                         dynamic_cast<it_ammo*>(liq->type)->count * (float)(8 / p->dex_cur));
     m->add_item_or_charges(p->posx, p->posy, spill, 1);
@@ -240,7 +240,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
 
     } else if (choice == purchase_cash_card) {
         if(query_yn(_("This will automatically deduct $1.00 from your bank account. Continue?"))) {
-            item card(itypes["cash_card"], calendar::turn);
+            item card("cash_card", calendar::turn);
             it_tool* tool = dynamic_cast<it_tool*>(card.type);
             card.charges = tool->def_charges;
             p->i_add(card);
@@ -417,7 +417,7 @@ void iexamine::toilet(player *p, map *m, int examx, int examy) {
         else if (query_yn(_("Drink from your hands?")))
         {
             // Create a dose of water no greater than the amount of water remaining.
-            item water_temp(item_controller->find_template("water"), 0);
+            item water_temp("water", 0);
             water_temp.poison = water.poison;
             water_temp.charges = std::min(water_temp.charges, water.charges);
 
@@ -540,7 +540,7 @@ void iexamine::rubble(player *p, map *m, int examx, int examy) {
 
         // "Replace"
         if(m->ter(examx,examy) == t_rubble) {
-            item rock(itypes["rock"], calendar::turn);
+            item rock("rock", calendar::turn);
             m->add_item_or_charges(p->posx, p->posy, rock);
             m->add_item_or_charges(p->posx, p->posy, rock);
         }
@@ -617,7 +617,7 @@ void iexamine::tent(player *p, map *m, int examx, int examy) {
   for (int j = -1; j <= 1; j++)
    m->furn_set(examx + i, examy + j, f_null);
  add_msg(_("You take down the tent"));
- item dropped(itypes["tent_kit"], calendar::turn);
+ item dropped("tent_kit", calendar::turn);
  m->add_item_or_charges(examx, examy, dropped);
 }
 
@@ -631,7 +631,7 @@ void iexamine::shelter(player *p, map *m, int examx, int examy) {
   for (int j = -1; j <= 1; j++)
    m->furn_set(examx + i, examy + j, f_null);
  add_msg(_("You take down the shelter"));
- item dropped(itypes["shelter_kit"], calendar::turn);
+ item dropped("shelter_kit", calendar::turn);
  m->add_item_or_charges(examx, examy, dropped);
 }
 
@@ -644,10 +644,10 @@ void iexamine::wreckage(player *p, map *m, int examx, int examy) {
  if (query_yn(_("Clear up that wreckage?"))) {
   p->moves -= 200;
   m->ter_set(examx, examy, t_dirt);
-  item chunk(itypes["steel_chunk"], calendar::turn);
-  item scrap(itypes["scrap"], calendar::turn);
-  item pipe(itypes["pipe"], calendar::turn);
-  item wire(itypes["wire"], calendar::turn);
+  item chunk("steel_chunk", calendar::turn);
+  item scrap("scrap", calendar::turn);
+  item pipe("pipe", calendar::turn);
+  item wire("wire", calendar::turn);
   m->add_item_or_charges(examx, examy, chunk);
   m->add_item_or_charges(examx, examy, scrap);
   if (one_in(5)) {
@@ -715,7 +715,7 @@ void iexamine::pit_covered(player *p, map *m, int examx, int examy)
         return;
     }
 
-    item plank(itypes["2x4"], calendar::turn);
+    item plank("2x4", calendar::turn);
     add_msg(_("You remove the plank."));
     m->add_item_or_charges(p->posx, p->posy, plank);
 
@@ -772,7 +772,7 @@ void iexamine::remove_fence_rope(player *p, map *m, int examx, int examy) {
   none(p, m, examx, examy);
   return;
  }
- item rope(itypes["rope_6"], calendar::turn);
+ item rope("rope_6", calendar::turn);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->ter_set(examx, examy, t_fence_post);
@@ -786,7 +786,7 @@ void iexamine::remove_fence_wire(player *p, map *m, int examx, int examy) {
   return;
  }
 
- item rope(itypes["wire"], calendar::turn);
+ item rope("wire", calendar::turn);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->ter_set(examx, examy, t_fence_post);
@@ -799,7 +799,7 @@ void iexamine::remove_fence_barbed(player *p, map *m, int examx, int examy) {
   return;
  }
 
- item rope(itypes["wire_barbed"], calendar::turn);
+ item rope("wire_barbed", calendar::turn);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->add_item_or_charges(p->posx, p->posy, rope);
  m->ter_set(examx, examy, t_fence_post);
@@ -1270,7 +1270,7 @@ void iexamine::aggie_plant(player *p, map *m, int examx, int examy) {
             m->i_at(examx, examy)[0].bday = 0;
         }
         p->use_charges("fertilizer_liquid", 1);
-        m->i_at(examx, examy).push_back(item_controller->create("fertilizer", (int) calendar::turn));
+        m->i_at(examx, examy).push_back(item("fertilizer", (int) calendar::turn));
     }
 }
 
@@ -1337,7 +1337,7 @@ void iexamine::fvat_empty(player *p, map *m, int examx, int examy) {
                 to_deposit = true;
     }
     if (to_deposit) {
-        item brew(itypes[brew_type], 0);
+        item brew(brew_type, 0);
         int charges_held = p->charges_of(brew_type);
         brew.charges = charges_on_ground;
         for (int i=0; i<charges_held && !vat_full; i++) {
@@ -1398,7 +1398,7 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
                 SkillLevel& cooking = p->skillLevel("cooking");
                 if (alcoholType=="hb_beer" && cooking<5)
                     alcoholType=alcoholType.substr(3); //hb_beer -> beer
-                item booze(itypes[alcoholType], 0);
+                item booze(alcoholType, 0);
                 booze.charges = brew_i.charges; booze.bday = brew_i.bday;
 
                 m->i_clear(examx, examy);
@@ -1469,7 +1469,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[drink_index];
         int charges_held = p->charges_of(drink_type);
-        item drink (itypes[drink_type], 0);
+        item drink (drink_type, 0);
         drink.charges = 0;
         bool keg_full = false;
         for (int i=0; i<charges_held && !keg_full; i++) {
@@ -1939,7 +1939,7 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         }
     }
     if (amount != 0) {
-        item it(ammo, 0);
+        item it(ammo->id, 0);
         it.charges = amount;
         items.push_back(it);
     }

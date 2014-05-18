@@ -378,7 +378,7 @@ void add_corpse(int x, int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
- void spawn_artifact(const int x, const int y, itype* type, int bday);
+ void spawn_artifact(const int x, const int y, artifact_natural_property prop = ARTPROP_NULL);
     void spawn_item(const int x, const int y, const std::string &itype_id,
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0, const bool rand = true);

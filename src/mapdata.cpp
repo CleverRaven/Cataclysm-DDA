@@ -2,6 +2,7 @@
 #include "color.h"
 #include "init.h"
 #include "item_factory.h"
+#include "game_constants.h"
 #include <ostream>
 
 std::vector<ter_t> terlist;

@@ -36,13 +36,13 @@ long iuse_transform::use(player* p, item* it, bool /*t*/) const
     item *target;
     if (container_id.empty()) {
         // No container, assume simple type transformation like foo_off -> foo_on
-        it->make(itypes[target_id]);
+        it->make(target_id);
         target = it;
     } else {
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
-        it->make(itypes[container_id]);
-        it->contents.push_back(item(itypes[target_id], calendar::turn));
+        it->make(container_id);
+        it->contents.push_back(item(target_id, calendar::turn));
         target = &it->contents.back();
     }
     target->active = active;

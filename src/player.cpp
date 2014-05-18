@@ -7,7 +7,6 @@
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
-#include "artifact.h"
 #include "options.h"
 #include <sstream>
 #include <stdlib.h>
@@ -320,28 +319,12 @@ void player::normalize()
 {
     Creature::normalize();
 
-    ret_null = item(itypes["null"], 0);
-    weapon   = item(itypes["null"], 0);
+    ret_null = item("null", 0);
+    weapon   = item("null", 0);
     style_selected = "style_none";
-    for (int i = 0; i < num_hp_parts; i++) {
-        hp_max[i] = 60 + str_max * 3;
-        // Tough and Flimsy are exclusive.
-        // Only the most extreme of each version applies.
-        if (has_trait("TOUGH3")) {
-            hp_max[i] = int(hp_max[i] * 1.2);
-        } else if (has_trait("TOUGH2")) {
-            hp_max[i] = int(hp_max[i] * 1.3);
-        } else if (has_trait("TOUGH")) {
-            hp_max[i] = int(hp_max[i] * 1.4);
-        } else if (has_trait("FLIMSY3")) {
-            hp_max[i] = int(hp_max[i] * .75);
-        } else if (has_trait("FLIMSY2")) {
-            hp_max[i] = int(hp_max[i] * .5);
-        } else if (has_trait("FLIMSY")) {
-            hp_max[i] = int(hp_max[i] * .25);
-        }
-        hp_cur[i] = hp_max[i];
-    }
+    
+    recalc_hp();
+    
     for (int i = 0 ; i < num_bp; i++)
         temp_conv[i] = BODYTEMP_NORM;
 }
@@ -5192,7 +5175,7 @@ int player::addiction_level(add_type type)
 bool player::siphon(vehicle *veh, ammotype desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
-    item used_item( itypes[default_ammo(desired_liquid)], calendar::turn );
+    item used_item( default_ammo(desired_liquid), calendar::turn );
     used_item.charges = liquid_amount;
     int extra = g->move_liquid( used_item );
     if( extra == -1 ) {
@@ -6492,12 +6475,14 @@ bool player::process_single_active_item(item *it)
             it->item_counter--;
             if(it->item_counter == 0)
             {
-                // wet towel becomes a regular towel
-                if(it->type->id == "towel_wet")
-                    it->make(itypes["towel"]);
-
+                const it_tool *tool = dynamic_cast<const it_tool*>(it->type);
+                if (tool != NULL && tool->revert_to != "null") {
+                    it->make(tool->revert_to);
+                }
                 it->item_tags.erase("WET");
-                it->item_tags.insert("ABSORBENT");
+                if (!it->has_flag("ABSORBENT")) {
+                    it->item_tags.insert("ABSORBENT");
+                }
                 it->active = false;
             }
         }
@@ -6537,15 +6522,15 @@ bool player::process_single_active_item(item *it)
             if(it->item_counter <= 0) {
                 add_msg_if_player( _("You finish your %s."), it->name.c_str());
                 if(it->type->id == "cig_lit") {
-                    it->make(itypes["cig_butt"]);
+                    it->make("cig_butt");
                 } else if(it->type->id == "cigar_lit"){
-                    it->make(itypes["cigar_butt"]);
+                    it->make("cigar_butt");
                 } else { // joint
                     this->add_disease("weed_high", 10); // one last puff
                     g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
                                    fd_weedsmoke, 2);
                     weed_msg(this);
-                    it->make(itypes["joint_roach"]);
+                    it->make("joint_roach");
                 }
                 it->active = false;
             }
@@ -7318,6 +7303,9 @@ bool player::consume(int pos)
         return false;
     } if (is_underwater()) {
         add_msg_if_player( m_info, _("You can't do that while underwater."));
+        return false;
+    } else if( pos < -1 ) {
+        add_msg_if_player( m_info, _( "You can't eat worn items, you have to take them off." ) );
         return false;
     } else if (pos == -1) {
         // Consume your current weapon
@@ -8150,6 +8138,12 @@ bool player::wear(int pos, bool interactive)
     {
         to_wear = &weapon;
     }
+    else if( pos < -1 ) {
+        if( interactive ) {
+            add_msg( m_info, _( "You are already wearing that." ) );
+        }
+        return false;
+    }
     else
     {
         to_wear = &inv.find_item(pos);
@@ -8389,7 +8383,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_mouth) && has_trait("MANDIBLES"))
         {
             if(interactive)
@@ -9004,9 +8998,9 @@ void player::remove_gunmod(item *weapon, int id)
     item ammo;
     if (gunmod->charges > 0) {
         if (gunmod->curammo != NULL) {
-            ammo = item(gunmod->curammo, calendar::turn);
+            ammo = item(gunmod->curammo->id, calendar::turn);
         } else {
-            ammo = item(itypes[default_ammo(weapon->ammo_type())], calendar::turn);
+            ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
         }
         ammo.charges = gunmod->charges;
         if (ammo.made_of(LIQUID)) {
@@ -9432,13 +9426,31 @@ int player::encumb(body_part bp)
     return encumb(bp, iLayers, iArmorEnc);
 }
 
+
+/*
+ * Encumbrance logic:
+ * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
+ * These simply add their encumbrance value to each body part they cover.
+ * In addition, each article of clothing after the first in a layer imposes an additional penalty.
+ * e.g. one shirt will not encumber you, but two is tight and starts to restrict movement.
+ * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
+ * they're intended to be worn that way, and don't impose a penalty.
+ * The default is to assume that clothes do not fit, clothes that are "fitted" either
+ * reduce the encumbrance penalty by one, or if that is already 0, they reduce the layering effect.
+ *
+ * Use cases:
+ * What would typically be considered normal "street clothes" should not be considered encumbering.
+ * Tshirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
+ * This is currently handled by each of these articles of clothing
+ * being on a different layer and/or body part, therefore accumulating no encumbrance.
+ */
 int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
     double layer[MAX_CLOTHING_LAYER] = { };
-    int level;
+    int level = 0;
 
-    it_armor* armor;
+    it_armor* armor = NULL;
     for (size_t i = 0; i < worn.size(); ++i) {
         if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
@@ -9462,10 +9474,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
                  has_active_bionic("bio_power_armor_interface") ||
                  has_active_bionic("bio_power_armor_interface_mkII")) ) {
-                armorenc += armor->encumber - 4;
+                armorenc += std::max( 0, armor->encumber - 4);
             } else {
                 armorenc += armor->encumber;
-                // Fitted clothes will either reduce encumbrance or negate layering.
+                // Fitted clothes will reduce either encumbrance or layering.
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( armor->encumber > 0 && armorenc > 0 ) {
                         armorenc--;
@@ -9482,13 +9494,11 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     ret += armorenc;
 
     for (int i = 0; i < sizeof(layer) / sizeof(layer[0]); ++i) {
-        if (layer[i] > 1) {
-            layers += int(layer[i]) - 1;
-        }
+        layers += std::max( 0.0, layer[i] - 1.0 );
     }
 
-    if (layers > 0) {
-        ret += int(layers) * (bp == bp_torso ? .75 : 1); // Easier to layer on torso
+    if (layers > 0.0) {
+        ret += layers * (bp == bp_torso ? 0.75 : 1.0); // Easier to layer on torso
     }
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {

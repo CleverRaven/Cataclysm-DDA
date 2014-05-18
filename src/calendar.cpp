@@ -9,6 +9,7 @@ calendar calendar::turn;
 
 calendar::calendar()
 {
+    turn_number = 0;
     second = 0;
     minute = 0;
     hour = 0;
@@ -19,6 +20,7 @@ calendar::calendar()
 
 calendar::calendar(const calendar &copy)
 {
+    turn_number   = copy.turn_number;
     second = copy.second;
     minute = copy.minute;
     hour   = copy.hour;
@@ -29,6 +31,7 @@ calendar::calendar(const calendar &copy)
 
 calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
 {
+    turn_number = 0;
     second = 0;
     minute = Minute;
     hour = Hour;
@@ -39,6 +42,7 @@ calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
 
 calendar::calendar(int turn)
 {
+    turn_number = turn;
     int minute_param = int(turn / 10);
     int hour_param = minute_param / 60;
     int day_param = hour_param / 24;
@@ -53,24 +57,12 @@ calendar::calendar(int turn)
 
 int calendar::get_turn() const
 {
-    int ret = second / 6;
-    ret += minute * 10;
-    ret += hour * 600;
-    ret += day * 14400;
-    ret += int(season) * 14400 * (int)OPTIONS["SEASON_LENGTH"];
-    ret += year * 14400 * 4 * (int)OPTIONS["SEASON_LENGTH"];
-    return ret;
+    return turn_number;
 }
 
 calendar::operator int() const
 {
-    int ret = second / 6;
-    ret += minute * 10;
-    ret += hour * 600;
-    ret += day * 14400;
-    ret += int(season) * 14400 * (int)OPTIONS["SEASON_LENGTH"];
-    ret += year * 14400 * 4 * (int)OPTIONS["SEASON_LENGTH"];
-    return ret;
+    return turn_number;
 }
 
 calendar &calendar::operator =(const calendar &rhs)
@@ -79,6 +71,7 @@ calendar &calendar::operator =(const calendar &rhs)
         return *this;
     }
 
+    turn_number = rhs.turn_number;
     second = rhs.second;
     minute = rhs.minute;
     hour = rhs.hour;
@@ -95,6 +88,7 @@ calendar &calendar::operator =(int rhs)
     int hour_param = minute_param / 60;
     int day_param = hour_param / 24;
     int season_param = int(day_param / OPTIONS["SEASON_LENGTH"]);
+    turn_number = rhs;
     second = 6 * (rhs % 10);
     minute = minute_param % 60;
     hour = hour_param % 24;
@@ -108,6 +102,7 @@ calendar &calendar::operator -=(const calendar &rhs)
 {
     calendar tmp(rhs);
     tmp.standardize();
+    turn_number -= tmp.turn_number;
     second -= tmp.second;
     minute -= tmp.minute;
     hour   -= tmp.hour;
@@ -132,6 +127,7 @@ calendar &calendar::operator -=(int rhs)
 
 calendar &calendar::operator +=(const calendar &rhs)
 {
+    turn_number += rhs.turn_number;
     second += rhs.second;
     minute += rhs.minute;
     hour   += rhs.hour;
@@ -149,6 +145,7 @@ calendar &calendar::operator +=(const calendar &rhs)
 
 calendar &calendar::operator +=(int rhs)
 {
+    turn_number += rhs;
     second += rhs * 6;
     standardize();
     return *this;
@@ -198,6 +195,7 @@ calendar calendar::operator +(int rhs) const
 
 void calendar::increment()
 {
+    turn_number++;
     second += 6;
     if (second >= 60) {
         standardize();
