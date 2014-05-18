@@ -1307,6 +1307,10 @@ void game::activity_on_turn() {
             // Takes care of u.activity.moves_left
             activity_on_turn_game();
             break;
+        case ACT_VIBE:
+            // Takes care of u.activity.moves_left
+            activity_on_turn_vibe();
+            break;
         case ACT_REFILL_VEHICLE:
             // Takes care of u.activity.moves_left
             activity_on_turn_refill_vehicle();
@@ -1337,6 +1341,31 @@ void game::activity_on_turn_game()
     if(game_item.charges == 0) {
         u.activity.moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), game_item.name.c_str());
+    }
+
+    u.pause();
+}
+
+void game::activity_on_turn_vibe()
+{
+    //Using a vibrator takes time, not speed
+    u.activity.moves_left -= 100;
+
+    item &vibrator_item = u.i_at(u.activity.position);
+
+    //Deduct 1 battery charge for every minute spent playing
+    if (int(calendar::turn) % 10 == 0) {
+        vibrator_item.charges--;
+        u.add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
+        u.fatigue += (rng(1, 2));
+    }
+    if (vibrator_item.charges == 0) {
+        u.activity.moves_left = 0;
+        add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.name.c_str());
+    }
+    if (u.fatigue >= 383) { // Dead Tired: different kind of relaxation needed
+        u.activity.moves_left = 0;
+        add_msg(m_info, _("You're too tired to continue."));
     }
 
     u.pause();
