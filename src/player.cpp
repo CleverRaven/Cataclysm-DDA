@@ -79,6 +79,7 @@ void game::init_morale()
     _("Lactose Intolerance"),
     _("Ate Junk Food"),
     _("Wheat Allergy"),
+    _("Ate Indigestible Food"),
     _("Wet"),
     _("Dried Off"),
     _("Cold"),
@@ -7556,12 +7557,19 @@ bool player::eat(item *eaten, it_comest *comest)
         !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
+    if ((has_trait("SAPROPHAGE") && (!spoiled) && (!has_bionic("bio_digestion")) && !is_npc() &&
+        !query_yn(_("Really eat that %s? Your stomach won't be happy."), eaten->tname().c_str()))) {
+        //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
+        //~ Semantic difference, but greatly facilitates people being proud of their character.
+        add_msg_if_player(m_info,  _("It's too fresh, let it age a little first.  "));
+        return false;
+    }
 
     if (spoiled) {
         if (is_npc()) {
             return false;
         }
-        if (!has_trait("SAPROVORE") &&
+        if ((!(has_trait("SAPROVORE") || has_trait("SAPROPHAGE"))) &&
             !query_yn(_("This %s smells awful!  Eat it?"), eaten->tname().c_str())) {
             return false;
         }
@@ -7626,7 +7634,7 @@ bool player::eat(item *eaten, it_comest *comest)
 
     if( ( comest->nutr > 0 && temp_hunger < capacity ) ||
         ( comest->quench > 0 && temp_thirst < capacity ) ) {
-        if (spoiled){//rotten get random nutrification
+        if ((spoiled) && !(has_trait("SAPROPHAGE")) ){//rotten get random nutrification
             if (!query_yn(_("You can hardly finish it all. Consume it?"))) {
                 return false;
             }
@@ -7648,12 +7656,15 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if( spoiled ) {
+    if ( (spoiled) && !(has_trait("SAPROPHAGE")) ) {
         add_msg(m_bad, _("Ick, this %s doesn't taste so good..."), eaten->tname().c_str());
         if (!has_trait("SAPROVORE") && !has_trait("EATDEAD") &&
        (!has_bionic("bio_digestion") || one_in(3))) {
             add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
         }
+        consume_effects(eaten, comest, spoiled);
+    } else if ((spoiled) && has_trait("SAPROPHAGE")) {
+        add_msg(m_good, _("Mmm, this %s tastes delicious..."), eaten->tname().c_str());
         consume_effects(eaten, comest, spoiled);
     } else {
         consume_effects(eaten, comest);
@@ -7770,6 +7781,10 @@ bool player::eat(item *eaten, it_comest *comest)
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_ANTIWHEAT, -75, -400, 300, 240);
     }
+    if (has_trait("SAPROPHAGE") && !(spoiled)) {
+        add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
+        add_morale(MORALE_NO_DIGEST, -75, -400, 300, 240);
+    }
     if ((!crossed_threshold() || has_trait("THRESH_URSINE")) && mutation_category_level["MUTCAT_URSINE"] > 40
         && eaten->made_of("honey")) {
         //Need at least 5 bear muts for effect to show, to filter out mutations in common with other mutcats
@@ -7799,7 +7814,7 @@ bool player::eat(item *eaten, it_comest *comest)
 
 void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
 {
-    if (rotten) {
+    if ((rotten) && !(has_trait("SAPROPHAGE")) ) {
         hunger -= rng(0, comest->nutr);
         thirst -= comest->quench;
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
@@ -7811,6 +7826,7 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         thirst -= ((comest->quench) *= 0.66);
         health += ((comest->healthy) *= 0.66);
     } else {
+    // Saprophages get the same boost from rotten food that others get from fresh.
         hunger -= comest->nutr;
         thirst -= comest->quench;
         health += comest->healthy;

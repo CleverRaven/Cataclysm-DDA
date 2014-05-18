@@ -1350,7 +1350,7 @@
         "visibility" : 8,
         "ugliness" : 3,
         "description" : "All the hair on your body has turned to long, grass-like leaves. Apart from being physically striking, these provide you with a minor amount of nutrition while in sunlight. Slightly reduces wet effects.",
-        "prereqs" : ["BARK"],
+        "prereqs" : ["PLANTSKIN", "BARK"],
         "category" : ["MUTCAT_PLANT", "MUTCAT_ELFA"],
         "wet_protection" : [
             { "part" : "HEAD", "ignored" : 1 }
@@ -1361,14 +1361,12 @@
         "name" : "Flowering",
         "points" : 2,
         "visibility" : 10,
-        "ugliness" : -2,
-        "description" : "You've .",
-        "prereqs" : ["PLANTSKIN"],
+        "ugliness" : -4,
+        "description" : "You've started flowering where your scalp used to be. Your blossoms have a pleasant aroma and are visually striking, so crushing them with 'headgear' would be a shame.",
+        "prereqs" : ["PLANTSKIN","BARK"],
+        "prereqs2" : ["LEAVES"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES"],
-        "changes_to" : ["ROOTS2"],
         "category" : ["MUTCAT_PLANT"]
-    },{
     },{
         "type" : "mutation",
         "id" : "NAILS",
@@ -1650,6 +1648,20 @@
         "prereqs" : ["CARNIVORE"],
         "cancels" : ["HERBIVORE", "RUMINANT"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_CHIMERA"]
+    },{
+        "type" : "mutation",
+        "id" : "SAPROPHAGE",
+        "name" : "Saprophage",
+        "points" : -3,
+        "visibility" : 5,
+        "ugliness" : 9,
+        "description" : "You prefer to sustain yourself using your roots and direct nutrient extraction/synthesis. You can still consume 'food', though, if you have to: you merely prefer it aged a little.",
+        "prereqs" : ["ROOTS2"],
+        "prereqs2" : ["LEAVES"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["HERBIVORE", "CARNIVORE", "GRAZER"],
+        "leads_to" : ["CHLOROMORPH"],
+        "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",
         "id" : "GIZZARD",
@@ -3287,6 +3299,7 @@
         "ugliness" : 5,
         "description" : "It's about time you started developing a root system. When crafting or otherwise taking time on diggable terrain, you'll extract nutrients from the soil.",
         "prereqs" : ["ROOTS1"],
+        "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES"],
         "changes_to" : ["ROOTS3"],
@@ -3300,6 +3313,19 @@
         "ugliness" : 5,
         "description" : "You find it difficult not to sink roots when able. You extract nutrients whenever on diggable terrain, but move more slowly.",
         "prereqs" : ["ROOTS2"],
+        "threshreq" : ["THRESH_PLANT"],
+        "cancels" : ["LEG_TENTACLES"],
+        "category" : ["MUTCAT_PLANT"]
+    },{
+        "type" : "mutation",
+        "id" : "CHLOROMORPH",
+        "name" : "Chloromorphosis",
+        "points" : 10,
+        "visibility" : 7,
+        "ugliness" : 1,
+        "description" : "Every inch of your skin is packed with chlorophyll and you have strong roots. Sleeping on diggable soil will satisfy any hunger you might have.",
+        "prereqs" : ["ROOTS2", "ROOTS3"],
+        "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES"],
         "category" : ["MUTCAT_PLANT"]
