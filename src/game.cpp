@@ -2541,31 +2541,23 @@ input_context game::get_player_input(std::string &action)
 
                 SCT.advanceAllSteps();
 
-                std::map<int, int> mCurDirOffset;
-                for (int i=0; i < 8; ++i) {
-                    mCurDirOffset[i] = 0;
-                }
-
                 //Check for creatures on all drawing positions and offset if necessary
                 for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
-                    const direction oDir = iter->getDirecton();
-
-                    while (iter->getStepOffset() + iter->getStep() < mCurDirOffset[oDir]) {
-                        iter->advanceStepOffset();
-                    }
+                    const direction oCurDir = iter->getDirecton();
 
                     for (int i=0; i < iter->getText().length(); ++i) {
                         const int dex = mon_at(iter->getPosX() + i, iter->getPosY());
-                        if (dex != -1 && u_see(&zombie(dex))) {
-                            i=0;
-                            ++mCurDirOffset[oDir];
 
-                            /*for (std::vector<cSCT>::reverse_iterator iter = vSCT.rbegin(); iter != vSCT.rend(); ++iter) {
-                                if (iter->getDirecton() == p_oDir && (iter->getStep() + iter->getStepOffset()) == iCurStep) {
-                                    ++iCurStep;
-                                    iter->advanceStepOffset();
+                        if (dex != -1 && u_see(&zombie(dex))) {
+                            i = -1;
+
+                            int iPos = iter->getStep() + iter->getStepOffset();
+                            for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
+                                if (iter2->getDirecton() == oCurDir && iter2->getStep() + iter2->getStepOffset() <= iPos) {
+                                    iter2->advanceStepOffset();
+                                    iPos = iter2->getStep() + iter2->getStepOffset();
                                 }
-                            }*/
+                            }
                         }
                     }
                 }
