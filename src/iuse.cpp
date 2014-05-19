@@ -4938,6 +4938,8 @@ int iuse::geiger(player *p, item *it, bool t)
 int iuse::teleport(player *p, item *it, bool)
 {
     if (it->charges == 0) {
+      return 0;
+    }
     p->moves -= 100;
     g->teleport(p);
     return it->type->charges_to_use();
