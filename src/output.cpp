@@ -1516,10 +1516,39 @@ void display_table(WINDOW *w, const std::string &title, int columns,
     }
 }
 
+scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const direction p_oDir,
+                          const std::string p_sText, const game_message_type p_gmt)
+{
+    iPosX = p_iPosX;
+    iPosY = p_iPosY;
+
+    oDir = p_oDir;
+    const std::pair<int, int> pairDirXY = direction_XY(oDir);
+
+    iDirX = pairDirXY.first;
+    iDirY = pairDirXY.second;
+
+    iStep = 0;
+    iStepOffset = 0;
+
+    sText = p_sText;
+    gmt = p_gmt;
+}
+
 void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, const direction p_oDir,
                               const std::string p_sText, const game_message_type p_gmt)
 {
     if (OPTIONS["ANIMATION_SCT"]) {
+        int iCurStep = 0;
+
+        //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
+        for (std::vector<cSCT>::reverse_iterator iter = vSCT.rbegin(); iter != vSCT.rend(); ++iter) {
+            if (iter->getDirecton() == p_oDir && (iter->getStep() + iter->getStepOffset()) == iCurStep) {
+                ++iCurStep;
+                iter->advanceStepOffset();
+            }
+        }
+
         vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt));
     }
 }
@@ -1527,7 +1556,8 @@ void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, const direct
 int scrollingcombattext::cSCT::getPosX()
 {
     if (getStep() > 0) {
-        return iPosX + (iDirX * getStep());
+        const int iDirOffset = (oDir == EAST) ? 1 : ((oDir == WEST) ? -1 : 0);
+        return iPosX + iDirOffset + (iDirX * (getStepOffset() + getStep()));
     }
 
     return 999;
@@ -1536,13 +1566,14 @@ int scrollingcombattext::cSCT::getPosX()
 int scrollingcombattext::cSCT::getPosY()
 {
     if (getStep() > 0) {
-        return iPosY + (iDirY * getStep());
+        const int iDirOffset = (oDir == SOUTH) ? 1 : ((oDir == NORTH) ? -1 : 0);
+        return iPosY + iDirOffset + (iDirY * (getStepOffset() + getStep()));
     }
 
     return 999;
 }
 
-void scrollingcombattext::advanceStep()
+void scrollingcombattext::advanceAllSteps()
 {
     std::vector<cSCT>::iterator iter = vSCT.begin();
 

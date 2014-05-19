@@ -187,28 +187,22 @@ class scrollingcombattext {
                 int iDirX;
                 int iDirY;
                 int iStep;
+                int iStepOffset;
                 std::string sText;
                 game_message_type gmt;
 
             public:
                 cSCT(const int p_iPosX, const int p_iPosY, const direction p_oDir,
-                     const std::string p_sText, const game_message_type p_gmt) {
-                    iPosX = p_iPosX;
-                    iPosY = p_iPosY;
-                    oDir = p_oDir;
-                    const std::pair<int, int> pairDirXY = direction_XY(oDir);
-                    iDirX = pairDirXY.first;
-                    iDirY = pairDirXY.second;
-                    iStep = 0;
-                    sText = p_sText;
-                    gmt = p_gmt;
-                };
+                     const std::string p_sText, const game_message_type p_gmt);
                 ~cSCT() {};
 
                 int getStep() { return iStep; }
+                int getStepOffset() { return iStepOffset; }
                 int advanceStep() { return ++iStep; }
+                int advanceStepOffset() { return ++iStepOffset; }
                 int getPosX();
                 int getPosY();
+                direction getDirecton() { return oDir; }
                 int getInitPosX() { return iPosX; }
                 int getInitPosY() { return iPosY; }
                 std::string getText() { return sText; }
@@ -219,7 +213,7 @@ class scrollingcombattext {
 
         void add(const int p_iPosX, const int p_iPosY, const direction p_oDir,
                  const std::string p_sText, const game_message_type p_gmt);
-        void advanceStep();
+        void advanceAllSteps();
 };
 
 extern scrollingcombattext SCT;
