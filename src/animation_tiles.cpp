@@ -211,6 +211,15 @@ void game::draw_weather(weather_printable wPrint)
 
 void game::draw_sct()
 {
-    //WIP(tm)
+    if (use_tiles) {
+        //WIP(tm)
+    } else {
+        for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+            const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
+            const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+
+            mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType(), (iter->getStep() > 2)), "%s", iter->getText().c_str());
+        }
+    }
 }
 #endif
