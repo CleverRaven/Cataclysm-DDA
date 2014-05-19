@@ -4554,6 +4554,9 @@ int iuse::jackhammer(player *p, item *it, bool)
 
 int iuse::jacqueshammer(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+        return 0;
+      }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
@@ -4934,6 +4937,7 @@ int iuse::geiger(player *p, item *it, bool t)
 
 int iuse::teleport(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
     p->moves -= 100;
     g->teleport(p);
     return it->type->charges_to_use();
