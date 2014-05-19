@@ -8811,6 +8811,7 @@ void player::use(int pos)
                                 used->charges),
                                 used->tname().c_str(),
                                 used->charges, long(charges_used));
+            return 0;
         }
     } else if (used->type->use == &iuse::boots          ||
                used->type->use == &iuse::sheath_sword   ||
