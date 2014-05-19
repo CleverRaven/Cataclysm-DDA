@@ -2199,8 +2199,11 @@ int iuse::primitive_fire(player *p, item *it, bool)
     return 0;
 }
 
-int iuse::sew(player *p, item *, bool)
+int iuse::sew(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+      return 0;
+  }
     if (p->is_underwater()) {
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return 0;
@@ -2747,6 +2750,9 @@ int iuse::scissors(player *p, item *it, bool t)
 
 int iuse::extinguisher(player *p, item *it, bool)
 {
+  if (it->charges == 0) {
+    return 0;
+  }
  g->draw();
  int x, y;
  // If anyone other than the player wants to use one of these,
