@@ -4265,8 +4265,17 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( g->u_see( this->posx, this->posy ) ) {
-        g->draw_hit_player(this);
+    if(g->u_see(this->posx, this->posy)) {
+        g->draw_hit_player(this, dam);
+
+        if (dam > 0 && is_player() && source) {
+            //player is hit by monster
+            SCT.add(this->xpos(),
+                    this->ypos(),
+                    direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
+                    string_format("%d", dam),
+                    m_bad);
+        }
     }
 
     // handle snake artifacts
@@ -4320,10 +4329,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             slime.friendly = -1;
             g->add_zombie(slime);
         }
-    }
-
-    if( g->u_see( this->xpos(), this->ypos() ) ) {
-        g->draw_hit_player(this);
     }
 
     if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
@@ -8352,7 +8357,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             }
             return false;
         }
-        
+
         if (armor->covers & mfb(bp_mouth) && has_trait("MANDIBLES"))
         {
             if(interactive)

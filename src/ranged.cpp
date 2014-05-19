@@ -664,6 +664,13 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 dam = rng(0, dam);
             }
             if (u_see(tx, ty)) {
+                //player hits monster thrown
+                SCT.add(z.xpos(),
+                        z.ypos(),
+                        direction_from(0, 0, z.xpos() - p.posx, z.ypos() - p.posy),
+                        string_format("%d", dam),
+                        m_good);
+
                 p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
                     _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z.name().c_str(), dam);

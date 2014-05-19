@@ -1247,8 +1247,13 @@ void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeig
 }
 
 WINDOW *w_hit_animation = NULL;
-void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
+void hit_animation(int iX, int iY, nc_color cColor, char cTile)
 {
+    /*
+    chtype chtOld = mvwinch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
+    mvwputch(w, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X, cColor, cTile);
+    */
+
     WINDOW *w_hit = newwin(1, 1, iY + VIEW_OFFSET_Y, iX + VIEW_OFFSET_X);
     if (w_hit == NULL) {
         return; //we passed in negative values (semi-expected), so let's not segfault
@@ -1258,14 +1263,9 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
 
-    if (iTimeout <= 0 || iTimeout > 999) {
-        iTimeout = 70;
-    }
-
-    timeout(iTimeout);
+    timeout(70);
     getch(); //using this, because holding down a key with nanosleep can get yourself killed
     timeout(-1);
-    w_hit_animation = NULL;
 }
 
 std::string from_sentence_case (const std::string &kingston)
@@ -1516,11 +1516,38 @@ void display_table(WINDOW *w, const std::string &title, int columns,
     }
 }
 
-void scrollingcombattext::advanceStep() {
+void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, const direction p_oDir,
+                              const std::string p_sText, const game_message_type p_gmt)
+{
+    if (OPTIONS["ANIMATION_SCT"]) {
+        vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt));
+    }
+}
+
+int scrollingcombattext::cSCT::getPosX()
+{
+    if (getStep() > 0) {
+        return iPosX + (iDirX * getStep());
+    }
+
+    return 999;
+}
+
+int scrollingcombattext::cSCT::getPosY()
+{
+    if (getStep() > 0) {
+        return iPosY + (iDirY * getStep());
+    }
+
+    return 999;
+}
+
+void scrollingcombattext::advanceStep()
+{
     std::vector<cSCT>::iterator iter = vSCT.begin();
 
     while (iter != vSCT.end()) {
-        if (iter->advanceStep() >= this->iMaxSteps) {
+        if (iter->advanceStep() > this->iMaxSteps) {
             iter = vSCT.erase(iter);
         } else {
             ++iter;

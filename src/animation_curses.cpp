@@ -56,12 +56,12 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
                   red_background(cMonColor), dead ? '%' : sMonSym);
 }
 /* Player hit animation */
-void game::draw_hit_player(player *p, bool dead)
+void game::draw_hit_player(player *p, const int iDam, bool dead)
 {
     (void)dead; //unused
     hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                   POSY + (p->posy - (u.posy + u.view_offset_y)),
-                  red_background(p->color()), '@');
+                  (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), '@');
 }
 /* Line drawing code, not really an animation but should be separated anyway */
 
@@ -112,10 +112,11 @@ void game::draw_weather(weather_printable wPrint)
 
 void game::draw_sct()
 {
-    SCT.advanceStep();
-
     for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
-        mvwprintz(w_terrain, iter->getPosY(), iter->getPosX(), msgtype_to_color(iter->getMsgType()), "%s", iter->getText().c_str());
+        const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
+        const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+
+        mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType(), (iter->getStep() > 2)), "%s", iter->getText().c_str());
     }
 }
 

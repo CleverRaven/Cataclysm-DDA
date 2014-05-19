@@ -1877,10 +1877,11 @@ void player_hit_message(player* attacker, std::string message,
         }
     }
 
+    //player hits monster melee
     SCT.add(t.xpos(),
             t.ypos(),
             direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
-            "test",
+            string_format("%d", dam),
             msgtype);
 
     // same message is used for player and npc,

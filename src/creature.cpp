@@ -364,9 +364,24 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                        skin_name().c_str());
         } else if (source != NULL) {
             if (source->is_player()) {
+                //player hits monster ranged
+                SCT.add(this->xpos(),
+                        this->ypos(),
+                        direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
+                        string_format("%d", dealt_dam.total_damage()),
+                        m_good);
+
                 add_msg(m_good, _("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
-            } else if( this->is_player() && g->u.has_trait("SELFAWARE")) {
+
+            } else if(this->is_player()) {
+                //player gets hit by monster ranged
+                SCT.add(source->xpos(),
+                        source->ypos(),
+                        direction_from(0, 0, source->xpos() - this->xpos(), source->ypos() - this->ypos()),
+                        string_format("%d", dealt_dam.total_damage()),
+                        m_good);
+
                 add_msg_if_player( m_bad, _( "You were hit in the %s for %d damage." ),
                                           body_part_name( bp_hit, side ).c_str( ),
                                           dealt_dam.total_damage( ) );

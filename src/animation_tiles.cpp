@@ -98,7 +98,7 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
     }
 }
 /* Player hit animation */
-void game::draw_hit_player(player *p, bool dead)
+void game::draw_hit_player(player *p, const int iDam, bool dead)
 {
     (void)dead; //unused
     if (use_tiles) {
@@ -119,7 +119,7 @@ void game::draw_hit_player(player *p, bool dead)
     } else {
         hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                       POSY + (p->posy - (u.posy + u.view_offset_y)),
-                      red_background(p->color()), '@');
+                      (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), '@');
     }
 }
 

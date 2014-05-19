@@ -158,7 +158,7 @@ size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, 
 size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt);
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
-void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
+void hit_animation(int iX, int iY, nc_color cColor, char cTile);
 void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
                 std::string &health_bar, const bool bMonster = false);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
@@ -176,7 +176,7 @@ class scrollingcombattext {
     public:
         const int iMaxSteps;
 
-        scrollingcombattext() : iMaxSteps(10) {};
+        scrollingcombattext() : iMaxSteps(5) {};
         ~scrollingcombattext() {};
 
         class cSCT {
@@ -184,6 +184,8 @@ class scrollingcombattext {
                 int iPosX;
                 int iPosY;
                 direction oDir;
+                int iDirX;
+                int iDirY;
                 int iStep;
                 std::string sText;
                 game_message_type gmt;
@@ -194,6 +196,9 @@ class scrollingcombattext {
                     iPosX = p_iPosX;
                     iPosY = p_iPosY;
                     oDir = p_oDir;
+                    const std::pair<int, int> pairDirXY = direction_XY(oDir);
+                    iDirX = pairDirXY.first;
+                    iDirY = pairDirXY.second;
                     iStep = 0;
                     sText = p_sText;
                     gmt = p_gmt;
@@ -202,9 +207,10 @@ class scrollingcombattext {
 
                 int getStep() { return iStep; }
                 int advanceStep() { return ++iStep; }
-                int getPosX() { return iPosX; }
-                int getPosY() { return iPosY; }
-                direction getDir() { return oDir; }
+                int getPosX();
+                int getPosY();
+                int getInitPosX() { return iPosX; }
+                int getInitPosY() { return iPosY; }
                 std::string getText() { return sText; }
                 game_message_type getMsgType() { return gmt; };
         };
@@ -212,9 +218,7 @@ class scrollingcombattext {
         std::vector<cSCT> vSCT;
 
         void add(const int p_iPosX, const int p_iPosY, const direction p_oDir,
-                 const std::string p_sText, const game_message_type p_gmt) {
-            vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt));
-        }
+                 const std::string p_sText, const game_message_type p_gmt);
         void advanceStep();
 };
 

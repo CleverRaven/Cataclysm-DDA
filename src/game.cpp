@@ -2471,11 +2471,11 @@ input_context game::get_player_input(std::string &action)
         }
 
         //x% of the Viewport, only shown on visible areas
-        int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
-        int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
-        int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
+        const int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
+        const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
+        const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
 
-        bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
+        const bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
 
         weather_printable wPrint;
         wPrint.colGlyph = mapWeatherAnim[weather].colGlyph;
@@ -2497,7 +2497,10 @@ input_context game::get_player_input(std::string &action)
                     WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
-                for( size_t i = 0; i < wPrint.vdrops.size(); ++i ) {
+                std::stringstream ssTemp;
+
+                //Erase previous drops from w_terrain
+                for (size_t i = 0; i < wPrint.vdrops.size(); ++i) {
                     m.drawsq(w_terrain, u,
                              wPrint.vdrops[i].first + offset_x,
                              wPrint.vdrops[i].second + offset_y,
@@ -2509,37 +2512,37 @@ input_context game::get_player_input(std::string &action)
 
                 wPrint.vdrops.clear();
 
-                for(int i=0; i < dropCount; i++) {
-                    int iRandX = rng(iStartX, iEndX-1);
-                    int iRandY = rng(iStartY, iEndY-1);
+                for (int i=0; i < dropCount; i++) {
+                    const int iRandX = rng(iStartX, iEndX-1);
+                    const int iRandY = rng(iStartY, iEndY-1);
 
                     if (mapRain[iRandY][iRandX]) {
-                        std::stringstream ssTemp;
-                        ssTemp << u.posx << " - " << u.posy << " | " << iRandX << " - " << iRandY;
-                        add_msg(ssTemp.str().c_str());
                         wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
                     }
                 }
-                draw_weather(wPrint);
             }
 
             if (OPTIONS["ANIMATION_SCT"]) {
-                add_msg("try draw");
-                //draw_sct();
-
-                std::stringstream ssTemp;
+                for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+                    //Erase previous text from w_terrain
+                    if (iter->getStep() > 0) {
+                        for (size_t i = 0; i < iter->getText().length(); ++i) {
+                            m.drawsq(w_terrain, u,
+                                     iter->getPosX() + i,
+                                     iter->getPosY(),
+                                     false,
+                                     true,
+                                     u.posx + u.view_offset_x,
+                                     u.posy + u.view_offset_y);
+                        }
+                    }
+                }
 
                 SCT.advanceStep();
-
-                for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
-                    ssTemp.str("");
-                    ssTemp << u.posx << " - " << u.posy << " | " << iter->getPosX() << " - " << iter->getPosY() << " | " << iter->getText();
-
-                    add_msg(ssTemp.str().c_str());
-                    mvwputch(w_terrain, iter->getPosY()+iter->getStep(), iter->getPosX()+iter->getStep(), c_ltblue_cyan, 'S');
-                    //mvwprintz(w_terrain, iter->getPosX(), iter->getPosY(), msgtype_to_color(iter->getMsgType()), "%s", iter->getText().c_str());
-                }
             }
+
+            draw_weather(wPrint);
+            draw_sct();
 
             wrefresh(w_terrain);
 

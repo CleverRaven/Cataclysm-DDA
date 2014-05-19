@@ -319,6 +319,40 @@ direction direction_from(const tripoint loc1, const tripoint loc2)
     }
 }
 
+std::pair<int, int> direction_XY(direction dir)
+{
+    switch(dir%8) {
+        case NORTH:
+            return std::make_pair(0, -1);
+
+        case NORTHEAST:
+            return std::make_pair(1, -1);
+
+        case EAST:
+            return std::make_pair(1, 0);
+
+        case SOUTHEAST:
+            return std::make_pair(1, 1);
+
+        case SOUTH:
+            return std::make_pair(0, 1);
+
+        case SOUTHWEST:
+            return std::make_pair(-1, 1);
+
+        case WEST:
+            return std::make_pair(-1, 0);
+
+        case NORTHWEST:
+            return std::make_pair(-1, -1);
+
+        default:
+            break;
+    }
+
+    return std::make_pair(999, 999);
+}
+
 std::string direction_name(direction dir)
 {
     switch (dir) {
