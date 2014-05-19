@@ -176,8 +176,12 @@ void construction_menu()
             // print construction name with limited length.
             // limit(28) = 30(column len) - 2(letter + ' ').
             // If we run out of hotkeys, just stop assigning them.
-            mvwprintz(w_con, 1 + i, 1, col, "%c %s", (current < hotkeys.size()) ? hotkeys[current] : ' ',
-                      utf8_substr(available[current].c_str(), 0, 27).c_str());
+            std::string cur_name = available[current].c_str();
+            int edge_pos = cursorx_to_position(cur_name.c_str(), 27, NULL, -1);
+            cur_name.resize(edge_pos);
+            mvwprintz(w_con, 1 + i, 1, col, "%c %s",
+                      (current < hotkeys.size()) ? hotkeys[current] : ' ',
+                      cur_name.c_str());
         }
 
         if (update_info) {
@@ -191,13 +195,13 @@ void construction_menu()
             }
 
             // Print instructions for toggling recipe hiding.
-            mvwprintz(w_con, 1, 31, c_white, "%s", _("Press ';' to toggle unavailable constructions."));
+            mvwprintz(w_con, iMaxY - 2, 31, c_white, "%s", _("Press ';' to toggle unavailable constructions."));
 
             // Print consruction name
-            mvwprintz(w_con, 2, 31, c_white, "%s", current_desc.c_str());
+            mvwprintz(w_con, 1, 31, c_white, "%s", current_desc.c_str());
 
             // Print stages and their requirement
-            int posx = 33, posy = 2;
+            int posx = 33, posy = 1;
             std::vector<construction *> options = constructions_by_desc(current_desc);
             for( unsigned i = 0; i < options.size(); ++i) {
                 construction *current_con = options[i];
@@ -254,13 +258,13 @@ void construction_menu()
                             has_tool[i] = true;
                             col = c_green;
                         }
-                        int length = utf8_width(item_controller->find_template(tool)->name.c_str());
+                        int length = utf8_width(item_controller->find_template(tool)->nname(1).c_str());
                         if( posx + length > FULL_SCREEN_WIDTH - 1 ) {
                             posy++;
                             posx = 33;
                         }
                         mvwprintz(w_con, posy, posx, col,
-                                  item_controller->find_template(tool)->name.c_str());
+                                  item_controller->find_template(tool)->nname(1).c_str());
                         posx += length + 1; // + 1 for an empty space
                         if (j < current_con->tools[i].size() - 1) { // "OR" if there's more
                             if (posx > FULL_SCREEN_WIDTH - 3) {
@@ -296,7 +300,7 @@ void construction_menu()
                             has_component[i] = true;
                             col = c_ltgreen; // Show that WEB_ROPE is on the job!
                         }
-                        int length = utf8_width(item_controller->find_template(comp.type)->name.c_str());
+                        int length = utf8_width(item_controller->find_template(comp.type)->nname(comp.count).c_str());
                         if (posx + length > FULL_SCREEN_WIDTH - 1) {
                             posy++;
                             posx = 33;

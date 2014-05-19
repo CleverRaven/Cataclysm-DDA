@@ -528,8 +528,12 @@ void mapgen_function_json::setup_place_special(JsonArray &parray ) {
                 tmpop = JMAPGEN_PLACESPECIAL_GASPUMP;
             } else if (tmpval == "vendingmachine") {
                 tmpop = JMAPGEN_PLACESPECIAL_VENDINGMACHINE;
+                tmp_type = jsi.get_string("item_group", one_in(2) ? "vending_food" : "vending_drink");
+                if (!item_controller->has_group(tmp_type)) {
+                    jsi.throw_error(string_format("  place special: no such item group '%s'", tmp_type.c_str()), "item_group" );
+                }
             } else {
-            jsi.throw_error("  place special: no such special '%s'", tmpval.c_str() );
+            jsi.throw_error(string_format("  place special: no such special '%s'", tmpval.c_str()), "type" );
             }
         } else {
             parray.throw_error("placing other specials is not supported yet"); return;
@@ -9922,13 +9926,16 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         square(this, t_floor, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
         build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2, dat);
         // Rotate to face the road
-        if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east)) {
+        if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east) ||
+            ((t_east != "mansion") && (t_north == "mansion") && (t_south == "mansion"))) {
             rotate(1);
         }
-        if (is_ot_type("road", t_south) || is_ot_type("bridge", t_south)) {
+        if (is_ot_type("road", t_south) || is_ot_type("bridge", t_south) ||
+            ((t_south != "mansion") && (t_west == "mansion") && (t_east == "mansion"))) {
             rotate(2);
         }
-        if (is_ot_type("road", t_west) || is_ot_type("bridge", t_west)) {
+        if (is_ot_type("road", t_west) || is_ot_type("bridge", t_west) ||
+            ((t_west != "mansion") && (t_north == "mansion") && (t_south == "mansion"))) {
             rotate(3);
         }
         // add zombies
@@ -10163,11 +10170,14 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
         fill_background(this, t_dirt);
         // Left wall
-        line(this, t_chainfence_v,  0,  0,  0, SEEY * 2 - 2);
+        line(this, t_chainfence_h, 0, 23, 23, 23);
+        line(this, t_chaingate_l, 10, 23, 14, 23);
+        line(this, t_chainfence_v,  0,  0,  0, 23);
+        line(this, t_chainfence_v,  23,  0,  23, 23);
         line(this, t_fence_barbed, 1, 4, 9, 12);
         line(this, t_fence_barbed, 1, 5, 8, 12);
-        line(this, t_fence_barbed, 23, 4, 15, 12);
-        line(this, t_fence_barbed, 23, 5, 16, 12);
+        line(this, t_fence_barbed, 22, 4, 15, 12);
+        line(this, t_fence_barbed, 22, 5, 16, 12);
         square(this, t_wall_wood, 2, 13, 9, 21);
         square(this, t_floor, 3, 14, 8, 20);
         line(this, t_reinforced_glass_h, 5, 13, 6, 13);
@@ -10197,19 +10207,18 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     } else if (terrain_type == "fema") {
 
         fill_background(this, t_dirt);
-        line(this, t_chainfence_v, 0, 0, 0, 23);
-        line(this, t_chainfence_h, 0, 23, 23, 23);
-        if (t_north != "fema_entrance" && t_north != "fema") {
+        // check all sides for non fema/fema entrance, place fence on those sides
+        if(t_north != "fema" && t_north != "fema_entrance") {
             line(this, t_chainfence_h, 0, 0, 23, 0);
         }
-        if (t_east != "fema_entrance" && t_east != "fema") {
+        if(t_south != "fema" && t_south != "fema_entrance") {
+            line(this, t_chainfence_h, 0, 23, 23, 23);
+        }
+        if(t_west != "fema" && t_west != "fema_entrance") {
+            line(this, t_chainfence_v, 0, 0, 0, 23);
+        }
+        if(t_east != "fema" && t_east != "fema_entrance") {
             line(this, t_chainfence_v, 23, 0, 23, 23);
-        }
-        if (t_south == "fema") {
-            line(this, t_dirt, 0, 23, 23, 23);
-        }
-        if (t_west == "fema") {
-            line(this, t_dirt, 0, 0, 0, 23);
         }
         if(t_west == "fema" && t_east == "fema" && t_south != "fema") {
             //lab bottom side
@@ -10229,7 +10238,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             square(this, t_grate, 6, 16, 8, 17);
             line_furn(this, f_table, 7, 16, 7, 17);
             line_furn(this, f_counter, 10, 8, 10, 17);
-            square_furn(this, f_chair, 14, 8, 17, 10);
+            line_furn(this, f_chair, 14, 8, 14, 10);
+            line_furn(this, f_chair, 17, 8, 17, 10);
             square(this, t_console_broken, 15, 8, 16, 10);
             line_furn(this, f_desk, 15, 11, 16, 11);
             line_furn(this, f_chair, 15, 12, 16, 12);
@@ -10268,8 +10278,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             line(this, t_chainfence_h, 9, 17, 14, 17);
             ter_set(9, 5, t_chaingate_c);
             ter_set(14, 18, t_chaingate_c);
-            ter_set(14, 5, t_chainfence_h);
-            ter_set(9, 18, t_chainfence_h);
+            ter_set(14, 5, t_chainfence_v);
+            ter_set(9, 18, t_chainfence_v);
             furn_set(12, 17, f_counter);
             furn_set(11, 6, f_counter);
             line_furn(this, f_chair, 10, 10, 13, 10);
@@ -10994,9 +11004,6 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     veh->smx = smx;
     veh->smy = smy;
     veh->place_spawn_items();
-    veh->face.init(dir);
-    veh->turn_dir = dir;
-    veh->precalc_mounts (0, dir);
     // veh->init_veh_fuel = 50;
     // veh->init_veh_status = 0;
 
@@ -11082,7 +11089,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
                                     + veh->parts[part_index].precalc_dy[0]
                                     - global_y;
 
-                wreckage->install_part(local_x, local_y, veh->parts[part_index].id, -1, true);
+                wreckage->install_part(local_x, local_y, veh->parts[part_index]);
 
             }
             for (int part_index = 0; part_index < other_veh->parts.size(); part_index++) {
@@ -11094,7 +11101,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
                                     + other_veh->parts[part_index].precalc_dy[0]
                                     - global_y;
 
-                wreckage->install_part(local_x, local_y, other_veh->parts[part_index].id, -1, true);
+                wreckage->install_part(local_x, local_y, other_veh->parts[part_index]);
 
             }
 
@@ -13008,7 +13015,7 @@ void map::add_extra(map_extra type)
         artifact_natural_property prop =
             artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
         create_anomaly(center.x, center.y, prop);
-        spawn_artifact(center.x, center.y, prop);
+        spawn_natural_artifact(center.x, center.y, prop);
     }
     break;
 

@@ -4243,40 +4243,13 @@ void game::debug()
       artifact_natural_property prop =
           artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
       m.create_anomaly(center.x, center.y, prop);
-      m.spawn_artifact(center.x, center.y, prop);
+      m.spawn_natural_artifact(center.x, center.y, prop);
   }
   break;
 
   case 16:
-  {
-      std::string artifact_name(std::string type);
-
-      it_artifact_tool *art = new it_artifact_tool();
-      artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
-      art->name = artifact_name(info->name);
-      art->color = info->color;
-      art->sym = info->sym;
-      art->m1 = info->m1;
-      art->m2 = info->m2;
-      art->volume = rng(info->volume_min, info->volume_max);
-      art->weight = rng(info->weight_min, info->weight_max);
-      // Set up the basic weapon type
-      artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-      art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-      art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
-      art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-      if( weapon->tag != "" ) {
-          art->item_tags.insert(weapon->tag);
-      }
-      // Add an extra weapon perhaps?
-      art->description = _("The architect's cube.");
-      art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
-      itypes[art->id] = art;
-      artifact_itype_ids.push_back(art->id);
-      item artifact( art->id, 0);
-      u.i_add(artifact);
-  }
-  break;
+      u.i_add( item( architects_cube(), calendar::turn ) );
+      break;
 
   case 17: {
       point coord = look_debug();
@@ -8305,6 +8278,7 @@ point game::look_around()
  return point(-1, -1);
 }
 
+bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
 bool game::list_items_match(item &item, std::string sPattern)
 {
     size_t iPos;
@@ -8332,10 +8306,16 @@ bool game::list_items_match(item &item, std::string sPattern)
         if(pat.find("{",0) != std::string::npos) {
             std::string adv_pat_type = pat.substr(1, pat.find(":")-1);
             std::string adv_pat_search = pat.substr(pat.find(":")+1, (pat.find("}")-pat.find(":"))-1);
-            if(adv_pat_type == "c" && item.get_category().name.find(adv_pat_search,0) != std::string::npos) {
+            std::transform( adv_pat_search.begin(), adv_pat_search.end(), adv_pat_search.begin(), tolower );
+            if(adv_pat_type == "c" && lcmatch(item.get_category().name, adv_pat_search)) {
                 return !exclude;
-            } else if (adv_pat_type == "m" && item.made_of(adv_pat_search)) {
-                return !exclude;
+            } else if (adv_pat_type == "m") {
+                if (lcmatch(item.get_material(1)->name(), adv_pat_search)) {
+                    return !exclude;
+                }
+                if (lcmatch(item.get_material(2)->name(), adv_pat_search)) {
+                    return !exclude;
+                }
             } else if (adv_pat_type == "dgt" && item.damage > atoi(adv_pat_search.c_str())) {
                 return !exclude;
             } else if (adv_pat_type == "dlt" && item.damage < atoi(adv_pat_search.c_str())) {
@@ -11575,7 +11555,10 @@ bool game::plmove(int dx, int dy)
     int side = random_side(bp);
     if(u.hit(NULL, bp, side, 0, rng(1, 4)) > 0)
      add_msg(m_bad, _("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
-     if (one_in(35)) {
+     if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+         u.add_disease("tetanus",1,true);
+     }
+     else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
          u.add_disease("tetanus",1,true);
      }
    }

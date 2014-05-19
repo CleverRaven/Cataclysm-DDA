@@ -1083,11 +1083,14 @@ void dis_effect(player &p, disease &dis)
             break;
 
         case DI_TETANUS:
+            if (p.has_trait("INFIMMUNE")) {
+               p.rem_disease("tetanus");
+            }
             p.mod_dex_bonus(-4);
-            if (one_in(25)) {
+            if (one_in(512)) {
                 add_msg(m_bad, "Your muscles spasm.");
                 p.add_effect("downed",rng(1,4));
-                p.add_effect("stunned",8);
+                p.add_effect("stunned",rng(1,4));
                 if (one_in(10)) {
                     p.mod_pain(rng(1, 10));
                 }

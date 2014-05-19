@@ -55,12 +55,7 @@ static bool item_inscription( player *p, item *cut, std::string verb, std::strin
                       cut->made_of("silver"))) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
-        std::string mat = cut->get_material(1);
-        material_type *mt = material_type::find_material(mat);
-        std::string mtname = "null";
-        if(mt != NULL) {
-            mtname = mt->name();
-        }
+        std::string mtname = cut->get_material(1)->name();
         std::transform(mtname.begin(), mtname.end(), mtname.begin(), ::tolower);
         add_msg(m_info, _("You can't %1$s an item made of %2$s!"),
                    lower_verb.c_str(), mtname.c_str());
@@ -2133,8 +2128,11 @@ int iuse::catfood(player *p, item *, bool)
     return 1;
 }
 
-bool prep_firestarter_use(player *p, item *, int &posx, int &posy)
+bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
 {
+    if (it->charges == 0) {
+      return false;
+    }
     if (p->is_underwater()) {
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
@@ -2201,8 +2199,11 @@ int iuse::primitive_fire(player *p, item *it, bool)
     return 0;
 }
 
-int iuse::sew(player *p, item *, bool)
+int iuse::sew(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+      return 0;
+  }
     if (p->is_underwater()) {
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return 0;
@@ -2749,6 +2750,9 @@ int iuse::scissors(player *p, item *it, bool t)
 
 int iuse::extinguisher(player *p, item *it, bool)
 {
+  if (it->charges == 0) {
+    return 0;
+  }
  g->draw();
  int x, y;
  // If anyone other than the player wants to use one of these,
@@ -4513,6 +4517,9 @@ int iuse::zweifire_on(player *p, item *it, bool t)
 
 int iuse::jackhammer(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+        return 0;
+    }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
@@ -4547,6 +4554,9 @@ int iuse::jackhammer(player *p, item *it, bool)
 
 int iuse::jacqueshammer(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+        return 0;
+      }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
@@ -4927,6 +4937,9 @@ int iuse::geiger(player *p, item *it, bool t)
 
 int iuse::teleport(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+      return 0;
+    }
     p->moves -= 100;
     g->teleport(p);
     return it->type->charges_to_use();
@@ -7228,7 +7241,7 @@ int iuse::holster_pistol(player *p, item *it, bool)
         }
 
         p->add_msg_if_player( message.c_str(), put->tname().c_str());
-        p->store(it, put, _("pistol"), 14);
+        p->store(it, put, "pistol", 14);
 
     // else draw the holstered pistol and have the player wield it
     } else {
@@ -7245,7 +7258,7 @@ int iuse::holster_pistol(player *p, item *it, bool)
             }
 
             p->add_msg_if_player( message.c_str(), gun.tname().c_str(), it->name.c_str());
-            p->wield_contents(it, true, _("pistol"), 13);
+            p->wield_contents(it, true, "pistol", 13);
         }
     }
     return it->type->charges_to_use();
@@ -7295,12 +7308,12 @@ int iuse::sheath_knife(player *p, item *it, bool)
         }
 
         p->add_msg_if_player( message.c_str(), put->tname().c_str(), it->name.c_str());
-        p->store(it, put, _("cutting"), 14);
+        p->store(it, put, "cutting", 14);
 
     // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
-            p->wield_contents(it, true, _("cutting"), 13);
+            p->wield_contents(it, true, "cutting", 13);
 
             int lvl = p->skillLevel("cutting");
             std::string message;
@@ -7357,13 +7370,13 @@ int iuse::sheath_sword(player *p, item *it, bool)
         }
 
         p->add_msg_if_player( message.c_str(), put->tname().c_str());
-        p->store(it, put, _("cutting"), 14);
+        p->store(it, put, "cutting", 14);
 
     // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
             int lvl = p->skillLevel("cutting");
-            p->wield_contents(it, true, _("cutting"), 13);
+            p->wield_contents(it, true, "cutting", 13);
 
             // in order to perform iaijutsu, have to pass a roll based on level
             bool iaijutsu =

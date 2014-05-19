@@ -536,33 +536,37 @@ bool Item_factory::has_template(const Item_tag& id) const {
 }
 
 //Returns the template with the given identification tag
-itype* Item_factory::find_template(Item_tag id, int prop){
+itype* Item_factory::find_template( Item_tag id ) {
     std::map<Item_tag, itype*>::iterator found = m_templates.find(id);
     if( found != m_templates.end() ) {
         return found->second;
-    } else if ( id == "artifact" ) {
-        if( prop ) {
-            return new_natural_artifact( (artifact_natural_property)prop );
-        } else {
-            return new_artifact();
-        }
-    } else {
-        debugmsg("Missing item (check item_groups.json): %s", id.c_str());
-        it_artifact_tool *bad_itype = new it_artifact_tool();
-        bad_itype->id = id.c_str();
-        bad_itype->name = string_format("undefined-%ss", id.c_str());
-        bad_itype->name_plural = string_format("undefined-%ss", id.c_str());
-        bad_itype->description = string_format("A strange shimmering... nothing."
-                                               "  You think it wants to be a %s.", id.c_str());
-        bad_itype->sym = '.';
-        bad_itype->color = c_white;
-        m_templates[ id.c_str() ] = bad_itype;
-        itypes[ id.c_str() ] = bad_itype;
-        // Push the item definition on the artifact list so it gets saved/loaded from json.
-        artifact_itype_ids.push_back( id );
-        return bad_itype;
     }
+    found = itypes.find( id );
+    if( found != itypes.end() ) {
+        return found->second;
+    }
+
+    debugmsg("Missing item (check item_groups.json): %s", id.c_str());
+    it_artifact_tool *bad_itype = new it_artifact_tool();
+    bad_itype->id = id.c_str();
+    bad_itype->name = string_format("undefined-%ss", id.c_str());
+    bad_itype->name_plural = string_format("undefined-%ss", id.c_str());
+    bad_itype->description = string_format("A strange shimmering... nothing."
+                                               "  You think it wants to be a %s.", id.c_str());
+    bad_itype->sym = '.';
+    bad_itype->color = c_white;
+    m_templates[ id ] = bad_itype;
+    itypes[ id ] = bad_itype;
+    // Push the item definition on the artifact list so it gets saved/loaded from json.
+    artifact_itype_ids.push_back( id );
+    return bad_itype;
 }
+
+void Item_factory::add_item_type( itype *new_type ) {
+    itypes[ new_type->id ] = new_type;
+    m_templates[ new_type->id ] = new_type;
+}
+
 
 Item_list Item_factory::create_from_group(Group_tag group, int created_at)
 {
