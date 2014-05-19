@@ -21,66 +21,42 @@ void load_trap(JsonObject &jo);
 struct trap;
 
 struct trapfunc {
-    void none           (int ,  int) {};
-    void bubble         (int x, int y);
-    void beartrap       (int x, int y);
-    void snare_light    (int x, int y);
-    void snare_heavy    (int x, int y);
-    void board          (int x, int y);
-    void caltrops       (int x, int y);
-    void tripwire       (int x, int y);
-    void crossbow       (int x, int y);
-    void shotgun        (int x, int y);
-    void blade          (int x, int y);
-    void landmine       (int x, int y);
-    void telepad        (int x, int y);
-    void goo            (int x, int y);
-    void dissector      (int x, int y);
-    void sinkhole       (int x, int y);
-    void pit            (int x, int y);
-    void pit_spikes     (int x, int y);
-    void lava           (int x, int y);
-    void portal         (int x, int y);
-    void ledge          (int x, int y);
-    void boobytrap      (int x, int y);
-    void temple_flood   (int x, int y);
-    void temple_toggle  (int x, int y);
-    void glow           (int x, int y);
-    void hum            (int x, int y);
-    void shadow         (int x, int y);
-    void drain          (int x, int y);
-    void snake          (int x, int y);
+    // creature is the creature that triggered the trap,
+    // p is the point where the trap is (not where the creature is)
+    // creature can be NULL.
+    void none           (Creature *, int, int) { };
+    void bubble         (Creature *creature, int x, int y);
+    void cot            (Creature *creature, int x, int y);
+    void beartrap       (Creature *creature, int x, int y);
+    void snare_light    (Creature *creature, int x, int y);
+    void snare_heavy    (Creature *creature, int x, int y);
+    void board          (Creature *creature, int x, int y);
+    void caltrops       (Creature *creature, int x, int y);
+    void tripwire       (Creature *creature, int x, int y);
+    void crossbow       (Creature *creature, int x, int y);
+    void shotgun        (Creature *creature, int x, int y);
+    void blade          (Creature *creature, int x, int y);
+    void landmine       (Creature *creature, int x, int y);
+    void telepad        (Creature *creature, int x, int y);
+    void goo            (Creature *creature, int x, int y);
+    void dissector      (Creature *creature, int x, int y);
+    void sinkhole       (Creature *creature, int x, int y);
+    void pit            (Creature *creature, int x, int y);
+    void pit_spikes     (Creature *creature, int x, int y);
+    void lava           (Creature *creature, int x, int y);
+    void portal         (Creature *creature, int x, int y);
+    void ledge          (Creature *creature, int x, int y);
+    void boobytrap      (Creature *creature, int x, int y);
+    void temple_flood   (Creature *creature, int x, int y);
+    void temple_toggle  (Creature *creature, int x, int y);
+    void glow           (Creature *creature, int x, int y);
+    void hum            (Creature *creature, int x, int y);
+    void shadow         (Creature *creature, int x, int y);
+    void drain          (Creature *creature, int x, int y);
+    void snake          (Creature *creature, int x, int y);
 };
 
-struct trapfuncm {
-    void none           (monster *,  int ,  int ) {};
-    void bubble         (monster *z, int x, int y);
-    void cot            (monster *z, int x, int y);
-    void beartrap       (monster *z, int x, int y);
-    void board          (monster *z, int x, int y);
-    void caltrops       (monster *z, int x, int y);
-    void tripwire       (monster *z, int x, int y);
-    void crossbow       (monster *z, int x, int y);
-    void shotgun        (monster *z, int x, int y);
-    void blade          (monster *z, int x, int y);
-    void snare_light    (monster *z, int x, int y);
-    void snare_heavy    (monster *z, int x, int y);
-    void landmine       (monster *z, int x, int y);
-    void telepad        (monster *z, int x, int y);
-    void goo            (monster *z, int x, int y);
-    void dissector      (monster *z, int x, int y);
-    void sinkhole       (monster *z, int x, int y);
-    void pit            (monster *z, int x, int y);
-    void pit_spikes     (monster *z, int x, int y);
-    void lava           (monster *z, int x, int y);
-    void portal         (monster *z, int x, int y);
-    void ledge          (monster *z, int x, int y);
-    void boobytrap      (monster *z, int x, int y);
-    void glow           (monster *z, int x, int y);
-    void hum            (monster *z, int x, int y);
-    void drain          (monster *z, int x, int y);
-    void snake          (monster *z, int x, int y);
-};
+typedef void (trapfunc::*trap_function)(Creature *, int, int);
 
 struct trap {
  std::string id;
@@ -95,10 +71,7 @@ private:
  int avoidance;  // 0 to ??, affects avoidance
  int difficulty; // 0 to ??, difficulty of assembly & disassembly
  bool benign;
-// You stepped on it
- void (trapfunc::*act)(int x, int y);
-// Monster stepped on it
- void (trapfuncm::*actm)(monster *, int x, int y);
+    trap_function act;
 public:
  std::vector<itype_id> components; // For disassembly?
 
@@ -108,8 +81,10 @@ public:
  bool is_benign() const { return benign; }
  // non-generic numbers for special cases
  int funnel_radius_mm;
+    /** If an item with this weight or more is thrown onto the trap, it triggers. */
+    int trigger_weight;
     /** Can player/npc p see this kind of trap? */
-    bool can_see(const player &p) const;
+    bool can_see(const player &p, int x, int y) const;
     /** Trigger trap effects by creature that stepped onto it. */
     void trigger(Creature *creature, int x, int y) const;
 
@@ -121,8 +96,7 @@ public:
 
     trap(std::string string_id, int load_id, std::string pname, nc_color pcolor,
             char psym, int pvisibility, int pavoidance, int pdifficulty,
-            void (trapfunc::*pact)(int x, int y),
-            void (trapfuncm::*pactm)(monster *, int x, int y),
+           trap_function pact,
             std::vector<std::string> keys) {
         //string_id is ignored at the moment, will later replace the id
         id = string_id;
@@ -134,7 +108,6 @@ public:
         avoidance = pavoidance;
         difficulty = pdifficulty;
         act = pact;
-        actm = pactm;
 
         components.insert(components.end(), keys.begin(), keys.end());
 
@@ -142,16 +115,14 @@ public:
         benign = false;
         // Traps are not typically funnels
         funnel_radius_mm = 0;
+        trigger_weight = -1;
     };
 };
 
 /** list of all trap types */
 extern std::vector<trap*> traplist;
 
-typedef void (trapfunc::*trap_function)(int, int);
-typedef void (trapfuncm::*trap_function_mon)(monster *, int, int);
 trap_function trap_function_from_string(std::string function_name);
-trap_function_mon trap_function_mon_from_string(std::string function_name);
 
 extern trap_id
  tr_null,

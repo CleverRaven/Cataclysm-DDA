@@ -543,7 +543,9 @@ void defense_game::init_to_style(defense_style new_style)
 
 void defense_game::setup()
 {
-    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0);
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
+                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
     int selection = 1;
     refresh_setup(w, selection);
 
@@ -1163,8 +1165,8 @@ Press %s to buy everything in your cart, %s to buy nothing."),
         g->u.cash -= total_price;
         bool dropped_some = false;
         for (unsigned i = 0; i < items[0].size(); i++) {
-            item tmp(itypes[ items[0][i] ], calendar::turn);
-            tmp = tmp.in_its_container(&(itypes));
+            item tmp( items[0][i] , calendar::turn);
+            tmp = tmp.in_its_container();
             for (int j = 0; j < item_count[0][i]; j++) {
                 if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight()) &&
                     g->u.inv.size() < inv_chars.size()) {
@@ -1345,7 +1347,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
     }
     // THEN print it--if item_selected is valid
     if (item_selected < items->size()) {
-        item tmp(itypes[ (*items)[item_selected] ], 0); // Dummy item to get info
+        item tmp( (*items)[item_selected] , 0); // Dummy item to get info
         fold_and_print(w, 12, 1, 38, c_white, tmp.info());
     }
     // Next, clear the item list on the right

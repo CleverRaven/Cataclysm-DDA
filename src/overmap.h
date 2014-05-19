@@ -278,6 +278,7 @@ class overmap
   int dist_from_city(point p);
 
   oter_id& ter(const int x, const int y, const int z);
+  const oter_id get_ter(const int x, const int y, const int z) const;
   bool&   seen(int x, int y, int z);
   std::vector<mongroup*> monsters_at(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
@@ -287,6 +288,8 @@ class overmap
   std::string const& note(int const x, int const y, int const z) const;
   void add_note(int const x, int const y, int const z, std::string const& message);
   void delete_note(int const x, int const y, int const z) { add_note(x, y, z, ""); }
+
+//    static oter_id nulloter;
     /**
      * Display a list of all notes on this z-level. Let the user choose
      * one or none of them.
@@ -299,6 +302,7 @@ class overmap
      * is invalid.
      */
     static const point invalid_point;
+    static const tripoint invalid_tripoint;
     /**
      * Search for the nearest note that contains the given pattern.
      * (x,y) are in global overmap terrain coordinates.
@@ -312,17 +316,17 @@ class overmap
      * @returns The absolute coordinates of the chosen point or
      * @ref invalid_point if canceled with escape (or similar key).
      */
-    static point draw_overmap();
+    static tripoint draw_overmap();
     /**
      * Same as @ref draw_overmap() but starts at center
      * instead of players location.
      */
-    static point draw_overmap(const tripoint& center, bool debug_mongroup = false);
+    static tripoint draw_overmap(const tripoint& center, bool debug_mongroup = false);
     /**
      * Same as above but start at z-level z instead of players
      * current z-level, x and y are taken from the players position.
      */
-    static point draw_overmap(int z);
+    static tripoint draw_overmap(int z);
   void remove_vehicle(int id);
   int add_vehicle(vehicle *veh);
 
@@ -376,8 +380,7 @@ class overmap
   // parse data in an old overmap file
   bool unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
 
-  void generate(overmap* north, overmap* east, overmap* south,
-                overmap* west);
+  void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
   /**
@@ -419,15 +422,14 @@ class overmap
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
   oter_id rotate(const oter_id &oter, int dir);
+  bool allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed);
+  bool allowed_terrain(tripoint p, std::list<tripoint>, std::list<std::string> allowed, std::list<std::string> disallowed);
+  bool allow_special(tripoint p, overmap_special special, int &rotate);
   // Monsters, radios, etc.
   void place_specials();
-  void place_special(overmap_special special, tripoint p);
+  void place_special(overmap_special special, tripoint p, int rotation);
   void place_mongroups();
   void place_radios();
-  // File I/O
-
-  std::string terrain_filename(int const x, int const y) const;
-  std::string player_filename(int const x, int const y) const;
 
   // Map helper function.
   static void print_npcs(WINDOW *w, int const x, int const y, int const z);

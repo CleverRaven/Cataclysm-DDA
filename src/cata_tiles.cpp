@@ -657,11 +657,9 @@ bool cata_tiles::draw_from_id_string(const std::string &id, TILE_CATEGORY catego
                 col = t->color;
             }
         } else if (category == C_ITEM) {
-            if (item_controller->has_template(id)) {
-                const itype *i = item_controller->find_template(id);
-                sym = i->sym;
-                col = i->color;
-            }
+            const itype *i = item_controller->find_template(id);
+            sym = i->sym;
+            col = i->color;
         }
         // Special cases for walls
         switch(sym) {
@@ -914,7 +912,7 @@ bool cata_tiles::draw_trap(int x, int y)
     if (tr_id == tr_null) {
         return false;
     }
-    if (!traplist[tr_id]->can_see(g->u)) {
+    if (!traplist[tr_id]->can_see(g->u, x, y)) {
         return false;
     }
 

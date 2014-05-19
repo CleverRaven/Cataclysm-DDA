@@ -9,6 +9,9 @@
 #include "crafting.h"
 #include "iuse_actor.h"
 #include "tile_id_data.h"
+#include "item.h"
+#include "game.h"
+#include "artifact.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -192,7 +195,9 @@ void Item_factory::init(){
     iuse_function_list["FUNGICIDE"] = &iuse::fungicide;
     iuse_function_list["ANTIFUNGAL"] = &iuse::antifungal;
     iuse_function_list["ANTIPARASITIC"] = &iuse::antiparasitic;
+    iuse_function_list["ANTICONVULSANT"] = &iuse::anticonvulsant;
     iuse_function_list["WEED"] = &iuse::weed;
+    iuse_function_list["WEED_BROWNIE"] = &iuse::weed_brownie;
     iuse_function_list["COKE"] = &iuse::coke;
     iuse_function_list["CRACK"] = &iuse::crack;
     iuse_function_list["GRACK"] = &iuse::grack;
@@ -352,6 +357,7 @@ void Item_factory::init(){
     iuse_function_list["UNPACK_ITEM"]  = &iuse::unpack_item;
     iuse_function_list["PACK_ITEM"]  = &iuse::pack_item;
     iuse_function_list["RADGLOVE"]  = &iuse::radglove;
+    iuse_function_list["ROBOTCONTROL"]  = &iuse::robotcontrol;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
@@ -359,10 +365,6 @@ void Item_factory::init(){
     // It examines the item's artifact-specific properties
     // See artifact.h for a list
     iuse_function_list["ARTIFACT"] = &iuse::artifact;
-
-    // Offensive Techniques
-    techniques_list["PRECISE"] = "tec_precise";
-    techniques_list["RAPID"] = "tec_rapid";
 
     create_inital_categories();
 }
@@ -452,6 +454,11 @@ void Item_factory::check_itype_definitions() const {
         if(type->m2 != "null" && !material_type::has_material(type->m2)) {
             msg << string_format("invalid material %s", type->m2.c_str()) << "\n";
         }
+        for(std::set<std::string>::const_iterator a = type->techniques.begin(); a != type->techniques.end(); ++a) {
+            if (ma_techniques.count(*a) == 0) {
+                msg << string_format("unknown technique %s", a->c_str()) << "\n";
+            }
+        }
         for(std::map<std::string, int>::const_iterator a = type->qualities.begin(); a != type->qualities.end(); ++a) {
             if (::qualities.count(a->first) == 0) {
                 msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
@@ -529,16 +536,37 @@ bool Item_factory::has_template(const Item_tag& id) const {
 }
 
 //Returns the template with the given identification tag
-itype* Item_factory::find_template(Item_tag id){
+itype* Item_factory::find_template( Item_tag id ) {
     std::map<Item_tag, itype*>::iterator found = m_templates.find(id);
-    if(found != m_templates.end()){
+    if( found != m_templates.end() ) {
         return found->second;
     }
-    else{
-        debugmsg("Missing item (check item_groups.json): %s", id.c_str());
-        return m_missing_item;
+    found = itypes.find( id );
+    if( found != itypes.end() ) {
+        return found->second;
     }
+
+    debugmsg("Missing item (check item_groups.json): %s", id.c_str());
+    it_artifact_tool *bad_itype = new it_artifact_tool();
+    bad_itype->id = id.c_str();
+    bad_itype->name = string_format("undefined-%ss", id.c_str());
+    bad_itype->name_plural = string_format("undefined-%ss", id.c_str());
+    bad_itype->description = string_format("A strange shimmering... nothing."
+                                               "  You think it wants to be a %s.", id.c_str());
+    bad_itype->sym = '.';
+    bad_itype->color = c_white;
+    m_templates[ id ] = bad_itype;
+    itypes[ id ] = bad_itype;
+    // Push the item definition on the artifact list so it gets saved/loaded from json.
+    artifact_itype_ids.push_back( id );
+    return bad_itype;
 }
+
+void Item_factory::add_item_type( itype *new_type ) {
+    itypes[ new_type->id ] = new_type;
+    m_templates[ new_type->id ] = new_type;
+}
+
 
 Item_list Item_factory::create_from_group(Group_tag group, int created_at)
 {
@@ -549,21 +577,6 @@ Item_list Item_factory::create_from_group(Group_tag group, int created_at)
     } else {
         return Item_list();
     }
-}
-
-//Returns a random template from the list of all templates.
-itype* Item_factory::random_template(){
-    return template_from("ALL");
-}
-
-//Returns a random template from those with the given group tag
-itype* Item_factory::template_from(const Item_tag group_tag){
-    return find_template( id_from(group_tag) );
-}
-
-//Returns a random template name from the list of all templates.
-const Item_tag Item_factory::random_id(){
-    return id_from("ALL");
 }
 
 //Returns a random template name from the list of all templates.
@@ -590,35 +603,6 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
         return group_iter->second;
     }
     return NULL;
-}
-
-item Item_factory::create(Item_tag id, int created_at, bool rand){
-    return item(find_template(id), created_at, rand);
-}
-Item_list Item_factory::create(Item_tag id, int created_at, int quantity, bool rand){
-    Item_list new_items;
-    item new_item_base = create(id, created_at, rand);
-    for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone(rand));
-    }
-    return new_items;
-}
-item Item_factory::create_from(Item_tag group, int created_at, bool rand){
-    return create(id_from(group), created_at, rand);
-}
-Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity, bool rand){
-    return create(id_from(group), created_at, quantity, rand);
-}
-item Item_factory::create_random(int created_at, bool rand){
-    return create(random_id(), created_at, rand);
-}
-Item_list Item_factory::create_random(int created_at, int quantity, bool rand){
-    Item_list new_items;
-    item new_item_base = create(random_id(), created_at);
-    for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base.clone(rand));
-    }
-    return new_items;
 }
 
 bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item) {
@@ -1192,7 +1176,8 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
-void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id, const std::string &subtype)
+void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_id,
+                                   const std::string &subtype)
 {
     Item_spawn_data* &isd = m_template_groups[group_id];
     Item_group *ig = dynamic_cast<Item_group*>(isd);
@@ -1292,7 +1277,9 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->need_charges_msg = _(actor->need_charges_msg.c_str());
         obj.read("when_underwater", actor->when_underwater);
         obj.read("non_interactive_msg", actor->non_interactive_msg);
-        actor->non_interactive_msg = _(actor->non_interactive_msg.c_str());
+        if (!actor->non_interactive_msg.empty()) {
+            actor->non_interactive_msg = _(actor->non_interactive_msg.c_str());
+        }
         obj.read("moves", actor->moves);
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());

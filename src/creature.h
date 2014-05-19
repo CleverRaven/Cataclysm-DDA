@@ -186,7 +186,7 @@ class Creature
         virtual int get_armor_bash_bonus();
         virtual int get_armor_cut_bonus();
 
-        virtual int get_speed();
+        virtual int get_speed() const;
         virtual int get_dodge();
         virtual int get_hit();
         virtual m_size get_size() = 0;
@@ -197,10 +197,10 @@ class Creature
         // TODO: replumb this to use a std::string along with monster flags.
         virtual bool has_flag( const m_flag ) const { return false; };
 
-        virtual int get_speed_base();
+        virtual int get_speed_base() const;
         virtual int get_dodge_base();
         virtual int get_hit_base();
-        virtual int get_speed_bonus();
+        virtual int get_speed_bonus() const;
         virtual int get_dodge_bonus();
         virtual int get_block_bonus();
         virtual int get_hit_bonus();
@@ -278,6 +278,8 @@ class Creature
         virtual void add_msg_if_npc(game_message_type, const char *, ...){};
         virtual void add_msg_player_or_npc(const char *, const char *, ...){};
         virtual void add_msg_player_or_npc(game_message_type, const char *, const char *, ...){};
+
+        virtual void add_memorial_log(const char*, const char*, ...) {};
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead

@@ -32,6 +32,7 @@ enum vehicle_controls {
  toggle_lights,
  toggle_overhead_lights,
  toggle_turrets,
+ toggle_stereo,
  toggle_tracker,
  activate_horn,
  release_control,
@@ -49,6 +50,8 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     posy = 0;
     velocity = 0;
     turn_dir = 0;
+    face.init(0);
+    move.init(0);
     last_turn = 0;
     of_turn_carry = 0;
     turret_mode = 0;
@@ -58,9 +61,11 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     recharger_epower = 0;
     tracking_epower = 0;
     cruise_velocity = 0;
+    music_id = "";
     skidding = false;
     cruise_on = true;
     lights_on = false;
+    stereo_on = false;
     tracking_on = false;
     overhead_lights_on = false;
     fridge_on = false;
@@ -263,7 +268,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if (part_flag(p, "VARIABLE_SIZE")){ // generate its bigness attribute.?
             if(consistent_bignesses.count(parts[p].id) < 1){
                 //generate an item for this type, & cache its bigness
-                item tmp (itypes[part_info(p).item], 0);
+                item tmp (part_info(p).item, 0);
                 consistent_bignesses[parts[p].id] = tmp.bigness;
             }
             parts[p].bigness = consistent_bignesses[parts[p].id];
@@ -428,6 +433,7 @@ void vehicle::use_controls()
 
 
     bool has_lights = false;
+    bool has_stereo = false;
     bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
@@ -454,6 +460,9 @@ void vehicle::use_controls()
         }
         else if (part_flag(p, "TRACK")) {
             has_tracker = true;
+        }
+        else if (part_flag(p, "STEREO")) {
+            has_stereo = true;
         }
         else if (part_flag(p, VPFLAG_FUEL_TANK) &&
                  part_info(p).fuel_type == fuel_type_plutonium) {
@@ -491,6 +500,12 @@ void vehicle::use_controls()
         options_choice.push_back(toggle_lights);
         options_message.push_back(uimenu_entry((lights_on) ? _("Turn off headlights") :
                                                _("Turn on headlights"), 'h'));
+    }
+
+    if (has_stereo) {
+        options_choice.push_back(toggle_stereo);
+        options_message.push_back(uimenu_entry((stereo_on) ? _("Turn off stereo") :
+                                               _("Turn on stereo"), 'h'));
     }
 
    if (has_overhead_lights) {
@@ -573,6 +588,50 @@ void vehicle::use_controls()
             add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
         } else {
             add_msg(_("The headlights won't come on!"));
+        }
+        break;
+    case toggle_stereo:
+        if((stereo_on || fuel_left(fuel_type_battery))) {
+            stereo_on = !stereo_on;
+            int music_index = 0;
+            std::vector<item*> music_inv = g->u.inv.all_items_with_flag("CD");
+            std::vector<itype_id> music_types;
+            std::vector<std::string> music_names;
+            add_msg((stereo_on) ? _("Loading...") : _("Ejecting..."));
+            if (!g->u.has_item_with_flag("CD")&& stereo_on == true) {
+                add_msg("You don't have anything to play!");
+                stereo_on = false;
+            } else if (stereo_on == false) {
+                add_msg(_("Ejected the %s"), itypes[music_id]->name.c_str());
+                g->u.inv.add_item_by_type(music_id);
+            } else {
+            for (std::vector<item*>::iterator it = music_inv.begin() ; it != music_inv.end(); it++){
+                if (std::find(music_types.begin(), music_types.end(), (*it)->typeId()) == music_types.end()){
+                music_types.push_back((*it)->typeId());
+                music_names.push_back((*it)->name);
+                }
+            }
+            if (music_types.size() > 1) {
+                music_names.push_back("Cancel");
+                music_index = menu_vec(false, _("Use which item?"), music_names) - 1;
+            if (music_index == music_names.size() - 1)
+            music_index = -1;
+            } else {
+                music_index = 0;
+            }
+
+            if (music_index < 0) {
+                add_msg(_("You decided not to play anything"));
+                stereo_on = false;
+                return;
+            } else {
+                add_msg(_("Inserted the %s"), music_names[music_index].c_str());
+                g->u.inv.remove_item(music_types[music_index]);
+                music_id = music_types[music_index];
+            }
+            }
+        } else {
+                add_msg(_("The stereo won't come on!"));
         }
         break;
     case toggle_overhead_lights:
@@ -670,9 +729,9 @@ void vehicle::use_controls()
         // create a folding bicycle item
         item bicycle;
         if (can_be_folded) {
-            bicycle.make( itypes["generic_folded_vehicle"] );
+            bicycle.make( "generic_folded_vehicle" );
         } else {
-            bicycle.make( itypes["folding_bicycle"] );
+            bicycle.make( "folding_bicycle" );
         }
 
         // Drop stuff in containers on ground
@@ -795,6 +854,30 @@ void vehicle::honk_horn()
     }
 }
 
+void vehicle::play_music()
+{
+    for( size_t p = 0; p < parts.size(); ++p ) {
+        if ( ! part_flag( p, "STEREO" ) )
+            continue;
+        std::string sound = "";
+        const int radio_x = global_x() + parts[p].precalc_dx[0];
+        const int radio_y = global_y() + parts[p].precalc_dy[0];
+        if (int(calendar::turn) % 5 == 0) {
+            switch (rng(1, 5)) {
+            case 1: sound = _("a sweet guitar solo!");
+            case 2: sound = _("a funky bassline."); break;
+            case 3: sound = _("some amazing vocals."); break;
+            case 4: sound = _("some pumping bass."); break;
+            case 5: sound = _("dramatic classical music.");
+            }
+
+        }
+        g->sound(radio_x,radio_y,15,sound);
+        if ((g->u.posx < radio_x + 15 && g->u.posy < radio_y + 15) && (g->u.posx > radio_x - 15 && g->u.posy > radio_y - 15)) {
+            g->u.add_morale(MORALE_MUSIC,5,20,30,1);
+        }
+    }
+}
 vpart_info& vehicle::part_info (int index, bool include_removed) const
 {
     if (index >= 0 && index < parts.size()) {
@@ -1186,59 +1269,85 @@ int vehicle::install_part (int dx, int dy, std::string id, int hp, bool force)
     if (!force && !can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!
     }
-    vehicle_part new_part;
-    new_part.setid(id);
-    new_part.mount_dx = dx;
-    new_part.mount_dy = dy;
-    new_part.hp = hp < 0 ? vehicle_part_types[id].durability : hp;
-    new_part.amount = 0;
-    new_part.blood = 0;
-    item tmp(itypes[vehicle_part_types[id].item], 0);
-    new_part.bigness = tmp.bigness;
-    parts.push_back (new_part);
+    item tmp(vehicle_part_types[id].item, 0);
+    vehicle_part new_part(id, dx, dy, &tmp);
+    if (hp >= 0) {
+        new_part.hp = hp;
+    }
+    return install_part(dx, dy, new_part);
+}
 
+int vehicle::install_part (int dx, int dy, const std::string &id, const item &used_item)
+{
+    if (!can_mount (dx, dy, id)) {
+        return -1;  // no money -- no ski!
+    }
+    vehicle_part new_part(id, dx, dy, &used_item);
+    return install_part(dx, dy, new_part);
+}
+
+int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
+{
+    parts.push_back( new_part );
+    parts.back().mount_dx = dx;
+    parts.back().mount_dy = dy;
     refresh();
     return parts.size() - 1;
 }
 
-// share damage & bigness betwixt veh_parts & items.
-void vehicle::get_part_properties_from_item(int partnum, item& i)
+void vehicle_part::properties_from_item( const item &used_item )
 {
-    //transfer bigness if relevant.
-    itype_id  pitmid = part_info(partnum).item;
-    itype* itemtype = itypes[pitmid];
-    if(itemtype->is_var_veh_part())
-       parts[partnum].bigness = i.bigness;
-
+    const vpart_info &vpinfo = vehicle_part_int_types[iid];
+    if( used_item.type->is_var_veh_part() ) {
+        bigness = used_item.bigness;
+    }
     // item damage is 0,1,2,3, or 4. part hp is 1..durability.
     // assuming it rusts. other item materials disentigrate at different rates...
-    int health = 5 - i.damage;
-    health *= part_info(partnum).durability; //[0,dur]
+    int health = 5 - used_item.damage;
+    health *= vpinfo.durability; //[0,dur]
     health /= 5;
-    parts[partnum].hp = health;
+    hp = std::max( 1, health );
+    // Transfer fuel from item to tank
+    const ammotype &desired_liquid = vpinfo.fuel_type;
+    if( used_item.charges > 0 && desired_liquid == fuel_type_battery ) {
+        amount = std::min<int>( used_item.charges, vpinfo.size );
+    } else if( !used_item.contents.empty() ) {
+        const item &liquid = used_item.contents[0];
+        if( liquid.type->id == default_ammo( desired_liquid ) ) {
+            amount = std::min<int>( liquid.charges, vpinfo.size );
+        }
+    }
 }
 
-void vehicle::give_part_properties_to_item(int partnum, item& i)
+item vehicle_part::properties_to_item() const
 {
-    //transfer bigness if relevant.
-    itype_id  pitmid = part_info(partnum).item;
-    itype* itemtype = itypes[pitmid];
-    if(itemtype->is_var_veh_part())
-       i.bigness = parts[partnum].bigness;
-
-    // remove charges if part is made of a tool
-    if(itemtype->is_tool())
-        i.charges = 0;
-
+    const vpart_info &vpinfo = vehicle_part_int_types[iid];
+    item tmp( vpinfo.item, calendar::turn );
+    if( tmp.type->is_var_veh_part() ) {
+        tmp.bigness = bigness;
+    }
+    // tools go unloaded to prevent user from exploiting this to
+    // refill their (otherwise not refillable) tools
+    if( tmp.type->is_tool() ) {
+        tmp.charges = 0;
+    }
     // translate part damage to item damage.
     // max damage is 4, min damage 0.
     // this is very lossy.
-    int dam;
-    float hpofdur = (float)parts[partnum].hp / part_info(partnum).durability;
-    dam = (1 - hpofdur) * 5;
-    if (dam > 4) dam = 4;
-    if (dam < 0) dam = 0;
-    i.damage = dam;
+    float hpofdur = ( float )hp / vpinfo.durability;
+    tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
+    // Transfer fuel back to tank
+    if( !vpinfo.fuel_type.empty() && amount > 0 ) {
+        const ammotype &desired_liquid = vpinfo.fuel_type;
+        if( desired_liquid == fuel_type_battery ) {
+            tmp.charges = amount;
+        } else {
+            item liquid( default_ammo( desired_liquid ), calendar::turn );
+            liquid.charges = amount;
+            tmp.put_in( liquid );
+        }
+    }
+    return tmp;
 }
 
 /**
@@ -1280,7 +1389,7 @@ bool vehicle::remove_part (int p)
         int curtain = part_with_feature(p, "CURTAIN", false);
         if (curtain >= 0) {
             int x = parts[curtain].precalc_dx[0], y = parts[curtain].precalc_dy[0];
-            item it = item_from_part(curtain);
+            item it = parts[curtain].properties_to_item();
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(curtain);
         }
@@ -1291,7 +1400,7 @@ bool vehicle::remove_part (int p)
         int seatbelt = part_with_feature(p, "SEATBELT", false);
         if (seatbelt >= 0) {
             int x = parts[seatbelt].precalc_dx[0], y = parts[seatbelt].precalc_dy[0];
-            item it = item_from_part(seatbelt);
+            item it = parts[seatbelt].properties_to_item();
             g->m.add_item_or_charges(global_x() + x, global_y() + y, it, 2);
             remove_part(seatbelt);
         }
@@ -1356,25 +1465,10 @@ void vehicle::break_part_into_pieces(int p, int x, int y, bool scatter) {
         for(int num = 0; num < quantity; num++) {
             const int actual_x = scatter ? x + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : x;
             const int actual_y = scatter ? y + rng(-SCATTER_DISTANCE, SCATTER_DISTANCE) : y;
-            item piece(itypes[break_info[index].item_id], calendar::turn);
+            item piece(break_info[index].item_id, calendar::turn);
             g->m.add_item_or_charges(actual_x, actual_y, piece);
         }
     }
-}
-
-item vehicle::item_from_part( int part )
-{
-    itype_id itm = part_info(part).item;
-    int bigness = parts[part].bigness;
-    itype* parttype = itypes[itm];
-    item tmp(parttype, calendar::turn);
-
-    //transfer damage, etc.
-    give_part_properties_to_item(part, tmp);
-    if( parttype->is_var_veh_part() ) {
-        tmp.bigness = bigness;
-    }
-    return tmp;
 }
 
 const std::vector<int> vehicle::parts_at_relative (const int dx, const int dy, bool use_cache)
@@ -2543,6 +2637,7 @@ void vehicle::power_parts ()//TODO: more categories of powered part!
         tracking_on = false;
         overhead_lights_on = false;
         fridge_on = false;
+        stereo_on = false;
         recharger_on = false;
         if(player_in_control(&g->u) || g->u_see(global_x(), global_y())) {
             add_msg("The %s's battery dies!",name.c_str());
@@ -2632,7 +2727,9 @@ void vehicle::idle() {
         }
         engine_on = false;
     }
-
+    if (stereo_on == true && engine_on == true) {
+        play_music();
+    }
     slow_leak();
 }
 
@@ -2660,7 +2757,7 @@ void vehicle::slow_leak()
                 coord_translate( part.mount_dx, part.mount_dy, gx, gy );
                 // m.spawn_item() will spawn water in bottles, so instead we create
                 //   the leak manually and directly call m.add_item_or_charges().
-                item leak = item_controller->create( pinfo.fuel_type, calendar::turn );
+                item leak( pinfo.fuel_type, calendar::turn );
                 leak.charges = leak_amount;
                 g->m.add_item_or_charges( global_x() + gx, global_y() + gy, leak );
             }
@@ -2798,6 +2895,9 @@ void vehicle::thrust (int thd) {
         else
         if (velocity < -max_vel / 4)
             velocity = -max_vel / 4;
+    }
+    if (stereo_on == true && engine_on == true) {
+        play_music();
     }
 }
 
@@ -3394,8 +3494,8 @@ void vehicle::place_spawn_items()
                             continue;
                         }
                     }
-                    item new_item = item_controller->create(*next_id, calendar::turn);
-                    new_item = new_item.in_its_container(&(itypes));
+                    item new_item(*next_id, calendar::turn);
+                    new_item = new_item.in_its_container();
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
                     }
@@ -3410,8 +3510,8 @@ void vehicle::place_spawn_items()
                         }
                     }
                     Item_tag group_tag = item_controller->id_from(*next_group_id);
-                    item new_item = item_controller->create(group_tag, calendar::turn);
-                    new_item = new_item.in_its_container(&(itypes));
+                    item new_item(group_tag, calendar::turn);
+                    new_item = new_item.in_its_container();
                     if ( idmg > 0 ) {
                         new_item.damage = (signed char)idmg;
                     }
@@ -3738,7 +3838,7 @@ int vehicle::damage_direct (int p, int dmg, int type)
                                 add_msg(m_bad, _("The %s's %s is torn off!"), name.c_str(),
                                         part_info(parts_in_square[index]).name.c_str());
                             }
-                            item part_as_item = item_from_part(parts_in_square[index]);
+                            item part_as_item = parts[parts_in_square[index]].properties_to_item();
                             g->m.add_item_or_charges(x_pos, y_pos, part_as_item, true);
                             remove_part(parts_in_square[index]);
                         }
@@ -3954,7 +4054,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     tmp.str_cur = 16;
     tmp.dex_cur = 8;
     tmp.per_cur = 12;
-    tmp.weapon = item(&gun, 0);
+    tmp.weapon = item(gun.id, 0);
     it_ammo curam = ammo;
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
@@ -3982,7 +4082,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
         add_msg(_("The %s fires its %s!"), name.c_str(), part_info(p).name.c_str());
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
-    item tmp_ups( itypes["UPS_on"], 0 );
+    item tmp_ups( "UPS_on", 0 );
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     item &ups_ref = tmp.i_add(tmp_ups);

@@ -505,8 +505,6 @@ void game::setup()
 
     load_world_modfiles(world_generator->active_world);
 
-// Even though we may already have 'd', nextinv will be incremented as needed
- nextinv = 'd';
  next_npc_id = 1;
  next_faction_id = 1;
  next_mission_id = 1;
@@ -1649,7 +1647,7 @@ void game::activity_on_finish_fish()
             std::vector<std::string> fish_group = MonsterGroupManager::GetMonstersFromGroup("GROUP_FISH");
             std::string fish_mon = fish_group[rng(1, fish_group.size()) - 1];
 
-            fish.make_corpse(itypes["corpse"], GetMType(fish_mon), calendar::turn);
+            fish.make_corpse("corpse", GetMType(fish_mon), calendar::turn);
             m.add_item_or_charges(u.posx, u.posy, fish);
 
             u.add_msg_if_player(m_good, _("You catch a fish!"));
@@ -3431,24 +3429,24 @@ void game::place_corpse()
 {
   std::vector<item *> tmp = u.inv_dump();
   item your_body;
-  your_body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
+  your_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
   your_body.name = u.name;
   for (int i = 0; i < tmp.size(); i++)
     m.add_item_or_charges(u.posx, u.posy, *(tmp[i]));
   for (int i = 0; i < u.num_bionics(); i++) {
     bionic &b = u.bionic_at_index(i);
     if (itypes.find(b.id) != itypes.end()) {
-        your_body.contents.push_back(item(itypes[b.id], calendar::turn));
+        your_body.contents.push_back(item(b.id, calendar::turn));
     }
   }
   int pow = u.max_power_level;
   while (pow >= 4) {
     if (pow % 4 != 0 && pow >= 10){
       pow -= 10;
-      your_body.contents.push_back(item(itypes["bio_power_storage_mkII"], calendar::turn));
+      your_body.contents.push_back(item("bio_power_storage_mkII", calendar::turn));
     } else {
       pow -= 4;
-      your_body.contents.push_back(item(itypes["bio_power_storage"], calendar::turn));
+      your_body.contents.push_back(item("bio_power_storage", calendar::turn));
     }
   }
   m.add_item_or_charges(u.posx, u.posy, your_body);
@@ -3572,8 +3570,8 @@ void game::load(std::string worldname, std::string name)
  }
  u = player();
  u.name = base64_decode(name);
- u.ret_null = item(itypes["null"], 0);
- u.weapon = item(itypes["null"], 0);
+ u.ret_null = item("null", 0);
+ u.weapon = item("null", 0);
  unserialize(fin);
  fin.close();
 
@@ -3627,7 +3625,7 @@ void game::load_world_modfiles(WORLDPTR world)
     popup_nowait(_("Please wait while the world data loads"));
     load_core_data();
     if (world != NULL) {
-        load_artifacts(world->world_path + "/artifacts.gsav", itypes);
+        load_artifacts(world->world_path + "/artifacts.gsav");
         mod_manager *mm = world_generator->get_mod_manager();
         // this code does not care about mod dependencies,
         // it assumes that those dependencies are static and
@@ -3932,22 +3930,6 @@ void game::write_memorial_file() {
     closedir(dir);
 }
 
-void game::advance_nextinv()
-{
-  if (nextinv == inv_chars.end()[-1])
-    nextinv = inv_chars.begin()[0];
-  else
-    nextinv = inv_chars[inv_chars.find(nextinv) + 1];
-}
-
-void game::decrease_nextinv()
-{
-  if (nextinv == inv_chars.begin()[0])
-    nextinv = inv_chars.end()[-1];
-  else
-    nextinv = inv_chars[inv_chars.find(nextinv) - 1];
-}
-
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
 {
  event tmp(type, on_turn, faction_id, x, y);
@@ -4018,8 +4000,8 @@ void game::debug()
    break;
 
   case 3: {
-        point tmp = overmap::draw_overmap();
-        if (tmp != overmap::invalid_point)
+        tripoint tmp = overmap::draw_overmap();
+        if (tmp != overmap::invalid_tripoint)
         {
             //First offload the active npcs.
             active_npc.clear();
@@ -4033,6 +4015,7 @@ void game::debug()
             cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
             levx = tmp.x * 2 - int(MAPSIZE / 2);
             levy = tmp.y * 2 - int(MAPSIZE / 2);
+            levz = tmp.z;
             m.load(levx, levy, levz);
             load_npcs();
             m.spawn_monsters(); // Static monsters
@@ -4124,7 +4107,7 @@ void game::debug()
         veh_strings.push_back(it->second->type);
         //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
         opts.push_back(string_format(_("%s (%s)"),
-                       _(it->second->name.c_str()), it->second->type.c_str()));
+                       it->second->name.c_str(), it->second->type.c_str()));
       }
     }
     opts.push_back (std::string(_("Cancel")));
@@ -4255,40 +4238,13 @@ void game::debug()
       artifact_natural_property prop =
           artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
       m.create_anomaly(center.x, center.y, prop);
-      m.spawn_artifact(center.x, center.y, new_natural_artifact(itypes, prop), 0);
+      m.spawn_natural_artifact(center.x, center.y, prop);
   }
   break;
 
   case 16:
-  {
-      std::string artifact_name(std::string type);
-
-      it_artifact_tool *art = new it_artifact_tool();
-      artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
-      art->name = artifact_name(info->name);
-      art->color = info->color;
-      art->sym = info->sym;
-      art->m1 = info->m1;
-      art->m2 = info->m2;
-      art->volume = rng(info->volume_min, info->volume_max);
-      art->weight = rng(info->weight_min, info->weight_max);
-      // Set up the basic weapon type
-      artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
-      art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
-      art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
-      art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-      if( weapon->tag != "" ) {
-          art->item_tags.insert(weapon->tag);
-      }
-      // Add an extra weapon perhaps?
-      art->description = _("The architect's cube.");
-      art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
-      itypes[art->id] = art;
-      artifact_itype_ids.push_back(art->id);
-      item artifact( art, 0);
-      u.i_add(artifact);
-  }
-  break;
+      u.i_add( item( architects_cube(), calendar::turn ) );
+      break;
 
   case 17: {
       point coord = look_debug();
@@ -4873,7 +4829,7 @@ void game::draw()
 
     //Safemode coloring
     WINDOW *day_window = sideStyle ? w_status2 : w_status;
-    mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"), _(season_name[calendar::turn.get_season()].c_str()), calendar::turn.days() + 1);
+    mvwprintz(day_window, 0, sideStyle ? 0 : 41, c_white, _("%s, day %d"), season_name[calendar::turn.get_season()].c_str(), calendar::turn.days() + 1);
     if (run_mode != 0 || autosafemode != 0) {
         int iPercent = int((turnssincelastmon*100)/OPTIONS["AUTOSAFEMODETURNS"]);
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
@@ -8122,7 +8078,7 @@ void game::print_trap_info(int lx, int ly, WINDOW* w_look, const int column, int
     if (trapid == tr_null) {
         return;
     }
-    if (traplist[trapid]->can_see(u)) {
+    if (traplist[trapid]->can_see(u, lx, ly)) {
         mvwprintz(w_look, line++, column, traplist[trapid]->color, "%s", traplist[trapid]->name.c_str());
     }
 }
@@ -8317,6 +8273,7 @@ point game::look_around()
  return point(-1, -1);
 }
 
+bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
 bool game::list_items_match(item &item, std::string sPattern)
 {
     size_t iPos;
@@ -8344,10 +8301,16 @@ bool game::list_items_match(item &item, std::string sPattern)
         if(pat.find("{",0) != std::string::npos) {
             std::string adv_pat_type = pat.substr(1, pat.find(":")-1);
             std::string adv_pat_search = pat.substr(pat.find(":")+1, (pat.find("}")-pat.find(":"))-1);
-            if(adv_pat_type == "c" && item.get_category().name.find(adv_pat_search,0) != std::string::npos) {
+            std::transform( adv_pat_search.begin(), adv_pat_search.end(), adv_pat_search.begin(), tolower );
+            if(adv_pat_type == "c" && lcmatch(item.get_category().name, adv_pat_search)) {
                 return !exclude;
-            } else if (adv_pat_type == "m" && item.made_of(adv_pat_search)) {
-                return !exclude;
+            } else if (adv_pat_type == "m") {
+                if (lcmatch(item.get_material(1)->name(), adv_pat_search)) {
+                    return !exclude;
+                }
+                if (lcmatch(item.get_material(2)->name(), adv_pat_search)) {
+                    return !exclude;
+                }
             } else if (adv_pat_type == "dgt" && item.damage > atoi(adv_pat_search.c_str())) {
                 return !exclude;
             } else if (adv_pat_type == "dlt" && item.damage < atoi(adv_pat_search.c_str())) {
@@ -8893,7 +8856,7 @@ int game::list_items(const int iLastState)
                                   ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
                                   "%s", (sText.str()).c_str());
                         int numw = iItemNum > 9 ? 2 : 1;
-                        mvwprintz(w_items, iNum - iStartPos, width - (5 + numw),
+                        mvwprintz(w_items, iNum - iStartPos, width - (6 + numw),
                                   ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
                                   numw, trig_dist(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y),
                                   direction_name_short(direction_from(0, 0, iter->vIG[iThisPage].x, iter->vIG[iThisPage].y)).c_str()
@@ -9309,11 +9272,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
     // Ask to pour rotten liquid (milk!) from the get-go
     int dirx, diry;
-    std::stringstream liqstr;
+    const std::string liqstr = string_format(_("Pour %s where?"), liquid.tname().c_str());
     refresh_all();
-    liqstr << string_format(_("Pour %s where?"), liquid.tname().c_str());
     if (!from_ground && liquid.rotten() &&
-        choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
+        choose_adjacent(liqstr, dirx, diry)) {
 
         if (!m.can_put_items(dirx, diry)) {
             add_msg(m_info, _("You can't pour there!"));
@@ -9324,16 +9286,15 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     }
 
     if (cont == NULL || cont->is_null()) {
-        std::stringstream text;
-        text << string_format(_("Container for %s"), liquid.tname().c_str());
+        const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
-        int pos = inv_for_liquid(liquid, text.str().c_str(), false);
+        int pos = inv_for_liquid(liquid, text, false);
         cont = &(u.i_at(pos));
         if (cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
-                choose_adjacent(_(liqstr.str().c_str()), dirx, diry)) {
+                choose_adjacent(liqstr, dirx, diry)) {
 
                 if (!m.can_put_items(dirx, diry)) {
                     add_msg(m_info, _("You can't pour there!"));
@@ -9490,9 +9451,8 @@ int game::move_liquid(item &liquid)
   }
 
   //liquid is in fact a liquid.
-  std::stringstream text;
-  text << string_format(_("Container for %s"), liquid.tname().c_str());
-  int pos = inv_for_liquid(liquid, text.str().c_str(), false);
+  const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
+  int pos = inv_for_liquid(liquid, text, false);
 
   //is container selected?
   if(u.has_item(pos)) {
@@ -10550,8 +10510,8 @@ void game::complete_butcher(int index)
      return;
   }
   }
-  item tmpitem=item_controller->create(meat, age);
-  tmpitem.corpse=dynamic_cast<mtype*>(corpse);
+  item tmpitem(meat, age);
+  tmpitem.corpse = dynamic_cast<mtype*>(corpse);
   while ( pieces > 0 ) {
     pieces--;
     m.add_item_or_charges(u.posx, u.posy, tmpitem);
@@ -10562,10 +10522,12 @@ void game::complete_butcher(int index)
 void game::forage()
 {
     int veggy_chance = rng(1, 100);
+    bool found_something = false;
 
     if (one_in(12)) {
         add_msg(m_good, _("You found some trash!"));
         m.put_items_from("trash_forest", 1, u.posx, u.posy, calendar::turn, 0, 0, 0);
+        found_something = true;
     }
     if (veggy_chance < ((u.skillLevel("survival") * 2) + (u.per_cur - 8) + 5)) {
         if (!one_in(6)) {
@@ -10590,12 +10552,16 @@ void game::forage()
             }
         }
         m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+        found_something = true;
     } else {
-        add_msg(_("You didn't find anything."));
         if (one_in(2)) {
             m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
         }
     }
+    if(!found_something) {
+        add_msg(_("You didn't find anything."));
+    }
+
     //Determinate maximum level of skill attained by foraging using ones intelligence score
     int max_forage_skill =  0;
     if (u.int_cur < 4) {
@@ -10797,7 +10763,7 @@ void game::unload(int pos)
         item ite;
         if (pos == -1) { // item is wielded as weapon.
             ite = u.weapon;
-            u.weapon = item(itypes["null"], 0); //ret_null;
+            u.weapon = item("null", 0); //ret_null;
             unload(ite);
             u.weapon = ite;
             return;
@@ -10934,11 +10900,12 @@ void game::unload(item& it)
  item newam;
 
  if (weapon->curammo != NULL) {
-     newam = item(weapon->curammo, calendar::turn);
+     newam = item(weapon->curammo->id, calendar::turn);
  } else {
-     newam = item(itypes[default_ammo(weapon->ammo_type())], calendar::turn);
+     newam = item(default_ammo(weapon->ammo_type()), calendar::turn);
  }
- if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on"|| weapon->typeId() == "rm13_armor"|| weapon->typeId() == "rm13_armor_on") {
+ if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on"||
+    weapon->typeId() == "rm13_armor"|| weapon->typeId() == "rm13_armor_on") {
     int chargesPerPlutonium = 500;
     int chargesRemoved = weapon->charges - (weapon-> charges % chargesPerPlutonium);;
     int plutoniumRemoved = chargesRemoved / chargesPerPlutonium;
@@ -10956,21 +10923,16 @@ void game::unload(item& it)
  }
 
  if (newam.made_of(LIQUID)) {
-  if (!handle_liquid(newam, false, false))
-   weapon->charges += newam.charges; // Put it back in
+     if (!handle_liquid(newam, false, false)) {
+         weapon->charges += newam.charges; // Put it back in
+     }
  } else if(newam.charges > 0) {
-  size_t iter = 0;
-  while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < inv_chars.size()) {
-   newam.invlet = nextinv;
-   advance_nextinv();
-   iter++;
-  }
-  if (u.can_pickWeight(newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"]) &&
-      u.can_pickVolume(newam.volume()) && iter < inv_chars.size()) {
-   u.i_add(newam);
-  } else {
-   m.add_item_or_charges(u.posx, u.posy, newam, 1);
-  }
+     if( u.can_pickWeight( newam.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) &&
+         u.can_pickVolume( newam.volume() ) ) {
+         u.i_add(newam);
+     } else {
+         m.add_item_or_charges(u.posx, u.posy, newam, 1);
+     }
  }
  // null the curammo, but only if we did empty the item
  if (weapon->charges == 0) {
@@ -11345,7 +11307,7 @@ bool game::plmove(int dx, int dy)
     const trap_id tid = m.tr_at(x, y);
     if (tid != tr_null) {
         const struct trap &t = *traplist[tid];
-        if (t.can_see(u) && !t.is_benign() &&
+        if ((t.can_see(u, x, y)) && !t.is_benign() &&
             !query_yn(_("Really step onto that %s?"), t.name.c_str())) {
             return false;
         }
@@ -11588,6 +11550,12 @@ bool game::plmove(int dx, int dy)
     int side = random_side(bp);
     if(u.hit(NULL, bp, side, 0, rng(1, 4)) > 0)
      add_msg(m_bad, _("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
+     if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+         u.add_disease("tetanus",1,true);
+     }
+     else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
+         u.add_disease("tetanus",1,true);
+     }
    }
   }
   if (u.has_trait("LEG_TENT_BRACE") && (!(u.wearing_something_on(bp_feet))) ) {
@@ -11717,7 +11685,7 @@ bool game::plmove(int dx, int dy)
 
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
    trap* tr = traplist[m.tr_at(x, y)];
-   if (!u.avoid_trap(tr)) {
+   if (!u.avoid_trap(tr, x, y)) {
        tr->trigger(&g->u, x, y);
    }
   }
@@ -12366,7 +12334,7 @@ void game::vertical_move(int movez, bool force) {
 
  if (m.tr_at(u.posx, u.posy) != tr_null) { // We stepped on a trap!
   trap* tr = traplist[m.tr_at(u.posx, u.posy)];
-  if (force || !u.avoid_trap(tr)) {
+  if (force || !u.avoid_trap(tr, u.posx, u.posy)) {
    tr->trigger(&g->u, u.posx, u.posy);
   }
  }
@@ -13234,7 +13202,7 @@ bool game::spread_fungus(int x, int y)
                 for (int k = 0; k < g->m.i_at(x, y).size(); k++) {
                     m.i_rem(x, y, k);
                 }
-                item seeds(itypes["fungal_seeds"], int(calendar::turn));
+                item seeds("fungal_seeds", int(calendar::turn));
                 m.add_item_or_charges(x, y, seeds);
             }
         }
@@ -13318,7 +13286,7 @@ bool game::spread_fungus(int x, int y)
                             for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
                                 m.i_rem(i, j, k);
                             }
-                            item seeds(itypes["fungal_seeds"], int(calendar::turn));
+                            item seeds("fungal_seeds", int(calendar::turn));
                             m.add_item_or_charges(x, y, seeds);
                         }
                     }

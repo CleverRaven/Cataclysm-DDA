@@ -9,6 +9,7 @@
 #include "output.h"
 #include "mongroup.h"
 #include "mapdata.h"
+#include "json.h"
 
 #define OMAPX 180
 #define OMAPY 180
@@ -122,105 +123,51 @@ typedef oter_id oter_iid;
 // into 900 squares; lots of space for interesting stuff!
 #define OMSPEC_FREQ 15
 
-// Flags that determine special behavior for placement
-enum omspec_flag {
-OMS_FLAG_NULL = 0,
-OMS_FLAG_ROTATE_ROAD,   // Rotate to face road--assumes 3 following rotations
-OMS_FLAG_ROTATE_RANDOM, // Rotate randomly--assumes 3 following rotations
-OMS_FLAG_3X3,           // 3x3 square, e.g. bee hive
-OMS_FLAG_BLOB,          // Randomly shaped blob
-OMS_FLAG_3X3_SECOND,    // 3x3 square, made of the tile AFTER the main one
-OMS_FLAG_3X3_FIXED,     //3x3 square, made of tiles one ahead and seven after
-OMS_FLAG_2X2,
-OMS_FLAG_2X2_SECOND,
-OMS_FLAG_BIG,           // As big as possible
-OMS_FLAG_ROAD,          // Add a road_point here; connect to towns etc.
-OMS_FLAG_PARKING_LOT,   // Add a road_point to the north of here
-OMS_FLAG_DIRT_LOT,      // Dirt lot flag for specials
-OMS_FLAG_CLASSIC,       // Allow this location to spawn in classic mode
-NUM_OMS_FLAGS
-};
-
-struct omspec_place
+struct overmap_special_spawns
 {
-// Able functions - true if p is valid
- bool never      (overmap *, unsigned long, tripoint) { return false; }
- bool always     (overmap *, unsigned long, tripoint) { return true;  }
- bool water      (overmap *om, unsigned long f, tripoint p); // Only on rivers
- bool land       (overmap *om, unsigned long f, tripoint p); // Only on land (no rivers)
- bool forest     (overmap *om, unsigned long f, tripoint p); // Forest
- bool wilderness (overmap *om, unsigned long f, tripoint p); // Forest or fields
- bool by_highway (overmap *om, unsigned long f, tripoint p); // Next to existing highways
+    overmap_special_spawns():group("GROUP_NULL"),min_population(0),max_population(0),
+        min_radius(0), max_radius(0){};
+    std::string group;
+    int min_population;
+    int max_population;
+    int min_radius;
+    int max_radius;
 };
 
-struct overmap_special
+struct overmap_special_terrain
 {
-// oter_id ter;           // Terrain placed
-std::string ter;
- int min_appearances;   // Min number in an overmap
- int max_appearances;   // Max number in an overmap
- int min_dist_from_city;// Min distance from city limits
- int max_dist_from_city;// Max distance from city limits
-
- std::string monsters;  // Type of monsters that appear here
- int monster_pop_min;   // Minimum monster population
- int monster_pop_max;   // Maximum monster population
- int monster_rad_min;   // Minimum monster radius
- int monster_rad_max;   // Maximum monster radius
-
- bool (omspec_place::*able) (overmap *om, unsigned long f, tripoint p); // See above
- unsigned long flags : NUM_OMS_FLAGS; // See above
+    tripoint p;
+    std::string connect;
+    std::string terrain;
+    std::set<std::string> flags;
 };
 
-enum omspec_id
+class overmap_special
 {
- OMSPEC_CRATER,
- OMSPEC_HIVE,
- OMSPEC_HOUSE,
- OMSPEC_GAS,
- OMSPEC_CABIN,
- OMSPEC_CABIN_STRANGE,
- OMSPEC_LMOE,
- OMSPEC_FARM,
- OMSPEC_TEMPLE,
- OMSPEC_LAB,
- OMSPEC_ICE_LAB,
- OMSPEC_FEMA,
- OMSPEC_BUNKER,
- OMSPEC_OUTPOST,
- OMSPEC_SILO,
- OMSPEC_RADIO,
- OMSPEC_MANSION,
- OMSPEC_MANSION_WILD,
- OMSPEC_MEGASTORE,
- OMSPEC_HOSPITAL,
- OMSPEC_PUBLIC_WORKS,
- OMSPEC_APARTMENT_CON_TOWER,
- OMSPEC_APARTMENT_MOD_TOWER,
- OMSPEC_OFFICE_TOWER,
- OMSPEC_CATHEDRAL,
- OMSPEC_SCHOOL,
- OMSPEC_PRISON,
- OMSPEC_HOTEL_TOWER,
- OMSPEC_SEWAGE,
- OMSPEC_MINE,
- OMSPEC_ANTHILL,
- OMSPEC_SPIDER,
- OMSPEC_SLIME,
- OMSPEC_FUNGUS,
- OMSPEC_TRIFFID,
- OMSPEC_LAKE,
- OMSPEC_SHELTER,
- OMSPEC_CAVE,
- OMSPEC_TOXIC_DUMP,
- OMSPEC_LONE_GASSTATION,
- OMSPEC_HAZARDOUS_SAR,
- NUM_OMSPECS
+    public:
+    bool operator<(const overmap_special& right) const
+    {
+        return (this->id.compare(right.id) < 0);
+    }
+    std::string id;
+    std::list<overmap_special_terrain> terrains;
+    int min_city_size, max_city_size;
+    int min_city_distance, max_city_distance;
+    int min_occurrences, max_occurrences;
+    int height, width;
+    bool rotatable;
+    bool unique;
+    bool required;
+    overmap_special_spawns spawns;
+    std::list<std::string> locations;
+    std::set<std::string> flags;
 };
 
-// Set min or max to -1 to ignore them
+extern std::vector<overmap_special> overmap_specials;
 
-extern overmap_special overmap_specials[NUM_OMSPECS];
+void load_overmap_specials(JsonObject &jo);
+
+void clear_overmap_specials();
 
 // Overmap "Zones"
 // Areas which have special post-generation processing attached to them

@@ -10,7 +10,6 @@
 #include "debug.h"
 #include "map.h"
 #include "output.h"
-#include "item_factory.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
 #include "trap.h"
@@ -84,7 +83,6 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             pdata.read("run_mode", tmprun);
             pdata.read("mostseen", mostseen);
             pdata.read("nextinv", tmpinv);
-            nextinv = (char)tmpinv;
             pdata.read("next_npc_id", next_npc_id);
             pdata.read("next_faction_id", next_faction_id);
             pdata.read("next_mission_id", next_mission_id);
@@ -176,9 +174,10 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
 
-            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+            // tempinv is a no-longer used field, so is discarded.
+            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
                 next_faction_id >> next_mission_id >> tmpspawn;
 
             getline(fin, linebuf);
@@ -293,9 +292,10 @@ bool game::unserialize_legacy(std::ifstream & fin) {
             std::string linebuf;
             std::stringstream linein;
 
-            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
+            int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
 
-            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+            // tempenv gets the value of the no-longer-used nextinv variable, so we discard it.
+            parseline() >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
                 next_faction_id >> next_mission_id >> tmpspawn;
 
             getline(fin, linebuf);
@@ -411,8 +411,9 @@ bool game::unserialize_legacy(std::ifstream & fin) {
 /*
 original 'structure', which globs game/weather/location & killcount/player data onto the same lines.
 */
-         int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
-         fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
+         int tmpturn, tmpspawn, tmprun, tmptar, comx, comy, tempinv;
+         // tempinv gets the legacy nextinv value and is discarded.
+         fin >> tmpturn >> tmptar >> tmprun >> mostseen >> tempinv >> next_npc_id >>
              next_faction_id >> next_mission_id >> tmpspawn;
 
          load_legacy_future_weather(fin);
@@ -1919,36 +1920,19 @@ void item::load_legacy(std::stringstream & dump) {
         name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
     }
 
-    bool old_itype = false;
-
-    if ( idtmp == "null" ) {
-        std::map<std::string, std::string>::const_iterator oldity = item_vars.find("_invalid_itype_");
-        if ( oldity != item_vars.end() ) {
-            old_itype = true;
-            idtmp = oldity->second;
-        }
-    }
-
-    std::map<std::string, itype*>::const_iterator ity = itypes.find(idtmp);
-    if ( ity == itypes.end() ) {
-        item_vars["_invalid_itype_"] = idtmp;
-        make(NULL);
-    } else {
-        if ( old_itype ) {
-            item_vars.erase( "_invalid_itype_" );
-        }
-        make(ity->second);
-    }
+    make(idtmp);
 
     invlet = char(lettmp);
     damage = damtmp;
     active = false;
-    if (acttmp == 1)
+    if (acttmp == 1) {
         active = true;
-    if (ammotmp != "null")
+    }
+    if (ammotmp != "null") {
         curammo = dynamic_cast<it_ammo*>(itypes[ammotmp]);
-    else
+    } else {
         curammo = NULL;
+    }
 }
 
 ///// vehicle.h

@@ -43,6 +43,7 @@ class calendar
 {
     private:
         // The basic data; note that "second" should always be a multiple of 6
+        int turn_number;
         int second;
         int minute;
         int hour;

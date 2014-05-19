@@ -56,33 +56,6 @@ SW_DATA,
 NUM_SOFTWARE_TYPES
 };
 
-enum technique_id {
-TEC_NULL,
-// Offensive Techniques
-TEC_SWEEP,      // Crits may make your enemy fall & miss a turn
-TEC_PRECISE,    // Crits are painful and stun
-TEC_BRUTAL,     // Crits knock the target back
-TEC_GRAB,       // Hit may allow a second unarmed attack attempt
-TEC_WIDE,       // Attacks adjacent oppoents
-TEC_RAPID,      // Hits faster
-TEC_FEINT,      // Misses take less time
-TEC_THROW,      // Attacks may throw your opponent
-TEC_DISARM,     // Remove an NPC's weapon
-TEC_FLAMING,    // Sets victim on fire
-// Defensive Techniques
-TEC_BLOCK,      // Block attacks, reducing them to 25% damage
-TEC_BLOCK_LEGS, // Block attacks, but with your legs
-TEC_WBLOCK_1,   // Weapon block, poor chance -- e.g. pole
-TEC_WBLOCK_2,   // Weapon block, moderate chance -- weapon made for blocking
-TEC_WBLOCK_3,   // Weapon block, good chance -- shield
-TEC_COUNTER,    // Counter-attack on a block or dodge
-TEC_BREAK,      // Break from a grab
-TEC_DEF_THROW,  // Throw an enemy that attacks you
-TEC_DEF_DISARM, // Disarm an enemy
-
-NUM_TECHNIQUES
-};
-
 enum bigness_property_aspect {
 BIGNESS_ENGINE_NULL,         // like a cookie-cutter-cut cookie, this type has no bigness aspect.
 BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement

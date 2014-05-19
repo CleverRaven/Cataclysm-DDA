@@ -7,7 +7,6 @@
 #include "addiction.h"
 #include "moraledata.h"
 #include "inventory.h"
-#include "artifact.h"
 #include "options.h"
 #include <sstream>
 #include <stdlib.h>
@@ -254,6 +253,7 @@ player& player::operator= (const player & rhs)
  oxygen = rhs.oxygen;
  next_climate_control_check=rhs.next_climate_control_check;
  last_climate_control_ret=rhs.last_climate_control_ret;
+ known_traps = rhs.known_traps;
 
  recoil = rhs.recoil;
  driving_recoil = rhs.driving_recoil;
@@ -319,28 +319,12 @@ void player::normalize()
 {
     Creature::normalize();
 
-    ret_null = item(itypes["null"], 0);
-    weapon   = item(itypes["null"], 0);
+    ret_null = item("null", 0);
+    weapon   = item("null", 0);
     style_selected = "style_none";
-    for (int i = 0; i < num_hp_parts; i++) {
-        hp_max[i] = 60 + str_max * 3;
-        // Tough and Flimsy are exclusive.
-        // Only the most extreme of each version applies.
-        if (has_trait("TOUGH3")) {
-            hp_max[i] = int(hp_max[i] * 1.2);
-        } else if (has_trait("TOUGH2")) {
-            hp_max[i] = int(hp_max[i] * 1.3);
-        } else if (has_trait("TOUGH")) {
-            hp_max[i] = int(hp_max[i] * 1.4);
-        } else if (has_trait("FLIMSY3")) {
-            hp_max[i] = int(hp_max[i] * .75);
-        } else if (has_trait("FLIMSY2")) {
-            hp_max[i] = int(hp_max[i] * .5);
-        } else if (has_trait("FLIMSY")) {
-            hp_max[i] = int(hp_max[i] * .25);
-        }
-        hp_cur[i] = hp_max[i];
-    }
+    
+    recalc_hp();
+    
     for (int i = 0 ; i < num_bp; i++)
         temp_conv[i] = BODYTEMP_NORM;
 }
@@ -1656,7 +1640,7 @@ void player::memorial( std::ofstream &memorial_file )
     }
     memorial_file << pronoun << _(" was ") << profession_name.str()
                   << _(" when the apocalypse began.") << "\n";
-    memorial_file << pronoun << _(" died on ") << _(season_name[calendar::turn.get_season()].c_str())
+    memorial_file << pronoun << _(" died on ") << season_name[calendar::turn.get_season()]
                   << _(" of year ") << (calendar::turn.years() + 1)
                   << _(", day ") << (calendar::turn.days() + 1)
                   << _(", at ") << calendar::turn.print_time() << ".\n";
@@ -1880,7 +1864,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
 
     std::stringstream timestamp;
     timestamp << _("Year") << " " << (calendar::turn.years() + 1) << ", "
-              << _(season_name[calendar::turn.get_season()].c_str()) << " "
+              << season_name[calendar::turn.get_season()] << " "
               << (calendar::turn.days() + 1) << ", " << calendar::turn.print_time();
 
     const oter_id &cur_ter = overmap_buffer.ter(g->om_global_location());
@@ -3931,11 +3915,11 @@ bool player::has_two_arms() const
  return true;
 }
 
-bool player::avoid_trap(trap* tr)
+bool player::avoid_trap(trap* tr, int x, int y)
 {
   int myroll = dice(3, int(dex_cur + skillLevel("dodge") * 1.5));
  int traproll;
-    if (tr->can_see(*this)) {
+    if (tr->can_see(*this, x, y)) {
         traproll = dice(3, tr->get_avoidance());
     } else {
         traproll = dice(6, tr->get_avoidance());
@@ -4026,6 +4010,31 @@ void player::pause()
             }
             break;
         }
+    }
+
+    search_surroundings();
+}
+
+void player::search_surroundings()
+{
+    if (controlling_vehicle) {
+        return;
+    }
+    for(size_t i = 0; i < 9; i++) {
+        const int x = posx + i / 3 - 1;
+        const int y = posy + i % 3 - 1;
+        const trap_id trid = g->m.tr_at(x, y);
+        if (trid == tr_null || (x == posx && y == posy)) {
+            continue;
+        }
+        const trap *tr = traplist[trid];
+        if (tr->name.empty() || tr->can_see(*this, x, y)) {
+            // Already seen, or has no name -> can never bee seen
+            continue;
+        }
+        const std::string direction = direction_name(direction_from(posx, posy, x, y));
+        add_msg_if_player(_("You've spotted a %s to the %s!"), tr->name.c_str(), direction.c_str());
+        add_known_trap(x, y, tr->id);
     }
 }
 
@@ -5163,7 +5172,7 @@ int player::addiction_level(add_type type)
 bool player::siphon(vehicle *veh, ammotype desired_liquid)
 {
     int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
-    item used_item( itypes[default_ammo(desired_liquid)], calendar::turn );
+    item used_item( default_ammo(desired_liquid), calendar::turn );
     used_item.charges = liquid_amount;
     int extra = g->move_liquid( used_item );
     if( extra == -1 ) {
@@ -6460,12 +6469,14 @@ bool player::process_single_active_item(item *it)
             it->item_counter--;
             if(it->item_counter == 0)
             {
-                // wet towel becomes a regular towel
-                if(it->type->id == "towel_wet")
-                    it->make(itypes["towel"]);
-
+                const it_tool *tool = dynamic_cast<const it_tool*>(it->type);
+                if (tool != NULL && tool->revert_to != "null") {
+                    it->make(tool->revert_to);
+                }
                 it->item_tags.erase("WET");
-                it->item_tags.insert("ABSORBENT");
+                if (!it->has_flag("ABSORBENT")) {
+                    it->item_tags.insert("ABSORBENT");
+                }
                 it->active = false;
             }
         }
@@ -6505,15 +6516,15 @@ bool player::process_single_active_item(item *it)
             if(it->item_counter <= 0) {
                 add_msg_if_player( _("You finish your %s."), it->name.c_str());
                 if(it->type->id == "cig_lit") {
-                    it->make(itypes["cig_butt"]);
+                    it->make("cig_butt");
                 } else if(it->type->id == "cigar_lit"){
-                    it->make(itypes["cigar_butt"]);
+                    it->make("cigar_butt");
                 } else { // joint
                     this->add_disease("weed_high", 10); // one last puff
                     g->m.add_field(this->posx + int(rng(-1, 1)), this->posy + int(rng(-1, 1)),
                                    fd_weedsmoke, 2);
                     weed_msg(this);
-                    it->make(itypes["joint_roach"]);
+                    it->make("joint_roach");
                 }
                 it->active = false;
             }
@@ -7286,6 +7297,9 @@ bool player::consume(int pos)
         return false;
     } if (is_underwater()) {
         add_msg_if_player( m_info, _("You can't do that while underwater."));
+        return false;
+    } else if( pos < -1 ) {
+        add_msg_if_player( m_info, _( "You can't eat worn items, you have to take them off." ) );
         return false;
     } else if (pos == -1) {
         // Consume your current weapon
@@ -8117,6 +8131,12 @@ bool player::wear(int pos, bool interactive)
     if (pos == -1)
     {
         to_wear = &weapon;
+    }
+    else if( pos < -1 ) {
+        if( interactive ) {
+            add_msg( m_info, _( "You are already wearing that." ) );
+        }
+        return false;
     }
     else
     {
@@ -8972,9 +8992,9 @@ void player::remove_gunmod(item *weapon, int id)
     item ammo;
     if (gunmod->charges > 0) {
         if (gunmod->curammo != NULL) {
-            ammo = item(gunmod->curammo, calendar::turn);
+            ammo = item(gunmod->curammo->id, calendar::turn);
         } else {
-            ammo = item(itypes[default_ammo(weapon->ammo_type())], calendar::turn);
+            ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
         }
         ammo.charges = gunmod->charges;
         if (ammo.made_of(LIQUID)) {
@@ -9092,9 +9112,9 @@ void player::read(int pos)
         add_msg(m_info, _("What's the point of reading?  (Your morale is too low!)"));
         return;
     } else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
-               !query_yn(_(tmp->fun > 0 ?
-                           "It would be fun, but your %s skill won't be improved.  Read anyway?"
-                           : "Your %s skill won't be improved.  Read anyway?"),
+               !query_yn(tmp->fun > 0 ?
+                           _("It would be fun, but your %s skill won't be improved.  Read anyway?")
+                           : _("Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
     } else if (!continuous && !query_yn(_("Study %s until you learn something? (gain a level)"),
@@ -9400,13 +9420,31 @@ int player::encumb(body_part bp)
     return encumb(bp, iLayers, iArmorEnc);
 }
 
+
+/*
+ * Encumbrance logic:
+ * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
+ * These simply add their encumbrance value to each body part they cover.
+ * In addition, each article of clothing after the first in a layer imposes an additional penalty.
+ * e.g. one shirt will not encumber you, but two is tight and starts to restrict movement.
+ * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
+ * they're intended to be worn that way, and don't impose a penalty.
+ * The default is to assume that clothes do not fit, clothes that are "fitted" either
+ * reduce the encumbrance penalty by one, or if that is already 0, they reduce the layering effect.
+ *
+ * Use cases:
+ * What would typically be considered normal "street clothes" should not be considered encumbering.
+ * Tshirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
+ * This is currently handled by each of these articles of clothing
+ * being on a different layer and/or body part, therefore accumulating no encumbrance.
+ */
 int player::encumb(body_part bp, double &layers, int &armorenc)
 {
     int ret = 0;
     double layer[MAX_CLOTHING_LAYER] = { };
-    int level;
+    int level = 0;
 
-    it_armor* armor;
+    it_armor* armor = NULL;
     for (size_t i = 0; i < worn.size(); ++i) {
         if( !worn[i].is_armor() ) {
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
@@ -9430,10 +9468,10 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
                 (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
                  has_active_bionic("bio_power_armor_interface") ||
                  has_active_bionic("bio_power_armor_interface_mkII")) ) {
-                armorenc += armor->encumber - 4;
+                armorenc += std::max( 0, armor->encumber - 4);
             } else {
                 armorenc += armor->encumber;
-                // Fitted clothes will either reduce encumbrance or negate layering.
+                // Fitted clothes will reduce either encumbrance or layering.
                 if( worn[i].has_flag( "FIT" ) ) {
                     if( armor->encumber > 0 && armorenc > 0 ) {
                         armorenc--;
@@ -9450,13 +9488,11 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     ret += armorenc;
 
     for (int i = 0; i < sizeof(layer) / sizeof(layer[0]); ++i) {
-        if (layer[i] > 1) {
-            layers += int(layer[i]) - 1;
-        }
+        layers += std::max( 0.0, layer[i] - 1.0 );
     }
 
-    if (layers > 0) {
-        ret += int(layers) * (bp == bp_torso ? .75 : 1); // Easier to layer on torso
+    if (layers > 0.0) {
+        ret += layers * (bp == bp_torso ? 0.75 : 1.0); // Easier to layer on torso
     }
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
@@ -10775,3 +10811,23 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
     Messages::vadd_msg(type, player_str, ap);
     va_end(ap);
 };
+
+bool player::knows_trap(int x, int y) const
+{
+    x += g->levx * SEEX;
+    y += g->levy * SEEY;
+    tripoint p(x, y, g->levz);
+    return known_traps.count(p) > 0;
+}
+
+void player::add_known_trap(int x, int y, const std::string &t)
+{
+    x += g->levx * SEEX;
+    y += g->levy * SEEY;
+    tripoint p(x, y, g->levz);
+    if (t == "tr_null") {
+        known_traps.erase(p);
+    } else {
+        known_traps[p] = t;
+    }
+}

@@ -14,7 +14,9 @@
         "id" : "bio_batteries",
     "name"       :    "Battery System",
     "power_source" :  true,
-    "description":    "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries."
+    "active"     :    true,
+    "time"       :    100,
+    "description":    "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries. Can be toggled on and off at will."
     },{
         "type" : "bionic",
         "id" : "bio_metabolics",
@@ -22,7 +24,7 @@
     "power_source" :  true,
     "active"     :    true,
     "time"       :    100,
-    "description":    "Your digestive system and power supply are interconnected.  Any drain on energy instead increases your hunger."
+    "description":    "Your digestive system and power supply are interconnected.  Any drain on energy instead increases your hunger. Can be toggled on and off at will."
     },{
         "type" : "bionic",
         "id" : "bio_solar",

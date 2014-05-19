@@ -133,7 +133,7 @@ double Creature::projectile_attack(const projectile &proj, int sourcex, int sour
     )
        )
     {
-        item ammotmp = item(curammo, 0);
+        item ammotmp = item(curammo->id, 0);
         ammotmp.charges = 1;
         g->m.add_item_or_charges(tx, ty, ammotmp);
     }
@@ -261,7 +261,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         used_weapon = &weapon;
     }
 
-    ammotmp = item(curammo, 0);
+    ammotmp = item(curammo->id, 0);
     ammotmp.charges = 1;
 
     if (!used_weapon->is_gun() && !used_weapon->is_gunmod()) {
@@ -409,7 +409,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
                 weapon.item_vars[ "CASINGS" ] = string_format( "%d", num_casings + 1 );
             } else {
                 item casing;
-                casing.make(itypes[casing_type]);
+                casing.make(casing_type);
                 // Casing needs a charges of 1 to stack properly with other casings.
                 casing.charges = 1;
                 if( used_weapon->has_gunmod("brass_catcher") != -1 ) {
@@ -715,6 +715,13 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             sound(tx, ty, 8, _("thud."));
         }
         m.add_item_or_charges(tx, ty, thrown);
+        const trap_id trid = m.tr_at(tx, ty);
+        if (trid != tr_null) {
+            const struct trap *tr = traplist[trid];
+            if (thrown.weight() >= tr->trigger_weight) {
+                tr->trigger(NULL, tx, ty);
+            }
+        }
     }
 }
 
