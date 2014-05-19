@@ -2128,8 +2128,11 @@ int iuse::catfood(player *p, item *, bool)
     return 1;
 }
 
-bool prep_firestarter_use(player *p, item *, int &posx, int &posy)
+bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
 {
+    if (it->charges == 0) {
+      return false;
+    }
     if (p->is_underwater()) {
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
