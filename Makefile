@@ -396,7 +396,7 @@ localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
 $(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
