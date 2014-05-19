@@ -8806,6 +8806,7 @@ void player::use(int pos)
                                 used->charges),
                        used->tname().c_str(),
                        used->charges, tool->charges_per_use);
+            add_msg(m_info, ngettext("used->charges is currently %s, long(charges_used) is currently %d", used->charges, long(charges_used)))
         }
     } else if (used->type->use == &iuse::boots          ||
                used->type->use == &iuse::sheath_sword   ||
