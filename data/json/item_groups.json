@@ -650,6 +650,7 @@
       ["grapnel", 1],
       ["misc_repairkit", 15],
       ["charcoal", 20],
+      ["toolbox", 2],
       ["sheath", 15]
     ]
   },{
@@ -4533,6 +4534,7 @@
       ["eyedrops", 5],
       ["grapnel", 1],
       ["apron_leather", 5],
+      ["toolbox", 10],
       ["survnote", 1]
     ]
   },{
@@ -5711,6 +5713,7 @@
       ["charcoal", 5],
       ["sheath", 3],
       ["holster", 3],
+      ["toolbox", 1],
       ["survnote", 5]
     ]
   },{
@@ -5754,6 +5757,7 @@
       ["boots_rubber", 20],
       ["sm_extinguisher", 10],
       ["grapnel", 1],
+      ["toolbox", 5],
       ["apron_leather", 10]
     ]
   },{
@@ -5774,6 +5778,7 @@
       ["battery", 50],
       ["flashlight", 40],
       ["boots_rubber", 20],
+      ["toolbox", 1],
       ["apron_leather", 10]
     ]
   },{
@@ -5783,6 +5788,7 @@
       ["shovel", 10],
       ["pickaxe", 2],
       ["rock", 40],
+      ["toolbox", 5],
       ["coal", 20]
     ]
   },{
@@ -5830,6 +5836,7 @@
       ["e_tool", 5],
       ["miner_hat", 40],
       ["grapnel", 1],
+      ["toolbox", 1],
       ["apron_leather", 10]
     ]
   },{
@@ -5889,6 +5896,7 @@
       ["lsd", 1],
       ["gum", 20],
       ["caff_gum", 8],
+      ["toolbox", 1],
       ["nic_gum", 5]
     ]
   },{
@@ -5927,6 +5935,7 @@
       ["antiparasitic", 5],
       ["diazepam", 5],
       ["misc_repairkit", 5],
+      ["toolbox", 2],
       ["apron_leather", 10]
     ]
   },{
@@ -5991,6 +6000,7 @@
       ["lsd", 1],
       ["55gal_drum", 10],
       ["30gal_drum", 15],
+      ["toolbox", 1],
       ["recipe_elfa", 2]
     ]
   },{
@@ -6006,6 +6016,7 @@
       ["55gal_drum", 10],
       ["30gal_drum", 15],
       ["grapnel", 1],
+      ["toolbox", 1],
       ["apron_leather", 5]
     ]
   },{
@@ -6108,6 +6119,7 @@
       ["fire_ax", 5],
       ["miner_hat", 10],
       ["grapnel", 2],
+      ["toolbox", 1],
       ["pur_tablets", 10]
     ]
   },{
@@ -6570,6 +6582,7 @@
       ["grapnel", 1],
       ["bot_laserturret", 1],
       ["sheath", 13],
+      ["toolbox", 1],
       ["survnote", 1]
     ]
   },{
@@ -6656,6 +6669,7 @@
       ["optical_cloak", 1],
       ["antiparasitic", 2],
       ["survnote", 1],
+      ["toolbox", 1],
       ["diazepam", 1]
     ]
   },{
@@ -7273,6 +7287,7 @@
       ["throw_extinguisher", 10],
       ["grapnel", 5],
       ["wearable_light", 5],
+      ["toolbox", 1],
       ["smoxygen_tank", 35]
     ]
   },{
@@ -7531,6 +7546,7 @@
       ["grapnel", 6],
       ["misc_repairkit", 8],
       ["flamethrower_simple", 2],
+      ["toolbox", 1],
       ["survnote", 30]
     ]
   },{
@@ -7871,6 +7887,7 @@
       ["gloves_rubber", 60],
       ["fertilizer_liquid", 20],
       ["sickle", 40],
+      ["toolbox", 10],
       ["scythe", 40]
     ]
   },{

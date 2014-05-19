@@ -3550,7 +3550,12 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
             default:
                 break;
             }
-            make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
+            if(ter(conn.x, conn.y, p.z).t().allow_road) {
+                make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
+            } else { // in case the entrance does not come out the top, try wherever possible...
+                conn = connection.second;
+                make_hiway(conn.x, conn.y, closest.x, closest.y, p.z, "road");
+            }
         }
     }
 
