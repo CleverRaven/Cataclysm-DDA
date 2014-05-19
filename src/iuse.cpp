@@ -2128,8 +2128,11 @@ int iuse::catfood(player *p, item *, bool)
     return 1;
 }
 
-bool prep_firestarter_use(player *p, item *, int &posx, int &posy)
+bool prep_firestarter_use(player *p, item *it, int &posx, int &posy)
 {
+    if (it->charges == 0) {
+      return false;
+    }
     if (p->is_underwater()) {
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return false;
@@ -2196,8 +2199,11 @@ int iuse::primitive_fire(player *p, item *it, bool)
     return 0;
 }
 
-int iuse::sew(player *p, item *, bool)
+int iuse::sew(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+      return 0;
+  }
     if (p->is_underwater()) {
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return 0;
@@ -2744,6 +2750,9 @@ int iuse::scissors(player *p, item *it, bool t)
 
 int iuse::extinguisher(player *p, item *it, bool)
 {
+  if (it->charges == 0) {
+    return 0;
+  }
  g->draw();
  int x, y;
  // If anyone other than the player wants to use one of these,
@@ -4508,6 +4517,9 @@ int iuse::zweifire_on(player *p, item *it, bool t)
 
 int iuse::jackhammer(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+        return 0;
+    }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
@@ -4542,6 +4554,9 @@ int iuse::jackhammer(player *p, item *it, bool)
 
 int iuse::jacqueshammer(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+        return 0;
+      }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
@@ -4922,6 +4937,9 @@ int iuse::geiger(player *p, item *it, bool t)
 
 int iuse::teleport(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+      return 0;
+    }
     p->moves -= 100;
     g->teleport(p);
     return it->type->charges_to_use();
