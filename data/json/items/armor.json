@@ -2468,7 +2468,7 @@
         "to_hit" : 0,
         "storage" : 36,
         "symbol" : "[",
-        "description" : "A custom-built backpack with extra pockets. Durable and carefully crafted to be comfortable to wear.",
+        "description" : "A custom-built backpack. Durable and carefully crafted to be comfortable to wear.",
         "price" : 24000,
         "material" : ["leather", "cotton"],
         "volume" : 8,
@@ -2478,7 +2478,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED"],
+        "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED", "VARSIZE"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -2492,7 +2492,7 @@
         "to_hit" : 0,
         "storage" : 64,
         "symbol" : "[",
-        "description" : "A custom-built heavy backpack with extra pockets. Durable and carefully crafted to be comfortable to wear.",
+        "description" : "A custom-built heavy backpack. Durable and carefully crafted to be comfortable to wear.",
         "price" : 24000,
         "material" : ["leather", "cotton"],
         "volume" : 8,
@@ -2502,7 +2502,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 2,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED"],
+        "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED", "VARSIZE"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -3893,7 +3893,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "BELTED"],
+        "flags" : ["BELTED", "VARSIZE"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -3917,7 +3917,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -6105,7 +6105,7 @@
         "bashing" : 2,
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags" : ["FANCY"]
+        "flags" : ["FANCY", "BELTED"]
     },
     {
         "type" : "ARMOR",
@@ -6176,7 +6176,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "VARSIZE"],
         "phase" : "solid"
     },
     {
@@ -6201,7 +6201,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "VARSIZE"],
         "phase" : "solid"
     },
     {
@@ -6237,10 +6237,12 @@
         "price" : 9000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A strap worn over the shoulder for holding pistols. Activate to holster/draw a weapon.",
+        "description" : "A leather strap worn on the hip for holding pistols. Activate to holster/draw a pistol.",
         "to_hit" : -1,
         "storage" : 0,
         "material" : ["leather", "null"],
+        "covers" : ["LEGS"],
+        "flags" : ["VARSIZE", "BELTED"],
         "coverage" : 5,
         "enviromental_protection" : 0,
         "cutting" : 0,
@@ -6248,7 +6250,6 @@
         "warmth" : 1,
         "phase" : "solid",
         "encumbrance" : 0,
-        "flags" : ["BELTED"],
         "material_thickness" : 2,
         "use_action" : "HOLSTER_PISTOL"
     },
@@ -6274,7 +6275,7 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "material_thickness" : 2,
-        "flags" : ["SKINTIGHT"],
+        "flags" : ["VARSIZE", "BELTED"],
         "use_action" : "HOLSTER_ANKLE"
     },
     {
@@ -6287,9 +6288,11 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "|",
-        "description" : "A small, leather sleeve for holding knives and other small blades. Activate to sheathe/draw a weapon.",
+        "description" : "A small leather sleeve for holding knives and other small blades. Activate to sheathe/draw a weapon.",
         "price" : 8000,
         "material" : ["leather", "null"],
+        "covers" : ["LEGS"],
+        "flags" : ["VARSIZE", "BELTED"],
         "volume" : 2,
         "cutting" : 0,
         "bashing" : -1,
@@ -6313,6 +6316,7 @@
         "description" : "A leather quiver worn on the back that can hold 20 arrows. Its small size won't encumber you. Activate to store arrows.",
         "price" : 8000,
         "material" : ["leather", "null"],
+        "covers" : ["TORSO"],
         "volume" : 2,
         "cutting" : -4,
         "bashing" : 2,
@@ -6322,7 +6326,7 @@
         "encumbrance" : 0,
         "coverage" : 5,
         "material_thickness" : 2,
-        "flags" : ["QUIVER_20", "BELTED"],
+        "flags" : ["QUIVER_20", "BELTED", "VARSIZE"],
         "use_action" : "QUIVER"
     },
     {
@@ -6347,7 +6351,7 @@
         "encumbrance" : 0,
         "coverage" : 15,
         "material_thickness" : 2,
-        "flags" : ["QUIVER_60", "BELTED"],
+        "flags" : ["QUIVER_60", "BELTED", "VARSIZE"],
         "use_action" : "QUIVER"
     },
     {
@@ -6372,7 +6376,7 @@
         "encumbrance" : 0,
         "coverage" : 15,
         "material_thickness" : 2,
-        "flags" : ["BELTED"],
+        "flags" : ["VARSIZE", "BELTED"],
         "use_action": "SHEATH_SWORD"
     },
     {
