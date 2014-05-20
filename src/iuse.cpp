@@ -5414,6 +5414,9 @@ int iuse::mininuke(player *p, item *it, bool)
 
 int iuse::pheromone(player *p, item *it, bool)
 {
+      if (it->charges == 0) {
+          return 0;
+      }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
@@ -5456,6 +5459,9 @@ int iuse::pheromone(player *p, item *it, bool)
 
 int iuse::portal(player *p, item *it, bool)
 {
+  if (it->charges == 0) {
+          return 0;
+      }
  g->m.add_trap(p->posx + rng(-2, 2), p->posy + rng(-2, 2), tr_portal);
  return it->type->charges_to_use();
 }
@@ -5638,6 +5644,9 @@ int iuse::adv_UPS_on(player *p, item *it, bool t)
 
 int iuse::tazer(player *p, item *it, bool)
 {
+  if (it->charges == 0) {
+          return 0;
+  }
  int dirx, diry;
  if(!choose_adjacent(_("Shock where?"),dirx,diry)){
   return 0;
@@ -5705,6 +5714,9 @@ int iuse::tazer(player *p, item *it, bool)
 
 int iuse::tazer2(player *p, item *it, bool)
 {
+  if (it->charges == 0) {
+          return 0;
+  }
     if (it->charges >= 100 || (it->has_flag("USE_UPS") && (p->has_charges("UPS_off",5) || p->has_charges("UPS_on",5) || p->has_charges("adv_UPS_off",3) || p->has_charges("adv_UPS_on",3) || (p->has_bionic("bio_ups") && p->power_level <= 1)))) {
         int dirx, diry;
 
@@ -7712,6 +7724,9 @@ int iuse::talking_doll(player *p, item *it, bool)
 
 int iuse::gun_repair(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+          return 0;
+    }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
@@ -7765,6 +7780,9 @@ int iuse::gun_repair(player *p, item *it, bool)
 
 int iuse::misc_repair(player *p, item *it, bool)
 {
+    if (it->charges == 0) {
+          return 0;
+    }
     if (p->is_underwater()) {
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return 0;
