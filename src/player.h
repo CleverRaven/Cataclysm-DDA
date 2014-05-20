@@ -874,6 +874,7 @@ public:
 
  m_size get_size();
  int get_hp( hp_part bp );
+ int get_hp_max() { return 0; };
 
  field_id playerBloodType();
 

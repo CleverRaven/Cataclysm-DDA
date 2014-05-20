@@ -365,22 +365,32 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         } else if (source != NULL) {
             if (source->is_player()) {
                 //player hits monster ranged
+                nc_color color;
+                std::string health_bar = "";
+                get_HP_Bar(dealt_dam.total_damage(), this->get_hp_max(), color, health_bar, true);
+
                 SCT.add(this->xpos(),
                         this->ypos(),
                         direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
-                        string_format("%d", dealt_dam.total_damage()),
+                        string_format("%s", health_bar.c_str()),
                         m_good);
 
                 add_msg(m_good, _("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
 
             } else if(this->is_player()) {
-                //player gets hit by monster ranged
+                //monster hits player ranged
+
+                //somehow this gets triggered along with a melee hit message
+                /*nc_color color;
+                std::string health_bar = "";
+                get_HP_Bar(dealt_dam.total_damage(), static_cast<player*>(this)->hp_max[bp_hit], color, health_bar);
+
                 SCT.add(source->xpos(),
                         source->ypos(),
                         direction_from(0, 0, source->xpos() - this->xpos(), source->ypos() - this->ypos()),
-                        string_format("%d", dealt_dam.total_damage()),
-                        m_good);
+                        string_format("1 %s %s", health_bar.c_str(), body_part_name(bp_hit, side, true).c_str()),
+                        m_good);*/
 
                 add_msg_if_player( m_bad, _( "You were hit in the %s for %d damage." ),
                                           body_part_name( bp_hit, side ).c_str( ),

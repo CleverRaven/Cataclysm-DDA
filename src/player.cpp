@@ -322,9 +322,9 @@ void player::normalize()
     ret_null = item("null", 0);
     weapon   = item("null", 0);
     style_selected = "style_none";
-    
+
     recalc_hp();
-    
+
     for (int i = 0 ; i < num_bp; i++)
         temp_conv[i] = BODYTEMP_NORM;
 }
@@ -4278,11 +4278,15 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
         g->draw_hit_player(this, dam);
 
         if (dam > 0 && is_player() && source) {
-            //player is hit by monster
+            //monster hits player melee
+            nc_color color;
+            std::string health_bar = "";
+            get_HP_Bar(dam, this->hp_max[bp], color, health_bar);
+
             SCT.add(this->xpos(),
                     this->ypos(),
                     direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
-                    string_format("%d", dam),
+                    string_format("%s %s", health_bar.c_str(), body_part_name(bp, side, true).c_str()), //string_format("%d", dam),
                     m_bad);
         }
     }

@@ -1877,12 +1877,18 @@ void player_hit_message(player* attacker, std::string message,
         }
     }
 
-    //player hits monster melee
-    SCT.add(t.xpos(),
-            t.ypos(),
-            direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
-            string_format("%d", dam),
-            msgtype);
+    if (dam > 0) {
+        //player hits monster melee
+        nc_color color;
+        std::string health_bar = "";
+        get_HP_Bar(dam, t.get_hp_max(), color, health_bar, true);
+
+        SCT.add(t.xpos(),
+                t.ypos(),
+                direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
+                health_bar, //string_format("%d", dam),
+                msgtype);
+    }
 
     // same message is used for player and npc,
     // just using this for the <npcname> substitution.

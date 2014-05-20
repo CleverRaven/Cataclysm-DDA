@@ -191,6 +191,7 @@ class Creature
         virtual int get_hit();
         virtual m_size get_size() = 0;
         virtual int get_hp( hp_part bp = num_hp_parts ) = 0;
+        virtual int get_hp_max() = 0;
         virtual std::string get_material() { return "flesh"; };
         virtual field_id bloodType () { debugmsg("creature:bloodType: not a valid monster/npc/player, returned fd_null"); return fd_null; };
         virtual field_id gibType () { debugmsg("creature:gibType: not a valid monster/npc/player, returned fd_gibs_flesh"); return fd_gibs_flesh; };
