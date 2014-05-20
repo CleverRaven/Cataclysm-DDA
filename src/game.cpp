@@ -538,6 +538,8 @@ void game::setup()
 
  calendar::turn.set_season(SUMMER);    // ... with winter conveniently a long ways off   (not sure if we need this...)
 
+ SCT.vSCT.clear(); //Delete pending messages
+
  // reset kill counts
  kills.clear();
 // Set the scent map to 0
@@ -2525,14 +2527,19 @@ input_context game::get_player_input(std::string &action)
                     //Erase previous text from w_terrain
                     if (iter->getStep() > 0) {
                         for (size_t i = 0; i < iter->getText().length(); ++i) {
-                            //u_see(x, y);
-                            m.drawsq(w_terrain, u,
-                                     iter->getPosX() + i,
-                                     iter->getPosY(),
-                                     false,
-                                     true,
-                                     u.posx + u.view_offset_x,
-                                     u.posy + u.view_offset_y);
+                            if (u_see(iter->getPosX() + i, iter->getPosY())) {
+                                m.drawsq(w_terrain, u,
+                                         iter->getPosX() + i,
+                                         iter->getPosY(),
+                                         false,
+                                         true,
+                                         u.posx + u.view_offset_x,
+                                         u.posy + u.view_offset_y);
+                            } else {
+                                const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
+                                const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+                                mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+                            }
                         }
                     }
                 }
