@@ -197,7 +197,7 @@ class scrollingcombattext {
                 game_message_type gmt;
 
             public:
-                cSCT(const int p_iPosX, const int p_iPosY, const direction p_oDir,
+                cSCT(const int p_iPosX, const int p_iPosY, direction p_oDir,
                      const std::string p_sText, const game_message_type p_gmt);
                 ~cSCT() {};
 

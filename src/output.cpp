@@ -1533,11 +1533,19 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
     gmt = p_gmt;
 }
 
-void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, const direction p_oDir,
+void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_oDir,
                               const std::string p_sText, const game_message_type p_gmt)
 {
     if (OPTIONS["ANIMATION_SCT"]) {
         int iCurStep = 0;
+
+        //temporary east/west overlap "fix"
+        if (p_oDir == EAST) {
+            p_oDir = (one_in(2)) ? NORTHEAST : SOUTHEAST;
+
+        } else if (p_oDir == WEST) {
+            p_oDir = (one_in(2)) ? NORTHWEST : SOUTHWEST;
+        }
 
         //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
         for (std::vector<cSCT>::reverse_iterator iter = vSCT.rbegin(); iter != vSCT.rend(); ++iter) {
