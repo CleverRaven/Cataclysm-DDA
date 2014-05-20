@@ -269,12 +269,19 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     double goodhit = missed_by / monster_speed_penalty;
     double damage_mult = 1.0;
 
+    std::string sSCTmod = "";
+    game_message_type gmtSCTcolor = m_good;
+
     if (goodhit <= .1) {
         source->add_msg_if_player(m_good, _("Headshot!"));
+        sSCTmod = _("HS!");
+        gmtSCTcolor = m_headshot;
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
     } else if (goodhit <= .2) {
         source->add_msg_if_player(m_good, _("Critical!"));
+        sSCTmod = _("Crit!");
+        gmtSCTcolor = m_critical;
         damage_mult *= rng_float(1.75, 2.3);
     } else if (goodhit <= .4) {
         source->add_msg_if_player(m_good, _("Good hit!"));
@@ -283,6 +290,8 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         damage_mult *= rng_float(0.5, 1);
     } else if (goodhit <= .8) {
         source->add_msg_if_player(m_good, _("Grazing hit."));
+        sSCTmod = _("GH");
+        gmtSCTcolor = m_grazing;
         damage_mult *= rng_float(0, .25);
     } else {
         damage_mult *= 0;
@@ -372,8 +381,8 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                 SCT.add(this->xpos(),
                         this->ypos(),
                         direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
-                        string_format("%s", health_bar.c_str()),
-                        m_good);
+                        string_format("%s %s", health_bar.c_str(), sSCTmod.c_str()),
+                        gmtSCTcolor);
 
                 add_msg(m_good, _("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());

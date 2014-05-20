@@ -60,9 +60,14 @@ enum game_message_type {
     m_warning, /* warns the player about a danger. eg. enemy appeared, an alarm sounds, noise heard. */
     m_info,    /* informs the player about something, eg. on examination, seeing an item,
                   about how to use a certain function, etc. */
-    m_neutral  /* neutral or indifferent events which aren’t informational or nothing really happened eg.
+    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened eg.
                   a miss, a non-critical failure. May also effect for good or bad effects which are
                   just very slight to be notable. This is the default message type. */
+
+    /* custom SCT colors */
+    m_headshot,
+    m_critical,
+    m_grazing
 };
 
 nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = false);

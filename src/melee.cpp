@@ -1853,6 +1853,9 @@ void player_hit_message(player* attacker, std::string message,
     std::string msg;
     game_message_type msgtype;
     msgtype = m_good;
+    std::string sSCTmod = "";
+    game_message_type gmtSCTcolor = m_good;
+
     if (dam <= 0) {
         if (attacker->is_npc()) {
             //~ NPC hits something but does no damage
@@ -1866,6 +1869,8 @@ void player_hit_message(player* attacker, std::string message,
         //~ someone hits something for %d damage (critical)
         msg = string_format(_("%s for %d damage. Critical!"),
                             message.c_str(), dam);
+        sSCTmod = _("Crit!");
+        gmtSCTcolor = m_critical;
         if (!attacker->is_npc()) {
             msgtype = m_good;
         }
@@ -1886,8 +1891,8 @@ void player_hit_message(player* attacker, std::string message,
         SCT.add(t.xpos(),
                 t.ypos(),
                 direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
-                health_bar, //string_format("%d", dam),
-                msgtype);
+                string_format("%s %s", health_bar.c_str(), sSCTmod.c_str()),
+                gmtSCTcolor);
     }
 
     // same message is used for player and npc,

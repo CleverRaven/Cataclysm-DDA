@@ -1591,10 +1591,13 @@ nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg)
         switch(type) {
             case m_good:    return c_ltgreen;
             case m_bad:     return c_ltred;
-            case m_mixed:   return c_pink;
+            case m_mixed:
+            case m_headshot:return c_pink;
             case m_neutral: return c_white;
-            case m_warning: return c_yellow;
-            case m_info:    return c_ltblue;
+            case m_warning:
+            case m_critical:return c_yellow;
+            case m_info:
+            case m_grazing: return c_ltblue;
             default:        return c_white;
         }
     } else {
@@ -1602,10 +1605,13 @@ nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg)
         switch(type) {
             case m_good:    return c_green;
             case m_bad:     return c_red;
-            case m_mixed:   return c_magenta;
+            case m_mixed:
+            case m_headshot:return c_magenta;
             case m_neutral: return c_ltgray;
-            case m_warning: return c_brown;
-            case m_info:    return c_blue;
+            case m_warning:
+            case m_critical:return c_brown;
+            case m_info:
+            case m_grazing: return c_blue;
             default:        return c_ltgray;
         }
     }
