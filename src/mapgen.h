@@ -84,8 +84,8 @@ struct jmapgen_setmap {
     jmapgen_setmap_op op;
     jmapgen_int val;
     int chance;
-    int rotation;
     jmapgen_int repeat;
+    int rotation;
 
     jmapgen_setmap(
        jmapgen_int ix, jmapgen_int iy, jmapgen_int ix2, jmapgen_int iy2,
@@ -112,8 +112,8 @@ struct jmapgen_place_group {
     jmapgen_place_group_op op;
     int chance;
     float density;
-    int rotation;
     jmapgen_int repeat;
+    int rotation;
     jmapgen_place_group(jmapgen_int ix, jmapgen_int iy, std::string igid, jmapgen_place_group_op iop, int ichance,
         float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0
       ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat), rotation(irotation) { }
