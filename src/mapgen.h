@@ -85,13 +85,14 @@ struct jmapgen_setmap {
     jmapgen_int val;
     int chance;
     jmapgen_int repeat;
+    int rotation;
 
     jmapgen_setmap(
        jmapgen_int ix, jmapgen_int iy, jmapgen_int ix2, jmapgen_int iy2,
        jmapgen_setmap_op iop, jmapgen_int ival,
-       int ione_in = 1, jmapgen_int irepeat = jmapgen_int(1,1)
+       int ione_in = 1, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0
     ) :
-       x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat)
+       x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat), rotation(irotation)
     {}
     bool apply( map * m );
 };
@@ -100,7 +101,8 @@ struct jmapgen_setmap {
 
 enum jmapgen_place_group_op {
     JMAPGEN_PLACEGROUP_ITEM,
-    JMAPGEN_PLACEGROUP_MONSTER
+    JMAPGEN_PLACEGROUP_MONSTER,
+    JMAPGEN_PLACEGROUP_VEHICLE
 };
 
 struct jmapgen_place_group {
@@ -111,9 +113,10 @@ struct jmapgen_place_group {
     int chance;
     float density;
     jmapgen_int repeat;
+    int rotation;
     jmapgen_place_group(jmapgen_int ix, jmapgen_int iy, std::string igid, jmapgen_place_group_op iop, int ichance,
-        float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1)
-      ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat) { }
+        float idensity = -1.0f, jmapgen_int irepeat = jmapgen_int(1,1), int irotation = 0
+      ) : x(ix), y(iy), gid(igid), op(iop), chance(ichance), density(idensity), repeat(irepeat), rotation(irotation) { }
     void apply( map * m, float mdensity );
 };
 
