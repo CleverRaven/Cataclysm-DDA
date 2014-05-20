@@ -9705,6 +9705,12 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
                 : _("Your %s is %s!");
             add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
                                       damage_verb.c_str());
+            //item is damaged
+            SCT.add(this->xpos(),
+                    this->ypos(),
+                    NORTH,
+                    string_format("%s %s", pre_damage_name.c_str(), damage_verb.c_str()),
+                    m_bad);
         }
     }
     return armor_damaged;
