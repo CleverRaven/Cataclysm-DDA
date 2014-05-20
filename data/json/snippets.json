@@ -509,8 +509,8 @@
  "PUBLIC SERVICE ANNOUNCEMENT: 'Aid Delayed'. Fighting by the military at the edge of the New England Disaster Area is expected to delay civilian extraction. Civilians will be forced to supply themselves over the next weeks.", 
  "PUBLIC SERVICE ANNOUNCEMENT: 'New England Cut Off'. New England has been quarantined for the safety of the rest of the USA. No rescue attempts will be funded, it is assumed there are no survivors in the area.", 
  "BEWARE UNDEAD PROPAGANDA: Stories about the dead 'rising' may abet the enemy, a general said today. 'These stories have been tracked to communist sources tied in with the presumably Chinese invasion.", 
-" LEAVE TO THE EXPERTS -- GENERAL: 'Do not attempt to deal with Invaders yourself, our troops have the CBMs and training for military action. Loud gunfire may attract more enemy attention than you have ammo to deal with'", 
- "PUBLIC SERVICE ANNOUCEMENT: 'Towns occupied-territory'. Do not try to defend your property in towns, Invaders use advanced tracking, perhaps scent. Please retreat to your nearest Evac centre outside town and await extraction.", 
+ "LEAVE TO THE EXPERTS -- GENERAL: 'Do not attempt to deal with Invaders yourself, our troops have the CBMs and training for military action. Loud gunfire may attract more enemy attention than you have ammo to deal with'", 
+ "TOWNS OCCUPIED TERRITORY: FEMA officials said today 'Do not try to defend your property in towns: invaders use advanced tracking, perhaps scent. Please retreat to your nearest evacuation center outside town and await extraction.'"
  "PUBLIC SERVICE ANNOUCEMENT: 'Beware Acid Rain'. Several caustic chemicals in the air react with rain clouds to cause deadly acid rain. No word yet on if this is a deliberate tactic or a side effect of the earlier bombings.", 
  "GENERAL SAYS AVOID BUNKERS: Do not attempt to flee to your nearest military bunker, understaffed bunkers are defended by turrets which shoot those without military ID. Please seek military personnel if you need access", 
  "PUBLIC SERVICE ANNOUNCEMENT: 'Dispose of dead'. Recognisable enemy dead left lying in the street may give away guerrilla positions. If forced to fight an enemy combatant please smash or butcher with a knife til unrecognisable"]
@@ -546,7 +546,7 @@
 "category":"old_news", 
 "text":
 ["GRANADE SEEKS FUNDING FOR GRANADE: Kevin Granade seeks funding for reality-warping weapon called 'the Granade'.  'It works by patching reality. I'm thinking of crowdsourcing via Kickstarter under the term *Project Cataclysm*' ", 
-" GOVERNMENT SCIENCE BOOST: The government has drastically increased defense R&D after UN disarmament Demands. 'This not only keeps money in our country, but keeps our lead on china and keeps us defended' said President.", 
+ "GOVERNMENT SCIENCE BOOST: The government has drastically increased defense R&D after UN disarmament Demands. 'This not only keeps money in our country, but keeps our lead on china and keeps us defended' said President.", 
  "HOME GROWN SCIENCE: The council of governors & legislators for the New England region today relaxed laws that limit the distance a laboratory or factory can be from a city. 'This should boost local traffic, with all the military's Cybernetics labs are producing' says Mayor.", 
  "DRIVING ON A WING AND A PRAYER: A New England man has proven it is possible to create a new car from scrap parts using almost nothing but duct tape. When asked why he had done it, his answer was 'Well, I didn't have a welder.'", 
  "NEVER BE LEFT IN THE DARK! Rivtech Atomic-nightlight uses 'inexhaustible' plutonium fuel cell, provides light, feeds power back into your grid!", 
@@ -565,9 +565,9 @@
 "category":"recent_news", 
 "text":
 ["SHOW THEM YOUR GUNS: In response to China's latest threats, the government has further relaxed gun control, expected to increase the economic boost of earlier gun subsidies and relieve public tension.", 
- "READY FOR THE WORST: The government has proven it is ready to deal with China's threats. In the event of an actual attack, we have established Evacuation centres, within a short distance of most towns.", 
- "MUTANT COLD: A new cold virus has emerged in the New England area. 'There don't appear to be complications, but many sufferers are developing large amounts of benign tumorous tissue, A pound or more' said a doctor", 
- "GRAVE BUSINESS: Recent reports show a large spike in thefts from and assaults on funeral homes in the last few weeks. Described as highly strange but not especially dangerous, homeland is 'looking at the connections now'", 
+"READY FOR THE WORST: The government has proven it is ready to deal with China's threats. In the event of an actual attack, we have established Evacuation centres, within a short distance of most towns.", 
+"MUTANT COLD: A new cold virus has emerged in the New England area. 'There don't appear to be complications, but many sufferers are developing large amounts of benign tumorous tissue, A pound or more' said a doctor", 
+"GRAVE BUSINESS: Recent reports show a large spike in thefts from and assaults on funeral homes in the last few weeks. Described as highly strange but not especially dangerous, homeland is 'looking at the connections now'", 
 "SPACE TELEPORTATION - TRUTH OR FICTION? Scientists addressed a growing conspiracy theory today 'The plutonium consumed is massive. We cannot use teleportation to reach aliens, unless they live on some kind of parallel world'", 
 "LASERS - NOW POINT AND KILL: The Military revealed a prototype today. 'We are still working on it, the laser gun lacks power, but has a technically almost unlimited range' said a developer", 
 "DRUG USE ON THE RISE: Recent statistic suggest drug use has climbed more than 40% in the last two years. 'People are scared for their jobs, their country, even their life... of course some will turn to drugs' said an expert.", 
@@ -575,8 +575,8 @@
 "FEELING BLUE? Try 'Greens' for Magazines! Your local Supermarket! Nothing cheers you up like a good magazine... Unless it's JUNK FOOD! Or why not buy an MP3 PLAYER or a GAME CONSOLE? Chase those Blues away at GREENS Supermarket", 
 "GLAMOPOLITAN! We've got ALL the latest tips! Whether you want to know what the elite are eating, wearing or discussing, Glamopolitan is YOUR magazine! So pick up a copy today and 'Sizzle Like A Star'!", 
 "POPULAR MECHANICS: People say mechanics is boring, we say, Prove them Wrong! We've got all the articles that make it interesting to talk about, so you can.. make 'Mechanics Popular'!", 
- "BIRDHOUSE MONTHLY... Which wood would a woodpecker prefer? This month we discuss hardwood versus soft woods, wether to lacquer, oil or paint, and which type of nails you should use!", 
- " ...What do you know about surviving in the Wilderness? If you can't make a snare you don't know TRAP! Hunt down a copy of TRAPPERS' LIFE and learn about wildlife!... And how to kill it. This week, a BEAR-TRAP!"]
+"BIRDHOUSE MONTHLY... Which wood would a woodpecker prefer? This month we discuss hardwood versus soft woods, wether to lacquer, oil or paint, and which type of nails you should use!", 
+" ...What do you know about surviving in the Wilderness? If you can't make a snare you don't know TRAP! Hunt down a copy of TRAPPERS' LIFE and learn about wildlife!... And how to kill it. This week, a BEAR-TRAP!"]
 }, 
 
 {
