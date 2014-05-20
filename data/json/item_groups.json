@@ -4055,6 +4055,12 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "medieval",
+    "comment": "This empty group exists to prevent debug messages when the medieval pack is off, its contents are found in mods/medieval_pack/spawns.json",
+    "items":[ 
+    ]
+  },{
+    "type" : "item_group",
     "id" : "pawn",
     "items":[
       ["trex_gun", 1],
@@ -7832,21 +7838,9 @@
 "type"  : "item_group",
 "id"    : "antique_rare",
 "items" : [
-      ["broadsword", 4],
-      ["nodachi", 4],
-      ["zweihander", 4],
-      ["katana", 4],
-      ["kris", 4],
-      ["rapier", 4],
       ["trex_gun", 4],
       ["spiral_stone", 2],
-      ["petrified_eye", 2],
-      ["katana_fake", 8],
-      ["zweihander_fake", 8],
-      ["broadsword_fake", 8],
-      ["rapier_fake", 8],
-      ["wakizashi_fake", 8],
-      ["kris_fake", 8]
+      ["petrified_eye", 2]
     ]
   },{
 "type" : "item_group",
@@ -7890,45 +7884,14 @@
   },{
 "type" : "item_group",
 "id" : "museum_armor",
+"comment": "This empty group exists to prevent debug messages when the medieval pack is off, its contents are found in mods/medieval_pack/spawns.json",
 "items" : [
-      ["armor_plate", 60],
-      ["gloves_plate", 60],
-      ["boots_plate", 60],
-      ["armor_lightplate", 45],
-      ["helmet_barbute", 50],
-      ["armor_samurai", 50],
-      ["helmet_kabuto", 50],
-      ["helmet_larmor", 40],
-      ["boots_larmor", 40],
-      ["armor_larmor", 40]
     ]
   },{
 "type" : "item_group",
 "id" : "museum_melee",
+"comment": "This empty group exists to prevent debug messages when the medieval pack is off, its contents are found in mods/medieval_pack/spawns.json",
 "items" : [
-      ["katana", 6],
-      ["katana_fake", 8],
-      ["broadsword", 6],
-      ["broadsword_fake", 8],
-      ["rapier", 6],
-      ["rapier_fake", 8],
-      ["kris", 6],
-      ["kris_fake", 8],
-      ["zweihander", 4],
-      ["zweihander_fake", 6],
-      ["nodachi", 4],
-      ["nodachi_fake", 6],
-      ["wakizashi", 6],
-      ["wakizashi_fake", 8],
-      ["q_staff", 8],
-      ["i_staff", 6],
-      ["battleaxe", 4],
-      ["battleaxe_fake", 6],
-      ["mace", 6],
-      ["morningstar", 4],
-      ["warhammer", 6],
-      ["scythe_war", 6],
-      ["pike", 6]
     ]
   },{
 "type" : "item_group",
