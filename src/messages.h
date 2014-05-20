@@ -5,6 +5,7 @@
 #include <vector>
 #include "calendar.h"
 #include "output.h"
+#include "json.h"
 
 enum game_message_type {
     m_good,    /* something good happend to the player character, eg. damage., decreasing in skill */
@@ -37,9 +38,11 @@ public:
     static bool has_undisplayed_messages();
     static void display_messages();
     static void display_messages(WINDOW *ipk_target, int left, int top, int right, int bottom);
+    static void serialize(JsonOut &jsout);
+    static void deserialize(JsonObject &json);
 
 private:
-    struct game_message {
+    struct game_message : public JsonDeserializer, public JsonSerializer {
         calendar turn;
         int count;
         std::string message;
@@ -66,6 +69,8 @@ private:
         }
         std::string get_with_count() const;
         nc_color get_color() const;
+        virtual void deserialize(JsonIn &jsin);
+        virtual void serialize(JsonOut &jsout) const;
     };
     std::vector <struct game_message> messages;   // Messages to be printed
     void add_msg_string(const std::string &s);

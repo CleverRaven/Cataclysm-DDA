@@ -16,7 +16,8 @@ class material_type;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
-const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"), _("orange"), _("red"), _("black")};
+const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"),
+                                             _("orange"), _("red"), _("black")};
 
 struct light_emission {
   unsigned short luminance;
@@ -61,7 +62,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true, int prop = 0);
+ item(const std::string new_type, unsigned int turn, bool rand = true );
  void make_corpse(const std::string new_type, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata);
  item(JsonObject &jo);
