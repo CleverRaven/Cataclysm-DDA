@@ -5001,11 +5001,18 @@ void player::add_disease(dis_type type, int duration, bool permanent,
         i++;
     }
     if (!found) {
-        if (!is_npc()) {
-            dis_msg(type);
-        }
         disease tmp(type, duration, intensity, part, side, permanent, decay);
         illness.push_back(tmp);
+
+        if (!is_npc()) {
+            if (dis_msg(type)) {
+                SCT.add(this->xpos(),
+                        this->ypos(),
+                        SOUTH,
+                        string_format("+ %s", dis_name(tmp).c_str()),
+                        m_bad);
+            }
+        }
     }
 
     recalc_sight_limits();

@@ -163,7 +163,7 @@ void game::init_diseases() {
     disease_type_lookup["grabbed"] = DI_GRABBED;
 }
 
-void dis_msg(dis_type type_string) {
+bool dis_msg(dis_type type_string) {
     dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
     case DI_COMMON_COLD:
@@ -258,8 +258,11 @@ void dis_msg(dis_type type_string) {
         add_msg(m_bad, _("You have been grabbed."));
         break;
     default:
+        return false;
         break;
     }
+
+    return true;
 }
 
 void weed_msg(player *p) {

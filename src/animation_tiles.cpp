@@ -218,7 +218,7 @@ void game::draw_sct()
             const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
             const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
 
-            mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType(), (iter->getStep() > 2)), "%s", iter->getText().c_str());
+            mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType(), (iter->getStep() >= SCT.iMaxSteps/2)), "%s", iter->getText().c_str());
         }
     }
 }

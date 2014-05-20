@@ -181,7 +181,7 @@ class scrollingcombattext {
     public:
         const int iMaxSteps;
 
-        scrollingcombattext() : iMaxSteps(5) {};
+        scrollingcombattext() : iMaxSteps(8) {};
         ~scrollingcombattext() {};
 
         class cSCT {
