@@ -1039,7 +1039,6 @@ int iuse::anticonvulsant(player *p, item *it, bool) {
             p->rem_disease("shakes");
             p->add_msg_if_player(m_good, _("You stop shaking."));
         }
-    }
     return it->type->charges_to_use();
 }
 
