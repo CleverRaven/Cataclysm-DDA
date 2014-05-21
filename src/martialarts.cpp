@@ -532,10 +532,12 @@ bool player::can_leg_block() {
     int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
     
     // Success conditions.
-    if( unarmed_skill >= ma.leg_block && (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0) ) {
-        return true;
-    } else if( ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs") ) {
-        return true;
+    if(hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0) {
+        if( unarmed_skill >= ma.leg_block ) {
+            return true;
+        } else if( ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs") ) {
+            return true;
+        }
     } else {
         // if not above, can't block.
         return false;
@@ -547,10 +549,12 @@ bool player::can_arm_block() {
     int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
     
     // Success conditions.
-    if( unarmed_skill >= ma.arm_block && (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0) ) {
-        return true;
-    } else if( ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms") ) {
-        return true;
+    if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0) {
+        if( unarmed_skill >= ma.arm_block && ) {
+            return true;
+        } else if( ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms") ) {
+            return true;
+        }
     } else {
         // if not above, can't block.
         return false;
