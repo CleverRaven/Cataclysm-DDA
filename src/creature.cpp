@@ -386,6 +386,19 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                         health_bar, m_good,
                         message, gmtSCTcolor);
 
+                if (this->get_hp() > 0) {
+                    get_HP_Bar(this->get_hp(), this->get_hp_max(), color, health_bar, true);
+
+                    SCT.add(this->xpos(),
+                            this->ypos(),
+                            direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
+                            health_bar, m_good,
+                            "hp", m_neutral,
+                            true);
+                } else {
+                    SCT.removeCreatureHP();
+                }
+
                 add_msg(m_good, _("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
 

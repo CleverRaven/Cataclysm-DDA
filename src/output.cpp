@@ -1516,7 +1516,8 @@ void display_table(WINDOW *w, const std::string &title, int columns,
 
 scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const direction p_oDir,
                                 const std::string p_sText, const game_message_type p_gmt,
-                                const std::string p_sText2, const game_message_type p_gmt2)
+                                const std::string p_sText2, const game_message_type p_gmt2,
+                                const bool p_bCreatureHP)
 {
     iPosX = p_iPosX;
     iPosY = p_iPosY;
@@ -1535,21 +1536,36 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
 
     sText2 = p_sText2;
     gmt2 = p_gmt2;
+
+    bCreatureHP = p_bCreatureHP;
 }
 
 void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_oDir,
                               const std::string p_sText, const game_message_type p_gmt,
-                              const std::string p_sText2, const game_message_type p_gmt2)
+                              const std::string p_sText2, const game_message_type p_gmt2,
+                              const bool p_bCreatureHP)
 {
     if (OPTIONS["ANIMATION_SCT"]) {
         int iCurStep = 0;
 
-        //temporary east/west overlap "fix"
-        if (p_oDir == EAST) {
-            p_oDir = (one_in(2)) ? NORTHEAST : SOUTHEAST;
+        if (p_bCreatureHP) {
+            //Remove old HP bar
+            removeCreatureHP();
 
-        } else if (p_oDir == WEST) {
-            p_oDir = (one_in(2)) ? NORTHWEST : SOUTHWEST;
+            if (p_oDir == WEST || p_oDir == NORTHWEST || p_oDir == SOUTHWEST) {
+                p_oDir = WEST;
+            } else {
+                p_oDir = EAST;
+            }
+
+        } else {
+            //reserve East/West for creature hp display
+            if (p_oDir == EAST) {
+                p_oDir = (one_in(2)) ? NORTHEAST : SOUTHEAST;
+
+            } else if (p_oDir == WEST) {
+                p_oDir = (one_in(2)) ? NORTHWEST : SOUTHWEST;
+            }
         }
 
         //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
@@ -1560,7 +1576,7 @@ void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_
             }
         }
 
-        vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2));
+        vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_bCreatureHP));
     }
 }
 
@@ -1622,10 +1638,10 @@ int scrollingcombattext::cSCT::getPosX()
             iDirOffset -= getText().length();
         }
 
-        return iPosX + iDirOffset + (iDirX * (getStepOffset() + getStep()));
+        return iPosX + iDirOffset + (iDirX * ((bCreatureHP) ? (getStepOffset() + 1) : (getStepOffset() + getStep())));
     }
 
-    return 999;
+    return 0;
 }
 
 int scrollingcombattext::cSCT::getPosY()
@@ -1635,7 +1651,7 @@ int scrollingcombattext::cSCT::getPosY()
         return iPosY + iDirOffset + (iDirY * (getStepOffset() + getStep()));
     }
 
-    return 999;
+    return 0;
 }
 
 void scrollingcombattext::advanceAllSteps()
@@ -1647,6 +1663,17 @@ void scrollingcombattext::advanceAllSteps()
             iter = vSCT.erase(iter);
         } else {
             ++iter;
+        }
+    }
+}
+
+void scrollingcombattext::removeCreatureHP()
+{
+    //check for previous hp display and delete it
+    for (std::vector<cSCT>::iterator iter = vSCT.begin(); iter != vSCT.end(); ++iter) {
+        if (iter->getCreatureHP()) {
+            vSCT.erase(iter);
+            break;
         }
     }
 }

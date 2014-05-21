@@ -1893,6 +1893,19 @@ void player_hit_message(player* attacker, std::string message,
                 direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
                 health_bar, m_good,
                 sSCTmod, gmtSCTcolor);
+
+        if (t.get_hp() > 0) {
+            get_HP_Bar(t.get_hp(), t.get_hp_max(), color, health_bar, true);
+
+            SCT.add(t.xpos(),
+                    t.ypos(),
+                    direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
+                    health_bar, m_good,
+                    "hp", m_neutral,
+                    true);
+        } else {
+            SCT.removeCreatureHP();
+        }
     }
 
     // same message is used for player and npc,

@@ -2559,6 +2559,10 @@ input_context game::get_player_input(std::string &action)
                             int iPos = iter->getStep() + iter->getStepOffset();
                             for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
                                 if (iter2->getDirecton() == oCurDir && iter2->getStep() + iter2->getStepOffset() <= iPos) {
+                                    if (iter2->getCreatureHP()) {
+                                        iter2->advanceStepOffset();
+                                    }
+
                                     iter2->advanceStepOffset();
                                     iPos = iter2->getStep() + iter2->getStepOffset();
                                 }
