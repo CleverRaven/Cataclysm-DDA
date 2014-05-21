@@ -4286,8 +4286,8 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             SCT.add(this->xpos(),
                     this->ypos(),
                     direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
-                    string_format("%s %s", health_bar.c_str(), body_part_name(bp, side, true).c_str()), //string_format("%d", dam),
-                    m_bad);
+                    health_bar.c_str(), m_bad,
+                    body_part_name(bp, side, true), m_neutral);
         }
     }
 
@@ -5009,8 +5009,8 @@ void player::add_disease(dis_type type, int duration, bool permanent,
                 SCT.add(this->xpos(),
                         this->ypos(),
                         SOUTH,
-                        string_format("+ %s", dis_name(tmp).c_str()),
-                        m_bad);
+                        dis_name(tmp), m_info,
+                        "", m_neutral);
             }
         }
     }
@@ -9716,8 +9716,8 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
             SCT.add(this->xpos(),
                     this->ypos(),
                     NORTH,
-                    string_format("%s %s", pre_damage_name.c_str(), damage_verb.c_str()),
-                    m_bad);
+                    pre_damage_name, m_neutral,
+                    damage_verb, m_info);
         }
     }
     return armor_damaged;

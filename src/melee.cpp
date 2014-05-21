@@ -1891,8 +1891,8 @@ void player_hit_message(player* attacker, std::string message,
         SCT.add(t.xpos(),
                 t.ypos(),
                 direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
-                string_format("%s %s", health_bar.c_str(), sSCTmod.c_str()),
-                gmtSCTcolor);
+                health_bar, m_good,
+                sSCTmod, gmtSCTcolor);
     }
 
     // same message is used for player and npc,

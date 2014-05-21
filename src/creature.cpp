@@ -269,28 +269,30 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     double goodhit = missed_by / monster_speed_penalty;
     double damage_mult = 1.0;
 
-    std::string sSCTmod = "";
-    game_message_type gmtSCTcolor = m_good;
+    std::string message = "";
+    game_message_type gmtSCTcolor = m_neutral;
 
     if (goodhit <= .1) {
-        source->add_msg_if_player(m_good, _("Headshot!"));
-        sSCTmod = _("HS!");
+        message = _("Headshot!");
+        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
     } else if (goodhit <= .2) {
-        source->add_msg_if_player(m_good, _("Critical!"));
-        sSCTmod = _("Crit!");
+        message = _("Critical!");
+        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float(1.75, 2.3);
     } else if (goodhit <= .4) {
-        source->add_msg_if_player(m_good, _("Good hit!"));
+        message = _("Good hit!");
+        source->add_msg_if_player(m_good, message.c_str());
+        gmtSCTcolor = m_good;
         damage_mult *= rng_float(1, 1.5);
     } else if (goodhit <= .6) {
         damage_mult *= rng_float(0.5, 1);
     } else if (goodhit <= .8) {
-        source->add_msg_if_player(m_good, _("Grazing hit."));
-        sSCTmod = _("GH");
+        message = _("Grazing hit.");
+        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_grazing;
         damage_mult *= rng_float(0, .25);
     } else {
@@ -381,26 +383,14 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                 SCT.add(this->xpos(),
                         this->ypos(),
                         direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
-                        string_format("%s %s", health_bar.c_str(), sSCTmod.c_str()),
-                        gmtSCTcolor);
+                        health_bar, m_good,
+                        message, gmtSCTcolor);
 
                 add_msg(m_good, _("You hit the %s for %d damage."),
                            disp_name().c_str(), dealt_dam.total_damage());
 
             } else if(this->is_player()) {
                 //monster hits player ranged
-
-                //somehow this gets triggered along with a melee hit message
-                /*nc_color color;
-                std::string health_bar = "";
-                get_HP_Bar(dealt_dam.total_damage(), static_cast<player*>(this)->hp_max[bp_hit], color, health_bar);
-
-                SCT.add(source->xpos(),
-                        source->ypos(),
-                        direction_from(0, 0, source->xpos() - this->xpos(), source->ypos() - this->ypos()),
-                        string_format("1 %s %s", health_bar.c_str(), body_part_name(bp_hit, side, true).c_str()),
-                        m_good);*/
-
                 add_msg_if_player( m_bad, _( "You were hit in the %s for %d damage." ),
                                           body_part_name( bp_hit, side ).c_str( ),
                                           dealt_dam.total_damage( ) );

@@ -648,19 +648,16 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 goodhit = double(double(rand() / RAND_MAX) / 2);
             }
 
-            std::string sSCTmod = "";
             game_message_type gmtSCTcolor = m_good;
 
             if (goodhit < .1 && !z.has_flag(MF_NOHEAD)) {
                 message = _("Headshot!");
-                sSCTmod = _("HS!");
                 gmtSCTcolor = m_headshot;
                 dam = rng(dam, dam * 3);
                 p.practice(calendar::turn, "throw", 5);
                 p.lifetime_stats()->headshots++;
             } else if (goodhit < .2) {
                 message = _("Critical!");
-                sSCTmod = _("Crit!");
                 gmtSCTcolor = m_critical;
                 dam = rng(dam, dam * 2);
                 p.practice(calendar::turn, "throw", 2);
@@ -668,7 +665,6 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 dam = rng(int(dam / 2), int(dam * 1.5));
             } else if (goodhit < .5) {
                 message = _("Grazing hit.");
-                sSCTmod = _("GH");
                 gmtSCTcolor = m_grazing;
                 dam = rng(0, dam);
             }
@@ -681,8 +677,8 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 SCT.add(z.xpos(),
                         z.ypos(),
                         direction_from(0, 0, z.xpos() - p.posx, z.ypos() - p.posy),
-                        string_format("%s %s", health_bar.c_str(), sSCTmod.c_str()),
-                        gmtSCTcolor);
+                        health_bar.c_str(), m_good,
+                        message, gmtSCTcolor);
 
                 p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
                     _("%s <npcname> hits the %s for %d damage."),

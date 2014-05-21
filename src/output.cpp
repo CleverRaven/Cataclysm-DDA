@@ -1515,7 +1515,8 @@ void display_table(WINDOW *w, const std::string &title, int columns,
 }
 
 scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const direction p_oDir,
-                          const std::string p_sText, const game_message_type p_gmt)
+                                const std::string p_sText, const game_message_type p_gmt,
+                                const std::string p_sText2, const game_message_type p_gmt2)
 {
     iPosX = p_iPosX;
     iPosY = p_iPosY;
@@ -1531,10 +1532,14 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
 
     sText = p_sText;
     gmt = p_gmt;
+
+    sText2 = p_sText2;
+    gmt2 = p_gmt2;
 }
 
 void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_oDir,
-                              const std::string p_sText, const game_message_type p_gmt)
+                              const std::string p_sText, const game_message_type p_gmt,
+                              const std::string p_sText2, const game_message_type p_gmt2)
 {
     if (OPTIONS["ANIMATION_SCT"]) {
         int iCurStep = 0;
@@ -1555,14 +1560,68 @@ void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_
             }
         }
 
-        vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt));
+        vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2));
     }
+}
+
+std::string scrollingcombattext::cSCT::getText(std::string sType)
+{
+    std::string sReturn = sText;
+
+    if (sText2 != "") {
+        if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
+            if (sType == "first") {
+                return sText2 + " ";
+
+            } else if (sType == "full") {
+                sReturn = sText2 + " " + sReturn;
+            }
+        } else {
+            if (sType == "second") {
+                return " " + sText2;
+
+            } else if (sType == "full") {
+                sReturn += " " + sText2;
+            }
+        }
+    } else if (sType == "second") {
+        return "";
+    }
+
+    return sReturn;
+}
+
+game_message_type scrollingcombattext::cSCT::getMsgType(std::string sType)
+{
+    if (sText2 != "") {
+        if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
+            if (sType == "first") {
+                return gmt2;
+            }
+        } else {
+            if (sType == "second") {
+                return gmt2;
+            }
+        }
+    }
+
+    return gmt;
 }
 
 int scrollingcombattext::cSCT::getPosX()
 {
     if (getStep() > 0) {
-        const int iDirOffset = (oDir == EAST) ? 1 : ((oDir == WEST) ? -1 : 0);
+        int iDirOffset = (oDir == EAST) ? 1 : ((oDir == WEST) ? -1 : 0);
+
+        if (oDir == NORTH || oDir == SOUTH) {
+            //Center text
+            iDirOffset -= getText().length()/2;
+
+        } else if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
+            //Left align text
+            iDirOffset -= getText().length();
+        }
+
         return iPosX + iDirOffset + (iDirX * (getStepOffset() + getStep()));
     }
 
