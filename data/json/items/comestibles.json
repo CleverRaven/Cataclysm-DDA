@@ -15337,7 +15337,7 @@
         "name" : "diazepam",
         "weight" : 1,
         "color" : "white",
-        "addiction_type" : "none",
+        "addiction_type" : "diazepam",
         "spoils_in" : 0,
         "use_action" : "ANTICONVULSANT",
         "stim" : -8,
@@ -15347,9 +15347,9 @@
         "symbol" : "!",
         "quench" : 0,
         "heal" : -1,
-        "addiction_potential" : 0,
+        "addiction_potential" : 20,
         "nutrition" : 0,
-        "description" : "A strong benzodiazepine drug used to treat muscle spasms, anxiety,  seizures, and panic attacks",
+        "description" : "A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, and panic attacks",
         "price" : 5000,
         "material" : "null",
         "tool" : "null",
@@ -15359,7 +15359,7 @@
         "charges" : 10,
         "stack_size" : 100,
         "bashing" : 0,
-        "fun" : 0
+        "fun" : 8
     }
     
 ]
