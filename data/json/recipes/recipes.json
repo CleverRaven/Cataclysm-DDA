@@ -9553,6 +9553,40 @@
   ]
 },{
         "type" : "recipe",
+  "result": "diazepam",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 7] , ["atomic_survival", 6] , [ "recipe_labchem", 6]],
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "chemistry_set", 3 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt_water", 1 ],
+      [ "salt", 1 ],
+      [ "saline", 5 ]
+    ],
+    [
+      [ "aspirin", 5 ]
+    ],
+    [
+      [ "oxy_powder", 50 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -10574,6 +10608,7 @@
       [ "heroin", 5 ],
       [ "oxycodone", 10 ],
       [ "tramadol", 15 ],
+      [ "diazepam", 15 ],
       [ "codeine", 20 ],
       [ "poppy_pain", 20 ]
     ],
