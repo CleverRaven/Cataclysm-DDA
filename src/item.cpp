@@ -21,11 +21,6 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
-#ifdef _MSC_VER
-// MSVC doesn't have ssize_t, so use int instead
-#define ssize_t int
-#endif
-
 light_emission nolight = {0, 0, 0};
 
 item::item()
@@ -2730,8 +2725,8 @@ bool item::reload(player &u, int pos)
             reload_target = &contents[spare_mag];
             // Finally consider other gunmods
         } else {
-            for (ssize_t i = 0; i < (ssize_t)contents.size(); i++) {
-                if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
+            for (size_t i = 0; i < contents.size(); i++) {
+                if (&contents[i] != gunmod && (int)i != spare_mag && contents[i].is_gunmod() &&
                     contents[i].has_flag("MODE_AUX") &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
                     (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||

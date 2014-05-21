@@ -359,8 +359,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         // blood is splattered around (blood_inside_x, blood_inside_y),
         // coords relative to mount point; the center is always a seat
             if (blood_inside_set) {
-                int distSq = pow((blood_inside_x - parts[p].mount_dx), 2) + \
-                             pow((blood_inside_y - parts[p].mount_dy), 2);
+                int distSq = std::pow((blood_inside_x - parts[p].mount_dx), 2) + \
+                    std::pow((blood_inside_y - parts[p].mount_dy), 2);
                 if (distSq <= 1) {
                     parts[p].blood = rng(200, 400) - distSq*100;
                 }

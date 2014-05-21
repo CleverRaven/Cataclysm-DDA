@@ -10,6 +10,7 @@
 #include <istream>
 #include <sstream>
 #include <fstream>
+#include <iterator>
 
 extern input_context get_default_mode_input_context();
 

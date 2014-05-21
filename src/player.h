@@ -14,6 +14,8 @@
 #include "player_activity.h"
 #include "messages.h"
 
+#include <unordered_set>
+
 class monster;
 class game;
 struct trap;
@@ -84,7 +86,7 @@ public:
 // newcharacter.cpp
  bool create(character_type type, std::string tempname = "");
  /** Returns the set "my_traits" */
- std::set<std::string> get_traits() const;
+ std::unordered_set<std::string> get_traits() const;
  /** Returns the id of a random starting trait that costs >= 0 points */
  std::string random_good_trait();
  /** Returns the id of a random starting trait that costs < 0 points */
@@ -887,8 +889,8 @@ public:
     bool knows_trap(int x, int y) const;
     void add_known_trap(int x, int y, const std::string &t);
 protected:
-    std::set<std::string> my_traits;
-    std::set<std::string> my_mutations;
+    std::unordered_set<std::string> my_traits;
+    std::unordered_set<std::string> my_mutations;
     std::vector<bionic> my_bionics;
     std::vector<disease> illness;
     bool underwater;
