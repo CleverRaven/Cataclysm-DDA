@@ -167,21 +167,29 @@ int iuse::royal_jelly(player *p, item *it, bool)
   message = _("You feel cleansed inside!");
   p->rem_disease("fungus");
  }
- if (p->has_disease("dermatik")) {
+ if (p->has_disease("dermatik") || p->has_disease("bloodworms") ||
+     p->has_disease("paincysts") || p->has_disease("brainworm") ||
+     p->has_disease("tapeworm")) {
   message = _("You feel cleansed inside!");
   p->rem_disease("dermatik");
+  p->rem_disease("bloodworms");
+  p->rem_disease("paincysts");
+  p->rem_disease("brainworm");
+  p->rem_disease("tapeworm");
  }
  if (p->has_effect("blind")) {
   message = _("Your sight returns!");
   p->remove_effect("blind");
  }
  if (p->has_effect("poison") || p->has_disease("foodpoison") ||
-     p->has_disease("badpoison") || p->has_disease("paralyzepoison")) {
+     p->has_disease("badpoison") || p->has_disease("paralyzepoison") ||
+     p->has_disease("tetanus")) {
   message = _("You feel much better!");
   p->remove_effect("poison");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
   p->rem_disease("paralyzepoison");
+  p->rem_disease("tetanus");
  }
  if (p->has_disease("asthma")) {
   message = _("Your breathing clears up!");
