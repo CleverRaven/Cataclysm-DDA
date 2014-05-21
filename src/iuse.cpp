@@ -1026,6 +1026,14 @@ int iuse::antiparasitic(player *p, item *it, bool) {
 
 int iuse::anticonvulsant(player *p, item *it, bool) {
     p->add_msg_if_player(_("You take some anticonvulsant medication."));
+    int duration = 21 - p->str_cur + rng(0,10);
+    if (p->has_trait("TOLERANCE")) {
+            duration -= 10; // Symmetry would cause problems :-/
+        }
+    if (p->has_trait("LIGHTWEIGHT")) {
+        duration += 20;
+    }
+    p->add_disease("high", duration);
     if (p->has_disease("tetanus")) {
         if (one_in(3)) {
             p->rem_disease("tetanus");
