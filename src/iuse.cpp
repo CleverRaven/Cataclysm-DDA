@@ -1035,6 +1035,10 @@ int iuse::anticonvulsant(player *p, item *it, bool) {
         }
 
     }
+    if (p->has_disease("shakes")) {
+            p->rem_disease("shakes");
+            p->add_msg_if_player(m_good, _("You stop shaking."));
+        }
     return it->type->charges_to_use();
 }
 
@@ -7796,6 +7800,10 @@ int iuse::misc_repair(player *p, item *it, bool)
             if (fix == NULL || fix->is_null()) {
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
                 return 0 ;
+            }
+            if (fix->is_gun()) {
+                p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
+                return 0;
             }
             if (!(fix->made_of("wood") || fix->made_of("plastic") || fix->made_of("bone") || fix->made_of("chitin"))) {
                 p->add_msg_if_player(m_info, _("That isn't made of wood, bone, or chitin!"));
