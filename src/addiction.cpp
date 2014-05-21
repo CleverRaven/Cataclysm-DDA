@@ -175,9 +175,32 @@ void addict_effect(addiction &add)
         }
         break;
 
+    case ADD_DIAZEPAM:
+        g->u.mod_per_bonus(-1);
+        g->u.mod_int_bonus(-1);
+        if (rng(40, 1200) <= in * 10 && g->u.health > -100) {
+            g->u.health--;
+        }
+        if (one_in(20) && rng(0, 20) < in) {
+            add_msg(m_warning, _("You could use some diazepam."));
+            g->u.add_morale(MORALE_CRAVING_DIAZEPAM, -35, -120);
+        } else if (rng(8, 200) < in) {
+            add_msg(m_bad, _("You're shaking... you need some diazepam!"));
+            g->u.add_morale(MORALE_CRAVING_DIAZEPAM, -35, -120);
+            g->u.add_disease("shakes", 50);
+        } else if (!g->u.has_disease("hallu") && rng(10, 3200) < in) {
+            g->u.add_disease("hallu", 3600);
+        } else if (one_in(50) && dice(3, 50) < in) {
+                add_msg(m_bad, _("You throw up heavily!"));
+                g->cancel_activity_query(_("Throwing up."));
+                g->u.vomit();
+            }
+        break;
+
         //for any other unhandled cases
     default:
         break;
+
     }
 }
 
@@ -206,6 +229,8 @@ std::string addiction_type_name(add_type cur)
         return _("crack cocaine");
     case ADD_MUTAGEN:
         return _("mutation");
+    case ADD_DIAZEPAM:
+        return _("diazepam");
     default:
         return "bugs in addiction.cpp";
     }
@@ -232,6 +257,8 @@ std::string addiction_name(addiction cur)
         return _("Crack Cocaine Withdrawal");
     case ADD_MUTAGEN:
         return _("Mutation Withdrawal");
+    case ADD_DIAZEPAM:
+        return _("Diazepam Withdrawal");
     default:
         return "Erroneous addiction";
     }
@@ -256,6 +283,8 @@ morale_type addiction_craving(add_type cur)
         return MORALE_CRAVING_CRACK;
     case ADD_MUTAGEN:
         return MORALE_CRAVING_MUTAGEN;
+    case ADD_DIAZEPAM:
+        return MORALE_CRAVING_DIAZEPAM;
     default:
         return MORALE_NULL;
     }
@@ -281,6 +310,8 @@ add_type addiction_type(std::string name)
         return ADD_CRACK;
     } else if (name == "mutagen") {
         return ADD_MUTAGEN;
+    } else if (name == "diazepam") {
+        return ADD_DIAZEPAM;
     } else {
         if (name != "none") {
             debugmsg("unknown addiction type: %s. For no addictive potential, use \"none\"", name.c_str());
@@ -325,11 +356,17 @@ Movement rate reduction.  Depression.  Weak immune system.  Frequent cravings.")
 
     case ADD_COKE:
         return _("Perception - 1;   Intelligence - 1;  Frequent cravings.");
-
+        
     case ADD_CRACK:
         return _("Perception - 2;   Intelligence - 2;  Frequent cravings.");
+        
     case ADD_MUTAGEN:
         return _("You've gotten a taste for mutating and the chemicals that cause it. But you can stop, yeah, any time you want.");
+        
+    case ADD_DIAZEPAM:
+        return _("Perception - 1;   Intelligence - 1;\n\
+Anxiety, nausea, hallucinations, and general malaise.");
+
     default:
         return "";
     }

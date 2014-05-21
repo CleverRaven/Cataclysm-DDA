@@ -70,6 +70,7 @@ void game::init_morale()
     _("Cocaine Craving"),
     _("Crack Cocaine Craving"),
     _("Mutagen Craving"),
+    _("Diazepam Craving"),
 
     _("Disliked %i"),
     _("Ate Human Flesh"),
