@@ -68,13 +68,9 @@ build a release version, use `SDL` + graphical tiles, link to libraries in the O
 
     $ make NATIVE=osx OSX_MIN=10.6 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0
 
-build a release version, use `ncurses`, don't use `gettext`:
+build a debug version, use `ncurses`, don't use `gettext`:
 
-    $ make NATIVE=osx OSX_MIN=10.6 RELEASE=1 LOCALIZE=0
-
-build a debug version, use `SDL` with just the ASCII tiles, link to libraries in the OS X `Frameworks` folders, don't use `gettext`:
-
-    $ make NATIVE=osx OSX_MIN=10.6 SDL=1 FRAMEWORK=1 LOCALIZE=0 
+    $ make NATIVE=osx OSX_MIN=10.6 LOCALIZE=0
 
 ### Make Options
 
@@ -85,8 +81,7 @@ Description of the options used above. Tweak until things work. More notes are i
 * `NATIVE=osx` build for OS X.
 * `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5.
 * `RELEASE=1` build an optimized 'release' version; omit for debug build.
-* `SDL=1` build the SDL version with graphical ASCII; omit to use `ncurses` interface.
-* `TILES=1` build the SDL version with graphical tiles (and graphical ASCII). Setting this includes `SDL=1`, no need to set that flag too.
+* `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 
 
 
