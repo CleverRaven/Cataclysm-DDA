@@ -7797,6 +7797,10 @@ int iuse::misc_repair(player *p, item *it, bool)
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
                 return 0 ;
             }
+            if (fix->is_gun()) {
+                p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
+                return 0;
+            }
             if (!(fix->made_of("wood") || fix->made_of("plastic") || fix->made_of("bone") || fix->made_of("chitin"))) {
                 p->add_msg_if_player(m_info, _("That isn't made of wood, bone, or chitin!"));
                 return 0;
