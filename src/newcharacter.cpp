@@ -1437,11 +1437,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
-            std::set<std::string> current_traits = u->get_traits();
+            std::unordered_set<std::string> current_traits = u->get_traits();
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
-                for (std::set<std::string>::iterator i = current_traits.begin();
+                for (std::unordered_set<std::string>::iterator i = current_traits.begin();
                      i != current_traits.end(); ++i) {
                     wprintz(w_traits, c_ltgray, "\n");
                     wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
@@ -1650,7 +1650,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     } while (true);
 }
 
-std::set<std::string> player::get_traits() const
+std::unordered_set<std::string> player::get_traits() const
 {
     return my_traits;
 }

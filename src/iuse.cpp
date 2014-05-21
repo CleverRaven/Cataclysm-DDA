@@ -2688,7 +2688,7 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
 
     // damaged clothing has a chance to lose material
     if(count>0) {
-        float component_success_chance = std::min((float)pow(0.8f, cut->damage), 1.f);
+        float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
         for(int i = count; i > 0; i--) {
             if(component_success_chance < rng_float(0,1)) {
                 count--;
@@ -5999,6 +5999,29 @@ int iuse::portable_game(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
+int iuse::vibe(player *p, item *it, bool)
+{
+  if ((p->is_underwater()) && (!((p->has_trait("GILLS")) || (p->is_wearing("rebreather_on")) ||
+    (p->is_wearing("rebreather_xl_on")) || (p->is_wearing("mask_h20survivor_on")))) ) {
+        p->add_msg_if_player(m_info,  _("It's waterproof, but oxygen maybe?"));
+        return 0;
+    }
+  if (it->charges == 0) {
+        p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->name.c_str());
+        return 0;
+    }
+  if (p->fatigue >= 383) {
+      p->add_msg_if_player(m_info, _("*Your* batteries are dead."));
+      return 0;
+  }
+  else {
+      int time = 20000; // 20 minutes per
+      p->add_msg_if_player( _("You fire up your %s and start getting the tension out."), it->name.c_str());
+      p->assign_activity(ACT_VIBE, time, -1, p->get_item_position(it), "de-stressing");
+  }
+  return it->type->charges_to_use();
+}
+
 int iuse::vortex(player *p, item *it, bool)
 {
  std::vector<point> spawn;
@@ -6211,7 +6234,7 @@ int iuse::knife(player *p, item *it, bool t)
 
     // damaged items has a chance to lose material
     if(count>0) {
-        float component_success_chance = std::min((float)pow(0.8f, cut->damage), 1.f);
+        float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
         for(int i = count; i > 0; i--) {
             if(component_success_chance < rng_float(0,1)) {
                 count--;
