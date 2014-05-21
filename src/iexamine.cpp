@@ -1952,6 +1952,29 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     p->moves -= 100;
 }
 
+void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
+    // Peek through the curtains, or tear them down.
+    int choice = menu( true, _("Do what with the curtains?"),
+                       _("Peek through the curtains."), _("Tear down the curtains."),
+                       _("Cancel"), NULL );
+    if( choice == 1 ) {
+        // Peek
+        g->peek( examx, examy );
+        p->add_msg_if_player( _("You carefully peek through the curtains.") );
+    } else if( choice == 2 ){
+        // Mr. Gorbachev, tear down those curtains!
+        m->ter_set( examx, examy, "t_window" );
+        m->spawn_item( p->xpos(), p->ypos(), "nail", 1, 4 );
+        m->spawn_item( p->xpos(), p->ypos(), "sheet", 2 );
+        m->spawn_item( p->xpos(), p->ypos(), "stick" );
+        m->spawn_item( p->xpos(), p->ypos(), "string_36" );
+        p->moves -= 200;
+        p->add_msg_if_player( _("You tear the curtains and curtain rod off the windowframe.") );
+    } else {
+        p->add_msg_if_player( _("Never mind."));
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -2107,6 +2130,9 @@ void (iexamine::*iexamine_function_from_string(std::string function_name))(playe
   }
   if ("reload_furniture" == function_name) {
     return &iexamine::reload_furniture;
+  }
+  if( "curtains" == function_name ) {
+      return &iexamine::curtains;
   }
 
   //No match found
