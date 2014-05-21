@@ -1586,29 +1586,33 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
     }
 }
 
-void iexamine::pick_plant(player *p, map *m, int examx, int examy, std::string itemType, int new_ter, bool seeds) {
-  if (!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
-    none(p, m, examx, examy);
-    return;
-  }
+void iexamine::pick_plant(player *p, map *m, int examx, int examy,
+                          std::string itemType, int new_ter, bool seeds) {
+    if (!query_yn(_("Pick %s?"), m->tername(examx, examy).c_str())) {
+        none(p, m, examx, examy);
+        return;
+    }
 
-  SkillLevel& survival = p->skillLevel("survival");
-  if (survival < 1)
-    p->practice(calendar::turn, "survival", rng(5, 12));
-  else if (survival < 6)
-    p->practice(calendar::turn, "survival", rng(1, 12 / survival));
+    SkillLevel& survival = p->skillLevel("survival");
+    if (survival < 1) {
+        p->practice(calendar::turn, "survival", rng(5, 12));
+    } else if (survival < 6) {
+        p->practice(calendar::turn, "survival", rng(1, 12 / survival));
+    }
 
-  int plantCount = rng(survival / 2, survival);
-  if (plantCount > 12)
-    plantCount = 12;
+    int plantCount = rng(survival / 2, survival);
+    if (plantCount > 12) {
+        plantCount = 12;
+    }
 
-  m->spawn_item(examx, examy, itemType, plantCount, 0, calendar::turn);
+    m->spawn_item(examx, examy, itemType, plantCount, 0, calendar::turn);
 
-  if (seeds) {
-    m->spawn_item(examx, examy, "seed_" + itemType, 1, rng(plantCount / 4, plantCount / 2), calendar::turn);
-  }
+    if (seeds) {
+        m->spawn_item(examx, examy, "seed_" + itemType, 1,
+                      rng(plantCount / 4, plantCount / 2), calendar::turn);
+    }
 
-  m->ter_set(examx, examy, (ter_id)new_ter);
+    m->ter_set(examx, examy, (ter_id)new_ter);
 }
 
 void iexamine::tree_apple(player *p, map *m, int examx, int examy) {
@@ -1922,10 +1926,11 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
         return;
     }
     const long max_amount = p->inv.find_item(pos).charges;
-    const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"), ammo->name.c_str(), f.name.c_str());
-    long amount = helper::to_int(
-        string_input_popup(
-            popupmsg, 20, helper::to_string_int(max_amount), "", "", -1, true));
+    const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"),
+                                               ammo->name.c_str(), f.name.c_str());
+    long amount = helper::to_int( string_input_popup( popupmsg, 20,
+                                                      helper::to_string_int(max_amount),
+                                                      "", "", -1, true) );
     if (amount <= 0 || amount > max_amount) {
         return;
     }
