@@ -15349,7 +15349,7 @@
         "heal" : -1,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "A strong benzodiazepine drug used to treat muscle spasms, anxiety,  seizures, and panic attacks",
+        "description" : "A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, and panic attacks",
         "price" : 5000,
         "material" : "null",
         "tool" : "null",
