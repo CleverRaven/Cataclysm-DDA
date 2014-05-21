@@ -179,7 +179,7 @@ void load_json_dir(std::string const &dirname)
     }
 }
 
-int main(int argc, char *argv[])
+int main(int, char **)
 {
     setlocale(LC_ALL, "");
     try {

@@ -157,6 +157,7 @@ public:
     int mp3                 (player *, item *, bool);
     int mp3_on              (player *, item *, bool);
     int portable_game       (player *, item *, bool);
+    int vibe                (player *, item *, bool);
     int vortex              (player *, item *, bool);
     int dog_whistle         (player *, item *, bool);
     int vacutainer          (player *, item *, bool);
