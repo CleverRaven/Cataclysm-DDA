@@ -81,7 +81,7 @@ Description of the options used above. Tweak until things work. More notes are i
 * `NATIVE=osx` build for OS X.
 * `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5.
 * `RELEASE=1` build an optimized 'release' version; omit for debug build.
-* `TILES=1` build the SDL version with graphical tiles (and graphical ASCII). 
+* `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 
 
 
