@@ -2770,7 +2770,7 @@ int iuse::scissors(player *p, item *it, bool t)
 
 int iuse::extinguisher(player *p, item *it, bool)
 {
-  if (it->charges == 0) {
+  if (it->charges < it->type->charges_to_use()) {
     return 0;
   }
  g->draw();
@@ -2868,7 +2868,7 @@ int iuse::hammer(player *p, item *it, bool)
 
 int iuse::rm13armor_off(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The RM13 combat armor's fuel cells are dead."), it->tname().c_str());
         return 0;
     } else {
@@ -3296,7 +3296,7 @@ _(
 
 int iuse::radio_off(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(_("It's dead."));
     } else {
         p->add_msg_if_player(_("You turn the radio on."));
@@ -3444,12 +3444,9 @@ int iuse::radio_on(player *p, item *it, bool t)
 
 int iuse::noise_emitter_off(player *p, item *it, bool)
 {
-    if (it->charges == 0)
-    {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(_("It's dead."));
-    }
-    else
-    {
+    } else {
         p->add_msg_if_player(_("You turn the noise emitter on."));
         it->make("noise_emitter_on");
         it->active = true;
@@ -3459,12 +3456,9 @@ int iuse::noise_emitter_off(player *p, item *it, bool)
 
 int iuse::airhorn(player *p, item *it, bool)
 {
-    if (it->charges == 0)
-    {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(_("You depress the button but no sound comes out."));
-    }
-    else
-    {
+    } else {
         p->add_msg_if_player(_("You honk your airhorn."));
         point pos = g->find_item(it);
         g->sound(pos.x, pos.y, 50, _("HOOOOONK!"));
@@ -4182,9 +4176,7 @@ int iuse::shishkebab_on(player *p, item *it, bool t)
             it->make("shishkebab_off");
             it->active = false;
         }
-    }
-    else if (it->charges == 0)
-    {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_bad, _("Uncool, outta gas! Your shishkebab's flame goes out."));
         it->make("shishkebab_off");
         it->active = false;
@@ -4265,9 +4257,7 @@ int iuse::firemachete_on(player *p, item *it, bool t)
             it->make("firemachete_off");
             it->active = false;
         }
-    }
-    else if (it->charges == 0)
-    {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("Out of ammo!"));
         it->make("firemachete_off");
         it->active = false;
@@ -4340,9 +4330,7 @@ int iuse::broadfire_on(player *p, item *it, bool t)
         else if (one_in(35)) {
             p->add_msg_if_player(_("Your blade burns for combat!"));
         }
-    }
-    else if (it->charges == 0)
-    {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_bad, _("Thy strength fades!"));
         it->make("broadfire_off");
         it->active = false;
@@ -4415,9 +4403,7 @@ int iuse::firekatana_on(player *p, item *it, bool t)
         else if (one_in(35)) {
             p->add_msg_if_player(_("The Sun shines brightly."));
         }
-    }
-    else if (it->charges == 0)
-    {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_bad, _("The Light Fades."));
         it->make("firekatana_off");
         it->active = false;
@@ -4493,7 +4479,7 @@ int iuse::zweifire_on(player *p, item *it, bool t)
             //~ (Flammenschwert) "The fire on your blade burns brightly!"
             p->add_msg_if_player(_("Das Feuer um deine Schwertklinge leuchtet hell!"));
         }
-    } else if (it->charges == 0) {
+    } else if (it->charges < it->type->charges_to_use()) {
         //~ (Flammenschwert) "Your Flammenscwhert (firesword) is out of fuel!"
         p->add_msg_if_player(m_bad, _("Deinem Flammenschwert ist der Brennstoff ausgegangen!"));
         it->make("zweifire_off");
@@ -4957,7 +4943,7 @@ int iuse::geiger(player *p, item *it, bool t)
 
 int iuse::teleport(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
       return 0;
     }
     p->moves -= 100;
@@ -5434,7 +5420,7 @@ int iuse::mininuke(player *p, item *it, bool)
 
 int iuse::pheromone(player *p, item *it, bool)
 {
-      if (it->charges == 0) {
+      if (it->charges < it->type->charges_to_use()) {
           return 0;
       }
     if (p->is_underwater()) {
@@ -5479,7 +5465,7 @@ int iuse::pheromone(player *p, item *it, bool)
 
 int iuse::portal(player *p, item *it, bool)
 {
-  if (it->charges == 0) {
+  if (it->charges < it->type->charges_to_use()) {
           return 0;
       }
  g->m.add_trap(p->posx + rng(-2, 2), p->posy + rng(-2, 2), tr_portal);
@@ -5664,7 +5650,7 @@ int iuse::adv_UPS_on(player *p, item *it, bool t)
 
 int iuse::tazer(player *p, item *it, bool)
 {
-  if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use() ) {
           return 0;
   }
  int dirx, diry;
@@ -5899,7 +5885,7 @@ int iuse::shocktonfa_on(player *p, item *it, bool t)
 
 int iuse::mp3(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The mp3 player's batteries are dead."));
     } else if (p->has_active_item("mp3_on")) {
         p->add_msg_if_player(m_info, _("You are already listening to an mp3 player!"));
@@ -5956,7 +5942,7 @@ int iuse::portable_game(player *p, item *it, bool)
     if(p->has_trait("ILLITERATE")) {
         add_msg(_("You're illiterate!"));
         return 0;
-    } else if(it->charges == 0) {
+    } else if(it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->name.c_str());
         return 0;
     } else {
@@ -6022,7 +6008,7 @@ int iuse::vibe(player *p, item *it, bool)
         p->add_msg_if_player(m_info,  _("It's waterproof, but oxygen maybe?"));
         return 0;
     }
-  if (it->charges == 0) {
+  if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->name.c_str());
         return 0;
     }
@@ -6470,11 +6456,9 @@ int iuse::torch_lit(player *p, item *it, bool t)
         it->make("torch");
         it->active = false;
         return 0;
-}
-    if (t)
-    {
-        if (it->charges == 0)
-        {
+    }
+    if (t) {
+        if (it->charges < it->type->charges_to_use()) {
             p->add_msg_if_player(_("The torch burns out."));
             it->make("torch_done");
             it->active = false;
@@ -6523,10 +6507,8 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
   it->active = false;
         return 0;
     }
-    if (t)
-    {
-        if (it->charges == 0)
-        {
+    if (t) {
+        if (it->charges < it->type->charges_to_use()) {
             p->add_msg_if_player(_("The Louisville Slaughterer burns out."));
             it->make("battletorch_done");
             it->active = false;
@@ -7128,7 +7110,7 @@ int iuse::heatpack(player *p, item *it, bool)
 
 int iuse::hotplate(player *p, item *it, bool)
 {
-  if(it->charges == 0) {
+  if(it->charges < it->type->charges_to_use()) {
     p->add_msg_if_player( m_info, _("The %s's batteries are dead."), it->name.c_str());
     return 0;
   }
@@ -7694,7 +7676,7 @@ int iuse::radglove(player *p, item *it, bool)
     if ( p->get_item_position( it ) >= -1 ) {
         p->add_msg_if_player(m_info, _("You must wear the radiation biomonitor before you can activate it."));
         return 0;
-    } else if (it->charges == 0) {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The radiation biomonitor needs batteries to function."));
         return 0;
     } else {
@@ -7745,7 +7727,7 @@ int iuse::contacts(player *p, item *it, bool)
 
 int iuse::talking_doll(player *p, item *it, bool)
 {
-    if(it->charges == 0) {
+    if(it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->name.c_str());
         return 0;
     }
@@ -7767,7 +7749,7 @@ int iuse::talking_doll(player *p, item *it, bool)
 
 int iuse::gun_repair(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
           return 0;
     }
     if (p->is_underwater()) {
@@ -7823,7 +7805,7 @@ int iuse::gun_repair(player *p, item *it, bool)
 
 int iuse::misc_repair(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
           return 0;
     }
     if (p->is_underwater()) {
@@ -7902,7 +7884,7 @@ int iuse::seed(player *, item *it, bool)
 
 int iuse::robotcontrol(player *p, item *it, bool)
 {
-    if(it->charges == 0) {
+    if(it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player( _("The %s's batteries are dead."), it->name.c_str());
         return 0;
 
