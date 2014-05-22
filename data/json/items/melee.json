@@ -1917,7 +1917,7 @@
         "color" : "dark_gray",
         "symbol" : "/",
         "material" : ["steel", "null"],
-        "techniques" : ["GRAB"],
+        "techniques" : ["WRAP"],
         "volume" : 4,
         "bashing" : 12,
         "cutting" : 0,
