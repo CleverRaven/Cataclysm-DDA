@@ -29288,6 +29288,37 @@
     ]
 },{
   "type" : "recipe",
+  "result": "mirror",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "glassblowing_book", 5 ]],
+  "tools": [
+     [
+      ["tongs", -1]
+     ],
+     [
+      ["crucible", -1]
+     ],
+     [
+      ["forge", 75], ["char_forge", 15]
+     ]
+    ],
+  "components":
+    [
+     [
+      [ "glass_sheet", 1 ]
+     ],
+     [
+      [ "silver_small", 50 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
   "result": "pipe_glass",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
