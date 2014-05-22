@@ -20,7 +20,7 @@ to ensure that their formatting is correct:
 
 For example, from vi, set marks a and b around the block, then:
 
-    :'a,'b ! astyle --style=1tbs --indent-spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-switches --indent-preprocessor --indent-col1-comments --min-conditional-indent=0 --pad-oper --add-brackets --convert-tabs
+    :'a,'b ! astyle --style=1tbs --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-switches --indent-preprocessor --indent-col1-comments --min-conditional-indent=0 --pad-oper --add-brackets --convert-tabs
 
 
 ## Doxygen Comments

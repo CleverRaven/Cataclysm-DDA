@@ -115,6 +115,9 @@ ifdef RELEASE
 endif
 
 ifdef CLANG
+  ifeq ($(NATIVE), osx)
+    OTHERS += -stdlib=libc++
+  endif
   CXX = $(CROSS)clang++
   LD  = $(CROSS)clang++
   WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-type-limits -Wno-narrowing
