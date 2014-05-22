@@ -60,17 +60,13 @@ Reason: if you build other software, these versions might conflict with what the
 
 One of the following commands will likely work for you. Tweak flags to suit your needs.
 
-build a release version, use `SDL` + graphical tiles, don't use `gettext`:
+build a release version, use `SDL` + graphical tiles, don't use `gettext`, and use `Clang` for compilation:
 
-    $ make NATIVE=osx OSX_MIN=10.6 RELEASE=1 TILES=1 LOCALIZE=0
+    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1 
     
-build a release version, use `SDL` + graphical tiles, link to libraries in the OS X `Frameworks` folders, don't use `gettext`:
+build a release version, use `SDL` + graphical tiles, link to libraries in the OS X `Frameworks` folders, don't use `gettext`, and use `Clang` for compilation:
 
-    $ make NATIVE=osx OSX_MIN=10.6 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0
-
-build a debug version, use `ncurses`, don't use `gettext`:
-
-    $ make NATIVE=osx OSX_MIN=10.6 LOCALIZE=0
+    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
 
 ### Make Options
 
@@ -82,6 +78,7 @@ Description of the options used above. Tweak until things work. More notes are i
 * `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5.
 * `RELEASE=1` build an optimized 'release' version; omit for debug build.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
+* `CLANG=1` build with [Clang](http://clang.llvm.org/) to get the necessary support for c++11 without needing to reinstall gcc/g++ (which seems like it might cause havoc with certain compilations of things).
 
 
 
