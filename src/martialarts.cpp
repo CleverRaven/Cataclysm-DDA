@@ -528,28 +528,34 @@ bool player::has_grab_break_tec() {
 }
 
 bool player::can_leg_block() {  
-  martialart ma = martialarts[style_selected];
-  if (ma.leg_block < 0 || !(ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs")))
-    return false;
-  int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
-  if (unarmed_skill < ma.leg_block && !(ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs")))
-      return false;
-  if (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0)
-    return true;
-  else
+    martialart ma = martialarts[style_selected];
+    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
+    
+    // Success conditions.
+    if(hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0) {
+        if( unarmed_skill >= ma.leg_block ) {
+            return true;
+        } else if( ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs") ) {
+            return true;
+        }
+    } 
+    // if not above, can't block.
     return false;
 }
 
 bool player::can_arm_block() {
-  martialart ma = martialarts[style_selected];
-  if (ma.arm_block < 0 || !(ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms")))
-    return false;
-  int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
-  if (unarmed_skill < ma.arm_block && !(ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms")))
-      return false;
-  if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0)
-    return true;
-  else
+    martialart ma = martialarts[style_selected];
+    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
+    
+    // Success conditions.
+    if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0) {
+        if( unarmed_skill >= ma.arm_block ) {
+            return true;
+        } else if( ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms") ) {
+            return true;
+        }
+    }
+    // if not above, can't block.
     return false;
 }
 
