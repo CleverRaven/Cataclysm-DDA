@@ -100,6 +100,8 @@ void game::init_morale()
     _("Stylish"),
     _("Optimist"),
     _("Bad Tempered"),
+    //~ You really don't like wearing the Uncomfy Gear
+    _("Uncomfy Gear"),
     _("Found kitten <3")
     };
     for (int i = 0; i < NUM_MORALE_TYPES; ++i) {
@@ -517,12 +519,27 @@ void player::reset_stats()
 
     // Set our scent towards the norm
     int norm_scent = 500;
-    if (has_trait("WEAKSCENT"))
+    if (has_trait("WEAKSCENT")) {
         norm_scent = 300;
-    if (has_trait("SMELLY"))
+    }
+    if (has_trait("SMELLY")) {
         norm_scent = 800;
-    if (has_trait("SMELLY2"))
+    }
+    if (has_trait("SMELLY2")) {
         norm_scent = 1200;
+    }
+    // Not so much that you don't have a scent
+    // but that you smell like a plant, rather than
+    // a human. When was the last time you saw a critter
+    // attack a bluebell or an apple tree?
+    if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
+        norm_scent -= 200;
+    }
+    // You *are* a plant.  Unless someone hunts triffids by scent,
+    // you don't smell like prey.
+    if (has_trait("CHLOROMORPH")) {
+        norm_scent = 0;
+    }
 
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
@@ -665,6 +682,13 @@ void player::apply_persistent_morale()
 
         if(bonus) {
             add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
+        }
+    }
+    
+    // Floral folks really don't like having their flowers covered.
+    if (has_trait("FLOWERS")) {
+        if (wearing_something_on(bp_head)) {
+            add_morale(MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true);
         }
     }
 

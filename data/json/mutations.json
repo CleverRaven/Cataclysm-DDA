@@ -1362,9 +1362,10 @@
         "points" : 2,
         "visibility" : 10,
         "ugliness" : -4,
-        "description" : "You've started flowering where your scalp used to be. Your blossoms have a pleasant aroma and are visually striking, so crushing them with 'headgear' would be a shame.",
+        "description" : "You've started blooming where your scalp used to be. Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
         "prereqs" : ["PLANTSKIN","BARK"],
         "prereqs2" : ["LEAVES"],
+        "cancels" : ["SMELLY", "SMELLY2"],
         "threshreq" : ["THRESH_PLANT"],
         "category" : ["MUTCAT_PLANT"]
     },{
@@ -3324,10 +3325,12 @@
         "visibility" : 7,
         "ugliness" : 1,
         "description" : "Every inch of your skin is packed with chlorophyll and you have strong roots. Sleeping on diggable soil will satisfy any hunger you might have.",
+        "valid" : false,
+        "purifiable" : false,
         "prereqs" : ["ROOTS2", "ROOTS3"],
         "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
-        "cancels" : ["LEG_TENTACLES"],
+        "cancels" : ["LEG_TENTACLES", "SMELLY", "SMELLY2"],
         "category" : ["MUTCAT_PLANT"]
     },{
         "type" : "mutation",

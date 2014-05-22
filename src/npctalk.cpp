@@ -1586,7 +1586,7 @@ int trial_chance(talk_response response, player *u, npc *p)
    if (u->has_trait("ELFAEYES")) {
       chance += 10;
    }
-   if (u->has_trait("WINGS_BUTTERFLY")) {
+   if ((u->has_trait("WINGS_BUTTERFLY")) || (u->has_trait("FLOWERS"))) {
       chance += 10;
    }
    if (u->has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
