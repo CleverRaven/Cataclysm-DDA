@@ -1352,7 +1352,7 @@ void game::activity_on_turn_vibe()
     u.activity.moves_left -= 100;
 
     item &vibrator_item = u.i_at(u.activity.position);
-    
+
     if ( (u.is_wearing("rebreather")) || (u.is_wearing("rebreather_xl")) || (u.is_wearing("mask_h20survivor")) ) {
         u.activity.moves_left = 0;
         add_msg(m_bad, _("You have trouble breathing, and stop."));
@@ -2174,7 +2174,7 @@ void game::handle_key_blocking_activity() {
 }
 
 /* item submenu for 'i' and '/'
-* It use compare_split_screen_popup to draw item info and action menu
+* It use draw_item_info to draw item info and action menu
 *
 * @param pos position of item in inventory
 * @param iStartX Left coord of the item info window
@@ -2263,9 +2263,9 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position) {
         }
 
         do {
-            cMenu = compare_split_screen_popup(popup_x, popup_width, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
-                iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1
-            );
+            cMenu = draw_item_info(popup_x, popup_width, 0, vMenu.size()+iOffsetX*2,
+                                   "", vMenu, vDummy,
+                                   iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1);
 
             switch(cMenu) {
                 case 'a':
@@ -8695,10 +8695,10 @@ int game::list_items(const int iLastState)
 {
     int iInfoHeight = std::min(25,TERMY/2);
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW* w_items = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1);
-    WINDOW* w_items_border = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
-    WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1);
-    WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width);
+    WINDOW* w_items = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW* w_items_border = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width - VIEW_OFFSET_X);
+    WINDOW* w_item_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW* w_item_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width - VIEW_OFFSET_X);
 
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
@@ -8773,7 +8773,8 @@ int game::list_items(const int iLastState)
                 std::vector<iteminfo> vThisItem, vDummy;
 
                 oThisItem.info(true, &vThisItem);
-                compare_split_screen_popup(0, width - 5, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(), vThisItem, vDummy);
+                draw_item_info(0, width - 5, 0, TERMY-VIEW_OFFSET_Y*2,
+                               oThisItem.tname(), vThisItem, vDummy);
                 // wait until the user presses a key to wipe the screen
 
                 iLastActiveX = -1;
@@ -8845,7 +8846,8 @@ int game::list_items(const int iLastState)
             }
 
             if (ground_items.empty() && iLastState == 1) {
-                werase(w_items_border);
+                reset_item_list_state(w_items_border, iInfoHeight);
+                wrefresh(w_items_border);
                 mvwprintz(w_items, 10, 2, c_white, _("You dont see any items around you!"));
             } else {
                 werase(w_items);
@@ -8915,7 +8917,12 @@ int game::list_items(const int iLastState)
                 wprintz(w_items_border, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
                 werase(w_item_info);
-                fold_and_print(w_item_info,1,1,width - 5, c_white, activeItem.info());
+                //fold_and_print(w_item_info,1,1,width - 5, c_white, activeItem.info());
+
+                std::vector<iteminfo> vThisItem, vDummy;
+                activeItem.info(true, &vThisItem);
+
+                draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
 
                 //Only redraw trail/terrain if x/y position changed
                 if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
@@ -8990,10 +8997,10 @@ int game::list_monsters(const int iLastState)
 {
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW* w_monsters = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1);
-    WINDOW* w_monsters_border = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width);
-    WINDOW* w_monster_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1);
-    WINDOW* w_monster_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width);
+    WINDOW* w_monsters = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW* w_monsters_border = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width - VIEW_OFFSET_X);
+    WINDOW* w_monster_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW* w_monster_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width - VIEW_OFFSET_X);
 
     uistate.list_item_mon = 2; // remember we've tabbed here
     //this stores the monsters found
@@ -9101,7 +9108,7 @@ int game::list_monsters(const int iLastState)
             }
 
             if (vMonsters.empty() && iLastState == 1) {
-                werase(w_monsters_border);
+                wrefresh(w_monsters_border);
                 mvwprintz(w_monsters, 10, 2, c_white, _("You dont see any monsters around you!"));
             } else {
                 werase(w_monsters);
