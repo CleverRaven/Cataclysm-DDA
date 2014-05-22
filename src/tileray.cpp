@@ -1,4 +1,5 @@
 #include "tileray.h"
+#include "game_constants.h"
 #include <math.h>
 #include <stdlib.h>
 

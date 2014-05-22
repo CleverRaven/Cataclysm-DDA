@@ -9588,6 +9588,40 @@
   ]
 },{
         "type" : "recipe",
+  "result": "thorazine",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 8] , ["adv_chemistry", 8] , ["atomic_survival", 7] , [ "recipe_labchem", 7]],
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "chemistry_set", 3 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt_water", 1 ],
+      [ "salt", 1 ],
+      [ "saline", 5 ]
+    ],
+    [
+      [ "diazepam", 5 ]
+    ],
+    [
+      [ "oxy_powder", 50 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",

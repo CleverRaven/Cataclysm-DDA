@@ -237,17 +237,17 @@ Item_group::~Item_group() {
 
 void Item_group::add_item_entry(const Item_tag &itemid, int probability)
 {
-    std::auto_ptr<Item_spawn_data> ptr(new Single_item_creator(itemid, Single_item_creator::S_ITEM, probability));
+    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(itemid, Single_item_creator::S_ITEM, probability));
     add_entry(ptr);
 }
 
 void Item_group::add_group_entry(const Group_tag &groupid, int probability)
 {
-    std::auto_ptr<Item_spawn_data> ptr(new Single_item_creator(groupid, Single_item_creator::S_ITEM_GROUP, probability));
+    std::unique_ptr<Item_spawn_data> ptr(new Single_item_creator(groupid, Single_item_creator::S_ITEM_GROUP, probability));
     add_entry(ptr);
 }
 
-void Item_group::add_entry(std::auto_ptr<Item_spawn_data> &ptr)
+void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
 {
     assert(ptr.get() != NULL);
     if (ptr->probability <= 0) {

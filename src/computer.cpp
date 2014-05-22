@@ -556,7 +556,7 @@ void computer::activate_function(computer_action action)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
                     if (g->m.i_at(x, y)[i].is_bionic()) {
-                        if ((ssize_t)names.size() < TERMY - 8) {
+                        if ((int)names.size() < TERMY - 8) {
                             names.push_back(g->m.i_at(x, y)[i].tname());
                         } else {
                             more++;
