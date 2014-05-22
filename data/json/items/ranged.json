@@ -1428,7 +1428,7 @@
     "color": "brown",
     "name": "M14",
     "name_plural": "M14",
-    "description": "The child of the M1 Garand World War 2 rifle, the M14 is a semi-automatic rifle favored for it's accuracy and modular use.",
+    "description": "The child of the M1 Garand World War 2 rifle, the M14 is a semi-automatic rifle favored for its accuracy and modular use.",
     "price": 300000,
     "material": ["iron", "wood"],
     "skill": "rifle",

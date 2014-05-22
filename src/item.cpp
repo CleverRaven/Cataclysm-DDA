@@ -21,22 +21,17 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
-#ifdef _MSC_VER
-// MSVC doesn't have ssize_t, so use int instead
-#define ssize_t int
-#endif
-
-light_emission nolight={0,0,0};
+light_emission nolight = {0, 0, 0};
 
 item::item()
 {
     init();
 }
 
-item::item(const std::string new_type, unsigned int turn, bool rand, int prop)
+item::item(const std::string new_type, unsigned int turn, bool rand)
 {
     init();
-    type = item_controller->find_template( new_type, prop );
+    type = item_controller->find_template( new_type );
     bday = turn;
     corpse = type->corpse;
     name = type->name;
@@ -1224,7 +1219,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
     ret.str("");
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. “bruised”. %2$s: burn adjectives (eg. “burnt”). %3$s: tool modifier text (eg. “atomic”). %4$s: vehicle part text (eg. “3.8-Liter”. $5$s: main item text (eg. “apple”), %6$s: tags (eg. “ (wet) (fits)”).
-    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(), toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
+    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(),
+                         toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {
@@ -1237,11 +1233,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
 
 std::string item::display_name(unsigned int quantity)
 {
-    if (charges > 0) {
-        return string_format("%s (%d)", tname(quantity).c_str(), charges);
-    } else if (contents.size() == 1 && contents[0].charges > 0) {
+    // Show count of contents (e.g. amount of liquid in container)
+    // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
+    if (contents.size() == 1 && contents[0].charges > 0) {
         return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
-    } else {
+    } else if (charges >= 0) {
+        return string_format("%s (%d)", tname(quantity).c_str(), charges);
+    }
+    else {
         return tname(quantity);
     }
 }
@@ -2726,8 +2725,8 @@ bool item::reload(player &u, int pos)
             reload_target = &contents[spare_mag];
             // Finally consider other gunmods
         } else {
-            for (ssize_t i = 0; i < (ssize_t)contents.size(); i++) {
-                if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
+            for (size_t i = 0; i < contents.size(); i++) {
+                if (&contents[i] != gunmod && (int)i != spare_mag && contents[i].is_gunmod() &&
                     contents[i].has_flag("MODE_AUX") &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
                     (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||

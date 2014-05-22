@@ -23,6 +23,7 @@ ignorable = {
     "mapgen",
     "monstergroup",
     "monitems",
+    "overmap_special",
     "recipe_category",
     "recipe_subcategory",
     "recipe",

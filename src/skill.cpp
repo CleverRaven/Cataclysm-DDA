@@ -150,7 +150,7 @@ void SkillLevel::train(int amount) {
 static int rustRate(int level)
 {
     int forgetCap = std::min(level, 7);
-    return 32768 / int(pow(2.0, double(forgetCap - 1)));
+    return 32768 / int(std::pow(2.0, double(forgetCap - 1)));
 }
 
 bool SkillLevel::isRusting(const calendar& turn) const

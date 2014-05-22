@@ -70,6 +70,7 @@ void game::init_morale()
     _("Cocaine Craving"),
     _("Crack Cocaine Craving"),
     _("Mutagen Craving"),
+    _("Diazepam Craving"),
 
     _("Disliked %i"),
     _("Ate Human Flesh"),
@@ -166,7 +167,7 @@ player::player() : Character(), name("")
  next_expected_position.x = -1;
  next_expected_position.y = -1;
 
- for (std::map<std::string, trait>::iterator iter = traits.begin(); iter != traits.end(); ++iter) {
+ for ( auto iter = traits.begin(); iter != traits.end(); ++iter) {
     my_traits.erase(iter->first);
     my_mutations.erase(iter->first);
  }
@@ -2072,7 +2073,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     int infooffsetybottom = 15;
     std::vector<std::string> traitslist;
 
-    for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+    for ( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
         traitslist.push_back(*iter);
     }
 
@@ -2192,7 +2193,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     if (crossed_threshold()) {
         std::vector<std::string> traitslist;
         std::string race;
-        for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+        for( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
             traitslist.push_back(*iter);
         }
         for (int i = 0; i < traitslist.size(); i++) {
@@ -3465,7 +3466,7 @@ bool player::has_higher_trait(const std::string &flag) const
 bool player::crossed_threshold()
 {
   std::vector<std::string> traitslist;
-  for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+  for( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter ) {
         traitslist.push_back(*iter);
     }
   for (int i = 0; i < traitslist.size(); i++) {
@@ -3483,9 +3484,9 @@ bool player::purifiable(const std::string &flag) const
     return false;
 }
 
-void toggle_str_set(std::set<std::string> &set, const std::string &str)
+void toggle_str_set( std::unordered_set< std::string > &set, const std::string &str )
 {
-    std::set<std::string>::iterator i = set.find(str);
+    auto i = set.find(str);
     if (i == set.end()) {
         set.insert(str);
     } else {
@@ -3528,7 +3529,7 @@ void player::set_highest_cat_level()
     mutation_category_level.clear();
 
     // Loop through our mutations
-    for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
+    for( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter ) {
         set_cat_level_rec(*iter);
     }
 }
@@ -6055,8 +6056,9 @@ void player::drench_mut_calc()
         neutral = 0;
         good = 0;
 
-        for (std::set<std::string>::iterator iter = my_mutations.begin(); iter != my_mutations.end(); ++iter) {
-            for (std::map<std::string,mutation_wet>::iterator wp_iter = mutation_data[*iter].protection.begin(); wp_iter != mutation_data[*iter].protection.end(); ++wp_iter) {
+        for( auto iter = my_mutations.begin(); iter != my_mutations.end(); ++iter ) {
+            for( auto wp_iter = mutation_data[*iter].protection.begin();
+                 wp_iter != mutation_data[*iter].protection.end(); ++wp_iter) {
                 if (body_parts[wp_iter->first] == it->first) {
                     ignored += wp_iter->second.second.x;
                     neutral += wp_iter->second.second.y;

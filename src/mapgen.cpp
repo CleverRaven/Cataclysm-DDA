@@ -396,6 +396,7 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         jmapgen_int tmp_i(0,0);
         jmapgen_int tmp_repeat(1,1);
         int tmp_chance = 1;
+        int tmp_rotation = 0;
         if ( ! load_jmapgen_int(pjo, "x", tmp_x.val, tmp_x.valmax) ) {
             err = string_format("set %s: bad/missing value for 'x'",tmpval.c_str() ); throw err;
         }
@@ -447,7 +448,8 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         }
         load_jmapgen_int(pjo, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
         pjo.read("chance", tmp_chance );
-        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, jmapgen_setmap_op(tmpop+setmap_optype), tmp_i, tmp_chance, tmp_repeat );
+        pjo.read("rotation", tmp_rotation );
+        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, jmapgen_setmap_op(tmpop+setmap_optype), tmp_i, tmp_chance, tmp_repeat, tmp_rotation );
 
         setmap_points.push_back(tmp);
         tmpval = "";
@@ -472,6 +474,7 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
          jmapgen_int tmp_repeat(1,1);
          int tmp_chance = 1;
          float tmp_density = -1.0;
+         int tmp_rotation = 0;
          if ( jsi.read("item", tmpval ) ) {
              tmpop = JMAPGEN_PLACEGROUP_ITEM;
              if ( item_controller->id_from(tmpval) == "MISSING_ITEM" ) {
@@ -482,6 +485,8 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
              if ( ! MonsterGroupManager::isValidMonsterGroup( tmpval ) ) {
                  jsi.throw_error(string_format("place_group: no such monster group '%s'",tmpval.c_str() ));
              }
+         } else if ( jsi.read("vehicle", tmpval ) ) {
+             tmpop = JMAPGEN_PLACEGROUP_VEHICLE;
          } else {
              parray.throw_error("place_group: syntax error, need \"item\" \"item_group_name\" or \"monster\": \"mon_group_name\" ");
              return; // even though we're already dead (suppress uninitialized warning from gcc)
@@ -494,13 +499,16 @@ void mapgen_function_json::setup_place_group(JsonArray &parray ) {
          if ( ! jsi.read("chance", tmp_chance ) ) {
              err = string_format("place_group: missing \"x\": int (%s)", tmpop == JMAPGEN_PLACEGROUP_ITEM ? "percent chance" : "one_in int chance" );
          }
+         if ( ! jsi.read("rotation", tmp_rotation ) ) {
+             err = string_format("place_group: missing \"x\": int (%s)", tmpop == JMAPGEN_PLACEGROUP_ITEM ? "percent chance" : "one_in int chance" );
+         }
          if ( tmpop == JMAPGEN_PLACEGROUP_MONSTER && jsi.has_float("density") ) {
               tmp_density = jsi.get_float("density");
          }
 
          load_jmapgen_int(jsi, "repeat", tmp_repeat.val, tmp_repeat.valmax);  // todo, sanity check?
 
-         jmapgen_place_group new_placegroup( tmp_x, tmp_y, tmpval, tmpop, tmp_chance, tmp_density, tmp_repeat);
+         jmapgen_place_group new_placegroup( tmp_x, tmp_y, tmpval, tmpop, tmp_chance, tmp_density, tmp_repeat, tmp_rotation);
          place_groups.push_back( new_placegroup );
          tmpval = "";
      }
@@ -792,6 +800,13 @@ void jmapgen_place_group::apply( map * m, const float mdensity ) {
             for (int i = 0; i < trepeat; i++) {
                 // add_msg("%s %d %d,%d %d,%d", gid.c_str(), chance, x.val, y.val, x.valmax, y.valmax);
                 m->place_items(gid, chance, x.val, y.val, x.valmax, y.valmax, true, 0 );
+            }
+        } break;
+        case JMAPGEN_PLACEGROUP_VEHICLE: {
+            for (int i = 0; i < trepeat; i++) {
+                if (x_in_y(chance, 100)) {
+                    m->add_vehicle (gid, x.val, y.val, rotation);
+                }
             }
         } break;
     }
@@ -9926,13 +9941,16 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         square(this, t_floor, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2);
         build_mansion_room(this, room_mansion_entry, 1, 11, SEEX * 2 - 1, SEEY * 2 - 2, dat);
         // Rotate to face the road
-        if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east)) {
+        if (is_ot_type("road", t_east) || is_ot_type("bridge", t_east) ||
+            ((t_east != "mansion") && (t_north == "mansion") && (t_south == "mansion"))) {
             rotate(1);
         }
-        if (is_ot_type("road", t_south) || is_ot_type("bridge", t_south)) {
+        if (is_ot_type("road", t_south) || is_ot_type("bridge", t_south) ||
+            ((t_south != "mansion") && (t_west == "mansion") && (t_east == "mansion"))) {
             rotate(2);
         }
-        if (is_ot_type("road", t_west) || is_ot_type("bridge", t_west)) {
+        if (is_ot_type("road", t_west) || is_ot_type("bridge", t_west) ||
+            ((t_west != "mansion") && (t_north == "mansion") && (t_south == "mansion"))) {
             rotate(3);
         }
         // add zombies
@@ -10167,11 +10185,14 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
         fill_background(this, t_dirt);
         // Left wall
-        line(this, t_chainfence_v,  0,  0,  0, SEEY * 2 - 2);
+        line(this, t_chainfence_h, 0, 23, 23, 23);
+        line(this, t_chaingate_l, 10, 23, 14, 23);
+        line(this, t_chainfence_v,  0,  0,  0, 23);
+        line(this, t_chainfence_v,  23,  0,  23, 23);
         line(this, t_fence_barbed, 1, 4, 9, 12);
         line(this, t_fence_barbed, 1, 5, 8, 12);
-        line(this, t_fence_barbed, 23, 4, 15, 12);
-        line(this, t_fence_barbed, 23, 5, 16, 12);
+        line(this, t_fence_barbed, 22, 4, 15, 12);
+        line(this, t_fence_barbed, 22, 5, 16, 12);
         square(this, t_wall_wood, 2, 13, 9, 21);
         square(this, t_floor, 3, 14, 8, 20);
         line(this, t_reinforced_glass_h, 5, 13, 6, 13);
@@ -10201,19 +10222,18 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     } else if (terrain_type == "fema") {
 
         fill_background(this, t_dirt);
-        line(this, t_chainfence_v, 0, 0, 0, 23);
-        line(this, t_chainfence_h, 0, 23, 23, 23);
-        if (t_north != "fema_entrance" && t_north != "fema") {
+        // check all sides for non fema/fema entrance, place fence on those sides
+        if(t_north != "fema" && t_north != "fema_entrance") {
             line(this, t_chainfence_h, 0, 0, 23, 0);
         }
-        if (t_east != "fema_entrance" && t_east != "fema") {
+        if(t_south != "fema" && t_south != "fema_entrance") {
+            line(this, t_chainfence_h, 0, 23, 23, 23);
+        }
+        if(t_west != "fema" && t_west != "fema_entrance") {
+            line(this, t_chainfence_v, 0, 0, 0, 23);
+        }
+        if(t_east != "fema" && t_east != "fema_entrance") {
             line(this, t_chainfence_v, 23, 0, 23, 23);
-        }
-        if (t_south == "fema") {
-            line(this, t_dirt, 0, 23, 23, 23);
-        }
-        if (t_west == "fema") {
-            line(this, t_dirt, 0, 0, 0, 23);
         }
         if(t_west == "fema" && t_east == "fema" && t_south != "fema") {
             //lab bottom side
@@ -10233,7 +10253,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             square(this, t_grate, 6, 16, 8, 17);
             line_furn(this, f_table, 7, 16, 7, 17);
             line_furn(this, f_counter, 10, 8, 10, 17);
-            square_furn(this, f_chair, 14, 8, 17, 10);
+            line_furn(this, f_chair, 14, 8, 14, 10);
+            line_furn(this, f_chair, 17, 8, 17, 10);
             square(this, t_console_broken, 15, 8, 16, 10);
             line_furn(this, f_desk, 15, 11, 16, 11);
             line_furn(this, f_chair, 15, 12, 16, 12);
@@ -10272,8 +10293,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             line(this, t_chainfence_h, 9, 17, 14, 17);
             ter_set(9, 5, t_chaingate_c);
             ter_set(14, 18, t_chaingate_c);
-            ter_set(14, 5, t_chainfence_h);
-            ter_set(9, 18, t_chainfence_h);
+            ter_set(14, 5, t_chainfence_v);
+            ter_set(9, 18, t_chainfence_v);
             furn_set(12, 17, f_counter);
             furn_set(11, 6, f_counter);
             line_furn(this, f_chair, 10, 10, 13, 10);
@@ -10998,9 +11019,6 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
     veh->smx = smx;
     veh->smy = smy;
     veh->place_spawn_items();
-    veh->face.init(dir);
-    veh->turn_dir = dir;
-    veh->precalc_mounts (0, dir);
     // veh->init_veh_fuel = 50;
     // veh->init_veh_status = 0;
 
@@ -11086,7 +11104,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
                                     + veh->parts[part_index].precalc_dy[0]
                                     - global_y;
 
-                wreckage->install_part(local_x, local_y, veh->parts[part_index].id, -1, true);
+                wreckage->install_part(local_x, local_y, veh->parts[part_index]);
 
             }
             for (int part_index = 0; part_index < other_veh->parts.size(); part_index++) {
@@ -11098,7 +11116,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const int x, const int y, const b
                                     + other_veh->parts[part_index].precalc_dy[0]
                                     - global_y;
 
-                wreckage->install_part(local_x, local_y, other_veh->parts[part_index].id, -1, true);
+                wreckage->install_part(local_x, local_y, other_veh->parts[part_index]);
 
             }
 
@@ -13012,7 +13030,7 @@ void map::add_extra(map_extra type)
         artifact_natural_property prop =
             artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
         create_anomaly(center.x, center.y, prop);
-        spawn_artifact(center.x, center.y, prop);
+        spawn_natural_artifact(center.x, center.y, prop);
     }
     break;
 

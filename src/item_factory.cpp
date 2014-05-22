@@ -312,6 +312,7 @@ void Item_factory::init(){
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
     iuse_function_list["PORTABLE_GAME"] = &iuse::portable_game;
+    iuse_function_list["VIBE"] = &iuse::vibe;
     iuse_function_list["VORTEX"] = &iuse::vortex;
     iuse_function_list["DOG_WHISTLE"] = &iuse::dog_whistle;
     iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
@@ -536,7 +537,7 @@ bool Item_factory::has_template(const Item_tag& id) const {
 }
 
 //Returns the template with the given identification tag
-itype* Item_factory::find_template(Item_tag id, int prop){
+itype* Item_factory::find_template( Item_tag id ) {
     std::map<Item_tag, itype*>::iterator found = m_templates.find(id);
     if( found != m_templates.end() ) {
         return found->second;
@@ -545,29 +546,28 @@ itype* Item_factory::find_template(Item_tag id, int prop){
     if( found != itypes.end() ) {
         return found->second;
     }
-    if ( id == "artifact" ) {
-        if( prop ) {
-            return new_natural_artifact( (artifact_natural_property)prop );
-        } else {
-            return new_artifact();
-        }
-    } else {
-        debugmsg("Missing item (check item_groups.json): %s", id.c_str());
-        it_artifact_tool *bad_itype = new it_artifact_tool();
-        bad_itype->id = id.c_str();
-        bad_itype->name = string_format("undefined-%ss", id.c_str());
-        bad_itype->name_plural = string_format("undefined-%ss", id.c_str());
-        bad_itype->description = string_format("A strange shimmering... nothing."
+
+    debugmsg("Missing item (check item_groups.json): %s", id.c_str());
+    it_artifact_tool *bad_itype = new it_artifact_tool();
+    bad_itype->id = id.c_str();
+    bad_itype->name = string_format("undefined-%ss", id.c_str());
+    bad_itype->name_plural = string_format("undefined-%ss", id.c_str());
+    bad_itype->description = string_format("A strange shimmering... nothing."
                                                "  You think it wants to be a %s.", id.c_str());
-        bad_itype->sym = '.';
-        bad_itype->color = c_white;
-        m_templates[ id ] = bad_itype;
-        itypes[ id ] = bad_itype;
-        // Push the item definition on the artifact list so it gets saved/loaded from json.
-        artifact_itype_ids.push_back( id );
-        return bad_itype;
-    }
+    bad_itype->sym = '.';
+    bad_itype->color = c_white;
+    m_templates[ id ] = bad_itype;
+    itypes[ id ] = bad_itype;
+    // Push the item definition on the artifact list so it gets saved/loaded from json.
+    artifact_itype_ids.push_back( id );
+    return bad_itype;
 }
+
+void Item_factory::add_item_type( itype *new_type ) {
+    itypes[ new_type->id ] = new_type;
+    m_templates[ new_type->id ] = new_type;
+}
+
 
 Item_list Item_factory::create_from_group(Group_tag group, int created_at)
 {
@@ -1111,7 +1111,7 @@ bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
     return result;
 }
 
-bool load_sub_ref(std::auto_ptr<Item_spawn_data> &ptr, JsonObject &obj, const std::string &name)
+bool load_sub_ref(std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj, const std::string &name)
 {
     if (obj.has_member(name)) {
         // TODO!
@@ -1127,7 +1127,7 @@ bool load_sub_ref(std::auto_ptr<Item_spawn_data> &ptr, JsonObject &obj, const st
 
 void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
 {
-    std::auto_ptr<Item_spawn_data> ptr;
+    std::unique_ptr<Item_spawn_data> ptr;
     int probability = obj.get_int("prob", 100);
     JsonArray jarr;
     if (obj.has_member("collection")) {
@@ -1155,7 +1155,7 @@ void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
     if (ptr.get() == NULL) {
         return;
     }
-    std::auto_ptr<Item_modifier> modifier(new Item_modifier());
+    std::unique_ptr<Item_modifier> modifier(new Item_modifier());
     bool use_modifier = false;
     use_modifier |= load_min_max(modifier->damage, obj, "damage");
     use_modifier |= load_min_max(modifier->charges, obj, "charges");
@@ -1164,7 +1164,7 @@ void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
     use_modifier |= load_sub_ref(modifier->container, obj, "container");
     use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
     if (use_modifier) {
-        dynamic_cast<Single_item_creator*>(ptr.get())->modifier = modifier;
+        dynamic_cast<Single_item_creator*>(ptr.get())->modifier = std::move(modifier);
     }
     ig->add_entry(ptr);
 }
@@ -1242,7 +1242,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
 use_function Item_factory::use_from_object(JsonObject obj) {
     const std::string type = obj.get_string("type");
     if (type == "transform") {
-        std::auto_ptr<iuse_transform> actor(new iuse_transform);
+        std::unique_ptr<iuse_transform> actor(new iuse_transform);
         // Mandatory:
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
@@ -1261,7 +1261,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else if (type == "auto_transform") {
-        std::auto_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
+        std::unique_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
         // Mandatory:
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
@@ -1285,7 +1285,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else if (type == "explosion") {
-        std::auto_ptr<explosion_iuse> actor(new explosion_iuse);
+        std::unique_ptr<explosion_iuse> actor(new explosion_iuse);
         obj.read("explosion_power", actor->explosion_power);
         obj.read("explosion_shrapnel", actor->explosion_shrapnel);
         obj.read("explosion_fire", actor->explosion_fire);
@@ -1318,7 +1318,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("no_deactivate_msg", actor->no_deactivate_msg);
         return use_function(actor.release());
     } else if (type == "unfold_vehicle") {
-        std::auto_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
+        std::unique_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
         obj.read("vehicle_name", actor->vehicle_name);
         obj.read("unfold_msg", actor->unfold_msg);
         actor->unfold_msg = _(actor->unfold_msg.c_str());

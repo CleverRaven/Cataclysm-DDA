@@ -5208,7 +5208,8 @@
   ],
   "components": [
     [
-      [ "plant_sac", 1 ]
+      [ "plant_sac", 1 ],
+      [ "seed_cotton_boll", 1 ]
     ]
   ]
 },{
@@ -9553,6 +9554,74 @@
   ]
 },{
         "type" : "recipe",
+  "result": "diazepam",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 7] , ["adv_chemistry", 7] , ["atomic_survival", 6] , [ "recipe_labchem", 6]],
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "chemistry_set", 3 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt_water", 1 ],
+      [ "salt", 1 ],
+      [ "saline", 5 ]
+    ],
+    [
+      [ "aspirin", 5 ]
+    ],
+    [
+      [ "oxy_powder", 50 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "thorazine",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["textbook_chemistry", 8] , ["adv_chemistry", 8] , ["atomic_survival", 7] , [ "recipe_labchem", 7]],
+  "qualities":[
+    {"id":"CHEM","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 3 ],
+      [ "chemistry_set", 3 ],
+      [ "toolset", 1 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "salt_water", 1 ],
+      [ "salt", 1 ],
+      [ "saline", 5 ]
+    ],
+    [
+      [ "diazepam", 5 ]
+    ],
+    [
+      [ "oxy_powder", 50 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "mutagen",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_MUTAGEN",
@@ -10574,6 +10643,7 @@
       [ "heroin", 5 ],
       [ "oxycodone", 10 ],
       [ "tramadol", 15 ],
+      [ "diazepam", 15 ],
       [ "codeine", 20 ],
       [ "poppy_pain", 20 ]
     ],
@@ -17623,6 +17693,68 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "knitting_needles",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "skewer", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "distaff_spindle",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "carding_paddles",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "stick", 2 ],
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "skewer", 20 ]
+    ]
+  ]
+},{
         "type" : "recipe",
   "result": "waterskin",
   "category": "CC_OTHER",
@@ -18554,6 +18686,69 @@
       [ "fur", 12 ],
       [ "rag", 20 ],
       [ "sheet", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "cotton_ball",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "difficulty": 0,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "carding_paddles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cotton_boll", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "thread",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 1,
+  "skills_required": [ "fabrication", 1 ],
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "distaff_spindle", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cotton_ball", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rag",
+  "id_suffix": "knitting",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "knitting_needles", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "thread", 100 ],
+      [ "sinew", 100 ],
+      [ "plant_fibre", 100 ]
     ]
   ]
 },{
@@ -19799,6 +19994,7 @@
   "components": [
     [
       [ "rag", 3 ],
+      [ "cotton_ball", 1 ],
       [ "medical_gauze", 1 ]
     ],
     [

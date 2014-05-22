@@ -398,8 +398,7 @@ void mdeath::amigara(monster *z) {
     if (count <= 1) { // We're the last!
         g->u.rem_disease("amigara");
         add_msg(_("Your obsession with the fault fades away..."));
-        item art("artifact", calendar::turn);
-        g->m.add_item_or_charges(z->posx(), z->posy(), art);
+        g->m.add_item_or_charges( z->posx(), z->posy(), item( new_artifact(), calendar::turn ) );
     }
 }
 
