@@ -1920,12 +1920,15 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
     if (pos == INT_MIN) {
         const int amount = count_charges_in_list(ammo, m->i_at(examx, examy));
         if (amount > 0) {
+            //~ The <piece of furniture> contains <number> <items>.
             add_msg("The %s contains %d %s.", f.name.c_str(), amount, ammo->name.c_str());
         }
+        //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg(m_info, "You need some %s to reload this %s.", ammo->name.c_str(), f.name.c_str());
         return;
     }
     const long max_amount = p->inv.find_item(pos).charges;
+    //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format(_("Put how many of the %s into the %s?"),
                                                ammo->name.c_str(), f.name.c_str());
     long amount = helper::to_int( string_input_popup( popupmsg, 20,
