@@ -2222,8 +2222,8 @@ int iuse::primitive_fire(player *p, item *it, bool)
 int iuse::sew(player *p, item *it, bool)
 {
     if (it->charges == 0) {
-      return 0;
-  }
+        return 0;
+    }
     if (p->is_underwater()) {
         p->add_msg_if_player( m_info, _("You can't do that while underwater."));
         return 0;
@@ -2770,47 +2770,50 @@ int iuse::scissors(player *p, item *it, bool t)
 
 int iuse::extinguisher(player *p, item *it, bool)
 {
-  if (it->charges == 0) {
-    return 0;
-  }
- g->draw();
- int x, y;
- // If anyone other than the player wants to use one of these,
- // they're going to need to figure out how to aim it.
- if (!choose_adjacent(_("Spray where?"), x, y)) {
-  return 0;
- }
+    if (it->charges < it->type->charges_to_use()) {
+        return 0;
+    }
+    g->draw();
+    int x, y;
+    // If anyone other than the player wants to use one of these,
+    // they're going to need to figure out how to aim it.
+    if (!choose_adjacent(_("Spray where?"), x, y)) {
+        return 0;
+    }
 
- p->moves -= 140;
+    p->moves -= 140;
 
- // Reduce the strength of fire (if any) in the target tile.
- g->m.adjust_field_strength(point(x,y), fd_fire, 0 - rng(2, 3) );
+    // Reduce the strength of fire (if any) in the target tile.
+    g->m.adjust_field_strength(point(x,y), fd_fire, 0 - rng(2, 3) );
 
- // Also spray monsters in that tile.
- int mondex = g->mon_at(x, y);
- if (mondex != -1) {
-  g->zombie(mondex).moves -= 150;
-  if (g->u_see(&(g->zombie(mondex))))
-   p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
-  if (g->zombie(mondex).made_of(LIQUID)) {
-   if (g->u_see(&(g->zombie(mondex))))
-    p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
-   if (g->zombie(mondex).hurt(rng(20, 60)))
-    g->kill_mon(mondex, (p == &(g->u)));
-   else
-    g->zombie(mondex).speed /= 2;
-  }
- }
+    // Also spray monsters in that tile.
+    int mondex = g->mon_at(x, y);
+    if (mondex != -1) {
+        g->zombie(mondex).moves -= 150;
+        if (g->u_see(&(g->zombie(mondex)))) {
+            p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
+        }
+        if (g->zombie(mondex).made_of(LIQUID)) {
+            if (g->u_see(&(g->zombie(mondex)))) {
+                p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
+            }
+            if (g->zombie(mondex).hurt(rng(20, 60))) {
+                g->kill_mon(mondex, (p == &(g->u)));
+            } else {
+                g->zombie(mondex).speed /= 2;
+            }
+        }
+    }
 
- // Slightly reduce the strength of fire immediately behind the target tile.
- if (g->m.move_cost(x, y) != 0) {
-  x += (x - p->posx);
-  y += (y - p->posy);
+    // Slightly reduce the strength of fire immediately behind the target tile.
+    if (g->m.move_cost(x, y) != 0) {
+        x += (x - p->posx);
+        y += (y - p->posy);
 
-  g->m.adjust_field_strength(point(x,y), fd_fire, std::min(0 - rng(0, 1) + rng(0, 1), 0L));
- }
+        g->m.adjust_field_strength(point(x,y), fd_fire, std::min(0 - rng(0, 1) + rng(0, 1), 0L));
+    }
 
- return it->type->charges_to_use();
+    return it->type->charges_to_use();
 }
 
 int iuse::hammer(player *p, item *it, bool)
@@ -2868,7 +2871,7 @@ int iuse::hammer(player *p, item *it, bool)
 
 int iuse::rm13armor_off(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The RM13 combat armor's fuel cells are dead."), it->tname().c_str());
         return 0;
     } else {
@@ -3296,7 +3299,7 @@ _(
 
 int iuse::radio_off(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(_("It's dead."));
     } else {
         p->add_msg_if_player(_("You turn the radio on."));
@@ -3444,12 +3447,9 @@ int iuse::radio_on(player *p, item *it, bool t)
 
 int iuse::noise_emitter_off(player *p, item *it, bool)
 {
-    if (it->charges == 0)
-    {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(_("It's dead."));
-    }
-    else
-    {
+    } else {
         p->add_msg_if_player(_("You turn the noise emitter on."));
         it->make("noise_emitter_on");
         it->active = true;
@@ -3459,12 +3459,9 @@ int iuse::noise_emitter_off(player *p, item *it, bool)
 
 int iuse::airhorn(player *p, item *it, bool)
 {
-    if (it->charges == 0)
-    {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(_("You depress the button but no sound comes out."));
-    }
-    else
-    {
+    } else {
         p->add_msg_if_player(_("You honk your airhorn."));
         point pos = g->find_item(it);
         g->sound(pos.x, pos.y, 50, _("HOOOOONK!"));
@@ -4169,32 +4166,25 @@ int iuse::shishkebab_on(player *p, item *it, bool t)
         p->add_msg_if_player(_("Your shishkebab hisses in the water and goes out."));
         it->make("shishkebab_off");
         it->active = false;
-    }
-    else if (t)    // Effects while simply on
-    {
+    } else if (t) {
+        // Effects while simply on
         if (one_in(25)) {
             g->sound(p->posx, p->posy, 10, _("Your shishkebab crackles!"));
         }
 
-        if (one_in(75))
-        {
+        if (one_in(75)) {
             p->add_msg_if_player(m_bad, _("Bummer, man! Your shishkebab's flame flickers and dies out."));
             it->make("shishkebab_off");
             it->active = false;
         }
-    }
-    else if (it->charges == 0)
-    {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_bad, _("Uncool, outta gas! Your shishkebab's flame goes out."));
         it->make("shishkebab_off");
         it->active = false;
-    }
-    else
-    {
+    } else {
         int choice = menu(true, _("What's the plan?"), _("Chill out"),
                           _("Torch something!"), _("Keep groovin'"), NULL);
-        switch (choice)
-        {
+        switch (choice) {
         case 1:
         {
             p->add_msg_if_player(_("Peace out. Your shishkebab's flame dies."));
@@ -4205,8 +4195,7 @@ int iuse::shishkebab_on(player *p, item *it, bool t)
         case 2:
         {
             int dirx, diry;
-            if (prep_firestarter_use(p, it, dirx, diry))
-            {
+            if (prep_firestarter_use(p, it, dirx, diry)) {
                 p->moves -= 5;
                 resolve_firestarter_use(p, it, dirx, diry);
             }
@@ -4222,13 +4211,11 @@ int iuse::firemachete_off(player *p, item *it, bool)
 {
     int choice = menu(true,
                       _("No. 9"), _("Turn on"), _("Use as a knife"), _("Cancel"), NULL);
-    switch (choice)
-    {
+    switch (choice) {
     case 1:
     {
         p->moves -= 10;
-        if (rng(0, 10) - it->damage > 2 && it->charges > 0 && !p->is_underwater())
-        {
+        if (rng(0, 10) - it->damage > 2 && it->charges > 0 && !p->is_underwater()) {
             g->sound(p->posx, p->posy, 10, _("Your No. 9 glows!"));
             it->make("firemachete_on");
             it->active = true;
@@ -4249,34 +4236,26 @@ int iuse::firemachete_off(player *p, item *it, bool)
 
 int iuse::firemachete_on(player *p, item *it, bool t)
 {
-    if (t)    // Effects while simply on
-    {
+    if (t) {  // Effects while simply on
         if (p->is_underwater()) {
             p->add_msg_if_player(_("Your No. 9 hisses in the water and goes out."));
             it->make("firemachete_off");
             it->active = false;
-        }
-        else if (one_in(25)) {
+        } else if (one_in(25)) {
             g->sound(p->posx, p->posy, 5, _("Your No. 9 hisses."));
         }
-        if (one_in(100))
-        {
+        if (one_in(100)) {
             p->add_msg_if_player(m_bad, _("Your No. 9 cuts out!"));
             it->make("firemachete_off");
             it->active = false;
         }
-    }
-    else if (it->charges == 0)
-    {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("Out of ammo!"));
         it->make("firemachete_off");
         it->active = false;
-    }
-    else
-    {
+    } else {
         int choice = menu(true, _("No. 9"), _("Turn off"), _("Light something"), _("Cancel"), NULL);
-        switch (choice)
-        {
+        switch (choice) {
         case 1:
         {
             p->add_msg_if_player(_("Your No. 9 goes dark."));
@@ -4287,8 +4266,7 @@ int iuse::firemachete_on(player *p, item *it, bool t)
         case 2:
         {
             int dirx, diry;
-            if (prep_firestarter_use(p, it, dirx, diry))
-            {
+            if (prep_firestarter_use(p, it, dirx, diry)) {
                 p->moves -= 5;
                 resolve_firestarter_use(p, it, dirx, diry);
             }
@@ -4304,13 +4282,11 @@ int iuse::broadfire_off(player *p, item *it, bool t)
 {
     int choice = menu(true, _("What will thou do?"), _("Ready for battle!"),
                       _("Perform peasant work?"), _("Reconsider thy strategy"), NULL);
-    switch (choice)
-    {
+    switch (choice) {
     case 1:
     {
         p->moves -= 10;
-        if (it->charges > 0 && !p->is_underwater())
-        {
+        if (it->charges > 0 && !p->is_underwater()) {
             g->sound(p->posx, p->posy, 10,
                      _("Charge!!"));
             it->make("broadfire_on");
@@ -4330,29 +4306,22 @@ int iuse::broadfire_off(player *p, item *it, bool t)
 
 int iuse::broadfire_on(player *p, item *it, bool t)
 {
-    if (t)    // Effects while simply on
-    {
+    if (t) {  // Effects while simply on
         if (p->is_underwater()) {
             p->add_msg_if_player(_("Your sword hisses in the water and goes out."));
             it->make("broadfire_off");
             it->active = false;
-        }
-        else if (one_in(35)) {
+        } else if (one_in(35)) {
             p->add_msg_if_player(_("Your blade burns for combat!"));
         }
-    }
-    else if (it->charges == 0)
-    {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_bad, _("Thy strength fades!"));
         it->make("broadfire_off");
         it->active = false;
-    }
-    else
-    {
+    } else {
         int choice = menu(true, _("What will thou do?"), _("Retreat!"),
                           _("Burn and Pillage!"), _("Keep Fighting!"), NULL);
-        switch (choice)
-        {
+        switch (choice) {
         case 1:
         {
             p->add_msg_if_player(_("Run away!"));
@@ -4363,8 +4332,7 @@ int iuse::broadfire_on(player *p, item *it, bool t)
         case 2:
         {
             int dirx, diry;
-            if (prep_firestarter_use(p, it, dirx, diry))
-            {
+            if (prep_firestarter_use(p, it, dirx, diry)) {
                 p->moves -= 5;
                 resolve_firestarter_use(p, it, dirx, diry);
             }
@@ -4378,19 +4346,16 @@ int iuse::firekatana_off(player *p, item *it, bool t)
 {
     int choice = menu(true, _("The Dark of Night."), _("Daybreak"),
                       _("The Moonlight's Edge"), _("Eternal Night"), NULL);
-    switch (choice)
-    {
+    switch (choice) {
     case 1:
     {
         p->moves -= 10;
-        if (it->charges > 0 && !p->is_underwater())
-        {
+        if (it->charges > 0 && !p->is_underwater()) {
             g->sound(p->posx, p->posy, 10,
                      _("The Sun rises."));
             it->make("firekatana_on");
             it->active = true;
-        }
-        else {
+        } else {
             p->add_msg_if_player(_("Time stands still."));
         }
     }
@@ -4405,29 +4370,22 @@ int iuse::firekatana_off(player *p, item *it, bool t)
 
 int iuse::firekatana_on(player *p, item *it, bool t)
 {
-    if (t)    // Effects while simply on
-    {
+    if (t) {  // Effects while simply on
         if (p->is_underwater()) {
             p->add_msg_if_player(_("Your sword hisses in the water and goes out."));
             it->make("firekatana_off");
             it->active = false;
-        }
-        else if (one_in(35)) {
+        } else if (one_in(35)) {
             p->add_msg_if_player(_("The Sun shines brightly."));
         }
-    }
-    else if (it->charges == 0)
-    {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_bad, _("The Light Fades."));
         it->make("firekatana_off");
         it->active = false;
-    }
-    else
-    {
+    } else {
         int choice = menu(true, _("The Light of Day."), _("Nightfall"),
                           _("Blazing Heat"), _("Endless Day"), NULL);
-        switch (choice)
-        {
+        switch (choice) {
         case 1:
         {
             p->add_msg_if_player(_("The Sun sets."));
@@ -4438,8 +4396,7 @@ int iuse::firekatana_on(player *p, item *it, bool t)
         case 2:
         {
             int dirx, diry;
-            if (prep_firestarter_use(p, it, dirx, diry))
-            {
+            if (prep_firestarter_use(p, it, dirx, diry)) {
                 p->moves -= 5;
                 resolve_firestarter_use(p, it, dirx, diry);
                 return it->type->charges_to_use();
@@ -4458,14 +4415,12 @@ int iuse::zweifire_off(player *p, item *it, bool t)
     case 1:
     {
         p->moves -= 10;
-        if (it->charges > 0 && !p->is_underwater())
-        {
+        if (it->charges > 0 && !p->is_underwater()) {
             g->sound(p->posx, p->posy, 10,
                      _("Die Klinge deines Schwertes brennt!"));
             it->make("zweifire_on");
             it->active = true;
-        }
-        else {
+        } else {
             p->add_msg_if_player(m_bad, _("Dein Flammenschwert hat keinen Brennstoff mehr."));
         }
     }
@@ -4482,18 +4437,16 @@ int iuse::zweifire_off(player *p, item *it, bool t)
 
 int iuse::zweifire_on(player *p, item *it, bool t)
 {
-    if (t)    // Effects while simply on
-    {
+    if (t) {  // Effects while simply on
         if (p->is_underwater()) {
             p->add_msg_if_player(_("Dein Schwert zischt und erlischt."));
             it->make("zweifire_off");
             it->active = false;
-        }
-        else if (one_in(35)) {
+        } else if (one_in(35)) {
             //~ (Flammenschwert) "The fire on your blade burns brightly!"
             p->add_msg_if_player(_("Das Feuer um deine Schwertklinge leuchtet hell!"));
         }
-    } else if (it->charges == 0) {
+    } else if (it->charges < it->type->charges_to_use()) {
         //~ (Flammenschwert) "Your Flammenscwhert (firesword) is out of fuel!"
         p->add_msg_if_player(m_bad, _("Deinem Flammenschwert ist der Brennstoff ausgegangen!"));
         it->make("zweifire_off");
@@ -4508,8 +4461,7 @@ int iuse::zweifire_on(player *p, item *it, bool t)
                           _("Ein Feuer entfachen."),
                           //~ (Flammenschwert) "Do nothing."
                           _("Nichts tun."), NULL);
-        switch (choice)
-        {
+        switch (choice) {
         case 1:
         {
             //~ (Flammenschwert) "The flames on your sword die out."
@@ -4521,8 +4473,7 @@ int iuse::zweifire_on(player *p, item *it, bool t)
         case 2:
         {
             int dirx, diry;
-            if (prep_firestarter_use(p, it, dirx, diry))
-            {
+            if (prep_firestarter_use(p, it, dirx, diry)) {
                 p->moves -= 5;
                 resolve_firestarter_use(p, it, dirx, diry);
                 return it->type->charges_to_use();
@@ -4537,86 +4488,86 @@ int iuse::zweifire_on(player *p, item *it, bool t)
 
 int iuse::jackhammer(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
         return 0;
     }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
- }
- int dirx, diry;
- if(!choose_adjacent(_("Drill where?"),dirx,diry)) {
-  return 0;
- }
+    }
+    int dirx, diry;
+    if(!choose_adjacent(_("Drill where?"),dirx,diry)) {
+        return 0;
+    }
 
- if (dirx == p->posx && diry == p->posy) {
-  p->add_msg_if_player(_("My god! Let's talk it over OK?"));
-  p->add_msg_if_player(_("Don't do anything rash.."));
-  return 0;
- }
- if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
-     g->m.ter(dirx, diry) != t_tree) {
-  g->m.destroy(dirx, diry, false);
-  p->moves -= 500;
-  //~ the sound of a jackhammer
-  g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
-            g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-  g->m.destroy(dirx, diry, false);
-  p->moves -= 500;
-  g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
- } else {
-  p->add_msg_if_player(m_info, _("You can't drill there."));
-  return 0;
- }
- return it->type->charges_to_use();
+    if (dirx == p->posx && diry == p->posy) {
+        p->add_msg_if_player(_("My god! Let's talk it over OK?"));
+        p->add_msg_if_player(_("Don't do anything rash.."));
+        return 0;
+    }
+    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+        g->m.ter(dirx, diry) != t_tree) {
+        g->m.destroy(dirx, diry, false);
+        p->moves -= 500;
+        //~ the sound of a jackhammer
+        g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
+               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+        g->m.destroy(dirx, diry, false);
+        p->moves -= 500;
+        g->sound(dirx, diry, 45, _("TATATATATATATAT!"));
+    } else {
+        p->add_msg_if_player(m_info, _("You can't drill there."));
+        return 0;
+    }
+    return it->type->charges_to_use();
 }
 
 int iuse::jacqueshammer(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
         return 0;
-      }
+    }
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
- }
- // translator comments for everything to reduce confusion
- int dirx, diry;
- g->draw();
- //~ (jacqueshammer) "Drill where?"
- if (!choose_direction(_("Percer dans quelle direction?"), dirx, diry)) {
-  //~ (jacqueshammer) "Invalid direction"
-  p->add_msg_if_player(m_info, _("Direction invalide"));
-  return 0;
- }
- if (dirx == 0 && diry == 0) {
-  //~ (jacqueshammer) "My god! Let's talk it over, OK?"
-  p->add_msg_if_player(_("Mon dieu! Nous allons en parler OK?"));
-  //~ (jacqueshammer) "Don't do anything rash."
-  p->add_msg_if_player(_("Ne pas faire eruption rien.."));
-  return 0;
- }
- dirx += p->posx;
- diry += p->posy;
- if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
-     g->m.ter(dirx, diry) != t_tree) {
-  g->m.destroy(dirx, diry, false);
-  // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
-  p->moves -= 500;
-  //~ the sound of a "jacqueshammer"
-  g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
-            g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-  g->m.destroy(dirx, diry, false);
-  p->moves -= 500;
-  g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
- } else {
-  //~ (jacqueshammer) "You can't drill there."
-  p->add_msg_if_player(m_info, _("Vous ne pouvez pas percer la-bas.."));
-  return 0;
- }
- return it->type->charges_to_use();
+    }
+    // translator comments for everything to reduce confusion
+    int dirx, diry;
+    g->draw();
+    //~ (jacqueshammer) "Drill where?"
+    if (!choose_direction(_("Percer dans quelle direction?"), dirx, diry)) {
+        //~ (jacqueshammer) "Invalid direction"
+        p->add_msg_if_player(m_info, _("Direction invalide"));
+        return 0;
+    }
+    if (dirx == 0 && diry == 0) {
+        //~ (jacqueshammer) "My god! Let's talk it over, OK?"
+        p->add_msg_if_player(_("Mon dieu! Nous allons en parler OK?"));
+        //~ (jacqueshammer) "Don't do anything rash."
+        p->add_msg_if_player(_("Ne pas faire eruption rien.."));
+        return 0;
+    }
+    dirx += p->posx;
+    diry += p->posy;
+    if (g->m.is_destructable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+        g->m.ter(dirx, diry) != t_tree) {
+        g->m.destroy(dirx, diry, false);
+        // This looked like 50 minutes, but seems more like 50 seconds.  Needs checked.
+        p->moves -= 500;
+        //~ the sound of a "jacqueshammer"
+        g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
+    } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
+               g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+        g->m.destroy(dirx, diry, false);
+        p->moves -= 500;
+        g->sound(dirx, diry, 45, _("OHOHOHOHOHOHOHOHO!"));
+    } else {
+        //~ (jacqueshammer) "You can't drill there."
+        p->add_msg_if_player(m_info, _("Vous ne pouvez pas percer la-bas.."));
+        return 0;
+    }
+    return it->type->charges_to_use();
 }
 
 int iuse::pickaxe(player *p, item *it, bool)
@@ -4957,7 +4908,7 @@ int iuse::geiger(player *p, item *it, bool t)
 
 int iuse::teleport(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
       return 0;
     }
     p->moves -= 100;
@@ -5434,7 +5385,7 @@ int iuse::mininuke(player *p, item *it, bool)
 
 int iuse::pheromone(player *p, item *it, bool)
 {
-      if (it->charges == 0) {
+      if (it->charges < it->type->charges_to_use()) {
           return 0;
       }
     if (p->is_underwater()) {
@@ -5479,7 +5430,7 @@ int iuse::pheromone(player *p, item *it, bool)
 
 int iuse::portal(player *p, item *it, bool)
 {
-  if (it->charges == 0) {
+  if (it->charges < it->type->charges_to_use()) {
           return 0;
       }
  g->m.add_trap(p->posx + rng(-2, 2), p->posy + rng(-2, 2), tr_portal);
@@ -5664,80 +5615,81 @@ int iuse::adv_UPS_on(player *p, item *it, bool t)
 
 int iuse::tazer(player *p, item *it, bool)
 {
-  if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use() ) {
           return 0;
-  }
- int dirx, diry;
- if(!choose_adjacent(_("Shock where?"),dirx,diry)){
-  return 0;
- }
+    }
+    int dirx, diry;
+    if(!choose_adjacent(_("Shock where?"),dirx,diry)){
+        return 0;
+    }
 
- if (dirx == p->posx && diry == p->posy) {
-  p->add_msg_if_player(m_info, _("Umm. No."));
-  return 0;
- }
- int mondex = g->mon_at(dirx, diry);
- int npcdex = g->npc_at(dirx, diry);
- if (mondex == -1 && npcdex == -1) {
-  p->add_msg_if_player(_("Electricity crackles in the air."));
-  return it->type->charges_to_use();
- }
+    if (dirx == p->posx && diry == p->posy) {
+        p->add_msg_if_player(m_info, _("Umm. No."));
+        return 0;
+    }
+    int mondex = g->mon_at(dirx, diry);
+    int npcdex = g->npc_at(dirx, diry);
+    if (mondex == -1 && npcdex == -1) {
+        p->add_msg_if_player(_("Electricity crackles in the air."));
+        return it->type->charges_to_use();
+    }
 
- int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel("melee") * 2;
- p->moves -= 100;
+    int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel("melee") * 2;
+    p->moves -= 100;
 
- if (mondex != -1) {
-  monster *z = &(g->zombie(mondex));
-  switch (z->type->size) {
-   case MS_TINY:  numdice -= 2; break;
-   case MS_SMALL: numdice -= 1; break;
-   case MS_MEDIUM:              break;
-   case MS_LARGE: numdice += 2; break;
-   case MS_HUGE:  numdice += 4; break;
-  }
-  int mondice = z->get_dodge();
-  if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
-   p->add_msg_if_player(_("You attempt to shock the %s, but miss."), z->name().c_str());
-   return it->type->charges_to_use();
-  }
-  p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
-  int shock = rng(5, 25);
-  z->moves -= shock * 100;
-  if (z->hurt(shock))
-   g->kill_mon(mondex, (p == &(g->u)));
-  return it->type->charges_to_use();
- }
+    if (mondex != -1) {
+        monster *z = &(g->zombie(mondex));
+        switch (z->type->size) {
+        case MS_TINY:  numdice -= 2; break;
+        case MS_SMALL: numdice -= 1; break;
+        case MS_MEDIUM:              break;
+        case MS_LARGE: numdice += 2; break;
+        case MS_HUGE:  numdice += 4; break;
+        }
+        int mondice = z->get_dodge();
+        if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
+            p->add_msg_if_player(_("You attempt to shock the %s, but miss."), z->name().c_str());
+            return it->type->charges_to_use();
+        }
+        p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
+        int shock = rng(5, 25);
+        z->moves -= shock * 100;
+        if (z->hurt(shock))
+            g->kill_mon(mondex, (p == &(g->u)));
+        return it->type->charges_to_use();
+    }
 
- if (npcdex != -1) {
-  npc *foe = g->active_npc[npcdex];
-  if (foe->attitude != NPCATT_FLEE)
-   foe->attitude = NPCATT_KILL;
-  if (foe->str_max >= 17)
-    numdice++; // Minor bonus against huge people
-  else if (foe->str_max <= 5)
-   numdice--; // Minor penalty against tiny people
-  if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
-   p->add_msg_if_player(_("You attempt to shock %s, but miss."), foe->name.c_str());
-   return it->type->charges_to_use();
-  }
-  p->add_msg_if_player(m_good, _("You shock %s!"), foe->name.c_str());
-  int shock = rng(5, 20);
-  foe->moves -= shock * 100;
-  foe->hurtall(shock);
-  if (foe->hp_cur[hp_head]  <= 0 || foe->hp_cur[hp_torso] <= 0) {
-   foe->die(true);
-   g->active_npc.erase(g->active_npc.begin() + npcdex);
-  }
- }
- return it->type->charges_to_use();
+    if (npcdex != -1) {
+        npc *foe = g->active_npc[npcdex];
+        if (foe->attitude != NPCATT_FLEE)
+            foe->attitude = NPCATT_KILL;
+        if (foe->str_max >= 17)
+            numdice++; // Minor bonus against huge people
+        else if (foe->str_max <= 5)
+            numdice--; // Minor penalty against tiny people
+        if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
+            p->add_msg_if_player(_("You attempt to shock %s, but miss."), foe->name.c_str());
+            return it->type->charges_to_use();
+        }
+        p->add_msg_if_player(m_good, _("You shock %s!"), foe->name.c_str());
+        int shock = rng(5, 20);
+        foe->moves -= shock * 100;
+        foe->hurtall(shock);
+        if (foe->hp_cur[hp_head]  <= 0 || foe->hp_cur[hp_torso] <= 0) {
+            foe->die(true);
+            g->active_npc.erase(g->active_npc.begin() + npcdex);
+        }
+    }
+    return it->type->charges_to_use();
 }
 
 int iuse::tazer2(player *p, item *it, bool)
 {
-  if (it->charges == 0) {
-          return 0;
-  }
-    if (it->charges >= 100 || (it->has_flag("USE_UPS") && (p->has_charges("UPS_off",5) || p->has_charges("UPS_on",5) || p->has_charges("adv_UPS_off",3) || p->has_charges("adv_UPS_on",3) || (p->has_bionic("bio_ups") && p->power_level <= 1)))) {
+    if (it->charges >= 100 || (it->has_flag("USE_UPS") &&
+                               (p->has_charges("UPS_off", 5) || p->has_charges("UPS_on", 5) ||
+                                p->has_charges("adv_UPS_off", 3) ||
+                                p->has_charges("adv_UPS_on", 3) ||
+                                (p->has_bionic("bio_ups") && p->power_level <= 1)))) {
         int dirx, diry;
 
         if(!choose_adjacent(_("Shock"), dirx, diry)) {
@@ -5899,7 +5851,7 @@ int iuse::shocktonfa_on(player *p, item *it, bool t)
 
 int iuse::mp3(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The mp3 player's batteries are dead."));
     } else if (p->has_active_item("mp3_on")) {
         p->add_msg_if_player(m_info, _("You are already listening to an mp3 player!"));
@@ -5956,7 +5908,7 @@ int iuse::portable_game(player *p, item *it, bool)
     if(p->has_trait("ILLITERATE")) {
         add_msg(_("You're illiterate!"));
         return 0;
-    } else if(it->charges == 0) {
+    } else if(it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->name.c_str());
         return 0;
     } else {
@@ -6022,7 +5974,7 @@ int iuse::vibe(player *p, item *it, bool)
         p->add_msg_if_player(m_info,  _("It's waterproof, but oxygen maybe?"));
         return 0;
     }
-  if (it->charges == 0) {
+  if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->name.c_str());
         return 0;
     }
@@ -6470,28 +6422,19 @@ int iuse::torch_lit(player *p, item *it, bool t)
         it->make("torch");
         it->active = false;
         return 0;
-}
-    if (t)
-    {
-        if (it->charges == 0)
-        {
+    }
+    if (t) {
+        if (it->charges < it->type->charges_to_use()) {
             p->add_msg_if_player(_("The torch burns out."));
             it->make("torch_done");
             it->active = false;
         }
-    }
-    else if(it->charges <= 0)
-    {
+    } else if(it->charges <= 0) {
         p->add_msg_if_player( _("The %s winks out"), it->tname().c_str());
-    }
-    else   // Turning it off
-    {
-        int choice = menu(true,
-                          _("torch (lit)"), _("extinguish"), _("light something"), _("cancel"), NULL);
-        switch (choice)
-        {
-            if (choice == 2)
-                break;
+    } else { // Turning it off
+        int choice = menu(true, _("torch (lit)"), _("extinguish"),
+                          _("light something"), _("cancel"), NULL);
+        switch (choice) {
         case 1:
         {
             p->add_msg_if_player(_("The torch is extinguished"));
@@ -6503,8 +6446,7 @@ int iuse::torch_lit(player *p, item *it, bool t)
         case 2:
         {
             int dirx, diry;
-            if (prep_firestarter_use(p, it, dirx, diry))
-            {
+            if (prep_firestarter_use(p, it, dirx, diry)) {
                 p->moves -= 5;
                 resolve_firestarter_use(p, it, dirx, diry);
             }
@@ -6518,32 +6460,23 @@ int iuse::torch_lit(player *p, item *it, bool t)
 int iuse::battletorch_lit(player *p, item *it, bool t)
 {
     if (p->is_underwater()) {
-  p->add_msg_if_player(_("The Louisville Slaughterer is extinguished."));
-  it->make("bat");
-  it->active = false;
+        p->add_msg_if_player(_("The Louisville Slaughterer is extinguished."));
+        it->make("bat");
+        it->active = false;
         return 0;
     }
-    if (t)
-    {
-        if (it->charges == 0)
-        {
+    if (t) {
+        if (it->charges < it->type->charges_to_use()) {
             p->add_msg_if_player(_("The Louisville Slaughterer burns out."));
             it->make("battletorch_done");
             it->active = false;
         }
-    }
-    else if(it->charges <= 0)
-    {
+    } else if(it->charges <= 0) {
         p->add_msg_if_player( _("The %s winks out"), it->tname().c_str());
-    }
-    else   // Turning it off
-    {
+    } else { // Turning it off
         int choice = menu(true, _("Louisville Slaughterer (lit)"), _("extinguish"),
                           _("light something"), _("cancel"), NULL);
-        switch (choice)
-        {
-            if (choice == 2)
-                break;
+        switch (choice) {
         case 1:
         {
             p->add_msg_if_player(_("The Louisville Slaughterer is extinguished"));
@@ -6555,8 +6488,7 @@ int iuse::battletorch_lit(player *p, item *it, bool t)
         case 2:
         {
             int dirx, diry;
-            if (prep_firestarter_use(p, it, dirx, diry))
-            {
+            if (prep_firestarter_use(p, it, dirx, diry)) {
                 p->moves -= 5;
                 resolve_firestarter_use(p, it, dirx, diry);
             }
@@ -7128,7 +7060,7 @@ int iuse::heatpack(player *p, item *it, bool)
 
 int iuse::hotplate(player *p, item *it, bool)
 {
-  if(it->charges == 0) {
+  if(it->charges < it->type->charges_to_use()) {
     p->add_msg_if_player( m_info, _("The %s's batteries are dead."), it->name.c_str());
     return 0;
   }
@@ -7665,28 +7597,28 @@ int iuse::adrenaline_injector(player *p, item *it, bool)
 
 int iuse::jet_injector(player *p, item *it, bool)
 {
-  if(it->charges == 0) {
-    p->add_msg_if_player(m_info, _("The jet injector is empty."), it->name.c_str());
-    return 0;
-} else {
-    p->add_msg_if_player(_("You inject yourself with the jet injector."));
-    p->add_disease("jetinjector", 200);
-    p->pkill += 20;
-    p->stim += 10;
-    p->rem_disease("infected");
-    p->rem_disease("bite");
-    p->rem_disease("bleed");
-    p->rem_disease("fungus");
-    p->rem_disease("dermatik");
-    p->radiation += 4;
-    p->healall(20);
-  }
+    if(it->charges < it->type->charges_to_use()) {
+        p->add_msg_if_player(m_info, _("The jet injector is empty."), it->name.c_str());
+        return 0;
+    } else {
+        p->add_msg_if_player(_("You inject yourself with the jet injector."));
+        p->add_disease("jetinjector", 200);
+        p->pkill += 20;
+        p->stim += 10;
+        p->rem_disease("infected");
+        p->rem_disease("bite");
+        p->rem_disease("bleed");
+        p->rem_disease("fungus");
+        p->rem_disease("dermatik");
+        p->radiation += 4;
+        p->healall(20);
+    }
 
-  if(p->has_disease("jetinjector") &&
-            p->disease_duration("jetinjector") > 200) {
-    p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
-  }
-  return it->type->charges_to_use();
+    if(p->has_disease("jetinjector") &&
+       p->disease_duration("jetinjector") > 200) {
+        p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
+    }
+    return it->type->charges_to_use();
 }
 
 int iuse::radglove(player *p, item *it, bool)
@@ -7694,7 +7626,7 @@ int iuse::radglove(player *p, item *it, bool)
     if ( p->get_item_position( it ) >= -1 ) {
         p->add_msg_if_player(m_info, _("You must wear the radiation biomonitor before you can activate it."));
         return 0;
-    } else if (it->charges == 0) {
+    } else if (it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The radiation biomonitor needs batteries to function."));
         return 0;
     } else {
@@ -7745,7 +7677,7 @@ int iuse::contacts(player *p, item *it, bool)
 
 int iuse::talking_doll(player *p, item *it, bool)
 {
-    if(it->charges == 0) {
+    if(it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->name.c_str());
         return 0;
     }
@@ -7767,7 +7699,7 @@ int iuse::talking_doll(player *p, item *it, bool)
 
 int iuse::gun_repair(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
           return 0;
     }
     if (p->is_underwater()) {
@@ -7823,7 +7755,7 @@ int iuse::gun_repair(player *p, item *it, bool)
 
 int iuse::misc_repair(player *p, item *it, bool)
 {
-    if (it->charges == 0) {
+    if (it->charges < it->type->charges_to_use()) {
           return 0;
     }
     if (p->is_underwater()) {
@@ -7894,7 +7826,8 @@ int iuse::bell(player *p, item *it, bool)
 
 int iuse::seed(player *, item *it, bool)
 {
-    if( query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."), it->name.c_str())) {
+    if( query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."),
+                 it->name.c_str())) {
         return it->type->charges_to_use(); //This eats the seed object.
     }
     return 0;
@@ -7902,7 +7835,7 @@ int iuse::seed(player *, item *it, bool)
 
 int iuse::robotcontrol(player *p, item *it, bool)
 {
-    if(it->charges == 0) {
+    if(it->charges < it->type->charges_to_use()) {
         p->add_msg_if_player( _("The %s's batteries are dead."), it->name.c_str());
         return 0;
 
