@@ -538,10 +538,9 @@ bool player::can_leg_block() {
         } else if( ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs") ) {
             return true;
         }
-    } else {
-        // if not above, can't block.
-        return false;
-    }
+    } 
+    // if not above, can't block.
+    return false;
 }
 
 bool player::can_arm_block() {
@@ -550,15 +549,14 @@ bool player::can_arm_block() {
     
     // Success conditions.
     if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0) {
-        if( unarmed_skill >= ma.arm_block && ) {
+        if( unarmed_skill >= ma.arm_block ) {
             return true;
         } else if( ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms") ) {
             return true;
         }
-    } else {
-        // if not above, can't block.
-        return false;
     }
+    // if not above, can't block.
+    return false;
 }
 
 bool player::can_limb_block() {
