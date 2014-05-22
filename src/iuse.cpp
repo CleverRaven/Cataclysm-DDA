@@ -2288,43 +2288,12 @@ int iuse::sew(player *p, item *it, bool)
         }
         return 0;
     }
-    if (fix->damage < 0) {
-        p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix->tname().c_str());
-        return 0;
-    }
 
     std::vector<component> comps;
     comps.push_back(component(repair_item, items_needed));
     comps.back().available = true;
 
-
-    if (fix->damage == 0) {
-        p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice(calendar::turn, "tailor", 10);
-        int rn = dice(4, 2 + p->skillLevel("tailor"));
-        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-            rn -= rng(2, 6);
-        }
-        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-            rn += rng(2, 6);
-        }
-        if (p->dex_cur > 16) {
-            rn += rng(0, p->dex_cur - 16);
-        }
-        if (rn <= 4) {
-            p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
-            fix->damage++;
-        } else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
-            p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
-            fix->item_tags.insert("FIT");
-        } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
-            p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
-            fix->damage--;
-            g->consume_items(p, comps);
-        } else {
-            p->add_msg_if_player(m_neutral, _("You practice your sewing."));
-        }
-    } else {
+    if (fix->damage > 0) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice(calendar::turn, "tailor", 8);
         int rn = dice(4, 2 + p->skillLevel("tailor"));
@@ -2366,6 +2335,35 @@ int iuse::sew(player *p, item *it, bool)
             if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage = 0;
         }
+    } else if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
+        p->moves -= 500 * p->fine_detail_vision_mod();
+        p->practice(calendar::turn, "tailor", 10);
+        int rn = dice(4, 2 + p->skillLevel("tailor"));
+        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
+            rn -= rng(2, 6);
+        }
+        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
+            rn += rng(2, 6);
+        }
+        if (p->dex_cur > 16) {
+            rn += rng(0, p->dex_cur - 16);
+        }
+        if (rn <= 4) {
+            p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
+            fix->damage++;
+        } else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
+            p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
+            fix->item_tags.insert("FIT");
+        } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
+            p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
+            fix->damage--;
+            g->consume_items(p, comps);
+        } else {
+            p->add_msg_if_player(m_neutral, _("You practice your sewing."));
+        }
+    } else {
+        p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix->tname().c_str());
+        return 0;
     }
 
     return thread_used;
@@ -3085,49 +3083,12 @@ int iuse::solder_weld(player *p, item *it, bool)
                 }
                 return 0;
             }
-            if (fix->damage < 0) {
-                p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix->tname().c_str());
-                return 0;
-            }
 
             std::vector<component> comps;
             comps.push_back(component(repair_item, items_needed));
             comps.back().available = true;
 
-            if (fix->damage == 0) {
-                p->moves -= 500 * p->fine_detail_vision_mod();
-                p->practice(calendar::turn, "mechanics", 10);
-                int rn = dice(4, 2 + p->skillLevel("mechanics"));
-                if (p->dex_cur < 8 && one_in(p->dex_cur))
-                    {rn -= rng(2, 6);}
-                if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
-                    {rn += rng(2, 6);}
-                if (p->dex_cur > 16)
-                    {rn += rng(0, p->dex_cur - 16);}
-                if (rn <= 4)
-                {
-                    p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
-                    fix->damage++;
-                }
-                else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))
-                {
-                    p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
-                                         fix->tname().c_str());
-                    fix->item_tags.insert("FIT");
-                }
-                else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE")))
-                {
-                    p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
-                    fix->damage--;
-                    g->consume_items(p, comps);
-                }
-                else
-                {
-                    p->add_msg_if_player(m_neutral, _("You practice your soldering."));
-                }
-            }
-            else
-            {
+            if (fix->damage > 0) {
                 p->moves -= 500 * p->fine_detail_vision_mod();
                 p->practice(calendar::turn, "mechanics", 8);
                 int rn = dice(4, 2 + p->skillLevel("mechanics"));
@@ -3174,6 +3135,40 @@ int iuse::solder_weld(player *p, item *it, bool)
                     if (fix->damage>=3) {g->consume_items(p, comps);}
                     fix->damage = 0;
                 }
+            } else if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
+                p->moves -= 500 * p->fine_detail_vision_mod();
+                p->practice(calendar::turn, "mechanics", 10);
+                int rn = dice(4, 2 + p->skillLevel("mechanics"));
+                if (p->dex_cur < 8 && one_in(p->dex_cur))
+                    {rn -= rng(2, 6);}
+                if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
+                    {rn += rng(2, 6);}
+                if (p->dex_cur > 16)
+                    {rn += rng(0, p->dex_cur - 16);}
+                if (rn <= 4)
+                {
+                    p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
+                    fix->damage++;
+                }
+                else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))
+                {
+                    p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
+                                         fix->tname().c_str());
+                    fix->item_tags.insert("FIT");
+                }
+                else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE")))
+                {
+                    p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
+                    fix->damage--;
+                    g->consume_items(p, comps);
+                }
+                else
+                {
+                    p->add_msg_if_player(m_neutral, _("You practice your soldering."));
+                }
+            } else {
+                p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix->tname().c_str());
+                return 0;
             }
             return charges_used;
         }
