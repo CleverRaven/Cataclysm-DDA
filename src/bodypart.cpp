@@ -4,7 +4,7 @@
 
 std::map<std::string, body_part> body_parts;
 
-std::string body_part_name (body_part bp, int side, bool bShort)
+std::string body_part_name (body_part bp, int side)
 {
     switch (bp) {
     case bp_head:
@@ -17,34 +17,34 @@ std::string body_part_name (body_part bp, int side, bool bShort)
         return _("torso");
     case bp_arms:
         if (side == 0) {
-            return (bShort) ? _("l arm") : _("left arm");
+            return  _("left arm");
         }
         if (side == 1) {
-            return (bShort) ? _("r arm") : _("right arm");
+            return _("right arm");
         }
         return _("arms");
     case bp_hands:
         if (side == 0) {
-            return (bShort) ? _("l hand") : _("left hand");
+            return _("left hand");
         }
         if (side == 1) {
-            return (bShort) ? _("r hand") : _("right hand");
+            return _("right hand");
         }
         return _("hands");
     case bp_legs:
         if (side == 0) {
-            return (bShort) ? _("l leg") : _("left leg");
+            return _("left leg");
         }
         if (side == 1) {
-            return (bShort) ? _("r leg") : _("right leg");
+            return _("right leg");
         }
         return _("legs");
     case bp_feet:
         if (side == 0) {
-            return (bShort) ? _("l foot") : _("left foot");
+            return _("left foot");
         }
         if (side == 1) {
-            return (bShort) ? _("r foot") : _("right foot");
+            return _("right foot");
         }
         return _("feet");
     default:

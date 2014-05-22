@@ -1517,7 +1517,7 @@ void display_table(WINDOW *w, const std::string &title, int columns,
 scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const direction p_oDir,
                                 const std::string p_sText, const game_message_type p_gmt,
                                 const std::string p_sText2, const game_message_type p_gmt2,
-                                const bool p_bCreatureHP)
+                                const std::string p_sType)
 {
     iPosX = p_iPosX;
     iPosY = p_iPosY;
@@ -1537,18 +1537,18 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
     sText2 = p_sText2;
     gmt2 = p_gmt2;
 
-    bCreatureHP = p_bCreatureHP;
+    sType = p_sType;
 }
 
 void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_oDir,
                               const std::string p_sText, const game_message_type p_gmt,
                               const std::string p_sText2, const game_message_type p_gmt2,
-                              const bool p_bCreatureHP)
+                              const std::string p_sType)
 {
     if (OPTIONS["ANIMATION_SCT"]) {
         int iCurStep = 0;
 
-        if (p_bCreatureHP) {
+        if (p_sType == "hp") {
             //Remove old HP bar
             removeCreatureHP();
 
@@ -1576,7 +1576,7 @@ void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_
             }
         }
 
-        vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_bCreatureHP));
+        vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType));
     }
 }
 
@@ -1638,7 +1638,7 @@ int scrollingcombattext::cSCT::getPosX()
             iDirOffset -= getText().length();
         }
 
-        return iPosX + iDirOffset + (iDirX * ((bCreatureHP) ? (getStepOffset() + 1) : (getStepOffset() + getStep())));
+        return iPosX + iDirOffset + (iDirX * ((sType == "hp") ? (getStepOffset() + 1) : (getStepOffset() + getStep())));
     }
 
     return 0;
@@ -1671,7 +1671,7 @@ void scrollingcombattext::removeCreatureHP()
 {
     //check for previous hp display and delete it
     for (std::vector<cSCT>::iterator iter = vSCT.begin(); iter != vSCT.end(); ++iter) {
-        if (iter->getCreatureHP()) {
+        if (iter->getType() == "hp") {
             vSCT.erase(iter);
             break;
         }

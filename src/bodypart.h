@@ -17,7 +17,7 @@ enum body_part {
     num_bp
 };
 
-std::string body_part_name(body_part bp, int side, bool bShort = false);
+std::string body_part_name(body_part bp, int side);
 std::string encumb_text(body_part bp);
 
 body_part random_body_part(bool main_parts_only = false);

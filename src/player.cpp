@@ -4281,13 +4281,13 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             //monster hits player melee
             nc_color color;
             std::string health_bar = "";
-            get_HP_Bar(dam, this->hp_max[bp], color, health_bar);
+            get_HP_Bar(dam, this->get_hp_max(bodypart_to_hp_part(bp, side)), color, health_bar);
 
             SCT.add(this->xpos(),
                     this->ypos(),
                     direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
                     health_bar.c_str(), m_bad,
-                    body_part_name(bp, side, true), m_neutral);
+                    body_part_name(bp, side), m_neutral);
         }
     }
 
@@ -5009,8 +5009,7 @@ void player::add_disease(dis_type type, int duration, bool permanent,
                 SCT.add(this->xpos(),
                         this->ypos(),
                         SOUTH,
-                        dis_name(tmp), m_info,
-                        "", m_neutral);
+                        dis_name(tmp), m_info);
             }
         }
     }
@@ -10615,6 +10614,18 @@ int player::get_hp( hp_part bp )
     int hp_total = 0;
     for( int i = 0; i < num_hp_parts; ++i ) {
         hp_total += hp_cur[i];
+    }
+    return hp_total;
+}
+
+int player::get_hp_max( hp_part bp )
+{
+    if( bp < num_hp_parts ) {
+        return hp_max[bp];
+    }
+    int hp_total = 0;
+    for( int i = 0; i < num_hp_parts; ++i ) {
+        hp_total += hp_max[i];
     }
     return hp_total;
 }

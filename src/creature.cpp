@@ -394,7 +394,7 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
                             direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
                             health_bar, m_good,
                             "hp", m_neutral,
-                            true);
+                            "hp");
                 } else {
                     SCT.removeCreatureHP();
                 }

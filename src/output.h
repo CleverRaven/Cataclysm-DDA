@@ -197,13 +197,13 @@ class scrollingcombattext {
                 game_message_type gmt;
                 std::string sText2;
                 game_message_type gmt2;
-                bool bCreatureHP;
+                std::string sType;
 
             public:
                 cSCT(const int p_iPosX, const int p_iPosY, direction p_oDir,
                      const std::string p_sText, const game_message_type p_gmt,
-                     const std::string p_sText2, const game_message_type p_gmt2,
-                     const bool p_bCreatureHP = false);
+                     const std::string p_sText2 = "", const game_message_type p_gmt2 = m_neutral,
+                     const std::string p_sType = "");
                 ~cSCT() {};
 
                 int getStep() { return iStep; }
@@ -215,7 +215,7 @@ class scrollingcombattext {
                 direction getDirecton() { return oDir; }
                 int getInitPosX() { return iPosX; }
                 int getInitPosY() { return iPosY; }
-                bool getCreatureHP() { return bCreatureHP; }
+                std::string getType() { return sType; }
                 std::string getText(std::string sType = "full");
                 game_message_type getMsgType(std::string sType = "first");
         };
@@ -224,8 +224,8 @@ class scrollingcombattext {
 
         void add(const int p_iPosX, const int p_iPosY, const direction p_oDir,
                  const std::string p_sText, const game_message_type p_gmt,
-                 const std::string p_sText2, const game_message_type p_gmt2,
-                 const bool p_bCreatureHP = false);
+                 const std::string p_sText2 = "", const game_message_type p_gmt2 = m_neutral,
+                 const std::string p_sType = "");
         void advanceAllSteps();
         void removeCreatureHP();
 };

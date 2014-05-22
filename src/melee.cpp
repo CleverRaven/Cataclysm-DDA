@@ -1902,7 +1902,7 @@ void player_hit_message(player* attacker, std::string message,
                     direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
                     health_bar, m_good,
                     "hp", m_neutral,
-                    true);
+                    "hp");
         } else {
             SCT.removeCreatureHP();
         }
