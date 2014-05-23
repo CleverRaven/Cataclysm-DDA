@@ -826,9 +826,14 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
         }
     }
     wprintz(w_target, c_white, " >");
-    int text_y = getmaxy(w_target) - 5;
+    int text_y = getmaxy(w_target) - 2;
     if (is_mouse_enabled()) {
+        // Reserve a line for mouse instructions.
         --text_y;
+    }
+    if( relevant ) {
+        // Reserve lines for aiming and firing instructions.
+        text_y -= 5;
     }
     mvwprintz(w_target, text_y++, 1, c_white,
               _("Move cursor to target with directional keys"));
@@ -839,6 +844,10 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
                   _("'0' target self; '*' toggle snap-to-target"));
         mvwprintz(w_target, text_y++, 1, c_white,
                   _("'.' to steady your aim."));
+        mvwprintz(w_target, text_y++, 1, c_white,
+                  _("'c' to take careful aim and fire."));
+        mvwprintz(w_target, text_y++, 1, c_white,
+                  _("'p' to take precise aim and fire."));
     }
 
     if( is_mouse_enabled() ) {
@@ -877,7 +886,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 {
     std::vector<point> ret;
     int tarx, tary, junk, tart;
-    int range = (hix - u.posx);
+    int range = ( hix - u.posx );
     // First, decide on a target among the monsters, if there are any in range
     if (!t.empty()) {
         if( static_cast<size_t>( target ) >= t.size() ) {
@@ -1027,12 +1036,23 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
         ctxt.register_action("NEXT_TARGET");
         ctxt.register_action("PREV_TARGET");
         ctxt.register_action("AIM");
+        ctxt.register_action("CAREFUL_SHOT");
+        ctxt.register_action("PRECISE_SHOT");
         ctxt.register_action("CENTER");
         ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
         ctxt.register_action("HELP_KEYBINDINGS");
         ctxt.register_action("QUIT");
 
-        const std::string &action = ctxt.handle_input();
+        std::string action;
+        if( u.activity.type == ACT_AIM && u.activity.str_values[0] != "AIM" ) {
+            // If we're in 'aim and shoot' mode,
+            // skip retrieving input and go straight to the action.
+            action = u.activity.str_values[0];
+        } else {
+            action = ctxt.handle_input();
+        }
+        // Clear the activity if any, we'll re-set it later if we need to.
+        u.cancel_activity();
 
         tarx = 0;
         tary = 0;
@@ -1094,6 +1114,30 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             do_aim( &u, t, target, x, y );
             if(u.moves <= 0) {
                 // We've run out of moves, clear target vector, but leave target selected.
+                u.assign_activity( ACT_AIM, 0, 0 );
+                u.activity.str_values.push_back( "AIM" );
+                ret.clear();
+                return ret;
+            }
+        } else if( (action == "CAREFUL_SHOT" || action == "PRECISE_SHOT") && target != -1 ) {
+            int aim_threshold = 10;
+            if( action == "PRECISE_SHOT" ) {
+                aim_threshold = 0;
+            }
+            do {
+                do_aim( &u, t, target, x, y );
+            } while( u.moves > 0 && u.recoil > aim_threshold );
+            if( u.recoil <= aim_threshold ) {
+                // If we made it under the aim threshold, go ahead and fire.
+                return ret;
+            } else {
+                // We've run out of moves, set the activity to aim so we'll
+                // automatically re-enter the targeting menu next turn.
+                // Set the string value of the aim action to the right thing
+                // so we re-enter this loop.
+                // Also clear target vector, but leave target selected.
+                u.assign_activity( ACT_AIM, 0, 0 );
+                u.activity.str_values.push_back( action );
                 ret.clear();
                 return ret;
             }

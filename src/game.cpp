@@ -1616,16 +1616,10 @@ void game::activity_on_turn()
         on_turn_activity_burrow(&u);
         break;
     case ACT_AIM:
-    {
-        // Unpack variables and call the appropriate fire action.
-        int attack_type = u.activity.index;
-        // The attack function might re-set the activity, so we need to clear it before calling.
-        u.activity.type = ACT_NULL;
-        if (attack_type == 0) {
+        if( u.activity.index == 0 ) {
             plfire(false);
         }
         break;
-    }
     case ACT_GAME:
         // Takes care of u.activity.moves_left
         activity_on_turn_game();
@@ -11144,11 +11138,6 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                 last_target_was_npc = false;
                 zombie(last_target).add_effect("hit_by_player", 100);
             }
-        }
-        if( trajectory.empty() ) {
-            // If we cancelled out without firing, but a target is selected,
-            // we're aiming and ran out of moves.
-            u.assign_activity(ACT_AIM, 0, 0);
         }
     }
     return trajectory;

@@ -71,6 +71,7 @@ bool player_activity::is_suspendable() const
     case ACT_PICKUP:
     case ACT_MOVE_ITEMS:
     case ACT_ADV_INVENTORY:
+    case ACT_AIM:
         return false;
     default:
         return true;

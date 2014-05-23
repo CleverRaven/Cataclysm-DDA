@@ -794,6 +794,28 @@
     },
     {
         "type" : "keybinding",
+        "id":"CAREFUL_SHOT",
+        "name":"Careful Shot",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"PRECISE_SHOT",
+        "name":"Precise Shot",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"p"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"SELECT",
         "name":"Select",
         "bindings":[
