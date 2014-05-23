@@ -849,6 +849,27 @@ static void draw_targeting_window( WINDOW *w_target, item *relevant, player &p)
     wrefresh( w_target );
 }
 
+static void do_aim( player *p, std::vector <Creature*> &t, int &target,
+                    const int x, const int y ) {
+    // If we've changed targets, reset aim, unless it's above the minimum.
+    if( t[target]->xpos() != x || t[target]->ypos() != y ) {
+        for (int i = 0; i < t.size(); i++) {
+            if (t[i]->xpos() == x && t[i]->ypos() == y) {
+                target = i;
+                // TODO: find radial offset between targets and
+                // spend move points swinging the gun around.
+                p->recoil = std::min(MIN_RECOIL, p->recoil);
+                break;
+            }
+        }
+    }
+    // Increase aim at the cost of moves
+    p->moves -= p->time_to_aim();
+    if( p->recoil > 0) {
+        p->recoil--;
+    }
+}
+
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 int hiy, std::vector <Creature *> t, int &target,
@@ -1070,21 +1091,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             x = t[target]->xpos();
             y = t[target]->ypos();
         } else if ((action == "AIM") && target != -1) {
-            // If we've changed targets, reset aim, unless it's above the minimum.
-            if( t[target]->xpos() != x || t[target]->ypos() != y ) {
-                for (int i = 0; i < t.size(); i++) {
-                    if (t[i]->xpos() == x && t[i]->ypos() == y) {
-                        target = i;
-                        u.recoil = std::min(MIN_RECOIL, u.recoil);
-                        break;
-                    }
-                }
-            }
-            // Increase aim at the cost of moves
-            u.moves -= u.time_to_aim();
-            if(u.recoil > 0) {
-                u.recoil--;
-            }
+            do_aim( &u, t, target, x, y );
             if(u.moves <= 0) {
                 // We've run out of moves, clear target vector, but leave target selected.
                 ret.clear();
