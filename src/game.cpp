@@ -8040,15 +8040,19 @@ void game::advanced_inv()
 
 //Shift player by one tile, look_around(), then restore previous position.
 //represents carfully peeking around a corner, hence the large move cost.
-void game::peek()
+void game::peek( int peekx, int peeky )
 {
-    int prevx, prevy, peekx, peeky;
+    int prevx, prevy;
 
-    if (!choose_adjacent(_("Peek where?"), peekx, peeky))
-        return;
+    if( peekx == 0 && peeky == 0 ) {
+        if (!choose_adjacent(_("Peek where?"), peekx, peeky)) {
+            return;
+        }
 
-    if (m.move_cost(peekx, peeky) == 0)
-        return;
+        if (m.move_cost(peekx, peeky) == 0) {
+            return;
+        }
+    }
 
     u.moves -= 200;
     prevx = u.posx;

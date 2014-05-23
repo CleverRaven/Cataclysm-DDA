@@ -252,7 +252,7 @@ public:
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
-  void peek();
+  void peek( int peekx = 0, int peeky = 0);
   point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(const int iLastState); //List all items around the player
