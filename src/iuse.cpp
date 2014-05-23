@@ -2653,6 +2653,11 @@ int iuse::fishing_rod_basic (player *p, item *it, bool) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
         return 0;
     }
+    
+    if ( (p->has_trait("ROOTS2")) && g->m.has_flag("DIGGABLE", p->posx, p->posy) &&
+            (!(p->wearing_something_on(bp_feet)))) {
+                add_msg(m_info, _("You sink your roots into the soil."));   
+            }
 
     p->add_msg_if_player( _("You cast your line and wait to hook something..."));
 

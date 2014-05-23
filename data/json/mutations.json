@@ -3300,7 +3300,6 @@
         "ugliness" : 5,
         "description" : "It's about time you started developing a root system. When crafting or otherwise taking time on diggable terrain, you'll extract nutrients from the soil.",
         "prereqs" : ["ROOTS1"],
-        "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES"],
         "changes_to" : ["ROOTS3"],
@@ -3314,6 +3313,7 @@
         "ugliness" : 5,
         "description" : "You find it difficult not to sink roots when able. You extract nutrients whenever on diggable terrain, but move more slowly.",
         "prereqs" : ["ROOTS2"],
+        "prereqs2" : ["SAPROPHAGE"],
         "threshreq" : ["THRESH_PLANT"],
         "cancels" : ["LEG_TENTACLES"],
         "category" : ["MUTCAT_PLANT"]

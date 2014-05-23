@@ -9178,6 +9178,10 @@ void player::read(int pos)
         if(!continuous) {
             add_msg(m_info, _("Now studying %s, %s to stop early."),
                             it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
+            if ( (has_trait("ROOTS2")) && g->m.has_flag("DIGGABLE", posx, posy) &&
+            (!(wearing_something_on(bp_feet))) ) {
+                add_msg(m_info, _("You sink your roots into the soil."));   
+            }
         }
         study = true;
     }
