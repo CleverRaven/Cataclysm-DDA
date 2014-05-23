@@ -4064,7 +4064,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     int fire_t, boo_hoo;
     Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t);
     if (target == NULL) {
-        if (u_see) {
+        if (u_see && boo_hoo) {
             add_msg(m_warning, ngettext("%s points in your direction and emits an IFF warning beep.",
                                         "%s points in your direction and emits %d annoyed sounding beeps.",
                                          boo_hoo),

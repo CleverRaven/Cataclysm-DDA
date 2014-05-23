@@ -1106,6 +1106,7 @@
         "flags": [
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "REDUCE_SCENT" ],
         "open": "t_window_domestic",
+	"examine_action" : "curtains",
         "deconstruct": {
             "ter_set": "t_window_empty",
             "items": [

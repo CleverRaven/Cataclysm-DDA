@@ -3832,10 +3832,9 @@ int player::unimpaired_range()
  return ret;
 }
 
-bool player::overmap_los(int omtx, int omty)
+bool player::overmap_los(int omtx, int omty, int sight_points)
 {
     const tripoint ompos = g->om_global_location();
-    int sight_points = overmap_sight_range(g->light_level());
     if (omtx < ompos.x - sight_points || omtx > ompos.x + sight_points ||
         omty < ompos.y - sight_points || omty > ompos.y + sight_points) {
         // Outside maximum sight range
