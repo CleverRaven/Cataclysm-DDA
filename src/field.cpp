@@ -215,7 +215,7 @@ void game::init_fields()
             {0,0,0}
         }
     };
-    for(int i=0; i<num_fields; i++) {
+    for(int i = 0; i < num_fields; i++) {
         fieldlist[i] = tmp_fields[i];
     }
 }
@@ -300,13 +300,14 @@ Iterates over every field on every tile of the given submap given as parameter.
 This is the general update function for field effects. This should only be called once per game turn.
 If you need to insert a new field behavior per unit time add a case statement in the switch below.
 */
-bool map::process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y)
+bool map::process_fields_in_submap( submap *const current_submap,
+                                    const int submap_x, const int submap_y )
 {
     // Realistically this is always true, this function only gets called if fields exist.
     bool found_field = false;
     // A pointer to the current field effect.
     // Used to modify or otherwise get information on the field effect to update.
-    field_entry *cur;
+    field_entry *cur = NULL;
     //Holds m.field_at(x,y).findField(fd_some_field) type returns.
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = NULL;
@@ -333,7 +334,8 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                 }
 
                 curtype = cur->getFieldType();
-                //Setting our return value. fd_null really doesn't exist anymore, its there for legacy support.
+                // Setting our return value. fd_null really doesn't exist anymore,
+                // its there for legacy support.
                 if (!found_field && curtype != fd_null) {
                     found_field = true;
                 }
@@ -419,8 +421,10 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                         bool destroyed = false; //Is the item destroyed?
                         // Volume, Smoke generation probability, consumed items count
                         int vol = 0, smoke = 0, consumed = 0;
-                        for (int i = 0; i < i_at(x, y).size() && consumed < cur->getFieldDensity() * 2; i++) {
-                            //Stop when we hit the end of the item buffer OR we consumed enough items given our fire size.
+                        for (int i = 0; i < i_at(x, y).size() &&
+                                 consumed < cur->getFieldDensity() * 2; i++) {
+                            // Stop when we hit the end of the item buffer OR we consumed
+                            // enough items given our fire size.
                             destroyed = false;
                             item *it = &(i_at(x, y)[i]); //Pointer to the item we are dealing with.
                             vol = it->volume(); //Used to feed the fire based on volume of item burnt.
@@ -475,7 +479,8 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                 destroyed = it->burn(cur->getFieldDensity() * 3);
                                 consumed++;
                                 if (cur->getFieldDensity() == 1) {
-                                    cur->setFieldAge(cur->getFieldAge() - vol * 10);    //lower age is a longer lasting fire
+                                    cur->setFieldAge(cur->getFieldAge() - vol * 10);
+                                    //lower age is a longer lasting fire
                                 }
                                 if (vol >= 4) {
                                     smoke++;    //Large paper items give chance to smoke.
@@ -509,22 +514,27 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                     smoke++;
                                 }
 
-                            } else if ((it->made_of("flesh")) || (it->made_of("hflesh")) || (it->made_of("iflesh"))) {
+                            } else if ((it->made_of("flesh")) || (it->made_of("hflesh")) ||
+                                       (it->made_of("iflesh"))) {
                                 //Same as cotton/wool really but more smokey.
-                                if (vol <= cur->getFieldDensity() * 5 || (cur->getFieldDensity() == 3 && one_in(vol / 20))) {
+                                if (vol <= cur->getFieldDensity() * 5 ||
+                                    (cur->getFieldDensity() == 3 && one_in(vol / 20))) {
                                     cur->setFieldAge(cur->getFieldAge() - 1);
                                     destroyed = it->burn(cur->getFieldDensity());
                                     smoke += 3;
                                     consumed++;
-                                } else if (it->burnt < cur->getFieldDensity() * 5 || cur->getFieldDensity() >= 2) {
+                                } else if (it->burnt < cur->getFieldDensity() * 5 ||
+                                           cur->getFieldDensity() >= 2) {
                                     destroyed = it->burn(1);
                                     smoke++;
                                 }
 
                             } else if (it->made_of(LIQUID)) {
-                                //Lots of smoke if alcohol, and LOTS of fire fueling power, kills a fire otherwise.
+                                // Lots of smoke if alcohol, and LOTS of fire fueling power,
+                                // kills a fire otherwise.
                                 if(it->type->id == "tequila" || it->type->id == "whiskey" ||
-                                   it->type->id == "vodka" || it->type->id == "rum" || it->type->id == "gasoline") {
+                                   it->type->id == "vodka" || it->type->id == "rum" ||
+                                   it->type->id == "gasoline") {
                                     cur->setFieldAge(cur->getFieldAge() - 300);
                                     smoke += 6;
                                 } else {
@@ -537,7 +547,8 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                 }
                                 consumed++;
                             } else if (it->made_of("powder")) {
-                                //Any powder will fuel the fire as much as its volume but be immediately destroyed.
+                                // Any powder will fuel the fire as much as its volume
+                                // but be immediately destroyed.
                                 cur->setFieldAge(cur->getFieldAge() - vol);
                                 destroyed = true;
                                 smoke += 2;
@@ -545,7 +556,8 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                             } else if (it->made_of("plastic")) {
                                 //Smokey material, doesn't fuel well.
                                 smoke += 3;
-                                if (it->burnt <= cur->getFieldDensity() * 2 || (cur->getFieldDensity() == 3 && one_in(vol))) {
+                                if (it->burnt <= cur->getFieldDensity() * 2 ||
+                                    (cur->getFieldDensity() == 3 && one_in(vol))) {
                                     destroyed = it->burn(cur->getFieldDensity());
                                     if (one_in(vol + it->burnt)) {
                                         cur->setFieldAge(cur->getFieldAge() - 1);
@@ -565,10 +577,13 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
 
                         veh = veh_at(x, y, part); //Get the part of the vehicle in the fire.
                         if (veh) {
-                            veh->damage(part, cur->getFieldDensity() * 10, 2, false);    //Damage the vehicle in the fire.
+                            veh->damage(part, cur->getFieldDensity() * 10, 2, false);
+                            //Damage the vehicle in the fire.
                         }
-                        // If the flames are in a brazier, they're fully contained, so skip consuming terrain
-                        if((tr_brazier != tr_at(x, y)) && (has_flag("FIRE_CONTAINER", x, y) != true )) {
+                        // If the flames are in a brazier, they're fully contained,
+                        // so skip consuming terrain
+                        if((tr_brazier != tr_at(x, y)) &&
+                           (has_flag("FIRE_CONTAINER", x, y) != true )) {
                             // Consume the terrain we're on
                             if (has_flag("EXPLODES", x, y)) {
                                 //This is what destroys houses so fast.
@@ -577,17 +592,21 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                 cur->setFieldDensity(3);
                                 g->explosion(x, y, 40, 0, true); //Boom.
 
-                            } else if (has_flag("FLAMMABLE", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
+                            } else if (has_flag("FLAMMABLE", x, y) &&
+                                       one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
-                                cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
+                                cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
+                                                 cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3) {
                                     destroy(x, y, false);
                                 }
 
-                            } else if (has_flag("FLAMMABLE_ASH", x, y) && one_in(32 - cur->getFieldDensity() * 10)) {
+                            } else if (has_flag("FLAMMABLE_ASH", x, y) &&
+                                       one_in(32 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
-                                cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
+                                cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
+                                                 cur->getFieldDensity() * 40);
                                 smoke += 15;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
                                     ter_set(x, y, t_ash);
@@ -596,16 +615,19 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                     }
                                 }
 
-                            } else if (has_flag("FLAMMABLE_HARD", x, y) && one_in(62 - cur->getFieldDensity() * 10)) {
+                            } else if (has_flag("FLAMMABLE_HARD", x, y) &&
+                                       one_in(62 - cur->getFieldDensity() * 10)) {
                                 //The fire feeds on the ground itself until max density.
-                                cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 30);
+                                cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() *
+                                                 cur->getFieldDensity() * 30);
                                 smoke += 10;
                                 if (cur->getFieldDensity() == 3 || cur->getFieldAge() < -600) {
                                     destroy(x, y, false);
                                 }
 
                             } else if (terlist[ter(x, y)].has_flag("SWIMMABLE")) {
-                                cur->setFieldAge(cur->getFieldAge() + 800);    // Flames die quickly on water
+                                cur->setFieldAge(cur->getFieldAge() + 800);
+                                // Flames die quickly on water
                             }
                         }
 
@@ -616,18 +638,23 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                         if (cur->getFieldAge() < 0 && tr_brazier != tr_at(x, y) &&
                             (has_flag("FIRE_CONTAINER", x, y) != true  ) ) {
                             if(cur->getFieldDensity() == 3) {
-                                // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
+                                // Randomly offset our x/y shifts by 0-2, to randomly pick
+                                // a square to spread to
                                 int starti = rng(0, 2);
                                 int startj = rng(0, 2);
                                 tmpfld = NULL;
                                 // Basically: Scan around for a spot,
-                                // if there is more fire there, make it bigger and both flames renew in power
-                                // This is how level 3 fires spend their excess age: making other fires bigger. Flashpoint.
+                                // if there is more fire there, make it bigger and
+                                // both flames renew in power
+                                // This is how level 3 fires spend their excess age:
+                                // making other fires bigger. Flashpoint.
                                 for (int i = 0; i < 3 && cur->getFieldAge() < 0; i++) {
                                     for (int j = 0; j < 3 && cur->getFieldAge() < 0; j++) {
-                                        int fx = x + ((i + starti) % 3) - 1, fy = y + ((j + startj) % 3) - 1;
+                                        int fx = x + ((i + starti) % 3) - 1;
+                                        int fy = y + ((j + startj) % 3) - 1;
                                         tmpfld = field_at(fx, fy).findField(fd_fire);
-                                        if (tmpfld && tmpfld != cur && cur->getFieldAge() < 0 && tmpfld->getFieldDensity() < 3 &&
+                                        if (tmpfld && tmpfld != cur && cur->getFieldAge() < 0 &&
+                                            tmpfld->getFieldDensity() < 3 &&
                                             (in_pit == (ter(fx, fy) == t_pit))) {
                                             tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
                                             cur->setFieldAge(cur->getFieldAge() + 150);
@@ -696,11 +723,15 @@ bool map::process_fields_in_submap(submap * const current_submap, const int subm
                                     if (nearwebfld) {
                                         spread_chance = 50 + spread_chance / 2;
                                     }
-                                    if (has_flag("EXPLODES", fx, fy) && one_in(8 - cur->getFieldDensity()) &&
-                                        tr_brazier != tr_at(x, y) && (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
+                                    if (has_flag("EXPLODES", fx, fy) &&
+                                        one_in(8 - cur->getFieldDensity()) &&
+                                        tr_brazier != tr_at(x, y) &&
+                                        (has_flag("FIRE_CONTAINER", x, y) != true ) ) {
                                         ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
-                                        g->explosion(fx, fy, 40, 0, true); //Nearby explodables? blow em up.
-                                    } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance && cur->getFieldAge() < 200 &&
+                                        g->explosion(fx, fy, 40, 0, true);
+                                        //Nearby explodables? blow em up.
+                                    } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
+                                               cur->getFieldAge() < 200 &&
                                                tr_brazier != tr_at(x, y) &&
                                                (has_flag("FIRE_CONTAINER", x, y) != true ) &&
                                                (in_pit == (ter(fx, fy) == t_pit)) &&
