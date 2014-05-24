@@ -2654,8 +2654,9 @@ int iuse::fishing_rod_basic (player *p, item *it, bool) {
         return 0;
     }
     
-    if ( (p->has_trait("ROOTS2")) && g->m.has_flag("DIGGABLE", p->posx, p->posy) &&
-            (!(p->wearing_something_on(bp_feet)))) {
+    if ( (p->has_trait("ROOTS2") || (p->has_trait("ROOTS3"))) &&
+      g->m.has_flag("DIGGABLE", p->posx, p->posy) &&
+            (!(p->wearing_something_on(bp_feet))) ) {
                 add_msg(m_info, _("You sink your roots into the soil."));   
             }
 

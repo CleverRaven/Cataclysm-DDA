@@ -1484,10 +1484,18 @@ int player::run_cost(int base_cost, bool diag)
 
     movecost += encumb(bp_mouth) * 5 + encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
 
+    // ROOTS3 does slow you down as your roots are probing around for nutrients,
+    // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
+    // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
     if (!is_wearing_shoes() && !has_trait("PADDED_FEET") && !has_trait("HOOVES") &&
-        !has_trait("TOUGH_FEET")) {
+        !has_trait("TOUGH_FEET") && !has_trait("ROOTS2") ) {
         movecost += 15;
     }
+    
+    if ( (!(wearing_something_on(bp_feet))) && has_trait("ROOTS3") &&
+      g->m.has_flag("DIGGABLE", posx, posy) ) {
+        movecost += 10;
+      }
 
     if (diag)
         movecost *= 1.4142;
@@ -5342,6 +5350,26 @@ void player::suffer()
             }
         }
     }
+    
+    if ( (has_trait("ROOTS3")) && g->m.has_flag("DIGGABLE", posx, posy) &&
+            (!(wearing_something_on(bp_feet))) ) {
+                if (one_in(25)) {
+                    add_msg(m_good, _("This soil is delicious!"));
+                    hunger -= 2;
+                    thirst -= 2;
+                    if (health <= 10) {
+                        health++;
+                    }
+                    // Mmm, dat soil...
+                    focus_pool--;
+              } else if (one_in(20)){
+                    hunger--;
+                    thirst--;
+                    if (health <= 5) {
+                        health++;
+                    }
+                }
+            }
 
     for (int i = 0; i < illness.size(); i++) {
         dis_effect(*this, illness[i]);
@@ -9178,8 +9206,9 @@ void player::read(int pos)
         if(!continuous) {
             add_msg(m_info, _("Now studying %s, %s to stop early."),
                             it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
-            if ( (has_trait("ROOTS2")) && g->m.has_flag("DIGGABLE", posx, posy) &&
-            (!(wearing_something_on(bp_feet))) ) {
+            if ( (has_trait("ROOTS2") || (has_trait("ROOTS3"))) &&
+              g->m.has_flag("DIGGABLE", posx, posy) &&
+              (!(wearing_something_on(bp_feet))) ) {
                 add_msg(m_info, _("You sink your roots into the soil."));   
             }
         }

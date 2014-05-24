@@ -1295,8 +1295,9 @@ void game::activity_on_turn() {
         case ACT_WAIT_WEATHER:
             // Based on time, not speed
             u.activity.moves_left -= 100;
-            if ( (u.has_trait("ROOTS2")) && m.has_flag("DIGGABLE", u.posx, u.posy) &&
-            (!(u.wearing_something_on(bp_feet)))){
+            if ( (u.has_trait("ROOTS2") || (u.has_trait("ROOTS3"))) &&
+              m.has_flag("DIGGABLE", u.posx, u.posy) &&
+              (!(u.wearing_something_on(bp_feet))) ) {
                 // Should average a point per minute or so; ground isn't uniformly fertile
                 // If being able to "overfill" is a serious balance issue, will revisit
                 // Otherwise, nutrient intake via roots can fill past the "Full" point, WAI
@@ -1336,8 +1337,9 @@ void game::activity_on_turn() {
             // Based on time, not speed--or it should be
             // (Being faster doesn't make the fish bite quicker)
             u.activity.moves_left -= 100;
-            if ( (u.has_trait("ROOTS2")) && m.has_flag("DIGGABLE", u.posx, u.posy) &&
-            (!(u.wearing_something_on(bp_feet)))){
+            if ( (u.has_trait("ROOTS2") || (u.has_trait("ROOTS3"))) &&
+            m.has_flag("DIGGABLE", u.posx, u.posy) &&
+            (!(u.wearing_something_on(bp_feet))) ) {
                 if (one_in(10)){
                     u.hunger--;
                     u.thirst--;
@@ -1372,8 +1374,9 @@ void game::activity_on_turn_game()
         add_msg(m_info, _("The %s runs out of batteries."), game_item.name.c_str());
     }
     
-    if ( (u.has_trait("ROOTS2")) && m.has_flag("DIGGABLE", u.posx, u.posy) &&
-            (!(u.wearing_something_on(bp_feet)))){
+    if ( (u.has_trait("ROOTS2") || (u.has_trait("ROOTS3"))) &&
+      m.has_flag("DIGGABLE", u.posx, u.posy) &&
+      (!(u.wearing_something_on(bp_feet))) ) {
         if (one_in(10)){
             u.hunger--;
             u.thirst--;
@@ -13092,8 +13095,9 @@ void game::wait()
     }
 
     u.assign_activity(actType, time, 0);
-    if ( (u.has_trait("ROOTS2")) && m.has_flag("DIGGABLE", u.posx, u.posy) &&
-            (!(u.wearing_something_on(bp_feet))))  {
+    if ( (u.has_trait("ROOTS2") || (u.has_trait("ROOTS3"))) &&
+      m.has_flag("DIGGABLE", u.posx, u.posy) &&
+      (!(u.wearing_something_on(bp_feet))) ) {
                 add_msg(m_info, _("You sink your roots into the soil."));   
             }
 }
