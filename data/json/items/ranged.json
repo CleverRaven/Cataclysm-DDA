@@ -1066,7 +1066,7 @@
     "color": "dark_gray",
     "name": "TEC-9",
     "name_plural": "TEC-9",
-    "description": "The TEC-9 is a machine pistol made of cheap polymers and machine stamped parts. Its rise in popularity among criminals is largely due to its intimidating looks and low .",
+    "description": "The TEC-9 is a machine pistol made of cheap polymers and machine stamped parts. Its rise in popularity among criminals is largely due to its intimidating looks and low cost.",
     "price": 175000,
     "material": "steel",
     "flags": "MODE_BURST",
