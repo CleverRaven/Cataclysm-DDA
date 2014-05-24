@@ -903,13 +903,14 @@ recipe *game::select_crafting_recipe()
                             }
 
                             std::stringstream toolinfo;
-                            toolinfo << item_controller->find_template(type)->name << " ";
+                            toolinfo << item_controller->find_template(type)->nname(1) << " ";
 
                             if (charges > 0) {
                                 toolinfo << string_format(ngettext("(%d charge) ","(%d charges) ",charges), charges);
                             }
+
                             std::string toolname = toolinfo.str();
-                            if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH) {
+                            if (xpos != 32 && xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH) {
                                 xpos = 32;
                                 ypos++;
                             }
