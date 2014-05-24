@@ -12414,7 +12414,7 @@
         "symbol": "~",
         "color": "brown",
         "name": "peanut butter",
-        "description": "A brown goo that tastes very little of it's namesake. It's not bad but it'll stick to the roof of your mouth.",
+        "description": "A brown goo that tastes very little of its namesake. It's not bad but it'll stick to the roof of your mouth.",
         "price": 5000,
         "material" : ["fruit", "junk"],
         "weight": 253,
