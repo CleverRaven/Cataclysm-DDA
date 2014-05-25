@@ -984,8 +984,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   action in this national crisis.  You will proceed with fail-\n\
   safe procedures and rig the sarcophagus with c-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
-  and seal the sarcophagus or remove the charges.  It is of\n\
-  utmost importance that the facility is sealed immediatly when\n\
+  and seal the sarcophagus or remove the charges.  It is of the\n\
+  utmost importance that the facility be sealed immediatly when\n\
   the orders are given.  We have been alerted by Homeland Security\n\
   that there are potential terrorist suspects that are being\n\
   detained in connection with the recent national crisis.\n\
