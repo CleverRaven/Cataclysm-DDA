@@ -1105,7 +1105,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             cur->setFieldDensity( 0 );
                         } else {
                             // Bees chase the player if in range, wander randomly otherwise.
-                            if( rl_dist( x, y, g->u.xpos(), g->u.ypos() ) < 10 ) {
+                            int junk;
+                            if( !g->u.is_underwater() &&
+                                rl_dist( x, y, g->u.xpos(), g->u.ypos() ) < 10 &&
+                                clear_path( x, y, g->u.xpos(), g->u.ypos(), 10, 0, 100, junk ) ) {
+
                                 std::vector<point> candidate_positions =
                                     squares_in_direction( x, y, g->u.xpos(), g->u.ypos() );
                                 for( auto new_position = candidate_positions.begin();
@@ -1421,24 +1425,51 @@ void map::step_in_field(int x, int y)
             continue;
 
         case fd_bees:
-            // If the bees can get at you, they cause steadily increasing pain.
-            // TODO: Specific stinging messages.
-            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
-                                 cur->getFieldDensity() );
-            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
-                                 cur->getFieldDensity() );
-            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
-                                 cur->getFieldDensity() );
-            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
-                                 cur->getFieldDensity() );
-            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
-                                 cur->getFieldDensity() );
-            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
-                                 cur->getFieldDensity() );
-            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
-                                 cur->getFieldDensity() );
-            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
-                                 cur->getFieldDensity() );
+            // Player is immune to bees while underwater.
+            if( !g->u.is_underwater() ) {
+                int times_stung = 0;
+                int density = cur->getFieldDensity();
+                // If the bees can get at you, they cause steadily increasing pain.
+                // TODO: Specific stinging messages.
+                times_stung += one_in(4) &&
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                times_stung += one_in(4) &&
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                times_stung += one_in(4) &&
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                times_stung += one_in(4) &&
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                times_stung += one_in(4) &&
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                times_stung += one_in(4) &&
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                times_stung += one_in(4) &&
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                times_stung += one_in(4) &&
+                    g->u.add_env_effect( "stung", bp_torso, density, 90, density );
+                switch( times_stung ) {
+                case 0:
+                    // Woo, unscathed!
+                    break;
+                case 1:
+                    add_msg( m_bad, _("The bees sting you!") );
+                    break;
+                case 2:
+                case 3:
+                    add_msg( m_bad, _("The bees sting you several times!") );
+                    break;
+                case 4:
+                case 5:
+                    add_msg( m_bad, _("The bees sting you many times!") );
+                    break;
+                case 6:
+                case 7:
+                case 8:
+                default:
+                    add_msg( m_bad, _("The bees sting you all over your body!") );
+                    break;
+                }
+            }
         }
         ++field_list_it;
     }
