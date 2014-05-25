@@ -658,7 +658,7 @@ std::vector<point> get_bashing_zone( point bashee, point basher, int maxdepth ) 
 int monster::bash_at(int x, int y) {
     //Hallucinations can't bash stuff.
     if(is_hallucination()) {
-      return 0;
+        return 0;
     }
     bool try_bash = !can_move_to(x, y) || one_in(3);
     bool can_bash = g->m.has_flag("BASHABLE", x, y) && has_flag(MF_BASHES);
@@ -673,19 +673,20 @@ int monster::bash_at(int x, int y) {
         int diffy = pos().y - y;
         int mo_bash = 0;
         for( size_t i = 0; i < bzone.size(); ++i ) {
-           if ( g->mon_at( bzone[i] ) != -1 ) {
-              monster & helpermon = g->zombie( g->mon_at( bzone[i] ) );
-              // trying for the same door and can bash; put on helper hat
-              if ( helpermon.wandx == wandx && helpermon.wandy == wandy && helpermon.has_flag(MF_BASHES) ) {
-                 // helpers lined up behind primary basher add full strength, so do those at either shoulder, others add 50%
-                 //addbash *= ( bzone[i].x == pos().x || bzone[i].y == pos().y ? 2 : 1 );
-                 int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides);
-                 // helpers lined up behind primary basher add full strength, others 50%
-                 addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) || ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
-                 mo_bash += addbash;
-                 // add_msg("+ bashhelp: %d,%d : +%d = %d", bzone[i].x, bzone[i].y, addbash/2, mo_bash/2 );
-              }
-           }
+            if ( g->mon_at( bzone[i] ) != -1 ) {
+                monster & helpermon = g->zombie( g->mon_at( bzone[i] ) );
+                // trying for the same door and can bash; put on helper hat
+                if ( helpermon.wandx == wandx && helpermon.wandy == wandy &&
+                     helpermon.has_flag(MF_BASHES) ) {
+                    // helpers lined up behind primary basher add full strength,
+                    // so do those at either shoulder, others add 50%
+                    int addbash = int(helpermon.type->melee_dice * helpermon.type->melee_sides);
+                    // helpers lined up behind primary basher add full strength, others 50%
+                    addbash *= ( ( diffx == 0 && bzone[i].x == pos().x ) ||
+                                 ( diffy == 0 && bzone[i].y == pos().y ) ) ? 2 : 1;
+                    mo_bash += addbash;
+                }
+            }
         }
         // by our powers combined...
         bashskill += int (mo_bash / 2);
@@ -695,7 +696,8 @@ int monster::bash_at(int x, int y) {
         moves -= 100;
         return 1;
     } else if (g->m.move_cost(x, y) == 0 && has_flag(MF_DESTROYS)) {
-        g->m.destroy(x, y, true); //todo: add bash info without BASHABLE flag to walls etc, balanced to these guys
+        g->m.destroy(x, y, true);
+        //todo: add bash info without BASHABLE flag to walls etc, balanced to these guys
         moves -= 250;
         return 1;
     }

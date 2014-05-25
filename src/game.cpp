@@ -7058,86 +7058,91 @@ void game::kill_mon(monster& critter, bool u_did_it) {
 
 void game::explode_mon(int index)
 {
- if (index < 0 || index >= num_zombies()) {
-  dbg(D_ERROR) << "game:explode_mon: Tried to explode monster " << index
-               << "! (" << num_zombies() << " in play)";
-  debugmsg("Tried to explode monster %d! (%d in play)", index, num_zombies());
-  return;
- }
- monster &critter = critter_tracker.find(index);
- if(critter.is_hallucination()) {
-   //Can't gib hallucinations
-   return;
- }
- if (!critter.dead) {
-  critter.dead = true;
-  kills[critter.type->id]++; // Increment our kill counter
-// Send body parts and blood all over!
-  mtype* corpse = critter.type;
-  if (corpse->mat == "flesh" || corpse->mat == "veggy" || corpse->mat == "iflesh") { // No chunks otherwise
-   int num_chunks = 0;
-   switch (corpse->size) {
-    case MS_TINY:   num_chunks =  1; break;
-    case MS_SMALL:  num_chunks =  2; break;
-    case MS_MEDIUM: num_chunks =  4; break;
-    case MS_LARGE:  num_chunks =  8; break;
-    case MS_HUGE:   num_chunks = 16; break;
-   }
-   itype_id meat;
-   if (corpse->has_flag(MF_POISON)) {
-    if (corpse->mat == "flesh")
-     meat = "meat_tainted";
-    else
-     meat = "veggy_tainted";
-   } else {
-    if (corpse->mat == "flesh" || corpse->mat == "iflesh")
-     meat = "meat";
-    else if (corpse->mat == "bone")
-     meat = "bone";
-    else
-     meat = "veggy";
-   }
-
-   int posx = critter.posx(), posy = critter.posy();
-   for (int i = 0; i < num_chunks; i++) {
-    int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
-    std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
-
-    bool done = false;
-    field_id type_blood = critter.bloodType();
-    for (int j = 0; j < traj.size() && !done; j++) {
-     tarx = traj[j].x;
-     tary = traj[j].y;
-     if (type_blood != fd_null)
-        m.add_field(tarx, tary, type_blood, 1);
-     m.add_field(tarx+rng(-1, 1), tary+rng(-1, 1), critter.gibType(), rng(1, j+1));
-
-     if (m.move_cost(tarx, tary) == 0) {
-      std::string tmp = "";
-      if (m.bash(tarx, tary, 3, tmp))
-       sound(tarx, tary, 18, tmp);
-      else {
-       if (j > 0) {
-        tarx = traj[j - 1].x;
-        tary = traj[j - 1].y;
-       }
-       done = true;
-      }
-     }
+    if (index < 0 || index >= num_zombies()) {
+        dbg(D_ERROR) << "game:explode_mon: Tried to explode monster " << index
+                     << "! (" << num_zombies() << " in play)";
+        debugmsg("Tried to explode monster %d! (%d in play)", index, num_zombies());
+        return;
     }
-    m.spawn_item(tarx, tary, meat, 1, 0, calendar::turn);
-   }
-  }
- }
+    monster &critter = critter_tracker.find(index);
+    if(critter.is_hallucination()) {
+        //Can't gib hallucinations
+        return;
+    }
+    if (!critter.dead) {
+        critter.dead = true;
+        kills[critter.type->id]++; // Increment our kill counter
+        // Send body parts and blood all over!
+        mtype* corpse = critter.type;
+        if (corpse->mat == "flesh" || corpse->mat == "veggy" || corpse->mat == "iflesh") {
+            // Only create chunks if we know what kind to make.
+            int num_chunks = 0;
+            switch (corpse->size) {
+            case MS_TINY:   num_chunks =  1; break;
+            case MS_SMALL:  num_chunks =  2; break;
+            case MS_MEDIUM: num_chunks =  4; break;
+            case MS_LARGE:  num_chunks =  8; break;
+            case MS_HUGE:   num_chunks = 16; break;
+            }
+            itype_id meat;
+            if (corpse->has_flag(MF_POISON)) {
+                if (corpse->mat == "flesh") {
+                    meat = "meat_tainted";
+                } else {
+                    meat = "veggy_tainted";
+                }
+            } else {
+                if (corpse->mat == "flesh" || corpse->mat == "iflesh") {
+                    meat = "meat";
+                } else if (corpse->mat == "bone") {
+                    meat = "bone";
+                } else {
+                    meat = "veggy";
+                }
+            }
 
- // there WAS an erasure of the monster here, but it caused issues with loops
- // we should structure things so that critter.erase is only called in specified cleanup
- // functions
+            int posx = critter.posx(), posy = critter.posy();
+            for (int i = 0; i < num_chunks; i++) {
+                int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
+                std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
 
- if (last_target == index)
-  last_target = -1;
- else if (last_target > index)
-   last_target--;
+                bool done = false;
+                field_id type_blood = critter.bloodType();
+                for (int j = 0; j < traj.size() && !done; j++) {
+                    tarx = traj[j].x;
+                    tary = traj[j].y;
+                    if (type_blood != fd_null) {
+                        m.add_field(tarx, tary, type_blood, 1);
+                    }
+                    m.add_field(tarx+rng(-1, 1), tary+rng(-1, 1), critter.gibType(), rng(1, j+1));
+
+                    if (m.move_cost(tarx, tary) == 0) {
+                        std::string tmp = "";
+                        if (m.bash(tarx, tary, 3, tmp)) {
+                            sound(tarx, tary, 18, tmp);
+                        } else {
+                            if (j > 0) {
+                                tarx = traj[j - 1].x;
+                                tary = traj[j - 1].y;
+                            }
+                            done = true;
+                        }
+                    }
+                }
+                m.spawn_item(tarx, tary, meat, 1, 0, calendar::turn);
+            }
+        }
+    }
+
+    // there WAS an erasure of the monster here, but it caused issues with loops
+    // we should structure things so that critter.erase is only called in specified cleanup
+    // functions
+
+    if (last_target == index) {
+        last_target = -1;
+    } else if (last_target > index) {
+        last_target--;
+    }
 }
 
 bool game::revive_corpse(int x, int y, int n)
@@ -11990,30 +11995,30 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
     int dam1, dam2;
 
     bool is_player;
-    if (p)
+    if (p) {
         is_player = true;
-    else
-    if (zz)
-        is_player = false;
-    else
-    {
-     dbg(D_ERROR) << "game:fling_player_or_monster: "
-                     "neither player nor monster";
-     debugmsg ("game::fling neither player nor monster");
-     return;
+    } else {
+        if (zz) {
+            is_player = false;
+        } else {
+            dbg(D_ERROR) << "game:fling_player_or_monster: "
+                "neither player nor monster";
+            debugmsg ("game::fling neither player nor monster");
+            return;
+        }
     }
 
     tileray tdir(dir);
-    std::string sname, snd;
-    if (is_player)
-    {
-        if (is_u)
+    std::string sname;
+    if (is_player) {
+        if (is_u) {
             sname = std::string (_("You are"));
-        else
+        } else {
             sname = p->name + _(" is");
-    }
-    else
+        }
+    } else {
         sname = zz->name() + _(" is");
+    }
     int range = flvel / 10;
     int x = (is_player? p->posx : zz->posx());
     int y = (is_player? p->posy : zz->posy());
@@ -12027,22 +12032,24 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
         bool slam = false;
         int mondex = mon_at(x, y);
         dam1 = flvel / 3 + rng (0, flvel * 1 / 3);
-        if (controlled)
+        if (controlled) {
             dam1 = std::max(dam1 / 2 - 5, 0);
-        if (mondex >= 0)
-        {
+        }
+        if (mondex >= 0) {
             monster &critter = zombie(mondex);
             slam = true;
             dname = critter.name();
             dam2 = flvel / 3 + rng (0, flvel * 1 / 3);
-            if (critter.hurt(dam2))
-             kill_mon(mondex, false);
-            else
-             thru = false;
-            if (is_player)
-             p->hitall (dam1, 40);
-            else
+            if (critter.hurt(dam2)) {
+                kill_mon(mondex, false);
+            } else {
+                thru = false;
+            }
+            if (is_player) {
+                p->hitall (dam1, 40);
+            } else {
                 zz->hurt(dam1);
+            }
         } else if (m.move_cost(x, y) == 0) {
             slam = true;
             int vpart;
@@ -12057,26 +12064,24 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
                 add_msg (m_warning, _("You hear a %s"), snd.c_str());
             if (is_player)
                 p->hitall (dam1, 40);
-            else
+            } else {
                 zz->hurt (dam1);
+            }
             flvel = flvel / 2;
         }
-        if (slam && dam1)
-            add_msg (_("%s slammed against the %s for %d damage!"), sname.c_str(), dname.c_str(), dam1);
-        if (thru)
-        {
-            if (is_player)
-            {
+        if (slam && dam1) {
+            add_msg( _("%s slammed against the %s!"), sname.c_str(), dname.c_str() );
+        }
+        if (thru) {
+            if (is_player) {
                 p->posx = x;
                 p->posy = y;
-            }
-            else
-            {
+            } else {
                 zz->setpos(x, y);
             }
-        }
-        else
+        } else {
             break;
+        }
         range--;
         steps++;
     }
@@ -12085,8 +12090,9 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
     {
         // fall on ground
         dam1 = rng (flvel / 3, flvel * 2 / 3) / 2;
-        if (controlled)
+        if (controlled) {
             dam1 = std::max(dam1 / 2 - 5, 0);
+        }
         if (is_player)
         {
             int dex_reduce = p->dex_cur < 4? 4 : p->dex_cur;

@@ -1584,8 +1584,8 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
     } else {
         furn_id furnid = furn(x, y);
         if ( furnid == old_f_skin_wall || furnid == f_skin_door || furnid == f_skin_door_o ||
-              furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
-              furnid == f_canvas_door_o || furnid == f_groundsheet ) {
+             furnid == f_skin_groundsheet || furnid == f_canvas_wall || furnid == f_canvas_door ||
+             furnid == f_canvas_door_o || furnid == f_groundsheet ) {
             result = rng(0, 6);
             if (res) {
                 *res = result;
