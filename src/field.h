@@ -73,6 +73,7 @@ enum field_id {
  fd_weedsmoke,
  fd_cracksmoke,
  fd_methsmoke,
+ fd_bees,
  num_fields
 };
 

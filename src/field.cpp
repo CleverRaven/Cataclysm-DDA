@@ -213,6 +213,11 @@ void game::init_fields()
             {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '%', 8,
             {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  275,
             {0,0,0}
+        },
+        {
+            {_("some bees"), _("swarm of bees"), _("angry swarm of bees")}, '8', 8,
+            {c_white, c_ltgray, c_dkgray}, {true, true, true},{true, true, true},  1000,
+            {0,0,0}
         }
     };
     for(int i = 0; i < num_fields; i++) {
@@ -1078,6 +1083,51 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         break;
 
+                    case fd_bees:
+                        // Poor bees are vulnerable to so many other fields.
+                        // TODO: maybe adjust effects based on different fields.
+                        if( curfield.findField( fd_web ) ||
+                            curfield.findField( fd_fire ) ||
+                            curfield.findField( fd_smoke ) ||
+                            curfield.findField( fd_toxic_gas ) ||
+                            curfield.findField( fd_tear_gas ) ||
+                            curfield.findField( fd_nuke_gas ) ||
+                            curfield.findField( fd_gas_vent ) ||
+                            curfield.findField( fd_fire_vent ) ||
+                            curfield.findField( fd_flame_burst ) ||
+                            curfield.findField( fd_electricity ) ||
+                            curfield.findField( fd_fatigue ) ||
+                            curfield.findField( fd_shock_vent ) ||
+                            curfield.findField( fd_plasma ) ||
+                            curfield.findField( fd_laser ) ||
+                            curfield.findField( fd_electricity ) ) {
+                            // Kill them at the end of processing.
+                            cur->setFieldDensity( 0 );
+                        } else {
+                            // Bees chase the player if in range, wander randomly otherwise.
+                            if( rl_dist( x, y, g->u.xpos(), g->u.ypos() ) < 10 ) {
+                                std::vector<point> candidate_positions =
+                                    squares_in_direction( x, y, g->u.xpos(), g->u.ypos() );
+                                for( auto new_position = candidate_positions.begin();
+                                     new_position != candidate_positions.end(); ++new_position ) {
+                                    field &target_field = field_at( new_position->x,
+                                                                    new_position->y );
+                                    // Only shift if there are no bees already there.
+                                    // TODO: Figure out a way to merge bee fields without allowing
+                                    // Them to effectively move several times in a turn depending
+                                    // on iteration direction.
+                                    if( !target_field.findField( fd_bees ) ) {
+                                        add_field( *new_position, fd_bees,
+                                                   cur->getFieldDensity(), cur->getFieldAge() );
+                                        cur->setFieldDensity( 0 );
+                                        break;
+                                    }
+                                }
+                            } else {
+                                spread_gas( this, cur, x, y, curtype, 5, 0 );
+                            }
+                        }
+                        break;
                 } // switch (curtype)
 
                 cur->setFieldAge(cur->getFieldAge() + 1);
@@ -1369,6 +1419,26 @@ void map::step_in_field(int x, int y)
             //Stepping on an acid vent shuts it down.
             field_list_it = curfield.removeField( fd_acid_vent );
             continue;
+
+        case fd_bees:
+            // If the bees can get at you, they cause steadily increasing pain.
+            // TODO: Specific stinging messages.
+            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
+                                 cur->getFieldDensity() );
+            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
+                                 cur->getFieldDensity() );
+            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
+                                 cur->getFieldDensity() );
+            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
+                                 cur->getFieldDensity() );
+            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
+                                 cur->getFieldDensity() );
+            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
+                                 cur->getFieldDensity() );
+            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
+                                 cur->getFieldDensity() );
+            g->u.add_env_effect( "stung", bp_torso, cur->getFieldDensity(), 90,
+                                 cur->getFieldDensity() );
         }
         ++field_list_it;
     }
