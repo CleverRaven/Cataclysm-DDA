@@ -3138,7 +3138,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
             int absorb = -1;
-            g->m.bash(x, y, obj_dmg, snd, &absorb);
+            g->m.bash(x, y, obj_dmg, false, &absorb);
             smashed = obj_dmg > absorb;
         } else if (collision_type >= veh_coll_thin_obstacle) {
             // some other terrain

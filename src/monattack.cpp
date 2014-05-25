@@ -1159,9 +1159,7 @@ void mattack::vortex(monster *z)
             if (x == z->posx() && y == z->posy()) { // Don't throw us!
                 y++;
             }
-            std::string sound;
-            g->m.bash(x, y, 14, sound);
-            g->sound(x, y, 8, sound);
+            g->m.bash( x, y, 14 );
         }
     }
     std::set<std::string> no_effects;

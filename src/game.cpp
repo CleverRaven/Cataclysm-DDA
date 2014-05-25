@@ -6190,7 +6190,6 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
 
 void game::do_blast( const int x, const int y, const int power, const int radius, const bool fire )
 {
-    std::string junk;
     int dam;
     for (int i = x - radius; i <= x + radius; i++) {
         for (int j = y - radius; j <= y + radius; j++) {
@@ -6199,8 +6198,8 @@ void game::do_blast( const int x, const int y, const int power, const int radius
             } else {
                 dam = 3 * power / (rl_dist(x, y, i, j));
             }
-            m.bash(i, j, dam, junk);
-            m.bash(i, j, dam, junk); // Double up for tough doors, etc.
+            m.bash( i, j, dam );
+            m.bash( i, j, dam ); // Double up for tough doors, etc.
             if (m.is_destructable(i, j) && rng(25, 100) < dam) {
                 m.destroy(i, j, false);
             }
@@ -6432,8 +6431,6 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         debugmsg(_("Nothing at (%d,%d) to knockback!"), tx, ty);
         return;
     }
-    //add_msg(m_info, "line from %d,%d to %d,%d",traj.front().x,traj.front().y,traj.back().x,traj.back().y);
-    std::string junk;
     int force_remaining = 0;
     if (zid != -1)
     {
@@ -6466,8 +6463,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str() );
                     targ->hurt( dam_mult * force_remaining );
                 }
-                m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining, junk);
-                sound(traj[i].x, traj[i].y, (dam_mult * force_remaining * force_remaining) / 2, junk);
+                m.bash( traj[i].x, traj[i].y, 2 * dam_mult * force_remaining );
                 break;
             } else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
                        (u.posx == traj[i].x && u.posy == traj[i].y)) {
@@ -6567,8 +6563,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     if (one_in(2)) targ->hit(NULL, bp_head, -1, force_remaining*dam_mult, 0);
                     if (one_in(2)) targ->hit(NULL, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
-                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
-                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                m.bash( traj[i].x, traj[i].y, 2*dam_mult*force_remaining );
                 break;
             }
             else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
@@ -6664,8 +6659,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     if (one_in(2)) u.hit(NULL, bp_head, -1, force_remaining*dam_mult, 0);
                     if (one_in(2)) u.hit(NULL, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
-                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
-                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                m.bash( traj[i].x, traj[i].y, 2*dam_mult*force_remaining );
                 break;
             }
             else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1)
@@ -7058,86 +7052,88 @@ void game::kill_mon(monster& critter, bool u_did_it) {
 
 void game::explode_mon(int index)
 {
- if (index < 0 || index >= num_zombies()) {
-  dbg(D_ERROR) << "game:explode_mon: Tried to explode monster " << index
-               << "! (" << num_zombies() << " in play)";
-  debugmsg("Tried to explode monster %d! (%d in play)", index, num_zombies());
-  return;
- }
- monster &critter = critter_tracker.find(index);
- if(critter.is_hallucination()) {
-   //Can't gib hallucinations
-   return;
- }
- if (!critter.dead) {
-  critter.dead = true;
-  kills[critter.type->id]++; // Increment our kill counter
-// Send body parts and blood all over!
-  mtype* corpse = critter.type;
-  if (corpse->mat == "flesh" || corpse->mat == "veggy" || corpse->mat == "iflesh") { // No chunks otherwise
-   int num_chunks = 0;
-   switch (corpse->size) {
-    case MS_TINY:   num_chunks =  1; break;
-    case MS_SMALL:  num_chunks =  2; break;
-    case MS_MEDIUM: num_chunks =  4; break;
-    case MS_LARGE:  num_chunks =  8; break;
-    case MS_HUGE:   num_chunks = 16; break;
-   }
-   itype_id meat;
-   if (corpse->has_flag(MF_POISON)) {
-    if (corpse->mat == "flesh")
-     meat = "meat_tainted";
-    else
-     meat = "veggy_tainted";
-   } else {
-    if (corpse->mat == "flesh" || corpse->mat == "iflesh")
-     meat = "meat";
-    else if (corpse->mat == "bone")
-     meat = "bone";
-    else
-     meat = "veggy";
-   }
-
-   int posx = critter.posx(), posy = critter.posy();
-   for (int i = 0; i < num_chunks; i++) {
-    int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
-    std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
-
-    bool done = false;
-    field_id type_blood = critter.bloodType();
-    for (int j = 0; j < traj.size() && !done; j++) {
-     tarx = traj[j].x;
-     tary = traj[j].y;
-     if (type_blood != fd_null)
-        m.add_field(tarx, tary, type_blood, 1);
-     m.add_field(tarx+rng(-1, 1), tary+rng(-1, 1), critter.gibType(), rng(1, j+1));
-
-     if (m.move_cost(tarx, tary) == 0) {
-      std::string tmp = "";
-      if (m.bash(tarx, tary, 3, tmp))
-       sound(tarx, tary, 18, tmp);
-      else {
-       if (j > 0) {
-        tarx = traj[j - 1].x;
-        tary = traj[j - 1].y;
-       }
-       done = true;
-      }
-     }
+    if (index < 0 || index >= num_zombies()) {
+        dbg(D_ERROR) << "game:explode_mon: Tried to explode monster " << index
+                     << "! (" << num_zombies() << " in play)";
+        debugmsg("Tried to explode monster %d! (%d in play)", index, num_zombies());
+        return;
     }
-    m.spawn_item(tarx, tary, meat, 1, 0, calendar::turn);
-   }
-  }
- }
+    monster &critter = critter_tracker.find(index);
+    if(critter.is_hallucination()) {
+        //Can't gib hallucinations
+        return;
+    }
+    if (!critter.dead) {
+        critter.dead = true;
+        kills[critter.type->id]++; // Increment our kill counter
+        // Send body parts and blood all over!
+        mtype* corpse = critter.type;
+        if (corpse->mat == "flesh" || corpse->mat == "veggy" || corpse->mat == "iflesh") {
+            // Only create chunks if we know what kind to make.
+            int num_chunks = 0;
+            switch (corpse->size) {
+            case MS_TINY:   num_chunks =  1; break;
+            case MS_SMALL:  num_chunks =  2; break;
+            case MS_MEDIUM: num_chunks =  4; break;
+            case MS_LARGE:  num_chunks =  8; break;
+            case MS_HUGE:   num_chunks = 16; break;
+            }
+            itype_id meat;
+            if (corpse->has_flag(MF_POISON)) {
+                if (corpse->mat == "flesh") {
+                    meat = "meat_tainted";
+                } else {
+                    meat = "veggy_tainted";
+                }
+            } else {
+                if (corpse->mat == "flesh" || corpse->mat == "iflesh") {
+                    meat = "meat";
+                } else if (corpse->mat == "bone") {
+                    meat = "bone";
+                } else {
+                    meat = "veggy";
+                }
+            }
 
- // there WAS an erasure of the monster here, but it caused issues with loops
- // we should structure things so that critter.erase is only called in specified cleanup
- // functions
+            int posx = critter.posx(), posy = critter.posy();
+            for (int i = 0; i < num_chunks; i++) {
+                int tarx = posx + rng(-3, 3), tary = posy + rng(-3, 3);
+                std::vector<point> traj = line_to(posx, posy, tarx, tary, 0);
 
- if (last_target == index)
-  last_target = -1;
- else if (last_target > index)
-   last_target--;
+                bool done = false;
+                field_id type_blood = critter.bloodType();
+                for (int j = 0; j < traj.size() && !done; j++) {
+                    tarx = traj[j].x;
+                    tary = traj[j].y;
+                    if (type_blood != fd_null) {
+                        m.add_field(tarx, tary, type_blood, 1);
+                    }
+                    m.add_field(tarx+rng(-1, 1), tary+rng(-1, 1), critter.gibType(), rng(1, j+1));
+
+                    if (m.move_cost(tarx, tary) == 0) {
+                        if( !m.bash( tarx, tary, 3 ) ) {
+                            if (j > 0) {
+                                tarx = traj[j - 1].x;
+                                tary = traj[j - 1].y;
+                            }
+                            done = true;
+                        }
+                    }
+                }
+                m.spawn_item(tarx, tary, meat, 1, 0, calendar::turn);
+            }
+        }
+    }
+
+    // there WAS an erasure of the monster here, but it caused issues with loops
+    // we should structure things so that critter.erase is only called in specified cleanup
+    // functions
+
+    if (last_target == index) {
+        last_target = -1;
+    } else if (last_target > index) {
+        last_target--;
+    }
 }
 
 bool game::revive_corpse(int x, int y, int n)
@@ -7354,61 +7350,46 @@ void game::smash()
 {
     const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
     bool didit = false;
-    std::string bashsound, extra;
     int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
     int smashx, smashy;
 
-    if (!choose_adjacent(_("Smash where?"), smashx, smashy))
+    if (!choose_adjacent(_("Smash where?"), smashx, smashy)) {
         return;
+    }
 
     static const int full_pulp_threshold = 4;
-    for (int i = 0; i < m.i_at(smashx, smashy).size(); ++i)
-    {
-        item *it = &m.i_at(smashx, smashy)[i];
-        if (it->type->id == "corpse" && it->damage < full_pulp_threshold)
-        {
+    for( auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it ) {
+        if (it->type->id == "corpse" && it->damage < full_pulp_threshold) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity(ACT_PULP, INT_MAX, 0);
             u.activity.placement = point(smashx, smashy);
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-    didit = m.bash(smashx, smashy, smashskill, bashsound);
+    didit = m.bash( smashx, smashy, smashskill );
 
-    if (didit)
-    {
-        if (extra != "")
-        {
-            add_msg(extra.c_str());
-        }
-        sound(smashx, smashy, 18, bashsound);
+    if (didit) {
         u.handle_melee_wear();
-       u.moves -= move_cost;
-        if (u.skillLevel("melee") == 0)
-        {
+        u.moves -= move_cost;
+        if (u.skillLevel("melee") == 0) {
             u.practice(calendar::turn, "melee", rng(0, 1) * rng(0, 1));
         }
         if (u.weapon.made_of("glass") &&
-            rng(0, u.weapon.volume() + 3) < u.weapon.volume())
-        {
+            rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
-            for (int i = 0; i < u.weapon.contents.size(); i++)
-            {
+            for (int i = 0; i < u.weapon.contents.size(); i++) {
                 m.add_item_or_charges(u.posx, u.posy, u.weapon.contents[i]);
             }
             sound(u.posx, u.posy, 24, "");
             u.hit(NULL, bp_hands, 1, 0, rng(0, u.weapon.volume()));
-            if (u.weapon.volume() > 20)
-            {
+            if (u.weapon.volume() > 20) {
                 // Hurt left arm too, if it was big
                 u.hit(NULL, bp_hands, 0, 0, rng(0, long(u.weapon.volume() * .5)));
             }
             u.remove_weapon();
         }
-    }
-    else
-    {
-        add_msg(_("There's nothing there!"));
+    } else {
+        add_msg(_("There's nothing there to smash!"));
     }
 }
 
@@ -12000,30 +11981,30 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
     int dam1, dam2;
 
     bool is_player;
-    if (p)
+    if (p) {
         is_player = true;
-    else
-    if (zz)
-        is_player = false;
-    else
-    {
-     dbg(D_ERROR) << "game:fling_player_or_monster: "
-                     "neither player nor monster";
-     debugmsg ("game::fling neither player nor monster");
-     return;
+    } else {
+        if (zz) {
+            is_player = false;
+        } else {
+            dbg(D_ERROR) << "game:fling_player_or_monster: "
+                "neither player nor monster";
+            debugmsg ("game::fling neither player nor monster");
+            return;
+        }
     }
 
     tileray tdir(dir);
-    std::string sname, snd;
-    if (is_player)
-    {
-        if (is_u)
+    std::string sname;
+    if (is_player) {
+        if (is_u) {
             sname = std::string (_("You are"));
-        else
+        } else {
             sname = p->name + _(" is");
-    }
-    else
+        }
+    } else {
         sname = zz->name() + _(" is");
+    }
     int range = flvel / 10;
     int x = (is_player? p->posx : zz->posx());
     int y = (is_player? p->posy : zz->posy());
@@ -12037,56 +12018,54 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
         bool slam = false;
         int mondex = mon_at(x, y);
         dam1 = flvel / 3 + rng (0, flvel * 1 / 3);
-        if (controlled)
+        if (controlled) {
             dam1 = std::max(dam1 / 2 - 5, 0);
-        if (mondex >= 0)
-        {
+        }
+        if (mondex >= 0) {
             monster &critter = zombie(mondex);
             slam = true;
             dname = critter.name();
             dam2 = flvel / 3 + rng (0, flvel * 1 / 3);
-            if (critter.hurt(dam2))
-             kill_mon(mondex, false);
-            else
-             thru = false;
-            if (is_player)
-             p->hitall (dam1, 40);
-            else
+            if (critter.hurt(dam2)) {
+                kill_mon(mondex, false);
+            } else {
+                thru = false;
+            }
+            if (is_player) {
+                p->hitall (dam1, 40);
+            } else {
                 zz->hurt(dam1);
+            }
         } else if (m.move_cost(x, y) == 0) {
             slam = true;
             int vpart;
             vehicle *veh = m.veh_at(x, y, vpart);
             dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
             if (m.has_flag("BASHABLE", x, y)) {
-                thru = m.bash(x, y, flvel, snd);
+                thru = m.bash( x, y, flvel );
             } else {
                 thru = false;
             }
-            if (snd.length() > 0)
-                add_msg (m_warning, _("You hear a %s"), snd.c_str());
-            if (is_player)
+            if (is_player) {
                 p->hitall (dam1, 40);
-            else
+            } else {
                 zz->hurt (dam1);
+            }
             flvel = flvel / 2;
         }
-        if (slam && dam1)
-            add_msg (_("%s slammed against the %s for %d damage!"), sname.c_str(), dname.c_str(), dam1);
-        if (thru)
-        {
-            if (is_player)
-            {
+        if (slam && dam1) {
+            add_msg( _("%s slammed against the %s!"), sname.c_str(), dname.c_str() );
+        }
+        if (thru) {
+            if (is_player) {
                 p->posx = x;
                 p->posy = y;
-            }
-            else
-            {
+            } else {
                 zz->setpos(x, y);
             }
-        }
-        else
+        } else {
             break;
+        }
         range--;
         steps++;
     }
@@ -12095,8 +12074,9 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
     {
         // fall on ground
         dam1 = rng (flvel / 3, flvel * 2 / 3) / 2;
-        if (controlled)
+        if (controlled) {
             dam1 = std::max(dam1 / 2 - 5, 0);
+        }
         if (is_player)
         {
             int dex_reduce = p->dex_cur < 4? 4 : p->dex_cur;
