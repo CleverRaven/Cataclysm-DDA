@@ -7358,15 +7358,14 @@ void game::smash()
     int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
     int smashx, smashy;
 
-    if (!choose_adjacent(_("Smash where?"), smashx, smashy))
+    if (!choose_adjacent(_("Smash where?"), smashx, smashy)) {
         return;
+    }
 
     static const int full_pulp_threshold = 4;
-    for (int i = 0; i < m.i_at(smashx, smashy).size(); ++i)
-    {
+    for (int i = 0; i < m.i_at(smashx, smashy).size(); ++i) {
         item *it = &m.i_at(smashx, smashy)[i];
-        if (it->type->id == "corpse" && it->damage < full_pulp_threshold)
-        {
+        if (it->type->id == "corpse" && it->damage < full_pulp_threshold) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity(ACT_PULP, INT_MAX, 0);
             u.activity.placement = point(smashx, smashy);
@@ -7375,39 +7374,31 @@ void game::smash()
     }
     didit = m.bash(smashx, smashy, smashskill, bashsound);
 
-    if (didit)
-    {
-        if (extra != "")
-        {
+    if (didit) {
+        if (extra != "") {
             add_msg(extra.c_str());
         }
         sound(smashx, smashy, 18, bashsound);
         u.handle_melee_wear();
-       u.moves -= move_cost;
-        if (u.skillLevel("melee") == 0)
-        {
+        u.moves -= move_cost;
+        if (u.skillLevel("melee") == 0) {
             u.practice(calendar::turn, "melee", rng(0, 1) * rng(0, 1));
         }
         if (u.weapon.made_of("glass") &&
-            rng(0, u.weapon.volume() + 3) < u.weapon.volume())
-        {
+            rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
-            for (int i = 0; i < u.weapon.contents.size(); i++)
-            {
+            for (int i = 0; i < u.weapon.contents.size(); i++) {
                 m.add_item_or_charges(u.posx, u.posy, u.weapon.contents[i]);
             }
             sound(u.posx, u.posy, 24, "");
             u.hit(NULL, bp_hands, 1, 0, rng(0, u.weapon.volume()));
-            if (u.weapon.volume() > 20)
-            {
+            if (u.weapon.volume() > 20) {
                 // Hurt left arm too, if it was big
                 u.hit(NULL, bp_hands, 0, 0, rng(0, long(u.weapon.volume() * .5)));
             }
             u.remove_weapon();
         }
-    }
-    else
-    {
+    } else {
         add_msg(_("There's nothing there!"));
     }
 }
