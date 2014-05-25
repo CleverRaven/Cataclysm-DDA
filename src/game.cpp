@@ -7363,8 +7363,7 @@ void game::smash()
     }
 
     static const int full_pulp_threshold = 4;
-    for (int i = 0; i < m.i_at(smashx, smashy).size(); ++i) {
-        item *it = &m.i_at(smashx, smashy)[i];
+    for( auto it = m.i_at(smashx, smashy).begin(); it != m.i_at(smashx, smashy).end(); ++it ) {
         if (it->type->id == "corpse" && it->damage < full_pulp_threshold) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity(ACT_PULP, INT_MAX, 0);
