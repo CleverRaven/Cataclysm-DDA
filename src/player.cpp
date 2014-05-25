@@ -9988,7 +9988,6 @@ int player::get_env_resist(body_part bp)
             ret = 5;
         }
     }
-    return ret;
 
     if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
         ret += 2;
