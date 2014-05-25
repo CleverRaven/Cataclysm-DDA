@@ -5273,6 +5273,8 @@ void player::process_effects() {
             if (one_in(3)) {
                 handle_cough(*this, 4);
             }
+        } else if ( id == "stung" ) {
+            mod_pain(1);
         }
     }
 

@@ -448,6 +448,9 @@ void player::activate_bionic(int b)
         if (has_disease("dermatik")) {
             bad.push_back(_("Insect Parasite"));
         }
+        if (has_effect("stung")) {
+            bad.push_back(_("Stung"));
+        }
         if (has_effect("poison")) {
             bad.push_back(_("Poison"));
         }
@@ -536,6 +539,7 @@ void player::activate_bionic(int b)
         rem_disease("bloodworms");
         rem_disease("tetanus");
         remove_effect("poison");
+        remove_effect("stung");
         rem_disease("pkill1");
         rem_disease("pkill2");
         rem_disease("pkill3");
