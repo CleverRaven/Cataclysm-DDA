@@ -6190,7 +6190,6 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
 
 void game::do_blast( const int x, const int y, const int power, const int radius, const bool fire )
 {
-    std::string junk;
     int dam;
     for (int i = x - radius; i <= x + radius; i++) {
         for (int j = y - radius; j <= y + radius; j++) {
@@ -6199,8 +6198,8 @@ void game::do_blast( const int x, const int y, const int power, const int radius
             } else {
                 dam = 3 * power / (rl_dist(x, y, i, j));
             }
-            m.bash(i, j, dam, junk);
-            m.bash(i, j, dam, junk); // Double up for tough doors, etc.
+            m.bash( i, j, dam );
+            m.bash( i, j, dam ); // Double up for tough doors, etc.
             if (m.is_destructable(i, j) && rng(25, 100) < dam) {
                 m.destroy(i, j, false);
             }
@@ -6432,8 +6431,6 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         debugmsg(_("Nothing at (%d,%d) to knockback!"), tx, ty);
         return;
     }
-    //add_msg(m_info, "line from %d,%d to %d,%d",traj.front().x,traj.front().y,traj.back().x,traj.back().y);
-    std::string junk;
     int force_remaining = 0;
     if (zid != -1)
     {
@@ -6466,8 +6463,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str() );
                     targ->hurt( dam_mult * force_remaining );
                 }
-                m.bash(traj[i].x, traj[i].y, 2 * dam_mult * force_remaining, junk);
-                sound(traj[i].x, traj[i].y, (dam_mult * force_remaining * force_remaining) / 2, junk);
+                m.bash( traj[i].x, traj[i].y, 2 * dam_mult * force_remaining );
                 break;
             } else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
                        (u.posx == traj[i].x && u.posy == traj[i].y)) {
@@ -6567,8 +6563,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     if (one_in(2)) targ->hit(NULL, bp_head, -1, force_remaining*dam_mult, 0);
                     if (one_in(2)) targ->hit(NULL, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
-                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
-                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                m.bash( traj[i].x, traj[i].y, 2*dam_mult*force_remaining );
                 break;
             }
             else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
@@ -6664,8 +6659,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     if (one_in(2)) u.hit(NULL, bp_head, -1, force_remaining*dam_mult, 0);
                     if (one_in(2)) u.hit(NULL, bp_hands, 0, force_remaining*dam_mult, 0);
                 }
-                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
-                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                m.bash( traj[i].x, traj[i].y, 2*dam_mult*force_remaining );
                 break;
             }
             else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1)
@@ -7117,10 +7111,7 @@ void game::explode_mon(int index)
                     m.add_field(tarx+rng(-1, 1), tary+rng(-1, 1), critter.gibType(), rng(1, j+1));
 
                     if (m.move_cost(tarx, tary) == 0) {
-                        std::string tmp = "";
-                        if (m.bash(tarx, tary, 3, tmp)) {
-                            sound(tarx, tary, 18, tmp);
-                        } else {
+                        if( !m.bash( tarx, tary, 3 ) ) {
                             if (j > 0) {
                                 tarx = traj[j - 1].x;
                                 tary = traj[j - 1].y;
@@ -7359,7 +7350,6 @@ void game::smash()
 {
     const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
     bool didit = false;
-    std::string bashsound, extra;
     int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
     int smashx, smashy;
 
@@ -7376,13 +7366,9 @@ void game::smash()
             return; // don't smash terrain if we've smashed a corpse
         }
     }
-    didit = m.bash(smashx, smashy, smashskill, bashsound);
+    didit = m.bash( smashx, smashy, smashskill );
 
     if (didit) {
-        if (extra != "") {
-            add_msg(extra.c_str());
-        }
-        sound(smashx, smashy, 18, bashsound);
         u.handle_melee_wear();
         u.moves -= move_cost;
         if (u.skillLevel("melee") == 0) {
@@ -12056,13 +12042,11 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
             vehicle *veh = m.veh_at(x, y, vpart);
             dname = veh ? veh->part_info(vpart).name : m.tername(x, y).c_str();
             if (m.has_flag("BASHABLE", x, y)) {
-                thru = m.bash(x, y, flvel, snd);
+                thru = m.bash( x, y, flvel );
             } else {
                 thru = false;
             }
-            if (snd.length() > 0)
-                add_msg (m_warning, _("You hear a %s"), snd.c_str());
-            if (is_player)
+            if (is_player) {
                 p->hitall (dam1, 40);
             } else {
                 zz->hurt (dam1);

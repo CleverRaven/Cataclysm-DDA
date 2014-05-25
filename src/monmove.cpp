@@ -663,7 +663,6 @@ int monster::bash_at(int x, int y) {
     bool try_bash = !can_move_to(x, y) || one_in(3);
     bool can_bash = g->m.has_flag("BASHABLE", x, y) && has_flag(MF_BASHES);
     if(try_bash && can_bash) {
-        std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
         int bashskill = int(type->melee_dice * type->melee_sides);
 
         // pileup = more bashskill, but only help bashing mob directly infront of target
@@ -691,8 +690,7 @@ int monster::bash_at(int x, int y) {
         // by our powers combined...
         bashskill += int (mo_bash / 2);
 
-        g->m.bash(x, y, bashskill, bashsound);
-        g->sound(x, y, 18, bashsound);
+        g->m.bash( x, y, bashskill );
         moves -= 100;
         return 1;
     } else if (g->m.move_cost(x, y) == 0 && has_flag(MF_DESTROYS)) {
