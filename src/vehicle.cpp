@@ -1801,6 +1801,14 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
         return y1;
     }
     std::vector<int> pl = this->parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
+    struct sort_veh_part_vector {
+        vehicle *veh;
+        inline bool operator() (const int p1, const int p2) {
+            return veh->part_info(p1).list_order < veh->part_info(p2).list_order;
+        }
+    };
+    sort_veh_part_vector svpv = { this };
+    std::sort( pl.begin(), pl.end(), svpv );
     int y = y1;
     for (int i = 0; i < pl.size(); i++)
     {
