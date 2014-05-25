@@ -934,7 +934,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   \n\
   Director Grimes has released a new series of accusations that\n\
   will soon be investigated by a Congressional committee.  Below\n\
-  is the message that he sent myself.\n\
+  is the message that he sent me.\n\
   \n\
   --------------------------------------------------------------\n\
   Subj: Congressional Investigations\n\
