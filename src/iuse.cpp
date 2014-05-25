@@ -183,9 +183,10 @@ int iuse::royal_jelly(player *p, item *it, bool)
  }
  if (p->has_effect("poison") || p->has_disease("foodpoison") ||
      p->has_disease("badpoison") || p->has_disease("paralyzepoison") ||
-     p->has_disease("tetanus")) {
+     p->has_disease("tetanus") || p->has_effect("stung") ) {
   message = _("You feel much better!");
   p->remove_effect("poison");
+  p->remove_effect("stung");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
   p->rem_disease("paralyzepoison");
@@ -5030,7 +5031,7 @@ int iuse::granade_act(player *, item *it, bool t)
         add_msg(m_info, _("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
         return 0;
     } else {  // When that timer runs down...
-        int effect_roll = rng(1,4);
+        int effect_roll = rng(1,5);
         switch (effect_roll)
         {
             case 1:
@@ -5130,6 +5131,18 @@ int iuse::granade_act(player *, item *it, bool t)
                     }
                 }
                 break;
+            case 5:
+                g->sound(pos.x, pos.y, 100, _("BEES!!"));
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_yellow);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
+                        if( one_in(5) && -1 == g->mon_at(pos.x + i, pos.y + j) &&
+                            -1 == g->npc_at(pos.x + i, pos.y + j) ) {
+                            g->m.add_field( pos.x + i, pos.y + j, fd_bees, rng(1, 3) );
+                        }
+                    }
+                }
+            break;
         }
     }
     return it->type->charges_to_use();

@@ -416,8 +416,8 @@ void add_corpse(int x, int y);
  int set_field_age(const point p, const field_id t, const int age, bool isoffset = false);
  int set_field_strength(const point p, const field_id t, const int str, bool isoffset = false);
  field_entry * get_field( const point p, const field_id t );
- bool add_field(const point p, const field_id t, unsigned int density, const int age);
- bool add_field(const int x, const int y, const field_id t, const unsigned char density);
+ bool add_field(const point p, const field_id t, const int density, const int age);
+ bool add_field(const int x, const int y, const field_id t, const int density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(); // See fields.cpp
  bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
