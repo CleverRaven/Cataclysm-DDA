@@ -3566,7 +3566,7 @@ void overmap::place_special(overmap_special special, tripoint p, int rotation)
         overmap_special_spawns spawns = special.spawns;
         int pop = rng(spawns.min_population, spawns.max_population);
         int rad = rng(spawns.min_radius, spawns.max_radius);
-        zg.push_back(mongroup(spawns.group, p.x, p.y, p.z, rad, pop));
+        zg.push_back(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
 }
 
