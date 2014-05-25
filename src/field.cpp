@@ -1261,7 +1261,7 @@ void map::step_in_field(int x, int y)
             {
                 if (!inside) {
                     //Get smoke disease from standing in smoke.
-                    signed char density = cur->getFieldDensity();
+                    int density = cur->getFieldDensity();
                     int coughStr;
                     int coughDur;
                     if (density >= 3) {   // thick smoke
@@ -1707,7 +1707,7 @@ void map::field_effect(int x, int y) //Applies effect of field immediately
 }
 
 int field_entry::move_cost() const{
-  return fieldlist[type].move_cost[getFieldDensity()-1];
+  return fieldlist[type].move_cost[ getFieldDensity() - 1 ];
 }
 
 field_id field_entry::getFieldType() const{
@@ -1715,7 +1715,7 @@ field_id field_entry::getFieldType() const{
 }
 
 
-signed char field_entry::getFieldDensity() const{
+int field_entry::getFieldDensity() const{
     return density;
 }
 
@@ -1737,16 +1737,16 @@ field_id field_entry::setFieldType(const field_id new_field_id){
 
 }
 
-signed char field_entry::setFieldDensity(const signed char new_density){
+int field_entry::setFieldDensity(const int new_density){
 
-    if(new_density > 3)
+    if(new_density > 3) {
         density = 3;
-    else if (new_density < 1){
+    } else if (new_density < 1) {
         density = 1;
         is_alive = false;
-    }
-    else
+    } else {
         density = new_density;
+    }
 
     return density;
 
@@ -1809,7 +1809,7 @@ If the field already exists, it will return false BUT it will add the density/ag
 If you wish to modify an already existing field use findField and modify the result.
 Density defaults to 1, and age to 0 (permanent) if not specified.
 */
-bool field::addField(const field_id field_to_add, const unsigned char new_density, const int new_age){
+bool field::addField(const field_id field_to_add, const int new_density, const int new_age){
     std::map<field_id, field_entry*>::iterator it = field_list.find(field_to_add);
     if (fieldlist[field_to_add].priority >= fieldlist[draw_symbol].priority)
         draw_symbol = field_to_add;

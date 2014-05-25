@@ -3378,20 +3378,25 @@ field_entry * map::get_field( const point p, const field_id t ) {
 /*
  * add field type at point, or set density if present
  */
-bool map::add_field(const point p, const field_id t, unsigned int density, const int age)
+bool map::add_field(const point p, const field_id t, int density, const int age)
 {
-    if (!INBOUNDS(p.x, p.y))
+    if (!INBOUNDS(p.x, p.y)) {
         return false;
+    }
 
-    if (density > 3)
+    if (density > 3) {
         density = 3;
-    if (density <= 0)
+    }
+    if (density <= 0) {
         return false;
+    }
 
     int lx, ly;
     submap * const current_submap = get_submap_at(p.x, p.y, lx, ly);
 
-    if (!current_submap->fld[lx][ly].findField(t)) { //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
+    if (!current_submap->fld[lx][ly].findField(t)) {
+        // TODO: Update overall field_count appropriately.
+        // This is the spirit of "fd_null" that it used to be.
         current_submap->field_count++; //Only adding it to the count if it doesn't exist.
     }
     current_submap->fld[lx][ly].addField(t, density, age); //This will insert and/or update the field.
@@ -3404,10 +3409,9 @@ bool map::add_field(const point p, const field_id t, unsigned int density, const
 /*
  * add field type at xy, or set denity if present
  */
-bool map::add_field(const int x, const int y,
-                    const field_id t, const unsigned char new_density)
+bool map::add_field(const int x, const int y, const field_id t, const int new_density)
 {
- return this->add_field(point(x,y), t, new_density, 0);
+    return this->add_field(point(x,y), t, new_density, 0);
 }
 
 
