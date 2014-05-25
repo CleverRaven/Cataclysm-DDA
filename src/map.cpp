@@ -1478,11 +1478,8 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
     for (int i = 0; i < i_at(x, y).size(); i++) { // Destroy glass items (maybe)
         // the check for active supresses molotovs smashing themselves with their own explosion
         if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
-            if (sound == "") {
-                sound = string_format(_("A %s shatters!  "), i_at(x,y)[i].tname().c_str());
-            } else {
-                sound = _("Some items shatter!  ");
-            }
+            sound = _("glass shattering");
+            smashed_something = true;
             for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
                 i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
             }
