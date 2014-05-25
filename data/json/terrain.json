@@ -1173,7 +1173,7 @@
         "color": "yellow",
         "move_cost": 8,
         "flags": [
-            "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE"
+            "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE"
         ]
     },{
         "type" : "terrain",
