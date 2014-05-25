@@ -1468,6 +1468,7 @@ void map::mop_spills(const int x, const int y) {
 
 bool map::bash(const int x, const int y, const int str, bool silent, int *res)
 {
+    int sound_volume = 0;
     std::string sound;
     bool smashed_something = false;
     if (field_at(x, y).findField(fd_web)) {
@@ -1479,6 +1480,7 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
         // the check for active supresses molotovs smashing themselves with their own explosion
         if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
             sound = _("glass shattering");
+            sound_volume = 12;
             smashed_something = true;
             for (int j = 0; j < i_at(x, y)[i].contents.size(); j++) {
                 i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
@@ -1494,7 +1496,8 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
     vehicle *veh = veh_at(x, y, vpart);
     if (veh) {
         veh->damage (vpart, str, 1);
-        sound += _("crash!");
+        sound = _("crash!");
+        sound_volume = 18;
         smashed_something = true;
     } else {
         // Else smash furniture or terrain
@@ -1518,9 +1521,9 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
 
         if ( bash != NULL && bash->num_tests > 0 && bash->str_min != -1 ) {
             bool success = ( bash->chance == -1 || rng(0, 100) >= bash->chance );
+            int smin = bash->str_min;
+            int smax = bash->str_max;
             if ( success == true ) {
-                int smin = bash->str_min;
-                int smax = bash->str_max;
                 if ( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
                     if( has_adjacent_furniture(x, y) ) {
                         if ( bash->str_min_blocked != -1 ) {
@@ -1532,10 +1535,8 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                     }
                 }
                 if ( str >= smin ) {
-                    // roll min_str-max_str;
                     smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : smin );
                     // min_str is a qualifier, but roll 0-max; same delay as before
-                    //   smin = ( bash->str_min_roll != -1 ? bash->str_min_roll : 0 );
 
                     for( int i = 0; i < bash->num_tests; i++ ) {
                         result = rng(smin, smax);
@@ -1553,7 +1554,8 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                 }
             }
             if ( success == true ) {
-                sound += _(bash->sound.c_str());
+                sound_volume = smin * 1.5;
+                sound = _(bash->sound.c_str());
                 if ( jsfurn == true ) {
                     if ( !bash->furn_set.empty() ) {
                         furn_set( x, y, bash->furn_set );
@@ -1573,7 +1575,8 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                 }
                 smashed_something = true;
             } else {
-                sound += _(bash->sound_fail.c_str());
+                sound_volume = 12;
+                sound = _(bash->sound_fail.c_str());
                 smashed_something = true;
             }
         } else {
@@ -1617,26 +1620,29 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                         }
                     }
 
-                    sound += _("rrrrip!");
+                    sound_volume = 8;
+                    sound = _("rrrrip!");
                     smashed_something = true;
                 } else {
-                    sound += _("slap!");
+                    sound_volume = 8;
+                    sound = _("slap!");
                     smashed_something = true;
                 }
             }
         }
     }
-    if( !sound.empty() ) {
-        g->sound( x, y, 18, sound);
-    }
-
-    if (res) {
+    if( res ) {
         *res = result;
     }
-    if (move_cost(x, y) <= 0) {
-        sound += _("thump!");
+    if( move_cost(x, y) <= 0  && !smashed_something ) {
+        sound = _("thump!");
+        sound_volume = 18;
         smashed_something = true;
     }
+    if( !sound.empty() ) {
+        g->sound( x, y, sound_volume, sound);
+    }
+
     return smashed_something;// If we kick empty space, the action is cancelled
 }
 
