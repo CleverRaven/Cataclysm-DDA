@@ -7389,7 +7389,7 @@ void game::smash()
             u.remove_weapon();
         }
     } else {
-        add_msg(_("There's nothing there!"));
+        add_msg(_("There's nothing there to smash!"));
     }
 }
 
