@@ -435,7 +435,7 @@ std::string direction_name_short(direction dir)
 // and the two squares flanking it.
 std::vector<point> squares_in_direction( const int x1, const int y1, const int x2, const int y2 )
 {
-    int junk;
+    int junk = 0;
     point center_square = line_to( x1, y1, x2, y2, junk )[0];
     std::vector<point> adjacent_squares;
     adjacent_squares.push_back( center_square );
