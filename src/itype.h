@@ -212,18 +212,36 @@ struct itype {
         return 1;
     }
 
+    bool has_use() {
+        return !use_methods.empty();
+    }
+
+    // TODO: version that takes a string, so we can hide the iuse implementation.
+    bool can_use( use_function_pointer to_use ) {
+        return std::find( use_methods.cbegin(), use_methods.cend(), to_use ) != use_methods.cend();
+    }
+
+    int invoke( player *p, item *it, bool active ) {
+        int charges_to_use = 0;
+        for( auto method = use_methods.begin();
+             charges_to_use >= 0 && method != use_methods.end(); ++method ) {
+            charges_to_use = method->call( p, it, active );
+        }
+        return charges_to_use;
+    }
+
     std::string dmg_adj(int dam)
     {
         return material_type::find_material(m1)->dmg_adj(dam);
     }
 
-    use_function use;// Special effects of use
+    std::vector<use_function> use_methods;// Special effects of use
 
     itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
         color(c_white), m1("null"), m2("null"), phase(SOLID), volume(0), stack_size(0),
         weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL),
         melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
-        category(NULL), use() { }
+        category(NULL) { }
 
     itype(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
           std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
@@ -233,7 +251,7 @@ struct itype {
         phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
         bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL), melee_dam(pmelee_dam),
         melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
-        category(NULL), use() { }
+        category(NULL) { }
 
     virtual ~itype() {}
 };
@@ -585,7 +603,7 @@ struct it_macguffin : public virtual itype {
                 pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         readable = preadable;
-        use = puse;
+        use_methods.push_back( puse );
     }
 };
 

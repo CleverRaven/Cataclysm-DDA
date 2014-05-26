@@ -981,10 +981,8 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
 
     new_item_template->techniques = jo.get_tags("techniques");
 
-    if (jo.has_string("use_action")) {
-        new_item_template->use = use_from_string(jo.get_string("use_action"));
-    } else if (jo.has_object("use_action")) {
-        new_item_template->use = use_from_object(jo.get_object("use_action"));
+    if (jo.has_member("use_action")) {
+        set_use_methods_from_json( jo, "use_action", new_item_template  );
     }
 
     if(jo.has_member("category")) {
@@ -1012,12 +1010,12 @@ void Item_factory::load_item_category(JsonObject &jo)
 
 void Item_factory::set_qualities_from_json(JsonObject& jo, std::string member, itype* new_item_template)
 {
-
     if ( jo.has_array(member) ) {
         JsonArray jarr = jo.get_array(member);
-        while (jarr.has_more()){
+        while (jarr.has_more()) {
             JsonArray curr = jarr.next_array();
-            new_item_template->qualities.insert(std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
+            new_item_template->qualities.insert(
+                std::pair<std::string, int>(curr.get_string(0), curr.get_int(1)));
         }
     } else {
         debugmsg("Qualities list for item %s not an array", new_item_template->id.c_str());
@@ -1261,6 +1259,37 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
                 add_entry(ig, subobj);
             }
         }
+    }
+}
+
+void Item_factory::set_use_methods_from_json( JsonObject& jo, std::string member,
+                                              itype *new_item_template)
+{
+    if( jo.has_array( member ) ) {
+        JsonArray jarr = jo.get_array( member );
+        while( jarr.has_more() ) {
+            use_function new_function;
+            if( jarr.test_string() ) {
+                new_function = use_from_string( jarr.next_string() );
+            } else if( jarr.test_object() ) {
+                new_function = use_from_object( jarr.next_object() );
+            } else {
+                debugmsg("use_action array element for item %s is neither string nor object.",
+                         new_item_template->id.c_str());
+            }
+            new_item_template->use_methods.push_back( new_function );
+        }
+    } else {
+        use_function new_function;
+        if( jo.has_string("use_action") ) {
+            new_function = use_from_string( jo.get_string("use_action") );
+        } else if( jo.has_object("use_action") ) {
+            new_function = use_from_object( jo.get_object("use_action") );
+        } else {
+            debugmsg("use_action member for item %s is neither string nor object.",
+                     new_item_template->id.c_str());
+        }
+        new_item_template->use_methods.push_back( new_function );
     }
 }
 

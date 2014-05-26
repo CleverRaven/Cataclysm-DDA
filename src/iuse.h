@@ -274,15 +274,11 @@ public:
 
     ~use_function();
 
-    int call(player*,item*,bool);
+    int call(player*,item*,bool) const;
 
     void operator=(use_function_pointer f);
     void operator=(iuse_actor *f);
     void operator=(const use_function &other);
-
-    bool is_none() const {
-        return function_type == USE_FUNCTION_NONE;
-    }
 
     bool operator==(use_function_pointer f) const {
         return (function_type == USE_FUNCTION_CPP) && (f == cpp_function);

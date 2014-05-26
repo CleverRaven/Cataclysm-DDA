@@ -2909,15 +2909,15 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
             it->charges = 0;
         } else {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            if (!tmp->use.is_none()) {
-                tmp->use.call(&(g->u), it, true);
+            if (tmp->has_use()) {
+                tmp->invoke(&(g->u), it, true);
             }
             if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
                 it->charges--;
             }
             if (it->charges <= 0) {
-                if (!tmp->use.is_none()) {
-                    tmp->use.call(&(g->u), it, false);
+                if (tmp->has_use()) {
+                    tmp->invoke(&(g->u), it, false);
                 }
                 if (tmp->revert_to == "null" || it->charges == -1) {
                     return true;

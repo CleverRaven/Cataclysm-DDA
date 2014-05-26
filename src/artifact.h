@@ -149,7 +149,7 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
         it_artifact_tool();
 
         it_artifact_tool(JsonObject &jo) : it_tool() {
-            use = &iuse::artifact;
+            use_methods.push_back( &iuse::artifact );
             deserialize(jo);
         };
 };

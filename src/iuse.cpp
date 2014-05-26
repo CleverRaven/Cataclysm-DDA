@@ -7517,7 +7517,7 @@ int iuse::boots(player *p, item *it, bool)
    p->add_msg_if_player(m_info, _("You do not have that item!"));
    return 0;
   }
-  if (put->type->use != &iuse::knife) {
+  if (!put->type->can_use( &iuse::knife ) ) {
    p->add_msg_if_player(m_info, _("That isn't a knife!"));
    return 0;
   }
