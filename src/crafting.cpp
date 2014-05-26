@@ -979,7 +979,10 @@ recipe *game::select_crafting_recipe()
                 }
                 int maxline = (int)folded.size() > dataHeight ? dataHeight : (int)folded.size();
 
-                for(int i = 0; i < maxline; i++) {
+                mvwprintz(w_data, 0, FULL_SCREEN_WIDTH + 1, col, "%s",
+                          utf8_truncate(tmp.type->nname(1), iInfoWidth).c_str());
+
+                for(int i = 1; i < maxline; i++) {
                     mvwprintz(w_data, i, FULL_SCREEN_WIDTH + 1, col, "%s", folded[i].c_str() );
                 }
 
@@ -1026,7 +1029,8 @@ recipe *game::select_crafting_recipe()
             }
         } else if (action == "HELP_RECIPE") {
             tmp = current[line]->create_result();
-            full_screen_popup("%s", tmp.info(true).c_str());
+
+            full_screen_popup("%s\n%s", tmp.type->nname(1).c_str(),  tmp.info(true).c_str());
             redraw = true;
             keepline = true;
         } else if (action == "FILTER") {
