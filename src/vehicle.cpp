@@ -1719,7 +1719,7 @@ std::string vehicle::part_id_string(int p, char &part_mod)
 {
     part_mod = 0;
     std::string idinfo;
-    if (p < 0 || p >= parts.size()){
+    if( p < 0 || p >= parts.size() || parts[p].removed ) {
         return "";
     }
 
