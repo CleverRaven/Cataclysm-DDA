@@ -23,10 +23,10 @@
     ],
     "components": [
        [
-         [ "654_casing", 60 ]
+         [ "654_casing", 30 ]
        ],
        [
-         [ "smrifle_primer", 60 ]
+         [ "smrifle_primer", 30 ]
        ],
        [
          [ "gunpowder", 480 ]
@@ -67,10 +67,10 @@
   ],
   "components": [
     [
-      [ "545_casing", 60 ]
+      [ "545_casing", 30 ]
     ],
     [
-      [ "smrifle_primer", 60 ]
+      [ "smrifle_primer", 30 ]
     ],
     [
       [ "gunpowder", 200 ]
@@ -112,10 +112,10 @@
   ],
   "components": [
     [
-      [ "545_casing", 60 ]
+      [ "545_casing", 30 ]
     ],
     [
-      [ "smrifle_primer", 60 ]
+      [ "smrifle_primer", 30 ]
     ],
     [
       [ "gunpowder", 200 ]

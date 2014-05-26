@@ -5273,6 +5273,8 @@ void player::process_effects() {
             if (one_in(3)) {
                 handle_cough(*this, 4);
             }
+        } else if ( id == "stung" ) {
+            mod_pain(1);
         }
     }
 
@@ -9988,7 +9990,6 @@ int player::get_env_resist(body_part bp)
             ret = 5;
         }
     }
-    return ret;
 
     if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
         ret += 2;

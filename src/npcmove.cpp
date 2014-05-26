@@ -1058,10 +1058,8 @@ void npc::move_to(int x, int y)
             moves -= 100;
         } else if (g->m.has_flag("BASHABLE", x, y)) {
             moves -= 110;
-            std::string bashsound;
             int smashskill = int(str_cur / 2 + weapon.type->melee_dam);
-            g->m.bash(x, y, smashskill, bashsound);
-            g->sound(x, y, 18, bashsound);
+            g->m.bash( x, y, smashskill );
         } else {
             int frubble = g->m.get_field_strength( point(x, y), fd_rubble );
             if (frubble > 0 ) {

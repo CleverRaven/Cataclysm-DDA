@@ -183,9 +183,10 @@ int iuse::royal_jelly(player *p, item *it, bool)
  }
  if (p->has_effect("poison") || p->has_disease("foodpoison") ||
      p->has_disease("badpoison") || p->has_disease("paralyzepoison") ||
-     p->has_disease("tetanus")) {
+     p->has_disease("tetanus") || p->has_effect("stung") ) {
   message = _("You feel much better!");
   p->remove_effect("poison");
+  p->remove_effect("stung");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
   p->rem_disease("paralyzepoison");
@@ -3503,141 +3504,156 @@ static void roadmap_targets(player *, item *, bool,
 
 int iuse::roadmap(player *p, item *it, bool t)
 {
- if (it->charges < 1) {
-  p->add_msg_if_player( _("There isn't anything new on the map."));
-  return 0;
- }
-  // Show roads
- roadmap_targets(p, it, t, "hiway", 0, 0);
- roadmap_targets(p, it, t, "road", 0, 0);
- roadmap_targets(p, it, t, "bridge", 0, 0);
+    if (it->charges < 1) {
+        p->add_msg_if_player( _("There isn't anything new on the map."));
+        return 0;
+    } else if (g->levz < 0) {
+        p->add_msg_if_player( _("You should read your map when you get to the surface."));
+        return 0;
+    }
+    // Show roads
+    roadmap_targets(p, it, t, "hiway", 0, 0);
+    roadmap_targets(p, it, t, "road", 0, 0);
+    roadmap_targets(p, it, t, "bridge", 0, 0);
 
-  // Show evac shelters
- roadmap_targets(p, it, t, "shelter", 0, 0);
-  // Show hospital(s)
- roadmap_targets(p, it, t, "hospital", 0, 0);
-  // Show schools
- roadmap_targets(p, it, t, "school", 0, 0);
-  // Show police stations
- roadmap_targets(p, it, t, "police", 0, 0);
-  // Show subway entrances
- roadmap_targets(p, it, t, "sub_station", 0, 0);
-  // Show banks
- roadmap_targets(p, it, t, "bank", 0, 0);
+    // Show evac shelters
+    roadmap_targets(p, it, t, "shelter", 0, 0);
+    // Show hospital(s)
+    roadmap_targets(p, it, t, "hospital", 0, 0);
+    // Show schools
+    roadmap_targets(p, it, t, "school", 0, 0);
+    // Show police stations
+    roadmap_targets(p, it, t, "police", 0, 0);
+    // Show subway entrances
+    roadmap_targets(p, it, t, "sub_station", 0, 0);
+    // Show banks
+    roadmap_targets(p, it, t, "bank", 0, 0);
 
- p->add_msg_if_player( m_good, _("You add roads and points of interest to your map."));
+    p->add_msg_if_player( m_good, _("You add roads and points of interest to your map."));
 
- return 1;
+    return 1;
 }
 
 int iuse::survivormap(player *p, item *it, bool t)
 {
- if (it->charges < 1) {
-  p->add_msg_if_player( _("There isn't anything new on the map."));
-  return 0;
- }
-  // Show roads
- roadmap_targets(p, it, t, "hiway", 0, 0);
- roadmap_targets(p, it, t, "road", 0, 0);
- roadmap_targets(p, it, t, "bridge", 0, 0);
+    if (it->charges < 1) {
+        p->add_msg_if_player( _("There isn't anything new on the map."));
+        return 0;
+    } else if (g->levz < 0) {
+        p->add_msg_if_player( _("You should read your map when you get to the surface."));
+        return 0;
+    }
+    // Show roads
+    roadmap_targets(p, it, t, "hiway", 0, 0);
+    roadmap_targets(p, it, t, "road", 0, 0);
+    roadmap_targets(p, it, t, "bridge", 0, 0);
 
-  // Show pharmacies
- roadmap_targets(p, it, t, "s_pharm", 0, 0);
-  // Show gun stores
- roadmap_targets(p, it, t, "s_gun", 0, 0);
-  // Show grocery stores
- roadmap_targets(p, it, t, "s_grocery", 0, 0);
-  // Show military surplus stores
- roadmap_targets(p, it, t, "mil_surplus", 0, 0);
-  // Show gas stations
- roadmap_targets(p, it, t, "s_gas", 0, 0);
+    // Show pharmacies
+    roadmap_targets(p, it, t, "s_pharm", 0, 0);
+    // Show gun stores
+    roadmap_targets(p, it, t, "s_gun", 0, 0);
+    // Show grocery stores
+    roadmap_targets(p, it, t, "s_grocery", 0, 0);
+    // Show military surplus stores
+    roadmap_targets(p, it, t, "mil_surplus", 0, 0);
+    // Show gas stations
+    roadmap_targets(p, it, t, "s_gas", 0, 0);
 
- p->add_msg_if_player( m_good, _("You add roads and possible supply points to your map."));
+    p->add_msg_if_player( m_good, _("You add roads and possible supply points to your map."));
 
- return 1;
+    return 1;
 }
 
 int iuse::militarymap(player *p, item *it, bool t)
 {
- if (it->charges < 1) {
-  p->add_msg_if_player( _("There isn't anything new on the map."));
-  return 0;
- }
-  // Show roads
- roadmap_targets(p, it, t, "hiway", 0, 0);
- roadmap_targets(p, it, t, "road", 0, 0);
- roadmap_targets(p, it, t, "bridge", 0, 0);
+    if (it->charges < 1) {
+        p->add_msg_if_player( _("There isn't anything new on the map."));
+        return 0;
+    } else if (g->levz < 0) {
+        p->add_msg_if_player( _("You should read your map when you get to the surface."));
+        return 0;
+    }
+    // Show roads
+    roadmap_targets(p, it, t, "hiway", 0, 0);
+    roadmap_targets(p, it, t, "road", 0, 0);
+    roadmap_targets(p, it, t, "bridge", 0, 0);
 
-  // Show FEMA camps
- roadmap_targets(p, it, t, "fema_entrance", 0, 0);
-  // Show bunkers
- roadmap_targets(p, it, t, "bunker", 0, 0);
-  // Show outposts
- roadmap_targets(p, it, t, "outpost", 0, 0);
-  // Show nuclear silos
- roadmap_targets(p, it, t, "silo", 0, 0);
-  // Show evac shelters
- roadmap_targets(p, it, t, "shelter", 0, 0);
-  // Show police stations
- roadmap_targets(p, it, t, "police", 0, 0);
+    // Show FEMA camps
+    roadmap_targets(p, it, t, "fema_entrance", 0, 0);
+    // Show bunkers
+    roadmap_targets(p, it, t, "bunker", 0, 0);
+    // Show outposts
+    roadmap_targets(p, it, t, "outpost", 0, 0);
+    // Show nuclear silos
+    roadmap_targets(p, it, t, "silo", 0, 0);
+    // Show evac shelters
+    roadmap_targets(p, it, t, "shelter", 0, 0);
+    // Show police stations
+    roadmap_targets(p, it, t, "police", 0, 0);
 
- p->add_msg_if_player( m_good, _("You add roads and facilities to your map."));
+    p->add_msg_if_player( m_good, _("You add roads and facilities to your map."));
 
- return 1;
+    return 1;
 }
 
 int iuse::restaurantmap(player *p, item *it, bool t)
 {
- if (it->charges < 1) {
-  p->add_msg_if_player( _("There isn't anything new on the map."));
-  return 0;
- }
-  // Show roads
- roadmap_targets(p, it, t, "hiway", 0, 0);
- roadmap_targets(p, it, t, "road", 0, 0);
- roadmap_targets(p, it, t, "bridge", 0, 0);
+    if (it->charges < 1) {
+        p->add_msg_if_player( _("There isn't anything new on the map."));
+        return 0;
+    } else if (g->levz < 0) {
+        p->add_msg_if_player( _("You should read your map when you get to the surface."));
+        return 0;
+    }
+    // Show roads
+    roadmap_targets(p, it, t, "hiway", 0, 0);
+    roadmap_targets(p, it, t, "road", 0, 0);
+    roadmap_targets(p, it, t, "bridge", 0, 0);
 
-  // Show coffee shops
- roadmap_targets(p, it, t, "s_restaurant_coffee", 0, 0);
-  // Show restaurants
- roadmap_targets(p, it, t, "s_restaurant", 0, 0);
-  // Show bars
- roadmap_targets(p, it, t, "bar", 0, 0);
-  // Show pizza parlors
- roadmap_targets(p, it, t, "s_pizza_parlor", 0, 0);
-  // Show fast food joints
- roadmap_targets(p, it, t, "s_restaurant_fast", 0, 0);
+    // Show coffee shops
+    roadmap_targets(p, it, t, "s_restaurant_coffee", 0, 0);
+    // Show restaurants
+    roadmap_targets(p, it, t, "s_restaurant", 0, 0);
+    // Show bars
+    roadmap_targets(p, it, t, "bar", 0, 0);
+    // Show pizza parlors
+    roadmap_targets(p, it, t, "s_pizza_parlor", 0, 0);
+    // Show fast food joints
+    roadmap_targets(p, it, t, "s_restaurant_fast", 0, 0);
 
- p->add_msg_if_player( m_good, _("You add roads and restaurants to your map."));
+    p->add_msg_if_player( m_good, _("You add roads and restaurants to your map."));
 
- return 1;
+    return 1;
 }
 
 int iuse::touristmap(player *p, item *it, bool t)
 {
- if (it->charges < 1) {
-  p->add_msg_if_player( _("There isn't anything new on the map."));
-  return 0;
- }
-  // Show roads
- roadmap_targets(p, it, t, "hiway", 0, 0);
- roadmap_targets(p, it, t, "road", 0, 0);
- roadmap_targets(p, it, t, "bridge", 0, 0);
+    if (it->charges < 1) {
+        p->add_msg_if_player( _("There isn't anything new on the map."));
+        return 0;
+    } else if (g->levz < 0) {
+        p->add_msg_if_player( _("You should read your map when you get to the surface."));
+        return 0;
+    }
+    // Show roads
+    roadmap_targets(p, it, t, "hiway", 0, 0);
+    roadmap_targets(p, it, t, "road", 0, 0);
+    roadmap_targets(p, it, t, "bridge", 0, 0);
 
-  // Show hotels
- roadmap_targets(p, it, t, "hotel_tower", 0, 0);
-  // Show restaurants
- roadmap_targets(p, it, t, "s_restaurant", 0, 0);
-  // Show cathedrals
- roadmap_targets(p, it, t, "cathedral", 0, 0);
-  // Show fast food joints
- roadmap_targets(p, it, t, "s_restaurant_fast", 0, 0);
-  // Show fast megastores
- roadmap_targets(p, it, t, "megastore", 0, 0);
+    // Show hotels
+    roadmap_targets(p, it, t, "hotel_tower", 0, 0);
+    // Show restaurants
+    roadmap_targets(p, it, t, "s_restaurant", 0, 0);
+    // Show cathedrals
+    roadmap_targets(p, it, t, "cathedral", 0, 0);
+    // Show fast food joints
+    roadmap_targets(p, it, t, "s_restaurant_fast", 0, 0);
+    // Show fast megastores
+    roadmap_targets(p, it, t, "megastore", 0, 0);
 
- p->add_msg_if_player( m_good, _("You add roads and tourist attractions to your map."));
+    p->add_msg_if_player( m_good, _("You add roads and tourist attractions to your map."));
 
- return 1;
+    return 1;
 }
 
 int iuse::ma_manual (player *p, item *it, bool) {
@@ -5030,7 +5046,7 @@ int iuse::granade_act(player *, item *it, bool t)
         add_msg(m_info, _("You've already pulled the %s's pin, try throwing it instead."), it->name.c_str());
         return 0;
     } else {  // When that timer runs down...
-        int effect_roll = rng(1,4);
+        int effect_roll = rng(1,5);
         switch (effect_roll)
         {
             case 1:
@@ -5130,6 +5146,18 @@ int iuse::granade_act(player *, item *it, bool t)
                     }
                 }
                 break;
+            case 5:
+                g->sound(pos.x, pos.y, 100, _("BEES!!"));
+                g->draw_explosion(pos.x, pos.y, explosion_radius, c_yellow);
+                for (int i = -explosion_radius; i <= explosion_radius; i++) {
+                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
+                        if( one_in(5) && -1 == g->mon_at(pos.x + i, pos.y + j) &&
+                            -1 == g->npc_at(pos.x + i, pos.y + j) ) {
+                            g->m.add_field( pos.x + i, pos.y + j, fd_bees, rng(1, 3) );
+                        }
+                    }
+                }
+            break;
         }
     }
     return it->type->charges_to_use();
@@ -6761,10 +6789,9 @@ int iuse::artifact(player *p, item *it, bool)
    g->sound(p->posx, p->posy, 30, _("The earth shakes!"));
    for (int x = p->posx - 2; x <= p->posx + 2; x++) {
     for (int y = p->posy - 2; y <= p->posy + 2; y++) {
-     std::string junk;
-     g->m.bash(x, y, 40, junk);
-     g->m.bash(x, y, 40, junk);  // Multibash effect, so that doors &c will fall
-     g->m.bash(x, y, 40, junk);
+     g->m.bash( x, y, 40 );
+     g->m.bash( x, y, 40 );  // Multibash effect, so that doors &c will fall
+     g->m.bash( x, y, 40 );
      if (g->m.is_destructable(x, y) && rng(1, 10) >= 3)
       g->m.ter_set(x, y, t_rubble);
     }
