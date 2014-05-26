@@ -18,7 +18,7 @@
 
 /**
  * Glare.
- * Causes glare effect to player's eyes if they are not wearing sunglasses.
+ * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
  */
 void weather_effect::glare()
 {
@@ -290,9 +290,15 @@ void decay_fire_and_scent(int fire_amount)
 }
 
 /**
- * Main routine for wet effects.
+ * Main routine for wet effects caused by weather.
+ * Drenching the player is applied after checks against worn and held items.
+ *
+ * The warmth of armor is considered when determining how much drench happens.
+ *
+ * Note that this is not the only place where drenching can happen. For example, moving or swimming into water tiles will also cause drenching.
  * @see fill_water_collectors
  * @see decay_fire_and_scent
+ * @see player::drench
  */
 void generic_wet(bool acid)
 {
@@ -316,9 +322,11 @@ void generic_wet(bool acid)
 }
 
 /**
- * Main routine for very wet effects.
+ * Main routine for very wet effects caused by weather.
+ * Similar to generic_wet() but with more aggressive numbers.
  * @see fill_water_collectors
  * @see decay_fire_and_scent
+ * @see player::drench
  */
 void generic_very_wet(bool acid)
 {
@@ -379,6 +387,10 @@ void weather_effect::thunder()
 /**
  * Lightning.
  * Chance of lightning illumination for the current turn when aboveground. Thunder.
+ *
+ * This used to manifest actual lightning on the map, causing fires and such, but since such effects
+ * only manifest properly near the player due to the "reality bubble", this was causing undesired metagame tactics
+ * such as players leaving their shelter for a more "expendable" area during lightning storms.
  */
 void weather_effect::lightning()
 {
