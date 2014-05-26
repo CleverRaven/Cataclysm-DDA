@@ -1554,8 +1554,10 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                 }
             }
             if ( success == true ) {
-                sound_volume = smin * 1.5;
-                sound = _(bash->sound.c_str());
+                if (!silent) {
+                    sound_volume = smin * 1.5;
+                    sound = _(bash->sound.c_str());
+                }
                 if ( jsfurn == true ) {
                     if ( !bash->furn_set.empty() ) {
                         furn_set( x, y, bash->furn_set );
@@ -1575,8 +1577,10 @@ bool map::bash(const int x, const int y, const int str, bool silent, int *res)
                 }
                 smashed_something = true;
             } else {
-                sound_volume = 12;
-                sound = _(bash->sound_fail.c_str());
+                if (!silent) {
+                    sound_volume = 12;
+                    sound = _(bash->sound_fail.c_str());
+                }
                 smashed_something = true;
             }
         } else {
