@@ -7629,6 +7629,9 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
             dmg = 1000 - vehint.sel_vehicle_part->hp*1000 / vehint.sel_vpart_info->durability;
         }
         int mintime = 300 + diff*dmg;
+        // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
+        // Note that even if letters are remapped in keybindings sel_cmd will still use the above.
+        // Stored in activity.index and used in the complete_vehicle() callback to finish task.
         switch( vehint.sel_cmd ) {
             case 'i': time = setuptime + std::max( mintime, 5000*diff - skill*2500 );;
             case 'r': time = setuptime + std::max( mintime, (  8*diff - skill*4 )*dmg );;

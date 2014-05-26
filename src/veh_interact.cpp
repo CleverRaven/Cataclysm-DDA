@@ -1494,6 +1494,7 @@ void complete_vehicle ()
     std::map<point, vehicle*> foundv;
     vehicle * fillv = NULL;
 
+    // cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
     switch (cmd) {
     case 'i':
         if (has_goggles) {
