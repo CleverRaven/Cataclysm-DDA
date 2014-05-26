@@ -1718,6 +1718,7 @@ void game::activity_on_finish_vehicle()
                   u.activity.values.size());
     } else {
         if (veh) {
+            refresh_all();
             exam_vehicle(*veh, u.activity.values[0], u.activity.values[1],
                          u.activity.values[2], u.activity.values[3]);
             return;
@@ -7613,14 +7614,28 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     vehint.ddx = cx;
     vehint.ddy = cy;
     vehint.exec(&veh);
-    refresh_all();
     if (vehint.sel_cmd != ' ')
     {
-        // TODO: different activity times
-        u.activity = player_activity( ACT_VEHICLE, vehint.sel_cmd == 'f' ||
-                                      vehint.sel_cmd == 's' ||
-                                      vehint.sel_cmd == 'c' ? 200 : 20000,
-                                      (int) vehint.sel_cmd, INT_MIN, "");
+        int time = 200;
+        int skill = u.skillLevel("mechanics");
+        int diff = 1;
+        if( vehint.sel_vpart_info != NULL ) {
+            diff = vehint.sel_vpart_info->difficulty + 3;
+        }
+        int setup = (calendar::turn == veh.last_repair_turn ? 0 : 1);
+        int setuptime = std::max( setup*3000, setup*6000 - skill*400 );
+        int dmg = 1000;
+        if( vehint.sel_cmd == 'r' ) {
+            dmg = 1000 - vehint.sel_vehicle_part->hp*1000 / vehint.sel_vpart_info->durability;
+        }
+        int mintime = 300 + diff*dmg;
+        switch( vehint.sel_cmd ) {
+            case 'i': time = setuptime + std::max( mintime, 5000*diff - skill*2500 );;
+            case 'r': time = setuptime + std::max( mintime, (  8*diff - skill*4 )*dmg );;
+            case 'o': time = setuptime + std::max( mintime, 4000*diff - skill*2000 );;
+            case 'c': time = setuptime + std::max( mintime, 6000*diff - skill*4000 );;
+        }
+        u.activity = player_activity( ACT_VEHICLE, time, (int) vehint.sel_cmd, INT_MIN, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
         u.activity.values.push_back (vehint.ddx);   // values[2]

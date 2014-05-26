@@ -570,19 +570,20 @@ void veh_interact::do_repair()
     int pos = 0;
     while (true) {
         sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
+        sel_vpart_info = &(vehicle_part_types[sel_vehicle_part->id]);
         werase (w_parts);
         veh->print_part_desc(w_parts, 0, parts_w, cpart, need_repair[pos]);
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
-        int dif = vehicle_part_types[sel_vehicle_part->id].difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
+        int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
         bool has_skill = g->u.skillLevel("mechanics") >= dif;
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
                        has_skill ? "ltgreen" : "red",
                        dif);
         if (sel_vehicle_part->hp <= 0) {
-            itype_id itm = vehicle_part_types[sel_vehicle_part->id].item;
+            itype_id itm = sel_vpart_info->item;
             has_comps = crafting_inv.has_components(itm, 1);
             fold_and_print(w_msg, 1, 1, msg_width - 2, c_ltgray,
                            _("You also need a <color_%1$s>wrench</color> and <color_%2$s>%3$s</color> to replace broken one."),
@@ -1485,6 +1486,7 @@ void complete_vehicle ()
     int replaced_wheel;
     std::vector<int> parts;
     int dd = 2;
+    double dmg = 1.0;
 
     // For siphoning from adjacent vehicles
     int posx = 0;
@@ -1547,6 +1549,7 @@ void complete_vehicle ()
         g->u.practice (calendar::turn, "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20);
         break;
     case 'r':
+        veh->last_repair_turn = calendar::turn;
         if (veh->parts[vehicle_part].hp <= 0) {
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
             used_item = consume_vpart_item (veh->parts[vehicle_part].id);
@@ -1556,16 +1559,18 @@ void complete_vehicle ()
             tools.clear();
             dd = 0;
             veh->insides_dirty = true;
+        } else {
+            dmg = 1.1 - double(veh->parts[vehicle_part].hp) / veh->part_info(vehicle_part).durability;
         }
-        tools.push_back(component("welder", welder_charges));
-        tools.push_back(component("welder_crude", welder_crude_charges));
-        tools.push_back(component("duct_tape", DUCT_TAPE_USED));
-        tools.push_back(component("toolset", welder_charges / 20));
+        tools.push_back(component("welder", int(welder_charges*dmg)));
+        tools.push_back(component("welder_crude", int(welder_crude_charges*dmg)));
+        tools.push_back(component("duct_tape", int(DUCT_TAPE_USED*dmg)));
+        tools.push_back(component("toolset", int(welder_charges*dmg / 20)));
         g->consume_tools(&g->u, tools, true);
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
                     veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
-        g->u.practice (calendar::turn, "mechanics", (veh->part_info(vehicle_part).difficulty + dd) * 5 + 20);
+        g->u.practice( calendar::turn, "mechanics", int(((veh->part_info(vehicle_part).difficulty+dd)*5+20)*dmg) );
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, vehicle_part, true)) {
