@@ -1165,9 +1165,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
             maintext = rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(), contents[0].tname().c_str());
         } else if (contents[0].is_food()) {
             maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(),
-                                                                                      contents[0].tname(contents[0].charges).c_str()) :
+                                                            contents[0].tname(contents[0].charges).c_str()) :
                                                  rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(),
-                                                                                      contents[0].tname().c_str());
+                                                            contents[0].tname().c_str());
         } else {
             maintext = rmp_format(_("<item_name>%s with %s"), type->nname(quantity).c_str(), contents[0].tname().c_str());
         }
