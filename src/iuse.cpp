@@ -3508,6 +3508,10 @@ int iuse::roadmap(player *p, item *it, bool t)
   p->add_msg_if_player( _("There isn't anything new on the map."));
   return 0;
  }
+  else if (g->levz < 0) {
+  p->add_msg_if_player( _("You should read your map when you get to the surface."));
+  return 0;
+ }
   // Show roads
  roadmap_targets(p, it, t, "hiway", 0, 0);
  roadmap_targets(p, it, t, "road", 0, 0);
@@ -3537,6 +3541,10 @@ int iuse::survivormap(player *p, item *it, bool t)
   p->add_msg_if_player( _("There isn't anything new on the map."));
   return 0;
  }
+ else if (g->levz < 0) {
+  p->add_msg_if_player( _("You should read your map when you get to the surface."));
+  return 0;
+ }
   // Show roads
  roadmap_targets(p, it, t, "hiway", 0, 0);
  roadmap_targets(p, it, t, "road", 0, 0);
@@ -3562,6 +3570,10 @@ int iuse::militarymap(player *p, item *it, bool t)
 {
  if (it->charges < 1) {
   p->add_msg_if_player( _("There isn't anything new on the map."));
+  return 0;
+ }
+ else if (g->levz < 0) {
+  p->add_msg_if_player( _("You should read your map when you get to the surface."));
   return 0;
  }
   // Show roads
@@ -3593,6 +3605,10 @@ int iuse::restaurantmap(player *p, item *it, bool t)
   p->add_msg_if_player( _("There isn't anything new on the map."));
   return 0;
  }
+ else if (g->levz < 0) {
+  p->add_msg_if_player( _("You should read your map when you get to the surface."));
+  return 0;
+ }
   // Show roads
  roadmap_targets(p, it, t, "hiway", 0, 0);
  roadmap_targets(p, it, t, "road", 0, 0);
@@ -3618,6 +3634,10 @@ int iuse::touristmap(player *p, item *it, bool t)
 {
  if (it->charges < 1) {
   p->add_msg_if_player( _("There isn't anything new on the map."));
+  return 0;
+ }
+ else if (g->levz < 0) {
+  p->add_msg_if_player( _("You should read your map when you get to the surface."));
   return 0;
  }
   // Show roads
