@@ -30,7 +30,6 @@
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
-#include "iuse.h"
 #include "start_location.h"
 #include "omdata.h"
 #include "options.h"
