@@ -53,6 +53,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     face.init(0);
     move.init(0);
     last_turn = 0;
+    last_repair_turn = -1;
     of_turn_carry = 0;
     turret_mode = 0;
     lights_epower = 0;
