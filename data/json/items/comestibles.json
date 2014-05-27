@@ -11667,7 +11667,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 20,
+        "charges" : 1,
         "stack_size" : 60,
         "bashing" : 0,
         "fun" : 5
@@ -11972,7 +11972,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "joint",
-        "name" : "joints",
+        "name" : "joint",
         "weight" : 1,
         "color" : "green",
         "addiction_type" : "none",
@@ -11994,7 +11994,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 5,
+        "charges" : 1,
         "stack_size" : 100,
         "bashing" : 0,
         "fun" : 15

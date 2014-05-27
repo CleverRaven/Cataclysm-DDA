@@ -9269,6 +9269,44 @@
   ]
 },{
         "type" : "recipe",
+  "result": "cig",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rolling_paper", 1 ]
+    ],
+    [
+      [ "cig_butt", 5 ],
+      [ "tobacco", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "joint",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_DRUGS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rolling_paper", 1 ]
+    ],
+    [
+      [ "joint_roach", 5 ],
+      [ "weed", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "meth",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_DRUGS",
