@@ -1,0 +1,54 @@
+________________________________________________________________|||||||||||||||||||||||||||||||||||||
+|         |                                                    |                                    -
+|Start!   |                                                    |                                    -
+|         +                                                    |                                    -
+|___+____6|                                                    | OUTDOORS, sparesely forested       -
+|@tributes|              LOBBY                                 + Surrounded with metal bars.        -
+|         +                                                    |                                    -
+|_+______6|                                                    |                                    -
+|tips     +                                                    | ~~~~~~                             -
+|________6|                                                    | ~~~~~~                             -
+|easter   |____+______________+____________________+__________6| ~~~~~~                             -
+|egg      |{           |Books & Skills  |Construction          | ~~~~~~                             -
+|         |items       |  {{{{{{{{{{{   |                      | ~~~~~~                             -
+|         |&           +                |                      | ~~~~~~                             -
+|         |inventory   |  {{{{{{{{{{{   |                      | ~~~~~~                             -
+|________6|____+______6|                |                      |                                    -
+|         |            |_______+_______6|                      +                                    -
+|weaponry |clothing,   |Crafting        |                      |                                    -
+|and      |armor,      |&               |                      |  foraging bushes                   -
+|explosive|and         |Tools           |                      |                                    -
+|         +            +                +                      |                                    -
+|         |encumberance|                |                     6|                                    -
+|         |            |                |                      |                                    -
+|___+____6|___________6|_______+_______6                       |                                    -
+|firing   |Agony & you |                |                      |                                    -
+| range   |            | Happy Drugs    |                      +                                    -
+|         |            |                |                      |                                    -
+|         |            |Staying Healthy |                      6                                    -
+|D   D   D|"Medical    +_______________6|6                     | ^                                  -
+|         |treatment"  |                                       |^                                   -
+|         |            | Vehicle construction/Cart             | ^                                  -
+|    >    +            |                                       6                                    -
+|________6|___________6|_______________________________________|||||||||||||||||++|||||||||||||||||||
+
+
+Character spawns with all skills with 12 int, quick, some bubblewrap, and a pair of jeans. Default rest, and no other items. 
+Easter egg room should have special walls.
+The big lobby area is a placeholder for NPC behaviors and bases when or if it is fully implemented.
+Lobby should also contains markers, scribbled grafitti, and some newspaper articles/pamphlets showing what the survivor knows.
+D is for Dummy.
+6s are terminals/levers.
+Computer terminals display all messages associated with the room.
+Construction room has a garage exit.
+Crafting and tools door should be locked.
+{ are shelves and bookcase
+^ are beartraps.
+Spawns of items can be randomized with exceptions listed:
+"Needs to be at least one ammo box for a gun in the weapons room, and a knife. 
+Clothing needs to be 1/4th fitted items and always include a backpack.
+Tools room must include a jackhammer, a pot, and a hotplate.
+Construction room needs to have welder, hacksaw, welding mask, gas pump, shovel, and wrench.
+Vehicle construction needs to have a mostly finished golf cart, with spare ties.
+Library contains books for improving vehicle crafting and fabrication, and no advanced textbooks.
+Medical treatment contains soldering iron and bandages."
