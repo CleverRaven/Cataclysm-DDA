@@ -7726,13 +7726,13 @@ bool player::eat(item *eaten, it_comest *comest)
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
-    if( has_bionic("bio_ethanol") && comest->can_use( &iuse::alcohol ) ) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL" ) ) {
         charge_power(rng(2, 8));
     }
-    if( has_bionic("bio_ethanol") && comest->can_use( &iuse::alcohol_weak ) ) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCHOHOL_WEAK" ) ) {
         charge_power(rng(1, 4));
     }
-    if( has_bionic("bio_ethanol") && comest->can_use( &iuse::alcohol_strong ) ) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCHOHOL_STRONG" ) ) {
         charge_power(rng(3, 12));
     }
 
@@ -8824,12 +8824,12 @@ void player::use(int pos)
                        used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
-    } else if ( used->type->can_use(&iuse::boots)          ||
-                used->type->can_use(&iuse::sheath_sword)   ||
-                used->type->can_use(&iuse::sheath_knife)   ||
-                used->type->can_use(&iuse::holster_pistol) ||
-                used->type->can_use(&iuse::holster_ankle)  ||
-                used->type->can_use(&iuse::quiver) ) {
+    } else if ( used->type->can_use("BOOTS")          ||
+                used->type->can_use("SHEATH_SWORD")   ||
+                used->type->can_use("SHEATH_KNIFE")   ||
+                used->type->can_use("HOLSTER_PISTOL") ||
+                used->type->can_use("HOLSTER_ANKLE")  ||
+                used->type->can_use("QUIVER") ) {
         used->type->invoke(this, used, false);
         return;
     } else if (used->is_gunmod()) {

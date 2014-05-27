@@ -212,23 +212,9 @@ struct itype {
         return 1;
     }
 
-    bool has_use() {
-        return !use_methods.empty();
-    }
-
-    // TODO: version that takes a string, so we can hide the iuse implementation.
-    bool can_use( use_function_pointer to_use ) {
-        return std::find( use_methods.cbegin(), use_methods.cend(), to_use ) != use_methods.cend();
-    }
-
-    int invoke( player *p, item *it, bool active ) {
-        int charges_to_use = 0;
-        for( auto method = use_methods.begin();
-             charges_to_use >= 0 && method != use_methods.end(); ++method ) {
-            charges_to_use = method->call( p, it, active );
-        }
-        return charges_to_use;
-    }
+    bool has_use();
+    bool can_use( std::string iuse_name );
+    int invoke( player *p, item *it, bool active );
 
     std::string dmg_adj(int dam)
     {

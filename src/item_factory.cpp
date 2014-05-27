@@ -1471,6 +1471,11 @@ const item_category *Item_factory::get_category(const std::string &id)
     return &cat;
 }
 
+const use_function *Item_factory::get_iuse( const std::string &id )
+{
+    return &iuse_function_list.at( id );
+}
+
 const std::string &Item_factory::calc_category(itype *it)
 {
     if (it->is_gun() ) {

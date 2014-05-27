@@ -134,6 +134,8 @@ public:
     // stays valid.
     const item_category *get_category(const std::string &id);
 
+    const use_function *get_iuse( const std::string &id );
+
     // The below functions are meant to be accessed at startup by lua to
     // do mod-related modifications of groups.
     std::vector<std::string> get_all_group_names();

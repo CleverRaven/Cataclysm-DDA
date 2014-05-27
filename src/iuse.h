@@ -280,6 +280,11 @@ public:
     void operator=(iuse_actor *f);
     void operator=(const use_function &other);
 
+    bool operator==(use_function f) const {
+        return function_type == USE_FUNCTION_CPP && f.function_type == USE_FUNCTION_CPP &&
+        f.cpp_function == cpp_function;
+    }
+
     bool operator==(use_function_pointer f) const {
         return (function_type == USE_FUNCTION_CPP) && (f == cpp_function);
     }

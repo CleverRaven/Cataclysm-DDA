@@ -10013,7 +10013,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     std::vector<item*> holsters;
     for(std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++){
         item& worn = *it;
-        if((worn.type->can_use(&iuse::holster_pistol) || worn.type->can_use(&iuse::holster_ankle)) &&
+        if((worn.type->can_use("HOLSTER_PISTOL") || worn.type->can_use("HOLSTER_ANKLE")) &&
             (!worn.contents.empty() && worn.contents[0].is_gun())) {
                 holsters.push_back(&worn);
         }
@@ -10097,7 +10097,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     std::vector<item*> quivers;
     for(std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++) {
         item& worn = *it;
-        if(worn.type->can_use(&iuse::quiver) &&
+        if(worn.type->can_use("QUIVER") &&
            !worn.contents.empty() && worn.contents[0].is_ammo() && worn.contents[0].charges > 0) {
              quivers.push_back(&worn);
            }
