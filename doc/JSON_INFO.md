@@ -181,7 +181,7 @@ The syntax listed here is still valid.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "requires_skills": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
 "difficulty": 3,             // Difficulty of success check
-"time": 5000,                // Time to perform recipe
+"time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
 "tools": [                   // Tools needed to craft
