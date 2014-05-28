@@ -33,7 +33,8 @@ public:
     int alcohol_strong      (player*, item*, bool);
     int pkill               (player*, item*, bool);
     int xanax               (player*, item*, bool);
-    int cig                 (player*, item*, bool);
+    int smoking             (player*, item*, bool);
+    int smoking_pipe        (player*, item*, bool);
     int ecig                (player*, item*, bool);
     int antibiotic          (player*, item*, bool);
     int eyedrops            (player*, item*, bool);
@@ -41,7 +42,6 @@ public:
     int antifungal          (player*, item*, bool);
     int antiparasitic       (player*, item*, bool);
     int anticonvulsant      (player*, item*, bool);
-    int weed                (player*, item*, bool);
     int weed_brownie        (player*, item*, bool);
     int coke                (player*, item*, bool);
     int crack               (player*, item*, bool);

@@ -28,17 +28,6 @@
 
 #include "iuse_software.h"
 
- // Return false if we weren't able to use the item.
-static bool use_fire(player *p, item *it)
-{
-    (void)it; //unused
-    if (!p->use_charges_if_avail("fire", 1))
-    {
-        p->add_msg_if_player(m_info, _("You need a source of flame!"));
-        return false;
-    }
-    return true;
-}
 
 static bool item_inscription( player *p, item *cut, std::string verb, std::string gerund,
                               bool carveable)
@@ -768,10 +757,17 @@ int iuse::alcohol_strong(player *p, item *it, bool)
     return it->type->charges_to_use();
 }
 
-int iuse::cig(player *p, item *it, bool)
-{
-    bool hasPapers = p->has_charges("rolling_paper", 1);
-    bool hasPipe = p->has_amount("apparatus", 1);
+/**
+ * Entry point for intentional bodily intake of smoke via paraphernalia: pipe,
+ * crack pipe, etc.
+ * 
+ * @param p
+ * @param it the apparatus with which to do the smoking.
+ * @param 
+ * @return 
+ */
+int iuse::smoking_pipe(player *p, item *it, bool) {
+    bool hasFire = (p->has_charges("fire", 1));
 
     // make sure we're not already smoking something
     std::vector<item*> active_items = p->inv.active_items();
@@ -783,88 +779,135 @@ int iuse::cig(player *p, item *it, bool)
         }
     }
 
-    // can roll old butts into a new cigarette
-    if(it->type->id == "cig_butt") {
-        if(!hasPapers) {
-            p->add_msg_if_player(m_info, _("You need some rolling papers to roll a cigarette!"));
+    if (!hasFire){
+        p->add_msg_if_player(m_info, _("You don't have anything to light it with!"));
+        return 0;
+    }    
+
+//    // smoke out of a pipe
+//    // TODO: Allow choice of smokable items from the player.
+//    // or fail if user has no smokable items.
+//
+//    p->use_charges_if_avail("fire", 1);
+//
+//    ///// tobacco smoking
+//    p->add_msg_if_player(_("You smoke some tobacco out of your pipe."));
+//    p->thirst += 1;
+//    p->hunger -= 2;
+//    p->add_disease("cig", 200);
+//    for(int i = 0; i < 3; i++) {
+//        g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cigsmoke, 2);
+//    }
+//    if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG)))) {
+//        p->add_msg_if_player( m_bad, _("Ugh, too much smoke... you cough heavily."));
+//        g->sound(p->posx, p->posy, 10, "");
+//    }
+//    p->moves -= 250;
+//
+//    ///// Weed smoking
+//    if (!(p->has_disease("weed_high"))) {
+//        p->add_msg_if_player(m_good, _("You smoke some weed.  Good stuff, man!"));
+//    } else {
+//        p->add_msg_if_player(m_info, _("You smoke some more weed."));
+//    }
+//    p->hunger += 4;
+//    p->thirst += 6;
+//    if (p->pkill < 5){
+//        p->pkill += 3;
+//        p->pkill *= 2;
+//    }
+//    int duration = 90;
+//    if (p->has_trait("TOLERANCE")) {
+//        duration = 60;
+//    }
+//    else if (p->has_trait("LIGHTWEIGHT")) {
+//        duration = 120;
+//    }
+//    p->add_disease("weed_high", duration);
+//    p->moves -= 40;
+//    // breathe out some smoke
+//    for(int i = 0; i < 3; i++) {
+//        g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_weedsmoke, 2);
+//    }
+//    if(one_in(5)) {
+//        weed_msg(p);
+//    }
+    return 0;
+}
+
+/**
+ * Entry point for intentional bodily intake of smoke via paper wrapped one
+ * time use items: cigars, cigarettes, etc.
+ * 
+ * @param p
+ * @param it the item to be smoked.
+ * @param 
+ * @return 
+ */
+int iuse::smoking(player *p, item *it, bool) {
+    bool hasFire = (p->has_charges("fire", 1));
+
+    // make sure we're not already smoking something
+    std::vector<item*> active_items = p->inv.active_items();
+    for(std::vector<item*>::iterator iter = active_items.begin(); iter != active_items.end(); iter++) {
+        item* i = *iter;
+        if(i->has_flag("LITCIG")) {
+            p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
             return 0;
         }
-        if(!p->has_charges("cig_butt", 5)) {
-            p->add_msg_if_player(m_info, _("You need at least 5 butts to roll a cigarette!"));
-            return 0;
-        }
-        p->add_msg_if_player(_("You roll a cigarette out of some old butts."));
-        p->moves -= 1000;
-        p->use_charges_if_avail("cig_butt", 4); // 4 since using butt consumes a charge
-        p->use_charges_if_avail("rolling_paper", 1);
     }
 
+    if (!hasFire){
+        p->add_msg_if_player(m_info, _("You don't have anything to light it with!"));
+        return 0;
+    }
+    
     item cig;
-    if (it->type->id == "cig" || it->type->id == "tobacco" || it->type->id == "cig_butt"){
-        // loose tobacco can be smoked out of pipe or rolled into cigarette
-        if(it->type->id == "tobacco"){
-            if(!(hasPapers || hasPipe)) {
-                p->add_msg_if_player(m_info, _("You need some rolling papers or a pipe to smoke tobacco!"));
-                return 0;
-            }
-            int choice = -1;
-            if(hasPipe && hasPapers) { // ask whether to roll a cigarette or puff on a pipe
-                choice = menu(true, _("Do what with the tobacco?"), _("Roll a cigarette"),
-                              _("Smoke a pipe"), _("Cancel"), NULL);
-                if(choice < 0 || choice == 3) {
-                    p->add_msg_if_player( _("Never mind."));
-                    return 0;
-                }
-            }
-
-            // Use a rolling paper and continue to smoke as if using a cigarette.
-            if ((choice == 1) || !hasPipe) {
-                if(p->has_disease("shakes") && !(one_in(15))) { // can't roll with the shakes
-                    p->add_msg_if_player(m_info, _("Your hands are too shaky to roll a cigarette!"));
-                    p->moves -= 10;
-                    return 0;
-                }
-                p->use_charges_if_avail("rolling_paper", 1);
-                p->moves -= 500;
-            } else { // smoke out of a pipe
-                if (!use_fire(p, it)) return 0;
-                p->add_msg_if_player(_("You smoke some tobacco out of your pipe."));
-                p->thirst += 1;
-                p->hunger -= 2;
-                p->add_disease("cig", 200);
-                for(int i = 0; i < 3; i++) {
-                    g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cigsmoke, 2);
-                }
-                if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG)))) {
-                    p->add_msg_if_player( m_bad, _("Ugh, too much smoke... you cough heavily."));
-                    g->sound(p->posx, p->posy, 10, "");
-                }
-                p->moves -= 250;
-                return it->type->charges_to_use();
-            }
-        }
-
+    if (it->type->id == "cig"){
         cig = item("cig_lit", int(calendar::turn));
         cig.item_counter = 40;
         p->thirst += 2;
         p->hunger -= 3;
+    } else if(it->type->id == "handrolled_cig"){
+        // This transforms the hand-rolled into a normal cig, which isn't exactly
+        // what I want, but leaving it for now.
+        cig = item("cig_lit", int(calendar::turn));
+        cig.item_counter = 40;
+        p->thirst += 2;
+        p->hunger -= 3;        
     } else if(it->type->id == "cigar"){
         cig = item("cigar_lit", int(calendar::turn));
         cig.item_counter = 120;
         p->thirst += 3;
         p->hunger -= 4;
-    } else { // joint
+    } else if(it->type->id == "joint"){
         cig = item("joint_lit", int(calendar::turn));
         cig.item_counter = 40;
-        // thirst/hunger for joint happen in iuse::weed
+        p->hunger += 4;
+        p->thirst += 6;
+        if (p->pkill < 5){
+            p->pkill += 3;
+            p->pkill *= 2;
+        }
+    } else {
+        p->add_msg_if_player( m_bad,  _("Please let the devs know you should be able to smoke a %s but the smoking code does not know how."), it->tname().c_str());
+        return 0;
     }
-    if (!use_fire(p, it)) return 0;
+    // If we're here, we better have a cig to light.
+    p->use_charges_if_avail("fire", 1);
     cig.active = true;
     p->inv.add_item(cig, false, true);
-    p->add_msg_if_player(_("You light a %s."), cig.name.c_str());
+    p->add_msg_if_player(m_info, _("You light a %s."), cig.name.c_str());
 
+    // Parting messages
+    if (it->type->id == "joint") {
+        // Would group with the joint, but awkward to mutter before lighting up.
+        if(one_in(5)) {
+            weed_msg(p);
+        }
+    }
     if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
-        p->add_msg_if_player( m_bad,  _("Ugh, too much smoke... you feel nasty."));
+        p->add_msg_if_player(m_bad, _("Ugh, too much smoke... you feel nasty."));
     }
 
     return it->type->charges_to_use();
@@ -1056,100 +1099,6 @@ int iuse::anticonvulsant(player *p, item *it, bool) {
             p->rem_disease("shakes");
             p->add_msg_if_player(m_good, _("You stop shaking."));
         }
-    return it->type->charges_to_use();
-}
-
-int iuse::weed(player *p, item *it, bool b) {
-    // Requires flame and something to smoke with.
-    bool hasPipe = (p->has_amount("apparatus", 1));
-    bool hasPapers = (p->has_charges("rolling_paper", 1));
-    bool hasFire = (p->has_charges("fire", 1));
-    if (!(hasPipe || hasPapers)) {
-        p->add_msg_if_player(m_info, _("You don't have anything to smoke out of!"));
-        return 0;
-    }
-
-    if(!hasFire) {
-        p->add_msg_if_player(m_info, _("You don't have anything to light it with!"));
-        return 0;
-    }
-
-    bool roachjoint = false;
-    if(it->type->id == "joint_roach") {
-        if(!hasPapers) {
-           p->add_msg_if_player(m_info, _("You need some rolling papers to roll a joint!"));
-           return 0;
-        }
-        if(!p->has_charges("joint_roach", 5)) {
-            p->add_msg_if_player(m_info, _("You need at least 5 roaches to roll a joint!"));
-            return 0;
-        }
-        roachjoint = true;
-        p->add_msg_if_player(_("You roll a joint out of some old roaches."));
-        p->use_charges_if_avail("joint_roach", 4); // 4 since using roach consumes a charge
-        p->moves -= 1000;
-    }
-
-    int choice = -1;
-    if(!roachjoint && hasPipe && hasPapers) { // ask whether to roll a fatty or pack a bowl
-        choice = menu(true, _("Do what with the cannabis?"), _("Roll a joint"), _("Smoke a pipe"), _("Cancel"), NULL);
-        if(choice < 0 || choice == 3) {
-            p->add_msg_if_player( _("Never mind."));
-            return 0;
-        }
-    }
-
-    // smoke a joint (call iuse::cig)
-    if ((choice == 1) || !hasPipe || roachjoint) {
-        if(p->has_disease("shakes") && !(one_in(15))) {
-            p->add_msg_if_player(m_info, _("Your hands are too shaky to roll a joint!"));
-            p->moves -= 10;
-            return 0;
-        }
-
-        int charges = cig(p, it, b);
-        if(charges != 0) {
-            p->hunger += 4;
-            p->thirst += 6;
-            if (p->pkill < 5) {
-                p->pkill += 3;
-                p->pkill *= 2;
-            }
-            p->moves -= 500;
-            p->use_charges_if_avail("rolling_paper", 1);
-        }
-        return charges;
-    }
-
-    // smoke out of a pipe
-    p->use_charges_if_avail("fire", 1);
-    if (!(p->has_disease("weed_high"))) {
-        p->add_msg_if_player(m_good, _("You smoke some weed.  Good stuff, man!"));
-    } else {
-        p->add_msg_if_player(_("You smoke some more weed."));
-    }
-    p->hunger += 4;
-    p->thirst += 6;
-    if (p->pkill < 5) {
-        p->pkill += 3;
-        p->pkill *= 2;
-    }
-    int duration = 90;
-    if (p->has_trait("TOLERANCE")) {
-        duration = 60;
-    }
-    else if (p->has_trait("LIGHTWEIGHT")) {
-        duration = 120;
-    }
-    p->add_disease("weed_high", duration);
-    p->moves -= 40;
-    // breathe out some smoke
-    for(int i = 0; i < 3; i++) {
-        g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_weedsmoke, 2);
-    }
-    if(one_in(5)) {
-        weed_msg(p);
-    }
     return it->type->charges_to_use();
 }
 
