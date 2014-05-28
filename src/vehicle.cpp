@@ -1338,7 +1338,7 @@ item vehicle_part::properties_to_item() const
     float hpofdur = ( float )hp / vpinfo.durability;
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
     // Transfer fuel back to tank
-    if( !vpinfo.fuel_type.empty() && amount > 0 ) {
+    if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
         const ammotype &desired_liquid = vpinfo.fuel_type;
         if( desired_liquid == fuel_type_battery ) {
             tmp.charges = amount;
