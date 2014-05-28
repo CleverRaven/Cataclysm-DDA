@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.A\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-19 16:44+0400\n"
+"POT-Creation-Date: 2014-05-28 12:34+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2157,6 +2157,16 @@ msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "Some tomato seeds."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "cotton seed"
+msgid_plural "cotton seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "Some cotton seeds. Can be processed to produce an edible oil."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -13488,6 +13498,30 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "cotton boll"
+msgid_plural "cotton bolls"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A tough protective capsule bulging with densely packed fibers and seeds, "
+"this cotton boll can be processed into usable material with the right tools."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cotton balls"
+msgid_plural "cotton balls"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Fluffy balls of clean white cotton. Can serve as makeshift bandages in an "
+"emergency."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "broccoli"
 msgid_plural "broccoli"
 msgstr[0] ""
@@ -15307,7 +15341,7 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A brown goo that tastes very little of it's namesake. It's not bad but it'll "
+"A brown goo that tastes very little of its namesake. It's not bad but it'll "
 "stick to the roof of your mouth."
 msgstr ""
 
@@ -16386,7 +16420,7 @@ msgid ""
 "addictive. It can't be reused once it's empty."
 msgstr ""
 
-#: lang/json/COMESTIBLE_from_json.py
+#: lang/json/COMESTIBLE_from_json.py src/addiction.cpp
 msgid "diazepam"
 msgid_plural "diazepams"
 msgstr[0] ""
@@ -16394,8 +16428,8 @@ msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"It is commonly used to treat muscle spasms, anxiety,  seizures, and panic "
-"attacks"
+"A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, "
+"and panic attacks"
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
@@ -17575,7 +17609,7 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A pilot light from a gas-burning device, this particular one is a simple "
-"piezo electric igniter."
+"piezoelectric igniter."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -18027,6 +18061,41 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A long-handled broom. Makes a terrible weapon unless you're chasing cats."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "distaff and spindle"
+msgid_plural "distaves and spindles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A pair of specialized wooden rods used to spin fibers into thread and yarn."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "carding paddles"
+msgid_plural "pairs of carding paddles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A pair of toothy wooden paddles used to clean fibers for use in textile "
+"production."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "knitting needles"
+msgid_plural "pairs of knitting needles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A pair of stout wooden needles with round ends used to turn thread and yarn "
+"into cloth."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -20851,7 +20920,7 @@ msgstr[1] ""
 msgid ""
 "The TEC-9 is a machine pistol made of cheap polymers and machine stamped "
 "parts. Its rise in popularity among criminals is largely due to its "
-"intimidating looks and low ."
+"intimidating looks and low cost."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -21018,7 +21087,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "The child of the M1 Garand World War 2 rifle, the M14 is a semi-automatic "
-"rifle favored for it's accuracy and modular use."
+"rifle favored for its accuracy and modular use."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -27049,6 +27118,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "vibrator"
+msgid_plural "vibrators"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This battery-devouring device is just the thing to knead the tension out and "
+"help you relax. Use it to take a break and unwind."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "vortex stone"
 msgid_plural "vortex stones"
 msgstr[0] ""
@@ -30091,10 +30172,6 @@ msgid "Build Wire Fence"
 msgstr ""
 
 #: lang/json/construction_from_json.py
-msgid "Build wire Fence"
-msgstr ""
-
-#: lang/json/construction_from_json.py
 msgid "Build Wire Gate"
 msgstr ""
 
@@ -30918,6 +30995,14 @@ msgstr ""
 
 #: lang/json/effects_from_json.py src/disease.cpp
 msgid "You're deafened!"
+msgstr ""
+
+#: lang/json/effects_from_json.py src/bionics.cpp
+msgid "Stung"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Causes constant pain."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -37887,6 +37972,26 @@ msgid "tutorial room"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "Mall"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Mall - Loading Bay"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Mall - Utilities"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Mall - Entrance"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Mall - Food Court"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "abandoned drive-through"
 msgstr ""
 
@@ -37954,7 +38059,7 @@ msgstr ""
 msgid ""
 "You knew the end was coming. You augmented yourself with some basic bionics "
 "and got additional survival training. Now the end has come, and it is time "
-"to see if your efforts have paid off]."
+"to see if your efforts have paid off."
 msgstr ""
 
 #. ~ Male profession name (optional)
@@ -42804,6 +42909,10 @@ msgid "window frame"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "glass crunching!"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "boarded up window"
 msgstr ""
 
@@ -44120,7 +44229,7 @@ msgstr ""
 #: src/action.cpp src/editmap.cpp src/game.cpp
 #: src/game.cpp src/iexamine.cpp
 #: src/iexamine.cpp
-#: src/inventory_ui.cpp src/iuse.cpp
+#: src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
 #: src/iuse.cpp
 #: src/iuse.cpp src/player.cpp
 #: src/player.cpp
@@ -44222,6 +44331,14 @@ msgid "You could use some new parts..."
 msgstr ""
 
 #: src/addiction.cpp
+msgid "You could use some diazepam."
+msgstr ""
+
+#: src/addiction.cpp
+msgid "You're shaking... you need some diazepam!"
+msgstr ""
+
+#: src/addiction.cpp
 msgid "nicotine"
 msgstr ""
 
@@ -44290,6 +44407,10 @@ msgid "Mutation Withdrawal"
 msgstr ""
 
 #: src/addiction.cpp
+msgid "Diazepam Withdrawal"
+msgstr ""
+
+#: src/addiction.cpp
 msgid "Intelligence - 1;   Occasional cravings"
 msgstr ""
 
@@ -44340,6 +44461,12 @@ msgstr ""
 msgid ""
 "You've gotten a taste for mutating and the chemicals that cause it. But you "
 "can stop, yeah, any time you want."
+msgstr ""
+
+#: src/addiction.cpp
+msgid ""
+"Perception - 1;   Intelligence - 1;\n"
+"Anxiety, nausea, hallucinations, and general malaise."
 msgstr ""
 
 #: src/advanced_inv.cpp
@@ -44663,9 +44790,9 @@ msgstr ""
 msgid "Sort Armor"
 msgstr ""
 
-#: src/armor_layers.cpp
+#: src/armor_layers.cpp src/player.cpp
 #, c-format
-msgid "Press %s for help"
+msgid "Press %s for help."
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -46750,7 +46877,7 @@ msgid ""
 "  \n"
 "  Director Grimes has released a new series of accusations that\n"
 "  will soon be investigated by a Congressional committee.  Below\n"
-"  is the message that he sent myself.\n"
+"  is the message that he sent me.\n"
 "  \n"
 "  --------------------------------------------------------------\n"
 "  Subj: Congressional Investigations\n"
@@ -46801,8 +46928,8 @@ msgid ""
 "  action in this national crisis.  You will proceed with fail-\n"
 "  safe procedures and rig the sarcophagus with c-4 as outlined\n"
 "  in Publication 4423.  We will send you orders to either detonate\n"
-"  and seal the sarcophagus or remove the charges.  It is of\n"
-"  upmost importance that the facility is sealed immediatly when\n"
+"  and seal the sarcophagus or remove the charges.  It is of the\n"
+"  utmost importance that the facility be sealed immediatly when\n"
 "  the orders are given.  We have been alerted by Homeland Security\n"
 "  that there are potential terrorist suspects that are being\n"
 "  detained in connection with the recent national crisis.\n"
@@ -51742,6 +51869,18 @@ msgid "thick meth smoke"
 msgstr ""
 
 #: src/field.cpp
+msgid "angry swarm of bees"
+msgstr ""
+
+#: src/field.cpp
+msgid "some bees"
+msgstr ""
+
+#: src/field.cpp
+msgid "swarm of bees"
+msgstr ""
+
+#: src/field.cpp
 msgid "Man, that smells like some good shit!"
 msgstr ""
 
@@ -51827,6 +51966,22 @@ msgstr ""
 
 #: src/field.cpp
 msgid "You're violently teleported!"
+msgstr ""
+
+#: src/field.cpp
+msgid "The bees sting you!"
+msgstr ""
+
+#: src/field.cpp
+msgid "The bees sting you several times!"
+msgstr ""
+
+#: src/field.cpp
+msgid "The bees sting you many times!"
+msgstr ""
+
+#: src/field.cpp
+msgid "The bees sting you all over your body!"
 msgstr ""
 
 #: src/field.cpp src/trapfunc.cpp
@@ -52045,11 +52200,23 @@ msgid "The %s runs out of batteries."
 msgstr ""
 
 #: src/game.cpp
+msgid "You have trouble breathing, and stop."
+msgstr ""
+
+#: src/game.cpp
+msgid "You're too tired to continue."
+msgstr ""
+
+#: src/game.cpp
 msgid "With a clang and a shudder, the gasoline pump goes silent."
 msgstr ""
 
 #: src/game.cpp
 msgid "You finish waiting."
+msgstr ""
+
+#: src/game.cpp
+msgid "You feel much better."
 msgstr ""
 
 #: src/game.cpp
@@ -53174,7 +53341,7 @@ msgid "Your %s shatters!"
 msgstr ""
 
 #: src/game.cpp
-msgid "There's nothing there!"
+msgid "There's nothing there to smash!"
 msgstr ""
 
 #: src/game.cpp
@@ -53188,10 +53355,11 @@ msgid "Use item:"
 msgstr ""
 
 #: src/game.cpp
-#: src/game.cpp src/iexamine.cpp src/iuse.cpp
+#: src/game.cpp src/iexamine.cpp
 #: src/iuse.cpp
-#: src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp src/player.cpp
+#: src/iuse.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp
+#: src/player.cpp
 msgid "Never mind."
 msgstr ""
 
@@ -54382,14 +54550,9 @@ msgstr ""
 msgid " is"
 msgstr ""
 
-#: src/game.cpp src/vehicle.cpp
-#, c-format
-msgid "You hear a %s"
-msgstr ""
-
 #: src/game.cpp
 #, c-format
-msgid "%s slammed against the %s for %d damage!"
+msgid "%s slammed against the %s!"
 msgstr ""
 
 #: src/game.cpp
@@ -56669,9 +56832,30 @@ msgstr ""
 msgid "There is a %s there.  Disarm?"
 msgstr ""
 
+#. ~ Loading fuel or other items into a piece of furniture.
 #: src/iexamine.cpp
 #, c-format
 msgid "Put how many of the %s into the %s?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Do what with the curtains?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Peek through the curtains."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "Tear down the curtains."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You carefully peek through the curtains."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You tear the curtains and curtain rod off the windowframe."
 msgstr ""
 
 #: src/input.cpp
@@ -57418,6 +57602,11 @@ msgstr ""
 
 #: src/item.cpp
 #, c-format
+msgid "<item_name>%s with %s"
+msgstr ""
+
+#: src/item.cpp
+#, c-format
 msgid "<item_name>%s, full"
 msgstr ""
 
@@ -57886,6 +58075,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "The medication does nothing to help the spasms."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You stop shaking."
 msgstr ""
 
 #: src/iuse.cpp
@@ -58676,30 +58869,6 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "Your %s is already enhanced."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You damage your %s!"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You take your %s in, improving the fit."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You make your %s extra sturdy."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You practice your sewing."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
 msgid "You damage your %s further!"
 msgstr ""
 
@@ -58725,6 +58894,30 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "You repair your %s completely!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You damage your %s!"
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You take your %s in, improving the fit."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You make your %s extra sturdy."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You practice your sewing."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "Your %s is already enhanced."
 msgstr ""
 
 #: src/iuse.cpp
@@ -59099,10 +59292,6 @@ msgid "Your %s is not made of plastic, metal, or kevlar."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You practice your soldering."
-msgstr ""
-
-#: src/iuse.cpp
 #, c-format
 msgid "You don't repair your %s, and you waste lots of charge."
 msgstr ""
@@ -59110,6 +59299,10 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "You repair your %s, but you waste lots of charge."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You practice your soldering."
 msgstr ""
 
 #: src/iuse.cpp
@@ -59253,6 +59446,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "There isn't anything new on the map."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You should read your map when you get to the surface."
 msgstr ""
 
 #: src/iuse.cpp
@@ -60078,6 +60275,10 @@ msgid "REVERTS!!"
 msgstr ""
 
 #: src/iuse.cpp
+msgid "BEES!!"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "Set the timer to (0 to cancel)?"
 msgstr ""
 
@@ -60412,6 +60613,19 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "You play on your %s for a while."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "It's waterproof, but oxygen maybe?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "*Your* batteries are dead."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You fire up your %s and start getting the tension out."
 msgstr ""
 
 #: src/iuse.cpp
@@ -62618,12 +62832,7 @@ msgid "Flat. "
 msgstr ""
 
 #: src/map.cpp
-#, c-format
-msgid "A %s shatters!  "
-msgstr ""
-
-#: src/map.cpp
-msgid "Some items shatter!  "
+msgid "glass shattering"
 msgstr ""
 
 #: src/map.cpp
@@ -70033,6 +70242,10 @@ msgid "Mutagen Craving"
 msgstr ""
 
 #: src/player.cpp
+msgid "Diazepam Craving"
+msgstr ""
+
+#: src/player.cpp
 #, c-format
 msgid "Disliked %i"
 msgstr ""
@@ -70482,11 +70695,6 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Toogle skill training"
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "Press %s for help."
 msgstr ""
 
 #: src/player.cpp
@@ -73634,6 +73842,11 @@ msgstr ""
 #: src/vehicle.cpp
 #, c-format
 msgid "Your %s's %s rams into a %s."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
+msgid "You hear a %s"
 msgstr ""
 
 #: src/vehicle.cpp
