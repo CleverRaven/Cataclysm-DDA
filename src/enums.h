@@ -82,5 +82,12 @@ inline bool operator!=(const tripoint& a, const tripoint& b)
 {
   return !(a == b);
 }
+inline bool operator<(const tripoint& a, const tripoint& b)
+{
+    if (a.x != b.x) { return a.x < b.x; }
+    if (a.y != b.y) { return a.y < b.y; }
+    if (a.z != b.z) { return a.z < b.z; }
+    return false;
+}
 
 #endif

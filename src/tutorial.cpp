@@ -5,6 +5,7 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "monstergenerator.h"
+#include "profession.h"
 
 std::vector<std::string> tut_text;
 
@@ -30,13 +31,14 @@ bool tutorial_game::init()
  g->u.dex_cur = g->u.dex_max;
  //~ default name for the tutorial
  g->u.name = _("John Smith");
+ g->u.prof = profession::generic();
  g->levx = 100;
  g->levy = 100;
  g->cur_om = &overmap_buffer.get(0, 0);
  g->cur_om->make_tutorial();
  g->cur_om->save();
  g->u.toggle_trait("QUICK");
- g->u.inv.push_back(item(itypes["lighter"], 0, 'e'));
+ g->u.inv.push_back(item("lighter", 0, 'e'));
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
 // Start with the overmap revealed

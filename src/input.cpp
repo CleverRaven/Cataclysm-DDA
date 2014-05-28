@@ -49,61 +49,6 @@ static std::string long_to_str(long number) {
     return buffer.str();
 }
 
-/* TODO Replace the hardcoded values with an abstraction layer.
- * Lower redundancy across the methods. */
-
-long input(long ch)
-{
-    if (ch == -1) {
-        ch = get_keypress();
-    }
-
-    switch (ch) {
-    case KEY_UP:
-        return 'k';
-    case KEY_LEFT:
-        return 'h';
-    case KEY_RIGHT:
-        return 'l';
-    case KEY_DOWN:
-        return 'j';
-    case KEY_NPAGE:
-        return '>';
-    case KEY_PPAGE:
-        return '<';
-    case 459:
-        return '\n';
-    default:
-        return ch;
-    }
-}
-
-long get_keypress()
-{
-    long ch = getch();
-
-    // Our current tiles and Windows code doesn't have ungetch()
-#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
-    if (ch != ERR) {
-        int newch;
-
-        // Clear the buffer of characters that match the one we're going to act on.
-        timeout(0);
-        do {
-            newch = getch();
-        } while( newch != ERR && newch == ch );
-        timeout(-1);
-
-        // If we read a different character than the one we're going to act on, re-queue it.
-        if (newch != ERR && newch != ch) {
-            ungetch(newch);
-        }
-    }
-#endif
-
-    return ch;
-}
-
 bool is_mouse_enabled()
 {
 #if ((defined _WIN32 || defined WINDOWS) && !(defined SDLTILES || defined TILES))
@@ -743,7 +688,7 @@ const std::string input_context::get_desc(const std::string &action_descriptor)
 
         // We're generating a list separated by "," and "or"
         if(i + 2 == inputs_to_show.size()) {
-            rval << " or ";
+            rval << _(" or ");
         } else if(i + 1 < inputs_to_show.size()) {
             rval << ", ";
         }
@@ -1081,7 +1026,23 @@ input_event input_manager::get_input_event(WINDOW *win)
 {
     previously_pressed_key = 0;
     (void)win; // unused
-    int key = get_keypress();
+    long key = getch();
+    // Our current tiles and Windows code doesn't have ungetch()
+#if !(defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+    if (key != ERR) {
+        long newch;
+        // Clear the buffer of characters that match the one we're going to act on.
+        timeout(0);
+        do {
+            newch = getch();
+        } while(newch != ERR && newch == key);
+        timeout(-1);
+        // If we read a different character than the one we're going to act on, re-queue it.
+        if (newch != ERR && newch != key) {
+            ungetch(newch);
+        }
+    }
+#endif
     input_event rval;
     if (key == ERR) {
         if (input_timeout > 0) {

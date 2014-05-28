@@ -1080,7 +1080,7 @@ double JsonIn::get_float()
     stream->unget();
     end_value();
     // now put it all together!
-    return i * pow(10.0f, static_cast<float>(e + mod_e));
+    return i * std::pow(10.0f, e + mod_e);
 }
 
 bool JsonIn::get_bool()

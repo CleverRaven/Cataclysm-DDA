@@ -11,15 +11,15 @@ std::map<matype_id, martialart> martialarts;
 std::map<mabuff_id, ma_buff> ma_buffs;
 std::map<matec_id, ma_technique> ma_techniques;
 
-std::map<std::string, technique_id> tech_id_lookup;
-
-
 void load_technique(JsonObject &jo)
 {
     ma_technique tec;
 
     tec.id = jo.get_string("id");
-    //tec.name = _(jo.get_string("name").c_str());
+    tec.name = jo.get_string("name", "");
+	if (!tec.name.empty()) {
+		tec.name = _(tec.name.c_str());
+	}
 
     JsonArray jsarr = jo.get_array("messages");
     while (jsarr.has_more()) {
@@ -139,30 +139,6 @@ ma_buff load_buff(JsonObject &jo)
     ma_buffs[buff.id] = buff;
 
     return buff;
-}
-
-void init_martial_arts() {
-    // set up lookup tables for techniques
-    tech_id_lookup["SWEEP"] = TEC_SWEEP;
-    tech_id_lookup["PRECISE"] = TEC_PRECISE;
-    tech_id_lookup["BRUTAL"] = TEC_BRUTAL;
-    tech_id_lookup["GRAB"] = TEC_GRAB;
-    tech_id_lookup["WIDE"] = TEC_WIDE;
-    tech_id_lookup["RAPID"] = TEC_RAPID;
-    tech_id_lookup["FEINT"] = TEC_FEINT;
-    tech_id_lookup["THROW"] = TEC_THROW;
-    tech_id_lookup["DISARM"] = TEC_DISARM;
-    tech_id_lookup["FLAMING"] = TEC_FLAMING;
-
-    tech_id_lookup["BLOCK"] = TEC_BLOCK;
-    tech_id_lookup["BLOCK_LEGS"] = TEC_BLOCK_LEGS;
-    tech_id_lookup["WBLOCK_1"] = TEC_WBLOCK_1;
-    tech_id_lookup["WBLOCK_2"] = TEC_WBLOCK_2;
-    tech_id_lookup["WBLOCK_3"] = TEC_WBLOCK_3;
-    tech_id_lookup["COUNTER"] = TEC_COUNTER;
-    tech_id_lookup["BREAK"] = TEC_BREAK;
-    tech_id_lookup["DEF_THROW"] = TEC_DEF_THROW;
-    tech_id_lookup["DEF_DISARM"] = TEC_DEF_DISARM;
 }
 
 void load_martial_art(JsonObject &jo)
@@ -552,28 +528,34 @@ bool player::has_grab_break_tec() {
 }
 
 bool player::can_leg_block() {  
-  martialart ma = martialarts[style_selected];
-  if (ma.leg_block < 0 || !(ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs")))
-    return false;
-  int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
-  if (unarmed_skill < ma.leg_block && !(ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs")))
-      return false;
-  if (hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0)
-    return true;
-  else
+    martialart ma = martialarts[style_selected];
+    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
+    
+    // Success conditions.
+    if(hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0) {
+        if( unarmed_skill >= ma.leg_block ) {
+            return true;
+        } else if( ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs") ) {
+            return true;
+        }
+    } 
+    // if not above, can't block.
     return false;
 }
 
 bool player::can_arm_block() {
-  martialart ma = martialarts[style_selected];
-  if (ma.arm_block < 0 || !(ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms")))
-    return false;
-  int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
-  if (unarmed_skill < ma.arm_block && !(ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms")))
-      return false;
-  if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0)
-    return true;
-  else
+    martialart ma = martialarts[style_selected];
+    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
+    
+    // Success conditions.
+    if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0) {
+        if( unarmed_skill >= ma.arm_block ) {
+            return true;
+        } else if( ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms") ) {
+            return true;
+        }
+    }
+    // if not above, can't block.
     return false;
 }
 

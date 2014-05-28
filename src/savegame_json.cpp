@@ -182,6 +182,15 @@ void player::json_load_common_variables(JsonObject & data)
     data.read("effects",effects);
     data.read("addictions",addictions);
     data.read("my_bionics",my_bionics);
+
+    JsonArray traps = data.get_array("known_traps");
+    known_traps.clear();
+    while(traps.has_more()) {
+        JsonObject pmap = traps.next_object();
+        const tripoint p(pmap.get_int("x"), pmap.get_int("y"), pmap.get_int("z"));
+        const std::string t = pmap.get_string("trap");
+        known_traps.insert(trap_map::value_type(p, t));
+    }
 }
 
 /*
@@ -259,6 +268,18 @@ void player::json_save_common_variables(JsonOut &json) const
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", my_bionics );
+
+    json.member( "known_traps" );
+    json.start_array();
+    for (trap_map::const_iterator a = known_traps.begin(); a != known_traps.end(); ++a) {
+        json.start_object();
+        json.member( "x", a->first.x );
+        json.member( "y", a->first.y );
+        json.member( "z", a->first.z );
+        json.member( "trap", a->second );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -820,6 +841,7 @@ void monster::deserialize(JsonIn &jsin)
     data.read("wandf", wandf);
     data.read("moves", moves);
     data.read("speed", speed);
+    Creature::set_speed_base(speed);
     data.read("hp", hp);
     data.read("sp_timeout", sp_timeout);
     data.read("friendly", friendly);
@@ -855,7 +877,7 @@ void monster::serialize(JsonOut &json, bool save_contents) const
     json.member("wandy",wandy);
     json.member("wandf",wandf);
     json.member("moves",moves);
-    json.member("speed",speed);
+    json.member("speed", get_speed());
     json.member("hp",hp);
     json.member("sp_timeout",sp_timeout);
     json.member("friendly",friendly);
@@ -939,29 +961,10 @@ void item::deserialize(JsonObject &data)
         }
     }
 
-    bool old_itype = false;
-
-    if ( idtmp == "null" ) {
-        std::map<std::string, std::string>::const_iterator oldity = item_vars.find("_invalid_itype_");
-        if ( oldity != item_vars.end() ) {
-            old_itype = true;
-            idtmp = oldity->second;
-        }
-    }
-
-    std::map<std::string, itype*>::const_iterator ity = itypes.find(idtmp);
-    if ( ity == itypes.end() ) {
-        item_vars["_invalid_itype_"] = idtmp;
-        make(NULL);
-    } else {
-        if ( old_itype ) {
-            item_vars.erase( "_invalid_itype_" );
-        }
-        make(ity->second);
-    }
+    make(idtmp);
 
     if ( ! data.read( "name", name ) ) {
-        name=type->name;
+        name = type->name;
     }
 
     data.read( "invlet", lettmp );
@@ -985,12 +988,12 @@ void item::deserialize(JsonObject &data)
     data.read("item_tags", item_tags);
 
 
-    int tmplum=0;
+    int tmplum = 0;
     if ( data.read("light",tmplum) ) {
 
-        light=nolight;
-        int tmpwidth=0;
-        int tmpdir=0;
+        light = nolight;
+        int tmpwidth = 0;
+        int tmpdir = 0;
 
         data.read("light_width",tmpwidth);
         data.read("light_dir",tmpdir);
@@ -1155,12 +1158,14 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("turn_dir", turn_dir);
     data.read("velocity", velocity);
     data.read("cruise_velocity", cruise_velocity);
+    data.read("music_id", music_id);
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("has_pedals", has_pedals);
     data.read("has_hand_rims", has_hand_rims);
     data.read("tracking_on", tracking_on);
     data.read("lights_on", lights_on);
+    data.read("stereo_on", stereo_on);
     data.read("overhead_lights_on", overhead_lights_on);
     data.read("fridge_on", fridge_on);
     data.read("recharger_on", recharger_on);
@@ -1202,12 +1207,14 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "turn_dir", turn_dir );
     json.member( "velocity", velocity );
     json.member( "cruise_velocity", cruise_velocity );
+    json.member( "music_id",music_id);
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "has_pedals", has_pedals );
     json.member( "has_hand_rims", has_hand_rims );
     json.member( "tracking_on", tracking_on );
     json.member( "lights_on", lights_on );
+    json.member( "stereo_on", stereo_on);
     json.member( "overhead_lights_on", overhead_lights_on );
     json.member( "fridge_on", fridge_on );
     json.member( "recharger_on", recharger_on );

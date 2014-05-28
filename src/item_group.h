@@ -1,6 +1,7 @@
 #ifndef _ITEM_GROUP_H_
 #define _ITEM_GROUP_H_
 
+#include "item.h"
 #include <vector>
 #include <set>
 #include <string>
@@ -81,7 +82,7 @@ public:
      * assumes that the item returned by that Single_item_creator
      * contains the charges.
      */
-    std::auto_ptr<Item_spawn_data> ammo;
+    std::unique_ptr<Item_spawn_data> ammo;
     /**
      * Item should spawn inside this container, can be NULL,
      * if item should not spawn in a container.
@@ -91,11 +92,11 @@ public:
      * If it is created with the non-default charges, but it still fits
      * it is not changed.
      */
-    std::auto_ptr<Item_spawn_data> container;
+    std::unique_ptr<Item_spawn_data> container;
     /**
      * This is used to create the contents of an item.
      */
-    std::auto_ptr<Item_spawn_data> contents;
+    std::unique_ptr<Item_spawn_data> contents;
 
     Item_modifier();
     ~Item_modifier();
@@ -134,7 +135,7 @@ public:
      */
     std::string id;
     Type type;
-    std::auto_ptr<Item_modifier> modifier;
+    std::unique_ptr<Item_modifier> modifier;
 
     virtual ItemList create(int birthday, RecursionList &rec) const;
     virtual item create_single(int birthday, RecursionList &rec) const;
@@ -171,7 +172,7 @@ public:
 
     void add_item_entry(const Item_tag &itemid, int probability);
     void add_group_entry(const Group_tag &groupid, int probability);
-    void add_entry(std::auto_ptr<Item_spawn_data> &ptr);
+    void add_entry(std::unique_ptr<Item_spawn_data> &ptr);
 
     virtual ItemList create(int birthday, RecursionList &rec) const;
     virtual item create_single(int birthday, RecursionList &rec) const;

@@ -9,7 +9,7 @@
 
 material_type::material_type()
 {
-    _ident = "";
+    _ident = "null";
     _name = "null";
     _bash_resist = 0;
     _cut_resist = 0;
@@ -148,7 +148,7 @@ int material_type::dam_resist(damage_type damtype) const
 
 bool material_type::is_null() const
 {
-    return (_ident == "");
+    return (_ident == "null");
 }
 
 std::string material_type::ident() const

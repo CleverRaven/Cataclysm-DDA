@@ -345,7 +345,7 @@ void add_corpse(int x, int y);
  bool close_door(const int x, const int y, const bool inside, const bool check_only);
  bool open_door(const int x, const int y, const bool inside, const bool check_only = false);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
- bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);
+ bool bash(const int x, const int y, const int str, bool silent = false, int *res = 0);
  // spawn items from the list, see map_bash_item_drop
  void spawn_item_list(const std::vector<map_bash_item_drop> &items, int x, int y);
  void destroy(const int x, const int y, const bool makesound);
@@ -358,7 +358,13 @@ void add_corpse(int x, int y);
  void mop_spills(const int x, const int y);
 
 // Radiation
- int& radiation(const int x, const int y); // Amount of radiation at (x, y);
+ int get_radiation(const int x, const int y) const; // Amount of radiation at (x, y);
+ void set_radiation(const int x, const int y, const int value);
+
+ /** Increment the radiation in the given tile by the given delta
+  *  (decrement it if delta is negative)
+  */
+ void adjust_radiation(const int x, const int y, const int delta);
 
 // Temperature
  int& temperature(const int x, const int y);    // Temperature for submap
@@ -372,7 +378,8 @@ void add_corpse(int x, int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
- void spawn_artifact(const int x, const int y, itype* type, int bday);
+ void spawn_artifact( const int x, const int y );
+ void spawn_natural_artifact( const int x, const int y, const artifact_natural_property prop );
     void spawn_item(const int x, const int y, const std::string &itype_id,
                     const unsigned quantity=1, const long charges=0,
                     const unsigned birthday=0, const int damlevel=0, const bool rand = true);
@@ -409,8 +416,8 @@ void add_corpse(int x, int y);
  int set_field_age(const point p, const field_id t, const int age, bool isoffset = false);
  int set_field_strength(const point p, const field_id t, const int str, bool isoffset = false);
  field_entry * get_field( const point p, const field_id t );
- bool add_field(const point p, const field_id t, unsigned int density, const int age);
- bool add_field(const int x, const int y, const field_id t, const unsigned char density);
+ bool add_field(const point p, const field_id t, const int density, const int age);
+ bool add_field(const int x, const int y, const field_id t, const int density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(); // See fields.cpp
  bool process_fields_in_submap(submap * const current_submap, const int submap_x, const int submap_y); // See fields.cpp
@@ -508,7 +515,6 @@ protected:
  ter_id nulter;  // Returned when &ter() is asked for an OOB value
  field nulfield; // Returned when &field_at() is asked for an OOB value
  vehicle nulveh; // Returned when &veh_at() is asked for an OOB value
- int nulrad;     // OOB &radiation()
  int null_temperature;  // Because radiation does it too
 
  bool veh_in_active_range;
@@ -533,7 +539,7 @@ private:
   */
  submap *get_submap_at(int x, int y, int& offset_x, int& offset_y) const;
  submap *get_submap_at_grid(int gridx, int gridy) const;
- 
+
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  // apply a circular light pattern immediately, however it's best to use...

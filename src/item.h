@@ -12,10 +12,12 @@ class game;
 class player;
 class npc;
 struct itype;
+class material_type;
 
 // Thresholds for radiation dosage for the radiation film badge.
 const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
-const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"), _("orange"), _("red"), _("black")};
+const std::string rad_threshold_colors[] = { _("green"), _("blue"), _("yellow"),
+                                             _("orange"), _("red"), _("black")};
 
 struct light_emission {
   unsigned short luminance;
@@ -25,20 +27,24 @@ struct light_emission {
 extern light_emission nolight;
 
 struct iteminfo{
- public:
-  std::string sType; //Itemtype
-  std::string sName; //Main item text
-  std::string sFmt; //Text between main item and value
-  std::string sValue; //Set to "-999" if no compare value is present
-  double dValue; //Stores double value of sValue for value comparisons
-  bool is_int; //Sets if sValue should be treated as int or single decimal double
-  std::string sPlus; //number +
-  bool bNewLine; //New line at the end
-  bool bLowerIsBetter; //Lower values are better (red <-> green)
-  bool bDrawName; //If false then compares sName, but don't print sName.
+public:
+    std::string sType; //Itemtype
+    std::string sName; //Main item text
+    std::string sFmt; //Text between main item and value
+    std::string sValue; //Set to "-999" if no compare value is present
+    double dValue; //Stores double value of sValue for value comparisons
+    bool is_int; //Sets if sValue should be treated as int or single decimal double
+    std::string sPlus; //number +
+    bool bNewLine; //New line at the end
+    bool bLowerIsBetter; //Lower values are better (red <-> green)
+    bool bDrawName; //If false then compares sName, but don't print sName.
 
-  //Inputs are: ItemType, main text, text between main text and value, value, if the value should be an int instead of a double, text after number, if there should be a newline after this item, if lower values are better
-  iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999, bool _is_int = true, std::string Plus = "", bool NewLine = true, bool LowerIsBetter = false, bool DrawName = true);
+    // Inputs are: ItemType, main text, text between main text and value, value,
+    // if the value should be an int instead of a double, text after number,
+    // if there should be a newline after this item, if lower values are better
+    iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
+             bool _is_int = true, std::string Plus = "", bool NewLine = true,
+             bool LowerIsBetter = false, bool DrawName = true);
 };
 
 enum LIQUID_FILL_ERROR {L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
@@ -56,18 +62,17 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(itype* it, unsigned int turn, bool rand = true);
- item(itype* it, unsigned int turn, char let, bool rand = true);
- void make_corpse(itype* it, mtype* mt, unsigned int turn); // Corpse
+ item(const std::string new_type, unsigned int turn, bool rand = true );
+ void make_corpse(const std::string new_type, mtype* mt, unsigned int turn); // Corpse
  item(std::string itemdata);
  item(JsonObject &jo);
  virtual ~item();
  void init();
- void make(itype* it);
+ void make( const std::string new_type );
  void clear(); // cleanup that's required to re-use an item variable
 
-// returns the default container of this item, with this item in it
- item in_its_container(std::map<std::string, itype*> *itypes);
+ // returns the default container of this item, with this item in it
+ item in_its_container();
 
     nc_color color(player *u) const;
     nc_color color_in_inventory();
@@ -228,7 +233,8 @@ public:
  int acid_resist() const;
  bool is_two_handed(player *u);
  bool made_of(std::string mat_ident) const;
- std::string get_material(int m) const;
+ // Never returns NULL
+ const material_type *get_material(int m) const;
  bool made_of(phase_id phase) const;
  bool conductive() const; // Electricity
  bool flammable() const;
@@ -314,7 +320,6 @@ public:
  int add_ammo_to_quiver(player *u, bool isAutoPickup);
  int max_charges_from_flag(std::string flagName);
 private:
- int sort_rank() const;
  static itype * nullitem_m;
 };
 
@@ -390,7 +395,7 @@ bool item_matches_locator(const item& it, char invlet, int item_pos = INT_MIN);
 //this is an attempt for functional programming
 bool is_edible(item i, player const*u);
 
-//the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
+//the assigned numbers are a result of legacy stuff in draw_item_info(),
 //it would be better long-term to rewrite stuff so that we don't need that hack
 enum hint_rating {
  HINT_CANT = 0, //meant to display as gray

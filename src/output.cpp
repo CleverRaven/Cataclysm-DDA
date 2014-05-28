@@ -408,6 +408,7 @@ void realDebugmsg(const char *filename, const char *line, const char *mes, ...)
         // wait for spacebar
     }
     werase(stdscr);
+    refresh();
 }
 
 // yn to make an immediate selection
@@ -438,12 +439,10 @@ bool query_yn(const char *mes, ...)
         ucwarning = " (" + ucwarning +")";
         dispkeys = &ucselectors;
     }
-    // localizes the actual question
-    std::string message = _(text.c_str());
 
     // figures the length of the combined texts
     // width needed for text +2 for the border. + (/) 4 for the symbols and a space
-    int win_width = utf8_width(message.c_str()) + utf8_width(selectors.c_str()) + utf8_width(ucwarning.c_str()) + 2 + 4;
+    int win_width = utf8_width(text.c_str()) + utf8_width(selectors.c_str()) + utf8_width(ucwarning.c_str()) + 2 + 4;
     win_width = (win_width < FULL_SCREEN_WIDTH - 2 ? win_width : FULL_SCREEN_WIDTH - 2);
 
     WINDOW *w = NULL;
@@ -481,12 +480,12 @@ bool query_yn(const char *mes, ...)
         }
 
         if (!w) {
-            textformatted = foldstring(message + query, win_width);
+            textformatted = foldstring(text + query, win_width);
             w = newwin(textformatted.size() + 2, win_width, (TERMY - 3) / 2,
                 (TERMX > win_width) ? (TERMX - win_width) / 2 : 0);
             draw_border(w);
         }
-        fold_and_print(w, 1, 1, win_width, c_ltred, message + query);
+        fold_and_print(w, 1, 1, win_width, c_ltred, text + query);
         wrefresh(w);
 
         ch = getch();
@@ -866,18 +865,30 @@ void full_screen_popup(const char *mes, ...)
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
-int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
-                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare,
-                               int selected, bool without_getch)
+int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight, const std::string sItemName,
+                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                   const int selected, const bool without_getch, const bool without_border)
 {
-    WINDOW *w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
+    WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
-    mvwprintz(w, 1, 2, c_white, "%s", sItemName.c_str());
-    int line_num = 3;
+    return draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
+                          selected, without_getch, without_border);
+}
+
+int draw_item_info(WINDOW *win, const std::string sItemName,
+                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                   const int selected, const bool without_getch, const bool without_border)
+{
+    int line_num = 1;
+    if (sItemName != "") {
+        mvwprintz(win, line_num, (without_border) ? 0 : 2, c_white, "%s", sItemName.c_str());
+        line_num = 3;
+    }
+
     int iStartX = 0;
     bool bStartNewLine = true;
     int selected_ret = '\n';
-    std::string spaces(iWidth - 2, ' ');
+    std::string spaces(getmaxx(win), ' ');
     for (int i = 0; i < vItemDisplay.size(); i++) {
         if (vItemDisplay[i].sType == "MENU") {
             if (vItemDisplay[i].sFmt == "iOffsetY") {
@@ -899,25 +910,25 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
                     bgColor = h_white;
                     selected_ret = (int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
                 }
-                mvwprintz(w, line_num, 1, bgColor, "%s", spaces.c_str() );
-                shortcut_print(w, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt);
+                mvwprintz(win, line_num, 0, bgColor, "%s", spaces.c_str() );
+                shortcut_print(win, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt);
                 line_num++;
             }
         } else if (vItemDisplay[i].sType == "DESCRIPTION") {
             line_num++;
             if (vItemDisplay[i].bDrawName) {
-                line_num += fold_and_print(w, line_num, 2, iWidth - 4, c_white,
+                line_num += fold_and_print(win, line_num, (without_border) ? 1 : 2, getmaxx(win) - 4, c_white,
                                            vItemDisplay[i].sName);
             }
         } else {
             if (bStartNewLine) {
                 if (vItemDisplay[i].bDrawName) {
-                    mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
+                    mvwprintz(win, line_num, (without_border) ? 1 : 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
                 }
                 bStartNewLine = false;
             } else {
                 if (vItemDisplay[i].bDrawName) {
-                    wprintz(w, c_white, "%s", vItemDisplay[i].sName.c_str());
+                    wprintz(win, c_white, "%s", vItemDisplay[i].sName.c_str());
                 }
             }
 
@@ -929,10 +940,10 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
             //A bit tricky, find %d and split the string
             size_t pos = sFmt.find("<num>");
             if(pos != std::string::npos) {
-                wprintz(w, c_white, "%s", sFmt.substr(0, pos).c_str());
+                wprintz(win, c_white, "%s", sFmt.substr(0, pos).c_str());
                 sPost = sFmt.substr(pos + 5);
             } else {
-                wprintz(w, c_white, "%s", sFmt.c_str());
+                wprintz(win, c_white, "%s", sFmt.c_str());
             }
 
             if (vItemDisplay[i].sValue != "-999") {
@@ -961,12 +972,12 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
                     }
                 }
                 if (vItemDisplay[i].is_int == true) {
-                    wprintz(w, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
+                    wprintz(win, thisColor, "%s%.0f", sPlus.c_str(), vItemDisplay[i].dValue);
                 } else {
-                    wprintz(w, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
+                    wprintz(win, thisColor, "%s%.1f", sPlus.c_str(), vItemDisplay[i].dValue);
                 }
             }
-            wprintz(w, c_white, "%s", sPost.c_str());
+            wprintz(win, c_white, "%s", sPost.c_str());
 
             if (vItemDisplay[i].bNewLine) {
                 line_num++;
@@ -975,11 +986,12 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         }
     }
 
-    draw_border(w);
+    if (!without_border) {
+        draw_border(win);
+        wrefresh(win);
+    }
 
     int ch = (int)' ';
-
-    wrefresh(w);
     if (!without_getch) {
         ch = (int)getch();
         if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
@@ -987,7 +999,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
         } else if ( selected == KEY_LEFT ) {
             ch = (int)' ';
         }
-        delwin(w);
+        delwin(win);
     }
 
     return ch;

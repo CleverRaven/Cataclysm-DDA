@@ -5,10 +5,12 @@
 #include "savegame.h"
 #include "file_wrapper.h"
 #include "overmapbuffer.h"
+#include "mapsharing.h"
+#include "mapdata.h"
+#include "worldfactory.h"
 #include "game.h"
 #include <fstream>
 #include <sstream>
-#include "mapsharing.h"
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -17,7 +19,6 @@ mapbuffer MAPBUFFER;
 // g defaults to NULL
 mapbuffer::mapbuffer()
 {
-    dirty = false;
 }
 
 mapbuffer::~mapbuffer()
@@ -34,18 +35,6 @@ void mapbuffer::reset()
 
     submaps.clear();
     submap_list.clear();
-}
-
-// set to dirty right before the game starts & the player starts changing stuff.
-void mapbuffer::set_dirty()
-{
-    dirty = true;
-}
-// initial state; no need to synchronize.
-// make volatile after game has ended.
-void mapbuffer::make_volatile()
-{
-    dirty = false;
 }
 
 bool mapbuffer::add_submap(int x, int y, int z, submap *sm)
@@ -85,7 +74,14 @@ submap *mapbuffer::lookup_submap(int x, int y, int z)
 
     const tripoint p(x, y, z);
     if (submaps.count(p) == 0) {
-        return unserialize_submaps( p );
+        try {
+            return unserialize_submaps( p );
+        } catch (std::string &err) {
+            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.c_str());
+        } catch (const std::exception &err) {
+            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.what());
+        }
+        return NULL;
     }
 
     dbg(D_INFO) << "mapbuffer::lookup_submap success: " << submaps[p];
@@ -93,17 +89,8 @@ submap *mapbuffer::lookup_submap(int x, int y, int z)
     return submaps[p];
 }
 
-void mapbuffer::save_if_dirty()
-{
-    if(dirty) {
-        save();
-    }
-}
-
 void mapbuffer::save( bool delete_after_save )
 {
-    std::map<tripoint, submap *, pointcomp>::iterator it;
-
     std::stringstream map_directory;
     map_directory << world_generator->active_world->world_path << "/maps";
     assure_dir_exist( map_directory.str().c_str() );
@@ -111,11 +98,15 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submap_list.size();
 
+    point map_origin = overmapbuffer::sm_to_omt_copy( g->levx, g->levy );
+    map_origin.x += g->cur_om->pos().x * OMAPX;
+    map_origin.y += g->cur_om->pos().y * OMAPY;
+
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint, pointcomp> saved_submaps;
-    // The weird ternary is to handle the case where we're deleting the list as we go.
-    for (it = submaps.begin(); it != submaps.end();
-         delete_after_save ? it = submaps.begin() : ++it ) {
+    std::list<tripoint> submaps_to_delete;
+    for( std::map<tripoint, submap *, pointcomp>::iterator it = submaps.begin();
+         it != submaps.end(); ++it ) {
         if (num_total_submaps > 100 && num_saved_submaps % 100 == 0) {
             popup_nowait(_("Please wait as the map saves [%d/%d]"),
                          num_saved_submaps, num_total_submaps);
@@ -126,11 +117,6 @@ void mapbuffer::save( bool delete_after_save )
         // we have the rest of it, if that assumtion is broken we have REAL problems.
         const tripoint om_addr = overmapbuffer::sm_to_omt_copy( it->first );
         if( saved_submaps.count( om_addr ) != 0 ) {
-            if( delete_after_save ) {
-                // must erase the first entry of submaps, otherwise the loop
-                // would start with one over and over again.
-                submaps.erase(submaps.begin());
-            }
             // Already handled this one.
             continue;
         }
@@ -149,14 +135,23 @@ void mapbuffer::save( bool delete_after_save )
         quad_path << segment_path.str() << "/" << om_addr.x << "." <<
             om_addr.y << "." << om_addr.z << ".map";
 
-        save_quad( quad_path.str(), om_addr, delete_after_save );
+                   // delete_on_save deletes everything, otherwise delete submaps
+                   // outside the current map.
+        save_quad( quad_path.str(), om_addr, submaps_to_delete,
+                   delete_after_save || om_addr.z != g->levz ||
+                   om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
+                   om_addr.x > map_origin.x + (MAPSIZE / 2) ||
+                   om_addr.y > map_origin.y + (MAPSIZE / 2) );
         num_saved_submaps += 4;
-
+    }
+    for( std::list<tripoint>::iterator it = submaps_to_delete.begin();
+         it != submaps_to_delete.end(); ++it ) {
+        remove_submap( *it );
     }
 }
 
 void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
-                           bool delete_after_save )
+                           std::list<tripoint> &submaps_to_delete, bool delete_after_save )
 {
     std::ofstream fout;
     fopen_exclusive(fout, filename.c_str());
@@ -218,7 +213,7 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
                 // Save radiation, re-examine this because it doesnt look like it works right
-                int r = sm->rad[i][j];
+                int r = sm->get_radiation(i, j);
                 if (r == lastrad) {
                     count++;
                 } else {
@@ -309,11 +304,11 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
                 // Save graffiti
-                if (sm->graf[i][j].contents) {
+                if (sm->get_graffiti(i, j).contents) {
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
-                    jsout.write( *sm->graf[i][j].contents );
+                    jsout.write( *sm->get_graffiti(i, j).contents );
                     jsout.end_array();
                 }
             }
@@ -359,7 +354,7 @@ void mapbuffer::save_quad( const std::string &filename, const tripoint &om_addr,
             jsout.write( sm->camp.save_data() );
         }
         if( delete_after_save ) {
-            remove_submap( submap_addr );
+            submaps_to_delete.push_back( submap_addr );
         }
         jsout.end_object();
     }
@@ -425,7 +420,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     for( int i = 0; i < rad_num; ++i ) {
                         // A little array trick here, assign to it as a 1D array.
                         // If it's not in bounds we're kinda hosed anyway.
-                        sm->rad[0][rad_cell] = rad_strength;
+                        sm->set_radiation(0, rad_cell, rad_strength);
                         rad_cell++;
                     }
                 }
@@ -482,7 +477,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->graf[i][j] = graffiti( jsin.get_string() );
+                    sm->set_graffiti(i, j, graffiti( jsin.get_string() ));
                     jsin.end_array();
                 }
             } else if( submap_member_name == "spawns" ) {
@@ -522,9 +517,4 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
         submaps[ submap_coordinates ] = sm;
     }
     return submaps[ p ];
-}
-
-int mapbuffer::size()
-{
-    return submap_list.size();
 }
