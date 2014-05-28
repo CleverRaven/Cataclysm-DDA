@@ -2882,7 +2882,7 @@
         "death_function":"BLOBSPLIT",
         "special_attack":"CALLBLOBS",
         "description":"A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil. Other blobs seem to swarm around it.",
-        "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF"],
+        "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "QUEEN"],
         "phase":"LIQUID"
     },{
         "type" : "MONSTER",
