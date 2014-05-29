@@ -1975,7 +1975,6 @@ std::string dis_name(disease& dis)
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
             std::stringstream buf;
             if (ma_buffs[dis.buff_id].max_stacks > 1) {
-                std::stringstream buf;
                 buf << ma_buffs[dis.buff_id].name << " (" << dis.intensity << ")";
                 return buf.str();
             } else {
