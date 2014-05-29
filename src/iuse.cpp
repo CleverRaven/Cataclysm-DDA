@@ -766,7 +766,8 @@ int iuse::alcohol_strong(player *p, item *it, bool)
  * @param 
  * @return 
  */
-int iuse::smoking_pipe(player *p, item *it, bool) {
+int iuse::smoking_pipe(player *p, item *it, bool)
+{
     bool hasFire = (p->has_charges("fire", 1));
     // Hardcoded for now, would like to get away from this.
     std::vector<std::string> smokable_ids = {
@@ -777,21 +778,21 @@ int iuse::smoking_pipe(player *p, item *it, bool) {
     std::vector<std::string> smokable_choices;
 
     // Fail fast(er) if we can't/shouldn't smoke.
-    std::vector<item*> active_items = p->inv.active_items();
+    std::vector<item *> active_items = p->inv.active_items();
     for(item *i : active_items) {
-        if (i->has_flag("LITCIG")){
+        if (i->has_flag("LITCIG")) {
             p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
             return 0;
         }
     }
-    if (!hasFire){
+    if (!hasFire) {
         p->add_msg_if_player(m_info, _("You don't have anything to light it with!"));
         return 0;
     }
- 
+
     // Figure out what we can smoke, if anything.
-    for (auto s_id : smokable_ids){
-        if (p->has_amount(s_id, 1)){
+    for (auto s_id : smokable_ids) {
+        if (p->has_amount(s_id, 1)) {
             smokable_choices.push_back(s_id);
         }
     }
@@ -805,12 +806,12 @@ int iuse::smoking_pipe(player *p, item *it, bool) {
         return 0;
     }
     // Finally we can smoke.
-    std::string id_to_smoke = smokable_choices.at(choice-1);
+    std::string id_to_smoke = smokable_choices.at(choice - 1);
     // We trust from this point on that we've checked for the existence of
     // consumables and as such will now consume.
     p->use_charges("fire", 1);
     /// \todo More content goes into a single toke than a cig/cigar. Should pipe effects be stronger?
-    if ("tobacco" == id_to_smoke){
+    if ("tobacco" == id_to_smoke) {
         p->add_msg_if_player(_("You smoke some tobacco out of your pipe."));
         p->use_charges("tobacco", 1);
         p->thirst += 1;
@@ -833,15 +834,14 @@ int iuse::smoking_pipe(player *p, item *it, bool) {
         p->use_charges("weed", 1);
         p->hunger += 4;
         p->thirst += 6;
-        if (p->pkill < 5){
+        if (p->pkill < 5) {
             p->pkill += 3;
             p->pkill *= 2;
         }
         int duration = 90;
         if (p->has_trait("TOLERANCE")) {
             duration = 60;
-        }
-        else if (p->has_trait("LIGHTWEIGHT")) {
+        } else if (p->has_trait("LIGHTWEIGHT")) {
             duration = 120;
         }
         p->add_disease("weed_high", duration);
@@ -852,7 +852,7 @@ int iuse::smoking_pipe(player *p, item *it, bool) {
         }
         if(one_in(5)) {
             weed_msg(p);
-        }        
+        }
     }
 
     return 0;
@@ -861,59 +861,62 @@ int iuse::smoking_pipe(player *p, item *it, bool) {
 /**
  * Entry point for intentional bodily intake of smoke via paper wrapped one
  * time use items: cigars, cigarettes, etc.
- * 
+ *
  * @param p
  * @param it the item to be smoked.
- * @param 
- * @return 
+ * @param
+ * @return
  */
-int iuse::smoking(player *p, item *it, bool) {
+int iuse::smoking(player *p, item *it, bool)
+{
     bool hasFire = (p->has_charges("fire", 1));
 
     // make sure we're not already smoking something
-    std::vector<item*> active_items = p->inv.active_items();
-    for(std::vector<item*>::iterator iter = active_items.begin(); iter != active_items.end(); iter++) {
-        item* i = *iter;
+    std::vector<item *> active_items = p->inv.active_items();
+    for(std::vector<item *>::iterator iter = active_items.begin(); iter != active_items.end(); iter++) {
+        item *i = *iter;
         if(i->has_flag("LITCIG")) {
             p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
             return 0;
         }
     }
 
-    if (!hasFire){
+    if (!hasFire) {
         p->add_msg_if_player(m_info, _("You don't have anything to light it with!"));
         return 0;
     }
-    
+
     item cig;
-    if (it->type->id == "cig"){
+    if (it->type->id == "cig") {
         cig = item("cig_lit", int(calendar::turn));
         cig.item_counter = 40;
         p->thirst += 2;
         p->hunger -= 3;
-    } else if(it->type->id == "handrolled_cig"){
+    } else if(it->type->id == "handrolled_cig") {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.
         cig = item("cig_lit", int(calendar::turn));
         cig.item_counter = 40;
         p->thirst += 2;
-        p->hunger -= 3;        
-    } else if(it->type->id == "cigar"){
+        p->hunger -= 3;
+    } else if(it->type->id == "cigar") {
         cig = item("cigar_lit", int(calendar::turn));
         cig.item_counter = 120;
         p->thirst += 3;
         p->hunger -= 4;
-    } else if(it->type->id == "joint"){
+    } else if(it->type->id == "joint") {
         cig = item("joint_lit", int(calendar::turn));
         cig.item_counter = 40;
         p->hunger += 4;
         p->thirst += 6;
-        if (p->pkill < 5){
+        if (p->pkill < 5) {
             p->pkill += 3;
             p->pkill *= 2;
         }
     } else {
-        p->add_msg_if_player( m_bad,  _("Please let the devs know you should be able to smoke a %s but the smoking code does not know how."), it->tname().c_str());
+        p->add_msg_if_player( m_bad,
+                              _("Please let the devs know you should be able to smoke a %s but the smoking code does not know how."),
+                              it->tname().c_str());
         return 0;
     }
     // If we're here, we better have a cig to light.
@@ -935,6 +938,7 @@ int iuse::smoking(player *p, item *it, bool) {
 
     return it->type->charges_to_use();
 }
+
 
 int iuse::ecig(player *p, item *it, bool)
 {
