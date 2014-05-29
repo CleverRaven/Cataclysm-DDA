@@ -157,7 +157,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": "long rope",
-    "description": "A 30-foot long nylon rope. Useful for keeping yourself safe from falls.",
+    "description": "A 30-inch long nylon rope. Useful for keeping yourself safe from falls.",
     "price": 10000,
     "material": "cotton",
     "flags" : "WRAP",

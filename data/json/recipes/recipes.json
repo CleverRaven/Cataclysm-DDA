@@ -1110,13 +1110,7 @@
       [ "leather", 20 ]
     ],
     [
-      [ "plant_fibre", 10 ],
-      [ "sinew", 10 ],
-      [ "thread", 10 ]
-    ],
-    [
-      [ "string_6", 10 ],
-      [ "string_36", 2 ]
+      [ "rope_6", 2 ]
     ]
   ]
 },{
