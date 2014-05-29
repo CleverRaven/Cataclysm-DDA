@@ -172,11 +172,11 @@ int Creature::hit(Creature *source, body_part bphurt, int side,
 }
 
 int Creature::deal_melee_attack(Creature *source, int hitroll)
-{    
+{
     int dodgeroll = dodge_roll();
     int hit_spread = hitroll - dodgeroll;
     bool missed = hit_spread <= 0;
-    
+
     if (missed) {
         dodge_hit(source, hit_spread);
         return hit_spread;
@@ -187,7 +187,7 @@ int Creature::deal_melee_attack(Creature *source, int hitroll)
 
 void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
                                 const damage_instance &dam, dealt_damage_instance &dealt_dam)
-{    
+{
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part(source, hit_spread);
@@ -329,6 +329,9 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     int stun_strength = 0;
     if (proj.proj_effects.count("BEANBAG")) {
         stun_strength = 4;
+    }
+    if(proj.proj_effects.count("WHIP")) {
+        stun_strength = rng(4, 10);
     }
     if (proj.proj_effects.count("LARGE_BEANBAG")) {
         stun_strength = 16;
