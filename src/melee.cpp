@@ -1125,17 +1125,18 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
 
             if (can_weapon_block()) {
                 if (weapon.has_technique("WBLOCK_1")) {
-                    phys_mult = (100 - (str_cur*2) - ((int)u.skillLevel("melee")*2))/100 ;
+                    phys_mult = (100 - (str_cur*2) - ((int)skillLevel("melee")*2))/100 ;
                 } else if (weapon.has_technique("WBLOCK_2")) {
-                    phys_mult = (100 - (str_cur*4) - ((int)u.skillLevel("melee")*4))/100;
+                    phys_mult = (100 - (str_cur*4) - ((int)skillLevel("melee")*4))/100;
                 } else if (weapon.has_technique("WBLOCK_3")) {
-                    phys_mult = (100 - (str_cur*6) - ((int)u.skillLevel("melee")*6))/100;
+                    phys_mult = (100 - (str_cur*6) - ((int)skillLevel("melee")*6))/100;
                 } else {
-                    phys_mult = (100 - (str_cur*1) - ((int)u.skillLevel("melee")*1))/100;
+                    phys_mult = (100 - (str_cur*1) - ((int)skillLevel("melee")*1))/100;
+                }
                 
             }
             else if (can_limb_block()) {
-                phys_mult = (100 - (str_cur*1) - ((int)u.skillLevel("melee")*1) - ((int)u.skillLevel("unarmed combat")*2))/100;
+                phys_mult = (100 - (str_cur*1) - ((int)skillLevel("melee")*1) - ((int)skillLevel("unarmed combat")*2))/100;
             }
             it->amount *= phys_mult;
         // non-electrical "elemental" damage types do their full damage if unarmed,
