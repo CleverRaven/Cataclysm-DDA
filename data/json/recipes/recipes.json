@@ -1094,6 +1094,33 @@
   ]
 },{
         "type" : "recipe",
+  "result": "bullwhip",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 180000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "leather", 20 ]
+    ],
+    [
+      [ "plant_fibre", 10 ],
+      [ "sinew", 10 ],
+      [ "thread", 10 ]
+    ],
+    [
+      [ "string_6", 10 ],
+      [ "string_36", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "blowgun",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
