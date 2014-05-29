@@ -9451,16 +9451,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         armor = dynamic_cast<it_armor*>(worn[i].type);
 
         if( armor->covers & mfb(bp) ) {
-            if( worn[i].has_flag( "SKINTIGHT" ) ) {
-                level = UNDERWEAR;
-            } else if ( worn[i].has_flag( "OUTER" ) ) {
-                level = OUTER_LAYER;
-            } else if ( worn[i].has_flag( "BELTED") ) {
-                level = BELTED_LAYER;
-            } else {
-                level = REGULAR_LAYER;
-            }
-
+            level = worn[i].clothing_lvl();
             layer[level]++;
             if( armor->is_power_armor() &&
                 (has_active_item("UPS_on") || has_active_item("adv_UPS_on") ||
