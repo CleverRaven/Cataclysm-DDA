@@ -12051,6 +12051,7 @@
         "type" : "COMESTIBLE",
         "id" : "joint_roach",
         "name" : "joint roach",
+        "name_plural": "joint roaches",
         "weight" : 0,
         "color" : "green",
         "addiction_type" : "none",
