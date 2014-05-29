@@ -770,10 +770,9 @@ int iuse::smoking_pipe(player *p, item *it, bool)
 {
     bool hasFire = (p->has_charges("fire", 1));
     // Hardcoded for now, would like to get away from this.
-    std::vector<std::string> smokable_ids = {
-        "tobacco",
-        "weed"
-    };
+    std::vector<std::string> smokable_ids;
+    smokable_ids.push_back("tobacco");
+    smokable_ids.push_back("weed");
     // What is available in our area (inventory right now) to smoke.
     std::vector<std::string> smokable_choices;
 
@@ -800,13 +799,13 @@ int iuse::smoking_pipe(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("You need to find something to smoke."));
         return 0;
     }
-    size_t choice = uimenu(true, _("What would you like to smoke?"), smokable_choices);
-    if (choice <= 0) {
+    int choice = uimenu(true, _("What would you like to smoke?"), smokable_choices) - 1;
+    if (choice < 0 || choice >= smokable_choices.size()) {
         // Chose not to smoke.
         return 0;
     }
     // Finally we can smoke.
-    std::string id_to_smoke = smokable_choices.at(choice - 1);
+    std::string id_to_smoke = smokable_choices[(size_t) choice];
     // We trust from this point on that we've checked for the existence of
     // consumables and as such will now consume.
     p->use_charges("fire", 1);
