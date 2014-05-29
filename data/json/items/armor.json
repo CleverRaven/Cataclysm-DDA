@@ -5949,7 +5949,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A high-crowned, wide-brimmed, sable colored fedora originally belonging to a treasure hunter named Garth.",
+        "description" : "A high-crowned, wide-brimmed, sable colored fedora. The perfect hat for treasure hunting.",
         "price" : 7500,
         "material" : ["leather", "null"],
         "volume" : 7,

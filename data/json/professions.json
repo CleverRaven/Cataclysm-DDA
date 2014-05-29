@@ -2130,7 +2130,7 @@
         "type": "profession",
         "ident": "archaeologist",
         "name": "Archaeologist",
-        "description": "While on your way to a remote island following a clue from your dead grandfather's journal, the ground starts to shake uncontrollably. Getting a bad feeling about the situation, you head to the nearest shelter.",
+        "description": "While on your way to a long-lost temple following a clue from your dead grandfather's journal, the ground started to shake uncontrollably. Getting a bad feeling about the situation, you head to the nearest shelter.",
         "points": 5,
 		"skills": [
             {
@@ -2150,12 +2150,11 @@
 				"pants",
 				"jacket_leather",
 				"holster",
-				"sw_610",
-				"40sw",
+				"sw_619",
+				"38_special",
 				"bullwhip",
 				"mbag",
 				"fedora",
-				"etched_skull",
 				"spiral_stone"
             ],
             "male": [

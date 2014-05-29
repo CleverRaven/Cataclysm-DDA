@@ -1099,7 +1099,7 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
     gunsound = _("Kra-koom!!");
   }
  } else if (weapontype->ammo_effects.count("WHIP")) {
-     noise = 50;
+     noise = 20;
      gunsound = _("Crack!");
  } else {
   if (noise < 5) {
