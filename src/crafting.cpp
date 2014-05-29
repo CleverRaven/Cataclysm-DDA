@@ -784,48 +784,50 @@ recipe *game::select_crafting_recipe()
         if (recmax > dataLines) {
             if (line <= recmin + dataHalfLines) {
                 for (int i = recmin; i < recmin + dataLines; ++i) {
+                    std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
                     mvwprintz(w_data, i - recmin, 2, c_dkgray, ""); // Clear the line
                     if (i == line) {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
-                                  item_controller->find_template(current[i]->result)->nname(1).c_str());
+                                  utf8_truncate(tmp_name, 28).c_str());
                     } else {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? c_white : c_dkgray),
-                                  item_controller->find_template(current[i]->result)->nname(1).c_str());
+                                  utf8_truncate(tmp_name, 28).c_str());
                     }
                 }
             } else if (line >= recmax - dataHalfLines) {
                 for (int i = recmax - dataLines; i < recmax; ++i) {
+                    std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
                     mvwprintz(w_data, dataLines + i - recmax, 2, c_ltgray, ""); // Clear the line
                     if (i == line) {
                         mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? h_white : h_dkgray),
-                                  item_controller->find_template(current[i]->result)->nname(1).c_str());
+                                  utf8_truncate(tmp_name, 28).c_str());
                     } else {
                         mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? c_white : c_dkgray),
-                                  item_controller->find_template(current[i]->result)->nname(1).c_str());
+                                  utf8_truncate(tmp_name, 28).c_str());
                     }
                 }
             } else {
                 for (int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i) {
+                    std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
                     mvwprintz(w_data, dataHalfLines + i - line, 2, c_ltgray, ""); // Clear the line
                     if (i == line) {
-                        mvwprintz(w_data, dataHalfLines + i - line, 2,
-                                  (available[i] ? h_white : h_dkgray),
-                                  item_controller->find_template(current[i]->result)->nname(1).c_str());
+                        mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? h_white : h_dkgray),
+                                  utf8_truncate(tmp_name, 28).c_str());
                     } else {
-                        mvwprintz(w_data, dataHalfLines + i - line, 2,
-                                  (available[i] ? c_white : c_dkgray),
-                                  item_controller->find_template(current[i]->result)->nname(1).c_str());
+                        mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? c_white : c_dkgray),
+                                  utf8_truncate(tmp_name, 28).c_str());
                     }
                 }
             }
         } else {
             for (size_t i = 0; i < current.size() && i < (size_t)dataHeight + 1; ++i) {
+                std::string tmp_name = item_controller->find_template(current[i]->result)->nname(1);
                 if( (int)i == line ) {
                     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
-                              item_controller->find_template(current[i]->result)->nname(1).c_str());
+                              utf8_truncate(tmp_name, 28).c_str());
                 } else {
                     mvwprintz(w_data, i, 2, (available[i] ? c_white : c_dkgray),
-                              item_controller->find_template(current[i]->result)->nname(1).c_str());
+                              utf8_truncate(tmp_name, 28).c_str());
                 }
             }
         }
@@ -977,7 +979,10 @@ recipe *game::select_crafting_recipe()
                 }
                 int maxline = (int)folded.size() > dataHeight ? dataHeight : (int)folded.size();
 
-                for(int i = 0; i < maxline; i++) {
+                mvwprintz(w_data, 0, FULL_SCREEN_WIDTH + 1, col, "%s",
+                          utf8_truncate(tmp.type->nname(1), iInfoWidth).c_str());
+
+                for(int i = 1; i < maxline; i++) {
                     mvwprintz(w_data, i, FULL_SCREEN_WIDTH + 1, col, "%s", folded[i].c_str() );
                 }
 
@@ -1024,7 +1029,8 @@ recipe *game::select_crafting_recipe()
             }
         } else if (action == "HELP_RECIPE") {
             tmp = current[line]->create_result();
-            full_screen_popup("%s", tmp.info(true).c_str());
+
+            full_screen_popup("%s\n%s", tmp.type->nname(1).c_str(),  tmp.info(true).c_str());
             redraw = true;
             keepline = true;
         } else if (action == "FILTER") {

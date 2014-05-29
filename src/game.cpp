@@ -4848,7 +4848,7 @@ void game::draw()
 
     std::string tername = otermap[cur_ter].name;
     werase(w_location);
-    mvwprintz(w_location, 0,  0, otermap[cur_ter].color, "%s", utf8_substr(tername, 0, 14).c_str());
+    mvwprintz(w_location, 0, 0, otermap[cur_ter].color, "%s", utf8_truncate(tername, 14).c_str());
 
     if (levz < 0) {
         mvwprintz(w_location, 0, 18, c_ltgray, _("Underground"));
@@ -4890,7 +4890,7 @@ void game::draw()
 
     std::string *graffiti = m.graffiti_at(u.posx, u.posy).contents;
     if (graffiti) {
-        add_msg(_("Written here: %s"), utf8_substr(*graffiti, 0, 40).c_str());
+        add_msg(_("Written here: %s"), utf8_truncate(*graffiti, 40).c_str());
     }
 
     // Draw messages
