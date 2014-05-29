@@ -577,7 +577,7 @@ action_id handle_action_menu()
 
         if(category == "back") {
             std::vector<std::pair<action_id, int> >::iterator it;
-            for (it = sorted_pairs.begin(); it != sorted_pairs.end(); it++) {
+            for (it = sorted_pairs.begin(); it != sorted_pairs.end(); ++it) {
                 if(it->second >= 200) {
                     REGISTER_ACTION(it->first);
                 }
@@ -706,8 +706,8 @@ action_id handle_action_menu()
 
         int width = 0;
         for (std::vector<uimenu_entry>::iterator entry = entries.begin();
-             entry != entries.end(); entry++) {
-            if (width<entry->txt.length()) {
+             entry != entries.end(); ++entry) {
+            if (width < entry->txt.length()) {
                 width = entry->txt.length();
             }
         }
