@@ -768,70 +768,93 @@ int iuse::alcohol_strong(player *p, item *it, bool)
  */
 int iuse::smoking_pipe(player *p, item *it, bool) {
     bool hasFire = (p->has_charges("fire", 1));
+    // Hardcoded for now, would like to get away from this.
+    std::vector<std::string> smokable_ids = {
+        "tobacco",
+        "weed"
+    };
+    // What is available in our area (inventory right now) to smoke.
+    std::vector<std::string> smokable_choices;
 
-    // make sure we're not already smoking something
+    // Fail fast(er) if we can't/shouldn't smoke.
     std::vector<item*> active_items = p->inv.active_items();
-    for(std::vector<item*>::iterator iter = active_items.begin(); iter != active_items.end(); iter++) {
-        item* i = *iter;
-        if(i->has_flag("LITCIG")) {
+    for(item *i : active_items) {
+        if (i->has_flag("LITCIG")){
             p->add_msg_if_player(m_info, _("You're already smoking a %s!"), i->tname().c_str());
             return 0;
         }
     }
-
     if (!hasFire){
         p->add_msg_if_player(m_info, _("You don't have anything to light it with!"));
         return 0;
-    }    
+    }
+ 
+    // Figure out what we can smoke, if anything.
+    for (auto s_id : smokable_ids){
+        if (p->has_amount(s_id, 1)){
+            smokable_choices.push_back(s_id);
+        }
+    }
+    if (smokable_choices.size() == 0) {
+        p->add_msg_if_player(m_info, _("You need to find something to smoke."));
+        return 0;
+    }
+    size_t choice = uimenu(true, _("What would you like to smoke?"), smokable_choices);
+    if (choice <= 0) {
+        // Chose not to smoke.
+        return 0;
+    }
+    // Finally we can smoke.
+    std::string id_to_smoke = smokable_choices.at(choice-1);
+    // We trust from this point on that we've checked for the existence of
+    // consumables and as such will now consume.
+    p->use_charges("fire", 1);
+    /// \todo More content goes into a single toke than a cig/cigar. Should pipe effects be stronger?
+    if ("tobacco" == id_to_smoke){
+        p->add_msg_if_player(_("You smoke some tobacco out of your pipe."));
+        p->use_charges("tobacco", 1);
+        p->thirst += 1;
+        p->hunger -= 2;
+        p->add_disease("cig", 200);
+        for(int i = 0; i < 3; i++) {
+            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cigsmoke, 2);
+        }
+        if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG)))) {
+            p->add_msg_if_player( m_bad, _("Ugh, too much smoke... you cough heavily."));
+            g->sound(p->posx, p->posy, 10, "");
+        }
+        p->moves -= 250;
+    } else if("weed" == id_to_smoke) {
+        if (!(p->has_disease("weed_high"))) {
+            p->add_msg_if_player(m_good, _("You smoke some weed.  Good stuff, man!"));
+        } else {
+            p->add_msg_if_player(m_info, _("You smoke some more weed."));
+        }
+        p->use_charges("weed", 1);
+        p->hunger += 4;
+        p->thirst += 6;
+        if (p->pkill < 5){
+            p->pkill += 3;
+            p->pkill *= 2;
+        }
+        int duration = 90;
+        if (p->has_trait("TOLERANCE")) {
+            duration = 60;
+        }
+        else if (p->has_trait("LIGHTWEIGHT")) {
+            duration = 120;
+        }
+        p->add_disease("weed_high", duration);
+        p->moves -= 40;
+        // breathe out some smoke
+        for(int i = 0; i < 3; i++) {
+            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_weedsmoke, 2);
+        }
+        if(one_in(5)) {
+            weed_msg(p);
+        }        
+    }
 
-//    // smoke out of a pipe
-//    // TODO: Allow choice of smokable items from the player.
-//    // or fail if user has no smokable items.
-//
-//    p->use_charges_if_avail("fire", 1);
-//
-//    ///// tobacco smoking
-//    p->add_msg_if_player(_("You smoke some tobacco out of your pipe."));
-//    p->thirst += 1;
-//    p->hunger -= 2;
-//    p->add_disease("cig", 200);
-//    for(int i = 0; i < 3; i++) {
-//        g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cigsmoke, 2);
-//    }
-//    if (p->disease_duration("cig") > (100 * (p->addiction_level(ADD_CIG)))) {
-//        p->add_msg_if_player( m_bad, _("Ugh, too much smoke... you cough heavily."));
-//        g->sound(p->posx, p->posy, 10, "");
-//    }
-//    p->moves -= 250;
-//
-//    ///// Weed smoking
-//    if (!(p->has_disease("weed_high"))) {
-//        p->add_msg_if_player(m_good, _("You smoke some weed.  Good stuff, man!"));
-//    } else {
-//        p->add_msg_if_player(m_info, _("You smoke some more weed."));
-//    }
-//    p->hunger += 4;
-//    p->thirst += 6;
-//    if (p->pkill < 5){
-//        p->pkill += 3;
-//        p->pkill *= 2;
-//    }
-//    int duration = 90;
-//    if (p->has_trait("TOLERANCE")) {
-//        duration = 60;
-//    }
-//    else if (p->has_trait("LIGHTWEIGHT")) {
-//        duration = 120;
-//    }
-//    p->add_disease("weed_high", duration);
-//    p->moves -= 40;
-//    // breathe out some smoke
-//    for(int i = 0; i < 3; i++) {
-//        g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_weedsmoke, 2);
-//    }
-//    if(one_in(5)) {
-//        weed_msg(p);
-//    }
     return 0;
 }
 

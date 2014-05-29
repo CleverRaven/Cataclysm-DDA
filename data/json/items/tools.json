@@ -6427,7 +6427,8 @@
     "initial_charges": 0,
     "max_charges": 0,
     "revert_to": "null",
-    "ammo": "NULL"
+    "ammo": "NULL",
+    "use_action": "SMOKING_PIPE"
   },
 
   {
@@ -6450,7 +6451,8 @@
     "initial_charges": 0,
     "max_charges": 0,
     "revert_to": "null",
-    "ammo": "NULL"
+    "ammo": "NULL",
+    "use_action": "SMOKING_PIPE"
   },
 
   {
@@ -6473,8 +6475,9 @@
     "initial_charges": 0,
     "max_charges": 0,
     "revert_to": "null",
-    "ammo": "NULL"
-  },
+    "ammo": "NULL",
+    "use_action": "SMOKING_PIPE"
+},
 
   {
     "id": "forge",
