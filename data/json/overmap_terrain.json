@@ -1656,5 +1656,734 @@
         "sym" : 79,
         "color" : "cyan",
         "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_1",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_2",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_3",
+        "name" : "Mall - Loading Bay",
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_4",
+        "name" : "Mall - Utilities",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_5",
+        "name" : "Mall - Utilities",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_6",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_7",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_8",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_9",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_10",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_11",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_12",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_13",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_14",
+        "name" : "Mall - Entrance",
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_15",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_16",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_17",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_18",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_19",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_20",
+        "name" : "Mall - Food Court",
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_21",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_22",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_23",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_24",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_25",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_26",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_27",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_28",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_29",
+        "name" : "Mall - Food Court",
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_30",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_31",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_32",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_33",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_34",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_35",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_36",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_37",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_38",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_39",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_40",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_41",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_42",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_43",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_44",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_45",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_46",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_47",
+        "name" : "Mall - Entrance",
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_48",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_49",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_50",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_51",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_52",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_53",
+        "name" : "Mall - Entrance",
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_54",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_55",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_56",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_57",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_58",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_59",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_60",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_61",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_62",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_63",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_64",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_65",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_66",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_67",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_68",
+        "name" : "Mall - Entrance",
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_69",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_70",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_71",
+        "name" : "Mall",
+        "sym" : 77,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_72",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_73",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_74",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_75",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_76",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_77",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_78",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_79",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_80",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_81",
+        "name" : "Mall",
+        "sym" : 109,
+        "color" : "red",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
     }
 ]

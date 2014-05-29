@@ -170,6 +170,7 @@
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter" />
+			<Add option="-std=c++11" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
@@ -255,6 +256,7 @@
 		<Unit filename="src/file_wrapper.h" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
+		<Unit filename="src/game_constants.h" />
 		<Unit filename="src/gamemode.cpp" />
 		<Unit filename="src/gamemode.h" />
 		<Unit filename="src/get_version.h" />

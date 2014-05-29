@@ -1,7 +1,6 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-#include "platform.h"
 #include "mtype.h"
 #include "monster.h"
 #include "map.h"
@@ -19,40 +18,17 @@
 #include "construction.h"
 #include "calendar.h"
 #include "posix_time.h"
-#include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
 #include "live_view.h"
 #include "worldfactory.h"
 #include "creature_tracker.h"
+#include "game_constants.h"
 #include <vector>
 #include <map>
 #include <queue>
 #include <list>
 #include <stdarg.h>
-
-// Fixed window sizes
-#define HP_HEIGHT 14
-#define HP_WIDTH 7
-#define MINIMAP_HEIGHT 7
-#define MINIMAP_WIDTH 7
-#define MONINFO_HEIGHT 12
-#define MONINFO_WIDTH 48
-#define MESSAGES_HEIGHT 8
-#define MESSAGES_WIDTH 48
-#define LOCATION_HEIGHT 1
-#define LOCATION_WIDTH 48
-#define STATUS_HEIGHT 4
-#define STATUS_WIDTH 55
-
-#define LONG_RANGE 10
-#define BLINK_SPEED 300
-#define BULLET_SPEED 10000000
-#define EXPLOSION_SPEED 70000000
-
-#define MAX_ITEM_IN_SQUARE 4096 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
-#define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
-#define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
 
 extern const int savegame_version;
 extern int save_loading_version;
@@ -148,8 +124,6 @@ public:
   void draw();
   void draw_ter(int posx = -999, int posy = -999);
   void draw_veh_dir_indicator(void);
-  void advance_nextinv(); // Increment the next inventory letter
-  void decrease_nextinv(); // Decrement the next inventory letter
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
@@ -159,6 +133,9 @@ public:
   void add_footstep(int x, int y, int volume, int distance, monster* source);
   std::vector<std::vector<point> > footsteps;
   std::vector<monster*> footsteps_source;
+// Calculate where footstep marker should appear and put those points into the result.
+// It also clears @ref footsteps_source and @ref footsteps
+  void calculate_footstep_markers(std::vector<point> &result);
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
@@ -275,7 +252,7 @@ public:
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
-  void peek();
+  void peek( int peekx = 0, int peeky = 0);
   point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(const int iLastState); //List all items around the player
@@ -356,7 +333,6 @@ public:
   bool lightning_active;
 
   std::map<int, weather_segment> weather_log;
-  char nextinv; // Determines which letter the next inv item will have
   overmap *cur_om;
   map m;
   int levx, levy, levz; // Placement inside the overmap
@@ -705,6 +681,7 @@ public:
   bool is_hostile_within(int distance);
     void activity_on_turn();
     void activity_on_turn_game();
+    void activity_on_turn_vibe();
     void activity_on_turn_refill_vehicle();
     void activity_on_turn_pulp();
     void activity_on_finish();

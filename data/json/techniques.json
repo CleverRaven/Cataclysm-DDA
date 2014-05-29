@@ -1,6 +1,46 @@
 [
     {
         "type" : "technique",
+        "id" : "WBLOCK_1",
+        "name" : "Parry",
+        "messages" : [
+            "You block %s",
+            "<npcname> block %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_2",
+        "name" : "Block",
+        "messages" : [
+            "You block %s",
+            "<npcname> block %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_3",
+        "name" : "Shield",
+        "messages" : [
+            "You block %s",
+            "<npcname> block %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "DEF_DISARM",
+        "name" : "", "comment": "not imeplemented -> empty name",
+        "messages" : [
+            "You disarm %s",
+            "<npcname> disarms %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "GRAB",
+        "name" : "", "comment": "not imeplemented -> empty name",
+        "messages" : [
+            "You grab %s",
+            "<npcname> grabs %s"
+        ]
+    },{
+        "type" : "technique",
         "id" : "SPIN",
         "name" : "Spinning Strike",
         "unarmed_allowed" : true,

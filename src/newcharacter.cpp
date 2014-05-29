@@ -1,6 +1,5 @@
 #include "player.h"
 #include "profession.h"
-#include "item_factory.h"
 #include "start_location.h"
 #include "input.h"
 #include "output.h"
@@ -41,6 +40,8 @@
 #define COL_NOTE_MINOR      c_ltgray  // Just regular note
 
 #define HIGH_STAT 14 // The point after which stats cost double
+#define MAX_STAT 20 // The point after which stats can not be increased further
+#define MAX_SKILL 20 // The maximum selectable skill level
 
 #define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
 
@@ -60,7 +61,7 @@ void save_template(player *u);
 
 bool player::create(character_type type, std::string tempname)
 {
-    weapon = item(itypes["null"], 0);
+    weapon = item("null", 0);
 
     g->u.prof = profession::generic();
 
@@ -68,8 +69,11 @@ bool player::create(character_type type, std::string tempname)
                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
 
-    int tab = 0, points = 38, max_trait_points = 12;
+    int tab = 0;
+    int points = OPTIONS["INITIAL_POINTS"];
+    int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
     if (type != PLTYPE_CUSTOM) {
+        points = points + 32;
         switch (type) {
             case PLTYPE_NOW:
                 g->u.male = (rng(1, 100) > 50);
@@ -80,6 +84,12 @@ bool player::create(character_type type, std::string tempname)
                     g->u.name = MAP_SHARING::getUsername();
                 }
             case PLTYPE_RANDOM: {
+                g->u.male = (rng(1, 100) > 50);
+                if(!MAP_SHARING::isSharing()) {
+                    g->u.pick_name();
+                } else {
+                    g->u.name = MAP_SHARING::getUsername();
+                }
                 g->u.prof = profession::weighted_random();
                 str_max = rng(6, 12);
                 dex_max = rng(6, 12);
@@ -145,7 +155,10 @@ bool player::create(character_type type, std::string tempname)
                         }
                     }
                 }
-                while (points > 0) {
+
+                /* The loops variable is used to prevent the algorithm running in an infinte loop */
+                unsigned int loops = 0;
+                while (points > 0 && loops <= 30000) {
                     switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
                         case 1:
                         case 2:
@@ -166,24 +179,36 @@ bool player::create(character_type type, std::string tempname)
                                     if (str_max < HIGH_STAT) {
                                         str_max++;
                                         points--;
+                                    } else if (points >= 2 && str_max < MAX_STAT) {
+                                        str_max++;
+                                        points = points - 2;
                                     }
                                     break;
                                 case 2:
                                     if (dex_max < HIGH_STAT) {
                                         dex_max++;
                                         points--;
+                                    } else if (points >= 2 && dex_max < MAX_STAT) {
+                                        dex_max++;
+                                        points = points - 2;
                                     }
                                     break;
                                 case 3:
                                     if (int_max < HIGH_STAT) {
                                         int_max++;
                                         points--;
+                                    } else if (points >= 2 && int_max < MAX_STAT) {
+                                        int_max++;
+                                        points = points - 2;
                                     }
                                     break;
                                 case 4:
                                     if (per_max < HIGH_STAT) {
                                         per_max++;
                                         points--;
+                                    } else if (points >= 2 && per_max < MAX_STAT) {
+                                        per_max++;
+                                        points = points - 2;
                                     }
                                     break;
                             }
@@ -195,12 +220,13 @@ bool player::create(character_type type, std::string tempname)
                             Skill *aSkill = random_skill();
                             int level = skillLevel(aSkill);
 
-                            if (level < points) {
+                            if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
                                 points -= level + 1;
                                 skillLevel(aSkill).level(level + 2);
                             }
                             break;
                     }
+                    loops++;
                 }
             }
             break;
@@ -225,10 +251,7 @@ bool player::create(character_type type, std::string tempname)
             break;
         }
         tab = NEWCHAR_TAB_MAX;
-    } else {
-        points = OPTIONS["INITIAL_POINTS"];
     }
-    max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
 
     do {
         werase(w);
@@ -407,7 +430,7 @@ bool player::create(character_type type, std::string tempname)
     }
 
 
-    ret_null = item(itypes["null"], 0);
+    ret_null = item("null", 0);
     weapon = ret_null;
 
 
@@ -437,8 +460,8 @@ bool player::create(character_type type, std::string tempname)
 
     for (std::vector<std::string>::const_iterator iter = prof_items.begin();
          iter != prof_items.end(); ++iter) {
-        tmp = item(item_controller->find_template(*iter), 0, false);
-        tmp = tmp.in_its_container(&(itypes));
+        tmp = item(*iter, 0, false);
+        tmp = tmp.in_its_container();
         if(tmp.is_armor()) {
             if(tmp.has_flag("VARSIZE")) {
                 tmp.item_tags.insert("FIT");
@@ -488,13 +511,13 @@ bool player::create(character_type type, std::string tempname)
 
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
-        tmp = item(itypes["inhaler"], 0, false);
+        tmp = item("inhaler", 0, false);
         inv.push_back(tmp);
     }
 
     // And cannibals start with a special cookbook.
     if (has_trait("CANNIBAL")) {
-        tmp = item(itypes["cookbook_human"], 0);
+        tmp = item("cookbook_human", 0);
         inv.push_back(tmp);
     }
 
@@ -502,7 +525,7 @@ bool player::create(character_type type, std::string tempname)
     // Since they have to wield it, I don't think it breaks things
     // too badly to issue one.
     if (has_trait("ALBINO")) {
-        tmp = item(itypes["teleumbrella"], 0);
+        tmp = item("teleumbrella", 0);
         inv.push_back(tmp);
     }
 
@@ -729,25 +752,25 @@ int set_stats(WINDOW *w, player *u, int &points)
                 points++;
             }
         } else if (action == "RIGHT") {
-            if (sel == 1 && u->str_max < 20) {
+            if (sel == 1 && u->str_max < MAX_STAT) {
                 points--;
                 if (u->str_max >= HIGH_STAT) {
                     points--;
                 }
                 u->str_max++;
-            } else if (sel == 2 && u->dex_max < 20) {
+            } else if (sel == 2 && u->dex_max < MAX_STAT) {
                 points--;
                 if (u->dex_max >= HIGH_STAT) {
                     points--;
                 }
                 u->dex_max++;
-            } else if (sel == 3 && u->int_max < 20) {
+            } else if (sel == 3 && u->int_max < MAX_STAT) {
                 points--;
                 if (u->int_max >= HIGH_STAT) {
                     points--;
                 }
                 u->int_max++;
-            } else if (sel == 4 && u->per_max < 20) {
+            } else if (sel == 4 && u->per_max < MAX_STAT) {
                 points--;
                 if (u->per_max >= HIGH_STAT) {
                     points--;
@@ -1414,11 +1437,11 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
-            std::set<std::string> current_traits = u->get_traits();
+            std::unordered_set<std::string> current_traits = u->get_traits();
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
-                for (std::set<std::string>::iterator i = current_traits.begin();
+                for (std::unordered_set<std::string>::iterator i = current_traits.begin();
                      i != current_traits.end(); ++i) {
                     wprintz(w_traits, c_ltgray, "\n");
                     wprintz(w_traits, (traits[*i].points > 0) ? c_ltgreen : c_ltred,
@@ -1627,7 +1650,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     } while (true);
 }
 
-std::set<std::string> player::get_traits() const
+std::unordered_set<std::string> player::get_traits() const
 {
     return my_traits;
 }

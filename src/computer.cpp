@@ -322,7 +322,7 @@ void computer::activate_function(computer_action action)
                                 for (unsigned i = 0; i < g->m.i_at(x1, y1).size(); i++) {
                                     item *it = &(g->m.i_at(x1, y1)[i]);
                                     if (it->is_container()) {
-                                        item sewage = item(itypes["sewage"], calendar::turn);
+                                        item sewage = item("sewage", calendar::turn);
                                         it_container *container = dynamic_cast<it_container *>(it->type);
                                         it_comest    *comest    = dynamic_cast<it_comest *>(sewage.type);
                                         long maxCharges = container->contains * comest->charges;
@@ -343,7 +343,7 @@ void computer::activate_function(computer_action action)
                                     }
                                 }
                                 if (!found_item) {
-                                    item sewage(itypes["sewage"], calendar::turn);
+                                    item sewage("sewage", calendar::turn);
                                     g->m.add_item_or_charges(x1, y1, sewage);
                                 }
                             }
@@ -474,16 +474,16 @@ void computer::activate_function(computer_action action)
 
     case COMPACT_MISS_LAUNCH: {
         // Target Acquisition.
-        point target = overmap::draw_overmap(0);
-        if (target == overmap::invalid_point) {
-            add_msg(_("Target acquisition canceled"));
+        tripoint target = overmap::draw_overmap(0);
+        if (target == overmap::invalid_tripoint) {
+            add_msg(m_info, _("Target acquisition canceled"));
             return;
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {
-            add_msg(_("Nuclear missile launched!"));
+            add_msg(m_info, _("Nuclear missile launched!"));
             options.clear();//Remove the option to fire another missle.
         } else {
-            add_msg(_("Nuclear missile launch aborted."));
+            add_msg(m_info, _("Nuclear missile launch aborted."));
             return;
         }
         g->refresh_all();
@@ -519,7 +519,15 @@ void computer::activate_function(computer_action action)
                                otermap[oter].name.c_str() );
         for(int x = target.x - 2; x <= target.x + 2; x++) {
             for(int y = target.y - 2; y <= target.y + 2; y++) {
-                g->nuke(x, y);
+                // give it a nice rounded shape
+                if(!(x == (target.x-2) && (y == (target.y-2))) &&
+                   !(x == (target.x-2) && (y == (target.y+2))) &&
+                   !(x == (target.x+2) && (y == (target.y-2))) &&
+                   !(x == (target.x+2) && (y == (target.y+2))))
+                {
+                    g->nuke(x, y);
+                }
+
             }
         }
 
@@ -532,11 +540,11 @@ void computer::activate_function(computer_action action)
         if(query_yn(_("Disarm missile."))) {
             g->u.add_memorial_log(pgettext("memorial_male", "Disarmed a nuclear missile."),
                                   pgettext("memorial_female", "Disarmed a nuclear missile."));
-            add_msg(_("Nuclear missile disarmed!"));
+            add_msg(m_info, _("Nuclear missile disarmed!"));
             options.clear();//disable missile.
             activate_failure(COMPFAIL_SHUTDOWN);
         } else {
-            add_msg(_("Nuclear missile remains active."));
+            add_msg(m_neutral, _("Nuclear missile remains active."));
             return;
         }
         break;
@@ -548,7 +556,7 @@ void computer::activate_function(computer_action action)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
                     if (g->m.i_at(x, y)[i].is_bionic()) {
-                        if ((ssize_t)names.size() < TERMY - 8) {
+                        if ((int)names.size() < TERMY - 8) {
                             names.push_back(g->m.i_at(x, y)[i].tname());
                         } else {
                             more++;
@@ -702,7 +710,7 @@ of pureed bone & LSD."));
                 debugmsg(_("Computer couldn't find its mission!"));
                 return;
             }
-            item software(itypes[miss->item_id], 0);
+            item software(miss->item_id, 0);
             software.mission_id = mission_id;
             item *usb = g->u.pick_usb();
             usb->contents.clear();
@@ -737,7 +745,7 @@ of pureed bone & LSD."));
                                 if (!g->u.has_amount("usb_drive", 1)) {
                                     print_error(_("USB drive required!"));
                                 } else {
-                                    item software(itypes["software_blood_data"], 0);
+                                    item software("software_blood_data", 0);
                                     item *usb = g->u.pick_usb();
                                     usb->contents.clear();
                                     usb->put_in(software);
@@ -771,7 +779,7 @@ of pureed bone & LSD."));
                     } else { // Success!
                         if (g->m.i_at(x, y)[0].type->id == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
-                            item transcript(itypes["black_box_transcript"], calendar::turn);
+                            item transcript("black_box_transcript", calendar::turn);
                             g->m.add_item_or_charges(g->u.posx, g->u.posy, transcript);
                         } else {
                             print_line(_("Memory Bank:  Unencrypted\nNothing of interest.\n"));
@@ -926,7 +934,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   \n\
   Director Grimes has released a new series of accusations that\n\
   will soon be investigated by a Congressional committee.  Below\n\
-  is the message that he sent myself.\n\
+  is the message that he sent me.\n\
   \n\
   --------------------------------------------------------------\n\
   Subj: Congressional Investigations\n\
@@ -976,8 +984,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   action in this national crisis.  You will proceed with fail-\n\
   safe procedures and rig the sarcophagus with c-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
-  and seal the sarcophagus or remove the charges.  It is of\n\
-  upmost importance that the facility is sealed immediatly when\n\
+  and seal the sarcophagus or remove the charges.  It is of the\n\
+  utmost importance that the facility be sealed immediatly when\n\
   the orders are given.  We have been alerted by Homeland Security\n\
   that there are potential terrorist suspects that are being\n\
   detained in connection with the recent national crisis.\n\
@@ -1014,7 +1022,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     case COMPACT_SRCF_SEAL:
         g->u.add_memorial_log(pgettext("memorial_male", "Sealed a Hazardous Material Sarcophagus."),
                               pgettext("memorial_female", "Sealed a Hazardous Material Sarcophagus."));
-        add_msg(_("Evacuate Immediately!"));
+        add_msg(m_warning, _("Evacuate Immediately!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
@@ -1078,7 +1086,7 @@ void computer::activate_failure(computer_failure fail)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.has_flag("CONSOLE", x, y)) {
                     g->m.ter_set(x, y, t_console_broken);
-                    add_msg(_("The console shuts down."));
+                    add_msg(m_bad, _("The console shuts down."));
                 }
             }
         }
@@ -1103,7 +1111,7 @@ void computer::activate_failure(computer_failure fail)
                 tries++;
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
-                add_msg(_("Manhacks drop from compartments in the ceiling."));
+                add_msg(m_warning, _("Manhacks drop from compartments in the ceiling."));
                 monster robot(GetMType("mon_manhack"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
@@ -1122,7 +1130,7 @@ void computer::activate_failure(computer_failure fail)
                 tries++;
             } while (!g->is_empty(mx, my) && tries < 10);
             if (tries != 10) {
-                add_msg(_("Secubots emerge from compartments in the floor."));
+                add_msg(m_warning, _("Secubots emerge from compartments in the floor."));
                 monster robot(GetMType("mon_secubot"));
                 robot.spawn(mx, my);
                 g->add_zombie(robot);
@@ -1132,18 +1140,19 @@ void computer::activate_failure(computer_failure fail)
     break;
 
     case COMPFAIL_DAMAGE:
-        add_msg(_("The console electrocutes you!"));
+        add_msg(m_neutral, _("The console electrocutes you."));
         if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY) || g->u.has_active_bionic("bio_faraday")) { //Artifact or bionic stops electricity.
-            add_msg(_("The electricity flows around you."));
-      } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
-            add_msg(_("Your armor safely grounds the electrical discharge."));
-        }   else {
-        g->u.hurtall(rng(1, 10));
+            add_msg(m_neutral, _("The electricity flows around you."));
+        } else if (g->u.worn_with_flag("ELECTRIC_IMMUNE")) { //Armor stops electricity.
+            add_msg(m_neutral, _("Your armor safely grounds the electrical discharge."));
+        } else {
+               add_msg(m_bad, _("Your body is damaged by the electric shock!"));
+               g->u.hurtall(rng(1, 10));
            }
         break;
 
     case COMPFAIL_PUMP_EXPLODE:
-        add_msg(_("The pump explodes!"));
+        add_msg(m_warning, _("The pump explodes!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {
@@ -1155,7 +1164,7 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_PUMP_LEAK:
-        add_msg(_("Sewage leaks!"));
+        add_msg(m_warning, _("Sewage leaks!"));
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.ter(x, y) == t_sewage_pump) {

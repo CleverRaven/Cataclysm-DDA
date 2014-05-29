@@ -178,8 +178,8 @@ void npc::randomize(npc_class type)
  dex_max = dice(4, 3);
  int_max = dice(4, 3);
  per_max = dice(4, 3);
- ret_null = item(itypes["null"], 0);
- weapon   = item(itypes["null"], 0);
+ ret_null = item("null", 0);
+ weapon   = item("null", 0);
  inv.clear();
  personality.aggression = rng(-10, 10);
  personality.bravery =    rng( -3, 10);
@@ -732,22 +732,22 @@ std::vector<item> starting_clothes(npc_class type, bool male)
  }
 // Fill in the standard things we wear
  if (shoes != "null")
-  ret.push_back(item(itypes[shoes], 0));
+  ret.push_back(item(shoes, 0));
  if (pants != "null")
-  ret.push_back(item(itypes[pants], 0));
+  ret.push_back(item(pants, 0));
  if (shirt != "null")
-  ret.push_back(item(itypes[shirt], 0));
+  ret.push_back(item(shirt, 0));
  if (coat != "null")
-  ret.push_back(item(itypes[coat], 0));
+  ret.push_back(item(coat, 0));
  if (gloves != "null")
-  ret.push_back(item(itypes[gloves], 0));
+  ret.push_back(item(gloves, 0));
 // Bad to wear a mask under a motorcycle helmet
  if (mask != "null" && hat != "helmet_motor")
-  ret.push_back(item(itypes[mask], 0));
+  ret.push_back(item(mask, 0));
  if (glasses != "null")
-  ret.push_back(item(itypes[glasses], 0));
+  ret.push_back(item(glasses, 0));
  if (hat != "null")
-  ret.push_back(item(itypes[hat], 0));
+  ret.push_back(item(hat, 0));
 
 // Second pass--for extra stuff like backpacks, etc
  switch (type) {
@@ -755,16 +755,16 @@ std::vector<item> starting_clothes(npc_class type, bool male)
  case NC_DOCTOR:
  case NC_SCIENTIST:
   if (one_in(10))
-   ret.push_back(item(itypes["backpack"], 0));
+   ret.push_back(item("backpack", 0));
   break;
  case NC_COWBOY:
  case NC_BOUNTY_HUNTER:
   if (one_in(2))
-   ret.push_back(item(itypes["backpack"], 0));
+   ret.push_back(item("backpack", 0));
   break;
  case NC_TRADER:
   if (!one_in(15))
-   ret.push_back(item(itypes["backpack"], 0));
+   ret.push_back(item("backpack", 0));
   break;
  }
 
@@ -775,7 +775,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
 {
  int total_space = me->volume_capacity() - 2;
  std::list<item> ret;
- ret.push_back( item(itypes["lighter"], 0, false) );
+ ret.push_back( item("lighter", 0, false) );
  itype_id tmp;
 
 // First, if we're wielding a gun, get some ammo for it
@@ -783,12 +783,12 @@ std::list<item> starting_inv(npc *me, npc_class type)
   it_gun *gun = dynamic_cast<it_gun*>(me->weapon.type);
   tmp = default_ammo(gun->ammo);
   if (total_space >= itypes[tmp]->volume) {
-   ret.push_back(item(itypes[tmp], 0));
+   ret.push_back(item(tmp, 0));
    total_space -= ret.back().volume();
   }
   while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
          !one_in(4) && total_space >= itypes[tmp]->volume) {
-   ret.push_back(item(itypes[tmp], 0));
+   ret.push_back(item(tmp, 0));
    total_space -= ret.back().volume();
   }
  }
@@ -796,8 +796,8 @@ std::list<item> starting_inv(npc *me, npc_class type)
   while (total_space > 0 && !one_in(50)) {
    tmp = standard_itype_ids[rng(0,standard_itype_ids.size()-1)];
    if (total_space >= itypes[tmp]->volume) {
-    ret.push_back(item(itypes[tmp], 0));
-    ret.back() = ret.back().in_its_container(&itypes);
+    ret.push_back(item(tmp, 0));
+    ret.back() = ret.back().in_its_container();
     total_space -= ret.back().volume();
    }
   }
@@ -807,8 +807,8 @@ std::list<item> starting_inv(npc *me, npc_class type)
   from = "npc_hacker";
   while(total_space > 0 && !one_in(10)) {
    Item_tag selected_item = item_controller->id_from(from);
-   item tmpit = item_controller->create(selected_item, 0);
-   tmpit = tmpit.in_its_container(&itypes);
+   item tmpit(selected_item, 0);
+   tmpit = tmpit.in_its_container();
    if (total_space >= tmpit.volume()) {
     ret.push_back(tmpit);
     total_space -= tmpit.volume();
@@ -822,8 +822,8 @@ std::list<item> starting_inv(npc *me, npc_class type)
    else
     from = "harddrugs";
    Item_tag selected_item = item_controller->id_from(from);
-   item tmpit = item_controller->create(selected_item, 0);
-   tmpit = tmpit.in_its_container(&itypes);
+   item tmpit(selected_item, 0);
+   tmpit = tmpit.in_its_container();
    if (total_space >= tmpit.volume()) {
     ret.push_back(tmpit);
     total_space -= tmpit.volume();
@@ -835,8 +835,8 @@ std::list<item> starting_inv(npc *me, npc_class type)
  while (total_space > 0 && !one_in(8)) {
   tmp = standard_itype_ids[rng(0, standard_itype_ids.size()-1)];
   if (total_space >= itypes[tmp]->volume) {
-   ret.push_back(item(itypes[tmp], 0));
-   ret.back() = ret.back().in_its_container(&itypes);
+   ret.push_back(item(tmp, 0));
+   ret.back() = ret.back().in_its_container();
    total_space -= ret.back().volume();
   }
  }
@@ -1007,7 +1007,7 @@ void npc::starting_weapon()
     {
         std::list<itype_id>::iterator chosen = possible_items.begin();
         std::advance(chosen, rng(0, possible_items.size() - 1));
-        weapon.make(item_controller->find_template(*chosen));
+        weapon.make(*chosen);
     }
 
     if (weapon.is_gun())
@@ -1075,7 +1075,7 @@ bool npc::wield(item* it)
     moves -= 15;
     weapon = inv.remove_item(it);
     if ( g->u_see( posx, posy ) ) {
-        add_msg( _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
+        add_msg( m_info, _( "%1$s wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
     }
     return true;
 }
@@ -2058,7 +2058,7 @@ void npc::die(bool your_fault)
     }
 
     item my_body;
-    my_body.make_corpse(itypes["corpse"], GetMType("mon_null"), calendar::turn);
+    my_body.make_corpse("corpse", GetMType("mon_null"), calendar::turn);
     my_body.name = name;
     g->m.add_item_or_charges(posx, posy, my_body);
     std::vector<item *> dump;
@@ -2179,6 +2179,40 @@ void npc::add_msg_player_or_npc(const char *, const char* npc_str, ...)
             processed_npc_string.replace(offset, 9, disp_name());
         }
         add_msg(processed_npc_string.c_str());
+    }
+
+    va_end(ap);
+};
+void npc::add_msg_if_npc(game_message_type type, const char *msg, ...)
+{
+    va_list ap;
+    va_start(ap, msg);
+    std::string processed_npc_string = vstring_format(msg, ap);
+    // These strings contain the substring <npcname>,
+    // if present replace it with the actual npc name.
+    size_t offset = processed_npc_string.find("<npcname>");
+    if (offset != std::string::npos) {
+        processed_npc_string.replace(offset, 9, name);
+    }
+    add_msg(type, processed_npc_string.c_str());
+
+    va_end(ap);
+};
+void npc::add_msg_player_or_npc(game_message_type type, const char *, const char* npc_str, ...)
+{
+    va_list ap;
+
+    va_start(ap, npc_str);
+
+    if (g->u_see(this)) {
+        std::string processed_npc_string = vstring_format(npc_str, ap);
+        // These strings contain the substring <npcname>,
+        // if present replace it with the actual npc name.
+        size_t offset = processed_npc_string.find("<npcname>");
+        if (offset != std::string::npos) {
+            processed_npc_string.replace(offset, 9, disp_name());
+        }
+        add_msg(type, processed_npc_string.c_str());
     }
 
     va_end(ap);

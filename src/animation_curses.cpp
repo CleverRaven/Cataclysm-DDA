@@ -110,33 +110,4 @@ void game::draw_weather(weather_printable wPrint)
     }
 }
 
-// draws footsteps that have been created by monsters moving about
-void game::draw_footsteps()
-{
-    for (unsigned i = 0; i < footsteps.size(); i++) {
-        if (!u_see(footsteps_source[i]->posx(), footsteps_source[i]->posy())) {
-            std::vector<point> unseen_points;
-            for (unsigned j = 0; j < footsteps[i].size(); j++) {
-                if (!u_see(footsteps[i][j].x, footsteps[i][j].y)) {
-                    unseen_points.push_back(point(footsteps[i][j].x,
-                                                  footsteps[i][j].y));
-                }
-            }
-
-            if (!unseen_points.empty()) {
-                point selected = unseen_points[ rng(0, unseen_points.size() - 1) ];
-
-                mvwputch(w_terrain,
-                         POSY + (selected.y - (u.posy + u.view_offset_y)),
-                         POSX + (selected.x - (u.posx + u.view_offset_x)),
-                         c_yellow, '?');
-            }
-        }
-    }
-    footsteps.clear();
-    footsteps_source.clear();
-    wrefresh(w_terrain);
-    return;
-}
-
 #endif

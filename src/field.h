@@ -73,6 +73,7 @@ enum field_id {
  fd_weedsmoke,
  fd_cracksmoke,
  fd_methsmoke,
+ fd_bees,
  num_fields
 };
 
@@ -96,7 +97,7 @@ public:
       is_alive = false;
     };
 
-    field_entry(field_id t, unsigned char d, unsigned int a) {
+    field_entry(field_id t, int d, int a) {
         type = t;
         density = d;
         age = a;
@@ -110,7 +111,7 @@ public:
     field_id getFieldType() const;
 
     //Returns the current density (aka intensity) of the current field entry.
-    signed char getFieldDensity() const;
+    int getFieldDensity() const;
 
     //Returns the age (usually turns to live) of the current field entry.
     int getFieldAge() const;
@@ -121,7 +122,7 @@ public:
     field_id setFieldType(const field_id new_field_id);
 
     //Allows you to modify the density of the current field entry.
-    signed char setFieldDensity(const signed char new_density);
+    int setFieldDensity(const int new_density);
 
     //Allows you to modify the age of the current field entry.
     int setFieldAge(const int new_age);
@@ -149,7 +150,7 @@ public:
 
 private:
     field_id type; //The field identifier.
-    signed char density; //The density, or intensity (higher is stronger), of the field entry.
+    int density; //The density, or intensity (higher is stronger), of the field entry.
     int age; //The age, or time to live, of the field effect. 0 is permanent.
     bool is_alive; //True if this is an active field, false if it should be destroyed next check.
 };
@@ -171,7 +172,7 @@ public:
     //Returns false if the field_id already exists, true otherwise.
     //If you wish to modify an already existing field use findField and modify the result.
     //Density defaults to 1, and age to 0 (permanent) if not specified.
-    bool addField(const field_id field_to_add,const unsigned char new_density=1, const int new_age=0);
+    bool addField(const field_id field_to_add,const int new_density = 1, const int new_age = 0);
 
     //Removes the field entry with a type equal to the field_id parameter. Returns the next iterator.
     std::map<field_id, field_entry*>::iterator removeField(const field_id field_to_remove);

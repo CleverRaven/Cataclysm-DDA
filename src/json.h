@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include <map>
 #include <set>
+#include <unordered_set>
 #include <string>
 #include <vector>
 
@@ -209,6 +210,20 @@ public:
             return true;
         } catch (std::string e) { return false; }
     }
+    // array ~> unordered_set
+    template <typename T> bool read(std::unordered_set<T> &v) {
+        if (!test_array()) { return false; }
+        try {
+            start_array();
+            v.clear();
+            while (!end_array()) {
+                T element;
+                if (read(element)) { v.insert(element); }
+                else { skip_value(); }
+            }
+            return true;
+        } catch (std::string e) { return false; }
+    }
     // object ~> map
     template <typename T> bool read(std::map<std::string,T> &m) {
         if (!test_object()) { return false; }
@@ -304,6 +319,15 @@ public:
     template <typename T> void write(const std::set<T> &v) {
         start_array();
         typename std::set<T>::const_iterator it;
+        for (it = v.begin(); it != v.end(); ++it) {
+            write(*it);
+        }
+        end_array();
+    }
+    // unordered_set ~> array
+    template <typename T> void write(const std::unordered_set<T> &v) {
+        start_array();
+        typename std::unordered_set<T>::const_iterator it;
         for (it = v.begin(); it != v.end(); ++it) {
             write(*it);
         }

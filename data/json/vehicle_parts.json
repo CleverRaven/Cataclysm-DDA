@@ -1664,7 +1664,7 @@
         "item" : "sheet",
         "difficulty" : 1,
         "location" : "roof",
-        "flags" : ["ROOF"],
+        "flags" : ["ROOF", "FOLDABLE"],
         "breaks_into" : [
             {"item": "rag", "min": 3, "max": 6}
         ]
@@ -3506,4 +3506,26 @@
         "breaks_into" : [
             {"item": "glass_shard", "min": 0, "max": 2}
         ]
-    }]
+    },{
+        "type" : "vehicle_part",
+        "id" : "stereo",
+        "name" : "stereo system",
+        "symbol" : "&",
+        "color" : "red",
+        "broken_symbol" : "&",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 0,
+        "durability" : 60,
+        "bonus" : 40,
+        "item" : "stereo",
+        "difficulty" : 2,
+        "flags" : ["STEREO"],
+        "breaks_into" : [
+            {"item": "steel_lump", "min": 3, "max": 5},
+            {"item": "steel_chunk", "min": 3, "max": 5},
+            {"item": "scrap", "min": 3, "max": 5}
+        ]
+    }
+
+
+]

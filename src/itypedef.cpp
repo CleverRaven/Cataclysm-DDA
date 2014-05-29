@@ -80,12 +80,6 @@ MACGUFFIN("note", "note", "notes", 0, '?', c_white, "paper", "null", 1, 3, 0, 0,
     true, &iuse::mcg_note, _("\
 A hand-written paper note."));
 
-#define STATIONARY(id, name, name_plural, price, category, description) \
-itypes[id] = new it_stationary(id, price, name, name_plural, description,\
-',', c_white, "paper", "null", 0, 3, 0, 0, 0, category)
-
-STATIONARY("flyer", "flyer", "flyers", 1, "flier", _("A scrap of paper."));
-
 // Finally, add all the keys from the map to a vector of all possible items
 for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes.end(); ++iter){
     if(iter->first == "null" || iter->first == "corpse" || iter->first == "toolset" || iter->first == "fire" || iter->first == "apparatus"){
