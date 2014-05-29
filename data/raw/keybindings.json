@@ -798,12 +798,48 @@
     },
     {
         "type" : "keybinding",
+        "id": "HELP",
+        "category": "CARAVAN",
+        "name": "Display Help",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "CHANGE_GENDER",
         "name": "Change gender",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SAVE_TEMPLATE",
+        "category": "DEFENSE_SETUP",
+        "name": "Save template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"!"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "START",
+        "category": "DEFENSE_SETUP",
+        "name": "Start",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"S"
             }
         ]
     },
@@ -1052,6 +1088,13 @@
         "id": "DOWN_WIDE",
         "name": "Wide move down",
         "bindings":[ { "input_method":"keyboard", "key":"J" } ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CATEGORY_SELECTION",
+        "category": "INVENTORY",
+        "name": "Toggle category selection mode",
+        "bindings":[ { "input_method":"keyboard", "key":"TAB" } ]
     },
     {
         "type" : "keybinding",

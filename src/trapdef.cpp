@@ -11,22 +11,26 @@ void load_trap(JsonObject &jo)
         }
     }
 
+    std::string name = jo.get_string("name");
+    if (!name.empty()) {
+        name = _(name.c_str());
+    }
     trap *new_trap = new trap(
             jo.get_string("id"), // "tr_beartrap"
             traplist.size(),     // tr_beartrap
-            _(jo.get_string("name").c_str()), // "bear trap"
+            name, // "bear trap"
             color_from_string(jo.get_string("color")),
             jo.get_string("symbol").at(0),
             jo.get_int("visibility"),
             jo.get_int("avoidance"),
             jo.get_int("difficulty"),
-            trap_function_from_string(jo.get_string("player_action")),
-            trap_function_mon_from_string(jo.get_string("monster_action")),
+            trap_function_from_string(jo.get_string("action")),
             drops
     );
 
     new_trap->benign = jo.get_bool("benign", false);
     new_trap->funnel_radius_mm = jo.get_int("funnel_radius", 0);
+    new_trap->trigger_weight = jo.get_int("trigger_weight", -1);
     trapmap[new_trap->id] = new_trap->loadid;
     traplist.push_back(new_trap);
 }
@@ -53,6 +57,21 @@ trap_id trapfind(const std::string id) {
     }
     return traplist[trapmap[id]]->loadid;
 };
+
+bool trap::can_see(const player &p, int x, int y) const
+{
+    return visibility < 0 ||
+        (p.per_cur - const_cast<player&>(p).encumb(bp_eyes)) >= visibility ||
+        p.knows_trap(x, y);
+}
+
+void trap::trigger(Creature *creature, int x, int y) const
+{
+    if (act != NULL) {
+        trapfunc f;
+        (f.*act)(creature, x, y);
+    }
+}
 
 //////////////////////////
 // convenient int-lookup names for hard-coded functions

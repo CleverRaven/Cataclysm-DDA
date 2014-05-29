@@ -15,34 +15,34 @@ iuse_actor *iuse_transform::clone() const
 long iuse_transform::use(player* p, item* it, bool /*t*/) const
 {
     if (need_fire > 0 && p != NULL && p->is_underwater()) {
-        p->add_msg_if_player(_("You can't do that while underwater"));
+        p->add_msg_if_player(m_info, _("You can't do that while underwater"));
         return 0;
     }
     if (need_charges > 0 && it->charges < need_charges) {
         if (!need_charges_msg.empty()) {
-            p->add_msg_if_player(need_charges_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, need_charges_msg.c_str(), it->tname().c_str());
         }
         return 0;
     }
     if (p != NULL && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire)) {
         if (!need_fire_msg.empty()) {
-            p->add_msg_if_player(need_fire_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, need_fire_msg.c_str(), it->tname().c_str());
         }
         return 0;
     }
     // load this from the original item, not the transformed one.
     const int charges_to_use = it->type->charges_to_use();
-    p->add_msg_if_player(msg_transform.c_str(), it->tname().c_str());
+    p->add_msg_if_player(m_neutral, msg_transform.c_str(), it->tname().c_str());
     item *target;
     if (container_id.empty()) {
         // No container, assume simple type transformation like foo_off -> foo_on
-        it->make(itypes[target_id]);
+        it->make(target_id);
         target = it;
     } else {
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
-        it->make(itypes[container_id]);
-        it->contents.push_back(item(itypes[target_id], calendar::turn));
+        it->make(container_id);
+        it->contents.push_back(item(target_id, calendar::turn));
         target = &it->contents.back();
     }
     target->active = active;
@@ -79,7 +79,7 @@ long auto_iuse_transform::use(player *p, item *it, bool t) const
         return 0;
     }
     if (it->charges > 0 && !non_interactive_msg.empty()) {
-        p->add_msg_if_player(non_interactive_msg.c_str(), it->tname().c_str());
+        p->add_msg_if_player(m_info, non_interactive_msg.c_str(), it->tname().c_str());
         // Activated by the player, but not allowed to do so
         return 0;
     }
@@ -116,9 +116,9 @@ long explosion_iuse::use(player *p, item *it, bool t) const
     }
     if (it->charges > 0) {
         if (no_deactivate_msg.empty()) {
-            p->add_msg_if_player(_("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
+            p->add_msg_if_player(m_warning, _("You've already set the %s's timer you might want to get away from it."), it->tname().c_str());
         } else {
-            p->add_msg_if_player(no_deactivate_msg.c_str(), it->tname().c_str());
+            p->add_msg_if_player(m_info, no_deactivate_msg.c_str(), it->tname().c_str());
         }
         return 0;
     }
@@ -170,12 +170,12 @@ iuse_actor *unfold_vehicle_iuse::clone() const
 long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
 {
     if (p->is_underwater()) {
-        p->add_msg_if_player(_("You can't do that while underwater."));
+        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
     vehicle *veh = g->m.add_vehicle(vehicle_name, p->posx, p->posy, 0, 0, 0, false);
     if (veh == NULL) {
-        p->add_msg_if_player( _("There's no room to unfold the %s."), it->tname().c_str());
+        p->add_msg_if_player(m_info, _("There's no room to unfold the %s."), it->tname().c_str());
         return 0;
     }
     // Mark the vehicle as foldable.

@@ -27,8 +27,8 @@ bool used_tiles_changed;
 extern cata_tiles *tilecontext;
 #endif // SDLTILES
 
-std::map<std::string, cOpt> OPTIONS;
-std::map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+std::unordered_map<std::string, cOpt> OPTIONS;
+std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
 options_data optionsdata; // store extranious options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
@@ -401,13 +401,13 @@ void initOptions()
     optionNames["pl"] = _("Polish");
     optionNames["pt_BR"] = _("Brazilian Portuguese");
     optionNames["pt_PT"] = _("Portuguese, Portugal");
-    optionNames["ru_RU"] = _("Russian");
+    optionNames["ru"] = _("Russian");
     optionNames["sr"] = _("Serbian");
     optionNames["vi"] = _("Vietnamese");
     optionNames["zh_CN"] = _("Simplified Chinese");
     optionNames["zh_TW"] = _("Traditional Chinese");
     OPTIONS["USE_LANG"] = cOpt("interface", _("Language"), _("Switch Language. Requires restart."),
-                               ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru_RU,sr,vi,zh_CN,zh_TW",
+                               ",cs,en,fr_FR,de_DE,it,ja,ko,pl,pt_BR,pt_PT,ru,sr,vi,zh_CN,zh_TW",
                                "" );
 
     optionNames["fahrenheit"] = _("Fahrenheit");
@@ -760,7 +760,7 @@ void initOptions()
                                  true
                                 );
 
-    for (std::map<std::string, cOpt>::iterator iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter) {
+    for( auto iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
                 mPageItems[i].push_back(iter->first);
@@ -772,8 +772,8 @@ void initOptions()
 
 void show_options(bool ingame)
 {
-    std::map<std::string, cOpt> OPTIONS_OLD = OPTIONS;
-    std::map<std::string, cOpt> WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
+    auto OPTIONS_OLD = OPTIONS;
+    auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
     if ( world_generator->active_world == NULL ) {
         ingame = false;
     }
@@ -837,8 +837,8 @@ void show_options(bool ingame)
     used_tiles_changed = false;
 
     while(true) {
-        std::map<std::string, cOpt> &cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ?
-                                                ACTIVE_WORLD_OPTIONS : OPTIONS );
+        auto &cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ?
+                           ACTIVE_WORLD_OPTIONS : OPTIONS );
 
         //Clear the lines
         for (int i = 0; i < iContentHeight; i++) {
@@ -1262,7 +1262,7 @@ void options_data::add_value( const std::string &lvar, const std::string &lval,
 
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() ) {
-        std::map<std::string, cOpt>::iterator ot = OPTIONS.find(lvar);
+        auto ot = OPTIONS.find(lvar);
         if ( ot != OPTIONS.end() && ot->second.sType == "string" ) {
             for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
                 eit != ot->second.vItems.end(); ++eit) {

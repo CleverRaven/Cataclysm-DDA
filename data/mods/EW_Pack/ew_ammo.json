@@ -21,7 +21,7 @@
         "range" : 38,
         "dispersion" : 5,
         "recoil" : 30,
-        "count" : 60,
+        "count" : 30,
         "effects" : ["COOKOFF"]
     },
     {
@@ -71,7 +71,7 @@
         "range" : 37,
         "dispersion" : 5,
         "recoil" : 26,
-        "count" : 60,
+        "count" : 30,
         "effects" : ["COOKOFF"]
     },
     {

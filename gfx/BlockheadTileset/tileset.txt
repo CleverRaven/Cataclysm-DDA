@@ -1,0 +1,10 @@
+#BLOCKHEAD's TILESET 
+#Description: Created from Combination of Raga Tileset and Deons plus additional ones created from scratch
+#Name of the tileset
+NAME: blockhead
+#Viewing (Option) name of the tileset
+VIEW: Blockhead's
+#JSON Path - Default of tile_config.json
+JSON: BlockheadTileset/tile_config.json
+#Tileset Path - Default of tinytile.png
+TILESET: BlockheadTileset/blockheadtiles.png

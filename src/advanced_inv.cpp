@@ -205,16 +205,19 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
             }
             mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname().c_str() );
 
-            if(items[i].it->charges > 0) {
-                wprintz(window, thiscolor, " (%d)", items[i].it->charges);
-            } else if(items[i].it->contents.size() == 1 && items[i].it->contents[0].charges > 0) {
+            // Show count of contents (e.g. amount of liquid in container)
+            // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
+            if (items[i].it->contents.size() == 1 && items[i].it->contents[0].charges > 0) {
                 wprintz(window, thiscolor, " (%d)", items[i].it->contents[0].charges);
+            } else if(items[i].it->charges >= 0) {
+                wprintz(window, thiscolor, " (%d)", items[i].it->charges);
             }
 
             if( isinventory && items[i].stacks > 1 ) {
                 mvwprintz(window, 6 + x, amount_column, thiscolor, "x %d", items[i].stacks);
             } else if ( isall ) {
-                mvwprintz(window, 6 + x, amount_column, thiscolor, "%s", squares[items[i].area].shortname.c_str());
+                mvwprintz(window, 6 + x, amount_column, thiscolor, "%s",
+                          squares[items[i].area].shortname.c_str());
             }
             int xrightcol = rightcol;
             if (g->u.convert_weight(items[i].weight) > 9.9 ) {
@@ -518,10 +521,10 @@ void advanced_inventory::recalc_pane(int i)
     if(panes[i].area == isinventory) {
         const invslice &stacks = u.inv.slice();
         for (unsigned x = 0; x < stacks.size(); ++x ) {
-            item &item = stacks[x]->front();
+            item &an_item = stacks[x]->front();
             advanced_inv_listitem it;
-            it.name = item.tname();
-            it.name_without_prefix = item.tname( false );
+            it.name = an_item.tname();
+            it.name_without_prefix = an_item.tname( false );
             if ( filtering && ! cached_lcmatch(it.name, panes[i].filter, panes[i].filtercache ) ) {
                 continue;
             }
@@ -532,10 +535,10 @@ void advanced_inventory::recalc_pane(int i)
             }
             it.autopickup = hasPickupRule(it.name);
             it.stacks = size;
-            it.weight = item.weight() * size;
-            it.volume = item.volume() * size;
-            it.cat = &(item.get_category());
-            it.it = &item;
+            it.weight = an_item.weight() * size;
+            it.volume = an_item.volume() * size;
+            it.cat = &(an_item.get_category());
+            it.it = &an_item;
             it.area = panes[i].area;
             if( has_category.count(it.cat->id) == 0 ) {
                 has_category.insert(it.cat->id);
@@ -658,18 +661,38 @@ void advanced_inventory::redraw_pane( int i )
     // paginate (not sure why)
     panes[i].max_page = (int)ceil(panes[i].size / (itemsPerPage +
                                   0.0)); //(int)ceil(panes[i].size/20.0);
-    panes[i].max_index = panes[i].page == (-1 + panes[i].max_page) ? ((panes[i].size % itemsPerPage) ==
-                         0 ? itemsPerPage : panes[i].size % itemsPerPage) : itemsPerPage;
-    // check if things are out of bound
-    panes[i].index = (panes[i].index >= panes[i].max_index) ? panes[i].max_index - 1 : panes[i].index;
 
+    if (panes[i].max_page == 0) {
+        // No results forces page 0.
+        panes[i].page = 0;
+    } else if (panes[i].page >= panes[i].max_page) {
+        // Clamp to max_page.
+        panes[i].page = panes[i].max_page - 1;
+    }
 
-    panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ?
-                    panes[i].max_page - 1 : panes[i].page);
+    // Determine max index.
+    if (panes[i].max_page == 0 || panes[i].page == (-1 + panes[i].max_page)) {
+        // We are on the last page.
+        if (0 == (panes[i].size % itemsPerPage)) {
+            // Last page was exactly full, use maximum..
+            panes[i].max_index = itemsPerPage;
+        } else {
+            // Last page was not full, use remainder.
+            panes[i].max_index = panes[i].size % itemsPerPage;
+        }
+    } else {
+        // We aren't on the last page, so the last item is always maximum.
+        panes[i].max_index = itemsPerPage;
+    }
 
+    // Last chance to force the index in range.
+    if (panes[i].index >= panes[i].max_index && panes[i].max_index > 0) {
+        panes[i].index = panes[i].max_index - 1;
+    }
     if( panes[i].sortby == SORTBY_CATEGORY && !panes[i].items.empty() ) {
         unsigned lpos = panes[i].index + (panes[i].page * itemsPerPage);
         if ( lpos < panes[i].items.size() && panes[i].items[lpos].volume == -8 ) {
+            // Force the selection off the category labels, but don't run off the page.
             panes[i].index += ( panes[i].index + 1 >= itemsPerPage ? -1 : 1 );
         }
     }
@@ -679,20 +702,21 @@ void advanced_inventory::redraw_pane( int i )
     print_items( panes[i], (src == i) );
 
     int sel = -1;
-    if ( panes[i].size > 0 ) {
+    if ( panes[i].size > 0 && panes[i].size > panes[i].index) {
         sel = panes[i].items[panes[i].index].area;
     }
 
     advanced_inv_print_header(squares, panes[i], sel );
     // todo move --v to --^
-    mvwprintz(panes[i].window, 1, 2, src == i ? c_cyan : c_ltgray, "%s", panes[i].area_string.c_str());
+    mvwprintz(panes[i].window, 1, 2, src == i ? c_cyan : c_ltgray, "%s",
+              panes[i].area_string.c_str());
     mvwprintz(panes[i].window, 2, 2, src == i ? c_green : c_dkgray , "%s",
               squares[panes[i].area].desc.c_str() );
 
     if ( i == src ) {
         if(panes[src].max_page > 1 ) {
-            mvwprintz(panes[src].window, 4, 2, c_ltblue, _("[<] page %d of %d [>]"), panes[src].page + 1,
-                      panes[src].max_page);
+            mvwprintz(panes[src].window, 4, 2, c_ltblue, _("[<] page %d of %d [>]"),
+                      panes[src].page + 1, panes[src].max_page);
         }
     }
     ////////////
@@ -768,11 +792,14 @@ bool advanced_inventory::move_all_items()
             // Ok, we're go to (try) and move everything from the player inventory.
             // First, we'll want to iterate backwards
             for (int ip = u.inv.size() - 1; ip >= 0; /* noop */ ) {
-                const std::list<item> &stack = u.inv.const_stack(ip); // get the stack at index ip
-                const item *it = &stack.front();                      // get the first item in that stack
+                // Get the stack at index ip.
+                const std::list<item> &stack = u.inv.const_stack(ip);
+                // Get the first item in that stack.
+                const item *it = &stack.front();
 
                 // if we're filtering, check if this item is in the filter. If it isn't, continue
-                if ( filtering && ! cached_lcmatch(it->name, panes[src].filter, panes[src].filtercache ) ) {
+                if ( filtering && ! cached_lcmatch(it->name, panes[src].filter,
+                                                   panes[src].filtercache ) ) {
                     --ip;
                     continue;
                 }
@@ -780,7 +807,8 @@ bool advanced_inventory::move_all_items()
                 // max items in the destination area
                 int max_items = (squares[destarea].max_size - squares[destarea].size);
                 // get the free volume in the destination area
-                int free_volume = 1000 * ( panes[dest].vstor >= 0 ? veh->free_volume(part) : m.free_volume( d_x, d_y ));
+                int free_volume = 1000 * ( panes[dest].vstor >= 0 ?
+                                           veh->free_volume(part) : m.free_volume( d_x, d_y ));
 
                 long amount = 1; // the amount to move from the stack
                 int volume = it->precise_unit_volume(); // exact volume
@@ -797,7 +825,7 @@ bool advanced_inventory::move_all_items()
                     int volmax = int( free_volume / volume );
                     // can't fit this itme, let's check another
                     if (volmax == 0) {
-                        add_msg(_("Unable to move item, the destination is too full."));
+                        add_msg(m_info, _("Unable to move item, the destination is too full."));
                         --ip;
                         continue;
                     }
@@ -815,7 +843,7 @@ bool advanced_inventory::move_all_items()
 
                 // no items? no move.
                 if (max_items == 0) {
-                    add_msg(_("Unable to move item, the destination is too full."));
+                    add_msg(m_info, _("Unable to move item, the destination is too full."));
                     --ip;
                     continue;
                 }
@@ -837,13 +865,13 @@ bool advanced_inventory::move_all_items()
                                 if (panes[dest].vstor >= 0) {
                                     if (veh->add_item(part, *iter) == false) {
                                         u.i_add(*iter);
-                                        add_msg(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
+                                        add_msg(m_info, _("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
                                         chargeback = true;
                                     }
                                 } else {
                                     if (m.add_item_or_charges(d_x, d_y, *iter, 0) == false) {
                                         u.i_add(*iter);
-                                        add_msg(_("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
+                                        add_msg(m_info, _("Destination full. %d / %d moved. Please report a bug if items have vanished."), moved, amount);
                                         chargeback = true;
                                     }
                                 }
@@ -867,12 +895,12 @@ bool advanced_inventory::move_all_items()
                         if (panes[dest].vstor >= 0) {
                             if (veh->add_item(part, moving_item) == false) {
                                 u.i_add(moving_item);
-                                add_msg(_("Destination full. Please report a bug if items have vanished."));
+                                add_msg(m_info, _("Destination full. Please report a bug if items have vanished."));
                             }
                         } else {
                             if (m.add_item_or_charges(d_x, d_y, moving_item, 0) == false) {
                                 u.i_add(moving_item);
-                                add_msg(_("Destination full. Please report a bug if items have vanished."));
+                                add_msg(m_info, _("Destination full. Please report a bug if items have vanished."));
                             }
                         }
 
@@ -884,13 +912,13 @@ bool advanced_inventory::move_all_items()
                     if (panes[dest].vstor >= 0) {
                         if (veh->add_item(part, moving_item) == false) {
                             u.i_add(moving_item);
-                            add_msg(_("Destination full. Please report a bug if items have vanished."));
+                            add_msg(m_info, _("Destination full. Please report a bug if items have vanished."));
                             chargeback = true;
                         }
                     } else {
                         if (m.add_item_or_charges(d_x, d_y, moving_item) == false) {
                             u.i_add(moving_item);
-                            add_msg(_("Destination full. Please report a bug if items have vanished."));
+                            add_msg(m_info, _("Destination full. Please report a bug if items have vanished."));
                             chargeback = true;
                         }
                     }
@@ -943,7 +971,7 @@ bool advanced_inventory::move_all_items()
                         return true;
                     }
                     if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
-                        add_msg(_("You are carrying too many items."));
+                        add_msg(m_info, _("You are carrying too many items."));
                         return true;
                     }
                     // Ok, let's see. What is the volume and weight?
@@ -978,12 +1006,12 @@ bool advanced_inventory::move_all_items()
                                 trycharges = amount;
                             }
                             if ( trycharges == 0 ) {
-                                add_msg(_("Unable to pick up %s."), it->name.c_str());
+                                add_msg(m_info, _("Unable to pick up %s."), it->name.c_str());
                                 ++it;
                                 continue;
                             }
                         } else {
-                            add_msg(_("Unable to pick up %s."), it->name.c_str());
+                            add_msg(m_info, _("Unable to pick up %s."), it->name.c_str());
                             ++it;
                             continue;
                         }
@@ -991,11 +1019,11 @@ bool advanced_inventory::move_all_items()
 
                     // We've already checked if we're trying to pick up a stack
                     if(!u.can_pickVolume(tryvolume)) {
-                        add_msg(_("There's no room in your inventory for %s."), it->name.c_str());
+                        add_msg(m_info, _("There's no room in your inventory for %s."), it->name.c_str());
                         ++it;
                         continue;
                     } else if (!u.can_pickWeight(tryweight, false)) {
-                        add_msg(_("%s is too heavy."), it->name.c_str());
+                        add_msg(m_info, _("%s is too heavy."), it->name.c_str());
                         ++it;
                         continue;
                     }
@@ -1018,7 +1046,7 @@ bool advanced_inventory::move_all_items()
                 // if it is a vehicle storage, try to move it there. If not, let's just continue
                 } else if (squares[destarea].vstor >= 0) {
                     if( squares[destarea].veh->add_item( squares[destarea].vstor, new_item ) == false) {
-                        add_msg(_("Unable to move item, the destination is too full."));
+                        add_msg(m_info, _("Unable to move item, the destination is too full."));
                         ++it;
                         continue;
                     }
@@ -1026,7 +1054,7 @@ bool advanced_inventory::move_all_items()
                 // if it's a normal square, try to move it there. If not, just continue
                 } else {
                     if ( m.add_item_or_charges(squares[destarea].x, squares[destarea].y, new_item, 0 ) == false ) {
-                        add_msg(_("Unable to move item, the destination is too full."));
+                        add_msg(m_info, _("Unable to move item, the destination is too full."));
                         ++it;
                         continue;
                     }
@@ -1622,8 +1650,8 @@ void advanced_inventory::display(player *pp)
                 vThisItem.push_back(iteminfo(_("DESCRIPTION"),
                                              center_text(_("[down / page down] next"),
                                                      rightWidth - 4)));
-                ret = compare_split_screen_popup(colstart + ( src == left ? w_width / 2 : 0 ),
-                                                 rightWidth, 0, it->tname(), vThisItem, vDummy );
+                ret = draw_item_info(colstart + ( src == left ? w_width / 2 : 0 ),
+                                     rightWidth, 0, 0, it->tname(), vThisItem, vDummy );
             }
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 changey += 1;
@@ -1638,17 +1666,25 @@ void advanced_inventory::display(player *pp)
         } else if( 'q' == c || KEY_ESCAPE == c) {
             exit = true;
         } else if('>' == c || KEY_NPAGE == c) {
-            panes[src].page++;
-            if( panes[src].page >= panes[src].max_page ) {
-                panes[src].page = 0;
+            if ( inCategoryMode ) {
+                changey = 1;
+            } else {
+                panes[src].page++;
+                if( panes[src].page >= panes[src].max_page ) {
+                    panes[src].page = 0;
+                }
+                redraw = true;
             }
-            redraw = true;
         } else if('<' == c || KEY_PPAGE == c) {
-            panes[src].page--;
-            if( panes[src].page < 0 ) {
-                panes[src].page = panes[src].max_page;
+            if ( inCategoryMode ) {
+                changey = -1;
+            } else {
+                panes[src].page--;
+                if( panes[src].page < 0 ) {
+                    panes[src].page = panes[src].max_page;
+                }
+                redraw = true;
             }
-            redraw = true;
         } else {
             switch(c) {
             case 'j':
@@ -1686,7 +1722,7 @@ void advanced_inventory::display(player *pp)
 
                         for (unsigned curr_cat = 0; curr_cat < category_index_start.size(); ++curr_cat) {
                             int next_cat_start = curr_cat + 1 < category_index_start.size() ?
-                                                 curr_cat + 1 : panes[src].items.size() - 1;
+                                                 curr_cat + 1 : category_index_start.size() - 1;
                             int actual_index = panes[src].index + panes[src].page * itemsPerPage;
 
                             if (actual_index >= category_index_start[curr_cat] &&
@@ -1723,7 +1759,7 @@ void advanced_inventory::display(player *pp)
                             panes[src].page = panes[src].max_page - 1;
                             panes[src].index = panes[src].items.size() - 1 - ( panes[src].page * itemsPerPage );
                         } else {
-                            panes[src].index = itemsPerPage; // corrected at the start of next iteration
+                            panes[src].index = itemsPerPage - 1; // corrected at the start of next iteration
                         }
                     } else if ( panes[src].index >= panes[src].max_index ) {
                         panes[src].page++;

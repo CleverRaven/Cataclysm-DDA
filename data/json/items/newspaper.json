@@ -1,0 +1,36 @@
+[
+    {
+        "type":"STATIONARY_ITEM",
+        "id": "flyer",
+        "symbol": ",",
+        "color": "white",
+        "name": "flyer",
+        "plural-name": "flyers",
+        "snippet_category": "flier",
+        "description": "A scrap of paper.",
+        "price": 0,
+        "material": "paper",
+        "weight": 3,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0
+    },
+    {
+        "type":"STATIONARY_ITEM",
+        "id": "survnote",
+        "symbol": ",",
+        "color": "white",
+        "name": "survivor's note",
+        "plural-name": "survivor's notes",
+        "snippet_category": "note",
+        "description": "A scrap of paper. Something's written on it, scrawled in bad handwriting.",
+        "price": 0,
+        "material": "paper",
+        "weight": 3,
+        "volume": 0,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0
+    }
+]

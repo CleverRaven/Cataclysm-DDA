@@ -4,6 +4,7 @@
 #include "game.h"
 
 #include <fstream>
+#include <sstream>
 
 overmapbuffer overmap_buffer;
 
@@ -12,6 +13,31 @@ static const overmap *last_requested_overmap = NULL;
 
 overmapbuffer::overmapbuffer()
 {
+}
+
+std::string overmapbuffer::terrain_filename(int const x, int const y)
+{
+    std::stringstream filename;
+
+    filename << world_generator->active_world->world_path << "/";
+
+    if (g->has_gametype()) {
+        filename << special_game_name(g->gametype()) << ".";
+    }
+
+    filename << "o." << x << "." << y;
+
+    return filename.str();
+}
+
+std::string overmapbuffer::player_filename(int const x, int const y)
+{
+    std::stringstream filename;
+
+    filename << world_generator->active_world->world_path << "/" << base64_encode(
+                 g->u.name) << ".seen." << x << "." << y;
+
+    return filename.str();
 }
 
 overmap &overmapbuffer::get( const int x, const int y )
@@ -89,10 +115,17 @@ const overmap *overmapbuffer::get_existing(int x, int y) const
     // Check if the overmap exist on disk,
     // overmap(0,0) should always exist, we need it for the proper
     // overmap file name.
-    overmap &om = overmap_buffer.get(0, 0);
-    const std::string filename = om.terrain_filename(x, y);
-    std::ifstream tmp(filename.c_str(), std::ios::in);
-    if(tmp) {
+    std::stringstream filename;
+    filename << world_generator->active_world->world_path << "/";
+
+    if (g->has_gametype()) {
+        filename << special_game_name(g->gametype()) << ".";
+    }
+
+    filename << "o." << x << "." << y;
+
+    std::ifstream tmp(filename.str().c_str(), std::ios::in);
+    if(tmp.is_open()) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         tmp.close();

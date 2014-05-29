@@ -484,8 +484,10 @@
     "monsters" : [
       { "monster" : "mon_blob_small", "freq" : 200, "cost_multiplier" : 0 },
       { "monster" : "mon_blob_small", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [2,12] },
-      { "monster" : "mon_blob", "freq" : 10, "cost_multiplier" : 0, "pack_size" : [5,10] },
-      { "monster" : "mon_shoggoth", "freq" : 1, "cost_multiplier" : 0 }
+      { "monster" : "mon_blob", "freq" : 5, "cost_multiplier" : 3, "pack_size" : [5,10] },
+      { "monster" : "mon_blob_large", "freq" : 5, "cost_multiplier" : 6, "pack_size" : [5,10] },
+      { "monster" : "mon_blob_brain", "freq" : 1, "cost_multiplier" : 10 },
+      { "monster" : "mon_shoggoth", "freq" : 1, "cost_multiplier" : 10 }
     ]
   },{
     "type":"monstergroup",

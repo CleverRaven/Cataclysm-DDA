@@ -23,6 +23,7 @@ Format: File with definition : Name of enum
 * debug.h : DebugClass
 * dialogue.h : talk_trial
 * disease.cpp : dis_type_enum
+* effect.h : effect_rating
 * enums.h : phase_id
 * enums.h : damage_type
 * event.h : event_type
@@ -56,6 +57,7 @@ Format: File with definition : Name of enum
 * mapdata.h : furn_id
 * mapdata.h : map_extra
 * mapgen.cpp : room_type
+* messages.h : game_message_type
 * mission.h : talk_topic
 * mission.h : mission_id
 * mission.h : mission_origin
