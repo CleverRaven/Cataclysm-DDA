@@ -53,6 +53,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     face.init(0);
     move.init(0);
     last_turn = 0;
+    last_repair_turn = -1;
     of_turn_carry = 0;
     turret_mode = 0;
     lights_epower = 0;
@@ -1337,7 +1338,7 @@ item vehicle_part::properties_to_item() const
     float hpofdur = ( float )hp / vpinfo.durability;
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
     // Transfer fuel back to tank
-    if( !vpinfo.fuel_type.empty() && amount > 0 ) {
+    if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
         const ammotype &desired_liquid = vpinfo.fuel_type;
         if( desired_liquid == fuel_type_battery ) {
             tmp.charges = amount;
@@ -1719,7 +1720,7 @@ std::string vehicle::part_id_string(int p, char &part_mod)
 {
     part_mod = 0;
     std::string idinfo;
-    if (p < 0 || p >= parts.size()){
+    if( p < 0 || p >= parts.size() || parts[p].removed ) {
         return "";
     }
 
