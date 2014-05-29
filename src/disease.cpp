@@ -1934,9 +1934,12 @@ std::string dis_name(disease& dis)
     case DI_INFECTED:
     {
         std::string status = "";
-        if (dis.duration > 8401) {status = _("Infected - ");
-        } else if (dis.duration > 3601) {status = _("Badly Infected - ");
-        } else {status = _("Pus Filled - ");
+        if (dis.duration > 8401) {
+            status = _("Infected - ");
+        } else if (dis.duration > 3601) {
+            status = _("Badly Infected - ");
+        } else {
+            status = _("Pus Filled - ");
         }
         switch (dis.bp) {
             case bp_head:
@@ -1970,18 +1973,17 @@ std::string dis_name(disease& dis)
 
     case DI_MA_BUFF:
         if (ma_buffs.find(dis.buff_id) != ma_buffs.end()) {
-          std::stringstream buf;
-          if (ma_buffs[dis.buff_id].max_stacks > 1) {
             std::stringstream buf;
-            buf << ma_buffs[dis.buff_id].name
-              << " (" << dis.intensity << ")";
-            return buf.str().c_str();
-          } else {
-             buf << ma_buffs[dis.buff_id].name.c_str();
-             return buf.str().c_str();
-          }
+            if (ma_buffs[dis.buff_id].max_stacks > 1) {
+                std::stringstream buf;
+                buf << ma_buffs[dis.buff_id].name << " (" << dis.intensity << ")";
+                return buf.str();
+            } else {
+                buf << ma_buffs[dis.buff_id].name.c_str();
+                return buf.str();
+            }
         } else
-          return "Invalid martial arts buff";
+            return "Invalid martial arts buff";
 
     case DI_LACKSLEEP: return _("Lacking Sleep");
     case DI_GRABBED: return _("Grabbed");
@@ -2559,8 +2561,8 @@ void manage_fungal_infection(player& p, disease& dis)
         }
     // we're fucked
     } else if (one_in(6000 + bonus * 20)) {
-        if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_l] <= 0) {
-            if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_l] <= 0) {
+        if(p.hp_cur[hp_arm_l] <= 0 || p.hp_cur[hp_arm_r] <= 0) {
+            if(p.hp_cur[hp_arm_l] <= 0 && p.hp_cur[hp_arm_r] <= 0) {
                 p.add_msg_player_or_npc(m_bad, _("The flesh on your broken arms bulges. Fungus stalks burst through!"),
                 _("<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!"));
             } else {
