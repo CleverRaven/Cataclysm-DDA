@@ -784,7 +784,6 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -809,7 +808,6 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -834,7 +832,7 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -4,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["POCKETS"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -859,7 +857,6 @@
         "enviromental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
         "coverage" : 40,
         "material_thickness" : 3
     },
