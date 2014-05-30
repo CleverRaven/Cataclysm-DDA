@@ -3042,7 +3042,7 @@
     "symbol": ";",
     "color": "light_green",
     "name": "inactive turret",
-    "description": "This is an inactive turret. Using this item involves turning it on and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
+    "description": "This is an inactive turret. Using this item involves loading the unit with the factory-loaded 9mm rounds in your inventory (if you wish to divide youa ammunition, set aside whatever 9mm you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
     "price": 400000,
     "material": ["steel", "plastic"],
     "weight": 1507,
