@@ -9489,6 +9489,12 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
         layers += std::max( 0.0, layer[i] - 1.0 );
     }
 
+    if (layers > 0.0) {
+
+        ret += layers;
+        
+    }
+
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
         ret += 3;
     }
