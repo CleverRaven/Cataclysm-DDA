@@ -1,6 +1,5 @@
 #include <vector>
 #include "game.h"
-#include "player.h"
 
 void load_trap(JsonObject &jo)
 {
