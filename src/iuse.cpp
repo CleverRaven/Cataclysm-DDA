@@ -2731,6 +2731,7 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
         type = "nomex";
     }
 
+    remove_ammo(cut, *p);
     int pos = p->get_item_position(cut);
 
     if (count <= 0) {
@@ -6253,6 +6254,7 @@ int iuse::knife(player *p, item *it, bool t)
         }
     }
 
+    remove_ammo(cut, *p);
     // otherwise layout the goodies.
     p->i_rem(pos);
     p->i_add_or_drop(*result, count);
