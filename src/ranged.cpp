@@ -363,6 +363,16 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
+    // chance to disarm an NPC with a whip if skill is high enough
+    if(proj.proj_effects.count("WHIP") && (this->skillLevel("melee") > 5) && one_in(3)) {
+        int npcdex = g->npc_at(tarx, tary);
+        if(npcdex != -1) {
+            //if(p->turned_hostile()) { TODO should only be able to disarm hostiles?
+                g->m.add_item_or_charges(tarx + rng(-1, 1), tary + rng(-1, 1), g->active_npc[npcdex]->remove_weapon());
+            //}
+        }
+    }
+
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
         int zid = g->mon_at(tarx, tary);
