@@ -55,8 +55,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points);
 
 Skill *random_skill();
 
-int calc_HP(int strength, int tough);
-
 void save_template(player *u);
 
 bool player::create(character_type type, std::string tempname)
@@ -280,31 +278,8 @@ bool player::create(character_type type, std::string tempname)
         return false;
     }
 
-    // Character is finalized.  Now just set up HP, &c
-    int tough = 0;
-    // Most extreme applies.
-    if (has_trait("TOUGH")) {
-        tough = 1;
-    } else if (has_trait("TOUGH2")) {
-        tough = 2;
-    } else if (has_trait("TOUGH3")) {
-        tough = 3;
-    } else if (has_trait("FLIMSY")) {
-        tough = -1;
-    } else if (has_trait("FLIMSY2")) {
-        tough = -2;
-    } else if (has_trait("FLIMSY3")) {
-        tough = -3;
-    }
+    recalc_hp();
 
-    for (int i = 0; i < num_hp_parts; i++) {
-        hp_max[i] = calc_HP(str_max, tough);
-        hp_cur[i] = hp_max[i];
-    }
-    if (has_trait("GLASSJAW")) {
-        hp_max[hp_head] = int(hp_max[hp_head] * .80);
-        hp_cur[hp_head] = hp_max[hp_head];
-    }
     if (has_trait("SMELLY")) {
         scent = 800;
     }
@@ -639,22 +614,8 @@ int set_stats(WINDOW *w, player *u, int &points)
                 if (u->str_max >= HIGH_STAT) {
                     mvwprintz(w, 3, iSecondColumn, c_ltred, _("Increasing Str further costs 2 points."));
                 }
-                // Most extreme applies.
-                if (u->has_trait("TOUGH")) {
-                    tmp = 1;
-                } else if (u->has_trait("TOUGH2")) {
-                    tmp = 2;
-                } else if (u->has_trait("TOUGH3")) {
-                    tmp = 3;
-                } else if (u->has_trait("FLIMSY")) {
-                    tmp = -1;
-                } else if (u->has_trait("FLIMSY2")) {
-                    tmp = -2;
-                } else if (u->has_trait("FLIMSY3")) {
-                    tmp = -3;
-                }
-                mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"),
-                          calc_HP(u->str_max, tmp));
+                u->recalc_hp();
+                mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"), u->hp_max[0]);
                 mvwprintz(w_description, 1, 0, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
                           u->convert_weight(u->weight_capacity(false)),
                           OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ? _("kg") : _("lbs"));
@@ -722,9 +683,17 @@ int set_stats(WINDOW *w, player *u, int &points)
         wrefresh(w_description);
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
-            sel++;
+            if (sel < 4) {
+                sel++;
+            } else {
+                sel = 1;
+            }
         } else if (action == "UP") {
-            sel--;
+            if (sel > 1) {
+                sel--;
+            } else {
+                sel = 4;
+            }
         } else if (action == "LEFT") {
             if (sel == 1 && u->str_max > 4) {
                 if (u->str_max > HIGH_STAT) {
@@ -1684,17 +1653,6 @@ std::string player::random_bad_trait()
 Skill *random_skill()
 {
     return Skill::skill(rng(0, Skill::skill_count() - 1));
-}
-
-int calc_HP(int strength, int tough)
-{
-    if (tough > 0) {
-        return int((60 + 3 * strength) * (1.1 + tough * .1));
-    } else if (tough == 0) {
-        return int((60 + 3 * strength));
-    } else {
-        return int((60 + 3 * strength) * (1 + tough * .25));
-    }
 }
 
 void save_template(player *u)
