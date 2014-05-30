@@ -9490,9 +9490,7 @@ int player::encumb(body_part bp, double &layers, int &armorenc)
     }
 
     if (layers > 0.0) {
-
         ret += layers;
-        
     }
 
     if (volume_carried() > volume_capacity() - 2 && bp != bp_head) {
