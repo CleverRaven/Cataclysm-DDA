@@ -367,9 +367,12 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     if(proj.proj_effects.count("WHIP") && (this->skillLevel("melee") > 5) && one_in(3)) {
         int npcdex = g->npc_at(tarx, tary);
         if(npcdex != -1) {
-            //if(p->turned_hostile()) { TODO should only be able to disarm hostiles?
-                g->m.add_item_or_charges(tarx + rng(-1, 1), tary + rng(-1, 1), g->active_npc[npcdex]->remove_weapon());
-            //}
+            npc *p = g->active_npc[npcdex];
+            if(!p->weapon.is_null()) {
+                item weap = p->remove_weapon();
+                add_msg_if_player(m_good, "You disarm %s's %s using your whip!", p->name.c_str(), weap.name.c_str());
+                g->m.add_item_or_charges(tarx + rng(-1, 1), tary + rng(-1, 1), weap);
+            }
         }
     }
 
