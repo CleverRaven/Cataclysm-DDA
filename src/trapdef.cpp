@@ -1,5 +1,6 @@
 #include <vector>
 #include "game.h"
+#include "player.h"
 
 void load_trap(JsonObject &jo)
 {
@@ -61,7 +62,7 @@ trap_id trapfind(const std::string id) {
 bool trap::can_see(const player &p, int x, int y) const
 {
     return visibility < 0 ||
-        ( ((p.per_cur - const_cast<player&>(p).encumb(bp_eyes))/2) + (int)p.skillLevel("trapping") ) >= visibility ||
+        ((p.per_cur - const_cast<player&>(p).encumb(bp_eyes))/2) + const_cast<player&>(p).skillLevel("traps") >= visibility ||
         p.knows_trap(x, y);
 }
 
