@@ -5957,7 +5957,7 @@
         "warmth" : 7,
         "phase" : "solid",
         "enviromental_protection" : 3,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "bashing" : -3,
         "coverage" : 50,
         "flags" : ["VARSIZE"],
