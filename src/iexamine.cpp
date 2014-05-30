@@ -132,7 +132,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
         }
 
         max = dep->charges;
-        std::string popupmsg=string_format(ngettext("Deposit how much? Max:%d cent. (0 to cancel) ",
+        popupmsg=string_format(ngettext("Deposit how much? Max:%d cent. (0 to cancel) ",
                                                     "Deposit how much? Max:%d cents. (0 to cancel) ",
                                                     max),
                                            max);

@@ -1065,7 +1065,7 @@ bool cata_tiles::draw_entity(int x, int y)
         if (!m.dead) {
             ent_name = m.type->id;
             ent_category = C_MONSTER;
-            if(m.type->species.size() >= 1) {
+            if(!(m.type->species.empty())) {
                 ent_subcategory = *(m.type->species.begin());
             }
             entity_here = true;
@@ -1312,9 +1312,7 @@ LIGHTING cata_tiles::light_at(int x, int y)
     const int dist = rl_dist(g->u.posx, g->u.posy, x, y);
 
     int real_max_sight_range = sightrange_light > sightrange_max ? sightrange_light : sightrange_max;
-    int distance_to_look = real_max_sight_range;
-
-    distance_to_look = DAYLIGHT_LEVEL;
+    int distance_to_look = DAYLIGHT_LEVEL;
 
     bool can_see = g->m.pl_sees(g->u.posx, g->u.posy, x, y, distance_to_look);
     lit_level lit = g->m.light_at(x, y);
