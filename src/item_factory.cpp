@@ -769,7 +769,15 @@ void Item_factory::load_comestible(JsonObject& jo)
       comest_template->stack_size = comest_template->charges;
     }
     comest_template->stim = jo.get_int("stim", 0);
-    comest_template->healthy = jo.get_int("heal", 0);
+    // TODO: sometimes in the future: remove this if clause and accept
+    // only "healthy" and not "heal".
+    if (jo.has_member("heal")) {
+        debugmsg("the item property \"heal\" has been renamed to \"healthy\"\n"
+        "please change the json data for item %d", comest_template->id.c_str());
+        comest_template->healthy = jo.get_int("heal");
+    } else {
+        comest_template->healthy = jo.get_int("healthy", 0);
+    }
     comest_template->fun = jo.get_int("fun", 0);
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 
