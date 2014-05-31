@@ -31,7 +31,6 @@ public:
     int alcohol             (player*, item*, bool);
     int alcohol_weak        (player*, item*, bool);
     int alcohol_strong      (player*, item*, bool);
-    int pkill               (player*, item*, bool);
     int xanax               (player*, item*, bool);
     int smoking             (player*, item*, bool);
     int smoking_pipe        (player*, item*, bool);

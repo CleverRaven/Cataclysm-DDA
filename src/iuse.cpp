@@ -548,34 +548,6 @@ int iuse::disinfectant(player *p, item *it, bool)
     return 0;
 }
 
-int iuse::pkill(player *p, item *it, bool)
-{
-    // Aspirin
-    if (it->has_flag("PKILL_1")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill1", 120);
-    // Codeine
-    } else if (it->has_flag("PKILL_2")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill2", 180);
-
-    } else if (it->has_flag("PKILL_3")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill3", 20);
-        p->add_disease("pkill2", 200);
-
-    } else if (it->has_flag("PKILL_4")) {
-        p->add_msg_if_player(_("You shoot up."));
-        p->add_disease("pkill3", 80);
-        p->add_disease("pkill2", 200);
-
-    } else if (it->has_flag("PKILL_L")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill_l", rng(12, 18) * 300);
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::xanax(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
