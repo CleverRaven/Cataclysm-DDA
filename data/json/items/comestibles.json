@@ -11687,7 +11687,7 @@
         "comestible_type" : "MED",
         "symbol" : "!",
         "quench" : 0,
-        "heal" : -2,
+        "healthy" : -2,
         "addiction_potential" : 50,
         "nutrition" : 0,
         "description" : "A roll-your-own made from tobacco and rolling paper. Stimulates mental acuity and reduces appetite. Despite being hand crafted, it's still highly addictive and hazardous to health.",
