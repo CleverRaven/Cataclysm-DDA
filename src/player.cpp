@@ -1930,6 +1930,24 @@ stats player::get_stats() const
     return player_stats;
 }
 
+void player::mod_stat( std::string stat, int modifier )
+{
+    if( stat == "hunger" ) {
+        hunger += modifier;
+    } else if( stat == "thirst" ) {
+        thirst += modifier;
+    } else if( stat == "fatigue" ) {
+        fatigue += modifier;
+    } else if( stat == "health" ) {
+        health += modifier;
+    } else if( stat == "oxygen" ) {
+        oxygen += modifier;
+    } else {
+        // Fall through to the creature method.
+        Creature::mod_stat( stat, modifier );
+    }
+}
+
 inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
 {
     int levelA = a.second;
