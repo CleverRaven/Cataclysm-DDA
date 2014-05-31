@@ -70,9 +70,11 @@ long auto_iuse_transform::use(player *p, item *it, bool t) const
     if (t) {
         if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
             // Dirty hack to display the "when unterwater" message instead of the normal message
-            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater, const_cast<auto_iuse_transform*>(this)->msg_transform);
+            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater,
+                      const_cast<auto_iuse_transform*>(this)->msg_transform);
             const long tmp = iuse_transform::use(p, it, t);
-            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater, const_cast<auto_iuse_transform*>(this)->msg_transform);
+            std::swap(const_cast<auto_iuse_transform*>(this)->when_underwater,
+                      const_cast<auto_iuse_transform*>(this)->msg_transform);
             return tmp;
         }
         // Normal use, don't need to do anything here.
