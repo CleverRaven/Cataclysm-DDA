@@ -148,29 +148,6 @@
   },
 
   {
-    "id": "rolling_paper",
-    "type": "TOOL",
-    "symbol": ",",
-    "color": "white",
-    "name": "rolling paper",
-    "description": "These are thin paper strips intended for the rolling of cigarettes.",
-    "price": 150,
-    "material": "paper",
-    "weight": 10,
-    "volume": 0,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": 0,
-    "max_charges": 32,
-    "initial_charges": 32,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
-  },
-
-  {
     "id": "rock_quern",
     "type": "TOOL",
     "symbol": ":",
