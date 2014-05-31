@@ -673,7 +673,15 @@ void Item_factory::load_armor(JsonObject& jo)
     armor_template->encumber = jo.get_int("encumbrance");
     armor_template->coverage = jo.get_int("coverage");
     armor_template->thickness = jo.get_int("material_thickness");
-    armor_template->env_resist = jo.get_int("enviromental_protection");
+    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
+    // only "environmental_protection" and not "enviromental_protection".
+    if (jo.has_member("enviromental_protection")) {
+        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+        "please change the json data for item %d", armor_template->id.c_str());
+        armor_template->env_resist = jo.get_int("enviromental_protection");
+    } else {
+        armor_template->env_resist = jo.get_int("environmental_protection");
+    }
     armor_template->warmth = jo.get_int("warmth");
     armor_template->storage = jo.get_int("storage");
     armor_template->power_armor = jo.get_bool("power_armor", false);
@@ -724,7 +732,15 @@ void Item_factory::load_tool_armor(JsonObject& jo)
     armor_template->encumber = jo.get_int("encumbrance");
     armor_template->coverage = jo.get_int("coverage");
     armor_template->thickness = jo.get_int("material_thickness");
-    armor_template->env_resist = jo.get_int("enviromental_protection");
+    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
+    // only "environmental_protection" and not "enviromental_protection".
+    if (jo.has_member("enviromental_protection")) {
+        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+        "please change the json data for item %d", armor_template->id.c_str());
+        armor_template->env_resist = jo.get_int("enviromental_protection");
+    } else {
+        armor_template->env_resist = jo.get_int("environmental_protection");
+    }
     armor_template->warmth = jo.get_int("warmth");
     armor_template->storage = jo.get_int("storage");
     armor_template->power_armor = jo.get_bool("power_armor", false);
