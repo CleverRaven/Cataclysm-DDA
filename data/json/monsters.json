@@ -4990,7 +4990,7 @@
     "special_freq":1,
     "death_function":"EXPLODE",
     "special_attack":"RIFLE_TUR",
-    "description":"Leadworks LLC's T-4A1 Sentry. It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine, which greatly pleased overstretched military procurement and supply staff.",
+    "description":"Leadworks LLC's T-4A1 Sentry. It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "FRIENDLY_SPECIAL"]
     },{
         "type" : "MONSTER",
