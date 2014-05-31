@@ -1166,28 +1166,6 @@ int iuse::coke(player *p, item *it, bool) {
     return it->type->charges_to_use();
 }
 
-int iuse::crack(player *p, item *it, bool) {
-    // Crack requires a fire source and a pipe.
-    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
-        int duration = 15;
-        if (p->has_trait("TOLERANCE")) {
-            duration -= 10; // Symmetry would make crack a sobering agent! :-P
-        }
-        else if (p->has_trait("LIGHTWEIGHT")) {
-            duration += 20;
-        }
-        p->add_msg_if_player(_("You smoke your crack rocks.  Mother would be proud."));
-        p->hunger -= 10;
-        p->add_disease("high", duration);
-        // breathe out some smoke
-        for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cracksmoke, 2);
-        }
-        return it->type->charges_to_use();
-    }
-    return 0;
-}
-
 int iuse::grack(player *p, item *it, bool) {
     // Grack requires a fire source AND a pipe.
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {

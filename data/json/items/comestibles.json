@@ -2164,7 +2164,7 @@
         "bashing" : 0,
         "fun" : 18
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "soap",
         "name" : "soap bar",
@@ -12089,7 +12089,7 @@
         "category": "drugs",
         "flags" : ["LITCIG", "TOBACCO", "LIGHT_1"]
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "cig_butt",
         "name" : "cigarette butt",
@@ -12612,7 +12612,15 @@
         "color" : "white",
         "addiction_type" : "crack",
         "spoils_in" : 0,
-        "use_action" : "CRACK",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You smoke your crack rocks.  Mother would be proud.",
+            "diseases" : { "high": 15 },
+            "stat_adjustments": {"hunger" : -10},
+            "fields_produced" : {"cracksmoke" : 2},
+            "charges_needed" : { "fire" : 1 },
+            "tools_needed" : { "apparatus" : -1 }
+        },
         "stim" : 40,
         "container" : "null",
         "to_hit" : 0,
@@ -12625,7 +12633,7 @@
         "description" : "Deprotonated cocaine crystals, incredibly addictive and deleterious to brain chemistry.",
         "price" : 72000,
         "material" : "powder",
-        "tool" : "apparatus",
+        "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",

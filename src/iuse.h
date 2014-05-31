@@ -44,7 +44,6 @@ public:
     int anticonvulsant      (player*, item*, bool);
     int weed_brownie        (player*, item*, bool);
     int coke                (player*, item*, bool);
-    int crack               (player*, item*, bool);
     int grack               (player*, item*, bool);
     int meth                (player*, item*, bool);
     int vitamins            (player*, item*, bool);
