@@ -30,7 +30,7 @@ typedef std::string dis_type;
 enum add_type {
  ADD_NULL,
  ADD_CAFFEINE, ADD_ALCOHOL, ADD_SLEEP, ADD_PKILLER, ADD_SPEED, ADD_CIG,
- ADD_COKE, ADD_CRACK, ADD_MUTAGEN,
+ ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM,
 };
 
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);

@@ -170,6 +170,7 @@
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter" />
+			<Add option="-std=c++11" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />

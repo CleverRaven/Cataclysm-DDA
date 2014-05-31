@@ -1977,8 +1977,8 @@ int attack_speed(player &u)
 {
  int move_cost = u.weapon.attack_time() / 2;
  int melee_skill = u.has_active_bionic("bio_cqb") ? 5 : (int)u.skillLevel("melee");
- int skill_cost = (int)(move_cost / (pow(static_cast<float>(melee_skill), 3.0f)/400 +1));
- int dexbonus = (int)( pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
+ int skill_cost = (int)(move_cost / (std::pow(melee_skill, 3.0f)/400.0 + 1.0));
+ int dexbonus = (int)( std::pow(std::max(u.dex_cur - 8, 0), 0.8) * 3 );
 
  move_cost += skill_cost;
  move_cost += 20 * u.encumb(bp_torso);

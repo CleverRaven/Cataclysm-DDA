@@ -363,6 +363,19 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
+    // chance to disarm an NPC with a whip if skill is high enough
+    if(proj.proj_effects.count("WHIP") && (this->skillLevel("melee") > 5) && one_in(3)) {
+        int npcdex = g->npc_at(tarx, tary);
+        if(npcdex != -1) {
+            npc *p = g->active_npc[npcdex];
+            if(!p->weapon.is_null()) {
+                item weap = p->remove_weapon();
+                add_msg_if_player(m_good, "You disarm %s's %s using your whip!", p->name.c_str(), weap.name.c_str());
+                g->m.add_item_or_charges(tarx + rng(-1, 1), tary + rng(-1, 1), weap);
+            }
+        }
+    }
+
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first
         int zid = g->mon_at(tarx, tary);
@@ -776,6 +789,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (relevent == &u.weapon && relevent->is_gun()) {
      if(relevent->has_flag("RELOAD_AND_SHOOT")) {
         wprintz(w_target, c_red, _("Shooting %s from %s"), u.weapon.curammo->name.c_str(), u.weapon.tname().c_str());
+;    } else if(relevent->has_flag("NO_AMMO")) {
+        wprintz(w_target, c_red, _("Firing %s"), u.weapon.tname().c_str());
      } else {
          wprintz(w_target, c_red, _("Firing %s (%d)"), // - %s (%d)",
                 u.weapon.tname().c_str(),// u.weapon.curammo->name.c_str(),
@@ -1068,8 +1083,12 @@ int time_to_fire(player &p, it_gun* firing)
      time = 30;
    else
      time = (200 - 20 * p.skillLevel("launcher"));
- }
-  else {
+ } else if(firing->skill_used == Skill::skill("melee")) { // right now, just whips
+    if (p.skillLevel("melee") > 8)
+        time = 50;
+    else
+        time = (200 - (20 * p.skillLevel("melee")));
+ } else {
    debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
    time =  0;
  }
@@ -1108,6 +1127,9 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
   } else {
     gunsound = _("Kra-koom!!");
   }
+ } else if (weapontype->ammo_effects.count("WHIP")) {
+     noise = 20;
+     gunsound = _("Crack!");
  } else {
   if (noise < 5) {
    if (burst)

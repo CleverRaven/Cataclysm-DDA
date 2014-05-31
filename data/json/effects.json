@@ -81,6 +81,13 @@
         "rating": "bad"
     },
     {
+        "type" : "effect_type",
+        "id" : "stung",
+        "name" : "Stung",
+        "desc" : "Causes constant pain.",
+        "rating": "bad"
+    },
+    {
         "type":"effect_type",
         "id":"poison",
         "name": "Poisoned",

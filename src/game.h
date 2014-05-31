@@ -1,7 +1,6 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-#include "platform.h"
 #include "mtype.h"
 #include "monster.h"
 #include "map.h"
@@ -253,7 +252,7 @@ public:
   void process_artifact(item *it, player *p, bool wielded = false);
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
-  void peek();
+  void peek( int peekx = 0, int peeky = 0);
   point look_debug();
   point look_around();// Look at nearby terrain ';'
   int list_items(const int iLastState); //List all items around the player
@@ -684,6 +683,7 @@ public:
   bool is_hostile_within(int distance);
     void activity_on_turn();
     void activity_on_turn_game();
+    void activity_on_turn_vibe();
     void activity_on_turn_refill_vehicle();
     void activity_on_turn_pulp();
     void activity_on_finish();

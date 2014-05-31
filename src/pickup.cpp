@@ -497,11 +497,13 @@ void Pickup::pick_up(int posx, int posy, int min)
                 last_selected = selected;
                 werase(w_item_info);
                 if ( selected >= 0 && selected <= here.size() - 1 ) {
-                    fold_and_print(w_item_info, 1, 2, 48 - 3, c_ltgray, "%s",
-                                   here[selected].info().c_str());
+                    std::vector<iteminfo> vThisItem, vDummy;
+                    here[selected].info(true, &vThisItem);
+
+                    draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
                 }
                 draw_border(w_item_info);
-                mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].display_name().c_str() );
+                mvwprintz(w_item_info, 0, 2, c_white, "< %s >", here[selected].display_name().c_str());
                 wrefresh(w_item_info);
             }
 

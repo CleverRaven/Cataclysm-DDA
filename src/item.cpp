@@ -21,11 +21,6 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
-#ifdef _MSC_VER
-// MSVC doesn't have ssize_t, so use int instead
-#define ssize_t int
-#endif
-
 light_emission nolight = {0, 0, 0};
 
 item::item()
@@ -1166,9 +1161,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix )
         }
         maintext = ret.str();
     } else if (contents.size() == 1) {
-        maintext = rmp_format((contents[0].made_of(LIQUID) || contents[0].is_food())?
-                              _("<item_name>%s of %s"):("<item_name>%s with %s"),
-                              type->nname(quantity).c_str(), contents[0].tname().c_str());
+        if(contents[0].made_of(LIQUID)) {
+            maintext = rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(), contents[0].tname().c_str());
+        } else if (contents[0].is_food()) {
+            maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(),
+                                                            contents[0].tname(contents[0].charges).c_str()) :
+                                                 rmp_format(_("<item_name>%s of %s"), type->nname(quantity).c_str(),
+                                                            contents[0].tname().c_str());
+        } else {
+            maintext = rmp_format(_("<item_name>%s with %s"), type->nname(quantity).c_str(), contents[0].tname().c_str());
+        }
     }
     else if (!contents.empty()) {
         maintext = rmp_format(_("<item_name>%s, full"), type->nname(quantity).c_str());
@@ -1242,7 +1244,7 @@ std::string item::display_name(unsigned int quantity)
     // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
     if (contents.size() == 1 && contents[0].charges > 0) {
         return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
-    } else if (charges >= 0) {
+    } else if (charges >= 0 && !has_flag("NO_AMMO")) {
         return string_format("%s (%d)", tname(quantity).c_str(), charges);
     }
     else {
@@ -2730,8 +2732,8 @@ bool item::reload(player &u, int pos)
             reload_target = &contents[spare_mag];
             // Finally consider other gunmods
         } else {
-            for (ssize_t i = 0; i < (ssize_t)contents.size(); i++) {
-                if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
+            for (size_t i = 0; i < contents.size(); i++) {
+                if (&contents[i] != gunmod && (int)i != spare_mag && contents[i].is_gunmod() &&
                     contents[i].has_flag("MODE_AUX") &&
                     contents[i].ammo_type() == ammo_to_use->ammo_type() &&
                     (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||

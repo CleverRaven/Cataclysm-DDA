@@ -556,7 +556,7 @@ void computer::activate_function(computer_action action)
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 for (size_t i = 0; i < g->m.i_at(x, y).size(); i++) {
                     if (g->m.i_at(x, y)[i].is_bionic()) {
-                        if ((ssize_t)names.size() < TERMY - 8) {
+                        if ((int)names.size() < TERMY - 8) {
                             names.push_back(g->m.i_at(x, y)[i].tname());
                         } else {
                             more++;
@@ -934,7 +934,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   \n\
   Director Grimes has released a new series of accusations that\n\
   will soon be investigated by a Congressional committee.  Below\n\
-  is the message that he sent myself.\n\
+  is the message that he sent me.\n\
   \n\
   --------------------------------------------------------------\n\
   Subj: Congressional Investigations\n\
@@ -984,8 +984,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   action in this national crisis.  You will proceed with fail-\n\
   safe procedures and rig the sarcophagus with c-4 as outlined\n\
   in Publication 4423.  We will send you orders to either detonate\n\
-  and seal the sarcophagus or remove the charges.  It is of\n\
-  upmost importance that the facility is sealed immediatly when\n\
+  and seal the sarcophagus or remove the charges.  It is of the\n\
+  utmost importance that the facility be sealed immediatly when\n\
   the orders are given.  We have been alerted by Homeland Security\n\
   that there are potential terrorist suspects that are being\n\
   detained in connection with the recent national crisis.\n\

@@ -53,6 +53,7 @@ vehicle::vehicle(std::string type_id, int init_veh_fuel, int init_veh_status): t
     face.init(0);
     move.init(0);
     last_turn = 0;
+    last_repair_turn = -1;
     of_turn_carry = 0;
     turret_mode = 0;
     lights_epower = 0;
@@ -359,8 +360,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         // blood is splattered around (blood_inside_x, blood_inside_y),
         // coords relative to mount point; the center is always a seat
             if (blood_inside_set) {
-                int distSq = pow((blood_inside_x - parts[p].mount_dx), 2) + \
-                             pow((blood_inside_y - parts[p].mount_dy), 2);
+                int distSq = std::pow((blood_inside_x - parts[p].mount_dx), 2) + \
+                    std::pow((blood_inside_y - parts[p].mount_dy), 2);
                 if (distSq <= 1) {
                     parts[p].blood = rng(200, 400) - distSq*100;
                 }
@@ -1337,7 +1338,7 @@ item vehicle_part::properties_to_item() const
     float hpofdur = ( float )hp / vpinfo.durability;
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
     // Transfer fuel back to tank
-    if( !vpinfo.fuel_type.empty() && amount > 0 ) {
+    if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "NULL" && amount > 0 ) {
         const ammotype &desired_liquid = vpinfo.fuel_type;
         if( desired_liquid == fuel_type_battery ) {
             tmp.charges = amount;
@@ -1719,7 +1720,7 @@ std::string vehicle::part_id_string(int p, char &part_mod)
 {
     part_mod = 0;
     std::string idinfo;
-    if (p < 0 || p >= parts.size()){
+    if( p < 0 || p >= parts.size() || parts[p].removed ) {
         return "";
     }
 
@@ -3138,7 +3139,7 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
         if (collision_type == veh_coll_bashable) {
             // something bashable -- use map::bash to determine outcome
             int absorb = -1;
-            g->m.bash(x, y, obj_dmg, snd, &absorb);
+            g->m.bash(x, y, obj_dmg, false, &absorb);
             smashed = obj_dmg > absorb;
         } else if (collision_type >= veh_coll_thin_obstacle) {
             // some other terrain
@@ -4064,7 +4065,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, long char
     int fire_t, boo_hoo;
     Creature *target = tmp.auto_find_hostile_target(range, boo_hoo, fire_t);
     if (target == NULL) {
-        if (u_see) {
+        if (u_see && boo_hoo) {
             add_msg(m_warning, ngettext("%s points in your direction and emits an IFF warning beep.",
                                         "%s points in your direction and emits %d annoyed sounding beeps.",
                                          boo_hoo),

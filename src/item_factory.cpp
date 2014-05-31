@@ -188,7 +188,8 @@ void Item_factory::init(){
     iuse_function_list["ALCOHOL_STRONG"] = &iuse::alcohol_strong;
     iuse_function_list["PKILL"] = &iuse::pkill;
     iuse_function_list["XANAX"] = &iuse::xanax;
-    iuse_function_list["CIG"] = &iuse::cig;
+    iuse_function_list["SMOKING"] = &iuse::smoking;
+    iuse_function_list["SMOKING_PIPE"] = &iuse::smoking_pipe;
     iuse_function_list["ECIG"] = &iuse::ecig;
     iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
     iuse_function_list["EYEDROPS"] = &iuse::eyedrops;
@@ -196,7 +197,6 @@ void Item_factory::init(){
     iuse_function_list["ANTIFUNGAL"] = &iuse::antifungal;
     iuse_function_list["ANTIPARASITIC"] = &iuse::antiparasitic;
     iuse_function_list["ANTICONVULSANT"] = &iuse::anticonvulsant;
-    iuse_function_list["WEED"] = &iuse::weed;
     iuse_function_list["WEED_BROWNIE"] = &iuse::weed_brownie;
     iuse_function_list["COKE"] = &iuse::coke;
     iuse_function_list["CRACK"] = &iuse::crack;
@@ -312,6 +312,7 @@ void Item_factory::init(){
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
     iuse_function_list["PORTABLE_GAME"] = &iuse::portable_game;
+    iuse_function_list["VIBE"] = &iuse::vibe;
     iuse_function_list["VORTEX"] = &iuse::vortex;
     iuse_function_list["DOG_WHISTLE"] = &iuse::dog_whistle;
     iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
@@ -672,7 +673,15 @@ void Item_factory::load_armor(JsonObject& jo)
     armor_template->encumber = jo.get_int("encumbrance");
     armor_template->coverage = jo.get_int("coverage");
     armor_template->thickness = jo.get_int("material_thickness");
-    armor_template->env_resist = jo.get_int("enviromental_protection");
+    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
+    // only "environmental_protection" and not "enviromental_protection".
+    if (jo.has_member("enviromental_protection")) {
+        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+        "please change the json data for item %d", armor_template->id.c_str());
+        armor_template->env_resist = jo.get_int("enviromental_protection");
+    } else {
+        armor_template->env_resist = jo.get_int("environmental_protection");
+    }
     armor_template->warmth = jo.get_int("warmth");
     armor_template->storage = jo.get_int("storage");
     armor_template->power_armor = jo.get_bool("power_armor", false);
@@ -723,7 +732,15 @@ void Item_factory::load_tool_armor(JsonObject& jo)
     armor_template->encumber = jo.get_int("encumbrance");
     armor_template->coverage = jo.get_int("coverage");
     armor_template->thickness = jo.get_int("material_thickness");
-    armor_template->env_resist = jo.get_int("enviromental_protection");
+    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
+    // only "environmental_protection" and not "enviromental_protection".
+    if (jo.has_member("enviromental_protection")) {
+        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+        "please change the json data for item %d", armor_template->id.c_str());
+        armor_template->env_resist = jo.get_int("enviromental_protection");
+    } else {
+        armor_template->env_resist = jo.get_int("environmental_protection");
+    }
     armor_template->warmth = jo.get_int("warmth");
     armor_template->storage = jo.get_int("storage");
     armor_template->power_armor = jo.get_bool("power_armor", false);
@@ -768,7 +785,15 @@ void Item_factory::load_comestible(JsonObject& jo)
       comest_template->stack_size = comest_template->charges;
     }
     comest_template->stim = jo.get_int("stim", 0);
-    comest_template->healthy = jo.get_int("heal", 0);
+    // TODO: sometimes in the future: remove this if clause and accept
+    // only "healthy" and not "heal".
+    if (jo.has_member("heal")) {
+        debugmsg("the item property \"heal\" has been renamed to \"healthy\"\n"
+        "please change the json data for item %d", comest_template->id.c_str());
+        comest_template->healthy = jo.get_int("heal");
+    } else {
+        comest_template->healthy = jo.get_int("healthy", 0);
+    }
     comest_template->fun = jo.get_int("fun", 0);
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 
@@ -1110,7 +1135,7 @@ bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
     return result;
 }
 
-bool load_sub_ref(std::auto_ptr<Item_spawn_data> &ptr, JsonObject &obj, const std::string &name)
+bool load_sub_ref(std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj, const std::string &name)
 {
     if (obj.has_member(name)) {
         // TODO!
@@ -1126,7 +1151,7 @@ bool load_sub_ref(std::auto_ptr<Item_spawn_data> &ptr, JsonObject &obj, const st
 
 void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
 {
-    std::auto_ptr<Item_spawn_data> ptr;
+    std::unique_ptr<Item_spawn_data> ptr;
     int probability = obj.get_int("prob", 100);
     JsonArray jarr;
     if (obj.has_member("collection")) {
@@ -1154,7 +1179,7 @@ void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
     if (ptr.get() == NULL) {
         return;
     }
-    std::auto_ptr<Item_modifier> modifier(new Item_modifier());
+    std::unique_ptr<Item_modifier> modifier(new Item_modifier());
     bool use_modifier = false;
     use_modifier |= load_min_max(modifier->damage, obj, "damage");
     use_modifier |= load_min_max(modifier->charges, obj, "charges");
@@ -1163,7 +1188,7 @@ void Item_factory::add_entry(Item_group* ig, JsonObject &obj)
     use_modifier |= load_sub_ref(modifier->container, obj, "container");
     use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
     if (use_modifier) {
-        dynamic_cast<Single_item_creator*>(ptr.get())->modifier = modifier;
+        dynamic_cast<Single_item_creator*>(ptr.get())->modifier = std::move(modifier);
     }
     ig->add_entry(ptr);
 }
@@ -1241,7 +1266,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const std::string &group_i
 use_function Item_factory::use_from_object(JsonObject obj) {
     const std::string type = obj.get_string("type");
     if (type == "transform") {
-        std::auto_ptr<iuse_transform> actor(new iuse_transform);
+        std::unique_ptr<iuse_transform> actor(new iuse_transform);
         // Mandatory:
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
@@ -1260,7 +1285,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else if (type == "auto_transform") {
-        std::auto_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
+        std::unique_ptr<auto_iuse_transform> actor(new auto_iuse_transform);
         // Mandatory:
         actor->target_id = obj.get_string("target");
         // Optional (default is good enough):
@@ -1284,7 +1309,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         // from hereon memory is handled by the use_function class
         return use_function(actor.release());
     } else if (type == "explosion") {
-        std::auto_ptr<explosion_iuse> actor(new explosion_iuse);
+        std::unique_ptr<explosion_iuse> actor(new explosion_iuse);
         obj.read("explosion_power", actor->explosion_power);
         obj.read("explosion_shrapnel", actor->explosion_shrapnel);
         obj.read("explosion_fire", actor->explosion_fire);
@@ -1317,7 +1342,7 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         obj.read("no_deactivate_msg", actor->no_deactivate_msg);
         return use_function(actor.release());
     } else if (type == "unfold_vehicle") {
-        std::auto_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
+        std::unique_ptr<unfold_vehicle_iuse> actor(new unfold_vehicle_iuse);
         obj.read("vehicle_name", actor->vehicle_name);
         obj.read("unfold_msg", actor->unfold_msg);
         actor->unfold_msg = _(actor->unfold_msg.c_str());

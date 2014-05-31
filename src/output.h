@@ -140,9 +140,14 @@ typedef enum {
 long popup(const std::string &text, PopupFlags flags);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
-int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName,
-                               std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare,
-                               int selected = -1, bool without_getch = false);
+
+int draw_item_info(WINDOW *win, const std::string sItemName,
+                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                   const int selected = -1, const bool without_getch = false, const bool without_border = false);
+
+int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight, const std::string sItemName,
+                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                   const int selected = -1, const bool without_getch = false, const bool without_border = false);
 
 char rand_char();
 long special_symbol (long sym);
