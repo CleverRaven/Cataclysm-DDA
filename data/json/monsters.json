@@ -4981,8 +4981,8 @@
     "item_chance":80,
     "death_drops": {
         "groups": [
-            [ "robots", 10 ],
-            [ "turret", 1 ]
+            [ "robots", 9 ],
+            [ "turret_rifle", 2 ]
         ]
     },
     "luminance":40,

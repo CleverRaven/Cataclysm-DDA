@@ -5184,6 +5184,8 @@
     "items":[
       ["bot_manhack", 2],
       ["bot_turret", 2],
+      ["bot_rifleturret", 2],
+      ["556", 2],
       ["9mm", 2]
     ]
   },{
@@ -6345,6 +6347,12 @@
       ["cerberus_laser", 1],
       ["laser_capacitor", 8]
       ]
+  },{
+    "type" : "item_group",
+    "id" : "turret_rifle",
+    "items":[
+      ["556", 8]
+    ]
   },{
     "type" : "item_group",
     "id" : "helicopter",
