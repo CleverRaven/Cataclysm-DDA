@@ -15187,7 +15187,7 @@ msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "joint roach"
-msgid_plural "joint roachs"
+msgid_plural "joint roaches"
 msgstr[0] ""
 msgstr[1] ""
 

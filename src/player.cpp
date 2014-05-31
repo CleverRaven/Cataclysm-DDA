@@ -9010,7 +9010,6 @@ void player::remove_gunmod(item *weapon, int id)
     }
     i_add_or_drop(*gunmod);
     weapon->contents.erase(weapon->contents.begin()+id);
-    return;
 }
 
 hint_rating player::rate_action_read(item *it)

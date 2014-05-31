@@ -12289,6 +12289,10 @@ void game::vertical_move(int movez, bool force) {
       u.use_amount("rope_30", 1);
      }
      else return;
+
+    } else if (u.has_amount("bullwhip", 1)) {
+      if (query_yn(_("There is a sheer drop halfway down. Use your whip to lower yourself?"))){}
+      else return;
     } else if (!query_yn(_("There is a sheer drop halfway down.  Jump?")))
      return;
    }

@@ -2125,6 +2125,47 @@
             ]
         }
     },
+
+   {
+        "type": "profession",
+        "ident": "archaeologist",
+        "name": "Archaeologist",
+        "description": "While on your way to a long-lost temple following a clue from your dead grandfather's journal, the ground started to shake uncontrollably. Getting a bad feeling about the situation, you head to the nearest shelter.",
+        "points": 5,
+		"skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "gun"
+            }
+        ],
+        "items": {
+            "both": [
+				"undershirt",
+                "leather_belt",
+				"boots",
+				"pants",
+				"jacket_leather",
+				"holster",
+				"sw_619",
+				"38_special",
+				"bullwhip",
+				"mbag",
+				"fedora",
+				"spiral_stone"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
     
     {
         "type": "profession",
