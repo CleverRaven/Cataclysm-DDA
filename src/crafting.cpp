@@ -2113,17 +2113,15 @@ void remove_ammo(item *dis_item, player &p)
             p.remove_gunmod( dis_item, 0 );
         }
     }
-    if( dis_item->is_container() ) {
-        while( !dis_item->contents.empty() ) {
-            item tmp = dis_item->contents.front();
-            dis_item->contents.erase( dis_item->contents.begin() );
-            if( tmp.made_of( LIQUID ) ) {
-                while( !g->handle_liquid( tmp, false, false ) ) {
-                    // Allow selecting several containers
-                }
-            } else {
-                p.i_add_or_drop( tmp );
+    while( !dis_item->contents.empty() ) {
+        item tmp = dis_item->contents.front();
+        dis_item->contents.erase( dis_item->contents.begin() );
+        if( tmp.made_of( LIQUID ) && &p == &g->u ) {
+            while( !g->handle_liquid( tmp, false, false ) ) {
+                // Allow selecting several containers
             }
+        } else {
+            p.i_add_or_drop( tmp );
         }
     }
     if( dis_item->has_flag( "NO_UNLOAD" ) ) {
@@ -2132,12 +2130,12 @@ void remove_ammo(item *dis_item, player &p)
     if( dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL" ) {
         item ammodrop( dis_item->curammo->id, calendar::turn );
         ammodrop.charges = dis_item->charges;
-        if( ammodrop.made_of( LIQUID ) ) {
+        if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
             while( !g->handle_liquid( ammodrop, false, false ) ) {
                 // Allow selecting several containers
             }
         } else {
-            g->u.i_add_or_drop( ammodrop, 1 );
+            p.i_add_or_drop( ammodrop, 1 );
         }
         dis_item->charges = 0;
     }
@@ -2147,12 +2145,12 @@ void remove_ammo(item *dis_item, player &p)
         if( dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on" ) {
             ammodrop.charges /= 500;
         }
-        if( ammodrop.made_of( LIQUID ) ) {
+        if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
             while( !g->handle_liquid( ammodrop, false, false ) ) {
                 // Allow selecting several containers
             }
         } else {
-            g->u.i_add_or_drop( ammodrop, 1 );
+            p.i_add_or_drop( ammodrop, 1 );
         }
         dis_item->charges = 0;
     }
