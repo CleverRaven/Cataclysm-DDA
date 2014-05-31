@@ -1378,6 +1378,16 @@ use_function Item_factory::use_from_object(JsonObject obj) {
         actor->unfold_msg = _(actor->unfold_msg.c_str());
         obj.read("moves", actor->moves);
         return use_function(actor.release());
+    } else if (type == "consume_drug") {
+        std::unique_ptr<consume_drug_iuse> actor(new consume_drug_iuse);
+        // Are these optional? The need to be.
+        obj.read("activation_message", actor->activation_message);
+        obj.read("charges_needed", actor->charges_needed);
+        obj.read("tools_needed", actor->tools_needed);
+        obj.read("diseases", actor->diseases);
+        obj.read("stat_adjustments", actor->stat_adjustments);
+        obj.read("fields_produced", actor->fields_produced);
+        return use_function(actor.release());
     } else {
         debugmsg("unknown use_action type %s", type.c_str());
         return use_function();

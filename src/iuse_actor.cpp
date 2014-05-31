@@ -222,3 +222,64 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/) const
     }
     return 1;
 }
+
+consume_drug_iuse::~consume_drug_iuse(){};
+
+iuse_actor *consume_drug_iuse::clone() const
+{
+    return new consume_drug_iuse(*this);
+}
+
+long consume_drug_iuse::use(player *p, item *it, bool) const
+{
+    // Check prerequisites first.
+    for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
+        // Amount == -1 means need one, but don't consume it.
+        if( !p->has_amount( tool->first, 1 ) ) {
+            p->add_msg_if_player( _("You need %s to consume %s!"),
+                                  item(tool->first, 0).type->nname(1).c_str(),
+                                  it->type->nname(1).c_str() );
+            return -1;
+        }
+    }
+    for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
+         ++consumable ) {
+        // Amount == -1 means need one, but don't consume it.
+        if( !p->has_charges( consumable->first, (consumable->second == -1) ?
+                             1 : consumable->second ) ) {
+            p->add_msg_if_player( _("You need %s to consume %s!"),
+                                  item(consumable->first, 0).type->nname(1).c_str(),
+                                  it->type->nname(1).c_str() );
+            return -1;
+        }
+    }
+    // Apply the various effects.
+    for( auto disease = diseases.cbegin(); disease != diseases.cend(); ++disease ) {
+        int duration = disease->second;
+        if (p->has_trait("TOLERANCE")) {
+            duration -= 10; // Symmetry would cause negative duration.
+        }
+        else if (p->has_trait("LIGHTWEIGHT")) {
+            duration += 20;
+        }
+        p->add_disease( disease->first, duration );
+    }
+    for( auto stat = stat_adjustments.cbegin(); stat != stat_adjustments.cend(); ++stat ) {
+        p->mod_stat( stat->first, stat->second );
+    }
+    for( auto field = fields_produced.cbegin(); field != fields_produced.cend(); ++field ) {
+        for(int i = 0; i < 3; i++) {
+            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cracksmoke, 2);
+        }
+    }
+    // Output message.
+    p->add_msg_if_player( _(activation_message.c_str()) );
+    // Consume charges.
+    for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
+         ++consumable ) {
+        if( consumable->second != -1 ) {
+            p->use_charges( consumable->first, consumable->second );
+        }
+    }
+    return it->type->charges_to_use();
+}
