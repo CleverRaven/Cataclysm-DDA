@@ -1673,7 +1673,7 @@
   "components": [
     [
       [ "paper", 5 ],
-      [ "rolling_paper", 5],
+      [ "rolling_paper", 30],
       [ "wrapper", 5]
     ],
     [
