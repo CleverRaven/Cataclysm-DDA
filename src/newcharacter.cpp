@@ -284,6 +284,9 @@ bool player::create(character_type type, std::string tempname)
     }
 
     recalc_hp();
+    for (int i = 0; i < num_hp_parts; i++) {
+        hp_cur[i] = hp_max[i];
+    }
 
     if (has_trait("SMELLY")) {
         scent = 800;
