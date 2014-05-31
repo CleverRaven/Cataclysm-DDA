@@ -1244,7 +1244,7 @@ std::string item::display_name(unsigned int quantity)
     // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
     if (contents.size() == 1 && contents[0].charges > 0) {
         return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
-    } else if (charges >= 0) {
+    } else if (charges >= 0 && !has_flag("NO_AMMO")) {
         return string_format("%s (%d)", tname(quantity).c_str(), charges);
     }
     else {

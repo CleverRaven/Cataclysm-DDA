@@ -188,7 +188,8 @@ void Item_factory::init(){
     iuse_function_list["ALCOHOL_STRONG"] = &iuse::alcohol_strong;
     iuse_function_list["PKILL"] = &iuse::pkill;
     iuse_function_list["XANAX"] = &iuse::xanax;
-    iuse_function_list["CIG"] = &iuse::cig;
+    iuse_function_list["SMOKING"] = &iuse::smoking;
+    iuse_function_list["SMOKING_PIPE"] = &iuse::smoking_pipe;
     iuse_function_list["ECIG"] = &iuse::ecig;
     iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
     iuse_function_list["EYEDROPS"] = &iuse::eyedrops;
@@ -196,7 +197,6 @@ void Item_factory::init(){
     iuse_function_list["ANTIFUNGAL"] = &iuse::antifungal;
     iuse_function_list["ANTIPARASITIC"] = &iuse::antiparasitic;
     iuse_function_list["ANTICONVULSANT"] = &iuse::anticonvulsant;
-    iuse_function_list["WEED"] = &iuse::weed;
     iuse_function_list["WEED_BROWNIE"] = &iuse::weed_brownie;
     iuse_function_list["COKE"] = &iuse::coke;
     iuse_function_list["CRACK"] = &iuse::crack;
@@ -673,7 +673,15 @@ void Item_factory::load_armor(JsonObject& jo)
     armor_template->encumber = jo.get_int("encumbrance");
     armor_template->coverage = jo.get_int("coverage");
     armor_template->thickness = jo.get_int("material_thickness");
-    armor_template->env_resist = jo.get_int("enviromental_protection");
+    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
+    // only "environmental_protection" and not "enviromental_protection".
+    if (jo.has_member("enviromental_protection")) {
+        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+        "please change the json data for item %d", armor_template->id.c_str());
+        armor_template->env_resist = jo.get_int("enviromental_protection");
+    } else {
+        armor_template->env_resist = jo.get_int("environmental_protection");
+    }
     armor_template->warmth = jo.get_int("warmth");
     armor_template->storage = jo.get_int("storage");
     armor_template->power_armor = jo.get_bool("power_armor", false);
@@ -724,7 +732,15 @@ void Item_factory::load_tool_armor(JsonObject& jo)
     armor_template->encumber = jo.get_int("encumbrance");
     armor_template->coverage = jo.get_int("coverage");
     armor_template->thickness = jo.get_int("material_thickness");
-    armor_template->env_resist = jo.get_int("enviromental_protection");
+    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
+    // only "environmental_protection" and not "enviromental_protection".
+    if (jo.has_member("enviromental_protection")) {
+        debugmsg("the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
+        "please change the json data for item %d", armor_template->id.c_str());
+        armor_template->env_resist = jo.get_int("enviromental_protection");
+    } else {
+        armor_template->env_resist = jo.get_int("environmental_protection");
+    }
     armor_template->warmth = jo.get_int("warmth");
     armor_template->storage = jo.get_int("storage");
     armor_template->power_armor = jo.get_bool("power_armor", false);
@@ -769,7 +785,15 @@ void Item_factory::load_comestible(JsonObject& jo)
       comest_template->stack_size = comest_template->charges;
     }
     comest_template->stim = jo.get_int("stim", 0);
-    comest_template->healthy = jo.get_int("heal", 0);
+    // TODO: sometimes in the future: remove this if clause and accept
+    // only "healthy" and not "heal".
+    if (jo.has_member("heal")) {
+        debugmsg("the item property \"heal\" has been renamed to \"healthy\"\n"
+        "please change the json data for item %d", comest_template->id.c_str());
+        comest_template->healthy = jo.get_int("heal");
+    } else {
+        comest_template->healthy = jo.get_int("healthy", 0);
+    }
     comest_template->fun = jo.get_int("fun", 0);
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
 

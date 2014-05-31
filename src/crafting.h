@@ -109,9 +109,9 @@ typedef std::map<craft_cat, recipe_list> recipe_map;
 class item;
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.
-void remove_ammo(item *dis_item);
+void remove_ammo(item *dis_item, player &p);
 // same as above but for each item in the list
-void remove_ammo(std::list<item> &dis_items);
+void remove_ammo(std::list<item> &dis_items, player &p);
 
 void load_recipe_category(JsonObject &jsobj);
 void reset_recipe_categories();
