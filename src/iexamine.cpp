@@ -1475,8 +1475,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
         for (int i=0; i<charges_held && !keg_full; i++) {
             g->u.use_charges(drink.typeId(), 1);
             drink.charges++;
-            int d_vol = (drink.count_by_charges()) ? drink.volume(false, true)/1000
-                : drink.volume(false, true)/1000*drink.charges;
+            int d_vol = drink.volume(false, true)/1000;
             if (d_vol >= keg_cap)
                 keg_full = true;
         }
@@ -1541,8 +1540,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
 
         if(menu_items[choice]==_("Refill")){
             int charges_held = p->charges_of(drink->typeId());
-            int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
-                : drink->volume(false, true)/1000*drink->charges;
+            int d_vol = drink->volume(false, true)/1000;
             if (d_vol >= keg_cap){
                 add_msg(_("The %s is completely full."), m->name(examx, examy).c_str());
                 return;
@@ -1555,8 +1553,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
             for (int i=0; i<charges_held; i++) {
                 g->u.use_charges(drink->typeId(), 1);
                 drink->charges++;
-                int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
-                    : drink->volume(false, true)/1000*drink->charges;
+                int d_vol = drink->volume(false, true)/1000;
                 if (d_vol >= keg_cap) {
                     add_msg(_("You completely fill the %s with %s."), m->name(examx, examy).c_str(),
                                drink->name.c_str());
@@ -1572,8 +1569,7 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
 
         if(menu_items[choice]==_("Examine")){
             add_msg(m_info, _("That is a %s."), m->name(examx, examy).c_str());
-            int d_vol = (drink->count_by_charges()) ? drink->volume(false, true)/1000
-                : drink->volume(false, true)/1000*drink->charges;
+            int d_vol = drink->volume(false, true)/1000;
             if (d_vol < 1)
                 add_msg(m_info, ngettext("It has %d portion of %s left.",
                                     "It has %d portions of %s left.",
