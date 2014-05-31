@@ -16,6 +16,9 @@
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
+/**
+ * Weather animation settings container.
+ */
 std::map<weather_type, clWeatherAnim> mapWeatherAnim;
 
 /**

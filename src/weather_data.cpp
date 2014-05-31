@@ -24,6 +24,22 @@ std::string season_name[4];
 weather_datum weather_data[NUM_WEATHER_TYPES];
 
 /**
+ * Weather animation settings
+ */
+void game::init_weather_anim() {
+    mapWeatherAnim.clear();
+    mapWeatherAnim[WEATHER_ACID_DRIZZLE] =  clWeatherAnim('.', c_ltgreen, 0.01f);
+    mapWeatherAnim[WEATHER_ACID_RAIN] =     clWeatherAnim(',', c_ltgreen, 0.02f);
+    mapWeatherAnim[WEATHER_DRIZZLE] =       clWeatherAnim('.', c_ltblue, 0.01f);
+    mapWeatherAnim[WEATHER_RAINY] =         clWeatherAnim(',', c_ltblue, 0.02f);
+    mapWeatherAnim[WEATHER_THUNDER] =       clWeatherAnim('.', c_ltblue, 0.02f);
+    mapWeatherAnim[WEATHER_LIGHTNING] =     clWeatherAnim(',', c_ltblue, 0.04f);
+    mapWeatherAnim[WEATHER_FLURRIES] =      clWeatherAnim('*', c_white, 0.01f);
+    mapWeatherAnim[WEATHER_SNOW] =          clWeatherAnim('*', c_white, 0.02f);
+    mapWeatherAnim[WEATHER_SNOWSTORM] =     clWeatherAnim('*', c_white, 0.04f);
+}
+
+/**
  * Weather change bias table.
  * Chances for each season, for the weather listed on the left to shift to the
  * weather listed across the top.
