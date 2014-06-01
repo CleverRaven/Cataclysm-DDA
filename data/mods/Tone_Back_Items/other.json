@@ -1,0 +1,28 @@
+{
+    "type": "ITEM_BLACKLIST",
+    "items": [
+        "bondage_suit",
+        "bondage_mask",
+        "dinosuit",
+        "wolfsuit",
+        "vibrator",
+        "leather_cat_ears",
+        "fur_cat_ears",
+        "leather_cat_tail",
+        "fur_cat_tail",
+        "fur_collar",
+        "leather_collar",
+        "cs_lajatang_off",
+        "cs_lajatang_on",
+        "battleaxe",
+        "broadsword",
+        "diamond_katana",
+        "katana",
+        "kris",
+        "nodachi",
+        "rapier",
+        "tanto",
+        "wakizashi",
+        "zweihander"
+    ]
+}
