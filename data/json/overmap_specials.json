@@ -51,6 +51,24 @@
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
+},{
+        "type" : "overmap_special",
+        "id" : "Motel",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "motel_entrance", "connect":"road"},
+            { "point":[-1,0,0], "overmap": "motel_1"},
+            { "point":[-1,1,0], "overmap": "motel_2"},
+            { "point":[0,1,0], "overmap": "motel_3"}
+        ],
+	   "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [1, 5], "//":"how far from a city it should be",
+        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 5], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "LMOE Shelter",
