@@ -749,9 +749,7 @@ public:
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);
 
- bool can_study_recipe(it_book *book);
  bool studied_all_recipes(it_book *book);
- bool try_study_recipe(it_book *book);
 
  // Auto move methods
  void set_destination(const std::vector<point> &route);
@@ -914,6 +912,9 @@ private:
 
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
+
+    bool can_study_recipe(it_book *book);
+    bool try_study_recipe(it_book *book);
 
     /** Search surroundings squares for traps while pausing a turn. */
     void search_surroundings();
