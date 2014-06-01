@@ -3666,5 +3666,20 @@
       "cutting":0,
       "to_hit":-2,
       "flags":["CD"]
+     },
+     {
+    "type":"GENERIC",
+    "id": "rolling_paper",
+    "symbol": ",",
+    "color": "white",
+    "name": "rolling paper",
+    "description": "A thin paper strip intended for the rolling of cigarettes.",
+    "price": 150,
+    "material": "paper",
+    "weight": 10,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0
      }
 ]
