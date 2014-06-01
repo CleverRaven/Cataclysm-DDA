@@ -606,6 +606,8 @@ public:
  bool install_bionics(it_bionic* type);
  /** Handles reading effects */
  void read(int pos);
+ /** Completes book reading action. **/
+ void do_read( item *book );
  /** Handles sleep attempts by the player, adds DIS_LYING_DOWN */
  void try_to_sleep();
  /** Checked each turn during DIS_LYING_DOWN, returns true if the player falls asleep */
