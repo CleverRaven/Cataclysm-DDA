@@ -1867,7 +1867,7 @@ std::unordered_set<std::string> item::made_of() const
     return materials_composed_of;
 }
 
-bool item::made_of(std::unordered_set<std::string> mat_idents) const
+std::unordered_set<std::string> item::made_of_intersects(std::unordered_set<std::string> mat_idents) const
 {
     std::unordered_set<std::string> mat_composed_of = made_of();
     std::unordered_set<std::string> mat_intersects;
@@ -1875,8 +1875,19 @@ bool item::made_of(std::unordered_set<std::string> mat_idents) const
     std::set_intersection(mat_idents.begin(), mat_idents.end(),
                           mat_composed_of.begin(), mat_composed_of.end(),
                           std::inserter(mat_intersects, mat_intersects.end()));
+    return mat_intersects;
+}
 
-    return mat_intersects.size() >= 1;;
+bool item::made_of_any(std::unordered_set<std::string> mat_idents) const
+{
+    std::unordered_set<std::string> mat_intersects = made_of_intersects(mat_idents);
+    return mat_intersects.size() >= 1;
+}
+
+bool item::not_made_of(std::unordered_set<std::string> mat_idents) const
+{
+    std::unordered_set<std::string> mat_intersects = made_of_intersects(mat_idents);
+    return !(mat_intersects.size() > 0);
 }
 
 bool item::made_of(std::string mat_ident) const
