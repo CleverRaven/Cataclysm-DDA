@@ -9124,7 +9124,8 @@ void player::read(int pos)
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
         add_msg(m_info, _("You're illiterate!"));
         return;
-    } else if (tmp->type == NULL) {
+    }
+    if (tmp->type == NULL) {
         // special guidebook effect: print a misc. hint when read
         if (tmp->id == "guidebook") {
             add_msg(m_info, get_hint().c_str());
@@ -9132,6 +9133,9 @@ void player::read(int pos)
             return;
         }
         // otherwise do nothing as there's no associated skill
+    } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
+        add_msg(m_info, _("What's the point of reading?  (Your morale is too low!)"));
+        return;
     } else if (skillLevel(tmp->type) < (int)tmp->req) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    tmp->type->name().c_str());
@@ -9140,23 +9144,20 @@ void player::read(int pos)
         } else {
             add_msg(m_info, _("But you might be able to learn a recipe or two."));
         }
-    } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) { // See morale.h
-        add_msg(m_info, _("What's the point of reading?  (Your morale is too low!)"));
-        return;
     } else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
                !query_yn(tmp->fun > 0 ?
-                           _("It would be fun, but your %s skill won't be improved.  Read anyway?")
-                           : _("Your %s skill won't be improved.  Read anyway?"),
+                         _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
+                         _("Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
     } else if (!continuous && !query_yn(_("Study %s until you learn something? (gain a level)"),
-                                                 tmp->type->name().c_str())) {
+                                        tmp->type->name().c_str())) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
         if(!continuous) {
             add_msg(m_info, _("Now studying %s, %s to stop early."),
-                            it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
+                    it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
         }
         study = true;
     }
@@ -9194,10 +9195,11 @@ void player::read(int pos)
     int minutes = time / 1000;
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if ((has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
-      tmp->id == "cookbook_human") {
-          add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, tmp);
-      }
-    else add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, tmp);
+        tmp->id == "cookbook_human") {
+        add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, tmp);
+    } else {
+        add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, tmp);
+    }
 }
 
 bool player::can_study_recipe(it_book* book)
