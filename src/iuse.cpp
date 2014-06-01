@@ -18,6 +18,7 @@
 #include "messages.h"
 #include <sstream>
 #include <algorithm>
+#include <unordered_set>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -2719,28 +2720,6 @@ int iuse::cut_up(player *p, item *it, item *cut, bool)
     p->i_rem(pos);
     p->i_add_or_drop(result, count);
     return it->type->charges_to_use();
-}
-
-int iuse::scissors(player *p, item *it, bool t)
-{
-    int pos = g->inv(_("Chop up what?"));
-    item *cut = &(p->i_at(pos));
-
-    if (!valid_fabric(p, cut, t)) {
-        return 0;
-    }
-    if (cut == &p->weapon)
-    {
-        if(!query_yn(_("You are wielding that, are you sure?"))) {
-            return 0;
-        }
-    } else if (pos < -1)
-    {
-        if(!query_yn(_("You're wearing that, are you sure?"))) {
-            return 0;
-        }
-    }
-    return cut_up(p, it, cut, t);
 }
 
 int iuse::extinguisher(player *p, item *it, bool)
@@ -6082,7 +6061,7 @@ int iuse::knife(player *p, item *it, bool t)
     const int cauterize = 2;
     const int cancel = 4;
     int pos;
-
+    
     uimenu kmenu;
     kmenu.selected = uistate.iuse_knife_selected;
     kmenu.text = _("Using knife:");
