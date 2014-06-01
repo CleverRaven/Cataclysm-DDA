@@ -6064,9 +6064,9 @@ int iuse::knife(player *p, item *it, bool t)
     
     uimenu kmenu;
     kmenu.selected = uistate.iuse_knife_selected;
-    kmenu.text = _("Using knife:");
-    kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood") );
-    kmenu.addentry( carve_writing, true, -1, _("Carve writing on item") );
+    kmenu.text = _("Using cutting instrument:");
+    kmenu.addentry( cut_fabric, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex") );
+    kmenu.addentry( carve_writing, true, -1, _("Carve writing into item") );
     if( (p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ||
          p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) && !p->is_underwater() ) {
         if ( !p->has_charges("fire", 4) ) {
@@ -6092,9 +6092,9 @@ int iuse::knife(player *p, item *it, bool t)
         }
         return it->type->charges_to_use();
     } else if (choice == cut_fabric) {
-        pos = g->inv(_("Chop up what?"));
+        pos = g->inv(_("Cut up what?"));
     } else if (choice == carve_writing) {
-        pos = g->inv(_("Carve writing on what?"));
+        pos = g->inv(_("Carve writing into what?"));
     } else {
         return 0;
     }
@@ -6103,12 +6103,12 @@ int iuse::knife(player *p, item *it, bool t)
 
     if (cut->is_null())
     {
-        add_msg(m_info, _("You do not have that item!"));
+        add_msg(m_info, _("You do not have that item."));
         return 0;
     }
     if (cut == it)
     {
-        add_msg(m_info, _("You can not cut the %s with itself!"), it->tname().c_str());
+        add_msg(m_info, _("You can not cut the %s with itself."), it->tname().c_str());
         return 0;
     }
     if (cut == &p->weapon)
