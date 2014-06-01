@@ -16,6 +16,7 @@
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
+#include <set>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -1845,9 +1846,9 @@ bool item::is_two_handed(player *u)
     return ((weight() / 113) > u->str_cur * 4);
 }
 
-std::unordered_set<std::string> item::made_of() const
+std::set<std::string> item::made_of() const
 {
-    std::unordered_set<std::string> materials_composed_of;
+    std::set<std::string> materials_composed_of;
     if (is_null()) {
         // pass, we're not made of anything at the moment.
     } else if (corpse != NULL && typeId() == "corpse") {
@@ -1867,27 +1868,28 @@ std::unordered_set<std::string> item::made_of() const
     return materials_composed_of;
 }
 
-std::unordered_set<std::string> item::made_of_intersects(std::unordered_set<std::string> mat_idents) const
+bool item::made_of_any(std::set<std::string> mat_idents) const
 {
-    std::unordered_set<std::string> mat_composed_of = made_of();
+    std::set<std::string> mat_composed_of = made_of();
     std::unordered_set<std::string> mat_intersects;
 
     std::set_intersection(mat_idents.begin(), mat_idents.end(),
                           mat_composed_of.begin(), mat_composed_of.end(),
                           std::inserter(mat_intersects, mat_intersects.end()));
-    return mat_intersects;
-}
 
-bool item::made_of_any(std::unordered_set<std::string> mat_idents) const
-{
-    std::unordered_set<std::string> mat_intersects = made_of_intersects(mat_idents);
     return mat_intersects.size() >= 1;
 }
 
-bool item::not_made_of(std::unordered_set<std::string> mat_idents) const
+bool item::not_made_of(std::set<std::string> mat_idents) const
 {
-    std::unordered_set<std::string> mat_intersects = made_of_intersects(mat_idents);
-    return !(mat_intersects.size() > 0);
+    std::set<std::string> mat_composed_of = made_of();
+    std::unordered_set<std::string> mat_intersects;
+
+    std::set_intersection(mat_idents.begin(), mat_idents.end(),
+                          mat_composed_of.begin(), mat_composed_of.end(),
+                          std::inserter(mat_intersects, mat_intersects.end()));
+
+    return mat_intersects.size() < mat_composed_of.size();
 }
 
 bool item::made_of(std::string mat_ident) const

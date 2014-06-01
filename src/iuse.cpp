@@ -19,6 +19,7 @@
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
+#include <set>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -6006,6 +6007,15 @@ int iuse::vacutainer(player *p, item *it, bool)
 static bool valid_to_cut_up(player *p, item *it)
 {
     int pos = p->get_item_position(it);
+    // If a material is made of different items than what is in this set, we
+    // do not cut it up.
+    std::set<std::string> material_id_white_list;
+    material_id_white_list.insert("cotton");
+    material_id_white_list.insert("leather");
+    material_id_white_list.insert("nomex");
+    material_id_white_list.insert("kevlar");
+    material_id_white_list.insert("plastic");
+    material_id_white_list.insert("wood");
 
     if (it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
@@ -6024,8 +6034,7 @@ static bool valid_to_cut_up(player *p, item *it)
         p->add_msg_if_player(m_info, _("Can't salvage anything else from the %s."), it->tname().c_str());
         return false;
     }
-    if (!it->made_of("cotton") && !it->made_of("leather") && !it->made_of("nomex") && 
-        !it->made_of("plastic") && !it->made_of("kevlar")) {
+    if (it->not_made_of(material_id_white_list)) {
         add_msg(m_info, _("The %s is made of material that cannot be cut up."), it->tname().c_str());
         return false;
     }

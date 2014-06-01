@@ -6,6 +6,7 @@
 #include <vector>
 #include <list>
 #include <unordered_set> 
+#include <set>
 #include "itype.h"
 #include "mtype.h"
 
@@ -235,28 +236,22 @@ public:
  bool is_two_handed(player *u);
 /**
  * List of materials we are composed of.
- * @return Set of what we are composed of. An empty list indicates we are
+ * @return Set of what we are composed of. An empty set indicates we are
  * not composed of anything.
  */
- std::unordered_set<std::string> made_of() const;
- /**
-  * Compare two sets of material ids, return the intersection.
-  * @param mat_idents Set of materials to check for intersections.
-  * @return Intersection of the two material sets.
-  */
- std::unordered_set<std::string> made_of_intersects(std::unordered_set<std::string> mat_idents) const;
+ std::set<std::string> made_of() const;
  /**
  * Are we composed of any of the materials in the list?
- * @param mat_idents Set of materials to match.
+ * @param mat_idents Set of material identifiers.
  * @return true if there are any matches, false if there are no matches.
  */
- bool made_of_any(std::unordered_set<std::string> mat_idents) const;
+ bool made_of_any(std::set<std::string> mat_idents) const;
 /**
  * Are we composed of any of the materials in the list?
- * @param mat_idents Set of materials to not match.
+ * @param mat_idents Set of material identifiers.
  * @return false if there are any matches, true if there are no matches.
  */
- bool not_made_of(std::unordered_set<std::string> mat_idents) const;
+ bool not_made_of(std::set<std::string> mat_idents) const;
 /**
  * Are we composed of this material (at least one of our materials matches).
  * @param mat_ident
