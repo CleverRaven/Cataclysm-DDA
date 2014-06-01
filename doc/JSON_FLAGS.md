@@ -275,6 +275,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```TAZER``` Shock the player.
 - ```SMG``` SMG turret fires.
 - ```LASER``` Laser turret fires.
+  ```RIFLE_TUR``` Rifle turret fires.
 - ```FLAMETHROWER``` Shoots a stream fire.
 - ```COPBOT``` Cop-bot alerts and then tazes the player.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower or SMG depending on distance.

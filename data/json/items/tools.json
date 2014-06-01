@@ -3012,14 +3012,13 @@
     "revert_to": "null",
     "use_action": "MANHACK"
   },
-
   {
     "id": "bot_turret",
     "type": "TOOL",
     "symbol": ";",
     "color": "light_green",
     "name": "inactive turret",
-    "description": "This is an inactive turret. Using this item involves loading the unit with the factory-loaded 9mm rounds in your inventory (if you wish to divide youa ammunition, set aside whatever 9mm you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
+    "description": "This is an inactive turret. Using this item involves loading the unit with the factory-loaded 9mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9mm you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with a built-in SMG.",
     "price": 400000,
     "material": ["steel", "plastic"],
     "weight": 1507,
@@ -3056,6 +3055,28 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "TURRET_LASER"
+  },
+  {
+    "id": "bot_rifleturret",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "green",
+    "name": "inactive rifle turret",
+    "description": "This is an inactive turret. Using this item involves loading the unit with the factory-loaded 5.56 NATO rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56 you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself. The turret will then identify you as a friendly, and attack all enemies with a built-in rifle.",
+    "price": 500000,
+    "material": ["steel", "plastic"],
+    "weight": 1507,
+    "volume": 14,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "TURRET_RIFLE"
   },
   {
     "id": "UPS_off",

@@ -56762,14 +56762,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "It has %d portion of %s left."
-msgid_plural "It has %d portions of %s left."
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/iexamine.cpp
-#, c-format
-msgid "%s contained: %d/%d"
+msgid "It contains %s (%d), %d%% full."
 msgstr ""
 
 #: src/iexamine.cpp

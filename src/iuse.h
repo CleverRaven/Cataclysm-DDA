@@ -145,6 +145,7 @@ public:
     int manhack             (player *, item *, bool);
     int turret              (player *, item *, bool);
     int turret_laser        (player *, item *, bool);
+    int turret_rifle        (player *, item *, bool);
     int UPS_off             (player *, item *, bool);
     int UPS_on              (player *, item *, bool);
     int adv_UPS_off         (player *, item *, bool);
