@@ -59169,19 +59169,6 @@ msgid "You don't have any %s to fill the %s with."
 msgstr "У вас немного %s, чтобы наполнить %s."
 
 #: src/iexamine.cpp
-#, c-format
-msgid "It has %d portion of %s left."
-msgid_plural "It has %d portions of %s left."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: src/iexamine.cpp
-#, c-format
-msgid "%s contained: %d/%d"
-msgstr ""
-
-#: src/iexamine.cpp
 msgid "You find a flower and drink some nectar."
 msgstr "Вы нашли цветок и выпили немного нектара."
 
