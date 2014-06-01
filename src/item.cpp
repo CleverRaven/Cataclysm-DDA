@@ -15,6 +15,7 @@
 #include <cmath> // floor
 #include <sstream>
 #include <algorithm>
+#include <unordered_set>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -1844,16 +1845,60 @@ bool item::is_two_handed(player *u)
     return ((weight() / 113) > u->str_cur * 4);
 }
 
+std::unordered_set<std::string> item::made_of() const
+{
+    std::unordered_set<std::string> materials_composed_of;
+    if (is_null()) {
+        // pass, we're not made of anything at the moment.
+    } else if (corpse != NULL && typeId() == "corpse") {
+        // Corpses are only made of one type of material.
+        materials_composed_of.insert(corpse->mat);
+    } else if (type->m1 != "null" || type->m2 != "null") {
+        // Perhaps in the future we might have n number of material objects, but
+        // right now, they are stored in separate members and they might not
+        // be set to a valid value.
+        if (type->m1 != "null") {
+            materials_composed_of.insert(type->m1);
+        }
+        if (type->m2 != "null") {
+            materials_composed_of.insert(type->m2);
+        }
+    }
+    return materials_composed_of;
+}
+
+bool item::made_of(std::unordered_set<std::string> mat_idents) const
+{
+    std::unordered_set<std::string> mat_composed_of = made_of();
+    std::unordered_set<std::string> mat_intersects;
+
+    std::set_intersection(mat_idents.begin(), mat_idents.end(),
+                          mat_composed_of.begin(), mat_composed_of.end(),
+                          std::inserter(mat_intersects, mat_intersects.end()));
+
+    return mat_intersects.size() >= 1;;
+}
+
 bool item::made_of(std::string mat_ident) const
 {
-    if( is_null() )
+    if (is_null()) {
         return false;
-
-    if (corpse != NULL && typeId() == "corpse" )
+    } else if (corpse != NULL && typeId() == "corpse") {
+        // Corpses are only made of one type of material.
         return (corpse->mat == mat_ident);
+    }
 
     return (type->m1 == mat_ident || type->m2 == mat_ident);
 }
+
+bool item::made_of(phase_id phase) const
+{
+    if (is_null()) {
+        return false;
+    }
+    return (type->phase == phase);
+}
+
 
 const material_type *item::get_material(int m) const
 {
@@ -1870,14 +1915,6 @@ const material_type *item::get_material(int m) const
     }
 
     return material_type::find_material(m == 1 ? type->m1 : type->m2);
-}
-
-bool item::made_of(phase_id phase) const
-{
-    if( is_null() )
-        return false;
-
-    return (type->phase == phase);
 }
 
 bool item::conductive() const

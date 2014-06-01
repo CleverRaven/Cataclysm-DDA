@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <unordered_set> 
 #include "itype.h"
 #include "mtype.h"
 
@@ -232,10 +233,32 @@ public:
  // elemental resistances
  int acid_resist() const;
  bool is_two_handed(player *u);
+/**
+ * List of materials we are composed of.
+ * @return Set of what we are composed of. An empty list indicates we are
+ * not composed of anything.
+ */
+ std::unordered_set<std::string> made_of() const;
+/**
+ * Are we composed of any of the materials in the list?
+ * @param mat_idents Set of materials to match.
+ * @return 
+ */
+ bool made_of(std::unordered_set<std::string> mat_idents) const;
+/**
+ * Are we composed of this material (at least one of our materials matches).
+ * @param mat_ident
+ * @return 
+ */
  bool made_of(std::string mat_ident) const;
+/**
+ * Are we solid, liquid, gas, plasma?
+ * @param phase 
+ * @return
+ */
+ bool made_of(phase_id phase) const;
  // Never returns NULL
  const material_type *get_material(int m) const;
- bool made_of(phase_id phase) const;
  bool conductive() const; // Electricity
  bool flammable() const;
 
