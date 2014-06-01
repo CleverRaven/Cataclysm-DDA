@@ -5527,6 +5527,41 @@ int iuse::turret_laser(player *p, item *, bool)
  return 1;
 }
 
+int iuse::turret_rifle(player *p, item *, bool)
+{
+ int dirx, diry;
+ if(!choose_adjacent(_("Place the turret where?"), dirx, diry)) {
+  return 0;
+ }
+ if (!g->is_empty(dirx, diry)) {
+  p->add_msg_if_player(m_info, _("You cannot place a turret there."));
+  return 0;
+ }
+
+ p->moves -= 100;
+ monster mturret(GetMType("mon_rifleturret"), dirx, diry);
+ const int ammopos = p->inv.position_by_type("556");
+ int ammo = 0;
+ if (ammopos != INT_MIN) {
+    item& ammoitem = p->inv.find_item(ammopos);
+    ammo = std::min(ammoitem.charges, long(500));
+    p->inv.reduce_charges(ammopos, ammo);
+    p->add_msg_if_player(ngettext("You load %d x 5.56 round into the turret.", "You load %d x 5.56 rounds into the turret.", ammo), ammo);
+ } else {
+    p->add_msg_if_player(m_info, _("If you had standard factory-built 5.56 bullets, you could load the turret."));
+ }
+ mturret.ammo = ammo;
+ if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
+     p->skillLevel("computer") < rng(0, 6)) {
+  p->add_msg_if_player(m_warning, _("The turret scans you and makes angry beeping noises!"));
+ } else {
+  p->add_msg_if_player(m_warning, _("The turret emits an IFF beep as it scans you."));
+  mturret.friendly = -1;
+ }
+ g->add_zombie(mturret);
+ return 1;
+}
+
 int iuse::UPS_off(player *p, item *it, bool)
 {
  if (it->charges == 0) {
