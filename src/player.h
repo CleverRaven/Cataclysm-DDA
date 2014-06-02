@@ -748,8 +748,8 @@ public:
  // Print a message if print_msg is true and this isn't a NPC
  bool can_pickup(bool print_msg) const;
 
- bool knows_recipe(recipe *rec);
- void learn_recipe(recipe *rec);
+ bool knows_recipe( const recipe *rec ) const;
+ void learn_recipe( recipe *rec );
 
  bool studied_all_recipes(it_book *book);
 
