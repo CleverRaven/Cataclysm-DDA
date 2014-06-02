@@ -6180,6 +6180,28 @@ static int carve_writing(player *p, item *it)
     }
 }
 
+static int cauterize_flame(player *p, item *it)
+{
+    bool has_disease = p->has_disease("bite") || p->has_disease("bleed");
+    bool did_cauterize = false;
+    if (!p->has_charges("fire", 4)) {
+        p->add_msg_if_player(m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself."));
+    } else if (has_disease && !p->is_underwater()) {
+        did_cauterize = cauterize_effect(p, it, !has_disease);
+    } else if (!has_disease && !p->is_underwater()) {
+        if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) &&
+            query_yn(_("Cauterize yourself for fun?"))) {
+            did_cauterize = cauterize_effect(p, it, true);
+        } else {
+            p->add_msg_if_player(m_info, _("You are not bleeding or bitten, there is no need to cauterize yourself."));
+        }
+    }
+    if (did_cauterize) {
+        p->use_charges("fire", 4);
+    }
+    return 0;
+}
+
 int iuse::knife(player *p, item *it, bool t)
 {
     int choice = -1;
@@ -6194,24 +6216,13 @@ int iuse::knife(player *p, item *it, bool t)
     kmenu.text = _("Using cutting instrument:");
     kmenu.addentry(menu_cut_up_item, true, -1, _("Cut up fabric/plastic/kevlar/wood/nomex"));
     kmenu.addentry(menu_carve_writing, true, -1, _("Carve writing into item"));
-    if ((p->has_disease("bite") || p->has_disease("bleed") || p->has_trait("MASOCHIST") ||
-         p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) && !p->is_underwater()) {
-        if (!p->has_charges("fire", 4)) {
-            kmenu.addentry(menu_cauterize, false, -1,
-                            _("You need a lighter with 4 charges before you can cauterize yourself.") );
-        } else {
-            kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
-        }
-    }
+    kmenu.addentry(menu_cauterize, true, -1, _("Cauterize"));
     kmenu.addentry(menu_cancel, true, 'q', _("Cancel"));
     kmenu.query();
     choice = kmenu.ret;
 
     if (choice == menu_cauterize) {
-        bool has_disease = p->has_disease("bite") || p->has_disease("bleed");
-        if (cauterize_effect(p, it, !has_disease)) {
-            p->use_charges("fire", 4);
-        }
+        cauterize_flame(p, it);
         return it->type->charges_to_use();
     } else if (choice == menu_cut_up_item) {
         pos = g->inv(_("Cut up what?"));
