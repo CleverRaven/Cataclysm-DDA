@@ -484,7 +484,8 @@ WINDOW *curses_init(void)
         }
     }
     typeface_c = new char [typeface.size()+1];
-    strcpy (typeface_c, typeface.c_str());
+    strncpy (typeface_c, typeface.c_str(), typeface.size());
+    typeface_c[typeface.size()] = '\0';
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
