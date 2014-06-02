@@ -10498,11 +10498,13 @@ nc_color encumb_color(int level)
  return c_red;
 }
 
-SkillLevel& player::skillLevel(std::string ident) {
+SkillLevel& player::skillLevel(std::string ident)
+{
     return _skills[Skill::skill(ident)];
 }
 
-SkillLevel& player::skillLevel(Skill *_skill) {
+SkillLevel& player::skillLevel(Skill *_skill)
+{
     return _skills[_skill];
 }
 

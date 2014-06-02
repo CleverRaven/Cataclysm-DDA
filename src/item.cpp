@@ -709,7 +709,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                         recipes += "</color>";
                     }
                     if(index == book->recipes.size() - 1) {
-                        recipes += _(", and "); // oxford comma 4 lyfe
+                        recipes += _(" and "); // Who gives a fuck about an oxford comma?
                     } else if(index != book->recipes.size()) {
                         recipes += _(", ");
                     }
