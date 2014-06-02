@@ -1124,12 +1124,12 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
             it->amount -= block_amount;
 
             if (can_weapon_block()) {
-                if (weapon.has_technique("WBLOCK_1")) {
-                    phys_mult = (100 - (str_cur*2) - ((int)skillLevel("melee")*2))/100;
+                if (weapon.has_technique("WBLOCK_3")) {
+                    phys_mult = (100 - (str_cur*6) - ((int)skillLevel("melee")*6))/100;
                 } else if (weapon.has_technique("WBLOCK_2")) {
                     phys_mult = (100 - (str_cur*4) - ((int)skillLevel("melee")*4))/100;
-                } else if (weapon.has_technique("WBLOCK_3")) {
-                    phys_mult = (100 - (str_cur*6) - ((int)skillLevel("melee")*6))/100;
+                } else if (weapon.has_technique("WBLOCK_1")) {
+                    phys_mult = (100 - (str_cur*2) - ((int)skillLevel("melee")*2))/100;
                 } else {
                     phys_mult = (100 - (str_cur*1) - ((int)skillLevel("melee")*1))/100;
                 }
