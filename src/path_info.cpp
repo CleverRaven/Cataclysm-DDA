@@ -71,8 +71,7 @@ void PATH_INFO::update_datadir()
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
-    // TODO fontdata.json is user related file
-    update_pathname("second_fontdata", FILENAMES["datadir"] + "fontdata.json");
+    update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
@@ -86,7 +85,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
-    update_pathname("fontdata", FILENAMES["config_dir"] + "FONTDATA");
+    update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
 }
 
@@ -120,8 +119,6 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("names", FILENAMES["namesdir"] + "en.json");
     update_pathname("colors", FILENAMES["rawdir"] + "colors.json");
     update_pathname("keybindings", FILENAMES["rawdir"] + "keybindings.json");
-    // TODO fontdata.json is user related file
-    update_pathname("second_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("sokoban", FILENAMES["rawdir"] + "sokoban.txt");
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
@@ -138,13 +135,12 @@ void PATH_INFO::set_standart_filenames(void)
     update_pathname("user_keybindings", FILENAMES["config_dir"] + "keybindings.json");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
-    update_pathname("fontdata", FILENAMES["config_dir"] + "FONTDATA");
+    update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
 
     // Needed to move files from these legacy locations to the new config directory.
     update_pathname("legacy_options", "data/options.txt");
     update_pathname("legacy_keymap", "data/keymap.txt");
-    update_pathname("legacy_fontlist", "data/fontlist.txt");
-    update_pathname("legacy_fontdata", "data/FONTDATA");
     update_pathname("legacy_autopickup", "data/auto_pickup.txt");
+    update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
 }
