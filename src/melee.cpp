@@ -1869,7 +1869,7 @@ void player_hit_message(player* attacker, std::string message,
         //~ someone hits something for %d damage (critical)
         msg = string_format(_("%s for %d damage. Critical!"),
                             message.c_str(), dam);
-        sSCTmod = _("Crit!");
+        sSCTmod = _("Critical!");
         gmtSCTcolor = m_critical;
         if (!attacker->is_npc()) {
             msgtype = m_good;
