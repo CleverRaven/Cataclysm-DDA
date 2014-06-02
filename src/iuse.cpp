@@ -6066,11 +6066,14 @@ static bool valid_to_cut_up(player *p, item *it)
 static int cut_up(player *p, item *it, item *cut, bool)
 {   
     int pos = p->get_item_position(cut);
-    // How many total base materials.
-    int count = 0;
+    // total number of raw components == total volume of item.
+    // This can go awry if there is a volume / recipe mismatch.
+    int count = cut->volume();
+    // Chance of us losing a material component to entropy.
+    int entropy_threshold = std::max(5, 10 - p->skillLevel("fabrication"));
     // What material components can we get back?
     std::set<std::string> cut_material_components = cut->made_of();
-    // Convert materials to base types.
+    // What base types do materials convert to?
     std::map<std::string, std::string> material_to_type;
     material_to_type["cotton"] = "rag";
     material_to_type["leather"] = "leather";
@@ -6096,27 +6099,25 @@ static int cut_up(player *p, item *it, item *cut, bool)
         add_msg(m_info, _("You can not cut the %s with itself."), it->tname().c_str());
         return 0;
     }
+
+    // Time based on number of components.
+    p->moves -= 25 * count;
+    // Not much practice, and you won't get very far ripping things up.
+    Skill *isFab = Skill::skill("fabrication");
+    p->practice(calendar::turn, isFab, rng(0, 5), 1);
     
-    p->moves -= 25 * cut->volume();
-    // total number of raw components == total volume of item
-    count = cut->volume();
-    // No skill in tailoring, get a random number between 0 and count inclusive.
-    // Only 1 skill in tailoring, lose between 0 and 2 items if there are more than
-    // two items possible.
-    if (p->skillLevel("tailor") == 0) {
-        count = rng(0, count);
-    } else if (p->skillLevel("tailor") == 1 && count >= 2) {
-        count -= rng(0, 2);
+    // Higher fabrication, less chance of entropy, but still a chance.
+    if (rng(1, 10) <= entropy_threshold) {
+        count -= 1;
     }
-    // On a roll of 3d3, if I roll higher than my dex, lose an additional
-    // 1 to three parts.
-    if (dice(3, 3) > p->dex_cur) {
-        count -= rng(1, 3);
+    // Fail dex roll, potentially lose more parts.
+    if (dice(3, 4) > p->dex_cur) {
+        count -= rng(0, 2);
     }
     // If more than 1 material component can still be be salvaged,
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
-    if (count > 0) {
+    if (count > 0 && cut->damage > 0) {
         float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
         for(int i = count; i > 0; i--) {
             if(component_success_chance < rng_float(0,1)) {
@@ -6143,10 +6144,10 @@ static int cut_up(player *p, item *it, item *cut, bool)
         item result(mat_name, int(calendar::turn));
         if (amount > 0) {
             add_msg(m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$ss.", amount),
-                    amount, mat_name.c_str());
+                    amount, result.name.c_str());
             p->i_add_or_drop(result, amount);
         } else {
-            add_msg(m_bad, _("Could not salvage any %s."), mat_name.c_str());
+            add_msg(m_bad, _("Could not salvage a %s."), result.name.c_str());
         }
     }
     // No matter what, cutting has been done by the time we get here.
