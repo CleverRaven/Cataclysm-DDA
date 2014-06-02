@@ -9202,9 +9202,12 @@ void player::read(int pos)
     }
 }
 
-void do_read( item *book )
+void player::do_read( item *book )
 {
     it_book *reading = dynamic_cast<it_book *>(book->type);
+
+    // Note that we've read the book.
+    books_read.insert( book->type->id );
 
     if( reading->fun != 0 ) {
         int fun_bonus = 0;
@@ -9314,6 +9317,11 @@ void do_read( item *book )
     }
 
     activity.type = ACT_NULL;
+}
+
+bool player::has_read( std::string book ) const
+{
+    return books_read.count( book ) > 0;
 }
 
 bool player::can_study_recipe(it_book* book)
