@@ -1771,7 +1771,7 @@ int item::bash_resist() const
             ret = cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist();
         }
     }
-
+    ret = ret * 0.5; //halve armour values for balance reasons
     return ret;
 }
 
@@ -1811,7 +1811,7 @@ int item::cut_resist() const
             ret = cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist();
         }
     }
-
+    ret = ret * 0.5; //halve armour values for balance reasons
     return ret;
 }
 
