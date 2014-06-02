@@ -10354,6 +10354,32 @@ bool player::knows_recipe(const recipe *rec) const
     return false;
 }
 
+bool player::knows_or_has_recipe( const recipe *r, const inventory &crafting_inv ) const
+{
+    if( knows_recipe(r) ) {
+        return true;
+    }
+    // Iterate over the nearby items and see if there's a book that has the recipe.
+    const_invslice slice = crafting_inv.const_slice();
+    for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
+        // We are only checking qualities, so we only care about the first item in the stack.
+        const item &candidate = (*stack)->front();
+        if( candidate.is_book() ) {
+            it_book *book_type = dynamic_cast<it_book *>(candidate.type);
+            for( auto book_recipe = book_type->recipes.cbegin();
+                 book_recipe != book_type->recipes.cend(); ++book_recipe ) {
+                // Does it have the recipe, and do we meet it's requirements?
+                if( book_recipe->first->ident == r->ident &&
+                    ( book_recipe->first->skill_used == NULL ||
+                      get_skill_level(book_recipe->first->skill_used) >= book_recipe->second ) ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 void player::learn_recipe(recipe *rec)
 {
     learned_recipes[rec->ident] = rec;
