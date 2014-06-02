@@ -3640,7 +3640,7 @@
     "price": 15000,
     "material": "aluminum",
     "flags": ["SLICE", "SHEATH_SWORD"],
-    "techniques": ["RAPID", "WIDE", "BRUTAl", "WBLOCK_2"],
+    "techniques": ["RAPID", "WIDE", "BRUTAL"],
     "weight": 1882,
     "volume": 17,
     "bashing": 8,
