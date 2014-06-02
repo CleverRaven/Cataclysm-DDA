@@ -666,52 +666,63 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         dump->push_back(iteminfo("DESCRIPTION", "--"));
         it_book* book = dynamic_cast<it_book*>(type);
-        if (!book->type) {
-            dump->push_back(iteminfo("BOOK", _("Just for fun.")));
-        } else {
-            dump->push_back(iteminfo("BOOK", "", string_format(_("Can bring your %s skill to <num>"),
-                                                              book->type->name().c_str()), book->level));
-
-            if (book->req == 0) {
-                dump->push_back(iteminfo("BOOK", _("It can be understood by beginners.")));
+        if( g->u.has_read( type->id ) ) {
+            if (!book->type) {
+                dump->push_back(iteminfo("BOOK", _("Just for fun.")));
             } else {
                 dump->push_back(iteminfo("BOOK", "",
-                                         string_format(_("Requires %s level <num> to understand."),
-                                         book->type->name().c_str()), book->req, true, "", true, true));
-            }
-        }
+                                         string_format(_("Can bring your %s skill to <num>"),
+                                                       book->type->name().c_str()), book->level));
 
-        dump->push_back(iteminfo("BOOK", "", _("Requires intelligence of <num> to easily read."),
-                                 book->intel, true, "", true, true));
-        if (book->fun != 0) {
-            dump->push_back(iteminfo("BOOK", "", _("Reading this book affects your morale by <num>"),
-                                     book->fun, true, (book->fun > 0 ? "+" : "")));
-        }
-        dump->push_back(iteminfo("BOOK", "", ngettext("This book takes <num> minute to read.", "This book takes <num> minutes to read.", book->time),
-                                 book->time, true, "", true, true));
-
-        if (!(book->recipes.empty())) {
-            std::string recipes = "";
-            size_t index = 1;
-            for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
-                 iter != book->recipes.end(); ++iter, ++index) {
-                if(g->u.knows_recipe(iter->first)) {
-                    recipes += "<color_ltgray>";
-                }
-                recipes += item_controller->find_template( iter->first->result )->name;
-                if(g->u.knows_recipe(iter->first)) {
-                    recipes += "</color>";
-                }
-                if(index == book->recipes.size() - 1) {
-                    recipes += _(", and "); // oxford comma 4 lyfe
-                } else if(index != book->recipes.size()) {
-                    recipes += _(", ");
+                if (book->req == 0) {
+                    dump->push_back(iteminfo("BOOK", _("It can be understood by beginners.")));
+                } else {
+                    dump->push_back(iteminfo("BOOK", "",
+                                             string_format(_("Requires %s level <num> to understand."),
+                                                           book->type->name().c_str()),
+                                             book->req, true, "", true, true));
                 }
             }
-            std::string recipe_line = string_format(ngettext("This book contains %1$d crafting recipe: %2$s", "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
-                                                    book->recipes.size(), recipes.c_str());
-            dump->push_back(iteminfo("DESCRIPTION", "--"));
-            dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
+
+            dump->push_back(iteminfo("BOOK", "", _("Requires intelligence of <num> to easily read."),
+                                     book->intel, true, "", true, true));
+            if (book->fun != 0) {
+                dump->push_back(iteminfo("BOOK", "",
+                                         _("Reading this book affects your morale by <num>"),
+                                         book->fun, true, (book->fun > 0 ? "+" : "")));
+            }
+            dump->push_back(iteminfo("BOOK", "", ngettext("This book takes <num> minute to read.",
+                                                          "This book takes <num> minutes to read.",
+                                                          book->time),
+                                     book->time, true, "", true, true));
+
+            if (!(book->recipes.empty())) {
+                std::string recipes = "";
+                size_t index = 1;
+                for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
+                     iter != book->recipes.end(); ++iter, ++index) {
+                    if(g->u.knows_recipe(iter->first)) {
+                        recipes += "<color_ltgray>";
+                    }
+                    recipes += item_controller->find_template( iter->first->result )->name;
+                    if(g->u.knows_recipe(iter->first)) {
+                        recipes += "</color>";
+                    }
+                    if(index == book->recipes.size() - 1) {
+                        recipes += _(", and "); // oxford comma 4 lyfe
+                    } else if(index != book->recipes.size()) {
+                        recipes += _(", ");
+                    }
+                }
+                std::string recipe_line = string_format(
+                    ngettext("This book contains %1$d crafting recipe: %2$s",
+                             "This book contains %1$d crafting recipes: %2$s", book->recipes.size()),
+                    book->recipes.size(), recipes.c_str());
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
+            }
+        } else {
+            dump->push_back(iteminfo("BOOK", _("You don't recognize this book.")));
         }
 
     } else if (is_tool()) {

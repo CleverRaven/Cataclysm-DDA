@@ -608,6 +608,8 @@ public:
  void read(int pos);
  /** Completes book reading action. **/
  void do_read( item *book );
+ /** Note that we've read a book at least once. **/
+ bool has_read( std::string book ) const;
  /** Handles sleep attempts by the player, adds DIS_LYING_DOWN */
  void try_to_sleep();
  /** Checked each turn during DIS_LYING_DOWN, returns true if the player falls asleep */
@@ -905,6 +907,8 @@ protected:
     void setID (int i);
 
 private:
+    // Books the player has read at least once, effectively gives them a "table of contents".
+    std::unordered_set<std::string> books_read;
      /** Check if an area-of-effect technique has valid targets */
     bool valid_aoe_technique( Creature &t, ma_technique &technique );
     bool valid_aoe_technique( Creature &t, ma_technique &technique,
