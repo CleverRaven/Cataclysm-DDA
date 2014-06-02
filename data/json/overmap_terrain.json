@@ -1129,7 +1129,7 @@
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
-        "known_down" : true,
+        "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
         "sidewalk" : true
@@ -1140,7 +1140,7 @@
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
-        "known_down" : true,
+        "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
         "sidewalk" : true
@@ -1151,7 +1151,7 @@
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
-        "known_down" : true,
+        "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
         "sidewalk" : true
@@ -1162,7 +1162,7 @@
         "sym" : 104,
         "color" : "light_blue",
         "see_cost" : 5,
-        "known_down" : true,
+        "rotate" : true,
         "extras" : "build",
         "mondensity" : 2,
         "sidewalk" : true
