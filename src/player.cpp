@@ -10324,19 +10324,19 @@ void player::practice( std::string s, int amount, int cap )
     practice( aSkill, amount, cap );
 }
 
-bool player::knows_recipe(recipe *rec)
+bool player::knows_recipe(const recipe *rec) const
 {
     // do we know the recipe by virtue of it being autolearned?
-    if (rec->autolearn)
-    {
+    if( rec->autolearn ) {
         // Can the skill being trained can handle the difficulty of the task
         bool meets_requirements = false;
-        if(rec->skill_used == NULL || skillLevel(rec->skill_used) >= rec->difficulty){
+        if(rec->skill_used == NULL || get_skill_level(rec->skill_used) >= rec->difficulty){
             meets_requirements = true;
             //If there are required skills, insure their requirements are met, or we can't craft
             if(!rec->required_skills.empty()){
-                for(std::map<Skill*,int>::iterator iter=rec->required_skills.begin(); iter!=rec->required_skills.end();++iter){
-                    if(skillLevel(iter->first) < iter->second){
+                for( auto iter = rec->required_skills.cbegin();
+                     iter != rec->required_skills.cend(); ++iter ){
+                    if( get_skill_level(iter->first) < iter->second ){
                         meets_requirements = false;
                     }
                 }
@@ -10347,8 +10347,7 @@ bool player::knows_recipe(recipe *rec)
         }
     }
 
-    if (learned_recipes.find(rec->ident) != learned_recipes.end())
-    {
+    if( learned_recipes.find( rec->ident ) != learned_recipes.end() ) {
         return true;
     }
 
