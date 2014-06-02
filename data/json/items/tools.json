@@ -4544,7 +4544,7 @@
     "description": "This is a massive axe designed for warfare. Though intended for use as a weapon, it can also be pressed into service as a rather clumsy woodcutting tool.",
     "price": 10500,
     "material": ["steel", "wood"],
-    "techniques": ["BRUTAL", "WBLOCK_1"], //axes are clumsier and can't block too well
+    "techniques": ["BRUTAL", "WBLOCK_1"],
     "weight": 3102,
     "volume": 13,
     "bashing": 20,
@@ -6629,7 +6629,7 @@
     "price": 150000,
     "material": "steel",
     "flags": ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
-    "techniques": ["RAPID", "WIDE", "BRUTAL", "WBLOCK_2"],
+    "techniques": ["RAPID", "WIDE", "BRUTAL"],
     "weight": 2822,
     "volume": 17,
     "bashing": 5,
