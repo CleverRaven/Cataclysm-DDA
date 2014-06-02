@@ -568,7 +568,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
                              int endx, bool loop, long &ch, int &pos, std::string identifier,
-                             int w_x, int w_y, bool dorefresh, bool only_digits )
+                             int w_x, int w_y, bool dorefresh, bool only_digits)
 {
     std::string ret = input;
     nc_color string_color = c_magenta;

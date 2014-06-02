@@ -323,9 +323,9 @@ void player::normalize()
     ret_null = item("null", 0);
     weapon   = item("null", 0);
     style_selected = "style_none";
-    
+
     recalc_hp();
-    
+
     for (int i = 0 ; i < num_bp; i++)
         temp_conv[i] = BODYTEMP_NORM;
 }
@@ -1586,11 +1586,8 @@ std::string player::save_info()
     return dump.str();
 }
 
-void player::memorial( std::ofstream &memorial_file )
+void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 {
-    //Ask the player for their final words
-    std::string epitaph = string_input_popup(_("Do you have any last words?"), 256);
-
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
