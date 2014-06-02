@@ -71,6 +71,7 @@ enum game_message_type {
 };
 
 nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = false);
+int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = false);
 
 std::vector<std::string> foldstring (std::string str, int width);
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);

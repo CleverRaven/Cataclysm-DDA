@@ -2564,26 +2564,32 @@ input_context game::get_player_input(std::string &action)
             }
 
             if (OPTIONS["ANIMATION_SCT"]) {
-                for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
-                    //Erase previous text from w_terrain
-                    if (iter->getStep() > 0) {
-                        for (size_t i = 0; i < iter->getText().length(); ++i) {
-                            if (u_see(iter->getPosX() + i, iter->getPosY())) {
-                                m.drawsq(w_terrain, u,
-                                         iter->getPosX() + i,
-                                         iter->getPosY(),
-                                         false,
-                                         true,
-                                         u.posx + u.view_offset_x,
-                                         u.posy + u.view_offset_y);
-                            } else {
-                                const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
-                                const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
-                                mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+                #ifdef TILES
+                if (!use_tiles) {
+                #endif
+                    for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+                        //Erase previous text from w_terrain
+                        if (iter->getStep() > 0) {
+                            for (size_t i = 0; i < iter->getText().length(); ++i) {
+                                if (u_see(iter->getPosX() + i, iter->getPosY())) {
+                                    m.drawsq(w_terrain, u,
+                                             iter->getPosX() + i,
+                                             iter->getPosY(),
+                                             false,
+                                             true,
+                                             u.posx + u.view_offset_x,
+                                             u.posy + u.view_offset_y);
+                                } else {
+                                    const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
+                                    const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+                                    mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+                                }
                             }
                         }
                     }
+                #ifdef TILES
                 }
+                #endif
 
                 SCT.advanceAllSteps();
 

@@ -212,7 +212,7 @@ void game::draw_weather(weather_printable wPrint)
 void game::draw_sct()
 {
     if (use_tiles) {
-        //WIP(tm)
+        tilecontext->init_draw_sct();
     } else {
         for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
             const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));

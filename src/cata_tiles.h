@@ -249,6 +249,10 @@ class cata_tiles
         void draw_weather_frame();
         void void_weather();
 
+        void init_draw_sct();
+        void draw_sct_frame();
+        void void_sct();
+
         /** Overmap Layer : Not used for now, do later*/
         bool draw_omap();
 
@@ -285,6 +289,7 @@ class cata_tiles
         bool do_draw_hit;
         bool do_draw_line;
         bool do_draw_weather;
+        bool do_draw_sct;
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
