@@ -17915,7 +17915,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "rag", 4 ],
+      [ "rag", 6 ],
       [ "fur", 2 ],
       [ "leather", 1 ]
     ],
