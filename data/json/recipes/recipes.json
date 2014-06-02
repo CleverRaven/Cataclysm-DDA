@@ -25697,11 +25697,60 @@
   ]
 },{
         "type" : "recipe",
-  "result": "survivor_pack",
+  "result": "survivor_runner_pack",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 3],
+  "difficulty": 4,
+  "time": 70000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 80 ],
+      [ "needle_wood", 80 ],
+      [ "sewing_kit", 80 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 6 ]
+     ],
+     [
+      [ "leather", 8 ]
+     ],
+     [
+      [ "runner_bag", 2 ],
+      [ "backpack", 1 ],
+      [ "backpack_leather", 1 ],
+      [ "mbag", 2 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 80 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "survivor_pack",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 4],
   "difficulty": 5,
   "time": 80000,
   "reversible": false,
@@ -25724,7 +25773,7 @@
       [ "leather", 10 ]
      ],
      [
-      [ "runner_bag", 1 ],
+      [ "runner_bag", 4 ],
       [ "backpack", 2 ],
       [ "backpack_leather", 2 ],
       [ "mbag", 4 ]
@@ -25773,9 +25822,59 @@
       [ "leather", 16 ]
      ],
      [
-      [ "molle_pack", 1 ],
+      [ "backpack", 4 ],
+      [ "backpack_leather", 4 ],
+      [ "molle_pack", 2 ],
       [ "duffelbag", 1 ],
       [ "rucksack", 2 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 160 ]
+     ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "survivor_duffel_bag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 7,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "needle_bone", 200 ],
+      [ "needle_wood", 200 ],
+      [ "sewing_kit", 200 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 18 ]
+     ],
+     [
+      [ "leather", 20 ]
+     ],
+     [
+      [ "molle_pack", 4 ],
+      [ "duffelbag", 2 ],
+      [ "rucksack", 4 ]
      ],
      [
       [ "chestrig", 1 ],

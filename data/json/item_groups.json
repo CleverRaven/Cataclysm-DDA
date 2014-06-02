@@ -7534,8 +7534,10 @@
     "items":[
       ["mask_survivor", 10],
       ["survivor_vest", 8],
-      ["survivor_pack", 6],
+      ["survivor_runner_pack", 6],
+      ["survivor_pack", 5],
       ["survivor_rucksack", 4],
+      ["survivor_duffel_bag", 3],
       ["dive_bag", 10],
       ["runner_bag", 20],
       ["molle_pack", 12],
