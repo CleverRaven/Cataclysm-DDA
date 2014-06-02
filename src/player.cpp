@@ -10364,7 +10364,7 @@ bool player::knows_or_has_recipe( const recipe *r, const inventory &crafting_inv
     for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
         // We are only checking qualities, so we only care about the first item in the stack.
         const item &candidate = (*stack)->front();
-        if( candidate.is_book() ) {
+        if( candidate.is_book() && books_read.count(candidate.type->id) ) {
             it_book *book_type = dynamic_cast<it_book *>(candidate.type);
             for( auto book_recipe = book_type->recipes.cbegin();
                  book_recipe != book_type->recipes.cend(); ++book_recipe ) {
