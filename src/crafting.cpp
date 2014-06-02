@@ -345,7 +345,7 @@ bool game::can_make(recipe *r)
 bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
 {
     bool retval = true;
-    if (!u.knows_recipe(r)) {
+    if( !u.knows_or_has_recipe( r, crafting_inv) ) {
         return false;
     }
     // under the assumption that all comp and tool's array contains
@@ -381,7 +381,8 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
             itype_id type = tool.type;
             int req = tool.count;
             if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
-                 (req <= 0 && ((type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
+                 (req <= 0 && (type == ("goggles_welding") &&
+                               (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
                  (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
@@ -454,7 +455,8 @@ bool game::check_enough_materials(recipe *r, const inventory &crafting_inv)
                         if (tool.available == 1) {
                             if (comp.type == tool.type) {
                                 found_same_type = true;
-                                bool count_by_charges = item_controller->find_template(comp.type)->count_by_charges();
+                                bool count_by_charges =
+                                    item_controller->find_template(comp.type)->count_by_charges();
                                 if (count_by_charges) {
                                     int req = comp.count;
                                     if (tool.count > 0) {
@@ -1305,7 +1307,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     for (recipe_list::iterator iter = available_recipes.begin();
          iter != available_recipes.end(); ++iter) {
         if (subtab == "CSC_ALL" || (*iter)->subcat == subtab || filter != "") {
-            if (!u.knows_recipe(*iter)) {
+            if (!u.knows_or_has_recipe(*iter, crafting_inv)) {
                 continue;
             }
 
