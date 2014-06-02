@@ -252,7 +252,8 @@ const std::string monster_names[num_monsters] =
     toString(mon_zolf),
     toString(mon_zougar),
     toString(mon_zombie_bio_op),
-    toString(mon_zombie_gasbag)
+    toString(mon_zombie_gasbag),
+    toString(mon_turret_rifle)
 
 };
 const std::string multitile_keys[] =

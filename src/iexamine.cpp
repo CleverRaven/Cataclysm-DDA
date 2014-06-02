@@ -472,7 +472,8 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy) {
      }
   }
   for (int i = 0; i < g->num_zombies(); i++) {
-   if (g->zombie(i).type->id == "mon_turret") {
+   if ( (g->zombie(i).type->id == "mon_turret") ||
+    (g->zombie(i).type->id == "mon_turret_rifle") ) {
     g->remove_zombie(i);
     i--;
    }
@@ -1527,13 +1528,16 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
         }
 
         if(menu_items[choice]==_("Have a drink")){
+            if (!p->eat(drink, dynamic_cast<it_comest*>(drink->type))) {
+                return; // They didn't actually drink
+            }
+
             drink->charges--;
             if (drink->charges == 0) {
                 m->i_at(examx, examy).erase(m->i_at(examx, examy).begin());
                 add_msg(_("You squeeze the last drops of %s from the %s."), drink->name.c_str(),
                            m->name(examx, examy).c_str());
             }
-            p->eat(drink, dynamic_cast<it_comest*>(drink->type));
             p->moves -= 250;
             return;
         }
@@ -1569,14 +1573,9 @@ void iexamine::keg(player *p, map *m, int examx, int examy) {
 
         if(menu_items[choice]==_("Examine")){
             add_msg(m_info, _("That is a %s."), m->name(examx, examy).c_str());
-            int d_vol = drink->volume(false, true)/1000;
-            if (d_vol < 1)
-                add_msg(m_info, ngettext("It has %d portion of %s left.",
-                                    "It has %d portions of %s left.",
-                                    drink->charges),
-                           drink->charges, drink->name.c_str());
-            else
-                add_msg(m_info, _("%s contained: %d/%d"), drink->name.c_str(), d_vol, keg_cap);
+            int full_pct = drink->volume(false, true) / (keg_cap*10);
+            add_msg(m_info, _("It contains %s (%d), %d%% full."),
+                    drink->name.c_str(), drink->charges, full_pct);
             return;
         }
     }

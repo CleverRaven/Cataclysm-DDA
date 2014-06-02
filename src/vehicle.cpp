@@ -3578,6 +3578,15 @@ void vehicle::refresh()
     has_pedals = false;
     has_hand_rims = false;
 
+    // Used to sort part list so it displays properly when examining
+    struct sort_veh_part_vector {
+        vehicle *veh;
+        inline bool operator() (const int p1, const int p2) {
+            return veh->part_info(p1).list_order < veh->part_info(p2).list_order;
+        }
+    } svpv = { this };
+    std::vector<int>::iterator vii;
+
     // Main loop over all vehicle parts.
     for( size_t p = 0; p < parts.size(); p++ ) {
         const vpart_info& vpi = part_info( p );
@@ -3622,7 +3631,9 @@ void vehicle::refresh()
         }
         // Build map of point -> all parts in that point
         point pt( parts[p].mount_dx, parts[p].mount_dy );
-        relative_parts[pt].push_back( p );
+        // This will keep the parts at point pt sorted
+        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(), p, svpv );
+        relative_parts[pt].insert( vii, p );
     }
 
     precalc_mounts( 0, face.dir() );

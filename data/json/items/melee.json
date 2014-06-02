@@ -3132,7 +3132,7 @@
     "symbol": ",",
     "color": "light_cyan",
     "name": "razor blade",
-    "description": "A double edged razor blade. Use it to shave, or slit your wrists.",
+    "description": "A double edged razor blade.",
     "price": 600,
     "material": "steel",
     "weight": 10,
