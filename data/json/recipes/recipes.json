@@ -7904,8 +7904,8 @@
   ],
   "components": [
     [
-      [ "cooked_beans", 1 ],
-      [ "beans", 1 ]
+      [ "can_beans", 1 ],
+      [ "beans_cooked", 1 ]
     ],
     [
       [ "meat", 1 ],
@@ -7953,8 +7953,8 @@
   ],
   "components": [
     [
-      [ "cooked_beans", 1 ],
-      [ "beans", 1 ]
+      [ "can_beans", 1 ],
+      [ "beans_cooked", 1 ]
     ],
     [
       ["veggy", 1],
@@ -8027,7 +8027,7 @@
   ],
   "components": [
     [
-      [ "cooked_rice", 1 ]
+      [ "rice_cooked", 1 ]
     ],
     [
       [ "meat", 1 ],
@@ -8072,7 +8072,7 @@
   ],
   "components": [
     [
-      [ "cooked_rice", 1 ]
+      [ "rice_cooked", 1 ]
     ],
     [
       ["veggy", 1],
