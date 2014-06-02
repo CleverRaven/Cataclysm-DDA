@@ -1,0 +1,30 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "no_silly_items",
+    "name": "No Silly Items",
+    "author": "tungtn",
+    "description": "Removes items that detract from the survival theme.",
+    "comment": "Anything more at home in a Saints Row game than in the zombie apocalypse belongs in this mod.",
+    "path": "modinfo.json"
+},{
+    "type": "ITEM_BLACKLIST",
+    "items": [
+        "bondage_suit",
+        "bondage_mask",
+        "dinosuit",
+        "wolfsuit",
+        "vibrator",
+        "leather_cat_ears",
+        "fur_cat_ears",
+        "leather_cat_tail",
+        "fur_cat_tail",
+        "fur_collar",
+        "leather_collar",
+        "cs_lajatang_off",
+        "cs_lajatang_on",
+        "diamond_katana"
+    ]
+}
+]
