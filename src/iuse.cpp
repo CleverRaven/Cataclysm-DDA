@@ -6066,31 +6066,56 @@ static bool valid_to_cut_up(player *p, item *it)
 static int cut_up(player *p, item *it, item *cut, bool)
 {   
     int pos = p->get_item_position(cut);
+    // How many total base materials.
     int count = 0;
-    std::string type;
+    // What material components can we get back?
+    std::set<std::string> cut_material_components = cut->made_of();
+    // Convert materials to base types.
+    std::map<std::string, std::string> material_to_type;
+    material_to_type["cotton"] = "rag";
+    material_to_type["leather"] = "leather";
+    material_to_type["nomex"] = "nomex";
+    material_to_type["plastic"] = "plastic_chunk";
+    material_to_type["kevlar"] = "kevlar_plate";
+    material_to_type["wood"] = "skewer";
+    // Does the specific material have a conversion multiplier?
+    std::map<std::string, int> material_type_multiplier;
+    material_type_multiplier["cotton"] = 1;
+    material_type_multiplier["leather"] = 1;
+    material_type_multiplier["nomex"] = 1;
+    material_type_multiplier["plastic"] = 1;
+    material_type_multiplier["kevlar"] = 1;
+    // Following is historical and has been left in.
+    // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
+    material_type_multiplier["wood"] = 2;
+    // What materials do we salvage (ids and counts).
+    std::map<std::string, int> materials_salvaged;
     
-    // Final checks easier to do here than elsewhere.
+    // Final just in case check (that perhaps was not done elsewhere);
     if (cut == it) {
         add_msg(m_info, _("You can not cut the %s with itself."), it->tname().c_str());
         return 0;
     }
     
     p->moves -= 25 * cut->volume();
+    // total number of raw components == total volume of item
     count = cut->volume();
-    // TODO: I question the skill being checked. Given the description of fabrication,
-    // I believe the skill being tested should be fabrication at a very low level
-    // not tailoring.
+    // No skill in tailoring, get a random number between 0 and count inclusive.
+    // Only 1 skill in tailoring, lose between 0 and 2 items if there are more than
+    // two items possible.
     if (p->skillLevel("tailor") == 0) {
         count = rng(0, count);
     } else if (p->skillLevel("tailor") == 1 && count >= 2) {
         count -= rng(0, 2);
     }
-
+    // On a roll of 3d3, if I roll higher than my dex, lose an additional
+    // 1 to three parts.
     if (dice(3, 3) > p->dex_cur) {
         count -= rng(1, 3);
     }
-
-    // damaged clothing has a chance to lose material
+    // If more than 1 material component can still be be salvaged,
+    // chance of losing more components if the item is damaged.
+    // If the item being cut is not damaged, no additional losses will be incurred.
     if (count > 0) {
         float component_success_chance = std::min(std::pow(0.8, cut->damage), 1.0);
         for(int i = count; i > 0; i--) {
@@ -6099,41 +6124,30 @@ static int cut_up(player *p, item *it, item *cut, bool)
             }
         }
     }
-
-    if (cut->made_of("cotton")) {
-        type = "rag";
-    } else if (cut->made_of("leather")) {
-        type = "leather";
-    } else if (cut->made_of("nomex")) {
-        type = "nomex";
-    } else if (cut->made_of("plastic")) {
-        type = "plastic_chunk";
-    } else if (cut->made_of("plastic")) {
-        type = "kevlar_plate";
-    } else if (cut->made_of("wood")) {
-        type = "skewer";
-        // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
-        count *= 2;
-    } else {
-        debugmsg("should not have made it this far in the cutting routine with a %s. Please let the devs know you saw this message.", cut->tname().c_str());
-        return 0;
+    
+    // Decided to split components evenly. Since salvage will likely change
+    // soon after I write this, I'll go with the one that is cleaner.
+    for (auto material : cut_material_components) {
+        materials_salvaged[material_to_type[material]] = count * material_type_multiplier[material] / cut_material_components.size();
     }
 
     // Clean up before removing the item.
     remove_ammo(cut, *p);
     // Original item has been consumed.
     p->i_rem(pos);
-    
-    // TODO: Change to handle sets of materials.
-    item result(type, int(calendar::turn));
-    if (count > 0) {
-        add_msg(m_good, ngettext("You cut the %1$s into %2$i %3$s.",
-                        "You cut the %1$s into %2$i %3$ss.", count),
-                cut->tname().c_str(), count, result.tname().c_str());
-        p->i_add_or_drop(result, count);
-    } else {
-        add_msg(m_bad, "Nothing could be salvaged from %s. It is cut into useless pieces.",
-                   cut->tname().c_str());
+
+    add_msg(m_info, _("You try to salvage materials from the %s."), cut->tname().c_str());
+    for (auto salvaged : materials_salvaged) {
+        std::string mat_name = salvaged.first;
+        int amount = salvaged.second;
+        item result(mat_name, int(calendar::turn));
+        if (amount > 0) {
+            add_msg(m_good, ngettext("Salvaged %1$i %2$s.", "Salvaged %1$i %2$ss.", amount),
+                    amount, mat_name.c_str());
+            p->i_add_or_drop(result, amount);
+        } else {
+            add_msg(m_bad, _("Could not salvage any %s."), mat_name.c_str());
+        }
     }
     // No matter what, cutting has been done by the time we get here.
     return it->type->charges_to_use();
