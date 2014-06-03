@@ -11535,7 +11535,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int y = y1 + 1; y <= y2 - 1; y++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
+                    if (one_in(3)) {
+                        m->place_items("mut_lab", 35, x, y1 + 1, x, y2 - 1, false, 0);
+                    }
+                    else {
+                        m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
+                    }
                 }
             }
         } else {
@@ -11544,7 +11549,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int x = x1 + 1; x <= x2 - 1; x++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
+                    if (one_in(3)) {
+                        m->place_items("mut_lab", 35, x1 + 1, y, x2 - 1, y, false, 0);
+                    }
+                    else {
+                        m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
+                    }
                 }
             }
         }

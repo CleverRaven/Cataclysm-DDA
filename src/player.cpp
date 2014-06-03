@@ -323,9 +323,9 @@ void player::normalize()
     ret_null = item("null", 0);
     weapon   = item("null", 0);
     style_selected = "style_none";
-    
+
     recalc_hp();
-    
+
     for (int i = 0 ; i < num_bp; i++)
         temp_conv[i] = BODYTEMP_NORM;
 }
@@ -4274,8 +4274,21 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( g->u_see( this->posx, this->posy ) ) {
-        g->draw_hit_player(this);
+    if(g->u_see(this->posx, this->posy)) {
+        g->draw_hit_player(this, dam);
+
+        if (dam > 0 && is_player() && source) {
+            //monster hits player melee
+            nc_color color;
+            std::string health_bar = "";
+            get_HP_Bar(dam, this->get_hp_max(bodypart_to_hp_part(bp, side)), color, health_bar);
+
+            SCT.add(this->xpos(),
+                    this->ypos(),
+                    direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
+                    health_bar.c_str(), m_bad,
+                    body_part_name(bp, side), m_neutral);
+        }
     }
 
     // handle snake artifacts
@@ -4329,10 +4342,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             slime.friendly = -1;
             g->add_zombie(slime);
         }
-    }
-
-    if( g->u_see( this->xpos(), this->ypos() ) ) {
-        g->draw_hit_player(this);
     }
 
     if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
@@ -4992,11 +5001,17 @@ void player::add_disease(dis_type type, int duration, bool permanent,
         i++;
     }
     if (!found) {
-        if (!is_npc()) {
-            dis_msg(type);
-        }
         disease tmp(type, duration, intensity, part, side, permanent, decay);
         illness.push_back(tmp);
+
+        if (!is_npc()) {
+            if (dis_msg(type)) {
+                SCT.add(this->xpos(),
+                        this->ypos(),
+                        SOUTH,
+                        dis_name(tmp), m_info);
+            }
+        }
     }
 
     recalc_sight_limits();
@@ -9698,6 +9713,12 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
                 : _("Your %s is %s!");
             add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
                                       damage_verb.c_str());
+            //item is damaged
+            SCT.add(this->xpos(),
+                    this->ypos(),
+                    NORTH,
+                    pre_damage_name, m_neutral,
+                    damage_verb, m_info);
         }
     }
     return armor_damaged;
@@ -10594,6 +10615,18 @@ int player::get_hp( hp_part bp )
     int hp_total = 0;
     for( int i = 0; i < num_hp_parts; ++i ) {
         hp_total += hp_cur[i];
+    }
+    return hp_total;
+}
+
+int player::get_hp_max( hp_part bp )
+{
+    if( bp < num_hp_parts ) {
+        return hp_max[bp];
+    }
+    int hp_total = 0;
+    for( int i = 0; i < num_hp_parts; ++i ) {
+        hp_total += hp_max[i];
     }
     return hp_total;
 }
