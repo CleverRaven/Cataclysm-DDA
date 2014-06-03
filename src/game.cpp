@@ -134,6 +134,7 @@ void game::load_static_data() {
     init_npctalk();
     init_artifacts();
     init_weather();
+    init_weather_anim();
     init_faction_data();
 
     // --- move/delete everything below
@@ -536,6 +537,8 @@ void game::setup()
  events.clear();
 
  calendar::turn.set_season(SUMMER);    // ... with winter conveniently a long ways off   (not sure if we need this...)
+
+ SCT.vSCT.clear(); //Delete pending messages
 
  // reset kill counts
  kills.clear();
@@ -2495,76 +2498,29 @@ input_context game::get_player_input(std::string &action)
 {
     input_context ctxt = get_default_mode_input_context();
 
-    char cGlyph = ',';
-    nc_color colGlyph = c_ltblue;
-    float fFactor = 0.01f;
-
-    bool bWeatherEffect = true;
-    switch(weather) {
-        case WEATHER_ACID_DRIZZLE:
-            cGlyph = '.';
-            colGlyph = c_ltgreen;
-            fFactor = 0.01f;
-            break;
-        case WEATHER_ACID_RAIN:
-            cGlyph = ',';
-            colGlyph = c_ltgreen;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_DRIZZLE:
-            cGlyph = '.';
-            colGlyph = c_ltblue;
-            fFactor = 0.01f;
-            break;
-        case WEATHER_RAINY:
-            cGlyph = ',';
-            colGlyph = c_ltblue;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_THUNDER:
-            cGlyph = '.';
-            colGlyph = c_ltblue;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_LIGHTNING:
-            cGlyph = ',';
-            colGlyph = c_ltblue;
-            fFactor = 0.04f;
-            break;
-        case WEATHER_SNOW:
-            cGlyph = '*';
-            colGlyph = c_white;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_SNOWSTORM:
-            cGlyph = '*';
-            colGlyph = c_white;
-            fFactor = 0.04f;
-            break;
-        default:
-            bWeatherEffect = false;
-            break;
-    }
-
-    if (bWeatherEffect && OPTIONS["RAIN_ANIMATION"]) {
+    if (OPTIONS["ANIMATIONS"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
         int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
 
         if(fullscreen) {
-          iStartX = 0;
-          iStartY = 0;
-          iEndX = TERMX;
-          iEndY = TERMY;
+            iStartX = 0;
+            iStartY = 0;
+            iEndX = TERMX;
+            iEndY = TERMY;
         }
+
         //x% of the Viewport, only shown on visible areas
-        int dropCount = int(iEndX * iEndY * fFactor);
-        //std::vector<std::pair<int, int> > vDrops;
+        const int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
+        const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
+        const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
+
+        const bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
 
         weather_printable wPrint;
-        wPrint.colGlyph = colGlyph;
-        wPrint.cGlyph = cGlyph;
+        wPrint.colGlyph = mapWeatherAnim[weather].colGlyph;
+        wPrint.cGlyph = mapWeatherAnim[weather].cGlyph;
         wPrint.wtype = weather;
         wPrint.vdrops.clear();
         wPrint.startx = iStartX;
@@ -2572,46 +2528,102 @@ input_context game::get_player_input(std::string &action)
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        /*
-        Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
-        Get tile information from above's weather information:
-            WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-            WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
-            WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
-        */
-        int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
-        int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
-
         do {
-            for( size_t i = 0; i < wPrint.vdrops.size(); ++i ) {
-                m.drawsq(w_terrain, u,
-                         //vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
-                         wPrint.vdrops[i].first + offset_x,
-                         //vDrops[i].second - getmaxy(w_terrain)/2 + u.posy + u.view_offset_y,
-                         wPrint.vdrops[i].second + offset_y,
-                         false,
-                         true,
-                         u.posx + u.view_offset_x,
-                         u.posy + u.view_offset_y);
-            }
+            if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
+                /*
+                Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
+                Get tile information from above's weather information:
+                    WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
+                    WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+                    WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
+                */
 
-            //vDrops.clear();
-            wPrint.vdrops.clear();
+                std::stringstream ssTemp;
 
-            for(int i=0; i < dropCount; i++) {
-                int iRandX = rng(iStartX, iEndX-1);
-                int iRandY = rng(iStartY, iEndY-1);
+                //Erase previous drops from w_terrain
+                for (size_t i = 0; i < wPrint.vdrops.size(); ++i) {
+                    m.drawsq(w_terrain, u,
+                             wPrint.vdrops[i].first + offset_x,
+                             wPrint.vdrops[i].second + offset_y,
+                             false,
+                             true,
+                             u.posx + u.view_offset_x,
+                             u.posy + u.view_offset_y);
+                }
 
-                if (mapRain[iRandY][iRandX]) {
-                    //vDrops.push_back(std::make_pair(iRandX, iRandY));
-                    wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+                wPrint.vdrops.clear();
 
-                    //mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                for (int i=0; i < dropCount; i++) {
+                    const int iRandX = rng(iStartX, iEndX-1);
+                    const int iRandY = rng(iStartY, iEndY-1);
+
+                    if (mapRain[iRandY][iRandX]) {
+                        wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+                    }
                 }
             }
+
+            if (OPTIONS["ANIMATION_SCT"]) {
+                #ifdef TILES
+                if (!use_tiles) {
+                #endif
+                    for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+                        //Erase previous text from w_terrain
+                        if (iter->getStep() > 0) {
+                            for (size_t i = 0; i < iter->getText().length(); ++i) {
+                                if (u_see(iter->getPosX() + i, iter->getPosY())) {
+                                    m.drawsq(w_terrain, u,
+                                             iter->getPosX() + i,
+                                             iter->getPosY(),
+                                             false,
+                                             true,
+                                             u.posx + u.view_offset_x,
+                                             u.posy + u.view_offset_y);
+                                } else {
+                                    const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
+                                    const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+                                    mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+                                }
+                            }
+                        }
+                    }
+                #ifdef TILES
+                }
+                #endif
+
+                SCT.advanceAllSteps();
+
+                //Check for creatures on all drawing positions and offset if necessary
+                for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
+                    const direction oCurDir = iter->getDirecton();
+
+                    for (int i=0; i < iter->getText().length(); ++i) {
+                        const int dex = mon_at(iter->getPosX() + i, iter->getPosY());
+
+                        if (dex != -1 && u_see(&zombie(dex))) {
+                            i = -1;
+
+                            int iPos = iter->getStep() + iter->getStepOffset();
+                            for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
+                                if (iter2->getDirecton() == oCurDir && iter2->getStep() + iter2->getStepOffset() <= iPos) {
+                                    if (iter2->getType() == "hp") {
+                                        iter2->advanceStepOffset();
+                                    }
+
+                                    iter2->advanceStepOffset();
+                                    iPos = iter2->getStep() + iter2->getStepOffset();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             draw_weather(wPrint);
+            draw_sct();
 
             wrefresh(w_terrain);
+
             inp_mngr.set_timeout(125);
         } while (handle_mouseview(ctxt, action));
         inp_mngr.set_timeout(-1);
@@ -4309,7 +4321,7 @@ void game::debug()
       weather_menu.addentry(-11,true,'d',_("View last 800 hours of decay"));
       weather_menu.query();
 
-      if(weather_menu.ret > 0 && weather_menu.ret < NUM_WEATHER_TYPES) {
+      if(weather_menu.ret > 0 && weather_menu.ret <= NUM_WEATHER_TYPES) {
         add_msg(m_info, "%d", weather_menu.selected);
 
         int selected_weather = weather_menu.selected + 1;
@@ -4342,7 +4354,7 @@ void game::debug()
               );
               if ( it->first == cweather ) {
                   weather_log_menu.entries.back().text_color = c_yellow;
-          }
+              }
           }
           weather_log_menu.query();
 
@@ -6866,6 +6878,11 @@ void game::emp_blast(int x, int y)
       add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
       remove_zombie(mondex);
       m.spawn_item(x, y, "bot_laserturret", 1, 0, calendar::turn);
+   }
+   else if (critter.type->id == "mon_turret_rifle" && one_in(3)) {
+      add_msg(_("The %s beeps erratically and deactivates!"), critter.name().c_str());
+      remove_zombie(mondex);
+      m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
    }
    else if (critter.type->id == "mon_manhack" && one_in(6)) {
      add_msg(_("The %s flies erratically and drops from the air!"), critter.name().c_str());
@@ -11665,6 +11682,13 @@ bool game::plmove(int dx, int dy)
                   remove_zombie(mondex);
                   u.moves -= 100;
                   m.spawn_item(x, y, "bot_laserturret", 1, 0, calendar::turn);
+              }
+              return false;
+          } else if (critter.type->id == "mon_turret_rifle") {
+              if (query_yn(_("Deactivate the rifle turret?"))) {
+                  remove_zombie(mondex);
+                  u.moves -= 100;
+                  m.spawn_item(x, y, "bot_rifleturret", 1, 0, calendar::turn);
               }
               return false;
           } else {

@@ -140,27 +140,13 @@ nc_color Messages::game_message::get_color() const
 {
     if (int(turn) >= player_messages.curmes) {
         // color for new messages
-        switch(type) {
-        case m_good:    return c_ltgreen;
-        case m_bad:     return c_ltred;
-        case m_mixed:   return c_pink;
-        case m_neutral: return c_white;
-        case m_warning: return c_yellow;
-        case m_info:    return c_ltblue;
-        default:        return c_white;
-        }
+        return msgtype_to_color(type, false);
+
     } else if (int(turn) + 5 >= player_messages.curmes) {
         // color for slightly old messages
-        switch(type) {
-        case m_good:    return c_green;
-        case m_bad:     return c_red;
-        case m_mixed:   return c_magenta;
-        case m_neutral: return c_ltgray;
-        case m_warning: return c_brown;
-        case m_info:    return c_blue;
-        default:        return c_ltgray;
-        }
+        return msgtype_to_color(type, true);
     }
+
     // color for old messages
     return c_dkgray;
 }

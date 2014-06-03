@@ -404,10 +404,11 @@ public:
   void draw_explosion(int x, int y, int radius, nc_color col);
   void draw_bullet(Creature &p, int tx, int ty, int i, std::vector<point> trajectory, char bullet, timespec &ts);
   void draw_hit_mon(int x, int y, monster critter, bool dead = false);
-  void draw_hit_player(player *p, bool dead = false);
+  void draw_hit_player(player *p, const int iDam, bool dead = false);
   void draw_line(const int x, const int y, const point center_point, std::vector<point> ret);
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
+  void draw_sct();
 
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
@@ -459,6 +460,7 @@ public:
   void init_npctalk();
   void init_fields();
   void init_weather();
+  void init_weather_anim();
   void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);

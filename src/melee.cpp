@@ -11,7 +11,7 @@
 #include "cursesdef.h"
 
 void player_hit_message(player* attacker, std::string message,
-                        std::string target_name, int dam, bool crit);
+                        Creature &t, int dam, bool crit);
 void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
                     bool bashing, bool cutting, bool stabbing);
 int  attack_speed(player &u);
@@ -214,7 +214,6 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
     }
 
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
-    std::string target_name = t.disp_name();
 
     int move_cost = attack_speed(*this);
 
@@ -306,7 +305,7 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
             healall( rng(dam / 10, dam / 5) );
 
         message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
-        player_hit_message(this, message, target_name, dam, critical_hit);
+        player_hit_message(this, message, t, dam, critical_hit);
 
         if (!specialmsg.empty())
             add_msg_if_player(specialmsg.c_str());
@@ -1849,11 +1848,14 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
 
 // display the hit message for an attack
 void player_hit_message(player* attacker, std::string message,
-                        std::string target_name, int dam, bool crit)
+                        Creature &t, int dam, bool crit)
 {
     std::string msg;
     game_message_type msgtype;
     msgtype = m_good;
+    std::string sSCTmod = "";
+    game_message_type gmtSCTcolor = m_good;
+
     if (dam <= 0) {
         if (attacker->is_npc()) {
             //~ NPC hits something but does no damage
@@ -1867,6 +1869,8 @@ void player_hit_message(player* attacker, std::string message,
         //~ someone hits something for %d damage (critical)
         msg = string_format(_("%s for %d damage. Critical!"),
                             message.c_str(), dam);
+        sSCTmod = _("Critical!");
+        gmtSCTcolor = m_critical;
         if (!attacker->is_npc()) {
             msgtype = m_good;
         }
@@ -1878,10 +1882,36 @@ void player_hit_message(player* attacker, std::string message,
         }
     }
 
+    if (dam > 0) {
+        //player hits monster melee
+        nc_color color;
+        std::string health_bar = "";
+        get_HP_Bar(dam, t.get_hp_max(), color, health_bar, true);
+
+        SCT.add(t.xpos(),
+                t.ypos(),
+                direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
+                health_bar, m_good,
+                sSCTmod, gmtSCTcolor);
+
+        if (t.get_hp() > 0) {
+            get_HP_Bar(t.get_hp(), t.get_hp_max(), color, health_bar, true);
+
+            SCT.add(t.xpos(),
+                    t.ypos(),
+                    direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
+                    health_bar, m_good,
+                    "hp", m_neutral,
+                    "hp");
+        } else {
+            SCT.removeCreatureHP();
+        }
+    }
+
     // same message is used for player and npc,
     // just using this for the <npcname> substitution.
     attacker->add_msg_player_or_npc(msgtype, msg.c_str(), msg.c_str(),
-                                    target_name.c_str());
+                                    t.disp_name().c_str());
 }
 
 void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,

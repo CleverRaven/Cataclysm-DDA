@@ -98,7 +98,7 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
     }
 }
 /* Player hit animation */
-void game::draw_hit_player(player *p, bool dead)
+void game::draw_hit_player(player *p, const int iDam, bool dead)
 {
     (void)dead; //unused
     if (use_tiles) {
@@ -119,7 +119,7 @@ void game::draw_hit_player(player *p, bool dead)
     } else {
         hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                       POSY + (p->posy - (u.posy + u.view_offset_y)),
-                      red_background(p->color()), '@');
+                      (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), '@');
     }
 }
 
@@ -161,7 +161,7 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 
     tilecontext->init_draw_line(x, y, vPoint, "line_trail", false);
 }
-//*/
+
 void game::draw_weather(weather_printable wPrint)
 {
     if (use_tiles) {
@@ -169,7 +169,7 @@ void game::draw_weather(weather_printable wPrint)
         /*
         WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
         WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
-        WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
+        WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
         */
         switch(wPrint.wtype) {
             // Acid weathers, uses acid droplet tile, fallthrough intended
@@ -181,10 +181,10 @@ void game::draw_weather(weather_printable wPrint)
             case WEATHER_THUNDER:
             case WEATHER_LIGHTNING: weather_name = "weather_rain_drop"; break;
             // Snowy weathers, uses snowflake tile, fallthrough intended
+            case WEATHER_FLURRIES:
             case WEATHER_SNOW:
             case WEATHER_SNOWSTORM: weather_name = "weather_snowflake"; break;
 
-            case WEATHER_FLURRIES:
             default:
                 break;
         }
@@ -205,6 +205,21 @@ void game::draw_weather(weather_printable wPrint)
              ++weather_iterator)
         {
             mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
+        }
+    }
+}
+
+void game::draw_sct()
+{
+    if (use_tiles) {
+        tilecontext->init_draw_sct();
+    } else {
+        for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+            const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
+            const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+
+            mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType("first"), (iter->getStep() >= SCT.iMaxSteps/2)), "%s", iter->getText("first").c_str());
+            wprintz(w_terrain, msgtype_to_color(iter->getMsgType("second"), (iter->getStep() >= SCT.iMaxSteps/2)), iter->getText("second").c_str());
         }
     }
 }

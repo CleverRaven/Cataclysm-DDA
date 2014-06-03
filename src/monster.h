@@ -64,6 +64,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
  m_size get_size();
  int get_hp( hp_part ) { return hp; };
+ int get_hp_max( hp_part = num_hp_parts ) { return type->hp; };
  std::string get_material() { return type->mat; };
 
  // Access

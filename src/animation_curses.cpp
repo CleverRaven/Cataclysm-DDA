@@ -56,12 +56,12 @@ void game::draw_hit_mon(int x, int y, monster m, bool dead)
                   red_background(cMonColor), dead ? '%' : sMonSym);
 }
 /* Player hit animation */
-void game::draw_hit_player(player *p, bool dead)
+void game::draw_hit_player(player *p, const int iDam, bool dead)
 {
     (void)dead; //unused
     hit_animation(POSX + (p->posx - (u.posx + u.view_offset_x)),
                   POSY + (p->posy - (u.posy + u.view_offset_y)),
-                  red_background(p->color()), '@');
+                  (iDam == 0) ? yellow_background(p->color()) : red_background(p->color()), '@');
 }
 /* Line drawing code, not really an animation but should be separated anyway */
 
@@ -99,7 +99,7 @@ void game::draw_line(const int x, const int y, std::vector<point> vPoint)
 
     mvwputch(w_terrain, cry, crx, c_white, 'X');
 }
-//*/
+
 void game::draw_weather(weather_printable wPrint)
 {
     for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
@@ -107,6 +107,17 @@ void game::draw_weather(weather_printable wPrint)
          ++weather_iterator)
     {
         mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
+    }
+}
+
+void game::draw_sct()
+{
+    for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+        const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
+        const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+
+        mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType("first"), (iter->getStep() >= SCT.iMaxSteps/2)), "%s", iter->getText("first").c_str());
+        wprintz(w_terrain, msgtype_to_color(iter->getMsgType("second"), (iter->getStep() >= SCT.iMaxSteps/2)), iter->getText("second").c_str());
     }
 }
 

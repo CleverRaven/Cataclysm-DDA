@@ -17,6 +17,11 @@
 #define LIGHTNING_CHANCE 600
 
 /**
+ * Weather animation settings container.
+ */
+std::map<weather_type, clWeatherAnim> mapWeatherAnim;
+
+/**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
  */

@@ -4052,8 +4052,8 @@ ff.......|....|WWWWWWWW|\n\
             for (int i = 9; i <= 13; i += 2) {
                 line(this, t_wall_metal_h,  9, i, 10, i);
                 line(this, t_wall_metal_h, 13, i, 14, i);
-                add_spawn("mon_turret", 1, 9, i + 1);
-                add_spawn("mon_turret", 1, 14, i + 1);
+                add_spawn("mon_turret_rifle", 1, 9, i + 1);
+                add_spawn("mon_turret_rifle", 1, 14, i + 1);
             }
             ter_set(13, 16, t_card_military);
 
@@ -4299,14 +4299,14 @@ ff.......|....|WWWWWWWW|\n\
         }
 
         // Place turrets by (possible) entrances
-        add_spawn("mon_turret", 1,  3, 11);
-        add_spawn("mon_turret", 1,  3, 12);
-        add_spawn("mon_turret", 1, 20, 11);
-        add_spawn("mon_turret", 1, 20, 12);
-        add_spawn("mon_turret", 1, 11,  3);
-        add_spawn("mon_turret", 1, 12,  3);
-        add_spawn("mon_turret", 1, 11, 20);
-        add_spawn("mon_turret", 1, 12, 20);
+        add_spawn("mon_turret_rifle", 1,  3, 11);
+        add_spawn("mon_turret_rifle", 1,  3, 12);
+        add_spawn("mon_turret_rifle", 1, 20, 11);
+        add_spawn("mon_turret_rifle", 1, 20, 12);
+        add_spawn("mon_turret_rifle", 1, 11,  3);
+        add_spawn("mon_turret_rifle", 1, 12,  3);
+        add_spawn("mon_turret_rifle", 1, 11, 20);
+        add_spawn("mon_turret_rifle", 1, 12, 20);
 
         // Finally, scatter dead bodies / mil zombies
         for (int i = 0; i < 20; i++) {
@@ -11535,7 +11535,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int y = y1 + 1; y <= y2 - 1; y++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
+                    if (one_in(3)) {
+                        m->place_items("mut_lab", 35, x, y1 + 1, x, y2 - 1, false, 0);
+                    }
+                    else {
+                        m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
+                    }
                 }
             }
         } else {
@@ -11544,7 +11549,12 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
                     for (int x = x1 + 1; x <= x2 - 1; x++) {
                         m->furn_set(x, y, f_counter);
                     }
-                    m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
+                    if (one_in(3)) {
+                        m->place_items("mut_lab", 35, x1 + 1, y, x2 - 1, y, false, 0);
+                    }
+                    else {
+                        m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
+                    }
                 }
             }
         }
