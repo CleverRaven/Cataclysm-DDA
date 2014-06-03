@@ -748,8 +748,8 @@ bool choose_direction(const std::string &message, int &x, int &y)
     ctxt.register_action("HELP_KEYBINDINGS"); // why not?
     //~ appended to "Close where?" "Pry where?" etc.
     std::string query_text = message + _(" (Direction button)");
-    mvwprintw(stdscr, 0, VIEW_OFFSET_X, "%s", query_text.c_str());
-    wrefresh(stdscr);
+    mvwprintw(g->w_terrain, 0, 0, "%s", query_text.c_str());
+    wrefresh(g->w_terrain);
     const std::string action = ctxt.handle_input();
     if (input_context::get_direction(x, y, action)) {
         return true;
