@@ -11,6 +11,7 @@
 #include "init.h"
 #include "path_info.h"
 #include "file_wrapper.h"
+#include "debug.h"
 
 //***********************************
 //Globals                           *
@@ -427,8 +428,14 @@ WINDOW *curses_init(void)
     lastchar=-1;
     inputdelay=-1;
 
+    int fontsize = 16;
     std::string typeface;
     char * typeface_c;
+    int map_fontwidth = 8;
+    int map_fontheight = 16;
+    int map_fontsize = 16;
+    std::string map_typeface;
+    bool fontblending;
 
     std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
