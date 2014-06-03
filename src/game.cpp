@@ -10293,9 +10293,9 @@ void game::butcher()
                 }
             }
             if (it.corpse != NULL) {
-                kmenu.addentry(i, true, hotkey, corpse->name.c_str());
+                kmenu.addentry(i, true, hotkey, corpse->name);
             } else {
-                kmenu.addentry(i, true, hotkey, it.tname().c_str());
+                kmenu.addentry(i, true, hotkey, it.tname());
             }
         }
         kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
