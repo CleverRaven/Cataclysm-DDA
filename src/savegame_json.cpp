@@ -1191,6 +1191,21 @@ void vehicle::deserialize(JsonIn &jsin)
     refresh();
 
     data.read("tags",tags);
+
+    // Note that it's possible for a vehicle to be loaded midway
+    // through a turn if the player is driving REALLY fast and their
+    // own vehicle motion takes them in range. An undefined value for
+    // on_turn caused occasional weirdness if the undefined value
+    // happened to be positive.
+    //
+    // Setting it to zero means it won't get to move until the start
+    // of the next turn, which is what happens anyway if it gets
+    // loaded anywhere but midway through a driving cycle.
+    //
+    // Something similar to vehicle::gain_moves() would be ideal, but
+    // that can't be used as it currently stands because it would also
+    // make it instantly fire all its turrets upon load.
+    of_turn = 0;
 }
 
 void vehicle::serialize(JsonOut &json) const
