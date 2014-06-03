@@ -204,6 +204,10 @@ void inventory_selector::make_item_list(const indexed_invslice &slice, const ite
 
 void inventory_selector::prepare_paging()
 {
+    if (items.size() == 0) {
+        in_inventory = false;
+    }
+
     prepare_paging(items);
     prepare_paging(worn);
 }
@@ -505,7 +509,9 @@ bool inventory_selector::handle_movement(const std::string &action)
     if (action == "CATEGORY_SELECTION") {
         inCategoryMode = !inCategoryMode;
     } else if (action == "LEFT") {
-        in_inventory = !in_inventory;
+        if (this->items.size() > 0) {
+            in_inventory = !in_inventory;
+        }
     } else if (action == "DOWN") {
         selected++;
         if (inCategoryMode) {
