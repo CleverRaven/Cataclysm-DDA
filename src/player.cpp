@@ -10174,10 +10174,10 @@ void player::practice (const calendar& turn, Skill *s, int amount, int cap)
     skillLevel(s).practice(turn);
 }
 
-void player::practice (const calendar& turn, std::string s, int amount)
+void player::practice (const calendar& turn, std::string s, int amount, int cap)
 {
     Skill *aSkill = Skill::skill(s);
-    practice(turn, aSkill, amount);
+    practice(turn, aSkill, amount, cap);
 }
 
 bool player::knows_recipe(recipe *rec)
