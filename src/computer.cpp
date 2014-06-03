@@ -198,7 +198,7 @@ bool computer::hack_attempt(player *p, int Security)
         Security += (alerts * 2);
     }
 
-    p->practice(calendar::turn, "computer", 5 + Security * 2);
+    p->practice( "computer", 5 + Security * 2 );
     int player_roll = p->skillLevel("computer");
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);

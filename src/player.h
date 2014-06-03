@@ -653,8 +653,8 @@ public:
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
  int adjust_for_focus(int amount);
- void practice(const calendar& turn, Skill *s, int amount, int cap = 99);
- void practice(const calendar& turn, std::string s, int amount, int cap = 99);
+ void practice( Skill *s, int amount, int cap = 99 );
+ void practice( std::string s, int amount, int cap = 99 );
 
  void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
  bool has_activity(const activity_type type);

@@ -1547,7 +1547,7 @@ void complete_vehicle ()
 
         add_msg (m_good, _("You install a %s into the %s."),
                     vehicle_part_types[part_id].name.c_str(), veh->name.c_str());
-        g->u.practice (calendar::turn, "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20);
+        g->u.practice( "mechanics", vehicle_part_types[part_id].difficulty * 5 + 20 );
         break;
     case 'r':
         veh->last_repair_turn = calendar::turn;
@@ -1571,7 +1571,7 @@ void complete_vehicle ()
         veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
         add_msg (m_good, _("You repair the %s's %s."),
                     veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
-        g->u.practice( calendar::turn, "mechanics", int(((veh->part_info(vehicle_part).difficulty+dd)*5+20)*dmg) );
+        g->u.practice( "mechanics", int(((veh->part_info(vehicle_part).difficulty+dd)*5+20)*dmg) );
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, vehicle_part, true)) {
@@ -1594,7 +1594,7 @@ void complete_vehicle ()
             used_item = veh->parts[vehicle_part].properties_to_item();
             g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             if(type != SEL_JACK) { // Changing tires won't make you a car mechanic
-                g->u.practice (calendar::turn, "mechanics", 2 * 5 + 20);
+                g->u.practice ( "mechanics", 2 * 5 + 20 );
             }
         } else {
             veh->break_part_into_pieces(vehicle_part, g->u.posx, g->u.posy);
