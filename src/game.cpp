@@ -11757,7 +11757,8 @@ bool game::plmove(int dx, int dy)
   }
 
   //Autopickup
-  if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) && (m.i_at(u.posx, u.posy)).size() > 0) {
+  if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
+      ((m.i_at(u.posx, u.posy)).size() || OPTIONS["AUTO_PICKUP_ADJACENT"]) ) {
    Pickup::pick_up(u.posx, u.posy, -1);
   }
 
