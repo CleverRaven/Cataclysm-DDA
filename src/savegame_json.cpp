@@ -87,7 +87,7 @@ void SkillLevel::serialize(JsonOut &json) const
 void SkillLevel::deserialize(JsonIn & jsin)
 {
     JsonObject data = jsin.get_object();
-    int lastpractice=0;
+    int lastpractice = 0;
     data.read( "level", _level );
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );

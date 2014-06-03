@@ -3253,12 +3253,12 @@ void map::disarm_trap(const int x, const int y)
         }
         remove_trap(x, y);
         if(diff > 1.25 * skillLevel) { // failure might have set off trap
-            g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
+            g->u.practice( "traps", 1.5*(diff - skillLevel) );
         }
     } else if (roll >= diff * .8) {
         add_msg(_("You fail to disarm the trap."));
         if(diff > 1.25 * skillLevel) {
-            g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
+            g->u.practice( "traps", 1.5*(diff - skillLevel) );
         }
     } else {
         add_msg(m_bad, _("You fail to disarm the trap, and you set it off!"));
@@ -3266,7 +3266,7 @@ void map::disarm_trap(const int x, const int y)
         if(diff - roll <= 6) {
             // Give xp for failing, but not if we failed terribly (in which
             // case the trap may not be disarmable).
-            g->u.practice(calendar::turn, "traps", 2*diff);
+            g->u.practice( "traps", 2*diff );
         }
     }
 }
