@@ -1136,7 +1136,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
                 
             }
             else if (can_limb_block()) {
-                phys_mult = (100 - (str_cur*1) - ((int)skillLevel("melee")*1) - ((int)skillLevel("unarmed combat")*2))/100;
+                phys_mult = (100 - (str_cur*1) - ((int)skillLevel("melee")*1) - ((int)skillLevel("unarmed")*2))/100;
             }
             if (phys_mult < 0) {
               phys_mult = 0;
