@@ -8842,12 +8842,7 @@ void player::use(int pos)
                        used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
-    } else if ( used->type->can_use("BOOTS")          ||
-                used->type->can_use("SHEATH_SWORD")   ||
-                used->type->can_use("SHEATH_KNIFE")   ||
-                used->type->can_use("HOLSTER_PISTOL") ||
-                used->type->can_use("HOLSTER_ANKLE")  ||
-                used->type->can_use("QUIVER") ) {
+    } else if ( used->type->has_use() ) {
         used->type->invoke(this, used, false);
         return;
     } else if (used->is_gunmod()) {
