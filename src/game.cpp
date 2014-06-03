@@ -10237,16 +10237,16 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item>& items = m.i_at(u.posx, u.posy);
     inventory crafting_inv = crafting_inventory(&u);
-    // get corpses first
+    
+    // check if we have a butchering tool
+    if (factor == INT_MAX) {
+        add_msg(m_info, _("You don't have a sharp item to butcher with."));
+        return;
+    }
+    // get corpses
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            if (factor == INT_MAX) {
-                if (!has_corpse) {
-                    add_msg(m_info, _("You don't have a sharp item to butcher with."));
-                }
-            } else {
-                corpses.push_back(i);
-            }
+            corpses.push_back(i);
             has_corpse = true;
         }
     }
