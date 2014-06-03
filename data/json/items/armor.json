@@ -847,7 +847,7 @@
         "color" : "light_blue",
         "covers" : ["LEGS"],
         "to_hit" : 1,
-        "storage" : 4,
+        "storage" : 2,
         "symbol" : "[",
         "description" : "A pair of denim shorts. Thick and tough, they provide excellent protection from cuts.",
         "price" : 2000,
@@ -861,7 +861,7 @@
         "bashing" : -4,
         "flags" : ["VARSIZE"],
         "coverage" : 40,
-        "material_thickness" : 3
+        "material_thickness" : 2
     },
     {
         "type" : "ARMOR",
