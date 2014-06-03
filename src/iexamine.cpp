@@ -221,7 +221,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
 
         max = with->charges;
         std::string popupmsg=string_format(ngettext("Transfer how much? Max:%d cent. (0 to cancel) ",
-                                                    "Transfer how much? Max:%d cents. (0 to cancel) ", 
+                                                    "Transfer how much? Max:%d cents. (0 to cancel) ",
                                                     max),
                                            max);
         amount = helper::to_int( string_input_popup( popupmsg, 20,
@@ -1951,6 +1951,11 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
 }
 
 void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
+    if (m->is_outside(p->posx, p->posy)) {
+        p->add_msg_if_player( _("You cannot get to the curtains from the outside."));
+        return;
+    }
+
     // Peek through the curtains, or tear them down.
     int choice = menu( true, _("Do what with the curtains?"),
                        _("Peek through the curtains."), _("Tear down the curtains."),
