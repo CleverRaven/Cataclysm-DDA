@@ -53,6 +53,34 @@ enum weather_type {
 };
 
 /**
+ * Weather animation class.
+ */
+class clWeatherAnim {
+    public:
+        char cGlyph;
+        nc_color colGlyph;
+        float fFactor;
+
+        clWeatherAnim() {
+            cGlyph = '?';
+            colGlyph = c_white;
+            fFactor = 0.0f;
+        };
+        ~clWeatherAnim() {};
+
+        clWeatherAnim(const char p_cGlyph, const nc_color p_colGlyph, const float p_fFactor) {
+            cGlyph = p_cGlyph;
+            colGlyph = p_colGlyph;
+            fFactor = p_fFactor;
+        };
+};
+
+/**
+ * Weather animation settings container.
+ */
+extern std::map<weather_type, clWeatherAnim> mapWeatherAnim;
+
+/**
  * Weather drawing tracking.
  * Used for redrawing the view coordinates overwritten by the previous frame's animation bits (raindrops, snowflakes, etc,) and to draw this frame's weather animation.
  * @see game::get_player_input

@@ -2,6 +2,7 @@
 #define _OUTPUT_H_
 
 #include "color.h"
+#include "line.h"
 #include <cstdarg>
 #include <string>
 #include <vector>
@@ -50,6 +51,27 @@ extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal cha
 extern int TERRAIN_WINDOW_TERM_HEIGHT; // same for height
 extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
+
+enum game_message_type {
+    m_good,    /* something good happend to the player character, eg. damage., decreasing in skill */
+    m_bad,      /* something bad happened to the player character, eg. health boost, increasing in skill */
+    m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
+                  eg. gaining a mutation with mixed effect*/
+    m_warning, /* warns the player about a danger. eg. enemy appeared, an alarm sounds, noise heard. */
+    m_info,    /* informs the player about something, eg. on examination, seeing an item,
+                  about how to use a certain function, etc. */
+    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened eg.
+                  a miss, a non-critical failure. May also effect for good or bad effects which are
+                  just very slight to be notable. This is the default message type. */
+
+    /* custom SCT colors */
+    m_headshot,
+    m_critical,
+    m_grazing
+};
+
+nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = false);
+int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = false);
 
 std::vector<std::string> foldstring (std::string str, int width);
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...);
@@ -147,7 +169,7 @@ size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork, 
 size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt);
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
-void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
+void hit_animation(int iX, int iY, nc_color cColor, char cTile);
 void get_HP_Bar(const int current_hp, const int max_hp, nc_color &color,
                 std::string &health_bar, const bool bMonster = false);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
@@ -158,6 +180,63 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
 void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);
+
+class scrollingcombattext {
+    private:
+
+    public:
+        const int iMaxSteps;
+
+        scrollingcombattext() : iMaxSteps(8) {};
+        ~scrollingcombattext() {};
+
+        class cSCT {
+            private:
+                int iPosX;
+                int iPosY;
+                direction oDir;
+                int iDirX;
+                int iDirY;
+                int iStep;
+                int iStepOffset;
+                std::string sText;
+                game_message_type gmt;
+                std::string sText2;
+                game_message_type gmt2;
+                std::string sType;
+
+            public:
+                cSCT(const int p_iPosX, const int p_iPosY, direction p_oDir,
+                     const std::string p_sText, const game_message_type p_gmt,
+                     const std::string p_sText2 = "", const game_message_type p_gmt2 = m_neutral,
+                     const std::string p_sType = "");
+                ~cSCT() {};
+
+                int getStep() { return iStep; }
+                int getStepOffset() { return iStepOffset; }
+                int advanceStep() { return ++iStep; }
+                int advanceStepOffset() { return ++iStepOffset; }
+                int getPosX();
+                int getPosY();
+                direction getDirecton() { return oDir; }
+                int getInitPosX() { return iPosX; }
+                int getInitPosY() { return iPosY; }
+                std::string getType() { return sType; }
+                std::string getText(std::string sType = "full");
+                game_message_type getMsgType(std::string sType = "first");
+        };
+
+        std::vector<cSCT> vSCT;
+
+        void add(const int p_iPosX, const int p_iPosY, const direction p_oDir,
+                 const std::string p_sText, const game_message_type p_gmt,
+                 const std::string p_sText2 = "", const game_message_type p_gmt2 = m_neutral,
+                 const std::string p_sType = "");
+        void advanceAllSteps();
+        void removeCreatureHP();
+};
+
+extern scrollingcombattext SCT;
 
 /** Get the width in font glyphs of the drawing screen.
  *

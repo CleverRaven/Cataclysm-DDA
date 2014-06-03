@@ -504,10 +504,20 @@ void initOptions()
                                        0, 127, 5
                                       );
 
-    OPTIONS["RAIN_ANIMATION"] = cOpt("graphics", _("Rain animation"),
+    OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
+                                 _("If true, will display enabled animations."),
+                                 true
+                                );
+
+    OPTIONS["ANIMATION_RAIN"] = cOpt("graphics", _("Rain animation"),
                                      _("If true, will display weather animations."),
                                      true
                                     );
+
+    OPTIONS["ANIMATION_SCT"] = cOpt("graphics", _("SCT animation"),
+                                    _("If true, will display scrolling combat text animations."),
+                                    true
+                                   );
 
     OPTIONS["CIRCLEDIST"] = cOpt("general", _("Circular distances"),
                                  _("If true, the game will calculate range in a realistic way: light sources will be circles diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
