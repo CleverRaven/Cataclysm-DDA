@@ -346,6 +346,9 @@ std::pair<int, int> direction_XY(direction dir)
         case NORTHWEST:
             return std::make_pair(-1, -1);
 
+        case CENTER:
+            return std::make_pair(0, 0);
+
         default:
             break;
     }

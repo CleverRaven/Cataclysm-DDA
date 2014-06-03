@@ -31,6 +31,7 @@ BELOWSOUTH,
 BELOWSOUTHWEST,
 BELOWWEST,
 BELOWNORTHWEST,
+CENTER,
 };
 
 // The "t" value decides WHICH Bresenham line is used.

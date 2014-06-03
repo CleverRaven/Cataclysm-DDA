@@ -209,15 +209,25 @@ void Pickup::pick_up(int posx, int posy, int min)
 
     // which items are we grabbing?
     std::vector<item> here = pickup_obj.from_veh ? veh->parts[cargo_part].items : g->m.i_at(posx, posy);
+    std::vector<direction> vItemDir;
+    std::map<direction, int> vItemIndex;
+
+    vItemIndex[CENTER] = 0;
+    for (int i=0; i < here.size(); ++i) {
+        vItemDir.push_back(CENTER);
+    }
 
     if (min == -1 && OPTIONS["AUTO_PICKUP_ADJACENT"]) {
         //Autopickup adjacent
         direction adjecentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
         for (int i=0; i < 8; i++) {
+            vItemIndex[adjecentDir[i]] = 0;
+
             std::pair<int, int> pairDir = direction_XY(adjecentDir[i]);
             std::vector<item> hereTemp = g->m.i_at(posx + pairDir.first, posy + pairDir.second);
 
             for (int j=0; j < hereTemp.size(); j++) {
+                vItemDir.push_back(adjecentDir[i]);
                 here.push_back(hereTemp[j]);
             }
         }
@@ -626,12 +636,13 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     // At this point we've selected our items, now we add them to our inventory
-    int curmit = 0;
     bool got_water = false; // Did we try to pick up water?
     bool offered_swap = false;
     std::map<std::string, int> mapPickup;
 
     for (size_t i = 0; i < here.size(); i++) {
+        const direction dirThisItem = vItemDir[i];
+
         if (getitem[i] && here[i].made_of(LIQUID)) {
             got_water = true;
         } else if (getitem[i]) {
@@ -721,8 +732,9 @@ void Pickup::pick_up(int posx, int posy, int min)
             }
 
             if (picked_up) {
-                pickup_obj.remove_from_map_or_vehicle(posx, posy, veh, cargo_part, moves_taken, curmit);
-                curmit--;
+                std::pair<int, int> pairDir = direction_XY(dirThisItem);
+                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.first, posy + pairDir.second, veh, cargo_part, moves_taken, vItemIndex[dirThisItem]);
+                vItemIndex[dirThisItem]--;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !pickup_obj.from_veh;
 
@@ -735,7 +747,7 @@ void Pickup::pick_up(int posx, int posy, int min)
                 }
             }
         }
-        curmit++;
+        vItemIndex[dirThisItem]++;
     }
 
     // Auto pickup item message
