@@ -724,53 +724,77 @@ void game::cleanup_at_end(){
         int iNameLine = 0;
         int iInfoLine = 0;
 
-        if (!(u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH") || u.has_trait("MASOCHIST"))) {
-            vRip.push_back("               _______  ___");
-            vRip.push_back("              <       `/   |");
-            vRip.push_back("               >  _     _ (");
-            vRip.push_back("              |  |_) | |_) |");
-            vRip.push_back("              |  | \\ | |   |");
-            vRip.push_back("   ______.__%_|            |_________  __");
-            vRip.push_back(" _/                                  \\|  |");
-            vRip.push_back("|                                        <"); iNameLine = vRip.size();
-            vRip.push_back("|                                        |"); iMaxWidth = vRip[vRip.size()-1].length();
-            vRip.push_back("|                                        |");
-            vRip.push_back("|_____.-._____              __/|_________|");
-            vRip.push_back("              |            |"); iInfoLine = vRip.size();
-            vRip.push_back("              |            |");
-            vRip.push_back("              |           <");
-            vRip.push_back("              |            |");
-            vRip.push_back("              |   _        |");
-            vRip.push_back("              |__/         |");
-            vRip.push_back("             % / `--.      |%");
-            vRip.push_back("         * .%%|          -< @%%%");
-            vRip.push_back("         `\\%`@|            |@@%@%%");
-            vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
-            vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
+        if(u.has_amount("holybook_bible1", 1) || u.has_amount("holybook_bible2", 1)) {
+            if (!(u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH"))) {
+                vRip.push_back("               _______  ___");
+                vRip.push_back("              <       `/   |");
+                vRip.push_back("               >  _     _ (");
+                vRip.push_back("              |  |_) | |_) |");
+                vRip.push_back("              |  | \\ | |   |");
+                vRip.push_back("   ______.__%_|            |_________  __");
+                vRip.push_back(" _/                                  \\|  |"); iNameLine = vRip.size();
+                vRip.push_back("|                                        <");
+                vRip.push_back("|                                        |"); iMaxWidth = vRip[vRip.size()-1].length();
+                vRip.push_back("|                                        |");
+                vRip.push_back("|_____.-._____              __/|_________|");
+                vRip.push_back("              |            |"); iInfoLine = vRip.size();
+                vRip.push_back("              |            |");
+                vRip.push_back("              |           <");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |   _        |");
+                vRip.push_back("              |__/         |");
+                vRip.push_back("             % / `--.      |%");
+                vRip.push_back("         * .%%|          -< @%%%");
+                vRip.push_back("         `\\%`@|            |@@%@%%");
+                vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
+                vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
 
+            } else {
+                vRip.push_back("               _______  ___");
+                vRip.push_back("              |       \\/   |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |"); iInfoLine = vRip.size();
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |           <");
+                vRip.push_back("              |   _        |");
+                vRip.push_back("              |__/         |");
+                vRip.push_back("   ______.__%_|            |__________  _");
+                vRip.push_back(" _/                                   \\| \\"); iNameLine = vRip.size();
+                vRip.push_back("|                                         <");
+                vRip.push_back("|                                         |"); iMaxWidth = vRip[vRip.size()-1].length();
+                vRip.push_back("|                                         |");
+                vRip.push_back("|_____.-._______            __/|__________|");
+                vRip.push_back("             % / `_-.   _  |%");
+                vRip.push_back("         * .%%|  |_) | |_)< @%%%");
+                vRip.push_back("         `\\%`@|  | \\ | |   |@@%@%%");
+                vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
+                vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
+            }
         } else {
-            vRip.push_back("               _______  ___");
-            vRip.push_back("              |       \\/   |");
-            vRip.push_back("              |            |");
-            vRip.push_back("              |            |"); iInfoLine = vRip.size();
-            vRip.push_back("              |            |");
-            vRip.push_back("              |            |");
-            vRip.push_back("              |            |");
-            vRip.push_back("              |            |");
-            vRip.push_back("              |           <");
-            vRip.push_back("              |   _        |");
-            vRip.push_back("              |__/         |");
-            vRip.push_back("   ______.__%_|            |__________  _");
-            vRip.push_back(" _/                                   \\| \\");
-            vRip.push_back("|                                         <"); iNameLine = vRip.size();
-            vRip.push_back("|                                         |"); iMaxWidth = vRip[vRip.size()-1].length();
-            vRip.push_back("|                                         |");
-            vRip.push_back("|_____.-._______            __/|__________|");
-            vRip.push_back("             % / `_-.   _  |%");
-            vRip.push_back("         * .%%|  |_) | |_)-< @%%%");
-            vRip.push_back("         `\\%`@|  | \\ | |   |@@%@%%");
-            vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
-            vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
+            vRip.push_back("           _________  ____           ");
+            vRip.push_back("         _/         `/    \\_         ");
+            vRip.push_back("       _/      _     _      \\_.      ");
+            vRip.push_back("     _%\\      |_) | |_)       \\_     ");
+            vRip.push_back("   _/ \\/      | \\ | |           \\_   ");
+            vRip.push_back(" _/                               \\_ ");
+            vRip.push_back("|                                   |"); iNameLine = vRip.size();
+            vRip.push_back(" )                                 < ");
+            vRip.push_back("|                                   |");
+            vRip.push_back("|                                   |");
+            vRip.push_back("|   _                               |");
+            vRip.push_back("|__/                                |"); iMaxWidth = vRip[vRip.size()-1].length();
+            vRip.push_back(" / `--.                             |");
+            vRip.push_back("|                                  ( "); iInfoLine = vRip.size();
+            vRip.push_back("|                                   |");
+            vRip.push_back(" \\_                               _/");
+            vRip.push_back("   \\_%                         ._/  ");
+            vRip.push_back("   @`\\_                       _/%%  ");
+            vRip.push_back("  %@%@%\\_              *    _/%`%@% ");
+            vRip.push_back(" %@@@.%@%\\%%           `\\ %%.%%@@%@");
+            vRip.push_back("@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@");
         }
 
         const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
@@ -835,11 +859,10 @@ void game::cleanup_at_end(){
         wprintz(w_rip, c_magenta, ssTemp.str().c_str());
 
         sTemp = _("In memory of:");
-        mvwprintz(w_rip, iNameLine, (FULL_SCREEN_WIDTH/2) - ((sTemp + " " + u.name).length()/2), c_ltgray, sTemp.c_str());
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH/2) - (sTemp.length()/2), c_ltgray, sTemp.c_str());
 
-        sTemp = " " + u.name;
-        wprintz(w_rip, c_white, sTemp.c_str());
-        iNameLine++;
+        sTemp = u.name;
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH/2) - (sTemp.length()/2), c_white, sTemp.c_str());
 
         sTemp = _("Last Words:");
         mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH/2) - (sTemp.length()/2), c_ltgray, sTemp.c_str());
@@ -847,8 +870,8 @@ void game::cleanup_at_end(){
         long cInput = '\n';
         int iPos = -1;
         int iStartX = (FULL_SCREEN_WIDTH/2) - ((iMaxWidth-4)/2);
-        std::string sLastWords = string_input_win(w_rip, "", iMaxWidth-4,
-                                                  iStartX, iNameLine, iStartX + iMaxWidth-4,
+        std::string sLastWords = string_input_win(w_rip, "", iMaxWidth-4-1,
+                                                  iStartX, iNameLine, iStartX + iMaxWidth-4-1,
                                                   true, cInput, iPos);
 
         death_screen();
