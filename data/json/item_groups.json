@@ -264,6 +264,7 @@
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
       ["leathersandals", 25],
+      ["phonebook", 5],
       ["survnote", 1]
     ]
   },{
@@ -2829,6 +2830,46 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "traveler",
+    "items":[
+      ["roadmap", 6],
+      ["touristmap", 4],
+      ["lighter", 60],
+      ["cig", 40],
+      ["blazer", 15],
+      ["jeans", 90],
+      ["under_armor", 15],
+      ["under_armor_shorts", 15],
+      ["shorts", 80],
+      ["tshirt", 80],
+      ["bandana", 15],
+      ["towel", 90],
+      ["cash_card", 90],
+      ["longshirt", 80],
+      ["shorts_cargo", 50],
+      ["pants_cargo", 70],
+      ["hoodie", 65],
+      ["skirt", 75],
+      ["jacket_light", 50],
+      ["jacket_jean", 30],
+      ["jacket_leather", 30],
+      ["bra", 30],
+      ["undershirt", 30],
+      ["boxer_shorts", 30],
+      ["briefs", 15],
+      ["panties", 30],
+      ["boy_shorts", 25],
+      ["sweatshirt", 75],
+      ["backpack", 38],
+      ["suitcase_m", 99],
+      ["suitcase_l", 55],
+      ["duffelbag", 20],
+      ["pockknife", 14],
+      ["touring_suit", 20],
+      ["helmet_motor", 14]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "novels",
     "items":[
       ["novel_romance", 30],
@@ -2913,8 +2954,10 @@
       ["novel_crime", 20],
       ["novel_horror", 18],
       ["novel_tragedy", 8],
+      ["phonebook", 8],
       ["holybook_bible1", 2],
       ["holybook_bible2", 2],
+      ["holybook_bible3", 1],
       ["holybook_quran", 2],
       ["holybook_hadith", 2],
       ["holybook_talmud", 2],
@@ -3595,6 +3638,7 @@
       ["recipe_augs", 3],
       ["holybook_bible1", 4],
       ["holybook_bible2", 3],
+      ["holybook_bible3", 6],
       ["holybook_quran", 3],
       ["holybook_hadith", 3],
       ["holybook_talmud", 2],
