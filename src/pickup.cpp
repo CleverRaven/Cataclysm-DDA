@@ -219,15 +219,15 @@ void Pickup::pick_up(int posx, int posy, int min)
 
     if (min == -1 && OPTIONS["AUTO_PICKUP_ADJACENT"]) {
         //Autopickup adjacent
-        direction adjecentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
+        direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
         for (int i=0; i < 8; i++) {
-            vItemIndex[adjecentDir[i]] = 0;
+            vItemIndex[adjacentDir[i]] = 0;
 
-            std::pair<int, int> pairDir = direction_XY(adjecentDir[i]);
+            std::pair<int, int> pairDir = direction_XY(adjacentDir[i]);
             std::vector<item> hereTemp = g->m.i_at(posx + pairDir.first, posy + pairDir.second);
 
             for (int j=0; j < hereTemp.size(); j++) {
-                vItemDir.push_back(adjecentDir[i]);
+                vItemDir.push_back(adjacentDir[i]);
                 here.push_back(hereTemp[j]);
             }
         }

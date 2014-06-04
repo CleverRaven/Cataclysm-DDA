@@ -2538,8 +2538,6 @@ input_context game::get_player_input(std::string &action)
                     WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
-                std::stringstream ssTemp;
-
                 //Erase previous drops from w_terrain
                 for (size_t i = 0; i < wPrint.vdrops.size(); ++i) {
                     m.drawsq(w_terrain, u,
