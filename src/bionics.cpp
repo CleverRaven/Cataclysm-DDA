@@ -892,9 +892,9 @@ bool player::uninstall_bionic(bionic_id b_id)
 
     use_charges("1st_aid", 1);
 
-    practice(calendar::turn, "electronics", int((100 - chance_of_success) * 1.5));
-    practice(calendar::turn, "firstaid", int((100 - chance_of_success) * 1.0));
-    practice(calendar::turn, "mechanics", int((100 - chance_of_success) * 0.5));
+    practice( "electronics", int((100 - chance_of_success) * 1.5) );
+    practice( "firstaid", int((100 - chance_of_success) * 1.0) );
+    practice( "mechanics", int((100 - chance_of_success) * 0.5) );
 
     int success = chance_of_success - rng(1, 100);
 
@@ -952,9 +952,9 @@ bool player::install_bionics(it_bionic *type)
         }
     }
 
-    practice(calendar::turn, "electronics", int((100 - chance_of_success) * 1.5));
-    practice(calendar::turn, "firstaid", int((100 - chance_of_success) * 1.0));
-    practice(calendar::turn, "mechanics", int((100 - chance_of_success) * 0.5));
+    practice( "electronics", int((100 - chance_of_success) * 1.5) );
+    practice( "firstaid", int((100 - chance_of_success) * 1.0) );
+    practice( "mechanics", int((100 - chance_of_success) * 0.5) );
     int success = chance_of_success - rng(1, 100);
     if (success > 0) {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),

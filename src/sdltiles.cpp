@@ -1132,64 +1132,13 @@ WINDOW *curses_init(void)
     lastchar = -1;
     inputdelay = -1;
 
-    std::string typeface = "Terminus";
-    std::string blending = "solid";
-    std::ifstream fin;
-    bool legacy_fontdata_loaded = false;
-    int fontsize = 0; //actuall size
-    fin.open(FILENAMES["fontdata"].c_str());
-    if (!fin.is_open()){
-        fin.open(FILENAMES["legacy_fontdata"].c_str());
-        if( !fin.is_open() ) {
-            fontwidth = 8;
-            fontheight = 16;
-            assure_dir_exist(FILENAMES["config_dir"]);
-            std::ofstream fout;//create FONDATA file
-            fout.open(FILENAMES["fontdata"].c_str());
-            if(fout.is_open()) {
-                fout << typeface << "\n";
-                fout << fontwidth << "\n";
-                fout << fontheight;
-                fout.close();
-            }
-        } else {
-            legacy_fontdata_loaded = true;
-        }
-    }
-    if( fin.is_open() ) {
-        getline(fin, typeface);
-        fin >> fontwidth;
-        fin >> fontheight;
-        fin >> fontsize;
-        fin >> blending;
-        if ((fontwidth <= 4) || (fontheight <= 4)) {
-            fontheight = 16;
-            fontwidth = 8;
-        }
-        fin.close();
-    }
-
-    if( legacy_fontdata_loaded ) {
-        // Write FONDATA file to new location.
-        assure_dir_exist(FILENAMES["config_dir"]);
-        std::ofstream fout;
-        fout.open(FILENAMES["fontdata"].c_str());
-        if(fout.is_open()) {
-            fout << typeface << "\n";
-            fout << fontwidth << "\n";
-            fout << fontheight;
-            fout.close();
-        }
-    }
-
-    fontblending = (blending=="blended");
-
-    std::string map_typeface = typeface;
-    int map_fontwidth = fontwidth;
-    int map_fontheight = fontheight;
-    int map_fontsize = fontsize;
-
-    std::ifstream jsonstream(FILENAMES["second_fontdata"].c_str(), std::ifstream::binary);
+    std::string typeface, map_typeface;
+    int fontsize = 8;
+    int map_fontwidth = 8;
+    int map_fontheight = 16;
+    int map_fontsize = 8;
+ 
+    std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
         JsonIn json(jsonstream);
         JsonObject config = json.get_object();
@@ -1202,6 +1151,50 @@ WINDOW *curses_init(void)
         map_fontheight = config.get_int("map_fontheight", fontheight);
         map_fontsize = config.get_int("map_fontsize", fontsize);
         map_typeface = config.get_string("map_typeface", typeface);
+        jsonstream.close();
+    } else { // User fontdata is missed. Try to load legacy fontdata.
+        std::ifstream InStream(FILENAMES["legacy_fontdata"].c_str(), std::ifstream::binary);
+        if(InStream.good()) {
+            JsonIn jIn(InStream);
+            JsonObject config = jIn.get_object();
+            fontblending = config.get_bool("fontblending", fontblending);
+            fontwidth = config.get_int("fontwidth", fontwidth);
+            fontheight = config.get_int("fontheight", fontheight);
+            fontsize = config.get_int("fontsize", fontsize);
+            typeface = config.get_string("typeface", typeface);
+            map_fontwidth = config.get_int("map_fontwidth", fontwidth);
+            map_fontheight = config.get_int("map_fontheight", fontheight);
+            map_fontsize = config.get_int("map_fontsize", fontsize);
+            map_typeface = config.get_string("map_typeface", typeface);
+            InStream.close();
+            // Save legacy as user fontdata.
+            assure_dir_exist(FILENAMES["config_dir"]);
+            std::ofstream OutStream(FILENAMES["fontdata"].c_str(), std::ofstream::binary);
+            if(!OutStream.good()) {
+                DebugLog() << "Can't save user fontdata file.\n"
+                << "Check permissions for: " << FILENAMES["fontdata"].c_str();
+                return NULL;
+            }
+            JsonOut jOut(OutStream, true); // pretty-print
+            jOut.start_object();
+            jOut.member("fontblending", fontblending);
+            jOut.member("fontwidth", fontwidth);
+            jOut.member("fontheight", fontheight);
+            jOut.member("fontsize", fontsize);
+            jOut.member("typeface", typeface);
+            jOut.member("map_fontwidth", map_fontwidth);
+            jOut.member("map_fontheight", map_fontheight);
+            jOut.member("map_fontsize", map_fontsize);
+            jOut.member("map_typeface", map_typeface);
+            jOut.end_object();
+            OutStream << "\n";
+            OutStream.close();
+        } else {
+            DebugLog() << "Can't load fontdata files.\n"
+            << "Check permissions for:\n" << FILENAMES["legacy_fontdata"].c_str() << "\n"
+            << FILENAMES["fontdata"].c_str() << "\n";
+            return NULL;
+        }
     }
 
     if(!InitSDL()) {

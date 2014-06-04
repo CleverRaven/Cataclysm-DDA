@@ -358,7 +358,7 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     // High perception allows you to pick out details better, low perception interferes.
     const bool train_skill = weapon_dispersion < player_dispersion + rng(0, get_per());
     if( train_skill ) {
-        practice(calendar::turn, skill_used, 4 + (num_shots / 2));
+        practice( skill_used, 4 + (num_shots / 2));
     } else if( one_in(30) ) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
@@ -514,15 +514,15 @@ void player::fire_gun(int tarx, int tary, bool burst) {
         }
 
         if (!train_skill) {
-            practice(calendar::turn, skill_used, 0); // practice, but do not train
+            practice( skill_used, 0 ); // practice, but do not train
         } else if (missed_by <= .1) {
-            practice(calendar::turn, skill_used, 5);
+            practice( skill_used, 5 );
         } else if (missed_by <= .2) {
-            practice(calendar::turn, skill_used, 3);
+            practice( skill_used, 3 );
         } else if (missed_by <= .4) {
-            practice(calendar::turn, skill_used, 2);
+            practice( skill_used, 2 );
         } else if (missed_by <= .6) {
-            practice(calendar::turn, skill_used, 1);
+            practice( skill_used, 1 );
         }
 
     }
@@ -532,9 +532,9 @@ void player::fire_gun(int tarx, int tary, bool burst) {
     }
 
     if( train_skill ) {
-        practice(calendar::turn, "gun", 5);
+        practice( "gun", 5 );
     } else {
-        practice(calendar::turn, "gun", 0);
+        practice( "gun", 0 );
     }
 }
 
@@ -661,22 +661,38 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 goodhit = double(double(rand() / RAND_MAX) / 2);
             }
 
+            game_message_type gmtSCTcolor = m_good;
+
             if (goodhit < .1 && !z.has_flag(MF_NOHEAD)) {
                 message = _("Headshot!");
+                gmtSCTcolor = m_headshot;
                 dam = rng(dam, dam * 3);
-                p.practice(calendar::turn, "throw", 5);
+                p.practice( "throw", 5 );
                 p.lifetime_stats()->headshots++;
             } else if (goodhit < .2) {
                 message = _("Critical!");
+                gmtSCTcolor = m_critical;
                 dam = rng(dam, dam * 2);
-                p.practice(calendar::turn, "throw", 2);
+                p.practice( "throw", 2 );
             } else if (goodhit < .4) {
                 dam = rng(int(dam / 2), int(dam * 1.5));
             } else if (goodhit < .5) {
                 message = _("Grazing hit.");
+                gmtSCTcolor = m_grazing;
                 dam = rng(0, dam);
             }
             if (u_see(tx, ty)) {
+                //player hits monster thrown
+                nc_color color;
+                std::string health_bar = "";
+                get_HP_Bar(dam, z.get_hp_max(), color, health_bar, true);
+
+                SCT.add(z.xpos(),
+                        z.ypos(),
+                        direction_from(0, 0, z.xpos() - p.posx, z.ypos() - p.posy),
+                        health_bar.c_str(), m_good,
+                        message, gmtSCTcolor);
+
                 p.add_msg_player_or_npc(m_good, _("%s You hit the %s for %d damage."),
                     _("%s <npcname> hits the %s for %d damage."),
                     message.c_str(), z.name().c_str(), dam);

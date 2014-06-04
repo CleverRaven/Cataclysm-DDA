@@ -221,7 +221,7 @@ void iexamine::atm(player *p, map *m, int examx, int examy) {
 
         max = with->charges;
         std::string popupmsg=string_format(ngettext("Transfer how much? Max:%d cent. (0 to cancel) ",
-                                                    "Transfer how much? Max:%d cents. (0 to cancel) ", 
+                                                    "Transfer how much? Max:%d cents. (0 to cancel) ",
                                                     max),
                                            max);
         amount = helper::to_int( string_input_popup( popupmsg, 20,
@@ -489,7 +489,7 @@ void iexamine::cardreader(player *p, map *m, int examx, int examy) {
                            query_yn(_("Use fingerhack on the reader?")));
   if (using_electrohack || using_fingerhack) {
    p->moves -= 500;
-   p->practice(calendar::turn, "computer", 20);
+   p->practice( "computer", 20 );
    int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
    success += rng(-3, 3);
    if (using_fingerhack)
@@ -1390,12 +1390,14 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
         case 1:
             add_msg(_("It is about halfway done fermenting.")); break;
         case 2:
-            add_msg(_("It will be ready for bottling soon.")); break; //More messages can be added to show progress if desired
+            add_msg(_("It will be ready for bottling soon.")); break;
+            // More messages can be added to show progress if desired
         default:
-            if ( (calendar::turn.get_turn() > (brew_i.bday + brew_time) ) //Double-checking that the brew is actually ready
-            && m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?")) )
-            {
-                itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(5); //declare fermenting result as the brew's ID minus "brew_"
+            // Double-checking that the brew is actually ready
+            if( (calendar::turn.get_turn() > (brew_i.bday + brew_time) ) &&
+                m->furn(examx, examy) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
+                //declare fermenting result as the brew's ID minus "brew_"
+                itype_id alcoholType = m->i_at(examx, examy)[0].typeId().substr(5);
                 SkillLevel& cooking = p->skillLevel("cooking");
                 if (alcoholType=="hb_beer" && cooking<5)
                     alcoholType=alcoholType.substr(3); //hb_beer -> beer
@@ -1406,11 +1408,8 @@ void iexamine::fvat_full(player *p, map *m, int examx, int examy) {
                 m->i_at(examx, examy).push_back(booze);
                 p->moves -= 500;
 
-                p->practice( calendar::turn, "cooking", std::min(brew_time/600, 72) ); //low xp: you also get xp from crafting the brew
-                /*if ((cooking<4 && !one_in(cooking)) || (cooking>=4 && !one_in(4))) { //Couldn't figure out how to spawn yeast
-                    add_msg(_("You manage to retrieve some yeast from the vat!"));  //directly into the player's inventory,
-                    // add_item(???)                                                   //then decided that yeast culturing was
-                }                                                                      //a better idea. */
+                //low xp: you also get xp from crafting the brew
+                p->practice( "cooking", std::min(brew_time/600, 72) );
                 add_msg(_("The %s is now ready for bottling."), booze.name.c_str());
             }
         }
@@ -1590,9 +1589,9 @@ void iexamine::pick_plant(player *p, map *m, int examx, int examy,
 
     SkillLevel& survival = p->skillLevel("survival");
     if (survival < 1) {
-        p->practice(calendar::turn, "survival", rng(5, 12));
+        p->practice( "survival", rng(5, 12) );
     } else if (survival < 6) {
-        p->practice(calendar::turn, "survival", rng(1, 12 / survival));
+        p->practice("survival", rng(1, 12 / survival) );
     }
 
     int plantCount = rng(survival / 2, survival);
@@ -1951,6 +1950,11 @@ void iexamine::reload_furniture(player *p, map *m, const int examx, const int ex
 }
 
 void iexamine::curtains(player *p, map *m, const int examx, const int examy) {
+    if (m->is_outside(p->posx, p->posy)) {
+        p->add_msg_if_player( _("You cannot get to the curtains from the outside."));
+        return;
+    }
+
     // Peek through the curtains, or tear them down.
     int choice = menu( true, _("Do what with the curtains?"),
                        _("Peek through the curtains."), _("Tear down the curtains."),

@@ -323,9 +323,9 @@ void player::normalize()
     ret_null = item("null", 0);
     weapon   = item("null", 0);
     style_selected = "style_none";
-    
+
     recalc_hp();
-    
+
     for (int i = 0 ; i < num_bp; i++)
         temp_conv[i] = BODYTEMP_NORM;
 }
@@ -2357,7 +2357,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
    // Default to not training and not rusting
    nc_color text_color = c_blue;
    bool training = level.isTraining();
-   bool rusting = level.isRusting(calendar::turn);
+   bool rusting = level.isRusting();
 
    if(training && rusting)
    {
@@ -2886,7 +2886,7 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
 
     bool isLearning = level.isTraining();
     int exercise = level.exercise();
-    bool rusting = level.isRusting(calendar::turn);
+    bool rusting = level.isRusting();
 
     if (i == line) {
       selectedSkill = aSkill;
@@ -2931,7 +2931,7 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
       Skill *thisSkill = skillslist[i];
       SkillLevel level = skillLevel(thisSkill);
       bool isLearning = level.isTraining();
-      bool rusting = level.isRusting(calendar::turn);
+      bool rusting = level.isRusting();
 
       if (rusting)
        status = isLearning ? c_ltred : c_red;
@@ -3990,7 +3990,7 @@ void player::pause()
 
     // Train swimming if underwater
     if (underwater) {
-        practice(calendar::turn, "swimming", 1);
+        practice( "swimming", 1 );
         if (g->temperature <= 50) {
             drench(100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
                            mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_feet)|mfb(bp_hands));
@@ -4006,7 +4006,7 @@ void player::pause()
         veh = vehs[v].v;
         if (veh && veh->velocity != 0 && veh->player_in_control(this)) {
             if (one_in(10)) {
-                practice(calendar::turn, "driving", 1);
+                practice( "driving", 1 );
             }
             break;
         }
@@ -4274,8 +4274,21 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
     }
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( g->u_see( this->posx, this->posy ) ) {
-        g->draw_hit_player(this);
+    if(g->u_see(this->posx, this->posy)) {
+        g->draw_hit_player(this, dam);
+
+        if (dam > 0 && is_player() && source) {
+            //monster hits player melee
+            nc_color color;
+            std::string health_bar = "";
+            get_HP_Bar(dam, this->get_hp_max(bodypart_to_hp_part(bp, side)), color, health_bar);
+
+            SCT.add(this->xpos(),
+                    this->ypos(),
+                    direction_from(0, 0, this->xpos() - source->xpos(), this->ypos() - source->ypos()),
+                    health_bar.c_str(), m_bad,
+                    body_part_name(bp, side), m_neutral);
+        }
     }
 
     // handle snake artifacts
@@ -4329,10 +4342,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp,
             slime.friendly = -1;
             g->add_zombie(slime);
         }
-    }
-
-    if( g->u_see( this->xpos(), this->ypos() ) ) {
-        g->draw_hit_player(this);
     }
 
     if (has_trait("ADRENALINE") && !has_disease("adrenaline") &&
@@ -4992,11 +5001,17 @@ void player::add_disease(dis_type type, int duration, bool permanent,
         i++;
     }
     if (!found) {
-        if (!is_npc()) {
-            dis_msg(type);
-        }
         disease tmp(type, duration, intensity, part, side, permanent, decay);
         illness.push_back(tmp);
+
+        if (!is_npc()) {
+            if (dis_msg(type)) {
+                SCT.add(this->xpos(),
+                        this->ypos(),
+                        SOUTH,
+                        dis_name(tmp), m_info);
+            }
+        }
     }
 
     recalc_sight_limits();
@@ -7879,9 +7894,9 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         }
     } else {
         if (comest->fun < 0) {
-            add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, false, comest);
+            add_morale(MORALE_FOOD_BAD, comest->fun, comest->fun * 6, 60, 30, false, comest);
         } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
+            add_morale(MORALE_FOOD_GOOD, comest->fun, comest->fun * 4, 60, 30, false, comest);
         }
         if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             add_msg_if_player(_("You can't finish it all!"));
@@ -9698,6 +9713,12 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
                 : _("Your %s is %s!");
             add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
                                       damage_verb.c_str());
+            //item is damaged
+            SCT.add(this->xpos(),
+                    this->ypos(),
+                    NORTH,
+                    pre_damage_name, m_neutral,
+                    damage_verb, m_info);
         }
     }
     return armor_damaged;
@@ -10062,14 +10083,12 @@ int player::adjust_for_focus(int amount)
     return ret;
 }
 
-void player::practice (const calendar& turn, Skill *s, int amount, int cap)
+void player::practice( Skill *s, int amount, int cap )
 {
     SkillLevel& level = skillLevel(s);
     // Double amount, but only if level.exercise isn't a small negative number?
-    if (level.exercise() < 0)
-    {
-        if (amount >= -level.exercise())
-        {
+    if (level.exercise() < 0) {
+        if (amount >= -level.exercise()) {
             amount -= level.exercise();
         } else {
             amount += amount;
@@ -10081,13 +10100,10 @@ void player::practice (const calendar& turn, Skill *s, int amount, int cap)
     Skill *savantSkill = NULL;
     SkillLevel savantSkillLevel = SkillLevel();
 
-    if (isSavant)
-    {
+    if (isSavant) {
         for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-             aSkill != Skill::skills.end(); ++aSkill)
-        {
-            if (skillLevel(*aSkill) > savantSkillLevel)
-            {
+             aSkill != Skill::skills.end(); ++aSkill) {
+            if (skillLevel(*aSkill) > savantSkillLevel) {
                 savantSkill = *aSkill;
                 savantSkillLevel = skillLevel(*aSkill);
             }
@@ -10107,56 +10123,56 @@ void player::practice (const calendar& turn, Skill *s, int amount, int cap)
         }
     }
     if (has_trait("PRED3") && s->is_combat_skill()) {
-      amount *= 2;
+        amount *= 2;
     }
 
     if (has_trait("PRED4") && s->is_combat_skill()) {
-      amount *= 3;
+        amount *= 3;
     }
 
-    if (isSavant && s != savantSkill)
-    {
+    if (isSavant && s != savantSkill) {
         amount /= 2;
     }
 
-    if (skillLevel(s) > cap) //blunt grinding cap implementation for crafting
-    {
+    if (skillLevel(s) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
         int curLevel = skillLevel(s);
         if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
-            add_msg(m_info, _("This task is too simple to train your %s beyond %d."), s->name().c_str(), curLevel);
+            add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
+                    s->name().c_str(), curLevel);
         }
     }
 
-    if (amount > 0 && level.isTraining())
-    {
+    if (amount > 0 && level.isTraining()) {
         int oldLevel = skillLevel(s);
         skillLevel(s).train(amount);
         int newLevel = skillLevel(s);
         if (is_player() && newLevel > oldLevel) {
             add_msg(m_good, _("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
         }
-        if(is_player() && newLevel > cap) { //inform player immediately that the current recipe can't be used to train further
-            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."), s->name().c_str());
+        if(is_player() && newLevel > cap) {
+            //inform player immediately that the current recipe can't be used to train further
+            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
+                    s->name().c_str());
         }
 
         int chance_to_drop = focus_pool;
         focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") && s->is_combat_skill())))
-        {
+        if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") &&
+                                                          s->is_combat_skill()))) {
             focus_pool--;
         }
     }
 
-    skillLevel(s).practice(turn);
+    skillLevel(s).practice();
 }
 
-void player::practice (const calendar& turn, std::string s, int amount)
+void player::practice( std::string s, int amount, int cap )
 {
     Skill *aSkill = Skill::skill(s);
-    practice(turn, aSkill, amount);
+    practice( aSkill, amount, cap );
 }
 
 bool player::knows_recipe(recipe *rec)
@@ -10594,6 +10610,18 @@ int player::get_hp( hp_part bp )
     int hp_total = 0;
     for( int i = 0; i < num_hp_parts; ++i ) {
         hp_total += hp_cur[i];
+    }
+    return hp_total;
+}
+
+int player::get_hp_max( hp_part bp )
+{
+    if( bp < num_hp_parts ) {
+        return hp_max[bp];
+    }
+    int hp_total = 0;
+    for( int i = 0; i < num_hp_parts; ++i ) {
+        hp_total += hp_max[i];
     }
     return hp_total;
 }

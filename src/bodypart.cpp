@@ -17,7 +17,7 @@ std::string body_part_name (body_part bp, int side)
         return _("torso");
     case bp_arms:
         if (side == 0) {
-            return _("left arm");
+            return  _("left arm");
         }
         if (side == 1) {
             return _("right arm");

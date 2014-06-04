@@ -591,7 +591,8 @@ void complete_construction()
 {
     construction *built = constructions[g->u.activity.index];
 
-    g->u.practice(calendar::turn, built->skill, std::max(built->difficulty, 1) * 10);
+    g->u.practice( built->skill, std::max(built->difficulty, 1) * 10,
+                   (int)(built->difficulty * 1.25) );
     for (int i = 0; i < built->components.size(); i++) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.

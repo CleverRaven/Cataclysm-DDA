@@ -11,9 +11,8 @@
 #include "cursesdef.h"
 
 void player_hit_message(player* attacker, std::string message,
-                        std::string target_name, int dam, bool crit);
-void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
-                    bool bashing, bool cutting, bool stabbing);
+                        Creature &t, int dam, bool crit);
+void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
 int  attack_speed(player &u);
 int  stumble(player &u);
 std::string melee_message(matec_id tech, player &p, int bash_dam, int cut_dam, int stab_dam);
@@ -214,7 +213,6 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
     }
 
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
-    std::string target_name = t.disp_name();
 
     int move_cost = attack_speed(*this);
 
@@ -244,12 +242,13 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         }
 
         if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
-            melee_practice(calendar::turn, *this, false, unarmed_attack(),
-                        weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
-                        (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
+            melee_practice( *this, false, unarmed_attack(),
+                            weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
+                            (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
         move_cost += stumble_pen;
-        if (has_miss_recovery_tec())
+        if (has_miss_recovery_tec()) {
             move_cost = rng(move_cost / 3, move_cost);
+        }
     } else {
         int bash_dam = roll_bash_damage(false);
         int cut_dam  = roll_cut_damage(false);
@@ -299,17 +298,21 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
         bool cutting = (d.type_damage(DT_CUT) >= 10);
         bool stabbing = (d.type_damage(DT_STAB) >= 10);
 
-        if (!has_active_bionic("bio_cqb")) //no practice if you're relying on bio_cqb to fight for you
-            melee_practice(calendar::turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
+        if (!has_active_bionic("bio_cqb")) {
+            //no practice if you're relying on bio_cqb to fight for you
+            melee_practice( *this, true, unarmed_attack(), bashing, cutting, stabbing );
+        }
 
-        if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
+        if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE)) {
             healall( rng(dam / 10, dam / 5) );
+        }
 
         message = melee_message(technique.id, *this, bash_dam, cut_dam, stab_dam);
-        player_hit_message(this, message, target_name, dam, critical_hit);
+        player_hit_message(this, message, t, dam, critical_hit);
 
-        if (!specialmsg.empty())
+        if (!specialmsg.empty()) {
             add_msg_if_player(specialmsg.c_str());
+        }
     }
 
     mod_moves(-move_cost);
@@ -1849,11 +1852,14 @@ std::string melee_message(matec_id tec_id, player &p, int bash_dam, int cut_dam,
 
 // display the hit message for an attack
 void player_hit_message(player* attacker, std::string message,
-                        std::string target_name, int dam, bool crit)
+                        Creature &t, int dam, bool crit)
 {
     std::string msg;
     game_message_type msgtype;
     msgtype = m_good;
+    std::string sSCTmod = "";
+    game_message_type gmtSCTcolor = m_good;
+
     if (dam <= 0) {
         if (attacker->is_npc()) {
             //~ NPC hits something but does no damage
@@ -1867,6 +1873,8 @@ void player_hit_message(player* attacker, std::string message,
         //~ someone hits something for %d damage (critical)
         msg = string_format(_("%s for %d damage. Critical!"),
                             message.c_str(), dam);
+        sSCTmod = _("Critical!");
+        gmtSCTcolor = m_critical;
         if (!attacker->is_npc()) {
             msgtype = m_good;
         }
@@ -1878,14 +1886,40 @@ void player_hit_message(player* attacker, std::string message,
         }
     }
 
+    if (dam > 0) {
+        //player hits monster melee
+        nc_color color;
+        std::string health_bar = "";
+        get_HP_Bar(dam, t.get_hp_max(), color, health_bar, true);
+
+        SCT.add(t.xpos(),
+                t.ypos(),
+                direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
+                health_bar, m_good,
+                sSCTmod, gmtSCTcolor);
+
+        if (t.get_hp() > 0) {
+            get_HP_Bar(t.get_hp(), t.get_hp_max(), color, health_bar, true);
+
+            SCT.add(t.xpos(),
+                    t.ypos(),
+                    direction_from(0, 0, t.xpos() - attacker->posx, t.ypos() - attacker->posy),
+                    health_bar, m_good,
+                    "hp", m_neutral,
+                    "hp");
+        } else {
+            SCT.removeCreatureHP();
+        }
+    }
+
     // same message is used for player and npc,
     // just using this for the <npcname> substitution.
     attacker->add_msg_player_or_npc(msgtype, msg.c_str(), msg.c_str(),
-                                    target_name.c_str());
+                                    t.disp_name().c_str());
 }
 
-void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
-                    bool bashing, bool cutting, bool stabbing)
+void melee_practice( player &u, bool hit, bool unarmed,
+                     bool bashing, bool cutting, bool stabbing )
 {
     int min = 2;
     int max = 2;
@@ -1897,9 +1931,9 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
     {
         min = 5;
         max = 10;
-        u.practice(turn, "melee", rng(5, 10));
+        u.practice( "melee", rng(5, 10) );
     } else {
-        u.practice(turn, "melee", rng(2, 5));
+        u.practice( "melee", rng(2, 5) );
     }
 
     // type of weapon used determines order of practice
@@ -1937,10 +1971,10 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
         if (stabbing) third  = "stabbing";
     }
 
-    if (unarmed) u.practice(turn, "unarmed", rng(min, max));
-    if (!first.empty())  u.practice(turn, first, rng(min, max));
-    if (!second.empty()) u.practice(turn, second, rng(min, max));
-    if (!third.empty())  u.practice(turn, third, rng(min, max));
+    if (unarmed) u.practice( "unarmed", rng(min, max) );
+    if (!first.empty())  u.practice( first, rng(min, max) );
+    if (!second.empty()) u.practice( second, rng(min, max) );
+    if (!third.empty())  u.practice( third, rng(min, max) );
 }
 
 int attack_speed(player &u)

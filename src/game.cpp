@@ -134,6 +134,7 @@ void game::load_static_data() {
     init_npctalk();
     init_artifacts();
     init_weather();
+    init_weather_anim();
     init_faction_data();
 
     // --- move/delete everything below
@@ -536,6 +537,8 @@ void game::setup()
  events.clear();
 
  calendar::turn.set_season(SUMMER);    // ... with winter conveniently a long ways off   (not sure if we need this...)
+
+ SCT.vSCT.clear(); //Delete pending messages
 
  // reset kill counts
  kills.clear();
@@ -1247,13 +1250,11 @@ void game::rustCheck()
         bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 0;
         int oldSkillLevel = u.skillLevel(*aSkill);
 
-        if (u.skillLevel(*aSkill).rust(calendar::turn, charged_bio_mem))
-        {
+        if (u.skillLevel(*aSkill).rust( charged_bio_mem )) {
             u.power_level--;
         }
         int newSkill =u.skillLevel(*aSkill);
-        if (newSkill < oldSkillLevel)
-        {
+        if (newSkill < oldSkillLevel) {
             add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
                     (*aSkill)->name().c_str(), newSkill);
         }
@@ -1589,7 +1590,7 @@ void game::activity_on_finish_read()
         min_ex *= originalSkillLevel + 1;
         max_ex *= originalSkillLevel + 1;
 
-        u.skillLevel(reading->type).readBook(min_ex, max_ex, calendar::turn, reading->level);
+        u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
 
         add_msg(_("You learn a little about %s! (%d%%)"), reading->type->name().c_str(),
                 u.skillLevel(reading->type).exercise());
@@ -1694,7 +1695,7 @@ void game::activity_on_finish_fish()
             u.add_msg_if_player(_("You catch nothing."));
         }
 
-        u.practice(calendar::turn, "survival", rng(5, 15));
+        u.practice( "survival", rng(5, 15) );
     }
     u.activity.type = ACT_NULL;
 }
@@ -2495,76 +2496,29 @@ input_context game::get_player_input(std::string &action)
 {
     input_context ctxt = get_default_mode_input_context();
 
-    char cGlyph = ',';
-    nc_color colGlyph = c_ltblue;
-    float fFactor = 0.01f;
-
-    bool bWeatherEffect = true;
-    switch(weather) {
-        case WEATHER_ACID_DRIZZLE:
-            cGlyph = '.';
-            colGlyph = c_ltgreen;
-            fFactor = 0.01f;
-            break;
-        case WEATHER_ACID_RAIN:
-            cGlyph = ',';
-            colGlyph = c_ltgreen;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_DRIZZLE:
-            cGlyph = '.';
-            colGlyph = c_ltblue;
-            fFactor = 0.01f;
-            break;
-        case WEATHER_RAINY:
-            cGlyph = ',';
-            colGlyph = c_ltblue;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_THUNDER:
-            cGlyph = '.';
-            colGlyph = c_ltblue;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_LIGHTNING:
-            cGlyph = ',';
-            colGlyph = c_ltblue;
-            fFactor = 0.04f;
-            break;
-        case WEATHER_SNOW:
-            cGlyph = '*';
-            colGlyph = c_white;
-            fFactor = 0.02f;
-            break;
-        case WEATHER_SNOWSTORM:
-            cGlyph = '*';
-            colGlyph = c_white;
-            fFactor = 0.04f;
-            break;
-        default:
-            bWeatherEffect = false;
-            break;
-    }
-
-    if (bWeatherEffect && OPTIONS["RAIN_ANIMATION"]) {
+    if (OPTIONS["ANIMATIONS"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
         int iEndX = (TERRAIN_WINDOW_WIDTH > 121) ? TERRAIN_WINDOW_WIDTH-(TERRAIN_WINDOW_WIDTH-121)/2: TERRAIN_WINDOW_WIDTH;
         int iEndY = (TERRAIN_WINDOW_HEIGHT > 121) ? TERRAIN_WINDOW_HEIGHT-(TERRAIN_WINDOW_HEIGHT-121)/2: TERRAIN_WINDOW_HEIGHT;
 
         if(fullscreen) {
-          iStartX = 0;
-          iStartY = 0;
-          iEndX = TERMX;
-          iEndY = TERMY;
+            iStartX = 0;
+            iStartY = 0;
+            iEndX = TERMX;
+            iEndY = TERMY;
         }
+
         //x% of the Viewport, only shown on visible areas
-        int dropCount = int(iEndX * iEndY * fFactor);
-        //std::vector<std::pair<int, int> > vDrops;
+        const int dropCount = int(iEndX * iEndY * mapWeatherAnim[weather].fFactor);
+        const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
+        const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
+
+        const bool bWeatherEffect = (mapWeatherAnim[weather].cGlyph != '?');
 
         weather_printable wPrint;
-        wPrint.colGlyph = colGlyph;
-        wPrint.cGlyph = cGlyph;
+        wPrint.colGlyph = mapWeatherAnim[weather].colGlyph;
+        wPrint.cGlyph = mapWeatherAnim[weather].cGlyph;
         wPrint.wtype = weather;
         wPrint.vdrops.clear();
         wPrint.startx = iStartX;
@@ -2572,46 +2526,102 @@ input_context game::get_player_input(std::string &action)
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        /*
-        Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
-        Get tile information from above's weather information:
-            WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-            WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
-            WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
-        */
-        int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
-        int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
-
         do {
-            for( size_t i = 0; i < wPrint.vdrops.size(); ++i ) {
-                m.drawsq(w_terrain, u,
-                         //vDrops[i].first - getmaxx(w_terrain)/2 + u.posx + u.view_offset_x,
-                         wPrint.vdrops[i].first + offset_x,
-                         //vDrops[i].second - getmaxy(w_terrain)/2 + u.posy + u.view_offset_y,
-                         wPrint.vdrops[i].second + offset_y,
-                         false,
-                         true,
-                         u.posx + u.view_offset_x,
-                         u.posy + u.view_offset_y);
-            }
+            if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
+                /*
+                Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
+                Get tile information from above's weather information:
+                    WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
+                    WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+                    WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
+                */
 
-            //vDrops.clear();
-            wPrint.vdrops.clear();
+                std::stringstream ssTemp;
 
-            for(int i=0; i < dropCount; i++) {
-                int iRandX = rng(iStartX, iEndX-1);
-                int iRandY = rng(iStartY, iEndY-1);
+                //Erase previous drops from w_terrain
+                for (size_t i = 0; i < wPrint.vdrops.size(); ++i) {
+                    m.drawsq(w_terrain, u,
+                             wPrint.vdrops[i].first + offset_x,
+                             wPrint.vdrops[i].second + offset_y,
+                             false,
+                             true,
+                             u.posx + u.view_offset_x,
+                             u.posy + u.view_offset_y);
+                }
 
-                if (mapRain[iRandY][iRandX]) {
-                    //vDrops.push_back(std::make_pair(iRandX, iRandY));
-                    wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+                wPrint.vdrops.clear();
 
-                    //mvwputch(w_terrain, iRandY, iRandX, colGlyph, cGlyph);
+                for (int i=0; i < dropCount; i++) {
+                    const int iRandX = rng(iStartX, iEndX-1);
+                    const int iRandY = rng(iStartY, iEndY-1);
+
+                    if (mapRain[iRandY][iRandX]) {
+                        wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+                    }
                 }
             }
+
+            if (OPTIONS["ANIMATION_SCT"]) {
+                #ifdef TILES
+                if (!use_tiles) {
+                #endif
+                    for (std::vector<scrollingcombattext::cSCT>::iterator iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter) {
+                        //Erase previous text from w_terrain
+                        if (iter->getStep() > 0) {
+                            for (size_t i = 0; i < iter->getText().length(); ++i) {
+                                if (u_see(iter->getPosX() + i, iter->getPosY())) {
+                                    m.drawsq(w_terrain, u,
+                                             iter->getPosX() + i,
+                                             iter->getPosY(),
+                                             false,
+                                             true,
+                                             u.posx + u.view_offset_x,
+                                             u.posy + u.view_offset_y);
+                                } else {
+                                    const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
+                                    const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
+                                    mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+                                }
+                            }
+                        }
+                    }
+                #ifdef TILES
+                }
+                #endif
+
+                SCT.advanceAllSteps();
+
+                //Check for creatures on all drawing positions and offset if necessary
+                for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter) {
+                    const direction oCurDir = iter->getDirecton();
+
+                    for (int i=0; i < iter->getText().length(); ++i) {
+                        const int dex = mon_at(iter->getPosX() + i, iter->getPosY());
+
+                        if (dex != -1 && u_see(&zombie(dex))) {
+                            i = -1;
+
+                            int iPos = iter->getStep() + iter->getStepOffset();
+                            for (std::vector<scrollingcombattext::cSCT>::reverse_iterator iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2) {
+                                if (iter2->getDirecton() == oCurDir && iter2->getStep() + iter2->getStepOffset() <= iPos) {
+                                    if (iter2->getType() == "hp") {
+                                        iter2->advanceStepOffset();
+                                    }
+
+                                    iter2->advanceStepOffset();
+                                    iPos = iter2->getStep() + iter2->getStepOffset();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             draw_weather(wPrint);
+            draw_sct();
 
             wrefresh(w_terrain);
+
             inp_mngr.set_timeout(125);
         } while (handle_mouseview(ctxt, action));
         inp_mngr.set_timeout(-1);
@@ -4309,7 +4319,7 @@ void game::debug()
       weather_menu.addentry(-11,true,'d',_("View last 800 hours of decay"));
       weather_menu.query();
 
-      if(weather_menu.ret > 0 && weather_menu.ret < NUM_WEATHER_TYPES) {
+      if(weather_menu.ret > 0 && weather_menu.ret <= NUM_WEATHER_TYPES) {
         add_msg(m_info, "%d", weather_menu.selected);
 
         int selected_weather = weather_menu.selected + 1;
@@ -4342,7 +4352,7 @@ void game::debug()
               );
               if ( it->first == cweather ) {
                   weather_log_menu.entries.back().text_color = c_yellow;
-          }
+              }
           }
           weather_log_menu.query();
 
@@ -7378,7 +7388,7 @@ void game::smash()
         u.handle_melee_wear();
         u.moves -= move_cost;
         if (u.skillLevel("melee") == 0) {
-            u.practice(calendar::turn, "melee", rng(0, 1) * rng(0, 1));
+            u.practice( "melee", rng(0, 1) * rng(0, 1) );
         }
         if (u.weapon.made_of("glass") &&
             rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
@@ -9916,7 +9926,7 @@ void game::plthrow(int pos)
  }
 
  u.moves -= move_cost;
- u.practice(calendar::turn, "throw", 10);
+ u.practice( "throw", 10 );
 
  throw_item(u, x, y, thrown, trajectory);
  reenter_fullscreen();
@@ -10225,16 +10235,16 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item>& items = m.i_at(u.posx, u.posy);
     inventory crafting_inv = crafting_inventory(&u);
-    // get corpses first
+    
+    // check if we have a butchering tool
+    if (factor == INT_MAX) {
+        add_msg(m_info, _("You don't have a sharp item to butcher with."));
+        return;
+    }
+    // get corpses
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            if (factor == INT_MAX) {
-                if (!has_corpse) {
-                    add_msg(m_info, _("You don't have a sharp item to butcher with."));
-                }
-            } else {
-                corpses.push_back(i);
-            }
+            corpses.push_back(i);
             has_corpse = true;
         }
     }
@@ -10281,9 +10291,9 @@ void game::butcher()
                 }
             }
             if (it.corpse != NULL) {
-                kmenu.addentry(i, true, hotkey, corpse->name.c_str());
+                kmenu.addentry(i, true, hotkey, corpse->name);
             } else {
-                kmenu.addentry(i, true, hotkey, it.tname().c_str());
+                kmenu.addentry(i, true, hotkey, it.tname());
             }
         }
         kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
@@ -10367,9 +10377,10 @@ void game::complete_butcher(int index)
   skill_shift -= rng(0, factor / 5);
 
  int practice = 4 + pieces;
- if (practice > 20)
-  practice = 20;
- u.practice(calendar::turn, "survival", practice);
+ if (practice > 20) {
+     practice = 20;
+ }
+ u.practice( "survival", practice );
 
  pieces += int(skill_shift);
  if (skill_shift < 5)  { // Lose some skins and bones
@@ -10645,10 +10656,8 @@ void game::forage()
         max_forage_skill =  8;
     }
     //Award experience for foraging attempt regardless of success
-    if (u.skillLevel("survival") < max_forage_skill) {
-        u.practice(calendar::turn, "survival",
-                   rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)));
-    }
+    u.practice( "survival", rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)),
+                max_forage_skill );
 }
 
 void game::eat(int pos)
@@ -11127,7 +11136,7 @@ void game::pldrive(int x, int y) {
     if (veh->skidding && veh->valid_wheel_config()) {
         if (rng (0, veh->velocity) < u.dex_cur + u.skillLevel("driving") * 2) {
             add_msg (_("You regain control of the %s."), veh->name.c_str());
-            u.practice(calendar::turn, "driving", veh->velocity / 5);
+            u.practice( "driving", veh->velocity / 5 );
             veh->velocity = int(veh->forward_velocity());
             veh->skidding = false;
             veh->move.init (veh->turn_dir);
@@ -11139,7 +11148,7 @@ void game::pldrive(int x, int y) {
     }
 
     if (x != 0 && veh->velocity != 0 && one_in(10)) {
-        u.practice(calendar::turn, "driving", 1);
+        u.practice( "driving", 1 );
     }
 }
 
@@ -11973,7 +11982,7 @@ void game::plswim(int x, int y)
   u.remove_effect("onfire");
  }
  int movecost = u.swim_speed();
- u.practice(calendar::turn, "swimming", u.is_underwater() ? 2 : 1);
+ u.practice( "swimming", u.is_underwater() ? 2 : 1 );
  if (movecost >= 500) {
   if (!u.is_underwater() || !u.is_wearing("swim_fins")) {
     add_msg(m_bad, _("You sink like a rock!"));
