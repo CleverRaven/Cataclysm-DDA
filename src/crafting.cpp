@@ -1500,6 +1500,19 @@ void game::complete_craft()
         newit.components.insert(newit.components.begin(), used.begin(), used.end());
     }
 
+    if( !u.knows_recipe( making ) ) {
+        // If we made it, but we don't know it,
+        // we're making it from a book and have a chance to learn it.
+        // Difficulty relative to skill reduces chance of learning.
+        // Duration increases chance to learn.
+        int difficulty = u.has_recipe( making, crafting_inventory( &u ) );
+        if( difficulty - u.get_skill_level( making->skill_used ) >= rng(0, 4) ) {
+            u.learn_recipe( making );
+            add_msg(m_good, _("You memorized the recipe for %s!"),
+                    newit.type->name.c_str());
+        }
+    }
+
     if (newit.is_armor() && newit.has_flag("VARSIZE")) {
         newit.item_tags.insert("FIT");
     }
