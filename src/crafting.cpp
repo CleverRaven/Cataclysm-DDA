@@ -345,7 +345,7 @@ bool game::can_make(recipe *r)
 bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
 {
     bool retval = true;
-    if( !u.knows_or_has_recipe( r, crafting_inv) ) {
+    if( !u.knows_recipe( r ) && -1 == u.has_recipe( r, crafting_inv) ) {
         return false;
     }
     // under the assumption that all comp and tool's array contains
@@ -1307,7 +1307,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     for (recipe_list::iterator iter = available_recipes.begin();
          iter != available_recipes.end(); ++iter) {
         if (subtab == "CSC_ALL" || (*iter)->subcat == subtab || filter != "") {
-            if (!u.knows_or_has_recipe(*iter, crafting_inv)) {
+            if( !u.knows_recipe( *iter ) && -1 == u.has_recipe(*iter, crafting_inv) ) {
                 continue;
             }
 
@@ -1479,6 +1479,7 @@ void game::complete_craft()
         //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
         return;
     }
+
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;

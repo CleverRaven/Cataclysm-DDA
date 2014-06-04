@@ -748,7 +748,9 @@ public:
  // Print a message if print_msg is true and this isn't a NPC
  bool can_pickup(bool print_msg) const;
 
- bool knows_or_has_recipe( const recipe *r, const inventory &crafting_inv ) const;
+ // Checks crafting inventory for books providing the requested recipe.
+ // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
+ int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
  bool knows_recipe( const recipe *rec ) const;
  void learn_recipe( recipe *rec );
 
