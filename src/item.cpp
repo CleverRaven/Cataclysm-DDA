@@ -347,22 +347,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                                  (double)price() / 100, false, "$", true, true));
 
         if (made_of().size() > 0) {
-            std::string text;
             std::string material_list;
-            material_type *next_material;
-            bool first = true;
-            for (auto mat_id : made_of()) {
-                next_material = material_type::find_material(mat_id);
+            bool made_of_something = false;
+            for (auto next_material : made_of_types()) {
                 if (!next_material->is_null()) {
-                    if (!first) {
+                    if (made_of_something) {
                         material_list.append(", ");
                     }
                     material_list.append(next_material->name());
-                    first = false;
+                    made_of_something = true;
                 }
             }
-            text = string_format(_("Material: %s"), material_list.c_str());
-            dump->push_back(iteminfo("BASE", text));
+            if (made_of_something) {
+                dump->push_back(iteminfo("BASE", string_format(_("Material: %s"), material_list.c_str())));
+            }
         }
 
         if ( debug == true ) {
@@ -1860,6 +1858,7 @@ std::set<std::string> item::made_of() const
     std::set<std::string> materials_composed_of;
     if (is_null()) {
         // pass, we're not made of anything at the moment.
+        materials_composed_of.insert("null");
     } else if (is_corpse()) {
         // Corpses are only made of one type of material.
         materials_composed_of.insert(corpse->mat);
@@ -1869,6 +1868,19 @@ std::set<std::string> item::made_of() const
         materials_composed_of = type->materials;
     }
     return materials_composed_of;
+}
+
+std::set<material_type*> item::made_of_types() const
+{
+    std::set<std::string> materials_composed_of = made_of();
+    std::set<material_type*> material_types_composed_of;
+    material_type *next_material;
+
+    for (auto mat_id : materials_composed_of) {
+        next_material = material_type::find_material(mat_id);
+        material_types_composed_of.insert(next_material);
+    }
+    return material_types_composed_of;
 }
 
 bool item::made_of_any(std::set<std::string> mat_idents) const

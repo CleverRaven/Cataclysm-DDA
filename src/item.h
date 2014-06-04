@@ -246,6 +246,11 @@ class item : public JsonSerializer, public JsonDeserializer
          */
         std::set<std::string> made_of() const;
         /**
+         * Material types we are made of, whether or not we're a corpse.
+         * Returns base types.
+         */
+        std::set<material_type*> made_of_types() const;
+        /**
          * Check we are made of at least one of a set (e.g. true if even
          * one item of the passed in set matches).
          * @param mat_idents Set of material ids.
