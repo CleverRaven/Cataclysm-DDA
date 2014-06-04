@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
+#include <set>
 #include "cursesdef.h"
 #include "catacharset.h"
 #include "messages.h"
@@ -3081,14 +3082,12 @@ veh_collision vehicle::part_collision (int part, int x, int y, bool just_detect)
     int degree = rng (70, 100);
 
     //Calculate damage resulting from d_E
-    material_type* vpart_item_mat1 = material_type::find_material(itypes[part_info(parm).item]->m1);
-    material_type* vpart_item_mat2 = material_type::find_material(itypes[part_info(parm).item]->m2);
-    int vpart_dens;
-    if(vpart_item_mat2->ident() == "null") {
-        vpart_dens = vpart_item_mat1->density();
-    } else {
-        vpart_dens = (vpart_item_mat1->density() + vpart_item_mat2->density())/2; //average
+    std::set<std::string> vpart_item_mats = itypes[part_info(parm).item]->materials;
+    int vpart_dens = 0;
+    for (auto mat_id : vpart_item_mats) {
+        vpart_dens += material_type::find_material(mat_id)->density();
     }
+    vpart_dens /= vpart_item_mats.size(); // average
 
     //k=100 -> 100% damage on part
     //k=0 -> 100% damage on obj

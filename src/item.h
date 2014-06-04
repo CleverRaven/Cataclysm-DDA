@@ -242,36 +242,33 @@ class item : public JsonSerializer, public JsonDeserializer
         int acid_resist() const;
         bool is_two_handed(player *u);
         /**
-         * List of materials we are composed of.
-         * @return Set of what we are composed of. An empty set indicates we are
-         * not composed of anything.
+         * Material ids we are made of, whether or not we're a corpse.
          */
         std::set<std::string> made_of() const;
         /**
-         * Are we composed of any of the materials in the list?
-         * @param mat_idents Set of material identifiers.
-         * @return true if there are any matches, false if there are no matches.
+         * Check we are made of at least one of a set (e.g. true if even
+         * one item of the passed in set matches).
+         * @param mat_idents Set of material ids.
          */
         bool made_of_any(std::set<std::string> mat_idents) const;
         /**
-         * Are we composed of any of the materials in the list?
-         * @param mat_idents Set of material identifiers.
-         * @return false if there are any matches, true if there are no matches.
+         * Check we are not made of any of the materials (e.g. false if even
+         * one item of the passed in set matches).
+         * @param mat_idents Set of material ids.
          */
         bool not_made_of(std::set<std::string> mat_idents) const;
         /**
-         * Are we composed of this material (at least one of our materials matches).
-         * @param mat_ident
-         * @return
+         * Check we are made of this material (e.g. matches at least one
+         * in our set.)
+         * @param mat_ident A material id.
          */
         bool made_of(std::string mat_ident) const;
         /**
          * Are we solid, liquid, gas, plasma?
          * @param phase
-         * @return
          */
         bool made_of(phase_id phase) const;
-        // Never returns NULL
+        // Never returns NULL.
         const material_type *get_material(int m) const;
         bool conductive() const; // Electricity
         bool flammable() const;

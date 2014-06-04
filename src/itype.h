@@ -265,6 +265,7 @@ struct itype {
         , color(pcolor)
         , m1(pm1)
         , m2(pm2)
+        , materials()
         , phase(pphase)
         , volume(pvolume)
         , stack_size(0)

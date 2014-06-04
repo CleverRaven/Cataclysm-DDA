@@ -41,15 +41,13 @@ static bool item_inscription( player *p, item *cut, std::string verb, std::strin
         add_msg(m_info, _("You can't %s an item that's not solid!"), lower_verb.c_str());
         return false;
     }
-    if(carveable && !(cut->made_of("wood") || cut->made_of("plastic") || cut->made_of("glass") ||
-                      cut->made_of("chitin") || cut->made_of("iron") || cut->made_of("steel") ||
-                      cut->made_of("silver"))) {
+    if (carveable && !(cut->made_of("wood") || cut->made_of("plastic") || cut->made_of("glass") ||
+                       cut->made_of("chitin") || cut->made_of("iron") || cut->made_of("steel") ||
+                       cut->made_of("silver"))) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
-        std::string mtname = cut->get_material(1)->name();
-        std::transform(mtname.begin(), mtname.end(), mtname.begin(), ::tolower);
-        add_msg(m_info, _("You can't %1$s an item made of %2$s!"),
-                   lower_verb.c_str(), mtname.c_str());
+        add_msg(m_info, _("You can't %1$s %2$s because of the material it is made of."),
+                   lower_verb.c_str(), cut->name.c_str());
         return false;
     }
 

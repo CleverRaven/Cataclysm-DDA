@@ -7416,10 +7416,10 @@ bool player::consume(int pos)
                 }
             }
             int charge = (to_eat->volume() + to_eat->weight()) / 225;
-            if (to_eat->type->m1 == "leather" || to_eat->type->m2 == "leather") {
+            if (to_eat->made_of("leather")) {
                 charge /= 4;
             }
-            if (to_eat->type->m1 == "wood" || to_eat->type->m2 == "wood") {
+            if (to_eat->made_of("wood")) {
                 charge /= 2;
             }
             charge_power(charge);

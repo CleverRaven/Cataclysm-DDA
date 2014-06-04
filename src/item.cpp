@@ -346,13 +346,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
         dump->push_back(iteminfo("BASE", _("Price: "), "<num>",
                                  (double)price() / 100, false, "$", true, true));
 
-        if (!get_material(1)->is_null()) {
+        if (made_of().size() > 0) {
             std::string text;
-            if (get_material(2)->is_null()) {
-                text = string_format(_("Material: %s"), get_material(1)->name().c_str());
-            } else {
-                text = string_format(_("Material: %s, %s"), get_material(1)->name().c_str(), get_material(2)->name().c_str());
+            std::string material_list;
+            material_type *next_material;
+            bool first = true;
+            for (auto mat_id : made_of()) {
+                next_material = material_type::find_material(mat_id);
+                if (!next_material->is_null()) {
+                    if (!first) {
+                        material_list.append(", ");
+                    }
+                    material_list.append(next_material->name());
+                    first = false;
+                }
             }
+            text = string_format(_("Material: %s"), material_list.c_str());
             dump->push_back(iteminfo("BASE", text));
         }
 
@@ -1855,7 +1864,6 @@ std::set<std::string> item::made_of() const
         // Corpses are only made of one type of material.
         materials_composed_of.insert(corpse->mat);
     } else {
-        // WORK IN PROGRESS.
         // Defensive copy of materials. 
         // More idiomatic to return a const reference?
         materials_composed_of = type->materials;
@@ -1891,12 +1899,12 @@ bool item::made_of(std::string mat_ident) const
 {
     if (is_null()) {
         return false;
-    } else if (corpse != NULL && typeId() == "corpse") {
+    } else if (is_corpse()) {
         // Corpses are only made of one type of material.
         return (corpse->mat == mat_ident);
     }
 
-    return (type->m1 == mat_ident || type->m2 == mat_ident);
+    return type->materials.find(mat_ident) != type->materials.end();;
 }
 
 bool item::made_of(phase_id phase) const
