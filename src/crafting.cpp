@@ -232,10 +232,10 @@ bool game::crafting_allowed()
 
 bool game::crafting_can_see()
 {
-    if (u.fine_detail_vision_mod() > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
+    if (u.fine_detail_vision_mod() > 4) {
+        //minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
         add_msg(m_info, _("You can't see to craft!"));
         return false;
-
     }
 
     return true;
@@ -269,10 +269,12 @@ std::string print_missing_objs(const std::vector< std::vector <component> > &obj
             }
             if (!is_tools) {
                 //~ <item-count> <item-name>
-                buffer << string_format(_("%d %s"), abs(comp.count), it->nname(abs(comp.count)).c_str());
+                buffer << string_format(_("%d %s"), abs(comp.count),
+                                        it->nname(abs(comp.count)).c_str());
             } else if (comp.count > 0) {
                 //~ <tool-name> (<numer-of-charges> charges)
-                buffer << string_format(ngettext("%s (%d charge)", "%s (%d charges)", comp.count), itt->name.c_str(), comp.count);
+                buffer << string_format(ngettext("%s (%d charge)", "%s (%d charges)", comp.count),
+                                        itt->name.c_str(), comp.count);
             } else {
                 buffer << it->nname(abs(comp.count));
             }
@@ -289,9 +291,8 @@ std::string print_missing_objs(const std::vector< quality_requirement > &objs) {
             buffer << _("\nand ");
         }
         buffer << string_format(ngettext("%d tool with %s of %d or more.",
-                                         "%d tools with %s of %d or more.",
-                                         req.count),
-                req.count, qualities[req.id].name.c_str(), req.level);
+                                         "%d tools with %s of %d or more.", req.count),
+                                req.count, qualities[req.id].name.c_str(), req.level);
     }
     return buffer.str();
 }
