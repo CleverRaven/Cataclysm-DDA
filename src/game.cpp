@@ -8368,11 +8368,10 @@ bool game::list_items_match(item &item, std::string sPattern)
             if(adv_pat_type == "c" && lcmatch(item.get_category().name, adv_pat_search)) {
                 return !exclude;
             } else if (adv_pat_type == "m") {
-                if (lcmatch(item.get_material(1)->name(), adv_pat_search)) {
-                    return !exclude;
-                }
-                if (lcmatch(item.get_material(2)->name(), adv_pat_search)) {
-                    return !exclude;
+                for (auto material : item.made_of_types()) {
+                    if (lcmatch(material->name(), adv_pat_search)) {
+                        return !exclude;
+                    }
                 }
             } else if (adv_pat_type == "dgt" && item.damage > atoi(adv_pat_search.c_str())) {
                 return !exclude;
