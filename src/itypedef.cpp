@@ -9,11 +9,8 @@ std::vector<std::string> standard_itype_ids;
 
 std::map<std::string, itype*> itypes;
 
-// GENERAL GUIDELINES
-// When adding a new item, you MUST REMEMBER to insert it in the itype_id enum
-//  at the top of itype.h!
-//  Additionally, you should check mapitemsdef.cpp and insert the new item in
-//  any appropriate lists.
+
+
 void game::init_itypes ()
 {
 
