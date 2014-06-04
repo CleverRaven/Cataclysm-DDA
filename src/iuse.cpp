@@ -5537,7 +5537,7 @@ int iuse::turret_rifle(player *p, item *, bool)
  }
 
  p->moves -= 100;
- monster mturret(GetMType("mon_rifleturret"), dirx, diry);
+ monster mturret(GetMType("mon_turret_rifle"), dirx, diry);
  const int ammopos = p->inv.position_by_type("556");
  int ammo = 0;
  if (ammopos != INT_MIN) {
