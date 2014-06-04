@@ -8241,14 +8241,119 @@ void game::manage_zones()
     u.view_offset_x = 0;
     u.view_offset_y = 0;
 
-    point pFirst = look_around(point(-999, -999));
+    int iInfoHeight = 12;
+    const int width = use_narrow_sidebar() ? 45 : 55;
+    WINDOW* w_zones = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW* w_zones_border = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, width, VIEW_OFFSET_Y, TERMX - width - VIEW_OFFSET_X);
+    WINDOW* w_zones_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW* w_zones_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width - VIEW_OFFSET_X);
 
-    if (pFirst.x != -1 && pFirst.y != -1) {
-        point pSecond = look_around(pFirst);
+    for (int i = 1; i < TERMX; i++) {
+        if (i < width) {
+            mvwputch(w_zones_border, 0, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(w_zones_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
+        }
+
+        if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
+            mvwputch(w_zones_border, i, 0, c_ltgray, LINE_XOXO); // |
+            mvwputch(w_zones_border, i, width - 1, c_ltgray, LINE_XOXO); // |
+        }
     }
 
-    u.view_offset_x = iStoreViewOffsetX;
-    u.view_offset_y = iStoreViewOffsetY;
+    mvwputch(w_zones_border, 0, 0,         c_ltgray, LINE_OXXO); // |^
+    mvwputch(w_zones_border, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+
+    mvwputch(w_zones_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_zones_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
+
+    mvwprintz(w_zones_border, 0, 2, c_white, _("Manage Zones"));
+
+    std::string action;
+    input_context ctxt("MANAGE_ZONES");
+    ctxt.register_cardinal();
+    ctxt.register_action("CONFIRM");
+    ctxt.register_action("QUIT");
+    ctxt.register_action("ADD_ZONE");
+    ctxt.register_action("REMOVE_ZONE");
+
+    std::vector<int> vZones;
+    int iZonesNum = vZones.size();
+    const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
+    int iStartPos = 0;
+    int iActive = 0;
+
+    do {
+        if (action == "UP") {
+            iActive--;
+            if (iActive < 0) {
+                iActive = iZonesNum - 1;
+            }
+        } else if (action == "DOWN") {
+            iActive++;
+            if (iActive >= iZonesNum) {
+                iActive = 0;
+            }
+        } else if (action == "ADD_ZONE") {
+            point pFirst = look_around(point(-999, -999));
+
+            if (pFirst.x != -1 && pFirst.y != -1) {
+                point pSecond = look_around(pFirst);
+            }
+
+            draw_ter(u.posx, u.posy);
+            wrefresh(w_terrain);
+        }
+
+        if (vZones.empty()) {
+            wrefresh(w_zones_border);
+            mvwprintz(w_zones, 10, 2, c_white, _("No Zones defined."));
+        } else {
+            werase(w_zones);
+
+            calcStartPos(iStartPos, iActive, iMaxRows, iZonesNum);
+
+            //Draw Scrollbar
+            draw_scrollbar(w_zones_info_border, iActive, iMaxRows, iZonesNum, 1);
+
+            int iNum = 0;
+
+            for (size_t i = 0; i < vZones.size(); ++i) {
+                //Display safed zones
+                //sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
+            }
+
+            werase(w_zones_info);
+        }
+
+        for (int j=0; j < iInfoHeight-1; j++) {
+            mvwputch(w_zones_info_border, j, 0, c_ltgray, LINE_XOXO);
+            mvwputch(w_zones_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+        }
+
+        for (int j=0; j < width - 1; j++) {
+            mvwputch(w_zones_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+        }
+
+        mvwputch(w_zones_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
+        mvwputch(w_zones_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
+
+        wrefresh(w_zones);
+        wrefresh(w_zones_info_border);
+        wrefresh(w_zones_info);
+
+        refresh();
+
+        action = ctxt.handle_input();
+    } while (action != "QUIT");
+
+    werase(w_zones);
+    werase(w_zones_border);
+    werase(w_zones_info);
+    werase(w_zones_info_border);
+    delwin(w_zones);
+    delwin(w_zones_border);
+    delwin(w_zones_info);
+    delwin(w_zones_info_border);
 }
 
 point game::look_around(const point pairAbsCoordsFirst)

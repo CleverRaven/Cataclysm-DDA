@@ -1341,5 +1341,29 @@
                 "key":"="
             }
         ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ADD_ZONE",
+        "category": "MANAGE_ZONES",
+        "name": "Add zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"a"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_ZONE",
+        "category": "MANAGE_ZONES",
+        "name": "Remove zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            }
+        ]
     }
 ]
