@@ -878,7 +878,7 @@
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
-            [ [ "blanket", 1 ] ]
+            [ [ "blanket", 1 ], [ "sheet", 1 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_makeshift_bed"
