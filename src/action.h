@@ -42,6 +42,7 @@ enum action_id {
     ACTION_LOOK,
     ACTION_PEEK,
     ACTION_LIST_ITEMS,
+    ACTION_ZONES,
     // Inventory Interaction (including quasi-inventories like bionics)
     ACTION_INVENTORY,
     ACTION_ADVANCEDINV,

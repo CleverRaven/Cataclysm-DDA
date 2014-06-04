@@ -254,7 +254,11 @@ public:
 
   void peek( int peekx = 0, int peeky = 0);
   point look_debug();
-  point look_around();// Look at nearby terrain ';'
+
+  void manage_zones();
+  // Look at nearby terrain ';', or select zone points
+  point look_around(const point pairAbsCoordsFirst = point(-1, -1));
+
   int list_items(const int iLastState); //List all items around the player
   int list_monsters(const int iLastState); //List all monsters around the player
   // Shared method to print "look around" info

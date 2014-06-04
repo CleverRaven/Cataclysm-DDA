@@ -2435,6 +2435,7 @@ input_context get_default_mode_input_context() {
     ctxt.register_action("look");
     ctxt.register_action("peek");
     ctxt.register_action("listitems");
+    ctxt.register_action("zones");
     ctxt.register_action("inventory");
     ctxt.register_action("compare");
     ctxt.register_action("organize");
@@ -2992,6 +2993,9 @@ bool game::handle_action()
     reenter_fullscreen();
   } break;
 
+  case ACTION_ZONES:
+   manage_zones();
+   break;
 
   case ACTION_INVENTORY: {
    int cMenu = ' ';
@@ -8229,72 +8233,55 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
     begin_x = getbegx(w_messages);
 }
 
-
-point game::look_around()
+void game::manage_zones()
 {
- temp_exit_fullscreen();
- draw_ter();
- int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
- std::string action;
- bool fast_scroll = false;
- int soffset = (int) OPTIONS["MOVE_VIEW_OFFSET"];
+    const int iStoreViewOffsetX = u.view_offset_x;
+    const int iStoreViewOffsetY = u.view_offset_y;
 
- int lookWidth, lookY, lookX;
- get_lookaround_dimensions(lookWidth, lookY, lookX);
- WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, lookX);
- draw_border(w_look);
- mvwprintz(w_look, 1, 1, c_white, _("Looking Around"));
- mvwprintz(w_look, 2, 1, c_white, _("Use directional keys to move the cursor"));
- mvwprintz(w_look, 3, 1, c_white, _("to a nearby square."));
- wrefresh(w_look);
- do {
-  werase(w_terrain);
-  draw_ter(lx, ly);
-  for (int i = 1; i < lookHeight - 1; i++) {
-   for (int j = 1; j < lookWidth - 1; j++)
-    mvwputch(w_look, i, j, c_white, ' ');
-  }
+    u.view_offset_x = 0;
+    u.view_offset_y = 0;
 
-  // Debug helper
-  //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
-  int junk;
-  int off = 1;
-  if (u_see(lx, ly)) {
-      print_all_tile_info(lx, ly, w_look, 1, off, false);
+    point pFirst = look_around(point(-999, -999));
 
-  } else if (u.sight_impaired() &&
-              m.light_at(lx, ly) == LL_BRIGHT &&
-              rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
-              m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk))
-  {
-   if (u.has_disease("boomered"))
-    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
-   else if (u.has_disease("darkness"))
-    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_dkgray, '#');
-   else
-    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_ltgray, '#');
-   mvwprintw(w_look, 1, 1, _("Bright light."));
-  } else {
-   mvwputch(w_terrain, POSY, POSX, c_white, 'x');
-   mvwprintw(w_look, 1, 1, _("Unseen."));
-  }
+    if (pFirst.x != -1 && pFirst.y != -1) {
+        point pSecond = look_around(pFirst);
+    }
 
-  if (fast_scroll) {
-      // print a light green mark below the top right corner of the w_look window
-      mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
-  } else {
-      // redraw the border to clear out the marker.
-      draw_border(w_look);
-  }
+    u.view_offset_x = iStoreViewOffsetX;
+    u.view_offset_y = iStoreViewOffsetY;
+}
 
-  if (m.graffiti_at(lx, ly).contents)
-   mvwprintw(w_look, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
-  //mvwprintw(w_look, 5, 1, _("Maploc: <%d,%d>"), lx, ly);
-  wrefresh(w_look);
-  wrefresh(w_terrain);
+point game::look_around(const point pairAbsCoordsFirst)
+{
+    temp_exit_fullscreen();
+    draw_ter();
 
-  DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
+    bool bSelectZone = (pairAbsCoordsFirst.x != -1 && pairAbsCoordsFirst.y != -1);
+    bool bHasFirstPoint = (pairAbsCoordsFirst.x != -999 && pairAbsCoordsFirst.y != -999);
 
+    const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
+    const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
+
+    int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
+
+    if (bSelectZone && bHasFirstPoint) {
+        lx = pairAbsCoordsFirst.x;
+        ly = pairAbsCoordsFirst.y;
+    }
+
+    int soffset = (int) OPTIONS["MOVE_VIEW_OFFSET"];
+    bool fast_scroll = false;
+    bool bBlink = false;
+
+    int lookWidth, lookY, lookX;
+    get_lookaround_dimensions(lookWidth, lookY, lookX);
+
+    WINDOW* w_look = newwin(lookHeight, lookWidth, lookY, lookX);
+    draw_border(w_look);
+
+    DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
+
+    std::string action;
     input_context ctxt("LOOK");
     ctxt.register_directions();
     ctxt.register_action("COORDINATE");
@@ -8302,38 +8289,146 @@ point game::look_around()
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
-    action = ctxt.handle_input();
 
-    if (!u_see(lx, ly))
-        mvwputch(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_black, ' ');
+    do {
+        //werase(w_terrain);
+        draw_ter(lx, ly);
+        wclear(w_look);
+        draw_border(w_look);
 
-    // Our coordinates will either be determined by coordinate input(mouse),
-    // by a direction key, or by the previous value.
-    if (action == "TOGGLE_FAST_SCROLL") {
-        fast_scroll = !fast_scroll;
-    } else if (!ctxt.get_coordinates(g->w_terrain, lx, ly)) {
-        int dx, dy;
-        ctxt.get_direction(dx, dy, action);
-        if (dx == -2) {
-            dx = 0;
-            dy = 0;
+        int junk;
+        int off = 1;
+
+        if (bSelectZone) {
+            //Select Zone
+
+            if (bHasFirstPoint) {
+                bBlink = !bBlink;
+
+                const int dx = pairAbsCoordsFirst.x - offset_x + u.posx - lx;
+                const int dy = pairAbsCoordsFirst.y - offset_y + u.posy - ly;
+
+                if (bBlink) {
+                    //draw marked area
+                    for (int iY=std::min(dy, POSY); iY <= std::max(dy, POSY); iY++) {
+                        for (int iX=std::min(dx, POSX); iX <= std::max(dx, POSX); iX++) {
+                            mvwputch_inv(w_terrain, iY, iX, c_ltgreen, '~');
+                        }
+                    }
+                }
+
+                //Draw first point
+                mvwputch_inv(w_terrain, dy, dx, c_ltgreen, 'Y');
+            }
+
+            //Draw select cursor
+            mvwputch_inv(w_terrain, POSY, POSX, c_ltgreen, 'X');
+
         } else {
+            //Look around
+            if (u_see(lx, ly)) {
+                print_all_tile_info(lx, ly, w_look, 1, off, false);
+
+            } else if (u.sight_impaired() &&
+                       m.light_at(lx, ly) == LL_BRIGHT &&
+                       rl_dist(u.posx, u.posy, lx, ly) < u.unimpaired_range() &&
+                       m.sees(u.posx, u.posy, lx, ly, u.unimpaired_range(), junk))
+            {
+                if (u.has_disease("boomered")) {
+                    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_pink, '#');
+
+                } else if (u.has_disease("darkness")) {
+                    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_dkgray, '#');
+
+                } else {
+                    mvwputch_inv(w_terrain, POSY + (ly - u.posy), POSX + (lx - u.posx), c_ltgray, '#');
+                }
+
+                mvwprintw(w_look, 1, 1, _("Bright light."));
+
+            } else {
+                mvwputch(w_terrain, POSY, POSX, c_white, 'x');
+                mvwprintw(w_look, 1, 1, _("Unseen."));
+            }
+
             if (fast_scroll) {
-                dx *= soffset;
-                dy *= soffset;
+                // print a light green mark below the top right corner of the w_look window
+                mvwprintz(w_look, 1, lookWidth-1, c_ltgreen, _("F"));
+            }
+
+            if (m.graffiti_at(lx, ly).contents) {
+                mvwprintw(w_look, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
             }
         }
-        lx += dx;
-        ly += dy;
-    }
- } while (action != "QUIT" && action != "CONFIRM");
 
- werase(w_look);
- delwin(w_look);
- reenter_fullscreen();
- if (action == "CONFIRM")
-  return point(lx, ly);
- return point(-1, -1);
+        //Debug
+        mvwprintw(w_look, 2, 1, _("l      : <%d,%d>"), lx, ly);
+        mvwprintw(w_look, 3, 1, _("POS    : <%d,%d>"), POSX, POSY);
+        mvwprintw(w_look, 4, 1, _("u.pos  : <%d,%d>"), u.posx, u.posy);
+        mvwprintw(w_look, 5, 1, _("offset_: <%d,%d>"), offset_x, offset_y);
+        mvwprintw(w_look, 6, 1, _("pair   : <%d,%d>"), pairAbsCoordsFirst.x, pairAbsCoordsFirst.y);
+        mvwprintw(w_look, 6, 1, _("pair 2 : <%d,%d>"), pairAbsCoordsFirst.x - offset_x + u.posx - lx, pairAbsCoordsFirst.y - offset_y + u.posy - ly);
+
+        wrefresh(w_look);
+        wrefresh(w_terrain);
+
+        if (bSelectZone && bHasFirstPoint) {
+            inp_mngr.set_timeout(500);
+        }
+
+        //Wait for input
+        if(!handle_mouseview(ctxt, action)) {
+            // Our coordinates will either be determined by coordinate input(mouse),
+            // by a direction key, or by the previous value.
+            if (action == "TOGGLE_FAST_SCROLL") {
+                fast_scroll = !fast_scroll;
+
+            } else if (!ctxt.get_coordinates(g->w_terrain, lx, ly)) {
+                int dx, dy;
+                ctxt.get_direction(dx, dy, action);
+
+                if (dx == -2) {
+                    dx = 0;
+                    dy = 0;
+                } else {
+                    if (fast_scroll) {
+                        dx *= soffset;
+                        dy *= soffset;
+                    }
+                }
+
+                lx += dx;
+                ly += dy;
+            }
+
+            //Keep cursor inside DAYLIGHT_LEVEL
+            if (lx < 0) {
+                lx = 0;
+            } else if (lx > DAYLIGHT_LEVEL*2) {
+                lx = DAYLIGHT_LEVEL*2;
+            }
+
+            if (ly < 0) {
+                ly = 0;
+            } else if (ly > DAYLIGHT_LEVEL*2) {
+                ly = DAYLIGHT_LEVEL*2;
+            }
+        }
+    } while (action != "QUIT" && action != "CONFIRM");
+    inp_mngr.set_timeout(-1);
+
+    werase(w_look);
+    delwin(w_look);
+    reenter_fullscreen();
+
+    if (action == "CONFIRM") {
+        if (bSelectZone) {
+            return point(lx, ly);
+        }
+        return point(lx, ly);
+    }
+
+    return point(-1, -1);
 }
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
