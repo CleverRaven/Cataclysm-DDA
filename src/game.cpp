@@ -1250,13 +1250,11 @@ void game::rustCheck()
         bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 0;
         int oldSkillLevel = u.skillLevel(*aSkill);
 
-        if (u.skillLevel(*aSkill).rust(calendar::turn, charged_bio_mem))
-        {
+        if (u.skillLevel(*aSkill).rust( charged_bio_mem )) {
             u.power_level--;
         }
         int newSkill =u.skillLevel(*aSkill);
-        if (newSkill < oldSkillLevel)
-        {
+        if (newSkill < oldSkillLevel) {
             add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
                     (*aSkill)->name().c_str(), newSkill);
         }
@@ -1592,7 +1590,7 @@ void game::activity_on_finish_read()
         min_ex *= originalSkillLevel + 1;
         max_ex *= originalSkillLevel + 1;
 
-        u.skillLevel(reading->type).readBook(min_ex, max_ex, calendar::turn, reading->level);
+        u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
 
         add_msg(_("You learn a little about %s! (%d%%)"), reading->type->name().c_str(),
                 u.skillLevel(reading->type).exercise());
@@ -1697,7 +1695,7 @@ void game::activity_on_finish_fish()
             u.add_msg_if_player(_("You catch nothing."));
         }
 
-        u.practice(calendar::turn, "survival", rng(5, 15));
+        u.practice( "survival", rng(5, 15) );
     }
     u.activity.type = ACT_NULL;
 }
@@ -7390,7 +7388,7 @@ void game::smash()
         u.handle_melee_wear();
         u.moves -= move_cost;
         if (u.skillLevel("melee") == 0) {
-            u.practice(calendar::turn, "melee", rng(0, 1) * rng(0, 1));
+            u.practice( "melee", rng(0, 1) * rng(0, 1) );
         }
         if (u.weapon.made_of("glass") &&
             rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
@@ -9928,7 +9926,7 @@ void game::plthrow(int pos)
  }
 
  u.moves -= move_cost;
- u.practice(calendar::turn, "throw", 10);
+ u.practice( "throw", 10 );
 
  throw_item(u, x, y, thrown, trajectory);
  reenter_fullscreen();
@@ -10237,16 +10235,16 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item>& items = m.i_at(u.posx, u.posy);
     inventory crafting_inv = crafting_inventory(&u);
-    // get corpses first
+    
+    // check if we have a butchering tool
+    if (factor == INT_MAX) {
+        add_msg(m_info, _("You don't have a sharp item to butcher with."));
+        return;
+    }
+    // get corpses
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            if (factor == INT_MAX) {
-                if (!has_corpse) {
-                    add_msg(m_info, _("You don't have a sharp item to butcher with."));
-                }
-            } else {
-                corpses.push_back(i);
-            }
+            corpses.push_back(i);
             has_corpse = true;
         }
     }
@@ -10379,9 +10377,10 @@ void game::complete_butcher(int index)
   skill_shift -= rng(0, factor / 5);
 
  int practice = 4 + pieces;
- if (practice > 20)
-  practice = 20;
- u.practice(calendar::turn, "survival", practice);
+ if (practice > 20) {
+     practice = 20;
+ }
+ u.practice( "survival", practice );
 
  pieces += int(skill_shift);
  if (skill_shift < 5)  { // Lose some skins and bones
@@ -10657,10 +10656,8 @@ void game::forage()
         max_forage_skill =  8;
     }
     //Award experience for foraging attempt regardless of success
-    if (u.skillLevel("survival") < max_forage_skill) {
-        u.practice(calendar::turn, "survival",
-                   rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)));
-    }
+    u.practice( "survival", rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)),
+                max_forage_skill );
 }
 
 void game::eat(int pos)
@@ -11139,7 +11136,7 @@ void game::pldrive(int x, int y) {
     if (veh->skidding && veh->valid_wheel_config()) {
         if (rng (0, veh->velocity) < u.dex_cur + u.skillLevel("driving") * 2) {
             add_msg (_("You regain control of the %s."), veh->name.c_str());
-            u.practice(calendar::turn, "driving", veh->velocity / 5);
+            u.practice( "driving", veh->velocity / 5 );
             veh->velocity = int(veh->forward_velocity());
             veh->skidding = false;
             veh->move.init (veh->turn_dir);
@@ -11151,7 +11148,7 @@ void game::pldrive(int x, int y) {
     }
 
     if (x != 0 && veh->velocity != 0 && one_in(10)) {
-        u.practice(calendar::turn, "driving", 1);
+        u.practice( "driving", 1 );
     }
 }
 
@@ -11985,7 +11982,7 @@ void game::plswim(int x, int y)
   u.remove_effect("onfire");
  }
  int movecost = u.swim_speed();
- u.practice(calendar::turn, "swimming", u.is_underwater() ? 2 : 1);
+ u.practice( "swimming", u.is_underwater() ? 2 : 1 );
  if (movecost >= 500) {
   if (!u.is_underwater() || !u.is_wearing("swim_fins")) {
     add_msg(m_bad, _("You sink like a rock!"));
