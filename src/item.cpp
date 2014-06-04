@@ -1851,19 +1851,14 @@ std::set<std::string> item::made_of() const
     std::set<std::string> materials_composed_of;
     if (is_null()) {
         // pass, we're not made of anything at the moment.
-    } else if (corpse != NULL && typeId() == "corpse") {
+    } else if (is_corpse()) {
         // Corpses are only made of one type of material.
         materials_composed_of.insert(corpse->mat);
-    } else if (type->m1 != "null" || type->m2 != "null") {
-        // Perhaps in the future we might have n number of material objects, but
-        // right now, they are stored in separate members and they might not
-        // be set to a valid value.
-        if (type->m1 != "null") {
-            materials_composed_of.insert(type->m1);
-        }
-        if (type->m2 != "null") {
-            materials_composed_of.insert(type->m2);
-        }
+    } else {
+        // WORK IN PROGRESS.
+        // Defensive copy of materials. 
+        // More idiomatic to return a const reference?
+        materials_composed_of = type->materials;
     }
     return materials_composed_of;
 }

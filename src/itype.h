@@ -94,6 +94,9 @@ struct itype {
 
     std::string m1; // Main material
     std::string m2; // Secondary material -- "null" if made of just 1 thing
+    // What we're made of (material names). .size() == made of nothing.
+    // MATERIALS WORK IN PROGRESS.
+    std::set<std::string> materials; 
 
     phase_id phase; //e.g. solid, liquid, gas
 
@@ -229,6 +232,7 @@ struct itype {
         , color(c_white)
         , m1("null")
         , m2("null")
+        , materials()
         , phase(SOLID)
         , volume(0)
         , stack_size(0)

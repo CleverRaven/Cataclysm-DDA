@@ -1057,6 +1057,22 @@ void Item_factory::set_material_from_json(JsonObject& jo, std::string member, it
     }
     new_item_template->m1 = material_list[0];
     new_item_template->m2 = material_list[1];
+    
+    // MATERIALS WORK IN PROGRESS.
+    // All materials need a type, even if it is "null", which is a defined
+    // type.
+    if (jo.has_array(member)) {
+        JsonArray jarr = jo.get_array(member);
+        for (int i = 0; i < jarr.size(); ++i) {
+            new_item_template->materials.insert(jarr.get_string(i));
+        }
+    } else if (jo.has_string(member)) {
+        new_item_template->materials.insert(jo.get_string(member));
+    }
+    else {
+        // Default material.
+        new_item_template->materials.insert("null");
+    }
 }
 
 bool Item_factory::is_mod_target(JsonObject& jo, std::string member, std::string weapon)
