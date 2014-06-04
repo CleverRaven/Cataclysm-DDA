@@ -506,7 +506,7 @@ void vehicle::use_controls()
     if (has_stereo) {
         options_choice.push_back(toggle_stereo);
         options_message.push_back(uimenu_entry((stereo_on) ? _("Turn off stereo") :
-                                               _("Turn on stereo"), 'h'));
+                                               _("Turn on stereo"), 'm'));
     }
 
    if (has_overhead_lights) {
