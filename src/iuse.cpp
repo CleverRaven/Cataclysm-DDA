@@ -6102,7 +6102,7 @@ static int cut_up(player *p, item *it, item *cut, bool)
     p->moves -= 25 * count;
     // Not much practice, and you won't get very far ripping things up.
     Skill *isFab = Skill::skill("fabrication");
-    p->practice(calendar::turn, isFab, rng(0, 5), 1);
+    p->practice(isFab, rng(0, 5), 1);
     
     // Higher fabrication, less chance of entropy, but still a chance.
     if (rng(1, 10) <= entropy_threshold) {
