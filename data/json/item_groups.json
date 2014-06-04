@@ -2314,6 +2314,7 @@
       ["8mm_jhp", 1],
       ["8mm_fmj", 1],
       ["8mm_caseless", 2],
+      ["8mm_civilian", 4],
       ["5x50dart", 4]
     ]
   },{
@@ -6912,6 +6913,7 @@
       ["puller", 5],
       ["RPG-7_ammo", 1],
       ["8mm_caseless", 2],
+      ["8mm_civilian", 4],
       ["8mm_jhp", 2],
       ["8mm_fmj", 2],
       ["cu_pipe", 5],
@@ -7779,6 +7781,7 @@
       ["8mm_jhp", 2],
       ["8mm_fmj", 2],
       ["8mm_caseless", 3],
+      ["8mm_civilian", 5],
       ["8mm_hvp", 1],
       ["5x50dart", 8],
       ["8mm_inc", 2]
