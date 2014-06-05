@@ -3416,8 +3416,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
    },
    {
     "id": "paint_brush",
@@ -3439,8 +3438,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
    },
    {
     "id": "ugl_buttstock",

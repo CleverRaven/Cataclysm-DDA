@@ -165,3 +165,27 @@ public:
     virtual long use(player*, item*, bool) const;
     virtual iuse_actor *clone() const;
 };
+
+/**
+ * This iuse encapsulates the effects of taking a drug.
+ */
+class consume_drug_iuse : public iuse_actor {
+public:
+    /** Message to display when drug is consumed. **/
+    std::string activation_message;
+    /** Fields to produce when you take the drug, mostly intended for various kinds of smoke. **/
+    std::map<std::string, int> fields_produced;
+    /** Tool charges needed to take the drug, e.g. fire. **/
+    std::map<std::string, int> charges_needed;
+    /** Tools needed, but not consumed, e.g. "smoking apparatus". **/
+    std::map<std::string, int> tools_needed;
+    /** A disease or diseases (conditions) to give the player for the stated duration. **/
+    std::map<std::string, int> diseases;
+    /** A list of stats and adjustments to them. **/
+    std::map<std::string, int> stat_adjustments;
+
+    consume_drug_iuse() : iuse_actor() { }
+    virtual ~consume_drug_iuse();
+    virtual long use(player*, item*, bool) const;
+    virtual iuse_actor *clone() const;
+};
