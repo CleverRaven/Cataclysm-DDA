@@ -215,74 +215,33 @@ struct itype {
         return 1;
     }
 
+    bool has_use();
+    bool can_use( std::string iuse_name );
+    int invoke( player *p, item *it, bool active );
+
     std::string dmg_adj(int dam)
     {
         return material_type::find_material(m1)->dmg_adj(dam);
     }
 
-    use_function use;// Special effects of use
+    std::vector<use_function> use_methods;// Special effects of use
 
-    itype()
-        : id("null")
-        , price(0)
-        , name("none")
-        , name_plural("none")
-        , description()
-        , sym('#')
-        , color(c_white)
-        , m1("null")
-        , m2("null")
-        , materials()
-        , phase(SOLID)
-        , volume(0)
-        , stack_size(0)
-        , weight(0)
-        , bigness_aspect(BIGNESS_ENGINE_NULL)
-        , qualities()
-        , corpse(NULL)
-        , melee_dam(0)
-        , melee_cut(0)
-        , m_to_hit(0)
-        , item_tags()
-        , techniques()
-        , light_emission()
-        , category(NULL)
-        , use()
-    {
-    }
+    itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
+        color(c_white), m1("null"), m2("null"), phase(SOLID), volume(0), stack_size(0),
+        weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL),
+        melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
+        category(NULL) { }
 
-    itype(std::string pid, unsigned int pprice,
-          std::string pname, std::string pname_plural, std::string pdes,
-          char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
-          unsigned int pvolume, unsigned int pweight,
-          signed int pmelee_dam, signed int pmelee_cut, signed int pm_to_hit)
-        : id(pid)
-        , price(pprice)
-        , name(pname)
-        , name_plural(pname_plural)
-        , description(pdes)
-        , sym(psym)
-        , color(pcolor)
-        , m1(pm1)
-        , m2(pm2)
-        , materials()
-        , phase(pphase)
-        , volume(pvolume)
-        , stack_size(0)
-        , weight(pweight)
-        , bigness_aspect(BIGNESS_ENGINE_NULL)
-        , qualities()
-        , corpse(NULL)
-        , melee_dam(pmelee_dam)
-        , melee_cut(pmelee_cut)
-        , m_to_hit(pm_to_hit)
-        , item_tags()
-        , techniques()
-        , light_emission()
-        , category(NULL)
-        , use()
-    {
-    }
+    itype(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
+          std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
+          phase_id pphase, unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
+          signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
+        name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), m1(pm1), m2(pm2),
+        phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
+        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL), melee_dam(pmelee_dam),
+        melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
+        category(NULL) { }
+
     virtual ~itype() {}
 };
 
@@ -324,19 +283,8 @@ struct it_comest : public virtual itype {
 
     add_type add; // Effects of addiction
 
-    it_comest()
-        : itype()
-        , quench(0)
-        , nutr(0)
-        , charges(0)
-        , rand_charges()
-        , stim(0)
-        , healthy(0)
-        , brewtime(0)
-        , comesttype()
-        , fun(0)
-        , container()
-        , tool()
+    it_comest(): itype(), quench(0), nutr(0), charges(0), rand_charges(), stim(0), healthy(0),
+        brewtime(0), comesttype(), fun(0), container(), tool()
     {
     }
 };
@@ -389,18 +337,8 @@ struct it_ammo : public virtual itype {
 
     std::set<std::string> ammo_effects;
 
-    it_ammo()
-        : itype()
-        , type()
-        , casing()
-        , damage(0)
-        , pierce(0)
-        , range(0)
-        , dispersion(0)
-        , recoil(0)
-        , count(0)
-        , container()
-        , ammo_effects()
+    it_ammo(): itype(), type(), casing(), damage(0), pierce(0), range(0), dispersion(0), recoil(0),
+        count(0), container(), ammo_effects()
     {
     }
 
@@ -444,20 +382,9 @@ struct it_gun : public virtual itype {
         return "GUN";
     }
 
-    it_gun()
-        : itype()
-        , skill_used(NULL)
-        , dmg_bonus(0)
-        , pierce(0)
-        , range(0)
-        , dispersion(0)
-        , recoil(0)
-        , durability(0)
-        , burst(0)
-        , clip(0)
-        , reload_time(0)
-        , ammo_effects()
-        , valid_mod_locations()
+    it_gun() : itype(), skill_used(NULL), dmg_bonus(0), pierce(0), range(0), dispersion(0),
+        recoil(0), durability(0), burst(0), clip(0), reload_time(0), ammo_effects(),
+        valid_mod_locations()
     {
     }
 };
@@ -481,25 +408,10 @@ struct it_gunmod : public virtual itype {
         return true;
     }
 
-    it_gunmod()
-        : itype()
-        , dispersion(0)
-        , damage(0)
-        , loudness(0)
-        , clip(0)
-        , recoil(0)
-        , burst(0)
-        , newtype()
-        , acceptible_ammo_types()
-        , used_on_pistol(false)
-        , used_on_shotgun(false)
-        , used_on_smg(false)
-        , used_on_rifle(false)
-        , used_on_bow(false)
-        , used_on_crossbow(false)
-        , used_on_launcher(false)
-        , skill_used(NULL)
-        , location()
+    it_gunmod() : itype(), dispersion(0), damage(0), loudness(0), clip(0), recoil(0), burst(0),
+        newtype(), acceptible_ammo_types(), used_on_pistol(false), used_on_shotgun(false),
+        used_on_smg(false), used_on_rifle(false), used_on_bow(false), used_on_crossbow(false),
+        used_on_launcher(false), skill_used(NULL), location()
     {
     }
 };
@@ -515,16 +427,8 @@ struct it_armor : public virtual itype {
 
     bool power_armor;
 
-    it_armor()
-        : itype()
-        , covers(0)
-        , encumber(0)
-        , coverage(0)
-        , thickness(0)
-        , env_resist(0)
-        , warmth(0)
-        , storage()
-        , power_armor(false)
+    it_armor() : itype(), covers(0), encumber(0), coverage(0), thickness(0), env_resist(0), warmth(0),
+        storage(), power_armor(false)
     {
     }
 
@@ -580,16 +484,7 @@ struct it_book : public virtual itype {
         return "BOOK";
     }
 
-    it_book()
-        : itype()
-        , type(NULL)
-        , level(0)
-        , req(0)
-        , fun(0)
-        , intel(0)
-        , time(0)
-        , chapters()
-        , recipes()
+    it_book() : itype(), type(NULL), level(0), req(0), fun(0), intel(0), time(0), chapters(), recipes()
     {
     }
 };
@@ -604,9 +499,7 @@ struct it_container : public virtual itype {
     {
         return "CONTAINER";
     }
-    it_container()
-        : itype()
-        , contains(0)
+    it_container() : itype(), contains(0)
     {
     }
 };
@@ -637,15 +530,8 @@ struct it_tool : public virtual itype {
         return charges_per_use;
     }
 
-    it_tool()
-        : itype()
-        , ammo()
-        , max_charges(0)
-        , def_charges(0)
-        , rand_charges()
-        , charges_per_use(0)
-        , turns_per_charge(0)
-        , revert_to()
+    it_tool() : itype(), ammo(), max_charges(0), def_charges(0), rand_charges(), charges_per_use(0),
+        turns_per_charge(0), revert_to()
     {
     }
 };
@@ -676,9 +562,7 @@ struct it_tool_armor : public virtual it_tool, public virtual it_armor {
 struct it_bionic : public virtual itype {
     int difficulty;
 
-    it_bionic()
-        : itype()
-        , difficulty(0)
+    it_bionic() : itype(), difficulty(0)
     {
     }
 
@@ -699,20 +583,16 @@ struct it_macguffin : public virtual itype {
     {
         return true;
     }
-    it_macguffin(std::string pid, unsigned int pprice,
-                 std::string pname, std::string pname_plural, std::string pdes,
-                 char psym, nc_color pcolor, std::string pm1, std::string pm2,
-                 unsigned int pvolume, unsigned int pweight,
-                 signed int pmelee_dam, signed int pmelee_cut,
-                 signed int pm_to_hit,
-
-                 bool preadable,
+    it_macguffin(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
+                 std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
+                 unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
+                 signed int pmelee_cut, signed int pm_to_hit, bool preadable,
                  int (iuse::*puse)(player *, item *, bool))
-        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID,
-                pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
+        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID, pvolume,
+                pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         readable = preadable;
-        use = puse;
+        use_methods.push_back( puse );
     }
 };
 
@@ -725,14 +605,10 @@ struct it_software : public virtual itype {
         return true;
     }
 
-    it_software(std::string pid, unsigned int pprice,
-                std::string pname, std::string pname_plural, std::string pdes,
-                char psym, nc_color pcolor, std::string pm1, std::string pm2,
-                unsigned int pvolume, unsigned int pweight,
-                signed int pmelee_dam, signed int pmelee_cut,
-                signed int pm_to_hit,
-
-                software_type pswtype, int ppower)
+    it_software(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
+                std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
+                unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
+                signed int pmelee_cut, signed int pm_to_hit, software_type pswtype, int ppower)
         : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID,
                 pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
@@ -749,9 +625,7 @@ struct it_stationary : public virtual itype {
 
     std::string category;
 
-    it_stationary()
-        : itype()
-        , category()
+    it_stationary() : itype(), category()
     {
     }
 };

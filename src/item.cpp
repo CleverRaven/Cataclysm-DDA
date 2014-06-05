@@ -2728,7 +2728,7 @@ bool item::reload(player &u, int pos)
 
     // Handle ammo in containers, currently only gasoline and quivers
     if (!ammo_to_use->contents.empty() && (ammo_to_use->is_container() ||
-                                           ammo_to_use->type->use == &iuse::quiver)) {
+                                           ammo_to_use->type->can_use("QUIVER"))) {
         ammo_container = ammo_to_use;
         ammo_to_use = &ammo_to_use->contents[0];
     }
@@ -3221,7 +3221,7 @@ int item::add_ammo_to_quiver(player *u, bool isAutoPickup)
 
         //item is valid quiver to store items in if it satisfies these conditions:
         // a) is a quiver  b) contents are ammo w/ charges  c) quiver isn't full
-        if(worn.type->use == &iuse::quiver) {
+        if(worn.type->can_use("QUIVER")) {
             int maxCharges = worn.max_charges_from_flag("QUIVER");
             if (worn.contents.empty() || (worn.contents[0].is_ammo() && worn.contents[0].charges > 0)) {
                 quivers.push_back(std::make_pair(&worn, maxCharges));

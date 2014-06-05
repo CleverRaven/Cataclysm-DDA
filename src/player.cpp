@@ -1927,6 +1927,24 @@ stats player::get_stats() const
     return player_stats;
 }
 
+void player::mod_stat( std::string stat, int modifier )
+{
+    if( stat == "hunger" ) {
+        hunger += modifier;
+    } else if( stat == "thirst" ) {
+        thirst += modifier;
+    } else if( stat == "fatigue" ) {
+        fatigue += modifier;
+    } else if( stat == "health" ) {
+        health += modifier;
+    } else if( stat == "oxygen" ) {
+        oxygen += modifier;
+    } else {
+        // Fall through to the creature method.
+        Creature::mod_stat( stat, modifier );
+    }
+}
+
 inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
 {
     int levelA = a.second;
@@ -6540,7 +6558,7 @@ bool player::process_single_active_item(item *it)
             }
         } else if (it->is_tool()) {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            tmp->use.call(this, it, true);
+            tmp->invoke(this, it, true);
             if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
                 it->charges--;
             }
@@ -6549,9 +6567,9 @@ bool player::process_single_active_item(item *it)
                                        has_active_bionic("bio_ups")))) {
                 if (it->has_flag("USE_UPS")){
                     add_msg_if_player(_("You need an active UPS to run that!"));
-                    tmp->use.call(this, it, false);
+                    tmp->invoke(this, it, false);
                 }	else	{
-                    tmp->use.call(this, it, false);
+                    tmp->invoke(this, it, false);
                     if (tmp->revert_to == "null") {
                         return false;
                     } else {
@@ -7127,8 +7145,7 @@ int player::amount_of(itype_id it) {
 
 bool player::has_charges(itype_id it, long quantity)
 {
-    if (it == "fire" || it == "apparatus")
-    {
+    if (it == "fire" || it == "apparatus") {
         return has_fire(quantity);
     }
     return (charges_of(it) >= quantity);
@@ -7380,10 +7397,10 @@ bool player::consume(int pos)
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
             }
-            if (!comest->use.is_none()) {
+            if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->use.call(this, to_eat, false);
-                if( amount_used == 0 ) {
+                amount_used = comest->invoke(this, to_eat, false);
+                if( amount_used <= 0 ) {
                     return false;
                 }
             }
@@ -7645,9 +7662,9 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if (!comest->use.is_none()) {
-        to_eat = comest->use.call(this, eaten, false);
-        if( to_eat == 0 ) {
+    if (comest->has_use()) {
+        to_eat = comest->invoke(this, eaten, false);
+        if( to_eat <= 0 ) {
             return false;
         }
     }
@@ -7724,13 +7741,13 @@ bool player::eat(item *eaten, it_comest *comest)
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
-    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL" ) ) {
         charge_power(rng(2, 8));
     }
-    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCHOHOL_WEAK" ) ) {
         charge_power(rng(1, 4));
     }
-    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_strong) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCHOHOL_STRONG" ) ) {
         charge_power(rng(3, 12));
     }
 
@@ -8778,7 +8795,7 @@ void player::use(int pos)
 
     if (used->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
-        int charges_used = tool->use.call(this, used, false);
+        int charges_used = tool->invoke(this, used, false);
         if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use ||
             (used->has_flag("USE_UPS") &&
              (has_charges("adv_UPS_on", charges_used * (.6)) || has_charges("UPS_on", charges_used) ||
@@ -8822,13 +8839,8 @@ void player::use(int pos)
                        used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
-    } else if (used->type->use == &iuse::boots          ||
-               used->type->use == &iuse::sheath_sword   ||
-               used->type->use == &iuse::sheath_knife   ||
-               used->type->use == &iuse::holster_pistol ||
-               used->type->use == &iuse::holster_ankle  ||
-               used->type->use == &iuse::quiver) {
-        used->type->use.call(this, used, false);
+    } else if ( used->type->has_use() ) {
+        used->type->invoke(this, used, false);
         return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
@@ -8972,14 +8984,12 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             const std::string mod = used->contents[choice].tname();
             remove_gunmod(used, choice);
             add_msg(_("You remove your %s from your %s."), mod.c_str(), used->name.c_str());
-        }
-        else if (choice == mods.size()) {
+        } else if (choice == mods.size()) {
             for (int i = used->contents.size() - 1; i >= 0; i--) {
                 remove_gunmod(used, i);
             }
             add_msg(_("You remove all the modifications from your %s."), used->name.c_str());
-        }
-        else {
+        } else {
             add_msg(_("Never mind."));
             return;
         }
@@ -8988,7 +8998,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         return;
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
-                   used->tname().c_str());
+                used->tname().c_str());
         return;
     }
 }
@@ -9083,7 +9093,7 @@ void player::read(int pos)
         mac = dynamic_cast<it_macguffin*>(it->type);
     }
     if (mac != NULL) {
-        mac->use.call(this, it, false);
+        mac->invoke(this, it, false);
         return;
     }
 

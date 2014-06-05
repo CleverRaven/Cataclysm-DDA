@@ -1782,8 +1782,8 @@ void game::activity_on_finish_read()
         }
     }
 
-    if (!reading->use.is_none()) {
-        reading->use.call(&g->u, book_item, false);
+    if (reading->has_use()) {
+        reading->invoke(&g->u, book_item, false);
     }
 
     u.activity.type = ACT_NULL;
@@ -10148,7 +10148,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     std::vector<item*> holsters;
     for(std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++){
         item& worn = *it;
-        if((worn.type->use == &iuse::holster_pistol || worn.type->use == &iuse::holster_ankle) &&
+        if((worn.type->can_use("HOLSTER_PISTOL") || worn.type->can_use("HOLSTER_ANKLE")) &&
             (!worn.contents.empty() && worn.contents[0].is_gun())) {
                 holsters.push_back(&worn);
         }
@@ -10232,7 +10232,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     std::vector<item*> quivers;
     for(std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++) {
         item& worn = *it;
-        if(worn.type->use == &iuse::quiver &&
+        if(worn.type->can_use("QUIVER") &&
            !worn.contents.empty() && worn.contents[0].is_ammo() && worn.contents[0].charges > 0) {
              quivers.push_back(&worn);
            }

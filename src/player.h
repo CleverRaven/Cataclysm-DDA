@@ -859,6 +859,7 @@ public:
     //Record of player stats, for posterity only
     stats* lifetime_stats();
     stats get_stats() const; // for serialization
+    void mod_stat( std::string stat, int modifier );
 
  int getID () const;
 

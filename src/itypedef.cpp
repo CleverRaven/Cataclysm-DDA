@@ -2,6 +2,7 @@
 #include "ammo.h"
 #include "game.h"
 #include "monstergenerator.h"
+#include "item_factory.h"
 #include <fstream>
 
 std::vector<std::string> artifact_itype_ids;
@@ -10,6 +11,24 @@ std::vector<std::string> standard_itype_ids;
 std::map<std::string, itype*> itypes;
 
 
+// Members of iuse struct, which is slowly morphing into a class.
+bool itype::has_use() {
+    return !use_methods.empty();
+}
+
+bool itype::can_use( std::string iuse_name ) {
+    return std::find( use_methods.cbegin(), use_methods.cend(),
+                      *item_controller->get_iuse( iuse_name ) ) != use_methods.cend();
+}
+
+int itype::invoke( player *p, item *it, bool active ) {
+    int charges_to_use = 0;
+    for( auto method = use_methods.begin();
+         charges_to_use >= 0 && method != use_methods.end(); ++method ) {
+        charges_to_use = method->call( p, it, active );
+    }
+    return charges_to_use;
+}
 
 void game::init_itypes ()
 {
