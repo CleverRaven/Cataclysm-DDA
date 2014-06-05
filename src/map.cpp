@@ -5095,3 +5095,23 @@ void map::add_road_vehicles(bool city, int facing)
         }
     }
 }
+
+void map::clZones::clZoneData::setName()
+{
+    const std::string sName = string_input_popup(_("Zone name:"), 55, this->sName, "", "", 15);
+
+    this->sName = (sName == "") ? _("<no name>") : sName;
+}
+
+void map::clZones::clZoneData::setZoneType(std::vector<std::pair<std::string, std::string> > vZoneTypes)
+{
+    uimenu as_m;
+    as_m.text = _("Select zone type:");
+
+    for (int i=0; i < vZoneTypes.size(); ++i) {
+        as_m.entries.push_back(uimenu_entry(i+1, true, (char)i+1, vZoneTypes[i].first));
+    }
+    as_m.query();
+
+    this->sZoneType = vZoneTypes[((as_m.ret >= 1) ? as_m.ret : 1) - 1].second;
+}

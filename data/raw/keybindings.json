@@ -1345,7 +1345,7 @@
     {
         "type" : "keybinding",
         "id": "ADD_ZONE",
-        "category": "MANAGE_ZONES",
+        "category": "ZONES_MANAGER",
         "name": "Add zone",
         "bindings":[
             {
@@ -1357,12 +1357,48 @@
     {
         "type" : "keybinding",
         "id": "REMOVE_ZONE",
-        "category": "MANAGE_ZONES",
+        "category": "ZONES_MANAGER",
         "name": "Remove zone",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ZONE_UP",
+        "category": "ZONES_MANAGER",
+        "name": "Move zone up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"+"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_ZONE_DOWN",
+        "category": "ZONES_MANAGER",
+        "name": "Move zone down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SHOW_ZONE_ON_MAP",
+        "category": "ZONES_MANAGER",
+        "name": "Show zone on map",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
             }
         ]
     }

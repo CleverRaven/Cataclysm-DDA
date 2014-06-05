@@ -255,9 +255,10 @@ public:
   void peek( int peekx = 0, int peeky = 0);
   point look_debug();
 
-  void manage_zones();
+  void zones_manager();
+  void zones_manager_shortcuts(WINDOW *w_info);
   // Look at nearby terrain ';', or select zone points
-  point look_around(const point pairAbsCoordsFirst = point(-1, -1));
+  point look_around(WINDOW *w_info = NULL, const point pairCoordsFirst = point(-1, -1));
 
   int list_items(const int iLastState); //List all items around the player
   int list_monsters(const int iLastState); //List all monsters around the player

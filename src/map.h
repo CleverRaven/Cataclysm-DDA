@@ -478,6 +478,7 @@ void add_corpse(int x, int y);
    return abs_sub;
  };
  point getabs(const int x=0, const int y=0 );
+ point getabs( const point p ) { return getabs(p.x, p.y); }
  point getlocal(const int x, const int y );
  point getlocal( const point p ) { return getlocal(p.x, p.y); }
  bool inboundsabs(const int x, const int y);
@@ -489,6 +490,95 @@ void add_corpse(int x, int y);
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
                               // Useful for houses, shops, etc
  void add_road_vehicles(bool city, int facing);
+
+    class clZones
+    {
+        private:
+            //std::unordered_map<std::string, point> mZones;
+            std::vector<std::pair<std::string, std::string> > vZoneTypes;
+
+        public:
+            clZones() {
+                //Todo: load json
+                vZoneTypes.push_back(std::make_pair(_("Auto Pickup"), "AUTO_PICKUP"));
+            };
+            ~clZones() {};
+
+            class clZoneData
+            {
+                private:
+                    std::string sName;
+                    std::string sZoneType;
+                    bool bInvert;
+                    point pointStartXY;
+                    point pointEndXY;
+
+                public:
+                    clZoneData() {
+                        this->sName = "";
+                        this->sZoneType = "";
+                        this->bInvert = false;
+                        this->pointStartXY = point(-1, -1);
+                        this->pointEndXY = point(-1, -1);
+                    }
+
+                    clZoneData(const std::string p_sName, const std::string p_sZoneType, const bool p_bInvert,
+                               const point &p_pointStartXY, const point &p_pointEndXY) {
+                        this->sName = p_sName;
+                        this->sZoneType = p_sZoneType;
+                        this->bInvert = p_bInvert;
+                        this->pointStartXY = p_pointStartXY;
+                        this->pointEndXY = p_pointEndXY;
+                    }
+
+                    ~clZoneData() {};
+
+                    void setName();
+                    void setZoneType(std::vector<std::pair<std::string, std::string> > vZoneTypes);
+
+                    std::string getName() { return sName; }
+                    std::string getZoneType() { return sZoneType; }
+                    bool getInvert() { return bInvert; }
+                    point getStartPoint() { return pointStartXY; }
+                    point getEndPoint() { return pointEndXY; }
+            };
+
+            std::vector<clZoneData> vZones;
+
+            void add(const std::string p_sName, const std::string p_sZoneType, const bool p_bInvert,
+                     const point &p_pointStartXY, const point &p_pointEndXY) {
+                vZones.push_back(clZoneData(p_sName, p_sZoneType, p_bInvert, p_pointStartXY, p_pointEndXY));
+            }
+
+            bool remove(const int iIndex) {
+                if (iIndex < vZones.size()) {
+                    vZones.erase(vZones.begin()+iIndex);
+                    return true;
+                }
+
+                return false;
+            }
+
+            unsigned int size() {
+                return vZones.size();
+            }
+
+            std::vector<std::pair<std::string, std::string> > getZoneTypes() {
+                return vZoneTypes;
+            }
+
+            std::string getNameFromType(const std::string p_sType) {
+                for (int i=0; i < vZoneTypes.size(); ++i) {
+                    if (vZoneTypes[i].second == p_sType) {
+                        return vZoneTypes[i].first;
+                    }
+                }
+
+                return "Unknown Type";
+            }
+    };
+
+    clZones Zones;
 
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
