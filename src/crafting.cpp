@@ -1504,10 +1504,14 @@ void game::complete_craft()
     if( !u.knows_recipe( making ) ) {
         // If we made it, but we don't know it,
         // we're making it from a book and have a chance to learn it.
-        // Difficulty relative to skill reduces chance of learning.
-        // Duration increases chance to learn.
+        // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
+        // This means time to learn is greatly decreased with higher skill level,
+        // but also keeps going up as difficulty goes up.
+        // Worst case is lvl 10, which will typically take
+        // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
         int difficulty = u.has_recipe( making, crafting_inventory( &u ) );
-        if( difficulty - u.get_skill_level( making->skill_used ) >= rng(0, 4) ) {
+        if( x_in_y( making->time, (1000 * 8 * (difficulty ^ 4)) /
+                    (u.get_skill_level( making->skill_used ) * u.get_int() ) ) ) {
             u.learn_recipe( making );
             add_msg(m_good, _("You memorized the recipe for %s!"),
                     newit.type->name.c_str());
