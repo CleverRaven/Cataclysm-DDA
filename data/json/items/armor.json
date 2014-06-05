@@ -3492,7 +3492,7 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
-        "description" : "A Modular Bullet Resistant Vest. Ceramic plates have been inserted to improve it's protection. The ceramic plates cannot be repaired, only replaced.",
+        "description" : "A Modular Bullet Resistant Vest. Ceramic plates have been inserted to improve its protection. The ceramic plates cannot be repaired, only replaced.",
         "price" : 120000,
         "material" : ["kevlar", "ceramic"],
         "volume" : 24,

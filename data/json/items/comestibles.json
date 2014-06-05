@@ -13551,7 +13551,7 @@
         "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "A powdered anti-hemorrhagic compound that reacts with blood to immediately form a gel-like substance which stops bleeding.",
+        "description" : "A powdered antihemorrhagic compound that reacts with blood to immediately form a gel-like substance which stops bleeding.",
         "price" : 9000,
         "material" : "powder",
         "tool" : "null",
