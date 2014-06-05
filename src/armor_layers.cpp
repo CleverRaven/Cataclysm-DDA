@@ -170,7 +170,10 @@ void player::sort_armor()
         }
 
         // Player encumbrance - altered copy of '@' screen
-        it_armor *each_armor = dynamic_cast<it_armor *>(tmp_worn[leftListIndex]->type);
+        it_armor *each_armor = 0;
+        if (leftListSize)
+            each_armor = dynamic_cast<it_armor *>(tmp_worn[leftListIndex]->type);
+
         mvwprintz(w_sort_middle, cont_h - 9, 1, c_white, _("Encumbrance and Warmth"));
         for (int i = 0; i < num_bp; ++i) {
             int enc, armorenc;
