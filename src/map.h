@@ -13,6 +13,7 @@
 #include "mapitems.h"
 #include "overmap.h"
 #include "item.h"
+#include "json.h"
 #include "monster.h"
 #include "npc.h"
 #include "vehicle.h"
@@ -491,7 +492,7 @@ void add_corpse(int x, int y);
                               // Useful for houses, shops, etc
  void add_road_vehicles(bool city, int facing);
 
-    class clZones
+    class clZones : public JsonSerializer, public JsonDeserializer
     {
         private:
             //std::unordered_map<std::string, point> mZones;
@@ -536,11 +537,11 @@ void add_corpse(int x, int y);
                     void setName();
                     void setZoneType(std::vector<std::pair<std::string, std::string> > vZoneTypes);
 
-                    std::string getName() { return sName; }
-                    std::string getZoneType() { return sZoneType; }
-                    bool getInvert() { return bInvert; }
-                    point getStartPoint() { return pointStartXY; }
-                    point getEndPoint() { return pointEndXY; }
+                    std::string getName() const { return sName; }
+                    std::string getZoneType() const { return sZoneType; }
+                    bool getInvert() const { return bInvert; }
+                    point getStartPoint() const { return pointStartXY; }
+                    point getEndPoint() const { return pointEndXY; }
             };
 
             std::vector<clZoneData> vZones;
@@ -576,9 +577,16 @@ void add_corpse(int x, int y);
 
                 return "Unknown Type";
             }
+
+            using JsonSerializer::serialize;
+            void serialize(JsonOut &json) const;
+            void deserialize(JsonIn &jsin);
     };
 
     clZones Zones;
+
+    bool save_zones();
+    void load_zones();
 
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,

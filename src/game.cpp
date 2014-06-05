@@ -3671,6 +3671,7 @@ void game::load(std::string worldname, std::string name)
  }
 
  load_auto_pickup(true); // Load character auto pickup rules
+ m.load_zones(); // Load character world zones
  load_uistate(worldname);
 // Now load up the master game data; factions (and more?)
  load_master(worldname);
@@ -8351,6 +8352,7 @@ void game::zones_manager()
                     iActive = iZonesNum - 1;
                 }
                 draw_ter();
+                bBlink = false;
 
             } else if (action == "DOWN") {
                 iActive++;
@@ -8358,6 +8360,7 @@ void game::zones_manager()
                     iActive = 0;
                 }
                 draw_ter();
+                bBlink = false;
 
             } else if (action == "REMOVE_ZONE") {
                 if (iActive < m.Zones.size()) {
@@ -8373,6 +8376,7 @@ void game::zones_manager()
                     draw_ter();
                     wrefresh(w_terrain);
                 }
+                bBlink = false;
 
             } else if (action == "CONFIRM") {
                 uimenu as_m;
@@ -8402,6 +8406,7 @@ void game::zones_manager()
                 }
 
                 draw_ter();
+                bBlink = false;
 
             } else if (action == "MOVE_ZONE_UP" && m.Zones.size() > 1) {
                 if (iActive < m.Zones.size() - 1) {
@@ -8409,15 +8414,16 @@ void game::zones_manager()
                               m.Zones.vZones[iActive + 1]);
                     iActive++;
                 }
+                bBlink = false;
+
             } else if (action == "MOVE_ZONE_DOWN" && m.Zones.size() > 1) {
                 if (iActive > 0) {
                     std::swap(m.Zones.vZones[iActive],
                               m.Zones.vZones[iActive - 1]);
                     iActive--;
                 }
+                bBlink = false;
             }
-
-            bBlink = false;
         }
 
         if (iZonesNum == 0) {
@@ -8499,6 +8505,9 @@ void game::zones_manager()
     delwin(w_zones_border);
     delwin(w_zones_info);
     delwin(w_zones_info_border);
+
+    //TODO Check if anything has changed before saving
+    m.save_zones();
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;

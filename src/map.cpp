@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "item_factory.h"
 #include "messages.h"
+#include "mapsharing.h"
 
 extern bool is_valid_in_w_terrain(int,int);
 
@@ -5114,4 +5115,92 @@ void map::clZones::clZoneData::setZoneType(std::vector<std::pair<std::string, st
     as_m.query();
 
     this->sZoneType = vZoneTypes[((as_m.ret >= 1) ? as_m.ret : 1) - 1].second;
+}
+
+void map::clZones::serialize(JsonOut &json) const
+{
+    json.start_array();
+    for (int i=0; i < vZones.size(); ++i) {
+        json.start_object();
+
+        json.member("name", vZones[i].getName());
+        json.member("type", vZones[i].getZoneType());
+        json.member("invert", vZones[i].getInvert());
+
+        point pointStart = vZones[i].getStartPoint();
+        point pointEnd = vZones[i].getEndPoint();
+
+        json.member("start_x", pointStart.x);
+        json.member("start_y", pointStart.y);
+        json.member("end_x", pointEnd.x);
+        json.member("end_y", pointEnd.y);
+
+        json.end_object();
+    }
+
+    json.end_array();
+}
+
+void map::clZones::deserialize(JsonIn &jsin)
+{
+    jsin.start_array();
+    while (!jsin.end_array()) {
+        JsonObject joZone = jsin.get_object();
+
+        const std::string sName = joZone.get_string("name");
+        const std::string sType = joZone.get_string("type");
+
+        const bool bInvert = joZone.get_bool("invert");
+
+        const int iStartX = joZone.get_int("start_x");
+        const int iStartY = joZone.get_int("start_y");
+        const int iEndX = joZone.get_int("end_x");
+        const int iEndY = joZone.get_int("end_y");
+
+        add(sName, sType, bInvert, point(iStartX, iStartY), point(iEndX, iEndY));
+    }
+}
+
+bool map::save_zones()
+{
+    std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".zones.json";
+
+    try {
+        std::ofstream fout;
+        fout.exceptions(std::ios::badbit | std::ios::failbit);
+
+        fopen_exclusive(fout, savefile.c_str());
+        if(!fout.is_open()) {
+            return true; //trick game into thinking it was saved
+        }
+
+        fout << Zones.serialize();
+        fclose_exclusive(fout, savefile.c_str());
+        return true;
+
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save zones to %s"), savefile.c_str());
+        return false;
+    }
+}
+
+void map::load_zones()
+{
+    std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".zones.json";
+
+    std::ifstream fin;
+    fin.open(savefile.c_str(), std::ifstream::in | std::ifstream::binary);
+    if(!fin.good()) {
+        fin.close();
+        return;
+    }
+
+    try {
+        JsonIn jsin(fin);
+        Zones.deserialize(jsin);
+    } catch (std::string e) {
+        dbg(D_ERROR) << "load_zones: " << e;
+    }
+
+    fin.close();
 }
