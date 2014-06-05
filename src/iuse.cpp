@@ -6069,24 +6069,6 @@ static int cut_up(player *p, item *it, item *cut, bool)
     int entropy_threshold = std::max(5, 10 - p->skillLevel("fabrication"));
     // What material components can we get back?
     std::set<std::string> cut_material_components = cut->made_of();
-    // What base types do materials convert to?
-    std::map<std::string, std::string> material_to_type;
-    material_to_type["cotton"] = "rag";
-    material_to_type["leather"] = "leather";
-    material_to_type["nomex"] = "nomex";
-    material_to_type["plastic"] = "plastic_chunk";
-    material_to_type["kevlar"] = "kevlar_plate";
-    material_to_type["wood"] = "skewer";
-    // Does the specific material have a conversion multiplier?
-    std::map<std::string, int> material_type_multiplier;
-    material_type_multiplier["cotton"] = 1;
-    material_type_multiplier["leather"] = 1;
-    material_type_multiplier["nomex"] = 1;
-    material_type_multiplier["plastic"] = 1;
-    material_type_multiplier["kevlar"] = 1;
-    // Following is historical and has been left in.
-    // twice the volume, i.e. 12 skewers from 2x4 and heavy stick just as before.
-    material_type_multiplier["wood"] = 2;
     // What materials do we salvage (ids and counts).
     std::map<std::string, int> materials_salvaged;
     
@@ -6125,7 +6107,10 @@ static int cut_up(player *p, item *it, item *cut, bool)
     // Decided to split components evenly. Since salvage will likely change
     // soon after I write this, I'll go with the one that is cleaner.
     for (auto material : cut_material_components) {
-        materials_salvaged[material_to_type[material]] = count * material_type_multiplier[material] / cut_material_components.size();
+        material_type * mt = material_type::find_material(material);
+        std::string salvaged_id = mt->salvage_id();
+        float salvage_multiplier = mt->salvage_multiplier();
+        materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
     }
 
     // Clean up before removing the item.
