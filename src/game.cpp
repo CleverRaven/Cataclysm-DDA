@@ -720,10 +720,163 @@ void game::cleanup_at_end(){
     // Clear the future weather for future projects
     weather_log.clear();
 
-    if (uquit == QUIT_DIED) {
-        popup_top(_("Game over! Press spacebar..."));
-    }
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
+        std::vector<std::string> vRip;
+
+        int iMaxWidth = 0;
+        int iNameLine = 0;
+        int iInfoLine = 0;
+
+        if(u.has_amount("holybook_bible1", 1) || u.has_amount("holybook_bible2", 1)) {
+            if (!(u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH"))) {
+                vRip.push_back("               _______  ___");
+                vRip.push_back("              <       `/   |");
+                vRip.push_back("               >  _     _ (");
+                vRip.push_back("              |  |_) | |_) |");
+                vRip.push_back("              |  | \\ | |   |");
+                vRip.push_back("   ______.__%_|            |_________  __");
+                vRip.push_back(" _/                                  \\|  |"); iNameLine = vRip.size();
+                vRip.push_back("|                                        <");
+                vRip.push_back("|                                        |"); iMaxWidth = vRip[vRip.size()-1].length();
+                vRip.push_back("|                                        |");
+                vRip.push_back("|_____.-._____              __/|_________|");
+                vRip.push_back("              |            |"); iInfoLine = vRip.size();
+                vRip.push_back("              |            |");
+                vRip.push_back("              |           <");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |   _        |");
+                vRip.push_back("              |__/         |");
+                vRip.push_back("             % / `--.      |%");
+                vRip.push_back("         * .%%|          -< @%%%");
+                vRip.push_back("         `\\%`@|            |@@%@%%");
+                vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
+                vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
+
+            } else {
+                vRip.push_back("               _______  ___");
+                vRip.push_back("              |       \\/   |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |"); iInfoLine = vRip.size();
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |           <");
+                vRip.push_back("              |   _        |");
+                vRip.push_back("              |__/         |");
+                vRip.push_back("   ______.__%_|            |__________  _");
+                vRip.push_back(" _/                                   \\| \\"); iNameLine = vRip.size();
+                vRip.push_back("|                                         <");
+                vRip.push_back("|                                         |"); iMaxWidth = vRip[vRip.size()-1].length();
+                vRip.push_back("|                                         |");
+                vRip.push_back("|_____.-._______            __/|__________|");
+                vRip.push_back("             % / `_-.   _  |%");
+                vRip.push_back("         * .%%|  |_) | |_)< @%%%");
+                vRip.push_back("         `\\%`@|  | \\ | |   |@@%@%%");
+                vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
+                vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
+            }
+        } else {
+            vRip.push_back("           _________  ____           ");
+            vRip.push_back("         _/         `/    \\_         ");
+            vRip.push_back("       _/      _     _      \\_.      ");
+            vRip.push_back("     _%\\      |_) | |_)       \\_     ");
+            vRip.push_back("   _/ \\/      | \\ | |           \\_   ");
+            vRip.push_back(" _/                               \\_ ");
+            vRip.push_back("|                                   |"); iNameLine = vRip.size();
+            vRip.push_back(" )                                 < ");
+            vRip.push_back("|                                   |");
+            vRip.push_back("|                                   |");
+            vRip.push_back("|   _                               |");
+            vRip.push_back("|__/                                |"); iMaxWidth = vRip[vRip.size()-1].length();
+            vRip.push_back(" / `--.                             |");
+            vRip.push_back("|                                  ( "); iInfoLine = vRip.size();
+            vRip.push_back("|                                   |");
+            vRip.push_back(" \\_                               _/");
+            vRip.push_back("   \\_%                         ._/  ");
+            vRip.push_back("   @`\\_                       _/%%  ");
+            vRip.push_back("  %@%@%\\_              *    _/%`%@% ");
+            vRip.push_back(" %@@@.%@%\\%%           `\\ %%.%%@@%@");
+            vRip.push_back("@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@");
+        }
+
+        const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
+        const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
+
+        WINDOW *w_rip = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+        draw_border(w_rip);
+
+        for (unsigned int iY=0; iY < vRip.size(); ++iY) {
+            for (unsigned int iX=0; iX < vRip[iY].length(); ++iX) {
+                char cTemp = vRip[iY][iX];
+                if (cTemp != ' ') {
+                    nc_color ncColor = c_ltgray;
+
+                    if (cTemp == '%') {
+                        ncColor = c_green;
+
+                    } else if (cTemp == '_' || cTemp == '|') {
+                        ncColor = c_white;
+
+                    } else if (cTemp == '@') {
+                        ncColor = c_brown;
+
+                    } else if (cTemp == '*') {
+                        ncColor = c_red;
+                    }
+
+                    mvwputch(w_rip, iY + 1, iX + (FULL_SCREEN_WIDTH/2) - (iMaxWidth/2), ncColor, vRip[iY][iX]);
+                }
+            }
+        }
+
+        std::string sTemp = _("Survived:");
+        mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH/2) - 5, c_ltgray, sTemp.c_str());
+
+        int minute_param = int(calendar::turn.get_turn() / 10);
+        int hour_param = minute_param / 60;
+        int day_param = hour_param / 24;
+        int iDays = day_param / (int)OPTIONS["SEASON_LENGTH"];
+
+        std::stringstream ssTemp;
+        ssTemp << iDays;
+        mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH/2) - 5, c_magenta, ssTemp.str().c_str());
+
+        sTemp = (iDays == 1) ? _("day") : _("days");
+        wprintz(w_rip, c_white, (" " + sTemp).c_str());
+
+        int iTotalKills = 0;
+
+        const std::map<std::string, mtype*> monids = MonsterGenerator::generator().get_all_mtypes();
+        for (std::map<std::string, mtype*>::const_iterator mon = monids.begin(); mon != monids.end(); ++mon){
+            if (g->kill_count(mon->first) > 0){
+                iTotalKills += g->kill_count(mon->first);
+            }
+        }
+
+        ssTemp.str("");
+        ssTemp << iTotalKills;
+
+        sTemp = _("Kills:");
+        mvwprintz(w_rip, 1 + iInfoLine++, (FULL_SCREEN_WIDTH/2) - 5, c_ltgray, (sTemp + " ").c_str());
+        wprintz(w_rip, c_magenta, ssTemp.str().c_str());
+
+        sTemp = _("In memory of:");
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH/2) - (sTemp.length()/2), c_ltgray, sTemp.c_str());
+
+        sTemp = u.name;
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH/2) - (sTemp.length()/2), c_white, sTemp.c_str());
+
+        sTemp = _("Last Words:");
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH/2) - (sTemp.length()/2), c_ltgray, sTemp.c_str());
+
+        long cInput = '\n';
+        int iPos = -1;
+        int iStartX = (FULL_SCREEN_WIDTH/2) - ((iMaxWidth-4)/2);
+        std::string sLastWords = string_input_win(w_rip, "", iMaxWidth-4-1,
+                                                  iStartX, iNameLine, iStartX + iMaxWidth-4-1,
+                                                  true, cInput, iPos);
+
         death_screen();
         if (uquit == QUIT_SUICIDE) {
             u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),
@@ -734,7 +887,7 @@ void game::cleanup_at_end(){
                                pgettext("memorial_female", "%s was killed."),
                                u.name.c_str());
         }
-        write_memorial_file();
+        write_memorial_file(sLastWords);
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
         // remove current player from the active characters list, as they are dead
@@ -3557,24 +3710,9 @@ void game::death_screen()
     }
 #endif
 
-    const std::string sText = _("GAME OVER - Press Spacebar to Quit");
-
-    WINDOW *w_death = newwin(5, 6+sText.size(), (TERMY-5)/2, (TERMX+6-sText.size())/2);
-
-    draw_border(w_death);
-
-    mvwprintz(w_death, 2, 3, c_ltred, "%s", sText.c_str());
-    wrefresh(w_death);
-    refresh();
-    while(getch() != ' ') {
-        // wait for another key press
-    }
-    delwin(w_death);
-
     Messages::display_messages();
     disp_kills();
 }
-
 
 bool game::load_master(std::string worldname)
 {
@@ -3918,7 +4056,7 @@ std::vector<std::string> game::list_active_characters()
  * state at the time the memorial was made (usually upon death) and
  * accomplishments in a human-readable format.
  */
-void game::write_memorial_file() {
+void game::write_memorial_file(std::string sLastWords) {
 
     //Open the file first
     DIR *dir = opendir("memorial");
@@ -3973,13 +4111,12 @@ void game::write_memorial_file() {
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
 
-    u.memorial( memorial_file );
+    u.memorial( memorial_file, sLastWords );
 
     if(!memorial_file.is_open()) {
       dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << memorial_file_path;
       debugmsg("Could not open memorial file '%s'", memorial_file_path.c_str());
     }
-
 
     //Cleanup
     memorial_file.close();
