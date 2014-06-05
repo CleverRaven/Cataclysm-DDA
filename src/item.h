@@ -273,8 +273,6 @@ class item : public JsonSerializer, public JsonDeserializer
          * @param phase
          */
         bool made_of(phase_id phase) const;
-        // Never returns NULL.
-        const material_type *get_material(int m) const;
         bool conductive() const; // Electricity
         bool flammable() const;
 

@@ -1744,104 +1744,87 @@ int item::melee_value(player *p)
 
 int item::bash_resist() const
 {
-    int ret = 0;
+    int resist = 0;
+    int eff_thickness = 1;
+    // With the multiplying and dividing in previous code, the following
+    // is a coefficient equivalent to the bonuses and maluses hardcoded in
+    // previous versions. Adjust to make you happier/sadder.
+    float adjustment = 1.5;
 
-    if (is_null())
-        return 0;
+    if (is_null()) {
+        return resist;
+    }
 
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
-    if (is_armor())
-    {
+    std::set<material_type*> mat_types = made_of_types();
+    // Armor gets an additional multiplier.
+    if (is_armor()) {
         // base resistance
         it_armor* tmp = dynamic_cast<it_armor*>(type);
-        int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
-
-        // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
-        if (cur_mat2->is_null())
-        {
-            ret = eff_thickness * (3 * cur_mat1->bash_resist());
-        }
-        else
-        {
-            ret = eff_thickness * (cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist());
-        }
+        eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
     }
-    else // for non-armor, just bash_resist
-    {
-        if (cur_mat2->is_null())
-        {
-            ret = 3 * cur_mat1->bash_resist();
-        }
-        else
-        {
-            ret = cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist();
-        }
+    
+    for (auto mat : mat_types) {
+        resist += mat->bash_resist();
     }
-    ret = ret * 0.5; //halve armour values for balance reasons
-    return ret;
+    // Average based on number of materials.
+    resist /= mat_types.size();
+    
+    return (int)(resist * eff_thickness * adjustment);
 }
 
 int item::cut_resist() const
 {
-    int ret = 0;
+    int resist = 0;
+    int eff_thickness = 1;
+    // With the multiplying and dividing in previous code, the following
+    // is a coefficient equivalent to the bonuses and maluses hardcoded in
+    // previous versions. Adjust to make you happier/sadder.
+    float adjustment = 1.5;
 
-    if (is_null())
-        return 0;
+    if (is_null()) {
+        return resist;
+    }
 
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
-    if (is_armor())
-        {
+    std::set<material_type*> mat_types = made_of_types();
+    // Armor gets an additional multiplier.
+    if (is_armor()) {
+        // base resistance
         it_armor* tmp = dynamic_cast<it_armor*>(type);
-        int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
-
-        // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
-        if (cur_mat2->is_null())
-        {
-            ret = eff_thickness * (3 * cur_mat1->cut_resist());
-
-        }
-        else
-        {
-            ret = eff_thickness * (cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist());
-        }
+        eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
     }
-    else // for non-armor
-    {
-        if (cur_mat2->is_null())
-        {
-            ret = 3 * cur_mat1->cut_resist();
-        }
-        else
-        {
-            ret = cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist();
-        }
+    
+    for (auto mat : mat_types) {
+        resist += mat->cut_resist();
     }
-    ret = ret * 0.5; //halve armour values for balance reasons
-    return ret;
+    // Average based on number of materials.
+    resist /= mat_types.size();
+    
+    return (int)(resist * eff_thickness * adjustment);
 }
 
 int item::acid_resist() const
 {
-    int ret = 0;
+    int resist = 0;
+    // With the multiplying and dividing in previous code, the following
+    // is a coefficient equivalent to the bonuses and maluses hardcoded in
+    // previous versions. Adjust to make you happier/sadder.
+    float adjustment = 1.5;
 
-    if (is_null())
-        return 0;
-
-    // similar weighted sum of acid resistances
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
-    if (cur_mat2->is_null())
-    {
-        ret = 3 * cur_mat1->acid_resist();
-    }
-    else
-    {
-        ret = cur_mat1->acid_resist() + cur_mat1->acid_resist() + cur_mat2->acid_resist();
+    if (is_null()) {
+        return resist;
     }
 
-    return ret;
+    std::set<material_type*> mat_types = made_of_types();
+    // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
+    // but such is the way of the code.
+    
+    for (auto mat : mat_types) {
+        resist += mat->acid_resist();
+    }
+    // Average based on number of materials.
+    resist /= mat_types.size();
+    
+    return (int)(resist * adjustment);
 }
 
 bool item::is_two_handed(player *u)
@@ -1928,35 +1911,19 @@ bool item::made_of(phase_id phase) const
 }
 
 
-const material_type *item::get_material(int m) const
-{
-    if (is_null() || m < 1 || m > 2) {
-        return material_type::base_material();
-    }
-
-    if (corpse != NULL && typeId() == "corpse" ) {
-        if (m == 1) {
-            return material_type::find_material(corpse->mat);
-        }
-        // corpses have only one material
-        return material_type::base_material();
-    }
-
-    return material_type::find_material(m == 1 ? type->m1 : type->m2);
-}
-
 bool item::conductive() const
 {
-    if( is_null() )
+    if (is_null()) {
         return false;
+    }
 
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
-
-    //Looks ugly, but prevents "null" 2nd material from making weapon conductive
-    //Unsure if there is a better way to determine 2nd material is "null"
-    return (cur_mat1->elec_resist() <= 0 || (!cur_mat2->is_null() &&
-                                             cur_mat2->elec_resist() <= 0));
+    // If any material does not resist electricity we are conductive.
+    for (auto mat : made_of_types()) {
+        if (!mat->is_null() && mat->elec_resist() <= 0) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool item::destroyed_at_zero_charges()
@@ -2911,10 +2878,16 @@ bool item::burn(int amount)
 
 bool item::flammable() const
 {
-    const material_type* cur_mat1 = get_material(1);
-    const material_type* cur_mat2 = get_material(2);
+    // Old code did not check for is_null(). Does null burn?
 
-    return ((cur_mat1->fire_resist() + cur_mat2->fire_resist()) <= 0);
+    
+    int flame_resistant = 0;
+    for (auto mat : made_of_types()) {
+        flame_resistant += mat->fire_resist();
+    }
+    return false;
+
+    return flame_resistant <= 0;
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)
