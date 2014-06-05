@@ -727,7 +727,8 @@ void game::cleanup_at_end(){
         int iNameLine = 0;
         int iInfoLine = 0;
 
-        if(u.has_amount("holybook_bible1", 1) || u.has_amount("holybook_bible2", 1)) {
+        if(u.has_amount("holybook_bible1", 1) || u.has_amount("holybook_bible2", 1) ||
+          u.has_amount("holybook_bible3", 1)) {
             if (!(u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH"))) {
                 vRip.push_back("               _______  ___");
                 vRip.push_back("              <       `/   |");
