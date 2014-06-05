@@ -48,7 +48,7 @@
         "id" : "phonebook",
         "name" : "phone book",
         "name_plural" : "phone books",
-        "max_level" : 3,
+        "max_level" : 0,
         "description" : "This hefty volume contains the addresses and telephone numbers of individuals, buisnesses, and utilities in the nearby area, pretty useless during the apocalypse and all.",
         "weight" : 854,
         "to_hit" : 0,
