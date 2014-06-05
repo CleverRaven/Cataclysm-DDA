@@ -255,6 +255,7 @@ public:
   void peek( int peekx = 0, int peeky = 0);
   point look_debug();
 
+  bool checkZone(const std::string p_sType, const int p_iX, const int p_iY);
   void zones_manager();
   void zones_manager_shortcuts(WINDOW *w_info);
   // Look at nearby terrain ';', or select zone points

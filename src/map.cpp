@@ -5097,6 +5097,11 @@ void map::add_road_vehicles(bool city, int facing)
     }
 }
 
+map::clZones::clZones()
+{
+    vZoneTypes.push_back(std::make_pair(_("No Auto Pickup Zone"), "AUTO_PICKUP"));
+}
+
 void map::clZones::clZoneData::setName()
 {
     const std::string sName = string_input_popup(_("Zone name:"), 55, this->sName, "", "", 15);
@@ -5115,6 +5120,53 @@ void map::clZones::clZoneData::setZoneType(std::vector<std::pair<std::string, st
     as_m.query();
 
     this->sZoneType = vZoneTypes[((as_m.ret >= 1) ? as_m.ret : 1) - 1].second;
+}
+
+std::string map::clZones::getNameFromType(const std::string p_sType)
+{
+    for (int i=0; i < vZoneTypes.size(); ++i) {
+        if (vZoneTypes[i].second == p_sType) {
+            return vZoneTypes[i].first;
+        }
+    }
+
+    return "Unknown Type";
+}
+
+bool map::clZones::hasType(const std::string p_sType)
+{
+    for (int i=0; i < vZoneTypes.size(); ++i) {
+        if (vZoneTypes[i].second == p_sType) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void map::clZones::cacheZoneData()
+{
+    mZones.clear();
+
+    for (int i=0; i < vZones.size(); ++i) {
+        const std::string sType = vZones[i].getZoneType();
+
+        point pStart = vZones[i].getStartPoint();
+        point pEnd = vZones[i].getEndPoint();
+
+        //draw marked area
+        for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
+            for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
+                mZones[sType].insert((iX * 100000) + iY);
+            }
+        }
+    }
+}
+
+bool map::clZones::hasZone(const std::string p_sType, const point p_pointInput)
+{
+    unsigned int iTemp = (p_pointInput.x * 100000) + p_pointInput.y;
+    return (mZones[p_sType].find(iTemp) != mZones[p_sType].end());
 }
 
 void map::clZones::serialize(JsonOut &json) const
@@ -5143,6 +5195,8 @@ void map::clZones::serialize(JsonOut &json) const
 
 void map::clZones::deserialize(JsonIn &jsin)
 {
+    vZones.clear();
+
     jsin.start_array();
     while (!jsin.end_array()) {
         JsonObject joZone = jsin.get_object();
@@ -5157,12 +5211,18 @@ void map::clZones::deserialize(JsonIn &jsin)
         const int iEndX = joZone.get_int("end_x");
         const int iEndY = joZone.get_int("end_y");
 
-        add(sName, sType, bInvert, point(iStartX, iStartY), point(iEndX, iEndY));
+        if (hasType(sType)) {
+            add(sName, sType, bInvert, point(iStartX, iStartY), point(iEndX, iEndY));
+        }
     }
+
+    cacheZoneData();
 }
 
 bool map::save_zones()
 {
+    Zones.cacheZoneData();
+
     std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".zones.json";
 
     try {

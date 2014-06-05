@@ -217,18 +217,27 @@ void Pickup::pick_up(int posx, int posy, int min)
         vItemDir.push_back(CENTER);
     }
 
-    if (min == -1 && OPTIONS["AUTO_PICKUP_ADJACENT"]) {
-        //Autopickup adjacent
-        direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
-        for (int i=0; i < 8; i++) {
-            vItemIndex[adjacentDir[i]] = 0;
+    if (min == -1) {
+        if (g->checkZone("AUTO_PICKUP", posx, posy)) {
+            here.clear();
+        }
 
-            std::pair<int, int> pairDir = direction_XY(adjacentDir[i]);
-            std::vector<item> hereTemp = g->m.i_at(posx + pairDir.first, posy + pairDir.second);
+        if (OPTIONS["AUTO_PICKUP_ADJACENT"]) {
+            //Autopickup adjacent
+            direction adjacentDir[8] = {NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
+            for (int i=0; i < 8; i++) {
+                vItemIndex[adjacentDir[i]] = 0;
 
-            for (int j=0; j < hereTemp.size(); j++) {
-                vItemDir.push_back(adjacentDir[i]);
-                here.push_back(hereTemp[j]);
+                std::pair<int, int> pairDir = direction_XY(adjacentDir[i]);
+
+                if (!g->checkZone("AUTO_PICKUP", posx + pairDir.first, posy + pairDir.second)) {
+                    std::vector<item> hereTemp = g->m.i_at(posx + pairDir.first, posy + pairDir.second);
+
+                    for (int j=0; j < hereTemp.size(); j++) {
+                        vItemDir.push_back(adjacentDir[i]);
+                        here.push_back(hereTemp[j]);
+                    }
+                }
             }
         }
     }

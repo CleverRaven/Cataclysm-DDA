@@ -8,6 +8,8 @@
 #include <string>
 #include <set>
 #include <map>
+#include <unordered_map>
+#include <unordered_set>
 
 #include "mapdata.h"
 #include "mapitems.h"
@@ -495,14 +497,11 @@ void add_corpse(int x, int y);
     class clZones : public JsonSerializer, public JsonDeserializer
     {
         private:
-            //std::unordered_map<std::string, point> mZones;
+            std::unordered_map<std::string, std::unordered_set<int> > mZones;
             std::vector<std::pair<std::string, std::string> > vZoneTypes;
 
         public:
-            clZones() {
-                //Todo: load json
-                vZoneTypes.push_back(std::make_pair(_("Auto Pickup"), "AUTO_PICKUP"));
-            };
+            clZones();
             ~clZones() {};
 
             class clZoneData
@@ -560,24 +559,12 @@ void add_corpse(int x, int y);
                 return false;
             }
 
-            unsigned int size() {
-                return vZones.size();
-            }
-
-            std::vector<std::pair<std::string, std::string> > getZoneTypes() {
-                return vZoneTypes;
-            }
-
-            std::string getNameFromType(const std::string p_sType) {
-                for (int i=0; i < vZoneTypes.size(); ++i) {
-                    if (vZoneTypes[i].second == p_sType) {
-                        return vZoneTypes[i].first;
-                    }
-                }
-
-                return "Unknown Type";
-            }
-
+            unsigned int size() { return vZones.size(); }
+            std::vector<std::pair<std::string, std::string> > getZoneTypes() { return vZoneTypes; }
+            std::string getNameFromType(const std::string p_sType);
+            bool hasType(const std::string p_sType);
+            void cacheZoneData();
+            bool hasZone(const std::string p_sType, const point p_pointInput);
             using JsonSerializer::serialize;
             void serialize(JsonOut &json) const;
             void deserialize(JsonIn &jsin);

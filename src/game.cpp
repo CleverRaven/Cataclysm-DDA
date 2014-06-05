@@ -8234,6 +8234,11 @@ void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x)
     begin_x = getbegx(w_messages);
 }
 
+bool game::checkZone(const std::string p_sType, const int p_iX, const int p_iY)
+{
+    return m.Zones.hasZone(p_sType, m.getabs(p_iX, p_iY));
+}
+
 void game::zones_manager_shortcuts(WINDOW *w_info)
 {
     int tmpx = 0;
