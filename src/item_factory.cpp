@@ -447,11 +447,10 @@ void Item_factory::check_itype_definitions() const {
     for(std::map<Item_tag, itype*>::const_iterator it = m_templates.begin(); it != m_templates.end(); ++it) {
         std::ostringstream msg;
         const itype* type = it->second;
-        if(type->m1 != "null" && !material_type::has_material(type->m1)) {
-            msg << string_format("invalid material %s", type->m1.c_str()) << "\n";
-        }
-        if(type->m2 != "null" && !material_type::has_material(type->m2)) {
-            msg << string_format("invalid material %s", type->m2.c_str()) << "\n";
+        for (auto mat_id : type->materials) {
+            if(mat_id != "null" && !material_type::has_material(mat_id)) {
+                msg << string_format("invalid material %s", mat_id.c_str()) << "\n";
+            }
         }
         for(std::set<std::string>::const_iterator a = type->techniques.begin(); a != type->techniques.end(); ++a) {
             if (ma_techniques.count(*a) == 0) {
@@ -912,6 +911,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     } else {
       new_item_template->m1 = "null";
       new_item_template->m2 = "null";
+      new_item_template->materials.insert("null");
     }
     Item_tag new_phase = "solid";
     if(jo.has_member("phase")){

@@ -221,7 +221,13 @@ struct itype {
 
     std::string dmg_adj(int dam)
     {
-        return material_type::find_material(m1)->dmg_adj(dam);
+        std::string primary_mat_id = "null";
+        // Whatever is first.
+        for (auto mat_id : materials) {
+            primary_mat_id = mat_id;
+            break;
+        }
+        return material_type::find_material(primary_mat_id)->dmg_adj(dam);
     }
 
     std::vector<use_function> use_methods;// Special effects of use
@@ -450,16 +456,32 @@ struct it_armor : public virtual itype {
     }
 
     std::string bash_dmg_verb()
-    {
-        return m2 == "null" || !one_in(3) ?
-               material_type::find_material(m1)->bash_dmg_verb() :
-               material_type::find_material(m2)->bash_dmg_verb();
+    {   
+        std::string chosen_mat_id = "null";
+        int stop_on = rng(0, materials.size());
+        int counter = 0;
+        for (auto mat_id : materials) {
+            if (counter >= stop_on) {
+                chosen_mat_id = mat_id;
+                break;
+            }
+            counter += 1;
+        }
+        return material_type::find_material(chosen_mat_id)->bash_dmg_verb();
     }
     std::string cut_dmg_verb()
     {
-        return m2 == "null" || !one_in(3) ?
-               material_type::find_material(m1)->cut_dmg_verb() :
-               material_type::find_material(m2)->cut_dmg_verb();
+        std::string chosen_mat_id = "null";
+        int stop_on = rng(0, materials.size());
+        int counter = 0;
+        for (auto mat_id : materials) {
+            if (counter >= stop_on) {
+                chosen_mat_id = mat_id;
+                break;
+            }
+            counter += 1;
+        }
+        return material_type::find_material(chosen_mat_id)->cut_dmg_verb();
     }
 };
 
