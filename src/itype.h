@@ -92,8 +92,6 @@ struct itype {
     char sym;       // Symbol on the map
     nc_color color; // Color on the map (color.h)
 
-    std::string m1; // Main material
-    std::string m2; // Secondary material -- "null" if made of just 1 thing
     // What we're made of (material names). .size() == made of nothing.
     // MATERIALS WORK IN PROGRESS.
     std::vector<std::string> materials; 
@@ -232,16 +230,33 @@ struct itype {
     std::vector<use_function> use_methods;// Special effects of use
 
     itype() : id("null"), price(0), name("none"), name_plural("none"), description(), sym('#'),
-        color(c_white), m1("null"), m2("null"), phase(SOLID), volume(0), stack_size(0),
+        color(c_white), phase(SOLID), volume(0), stack_size(0),
         weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL),
         melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
-        category(NULL) { }
+        category(NULL) 
+    { 
+        materials.push_back("null");
+    }
 
+    // I made this because the MACGUFFIN is making my ignorant C++ brain sad.
     itype(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
-          std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
+          std::string pdes, char psym, nc_color pcolor, std::string pmaterial,
           phase_id pphase, unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
           signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
-        name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), m1(pm1), m2(pm2),
+        name_plural(pname_plural), description(pdes), sym(psym), color(pcolor),
+        phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
+        bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL), melee_dam(pmelee_dam),
+        melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
+        category(NULL) 
+    { 
+        materials.push_back(pmaterial);
+    }
+    
+    itype(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
+          std::string pdes, char psym, nc_color pcolor, std::vector<std::string> pmaterials,
+          phase_id pphase, unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
+          signed int pmelee_cut, signed int pm_to_hit) : id(pid), price(pprice), name(pname),
+        name_plural(pname_plural), description(pdes), sym(psym), color(pcolor), materials(pmaterials),
         phase(pphase), volume(pvolume), stack_size(0), weight(pweight),
         bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL), melee_dam(pmelee_dam),
         melee_cut(pmelee_cut), m_to_hit(pm_to_hit), item_tags(), techniques(), light_emission(),
@@ -593,11 +608,11 @@ struct it_macguffin : public virtual itype {
         return true;
     }
     it_macguffin(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
-                 std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
+                 std::string pdes, char psym, nc_color pcolor, std::string pmaterial,
                  unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
                  signed int pmelee_cut, signed int pm_to_hit, bool preadable,
                  int (iuse::*puse)(player *, item *, bool))
-        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID, pvolume,
+        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pmaterial, SOLID, pvolume,
                 pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         readable = preadable;
@@ -615,10 +630,10 @@ struct it_software : public virtual itype {
     }
 
     it_software(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,
-                std::string pdes, char psym, nc_color pcolor, std::string pm1, std::string pm2,
+                std::string pdes, char psym, nc_color pcolor, std::string pmaterial,
                 unsigned int pvolume, unsigned int pweight, signed int pmelee_dam,
                 signed int pmelee_cut, signed int pm_to_hit, software_type pswtype, int ppower)
-        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pm1, pm2, SOLID,
+        : itype(pid, pprice, pname, pname_plural, pdes, psym, pcolor, pmaterial, SOLID,
                 pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         swtype = pswtype;

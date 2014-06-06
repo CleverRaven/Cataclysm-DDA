@@ -907,11 +907,9 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     new_item_template->color = color_from_string(jo.get_string("color"));
     new_item_template->description = _(jo.get_string("description").c_str());
     if(jo.has_member("material")){
-      set_material_from_json(jo, "material", new_item_template);
+        set_material_from_json(jo, "material", new_item_template);
     } else {
-      new_item_template->m1 = "null";
-      new_item_template->m2 = "null";
-      new_item_template->materials.push_back("null");
+        new_item_template->materials.push_back("null");
     }
     Item_tag new_phase = "solid";
     if(jo.has_member("phase")){
@@ -1038,25 +1036,9 @@ unsigned Item_factory::flags_from_json(JsonObject& jo, const std::string & membe
 }
 
 void Item_factory::set_material_from_json(JsonObject& jo, std::string member, itype* new_item_template)
-{
-    //If the value isn't found, just return a group of null materials
-    std::string material_list[2] = {"null", "null"};
-    if( jo.has_array(member) ) {
-        JsonArray jarr = jo.get_array(member);
-        if (jarr.size() > 2) {
-            debugmsg("Too many materials provided for item %s", new_item_template->id.c_str());
-        }
-        material_list[0] = jarr.get_string(0);
-        material_list[1] = jarr.get_string(1);
-    } else if ( jo.has_string(member) ) {
-        material_list[0] = jo.get_string(member);
-    }
-    new_item_template->m1 = material_list[0];
-    new_item_template->m2 = material_list[1];
-    
-    // MATERIALS WORK IN PROGRESS.
-    // All materials need a type, even if it is "null", which is a defined
-    // type.
+{    
+    // All materials need a type, even if it is "null", which seems to be 
+    // the base type.
     if (jo.has_array(member)) {
         JsonArray jarr = jo.get_array(member);
         for (int i = 0; i < jarr.size(); ++i) {

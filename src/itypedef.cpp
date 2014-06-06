@@ -36,10 +36,10 @@ void game::init_itypes ()
 
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
-  new itype("null", 0, "none", "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0);
+  new itype("null", 0, "none", "none", "", '#', c_white, "null", PNULL, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, "corpse", "corpses", _("A dead body."), '%', c_white, "null", "null", PNULL, 0, 0,
+  new itype("corpse", 0, "corpse", "corpses", _("A dead body."), '%', c_white, "null", PNULL, 0, 0,
             0, 0, 1);
  itypes["corpse"]->item_tags.insert("NO_UNLOAD");
 // This must -always- be set, or bad mojo in map::drawsq and whereever we check 'typeId() == "corpse" instead of 'corpse != NULL' ....
@@ -48,33 +48,33 @@ void game::init_itypes ()
  itypes["fire"]=
   new itype("fire", 0, "nearby fire", "none",
             "Some fire - if you are reading this it's a bug! (itypdef:fire)",
-            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+            '$', c_red, "null", PNULL, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
   new itype("toolset", 0, "integrated toolset", "none",
             "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
-            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+            '$', c_red, "null", PNULL, 0, 0, 0, 0, 0);
 // For smoking drugs
  itypes["apparatus"]=
   new itype("apparatus", 0, "a smoking device and a source of flame", "none",
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+            '$', c_red, "null", PNULL, 0, 0, 0, 0, 0);
 // For CVD Forging
  itypes["cvd_machine"]=
   new itype("cvd_machine", 0, "cvd machine", "none",
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0);
+            '$', c_red, "null", PNULL, 0, 0, 0, 0, 0);
 
 // SOFTWARE
 #define SOFTWARE(id, name, name_plural, price, swtype, power, description) \
 itypes[id]=new it_software(id, price, name, name_plural, description,\
-    ' ', c_white, "null", "null", 0, 0, 0, 0, 0, swtype, power)
+    ' ', c_white, "null", 0, 0, 0, 0, 0, swtype, power)
 
 //Macguffins
-#define MACGUFFIN(id, name, name_plural, price, sym, color, mat1, mat2, volume, wgt, dam, cut,\
+#define MACGUFFIN(id, name, name_plural, price, sym, color, mat, volume, wgt, dam, cut,\
                   to_hit, readable, function, description) \
 itypes[id]=new it_macguffin(id, price, name, name_plural, description,\
-    sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, readable,\
+    sym, color, mat, volume, wgt, dam, cut, to_hit, readable,\
     function)
 
 SOFTWARE("software_useless", "misc software", "none", 300, SW_USELESS, 0, _("\
@@ -92,7 +92,7 @@ A piece of mathematical software."));
 SOFTWARE("software_blood_data", "infection data", "none", 200, SW_DATA, 5, _("\
 Medical data on zombie blood."));
 
-MACGUFFIN("note", "note", "notes", 0, '?', c_white, "paper", "null", 1, 3, 0, 0, 0,
+MACGUFFIN("note", "note", "notes", 0, '?', c_white, "paper", 1, 3, 0, 0, 0,
     true, &iuse::mcg_note, _("\
 A hand-written paper note."));
 
