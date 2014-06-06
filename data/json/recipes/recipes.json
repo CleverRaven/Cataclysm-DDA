@@ -30380,6 +30380,36 @@
   },
   {
     "type" : "recipe",
+    "result": "bootstrap",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 3,
+    "time": 75000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "needle_bone", 10 ],
+        [ "needle_wood", 10 ],
+        [ "sewing_kit", 10 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 3 ]
+      ],
+      [
+        [ "string_6", 3 ],
+        [ "sinew", 10 ],
+        [ "thread", 10 ],
+        [ "plant_fibre", 10 ]
+      ]
+    ]
+  },
+  {
+    "type" : "recipe",
     "result": "sheath",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
