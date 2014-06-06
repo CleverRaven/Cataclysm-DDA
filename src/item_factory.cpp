@@ -911,7 +911,7 @@ void Item_factory::load_basic_info(JsonObject& jo, itype* new_item_template)
     } else {
       new_item_template->m1 = "null";
       new_item_template->m2 = "null";
-      new_item_template->materials.insert("null");
+      new_item_template->materials.push_back("null");
     }
     Item_tag new_phase = "solid";
     if(jo.has_member("phase")){
@@ -1060,14 +1060,14 @@ void Item_factory::set_material_from_json(JsonObject& jo, std::string member, it
     if (jo.has_array(member)) {
         JsonArray jarr = jo.get_array(member);
         for (int i = 0; i < jarr.size(); ++i) {
-            new_item_template->materials.insert(jarr.get_string(i));
+            new_item_template->materials.push_back(jarr.get_string(i));
         }
     } else if (jo.has_string(member)) {
-        new_item_template->materials.insert(jo.get_string(member));
+        new_item_template->materials.push_back(jo.get_string(member));
     }
     else {
         // Default material.
-        new_item_template->materials.insert("null");
+        new_item_template->materials.push_back("null");
     }
 }
 

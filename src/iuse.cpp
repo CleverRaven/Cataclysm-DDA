@@ -5955,13 +5955,13 @@ static bool valid_to_cut_up(player *p, item *it)
     int pos = p->get_item_position(it);
     // If a material is made of different items than what is in this set, we
     // do not cut it up.
-    std::set<std::string> material_id_white_list;
-    material_id_white_list.insert("cotton");
-    material_id_white_list.insert("leather");
-    material_id_white_list.insert("nomex");
-    material_id_white_list.insert("kevlar");
-    material_id_white_list.insert("plastic");
-    material_id_white_list.insert("wood");
+    std::vector<std::string> material_id_white_list;
+    material_id_white_list.push_back("cotton");
+    material_id_white_list.push_back("leather");
+    material_id_white_list.push_back("nomex");
+    material_id_white_list.push_back("kevlar");
+    material_id_white_list.push_back("plastic");
+    material_id_white_list.push_back("wood");
 
     if (it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
@@ -6018,7 +6018,7 @@ static int cut_up(player *p, item *it, item *cut, bool)
     // Chance of us losing a material component to entropy.
     int entropy_threshold = std::max(5, 10 - p->skillLevel("fabrication"));
     // What material components can we get back?
-    std::set<std::string> cut_material_components = cut->made_of();
+    std::vector<std::string> cut_material_components = cut->made_of();
     // What materials do we salvage (ids and counts).
     std::map<std::string, int> materials_salvaged;
     

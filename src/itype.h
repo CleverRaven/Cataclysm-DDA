@@ -96,7 +96,7 @@ struct itype {
     std::string m2; // Secondary material -- "null" if made of just 1 thing
     // What we're made of (material names). .size() == made of nothing.
     // MATERIALS WORK IN PROGRESS.
-    std::set<std::string> materials; 
+    std::vector<std::string> materials; 
 
     phase_id phase; //e.g. solid, liquid, gas
 
@@ -222,11 +222,10 @@ struct itype {
     std::string dmg_adj(int dam)
     {
         std::string primary_mat_id = "null";
-        // Whatever is first.
-        for (auto mat_id : materials) {
-            primary_mat_id = mat_id;
-            break;
+        if (materials.size() > 0) {
+            primary_mat_id = materials[0];
         }
+
         return material_type::find_material(primary_mat_id)->dmg_adj(dam);
     }
 
@@ -458,28 +457,16 @@ struct it_armor : public virtual itype {
     std::string bash_dmg_verb()
     {   
         std::string chosen_mat_id = "null";
-        int stop_on = rng(0, materials.size());
-        int counter = 0;
-        for (auto mat_id : materials) {
-            if (counter >= stop_on) {
-                chosen_mat_id = mat_id;
-                break;
-            }
-            counter += 1;
+        if (materials.size()) {
+            chosen_mat_id = materials[rng(0, materials.size())];
         }
         return material_type::find_material(chosen_mat_id)->bash_dmg_verb();
     }
     std::string cut_dmg_verb()
     {
         std::string chosen_mat_id = "null";
-        int stop_on = rng(0, materials.size());
-        int counter = 0;
-        for (auto mat_id : materials) {
-            if (counter >= stop_on) {
-                chosen_mat_id = mat_id;
-                break;
-            }
-            counter += 1;
+        if (materials.size()) {
+            chosen_mat_id = materials[rng(0, materials.size())];
         }
         return material_type::find_material(chosen_mat_id)->cut_dmg_verb();
     }

@@ -1755,7 +1755,7 @@ int item::bash_resist() const
         return resist;
     }
 
-    std::set<material_type*> mat_types = made_of_types();
+    std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
@@ -1785,7 +1785,7 @@ int item::cut_resist() const
         return resist;
     }
 
-    std::set<material_type*> mat_types = made_of_types();
+    std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
@@ -1814,7 +1814,7 @@ int item::acid_resist() const
         return resist;
     }
 
-    std::set<material_type*> mat_types = made_of_types();
+    std::vector<material_type*> mat_types = made_of_types();
     // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
     // but such is the way of the code.
     
@@ -1836,15 +1836,15 @@ bool item::is_two_handed(player *u)
     return ((weight() / 113) > u->str_cur * 4);
 }
 
-std::set<std::string> item::made_of() const
+std::vector<std::string> item::made_of() const
 {
-    std::set<std::string> materials_composed_of;
+    std::vector<std::string> materials_composed_of;
     if (is_null()) {
         // pass, we're not made of anything at the moment.
-        materials_composed_of.insert("null");
+        materials_composed_of.push_back("null");
     } else if (is_corpse()) {
         // Corpses are only made of one type of material.
-        materials_composed_of.insert(corpse->mat);
+        materials_composed_of.push_back(corpse->mat);
     } else {
         // Defensive copy of materials. 
         // More idiomatic to return a const reference?
@@ -1853,22 +1853,22 @@ std::set<std::string> item::made_of() const
     return materials_composed_of;
 }
 
-std::set<material_type*> item::made_of_types() const
+std::vector<material_type*> item::made_of_types() const
 {
-    std::set<std::string> materials_composed_of = made_of();
-    std::set<material_type*> material_types_composed_of;
+    std::vector<std::string> materials_composed_of = made_of();
+    std::vector<material_type*> material_types_composed_of;
     material_type *next_material;
 
     for (auto mat_id : materials_composed_of) {
         next_material = material_type::find_material(mat_id);
-        material_types_composed_of.insert(next_material);
+        material_types_composed_of.push_back(next_material);
     }
     return material_types_composed_of;
 }
 
-bool item::made_of_any(std::set<std::string> mat_idents) const
+bool item::made_of_any(std::vector<std::string> mat_idents) const
 {
-    std::set<std::string> mat_composed_of = made_of();
+    std::vector<std::string> mat_composed_of = made_of();
     std::unordered_set<std::string> mat_intersects;
 
     std::set_intersection(mat_idents.begin(), mat_idents.end(),
@@ -1878,9 +1878,9 @@ bool item::made_of_any(std::set<std::string> mat_idents) const
     return mat_intersects.size() >= 1;
 }
 
-bool item::not_made_of(std::set<std::string> mat_idents) const
+bool item::not_made_of(std::vector<std::string> mat_idents) const
 {
-    std::set<std::string> mat_composed_of = made_of();
+    std::vector<std::string> mat_composed_of = made_of();
     std::unordered_set<std::string> mat_intersects;
 
     std::set_intersection(mat_idents.begin(), mat_idents.end(),
@@ -1894,12 +1894,15 @@ bool item::made_of(std::string mat_ident) const
 {
     if (is_null()) {
         return false;
-    } else if (is_corpse()) {
-        // Corpses are only made of one type of material.
-        return (corpse->mat == mat_ident);
     }
-
-    return type->materials.find(mat_ident) != type->materials.end();;
+    
+    std::vector<std::string> mat_composed_of = made_of();
+    for (auto m : mat_composed_of) {
+        if (m == mat_ident) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool item::made_of(phase_id phase) const
