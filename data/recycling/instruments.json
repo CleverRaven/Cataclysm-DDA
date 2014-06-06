@@ -1,0 +1,33 @@
+[
+  { "type":"INSTRUMENT",
+    "id":"GUITAR",
+    "symbol": "$",
+    "color": "red",
+    "name":"Guitar",
+    "description":"An acoustic six-string guitar. A bit out of tune, but in good shape otherwise.",
+    "material": "wood",
+    "weight": 2766,
+    "volume": 24,
+    "damage": 14,
+    "to_hit": 1,
+    "use": "PLAY_GUITAR",
+    "variations": [
+      { "odds" : 200,
+        "name" : "Specific Variation"
+      }
+    ]
+  },
+  { "type":"INSTRUMENT",
+    "id":"DRUM",
+    "symbol": "o",
+    "color": "green",
+    "name":"Bongo",
+    "description": "A handheld drum. Suitable for making loud noises into all hours of the night.",
+    "material": ["wood", "steel"],
+    "weight": 400,
+    "volume": 10,
+    "damage": 11,
+    "to_hit": 1,
+    "use": "PLAY_DRUM"
+  }
+]

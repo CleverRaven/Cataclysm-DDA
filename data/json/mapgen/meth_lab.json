@@ -1,0 +1,115 @@
+[
+     {
+    "type" : "item_group",
+    "id" : "methchef",
+    "items":[
+      ["meth", 90],
+      ["pan", 50]
+    ]
+  },
+{
+        "type": "mapgen",
+        "om_terrain": [
+            "abstorefront"
+        ],
+        "method": "json",
+        "weight": 100,
+        "object": {
+            "rows": [
+                "........................",
+                ".---222222-33-222222---.",
+                ".|                    |.",
+                ".|    >         99   9|.",
+                ".|    >         99   9|.",
+                ".|>>>>>9        99   9|.",
+                ".|9                  9|.",
+                ".|9    9             9|.",
+                ".|9       G   >>     9|.",
+                ".|9 9     >    >     9|.",
+                ".|9 99    G    >     9|.",
+                ".|9  9    G   >>     9|.",
+                ".|9 9                9|.",
+                ".|9                  9|.",
+                ".|9  99    9    99   9|.",
+                ".|9  99    99   99   9|.",
+                ".|9  99    99   99   9|.",
+                ".|9  99    99   ------|.",
+                ".|9  99    99   +     |.",
+                ".| 9            |     3.",
+                ".|    9         |     |.",
+                ".|99999999999999|     |.",
+                ".----------------------.",
+                "........................"
+            ],
+            "terrain": {
+                ".": "t_grass",
+                "-": "t_wall_h",
+                "2": "t_window_boarded",
+                "3": "t_door_locked",
+                "|": "t_wall_v",
+                " ": "t_floor",
+                "6": "t_floor",
+                "7": "t_floor",
+                "8": "t_floor",
+                "9": "t_floor",
+                ":": "t_floor",
+                ";": "t_floor",
+                "+": "t_door_c",
+                ">": "t_floor",
+                "?": "t_floor",
+                "@": "t_floor",
+                "A": "t_floor",
+                "B": "t_floor",
+                "C": "t_floor",
+                "D": "t_floor",
+                "E": "t_floor",
+                "F": "t_floor",
+                "G": "t_floor",
+                "z": "t_shrub",
+                "S": "t_sidewalk",
+                "^": "t_tree",
+                "{": "t_door_glass_c",
+                "[": "t_fence_v",
+                "~": "t_fence_h"
+            },
+            "furniture": {
+                "6": "f_table",
+                "7": "f_bookcase",
+                "8": "f_bathtub",
+                "9": "f_rack",
+                ":": "f_dresser",
+                ";": "f_toilet",
+                ">": "f_counter",
+                "?": "f_sofa",
+                "@": "f_bed",
+                "A": "f_sink",
+                "B": "f_chair",
+                "C": "f_desk",
+                "D": "f_trashcan",
+                "E": "f_cupboard",
+                "F": "f_fridge",
+                "G": "f_oven"
+            },
+            "comment": "specific terrain/furniture/radiation. doing this until grass_or_dirt is supported ---v",
+            "set": [
+                { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+                { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
+                { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": 0, "repeat": [ 5, 8 ] }
+            ],
+                        "comment": "randomly picked from a group ---v",
+            "place_groups": [
+                { "item": "trash", "chance": 90,  "x": [ 2,21 ], "y": [ 2,21 ], "repeat": [ 2,3 ] },
+                { "item": "methchef", "chance": 90, "x": [ 10,10 ], "y": [ 8,8 ] },
+                { "item": "methlab", "chance": 90, "x": [ 10,10 ], "y": [ 9,9 ] },
+                { "item": "methchef", "chance": 70, "x": [ 10,10 ], "y": [ 10,11 ] },
+                { "item": "methlab", "chance": 90, "x": [ 15,15 ], "y": [ 8,11 ] },
+                { "item": "methlab", "chance": 90, "x": [ 14,14 ], "y": [ 8,8 ] },
+                { "item": "methlab", "chance": 90, "x": [ 14,14 ], "y": [ 11,11 ] },
+                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 2,3 ]  }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]

@@ -1,0 +1,71 @@
+[
+    {
+        "type" : "tool_quality",
+        "id" : "CUT",
+        "name" : "cutting"
+    },{
+        "type" : "tool_quality",
+        "id" : "HAMMER",
+        "name" : "hammering"
+    },{
+        "type" : "tool_quality",
+        "id" : "HAMMER_FINE",
+        "name" : "fine hammering"
+    },{
+        "type" : "tool_quality",
+        "id" : "SAW_W",
+        "name" : "wood sawing"
+    },{
+        "type" : "tool_quality",
+        "id" : "SAW_M",
+        "name" : "metal sawing"
+    },{
+        "type" : "tool_quality",
+        "id" : "SAW_M_FINE",
+        "name" : "fine metal sawing"
+    },{
+        "type" : "tool_quality",
+        "id" : "COOK",
+        "name" : "food cooking"
+    },{
+        "type" : "tool_quality",
+        "id" : "BOIL",
+        "name" : "boiling"
+    },{
+        "type" : "tool_quality",
+        "id" : "CONTAIN",
+        "name" : "containing"
+    },{
+        "type" : "tool_quality",
+        "id" : "CHEM",
+        "name" : "chemical making"
+    },{
+        "type" : "tool_quality",
+        "id" : "BREW",
+        "name" : "brewing"
+    },{
+        "type" : "tool_quality",
+        "id" : "AXE",
+        "name" : "tree cutting"
+    },{
+        "type" : "tool_quality",
+        "id" : "DIG",
+        "name" : "digging"
+    },{
+        "type" : "tool_quality",
+        "id" : "WRENCH",
+        "name" : "bolt turning"
+    },{
+        "type" : "tool_quality",
+        "id" : "WRENCH_FINE",
+        "name" : "fine bolt turning"
+    },{
+        "type" : "tool_quality",
+        "id" : "SCREW",
+        "name" : "screw driving"
+    },{
+        "type" : "tool_quality",
+        "id" : "SCREW_FINE",
+        "name" : "fine screw driving"
+    }
+]
