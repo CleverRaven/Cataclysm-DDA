@@ -8145,6 +8145,7 @@ hint_rating player::rate_action_wear(item *it)
  }
  // Checks to see if the player is wearing shoes
  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+     (!it->has_flag("BELTED")) &&
      (!it->has_flag("SKINTIGHT") && is_wearing_shoes())){
   return HINT_IFFY;
  }
@@ -8492,6 +8493,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+            (!to_wear->has_flag("BELTED")) &&
             (!to_wear->has_flag("SKINTIGHT")) && is_wearing_shoes()) {
             // Checks to see if the player is wearing shoes
             if(interactive){
@@ -10042,6 +10044,7 @@ bool player::is_wearing_shoes() {
         it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
         if (worn_armor->covers & mfb(bp_feet) &&
+            (!worn_item->has_flag("BELTED")) &&
             (!worn_item->has_flag("SKINTIGHT"))) {
             return true;
         }
