@@ -9134,7 +9134,7 @@ void player::read(int pos)
         }
         // otherwise do nothing as there's no associated skill
     } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
-        add_msg(m_info, _("What's the point of reading?  (Your morale is too low!)"));
+        add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
         return;
     } else if (skillLevel(tmp->type) < (int)tmp->req) {
         add_msg(_("The %s-related jargon flies over your head!"),
