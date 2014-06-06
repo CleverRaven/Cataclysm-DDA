@@ -5851,9 +5851,9 @@ int iuse::mp3_on(player *p, item *it, bool t)
         if (!p->has_item(it) || p->has_disease("deaf") ) {
             return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
         }
-        p->add_morale(MORALE_MUSIC, 1, 50);
+        p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
 
-        if (int(calendar::turn) % 10 == 0) { // Every 10 turns, describe the music
+        if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
             std::string sound = "";
             if (one_in(50)) {
                 sound = _("some bass-heavy post-glam speed polka");
@@ -5865,7 +5865,7 @@ int iuse::mp3_on(player *p, item *it, bool t)
             case 4: sound = _("some pumping bass."); break;
             case 5: sound = _("dramatic classical music.");
                 if (p->int_cur >= 10) {
-                    p->add_morale(MORALE_MUSIC, 1, 100);
+                    p->add_morale(MORALE_MUSIC, 1, 100, 5, 2);
                 }
                 break;
             }
