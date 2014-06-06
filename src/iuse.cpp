@@ -5848,8 +5848,8 @@ int iuse::mp3(player *p, item *it, bool)
 int iuse::mp3_on(player *p, item *it, bool t)
 {
     if (t) { // Normal use
-        if (!p->has_item(it) || p->has_disease("deaf") || p->has_disease("sleep") ) {
-            return it->type->charges_to_use(); // We're not carrying it, we're deaf, or we're asleep.
+        if (!p->has_item(it) || p->has_disease("deaf") ) {
+            return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
         }
         p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
 
