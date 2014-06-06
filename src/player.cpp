@@ -9207,7 +9207,7 @@ void player::do_read( item *book )
     it_book *reading = dynamic_cast<it_book *>(book->type);
 
     // Note that we've read the book.
-    books_read.insert( book->type->id );
+    items_identified.insert( book->type->id );
 
     if( reading->fun != 0 ) {
         int fun_bonus = 0;
@@ -9319,9 +9319,9 @@ void player::do_read( item *book )
     activity.type = ACT_NULL;
 }
 
-bool player::has_read( std::string book ) const
+bool player::has_identified( std::string item_id ) const
 {
-    return books_read.count( book ) > 0;
+    return items_identified.count( item_id ) > 0;
 }
 
 bool player::can_study_recipe(it_book* book)
@@ -10362,7 +10362,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
     for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
         // We are only checking qualities, so we only care about the first item in the stack.
         const item &candidate = (*stack)->front();
-        if( candidate.is_book() && books_read.count(candidate.type->id) ) {
+        if( candidate.is_book() && items_identified.count(candidate.type->id) ) {
             it_book *book_type = dynamic_cast<it_book *>(candidate.type);
             for( auto book_recipe = book_type->recipes.cbegin();
                  book_recipe != book_type->recipes.cend(); ++book_recipe ) {

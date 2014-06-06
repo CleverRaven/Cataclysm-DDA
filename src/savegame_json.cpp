@@ -337,7 +337,7 @@ void player::serialize(JsonOut &json, bool save_contents) const
     json.end_array();
 
     // Player only, books they have read at least once.
-    json.member( "books_read", books_read );
+    json.member( "items_identified", items_identified );
 
     // :(
     json.member( "morale", morale );
@@ -458,8 +458,8 @@ void player::deserialize(JsonIn &jsin)
         }
     }
 
-    books_read.clear();
-    data.read( "books_read", books_read );
+    items_identified.clear();
+    data.read( "items_identified", items_identified );
 
     data.read("morale", morale);
 

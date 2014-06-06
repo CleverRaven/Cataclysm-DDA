@@ -666,7 +666,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         dump->push_back(iteminfo("DESCRIPTION", "--"));
         it_book* book = dynamic_cast<it_book*>(type);
-        if( g->u.has_read( type->id ) ) {
+        if( g->u.has_identified( type->id ) ) {
             if (!book->type) {
                 dump->push_back(iteminfo("BOOK", _("Just for fun.")));
             } else {
