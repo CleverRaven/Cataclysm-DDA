@@ -9355,7 +9355,7 @@ bool player::try_study_recipe(it_book *book)
             (iter->first->skill_used == NULL ||
              skillLevel(iter->first->skill_used) >= iter->second)) {
             if (iter->first->skill_used == NULL ||
-                rng(0, 4) <= skillLevel(iter->first->skill_used) - iter->second) {
+                rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
                 learn_recipe(iter->first);
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
                                 itypes[iter->first->result]->name.c_str(), book->name.c_str());
