@@ -8251,7 +8251,46 @@ void game::zones_manager_shortcuts(WINDOW *w_info)
     tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<+-> Move up/down")) + 2;
     tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
 
+    tmpx = 1;
+    tmpx += shortcut_print(w_info, 3, tmpx, c_white, c_ltgreen, _("Show on <M>ap")) + 2;
+
     wrefresh(w_info);
+}
+
+void game::zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight, const int width)
+{
+    for (int i = 1; i < TERMX; ++i) {
+        if (i < width) {
+            mvwputch(w_border, 0, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(w_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
+        }
+
+        if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
+            mvwputch(w_border, i, 0, c_ltgray, LINE_XOXO); // |
+            mvwputch(w_border, i, width - 1, c_ltgray, LINE_XOXO); // |
+        }
+    }
+
+    mvwputch(w_border, 0, 0,         c_ltgray, LINE_OXXO); // |^
+    mvwputch(w_border, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
+
+    mvwputch(w_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
+
+    mvwprintz(w_border, 0, 2, c_white, _("Zones manager"));
+
+    for (int j=0; j < iInfoHeight-1; ++j) {
+        mvwputch(w_info_border, j, 0, c_ltgray, LINE_XOXO);
+        mvwputch(w_info_border, j, width - 1, c_ltgray, LINE_XOXO);
+    }
+
+    for (int j=0; j < width - 1; ++j) {
+        mvwputch(w_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+    }
+
+    mvwputch(w_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
+    mvwputch(w_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
+    wrefresh(w_info_border);
 }
 
 void game::zones_manager()
@@ -8272,39 +8311,7 @@ void game::zones_manager()
     WINDOW* w_zones_info = newwin(iInfoHeight-1, width - 2, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width + 1 - VIEW_OFFSET_X);
     WINDOW* w_zones_info_border = newwin(iInfoHeight, width, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERMX - width - VIEW_OFFSET_X);
 
-    for (int i = 1; i < TERMX; ++i) {
-        if (i < width) {
-            mvwputch(w_zones_border, 0, i, c_ltgray, LINE_OXOX); // -
-            mvwputch(w_zones_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
-        }
-
-        if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
-            mvwputch(w_zones_border, i, 0, c_ltgray, LINE_XOXO); // |
-            mvwputch(w_zones_border, i, width - 1, c_ltgray, LINE_XOXO); // |
-        }
-    }
-
-    mvwputch(w_zones_border, 0, 0,         c_ltgray, LINE_OXXO); // |^
-    mvwputch(w_zones_border, 0, width - 1, c_ltgray, LINE_OOXX); // ^|
-
-    mvwputch(w_zones_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 0,         c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_zones_border, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, width - 1, c_ltgray, LINE_XOXX); // -|
-
-    mvwprintz(w_zones_border, 0, 2, c_white, _("Zones manager"));
-
-    for (int j=0; j < iInfoHeight-1; ++j) {
-        mvwputch(w_zones_info_border, j, 0, c_ltgray, LINE_XOXO);
-        mvwputch(w_zones_info_border, j, width - 1, c_ltgray, LINE_XOXO);
-    }
-
-    for (int j=0; j < width - 1; ++j) {
-        mvwputch(w_zones_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
-    }
-
-    mvwputch(w_zones_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
-    mvwputch(w_zones_info_border, iInfoHeight-1, width - 1, c_ltgray, LINE_XOOX);
-    wrefresh(w_zones_info_border);
-
+    zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
     zones_manager_shortcuts(w_zones_info);
 
     std::string action;
@@ -8433,7 +8440,15 @@ void game::zones_manager()
                 bBlink = false;
 
             } else if (action == "SHOW_ZONE_ON_MAP") {
-                //show zone position on overmap
+                //show zone position on overmap;
+                point pOMPlayer = overmapbuffer::ms_to_omt_copy(m.getabs(u.posx, u.posy));
+                point pOMZone = overmapbuffer::ms_to_omt_copy(m.Zones.vZones[iActive].getCenterPoint());
+                overmap::draw_overmap(tripoint(pOMPlayer.x, pOMPlayer.y), false, tripoint(pOMZone.x, pOMZone.y));
+
+                zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+                zones_manager_shortcuts(w_zones_info);
+
+                draw_ter();
 
             } else if (action == "ENABLE_ZONE") {
                 m.Zones.vZones[iActive].setEnabled(true);
@@ -8477,17 +8492,16 @@ void game::zones_manager()
                     mvwprintz(w_zones, iNum - iStartPos, 20, colorLine, "%s",
                               m.Zones.getNameFromType(m.Zones.vZones[iNum].getZoneType()).c_str());
 
-                    point pStart = m.Zones.vZones[i].getStartPoint();
-                    point pEnd = m.Zones.vZones[i].getEndPoint();
+                    point pCenter = m.Zones.vZones[i].getCenterPoint();
 
                     mvwprintz(w_zones, iNum - iStartPos, 35, colorLine, "%*d %s",
-                              5, trig_dist((pStart.x + pEnd.x)/2,
-                                           (pStart.y + pEnd.y)/2,
+                              5, trig_dist(pCenter.x,
+                                           pCenter.y,
                                            pointPlayer.x,
                                            pointPlayer.y
                                           ),
-                                  direction_name_short( direction_from((pStart.x + pEnd.x)/2,
-                                                                       (pStart.y + pEnd.y)/2,
+                                  direction_name_short( direction_from(pCenter.x,
+                                                                       pCenter.y,
                                                                        pointPlayer.x,
                                                                        pointPlayer.y
                                                                       )

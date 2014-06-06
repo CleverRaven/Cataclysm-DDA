@@ -1864,13 +1864,25 @@ tripoint overmap::draw_overmap(int z)
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup)
+tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const tripoint &select)
 {
     WINDOW *w_map = newwin(TERMY, TERMX, 0, 0);
     bool blink = true;
 
     tripoint ret = invalid_tripoint;
+
     tripoint curs(orig);
+
+    std::stringstream ssTemp;
+    ssTemp << orig.x << " | " << orig.y;
+
+    if (select.x != -1 && select.y != -1 && select.z != -1) {
+        curs = tripoint(select);
+
+        ssTemp << " | " << select.x << " | " << select.y;
+    }
+
+    add_msg(ssTemp.str().c_str());
 
     // Configure input context for navigating the map.
     input_context ictxt("OVERMAP");

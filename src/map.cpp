@@ -5127,6 +5127,11 @@ void map::clZones::clZoneData::setEnabled(const bool p_bEnabled)
     this->bEnabled = p_bEnabled;
 }
 
+point map::clZones::clZoneData::getCenterPoint()
+{
+    return point((pointStartXY.x + pointEndXY.x) / 2, (pointStartXY.y + pointEndXY.y) / 2);
+}
+
 std::string map::clZones::getNameFromType(const std::string p_sType)
 {
     for (int i=0; i < vZoneTypes.size(); ++i) {

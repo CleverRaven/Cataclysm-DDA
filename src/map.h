@@ -547,6 +547,7 @@ void add_corpse(int x, int y);
                     bool getEnabled() const { return bEnabled; }
                     point getStartPoint() const { return pointStartXY; }
                     point getEndPoint() const { return pointEndXY; }
+                    point getCenterPoint();
             };
 
             std::vector<clZoneData> vZones;
