@@ -97,7 +97,7 @@
         "min_unarmed" : 0,
         "unarmed_allowed" : true,
         "melee_allowed" : true,
-        "speed_mult" : 0.5,
+        "speed_mult" : 0.75,
         "messages" : [
             "You quickly strike %s",
             "<npcname> quickly strikes %s"
