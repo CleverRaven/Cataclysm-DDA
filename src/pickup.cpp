@@ -218,7 +218,7 @@ void Pickup::pick_up(int posx, int posy, int min)
     }
 
     if (min == -1) {
-        if (g->checkZone("AUTO_PICKUP", posx, posy)) {
+        if (g->checkZone("NO_AUTO_PICKUP", posx, posy)) {
             here.clear();
         }
 
@@ -228,10 +228,10 @@ void Pickup::pick_up(int posx, int posy, int min)
             for (int i=0; i < 8; i++) {
                 vItemIndex[adjacentDir[i]] = 0;
 
-                std::pair<int, int> pairDir = direction_XY(adjacentDir[i]);
+                point pairDir = direction_XY(adjacentDir[i]);
 
-                if (!g->checkZone("AUTO_PICKUP", posx + pairDir.first, posy + pairDir.second)) {
-                    std::vector<item> hereTemp = g->m.i_at(posx + pairDir.first, posy + pairDir.second);
+                if (!g->checkZone("NO_AUTO_PICKUP", posx + pairDir.x, posy + pairDir.y)) {
+                    std::vector<item> hereTemp = g->m.i_at(posx + pairDir.x, posy + pairDir.y);
 
                     for (int j=0; j < hereTemp.size(); j++) {
                         vItemDir.push_back(adjacentDir[i]);
@@ -741,8 +741,8 @@ void Pickup::pick_up(int posx, int posy, int min)
             }
 
             if (picked_up) {
-                std::pair<int, int> pairDir = direction_XY(dirThisItem);
-                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.first, posy + pairDir.second, veh, cargo_part, moves_taken, vItemIndex[dirThisItem]);
+                point pairDir = direction_XY(dirThisItem);
+                pickup_obj.remove_from_map_or_vehicle(posx + pairDir.x, posy + pairDir.y, veh, cargo_part, moves_taken, vItemIndex[dirThisItem]);
                 vItemIndex[dirThisItem]--;
                 if( pickup_count[i] != 0 ) {
                     bool to_map = !pickup_obj.from_veh;

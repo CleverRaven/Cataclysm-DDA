@@ -8316,6 +8316,7 @@ void game::zones_manager()
     ctxt.register_action("REMOVE_ZONE");
     ctxt.register_action("MOVE_ZONE_UP");
     ctxt.register_action("MOVE_ZONE_DOWN");
+    ctxt.register_action("SHOW_ZONE_ON_MAP");
 
     int iZonesNum = m.Zones.size();
     const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
@@ -8428,6 +8429,9 @@ void game::zones_manager()
                     iActive--;
                 }
                 bBlink = false;
+
+            } else if (action == "SHOW_ZONE_ON_MAP") {
+                //show zone position on overmap
             }
         }
 
@@ -8446,6 +8450,8 @@ void game::zones_manager()
 
             int iNum = 0;
 
+            point pointPlayer = m.getabs(u.posx, u.posy);
+
             //Display safed zones
             for (size_t i = 0; i < iZonesNum; ++i) {
                 if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iZonesNum) ? iZonesNum : iMaxRows)) {
@@ -8457,14 +8463,22 @@ void game::zones_manager()
                     mvwprintz(w_zones, iNum - iStartPos, 20, (iNum == iActive) ? c_ltgreen : c_white, "%s",
                               m.Zones.getNameFromType(m.Zones.vZones[iNum].getZoneType()).c_str());
 
-                    /*mvwprintz(w_zones, iNum - iStartPos, 20,
-                                  ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                                  numw, trig_dist(0, 0, zombie(vMonsters[i]).posx() - u.posx,
-                                                  zombie(vMonsters[i]).posy() - u.posy),
-                                  direction_name_short(
-                                      direction_from( 0, 0, zombie(vMonsters[i]).posx() - u.posx,
-                                                      zombie(vMonsters[i]).posy() - u.posy)).c_str() );
-                    */
+                    point pStart = m.Zones.vZones[i].getStartPoint();
+                    point pEnd = m.Zones.vZones[i].getEndPoint();
+
+                    mvwprintz(w_zones, iNum - iStartPos, 35, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                              5, trig_dist((pStart.x + pEnd.x)/2,
+                                           (pStart.y + pEnd.y)/2,
+                                           pointPlayer.x,
+                                           pointPlayer.y
+                                          ),
+                                  direction_name_short( direction_from((pStart.x + pEnd.x)/2,
+                                                                       (pStart.y + pEnd.y)/2,
+                                                                       pointPlayer.x,
+                                                                       pointPlayer.y
+                                                                      )
+                                                      ).c_str()
+                             );
                  }
                  iNum++;
             }

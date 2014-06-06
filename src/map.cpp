@@ -5099,7 +5099,7 @@ void map::add_road_vehicles(bool city, int facing)
 
 map::clZones::clZones()
 {
-    vZoneTypes.push_back(std::make_pair(_("No Auto Pickup Zone"), "AUTO_PICKUP"));
+    vZoneTypes.push_back(std::make_pair(_("No Auto Pickup"), "NO_AUTO_PICKUP"));
 }
 
 void map::clZones::clZoneData::setName()

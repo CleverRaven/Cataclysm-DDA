@@ -1536,10 +1536,10 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
     iPosY = p_iPosY;
 
     oDir = p_oDir;
-    const std::pair<int, int> pairDirXY = direction_XY(oDir);
+    point pairDirXY = direction_XY(oDir);
 
-    iDirX = pairDirXY.first;
-    iDirY = pairDirXY.second;
+    iDirX = pairDirXY.x;
+    iDirY = pairDirXY.y;
 
     iStep = 0;
     iStepOffset = 0;
