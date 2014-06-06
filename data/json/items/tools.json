@@ -3286,7 +3286,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 0,
-    "turns_per_charge": 10,
+    "turns_per_charge": 150,
     "ammo": "battery",
     "revert_to": "mp3",
     "use_action": "MP3_ON"
