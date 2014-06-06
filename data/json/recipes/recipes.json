@@ -24115,7 +24115,7 @@
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 4,
-  "time": 480000,
+  "time": 90000,
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_knives", 3 ] , [ "recipe_melee", 2 ]],

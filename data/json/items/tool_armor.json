@@ -973,7 +973,7 @@
     "environmental_protection" : 10,
     "encumbrance" : 3,
     "coverage" : 75,
-    "material_thickness" : 3
+    "material_thickness" : 2
   },
 
   {
@@ -1010,7 +1010,7 @@
     "environmental_protection" : 10,
     "encumbrance" : 2,
     "coverage" : 75,
-    "material_thickness" : 3
+    "material_thickness" : 2
   },
 
   {
@@ -1049,7 +1049,7 @@
     "environmental_protection" : 10,
     "encumbrance" : 3,
     "coverage" : 75,
-    "material_thickness" : 3
+    "material_thickness" : 2
   },
 
   {
@@ -1086,7 +1086,7 @@
     "environmental_protection" : 10,
     "encumbrance" : 2,
     "coverage" : 75,
-    "material_thickness" : 3
+    "material_thickness" : 2
   },
   
   {
