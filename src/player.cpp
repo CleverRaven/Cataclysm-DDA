@@ -7744,10 +7744,10 @@ bool player::eat(item *eaten, it_comest *comest)
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL" ) ) {
         charge_power(rng(2, 8));
     }
-    if( has_bionic("bio_ethanol") && comest->can_use( "ALCHOHOL_WEAK" ) ) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_WEAK" ) ) {
         charge_power(rng(1, 4));
     }
-    if( has_bionic("bio_ethanol") && comest->can_use( "ALCHOHOL_STRONG" ) ) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power(rng(3, 12));
     }
 
