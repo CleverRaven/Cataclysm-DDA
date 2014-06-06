@@ -666,17 +666,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
 
         dump->push_back(iteminfo("DESCRIPTION", "--"));
         it_book* book = dynamic_cast<it_book*>(type);
+        // Some things about a book you CAN tell by it's cover.
+        if( !book->type ) {
+            dump->push_back(iteminfo("BOOK", _("Just for fun.")));
+        }
+        if (book->req == 0) {
+            dump->push_back(iteminfo("BOOK", _("It can be understood by beginners.")));
+        }
         if( g->u.has_identified( type->id ) ) {
-            if (!book->type) {
-                dump->push_back(iteminfo("BOOK", _("Just for fun.")));
-            } else {
+            if( book->type ) {
                 dump->push_back(iteminfo("BOOK", "",
                                          string_format(_("Can bring your %s skill to <num>"),
                                                        book->type->name().c_str()), book->level));
 
-                if (book->req == 0) {
-                    dump->push_back(iteminfo("BOOK", _("It can be understood by beginners.")));
-                } else {
+                if( book->req != 0 ){
                     dump->push_back(iteminfo("BOOK", "",
                                              string_format(_("Requires %s level <num> to understand."),
                                                            book->type->name().c_str()),
