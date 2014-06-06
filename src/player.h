@@ -920,9 +920,6 @@ private:
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
 
-    bool can_study_recipe(it_book *book);
-    bool try_study_recipe(it_book *book);
-
     /** Search surroundings squares for traps while pausing a turn. */
     void search_surroundings();
 

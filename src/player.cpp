@@ -9105,7 +9105,7 @@ void player::read(int pos)
 
     it_book* tmp = dynamic_cast<it_book*>(it->type);
     int time; //Declare this here so that we can change the time depending on whats needed
-    // activity.get_value(0) == 1: see below at player_activity(ACT_READ)
+    // See below at player_activity(ACT_READ).
     const bool continuous = (activity.get_value(0) == 1);
     bool study = continuous;
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
@@ -9126,12 +9126,8 @@ void player::read(int pos)
     } else if (skillLevel(tmp->type) < (int)tmp->req) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    tmp->type->name().c_str());
-        if (tmp->recipes.empty()) {
-            return;
-        } else {
-            add_msg(m_info, _("But you might be able to learn a recipe or two."));
-        }
-    } else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
+        return;
+    } else if (skillLevel(tmp->type) >= (int)tmp->level &&
                !query_yn(tmp->fun > 0 ?
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
@@ -9149,17 +9145,7 @@ void player::read(int pos)
         study = true;
     }
 
-    if (!tmp->recipes.empty() && !continuous) {
-        if (can_study_recipe(tmp)) {
-            add_msg(m_info, _("This book has more recipes for you to learn."));
-        } else if (studied_all_recipes(tmp)) {
-            add_msg(m_info, _("You know all the recipes this book has to offer."));
-        } else {
-            add_msg(m_info, _("This book has more recipes, but you don't have the skill to learn them yet."));
-        }
-    }
-
- // Base read_speed() is 1000 move points (1 minute per tmp->time)
+    // Base read_speed() is 1000 move points (1 minute per tmp->time)
     time = tmp->time * read_speed() * (fine_detail_vision_mod());
     if (tmp->intel > int_cur) {
         add_msg(m_warning, _("This book is too complex for you to easily understand. It will take longer to read."));
@@ -9219,24 +9205,6 @@ void player::do_read( item *book )
         book->charges--;
     }
 
-    bool no_recipes = true;
-    if( !reading->recipes.empty() ) {
-        bool recipe_learned = try_study_recipe(reading);
-        if( !studied_all_recipes(reading) ) {
-            no_recipes = false;
-        }
-
-        // for books that the player cannot yet read due to skill level or have no skill component,
-        // but contain lower level recipes, break out once recipe has been studied
-        if( reading->type == NULL || (skillLevel(reading->type) < (int)reading->req) ) {
-            if( recipe_learned ) {
-                add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
-            }
-            activity.type = ACT_NULL;
-            return;
-        }
-    }
-
     if( skillLevel(reading->type) < (int)reading->level ) {
         int originalSkillLevel = skillLevel( reading->type );
         int min_ex = reading->time / 10 + int_cur / 4;
@@ -9285,13 +9253,8 @@ void player::do_read( item *book )
             }
         }
 
-        if (skillLevel(reading->type) == (int)reading->level) {
-            if (no_recipes) {
-                add_msg(m_info, _("You can no longer learn from %s."), reading->name.c_str());
-            } else {
-                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for yo"),
-                        reading->name.c_str());
-            }
+        if (skillLevel(reading->type) >= (int)reading->level) {
+            add_msg(m_info, _("You can no longer learn from %s."), reading->name.c_str());
         }
     }
 
@@ -9307,18 +9270,6 @@ bool player::has_identified( std::string item_id ) const
     return items_identified.count( item_id ) > 0;
 }
 
-bool player::can_study_recipe(it_book* book)
-{
-    for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
-         iter != book->recipes.end(); ++iter) {
-        if (!knows_recipe(iter->first) &&
-            (iter->first->skill_used == NULL || skillLevel(iter->first->skill_used) >= iter->second)) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool player::studied_all_recipes(it_book* book)
 {
     for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
@@ -9328,28 +9279,6 @@ bool player::studied_all_recipes(it_book* book)
         }
     }
     return true;
-}
-
-bool player::try_study_recipe(it_book *book)
-{
-    for (std::map<recipe*, int>::iterator iter = book->recipes.begin();
-         iter != book->recipes.end(); ++iter) {
-        if (!knows_recipe(iter->first) &&
-            (iter->first->skill_used == NULL ||
-             skillLevel(iter->first->skill_used) >= iter->second)) {
-            if (iter->first->skill_used == NULL ||
-                rng(0, 4) <= skillLevel(iter->first->skill_used) - iter->second) {
-                learn_recipe(iter->first);
-                add_msg(m_good, _("Learned a recipe for %s from the %s."),
-                                itypes[iter->first->result]->name.c_str(), book->name.c_str());
-                return true;
-            } else {
-                add_msg(_("Failed to learn a recipe from the %s."), book->name.c_str());
-                return false;
-            }
-        }
-    }
-    return true; // _("false") seems to mean _("attempted and failed")
 }
 
 void player::try_to_sleep()
