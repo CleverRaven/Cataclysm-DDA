@@ -8241,15 +8241,15 @@ bool game::checkZone(const std::string p_sType, const int p_iX, const int p_iY)
 
 void game::zones_manager_shortcuts(WINDOW *w_info)
 {
-    int tmpx = 0;
-    tmpx += shortcut_print(w_info, 0, tmpx, c_white, c_ltgreen, _("<A>dd")) + 2;
-    tmpx += shortcut_print(w_info, 0, tmpx, c_white, c_ltgreen, _("<R>emove")) + 2;
-    tmpx += shortcut_print(w_info, 0, tmpx, c_white, c_ltgreen, _("<E>nable")) + 2;
-    tmpx += shortcut_print(w_info, 0, tmpx, c_white, c_ltgreen, _("<D>isable")) + 2;
+    int tmpx = 1;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<A>dd")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<R>emove")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<E>nable")) + 2;
+    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<D>isable")) + 2;
 
-    tmpx = 0;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<+-> Move up/down")) + 2;
-    tmpx += shortcut_print(w_info, 1, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
+    tmpx = 1;
+    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<+-> Move up/down")) + 2;
+    tmpx += shortcut_print(w_info, 2, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
 
     wrefresh(w_info);
 }
@@ -8317,6 +8317,8 @@ void game::zones_manager()
     ctxt.register_action("MOVE_ZONE_UP");
     ctxt.register_action("MOVE_ZONE_DOWN");
     ctxt.register_action("SHOW_ZONE_ON_MAP");
+    ctxt.register_action("ENABLE_ZONE");
+    ctxt.register_action("DISABLE_ZONE");
 
     int iZonesNum = m.Zones.size();
     const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
@@ -8334,7 +8336,7 @@ void game::zones_manager()
             }
 
             if (pSecond.x != -1 && pSecond.y != -1) {
-                m.Zones.add("", "", false,
+                m.Zones.add("", "", false, true,
                             m.getabs(std::min(pFirst.x, pSecond.x), std::min(pFirst.y, pSecond.y)),
                             m.getabs(std::max(pFirst.x, pSecond.x), std::max(pFirst.y, pSecond.y))
                          );
@@ -8432,6 +8434,12 @@ void game::zones_manager()
 
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap
+
+            } else if (action == "ENABLE_ZONE") {
+                m.Zones.vZones[iActive].setEnabled(true);
+
+            } else if (action == "DISABLE_ZONE") {
+                m.Zones.vZones[iActive].setEnabled(false);
             }
         }
 
@@ -8455,18 +8463,24 @@ void game::zones_manager()
             //Display safed zones
             for (size_t i = 0; i < iZonesNum; ++i) {
                 if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iZonesNum) ? iZonesNum : iMaxRows)) {
+                    nc_color colorLine = (m.Zones.vZones[i].getEnabled()) ? c_white : c_ltgray;
+
+                    if (iNum == iActive) {
+                        colorLine = (m.Zones.vZones[i].getEnabled()) ? c_ltgreen : c_green;
+                    }
+
                     //Draw Zone name
-                    mvwprintz(w_zones, iNum - iStartPos, 1, (iNum == iActive) ? c_ltgreen : c_white, "%s",
+                    mvwprintz(w_zones, iNum - iStartPos, 1, colorLine, "%s",
                               m.Zones.vZones[iNum].getName().c_str());
 
                     //Draw Type name
-                    mvwprintz(w_zones, iNum - iStartPos, 20, (iNum == iActive) ? c_ltgreen : c_white, "%s",
+                    mvwprintz(w_zones, iNum - iStartPos, 20, colorLine, "%s",
                               m.Zones.getNameFromType(m.Zones.vZones[iNum].getZoneType()).c_str());
 
                     point pStart = m.Zones.vZones[i].getStartPoint();
                     point pEnd = m.Zones.vZones[i].getEndPoint();
 
-                    mvwprintz(w_zones, iNum - iStartPos, 35, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                    mvwprintz(w_zones, iNum - iStartPos, 35, colorLine, "%*d %s",
                               5, trig_dist((pStart.x + pEnd.x)/2,
                                            (pStart.y + pEnd.y)/2,
                                            pointPlayer.x,

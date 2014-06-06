@@ -510,6 +510,7 @@ void add_corpse(int x, int y);
                     std::string sName;
                     std::string sZoneType;
                     bool bInvert;
+                    bool bEnabled;
                     point pointStartXY;
                     point pointEndXY;
 
@@ -518,15 +519,18 @@ void add_corpse(int x, int y);
                         this->sName = "";
                         this->sZoneType = "";
                         this->bInvert = false;
+                        this->bEnabled = false;
                         this->pointStartXY = point(-1, -1);
                         this->pointEndXY = point(-1, -1);
                     }
 
-                    clZoneData(const std::string p_sName, const std::string p_sZoneType, const bool p_bInvert,
+                    clZoneData(const std::string p_sName, const std::string p_sZoneType,
+                               const bool p_bInvert, const bool p_bEnabled,
                                const point &p_pointStartXY, const point &p_pointEndXY) {
                         this->sName = p_sName;
                         this->sZoneType = p_sZoneType;
                         this->bInvert = p_bInvert;
+                        this->bEnabled = p_bEnabled;
                         this->pointStartXY = p_pointStartXY;
                         this->pointEndXY = p_pointEndXY;
                     }
@@ -535,19 +539,26 @@ void add_corpse(int x, int y);
 
                     void setName();
                     void setZoneType(std::vector<std::pair<std::string, std::string> > vZoneTypes);
+                    void setEnabled(const bool p_bEnabled);
 
                     std::string getName() const { return sName; }
                     std::string getZoneType() const { return sZoneType; }
                     bool getInvert() const { return bInvert; }
+                    bool getEnabled() const { return bEnabled; }
                     point getStartPoint() const { return pointStartXY; }
                     point getEndPoint() const { return pointEndXY; }
             };
 
             std::vector<clZoneData> vZones;
 
-            void add(const std::string p_sName, const std::string p_sZoneType, const bool p_bInvert,
+            void add(const std::string p_sName, const std::string p_sZoneType,
+                     const bool p_bInvert, const bool p_bEnabled,
                      const point &p_pointStartXY, const point &p_pointEndXY) {
-                vZones.push_back(clZoneData(p_sName, p_sZoneType, p_bInvert, p_pointStartXY, p_pointEndXY));
+                vZones.push_back(clZoneData(p_sName, p_sZoneType,
+                                            p_bInvert, p_bEnabled,
+                                            p_pointStartXY, p_pointEndXY
+                                           )
+                                );
             }
 
             bool remove(const int iIndex) {

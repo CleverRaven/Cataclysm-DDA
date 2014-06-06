@@ -5122,6 +5122,11 @@ void map::clZones::clZoneData::setZoneType(std::vector<std::pair<std::string, st
     this->sZoneType = vZoneTypes[((as_m.ret >= 1) ? as_m.ret : 1) - 1].second;
 }
 
+void map::clZones::clZoneData::setEnabled(const bool p_bEnabled)
+{
+    this->bEnabled = p_bEnabled;
+}
+
 std::string map::clZones::getNameFromType(const std::string p_sType)
 {
     for (int i=0; i < vZoneTypes.size(); ++i) {
@@ -5178,6 +5183,7 @@ void map::clZones::serialize(JsonOut &json) const
         json.member("name", vZones[i].getName());
         json.member("type", vZones[i].getZoneType());
         json.member("invert", vZones[i].getInvert());
+        json.member("enabled", vZones[i].getEnabled());
 
         point pointStart = vZones[i].getStartPoint();
         point pointEnd = vZones[i].getEndPoint();
@@ -5205,6 +5211,7 @@ void map::clZones::deserialize(JsonIn &jsin)
         const std::string sType = joZone.get_string("type");
 
         const bool bInvert = joZone.get_bool("invert");
+        const bool bEnabled = joZone.get_bool("enabled");
 
         const int iStartX = joZone.get_int("start_x");
         const int iStartY = joZone.get_int("start_y");
@@ -5212,7 +5219,7 @@ void map::clZones::deserialize(JsonIn &jsin)
         const int iEndY = joZone.get_int("end_y");
 
         if (hasType(sType)) {
-            add(sName, sType, bInvert, point(iStartX, iStartY), point(iEndX, iEndY));
+            add(sName, sType, bInvert, bEnabled, point(iStartX, iStartY), point(iEndX, iEndY));
         }
     }
 

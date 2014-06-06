@@ -1401,5 +1401,29 @@
                 "key":"m"
             }
         ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ENABLE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Enable zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DISABLE_ZONE",
+        "category": "ZONES_MANAGER",
+        "name": "Disable zone",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
+            }
+        ]
     }
 ]
