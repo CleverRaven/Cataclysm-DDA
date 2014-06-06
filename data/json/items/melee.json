@@ -2234,7 +2234,7 @@
     {
         "type":"GENERIC",
         "id" : "spear_wood",
-        "name" : "wood spear",
+        "name" : "wooden spear",
         "description" : "A stout pole with an improvised grip and a fire-hardened point.",
         "weight" : 898,
         "to_hit" : 1,
