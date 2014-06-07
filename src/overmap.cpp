@@ -1870,19 +1870,11 @@ tripoint overmap::draw_overmap(const tripoint &orig, bool debug_mongroup, const 
     bool blink = true;
 
     tripoint ret = invalid_tripoint;
-
     tripoint curs(orig);
-
-    std::stringstream ssTemp;
-    ssTemp << orig.x << " | " << orig.y;
 
     if (select.x != -1 && select.y != -1 && select.z != -1) {
         curs = tripoint(select);
-
-        ssTemp << " | " << select.x << " | " << select.y;
     }
-
-    add_msg(ssTemp.str().c_str());
 
     // Configure input context for navigating the map.
     input_context ictxt("OVERMAP");
