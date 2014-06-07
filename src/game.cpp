@@ -8239,7 +8239,17 @@ void game::print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &l
     int ending_line = line + 3;
     std::string tile = m.tername(lx, ly);
     if (m.has_furn(lx, ly)) {
-        tile += "; " + m.furnname(lx, ly);
+        furn_t furn = m.furn_at(lx, ly);
+        tile += "; " + furn.name;
+        if (furn.has_flag("PLANT")) {
+            // Plant types are defined by seeds.
+            item plantType = m.i_at(lx, ly)[0];
+            if (plantType.typeId() != "fungal_seeds") {
+                // We rely on the seeds we care about to be
+                // id'd as seed_*.
+                tile += " (" + plantType.typeId().substr(5) + ")";
+            }
+        }
     }
 
     if (m.move_cost(lx, ly) == 0) {
