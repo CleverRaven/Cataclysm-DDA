@@ -1501,7 +1501,10 @@ void game::complete_craft()
         newit.components.insert(newit.components.begin(), used.begin(), used.end());
     }
 
-    if( !u.knows_recipe( making ) ) {
+    if( u.knows_recipe( making ) ) {
+        add_msg(_("You craft %s from memory."), newit.type->name.c_str());
+    } else {
+        add_msg(_("You craft %s using a book as a reference."), newit.type->name.c_str());
         // If we made it, but we don't know it,
         // we're making it from a book and have a chance to learn it.
         // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
