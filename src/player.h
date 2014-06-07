@@ -134,7 +134,7 @@ public:
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
 
  /** Prints out the player's memorial file */
- void memorial( std::ofstream &memorial_file );
+ void memorial( std::ofstream &memorial_file, std::string epitaph );
  /** Handles and displays detailed character info for the '@' screen */
  void disp_info();
  /** Provides the window and detailed morale data */
@@ -653,8 +653,8 @@ public:
  bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
  int adjust_for_focus(int amount);
- void practice(const calendar& turn, Skill *s, int amount, int cap = 99);
- void practice(const calendar& turn, std::string s, int amount);
+ void practice( Skill *s, int amount, int cap = 99 );
+ void practice( std::string s, int amount, int cap = 99 );
 
  void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN, std::string name = "");
  bool has_activity(const activity_type type);
@@ -859,6 +859,7 @@ public:
     //Record of player stats, for posterity only
     stats* lifetime_stats();
     stats get_stats() const; // for serialization
+    void mod_stat( std::string stat, int modifier );
 
  int getID () const;
 

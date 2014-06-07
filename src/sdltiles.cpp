@@ -1133,10 +1133,10 @@ WINDOW *curses_init(void)
     inputdelay = -1;
 
     std::string typeface, map_typeface;
-    int fontsize;
-    int map_fontwidth;
-    int map_fontheight;
-    int map_fontsize;
+    int fontsize = 8;
+    int map_fontwidth = 8;
+    int map_fontheight = 16;
+    int map_fontsize = 8;
  
     std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {

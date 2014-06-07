@@ -438,7 +438,7 @@ static hp_part use_healing_item(player *p, item *it, int normal_power, int head_
         healed = (hp_part)p->activity.values[0];
       }
     }
-    p->practice(calendar::turn, "firstaid", 8);
+    p->practice( "firstaid", 8 );
     int dam = 0;
     if (healed == hp_head){
         dam = head_bonus;
@@ -546,34 +546,6 @@ int iuse::disinfectant(player *p, item *it, bool)
         return it->type->charges_to_use();
     }
     return 0;
-}
-
-int iuse::pkill(player *p, item *it, bool)
-{
-    // Aspirin
-    if (it->has_flag("PKILL_1")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill1", 120);
-    // Codeine
-    } else if (it->has_flag("PKILL_2")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill2", 180);
-
-    } else if (it->has_flag("PKILL_3")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill3", 20);
-        p->add_disease("pkill2", 200);
-
-    } else if (it->has_flag("PKILL_4")) {
-        p->add_msg_if_player(_("You shoot up."));
-        p->add_disease("pkill3", 80);
-        p->add_disease("pkill2", 200);
-
-    } else if (it->has_flag("PKILL_L")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill_l", rng(12, 18) * 300);
-    }
-    return it->type->charges_to_use();
 }
 
 int iuse::xanax(player *p, item *it, bool)
@@ -1164,28 +1136,6 @@ int iuse::coke(player *p, item *it, bool) {
     p->hunger -= 8;
     p->add_disease("high", duration);
     return it->type->charges_to_use();
-}
-
-int iuse::crack(player *p, item *it, bool) {
-    // Crack requires a fire source and a pipe.
-    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
-        int duration = 15;
-        if (p->has_trait("TOLERANCE")) {
-            duration -= 10; // Symmetry would make crack a sobering agent! :-P
-        }
-        else if (p->has_trait("LIGHTWEIGHT")) {
-            duration += 20;
-        }
-        p->add_msg_if_player(_("You smoke your crack rocks.  Mother would be proud."));
-        p->hunger -= 10;
-        p->add_disease("high", duration);
-        // breathe out some smoke
-        for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cracksmoke, 2);
-        }
-        return it->type->charges_to_use();
-    }
-    return 0;
 }
 
 int iuse::grack(player *p, item *it, bool) {
@@ -2189,7 +2139,7 @@ int iuse::primitive_fire(player *p, item *it, bool)
         } else {
             p->add_msg_if_player( _("You try to light a fire, but fail."));
         }
-        p->practice(calendar::turn, "survival", 10);
+        p->practice( "survival", 10 );
         return it->type->charges_to_use();
     }
     return 0;
@@ -2271,7 +2221,7 @@ int iuse::sew(player *p, item *it, bool)
 
     if (fix->damage > 0) {
         p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice(calendar::turn, "tailor", 8);
+        p->practice( "tailor", 8 );
         int rn = dice(4, 2 + p->skillLevel("tailor"));
         rn -= rng(fix->damage, fix->damage * 2);
         if (p->dex_cur < 8 && one_in(p->dex_cur)) {
@@ -2313,7 +2263,7 @@ int iuse::sew(player *p, item *it, bool)
         }
     } else if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
         p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice(calendar::turn, "tailor", 10);
+        p->practice( "tailor", 10 );
         int rn = dice(4, 2 + p->skillLevel("tailor"));
         if (p->dex_cur < 8 && one_in(p->dex_cur)) {
             rn -= rng(2, 6);
@@ -3067,7 +3017,7 @@ int iuse::solder_weld(player *p, item *it, bool)
 
             if (fix->damage > 0) {
                 p->moves -= 500 * p->fine_detail_vision_mod();
-                p->practice(calendar::turn, "mechanics", 8);
+                p->practice( "mechanics", 8 );
                 int rn = dice(4, 2 + p->skillLevel("mechanics"));
                 rn -= rng(fix->damage, fix->damage * 2);
                 if (p->dex_cur < 8 && one_in(p->dex_cur))
@@ -3114,7 +3064,7 @@ int iuse::solder_weld(player *p, item *it, bool)
                 }
             } else if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
                 p->moves -= 500 * p->fine_detail_vision_mod();
-                p->practice(calendar::turn, "mechanics", 10);
+                p->practice( "mechanics", 10 );
                 int rn = dice(4, 2 + p->skillLevel("mechanics"));
                 if (p->dex_cur < 8 && one_in(p->dex_cur))
                     {rn -= rng(2, 6);}
@@ -3697,12 +3647,12 @@ int iuse::picklock(player *p, item *it, bool)
   return 0;
  }
 
- p->practice(calendar::turn, "mechanics", 1);
+ p->practice( "mechanics", 1 );
  p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
  int pick_roll = (dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) * pick_quality;
  int door_roll = dice(4, 30);
  if (pick_roll >= door_roll) {
-  p->practice(calendar::turn, "mechanics", 1);
+  p->practice( "mechanics", 1 );
   p->add_msg_if_player( m_good, open_message.c_str(), door_name.c_str());
   g->m.ter_set(dirx, diry, new_type);
  } else if (door_roll > (1.5 * pick_roll) && it->damage < 100) {
@@ -3809,9 +3759,7 @@ int iuse::crowbar(player *p, item *it, bool)
       p->add_msg_if_player(m_info, _("There's nothing to pry there."));
       return 0;
     }
-    if(p->skillLevel("carpentry") < 1) {
-      p->practice(calendar::turn, "carpentry", 1);
-    }
+    p->practice( "carpentry", 1, 1 );
     p->moves -= 500;
     g->m.spawn_item(p->posx, p->posy, "nail", 0, nails);
     g->m.spawn_item(p->posx, p->posy, "2x4", boards);
@@ -3819,10 +3767,10 @@ int iuse::crowbar(player *p, item *it, bool)
     return it->type->charges_to_use();
   }
 
-  p->practice(calendar::turn, "mechanics", 1);
+  p->practice( "mechanics", 1 );
   p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
   if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
-   p->practice(calendar::turn, "mechanics", 1);
+   p->practice( "mechanics", 1 );
    p->add_msg_if_player( m_good, succ_action);
    if (g->m.furn(dirx, diry) == f_crate_c) {
     g->m.furn_set(dirx, diry, f_crate_o);
@@ -4619,7 +4567,7 @@ void on_finish_activity_pickaxe(player *p) {
         p->thirst += 15;
         p->mod_pain( 2 * rng(1, 3) );
         // Mining is construction work!
-        p->practice(calendar::turn, "carpentry", 5);
+        p->practice( "carpentry", 5 );
     } else if (g->m.move_cost(dirx, diry) == 2 && g->levz == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
         //Breaking up concrete on the surface? not nearly as bad
@@ -4823,7 +4771,7 @@ if(it->type->id == "cot"){
  }
 
  p->add_msg_if_player(message.str().c_str());
- p->practice(calendar::turn, "traps", practice);
+ p->practice( "traps", practice );
     trap *tr = traplist[type];
     g->m.add_trap(posx, posy, type);
     if (!tr->can_see(*p, posx, posy)) {
@@ -5539,7 +5487,7 @@ int iuse::turret_rifle(player *p, item *, bool)
  }
 
  p->moves -= 100;
- monster mturret(GetMType("mon_rifleturret"), dirx, diry);
+ monster mturret(GetMType("mon_turret_rifle"), dirx, diry);
  const int ammopos = p->inv.position_by_type("556");
  int ammo = 0;
  if (ammopos != INT_MIN) {
@@ -5903,9 +5851,9 @@ int iuse::mp3_on(player *p, item *it, bool t)
         if (!p->has_item(it) || p->has_disease("deaf") ) {
             return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
         }
-        p->add_morale(MORALE_MUSIC, 1, 50);
+        p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
 
-        if (int(calendar::turn) % 10 == 0) { // Every 10 turns, describe the music
+        if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
             std::string sound = "";
             if (one_in(50)) {
                 sound = _("some bass-heavy post-glam speed polka");
@@ -5917,7 +5865,7 @@ int iuse::mp3_on(player *p, item *it, bool t)
             case 4: sound = _("some pumping bass."); break;
             case 5: sound = _("dramatic classical music.");
                 if (p->int_cur >= 10) {
-                    p->add_morale(MORALE_MUSIC, 1, 100);
+                    p->add_morale(MORALE_MUSIC, 1, 100, 5, 2);
                 }
                 break;
             }
@@ -6592,7 +6540,7 @@ int iuse::bullet_puller(player *p, item *it, bool)
     }
     add_msg(_("You take apart the ammunition."));
     p->moves -= 500;
-    p->practice(calendar::turn, "fabrication", rng(1, multiply / 5 + 1));
+    p->practice( "fabrication", rng(1, multiply / 5 + 1) );
     return it->type->charges_to_use();
 }
 
@@ -7517,7 +7465,7 @@ int iuse::boots(player *p, item *it, bool)
    p->add_msg_if_player(m_info, _("You do not have that item!"));
    return 0;
   }
-  if (put->type->use != &iuse::knife) {
+  if (!put->type->can_use( "KNIFE" ) ) {
    p->add_msg_if_player(m_info, _("That isn't a knife!"));
    return 0;
   }
@@ -7744,46 +7692,46 @@ int iuse::gun_repair(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("You need a mechanics skill of 2 to use this repair kit."));
         return 0;
     }
-            int pos = g->inv(_("Select the firearm to repair."));
-            item* fix = &(p->i_at(pos));
-            if (fix == NULL || fix->is_null()) {
-                p->add_msg_if_player(m_info, _("You do not have that item!"));
-                return 0 ;
-            }
-            if (!fix->is_gun()) {
-                p->add_msg_if_player(m_info, _("That isn't a firearm!"));
-                return 0;
-            }
-            if (fix->damage == -1) {
-                p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix->tname().c_str());
-                return 0;
-            }
-            if ((fix->damage == 0) && p->skillLevel("mechanics") < 8) {
-                p->add_msg_if_player(m_info, _("Your %s is already in peak condition."), fix->tname().c_str());
-                p->add_msg_if_player(m_info,  _("With a higher mechanics skill, you might be able to improve it."));
-                return 0;
-            }
-            if ((fix->damage == 0) && p->skillLevel("mechanics") >= 8) {
-                p->add_msg_if_player(m_good, _("You accurize your %s."), fix->tname().c_str());
-                g->sound(p->posx, p->posy, 6, "");
-                p->moves -= 2000 * p->fine_detail_vision_mod();
-                p->practice(calendar::turn, "mechanics", 10);
-                    fix->damage--;
-            }
-                else if (fix->damage >= 2) {
-                    p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
-                g->sound(p->posx, p->posy, 8, "");
-                p->moves -= 1000 * p->fine_detail_vision_mod();
-                p->practice(calendar::turn, "mechanics", 10);
-                    fix->damage--;
-                }
-                else {
-                    p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
-                g->sound(p->posx, p->posy, 8, "");
-                p->moves -= 500 * p->fine_detail_vision_mod();
-                p->practice(calendar::turn, "mechanics", 10);
-                    fix->damage = 0;
-                }
+    int pos = g->inv(_("Select the firearm to repair."));
+    item* fix = &(p->i_at(pos));
+    if (fix == NULL || fix->is_null()) {
+        p->add_msg_if_player(m_info, _("You do not have that item!"));
+        return 0 ;
+    }
+    if (!fix->is_gun()) {
+        p->add_msg_if_player(m_info, _("That isn't a firearm!"));
+        return 0;
+    }
+    if (fix->damage == -1) {
+        p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."),
+                             fix->tname().c_str());
+        return 0;
+    }
+    if ((fix->damage == 0) && p->skillLevel("mechanics") < 8) {
+        p->add_msg_if_player(m_info, _("Your %s is already in peak condition."), fix->tname().c_str());
+        p->add_msg_if_player(m_info,  _("With a higher mechanics skill, you might be able to improve it."));
+        return 0;
+    }
+    if ((fix->damage == 0) && p->skillLevel("mechanics") >= 8) {
+        p->add_msg_if_player(m_good, _("You accurize your %s."), fix->tname().c_str());
+        g->sound(p->posx, p->posy, 6, "");
+        p->moves -= 2000 * p->fine_detail_vision_mod();
+        p->practice( "mechanics", 10 );
+        fix->damage--;
+    } else if (fix->damage >= 2) {
+        p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
+        g->sound(p->posx, p->posy, 8, "");
+        p->moves -= 1000 * p->fine_detail_vision_mod();
+        p->practice( "mechanics", 10 );
+        fix->damage--;
+    } else {
+        p->add_msg_if_player(m_good, _("You repair your %s completely!"),
+                             fix->tname().c_str());
+        g->sound(p->posx, p->posy, 8, "");
+        p->moves -= 500 * p->fine_detail_vision_mod();
+        p->practice( "mechanics", 10 );
+        fix->damage = 0;
+    }
     return it->type->charges_to_use();
 }
 
@@ -7800,42 +7748,42 @@ int iuse::misc_repair(player *p, item *it, bool)
         p->add_msg_if_player(m_info, _("You need a fabrication skill of 1 to use this repair kit."));
         return 0;
     }
-            int pos = g->inv(_("Select the item to repair."));
-            item* fix = &(p->i_at(pos));
-            if (fix == NULL || fix->is_null()) {
-                p->add_msg_if_player(m_info, _("You do not have that item!"));
-                return 0 ;
-            }
-            if (fix->is_gun()) {
-                p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
-                return 0;
-            }
-            if (!(fix->made_of("wood") || fix->made_of("plastic") || fix->made_of("bone") || fix->made_of("chitin"))) {
-                p->add_msg_if_player(m_info, _("That isn't made of wood, bone, or chitin!"));
-                return 0;
-            }
-            if (fix->damage == -1) {
-                p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix->tname().c_str());
-                return 0;
-            }
-            if (fix->damage == 0) {
-                p->add_msg_if_player(m_good, _("You reinforce your %s."), fix->tname().c_str());
-                p->moves -= 1000 * p->fine_detail_vision_mod();
-                p->practice(calendar::turn, "fabrication", 10);
-                    fix->damage--;
-            }
-                else if (fix->damage >= 2) {
-                    p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
-                p->moves -= 500 * p->fine_detail_vision_mod();
-                p->practice(calendar::turn, "fabrication", 10);
-                    fix->damage--;
-                }
-                else {
-                    p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
-                p->moves -= 250 * p->fine_detail_vision_mod();
-                p->practice(calendar::turn, "fabrication", 10);
-                    fix->damage = 0;
-                }
+    int pos = g->inv(_("Select the item to repair."));
+    item* fix = &(p->i_at(pos));
+    if (fix == NULL || fix->is_null()) {
+        p->add_msg_if_player(m_info, _("You do not have that item!"));
+        return 0 ;
+    }
+    if (fix->is_gun()) {
+        p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
+        return 0;
+    }
+    if (!(fix->made_of("wood") || fix->made_of("plastic") || fix->made_of("bone") || fix->made_of("chitin"))) {
+        p->add_msg_if_player(m_info, _("That isn't made of wood, bone, or chitin!"));
+        return 0;
+    }
+    if (fix->damage == -1) {
+        p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix->tname().c_str());
+        return 0;
+    }
+    if (fix->damage == 0) {
+        p->add_msg_if_player(m_good, _("You reinforce your %s."), fix->tname().c_str());
+        p->moves -= 1000 * p->fine_detail_vision_mod();
+        p->practice( "fabrication", 10 );
+        fix->damage--;
+    }
+    else if (fix->damage >= 2) {
+        p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
+        p->moves -= 500 * p->fine_detail_vision_mod();
+        p->practice( "fabrication", 10 );
+        fix->damage--;
+    }
+    else {
+        p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
+        p->moves -= 250 * p->fine_detail_vision_mod();
+        p->practice( "fabrication", 10 );
+        fix->damage = 0;
+    }
     return it->type->charges_to_use();
 }
 
@@ -7921,7 +7869,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
                                   z->name().c_str());
             if( z->hurt( rng(1,10) ) ) { //damage it a little
                 g->kill_mon( pick_robot.ret, p == &(g->u) );
-                p->practice(calendar::turn, "computer", 10);
+                p->practice( "computer", 10 );
                 return it->type->charges_to_use(); //dont do the other effects if the robot died
             }
             if (one_in(3)) {
@@ -7935,7 +7883,7 @@ int iuse::robotcontrol(player *p, item *it, bool)
         } else {
             p->add_msg_if_player( _("...but the robot refuses to acknowledge you as an ally!"));
         }
-        p->practice(calendar::turn, "computer", 10);
+        p->practice( "computer", 10 );
         return it->type->charges_to_use();
     }
     case 2:{ //make all friendly robots stop their purposeless extermination of (un)life.

@@ -1586,11 +1586,8 @@ std::string player::save_info()
     return dump.str();
 }
 
-void player::memorial( std::ofstream &memorial_file )
+void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 {
-    //Ask the player for their final words
-    std::string epitaph = string_input_popup(_("Do you have any last words?"), 256);
-
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
@@ -1928,6 +1925,24 @@ stats* player::lifetime_stats()
 stats player::get_stats() const
 {
     return player_stats;
+}
+
+void player::mod_stat( std::string stat, int modifier )
+{
+    if( stat == "hunger" ) {
+        hunger += modifier;
+    } else if( stat == "thirst" ) {
+        thirst += modifier;
+    } else if( stat == "fatigue" ) {
+        fatigue += modifier;
+    } else if( stat == "health" ) {
+        health += modifier;
+    } else if( stat == "oxygen" ) {
+        oxygen += modifier;
+    } else {
+        // Fall through to the creature method.
+        Creature::mod_stat( stat, modifier );
+    }
 }
 
 inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
@@ -2357,7 +2372,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
    // Default to not training and not rusting
    nc_color text_color = c_blue;
    bool training = level.isTraining();
-   bool rusting = level.isRusting(calendar::turn);
+   bool rusting = level.isRusting();
 
    if(training && rusting)
    {
@@ -2886,7 +2901,7 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
 
     bool isLearning = level.isTraining();
     int exercise = level.exercise();
-    bool rusting = level.isRusting(calendar::turn);
+    bool rusting = level.isRusting();
 
     if (i == line) {
       selectedSkill = aSkill;
@@ -2931,7 +2946,7 @@ Running costs %+d movement point.", "Running costs %+d movement points.", encumb
       Skill *thisSkill = skillslist[i];
       SkillLevel level = skillLevel(thisSkill);
       bool isLearning = level.isTraining();
-      bool rusting = level.isRusting(calendar::turn);
+      bool rusting = level.isRusting();
 
       if (rusting)
        status = isLearning ? c_ltred : c_red;
@@ -3990,7 +4005,7 @@ void player::pause()
 
     // Train swimming if underwater
     if (underwater) {
-        practice(calendar::turn, "swimming", 1);
+        practice( "swimming", 1 );
         if (g->temperature <= 50) {
             drench(100, mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_head)|
                            mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_feet)|mfb(bp_hands));
@@ -4006,7 +4021,7 @@ void player::pause()
         veh = vehs[v].v;
         if (veh && veh->velocity != 0 && veh->player_in_control(this)) {
             if (one_in(10)) {
-                practice(calendar::turn, "driving", 1);
+                practice( "driving", 1 );
             }
             break;
         }
@@ -6543,7 +6558,7 @@ bool player::process_single_active_item(item *it)
             }
         } else if (it->is_tool()) {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            tmp->use.call(this, it, true);
+            tmp->invoke(this, it, true);
             if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
                 it->charges--;
             }
@@ -6552,9 +6567,9 @@ bool player::process_single_active_item(item *it)
                                        has_active_bionic("bio_ups")))) {
                 if (it->has_flag("USE_UPS")){
                     add_msg_if_player(_("You need an active UPS to run that!"));
-                    tmp->use.call(this, it, false);
+                    tmp->invoke(this, it, false);
                 }	else	{
-                    tmp->use.call(this, it, false);
+                    tmp->invoke(this, it, false);
                     if (tmp->revert_to == "null") {
                         return false;
                     } else {
@@ -7130,8 +7145,7 @@ int player::amount_of(itype_id it) {
 
 bool player::has_charges(itype_id it, long quantity)
 {
-    if (it == "fire" || it == "apparatus")
-    {
+    if (it == "fire" || it == "apparatus") {
         return has_fire(quantity);
     }
     return (charges_of(it) >= quantity);
@@ -7383,10 +7397,10 @@ bool player::consume(int pos)
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
             }
-            if (!comest->use.is_none()) {
+            if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->use.call(this, to_eat, false);
-                if( amount_used == 0 ) {
+                amount_used = comest->invoke(this, to_eat, false);
+                if( amount_used <= 0 ) {
                     return false;
                 }
             }
@@ -7648,9 +7662,9 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if (!comest->use.is_none()) {
-        to_eat = comest->use.call(this, eaten, false);
-        if( to_eat == 0 ) {
+    if (comest->has_use()) {
+        to_eat = comest->invoke(this, eaten, false);
+        if( to_eat <= 0 ) {
             return false;
         }
     }
@@ -7727,13 +7741,13 @@ bool player::eat(item *eaten, it_comest *comest)
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
-    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL" ) ) {
         charge_power(rng(2, 8));
     }
-    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_WEAK" ) ) {
         charge_power(rng(1, 4));
     }
-    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_strong) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power(rng(3, 12));
     }
 
@@ -7894,9 +7908,9 @@ void player::consume_effects(item *eaten, it_comest *comest, bool rotten)
         }
     } else {
         if (comest->fun < 0) {
-            add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, false, comest);
+            add_morale(MORALE_FOOD_BAD, comest->fun, comest->fun * 6, 60, 30, false, comest);
         } else if (comest->fun > 0) {
-            add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, false, comest);
+            add_morale(MORALE_FOOD_GOOD, comest->fun, comest->fun * 4, 60, 30, false, comest);
         }
         if ((comest->nutr > 0 && hunger < -20) || (comest->quench > 0 && thirst < -20)) {
             add_msg_if_player(_("You can't finish it all!"));
@@ -8131,6 +8145,7 @@ hint_rating player::rate_action_wear(item *it)
  }
  // Checks to see if the player is wearing shoes
  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+     (!it->has_flag("BELTED")) &&
      (!it->has_flag("SKINTIGHT") && is_wearing_shoes())){
   return HINT_IFFY;
  }
@@ -8478,6 +8493,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+            (!to_wear->has_flag("BELTED")) &&
             (!to_wear->has_flag("SKINTIGHT")) && is_wearing_shoes()) {
             // Checks to see if the player is wearing shoes
             if(interactive){
@@ -8781,7 +8797,7 @@ void player::use(int pos)
 
     if (used->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
-        int charges_used = tool->use.call(this, used, false);
+        int charges_used = tool->invoke(this, used, false);
         if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use ||
             (used->has_flag("USE_UPS") &&
              (has_charges("adv_UPS_on", charges_used * (.6)) || has_charges("UPS_on", charges_used) ||
@@ -8825,13 +8841,8 @@ void player::use(int pos)
                        used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
-    } else if (used->type->use == &iuse::boots          ||
-               used->type->use == &iuse::sheath_sword   ||
-               used->type->use == &iuse::sheath_knife   ||
-               used->type->use == &iuse::holster_pistol ||
-               used->type->use == &iuse::holster_ankle  ||
-               used->type->use == &iuse::quiver) {
-        used->type->use.call(this, used, false);
+    } else if ( used->type->has_use() ) {
+        used->type->invoke(this, used, false);
         return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
@@ -8975,14 +8986,12 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             const std::string mod = used->contents[choice].tname();
             remove_gunmod(used, choice);
             add_msg(_("You remove your %s from your %s."), mod.c_str(), used->name.c_str());
-        }
-        else if (choice == mods.size()) {
+        } else if (choice == mods.size()) {
             for (int i = used->contents.size() - 1; i >= 0; i--) {
                 remove_gunmod(used, i);
             }
             add_msg(_("You remove all the modifications from your %s."), used->name.c_str());
-        }
-        else {
+        } else {
             add_msg(_("Never mind."));
             return;
         }
@@ -8991,7 +9000,7 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         return;
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
-                   used->tname().c_str());
+                used->tname().c_str());
         return;
     }
 }
@@ -9086,7 +9095,7 @@ void player::read(int pos)
         mac = dynamic_cast<it_macguffin*>(it->type);
     }
     if (mac != NULL) {
-        mac->use.call(this, it, false);
+        mac->invoke(this, it, false);
         return;
     }
 
@@ -10035,6 +10044,7 @@ bool player::is_wearing_shoes() {
         it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
         if (worn_armor->covers & mfb(bp_feet) &&
+            (!worn_item->has_flag("BELTED")) &&
             (!worn_item->has_flag("SKINTIGHT"))) {
             return true;
         }
@@ -10083,14 +10093,12 @@ int player::adjust_for_focus(int amount)
     return ret;
 }
 
-void player::practice (const calendar& turn, Skill *s, int amount, int cap)
+void player::practice( Skill *s, int amount, int cap )
 {
     SkillLevel& level = skillLevel(s);
     // Double amount, but only if level.exercise isn't a small negative number?
-    if (level.exercise() < 0)
-    {
-        if (amount >= -level.exercise())
-        {
+    if (level.exercise() < 0) {
+        if (amount >= -level.exercise()) {
             amount -= level.exercise();
         } else {
             amount += amount;
@@ -10102,13 +10110,10 @@ void player::practice (const calendar& turn, Skill *s, int amount, int cap)
     Skill *savantSkill = NULL;
     SkillLevel savantSkillLevel = SkillLevel();
 
-    if (isSavant)
-    {
+    if (isSavant) {
         for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
-             aSkill != Skill::skills.end(); ++aSkill)
-        {
-            if (skillLevel(*aSkill) > savantSkillLevel)
-            {
+             aSkill != Skill::skills.end(); ++aSkill) {
+            if (skillLevel(*aSkill) > savantSkillLevel) {
                 savantSkill = *aSkill;
                 savantSkillLevel = skillLevel(*aSkill);
             }
@@ -10128,56 +10133,56 @@ void player::practice (const calendar& turn, Skill *s, int amount, int cap)
         }
     }
     if (has_trait("PRED3") && s->is_combat_skill()) {
-      amount *= 2;
+        amount *= 2;
     }
 
     if (has_trait("PRED4") && s->is_combat_skill()) {
-      amount *= 3;
+        amount *= 3;
     }
 
-    if (isSavant && s != savantSkill)
-    {
+    if (isSavant && s != savantSkill) {
         amount /= 2;
     }
 
-    if (skillLevel(s) > cap) //blunt grinding cap implementation for crafting
-    {
+    if (skillLevel(s) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
         int curLevel = skillLevel(s);
         if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
-            add_msg(m_info, _("This task is too simple to train your %s beyond %d."), s->name().c_str(), curLevel);
+            add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
+                    s->name().c_str(), curLevel);
         }
     }
 
-    if (amount > 0 && level.isTraining())
-    {
+    if (amount > 0 && level.isTraining()) {
         int oldLevel = skillLevel(s);
         skillLevel(s).train(amount);
         int newLevel = skillLevel(s);
         if (is_player() && newLevel > oldLevel) {
             add_msg(m_good, _("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
         }
-        if(is_player() && newLevel > cap) { //inform player immediately that the current recipe can't be used to train further
-            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."), s->name().c_str());
+        if(is_player() && newLevel > cap) {
+            //inform player immediately that the current recipe can't be used to train further
+            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
+                    s->name().c_str());
         }
 
         int chance_to_drop = focus_pool;
         focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") && s->is_combat_skill())))
-        {
+        if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") &&
+                                                          s->is_combat_skill()))) {
             focus_pool--;
         }
     }
 
-    skillLevel(s).practice(turn);
+    skillLevel(s).practice();
 }
 
-void player::practice (const calendar& turn, std::string s, int amount)
+void player::practice( std::string s, int amount, int cap )
 {
     Skill *aSkill = Skill::skill(s);
-    practice(turn, aSkill, amount);
+    practice( aSkill, amount, cap );
 }
 
 bool player::knows_recipe(recipe *rec)

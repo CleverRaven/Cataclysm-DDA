@@ -74,8 +74,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "money",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -166,8 +165,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -240,7 +238,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
-	"qualities": [["HAMMER", 3], ["HAMMER_FINE", 1]]
+    "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1]]
   },
 
   {
@@ -566,8 +564,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -585,8 +582,8 @@
     "bashing": 1,
     "cutting": 0,
     "to_hit": 2,
-    "max_charges": 8000,
-    "initial_charges": 8000,
+    "max_charges": 900,
+    "initial_charges": 900,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
@@ -615,8 +612,8 @@
     "bashing": 1,
     "cutting": 0,
     "to_hit": 2,
-    "max_charges": 8000,
-    "initial_charges": 8000,
+    "max_charges": 900,
+    "initial_charges": 900,
     "charges_per_use": 0,
     "turns_per_charge": 120,
     "ammo": "NULL",
@@ -705,8 +702,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -785,8 +781,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -996,8 +991,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "other",
-    "use_action": "NONE"
+    "category" : "other"
   },
 
   {
@@ -1042,8 +1036,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -1350,8 +1343,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
     {
@@ -3294,7 +3286,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 0,
-    "turns_per_charge": 10,
+    "turns_per_charge": 150,
     "ammo": "battery",
     "revert_to": "mp3",
     "use_action": "MP3_ON"
@@ -3390,8 +3382,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -4890,8 +4881,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -4915,7 +4905,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
 	"qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
 
@@ -4940,7 +4929,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
 	"qualities": [["WRENCH", 1], ["WRENCH_FINE", 1]]
   },
 
@@ -4963,8 +4951,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -5083,8 +5070,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category": "other",
-    "use_action": "NONE"
+    "category": "other"
   },
 
   {
@@ -5201,8 +5187,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare_parts",
-    "use_action": "NONE"
+    "category" : "spare_parts"
   },
 
   {
@@ -5225,8 +5210,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare_parts",
-    "use_action": "NONE"
+    "category" : "spare_parts"
   },
 
   {
@@ -5410,7 +5394,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
-	"qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
+    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
   },
 
   {
@@ -5483,7 +5467,7 @@
     "revert_to": "null",
     "use_action": "KNIFE",
     "qualities": [["CUT", 1]],
-	"flags": ["STAB", "SHEATH_KNIFE"]
+    "flags": ["STAB", "SHEATH_KNIFE"]
   },
 
   {
@@ -5576,8 +5560,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -5622,8 +5605,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -5976,7 +5958,7 @@
     "category" : "food",
     "use_action": "FLASK_YEAST"
   },
-  
+
   {
     "id": "cordless_drill",
     "type": "TOOL",
@@ -5997,8 +5979,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6020,8 +6001,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6357,7 +6337,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-	"qualities":[["BREW", 2]]
+    "qualities":[["BREW", 2]]
   },
 
   {
@@ -6403,7 +6383,7 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "HOTPLATE",
-	"qualities":[["BREW", 1], ["CHEM", 2]]
+    "qualities":[["BREW", 1], ["CHEM", 2]]
   },
   {
     "id": "crackpipe",
@@ -6496,8 +6476,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6519,8 +6498,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6543,8 +6521,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6568,9 +6545,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
     "qualities": [["COOK", 1]]
-    },{
+  },{
     "id": "chisel",
     "type": "TOOL",
     "symbol": ";",
@@ -6590,8 +6566,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6614,8 +6589,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6751,8 +6725,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "charcoal",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6774,8 +6747,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "charcoal",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -6845,8 +6817,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category": "veh_parts",
-    "use_action": "NONE"
+    "category": "veh_parts"
   },
 
   {
@@ -6869,8 +6840,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category": "veh_parts",
-    "use_action": "NONE"
+    "category": "veh_parts"
   },
 
   {
@@ -6920,8 +6890,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -7019,8 +6988,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "NONE"
+    "revert_to": "null"
   },
 
   {
@@ -7045,7 +7013,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
     "qualities": [["CUT", 1]]
   },
 
@@ -7071,7 +7038,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
     "category" : "weapons",
     "qualities": [["CUT", 1]]
   },
@@ -7097,7 +7063,6 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "NONE",
     "qualities": [["CUT", 1]]
   },
   {
@@ -7288,7 +7253,7 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "GUN_REPAIR",
-	"qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
+    "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
   },
   {
     "id": "large_repairkit",
@@ -7311,7 +7276,7 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": "GUN_REPAIR",
-	"qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
+    "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
   },
   {
     "id": "misc_repairkit",
@@ -7356,7 +7321,8 @@
     "ammo": "tape",
     "revert_to": "null",
     "use_action": "MISC_REPAIR",
-  	"qualities": [["CUT", 1], ["HAMMER", 1], ["SAW_M", 1], ["SAW_W", 1], ["WRENCH", 1], ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
+    "qualities": [["CUT", 1], ["HAMMER", 1], ["SAW_M", 1], ["SAW_W", 1], ["WRENCH", 1],
+        ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
   },
   {
     "id": "battery_atomic",

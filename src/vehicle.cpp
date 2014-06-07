@@ -506,7 +506,7 @@ void vehicle::use_controls()
     if (has_stereo) {
         options_choice.push_back(toggle_stereo);
         options_message.push_back(uimenu_entry((stereo_on) ? _("Turn off stereo") :
-                                               _("Turn on stereo"), 'h'));
+                                               _("Turn on stereo"), 'm'));
     }
 
    if (has_overhead_lights) {
@@ -561,7 +561,7 @@ void vehicle::use_controls()
     if (has_reactor) {
         options_choice.push_back(toggle_reactor);
         options_message.push_back(uimenu_entry(reactor_on ? _("Turn off reactor") :
-                                               _("Turn on reactor"), 'm'));
+                                               _("Turn on reactor"), 'k'));
     }
 
     options_choice.push_back(control_cancel);

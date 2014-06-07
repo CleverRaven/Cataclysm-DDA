@@ -31,7 +31,6 @@ public:
     int alcohol             (player*, item*, bool);
     int alcohol_weak        (player*, item*, bool);
     int alcohol_strong      (player*, item*, bool);
-    int pkill               (player*, item*, bool);
     int xanax               (player*, item*, bool);
     int smoking             (player*, item*, bool);
     int smoking_pipe        (player*, item*, bool);
@@ -44,7 +43,6 @@ public:
     int anticonvulsant      (player*, item*, bool);
     int weed_brownie        (player*, item*, bool);
     int coke                (player*, item*, bool);
-    int crack               (player*, item*, bool);
     int grack               (player*, item*, bool);
     int meth                (player*, item*, bool);
     int vitamins            (player*, item*, bool);
@@ -274,14 +272,15 @@ public:
 
     ~use_function();
 
-    int call(player*,item*,bool);
+    int call(player*,item*,bool) const;
 
     void operator=(use_function_pointer f);
     void operator=(iuse_actor *f);
     void operator=(const use_function &other);
 
-    bool is_none() const {
-        return function_type == USE_FUNCTION_NONE;
+    bool operator==(use_function f) const {
+        return function_type == USE_FUNCTION_CPP && f.function_type == USE_FUNCTION_CPP &&
+        f.cpp_function == cpp_function;
     }
 
     bool operator==(use_function_pointer f) const {

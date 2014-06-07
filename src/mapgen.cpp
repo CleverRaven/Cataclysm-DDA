@@ -5713,7 +5713,7 @@ ____sss                 \n\
 ____sss                 \n\
 ____sss                 \n",
                                        mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
-                                               t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
+                                               t_chaingate_l, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
                                                t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_floor, t_door_c,
                                                t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
@@ -9613,6 +9613,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             place_items("hospital_lab", 60, 2, 14, 2, 22, false, 0);
             square_furn(this, f_counter, 4, 17, 6, 19);
             ter_set(4, 18, t_centrifuge);
+            furn_set(4, 18, f_null);
             line(this, t_floor, 5, 18, 6, rng(17, 19)); // Clear path to console
             tmpcomp = add_computer(5, 18, _("Centrifuge"), 0);
             tmpcomp->add_option(_("Analyze blood"), COMPACT_BLOOD_ANAL, 4);

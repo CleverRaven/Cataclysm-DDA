@@ -249,7 +249,7 @@ void mattack::boomer(monster *z)
         } else if (u_see) {
             add_msg(_("You dodge it!"));
         }
-        g->u.practice(calendar::turn, "dodge", 10);
+        g->u.practice( "dodge", 10 );
         g->u.ma_ondodge_effects();
     }
 }
@@ -901,7 +901,7 @@ void mattack::dermatik(monster *z)
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("The %s tries to land on you, but you dodge."), z->name().c_str());
         z->stumble(false);
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -1131,7 +1131,7 @@ void mattack::tentacle(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You dodge it!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -1140,7 +1140,7 @@ void mattack::tentacle(monster *z)
     int dam = rng(10, 20), side = random_side(hit);
     add_msg(m_bad, _("Your %s is hit for %d damage!"), body_part_name(hit, side).c_str(), dam);
     g->u.hit(z, hit, side, dam, 0);
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::vortex(monster *z)
@@ -1906,7 +1906,7 @@ void mattack::bite(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You dodge it!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -1932,7 +1932,7 @@ void mattack::bite(monster *z)
                 body_part_name(hit, side).c_str());
     }
 
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::brandish(monster *z)
@@ -1973,7 +1973,7 @@ void mattack::flesh_golem(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You dodge it!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -1985,7 +1985,7 @@ void mattack::flesh_golem(monster *z)
                          (g->u.wearing_something_on(bp_feet))) && (!(g->u.is_throw_immune())) ) {
         g->u.add_effect("downed", 30);
     }
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::parrot(monster *z)
@@ -2155,7 +2155,7 @@ void mattack::bio_op_takedown(monster *z)
     int dodge_check = std::max(g->u.get_dodge() - rng(0, z->type->melee_skill), 0L);
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
         add_msg(_("You dodge it!"));
-        g->u.practice(calendar::turn, "dodge", z->type->melee_skill * 2);
+        g->u.practice( "dodge", z->type->melee_skill * 2 );
         g->u.ma_ondodge_effects();
         return;
     }
@@ -2189,7 +2189,7 @@ void mattack::bio_op_takedown(monster *z)
         add_msg(m_bad, _("and slams you for %d damage!"), dam);
         g->u.hit(z, hit, side, dam, 0);
     }
-    g->u.practice(calendar::turn, "dodge", z->type->melee_skill);
+    g->u.practice( "dodge", z->type->melee_skill );
 }
 
 void mattack::suicide(monster *z)

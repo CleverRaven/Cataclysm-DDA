@@ -1451,7 +1451,8 @@ void game::complete_craft()
     int diff_roll  = dice(diff_dice,  diff_sides);
 
     if (making->skill_used) {
-        u.practice(calendar::turn, making->skill_used, making->difficulty * 5 + 20, (int)making->difficulty * 1.25);
+        u.practice( making->skill_used, making->difficulty * 5 + 20,
+                    (int)making->difficulty * 1.25 );
     }
 
     // Messed up badly; waste some components.
@@ -1949,7 +1950,7 @@ void game::complete_disassemble()
 
     // disassembly only nets a bit of practice
     if (dis->skill_used) {
-        u.practice(calendar::turn, dis->skill_used, (dis->difficulty) * 2, dis->difficulty);
+        u.practice( dis->skill_used, (dis->difficulty) * 2, dis->difficulty );
     }
 
     for (unsigned j = 0; j < dis->components.size(); j++) {

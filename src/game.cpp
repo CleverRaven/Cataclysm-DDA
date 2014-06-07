@@ -720,10 +720,164 @@ void game::cleanup_at_end(){
     // Clear the future weather for future projects
     weather_log.clear();
 
-    if (uquit == QUIT_DIED) {
-        popup_top(_("Game over! Press spacebar..."));
-    }
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
+        std::vector<std::string> vRip;
+
+        int iMaxWidth = 0;
+        int iNameLine = 0;
+        int iInfoLine = 0;
+
+        if(u.has_amount("holybook_bible1", 1) || u.has_amount("holybook_bible2", 1) ||
+          u.has_amount("holybook_bible3", 1)) {
+            if (!(u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH"))) {
+                vRip.push_back("               _______  ___");
+                vRip.push_back("              <       `/   |");
+                vRip.push_back("               >  _     _ (");
+                vRip.push_back("              |  |_) | |_) |");
+                vRip.push_back("              |  | \\ | |   |");
+                vRip.push_back("   ______.__%_|            |_________  __");
+                vRip.push_back(" _/                                  \\|  |"); iNameLine = vRip.size();
+                vRip.push_back("|                                        <");
+                vRip.push_back("|                                        |"); iMaxWidth = vRip[vRip.size()-1].length();
+                vRip.push_back("|                                        |");
+                vRip.push_back("|_____.-._____              __/|_________|");
+                vRip.push_back("              |            |"); iInfoLine = vRip.size();
+                vRip.push_back("              |            |");
+                vRip.push_back("              |           <");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |   _        |");
+                vRip.push_back("              |__/         |");
+                vRip.push_back("             % / `--.      |%");
+                vRip.push_back("         * .%%|          -< @%%%");
+                vRip.push_back("         `\\%`@|            |@@%@%%");
+                vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
+                vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
+
+            } else {
+                vRip.push_back("               _______  ___");
+                vRip.push_back("              |       \\/   |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |"); iInfoLine = vRip.size();
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |            |");
+                vRip.push_back("              |           <");
+                vRip.push_back("              |   _        |");
+                vRip.push_back("              |__/         |");
+                vRip.push_back("   ______.__%_|            |__________  _");
+                vRip.push_back(" _/                                   \\| \\"); iNameLine = vRip.size();
+                vRip.push_back("|                                         <");
+                vRip.push_back("|                                         |"); iMaxWidth = vRip[vRip.size()-1].length();
+                vRip.push_back("|                                         |");
+                vRip.push_back("|_____.-._______            __/|__________|");
+                vRip.push_back("             % / `_-.   _  |%");
+                vRip.push_back("         * .%%|  |_) | |_)< @%%%");
+                vRip.push_back("         `\\%`@|  | \\ | |   |@@%@%%");
+                vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
+                vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
+            }
+        } else {
+            vRip.push_back("           _________  ____           ");
+            vRip.push_back("         _/         `/    \\_         ");
+            vRip.push_back("       _/      _     _      \\_.      ");
+            vRip.push_back("     _%\\      |_) | |_)       \\_     ");
+            vRip.push_back("   _/ \\/      | \\ | |           \\_   ");
+            vRip.push_back(" _/                               \\_ ");
+            vRip.push_back("|                                   |"); iNameLine = vRip.size();
+            vRip.push_back(" )                                 < ");
+            vRip.push_back("|                                   |");
+            vRip.push_back("|                                   |");
+            vRip.push_back("|   _                               |");
+            vRip.push_back("|__/                                |"); iMaxWidth = vRip[vRip.size()-1].length();
+            vRip.push_back(" / `--.                             |");
+            vRip.push_back("|                                  ( "); iInfoLine = vRip.size();
+            vRip.push_back("|                                   |");
+            vRip.push_back(" \\_                               _/");
+            vRip.push_back("   \\_%                         ._/  ");
+            vRip.push_back("   @`\\_                       _/%%  ");
+            vRip.push_back("  %@%@%\\_              *    _/%`%@% ");
+            vRip.push_back(" %@@@.%@%\\%%           `\\ %%.%%@@%@");
+            vRip.push_back("@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@");
+        }
+
+        const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
+        const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
+
+        WINDOW *w_rip = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+        draw_border(w_rip);
+
+        for (unsigned int iY=0; iY < vRip.size(); ++iY) {
+            for (unsigned int iX=0; iX < vRip[iY].length(); ++iX) {
+                char cTemp = vRip[iY][iX];
+                if (cTemp != ' ') {
+                    nc_color ncColor = c_ltgray;
+
+                    if (cTemp == '%') {
+                        ncColor = c_green;
+
+                    } else if (cTemp == '_' || cTemp == '|') {
+                        ncColor = c_white;
+
+                    } else if (cTemp == '@') {
+                        ncColor = c_brown;
+
+                    } else if (cTemp == '*') {
+                        ncColor = c_red;
+                    }
+
+                    mvwputch(w_rip, iY + 1, iX + (FULL_SCREEN_WIDTH/2) - (iMaxWidth/2), ncColor, vRip[iY][iX]);
+                }
+            }
+        }
+
+        std::string sTemp = _("Survived:");
+        mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH/2) - 5, c_ltgray, sTemp.c_str());
+
+        int minute_param = int(calendar::turn.get_turn() / 10);
+        int hour_param = minute_param / 60;
+        int day_param = hour_param / 24;
+        int iDays = day_param / (int)OPTIONS["SEASON_LENGTH"];
+
+        std::stringstream ssTemp;
+        ssTemp << iDays;
+        mvwprintz(w_rip, iInfoLine++, (FULL_SCREEN_WIDTH/2) - 5, c_magenta, ssTemp.str().c_str());
+
+        sTemp = (iDays == 1) ? _("day") : _("days");
+        wprintz(w_rip, c_white, (" " + sTemp).c_str());
+
+        int iTotalKills = 0;
+
+        const std::map<std::string, mtype*> monids = MonsterGenerator::generator().get_all_mtypes();
+        for (std::map<std::string, mtype*>::const_iterator mon = monids.begin(); mon != monids.end(); ++mon){
+            if (g->kill_count(mon->first) > 0){
+                iTotalKills += g->kill_count(mon->first);
+            }
+        }
+
+        ssTemp.str("");
+        ssTemp << iTotalKills;
+
+        sTemp = _("Kills:");
+        mvwprintz(w_rip, 1 + iInfoLine++, (FULL_SCREEN_WIDTH/2) - 5, c_ltgray, (sTemp + " ").c_str());
+        wprintz(w_rip, c_magenta, ssTemp.str().c_str());
+
+        sTemp = _("In memory of:");
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH/2) - (sTemp.length()/2), c_ltgray, sTemp.c_str());
+
+        sTemp = u.name;
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH/2) - (sTemp.length()/2), c_white, sTemp.c_str());
+
+        sTemp = _("Last Words:");
+        mvwprintz(w_rip, iNameLine++, (FULL_SCREEN_WIDTH/2) - (sTemp.length()/2), c_ltgray, sTemp.c_str());
+
+        long cInput = '\n';
+        int iPos = -1;
+        int iStartX = (FULL_SCREEN_WIDTH/2) - ((iMaxWidth-4)/2);
+        std::string sLastWords = string_input_win(w_rip, "", iMaxWidth-4-1,
+                                                  iStartX, iNameLine, iStartX + iMaxWidth-4-1,
+                                                  true, cInput, iPos);
+
         death_screen();
         if (uquit == QUIT_SUICIDE) {
             u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),
@@ -734,7 +888,7 @@ void game::cleanup_at_end(){
                                pgettext("memorial_female", "%s was killed."),
                                u.name.c_str());
         }
-        write_memorial_file();
+        write_memorial_file(sLastWords);
         u.memorial_log.clear();
         std::vector<std::string> characters = list_active_characters();
         // remove current player from the active characters list, as they are dead
@@ -1250,13 +1404,11 @@ void game::rustCheck()
         bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 0;
         int oldSkillLevel = u.skillLevel(*aSkill);
 
-        if (u.skillLevel(*aSkill).rust(calendar::turn, charged_bio_mem))
-        {
+        if (u.skillLevel(*aSkill).rust( charged_bio_mem )) {
             u.power_level--;
         }
         int newSkill =u.skillLevel(*aSkill);
-        if (newSkill < oldSkillLevel)
-        {
+        if (newSkill < oldSkillLevel) {
             add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
                     (*aSkill)->name().c_str(), newSkill);
         }
@@ -1592,7 +1744,7 @@ void game::activity_on_finish_read()
         min_ex *= originalSkillLevel + 1;
         max_ex *= originalSkillLevel + 1;
 
-        u.skillLevel(reading->type).readBook(min_ex, max_ex, calendar::turn, reading->level);
+        u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
 
         add_msg(_("You learn a little about %s! (%d%%)"), reading->type->name().c_str(),
                 u.skillLevel(reading->type).exercise());
@@ -1630,8 +1782,8 @@ void game::activity_on_finish_read()
         }
     }
 
-    if (!reading->use.is_none()) {
-        reading->use.call(&g->u, book_item, false);
+    if (reading->has_use()) {
+        reading->invoke(&g->u, book_item, false);
     }
 
     u.activity.type = ACT_NULL;
@@ -1697,7 +1849,7 @@ void game::activity_on_finish_fish()
             u.add_msg_if_player(_("You catch nothing."));
         }
 
-        u.practice(calendar::turn, "survival", rng(5, 15));
+        u.practice( "survival", rng(5, 15) );
     }
     u.activity.type = ACT_NULL;
 }
@@ -3561,24 +3713,9 @@ void game::death_screen()
     }
 #endif
 
-    const std::string sText = _("GAME OVER - Press Spacebar to Quit");
-
-    WINDOW *w_death = newwin(5, 6+sText.size(), (TERMY-5)/2, (TERMX+6-sText.size())/2);
-
-    draw_border(w_death);
-
-    mvwprintz(w_death, 2, 3, c_ltred, "%s", sText.c_str());
-    wrefresh(w_death);
-    refresh();
-    while(getch() != ' ') {
-        // wait for another key press
-    }
-    delwin(w_death);
-
     Messages::display_messages();
     disp_kills();
 }
-
 
 bool game::load_master(std::string worldname)
 {
@@ -3923,7 +4060,7 @@ std::vector<std::string> game::list_active_characters()
  * state at the time the memorial was made (usually upon death) and
  * accomplishments in a human-readable format.
  */
-void game::write_memorial_file() {
+void game::write_memorial_file(std::string sLastWords) {
 
     //Open the file first
     DIR *dir = opendir("memorial");
@@ -3978,13 +4115,12 @@ void game::write_memorial_file() {
     std::ofstream memorial_file;
     memorial_file.open(memorial_file_path.c_str());
 
-    u.memorial( memorial_file );
+    u.memorial( memorial_file, sLastWords );
 
     if(!memorial_file.is_open()) {
       dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << memorial_file_path;
       debugmsg("Could not open memorial file '%s'", memorial_file_path.c_str());
     }
-
 
     //Cleanup
     memorial_file.close();
@@ -7393,7 +7529,7 @@ void game::smash()
         u.handle_melee_wear();
         u.moves -= move_cost;
         if (u.skillLevel("melee") == 0) {
-            u.practice(calendar::turn, "melee", rng(0, 1) * rng(0, 1));
+            u.practice( "melee", rng(0, 1) * rng(0, 1) );
         }
         if (u.weapon.made_of("glass") &&
             rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
@@ -8106,7 +8242,17 @@ void game::print_terrain_info(int lx, int ly, WINDOW* w_look, int column, int &l
     int ending_line = line + 3;
     std::string tile = m.tername(lx, ly);
     if (m.has_furn(lx, ly)) {
-        tile += "; " + m.furnname(lx, ly);
+        furn_t furn = m.furn_at(lx, ly);
+        tile += "; " + furn.name;
+        if (furn.has_flag("PLANT")) {
+            // Plant types are defined by seeds.
+            item plantType = m.i_at(lx, ly)[0];
+            if (plantType.typeId() != "fungal_seeds") {
+                // We rely on the seeds we care about to be
+                // id'd as seed_*.
+                tile += " (" + plantType.typeId().substr(5) + ")";
+            }
+        }
     }
 
     if (m.move_cost(lx, ly) == 0) {
@@ -10339,7 +10485,7 @@ void game::plthrow(int pos)
  }
 
  u.moves -= move_cost;
- u.practice(calendar::turn, "throw", 10);
+ u.practice( "throw", 10 );
 
  throw_item(u, x, y, thrown, trajectory);
  reenter_fullscreen();
@@ -10424,7 +10570,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     std::vector<item*> holsters;
     for(std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++){
         item& worn = *it;
-        if((worn.type->use == &iuse::holster_pistol || worn.type->use == &iuse::holster_ankle) &&
+        if((worn.type->can_use("HOLSTER_PISTOL") || worn.type->can_use("HOLSTER_ANKLE")) &&
             (!worn.contents.empty() && worn.contents[0].is_gun())) {
                 holsters.push_back(&worn);
         }
@@ -10508,7 +10654,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     std::vector<item*> quivers;
     for(std::vector<item>::iterator it = u.worn.begin(); it != u.worn.end(); it++) {
         item& worn = *it;
-        if(worn.type->use == &iuse::quiver &&
+        if(worn.type->can_use("QUIVER") &&
            !worn.contents.empty() && worn.contents[0].is_ammo() && worn.contents[0].charges > 0) {
              quivers.push_back(&worn);
            }
@@ -10648,16 +10794,16 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item>& items = m.i_at(u.posx, u.posy);
     inventory crafting_inv = crafting_inventory(&u);
-    // get corpses first
+    
+    // check if we have a butchering tool
+    if (factor == INT_MAX) {
+        add_msg(m_info, _("You don't have a sharp item to butcher with."));
+        return;
+    }
+    // get corpses
     for (size_t i = 0; i < items.size(); i++) {
         if (items[i].type->id == "corpse" && items[i].corpse != NULL) {
-            if (factor == INT_MAX) {
-                if (!has_corpse) {
-                    add_msg(m_info, _("You don't have a sharp item to butcher with."));
-                }
-            } else {
-                corpses.push_back(i);
-            }
+            corpses.push_back(i);
             has_corpse = true;
         }
     }
@@ -10704,9 +10850,9 @@ void game::butcher()
                 }
             }
             if (it.corpse != NULL) {
-                kmenu.addentry(i, true, hotkey, corpse->name.c_str());
+                kmenu.addentry(i, true, hotkey, corpse->name);
             } else {
-                kmenu.addentry(i, true, hotkey, it.tname().c_str());
+                kmenu.addentry(i, true, hotkey, it.tname());
             }
         }
         kmenu.addentry(corpses.size(), true, 'q', _("Cancel"));
@@ -10790,9 +10936,10 @@ void game::complete_butcher(int index)
   skill_shift -= rng(0, factor / 5);
 
  int practice = 4 + pieces;
- if (practice > 20)
-  practice = 20;
- u.practice(calendar::turn, "survival", practice);
+ if (practice > 20) {
+     practice = 20;
+ }
+ u.practice( "survival", practice );
 
  pieces += int(skill_shift);
  if (skill_shift < 5)  { // Lose some skins and bones
@@ -11068,10 +11215,8 @@ void game::forage()
         max_forage_skill =  8;
     }
     //Award experience for foraging attempt regardless of success
-    if (u.skillLevel("survival") < max_forage_skill) {
-        u.practice(calendar::turn, "survival",
-                   rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)));
-    }
+    u.practice( "survival", rng(1, (max_forage_skill * 2) - (u.skillLevel("survival") * 2)),
+                max_forage_skill );
 }
 
 void game::eat(int pos)
@@ -11550,7 +11695,7 @@ void game::pldrive(int x, int y) {
     if (veh->skidding && veh->valid_wheel_config()) {
         if (rng (0, veh->velocity) < u.dex_cur + u.skillLevel("driving") * 2) {
             add_msg (_("You regain control of the %s."), veh->name.c_str());
-            u.practice(calendar::turn, "driving", veh->velocity / 5);
+            u.practice( "driving", veh->velocity / 5 );
             veh->velocity = int(veh->forward_velocity());
             veh->skidding = false;
             veh->move.init (veh->turn_dir);
@@ -11562,7 +11707,7 @@ void game::pldrive(int x, int y) {
     }
 
     if (x != 0 && veh->velocity != 0 && one_in(10)) {
-        u.practice(calendar::turn, "driving", 1);
+        u.practice( "driving", 1 );
     }
 }
 
@@ -12397,7 +12542,7 @@ void game::plswim(int x, int y)
   u.remove_effect("onfire");
  }
  int movecost = u.swim_speed();
- u.practice(calendar::turn, "swimming", u.is_underwater() ? 2 : 1);
+ u.practice( "swimming", u.is_underwater() ? 2 : 1 );
  if (movecost >= 500) {
   if (!u.is_underwater() || !u.is_wearing("swim_fins")) {
     add_msg(m_bad, _("You sink like a rock!"));

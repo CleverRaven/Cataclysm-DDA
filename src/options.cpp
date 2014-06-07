@@ -781,10 +781,11 @@ void initOptions()
 
     OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
                                  _("If true automatically sets notes on places that have stairs that go up or down"),
-                                 true
+                                 false
                                 );
 
-    for( auto iter = OPTIONS.begin(); iter != OPTIONS.end(); ++iter ) {
+    std::map<std::string, cOpt> OPTIONS_ORDERED(OPTIONS.begin(), OPTIONS.end());
+    for( auto iter = OPTIONS_ORDERED.begin(); iter != OPTIONS_ORDERED.end(); ++iter ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
             if (vPages[i].first == (iter->second).getPage()) {
                 mPageItems[i].push_back(iter->first);

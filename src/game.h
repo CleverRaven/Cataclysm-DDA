@@ -118,7 +118,7 @@ public:
   bool save();
   void delete_world(std::string worldname, bool delete_folder);
   std::vector<std::string> list_active_characters();
-  void write_memorial_file();
+  void write_memorial_file(std::string sLastWords);
   void cleanup_at_end();
   bool do_turn();
   void draw();

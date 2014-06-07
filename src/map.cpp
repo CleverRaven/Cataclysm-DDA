@@ -2910,15 +2910,15 @@ bool map::process_active_item(item *it, submap * const current_submap, const int
             it->charges = 0;
         } else {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            if (!tmp->use.is_none()) {
-                tmp->use.call(&(g->u), it, true);
+            if (tmp->has_use()) {
+                tmp->invoke(&(g->u), it, true);
             }
             if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
                 it->charges--;
             }
             if (it->charges <= 0) {
-                if (!tmp->use.is_none()) {
-                    tmp->use.call(&(g->u), it, false);
+                if (tmp->has_use()) {
+                    tmp->invoke(&(g->u), it, false);
                 }
                 if (tmp->revert_to == "null" || it->charges == -1) {
                     return true;
@@ -3254,12 +3254,12 @@ void map::disarm_trap(const int x, const int y)
         }
         remove_trap(x, y);
         if(diff > 1.25 * skillLevel) { // failure might have set off trap
-            g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
+            g->u.practice( "traps", 1.5*(diff - skillLevel) );
         }
     } else if (roll >= diff * .8) {
         add_msg(_("You fail to disarm the trap."));
         if(diff > 1.25 * skillLevel) {
-            g->u.practice(calendar::turn, "traps", 1.5*(diff - skillLevel));
+            g->u.practice( "traps", 1.5*(diff - skillLevel) );
         }
     } else {
         add_msg(m_bad, _("You fail to disarm the trap, and you set it off!"));
@@ -3267,7 +3267,7 @@ void map::disarm_trap(const int x, const int y)
         if(diff - roll <= 6) {
             // Give xp for failing, but not if we failed terribly (in which
             // case the trap may not be disarmable).
-            g->u.practice(calendar::turn, "traps", 2*diff);
+            g->u.practice( "traps", 2*diff );
         }
     }
 }

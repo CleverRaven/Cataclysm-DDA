@@ -198,7 +198,7 @@ bool computer::hack_attempt(player *p, int Security)
         Security += (alerts * 2);
     }
 
-    p->practice(calendar::turn, "computer", 5 + Security * 2);
+    p->practice( "computer", 5 + Security * 2 );
     int player_roll = p->skillLevel("computer");
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);
@@ -1075,6 +1075,7 @@ void computer::activate_random_failure()
 
 void computer::activate_failure(computer_failure fail)
 {
+    bool found_tile = false;
     switch (fail) {
 
     case COMPFAIL_NULL: // Unknown action.
@@ -1082,6 +1083,18 @@ void computer::activate_failure(computer_failure fail)
         break;
 
     case COMPFAIL_SHUTDOWN:
+        for( int x = g->u.posx-1; x <= g->u.posx+1; x++ ) {
+            for( int y = g->u.posy-1; y <= g->u.posy+1; y++ ) {
+                if( g->m.has_flag("CONSOLE", x, y) ) {
+                    g->m.ter_set(x, y, t_console_broken);
+                    add_msg(m_bad, _("The console shuts down."));
+                    found_tile = true;
+                }
+            }
+        }
+        if( found_tile ) {
+            break;
+        }
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 if (g->m.has_flag("CONSOLE", x, y)) {
