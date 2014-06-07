@@ -4,6 +4,7 @@
 #include "monstergenerator.h"
 #include "item_factory.h"
 #include <fstream>
+#include <stdexcept>
 
 std::vector<std::string> artifact_itype_ids;
 std::vector<std::string> standard_itype_ids;
