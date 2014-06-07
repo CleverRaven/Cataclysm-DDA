@@ -6103,6 +6103,8 @@ int player::weight_capacity(bool /* return_stat_effect */)
   ret = int(ret * .60);
  if (has_artifact_with(AEP_CARRY_MORE))
   ret += 22500;
+ if (ret < 0)
+  ret = 0;
  return ret;
 }
 
@@ -6122,6 +6124,8 @@ int player::volume_capacity()
   ret = int(ret * 1.4);
  if (has_trait("DISORGANIZED"))
   ret = int(ret * 0.6);
+ if (ret < 2)
+  ret = 2;
  return ret;
 }
 
@@ -7744,10 +7748,10 @@ bool player::eat(item *eaten, it_comest *comest)
     if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL" ) ) {
         charge_power(rng(2, 8));
     }
-    if( has_bionic("bio_ethanol") && comest->can_use( "ALCHOHOL_WEAK" ) ) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_WEAK" ) ) {
         charge_power(rng(1, 4));
     }
-    if( has_bionic("bio_ethanol") && comest->can_use( "ALCHOHOL_STRONG" ) ) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power(rng(3, 12));
     }
 
@@ -8145,6 +8149,7 @@ hint_rating player::rate_action_wear(item *it)
  }
  // Checks to see if the player is wearing shoes
  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+     (!it->has_flag("BELTED")) &&
      (!it->has_flag("SKINTIGHT") && is_wearing_shoes())){
   return HINT_IFFY;
  }
@@ -8492,6 +8497,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+            (!to_wear->has_flag("BELTED")) &&
             (!to_wear->has_flag("SKINTIGHT")) && is_wearing_shoes()) {
             // Checks to see if the player is wearing shoes
             if(interactive){
@@ -10042,6 +10048,7 @@ bool player::is_wearing_shoes() {
         it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
         if (worn_armor->covers & mfb(bp_feet) &&
+            (!worn_item->has_flag("BELTED")) &&
             (!worn_item->has_flag("SKINTIGHT"))) {
             return true;
         }
