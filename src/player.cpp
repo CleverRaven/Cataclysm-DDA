@@ -8855,9 +8855,6 @@ void player::use(int pos)
                        used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
-    } else if ( used->type->has_use() ) {
-        used->type->invoke(this, used, false);
-        return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
             add_msg(m_info, _("You need to be at least level 1 in the marksmanship skill before you\
@@ -9011,6 +9008,9 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         }
         // Removing stuff from a gun takes time.
         moves -= int(used->reload_time(*this) / 2);
+        return;
+    } else if ( used->type->has_use() ) {
+        used->type->invoke(this, used, false);
         return;
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
