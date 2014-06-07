@@ -6072,8 +6072,7 @@ int player::weight_carried()
 {
     int ret = 0;
     ret += weapon.weight();
-    for (int i = 0; i < worn.size(); i++)
-    {
+    for (int i = 0; i < worn.size(); i++) {
         ret += worn[i].weight();
     }
     ret += inv.weight();
@@ -6087,46 +6086,57 @@ int player::volume_carried()
 
 int player::weight_capacity(bool /* return_stat_effect */)
 {
-  // return_stat_effect is effectively pointless
-  // player info window shows current stat effects
-  // current str is used anyway (probably) always.
-  // int str = return_stat_effect ? get_str() : get_str();
- int str = get_str();
- int ret = 13000 + str * 4000;
- if (has_trait("BADBACK"))
-  ret = int(ret * .65);
- if (has_trait("STRONGBACK"))
-  ret = int(ret * 1.35);
- if (has_trait("LIGHT_BONES"))
-  ret = int(ret * .80);
- if (has_trait("HOLLOW_BONES"))
-  ret = int(ret * .60);
- if (has_artifact_with(AEP_CARRY_MORE))
-  ret += 22500;
- if (ret < 0)
-  ret = 0;
- return ret;
+    // return_stat_effect is effectively pointless
+    // player info window shows current stat effects
+    // current str is used anyway (probably) always.
+    // int str = return_stat_effect ? get_str() : get_str();
+    int str = get_str();
+    int ret = 13000 + str * 4000;
+    if (has_trait("BADBACK")) {
+        ret = int(ret * .65);
+    }
+    if (has_trait("STRONGBACK")) {
+        ret = int(ret * 1.35);
+    }
+    if (has_trait("LIGHT_BONES")) {
+        ret = int(ret * .80);
+    }
+    if (has_trait("HOLLOW_BONES")) {
+        ret = int(ret * .60);
+    }
+    if (has_artifact_with(AEP_CARRY_MORE)) {
+        ret += 22500;
+    }
+    if (ret < 0) {
+        ret = 0;
+    }
+    return ret;
 }
 
 int player::volume_capacity()
 {
- int ret = 2; // A small bonus (the overflow)
- it_armor *armor;
- for (int i = 0; i < worn.size(); i++) {
-  armor = dynamic_cast<it_armor*>(worn[i].type);
-  ret += armor->storage;
- }
- if (has_bionic("bio_storage"))
-  ret += 8;
- if (has_trait("SHELL"))
-  ret += 16;
- if (has_trait("PACKMULE"))
-  ret = int(ret * 1.4);
- if (has_trait("DISORGANIZED"))
-  ret = int(ret * 0.6);
- if (ret < 2)
-  ret = 2;
- return ret;
+    int ret = 2; // A small bonus (the overflow)
+    it_armor *armor = NULL;
+    for (int i = 0; i < worn.size(); i++) {
+        armor = dynamic_cast<it_armor*>(worn[i].type);
+        ret += armor->storage;
+    }
+    if (has_bionic("bio_storage")) {
+        ret += 8;
+    }
+    if (has_trait("SHELL")) {
+        ret += 16;
+    }
+    if (has_trait("PACKMULE")) {
+        ret = int(ret * 1.4);
+    }
+    if (has_trait("DISORGANIZED")) {
+        ret = int(ret * 0.6);
+    }
+    if (ret < 2) {
+        ret = 2;
+    }
+    return ret;
 }
 
 double player::convert_weight(int weight)
