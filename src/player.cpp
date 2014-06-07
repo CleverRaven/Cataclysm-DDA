@@ -6088,6 +6088,8 @@ int player::weight_capacity(bool /* return_stat_effect */)
   ret = int(ret * .60);
  if (has_artifact_with(AEP_CARRY_MORE))
   ret += 22500;
+ if (ret < 0)
+  ret = 0;
  return ret;
 }
 
@@ -6107,6 +6109,8 @@ int player::volume_capacity()
   ret = int(ret * 1.4);
  if (has_trait("DISORGANIZED"))
   ret = int(ret * 0.6);
+ if (ret < 2)
+  ret = 2;
  return ret;
 }
 
