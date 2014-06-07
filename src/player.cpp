@@ -9125,6 +9125,29 @@ void player::read(int pos)
         add_msg(m_info, _("You're illiterate!"));
         return;
     }
+
+    // Now we've established that the player CAN read.
+
+    // If the player hasn't read this book before, skim it to get an idea of what's in it.
+    if( !has_identified( it->type->id ) ) {
+        // Base read_speed() is 1000 move points (1 minute per tmp->time)
+        time = tmp->time * read_speed() * (fine_detail_vision_mod());
+        if (tmp->intel > int_cur) {
+            // Lower int characters can read, at a speed penalty
+            time += (tmp->time * (tmp->intel - int_cur) * 100);
+        }
+        // We're just skimming, so it's 10x faster.
+        time /= 10;
+
+        activity = player_activity(ACT_READ, time - moves, -1, pos, "");
+        // Never trigger studying when skimming the book.
+        activity.values.push_back(0);
+        moves = 0;
+        return;
+    }
+
+
+
     if (tmp->type == NULL) {
         // special guidebook effect: print a misc. hint when read
         if (tmp->id == "guidebook") {
@@ -9172,7 +9195,7 @@ void player::read(int pos)
         }
     }
 
- // Base read_speed() is 1000 move points (1 minute per tmp->time)
+    // Base read_speed() is 1000 move points (1 minute per tmp->time)
     time = tmp->time * read_speed() * (fine_detail_vision_mod());
     if (fine_detail_vision_mod() > 1.0) {
         add_msg(m_warning, _("It's difficult to see fine details right now. Reading will take longer than usual."));
@@ -9206,8 +9229,55 @@ void player::do_read( item *book )
 {
     it_book *reading = dynamic_cast<it_book *>(book->type);
 
-    // Note that we've read the book.
-    items_identified.insert( book->type->id );
+    if( !has_identified( book->type->id ) ) {
+        // Note that we've read the book.
+        items_identified.insert( book->type->id );
+
+        add_msg(_("You skim %s to find out what's in it."), reading->nname(1).c_str());
+        if( reading->type ) {
+            add_msg(_("Can bring your %s skill to %d."),
+                    reading->type->name().c_str(), reading->level);
+            if( reading->req != 0 ){
+                add_msg(_("Requires %s level %d to understand."),
+                        reading->type->name().c_str(), reading->req);
+            }
+        }
+
+        add_msg(_("Requires intelligence of %d to easily read."), reading->intel);
+        if (reading->fun != 0) {
+            add_msg(_("Reading this book affects your morale by %d"), reading->fun);
+        }
+        add_msg(ngettext("This book takes %d minute to read.",
+                         "This book takes %d minutes to read.", reading->time),
+                reading->time );
+
+        if (!(reading->recipes.empty())) {
+            std::string recipes = "";
+            size_t index = 1;
+            for (std::map<recipe*, int>::iterator iter = reading->recipes.begin();
+                 iter != reading->recipes.end(); ++iter, ++index) {
+                if(g->u.knows_recipe(iter->first)) {
+                    recipes += "<color_ltgray>";
+                }
+                recipes += item( iter->first->result, 0 ).type->nname(1);
+                if(g->u.knows_recipe(iter->first)) {
+                    recipes += "</color>";
+                }
+                if(index == reading->recipes.size() - 1) {
+                    recipes += _(" and "); // Who gives a fuck about an oxford comma?
+                } else if(index != reading->recipes.size()) {
+                    recipes += _(", ");
+                }
+            }
+            std::string recipe_line = string_format(
+                ngettext("This book contains %1$d crafting recipe: %2$s",
+                         "This book contains %1$d crafting recipes: %2$s", reading->recipes.size()),
+                reading->recipes.size(), recipes.c_str());
+            add_msg( "%s", recipe_line.c_str());
+        }
+        activity.type = ACT_NULL;
+        return;
+    }
 
     if( reading->fun != 0 ) {
         int fun_bonus = 0;
