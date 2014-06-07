@@ -5164,7 +5164,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
-    "use_action": "RAG"
+    "use_action": "RAG",
+    "flags": ["NO_SALVAGE"]
   },
 
   {
@@ -5187,7 +5188,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare_parts"
+    "category" : "spare_parts",
+    "flags": ["NO_SALVAGE"]
   },
 
   {
@@ -5210,7 +5212,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "category" : "spare_parts"
+    "category" : "spare_parts",
+    "flags": ["NO_SALVAGE"]
   },
 
   {

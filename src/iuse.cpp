@@ -5968,16 +5968,11 @@ static bool valid_to_cut_up(player *p, item *it)
         return false;
     }
     // There must be some historical significance to these items.
-    if (it->type->id == "string_6" || it->type->id == "string_36" || it->type->id == "rope_30" ||
-        it->type->id == "rope_6") {
-        add_msg(m_info, _("You cannot cut that, you must disassemble."));
-        return false;
-    }
-    // TODO: Base items should prevent themselves from decomposing.
-    if (it->type->id == "rag" || it->type->id == "rag_bloody" || it->type->id == "leather" ||
-        it->type->id == "nomex" || it->type->id == "kevlar_plate" || it->type->id == "plastic_chunk" ||
-        it->type->id == "skewer") {
-        p->add_msg_if_player(m_info, _("Can't salvage anything else from the %s."), it->tname().c_str());
+    if (!it->is_salvageable()) {
+        add_msg(m_info, _("Can't salvage anything from %s."), it->tname().c_str());
+        if (it->is_disassemblable()) {
+            add_msg(m_info, _("Try disassembling the %s instead."), it->tname().c_str());
+        }
         return false;
     }
     if (it->not_made_of(material_id_white_list)) {

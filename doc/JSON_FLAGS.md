@@ -840,6 +840,16 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FISHING_BASIC``` Use a fishing rod
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 
+
+
+## Generic
+
+### Flags
+- ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
+- ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
+
+
+
 ## Skills
 
 ### Tags

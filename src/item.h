@@ -302,7 +302,10 @@ class item : public JsonSerializer, public JsonDeserializer
         bool is_book() const;
         bool is_container() const;
         bool is_watertight_container() const;
+        bool is_salvageable() const;
+        bool is_disassemblable() const;
         bool is_funnel_container(unsigned int &bigger_than) const;
+
 
         bool is_tool() const;
         bool is_software() const;

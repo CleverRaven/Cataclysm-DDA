@@ -2115,6 +2115,24 @@ bool item::is_watertight_container() const
     return ( is_container() != false && has_flag("WATERTIGHT") && has_flag("SEALS") );
 }
 
+bool item::is_salvageable() const
+{
+    if (is_null()) {
+        return false;
+    }
+    
+    return !has_flag("NO_SALVAGE");
+}
+
+bool item::is_disassemblable() const
+{
+    if (is_null()) {
+        return false;
+    }
+    
+    return g->get_disassemble_recipe(typeId()) != NULL;
+}
+
 bool item::is_funnel_container(unsigned int &bigger_than) const
 {
     if ( ! is_watertight_container() ) {
