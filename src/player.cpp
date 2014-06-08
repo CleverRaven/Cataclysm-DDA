@@ -9176,6 +9176,10 @@ void player::read(int pos)
 
  // Base read_speed() is 1000 move points (1 minute per tmp->time)
     time = tmp->time * read_speed() * (fine_detail_vision_mod());
+    if (fine_detail_vision_mod() > 1.0) {
+        add_msg(m_warning, _("It's difficult to see fine details right now. Reading will take longer than usual."));
+    }
+
     if (tmp->intel > int_cur) {
         add_msg(m_warning, _("This book is too complex for you to easily understand. It will take longer to read."));
         // Lower int characters can read, at a speed penalty
