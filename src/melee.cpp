@@ -1112,35 +1112,43 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
             body_part_name(bp_hit, side).c_str());
     }
 
-    float phys_mult = 1.0f;
-    float block_amount;
+    double phys_mult = 1.0d;
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
         // block physical damage "normally"
         if (it->type == DT_BASH || it->type == DT_CUT || it->type == DT_STAB) {
             // use up our flat block bonus first
-            block_amount = std::min(total_phys_block, it->amount);
+            float block_amount = std::min(total_phys_block, it->amount);
             total_phys_block -= block_amount;
             it->amount -= block_amount;
 
+            int block_score = 1;
             if (can_weapon_block()) {
+                int block_bonus = 2;
                 if (weapon.has_technique("WBLOCK_3")) {
-                    phys_mult = (100 - (str_cur*6) - ((int)skillLevel("melee")*6))/100;
+                    block_bonus = 10;
                 } else if (weapon.has_technique("WBLOCK_2")) {
-                    phys_mult = (100 - (str_cur*4) - ((int)skillLevel("melee")*4))/100;
+                    block_bonus = 6;
                 } else if (weapon.has_technique("WBLOCK_1")) {
-                    phys_mult = (100 - (str_cur*2) - ((int)skillLevel("melee")*2))/100;
-                } else {
-                    phys_mult = (100 - (str_cur*1) - ((int)skillLevel("melee")*1))/100;
+                    block_bonus = 4;
                 }
-                
+                block_score = str_cur + block_bonus + (int)skillLevel("melee");
+            } else if (can_limb_block()) {
+                block_score = str_cur + (int)skillLevel("melee") + (int)skillLevel("unarmed");
             }
-            else if (can_limb_block()) {
-                phys_mult = (100 - (str_cur*1) - ((int)skillLevel("melee")*1) - ((int)skillLevel("unarmed")*2))/100;
-            }
-            if (phys_mult < 0) {
-              phys_mult = 0;
-            }
+            // The above gets us a number between:
+            // str ~0 + skill 0 = 0
+            // str ~20 + skill 10 + 10(unarmed skill or weapon bonus) = 40
+            // Map it to the logistic curve for a number between 1 and 0.
+            // Basic beginner character (str 8, skill 0, basic weapon)
+            // Will have a score around 10 and block about %15 of incoming damage.
+            // More proficient melee character (str 10, skill 4, wbock_2 weapon)
+            // will have a score of 20 and block about 45% of damage.
+            // A highly expert character (str 14, skill 8 wblock_2)
+            // will have a score in the high 20s and will block about 80% of damage.
+            // As the block score approaches 40, damage making it through will dwindle
+            // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
+            phys_mult = player::logistic_range( 0, 40, block_score );
             it->amount *= phys_mult;
         // non-electrical "elemental" damage types do their full damage if unarmed,
         // but severely mitigated damage if not
