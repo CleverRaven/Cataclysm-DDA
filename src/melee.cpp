@@ -1127,6 +1127,8 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
             float block_amount = std::min(total_phys_block, it->amount);
             total_phys_block -= block_amount;
             it->amount -= block_amount;
+            if( it->amount <= std::numeric_limits<float>::epsilon() ) {
+                continue;
             }
 
             it->amount *= physical_block_multiplier;
