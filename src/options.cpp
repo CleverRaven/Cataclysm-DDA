@@ -767,7 +767,7 @@ void initOptions()
 
     OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
                                  _("If true automatically sets notes on places that have stairs that go up or down"),
-                                 true
+                                 false
                                 );
 
     std::map<std::string, cOpt> OPTIONS_ORDERED(OPTIONS.begin(), OPTIONS.end());

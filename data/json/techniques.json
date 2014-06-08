@@ -98,6 +98,8 @@
         "unarmed_allowed" : true,
         "melee_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You quickly strike %s",
             "<npcname> quickly strikes %s"
@@ -187,8 +189,9 @@
             "You quickly jab %s",
             "<npcname> quickly jabs at %s"
         ],
-        "quick" : true,
-        "bash_mult" : 0.75
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
 
     },{
         "type" : "technique",
@@ -231,7 +234,9 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_karate_precise",
@@ -399,7 +404,9 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_feint",
@@ -528,7 +535,9 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_rapid_armed",
@@ -538,7 +547,9 @@
             "You quickly slash %s",
             "<npcname> quickly slashes %s"
         ],
-        "speed_mult" : 0.5
+        "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_impale",
@@ -775,6 +786,8 @@
         "min_unarmed" : 3,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You quickly chop %s",
             "<npcname> quickly chops %s"
@@ -857,6 +870,8 @@
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You swiftly hit %s",
             "<npcname> swiftly hits %s"
@@ -868,6 +883,8 @@
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You swiftly jab %s",
             "<npcname> swiftly jabs %s"
@@ -938,6 +955,8 @@
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
         "speed_mult" : 0.5,
+        "bash_mult" : 0.66,
+        "cut_mult" : 0.66,
         "messages" : [
             "You quickly swipe at %s",
             "<npcname> quickly swipes at %s"

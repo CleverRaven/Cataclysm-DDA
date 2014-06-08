@@ -2,18 +2,45 @@
 #include "ammo.h"
 #include "game.h"
 #include "monstergenerator.h"
+#include "item_factory.h"
 #include <fstream>
+#include <stdexcept>
 
 std::vector<std::string> artifact_itype_ids;
 std::vector<std::string> standard_itype_ids;
 
 std::map<std::string, itype*> itypes;
 
-// GENERAL GUIDELINES
-// When adding a new item, you MUST REMEMBER to insert it in the itype_id enum
-//  at the top of itype.h!
-//  Additionally, you should check mapitemsdef.cpp and insert the new item in
-//  any appropriate lists.
+
+// Members of iuse struct, which is slowly morphing into a class.
+bool itype::has_use() {
+    return !use_methods.empty();
+}
+
+bool itype::can_use( std::string iuse_name ) {
+    const use_function* func;
+
+    try {
+        func = item_controller->get_iuse( iuse_name );
+    } catch (const std::out_of_range& e) {
+        debugmsg("itype::can_use attempted to test for invalid iuse function %s", iuse_name.c_str());
+        return false;
+    }
+
+    return std::find( use_methods.cbegin(), use_methods.cend(),
+                      *func ) != use_methods.cend();
+}
+
+int itype::invoke( player *p, item *it, bool active ) {
+    int charges_to_use = 0;
+    for( auto method = use_methods.begin();
+         charges_to_use >= 0 && method != use_methods.end(); ++method ) {
+        charges_to_use = method->call( p, it, active );
+    }
+    return charges_to_use;
+}
+
+
 void game::init_itypes ()
 {
 

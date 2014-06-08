@@ -1,5 +1,4 @@
 #include "item_factory.h"
-#include "iuse.h"
 #include "helper.h"
 #include "game.h"
 #include "mapdata.h"

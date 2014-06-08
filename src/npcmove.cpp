@@ -1729,10 +1729,10 @@ void npc::activate_item(char invlet)
     item *it = &(inv.item_by_letter(invlet));
     if (it->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool *>(it->type);
-        tool->use.call(this, it, false);
+        tool->invoke(this, it, false);
     } else if (it->is_food()) {
         it_comest *comest = dynamic_cast<it_comest *>(it->type);
-        comest->use.call(this, it, false);
+        comest->invoke(this, it, false);
     }
 }
 

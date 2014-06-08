@@ -134,7 +134,7 @@ public:
     virtual void serialize(JsonOut &jsout, bool save_contents) const;
 
  /** Prints out the player's memorial file */
- void memorial( std::ofstream &memorial_file );
+ void memorial( std::ofstream &memorial_file, std::string epitaph );
  /** Handles and displays detailed character info for the '@' screen */
  void disp_info();
  /** Provides the window and detailed morale data */
@@ -859,6 +859,7 @@ public:
     //Record of player stats, for posterity only
     stats* lifetime_stats();
     stats get_stats() const; // for serialization
+    void mod_stat( std::string stat, int modifier );
 
  int getID () const;
 

@@ -226,6 +226,7 @@ class Creature
         virtual void mod_dex_bonus(int ndex);
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
+        virtual void mod_stat( std::string stat, int modifier );
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);

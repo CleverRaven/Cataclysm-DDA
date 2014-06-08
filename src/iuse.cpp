@@ -548,34 +548,6 @@ int iuse::disinfectant(player *p, item *it, bool)
     return 0;
 }
 
-int iuse::pkill(player *p, item *it, bool)
-{
-    // Aspirin
-    if (it->has_flag("PKILL_1")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill1", 120);
-    // Codeine
-    } else if (it->has_flag("PKILL_2")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill2", 180);
-
-    } else if (it->has_flag("PKILL_3")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill3", 20);
-        p->add_disease("pkill2", 200);
-
-    } else if (it->has_flag("PKILL_4")) {
-        p->add_msg_if_player(_("You shoot up."));
-        p->add_disease("pkill3", 80);
-        p->add_disease("pkill2", 200);
-
-    } else if (it->has_flag("PKILL_L")) {
-        p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-        p->add_disease("pkill_l", rng(12, 18) * 300);
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::xanax(player *p, item *it, bool)
 {
     p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
@@ -1166,28 +1138,6 @@ int iuse::coke(player *p, item *it, bool) {
     return it->type->charges_to_use();
 }
 
-int iuse::crack(player *p, item *it, bool) {
-    // Crack requires a fire source and a pipe.
-    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
-        int duration = 15;
-        if (p->has_trait("TOLERANCE")) {
-            duration -= 10; // Symmetry would make crack a sobering agent! :-P
-        }
-        else if (p->has_trait("LIGHTWEIGHT")) {
-            duration += 20;
-        }
-        p->add_msg_if_player(_("You smoke your crack rocks.  Mother would be proud."));
-        p->hunger -= 10;
-        p->add_disease("high", duration);
-        // breathe out some smoke
-        for(int i = 0; i < 3; i++) {
-            g->m.add_field(p->posx + int(rng(-2, 2)), p->posy + int(rng(-2, 2)), fd_cracksmoke, 2);
-        }
-        return it->type->charges_to_use();
-    }
-    return 0;
-}
-
 int iuse::grack(player *p, item *it, bool) {
     // Grack requires a fire source AND a pipe.
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
@@ -1274,24 +1224,19 @@ int iuse::poison(player *p, item *it, bool) {
     return it->type->charges_to_use();
 }
 
-int iuse::hallu(player *p, item *it, bool) {
-    if (!p->has_disease("hallu")) {
-        p->add_disease("hallu", 3600);
-    }
-    return it->type->charges_to_use();
-}
-
 /**
  * Hallucinogenic with a fun effect. Specifically used to have a comestible
  * give a morale boost without it being noticeable by examining the item (ie,
  * for magic mushrooms).
  */
-int iuse::fun_hallu(player *p, item *it, bool t) {
+int iuse::fun_hallu(player *p, item *it, bool) {
     it_comest *comest = dynamic_cast<it_comest *>(it->type);
 
     //Fake a normal food morale effect
     p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
-    hallu(p, it, t);
+    if (!p->has_disease("hallu")) {
+        p->add_disease("hallu", 3600);
+    }
     return it->type->charges_to_use();
 }
 
@@ -5901,9 +5846,9 @@ int iuse::mp3_on(player *p, item *it, bool t)
         if (!p->has_item(it) || p->has_disease("deaf") ) {
             return it->type->charges_to_use(); // We're not carrying it, or we're deaf.
         }
-        p->add_morale(MORALE_MUSIC, 1, 50);
+        p->add_morale(MORALE_MUSIC, 1, 50, 5, 2);
 
-        if (int(calendar::turn) % 10 == 0) { // Every 10 turns, describe the music
+        if (int(calendar::turn) % 50 == 0) { // Every 5 minutes, describe the music
             std::string sound = "";
             if (one_in(50)) {
                 sound = _("some bass-heavy post-glam speed polka");
@@ -5915,7 +5860,7 @@ int iuse::mp3_on(player *p, item *it, bool t)
             case 4: sound = _("some pumping bass."); break;
             case 5: sound = _("dramatic classical music.");
                 if (p->int_cur >= 10) {
-                    p->add_morale(MORALE_MUSIC, 1, 100);
+                    p->add_morale(MORALE_MUSIC, 1, 100, 5, 2);
                 }
                 break;
             }
@@ -7515,7 +7460,7 @@ int iuse::boots(player *p, item *it, bool)
    p->add_msg_if_player(m_info, _("You do not have that item!"));
    return 0;
   }
-  if (put->type->use != &iuse::knife) {
+  if (!put->type->can_use( "KNIFE" ) ) {
    p->add_msg_if_player(m_info, _("That isn't a knife!"));
    return 0;
   }

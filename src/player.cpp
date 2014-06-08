@@ -1586,11 +1586,8 @@ std::string player::save_info()
     return dump.str();
 }
 
-void player::memorial( std::ofstream &memorial_file )
+void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 {
-    //Ask the player for their final words
-    std::string epitaph = string_input_popup(_("Do you have any last words?"), 256);
-
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
@@ -1928,6 +1925,24 @@ stats* player::lifetime_stats()
 stats player::get_stats() const
 {
     return player_stats;
+}
+
+void player::mod_stat( std::string stat, int modifier )
+{
+    if( stat == "hunger" ) {
+        hunger += modifier;
+    } else if( stat == "thirst" ) {
+        thirst += modifier;
+    } else if( stat == "fatigue" ) {
+        fatigue += modifier;
+    } else if( stat == "health" ) {
+        health += modifier;
+    } else if( stat == "oxygen" ) {
+        oxygen += modifier;
+    } else {
+        // Fall through to the creature method.
+        Creature::mod_stat( stat, modifier );
+    }
 }
 
 inline bool skill_display_sort(const std::pair<Skill *, int> &a, const std::pair<Skill *, int> &b)
@@ -6057,8 +6072,7 @@ int player::weight_carried()
 {
     int ret = 0;
     ret += weapon.weight();
-    for (int i = 0; i < worn.size(); i++)
-    {
+    for (int i = 0; i < worn.size(); i++) {
         ret += worn[i].weight();
     }
     ret += inv.weight();
@@ -6072,42 +6086,57 @@ int player::volume_carried()
 
 int player::weight_capacity(bool /* return_stat_effect */)
 {
-  // return_stat_effect is effectively pointless
-  // player info window shows current stat effects
-  // current str is used anyway (probably) always.
-  // int str = return_stat_effect ? get_str() : get_str();
- int str = get_str();
- int ret = 13000 + str * 4000;
- if (has_trait("BADBACK"))
-  ret = int(ret * .65);
- if (has_trait("STRONGBACK"))
-  ret = int(ret * 1.35);
- if (has_trait("LIGHT_BONES"))
-  ret = int(ret * .80);
- if (has_trait("HOLLOW_BONES"))
-  ret = int(ret * .60);
- if (has_artifact_with(AEP_CARRY_MORE))
-  ret += 22500;
- return ret;
+    // return_stat_effect is effectively pointless
+    // player info window shows current stat effects
+    // current str is used anyway (probably) always.
+    // int str = return_stat_effect ? get_str() : get_str();
+    int str = get_str();
+    int ret = 13000 + str * 4000;
+    if (has_trait("BADBACK")) {
+        ret = int(ret * .65);
+    }
+    if (has_trait("STRONGBACK")) {
+        ret = int(ret * 1.35);
+    }
+    if (has_trait("LIGHT_BONES")) {
+        ret = int(ret * .80);
+    }
+    if (has_trait("HOLLOW_BONES")) {
+        ret = int(ret * .60);
+    }
+    if (has_artifact_with(AEP_CARRY_MORE)) {
+        ret += 22500;
+    }
+    if (ret < 0) {
+        ret = 0;
+    }
+    return ret;
 }
 
 int player::volume_capacity()
 {
- int ret = 2; // A small bonus (the overflow)
- it_armor *armor;
- for (int i = 0; i < worn.size(); i++) {
-  armor = dynamic_cast<it_armor*>(worn[i].type);
-  ret += armor->storage;
- }
- if (has_bionic("bio_storage"))
-  ret += 8;
- if (has_trait("SHELL"))
-  ret += 16;
- if (has_trait("PACKMULE"))
-  ret = int(ret * 1.4);
- if (has_trait("DISORGANIZED"))
-  ret = int(ret * 0.6);
- return ret;
+    int ret = 2; // A small bonus (the overflow)
+    it_armor *armor = NULL;
+    for (int i = 0; i < worn.size(); i++) {
+        armor = dynamic_cast<it_armor*>(worn[i].type);
+        ret += armor->storage;
+    }
+    if (has_bionic("bio_storage")) {
+        ret += 8;
+    }
+    if (has_trait("SHELL")) {
+        ret += 16;
+    }
+    if (has_trait("PACKMULE")) {
+        ret = int(ret * 1.4);
+    }
+    if (has_trait("DISORGANIZED")) {
+        ret = int(ret * 0.6);
+    }
+    if (ret < 2) {
+        ret = 2;
+    }
+    return ret;
 }
 
 double player::convert_weight(int weight)
@@ -6543,7 +6572,7 @@ bool player::process_single_active_item(item *it)
             }
         } else if (it->is_tool()) {
             it_tool* tmp = dynamic_cast<it_tool*>(it->type);
-            tmp->use.call(this, it, true);
+            tmp->invoke(this, it, true);
             if (tmp->turns_per_charge > 0 && int(calendar::turn) % tmp->turns_per_charge == 0) {
                 it->charges--;
             }
@@ -6552,9 +6581,9 @@ bool player::process_single_active_item(item *it)
                                        has_active_bionic("bio_ups")))) {
                 if (it->has_flag("USE_UPS")){
                     add_msg_if_player(_("You need an active UPS to run that!"));
-                    tmp->use.call(this, it, false);
+                    tmp->invoke(this, it, false);
                 }	else	{
-                    tmp->use.call(this, it, false);
+                    tmp->invoke(this, it, false);
                     if (tmp->revert_to == "null") {
                         return false;
                     } else {
@@ -7130,8 +7159,7 @@ int player::amount_of(itype_id it) {
 
 bool player::has_charges(itype_id it, long quantity)
 {
-    if (it == "fire" || it == "apparatus")
-    {
+    if (it == "fire" || it == "apparatus") {
         return has_fire(quantity);
     }
     return (charges_of(it) >= quantity);
@@ -7383,10 +7411,10 @@ bool player::consume(int pos)
                 }
                 use_charges(comest->tool, 1); // Tools like lighters get used
             }
-            if (!comest->use.is_none()) {
+            if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->use.call(this, to_eat, false);
-                if( amount_used == 0 ) {
+                amount_used = comest->invoke(this, to_eat, false);
+                if( amount_used <= 0 ) {
                     return false;
                 }
             }
@@ -7648,9 +7676,9 @@ bool player::eat(item *eaten, it_comest *comest)
         }
     }
 
-    if (!comest->use.is_none()) {
-        to_eat = comest->use.call(this, eaten, false);
-        if( to_eat == 0 ) {
+    if (comest->has_use()) {
+        to_eat = comest->invoke(this, eaten, false);
+        if( to_eat <= 0 ) {
             return false;
         }
     }
@@ -7727,13 +7755,13 @@ bool player::eat(item *eaten, it_comest *comest)
         use_charges(comest->tool, 1); // Tools like lighters get used
     }
 
-    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL" ) ) {
         charge_power(rng(2, 8));
     }
-    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_WEAK" ) ) {
         charge_power(rng(1, 4));
     }
-    if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_strong) {
+    if( has_bionic("bio_ethanol") && comest->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power(rng(3, 12));
     }
 
@@ -8131,6 +8159,7 @@ hint_rating player::rate_action_wear(item *it)
  }
  // Checks to see if the player is wearing shoes
  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+     (!it->has_flag("BELTED")) &&
      (!it->has_flag("SKINTIGHT") && is_wearing_shoes())){
   return HINT_IFFY;
  }
@@ -8478,6 +8507,7 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
 
         if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) &&
+            (!to_wear->has_flag("BELTED")) &&
             (!to_wear->has_flag("SKINTIGHT")) && is_wearing_shoes()) {
             // Checks to see if the player is wearing shoes
             if(interactive){
@@ -8781,7 +8811,7 @@ void player::use(int pos)
 
     if (used->is_tool()) {
         it_tool *tool = dynamic_cast<it_tool*>(used->type);
-        int charges_used = tool->use.call(this, used, false);
+        int charges_used = tool->invoke(this, used, false);
         if (tool->charges_per_use == 0 || used->charges >= tool->charges_per_use ||
             (used->has_flag("USE_UPS") &&
              (has_charges("adv_UPS_on", charges_used * (.6)) || has_charges("UPS_on", charges_used) ||
@@ -8825,14 +8855,6 @@ void player::use(int pos)
                        used->tname().c_str(),
                        used->charges, tool->charges_per_use);
         }
-    } else if (used->type->use == &iuse::boots          ||
-               used->type->use == &iuse::sheath_sword   ||
-               used->type->use == &iuse::sheath_knife   ||
-               used->type->use == &iuse::holster_pistol ||
-               used->type->use == &iuse::holster_ankle  ||
-               used->type->use == &iuse::quiver) {
-        used->type->use.call(this, used, false);
-        return;
     } else if (used->is_gunmod()) {
         if (skillLevel("gun") == 0) {
             add_msg(m_info, _("You need to be at least level 1 in the marksmanship skill before you\
@@ -8975,23 +8997,24 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             const std::string mod = used->contents[choice].tname();
             remove_gunmod(used, choice);
             add_msg(_("You remove your %s from your %s."), mod.c_str(), used->name.c_str());
-        }
-        else if (choice == mods.size()) {
+        } else if (choice == mods.size()) {
             for (int i = used->contents.size() - 1; i >= 0; i--) {
                 remove_gunmod(used, i);
             }
             add_msg(_("You remove all the modifications from your %s."), used->name.c_str());
-        }
-        else {
+        } else {
             add_msg(_("Never mind."));
             return;
         }
         // Removing stuff from a gun takes time.
         moves -= int(used->reload_time(*this) / 2);
         return;
+    } else if ( used->type->has_use() ) {
+        used->type->invoke(this, used, false);
+        return;
     } else {
         add_msg(m_info, _("You can't do anything interesting with your %s."),
-                   used->tname().c_str());
+                used->tname().c_str());
         return;
     }
 }
@@ -9086,7 +9109,7 @@ void player::read(int pos)
         mac = dynamic_cast<it_macguffin*>(it->type);
     }
     if (mac != NULL) {
-        mac->use.call(this, it, false);
+        mac->invoke(this, it, false);
         return;
     }
 
@@ -9153,6 +9176,10 @@ void player::read(int pos)
 
  // Base read_speed() is 1000 move points (1 minute per tmp->time)
     time = tmp->time * read_speed() * (fine_detail_vision_mod());
+    if (fine_detail_vision_mod() > 1.0) {
+        add_msg(m_warning, _("It's difficult to see fine details right now. Reading will take longer than usual."));
+    }
+
     if (tmp->intel > int_cur) {
         add_msg(m_warning, _("This book is too complex for you to easily understand. It will take longer to read."));
         // Lower int characters can read, at a speed penalty
@@ -10035,6 +10062,7 @@ bool player::is_wearing_shoes() {
         it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
 
         if (worn_armor->covers & mfb(bp_feet) &&
+            (!worn_item->has_flag("BELTED")) &&
             (!worn_item->has_flag("SKINTIGHT"))) {
             return true;
         }
