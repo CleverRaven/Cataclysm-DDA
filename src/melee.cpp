@@ -1077,8 +1077,9 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     //Shouldn't block if player is asleep; this only seems to be used by player.
     //g->u.has_disease("sleep") would work as well from looking at other block functions.
 
-    if (blocks_left < 1 || this->has_disease("sleep"))
+    if (blocks_left < 1 || this->has_disease("sleep")) {
         return false;
+    }
 
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
@@ -1094,18 +1095,20 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     }
     else if (can_limb_block()) {
         //Choose which body part to block with
-        if (can_leg_block() && can_arm_block())
+        if (can_leg_block() && can_arm_block()) {
             bp_hit = one_in(2) ? bp_legs : bp_arms;
-        else if (can_leg_block())
+        } else if (can_leg_block()) {
             bp_hit = bp_legs;
-        else
+        } else {
             bp_hit = bp_arms;
+        }
 
         // Choose what side to block with.
-        if (bp_hit == bp_legs)
+        if (bp_hit == bp_legs) {
             side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
-        else
+        } else {
             side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
+        }
 
         add_msg_player_or_npc( _("You block with your %s!"),
             _("<npcname> blocks with their %s!"),
