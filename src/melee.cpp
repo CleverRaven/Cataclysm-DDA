@@ -1080,6 +1080,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     if (blocks_left < 1 || this->has_disease("sleep")) {
         return false;
     }
+    blocks_left--;
 
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
@@ -1168,8 +1169,6 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
             }
         }
     }
-
-    blocks_left--;
 
     ma_onblock_effects(); // fire martial arts block-triggered effects
 
