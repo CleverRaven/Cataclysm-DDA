@@ -13215,7 +13215,11 @@
         "color" : "pink",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "HALLU",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You eat the pink tablet.",
+            "diseases" : { "hallu" : 3600 }
+        },
         "stim" : 20,
         "container" : "null",
         "to_hit" : 0,
