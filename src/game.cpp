@@ -2733,7 +2733,13 @@ input_context game::get_player_input(std::string &action)
                                 } else {
                                     const int iDY = POSY + (iter->getPosY() - (u.posy + u.view_offset_y));
                                     const int iDX = POSX + (iter->getPosX() - (u.posx + u.view_offset_x));
-                                    mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+
+                                    if (u.has_disease("boomered")) {
+                                        mvwputch(w_terrain, iDY, iDX + i, c_magenta, '#');
+
+                                    } else {
+                                        mvwputch(w_terrain, iDY, iDX + i, c_black, ' ');
+                                    }
                                 }
                             }
                         }
@@ -8478,6 +8484,7 @@ void game::zones_manager()
     int iStartPos = 0;
     int iActive = 0;
     bool bBlink = false;
+    bool bRedrawInfo = true;
 
     do {
         if (action == "ADD_ZONE") {
@@ -8503,6 +8510,7 @@ void game::zones_manager()
 
             draw_ter();
             bBlink = false;
+            bRedrawInfo = true;
 
             zones_manager_shortcuts(w_zones_info);
 
@@ -8514,6 +8522,7 @@ void game::zones_manager()
                 }
                 draw_ter();
                 bBlink = false;
+                bRedrawInfo = true;
 
             } else if (action == "DOWN") {
                 iActive++;
@@ -8522,6 +8531,7 @@ void game::zones_manager()
                 }
                 draw_ter();
                 bBlink = false;
+                bRedrawInfo = true;
 
             } else if (action == "REMOVE_ZONE") {
                 if (iActive < m.Zones.size()) {
@@ -8538,6 +8548,7 @@ void game::zones_manager()
                     wrefresh(w_terrain);
                 }
                 bBlink = false;
+                bRedrawInfo = true;
 
             } else if (action == "CONFIRM") {
                 uimenu as_m;
@@ -8568,6 +8579,7 @@ void game::zones_manager()
 
                 draw_ter();
                 bBlink = false;
+                bRedrawInfo = true;
 
             } else if (action == "MOVE_ZONE_UP" && m.Zones.size() > 1) {
                 if (iActive < m.Zones.size() - 1) {
@@ -8576,6 +8588,7 @@ void game::zones_manager()
                     iActive++;
                 }
                 bBlink = false;
+                bRedrawInfo = true;
 
             } else if (action == "MOVE_ZONE_DOWN" && m.Zones.size() > 1) {
                 if (iActive > 0) {
@@ -8584,6 +8597,7 @@ void game::zones_manager()
                     iActive--;
                 }
                 bBlink = false;
+                bRedrawInfo = true;
 
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap;
@@ -8596,11 +8610,17 @@ void game::zones_manager()
 
                 draw_ter();
 
+                bRedrawInfo = true;
+
             } else if (action == "ENABLE_ZONE") {
                 m.Zones.vZones[iActive].setEnabled(true);
 
+                bRedrawInfo = true;
+
             } else if (action == "DISABLE_ZONE") {
                 m.Zones.vZones[iActive].setEnabled(false);
+
+                bRedrawInfo = true;
             }
         }
 
@@ -8609,7 +8629,8 @@ void game::zones_manager()
             wrefresh(w_zones_border);
             mvwprintz(w_zones, 10, 2, c_white, _("No Zones defined."));
 
-        } else {
+        } else if (bRedrawInfo) {
+            bRedrawInfo = false;
             werase(w_zones);
 
             calcStartPos(iStartPos, iActive, iMaxRows, iZonesNum);
@@ -8661,10 +8682,10 @@ void game::zones_manager()
         if (iZonesNum > 0) {
             bBlink = !bBlink;
 
-            if (bBlink) {
-                point pStart = m.getlocal(m.Zones.vZones[iActive].getStartPoint());
-                point pEnd = m.getlocal(m.Zones.vZones[iActive].getEndPoint());
+            point pStart = m.getlocal(m.Zones.vZones[iActive].getStartPoint());
+            point pEnd = m.getlocal(m.Zones.vZones[iActive].getEndPoint());
 
+            if (bBlink) {
                 //draw marked area
                 for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
                     for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
@@ -8672,7 +8693,27 @@ void game::zones_manager()
                     }
                 }
             } else {
-                draw_ter();
+                //clear marked area
+                for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
+                    for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
+                        if (u_see(iX, iY)) {
+                            m.drawsq(w_terrain, u,
+                                     iX,
+                                     iY,
+                                     false,
+                                     true,
+                                     u.posx + u.view_offset_x,
+                                     u.posy + u.view_offset_y);
+                        } else {
+                            if (u.has_disease("boomered")) {
+                                mvwputch(w_terrain, iY-offset_y, iX-offset_x, c_magenta, '#');
+
+                            } else {
+                                mvwputch(w_terrain, iY-offset_y, iX-offset_x, c_black, ' ');
+                            }
+                        }
+                    }
+                }
             }
 
             wrefresh(w_terrain);
@@ -8709,7 +8750,6 @@ void game::zones_manager()
 point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 {
     temp_exit_fullscreen();
-    draw_ter();
 
     bool bSelectZone = (pairCoordsFirst.x != -1 && pairCoordsFirst.y != -1);
     bool bHasFirstPoint = (pairCoordsFirst.x != -999 && pairCoordsFirst.y != -999);
@@ -8723,6 +8763,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         lx = pairCoordsFirst.x;
         ly = pairCoordsFirst.y;
     }
+
+    draw_ter(lx, ly);
 
     int soffset = (int) OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
@@ -8750,8 +8792,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action("TOGGLE_FAST_SCROLL");
 
     do {
-        //werase(w_terrain);
-        draw_ter(lx, ly);
         wclear(w_info);
 
         if (bNewWindow) {
@@ -8775,6 +8815,30 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     for (int iY=std::min(dy, POSY); iY <= std::max(dy, POSY); ++iY) {
                         for (int iX=std::min(dx, POSX); iX <= std::max(dx, POSX); ++iX) {
                             mvwputch_inv(w_terrain, iY, iX, c_ltgreen, '~');
+                        }
+                    }
+                } else {
+                    for (int iY=std::min(dy, POSY); iY <= std::max(dy, POSY); ++iY) {
+                        for (int iX=std::min(dx, POSX); iX <= std::max(dx, POSX); ++iX) {
+                            if (u_see(iX, iY)) {
+                                m.drawsq(w_terrain, u,
+                                         iX,
+                                         iY,
+                                         false,
+                                         true,
+                                         POSX,
+                                         POSY);
+                            } else {
+                                const int iDY = POSY + (iY - (u.posy + u.view_offset_y));
+                                const int iDX = POSX + (iX - (u.posx + u.view_offset_x));
+
+                                if (u.has_disease("boomered")) {
+                                    mvwputch(w_terrain, iDY, iDX, c_magenta, '#');
+
+                                } else {
+                                    mvwputch(w_terrain, iDY, iDX, c_black, ' ');
+                                }
+                            }
                         }
                     }
                 }
@@ -8823,14 +8887,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             }
         }
 
-        //Debug
-        //mvwprintw(w_info, 2, 1, _("l      : <%d,%d>"), lx, ly);
-        //mvwprintw(w_info, 3, 1, _("POS    : <%d,%d>"), POSX, POSY);
-        //mvwprintw(w_info, 4, 1, _("u.pos  : <%d,%d>"), u.posx, u.posy);
-        //mvwprintw(w_info, 5, 1, _("offset_: <%d,%d>"), offset_x, offset_y);
-        //mvwprintw(w_info, 6, 1, _("pair   : <%d,%d>"), pairCoordsFirst.x, pairCoordsFirst.y);
-        //mvwprintw(w_info, 6, 1, _("pair 2 : <%d,%d>"), pairCoordsFirst.x - offset_x + u.posx - lx, pairCoordsFirst.y - offset_y + u.posy - ly);
-
         wrefresh(w_info);
         wrefresh(w_terrain);
 
@@ -8861,19 +8917,21 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
                 lx += dx;
                 ly += dy;
-            }
 
-            //Keep cursor inside DAYLIGHT_LEVEL
-            if (lx < 0) {
-                lx = 0;
-            } else if (lx > DAYLIGHT_LEVEL*2) {
-                lx = DAYLIGHT_LEVEL*2;
-            }
+                //Keep cursor inside DAYLIGHT_LEVEL
+                if (lx < 0) {
+                    lx = 0;
+                } else if (lx > DAYLIGHT_LEVEL*2) {
+                    lx = DAYLIGHT_LEVEL*2;
+                }
 
-            if (ly < 0) {
-                ly = 0;
-            } else if (ly > DAYLIGHT_LEVEL*2) {
-                ly = DAYLIGHT_LEVEL*2;
+                if (ly < 0) {
+                    ly = 0;
+                } else if (ly > DAYLIGHT_LEVEL*2) {
+                    ly = DAYLIGHT_LEVEL*2;
+                }
+
+                draw_ter(lx, ly);
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
