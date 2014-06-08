@@ -38,6 +38,7 @@ struct wrapped_vehicle{
 };
 
 typedef std::vector<wrapped_vehicle> VehicleList;
+typedef std::list< std::list<item> > itemstack;
 
 /**
  * Manage and cache data about a part of the map.
@@ -372,6 +373,7 @@ void add_corpse(int x, int y);
 
 // Items
  std::vector<item>& i_at(int x, int y);
+ itemstack i_at_stacked(int x, int y);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
