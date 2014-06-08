@@ -8969,9 +8969,6 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
     } else if (used->is_book()) {
         read(pos);
         return;
-    } else if (used->is_armor()) {
-        wear(pos);
-        return;
     } else if (used->is_gun()) {
         std::vector<item> &mods = used->contents;
         // Get weapon mod names.
