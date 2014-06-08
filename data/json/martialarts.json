@@ -370,7 +370,7 @@
             "tec_silat_dirty"
         ],
         "weapons" : [
-            "baton",
+            "baton-extended",
             "bio_blade_weapon",
             "bowling_pin",
             "cudgel",
@@ -483,7 +483,7 @@
         ],
         "weapons" : [
             "2x4",
-            "baton",
+            "baton-extended",
             "bee_sting",
             "bio_blade_weapon",
             "bowling_pin",
