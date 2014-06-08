@@ -945,6 +945,15 @@ int iuse::antibiotic(player *p, item *it, bool)
             p->add_disease("recover", std::max((14401 - infected_dur + 3600) - 4800, 0) );
         }
     }
+    if (p->has_disease("tetanus")) {
+        if (one_in(3)) {
+        p->rem_disease("tetanus");
+        p->add_msg_if_player(m_good, _("The muscle spasms start to go away."));
+        } 
+        else {
+        p->add_msg_if_player(m_warning, _("The medication does nothing to help the spasms."));
+        }
+    }
     return it->type->charges_to_use();
 }
 
@@ -1076,23 +1085,15 @@ int iuse::antiparasitic(player *p, item *it, bool) {
 
 int iuse::anticonvulsant(player *p, item *it, bool) {
     p->add_msg_if_player(_("You take some anticonvulsant medication."));
-    int duration = 21 - p->str_cur + rng(0,10);
+    int duration = 600 - p->str_cur * rng(0,10);
     if (p->has_trait("TOLERANCE")) {
-            duration -= 10; // Symmetry would cause problems :-/
+            duration -= 100; // Symmetry would cause problems :-/
         }
     if (p->has_trait("LIGHTWEIGHT")) {
-        duration += 20;
+        duration += 200;
     }
+    p->add_disease("valium", duration);
     p->add_disease("high", duration);
-    if (p->has_disease("tetanus")) {
-        if (one_in(3)) {
-            p->rem_disease("tetanus");
-            p->add_msg_if_player(m_good, _("The muscle spasms start to go away."));
-        } else {
-            p->add_msg_if_player(m_warning, _("The medication does nothing to help the spasms."));
-        }
-
-    }
     if (p->has_disease("shakes")) {
             p->rem_disease("shakes");
             p->add_msg_if_player(m_good, _("You stop shaking."));

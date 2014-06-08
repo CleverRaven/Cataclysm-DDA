@@ -38,7 +38,7 @@ enum dis_type_enum {
 // Food & Drugs
  DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH, DI_WEED_HIGH,
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
-  DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH,
+  DI_TOOK_FLUMED, DI_ADRENALINE, DI_JETINJECTOR, DI_ASTHMA, DI_GRACK, DI_METH, DI_VALIUM,
 // Traps
  DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
 // Martial Arts
@@ -121,6 +121,7 @@ void game::init_diseases() {
     disease_type_lookup["pkill3"] = DI_PKILL3;
     disease_type_lookup["pkill_l"] = DI_PKILL_L;
     disease_type_lookup["drunk"] = DI_DRUNK;
+    disease_type_lookup["valium"] = DI_VALIUM;
     disease_type_lookup["cig"] = DI_CIG;
     disease_type_lookup["high"] = DI_HIGH;
     disease_type_lookup["hallu"] = DI_HALLU;
@@ -997,6 +998,12 @@ void dis_effect(player &p, disease &dis)
         case DI_DRUNK:
             handle_alcohol(p, dis);
             break;
+            
+        case DI_VALIUM:
+            if (dis.duration % 25 == 0 && (p.stim > 0 || one_in(2))) {
+                p.stim--;
+            }
+            break;
 
         case DI_CIG:
             if (dis.duration >= 600) { // Smoked too much
@@ -1089,6 +1096,7 @@ void dis_effect(player &p, disease &dis)
             if (p.has_trait("INFIMMUNE")) {
                p.rem_disease("tetanus");
             }
+            if (!p.has_disease("valium")) {
             p.mod_dex_bonus(-4);
             if (one_in(512)) {
                 add_msg(m_bad, "Your muscles spasm.");
@@ -1097,6 +1105,7 @@ void dis_effect(player &p, disease &dis)
                 if (one_in(10)) {
                     p.mod_pain(rng(1, 10));
                 }
+            }
             }
             break;
 
@@ -1152,6 +1161,9 @@ void dis_effect(player &p, disease &dis)
             break;
 
         case DI_SHAKES:
+            if (p.has_disease("valium")) {
+               p.rem_disease("shakes");
+            }
             p.mod_dex_bonus(-4);
             p.mod_str_bonus(-1);
             break;
@@ -1386,7 +1398,7 @@ void dis_effect(player &p, disease &dis)
                 }
             } if (dis.duration > 2400) {
                 // 8 teleports
-                if (one_in(10000 - dis.duration)) {
+                if (one_in(10000 - dis.duration) && !p.has_disease("valium")) {
                     p.add_disease("shakes", rng(40, 80));
                 }
                 if (one_in(12000 - dis.duration)) {
