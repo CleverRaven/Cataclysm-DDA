@@ -1085,47 +1085,51 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
 
+    // This bonus absorbs damage from incoming attacks before they land,
+    // but it still counts as a block even if it absorbs all the damage.
     float total_phys_block = mabuff_block_bonus();
     bool conductive_weapon = weapon.conductive();
 
-    double phys_mult = 1.0d;
+    // This gets us a number between:
+    // str ~0 + skill 0 = 0
+    // str ~20 + skill 10 + 10(unarmed skill or weapon bonus) = 40
+    int block_score = 1;
+    if (can_weapon_block()) {
+        int block_bonus = 2;
+        if (weapon.has_technique("WBLOCK_3")) {
+            block_bonus = 10;
+        } else if (weapon.has_technique("WBLOCK_2")) {
+            block_bonus = 6;
+        } else if (weapon.has_technique("WBLOCK_1")) {
+            block_bonus = 4;
+        }
+        block_score = str_cur + block_bonus + (int)skillLevel("melee");
+    } else if (can_limb_block()) {
+        block_score = str_cur + (int)skillLevel("melee") + (int)skillLevel("unarmed");
+    }
+
+    // Map block_score to the logistic curve for a number between 1 and 0.
+    // Basic beginner character (str 8, skill 0, basic weapon)
+    // Will have a score around 10 and block about %15 of incoming damage.
+    // More proficient melee character (str 10, skill 4, wbock_2 weapon)
+    // will have a score of 20 and block about 45% of damage.
+    // A highly expert character (str 14, skill 8 wblock_2)
+    // will have a score in the high 20s and will block about 80% of damage.
+    // As the block score approaches 40, damage making it through will dwindle
+    // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
+    const float physical_block_multiplier = player::logistic_range( 0, 40, block_score );
+
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
         // block physical damage "normally"
-        if (it->type == DT_BASH || it->type == DT_CUT || it->type == DT_STAB) {
+        if( it->type == DT_BASH || it->type == DT_CUT || it->type == DT_STAB ) {
             // use up our flat block bonus first
             float block_amount = std::min(total_phys_block, it->amount);
             total_phys_block -= block_amount;
             it->amount -= block_amount;
-
-            int block_score = 1;
-            if (can_weapon_block()) {
-                int block_bonus = 2;
-                if (weapon.has_technique("WBLOCK_3")) {
-                    block_bonus = 10;
-                } else if (weapon.has_technique("WBLOCK_2")) {
-                    block_bonus = 6;
-                } else if (weapon.has_technique("WBLOCK_1")) {
-                    block_bonus = 4;
-                }
-                block_score = str_cur + block_bonus + (int)skillLevel("melee");
-            } else if (can_limb_block()) {
-                block_score = str_cur + (int)skillLevel("melee") + (int)skillLevel("unarmed");
             }
-            // The above gets us a number between:
-            // str ~0 + skill 0 = 0
-            // str ~20 + skill 10 + 10(unarmed skill or weapon bonus) = 40
-            // Map it to the logistic curve for a number between 1 and 0.
-            // Basic beginner character (str 8, skill 0, basic weapon)
-            // Will have a score around 10 and block about %15 of incoming damage.
-            // More proficient melee character (str 10, skill 4, wbock_2 weapon)
-            // will have a score of 20 and block about 45% of damage.
-            // A highly expert character (str 14, skill 8 wblock_2)
-            // will have a score in the high 20s and will block about 80% of damage.
-            // As the block score approaches 40, damage making it through will dwindle
-            // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
-            phys_mult = player::logistic_range( 0, 40, block_score );
-            it->amount *= phys_mult;
+
+            it->amount *= physical_block_multiplier;
         // non-electrical "elemental" damage types do their full damage if unarmed,
         // but severely mitigated damage if not
         } else if (it->type == DT_HEAT || it->type == DT_ACID || it->type == DT_COLD) {
