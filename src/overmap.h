@@ -192,7 +192,8 @@ struct city {
  int y;
  int s;
  std::string name;
- city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S)
+ overmap_zone z;
+ city(int X = -1, int Y = -1, int S = -1, overmap_zone Z = OMZONE_CITY) : x (X), y (Y), s (S), z(Z)
  {
      name = Name::get(nameIsTownName);
  }
@@ -274,6 +275,7 @@ class overmap
 
   std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);
+  int in_city(point p);
   point random_house_in_city(int city_id);
   int dist_from_city(point p);
 

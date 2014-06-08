@@ -1002,7 +1002,7 @@
             ]
         },
         "bash": {
-            "str_min": 1, "str_max": 6,
+            "str_min": 2, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
@@ -1021,7 +1021,7 @@
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
         "bash": {
-            "str_min": 1, "str_max": 6,
+            "str_min": 2, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
@@ -1053,7 +1053,7 @@
             ]
         },
         "bash": {
-            "str_min": 1, "str_max": 6,
+            "str_min": 2, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
@@ -1076,7 +1076,7 @@
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"
         ],
         "bash": {
-            "str_min": 1, "str_max": 6,
+            "str_min": 2, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
@@ -1118,7 +1118,7 @@
             ]
         },
         "bash": {
-            "str_min": 1, "str_max": 6,
+            "str_min": 2, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
@@ -1141,7 +1141,7 @@
             "SUPPORTS_ROOF", "REDUCE_SCENT", "BARRICADABLE_WINDOW"
         ],
         "bash": {
-            "str_min": 1, "str_max": 6,
+            "str_min": 2, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame"
@@ -1157,7 +1157,7 @@
             "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "ALARMED", "WALL", "BARRICADABLE_WINDOW"
         ],
         "bash": {
-            "str_min": 1, "str_max": 6,
+            "str_min": 2, "str_max": 6,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "ter_set": "t_window_frame",
@@ -1467,7 +1467,7 @@
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "MOUNTABLE"
         ],
         "bash": {
-            "str_min": 1, "str_max": 10,
+            "str_min": 3, "str_max": 10,
             "sound": "crack.",
             "sound_fail": "whump.",
             "ter_set": "t_dirt",
@@ -1488,7 +1488,7 @@
             "BASHABLE", "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT", "MOUNTABLE"
         ],
         "bash": {
-            "str_min": 1, "str_max": 10,
+            "str_min": 3, "str_max": 10,
             "sound": "crack.",
             "sound_fail": "whump.",
             "ter_set": "t_dirt",
@@ -1600,7 +1600,7 @@
         "move_cost": 3,
         "flags": ["BASHABLE", "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE"],
         "bash": {
-            "str_min": 1, "str_max": 10,
+            "str_min": 3, "str_max": 10,
             "sound": "crack.",
             "sound_fail": "whump.",
             "ter_set": "t_floor",
@@ -2614,5 +2614,21 @@
             ]
         },
         "examine_action": "water_source"
+    },{
+        "type" : "terrain",
+        "id" : "t_vine_wall_v",
+        "name": "vine covered wall",
+        "symbol": "LINE_XOXO",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"]
+    },{
+        "type" : "terrain",
+        "id" : "t_vine_wall_h",
+        "name": "vine covered wall",
+        "symbol": "LINE_OXOX",
+        "color": "green",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "WALL"]
     }
 ]

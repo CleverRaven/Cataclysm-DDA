@@ -1462,6 +1462,24 @@ int overmap::closest_city(point p)
     return ret;
 }
 
+int overmap::in_city(point p)
+{
+    int notfound = -1;
+    for (int i = 0; i < cities.size(); i++) {
+        // (x-cx)^2 + (y-cy)^2 < r^2
+        int x = p.x - cities[i].x;
+        x = x * x;
+        int y = p.y - cities[i].y;
+        y = y * y;
+        int r = cities[i].s * cities[i].s;
+
+        if((x + y) < r){
+            return i;
+        }
+    }
+    return notfound;
+}
+
 point overmap::random_house_in_city(int city_id)
 {
     if (city_id < 0 || city_id >= cities.size()) {
@@ -2308,6 +2326,7 @@ void overmap::place_cities()
             tmp.x = cx;
             tmp.y = cy;
             tmp.s = size;
+            tmp.z = (overmap_zone)rng(1, OMZONE_MAX);
             cities.push_back(tmp);
             start_dir = rng(0, 3);
             for (int j = 0; j < 4; j++) {
