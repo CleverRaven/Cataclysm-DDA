@@ -84,6 +84,41 @@
   },
 
   {
+    "type" : "TOOL_ARMOR",
+    "id" : "fedora",
+    "name" : "fedora",
+    "weight" : 350,
+    "color" : "brown",
+    "covers" : ["HEAD"],
+    "to_hit" : 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": {
+        "type": "consume_drug",
+        "activation_message": "You tip your fedora."
+    },
+    "storage" : 0,
+    "symbol" : "[",
+    "description" : "A high-crowned, wide-brimmed, sable colored fedora. The perfect hat for treasure hunting.",
+    "price" : 7500,
+    "material" : ["leather", "null"],
+    "volume" : 7,
+    "cutting" : 0,
+    "warmth" : 7,
+    "phase" : "solid",
+    "environmental_protection" : 3,
+    "encumbrance" : 1,
+    "bashing" : -3,
+    "coverage" : 50,
+    "flags" : ["VARSIZE"],
+    "material_thickness" : 1
+  },
+
+  {
     "id": "thermal_socks",
     "type": "TOOL_ARMOR",
     "category" : "clothing",
