@@ -3201,8 +3201,7 @@
       ["20x66_beanbag", 10],
       ["20x66_flare", 3],
       ["20x66_shot", 5],
-      ["tonfa", 30],
-      ["tonfa_wood", 10],
+      ["PR24", 40],
       ["usp_45", 6],
       ["m1911", 5],
       ["rm99_pistol", 1],
@@ -3223,7 +3222,7 @@
       ["9mm", 12],
       ["fn57", 4],
       ["fn_p90", 3],
-      ["shocktonfa_off", 15]
+      ["tazer", 15]
     ]
   },{
     "type" : "item_group",
