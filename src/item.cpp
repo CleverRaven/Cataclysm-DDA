@@ -725,7 +725,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, bool debug)
                 dump->push_back(iteminfo("DESCRIPTION", recipe_line.c_str()));
             }
         } else {
-            dump->push_back(iteminfo("BOOK", _("You don't recognize this book.")));
+            dump->push_back(iteminfo("BOOK", _("You need to read this book to see its contents.")));
         }
 
     } else if (is_tool()) {
