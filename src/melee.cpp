@@ -1088,34 +1088,6 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     float total_phys_block = mabuff_block_bonus();
     bool conductive_weapon = weapon.conductive();
 
-    //weapon blocks are prefered to arm blocks
-    if (can_weapon_block()) {
-        add_msg_player_or_npc( _("You block with your %s!"),
-            _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
-        handle_melee_wear();
-    }
-    else if (can_limb_block()) {
-        //Choose which body part to block with
-        if (can_leg_block() && can_arm_block()) {
-            bp_hit = one_in(2) ? bp_legs : bp_arms;
-        } else if (can_leg_block()) {
-            bp_hit = bp_legs;
-        } else {
-            bp_hit = bp_arms;
-        }
-
-        // Choose what side to block with.
-        if (bp_hit == bp_legs) {
-            side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
-        } else {
-            side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
-        }
-
-        add_msg_player_or_npc( _("You block with your %s!"),
-            _("<npcname> blocks with their %s!"),
-            body_part_name(bp_hit, side).c_str());
-    }
-
     double phys_mult = 1.0d;
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
@@ -1171,6 +1143,33 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     }
 
     ma_onblock_effects(); // fire martial arts block-triggered effects
+
+    //weapon blocks are prefered to arm blocks
+    if (can_weapon_block()) {
+        add_msg_player_or_npc( _("You block with your %s!"),
+            _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
+        handle_melee_wear();
+    } else if (can_limb_block()) {
+        //Choose which body part to block with
+        if (can_leg_block() && can_arm_block()) {
+            bp_hit = one_in(2) ? bp_legs : bp_arms;
+        } else if (can_leg_block()) {
+            bp_hit = bp_legs;
+        } else {
+            bp_hit = bp_arms;
+        }
+
+        // Choose what side to block with.
+        if (bp_hit == bp_legs) {
+            side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
+        } else {
+            side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
+        }
+
+        add_msg_player_or_npc( _("You block with your %s!"),
+            _("<npcname> blocks with their %s!"),
+            body_part_name(bp_hit, side).c_str());
+    }
 
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, false, true);
