@@ -1161,9 +1161,9 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     ma_onblock_effects(); // fire martial arts block-triggered effects
 
     //weapon blocks are prefered to arm blocks
+    std::string thing_blocked_with;
     if (can_weapon_block()) {
-        add_msg_player_or_npc( _("You block with your %s!"),
-            _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
+        thing_blocked_with = weapon.tname();
         handle_melee_wear();
     } else if (can_limb_block()) {
         //Choose which body part to block with
@@ -1182,10 +1182,31 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
             side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
         }
 
-        add_msg_player_or_npc( _("You block with your %s!"),
-            _("<npcname> blocks with their %s!"),
-            body_part_name(bp_hit, side).c_str());
+        thing_blocked_with = body_part_name(bp_hit, side);
     }
+
+    std::string damage_blocked_description;
+    // good/bad/ugly add_msg color code?
+    // none, hardly any, a little, some, most, all
+    float blocked_ratio = (total_damage - damage_blocked) / total_damage;
+    if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
+        damage_blocked_description = _("all");
+    } else if( blocked_ratio < 0.2 ) {
+        damage_blocked_description = _("nearly all");
+    } else if( blocked_ratio < 0.4 ) {
+        damage_blocked_description = _("most");
+    } else if( blocked_ratio < 0.6 ) {
+        damage_blocked_description = _("a lot");
+    } else if( blocked_ratio < 0.8 ) {
+        damage_blocked_description = _("some");
+    } else if( blocked_ratio > std::numeric_limits<float>::epsilon() ){
+        damage_blocked_description = _("a little");
+    } else {
+        damage_blocked_description = _("none");
+    }
+    add_msg_player_or_npc( _("You block %s of the damage with your %s!"),
+                           _("<npcname> blocks %s of the damage with their %s!"),
+                           damage_blocked_description.c_str(), thing_blocked_with.c_str() );
 
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, false, true);
