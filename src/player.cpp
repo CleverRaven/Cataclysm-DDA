@@ -9124,7 +9124,31 @@ void player::read(int pos)
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
         add_msg(m_info, _("You're illiterate!"));
         return;
-    } else if (tmp->type == NULL) {
+    }
+
+    // Now we've established that the player CAN read.
+
+    // If the player hasn't read this book before, skim it to get an idea of what's in it.
+    if( !has_identified( it->type->id ) ) {
+        // Base read_speed() is 1000 move points (1 minute per tmp->time)
+        time = tmp->time * read_speed() * (fine_detail_vision_mod());
+        if (tmp->intel > int_cur) {
+            // Lower int characters can read, at a speed penalty
+            time += (tmp->time * (tmp->intel - int_cur) * 100);
+        }
+        // We're just skimming, so it's 10x faster.
+        time /= 10;
+
+        activity = player_activity(ACT_READ, time - moves, -1, pos, "");
+        // Never trigger studying when skimming the book.
+        activity.values.push_back(0);
+        moves = 0;
+        return;
+    }
+
+
+
+    if (tmp->type == NULL) {
         // special guidebook effect: print a misc. hint when read
         if (tmp->id == "guidebook") {
             add_msg(m_info, get_hint().c_str());
@@ -9132,6 +9156,9 @@ void player::read(int pos)
             return;
         }
         // otherwise do nothing as there's no associated skill
+    } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
+        add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
+        return;
     } else if (skillLevel(tmp->type) < (int)tmp->req) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    tmp->type->name().c_str());
@@ -9140,23 +9167,20 @@ void player::read(int pos)
         } else {
             add_msg(m_info, _("But you might be able to learn a recipe or two."));
         }
-    } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) { // See morale.h
-        add_msg(m_info, _("What's the point of reading?  (Your morale is too low!)"));
-        return;
     } else if (skillLevel(tmp->type) >= (int)tmp->level && !can_study_recipe(tmp) &&
                !query_yn(tmp->fun > 0 ?
-                           _("It would be fun, but your %s skill won't be improved.  Read anyway?")
-                           : _("Your %s skill won't be improved.  Read anyway?"),
+                         _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
+                         _("Your %s skill won't be improved.  Read anyway?"),
                          tmp->type->name().c_str())) {
         return;
     } else if (!continuous && !query_yn(_("Study %s until you learn something? (gain a level)"),
-                                                 tmp->type->name().c_str())) {
+                                        tmp->type->name().c_str())) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
         if(!continuous) {
             add_msg(m_info, _("Now studying %s, %s to stop early."),
-                            it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
+                    it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
         }
         study = true;
     }
@@ -9171,7 +9195,7 @@ void player::read(int pos)
         }
     }
 
- // Base read_speed() is 1000 move points (1 minute per tmp->time)
+    // Base read_speed() is 1000 move points (1 minute per tmp->time)
     time = tmp->time * read_speed() * (fine_detail_vision_mod());
     if (fine_detail_vision_mod() > 1.0) {
         add_msg(m_warning, _("It's difficult to see fine details right now. Reading will take longer than usual."));
@@ -9194,10 +9218,180 @@ void player::read(int pos)
     int minutes = time / 1000;
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if ((has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
-      tmp->id == "cookbook_human") {
-          add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, tmp);
-      }
-    else add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, tmp);
+        tmp->id == "cookbook_human") {
+        add_morale(MORALE_BOOK, 0, 75, minutes + 30, minutes, false, tmp);
+    } else {
+        add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, tmp);
+    }
+}
+
+void player::do_read( item *book )
+{
+    it_book *reading = dynamic_cast<it_book *>(book->type);
+
+    if( !has_identified( book->type->id ) ) {
+        // Note that we've read the book.
+        items_identified.insert( book->type->id );
+
+        add_msg(_("You skim %s to find out what's in it."), reading->nname(1).c_str());
+        if( reading->type ) {
+            add_msg(_("Can bring your %s skill to %d."),
+                    reading->type->name().c_str(), reading->level);
+            if( reading->req != 0 ){
+                add_msg(_("Requires %s level %d to understand."),
+                        reading->type->name().c_str(), reading->req);
+            }
+        }
+
+        add_msg(_("Requires intelligence of %d to easily read."), reading->intel);
+        if (reading->fun != 0) {
+            add_msg(_("Reading this book affects your morale by %d"), reading->fun);
+        }
+        add_msg(ngettext("This book takes %d minute to read.",
+                         "This book takes %d minutes to read.", reading->time),
+                reading->time );
+
+        if (!(reading->recipes.empty())) {
+            std::string recipes = "";
+            size_t index = 1;
+            for (std::map<recipe*, int>::iterator iter = reading->recipes.begin();
+                 iter != reading->recipes.end(); ++iter, ++index) {
+                if(g->u.knows_recipe(iter->first)) {
+                    recipes += "<color_ltgray>";
+                }
+                recipes += item( iter->first->result, 0 ).type->nname(1);
+                if(g->u.knows_recipe(iter->first)) {
+                    recipes += "</color>";
+                }
+                if(index == reading->recipes.size() - 1) {
+                    recipes += _(" and "); // Who gives a fuck about an oxford comma?
+                } else if(index != reading->recipes.size()) {
+                    recipes += _(", ");
+                }
+            }
+            std::string recipe_line = string_format(
+                ngettext("This book contains %1$d crafting recipe: %2$s",
+                         "This book contains %1$d crafting recipes: %2$s", reading->recipes.size()),
+                reading->recipes.size(), recipes.c_str());
+            add_msg( "%s", recipe_line.c_str());
+        }
+        activity.type = ACT_NULL;
+        return;
+    }
+
+    if( reading->fun != 0 ) {
+        int fun_bonus = 0;
+        if( book->charges == 0 ) {
+            //Book is out of chapters -> re-reading old book, less fun
+            add_msg(_("The %s isn't as much fun now that you've finished it."), book->name.c_str());
+            if( one_in(6) ) { //Don't nag incessantly, just once in a while
+                add_msg(m_info, _("Maybe you should find something new to read..."));
+            }
+            //50% penalty
+            fun_bonus = (reading->fun * 5) / 2;
+        } else {
+            fun_bonus = reading->fun * 5;
+        }
+        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+        if( (has_trait("CANNIBAL") || has_trait("PSYCHOPATH") || has_trait("SAPIOVORE")) &&
+            reading->id == "cookbook_human" ) {
+            fun_bonus = 25;
+            add_morale(MORALE_BOOK, fun_bonus, fun_bonus * 3, 60, 30, true, reading);
+        } else {
+            add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, reading);
+        }
+    }
+
+    if( book->charges > 0 ) {
+        book->charges--;
+    }
+
+    bool no_recipes = true;
+    if( !reading->recipes.empty() ) {
+        bool recipe_learned = try_study_recipe(reading);
+        if( !studied_all_recipes(reading) ) {
+            no_recipes = false;
+        }
+
+        // for books that the player cannot yet read due to skill level or have no skill component,
+        // but contain lower level recipes, break out once recipe has been studied
+        if( reading->type == NULL || (skillLevel(reading->type) < (int)reading->req) ) {
+            if( recipe_learned ) {
+                add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
+            }
+            activity.type = ACT_NULL;
+            return;
+        }
+    }
+
+    if( skillLevel(reading->type) < (int)reading->level ) {
+        int originalSkillLevel = skillLevel( reading->type );
+        int min_ex = reading->time / 10 + int_cur / 4;
+        int max_ex = reading->time /  5 + int_cur / 2 - originalSkillLevel;
+        if (min_ex < 1) {
+            min_ex = 1;
+        }
+        if (max_ex < 2) {
+            max_ex = 2;
+        }
+        if (max_ex > 10) {
+            max_ex = 10;
+        }
+        if (max_ex < min_ex) {
+            max_ex = min_ex;
+        }
+
+        min_ex *= originalSkillLevel + 1;
+        max_ex *= originalSkillLevel + 1;
+
+        skillLevel(reading->type).readBook( min_ex, max_ex, reading->level );
+
+        add_msg(_("You learn a little about %s! (%d%%)"), reading->type->name().c_str(),
+                skillLevel(reading->type).exercise());
+
+        if (skillLevel(reading->type) == originalSkillLevel && activity.get_value(0) == 1) {
+            // continuously read until player gains a new skill level
+            activity.type = ACT_NULL;
+            read(activity.position);
+            if (activity.type != ACT_NULL) {
+                return;
+            }
+        }
+
+        int new_skill_level = (int)skillLevel(reading->type);
+        if (new_skill_level > originalSkillLevel) {
+            add_msg(m_good, _("You increase %s to level %d."),
+                    reading->type->name().c_str(),
+                    new_skill_level);
+
+            if(new_skill_level % 4 == 0) {
+                //~ %s is skill name. %d is skill level
+                add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
+                                   pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
+                                   new_skill_level, reading->type->name().c_str());
+            }
+        }
+
+        if (skillLevel(reading->type) == (int)reading->level) {
+            if (no_recipes) {
+                add_msg(m_info, _("You can no longer learn from %s."), reading->name.c_str());
+            } else {
+                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for yo"),
+                        reading->name.c_str());
+            }
+        }
+    }
+
+    if( reading->has_use() ) {
+        reading->invoke( &g->u, book, false );
+    }
+
+    activity.type = ACT_NULL;
+}
+
+bool player::has_identified( std::string item_id ) const
+{
+    return items_identified.count( item_id ) > 0;
 }
 
 bool player::can_study_recipe(it_book* book)
@@ -9231,7 +9425,7 @@ bool player::try_study_recipe(it_book *book)
             (iter->first->skill_used == NULL ||
              skillLevel(iter->first->skill_used) >= iter->second)) {
             if (iter->first->skill_used == NULL ||
-                rng(0, 4) <= skillLevel(iter->first->skill_used) - iter->second) {
+                rng(0, 4) <= (skillLevel(iter->first->skill_used) - iter->second) / 2) {
                 learn_recipe(iter->first);
                 add_msg(m_good, _("Learned a recipe for %s from the %s."),
                                 itypes[iter->first->result]->name.c_str(), book->name.c_str());
@@ -10200,19 +10394,19 @@ void player::practice( std::string s, int amount, int cap )
     practice( aSkill, amount, cap );
 }
 
-bool player::knows_recipe(recipe *rec)
+bool player::knows_recipe(const recipe *rec) const
 {
     // do we know the recipe by virtue of it being autolearned?
-    if (rec->autolearn)
-    {
+    if( rec->autolearn ) {
         // Can the skill being trained can handle the difficulty of the task
         bool meets_requirements = false;
-        if(rec->skill_used == NULL || skillLevel(rec->skill_used) >= rec->difficulty){
+        if(rec->skill_used == NULL || get_skill_level(rec->skill_used) >= rec->difficulty){
             meets_requirements = true;
             //If there are required skills, insure their requirements are met, or we can't craft
             if(!rec->required_skills.empty()){
-                for(std::map<Skill*,int>::iterator iter=rec->required_skills.begin(); iter!=rec->required_skills.end();++iter){
-                    if(skillLevel(iter->first) < iter->second){
+                for( auto iter = rec->required_skills.cbegin();
+                     iter != rec->required_skills.cend(); ++iter ){
+                    if( get_skill_level(iter->first) < iter->second ){
                         meets_requirements = false;
                     }
                 }
@@ -10223,12 +10417,36 @@ bool player::knows_recipe(recipe *rec)
         }
     }
 
-    if (learned_recipes.find(rec->ident) != learned_recipes.end())
-    {
+    if( learned_recipes.find( rec->ident ) != learned_recipes.end() ) {
         return true;
     }
 
     return false;
+}
+
+int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
+{
+    // Iterate over the nearby items and see if there's a book that has the recipe.
+    const_invslice slice = crafting_inv.const_slice();
+    int difficulty = -1;
+    for( auto stack = slice.cbegin(); stack != slice.cend(); ++stack ) {
+        // We are only checking qualities, so we only care about the first item in the stack.
+        const item &candidate = (*stack)->front();
+        if( candidate.is_book() && items_identified.count(candidate.type->id) ) {
+            it_book *book_type = dynamic_cast<it_book *>(candidate.type);
+            for( auto book_recipe = book_type->recipes.cbegin();
+                 book_recipe != book_type->recipes.cend(); ++book_recipe ) {
+                // Does it have the recipe, and do we meet it's requirements?
+                if( book_recipe->first->ident == r->ident &&
+                    ( book_recipe->first->skill_used == NULL ||
+                      get_skill_level(book_recipe->first->skill_used) >= book_recipe->second ) &&
+                    ( difficulty == -1 || book_recipe->second < difficulty ) ) {
+                    difficulty = book_recipe->second;
+                }
+            }
+        }
+    }
+    return difficulty;
 }
 
 void player::learn_recipe(recipe *rec)
@@ -10349,11 +10567,13 @@ nc_color encumb_color(int level)
  return c_red;
 }
 
-SkillLevel& player::skillLevel(std::string ident) {
+SkillLevel& player::skillLevel(std::string ident)
+{
     return _skills[Skill::skill(ident)];
 }
 
-SkillLevel& player::skillLevel(Skill *_skill) {
+SkillLevel& player::skillLevel(Skill *_skill)
+{
     return _skills[_skill];
 }
 
