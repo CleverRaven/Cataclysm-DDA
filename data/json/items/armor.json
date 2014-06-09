@@ -4701,7 +4701,7 @@
         "storage" : 0,
         "symbol" : "[",
         "description" : "A mask that straps over your mouth and nose and filters air. Protects from smoke, dust, and other contaminants quite well.",
-        "price" : 8000,
+        "price" : 3500,
         "material" : ["plastic", "null"],
         "volume" : 2,
         "cutting" : 0,
