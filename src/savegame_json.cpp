@@ -331,10 +331,13 @@ void player::serialize(JsonOut &json, bool save_contents) const
     // npc: unimplemented, potentially useful
     json.member( "learned_recipes" );
     json.start_array();
-    for (std::map<std::string, recipe*>::const_iterator iter = learned_recipes.begin(); iter != learned_recipes.end(); ++iter) {
+    for( auto iter = learned_recipes.cbegin(); iter != learned_recipes.cend(); ++iter ) {
         json.write( iter->first );
     }
     json.end_array();
+
+    // Player only, books they have read at least once.
+    json.member( "items_identified", items_identified );
 
     // :(
     json.member( "morale", morale );
@@ -446,14 +449,17 @@ void player::deserialize(JsonIn &jsin)
 
     parray = data.get_array("learned_recipes");
     if ( !parray.empty() ) {
-        learned_recipes.clear();
         std::string pstr="";
+        learned_recipes.clear();
         while ( parray.has_more() ) {
             if ( parray.read_next(pstr) ) {
                 learned_recipes[ pstr ] = recipe_by_name( pstr );
             }
         }
     }
+
+    items_identified.clear();
+    data.read( "items_identified", items_identified );
 
     data.read("morale", morale);
 
