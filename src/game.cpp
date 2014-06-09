@@ -3176,7 +3176,7 @@ bool game::handle_action()
         if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
             as_m.text = _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
             }
-        if (u.has_item_with_flag("ALARMCLOCK") && !(u.hunger < -60))
+        if ((u.has_item_with_flag("ALARMCLOCK") || u.has_bionic("bio_watch")) && !(u.hunger < -60))
         {
             as_m.entries.push_back(uimenu_entry(3, true, '3', _("Set alarm to wake up in 3 hours.") ));
             as_m.entries.push_back(uimenu_entry(4, true, '4', _("Set alarm to wake up in 4 hours.") ));
