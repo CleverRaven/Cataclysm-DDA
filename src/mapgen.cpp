@@ -105,10 +105,15 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
         add_extra( random_map_extra( ex ));
     }
 
-    int idx = om->in_city(point(overx, overy));
+//    int idx = om->in_city(point(overx, overy));
+//    if(idx != -1){
+//        city c = om->cities[idx];
+//        post_process(c.z);
+//    }
+    int idx = om->in_zone(tripoint(overx, overy, z));
     if(idx != -1){
-        city c = om->cities[idx];
-        post_process(c.z);
+        overmap_zone omz = om->zones[idx];
+        post_process(omz.z);
     }
 
     // Okay, we know who are neighbors are.  Let's draw!
@@ -10930,7 +10935,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
 }
 
-void map::post_process(overmap_zone zones)
+void map::post_process(omzone_type zones)
 {
     /*
     if(one_in(5) && terrain_type.t().sidewalk){

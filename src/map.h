@@ -444,7 +444,7 @@ void add_corpse(int x, int y);
  void fungalize();
 
  void generate(overmap *om, const int x, const int y, const int z, const int turn);
- void post_process(overmap_zone zones);
+ void post_process(omzone_type zones);
  void place_spawns(std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_gas_pump(const int x, const int y, const int charges);

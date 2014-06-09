@@ -20,7 +20,7 @@ class overmap;
 // Overmap "Zones"
 // Areas which have special post-generation processing attached to them
 
-enum overmap_zone
+enum omzone_type
 {
     OMZONE_NULL = 0,
     OMZONE_CITY,        // Basic city; place corpses
@@ -36,6 +36,14 @@ enum overmap_zone
     OMZONE_FORTIFIED,   // Boarded up windows &c TODO
     OMZONE_BOTS,        // Home of the bots TODO
     OMZONE_MAX
+};
+
+struct overmap_zone {
+    omzone_type z;
+    tripoint center;
+    std::set<tripoint> points;
+    int distance_from_center(tripoint p) {return rl_dist(center, p);}
+    bool contains_tripoint(tripoint p) {return (points.find(p) != points.end());}
 };
 
 struct oter_t {
