@@ -924,11 +924,30 @@ void dis_effect(player &p, disease &dis)
             {
                 if (p.has_disease("sleep")) {
                     if (dis.duration == 1) {
-                        if(!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
-                            // 10 minute automatic snooze
-                            dis.duration += 100;
+                        if(p.has_bionic("bio_watch")) {
+                            // Normal alarm is volume 12, tested against (2/3/6)d15 for
+                            // normal/HEAVYSLEEPER/HEAVYSLEEPER2.
+                            //
+                            // It's much harder to ignore an alarm inside your own skull,
+                            // so this uses an effective volume of 20.
+                            const int volume = 20;
+                            if ((!(p.has_trait("HEAVYSLEEPER") ||
+                                   p.has_trait("HEAVYSLEEPER2")) && dice(2, 15) < volume) ||
+                                (p.has_trait("HEAVYSLEEPER") && dice(3, 15) < volume) ||
+                                (p.has_trait("HEAVYSLEEPER2") && dice(6, 15) < volume)) {
+                                p.rem_disease("sleep");
+                                add_msg(_("Your internal chronometer wakes you up."));
+                            } else {
+                                // 10 minute cyber-snooze
+                                dis.duration += 100;
+                            }
                         } else {
-                            add_msg(_("You turn off your alarm-clock."));
+                            if(!g->sound(p.posx, p.posy, 12, _("beep-beep-beep!"))) {
+                                // 10 minute automatic snooze
+                                dis.duration += 100;
+                            } else {
+                                add_msg(_("You turn off your alarm-clock."));
+                            }
                         }
                     }
                 } else if (!p.has_disease("lying_down")) {
