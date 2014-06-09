@@ -9618,7 +9618,7 @@
   "autolearn": false,
   "book_learn": [[ "cookbook_italian", 3 ]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
     [
