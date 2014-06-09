@@ -8301,24 +8301,24 @@ bool player::wear_item(item *to_wear, bool interactive)
         }
     }
 
+    // Make sure we're not wearing 2 of the item already
+    int count = 0;
+
+    for (int i = 0; i < worn.size(); i++) {
+        if (worn[i].type->id == to_wear->type->id) {
+            count++;
+        }
+    }
+
+    if (count == 2) {
+        if(interactive) {
+            add_msg(m_info, _("You can't wear more than two %s at once."),
+                    to_wear->tname(count).c_str());
+        }
+        return false;
+    }
+
     if (!to_wear->has_flag("OVERSIZE")) {
-        // Make sure we're not wearing 2 of the item already
-        int count = 0;
-
-        for (int i = 0; i < worn.size(); i++) {
-            if (worn[i].type->id == to_wear->type->id) {
-                count++;
-            }
-        }
-
-        if (count == 2) {
-            if(interactive) {
-                add_msg(m_info, _("You can't wear more than two %s at once."),
-                        to_wear->tname(count).c_str());
-            }
-            return false;
-        }
-
         if (has_trait("WOOLALLERGY") && to_wear->made_of("wool")) {
             if(interactive) {
                 add_msg(m_info, _("You can't wear that, it's made of wool!"));
