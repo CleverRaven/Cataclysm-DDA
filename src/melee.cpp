@@ -1119,31 +1119,41 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
     const float physical_block_multiplier = player::logistic_range( 0, 40, block_score );
 
+    float total_damage = 0.0;
+    float damage_blocked = 0.0;
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
+        total_damage += it->amount;
         // block physical damage "normally"
         if( it->type == DT_BASH || it->type == DT_CUT || it->type == DT_STAB ) {
             // use up our flat block bonus first
             float block_amount = std::min(total_phys_block, it->amount);
             total_phys_block -= block_amount;
             it->amount -= block_amount;
+            damage_blocked += block_amount;
             if( it->amount <= std::numeric_limits<float>::epsilon() ) {
                 continue;
             }
 
+            float previous_amount = it->amount;
             it->amount *= physical_block_multiplier;
+            damage_blocked += previous_amount - it->amount;
         // non-electrical "elemental" damage types do their full damage if unarmed,
         // but severely mitigated damage if not
         } else if (it->type == DT_HEAT || it->type == DT_ACID || it->type == DT_COLD) {
             //TODO: should damage weapons if blocked
             if (!unarmed_attack() && can_weapon_block()) {
+                float previous_amount = it->amount;
                 it->amount /= 5;
+                damage_blocked += previous_amount - it->amount;
             }
         // electrical damage deals full damage if unarmed OR wielding a
         // conductive weapon
         } else if (it->type == DT_ELECTRIC) {
             if (!unarmed_attack() && can_weapon_block() && !conductive_weapon) {
+                float previous_amount = it->amount;
                 it->amount /= 5;
+                damage_blocked += previous_amount - it->amount;
             }
         }
     }
