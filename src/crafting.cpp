@@ -232,10 +232,10 @@ bool game::crafting_allowed()
 
 bool game::crafting_can_see()
 {
-    if (u.fine_detail_vision_mod() > 4) {//minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
+    if (u.fine_detail_vision_mod() > 4) {
+        //minimum LL_LOW of LL_DARK + (ELFA_NV or atomic_light) (vs 2.5)
         add_msg(m_info, _("You can't see to craft!"));
         return false;
-
     }
 
     return true;
@@ -269,10 +269,12 @@ std::string print_missing_objs(const std::vector< std::vector <component> > &obj
             }
             if (!is_tools) {
                 //~ <item-count> <item-name>
-                buffer << string_format(_("%d %s"), abs(comp.count), it->nname(abs(comp.count)).c_str());
+                buffer << string_format(_("%d %s"), abs(comp.count),
+                                        it->nname(abs(comp.count)).c_str());
             } else if (comp.count > 0) {
                 //~ <tool-name> (<numer-of-charges> charges)
-                buffer << string_format(ngettext("%s (%d charge)", "%s (%d charges)", comp.count), itt->name.c_str(), comp.count);
+                buffer << string_format(ngettext("%s (%d charge)", "%s (%d charges)", comp.count),
+                                        itt->name.c_str(), comp.count);
             } else {
                 buffer << it->nname(abs(comp.count));
             }
@@ -289,9 +291,8 @@ std::string print_missing_objs(const std::vector< quality_requirement > &objs) {
             buffer << _("\nand ");
         }
         buffer << string_format(ngettext("%d tool with %s of %d or more.",
-                                         "%d tools with %s of %d or more.",
-                                         req.count),
-                req.count, qualities[req.id].name.c_str(), req.level);
+                                         "%d tools with %s of %d or more.", req.count),
+                                req.count, qualities[req.id].name.c_str(), req.level);
     }
     return buffer.str();
 }
@@ -345,7 +346,7 @@ bool game::can_make(recipe *r)
 bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
 {
     bool retval = true;
-    if (!u.knows_recipe(r)) {
+    if( !u.knows_recipe( r ) && -1 == u.has_recipe( r, crafting_inv) ) {
         return false;
     }
     // under the assumption that all comp and tool's array contains
@@ -381,7 +382,8 @@ bool game::can_make_with_inventory(recipe *r, const inventory &crafting_inv)
             itype_id type = tool.type;
             int req = tool.count;
             if ( (req <= 0 && crafting_inv.has_amount(type, 1)) ||
-                 (req <= 0 && ((type == ("goggles_welding")) && (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
+                 (req <= 0 && (type == ("goggles_welding") &&
+                               (u.has_bionic("bio_sunglasses") || u.is_wearing("rm13_armor_on")))) ||
                  (req > 0 && crafting_inv.has_charges(type, req))) {
                 has_tool_in_set = true;
                 tool.available = 1;
@@ -454,7 +456,8 @@ bool game::check_enough_materials(recipe *r, const inventory &crafting_inv)
                         if (tool.available == 1) {
                             if (comp.type == tool.type) {
                                 found_same_type = true;
-                                bool count_by_charges = item_controller->find_template(comp.type)->count_by_charges();
+                                bool count_by_charges =
+                                    item_controller->find_template(comp.type)->count_by_charges();
                                 if (count_by_charges) {
                                     int req = comp.count;
                                     if (tool.count > 0) {
@@ -1305,7 +1308,7 @@ void game::pick_recipes(const inventory &crafting_inv, std::vector<recipe *> &cu
     for (recipe_list::iterator iter = available_recipes.begin();
          iter != available_recipes.end(); ++iter) {
         if (subtab == "CSC_ALL" || (*iter)->subcat == subtab || filter != "") {
-            if (!u.knows_recipe(*iter)) {
+            if( !u.knows_recipe( *iter ) && -1 == u.has_recipe(*iter, crafting_inv) ) {
                 continue;
             }
 
@@ -1477,6 +1480,7 @@ void game::complete_craft()
         //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
         return;
     }
+
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
@@ -1495,6 +1499,26 @@ void game::complete_craft()
         // those items are automatically merged everywhere (map/vehicle/inventory),
         // which would either loose this information or merge it somehow.
         newit.components.insert(newit.components.begin(), used.begin(), used.end());
+    }
+
+    if( u.knows_recipe( making ) ) {
+        add_msg(_("You craft %s from memory."), newit.type->name.c_str());
+    } else {
+        add_msg(_("You craft %s using a book as a reference."), newit.type->name.c_str());
+        // If we made it, but we don't know it,
+        // we're making it from a book and have a chance to learn it.
+        // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
+        // This means time to learn is greatly decreased with higher skill level,
+        // but also keeps going up as difficulty goes up.
+        // Worst case is lvl 10, which will typically take
+        // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
+        int difficulty = u.has_recipe( making, crafting_inventory( &u ) );
+        if( x_in_y( making->time, (1000 * 8 * (difficulty ^ 4)) /
+                    (u.get_skill_level( making->skill_used ) * u.get_int() ) ) ) {
+            u.learn_recipe( making );
+            add_msg(m_good, _("You memorized the recipe for %s!"),
+                    newit.type->name.c_str());
+        }
     }
 
     if (newit.is_armor() && newit.has_flag("VARSIZE")) {

@@ -9,7 +9,16 @@ const std::string inv_chars =
 invslice inventory::slice()
 {
     invslice stacks;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
+    for( auto iter = items.begin(); iter != items.end(); ++iter) {
+        stacks.push_back(&*iter);
+    }
+    return stacks;
+}
+
+const_invslice inventory::const_slice() const
+{
+    const_invslice stacks;
+    for( auto iter = items.cbegin(); iter != items.cend(); ++iter) {
         stacks.push_back(&*iter);
     }
     return stacks;

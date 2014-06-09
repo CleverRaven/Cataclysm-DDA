@@ -29,6 +29,11 @@ bool tutorial_game::init()
  g->u.per_cur = g->u.per_max;
  g->u.int_cur = g->u.int_max;
  g->u.dex_cur = g->u.dex_max;
+ 
+ for (int i = 0; i < num_hp_parts; i++) {
+        g->u.hp_cur[i] = g->u.hp_max[i];
+    }
+ 
  //~ default name for the tutorial
  g->u.name = _("John Smith");
  g->u.prof = profession::generic();
