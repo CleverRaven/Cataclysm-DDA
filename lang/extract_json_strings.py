@@ -19,6 +19,7 @@ not_json = {
 # these objects have no translatable strings
 ignorable = {
     "colordef",
+    "ITEM_BLACKLIST",
     "item_group",
     "mapgen",
     "monstergroup",
