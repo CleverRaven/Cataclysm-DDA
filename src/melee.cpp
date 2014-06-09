@@ -1190,18 +1190,25 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     // none, hardly any, a little, some, most, all
     float blocked_ratio = (total_damage - damage_blocked) / total_damage;
     if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("all");
     } else if( blocked_ratio < 0.2 ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("nearly all");
     } else if( blocked_ratio < 0.4 ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("most");
     } else if( blocked_ratio < 0.6 ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("a lot");
     } else if( blocked_ratio < 0.8 ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("some");
     } else if( blocked_ratio > std::numeric_limits<float>::epsilon() ){
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("a little");
     } else {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("none");
     }
     add_msg_player_or_npc( _("You block %s of the damage with your %s!"),
