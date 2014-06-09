@@ -1077,86 +1077,143 @@ bool player::block_hit(Creature *source, body_part &bp_hit, int &side,
     //Shouldn't block if player is asleep; this only seems to be used by player.
     //g->u.has_disease("sleep") would work as well from looking at other block functions.
 
-    if (blocks_left < 1 || this->has_disease("sleep"))
+    if (blocks_left < 1 || this->has_disease("sleep")) {
         return false;
+    }
+    blocks_left--;
 
     ma_ongethit_effects(); // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
 
+    // This bonus absorbs damage from incoming attacks before they land,
+    // but it still counts as a block even if it absorbs all the damage.
     float total_phys_block = mabuff_block_bonus();
     bool conductive_weapon = weapon.conductive();
 
-    //weapon blocks are prefered to arm blocks
+    // This gets us a number between:
+    // str ~0 + skill 0 = 0
+    // str ~20 + skill 10 + 10(unarmed skill or weapon bonus) = 40
+    int block_score = 1;
     if (can_weapon_block()) {
-        add_msg_player_or_npc( _("You block with your %s!"),
-            _("<npcname> blocks with their %s!"), weapon.tname().c_str() );
-        handle_melee_wear();
-    }
-    else if (can_limb_block()) {
-        //Choose which body part to block with
-        if (can_leg_block() && can_arm_block())
-            bp_hit = one_in(2) ? bp_legs : bp_arms;
-        else if (can_leg_block())
-            bp_hit = bp_legs;
-        else
-            bp_hit = bp_arms;
-
-        // Choose what side to block with.
-        if (bp_hit == bp_legs)
-            side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
-        else
-            side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
-
-        add_msg_player_or_npc( _("You block with your %s!"),
-            _("<npcname> blocks with their %s!"),
-            body_part_name(bp_hit, side).c_str());
+        int block_bonus = 2;
+        if (weapon.has_technique("WBLOCK_3")) {
+            block_bonus = 10;
+        } else if (weapon.has_technique("WBLOCK_2")) {
+            block_bonus = 6;
+        } else if (weapon.has_technique("WBLOCK_1")) {
+            block_bonus = 4;
+        }
+        block_score = str_cur + block_bonus + (int)skillLevel("melee");
+    } else if (can_limb_block()) {
+        block_score = str_cur + (int)skillLevel("melee") + (int)skillLevel("unarmed");
     }
 
-    float phys_mult = 1.0f;
-    float block_amount;
+    // Map block_score to the logistic curve for a number between 1 and 0.
+    // Basic beginner character (str 8, skill 0, basic weapon)
+    // Will have a score around 10 and block about %15 of incoming damage.
+    // More proficient melee character (str 10, skill 4, wbock_2 weapon)
+    // will have a score of 20 and block about 45% of damage.
+    // A highly expert character (str 14, skill 8 wblock_2)
+    // will have a score in the high 20s and will block about 80% of damage.
+    // As the block score approaches 40, damage making it through will dwindle
+    // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
+    const float physical_block_multiplier = player::logistic_range( 0, 40, block_score );
+
+    float total_damage = 0.0;
+    float damage_blocked = 0.0;
     for (std::vector<damage_unit>::iterator it = dam.damage_units.begin();
             it != dam.damage_units.end(); ++it) {
+        total_damage += it->amount;
         // block physical damage "normally"
-        if (it->type == DT_BASH || it->type == DT_CUT || it->type == DT_STAB) {
+        if( it->type == DT_BASH || it->type == DT_CUT || it->type == DT_STAB ) {
             // use up our flat block bonus first
-            block_amount = std::min(total_phys_block, it->amount);
+            float block_amount = std::min(total_phys_block, it->amount);
             total_phys_block -= block_amount;
             it->amount -= block_amount;
+            damage_blocked += block_amount;
+            if( it->amount <= std::numeric_limits<float>::epsilon() ) {
+                continue;
+            }
 
-            if (can_weapon_block()) {
-                if (weapon.has_technique("WBLOCK_1")) {
-                    phys_mult = 0.4;
-                } else if (weapon.has_technique("WBLOCK_2")) {
-                    phys_mult = 0.15;
-                } else if (weapon.has_technique("WBLOCK_3")) {
-                    phys_mult = 0.05;
-                } else {
-                    phys_mult = 0.5; // always at least as good as unarmed
-                }
-            }
-            else if (can_limb_block()) {
-                phys_mult = 0.5;
-            }
-            it->amount *= phys_mult;
+            float previous_amount = it->amount;
+            it->amount *= physical_block_multiplier;
+            damage_blocked += previous_amount - it->amount;
         // non-electrical "elemental" damage types do their full damage if unarmed,
         // but severely mitigated damage if not
         } else if (it->type == DT_HEAT || it->type == DT_ACID || it->type == DT_COLD) {
             //TODO: should damage weapons if blocked
             if (!unarmed_attack() && can_weapon_block()) {
+                float previous_amount = it->amount;
                 it->amount /= 5;
+                damage_blocked += previous_amount - it->amount;
             }
         // electrical damage deals full damage if unarmed OR wielding a
         // conductive weapon
         } else if (it->type == DT_ELECTRIC) {
             if (!unarmed_attack() && can_weapon_block() && !conductive_weapon) {
+                float previous_amount = it->amount;
                 it->amount /= 5;
+                damage_blocked += previous_amount - it->amount;
             }
         }
     }
 
-    blocks_left--;
-
     ma_onblock_effects(); // fire martial arts block-triggered effects
+
+    //weapon blocks are prefered to arm blocks
+    std::string thing_blocked_with;
+    if (can_weapon_block()) {
+        thing_blocked_with = weapon.tname();
+        handle_melee_wear();
+    } else if (can_limb_block()) {
+        //Choose which body part to block with
+        if (can_leg_block() && can_arm_block()) {
+            bp_hit = one_in(2) ? bp_legs : bp_arms;
+        } else if (can_leg_block()) {
+            bp_hit = bp_legs;
+        } else {
+            bp_hit = bp_arms;
+        }
+
+        // Choose what side to block with.
+        if (bp_hit == bp_legs) {
+            side = hp_cur[hp_leg_r] > hp_cur[hp_leg_l];
+        } else {
+            side = hp_cur[hp_arm_r] > hp_cur[hp_arm_l];
+        }
+
+        thing_blocked_with = body_part_name(bp_hit, side);
+    }
+
+    std::string damage_blocked_description;
+    // good/bad/ugly add_msg color code?
+    // none, hardly any, a little, some, most, all
+    float blocked_ratio = (total_damage - damage_blocked) / total_damage;
+    if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        damage_blocked_description = _("all");
+    } else if( blocked_ratio < 0.2 ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        damage_blocked_description = _("nearly all");
+    } else if( blocked_ratio < 0.4 ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        damage_blocked_description = _("most");
+    } else if( blocked_ratio < 0.6 ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        damage_blocked_description = _("a lot");
+    } else if( blocked_ratio < 0.8 ) {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        damage_blocked_description = _("some");
+    } else if( blocked_ratio > std::numeric_limits<float>::epsilon() ){
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        damage_blocked_description = _("a little");
+    } else {
+        //~ Ajective in "You block <adjective> of the damage with your <weapon>.
+        damage_blocked_description = _("none");
+    }
+    add_msg_player_or_npc( _("You block %s of the damage with your %s!"),
+                           _("<npcname> blocks %s of the damage with their %s!"),
+                           damage_blocked_description.c_str(), thing_blocked_with.c_str() );
 
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, false, true);
