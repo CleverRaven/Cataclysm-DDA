@@ -19563,8 +19563,9 @@
 },{
         "type" : "recipe",
   "result": "battletorch_done",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
   "difficulty": 0,
   "time": 2000,
   "reversible": true,
