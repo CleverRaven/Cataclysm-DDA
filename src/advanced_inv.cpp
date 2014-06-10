@@ -593,6 +593,7 @@ void advanced_inventory::recalc_pane(int i)
                     //std::list<item> &currStack = stacks.front();
                     item *an_item = stacks[x].front();
                     advanced_inv_listitem it;
+                    int stackSize = stacks[x].size() < 1 ? 1 : stacks[x].size();
 
                     it.idx = x;
                     it.name = an_item->tname();
@@ -602,9 +603,9 @@ void advanced_inventory::recalc_pane(int i)
                     }
 
                     it.autopickup = hasPickupRule(it.name);
-                    it.stacks = stacks[x].size();
-                    it.weight = an_item->weight();
-                    it.volume = an_item->volume();
+                    it.stacks = stackSize;
+                    it.weight = an_item->weight() * stackSize;
+                    it.volume = an_item->volume() * stackSize;
                     it.cat = &(an_item->get_category());
                     it.it = an_item;
                     it.area = s;
