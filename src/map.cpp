@@ -2347,39 +2347,38 @@ std::vector<item>& map::i_at(const int x, const int y)
  return current_submap->itm[lx][ly];
 }
 
-itemstack map::i_at_stacked(const int x, const int y)
+itemslice map::i_at_stacked(const int x, const int y)
 {
     std::vector<item>& items = i_at(x,y);
 
     //create a new container for our stacked items
-    itemstack istack;
+    itemslice islice;
 
     //iterate through all items in the vector
     for (auto it = items.begin(); it != items.end(); it++) {
         bool list_exists = false;
 
         //iterate through stacked item lists
-        for(auto curr = istack.begin(); curr != istack.end(); curr++) {
+        for(auto curr = islice.begin(); curr != islice.end(); curr++) {
             //check if the ID exists
-            item &first_item = curr->front();
-            if (first_item.type->id == it->type->id) {
+            item *first_item = curr->front();
+            if (first_item->type->id == it->type->id) {
                 //we've found the list of items with the same type ID
 
                 if (it->charges != -1 && (it->is_food() || it->is_ammo())) {
                     //add charges to existing food/ammo item
-                    //stacked_items[it->type->id].charges += newit.charges;
-                    first_item.charges += it->charges;
+                    first_item->charges += it->charges;
                     list_exists = true;
                     break;
-                } else if (first_item.stacks_with(*it)) {
-                    if (first_item.is_food() && first_item.has_flag("HOT")) {
-                        int tmpcounter = (first_item.item_counter + it->item_counter) / 2;
-                        first_item.item_counter = tmpcounter;
+                } else if (first_item->stacks_with(*it)) {
+                    if (first_item->is_food() && first_item->has_flag("HOT")) {
+                        int tmpcounter = (first_item->item_counter + it->item_counter) / 2;
+                        first_item->item_counter = tmpcounter;
                         it->item_counter = tmpcounter;
                     }
 
                     //add it to the existing list
-                    curr->push_back(*it);
+                    curr->push_back(&*it);
                     list_exists = true;
                     break;
                 }
@@ -2388,16 +2387,16 @@ itemstack map::i_at_stacked(const int x, const int y)
 
         if(!list_exists) {
             //add the item to a new list
-            std::list<item> newList;
-            newList.push_back(*it);
+            std::list<item*> newList;
+            newList.push_back(&*it);
 
-            //insert the list into istack
-            istack.push_back(newList);
+            //insert the list into islice
+            islice.push_back(newList);
         }
 
     } //end items loop
 
-    return istack;
+    return islice;
 }
 
 
