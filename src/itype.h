@@ -234,9 +234,7 @@ struct itype {
         weight(0), bigness_aspect(BIGNESS_ENGINE_NULL), qualities(), corpse(NULL),
         melee_dam(0), melee_cut(0), m_to_hit(0), item_tags(), techniques(), light_emission(),
         category(NULL) 
-    { 
-        materials.push_back("null");
-    }
+    {}
 
     // I made this because the MACGUFFIN is making my ignorant C++ brain sad.
     itype(std::string pid, unsigned int pprice, std::string pname, std::string pname_plural,

@@ -1045,8 +1045,7 @@ void Item_factory::set_material_from_json(JsonObject& jo, std::string member, it
         }
     } else if (jo.has_string(member)) {
         new_item_template->materials.push_back(jo.get_string(member));
-    }
-    else {
+    } else {
         // Default material.
         new_item_template->materials.push_back("null");
     }
