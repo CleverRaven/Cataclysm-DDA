@@ -8618,8 +8618,12 @@ void game::zones_manager()
     delwin(w_zones_info);
     delwin(w_zones_info_border);
 
-    if (bStuffChanged && query_yn(_("Save changes?"))) {
-        m.save_zones();
+    if (bStuffChanged) {
+        if (query_yn(_("Save changes?"))) {
+            m.save_zones();
+        } else {
+            m.load_zones();
+        }
     }
 
     u.view_offset_x = iStoreViewOffsetX;
@@ -8692,7 +8696,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     const point pStart = point(std::min(dx, POSX), std::min(dy, POSY));
                     const point pEnd = point(std::max(dx, POSX), std::max(dy, POSY));
 
-                    point pOffset = point(0, 0); //SCII/SDL
+                    point pOffset = point(0, 0); //ASCII/SDL
                     #ifdef TILES
                     if (use_tiles) {
                         pOffset = point(offset_x + lx - u.posx, offset_y + ly - u.posy); //TILES
