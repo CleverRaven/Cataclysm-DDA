@@ -1523,7 +1523,11 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
 int vehicle::next_part_to_close(int p, bool outside)
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
-    for(std::vector<int>::iterator part_it = parts_here.begin(); part_it != parts_here.end(); ++part_it)
+
+    // We want reverse, since we close the outermost thing first (curtains), and then the innermost thing (door)
+    for(std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
+        part_it != parts_here.rend();
+        ++part_it)
     {
 
         if(part_flag(*part_it, VPFLAG_OPENABLE)
@@ -1541,9 +1545,9 @@ int vehicle::next_part_to_open(int p, bool outside)
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
 
-    // We want reverse, since we open the outermost thing first (curtains), and then the innermost thing (door)
-    for(std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
-        part_it != parts_here.rend();
+    // We want forwards, since we open the innermost thing first (curtains), and then the innermost thing (door)
+    for(std::vector<int>::iterator part_it = parts_here.begin();
+        part_it != parts_here.end();
         ++part_it)
     {
         if(part_flag(*part_it, VPFLAG_OPENABLE)
@@ -1681,16 +1685,39 @@ int vehicle::index_of_part(vehicle_part *part, bool check_removed)
  */
 int vehicle::part_displayed_at(int local_x, int local_y)
 {
+    // Z-order is implicitly defined in game::load_vehiclepart, but as
+    // numbers directly set on parts rather than constants that can be
+    // used elsewhere. A future refactor might be nice but this way
+    // it's clear where the magic number comes from.
+    const int ON_ROOF_Z = 9;
+
     std::vector<int> parts_in_square = parts_at_relative(local_x, local_y);
 
     if(parts_in_square.empty()) {
         return -1;
     }
 
+    bool in_vehicle = g->u.in_vehicle;
+    if (in_vehicle) {
+        // They're in a vehicle, but are they in /this/ vehicle?
+        std::vector<int> psg_parts = boarded_parts();
+        in_vehicle = false;
+        for (size_t p = 0; p < psg_parts.size(); ++p) {
+            if(get_passenger(psg_parts[p]) == &(g->u)) {
+                in_vehicle = true;
+                break;
+            }
+        }
+    }
+
+    int hide_z_at_or_above = (in_vehicle) ? (ON_ROOF_Z) : INT_MAX;
+
     int top_part = 0;
     for(int index = 1; index < parts_in_square.size(); index++) {
-        if(part_info(parts_in_square[top_part]).z_order <
-                part_info(parts_in_square[index]).z_order) {
+        if((part_info(parts_in_square[top_part]).z_order <
+            part_info(parts_in_square[index]).z_order) &&
+           (part_info(parts_in_square[index]).z_order <
+            hide_z_at_or_above)) {
             top_part = index;
         }
     }
