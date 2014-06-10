@@ -2144,7 +2144,7 @@
         "healthy" : -10,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "A cleansing agent made into bars. Don't drop it!",
+        "description" : "A cleansing agent made into bars.",
         "price" : 300,
         "material" : "null",
         "tool" : "null",
