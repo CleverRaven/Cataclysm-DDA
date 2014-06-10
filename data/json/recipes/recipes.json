@@ -1820,6 +1820,37 @@
   ]
 },{
         "type" : "recipe",
+  "result": "bullet_crossbow",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "archery", 2 ],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn" : [[ "recipe_bows", 1 ] , [ "manual_archery", 3] , [ "book_archery", 2]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "string_36", 3 ]
+    ],
+    [
+      [ "leather", 1 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
   "result": "rifle_22",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
