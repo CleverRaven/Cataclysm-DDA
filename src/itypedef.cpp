@@ -4,6 +4,7 @@
 #include "monstergenerator.h"
 #include "item_factory.h"
 #include <fstream>
+#include <stdexcept>
 
 std::vector<std::string> artifact_itype_ids;
 std::vector<std::string> standard_itype_ids;
@@ -17,8 +18,17 @@ bool itype::has_use() {
 }
 
 bool itype::can_use( std::string iuse_name ) {
+    const use_function* func;
+
+    try {
+        func = item_controller->get_iuse( iuse_name );
+    } catch (const std::out_of_range& e) {
+        debugmsg("itype::can_use attempted to test for invalid iuse function %s", iuse_name.c_str());
+        return false;
+    }
+
     return std::find( use_methods.cbegin(), use_methods.cend(),
-                      *item_controller->get_iuse( iuse_name ) ) != use_methods.cend();
+                      *func ) != use_methods.cend();
 }
 
 int itype::invoke( player *p, item *it, bool active ) {

@@ -457,6 +457,10 @@
    },
    {
       "type":"effect_type",
+      "id":"valium"
+   },
+   {
+      "type":"effect_type",
       "id":"damage_boost"
    },
    {

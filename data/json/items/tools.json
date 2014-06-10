@@ -2927,10 +2927,10 @@
         "sound_volume": 2,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-        "explosion_power": 200,
+        "explosion_power": 300,
         "explosion_shrapnel": 0,
         "fields_type": "fd_nuke_gas",
-        "fields_radius": 4,
+        "fields_radius": 6,
         "fields_min_density": 3,
         "fields_max_density": 3
     }
@@ -4086,7 +4086,7 @@
     "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spike. Though large and heavy compared to other spears, its accuracy and damage are unparalleled.",
     "price": 200000,
     "material": ["iron", "wood"],
-	"techniques" : ["IMPALE"],
+    "techniques" : ["IMPALE", "WBLOCK_2"],
     "flags" : ["DURABLE_MELEE", "SPEAR"],
     "weight": 8000,
     "volume": 14,

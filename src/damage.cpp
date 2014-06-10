@@ -132,10 +132,10 @@ void ammo_effects(int x, int y, const std::set<std::string> &effects)
     }
 
     if (effects.count("MININUKE_MOD")) {
-        g->explosion(x, y, 200, 0, false);
+        g->explosion(x, y, 300, 0, false);
         int junk;
-        for (int i = -4; i <= 4; i++) {
-            for (int j = -4; j <= 4; j++) {
+        for (int i = -6; i <= 6; i++) {
+            for (int j = -6; j <= 6; j++) {
                 if (g->m.sees(x, y, x + i, y + j, 3, junk) &&
                     g->m.move_cost(x + i, y + j) > 0) {
                     g->m.add_field(x + i, y + j, fd_nuke_gas, 3);

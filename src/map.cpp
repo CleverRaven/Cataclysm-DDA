@@ -1202,11 +1202,13 @@ bool map::trans(const int x, const int y)
 bool map::has_flag(const std::string &flag, const int x, const int y) const
 {
     static const std::string flag_str_BASHABLE("BASHABLE"); // construct once per runtime, slash delay 90%
+    static const std::string flag_str_REDUCE_SCENT("REDUCE_SCENT"); // construct once per runtime, slash delay 90%
     if (!INBOUNDS(x, y)) {
         return false;
     }
     // veh_at const no bueno
-    if (veh_in_active_range && veh_exists_at[x][y] && flag_str_BASHABLE == flag) {
+    if (veh_in_active_range && veh_exists_at[x][y] &&
+        (flag_str_BASHABLE == flag || flag_str_REDUCE_SCENT == flag)) {
         std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
         if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
             const int vpart = it->second.second;
@@ -1261,7 +1263,8 @@ bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
         return false;
     }
     // veh_at const no bueno
-    if (veh_in_active_range && veh_exists_at[x][y] && flag == TFLAG_BASHABLE) {
+    if (veh_in_active_range && veh_exists_at[x][y] &&
+        (flag == TFLAG_BASHABLE || flag == TFLAG_REDUCE_SCENT)) {
         std::map< std::pair<int, int>, std::pair<vehicle *, int> >::const_iterator it;
         if ((it = veh_cached_parts.find( std::make_pair(x, y) )) != veh_cached_parts.end()) {
             const int vpart = it->second.second;

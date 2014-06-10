@@ -560,7 +560,7 @@ void initOptions()
     optionNames["off"] = _("Off");
     OPTIONS["SKILL_RUST"] = cOpt("debug", _("Skill rust"),
                                  _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
-                                 "vanilla,capped,int,intcap,off", "vanilla"
+                                 "vanilla,capped,int,intcap,off", "int"
                                 );
 
     optionNames["no"] = _("No");

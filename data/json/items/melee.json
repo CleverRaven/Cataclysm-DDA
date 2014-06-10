@@ -2899,7 +2899,23 @@
     "cutting" : 0,
     "price" : 19500
   },
-
+  {
+    "type":"GENERIC",
+    "id" : "PR24",
+    "name" : "PR-24 baton",
+    "description" : "The Monadnock PR-24 baton is a collapsable, lightweight, side-handle baton used by law enforcement all over the world. The PR designation is rumoured to mean Public Relations.",
+    "weight" : 680,
+    "to_hit" : 2,
+    "color" : "dark_gray",
+    "symbol" : "/",
+    "material" : ["aluminum", "plastic"],
+    "techniques" : ["WBLOCK_2", "RAPID"],
+    "flags" : ["DURABLE_MELEE"],
+    "volume" : 4,
+    "bashing" : 13,
+    "cutting" : 0,
+    "price" : 30000
+  },
   {
     "type":"GENERIC",
     "id": "atomic_light",

@@ -11001,7 +11001,7 @@ vehicle *map::add_vehicle(std::string type, const int x, const int y, const int 
                           const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
     if(g->vtypes.count(type) == 0) {
-        debugmsg("Nonexistant vehicle type: \"%s\"", type.c_str());
+        debugmsg("Nonexistent vehicle type: \"%s\"", type.c_str());
         return NULL;
     }
     if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {

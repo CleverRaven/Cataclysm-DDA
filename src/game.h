@@ -688,7 +688,6 @@ public:
     void activity_on_turn_pulp();
     void activity_on_finish();
     void activity_on_finish_reload();
-    void activity_on_finish_read();
     void activity_on_finish_train();
     void activity_on_finish_firstaid();
     void activity_on_finish_fish();

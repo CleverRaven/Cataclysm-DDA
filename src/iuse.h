@@ -48,7 +48,6 @@ public:
     int vitamins            (player*, item*, bool);
     int vaccine             (player*, item*, bool);
     int poison              (player*, item*, bool);
-    int hallu               (player*, item*, bool);
     int fun_hallu           (player*, item*, bool);
     int thorazine           (player*, item*, bool);
     int prozac              (player*, item*, bool);

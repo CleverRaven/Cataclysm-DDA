@@ -606,6 +606,10 @@ public:
  bool install_bionics(it_bionic* type);
  /** Handles reading effects */
  void read(int pos);
+ /** Completes book reading action. **/
+ void do_read( item *book );
+ /** Note that we've read a book at least once. **/
+ bool has_identified( std::string item_id ) const;
  /** Handles sleep attempts by the player, adds DIS_LYING_DOWN */
  void try_to_sleep();
  /** Checked each turn during DIS_LYING_DOWN, returns true if the player falls asleep */
@@ -744,12 +748,13 @@ public:
  // Print a message if print_msg is true and this isn't a NPC
  bool can_pickup(bool print_msg) const;
 
- bool knows_recipe(recipe *rec);
- void learn_recipe(recipe *rec);
+ // Checks crafting inventory for books providing the requested recipe.
+ // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
+ int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
+ bool knows_recipe( const recipe *rec ) const;
+ void learn_recipe( recipe *rec );
 
- bool can_study_recipe(it_book *book);
  bool studied_all_recipes(it_book *book);
- bool try_study_recipe(it_book *book);
 
  // Auto move methods
  void set_destination(const std::vector<point> &route);
@@ -905,6 +910,8 @@ protected:
     void setID (int i);
 
 private:
+    // Items the player has identified.
+    std::unordered_set<std::string> items_identified;
      /** Check if an area-of-effect technique has valid targets */
     bool valid_aoe_technique( Creature &t, ma_technique &technique );
     bool valid_aoe_technique( Creature &t, ma_technique &technique,
@@ -912,6 +919,9 @@ private:
 
     bool has_fire(const int quantity);
     void use_fire(const int quantity);
+
+    bool can_study_recipe(it_book *book);
+    bool try_study_recipe(it_book *book);
 
     /** Search surroundings squares for traps while pausing a turn. */
     void search_surroundings();

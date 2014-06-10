@@ -1576,7 +1576,7 @@ void game::activity_on_finish() {
             activity_on_finish_reload();
             break;
         case ACT_READ:
-            activity_on_finish_read();
+            u.do_read( &(u.i_at(u.activity.position)) );
             break;
         case ACT_WAIT:
         case ACT_WAIT_WEATHER:
@@ -1670,122 +1670,6 @@ void game::activity_on_finish_reload()
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());
     }
-    u.activity.type = ACT_NULL;
-}
-
-void game::activity_on_finish_read()
-{
-    item *book_item = &(u.i_at(u.activity.position));
-    it_book *reading = dynamic_cast<it_book *>(book_item->type);
-
-    if (reading->fun != 0) {
-        int fun_bonus;
-        if(book_item->charges == 0) {
-            //Book is out of chapters -> re-reading old book, less fun
-            add_msg(_("The %s isn't as much fun now that you've finished it."),
-                    book_item->name.c_str());
-            if(one_in(6)) { //Don't nag incessantly, just once in a while
-                add_msg(m_info, _("Maybe you should find something new to read..."));
-            }
-            //50% penalty
-            fun_bonus = (reading->fun * 5) / 2;
-        } else {
-            fun_bonus = reading->fun * 5;
-        }
-        // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-        if ((u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH") || u.has_trait("SAPIOVORE")) &&
-      reading->id == "cookbook_human") {
-          fun_bonus = 25;
-            u.add_morale(MORALE_BOOK, fun_bonus, fun_bonus*3, 60, 30, true, reading);
-           } else {
-            u.add_morale(MORALE_BOOK, fun_bonus, reading->fun * 15, 60, 30, true, reading);
-        }
-    }
-
-    if(book_item->charges > 0) {
-        book_item->charges--;
-    }
-
-    bool no_recipes = true;
-    if (!reading->recipes.empty()) {
-        bool recipe_learned = u.try_study_recipe(reading);
-        if (!u.studied_all_recipes(reading)) {
-            no_recipes = false;
-        }
-
-        // for books that the player cannot yet read due to skill level or have no skill component,
-        // but contain lower level recipes, break out once recipe has been studied
-        if (reading->type == NULL || (u.skillLevel(reading->type) < (int)reading->req)) {
-            if (recipe_learned) {
-                add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
-            }
-            u.activity.type = ACT_NULL;
-            return;
-        }
-    }
-
-    if (u.skillLevel(reading->type) < (int)reading->level) {
-        int originalSkillLevel = u.skillLevel(reading->type);
-        int min_ex = reading->time / 10 + u.int_cur / 4,
-            max_ex = reading->time /  5 + u.int_cur / 2 - originalSkillLevel;
-        if (min_ex < 1) {
-            min_ex = 1;
-        }
-        if (max_ex < 2) {
-            max_ex = 2;
-        }
-        if (max_ex > 10) {
-            max_ex = 10;
-        }
-        if (max_ex < min_ex) {
-            max_ex = min_ex;
-        }
-
-        min_ex *= originalSkillLevel + 1;
-        max_ex *= originalSkillLevel + 1;
-
-        u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
-
-        add_msg(_("You learn a little about %s! (%d%%)"), reading->type->name().c_str(),
-                u.skillLevel(reading->type).exercise());
-
-        if (u.skillLevel(reading->type) == originalSkillLevel && u.activity.get_value(0) == 1) {
-            // continuously read until player gains a new skill level
-            u.activity.type = ACT_NULL;
-            u.read(u.activity.position);
-            if (u.activity.type != ACT_NULL) {
-                return;
-            }
-        }
-
-        int new_skill_level = (int)u.skillLevel(reading->type);
-        if (new_skill_level > originalSkillLevel) {
-            add_msg(m_good, _("You increase %s to level %d."),
-                    reading->type->name().c_str(),
-                    new_skill_level);
-
-            if(new_skill_level % 4 == 0) {
-                //~ %s is skill name. %d is skill level
-                u.add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
-                                   pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
-                                   new_skill_level, reading->type->name().c_str());
-            }
-        }
-
-        if (u.skillLevel(reading->type) == (int)reading->level) {
-            if (no_recipes) {
-                add_msg(m_info, _("You can no longer learn from %s."), reading->name.c_str());
-            } else {
-                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for you."),
-                        reading->name.c_str());
-            }
-        }
-    }
-
-    if (reading->has_use()) {
-        reading->invoke(&g->u, book_item, false);
-    }
-
     u.activity.type = ACT_NULL;
 }
 
@@ -3292,7 +3176,7 @@ bool game::handle_action()
         if (u.has_item_with_flag("ALARMCLOCK") && (u.hunger < -60)) {
             as_m.text = _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
             }
-        if (u.has_item_with_flag("ALARMCLOCK") && !(u.hunger < -60))
+        if ((u.has_item_with_flag("ALARMCLOCK") || u.has_bionic("bio_watch")) && !(u.hunger < -60))
         {
             as_m.entries.push_back(uimenu_entry(3, true, '3', _("Set alarm to wake up in 3 hours.") ));
             as_m.entries.push_back(uimenu_entry(4, true, '4', _("Set alarm to wake up in 4 hours.") ));
@@ -10809,36 +10693,37 @@ void game::forage()
 
 void game::eat(int pos)
 {
- if ((u.has_trait("RUMINANT") || u.has_trait("GRAZER")) && m.ter(u.posx, u.posy) == t_underbrush &&
-     query_yn(_("Eat underbrush?"))) {
-  u.moves -= 400;
-  u.hunger -= 10;
-  m.ter_set(u.posx, u.posy, t_grass);
-  add_msg(_("You eat the underbrush."));
-  return;
- }
-  if (u.has_trait("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
-     query_yn(_("Graze?"))) {
-      u.moves -= 400;
-      if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
-          add_msg(_("You eat some of the taller grass, careful to leave some growing."));
-          u.hunger -= 2;
-      }
-  else{ add_msg(_("You eat the grass."));
-        u.hunger -= 5;
-        m.ter_set(u.posx, u.posy, t_dirt);
-      }
-  return;
- }
- if (pos == INT_MIN)
-  pos = inv_type(_("Consume item:"), IC_COMESTIBLE);
+    if( (u.has_trait("RUMINANT") || u.has_trait("GRAZER")) &&
+        m.ter(u.posx, u.posy) == t_underbrush && query_yn(_("Eat underbrush?"))) {
+        u.moves -= 400;
+        u.hunger -= 10;
+        m.ter_set(u.posx, u.posy, t_grass);
+        add_msg(_("You eat the underbrush."));
+        return;
+    }
+    if (u.has_trait("GRAZER") && m.ter(u.posx, u.posy) == t_grass &&
+        query_yn(_("Graze?"))) {
+        u.moves -= 400;
+        if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
+            add_msg(_("You eat some of the taller grass, careful to leave some growing."));
+            u.hunger -= 2;
+        } else{
+            add_msg(_("You eat the grass."));
+            u.hunger -= 5;
+            m.ter_set(u.posx, u.posy, t_dirt);
+        }
+        return;
+    }
+    if (pos == INT_MIN) {
+        pos = inv_type(_("Consume item:"), IC_COMESTIBLE);
+    }
 
- if (pos == INT_MIN) {
-  add_msg(_("Never mind."));
-  return;
- }
+    if (pos == INT_MIN) {
+        add_msg(_("Never mind."));
+        return;
+    }
 
- u.consume(pos);
+    u.consume(pos);
 }
 
 void game::wear(int pos)
