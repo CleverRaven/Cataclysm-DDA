@@ -8456,6 +8456,8 @@ void game::zones_manager()
     const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
     const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
 
+    draw_ter();
+
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW* w_zones = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
@@ -8485,13 +8487,24 @@ void game::zones_manager()
     int iActive = 0;
     bool bBlink = false;
     bool bRedrawInfo = true;
+    bool bStuffChanged = false;
 
     do {
         if (action == "ADD_ZONE") {
+            zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+
+            werase(w_zones_info);
+
+            mvwprintz(w_zones_info, 3, 2, c_white, _("Select frist point."));
+            wrefresh(w_zones_info);
+
             point pFirst = look_around(w_zones_info, point(-999, -999));
             point pSecond = point(-1, -1);
 
             if (pFirst.x != -1 && pFirst.y != -1) {
+                mvwprintz(w_zones_info, 3, 2, c_white, _("Select second point."));
+                wrefresh(w_zones_info);
+
                 pSecond = look_around(w_zones_info, pFirst);
             }
 
@@ -8549,6 +8562,7 @@ void game::zones_manager()
                 }
                 bBlink = false;
                 bRedrawInfo = true;
+                bStuffChanged = true;
 
             } else if (action == "CONFIRM") {
                 uimenu as_m;
@@ -8563,9 +8577,11 @@ void game::zones_manager()
                 switch (as_m.ret) {
                     case 1:
                         m.Zones.vZones[iActive].setName();
+                        bStuffChanged = true;
                         break;
                     case 2:
                         m.Zones.vZones[iActive].setZoneType(m.Zones.getZoneTypes());
+                        bStuffChanged = true;
                         break;
                     case 3:
                         //pos lt
@@ -8578,6 +8594,9 @@ void game::zones_manager()
                 }
 
                 draw_ter();
+                zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+                zones_manager_shortcuts(w_zones_info);
+
                 bBlink = false;
                 bRedrawInfo = true;
 
@@ -8589,6 +8608,7 @@ void game::zones_manager()
                 }
                 bBlink = false;
                 bRedrawInfo = true;
+                bStuffChanged = true;
 
             } else if (action == "MOVE_ZONE_DOWN" && m.Zones.size() > 1) {
                 if (iActive > 0) {
@@ -8598,6 +8618,7 @@ void game::zones_manager()
                 }
                 bBlink = false;
                 bRedrawInfo = true;
+                bStuffChanged = true;
 
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap;
@@ -8616,18 +8637,20 @@ void game::zones_manager()
                 m.Zones.vZones[iActive].setEnabled(true);
 
                 bRedrawInfo = true;
+                bStuffChanged = true;
 
             } else if (action == "DISABLE_ZONE") {
                 m.Zones.vZones[iActive].setEnabled(false);
 
                 bRedrawInfo = true;
+                bStuffChanged = true;
             }
         }
 
         if (iZonesNum == 0) {
-            wclear(w_zones);
+            werase(w_zones);
             wrefresh(w_zones_border);
-            mvwprintz(w_zones, 10, 2, c_white, _("No Zones defined."));
+            mvwprintz(w_zones, 5, 2, c_white, _("No Zones defined."));
 
         } else if (bRedrawInfo) {
             bRedrawInfo = false;
@@ -8687,11 +8710,16 @@ void game::zones_manager()
 
             if (bBlink) {
                 //draw marked area
-                for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
-                    for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
-                        mvwputch_inv(w_terrain, iY-offset_y, iX-offset_x, c_ltgreen, '~');
+                point pOffset = point(offset_x, offset_y); //ASCII
+                #ifdef TILES
+                    if (use_tiles) {
+                        pOffset = point(0, 0); //TILES
+                    } else {
+                        pOffset = point(-offset_x, -offset_y); //SDL
                     }
-                }
+                #endif
+
+                draw_zones(pStart, pEnd, pOffset);
             } else {
                 //clear marked area
                 for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
@@ -8701,7 +8729,7 @@ void game::zones_manager()
                                      iX,
                                      iY,
                                      false,
-                                     true,
+                                     false,
                                      u.posx + u.view_offset_x,
                                      u.posy + u.view_offset_y);
                         } else {
@@ -8731,20 +8759,23 @@ void game::zones_manager()
     } while (action != "QUIT");
     inp_mngr.set_timeout(-1);
 
-    werase(w_zones);
-    werase(w_zones_border);
-    werase(w_zones_info);
-    werase(w_zones_info_border);
     delwin(w_zones);
     delwin(w_zones_border);
     delwin(w_zones_info);
     delwin(w_zones_info_border);
 
-    //TODO Check if anything has changed before saving
-    m.save_zones();
+    if (bStuffChanged) {
+        if (query_yn(_("Save changes?"))) {
+            m.save_zones();
+        } else {
+            m.load_zones();
+        }
+    }
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
+
+    refresh_all();
 }
 
 point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
@@ -8778,7 +8809,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         w_info = newwin(lookHeight, lookWidth, lookY, lookX);
         bNewWindow = true;
     }
-    draw_border(w_info);
 
     DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
 
@@ -8792,9 +8822,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action("TOGGLE_FAST_SCROLL");
 
     do {
-        wclear(w_info);
-
         if (bNewWindow) {
+            werase(w_info);
             draw_border(w_info);
         }
 
@@ -8803,7 +8832,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
         if (bSelectZone) {
             //Select Zone
-
             if (bHasFirstPoint) {
                 bBlink = !bBlink;
 
@@ -8811,32 +8839,35 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 const int dy = pairCoordsFirst.y - offset_y + u.posy - ly;
 
                 if (bBlink) {
-                    //draw marked area
-                    for (int iY=std::min(dy, POSY); iY <= std::max(dy, POSY); ++iY) {
-                        for (int iX=std::min(dx, POSX); iX <= std::max(dx, POSX); ++iX) {
-                            mvwputch_inv(w_terrain, iY, iX, c_ltgreen, '~');
-                        }
+                    const point pStart = point(std::min(dx, POSX), std::min(dy, POSY));
+                    const point pEnd = point(std::max(dx, POSX), std::max(dy, POSY));
+
+                    point pOffset = point(0, 0); //ASCII/SDL
+                    #ifdef TILES
+                    if (use_tiles) {
+                        pOffset = point(offset_x + lx - u.posx, offset_y + ly - u.posy); //TILES
                     }
+                    #endif
+
+                    draw_zones(pStart, pEnd, pOffset);
+
                 } else {
-                    for (int iY=std::min(dy, POSY); iY <= std::max(dy, POSY); ++iY) {
-                        for (int iX=std::min(dx, POSX); iX <= std::max(dx, POSX); ++iX) {
+                    for (int iY=std::min(pairCoordsFirst.y, ly); iY <= std::max(pairCoordsFirst.y, ly); ++iY) {
+                        for (int iX=std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
                             if (u_see(iX, iY)) {
                                 m.drawsq(w_terrain, u,
                                          iX,
                                          iY,
                                          false,
-                                         true,
-                                         POSX,
-                                         POSY);
+                                         false,
+                                         lx,
+                                         ly);
                             } else {
-                                const int iDY = POSY + (iY - (u.posy + u.view_offset_y));
-                                const int iDX = POSX + (iX - (u.posx + u.view_offset_x));
-
                                 if (u.has_disease("boomered")) {
-                                    mvwputch(w_terrain, iDY, iDX, c_magenta, '#');
+                                    mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_magenta, '#');
 
                                 } else {
-                                    mvwputch(w_terrain, iDY, iDX, c_black, ' ');
+                                    mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_black, ' ');
                                 }
                             }
                         }
@@ -8844,7 +8875,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 //Draw first point
-                mvwputch_inv(w_terrain, dy, dx, c_ltgreen, 'Y');
+                mvwputch_inv(w_terrain, dy, dx, c_ltgreen, 'X');
             }
 
             //Draw select cursor
@@ -8885,9 +8916,10 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             if (m.graffiti_at(lx, ly).contents) {
                 mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
             }
+
+             wrefresh(w_info);
         }
 
-        wrefresh(w_info);
         wrefresh(w_terrain);
 
         if (bSelectZone && bHasFirstPoint) {

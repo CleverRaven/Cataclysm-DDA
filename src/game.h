@@ -416,6 +416,7 @@ public:
   void draw_line(const int x, const int y, std::vector<point> ret);
   void draw_weather(weather_printable wPrint);
   void draw_sct();
+  void draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
 
 // Vehicle related JSON loaders and variables
   void load_vehiclepart(JsonObject &jo);
