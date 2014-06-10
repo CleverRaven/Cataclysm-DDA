@@ -166,38 +166,33 @@ void game::draw_weather(weather_printable wPrint)
 {
     if (use_tiles) {
         std::string weather_name;
-        /*
-        WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-        WEATHER_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
-        WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
-        */
+
         switch(wPrint.wtype) {
             // Acid weathers, uses acid droplet tile, fallthrough intended
             case WEATHER_ACID_DRIZZLE:
-            case WEATHER_ACID_RAIN: weather_name = "weather_acid_drop"; break;
+            case WEATHER_ACID_RAIN:
+                weather_name = "weather_acid_drop";
+                break;
+
             // Normal rainy weathers, uses normal raindrop tile, fallthrough intended
             case WEATHER_DRIZZLE:
             case WEATHER_RAINY:
             case WEATHER_THUNDER:
-            case WEATHER_LIGHTNING: weather_name = "weather_rain_drop"; break;
+            case WEATHER_LIGHTNING:
+                weather_name = "weather_rain_drop";
+                break;
+
             // Snowy weathers, uses snowflake tile, fallthrough intended
             case WEATHER_FLURRIES:
             case WEATHER_SNOW:
-            case WEATHER_SNOWSTORM: weather_name = "weather_snowflake"; break;
+            case WEATHER_SNOWSTORM:
+                weather_name = "weather_snowflake";
+                break;
 
             default:
                 break;
         }
-        /*
-        // may have been the culprit of slowdown. Seems to be the same speed now for both weathered and non-weathered display
-        for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
-             weather_iterator != wPrint.vdrops.end();
-             ++weather_iterator)
-        {
-            mvwputch(w_terrain, weather_iterator->second, weather_iterator->first, wPrint.colGlyph, wPrint.cGlyph);
 
-        }
-        */
         tilecontext->init_draw_weather(wPrint, weather_name);
     } else {
         for (std::vector<std::pair<int, int> >::iterator weather_iterator = wPrint.vdrops.begin();
@@ -220,6 +215,19 @@ void game::draw_sct()
 
             mvwprintz(w_terrain, iDY, iDX, msgtype_to_color(iter->getMsgType("first"), (iter->getStep() >= SCT.iMaxSteps/2)), "%s", iter->getText("first").c_str());
             wprintz(w_terrain, msgtype_to_color(iter->getMsgType("second"), (iter->getStep() >= SCT.iMaxSteps/2)), iter->getText("second").c_str());
+        }
+    }
+}
+
+void game::draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset)
+{
+    if (use_tiles) {
+        tilecontext->init_draw_zones(p_pointStart, p_pointEnd, p_pointOffset);
+    } else {
+        for (int iY=p_pointStart.y; iY <= p_pointEnd.y; ++iY) {
+            for (int iX=p_pointStart.x; iX <= p_pointEnd.x; ++iX) {
+                mvwputch_inv(w_terrain, iY+p_pointOffset.y, iX+p_pointOffset.x, c_ltgreen, '~');
+            }
         }
     }
 }

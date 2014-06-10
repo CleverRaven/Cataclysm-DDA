@@ -8265,9 +8265,6 @@ void game::zones_manager_shortcuts(WINDOW *w_info)
 
 void game::zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight, const int width)
 {
-    wclear(w_border);
-    wclear(w_info_border);
-
     for (int i = 1; i < TERMX; ++i) {
         if (i < width) {
             mvwputch(w_border, 0, i, c_ltgray, LINE_OXOX); // -
@@ -8347,13 +8344,18 @@ void game::zones_manager()
         if (action == "ADD_ZONE") {
             zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
 
+            werase(w_zones_info);
+
             mvwprintz(w_zones_info, 3, 2, c_white, _("Select frist point."));
+            wrefresh(w_zones_info);
 
             point pFirst = look_around(w_zones_info, point(-999, -999));
             point pSecond = point(-1, -1);
 
             if (pFirst.x != -1 && pFirst.y != -1) {
                 mvwprintz(w_zones_info, 3, 2, c_white, _("Select second point."));
+                wrefresh(w_zones_info);
+
                 pSecond = look_around(w_zones_info, pFirst);
             }
 
@@ -8487,7 +8489,7 @@ void game::zones_manager()
         }
 
         if (iZonesNum == 0) {
-            wclear(w_zones);
+            werase(w_zones);
             wrefresh(w_zones_border);
             mvwprintz(w_zones, 10, 2, c_white, _("No Zones defined."));
 
@@ -8549,11 +8551,16 @@ void game::zones_manager()
 
             if (bBlink) {
                 //draw marked area
-                for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
-                    for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
-                        mvwputch_inv(w_terrain, iY-offset_y, iX-offset_x, c_ltgreen, '~');
+                point pOffset = point(offset_x, offset_y); //ASCII
+                #ifdef TILES
+                    if (use_tiles) {
+                        pOffset = point(0, 0); //TILES
+                    } else {
+                        pOffset = point(-offset_x, -offset_y); //SDL
                     }
-                }
+                #endif
+
+                draw_zones(pStart, pEnd, pOffset);
             } else {
                 //clear marked area
                 for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
@@ -8563,7 +8570,7 @@ void game::zones_manager()
                                      iX,
                                      iY,
                                      false,
-                                     true,
+                                     false,
                                      u.posx + u.view_offset_x,
                                      u.posy + u.view_offset_y);
                         } else {
@@ -8593,10 +8600,6 @@ void game::zones_manager()
     } while (action != "QUIT");
     inp_mngr.set_timeout(-1);
 
-    werase(w_zones);
-    werase(w_zones_border);
-    werase(w_zones_info);
-    werase(w_zones_info_border);
     delwin(w_zones);
     delwin(w_zones_border);
     delwin(w_zones_info);
@@ -8654,7 +8657,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
     do {
         if (bNewWindow) {
-            wclear(w_info);
+            werase(w_info);
             draw_border(w_info);
         }
 
@@ -8663,7 +8666,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
 
         if (bSelectZone) {
             //Select Zone
-
             if (bHasFirstPoint) {
                 bBlink = !bBlink;
 
@@ -8671,12 +8673,18 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 const int dy = pairCoordsFirst.y - offset_y + u.posy - ly;
 
                 if (bBlink) {
-                    //draw marked area
-                    for (int iY=std::min(dy, POSY); iY <= std::max(dy, POSY); ++iY) {
-                        for (int iX=std::min(dx, POSX); iX <= std::max(dx, POSX); ++iX) {
-                            mvwputch_inv(w_terrain, iY, iX, c_ltgreen, '~');
-                        }
+                    const point pStart = point(std::min(dx, POSX), std::min(dy, POSY));
+                    const point pEnd = point(std::max(dx, POSX), std::max(dy, POSY));
+
+                    point pOffset = point(0, 0); //SCII/SDL
+                    #ifdef TILES
+                    if (use_tiles) {
+                        pOffset = point(offset_x + lx - u.posx, offset_y + ly - u.posy); //TILES
                     }
+                    #endif
+
+                    draw_zones(pStart, pEnd, pOffset);
+
                 } else {
                     for (int iY=std::min(pairCoordsFirst.y, ly); iY <= std::max(pairCoordsFirst.y, ly); ++iY) {
                         for (int iX=std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
@@ -8685,7 +8693,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                                          iX,
                                          iY,
                                          false,
-                                         true,
+                                         false,
                                          lx,
                                          ly);
                             } else {
@@ -8742,9 +8750,10 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
             if (m.graffiti_at(lx, ly).contents) {
                 mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at(lx, ly).contents->c_str());
             }
+
+             wrefresh(w_info);
         }
 
-        wrefresh(w_info);
         wrefresh(w_terrain);
 
         if (bSelectZone && bHasFirstPoint) {
