@@ -23209,24 +23209,16 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 3,
-   "time": 9000,
+   "difficulty": 1,
+   "time": 4000,
    "reversible": false,
    "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
+    {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "fish", 1 ],
+      [ "fish_cooked", 1 ],
       [ "fish_fried", 1 ]
     ],
     [
@@ -25401,20 +25393,12 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 1,
-   "time": 6000,
-   "reversible": false,
+   "difficulty": 0,
+   "time": 3000,
+   "reversible": true,
    "autolearn": true,
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
+     {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -25422,7 +25406,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "meat", 1 ]
+      [ "meat_cooked", 1 ]
     ]
   ]
 },{
@@ -25433,7 +25417,7 @@
    "skill_used": "cooking",
    "difficulty": 0,
    "time": 4000,
-   "reversible": false,
+   "reversible": true,
    "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
@@ -25506,21 +25490,13 @@
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
-   "difficulty": 1,
-   "time": 6000,
-   "reversible": false,
+   "difficulty": 0,
+   "time": 3000,
+   "reversible": true,
    "autolearn": false,
    "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
-     {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 1 ],
-      [ "fire", -1 ]
-    ]
+     {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
@@ -25528,7 +25504,7 @@
       [ "hardtack", 4]
     ],
     [
-      [ "human_flesh", 1 ]
+      [ "human_cooked", 1 ]
     ]
   ]
 },{
