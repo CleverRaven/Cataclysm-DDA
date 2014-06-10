@@ -8310,6 +8310,8 @@ void game::zones_manager()
     const int offset_x = (u.posx + u.view_offset_x) - getmaxx(w_terrain)/2;
     const int offset_y = (u.posy + u.view_offset_y) - getmaxy(w_terrain)/2;
 
+    draw_ter();
+
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
     WINDOW* w_zones = newwin(TERMY-2-iInfoHeight-VIEW_OFFSET_Y*2, width - 2, VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
@@ -8339,6 +8341,7 @@ void game::zones_manager()
     int iActive = 0;
     bool bBlink = false;
     bool bRedrawInfo = true;
+    bool bStuffChanged = false;
 
     do {
         if (action == "ADD_ZONE") {
@@ -8413,6 +8416,7 @@ void game::zones_manager()
                 }
                 bBlink = false;
                 bRedrawInfo = true;
+                bStuffChanged = true;
 
             } else if (action == "CONFIRM") {
                 uimenu as_m;
@@ -8427,9 +8431,11 @@ void game::zones_manager()
                 switch (as_m.ret) {
                     case 1:
                         m.Zones.vZones[iActive].setName();
+                        bStuffChanged = true;
                         break;
                     case 2:
                         m.Zones.vZones[iActive].setZoneType(m.Zones.getZoneTypes());
+                        bStuffChanged = true;
                         break;
                     case 3:
                         //pos lt
@@ -8442,6 +8448,9 @@ void game::zones_manager()
                 }
 
                 draw_ter();
+                zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+                zones_manager_shortcuts(w_zones_info);
+
                 bBlink = false;
                 bRedrawInfo = true;
 
@@ -8453,6 +8462,7 @@ void game::zones_manager()
                 }
                 bBlink = false;
                 bRedrawInfo = true;
+                bStuffChanged = true;
 
             } else if (action == "MOVE_ZONE_DOWN" && m.Zones.size() > 1) {
                 if (iActive > 0) {
@@ -8462,6 +8472,7 @@ void game::zones_manager()
                 }
                 bBlink = false;
                 bRedrawInfo = true;
+                bStuffChanged = true;
 
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap;
@@ -8480,18 +8491,20 @@ void game::zones_manager()
                 m.Zones.vZones[iActive].setEnabled(true);
 
                 bRedrawInfo = true;
+                bStuffChanged = true;
 
             } else if (action == "DISABLE_ZONE") {
                 m.Zones.vZones[iActive].setEnabled(false);
 
                 bRedrawInfo = true;
+                bStuffChanged = true;
             }
         }
 
         if (iZonesNum == 0) {
             werase(w_zones);
             wrefresh(w_zones_border);
-            mvwprintz(w_zones, 10, 2, c_white, _("No Zones defined."));
+            mvwprintz(w_zones, 5, 2, c_white, _("No Zones defined."));
 
         } else if (bRedrawInfo) {
             bRedrawInfo = false;
@@ -8605,11 +8618,14 @@ void game::zones_manager()
     delwin(w_zones_info);
     delwin(w_zones_info_border);
 
-    //TODO Check if anything has changed before saving
-    m.save_zones();
+    if (bStuffChanged && query_yn(_("Save changes?"))) {
+        m.save_zones();
+    }
 
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
+
+    refresh_all();
 }
 
 point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
