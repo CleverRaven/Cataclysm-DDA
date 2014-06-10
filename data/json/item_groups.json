@@ -2315,6 +2315,7 @@
       ["8mm_fmj", 1],
       ["8mm_caseless", 2],
       ["8mm_civilian", 4],
+      ["300_winmag", 6],
       ["5x50dart", 4]
     ]
   },{
