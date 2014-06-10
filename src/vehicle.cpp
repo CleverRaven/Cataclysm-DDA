@@ -1523,7 +1523,11 @@ int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken
 int vehicle::next_part_to_close(int p, bool outside)
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
-    for(std::vector<int>::iterator part_it = parts_here.begin(); part_it != parts_here.end(); ++part_it)
+
+    // We want reverse, since we close the outermost thing first (curtains), and then the innermost thing (door)
+    for(std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
+        part_it != parts_here.rend();
+        ++part_it)
     {
 
         if(part_flag(*part_it, VPFLAG_OPENABLE)
@@ -1541,9 +1545,9 @@ int vehicle::next_part_to_open(int p, bool outside)
 {
     std::vector<int> parts_here = parts_at_relative(parts[p].mount_dx, parts[p].mount_dy);
 
-    // We want reverse, since we open the outermost thing first (curtains), and then the innermost thing (door)
-    for(std::vector<int>::reverse_iterator part_it = parts_here.rbegin();
-        part_it != parts_here.rend();
+    // We want forwards, since we open the innermost thing first (curtains), and then the innermost thing (door)
+    for(std::vector<int>::iterator part_it = parts_here.begin();
+        part_it != parts_here.end();
         ++part_it)
     {
         if(part_flag(*part_it, VPFLAG_OPENABLE)
