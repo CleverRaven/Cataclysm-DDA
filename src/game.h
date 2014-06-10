@@ -211,6 +211,7 @@ public:
   void mission_step_complete(int id, int step); // Parial completion
   void process_missions(); // Process missions, see if time's run out
 
+  void long_range_teleport( tripoint destination );
   void teleport(player *p = NULL, bool add_teleglow = true);
   void plswim(int x, int y); // Called by plmove.  Handles swimming
   // when player is thrown (by impact or something)

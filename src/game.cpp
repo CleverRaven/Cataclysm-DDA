@@ -4057,6 +4057,29 @@ bool game::event_queued(event_type type)
   }
   return false;
 }
+
+void game::long_range_teleport( tripoint destination )
+{
+    //First offload the active npcs.
+    active_npc.clear();
+    m.clear_vehicle_cache();
+    m.vehicle_list.clear();
+    // Save monsters.
+    for (unsigned int i = 0; i < num_zombies(); i++) {
+        force_save_monster(zombie(i));
+    }
+    clear_zombies();
+    cur_om = &overmap_buffer.get_om_global( destination.x, destination.y );
+    levx = destination.x * 2 - int(MAPSIZE / 2);
+    levy = destination.y * 2 - int(MAPSIZE / 2);
+    levz = destination.z;
+    m.load(levx, levy, levz);
+    load_npcs();
+    m.spawn_monsters(); // Static monsters
+    update_overmap_seen();
+    draw_minimap();
+}
+
 #include "savegame.h"
 void game::debug()
 {
@@ -4101,26 +4124,8 @@ void game::debug()
 
   case 3: {
         tripoint tmp = overmap::draw_overmap();
-        if (tmp != overmap::invalid_tripoint)
-        {
-            //First offload the active npcs.
-            active_npc.clear();
-            m.clear_vehicle_cache();
-            m.vehicle_list.clear();
-            // Save monsters.
-            for (unsigned int i = 0; i < num_zombies(); i++) {
-                force_save_monster(zombie(i));
-            }
-            clear_zombies();
-            cur_om = &overmap_buffer.get_om_global(tmp.x, tmp.y);
-            levx = tmp.x * 2 - int(MAPSIZE / 2);
-            levy = tmp.y * 2 - int(MAPSIZE / 2);
-            levz = tmp.z;
-            m.load(levx, levy, levz);
-            load_npcs();
-            m.spawn_monsters(); // Static monsters
-            update_overmap_seen();
-            draw_minimap();
+        if (tmp != overmap::invalid_tripoint) {
+            long_range_teleport( tmp );
         }
     } break;
   case 4:
