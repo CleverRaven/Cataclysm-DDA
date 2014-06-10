@@ -8265,6 +8265,9 @@ void game::zones_manager_shortcuts(WINDOW *w_info)
 
 void game::zones_manager_draw_borders(WINDOW *w_border, WINDOW *w_info_border, const int iInfoHeight, const int width)
 {
+    wclear(w_border);
+    wclear(w_info_border);
+
     for (int i = 1; i < TERMX; ++i) {
         if (i < width) {
             mvwputch(w_border, 0, i, c_ltgray, LINE_OXOX); // -
@@ -8342,10 +8345,15 @@ void game::zones_manager()
 
     do {
         if (action == "ADD_ZONE") {
+            zones_manager_draw_borders(w_zones_border, w_zones_info_border, iInfoHeight, width);
+
+            mvwprintz(w_zones_info, 3, 2, c_white, _("Select frist point."));
+
             point pFirst = look_around(w_zones_info, point(-999, -999));
             point pSecond = point(-1, -1);
 
             if (pFirst.x != -1 && pFirst.y != -1) {
+                mvwprintz(w_zones_info, 3, 2, c_white, _("Select second point."));
                 pSecond = look_around(w_zones_info, pFirst);
             }
 
@@ -8632,7 +8640,6 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
         w_info = newwin(lookHeight, lookWidth, lookY, lookX);
         bNewWindow = true;
     }
-    draw_border(w_info);
 
     DebugLog() << __FUNCTION__ << ": calling handle_input() \n";
 
@@ -8646,9 +8653,8 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
     ctxt.register_action("TOGGLE_FAST_SCROLL");
 
     do {
-        wclear(w_info);
-
         if (bNewWindow) {
+            wclear(w_info);
             draw_border(w_info);
         }
 
@@ -8672,25 +8678,22 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                         }
                     }
                 } else {
-                    for (int iY=std::min(dy, POSY); iY <= std::max(dy, POSY); ++iY) {
-                        for (int iX=std::min(dx, POSX); iX <= std::max(dx, POSX); ++iX) {
+                    for (int iY=std::min(pairCoordsFirst.y, ly); iY <= std::max(pairCoordsFirst.y, ly); ++iY) {
+                        for (int iX=std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
                             if (u_see(iX, iY)) {
                                 m.drawsq(w_terrain, u,
                                          iX,
                                          iY,
                                          false,
                                          true,
-                                         POSX,
-                                         POSY);
+                                         lx,
+                                         ly);
                             } else {
-                                const int iDY = POSY + (iY - (u.posy + u.view_offset_y));
-                                const int iDX = POSX + (iX - (u.posx + u.view_offset_x));
-
                                 if (u.has_disease("boomered")) {
-                                    mvwputch(w_terrain, iDY, iDX, c_magenta, '#');
+                                    mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_magenta, '#');
 
                                 } else {
-                                    mvwputch(w_terrain, iDY, iDX, c_black, ' ');
+                                    mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_black, ' ');
                                 }
                             }
                         }
@@ -8698,7 +8701,7 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                 }
 
                 //Draw first point
-                mvwputch_inv(w_terrain, dy, dx, c_ltgreen, 'Y');
+                mvwputch_inv(w_terrain, dy, dx, c_ltgreen, 'X');
             }
 
             //Draw select cursor
