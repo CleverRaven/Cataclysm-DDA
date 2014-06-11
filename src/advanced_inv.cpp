@@ -128,10 +128,12 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     int columns = getmaxx( window );
     int rightcol = columns - 8;
     int amount_column = columns - 15;
+    int src_column = columns - 19;
     nc_color norm = active ? c_white : c_dkgray;
     std::string spaces(getmaxx(window) - 4, ' ');
     bool compact = (TERMX <= 100);
 
+    //print inventory's current and total weight + volume
     if(isinventory) {
         //right align
         int hrightcol = columns -
@@ -152,7 +154,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         }
         wprintz(window, color, "%d", g->u.volume_carried() );
         wprintz(window, c_ltgray, "/%d ", g->u.volume_capacity() - 2 );
-    } else {
+    } else { //print square's current and total weight + volume
         std::string head;
         if (isall) {
             head = string_format("%3.1f %3d",
@@ -176,7 +178,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
     if (isall) {
         //~ advanced inventory; "source", "weight", "volume"; 14 letters
-        mvwprintz( window, 5, rightcol - 7, c_ltgray, _("src weight vol") );
+        mvwprintz( window, 5, rightcol - 11, c_ltgray, _("src amt weight vol") );
     } else{
         //~ advanced inventory; "amount", "weight", "volume"; 14 letters
         mvwprintz( window, 5, rightcol - 7, c_ltgray, _("amt weight vol") );
@@ -201,6 +203,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
                 }
 
             }
+            //print item name
             mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname().c_str() );
 
             // Show count of contents (e.g. amount of liquid in container)
@@ -211,12 +214,15 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
                 wprintz(window, thiscolor, " (%d)", items[i].it->charges);
             }
 
+            //print src column
+            if ( isall ) {
+                mvwprintz(window, 6 + x, src_column, thiscolor, "%s",
+                          squares[items[i].area].shortname.c_str());
+            }
+
             //print "amount" column
             if( items[i].stacks > 1 ) {
                 mvwprintz(window, 6 + x, amount_column, thiscolor, "x %d", items[i].stacks);
-            } else if ( isall ) {
-                mvwprintz(window, 6 + x, amount_column, thiscolor, "%s",
-                          squares[items[i].area].shortname.c_str());
             }
 
             int xrightcol = rightcol;
