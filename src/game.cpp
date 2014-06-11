@@ -4069,9 +4069,11 @@ void game::long_range_teleport( tripoint destination )
         force_save_monster(zombie(i));
     }
     clear_zombies();
-    cur_om = &overmap_buffer.get_om_global( destination.x, destination.y );
-    levx = destination.x * 2 - int(MAPSIZE / 2);
-    levy = destination.y * 2 - int(MAPSIZE / 2);
+    int tmpx = destination.x / 2;
+    int tmpy = destination.y / 2;
+    cur_om = &overmap_buffer.get_om_global( tmpx, tmpy );
+    levx = destination.x - int(MAPSIZE / 2);
+    levy = destination.y - int(MAPSIZE / 2);
     levz = destination.z;
     m.load(levx, levy, levz);
     load_npcs();
@@ -4125,6 +4127,8 @@ void game::debug()
   case 3: {
         tripoint tmp = overmap::draw_overmap();
         if (tmp != overmap::invalid_tripoint) {
+            tmp.x *= 2;
+            tmp.y *= 2;
             long_range_teleport( tmp );
         }
     } break;
