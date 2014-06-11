@@ -3269,7 +3269,7 @@
     "description": "A long strip of braided leather with a handle on one end. Originally developed to settle disagreements with cattle, it's better used now for flaying the rotten flesh off of walking corpses.  Great for when a problem comes along.",
     "price": 250000,
     "material": ["leather", "null"],
-    "flags": ["NO_AMMO"],
+    "flags": ["NO_AMMO", "WATERPROOF_GUN", "NEVER_JAMS"],
     "ammo_effects": ["WHIP"],
     "skill": "melee",
     "ammo": "generic_no_ammo",
