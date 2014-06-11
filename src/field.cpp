@@ -1140,7 +1140,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_portal:
                         // Update to point the other end at a random location.
                         if( one_in( 20 ) ) {
-                            cur->setFieldAge( rng( -INT_MAX, INT_MAX ) );
+                            cur->setFieldAge( rng( 0, INT_MAX ) );
                         }
                         break;
                 } // switch (curtype)
