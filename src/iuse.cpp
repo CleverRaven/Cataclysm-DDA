@@ -1087,7 +1087,7 @@ int iuse::anticonvulsant(player *p, item *it, bool) {
     p->add_msg_if_player(_("You take some anticonvulsant medication."));
     int duration = 4800 - p->str_cur * rng(0,100);
     if (p->has_trait("TOLERANCE")) {
-            duration -= 600; // Symmetry would cause problems :-/
+            duration -= 600;
         }
     if (p->has_trait("LIGHTWEIGHT")) {
         duration += 1200;
