@@ -1403,9 +1403,9 @@ void game::rustCheck()
         if (u.rust_rate() <= rng(0, 1000)) continue;
 
         if ((*aSkill)->is_combat_skill() &&
-            (u.has_trait("PRED2") && one_in(4) ||
-             u.has_trait("PRED3") && one_in(2) ||
-             u.has_trait("PRED4") && x_in_y(2, 3))) {
+            ( (u.has_trait("PRED2") && one_in(4)) ||
+             (u.has_trait("PRED3") && one_in(2)) ||
+             (u.has_trait("PRED4") && x_in_y(2, 3)) )) {
             // Their brain is optimized to remember this
             if (one_in(15600)) {
                 // They've already passed the roll to avoid rust at
@@ -10289,7 +10289,7 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item>& items = m.i_at(u.posx, u.posy);
     inventory crafting_inv = crafting_inventory(&u);
-    
+
     // check if we have a butchering tool
     if (factor == INT_MAX) {
         add_msg(m_info, _("You don't have a sharp item to butcher with."));
