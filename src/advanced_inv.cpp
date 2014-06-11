@@ -579,18 +579,13 @@ void advanced_inventory::recalc_pane(int i)
 
             if ( panes[idest].area != s && squares[s].canputitems &&
                  !isDirectionalDragged(s, panes[idest].area)) {
-//                std::vector<item> &items = squares[s].vstor >= 0 ?
-//                                           squares[s].veh->parts[squares[s].vstor].items :
-//                                           m.i_at(squares[s].x , squares[s].y );
 
-                //IMPORTANT: Re-implement vehicle item stacks
-
-                const itemslice &stacks = m.i_at_stacked(squares[s].x , squares[s].y );
+                const itemslice &stacks = squares[s].vstor >= 0 ?
+                                           m.i_stacked(squares[s].veh->parts[squares[s].vstor].items) :
+                                           m.i_stacked(m.i_at(squares[s].x , squares[s].y ));
 
                 //loop through lists of item stacks
                 for (unsigned x = 0; x < stacks.size(); x++) {
-                //for(auto currStack = stacks.begin(); currStack != stacks.end(); currStack++) {
-                    //std::list<item> &currStack = stacks.front();
                     item *an_item = stacks[x].front();
                     advanced_inv_listitem it;
                     int stackSize = stacks[x].size() < 1 ? 1 : stacks[x].size();

@@ -2347,10 +2347,8 @@ std::vector<item>& map::i_at(const int x, const int y)
  return current_submap->itm[lx][ly];
 }
 
-itemslice map::i_at_stacked(const int x, const int y)
+itemslice map::i_stacked(std::vector<item>& items)
 {
-    std::vector<item>& items = i_at(x,y);
-
     //create a new container for our stacked items
     itemslice islice;
 

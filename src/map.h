@@ -38,7 +38,6 @@ struct wrapped_vehicle{
 };
 
 typedef std::vector<wrapped_vehicle> VehicleList;
-//typedef std::list< std::list<item> > itemstack;
 typedef std::vector< std::list<item*> > itemslice;
 
 /**
@@ -374,7 +373,7 @@ void add_corpse(int x, int y);
 
 // Items
  std::vector<item>& i_at(int x, int y);
- itemslice i_at_stacked(int x, int y);
+ itemslice i_stacked(std::vector<item>& items);
  item water_from(const int x, const int y);
  item swater_from(const int x, const int y);
  item acid_from(const int x, const int y);
