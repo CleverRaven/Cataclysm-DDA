@@ -727,7 +727,7 @@ void initOptions()
                                  );
 
     OPTIONS["AUTO_PICKUP_ADJACENT"] = cOpt("general", _("Auto pickup adjacent"),
-                                           _("If true will enable to pickup items one tile around to the player."),
+                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pikcup zones with the Zones Manager 'Y' key for eg. your homebase."),
                                            false
                                           );
 

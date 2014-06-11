@@ -5099,6 +5099,10 @@ void map::add_road_vehicles(bool city, int facing)
 
 map::clZones::clZones()
 {
+    //Add new zone types here
+    //Use: if (g->checkZone("ZONE_NAME", posx, posy)) {
+    //to check for a zone
+
     vZoneTypes.push_back(std::make_pair(_("No Auto Pickup"), "NO_AUTO_PICKUP"));
 }
 
@@ -5159,15 +5163,17 @@ void map::clZones::cacheZoneData()
     mZones.clear();
 
     for (int i=0; i < vZones.size(); ++i) {
-        const std::string sType = vZones[i].getZoneType();
+        if (vZones[i].getEnabled()) {
+            const std::string sType = vZones[i].getZoneType();
 
-        point pStart = vZones[i].getStartPoint();
-        point pEnd = vZones[i].getEndPoint();
+            point pStart = vZones[i].getStartPoint();
+            point pEnd = vZones[i].getEndPoint();
 
-        //draw marked area
-        for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
-            for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
-                mZones[sType].insert((iX * 100000) + iY);
+            //draw marked area
+            for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
+                for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
+                    mZones[sType].insert((iX * 100000) + iY);
+                }
             }
         }
     }
@@ -5175,6 +5181,7 @@ void map::clZones::cacheZoneData()
 
 bool map::clZones::hasZone(const std::string p_sType, const point p_pointInput)
 {
+    //sure two ints as one unique int
     unsigned int iTemp = (p_pointInput.x * 100000) + p_pointInput.y;
     return (mZones[p_sType].find(iTemp) != mZones[p_sType].end());
 }

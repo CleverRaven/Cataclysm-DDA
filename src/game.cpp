@@ -8665,7 +8665,7 @@ void game::zones_manager()
 
             point pointPlayer = m.getabs(u.posx, u.posy);
 
-            //Display safed zones
+            //Display saved zones
             for (size_t i = 0; i < iZonesNum; ++i) {
                 if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iZonesNum) ? iZonesNum : iMaxRows)) {
                     nc_color colorLine = (m.Zones.vZones[i].getEnabled()) ? c_white : c_ltgray;
@@ -8674,8 +8674,10 @@ void game::zones_manager()
                         colorLine = (m.Zones.vZones[i].getEnabled()) ? c_ltgreen : c_green;
                     }
 
+                    mvwprintz(w_zones, iNum - iStartPos, 0, c_yellow, "%s", ">>");
+
                     //Draw Zone name
-                    mvwprintz(w_zones, iNum - iStartPos, 1, colorLine, "%s",
+                    mvwprintz(w_zones, iNum - iStartPos, 3, colorLine, "%s",
                               m.Zones.vZones[iNum].getName().c_str());
 
                     //Draw Type name
@@ -8684,6 +8686,7 @@ void game::zones_manager()
 
                     point pCenter = m.Zones.vZones[i].getCenterPoint();
 
+                    //Draw direction + distance
                     mvwprintz(w_zones, iNum - iStartPos, 35, colorLine, "%*d %s",
                               5, trig_dist(pCenter.x,
                                            pCenter.y,
@@ -8722,26 +8725,32 @@ void game::zones_manager()
                 draw_zones(pStart, pEnd, pOffset);
             } else {
                 //clear marked area
-                for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
-                    for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
-                        if (u_see(iX, iY)) {
-                            m.drawsq(w_terrain, u,
-                                     iX,
-                                     iY,
-                                     false,
-                                     false,
-                                     u.posx + u.view_offset_x,
-                                     u.posy + u.view_offset_y);
-                        } else {
-                            if (u.has_disease("boomered")) {
-                                mvwputch(w_terrain, iY-offset_y, iX-offset_x, c_magenta, '#');
-
+                #ifdef TILES
+                if (!use_tiles) {
+                #endif
+                    for (int iY=pStart.y; iY <= pEnd.y; ++iY) {
+                        for (int iX=pStart.x; iX <= pEnd.x; ++iX) {
+                            if (u_see(iX, iY)) {
+                                m.drawsq(w_terrain, u,
+                                         iX,
+                                         iY,
+                                         false,
+                                         false,
+                                         u.posx + u.view_offset_x,
+                                         u.posy + u.view_offset_y);
                             } else {
-                                mvwputch(w_terrain, iY-offset_y, iX-offset_x, c_black, ' ');
+                                if (u.has_disease("boomered")) {
+                                    mvwputch(w_terrain, iY-offset_y, iX-offset_x, c_magenta, '#');
+
+                                } else {
+                                    mvwputch(w_terrain, iY-offset_y, iX-offset_x, c_black, ' ');
+                                }
                             }
                         }
                     }
+                #ifdef TILES
                 }
+                #endif
             }
 
             wrefresh(w_terrain);
@@ -8852,26 +8861,32 @@ point game::look_around(WINDOW *w_info, const point pairCoordsFirst)
                     draw_zones(pStart, pEnd, pOffset);
 
                 } else {
-                    for (int iY=std::min(pairCoordsFirst.y, ly); iY <= std::max(pairCoordsFirst.y, ly); ++iY) {
-                        for (int iX=std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
-                            if (u_see(iX, iY)) {
-                                m.drawsq(w_terrain, u,
-                                         iX,
-                                         iY,
-                                         false,
-                                         false,
-                                         lx,
-                                         ly);
-                            } else {
-                                if (u.has_disease("boomered")) {
-                                    mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_magenta, '#');
-
+                    #ifdef TILES
+                    if (!use_tiles) {
+                    #endif
+                        for (int iY=std::min(pairCoordsFirst.y, ly); iY <= std::max(pairCoordsFirst.y, ly); ++iY) {
+                            for (int iX=std::min(pairCoordsFirst.x, lx); iX <= std::max(pairCoordsFirst.x, lx); ++iX) {
+                                if (u_see(iX, iY)) {
+                                    m.drawsq(w_terrain, u,
+                                             iX,
+                                             iY,
+                                             false,
+                                             false,
+                                             lx,
+                                             ly);
                                 } else {
-                                    mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_black, ' ');
+                                    if (u.has_disease("boomered")) {
+                                        mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_magenta, '#');
+
+                                    } else {
+                                        mvwputch(w_terrain, iY - offset_y - ly + u.posy, iX - offset_x - lx + u.posx, c_black, ' ');
+                                    }
                                 }
                             }
                         }
+                    #ifdef TILES
                     }
+                    #endif
                 }
 
                 //Draw first point
@@ -10884,7 +10899,7 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item>& items = m.i_at(u.posx, u.posy);
     inventory crafting_inv = crafting_inventory(&u);
-    
+
     // check if we have a butchering tool
     if (factor == INT_MAX) {
         add_msg(m_info, _("You don't have a sharp item to butcher with."));
