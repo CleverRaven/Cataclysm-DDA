@@ -4682,6 +4682,41 @@ void map::build_transparency_cache()
     transparency_cache_dirty = false;
 }
 
+tripoint map::calculate_portal_destination( int portal_value )
+{
+    portal_value = std::abs(portal_value);
+    int z = -portal_value % 10;
+    z = 0;
+    portal_value /= 1 << 5;
+
+    // Temporary measure, pick a random point on the current overmap.
+    int x = 5 + portal_value % 170;
+    portal_value /= 170;
+    int y = 5 + portal_value % 180;
+    /*
+    // TODO: pick a random very wide offset, calculate what overmap it ends up in,
+    // and load the map there.
+    // Extract next 13 bits for x, subtract 2^13 to shift the result into the range -2^12, 2^12.
+    int x = (portal_value % (2 << 13)) - (2 << 13);
+    portal_value /= 2 << 13;
+    // And last 13 bits for y, discard the highest bit.
+    int y = (portal_value % (2 << 13)) - (2 << 13);
+    */
+    return tripoint( x, y, z );
+}
+
+int map::get_portal_value( tripoint destination )
+{
+    int value = 0;
+    value += destination.y - 5;
+    value *= 170;
+    value += destination.x - 5;
+    value *= 170;
+    // z is 0 for now;
+    return value;
+}
+
+
 void map::load_portal_destination()
 {
     // Todo: manage the lifetime here, don't need to delete and recreate every turn.
@@ -4697,27 +4732,12 @@ void map::load_portal_destination()
         point portal_location = *(portal_cache.begin());
         int portal_value = get_field_age( portal_location, fd_portal );
         // Extract low order 5 bits for level, but mod 10.
-        int z = -(portal_value % 10);
-        portal_value /= 1 << 5;
-
-        // Temporary measure, pick a random point on the current overmap.
-        int x = 5 + portal_value % 170;
-        portal_value /= 170;
-        int y = 5 + portal_value % 180;
-/*
-        // TODO: pick a random very wide offset, calculate what overmap it ends up in,
-        // and load the map there.
-        // Extract next 13 bits for x, subtract 2^13 to shift the result into the range -2^12, 2^12.
-        int x = (portal_value % (2 << 13)) - (2 << 13);
-        portal_value /= 2 << 13;
-        // And last 13 bits for y, discard the highest bit.
-        int y = (portal_value % (2 << 13)) - (2 << 13);
-*/
+        tripoint portal_destination_point = calculate_portal_destination( portal_value );
 
         portal_destination = new map();
         // Does this need to be update_vehicles = false?
-        x = 90, y = 90, z = 0;
-        portal_destination->load( x, y, z, false);
+        portal_destination->load( portal_destination_point.x, portal_destination_point.y,
+                                  portal_destination_point.z, false);
         portal_destination->build_outside_cache();
         portal_destination->build_transparency_cache();
     }

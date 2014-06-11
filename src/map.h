@@ -572,6 +572,8 @@ private:
  submap* grid[MAPSIZE * MAPSIZE];
  std::map<trap_id, std::set<point> > traplocs;
  std::set<point> portal_cache;
+ tripoint calculate_portal_destination( int portal_value );
+ int get_portal_value( tripoint destination );
  void load_portal_destination();
  bool portal_seen;
  bool in_portal;
