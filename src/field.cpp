@@ -1481,6 +1481,25 @@ void map::step_in_field(int x, int y)
                     break;
                 }
             }
+            break;
+
+        case fd_portal:
+            if( portal_destination ) {
+                // Create a portal at the destination if there isn't one already.
+                portal_destination->add_field( point( g->u.xpos(), g->u.ypos() ), fd_portal, 1,
+                                               get_portal_value(tripoint(g->levx, g->levy, g->levz)) );
+
+                tripoint portal_dest = calculate_portal_destination(
+                    get_field_age( point( g->u.xpos(), g->u.ypos() ), fd_portal) );
+                portal_dest.x += 5;
+                portal_dest.y += 5;
+                // Again, stop leaking maps...
+                portal_destination = NULL;
+                g->long_range_teleport( portal_dest );
+
+                // Just bail out.
+                return;
+            }
         }
         ++field_list_it;
     }
