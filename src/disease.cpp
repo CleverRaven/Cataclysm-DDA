@@ -550,7 +550,7 @@ void dis_effect(player &p, disease &dis)
                             break;
                     }
                     break;
-                case bp_eyes:// Eyes are not susceptible by this disease.
+                case bp_eyes:// Eyes are not susceptible to this disease.
                 case num_bp: // Suppress compiler warning [-Wswitch]
                     break;
             }
@@ -2725,6 +2725,16 @@ void manage_sleep(player& p, disease& dis)
     if (int(calendar::turn) % 70 == 0 && !p.has_bionic("bio_recycler") && (p.hunger < -60)) {
         p.hunger--;
         p.thirst--;
+    }
+    
+    if (int(calendar::turn) % 100 == 0 && p.has_trait("CHLOROMORPH")) {
+        // Hunger and thirst fall before your Chloromorphic physiology!
+        if (p.hunger >= -30) {
+            p.hunger -= 5;
+        }
+        if (p.thirst >= -30) {
+            p.thirst -= 5;
+        }
     }
 
     // Check mutation category strengths to see if we're mutated enough to get a dream

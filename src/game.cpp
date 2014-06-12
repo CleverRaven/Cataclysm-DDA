@@ -1475,10 +1475,10 @@ void game::activity_on_turn() {
             if ( (u.has_trait("ROOTS2") || (u.has_trait("ROOTS3"))) &&
               m.has_flag("DIGGABLE", u.posx, u.posy) &&
               (!(u.wearing_something_on(bp_feet))) ) {
-                // Should average a point per minute or so; ground isn't uniformly fertile
+                // Should average a point every two minutes or so; ground isn't uniformly fertile
                 // If being able to "overfill" is a serious balance issue, will revisit
                 // Otherwise, nutrient intake via roots can fill past the "Full" point, WAI
-                if (one_in(10)){
+                if (one_in(20)){
                     u.hunger--;
                     u.thirst--;
                     if (u.health <= 5) {
@@ -1517,7 +1517,7 @@ void game::activity_on_turn() {
             if ( (u.has_trait("ROOTS2") || (u.has_trait("ROOTS3"))) &&
             m.has_flag("DIGGABLE", u.posx, u.posy) &&
             (!(u.wearing_something_on(bp_feet))) ) {
-                if (one_in(10)){
+                if (one_in(20)){
                     u.hunger--;
                     u.thirst--;
                     if (u.health <= 5) {
@@ -1554,7 +1554,7 @@ void game::activity_on_turn_game()
     if ( (u.has_trait("ROOTS2") || (u.has_trait("ROOTS3"))) &&
       m.has_flag("DIGGABLE", u.posx, u.posy) &&
       (!(u.wearing_something_on(bp_feet))) ) {
-        if (one_in(10)){
+        if (one_in(20)){
             u.hunger--;
             u.thirst--;
             if (u.health <= 5) {
