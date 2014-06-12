@@ -25017,7 +25017,8 @@
    "difficulty": 3,
    "time": 8000,
    "reversible": false,
-   "autolearn": true,
+   "autolearn": false,
+   "book_learn": [[ "cookbook_human", 2 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
      {"id":"COOK","level":2,"amount":1}
@@ -25362,7 +25363,8 @@
    "difficulty": 1,
    "time": 8000,
    "reversible": false,
-   "autolearn": true,
+   "autolearn": false,
+   "book_learn": [[ "cookbook_human", 1 ]],
    "qualities" : [
      {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
@@ -25494,8 +25496,7 @@
    "difficulty": 0,
    "time": 3000,
    "reversible": true,
-   "autolearn": false,
-   "book_learn": [[ "cookbook_human", 1 ]],
+   "autolearn": true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
   ],
