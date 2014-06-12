@@ -5868,8 +5868,7 @@
   "difficulty": 0,
   "time": 5000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_human", 0 ]],
+  "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1,"amount":1}
   ], "tools": [
