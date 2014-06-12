@@ -2351,6 +2351,57 @@ std::vector<item>& map::i_at(const int x, const int y)
  return current_submap->itm[lx][ly];
 }
 
+itemslice map::i_stacked(std::vector<item>& items)
+{
+    //create a new container for our stacked items
+    itemslice islice;
+
+    //iterate through all items in the vector
+    for (auto it = items.begin(); it != items.end(); it++) {
+        bool list_exists = false;
+
+        //iterate through stacked item lists
+        for(auto curr = islice.begin(); curr != islice.end(); curr++) {
+            //check if the ID exists
+            item *first_item = curr->front();
+            if (first_item->type->id == it->type->id) {
+                //we've found the list of items with the same type ID
+
+                if (it->charges != -1 && (it->is_food() || it->is_ammo())) {
+                    //add charges to existing food/ammo item
+                    first_item->charges += it->charges;
+                    list_exists = true;
+                    break;
+                } else if (first_item->stacks_with(*it)) {
+                    if (first_item->is_food() && first_item->has_flag("HOT")) {
+                        int tmpcounter = (first_item->item_counter + it->item_counter) / 2;
+                        first_item->item_counter = tmpcounter;
+                        it->item_counter = tmpcounter;
+                    }
+
+                    //add it to the existing list
+                    curr->push_back(&*it);
+                    list_exists = true;
+                    break;
+                }
+            }
+        }
+
+        if(!list_exists) {
+            //add the item to a new list
+            std::list<item*> newList;
+            newList.push_back(&*it);
+
+            //insert the list into islice
+            islice.push_back(newList);
+        }
+
+    } //end items loop
+
+    return islice;
+}
+
+
 bool map::sees_some_items(int x, int y, const player &u)
 {
     if(i_at(x, y).empty()) {
