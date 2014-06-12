@@ -1401,6 +1401,28 @@ void game::rustCheck()
     for (std::vector<Skill*>::iterator aSkill = ++Skill::skills.begin();
          aSkill != Skill::skills.end(); ++aSkill) {
         if (u.rust_rate() <= rng(0, 1000)) continue;
+
+        if ((*aSkill)->is_combat_skill() &&
+            ( (u.has_trait("PRED2") && one_in(4)) ||
+             (u.has_trait("PRED3") && one_in(2)) ||
+             (u.has_trait("PRED4") && x_in_y(2, 3)) )) {
+            // Their brain is optimized to remember this
+            if (one_in(15600)) {
+                // They've already passed the roll to avoid rust at
+                // this point, but print a message about it now and
+                // then.
+                //
+                // 13 combat skills, 600 turns/hr, 7800 tests/hr.
+                // This means PRED2/PRED3/PRED4 think of hunting on
+                // average every 8/4/3 hours, enough for immersion
+                // without becoming an annoyance.
+                //
+                add_msg(_("Your heart races as you recall your most recent hunt."));
+                u.stim++;
+            }
+            continue;
+        }
+
         bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 0;
         int oldSkillLevel = u.skillLevel(*aSkill);
 
@@ -10266,7 +10288,7 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<item>& items = m.i_at(u.posx, u.posy);
     inventory crafting_inv = crafting_inventory(&u);
-    
+
     // check if we have a butchering tool
     if (factor == INT_MAX) {
         add_msg(m_info, _("You don't have a sharp item to butcher with."));

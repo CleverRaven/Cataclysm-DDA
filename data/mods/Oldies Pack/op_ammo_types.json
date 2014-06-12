@@ -13,12 +13,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "300",
-        "name" : ".300",
-        "default" : "300_winmag"
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "ammo_flintlock",
         "name" : "paper cartridge",
         "default" : ""

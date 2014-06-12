@@ -1156,6 +1156,8 @@ void make_gun_sound_effect(player &p, bool burst, item* weapon)
 
  if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, _("Thunk!"));
+ else if (weapon->type->id == "hk_g80")
+  g->sound(p.posx, p.posy, 24, _("tz-CRACKck!"));
  else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm" ||
      weapon->curammo->type == "84x246mm" || weapon->curammo->type == "m235")
   g->sound(p.posx, p.posy, 4, _("Fwoosh!"));
