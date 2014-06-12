@@ -432,6 +432,8 @@ void player::serialize(JsonOut &json) const
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
 
+    json.member( "stamina", stamina);
+
     // crafting etc
     json.member( "activity", activity );
     json.member( "backlog", backlog );
@@ -539,6 +541,8 @@ void player::deserialize(JsonIn &jsin)
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
     data.read( "keep_hands_free", keep_hands_free );
+
+    data.read( "stamina", stamina);
 
     set_highest_cat_level();
     drench_mut_calc();

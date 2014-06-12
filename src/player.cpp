@@ -255,6 +255,7 @@ void player::normalize()
     for (int i = 0 ; i < num_bp; i++) {
         temp_conv[i] = BODYTEMP_NORM;
     }
+    stamina = get_stamina_max();
 }
 
 std::string player::disp_name(bool possessive) const
@@ -1702,6 +1703,13 @@ int player::run_cost(int base_cost, bool diag)
         movecost += 10 * footwear_factor();
     }
 
+    if (!run) movecost += 40;
+       else {
+           int percent = get_stamina_percent();
+           int bonus = ( (percent > 25) ? ( (percent - 25) / -7.5 ) : ( (25 - percent) * 1.6 ) );
+           movecost += bonus;
+       }
+
     if (diag) {
         movecost *= 1.4142;
     }
@@ -2208,6 +2216,11 @@ void player::mod_stat( std::string stat, int modifier )
         fatigue += modifier;
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
+    } else if( stat == "stamina" ) {
+        stamina += modifier;
+        if ( stamina < 0 ) stamina = 0;
+        int max = get_stamina_max();
+        if ( stamina > max ) stamina = max;
     } else {
         // Fall through to the creature method.
         Creature::mod_stat( stat, modifier );
@@ -3637,6 +3650,12 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     else if (morale_cur > -200) morale_str = "D:";
     else                        morale_str = "D8";
     mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 10, col_morale, morale_str);
+ if (!in_vehicle) {
+    std::string sta_bar = "";
+    nc_color sta_color;
+    get_HP_Bar(stamina , get_stamina_max(), sta_color, sta_bar);
+    mvwprintz(w, sideStyle ? 2 : 2, sideStyle ? 7 : 10, sta_color, ("Sta  "+sta_bar).c_str());
+    }
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
@@ -13077,6 +13096,14 @@ int player::get_hp_max( hp_part bp ) const
         hp_total += hp_max[i];
     }
     return hp_total;
+}
+
+int player::get_stamina_max() {
+    return get_str_base() * 150;
+}
+
+int player::get_stamina_percent() {
+    return (int)(((double)stamina / (double)get_stamina_max()) * 100 );
 }
 
 field_id player::playerBloodType() const {

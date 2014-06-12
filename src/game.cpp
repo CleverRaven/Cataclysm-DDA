@@ -634,6 +634,7 @@ void game::start_game(std::string worldname)
 
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
+    u.stamina = u.get_stamina_max();
     nextspawn = int(calendar::turn);
     temperature = 65; // Springtime-appropriate?
     update_weather(); // Springtime-appropriate, definitely.
@@ -1133,6 +1134,16 @@ bool game::do_turn()
         m.spawn_monsters( false );
     }
 
+    if (u.stamina < u.get_stamina_max()) u.stamina += 10;
+    if (u.move) {
+        int sta_mod = u.run ? -15 : -7;
+        sta_mod += u.swim ? -10 : 0;
+        int d_sta = sta_mod - (int)((double)u.weight_carried() / u.weight_capacity() ) * sta_mod;
+        u.mod_stat("stamina", d_sta );
+        //debug
+        //add_msg(m_info,"Stamina:%i/%i mod:%i",u.stamina,u.get_stamina_max(), d_sta);
+        if (u.stamina == 0 && u.run ) u.run = false;
+    }
     // Check if we've overdosed... in any deadly way.
     if (u.stim > 250) {
         add_msg(m_bad, _("You have a sudden heart attack!"));
@@ -2067,6 +2078,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("shift_sw");
     ctxt.register_action("shift_w");
     ctxt.register_action("shift_nw");
+    ctxt.register_action("switch_run");
     ctxt.register_action("open");
     ctxt.register_action("close");
     ctxt.register_action("smash");
@@ -2540,6 +2552,7 @@ bool game::handle_action()
     // Use to track if auto-move should be cancelled due to a failed
     // move or obstacle
     bool continue_auto_move = false;
+    u.move = false; u.swim = false;
 
     // quit prompt check (ACTION_QUIT only grabs 'Q')
     if(uquit == QUIT_WATCH && action == "QUIT") {
@@ -2617,6 +2630,11 @@ bool game::handle_action()
             if( check_save_mode_allowed() ) {
                 u.pause();
             }
+            break;
+
+        case ACTION_SWITCH_RUN:
+            u.run = !u.run;
+            add_msg(m_info, u.run?"You run":"You walk");
             break;
 
         case ACTION_MOVE_N:
@@ -12268,6 +12286,8 @@ void game::plswim(int x, int y)
     if( u.in_vehicle ) {
         m.unboard_vehicle( u.posx(), u.posy() );
     }
+    u.move = true;
+    u.swim = true;
     u.setx( x );
     u.sety( y );
     {
