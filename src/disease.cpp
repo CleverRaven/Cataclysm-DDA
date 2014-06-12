@@ -2727,7 +2727,8 @@ void manage_sleep(player& p, disease& dis)
         p.thirst--;
     }
     
-    if (int(calendar::turn) % 100 == 0 && p.has_trait("CHLOROMORPH")) {
+    if (int(calendar::turn) % 100 == 0 && p.has_trait("CHLOROMORPH") &&
+    g->is_in_sunlight(g->u.posx, g->u.posy) ) {
         // Hunger and thirst fall before your Chloromorphic physiology!
         if (p.hunger >= -30) {
             p.hunger -= 5;
