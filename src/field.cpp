@@ -1484,6 +1484,8 @@ void map::step_in_field(int x, int y)
             break;
 
         case fd_portal:
+            // This serves a dual purpose of being a sanity check and
+            //preventing the player from double-teleporting
             if( portal_destination ) {
                 // Create a portal at the destination if there isn't one already.
                 portal_destination->add_field( point( g->u.xpos(), g->u.ypos() ), fd_portal, 1,
