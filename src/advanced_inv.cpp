@@ -132,7 +132,6 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     nc_color norm = active ? c_white : c_dkgray;
     std::string spaces(getmaxx(window) - 4, ' ');
     bool compact = (TERMX <= 100);
-    int max_name_length = isall ? src_column - (compact ? 2 : 5) : amount_column - (compact ? 2 : 5);
 
     //print inventory's current and total weight + volume
     if(isinventory) {
@@ -175,14 +174,21 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str());
     }
 
-    //print header row
+    //print header row and determine max item name length
+    int max_name_length;
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, _("Name (charges)") );
     if (isall) {
-        //~ advanced inventory; "source", "weight", "volume"; 14 letters
-        mvwprintz( window, 5, rightcol - 11, c_ltgray, _("src amt weight vol") );
+        if(compact) {
+            mvwprintz( window, 5, rightcol - 7, c_ltgray, _("amt weight vol") );
+            max_name_length = amount_column - 2;
+        }
+        else {
+            mvwprintz( window, 5, rightcol - 11, c_ltgray, _("src amt weight vol") );
+            max_name_length = src_column - 5;
+        }
     } else{
-        //~ advanced inventory; "amount", "weight", "volume"; 14 letters
         mvwprintz( window, 5, rightcol - 7, c_ltgray, _("amt weight vol") );
+        max_name_length = amount_column - (compact ? 2 : 5);
     }
 
     for(unsigned i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ , x++) {
@@ -214,7 +220,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
             }
 
             //print src column
-            if ( isall ) {
+            if ( isall && !compact) {
                 mvwprintz(window, 6 + x, src_column, thiscolor, "%s",
                           squares[items[i].area].shortname.c_str());
             }
