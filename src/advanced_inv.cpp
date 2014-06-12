@@ -132,6 +132,7 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
     nc_color norm = active ? c_white : c_dkgray;
     std::string spaces(getmaxx(window) - 4, ' ');
     bool compact = (TERMX <= 100);
+    int max_name_length = isall ? src_column - (compact ? 2 : 5) : amount_column - (compact ? 2 : 5);
 
     //print inventory's current and total weight + volume
     if(isinventory) {
@@ -204,14 +205,12 @@ void advanced_inventory::print_items(advanced_inventory_pane &pane, bool active)
 
             }
             //print item name
-            mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname().c_str() );
-
-            // Show count of contents (e.g. amount of liquid in container)
-            // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
-            if (items[i].it->contents.size() == 1 && items[i].it->contents[0].charges > 0) {
-                wprintz(window, thiscolor, " (%d)", items[i].it->contents[0].charges);
-            } else if(items[i].it->charges >= 0) {
-                wprintz(window, thiscolor, " (%d)", items[i].it->charges);
+            if(items[i].it->display_name().size() > max_name_length) {
+                std::string truncName = items[i].it->display_name().substr(0, max_name_length);
+                mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", truncName.c_str() );
+            }
+            else {
+                mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->display_name().c_str() );
             }
 
             //print src column
