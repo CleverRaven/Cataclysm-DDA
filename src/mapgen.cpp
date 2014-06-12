@@ -70,7 +70,6 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
         }
     }
 
-    unsigned zones = 0;
     // x, and y are submap coordinates, local to om -> make them global,
     // than convert to overmap terrain coordinates
     int overx = x + om->pos().x * OMAPX * 2;
@@ -106,7 +105,16 @@ void map::generate(overmap *om, const int x, const int y, const int z, const int
         add_extra( random_map_extra( ex ));
     }
 
-    post_process(zones);
+//    int idx = om->in_city(point(overx, overy));
+//    if(idx != -1){
+//        city c = om->cities[idx];
+//        post_process(c.z);
+//    }
+    int idx = om->in_zone(tripoint(overx, overy, z));
+    if(idx != -1){
+        overmap_zone omz = om->zones[idx];
+        post_process(omz.z);
+    }
 
     // Okay, we know who are neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.
@@ -996,6 +1004,151 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
 ", mapf::basic_bind("*", t_paper), mapf::end()); // should never happen: overmap loader skips lua mapgens on !LUA builds.
 
 #endif
+}
+
+void map::loot()
+{
+    for(int x = 0; x < 24; x++)
+    {
+        for(int y = 0; y < 24; y++)
+        {
+            if(!this->i_at(x, y).empty()){
+                for(std::vector<item>::iterator it = i_at(x, y).begin();
+                    it != i_at(x, y).end();){
+                    item m = *it;
+                    // 200 bucks, arbitrary choice
+                    double p = (double)m.price() / 20000.0;
+
+                    if((p > 1.0) || (x_in_y(p * p, 1.0))){
+                        it = i_at(x, y).erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+            }
+            if(this->ter_at(x, y).has_flag("BASHABLE")){
+                map_bash_info b = ter_at(x, y).bash;
+
+                if((b.str_min < 25) && (one_in(b.str_min))){
+                    ter_set(x, y, b.ter_set);
+                    spawn_item_list(b.items, x, y);
+                }
+            }
+            if(this->furn_at(x, y).has_flag("BASHABLE")){
+                map_bash_info b = furn_at(x, y).bash;
+
+                if((b.str_min < 25) && (one_in(b.str_min))){
+                    furn_set(x, y, f_null);
+                    spawn_item_list(b.items, x, y);
+                }
+            }
+            if(one_in(4)){
+                add_field(x, y, fd_blood, 1);
+            }
+            if(one_in(24) && (!this->ter_at(x, y).has_flag("NOITEM"))
+                    && (!this->furn_at(x, y).has_flag("NOITEM"))){
+                Item_list l = item_controller->create_from_group("trash_forest", 0);
+                this->i_at(x, y).push_back(l[0]);
+            }
+        }
+    }
+}
+
+void map::entriffidate(){
+    for(int x = 0; x < 24; x++){
+        for(int y = 0; y < 24; y++){
+            std::string terid = this->ter_at(x, y).id;
+
+            if((terid == "t_wall_v" || terid == "t_wall_h") && !one_in(4)){
+                if((ter_at(x, y+1).id == "t_dirt") || (ter_at(x, y+1).id == "t_grass") ||
+                   (ter_at(x, y-1).id == "t_dirt") || (ter_at(x, y-1).id == "t_grass") ||
+                   (ter_at(x+1, y).id == "t_dirt") || (ter_at(x+1, y).id == "t_grass") ||
+                   (ter_at(x-1, y).id == "t_dirt") || (ter_at(x-1, y).id == "t_grass"))
+                {
+                    if(terid == "t_wall_h"){
+                        ter_set(x, y, "t_vine_wall_h");
+                    } else if(terid == "t_wall_v"){
+                        ter_set(x, y, "t_vine_wall_v");
+                    }
+                }
+            }
+            if((terid == "t_pavement") || (terid == "t_pavement_y") ||
+               (terid == "t_sidewalk") || (terid == "t_sand")){
+                if(!one_in(3)){
+                    ter_set(x, y, grass_or_dirt());
+                    terid = this->ter_at(x, y).id;
+                }
+            }
+            if((terid == "t_dirt") || (terid == "t_grass")){
+                if(one_in(4)){ // 25% - 75 left
+                    ter_set(x, y, "t_underbrush");
+                } else if(one_in(5)){ // 15% - 60 left
+                    ter_set(x, y, "t_shrub");
+                } else if(one_in(6)){ // 10% - 50 left
+                    ter_set(x, y, "t_tree_young");
+                } else if(one_in(5)){ // 10% - 40 left
+                    ter_set(x, y, "t_tree");
+                }
+            }
+        }
+    }
+}
+
+// replaces walls/floors/some furniture with fungal variants
+void map::fungalize(){
+    std::vector<furn_t> fungalfurn;
+    for(auto itr = furnlist.cbegin(); itr != furnlist.cend(); ++itr){
+        if((*itr).has_flag("FUNGUS")){
+            fungalfurn.push_back(*itr);
+        }
+    }
+
+    for(int x = 0; x < 24; x++){
+        for(int y = 0; y < 24; y++){
+            // replace terrain with fungal variants
+            std::string terid = this->ter_at(x, y).id;
+            if(terid == "t_wall_v"){
+                if(one_in(8)){
+                    this->ter_set(x, y, "t_fungus_wall");
+                } else if(!one_in(4)) {
+                    this->ter_set(x, y, "t_fungus_wall_v");
+                }
+            } else if(terid == "t_wall_h"){
+                if(one_in(8)){
+                    this->ter_set(x, y, "t_fungus_wall");
+                } else if(!one_in(4)) {
+                    this->ter_set(x, y, "t_fungus_wall_h");
+                }
+            } else if(terid == "t_floor"){
+                this->ter_set(x, y, "t_fungus_floor_in");
+            } else if((terid == "t_dirt") || (terid == "t_grass") ||
+                      (terid == "t_pavement") || (terid == "t_pavement_y") ||
+                      (terid == "t_sidewalk")){
+                if(one_in(3)){
+                    this->ter_set(x, y, "t_fungus");
+                } else if(one_in(2)) {
+                    this->ter_set(x, y, "t_fungus_mound");
+                }
+            } else if(this->ter_at(x, y).has_flag("SHRUB")){
+                this->ter_set(x, y, "t_shrub_fungal");
+            } else if(terid == "t_tree" || terid == "t_tree_apple"){
+                if(!one_in(3)){
+                    this->ter_set(x, y, "t_tree_fungal");
+                }
+            } else if(terid == "t_tree_young"){
+                if(!one_in(3)){
+                    this->ter_set(x, y, "t_tree_fungal_young");
+                }
+            }
+            // check furniture and set fungal
+            if(this->ter_at(x, y).has_flag("FLAT")){
+                if(one_in(8)){
+                    int i = rng(0, fungalfurn.size()-1);
+                    this->furn_set(x, y, fungalfurn.at(i).id);
+                }
+            }
+        }
+    }
 }
 
 /////////////
@@ -10782,8 +10935,35 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
 }
 
-void map::post_process(unsigned zones)
+void map::post_process(omzone_type zones)
 {
+    /*
+    if(one_in(5) && terrain_type.t().sidewalk){
+        this->loot();
+    } else if(one_in(5)) {
+        this->fungalize();
+    } else if(one_in(5)) {
+        this->entriffidate();
+    }
+    */
+    switch(zones)
+    {
+    case OMZONE_CITY:{
+            if(one_in(5)){
+                this->loot();
+            }
+            break;
+        }
+    case OMZONE_FUNGAL:{
+            this->fungalize();
+            break;
+        }
+    case OMZONE_OVERGROWN:{
+            this->entriffidate();
+            break;
+        }
+    }
+/*
     if (zones & mfb(OMZONE_CITY)) {
         if (!one_in(10)) { // 90% chance of smashing stuff up
             for (int x = 0; x < 24; x++) {
@@ -10816,7 +10996,7 @@ void map::post_process(unsigned zones)
             }
         }
     }
-
+*/
 }
 
 void map::place_spawns(std::string group, const int chance,

@@ -437,6 +437,17 @@ void overmap::unserialize(std::ifstream & fin, std::string const & plrfilename,
             int id;
             fin >> id >> v.name >> v.x >> v.y;
             vehicles[id]=v;
+        } else if (datatype == 'z') { // zones!
+            overmap_zone omz;
+            tripoint p;
+            int zt;
+            fin >> zt >> p.x >> p.y >> p.z;
+            omz.z = (omzone_type) zt;
+            omz.center = p;
+            while(fin.peek() != '\n'){
+                fin >> p.x >> p.y >> p.z;
+                omz.points.insert(p);
+            }
         } else if (datatype == 'n') { // NPC
 // When we start loading a new NPC, check to see if we've accumulated items for
 //   assignment to an NPC.
@@ -660,7 +671,14 @@ void overmap::save()
     for (int i = 0; i < radios.size(); i++)
         fout << "T " << radios[i].x << " " << radios[i].y << " " << radios[i].strength <<
             " " << radios[i].type << " " << std::endl << radios[i].message << std::endl;
-
+    for (int i = 0; i < zones.size(); i++){
+        fout << "z " << zones[i].z << " " << zones[i].center.x << " " << zones[i].center.y << " " <<
+        zones[i].center.z;
+        for(auto itr = zones[i].points.cbegin(); itr != zones[i].points.cend(); ++itr){
+            fout << " " << (*itr).x << " " << (*itr).y << " " << (*itr).z;
+        }
+        fout << std::endl;
+    }
     // store tracked vehicle locations and names
     for (std::map<int, om_vehicle>::const_iterator it = vehicles.begin();
             it != vehicles.end(); it++)

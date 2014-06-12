@@ -192,7 +192,8 @@ struct city {
  int y;
  int s;
  std::string name;
- city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S)
+ omzone_type z;
+ city(int X = -1, int Y = -1, int S = -1, omzone_type Z = OMZONE_CITY) : x (X), y (Y), s (S), z(Z)
  {
      name = Name::get(nameIsTownName);
  }
@@ -274,8 +275,11 @@ class overmap
 
   std::vector<point> find_terrain(const std::string &term, int zlevel);
   int closest_city(point p);
+  int in_city(point p);
   point random_house_in_city(int city_id);
   int dist_from_city(point p);
+
+  int in_zone(tripoint p);
 
   oter_id& ter(const int x, const int y, const int z);
   const oter_id get_ter(const int x, const int y, const int z) const;
@@ -357,6 +361,7 @@ class overmap
   std::map<int, om_vehicle> vehicles;
   std::vector<city> cities;
   std::vector<city> roads_out;
+  std::vector<overmap_zone> zones;
 
  private:
   friend class overmapbuffer;
@@ -395,6 +400,8 @@ class overmap
   static void draw(WINDOW *w, const tripoint &center,
             const tripoint &orig, bool blink,
             input_context* inp_ctxt, bool debug_monstergroups = false);
+  // Overmap zones
+  void place_zones();
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
@@ -457,5 +464,6 @@ void finalize_overmap_terrain();
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
 map_extras& get_extras(const std::string &name);
+std::set<tripoint> generate_zone(tripoint c, int radius);
 
 #endif
