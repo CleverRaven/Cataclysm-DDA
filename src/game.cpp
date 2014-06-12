@@ -613,6 +613,7 @@ void game::start_game(std::string worldname)
      u.posy = (SEEY * int(MAPSIZE / 2)) + rng(0, SEEY * 2);
  }
  u.reset();
+ u.stamina = u.get_stamina_max();
  nextspawn = int(calendar::turn);
  temperature = 65; // Springtime-appropriate?
  u.next_climate_control_check=0;  // Force recheck at startup
@@ -1058,6 +1059,16 @@ bool game::do_turn()
         cur_om->move_hordes();
     }
 
+    if (u.stamina < u.get_stamina_max()) u.stamina += 10;
+    if (u.move) {
+        int sta_mod = u.run ? -15 : -7;
+        sta_mod += u.swim ? -10 : 0;
+        int d_sta = sta_mod - (int)((double)u.weight_carried() / u.weight_capacity() ) * sta_mod;
+        u.mod_stat("stamina", d_sta );
+        //debug
+        //add_msg(m_info,"Stamina:%i/%i mod:%i",u.stamina,u.get_stamina_max(), d_sta);
+        if (u.stamina == 0 && u.run ) u.run = false;
+    }
     // Check if we've overdosed... in any deadly way.
     if (u.stim > 250) {
         add_msg(m_bad, _("You have a sudden heart attack!"));
@@ -2481,6 +2492,7 @@ input_context get_default_mode_input_context() {
     ctxt.register_action("shift_sw");
     ctxt.register_action("shift_w");
     ctxt.register_action("shift_nw");
+    ctxt.register_action("switch_run");
     ctxt.register_action("open");
     ctxt.register_action("close");
     ctxt.register_action("smash");
@@ -2837,6 +2849,7 @@ bool game::handle_action()
  // Use to track if auto-move should be cancelled due to a failed
  // move or obstacle
  bool continue_auto_move = false;
+ u.move = false; u.swim = false;
 
  switch (act) {
 
@@ -2929,6 +2942,11 @@ bool game::handle_action()
   case ACTION_MOVE_UP:
    if (!u.in_vehicle)
     vertical_move( 1, false);
+   break;
+
+  case ACTION_SWITCH_RUN:
+   u.run = !u.run;
+   add_msg(m_info, u.run?"You run":"You walk");
    break;
 
   case ACTION_CENTER:
@@ -11806,6 +11824,7 @@ bool game::plmove(int dx, int dy)
   u.posy = y;
   if(dx != 0 || dy != 0) {
     u.lifetime_stats()->squares_walked++;
+    u.move = true;
   }
 
   //Autopickup
@@ -12026,6 +12045,7 @@ void game::plswim(int x, int y)
   update_map(x, y);
  u.posx = x;
  u.posy = y;
+ u.move = true; u.swim = true;
  if (!m.has_flag("SWIMMABLE", x, y)) {
   dbg(D_ERROR) << "game:plswim: Tried to swim in "
                << m.tername(x, y).c_str() << "!";

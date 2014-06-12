@@ -315,6 +315,7 @@ void player::serialize(JsonOut &json, bool save_contents) const
 
     // possibly related to illness[] ?
     json.member( "health", health );
+    json.member( "stamina", stamina);
 
     // crafting etc
     json.member( "activity", activity );
@@ -414,6 +415,7 @@ void player::deserialize(JsonIn &jsin)
     data.read( "style_selected", style_selected );
 
     data.read( "health", health );
+    data.read( "stamina", stamina);
 
     data.read( "mutations", my_mutations );
 

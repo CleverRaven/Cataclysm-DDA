@@ -314,7 +314,13 @@ void player::melee_attack(Creature &t, bool allow_special, matec_id force_techni
             add_msg_if_player(specialmsg.c_str());
         }
     }
-
+    int mod_sta = ( (weapon.weight() / 100 ) + 20) * -1;
+    mod_stat("stamina", mod_sta);
+    int sta_percent = get_stamina_percent();
+    int mod_mc = ( (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0 );
+    move_cost += mod_mc;
+    //debug
+    //add_msg_if_player(m_info, "ATT mod_sta:%i; mc+:%i; sta:%i",mod_sta, mod_mc, stamina);
     mod_moves(-move_cost);
 
     ma_onattack_effects(); // trigger martial arts on-attack effects

@@ -321,6 +321,7 @@ public:
 
 
  void pause(); // '.' command; pauses & reduces recoil
+ void set_run(bool p_run) {run = p_run;}
 
 // martialarts.cpp
  /** Fires all non-triggered martial arts events */
@@ -797,9 +798,10 @@ public:
 
  int next_climate_control_check;
  bool last_climate_control_ret;
+ bool run = false, move = false, swim = false;
  int power_level, max_power_level;
  int hunger, thirst, fatigue, health;
- int oxygen;
+ int oxygen, stamina;
  unsigned int recoil;
  unsigned int driving_recoil;
  unsigned int scent;
@@ -883,6 +885,8 @@ public:
  m_size get_size();
  int get_hp( hp_part bp );
  int get_hp_max( hp_part bp );
+ int get_stamina_max();
+ int get_stamina_percent();
 
  field_id playerBloodType();
 
